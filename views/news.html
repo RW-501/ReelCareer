@@ -125,7 +125,22 @@
          // Initialize CKEditor for rich text editing
     CKEDITOR.replace('content');
 
+ // Function to previewArticle
+ function previewArticle() {
+        console.log("previewArticle   ");
 
+        const title = document.getElementById('title').value;
+        const content = CKEDITOR.instances['content'].getData();
+        const tags = Array.from(document.getElementById('tags').selectedOptions).map(option => option.value);
+        const category = document.getElementById('category').value;
+
+        document.getElementById('preview').innerHTML = `
+            <h3>${title}</h3>
+            <div>${content}</div>
+            <p>Tags: ${tags.join(', ')}</p>
+            <p>Category: ${category}</p>
+        `;
+    }
 
     // Auto-save drafts feature
     const autoSaveInterval = setInterval(() => {
@@ -157,7 +172,7 @@
 
     // Function to submit article
     function submitArticle(event) {
-        event.preventDefault();
+     //   event.preventDefault();
         const title = document.getElementById('title').value;
         const content = CKEDITOR.instances['content'].getData();
         const tags = Array.from(document.getElementById('tags').selectedOptions).map(option => option.value);
@@ -207,11 +222,15 @@
     async function displayArticles() {
         const articlesContainer = document.getElementById('articles');
         articlesContainer.innerHTML = '';
-console.log("??????????????");
+
         try {
             const snapshot = await getDocs(collection(db, 'Articles'));
             snapshot.forEach((doc) => {
                 const article = doc.data();
+                 
+                console.log("article?????????   ",article);
+
+
                 const articleId = doc.id;
                 const articleElement = document.createElement('div');
                 articleElement.className = 'col-md-4 mb-4';
@@ -236,20 +255,7 @@ console.log("??????????????");
 
 
     
-    // Function to previewArticle
-    function previewArticle() {
-        const title = document.getElementById('title').value;
-        const content = CKEDITOR.instances['content'].getData();
-        const tags = Array.from(document.getElementById('tags').selectedOptions).map(option => option.value);
-        const category = document.getElementById('category').value;
-
-        document.getElementById('preview').innerHTML = `
-            <h3>${title}</h3>
-            <div>${content}</div>
-            <p>Tags: ${tags.join(', ')}</p>
-            <p>Category: ${category}</p>
-        `;
-    }
+   
 
     // Implement spam detection
     const spamDetection = (submission) => {
