@@ -27,7 +27,7 @@ gtag('config', 'G-LBTK319K2X');
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
 import { getFirestore } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
-import { getAnalytics  } from "https://www.gstatic.com/firebasejs/9.1.0/firebase-analytics.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-analytics.js"; // Updated version for consistency
 
 
 // Your web app's Firebase configuration
