@@ -227,7 +227,7 @@ document.getElementById("jobForm").onsubmit = async function(event) {
     };
 
     if (jobDetails.title && jobDetails.description) {
-        const jobPostingsRef = collection(db, "jobPostings");
+        const jobPostingsRef = collection(db, "Jobs");
         try {
             const docRef = await addDoc(jobPostingsRef, jobDetails);
             console.log("Job posting added successfully with ID: ", docRef.id);
