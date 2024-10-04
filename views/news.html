@@ -192,7 +192,7 @@
             };
 
             // Add article to the Firebase database
-            db.ref('articles').push(newArticle).then(() => {
+            db.ref('Articles').push(newArticle).then(() => {
                 displayArticles();
                 document.getElementById('article-form').reset();
                 CKEDITOR.instances['content'].setData('');
@@ -208,7 +208,7 @@
         const articlesContainer = document.getElementById('articles');
         articlesContainer.innerHTML = '';
 
-        db.ref('articles').once('value', (snapshot) => {
+        db.ref('Articles').once('value', (snapshot) => {
             snapshot.forEach((childSnapshot) => {
                 const article = childSnapshot.val();
                 const articleId = childSnapshot.key;
