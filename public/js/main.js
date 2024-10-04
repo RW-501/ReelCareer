@@ -23,13 +23,13 @@ gtag('config', 'G-LBTK319K2X');
 // Bootstrap CSS 
 //import 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css';
 
-/*
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
 import { getAuth, GoogleAuthProvider, FacebookAuthProvider, OAuthProvider, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
 import { getFirestore } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 import { initializeAnalytics } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-analytics.js"; // Use the same version
 import { getStorage } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-storage.js"; 
-*/
+
 // Your web app's Firebase configuration
 const firebaseConfig = {
     apiKey: "AIzaSyDiwC3Dmd88-t3N9iRV5cZ3snVkEXinclg",
@@ -41,18 +41,24 @@ const firebaseConfig = {
     measurementId: "G-LBTK319K2X"
 };
 
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const storage = getStorage(app); // Correctly initialize storage
+const analytics = initializeAnalytics(app);
 
 // Export the objects
-//export { db, storage, analytics }; // Export db, storage, and analytics
+export { db, storage, analytics }; // Export db, storage, and analytics
 
+/*
 firebase.initializeApp(firebaseConfig);
 const firestore = firebase.firestore();
-
 // Your Firestore code here
   console.log('Firebase found.');
-
     // Access the necessary functions
 const auth = firebase.auth();
+*/
 
 // Firebase Auth Providers
 const googleProvider = new GoogleAuthProvider();
