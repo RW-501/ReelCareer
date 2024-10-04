@@ -23,13 +23,13 @@ gtag('config', 'G-LBTK319K2X');
 // Bootstrap CSS 
 //import 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css';
 
-
+/*
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
 import { getAuth, GoogleAuthProvider, FacebookAuthProvider, OAuthProvider, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
 import { getFirestore } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 import { initializeAnalytics } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-analytics.js"; // Use the same version
 import { getStorage } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-storage.js"; 
-
+*/
 // Your web app's Firebase configuration
 const firebaseConfig = {
     apiKey: "AIzaSyDiwC3Dmd88-t3N9iRV5cZ3snVkEXinclg",
