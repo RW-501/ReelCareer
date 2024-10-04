@@ -283,7 +283,7 @@
                 });
         
                 // Add sponsors to the bottom of the job listings
-                if (sponsors.length > 0) {
+                if (sponsors.length > 0 && jobListingsSnapshot > 0) {
                     const sponsorSection = document.createElement('div');
                     sponsorSection.className = 'col-12 mt-4';
                     sponsorSection.innerHTML = `
