@@ -48,19 +48,19 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="../view/news.html">News</a>
+                    <a class="nav-link" href="../views/news.html">News</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="../view/jobs.html">Jobs</a>
+                    <a class="nav-link" href="../views/jobs.html">Jobs</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="../view/user.html">Profile</a>
+                    <a class="nav-link" href="../views/user.html">Profile</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="../view/messaging.html">Messages</a>
+                    <a class="nav-link" href="../views/messaging.html">Messages</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link btn btn-danger" href="../view/logout.html">Logout</a>
+                    <a class="nav-link btn btn-danger" href="../views/logout.html">Logout</a>
                 </li>
             </ul>
         </div>
@@ -244,7 +244,7 @@ function deactivateAccount() {
             alert('Account deactivated successfully.');
             // Optionally log the user out or redirect them
             auth.signOut().then(() => {
-                window.location.href = "../view/logout.html";
+                window.location.href = "../views/logout.html";
             });
         }).catch((error) => {
             console.error("Error deactivating account: ", error);
@@ -273,12 +273,12 @@ function editLocation() {
 
 function viewMessages() {
             // Redirect user to a view-only profile page
-            window.location.href = "../views/messaging.html?userId=" + firebase.auth().currentUser.uid;
+            window.location.href = "views/messaging.html?userId=" + firebase.auth().currentUser.uid;
         }
         // Preview Profile Logic
         function previewProfile() {
             // Redirect user to a view-only profile page
-            window.location.href = "../views/job-seeker?userId=" + firebase.auth().currentUser.uid;
+            window.location.href = "views/job-seeker?userId=" + firebase.auth().currentUser.uid;
         }
     </script>
 
