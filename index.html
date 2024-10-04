@@ -254,9 +254,10 @@
 // Initialize Firebase
 //const app = initializeApp(firebaseConfig);
 //const auth = getAuth(app);
-const storage = getStorage(app);
-const analytics = initializeAnalytics(app);
-const db = getFirestore(app);  // Firestore initialization
+//const storage = getStorage(app);
+//const analytics = initializeAnalytics(app);
+//const db = getFirestore(app);  // Firestore initialization
+const db = firebase.firestore();
 
             try {
                 const jobListingsSnapshot = await db.collection('Jobs').get();

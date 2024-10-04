@@ -45,7 +45,14 @@ const firebaseConfig = {
 // Export the objects
 //export { db, storage, analytics }; // Export db, storage, and analytics
 
+firebase.initializeApp(firebaseConfig);
+const firestore = firebase.firestore();
 
+// Your Firestore code here
+  console.log('Firebase found.');
+
+    // Access the necessary functions
+const auth = firebase.auth();
 
 // Firebase Auth Providers
 const googleProvider = new GoogleAuthProvider();
