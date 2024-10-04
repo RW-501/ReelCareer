@@ -27,7 +27,8 @@ gtag('config', 'G-LBTK319K2X');
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
 import { getFirestore } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
-import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-analytics.js"; // Updated version for consistency
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-analytics.js";
+import { getStorage } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-storage.js"; // Import the storage module
 
 
 // Your web app's Firebase configuration
@@ -45,10 +46,12 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
+const storage = getStorage(app); // Correctly initialize storage
+const analytics = getAnalytics(app);
 
-// Initialize Analytics
-const analytics = getAnalytics(app); // Make sure this is after initializing Firebase
-const storage = app.storage();
+// Export the db object
+export { db, storage, analytics }; // Export db, storage, and analytics
+
 
 // Firebase Auth Providers
 const googleProvider = new GoogleAuthProvider();
