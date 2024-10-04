@@ -44,14 +44,13 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-const db = getFirestore(app);
 const storage = getStorage(app); // Correctly initialize storage
 
 // Initialize Analytics
 const analytics = initializeAnalytics(app); // Correctly initialize analytics
 
 // Export the objects
-export { db, storage, analytics }; // Export db, storage, and analytics
+//export { db, storage, analytics }; // Export db, storage, and analytics
 
 
 
