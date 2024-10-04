@@ -93,7 +93,8 @@
    <script type="module" src="../public/js/main.js"></script> 
 
    <script type="module">
-    import { db, storage, analytics } from '../public/js/main.js';  // Adjust the path based on your structure
+   import { db, storage, analytics, app  } from './public/js/main.js'; // Adjust the path based on your structure
+    import { collection, getDocs } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 
 
 
@@ -105,90 +106,102 @@
                 window.location.href = 'login.html'; // Redirect to login if not authenticated
             }
         });
-
         function loadConversations(userID) {
-            // Fetch conversations for the user
-            db.collection('Messages')
-                .where('recipientID', '==', userID)
-                .onSnapshot(snapshot => {
-                    const conversationList = document.getElementById('conversationList');
-                    conversationList.innerHTML = '';
-                    snapshot.forEach(doc => {
-                        const data = doc.data();
-                        const listItem = document.createElement('li');
-                        listItem.className = 'list-group-item';
-                        listItem.textContent = `Conversation with ${data.senderID}`;
-                        listItem.onclick = () => loadMessages(data.conversationID);
-                        conversationList.appendChild(listItem);
-                    });
-                });
-        }
+    // Fetch conversations for the user
+    const messagesRef = collection(db, 'Messages');
+    const q = query(messagesRef, where('recipientID', '==', userID)); // Create a query
 
-        function loadMessages(conversationID) {
-            const messageBox = document.getElementById('messageBox');
-            const conversationTitle = document.getElementById('conversationTitle');
-            conversationTitle.textContent = `Conversation: ${conversationID}`;
-            messageBox.innerHTML = '';
+    onSnapshot(q, snapshot => {
+        const conversationList = document.getElementById('conversationList');
+        conversationList.innerHTML = '';
+        snapshot.forEach(doc => {
+            const data = doc.data();
+            const listItem = document.createElement('li');
+            listItem.className = 'list-group-item';
+            listItem.textContent = `Conversation with ${data.senderID}`;
+            listItem.onclick = () => loadMessages(data.conversationID);
+            conversationList.appendChild(listItem);
+        });
+    }, error => {
+        console.error("Error loading conversations: ", error);
+    });
+}
 
-            // Fetch messages for the conversation
-            db.collection('Messages')
-                .where('conversationID', '==', conversationID)
-                .orderBy('timestamp')
-                .onSnapshot(snapshot => {
-                    snapshot.forEach(doc => {
-                        const data = doc.data();
-                        const messageDiv = document.createElement('div');
-                        messageDiv.className = `message ${data.senderID === auth.currentUser.uid ? 'sent' : 'received'}`;
-                        messageDiv.textContent = data.content;
-                        messageBox.appendChild(messageDiv);
-                    });
-                    messageBox.scrollTop = messageBox.scrollHeight; // Scroll to the bottom
-                });
-        }
+function loadMessages(conversationID) {
+    const messageBox = document.getElementById('messageBox');
+    const conversationTitle = document.getElementById('conversationTitle');
+    conversationTitle.textContent = `Conversation: ${conversationID}`;
+    messageBox.innerHTML = '';
 
-        document.getElementById('sendMessageButton').onclick = () => {
-            const messageInput = document.getElementById('messageInput');
-            const conversationID = document.getElementById('conversationTitle').textContent.split(': ')[1];
-            const message = messageInput.value;
+    // Fetch messages for the conversation
+    const messagesRef = collection(db, 'Messages');
+    const q = query(messagesRef, where('conversationID', '==', conversationID), orderBy('timestamp')); // Create a query
 
-            if (message && conversationID) {
-                db.collection('Messages').add({
-                    senderID: auth.currentUser.uid,
-                    recipientID: conversationID, // Adjust based on your logic
-                    conversationID: conversationID,
-                    content: message,
-                    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-                    read: false,
-                    type: 'text',
-                    isDeleted: false
-                });
-                messageInput.value = ''; // Clear input
-            }
-        };
+    onSnapshot(q, snapshot => {
+        messageBox.innerHTML = ''; // Clear previous messages
+        snapshot.forEach(doc => {
+            const data = doc.data();
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${data.senderID === auth.currentUser.uid ? 'sent' : 'received'}`;
+            messageDiv.textContent = data.content;
+            messageBox.appendChild(messageDiv);
+        });
+        messageBox.scrollTop = messageBox.scrollHeight; // Scroll to the bottom
+    }, error => {
+        console.error("Error loading messages: ", error);
+    });
+}
 
-        document.getElementById('composeButton').onclick = () => {
-            $('#composeModal').modal('show');
-        };
+document.getElementById('sendMessageButton').onclick = () => {
+    const messageInput = document.getElementById('messageInput');
+    const conversationID = document.getElementById('conversationTitle').textContent.split(': ')[1];
+    const message = messageInput.value;
 
-        document.getElementById('sendComposeButton').onclick = () => {
-            const recipientID = document.getElementById('recipientSelect').value;
-            const message = document.getElementById('composeMessageInput').value;
+    if (message && conversationID) {
+        addDoc(collection(db, 'Messages'), {
+            senderID: auth.currentUser.uid,
+            recipientID: conversationID, // Set based on your recipient logic
+            conversationID: conversationID,
+            content: message,
+            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+            read: false,
+            type: 'text',
+            isDeleted: false
+        }).then(() => {
+            messageInput.value = ''; // Clear input
+        }).catch(error => {
+            alert("Error sending message: " + error.message);
+        });
+    }
+};
 
-            if (recipientID && message) {
-                db.collection('Messages').add({
-                    senderID: auth.currentUser.uid,
-                    recipientID: recipientID,
-                    content: message,
-                    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-                    read: false,
-                    type: 'text',
-                    isDeleted: false
-                });
-                $('#composeModal').modal('hide'); // Hide modal
-                document.getElementById('composeMessageInput').value = ''; // Clear input
-                loadConversations(auth.currentUser.uid); // Refresh conversation list
-            }
-        };
+document.getElementById('composeButton').onclick = () => {
+    $('#composeModal').modal('show');
+    document.getElementById('composeMessageInput').value = ''; // Clear input when opening
+};
+
+document.getElementById('sendComposeButton').onclick = () => {
+    const recipientID = document.getElementById('recipientSelect').value;
+    const message = document.getElementById('composeMessageInput').value;
+
+    if (recipientID && message) {
+        addDoc(collection(db, 'Messages'), {
+            senderID: auth.currentUser.uid,
+            recipientID: recipientID,
+            content: message,
+            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+            read: false,
+            type: 'text',
+            isDeleted: false
+        }).then(() => {
+            $('#composeModal').modal('hide'); // Hide modal
+            loadConversations(auth.currentUser.uid); // Refresh conversation list
+        }).catch(error => {
+            alert("Error sending composed message: " + error.message);
+        });
+    }
+};
+
     </script>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

@@ -132,133 +132,126 @@
    <script type="module" src="../public/js/main.js"></script> 
    
    <script type="module">
-    import { db, storage, analytics } from '../public/js/main.js';  // Adjust the path based on your structure
+   import { db, storage, analytics, app  } from './public/js/main.js'; // Adjust the path based on your structure
+    import { collection, getDocs } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 
     
 
 // Function to edit user bio
-function editBio() {
+async function editBio() {
     const newBio = prompt("Enter your new bio:");
 
     if (newBio) {
         const userId = auth.currentUser.uid;
-        db.collection('users').doc(userId).update({
-            bio: newBio
-        }).then(() => {
+        try {
+            await updateDoc(doc(db, 'users', userId), { bio: newBio });
             document.getElementById('user-bio').innerText = newBio;
             alert('Bio updated successfully!');
-        }).catch((error) => {
+        } catch (error) {
             console.error("Error updating bio: ", error);
             alert('Error updating bio.');
-        });
+        }
     }
 }
 
 // Function to create a new video resume
-function createVideoResume() {
+async function createVideoResume() {
     const videoUrl = prompt("Enter the URL of your video resume:");
 
     if (videoUrl) {
         const userId = auth.currentUser.uid;
-        const videoResumesRef = db.collection('users').doc(userId).collection('videoResumes');
-        
-        videoResumesRef.add({
-            url: videoUrl,
-            timestamp: firebase.firestore.FieldValue.serverTimestamp()
-        }).then(() => {
+        const videoResumesRef = collection(db, 'users', userId, 'videoResumes');
+
+        try {
+            await addDoc(videoResumesRef, {
+                url: videoUrl,
+                timestamp: new Date() // Use Date for timestamp
+            });
             alert('Video resume added successfully!');
-            // Optionally update the UI to show the new video resume
-        }).catch((error) => {
+        } catch (error) {
             console.error("Error adding video resume: ", error);
             alert('Error adding video resume.');
-        });
+        }
     }
 }
 
 // Function to edit digital resume
-function editDigitalResume() {
+async function editDigitalResume() {
     const digitalResume = prompt("Enter new content or upload for your digital resume:");
 
     if (digitalResume) {
         const userId = auth.currentUser.uid;
-        db.collection('users').doc(userId).update({
-            digitalResume: digitalResume
-        }).then(() => {
+        try {
+            await updateDoc(doc(db, 'users', userId), { digitalResume: digitalResume });
             alert('Digital resume updated successfully!');
-            // Optionally update the UI to reflect the new resume
-        }).catch((error) => {
+        } catch (error) {
             console.error("Error updating digital resume: ", error);
             alert('Error updating digital resume.');
-        });
+        }
     }
 }
 
 // Function to boost a job application
-function boostApplication() {
+async function boostApplication() {
     const jobId = prompt("Enter the Job ID you want to boost:");
 
     if (jobId) {
         const userId = auth.currentUser.uid;
-        const applicationRef = db.collection('users').doc(userId).collection('applications').doc(jobId);
+        const applicationRef = doc(db, 'users', userId, 'applications', jobId);
 
-        applicationRef.update({
-            boosted: true
-        }).then(() => {
+        try {
+            await updateDoc(applicationRef, { boosted: true });
             alert('Job application boosted successfully!');
-        }).catch((error) => {
+        } catch (error) {
             console.error("Error boosting application: ", error);
             alert('Error boosting application.');
-        });
+        }
     }
 }
 
 // Function to deactivate user account
-function deactivateAccount() {
+async function deactivateAccount() {
     if (confirm("Are you sure you want to deactivate your account? This action is irreversible.")) {
         const userId = auth.currentUser.uid;
 
-        db.collection('users').doc(userId).update({
-            active: false
-        }).then(() => {
+        try {
+            await updateDoc(doc(db, 'users', userId), { active: false });
             alert('Account deactivated successfully.');
-            // Optionally log the user out or redirect them
-            auth.signOut().then(() => {
-                window.location.href = "views/logout.html";
-            });
-        }).catch((error) => {
+            // Log the user out and redirect them
+            await auth.signOut();
+            window.location.href = "views/logout.html";
+        } catch (error) {
             console.error("Error deactivating account: ", error);
             alert('Error deactivating account.');
-        });
+        }
     }
 }
 
 // Function to edit user location
-function editLocation() {
+async function editLocation() {
     const newLocation = prompt("Enter your new location:");
 
     if (newLocation) {
         const userId = auth.currentUser.uid;
-        db.collection('users').doc(userId).update({
-            location: newLocation
-        }).then(() => {
+        try {
+            await updateDoc(doc(db, 'users', userId), { location: newLocation });
             alert('Location updated successfully!');
-            // Optionally update the UI with the new location
-        }).catch((error) => {
+        } catch (error) {
             console.error("Error updating location: ", error);
             alert('Error updating location.');
-        });
+        }
     }
 }
 
+// Function to view messages
 function viewMessages() {
-            // Redirect user to a view-only profile page
-            window.location.href = "messaging.html?userId=" + firebase.auth().currentUser.uid;
-        }
-        // Preview Profile Logic
-        function previewProfile() {
-            // Redirect user to a view-only profile page
-            window.location.href = "job-seeker?userId=" + firebase.auth().currentUser.uid;
-        }
+    window.location.href = "messaging.html?userId=" + auth.currentUser.uid;
+}
+
+// Function to preview profile
+function previewProfile() {
+    window.location.href = "job-seeker?userId=" + auth.currentUser.uid;
+}
     </script>
 
     <!-- Bootstrap JS and dependencies -->

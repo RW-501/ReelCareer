@@ -132,49 +132,40 @@
 
     <!-- Dynamic Schema Markup -->
     <script type="module">
-        import { db, storage, analytics } from '../public/js/main.js';  // Adjust the path based on your structure
+   import { db, storage, analytics, app  } from './public/js/main.js'; // Adjust the path based on your structure
+    import { collection, getDocs } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 
         // Function to fetch job listings from Firestore
         async function fetchJobListings() {
-            const db = firebase.firestore(); // Initialize Firestore
-            const jobListingsRef = db.collection('Jobs'); // Reference to the Jobs collection
+    const db = getFirestore(); // Initialize Firestore
+    const jobListingsRef = collection(db, 'Jobs'); // Reference to the Jobs collection
 
-            try {
-                const snapshot = await jobListingsRef.get(); // Fetch all job listings
-                const jobListings = []; // Array to hold job listing data
+    try {
+        const snapshot = await getDocs(jobListingsRef); // Fetch all job listings
+        const jobListings = []; // Array to hold job listing data
 
-                snapshot.forEach(doc => {
-                    const data = doc.data(); // Get data from each document
-                    jobListings.push({
-                        id: doc.id, // Include document ID
-                        title: data.title,
-                        description: data.description,
-                        datePosted: data.datePosted,
-                        organization: data.organization,
-                        location: data.location,
-                        employmentType: data.employmentType,
-                        baseSalary: data.baseSalary,
-                        validThrough: data.validThrough,
-                        url: data.url
-                    });
-                });
+        snapshot.forEach(doc => {
+            const data = doc.data(); // Get data from each document
+            jobListings.push({
+                id: doc.id, // Include document ID
+                title: data.title,
+                description: data.description,
+                datePosted: data.datePosted,
+                organization: data.organization,
+                location: data.location,
+                employmentType: data.employmentType,
+                baseSalary: data.baseSalary,
+                validThrough: data.validThrough,
+                url: data.url
+            });
+        });
 
-                // Call function to display job listings after fetching data
-                displayJobListings(jobListings);
-                // Call function to generate schema markup
-                generateSchemaMarkup(jobListings);
-            } catch (error) {
-                console.error("Error fetching job listings: ", error);
-            }
-        }
-
-        // Sample array of sponsored job listings for demonstration
-        const sponsoredJobs = [
-            { title: "Sponsored Job 1", description: "This is a sponsored job.", url: "#", organization: "Sponsor Co." },
-            { title: "Sponsored Job 2", description: "This is another sponsored job.", url: "#", organization: "Sponsor Inc." },
-        ];
-
-        // Updated function to display job listings with sponsors
+        return jobListings; // Return the array of job listings
+    } catch (error) {
+        console.error("Error fetching job listings: ", error); // Log any errors
+        return []; // Return an empty array in case of an error
+    }
+}    // Updated function to display job listings with sponsors
         function displayJobListings(jobListings) {
             const jobContainer = document.getElementById('jobListings');
             jobContainer.innerHTML = ''; // Clear existing listings

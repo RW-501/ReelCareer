@@ -213,23 +213,24 @@
 
 
    <script type="module">
-    import { db, storage, analytics } from '../public/js/main.js';  // Adjust the path based on your structure
+   import { db, storage, analytics, app  } from './public/js/main.js'; // Adjust the path based on your structure
+    import { collection, getDocs } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 
     const auth = firebase.auth();
-    const companyRef = db.collection("companies").doc(companyId);
+    const companyRef = doc(db, "companies", companyId); // Get a reference to the company document
 
-    // Check if user is a moderator
-    auth.onAuthStateChanged(user => {
-        if (user) {
-            db.collection("moderators").doc(user.uid).get().then(doc => {
-                if (doc.exists) {
-                    // Show the Edit button if the user is a moderator
-                    document.getElementById("editProfileBtn").style.display = "block";
-                }
-            });
+// Check if user is a moderator
+auth.onAuthStateChanged(async (user) => {
+    if (user) {
+        const moderatorRef = doc(db, "moderators", user.uid); // Get a reference to the moderator document
+        const docSnapshot = await getDoc(moderatorRef); // Fetch the document snapshot
+
+        if (docSnapshot.exists()) {
+            // Show the Edit button if the user is a moderator
+            document.getElementById("editProfileBtn").style.display = "block";
         }
-    });
-
+    }
+});
     // Toggle Edit Mode
     document.getElementById("editProfileBtn").addEventListener("click", () => {
         toggleEditMode(true);
@@ -313,7 +314,11 @@
     document.addEventListener("DOMContentLoaded", () => {
     // Load company details from Firestore
     const companyId = "[CompanyID]"; // replace with dynamic company ID
-    db.collection("companies").doc(companyId).get().then((doc) => {
+// Reference to the company document
+const companyRef = doc(db, "companies", companyId);
+
+// Fetch the document
+getDoc(companyRef).then((docSnapshot) => {
         if (doc.exists) {
             const companyData = doc.data();
             document.getElementById("companyName").textContent = companyData.name;
@@ -381,7 +386,7 @@ document.head.appendChild(script);
         const companyId = urlParams.get('companyId');
 
         if (companyId) {
-            db.collection("companies").doc(companyId).get().then(doc => {
+            getDoc(companyRef).then((docSnapshot) => {
                 if (doc.exists) {
                     const companyData = doc.data();
                     document.getElementById("companyName").innerText = companyData.name;

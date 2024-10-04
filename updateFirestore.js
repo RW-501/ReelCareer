@@ -33,7 +33,7 @@ app.post("/updateJob", async (req, res) => {
     }
 
     // Update the job in the "Jobs Collection"
-    const jobRef = db.collection("Jobs").doc(jobId);
+    const jobRef = doc(db, "Jobs", jobId); // Reference to the Job document
     await jobRef.update({
       applicationRequired: applicationRequired === "true", // Convert string to boolean
       applicationLink: applicationLink || "", // Default to an empty string if no link is provided

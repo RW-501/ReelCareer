@@ -165,7 +165,8 @@
 
 </body>
 <script type="module">
-    import { db, storage, analytics } from '../public/js/main.js';  // Adjust the path based on your structure
+   import { db, storage, analytics, app  } from './public/js/main.js'; // Adjust the path based on your structure
+    import { collection, getDocs } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 
 document.getElementById('editProfileForm').addEventListener('submit', function (e) {
     e.preventDefault(); // Prevent the default form submission
@@ -390,7 +391,8 @@ async function fetchUserResumeData(userId) {
         const db = firebase.firestore();
         
         // Fetch user resume data from the 'resumes' collection using userId
-        const resumeDoc = await db.collection('resumes').doc(userId).get();
+        const resumeDocRef = doc(db, 'resumes', userId); // Create a document reference
+        const resumeDoc = await getDoc(resumeDocRef); // Fetch the document
 
         // Check if the document exists
         if (!resumeDoc.exists) {

@@ -167,32 +167,33 @@
    <script type="module" src="../public/js/main.js"></script> 
    
    <script type="module">
-    import { db, storage, analytics } from '../public/js/main.js';  // Adjust the path based on your structure
+   import { db, storage, analytics, app  } from './public/js/main.js'; // Adjust the path based on your structure
+    import { collection, getDocs } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 
 
 
         // Add event listeners for buttons
         // Function to create new job posting
-document.getElementById("createJob").onclick = function() {
+        document.getElementById("createJob").onclick = async function() {
     const jobDetails = {
-    title: prompt("Enter Job Title:"),
-    description: prompt("Enter Job Description:"),
-    requirements: prompt("Enter Job Requirements:"),
-    tags: prompt("Enter Job Tags (comma separated):").split(","),
-    salary: prompt("Enter Salary:"),
-    status: "active",
-    createdAt: new Date()
-};
+        title: prompt("Enter Job Title:"),
+        description: prompt("Enter Job Description:"),
+        requirements: prompt("Enter Job Requirements:"),
+        tags: prompt("Enter Job Tags (comma separated):").split(","),
+        salary: prompt("Enter Salary:"),
+        status: "active",
+        createdAt: new Date()
+    };
 
-    
     if (jobDetails.title && jobDetails.description) {
-        db.collection("jobPostings").add(jobDetails)
-            .then(() => {
-                alert("Job posting created successfully!");
-            })
-            .catch(error => {
-                alert("Error creating job posting: " + error.message);
-            });
+        const jobPostingsRef = collection(db, "jobPostings");
+        try {
+            const docRef = await addDoc(jobPostingsRef, jobDetails);
+            console.log("Job posting added successfully with ID: ", docRef.id);
+            alert("Job posting added successfully with ID: " + docRef.id); // Optional alert for success
+        } catch (error) {
+            alert("Error creating job posting: " + error.message);
+        }
     } else {
         alert("Job title and description are required.");
     }
@@ -207,29 +208,35 @@ document.getElementById("bulkJobPosting").onclick = function() {
         const file = event.target.files[0];
         const reader = new FileReader();
         
-        reader.onload = function(e) {
+        reader.onload = async function(e) { // Make onload asynchronous
             const csvData = e.target.result;
             const rows = csvData.split("\n").slice(1); // Skip header row
-            const jobPromises = rows.map(row => {
-                const [title, description, requirements, tags] = row.split(",");
-                return db.collection("jobPostings").add({
-                    title,
-                    description,
-                    requirements,
-                    salary, 
-                    tags: tags.split(","),
-                    status: "active",
-                    createdAt: new Date()
-                });
+            
+            // Prepare an array of promises for job postings
+            const jobPromises = rows.map(async (row) => {
+                const [title, description, requirements, salary, tags] = row.split(",");
+                try {
+                    // Use addDoc with collection
+                    await addDoc(collection(db, "jobPostings"), {
+                        title,
+                        description,
+                        requirements,
+                        salary,
+                        tags: tags.split(","),
+                        status: "active",
+                        createdAt: new Date()
+                    });
+                } catch (error) {
+                    throw new Error("Error adding job posting: " + error.message);
+                }
             });
             
-            Promise.all(jobPromises)
-                .then(() => {
-                    alert("Bulk job postings created successfully!");
-                })
-                .catch(error => {
-                    alert("Error creating bulk job postings: " + error.message);
-                });
+            try {
+                await Promise.all(jobPromises);
+                alert("Bulk job postings created successfully!");
+            } catch (error) {
+                alert(error.message); // Show specific error message if any
+            }
         };
         
         reader.readAsText(file);
@@ -238,23 +245,24 @@ document.getElementById("bulkJobPosting").onclick = function() {
 };
 
 // Function to delete a job posting
-document.getElementById("deleteJob").onclick = function() {
+document.getElementById("deleteJob").onclick = async function() {
     const jobId = prompt("Enter the Job ID to delete:");
     if (jobId) {
-        db.collection("jobPostings").doc(jobId).delete()
-            .then(() => {
-                alert("Job posting deleted successfully!");
-            })
-            .catch(error => {
-                alert("Error deleting job posting: " + error.message);
-            });
+        const jobDocRef = doc(db, "jobPostings", jobId);
+        try {
+            await deleteDoc(jobDocRef);
+            alert("Job posting deleted successfully!");
+        } catch (error) {
+            alert("Error deleting job posting: " + error.message);
+        }
     } else {
         alert("Job ID is required to delete.");
     }
 };
 
+
 // Functionality to boost job visibility
-document.getElementById("boostJob").onclick = function() {
+document.getElementById("boostJob").onclick = async function() {
     const jobId = prompt("Enter the Job ID to boost:");
     const boostDuration = prompt("Enter Boost Duration in days:");
     
@@ -262,179 +270,202 @@ document.getElementById("boostJob").onclick = function() {
         const expirationDate = new Date();
         expirationDate.setDate(expirationDate.getDate() + parseInt(boostDuration));
         
-        db.collection("jobPostings").doc(jobId).update({
-            boosted: true,
-            boostExpiration: expirationDate
-        })
-        .then(() => {
+        try {
+            const jobDocRef = doc(db, "jobPostings", jobId);
+            await updateDoc(jobDocRef, {
+                boosted: true,
+                boostExpiration: expirationDate
+            });
             alert("Job posting boosted successfully!");
-        })
-        .catch(error => {
+        } catch (error) {
             alert("Error boosting job posting: " + error.message);
-        });
+        }
     } else {
         alert("Job ID and boost duration are required.");
     }
 };
 
+// View Companies
+document.getElementById("viewCompanies").onclick = async function () {
+    try {
+        const companiesSnapshot = await getDocs(collection(db, "companies"));
+        let companies = [];
+        companiesSnapshot.forEach((doc) => {
+            companies.push(doc.data());
+        });
+        alert("Fetched Companies: " + JSON.stringify(companies));
+    } catch (error) {
+        alert("Error fetching companies: " + error);
+    }
+};
 
-        // View Companies
-        document.getElementById("viewCompanies").onclick = function () {
-            db.collection("companies").get().then((querySnapshot) => {
-                let companies = [];
-                querySnapshot.forEach((doc) => {
-                    companies.push(doc.data());
-                });
-                alert("Fetched Companies: " + JSON.stringify(companies));
-            }).catch((error) => {
-                alert("Error fetching companies: " + error);
+// View Applications
+document.getElementById("viewApplications").onclick = async function () {
+    try {
+        const applicationsSnapshot = await getDocs(collection(db, "applications"));
+        let applications = [];
+        applicationsSnapshot.forEach((doc) => {
+            applications.push(doc.data());
+        });
+        alert("Fetched Applications: " + JSON.stringify(applications));
+    } catch (error) {
+        alert("Error fetching applications: " + error);
+    }
+};
+
+// Update Application Status
+document.getElementById("updateStatus").onclick = async function () {
+    const applicationID = prompt("Enter the Application ID to update:");
+    const newStatus = prompt("Enter the new status (e.g., interview, offer, rejection):");
+
+    if (applicationID && newStatus) {
+        try {
+            const applicationDocRef = doc(db, "applications", applicationID);
+            await updateDoc(applicationDocRef, { status: newStatus });
+            alert("Application status updated successfully!");
+        } catch (error) {
+            alert("Error updating application status: " + error);
+        }
+    } else {
+        alert("Application ID and new status are required.");
+    }
+};
+
+// Provide Feedback
+document.getElementById("provideFeedback").onclick = async function () {
+    const applicationID = prompt("Enter the Application ID for feedback:");
+    const feedback = prompt("Enter your feedback for the applicant:");
+
+    if (applicationID && feedback) {
+        try {
+            const applicationDocRef = doc(db, "applications", applicationID);
+            await updateDoc(applicationDocRef, { feedback: feedback });
+            alert("Feedback provided successfully!");
+        } catch (error) {
+            alert("Error providing feedback: " + error);
+        }
+    } else {
+        alert("Application ID and feedback are required.");
+    }
+};
+
+// View Job Performance Analytics
+document.getElementById("viewAnalytics").onclick = async function () {
+    const jobID = prompt("Enter the Job ID to view analytics:");
+
+    if (jobID) {
+        try {
+            const jobDocRef = doc(db, "jobs", jobID);
+            const jobDoc = await getDoc(jobDocRef);
+            if (jobDoc.exists()) {
+                const jobData = jobDoc.data();
+                alert("Job Performance Analytics: " + JSON.stringify(jobData.analytics || {}));
+            } else {
+                alert("No such job found!");
+            }
+        } catch (error) {
+            alert("Error fetching job analytics: " + error);
+        }
+    } else {
+        alert("Job ID is required.");
+    }
+};
+
+// In-app Messaging (Inbox)
+document.getElementById("inbox").onclick = async function () {
+    try {
+        const messagesSnapshot = await getDocs(collection(db, "messages"));
+        let messages = [];
+        messagesSnapshot.forEach((doc) => {
+            messages.push(doc.data());
+        });
+        alert("Inbox Messages: " + JSON.stringify(messages));
+    } catch (error) {
+        alert("Error fetching messages: " + error);
+    }
+};
+
+// Template Messages
+document.getElementById("templateMessages").onclick = function () {
+    const templates = [
+        "Interview Invitation",
+        "Job Offer",
+        "Rejection Letter",
+        "Follow-up Email"
+    ];
+    alert("Available Templates: " + templates.join(", "));
+};
+
+// View Notifications
+document.getElementById("viewNotifications").onclick = async function () {
+    try {
+        const notificationsSnapshot = await getDocs(collection(db, "notifications"));
+        let notifications = [];
+        notificationsSnapshot.forEach((doc) => {
+            notifications.push(doc.data());
+        });
+        alert("Notifications: " + JSON.stringify(notifications));
+    } catch (error) {
+        alert("Error fetching notifications: " + error);
+    }
+};
+
+// Track Activities
+document.getElementById("trackActivities").onclick = async function () {
+    try {
+        const activitiesSnapshot = await getDocs(collection(db, "activity_logs"));
+        let activities = [];
+        activitiesSnapshot.forEach((doc) => {
+            activities.push(doc.data());
+        });
+        alert("Activity Logs: " + JSON.stringify(activities));
+    } catch (error) {
+        alert("Error fetching activity logs: " + error);
+    }
+};
+
+// Enhanced Reports
+document.getElementById("enhancedReports").onclick = async function () {
+    try {
+        const jobsSnapshot = await getDocs(collection(db, "jobs"));
+        let reports = [];
+        jobsSnapshot.forEach((doc) => {
+            const job = doc.data();
+            reports.push({
+                jobTitle: job.title,
+                views: job.analytics ? job.analytics.views : 0,
+                applications: job.analytics ? job.analytics.applications : 0,
+                status: job.status
             });
-        };
+        });
+        alert("Enhanced Reports: " + JSON.stringify(reports));
+    } catch (error) {
+        alert("Error fetching enhanced reports: " + error);
+    }
+};
 
-        // View Applications
-        document.getElementById("viewApplications").onclick = function () {
-            db.collection("applications").get().then((querySnapshot) => {
-                let applications = [];
-                querySnapshot.forEach((doc) => {
-                    applications.push(doc.data());
-                });
-                alert("Fetched Applications: " + JSON.stringify(applications));
-            }).catch((error) => {
-                alert("Error fetching applications: " + error);
-            });
-        };
+// Advanced Filters
+document.getElementById("advancedFilters").onclick = async function () {
+    const criteria = prompt("Enter filter criteria (e.g., 'remote', 'salary > 50000'):");
 
-        // Update Application Status
-        document.getElementById("updateStatus").onclick = function () {
-            const applicationID = prompt("Enter the Application ID to update:");
-            const newStatus = prompt("Enter the new status (e.g., interview, offer, rejection):");
-
-            db.collection("applications").doc(applicationID).update({
-                status: newStatus
-            }).then(() => {
-                alert("Application status updated successfully!");
-            }).catch((error) => {
-                alert("Error updating application status: " + error);
-            });
-        };
-
-        // Provide Feedback
-        document.getElementById("provideFeedback").onclick = function () {
-            const applicationID = prompt("Enter the Application ID for feedback:");
-            const feedback = prompt("Enter your feedback for the applicant:");
-
-            db.collection("applications").doc(applicationID).update({
-                feedback: feedback
-            }).then(() => {
-                alert("Feedback provided successfully!");
-            }).catch((error) => {
-                alert("Error providing feedback: " + error);
-            });
-        };
-
-        // View Job Performance Analytics
-        document.getElementById("viewAnalytics").onclick = function () {
-            const jobID = prompt("Enter the Job ID to view analytics:");
-
-            db.collection("jobs").doc(jobID).get().then((doc) => {
-                if (doc.exists) {
-                    const jobData = doc.data();
-                    alert("Job Performance Analytics: " + JSON.stringify(jobData.analytics || {}));
-                } else {
-                    alert("No such job found!");
+    if (criteria) {
+        try {
+            const filteredJobsSnapshot = await getDocs(collection(db, "jobs"));
+            let filteredJobs = [];
+            filteredJobsSnapshot.forEach((doc) => {
+                const job = doc.data();
+                if (job.tags && job.tags.includes(criteria)) {
+                    filteredJobs.push(job);
                 }
-            }).catch((error) => {
-                alert("Error fetching job analytics: " + error);
             });
-        };
-
-      
-        // In-app Messaging (Inbox)
-        document.getElementById("inbox").onclick = function () {
-            db.collection("messages").get().then((querySnapshot) => {
-                let messages = [];
-                querySnapshot.forEach((doc) => {
-                    messages.push(doc.data());
-                });
-                alert("Inbox Messages: " + JSON.stringify(messages));
-            }).catch((error) => {
-                alert("Error fetching messages: " + error);
-            });
-        };
-
-        // Template Messages
-        document.getElementById("templateMessages").onclick = function () {
-            const templates = [
-                "Interview Invitation",
-                "Job Offer",
-                "Rejection Letter",
-                "Follow-up Email"
-            ];
-            alert("Available Templates: " + templates.join(", "));
-        };
-
-        // View Notifications
-        document.getElementById("viewNotifications").onclick = function () {
-            db.collection("notifications").get().then((querySnapshot) => {
-                let notifications = [];
-                querySnapshot.forEach((doc) => {
-                    notifications.push(doc.data());
-                });
-                alert("Notifications: " + JSON.stringify(notifications));
-            }).catch((error) => {
-                alert("Error fetching notifications: " + error);
-            });
-        };
-
-        // Track Activities
-        document.getElementById("trackActivities").onclick = function () {
-            db.collection("activity_logs").get().then((querySnapshot) => {
-                let activities = [];
-                querySnapshot.forEach((doc) => {
-                    activities.push(doc.data());
-                });
-                alert("Activity Logs: " + JSON.stringify(activities));
-            }).catch((error) => {
-                alert("Error fetching activity logs: " + error);
-            });
-        };
-
-        // Enhanced Reports
-        document.getElementById("enhancedReports").onclick = function () {
-            db.collection("jobs").get().then((querySnapshot) => {
-                let reports = [];
-                querySnapshot.forEach((doc) => {
-                    const job = doc.data();
-                    reports.push({
-                        jobTitle: job.title,
-                        views: job.analytics ? job.analytics.views : 0,
-                        applications: job.analytics ? job.analytics.applications : 0,
-                        status: job.status
-                    });
-                });
-                alert("Enhanced Reports: " + JSON.stringify(reports));
-            }).catch((error) => {
-                alert("Error fetching enhanced reports: " + error);
-            });
-        };
-
-        // Advanced Filters
-        document.getElementById("advancedFilters").onclick = function () {
-            const criteria = prompt("Enter filter criteria (e.g., 'remote', 'salary > 50000'):");
-
-            db.collection("jobs").where("tags", "array-contains", criteria).get()
-                .then((querySnapshot) => {
-                    let filteredJobs = [];
-                    querySnapshot.forEach((doc) => {
-                        filteredJobs.push(doc.data());
-                    });
-                    alert("Filtered Jobs: " + JSON.stringify(filteredJobs));
-                })
-                .catch((error) => {
-                    alert("Error applying advanced filters: " + error);
-                });
-        };
-        
+            alert("Filtered Jobs: " + JSON.stringify(filteredJobs));
+        } catch (error) {
+            alert("Error applying advanced filters: " + error);
+        }
+    } else {
+        alert("Filter criteria is required.");
+    }
+};
         </script>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

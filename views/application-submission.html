@@ -133,7 +133,8 @@
    <script type="module" src="../public/js/main.js"></script> 
    
    <script type="module">
-    import { db, storage, analytics } from '../public/js/main.js';  // Adjust the path based on your structure
+   import { db, storage, analytics, app  } from './public/js/main.js'; // Adjust the path based on your structure
+    import { collection, getDocs } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 
  
 
@@ -143,9 +144,11 @@
 
         // Fetch Job and Company Information
         async function fetchJobAndCompanyInfo() {
-            const jobDoc = await db.collection('Jobs').doc(jobId).get();
-            const companyDoc = await db.collection('Companies').doc(jobDoc.data().companyId).get();
-            const jobData = jobDoc.data();
+    // Fetch the job document
+    const jobDocRef = doc(db, 'Jobs', jobId); // Reference to the job document
+        const jobDoc = await getDoc(jobDocRef); // Get the job document
+
+        const jobData = jobDoc.data();
             const companyData = companyDoc.data();
 
             // Populate job information and company information
@@ -229,8 +232,8 @@
             }
 
             // Save application data to Firestore
-            await db.collection('Applications').add(applicantData);
-            alert('Application submitted successfully!');
+            await addDoc(collection(db, 'Applications'), applicantData);
+                        alert('Application submitted successfully!');
         }
 
         // Event Listeners
@@ -240,7 +243,7 @@
 
     try {
         // Reference to the Firestore collection where applications are stored
-        const applicationRef = db.collection('Applications').doc(applicationId);
+        const applicationRef = doc(collection(db, 'Applications'), applicationId);
 
         // Update the boost status in Firestore
         await applicationRef.update({
@@ -332,6 +335,7 @@ function getUserIdFromURL() {
 }
 
 // Event listener for messaging the recruiter
+
 document.getElementById('messageRecruiter').addEventListener('click', async () => {
     const recruiterEmail = document.getElementById('recruiterEmail').value;
     const messageContent = document.getElementById('messageContent').value;
@@ -348,11 +352,11 @@ document.getElementById('messageRecruiter').addEventListener('click', async () =
             senderId: userId,
             recipientEmail: recruiterEmail,
             content: messageContent,
-            timestamp: firebase.firestore.FieldValue.serverTimestamp(), // Optional: to track when the message was sent
+            timestamp: new Date() // Use Date for timestamp
         };
 
-        // Save message to Firestore (assuming you have a 'Messages' collection)
-        await db.collection('Messages').add(message);
+        // Save message to Firestore
+        await addDoc(collection(db, "Messages"), message);
 
         // Redirect to messaging page
         window.location.href = `messaging.html?userId=${userId}`;
@@ -361,14 +365,19 @@ document.getElementById('messageRecruiter').addEventListener('click', async () =
         alert('Failed to send the message. Please try again.');
     }
 });
+
 // Function to get draft applications from Firestore
 async function getDraftApplications(userId) {
     try {
-        // Fetch draft applications for the specified user
-        const querySnapshot = await db.collection('Applications')
-            .where('userId', '==', userId) // Assuming userId is stored in each application
-            .where('status', '==', 'draft') // Only get drafts
-            .get();
+        // Create a query to fetch draft applications for the specified user
+        const draftQuery = query(
+            collection(db, 'Applications'),
+            where('userId', '==', userId), // Assuming userId is stored in each application
+            where('status', '==', 'draft') // Only get drafts
+        );
+
+        // Fetch the draft applications
+        const querySnapshot = await getDocs(draftQuery);
 
         // Array to hold draft applications
         const draftApps = [];
