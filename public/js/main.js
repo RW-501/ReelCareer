@@ -49,7 +49,7 @@ const storage = getStorage(app); // Correctly initialize storage
 const analytics = initializeAnalytics(app);
 
 // Export the objects
-export { db, storage, analytics }; // Export db, storage, and analytics
+export { db, storage, analytics, app }; // Export db, storage, and analytics
 
 /*
 firebase.initializeApp(firebaseConfig);

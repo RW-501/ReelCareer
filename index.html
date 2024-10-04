@@ -239,7 +239,7 @@
     <script type="module" src="public/js/main.js"></script> 
 
     <script type="module">
-    import { db, storage, analytics } from './public/js/main.js'; // Adjust the path based on your structure
+    import { db, storage, analytics, app  } from './public/js/main.js'; // Adjust the path based on your structure
 
         // Function to fetch job listings and sponsors
         async function fetchJobListings() {
@@ -250,12 +250,6 @@
             loadingIndicator.style.display = 'block'; // Show loading indicator
             errorIndicator.style.display = 'none'; // Hide error indicator
 
-// Initialize Firebase
-//const app = initializeApp(firebaseConfig);
-//const auth = getAuth(app);
-//const storage = getStorage(app);
-//const analytics = initializeAnalytics(app);
-//const db = getFirestore(app);  // Firestore initialization
 const db = firebase.firestore(app);
 
             try {
