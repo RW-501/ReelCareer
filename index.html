@@ -256,7 +256,7 @@
 //const storage = getStorage(app);
 //const analytics = initializeAnalytics(app);
 //const db = getFirestore(app);  // Firestore initialization
-const db = firebase.firestore();
+const db = firebase.firestore(app);
 
             try {
                 const jobListingsSnapshot = await db.collection('Jobs').get();
