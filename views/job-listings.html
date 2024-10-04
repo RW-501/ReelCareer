@@ -137,17 +137,17 @@
 
         // Function to fetch job listings from Firestore
         async function fetchJobListings() {
+            const sponsoredJobs = [];
 
     const jobListingsRef = collection(db, 'Jobs'); // Reference to the Jobs collection
 
     try {
         const snapshot = await getDocs(jobListingsRef); // Fetch all job listings
         const jobListings = []; // Array to hold job listing data
-        const sponsoredJobs = [];
 
         snapshot.forEach(doc => {
             const data = doc.data(); // Get data from each document
-            
+
             if (data.boosted === true) {
                 sponsoredJobs.push({
                 id: doc.id, // Include document ID
