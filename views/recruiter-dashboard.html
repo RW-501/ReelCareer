@@ -168,13 +168,14 @@
    
    <script type="module">
    import { db, storage, analytics, app  } from '../public/js/main.js'; // Adjust the path based on your structure
-    import { collection, getDocs } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+    import { collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 
 
 
         // Add event listeners for buttons
         // Function to create new job posting
         document.getElementById("createJob").onclick = async function() {
+
     const jobDetails = {
         title: prompt("Enter Job Title:"),
         description: prompt("Enter Job Description:"),
