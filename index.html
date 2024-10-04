@@ -250,7 +250,8 @@
             loadingIndicator.style.display = 'block'; // Show loading indicator
             errorIndicator.style.display = 'none'; // Hide error indicator
 
-const db = firebase.firestore(app);
+        //    const db = firebase.firestore(app);
+            const db = app.firestore();
 
             try {
                 const jobListingsSnapshot = await db.collection('Jobs').get();
