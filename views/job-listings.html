@@ -147,8 +147,9 @@
 
         snapshot.forEach(doc => {
             const data = doc.data(); // Get data from each document
-if(data.boosted == true){
-    sponsoredJobs.push({
+            
+            if (data.boosted === true) {
+                sponsoredJobs.push({
                 id: doc.id, // Include document ID
                 title: data.title,
                 description: data.description,

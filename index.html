@@ -257,15 +257,34 @@
             // Fetch sponsors
             const sponsorsSnapshot = await getDocs(collection(db, 'Sponsors'));
         
-                const sponsors = sponsorsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        
+                const sponsors = [];
+
+                sponsorsSnapshot.forEach(doc => {
+
+            if (jobListingsSnapshot.boosted === true) {
+                sponsors.push({
+                id: doc.id, // Include document ID
+                title: data.title,
+                description: data.description,
+                datePosted: data.datePosted,
+                organization: data.organization,
+                location: data.location,
+                employmentType: data.employmentType,
+                baseSalary: data.baseSalary,
+                validThrough: data.validThrough,
+                url: data.url
+            });
+
+        }
+           
+    });
+
+
                 jobListingsContainer.innerHTML = ''; // Clear previous listings
         
                 jobListingsSnapshot.forEach(doc => {
                     const job = { id: doc.id, ...doc.data() };
-                    console.log("job... ", job);
-                    console.log("ID... ", job.id);
-                    console.log("Doc... ", job.doc);
+                 
 
                     // Create job card
                     const jobCard = document.createElement('div');
