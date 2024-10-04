@@ -247,10 +247,11 @@
             document.head.appendChild(scriptTag); // Append schema markup to head
         }
 
-        // Call the fetchJobListings function on page load
-        window.onload = function() {
-            fetchJobListings();
-        };
+        window.onload = async function() {
+            const jobListings = await fetchJobListings(); // Fetch the job listings
+            displayJobListings(jobListings); // Display job listings
+            generateSchemaMarkup(jobListings); // Generate structured data markup for SEO
+};
     </script>
 
     <!-- jQuery and Bootstrap JS -->
