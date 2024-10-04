@@ -256,8 +256,9 @@
           
 
             try {
-                const jobListingsSnapshot = await db.collection('Jobs').get();
-                const sponsorsSnapshot = await db.collection('Sponsors').get();
+                const jobListingsSnapshot = await getDocs(collection(db, 'Jobs'));
+            // Fetch sponsors
+            const sponsorsSnapshot = await getDocs(collection(db, 'Sponsors'));
         
                 const sponsors = sponsorsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
         
