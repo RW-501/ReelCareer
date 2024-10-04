@@ -153,26 +153,26 @@
                 id: doc.id, // Include document ID
                 title: data.title,
                 description: data.description,
-                datePosted: data.datePosted,
-                organization: data.organization,
+                datePosted: data.createdAt,
+                organization: data.company,
                 location: data.location,
                 employmentType: data.employmentType,
-                baseSalary: data.baseSalary,
-                validThrough: data.validThrough,
-                url: data.url
+                baseSalary: data.salary,
+                validThrough: data.boostExpiresAt,
+                url: doc.id
             });
 }else{
             jobListings.push({
                 id: doc.id, // Include document ID
                 title: data.title,
                 description: data.description,
-                datePosted: data.datePosted,
-                organization: data.organization,
+                datePosted: data.createdAt,
+                organization: data.company,
                 location: data.location,
                 employmentType: data.employmentType,
-                baseSalary: data.baseSalary,
-                validThrough: data.validThrough,
-                url: data.url
+                baseSalary: data.salary,
+                validThrough: data.boostExpiresAt,
+                url: doc.id
             });
         }
             
@@ -221,7 +221,7 @@
                                 <h5 class="card-title">${sponsoredJob.title}</h5>
                                 <h6 class="card-subtitle mb-2 text-muted">${sponsoredJob.organization}</h6>
                                 <p class="card-text">${sponsoredJob.description}</p>
-                                <a href="${sponsoredJob.url}" class="btn btn-success">Apply Now</a>
+                                <a href="views/job-detail.html?id=${sponsoredJob.id} class="btn btn-success">Apply Now</a>
                             </div>
                         </div>
                     </div>
