@@ -250,7 +250,13 @@
         
             loadingIndicator.style.display = 'block'; // Show loading indicator
             errorIndicator.style.display = 'none'; // Hide error indicator
-            const db = getFirestore(app);
+            
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const storage = getStorage(app);
+const analytics = initializeAnalytics(app);
+const db = getFirestore(app);  // Firestore initialization
 
             try {
                 const jobListingsSnapshot = await db.collection('Jobs').get();
