@@ -184,7 +184,7 @@
 
         async function fetchTotalApplications() {
             try {
-                const applicationsRef = collection(db, 'applications'); // Replace 'applications' with your actual collection name
+                const applicationsRef = collection(db, 'Applications'); // Replace 'applications' with your actual collection name
                 const snapshot = await getDocs(applicationsRef);
                 const totalApplications = snapshot.size; // Get the number of documents in the collection
                 document.getElementById('total-applications').innerText = totalApplications;
@@ -195,7 +195,7 @@
 
         async function fetchTotalArticles() {
             try {
-                const articlesRef = collection(db, 'articles'); // Replace 'articles' with your actual collection name
+                const articlesRef = collection(db, 'Articles'); // Replace 'articles' with your actual collection name
                 const snapshot = await getDocs(articlesRef);
                 const totalArticles = snapshot.size; // Get the number of documents in the collection
                 document.getElementById('total-articles').innerText = totalArticles;
@@ -206,7 +206,7 @@
 
         async function fetchTotalJobs() {
             try {
-                const jobsRef = collection(db, 'jobs'); // Replace 'jobs' with your actual collection name
+                const jobsRef = collection(db, 'Jobs'); // Replace 'jobs' with your actual collection name
                 const snapshot = await getDocs(jobsRef);
                 const totalJobs = snapshot.size; // Get the number of documents in the collection
                 document.getElementById('total-jobs').innerText = totalJobs;
@@ -217,7 +217,7 @@
 
         async function fetchTotalCompanies() {
             try {
-                const companiesRef = collection(db, 'companies'); // Replace 'companies' with your actual collection name
+                const companiesRef = collection(db, 'Companies'); // Replace 'companies' with your actual collection name
                 const snapshot = await getDocs(companiesRef);
                 const totalCompanies = snapshot.size; // Get the number of documents in the collection
                 document.getElementById('total-companies').innerText = totalCompanies;

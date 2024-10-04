@@ -290,7 +290,7 @@ document.getElementById("bulkJobPosting").onclick = function() {
                 const [title, description, requirements, salary, tags] = row.split(",");
                 try {
                     // Use addDoc with collection
-                    await addDoc(collection(db, "jobPostings"), {
+                    await addDoc(collection(db, "Jobs"), {
                         title,
                         description,
                         requirements,
@@ -361,7 +361,7 @@ document.getElementById("boostJob").onclick = async function() {
 // View Companies
 document.getElementById("viewCompanies").onclick = async function () {
     try {
-        const companiesSnapshot = await getDocs(collection(db, "companies"));
+        const companiesSnapshot = await getDocs(collection(db, "Companies"));
         let companies = [];
         companiesSnapshot.forEach((doc) => {
             companies.push(doc.data());
@@ -375,7 +375,7 @@ document.getElementById("viewCompanies").onclick = async function () {
 // View Applications
 document.getElementById("viewApplications").onclick = async function () {
     try {
-        const applicationsSnapshot = await getDocs(collection(db, "applications"));
+        const applicationsSnapshot = await getDocs(collection(db, "Applications"));
         let applications = [];
         applicationsSnapshot.forEach((doc) => {
             applications.push(doc.data());
@@ -447,7 +447,7 @@ document.getElementById("viewAnalytics").onclick = async function () {
 // In-app Messaging (Inbox)
 document.getElementById("inbox").onclick = async function () {
     try {
-        const messagesSnapshot = await getDocs(collection(db, "messages"));
+        const messagesSnapshot = await getDocs(collection(db, "Messages"));
         let messages = [];
         messagesSnapshot.forEach((doc) => {
             messages.push(doc.data());
@@ -472,7 +472,7 @@ document.getElementById("templateMessages").onclick = function () {
 // View Notifications
 document.getElementById("viewNotifications").onclick = async function () {
     try {
-        const notificationsSnapshot = await getDocs(collection(db, "notifications"));
+        const notificationsSnapshot = await getDocs(collection(db, "Notifications"));
         let notifications = [];
         notificationsSnapshot.forEach((doc) => {
             notifications.push(doc.data());
@@ -486,7 +486,7 @@ document.getElementById("viewNotifications").onclick = async function () {
 // Track Activities
 document.getElementById("trackActivities").onclick = async function () {
     try {
-        const activitiesSnapshot = await getDocs(collection(db, "activity_logs"));
+        const activitiesSnapshot = await getDocs(collection(db, "UserActivity"));
         let activities = [];
         activitiesSnapshot.forEach((doc) => {
             activities.push(doc.data());
@@ -500,7 +500,7 @@ document.getElementById("trackActivities").onclick = async function () {
 // Enhanced Reports
 document.getElementById("enhancedReports").onclick = async function () {
     try {
-        const jobsSnapshot = await getDocs(collection(db, "jobs"));
+        const jobsSnapshot = await getDocs(collection(db, "Jobs"));
         let reports = [];
         jobsSnapshot.forEach((doc) => {
             const job = doc.data();
@@ -523,7 +523,7 @@ document.getElementById("advancedFilters").onclick = async function () {
 
     if (criteria) {
         try {
-            const filteredJobsSnapshot = await getDocs(collection(db, "jobs"));
+            const filteredJobsSnapshot = await getDocs(collection(db, "Jobs"));
             let filteredJobs = [];
             filteredJobsSnapshot.forEach((doc) => {
                 const job = doc.data();
