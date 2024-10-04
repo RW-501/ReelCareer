@@ -263,7 +263,10 @@
         
                 jobListingsSnapshot.forEach(doc => {
                     const job = { id: doc.id, ...doc.data() };
-        
+                    console.log("job... ", job);
+                    console.log("ID... ", job.id);
+                    console.log("Doc... ", job.doc);
+                    
                     // Create job card
                     const jobCard = document.createElement('div');
                     jobCard.className = 'col-md-4 mb-4';
