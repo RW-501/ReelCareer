@@ -251,7 +251,8 @@
             errorIndicator.style.display = 'none'; // Hide error indicator
 
         //    const db = firebase.firestore(app);
-            const db = app.firestore();
+            const db = getFirestore(app);
+          
 
             try {
                 const jobListingsSnapshot = await db.collection('Jobs').get();
