@@ -131,7 +131,9 @@
 <script type="module" src="../public/js/main.js"></script> 
 
     <!-- Dynamic Schema Markup -->
-    <script>
+    <script type="module">
+        import { db } from '../public/js/main.js'; // Adjust the path based on your structure
+
         // Function to fetch job listings from Firestore
         async function fetchJobListings() {
             const db = firebase.firestore(); // Initialize Firestore
