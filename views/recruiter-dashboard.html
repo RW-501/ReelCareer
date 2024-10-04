@@ -66,11 +66,51 @@
                 <h5>Job Posting Management</h5>
             </div>
             <div class="card-body">
-                <button class="btn btn-primary" id="createJob">Create New Job Posting</button>
+                <button id="createJobBtn" class="btn btn-primary" data-toggle="modal" data-target="#jobModal">
+                    Create Job Posting
+                </button>
                 <button class="btn btn-secondary" id="bulkJobPosting">Bulk Job Posting</button>
                 <button class="btn btn-danger" id="deleteJob">Delete Job Posting</button>
             </div>
         </div>
+  <!-- Modal -->
+  <div class="modal fade" id="jobModal" tabindex="-1" role="dialog" aria-labelledby="jobModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="jobModalLabel">Create Job Posting</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="jobForm">
+                    <div class="form-group">
+                        <label for="jobTitle">Job Title</label>
+                        <input type="text" class="form-control" id="jobTitle" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="jobDescription">Job Description</label>
+                        <textarea class="form-control" id="jobDescription" rows="3" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="jobRequirements">Job Requirements</label>
+                        <textarea class="form-control" id="jobRequirements" rows="3" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="jobTags">Job Tags (comma separated)</label>
+                        <input type="text" class="form-control" id="jobTags" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="jobSalary">Salary</label>
+                        <input type="number" class="form-control" id="jobSalary" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Create Job</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
         <!-- Boost Job Posting Feature -->
         <div class="card">
@@ -172,16 +212,16 @@
 
 
 
-        // Add event listeners for buttons
-        // Function to create new job posting
-        document.getElementById("createJob").onclick = async function() {
+      // Add event listener for form submission
+document.getElementById("jobForm").onsubmit = async function(event) {
+    event.preventDefault(); // Prevent default form submission
 
     const jobDetails = {
-        title: prompt("Enter Job Title:"),
-        description: prompt("Enter Job Description:"),
-        requirements: prompt("Enter Job Requirements:"),
-        tags: prompt("Enter Job Tags (comma separated):").split(","),
-        salary: prompt("Enter Salary:"),
+        title: document.getElementById("jobTitle").value,
+        description: document.getElementById("jobDescription").value,
+        requirements: document.getElementById("jobRequirements").value,
+        tags: document.getElementById("jobTags").value.split(",").map(tag => tag.trim()), // Trim whitespace from tags
+        salary: document.getElementById("jobSalary").value,
         status: "active",
         createdAt: new Date()
     };
@@ -192,6 +232,8 @@
             const docRef = await addDoc(jobPostingsRef, jobDetails);
             console.log("Job posting added successfully with ID: ", docRef.id);
             alert("Job posting added successfully with ID: " + docRef.id); // Optional alert for success
+            $('#jobModal').modal('hide'); // Close the modal
+            document.getElementById("jobForm").reset(); // Reset the form
         } catch (error) {
             alert("Error creating job posting: " + error.message);
         }
