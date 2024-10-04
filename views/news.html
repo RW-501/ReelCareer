@@ -119,8 +119,8 @@
 
     <!-- Dynamic Schema Markup -->
     <script type="module">
-        import { db, storage, analytics, app  } from '../public/js/main.js'; // Adjust the path based on your structure
-         import { collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+    import { db, storage, analytics, app } from '../public/js/main.js'; // Adjust the path based on your structure
+    import { collection, getDocs, addDoc, doc, getDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 
          // Initialize CKEditor for rich text editing
     CKEDITOR.replace('content');
@@ -204,19 +204,20 @@
     }
 
     // Function to display articles
-    function displayArticles() {
+    async function displayArticles() {
         const articlesContainer = document.getElementById('articles');
         articlesContainer.innerHTML = '';
 
-        db.ref('Articles').once('value', (snapshot) => {
-            snapshot.forEach((childSnapshot) => {
-                const article = childSnapshot.val();
-                const articleId = childSnapshot.key;
+        try {
+            const snapshot = await getDocs(collection(db, 'Articles'));
+            snapshot.forEach((doc) => {
+                const article = doc.data();
+                const articleId = doc.id;
                 const articleElement = document.createElement('div');
                 articleElement.className = 'col-md-4 mb-4';
                 articleElement.innerHTML = `
                     <div class="card">
-                        <img src="${article.mediaFiles[0]}" class="card-img-top" alt="${article.title}">
+                        <img src="${article.mediaFiles[0] || 'default-image-url'}" class="card-img-top" alt="${article.title}">
                         <div class="card-body">
                             <h5 class="card-title">${article.title}</h5>
                             <p class="card-text">${article.content.substring(0, 100)}...</p>
@@ -228,9 +229,14 @@
                 `;
                 articlesContainer.appendChild(articleElement);
             });
-        });
+        } catch (error) {
+            console.error("Error fetching articles:", error);
+        }
     }
 
+    // Call displayArticles to fetch and display the articles on page load
+    window.onload = displayArticles;
+    
     // Function to preview article
     function previewArticle() {
         const title = document.getElementById('title').value;
