@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Explore a wide range of job opportunities and apply directly through ReelCareer. Search for full-time, part-time, remote, and contract jobs tailored to your career needs.">
+    <meta name="keywords" content="job search, career opportunities, full-time jobs, part-time jobs, remote jobs, contract jobs, apply for jobs, career growth, hiring">
+    <meta name="robots" content="index, follow">
+    <title>ReelCareer - Job Listings</title>
+
+    <!-- Open Graph Tags -->
+    <meta property="og:title" content="ReelCareer - Job Listings">
+    <meta property="og:description" content="Find your next job opportunity with ReelCareer. Browse a variety of job listings tailored to your skills and preferences.">
+    <meta property="og:image" content="https://www.reelcareer.co/images/logo.png">
+    <meta property="og:url" content="https://www.reelcareer.co/job-listings.html">
+    <meta property="og:type" content="website">
+
+    <!-- Twitter Card Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="ReelCareer - Job Listings">
+    <meta name="twitter:description" content="Explore a range of job opportunities and apply directly through ReelCareer. Your next career move is just a search away.">
+    <meta name="twitter:image" content="https://www.reelcareer.co/images/logo.png">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="public/css/styles.css">
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-LBTK319K2X"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-LBTK319K2X');
+    </script>
+</head>
+
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="../public/index.html">ReelCareer</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item"><a class="nav-link" href="../public/index.html">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="../views/job-listings.html">Job Listings</a></li>
+                <li class="nav-item"><a class="nav-link" href="../views/company-pages.html">Company Pages</a></li>
+                <li class="nav-item"><a class="nav-link" href="../views/job-seeker.html">Job Seeker</a></li>
+                <li class="nav-item"><a class="nav-link" href="../views/recruiter-dashboard.html">Recruiter Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="../views/news.html">News</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Job Search Section -->
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <h1>Find Your Next Job</h1>
+                <form id="jobSearchForm" class="form-inline justify-content-center mt-3">
+                    <input type="text" class="form-control mr-2 mb-2" placeholder="Keywords (e.g., Developer)" required>
+                    <input type="text" class="form-control mr-2 mb-2" placeholder="Location (e.g., City)" required>
+                    <select class="form-control mr-2 mb-2">
+                        <option value="" disabled selected>Job Type</option>
+                        <option value="full-time">Full-time</option>
+                        <option value="part-time">Part-time</option>
+                        <option value="contract">Contract</option>
+                        <option value="remote">Remote</option>
+                    </select>
+                    <input type="number" class="form-control mr-2 mb-2" placeholder="Salary Range" min="0">
+                    <button type="submit" class="btn btn-primary mb-2">Search Jobs</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Featured Jobs Section -->
+    <div class="container mt-5">
+        <h2 class="text-center">Featured Jobs</h2>
+        <div class="row" id="featuredJobListings">
+            <!-- Featured jobs dynamically inserted here -->
+        </div>
+    </div>
+
+    <!-- All Job Listings Section -->
+    <div class="container mt-5">
+        <h2 class="text-center">All Jobs</h2>
+        <div class="row" id="jobListings">
+            <!-- Job listings dynamically inserted here -->
+        </div>
+        <div id="loadingIndicator" class="text-center mt-4" style="display:none;">
+            <p>Loading job listings...</p>
+        </div>
+    </div>
+
+    <!-- Pagination -->
+    <div class="container text-center mt-5">
+        <nav>
+            <ul class="pagination" id="pagination">
+                <!-- Pagination dynamically generated -->
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Job Detail Modal -->
+    <div class="modal fade" id="jobDetailModal" tabindex="-1" role="dialog" aria-labelledby="jobDetailModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="jobDetailModalLabel">Job Details</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <h5 id="jobTitle"></h5>
+                    <p id="jobCompany"></p>
+                    <p id="jobDescription"></p>
+                    <p><strong>Location:</strong> <span id="jobLocation"></span></p>
+                    <p><strong>Salary:</strong> <span id="jobSalary"></span></p>
+                    <p><strong>Job Type:</strong> <span id="jobType"></span></p>
+                    <button id="applyButton" class="btn btn-primary mt-3">Apply Now</button>
+                    <button id="saveJobButton" class="btn btn-secondary mt-3" onclick="saveJob()">Save Job</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dynamic Schema Markup -->
+    <script>
+        // Function to fetch job listings from Firestore
+        async function fetchJobListings() {
+            const db = firebase.firestore(); // Initialize Firestore
+            const jobListingsRef = db.collection('Jobs'); // Reference to the Jobs collection
+
+            try {
+                const snapshot = await jobListingsRef.get(); // Fetch all job listings
+                const jobListings = []; // Array to hold job listing data
+
+                snapshot.forEach(doc => {
+                    const data = doc.data(); // Get data from each document
+                    jobListings.push({
+                        id: doc.id, // Include document ID
+                        title: data.title,
+                        description: data.description,
+                        datePosted: data.datePosted,
+                        organization: data.organization,
+                        location: data.location,
+                        employmentType: data.employmentType,
+                        baseSalary: data.baseSalary,
+                        validThrough: data.validThrough,
+                        url: data.url
+                    });
+                });
+
+                // Call function to display job listings after fetching data
+                displayJobListings(jobListings);
+                // Call function to generate schema markup
+                generateSchemaMarkup(jobListings);
+            } catch (error) {
+                console.error("Error fetching job listings: ", error);
+            }
+        }
+
+        // Sample array of sponsored job listings for demonstration
+        const sponsoredJobs = [
+            { title: "Sponsored Job 1", description: "This is a sponsored job.", url: "#", organization: "Sponsor Co." },
+            { title: "Sponsored Job 2", description: "This is another sponsored job.", url: "#", organization: "Sponsor Inc." },
+        ];
+
+        // Updated function to display job listings with sponsors
+        function displayJobListings(jobListings) {
+            const jobContainer = document.getElementById('jobListings');
+            jobContainer.innerHTML = ''; // Clear existing listings
+
+            jobListings.forEach((job, index) => {
+                const jobCard = `
+                    <div class="col-md-4 mb-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">${job.title}</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">${job.organization}</h6>
+                                <p class="card-text">${job.description}</p>
+                                <button class="btn btn-info" onclick="showJobDetails('${job.id}')">View Details</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                jobContainer.innerHTML += jobCard; // Append job card to container
+            });
+
+            // Display sponsored jobs if any
+            const featuredJobContainer = document.getElementById('featuredJobListings');
+            featuredJobContainer.innerHTML = ''; // Clear existing featured jobs
+
+            sponsoredJobs.forEach((sponsoredJob) => {
+                const featuredJobCard = `
+                    <div class="col-md-4 mb-4">
+                        <div class="card border-success">
+                            <div class="card-body">
+                                <h5 class="card-title">${sponsoredJob.title}</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">${sponsoredJob.organization}</h6>
+                                <p class="card-text">${sponsoredJob.description}</p>
+                                <a href="${sponsoredJob.url}" class="btn btn-success">Apply Now</a>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                featuredJobContainer.innerHTML += featuredJobCard; // Append sponsored job card to featured jobs
+            });
+        }
+
+        // Function to generate structured data markup for SEO
+        function generateSchemaMarkup(jobListings) {
+            const schemaData = {
+                "@context": "https://schema.org",
+                "@type": "JobPosting",
+                "title": jobListings.map(job => job.title),
+                "description": jobListings.map(job => job.description),
+                "datePosted": jobListings.map(job => job.datePosted),
+                "hiringOrganization": {
+                    "@type": "Organization",
+                    "name": jobListings.map(job => job.organization)
+                },
+                "jobLocation": {
+                    "@type": "Place",
+                    "address": {
+                        "@type": "PostalAddress",
+                        "addressLocality": jobListings.map(job => job.location)
+                    }
+                },
+                "employmentType": jobListings.map(job => job.employmentType),
+                "baseSalary": {
+                    "@type": "MonetaryAmount",
+                    "value": jobListings.map(job => job.baseSalary),
+                    "currency": "USD"
+                },
+                "validThrough": jobListings.map(job => job.validThrough)
+            };
+
+            const scriptTag = document.createElement('script');
+            scriptTag.type = 'application/ld+json';
+            scriptTag.innerHTML = JSON.stringify(schemaData);
+            document.head.appendChild(scriptTag); // Append schema markup to head
+        }
+
+        // Call the fetchJobListings function on page load
+        window.onload = function() {
+            fetchJobListings();
+        };
+    </script>
+
+    <!-- jQuery and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

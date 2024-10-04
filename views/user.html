@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="User profile page for managing bio, resumes, messaging, and job applications.">
+    <meta name="keywords" content="job applications, resumes, video resumes, job seeking, career management">
+    <meta name="author" content="ReelCareer">
+    <title>User profile | ReelCareer</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="style.css" rel="stylesheet">
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-LBTK319K2X"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-LBTK319K2X');
+    </script>
+
+    <!-- SEO Schema Markup -->
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            "name": "User Profile",
+            "description": "User profile for managing bio, resumes, and applications.",
+            "publisher": {
+                "@type": "Organization",
+                "name": "ReelCareer"
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="../public/index.html">ReelCareer</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="../view/news.html">News</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../view/jobs.html">Jobs</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../view/user.html">Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../view/messaging.html">Messages</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link btn btn-danger" href="../view/logout.html">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- User Profile Section -->
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-4">
+                <!-- User Info Section -->
+                <div class="card">
+                    <div class="card-body text-center">
+                        <img src="default-profile.png" alt="User Profile Picture" class="img-fluid rounded-circle mb-3" style="width: 150px;">
+                        <h3 id="user-name">User Name</h3>
+                        <p id="user-bio">This is a short bio about the user...</p>
+                        <button class="btn btn-primary btn-block" onclick="editBio()">Edit Bio</button>
+                    </div>
+                </div>
+
+                <!-- Video Resumes -->
+                <div class="card mt-3">
+                    <div class="card-body">
+                        <h5>Video Resumes</h5>
+                        <ul id="video-resume-list">
+                            <!-- Video resume files will be dynamically listed here -->
+                        </ul>
+                        <button class="btn btn-primary btn-block" onclick="createVideoResume()">Create Video Resume</button>
+                        <button class="btn btn-secondary btn-block" onclick="editDigitalResume()">Edit Digital Resume</button>
+                    </div>
+                </div>
+
+                <!-- Messaging Area -->
+                <div class="card mt-3">
+                    <div class="card-body">
+                        <h5>Messages</h5>
+                        <button class="btn btn-primary btn-block" onclick="viewMessages()">View Messages</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Application Dashboard Section -->
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        <h4>Job Application Dashboard</h4>
+                        <button class="btn btn-info" onclick="boostApplication()">Boost Application</button>
+                        <hr>
+
+                        <!-- Job Applications List -->
+                        <div id="job-applications">
+                            <!-- Dynamic job application entries -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Preview Profile Button -->
+                <div class="card mt-3">
+                    <div class="card-body">
+                        <button class="btn btn-primary" onclick="previewProfile()">Preview Profile</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Account Deactivation & Location Edit -->
+        <div class="row mt-5">
+            <div class="col-md-12 text-center">
+                <button class="btn btn-danger" onclick="deactivateAccount()">Deactivate Account</button>
+                <button class="btn btn-secondary" onclick="editLocation()">Edit Location</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase and App Logic -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-firestore.js"></script>
+
+    <script>
+        // Firebase Config
+        const firebaseConfig = {
+            apiKey: "AIzaSyDiwC3Dmd88-t3N9iRV5cZ3snVkEXinclg",
+            authDomain: "reelcareer-cb4b0.firebaseapp.com",
+            projectId: "reelcareer-cb4b0",
+            storageBucket: "reelcareer-cb4b0.appspot.com",
+            messagingSenderId: "365163764840",
+            appId: "1:365163764840:web:21c44f8625c9b6831e6fdd",
+            measurementId: "G-LBTK319K2X"
+        };
+        firebase.initializeApp(firebaseConfig);
+
+        // Placeholder functions for now, to be implemented later
+// Firestore Database Reference
+const db = firebase.firestore();
+const auth = firebase.auth();
+
+// Function to edit user bio
+function editBio() {
+    const newBio = prompt("Enter your new bio:");
+
+    if (newBio) {
+        const userId = auth.currentUser.uid;
+        db.collection('users').doc(userId).update({
+            bio: newBio
+        }).then(() => {
+            document.getElementById('user-bio').innerText = newBio;
+            alert('Bio updated successfully!');
+        }).catch((error) => {
+            console.error("Error updating bio: ", error);
+            alert('Error updating bio.');
+        });
+    }
+}
+
+// Function to create a new video resume
+function createVideoResume() {
+    const videoUrl = prompt("Enter the URL of your video resume:");
+
+    if (videoUrl) {
+        const userId = auth.currentUser.uid;
+        const videoResumesRef = db.collection('users').doc(userId).collection('videoResumes');
+        
+        videoResumesRef.add({
+            url: videoUrl,
+            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+        }).then(() => {
+            alert('Video resume added successfully!');
+            // Optionally update the UI to show the new video resume
+        }).catch((error) => {
+            console.error("Error adding video resume: ", error);
+            alert('Error adding video resume.');
+        });
+    }
+}
+
+// Function to edit digital resume
+function editDigitalResume() {
+    const digitalResume = prompt("Enter new content or upload for your digital resume:");
+
+    if (digitalResume) {
+        const userId = auth.currentUser.uid;
+        db.collection('users').doc(userId).update({
+            digitalResume: digitalResume
+        }).then(() => {
+            alert('Digital resume updated successfully!');
+            // Optionally update the UI to reflect the new resume
+        }).catch((error) => {
+            console.error("Error updating digital resume: ", error);
+            alert('Error updating digital resume.');
+        });
+    }
+}
+
+// Function to boost a job application
+function boostApplication() {
+    const jobId = prompt("Enter the Job ID you want to boost:");
+
+    if (jobId) {
+        const userId = auth.currentUser.uid;
+        const applicationRef = db.collection('users').doc(userId).collection('applications').doc(jobId);
+
+        applicationRef.update({
+            boosted: true
+        }).then(() => {
+            alert('Job application boosted successfully!');
+        }).catch((error) => {
+            console.error("Error boosting application: ", error);
+            alert('Error boosting application.');
+        });
+    }
+}
+
+// Function to deactivate user account
+function deactivateAccount() {
+    if (confirm("Are you sure you want to deactivate your account? This action is irreversible.")) {
+        const userId = auth.currentUser.uid;
+
+        db.collection('users').doc(userId).update({
+            active: false
+        }).then(() => {
+            alert('Account deactivated successfully.');
+            // Optionally log the user out or redirect them
+            auth.signOut().then(() => {
+                window.location.href = "../view/logout.html";
+            });
+        }).catch((error) => {
+            console.error("Error deactivating account: ", error);
+            alert('Error deactivating account.');
+        });
+    }
+}
+
+// Function to edit user location
+function editLocation() {
+    const newLocation = prompt("Enter your new location:");
+
+    if (newLocation) {
+        const userId = auth.currentUser.uid;
+        db.collection('users').doc(userId).update({
+            location: newLocation
+        }).then(() => {
+            alert('Location updated successfully!');
+            // Optionally update the UI with the new location
+        }).catch((error) => {
+            console.error("Error updating location: ", error);
+            alert('Error updating location.');
+        });
+    }
+}
+
+function viewMessages() {
+            // Redirect user to a view-only profile page
+            window.location.href = "../views/messaging.html?userId=" + firebase.auth().currentUser.uid;
+        }
+        // Preview Profile Logic
+        function previewProfile() {
+            // Redirect user to a view-only profile page
+            window.location.href = "../views/job-seeker?userId=" + firebase.auth().currentUser.uid;
+        }
+    </script>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

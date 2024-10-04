@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recruiter Dashboard</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
+    <style>
+        body {
+            background-color: #f8f9fa; /* Light gray background */
+        }
+        .container {
+            margin-top: 20px;
+        }
+        .card {
+            margin-bottom: 20px;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="../public/index.html">ReelCareer</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="../views/job-listings.html">Job Listings</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../views/company-pages.html">Company Pages</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../views/job-seeker.html">Job Seeker</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../views/recruiter-dashboard.html">Recruiter Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../views/news.html">News Page</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+
+
+    <div class="container">
+        <h1 class="text-center">Recruiter Dashboard</h1>
+        
+        <!-- Job Posting Management -->
+        <div class="card">
+            <div class="card-header">
+                <h5>Job Posting Management</h5>
+            </div>
+            <div class="card-body">
+                <button class="btn btn-primary" id="createJob">Create New Job Posting</button>
+                <button class="btn btn-secondary" id="bulkJobPosting">Bulk Job Posting</button>
+                <button class="btn btn-danger" id="deleteJob">Delete Job Posting</button>
+            </div>
+        </div>
+
+        <!-- Boost Job Posting Feature -->
+        <div class="card">
+            <div class="card-header">
+                <h5>Boost Job Posting Feature</h5>
+            </div>
+            <div class="card-body">
+                <button class="btn btn-warning" id="boostJob">Boost Job Visibility</button>
+                <input type="date" class="form-control" id="boostDuration" placeholder="Boost Duration">
+            </div>
+        </div>
+
+        <!-- Moderated Company List -->
+        <div class="card">
+            <div class="card-header">
+                <h5>Moderated Company List</h5>
+            </div>
+            <div class="card-body">
+                <button class="btn btn-info" id="viewCompanies">View Companies</button>
+            </div>
+        </div>
+
+        <!-- Applications Management -->
+        <div class="card">
+            <div class="card-header">
+                <h5>Applications Management</h5>
+            </div>
+            <div class="card-body">
+                <button class="btn btn-success" id="viewApplications">View Applications</button>
+                <button class="btn btn-warning" id="updateStatus">Update Application Status</button>
+                <button class="btn btn-secondary" id="provideFeedback">Provide Feedback</button>
+            </div>
+        </div>
+
+        <!-- Analytics and Reporting -->
+        <div class="card">
+            <div class="card-header">
+                <h5>Analytics and Reporting</h5>
+            </div>
+            <div class="card-body">
+                <button class="btn btn-info" id="viewAnalytics">View Job Performance Analytics</button>
+            </div>
+        </div>
+
+        <!-- Messaging and Communication -->
+        <div class="card">
+            <div class="card-header">
+                <h5>Messaging and Communication</h5>
+            </div>
+            <div class="card-body">
+                <button class="btn btn-primary" id="inbox">In-App Messaging</button>
+                <button class="btn btn-secondary" id="templateMessages">Template Messages</button>
+            </div>
+        </div>
+
+        <!-- Notifications Management -->
+        <div class="card">
+            <div class="card-header">
+                <h5>Notifications Management</h5>
+            </div>
+            <div class="card-body">
+                <button class="btn btn-info" id="viewNotifications">View Notifications</button>
+            </div>
+        </div>
+
+        <!-- User Activity Tracking -->
+        <div class="card">
+            <div class="card-header">
+                <h5>User Activity Tracking</h5>
+            </div>
+            <div class="card-body">
+                <button class="btn btn-warning" id="trackActivities">Track Activities</button>
+            </div>
+        </div>
+
+        <!-- Paid Member Features -->
+        <div class="card">
+            <div class="card-header">
+                <h5>Paid Member Features</h5>
+            </div>
+            <div class="card-body">
+                <button class="btn btn-danger" id="enhancedReports">Enhanced Analytics Reports</button>
+                <button class="btn btn-warning" id="advancedFilters">Advanced Candidate Search Filters</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-light text-center py-4">
+        <p>&copy; 2024 ReelCareer. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDiwC3Dmd88-t3N9iRV5cZ3snVkEXinclg",
+            authDomain: "reelcareer-cb4b0.firebaseapp.com",
+            projectId: "reelcareer-cb4b0",
+            storageBucket: "reelcareer-cb4b0.appspot.com",
+            messagingSenderId: "365163764840",
+            appId: "1:365163764840:web:21c44f8625c9b6831e6fdd",
+            measurementId: "G-LBTK319K2X"
+        };
+
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore(app);
+
+        // Add event listeners for buttons
+        // Function to create new job posting
+document.getElementById("createJob").onclick = function() {
+    const jobDetails = {
+    title: prompt("Enter Job Title:"),
+    description: prompt("Enter Job Description:"),
+    requirements: prompt("Enter Job Requirements:"),
+    tags: prompt("Enter Job Tags (comma separated):").split(","),
+    salary: prompt("Enter Salary:"),
+    status: "active",
+    createdAt: new Date()
+};
+
+    
+    if (jobDetails.title && jobDetails.description) {
+        db.collection("jobPostings").add(jobDetails)
+            .then(() => {
+                alert("Job posting created successfully!");
+            })
+            .catch(error => {
+                alert("Error creating job posting: " + error.message);
+            });
+    } else {
+        alert("Job title and description are required.");
+    }
+};
+
+// Functionality for bulk job posting
+document.getElementById("bulkJobPosting").onclick = function() {
+    const fileInput = document.createElement("input");
+    fileInput.type = "file";
+    fileInput.accept = ".csv";
+    fileInput.onchange = function(event) {
+        const file = event.target.files[0];
+        const reader = new FileReader();
+        
+        reader.onload = function(e) {
+            const csvData = e.target.result;
+            const rows = csvData.split("\n").slice(1); // Skip header row
+            const jobPromises = rows.map(row => {
+                const [title, description, requirements, tags] = row.split(",");
+                return db.collection("jobPostings").add({
+                    title,
+                    description,
+                    requirements,
+                    salary, 
+                    tags: tags.split(","),
+                    status: "active",
+                    createdAt: new Date()
+                });
+            });
+            
+            Promise.all(jobPromises)
+                .then(() => {
+                    alert("Bulk job postings created successfully!");
+                })
+                .catch(error => {
+                    alert("Error creating bulk job postings: " + error.message);
+                });
+        };
+        
+        reader.readAsText(file);
+    };
+    fileInput.click();
+};
+
+// Function to delete a job posting
+document.getElementById("deleteJob").onclick = function() {
+    const jobId = prompt("Enter the Job ID to delete:");
+    if (jobId) {
+        db.collection("jobPostings").doc(jobId).delete()
+            .then(() => {
+                alert("Job posting deleted successfully!");
+            })
+            .catch(error => {
+                alert("Error deleting job posting: " + error.message);
+            });
+    } else {
+        alert("Job ID is required to delete.");
+    }
+};
+
+// Functionality to boost job visibility
+document.getElementById("boostJob").onclick = function() {
+    const jobId = prompt("Enter the Job ID to boost:");
+    const boostDuration = prompt("Enter Boost Duration in days:");
+    
+    if (jobId && boostDuration) {
+        const expirationDate = new Date();
+        expirationDate.setDate(expirationDate.getDate() + parseInt(boostDuration));
+        
+        db.collection("jobPostings").doc(jobId).update({
+            boosted: true,
+            boostExpiration: expirationDate
+        })
+        .then(() => {
+            alert("Job posting boosted successfully!");
+        })
+        .catch(error => {
+            alert("Error boosting job posting: " + error.message);
+        });
+    } else {
+        alert("Job ID and boost duration are required.");
+    }
+};
+
+
+        // View Companies
+        document.getElementById("viewCompanies").onclick = function () {
+            db.collection("companies").get().then((querySnapshot) => {
+                let companies = [];
+                querySnapshot.forEach((doc) => {
+                    companies.push(doc.data());
+                });
+                alert("Fetched Companies: " + JSON.stringify(companies));
+            }).catch((error) => {
+                alert("Error fetching companies: " + error);
+            });
+        };
+
+        // View Applications
+        document.getElementById("viewApplications").onclick = function () {
+            db.collection("applications").get().then((querySnapshot) => {
+                let applications = [];
+                querySnapshot.forEach((doc) => {
+                    applications.push(doc.data());
+                });
+                alert("Fetched Applications: " + JSON.stringify(applications));
+            }).catch((error) => {
+                alert("Error fetching applications: " + error);
+            });
+        };
+
+        // Update Application Status
+        document.getElementById("updateStatus").onclick = function () {
+            const applicationID = prompt("Enter the Application ID to update:");
+            const newStatus = prompt("Enter the new status (e.g., interview, offer, rejection):");
+
+            db.collection("applications").doc(applicationID).update({
+                status: newStatus
+            }).then(() => {
+                alert("Application status updated successfully!");
+            }).catch((error) => {
+                alert("Error updating application status: " + error);
+            });
+        };
+
+        // Provide Feedback
+        document.getElementById("provideFeedback").onclick = function () {
+            const applicationID = prompt("Enter the Application ID for feedback:");
+            const feedback = prompt("Enter your feedback for the applicant:");
+
+            db.collection("applications").doc(applicationID).update({
+                feedback: feedback
+            }).then(() => {
+                alert("Feedback provided successfully!");
+            }).catch((error) => {
+                alert("Error providing feedback: " + error);
+            });
+        };
+
+        // View Job Performance Analytics
+        document.getElementById("viewAnalytics").onclick = function () {
+            const jobID = prompt("Enter the Job ID to view analytics:");
+
+            db.collection("jobs").doc(jobID).get().then((doc) => {
+                if (doc.exists) {
+                    const jobData = doc.data();
+                    alert("Job Performance Analytics: " + JSON.stringify(jobData.analytics || {}));
+                } else {
+                    alert("No such job found!");
+                }
+            }).catch((error) => {
+                alert("Error fetching job analytics: " + error);
+            });
+        };
+
+      
+        // In-app Messaging (Inbox)
+        document.getElementById("inbox").onclick = function () {
+            db.collection("messages").get().then((querySnapshot) => {
+                let messages = [];
+                querySnapshot.forEach((doc) => {
+                    messages.push(doc.data());
+                });
+                alert("Inbox Messages: " + JSON.stringify(messages));
+            }).catch((error) => {
+                alert("Error fetching messages: " + error);
+            });
+        };
+
+        // Template Messages
+        document.getElementById("templateMessages").onclick = function () {
+            const templates = [
+                "Interview Invitation",
+                "Job Offer",
+                "Rejection Letter",
+                "Follow-up Email"
+            ];
+            alert("Available Templates: " + templates.join(", "));
+        };
+
+        // View Notifications
+        document.getElementById("viewNotifications").onclick = function () {
+            db.collection("notifications").get().then((querySnapshot) => {
+                let notifications = [];
+                querySnapshot.forEach((doc) => {
+                    notifications.push(doc.data());
+                });
+                alert("Notifications: " + JSON.stringify(notifications));
+            }).catch((error) => {
+                alert("Error fetching notifications: " + error);
+            });
+        };
+
+        // Track Activities
+        document.getElementById("trackActivities").onclick = function () {
+            db.collection("activity_logs").get().then((querySnapshot) => {
+                let activities = [];
+                querySnapshot.forEach((doc) => {
+                    activities.push(doc.data());
+                });
+                alert("Activity Logs: " + JSON.stringify(activities));
+            }).catch((error) => {
+                alert("Error fetching activity logs: " + error);
+            });
+        };
+
+        // Enhanced Reports
+        document.getElementById("enhancedReports").onclick = function () {
+            db.collection("jobs").get().then((querySnapshot) => {
+                let reports = [];
+                querySnapshot.forEach((doc) => {
+                    const job = doc.data();
+                    reports.push({
+                        jobTitle: job.title,
+                        views: job.analytics ? job.analytics.views : 0,
+                        applications: job.analytics ? job.analytics.applications : 0,
+                        status: job.status
+                    });
+                });
+                alert("Enhanced Reports: " + JSON.stringify(reports));
+            }).catch((error) => {
+                alert("Error fetching enhanced reports: " + error);
+            });
+        };
+
+        // Advanced Filters
+        document.getElementById("advancedFilters").onclick = function () {
+            const criteria = prompt("Enter filter criteria (e.g., 'remote', 'salary > 50000'):");
+
+            db.collection("jobs").where("tags", "array-contains", criteria).get()
+                .then((querySnapshot) => {
+                    let filteredJobs = [];
+                    querySnapshot.forEach((doc) => {
+                        filteredJobs.push(doc.data());
+                    });
+                    alert("Filtered Jobs: " + JSON.stringify(filteredJobs));
+                })
+                .catch((error) => {
+                    alert("Error applying advanced filters: " + error);
+                });
+        };
+        
+        </script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

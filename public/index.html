@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ReelCareer helps job seekers find their dream job with an extensive list of job postings, news, and tips. Start your career journey today.">
+    <meta name="keywords" content="jobs, job search, career, job listings, remote jobs, full-time jobs, part-time jobs, job opportunities">
+    <meta name="author" content="ReelCareer">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="en">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="ReelCareer - Find Your Dream Job">
+    <meta property="og:description" content="Explore job listings and career opportunities. Start your journey with ReelCareer today.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.reelcareer.co">
+    <meta property="og:image" content="https://www.reelcareer.co/images/preview-image.jpg">
+    <meta property="og:site_name" content="ReelCareer">
+    
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@ReelCareer">
+    <meta name="twitter:title" content="ReelCareer - Find Your Dream Job">
+    <meta name="twitter:description" content="Browse thousands of job opportunities. Get hired with ReelCareer.">
+    <meta name="twitter:image" content="https://www.reelcareer.co/images/preview-image.jpg">
+
+    <!-- Schema.org for Job Listings -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "JobPosting",
+      "title": "Software Developer",
+      "description": "We are looking for a full-time software developer...",
+      "hiringOrganization": {
+        "@type": "Organization",
+        "name": "ReelCareer",
+        "sameAs": "https://www.reelcareer.co"
+      },
+      "jobLocation": {
+        "@type": "Place",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "1234 Career St.",
+          "addressLocality": "Dallas",
+          "addressRegion": "TX",
+          "postalCode": "75001",
+          "addressCountry": "US"
+        }
+      },
+      "datePosted": "2024-10-03",
+      "employmentType": "Full-time",
+      "validThrough": "2024-12-31T23:59:59"
+    }
+    </script>
+
+    <!-- Schema.org for Organization -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "ReelCareer",
+      "url": "https://www.reelcareer.co",
+      "logo": "https://www.reelcareer.co/images/logo.png",
+      "sameAs": [
+        "https://www.facebook.com/ReelCareer",
+        "https://www.linkedin.com/company/reelcareer",
+        "https://twitter.com/ReelCareer"
+      ],
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+1-800-555-5555",
+        "contactType": "Customer Support",
+        "areaServed": "US",
+        "availableLanguage": ["English"]
+      }
+    }
+    </script>
+
+    <!-- Schema.org for Breadcrumbs -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://www.reelcareer.co/"
+      },{
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Job Listings",
+        "item": "https://www.reelcareer.co/job-listings"
+      }]
+    }
+    </script>
+
+    <title>ReelCareer - Find Your Dream Job</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="public/css/styles.css">
+</head>
+
+
+<body>
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-LBTK319K2X"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-LBTK319K2X');
+    </script>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="#">ReelCareer</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="../views/job-listings.html">Job Listings</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../views/company-pages.html">Company Pages</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../views/job-seeker.html">Job Seeker</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../views/recruiter-dashboard.html">Recruiter Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../views/news.html">News Page</a>
+                    </li>
+                    <li class="nav-item">
+                        <button class="btn btn-primary" onclick="location.href='../views/login.html'">Login / Create Account</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="jumbotron jumbotron-fluid text-center text-white bg-primary mb-0" style="padding-top: 6rem;">
+        <div class="container">
+            <h1 class="display-4">Find Your Dream Job</h1>
+            <p class="lead">Search job listings, apply, and take your career to the next level.</p>
+            <form id="jobSearchForm" class="form-inline justify-content-center mt-4">
+                <input type="text" class="form-control mr-2 mb-2" placeholder="Keywords (e.g., Developer)" aria-label="Keywords" required>
+                <input type="text" class="form-control mr-2 mb-2" placeholder="Location (e.g., City)" aria-label="Location" required>
+                <select class="form-control mr-2 mb-2" aria-label="Job Type" required>
+                    <option value="">Job Type</option>
+                    <option value="Full-time">Full-time</option>
+                    <option value="Part-time">Part-time</option>
+                    <option value="Contract">Contract</option>
+                    <option value="Remote">Remote</option>
+                </select>
+                <input type="number" class="form-control mr-2 mb-2" placeholder="Salary Range" min="0" aria-label="Salary Range" required>
+                <button type="submit" class="btn btn-light mb-2">Search Jobs</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Featured Jobs Section -->
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">Featured Jobs</h2>
+        <div class="row" id="jobListings">
+            <!-- Job cards will be dynamically inserted here -->
+        </div>
+        <div id="loadingIndicator" class="text-center mt-4" style="display:none;">
+            <p>Loading job listings...</p>
+        </div>
+        <div id="errorIndicator" class="text-center mt-4" style="display:none;">
+            <p>Error fetching job listings. Please try again later.</p>
+        </div>
+    </div>
+
+    <!-- Dynamic News Section -->
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">Latest Career News</h2>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <img class="card-img-top" src="https://via.placeholder.com/350x150" alt="Article 1">
+                    <div class="card-body">
+                        <h5 class="card-title">Industry Trends in 2024</h5>
+                        <p class="card-text">Stay ahead in your career with the latest industry trends and news.</p>
+                        <a href="#" class="btn btn-primary">Read More</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <img class="card-img-top" src="https://via.placeholder.com/350x150" alt="Article 2">
+                    <div class="card-body">
+                        <h5 class="card-title">How to Stand Out as a Job Seeker</h5>
+                        <p class="card-text">Learn the best strategies for getting noticed by top recruiters.</p>
+                        <a href="#" class="btn btn-primary">Read More</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <img class="card-img-top" src="https://via.placeholder.com/350x150" alt="Article 3">
+                    <div class="card-body">
+                        <h5 class="card-title">Top Remote Work Opportunities</h5>
+                        <p class="card-text">Discover the top remote jobs and what employers are looking for.</p>
+                        <a href="#" class="btn btn-primary">Read More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Call to Action -->
+    <div class="container-fluid bg-light py-5 mt-5">
+        <div class="container text-center">
+            <h2>Ready to take the next step in your career?</h2>
+            <p class="lead">Create an account or login now to get started on your job search.</p>
+            <button class="btn btn-primary btn-lg" onclick="location.href='../views/signup.html'">Create an Account</button>
+            <button class="btn btn-outline-primary btn-lg ml-2" onclick="location.href='../views/login.html'">Login</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-light text-center py-4 mt-5">
+        <p>&copy; 2024 ReelCareer. All Rights Reserved.</p>
+        <ul class="list-inline">
+            <li class="list-inline-item"><a href="#">Privacy Policy</a></li>
+            <li class="list-inline-item"><a href="#">Terms of Use</a></li>
+            <li class="list-inline-item"><a href="#">Contact Us</a></li>
+        </ul>
+    </footer>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-firestore.js"></script>
+
+    <script>
+        // Your Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDiwC3Dmd88-t3N9iRV5cZ3snVkEXinclg",
+            authDomain: "reelcareer-cb4b0.firebaseapp.com",
+            projectId: "reelcareer-cb4b0",
+            storageBucket: "reelcareer-cb4b0.appspot.com",
+            messagingSenderId: "365163764840",
+            appId: "1:365163764840:web:21c44f8625c9b6831e6fdd",
+            measurementId: "G-LBTK319K2X"
+        };
+        
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore(app);
+        
+        // Function to fetch job listings and sponsors
+        async function fetchJobListings() {
+            const jobListingsContainer = document.getElementById('jobListings');
+            const loadingIndicator = document.getElementById('loadingIndicator');
+            const errorIndicator = document.getElementById('errorIndicator');
+        
+            loadingIndicator.style.display = 'block'; // Show loading indicator
+            errorIndicator.style.display = 'none'; // Hide error indicator
+        
+            try {
+                const jobListingsSnapshot = await db.collection('jobs').get();
+                const sponsorsSnapshot = await db.collection('sponsors').get();
+        
+                const sponsors = sponsorsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        
+                jobListingsContainer.innerHTML = ''; // Clear previous listings
+        
+                jobListingsSnapshot.forEach(doc => {
+                    const job = { id: doc.id, ...doc.data() };
+        
+                    // Create job card
+                    const jobCard = document.createElement('div');
+                    jobCard.className = 'col-md-4 mb-4';
+                    jobCard.innerHTML = `
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">${job.title}</h5>
+                                <p class="card-text">${job.description}</p>
+                                <p class="card-text"><strong>Company:</strong> ${job.company}</p>
+                                <p class="card-text"><strong>Salary:</strong> $${job.salary}</p>
+                                <a href="../views/job-detail.html?id=${job.id}" class="btn btn-primary">View Details</a>
+                            </div>
+                        </div>
+                    `;
+                    jobListingsContainer.appendChild(jobCard);
+                });
+        
+                // Add sponsors to the bottom of the job listings
+                if (sponsors.length > 0) {
+                    const sponsorSection = document.createElement('div');
+                    sponsorSection.className = 'col-12 mt-4';
+                    sponsorSection.innerHTML = `
+                        <h5 class="text-center">Our Sponsors</h5>
+                        <div class="row">
+                            ${sponsors.map(sponsor => `
+                                <div class="col-md-4">
+                                    <div class="card">
+                                        <img class="card-img-top" src="${sponsor.logoUrl}" alt="${sponsor.name}">
+                                        <div class="card-body">
+                                            <h6 class="card-title">${sponsor.name}</h6>
+                                            <p class="card-text">${sponsor.description}</p>
+                                            <a href="${sponsor.website}" class="btn btn-primary" target="_blank">Visit Website</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    `;
+                    jobListingsContainer.appendChild(sponsorSection);
+                }
+            } catch (error) {
+                console.error("Error fetching job listings: ", error);
+                errorIndicator.style.display = 'block'; // Show error indicator
+            } finally {
+                loadingIndicator.style.display = 'none'; // Hide loading indicator
+            }
+        }
+        
+        // Load job listings on page load
+        document.addEventListener('DOMContentLoaded', fetchJobListings);
+        </script>
+        
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Application Page</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://www.gstatic.com/firebasejs/9.8.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.8.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.8.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.8.1/firebase-storage.js"></script>
+</head>
+<body>
+    
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-LBTK319K2X"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-LBTK319K2X');
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDiwC3Dmd88-t3N9iRV5cZ3snVkEXinclg",
+            authDomain: "reelcareer-cb4b0.firebaseapp.com",
+            projectId: "reelcareer-cb4b0",
+            storageBucket: "reelcareer-cb4b0.appspot.com",
+            messagingSenderId: "365163764840",
+            appId: "1:365163764840:web:21c44f8625c9b6831e6fdd",
+            measurementId: "G-LBTK319K2X"
+        };
+    </script>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="../public/index.html">ReelCareer</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="../public/index.html">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../views/job-listings.html">Job Listings</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../views/company-pages.html">Company Pages</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../views/job-seeker.html">Job Seeker</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../views/recruiter-dashboard.html">Recruiter Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../views/news.html">News</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+  
+    <div class="container mt-5">
+        <h1>Job Application</h1>
+        <form id="applicationForm">
+            <!-- Applicant Information -->
+            <h3>Applicant Information</h3>
+            <div class="form-group">
+                <label for="firstName">First Name</label>
+                <input type="text" id="firstName" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="lastName">Last Name</label>
+                <input type="text" id="lastName" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone</label>
+                <input type="tel" id="phone" class="form-control" required>
+            </div>
+
+            <!-- Custom Questions -->
+            <h5>The following questions are provided by the recruiter and are optional.</h5>
+            <div id="customQuestionsContainer"></div>
+
+            <!-- Nondisclosure Questions -->
+            <h3>Nondisclosure Questions</h3>
+            <h5>These questions are commonly included in job applications.</h5>
+            <div class="form-group">
+                <label for="sex">Sex</label>
+                <input type="text" id="sex" class="form-control" placeholder="e.g., Male, Female">
+            </div>
+            <div class="form-group">
+                <label for="age">Age</label>
+                <input type="number" id="age" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="veteranStatus">Veteran Status</label>
+                <input type="text" id="veteranStatus" class="form-control" placeholder="e.g., Yes, No">
+            </div>
+            <div class="form-group">
+                <label for="sexualOrientation">Sexual Orientation</label>
+                <input type="text" id="sexualOrientation" class="form-control" placeholder="e.g., Straight, LGBTQ+">
+            </div>
+            <div class="form-group">
+                <input type="checkbox" id="shareInfo" required>
+                <label for="shareInfo">I agree to share my information.</label>
+                <input type="text" id="disclosureName" placeholder="Your Name" class="form-control mt-1">
+                <input type="date" id="disclosureDate" class="form-control mt-1">
+            </div>
+
+            <!-- Resume Submission Options -->
+            <h3>Resume Submission</h3>
+            <div class="form-group">
+                <label for="noteToRecruiter">Note to Recruiter</label>
+                <textarea id="noteToRecruiter" class="form-control"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="videoResumeUpload">Upload Video Resume</label>
+                <input type="file" id="videoResumeUpload" class="form-control-file">
+                <button type="button" id="createVideoResume" class="btn btn-link">Create One</button>
+            </div>
+            <div class="form-group">
+                <label for="resumeUpload">Upload New Resume</label>
+                <input type="file" id="resumeUpload" class="form-control-file" required>
+            </div>
+
+            <div class="form-group">
+                <button type="button" id="boostApplication" class="btn btn-warning">Boost Application</button>
+                <button type="button" id="previewApplication" class="btn btn-info">Preview Application</button>
+                <button type="button" id="saveForLater" class="btn btn-secondary">Save for Later</button>
+            </div>
+
+            <!-- Job Posted By Area -->
+            <h3>Job Posted By</h3>
+            <div id="jobPostedByArea"></div>
+            <button type="button" id="messageRecruiter" class="btn btn-primary">Message Recruiter</button>
+            <button type="button" id="backToJobPost" class="btn btn-light">Back to Job Post</button>
+        </form>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-light text-center py-4 mt-5">
+        <p>&copy; 2024 ReelCareer. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        const storage = firebase.storage();
+        const auth = firebase.auth();
+
+        // Get Job ID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const jobId = urlParams.get('jobId');
+
+        // Fetch Job and Company Information
+        async function fetchJobAndCompanyInfo() {
+            const jobDoc = await db.collection('Jobs').doc(jobId).get();
+            const companyDoc = await db.collection('Companies').doc(jobDoc.data().companyId).get();
+            const jobData = jobDoc.data();
+            const companyData = companyDoc.data();
+
+            // Populate job information and company information
+            document.getElementById('jobPostedByArea').innerHTML = `
+                <p>Job Title: ${jobData.title}</p>
+                <p>Company: ${companyData.name}</p>
+                <p>Location: ${companyData.location}</p>
+            `;
+            loadCustomQuestions(jobData.customQuestions);
+        }
+
+        // Load Custom Questions
+        function loadCustomQuestions(customQuestions) {
+            const customQuestionsContainer = document.getElementById('customQuestionsContainer');
+            customQuestions.forEach(question => {
+                let inputElement;
+                switch (question.type) {
+                    case 'multiple_choice':
+                        inputElement = `<div class="form-group">
+                                            <label>${question.question}</label>
+                                            ${question.options.map(option => `<div><input type="radio" name="${question.id}" value="${option}">${option}</div>`).join('')}
+                                        </div>`;
+                        break;
+                    case 'text_area':
+                        inputElement = `<div class="form-group">
+                                            <label>${question.question}</label>
+                                            <textarea class="form-control" id="${question.id}"></textarea>
+                                        </div>`;
+                        break;
+                    case 'input_field':
+                        inputElement = `<div class="form-group">
+                                            <label>${question.question}</label>
+                                            <input type="text" class="form-control" id="${question.id}">
+                                        </div>`;
+                        break;
+                    case 'future_test':
+                        // Placeholder for future question types
+                        inputElement = `<div class="form-group">
+                                            <label>${question.question}</label>
+                                            <input type="text" class="form-control" id="${question.id}">
+                                        </div>`;
+                        break;
+                }
+                customQuestionsContainer.insertAdjacentHTML('beforeend', inputElement);
+            });
+        }
+
+        // Function to handle application submission
+        async function submitApplication() {
+            const applicantData = {
+                firstName: document.getElementById('firstName').value,
+                lastName: document.getElementById('lastName').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                notes: document.getElementById('noteToRecruiter').value,
+                sex: document.getElementById('sex').value,
+                age: document.getElementById('age').value,
+                veteranStatus: document.getElementById('veteranStatus').value,
+                sexualOrientation: document.getElementById('sexualOrientation').value,
+                shareInfo: document.getElementById('shareInfo').checked,
+                disclosureName: document.getElementById('disclosureName').value,
+                disclosureDate: document.getElementById('disclosureDate').value,
+                jobId: jobId,
+                // Collect custom questions responses here
+            };
+
+            // Upload resume if available
+            const resumeFile = document.getElementById('resumeUpload').files[0];
+            if (resumeFile) {
+                const resumeRef = storage.ref(`resumes/${resumeFile.name}`);
+                await resumeRef.put(resumeFile);
+                applicantData.resumeUrl = await resumeRef.getDownloadURL();
+            }
+
+            // Upload video resume if available
+            const videoFile = document.getElementById('videoResumeUpload').files[0];
+            if (videoFile) {
+                const videoRef = storage.ref(`video_resumes/${videoFile.name}`);
+                await videoRef.put(videoFile);
+                applicantData.videoResumeUrl = await videoRef.getDownloadURL();
+            }
+
+            // Save application data to Firestore
+            await db.collection('Applications').add(applicantData);
+            alert('Application submitted successfully!');
+        }
+
+        // Event Listeners
+        document.getElementById('boostApplication').addEventListener('click', async () => {
+    const applicationId = "APPLICATION_ID"; // Replace with actual application ID.
+    const userId = "USER_ID"; // Replace with the user's ID, if applicable.
+
+    try {
+        // Reference to the Firestore collection where applications are stored
+        const applicationRef = db.collection('Applications').doc(applicationId);
+
+        // Update the boost status in Firestore
+        await applicationRef.update({
+            boosted: true, // Assuming there is a 'boosted' field to indicate boost status
+            boostTimestamp: firebase.firestore.FieldValue.serverTimestamp(), // Optional: timestamp for when it was boosted
+        });
+
+        alert('Application boosted successfully!');
+    } catch (error) {
+        console.error("Error boosting application: ", error);
+        alert('Failed to boost the application. Please try again.');
+    }
+});
+
+document.getElementById('previewApplication').addEventListener('click', () => {
+    const firstName = document.getElementById('firstName').value;
+    const lastName = document.getElementById('lastName').value;
+    const email = document.getElementById('email').value;
+    const phone = document.getElementById('phone').value;
+    const noteToRecruiter = document.getElementById('noteToRecruiter').value;
+
+    // Collecting custom questions responses
+    const customQuestionsResponses = [];
+    const customQuestions = document.querySelectorAll('#customQuestionsContainer input');
+
+    customQuestions.forEach(question => {
+        customQuestionsResponses.push({
+            questionId: question.id,
+            answer: question.value,
+        });
+    });
+
+    // Create preview content
+    const previewContent = `
+        <h3>Application Preview</h3>
+        <p><strong>First Name:</strong> ${firstName}</p>
+        <p><strong>Last Name:</strong> ${lastName}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Phone:</strong> ${phone}</p>
+        <p><strong>Note to Recruiter:</strong> ${noteToRecruiter}</p>
+        <h4>Custom Questions</h4>
+        <ul>
+            ${customQuestionsResponses.map(response => `<li>${response.questionId}: ${response.answer}</li>`).join('')}
+        </ul>
+    `;
+
+    // Display the preview in a modal or a new section
+    const previewModal = document.createElement('div');
+    previewModal.className = 'modal fade';
+    previewModal.innerHTML = `
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Application Preview</h5>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    ${previewContent}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(previewModal);
+    $(previewModal).modal('show'); // Use jQuery to display the modal
+});
+
+
+        document.getElementById('saveForLater').addEventListener('click', () => {
+            // Save for later functionality
+            const applicationData = {
+                firstName: document.getElementById('firstName').value,
+                lastName: document.getElementById('lastName').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                // Include other relevant fields as needed
+            };
+            localStorage.setItem(`application_${jobId}`, JSON.stringify(applicationData));
+            alert('Application saved for later!');
+        });
+
+// Function to extract the user ID from URL parameters
+function getUserIdFromURL() {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get('userId'); // Assuming userId is the parameter name in the URL
+}
+
+// Event listener for messaging the recruiter
+document.getElementById('messageRecruiter').addEventListener('click', async () => {
+    const recruiterEmail = document.getElementById('recruiterEmail').value;
+    const messageContent = document.getElementById('messageContent').value;
+    const userId = getUserIdFromURL();
+
+    if (!recruiterEmail || !messageContent) {
+        alert('Please fill in all fields.');
+        return;
+    }
+
+    try {
+        // Construct message object
+        const message = {
+            senderId: userId,
+            recipientEmail: recruiterEmail,
+            content: messageContent,
+            timestamp: firebase.firestore.FieldValue.serverTimestamp(), // Optional: to track when the message was sent
+        };
+
+        // Save message to Firestore (assuming you have a 'Messages' collection)
+        await db.collection('Messages').add(message);
+
+        // Redirect to messaging page
+        window.location.href = `../views/messaging.html?userId=${userId}`;
+    } catch (error) {
+        console.error("Error sending message: ", error);
+        alert('Failed to send the message. Please try again.');
+    }
+});
+// Function to get draft applications from Firestore
+async function getDraftApplications(userId) {
+    try {
+        // Fetch draft applications for the specified user
+        const querySnapshot = await db.collection('Applications')
+            .where('userId', '==', userId) // Assuming userId is stored in each application
+            .where('status', '==', 'draft') // Only get drafts
+            .get();
+
+        // Array to hold draft applications
+        const draftApps = [];
+
+        // Loop through the query results
+        querySnapshot.forEach(doc => {
+            // Push each draft application to the array
+            draftApps.push({ id: doc.id, ...doc.data() });
+        });
+
+        // Check if there are any drafts
+        if (draftApps.length === 0) {
+            console.log('No draft applications found.');
+            return [];
+        }
+
+        // Return the array of draft applications
+        return draftApps;
+    } catch (error) {
+        console.error('Error fetching draft applications: ', error);
+        return []; // Return an empty array on error
+    }
+}
+
+// Example usage
+const userId = getUserIdFromURL(); // Function to get the user ID from the URL
+
+getDraftApplications(userId).then(draftApps => {
+    if (draftApps.length > 0) {
+        console.log('Draft Applications:', draftApps);
+        // You can now render these applications in your UI
+    } else {
+        console.log('No draft applications available.');
+    }
+});
+
+        document.getElementById('backToJobPost').addEventListener('click', () => {
+            window.history.back(); // Back to the previous page
+        });
+
+        // Load job and company info on page load
+        fetchJobAndCompanyInfo();
+    </script>
+</body>
+</html>

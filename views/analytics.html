@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics and Reports</title>
+
+    <!-- SEO Tags -->
+    <meta name="description" content="Analytics and Reports for ReelCareer Job Board">
+    <meta name="keywords" content="Job Analytics, Company Performance, User Activity Insights, SEO Performance">
+    <meta name="author" content="Your Company Name">
+    
+    <!-- Schema.org Markup for Google+ -->
+    <script type="application/ld+json">
+        {
+            "@context": "http://schema.org",
+            "@type": "WebSite",
+            "name": "ReelCareer",
+            "url": "https://yourwebsite.com",
+            "potentialAction": {
+                "@type": "SearchAction",
+                "target": "https://yourwebsite.com/?s={search_term_string}",
+                "query-input": "required name=search_term_string"
+            }
+        }
+    </script>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css"> <!-- Link to your CSS styles -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Chart.js library -->
+</head>
+
+<body>
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-LBTK319K2X"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-LBTK319K2X');
+    </script>
+    <div class="analytics-page">
+        <header>
+            <h1>Analytics and Reports</h1>
+        </header>
+
+        <!-- Overview Section -->
+        <section class="overview">
+            <h2>Overview</h2>
+            <div class="card-container">
+                <div class="card">
+                    <h3>Total Applications</h3>
+                    <span id="total-applications">0</span>
+                </div>
+                <div class="card">
+                    <h3>Total Articles</h3>
+                    <span id="total-articles">0</span>
+                </div>
+                <div class="card">
+                    <h3>Total Jobs Posted</h3>
+                    <span id="total-jobs">0</span>
+                </div>
+                <div class="card">
+                    <h3>Total Companies</h3>
+                    <span id="total-companies">0</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Applications Analytics -->
+        <section id="applications-analytics">
+            <h2>Applications Analytics</h2>
+            <div class="chart-container">
+                <canvas id="application-status-pie-chart"></canvas>
+                <canvas id="applications-over-time-line-chart"></canvas>
+            </div>
+            <h3>Feedback Analysis</h3>
+            <table id="feedback-analysis-table">
+                <thead>
+                    <tr>
+                        <th>User ID</th>
+                        <th>Feedback</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Feedback rows will be populated here -->
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Job Analytics -->
+        <section id="job-analytics">
+            <h2>Job Analytics</h2>
+            <div class="chart-container">
+                <canvas id="job-views-bar-chart"></canvas>
+                <canvas id="salary-distribution-histogram"></canvas>
+            </div>
+            <h3>Top Job Categories</h3>
+            <ul id="top-job-categories">
+                <!-- List of top job categories will be populated here -->
+            </ul>
+        </section>
+
+        <!-- Company Performance -->
+        <section id="company-performance">
+            <h2>Company Performance</h2>
+            <div class="chart-container">
+                <canvas id="company-profile-views-line-chart"></canvas>
+            </div>
+            <h3>Company Reviews</h3>
+            <table id="company-reviews-table">
+                <thead>
+                    <tr>
+                        <th>Company Name</th>
+                        <th>Average Rating</th>
+                        <th>Number of Reviews</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Company review rows will be populated here -->
+                </tbody>
+            </table>
+        </section>
+
+        <!-- User Activity Insights -->
+        <section id="user-activity-insights">
+            <h2>User Activity Insights</h2>
+            <div class="chart-container">
+                <canvas id="user-activity-pie-chart"></canvas>
+            </div>
+            <h3>Referral Metrics</h3>
+            <table id="referral-metrics-table">
+                <thead>
+                    <tr>
+                        <th>Referral ID</th>
+                        <th>Status</th>
+                        <th>Referrer ID</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Referral metrics rows will be populated here -->
+                </tbody>
+            </table>
+        </section>
+
+        <!-- SEO Performance -->
+        <section id="seo-performance">
+            <h2>SEO Performance</h2>
+            <div class="chart-container">
+                <canvas id="profile-views-over-time-line-chart"></canvas>
+                <canvas id="social-shares-bar-chart"></canvas>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2024 Your Company Name. All Rights Reserved.</p>
+        </footer>
+    </div>
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-firestore.js"></script>
+
+    <!-- Custom JavaScript -->
+    <script src="public/js/main.js"></script>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDiwC3Dmd88-t3N9iRV5cZ3snVkEXinclg",
+            authDomain: "reelcareer-cb4b0.firebaseapp.com",
+            projectId: "reelcareer-cb4b0",
+            storageBucket: "reelcareer-cb4b0.appspot.com",
+            messagingSenderId: "365163764840",
+            appId: "1:365163764840:web:21c44f8625c9b6831e6fdd",
+            measurementId: "G-LBTK319K2X"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+
+        // Initialize Firestore
+        const db = getFirestore(app);
+
+        async function fetchTotalApplications() {
+            try {
+                const applicationsRef = collection(db, 'applications'); // Replace 'applications' with your actual collection name
+                const snapshot = await getDocs(applicationsRef);
+                const totalApplications = snapshot.size; // Get the number of documents in the collection
+                document.getElementById('total-applications').innerText = totalApplications;
+            } catch (error) {
+                console.error("Error fetching total applications:", error);
+            }
+        }
+
+        async function fetchTotalArticles() {
+            try {
+                const articlesRef = collection(db, 'articles'); // Replace 'articles' with your actual collection name
+                const snapshot = await getDocs(articlesRef);
+                const totalArticles = snapshot.size; // Get the number of documents in the collection
+                document.getElementById('total-articles').innerText = totalArticles;
+            } catch (error) {
+                console.error("Error fetching total articles:", error);
+            }
+        }
+
+        async function fetchTotalJobs() {
+            try {
+                const jobsRef = collection(db, 'jobs'); // Replace 'jobs' with your actual collection name
+                const snapshot = await getDocs(jobsRef);
+                const totalJobs = snapshot.size; // Get the number of documents in the collection
+                document.getElementById('total-jobs').innerText = totalJobs;
+            } catch (error) {
+                console.error("Error fetching total jobs:", error);
+            }
+        }
+
+        async function fetchTotalCompanies() {
+            try {
+                const companiesRef = collection(db, 'companies'); // Replace 'companies' with your actual collection name
+                const snapshot = await getDocs(companiesRef);
+                const totalCompanies = snapshot.size; // Get the number of documents in the collection
+                document.getElementById('total-companies').innerText = totalCompanies;
+            } catch (error) {
+                console.error("Error fetching total companies:", error);
+            }
+        }
+
+        window.onload = async () => {
+            await fetchTotalApplications();
+            await fetchTotalJobs();
+            await fetchTotalArticles();
+            await fetchTotalCompanies();
+        };
+    </script>
+</body>
+
+</html>

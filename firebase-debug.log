@@ -1,0 +1,21 @@
+[debug] [2024-10-01T19:49:57.634Z] ----------------------------------------------------------------------
+[debug] [2024-10-01T19:49:57.640Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\lilro\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init
+[debug] [2024-10-01T19:49:57.641Z] CLI Version:   13.20.1
+[debug] [2024-10-01T19:49:57.641Z] Platform:      win32
+[debug] [2024-10-01T19:49:57.641Z] Node Version:  v20.17.0
+[debug] [2024-10-01T19:49:57.641Z] Time:          Tue Oct 01 2024 14:49:57 GMT-0500 (Central Daylight Time)
+[debug] [2024-10-01T19:49:57.641Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2024-10-01T19:49:57.649Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2024-10-01T19:49:57.649Z] > authorizing via signed-in user (syntaxattire@gmail.com)
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  C:\Users\lilro\Desktop\ReelCareer\ReelCareerWebsite
+

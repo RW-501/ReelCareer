@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - ReelCareer</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Get in touch with ReelCareer. Contact us for any questions or support related to job applications and career opportunities.">
+    <meta name="keywords" content="Contact, ReelCareer, Support, Job Applications, Career Opportunities">
+    <meta name="author" content="ReelCareer">
+    
+    <!-- Open Graph Meta Tags for Social Sharing -->
+    <meta property="og:title" content="Contact Us - ReelCareer">
+    <meta property="og:description" content="Reach out to us with any inquiries or support needs.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.reelcareer.com/contact">
+    <meta property="og:image" content="URL_TO_YOUR_IMAGE"> <!-- Update with your image URL -->
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            padding: 20px;
+        }
+    </style>
+
+    <!-- Schema.org markup for Google+ -->
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "ContactPage",
+            "mainEntity": {
+                "@type": "Organization",
+                "name": "ReelCareer",
+                "url": "https://www.reelcareer.com/",
+                "logo": "URL_TO_YOUR_LOGO",  // Update with your logo URL
+                "contactPoint": {
+                    "@type": "ContactPoint",
+                    "telephone": "+1 (123) 456-7890",
+                    "contactType": "customer service",
+                    "areaServed": "US",
+                    "availableLanguage": "English"
+                }
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="../public/index.html">ReelCareer</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="../user.html">User Page</a></li>
+                <li class="nav-item"><a class="nav-link" href="../messaging.html">Messaging</a></li>
+                <li class="nav-item"><a class="nav-link" href="../video-resume.html">Video Resume</a></li>
+                <li class="nav-item"><a class="nav-link" href="../index.html">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="terms.html">Terms and Conditions</a></li>
+                <li class="nav-item"><a class="nav-link" href="privacy.html">Privacy Policy</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <h1 class="text-center">Contact Us</h1>
+        <p>If you have any questions or need further information, feel free to reach out to us!</p>
+
+        <div class="row">
+            <div class="col-md-6">
+                <h2>Contact Information</h2>
+                <p><strong>Email:</strong> <a href="mailto:support@reelcareer.com">support@reelcareer.com</a></p>
+                <p><strong>Phone:</strong> +1 (123) 456-7890</p>
+                <p><strong>Address:</strong> 123 Career Lane, Dallas, TX 75001</p>
+            </div>
+
+            <div class="col-md-6">
+                <h2>Send Us a Message</h2>
+                <form id="contact-form">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" class="form-control" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="subject">Subject</label>
+                        <input type="text" class="form-control" id="subject" name="subject" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea class="form-control" id="message" name="message" rows="4" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-light text-center text-lg-start">
+        <div class="text-center p-3">
+            © 2024 ReelCareer:
+            <a class="text-dark" href="https://www.reelcareer.com/">reelcareer.com</a>
+        </div>
+    </footer>
+
+    <!-- jQuery and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        document.getElementById('contact-form').addEventListener('submit', async function (event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const subject = document.getElementById('subject').value; // Get subject
+            const message = document.getElementById('message').value;
+
+            // Prepare the data to send to the server
+            const data = {
+                name: name,
+                email: email,
+                subject: subject, // Include subject
+                message: message
+            };
+
+            try {
+                // Send a POST request to your server-side script
+                const response = await fetch('your-server-side-script.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                if (response.ok) {
+                    alert('Message sent successfully!');
+                    // Optionally, clear the form after submission
+                    document.getElementById('contact-form').reset();
+                } else {
+                    alert('Error sending message. Please try again.');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error sending message. Please try again.');
+            }
+        });
+    </script>
+</body>
+
+</html>

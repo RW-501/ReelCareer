@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Stay updated with the latest news articles submitted by users, recruiters, and companies.">
+    <meta name="keywords" content="Career Tips, Industry News, Recruiter Insights">
+    <title>News Portal</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-LBTK319K2X"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-LBTK319K2X');
+    </script>
+
+    <!-- Dynamic Schema Markup -->
+    <script type="application/ld+json" id="dynamicSchema">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "News Page",
+        "description": "Latest news articles submitted by users, recruiters, and companies.",
+        "url": "http://www.example.com/news",
+        "mainEntity": {
+            "@type": "WebSite",
+            "name": "News Portal",
+            "url": "http://www.example.com"
+        }
+    }
+    </script>
+</head>
+<body>
+
+<header class="bg-dark text-white text-center p-4">
+    <h1>News Portal</h1>
+    <nav>
+        <ul class="nav justify-content-center">
+            <li class="nav-item"><a class="nav-link text-white" href="#submission">Submit Article</a></li>
+            <li class="nav-item"><a class="nav-link text-white" href="#news-feed">News Feed</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main class="container my-5">
+    <section id="submission" class="mb-5">
+        <h2>Submit Your Article</h2>
+        <form id="article-form" onsubmit="submitArticle(event)">
+            <div class="form-group">
+                <label for="title">Title:</label>
+                <input type="text" class="form-control" id="title" required>
+            </div>
+            <div class="form-group">
+                <label for="content">Content:</label>
+                <textarea class="form-control" id="content" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="tags">Tags (select relevant tags):</label>
+                <select class="form-control" id="tags" multiple required>
+                    <option value="Job Search Tips">Job Search Tips</option>
+                    <option value="Career Development">Career Development</option>
+                    <option value="Industry News">Industry News</option>
+                    <option value="Remote Work">Remote Work</option>
+                    <option value="Hiring Trends">Hiring Trends</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="category">Category:</label>
+                <select class="form-control" id="category" required>
+                    <option value="Career Tips">Career Tips</option>
+                    <option value="Industry News">Industry News</option>
+                    <option value="Recruiter Insights">Recruiter Insights</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="media">Upload Media (images/videos/documents):</label>
+                <input type="file" class="form-control" id="media" multiple accept="image/*,video/*,application/pdf">
+                <small>Recommended image size: 1200x800 pixels.</small>
+            </div>
+            <button type="submit" class="btn btn-success">Submit Article</button>
+            <button type="button" class="btn btn-secondary" onclick="previewArticle()">Preview</button>
+        </form>
+        <div id="preview" class="mt-4"></div>
+    </section>
+
+    <section id="news-feed">
+        <h2>Latest News</h2>
+        <div id="articles" class="row"></div>
+    </section>
+</main>
+
+<footer class="text-center p-4 bg-dark text-white">
+    <p>&copy; 2024 News Portal</p>
+</footer>
+
+<!-- CKEditor for rich text editing -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ckeditor/4.16.0/ckeditor.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.0.0/firebase-app.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.0.0/firebase-storage.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.0.0/firebase-database.js"></script>
+<script>
+    // Initialize CKEditor for rich text editing
+    CKEDITOR.replace('content');
+
+    // Initialize Firebase
+    const firebaseConfig = {
+        apiKey: "YOUR_API_KEY",
+        authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+        databaseURL: "https://YOUR_PROJECT_ID.firebaseio.com",
+        projectId: "YOUR_PROJECT_ID",
+        storageBucket: "YOUR_PROJECT_ID.appspot.com",
+        messagingSenderId: "YOUR_SENDER_ID",
+        appId: "YOUR_APP_ID"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const storage = firebase.storage();
+    const database = firebase.database();
+
+    // Auto-save drafts feature
+    const autoSaveInterval = setInterval(() => {
+        const title = document.getElementById('title').value;
+        const content = CKEDITOR.instances['content'].getData();
+        const tags = Array.from(document.getElementById('tags').selectedOptions).map(option => option.value);
+        const category = document.getElementById('category').value;
+
+        if (title || content) {
+            const draftData = { title, content, tags, category };
+            localStorage.setItem('draftArticle', JSON.stringify(draftData));
+        }
+    }, 30000); // Auto-save every 30 seconds
+
+    // Load draft if exists
+    window.onload = function() {
+        const savedDraft = JSON.parse(localStorage.getItem('draftArticle'));
+        if (savedDraft) {
+            document.getElementById('title').value = savedDraft.title;
+            CKEDITOR.instances['content'].setData(savedDraft.content);
+            savedDraft.tags.forEach(tag => {
+                const option = Array.from(document.getElementById('tags').options).find(opt => opt.value === tag);
+                if (option) option.selected = true;
+            });
+            document.getElementById('category').value = savedDraft.category;
+        }
+        displayArticles();
+    };
+
+    // Function to submit article
+    function submitArticle(event) {
+        event.preventDefault();
+        const title = document.getElementById('title').value;
+        const content = CKEDITOR.instances['content'].getData();
+        const tags = Array.from(document.getElementById('tags').selectedOptions).map(option => option.value);
+        const category = document.getElementById('category').value;
+        const mediaFiles = document.getElementById('media').files;
+
+        // Check for bad words or injections (simple example)
+        const forbiddenWords = ["badword1", "badword2"];
+        if (forbiddenWords.some(word => content.includes(word))) {
+            alert("Your content contains inappropriate language.");
+            return;
+        }
+
+        // Upload media files
+        const mediaURLs = [];
+        const uploadPromises = Array.from(mediaFiles).map(file => {
+            const storageRef = storage.ref(`media/${file.name}`);
+            return storageRef.put(file).then(snapshot => snapshot.ref.getDownloadURL());
+        });
+
+        Promise.all(uploadPromises).then(urls => {
+            mediaURLs.push(...urls);
+            const newArticle = {
+                title,
+                content,
+                tags,
+                category,
+                mediaFiles: mediaURLs,
+                authorID: 'user123', // Replace with actual user ID
+                authorType: 'user', // Replace based on submission
+                status: 'pending'
+            };
+
+            // Add article to the Firebase database
+            database.ref('articles').push(newArticle).then(() => {
+                displayArticles();
+                document.getElementById('article-form').reset();
+                CKEDITOR.instances['content'].setData('');
+                localStorage.removeItem('draftArticle'); // Clear draft
+            }).catch(error => {
+                console.error("Error adding article:", error);
+            });
+        });
+    }
+
+    // Function to display articles
+    function displayArticles() {
+        const articlesContainer = document.getElementById('articles');
+        articlesContainer.innerHTML = '';
+
+        database.ref('articles').once('value', (snapshot) => {
+            snapshot.forEach((childSnapshot) => {
+                const article = childSnapshot.val();
+                const articleId = childSnapshot.key;
+                const articleElement = document.createElement('div');
+                articleElement.className = 'col-md-4 mb-4';
+                articleElement.innerHTML = `
+                    <div class="card">
+                        <img src="${article.mediaFiles[0]}" class="card-img-top" alt="${article.title}">
+                        <div class="card-body">
+                            <h5 class="card-title">${article.title}</h5>
+                            <p class="card-text">${article.content.substring(0, 100)}...</p>
+                            <p>Tags: ${article.tags.join(', ')}</p>
+                            <p>Category: ${article.category}</p>
+                            <a href="article.html?id=${articleId}" class="btn btn-primary">Read More</a>
+                        </div>
+                    </div>
+                `;
+                articlesContainer.appendChild(articleElement);
+            });
+        });
+    }
+
+    // Function to preview article
+    function previewArticle() {
+        const title = document.getElementById('title').value;
+        const content = CKEDITOR.instances['content'].getData();
+        const tags = Array.from(document.getElementById('tags').selectedOptions).map(option => option.value);
+        const category = document.getElementById('category').value;
+
+        document.getElementById('preview').innerHTML = `
+            <h3>${title}</h3>
+            <div>${content}</div>
+            <p>Tags: ${tags.join(', ')}</p>
+            <p>Category: ${category}</p>
+        `;
+    }
+
+    // Implement spam detection
+    const spamDetection = (submission) => {
+        const spamKeywords = ["spam", "fake"];
+        return !spamKeywords.some(keyword => submission.includes(keyword));
+    };
+
+</script>
+</body>
+</html>

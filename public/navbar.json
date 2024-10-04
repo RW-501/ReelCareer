@@ -1,0 +1,10 @@
+{
+    "navbar": [
+        { "name": "Home", "link": "/" },
+        { "name": "Job Listings", "link": "/jobs" },
+        { "name": "Company Pages", "link": "/companies" },
+        { "name": "Dashboard", "link": "/dashboard", "role": "jobSeeker" },
+        { "name": "Post a Job", "link": "/post-job", "role": "recruiter" },
+        { "name": "Sign In", "link": "/login", "isAuthRequired": false }
+    ]
+}

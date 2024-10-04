@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Messaging</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-storage.js"></script>
+    <style>
+        /* Custom styles */
+        .message-box {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .message {
+            padding: 10px;
+            border-radius: 5px;
+            margin: 5px 0;
+        }
+        .sent {
+            background-color: #e1f5fe;
+            text-align: right;
+        }
+        .received {
+            background-color: #fff9c4;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container mt-5">
+        <h2>Messaging</h2>
+        <div class="row">
+            <div class="col-md-4">
+                <h4>Conversations</h4>
+                <ul class="list-group" id="conversationList">
+                    <!-- Conversation list will be populated here -->
+                </ul>
+                <button class="btn btn-primary mt-2" id="composeButton">Compose Message</button>
+            </div>
+            <div class="col-md-8">
+                <h4 id="conversationTitle">Select a Conversation</h4>
+                <div class="message-box" id="messageBox">
+                    <!-- Messages will be displayed here -->
+                </div>
+                <div class="input-group mt-3">
+                    <input type="text" class="form-control" id="messageInput" placeholder="Type a message...">
+                    <div class="input-group-append">
+                        <button class="btn btn-success" id="sendMessageButton">Send</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Compose Message Modal -->
+    <div class="modal fade" id="composeModal" tabindex="-1" role="dialog" aria-labelledby="composeModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="composeModalLabel">Compose Message</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="recipientSelect">Select Recipient</label>
+                        <select class="form-control" id="recipientSelect">
+                            <!-- Recipients will be populated here -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="composeMessageInput">Message</label>
+                        <textarea class="form-control" id="composeMessageInput" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="fileInput">Attachment</label>
+                        <input type="file" class="form-control-file" id="fileInput">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="sendComposeButton">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyDiwC3Dmd88-t3N9iRV5cZ3snVkEXinclg",
+            authDomain: "reelcareer-cb4b0.firebaseapp.com",
+            projectId: "reelcareer-cb4b0",
+            storageBucket: "reelcareer-cb4b0.appspot.com",
+            messagingSenderId: "365163764840",
+            appId: "1:365163764840:web:21c44f8625c9b6831e6fdd",
+            measurementId: "G-LBTK319K2X"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        const auth = firebase.auth();
+
+        // Check if the user is authenticated
+        auth.onAuthStateChanged(user => {
+            if (user) {
+                loadConversations(user.uid);
+            } else {
+                window.location.href = 'login.html'; // Redirect to login if not authenticated
+            }
+        });
+
+        function loadConversations(userID) {
+            // Fetch conversations for the user
+            db.collection('Messages')
+                .where('recipientID', '==', userID)
+                .onSnapshot(snapshot => {
+                    const conversationList = document.getElementById('conversationList');
+                    conversationList.innerHTML = '';
+                    snapshot.forEach(doc => {
+                        const data = doc.data();
+                        const listItem = document.createElement('li');
+                        listItem.className = 'list-group-item';
+                        listItem.textContent = `Conversation with ${data.senderID}`;
+                        listItem.onclick = () => loadMessages(data.conversationID);
+                        conversationList.appendChild(listItem);
+                    });
+                });
+        }
+
+        function loadMessages(conversationID) {
+            const messageBox = document.getElementById('messageBox');
+            const conversationTitle = document.getElementById('conversationTitle');
+            conversationTitle.textContent = `Conversation: ${conversationID}`;
+            messageBox.innerHTML = '';
+
+            // Fetch messages for the conversation
+            db.collection('Messages')
+                .where('conversationID', '==', conversationID)
+                .orderBy('timestamp')
+                .onSnapshot(snapshot => {
+                    snapshot.forEach(doc => {
+                        const data = doc.data();
+                        const messageDiv = document.createElement('div');
+                        messageDiv.className = `message ${data.senderID === auth.currentUser.uid ? 'sent' : 'received'}`;
+                        messageDiv.textContent = data.content;
+                        messageBox.appendChild(messageDiv);
+                    });
+                    messageBox.scrollTop = messageBox.scrollHeight; // Scroll to the bottom
+                });
+        }
+
+        document.getElementById('sendMessageButton').onclick = () => {
+            const messageInput = document.getElementById('messageInput');
+            const conversationID = document.getElementById('conversationTitle').textContent.split(': ')[1];
+            const message = messageInput.value;
+
+            if (message && conversationID) {
+                db.collection('Messages').add({
+                    senderID: auth.currentUser.uid,
+                    recipientID: conversationID, // Adjust based on your logic
+                    conversationID: conversationID,
+                    content: message,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                    read: false,
+                    type: 'text',
+                    isDeleted: false
+                });
+                messageInput.value = ''; // Clear input
+            }
+        };
+
+        document.getElementById('composeButton').onclick = () => {
+            $('#composeModal').modal('show');
+        };
+
+        document.getElementById('sendComposeButton').onclick = () => {
+            const recipientID = document.getElementById('recipientSelect').value;
+            const message = document.getElementById('composeMessageInput').value;
+
+            if (recipientID && message) {
+                db.collection('Messages').add({
+                    senderID: auth.currentUser.uid,
+                    recipientID: recipientID,
+                    content: message,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                    read: false,
+                    type: 'text',
+                    isDeleted: false
+                });
+                $('#composeModal').modal('hide'); // Hide modal
+                document.getElementById('composeMessageInput').value = ''; // Clear input
+                loadConversations(auth.currentUser.uid); // Refresh conversation list
+            }
+        };
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

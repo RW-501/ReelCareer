@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authentication</title>
+</head>
+<body>
+    <!-- Loading Indicator -->
+    <div id="loading-indicator" style="display: none;">Loading...</div>
+
+    <!-- Sign Up Form -->
+    <form id="signup-form">
+        <input type="email" id="signup-email" placeholder="Email" required>
+        <input type="password" id="signup-password" placeholder="Password" required>
+        <button type="submit">Sign Up</button>
+    </form>
+
+    <!-- Log In Form -->
+    <form id="login-form">
+        <input type="email" id="login-email" placeholder="Email" required>
+        <input type="password" id="login-password" placeholder="Password" required>
+        <button type="submit">Log In</button>
+    </form>
+
+    <!-- Log In with Google, Facebook, Apple -->
+    <button id="google-login">Log In with Google</button>
+    <button id="facebook-login">Log In with Facebook</button>
+    <button id="apple-login">Log In with Apple</button>
+
+    <!-- Log Out Button (accessible everywhere) -->
+    <button id="logout-button" style="display: none;">Log Out</button>
+
+    <script src="main.js"></script>
+</body>
+</html>
