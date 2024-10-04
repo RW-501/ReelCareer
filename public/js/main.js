@@ -48,10 +48,10 @@ const db = getFirestore(app);
 const storage = getStorage(app); // Correctly initialize storage
 const analytics = initializeAnalytics(app);
 
-import { collection, getDocs } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
-const newCollection = collection;
+//import { collection, getDocs } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+//const newCollection = collection;
 // Export the objects
-export { db, storage, analytics, newCollection }; // Export db, storage, and analytics
+export { db, storage, analytics, app }; // Export db, storage, and analytics
 
 /*
 firebase.initializeApp(firebaseConfig);
