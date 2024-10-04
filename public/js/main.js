@@ -47,7 +47,7 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 
 // Initialize Analytics
-const analytics = getAnalytics(app);
+const analytics = getAnalytics(app); // Make sure this is after initializing Firebase
 const storage = app.storage();
 
 // Firebase Auth Providers
