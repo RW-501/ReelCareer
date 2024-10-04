@@ -1,3 +1,8 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
+import { getAuth } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
+import { getFirestore } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+
+
 // Your web app's Firebase configuration
 const firebaseConfig = {
     apiKey: "AIzaSyDiwC3Dmd88-t3N9iRV5cZ3snVkEXinclg",

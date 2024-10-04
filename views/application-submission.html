@@ -44,19 +44,19 @@
                     <a class="nav-link" href="../index.html">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="views/job-listings.html">Job Listings</a>
+                    <a class="nav-link" href="job-listings.html">Job Listings</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="views/company-pages.html">Company Pages</a>
+                    <a class="nav-link" href="company-pages.html">Company Pages</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="views/job-seeker.html">Job Seeker</a>
+                    <a class="nav-link" href="job-seeker.html">Job Seeker</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="views/recruiter-dashboard.html">Recruiter Dashboard</a>
+                    <a class="nav-link" href="recruiter-dashboard.html">Recruiter Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="views/news.html">News</a>
+                    <a class="nav-link" href="news.html">News</a>
                 </li>
             </ul>
         </div>
@@ -375,7 +375,7 @@ document.getElementById('messageRecruiter').addEventListener('click', async () =
         await db.collection('Messages').add(message);
 
         // Redirect to messaging page
-        window.location.href = `views/messaging.html?userId=${userId}`;
+        window.location.href = `messaging.html?userId=${userId}`;
     } catch (error) {
         console.error("Error sending message: ", error);
         alert('Failed to send the message. Please try again.');

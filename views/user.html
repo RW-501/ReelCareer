@@ -273,12 +273,12 @@ function editLocation() {
 
 function viewMessages() {
             // Redirect user to a view-only profile page
-            window.location.href = "views/messaging.html?userId=" + firebase.auth().currentUser.uid;
+            window.location.href = "messaging.html?userId=" + firebase.auth().currentUser.uid;
         }
         // Preview Profile Logic
         function previewProfile() {
             // Redirect user to a view-only profile page
-            window.location.href = "views/job-seeker?userId=" + firebase.auth().currentUser.uid;
+            window.location.href = "job-seeker?userId=" + firebase.auth().currentUser.uid;
         }
     </script>
 
