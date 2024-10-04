@@ -74,7 +74,7 @@
             </div>
         </div>
   <!-- Modal -->
-  <div class="modal fade" id="jobModal" tabindex="-1" role="dialog" aria-labelledby="jobModalLabel" aria-hidden="true">
+<div class="modal fade" id="jobModal" tabindex="-1" role="dialog" aria-labelledby="jobModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -98,12 +98,30 @@
                         <textarea class="form-control" id="jobRequirements" rows="3" required></textarea>
                     </div>
                     <div class="form-group">
+                        <label for="jobLocation">Job Location</label>
+                        <input type="text" class="form-control" id="jobLocation" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="jobType">Job Type</label>
+                        <select class="form-control" id="jobType" required>
+                            <option value="full-time">Full-Time</option>
+                            <option value="part-time">Part-Time</option>
+                            <option value="contract">Contract</option>
+                            <option value="internship">Internship</option>
+                            <option value="remote">Remote</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="jobSalary">Salary ($)</label>
+                        <input type="number" class="form-control" id="jobSalary" min="0" required>
+                    </div>
+                    <div class="form-group">
                         <label for="jobTags">Job Tags (comma separated)</label>
                         <input type="text" class="form-control" id="jobTags" required>
                     </div>
                     <div class="form-group">
-                        <label for="jobSalary">Salary</label>
-                        <input type="number" class="form-control" id="jobSalary" required>
+                        <label for="boost">Boost Job Posting</label>
+                        <input type="checkbox" id="boost">
                     </div>
                     <button type="submit" class="btn btn-primary">Create Job</button>
                 </form>
@@ -213,20 +231,31 @@
 
 
       // Add event listener for form submission
-document.getElementById("jobForm").onsubmit = async function(event) {
+      document.getElementById("jobForm").onsubmit = async function(event) {
     event.preventDefault(); // Prevent default form submission
 
     const jobDetails = {
         title: document.getElementById("jobTitle").value,
         description: document.getElementById("jobDescription").value,
         requirements: document.getElementById("jobRequirements").value,
+        location: document.getElementById("jobLocation").value,
+        type: document.getElementById("jobType").value,
+        salary: parseFloat(document.getElementById("jobSalary").value),
         tags: document.getElementById("jobTags").value.split(",").map(tag => tag.trim()), // Trim whitespace from tags
-        salary: document.getElementById("jobSalary").value,
+        boosted: document.getElementById("boost").checked, // Check if boosted
         status: "active",
-        createdAt: new Date()
+        createdAt: new Date(),
+        applicantsViewed: 0,
+        savedForLater: 0,
+        boostExpiration: null, // Set based on your logic
+        boostExpiresAt: null, // Set based on your logic
+        boostedBy: "", // Set based on your logic
+        company: "Tech Company", // Set based on authenticated user info
+        companyId: "", // Set based on authenticated user info
+        recruiterID: "", // Set based on authenticated user info
     };
 
-    if (jobDetails.title && jobDetails.description) {
+    if (jobDetails.title && jobDetails.description && jobDetails.location && jobDetails.type) {
         const jobPostingsRef = collection(db, "Jobs");
         try {
             const docRef = await addDoc(jobPostingsRef, jobDetails);
@@ -238,9 +267,10 @@ document.getElementById("jobForm").onsubmit = async function(event) {
             alert("Error creating job posting: " + error.message);
         }
     } else {
-        alert("Job title and description are required.");
+        alert("Job title, description, location, and type are required.");
     }
 };
+
 
 // Functionality for bulk job posting
 document.getElementById("bulkJobPosting").onclick = function() {
