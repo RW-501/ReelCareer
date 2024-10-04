@@ -207,7 +207,7 @@
     async function displayArticles() {
         const articlesContainer = document.getElementById('articles');
         articlesContainer.innerHTML = '';
-
+console.log("??????????????");
         try {
             const snapshot = await getDocs(collection(db, 'Articles'));
             snapshot.forEach((doc) => {
@@ -234,10 +234,9 @@
         }
     }
 
-    // Call displayArticles to fetch and display the articles on page load
-    window.onload = displayArticles;
+
     
-    // Function to preview article
+    // Function to previewArticle
     function previewArticle() {
         const title = document.getElementById('title').value;
         const content = CKEDITOR.instances['content'].getData();
@@ -258,6 +257,8 @@
         return !spamKeywords.some(keyword => submission.includes(keyword));
     };
 
+    // Call displayArticles to fetch and display the articles on page load
+    window.onload = displayArticles;
 </script>
 </body>
 </html>
