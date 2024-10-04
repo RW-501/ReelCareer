@@ -137,8 +137,9 @@
 
         // Function to fetch job listings from Firestore
         async function fetchJobListings() {
-            
+
     const jobListingsRef = collection(db, 'Jobs'); // Reference to the Jobs collection
+    console.log("data... ",jobListingsRef);
 
     try {
         const snapshot = await getDocs(jobListingsRef); // Fetch all job listings
@@ -146,6 +147,8 @@
 
         snapshot.forEach(doc => {
             const data = doc.data(); // Get data from each document
+            console.log("data... ",data);
+
             jobListings.push({
                 id: doc.id, // Include document ID
                 title: data.title,
@@ -165,7 +168,10 @@
         console.error("Error fetching job listings: ", error); // Log any errors
         return []; // Return an empty array in case of an error
     }
-}    // Updated function to display job listings with sponsors
+} 
+
+
+// Updated function to display job listings with sponsors
         function displayJobListings(jobListings) {
             const jobContainer = document.getElementById('jobListings');
             jobContainer.innerHTML = ''; // Clear existing listings
