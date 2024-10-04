@@ -117,26 +117,18 @@
 
 <!-- CKEditor for rich text editing -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ckeditor/4.16.0/ckeditor.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.0.0/firebase-app.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.0.0/firebase-storage.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.0.0/firebase-database.js"></script>
+
+    
+   <!-- Firebase configuration/ Login& Out -->
+   <script src="../public/js/main.js"></script> 
+   
+
+
 <script>
     // Initialize CKEditor for rich text editing
     CKEDITOR.replace('content');
 
-    // Initialize Firebase
-    const firebaseConfig = {
-        apiKey: "YOUR_API_KEY",
-        authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-        databaseURL: "https://YOUR_PROJECT_ID.firebaseio.com",
-        projectId: "YOUR_PROJECT_ID",
-        storageBucket: "YOUR_PROJECT_ID.appspot.com",
-        messagingSenderId: "YOUR_SENDER_ID",
-        appId: "YOUR_APP_ID"
-    };
-    firebase.initializeApp(firebaseConfig);
-    const storage = firebase.storage();
-    const database = firebase.database();
+
 
     // Auto-save drafts feature
     const autoSaveInterval = setInterval(() => {
@@ -203,7 +195,7 @@
             };
 
             // Add article to the Firebase database
-            database.ref('articles').push(newArticle).then(() => {
+            db.ref('articles').push(newArticle).then(() => {
                 displayArticles();
                 document.getElementById('article-form').reset();
                 CKEDITOR.instances['content'].setData('');
@@ -219,7 +211,7 @@
         const articlesContainer = document.getElementById('articles');
         articlesContainer.innerHTML = '';
 
-        database.ref('articles').once('value', (snapshot) => {
+        db.ref('articles').once('value', (snapshot) => {
             snapshot.forEach((childSnapshot) => {
                 const article = childSnapshot.val();
                 const articleId = childSnapshot.key;

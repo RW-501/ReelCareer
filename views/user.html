@@ -134,28 +134,12 @@
         </div>
     </div>
 
-    <!-- Firebase and App Logic -->
-    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-firestore.js"></script>
-
+    
+   <!-- Firebase configuration/ Login& Out -->
+   <script src="../public/js/main.js"></script> 
+   
     <script>
-        // Firebase Config
-        const firebaseConfig = {
-            apiKey: "AIzaSyDiwC3Dmd88-t3N9iRV5cZ3snVkEXinclg",
-            authDomain: "reelcareer-cb4b0.firebaseapp.com",
-            projectId: "reelcareer-cb4b0",
-            storageBucket: "reelcareer-cb4b0.appspot.com",
-            messagingSenderId: "365163764840",
-            appId: "1:365163764840:web:21c44f8625c9b6831e6fdd",
-            measurementId: "G-LBTK319K2X"
-        };
-        firebase.initializeApp(firebaseConfig);
-
-        // Placeholder functions for now, to be implemented later
-// Firestore Database Reference
-const db = firebase.firestore();
-const auth = firebase.auth();
+    
 
 // Function to edit user bio
 function editBio() {

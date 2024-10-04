@@ -1,6 +1,19 @@
+
+/*
+    
+<!-- Firebase configuration/ Login& Out -->
+<script src="../public/js/main.js"></script> 
+
+*/
+
+// Bootstrap CSS 
+import 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css';
+
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
 import { getFirestore } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+import { getAnalytics  } from "https://www.gstatic.com/firebasejs/9.1.0/firebase-analytics.js";
 
 
 // Your web app's Firebase configuration
@@ -18,6 +31,10 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
+
+// Initialize Analytics
+const analytics = getAnalytics(app);
+const storage = app.storage();
 
 // Firebase Auth Providers
 const googleProvider = new GoogleAuthProvider();
