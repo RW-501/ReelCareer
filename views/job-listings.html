@@ -139,16 +139,28 @@
         async function fetchJobListings() {
 
     const jobListingsRef = collection(db, 'Jobs'); // Reference to the Jobs collection
-    console.log("data... ",jobListingsRef);
 
     try {
         const snapshot = await getDocs(jobListingsRef); // Fetch all job listings
         const jobListings = []; // Array to hold job listing data
+        const sponsoredJobs = [];
 
         snapshot.forEach(doc => {
             const data = doc.data(); // Get data from each document
-            console.log("data... ",data);
-
+if(data.boosted == true){
+    sponsoredJobs.push({
+                id: doc.id, // Include document ID
+                title: data.title,
+                description: data.description,
+                datePosted: data.datePosted,
+                organization: data.organization,
+                location: data.location,
+                employmentType: data.employmentType,
+                baseSalary: data.baseSalary,
+                validThrough: data.validThrough,
+                url: data.url
+            });
+}else{
             jobListings.push({
                 id: doc.id, // Include document ID
                 title: data.title,
@@ -161,9 +173,13 @@
                 validThrough: data.validThrough,
                 url: data.url
             });
+        }
+            
         });
 
         return jobListings; // Return the array of job listings
+    
+
     } catch (error) {
         console.error("Error fetching job listings: ", error); // Log any errors
         return []; // Return an empty array in case of an error
