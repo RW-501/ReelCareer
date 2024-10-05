@@ -221,7 +221,7 @@
                                 <h5 class="card-title">${sponsoredJob.title}</h5>
                                 <h6 class="card-subtitle mb-2 text-muted">${sponsoredJob.organization}</h6>
                                 <p class="card-text">${sponsoredJob.description}</p>
-                                <a href="views/job-detail.html?id=${sponsoredJob.id} class="btn btn-success">Apply Now</a>
+                                <a href="../views/job-detail.html?id=${sponsoredJob.id} class="btn btn-success">Apply Now</a>
                             </div>
                         </div>
                     </div>
@@ -263,6 +263,19 @@
             scriptTag.innerHTML = JSON.stringify(schemaData);
             document.head.appendChild(scriptTag); // Append schema markup to head
         }
+
+// Function to redirect user to the job details page with job ID in the URL
+function showJobDetails(jobId) {
+    // Construct the URL with the job ID as a query parameter
+    const jobDetailsUrl = `../views/job-detail.html?id=${jobId}`;
+    
+    // Redirect to the job details page
+    window.location.href = jobDetailsUrl;
+}
+
+
+
+
 
         window.onload = async function() {
             const jobListings = await fetchJobListings(); // Fetch the job listings
