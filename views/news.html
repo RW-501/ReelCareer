@@ -60,8 +60,9 @@
 <main class="container my-5">
     <section id="submission" class="mb-5">
         <h2>Submit Your Article</h2>
-        <form id="article-form" onsubmit="submitArticle(event)">
-            <div class="form-group">
+        <div id="article-form" onsubmit="submitArticle()">
+          <!--  <form id="article-form" onsubmit="submitArticle(event)"> -->
+                <div class="form-group">
                 <label for="title">Title:</label>
                 <input type="text" class="form-control" id="title" required>
             </div>
@@ -93,8 +94,8 @@
                 <small>Recommended image size: 1200x800 pixels.</small>
             </div>
             <button type="submit" class="btn btn-success">Submit Article</button>
-            <button type="button" class="btn btn-secondary" onclick="previewArticle()">Preview</button>
-        </form>
+            <button type="button" class="btn btn-secondary" onclick="previewArticleFunc()">Preview</button>
+        </div>
         <div id="preview" class="mt-4"></div>
     </section>
 
@@ -127,7 +128,7 @@
     CKEDITOR.replace('content');
 
  // Function to previewArticle
- function previewArticle() {
+ function previewArticleFunc() {
         console.log("previewArticle   ");
 
         const title = document.getElementById('title').value;
@@ -172,7 +173,7 @@
     };
 
     // Function to submit article
-    function submitArticle(event) {
+    function submitArticle() {
      //   event.preventDefault();
         const title = document.getElementById('title').value;
         const content = CKEDITOR.instances['content'].getData();
