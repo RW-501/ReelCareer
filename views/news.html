@@ -258,7 +258,7 @@
     articlesContainer.innerHTML = '';
 
     try {
-        const snapshot = await getDocs(collection(db, 'Articles'));
+        const snapshot = await getDoc(collection(db, 'Articles'));
         console.log("Fetched snapshot: ", snapshot);
 
         snapshot.forEach((doc) => {
