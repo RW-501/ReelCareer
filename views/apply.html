@@ -150,15 +150,18 @@ function getUserIdFromURL() {
    
    <script type="module">
    import { db, storage, analytics, app  } from '../public/js/main.js'; // Adjust the path based on your structure
-    import { doc, collection, query, where, getDocs , addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+    import { doc, query, where , addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 
- 
+    import { getDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+    import { collection } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+    const jobCollectionRef = collection(db, 'Jobs'); // Correct usage of collection
+
 
 
     const jobDocRef = doc(db, 'Jobs', jobId); // Reference to the job document
 
         // Fetch Job and Company Information
-        async function fetchJobAndCompanyInfo() {
+        async function fetchJobAndCompanyInfo(getDoc) {
     // Fetch the job document
 
         const jobDoc = await getDoc(jobDocRef); // Get the job document
