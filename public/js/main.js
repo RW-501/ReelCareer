@@ -20,6 +20,7 @@ import { getAuth, GoogleAuthProvider, FacebookAuthProvider, OAuthProvider, onAut
 import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 import { initializeAnalytics } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-analytics.js"; // Use the same version
 import { getStorage } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-storage.js"; 
+import firebase from "firebase/compat/app";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -43,6 +44,8 @@ const analytics = initializeAnalytics(app);
 //const newCollection = collection;
 // Export the objects
 export { db, storage, analytics, app,collection, getDocs }; // Export db, storage, and analytics
+
+firebase.initializeApp(firebaseConfig);
 
 /*
 firebase.initializeApp(firebaseConfig);
@@ -420,7 +423,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         // Firebase Authentication logic
-        app.auth().onAuthStateChanged(handleAuthStateChanged);
+        firebase.auth().onAuthStateChanged(handleAuthStateChanged);
     }
 
     // Function to toggle dark mode
