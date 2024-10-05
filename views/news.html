@@ -131,7 +131,9 @@ async function displayArticles() {
         
         const articlesSnapshot = await getDocs(articlesCollectionRef);
         console.log("Articles Snapshot:", articlesSnapshot); // Check the snapshot object
-        
+        console.log("Articles Snapshot Size:", articlesSnapshot.size); // Check if any documents exist
+console.log("Articles Snapshot Empty:", articlesSnapshot.empty); // Check if the snapshot is empty
+
         const articles = articlesSnapshot.docs.map(doc => {
             console.log("Document Data:", doc.data()); // Log each document's data
             return doc.data();
