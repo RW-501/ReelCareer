@@ -382,7 +382,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             <li class="nav-item">
                                 <div id="authSection" class="d-flex align-items-center"></div>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item" tyle="display: none;">
                                 <button id="darkModeToggle" class="btn btn-outline-secondary ml-3">Dark Mode</button>
                             </li>
                         </ul>
