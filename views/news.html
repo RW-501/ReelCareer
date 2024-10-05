@@ -195,7 +195,7 @@
 
 <script>
   // Function to submit an article
-async function submitArticle(addDoc ) {
+async function submitArticle(addDo,collection ) {
     console.log("submitArticle function called");
 
     const title = document.getElementById('title').value;
@@ -254,7 +254,7 @@ async function submitArticle(addDoc ) {
 }
     // Function to display articles
  // Function to display articles
-async function displayArticles(getDocs ) {
+async function displayArticles(getDocs,collection ) {
     console.log("displayArticles function called"); // Debugging log
     
     const articlesContainer = document.getElementById('articles');
