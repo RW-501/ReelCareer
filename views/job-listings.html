@@ -209,7 +209,7 @@
                                 <h5 class="card-title">${job.title} </h5>
                                 <h6 class="card-subtitle mb-2 text-muted">${job.organization}</h6>
                                 <p class="card-text">${job.description}</p>
-                                <button class="btn btn-info" onclick="showJobDetails('${job.id}')">View Details</button>
+                                <button class="btn btn-info" onclick="showJobDetailsFunc('${job.id}')">View Details</button>
                             </div>
                         </div>
                     </div>
@@ -283,7 +283,7 @@
 };
 
 // Function to redirect user to the job details page with job ID in the URL
-function showJobDetails(jobId) {
+function showJobDetailsFunc(jobId) {
     // Construct the URL with the job ID as a query parameter
     const jobDetailsUrl = `../views/job-detail.html?id=${jobId}`;
     
