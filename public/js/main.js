@@ -45,7 +45,6 @@ const analytics = initializeAnalytics(app);
 // Export the objects
 export { db, storage, analytics, app,collection, getDocs }; // Export db, storage, and analytics
 
-firebase.initializeApp(firebaseConfig);
 
 /*
 firebase.initializeApp(firebaseConfig);
@@ -421,6 +420,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (localStorage.getItem('darkMode') === 'true') {
             document.body.classList.add('dark-mode');
         }
+        firebase.initializeApp(firebaseConfig);
 
         // Firebase Authentication logic
         firebase.auth().onAuthStateChanged(handleAuthStateChanged);
