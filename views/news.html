@@ -253,7 +253,8 @@ async function submitArticle() {
     }
 }
     // Function to display articles
-    async function displayArticles(db,getDoc,collection ) {
+ // Function to display articles
+async function displayArticles() {
     console.log("displayArticles function called"); // Debugging log
     
     const articlesContainer = document.getElementById('articles');
@@ -262,13 +263,13 @@ async function submitArticle() {
         return;
     }
 
-    articlesContainer.innerHTML = '';
+    articlesContainer.innerHTML = ''; // Clear previous content
 
     try {
-        const snapshot = await getDoc(collection(db, 'Articles'));
-        console.log("Fetched snapshot: ", snapshot);
+        const articlesSnapshot = await getDocs(collection(db, 'Articles')); // Fetch articles collection
+        console.log("Fetched snapshot: ", articlesSnapshot);
 
-        snapshot.forEach((doc) => {
+        articlesSnapshot.forEach((doc) => {
             const article = doc.data();
             console.log("Fetched article: ", article);
 
@@ -290,13 +291,13 @@ async function submitArticle() {
             `;
             articlesContainer.appendChild(articleElement);
         });
+
     } catch (error) {
         console.error("Error fetching articles:", error);
     }
-      console.log("F ????? ");
+
+    console.log("Articles display finished.");
 }
-
-
 
 </script>
 
