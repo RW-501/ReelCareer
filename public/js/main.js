@@ -352,6 +352,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Adjust hrefs based on the root page
     const adjustLinkURL = (isHomePage) ? '/ReelCareer/views/' || '/ReelCareer/public/' : '';
+    const adjustLinkHomeURL = (isHomePage) ? '/ReelCareer/' : '';
 
     // Function to create the navbar
     function createNavbar() {
@@ -361,10 +362,11 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log("nav isHomePage   ",isHomePage);
         console.log("nav adjustLinkURL   ",adjustLinkURL);
         console.log("nav navbarClass   ",navbarClass);
+        console.log("nav adjustLinkHomeURL   ",adjustLinkHomeURL);
         return `
             <nav class="navbar navbar-expand-lg ${navbarClass}  shadow-sm sticky-top" role="navigation">
                 <div class="container">
-                    <a class="navbar-brand" href="${adjustLinkURL}index.html">ReelCareer</a>
+                    <a class="navbar-brand" href="${adjustLinkHomeURL}index.html">ReelCareer</a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
                         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
