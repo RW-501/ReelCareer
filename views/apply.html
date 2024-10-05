@@ -301,7 +301,7 @@ getDraftApplications(userId).then(draftApps => {
 <script>
     
         // Function to handle application submission
-        document.getElementById('submitApplication').addEventListener('click', async () => {
+        document.getElementById('submitApplication').addEventListener('click', async (addDoc ) => {
 
             const applicantData = {
                 firstName: document.getElementById('firstName').value,
