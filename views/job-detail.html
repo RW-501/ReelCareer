@@ -3,63 +3,99 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="View job details for the latest job openings at ReelCareer. Apply directly through our platform.">
+    <meta name="keywords" content="jobs, job details, job openings, ReelCareer">
     <title>Job Detail - ReelCareer</title>
-    <meta name="description" content="View detailed information about the job listing, including responsibilities, qualifications, and how to apply.">
-    <meta name="keywords" content="job detail, job listing, apply for job, job opportunities">
-    <meta name="author" content="ReelCareer">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
- <link rel="stylesheet" href="styles.css"> <!-- Custom CSS file -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f1f3f5; /* Light grey background */
+        }
 
+        .navbar {
+            background-color: #007bff; /* Bootstrap primary color */
+        }
 
-    <!-- Schema Markup -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "JobPosting",
-        "title": "Job Title",
-        "description": "Job Description",
-        "datePosted": "2024-10-04",
-        "employmentType": "FULL_TIME",
-        "hiringOrganization": {
-            "@type": "Organization",
-            "name": "ReelCareer",
-            "sameAs": "https://www.reelcareer.com",
-            "logo": "https://www.reelcareer.com/logo.png"
-        },
-        "industry": "Software Development",
-        "url": "https://www.reelcareer.com/job-detail.html",
-        "jobLocation": {
-            "@type": "Place",
-            "address": {
-                "@type": "PostalAddress",
-                "streetAddress": "123 Main St",
-                "addressLocality": "Dallas",
-                "addressRegion": "TX",
-                "postalCode": "75001",
-                "addressCountry": "US"
+        .navbar-brand, .nav-link {
+            color: #ffffff !important;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: #d4d4d4 !important;
+        }
+
+        .job-detail-container {
+            background-color: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+            padding: 40px;
+            margin-top: 20px;
+        }
+
+        .job-logo {
+            max-width: 150px;
+            border-radius: 10px;
+            margin-right: 20px;
+        }
+
+        .apply-btn {
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+            padding: 12px 25px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .apply-btn:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        .footer {
+            background-color: #343a40;
+            color: #ffffff;
+            padding: 15px 0;
+            text-align: center;
+        }
+
+        .job-info {
+            border-bottom: 1px solid #e9ecef;
+            padding-bottom: 15px;
+            margin-bottom: 15px;
+        }
+
+        .job-tags {
+            background-color: #e9ecef;
+            border-radius: 5px;
+            padding: 5px 10px;
+            display: inline-block;
+            margin: 5px 0;
+        }
+
+        @media (max-width: 576px) {
+            .job-detail-container {
+                padding: 20px;
             }
-        },
-        "baseSalary": {
-            "@type": "MonetaryAmount",
-            "value": {
-                "@type": "QuantitativeValue",
-                "value": "60000",
-                "unitText": "YEAR"
+
+            .apply-btn {
+                width: 100%;
             }
         }
-    }
-    </script>
+    </style>
 </head>
 <body>
 
     <!-- Navigation Bar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark" role="navigation" aria-label="Main navigation">
         <a class="navbar-brand" href="../index.html">ReelCareer</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
+            <ul class="navbar-nav ml-auto">
                 <li class="nav-item active">
                     <a class="nav-link" href="../index.html">Home</a>
                 </li>
@@ -77,35 +113,58 @@
     </nav>
 
     <!-- Job Detail Section -->
-    <div class="container mt-5">
-        <h1 id="jobTitle"></h1>
-        <p id="jobDescription"></p>
-        <p><strong>Company:</strong> <span id="companyName"></span></p>
-        <p><strong>Location:</strong> <span id="jobLocation"></span></p>
-        <p><strong>Employment Type:</strong> <span id="employmentType"></span></p>
-        <p><strong>Salary:</strong> $<span id="salary"></span></p>
-        <button id="applyBtn" class="btn btn-primary">Apply Now</button>
+    <div class="container">
+        <div class="job-detail-container" role="main" aria-labelledby="jobTitle">
+            <div class="d-flex align-items-start mb-4">
+                <img id="companyLogo" class="job-logo" alt="Company Logo" src="" />
+                <div>
+                    <h1 id="jobTitle" class="mb-2 font-weight-bold" tabindex="0"></h1>
+                    <p id="jobDescription" class="text-muted" tabindex="0"></p>
+                </div>
+            </div>
+
+            <div class="job-info">
+                <p><strong>Company:</strong> <span id="companyName"></span></p>
+                <p><strong>Location:</strong> <span id="jobLocation"></span></p>
+                <p><strong>Employment Type:</strong> <span id="employmentType"></span></p>
+                <p><strong>Salary:</strong> $<span id="salary"></span></p>
+                <p><strong>Posted On:</strong> <span id="createdAt"></span></p>
+            </div>
+
+            <div>
+                <p><strong>Job Requirements:</strong></p>
+                <ul id="jobRequirements" class="list-unstyled" tabindex="0">
+                    <!-- Requirements dynamically inserted here -->
+                </ul>
+            </div>
+
+            <div>
+                <p><strong>Tags:</strong></p>
+                <span id="jobTags" class="job-tags"></span>
+            </div>
+
+            <button id="applyBtn" class="apply-btn" aria-label="Apply for this job">Apply Now</button>
+        </div>
     </div>
 
     <!-- Footer -->
-    <footer class="footer bg-light mt-5">
+    <footer class="footer mt-5" role="contentinfo">
         <div class="container">
-            <span class="text-muted">&copy; 2024 ReelCareer. All rights reserved.</span>
+            <span>&copy; 2024 ReelCareer. All rights reserved.</span>
         </div>
     </footer>
 
-    <!-- Firebase configuration/ Login& Out -->
+    <!-- Firebase configuration/ Login & Out -->
     <script type="module" src="../public/js/main.js"></script> 
 
     <script type="module">
-    import { db, storage, analytics, app  } from '../public/js/main.js'; // Adjust the path based on your structure
-    import { collection, getDocs, addDoc, doc, getDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+        import { db } from '../public/js/main.js'; // Adjust the path based on your structure
+        import { doc, getDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 
         // Function to fetch job details
         async function fetchJobDetails() {
             const urlParams = new URLSearchParams(window.location.search);
             const jobId = urlParams.get('id'); // Get job ID from URL
-            console.log("jobId   ",jobId);
 
             if (!jobId) {
                 alert('Job ID not found in URL.');
@@ -113,12 +172,8 @@
             }
 
             try {
-            // Reference to the specific job document in the 'Jobs' collection
-            const jobDocRef = doc(db, 'Jobs', jobId);
-            
-            // Fetch the document
-            const jobDoc = await getDoc(jobDocRef);
-           console.log("jobDoc   ",jobDoc);
+                const jobDocRef = doc(db, 'Jobs', jobId);
+                const jobDoc = await getDoc(jobDocRef);
 
                 if (jobDoc.exists()) {
                     const jobData = jobDoc.data();
@@ -128,7 +183,16 @@
                     document.getElementById('jobLocation').innerText = jobData.location;
                     document.getElementById('employmentType').innerText = jobData.type;
                     document.getElementById('salary').innerText = jobData.salary;
-                    
+                    document.getElementById('createdAt').innerText = new Date(jobData.createdAt).toLocaleDateString();
+                    document.getElementById('companyLogo').src = jobData.companyLogo || 'path/to/default/logo.png'; // Default logo path
+
+                    // Requirements
+                    const requirementsList = jobData.requirements.map(req => `<li>${req}</li>`).join('');
+                    document.getElementById('jobRequirements').innerHTML = requirementsList;
+
+                    // Tags
+                    document.getElementById('jobTags').innerText = jobData.tags.join(', ');
+
                     // Add event listener for Apply button
                     document.getElementById('applyBtn').onclick = function() {
                         window.location.href = `apply.html?jobId=${jobId}`; // Redirect to apply page

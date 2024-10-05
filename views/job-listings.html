@@ -33,8 +33,9 @@
 
 <body>
 
-    <!-- Navigation Bar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+<!-- Navigation Bar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+    <div class="container">
         <a class="navbar-brand" href="../index.html">ReelCareer</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -50,83 +51,120 @@
                 <li class="nav-item"><a class="nav-link" href="news.html">News</a></li>
             </ul>
         </div>
+    </div>
+</nav>
+
+<!-- Job Search Section -->
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <h1 class="font-weight-bold">Find Your Next Opportunity</h1>
+            <p class="lead text-muted">Search from thousands of jobs that fit your skills and preferences</p>
+            <form id="jobSearchForm" class="form-inline justify-content-center mt-4">
+                <input type="text" class="form-control form-control-lg mr-2 mb-2" placeholder="Keywords (e.g., Developer)" required>
+                <input type="text" class="form-control form-control-lg mr-2 mb-2" placeholder="Location (e.g., City)" required>
+                <select class="form-control form-control-lg mr-2 mb-2">
+                    <option value="" disabled selected>Job Type</option>
+                    <option value="full-time">Full-time</option>
+                    <option value="part-time">Part-time</option>
+                    <option value="contract">Contract</option>
+                    <option value="remote">Remote</option>
+                </select>
+                <input type="number" class="form-control form-control-lg mr-2 mb-2" placeholder="Salary Range" min="0">
+                <button type="submit" class="btn btn-primary btn-lg mb-2 px-4">Search Jobs</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Featured Jobs Section -->
+<div class="container mt-5">
+    <h2 class="text-center font-weight-bold">Featured Jobs</h2>
+    <p class="text-center text-muted">Handpicked job opportunities from top companies</p>
+    <div class="row" id="featuredJobListings">
+        <!-- Featured jobs dynamically inserted here -->
+    </div>
+</div>
+
+<!-- All Job Listings Section -->
+<div class="container mt-5">
+    <h2 class="text-center font-weight-bold">All Jobs</h2>
+    <div class="row" id="jobListings">
+        <!-- Job listings dynamically inserted here -->
+    </div>
+    <div id="loadingIndicator" class="text-center mt-4" style="display:none;">
+        <div class="spinner-border text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+</div>
+
+<!-- Pagination -->
+<div class="container text-center mt-5">
+    <nav>
+        <ul class="pagination justify-content-center" id="pagination">
+            <!-- Pagination dynamically generated -->
+        </ul>
     </nav>
+</div>
 
-    <!-- Job Search Section -->
-    <div class="container mt-4">
-        <div class="row">
-            <div class="col-md-12 text-center">
-                <h1>Find Your Next Job</h1>
-                <form id="jobSearchForm" class="form-inline justify-content-center mt-3">
-                    <input type="text" class="form-control mr-2 mb-2" placeholder="Keywords (e.g., Developer)" required>
-                    <input type="text" class="form-control mr-2 mb-2" placeholder="Location (e.g., City)" required>
-                    <select class="form-control mr-2 mb-2">
-                        <option value="" disabled selected>Job Type</option>
-                        <option value="full-time">Full-time</option>
-                        <option value="part-time">Part-time</option>
-                        <option value="contract">Contract</option>
-                        <option value="remote">Remote</option>
-                    </select>
-                    <input type="number" class="form-control mr-2 mb-2" placeholder="Salary Range" min="0">
-                    <button type="submit" class="btn btn-primary mb-2">Search Jobs</button>
-                </form>
-            </div>
-        </div>
+<!-- Footer -->
+<footer class="bg-dark text-light py-4">
+    <div class="container text-center">
+        <p>&copy; 2024 ReelCareer. All Rights Reserved.</p>
+        <ul class="list-inline">
+            <li class="list-inline-item"><a href="#" class="text-light">Privacy Policy</a></li>
+            <li class="list-inline-item"><a href="#" class="text-light">Terms of Service</a></li>
+        </ul>
     </div>
+</footer>
 
-    <!-- Featured Jobs Section -->
-    <div class="container mt-5">
-        <h2 class="text-center">Featured Jobs</h2>
-        <div class="row" id="featuredJobListings">
-            <!-- Featured jobs dynamically inserted here -->
-        </div>
-    </div>
+<style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .navbar-brand {
+        font-weight: bold;
+        font-size: 1.5rem;
+    }
+    .form-control {
+        border-radius: 50px;
+        padding: 15px 20px;
+    }
+    .btn-primary {
+        border-radius: 50px;
+        padding: 12px 30px;
+        font-size: 1rem;
+    }
+    h1, h2 {
+        font-family: 'Poppins', sans-serif;
+        color: #2c3e50;
+    }
+    .card {
+        border: none;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .card-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+    }
+    .card-text {
+        color: #7f8c8d;
+    }
+    .pagination .page-item.active .page-link {
+        background-color: #2980b9;
+        border-color: #2980b9;
+    }
+    footer {
+        margin-top: 50px;
+    }
+    footer p {
+        margin-bottom: 0;
+    }
+</style>
 
-    <!-- All Job Listings Section -->
-    <div class="container mt-5">
-        <h2 class="text-center">All Jobs</h2>
-        <div class="row" id="jobListings">
-            <!-- Job listings dynamically inserted here -->
-        </div>
-        <div id="loadingIndicator" class="text-center mt-4" style="display:none;">
-            <p>Loading job listings...</p>
-        </div>
-    </div>
-
-    <!-- Pagination -->
-    <div class="container text-center mt-5">
-        <nav>
-            <ul class="pagination" id="pagination">
-                <!-- Pagination dynamically generated -->
-            </ul>
-        </nav>
-    </div>
-
-    <!-- Job Detail Modal 
-    <div class="modal fade" id="jobDetailModal" tabindex="-1" role="dialog" aria-labelledby="jobDetailModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="jobDetailModalLabel">Job Details</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <h5 id="jobTitle"></h5>
-                    <p id="jobCompany"></p>
-                    <p id="jobDescription"></p>
-                    <p><strong>Location:</strong> <span id="jobLocation"></span></p>
-                    <p><strong>Salary:</strong> <span id="jobSalary"></span></p>
-                    <p><strong>Job Type:</strong> <span id="jobType"></span></p>
-                    <button id="applyButton" class="btn btn-primary mt-3">Apply Now</button>
-                    <button id="saveJobButton" class="btn btn-secondary mt-3" onclick="saveJob()">Save Job</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    -->
+   
 <script>
     // Function to redirect user to the job details page with job ID in the URL
 function showJobDetailsFunc(jobId) {
