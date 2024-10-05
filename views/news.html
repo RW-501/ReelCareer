@@ -151,63 +151,82 @@ const spamDetection = (submission) => {
 
 
 // Function to submit an article
-async function submitArticle( ) {
-console.log("submitArticle function called");
+async function submitArticle() { 
+    console.log("submitArticle function called");
 
-const title = document.getElementById('title').value;
-const content = CKEDITOR.instances['content'].getData();
-const tags = Array.from(document.getElementById('tags').selectedOptions).map(option => option.value);
-const category = document.getElementById('category').value;
-const mediaFiles = document.getElementById('media').files;
+    // Get article details from form elements
+    const title = document.getElementById('title').value;
+    const content = CKEDITOR.instances['content'].getData();
+    const tags = Array.from(document.getElementById('tags').selectedOptions).map(option => option.value);
+    const category = document.getElementById('category').value;
+    const mediaFiles = document.getElementById('media').files;
 
-// Check for bad words or injections (simple example)
-const forbiddenWords = ["badword1", "badword2"];
-if (forbiddenWords.some(word => content.includes(word))) {
-    alert("Your content contains inappropriate language.");
-    return;
+    // Validate for forbidden words (basic filter for bad language or SQL injections)
+    const forbiddenWords = ["badword1", "badword2"];
+    if (forbiddenWords.some(word => content.includes(word))) {
+        alert("Your content contains inappropriate language.");
+        return;
+    }
+
+    let mediaURLs = [];
+
+    if (mediaFiles.length > 0) {
+        console.log("Starting media upload...");
+
+        // Handle media file uploads
+        const uploadPromises = Array.from(mediaFiles).map(file => {
+            const fileRef = ref(storage, `media/${file.name}`); // Create reference for each file
+            const uploadTask = uploadBytesResumable(fileRef, file); // Upload file
+
+            return uploadTask.then(snapshot => getDownloadURL(snapshot.ref)); // Get download URL after upload
+        });
+
+        try {
+            // Wait for all media files to be uploaded
+            mediaURLs = await Promise.all(uploadPromises);
+        } catch (uploadError) {
+            console.error("Error uploading media files:", uploadError);
+            alert("An error occurred while uploading media files.");
+            return; // Stop the submission if media upload fails
+        }
+    } else {
+        console.log("No media files to upload.");
+    }
+
+    // Prepare article data to be stored in Firestore
+    const newArticle = {
+        title,
+        content,
+        tags,
+        category,
+        mediaFiles: mediaURLs,  // This will be an empty array if no media files were uploaded
+        authorID: 'user123',  // Replace with the actual user ID
+        authorType: 'user',   // Adjust author type if needed
+        status: 'pending',    // Articles may be reviewed before going live
+        createdAt: new Date() // Timestamp for when the article is created
+    };
+
+    try {
+        // Add article to Firestore
+        await addDoc(collection(db, 'Articles'), newArticle);
+        console.log('Article successfully added!');
+
+        // Handle actions after successful submission
+        alert('Article submitted successfully!');
+        displayArticles(); // Refresh the displayed list of articles (this function needs to be defined)
+
+        // Clear form inputs
+        document.getElementById('article-form').reset();
+        CKEDITOR.instances['content'].setData('');  // Clear the CKEditor content
+
+        // Clear any draft article stored in localStorage
+        localStorage.removeItem('draftArticle');
+    } catch (error) {
+        console.error("Error adding article:", error);
+        alert("An error occurred while submitting the article. Please try again.");
+    }
 }
 
-console.log("Starting media upload...");
-
-// Upload media files to Firebase Cloud Storage
-const mediaURLs = [];
-const uploadPromises = Array.from(mediaFiles).map(file => {
-    const fileRef = ref(storage, `media/${file.name}`); // Create a reference for the file
-    const uploadTask = uploadBytesResumable(fileRef, file); // Upload file
-
-    return uploadTask.then(snapshot => getDownloadURL(snapshot.ref)); // Get the download URL after upload
-});
-
-// Wait for all media files to be uploaded and get URLs
-const urls = await Promise.all(uploadPromises);
-mediaURLs.push(...urls);
-
-// Prepare article data
-const newArticle = {
-    title,
-    content,
-    tags,
-    category,
-    mediaFiles: mediaURLs,
-    authorID: 'user123', // Replace with actual user ID
-    authorType: 'user', // Replace based on submission
-    status: 'pending',
-    createdAt: new Date()
-};
-
-try {
-    // Add article to Firestore (or Firebase Realtime Database)
-    await addDoc(collection(db, 'Articles'), newArticle); // Firestore syntax
-    console.log('Article successfully added!');
-    displayArticles(getDocs,collection); // Function to refresh article display
-    document.getElementById('article-form').reset();
-    CKEDITOR.instances['content'].setData('');
-    localStorage.removeItem('draftArticle'); // Clear draft if any
-
-} catch (error) {
-    console.error("Error adding article:", error);
-}
-}
 
 // Function to display articles
 async function displayArticles() {
