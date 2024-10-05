@@ -356,7 +356,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Function to create the navbar
     function createNavbar() {
-        const navbarClass = (isHomePage) ?  'navbar-dark bg-dark' : 'navbar-light bg-light';
+        const navbarClass = (isHomePage) ?   'navbar-light bg-light' : 'navbar-dark bg-primary ';
         
         console.log("nav currentPage   ",currentPage);
         console.log("nav isHomePage   ",isHomePage);
