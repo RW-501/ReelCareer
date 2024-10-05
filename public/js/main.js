@@ -26,7 +26,7 @@ gtag('config', 'G-LBTK319K2X');
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
 import { getAuth, GoogleAuthProvider, FacebookAuthProvider, OAuthProvider, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
-import { getFirestore } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 import { initializeAnalytics } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-analytics.js"; // Use the same version
 import { getStorage } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-storage.js"; 
 
@@ -51,7 +51,7 @@ const analytics = initializeAnalytics(app);
 //import { collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 //const newCollection = collection;
 // Export the objects
-export { db, storage, analytics, app }; // Export db, storage, and analytics
+export { db, storage, analytics, app,collection, getDocs }; // Export db, storage, and analytics
 
 /*
 firebase.initializeApp(firebaseConfig);

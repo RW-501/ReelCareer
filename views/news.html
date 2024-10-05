@@ -118,6 +118,20 @@
    <script type="module" src="../public/js/main.js"></script> 
    
    <script>
+// Function to fetch and display articles
+async function displayArticles() {
+    try {
+        const articlesCollectionRef = collection(db, 'Articles');
+        const articlesSnapshot = await getDocs(articlesCollectionRef);
+        const articles = articlesSnapshot.docs.map(doc => doc.data());
+
+        // Call function to update the HTML with the fetched articles
+        updateNewsFeed(articles);
+    } catch (error) {
+        console.error("Error fetching articles:", error);
+    }
+}
+
     function previewArticleFunc() {
         console.log("Preview Article Function Called");
 
@@ -134,162 +148,50 @@
         `;
     }
 
-     // Load draft if exists
-     window.onload = function() {
-        const savedDraft = JSON.parse(localStorage.getItem('draftArticle'));
-        if (savedDraft) {
-            document.getElementById('title').value = savedDraft.title;
-            CKEDITOR.instances['content'].setData(savedDraft.content);
-            savedDraft.tags.forEach(tag => {
-                const option = Array.from(document.getElementById('tags').options).find(opt => opt.value === tag);
-                if (option) option.selected = true;
-            });
-            document.getElementById('category').value = savedDraft.category;
-        }
-        displayArticles(getDocs,collection);
-    };
-
+   
+    
      
-  // Function to submit an article
-async function submitArticle(addDo,collection ) {
-    console.log("submitArticle function called");
+   
 
-    const title = document.getElementById('title').value;
-    const content = CKEDITOR.instances['content'].getData();
-    const tags = Array.from(document.getElementById('tags').selectedOptions).map(option => option.value);
-    const category = document.getElementById('category').value;
-    const mediaFiles = document.getElementById('media').files;
+</script>
 
-    // Check for bad words or injections (simple example)
-    const forbiddenWords = ["badword1", "badword2"];
-    if (forbiddenWords.some(word => content.includes(word))) {
-        alert("Your content contains inappropriate language.");
-        return;
-    }
 
-    console.log("Starting media upload...");
-
-    // Upload media files to Firebase Cloud Storage
-    const mediaURLs = [];
-    const uploadPromises = Array.from(mediaFiles).map(file => {
-        const fileRef = ref(storage, `media/${file.name}`); // Create a reference for the file
-        const uploadTask = uploadBytesResumable(fileRef, file); // Upload file
-
-        return uploadTask.then(snapshot => getDownloadURL(snapshot.ref)); // Get the download URL after upload
-    });
-
-    // Wait for all media files to be uploaded and get URLs
-    const urls = await Promise.all(uploadPromises);
-    mediaURLs.push(...urls);
-
-    // Prepare article data
-    const newArticle = {
-        title,
-        content,
-        tags,
-        category,
-        mediaFiles: mediaURLs,
-        authorID: 'user123', // Replace with actual user ID
-        authorType: 'user', // Replace based on submission
-        status: 'pending',
-        createdAt: new Date()
-    };
-
-    try {
-        // Add article to Firestore (or Firebase Realtime Database)
-        await addDoc(collection(db, 'Articles'), newArticle); // Firestore syntax
-        console.log('Article successfully added!');
-        displayArticles(getDocs,collection); // Function to refresh article display
-        document.getElementById('article-form').reset();
-        CKEDITOR.instances['content'].setData('');
-        localStorage.removeItem('draftArticle'); // Clear draft if any
-
-    } catch (error) {
-        console.error("Error adding article:", error);
-    }
-}
-    // Function to display articles
- // Function to display articles
- async function displayArticles(getDocs, collection) {
-    console.log("displayArticles function called"); // Debugging log
-
+<script type="module">
+    import { db, storage,  db, storage, analytics, app,collection, getDocs } from '../public/js/main.js'; // Adjust the path based on your structure
+  
+// Function to update the HTML and display the articles
+function updateNewsFeed(articles) {
     const articlesContainer = document.getElementById('articles');
-    if (!articlesContainer) {
-        console.error('No articles container found in DOM'); // Check if the element exists
+    articlesContainer.innerHTML = ''; // Clear the placeholder text
+
+    if (articles.length === 0) {
+        articlesContainer.innerHTML = '<p>No articles available at the moment.</p>';
         return;
     }
 
-    articlesContainer.innerHTML = ''; // Clear previous content
-    const articlesCollectionRef = collection(db, 'Articles'); // Reference to the Articles collection
+    // Create article cards for each article
+    articles.forEach(article => {
+        const articleCard = document.createElement('div');
+        articleCard.classList.add('col-md-4');
 
-    try {
-        const articlesSnapshot = await getDocs(articlesCollectionRef);
-        console.log("Fetched snapshot: ", articlesSnapshot);
-
-        articlesSnapshot.forEach((doc) => {
-            const article = doc.data();
-            console.log("Fetched article: ", article);
-
-            const articleId = doc.id;
-
-            const articleElement = document.createElement('div');
-            articleElement.className = 'col-md-4 mb-4';
-            articleElement.innerHTML = `
-                <div class="card">
-                    <img src="${article.mediaFiles[0] || 'default-image-url'}" class="card-img-top" alt="${article.title}">
-                    <div class="card-body">
-                        <h5 class="card-title">${article.title}</h5>
-                        <p class="card-text">${article.content.substring(0, 100)}...</p>
-                        <p>Tags: ${article.tags ? article.tags.join(', ') : 'No tags'}</p>
-                        <p>Category: ${article.category || 'Uncategorized'}</p>
-                        <a href="article.html?id=${articleId}" class="btn btn-primary">Read More</a>
-                    </div>
+        articleCard.innerHTML = `
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">${article.title}</h5>
+                    <p class="card-text">${article.content.substring(0, 100)}...</p>
+                    <a href="#" class="btn btn-primary">Read More</a>
                 </div>
-            `;
-            articlesContainer.appendChild(articleElement);
-        });
+            </div>
+        `;
 
-    } catch (error) {
-        console.error("Error fetching articles:", error);
-    }
-
-    console.log("Articles display finished.");
+        articlesContainer.appendChild(articleCard);
+    });
 }
 
-   
-
-
-    
-         // Initialize CKEditor for rich text editing
-    CKEDITOR.replace('content');
-
-
-    // Auto-save drafts feature
-    const autoSaveInterval = setInterval(() => {
-        const title = document.getElementById('title').value;
-        const content = CKEDITOR.instances['content'].getData();
-        const tags = Array.from(document.getElementById('tags').selectedOptions).map(option => option.value);
-        const category = document.getElementById('category').value;
-
-        if (title || content) {
-            const draftData = { title, content, tags, category };
-            localStorage.setItem('draftArticle', JSON.stringify(draftData));
-        }
-    }, 30000); // Auto-save every 30 seconds
-
-   
-
-    // Implement spam detection
-    const spamDetection = (submission) => {
-        const spamKeywords = ["spam", "fake"];
-        return !spamKeywords.some(keyword => submission.includes(keyword));
-    };
-
-   
-    
-
-
-
+// Call the function to display articles when the page loads
+window.onload = () => {
+    displayArticles();
+};
 </script>
 
 </body>
