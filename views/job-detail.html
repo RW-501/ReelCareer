@@ -113,9 +113,14 @@
             }
 
             try {
-                const jobDoc = await getDocs(collection(db, 'Jobs').doc(jobId).getDocs());
+            // Reference to the specific job document in the 'Jobs' collection
+            const jobDocRef = doc(db, 'Jobs', jobId);
+            
+            // Fetch the document
+            const jobDoc = await getDoc(jobDocRef);
+           console.log("jobDoc   ",jobDoc);
 
-                if (jobDoc.exists) {
+                if (jobDoc.exists()) {
                     const jobData = jobDoc.data();
                     document.getElementById('jobTitle').innerText = jobData.title;
                     document.getElementById('jobDescription').innerText = jobData.description;
