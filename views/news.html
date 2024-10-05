@@ -260,10 +260,12 @@ async function displayArticles(getDocs,collection ) {
     }
 
     articlesContainer.innerHTML = ''; // Clear previous content
+    const articlesDocRef = doc(db, 'Articles'); // Reference to the job document
 
     try {
-        const articlesSnapshot = await getDocs(collection(db, 'Articles')); // Fetch articles collection
-        console.log("Fetched snapshot: ", articlesSnapshot);
+       // const articlesSnapshot = await getDocs(collection(db, 'Articles')); // Fetch articles collection
+       const articlesSnapshot = await getDoc(articlesDocRef);
+       console.log("Fetched snapshot: ", articlesSnapshot);
 
         articlesSnapshot.forEach((doc) => {
             const article = doc.data();
