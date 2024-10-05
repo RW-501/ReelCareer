@@ -74,61 +74,109 @@
             </div>
         </div>
   <!-- Modal -->
-<div class="modal fade" id="jobModal" tabindex="-1" role="dialog" aria-labelledby="jobModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="jobModalLabel">Create Job Posting</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+  <div class="modal fade" id="jobModal" tabindex="-1" role="dialog" aria-labelledby="jobModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content shadow-lg border-0">
+            <div class="modal-header bg-gradient-primary text-white">
+                <h5 class="modal-title font-weight-bold" id="jobModalLabel">Create a Job Posting</h5>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                <form id="jobForm">
-                    <div class="form-group">
-                        <label for="jobTitle">Job Title</label>
-                        <input type="text" class="form-control" id="jobTitle" required>
+            <div class="modal-body p-5">
+                <form id="jobForm" class="needs-validation" novalidate>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="company">Company</label>
+                            <input type="text" class="form-control" id="company" placeholder="Enter company name" required>
+                            <div class="invalid-feedback">Please enter a company name.</div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="jobTitle">Job Title</label>
+                            <input type="text" class="form-control" id="jobTitle" placeholder="Enter job title" required>
+                            <div class="invalid-feedback">Please enter a job title.</div>
+                        </div>
                     </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="jobLocation">Job Location</label>
+                            <input type="text" class="form-control" id="jobLocation" placeholder="Enter job location" required>
+                            <div class="invalid-feedback">Please enter a job location.</div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="jobType">Job Type</label>
+                            <select class="form-control" id="jobType" required>
+                                <option value="" disabled selected>Select type</option>
+                                <option value="full-time">Full-Time</option>
+                                <option value="part-time">Part-Time</option>
+                                <option value="contract">Contract</option>
+                                <option value="internship">Internship</option>
+                                <option value="remote">Remote</option>
+                            </select>
+                            <div class="invalid-feedback">Please select a job type.</div>
+                        </div>
+                    </div>
+
                     <div class="form-group">
                         <label for="jobDescription">Job Description</label>
-                        <textarea class="form-control" id="jobDescription" rows="3" required></textarea>
+                        <textarea class="form-control" id="jobDescription" rows="4" placeholder="Describe the job" required></textarea>
+                        <div class="invalid-feedback">Please enter a job description.</div>
                     </div>
+
                     <div class="form-group">
                         <label for="jobRequirements">Job Requirements</label>
-                        <textarea class="form-control" id="jobRequirements" rows="3" required></textarea>
+                        <textarea class="form-control" id="jobRequirements" rows="3" placeholder="List job requirements" required></textarea>
+                        <div class="invalid-feedback">Please enter job requirements.</div>
                     </div>
-                    <div class="form-group">
-                        <label for="jobLocation">Job Location</label>
-                        <input type="text" class="form-control" id="jobLocation" required>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="jobSalary">Salary ($)</label>
+                            <input type="number" class="form-control" id="jobSalary" min="0" placeholder="Enter salary" required>
+                            <div class="invalid-feedback">Please enter a salary amount.</div>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="jobTags">Job Tags (comma separated)</label>
+                            <input type="text" class="form-control" id="jobTags" placeholder="e.g. JavaScript, React" required>
+                            <div class="invalid-feedback">Please enter job tags.</div>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="boost">Boost Job Posting</label>
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="boost">
+                                <label class="form-check-label" for="boost">Boost Job Posting</label>
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="jobType">Job Type</label>
-                        <select class="form-control" id="jobType" required>
-                            <option value="full-time">Full-Time</option>
-                            <option value="part-time">Part-Time</option>
-                            <option value="contract">Contract</option>
-                            <option value="internship">Internship</option>
-                            <option value="remote">Remote</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="jobSalary">Salary ($)</label>
-                        <input type="number" class="form-control" id="jobSalary" min="0" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="jobTags">Job Tags (comma separated)</label>
-                        <input type="text" class="form-control" id="jobTags" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="boost">Boost Job Posting</label>
-                        <input type="checkbox" id="boost">
-                    </div>
-                    <button type="submit" class="btn btn-primary">Create Job</button>
+
+                    <button type="submit" class="btn btn-primary btn-block rounded-pill shadow-sm font-weight-bold">Create Job</button>
                 </form>
             </div>
         </div>
     </div>
 </div>
+
+<!-- Success Modal for submission confirmation -->
+<div class="modal fade" id="jobSuccessModal" tabindex="-1" role="dialog" aria-labelledby="jobSuccessLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content shadow-lg border-0">
+            <div class="modal-header bg-success text-white">
+                <h5 class="modal-title font-weight-bold" id="jobSuccessLabel">Job Posting Created</h5>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center p-4">
+                <h5 class="font-weight-bold">Your job has been successfully created!</h5>
+                <p class="lead">Job ID: <span id="jobId" class="font-weight-bold"></span></p>
+                <button type="button" class="btn btn-outline-success rounded-pill shadow-sm" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 
         <!-- Boost Job Posting Feature -->
         <div class="card">
@@ -231,10 +279,18 @@
 
 
       // Add event listener for form submission
-      document.getElementById("jobForm").onsubmit = async function(event) {
+      document.getElementById("jobForm").onsubmit = async function (event) {
     event.preventDefault(); // Prevent default form submission
 
+    // Custom form validation
+    if (!this.checkValidity()) {
+        event.stopPropagation();
+        this.classList.add('was-validated');
+        return;
+    }
+
     const jobDetails = {
+        company: document.getElementById("company").value,
         title: document.getElementById("jobTitle").value,
         description: document.getElementById("jobDescription").value,
         requirements: document.getElementById("jobRequirements").value,
@@ -247,12 +303,7 @@
         createdAt: new Date(),
         applicantsViewed: 0,
         savedForLater: 0,
-        boostExpiration: null, // Set based on your logic
-        boostExpiresAt: null, // Set based on your logic
-        boostedBy: "", // Set based on your logic
-        company: "Tech Company", // Set based on authenticated user info
-        companyId: "", // Set based on authenticated user info
-        recruiterID: "", // Set based on authenticated user info
+        recruiterID: "123456", // Replace with actual recruiter ID
     };
 
     if (jobDetails.title && jobDetails.description && jobDetails.location && jobDetails.type) {
@@ -260,14 +311,22 @@
         try {
             const docRef = await addDoc(jobPostingsRef, jobDetails);
             console.log("Job posting added successfully with ID: ", docRef.id);
-            alert("Job posting added successfully with ID: " + docRef.id); // Optional alert for success
-            $('#jobModal').modal('hide'); // Close the modal
-            document.getElementById("jobForm").reset(); // Reset the form
+
+            // Hide the job creation modal
+            $('#jobModal').modal('hide');
+
+            // Show success modal with job ID
+            document.getElementById("jobId").textContent = docRef.id;
+            $('#jobSuccessModal').modal('show');
+
+            // Reset the form
+            document.getElementById("jobForm").reset();
+            document.getElementById("jobForm").classList.remove('was-validated');
+
         } catch (error) {
+            console.error("Error creating job posting:", error);
             alert("Error creating job posting: " + error.message);
         }
-    } else {
-        alert("Job title, description, location, and type are required.");
     }
 };
 

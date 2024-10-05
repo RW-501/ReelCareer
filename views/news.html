@@ -8,7 +8,42 @@
     <title>News Portal</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="styles.css">
-    
+    <style>
+
+#news-submission-area {
+    background-color: #f8f9fa;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+#articles .card {
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+#articles .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+#articles .card-img-top {
+    object-fit: cover;
+    height: 200px;
+}
+
+.modal-header {
+    border-bottom: none;
+}
+
+.modal-body {
+    padding: 2rem;
+}
+
+.modal-footer {
+    border-top: none;
+}
+
+    </style>
 
 
     <!-- Dynamic Schema Markup -->
@@ -58,52 +93,68 @@
 </header>
 
 <main class="container my-5">
-    <section id="submission" class="mb-5">
-        <h2>Submit Your Article</h2>
-        <div id="article-form" onsubmit="submitArticle()">
-          <!--  <form id="article-form" onsubmit="submitArticle(event)"> -->
-                <div class="form-group">
-                <label for="title">Title:</label>
-                <input type="text" class="form-control" id="title" required>
-            </div>
-            <div class="form-group">
-                <label for="content">Content:</label>
-                <textarea class="form-control" id="content" required></textarea>
-            </div>
-            <div class="form-group">
-                <label for="tags">Tags (select relevant tags):</label>
-                <select class="form-control" id="tags" multiple required>
-                    <option value="Job Search Tips">Job Search Tips</option>
-                    <option value="Career Development">Career Development</option>
-                    <option value="Industry News">Industry News</option>
-                    <option value="Remote Work">Remote Work</option>
-                    <option value="Hiring Trends">Hiring Trends</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="category">Category:</label>
-                <select class="form-control" id="category" required>
-                    <option value="Career Tips">Career Tips</option>
-                    <option value="Industry News">Industry News</option>
-                    <option value="Recruiter Insights">Recruiter Insights</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="media">Upload Media (images/videos/documents):</label>
-                <input type="file" class="form-control" id="media" multiple accept="image/*,video/*,application/pdf">
-                <small>Recommended image size: 1200x800 pixels.</small>
-            </div>
-            <button type="submit" class="btn btn-success" onclick="submitArticle();">Submit Article</button>
-            <button type="button" class="btn btn-secondary" onclick="previewArticleFunc();">Preview</button>
-        </div> 
-        <div id="preview" class="mt-4"></div>
+    <section id="news-submission-area" class="container my-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="font-weight-bold">News Feed</h2>
+            <button class="btn btn-primary btn-lg" id="create-article-btn">Create Article</button>
+        </div>
+    
+        <div id="articles" class="row">
+            <!-- Dynamically generated articles will go here -->
+        </div>
     </section>
-
-    <section id="news-feed">
-        <h2>Latest News</h2>
-        <div id="articles" class="row">Loading articles...</div>
-
-    </section>
+    
+    <!-- Modal for Creating Article -->
+    <div class="modal fade" id="articleModal" tabindex="-1" aria-labelledby="articleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="articleModalLabel">Submit Your Article</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="article-form">
+                        <div class="form-group mb-3">
+                            <label for="title" class="form-label">Title</label>
+                            <input type="text" class="form-control" id="title" placeholder="Enter the article title" required>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="content" class="form-label">Content</label>
+                            <textarea class="form-control" id="content" rows="5" placeholder="Enter your article content" required></textarea>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="tags" class="form-label">Tags</label>
+                            <select class="form-select" id="tags" multiple required>
+                                <option value="Job Search Tips">Job Search Tips</option>
+                                <option value="Career Development">Career Development</option>
+                                <option value="Industry News">Industry News</option>
+                                <option value="Remote Work">Remote Work</option>
+                                <option value="Hiring Trends">Hiring Trends</option>
+                            </select>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="category" class="form-label">Category</label>
+                            <select class="form-select" id="category" required>
+                                <option value="Career Tips">Career Tips</option>
+                                <option value="Industry News">Industry News</option>
+                                <option value="Recruiter Insights">Recruiter Insights</option>
+                            </select>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="media" class="form-label">Upload Media</label>
+                            <input type="file" class="form-control" id="media" multiple accept="image/*,video/*,application/pdf">
+                            <small class="text-muted">Recommended image size: 1200x800 pixels.</small>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-success">Submit Article</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
 </main>
 
 <footer class="text-center p-4 bg-dark text-white">
@@ -150,80 +201,57 @@ const spamDetection = (submission) => {
 
 
 
-// Function to submit an article
-async function submitArticle() { 
-    console.log("submitArticle function called");
+// Function to open the Create Article modal
+document.getElementById('create-article-btn').addEventListener('click', function() {
+    const modal = new bootstrap.Modal(document.getElementById('articleModal'));
+    modal.show();
+});
 
-    // Get article details from form elements
+async function submitArticle(event) {
+    event.preventDefault(); // Prevent form submission
+
     const title = document.getElementById('title').value;
     const content = CKEDITOR.instances['content'].getData();
     const tags = Array.from(document.getElementById('tags').selectedOptions).map(option => option.value);
     const category = document.getElementById('category').value;
     const mediaFiles = document.getElementById('media').files;
 
-    // Validate for forbidden words (basic filter for bad language or SQL injections)
-    const forbiddenWords = ["badword1", "badword2"];
-    if (forbiddenWords.some(word => content.includes(word))) {
-        alert("Your content contains inappropriate language.");
-        return;
-    }
-
     let mediaURLs = [];
 
+    // Media upload logic...
     if (mediaFiles.length > 0) {
-        console.log("Starting media upload...");
-
-        // Handle media file uploads
         const uploadPromises = Array.from(mediaFiles).map(file => {
-            const fileRef = ref(storage, `media/${file.name}`); // Create reference for each file
-            const uploadTask = uploadBytesResumable(fileRef, file); // Upload file
+            const fileRef = ref(storage, `media/${file.name}`);
+            const uploadTask = uploadBytesResumable(fileRef, file);
 
-            return uploadTask.then(snapshot => getDownloadURL(snapshot.ref)); // Get download URL after upload
+            return uploadTask.then(snapshot => getDownloadURL(snapshot.ref));
         });
 
-        try {
-            // Wait for all media files to be uploaded
-            mediaURLs = await Promise.all(uploadPromises);
-        } catch (uploadError) {
-            console.error("Error uploading media files:", uploadError);
-            alert("An error occurred while uploading media files.");
-            return; // Stop the submission if media upload fails
-        }
-    } else {
-        console.log("No media files to upload.");
+        mediaURLs = await Promise.all(uploadPromises);
     }
 
-    // Prepare article data to be stored in Firestore
     const newArticle = {
         title,
         content,
         tags,
         category,
-        mediaFiles: mediaURLs,  // This will be an empty array if no media files were uploaded
-        authorID: 'user123',  // Replace with the actual user ID
-        authorType: 'user',   // Adjust author type if needed
-        status: 'pending',    // Articles may be reviewed before going live
-        createdAt: new Date() // Timestamp for when the article is created
+        mediaFiles: mediaURLs,
+        createdAt: new Date()
     };
 
     try {
-        // Add article to Firestore
         await addDoc(collection(db, 'Articles'), newArticle);
         console.log('Article successfully added!');
+        
+        // Close modal after submission
+        const modalElement = document.getElementById('articleModal');
+        const modal = bootstrap.Modal.getInstance(modalElement);
+        modal.hide();
 
-        // Handle actions after successful submission
-        alert('Article submitted successfully!');
-        displayArticles(); // Refresh the displayed list of articles (this function needs to be defined)
-
-        // Clear form inputs
-        document.getElementById('article-form').reset();
-        CKEDITOR.instances['content'].setData('');  // Clear the CKEditor content
-
-        // Clear any draft article stored in localStorage
-        localStorage.removeItem('draftArticle');
+        // Refresh articles
+        displayArticles();
     } catch (error) {
-        console.error("Error adding article:", error);
-        alert("An error occurred while submitting the article. Please try again.");
+        console.error('Error adding article:', error);
     }
 }
 
@@ -254,18 +282,18 @@ try {
         const articleElement = document.createElement('div');
         articleElement.className = 'col-md-4 mb-4';
         articleElement.innerHTML = `
-            <div class="card">
-                <img src="${article.mediaFiles[0] || 'default-image-url'}" class="card-img-top" alt="${article.title}">
-                <div class="card-body">
-                    <h5 class="card-title">${article.title}</h5>
-                    <p class="card-text">${article.content.substring(0, 100)}...</p>
-                    <p>Tags: ${article.tags ? article.tags.join(', ') : 'No tags'}</p>
-                    <p>Category: ${article.category || 'Uncategorized'}</p>
-                    <a href="article.html?id=${articleId}" class="btn btn-primary">Read More</a>
+                <div class="card">
+                    <img src="${article.mediaFiles[0] || 'default-image-url'}" class="card-img-top" alt="${article.title}">
+                    <div class="card-body">
+                        <h5 class="card-title">${article.title}</h5>
+                        <p class="card-text">${article.content.substring(0, 100)}...</p>
+                        <p>Tags: ${article.tags ? article.tags.join(', ') : 'No tags'}</p>
+                        <p>Category: ${article.category || 'Uncategorized'}</p>
+                        <a href="article.html?id=${article.id}" class="btn btn-primary">Read More</a>
+                    </div>
                 </div>
-            </div>
-        `;
-        articlesContainer.appendChild(articleElement);
+            `;
+            articlesContainer.appendChild(articleElement);
     });
 
 } catch (error) {
