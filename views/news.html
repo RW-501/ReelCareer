@@ -121,36 +121,140 @@
 <script type="module">
     import { db, storage, analytics, app, collection, getDocs } from '../public/js/main.js'; // Adjust the path based on your structure
   
-// Function to fetch and display articles
-async function displayArticles() {
-    try {
-        console.log("Firestore instance (db):", db); // Check if Firestore is initialized
-        
-        const articlesCollectionRef = collection(db, 'Articles');
-        console.log("Articles Collection Reference:", articlesCollectionRef); // Check if collection reference is correct
-        
-        const articlesSnapshot = await getDocs(articlesCollectionRef);
-        console.log("Articles Snapshot:", articlesSnapshot); // Check the snapshot object
-        console.log("Articles Snapshot Size:", articlesSnapshot.size); // Check if any documents exist
-console.log("Articles Snapshot Empty:", articlesSnapshot.empty); // Check if the snapshot is empty
+ // Initialize CKEditor for rich text editing
+ CKEDITOR.replace('content');
+/*
 
-        const articles = articlesSnapshot.docs.map(doc => {
-            console.log("Document Data:", doc.data()); // Log each document's data
-            return doc.data();
-        });
-        
-        console.log("Mapped Articles Array:", articles); // Log the final articles array
-        
-        // Call function to update the HTML with the fetched articles
-        updateNewsFeed(articles);
-    } catch (error) {
-        console.error("Error fetching articles:", error); // Log the error if fetching fails
+// Auto-save drafts feature
+const autoSaveInterval = setInterval(() => {
+    const title = document.getElementById('title').value;
+    const content = CKEDITOR.instances['content'].getData();
+    const tags = Array.from(document.getElementById('tags').selectedOptions).map(option => option.value);
+    const category = document.getElementById('category').value;
+
+    if (title || content) {
+        const draftData = { title, content, tags, category };
+        localStorage.setItem('draftArticle', JSON.stringify(draftData));
     }
+}, 30000); // Auto-save every 30 seconds
+
+*/
+
+// Implement spam detection
+const spamDetection = (submission) => {
+    const spamKeywords = ["spam", "fake"];
+    return !spamKeywords.some(keyword => submission.includes(keyword));
+};
+
+
+
+
+
+// Function to submit an article
+async function submitArticle( ) {
+console.log("submitArticle function called");
+
+const title = document.getElementById('title').value;
+const content = CKEDITOR.instances['content'].getData();
+const tags = Array.from(document.getElementById('tags').selectedOptions).map(option => option.value);
+const category = document.getElementById('category').value;
+const mediaFiles = document.getElementById('media').files;
+
+// Check for bad words or injections (simple example)
+const forbiddenWords = ["badword1", "badword2"];
+if (forbiddenWords.some(word => content.includes(word))) {
+    alert("Your content contains inappropriate language.");
+    return;
 }
 
-    
-     
-   
+console.log("Starting media upload...");
+
+// Upload media files to Firebase Cloud Storage
+const mediaURLs = [];
+const uploadPromises = Array.from(mediaFiles).map(file => {
+    const fileRef = ref(storage, `media/${file.name}`); // Create a reference for the file
+    const uploadTask = uploadBytesResumable(fileRef, file); // Upload file
+
+    return uploadTask.then(snapshot => getDownloadURL(snapshot.ref)); // Get the download URL after upload
+});
+
+// Wait for all media files to be uploaded and get URLs
+const urls = await Promise.all(uploadPromises);
+mediaURLs.push(...urls);
+
+// Prepare article data
+const newArticle = {
+    title,
+    content,
+    tags,
+    category,
+    mediaFiles: mediaURLs,
+    authorID: 'user123', // Replace with actual user ID
+    authorType: 'user', // Replace based on submission
+    status: 'pending',
+    createdAt: new Date()
+};
+
+try {
+    // Add article to Firestore (or Firebase Realtime Database)
+    await addDoc(collection(db, 'Articles'), newArticle); // Firestore syntax
+    console.log('Article successfully added!');
+    displayArticles(getDocs,collection); // Function to refresh article display
+    document.getElementById('article-form').reset();
+    CKEDITOR.instances['content'].setData('');
+    localStorage.removeItem('draftArticle'); // Clear draft if any
+
+} catch (error) {
+    console.error("Error adding article:", error);
+}
+}
+
+// Function to display articles
+async function displayArticles() {
+console.log("displayArticles function called"); // Debugging log
+
+const articlesContainer = document.getElementById('articles');
+if (!articlesContainer) {
+    console.error('No articles container found in DOM'); // Check if the element exists
+    return;
+}
+
+articlesContainer.innerHTML = ''; // Clear previous content
+const articlesCollectionRef = collection(db, 'Articles'); // Reference to the Articles collection
+
+try {
+    const articlesSnapshot = await getDocs(articlesCollectionRef);
+    console.log("Fetched snapshot: ", articlesSnapshot);
+
+    articlesSnapshot.forEach((doc) => {
+        const article = doc.data();
+        console.log("Fetched article: ", article);
+
+        const articleId = doc.id;
+
+        const articleElement = document.createElement('div');
+        articleElement.className = 'col-md-4 mb-4';
+        articleElement.innerHTML = `
+            <div class="card">
+                <img src="${article.mediaFiles[0] || 'default-image-url'}" class="card-img-top" alt="${article.title}">
+                <div class="card-body">
+                    <h5 class="card-title">${article.title}</h5>
+                    <p class="card-text">${article.content.substring(0, 100)}...</p>
+                    <p>Tags: ${article.tags ? article.tags.join(', ') : 'No tags'}</p>
+                    <p>Category: ${article.category || 'Uncategorized'}</p>
+                    <a href="article.html?id=${articleId}" class="btn btn-primary">Read More</a>
+                </div>
+            </div>
+        `;
+        articlesContainer.appendChild(articleElement);
+    });
+
+} catch (error) {
+    console.error("Error fetching articles:", error);
+}
+
+console.log("Articles display finished.");
+}
 
 
 
