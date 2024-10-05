@@ -138,6 +138,19 @@
     import { collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
     const sponsoredJobs = [];
 
+
+// Function to redirect user to the job details page with job ID in the URL
+function showJobDetails(jobId) {
+    // Construct the URL with the job ID as a query parameter
+    const jobDetailsUrl = `../views/job-detail.html?id=${jobId}`;
+    
+    // Redirect to the job details page
+    window.location.href = jobDetailsUrl;
+}
+
+
+
+
         // Function to fetch job listings from Firestore
         async function fetchJobListings() {
 
@@ -200,7 +213,7 @@
                     <div class="col-md-4 mb-4">
                         <div class="card">
                             <div class="card-body">
-                                <h5 class="card-title">${job.title} 5</h5>
+                                <h5 class="card-title">${job.title} </h5>
                                 <h6 class="card-subtitle mb-2 text-muted">${job.organization}</h6>
                                 <p class="card-text">${job.description}</p>
                                 <button class="btn btn-info" onclick="showJobDetails('${job.id}')">View Details</button>
