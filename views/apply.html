@@ -154,7 +154,7 @@ function getUserIdFromURL() {
     import { doc, addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 
 
-
+/*
     const jobDocRef = doc(db, 'Jobs', jobId); // Reference to the job document
 
         // Fetch Job and Company Information
@@ -213,7 +213,7 @@ function getUserIdFromURL() {
             });
         }
 
-
+*/
 // Event listener for messaging the recruiter
 
 document.getElementById('messageRecruiter').addEventListener('click', async () => {
@@ -245,7 +245,7 @@ document.getElementById('messageRecruiter').addEventListener('click', async () =
         alert('Failed to send the message. Please try again.');
     }
 });
-
+/*
 // Function to get draft applications from Firestore
 async function getDraftApplications(userId) {
     try {
@@ -281,10 +281,10 @@ async function getDraftApplications(userId) {
         return []; // Return an empty array on error
     }
 }
-
+*/
 // Example usage
 const userId = getUserIdFromURL(); // Function to get the user ID from the URL
-
+/*
 getDraftApplications(userId).then(draftApps => {
     if (draftApps.length > 0) {
         console.log('Draft Applications:', draftApps);
@@ -293,7 +293,7 @@ getDraftApplications(userId).then(draftApps => {
         console.log('No draft applications available.');
     }
 });
-
+*/
         document.getElementById('backToJobPost').addEventListener('click', () => {
             window.history.back(); // Back to the previous page
         });
