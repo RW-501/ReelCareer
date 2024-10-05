@@ -114,6 +114,7 @@
                 <button type="button" id="boostApplication" class="btn btn-warning">Boost Application</button>
                 <button type="button" id="previewApplication" class="btn btn-info">Preview Application</button>
                 <button type="button" id="saveForLater" class="btn btn-secondary">Save for Later</button>
+                <button type="button" id="submitApplication" class="btn btn-secondary">Submit Application</button>
             </div>
 
             <!-- Job Posted By Area -->
@@ -238,6 +239,8 @@
 
         // Event Listeners
         document.getElementById('boostApplication').addEventListener('click', async () => {
+            console.log("boostApplication   ");
+
     const applicationId = "APPLICATION_ID"; // Replace with actual application ID.
     const userId = "USER_ID"; // Replace with the user's ID, if applicable.
 
@@ -264,6 +267,7 @@ document.getElementById('previewApplication').addEventListener('click', () => {
     const email = document.getElementById('email').value;
     const phone = document.getElementById('phone').value;
     const noteToRecruiter = document.getElementById('noteToRecruiter').value;
+    console.log("previewApplication   ");
 
     // Collecting custom questions responses
     const customQuestionsResponses = [];
@@ -316,6 +320,8 @@ document.getElementById('previewApplication').addEventListener('click', () => {
 
 
         document.getElementById('saveForLater').addEventListener('click', () => {
+            console.log("saveForLater   ");
+
             // Save for later functionality
             const applicationData = {
                 firstName: document.getElementById('firstName').value,
@@ -331,6 +337,8 @@ document.getElementById('previewApplication').addEventListener('click', () => {
 // Function to extract the user ID from URL parameters
 function getUserIdFromURL() {
     const urlParams = new URLSearchParams(window.location.search);
+    console.log("urlParams   ",urlParams);
+
     return urlParams.get('userId'); // Assuming userId is the parameter name in the URL
 }
 
