@@ -195,7 +195,14 @@
     }
 } 
 
-
+// Function to redirect user to the job details page with job ID in the URL
+function showJobDetailsFunc(jobId) {
+    // Construct the URL with the job ID as a query parameter
+    const jobDetailsUrl = `../views/job-detail.html?id=${jobId}`;
+    
+    // Redirect to the job details page
+    window.location.href = jobDetailsUrl;
+}
 // Updated function to display job listings with sponsors
         function displayJobListings(jobListings) {
             const jobContainer = document.getElementById('jobListings');
@@ -282,14 +289,7 @@
             generateSchemaMarkup(jobListings); // Generate structured data markup for SEO
 };
 
-// Function to redirect user to the job details page with job ID in the URL
-function showJobDetailsFunc(jobId) {
-    // Construct the URL with the job ID as a query parameter
-    const jobDetailsUrl = `../views/job-detail.html?id=${jobId}`;
-    
-    // Redirect to the job details page
-    window.location.href = jobDetailsUrl;
-}
+
     </script>
 
     <!-- jQuery and Bootstrap JS -->
