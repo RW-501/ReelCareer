@@ -341,7 +341,7 @@ function getUserLocation() {
 // Navagtion bar
 document.addEventListener("DOMContentLoaded", function () {
     // Pages where we don't want to show the navbar
-    const excludedPages = ['/index.html', '/about.html'];
+    const excludedPages = ['/indexxxx.html', '/aboutxx.html'];
 
     // Get the current page path
     const currentPage = window.location.pathname;
@@ -356,8 +356,11 @@ document.addEventListener("DOMContentLoaded", function () {
     function createNavbar() {
         const navbarClass = currentPage === '/index.html' ? 'navbar-light bg-light' : 'navbar-dark bg-dark';
         
+        console.log("nav currentPage   ",currentPage);
+        console.log("nav isHomePage   ",isHomePage);
+        console.log("nav navbarClass   ",navbarClass);
         return `
-            <nav class="navbar navbar-expand-lg ${navbarClass} bg-white shadow-sm sticky-top" role="navigation">
+            <nav class="navbar navbar-expand-lg ${navbarClass}  shadow-sm sticky-top" role="navigation">
                 <div class="container">
                     <a class="navbar-brand" href="${adjustLinkURL}index.html">ReelCareer</a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
@@ -385,11 +388,25 @@ document.addEventListener("DOMContentLoaded", function () {
         `;
     }
 
-    // Append the navbar if not on an excluded page
+    // Replace the navbar if not on an excluded page
     if (!excludedPages.includes(currentPage)) {
-        document.body.insertAdjacentHTML('afterbegin', createNavbar());
+        let existingNavbar = document.querySelector('.navbar');
+        
+        // If an existing navbar is found, replace it
+        if (existingNavbar) {
+            existingNavbar.outerHTML = createNavbar();
+        } else {
+            // If no existing navbar, append it to the body
+            document.body.insertAdjacentHTML('afterbegin', createNavbar());
+        }
+
         setupEventListeners(); // Initialize event listeners
+        highlightActiveLink(); // Highlight the active link
+
     }
+
+   
+
 
     // Function to setup event listeners
     function setupEventListeners() {
@@ -403,7 +420,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         // Firebase Authentication logic
-        firebase.auth().onAuthStateChanged(handleAuthStateChanged);
+        app.auth().onAuthStateChanged(handleAuthStateChanged);
     }
 
     // Function to toggle dark mode
@@ -503,13 +520,6 @@ function highlightActiveLink() {
     });
 }
 
-// Call the function after the navbar is created
-if (!excludedPages.includes(currentPage)) {
-    document.body.insertAdjacentHTML('afterbegin', createNavbar());
-    setupEventListeners(); // Initialize event listeners
-    highlightActiveLink(); // Highlight the active link
-}
-
 // Function to update navigation visibility based on user role
 function updateNavVisibility(user) {
     const jobSeekerNavItem = document.getElementById("jobSeekerNavItem");
@@ -547,7 +557,8 @@ document.addEventListener('keydown', function(event) {
 
 
 
-// The Footer
+// The Footer <footer id="dynamic-footer"></footer>
+
 
 // Newsletter Signup Functionality
 async function handleNewsletterSignup(email) {

@@ -142,10 +142,11 @@
     </form>
 </div>
 
-<!-- Footer -->
-<footer class="bg-light text-center py-4 mt-5 shadow-sm">
-    <p>&copy; 2024 ReelCareer. All Rights Reserved.</p>
-</footer>
+    <!-- Footer -->
+    <footer id="dynamic-footer"></footer>
+    
+<!-- Firebase configuration/ Login& Out -->
+<script type="module" src="../public/js/main.js"></script> 
 
 <style>
     /* Custom styles for enhanced UI/UX */
@@ -227,9 +228,7 @@ function getUserIdFromURL() {
 
 
     </script>
-   <!-- Firebase configuration/ Login& Out -->
-   <script type="module" src="../public/js/main.js"></script> 
-   
+
 
    <script type="module">
     import { db, storage, analytics, app, collection, getDocs } from '../public/js/main.js'; // Adjust the path based on your structure
