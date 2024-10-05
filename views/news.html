@@ -115,7 +115,12 @@
 
     
    <!-- Firebase configuration/ Login& Out -->
-   <script type="module" src="../public/js/main.js">
+   <script type="module" src="../public/js/main.js"></script>
+
+
+<script type="module">
+    import { db, storage, analytics, app, collection, getDocs } from '../public/js/main.js'; // Adjust the path based on your structure
+  
 // Function to fetch and display articles
 async function displayArticles() {
     try {
@@ -130,33 +135,12 @@ async function displayArticles() {
     }
 }
 
-    function previewArticleFunc() {
-        console.log("Preview Article Function Called");
-
-        const title = document.getElementById('title').value;
-        const content = CKEDITOR.instances['content'].getData();
-        const tags = Array.from(document.getElementById('tags').selectedOptions).map(option => option.value);
-        const category = document.getElementById('category').value;
-
-        document.getElementById('preview').innerHTML = `
-            <h3>${title}</h3>
-            <div>${content}</div>
-            <p>Tags: ${tags.join(', ')}</p>
-            <p>Category: ${category}</p>
-        `;
-    }
-
-   
     
      
    
 
-</script>
 
 
-<script type="module">
-    import { db, storage,  db, storage, analytics, app,collection, getDocs } from '../public/js/main.js'; // Adjust the path based on your structure
-  
 // Function to update the HTML and display the articles
 function updateNewsFeed(articles) {
     const articlesContainer = document.getElementById('articles');
@@ -190,6 +174,30 @@ function updateNewsFeed(articles) {
 window.onload = () => {
     displayArticles();
 };
+
+function previewArticleFunc() {
+        console.log("Preview Article Function Called");
+
+        const title = document.getElementById('title').value;
+        const content = CKEDITOR.instances['content'].getData();
+        const tags = Array.from(document.getElementById('tags').selectedOptions).map(option => option.value);
+        const category = document.getElementById('category').value;
+
+        document.getElementById('preview').innerHTML = `
+            <h3>${title}</h3>
+            <div>${content}</div>
+            <p>Tags: ${tags.join(', ')}</p>
+            <p>Category: ${category}</p>
+        `;
+    }
+
+   
+    
+
+
+
+
+
 </script>
 
 </body>
