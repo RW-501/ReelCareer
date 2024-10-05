@@ -127,9 +127,7 @@ async function displayArticles() {
         console.log("Firestore instance (db):", db); // Check if Firestore is initialized
         
         const articlesCollectionRef = collection(db, 'Articles');
-        const articlesCollectionRef2 = collection(db, 'Article');
         console.log("Articles Collection Reference:", articlesCollectionRef); // Check if collection reference is correct
-        console.log("other Collection Reference:", articlesCollectionRef2); // Check if collection reference is correct
         
         const articlesSnapshot = await getDocs(articlesCollectionRef);
         console.log("Articles Snapshot:", articlesSnapshot); // Check the snapshot object
