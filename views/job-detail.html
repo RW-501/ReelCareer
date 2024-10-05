@@ -193,10 +193,7 @@
                     // Tags
                     document.getElementById('jobTags').innerText = jobData.tags.join(', ');
 
-                    // Add event listener for Apply button
-                    document.getElementById('applyBtn').onclick = function() {
-                        window.location.href = `apply.html?jobId=${jobId}`; // Redirect to apply page
-                    };
+                   
                 } else {
                     alert('Job not found.');
                 }
@@ -208,6 +205,13 @@
 
         // Call the function to fetch job details on page load
         window.onload = fetchJobDetails;
+
+         // Add event listener for Apply button
+         document.getElementById('applyBtn').onclick = function() {
+                        alert('applyBtn');
+
+                        window.location.href = `apply.html?jobId=${jobId}`; // Redirect to apply page
+                    };
     </script>
 
     <!-- Bootstrap JS and dependencies -->
