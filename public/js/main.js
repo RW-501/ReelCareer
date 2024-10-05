@@ -347,7 +347,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const currentPage = window.location.pathname;
 
     // Define if the root is at the home page or deeper directories
-    const isHomePage = currentPage === '/index.html' || currentPage === '/';
+    const isHomePage = currentPage === '/ReelCareer/index.html' || currentPage === '/';
 
     // Adjust hrefs based on the root page
     const adjustLinkURL = (isHomePage) ? 'views/' : '';
