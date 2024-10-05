@@ -102,7 +102,7 @@
         </nav>
     </div>
 
-    <!-- Job Detail Modal -->
+    <!-- Job Detail Modal 
     <div class="modal fade" id="jobDetailModal" tabindex="-1" role="dialog" aria-labelledby="jobDetailModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
@@ -126,7 +126,9 @@
             </div>
         </div>
     </div>
-    
+    -->
+
+
 <!-- Firebase configuration/ Login& Out -->
 <script type="module" src="../public/js/main.js"></script> 
 
@@ -198,7 +200,7 @@
                     <div class="col-md-4 mb-4">
                         <div class="card">
                             <div class="card-body">
-                                <h5 class="card-title">${job.title}</h5>
+                                <h5 class="card-title">${job.title} 5</h5>
                                 <h6 class="card-subtitle mb-2 text-muted">${job.organization}</h6>
                                 <p class="card-text">${job.description}</p>
                                 <button class="btn btn-info" onclick="showJobDetails('${job.id}')">View Details</button>
@@ -264,19 +266,10 @@
             document.head.appendChild(scriptTag); // Append schema markup to head
         }
 
-// Function to redirect user to the job details page with job ID in the URL
-function showJobDetails(jobId) {
-    // Construct the URL with the job ID as a query parameter
-    const jobDetailsUrl = `../views/job-detail.html?id=${jobId}`;
-    
-    // Redirect to the job details page
-    window.location.href = jobDetailsUrl;
-}
 
 
 
-
-
+        
         window.onload = async function() {
             const jobListings = await fetchJobListings(); // Fetch the job listings
             displayJobListings(jobListings); // Display job listings
