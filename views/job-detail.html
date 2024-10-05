@@ -124,10 +124,10 @@
                     const jobData = jobDoc.data();
                     document.getElementById('jobTitle').innerText = jobData.title;
                     document.getElementById('jobDescription').innerText = jobData.description;
-                    document.getElementById('companyName').innerText = jobData.organization;
+                    document.getElementById('companyName').innerText = jobData.company;
                     document.getElementById('jobLocation').innerText = jobData.location;
-                    document.getElementById('employmentType').innerText = jobData.employmentType;
-                    document.getElementById('salary').innerText = jobData.baseSalary;
+                    document.getElementById('employmentType').innerText = jobData.type;
+                    document.getElementById('salary').innerText = jobData.salary;
                     
                     // Add event listener for Apply button
                     document.getElementById('applyBtn').onclick = function() {
