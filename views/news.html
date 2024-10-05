@@ -242,7 +242,7 @@ async function submitArticle(addDo,collection ) {
         // Add article to Firestore (or Firebase Realtime Database)
         await addDoc(collection(db, 'Articles'), newArticle); // Firestore syntax
         console.log('Article successfully added!');
-        displayArticles(); // Function to refresh article display
+        displayArticles(getDocs,collection); // Function to refresh article display
         document.getElementById('article-form').reset();
         CKEDITOR.instances['content'].setData('');
         localStorage.removeItem('draftArticle'); // Clear draft if any
