@@ -223,6 +223,7 @@ function getUserIdFromURL() {
                 submitApplication();
             }
         });
+    });
 
 
     </script>
@@ -235,7 +236,7 @@ function getUserIdFromURL() {
     import { doc, addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 
 
-/*
+
     const jobDocRef = doc(db, 'Jobs', jobId); // Reference to the job document
 
         // Fetch Job and Company Information
@@ -294,7 +295,7 @@ function getUserIdFromURL() {
             });
         }
 
-*/
+
 // Event listener for messaging the recruiter
 
 document.getElementById('messageRecruiter').addEventListener('click', async () => {
@@ -326,7 +327,8 @@ document.getElementById('messageRecruiter').addEventListener('click', async () =
         alert('Failed to send the message. Please try again.');
     }
 });
-/*
+
+
 // Function to get draft applications from Firestore
 async function getDraftApplications(userId) {
     try {
@@ -362,7 +364,10 @@ async function getDraftApplications(userId) {
         return []; // Return an empty array on error
     }
 }
-*/
+
+
+
+ 
 // Example usage
 const userId = getUserIdFromURL(); // Function to get the user ID from the URL
 /*
@@ -380,7 +385,7 @@ getDraftApplications(userId).then(draftApps => {
         });
 
  
-        
+    
 
     
         // Function to handle application submission
@@ -438,11 +443,13 @@ getDraftApplications(userId).then(draftApps => {
                     progressBar.style.width = '0%';
                 }
             }, 300);
-                            });
-
+                            
+        });
+    
 
         // Event Listeners
-        document.getElementById('boostApplication').addEventListener('click', async () => {
+        document.getElementById('boostApplication')
+        .addEventListener('click', async () => {
             console.log("boostApplication   ");
 
     const applicationId = "APPLICATION_ID"; // Replace with actual application ID.
@@ -538,9 +545,10 @@ document.getElementById('previewApplication').addEventListener('click', () => {
             alert('Application saved for later!');
         });
 
-
+ 
        // Load job and company info on page load
        fetchJobAndCompanyInfo();
+
 </script>
 
 </body>
