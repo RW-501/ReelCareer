@@ -8,127 +8,157 @@
    </head>
 <body>
 
-    </script>
+<!-- Navigation Bar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+    <a class="navbar-brand" href="../index.html">ReelCareer</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="../index.html">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="job-listings.html">Job Listings</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="company-pages.html">Company Pages</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="job-seeker.html">Job Seeker</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="recruiter-dashboard.html">Recruiter Dashboard</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="news.html">News</a>
+            </li>
+        </ul>
+    </div>
+</nav>
 
-    <!-- Navigation Bar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="../index.html">ReelCareer</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="../index.html">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="job-listings.html">Job Listings</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="company-pages.html">Company Pages</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="job-seeker.html">Job Seeker</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="recruiter-dashboard.html">Recruiter Dashboard</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="news.html">News</a>
-                </li>
-            </ul>
+<div class="container mt-5 mb-5">
+    <h1 class="text-center mb-4">Job Application</h1>
+    <form id="applicationForm" class="shadow p-4 rounded bg-white">
+        <!-- Applicant Information -->
+        <h3 class="border-bottom pb-2">Applicant Information</h3>
+        <div class="form-group">
+            <label for="firstName">First Name</label>
+            <input type="text" id="firstName" class="form-control" required>
         </div>
-    </nav>
+        <div class="form-group">
+            <label for="lastName">Last Name</label>
+            <input type="text" id="lastName" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="phone">Phone</label>
+            <input type="tel" id="phone" class="form-control" required>
+        </div>
 
-  
-    <div class="container mt-5">
-        <h1>Job Application</h1>
-        <form id="applicationForm">
-            <!-- Applicant Information -->
-            <h3>Applicant Information</h3>
-            <div class="form-group">
-                <label for="firstName">First Name</label>
-                <input type="text" id="firstName" class="form-control" required>
-            </div>
-            <div class="form-group">
-                <label for="lastName">Last Name</label>
-                <input type="text" id="lastName" class="form-control" required>
-            </div>
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" id="email" class="form-control" required>
-            </div>
-            <div class="form-group">
-                <label for="phone">Phone</label>
-                <input type="tel" id="phone" class="form-control" required>
-            </div>
+        <!-- Custom Questions -->
+        <h5 class="text-muted">The following questions are provided by the recruiter and are optional.</h5>
+        <div id="customQuestionsContainer"></div>
 
-            <!-- Custom Questions -->
-            <h5>The following questions are provided by the recruiter and are optional.</h5>
-            <div id="customQuestionsContainer"></div>
+        <!-- Nondisclosure Questions -->
+        <h3 class="border-bottom pb-2">Nondisclosure Questions</h3>
+        <h5 class="text-muted">Please provide accurate information as required by law. Your responses will remain confidential.</h5>
+        
+        <div class="form-group gray-box">
+            <label for="sex">Sex</label>
+            <input type="text" id="sex" class="form-control" placeholder="e.g., Male, Female" required>
+        </div>
+        <div class="form-group gray-box">
+            <label for="age">Age</label>
+            <input type="number" id="age" class="form-control" placeholder="Your Age" required>
+        </div>
+        <div class="form-group gray-box">
+            <label for="veteranStatus">Veteran Status</label>
+            <input type="text" id="veteranStatus" class="form-control" placeholder="e.g., Yes, No">
+        </div>
+        <div class="form-group gray-box">
+            <label for="sexualOrientation">Sexual Orientation</label>
+            <input type="text" id="sexualOrientation" class="form-control" placeholder="e.g., Straight, LGBTQ+">
+        </div>
+        
+        <div class="form-group form-check">
+            <input type="checkbox" id="shareInfo" required class="form-check-input">
+            <label for="shareInfo" class="form-check-label">I consent to share my information as per the company's policies.</label>
+            <input type="text" id="disclosureName" placeholder="Your Name" class="form-control mt-2" required>
+            <input type="date" id="disclosureDate" class="form-control mt-2" required>
+        </div>
 
-            <!-- Nondisclosure Questions -->
-            <h3>Nondisclosure Questions</h3>
-            <h5>These questions are commonly included in job applications.</h5>
-            <div class="form-group">
-                <label for="sex">Sex</label>
-                <input type="text" id="sex" class="form-control" placeholder="e.g., Male, Female">
-            </div>
-            <div class="form-group">
-                <label for="age">Age</label>
-                <input type="number" id="age" class="form-control">
-            </div>
-            <div class="form-group">
-                <label for="veteranStatus">Veteran Status</label>
-                <input type="text" id="veteranStatus" class="form-control" placeholder="e.g., Yes, No">
-            </div>
-            <div class="form-group">
-                <label for="sexualOrientation">Sexual Orientation</label>
-                <input type="text" id="sexualOrientation" class="form-control" placeholder="e.g., Straight, LGBTQ+">
-            </div>
-            <div class="form-group">
-                <input type="checkbox" id="shareInfo" required>
-                <label for="shareInfo">I agree to share my information.</label>
-                <input type="text" id="disclosureName" placeholder="Your Name" class="form-control mt-1">
-                <input type="date" id="disclosureDate" class="form-control mt-1">
-            </div>
+        <!-- Resume Submission Options -->
+        <h3 class="border-bottom pb-2">Resume Submission</h3>
+        <div class="form-group">
+            <label for="noteToRecruiter">Note to Recruiter</label>
+            <textarea id="noteToRecruiter" class="form-control" rows="3"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="videoResumeUpload">Upload Video Resume</label>
+            <input type="file" id="videoResumeUpload" class="form-control-file">
+            <button type="button" id="createVideoResume" class="btn btn-link text-primary">Create One</button>
+        </div>
+        <div class="form-group">
+            <label for="resumeUpload">Upload New Resume</label>
+            <input type="file" id="resumeUpload" class="form-control-file" required>
+        </div>
 
-            <!-- Resume Submission Options -->
-            <h3>Resume Submission</h3>
-            <div class="form-group">
-                <label for="noteToRecruiter">Note to Recruiter</label>
-                <textarea id="noteToRecruiter" class="form-control"></textarea>
-            </div>
-            <div class="form-group">
-                <label for="videoResumeUpload">Upload Video Resume</label>
-                <input type="file" id="videoResumeUpload" class="form-control-file">
-                <button type="button" id="createVideoResume" class="btn btn-link">Create One</button>
-            </div>
-            <div class="form-group">
-                <label for="resumeUpload">Upload New Resume</label>
-                <input type="file" id="resumeUpload" class="form-control-file" required>
-            </div>
+        <div class="form-group">
+            <button type="button" id="boostApplication" class="btn btn-warning btn-lg">Boost Application</button>
+            <button type="button" id="previewApplication" class="btn btn-info btn-lg">Preview Application</button>
+            <button type="button" id="saveForLater" class="btn btn-secondary btn-lg">Save for Later</button>
+            <button type="submit" id="submitApplication" class="btn btn-success btn-lg">Submit Application</button>
+        </div>
 
-            <div class="form-group">
-                <button type="button" id="boostApplication" class="btn btn-warning">Boost Application</button>
-                <button type="button" id="previewApplication" class="btn btn-info">Preview Application</button>
-                <button type="button" id="saveForLater" class="btn btn-secondary">Save for Later</button>
-                <button type="button" id="submitApplication" class="btn btn-secondary">Submit Application</button>
-            </div>
-
-            <!-- Job Posted By Area -->
-            <h3>Job Posted By</h3>
-            <div id="jobPostedByArea"></div>
+        <!-- Job Posted By Area -->
+        <h3 class="border-bottom pb-2">Job Posted By</h3>
+        <div id="jobPostedByArea"></div>
+        <div class="d-flex justify-content-between mt-4">
             <button type="button" id="messageRecruiter" class="btn btn-primary">Message Recruiter</button>
             <button type="button" id="backToJobPost" class="btn btn-light">Back to Job Post</button>
-        </form>
-    </div>
+        </div>
+    </form>
+</div>
 
-    <!-- Footer -->
-    <footer class="bg-light text-center py-4 mt-5">
-        <p>&copy; 2024 ReelCareer. All Rights Reserved.</p>
-    </footer>
+<!-- Footer -->
+<footer class="bg-light text-center py-4 mt-5 shadow-sm">
+    <p>&copy; 2024 ReelCareer. All Rights Reserved.</p>
+</footer>
+
+<style>
+    .gray-box {
+        background-color: #f7f7f7;
+        border: 1px solid #e0e0e0;
+        border-radius: 5px;
+        padding: 15px;
+        margin-bottom: 15px;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .btn-lg {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+    }
+
+    /* Additional Styling for Input Focus */
+    input:focus, textarea:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    }
+</style>
+
+
+
+
+    
     <script>
 // Function to extract the user ID from URL parameters
 function getUserIdFromURL() {
