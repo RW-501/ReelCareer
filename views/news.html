@@ -94,7 +94,7 @@
                 <small>Recommended image size: 1200x800 pixels.</small>
             </div>
             <button type="submit" class="btn btn-success">Submit Article</button>
-            <button type="button" class="btn btn-secondary" onclick="previewArticleFunc()">Preview</button>
+            <button type="button" class="btn btn-secondary" onclick="previewArticleFunc();">Preview</button>
         </div>
         <div id="preview" class="mt-4"></div>
     </section>
@@ -117,13 +117,32 @@
    <!-- Firebase configuration/ Login& Out -->
    <script type="module" src="../public/js/main.js"></script> 
    
+   <script>
+    function previewArticleFunc() {
+        console.log("Preview Article Function Called");
 
+        const title = document.getElementById('title').value;
+        const content = CKEDITOR.instances['content'].getData();
+        const tags = Array.from(document.getElementById('tags').selectedOptions).map(option => option.value);
+        const category = document.getElementById('category').value;
+
+        document.getElementById('preview').innerHTML = `
+            <h3>${title}</h3>
+            <div>${content}</div>
+            <p>Tags: ${tags.join(', ')}</p>
+            <p>Category: ${category}</p>
+        `;
+    }
+</script>
 
     <!-- Dynamic Schema Markup -->
     <script type="module">
     import { db, storage, analytics, app } from '../public/js/main.js'; // Adjust the path based on your structure
     import { collection, getDocs, addDoc, doc, getDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
     import { ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-storage.js";
+
+
+ 
 
          // Initialize CKEditor for rich text editing
     CKEDITOR.replace('content');
@@ -266,22 +285,7 @@
     window.onload = displayArticles;
 
 
-     // Function to previewArticle
-      function previewArticleFunc(){
-        console.log("previewArticle   ");
-
-        const title = document.getElementById('title').value;
-        const content = CKEDITOR.instances['content'].getData();
-        const tags = Array.from(document.getElementById('tags').selectedOptions).map(option => option.value);
-        const category = document.getElementById('category').value;
-
-        document.getElementById('preview').innerHTML = `
-            <h3>${title}</h3>
-            <div>${content}</div>
-            <p>Tags: ${tags.join(', ')}</p>
-            <p>Category: ${category}</p>
-        `;
-    }
+    
 
 </script>
 
