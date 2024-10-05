@@ -134,39 +134,8 @@
         `;
     }
 
-    
-
-</script>
-
-
-<script type="module">
-    import { db, storage, analytics, app } from '../public/js/main.js'; // Adjust the path based on your structure
-    import { collection, getDocs, addDoc, doc, getDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
-    import { ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-storage.js";
-    const articlesDocRef = doc(db, 'Articles'); // Reference to the job document
-    const articlesCollectionRef = collection(db, 'Articles'); // Reference to the Articles collection
-    const articlesSnapshot = await getDocs(articlesCollectionRef);
-
-    
-         // Initialize CKEditor for rich text editing
-    CKEDITOR.replace('content');
-
-
-    // Auto-save drafts feature
-    const autoSaveInterval = setInterval(() => {
-        const title = document.getElementById('title').value;
-        const content = CKEDITOR.instances['content'].getData();
-        const tags = Array.from(document.getElementById('tags').selectedOptions).map(option => option.value);
-        const category = document.getElementById('category').value;
-
-        if (title || content) {
-            const draftData = { title, content, tags, category };
-            localStorage.setItem('draftArticle', JSON.stringify(draftData));
-        }
-    }, 30000); // Auto-save every 30 seconds
-
-    // Load draft if exists
-    window.onload = function() {
+     // Load draft if exists
+     window.onload = function() {
         const savedDraft = JSON.parse(localStorage.getItem('draftArticle'));
         if (savedDraft) {
             document.getElementById('title').value = savedDraft.title;
@@ -181,18 +150,6 @@
     };
 
      
-   
-
-    // Implement spam detection
-    const spamDetection = (submission) => {
-        const spamKeywords = ["spam", "fake"];
-        return !spamKeywords.some(keyword => submission.includes(keyword));
-    };
-
-   
-    
-
-
   // Function to submit an article
 async function submitArticle(addDo,collection ) {
     console.log("submitArticle function called");
@@ -298,6 +255,39 @@ async function submitArticle(addDo,collection ) {
 
     console.log("Articles display finished.");
 }
+
+   
+
+
+    
+         // Initialize CKEditor for rich text editing
+    CKEDITOR.replace('content');
+
+
+    // Auto-save drafts feature
+    const autoSaveInterval = setInterval(() => {
+        const title = document.getElementById('title').value;
+        const content = CKEDITOR.instances['content'].getData();
+        const tags = Array.from(document.getElementById('tags').selectedOptions).map(option => option.value);
+        const category = document.getElementById('category').value;
+
+        if (title || content) {
+            const draftData = { title, content, tags, category };
+            localStorage.setItem('draftArticle', JSON.stringify(draftData));
+        }
+    }, 30000); // Auto-save every 30 seconds
+
+   
+
+    // Implement spam detection
+    const spamDetection = (submission) => {
+        const spamKeywords = ["spam", "fake"];
+        return !spamKeywords.some(keyword => submission.includes(keyword));
+    };
+
+   
+    
+
 
 
 </script>
