@@ -197,6 +197,103 @@
             });
         }
 
+// Function to extract the user ID from URL parameters
+function getUserIdFromURL() {
+    const urlParams = new URLSearchParams(window.location.search);
+    console.log("urlParams   ",urlParams);
+
+    return urlParams.get('userId'); // Assuming userId is the parameter name in the URL
+}
+
+// Event listener for messaging the recruiter
+
+document.getElementById('messageRecruiter').addEventListener('click', async () => {
+    const recruiterEmail = document.getElementById('recruiterEmail').value;
+    const messageContent = document.getElementById('messageContent').value;
+    const userId = getUserIdFromURL();
+
+    if (!recruiterEmail || !messageContent) {
+        alert('Please fill in all fields.');
+        return;
+    }
+
+    try {
+        // Construct message object
+        const message = {
+            senderId: userId,
+            recipientEmail: recruiterEmail,
+            content: messageContent,
+            timestamp: new Date() // Use Date for timestamp
+        };
+
+        // Save message to Firestore
+        await addDoc(collection(db, "Messages"), message);
+
+        // Redirect to messaging page
+        window.location.href = `messaging.html?userId=${userId}`;
+    } catch (error) {
+        console.error("Error sending message: ", error);
+        alert('Failed to send the message. Please try again.');
+    }
+});
+
+// Function to get draft applications from Firestore
+async function getDraftApplications(userId) {
+    try {
+        // Create a query to fetch draft applications for the specified user
+        const draftQuery = query(
+            collection(db, 'Applications'),
+            where('userId', '==', userId), // Assuming userId is stored in each application
+            where('status', '==', 'draft') // Only get drafts
+        );
+
+        // Fetch the draft applications
+        const querySnapshot = await getDocs(draftQuery);
+
+        // Array to hold draft applications
+        const draftApps = [];
+
+        // Loop through the query results
+        querySnapshot.forEach(doc => {
+            // Push each draft application to the array
+            draftApps.push({ id: doc.id, ...doc.data() });
+        });
+
+        // Check if there are any drafts
+        if (draftApps.length === 0) {
+            console.log('No draft applications found.');
+            return [];
+        }
+
+        // Return the array of draft applications
+        return draftApps;
+    } catch (error) {
+        console.error('Error fetching draft applications: ', error);
+        return []; // Return an empty array on error
+    }
+}
+
+// Example usage
+const userId = getUserIdFromURL(); // Function to get the user ID from the URL
+
+getDraftApplications(userId).then(draftApps => {
+    if (draftApps.length > 0) {
+        console.log('Draft Applications:', draftApps);
+        // You can now render these applications in your UI
+    } else {
+        console.log('No draft applications available.');
+    }
+});
+
+        document.getElementById('backToJobPost').addEventListener('click', () => {
+            window.history.back(); // Back to the previous page
+        });
+
+        // Load job and company info on page load
+        fetchJobAndCompanyInfo();
+    </script>
+<script>
+    
         // Function to handle application submission
         async function submitApplication() {
             const applicantData = {
@@ -334,100 +431,7 @@ document.getElementById('previewApplication').addEventListener('click', () => {
             alert('Application saved for later!');
         });
 
-// Function to extract the user ID from URL parameters
-function getUserIdFromURL() {
-    const urlParams = new URLSearchParams(window.location.search);
-    console.log("urlParams   ",urlParams);
+</script>
 
-    return urlParams.get('userId'); // Assuming userId is the parameter name in the URL
-}
-
-// Event listener for messaging the recruiter
-
-document.getElementById('messageRecruiter').addEventListener('click', async () => {
-    const recruiterEmail = document.getElementById('recruiterEmail').value;
-    const messageContent = document.getElementById('messageContent').value;
-    const userId = getUserIdFromURL();
-
-    if (!recruiterEmail || !messageContent) {
-        alert('Please fill in all fields.');
-        return;
-    }
-
-    try {
-        // Construct message object
-        const message = {
-            senderId: userId,
-            recipientEmail: recruiterEmail,
-            content: messageContent,
-            timestamp: new Date() // Use Date for timestamp
-        };
-
-        // Save message to Firestore
-        await addDoc(collection(db, "Messages"), message);
-
-        // Redirect to messaging page
-        window.location.href = `messaging.html?userId=${userId}`;
-    } catch (error) {
-        console.error("Error sending message: ", error);
-        alert('Failed to send the message. Please try again.');
-    }
-});
-
-// Function to get draft applications from Firestore
-async function getDraftApplications(userId) {
-    try {
-        // Create a query to fetch draft applications for the specified user
-        const draftQuery = query(
-            collection(db, 'Applications'),
-            where('userId', '==', userId), // Assuming userId is stored in each application
-            where('status', '==', 'draft') // Only get drafts
-        );
-
-        // Fetch the draft applications
-        const querySnapshot = await getDocs(draftQuery);
-
-        // Array to hold draft applications
-        const draftApps = [];
-
-        // Loop through the query results
-        querySnapshot.forEach(doc => {
-            // Push each draft application to the array
-            draftApps.push({ id: doc.id, ...doc.data() });
-        });
-
-        // Check if there are any drafts
-        if (draftApps.length === 0) {
-            console.log('No draft applications found.');
-            return [];
-        }
-
-        // Return the array of draft applications
-        return draftApps;
-    } catch (error) {
-        console.error('Error fetching draft applications: ', error);
-        return []; // Return an empty array on error
-    }
-}
-
-// Example usage
-const userId = getUserIdFromURL(); // Function to get the user ID from the URL
-
-getDraftApplications(userId).then(draftApps => {
-    if (draftApps.length > 0) {
-        console.log('Draft Applications:', draftApps);
-        // You can now render these applications in your UI
-    } else {
-        console.log('No draft applications available.');
-    }
-});
-
-        document.getElementById('backToJobPost').addEventListener('click', () => {
-            window.history.back(); // Back to the previous page
-        });
-
-        // Load job and company info on page load
-        fetchJobAndCompanyInfo();
-    </script>
 </body>
 </html>
