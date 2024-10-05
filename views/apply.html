@@ -150,14 +150,14 @@ function getUserIdFromURL() {
    
    <script type="module">
    import { db, storage, analytics, app  } from '../public/js/main.js'; // Adjust the path based on your structure
-    import { collection, query, where, getDocs , addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+    import { doc, collection, query, where, getDocs , addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 
  
 
 
 
         // Fetch Job and Company Information
-        async function fetchJobAndCompanyInfo() {
+        async function fetchJobAndCompanyInfo(doc) {
     // Fetch the job document
     const jobDocRef = doc(db, 'Jobs', jobId); // Reference to the job document
         const jobDoc = await getDoc(jobDocRef); // Get the job document
@@ -295,8 +295,7 @@ getDraftApplications(userId).then(draftApps => {
             window.history.back(); // Back to the previous page
         });
 
-        // Load job and company info on page load
-        fetchJobAndCompanyInfo();
+ 
         
 
     
@@ -441,6 +440,9 @@ document.getElementById('previewApplication').addEventListener('click', () => {
             alert('Application saved for later!');
         });
 
+
+       // Load job and company info on page load
+       fetchJobAndCompanyInfo();
 </script>
 
 </body>
