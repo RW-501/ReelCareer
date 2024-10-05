@@ -139,14 +139,7 @@
     const sponsoredJobs = [];
 
 
-// Function to redirect user to the job details page with job ID in the URL
-function showJobDetails(jobId) {
-    // Construct the URL with the job ID as a query parameter
-    const jobDetailsUrl = `../views/job-detail.html?id=${jobId}`;
-    
-    // Redirect to the job details page
-    window.location.href = jobDetailsUrl;
-}
+
 
 
 
@@ -288,6 +281,15 @@ function showJobDetails(jobId) {
             displayJobListings(jobListings); // Display job listings
             generateSchemaMarkup(jobListings); // Generate structured data markup for SEO
 };
+
+// Function to redirect user to the job details page with job ID in the URL
+function showJobDetails(jobId) {
+    // Construct the URL with the job ID as a query parameter
+    const jobDetailsUrl = `../views/job-detail.html?id=${jobId}`;
+    
+    // Redirect to the job details page
+    window.location.href = jobDetailsUrl;
+}
     </script>
 
     <!-- jQuery and Bootstrap JS -->
