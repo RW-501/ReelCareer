@@ -683,6 +683,7 @@ function updateFooter() {
     `;
     
     footer.innerHTML = newContent; // Update the footer's HTML content
+console.log("dynamic-footer ?????????????");
 
     // Current Date and Time
     const updateDateTime = () => {
