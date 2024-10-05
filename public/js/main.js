@@ -421,7 +421,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (localStorage.getItem('darkMode') === 'true') {
             document.body.classList.add('dark-mode');
         }
-        firebase.initializeApp(firebaseConfig);
+      //  firebase.initializeApp(firebaseConfig);
 
         // Firebase Authentication logic
         firebase.auth().onAuthStateChanged(handleAuthStateChanged);
