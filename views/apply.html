@@ -142,6 +142,7 @@
         // Get Job ID from URL
         const urlParams = new URLSearchParams(window.location.search);
         const jobId = urlParams.get('jobId');
+        console.log("jobId   ",jobId);
 
         // Fetch Job and Company Information
         async function fetchJobAndCompanyInfo() {
@@ -295,7 +296,7 @@ getDraftApplications(userId).then(draftApps => {
 <script>
     
         // Function to handle application submission
-        async function submitApplication() {
+       async  function submitApplication() {
             const applicantData = {
                 firstName: document.getElementById('firstName').value,
                 lastName: document.getElementById('lastName').value,
@@ -311,7 +312,9 @@ getDraftApplications(userId).then(draftApps => {
                 disclosureDate: document.getElementById('disclosureDate').value,
                 jobId: jobId,
                 // Collect custom questions responses here
+  
             };
+            console.log("submitApplication  called"); // Debugging log
 
             // Upload resume if available
             const resumeFile = document.getElementById('resumeUpload').files[0];
