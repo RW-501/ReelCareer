@@ -234,6 +234,8 @@
 
     try {
         const snapshot = await getDocs(collection(db, 'Articles'));
+        console.log("Fetched snapshot: ", snapshot);
+
         snapshot.forEach((doc) => {
             const article = doc.data();
             console.log("Fetched article: ", article);
