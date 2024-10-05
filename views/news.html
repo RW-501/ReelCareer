@@ -194,57 +194,64 @@
 </script>
 
 <script>
-       // Function to submit article
-   async function submitArticle(db,ref) {
-     //   event.preventDefault();
-     console.log("submitArticle function called"); // Debugging log
+  // Function to submit an article
+async function submitArticle() {
+    console.log("submitArticle function called");
 
-        const title = document.getElementById('title').value;
-        const content = CKEDITOR.instances['content'].getData();
-        const tags = Array.from(document.getElementById('tags').selectedOptions).map(option => option.value);
-        const category = document.getElementById('category').value;
-        const mediaFiles = document.getElementById('media').files;
+    const title = document.getElementById('title').value;
+    const content = CKEDITOR.instances['content'].getData();
+    const tags = Array.from(document.getElementById('tags').selectedOptions).map(option => option.value);
+    const category = document.getElementById('category').value;
+    const mediaFiles = document.getElementById('media').files;
 
-        // Check for bad words or injections (simple example)
-        const forbiddenWords = ["badword1", "badword2"];
-        if (forbiddenWords.some(word => content.includes(word))) {
-            alert("Your content contains inappropriate language.");
-            return;
-        }
-        console.log("?????????????????//  called"); // Debugging log
-
-        // Upload media files
-        const mediaURLs = [];
-        const uploadPromises = Array.from(mediaFiles).map(file => {
-            const storageRef = storage.ref(`media/${file.name}`);
-            return storageRef.put(file).then(snapshot => snapshot.ref.getDownloadURL());
-        });
-
-        Promise.all(uploadPromises).then(urls => {
-            mediaURLs.push(...urls);
-            const newArticle = {
-                title,
-                content,
-                tags,
-                category,
-                mediaFiles: mediaURLs,
-                authorID: 'user123', // Replace with actual user ID
-                authorType: 'user', // Replace based on submission
-                status: 'pending'
-            };
-
-            // Add article to the Firebase database
-            db.ref('Articles').push(newArticle).then(() => {
-                displayArticles();
-                document.getElementById('article-form').reset();
-                CKEDITOR.instances['content'].setData('');
-                localStorage.removeItem('draftArticle'); // Clear draft
-            }).catch(error => {
-                console.error("Error adding article:", error);
-            });
-        });
+    // Check for bad words or injections (simple example)
+    const forbiddenWords = ["badword1", "badword2"];
+    if (forbiddenWords.some(word => content.includes(word))) {
+        alert("Your content contains inappropriate language.");
+        return;
     }
 
+    console.log("Starting media upload...");
+
+    // Upload media files to Firebase Cloud Storage
+    const mediaURLs = [];
+    const uploadPromises = Array.from(mediaFiles).map(file => {
+        const fileRef = ref(storage, `media/${file.name}`); // Create a reference for the file
+        const uploadTask = uploadBytesResumable(fileRef, file); // Upload file
+
+        return uploadTask.then(snapshot => getDownloadURL(snapshot.ref)); // Get the download URL after upload
+    });
+
+    // Wait for all media files to be uploaded and get URLs
+    const urls = await Promise.all(uploadPromises);
+    mediaURLs.push(...urls);
+
+    // Prepare article data
+    const newArticle = {
+        title,
+        content,
+        tags,
+        category,
+        mediaFiles: mediaURLs,
+        authorID: 'user123', // Replace with actual user ID
+        authorType: 'user', // Replace based on submission
+        status: 'pending',
+        createdAt: new Date()
+    };
+
+    try {
+        // Add article to Firestore (or Firebase Realtime Database)
+        await addDoc(collection(db, 'Articles'), newArticle); // Firestore syntax
+        console.log('Article successfully added!');
+        displayArticles(); // Function to refresh article display
+        document.getElementById('article-form').reset();
+        CKEDITOR.instances['content'].setData('');
+        localStorage.removeItem('draftArticle'); // Clear draft if any
+
+    } catch (error) {
+        console.error("Error adding article:", error);
+    }
+}
     // Function to display articles
     async function displayArticles(db,getDoc,collection ) {
     console.log("displayArticles function called"); // Debugging log
