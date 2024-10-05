@@ -129,7 +129,22 @@
     <footer class="bg-light text-center py-4 mt-5">
         <p>&copy; 2024 ReelCareer. All Rights Reserved.</p>
     </footer>
-    
+    <script>
+// Function to extract the user ID from URL parameters
+function getUserIdFromURL() {
+    const urlParams = new URLSearchParams(window.location.search);
+    console.log("urlParams   ",urlParams);
+
+    return urlParams.get('userId'); // Assuming userId is the parameter name in the URL
+}
+
+        // Get Job ID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const jobId = urlParams.get('jobId');
+        console.log("jobId   ",jobId);
+
+
+    </script>
    <!-- Firebase configuration/ Login& Out -->
    <script type="module" src="../public/js/main.js"></script> 
    
@@ -139,10 +154,7 @@
 
  
 
-        // Get Job ID from URL
-        const urlParams = new URLSearchParams(window.location.search);
-        const jobId = urlParams.get('jobId');
-        console.log("jobId   ",jobId);
+
 
         // Fetch Job and Company Information
         async function fetchJobAndCompanyInfo() {
@@ -198,13 +210,6 @@
             });
         }
 
-// Function to extract the user ID from URL parameters
-function getUserIdFromURL() {
-    const urlParams = new URLSearchParams(window.location.search);
-    console.log("urlParams   ",urlParams);
-
-    return urlParams.get('userId'); // Assuming userId is the parameter name in the URL
-}
 
 // Event listener for messaging the recruiter
 
