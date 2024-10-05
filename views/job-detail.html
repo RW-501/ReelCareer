@@ -104,7 +104,8 @@
         // Function to fetch job details
         async function fetchJobDetails() {
             const urlParams = new URLSearchParams(window.location.search);
-            const jobId = urlParams.getDocs('id'); // Get job ID from URL
+            const jobId = urlParams('id'); // Get job ID from URL
+            console.log("jobId   ",jobId);
 
             if (!jobId) {
                 alert('Job ID not found in URL.');
