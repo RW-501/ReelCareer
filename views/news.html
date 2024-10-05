@@ -127,22 +127,6 @@
          // Initialize CKEditor for rich text editing
     CKEDITOR.replace('content');
 
- // Function to previewArticle
- function previewArticleFunc() {
-        console.log("previewArticle   ");
-
-        const title = document.getElementById('title').value;
-        const content = CKEDITOR.instances['content'].getData();
-        const tags = Array.from(document.getElementById('tags').selectedOptions).map(option => option.value);
-        const category = document.getElementById('category').value;
-
-        document.getElementById('preview').innerHTML = `
-            <h3>${title}</h3>
-            <div>${content}</div>
-            <p>Tags: ${tags.join(', ')}</p>
-            <p>Category: ${category}</p>
-        `;
-    }
 
     // Auto-save drafts feature
     const autoSaveInterval = setInterval(() => {
@@ -175,6 +159,8 @@
     // Function to submit article
     function submitArticle() {
      //   event.preventDefault();
+     console.log("submitArticle function called"); // Debugging log
+
         const title = document.getElementById('title').value;
         const content = CKEDITOR.instances['content'].getData();
         const tags = Array.from(document.getElementById('tags').selectedOptions).map(option => option.value);
@@ -187,6 +173,7 @@
             alert("Your content contains inappropriate language.");
             return;
         }
+        console.log("?????????????????//  called"); // Debugging log
 
         // Upload media files
         const mediaURLs = [];
@@ -275,6 +262,25 @@
 
     // Call displayArticles to fetch and display the articles on page load
     window.onload = displayArticles;
+
+
+     // Function to previewArticle
+ function previewArticleFunc() {
+        console.log("previewArticle   ");
+
+        const title = document.getElementById('title').value;
+        const content = CKEDITOR.instances['content'].getData();
+        const tags = Array.from(document.getElementById('tags').selectedOptions).map(option => option.value);
+        const category = document.getElementById('category').value;
+
+        document.getElementById('preview').innerHTML = `
+            <h3>${title}</h3>
+            <div>${content}</div>
+            <p>Tags: ${tags.join(', ')}</p>
+            <p>Category: ${category}</p>
+        `;
+    }
+
 </script>
 </body>
 </html>
