@@ -20,7 +20,6 @@ import { getAuth, GoogleAuthProvider, FacebookAuthProvider, OAuthProvider, onAut
 import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 import { initializeAnalytics } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-analytics.js"; // Use the same version
 import { getStorage } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-storage.js"; 
-import firebase from "firebase/compat/app";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -422,9 +421,8 @@ document.addEventListener("DOMContentLoaded", function () {
             document.body.classList.add('dark-mode');
         }
       //  firebase.initializeApp(firebaseConfig);
+      onAuthStateChanged(auth, handleAuthStateChanged);
 
-        // Firebase Authentication logic
-        firebase.auth().onAuthStateChanged(handleAuthStateChanged);
     }
 
     // Function to toggle dark mode
@@ -511,7 +509,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.body.insertAdjacentHTML('beforeend', companyMediaSectionHTML);
 });
 
-
+// btn-primary
 // Function to highlight active links in the navbar
 function highlightActiveLink() {
     const navLinks = document.querySelectorAll('.navbar-nav .nav-item .nav-link');
