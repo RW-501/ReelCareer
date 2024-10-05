@@ -113,7 +113,7 @@
             }
 
             try {
-                const jobDoc = await db.collection('Jobs').doc(jobId).getDocs(); // Fetch job details
+                const jobDoc = await getDocs(collection(db, 'Jobs').doc(jobId).getDocs());
 
                 if (jobDoc.exists) {
                     const jobData = jobDoc.data();
