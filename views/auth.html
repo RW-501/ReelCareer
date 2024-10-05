@@ -3,34 +3,241 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Authentication</title>
+    <meta name="description" content="Authenticate your account with ease. Sign up or log in using email or social media.">
+    <meta name="keywords" content="Authentication, Login, Sign Up, Password Reset">
+    <meta name="author" content="ReelCareer">
+    <meta property="og:title" content="Authentication - ReelCareer">
+    <meta property="og:description" content="Sign up or log in to your ReelCareer account easily.">
+    <meta property="og:image" content="link_to_image_here"> <!-- Add image URL -->
+    <meta property="og:url" content="link_to_authentication_page_here"> <!-- Add authentication page URL -->
+    <title>Authentication - ReelCareer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            width: 300px;
+            margin-bottom: 20px;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        input {
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            background-color: #007BFF;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #loading-indicator {
+            display: none;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        #error-message {
+            color: red;
+            display: none;
+        }
+        #success-message {
+            color: green;
+            display: none;
+        }
+        footer {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 14px;
+        }
+        .remember-me {
+            display: flex;
+            align-items: center;
+        }
+        .remember-me input {
+            margin-right: 5px;
+        }
+        .form-link {
+            text-align: center;
+            margin-top: 10px;
+        }
+        .form-link a {
+            color: #007BFF;
+            text-decoration: none;
+        }
+        .form-link a:hover {
+            text-decoration: underline;
+        }
+        .toggle-password {
+            cursor: pointer;
+            display: inline-block;
+            margin-left: -30px;
+        }
+        .social-login {
+            display: flex;
+            justify-content: space-between;
+        }
+    </style>
 </head>
 <body>
-    <!-- Loading Indicator -->
-    <div id="loading-indicator" style="display: none;">Loading...</div>
+
+    <nav>
+        <a href="/">Home</a> | 
+        <a href="/about.html">About Us</a> | 
+        <a href="/contact.html">Contact</a>
+    </nav>
+
+    <h1>Authentication</h1>
+
+    <div id="loading-indicator">Loading...</div>
+    <div id="error-message"></div>
+    <div id="success-message"></div>
 
     <!-- Sign Up Form -->
-    <form id="signup-form">
-        <input type="email" id="signup-email" placeholder="Email" required>
-        <input type="password" id="signup-password" placeholder="Password" required>
+    <form id="signup-form" aria-labelledby="signup-header">
+        <h2 id="signup-header">Sign Up</h2>
+        <input type="email" id="signup-email" placeholder="Email" required aria-label="Email">
+        <input type="password" id="signup-password" placeholder="Password" required aria-label="Password">
+        <span class="toggle-password" id="toggle-signup-password">👁️</span>
         <button type="submit">Sign Up</button>
+        <div class="form-link">
+            <p>Already have an account? <a href="#" id="show-login">Log In</a></p>
+        </div>
     </form>
 
     <!-- Log In Form -->
-    <form id="login-form">
-        <input type="email" id="login-email" placeholder="Email" required>
-        <input type="password" id="login-password" placeholder="Password" required>
+    <form id="login-form" aria-labelledby="login-header" style="display: none;">
+        <h2 id="login-header">Log In</h2>
+        <input type="email" id="login-email" placeholder="Email" required aria-label="Email">
+        <input type="password" id="login-password" placeholder="Password" required aria-label="Password">
+        <span class="toggle-password" id="toggle-login-password">👁️</span>
+        <div class="remember-me">
+            <input type="checkbox" id="remember-me" aria-label="Remember Me">
+            <label for="remember-me">Remember Me</label>
+        </div>
         <button type="submit">Log In</button>
+        <div class="form-link">
+            <a href="#" id="forgot-password-link">Forgot Password?</a>
+        </div>
+        <div class="form-link">
+            <p>New user? <a href="#" id="show-signup">Sign Up</a></p>
+        </div>
     </form>
 
     <!-- Log In with Google, Facebook, Apple -->
-    <button id="google-login">Log In with Google</button>
-    <button id="facebook-login">Log In with Facebook</button>
-    <button id="apple-login">Log In with Apple</button>
+    <div class="social-login">
+        <button id="google-login" aria-label="Log In with Google">Log In with Google</button>
+        <button id="facebook-login" aria-label="Log In with Facebook">Log In with Facebook</button>
+        <button id="apple-login" aria-label="Log In with Apple">Log In with Apple</button>
+    </div>
 
     <!-- Log Out Button (accessible everywhere) -->
-    <button id="logout-button" style="display: none;">Log Out</button>
+    <button id="logout-button" style="display: none;" aria-label="Log Out">Log Out</button>
+
+    <footer>
+        <p>&copy; 2024 ReelCareer. All rights reserved.</p>
+        <p>
+            <a href="/privacy-policy.html">Privacy Policy</a> | 
+            <a href="/terms.html">Terms of Service</a>
+        </p>
+    </footer>
 
     <script src="../public/js/main.js"></script>
+
+    <script>
+        // Example of error handling
+        function displayError(message) {
+            const errorMessage = document.getElementById('error-message');
+            errorMessage.textContent = message;
+            errorMessage.style.display = 'block';
+        }
+
+        // Example of success handling
+        function displaySuccess(message) {
+            const successMessage = document.getElementById('success-message');
+            successMessage.textContent = message;
+            successMessage.style.display = 'block';
+        }
+
+        // Example of loading indicator toggle
+        function toggleLoadingIndicator(isLoading) {
+            const loadingIndicator = document.getElementById('loading-indicator');
+            loadingIndicator.style.display = isLoading ? 'block' : 'none';
+        }
+
+        // Toggle password visibility
+        function togglePasswordVisibility(passwordField, toggleButton) {
+            const type = passwordField.type === "password" ? "text" : "password";
+            passwordField.type = type;
+            toggleButton.textContent = type === "password" ? "👁️" : "👁️‍🗨️"; // Change icon based on visibility
+        }
+
+        // Event listeners for forms
+        document.getElementById('signup-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            toggleLoadingIndicator(true);
+            // Your signup logic here
+            displaySuccess("Registration successful! Redirecting you to your dashboard.");
+            toggleLoadingIndicator(false);
+        });
+
+        document.getElementById('login-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            toggleLoadingIndicator(true);
+            // Your login logic here
+            displaySuccess("Login successful! Redirecting you to your dashboard.");
+            toggleLoadingIndicator(false);
+        });
+
+        // Event listener for password reset
+        document.getElementById('forgot-password-link').addEventListener('click', function(event) {
+            event.preventDefault();
+            // Implement password reset logic here
+            alert("Password reset functionality will be implemented.");
+        });
+
+        // Show/Hide forms
+        document.getElementById('show-login').addEventListener('click', function(event) {
+            event.preventDefault();
+            document.getElementById('signup-form').style.display = 'none';
+            document.getElementById('login-form').style.display = 'block';
+        });
+
+        document.getElementById('show-signup').addEventListener('click', function(event) {
+            event.preventDefault();
+            document.getElementById('login-form').style.display = 'none';
+            document.getElementById('signup-form').style.display = 'block';
+        });
+
+        // Toggle password visibility for signup and login
+        document.getElementById('toggle-signup-password').addEventListener('click', function() {
+            togglePasswordVisibility(document.getElementById('signup-password'), this);
+        });
+
+        document.getElementById('toggle-login-password').addEventListener('click', function() {
+            togglePasswordVisibility(document.getElementById('login-password'), this);
+        });
+    </script>
 </body>
 </html>
