@@ -176,7 +176,25 @@
         displayArticles();
     };
 
-    // Function to submit article
+     
+   
+
+    // Implement spam detection
+    const spamDetection = (submission) => {
+        const spamKeywords = ["spam", "fake"];
+        return !spamKeywords.some(keyword => submission.includes(keyword));
+    };
+
+    // Call displayArticles to fetch and display the articles on page load
+    window.onload = displayArticles;
+
+
+    
+
+</script>
+
+<script>
+       // Function to submit article
    async function submitArticle() {
      //   event.preventDefault();
      console.log("submitArticle function called"); // Debugging log
@@ -272,23 +290,8 @@
 }
 
 
-    
-   
-
-    // Implement spam detection
-    const spamDetection = (submission) => {
-        const spamKeywords = ["spam", "fake"];
-        return !spamKeywords.some(keyword => submission.includes(keyword));
-    };
-
-    // Call displayArticles to fetch and display the articles on page load
-    window.onload = displayArticles;
-
-
-    
 
 </script>
-
 
 </body>
 </html>
