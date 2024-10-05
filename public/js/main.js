@@ -609,21 +609,6 @@ async function handleNewsletterSignup(email) {
     }
 }
 
-// Update the event listener for the form
-document.getElementById('newsletterForm').addEventListener('submit', async function(event) {
-    event.preventDefault();
-    const email = this.querySelector('input[type="email"]').value;
-
-    // Check if user agreed to the data privacy policy
-    if (!document.getElementById('dataPrivacy').checked) {
-        alert("You must agree to the data privacy policy.");
-        return;
-    }
-
-    // Handle the newsletter signup process
-    await handleNewsletterSignup(email);
-});
-
 // Update the footer function (No changes needed for this part)
 function updateFooter() { 
     const footer = document.getElementById('dynamic-footer');
@@ -700,3 +685,20 @@ console.log("dynamic-footer ?????????????");
 
 // Call the function to update the footer when the document is loaded
 document.addEventListener('DOMContentLoaded', updateFooter);
+
+
+
+// Update the event listener for the form
+document.getElementById('newsletterForm').addEventListener('submit', async function(event) {
+    event.preventDefault();
+    const email = this.querySelector('input[type="email"]').value;
+
+    // Check if user agreed to the data privacy policy
+    if (!document.getElementById('dataPrivacy').checked) {
+        alert("You must agree to the data privacy policy.");
+        return;
+    }
+
+    // Handle the newsletter signup process
+    await handleNewsletterSignup(email);
+});
