@@ -296,7 +296,8 @@ getDraftApplications(userId).then(draftApps => {
 <script>
     
         // Function to handle application submission
-       async  function submitApplication() {
+        document.getElementById('submitApplication').addEventListener('click', async () => {
+
             const applicantData = {
                 firstName: document.getElementById('firstName').value,
                 lastName: document.getElementById('lastName').value,
@@ -335,7 +336,8 @@ getDraftApplications(userId).then(draftApps => {
             // Save application data to Firestore
             await addDoc(collection(db, 'Applications'), applicantData);
                         alert('Application submitted successfully!');
-        }
+                    });
+
 
         // Event Listeners
         document.getElementById('boostApplication').addEventListener('click', async () => {
