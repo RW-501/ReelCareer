@@ -155,12 +155,15 @@ function getUserIdFromURL() {
  
 
 
+    const jobDocRef = doc(db, 'Jobs', jobId); // Reference to the job document
 
         // Fetch Job and Company Information
-        async function fetchJobAndCompanyInfo(doc) {
+        async function fetchJobAndCompanyInfo() {
     // Fetch the job document
-    const jobDocRef = doc(db, 'Jobs', jobId); // Reference to the job document
+
         const jobDoc = await getDoc(jobDocRef); // Get the job document
+
+        console.log('No draft applications found.');
 
         const jobData = jobDoc.data();
             const companyData = companyDoc.data();
