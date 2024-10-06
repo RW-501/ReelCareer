@@ -216,6 +216,141 @@ document.getElementById('logout-button')?.addEventListener('click', logout);
 
 
 
+
+
+// Function to check if a user is logged in
+const checkUserLoggedIn = () => {
+    onAuthStateChanged(auth, async (user) => {
+        if (user) {
+return user.id;
+        } else {
+return false;            showLoginPopup(); // Trigger the login pop-up
+        }
+    });
+};
+
+// Function to create and display the login pop-up
+const showLoginPopup = () => {
+    // Create the login pop-up container
+    const loginPopup = document.createElement('div');
+    loginPopup.id = 'login-popup';
+    loginPopup.style.position = 'fixed';
+    loginPopup.style.top = '50%';
+    loginPopup.style.left = '50%';
+    loginPopup.style.transform = 'translate(-50%, -50%)';
+    loginPopup.style.width = '400px';
+    loginPopup.style.backgroundColor = 'white';
+    loginPopup.style.padding = '20px';
+    loginPopup.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
+    loginPopup.style.borderRadius = '8px';
+    loginPopup.innerHTML = `
+        <h2>Login</h2>
+        <button id="google-login">Login with Google</button><br><br>
+        <button id="facebook-login">Login with Facebook</button><br><br>
+        <button id="apple-login">Login with Apple</button><br><br>
+        <form id="email-login-form">
+            <input type="email" id="login-email" placeholder="Email" required><br><br>
+            <input type="password" id="login-password" placeholder="Password" required><br><br>
+            <button type="submit">Login with Email</button>
+        </form>
+        <p class="form-link">Don't have an account? <a href="/views/auth.html">Create an account</a></p>
+    `;
+
+    document.body.appendChild(loginPopup);
+
+    // Attach event listeners for each login option
+    document.getElementById('google-login').addEventListener('click', async () => {
+        showLoading();
+        try {
+            const result = await signInWithPopup(auth, googleProvider);
+            const user = result.user;
+            console.log('Google Login Successful:', user);
+            await saveUserLoginState(user, true);
+            closeLoginPopup();
+        } catch (error) {
+            console.error('Error during Google login:', error);
+            alert(error.message);
+        } finally {
+            hideLoading();
+        }
+    });
+
+    document.getElementById('facebook-login').addEventListener('click', async () => {
+        showLoading();
+        try {
+            const result = await signInWithPopup(auth, facebookProvider);
+            const user = result.user;
+            console.log('Facebook Login Successful:', user);
+            await saveUserLoginState(user, true);
+            closeLoginPopup();
+        } catch (error) {
+            console.error('Error during Facebook login:', error);
+            alert(error.message);
+        } finally {
+            hideLoading();
+        }
+    });
+
+    document.getElementById('apple-login').addEventListener('click', async () => {
+        showLoading();
+        try {
+            const result = await signInWithPopup(auth, appleProvider);
+            const user = result.user;
+            console.log('Apple Login Successful:', user);
+            await saveUserLoginState(user, true);
+            closeLoginPopup();
+        } catch (error) {
+            console.error('Error during Apple login:', error);
+            alert(error.message);
+        } finally {
+            hideLoading();
+        }
+    });
+
+    document.getElementById('email-login-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = document.getElementById('login-email').value;
+        const password = document.getElementById('login-password').value;
+
+        showLoading();
+        try {
+            const userCredential = await signInWithEmailAndPassword(auth, email, password);
+            const user = userCredential.user;
+            console.log('Email Login Successful:', user);
+            await saveUserLoginState(user, true);
+            closeLoginPopup();
+        } catch (error) {
+            console.error('Error during email login:', error);
+            alert(error.message);
+        } finally {
+            hideLoading();
+        }
+    });
+};
+
+// Function to close and remove the login pop-up
+const closeLoginPopup = () => {
+    const loginPopup = document.getElementById('login-popup');
+    if (loginPopup) {
+        loginPopup.remove();
+    }
+};
+
+// Call this function to check login state
+// checkUserLoggedIn();
+
+
+
+
+
+
+
+
+
+
+
+
+
 // Function to inject CSS styles into the document
 function addStyles() {
     const style = document.createElement('style');
@@ -357,8 +492,8 @@ document.addEventListener("DOMContentLoaded", function () {
         } 
     
     // Check if "/ReelCareer/view" is in the URL
-    if (currentPage.includes("/ReelCareer/view")) {
-        adjustLinkURL = "/ReelCareer/view/";
+    if (currentPage.includes("/ReelCareer/views")) {
+        adjustLinkURL = "/ReelCareer/views/";
     }
     // Function to create the navbar
     function createNavbar() {
@@ -383,7 +518,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             <li class="nav-item"><a class="nav-link" href="${adjustLinkURL}about.html">About Us</a></li>
                             <li class="nav-item" id="jobSeekerNavItem"><a class="nav-link" href="${adjustLinkURL}job-seeker.html">Job Seeker</a></li>
                             <li class="nav-item" id="recruiterNavItem"><a class="nav-link" href="${adjustLinkURL}recruiter-dashboard.html">Recruiter Dashboard</a></li>
-                            <li class="nav-item"><a class="nav-link" href="${adjustLinkHomeURL}public/news.html">News</a></li>
+                            <li class="nav-item"><a class="nav-link" href="${adjustLinkHomeURL}views/news.html">News</a></li>
                             <li class="nav-item"><a class="nav-link" href="${adjustLinkURL}company-profile.html">Company Profiles</a></li>
                             <li class="nav-item">
                                 <div id="authSection" class="d-flex align-items-center"></div>
@@ -510,7 +645,8 @@ document.addEventListener("DOMContentLoaded", function () {
                         </video>
                     </div>
                     <div class="col-md-6">
-                        <img src="${adjustLinkHomeURL}images/sq_logo_n_BG_tie_reel.png" alt="Company Image" class="img-fluid">
+                        <img src="${adjustLinkHomeURL}images/sq_logo_n_BG_tie_reel.png" alt="Company Image" class="img-fluid" style="
+    width: 15rem;>
                     </div>
                 </div>
             </div>

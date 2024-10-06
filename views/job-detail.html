@@ -180,7 +180,7 @@
                     document.getElementById('employmentType').innerText = jobData.type;
                     document.getElementById('salary').innerText = jobData.salary;
                     document.getElementById('createdAt').innerText = new Date(jobData.createdAt).toLocaleDateString();
-                    document.getElementById('companyLogo').src = jobData.companyLogo || 'path/to/default/logo.png'; // Default logo path
+                    document.getElementById('companyLogo').src = jobData.companyLogo || '/ReelCareer/images/sq_logo_n_BG.png'; // Default logo path
 
                     if(jobData.requirements > 0){
                     // Requirements
