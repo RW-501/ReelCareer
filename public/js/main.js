@@ -481,7 +481,7 @@ document.addEventListener("DOMContentLoaded", function () {
             `;
 
             document.getElementById('loginButton').onclick = () => {
-                window.location.href = adjustLinkURL+'auth.html'; // Redirect to login page
+                window.location.href = adjustLinkHomeURL+'public/auth.html'; // Redirect to login page
             };
         }
     }
@@ -490,7 +490,7 @@ document.addEventListener("DOMContentLoaded", function () {
     async function logoutUser() {
         try {
             await firebase.auth().signOut();
-            window.location.href = adjustLinkURL+'auth.html'; // Redirect to login page after logout
+            window.location.href =  adjustLinkHomeURL+'public/auth.html'; // Redirect to login page after logout
         } catch (error) {
             console.error("Logout error:", error);
         }
@@ -635,21 +635,20 @@ function updateFooter() {
         }
     }
 
-    const rootPath = getRootPath();
     const newContent = `
         <div class="bg-dark text-light py-4">
             <div class="container text-center">
-                <p>&copy; ${currentYear} <a href="${rootPath}about.html" class="text-light" rel="noopener noreferrer">ReelCareer</a>. All Rights Reserved.</p>
+                <p>&copy; ${currentYear} <a href="${adjustLinkURL}about.html" class="text-light" rel="noopener noreferrer">ReelCareer</a>. All Rights Reserved.</p>
                 <ul class="list-inline">
-                    <li class="list-inline-item"><a href="${rootPath}public/privacy.html" class="text-light" rel="noopener noreferrer">Privacy Policy</a></li>
-                    <li class="list-inline-item"><a href="${rootPath}public/terms.html" class="text-light" rel="noopener noreferrer">Terms of Use</a></li>
-                    <li class="list-inline-item"><a href="${rootPath}contact.html" class="text-light" rel="noopener noreferrer">Contact Us</a></li>
-                    <li class="list-inline-item"><a href="${rootPath}blog.html" class="text-light" rel="noopener noreferrer">Blog</a></li>
-                    <li class="list-inline-item"><a href="${rootPath}faq.html" class="text-light" rel="noopener noreferrer">FAQs</a></li>
-                    <li class="list-inline-item"><a href="${rootPath}sponsor.html" class="text-light" rel="noopener noreferrer">Become a Sponsor</a></li>
-                    <li class="list-inline-item"><a href="${rootPath}apply.html" class="text-light" rel="noopener noreferrer">Apply for a Job with Us</a></li>
-                    <li class="list-inline-item"><a href="${rootPath}recruiter.html" class="text-light" rel="noopener noreferrer">For Recruiters</a></li>
-                    <li class="list-inline-item"><a href="${rootPath}affiliate.html" class="text-light" rel="noopener noreferrer">Affiliate Program</a></li>
+                    <li class="list-inline-item"><a href="${adjustLinkURL}public/privacy.html" class="text-light" rel="noopener noreferrer">Privacy Policy</a></li>
+                    <li class="list-inline-item"><a href="${adjustLinkURL}public/terms.html" class="text-light" rel="noopener noreferrer">Terms of Use</a></li>
+                    <li class="list-inline-item"><a href="${adjustLinkURL}contact.html" class="text-light" rel="noopener noreferrer">Contact Us</a></li>
+                    <li class="list-inline-item"><a href="${adjustLinkURL}blog.html" class="text-light" rel="noopener noreferrer">Blog</a></li>
+                    <li class="list-inline-item"><a href="${adjustLinkURL}public/faq.html" class="text-light" rel="noopener noreferrer">FAQs</a></li>
+                    <li class="list-inline-item"><a href="${adjustLinkURL}sponsor.html" class="text-light" rel="noopener noreferrer">Become a Sponsor</a></li>
+                    <li class="list-inline-item"><a href="${adjustLinkURL}apply.html" class="text-light" rel="noopener noreferrer">Apply for a Job with Us</a></li>
+                    <li class="list-inline-item"><a href="${adjustLinkURL}recruiter.html" class="text-light" rel="noopener noreferrer">For Recruiters</a></li>
+                    <li class="list-inline-item"><a href="${adjustLinkURL}public/affiliate.html" class="text-light" rel="noopener noreferrer">Affiliate Program</a></li>
                 </ul>
                 <div class="newsletter-signup">
                     <form id="newsletterForm" class="form-inline justify-content-center mt-4">
@@ -662,7 +661,7 @@ function updateFooter() {
                         </select>
                         <label  class="ml-2 mr-2 mb-2">
                             <input type="checkbox" id="dataPrivacy" required>
-                            I agree to the  <a href="${rootPath}public/privacy.html" class="text-light" rel="noopener noreferrer"> data privacy policy</a>.
+                            I agree to the  <a href="${adjustLinkURL}public/privacy.html" class="text-light" rel="noopener noreferrer"> data privacy policy</a>.
                         </label>
                         <button type="submit" id="newsletterFormBtn"  class=" mr-2 mb-2 btn btn-outline-light">Subscribe</button>
                     </form>

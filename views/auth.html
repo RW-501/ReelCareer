@@ -24,19 +24,7 @@
             align-items: center;
         }
 
-        nav {
-            width: 100%;
-            background-color: #007BFF;
-            padding: 10px 20px;
-            text-align: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        nav a {
-            color: white;
-            text-decoration: none;
-            margin: 0 10px;
-        }
-
+main{
         h1 {
             margin-bottom: 20px;
             color: #333;
@@ -130,25 +118,10 @@
             border-radius: 4px;
         }
 
-        footer {
-            margin-top: 20px;
-            text-align: center;
-            width: 100%;
-            padding: 10px;
-            background-color: #007BFF;
-            color: white;
-        }
+ 
+    }
 
-        @media (max-width: 600px) {
-            nav, footer {
-                padding: 10px;
-            }
-
-            form, .social-login {
-                width: 90%;
-                margin: 10px auto;
-            }
-        }
+        
     </style>
 </head>
 <body>
@@ -158,7 +131,7 @@
         <a href="/about.html">About Us</a> | 
         <a href="/contact.html">Contact</a>
     </nav>
-
+<main>
     <h1>Authentication</h1>
 
     <div id="loading-indicator">Loading...</div>
@@ -198,7 +171,7 @@
         <button id="facebook-login" aria-label="Log In with Facebook">Facebook</button>
         <button id="apple-login" aria-label="Log In with Apple">Apple</button>
     </div>
-
+</main>
     <!-- Footer -->
     <footer id="dynamic-footer"></footer>
     
