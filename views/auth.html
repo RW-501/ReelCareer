@@ -16,83 +16,138 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
+            background-color: #f4f4f4;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
-            align-items: center;
             justify-content: center;
-            min-height: 100vh;
-            background-color: #f4f4f4;
+            align-items: center;
         }
+
+        nav {
+            width: 100%;
+            background-color: #007BFF;
+            padding: 10px 20px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
         h1 {
             margin-bottom: 20px;
+            color: #333;
         }
+
         form {
             display: flex;
             flex-direction: column;
-            width: 300px;
-            margin-bottom: 20px;
-            background: white;
+            width: 100%;
+            max-width: 400px; /* Ensure width doesn't go beyond a certain size */
+            margin: 20px;
+            background-color: white;
             padding: 20px;
             border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
+
         input {
-            margin-bottom: 10px;
-            padding: 10px;
+            margin-bottom: 15px;
+            padding: 12px;
             border: 1px solid #ccc;
             border-radius: 4px;
+            font-size: 16px;
         }
+
         button {
-            padding: 10px;
-            border: none;
-            border-radius: 4px;
+            padding: 12px;
             background-color: #007BFF;
             color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
             cursor: pointer;
         }
+
         button:hover {
             background-color: #0056b3;
         }
+
         #loading-indicator {
             display: none;
             font-weight: bold;
             margin-bottom: 20px;
         }
+
         #error-message {
             color: red;
             display: none;
         }
+
         #success-message {
             color: green;
             display: none;
         }
-  
-        .remember-me {
-            display: flex;
-            align-items: center;
-        }
-        .remember-me input {
-            margin-right: 5px;
-        }
+
         .form-link {
             text-align: center;
             margin-top: 10px;
         }
+
         .form-link a {
             color: #007BFF;
             text-decoration: none;
         }
+
         .form-link a:hover {
             text-decoration: underline;
         }
+
         .toggle-password {
             cursor: pointer;
             display: inline-block;
             margin-left: -30px;
         }
+
         .social-login {
             display: flex;
             justify-content: space-between;
+            width: 100%;
+            max-width: 400px;
+            margin: 20px;
+        }
+
+        .social-login button {
+            flex: 1;
+            margin: 5px;
+            padding: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 4px;
+        }
+
+        footer {
+            margin-top: 20px;
+            text-align: center;
+            width: 100%;
+            padding: 10px;
+            background-color: #007BFF;
+            color: white;
+        }
+
+        @media (max-width: 600px) {
+            nav, footer {
+                padding: 10px;
+            }
+
+            form, .social-login {
+                width: 90%;
+                margin: 10px auto;
+            }
         }
     </style>
 </head>
@@ -128,10 +183,6 @@
         <input type="email" id="login-email" placeholder="Email" required aria-label="Email">
         <input type="password" id="login-password" placeholder="Password" required aria-label="Password">
         <span class="toggle-password" id="toggle-login-password">👁️</span>
-        <div class="remember-me">
-            <input type="checkbox" id="remember-me" aria-label="Remember Me">
-            <label for="remember-me">Remember Me</label>
-        </div>
         <button type="submit">Log In</button>
         <div class="form-link">
             <a href="#" id="forgot-password-link">Forgot Password?</a>
@@ -143,73 +194,39 @@
 
     <!-- Log In with Google, Facebook, Apple -->
     <div class="social-login">
-        <button id="google-login" aria-label="Log In with Google">Log In with Google</button>
-        <button id="facebook-login" aria-label="Log In with Facebook">Log In with Facebook</button>
-        <button id="apple-login" aria-label="Log In with Apple">Log In with Apple</button>
+        <button id="google-login" aria-label="Log In with Google">Google</button>
+        <button id="facebook-login" aria-label="Log In with Facebook">Facebook</button>
+        <button id="apple-login" aria-label="Log In with Apple">Apple</button>
     </div>
-
-    <!-- Log Out Button (accessible everywhere) -->
-    <button id="logout-button" style="display: none;" aria-label="Log Out">Log Out</button>
 
     <!-- Footer -->
     <footer id="dynamic-footer"></footer>
     
 <!-- Firebase configuration/ Login& Out -->
-<script type="module" src="../public/js/main.js"></script> 
+<script type="module" src="../public/js/main.js"></script>  
 
     <script>
-        // Example of error handling
-        function displayError(message) {
-            const errorMessage = document.getElementById('error-message');
-            errorMessage.textContent = message;
-            errorMessage.style.display = 'block';
-        }
-
-        // Example of success handling
-        function displaySuccess(message) {
-            const successMessage = document.getElementById('success-message');
-            successMessage.textContent = message;
-            successMessage.style.display = 'block';
-        }
-
-        // Example of loading indicator toggle
-        function toggleLoadingIndicator(isLoading) {
-            const loadingIndicator = document.getElementById('loading-indicator');
-            loadingIndicator.style.display = isLoading ? 'block' : 'none';
-        }
-
-        // Toggle password visibility
+        // Toggle password visibility for signup and login
         function togglePasswordVisibility(passwordField, toggleButton) {
             const type = passwordField.type === "password" ? "text" : "password";
             passwordField.type = type;
-            toggleButton.textContent = type === "password" ? "👁️" : "👁️‍🗨️"; // Change icon based on visibility
+            toggleButton.textContent = type === "password" ? "👁️" : "👁️‍🗨️";
         }
 
         // Event listeners for forms
         document.getElementById('signup-form').addEventListener('submit', function(event) {
             event.preventDefault();
-            toggleLoadingIndicator(true);
             // Your signup logic here
-            displaySuccess("Registration successful! Redirecting you to your dashboard.");
-            toggleLoadingIndicator(false);
+            alert("Registration successful! Redirecting you to your dashboard.");
         });
 
         document.getElementById('login-form').addEventListener('submit', function(event) {
             event.preventDefault();
-            toggleLoadingIndicator(true);
             // Your login logic here
-            displaySuccess("Login successful! Redirecting you to your dashboard.");
-            toggleLoadingIndicator(false);
+            alert("Login successful! Redirecting you to your dashboard.");
         });
 
-        // Event listener for password reset
-        document.getElementById('forgot-password-link').addEventListener('click', function(event) {
-            event.preventDefault();
-            // Implement password reset logic here
-            alert("Password reset functionality will be implemented.");
-        });
-
-        // Show/Hide forms
+        // Toggle forms
         document.getElementById('show-login').addEventListener('click', function(event) {
             event.preventDefault();
             document.getElementById('signup-form').style.display = 'none';
@@ -222,7 +239,7 @@
             document.getElementById('signup-form').style.display = 'block';
         });
 
-        // Toggle password visibility for signup and login
+        // Toggle password visibility
         document.getElementById('toggle-signup-password').addEventListener('click', function() {
             togglePasswordVisibility(document.getElementById('signup-password'), this);
         });
