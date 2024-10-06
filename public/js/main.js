@@ -64,22 +64,52 @@ const loadingIndicator = document.getElementById('loading-indicator');
 const showLoading = () => loadingIndicator.style.display = 'block';
 const hideLoading = () => loadingIndicator.style.display = 'none';
 
-// Save login state in the database and local storage
-const saveUserLoginState = async (user, isLoggedIn) => {
+
+// Function to update or create user information in Firestore
+const saveUserLoginState = async (user) => {
     try {
-        // Save to Firestore
-        await setDoc(doc(db, "users", user.uid), {
+        const ip = await getUserIP();
+        const location = await getUserLocationByIP(ip);
+
+        // Prepare data for user document
+        const userData = {
             email: user.email,
-            loggedIn: isLoggedIn,
+            profilePic: user.photoURL || null,
+            displayName: user.displayName || 'Anonymous',
             lastLogin: serverTimestamp(),
-        });
-        // Save to local storage
-        localStorage.setItem('userLoggedIn', isLoggedIn);
+            ipAddress: ip || 'Unknown',
+            city: location?.city || 'Unknown',
+            state: location?.state || 'Unknown',
+            zip: location?.zip || 'Unknown',
+            country: location?.country || 'Unknown',
+        };
+
+        // Reference to the user document
+        const userDocRef = doc(db, "Users", user.uid);
+
+        // First attempt to update the document if it exists
+        try {
+            await updateDoc(userDocRef, userData);
+            console.log('User info updated successfully:', userData);
+        } catch (error) {
+            // If the document doesn't exist, create it using setDoc
+            if (error.code === 'not-found') {
+                await setDoc(userDocRef, userData);
+                console.log('New user document created:', userData);
+            } else {
+                throw error; // Re-throw other errors
+            }
+        }
+
+        // Save login status to localStorage (optional)
+        localStorage.setItem('userLoggedIn', true);
         localStorage.setItem('userEmail', user.email);
     } catch (error) {
-        console.error('Error saving login state:', error);
+        console.error('Error saving user login state:', error);
     }
 };
+
+let UserID = '';
 
 // Check if user is already signed in (this can be included on all pages)
 onAuthStateChanged(auth, async (user) => {
@@ -87,6 +117,8 @@ onAuthStateChanged(auth, async (user) => {
         console.log('User is signed in:', user);
         await saveUserLoginState(user, true); // Update local storage
         // Optional: Redirect only if on a specific page, like the login page
+        UserID = user.id;
+
         if (window.location.pathname === '/views/auth.html') {
             window.location.href = '/views/user.html'; // Adjust path as needed
         }
@@ -216,15 +248,16 @@ document.getElementById('logout-button')?.addEventListener('click', logout);
 
 
 
-
-
 // Function to check if a user is logged in
 const checkUserLoggedIn = () => {
     onAuthStateChanged(auth, async (user) => {
         if (user) {
 return user.id;
         } else {
-return false;            showLoginPopup(); // Trigger the login pop-up
+
+showLoginPopup(); // Trigger the login pop-up
+return false;           
+
         }
     });
 };
@@ -258,54 +291,8 @@ const showLoginPopup = () => {
 
     document.body.appendChild(loginPopup);
 
-    // Attach event listeners for each login option
-    document.getElementById('google-login').addEventListener('click', async () => {
-        showLoading();
-        try {
-            const result = await signInWithPopup(auth, googleProvider);
-            const user = result.user;
-            console.log('Google Login Successful:', user);
-            await saveUserLoginState(user, true);
-            closeLoginPopup();
-        } catch (error) {
-            console.error('Error during Google login:', error);
-            alert(error.message);
-        } finally {
-            hideLoading();
-        }
-    });
 
-    document.getElementById('facebook-login').addEventListener('click', async () => {
-        showLoading();
-        try {
-            const result = await signInWithPopup(auth, facebookProvider);
-            const user = result.user;
-            console.log('Facebook Login Successful:', user);
-            await saveUserLoginState(user, true);
-            closeLoginPopup();
-        } catch (error) {
-            console.error('Error during Facebook login:', error);
-            alert(error.message);
-        } finally {
-            hideLoading();
-        }
-    });
 
-    document.getElementById('apple-login').addEventListener('click', async () => {
-        showLoading();
-        try {
-            const result = await signInWithPopup(auth, appleProvider);
-            const user = result.user;
-            console.log('Apple Login Successful:', user);
-            await saveUserLoginState(user, true);
-            closeLoginPopup();
-        } catch (error) {
-            console.error('Error during Apple login:', error);
-            alert(error.message);
-        } finally {
-            hideLoading();
-        }
-    });
 
     document.getElementById('email-login-form').addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -442,35 +429,42 @@ const MAX_ATTEMPTS = 3; // Allow 3 attempts within the rate limit time
 let attempts = 0;
 let firstAttemptTime = null;
 
-// Function to get user's IP address
-async function getUserIP() {
+
+
+
+
+
+
+// Function to fetch the user's IP address and location
+const getUserIP = async () => {
     try {
         const response = await fetch('https://api.ipify.org?format=json');
         const data = await response.json();
         return data.ip;
     } catch (error) {
-        console.error("Unable to fetch IP address: ", error);
+        console.error('Error fetching IP address:', error);
         return null;
     }
-}
+};
 
-// Function to get user's location
-function getUserLocation() {
-    return new Promise((resolve, reject) => {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition((position) => {
-                resolve({
-                    latitude: position.coords.latitude,
-                    longitude: position.coords.longitude
-                });
-            }, (error) => {
-                reject(error);
-            });
-        } else {
-            reject(new Error("Geolocation is not supported by this browser."));
-        }
-    });
-}
+const getUserLocationByIP = async (ip) => {
+    try {
+        const response = await fetch(`https://ipapi.co/${ip}/json/`);
+        const data = await response.json();
+        return {
+            city: data.city,
+            state: data.region,
+            zip: data.postal,
+            country: data.country_name,
+        };
+    } catch (error) {
+        console.error('Error fetching location by IP:', error);
+        return null;
+    }
+};
+
+
+
 let adjustLinkHomeURL;
 let adjustLinkURL;
 // Navagtion bar
@@ -837,5 +831,80 @@ document.getElementById('newsletterFormBtn').addEventListener('submit', async fu
 document.addEventListener('DOMContentLoaded', updateFooter);
 
 
+
+
+/*
+
+// Example usage
+getUserIP().then(ip => {
+    getUserLocationByIP(ip).then(location => {
+        if (location) {
+            console.log(`City: ${location.city}, State: ${location.state}, ZIP Code: ${location.zip}`);
+        } else {
+            console.log("Could not retrieve location.");
+        }
+    });
+});
+
+*/
+// Simple encryption/decryption functions
+const secretKey = 'WeThaBest'; // Replace with your own secret key
+let userINFO = "";
+
+function encrypt(data) {
+    let encrypted = btoa(JSON.stringify(data));
+    return encrypted;
+}
+
+function decrypt(encryptedData) {
+    let decrypted = atob(encryptedData);
+    return JSON.parse(decrypted);
+}
+
+
+// Check Local Storage for User Location Data
+function checkLocalStorageForLocation() {
+    const storedData = localStorage.getItem('userLocation');
+    if (storedData) {
+        const decryptedData = decrypt(storedData);
+        return decryptedData; // Return the decrypted data
+    }
+    return null; // No data found
+}
+
+
+// Function to get user info and store it in local storage
+async function getUserInfo() {
+    let userLocation = checkLocalStorageForLocation();
+
+    if (!userLocation) {
+        // User location not found, retrieve it
+        const ip = await getUserIP();
+        if (!ip) {
+            console.error("Unable to retrieve IP address.");
+            return;
+        }
+
+        userLocation = await getUserLocationByIP(ip);
+        if (userLocation) {
+            console.log(`City: ${userLocation.city}, State: ${userLocation.state}, ZIP Code: ${userLocation.zip}`);
+
+            // Encrypt and store the data in local storage
+            const encryptedData = encrypt({
+                ip: ip,
+                city: userLocation.city,
+                state: userLocation.state,
+                zip: userLocation.zip
+            });
+            localStorage.setItem('userLocation', encryptedData);
+        } else {
+            console.log("Could not retrieve location.");
+        }
+    } else {
+        console.log(`Retrieved from Local Storage: City: ${userLocation.city}, State: ${userLocation.state}, ZIP Code: ${userLocation.zip}`);
+    }
+    userINFO = userLocation
+    console.log("userINFO  ",userINFO);
+}
 
 
