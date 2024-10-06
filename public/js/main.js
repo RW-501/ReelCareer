@@ -382,8 +382,8 @@ document.addEventListener("DOMContentLoaded", function () {
                             <li class="nav-item">
                                 <div id="authSection" class="d-flex align-items-center"></div>
                             </li>
-                            <li class="nav-item" tyle="display: none;">
-                                <button id="darkModeToggle" class="btn btn-outline-secondary ml-3">Dark Mode</button>
+                            <li class="nav-item" style="display: none !important">
+                                <button id="darkModeToggle" class="btn btn-outline-secondary ml-3" style="display: none !important">Dark Mode</button>
                             </li>
                         </ul>
                     </div>
@@ -646,18 +646,18 @@ function updateFooter() {
                 </ul>
                 <div class="newsletter-signup">
                     <form id="newsletterForm" class="form-inline justify-content-center mt-4">
-                        <input type="email" class="form-control mr-2 mb-2" placeholder="Subscribe to our newsletter" required aria-label="Email address">
-                        <select id="newsletterType" class="form-control mr-2 mb-2" multiple required>
+                        <input type="email" class=" mr-2 mb-2" placeholder="Subscribe to our newsletter" required aria-label="Email address">
+                        <select id="newsletterType" class=" mr-2 mb-2" multiple required>
                             <option value="website_updates">Website Updates</option>
                             <option value="job_alerts">Job Alerts</option>
                             <option value="career_advice">Career Advice</option>
                             <option value="industry_news">Industry News</option>
                         </select>
-                        <label  class="form-control mr-2 mb-2">
+                        <label  class=" mr-2 mb-2">
                             <input type="checkbox" id="dataPrivacy" required>
                             I agree to the <a href="${rootPath}public/privacy.html" class="text-dark" rel="noopener noreferrer">data privacy policy</a>.
                         </label>
-                        <button type="submit" id="newsletterFormBtn"  class="form-control mr-2 mb-2 btn btn-outline-light">Subscribe</button>
+                        <button type="submit" id="newsletterFormBtn"  class=" mr-2 mb-2 btn btn-outline-light">Subscribe</button>
                     </form>
                     <p id="newsletterMessage" class="text-light mt-2"></p>
                 </div>
