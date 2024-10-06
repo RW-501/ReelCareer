@@ -632,13 +632,13 @@ document.addEventListener("DOMContentLoaded", function () {
             <div class="container">
                 <h2 class="text-center">Company Media</h2>
                 <div class="row" style=" text-align-last: center;">
-                    <div class="col-md-6">
+                    <div class="col-md-6 m-auto">
                         <video controls>
                             <source src="${adjustLinkHomeURL}media/company-video.mp4" type="video/mp4">
                             Your browser does not support the video tag.
                         </video>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6 m-auto">
                         <img src="${adjustLinkHomeURL}images/sq_logo_n_BG_tie_reel.png" alt="Company Image" class="img-fluid" style="width: 15rem";>
                     </div>
                 </div>
@@ -780,7 +780,7 @@ function updateFooter() {
                         </select>
                         <label  class="ml-2 mr-2 mb-2">
                             <input type="checkbox" id="dataPrivacy" required>
-                            I agree to the  <a href="${adjustLinkHomeURL}public/privacy.html" class="text-light" rel="noopener noreferrer"> data privacy policy</a>.
+                            I agree to the   <a href="${adjustLinkHomeURL}public/privacy.html" class="text-light ml-1" rel="noopener noreferrer"> data privacy policy</a>.
                         </label>
                         <button type="submit" id="newsletterFormBtn"  class=" mr-2 mb-2 btn btn-outline-light">Subscribe</button>
                     </form>

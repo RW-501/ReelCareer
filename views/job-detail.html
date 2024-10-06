@@ -127,7 +127,7 @@
     
             <!-- Job Info Section -->
             <div class="job-info">
-                <p><strong>Company:</strong> <span id="companyName"></span></p>
+                <p><strong>Company:</strong> <span id="companyName" class="text-dark"></span></p>
                 <p><strong>Location:</strong> <span id="jobLocation"></span></p>
                 <p><strong>Employment Type:</strong> <span id="employmentType"></span></p>
                 <p><strong>Salary:</strong> $<span id="salary"></span></p>
@@ -185,10 +185,10 @@
                     const jobData = jobDoc.data();
                     // Updating job details
                     console.log("jobData ",jobData);
-                    
+
         document.getElementById('jobTitle').innerText = jobData.title || "Job Title Unavailable";
         document.getElementById('jobDescription').innerText = jobData.description || "No description provided.";
-        document.getElementById('companyName').innerHTML = `<a class='navbar-brand' href='../views/company-page.html?id=${jobData.id}'>${jobData.company || "Unknown Company"}</a>`;
+        document.getElementById('companyName').innerHTML = `<a class='navbar-brand text-dark' href='../views/company-page.html?id=${jobData.id}'>${jobData.company || "Unknown Company"}</a>`;
         document.getElementById('jobLocation').innerText = jobData.location || "Location not specified";
         document.getElementById('employmentType').innerText = jobData.type || "Type not specified";
         document.getElementById('salary').innerText = isNaN(jobData.salary) ? "Not specified" : jobData.salary; //jobData.salary.toFixed(2);
