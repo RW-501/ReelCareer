@@ -338,7 +338,7 @@ function getUserLocation() {
 }
 
 
-
+let adjustLinkURL;
 // Navagtion bar
 document.addEventListener("DOMContentLoaded", function () {
     // Pages where we don't want to show the navbar
@@ -351,7 +351,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const isHomePage = currentPage === '/ReelCareer/index.html' || currentPage === '/';
 
     // Adjust hrefs based on the root page
-    let adjustLinkURL = (isHomePage) ? '/ReelCareer/views/' || '/ReelCareer/public/' : '';
+     adjustLinkURL = (isHomePage) ? '/ReelCareer/views/' || '/ReelCareer/public/' : '';
     const adjustLinkHomeURL = (isHomePage) ? '' : '/ReelCareer/';
     if (currentPage.includes("/ReelCareer/public")) {
         adjustLinkURL = "/ReelCareer/public/";
