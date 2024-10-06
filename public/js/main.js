@@ -336,7 +336,6 @@ function getUserLocation() {
         }
     });
 }
-
 let adjustLinkHomeURL;
 let adjustLinkURL;
 // Navagtion bar
@@ -384,7 +383,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             <li class="nav-item"><a class="nav-link" href="${adjustLinkURL}about.html">About Us</a></li>
                             <li class="nav-item" id="jobSeekerNavItem"><a class="nav-link" href="${adjustLinkURL}job-seeker.html">Job Seeker</a></li>
                             <li class="nav-item" id="recruiterNavItem"><a class="nav-link" href="${adjustLinkURL}recruiter-dashboard.html">Recruiter Dashboard</a></li>
-                            <li class="nav-item"><a class="nav-link" href="${adjustLinkURL}news.html">News</a></li>
+                            <li class="nav-item"><a class="nav-link" href="${adjustLinkHomeURL}public/news.html">News</a></li>
                             <li class="nav-item"><a class="nav-link" href="${adjustLinkURL}company-profile.html">Company Profiles</a></li>
                             <li class="nav-item">
                                 <div id="authSection" class="d-flex align-items-center"></div>
@@ -417,6 +416,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
    
+   // let mainDefaultPic = 
 
 
     // Function to setup event listeners
@@ -449,7 +449,8 @@ document.addEventListener("DOMContentLoaded", function () {
         if (user) {
             // If the user is logged in, show profile info and logout button
             const userName = user.displayName || 'User';
-            const userPhoto = user.photoURL ? `<img src="${user.photoURL}" alt="Profile Picture" class="rounded-circle" style="width: 40px; height: 40px; margin-right: 10px;">` : '';
+            const defaultPic = `<img src="${adjustLinkHomeURL}images/sq_logo_n_BG_sm.png" alt="Profile Picture" class="rounded-circle" style="width: 40px; height: 40px; margin-right: 10px;">`
+            const userPhoto = user.photoURL ? `<img src="${user.photoURL}" alt="Profile Picture" class="rounded-circle" style="width: 40px; height: 40px; margin-right: 10px;">` : `"${defaultPic}"`;
             
             authSection.innerHTML = `
                 <div class="dropdown">
@@ -504,12 +505,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 <div class="row">
                     <div class="col-md-6">
                         <video controls>
-                            <source src="${adjustLinkURL}media/company-video.mp4" type="video/mp4">
+                            <source src="${adjustLinkHomeURL}media/company-video.mp4" type="video/mp4">
                             Your browser does not support the video tag.
                         </video>
                     </div>
                     <div class="col-md-6">
-                        <img src="${adjustLinkURL}media/company-image.jpg" alt="Company Image" class="img-fluid">
+                        <img src="${adjustLinkHomeURL}images/sq_logo_n_BG_tie_reel.png" alt="Company Image" class="img-fluid">
                     </div>
                 </div>
             </div>
@@ -623,18 +624,7 @@ function updateFooter() {
     const footer = document.getElementById('dynamic-footer');
     const currentYear = new Date().getFullYear();
     
-    // Function to determine the correct root path for links
-    function getRootPath() {
-        const currentPage = window.location.pathname;
-        if (currentPage.startsWith('/view/')) {
-            return '../';
-        } else if (currentPage.startsWith('/public/')) {
-            return '../';
-        } else {
-            return '';
-        }
-    }
-
+  
     const newContent = `
         <div class="bg-dark text-light py-4">
             <div class="container text-center">

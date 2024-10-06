@@ -116,7 +116,7 @@
     <div class="container">
         <div class="job-detail-container" role="main" aria-labelledby="jobTitle">
             <div class="d-flex align-items-start mb-4">
-                <img id="companyLogo" class="job-logo" alt="Company Logo" src="" />
+                <img id="companyLogo" class="job-logo" alt="Company Logo" src="/images/sq_logo_n_BG.png" />
                 <div>
                     <h1 id="jobTitle" class="mb-2 font-weight-bold" tabindex="0"></h1>
                     <p id="jobDescription" class="text-muted" tabindex="0"></p>
@@ -182,9 +182,11 @@
                     document.getElementById('createdAt').innerText = new Date(jobData.createdAt).toLocaleDateString();
                     document.getElementById('companyLogo').src = jobData.companyLogo || 'path/to/default/logo.png'; // Default logo path
 
+                    if(jobData.requirements > 0){
                     // Requirements
                     const requirementsList = jobData.requirements.map(req => `<li>${req}</li>`).join('');
                     document.getElementById('jobRequirements').innerHTML = requirementsList;
+                    }
 
                     // Tags
                     document.getElementById('jobTags').innerText = jobData.tags.join(', ');
