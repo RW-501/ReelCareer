@@ -682,14 +682,9 @@ function updateFooter() {
     document.getElementById('backToTop').addEventListener('click', () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     });
-}
-
-// Call the function to update the footer when the document is loaded
-document.addEventListener('DOMContentLoaded', updateFooter);
 
 
-
-// Update the event listener for the form
+    // Update the event listener for the form
 document.getElementById('newsletterFormBtn').addEventListener('submit', async function(event) {
     event.preventDefault();
     const email = this.querySelector('input[type="email"]').value;
@@ -703,3 +698,12 @@ document.getElementById('newsletterFormBtn').addEventListener('submit', async fu
     // Handle the newsletter signup process
     await handleNewsletterSignup(email);
 });
+
+}
+
+// Call the function to update the footer when the document is loaded
+document.addEventListener('DOMContentLoaded', updateFooter);
+
+
+
+
