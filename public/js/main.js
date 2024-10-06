@@ -631,7 +631,7 @@ document.addEventListener("DOMContentLoaded", function () {
         <section id="companyMedia" class="py-5 company-media">
             <div class="container">
                 <h2 class="text-center">Company Media</h2>
-                <div class="row">
+                <div class="row" style=" text-align-last: center;">
                     <div class="col-md-6">
                         <video controls>
                             <source src="${adjustLinkHomeURL}media/company-video.mp4" type="video/mp4">
