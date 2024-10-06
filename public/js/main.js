@@ -87,8 +87,8 @@ onAuthStateChanged(auth, async (user) => {
         console.log('User is signed in:', user);
         await saveUserLoginState(user, true); // Update local storage
         // Optional: Redirect only if on a specific page, like the login page
-        if (window.location.pathname === '/auth.html') {
-            window.location.href = '/profile.html'; // Adjust path as needed
+        if (window.location.pathname === '/views/auth.html') {
+            window.location.href = '/views/user.html'; // Adjust path as needed
         }
     } else {
         console.log('No user signed in');
@@ -109,7 +109,7 @@ document.getElementById('signup-form')?.addEventListener('submit', async (e) => 
         const user = userCredential.user;
         console.log('Sign Up Successful:', user);
         await saveUserLoginState(user, true); // Update database and local storage
-        window.location.href = '/profile.html'; // Redirect to profile
+        window.location.href = '/views/user.html'; // Redirect to profile
     } catch (error) {
         console.error('Error during sign up:', error);
         alert(error.message);
@@ -130,7 +130,7 @@ document.getElementById('login-form')?.addEventListener('submit', async (e) => {
         const user = userCredential.user;
         console.log('Login Successful:', user);
         await saveUserLoginState(user, true); // Update database and local storage
-        window.location.href = '/profile.html'; // Redirect to profile
+        window.location.href = '/views/user.html'; // Redirect to profile
     } catch (error) {
         console.error('Error during login:', error);
         alert(error.message);
@@ -151,7 +151,7 @@ const logout = async () => {
             localStorage.removeItem('userEmail');
             console.log('Logout Successful');
         }
-        window.location.href = '/auth.html'; // Redirect to login/auth page after logout
+        window.location.href = '/views/auth.html'; // Redirect to login/auth page after logout
     } catch (error) {
         console.error('Error during logout:', error);
         alert(error.message);
@@ -168,7 +168,7 @@ document.getElementById('google-login')?.addEventListener('click', async () => {
         const user = result.user;
         console.log('Google Login Successful:', user);
         await saveUserLoginState(user, true); // Update database and local storage
-        window.location.href = '/profile.html'; // Redirect to profile
+        window.location.href = '/views/user.html'; // Redirect to profile
     } catch (error) {
         console.error('Error during Google login:', error);
         alert(error.message);
@@ -185,7 +185,7 @@ document.getElementById('facebook-login')?.addEventListener('click', async () =>
         const user = result.user;
         console.log('Facebook Login Successful:', user);
         await saveUserLoginState(user, true); // Update database and local storage
-        window.location.href = '/profile.html'; // Redirect to profile
+        window.location.href = '/views/user.html'; // Redirect to profile
     } catch (error) {
         console.error('Error during Facebook login:', error);
         alert(error.message);
@@ -202,7 +202,7 @@ document.getElementById('apple-login')?.addEventListener('click', async () => {
         const user = result.user;
         console.log('Apple Login Successful:', user);
         await saveUserLoginState(user, true); // Update database and local storage
-        window.location.href = '/profile.html'; // Redirect to profile
+        window.location.href = '/views/user.html'; // Redirect to profile
     } catch (error) {
         console.error('Error during Apple login:', error);
         alert(error.message);
@@ -347,7 +347,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const currentPage = window.location.pathname;
 
     // Define if the root is at the home page or deeper directories
-    const isHomePage = currentPage === '/ReelCareer/index.html' || currentPage === '/';
+    const isHomePage = currentPage === '/ReelCareer/index.html' ||'/ReelCareer/' || currentPage === '/';
 
     // Adjust hrefs based on the root page
      adjustLinkURL = (isHomePage) ? '/ReelCareer/views/' || '/ReelCareer/public/' : '';
