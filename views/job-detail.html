@@ -184,6 +184,8 @@
                 if (jobDoc.exists()) {
                     const jobData = jobDoc.data();
                     // Updating job details
+                    console.log("jobData ",jobData);
+                    
         document.getElementById('jobTitle').innerText = jobData.title || "Job Title Unavailable";
         document.getElementById('jobDescription').innerText = jobData.description || "No description provided.";
         document.getElementById('companyName').innerHTML = `<a class='navbar-brand' href='../views/company-page.html?id=${jobData.id}'>${jobData.company || "Unknown Company"}</a>`;
