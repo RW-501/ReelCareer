@@ -69,6 +69,39 @@
     background-color: #c82333; /* Darker shade on hover */
 }
 
+
+
+.popup {
+            display: none; /* Hidden by default */
+            position: fixed;
+            z-index: 1050; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgba(0, 0, 0, 0.5); /* Black with opacity */
+        }
+
+        .popup-content {
+            background-color: #fefefe;
+            margin: 10% auto; /* 10% from the top and centered */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 90%; /* Could be more or less, depending on screen size */
+            max-width: 500px; /* Max width for larger screens */
+            border-radius: 8px; /* Rounded corners */
+        }
+
+
+
+
+
+
+
+
+
+
     </style>
 </head>
 <body>
@@ -125,7 +158,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content shadow-lg border-0">
             <div class="modal-header bg-gradient-primary text-white">
-                <h5 class="modal-title font-weight-bold" id="jobModalLabel">Create a Job Posting</h5>
+                <h5 class="modal-title font-weight-bold" id="jobModalLabel" style="color: #1d5fa7;" >Create a Job Posting</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -134,8 +167,10 @@
                 <form id="jobForm" class="needs-validation" novalidate>
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                            <label for="company">Company</label>
-                            <input type="text" class="form-control" id="company" placeholder="Enter company name" required>
+                            <label for="company">Company Name</label>
+                            <input type="text" id="company" class="form-control" placeholder="Enter company name">
+                            <div id="addCompanyButtonContainer"></div> 
+                            <!-- Placeholder for the dynamic button -->
                             <div class="invalid-feedback">Please enter a company name.</div>
                         </div>
                         <div class="form-group col-md-6">
@@ -272,6 +307,31 @@
     </div>
 </div>
 
+<!-- Boost Job Post Popup -->
+<div id="boostJobPostPopup" class="popup">
+    <div class="popup-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Boost Job Post</h5>
+            <button type="button" class="close" id="closePopup" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <p id="membershipType">Membership Type: Basic</p>
+            <p id="jobBoostCount">Job Boost Count: 0</p>
+            <h6>Select Boost Duration:</h6>
+            <div class="btn-group-vertical w-100 mb-3" role="group" aria-label="Boost Duration Options">
+                <button class="btn btn-primary boost-duration" data-credits="1">Run for 2 Weeks (1 Credit)</button>
+                <button class="btn btn-primary boost-duration" data-credits="2">Run for 1 Month (2 Credits)</button>
+                <button class="btn btn-primary boost-duration" data-credits="3">Run for 2 Months (3 Credits)</button>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary" id="upgradeAccount">Upgrade Account</button>
+            <button class="btn btn-info" id="buyMoreCredits">Buy More Credits</button>
+        </div>
+    </div>
+</div>
 
 
         <!-- Boost Job Posting Feature -->
@@ -513,6 +573,15 @@ const boostButton = document.getElementById("boostButton");
 
 // Function to handle boosting the job posting
 boostButton.addEventListener("click", () => {
+
+    const userId = "123456"; // Replace with the actual user ID
+checkUserMembershipAndBoostCount(userId).then(result => {
+    if (result) {
+        console.log("User Membership Type:", result.membershipType);
+        console.log("Job Post Boost Count:", result.jobPostBoostCount);
+    }
+});
+
     const isBoosted = confirm("Are you sure you want to boost this job posting?");
     if (isBoosted) {
         // document.getElementById("boost").checked
@@ -524,6 +593,55 @@ boostButton.addEventListener("click", () => {
     }
 });
 
+// Function to show the Boost Job Post popup
+const showBoostJobPostPopup = async (userId) => {
+    const userInfo = await checkUserMembershipAndBoostCount(userId); // Reuse the function created earlier
+    document.getElementById("membershipType").textContent = `Membership Type: ${userInfo.membershipType}`;
+    document.getElementById("jobBoostCount").textContent = `Job Boost Count: ${userInfo.jobPostBoostCount}`;
+
+    // Display the popup using Bootstrap modal
+    $('#boostJobPostPopup').modal('show');
+
+    // Close button
+    document.getElementById("closePopup").onclick = function () {
+        $('#boostJobPostPopup').modal('hide');
+    };
+
+    // Action buttons
+    document.getElementById("upgradeAccount").onclick = function () {
+        // Redirect or show upgrade account functionality
+        alert("Redirecting to upgrade account.");
+    };
+
+    document.getElementById("buyMoreCredits").onclick = function () {
+        // Redirect or show buy more credits functionality
+        alert("Redirecting to buy more credits.");
+    };
+
+    // Boost duration buttons
+    const boostButtons = document.querySelectorAll(".boost-duration");
+    boostButtons.forEach(button => {
+        button.onclick = function () {
+            const creditsNeeded = this.getAttribute("data-credits");
+            const currentBoostCount = userInfo.jobPostBoostCount;
+
+            if (currentBoostCount >= creditsNeeded) {
+                // Proceed to boost job post logic
+                alert(`Boosting job post for ${this.textContent}`);
+                // Implement logic to deduct credits and boost job
+
+            } else {// Example of how to trigger the popup
+const userId = "123456"; // Replace with actual user ID
+document.getElementById("boostJobPostButton").onclick = function () {
+    showBoostJobPostPopup(userId);
+};
+                alert("Not enough credits to boost job post. Please buy more credits or upgrade your account.");
+            }
+        };
+    });
+};
+
+
 
 
    </script>
@@ -533,6 +651,83 @@ boostButton.addEventListener("click", () => {
    import { db, storage, analytics, app  } from '../public/js/main.js'; // Adjust the path based on your structure
     import { collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 
+
+
+    const checkUserMembershipAndBoostCount = async (userId) => {
+    try {
+        const userDocRef = doc(db, "users", userId);
+        const userDoc = await getDoc(userDocRef);
+        
+        if (userDoc.exists()) {
+            const userData = userDoc.data();
+            const membershipType = userData.membershipType || "basic"; // Default to 'basic' if undefined
+            const jobPostBoostCount = userData.jobPostBoostCount || 0; // Default to 0 if undefined
+            
+            return {
+                membershipType,
+                jobPostBoostCount
+            };
+        } else {
+            console.error("No such user document!");
+            return null; // Or handle it as needed
+        }
+    } catch (error) {
+        console.error("Error fetching user data:", error);
+        return null; // Handle error as needed
+    }
+};
+
+    const companyInput = document.getElementById("company");
+const addCompanyButtonContainer = document.getElementById("addCompanyButtonContainer");
+
+// Function to check if the company exists
+const checkCompanyExists = async (companyName) => {
+    // Assuming you have a Firestore reference called `db`
+    const companiesRef = collection(db, "Companies");
+    const q = query(companiesRef, where("name", "==", companyName));
+    const querySnapshot = await getDocs(q);
+
+    if (!querySnapshot.empty) {
+        // Company exists, return the company ID
+        return querySnapshot.docs[0].id; // Assuming you want the first match
+    } else {
+        // Company does not exist
+        return null;
+    }
+};
+
+// Event listener for keyup event
+companyInput.addEventListener("keyup", async () => {
+    const companyName = companyInput.value.trim();
+    
+    // Clear the button container before checking
+    addCompanyButtonContainer.innerHTML = "";
+
+    if (companyName) {
+        const companyId = await checkCompanyExists(companyName);
+
+        if (!companyId) {
+            // Company does not exist, create the "Add/Create Company" button
+            const addButton = document.createElement("button");
+            addButton.innerText = "Add/Create Company";
+            addButton.className = "btn btn-primary";
+            addButton.addEventListener("click", () => {
+                // Redirect to the create company page
+                window.location.href = "/views/create-company.html"; // Update this URL as needed
+            });
+
+            addCompanyButtonContainer.appendChild(addButton);
+        }
+    }
+});
+
+
+
+
+
+
+
+
     const saveDraftButton = document.getElementById("saveDraftButton");
 
 // Function to handle saving the job posting as a draft
@@ -540,6 +735,7 @@ saveDraftButton.addEventListener("click", () => {
     // Here you would gather the job posting details and save them as a draft in your database
     const jobDetails = { 
         company: document.getElementById("company").value,
+        companyId: "000",
         title: document.getElementById("jobTitle").value,
         description: document.getElementById("jobDescription").value,
         requirements: document.getElementById("jobRequirements").value,
@@ -564,6 +760,36 @@ saveDraftButton.addEventListener("click", () => {
     console.log("Job posting saved as draft:", jobDetails);
 });
 
+
+
+
+const submitJobPost = async (companyId, companyName, recruiterIDs, jobIDs) => {
+    try {
+        // Check if the company ID is empty
+        if (companyId === "") {
+            // Create a new company in the Companies collection
+            const newCompanyRef = await addDoc(collection(db, 'Companies'), {
+                companyName: companyName,
+                recruiterIDs: recruiterIDs,
+                jobIDs: jobIDs,
+            });
+
+            console.log('New company added with ID:', newCompanyRef.id);
+            // You can now use newCompanyRef.id as the new company ID
+            return newCompanyRef.id; // Return the new company ID for further use
+        } else {
+            console.log('Existing company ID:', companyId);
+            // If company ID is provided, use it as is
+            return companyId;
+        }
+    } catch (error) {
+        console.error("Error adding company: ", error);
+        // Handle the error as needed
+    }
+};
+
+
+
       // Add event listener for form submission
       document.getElementById("createJobBtn").click = async function (event) {
     event.preventDefault(); // Prevent default form submission
@@ -583,9 +809,19 @@ function collectJobRequirements() {
     };
     return jobRequirements;
 }
-    // Collect the job details
+    
+
+const recruiterIDs = []; // Populate with relevant recruiter IDs
+    const jobIDs = []; // Populate with relevant job IDs
+
+    // Call the submitJobPost function
+    const newCompanyId = await submitJobPost(companyId, companyName, recruiterIDs, jobIDs);
+
+
+// Collect the job details
     const jobDetails = { 
         company: document.getElementById("company").value,
+        companyId: '' || newCompanyId,
         title: document.getElementById("jobTitle").value,
         description: document.getElementById("jobDescription").value,
         requirements: document.getElementById("jobRequirements").value,
