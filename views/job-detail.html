@@ -123,7 +123,8 @@
                 </div>
             </div>
 
-            <div class="job-info">
+            <div class="job-info">        
+
                 <p><strong>Company:</strong> <span id="companyName"></span></p>
                 <p><strong>Location:</strong> <span id="jobLocation"></span></p>
                 <p><strong>Employment Type:</strong> <span id="employmentType"></span></p>
@@ -175,7 +176,7 @@
                     const jobData = jobDoc.data();
                     document.getElementById('jobTitle').innerText = jobData.title;
                     document.getElementById('jobDescription').innerText = jobData.description;
-                    document.getElementById('companyName').innerText = jobData.company;
+                    document.getElementById('companyName').innerText = "<a class='navbar-brand' href='../reelcareer/views/company-page.html?id="+jobData.jobId+">"+jobData.company+"</a>";
                     document.getElementById('jobLocation').innerText = jobData.location;
                     document.getElementById('employmentType').innerText = jobData.type;
                     document.getElementById('salary').innerText = jobData.salary;

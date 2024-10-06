@@ -278,10 +278,14 @@ auth.onAuthStateChanged(async (user) => {
     });
 
     document.addEventListener("DOMContentLoaded", () => {
-    // Load company details from Firestore
-    const companyId = "[CompanyID]"; // replace with dynamic company ID
+
+
+        const urlParams = new URLSearchParams(window.location.search);
+            const companyId = urlParams.get('id'); // Get job ID from URL
+
+
 // Reference to the company document
-const companyRef = doc(db, "companies", companyId);
+const companyRef = doc(db, "Companies", companyId);
 
 // Fetch the document
 getDoc(companyRef).then((docSnapshot) => {

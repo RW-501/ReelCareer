@@ -697,7 +697,7 @@ document.getElementById("boostJobPostButton").onclick = function () {
 
    <script type="module">
    import { db, storage, analytics, app  } from '../public/js/main.js'; // Adjust the path based on your structure
-    import { collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+    import { collection, getDocs, addDoc, query, where   } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 
 
 
@@ -887,6 +887,11 @@ const recruiterIDs = []; // Populate with relevant recruiter IDs
             jobFunction: document.getElementById("jobFunction").value,
         tags: Array.from(tagsList.children).map(tag => tag.textContent.slice(0, -1).trim()), // Get tags without the 'x' button
         boosted:"None", // Check if boosted
+        boostExpiration: "00",
+        boostExpiresAt: "00",
+        boostedByID: "00",
+        boostExpiration: "00",
+        boostExpiration: "00",
         status: "active",
         createdAt: new Date(),
         applicantsViewed: 0,
