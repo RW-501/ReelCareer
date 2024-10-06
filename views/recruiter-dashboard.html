@@ -261,7 +261,55 @@
                         <option value="10+">10+ years</option>
                     </select>
                 </div>
+   <!-- Contract-to-Hire Opportunities -->
+   <div class="form-group col-md-6">
+    <label for="contractToHire">Contract-to-Hire Opportunities</label>
+    <select class="form-control" id="contractToHire" required>
+        <option value="">Select an option</option>
+        <option value="Yes">Yes</option>
+        <option value="No">No</option>
+    </select>
+    <div class="invalid-feedback">Please select if this is a contract-to-hire opportunity.</div>
+</div>
 
+<!-- Immediate Hire -->
+<div class="form-group col-md-6">
+    <label for="immediateHire">Immediate Hire</label>
+    <select class="form-control" id="immediateHire" required>
+        <option value="">Select an option</option>
+        <option value="Yes">Yes</option>
+        <option value="No">No</option>
+    </select>
+    <div class="invalid-feedback">Please select if this is an immediate hire position.</div>
+</div>
+
+<!-- Industry -->
+<div class="form-group col-md-6">
+    <label for="industry">Industry</label>
+    <select class="form-control" id="industry" required>
+        <option value="">Select an industry</option>
+        <option value="Information Technology">Information Technology</option>
+        <option value="Healthcare">Healthcare</option>
+        <option value="Finance">Finance</option>
+        <option value="Education">Education</option>
+        <option value="Manufacturing">Manufacturing</option>
+    </select>
+    <div class="invalid-feedback">Please select an industry.</div>
+</div>
+
+<!-- Benefits -->
+<div class="form-group col-md-6">
+    <label for="benefits">Benefits</label>
+    <input type="text" class="form-control" id="benefits" placeholder="Enter benefits (comma separated)" required>
+    <div class="invalid-feedback">Please enter the benefits offered.</div>
+</div>
+
+<!-- Job Function -->
+<div class="form-group col-md-6">
+    <label for="jobFunction">Job Function</label>
+    <input type="text" class="form-control" id="jobFunction" placeholder="Enter job function" required>
+    <div class="invalid-feedback">Please enter the job function.</div>
+</div>
 
                     <div class="form-row">
                         <div class="form-group col-md-4">
@@ -832,6 +880,11 @@ const recruiterIDs = []; // Populate with relevant recruiter IDs
         zipCode: document.getElementById("jobZipCode").value,
         type: document.getElementById("jobType").value,
         salary: parseFloat(document.getElementById("jobSalary").value),
+        contractToHire: document.getElementById("contractToHire").value,
+            immediateHire: document.getElementById("immediateHire").value,
+            industry: document.getElementById("industry").value,
+            benefits: document.getElementById("benefits").value.split(",").map(benefit => benefit.trim()),
+            jobFunction: document.getElementById("jobFunction").value,
         tags: Array.from(tagsList.children).map(tag => tag.textContent.slice(0, -1).trim()), // Get tags without the 'x' button
         boosted:"None", // Check if boosted
         status: "active",
