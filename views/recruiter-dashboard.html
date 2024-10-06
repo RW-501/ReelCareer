@@ -319,7 +319,12 @@
                             </select>
                         </div>
                     </div>
-
+                    <div class="form-group">
+                        <label for="customQuestionsContainer">Custom Questions <small class="text-muted">(Optional)</small></label>
+                        <div id="customQuestionsContainer"></div>
+                                                    <button type="button" id="addQuestionButton">Add Question</button>
+                    </div>
+                </div>
                     <div class="form-group">
                         <label for="applicationLink">Application Link <small class="text-muted">(Optional)</small></label>
                         <input type="url" class="form-control" id="applicationLink" placeholder="Enter application link">
@@ -340,9 +345,9 @@
                     </div>
                 </div>
                 <div class="form-group col-md-4">
-                    <button type="submit" id="boostButton" class="btn btn-primary btn-block rounded-pill shadow-sm font-weight-bold">Boost Job Posting</button>
-                    <button type="submit" id="saveDraftButton" class="btn btn-primary btn-block rounded-pill shadow-sm font-weight-bold">Save to Draft</button>
-                    <button type="submit" id="createJobBtn"class="btn btn-primary btn-block rounded-pill shadow-sm font-weight-bold">Create Job</button>
+                    <button type="submit" id="boostButton" class="btn btn-primary btn-block rounded-pill shadow-sm font-weight-bold col-md-6">Boost Job Posting</button>
+                    <button type="submit" id="saveDraftButton" class="btn btn-primary btn-block rounded-pill shadow-sm font-weight-bold col-md-6">Save to Draft</button>
+                    <button type="submit" id="createJobBtn"class="btn btn-primary btn-block rounded-pill shadow-sm font-weight-bold col-md-6">Create Job</button>
                 </form>
             </div>
         </div>
@@ -793,7 +798,7 @@ companyInput.addEventListener("keyup", debounce(async () => {
             addButton.className = "btn btn-primary";
             addButton.addEventListener("click", () => {
                 // Redirect to the create company page
-                window.location.href = "../views/create-company.html"; // Update this URL as needed
+                window.location.href = "../views/company-page.html"; // Update this URL as needed
             });
             addCompanyButtonContainer.appendChild(addButton);
         }
