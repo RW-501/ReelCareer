@@ -352,7 +352,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Adjust hrefs based on the root page
     const adjustLinkURL = (isHomePage) ? '/ReelCareer/views/' || '/ReelCareer/public/' : '';
-    const adjustLinkHomeURL = (isHomePage) ? '/ReelCareer/' : '';
+    const adjustLinkHomeURL = (isHomePage) ? '/ReelCareer/' : '../ReelCareer/index.html';
 
     // Function to create the navbar
     function createNavbar() {
