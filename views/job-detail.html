@@ -186,12 +186,12 @@
                     // Updating job details
         document.getElementById('jobTitle').innerText = jobData.title || "Job Title Unavailable";
         document.getElementById('jobDescription').innerText = jobData.description || "No description provided.";
-        document.getElementById('companyName').innerHTML = `<a class='navbar-brand' href='../reelcareer/views/company-page.html?id=${jobData.companyId}'>${jobData.company || "Unknown Company"}</a>`;
+        document.getElementById('companyName').innerHTML = `<a class='navbar-brand' href='../views/company-page.html?id=${jobData.id}'>${jobData.company || "Unknown Company"}</a>`;
         document.getElementById('jobLocation').innerText = jobData.location || "Location not specified";
         document.getElementById('employmentType').innerText = jobData.type || "Type not specified";
         document.getElementById('salary').innerText = isNaN(jobData.salary) ? "Not specified" : jobData.salary.toFixed(2);
         document.getElementById('createdAt').innerText = jobData.createdAt ? new Date(jobData.createdAt).toLocaleDateString() : "Date not available";
-        document.getElementById('companyLogo').src = jobData.companyLogo || '/images/sq_logo_n_BG.png'; 
+        document.getElementById('companyLogo').src = jobData.companyLogo || '../images/sq_logo_n_BG.png'; 
 
         // Benefits (Handle empty benefits)
         if (jobData.benefits && jobData.benefits.length > 0) {
