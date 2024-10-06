@@ -352,8 +352,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Adjust hrefs based on the root page
     const adjustLinkURL = (isHomePage) ? '/ReelCareer/views/' || '/ReelCareer/public/' : '';
-    const adjustLinkHomeURL = (isHomePage) ? '/ReelCareer/' : '../ReelCareer/index.html';
-
+    const adjustLinkHomeURL = (isHomePage) ? '' : '/ReelCareer/';
+    if (path.includes("/ReelCareer/public")) {
+        adjustLinkURL = "/ReelCareer/public/";
+        } 
+    
+    // Check if "/ReelCareer/view" is in the URL
+    if (path.includes("/ReelCareer/view")) {
+        adjustLinkURL = "/ReelCareer/view/";
+    }
     // Function to create the navbar
     function createNavbar() {
         const navbarClass = (isHomePage) ?   'navbar-light bg-light' : 'navbar-dark bg-primary ';
@@ -653,9 +660,9 @@ function updateFooter() {
                             <option value="career_advice">Career Advice</option>
                             <option value="industry_news">Industry News</option>
                         </select>
-                        <label  class=" mr-2 mb-2">
+                        <label  class="ml-2 mr-2 mb-2">
                             <input type="checkbox" id="dataPrivacy" required>
-                            I agree to the <a href="${rootPath}public/privacy.html" class="text-dark" rel="noopener noreferrer">data privacy policy</a>.
+                            I agree to the  <a href="${rootPath}public/privacy.html" class="text-light" rel="noopener noreferrer"> data privacy policy</a>.
                         </label>
                         <button type="submit" id="newsletterFormBtn"  class=" mr-2 mb-2 btn btn-outline-light">Subscribe</button>
                     </form>
