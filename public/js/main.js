@@ -639,8 +639,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         </video>
                     </div>
                     <div class="col-md-6">
-                        <img src="${adjustLinkHomeURL}images/sq_logo_n_BG_tie_reel.png" alt="Company Image" class="img-fluid" style="
-    width: 15rem;>
+                        <img src="${adjustLinkHomeURL}images/sq_logo_n_BG_tie_reel.png" alt="Company Image" class="img-fluid" style="width: 15rem";>
                     </div>
                 </div>
             </div>

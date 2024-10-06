@@ -114,37 +114,47 @@
 
     <!-- Job Detail Section -->
     <div class="container">
+        <!-- Main Job Details Section -->
         <div class="job-detail-container" role="main" aria-labelledby="jobTitle">
+            <!-- Job Header with Logo and Title -->
             <div class="d-flex align-items-start mb-4">
-                <img id="companyLogo" class="job-logo" alt="Company Logo" src="/images/sq_logo_n_BG.png" />
+                <img id="companyLogo" class="job-logo img-fluid mr-3" alt="Company Logo" src="/images/sq_logo_n_BG.png" loading="lazy" />
                 <div>
                     <h1 id="jobTitle" class="mb-2 font-weight-bold" tabindex="0"></h1>
                     <p id="jobDescription" class="text-muted" tabindex="0"></p>
                 </div>
             </div>
-
-            <div class="job-info">        
-
+    
+            <!-- Job Info Section -->
+            <div class="job-info">
                 <p><strong>Company:</strong> <span id="companyName"></span></p>
                 <p><strong>Location:</strong> <span id="jobLocation"></span></p>
                 <p><strong>Employment Type:</strong> <span id="employmentType"></span></p>
                 <p><strong>Salary:</strong> $<span id="salary"></span></p>
                 <p><strong>Posted On:</strong> <span id="createdAt"></span></p>
             </div>
-
+    
+            <!-- Additional jobDetails -->
+            <div><strong>Job Benefits:</strong> <ul id="jobBenefits" class="list-unstyled"></ul></div>
+            <div><strong>Application Deadline:</strong> <span id="applicationDeadline"></span></div>
+            <div><strong>Number of Applicants:</strong> <span id="applicantCount"></span></div>
+            <div><strong>Company Website:</strong> <a id="companyWebsite" href="#" target="_blank" aria-label="Visit the company website">Visit</a></div>
+    
+            <!-- Job Requirements -->
             <div>
                 <p><strong>Job Requirements:</strong></p>
-                <ul id="jobRequirements" class="list-unstyled" tabindex="0">
-                    <!-- Requirements dynamically inserted here -->
-                </ul>
+                <ul id="jobRequirements" class="list-unstyled" tabindex="0"></ul>
             </div>
-
+    
+            <!-- Job Tags -->
             <div>
                 <p><strong>Tags:</strong></p>
                 <span id="jobTags" class="job-tags"></span>
             </div>
-
-            <button id="applyBtn" class="apply-btn" aria-label="Apply for this job">Apply Now</button>
+    
+            <!-- Apply Button -->
+            <button id="applyBtn" class="btn btn-primary btn-block mt-3" aria-label="Apply for this job">Apply Now</button>
+    
         </div>
     </div>
 
@@ -168,44 +178,77 @@
                 return;
             }
 
-            try {
                 const jobDocRef = doc(db, 'Jobs', jobId);
                 const jobDoc = await getDoc(jobDocRef);
 
                 if (jobDoc.exists()) {
                     const jobData = jobDoc.data();
-                    document.getElementById('jobTitle').innerText = jobData.title;
-                    document.getElementById('jobDescription').innerText = jobData.description;
-                    document.getElementById('companyName').innerText = "<a class='navbar-brand' href='../reelcareer/views/company-page.html?id="+jobData.jobId+">"+jobData.company+"</a>";
-                    document.getElementById('jobLocation').innerText = jobData.location;
-                    document.getElementById('employmentType').innerText = jobData.type;
-                    document.getElementById('salary').innerText = jobData.salary;
-                    document.getElementById('createdAt').innerText = new Date(jobData.createdAt).toLocaleDateString();
-                    document.getElementById('companyLogo').src = jobData.companyLogo || '/ReelCareer/images/sq_logo_n_BG.png'; // Default logo path
+                    // Updating job details
+        document.getElementById('jobTitle').innerText = jobData.title || "Job Title Unavailable";
+        document.getElementById('jobDescription').innerText = jobData.description || "No description provided.";
+        document.getElementById('companyName').innerHTML = `<a class='navbar-brand' href='../reelcareer/views/company-page.html?id=${jobData.companyId}'>${jobData.company || "Unknown Company"}</a>`;
+        document.getElementById('jobLocation').innerText = jobData.location || "Location not specified";
+        document.getElementById('employmentType').innerText = jobData.type || "Type not specified";
+        document.getElementById('salary').innerText = isNaN(jobData.salary) ? "Not specified" : jobData.salary.toFixed(2);
+        document.getElementById('createdAt').innerText = jobData.createdAt ? new Date(jobData.createdAt).toLocaleDateString() : "Date not available";
+        document.getElementById('companyLogo').src = jobData.companyLogo || '/images/sq_logo_n_BG.png'; 
 
-                    if(jobData.requirements > 0){
-                    // Requirements
-                    const requirementsList = jobData.requirements.map(req => `<li>${req}</li>`).join('');
-                    document.getElementById('jobRequirements').innerHTML = requirementsList;
-                    }
-
-                    // Tags
-                    document.getElementById('jobTags').innerText = jobData.tags.join(', ');
-   
-                    // Add event listener for Apply button
-   document.getElementById('applyBtn').onclick = function() {
-
-window.location.href = `apply.html?jobId=${jobId}`; // Redirect to apply page
-};
-                   
-                } else {
-                    alert('Job not found.');
-                }
-            } catch (error) {
-                console.error("Error fetching job details: ", error);
-             //   alert('Error fetching job details. Please try again.');
-            }
+        // Benefits (Handle empty benefits)
+        if (jobData.benefits && jobData.benefits.length > 0) {
+            const benefitsList = jobData.benefits.map(benefit => `<li>${benefit}</li>`).join('');
+            document.getElementById('jobBenefits').innerHTML = benefitsList;
+        } else {
+            document.getElementById('jobBenefits').innerHTML = "<li>No benefits provided</li>";
         }
+
+        // Application Deadline
+        if (jobData.applicationDeadline) {
+            const deadlineDate = new Date(jobData.applicationDeadline);
+            document.getElementById('applicationDeadline').innerText = deadlineDate.toLocaleDateString();
+        } else {
+            document.getElementById('applicationDeadline').innerText = "No deadline provided.";
+        }
+
+        // Applicants
+        document.getElementById('applicantCount').innerText = jobData.applicantCount || 0;
+
+        // Company Website (Handle missing URL)
+        if (jobData.companyWebsite) {
+            document.getElementById('companyWebsite').href = jobData.companyWebsite;
+        } else {
+            document.getElementById('companyWebsite').innerText = "No website provided";
+            document.getElementById('companyWebsite').style.pointerEvents = "none"; // Disable link if no website
+        }
+
+        // Job Requirements
+        if (jobData.requirements && jobData.requirements.length > 0) {
+            const requirementsList = jobData.requirements.map(req => `<li>${req}</li>`).join('');
+            document.getElementById('jobRequirements').innerHTML = requirementsList;
+        } else {
+            document.getElementById('jobRequirements').innerHTML = "<li>No specific requirements</li>";
+        }
+
+        // Job Tags
+        if (jobData.tags && jobData.tags.length > 0) {
+            const tagElements = jobData.tags.map(tag => `<span class="badge badge-primary mr-2">#${tag}</span>`).join('');
+            document.getElementById('jobTags').innerHTML = tagElements;
+        } else {
+            document.getElementById('jobTags').innerHTML = "No tags specified.";
+        }
+
+        // Apply Button Interaction (Disable if job is closed or expired)
+        const currentDate = new Date();
+        const applicationDeadline = jobData.applicationDeadline ? new Date(jobData.applicationDeadline) : null;
+        if (applicationDeadline && currentDate > applicationDeadline) {
+            document.getElementById('applyBtn').disabled = true;
+            document.getElementById('applyBtn').innerText = "Applications Closed";
+        } else {
+            document.getElementById('applyBtn').onclick = function() {
+                window.location.href = `apply.html?jobId=${jobData.jobId}`;
+            };
+        }
+                }  
+            }
 
         // Call the function to fetch job details on page load
         window.onload = fetchJobDetails;
