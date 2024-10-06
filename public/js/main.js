@@ -645,19 +645,19 @@ function updateFooter() {
                     <li class="list-inline-item"><a href="${rootPath}affiliate.html" class="text-light" rel="noopener noreferrer">Affiliate Program</a></li>
                 </ul>
                 <div class="newsletter-signup">
-                    <form id="newsletterForm">
-                        <input type="email" placeholder="Subscribe to our newsletter" required aria-label="Email address">
-                        <select id="newsletterType" multiple required>
+                    <form id="newsletterForm" class="form-inline justify-content-center mt-4">
+                        <input type="email" class="form-control mr-2 mb-2" placeholder="Subscribe to our newsletter" required aria-label="Email address">
+                        <select id="newsletterType" class="form-control mr-2 mb-2" multiple required>
                             <option value="website_updates">Website Updates</option>
                             <option value="job_alerts">Job Alerts</option>
                             <option value="career_advice">Career Advice</option>
                             <option value="industry_news">Industry News</option>
                         </select>
-                        <label>
+                        <label  class="form-control mr-2 mb-2">
                             <input type="checkbox" id="dataPrivacy" required>
-                            I agree to the <a href="${rootPath}public/privacy.html" class="text-light" rel="noopener noreferrer">data privacy policy</a>.
+                            I agree to the <a href="${rootPath}public/privacy.html" class="text-dark" rel="noopener noreferrer">data privacy policy</a>.
                         </label>
-                        <button type="submit" class="btn btn-outline-light">Subscribe</button>
+                        <button type="submit" id="newsletterFormBtn"  class="form-control mr-2 mb-2 btn btn-outline-light">Subscribe</button>
                     </form>
                     <p id="newsletterMessage" class="text-light mt-2"></p>
                 </div>
@@ -669,7 +669,6 @@ function updateFooter() {
     `;
     
     footer.innerHTML = newContent; // Update the footer's HTML content
-console.log("dynamic-footer ?????????????");
 
     // Current Date and Time
     const updateDateTime = () => {
@@ -691,7 +690,7 @@ document.addEventListener('DOMContentLoaded', updateFooter);
 
 
 // Update the event listener for the form
-document.getElementById('newsletterForm').addEventListener('submit', async function(event) {
+document.getElementById('newsletterFormBtn').addEventListener('submit', async function(event) {
     event.preventDefault();
     const email = this.querySelector('input[type="email"]').value;
 
