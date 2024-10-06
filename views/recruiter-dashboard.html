@@ -22,6 +22,53 @@
         .btn-primary:hover {
             background-color: #0056b3;
         }
+
+        #tagsContainer {
+    display: flex;
+    flex-wrap: wrap;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 5px;
+    min-height: 40px;
+}
+
+#tagInput {
+    border: none;
+    outline: none;
+    flex-grow: 1;
+}
+
+.tag {
+    background-color: #007bff;
+    color: white;
+    border-radius: 3px;
+    padding: 5px 10px;
+    margin: 3px;
+    display: inline-flex;
+    align-items: center;
+}
+
+.tag button {
+    background: none;
+    border: none;
+    color: white;
+    margin-left: 5px;
+    cursor: pointer;
+}
+#clearTagsButton {
+    background-color: #dc3545; /* Bootstrap danger color */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+    margin-top: 5px;
+}
+
+#clearTagsButton:hover {
+    background-color: #c82333; /* Darker shade on hover */
+}
+
     </style>
 </head>
 <body>
@@ -146,18 +193,40 @@
                         <textarea class="form-control" id="jobDescription" rows="4" placeholder="Describe the job" required></textarea>
                         <div class="invalid-feedback">Please enter a job description.</div>
                     </div>
-                    <label for="customQuestions">Custom Questions</label>
                     <div class="form-group">
-                        <div id="customQuestions">
+                        <label for="customQuestionsContainer">Custom Questions</label>
+                        <div id="customQuestionsContainer"></div>
+                            
                         <h3>Custom Questions</h3>
                         <button type="button" id="addQuestionButton">Add Question</button>
                     </div>
                 </div>
-                <div class="form-group">
-                        <label for="jobRequirements">Job Requirements</label>
+
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                    <label for="jobRequirements">Job Requirements</label>
                         <textarea class="form-control" id="jobRequirements" rows="3" placeholder="List job requirements" required></textarea>
                         <div class="invalid-feedback">Please enter job requirements.</div>
                     </div>
+                    
+                    <label for="education">Education Level:</label>
+                    <select id="education" multiple>
+                        <option value="highSchool">High School</option>
+                        <option value="associateDegree">Associate Degree</option>
+                        <option value="bachelorDegree">Bachelor's Degree</option>
+                        <option value="masterDegree">Master's Degree</option>
+                        <option value="phd">PhD</option>
+                    </select>
+                
+                    <label for="experience">Years of Experience:</label>
+                    <select id="experience" multiple>
+                        <option value="0-1">0-1 years</option>
+                        <option value="2-5">2-5 years</option>
+                        <option value="6-10">6-10 years</option>
+                        <option value="10+">10+ years</option>
+                    </select>
+                </div>
+
 
                     <div class="form-row">
                         <div class="form-group col-md-4">
@@ -166,21 +235,19 @@
                             <div class="invalid-feedback">Please enter a salary amount.</div>
                         </div>
                         <div class="form-group col-md-4">
-                            <label for="jobTags">Job Tags (comma separated)</label>
-                            <input type="text" class="form-control" id="jobTags" placeholder="e.g. JavaScript, React" required>
-                            <div class="invalid-feedback">Please enter job tags.</div>
-                        </div>
-                        <div class="form-group col-md-4">
-                            <label for="boost">Boost Job Posting</label>
-                            <div class="form-check">
-                                <input type="checkbox" class="form-check-input" id="boost">
-                                <label class="form-check-label" for="boost">Boost Job Posting</label>
+                                <label for="jobTags">Tags:</label>
+                                <div id="tagsContainer">
+                                    <input type="text" id="tagInput" placeholder="Add a tag and press Enter" />
+                                    <div id="tagsList"></div>
+                                </div>
+                                <button id="clearTagsButton">Clear Tags</button>
                             </div>
                         </div>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary btn-block rounded-pill shadow-sm font-weight-bold">Create Job</button>
-                </form>
+                        <div class="form-group col-md-4">
+                            <button type="submit" id="boostButton" class="btn btn-primary btn-block rounded-pill shadow-sm font-weight-bold">Boost Job Posting</button>
+                            <button type="submit" id="saveDraftButton" class="btn btn-primary btn-block rounded-pill shadow-sm font-weight-bold">Save to Draft</button>
+                            <button type="submit" id="createJobBtn"class="btn btn-primary btn-block rounded-pill shadow-sm font-weight-bold">Create Job</button>
+                        </form>
             </div>
         </div>
     </div>
@@ -339,7 +406,7 @@ function addQuestionField() {
     questionDiv.appendChild(statementButton);
 
     // Append the new question block to the form
-    document.getElementById("customQuestions").appendChild(questionDiv);
+    document.getElementById("customQuestionsContainer").appendChild(questionDiv);
 }
 
 function addMultipleChoice(questionDiv, questionNumber) {
@@ -405,6 +472,60 @@ function collectCustomQuestions() {
     return customQuestions;
 }
 
+
+const tagsContainer = document.getElementById("tagsContainer");
+const tagInput = document.getElementById("tagInput");
+const tagsList = document.getElementById("tagsList");
+const clearTagsButton = document.getElementById("clearTagsButton");
+
+// Function to add a tag
+function addTag(tag) {
+    const tagElement = document.createElement("span");
+    tagElement.className = "tag";
+    tagElement.textContent = tag;
+
+    const removeButton = document.createElement("button");
+    removeButton.textContent = "x"; // Close button
+    removeButton.onclick = () => {
+        tagsList.removeChild(tagElement);
+    };
+
+    tagElement.appendChild(removeButton);
+    tagsList.appendChild(tagElement);
+}
+
+// Event listener for tag input
+tagInput.addEventListener("keypress", (e) => {
+    if (e.key === "Enter" && tagInput.value.trim() !== "") {
+        e.preventDefault();
+        const tag = tagInput.value.trim();
+        addTag(tag);
+        tagInput.value = ""; // Clear the input
+    }
+});
+// Function to clear all tags
+clearTagsButton.addEventListener("click", () => {
+    tagsList.innerHTML = ""; // Clear all tags
+});
+
+
+const boostButton = document.getElementById("boostButton");
+
+// Function to handle boosting the job posting
+boostButton.addEventListener("click", () => {
+    const isBoosted = confirm("Are you sure you want to boost this job posting?");
+    if (isBoosted) {
+        // document.getElementById("boost").checked
+        // Here you would add the logic to update the job posting in your database
+        console.log("Job posting boosted!");
+        // You might want to visually indicate that the job has been boosted
+        boostButton.textContent = "Job Boosted!";
+        boostButton.disabled = true; // Disable the button to prevent re-boosting
+    }
+});
+
+
+
    </script>
 
 
@@ -412,10 +533,39 @@ function collectCustomQuestions() {
    import { db, storage, analytics, app  } from '../public/js/main.js'; // Adjust the path based on your structure
     import { collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 
+    const saveDraftButton = document.getElementById("saveDraftButton");
 
+// Function to handle saving the job posting as a draft
+saveDraftButton.addEventListener("click", () => {
+    // Here you would gather the job posting details and save them as a draft in your database
+    const jobDetails = { 
+        company: document.getElementById("company").value,
+        title: document.getElementById("jobTitle").value,
+        description: document.getElementById("jobDescription").value,
+        requirements: document.getElementById("jobRequirements").value,
+        SearchableRequirements: collectJobRequirements(), // Collect enhanced requirements
+        location: document.getElementById("jobLocation").value,
+        city: document.getElementById("jobCity").value,
+        state: document.getElementById("jobState").value,
+        zipCode: document.getElementById("jobZipCode").value,
+        type: document.getElementById("jobType").value,
+        salary: parseFloat(document.getElementById("jobSalary").value),
+        tags: Array.from(tagsList.children).map(tag => tag.textContent.slice(0, -1).trim()), // Get tags without the 'x' button
+        boosted: document.getElementById("boost").checked, // Check if boosted
+        createdAt: new Date(),
+        applicantsViewed: 0,
+        savedForLater: 0,
+        recruiterID: UserID, // Replace with actual recruiter ID
+        customQuestions: collectCustomQuestions(),
+        status: "draft",
+    };
+
+    // Save jobDetails to your database
+    console.log("Job posting saved as draft:", jobDetails);
+});
 
       // Add event listener for form submission
-      document.getElementById("jobForm").onsubmit = async function (event) {
+      document.getElementById("createJobBtn").click = async function (event) {
     event.preventDefault(); // Prevent default form submission
 
     // Custom form validation
@@ -425,21 +575,29 @@ function collectCustomQuestions() {
         return;
     }
 
-    
+    // Function to collect job requirements
+function collectJobRequirements() {
+    const jobRequirements = {
+        education: Array.from(document.getElementById("education").selectedOptions).map(option => option.value),
+        experience: Array.from(document.getElementById("experience").selectedOptions).map(option => option.value),
+    };
+    return jobRequirements;
+}
     // Collect the job details
     const jobDetails = { 
         company: document.getElementById("company").value,
         title: document.getElementById("jobTitle").value,
         description: document.getElementById("jobDescription").value,
         requirements: document.getElementById("jobRequirements").value,
+        SearchableRequirements: collectJobRequirements(), // Collect enhanced requirements
         location: document.getElementById("jobLocation").value,
         city: document.getElementById("jobCity").value,
         state: document.getElementById("jobState").value,
         zipCode: document.getElementById("jobZipCode").value,
         type: document.getElementById("jobType").value,
         salary: parseFloat(document.getElementById("jobSalary").value),
-        tags: document.getElementById("jobTags").value.split(",").map(tag => tag.trim()), // Trim whitespace from tags
-        boosted: document.getElementById("boost").checked, // Check if boosted
+        tags: Array.from(tagsList.children).map(tag => tag.textContent.slice(0, -1).trim()), // Get tags without the 'x' button
+        boosted:"None", // Check if boosted
         status: "active",
         createdAt: new Date(),
         applicantsViewed: 0,
