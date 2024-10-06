@@ -481,7 +481,7 @@ document.addEventListener("DOMContentLoaded", function () {
             `;
 
             document.getElementById('loginButton').onclick = () => {
-                window.location.href = adjustLinkHomeURL+'public/auth.html'; // Redirect to login page
+                window.location.href = adjustLinkURL+'views/auth.html'; // Redirect to login page
             };
         }
     }
@@ -490,7 +490,7 @@ document.addEventListener("DOMContentLoaded", function () {
     async function logoutUser() {
         try {
             await firebase.auth().signOut();
-            window.location.href =  adjustLinkHomeURL+'public/auth.html'; // Redirect to login page after logout
+            window.location.href =  adjustLinkURL+'views/auth.html'; // Redirect to login page after logout
         } catch (error) {
             console.error("Logout error:", error);
         }
