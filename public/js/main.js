@@ -351,7 +351,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const isHomePage = currentPage === '/ReelCareer/index.html' || currentPage === '/';
 
     // Adjust hrefs based on the root page
-    const adjustLinkURL = (isHomePage) ? '/ReelCareer/views/' || '/ReelCareer/public/' : '';
+    let adjustLinkURL = (isHomePage) ? '/ReelCareer/views/' || '/ReelCareer/public/' : '';
     const adjustLinkHomeURL = (isHomePage) ? '' : '/ReelCareer/';
     if (currentPage.includes("/ReelCareer/public")) {
         adjustLinkURL = "/ReelCareer/public/";
