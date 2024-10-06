@@ -772,7 +772,7 @@ function updateFooter() {
                 <div class="newsletter-signup">
                     <form id="newsletterForm" class="form-inline justify-content-center mt-4">
                         <input type="email" class=" mr-2 mb-2" placeholder="Subscribe to our newsletter" required aria-label="Email address">
-                        <select id="newsletterType" class=" mr-2 mb-2" multiple required>
+                        <select id="newsletterType" class=" mr-2 mb-2"  required>
                             <option value="website_updates">Website Updates</option>
                             <option value="job_alerts">Job Alerts</option>
                             <option value="career_advice">Career Advice</option>
