@@ -109,7 +109,7 @@
             </div>
             <div class="col-md-4 text-center">
                 <!-- Company Logo -->
-                <img id="companyLogo" src="/images/sq_logo_n_BG.png" alt="Company Logo" class="img-fluid rounded-circle">
+                <img id="companyLogo" src="../images/sq_logo_n_BG.png" alt="Company Logo" class="img-fluid rounded-circle">
                 <input type="file" id="editCompanyLogo" class="form-control mt-2" style="display:none;">
             <!-- Moderator Edit Access (Visible only to Moderators) -->
             <button id="editProfileBtn" class="btn btn-secondary" style="display:none;">Edit Profile</button>
@@ -139,7 +139,7 @@
                 </video>
             </div>
             <div class="col-md-6">
-                <img id="workEnvironmentImage" src="/images/sq_logo_n_BG.png" alt="Company Work Environment" class="img-fluid">
+                <img id="workEnvironmentImage" src="../images/sq_logo_n_BG.png" alt="Company Work Environment" class="img-fluid">
             </div>
         </div>
     </section>
@@ -183,7 +183,7 @@
    import { db, storage, analytics, app  } from '../public/js/main.js'; // Adjust the path based on your structure
     import { collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 
-    const companyRef = doc(db, "companies", companyId); // Get a reference to the company document
+    const companyRef = doc(db, "Companies", companyId); // Get a reference to the company document
 
 // Check if user is a moderator
 auth.onAuthStateChanged(async (user) => {
@@ -244,9 +244,14 @@ auth.onAuthStateChanged(async (user) => {
             location: document.getElementById("editCompanyLocation").value,
         };
 
-        // Update Firestore
-        companyRef.update(updatedCompany).then(() => {
-            alert("Company profile updated successfully!");
+        const companyRefname = db.collection('companies').doc(updatedCompany.name);  // Assuming companyName is unique for the document ID
+// Get the company document to check if it exists
+companyRef.get().then((doc) => {
+    if (doc.exists) {
+        // If the company exists, update the document with the new data
+        companyRef.update(updatedCompany)
+        .then(() => {
+      
 
             // Reflect changes on the page
             document.getElementById("companyName").innerText = updatedCompany.name;
@@ -256,9 +261,34 @@ auth.onAuthStateChanged(async (user) => {
 
             // Exit edit mode
             toggleEditMode(false);
-        }).catch((error) => {
-            console.error("Error updating company profile: ", error);
+            console.log("Company updated successfully with ID:", doc.id);
+        })
+        .catch((error) => {
+            console.error("Error updating company: ", error);
         });
+    } else {
+        // If the company does not exist, create a new document
+        companyRef.set(updatedCompany, { merge: true })  // merge: true ensures any pre-existing fields remain untouched
+        .then(() => {
+
+                        // Reflect changes on the page
+                        document.getElementById("companyName").innerText = updatedCompany.name;
+            document.getElementById("companyDescription").innerText = updatedCompany.description;
+            document.getElementById("companyIndustry").innerText = updatedCompany.industry;
+            document.getElementById("companyLocation").innerText = updatedCompany.location;
+
+            // Exit edit mode
+            toggleEditMode(false);
+            console.log("Company created successfully with ID:", companyRef.id);
+        })
+        .catch((error) => {
+            console.error("Error creating company: ", error);
+        });
+    }
+}).catch((error) => {
+    console.error("Error fetching company data: ", error);
+});
+
     }
 
     // Fetch the company data and populate the page
@@ -281,7 +311,13 @@ auth.onAuthStateChanged(async (user) => {
 
 
         const urlParams = new URLSearchParams(window.location.search);
-            const companyId = urlParams.get('id'); // Get job ID from URL
+        const companyId = urlParams.get('id'); // Get job ID from URL
+        const createCompany = urlParams.get('create'); // Get job ID from URL
+if(createCompany){
+    document.getElementById("editProfileBtn").style.display = "block";
+
+}
+
 
 
 // Reference to the company document
@@ -359,13 +395,14 @@ document.head.appendChild(script);
             getDoc(companyRef).then((docSnapshot) => {
                 if (doc.exists) {
                     const companyData = doc.data();
-                    document.getElementById("companyName").innerText = companyData.name;
-                    document.getElementById("companyDescription").innerText = companyData.description;
-                    document.getElementById("companyIndustry").innerText = companyData.industry;
-                    document.getElementById("companyLocation").innerText = companyData.location;
-                    document.getElementById("companyLogo").src = companyData.logoUrl;
+                    document.getElementById("companyName").innerText = companyData.name || "N/A";
+    document.getElementById("companyDescription").innerText = companyData.description || "Description not available.";
+    document.getElementById("companyIndustry").innerText = companyData.industry || "Industry not specified.";
+    document.getElementById("companyLocation").innerText = companyData.location || "Location not provided.";
+    
+                    document.getElementById("companyLogo").src = companyData.logoUrl  || '../images/sq_logo_n_BG.png';
                     document.getElementById("workEnvironmentVideo").src = companyData.workEnvironmentVideo;
-                    document.getElementById("workEnvironmentImage").src = companyData.workEnvironmentImage;
+                    document.getElementById("workEnvironmentImage").src = companyData.workEnvironmentImage  || '../images/sq_logo_n_BG.png';
                 } else {
                     alert("Company profile not found.");
                 }
