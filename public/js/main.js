@@ -353,12 +353,12 @@ document.addEventListener("DOMContentLoaded", function () {
     // Adjust hrefs based on the root page
     const adjustLinkURL = (isHomePage) ? '/ReelCareer/views/' || '/ReelCareer/public/' : '';
     const adjustLinkHomeURL = (isHomePage) ? '' : '/ReelCareer/';
-    if (path.includes("/ReelCareer/public")) {
+    if (currentPage.includes("/ReelCareer/public")) {
         adjustLinkURL = "/ReelCareer/public/";
         } 
     
     // Check if "/ReelCareer/view" is in the URL
-    if (path.includes("/ReelCareer/view")) {
+    if (currentPage.includes("/ReelCareer/view")) {
         adjustLinkURL = "/ReelCareer/view/";
     }
     // Function to create the navbar
