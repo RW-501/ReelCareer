@@ -374,6 +374,8 @@ window.addEventListener('scroll', () => {
 // Stop auto add functionality
 document.getElementById('stopAutoAddButton').addEventListener('click', () => {
     autoAdd = false; // Stop auto adding
+    window.scrollTo(0, 0);
+
     clearTimeout(autoAddTimeout); // Clear timeout
     document.getElementById('autoAddButton').classList.remove('auto-add-active'); // Remove active class
     document.getElementById('stopAutoAddButton').classList.add('hidden'); // Hide button after stopping
