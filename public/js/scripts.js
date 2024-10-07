@@ -6,41 +6,41 @@ function addStyles() {
     style.innerHTML = `
         /* General Styles */
 
-.suggestions-overlay {
-    transition: opacity 0.3s ease, transform 0.3s ease;
-    opacity: 0;
-    transform: translateY(-10px);
-}
+   /* Styles for the suggestion dropdown */
+    .suggestions-overlay {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background-color: white;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        z-index: 1000;
+        max-height: 200px;
+        overflow-y: auto;
+        display: none;
+    }
 
-.suggestions-overlay.show {
-    display: block; 
-    opacity: 1;
-    transform: translateY(0);
-}
-.suggestions-overlay {
-    position: absolute;
-    top: 100%; 
-    left: 0;
-    right: 0;
-    background-color: white; 
-    border: 1px solid #ccc; 
-    border-radius: 8px; 
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
-    display: none; 
-    z-index: 1000; 
-    max-height: 200px; 
-    overflow-y: auto; 
-}
+    .suggestions-overlay.active {
+        display: block;
+    }
 
-.suggestion-item {
-    padding: 10px 15px; 
-    cursor: pointer; 
-    transition: background-color 0.3s ease; 
-}
+    .suggestion-item {
+        padding: 8px;
+        cursor: pointer;
+    }
 
-.suggestion-item:hover {
-    background-color: #f0f0f0; 
-}
+    .suggestion-item:hover {
+        background-color: #f0f0f0;
+    }
+
+    .form-group.position-relative {
+        width: 100%;
+    }
+
+    .form-control {
+        width: 100%;
+    }
 
     `;
     document.head.appendChild(style);
