@@ -69,6 +69,7 @@
                     <option value="part-time">Part-time</option>
                     <option value="contract">Contract</option>
                     <option value="remote">Remote</option>
+                    <option value="hybrid">Hybrid</option>
                 </select>
                 <input type="number" class="form-control form-control-lg mr-2 mb-2" placeholder="Salary Range" min="0">
                 <button type="submit" class="btn btn-primary btn-lg mb-2 px-4">Search Jobs</button>
@@ -312,7 +313,31 @@ function showJobDetailsFunc(jobId) {
             document.head.appendChild(scriptTag); // Append schema markup to head
         }
 
+        document.getElementById('jobSearchForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent form from submitting the traditional way
 
+        // Get the values from the form inputs
+        const keyword = document.getElementById('keywordInput').value.trim();
+        const location = document.getElementById('locationInput').value.trim();
+        const jobType = document.getElementById('jobTypeInput').value;
+        const salary = document.getElementById('salaryInput').value;
+
+        // Create a query string based on the user's input
+        let query = `?keyword=${encodeURIComponent(keyword)}&location=${encodeURIComponent(location)}`;
+
+        // Add job type to query string if it's selected
+        if (jobType) {
+            query += `&jobType=${encodeURIComponent(jobType)}`;
+        }
+
+        // Add salary to query string if provided
+        if (salary) {
+            query += `&salary=${encodeURIComponent(salary)}`;
+        }
+
+        // Redirect the user to the job listings page with the query parameters
+        window.location.href = `views/job-listings.html${query}`;
+    });
 
 
         
