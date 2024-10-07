@@ -906,6 +906,5 @@ async function getUserInfo() {
     console.log("userINFO  ",userINFO);
 }
 
-
 getUserInfo();
 

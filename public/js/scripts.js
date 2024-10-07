@@ -250,3 +250,5 @@ function selectSuggestion(suggestion) {
 
 
 
+
+userINFO = getUserInfo();
