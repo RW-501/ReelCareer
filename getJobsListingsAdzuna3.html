@@ -414,7 +414,7 @@ function autoAddJobs() {
                 console.error('App button not found for job item:', jobItem); // Log error if button is not found
             }
                 processJob(); // Process the next job item
-            }, 1000); // Wait 1 second before processing the next job
+            }, 3000); // Wait 1 second before processing the next job
         } else {
             // Reset index if we reach the end of job items and loop again if desired
             index = 0; // Uncomment this line if you want to loop through job items indefinitely
