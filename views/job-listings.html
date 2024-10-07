@@ -230,7 +230,6 @@ function showJobDetailsFunc(jobId) {
     <script type="module">
    import { db, storage, analytics, app  } from '../public/js/main.js'; // Adjust the path based on your structure
     import { collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
-    const sponsoredJobs = [];
 
 
 
@@ -241,16 +240,74 @@ function showJobDetailsFunc(jobId) {
         // Function to fetch job listings from Firestore
         async function fetchJobListings() {
 
-    const jobListingsRef = collection(db, 'Jobs'); // Reference to the Jobs collection
+// Create the base query for Jobs
+let jobsQuery = query(collection(db, 'Jobs'));
+// Adding dynamic filters based on userINFO
+if (userINFO.city) { 
+    jobsQuery = query(jobsQuery, where('city', '==', userINFO.city));
+}
+if (userINFO.state) {
+    jobsQuery = query(jobsQuery, where('state', '==', userINFO.state));
+}
+if (userInterests.length > 0) {
+    jobsQuery = query(jobsQuery, where('tags', 'array-contains-any', userInterests));
+}
+
+// Exclude specified IDs
+jobsQuery = query(jobsQuery, where('id', 'not-in', excludedIds));
+
+// Common conditions
+jobsQuery = query(jobsQuery, where('status', '==', 'active'));
+
+// Sort by createdAt in descending order
+jobsQuery = query(jobsQuery, orderBy('createdAt', 'desc'));
+
+
+// Base query for Sponsors
+let sponsorsQuery = query(collection(db, 'Jobs'));
+
+// Adding dynamic filters based on userINFO
+if (userINFO.state) {
+    sponsorsQuery = query(sponsorsQuery, where('state', '==', userINFO.state));
+}
+if (userINFO.country) {
+    sponsorsQuery = query(sponsorsQuery, where('country', '==', userINFO.country));
+}
+if (userInterests.length > 0) {
+    sponsorsQuery = query(sponsorsQuery, where('tags', 'array-contains-any', userInterests));
+}
+
+// Exclude specified IDs (if necessary; adjust if IDs are applicable for Sponsors)
+sponsorsQuery = query(sponsorsQuery, where('id', 'not-in', excludedIds));
+
+// Common conditions
+sponsorsQuery = query(sponsorsQuery, where('status', '==', 'active'), where('boosted', 'in', ['Yes', 'Active']));
+
+// Sort by createdAt in descending order
+sponsorsQuery = query(sponsorsQuery, orderBy('createdAt', 'desc'));
+
+
 
     try {
-        const snapshot = await getDocs(jobListingsRef); // Fetch all job listings
-        const jobListings = []; // Array to hold job listing data
+// Limit the results
+jobsQuery = query(jobsQuery, limit(20));
 
-        snapshot.forEach(doc => {
+        const jobListingsSnapshot = await getDocs(jobsQuery);
+// Limit the results
+sponsorsQuery = query(sponsorsQuery, limit(20));
+
+
+
+
+// Fetch sponsors
+        const sponsorsSnapshot = await getDocs(sponsorsQuery);
+
+        const jobListings = []; // Array to hold job listing data
+        const sponsoredJobs = [];
+
+        sponsorsSnapshot.forEach(doc => {
             const data = doc.data(); // Get data from each document
 
-            if (data.boosted === true) {
                 sponsoredJobs.push({
                 id: doc.id, // Include document ID
                 title: data.title,
@@ -263,7 +320,12 @@ function showJobDetailsFunc(jobId) {
                 validThrough: data.boostExpiresAt,
                 url: doc.id
             });
-}else{
+
+        });
+
+        jobListingsSnapshot.forEach(doc => {
+            const data = doc.data(); // Get data from each document
+
             jobListings.push({
                 id: doc.id, // Include document ID
                 title: data.title,
@@ -276,9 +338,8 @@ function showJobDetailsFunc(jobId) {
                 validThrough: data.boostExpiresAt,
                 url: doc.id
             });
-        }
-            
         });
+            
 
         return jobListings; // Return the array of job listings
     

@@ -283,12 +283,17 @@
         
             loadingIndicator.style.display = 'block'; // Show loading indicator
             errorIndicator.style.display = 'none'; // Hide error indicator
+
 let userInterest1, userInterest2, userInterest3; 
+
+// Assume excludedIds is an array of IDs to exclude
+const excludedIds = ['id1', 'id2', 'id3']; // Replace with your actual IDs
 
             try {
 // Create the base query for Jobs
 let jobsQuery = query(collection(db, 'Jobs'));
-if (userINFO.city) {
+// Adding dynamic filters based on userINFO
+if (userINFO.city) { 
     jobsQuery = query(jobsQuery, where('city', '==', userINFO.city));
 }
 if (userINFO.state) {
@@ -297,13 +302,25 @@ if (userINFO.state) {
 if (userInterests.length > 0) {
     jobsQuery = query(jobsQuery, where('tags', 'array-contains-any', userInterests));
 }
-jobsQuery = query(jobsQuery, where('status', '==', 'active'), limit(20)); // Add common conditions
 
+// Exclude specified IDs
+jobsQuery = query(jobsQuery, where('id', 'not-in', excludedIds));
+
+// Common conditions
+jobsQuery = query(jobsQuery, where('status', '==', 'active'));
+
+// Sort by createdAt in descending order
+jobsQuery = query(jobsQuery, orderBy('createdAt', 'desc'));
+
+// Limit the results
+jobsQuery = query(jobsQuery, limit(20));
 
         const jobListingsSnapshot = await getDocs(jobsQuery);
 
-// Create the base query for Sponsors
-let sponsorsQuery = query(collection(db, 'Sponsors'));
+// Base query for Sponsors
+let sponsorsQuery = query(collection(db, 'Jobs'));
+
+// Adding dynamic filters based on userINFO
 if (userINFO.state) {
     sponsorsQuery = query(sponsorsQuery, where('state', '==', userINFO.state));
 }
@@ -313,10 +330,22 @@ if (userINFO.country) {
 if (userInterests.length > 0) {
     sponsorsQuery = query(sponsorsQuery, where('tags', 'array-contains-any', userInterests));
 }
-sponsorsQuery = query(sponsorsQuery, where('status', '==', 'active'), where('boosted', 'in', ['Yes', 'Active']), limit(20));
 
-                    // Fetch sponsors
-                    const sponsorsSnapshot = await getDocs(sponsorsQuery);
+// Exclude specified IDs (if necessary; adjust if IDs are applicable for Sponsors)
+sponsorsQuery = query(sponsorsQuery, where('id', 'not-in', excludedIds));
+
+// Common conditions
+sponsorsQuery = query(sponsorsQuery, where('status', '==', 'active'), where('boosted', 'in', ['Yes', 'Active']));
+
+// Sort by createdAt in descending order
+sponsorsQuery = query(sponsorsQuery, orderBy('createdAt', 'desc'));
+
+// Limit the results
+sponsorsQuery = query(sponsorsQuery, limit(20));
+
+// Fetch sponsors
+const sponsorsSnapshot = await getDocs(sponsorsQuery);
+
         
                 const sponsors = [];
 
@@ -397,6 +426,8 @@ sponsorsQuery = query(sponsorsQuery, where('status', '==', 'active'), where('boo
         
         // Load job listings on page load
         document.addEventListener('DOMContentLoaded', fetchJobListings);
+
+
         document.getElementById('jobSearchForm').addEventListener('submit', function(event) {
         event.preventDefault(); // Prevent the default form submission
 
