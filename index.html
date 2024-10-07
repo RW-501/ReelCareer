@@ -347,37 +347,28 @@
         
         // Load job listings on page load
         document.addEventListener('DOMContentLoaded', fetchJobListings);
-
-
-
         document.getElementById('jobSearchForm').addEventListener('submit', function(event) {
-        event.preventDefault(); // Prevent form from submitting the traditional way
+        event.preventDefault(); // Prevent the default form submission
 
-        // Get the values from the form inputs
-        const keyword = document.getElementById('keywordInput').value.trim();
-        const location = document.getElementById('locationInput').value.trim();
-        const jobType = document.getElementById('jobTypeInput').value;
-        const salary = document.getElementById('salaryInput').value;
+        // Get the values from the input fields
+        const keywords = this[0].value;
+        const location = this[1].value;
+        const jobType = this[2].value;
+        const salaryRange = this[3].value;
 
-        // Create a query string based on the user's input
-        let query = `?keyword=${encodeURIComponent(keyword)}&location=${encodeURIComponent(location)}`;
+        // Construct the query parameters
+        const queryParams = new URLSearchParams({
+            keywords: keywords,
+            location: location,
+            jobType: jobType,
+            salaryRange: salaryRange
+        }).toString();
 
-        // Add job type to query string if it's selected
-        if (jobType) {
-            query += `&jobType=${encodeURIComponent(jobType)}`;
-        }
+        // Navigate to the job listings page with the search parameters
+        window.location.href = `/views/job-listings.html?${queryParams}`;
 
-        // Add salary to query string if provided
-        if (salary) {
-            query += `&salary=${encodeURIComponent(salary)}`;
-        }
 
-        // Redirect the user to the job listings page with the query parameters
-        window.location.href = `views/job-listings.html${query}`;
     });
-
-
-
 
 
 
