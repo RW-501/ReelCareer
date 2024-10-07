@@ -224,15 +224,16 @@
         }
 
 
-        function showMessage(message, isError = false,done) {
+        function showMessage(message, isError = false) {
             const messageArea = document.getElementById('messageArea');
             const messageAreaText = document.getElementById('messageAreaText');
             messageAreaText.textContent = message;
             messageArea.classList.toggle('error', isError);
             messageArea.style.display = 'block';
-if(done = true){
+if(message = "Done"){
     messageArea.style.display = 'Block';
     messageAreaText.textContent = "Done";
+    window.scrollTo(0, 0);
 
 }else{
             setTimeout(() => {
@@ -251,15 +252,14 @@ if(done = true){
         function updateProgressBar(progress) {
     const progressBar = document.getElementById('autoAddProgress');
     progressBar.style.width = `${progress}%`;
-    if(progress > 99){
-        showMessage(`Done`, false,true);
-
-    }
+   
 
     // Optional: Update progress bar color or text based on progress
     if (progress >= 100) {
         progressBar.style.backgroundColor = 'green'; // Change to green when complete
         progressBar.innerText = 'Complete'; // Add text
+        showMessage(`Done`, false);
+
     } else {
         progressBar.style.backgroundColor = 'blue'; // Default color
         progressBar.innerText = `${Math.round(progress)}%`; // Show progress percentage
