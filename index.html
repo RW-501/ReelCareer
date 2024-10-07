@@ -183,10 +183,10 @@
                 <input type="text" class="form-control mr-2 mb-2" placeholder="Location (e.g., City)" aria-label="Location" >
                 <select class="form-control mr-2 mb-2" aria-label="Job Type" >
                     <option value="">Job Type</option>
-                    <option value="Full-time">Full-time</option>
-                    <option value="Part-time">Part-time</option>
-                    <option value="Contract">Contract</option>
-                    <option value="Remote">Remote</option>
+                    <option value="full-time">Full-time</option>
+                    <option value="part-time">Part-time</option>
+                    <option value="contract">Contract</option>
+                    <option value="remote">Remote</option>
                     <option value="hybrid">Hybrid</option>
                 </select>
                 <div class="form-group">
@@ -429,14 +429,20 @@ const sponsorsSnapshot = await getDocs(sponsorsQuery);
         document.addEventListener('DOMContentLoaded', fetchJobListings);
 
 
-        document.getElementById('jobSearchForm').addEventListener('submit', function(event) {
+        document.getElementById('jobSearchForm').addEventListener('submit', function(event) { 
         event.preventDefault(); // Prevent the default form submission
 
         // Get the values from the input fields
-        const keywords = this[0].value;
-        const location = this[1].value;
-        const jobType = this[2].value;
-        const salaryRange = this[3].value;
+        const keywords = document.getElementById('keywordInput').value.trim();
+        const location = document.getElementById('locationInput').value.trim();
+        const jobType = document.getElementById('jobTypeInput').value;
+        const salaryRange = document.getElementById('salaryInput').value.trim();
+
+        // Check for required fields before constructing query
+        if (!keywords || !location || !salaryRange) {
+            alert('Please fill in all required fields.');
+            return;
+        }
 
         // Construct the query parameters
         const queryParams = new URLSearchParams({
