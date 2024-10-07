@@ -234,9 +234,7 @@ if(message == "Done"){
     messageArea.style.display = 'Block';
     messageAreaText.textContent = "Done";
     window.scrollTo(0, 0);
-    setTimeout(() => {
-        getJobCount();
-    }, 5000);
+
 }else{
             setTimeout(() => {
                 messageArea.style.display = 'none';
@@ -447,7 +445,9 @@ async function getJobCount() {
     // Retrieve the count from the snapshot
     const totalJobs = snapshot.data().count;
     showMessage("Total Jobs: "+totalJobs+" in Database", false);
-
+    setTimeout(() => {
+        getJobCount();
+    }, 6000);
     //console.log('Total Jobs:', totalJobs);
     return totalJobs;
   } catch (error) {
@@ -462,17 +462,17 @@ async function addSelectedJobs(autoAdd = false) {
          //   console.log('jobsToAdd:', jobsToAdd);
 
             for (const jobItem of jobsToAdd) {
-                let job = JSON.parse(jobItem.querySelector('input[type="hidden"]').value);
-               // const hiddenInputValue = jobItem.querySelector('input[type="hidden"]').value;
-try {
-    const decodedJsonString = decodeHtml(job); // Decode HTML entities
-     job = JSON.parse(decodedJsonString); // Parse JSON string
+                const decodedJsonString = jobItem.querySelector('input[type="hidden"]').value;
+                // const hiddenInputValue = jobItem.querySelector('input[type="hidden"]').value;
+    // Check if the decoded string is a valid JSON or a JavaScript object
+    let job;
+    if (typeof decodedJsonString === 'string') {
+        job = JSON.parse(decodedJsonString); // Parse only if it's a JSON string
+    } else {
+        job = decodedJsonString; // If it's already an object
+    }
+
     console.log(job);
-} catch (error) {
-    console.error("Error parsing JSON:", error);
-}
-
-
 
 
                 let job_location = job['location']['area'] || [];
