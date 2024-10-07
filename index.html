@@ -264,9 +264,27 @@
 
 
             try {
-                const jobListingsSnapshot = await getDocs(collection(db, 'Jobs'));
-            // Fetch sponsors
-            const sponsorsSnapshot = await getDocs(collection(db, 'Sponsors'));
+                const jobsQuery = query(
+            collection(db, 'Jobs'),
+            where('city', '==', 'Dallas'),
+            where('tags', 'array-contains-any', ['hr', 'teacher', 'police']),
+            where('status', '==', 'active'),
+            limit(20) // Limit the results to 20
+        );
+
+        const jobListingsSnapshot = await getDocs(jobsQuery);
+
+        const sponsorsQuery = query(
+    collection(db, 'Sponsors'),
+    where('state', '==', 'Texas'),
+    where('country', '==', 'US'),
+    where('status', '==', 'active'),
+    where('boosted', 'in', ['Yes', 'Active']),
+    where('tags', 'array-contains-any', ['hr', 'teacher', 'police']),
+    limit(20) // Limit to 20 documents
+);
+                    // Fetch sponsors
+                    const sponsorsSnapshot = await getDocs(sponsorsQuery);
         
                 const sponsors = [];
 
@@ -365,7 +383,7 @@
         }).toString();
 
         // Navigate to the job listings page with the search parameters
-        window.location.href = `/views/job-listings.html?${queryParams}`;
+        window.location.href = `../views/job-listings?${queryParams}`;
 
 
     });
