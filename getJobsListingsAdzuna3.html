@@ -230,11 +230,13 @@
             messageAreaText.textContent = message;
             messageArea.classList.toggle('error', isError);
             messageArea.style.display = 'block';
-if(message = "Done"){
+if(message == "Done"){
     messageArea.style.display = 'Block';
     messageAreaText.textContent = "Done";
     window.scrollTo(0, 0);
-
+    setTimeout(() => {
+        getJobCount();
+    }, 5000);
 }else{
             setTimeout(() => {
                 messageArea.style.display = 'none';
@@ -428,16 +430,51 @@ function autoAddJobs() {
 
 
     
+function decodeHtml(html) {
+    let txt = document.createElement("textarea");
+    txt.innerHTML = html;
+    return txt.value;
+}
 
+async function getJobCount() {
+  try {
+    // Reference the 'Jobs' collection and get a count using aggregation
+    const jobsCollection = db.collection('Jobs');
+    
+    // Use the Firestore count() method
+    const snapshot = await jobsCollection.count().get();
 
+    // Retrieve the count from the snapshot
+    const totalJobs = snapshot.data().count;
+    showMessage("Total Jobs: "+totalJobs+" in Database", false);
+
+    //console.log('Total Jobs:', totalJobs);
+    return totalJobs;
+  } catch (error) {
+    console.error('Error getting job count:', error);
+    return 0; // Return 0 or handle the error as needed
+  }
+}
 
 async function addSelectedJobs(autoAdd = false) {
     const selectedJobs = [...document.querySelectorAll('.job-item.selected')];
             const jobsToAdd = autoAdd ? selectedJobs : selectedJobs.slice(0, 1);
-            console.log('jobsToAdd:', jobsToAdd);
+         //   console.log('jobsToAdd:', jobsToAdd);
 
             for (const jobItem of jobsToAdd) {
                 let job = JSON.parse(jobItem.querySelector('input[type="hidden"]').value);
+               // const hiddenInputValue = jobItem.querySelector('input[type="hidden"]').value;
+try {
+    const decodedJsonString = decodeHtml(job); // Decode HTML entities
+     job = JSON.parse(decodedJsonString); // Parse JSON string
+    console.log(job);
+} catch (error) {
+    console.error("Error parsing JSON:", error);
+}
+
+
+
+
                 let job_location = job['location']['area'] || [];
 
           
