@@ -313,33 +313,6 @@ function showJobDetailsFunc(jobId) {
             document.head.appendChild(scriptTag); // Append schema markup to head
         }
 
-        document.getElementById('jobSearchForm').addEventListener('submit', function(event) {
-        event.preventDefault(); // Prevent form from submitting the traditional way
-
-        // Get the values from the form inputs
-        const keyword = document.getElementById('keywordInput').value.trim();
-        const location = document.getElementById('locationInput').value.trim();
-        const jobType = document.getElementById('jobTypeInput').value;
-        const salary = document.getElementById('salaryInput').value;
-
-        // Create a query string based on the user's input
-        let query = `?keyword=${encodeURIComponent(keyword)}&location=${encodeURIComponent(location)}`;
-
-        // Add job type to query string if it's selected
-        if (jobType) {
-            query += `&jobType=${encodeURIComponent(jobType)}`;
-        }
-
-        // Add salary to query string if provided
-        if (salary) {
-            query += `&salary=${encodeURIComponent(salary)}`;
-        }
-
-        // Redirect the user to the job listings page with the query parameters
-        window.location.href = `views/job-listings.html${query}`;
-    });
-
-
         
         window.onload = async function() {
             const jobListings = await fetchJobListings(); // Fetch the job listings
