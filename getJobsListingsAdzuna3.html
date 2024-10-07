@@ -474,29 +474,18 @@ async function getJobCount() {
 async function addSelectedJobs(autoAdd = false) {
     getJobCount();
     const selectedJobs = [...document.querySelectorAll('.job-item.selected')];
-            const jobsToAdd = autoAdd ? selectedJobs : selectedJobs.slice(0, 1);
-         //   console.log('jobsToAdd:', jobsToAdd);
+    const jobsToAdd = autoAdd ? selectedJobs : selectedJobs.slice(0, 1);
 
-            for (const jobItem of jobsToAdd) {
-                const hiddenInputValue = jobItem.querySelector('input[type="hidden"]').value;
-                // const hiddenInputValue = jobItem.querySelector('input[type="hidden"]').value;
-    // Check if the decoded string is a valid JSON or a JavaScript object
-    let job;
-    let decodedJsonString = decodeHtml(hiddenInputValue); // Decode HTML entities
-
-    decodedJsonString = sanitizeInput(decodedJsonString); // Sanitize the input to escape special characters
-    console.log("Decoded and Sanitized String:", decodedJsonString);
-
-    if (isValidJSON(decodedJsonString)) {
-         job = JSON.parse(decodedJsonString); // Parse if it's valid
-        console.log(job);
-    } else {
-        console.error("Failed to parse JSON due to invalid formatting.");
-    }
-
+    for (const jobItem of jobsToAdd) {
+                const job = JSON.parse(jobItem.querySelector('input[type="hidden"]').value);
                 let job_location = job['location']['area'] || [];
+        try {
 
-          
+            // Check if essential properties exist
+            if (job && job.location && job.title) {
+                console.log("Parsed Job:", job);
+
+                // Your logic to handle the parsed job object
                 const jobData = {
                     company: job.company.display_name || '', 
                     title: job.title || '', 
@@ -504,12 +493,12 @@ async function addSelectedJobs(autoAdd = false) {
                     location: job.location.area || '', 
                     city: parseCityFromLocationNew(job.location.display_name) || '', 
                     county: parseStateFromLocation(job.location.display_name) || '', 
-                    state: job_location[1] || '', 
-                    country:  job_location[0] || 'US', 
+                    state: job.location.area[1] || '', 
+                    country: job.location.area[0] || 'US', 
                     type: job.contract_time || 'Full-time', 
                     salaryMin: parseFloat(job.salary_min) || 0, 
                     salaryMax: parseFloat(job.salary_max) || 0,   
-                    salary: parseFloat (job.salary_min + job.salary_max) / 2 || 0,
+                    salary: (parseFloat(job.salary_min) + parseFloat(job.salary_max)) / 2 || 0,
                     contractToHire: 'No', 
                     immediateHire: 'No', 
                     industry: job.category.label || '', 
@@ -529,15 +518,17 @@ async function addSelectedJobs(autoAdd = false) {
                     searchableRequirements: ''
                 };
 
-             // Add job to Firestore
-             const docRef = await addDoc(collection(db, "Jobs"), jobData);
-                    jobItem.classList.remove('selected');
-                    jobsAddedCount++;
-                    document.getElementById('jobCountDisplay').textContent = `Jobs Added: ${jobsAddedCount}`;
-
-    
-          
-  
+                // Add job to Firestore
+                const docRef = await addDoc(collection(db, "Jobs"), jobData);
+                jobItem.classList.remove('selected');
+                jobsAddedCount++;
+                document.getElementById('jobCountDisplay').textContent = `Jobs Added: ${jobsAddedCount}`;
+            } else {
+                console.error("Job object is missing required fields.");
+            }
+        } catch (error) {
+            console.error("Error parsing JSON:", error, "\nInvalid JSON String:", decodedJsonString);
+        }
 
         // Optionally stop fetching if not allowing multiple adds
         if (!autoAdd) {
@@ -546,6 +537,8 @@ async function addSelectedJobs(autoAdd = false) {
         }
     }
 }
+
+
         document.getElementById('fetchJobs').addEventListener('click', () => {
             fetchJobs();
         });
