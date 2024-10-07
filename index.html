@@ -121,7 +121,7 @@
  
     <!-- Custom CSS -->
     <link rel="stylesheet" href="public/css/styles.css">
-    <script src="../public/js/scripts.js"></script>
+    <script src="public/js/scripts.js"></script>
 </head>
 
 
@@ -167,7 +167,7 @@
             <h1 class="display-4">Find Your Dream Job</h1>
             <p class="lead">Search job listings, apply, and take your career to the next level.</p>
             <form id="jobSearchForm" class="form-inline justify-content-center mt-4">
-                <div class="form-group position-relative">
+                <div class="form-group position-relative" style="width: 100%;">
                     <input 
                         type="text" 
                         class="form-control mr-2 mb-2" 
@@ -176,7 +176,7 @@
                         id="keywordInput"
                         required
                         oninput="showSuggestions(this.value)"
-                    >
+                        autocomplete="off">
                     <div id="suggestions" class="suggestions-overlay"></div>
                 </div>
 
