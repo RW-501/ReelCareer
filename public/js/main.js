@@ -908,3 +908,74 @@ async function getUserInfo() {
 
 
 getUserInfo();
+
+
+
+function formatSalary(input) {
+    // Remove any non-numeric characters except for commas and dollar sign
+    let value = input.value.replace(/[^0-9,]/g, '');
+
+    // Remove any commas for easier processing
+    value = value.replace(/,/g, '');
+
+    // Format the number with commas
+    if (value) {
+        value = Number(value).toLocaleString();
+    }
+
+    // Set the formatted value back to the input
+    input.value = value ? `$${value}` : '';
+}
+
+
+
+const suggestions = [
+    "Developer",
+    "Data Scientist",
+    "Web Designer",
+    "Project Manager",
+    "Software Engineer",
+    "Product Manager",
+    "HR Manager",
+    "Teacher",
+    "Marketing Specialist",
+    "Sales Associate",
+    // Add more suggestions as needed
+];
+
+function showSuggestions(inputValue) {
+    const suggestionsContainer = document.getElementById('suggestions');
+    suggestionsContainer.innerHTML = ''; // Clear previous suggestions
+
+    if (inputValue) {
+        const filteredSuggestions = suggestions.filter(item => 
+            item.toLowerCase().includes(inputValue.toLowerCase())
+        );
+
+        if (filteredSuggestions.length > 0) {
+            suggestionsContainer.style.display = 'block'; // Show suggestions
+
+            filteredSuggestions.forEach(suggestion => {
+                const suggestionItem = document.createElement('div');
+                suggestionItem.classList.add('suggestion-item');
+                suggestionItem.innerText = suggestion;
+                suggestionItem.onclick = () => selectSuggestion(suggestion);
+                suggestionsContainer.appendChild(suggestionItem);
+            });
+        } else {
+            suggestionsContainer.style.display = 'none'; // Hide if no suggestions
+        }
+    } else {
+        suggestionsContainer.style.display = 'none'; // Hide if input is empty
+    }
+}
+
+function selectSuggestion(suggestion) {
+    document.getElementById('keywordInput').value = suggestion;
+    document.getElementById('suggestions').innerHTML = ''; // Clear suggestions
+    document.getElementById('suggestions').style.display = 'none'; // Hide suggestions
+}
+
+
+
+

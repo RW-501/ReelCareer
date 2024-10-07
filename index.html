@@ -166,7 +166,19 @@
             <h1 class="display-4">Find Your Dream Job</h1>
             <p class="lead">Search job listings, apply, and take your career to the next level.</p>
             <form id="jobSearchForm" class="form-inline justify-content-center mt-4">
-                <input type="text" class="form-control mr-2 mb-2" placeholder="Keywords (e.g., Developer)" aria-label="Keywords" required>
+                <div class="form-group position-relative">
+                    <input 
+                        type="text" 
+                        class="form-control mr-2 mb-2" 
+                        placeholder="Keywords (e.g., Developer)" 
+                        aria-label="Keywords" 
+                        id="keywordInput"
+                        required
+                        oninput="showSuggestions(this.value)"
+                    >
+                    <div id="suggestions" class="suggestions-overlay"></div>
+                </div>
+
                 <input type="text" class="form-control mr-2 mb-2" placeholder="Location (e.g., City)" aria-label="Location" >
                 <select class="form-control mr-2 mb-2" aria-label="Job Type" >
                     <option value="">Job Type</option>
@@ -190,7 +202,7 @@
             </form>
         </div>
     </div>
-
+   
     <!-- Featured Jobs Section -->
     <div class="container mt-5">
         <h2 class="text-center mb-4">Featured Jobs</h2>
@@ -403,33 +415,6 @@ sponsorsQuery = query(sponsorsQuery, where('status', '==', 'active'), where('boo
 
         // Navigate to the job listings page with the search parameters
         window.location.href = `/views/job-listings?${queryParams}`;
-
-
-        function formatSalary(input) {
-    // Remove any non-numeric characters except for commas and dollar sign
-    let value = input.value.replace(/[^0-9,]/g, '');
-
-    // Remove any commas for easier processing
-    value = value.replace(/,/g, '');
-
-    // Format the number with commas
-    if (value) {
-        value = Number(value).toLocaleString();
-    }
-
-    // Set the formatted value back to the input
-    input.value = value ? `$${value}` : '';
-}
-
-
-
-
-
-
-
-
-
-
 
     });
 

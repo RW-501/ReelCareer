@@ -61,7 +61,18 @@
             <h1 class="font-weight-bold">Find Your Next Opportunity</h1>
             <p class="lead text-muted">Search from thousands of jobs that fit your skills and preferences</p>
             <form id="jobSearchForm" class="form-inline justify-content-center mt-4">
-                <input type="text" class="form-control form-control-lg mr-2 mb-2" placeholder="Keywords (e.g., Developer)" required>
+                <div class="form-group position-relative">
+                    <input 
+                        type="text" 
+                        class="form-control mr-2 mb-2" 
+                        placeholder="Keywords (e.g., Developer)" 
+                        aria-label="Keywords" 
+                        id="keywordInput"
+                        required
+                        oninput="showSuggestions(this.value)">
+                    <div id="suggestions" class="suggestions-overlay"></div>
+                </div>
+
                 <input type="text" class="form-control form-control-lg mr-2 mb-2" placeholder="Location (e.g., City)" >
                 <select class="form-control form-control-lg " size="0rem">
                     <option value="" disabled selected>Job Type</option>
@@ -71,8 +82,16 @@
                     <option value="remote">Remote</option>
                     <option value="hybrid">Hybrid</option>
                 </select>
-                <input type="number" class="form-control form-control-lg mr-2 mb-2" placeholder="Salary Range" min="0">
-                <button type="submit" class="btn btn-primary btn-lg mb-2 px-4">Search Jobs</button>
+                <div class="form-group">
+                    <input 
+                        type="text" 
+                        class="form-control form-control-lg mr-2 mb-2" 
+                        placeholder="Salary Range (e.g., $50,000)" 
+                        aria-label="Salary Range" 
+                        id="salaryInput"
+                        oninput="formatSalary(this)">
+                </div>
+        <button type="submit" class="btn btn-primary btn-lg mb-2 px-4">Search Jobs</button>
             </form>
         </div>
     </div>
@@ -176,11 +195,15 @@
     // Populate the search bar with URL parameters
     function populateSearchBar() {
         const { keyword, location, jobType, salary } = getUrlParameters();
-        
-        document.getElementById('keywordInput').value = keyword;
-        document.getElementById('locationInput').value = location;
-        document.getElementById('salaryInput').value = salary;
-
+        if (keyword) {
+            document.getElementById('keywordInput').value = keyword;
+        }
+        if (location) {
+            document.getElementById('locationInput').value = location;
+        }
+        if (salary) {
+            document.getElementById('salaryInput').value = salary;
+        }
         if (jobType) {
             document.getElementById('jobTypeInput').value = jobType;
         }
@@ -189,6 +212,7 @@
     // Call populate function on page load
     window.onload = populateSearchBar;
 
+ 
 
     // Function to redirect user to the job details page with job ID in the URL
 function showJobDetailsFunc(jobId) {
