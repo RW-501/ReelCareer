@@ -62,7 +62,7 @@
             <h1 class="font-weight-bold">Find Your Next Opportunity</h1>
             <p class="lead text-muted">Search from thousands of jobs that fit your skills and preferences</p>
             <form id="jobSearchForm" class="form-inline justify-content-center mt-4">
-                <div class="form-group position-relative" style="width: 100%;">
+                <div class="form-group position-relative" style="width: auto;">
                     <input 
                         type="text" 
                         class="form-control mr-2 mb-2" 
@@ -70,10 +70,9 @@
                         aria-label="Keywords" 
                         id="keywordInput"
                         required
-                        oninput="showSuggestions(this.value)"
+                        oninput="autoSuggest(this.value)"
                         autocomplete="off"
                     >
-                    <div id="suggestions" class="suggestions-overlay"></div>
                 </div>
 
                 <input type="text" class="form-control form-control-lg mr-2 mb-2" placeholder="Location (e.g., City)" >

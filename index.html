@@ -167,7 +167,7 @@
             <h1 class="display-4">Find Your Dream Job</h1>
             <p class="lead">Search job listings, apply, and take your career to the next level.</p>
             <form id="jobSearchForm" class="form-inline justify-content-center mt-4">
-                <div class="form-group position-relative" style="width: 100%;">
+                <div class="form-group position-relative" style="width: auto;">
                     <input 
                         type="text" 
                         class="form-control mr-2 mb-2" 
@@ -175,9 +175,8 @@
                         aria-label="Keywords" 
                         id="keywordInput"
                         required
-                        oninput="showSuggestions(this.value)"
+                        oninput="autoSuggest(this.value)"
                         autocomplete="off">
-                    <div id="suggestions" class="suggestions-overlay"></div>
                 </div>
 
                 <input type="text" class="form-control mr-2 mb-2" placeholder="Location (e.g., City)" aria-label="Location" >

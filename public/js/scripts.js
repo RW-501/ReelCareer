@@ -7,40 +7,13 @@ function addStyles() {
         /* General Styles */
 
    /* Styles for the suggestion dropdown */
-    .suggestions-overlay {
-        position: absolute;
-        top: 100%;
-        left: 0;
-        width: 100%;
-        background-color: white;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        z-index: 1000;
-        max-height: 200px;
-        overflow-y: auto;
-        display: none;
-    }
 
-    .suggestions-overlay.active {
-        display: block;
-    }
+   input::selection {
+    background: #d0eaff; /* Light blue background for the suggestion part */
+    color: #000; /* Text color for the suggestion part */
+}
 
-    .suggestion-item {
-        padding: 8px;
-        cursor: pointer;
-    }
 
-    .suggestion-item:hover {
-        background-color: #f0f0f0;
-    }
-
-    .form-group.position-relative {
-        width: 100%;
-    }
-
-    .form-control {
-        width: 100%;
-    }
 
     `;
     document.head.appendChild(style);
@@ -214,40 +187,40 @@ const suggestions = [
 ];
 
 
-function showSuggestions(inputValue) {
-    const suggestionsContainer = document.getElementById('suggestions');
-    suggestionsContainer.innerHTML = ''; // Clear previous suggestions
+function autoSuggest(input) {
+    const inputValue = input.value.toLowerCase();
+    let suggestion = '';
 
-    if (inputValue) {
-        const filteredSuggestions = suggestions.filter(item => 
-            item.toLowerCase().includes(inputValue.toLowerCase())
-        );
-
-        if (filteredSuggestions.length > 0) {
-            suggestionsContainer.style.display = 'block'; // Show suggestions
-
-            filteredSuggestions.forEach(suggestion => {
-                const suggestionItem = document.createElement('div');
-                suggestionItem.classList.add('suggestion-item');
-                suggestionItem.innerText = suggestion;
-                suggestionItem.onclick = () => selectSuggestion(suggestion);
-                suggestionsContainer.appendChild(suggestionItem);
-            });
-        } else {
-            suggestionsContainer.style.display = 'none'; // Hide if no suggestions
+    // Find the first suggestion that starts with the input value
+    for (let i = 0; i < suggestions.length; i++) {
+        if (suggestions[i].toLowerCase().startsWith(inputValue)) {
+            suggestion = suggestions[i];
+            break;
         }
-    } else {
-        suggestionsContainer.style.display = 'none'; // Hide if input is empty
+    }
+
+    if (suggestion && inputValue !== '') {
+        // If a suggestion is found and input isn't empty
+        input.setAttribute('data-suggestion', suggestion); // Set a custom data attribute for handling auto-suggestion
+        input.value = suggestion; // Temporarily set the input value to the suggestion
+        input.selectionStart = inputValue.length; // Set the selection start after the typed characters
+        input.selectionEnd = suggestion.length; // Set the selection end to the suggestion length
     }
 }
 
-function selectSuggestion(suggestion) {
-    document.getElementById('keywordInput').value = suggestion;
-    document.getElementById('suggestions').innerHTML = ''; // Clear suggestions
-    document.getElementById('suggestions').style.display = 'none'; // Hide suggestions
-}
+document.getElementById('keywordInput').addEventListener('keydown', function(e) {
+    const suggestion = this.getAttribute('data-suggestion');
+    const inputValue = this.value.toLowerCase();
 
-
+    if (suggestion && suggestion.toLowerCase().startsWith(inputValue)) {
+        // Handle Tab or Enter keys to accept the suggestion
+        if (e.key === 'Tab' || e.key === 'Enter') {
+            e.preventDefault();
+            this.value = suggestion; // Accept the suggestion
+            this.setSelectionRange(suggestion.length, suggestion.length); // Move the cursor to the end
+        }
+    }
+});
 
 
 
