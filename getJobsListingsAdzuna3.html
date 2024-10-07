@@ -292,7 +292,18 @@ if(message == "Done"){
         async function fetchJobs() {
             const query = document.getElementById("query").value;
             const perPage = document.getElementById("perPage").value;
-            const url = `https://api.adzuna.com/v1/api/jobs/us/search/1?app_id=3ea9a2f1&app_key=e74d84b00c37bbfabe11710ebafcd138&results_per_page=${perPage}&what=${query}&where=USA`;
+         // Step 1: Fetch the total number of jobs available for the query
+         const totalResponse = await fetch(`https://api.adzuna.com/v1/api/jobs/us/search/1?app_id=3ea9a2f1&app_key=e74d84b00c37bbfabe11710ebafcd138&results_per_page=1&what=${query}&where=USA`);
+        const totalData = await totalResponse.json();
+
+        // Step 2: Determine total results and calculate number of pages
+        const totalResults = totalData.count; // Total number of jobs found
+        const totalPages = Math.ceil(totalResults / perPage); // Total pages available
+
+        // Step 3: Generate a random page number
+        let randomPage = Math.floor(Math.random() * totalPages) + 1; // Random page from 1 to totalPages
+
+            const url = `https://api.adzuna.com/v1/api/jobs/us/search/${randomPage}?app_id=3ea9a2f1&app_key=e74d84b00c37bbfabe11710ebafcd138&results_per_page=${perPage}&what=${query}&where=USA`;
 
             toggleLoading(true);
 
