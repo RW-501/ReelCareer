@@ -270,7 +270,9 @@ if(message == "Done"){
     <script type="module">
         // Import the required Firebase functions
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
-           import { getFirestore, collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
+
+        import {  getFirestore, collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 
         // Your Firebase configuration
         const firebaseConfig = {
@@ -426,7 +428,22 @@ function autoAddJobs() {
 }
 
 
-
+function isValidJSON(jsonString) {
+    try {
+        JSON.parse(jsonString);
+        return true;
+    } catch (e) {
+        console.error("Invalid JSON:", jsonString);
+        return false;
+    }
+}
+function sanitizeInput(input) {
+    return input
+        .replace(/\\/g, "\\\\") // Escape backslashes
+        .replace(/"/g, '\\"') // Escape double quotes
+        .replace(/\n/g, "\\n") // Escape newlines
+        .replace(/\r/g, "\\r"); // Escape carriage returns
+}
     
 function decodeHtml(html) {
     let txt = document.createElement("textarea");
@@ -436,19 +453,18 @@ function decodeHtml(html) {
 
 async function getJobCount() {
   try {
-    // Reference the 'Jobs' collection and get a count using aggregation
-    const jobsCollection = db.collection('Jobs');
+    // Reference the 'Jobs' collection
+    const jobsCollection = collection(db, 'Jobs');
     
-    // Use the Firestore count() method
-    const snapshot = await jobsCollection.count().get();
+    // Get all documents from the collection
+    const snapshot = await getDocs(jobsCollection);
+    
+    // Use the 'size' property of the snapshot to get the count
+    const totalJobs = snapshot.size;
 
-    // Retrieve the count from the snapshot
-    const totalJobs = snapshot.data().count;
-    showMessage("Total Jobs: "+totalJobs+" in Database", false);
-    setTimeout(() => {
-        getJobCount();
-    }, 6000);
-    //console.log('Total Jobs:', totalJobs);
+    showMessage("Total Jobs: " + totalJobs + " in Database", false);
+    console.log('Total Jobs:', totalJobs);
+
     return totalJobs;
   } catch (error) {
     console.error('Error getting job count:', error);
@@ -457,23 +473,27 @@ async function getJobCount() {
 }
 
 async function addSelectedJobs(autoAdd = false) {
+    getJobCount();
     const selectedJobs = [...document.querySelectorAll('.job-item.selected')];
             const jobsToAdd = autoAdd ? selectedJobs : selectedJobs.slice(0, 1);
          //   console.log('jobsToAdd:', jobsToAdd);
 
             for (const jobItem of jobsToAdd) {
-                const decodedJsonString = jobItem.querySelector('input[type="hidden"]').value;
+                const hiddenInputValue = jobItem.querySelector('input[type="hidden"]').value;
                 // const hiddenInputValue = jobItem.querySelector('input[type="hidden"]').value;
     // Check if the decoded string is a valid JSON or a JavaScript object
     let job;
-    if (typeof decodedJsonString === 'string') {
-        job = JSON.parse(decodedJsonString); // Parse only if it's a JSON string
+    let decodedJsonString = decodeHtml(hiddenInputValue); // Decode HTML entities
+
+    decodedJsonString = sanitizeInput(decodedJsonString); // Sanitize the input to escape special characters
+    console.log("Decoded and Sanitized String:", decodedJsonString);
+
+    if (isValidJSON(decodedJsonString)) {
+         job = JSON.parse(decodedJsonString); // Parse if it's valid
+        console.log(job);
     } else {
-        job = decodedJsonString; // If it's already an object
+        console.error("Failed to parse JSON due to invalid formatting.");
     }
-
-    console.log(job);
-
 
                 let job_location = job['location']['area'] || [];
 
@@ -540,6 +560,7 @@ async function addSelectedJobs(autoAdd = false) {
         function parseCityFromLocationNew(location) {
             return location.split(', ')[0];
         }
+        getJobCount();
     </script>
 </body>
 </html>
