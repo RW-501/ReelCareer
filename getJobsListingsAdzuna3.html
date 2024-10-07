@@ -328,25 +328,32 @@ if(message == "Done"){
             jobs.forEach((job) => {
                 let job_location = job['location']['area'] || [];
 
-                const jobItem = document.createElement('div');
-                jobItem.className = 'job-item';
-                jobItem.innerHTML = `
-                    <h3>${job.title}</h3>
-                    <p><strong>Company:</strong> ${job.company.display_name}</p>
-                    <p><strong>Location:</strong> ${job.location.display_name}</p>
-                    <p><strong>Salary:</strong> $${job.salary_min || 0} - $${job.salary_max || 0}</p>
-                    <p><strong>State:</strong> ${job_location[1]}</p>
-                    <p><strong>County:</strong> ${parseStateFromLocation(job.location.display_name)}</p>
-                    <p><strong>City:</strong> ${parseCityFromLocationNew(job.location.display_name)}</p>
-                    <p><strong>Salary:</strong> ${parseFloat (job.salary_min + job.salary_max) / 2}</p>
-                    <p><strong>Tags:</strong> ${job.category && job.category.tag ? job.category.tag.split('-').map(word => word.trim()) : ""}</p>
-                    <p><strong>Description:</strong> ${job.description}</p>
-                    <button onclick="toggleSelect(this)" class="appButton">Select</button>
-                    <input type="hidden" value='${JSON.stringify(job)}'>
-                `;
-            jobApplicationsDiv.appendChild(jobItem);
-            });
-        }
+        // Safely escape special characters in the job description
+        const escapedJob = {
+            ...job,
+            description: job.description ? job.description.replace(/"/g, '&quot;') : ''
+        };
+
+        // Create the job item element
+        const jobItem = document.createElement('div');
+        jobItem.className = 'job-item';
+        jobItem.innerHTML = `
+            <h3>${escapedJob.title}</h3>
+            <p><strong>Company:</strong> ${escapedJob.company.display_name}</p>
+            <p><strong>Location:</strong> ${escapedJob.location.display_name}</p>
+            <p><strong>Salary:</strong> $${escapedJob.salary_min || 0} - $${escapedJob.salary_max || 0}</p>
+            <p><strong>State:</strong> ${job_location[1]}</p>
+            <p><strong>County:</strong> ${parseStateFromLocation(escapedJob.location.display_name)}</p>
+            <p><strong>City:</strong> ${parseCityFromLocationNew(escapedJob.location.display_name)}</p>
+            <p><strong>Average Salary:</strong> ${parseFloat((escapedJob.salary_min + escapedJob.salary_max) / 2)}</p>
+            <p><strong>Tags:</strong> ${escapedJob.category?.tag ? escapedJob.category.tag.split('-').map(word => word.trim()).join(', ') : ''}</p>
+            <p><strong>Description:</strong> ${escapedJob.description.length > 200 ? escapedJob.description.substring(0, 200) + '...' : escapedJob.description}</p>
+            <button onclick="toggleSelect(this)" class="appButton">Select</button>
+            <input type="hidden" value='${JSON.stringify(escapedJob)}'>
+        `;
+        jobApplicationsDiv.appendChild(jobItem);
+    });
+}
 
         function toggleSelect(button) {
     const jobItem = button.closest('.job-item'); // Use closest to find the job-item ancestor
@@ -414,6 +421,8 @@ function autoAddJobs() {
             // Wait for the scroll to complete, then click the button
             setTimeout(() => {
                 if (button) {
+           
+
                 button.click(); // Click the appButton
                 addJobButton.click(); // Click the addJobButton
 
@@ -423,6 +432,7 @@ function autoAddJobs() {
                 updateProgressBar(progress); // Update progress bar
                 showMessage(`Added ${index} Jobs`, false);
               //  addSelectedJobs(true);
+
             } else {
                 console.error('App button not found for job item:', jobItem); // Log error if button is not found
             }
@@ -483,27 +493,43 @@ async function getJobCount() {
   }
 }
 
+
+
+
+async function addSelectedJobs(autoAdd = false) {
+    getJobCount();
+    const selectedJobs = [...document.querySelectorAll('.job-item.selected')];
+    const jobsToAdd = autoAdd ? selectedJobs : selectedJobs.slice(0, 1);
+
  for (const jobItem of jobsToAdd) {
         let job;
 
         try {
             // Try to parse the job from the hidden input value
             const jobString = jobItem.querySelector('input[type="hidden"]').value;
+
+            // Check if the string seems valid (basic check for closing bracket)
+            if (!jobString.trim().endsWith('}')) {
+               // throw new Error('Incomplete JSON string');
+                console.log("Incomplete JSON string", jobString);
+
+            }
+
+            // Try to parse the job JSON
             job = JSON.parse(jobString); // Attempt to parse JSON
-        } catch (e) {
-            console.error('Error parsing job JSON:', e);
-            console.error('Invalid JSON String:', jobItem.querySelector('input[type="hidden"]').value);
-            continue; // Skip this job if parsing fails
-        }
 
-        let job_location = job['location']['area'] || [];
+            // Ensure the essential properties exist
+            if (!job || !job.location || !job.title) {
+             //  throw new Error('Job object is missing essential properties');
+             console.log("missing essential properties");
 
-        // Check if essential properties exist
-        if (job && job.location && job.title) {
+            }
+
             console.log("Parsed Job:", job);
 
-            // Your logic to handle the parsed job object
-                const jobData = {
+            // Proceed with further processing
+            let job_location = job['location']['area'] || [];
+            const jobData = {
                     company: job.company.display_name || '', 
                     title: job.title || '', 
                     description: job.description || '', 
@@ -541,19 +567,20 @@ async function getJobCount() {
                 jobsAddedCount++;
                 document.getElementById('jobCountDisplay').textContent = `Jobs Added: ${jobsAddedCount}`;
            
-            } else {
-            console.error('Job object is missing essential properties:', job);
-                 // Optionally stop fetching if not allowing multiple adds
-     
-    }
-    if (!autoAdd) {
+            } catch (e) {
+            // Handle the error and continue to the next iteration
+            console.error('Error parsing job JSON:', e);
+            console.error('Invalid JSON String:', jobItem.querySelector('input[type="hidden"]').value);
+            continue; // Skip this job and move to the next one
+        }
+        if (!autoAdd) {
             stopFetching();
             break; // Exit the loop if stopping
        
         }
+    }
 }
-
-   
+  
 
 
         document.getElementById('fetchJobs').addEventListener('click', () => {
