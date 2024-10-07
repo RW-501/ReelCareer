@@ -62,7 +62,7 @@
             <p class="lead text-muted">Search from thousands of jobs that fit your skills and preferences</p>
             <form id="jobSearchForm" class="form-inline justify-content-center mt-4">
                 <input type="text" class="form-control form-control-lg mr-2 mb-2" placeholder="Keywords (e.g., Developer)" required>
-                <input type="text" class="form-control form-control-lg mr-2 mb-2" placeholder="Location (e.g., City)" required>
+                <input type="text" class="form-control form-control-lg mr-2 mb-2" placeholder="Location (e.g., City)" >
                 <select class="form-control form-control-lg " size="0rem">
                     <option value="" disabled selected>Job Type</option>
                     <option value="full-time">Full-time</option>
@@ -162,6 +162,34 @@
 
    
 <script>
+        // Function to get URL parameters
+        function getUrlParameters() {
+        const params = new URLSearchParams(window.location.search);
+        return {
+            keyword: params.get('keyword') || '',
+            location: params.get('location') || '',
+            jobType: params.get('jobType') || '',
+            salary: params.get('salary') || ''
+        };
+    }
+
+    // Populate the search bar with URL parameters
+    function populateSearchBar() {
+        const { keyword, location, jobType, salary } = getUrlParameters();
+        
+        document.getElementById('keywordInput').value = keyword;
+        document.getElementById('locationInput').value = location;
+        document.getElementById('salaryInput').value = salary;
+
+        if (jobType) {
+            document.getElementById('jobTypeInput').value = jobType;
+        }
+    }
+
+    // Call populate function on page load
+    window.onload = populateSearchBar;
+
+
     // Function to redirect user to the job details page with job ID in the URL
 function showJobDetailsFunc(jobId) {
     // Construct the URL with the job ID as a query parameter
