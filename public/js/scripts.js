@@ -1,4 +1,51 @@
 
+// Function to inject CSS styles into the document
+function addStyles() {
+    const style = document.createElement('style');
+    style.type = 'text/css';
+    style.innerHTML = `
+        /* General Styles */
+
+.suggestions-overlay {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    opacity: 0;
+    transform: translateY(-10px);
+}
+
+.suggestions-overlay.show {
+    display: block; 
+    opacity: 1;
+    transform: translateY(0);
+}
+.suggestions-overlay {
+    position: absolute;
+    top: 100%; 
+    left: 0;
+    right: 0;
+    background-color: white; 
+    border: 1px solid #ccc; 
+    border-radius: 8px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    display: none; 
+    z-index: 1000; 
+    max-height: 200px; 
+    overflow-y: auto; 
+}
+
+.suggestion-item {
+    padding: 10px 15px; 
+    cursor: pointer; 
+    transition: background-color 0.3s ease; 
+}
+
+.suggestion-item:hover {
+    background-color: #f0f0f0; 
+}
+
+    `;
+    document.head.appendChild(style);
+}
+
 
 function formatSalary(input) {
     // Remove any non-numeric characters except for commas and dollar sign
@@ -19,6 +66,12 @@ function formatSalary(input) {
 
     // Set the formatted value back to the input with a dollar sign
     input.value = value ? `$${value}` : '';
+}
+function restrictKeys(event) {
+    const allowedKeys = ['Backspace', 'Tab', 'ArrowLeft', 'ArrowRight', 'Delete', 'Enter', 'Escape'];
+    if (!/[0-9]/.test(event.key) && !allowedKeys.includes(event.key)) {
+        event.preventDefault();
+    }
 }
 
 

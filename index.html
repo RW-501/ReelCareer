@@ -194,6 +194,7 @@
                         type="text" 
                         class="form-control mr-2 mb-2" 
                         placeholder="Salary Range (e.g., $50,000)" 
+                        onkeydown="restrictKeys(event)" 
                         aria-label="Salary Range"
                         id="salaryInput"
                         oninput="formatSalary(this)"
@@ -273,7 +274,7 @@
 
     <script type="module">
     import { db, storage, analytics, app  } from './public/js/main.js'; // Adjust the path based on your structure
-    import { collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+    import { query, collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 
         // Function to fetch job listings and sponsors
         async function fetchJobListings() {

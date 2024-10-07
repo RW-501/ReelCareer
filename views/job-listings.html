@@ -88,6 +88,7 @@
                         type="text" 
                         class="form-control form-control-lg mr-2 mb-2" 
                         placeholder="Salary Range (e.g., $50,000)" 
+                        onkeydown="restrictKeys(event)" 
                         aria-label="Salary Range" 
                         id="salaryInput"
                         oninput="formatSalary(this)">
