@@ -176,8 +176,17 @@
                     <option value="Remote">Remote</option>
                     <option value="hybrid">Hybrid</option>
                 </select>
-                <input type="number" class="form-control mr-2 mb-2" placeholder="Salary Range" min="0" aria-label="Salary Range" >
-                <button type="submit" class="btn btn-light mb-2">Search Jobs</button>
+                <div class="form-group">
+                    <input 
+                        type="text" 
+                        class="form-control mr-2 mb-2" 
+                        placeholder="Salary Range (e.g., $50,000)" 
+                        aria-label="Salary Range"
+                        id="salaryInput"
+                        oninput="formatSalary(this)"
+                    >
+                </div>
+                                <button type="submit" class="btn btn-light mb-2">Search Jobs</button>
             </form>
         </div>
     </div>
@@ -261,29 +270,38 @@
         
             loadingIndicator.style.display = 'block'; // Show loading indicator
             errorIndicator.style.display = 'none'; // Hide error indicator
-
+let userInterest1, userInterest2, userInterest3; 
 
             try {
-                const jobsQuery = query(
-            collection(db, 'Jobs'),
-            where('city', '==', userINFO.city), // Use the state from userInfo
-            where('state', '==', userINFO.state), // Use the state from userInfo
-            where('tags', 'array-contains-any', ['hr', 'teacher', 'police']),
-            where('status', '==', 'active'),
-            limit(20) // Limit the results to 20
-        );
+// Create the base query for Jobs
+let jobsQuery = query(collection(db, 'Jobs'));
+if (userINFO.city) {
+    jobsQuery = query(jobsQuery, where('city', '==', userINFO.city));
+}
+if (userINFO.state) {
+    jobsQuery = query(jobsQuery, where('state', '==', userINFO.state));
+}
+if (userInterests.length > 0) {
+    jobsQuery = query(jobsQuery, where('tags', 'array-contains-any', userInterests));
+}
+jobsQuery = query(jobsQuery, where('status', '==', 'active'), limit(20)); // Add common conditions
+
 
         const jobListingsSnapshot = await getDocs(jobsQuery);
 
-        const sponsorsQuery = query(
-    collection(db, 'Jobs'),
-    where('state', '==', userINFO.state), // Use the state from userInfo
-    where('country', '==', userINFO.country), // Use the country from userInfo
-    where('status', '==', 'active'),
-    where('boosted', 'in', ['Yes', 'Active']),
-    where('tags', 'array-contains-any', ['hr', 'teacher', 'police']),
-    limit(20) // Limit to 20 documents
-);
+// Create the base query for Sponsors
+let sponsorsQuery = query(collection(db, 'Sponsors'));
+if (userINFO.state) {
+    sponsorsQuery = query(sponsorsQuery, where('state', '==', userINFO.state));
+}
+if (userINFO.country) {
+    sponsorsQuery = query(sponsorsQuery, where('country', '==', userINFO.country));
+}
+if (userInterests.length > 0) {
+    sponsorsQuery = query(sponsorsQuery, where('tags', 'array-contains-any', userInterests));
+}
+sponsorsQuery = query(sponsorsQuery, where('status', '==', 'active'), where('boosted', 'in', ['Yes', 'Active']), limit(20));
+
                     // Fetch sponsors
                     const sponsorsSnapshot = await getDocs(sponsorsQuery);
         
@@ -385,6 +403,32 @@
 
         // Navigate to the job listings page with the search parameters
         window.location.href = `/views/job-listings?${queryParams}`;
+
+
+        function formatSalary(input) {
+    // Remove any non-numeric characters except for commas and dollar sign
+    let value = input.value.replace(/[^0-9,]/g, '');
+
+    // Remove any commas for easier processing
+    value = value.replace(/,/g, '');
+
+    // Format the number with commas
+    if (value) {
+        value = Number(value).toLocaleString();
+    }
+
+    // Set the formatted value back to the input
+    input.value = value ? `$${value}` : '';
+}
+
+
+
+
+
+
+
+
+
 
 
     });
