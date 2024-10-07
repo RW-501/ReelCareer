@@ -315,6 +315,7 @@ if(message == "Done"){
             } catch (error) {
                 console.error('Error fetching jobs:', error);
                 document.getElementById('errorDisplay').innerText = 'Error fetching jobs. Please try again.';
+
             } finally {
                 toggleLoading(false);
             }
@@ -482,21 +483,26 @@ async function getJobCount() {
   }
 }
 
-async function addSelectedJobs(autoAdd = false) {
-    getJobCount();
-    const selectedJobs = [...document.querySelectorAll('.job-item.selected')];
-    const jobsToAdd = autoAdd ? selectedJobs : selectedJobs.slice(0, 1);
+ for (const jobItem of jobsToAdd) {
+        let job;
 
-    for (const jobItem of jobsToAdd) {
-                const job = JSON.parse(jobItem.querySelector('input[type="hidden"]').value);
-                let job_location = job['location']['area'] || [];
         try {
+            // Try to parse the job from the hidden input value
+            const jobString = jobItem.querySelector('input[type="hidden"]').value;
+            job = JSON.parse(jobString); // Attempt to parse JSON
+        } catch (e) {
+            console.error('Error parsing job JSON:', e);
+            console.error('Invalid JSON String:', jobItem.querySelector('input[type="hidden"]').value);
+            continue; // Skip this job if parsing fails
+        }
 
-            // Check if essential properties exist
-            if (job && job.location && job.title) {
-                console.log("Parsed Job:", job);
+        let job_location = job['location']['area'] || [];
 
-                // Your logic to handle the parsed job object
+        // Check if essential properties exist
+        if (job && job.location && job.title) {
+            console.log("Parsed Job:", job);
+
+            // Your logic to handle the parsed job object
                 const jobData = {
                     company: job.company.display_name || '', 
                     title: job.title || '', 
@@ -534,20 +540,20 @@ async function addSelectedJobs(autoAdd = false) {
                 jobItem.classList.remove('selected');
                 jobsAddedCount++;
                 document.getElementById('jobCountDisplay').textContent = `Jobs Added: ${jobsAddedCount}`;
+           
             } else {
-                console.error("Job object is missing required fields.");
-            }
-        } catch (error) {
-            console.error("Error parsing JSON:", error, "\nInvalid JSON String:", decodedJsonString);
-        }
-
-        // Optionally stop fetching if not allowing multiple adds
-        if (!autoAdd) {
+            console.error('Job object is missing essential properties:', job);
+                 // Optionally stop fetching if not allowing multiple adds
+     
+    }
+    if (!autoAdd) {
             stopFetching();
             break; // Exit the loop if stopping
+       
         }
-    }
 }
+
+   
 
 
         document.getElementById('fetchJobs').addEventListener('click', () => {
