@@ -918,14 +918,20 @@ function formatSalary(input) {
     // Remove any commas for easier processing
     value = value.replace(/,/g, '');
 
+    // Ensure the input is valid: it should only be numeric
+    if (!/^\d*$/.test(value)) {
+        value = ''; // Reset to empty if invalid input
+    }
+
     // Format the number with commas
     if (value) {
         value = Number(value).toLocaleString();
     }
 
-    // Set the formatted value back to the input
+    // Set the formatted value back to the input with a dollar sign
     input.value = value ? `$${value}` : '';
 }
+
 
 
 
