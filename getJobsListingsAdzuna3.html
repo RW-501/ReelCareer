@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Applications Review</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <!-- Bootstrap CSS -->
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+            
+    <style>
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .message-area {
+            position: sticky;
+            top: 0;
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            text-align: center;
+            display: none;
+            z-index: 1000;
+        }
+
+        .message-area.error {
+            background-color: #dc3545;
+        }
+
+        .loading {
+            text-align: center;
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        button {
+            display: inline-block;
+            margin: 5px;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        button.auto-add-active {
+            background-color: #ffc107;
+        }
+
+        .job-item {
+            border: 1px solid #ddd;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .job-item.selected {
+            background-color: #e0e0e0;
+        }
+
+        .job-count {
+            text-align: center;
+            margin: 10px 0;
+        }
+
+        .control-buttons {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .control-buttons button {
+            width: 30%;
+        }
+
+        .progress-bar {
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            margin: 10px 0;
+            height: 10px;
+            width: 100%;
+        }
+
+        .progress {
+            background-color: #007bff;
+            height: 100%;
+            width: 0%;
+            border-radius: 5px;
+        }
+
+        .job-count {
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+            margin: 15px 0;
+            color: #28a745;
+        }
+
+        .error {
+            color: red;
+            text-align: center;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="messageArea" class="message-area mb-3"></div>
+
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Job Applications Review</h1>
+    
+        <div class="form-group">
+            <label for="query">Enter Job Type:</label>
+            <input type="text" class="form-control" id="query" placeholder="Enter job type (e.g., developer, designer, etc.)">
+        </div>
+    
+        <div class="text-center mb-4">
+            <button id="fetchJobs" class="btn btn-primary">Fetch Jobs</button>
+            <button id="startFetching" class="btn btn-success">Start Fetching</button>
+            <button id="stopFetching" class="btn btn-danger" disabled>Stop Fetching</button>
+        </div>
+    
+        <div id="loading" class="alert alert-info" style="display:none;">Loading...</div>
+    
+        <div class="job-count text-center mb-3" id="jobCountDisplay">Jobs Added: 0</div>
+        <div class="error text-danger text-center" id="errorDisplay"></div>
+    
+        <div class="control-buttons text-center mb-4">
+            <button id="addJobButton" class="btn btn-info">Add</button>
+            <button id="skipJobButton" class="btn btn-warning">Skip</button>
+            <button id="autoAddButton" class="btn btn-secondary">Auto Add</button>
+            <button id="stopAutoAddButton" class="btn btn-outline-secondary">Stop Auto Add</button>
+        </div>
+    
+        <div class="progress">
+            <div class="progress-bar progress-bar-striped progress-bar-animated" id="autoAddProgress" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+    
+        <div id="jobApplications" class="mt-3"></div>
+    </div>
+    
+  
+
+    <script>
+        let fetchingJobs = false;
+        let jobsAddedCount = 0;
+        let autoAdd = false;
+        let autoAddTimeout; // Declare a variable to store the timeout ID
+
+        function parseCityFromLocation(location) {
+            const parts = location.split(',');
+            return parts.length > 0 ? parts[0].trim() : '';
+        }
+
+        function parseStateFromLocation(location) {
+            const parts = location.split(',');
+            return parts.length > 1 ? parts[1].trim() : '';
+        }
+
+        function parseCityFromLocationNew(locationString) {
+            if (locationString && locationString.includes(',')) {
+                return locationString.split(',')[0].trim();
+            }
+            return '';
+        }
+
+
+        function showMessage(message, isError = false) {
+            const messageArea = document.getElementById('messageArea');
+            messageArea.textContent = message;
+            messageArea.classList.toggle('error', isError);
+            messageArea.style.display = 'block';
+
+            setTimeout(() => {
+                messageArea.style.display = 'none';
+            }, 3000);
+        }
+
+        function toggleLoading(isLoading) {
+            document.getElementById('loading').style.display = isLoading ? 'block' : 'none';
+        }
+
+        function updateProgressBar(progress) {
+            const progressBar = document.getElementById('autoAddProgress');
+            progressBar.style.width = `${progress}%`;
+        }
+    </script>
+    <script type="module">
+        // Import the required Firebase functions
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
+           import { getFirestore, collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+
+        // Your Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDiwC3Dmd88-t3N9iRV5cZ3snVkEXinclg",
+            authDomain: "reelcareer-cb4b0.firebaseapp.com",
+            projectId: "reelcareer-cb4b0",
+            storageBucket: "reelcareer-cb4b0.appspot.com",
+            messagingSenderId: "365163764840",
+            appId: "1:365163764840:web:21c44f8625c9b6831e6fdd",
+            measurementId: "G-LBTK319K2X"
+        };
+    
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app); // Get Firestore instance
+
+
+        async function fetchJobs() {
+            const query = document.getElementById("query").value;
+            const url = `https://api.adzuna.com/v1/api/jobs/us/search/1?app_id=3ea9a2f1&app_key=e74d84b00c37bbfabe11710ebafcd138&results_per_page=10&what=${query}&where=USA`;
+
+            toggleLoading(true);
+
+            try {
+                const response = await axios.get(url);
+                const jobs = response.data.results;
+                displayJobs(jobs);
+                document.getElementById('errorDisplay').innerText = '';
+            } catch (error) {
+                console.error('Error fetching jobs:', error);
+                document.getElementById('errorDisplay').innerText = 'Error fetching jobs. Please try again.';
+            } finally {
+                toggleLoading(false);
+            }
+        }
+
+        function displayJobs(jobs) {
+            const jobApplicationsDiv = document.getElementById('jobApplications');
+            jobApplicationsDiv.innerHTML = '';
+
+            jobs.forEach((job) => {
+                let job_location = job['location']['area'] || [];
+
+                const jobItem = document.createElement('div');
+                jobItem.className = 'job-item';
+                jobItem.innerHTML = `
+                    <h3>${job.title}</h3>
+                    <p><strong>Company:</strong> ${job.company.display_name}</p>
+                    <p><strong>Location:</strong> ${job.location.display_name}</p>
+                    <p><strong>Salary:</strong> $${job.salary_min || 0} - $${job.salary_max || 0}</p>
+                    <p><strong>State:</strong> ${job_location[1]}</p>
+                    <p><strong>County:</strong> ${parseStateFromLocation(job.location.display_name)}</p>
+                    <p><strong>City:</strong> ${parseCityFromLocationNew(job.location.display_name)}</p>
+                    <p><strong>Salary:</strong> ${parseFloat (job.salary_min + job.salary_max) / 2}</p>
+                    <p><strong>Tags:</strong> ${job.category && job.category.tag ? job.category.tag.split('-').map(word => word.trim()) : ""}</p>
+                    <p><strong>Description:</strong> ${job.description}</p>
+                    <button onclick="toggleSelect(this)" class="appButton">Select</button>
+                    <input type="hidden" value='${JSON.stringify(job)}'>
+                `;
+            jobApplicationsDiv.appendChild(jobItem);
+            });
+        }
+
+        function toggleSelect(button) {
+            const jobItem = button.parentElement;
+            jobItem.classList.toggle('selected');
+        }
+
+
+        document.getElementById('addJobButton').addEventListener('click', () => {
+    addSelectedJobs(false);
+});
+
+document.getElementById('autoAddButton').addEventListener('click', () => {
+    autoAdd = !autoAdd;
+    document.getElementById('autoAddButton').classList.toggle('auto-add-active', autoAdd);
+    if (autoAdd) {
+        autoAddJobs();
+    } else {
+        clearTimeout(autoAddTimeout); // Clear timeout if auto add is stopped
+    }
+});
+
+// New event listener for the Stop Auto Add button
+document.getElementById('stopAutoAddButton').addEventListener('click', () => {
+    autoAdd = false; // Stop auto adding
+    clearTimeout(autoAddTimeout); // Clear timeout
+    document.getElementById('autoAddButton').classList.remove('auto-add-active'); // Remove active class
+});
+
+function autoAddJobs() {
+    // Select all buttons with the class 'appButton'
+    const buttons = document.querySelectorAll('.appButton');
+
+    // Iterate through each button and trigger a click event
+    buttons.forEach(button => {
+        button.click();
+    });
+
+    if (autoAdd) {
+        addSelectedJobs(false);
+        updateProgressBar(100); // Update the progress bar
+        autoAddTimeout = setTimeout(() => {
+            updateProgressBar(0); // Reset after addition
+            autoAddJobs(); // Call autoAddJobs again if still auto-adding
+        }, 5000); // Auto-add every 5 seconds
+    }
+}
+
+
+        async function addSelectedJobs(allowMultiple = false) {
+            const selectedJobs = [...document.querySelectorAll('.job-item.selected')];
+            const jobsToAdd = allowMultiple ? selectedJobs : selectedJobs.slice(0, 1);
+
+            for (const jobItem of jobsToAdd) {
+                const job = JSON.parse(jobItem.querySelector('input[type="hidden"]').value);
+                let job_location = job['location']['area'] || [];
+
+          
+                const jobData = {
+                    company: job.company.display_name || '', 
+                    title: job.title || '', 
+                    description: job.description || '', 
+                    location: job.location.area || '', 
+                    city: parseCityFromLocationNew(job.location.display_name) || '', 
+                    county: parseStateFromLocation(job.location.display_name) || '', 
+                    state: job_location[1] || '', 
+                    country:  job_location[0] || 'US', 
+                    type: job.contract_time || 'Full-time', 
+                    salaryMin: parseFloat(job.salary_min) || 0, 
+                    salaryMax: parseFloat(job.salary_max) || 0,   
+                    salary: parseFloat (job.salary_min + job.salary_max) / 2 || 0,
+                    contractToHire: 'No', 
+                    immediateHire: 'No', 
+                    industry: job.category.label || '', 
+                    benefits: [], 
+                    tags: job.category && job.category.tag ? job.category.tag.split('-').map(word => word.trim()) : [],
+                    boosted: "None", 
+                    boostExpiration: "None", 
+                    boostExpiresAt: "None", 
+                    boostedByID: "None", 
+                    status: "active", 
+                    createdAt: new Date(job.created), 
+                    applicantsViewed: 0, 
+                    savedForLater: 0, 
+                    applicationWebsite: job.redirect_url || '', 
+                    applicationAvailableBool: false, 
+                    submittedBy: "Adzuna", 
+                    searchableRequirements: ''
+                };
+
+  
+                try {
+                    const docRef = await addDoc(collection(db, "Jobs"), jobData);
+                    jobItem.classList.remove('selected');
+                    jobsAddedCount++;
+                    document.getElementById('jobCountDisplay').textContent = `Jobs Added: ${jobsAddedCount}`;
+                } catch (error) {
+                    console.error('Error adding job:', error);
+                    showMessage('Error adding job. Try again.', true);
+                }
+            }
+
+            if (!allowMultiple) {
+                stopFetching();
+            }
+        }
+
+        document.getElementById('fetchJobs').addEventListener('click', () => {
+            fetchJobs();
+        });
+
+        function stopFetching() {
+            fetchingJobs = false;
+            document.getElementById('stopFetching').disabled = true;
+            document.getElementById('startFetching').disabled = false;
+        }
+
+        function parseCityFromLocationNew(location) {
+            return location.split(', ')[0];
+        }
+    </script>
+</body>
+</html>
