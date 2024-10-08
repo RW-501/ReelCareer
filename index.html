@@ -117,10 +117,9 @@
     <title>ReelCareer - Find Your Dream Job</title>
 
 
-    <!-- Custom CSS 
+    <!-- Custom CSS
     <link rel="stylesheet" href="public/css/styles.css">
     <script src="public/js/scripts.js"></script>
-    -->
     <style>
         .custom-load-more-btn {
     border-radius: 8px;
@@ -136,12 +135,381 @@
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
-    </style>
+    </style> -->
+
 </head>
 
 
 <body>
-???????????????????????????????
+
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="#">ReelCareer</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="views/job-listings.html">Job Listings</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="views/company-pages.html">Company Pages</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="views/job-seeker.html">Job Seeker</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="views/recruiter-dashboard.html">Recruiter Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="views/news.html">News Page</a>
+                    </li>
+                    <li class="nav-item">
+                        <button class="btn btn-primary" onclick="location.href='views/auth.html'">Login / Create Account</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="jumbotron jumbotron-fluid text-center text-white bg-primary mb-0" style="padding-top: 6rem;">
+        <div class="container">
+            <h1 class="display-4">Find Your Dream Job</h1>
+            <p class="lead">Search job listings, apply, and take your career to the next level.</p>
+            <form id="jobSearchForm" class="form-inline justify-content-center mt-4">
+                <div class="form-group position-relative" style="width: auto;">
+                    <input 
+                        type="text" 
+                        class="form-control mr-2 mb-2 keywordInput job-input" 
+                        placeholder="Keywords (e.g., Developer)" 
+                        aria-label="Keywords" 
+                        id="keywordInput"
+                        required
+                        oninput="autoSuggest(this.value,'jobSuggestions')"
+                        autocomplete="off">
+                </div>
+
+                <input id="locationInput" 
+                oninput="autoSuggest(this.value,'locationSuggestions')"
+                type="text" class="form-control mr-2 mb-2 keywordInput location-input" placeholder="Location (e.g., City)" aria-label="Location" >
+                <select id="jobTypeInput" class="form-control mr-2 mb-2" aria-label="Job Type" >
+                    <option value="">Job Type</option>
+                    <option value="full-time">Full-time</option>
+                    <option value="part-time">Part-time</option>
+                    <option value="contract">Contract</option>
+                    <option value="remote">Remote</option>
+                    <option value="hybrid">Hybrid</option>
+                    <option value="freelance">Freelance</option>
+                </select>
+                <div class="form-group">
+                    <input 
+                        type="text" 
+                        class="form-control mr-2 mb-2" 
+                        placeholder="Salary Range (e.g., $50,000)" 
+                        onkeydown="restrictKeys(event)" 
+                        aria-label="Salary Range"
+                        id="salaryInput"
+                        oninput="formatSalary(this)"
+                    >
+                </div>
+                                <button type="submit" class="btn btn-light mb-2">Search Jobs</button>
+            </form>
+        </div>
+    </div>
+   
+    <!-- Featured Jobs Section -->
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">Featured Jobs</h2>
+        <div class="row" id="jobListings">
+            <!-- Job cards will be dynamically inserted here -->
+        </div>
+        <div id="loadingIndicator" class="text-center mt-4" style="display:none;">
+            <p>Loading job listings...</p>
+        </div>
+        <div id="errorIndicator" class="text-center mt-4" style="display:none;">
+            <p>Error fetching job listings. Please try again later.</p>
+        </div>
+    </div>
+
+    <!-- Dynamic News Section -->
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">Latest Career News</h2>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <img class="card-img-top" src="/ReelCareer/images/rc_text_sm.png" alt="Article 1">
+                    <div class="card-body">
+                        <h5 class="card-title">Industry Trends in 2024</h5>
+                        <p class="card-text">Stay ahead in your career with the latest industry trends and news.</p>
+                        <a href="#" class="btn btn-primary">Read More</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <img class="card-img-top" src="/ReelCareer/images/rc_text_sm.png" alt="Article 2">
+                    <div class="card-body">
+                        <h5 class="card-title">How to Stand Out as a Job Seeker</h5>
+                        <p class="card-text">Learn the best strategies for getting noticed by top recruiters.</p>
+                        <a href="#" class="btn btn-primary">Read More</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <img class="card-img-top" src="/ReelCareer/images/rc_text_sm.png" alt="Article 3">
+                    <div class="card-body">
+                        <h5 class="card-title">Top Remote Work Opportunities</h5>
+                        <p class="card-text">Discover the top remote jobs and what employers are looking for.</p>
+                        <a href="#" class="btn btn-primary">Read More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Call to Action -->
+    <div class="container-fluid bg-light py-5 mt-5">
+        <div class="container text-center">
+            <h2>Ready to take the next step in your career?</h2>
+            <p class="lead">Create an account or login now to get started on your job search.</p>
+            <button class="btn btn-primary btn-lg" onclick="location.href='views/auth.html'">Create an Account</button>
+            <button class="btn btn-outline-primary btn-lg ml-2" onclick="location.href='views/auth.html'">Login</button>
+        </div>
+    </div>
+  <!-- Bootstrap JS and dependencies -->
+     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+ 
+    <!-- Footer -->
+    <footer id="dynamic-footer"></footer>
+
+    <!-- Firebase configuration/ Login& Out -->
+    <script type="module" src="public/js/main.js"></script> 
+
+    <script type="module">
+    import { db, storage, analytics, app  } from './public/js/main.js'; // Adjust the path based on your structure
+    import { query, where, orderBy, limit,  collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+
+
+
+// Function to fetch job listings and sponsors
+async function fetchJobListings(page = 1) {
+    const jobListingsContainer = document.getElementById('jobListings');
+    const loadingIndicator = document.getElementById('loadingIndicator');
+    const errorIndicator = document.getElementById('errorIndicator');
+
+    loadingIndicator.style.display = 'block'; // Show loading indicator
+    errorIndicator.style.display = 'none'; // Hide error indicator
+    let isFetching = false; // Flag for fetching state
+
+    // Debounced scroll listener
+    const debouncedScrollListener = debounce(() => {
+        if (isFetching) return;
+        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+            isFetching = true;
+            fetchJobListings(page + 1); // Fetch next page of job listings when reaching the bottom
+        }
+    }, 300); // 300ms debounce delay
+
+    window.onscroll = debouncedScrollListener;
+
+    let userInterest1, userInterest2, userInterest3;
+    let excludedIds = []; // Replace with your actual IDs
+    let userInterests = [userInterest1, userInterest2, userInterest3].filter(Boolean); // Ensure userInterests is an array
+
+    try {
+        // Create the base query for Jobs
+        let jobsQuery = collection(db, 'Jobs');
+
+        // Adding dynamic filters based on userINFO
+        if (userINFO.city) jobsQuery = query(jobsQuery, where('city', '==', userINFO.city));
+        if (userINFO.state) jobsQuery = query(jobsQuery, where('state', '==', userINFO.state));
+        if (userInterests.length > 0) jobsQuery = query(jobsQuery, where('tags', 'array-contains-any', userInterests));
+
+        // Exclude specified IDs
+        if (excludedIds.length > 0) jobsQuery = query(jobsQuery, where('id', 'not-in', excludedIds));
+
+        // Common conditions
+        jobsQuery = query(jobsQuery, where('status', '==', 'active'));
+        jobsQuery = query(jobsQuery, orderBy('createdAt', 'desc'));
+        jobsQuery = query(jobsQuery, limit(20)); // Limit results for pagination
+
+        const jobListingsSnapshot = await getDocs(jobsQuery);
+        console.log("jobListingsSnapshot   ",jobListingsSnapshot);
+        // Clear previous listings before adding new ones
+        jobListingsContainer.innerHTML = ''; 
+
+        // Handle job listings
+        const jobListings = jobListingsSnapshot.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data()
+        }));
+
+        jobListings.forEach(job => createJobCard(job, jobListingsContainer));
+
+        // Sponsor logic
+        const sponsors = await fetchSponsors(excludedIds);
+        addSponsorSection(sponsors, jobListingsContainer);
+
+        // Add "Load More" button for Pagination if jobs are available
+        if (jobListings.length > 0) {
+            const loadMoreButton = createLoadMoreButton(() => fetchJobListings(page + 1));
+            jobListingsContainer.appendChild(loadMoreButton);
+        }
+
+    } catch (error) {
+        console.error("Error fetching job listings: ", error);
+        errorIndicator.style.display = 'block'; // Show error indicator
+    } finally {
+        loadingIndicator.style.display = 'none'; // Hide loading indicator
+        isFetching = false;
+    }
+}
+
+// Function to create a job card and append it to the container
+function createJobCard(job, container) {
+    const jobCard = document.createElement('div');
+    jobCard.className = 'col-md-4 mb-4';
+    jobCard.innerHTML = `
+        <div class="card h-100 shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">${job.title}</h5>
+                <p class="card-text text-muted">${truncateText(job.description, 100)}</p>
+                <p class="card-text"><strong>Company:</strong> ${job.company}</p>
+                <p class="card-text"><strong>Location:</strong> ${job.location || 'Not specified'}</p>
+                <p class="card-text"><strong>Salary:</strong> $${job.salary}</p>
+                <a href="views/job-detail.html?id=${job.id}" class="btn btn-primary w-100 mt-3">View Details</a>
+            </div>
+        </div>
+    `;
+    container.appendChild(jobCard);
+}
+
+// Function to create and return the Load More button
+function createLoadMoreButton(loadMoreFunc) {
+    const loadMoreButton = document.createElement('button');
+    loadMoreButton.className = 'btn btn-primary w-100 mt-4';
+    loadMoreButton.innerText = 'Load More Jobs';
+    loadMoreButton.onclick = loadMoreFunc; // Fetch next page of jobs
+    return loadMoreButton;
+}
+
+// Debounce function to limit the rate of function execution
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+}
+
+// Fetch sponsors and handle their display
+async function fetchSponsors(excludedIds) {
+    let sponsorsQuery = query(collection(db, 'Jobs'));
+
+    // Adding filters for sponsors
+    if (userINFO.state) sponsorsQuery = query(sponsorsQuery, where('state', '==', userINFO.state));
+    if (userINFO.country) sponsorsQuery = query(sponsorsQuery, where('country', '==', userINFO.country));
+
+    // Exclude IDs
+    if (excludedIds.length > 0) sponsorsQuery = query(sponsorsQuery, where('id', 'not-in', excludedIds));
+
+    // Filter by status and boost
+    sponsorsQuery = query(sponsorsQuery, where('status', '==', 'active'), where('boosted', 'in', ['Yes', 'Active']));
+    sponsorsQuery = query(sponsorsQuery, orderBy('createdAt', 'desc'), limit(20));
+
+    const sponsorsSnapshot = await getDocs(sponsorsQuery);
+    return sponsorsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+}
+
+// Function to add sponsor section to the container
+function addSponsorSection(sponsors, container) {
+    if (sponsors.length > 0) {
+        const sponsorSection = document.createElement('div');
+        sponsorSection.className = 'col-12 mt-4';
+        sponsorSection.innerHTML = `
+            <h5 class="text-center mb-4">Our Sponsors</h5>
+            <div class="row">
+                ${sponsors.map(sponsor => `
+                    <div class="col-md-4">
+                        <div class="card h-100 shadow-sm">
+                            <img class="card-img-top" src="${sponsor.logoUrl || '/ReelCareer/images/favicons/android-chrome-512x512.png'}" alt="${sponsor.name}">
+                            <div class="card-body">
+                                <h6 class="card-title">${sponsor.name}</h6>
+                                <p class="card-text text-muted">${truncateText(sponsor.description, 80)}</p>
+                                <a href="${sponsor.website}" class="btn btn-outline-primary w-100" target="_blank">Visit Website</a>
+                            </div>
+                        </div>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+        container.appendChild(sponsorSection);
+    }
+}
+
+
+
+
+
+// Truncate text function
+function truncateText(text, maxLength) {
+    return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
+}
+        
+        // Load job listings on page load
+        document.addEventListener('DOMContentLoaded', fetchJobListings);
+
+
+        document.getElementById('jobSearchForm').addEventListener('submit', function(event) { 
+        event.preventDefault(); // Prevent the default form submission
+
+        // Get the values from the input fields
+        const keywords = document.getElementById('keywordInput').value.trim();
+        const location = document.getElementById('locationInput').value.trim();
+        const jobType = document.getElementById('jobTypeInput').value;
+        const salaryRange = document.getElementById('salaryInput').value.trim();
+/*
+        // Check for required fields before constructing query
+        if (!keywords || !location || !salaryRange) {
+            alert('Please fill in all required fields.');
+            return;
+        }
+*/
+        // Construct the query parameters
+        const queryParams = new URLSearchParams({
+            keywords: keywords,
+            location: location,
+            jobType: jobType,
+            salaryRange: salaryRange
+        }).toString();
+
+        // Navigate to the job listings page with the search parameters
+        window.location.href = `./views/job-listings?${queryParams}`;
+
+    });
+
+
+
+        </script>
+        
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 
 </body>
 
