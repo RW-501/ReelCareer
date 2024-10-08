@@ -300,7 +300,7 @@
     import { query, where, orderBy, limit,  collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 
 
-
+/**
 // Function to fetch job listings and sponsors
 async function fetchJobListings(page = 1) {
     const jobListingsContainer = document.getElementById('jobListings');
@@ -482,13 +482,7 @@ function truncateText(text, maxLength) {
         const location = document.getElementById('locationInput').value.trim();
         const jobType = document.getElementById('jobTypeInput').value;
         const salaryRange = document.getElementById('salaryInput').value.trim();
-/*
-        // Check for required fields before constructing query
-        if (!keywords || !location || !salaryRange) {
-            alert('Please fill in all required fields.');
-            return;
-        }
-*/
+
         // Construct the query parameters
         const queryParams = new URLSearchParams({
             keywords: keywords,
@@ -503,7 +497,7 @@ function truncateText(text, maxLength) {
     });
 
 
-
+*/
         </script>
         
 
