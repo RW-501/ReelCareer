@@ -114,22 +114,40 @@ function restrictKeys(event) {
 }
 
 
-
-
-
 fetch('../public/js/suggestions.js')
-    .then(response => response.text())
+    .then(response => {
+        if (!response.ok) {
+
+            fetch('/public/js/suggestions.js')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok: ' + response.statusText);
+                }
+                return response.text();
+            })
+            .then(scriptContent => {
+                eval(scriptContent);
+                console.log("sug 4", suggestions); // Use suggestions after loading
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+            });
+        
+            throw new Error('Network response was not ok: ' + response.statusText);
+        }
+        return response.text();
+    })
     .then(scriptContent => {
         eval(scriptContent);
-        console.log("sug 3",suggestions); // Use suggestions after loading
+        console.log("sug 4", suggestions); // Use suggestions after loading
+    })
+    .catch(error => {
+        console.error('There was a problem with the fetch operation:', error);
     });
 
-    fetch('suggestions.js')
-    .then(response => response.text())
-    .then(scriptContent => {
-        eval(scriptContent);
-        console.log("sug 4",suggestions); // Use suggestions after loading
-    });
+
+
+
 
 function autoSuggest(input) { 
     const inputValue = input.value ? input.value.toLowerCase() : ''; // Check if input.value is defined
