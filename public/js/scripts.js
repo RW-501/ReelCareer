@@ -237,42 +237,34 @@ const suggestions = [
     "IT Security Specialist"
 ];
 
-function autoSuggest(input) { 
-    const inputValue = input.value ? input.value.toLowerCase() : ''; // Check if input.value is defined
-    let suggestion = '';
-
-    // Find the first suggestion that starts with the input value
-    for (let i = 0; i < suggestions.length; i++) {
-        if (suggestions[i].toLowerCase().startsWith(inputValue)) {
-            suggestion = suggestions[i];
-            break;
-        }
-    }
-
-    if (suggestion && inputValue !== '') {
-        // If a suggestion is found and input isn't empty
-        input.setAttribute('data-suggestion', suggestion); // Set a custom data attribute for handling auto-suggestion
-        input.value = suggestion; // Temporarily set the input value to the suggestion
-        input.selectionStart = inputValue.length; // Set the selection start after the typed characters
-        input.selectionEnd = suggestion.length; // Set the selection end to the suggestion length
-    }
-}
-
 document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('keywordInput').addEventListener('keydown', function(e) {
-        const suggestion = this.getAttribute('data-suggestion');
-        const inputValue = this.value ? this.value.toLowerCase() : ''; // Check if this.value is defined
+    const keywordInput = document.getElementById('keywordInput');
 
-        if (suggestion && suggestion.toLowerCase().startsWith(inputValue)) {
-            if (e.key === 'Tab' || e.key === 'Enter') {
-                e.preventDefault();
-                this.value = suggestion;
-                this.setSelectionRange(suggestion.length, suggestion.length);
+    // Check if the input exists before adding the event listener
+    if (keywordInput) {
+        keywordInput.addEventListener('input', function() {
+            console.log('Input Event Triggered.'); // Log when the input event is triggered
+            autoSuggest(this);
+        });
+
+        keywordInput.addEventListener('keydown', function(e) {
+            const suggestion = this.getAttribute('data-suggestion');
+            const inputValue = this.value ? this.value.toLowerCase() : ''; // Check if this.value is defined
+            console.log('Key Down Event Triggered. Input Value:', inputValue); // Log the input value on key down
+
+            if (suggestion && suggestion.toLowerCase().startsWith(inputValue)) {
+                if (e.key === 'Tab' || e.key === 'Enter') {
+                    e.preventDefault();
+                    this.value = suggestion;
+                    this.setSelectionRange(suggestion.length, suggestion.length);
+                    console.log('Suggestion Selected:', suggestion); // Log when a suggestion is selected
+                }
             }
-        }
-    });
+        });
+    } else {
+        console.error('Keyword Input Not Found!'); // Log an error if the input is not found
+    }
 });
-
 
 
 
