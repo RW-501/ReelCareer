@@ -161,12 +161,11 @@ fetch(adjustLinkHomeURL + "public/js/suggestions.json")
 
 
 
-let suggestion;
+    let suggestion = '';
 
     function autoSuggest(input, suggestionsArray) {
         const inputValue = input.value ? input.value.toLowerCase() : ''; // Check if input.value is defined
         console.log('Input Value:', inputValue); // Log the current input value
-        let suggestion = '';
     
         // Find the first suggestion that starts with the input value
         for (let i = 0; i < suggestionsArray.length; i++) {
