@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upgrade Membership - Reelcareer</title>
+    <meta name="description" content="Upgrade your membership at Reelcareer for exclusive job listings and features. Choose from Free, Basic Premium, and Pro Premium plans to enhance your job search experience.">
+    <meta name="keywords" content="upgrade membership, job listings, Reelcareer, job search, career development">
+    
+    <meta property="og:title" content="Upgrade Membership - Reelcareer">
+<meta property="og:description" content="Choose a membership plan that suits your career needs. Access premium job listings and features.">
+<meta property="og:image" content="URL_TO_YOUR_IMAGE">
+<meta property="og:url" content="URL_TO_YOUR_PAGE">
+<meta name="twitter:card" content="summary_large_image">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .card {
+            margin-bottom: 20px;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2 class="text-center mb-4">Upgrade Your Membership</h2>
+
+    <!-- Current Membership Status -->
+    <div class="card">
+        <div class="card-header">
+            <h4>Your Current Membership</h4>
+        </div>
+        <div class="card-body">
+            <p><strong>Current Plan:</strong> Basic Premium</p>
+            <p><strong>Expiration Date:</strong> December 31, 2024</p>
+            <button class="btn btn-secondary">View Membership Benefits</button>
+        </div>
+    </div>
+    <button class="btn btn-primary" aria-label="Upgrade to Free Membership" onclick="upgradeMembership('free')">Upgrade</button>
+
+    <!-- Membership Upgrade Options -->
+    <div class="card">
+        <div class="card-header">
+            <h4>Available Membership Plans</h4>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <div class="card text-center">
+                        <div class="card-header">
+                            <h5>Free Membership</h5>
+                        </div>
+                        <div class="card-body">
+                            <h6>Price: $0</h6>
+                            <p>Basic access to job listings.</p>
+                            <button class="btn btn-primary" onclick="upgradeMembership('free')">Upgrade</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div class="card text-center">
+                        <div class="card-header">
+                            <h5>Basic Premium Membership</h5>
+                        </div>
+                        <div class="card-body">
+                            <h6>Price: $9.99/month</h6>
+                            <p>Access to premium job listings and features.</p>
+                            <button class="btn btn-primary" onclick="upgradeMembership('basic')">Upgrade</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div class="card text-center">
+                        <div class="card-header">
+                            <h5>Pro Premium Membership</h5>
+                        </div>
+                        <div class="card-body">
+                            <h6>Price: $19.99/month</h6>
+                            <p>All features of Basic Premium plus additional benefits.</p>
+                            <button class="btn btn-primary" onclick="upgradeMembership('pro')">Upgrade</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="alert alert-info text-center" role="alert">
+        <strong>Enhance your job search experience!</strong> Upgrade now for exclusive benefits!
+    </div>
+    
+    <!-- Job Recommendations -->
+    <div class="card">
+        <div class="card-header">
+            <h4>Your Job Recommendations</h4>
+        </div>
+        <div class="card-body">
+            <ul class="list-group">
+                <li class="list-group-item">Software Engineer - Company ABC</li>
+                <li class="list-group-item">Data Scientist - Company XYZ</li>
+                <li class="list-group-item">Web Developer - Company LMN</li>
+            </ul>
+            <button class="btn btn-secondary">View All Recommendations</button>
+        </div>
+    </div>
+
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h4>Frequently Asked Questions</h4>
+    </div>
+    <div class="card-body">
+        <p><strong>What are the benefits of upgrading?</strong></p>
+        <p>Upgrading gives you access to premium job listings, enhanced features, and exclusive content.</p>
+        <p><strong>Can I cancel my membership?</strong></p>
+        <p>Yes, you can cancel your membership at any time. Your benefits will continue until the end of your billing cycle.</p>
+    </div>
+</div>
+
+
+<div class="card">
+    <div class="card-header">
+        <h4>What Our Users Say</h4>
+    </div>
+    <div class="card-body">
+        <blockquote class="blockquote">
+            <p class="mb-0">"Upgrading to Pro Premium helped me land my dream job!"</p>
+            <footer class="blockquote-footer">Jane Doe, Software Engineer</footer>
+        </blockquote>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script>
+    function upgradeMembership(plan) {
+        // Implement Stripe payment or Firebase logic here to handle the upgrade
+        alert('Upgrading to ' + plan.charAt(0).toUpperCase() + plan.slice(1) + ' Membership.');
+    }
+</script>
+<script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "Upgrade Membership - Reelcareer",
+      "description": "Upgrade your membership at Reelcareer for exclusive job listings and features.",
+      "mainEntity": {
+        "@type": "Membership",
+        "name": "Basic Premium, Pro Premium, Free Membership",
+        "offers": {
+          "@type": "Offer",
+          "priceCurrency": "USD",
+          "price": "0.00",
+          "itemOffered": {
+            "@type": "Product",
+            "name": "Free Membership"
+          }
+        }
+      }
+    }
+    </script>
+    
+</body>
+</html>

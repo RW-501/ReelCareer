@@ -1,39 +1,33 @@
-<!-- const functions = require("firebase-functions");
+<!--  const functions = require("firebase-functions");
 const admin = require("firebase-admin");
 const stripe = require("stripe")(functions.config().stripe.secret_key);
 
 admin.initializeApp();
 
+// Update Membership Prices
 exports.updateMembershipPrices = functions.https.onCall(async (data, context) => {
-    const { basicPrice, proPrice } = data;
-
-    try {
-        // Update Stripe prices for basic and pro memberships
-        await stripe.prices.update("price_basic_id", { unit_amount: basicPrice * 100 });
-        await stripe.prices.update("price_pro_id", { unit_amount: proPrice * 100 });
-
-        return { message: "Prices updated successfully" };
-    } catch (error) {
-        console.error("Error updating prices:", error);
-        throw new functions.https.HttpsError("internal", "Unable to update prices.");
-    }
+    const { basicPrice, proPrice, boostPrice } = data;
+    await admin.firestore().doc('pricing/membership').set({ basicPrice, proPrice, boostPrice });
+    return { message: "Prices updated successfully!" };
 });
 
-exports.updateBoostPrices = functions.https.onCall(async (data, context) => {
-    const { appBoostPrice, jobBoostPrice } = data;
-
-    try {
-        // Update Stripe prices for boosts
-        await stripe.prices.update("price_app_boost_id", { unit_amount: appBoostPrice * 100 });
-        await stripe.prices.update("price_job_boost_id", { unit_amount: jobBoostPrice * 100 });
-
-        return { message: "Boost prices updated successfully" };
-    } catch (error) {
-        console.error("Error updating boost prices:", error);
-        throw new functions.https.HttpsError("internal", "Unable to update boost prices.");
-    }
+// Handle Refunds via Stripe
+exports.refundTransaction = functions.https.onCall(async (data, context) => {
+    const { transactionId } = data;
+    const refund = await stripe.refunds.create({ charge: transactionId });
+    await admin.firestore().collection('transactions').doc(transactionId).update({ refund: true });
+    return { message: "Refund successful!" };
 });
 
+// Generate CSV Report
+exports.generateReport = functions.https.onCall(async (data, context) => {
+    const transactions = await admin.firestore().collection('transactions').get();
+    const csv = transactions.docs.map(doc => {
+        const { id, date, amount, service, user, refund } = doc.data();
+        return `${id},${date},${amount},${service},${user},${refund ? 'Yes' : 'No'}\n`;
+    }).join('');
+    return { data: csv };
+});
 -->
 
 <!DOCTYPE html>
@@ -41,244 +35,204 @@ exports.updateBoostPrices = functions.https.onCall(async (data, context) => {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Monetization - Reelcareer Admin</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
-        body {
-            background-color: #f8f9fa;
-        }
-        .container {
-            margin-top: 50px;
-        }
-        .card {
-            margin-bottom: 20px;
-        }
-        .form-label {
-            font-weight: bold;
-        }
-        .btn-primary {
-            background-color: #007bff;
-            border-color: #007bff;
-        }
-        .btn-primary:hover {
-            background-color: #0056b3;
-        }
-        table {
-            width: 100%;
-            margin-top: 20px;
-        }
-    </style>
+    <title>Monetization Page</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-functions.js"></script>
 </head>
 <body>
+<div class="container mt-5">
+    <h2>Monetization Settings</h2>
+    <hr>
 
-<div class="container">
-    <h2 class="text-center mb-4">Monetization Management</h2>
-
-    <!-- Membership Plans Management -->
-    <div class="card">
-        <div class="card-header">
-            <h4>Membership Plans Management</h4>
-        </div>
-        <div class="card-body">
-            <form id="membershipForm">
-                <div class="form-row">
-                    <div class="col-md-4 mb-3">
-                        <label for="freePrice" class="form-label">Free Membership (Price)</label>
-                        <input type="number" class="form-control" id="freePrice" value="0" readonly>
-                    </div>
-                    <div class="col-md-4 mb-3">
-                        <label for="basicPremiumPrice" class="form-label">Basic Premium Membership</label>
-                        <input type="number" class="form-control" id="basicPremiumPrice" placeholder="Enter price" required>
-                    </div>
-                    <div class="col-md-4 mb-3">
-                        <label for="proPremiumPrice" class="form-label">Pro Premium Membership</label>
-                        <input type="number" class="form-control" id="proPremiumPrice" placeholder="Enter price" required>
-                    </div>
-                </div>
-                <button type="submit" class="btn btn-primary">Update Prices</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- Boost Services Management -->
-    <div class="card">
-        <div class="card-header">
-            <h4>Boost Services</h4>
-        </div>
-        <div class="card-body">
-            <form id="boostForm">
-                <div class="form-row">
-                    <div class="col-md-6 mb-3">
-                        <label for="applicationBoostPrice" class="form-label">Application Boost (Price)</label>
-                        <input type="number" class="form-control" id="applicationBoostPrice" placeholder="Enter price" required>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="jobPostBoostPrice" class="form-label">Job Post Boost (Price)</label>
-                        <input type="number" class="form-control" id="jobPostBoostPrice" placeholder="Enter price" required>
-                    </div>
-                </div>
-                <button type="submit" class="btn btn-primary">Update Boost Prices</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- Transaction Overview -->
-    <div class="card">
-        <div class="card-header">
-            <h4>Transaction Overview</h4>
-        </div>
-        <div class="card-body">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Transaction Date</th>
-                        <th>Amount</th>
-                        <th>Service</th>
-                        <th>User Information</th>
-                        <th>Refund</th>
-                    </tr>
-                </thead>
-                <tbody id="transactionTable">
-                    <!-- Transaction history will be dynamically loaded here -->
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <!-- Revenue and Analytics -->
-    <div class="card">
-        <div class="card-header">
-            <h4>Revenue and Analytics</h4>
-        </div>
-        <div class="card-body">
-            <div class="row">
-                <div class="col-md-6">
-                    <h5>Total Revenue</h5>
-                    <p id="totalRevenue">$0.00</p>
-                </div>
-                <div class="col-md-6">
-                    <h5>Membership Conversion Rate</h5>
-                    <p id="conversionRate">0%</p>
-                </div>
+    <!-- Membership Toggles -->
+    <div class="row mb-3">
+        <div class="col-md-4">
+            <label for="freeMembershipStatus" class="form-label">Free Membership (Status)</label>
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="freeMembershipStatus" checked>
+                <label class="form-check-label" for="freeMembershipStatus">Active</label>
             </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <h5>Boost Purchase Analytics</h5>
-                    <p id="boostAnalytics">N/A</p>
-                </div>
-                <div class="col-md-6">
-                    <h5>Downloadable Reports</h5>
-                    <button id="downloadReport" class="btn btn-secondary">Download CSV Report</button>
-                </div>
+        </div>
+        <div class="col-md-4">
+            <label for="basicMembershipStatus" class="form-label">Basic Membership (Status)</label>
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="basicMembershipStatus" checked>
+                <label class="form-check-label" for="basicMembershipStatus">Active</label>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <label for="proMembershipStatus" class="form-label">Pro Membership (Status)</label>
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="proMembershipStatus" checked>
+                <label class="form-check-label" for="proMembershipStatus">Active</label>
             </div>
         </div>
     </div>
+
+    <!-- Boost Toggles -->
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <label for="applicationBoostStatus" class="form-label">Application Boost (Status)</label>
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="applicationBoostStatus" checked>
+                <label class="form-check-label" for="applicationBoostStatus">Active</label>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <label for="jobBoostStatus" class="form-label">Job Post Boost (Status)</label>
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="jobBoostStatus" checked>
+                <label class="form-check-label" for="jobBoostStatus">Active</label>
+            </div>
+        </div>
+    </div>
+
+    <!-- Price Updates -->
+    <div class="row mb-3">
+        <div class="col-md-4">
+            <label for="basicPrice" class="form-label">Basic Membership Price ($)</label>
+            <input type="number" class="form-control" id="basicPrice" placeholder="Enter new price">
+        </div>
+        <div class="col-md-4">
+            <label for="proPrice" class="form-label">Pro Membership Price ($)</label>
+            <input type="number" class="form-control" id="proPrice" placeholder="Enter new price">
+        </div>
+        <div class="col-md-4">
+            <label for="boostPrice" class="form-label">Boost Price ($)</label>
+            <input type="number" class="form-control" id="boostPrice" placeholder="Enter new boost price">
+        </div>
+    </div>
+
+    <!-- Global Discount -->
+    <div class="row mb-3">
+        <div class="col-md-4">
+            <label for="globalDiscount" class="form-label">Global Discount (%)</label>
+            <input type="number" class="form-control" id="globalDiscount" placeholder="Enter discount percentage">
+        </div>
+    </div>
+
+    <!-- Transaction Filters -->
+    <h4>Transaction History</h4>
+    <div class="row mb-3">
+        <div class="col-md-4">
+            <label for="transactionDateFilter" class="form-label">Filter by Date</label>
+            <input type="date" class="form-control" id="transactionDateFilter">
+        </div>
+        <div class="col-md-4">
+            <label for="transactionTypeFilter" class="form-label">Filter by Type</label>
+            <select class="form-control" id="transactionTypeFilter">
+                <option value="all">All</option>
+                <option value="membership">Membership</option>
+                <option value="boost">Boost</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Transactions Table -->
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Transaction ID</th>
+            <th>Date</th>
+            <th>Amount</th>
+            <th>Service</th>
+            <th>User</th>
+            <th>Refunded</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody id="transactionTable">
+        <!-- Transactions will be dynamically loaded here -->
+        </tbody>
+    </table>
+
+    <!-- Download CSV Report Button -->
+    <button class="btn btn-primary" id="downloadReport">Download CSV Report</button>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-functions.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-analytics.js"></script>
-<script src="https://js.stripe.com/v3/"></script>
-
 <script>
-    // Firebase initialization (replace with your own configuration)
-    const firebaseConfig = {
-        apiKey: "YOUR_API_KEY",
-        authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-        projectId: "YOUR_PROJECT_ID",
-        storageBucket: "YOUR_PROJECT_ID.appspot.com",
-        messagingSenderId: "YOUR_SENDER_ID",
-        appId: "YOUR_APP_ID"
-    };
+// Firebase configuration
+const firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_PROJECT_ID.appspot.com",
+    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+    appId: "YOUR_APP_ID",
+    measurementId: "YOUR_MEASUREMENT_ID"
+};
 
-    const app = firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
-    const functions = firebase.functions();
-    const analytics = firebase.analytics();
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+const functions = firebase.functions();
+const analytics = firebase.analytics();
 
-    // Stripe initialization (replace with your own Stripe publishable key)
-    const stripe = Stripe('YOUR_STRIPE_PUBLISHABLE_KEY');
-
-    // Function to handle membership price update
-    document.getElementById('membershipForm').addEventListener('submit', function (e) {
-        e.preventDefault();
-
-        const basicPrice = document.getElementById('basicPremiumPrice').value;
-        const proPrice = document.getElementById('proPremiumPrice').value;
-
-        // Call Firebase function to update Stripe pricing
-        const updateMembershipPrices = functions.httpsCallable('updateMembershipPrices');
-        updateMembershipPrices({ basicPrice: basicPrice, proPrice: proPrice })
-            .then(result => {
-                alert('Membership prices updated in Stripe!');
-            })
-            .catch(error => {
-                console.error("Error updating membership prices:", error);
-            });
+// Function to handle membership toggles
+document.querySelectorAll('.form-check-input').forEach(toggle => {
+    toggle.addEventListener('change', function() {
+        const membershipType = this.id.replace('Status', '');
+        const status = this.checked;
+        db.collection('membershipStatus').doc(membershipType).set({ active: status });
     });
+});
 
-    // Function to handle boost price update
-    document.getElementById('boostForm').addEventListener('submit', function (e) {
-        e.preventDefault();
-
-        const appBoostPrice = document.getElementById('applicationBoostPrice').value;
-        const jobBoostPrice = document.getElementById('jobPostBoostPrice').value;
-
-        // Call Firebase function to update Stripe boost prices
-        const updateBoostPrices = functions.httpsCallable('updateBoostPrices');
-        updateBoostPrices({ appBoostPrice: appBoostPrice, jobBoostPrice: jobBoostPrice })
-            .then(result => {
-                alert('Boost prices updated in Stripe!');
-            })
-            .catch(error => {
-                console.error("Error updating boost prices:", error);
-            });
-    });
-
-    // Fetch transaction history from Firebase or Stripe and display in table
-    function loadTransactions() {
-        // Example Firebase query to fetch transaction data
-        db.collection('transactions').get().then(querySnapshot => {
-            const transactions = querySnapshot.docs.map(doc => doc.data());
-            const transactionTable = document.getElementById('transactionTable');
-            transactionTable.innerHTML = transactions.map(transaction => `
+// Function to load transactions
+function loadTransactions() {
+    db.collection('transactions').get().then(querySnapshot => {
+        const tableBody = document.getElementById('transactionTable');
+        tableBody.innerHTML = querySnapshot.docs.map(doc => {
+            const transaction = doc.data();
+            return `
                 <tr>
+                    <td>${transaction.id}</td>
                     <td>${transaction.date}</td>
                     <td>${transaction.amount}</td>
                     <td>${transaction.service}</td>
                     <td>${transaction.user}</td>
                     <td>${transaction.refund ? 'Yes' : 'No'}</td>
+                    <td><button class="btn btn-danger btn-sm" onclick="refundTransaction('${transaction.id}')">Refund</button></td>
                 </tr>
-            `).join('');
-        });
-    }
-
-    // Call function to load transactions when the page loads
-    loadTransactions();
-
-    // Event listener for downloading CSV report
-    document.getElementById('downloadReport').addEventListener('click', function () {
-        // Example Firebase function call to generate report
-        const generateReport = functions.httpsCallable('generateReport');
-        generateReport().then(result => {
-            const csvData = result.data;
-            const blob = new Blob([csvData], { type: 'text/csv' });
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.setAttribute('hidden', '');
-            a.setAttribute('href', url);
-            a.setAttribute('download', 'report.csv');
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-        });
+            `;
+        }).join('');
     });
+}
 
-    // Firebase Analytics tracking example
-    analytics.logEvent('page_view', { page_title: 'Monetization Page' });
+// Function to handle refunds
+function refundTransaction(transactionId) {
+    const refundTransaction = functions.httpsCallable('refundTransaction');
+    refundTransaction({ transactionId }).then(result => {
+        console.log('Refund successful', result);
+        loadTransactions(); // Reload transactions after refund
+    }).catch(error => {
+        console.error('Refund failed', error);
+    });
+}
+
+// Call function to load transactions when the page loads
+loadTransactions();
+
+// Event listener for downloading CSV report
+document.getElementById('downloadReport').addEventListener('click', function () {
+    const generateReport = functions.httpsCallable('generateReport');
+    generateReport().then(result => {
+        const csvData = result.data;
+        const blob = new Blob([csvData], { type: 'text/csv' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.setAttribute('hidden', '');
+        a.setAttribute('href', url);
+        a.setAttribute('download', 'report.csv');
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    });
+});
+
+// Firebase Analytics tracking example
+analytics.logEvent('page_view', { page_title: 'Monetization Page' });
 </script>
 </body>
 </html>
