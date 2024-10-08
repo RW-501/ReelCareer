@@ -71,12 +71,14 @@
                         aria-label="Keywords" 
                         id="keywordInput"
                         required
-                        oninput="autoSuggest(this.value)"
+                        oninput="autoSuggest(this.value,'jobSuggestions')"
                         autocomplete="off"
                     >
                 </div>
 
-                <input id="locationInput" type="text" class="form-control form-control-lg mr-2 mb-2" placeholder="Location (e.g., City)" >
+                <input id="locationInput" type="text"
+                oninput="autoSuggest(this.value,'locationSuggestions')"
+                 class="form-control form-control-lg mr-2 mb-2" placeholder="Location (e.g., City)" >
                 <select id="jobTypeInput" class="form-control form-control-lg " size="0rem">
                     <option value="" disabled selected>Job Type</option>
                     <option value="">Job Type</option>
@@ -125,21 +127,27 @@
             <!-- Location -->
             <div class="col-md-4 mb-3">
                 <label for="jobLocation" class="form-label">Location</label>
-                <input type="text" class="form-control" id="jobLocation" placeholder="City, State or ZIP" data-bs-toggle="tooltip" title="Where do you want to work?">
+                <input type="text"
+                oninput="autoSuggest(this.value,'locationSuggestions')"
+                 class="form-control" id="jobLocation" placeholder="City, State or ZIP" data-bs-toggle="tooltip" title="Where do you want to work?">
                 <small class="form-text text-muted">Provide a specific location or leave blank for remote jobs.</small>
             </div>
 
             <!-- City -->
             <div class="col-md-4 mb-3">
                 <label for="jobCity" class="form-label">City</label>
-                <input type="text" class="form-control" id="jobCity" placeholder="City">
+                <input type="text" 
+                oninput="autoSuggest(this.value,'citySuggestions')"
+                class="form-control" id="jobCity" placeholder="City">
                 <small class="form-text text-muted">Enter the city where you want to find jobs.</small>
             </div>
 
             <!-- State -->
             <div class="col-md-4 mb-3">
                 <label for="jobState" class="form-label">State</label>
-                <input type="text" class="form-control" id="jobState" placeholder="State">
+                <input type="text" 
+                oninput="autoSuggest(this.value,'stateSuggestions')"
+                class="form-control" id="jobState" placeholder="State">
                 <small class="form-text text-muted">Enter the state abbreviation (e.g., TX for Texas).</small>
             </div>
 
@@ -269,7 +277,9 @@
             <!-- Job Requirements -->
             <div class="col-md-4 mb-3">
                 <label for="jobRequirements" class="form-label">Job Requirements</label>
-                <input type="text" class="form-control" id="jobRequirements" placeholder="e.g. Java, Python" data-bs-toggle="tooltip" title="Enter skills or technologies required for the job.">
+                <input type="text" 
+                oninput="autoSuggest(this.value,'RequirementsSuggestionsions')"
+                class="form-control" id="jobRequirements" placeholder="e.g. Java, Python" data-bs-toggle="tooltip" title="Enter skills or technologies required for the job.">
                 <small class="form-text text-muted">Enter relevant job requirements separated by commas.</small>
             </div>
 

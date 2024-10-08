@@ -129,7 +129,7 @@ if (currentPage.includes("/ReelCareer/views")) {
     adjustLinkURL = "/ReelCareer/views/";
 }
 
-let jobSuggestions, locationSuggestjobRequirementsSuggestionsions, locationsSuggestions, citySuggestions, stateSuggestions;
+let jobSuggestions, locationSuggestjob, RequirementsSuggestionsions, locationsSuggestions, citySuggestions, stateSuggestions;
 
 fetch(adjustLinkHomeURL + "public/js/suggestions.json")
     .then(response => {
