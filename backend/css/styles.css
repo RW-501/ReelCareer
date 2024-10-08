@@ -1,0 +1,101 @@
+/* General Body Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f9fa; /* Light background for better readability */
+    color: #343a40; /* Dark text color for contrast */
+    margin: 0;
+    padding: 0;
+}
+
+/* Navbar Styles */
+.navbar {
+    background-color: #007bff; /* Bootstrap primary color */
+}
+
+.navbar-brand, .nav-link {
+    color: #ffffff !important; /* White text for navbar links */
+}
+
+.nav-link:hover {
+    color: #d4d4d4 !important; /* Light gray on hover */
+}
+
+/* Container Styles */
+.container {
+    padding: 20px;
+    max-width: 1200px; /* Set a maximum width for the container */
+}
+
+/* Card Styles */
+.card {
+    border: none; /* Remove border */
+    border-radius: 8px; /* Rounded corners */
+    transition: transform 0.3s; /* Smooth transform for hover effect */
+}
+
+.card:hover {
+    transform: scale(1.05); /* Scale effect on hover */
+}
+
+/* Chart Container Styles */
+.chart-container {
+    margin: 30px 0; /* Spacing around the chart */
+}
+
+/* Table Styles */
+.table {
+    border-collapse: collapse;
+    width: 100%; /* Full-width table */
+}
+
+.table th, .table td {
+    border: 1px solid #dee2e6; /* Light border for table cells */
+    padding: 12px; /* Padding for cells */
+    text-align: left; /* Align text to the left */
+}
+
+.table th {
+    background-color: #007bff; /* Header background color */
+    color: #ffffff; /* Header text color */
+}
+
+/* Button Styles */
+.btn-custom {
+    background-color: #28a745; /* Custom green button */
+    color: white;
+}
+
+.btn-custom:hover {
+    background-color: #218838; /* Darker green on hover */
+}
+
+/* Form Styles */
+form {
+    margin-top: 20px; /* Spacing above forms */
+}
+
+.form-control {
+    border-radius: 5px; /* Rounded input fields */
+}
+
+/* Footer Styles */
+.footer {
+    background-color: #343a40; /* Dark footer */
+    color: #ffffff; /* White text for footer */
+    padding: 15px 0; /* Padding in footer */
+    text-align: center; /* Centered text */
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+    .navbar {
+        text-align: center; /* Center navbar links on small screens */
+    }
+
+    .container {
+        padding: 10px; /* Reduced padding on smaller screens */
+    }
+}

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <title>Application Management</title>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js"></script>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Reelcareer Admin</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="dashboard.html">Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="user-management.html">User Management</a></li>
+                <li class="nav-item"><a class="nav-link" href="job-management.html">Job Management</a></li>
+                <li class="nav-item"><a class="nav-link" href="application-management.html">Application Management</a></li>
+                <li class="nav-item"><a class="nav-link" href="content-management.html">Content Management</a></li>
+                <li class="nav-item"><a class="nav-link" href="settings.html">Settings</a></li>
+                <li class="nav-item"><a class="nav-link" href="analytics.html">Analytics</a></li>
+                <li class="nav-item"><a class="nav-link" href="chatbot.html">Chatbot</a></li>
+                <li class="nav-item"><a class="nav-link" href="support.html">Support</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <h1>Application Management</h1>
+
+        <!-- Application Table -->
+        <table class="table table-bordered table-striped" id="applicationTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Job Title</th>
+                    <th>Applicant Name</th>
+                    <th>Email</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="applicationTableBody">
+                <!-- Application rows will be dynamically populated here -->
+            </tbody>
+        </table>
+
+        <!-- Messaging Modal -->
+        <div class="modal fade" id="messageModal" tabindex="-1" aria-labelledby="messageModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="messageModalLabel">Send Message to Applicant</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="messageForm">
+                            <div class="form-group">
+                                <label for="applicantEmail">Applicant Email</label>
+                                <input type="email" class="form-control" id="applicantEmail" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="messageContent">Message</label>
+                                <textarea class="form-control" id="messageContent" rows="3" required></textarea>
+                            </div>
+                            <input type="hidden" id="applicationId">
+                            <button type="submit" class="btn btn-primary">Send Message</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_PROJECT_ID.appspot.com",
+            messagingSenderId: "YOUR_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        // Load applications
+        function loadApplications() {
+            db.collection('applications').get().then((querySnapshot) => {
+                const applicationTableBody = document.getElementById('applicationTableBody');
+                applicationTableBody.innerHTML = ''; // Clear existing rows
+                querySnapshot.forEach((doc) => {
+                    const application = doc.data();
+                    const row = `
+                        <tr>
+                            <td>${doc.id}</td>
+                            <td>${application.jobTitle}</td>
+                            <td>${application.applicantName}</td>
+                            <td>${application.email}</td>
+                            <td>${application.status}</td>
+                            <td>
+                                <button class="btn btn-info btn-sm" onclick="openMessageModal('${doc.id}', '${application.email}')">Message</button>
+                            </td>
+                        </tr>
+                    `;
+                    applicationTableBody.insertAdjacentHTML('beforeend', row);
+                });
+            });
+        }
+
+        // Open messaging modal
+        function openMessageModal(applicationId, email) {
+            document.getElementById('applicantEmail').value = email;
+            document.getElementById('applicationId').value = applicationId;
+            $('#messageModal').modal('show');
+        }
+
+        // Send message
+        document.getElementById('messageForm').onsubmit = function(e) {
+            e.preventDefault();
+            const email = document.getElementById('applicantEmail').value;
+            const message = document.getElementById('messageContent').value;
+
+            // Add message to Firestore
+            db.collection('messages').add({
+                applicationId: document.getElementById('applicationId').value,
+                email: email,
+                content: message,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            }).then(() => {
+                alert("Message sent successfully!");
+                $('#messageModal').modal('hide');
+                document.getElementById('messageForm').reset();
+            }).catch(console.error);
+        };
+
+        // Initial load
+        loadApplications();
+    </script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
