@@ -78,11 +78,13 @@
                 <input id="locationInput" type="text" class="form-control form-control-lg mr-2 mb-2" placeholder="Location (e.g., City)" >
                 <select id="jobTypeInput" class="form-control form-control-lg " size="0rem">
                     <option value="" disabled selected>Job Type</option>
+                    <option value="">Job Type</option>
                     <option value="full-time">Full-time</option>
                     <option value="part-time">Part-time</option>
                     <option value="contract">Contract</option>
                     <option value="remote">Remote</option>
                     <option value="hybrid">Hybrid</option>
+                    <option value="freelance">Freelance</option>
                 </select>
                 <div class="form-group">
                     <input 
@@ -94,11 +96,242 @@
                         id="salaryInput"
                         oninput="formatSalary(this)">
                 </div>
-        <button type="submit" class="btn btn-primary btn-lg mb-2 px-4">Search Jobs</button>
+        <button type="submit" class="btn btn-primary btn-lg mb-2 px-4" onclick="searchJobs();">Search Jobs</button>
             </form>
         </div>
     </div>
 </div>
+
+<div class="container mt-5"> 
+    <h2 class="mb-4 text-center">Job Search Filters</h2>
+    <div class="card shadow-sm p-4">
+        <div class="row">
+            <!-- Job Requirements -->
+            <div class="col-md-4 mb-3">
+                <label for="jobRequirements" class="form-label">Job Requirements</label>
+                <input type="text" class="form-control" id="jobRequirements" placeholder="e.g. Java, Python" data-bs-toggle="tooltip" title="Enter skills or technologies required for the job.">
+                <small class="form-text text-muted">Enter relevant job requirements separated by commas.</small>
+            </div>
+
+            <div class="w-100"><hr class="my-3"></div>
+
+            <!-- Location -->
+            <div class="col-md-4 mb-3">
+                <label for="jobLocation" class="form-label">Location</label>
+                <input type="text" class="form-control" id="jobLocation" placeholder="City, State or ZIP" data-bs-toggle="tooltip" title="Where do you want to work?">
+                <small class="form-text text-muted">Provide a specific location or leave blank for remote jobs.</small>
+            </div>
+
+            <!-- City -->
+            <div class="col-md-4 mb-3">
+                <label for="jobCity" class="form-label">City</label>
+                <input type="text" class="form-control" id="jobCity" placeholder="City">
+                <small class="form-text text-muted">Enter the city where you want to find jobs.</small>
+            </div>
+
+            <!-- State -->
+            <div class="col-md-4 mb-3">
+                <label for="jobState" class="form-label">State</label>
+                <input type="text" class="form-control" id="jobState" placeholder="State">
+                <small class="form-text text-muted">Enter the state abbreviation (e.g., TX for Texas).</small>
+            </div>
+
+            <div class="w-100"><hr class="my-3"></div>
+
+            <!-- Zip Code -->
+            <div class="col-md-4 mb-3">
+                <label for="jobZip" class="form-label">Zip Code</label>
+                <input type="text" class="form-control" id="jobZip" placeholder="Zip Code" data-bs-toggle="tooltip" title="Enter a 5-digit ZIP code.">
+                <small class="form-text text-muted">Provide a ZIP code for precise location filtering.</small>
+            </div>
+
+            <!-- Salary Range -->
+            <div class="col-md-4 mb-3">
+                <label for="salaryMin" class="form-label">Minimum Salary</label>
+                <input type="number" aria-label="Minimum Salary" class="form-control" id="salaryMin" placeholder="Minimum Salary" data-bs-toggle="tooltip" title="Enter your desired minimum salary." onkeydown="restrictKeys(event)" oninput="formatSalary(this)">
+                <small class="form-text text-muted">Leave blank if no minimum salary is required.</small>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label for="salaryMax" class="form-label">Maximum Salary</label>
+                <input type="number" class="form-control" id="salaryMax" placeholder="Maximum Salary" data-bs-toggle="tooltip" title="Enter your desired maximum salary." onkeydown="restrictKeys(event)" oninput="formatSalary(this)">
+                <small class="form-text text-muted">Leave blank if no maximum salary is required.</small>
+            </div>
+
+            <div class="w-100"><hr class="my-3"></div>
+
+            <!-- Contract Type -->
+            <div class="col-md-4 mb-3">
+                <label for="contractType" class="form-label">Contract Type</label>
+                <select class="form-select" id="contractType">
+                    <option value="">Job Type</option>
+                    <option value="full-time">Full-time</option>
+                    <option value="part-time">Part-time</option>
+                    <option value="contract">Contract</option>
+                    <option value="remote">Remote</option>
+                    <option value="hybrid">Hybrid</option>
+                    <option value="freelance">Freelance</option>
+                </select>
+                <small class="form-text text-muted">Select the type of job contract you're interested in.</small>
+            </div>
+
+            <div class="w-100"><hr class="my-3"></div>
+
+            <!-- Checkbox for Job Preferences -->
+            <div class="col-md-12 mb-3">
+                <label class="form-label">Job Preferences</label>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="immediateHire" id="immediateHire">
+                    <label class="form-check-label" for="immediateHire">Immediate Hire</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="contractToHire" id="contractToHire">
+                    <label class="form-check-label" for="contractToHire">Contract to Hire</label>
+                </div>
+                <small class="form-text text-muted">Select any additional job preferences.</small>
+            </div>
+
+            <div class="w-100"><hr class="my-3"></div>
+
+            <!-- Job Posting Date -->
+            <div class="col-md-4 mb-3">
+                <label for="postingDate" class="form-label">Job Posting Date</label>
+                <select class="form-select" id="postingDate">
+                    <option value="">Any Date</option>
+                    <option value="24h">Last 24 Hours</option>
+                    <option value="week">Last Week</option>
+                    <option value="month">Last Month</option>
+                </select>
+                <small class="form-text text-muted">Filter jobs by when they were posted.</small>
+            </div>
+
+            <!-- Education Level -->
+            <div class="col-md-4 mb-3">
+                <label for="education" class="form-label">Education Level <small class="text-muted">(Optional)</small></label>
+                <select id="education" class="form-select" multiple>
+                    <option value="highSchool">High School</option>
+                    <option value="associateDegree">Associate Degree</option>
+                    <option value="bachelorDegree">Bachelor's Degree</option>
+                    <option value="masterDegree">Master's Degree</option>
+                    <option value="phd">PhD</option>
+                </select>
+                <small class="form-text text-muted">Select your highest education level.</small>
+            </div>
+
+            <!-- Years of Experience -->
+            <div class="col-md-4 mb-3">
+                <label for="experience" class="form-label">Years of Experience <small class="text-muted">(Optional)</small></label>
+                <select id="experience" class="form-select" multiple>
+                    <option value="0-1">0-1 years</option>
+                    <option value="2-5">2-5 years</option>
+                    <option value="6-10">6-10 years</option>
+                    <option value="10+">10+ years</option>
+                </select>
+                <small class="form-text text-muted">Select your relevant years of experience.</small>
+            </div>
+
+            <div class="w-100"><hr class="my-3"></div>
+
+            <!-- Industry Dropdown -->
+            <div class="col-md-4 mb-3">
+                <label for="industry" class="form-label">Industry</label>
+                <select class="form-select" id="industry">
+                    <option value="">Select an Industry</option>
+                    <option value="Technology">Technology</option>
+                    <option value="Healthcare">Healthcare</option>
+                    <option value="Finance">Finance</option>
+                    <option value="Education">Education</option>
+                    <option value="Retail">Retail</option>
+                    <option value="Manufacturing">Manufacturing</option>
+                    <option value="Hospitality">Hospitality</option>
+                    <option value="Construction">Construction</option>
+                    <option value="Transportation">Transportation</option>
+                    <option value="Real Estate">Real Estate</option>
+                    <option value="Telecommunications">Telecommunications</option>
+                    <option value="Entertainment">Entertainment</option>
+                    <option value="Non-Profit">Non-Profit</option>
+                    <option value="Government">Government</option>
+                    <option value="Agriculture">Agriculture</option>
+                    <option value="Other">Other</option>
+                </select>
+                <small class="form-text text-muted">Choose an industry to filter jobs.</small>
+            </div>
+        </div>
+
+        <!-- Clear Filters Button -->
+        <div class="d-flex justify-content-end mt-4">
+            <button class="btn btn-secondary me-2" type="reset">Clear Filters</button>
+            <button class="btn btn-primary" type="submit" id="searchButton">Search Jobs</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Enable Bootstrap tooltips
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+    });
+
+    // Save filters to local storage
+    document.getElementById('searchButton').addEventListener('click', function() {
+        const filters = {
+            jobRequirements: document.getElementById('jobRequirements').value,
+            jobLocation: document.getElementById('jobLocation').value,
+            jobCity: document.getElementById('jobCity').value,
+            jobState: document.getElementById('jobState').value,
+            jobZip: document.getElementById('jobZip').value,
+            salaryMin: document.getElementById('salaryMin').value,
+            salaryMax: document.getElementById('salaryMax').value,
+            contractType: document.getElementById('contractType').value,
+            immediateHire: document.getElementById('immediateHire').checked,
+            contractToHire: document.getElementById('contractToHire').checked,
+            postingDate: document.getElementById('postingDate').value,
+            education: Array.from(document.getElementById('education').selectedOptions).map(option => option.value),
+            experience: Array.from(document.getElementById('experience').selectedOptions).map(option => option.value),
+            industry: document.getElementById('industry').value,
+        };
+
+        localStorage.setItem('jobSearchFilters', JSON.stringify(filters));
+        alert("Filters saved!");
+    });
+
+    // Load saved filters on page load
+    window.onload = function() {
+        const savedFilters = JSON.parse(localStorage.getItem('jobSearchFilters'));
+        if (savedFilters) {
+            document.getElementById('jobRequirements').value = savedFilters.jobRequirements || '';
+            document.getElementById('jobLocation').value = savedFilters.jobLocation || '';
+            document.getElementById('jobCity').value = savedFilters.jobCity || '';
+            document.getElementById('jobState').value = savedFilters.jobState || '';
+            document.getElementById('jobZip').value = savedFilters.jobZip || '';
+            document.getElementById('salaryMin').value = savedFilters.salaryMin || '';
+            document.getElementById('salaryMax').value = savedFilters.salaryMax || '';
+            document.getElementById('contractType').value = savedFilters.contractType || '';
+            document.getElementById('immediateHire').checked = savedFilters.immediateHire || false;
+            document.getElementById('contractToHire').checked = savedFilters.contractToHire || false;
+            document.getElementById('postingDate').value = savedFilters.postingDate || '';
+            if (savedFilters.education) {
+                Array.from(document.getElementById('education').options).forEach(option => {
+                    option.selected = savedFilters.education.includes(option.value);
+                });
+            }
+            if (savedFilters.experience) {
+                Array.from(document.getElementById('experience').options).forEach(option => {
+                    option.selected = savedFilters.experience.includes(option.value);
+                });
+            }
+            document.getElementById('industry').value = savedFilters.industry || '';
+        }
+    };
+</script>
+
+
+
+
+
+
+
 
 <!-- Featured Jobs Section -->
 <div class="container mt-5">
@@ -404,15 +637,41 @@ sponsorsQuery = query(sponsorsQuery, limit(20));
             scriptTag.innerHTML = JSON.stringify(schemaData);
             document.head.appendChild(scriptTag); // Append schema markup to head
         }
+        function collectJobRequirements() {
+    // Collects requirements based on some custom logic
+    // Adjust this function according to your needs
+    return document.getElementById("jobRequirements").value.split(',').map(req => req.trim());
+}
 
-function getSearchResults(){
+function searchJobs() {
+    const requirements = collectJobRequirements();
+    const location = document.getElementById("jobLocation").value;
+    const city = document.getElementById("jobCity").value;
+    const state = document.getElementById("jobState").value;
+    const zipCode = document.getElementById("jobZip").value;
+    const salaryMin = document.getElementById("salaryMin").value;
+    const salaryMax = document.getElementById("salaryMax").value;
+    const contractType = document.getElementById("contractType").value;
+    const industry = document.getElementById("industry").value;
+    const immediateHire = document.getElementById("immediateHire").checked;
+    const contractToHire = document.getElementById("contractToHire").checked;
 
+    // You can now use these values to filter job listings
+    console.log({
+        requirements,
+        location,
+        city,
+        state,
+        zipCode,
+        salaryMin,
+        salaryMax,
+        contractType,
+        industry,
+        immediateHire,
+        contractToHire
+    });
 
-
-
-
-    
-    console.log("getSearchResults");
+    // Implement your job search logic here, e.g., fetching from an API
 }
 
 
@@ -453,7 +712,7 @@ function getSearchResults(){
             populateSearchBar();
  // Determine if search parameters exist
  if (populateSearchBar()) {
-        await getSearchResults(); // Assuming this function fetches and displays results based on search criteria
+        await searchJobs(); // Assuming this function fetches and displays results based on search criteria
     } else {
         const jobListings = await fetchJobListings(); // Fetch the job listings
         displayJobListings(jobListings); // Display job listings
