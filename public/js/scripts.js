@@ -237,9 +237,8 @@ const suggestions = [
     "IT Security Specialist"
 ];
 
-
-function autoSuggest(input) {
-    const inputValue = input.value.toLowerCase();
+function autoSuggest(input) { 
+    const inputValue = input.value ? input.value.toLowerCase() : ''; // Check if input.value is defined
     let suggestion = '';
 
     // Find the first suggestion that starts with the input value
@@ -262,7 +261,7 @@ function autoSuggest(input) {
 document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('keywordInput').addEventListener('keydown', function(e) {
         const suggestion = this.getAttribute('data-suggestion');
-        const inputValue = this.value.toLowerCase();
+        const inputValue = this.value ? this.value.toLowerCase() : ''; // Check if this.value is defined
 
         if (suggestion && suggestion.toLowerCase().startsWith(inputValue)) {
             if (e.key === 'Tab' || e.key === 'Enter') {
@@ -273,6 +272,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+
 
 
 const userINFO = getUserInfo();
