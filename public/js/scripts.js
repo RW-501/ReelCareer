@@ -117,11 +117,6 @@ function restrictKeys(event) {
 
 
 
-const { suggestions } = require('./suggestions');
-console.log("sug 1  ",suggestions);
-const { suggestions2 } = require('/suggestions');
-
-console.log("sug 2  ",suggestions2);
 fetch('./suggestions.js')
     .then(response => response.text())
     .then(scriptContent => {
