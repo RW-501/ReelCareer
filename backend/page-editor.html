@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Editor - Admin</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js"></script>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Reelcareer Admin</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="dashboard.html">Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="user-management.html">User Management</a></li>
+                <li class="nav-item"><a class="nav-link" href="job-management.html">Job Management</a></li>
+                <li class="nav-item"><a class="nav-link" href="application-management.html">Application Management</a></li>
+                <li class="nav-item"><a class="nav-link" href="content-management.html">Content Management</a></li>
+                <li class="nav-item active"><a class="nav-link" href="page-editor.html">Page Editor</a></li>
+                <li class="nav-item"><a class="nav-link" href="analytics.html">Analytics</a></li>
+                <li class="nav-item"><a class="nav-link" href="chatbot.html">Chatbot</a></li>
+                <li class="nav-item"><a class="nav-link" href="support.html">Support</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <h1>Page Editor</h1>
+
+        <!-- Create New Page Form -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <h4>Create a New Page</h4>
+                <form id="newPageForm">
+                    <div class="form-group">
+                        <label for="newPageTitle">Page Title</label>
+                        <input type="text" class="form-control" id="newPageTitle" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Create Page</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Tabs for Pages -->
+        <ul class="nav nav-tabs" id="pageTabs" role="tablist"></ul>
+
+        <div class="tab-content mt-4" id="pageContent"></div>
+
+        <div id="successMessage" class="mt-4" style="display: none;"></div>
+        <div id="errorMessage" class="mt-4 text-danger" style="display: none;"></div>
+    </div>
+
+    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+    <script>
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_PROJECT_ID.appspot.com",
+            messagingSenderId: "YOUR_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        // Initialize Quill rich text editor
+        let quills = {}; // Store multiple Quill instances
+
+        function initializeQuill(editorId) {
+            quills[editorId] = new Quill(`#${editorId}`, {
+                theme: 'snow',
+                modules: {
+                    toolbar: [
+                        [{ 'header': [1, 2, false] }],
+                        ['bold', 'italic', 'underline'],
+                        ['image', 'code-block'],
+                        ['clean'] // Remove formatting button
+                    ]
+                }
+            });
+        }
+
+        // Load all pages and create tabs dynamically
+        function loadPages() {
+            db.collection('pages').get().then(querySnapshot => {
+                querySnapshot.forEach(doc => {
+                    createPageTab(doc.id, doc.data());
+                });
+            });
+        }
+
+        // Create new page tab and form dynamically
+        function createPageTab(pageId, pageData = { title: '', content: '' }) {
+            const pageTabs = document.getElementById('pageTabs');
+            const pageContent = document.getElementById('pageContent');
+
+            // Create Tab
+            const tab = document.createElement('li');
+            tab.classList.add('nav-item');
+            tab.innerHTML = `<a class="nav-link" id="${pageId}-tab" data-toggle="tab" href="#${pageId}" role="tab">${pageData.title || 'New Page'}</a>
+                             <button class="btn btn-danger btn-sm ml-2" onclick="deletePage('${pageId}')">Delete</button>`;
+            pageTabs.appendChild(tab);
+
+            // Create Page Form Content
+            const tabContent = document.createElement('div');
+            tabContent.classList.add('tab-pane', 'fade');
+            tabContent.id = pageId;
+            tabContent.innerHTML = `
+                <h2>${pageData.title}</h2>
+                <form id="${pageId}Form">
+                    <div class="form-group">
+                        <label for="${pageId}Title">Title</label>
+                        <input type="text" class="form-control" id="${pageId}Title" value="${pageData.title}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="${pageId}Content">Content</label>
+                        <div id="${pageId}Editor" style="height: 200px;"></div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </form>
+            `;
+            pageContent.appendChild(tabContent);
+
+            // Initialize Quill Editor for this tab
+            initializeQuill(`${pageId}Editor`);
+
+            // Fill Quill Editor with existing content if available
+            quills[`${pageId}Editor`].root.innerHTML = pageData.content || '';
+
+            // Handle form submission for this page
+            document.getElementById(`${pageId}Form`).onsubmit = function(e) {
+                e.preventDefault();
+                savePageContent(pageId);
+            };
+        }
+
+        // Save page content to Firestore
+        function savePageContent(pageId) {
+            const title = document.getElementById(`${pageId}Title`).value;
+            const content = quills[`${pageId}Editor`].root.innerHTML; // Get content from Quill editor
+
+            db.collection('pages').doc(pageId).set({
+                title: title,
+                content: content
+            }).then(() => {
+                showSuccessMessage(`${title} page saved successfully!`);
+                updateTabTitle(pageId, title);
+            }).catch(error => {
+                showErrorMessage(`Error saving ${title} page: ${error}`);
+            });
+        }
+
+        // Update tab title after saving
+        function updateTabTitle(pageId, title) {
+            document.getElementById(`${pageId}-tab`).textContent = title;
+        }
+
+        // Create new page on form submission
+        document.getElementById('newPageForm').onsubmit = function(e) {
+            e.preventDefault();
+            const newPageTitle = document.getElementById('newPageTitle').value;
+            const newPageId = newPageTitle.toLowerCase().replace(/\s+/g, '-'); // Use lowercase title as ID
+            createPageTab(newPageId, { title: newPageTitle, content: '' });
+            showSuccessMessage(`Page "${newPageTitle}" created successfully!`);
+        };
+
+        // Delete page functionality
+        function deletePage(pageId) {
+            if (confirm(`Are you sure you want to delete the page "${pageId}"?`)) {
+                db.collection('pages').doc(pageId).delete().then(() => {
+                    document.getElementById(pageId).remove();
+                    document.getElementById(`${pageId}-tab`).remove();
+                    showSuccessMessage(`Page "${pageId}" deleted successfully!`);
+                }).catch(error => {
+                    showErrorMessage(`Error deleting page: ${error}`);
+                });
+            }
+        }
+
+        // Show success message
+        function showSuccessMessage(message) {
+            const successMessage = document.getElementById('successMessage');
+            successMessage.style.display = 'block';
+            successMessage.innerText = message;
+            setTimeout(() => successMessage.style.display = 'none', 3000);
+        }
+
+        // Show error message
+        function showErrorMessage(message) {
+            const errorMessage = document.getElementById('errorMessage');
+            errorMessage.style.display = 'block';
+            errorMessage.innerText = message;
+            setTimeout(() => errorMessage.style.display = 'none', 3000);
+        }
+
+        // Load pages on page load
+        window.onload = loadPages;
+    </script>
+</body>
+</html>

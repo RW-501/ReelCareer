@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot - Reelcareer</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js"></script>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f8f9fa;
+        }
+        .chat-container {
+            width: 400px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .chat-header {
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+        .chat-body {
+            height: 300px;
+            overflow-y: auto;
+            padding: 10px;
+            background-color: #fff;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        .chat-input {
+            padding: 10px;
+        }
+        .chat-input input {
+            width: calc(100% - 50px);
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 5px;
+        }
+        .chat-input button {
+            border: none;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+        .message {
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        .message.visible {
+            opacity: 1;
+        }
+        .message.user {
+            text-align: right;
+            animation: fadeInRight 0.5s ease;
+        }
+        .message.bot {
+            text-align: left;
+            animation: fadeInLeft 0.5s ease;
+        }
+        .typing-indicator {
+            font-style: italic;
+            color: #999;
+        }
+        @keyframes fadeInRight {
+            from {
+                transform: translateX(20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        @keyframes fadeInLeft {
+            from {
+                transform: translateX(-20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        .suggestion-button, .fallback-button {
+            margin-top: 5px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        .suggestion-button:hover, .fallback-button:hover {
+            background-color: #0056b3;
+        }
+        .fallback-button {
+            background-color: #dc3545; /* Red for fallback */
+        }
+        .fallback-button:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="chat-container">
+        <div class="chat-header">
+            <h5>Reelcareer Chatbot</h5>
+        </div>
+        <div class="chat-body" id="chatBody"></div>
+        <div class="chat-input">
+            <input type="text" id="userInput" placeholder="Type your message..." />
+            <button id="sendButton">Send</button>
+        </div>
+    </div>
+
+    <script>
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_PROJECT_ID.appspot.com",
+            messagingSenderId: "YOUR_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        // Chatbot Logic
+        const chatBody = document.getElementById('chatBody');
+        const userInput = document.getElementById('userInput');
+        const sendButton = document.getElementById('sendButton');
+
+        sendButton.addEventListener('click', sendMessage);
+        userInput.addEventListener('keypress', (event) => {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        function sendMessage() {
+            const messageText = userInput.value.trim();
+            if (messageText === '') return;
+
+            appendMessage(messageText, 'user');
+            userInput.value = '';
+
+            // Show typing indicator
+            const typingIndicator = document.createElement('div');
+            typingIndicator.className = 'typing-indicator';
+            typingIndicator.innerText = 'Bot is typing...';
+            chatBody.appendChild(typingIndicator);
+            chatBody.scrollTop = chatBody.scrollHeight; // Scroll to bottom
+
+            // Fetch the chatbot response
+            fetchChatbotResponse(messageText, typingIndicator);
+        }
+
+        function appendMessage(text, sender) {
+            const messageElement = document.createElement('div');
+            messageElement.className = `message ${sender}`;
+            messageElement.innerText = text;
+            chatBody.appendChild(messageElement);
+            setTimeout(() => {
+                messageElement.classList.add('visible');
+            }, 10);
+            chatBody.scrollTop = chatBody.scrollHeight; // Scroll to bottom
+        }
+
+        function fetchChatbotResponse(userMessage, typingIndicator) {
+            // Simulate a delay for the typing indicator
+            setTimeout(() => {
+                chatBody.removeChild(typingIndicator); // Remove typing indicator
+
+                // You can customize the context here based on the current page
+                const currentPageContext = 'job listing page'; // Example context
+
+                db.collection('chatbotResponses')
+                    .where('context', '==', currentPageContext)
+                    .get()
+                    .then((querySnapshot) => {
+                        const responses = [];
+                        querySnapshot.forEach((doc) => {
+                            const data = doc.data();
+                            responses.push({ response: data.response, suggestions: data.suggestions });
+                        });
+
+                        // Randomly select a response from the available options
+                        if (responses.length > 0) {
+                            const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+                            appendMessage(randomResponse.response, 'bot');
+
+                            // Display suggestions if available
+                            if (randomResponse.suggestions.length > 0) {
+                                randomResponse.suggestions.forEach(suggestion => {
+                                    const suggestionButton = document.createElement('button');
+                                    suggestionButton.innerText = suggestion;
+                                    suggestionButton.className = 'suggestion-button';
+                                    suggestionButton.onclick = () => {
+                                        userInput.value = suggestion;
+                                        sendMessage();
+                                    };
+                                    chatBody.appendChild(suggestionButton);
+                                });
+                            }
+                        } else {
+                            showFallbackMessage();
+                        }
+                    })
+                    .catch((error) => {
+                        console.error("Error fetching responses: ", error);
+                        appendMessage("An error occurred while fetching responses.", 'bot');
+                    });
+            }, 1000); // Simulate typing delay of 1 second
+        }
+
+        function showFallbackMessage() {
+            appendMessage("Sorry, I don't have an answer for that. Please contact support.", 'bot');
+            const fallbackButton = document.createElement('button');
+            fallbackButton.innerText = 'Live Chat Support';
+            fallbackButton.className = 'fallback-button';
+            fallbackButton.onclick = () => {
+                window.location.href = 'YOUR_LIVE_CHAT_URL'; // Replace with your live chat URL
+            };
+            chatBody.appendChild(fallbackButton);
+        }
+    </script>
+</body>
+</html>
+<!-- 
+<script> Passing Context During Initialization
+  // Example: Define context based on page or section
+  let pageContext = '';
+
+  // Check the URL or some page-specific indicator to determine the context
+  if (window.location.href.includes('job-listings')) {
+      pageContext = 'job listing page';
+  } else if (window.location.href.includes('user-profile')) {
+      pageContext = 'user profile page';
+  } else if (window.location.href.includes('dashboard')) {
+      pageContext = 'dashboard page';
+  }
+
+  // Initialize the chatbot and pass the context
+  initializeChatbot(pageContext);
+
+  function initializeChatbot(context) {
+      // Use the context in chatbot logic as needed
+      console.log("Chatbot initialized with context:", context);
+      // Your Firebase initialization and other logic here
+  }
+</script>
+
+Passing Context When Sending Messages
+function sendMessage() {
+    const messageText = userInput.value.trim();
+    if (messageText === '') return;
+
+    appendMessage(messageText, 'user');
+    userInput.value = '';
+
+    // Show typing indicator
+    const typingIndicator = document.createElement('div');
+    typingIndicator.className = 'typing-indicator';
+    typingIndicator.innerText = 'Bot is typing...';
+    chatBody.appendChild(typingIndicator);
+    chatBody.scrollTop = chatBody.scrollHeight; // Scroll to bottom
+
+    // Define the current context dynamically (e.g., based on page)
+    const currentContext = getCurrentPageContext();
+
+    // Fetch the chatbot response with context
+    fetchChatbotResponse(messageText, typingIndicator, currentContext);
+}
+
+function getCurrentPageContext() {
+    // Logic to get the current context
+    if (window.location.href.includes('job-listings')) {
+        return 'job listing page';
+    } else if (window.location.href.includes('user-profile')) {
+        return 'user profile page';
+    } else {
+        return 'default';
+    }
+}
+
+function fetchChatbotResponse(userMessage, typingIndicator, context) {
+    // Simulate a delay for the typing indicator
+    setTimeout(() => {
+        chatBody.removeChild(typingIndicator); // Remove typing indicator
+
+        // Query the Firestore database with the context
+        db.collection('chatbotResponses')
+            .where('context', '==', context) // Use the passed context
+            .get()
+            .then((querySnapshot) => {
+                const responses = [];
+                querySnapshot.forEach((doc) => {
+                    const data = doc.data();
+                    responses.push({ response: data.response, suggestions: data.suggestions });
+                });
+
+                if (responses.length > 0) {
+                    const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+                    appendMessage(randomResponse.response, 'bot');
+
+                    // Display suggestions if available
+                    if (randomResponse.suggestions.length > 0) {
+                        randomResponse.suggestions.forEach(suggestion => {
+                            const suggestionButton = document.createElement('button');
+                            suggestionButton.innerText = suggestion;
+                            suggestionButton.className = 'suggestion-button';
+                            suggestionButton.onclick = () => {
+                                userInput.value = suggestion;
+                                sendMessage();
+                            };
+                            chatBody.appendChild(suggestionButton);
+                        });
+                    }
+                } else {
+                    showFallbackMessage();
+                }
+            })
+            .catch((error) => {
+                console.error("Error fetching responses: ", error);
+                appendMessage("An error occurred while fetching responses.", 'bot');
+            });
+    }, 1000); // Simulate typing delay of 1 second
+}
+
+
+
+
+
+
+
+Yes, you can import and use this chatbot functionality on different pages of your website. Here’s how you can achieve that:
+
+Modularize the Code: To make the chatbot reusable, consider wrapping the HTML, CSS, and JavaScript in separate files. For example:
+
+HTML: Save the chatbot HTML code in a file (e.g., chatbot.html).
+CSS: Save the CSS styles in a separate file (e.g., chatbot.css).
+JavaScript: Save the JavaScript functionality in another file (e.g., chatbot.js).
+
+<iframe src="chatbot.html" style="width: 100%; height: 400px; border: none;"></iframe>
+-->

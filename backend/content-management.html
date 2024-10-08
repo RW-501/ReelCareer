@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <title>Content Management</title>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js"></script>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Reelcareer Admin</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="dashboard.html">Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="user-management.html">User Management</a></li>
+                <li class="nav-item"><a class="nav-link" href="job-management.html">Job Management</a></li>
+                <li class="nav-item"><a class="nav-link" href="application-management.html">Application Management</a></li>
+                <li class="nav-item"><a class="nav-link" href="content-management.html">Content Management</a></li>
+                <li class="nav-item"><a class="nav-link" href="settings.html">Settings</a></li>
+                <li class="nav-item"><a class="nav-link" href="analytics.html">Analytics</a></li>
+                <li class="nav-item"><a class="nav-link" href="chatbot.html">Chatbot</a></li>
+                <li class="nav-item"><a class="nav-link" href="support.html">Support</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <h1>Content Management</h1>
+
+        <!-- News Article Form -->
+        <h2>Manage News Articles</h2>
+        <form id="newsForm">
+            <div class="form-group">
+                <label for="newsTitle">Title</label>
+                <input type="text" class="form-control" id="newsTitle" required>
+            </div>
+            <div class="form-group">
+                <label for="newsContent">Content</label>
+                <textarea class="form-control" id="newsContent" rows="5" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Save News Article</button>
+        </form>
+
+        <!-- Blog Post Form -->
+        <h2 class="mt-4">Manage Blog Posts</h2>
+        <form id="blogForm">
+            <div class="form-group">
+                <label for="blogTitle">Title</label>
+                <input type="text" class="form-control" id="blogTitle" required>
+            </div>
+            <div class="form-group">
+                <label for="blogContent">Content</label>
+                <textarea class="form-control" id="blogContent" rows="5" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Save Blog Post</button>
+        </form>
+
+        <!-- FAQ Form -->
+        <h2 class="mt-4">Manage FAQs</h2>
+        <form id="faqForm">
+            <div class="form-group">
+                <label for="faqQuestion">Question</label>
+                <input type="text" class="form-control" id="faqQuestion" required>
+            </div>
+            <div class="form-group">
+                <label for="faqAnswer">Answer</label>
+                <textarea class="form-control" id="faqAnswer" rows="5" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Save FAQ</button>
+        </form>
+
+        <!-- Display Stored Content -->
+        <h2 class="mt-4">Stored Content</h2>
+        <div id="contentDisplay">
+            <div id="loading" style="display: none;">Loading content...</div>
+            <!-- News, Blog, and FAQ content will be displayed here -->
+        </div>
+    </div>
+
+    <script>
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_PROJECT_ID.appspot.com",
+            messagingSenderId: "YOUR_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        // Save News Article
+        document.getElementById('newsForm').onsubmit = function(e) {
+            e.preventDefault();
+            const title = document.getElementById('newsTitle').value;
+            const content = document.getElementById('newsContent').value;
+
+            db.collection('news').add({
+                title: title,
+                content: content,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            }).then(() => {
+                alert("News article saved successfully!");
+                loadContent();
+                document.getElementById('newsForm').reset();
+            }).catch(console.error);
+        };
+
+        // Save Blog Post
+        document.getElementById('blogForm').onsubmit = function(e) {
+            e.preventDefault();
+            const title = document.getElementById('blogTitle').value;
+            const content = document.getElementById('blogContent').value;
+
+            db.collection('blogs').add({
+                title: title,
+                content: content,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            }).then(() => {
+                alert("Blog post saved successfully!");
+                loadContent();
+                document.getElementById('blogForm').reset();
+            }).catch(console.error);
+        };
+
+        // Save FAQ
+        document.getElementById('faqForm').onsubmit = function(e) {
+            e.preventDefault();
+            const question = document.getElementById('faqQuestion').value;
+            const answer = document.getElementById('faqAnswer').value;
+
+            db.collection('faqs').add({
+                question: question,
+                answer: answer,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            }).then(() => {
+                alert("FAQ saved successfully!");
+                loadContent();
+                document.getElementById('faqForm').reset();
+            }).catch(console.error);
+        };
+
+        // Load and Display Content
+        function loadContent() {
+            const contentDisplay = document.getElementById('contentDisplay');
+            const loadingIndicator = document.getElementById('loading');
+            contentDisplay.innerHTML = ''; // Clear existing content
+            loadingIndicator.style.display = 'block'; // Show loading indicator
+
+            // Load News Articles
+            db.collection('news').get().then((querySnapshot) => {
+                let newsHTML = '<h3>News Articles</h3>';
+                querySnapshot.forEach((doc) => {
+                    const news = doc.data();
+                    newsHTML += `
+                    <div class="card mt-2" id="news-${doc.id}">
+                        <div class="card-body">
+                            <h5>${news.title}</h5>
+                            <p>${news.content}</p>
+                            <button class="btn btn-warning" onclick="editNews('${doc.id}', '${news.title}', '${news.content}')">Edit</button>
+                            <button class="btn btn-danger" onclick="deleteContent('news', '${doc.id}')">Delete</button>
+                        </div>
+                    </div>`;
+                });
+                contentDisplay.insertAdjacentHTML('beforeend', newsHTML);
+            });
+
+            // Load Blog Posts
+            db.collection('blogs').get().then((querySnapshot) => {
+                let blogHTML = '<h3>Blog Posts</h3>';
+                querySnapshot.forEach((doc) => {
+                    const blog = doc.data();
+                    blogHTML += `
+                    <div class="card mt-2" id="blog-${doc.id}">
+                        <div class="card-body">
+                            <h5>${blog.title}</h5>
+                            <p>${blog.content}</p>
+                            <button class="btn btn-warning" onclick="editBlog('${doc.id}', '${blog.title}', '${blog.content}')">Edit</button>
+                            <button class="btn btn-danger" onclick="deleteContent('blogs', '${doc.id}')">Delete</button>
+                        </div>
+                    </div>`;
+                });
+                contentDisplay.insertAdjacentHTML('beforeend', blogHTML);
+            });
+
+            // Load FAQs
+            db.collection('faqs').get().then((querySnapshot) => {
+                let faqHTML = '<h3>FAQs</h3>';
+                querySnapshot.forEach((doc) => {
+                    const faq = doc.data();
+                    faqHTML += `
+                    <div class="card mt-2" id="faq-${doc.id}">
+                        <div class="card-body">
+                            <h5>${faq.question}</h5>
+                            <p>${faq.answer}</p>
+                            <button class="btn btn-warning" onclick="editFAQ('${doc.id}', '${faq.question}', '${faq.answer}')">Edit</button>
+                            <button class="btn btn-danger" onclick="deleteContent('faqs', '${doc.id}')">Delete</button>
+                        </div>
+                    </div>`;
+                });
+                contentDisplay.insertAdjacentHTML('beforeend', faqHTML);
+            }).finally(() => {
+                loadingIndicator.style.display = 'none'; // Hide loading indicator after content is loaded
+            });
+        }
+
+        // Edit News Article
+        function editNews(id, title, content) {
+            document.getElementById('newsTitle').value = title;
+            document.getElementById('newsContent').value = content;
+
+            // Remove the current submit event
+            const form = document.getElementById('newsForm');
+            form.onsubmit = function(e) {
+                e.preventDefault();
+                db.collection('news').doc(id).update({
+                    title: document.getElementById('newsTitle').value,
+                    content: document.getElementById('newsContent').value
+                }).then(() => {
+                    alert("News article updated successfully!");
+                    loadContent();
+                    form.reset();
+                    // Reset form's submit event
+                    form.onsubmit = saveNews;
+                }).catch(console.error);
+            };
+        }
+
+        // Edit Blog Post
+        function editBlog(id, title, content) {
+            document.getElementById('blogTitle').value = title;
+            document.getElementById('blogContent').value = content;
+
+            // Remove the current submit event
+            const form = document.getElementById('blogForm');
+            form.onsubmit = function(e) {
+                e.preventDefault();
+                db.collection('blogs').doc(id).update({
+                    title: document.getElementById('blogTitle').value,
+                    content: document.getElementById('blogContent').value
+                }).then(() => {
+                    alert("Blog post updated successfully!");
+                    loadContent();
+                    form.reset();
+                    // Reset form's submit event
+                    form.onsubmit = saveBlog;
+                }).catch(console.error);
+            };
+        }
+
+        // Edit FAQ
+        function editFAQ(id, question, answer) {
+            document.getElementById('faqQuestion').value = question;
+            document.getElementById('faqAnswer').value = answer;
+
+            // Remove the current submit event
+            const form = document.getElementById('faqForm');
+            form.onsubmit = function(e) {
+                e.preventDefault();
+                db.collection('faqs').doc(id).update({
+                    question: document.getElementById('faqQuestion').value,
+                    answer: document.getElementById('faqAnswer').value
+                }).then(() => {
+                    alert("FAQ updated successfully!");
+                    loadContent();
+                    form.reset();
+                    // Reset form's submit event
+                    form.onsubmit = saveFAQ;
+                }).catch(console.error);
+            };
+        }
+
+        // Delete Content
+        function deleteContent(collection, id) {
+            if (confirm("Are you sure you want to delete this content?")) {
+                db.collection(collection).doc(id).delete().then(() => {
+                    alert("Content deleted successfully!");
+                    loadContent();
+                }).catch(console.error);
+            }
+        }
+
+        // Load initial content
+        loadContent();
+    </script>
+</body>
+</html>

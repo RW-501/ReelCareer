@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot Management - Admin</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js"></script>
+    <style>
+        /* Custom styles for a user-friendly design */
+        .form-group {
+            position: relative;
+        }
+        .tooltip {
+            position: absolute;
+            top: -5px;
+            left: 105%;
+            background-color: #f9f9f9;
+            border: 1px solid #ccc;
+            padding: 5px;
+            z-index: 100;
+            display: none;
+        }
+        .form-group:hover .tooltip {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Reelcareer Admin</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="dashboard.html">Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="user-management.html">User Management</a></li>
+                <li class="nav-item"><a class="nav-link" href="job-management.html">Job Management</a></li>
+                <li class="nav-item"><a class="nav-link" href="application-management.html">Application Management</a></li>
+                <li class="nav-item"><a class="nav-link" href="content-management.html">Content Management</a></li>
+                <li class="nav-item"><a class="nav-link" href="page-editor.html">Page Editor</a></li>
+                <li class="nav-item"><a class="nav-link" href="analytics.html">Analytics</a></li>
+                <li class="nav-item active"><a class="nav-link" href="chatbot.html">Chatbot</a></li>
+                <li class="nav-item"><a class="nav-link" href="support.html">Support</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <h1>Chatbot Management</h1>
+
+        <!-- Chatbot Configuration Section -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <h4>Configure Chatbot Responses</h4>
+                <form id="chatbotForm">
+                    <div class="form-group">
+                        <label for="intent">Intent <span class="tooltip">(e.g., job_search)</span></label>
+                        <input type="text" class="form-control" id="intent" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="response">Response <span class="tooltip">(What the bot should say)</span></label>
+                        <textarea class="form-control" id="response" rows="3" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="suggestions">Suggestions <span class="tooltip">(Comma-separated suggestions)</span></label>
+                        <textarea class="form-control" id="suggestions" rows="3" placeholder="e.g., Job Search, Resume Tips"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="context">Page Context <span class="tooltip">(Specify where this response is relevant)</span></label>
+                        <input type="text" class="form-control" id="context" placeholder="e.g., job listing page, application page" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Save Response</button>
+                </form>
+                <div id="responseOutput" class="mt-3"></div>
+            </div>
+        </div>
+
+        <!-- Search Bar for Interaction Logs -->
+        <div class="mb-3">
+            <input type="text" id="searchInput" class="form-control" placeholder="Search Interaction Logs..." onkeyup="filterLogs()">
+        </div>
+
+        <!-- Chatbot Interaction Logs Section -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <h4>Chatbot Interaction Logs</h4>
+                <table class="table table-bordered" id="interactionTable">
+                    <thead>
+                        <tr>
+                            <th>Timestamp</th>
+                            <th>User Input</th>
+                            <th>Bot Response</th>
+                        </tr>
+                    </thead>
+                    <tbody id="interactionBody">
+                        <tr>
+                            <td colspan="3">Loading...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- User Feedback on Suggestions Section -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <h4>User Feedback on Suggestions</h4>
+                <table class="table table-bordered" id="feedbackTable">
+                    <thead>
+                        <tr>
+                            <th>Suggestion</th>
+                            <th>Feedback</th>
+                            <th>Rating</th>
+                        </tr>
+                    </thead>
+                    <tbody id="feedbackBody">
+                        <tr>
+                            <td colspan="3">Loading...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Help Section -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <h4>User Education</h4>
+                <p>This section provides guidance on how to effectively manage chatbot responses.</p>
+                <ul>
+                    <li>Use clear and concise intents for better understanding.</li>
+                    <li>Provide multiple suggestions to enhance user experience.</li>
+                    <li>Regularly review interaction logs to identify common queries.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_PROJECT_ID.appspot.com",
+            messagingSenderId: "YOUR_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        // Load interaction logs from Firestore
+        function loadInteractionLogs() {
+            const interactionBody = document.getElementById('interactionBody');
+            interactionBody.innerHTML = '<tr><td colspan="3">Loading...</td></tr>'; // Loading state
+
+            db.collection('chatbotInteractions').orderBy('timestamp', 'desc').limit(10)
+                .get().then((querySnapshot) => {
+                    interactionBody.innerHTML = ''; // Clear loading message
+                    querySnapshot.forEach((doc) => {
+                        const data = doc.data();
+                        const row = `
+                            <tr>
+                                <td>${new Date(data.timestamp).toLocaleString()}</td>
+                                <td>${data.userInput}</td>
+                                <td>${data.botResponse}</td>
+                            </tr>
+                        `;
+                        interactionBody.innerHTML += row;
+                    });
+                }).catch((error) => {
+                    console.error("Error loading interactions: ", error);
+                    interactionBody.innerHTML = '<tr><td colspan="3">Error loading data.</td></tr>';
+                });
+        }
+
+        // Load feedback on suggestions from Firestore
+        function loadFeedback() {
+            const feedbackBody = document.getElementById('feedbackBody');
+            feedbackBody.innerHTML = '<tr><td colspan="3">Loading...</td></tr>'; // Loading state
+
+            db.collection('suggestionFeedback').get()
+                .then((querySnapshot) => {
+                    feedbackBody.innerHTML = ''; // Clear loading message
+                    querySnapshot.forEach((doc) => {
+                        const data = doc.data();
+                        const row = `
+                            <tr>
+                                <td>${data.suggestion}</td>
+                                <td>${data.feedback}</td>
+                                <td>
+                                    <select class="form-control" onchange="rateFeedback('${doc.id}', this.value)">
+                                        <option value="">Rate</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                    </select>
+                                </td>
+                            </tr>
+                        `;
+                        feedbackBody.innerHTML += row;
+                    });
+                }).catch((error) => {
+                    console.error("Error loading feedback: ", error);
+                    feedbackBody.innerHTML = '<tr><td colspan="3">Error loading data.</td></tr>';
+                });
+        }
+
+        // Submit chatbot form
+        document.getElementById('chatbotForm').addEventListener('submit', (event) => {
+            event.preventDefault();
+
+            const intent = document.getElementById('intent').value;
+            const response = document.getElementById('response').value;
+            const suggestions = document.getElementById('suggestions').value.split(',').map(s => s.trim());
+            const context = document.getElementById('context').value;
+
+            // Save to Firestore
+            db.collection('chatbotResponses').add({
+                intent,
+                response,
+                suggestions,
+                context,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            }).then(() => {
+                document.getElementById('responseOutput').innerText = 'Response saved successfully!';
+                loadInteractionLogs(); // Reload logs after saving
+                loadFeedback(); // Reload feedback after saving
+                document.getElementById('chatbotForm').reset();
+            }).catch((error) => {
+                console.error("Error saving response: ", error);
+                document.getElementById('responseOutput').innerText = 'Error saving response.';
+            });
+        });
+
+        // Filter interaction logs based on user input
+        function filterLogs() {
+            const input = document.getElementById('searchInput').value.toLowerCase();
+            const rows = document.querySelectorAll('#interactionBody tr');
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(input) ? '' : 'none';
+            });
+        }
+
+        // Rate user feedback
+        function rateFeedback(docId, rating) {
+            db.collection('suggestionFeedback').doc(docId).update({
+                rating: rating
+            }).then(() => {
+                console.log("Feedback rated successfully!");
+            }).catch((error) => {
+                console.error("Error updating feedback rating: ", error);
+            });
+        }
+
+        // Initial data loading
+        loadInteractionLogs();
+        loadFeedback();
+    </script>
+</body>
+</html>

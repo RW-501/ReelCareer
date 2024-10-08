@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <title>Settings and Configuration</title>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js"></script>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Reelcareer Admin</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="dashboard.html">Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="user-management.html">User Management</a></li>
+                <li class="nav-item"><a class="nav-link" href="job-management.html">Job Management</a></li>
+                <li class="nav-item"><a class="nav-link" href="application-management.html">Application Management</a></li>
+                <li class="nav-item"><a class="nav-link" href="content-management.html">Content Management</a></li>
+                <li class="nav-item"><a class="nav-link" href="settings.html">Settings</a></li>
+                <li class="nav-item"><a class="nav-link" href="analytics.html">Analytics</a></li>
+                <li class="nav-item"><a class="nav-link" href="chatbot.html">Chatbot</a></li>
+                <li class="nav-item"><a class="nav-link" href="support.html">Support</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <h1>Settings and Configuration</h1>
+
+        <!-- General Settings Form -->
+        <h2>General Settings</h2>
+        <form id="generalSettingsForm">
+            <div class="form-group">
+                <label for="siteTitle">Site Title</label>
+                <input type="text" class="form-control" id="siteTitle" required>
+            </div>
+            <div class="form-group">
+                <label for="siteDescription">Site Description</label>
+                <textarea class="form-control" id="siteDescription" rows="3" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="adminEmail">Admin Email</label>
+                <input type="email" class="form-control" id="adminEmail" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Save General Settings</button>
+        </form>
+
+        <!-- Limits Configuration Form -->
+        <h2 class="mt-4">Limits Configuration</h2>
+        <form id="limitsForm">
+            <h4>Free Members</h4>
+            <div class="form-group">
+                <label for="freeMaxJobs">Maximum Number of Jobs Posted</label>
+                <input type="number" class="form-control" id="freeMaxJobs" required>
+            </div>
+            <div class="form-group">
+                <label for="freeMaxApplications">Maximum Number of Applications per User</label>
+                <input type="number" class="form-control" id="freeMaxApplications" required>
+            </div>
+            
+            <h4>Premium Members</h4>
+            <div class="form-group">
+                <label for="premiumMaxJobs">Maximum Number of Jobs Posted</label>
+                <input type="number" class="form-control" id="premiumMaxJobs" required>
+            </div>
+            <div class="form-group">
+                <label for="premiumMaxApplications">Maximum Number of Applications per User</label>
+                <input type="number" class="form-control" id="premiumMaxApplications" required>
+            </div>
+            
+            <h4>Admin Members</h4>
+            <div class="form-group">
+                <label for="adminMaxJobs">Maximum Number of Jobs Posted</label>
+                <input type="number" class="form-control" id="adminMaxJobs" required>
+            </div>
+            <div class="form-group">
+                <label for="adminMaxApplications">Maximum Number of Applications per User</label>
+                <input type="number" class="form-control" id="adminMaxApplications" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Save Limits Configuration</button>
+        </form>
+
+        <!-- Notification Settings Form -->
+        <h2 class="mt-4">Notification Settings</h2>
+        <form id="notificationSettingsForm">
+            <div class="form-group">
+                <label for="emailNotifications">Email Notifications</label>
+                <select class="form-control" id="emailNotifications">
+                    <option value="enabled">Enabled</option>
+                    <option value="disabled">Disabled</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="smsNotifications">SMS Notifications</label>
+                <select class="form-control" id="smsNotifications">
+                    <option value="enabled">Enabled</option>
+                    <option value="disabled">Disabled</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Save Notification Settings</button>
+        </form>
+
+        <div id="successMessage" class="mt-4" style="display: none;"></div>
+        <div id="errorMessage" class="mt-4 text-danger" style="display: none;"></div>
+    </div>
+
+    <script>
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_PROJECT_ID.appspot.com",
+            messagingSenderId: "YOUR_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        // Fetch current settings on page load
+        window.onload = function() {
+            db.collection('settings').doc('general').get().then(doc => {
+                if (doc.exists) {
+                    const data = doc.data();
+                    document.getElementById('siteTitle').value = data.siteTitle || '';
+                    document.getElementById('siteDescription').value = data.siteDescription || '';
+                    document.getElementById('adminEmail').value = data.adminEmail || '';
+                } else {
+                    showErrorMessage("No general settings found.");
+                }
+            }).catch(error => showErrorMessage("Error fetching general settings: " + error));
+
+            db.collection('settings').doc('limits').get().then(doc => {
+                if (doc.exists) {
+                    const data = doc.data();
+                    document.getElementById('freeMaxJobs').value = data.free.maxJobs || '';
+                    document.getElementById('freeMaxApplications').value = data.free.maxApplications || '';
+                    document.getElementById('premiumMaxJobs').value = data.premium.maxJobs || '';
+                    document.getElementById('premiumMaxApplications').value = data.premium.maxApplications || '';
+                    document.getElementById('adminMaxJobs').value = data.admin.maxJobs || '';
+                    document.getElementById('adminMaxApplications').value = data.admin.maxApplications || '';
+                } else {
+                    showErrorMessage("No limits configuration found.");
+                }
+            }).catch(error => showErrorMessage("Error fetching limits configuration: " + error));
+
+            db.collection('settings').doc('notifications').get().then(doc => {
+                if (doc.exists) {
+                    const data = doc.data();
+                    document.getElementById('emailNotifications').value = data.emailNotifications || 'disabled';
+                    document.getElementById('smsNotifications').value = data.smsNotifications || 'disabled';
+                } else {
+                    showErrorMessage("No notification settings found.");
+                }
+            }).catch(error => showErrorMessage("Error fetching notification settings: " + error));
+        };
+
+        // Save General Settings
+        document.getElementById('generalSettingsForm').onsubmit = function(e) {
+            e.preventDefault();
+            const siteTitle = document.getElementById('siteTitle').value;
+            const siteDescription = document.getElementById('siteDescription').value;
+            const adminEmail = document.getElementById('adminEmail').value;
+
+            db.collection('settings').doc('general').set({
+                siteTitle: siteTitle,
+                siteDescription: siteDescription,
+                adminEmail: adminEmail
+            }).then(() => {
+                showSuccessMessage("General settings saved successfully!");
+                document.getElementById('generalSettingsForm').reset();
+            }).catch(error => showErrorMessage("Error saving general settings: " + error));
+        };
+
+        // Save Limits Configuration
+        document.getElementById('limitsForm').onsubmit = function(e) {
+            e.preventDefault();
+            const limitsData = {
+                free: {
+                    maxJobs: document.getElementById('freeMaxJobs').value,
+                    maxApplications: document.getElementById('freeMaxApplications').value,
+                },
+                premium: {
+                    maxJobs: document.getElementById('premiumMaxJobs').value,
+                    maxApplications: document.getElementById('premiumMaxApplications').value,
+                },
+                admin: {
+                    maxJobs: document.getElementById('adminMaxJobs').value,
+                    maxApplications: document.getElementById('adminMaxApplications').value,
+                }
+            };
+
+            db.collection('settings').doc('limits').set(limitsData)
+                .then(() => {
+                    showSuccessMessage("Limits configuration saved successfully!");
+                    document.getElementById('limitsForm').reset();
+                })
+                .catch(error => showErrorMessage("Error saving limits configuration: " + error));
+        };
+
+        // Save Notification Settings
+        document.getElementById('notificationSettingsForm').onsubmit = function(e) {
+            e.preventDefault();
+            const notificationData = {
+                emailNotifications: document.getElementById('emailNotifications').value,
+                smsNotifications: document.getElementById('smsNotifications').value,
+            };
+
+            db.collection('settings').doc('notifications').set(notificationData)
+                .then(() => {
+                    showSuccessMessage("Notification settings saved successfully!");
+                    document.getElementById('notificationSettingsForm').reset();
+                })
+                .catch(error => showErrorMessage("Error saving notification settings: " + error));
+        };
+
+        // Functions to display messages
+        function showSuccessMessage(message) {
+            const successMessage = document.getElementById('successMessage');
+            successMessage.style.display = 'block';
+            successMessage.innerText = message;
+            document.getElementById('errorMessage').style.display = 'none'; // hide error message
+        }
+
+        function showErrorMessage(message) {
+            const errorMessage = document.getElementById('errorMessage');
+            errorMessage.style.display = 'block';
+            errorMessage.innerText = message;
+            document.getElementById('successMessage').style.display = 'none'; // hide success message
+        }
+    </script>
+</body>
+</html>
