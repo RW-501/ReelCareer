@@ -184,37 +184,7 @@
 
    
 <script>
-        // Function to get URL parameters
-        function getUrlParameters() {
-        const params = new URLSearchParams(window.location.search);
-        return {
-            keyword: params.get('keyword') || '',
-            location: params.get('location') || '',
-            jobType: params.get('jobType') || '',
-            salary: params.get('salary') || ''
-        };
-    }
-
-    // Populate the search bar with URL parameters
-    function populateSearchBar() {
-        const { keyword, location, jobType, salary } = getUrlParameters();
-        if (keyword) {
-            document.getElementById('keywordInput').value = keyword;
-        }
-        if (location) {
-            document.getElementById('locationInput').value = location;
-        }
-        if (salary) {
-            document.getElementById('salaryInput').value = salary;
-        }
-        if (jobType) {
-            document.getElementById('jobTypeInput').value = jobType;
-        }
-    }
-
-    // Call populate function on page load
-    window.onload = populateSearchBar;
-
+       
  
 
     // Function to redirect user to the job details page with job ID in the URL
@@ -433,10 +403,49 @@ sponsorsQuery = query(sponsorsQuery, limit(20));
             document.head.appendChild(scriptTag); // Append schema markup to head
         }
 
+ // Function to get URL parameters
+ function getUrlParameters() {
+        const params = new URLSearchParams(window.location.search);
+        return {
+            keyword: params.get('keyword') || '',
+            location: params.get('location') || '',
+            jobType: params.get('jobType') || '',
+            salary: params.get('salary') || ''
+        };
+    }
+
+    
+
+    // Populate the search bar with URL parameters
+    function populateSearchBar() {
+      const   { keyword, location, jobType, salary } = getUrlParameters();
+
+        if (keyword) {
+            document.getElementById('keywordInput').value = keyword;
+        }
+        if (location) {
+            document.getElementById('locationInput').value = location;
+        }
+        if (salary) {
+            document.getElementById('salaryInput').value = salary;
+        }
+        if (jobType) {
+            document.getElementById('jobTypeInput').value = jobType;
+        }
+
+        if(keyword, location, jobType, salary ){
+            return  true;
+        }
+    }
         
         window.onload = async function() {
+            populateSearchBar();
+            if(populateSearchBar()){
+                getSearchResults();
+            }else{
             const jobListings = await fetchJobListings(); // Fetch the job listings
             displayJobListings(jobListings); // Display job listings
+            }
             generateSchemaMarkup(jobListings); // Generate structured data markup for SEO
 };
 
