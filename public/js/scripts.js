@@ -144,7 +144,7 @@ let suggestions, jobRequirementsSuggestions,
      const suggestionsMatch = scriptContent.match(/suggestions\s*=\s*(\[[\s\S]*?\]);/);
      if (suggestionsMatch) {
          // Evaluate the matched suggestions array string into an actual array
-         const suggestions = eval(suggestionsMatch[1]);
+          suggestions = eval(suggestionsMatch[1]);
          console.log("suggestions", suggestions); // Use suggestions after loading
      } else {
          console.error('Could not find suggestions array in the script content.');
