@@ -113,12 +113,12 @@ function restrictKeys(event) {
     }
 }
 
-
-fetch('/public/js/suggestions.js')
+//ReelCareer
+fetch('../public/js/suggestions.js')
     .then(response => {
         if (!response.ok) {
 
-            fetch('public/js/suggestions.js')
+            fetch('./public/js/suggestions.js')
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok: ' + response.statusText);
