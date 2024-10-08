@@ -405,19 +405,23 @@ sponsorsQuery = query(sponsorsQuery, limit(20));
             document.head.appendChild(scriptTag); // Append schema markup to head
         }
 
+function getSearchResults(){
+
+    console.log("getSearchResults");
+}
+
+
+
  // Function to get URL parameters
  function getUrlParameters() {
         const params = new URLSearchParams(window.location.search);
         return {
-            keyword: params.get('keyword') || '',
+            keywords: params.get('keywords') || '',
             location: params.get('location') || '',
             jobType: params.get('jobType') || '',
-            salary: params.get('salary') || ''
+            salaryRange: params.get('salaryRange') || ''
         };
     }
-
-    
-
     // Populate the search bar with URL parameters
     function populateSearchBar() {
       const   { keywords, location, jobType, salaryRange } = getUrlParameters();
@@ -435,19 +439,21 @@ sponsorsQuery = query(sponsorsQuery, limit(20));
             document.getElementById('jobTypeInput').value = jobType;
         }
 
-        if(keywords, location, jobType, salaryRange ){
-            return  true;
-        }
+    // Check if at least one parameter is filled
+    return keywords || location || jobType || salaryRange;
+
     }
         
         window.onload = async function() {
             populateSearchBar();
-            if(populateSearchBar()){
-                getSearchResults();
-            }else{
-            const jobListings = await fetchJobListings(); // Fetch the job listings
-            displayJobListings(jobListings); // Display job listings
-            }
+ // Determine if search parameters exist
+ if (populateSearchBar()) {
+        await getSearchResults(); // Assuming this function fetches and displays results based on search criteria
+    } else {
+        const jobListings = await fetchJobListings(); // Fetch the job listings
+        displayJobListings(jobListings); // Display job listings
+    }
+
             generateSchemaMarkup(jobListings); // Generate structured data markup for SEO
 };
 
