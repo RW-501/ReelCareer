@@ -175,7 +175,7 @@ function autoSuggest(input) {
 
 
 document.addEventListener('DOMContentLoaded', function() {
-    const keywordInput = document.getElementsByClassName('keywordInput');
+    const keywordInput = document.getElementsByClassName('keywordInput')[0];
 
     // Check if the input exists before adding the event listener
     if (keywordInput) {
