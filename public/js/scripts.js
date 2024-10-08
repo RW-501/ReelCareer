@@ -257,20 +257,20 @@ function autoSuggest(input) {
     const inputValue = input.value ? input.value.toLowerCase() : ''; // Check if input.value is defined
     console.log('Input Value:', inputValue); // Log the current input value
     let suggestion = '';
-
+/*
     // Check if the input is an HTMLInputElement
     if (!(input instanceof HTMLInputElement)) {
         console.error('Input is not a valid HTMLInputElement.');
         return; // Exit the function if input is not valid
     }
 
-
+*/
 
     // Find the first suggestion that starts with the input value
     for (let i = 0; i < suggestions.length; i++) {
         if (suggestions[i].toLowerCase().startsWith(inputValue)) {
             suggestion = suggestions[i];
-            console.log('Suggestion Found:', suggestion); // Log the found suggestion
+           // console.log('Suggestion Found:', suggestion); // Log the found suggestion
             break;
         }
     }
@@ -292,7 +292,7 @@ function autoSuggest(input) {
 
 
 document.addEventListener('DOMContentLoaded', function() {
-    const keywordInput = document.getElementById('keywordInput');
+    const keywordInput = document.getElementsByClassName('keywordInput');
 
     // Check if the input exists before adding the event listener
     if (keywordInput) {
@@ -302,7 +302,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
          //   console.log('Input Event Triggered.'); // Log when the input event is triggered
             if (e.inputType === 'deleteContentBackward') {
-                console.log('Backspace, Delete, ');
+               // console.log('Backspace, Delete, ');
             }else{
                 autoSuggest(this);
 
