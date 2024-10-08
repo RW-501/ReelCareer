@@ -211,7 +211,7 @@
 
 
             <!-- Checkbox for Job Preferences -->
-            <div class="col-md-12 mb-3">
+            <div class="col-md-4 mb-3">
                 <label class="form-label">Job Preferences</label>
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" value="immediateHire" id="immediateHire">
@@ -296,6 +296,7 @@
         const button = this;
         const isCollapsed = button.getAttribute('aria-expanded') === 'true';
         button.textContent = isCollapsed ? 'Show Filters' : 'Hide Filters';
+        console.log("????????????????");
     });
 
     // Save filters to local storage
