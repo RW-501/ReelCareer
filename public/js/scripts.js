@@ -275,5 +275,83 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-const userINFO = getUserInfo();
+
+/*
+
+// Example usage
+getUserIP().then(ip => {
+    getUserLocationByIP(ip).then(location => {
+        if (location) {
+            console.log(`City: ${location.city}, State: ${location.state}, ZIP Code: ${location.zip}`);
+        } else {
+            console.log("Could not retrieve location.");
+        }
+    });
+});
+
+*/
+// Simple encryption/decryption functions
+const secretKey = 'WeThaBest'; // Replace with your own secret key
+let userINFO = "";
+
+function encrypt(data) {
+    let encrypted = btoa(JSON.stringify(data));
+    return encrypted;
+}
+
+function decrypt(encryptedData) {
+    let decrypted = atob(encryptedData);
+    return JSON.parse(decrypted);
+}
+
+
+// Check Local Storage for User Location Data
+function checkLocalStorageForLocation() {
+    const storedData = localStorage.getItem('userLocation');
+    if (storedData) {
+        const decryptedData = decrypt(storedData);
+        return decryptedData; // Return the decrypted data
+    }
+    return null; // No data found
+}
+
+
+// Function to get user info and store it in local storage
+async function getUserInfo() {
+    let userLocation = checkLocalStorageForLocation();
+
+    if (!userLocation) {
+        // User location not found, retrieve it
+        const ip = await getUserIP();
+        if (!ip) {
+            console.error("Unable to retrieve IP address.");
+            return;
+        }
+
+        userLocation = await getUserLocationByIP(ip);
+        if (userLocation) {
+            console.log(`City: ${userLocation.city}, State: ${userLocation.state}, ZIP Code: ${userLocation.zip}`);
+
+            // Encrypt and store the data in local storage
+            const encryptedData = encrypt({
+                ip: ip,
+                city: userLocation.city,
+                state: userLocation.state,
+                zip: userLocation.zip
+            });
+            localStorage.setItem('userLocation', encryptedData);
+        } else {
+            console.log("Could not retrieve location.");
+        }
+    } else {
+        console.log(`Retrieved from Local Storage: City: ${userLocation.city}, State: ${userLocation.state}, ZIP Code: ${userLocation.zip}`);
+    }
+    userINFO = userLocation
+
+    return userINFO;
+}
+
+getUserInfo();
+
+
 console.log("userINFO  ",userINFO);
