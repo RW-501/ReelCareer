@@ -128,11 +128,9 @@ if (currentPage.includes("/ReelCareer/public")) {
 if (currentPage.includes("/ReelCareer/views")) {
     adjustLinkURL = "/ReelCareer/views/";
 }
-console.log("nav currentPage   ",currentPage);
-console.log("nav isHomePage   ",isHomePage);
-console.log("nav adjustLinkURL   ",adjustLinkURL);
 
-console.log("nav adjustLinkHomeURL   ",adjustLinkHomeURL);
+let suggestions, jobRequirementsSuggestions,
+ locationsSuggestions, citySuggestions, stateSuggestions;
 
 fetch(adjustLinkHomeURL+"public/js/suggestions.js")
     .then(response => {
@@ -142,9 +140,16 @@ fetch(adjustLinkHomeURL+"public/js/suggestions.js")
         }
         return response.text();
     })
-    .then(suggestions => {
-        eval(suggestions);
-        console.log("sug 4", suggestions); // Use suggestions after loading
+    .then(scriptContent => {
+        // Use a regular expression to extract the array from the string
+        const suggestionsMatch = scriptContent.match(/suggestions\s*=\s*\[(.*)\];/);
+        if (suggestionsMatch) {
+            // Parse the suggestions array
+             suggestions = JSON.parse("[" + suggestionsMatch[1] + "]");
+            console.log("suggestions", suggestions); // Use suggestions after loading
+        } else {
+            console.error('Could not find suggestions array in the script content.');
+        }
     })
     .catch(error => {
         console.error('There was a problem with the fetch operation:', error);

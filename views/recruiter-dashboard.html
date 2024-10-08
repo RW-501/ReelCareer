@@ -687,7 +687,7 @@ checkUserMembershipAndBoostCount(userId).then(result => {
 
 // Function to show the Boost Job Post popup
 const showBoostJobPostPopup = async (userId) => {
-    const userInfo = await checkUserMembershipAndBoostCount(userId); // Reuse the function created earlier
+  //  const userInfo = await checkUserMembershipAndBoostCount(userId); // Reuse the function created earlier
     document.getElementById("membershipType").textContent = `Membership Type: ${userInfo.membershipType}`;
     document.getElementById("jobBoostCount").textContent = `Job Boost Count: ${userInfo.jobPostBoostCount}`;
 
