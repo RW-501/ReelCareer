@@ -281,7 +281,7 @@ function autoSuggest(input) {
        
         input.value = suggestion; // Temporarily set the input value to the suggestion
        input.selectionStart = inputValue.length; // Set the selection start after the typed characters
-        input.selectionEnd = suggestion.length; // Set the selection end to the suggestion length
+       input.selectionEnd = suggestion.length; // Set the selection end to the suggestion length
         console.log('Input Updated to Suggestion:', input.value); // Log the updated input value
     } else {
         console.log('No suggestion available.'); // Log when no suggestion is found
@@ -296,9 +296,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Check if the input exists before adding the event listener
     if (keywordInput) {
-        keywordInput.addEventListener('input', function() {
+        keywordInput.addEventListener('input', function(e) {
             console.log('Input Event Triggered.'); // Log when the input event is triggered
-           // autoSuggest(this);
+            if (e.key === 'Backspace' || e.key === 'Delete') {
+                console.log('Backspace, Delete, ');
+            }else{
+                autoSuggest(this);
+
+            }
+ 
         });
 
         keywordInput.addEventListener('keydown', function(e) {
