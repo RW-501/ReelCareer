@@ -300,9 +300,11 @@ document.addEventListener('DOMContentLoaded', function() {
             const inputValue = this.value ? this.value.toLowerCase() : ''; // Check if this.value is defined
             console.log('Key Down Event Triggered. Input Value:', inputValue); // Log the input value on key down
 
-            if (suggestion && suggestion.toLowerCase().startsWith(inputValue)) {
-                if (e.key === 'Tab' || e.key === 'Enter') {
-                    e.preventDefault();
+            // Allow Backspace, Delete, and other keys to function normally
+            if (e.key === 'Tab' || e.key === 'Enter') {
+                // Prevent default only for Tab and Enter keys
+                e.preventDefault();
+                if (suggestion && suggestion.toLowerCase().startsWith(inputValue)) {
                     this.value = suggestion;
                     this.setSelectionRange(suggestion.length, suggestion.length);
                     console.log('Suggestion Selected:', suggestion); // Log when a suggestion is selected
@@ -313,7 +315,6 @@ document.addEventListener('DOMContentLoaded', function() {
         console.error('Keyword Input Not Found!'); // Log an error if the input is not found
     }
 });
-
 
 
 /*
