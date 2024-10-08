@@ -319,6 +319,7 @@ async function fetchJobListings(page = 1) {
 
     window.onscroll = debouncedScrollListener;
 
+    let userInterest1, userInterest2, userInterest3;
     let excludedIds = []; // Replace with your actual IDs
     let userInterests = [userInterest1, userInterest2, userInterest3].filter(Boolean); // Ensure userInterests is an array
 
