@@ -263,6 +263,14 @@ function autoSuggest(input) {
     console.log('Input Value:', inputValue); // Log the current input value
     let suggestion = '';
 
+    // Check if the input is an HTMLInputElement
+    if (!(input instanceof HTMLInputElement)) {
+        console.error('Input is not a valid HTMLInputElement.');
+        return; // Exit the function if input is not valid
+    }
+
+
+
     // Find the first suggestion that starts with the input value
     for (let i = 0; i < suggestions.length; i++) {
         if (suggestions[i].toLowerCase().startsWith(inputValue)) {
@@ -275,6 +283,7 @@ function autoSuggest(input) {
     if (suggestion && inputValue !== '') {
         // If a suggestion is found and input isn't empty
         input.setAttribute('data-suggestion', suggestion); // Set a custom data attribute for handling auto-suggestion
+       
         input.value = suggestion; // Temporarily set the input value to the suggestion
        input.selectionStart = inputValue.length; // Set the selection start after the typed characters
         input.selectionEnd = suggestion.length; // Set the selection end to the suggestion length
