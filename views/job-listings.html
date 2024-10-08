@@ -24,6 +24,7 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- Custom CSS
     <link rel="stylesheet" href="public/css/styles.css">
@@ -296,7 +297,7 @@
         const button = this;
         const isCollapsed = button.getAttribute('aria-expanded') === 'true';
         button.textContent = isCollapsed ? 'Show Filters' : 'Hide Filters';
-        console.log("????????????????");
+        console.log("Button clicked. Current state: ", button.textContent);
     });
 
     // Save filters to local storage
