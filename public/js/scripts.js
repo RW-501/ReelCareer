@@ -297,6 +297,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // Check if the input exists before adding the event listener
     if (keywordInput) {
         keywordInput.addEventListener('input', function(e) {
+            
+            console.log(keywordInput.event,' event, ', e);
+
             console.log('Input Event Triggered.'); // Log when the input event is triggered
             if (e.key === 'Backspace' || e.key === 'Delete') {
                 console.log('Backspace, Delete, ');
