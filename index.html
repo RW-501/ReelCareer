@@ -116,8 +116,10 @@
 
     <title>ReelCareer - Find Your Dream Job</title>
 
-      <!-- Bootstrap CSS -->
-      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+   <!-- Bootstrap JS and dependencies -->
+     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
  
     <!-- Custom CSS -->
     <link rel="stylesheet" href="public/css/styles.css">
@@ -294,166 +296,91 @@
     import { db, storage, analytics, app  } from './public/js/main.js'; // Adjust the path based on your structure
     import { query, where, orderBy, limit,  collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 
+
+
+
+
         // Function to fetch job listings and sponsors
-        async function fetchJobListings() {
-            const jobListingsContainer = document.getElementById('jobListings');
-            const loadingIndicator = document.getElementById('loadingIndicator');
-            const errorIndicator = document.getElementById('errorIndicator');
-        
-            loadingIndicator.style.display = 'block'; // Show loading indicator
-            errorIndicator.style.display = 'none'; // Hide error indicator
+        async function fetchJobListings(page = 1) {
+    const jobListingsContainer = document.getElementById('jobListings');
+    const loadingIndicator = document.getElementById('loadingIndicator');
+    const errorIndicator = document.getElementById('errorIndicator');
 
-            window.onscroll = function() {
-    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-        fetchJobListings(nextPage); // Fetch next set of job listings when reaching the bottom
-    }
-};
+    loadingIndicator.style.display = 'block'; // Show loading indicator
+    errorIndicator.style.display = 'none'; // Hide error indicator
 
+    console.log("Scrolling???");
+    let isFetching = false;
 
-
-let userInterests = [];
-
-let userInterest1, userInterest2, userInterest3; 
- userInterests = userInterest1 + userInterest2 + userInterest3; 
-// Assume excludedIds is an array of IDs to exclude
-const excludedIds = ['id1', 'id2', 'id3']; // Replace with your actual IDs
-
-            try {
-// Create the base query for Jobs
-let jobsQuery = query(collection(db, 'Jobs'));
-// Adding dynamic filters based on userINFO
-if (userINFO.city) { 
-    jobsQuery = query(jobsQuery, where('city', '==', userINFO.city));
-}
-if (userINFO.state) {
-    jobsQuery = query(jobsQuery, where('state', '==', userINFO.state));
-}
-if (userInterests.length > 0) {
-    jobsQuery = query(jobsQuery, where('tags', 'array-contains-any', userInterests));
-}
-
-// Exclude specified IDs
-jobsQuery = query(jobsQuery, where('id', 'not-in', excludedIds));
-
-// Common conditions
-jobsQuery = query(jobsQuery, where('status', '==', 'active'));
-
-// Sort by createdAt in descending order
-jobsQuery = query(jobsQuery, orderBy('createdAt', 'desc'));
-
-// Limit the results
-jobsQuery = query(jobsQuery, limit(20));
-
-        const jobListingsSnapshot = await getDocs(jobsQuery);
-
-// Base query for Sponsors
-let sponsorsQuery = query(collection(db, 'Jobs'));
-
-// Adding dynamic filters based on userINFO
-if (userINFO.state) {
-    sponsorsQuery = query(sponsorsQuery, where('state', '==', userINFO.state));
-}
-if (userINFO.country) {
-    sponsorsQuery = query(sponsorsQuery, where('country', '==', userINFO.country));
-}
-if (userInterests.length > 0) {
-    sponsorsQuery = query(sponsorsQuery, where('tags', 'array-contains-any', userInterests));
-}
-
-// Exclude specified IDs (if necessary; adjust if IDs are applicable for Sponsors)
-sponsorsQuery = query(sponsorsQuery, where('id', 'not-in', excludedIds));
-
-// Common conditions
-sponsorsQuery = query(sponsorsQuery, where('status', '==', 'active'), where('boosted', 'in', ['Yes', 'Active']));
-
-// Sort by createdAt in descending order
-sponsorsQuery = query(sponsorsQuery, orderBy('createdAt', 'desc'));
-
-// Limit the results
-sponsorsQuery = query(sponsorsQuery, limit(20));
-
-// Fetch sponsors
-const sponsorsSnapshot = await getDocs(sponsorsQuery);
-
-        
-                const sponsors = [];
-
-                sponsorsSnapshot.forEach(doc => {
-
-            if (jobListingsSnapshot.boosted === true) {
-                sponsors.push({
-                id: doc.id, // Include document ID
-                title: data.title,
-                description: data.description,
-                datePosted: data.datePosted,
-                organization: data.organization,
-                location: data.location,
-                employmentType: data.employmentType,
-                baseSalary: data.baseSalary,
-                validThrough: data.validThrough,
-                url: data.url
-            });
-
+    // Optimize scroll listener with debouncing
+    window.onscroll = function() {
+        if (isFetching) return;
+        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+            isFetching = true;
+            fetchJobListings(page + 1); // Fetch next page of job listings when reaching the bottom
         }
-           
-    });
+    };
 
+    let excludedIds = []; // Replace with your actual IDs
+    let userInterests = [userInterest1, userInterest2, userInterest3].filter(Boolean); // Ensure userInterests is an array
 
-                jobListingsContainer.innerHTML = ''; // Clear previous listings
-        
-                jobListingsSnapshot.forEach(doc => {
-                    const job = { id: doc.id, ...doc.data() };
-                 
+    try {
+        // Create the base query for Jobs
+        let jobsQuery = collection(db, 'Jobs');
 
-                    // Create job card
-                    const jobCard = document.createElement('div');
-jobCard.className = 'col-md-4 mb-4';
-jobCard.innerHTML = `
-    <div class="card h-100 shadow-sm">
-        <div class="card-body">
-            <h5 class="card-title">${job.title}</h5>
-            <p class="card-text text-muted">${truncateText(job.description, 100)}</p>
-            <p class="card-text"><strong>Company:</strong> ${job.company}</p>
-            <p class="card-text"><strong>Location:</strong> ${job.location ? job.location : 'Not specified'}</p>
-            <p class="card-text"><strong>Salary:</strong> $${job.salary}</p>
-            <a href="views/job-detail.html?id=${job.id}" class="btn btn-primary w-100 mt-3">View Details</a>
-        </div>
-    </div>
-`;
-jobListingsContainer.appendChild(jobCard);
+        // Adding dynamic filters based on userINFO
+        if (userINFO.city) jobsQuery = query(jobsQuery, where('city', '==', userINFO.city));
+        if (userINFO.state) jobsQuery = query(jobsQuery, where('state', '==', userINFO.state));
+        if (userInterests.length > 0) jobsQuery = query(jobsQuery, where('tags', 'array-contains-any', userInterests));
 
+        // Exclude specified IDs
+        if (excludedIds.length > 0) jobsQuery = query(jobsQuery, where('id', 'not-in', excludedIds));
 
-// Add sponsors to the bottom of the job listings
-if (sponsors.length > 0) {
-    if(!sponsor.logoUrl){let sponsorlogoUrl = "/ReelCareer/images/favicons/android-chrome-512x512.png"; 
-    }else{sponsorlogoUrl = sponsor.logoUrl }
-    const sponsorSection = document.createElement('div');
-    sponsorSection.className = 'col-12 mt-4';
-    sponsorSection.innerHTML = `
-        <h5 class="text-center mb-4">Our Sponsors</h5>
-        <div class="row">
-            ${sponsors.map(sponsor => `
-                <div class="col-md-4">
-                    <div class="card h-100 shadow-sm">
-                        <img class="card-img-top" src="${sponsorlogoUrl}" alt="${sponsor.name}">
-                        <div class="card-body">
-                            <h6 class="card-title">${sponsor.name}</h6>
-                            <p class="card-text text-muted">${truncateText(sponsor.description, 80)}</p>
-                            <a href="${sponsor.website}" class="btn btn-outline-primary w-100" target="_blank">Visit Website</a>
-                        </div>
+        // Common conditions
+        jobsQuery = query(jobsQuery, where('status', '==', 'active'));
+
+        // Sort by createdAt in descending order
+        jobsQuery = query(jobsQuery, orderBy('createdAt', 'desc'));
+
+        // Limit the results (for pagination)
+        jobsQuery = query(jobsQuery, limit(20));
+
+        console.log("jobsQuery??? ", jobsQuery);
+
+        // Fetch job listings
+        const jobListingsSnapshot = await getDocs(jobsQuery);
+        console.log("jobListingsSnapshot??? ", jobListingsSnapshot);
+
+        jobListingsContainer.innerHTML = ''; // Clear previous listings
+
+        jobListingsSnapshot.forEach(doc => {
+            const job = { id: doc.id, ...doc.data() };
+            console.log("doc??? ", doc);
+
+            // Create job card
+            const jobCard = document.createElement('div');
+            jobCard.className = 'col-md-4 mb-4';
+            jobCard.innerHTML = `
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">${job.title}</h5>
+                        <p class="card-text text-muted">${truncateText(job.description, 100)}</p>
+                        <p class="card-text"><strong>Company:</strong> ${job.company}</p>
+                        <p class="card-text"><strong>Location:</strong> ${job.location ? job.location : 'Not specified'}</p>
+                        <p class="card-text"><strong>Salary:</strong> $${job.salary}</p>
+                        <a href="views/job-detail.html?id=${job.id}" class="btn btn-primary w-100 mt-3">View Details</a>
                     </div>
                 </div>
-            `).join('')}
-        </div>
-    `;
-    jobListingsContainer.appendChild(sponsorSection);
-}
+            `;
+            jobListingsContainer.appendChild(jobCard);
+        });
 
-      
-});
+        // Sponsor logic
+        const sponsors = await fetchSponsors(excludedIds);
+        addSponsorSection(sponsors, jobListingsContainer);
 
-// Add "Load More" button for Pagination
-const loadMoreButton = document.createElement('button');
+        // Add "Load More" button for Pagination
+        const loadMoreButton = document.createElement('button');
         loadMoreButton.className = 'btn btn-primary w-100 mt-4';
         loadMoreButton.innerText = 'Load More Jobs';
         loadMoreButton.onclick = () => fetchJobListings(page + 1); // Fetch next page of jobs
@@ -464,8 +391,70 @@ const loadMoreButton = document.createElement('button');
         errorIndicator.style.display = 'block'; // Show error indicator
     } finally {
         loadingIndicator.style.display = 'none'; // Hide loading indicator
+        isFetching = false;
     }
 }
+
+async function fetchSponsors(excludedIds) {
+    let sponsorsQuery = query(collection(db, 'Jobs'));
+
+    // Adding filters for sponsors
+    if (userINFO.state) sponsorsQuery = query(sponsorsQuery, where('state', '==', userINFO.state));
+    if (userINFO.country) sponsorsQuery = query(sponsorsQuery, where('country', '==', userINFO.country));
+
+    // Exclude IDs
+    if (excludedIds.length > 0) sponsorsQuery = query(sponsorsQuery, where('id', 'not-in', excludedIds));
+
+    // Filter by status and boost
+    sponsorsQuery = query(sponsorsQuery, where('status', '==', 'active'), where('boosted', 'in', ['Yes', 'Active']));
+    sponsorsQuery = query(sponsorsQuery, orderBy('createdAt', 'desc'), limit(20));
+
+    console.log("sponsorsQuery??? ", sponsorsQuery);
+
+    const sponsorsSnapshot = await getDocs(sponsorsQuery);
+    const sponsors = [];
+
+    sponsorsSnapshot.forEach(doc => {
+        const sponsor = { id: doc.id, ...doc.data() };
+        console.log("sponsor??? ", sponsor);
+
+        if (sponsor.boosted) {
+            sponsors.push(sponsor);
+        }
+    });
+
+    return sponsors;
+}
+
+function addSponsorSection(sponsors, container) {
+    if (sponsors.length > 0) {
+        const sponsorSection = document.createElement('div');
+        sponsorSection.className = 'col-12 mt-4';
+        sponsorSection.innerHTML = `
+            <h5 class="text-center mb-4">Our Sponsors</h5>
+            <div class="row">
+                ${sponsors.map(sponsor => `
+                    <div class="col-md-4">
+                        <div class="card h-100 shadow-sm">
+                            <img class="card-img-top" src="${sponsor.logoUrl || '/ReelCareer/images/favicons/android-chrome-512x512.png'}" alt="${sponsor.name}">
+                            <div class="card-body">
+                                <h6 class="card-title">${sponsor.name}</h6>
+                                <p class="card-text text-muted">${truncateText(sponsor.description, 80)}</p>
+                                <a href="${sponsor.website}" class="btn btn-outline-primary w-100" target="_blank">Visit Website</a>
+                            </div>
+                        </div>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+        container.appendChild(sponsorSection);
+    }
+}
+
+
+
+
+
 
 // Truncate text function
 function truncateText(text, maxLength) {
@@ -510,10 +499,6 @@ function truncateText(text, maxLength) {
         
 
 
-    <!-- Bootstrap JS and dependencies -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 
 </html>

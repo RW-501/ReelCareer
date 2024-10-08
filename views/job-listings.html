@@ -480,11 +480,11 @@ function showJobDetailsFunc(jobId) {
 
 
    let userInterests = [];
+   let excludedIds = []; // Replace with your actual IDs
 
 let userInterest1, userInterest2, userInterest3; 
  userInterests = userInterest1 + userInterest2 + userInterest3; 
 // Assume excludedIds is an array of IDs to exclude
-const excludedIds = ['id1', 'id2', 'id3']; // Replace with your actual IDs
 
         // Function to fetch job listings from Firestore
         async function fetchJobListings() {
