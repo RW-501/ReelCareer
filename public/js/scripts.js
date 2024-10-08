@@ -276,11 +276,13 @@ function autoSuggest(input) {
         // If a suggestion is found and input isn't empty
         input.setAttribute('data-suggestion', suggestion); // Set a custom data attribute for handling auto-suggestion
         input.value = suggestion; // Temporarily set the input value to the suggestion
-        input.selectionStart = inputValue.length; // Set the selection start after the typed characters
+       input.selectionStart = inputValue.length; // Set the selection start after the typed characters
         input.selectionEnd = suggestion.length; // Set the selection end to the suggestion length
         console.log('Input Updated to Suggestion:', input.value); // Log the updated input value
     } else {
         console.log('No suggestion available.'); // Log when no suggestion is found
+        input.removeAttribute('data-suggestion'); // Remove suggestion if none found
+
     }
 }
 
