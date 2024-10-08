@@ -229,7 +229,7 @@
 
 
             <!-- Job Posting Date -->
-            <div class="col-md-4 mb-3">
+            <div class="col-8 .col-sm-6">
                 <label for="postingDate" class="form-label">Job Posting Date</label>
                 <select class="form-select" id="postingDate">
                     <option value="">Any Date</option>
@@ -241,7 +241,7 @@
             </div>
 
             <!-- Education Level -->
-            <div class="col-md-4 mb-3">
+            <div class="col-8 .col-sm-6">
                 <label for="education" class="form-label">Education Level <small class="text-muted">Education Level</small></label>
                 <select id="education" class="form-select" >
                     <option value="highSchool">High School</option>
@@ -254,7 +254,7 @@
             </div>
 
             <!-- Years of Experience -->
-            <div class="col-md-4 mb-3">
+            <div class="col-8 .col-sm-6">
                 <label for="experience" class="form-label">Years of Experience <small class="text-muted">(Optional)</small></label>
                 <select id="experience" class="form-select" >
                     <option value="0-1">0-1 years</option>
@@ -297,7 +297,7 @@
         const button = this;
         const isCollapsed = button.getAttribute('aria-expanded') === 'true';
         button.textContent = isCollapsed ? 'Show Filters' : 'Hide Filters';
-        console.log("Button clicked. Current state: ", button.textContent);
+      //  console.log("Button clicked. Current state: ", button.textContent);
     });
 
     // Save filters to local storage
