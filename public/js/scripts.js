@@ -275,5 +275,5 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
-userINFO = getUserInfo();
+const userINFO = getUserInfo();
 console.log("userINFO  ",userINFO);
