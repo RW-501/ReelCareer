@@ -142,8 +142,8 @@ fetch(adjustLinkHomeURL+"public/js/suggestions.js")
         }
         return response.text();
     })
-    .then(scriptContent => {
-        eval(scriptContent);
+    .then(suggestions => {
+        eval(suggestions);
         console.log("sug 4", suggestions); // Use suggestions after loading
     })
     .catch(error => {
