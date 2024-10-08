@@ -159,7 +159,7 @@ fetch(adjustLinkHomeURL + "public/js/suggestions.json")
 
 
 
-
+let suggestions = "";
 
     let suggestion = '';
 
@@ -170,6 +170,7 @@ fetch(adjustLinkHomeURL + "public/js/suggestions.json")
         // Find the first suggestion that starts with the input value
         for (let i = 0; i < suggestionsArray.length; i++) {
             if (suggestionsArray[i].toLowerCase().startsWith(inputValue)) {
+                suggestions = suggestionsArray;
                 suggestion = suggestionsArray[i];
                 // console.log('Suggestion Found:', suggestion); // Log the found suggestion
                 break;
