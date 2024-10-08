@@ -514,7 +514,7 @@ function addQuestionField() {
     // Add the input field for the question
     const questionInput = document.createElement('input');
     questionInput.type = 'text';
-    questionInput.className ="form-control mb-2 btn btn-secondary";
+    questionInput.className ="form-control mb-2 btn ";
 
     questionInput.placeholder = `Enter question ${questionCounter}`;
     questionInput.name = `question-${questionCounter}-text`;
@@ -592,7 +592,7 @@ function addStatement(questionDiv) {
     // Add inline styles
     statementTextArea.style.width = "100%"; // Full width
     statementTextArea.style.padding = "1rem"; // Padding
-    statementTextArea.style.margin = "0 1rem"; // Horizontal margin
+    statementTextArea.style.margin = "1rem 1rem"; // Horizontal margin
     statementTextArea.style.border = "1px solid #ced4da"; // Border color matching Bootstrap
     statementTextArea.style.borderRadius = "0.25rem"; // Border radius matching Bootstrap
     statementTextArea.style.resize = "none"; // Prevent resizing

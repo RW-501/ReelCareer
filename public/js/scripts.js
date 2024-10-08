@@ -118,8 +118,8 @@ const currentPage = window.location.pathname;
 const isHomePage = currentPage === '/ReelCareer/index.html' || currentPage === '/ReelCareer/' || currentPage === '' || currentPage === '/';
 
 // Adjust hrefs based on the root page
- adjustLinkURL = (isHomePage) ? '/ReelCareer/views/' || '/ReelCareer/public/' : '';
- adjustLinkHomeURL = (isHomePage) ? '' : '/ReelCareer/';
+let  adjustLinkURL = (isHomePage) ? '/ReelCareer/views/' || '/ReelCareer/public/' : '';
+ let adjustLinkHomeURL = (isHomePage) ? '' : '/ReelCareer/';
 if (currentPage.includes("/ReelCareer/public")) {
     adjustLinkURL = "/ReelCareer/public/";
     } 
@@ -128,7 +128,12 @@ if (currentPage.includes("/ReelCareer/public")) {
 if (currentPage.includes("/ReelCareer/views")) {
     adjustLinkURL = "/ReelCareer/views/";
 }
-//ReelCareer
+console.log("nav currentPage   ",currentPage);
+console.log("nav isHomePage   ",isHomePage);
+console.log("nav adjustLinkURL   ",adjustLinkURL);
+
+console.log("nav adjustLinkHomeURL   ",adjustLinkHomeURL);
+
 fetch(adjustLinkHomeURL+"public/js/suggestions.js")
     .then(response => {
         if (!response.ok) {
