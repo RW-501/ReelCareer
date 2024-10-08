@@ -585,9 +585,10 @@ function addStatement(questionDiv) {
     // Create a textarea for a statement-type question
     const statementTextArea = document.createElement('textarea');
     statementTextArea.placeholder = 'Enter statement response';
+    statementTextArea.className ="form-control w-100 p-3 mx-4";
+
     questionDiv.appendChild(statementTextArea);
 }
-
 
 
 // Function to collect custom questions and their options
