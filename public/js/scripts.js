@@ -273,31 +273,7 @@ fetch(adjustLinkHomeURL + "public/js/suggestions.json")
     }
     
     
-/*
- const keywordInput = document.getElementsByClassName('keywordInput')[0]; // Assuming there's only one keyword input
-    
-        // Check if the input exists before adding the event listener
-        if (keywordInput) {
-            keywordInput.addEventListener('input', function(e) {
-                // Check for backspace input type to avoid suggesting during deletion
-                if (e.inputType !== 'deleteContentBackward') {
-                    autoSuggest(this, suggestions); // Use suggestions array here
-                }
-            });
 
-
-// Example usage
-getUserIP().then(ip => {
-    getUserLocationByIP(ip).then(location => {
-        if (location) {
-            console.log(`City: ${location.city}, State: ${location.state}, ZIP Code: ${location.zip}`);
-        } else {
-            console.log("Could not retrieve location.");
-        }
-    });
-});
-
-*/
 // Simple encryption/decryption functions
 const secretKey = 'WeThaBest'; // Replace with your own secret key
 let userINFO = "";
