@@ -112,26 +112,26 @@ function restrictKeys(event) {
         event.preventDefault();
     }
 }
+const currentPage = window.location.pathname;
 
+// Define if the root is at the home page or deeper directories
+const isHomePage = currentPage === '/ReelCareer/index.html' || currentPage === '/ReelCareer/' || currentPage === '' || currentPage === '/';
+
+// Adjust hrefs based on the root page
+ adjustLinkURL = (isHomePage) ? '/ReelCareer/views/' || '/ReelCareer/public/' : '';
+ adjustLinkHomeURL = (isHomePage) ? '' : '/ReelCareer/';
+if (currentPage.includes("/ReelCareer/public")) {
+    adjustLinkURL = "/ReelCareer/public/";
+    } 
+
+// Check if "/ReelCareer/view" is in the URL
+if (currentPage.includes("/ReelCareer/views")) {
+    adjustLinkURL = "/ReelCareer/views/";
+}
 //ReelCareer
-fetch(window.location.pathname+"../public/js/suggestions.js")
+fetch(adjustLinkHomeURL+"public/js/suggestions.js")
     .then(response => {
         if (!response.ok) {
-
-            fetch(window.location.pathname+"/public/js/suggestions.js")
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok: ' + response.statusText);
-                }
-                return response.text();
-            })
-            .then(scriptContent => {
-                eval(scriptContent);
-                console.log("sug 4", suggestions); // Use suggestions after loading
-            })
-            .catch(error => {
-                console.error('There was a problem with the fetch operation:', error);
-            });
         
             throw new Error('Network response was not ok: ' + response.statusText);
         }
