@@ -129,30 +129,33 @@ if (currentPage.includes("/ReelCareer/views")) {
     adjustLinkURL = "/ReelCareer/views/";
 }
 
-let suggestions, jobRequirementsSuggestions,
- locationsSuggestions, citySuggestions, stateSuggestions;
+let suggestions, jobRequirementsSuggestions, locationsSuggestions, citySuggestions, stateSuggestions;
 
- fetch(adjustLinkHomeURL + "public/js/suggestions.js")
- .then(response => {
-     if (!response.ok) {
-         throw new Error('Network response was not ok: ' + response.statusText);
-     }
-     return response.text();
- })
- .then(scriptContent => {
-     // Regular expression to match the entire suggestions array, not just the inner elements
-     const suggestionsMatch = scriptContent.match(/suggestions\s*=\s*(\[[\s\S]*?\]);/);
-     if (suggestionsMatch) {
-         // Evaluate the matched suggestions array string into an actual array
-          suggestions = eval(suggestionsMatch[1]);
-         console.log("suggestions", suggestions); // Use suggestions after loading
-     } else {
-         console.error('Could not find suggestions array in the script content.');
-     }
- })
- .catch(error => {
-     console.error('There was a problem with the fetch operation:', error);
- });
+fetch(adjustLinkHomeURL + "public/js/suggestions.json")
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok: ' + response.statusText);
+        }
+        return response.json();  // Parse the JSON response
+    })
+    .then(data => {
+        // Assign the fetched data to your variables
+        suggestions = data.suggestions;
+        jobRequirementsSuggestions = data.jobRequirementsSuggestions;
+        locationsSuggestions = data.locationsSuggestions;
+        citySuggestions = data.citySuggestions;
+        stateSuggestions = data.stateSuggestions;
+
+        console.log("Suggestions:", suggestions);
+        console.log("Job Requirements Suggestions:", jobRequirementsSuggestions);
+        console.log("Locations Suggestions:", locationsSuggestions);
+        console.log("City Suggestions:", citySuggestions);
+        console.log("State Suggestions:", stateSuggestions);
+    })
+    .catch(error => {
+        console.error('There was a problem with the fetch operation:', error);
+    });
+
 
 
 
