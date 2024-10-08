@@ -117,14 +117,14 @@ function restrictKeys(event) {
 
 
 
-fetch('./suggestions.js')
+fetch('../public/js/suggestions.js')
     .then(response => response.text())
     .then(scriptContent => {
         eval(scriptContent);
         console.log("sug 3",suggestions); // Use suggestions after loading
     });
 
-    fetch('/suggestions.js')
+    fetch('suggestions.js')
     .then(response => response.text())
     .then(scriptContent => {
         eval(scriptContent);
