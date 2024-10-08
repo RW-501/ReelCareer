@@ -14,7 +14,58 @@ function addStyles() {
 }
 
 
+@media (max-width: 768px) {
+    .navbar-brand {
+        font-size: 1.2rem; /* Increase the brand text size on mobile */
+    }
 
+    .nav-link {
+        font-size: 0.9rem; /* Decrease the nav link text size */
+    }
+
+    .company-media img {
+        width: 100%; /* Make company media images responsive */
+        height: auto; /* Maintain aspect ratio */
+    }
+
+    /* Adjust video size on mobile */
+    video {
+        width: 100%;
+        height: auto;
+    }
+}
+@media (max-width: 768px) {
+    body {
+        font-size: 14px; /* Smaller text on mobile */
+    }
+
+    .navbar {
+        flex-direction: column; /* Stack navbar items */
+    }
+}
+
+@media (max-width: 576px) {
+    .navbar-brand {
+        font-size: 1.5rem; /* Adjust brand size */
+    }
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+button, .nav-link {
+    padding: 10px 15px;
+    font-size: 16px;
+}
+
+        
+    footer {
+        margin-top: 50px;
+    }
+    footer p {
+        margin-bottom: 0;
+    }
     `;
     document.head.appendChild(style);
 }

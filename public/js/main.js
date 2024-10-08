@@ -323,91 +323,6 @@ const closeLoginPopup = () => {
     }
 };
 
-// Call this function to check login state
-// checkUserLoggedIn();
-
-
-
-
-
-
-
-
-
-
-
-
-
-// Function to inject CSS styles into the document
-function addStyles() {
-    const style = document.createElement('style');
-    style.type = 'text/css';
-    style.innerHTML = `
-        /* General Styles */
-
-        
-
-
-/* Custom styles for mobile responsiveness */
-@media (max-width: 768px) {
-    .navbar-brand {
-        font-size: 1.2rem; /* Increase the brand text size on mobile */
-    }
-
-    .nav-link {
-        font-size: 0.9rem; /* Decrease the nav link text size */
-    }
-
-    .company-media img {
-        width: 100%; /* Make company media images responsive */
-        height: auto; /* Maintain aspect ratio */
-    }
-
-    /* Adjust video size on mobile */
-    video {
-        width: 100%;
-        height: auto;
-    }
-}
-@media (max-width: 768px) {
-    body {
-        font-size: 14px; /* Smaller text on mobile */
-    }
-
-    .navbar {
-        flex-direction: column; /* Stack navbar items */
-    }
-}
-
-@media (max-width: 576px) {
-    .navbar-brand {
-        font-size: 1.5rem; /* Adjust brand size */
-    }
-}
-
-img {
-    max-width: 100%;
-    height: auto;
-}
-button, .nav-link {
-    padding: 10px 15px;
-    font-size: 16px;
-}
-
-        
-    footer {
-        margin-top: 50px;
-    }
-    footer p {
-        margin-bottom: 0;
-    }
-    `;
-    document.head.appendChild(style);
-}
-
-// Call the function to add styles when the document is ready
-document.addEventListener('DOMContentLoaded', addStyles);
-
 
 
 
@@ -493,11 +408,13 @@ document.addEventListener("DOMContentLoaded", function () {
     function createNavbar() {
         const navbarClass = (isHomePage) ?   'navbar-light bg-light' : 'navbar-dark bg-primary ';
         
-        console.log("nav currentPage   ",currentPage);
+      /*  console.log("nav currentPage   ",currentPage);
         console.log("nav isHomePage   ",isHomePage);
         console.log("nav adjustLinkURL   ",adjustLinkURL);
         console.log("nav navbarClass   ",navbarClass);
         console.log("nav adjustLinkHomeURL   ",adjustLinkHomeURL);
+
+        */
         return `
             <nav class="navbar navbar-expand-lg ${navbarClass}  shadow-sm sticky-top" role="navigation">
                 <div class="container">
