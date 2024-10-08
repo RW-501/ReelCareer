@@ -14,7 +14,7 @@
 // Bootstrap CSS 
 //import 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css';
 
-/*
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
 import { getAuth, signInWithPopup, GoogleAuthProvider, FacebookAuthProvider, OAuthProvider, signOut, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
 import { getFirestore, doc, updateDoc, setDoc, serverTimestamp, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
@@ -31,7 +31,7 @@ const firebaseConfig = {
     appId: "1:365163764840:web:21c44f8625c9b6831e6fdd",
     measurementId: "G-LBTK319K2X"
 };
-*/
+
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
