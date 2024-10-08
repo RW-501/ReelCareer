@@ -298,28 +298,26 @@
 
 
 
-
-
-        // Function to fetch job listings and sponsors
-        async function fetchJobListings(page = 1) {
+// Function to fetch job listings and sponsors
+async function fetchJobListings(page = 1) {
     const jobListingsContainer = document.getElementById('jobListings');
     const loadingIndicator = document.getElementById('loadingIndicator');
     const errorIndicator = document.getElementById('errorIndicator');
 
     loadingIndicator.style.display = 'block'; // Show loading indicator
     errorIndicator.style.display = 'none'; // Hide error indicator
+    let isFetching = false; // Flag for fetching state
 
-    console.log("Scrolling???");
-    let isFetching = false;
-
-    // Optimize scroll listener with debouncing
-    window.onscroll = function() {
+    // Debounced scroll listener
+    const debouncedScrollListener = debounce(() => {
         if (isFetching) return;
         if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
             isFetching = true;
             fetchJobListings(page + 1); // Fetch next page of job listings when reaching the bottom
         }
-    };
+    }, 300); // 300ms debounce delay
+
+    window.onscroll = debouncedScrollListener;
 
     let excludedIds = []; // Replace with your actual IDs
     let userInterests = [userInterest1, userInterest2, userInterest3].filter(Boolean); // Ensure userInterests is an array
@@ -338,53 +336,31 @@
 
         // Common conditions
         jobsQuery = query(jobsQuery, where('status', '==', 'active'));
-
-        // Sort by createdAt in descending order
         jobsQuery = query(jobsQuery, orderBy('createdAt', 'desc'));
+        jobsQuery = query(jobsQuery, limit(20)); // Limit results for pagination
 
-        // Limit the results (for pagination)
-        jobsQuery = query(jobsQuery, limit(20));
-
-        console.log("jobsQuery??? ", jobsQuery);
-
-        // Fetch job listings
         const jobListingsSnapshot = await getDocs(jobsQuery);
-        console.log("jobListingsSnapshot??? ", jobListingsSnapshot);
+        console.log("jobListingsSnapshot   ",jobListingsSnapshot);
+        // Clear previous listings before adding new ones
+        jobListingsContainer.innerHTML = ''; 
 
-        jobListingsContainer.innerHTML = ''; // Clear previous listings
+        // Handle job listings
+        const jobListings = jobListingsSnapshot.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data()
+        }));
 
-        jobListingsSnapshot.forEach(doc => {
-            const job = { id: doc.id, ...doc.data() };
-            console.log("doc??? ", doc);
-
-            // Create job card
-            const jobCard = document.createElement('div');
-            jobCard.className = 'col-md-4 mb-4';
-            jobCard.innerHTML = `
-                <div class="card h-100 shadow-sm">
-                    <div class="card-body">
-                        <h5 class="card-title">${job.title}</h5>
-                        <p class="card-text text-muted">${truncateText(job.description, 100)}</p>
-                        <p class="card-text"><strong>Company:</strong> ${job.company}</p>
-                        <p class="card-text"><strong>Location:</strong> ${job.location ? job.location : 'Not specified'}</p>
-                        <p class="card-text"><strong>Salary:</strong> $${job.salary}</p>
-                        <a href="views/job-detail.html?id=${job.id}" class="btn btn-primary w-100 mt-3">View Details</a>
-                    </div>
-                </div>
-            `;
-            jobListingsContainer.appendChild(jobCard);
-        });
+        jobListings.forEach(job => createJobCard(job, jobListingsContainer));
 
         // Sponsor logic
         const sponsors = await fetchSponsors(excludedIds);
         addSponsorSection(sponsors, jobListingsContainer);
 
-        // Add "Load More" button for Pagination
-        const loadMoreButton = document.createElement('button');
-        loadMoreButton.className = 'btn btn-primary w-100 mt-4';
-        loadMoreButton.innerText = 'Load More Jobs';
-        loadMoreButton.onclick = () => fetchJobListings(page + 1); // Fetch next page of jobs
-        jobListingsContainer.appendChild(loadMoreButton);
+        // Add "Load More" button for Pagination if jobs are available
+        if (jobListings.length > 0) {
+            const loadMoreButton = createLoadMoreButton(() => fetchJobListings(page + 1));
+            jobListingsContainer.appendChild(loadMoreButton);
+        }
 
     } catch (error) {
         console.error("Error fetching job listings: ", error);
@@ -395,6 +371,48 @@
     }
 }
 
+// Function to create a job card and append it to the container
+function createJobCard(job, container) {
+    const jobCard = document.createElement('div');
+    jobCard.className = 'col-md-4 mb-4';
+    jobCard.innerHTML = `
+        <div class="card h-100 shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">${job.title}</h5>
+                <p class="card-text text-muted">${truncateText(job.description, 100)}</p>
+                <p class="card-text"><strong>Company:</strong> ${job.company}</p>
+                <p class="card-text"><strong>Location:</strong> ${job.location || 'Not specified'}</p>
+                <p class="card-text"><strong>Salary:</strong> $${job.salary}</p>
+                <a href="views/job-detail.html?id=${job.id}" class="btn btn-primary w-100 mt-3">View Details</a>
+            </div>
+        </div>
+    `;
+    container.appendChild(jobCard);
+}
+
+// Function to create and return the Load More button
+function createLoadMoreButton(loadMoreFunc) {
+    const loadMoreButton = document.createElement('button');
+    loadMoreButton.className = 'btn btn-primary w-100 mt-4';
+    loadMoreButton.innerText = 'Load More Jobs';
+    loadMoreButton.onclick = loadMoreFunc; // Fetch next page of jobs
+    return loadMoreButton;
+}
+
+// Debounce function to limit the rate of function execution
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+}
+
+// Fetch sponsors and handle their display
 async function fetchSponsors(excludedIds) {
     let sponsorsQuery = query(collection(db, 'Jobs'));
 
@@ -409,23 +427,11 @@ async function fetchSponsors(excludedIds) {
     sponsorsQuery = query(sponsorsQuery, where('status', '==', 'active'), where('boosted', 'in', ['Yes', 'Active']));
     sponsorsQuery = query(sponsorsQuery, orderBy('createdAt', 'desc'), limit(20));
 
-    console.log("sponsorsQuery??? ", sponsorsQuery);
-
     const sponsorsSnapshot = await getDocs(sponsorsQuery);
-    const sponsors = [];
-
-    sponsorsSnapshot.forEach(doc => {
-        const sponsor = { id: doc.id, ...doc.data() };
-        console.log("sponsor??? ", sponsor);
-
-        if (sponsor.boosted) {
-            sponsors.push(sponsor);
-        }
-    });
-
-    return sponsors;
+    return sponsorsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 }
 
+// Function to add sponsor section to the container
 function addSponsorSection(sponsors, container) {
     if (sponsors.length > 0) {
         const sponsorSection = document.createElement('div');
@@ -450,7 +456,6 @@ function addSponsorSection(sponsors, container) {
         container.appendChild(sponsorSection);
     }
 }
-
 
 
 

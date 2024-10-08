@@ -476,89 +476,77 @@ function showJobDetailsFunc(jobId) {
 
 
 
-
-
-
    let userInterests = [];
-   let excludedIds = []; // Replace with your actual IDs
+let excludedIds = []; // Replace with your actual IDs
 
+// Assuming userInterest1, userInterest2, userInterest3 are defined elsewhere
 let userInterest1, userInterest2, userInterest3; 
- userInterests = userInterest1 + userInterest2 + userInterest3; 
-// Assume excludedIds is an array of IDs to exclude
+userInterests = [userInterest1, userInterest2, userInterest3].filter(Boolean); // Filter out any undefined values
 
-        // Function to fetch job listings from Firestore
-        async function fetchJobListings() {
+// Function to fetch job listings from Firestore
+async function fetchJobListings() {
+    // Create the base query for Jobs
+    let jobsQuery = query(collection(db, 'Jobs'));
 
-// Create the base query for Jobs
-let jobsQuery = query(collection(db, 'Jobs'));
-// Adding dynamic filters based on userINFO
-if (userINFO.city) { 
-    jobsQuery = query(jobsQuery, where('city', '==', userINFO.city));
-}
-if (userINFO.state) {
-    jobsQuery = query(jobsQuery, where('state', '==', userINFO.state));
-}
-if (userInterests.length > 0) {
-    jobsQuery = query(jobsQuery, where('tags', 'array-contains-any', userInterests));
-}
+    // Adding dynamic filters based on userINFO
+    if (userINFO.city) { 
+        jobsQuery = query(jobsQuery, where('city', '==', userINFO.city));
+    }
+    if (userINFO.state) {
+        jobsQuery = query(jobsQuery, where('state', '==', userINFO.state));
+    }
+    if (userInterests.length > 0) {
+        jobsQuery = query(jobsQuery, where('tags', 'array-contains-any', userInterests));
+    }
 
-// Exclude specified IDs
-jobsQuery = query(jobsQuery, where('id', 'not-in', excludedIds));
+    // Exclude specified IDs if any
+    if (excludedIds.length > 0) {
+        jobsQuery = query(jobsQuery, where('id', 'not-in', excludedIds));
+    }
 
-// Common conditions
-jobsQuery = query(jobsQuery, where('status', '==', 'active'));
+    // Common conditions
+    jobsQuery = query(jobsQuery, where('status', '==', 'active'));
+    jobsQuery = query(jobsQuery, orderBy('createdAt', 'desc'));
+    jobsQuery = query(jobsQuery, limit(20)); // Limit the results
 
-// Sort by createdAt in descending order
-jobsQuery = query(jobsQuery, orderBy('createdAt', 'desc'));
+    // Base query for Sponsors
+    let sponsorsQuery = query(collection(db, 'Jobs'));
 
+    // Adding dynamic filters based on userINFO for sponsors
+    if (userINFO.state) {
+        sponsorsQuery = query(sponsorsQuery, where('state', '==', userINFO.state));
+    }
+    if (userINFO.country) {
+        sponsorsQuery = query(sponsorsQuery, where('country', '==', userINFO.country));
+    }
+    if (userInterests.length > 0) {
+        sponsorsQuery = query(sponsorsQuery, where('tags', 'array-contains-any', userInterests));
+    }
 
-// Base query for Sponsors
-let sponsorsQuery = query(collection(db, 'Jobs'));
+    // Exclude specified IDs for sponsors if necessary
+    if (excludedIds.length > 0) {
+        sponsorsQuery = query(sponsorsQuery, where('id', 'not-in', excludedIds));
+    }
 
-// Adding dynamic filters based on userINFO
-if (userINFO.state) {
-    sponsorsQuery = query(sponsorsQuery, where('state', '==', userINFO.state));
-}
-if (userINFO.country) {
-    sponsorsQuery = query(sponsorsQuery, where('country', '==', userINFO.country));
-}
-if (userInterests.length > 0) {
-    sponsorsQuery = query(sponsorsQuery, where('tags', 'array-contains-any', userInterests));
-}
-
-// Exclude specified IDs (if necessary; adjust if IDs are applicable for Sponsors)
-sponsorsQuery = query(sponsorsQuery, where('id', 'not-in', excludedIds));
-
-// Common conditions
-sponsorsQuery = query(sponsorsQuery, where('status', '==', 'active'), where('boosted', 'in', ['Yes', 'Active']));
-
-// Sort by createdAt in descending order
-sponsorsQuery = query(sponsorsQuery, orderBy('createdAt', 'desc'));
-
-
+    // Common conditions for sponsors
+    sponsorsQuery = query(sponsorsQuery, where('status', '==', 'active'), where('boosted', 'in', ['Yes', 'Active']));
+    sponsorsQuery = query(sponsorsQuery, orderBy('createdAt', 'desc'));
+    sponsorsQuery = query(sponsorsQuery, limit(20)); // Limit the results
 
     try {
-// Limit the results
-jobsQuery = query(jobsQuery, limit(20));
-
+        // Fetch job listings and sponsors
         const jobListingsSnapshot = await getDocs(jobsQuery);
-// Limit the results
-sponsorsQuery = query(sponsorsQuery, limit(20));
-
-
-
-
-// Fetch sponsors
         const sponsorsSnapshot = await getDocs(sponsorsQuery);
+        console.log("jobListingsSnapshot   ",jobListingsSnapshot);
 
         const jobListings = []; // Array to hold job listing data
         const sponsoredJobs = [];
 
+        // Process sponsored jobs
         sponsorsSnapshot.forEach(doc => {
-            const data = doc.data(); // Get data from each document
-
-                sponsoredJobs.push({
-                id: doc.id, // Include document ID
+            const data = doc.data();
+            sponsoredJobs.push({
+                id: doc.id,
                 title: data.title,
                 description: data.description,
                 datePosted: data.createdAt,
@@ -569,14 +557,13 @@ sponsorsQuery = query(sponsorsQuery, limit(20));
                 validThrough: data.boostExpiresAt,
                 url: doc.id
             });
-
         });
 
+        // Process regular job listings
         jobListingsSnapshot.forEach(doc => {
-            const data = doc.data(); // Get data from each document
-
+            const data = doc.data();
             jobListings.push({
-                id: doc.id, // Include document ID
+                id: doc.id,
                 title: data.title,
                 description: data.description,
                 datePosted: data.createdAt,
@@ -588,96 +575,103 @@ sponsorsQuery = query(sponsorsQuery, limit(20));
                 url: doc.id
             });
         });
-            
 
-        return jobListings; // Return the array of job listings
-    
+        return { jobListings, sponsoredJobs }; // Return both job listings and sponsored jobs
 
     } catch (error) {
-        console.error("Error fetching job listings: ", error); // Log any errors
-        return []; // Return an empty array in case of an error
+        console.error("Error fetching job listings: ", error);
+        return { jobListings: [], sponsoredJobs: [] }; // Return empty arrays in case of an error
     }
-} 
+}
 
+// Function to display job listings and sponsors
+function displayJobListings({ jobListings, sponsoredJobs }) {
+    const jobContainer = document.getElementById('jobListings');
+    jobContainer.innerHTML = ''; // Clear existing listings
 
-// Updated function to display job listings with sponsors
-        function displayJobListings(jobListings) {
-            const jobContainer = document.getElementById('jobListings');
-            jobContainer.innerHTML = ''; // Clear existing listings
+    jobListings.forEach(job => {
+        const jobCard = createJobCard(job);
+        jobContainer.innerHTML += jobCard; // Append job card to container
+    });
 
-            jobListings.forEach((job, index) => {
-                const jobCard = `
-                    <div class="col-md-4 mb-4">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">${job.title} </h5>
-                                <h6 class="card-subtitle mb-2 text-muted">${job.organization}</h6>
-                                <p class="card-text">${job.description}</p>
-                                <button class="btn btn-info" onclick="showJobDetailsFunc('${job.id}')">View Details</button>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                jobContainer.innerHTML += jobCard; // Append job card to container
-            });
+    // Display sponsored jobs if any
+    const featuredJobContainer = document.getElementById('featuredJobListings');
+    featuredJobContainer.innerHTML = ''; // Clear existing featured jobs
 
-            // Display sponsored jobs if any
-            const featuredJobContainer = document.getElementById('featuredJobListings');
-            featuredJobContainer.innerHTML = ''; // Clear existing featured jobs
+    sponsoredJobs.forEach(sponsoredJob => {
+        const featuredJobCard = createSponsoredJobCard(sponsoredJob);
+        featuredJobContainer.innerHTML += featuredJobCard; // Append sponsored job card to featured jobs
+    });
+}
 
-            sponsoredJobs.forEach((sponsoredJob) => {
-                const featuredJobCard = `
-                    <div class="col-md-4 mb-4">
-                        <div class="card border-success">
-                            <div class="card-body">
-                                <h5 class="card-title">${sponsoredJob.title}</h5>
-                                <h6 class="card-subtitle mb-2 text-muted">${sponsoredJob.organization}</h6>
-                                <p class="card-text">${sponsoredJob.description}</p>
-                                <a href="../views/job-detail.html?id=${sponsoredJob.id}" class="btn btn-success">Apply Now</a>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                featuredJobContainer.innerHTML += featuredJobCard; // Append sponsored job card to featured jobs
-            });
-        }
+// Helper function to create a job card
+function createJobCard(job) {
+    return `
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">${job.title}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">${job.organization}</h6>
+                    <p class="card-text">${job.description}</p>
+                    <button class="btn btn-info" onclick="showJobDetailsFunc('${job.id}')">View Details</button>
+                </div>
+            </div>
+        </div>
+    `;
+}
 
-        // Function to generate structured data markup for SEO
-        function generateSchemaMarkup(jobListings) {
-            const schemaData = {
-                "@context": "https://schema.org",
-                "@type": "JobPosting",
-                "title": jobListings.map(job => job.title),
-                "description": jobListings.map(job => job.description),
-                "datePosted": jobListings.map(job => job.datePosted),
-                "hiringOrganization": {
-                    "@type": "Organization",
-                    "name": jobListings.map(job => job.organization)
-                },
-                "jobLocation": {
-                    "@type": "Place",
-                    "address": {
-                        "@type": "PostalAddress",
-                        "addressLocality": jobListings.map(job => job.location)
-                    }
-                },
-                "employmentType": jobListings.map(job => job.employmentType),
-                "baseSalary": {
-                    "@type": "MonetaryAmount",
-                    "value": jobListings.map(job => job.baseSalary),
-                    "currency": "USD"
-                },
-                "validThrough": jobListings.map(job => job.validThrough)
-            };
+// Helper function to create a sponsored job card
+function createSponsoredJobCard(sponsoredJob) {
+    return `
+        <div class="col-md-4 mb-4">
+            <div class="card border-success">
+                <div class="card-body">
+                    <h5 class="card-title">${sponsoredJob.title}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">${sponsoredJob.organization}</h6>
+                    <p class="card-text">${sponsoredJob.description}</p>
+                    <a href="../views/job-detail.html?id=${sponsoredJob.id}" class="btn btn-success">Apply Now</a>
+                </div>
+            </div>
+        </div>
+    `;
+}
 
-            const scriptTag = document.createElement('script');
-            scriptTag.type = 'application/ld+json';
-            scriptTag.innerHTML = JSON.stringify(schemaData);
-            document.head.appendChild(scriptTag); // Append schema markup to head
-        }
-        function collectJobRequirements() {
-    // Collects requirements based on some custom logic
-    // Adjust this function according to your needs
+// Function to generate structured data markup for SEO
+function generateSchemaMarkup(jobListings) {
+    const schemaData = {
+        "@context": "https://schema.org",
+        "@type": "JobPosting",
+        "title": jobListings.map(job => job.title),
+        "description": jobListings.map(job => job.description),
+        "datePosted": jobListings.map(job => job.datePosted),
+        "hiringOrganization": {
+            "@type": "Organization",
+            "name": jobListings.map(job => job.organization).join(', ')
+        },
+        "jobLocation": {
+            "@type": "Place",
+            "address": {
+                "@type": "PostalAddress",
+                "addressLocality": jobListings.map(job => job.location).join(', ')
+            }
+        },
+        "employmentType": jobListings.map(job => job.employmentType).join(', '),
+        "baseSalary": {
+            "@type": "MonetaryAmount",
+            "value": jobListings.map(job => job.baseSalary).join(', '),
+            "currency": "USD"
+        },
+        "validThrough": jobListings.map(job => job.validThrough).join(', ')
+    };
+
+    const scriptTag = document.createElement('script');
+    scriptTag.type = 'application/ld+json';
+    scriptTag.innerHTML = JSON.stringify(schemaData);
+    document.head.appendChild(scriptTag); // Append schema markup to head
+}
+
+// Function to collect job requirements
+function collectJobRequirements() {
     return document.getElementById("jobRequirements").value.split(',').map(req => req.trim());
 }
 
