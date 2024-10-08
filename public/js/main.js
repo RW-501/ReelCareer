@@ -903,8 +903,9 @@ async function getUserInfo() {
         console.log(`Retrieved from Local Storage: City: ${userLocation.city}, State: ${userLocation.state}, ZIP Code: ${userLocation.zip}`);
     }
     userINFO = userLocation
-    console.log("userINFO  ",userINFO);
+
+    return userINFO;
 }
 
-getUserInfo();
+//getUserInfo();
 

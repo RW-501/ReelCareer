@@ -208,20 +208,21 @@ function autoSuggest(input) {
     }
 }
 
-document.getElementById('keywordInput').addEventListener('keydown', function(e) {
-    const suggestion = this.getAttribute('data-suggestion');
-    const inputValue = this.value.toLowerCase();
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('keywordInput').addEventListener('keydown', function(e) {
+        const suggestion = this.getAttribute('data-suggestion');
+        const inputValue = this.value.toLowerCase();
 
-    if (suggestion && suggestion.toLowerCase().startsWith(inputValue)) {
-        // Handle Tab or Enter keys to accept the suggestion
-        if (e.key === 'Tab' || e.key === 'Enter') {
-            e.preventDefault();
-            this.value = suggestion; // Accept the suggestion
-            this.setSelectionRange(suggestion.length, suggestion.length); // Move the cursor to the end
+        if (suggestion && suggestion.toLowerCase().startsWith(inputValue)) {
+            if (e.key === 'Tab' || e.key === 'Enter') {
+                e.preventDefault();
+                this.value = suggestion;
+                this.setSelectionRange(suggestion.length, suggestion.length);
+            }
         }
-    }
+    });
 });
 
 
-
 userINFO = getUserInfo();
+console.log("userINFO  ",userINFO);
