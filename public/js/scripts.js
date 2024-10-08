@@ -187,7 +187,7 @@ let suggestion;
             console.log('Input Updated to Suggestion:', input.value); // Log the updated input value
         } else {
             console.log('No suggestion available.'); // Log when no suggestion is found
-            input.removeAttribute('data-suggestion'); // Remove suggestion if none found
+         //   input.removeAttribute('data-suggestion'); // Remove suggestion if none found
         }
     }
 
