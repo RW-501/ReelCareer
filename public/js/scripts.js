@@ -129,7 +129,7 @@ if (currentPage.includes("/ReelCareer/views")) {
     adjustLinkURL = "/ReelCareer/views/";
 }
 
-let suggestions, jobRequirementsSuggestions, locationsSuggestions, citySuggestions, stateSuggestions;
+let jobSuggestions, locationSuggestjobRequirementsSuggestionsions, locationsSuggestions, citySuggestions, stateSuggestions;
 
 fetch(adjustLinkHomeURL + "public/js/suggestions.json")
     .then(response => {
@@ -140,14 +140,14 @@ fetch(adjustLinkHomeURL + "public/js/suggestions.json")
     })
     .then(data => {
         // Assign the fetched data to your variables
-        suggestions = data.suggestions;
+        jobSuggestions = data.suggestions;
         jobRequirementsSuggestions = data.jobRequirementsSuggestions;
         locationsSuggestions = data.locationsSuggestions;
         citySuggestions = data.citySuggestions;
         stateSuggestions = data.stateSuggestions;
 
         console.log("Suggestions:", suggestions);
-        console.log("Job Requirements Suggestions:", jobRequirementsSuggestions);
+        console.log("Job Requirements Suggestions:", locationSuggestions);
         console.log("Locations Suggestions:", locationsSuggestions);
         console.log("City Suggestions:", citySuggestions);
         console.log("State Suggestions:", stateSuggestions);
@@ -162,85 +162,65 @@ fetch(adjustLinkHomeURL + "public/js/suggestions.json")
 
 
 
-function autoSuggest(input) { 
-    const inputValue = input.value ? input.value.toLowerCase() : ''; // Check if input.value is defined
-    console.log('Input Value:', inputValue); // Log the current input value
-    let suggestion = '';
-/*
-    // Check if the input is an HTMLInputElement
-    if (!(input instanceof HTMLInputElement)) {
-        console.error('Input is not a valid HTMLInputElement.');
-        return; // Exit the function if input is not valid
-    }
-
-*/
-
-    // Find the first suggestion that starts with the input value
-    for (let i = 0; i < suggestions.length; i++) {
-        if (suggestions[i].toLowerCase().startsWith(inputValue)) {
-            suggestion = suggestions[i];
-           // console.log('Suggestion Found:', suggestion); // Log the found suggestion
-            break;
+    function autoSuggest(input, suggestionsArray) {
+        const inputValue = input.value ? input.value.toLowerCase() : ''; // Check if input.value is defined
+        console.log('Input Value:', inputValue); // Log the current input value
+        let suggestion = '';
+    
+        // Find the first suggestion that starts with the input value
+        for (let i = 0; i < suggestionsArray.length; i++) {
+            if (suggestionsArray[i].toLowerCase().startsWith(inputValue)) {
+                suggestion = suggestionsArray[i];
+                // console.log('Suggestion Found:', suggestion); // Log the found suggestion
+                break;
+            }
+        }
+    
+        if (suggestion && inputValue !== '') {
+            // If a suggestion is found and input isn't empty
+            input.setAttribute('data-suggestion', suggestion); // Set a custom data attribute for handling auto-suggestion
+           
+            input.value = suggestion; // Temporarily set the input value to the suggestion
+            input.selectionStart = inputValue.length; // Set the selection start after the typed characters
+            input.selectionEnd = suggestion.length; // Set the selection end to the suggestion length
+            console.log('Input Updated to Suggestion:', input.value); // Log the updated input value
+        } else {
+            console.log('No suggestion available.'); // Log when no suggestion is found
+            input.removeAttribute('data-suggestion'); // Remove suggestion if none found
         }
     }
 
-    if (suggestion && inputValue !== '') {
-        // If a suggestion is found and input isn't empty
-        input.setAttribute('data-suggestion', suggestion); // Set a custom data attribute for handling auto-suggestion
-       
-        input.value = suggestion; // Temporarily set the input value to the suggestion
-       input.selectionStart = inputValue.length; // Set the selection start after the typed characters
-       input.selectionEnd = suggestion.length; // Set the selection end to the suggestion length
-        console.log('Input Updated to Suggestion:', input.value); // Log the updated input value
-    } else {
-        console.log('No suggestion available.'); // Log when no suggestion is found
-        input.removeAttribute('data-suggestion'); // Remove suggestion if none found
-
-    }
-}
-
-
-document.addEventListener('DOMContentLoaded', function() {
-    const keywordInput = document.getElementsByClassName('keywordInput')[0];
-
-    // Check if the input exists before adding the event listener
-    if (keywordInput) {
-        keywordInput.addEventListener('input', function(e) {
-            
-         //   console.log(keywordInput.event,' event, ', e);
-
-         //   console.log('Input Event Triggered.'); // Log when the input event is triggered
-            if (e.inputType === 'deleteContentBackward') {
-               // console.log('Backspace, Delete, ');
-            }else{
-                autoSuggest(this);
-
-            }
- 
-        });
-
-        keywordInput.addEventListener('keydown', function(e) {
-            const suggestion = this.getAttribute('data-suggestion');
-            const inputValue = this.value ? this.value.toLowerCase() : ''; // Check if this.value is defined
-         //  console.log('Key Down Event Triggered. Input Value:', inputValue); // Log the input value on key down
-
-            // Allow Backspace, Delete, and other keys to function normally
-            if (e.key === 'Tab' || e.key === 'Enter') {
-                // Prevent default only for Tab and Enter keys
-                e.preventDefault();
-                if (suggestion && suggestion.toLowerCase().startsWith(inputValue)) {
-                    this.value = suggestion;
-                    this.setSelectionRange(suggestion.length, suggestion.length);
-             //       console.log('Suggestion Selected:', suggestion); // Log when a suggestion is selected
+    document.addEventListener('DOMContentLoaded', function() {
+        const keywordInput = document.getElementsByClassName('keywordInput')[0]; // Assuming there's only one keyword input
+    
+        // Check if the input exists before adding the event listener
+        if (keywordInput) {
+            keywordInput.addEventListener('input', function(e) {
+                // Check for backspace input type to avoid suggesting during deletion
+                if (e.inputType !== 'deleteContentBackward') {
+                    autoSuggest(this, suggestions); // Use suggestions array here
                 }
-            }
-        });
-    } else {
-        console.error('Keyword Input Not Found!'); // Log an error if the input is not found
-    }
-});
-
-
+            });
+    
+            keywordInput.addEventListener('keydown', function(e) {
+                const suggestion = this.getAttribute('data-suggestion');
+                const inputValue = this.value ? this.value.toLowerCase() : ''; // Check if this.value is defined
+    
+                // Allow Backspace, Delete, and other keys to function normally
+                if (e.key === 'Tab' || e.key === 'Enter') {
+                    // Prevent default only for Tab and Enter keys
+                    e.preventDefault();
+                    if (suggestion && suggestion.toLowerCase().startsWith(inputValue)) {
+                        this.value = suggestion;
+                        this.setSelectionRange(suggestion.length, suggestion.length); // Move cursor to the end of the suggestion
+                    }
+                }
+            });
+        } else {
+            console.error('Keyword Input Not Found!'); // Log an error if the input is not found
+        }
+    });
+    
 /*
 
 // Example usage
