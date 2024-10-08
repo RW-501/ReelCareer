@@ -161,6 +161,7 @@ fetch(adjustLinkHomeURL + "public/js/suggestions.json")
 
 
 
+let suggestion;
 
     function autoSuggest(input, suggestionsArray) {
         const inputValue = input.value ? input.value.toLowerCase() : ''; // Check if input.value is defined
