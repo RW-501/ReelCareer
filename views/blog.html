@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog - Reelcareer</title>
+    <meta name="description" content="Explore insights and advice on job searching, career trends, and resume tips in our blog. Stay updated with the latest articles to enhance your career.">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .card {
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            margin-bottom: 30px;
+        }
+        .sidebar {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        .sidebar h4 {
+            margin-bottom: 20px;
+        }
+        .sidebar a {
+            text-decoration: none;
+            color: #007bff;
+        }
+        .sidebar a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2 class="text-center">Blog</h2>
+    
+    <div class="row">
+        <!-- Main Blog Posts Section -->
+        <div class="col-md-8">
+            <div id="blogPosts"></div>
+            <!-- Pagination Section -->
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                </ul>
+            </nav>
+        </div>
+
+        <!-- Sidebar Section -->
+        <div class="col-md-4">
+            <div class="sidebar">
+                <h4>Search</h4>
+                <form id="searchForm">
+                    <input type="text" class="form-control" placeholder="Search..." aria-label="Search">
+                </form>
+
+                <h4>Categories</h4>
+                <ul class="list-unstyled">
+                    <li><a href="#">Career Advice</a></li>
+                    <li><a href="#">Job Market Trends</a></li>
+                    <li><a href="#">Resume Tips</a></li>
+                    <li><a href="#">Interview Techniques</a></li>
+                </ul>
+                
+                <h4>Recent Posts</h4>
+                <ul class="list-unstyled" id="recentPosts"></ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Comment Section -->
+<div class="container">
+    <h4>Comments</h4>
+    <form id="commentForm">
+        <div class="form-group">
+            <label for="commentText">Leave a comment:</label>
+            <textarea class="form-control" id="commentText" rows="3"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+    <ul class="list-unstyled" id="commentList"></ul>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Function to fetch blog posts from Firebase (pseudo-code)
+    function fetchBlogPosts() {
+        // Connect to Firebase and fetch posts
+        // Use the fetched data to dynamically populate the blogPosts div
+        // For example:
+        const blogPostsData = [
+            {
+                title: "Understanding Job Market Trends",
+                author: "John Doe",
+                date: "October 8, 2024",
+                content: "In this post, we will explore the latest trends in the job market...",
+                link: "#"
+            },
+            {
+                title: "Tips for a Successful Job Interview",
+                author: "Jane Smith",
+                date: "October 1, 2024",
+                content: "Interviews can be daunting, but with the right preparation...",
+                link: "#"
+            }
+            // Add more posts here
+        ];
+        
+        blogPostsData.forEach(post => {
+            $('#blogPosts').append(`
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">${post.title}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">By ${post.author} | ${post.date}</h6>
+                        <p class="card-text">${post.content}</p>
+                        <a href="${post.link}" class="card-link">Read More</a>
+                    </div>
+                </div>
+            `);
+        });
+
+        // Fetch recent posts
+        const recentPosts = blogPostsData.slice(0, 3); // Get the latest 3 posts
+        recentPosts.forEach(post => {
+            $('#recentPosts').append(`<li><a href="${post.link}">${post.title}</a></li>`);
+        });
+    }
+
+    // Call the fetchBlogPosts function to load the blog posts
+    fetchBlogPosts();
+</script>
+
+</body>
+</html>
