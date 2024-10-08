@@ -116,11 +116,7 @@
 
     <title>ReelCareer - Find Your Dream Job</title>
 
-   <!-- Bootstrap JS and dependencies -->
-     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
- 
+
     <!-- Custom CSS -->
     <link rel="stylesheet" href="public/css/styles.css">
     <script src="public/js/scripts.js"></script>
@@ -178,6 +174,7 @@
             </div>
         </div>
     </nav>
+    <main>
 
     <!-- Hero Section -->
     <div class="jumbotron jumbotron-fluid text-center text-white bg-primary mb-0" style="padding-top: 6rem;">
@@ -285,6 +282,8 @@
             <button class="btn btn-outline-primary btn-lg ml-2" onclick="location.href='views/auth.html'">Login</button>
         </div>
     </div>
+</main>
+
   <!-- Bootstrap JS and dependencies -->
      <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
      <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
@@ -293,9 +292,9 @@
     <!-- Footer -->
     <footer id="dynamic-footer"></footer>
 
-    <!-- Firebase configuration/ Login& Out -->
+    <!-- Firebase configuration/ Login& Out
     <script type="module" src="public/js/main.js"></script> 
-
+ -->
     <script type="module">
     import { db, storage, analytics, app  } from './public/js/main.js'; // Adjust the path based on your structure
     import { query, where, orderBy, limit,  collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
