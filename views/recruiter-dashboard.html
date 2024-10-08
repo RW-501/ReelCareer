@@ -341,7 +341,7 @@
                     <div class="form-group">
                         <label for="jobTags">Tags:</label>
                         <div id="tagsContainer">
-                            <input type="text" id="tagInput" placeholder="Add a tag and press Enter" />
+                            <input type="text" id="tagInput" class="form-control" placeholder="Add a tag and press Enter" />
                             <div id="tagsList"></div>
                         </div>
                         <button id="clearTagsButton">Clear Tags</button>
@@ -514,13 +514,16 @@ function addQuestionField() {
     // Add the input field for the question
     const questionInput = document.createElement('input');
     questionInput.type = 'text';
+    questionInput.className ="form-control";
+
     questionInput.placeholder = `Enter question ${questionCounter}`;
     questionInput.name = `question-${questionCounter}-text`;
     questionDiv.appendChild(questionInput);
-    
+
     // Add the buttons for multiple choice or statement
     const multipleChoiceButton = document.createElement('button');
     multipleChoiceButton.type = 'button';
+    multipleChoiceButton.className ="btn btn-primary btn-block rounded-pill shadow-sm font form-group  ";
     multipleChoiceButton.innerHTML = 'Multiple Choice';
     multipleChoiceButton.onclick = function() {
         addMultipleChoice(questionDiv, questionCounter);
@@ -529,6 +532,7 @@ function addQuestionField() {
 
     const statementButton = document.createElement('button');
     statementButton.type = 'button';
+    statementButton.className ="btn btn-primary btn-block rounded-pill shadow-sm font form-group  ";
     statementButton.innerHTML = 'Statement';
     statementButton.onclick = function() {
         addStatement(questionDiv);
@@ -547,6 +551,8 @@ function addMultipleChoice(questionDiv, questionNumber) {
     // Create the input field for the first multiple-choice option
     const choiceInput = document.createElement('input');
     choiceInput.type = 'text';
+    choiceInput.className ="form-control";
+
     choiceInput.placeholder = 'Enter multiple choice option';
     choiceInput.name = `question-${questionNumber}-option-1`;
     multipleChoiceDiv.appendChild(choiceInput);
@@ -554,6 +560,7 @@ function addMultipleChoice(questionDiv, questionNumber) {
     // Add "Add more" button for multiple choices
     const addMoreButton = document.createElement('button');
     addMoreButton.type = 'button';
+    addMoreButton.className ="btn btn-primary btn-block rounded-pill shadow-sm font form-group  ";
     addMoreButton.innerHTML = 'Add more options';
     addMoreButton.onclick = function() {
         addMoreMultipleChoice(multipleChoiceDiv, questionNumber);
@@ -567,6 +574,8 @@ function addMoreMultipleChoice(multipleChoiceDiv, questionNumber) {
     const optionCount = multipleChoiceDiv.childElementCount - 1; // Exclude the 'Add more options' button
     const choiceInput = document.createElement('input');
     choiceInput.type = 'text';
+    choiceInput.className ="form-control";
+
     choiceInput.placeholder = `Option ${optionCount + 1}`;
     choiceInput.name = `question-${questionNumber}-option-${optionCount + 1}`;
     multipleChoiceDiv.insertBefore(choiceInput, multipleChoiceDiv.lastElementChild);
