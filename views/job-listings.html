@@ -106,12 +106,8 @@
     <h2 class="mb-4 text-center">Job Search Filters</h2>
     <div class="card shadow-sm p-4">
         <div class="row">
-            <!-- Job Requirements -->
-            <div class="col-md-4 mb-3">
-                <label for="jobRequirements" class="form-label">Job Requirements</label>
-                <input type="text" class="form-control" id="jobRequirements" placeholder="e.g. Java, Python" data-bs-toggle="tooltip" title="Enter skills or technologies required for the job.">
-                <small class="form-text text-muted">Enter relevant job requirements separated by commas.</small>
-            </div>
+
+
 
             <div class="w-100"><hr class="my-3"></div>
 
@@ -177,21 +173,6 @@
 
             <div class="w-100"><hr class="my-3"></div>
 
-            <!-- Checkbox for Job Preferences -->
-            <div class="col-md-12 mb-3">
-                <label class="form-label">Job Preferences</label>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="immediateHire" id="immediateHire">
-                    <label class="form-check-label" for="immediateHire">Immediate Hire</label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="contractToHire" id="contractToHire">
-                    <label class="form-check-label" for="contractToHire">Contract to Hire</label>
-                </div>
-                <small class="form-text text-muted">Select any additional job preferences.</small>
-            </div>
-
-            <div class="w-100"><hr class="my-3"></div>
 
             <!-- Job Posting Date -->
             <div class="col-md-4 mb-3">
@@ -208,7 +189,7 @@
             <!-- Education Level -->
             <div class="col-md-4 mb-3">
                 <label for="education" class="form-label">Education Level <small class="text-muted">Education Level</small></label>
-                <select id="education" class="form-select" multiple>
+                <select id="education" class="form-select" >
                     <option value="highSchool">High School</option>
                     <option value="associateDegree">Associate Degree</option>
                     <option value="bachelorDegree">Bachelor's Degree</option>
@@ -221,7 +202,7 @@
             <!-- Years of Experience -->
             <div class="col-md-4 mb-3">
                 <label for="experience" class="form-label">Years of Experience <small class="text-muted">(Optional)</small></label>
-                <select id="experience" class="form-select" multiple>
+                <select id="experience" class="form-select" >
                     <option value="0-1">0-1 years</option>
                     <option value="2-5">2-5 years</option>
                     <option value="6-10">6-10 years</option>
@@ -231,6 +212,13 @@
             </div>
 
             <div class="w-100"><hr class="my-3"></div>
+
+            <!-- Job Requirements -->
+            <div class="col-md-4 mb-3">
+                <label for="jobRequirements" class="form-label">Job Requirements</label>
+                <input type="text" class="form-control" id="jobRequirements" placeholder="e.g. Java, Python" data-bs-toggle="tooltip" title="Enter skills or technologies required for the job.">
+                <small class="form-text text-muted">Enter relevant job requirements separated by commas.</small>
+            </div>
 
             <!-- Industry Dropdown -->
             <div class="col-md-4 mb-3">
@@ -257,6 +245,22 @@
                 <small class="form-text text-muted">Choose an industry to filter jobs.</small>
             </div>
         </div>
+
+
+            <!-- Checkbox for Job Preferences -->
+            <div class="col-md-12 mb-3">
+                <label class="form-label">Job Preferences</label>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="immediateHire" id="immediateHire">
+                    <label class="form-check-label" for="immediateHire">Immediate Hire</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="contractToHire" id="contractToHire">
+                    <label class="form-check-label" for="contractToHire">Contract to Hire</label>
+                </div>
+                <small class="form-text text-muted">Select any additional job preferences.</small>
+            </div>
+
 
         <!-- Clear Filters Button -->
         <div class="d-flex justify-content-end mt-4">
