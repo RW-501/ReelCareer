@@ -514,7 +514,7 @@ function addQuestionField() {
     // Add the input field for the question
     const questionInput = document.createElement('input');
     questionInput.type = 'text';
-    questionInput.className ="form-control";
+    questionInput.className ="form-control mb-2";
 
     questionInput.placeholder = `Enter question ${questionCounter}`;
     questionInput.name = `question-${questionCounter}-text`;
@@ -551,7 +551,7 @@ function addMultipleChoice(questionDiv, questionNumber) {
     // Create the input field for the first multiple-choice option
     const choiceInput = document.createElement('input');
     choiceInput.type = 'text';
-    choiceInput.className ="form-control";
+    choiceInput.className ="form-control mb-2";
 
     choiceInput.placeholder = 'Enter multiple choice option';
     choiceInput.name = `question-${questionNumber}-option-1`;
@@ -574,7 +574,7 @@ function addMoreMultipleChoice(multipleChoiceDiv, questionNumber) {
     const optionCount = multipleChoiceDiv.childElementCount - 1; // Exclude the 'Add more options' button
     const choiceInput = document.createElement('input');
     choiceInput.type = 'text';
-    choiceInput.className ="form-control";
+    choiceInput.className ="form-control mb-2";
 
     choiceInput.placeholder = `Option ${optionCount + 1}`;
     choiceInput.name = `question-${questionNumber}-option-${optionCount + 1}`;
