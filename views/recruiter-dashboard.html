@@ -514,7 +514,7 @@ function addQuestionField() {
     // Add the input field for the question
     const questionInput = document.createElement('input');
     questionInput.type = 'text';
-    questionInput.className ="form-control mb-2";
+    questionInput.className ="form-control mb-2 btn btn-secondary";
 
     questionInput.placeholder = `Enter question ${questionCounter}`;
     questionInput.name = `question-${questionCounter}-text`;
@@ -551,7 +551,7 @@ function addMultipleChoice(questionDiv, questionNumber) {
     // Create the input field for the first multiple-choice option
     const choiceInput = document.createElement('input');
     choiceInput.type = 'text';
-    choiceInput.className ="form-control mb-2";
+    choiceInput.className ="form-control mb-2 ";
 
     choiceInput.placeholder = 'Enter multiple choice option';
     choiceInput.name = `question-${questionNumber}-option-1`;
@@ -560,7 +560,7 @@ function addMultipleChoice(questionDiv, questionNumber) {
     // Add "Add more" button for multiple choices
     const addMoreButton = document.createElement('button');
     addMoreButton.type = 'button';
-    addMoreButton.className ="btn btn-primary btn-block rounded-pill shadow-sm font form-group  ";
+    addMoreButton.className ="btn btn-primary btn btn-secondary btn-block rounded-pill shadow-sm font form-group  ";
     addMoreButton.innerHTML = 'Add more options';
     addMoreButton.onclick = function() {
         addMoreMultipleChoice(multipleChoiceDiv, questionNumber);
@@ -585,10 +585,22 @@ function addStatement(questionDiv) {
     // Create a textarea for a statement-type question
     const statementTextArea = document.createElement('textarea');
     statementTextArea.placeholder = 'Enter statement response';
-    statementTextArea.className ="form-control w-100 p-3 mx-4";
 
+    // Assign Bootstrap classes for styling
+    statementTextArea.className = "form-control"; // Only the form-control class
+
+    // Add inline styles
+    statementTextArea.style.width = "100%"; // Full width
+    statementTextArea.style.padding = "1rem"; // Padding
+    statementTextArea.style.margin = "0 1rem"; // Horizontal margin
+    statementTextArea.style.border = "1px solid #ced4da"; // Border color matching Bootstrap
+    statementTextArea.style.borderRadius = "0.25rem"; // Border radius matching Bootstrap
+    statementTextArea.style.resize = "none"; // Prevent resizing
+
+    // Append the textarea to the provided questionDiv
     questionDiv.appendChild(statementTextArea);
 }
+
 
 
 // Function to collect custom questions and their options
