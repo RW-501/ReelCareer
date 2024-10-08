@@ -163,7 +163,7 @@ document.getElementById('login-form')?.addEventListener('submit', async (e) => {
         const user = userCredential.user;
         console.log('Login Successful:', user);
         await saveUserLoginState(user, true); // Update database and local storage
-        window.location.href = '/views/user.html'; // Redirect to profile
+     //   window.location.href = '/views/user.html'; // Redirect to profile
     } catch (error) {
         console.error('Error during login:', error);
         alert(error.message);
