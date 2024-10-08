@@ -298,7 +298,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (keywordInput) {
         keywordInput.addEventListener('input', function() {
             console.log('Input Event Triggered.'); // Log when the input event is triggered
-            autoSuggest(this);
+           // autoSuggest(this);
         });
 
         keywordInput.addEventListener('keydown', function(e) {
