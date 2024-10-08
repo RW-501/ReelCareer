@@ -132,28 +132,28 @@ if (currentPage.includes("/ReelCareer/views")) {
 let suggestions, jobRequirementsSuggestions,
  locationsSuggestions, citySuggestions, stateSuggestions;
 
-fetch(adjustLinkHomeURL+"public/js/suggestions.js")
-    .then(response => {
-        if (!response.ok) {
-        
-            throw new Error('Network response was not ok: ' + response.statusText);
-        }
-        return response.text();
-    })
-    .then(scriptContent => {
-        // Use a regular expression to extract the array from the string
-        const suggestionsMatch = scriptContent.match(/suggestions\s*=\s*\[(.*)\];/);
-        if (suggestionsMatch) {
-            // Parse the suggestions array
-             suggestions = JSON.parse("[" + suggestionsMatch[1] + "]");
-            console.log("suggestions", suggestions); // Use suggestions after loading
-        } else {
-            console.error('Could not find suggestions array in the script content.');
-        }
-    })
-    .catch(error => {
-        console.error('There was a problem with the fetch operation:', error);
-    });
+ fetch(adjustLinkHomeURL + "public/js/suggestions.js")
+ .then(response => {
+     if (!response.ok) {
+         throw new Error('Network response was not ok: ' + response.statusText);
+     }
+     return response.text();
+ })
+ .then(scriptContent => {
+     // Regular expression to match the entire suggestions array, not just the inner elements
+     const suggestionsMatch = scriptContent.match(/suggestions\s*=\s*(\[[\s\S]*?\]);/);
+     if (suggestionsMatch) {
+         // Evaluate the matched suggestions array string into an actual array
+         const suggestions = eval(suggestionsMatch[1]);
+         console.log("suggestions", suggestions); // Use suggestions after loading
+     } else {
+         console.error('Could not find suggestions array in the script content.');
+     }
+ })
+ .catch(error => {
+     console.error('There was a problem with the fetch operation:', error);
+ });
+
 
 
 
