@@ -298,10 +298,10 @@ document.addEventListener('DOMContentLoaded', function() {
     if (keywordInput) {
         keywordInput.addEventListener('input', function(e) {
             
-            console.log(keywordInput.event,' event, ', e);
+         //   console.log(keywordInput.event,' event, ', e);
 
-            console.log('Input Event Triggered.'); // Log when the input event is triggered
-            if (e.key === 'Backspace' || e.key === 'Delete') {
+         //   console.log('Input Event Triggered.'); // Log when the input event is triggered
+            if (e.inputType === 'deleteContentBackward') {
                 console.log('Backspace, Delete, ');
             }else{
                 autoSuggest(this);
@@ -313,7 +313,7 @@ document.addEventListener('DOMContentLoaded', function() {
         keywordInput.addEventListener('keydown', function(e) {
             const suggestion = this.getAttribute('data-suggestion');
             const inputValue = this.value ? this.value.toLowerCase() : ''; // Check if this.value is defined
-            console.log('Key Down Event Triggered. Input Value:', inputValue); // Log the input value on key down
+         //  console.log('Key Down Event Triggered. Input Value:', inputValue); // Log the input value on key down
 
             // Allow Backspace, Delete, and other keys to function normally
             if (e.key === 'Tab' || e.key === 'Enter') {
@@ -322,7 +322,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (suggestion && suggestion.toLowerCase().startsWith(inputValue)) {
                     this.value = suggestion;
                     this.setSelectionRange(suggestion.length, suggestion.length);
-                    console.log('Suggestion Selected:', suggestion); // Log when a suggestion is selected
+             //       console.log('Suggestion Selected:', suggestion); // Log when a suggestion is selected
                 }
             }
         });
