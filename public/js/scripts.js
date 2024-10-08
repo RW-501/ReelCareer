@@ -1,4 +1,9 @@
 
+
+
+
+
+
 // Function to inject CSS styles into the document
 function addStyles() {
     const style = document.createElement('style');
@@ -69,6 +74,21 @@ button, .nav-link {
     `;
     document.head.appendChild(style);
 }
+
+// Loading Indicator
+const loadingIndicator = document.getElementById('loading-indicator');
+const showLoading = () => loadingIndicator.style.display = 'block';
+const hideLoading = () => loadingIndicator.style.display = 'none';
+
+
+
+
+
+
+
+
+
+
 
 
 function formatSalary(input) {

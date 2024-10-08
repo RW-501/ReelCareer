@@ -59,10 +59,6 @@ const googleProvider = new GoogleAuthProvider();
 const facebookProvider = new FacebookAuthProvider();
 const appleProvider = new OAuthProvider('apple.com');
 
-// Loading Indicator
-const loadingIndicator = document.getElementById('loading-indicator');
-const showLoading = () => loadingIndicator.style.display = 'block';
-const hideLoading = () => loadingIndicator.style.display = 'none';
 
 
 // Function to update or create user information in Firestore
