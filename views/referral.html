@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Referral Program - Reelcareer</title>
+    <meta name="description" content="Join our Referral Program and earn rewards for referring friends and colleagues to Reelcareer.">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        h2 {
+            margin-bottom: 30px;
+        }
+        .card {
+            margin-bottom: 20px;
+        }
+        .form-section {
+            margin-top: 30px;
+        }
+        .recommendation {
+            margin-top: 20px;
+            background-color: #e9ecef;
+            padding: 15px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2 class="text-center">Join Our Referral Program!</h2>
+
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Earn Exciting Rewards!</h5>
+            <p class="card-text">
+                Help us grow the Reelcareer community and get rewarded! For every friend you refer to Reelcareer who signs up and engages with our platform, you'll receive <strong>$10 in account credits</strong> that can be used towards premium features.
+            </p>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">How It Works</h5>
+            <ol class="card-text">
+                <li>Sign up for the referral program.</li>
+                <li>Share your unique referral link or code with friends and colleagues.</li>
+                <li>For every person who signs up using your link or code and actively engages, you’ll earn rewards!</li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Referral Submission</h5>
+            <form id="referralForm">
+                <div class="form-group">
+                    <label for="referrerEmail">Your Email</label>
+                    <input type="email" class="form-control" id="referrerEmail" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="friendEmail">Friend's Email</label>
+                    <input type="email" class="form-control" id="friendEmail" placeholder="Enter your friend's email" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit Referral</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="recommendation">
+        <h5>Tips for Successful Referrals</h5>
+        <ul>
+            <li>Share your referral link on social media platforms like Facebook, Twitter, and LinkedIn.</li>
+            <li>Send personalized emails to friends and colleagues, emphasizing the benefits of joining Reelcareer.</li>
+            <li>Consider using messaging apps to quickly share your link or code with friends.</li>
+            <li>Engage with community groups related to your industry and share your referral link there.</li>
+        </ul>
+    </div>
+
+    <div class="form-section">
+        <h5>Terms and Conditions</h5>
+        <p>By participating in the Referral Program, you agree to the following:</p>
+        <ul>
+            <li>Referrals must be new users who have not previously signed up on Reelcareer.</li>
+            <li>Rewards will be credited to your account once the referred user signs up and completes their first action on the platform.</li>
+            <li>There is no limit to the number of friends you can refer.</li>
+            <li>Reelcareer reserves the right to modify or terminate the Referral Program at any time.</li>
+        </ul>
+        <p>If you have questions, please contact our support team for assistance!</p>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Handle the referral form submission
+    $('#referralForm').on('submit', function(event) {
+        event.preventDefault();
+        
+        const referrerEmail = $('#referrerEmail').val();
+        const friendEmail = $('#friendEmail').val();
+
+        // Replace this with your own logic for processing the referral
+        alert(`Referral submitted! You referred: ${friendEmail}.`);
+
+        // Clear the form
+        $('#referralForm')[0].reset();
+    });
+</script>
+
+</body>
+</html>
