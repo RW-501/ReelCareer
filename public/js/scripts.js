@@ -146,8 +146,8 @@ fetch(adjustLinkHomeURL + "public/js/suggestions.json")
         citySuggestions = data.citySuggestions;
         stateSuggestions = data.stateSuggestions;
 
-        console.log("Suggestions:", suggestions);
-        console.log("Job Requirements Suggestions:", locationSuggestions);
+        console.log("Suggestions:", jobSuggestions);
+        console.log("Job Requirements Suggestions:", jobRequirementsSuggestions);
         console.log("Locations Suggestions:", locationsSuggestions);
         console.log("City Suggestions:", citySuggestions);
         console.log("State Suggestions:", stateSuggestions);
