@@ -211,7 +211,9 @@ function showJobDetailsFunc(jobId) {
    let userInterests = [];
 
 let userInterest1, userInterest2, userInterest3; 
- userInterests = userInterest1 + userInterest2 + userInterest3;
+ userInterests = userInterest1 + userInterest2 + userInterest3; 
+// Assume excludedIds is an array of IDs to exclude
+const excludedIds = ['id1', 'id2', 'id3']; // Replace with your actual IDs
 
         // Function to fetch job listings from Firestore
         async function fetchJobListings() {
@@ -418,22 +420,22 @@ sponsorsQuery = query(sponsorsQuery, limit(20));
 
     // Populate the search bar with URL parameters
     function populateSearchBar() {
-      const   { keyword, location, jobType, salary } = getUrlParameters();
+      const   { keywords, location, jobType, salaryRange } = getUrlParameters();
 
-        if (keyword) {
-            document.getElementById('keywordInput').value = keyword;
+        if (keywords) {
+            document.getElementById('keywordInput').value = keywords;
         }
         if (location) {
             document.getElementById('locationInput').value = location;
         }
-        if (salary) {
-            document.getElementById('salaryInput').value = salary;
+        if (salaryRange) {
+            document.getElementById('salaryInput').value = salaryRange;
         }
         if (jobType) {
             document.getElementById('jobTypeInput').value = jobType;
         }
 
-        if(keyword, location, jobType, salary ){
+        if(keywords, location, jobType, salaryRange ){
             return  true;
         }
     }
