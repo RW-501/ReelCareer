@@ -105,6 +105,7 @@
     </style>
 </head>
 <body>
+    <script src="../public/js/scripts.js"></script>
 
 
     <!-- Navigation Bar -->
@@ -174,7 +175,7 @@
                         </div>
                         <div class="form-group col-md-6">
                             <label for="jobTitle">Job Title <small class="text-muted">(Required)</small></label>
-                            <input type="text" class="form-control" id="jobTitle" placeholder="Enter job title" required>
+                            <input type="text" oninput="autoSuggest(this.value)" class="form-control" id="jobTitle" placeholder="Enter job title" required>
                             <div class="invalid-feedback">Please enter a job title.</div>
                         </div>
                     </div>
@@ -219,7 +220,9 @@
                         </div>
                         <div class="form-group col-md-6">
                             <label for="jobSalary">Salary ($) <small class="text-muted">(Required)</small></label>
-                            <input type="number" class="form-control" id="jobSalary" min="0" placeholder="Enter salary" required>
+                            <input type="number"    onkeydown="restrictKeys(event)" 
+                            aria-label="Salary Range"
+                            oninput="formatSalary(this)" class="form-control" id="jobSalary" min="0" placeholder="Enter salary" required>
                             <div class="invalid-feedback">Please enter a salary amount.</div>
                         </div>
                     </div>
@@ -342,16 +345,16 @@
                             <div id="tagsList"></div>
                         </div>
                         <button id="clearTagsButton">Clear Tags</button>
-                    
+                    </div>
              
                 <div class="form-row ">
-                    <button type="submit" id="boostButton" class="btn btn-primary btn-block rounded-pill shadow-sm font-weight-bold form-group col-md-4">Boost Job Posting</button>
-                    <button type="submit" id="saveDraftButton" class="btn btn-primary btn-block rounded-pill shadow-sm font-weight-bold form-group col-md-4">Save to Draft</button>
-                    <button type="submit" id="createJobBtn"class="btn btn-primary btn-block rounded-pill shadow-sm font-weight-bold form-group col-md-4">Create Job</button>
+                    <button type="submit" id="boostButton" class="btn btn-primary btn-block rounded-pill shadow-sm font-weight-bold form-group col-md-4 mx-4">Boost Job Posting</button>
+                    <button type="submit" id="saveDraftButton" class="btn btn-primary btn-block rounded-pill shadow-sm font-weight-bold form-group col-md-4 mx-4">Save to Draft</button>
+                    <button type="submit" id="createJobBtn"class="btn btn-primary btn-block rounded-pill shadow-sm font-weight-bold form-group col-md-4 mx-4">Create Job</button>
                 </form>
             </div>
             </div>
-    </div></div>
+    </div>
 </div>
 </div>
 
