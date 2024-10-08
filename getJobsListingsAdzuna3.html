@@ -632,7 +632,7 @@ async function getJobCount() {
 
 
 async function addSelectedJobs(autoAdd = false) {
-    getJobCount();
+   // getJobCount();
     const selectedJobs = [...document.querySelectorAll('.job-item.selected')];
     const jobsToAdd = autoAdd ? selectedJobs : selectedJobs.slice(0, 1);
 
