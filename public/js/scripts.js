@@ -180,20 +180,22 @@ function autoSuggest(input, suggestionsArray) {
         console.log('Input Updated to Suggestion:', input.value); // Log the updated input value
     } else {
         console.log('No suggestion available.'); // Log when no suggestion is found
-        input.removeAttribute('data-suggestion'); // Remove suggestion if none found
+      
+      
+      //  input.removeAttribute('data-suggestion'); // Remove suggestion if none found
     }
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    const keywordInput = document.getElementsByClassName('keywordInput')[0]; // Assuming there's only one keyword input
-    
-    // Check if the input exists before adding the event listener
-    if (keywordInput) {
-        keywordInput.addEventListener('input', function(e) {
+    const keywordInputs = document.getElementsByClassName('keywordInput'); // Get all elements with 'keywordInput' class
+
+    // Loop through all keywordInput elements
+    Array.from(keywordInputs).forEach(function(input) {
+        input.addEventListener('input', function(e) {
             // Check for backspace input type to avoid suggesting during deletion
             if (e.inputType !== 'deleteContentBackward') {
                 let suggestionsArray;
-                
+
                 // Detect input type and assign the corresponding suggestions array
                 if (this.classList.contains('job-input')) {
                     suggestionsArray = jobSuggestions;
@@ -213,7 +215,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-        keywordInput.addEventListener('keydown', function(e) {
+        input.addEventListener('keydown', function(e) {
             const suggestion = this.getAttribute('data-suggestion');
             const inputValue = this.value ? this.value.toLowerCase() : ''; // Check if this.value is defined
 
@@ -227,9 +229,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }
         });
-    } else {
-        console.error('Keyword Input Not Found!'); // Log an error if the input is not found
-    }
+    });
 });
 
 
