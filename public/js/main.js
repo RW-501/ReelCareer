@@ -333,12 +333,21 @@ const closeLoginPopup = () => {
 };
 
 
+// myModule.js
+export function setupLinks() {
+    const { adjustLinkURL, adjustLinkHomeURL } = getAdjustedLinks();
+    // Use adjustLinkURL and adjustLinkHomeURL as needed within the module
+}
+
+// Optionally, you can call it directly in the module if needed
+const { adjustLinkURL, adjustLinkHomeURL } = getAdjustedLinks();
+console.log(adjustLinkURL, adjustLinkHomeURL);
 
 
 // Navagtion bar  
 document.addEventListener("DOMContentLoaded", function () {
-    console.log("DOMContentLoaded   ");
 
+    
     // Function to create the navbar
     function createNavbar() {
         const navbarClass = (isHomePage) ?   'navbar-light bg-light' : 'navbar-dark bg-primary ';
@@ -445,7 +454,7 @@ document.addEventListener('keydown', function(event) {
     // Replace the navbar if not on an excluded page
     if (!excludedPages.includes(currentPage)) {
         let existingNavbar = document.querySelector('.navbar');
-        console.log("???????outside  ?????????   ");
+       // console.log("???????outside  ?????????   ");
 
         // If an existing navbar is found, replace it
         if (existingNavbar) {

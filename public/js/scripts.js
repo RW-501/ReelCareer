@@ -91,31 +91,34 @@ gtag('js', new Date());
 gtag('config', 'G-LBTK319K2X');
 
 
-
-
-let adjustLinkHomeURL;
-let adjustLinkURL;
-
-    // Pages where we don't want to show the navbar
+function getAdjustedLinks() {
     const excludedPages = ['/indexxxx.html', '/aboutxx.html'];
-
-    // Get the current page path
     const currentPage = window.location.pathname;
 
     // Define if the root is at the home page or deeper directories
-    const isHomePage = currentPage === '/ReelCareer/index.html' || currentPage === '/ReelCareer/index' || currentPage === '/ReelCareer/' || currentPage === '' || currentPage === '/';
+    const isHomePage = currentPage === '/ReelCareer/index.html' || 
+                       currentPage === '/ReelCareer/index' || 
+                       currentPage === '/ReelCareer/' || 
+                       currentPage === '' || 
+                       currentPage === '/';
 
-    // Adjust hrefs based on the root page
-     adjustLinkURL = (isHomePage) ? '/ReelCareer/views/' || '/ReelCareer/public/' : '';
-     adjustLinkHomeURL = (isHomePage) ? '' : '/ReelCareer/';
+    let adjustLinkURL = (isHomePage) ? '/ReelCareer/views/' : '';
+    let adjustLinkHomeURL = (isHomePage) ? '' : '/ReelCareer/';
+
+    // Check specific paths
     if (currentPage.includes("/ReelCareer/public")) {
         adjustLinkURL = "/ReelCareer/public/";
-        } 
-    
-    // Check if "/ReelCareer/view" is in the URL
+    } 
     if (currentPage.includes("/ReelCareer/views")) {
         adjustLinkURL = "/ReelCareer/views/";
     }
+
+    return { adjustLinkURL, adjustLinkHomeURL };
+}
+
+// main.js
+const { adjustLinkURL, adjustLinkHomeURL } = getAdjustedLinks();
+//console.log(adjustLinkURL, adjustLinkHomeURL);
 
        /* 
        console.log("nav currentPage   ",currentPage);
