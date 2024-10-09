@@ -156,44 +156,43 @@ fetch(adjustLinkHomeURL + "public/js/suggestions.json")
         console.error('There was a problem with the fetch operation:', error);
     });
 
-function autoSuggest(input, suggestionsArray) {
-    const inputValue = input.value ? input.value.toLowerCase().trim() : ''; // Ensure input is defined and trim any extra spaces
-    console.log('Input Value:', inputValue); // Log the current input value
+    function autoSuggest(input, suggestionsArray) {
+        const inputValue = input.value ? input.value.toLowerCase().trim() : ''; // Ensure input is defined and trim any extra spaces
+        console.log('Input Value:', inputValue); // Log the current input value
+        
+        let suggestion = '';
+        
+        // Split the input by spaces and get the last part
+        const words = inputValue.split(' ');
+        const lastWord = words.pop(); // Get the last word after the most recent space
+        console.log('Last Word:', lastWord); 
     
-    let suggestion = '';
+        // Find the first suggestion that starts with the last word
+        for (let i = 0; i < suggestionsArray.length; i++) {
+            if (suggestionsArray[i].toLowerCase().startsWith(lastWord)) {
+                suggestion = suggestionsArray[i];
+                console.log('Suggestion Found:', suggestion); // Log the found suggestion
+                break;
+            }
+        }
     
-    // Split the input by spaces and get the last part
-    const lastWord = inputValue.split(' ').pop(); // Get the last part of the input after the most recent space
-    console.log('lastWord:', lastWord); 
-    const completeValue = lastWord + inputValue;
-
-    console.log('completeValue:', completeValue); 
-
-    // Find the first suggestion that starts with the last word
-    for (let i = 0; i < suggestionsArray.length; i++) {
-        if (suggestionsArray[i].toLowerCase().startsWith(completeValue)) {
-            suggestion = suggestionsArray[i];
-            console.log('Suggestion Found:', suggestion); // Log the found suggestion
-            break;
+        if (suggestion && lastWord !== '') {
+            // If a suggestion is found and the last word isn't empty
+            input.setAttribute('data-suggestion', suggestion); // Set a custom data attribute for handling auto-suggestion
+            
+            // Update the input value to reflect the suggestion only for the last word
+            input.value = words.join(' ') + ' ' + suggestion; // Preserve previous input and add the suggestion
+            input.selectionStart = input.value.length; // Set the selection start after the typed characters
+            input.selectionEnd = input.value.length; // Set the selection end to the end of the input
+            console.log('Input Updated to Suggestion:', input.value); // Log the updated input value
+        } else {
+            // Clear the suggestion if no match is found
+            if (input.getAttribute('data-suggestion')) {
+                input.removeAttribute('data-suggestion'); // Clear it if no suggestions
+            }
         }
     }
-
-    if (suggestion && inputValue !== '') {
-        // If a suggestion is found and input isn't empty
-        input.setAttribute('data-suggestion', suggestion); // Set a custom data attribute for handling auto-suggestion
-
-        input.value = suggestion; // Temporarily set the input value to the suggestion
-        input.selectionStart = inputValue.length; // Set the selection start after the typed characters
-        input.selectionEnd = suggestion.length; // Set the selection end to the suggestion length
-        console.log('Input Updated to Suggestion:', input.value); // Log the updated input value
-    } else {
-        //console.log('No suggestion available.'); // Log when no suggestion is found
-        if (input.getAttribute('data-suggestion')) {
-            input.removeAttribute('data-suggestion'); // Clear it if no suggestions
-        }
-            }
-}
-
+    
 document.addEventListener('DOMContentLoaded', function() {
     const keywordInputs = document.getElementsByClassName('keywordInput'); // Get all elements with 'keywordInput' class
 
