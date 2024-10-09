@@ -332,9 +332,9 @@ async function fetchJobListings(page = 1) {
         let jobsQuery = collection(db, 'Jobs');
 
         // Adding dynamic filters based on userINFO
-        if (userINFO.city) jobsQuery = query(jobsQuery, where('city', '==', userINFO.city));
+      //  if (userINFO.city) jobsQuery = query(jobsQuery, where('city', '==', userINFO.city));
         if (userINFO.state) jobsQuery = query(jobsQuery, where('state', '==', userINFO.state));
-        if (userInterests.length > 0) jobsQuery = query(jobsQuery, where('tags', 'array-contains-any', userInterests));
+       // if (userInterests.length > 0) jobsQuery = query(jobsQuery, where('tags', 'array-contains-any', userInterests));
 
         // Exclude specified IDs
         if (excludedIds.length > 0) jobsQuery = query(jobsQuery, where('id', 'not-in', excludedIds));
@@ -345,6 +345,7 @@ async function fetchJobListings(page = 1) {
         jobsQuery = query(jobsQuery, limit(20)); // Limit results for pagination
 
         const jobListingsSnapshot = await getDocs(jobsQuery);
+        console.log("jobsQuery   ",jobsQuery);
         console.log("jobListingsSnapshot   ",jobListingsSnapshot);
         // Clear previous listings before adding new ones
         jobListingsContainer.innerHTML = ''; 
