@@ -180,8 +180,10 @@ function autoSuggest(input, suggestionsArray) {
         console.log('Input Updated to Suggestion:', input.value); // Log the updated input value
     } else {
         console.log('No suggestion available.'); // Log when no suggestion is found
-        input.removeAttribute('data-suggestion'); // Remove suggestion if none found
-    }
+        if (input.getAttribute('data-suggestion')) {
+            input.removeAttribute('data-suggestion'); // Clear it if no suggestions
+        }
+            }
 }
 
 document.addEventListener('DOMContentLoaded', function() {
