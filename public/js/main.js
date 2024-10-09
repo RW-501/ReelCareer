@@ -333,12 +333,12 @@ const closeLoginPopup = () => {
 };
 
 
-console.log("???????outside?????????   ");
+console.log("???????outside  ?????????   ");
 
 
-// Navagtion bar
+// Navagtion bar  
 document.addEventListener("DOMContentLoaded", function () {
-    console.log"DOMContentLoaded   ");
+    console.log("DOMContentLoaded   ");
 
     // Function to create the navbar
     function createNavbar() {
