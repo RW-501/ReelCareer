@@ -487,9 +487,9 @@ function addSponsorSection(sponsors, container) {
 
 
 // Truncate text function
-function truncateText(text, maxLength) {
+    function truncateText(text, maxLength) {
     return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
-}
+    }
         
         // Load job listings on page load
         document.addEventListener('DOMContentLoaded', fetchJobListings(page = 1));
