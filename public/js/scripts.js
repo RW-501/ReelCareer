@@ -156,93 +156,88 @@ fetch(adjustLinkHomeURL + "public/js/suggestions.json")
         console.error('There was a problem with the fetch operation:', error);
     });
 
-    document.addEventListener('DOMContentLoaded', function() {
-        const keywordInputs = document.getElementsByClassName('keywordInput'); // Get all elements with 'keywordInput' class
-    
-        // Loop through all keywordInput elements
-        Array.from(keywordInputs).forEach(function(input) {
-            input.addEventListener('input', function(e) {
-                // Check for backspace input type to avoid suggesting during deletion
-                if (e.inputType !== 'deleteContentBackward') {
-                    let suggestionsArray;
-    
-                    // Detect input type and assign the corresponding suggestions array
-                    if (this.classList.contains('job-input')) {
-                        suggestionsArray = jobSuggestions;
-                    } else if (this.classList.contains('location-input')) {
-                        suggestionsArray = locationsSuggestions;
-                    } else if (this.classList.contains('city-input')) {
-                        suggestionsArray = citySuggestions;
-                    } else if (this.classList.contains('state-input')) {
-                        suggestionsArray = stateSuggestions;
-                    } else {
-                        suggestionsArray = jobRequirementsSuggestions; // Default to job requirements if no specific input is matched
-                    }
-    
-                    if (suggestionsArray) {
-                        autoSuggest(this, suggestionsArray); // Use suggestions array here
-                    }
-                }
-            });
-    
-            input.addEventListener('keydown', function(e) {
-                const suggestion = this.getAttribute('data-suggestion');
-                const inputValue = this.value ? this.value.toLowerCase() : ''; // Check if this.value is defined
-    
-                // Allow Backspace, Delete, and other keys to function normally
-                if (e.key === 'Tab' || e.key === 'Enter') {
-                    // Prevent default only for Tab and Enter keys
-                    e.preventDefault();
-                    if (suggestion && suggestion.toLowerCase().startsWith(inputValue)) {
-                        addJobRequirement(this, suggestion); // Add the suggestion to selected job requirements
-                    }
-                }
-            });
-        });
-    });
-    
-    // Function to handle auto-suggest functionality
-    function autoSuggest(input, suggestionsArray) {
-        const inputValue = input.value.toLowerCase();
-        const suggestionsContainer = document.getElementById('suggestionsContainer'); // Ensure you have a container for displaying suggestions
-    
-        // Clear previous suggestions
-        suggestionsContainer.innerHTML = ''; 
-    
-        // Filter suggestions based on input value
-        const filteredSuggestions = suggestionsArray.filter(suggestion => 
-            suggestion.toLowerCase().startsWith(inputValue)
-        );
-    
-        // Populate suggestions
-        filteredSuggestions.forEach(suggestion => {
-            const suggestionElement = document.createElement('div');
-            suggestionElement.className = 'suggestion-item'; // Add a class for styling
-            suggestionElement.innerText = suggestion;
-    
-            // Add click event to suggestion
-            suggestionElement.addEventListener('click', function() {
-                addJobRequirement(input, suggestion); // Add the clicked suggestion to the selected job requirements
-                suggestionsContainer.innerHTML = ''; // Clear suggestions after selection
-            });
-    
-            suggestionsContainer.appendChild(suggestionElement);
-        });
-    
-        // Show/hide suggestions based on availability
-        suggestionsContainer.style.display = filteredSuggestions.length > 0 ? 'block' : 'none';
-    
-        // Update data-suggestion attribute for the input
-        if (filteredSuggestions.length > 0) {
-            input.setAttribute('data-suggestion', filteredSuggestions[0]); // Set the first suggestion as the data-suggestion
-        } else {
-            if (input.getAttribute('data-suggestion')) {
-                input.removeAttribute('data-suggestion'); // Clear it if no suggestions
-            }
-            
+function autoSuggest(input, suggestionsArray) {
+    const inputValue = input.value ? input.value.toLowerCase() : ''; // Check if input.value is defined
+    console.log('Input Value:', inputValue); // Log the current input value
+    let suggestion = '';
+
+    // Find the first suggestion that starts with the input value
+    for (let i = 0; i < suggestionsArray.length; i++) {
+        if (suggestionsArray[i].toLowerCase().startsWith(inputValue)) {
+            suggestion = suggestionsArray[i];
+            // console.log('Suggestion Found:', suggestion); // Log the found suggestion
+            break;
         }
     }
+
+    if (suggestion && inputValue !== '') {
+        // If a suggestion is found and input isn't empty
+        input.setAttribute('data-suggestion', suggestion); // Set a custom data attribute for handling auto-suggestion
+
+        input.value = suggestion; // Temporarily set the input value to the suggestion
+        input.selectionStart = inputValue.length; // Set the selection start after the typed characters
+        input.selectionEnd = suggestion.length; // Set the selection end to the suggestion length
+        console.log('Input Updated to Suggestion:', input.value); // Log the updated input value
+    } else {
+        console.log('No suggestion available.'); // Log when no suggestion is found
+        input.removeAttribute('data-suggestion'); // Remove suggestion if none found
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const keywordInputs = document.getElementsByClassName('keywordInput'); // Get all elements with 'keywordInput' class
+
+    // Loop through all keywordInput elements
+    Array.from(keywordInputs).forEach(function(input) {
+        input.addEventListener('input', function(e) {
+            // Check for backspace input type to avoid suggesting during deletion
+            if (e.inputType !== 'deleteContentBackward') {
+                let suggestionsArray;
+
+                // Detect input type and assign the corresponding suggestions array
+                if (this.classList.contains('job-input')) {
+                    suggestionsArray = jobSuggestions;
+                } else if (this.classList.contains('location-input')) {
+                    suggestionsArray = locationsSuggestions;
+                } else if (this.classList.contains('city-input')) {
+                    suggestionsArray = citySuggestions;
+                } else if (this.classList.contains('state-input')) {
+                    suggestionsArray = stateSuggestions;
+                } else {
+                    suggestionsArray = jobRequirementsSuggestions; // Default to job requirements if no specific input is matched
+                }
+
+                if (suggestionsArray) {
+                    autoSuggest(this, suggestionsArray); // Use suggestions array here
+                }
+            }
+        });
+
+        input.addEventListener('keydown', function(e) {
+            const suggestion = this.getAttribute('data-suggestion');
+            const inputValue = this.value ? this.value.toLowerCase() : ''; // Check if this.value is defined
+
+            // Allow Backspace, Delete, and other keys to function normally
+            if (e.key === 'Tab' || e.key === 'Enter') {
+                // Prevent default only for Tab and Enter keys
+                e.preventDefault();
+                if (suggestion && suggestion.toLowerCase().startsWith(inputValue)) {
+                    this.value = suggestion;
+                    this.setSelectionRange(suggestion.length, suggestion.length); // Move cursor to the end of the suggestion
+                }
+            }
+        });
+    });
+});
     
+
+
+
+
+
+
+
+
     // Function to add selected job requirement
     function addJobRequirement(input, suggestion) {
         const selectedContainer = document.getElementById('selectedRequirements'); // Container for selected requirements
