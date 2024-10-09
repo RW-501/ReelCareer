@@ -6,7 +6,6 @@
     <meta name="description" content="Stay updated with the latest news articles submitted by users, recruiters, and companies.">
     <meta name="keywords" content="Career Tips, Industry News, Recruiter Insights">
     <title>News Portal</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
 
 #news-submission-area {
@@ -60,7 +59,16 @@
         }
     }
     </script>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    
+    <!-- Bootstrap CSS -->
+    <script src="../public/js/scripts.js"></script>
+    <script src="../public/js/loadScripts.js"></script>
+    
 </head>
+
 <body>
 
     <!-- Navigation Bar -->
@@ -156,11 +164,6 @@
     
 </main>
 
-    <!-- Footer -->
-    <footer id="dynamic-footer"></footer>
-    
-<!-- Firebase configuration/ Login& Out -->
-<script type="module" src="../public/js/main.js"></script> 
  <!-- Bootstrap JS and dependencies -->
  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
@@ -172,8 +175,19 @@
     
 
 
-<script type="module">
-    import { db, storage, analytics, app, collection, getDocs } from '../public/js/main.js'; // Adjust the path based on your structure
+
+    <!-- Footer -->
+    <footer id="dynamic-footer"></footer>
+    
+    <!-- Firebase configuration/ Login& Out -->
+    <script type="module" src="../public/js/main.js"></script> 
+
+    <!-- Dynamic Schema Markup -->
+    <script type="module">
+    import { db, storage, analytics, app  } from '../public/js/main.js'; // Adjust the path based on your structure
+    import { query, where, orderBy, limit,  collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+    
+      import { db, storage, analytics, app, collection, getDocs } from '../public/js/main.js'; // Adjust the path based on your structure
   
  // Initialize CKEditor for rich text editing
  CKEDITOR.replace('content');

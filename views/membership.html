@@ -13,7 +13,6 @@
     <meta property="og:url" content="URL_TO_YOUR_PAGE">
     <meta name="twitter:card" content="summary_large_image">
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         body {
             background-color: #f8f9fa;
@@ -47,7 +46,16 @@
             vertical-align: middle;
         }
     </style>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    
+    <!-- Bootstrap CSS -->
+    <script src="../public/js/scripts.js"></script>
+    <script src="../public/js/loadScripts.js"></script>
+    
 </head>
+
 <body>
 
 <div class="container">
@@ -238,5 +246,17 @@
     }
 </script>
 
+    <!-- Footer -->
+    <footer id="dynamic-footer"></footer>
+    
+    <!-- Firebase configuration/ Login& Out -->
+    <script type="module" src="../public/js/main.js"></script> 
+
+    <!-- Dynamic Schema Markup -->
+    <script type="module">
+    import { db, storage, analytics, app  } from '../public/js/main.js'; // Adjust the path based on your structure
+    import { query, where, orderBy, limit,  collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+    
+  </script>
 </body>
 </html>

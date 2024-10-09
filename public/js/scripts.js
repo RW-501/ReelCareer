@@ -79,163 +79,139 @@ button, .nav-link {
 
 
 
+// Google Analytics
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.googletagmanager.com/gtag/js?id=G-LBTK319K2X','ga');
+
+window.dataLayer = window.dataLayer || [];
+function gtag() { dataLayer.push(arguments); }
+gtag('js', new Date());
+gtag('config', 'G-LBTK319K2X');
 
 
 
 
+let adjustLinkHomeURL;
+let adjustLinkURL;
 
+    // Pages where we don't want to show the navbar
+    const excludedPages = ['/indexxxx.html', '/aboutxx.html'];
 
+    // Get the current page path
+    const currentPage = window.location.pathname;
 
-function formatSalary(input) {
-    // Remove any non-numeric characters except for commas and dollar sign
-    let value = input.value.replace(/[^0-9,]/g, '');
+    // Define if the root is at the home page or deeper directories
+    const isHomePage = currentPage === '/ReelCareer/index.html' || currentPage === '/ReelCareer/' || currentPage === '' || currentPage === '/';
 
-    // Remove any commas for easier processing
-    value = value.replace(/,/g, '');
-
-    // Ensure the input is valid: it should only be numeric
-    if (!/^\d*$/.test(value)) {
-        value = ''; // Reset to empty if invalid input
+    // Adjust hrefs based on the root page
+     adjustLinkURL = (isHomePage) ? '/ReelCareer/views/' || '/ReelCareer/public/' : '';
+     adjustLinkHomeURL = (isHomePage) ? '' : '/ReelCareer/';
+    if (currentPage.includes("/ReelCareer/public")) {
+        adjustLinkURL = "/ReelCareer/public/";
+        } 
+    
+    // Check if "/ReelCareer/view" is in the URL
+    if (currentPage.includes("/ReelCareer/views")) {
+        adjustLinkURL = "/ReelCareer/views/";
     }
 
-    // Format the number with commas
-    if (value) {
-        value = Number(value).toLocaleString();
+        
+      /*  console.log("nav currentPage   ",currentPage);
+        console.log("nav isHomePage   ",isHomePage);
+        console.log("nav adjustLinkURL   ",adjustLinkURL);
+        console.log("nav navbarClass   ",navbarClass);
+        console.log("nav adjustLinkHomeURL   ",adjustLinkHomeURL);
+
+        */
+
+
+ function addFavicons() {
+    const head = document.head;
+
+    // Standard Favicon
+    const faviconStandard = document.createElement('link');
+    faviconStandard.rel = 'icon';
+    faviconStandard.type = 'image/x-icon';
+    faviconStandard.href = adjustLinkHomeURL+'images/favicons/favicon.ico';
+    head.appendChild(faviconStandard);
+
+    // 32x32 Favicon
+    const favicon32 = document.createElement('link');
+    favicon32.rel = 'icon';
+    favicon32.type = 'image/png';
+    favicon32.sizes = '32x32';
+    favicon32.href = adjustLinkHomeURL+'images/favicons/favicon-32x32.png';
+    head.appendChild(favicon32);
+
+    // 16x16 Favicon
+    const favicon16 = document.createElement('link');
+    favicon16.rel = 'icon';
+    favicon16.type = 'image/png';
+    favicon16.sizes = '16x16';
+    favicon16.href = adjustLinkHomeURL+'images/favicons/favicon-16x16.png';
+    head.appendChild(favicon16);
+
+    // Apple Touch Icon
+    const appleTouchIcon = document.createElement('link');
+    appleTouchIcon.rel = 'apple-touch-icon';
+    appleTouchIcon.sizes = '180x180';
+    appleTouchIcon.href = adjustLinkHomeURL+'images/favicons/apple-touch-icon.png';
+    head.appendChild(appleTouchIcon);
+
+    // Android Favicon (192x192)
+    const androidFavicon192 = document.createElement('link');
+    androidFavicon192.rel = 'icon';
+    androidFavicon192.type = 'image/png';
+    androidFavicon192.sizes = '192x192';
+    androidFavicon192.href = adjustLinkHomeURL+'images/favicons/android-chrome-192x192.png';
+    head.appendChild(androidFavicon192);
+
+    // Chrome Favicon (512x512)
+    const androidFavicon512 = document.createElement('link');
+    androidFavicon512.rel = 'icon';
+    androidFavicon512.type = 'image/png';
+    androidFavicon512.sizes = '512x512';
+    androidFavicon512.href = adjustLinkHomeURL+'images/favicons/android-chrome-512x512.png';
+    head.appendChild(androidFavicon512);
+}
+
+// Call the function to add favicons
+addFavicons();
+
+
+
+
+
+
+// Function to fetch the user's IP address and location
+const getUserIP = async () => {
+    try {
+        const response = await fetch('https://api.ipify.org?format=json');
+        const data = await response.json();
+        return data.ip;
+    } catch (error) {
+        console.error('Error fetching IP address:', error);
+        return null;
     }
+};
 
-    // Set the formatted value back to the input with a dollar sign
-    input.value = value ? `$${value}` : '';
-}
-function restrictKeys(event) {
-    const allowedKeys = ['Backspace', 'Tab', 'ArrowLeft', 'ArrowRight', 'Delete', 'Enter', 'Escape'];
-    if (!/[0-9]/.test(event.key) && !allowedKeys.includes(event.key)) {
-        event.preventDefault();
+const getUserLocationByIP = async (ip) => {
+    try {
+        const response = await fetch(`https://ipapi.co/${ip}/json/`);
+        const data = await response.json();
+        return {
+            city: data.city,
+            state: data.region,
+            zip: data.postal,
+            country: data.country_name,
+        };
+    } catch (error) {
+        console.error('Error fetching location by IP:', error);
+        return null;
     }
-}
-const currentPage = window.location.pathname;
-
-// Define if the root is at the home page or deeper directories
-const isHomePage = currentPage === '/ReelCareer/index.html' || currentPage === '/ReelCareer/' || currentPage === '' || currentPage === '/';
-
-// Adjust hrefs based on the root page
-let  adjustLinkURL = (isHomePage) ? '/ReelCareer/views/' || '/ReelCareer/public/' : '';
- let adjustLinkHomeURL = (isHomePage) ? '' : '/ReelCareer/';
-if (currentPage.includes("/ReelCareer/public")) {
-    adjustLinkURL = "/ReelCareer/public/";
-    } 
-
-// Check if "/ReelCareer/view" is in the URL
-if (currentPage.includes("/ReelCareer/views")) {
-    adjustLinkURL = "/ReelCareer/views/";
-}
-
-let jobSuggestions, jobRequirementsSuggestions, locationsSuggestions, citySuggestions, stateSuggestions;
-
-fetch(adjustLinkHomeURL + "public/js/suggestions.json")
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok: ' + response.statusText);
-        }
-        return response.json();  // Parse the JSON response
-    })
-    .then(data => {
-        // Assign the fetched data to your variables
-        jobSuggestions = data.suggestions;
-        jobRequirementsSuggestions = data.jobRequirementsSuggestions;
-        locationsSuggestions = data.locationsSuggestions;
-        citySuggestions = data.citySuggestions;
-        stateSuggestions = data.stateSuggestions;
-
-      /*  console.log("Job Suggestions:", jobSuggestions);
-        console.log("Job Requirements Suggestions:", jobRequirementsSuggestions);
-        console.log("Locations Suggestions:", locationsSuggestions);
-        console.log("City Suggestions:", citySuggestions);
-        console.log("State Suggestions:", stateSuggestions); */
-    })
-    .catch(error => {
-        console.error('There was a problem with the fetch operation:', error);
-    });
-
-function autoSuggest(input, suggestionsArray) {
-const inputValue = input.value ? input.value.toLowerCase().trim() : ''; // Ensure input is defined and trim any extra spaces
-console.log('Input Value:', inputValue); // Log the current input value
-
-let suggestion = '';
-
-// Split the input by spaces and get the last part
-const lastWord = inputValue.split(' ').pop(); // Get the last part of the input after the most recent space
-
-// Find the first suggestion that starts with the last word
-for (let i = 0; i < suggestionsArray.length; i++) {
-    if (suggestionsArray[i].toLowerCase().startsWith(lastWord)) {
-        suggestion = suggestionsArray[i];
-        console.log('Suggestion Found:', suggestion); // Log the found suggestion
-        break;
-    }
-}
-
-    if (suggestion && inputValue !== '') {
-        // If a suggestion is found and input isn't empty
-        input.setAttribute('data-suggestion', suggestion); // Set a custom data attribute for handling auto-suggestion
-
-        input.value = suggestion; // Temporarily set the input value to the suggestion
-        input.selectionStart = inputValue.length; // Set the selection start after the typed characters
-        input.selectionEnd = suggestion.length; // Set the selection end to the suggestion length
-        console.log('Input Updated to Suggestion:', input.value); // Log the updated input value
-    } else {
-        console.log('No suggestion available.'); // Log when no suggestion is found
-        if (input.getAttribute('data-suggestion')) {
-            input.removeAttribute('data-suggestion'); // Clear it if no suggestions
-        }
-            }
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-    const keywordInputs = document.getElementsByClassName('keywordInput'); // Get all elements with 'keywordInput' class
-
-    // Loop through all keywordInput elements
-    Array.from(keywordInputs).forEach(function(input) {
-        input.addEventListener('input', function(e) {
-            // Check for backspace input type to avoid suggesting during deletion
-            if (e.inputType !== 'deleteContentBackward') {
-                let suggestionsArray;
-
-                // Detect input type and assign the corresponding suggestions array
-                if (this.classList.contains('job-input')) {
-                    suggestionsArray = jobSuggestions;
-                } else if (this.classList.contains('location-input')) {
-                    suggestionsArray = locationsSuggestions;
-                } else if (this.classList.contains('city-input')) {
-                    suggestionsArray = citySuggestions;
-                } else if (this.classList.contains('state-input')) {
-                    suggestionsArray = stateSuggestions;
-                } else {
-                    suggestionsArray = jobRequirementsSuggestions; // Default to job requirements if no specific input is matched
-                }
-
-                if (suggestionsArray) {
-                    autoSuggest(this, suggestionsArray); // Use suggestions array here
-                }
-            }
-        });
-
-        input.addEventListener('keydown', function(e) {
-            const suggestion = this.getAttribute('data-suggestion');
-            const inputValue = this.value ? this.value.toLowerCase() : ''; // Check if this.value is defined
-
-            // Allow Backspace, Delete, and other keys to function normally
-            if (e.key === 'Tab' || e.key === 'Enter') {
-                // Prevent default only for Tab and Enter keys
-                e.preventDefault();
-                if (suggestion && suggestion.toLowerCase().startsWith(inputValue)) {
-                    this.value = suggestion;
-                    this.setSelectionRange(suggestion.length, suggestion.length); // Move cursor to the end of the suggestion
-                }
-            }
-        });
-    });
-});
-    
+};
 
 
 
@@ -243,36 +219,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-
-    // Function to add selected job requirement
-    function addJobRequirement(input, suggestion) {
-        const selectedContainer = document.getElementById('selectedRequirements'); // Container for selected requirements
-        const currentValues = input.value.split(',').map(item => item.trim()); // Get current values as an array
-    
-        // Add the suggestion if it's not already selected
-        if (!currentValues.includes(suggestion)) {
-            currentValues.push(suggestion);
-            input.value = currentValues.join(', '); // Update input with selected values
-    
-            // Create a badge for the selected requirement
-            const badge = document.createElement('span');
-            badge.className = 'badge badge-info mr-1'; // Add classes for styling
-            badge.innerText = suggestion;
-    
-            // Add remove functionality for the badge
-            badge.onclick = function() {
-                const index = currentValues.indexOf(suggestion);
-                if (index > -1) {
-                    currentValues.splice(index, 1); // Remove the suggestion from the array
-                    input.value = currentValues.join(', '); // Update input
-                    selectedContainer.removeChild(badge); // Remove badge from the display
-                }
-            };
-    
-            selectedContainer.appendChild(badge); // Append badge to the selected container
-        }
-    }
-    
     
 
 // Simple encryption/decryption functions

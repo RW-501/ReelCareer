@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Referral Program - Reelcareer</title>
     <meta name="description" content="Join our Referral Program and earn rewards for referring friends and colleagues to Reelcareer.">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         body {
             background-color: #f8f9fa;
@@ -29,7 +28,16 @@
             border-radius: 5px;
         }
     </style>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    
+    <!-- Bootstrap CSS -->
+    <script src="../public/js/scripts.js"></script>
+    <script src="../public/js/loadScripts.js"></script>
+    
 </head>
+
 <body>
 
 <div class="container">
@@ -113,5 +121,17 @@
     });
 </script>
 
+    <!-- Footer -->
+    <footer id="dynamic-footer"></footer>
+    
+    <!-- Firebase configuration/ Login& Out -->
+    <script type="module" src="../public/js/main.js"></script> 
+
+    <!-- Dynamic Schema Markup -->
+    <script type="module">
+    import { db, storage, analytics, app  } from '../public/js/main.js'; // Adjust the path based on your structure
+    import { query, where, orderBy, limit,  collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+    
+  </script>
 </body>
 </html>
