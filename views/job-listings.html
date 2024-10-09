@@ -57,6 +57,7 @@
 </nav>
 
 <!-- Job Search Section -->
+ <searchArea>
 <div class="container mt-5">
     <div class="row">
         <div class="col-md-12 text-center">
@@ -104,7 +105,7 @@
         </div>
     </div>
 </div>
-
+</searchArea>
 <div class="container mt-5">
     <h2 class="mb-4 text-center">Job Search Filters</h2>
     
@@ -281,7 +282,7 @@
                 oninput="autoSuggest(this.value, 'RequirementsSuggestions')"
                 class="form-control keywordInput"
                 id="jobRequirements"
-                rows="6"
+                rows="2"
                 placeholder="e.g. Java, Python, leadership skills, teamwork, communication"
                 data-bs-toggle="tooltip"
                 title="Enter skills or technologies required for the job. Example: Java, Python, teamwork, leadership">
@@ -293,9 +294,11 @@
 
 
         <!-- Clear Filters Button --> 
-        <div class="d-flex justify-content-center mt-4 gap-2">
+        <div class="d-flex  ">
+            <div class="justify-content-center ml-auto">
             <button class="btn btn-secondary col-auto" type="reset">Clear Filters</button>
             <button class="btn btn-primary col-auto" onclick="searchJobs();" type="submit" id="searchButton">Search Jobs</button>
+            </div>
         </div>
         
     </div>
@@ -424,11 +427,11 @@
         font-weight: bold;
         font-size: 1.5rem;
     }
-    .form-control {
+    searchArea .form-control {
         border-radius: 50px;
         padding: 15px 20px;
     }
-    .btn-primary {
+    searchArea .btn-primary {
         border-radius: 50px;
         padding: 12px 30px;
         font-size: 1rem;
@@ -453,12 +456,7 @@
         background-color: #2980b9;
         border-color: #2980b9;
     }
-    footer {
-        margin-top: 50px;
-    }
-    footer p {
-        margin-bottom: 0;
-    }
+
 </style>
 
    
