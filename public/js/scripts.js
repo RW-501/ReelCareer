@@ -164,10 +164,14 @@ function autoSuggest(input, suggestionsArray) {
     
     // Split the input by spaces and get the last part
     const lastWord = inputValue.split(' ').pop(); // Get the last part of the input after the most recent space
-    
+    console.log('lastWord:', lastWord); 
+    const completeValue = lastWord + inputValue;
+
+    console.log('completeValue:', completeValue); 
+
     // Find the first suggestion that starts with the last word
     for (let i = 0; i < suggestionsArray.length; i++) {
-        if (suggestionsArray[i].toLowerCase().startsWith(lastWord)) {
+        if (suggestionsArray[i].toLowerCase().startsWith(completeValue)) {
             suggestion = suggestionsArray[i];
             console.log('Suggestion Found:', suggestion); // Log the found suggestion
             break;

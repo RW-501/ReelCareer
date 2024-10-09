@@ -277,19 +277,27 @@
             <!-- Job Requirements -->
             <div class="col-md-4 mb-3">
                 <label for="jobRequirements" class="form-label  ">Job Requirements</label>
-                <input type="text" 
-                oninput="autoSuggest(this.value,'RequirementsSuggestionsions')"
-                class="form-control keywordInput" id="jobRequirements" placeholder="e.g. Java, Python" data-bs-toggle="tooltip" title="Enter skills or technologies required for the job.">
+                <textarea
+                oninput="autoSuggest(this.value, 'RequirementsSuggestions')"
+                class="form-control keywordInput"
+                id="jobRequirements"
+                rows="6"
+                placeholder="e.g. Java, Python, leadership skills, teamwork, communication"
+                data-bs-toggle="tooltip"
+                title="Enter skills or technologies required for the job. Example: Java, Python, teamwork, leadership">
+            </textarea>
+            
                 <small class="form-text text-muted">Enter relevant job requirements separated by commas.</small>
             </div>
 
 
 
-        <!-- Clear Filters Button -->
-        <div class="d-flex justify-content-end mt-4">
-            <button class="btn btn-secondary col-auto " type="reset">Clear Filters</button>
-            <button class="btn btn-primary .mr-auto" type="submit" id="searchButton">Search Jobs</button>
+        <!-- Clear Filters Button --> 
+        <div class="d-flex justify-content-center mt-4 gap-2">
+            <button class="btn btn-secondary col-auto" type="reset">Clear Filters</button>
+            <button class="btn btn-primary col-auto" onclick="searchJobs();" type="submit" id="searchButton">Search Jobs</button>
         </div>
+        
     </div>
 </div>
 </div>
