@@ -504,6 +504,7 @@ userInterests = [userInterest1, userInterest2, userInterest3].filter(Boolean); /
 async function fetchJobListings() {
     // Create the base query for Jobs
     let jobsQuery = query(collection(db, 'Jobs'));
+    console.log("????????????????   ");
 
     // Adding dynamic filters based on userINFO
     if (userINFO.city) { 
@@ -563,7 +564,7 @@ async function fetchJobListings() {
         sponsorsSnapshot.forEach(doc => {
             const data = doc.data();
             sponsoredJobs.push({
-                id: doc.id,
+                id: data.id,
                 title: data.title,
                 description: data.description,
                 datePosted: data.createdAt,
@@ -572,7 +573,7 @@ async function fetchJobListings() {
                 employmentType: data.type,
                 baseSalary: data.salary,
                 validThrough: data.boostExpiresAt,
-                url: doc.id
+                url: data.id
             });
         });
 
@@ -580,7 +581,7 @@ async function fetchJobListings() {
         jobListingsSnapshot.forEach(doc => {
             const data = doc.data();
             jobListings.push({
-                id: doc.id,
+                id: data.id,
                 title: data.title,
                 description: data.description,
                 datePosted: data.createdAt,
@@ -589,7 +590,7 @@ async function fetchJobListings() {
                 employmentType: data.type,
                 baseSalary: data.salary,
                 validThrough: data.boostExpiresAt,
-                url: doc.id
+                url: data.id
             });
         });
 
@@ -719,6 +720,88 @@ function searchJobs() {
         immediateHire,
         contractToHire
     });
+
+    async function fetchFilteredJobListings({
+    requirements,
+    location,
+    city,
+    state,
+    zipCode,
+    salaryMin,
+    salaryMax,
+    contractType,
+    industry,
+    immediateHire,
+    contractToHire,
+}) {
+    try {
+        const jobListingsRef = firestore.collection('jobListings'); // Replace with your collection name
+        let query = jobListingsRef;
+
+        // Check if each field has a value and build the query accordingly
+        if (requirements) {
+            query = query.where('requirements', 'array-contains', requirements);
+        }
+        if (location) {
+            query = query.where('location', '==', location);
+        }
+        if (city) {
+            query = query.where('city', '==', city);
+        }
+        if (state) {
+            query = query.where('state', '==', state);
+        }
+        if (zipCode) {
+            query = query.where('zipCode', '==', zipCode);
+        }
+        if (salaryMin) {
+            query = query.where('salary', '>=', salaryMin);
+        }
+        if (salaryMax) {
+            query = query.where('salary', '<=', salaryMax);
+        }
+        if (contractType) {
+            query = query.where('contractType', '==', contractType);
+        }
+        if (industry) {
+            query = query.where('industry', '==', industry);
+        }
+        if (immediateHire !== undefined) { // Check for truthy/falsy
+            query = query.where('immediateHire', '==', immediateHire);
+        }
+        if (contractToHire !== undefined) { // Check for truthy/falsy
+            query = query.where('contractToHire', '==', contractToHire);
+        }
+
+        // Execute the query
+        const jobListingsSnapshot = await query.get();
+        const jobListings = jobListingsSnapshot.docs.map(data => ({
+                id: data.id,
+                title: data.title,
+                description: data.description,
+                datePosted: data.createdAt,
+                organization: data.company,
+                location: data.location,
+                employmentType: data.type,
+                baseSalary: data.salary,
+                validThrough: data.boostExpiresAt,
+                url: data.id
+        
+                }));
+
+        displayJobListings(jobListings);
+
+    } catch (error) {
+        console.error("Error fetching filtered job listings: ", error);
+        throw error; // Rethrow the error to handle it later
+    }
+}
+
+
+
+
+
+
 
     // Implement your job search logic here, e.g., fetching from an API
 }
