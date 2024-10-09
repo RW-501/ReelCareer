@@ -312,6 +312,8 @@ async function fetchJobListings(page = 1) {
     errorIndicator.style.display = 'none'; // Hide error indicator
     let isFetching = false; // Flag for fetching state
 
+    console.log("????????????????   ");
+
     // Debounced scroll listener
     const debouncedScrollListener = debounce(() => {
         if (isFetching) return;
@@ -488,7 +490,7 @@ function truncateText(text, maxLength) {
 }
         
         // Load job listings on page load
-        document.addEventListener('DOMContentLoaded', fetchJobListings);
+        document.addEventListener('DOMContentLoaded', fetchJobListings(page = 1));
 
 
         document.getElementById('jobSearchForm').addEventListener('submit', function(event) { 
