@@ -159,7 +159,7 @@
             const interactionBody = document.getElementById('interactionBody');
             interactionBody.innerHTML = '<tr><td colspan="3">Loading...</td></tr>'; // Loading state
 
-            db.collection('chatbotInteractions').orderBy('timestamp', 'desc').limit(10)
+            db.collection('ChatbotInteractions').orderBy('timestamp', 'desc').limit(10)
                 .get().then((querySnapshot) => {
                     interactionBody.innerHTML = ''; // Clear loading message
                     querySnapshot.forEach((doc) => {
@@ -223,7 +223,7 @@
             const context = document.getElementById('context').value;
 
             // Save to Firestore
-            db.collection('chatbotResponses').add({
+            db.collection('ChatbotResponses').add({
                 intent,
                 response,
                 suggestions,

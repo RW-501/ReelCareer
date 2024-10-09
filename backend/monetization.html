@@ -175,13 +175,13 @@ document.querySelectorAll('.form-check-input').forEach(toggle => {
     toggle.addEventListener('change', function() {
         const membershipType = this.id.replace('Status', '');
         const status = this.checked;
-        db.collection('membershipStatus').doc(membershipType).set({ active: status });
+        db.collection('MembershipStatus').doc(membershipType).set({ active: status });
     });
 });
 
 // Function to load transactions
 function loadTransactions() {
-    db.collection('transactions').get().then(querySnapshot => {
+    db.collection('Transactions').get().then(querySnapshot => {
         const tableBody = document.getElementById('transactionTable');
         tableBody.innerHTML = querySnapshot.docs.map(doc => {
             const transaction = doc.data();

@@ -67,7 +67,7 @@
                 <div class="form-group position-relative" style="width: auto;">
                     <input 
                         type="text" 
-                        class="form-control mr-2 mb-2 keywordInput job-input" 
+                        class="form-control form-control-lg mr-2 mb-2 keywordInput job-input" 
                         placeholder="Keywords (e.g., Developer)" 
                         aria-label="Keywords" 
                         id="keywordInput"
@@ -80,7 +80,11 @@
                 <input id="locationInput" type="text"
                 oninput="autoSuggest(this.value,'locationSuggestions')"
                  class="form-control form-control-lg mr-2 mb-2 keywordInput location-input" placeholder="Location (e.g., City)" >
-                <select id="jobTypeInput" class="form-control form-control-lg " size="0rem">
+                <select id="jobTypeInput" class="form-control form-control-lg " style="
+                padding: 0.7rem;
+                margin: auto;
+                margin-bottom: .3rem;
+            ">
                     <option value="" disabled selected>Job Type</option>
                     <option value="">Job Type</option>
                     <option value="full-time">Full-time</option>

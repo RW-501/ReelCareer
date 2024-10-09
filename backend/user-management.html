@@ -108,7 +108,7 @@
         
         // Load users
         function loadUsers() {
-            db.collection('users').get().then((querySnapshot) => {
+            db.collection('Users').get().then((querySnapshot) => {
                 const userTableBody = document.getElementById('userTableBody');
                 userTableBody.innerHTML = ''; // Clear existing rows
                 querySnapshot.forEach((doc) => {
@@ -156,7 +156,7 @@
 
         // Delete user
         function deleteUser(id) {
-            db.collection('users').doc(id).delete().then(() => {
+            db.collection('Users').doc(id).delete().then(() => {
                 loadUsers(); // Reload users after deletion
             }).catch(error => {
                 console.error("Error removing user: ", error);
@@ -172,7 +172,7 @@
 
             if (id) {
                 // Update user
-                db.collection('users').doc(id).update({ email, role }).then(() => {
+                db.collection('Users').doc(id).update({ email, role }).then(() => {
                     loadUsers(); // Reload users after update
                     $('#userModal').modal('hide');
                 });
@@ -181,7 +181,7 @@
                 firebase.auth().createUserWithEmailAndPassword(email, 'defaultPassword123') // Use a default password
                     .then((userCredential) => {
                         const userId = userCredential.user.uid;
-                        db.collection('users').doc(userId).set({ email, role }).then(() => {
+                        db.collection('Users').doc(userId).set({ email, role }).then(() => {
                             loadUsers(); // Reload users after addition
                             $('#userModal').modal('hide');
                         });

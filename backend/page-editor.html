@@ -91,7 +91,7 @@
 
         // Load all pages and create tabs dynamically
         function loadPages() {
-            db.collection('pages').get().then(querySnapshot => {
+            db.collection('Pages').get().then(querySnapshot => {
                 querySnapshot.forEach(doc => {
                     createPageTab(doc.id, doc.data());
                 });
@@ -148,7 +148,7 @@
             const title = document.getElementById(`${pageId}Title`).value;
             const content = quills[`${pageId}Editor`].root.innerHTML; // Get content from Quill editor
 
-            db.collection('pages').doc(pageId).set({
+            db.collection('Pages').doc(pageId).set({
                 title: title,
                 content: content
             }).then(() => {
@@ -176,7 +176,7 @@
         // Delete page functionality
         function deletePage(pageId) {
             if (confirm(`Are you sure you want to delete the page "${pageId}"?`)) {
-                db.collection('pages').doc(pageId).delete().then(() => {
+                db.collection('Pages').doc(pageId).delete().then(() => {
                     document.getElementById(pageId).remove();
                     document.getElementById(`${pageId}-tab`).remove();
                     showSuccessMessage(`Page "${pageId}" deleted successfully!`);

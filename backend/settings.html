@@ -127,7 +127,7 @@
 
         // Fetch current settings on page load
         window.onload = function() {
-            db.collection('settings').doc('general').get().then(doc => {
+            db.collection('Settings').doc('general').get().then(doc => {
                 if (doc.exists) {
                     const data = doc.data();
                     document.getElementById('siteTitle').value = data.siteTitle || '';
@@ -138,7 +138,7 @@
                 }
             }).catch(error => showErrorMessage("Error fetching general settings: " + error));
 
-            db.collection('settings').doc('limits').get().then(doc => {
+            db.collection('Settings').doc('limits').get().then(doc => {
                 if (doc.exists) {
                     const data = doc.data();
                     document.getElementById('freeMaxJobs').value = data.free.maxJobs || '';
@@ -152,7 +152,7 @@
                 }
             }).catch(error => showErrorMessage("Error fetching limits configuration: " + error));
 
-            db.collection('settings').doc('notifications').get().then(doc => {
+            db.collection('Settings').doc('notifications').get().then(doc => {
                 if (doc.exists) {
                     const data = doc.data();
                     document.getElementById('emailNotifications').value = data.emailNotifications || 'disabled';
@@ -170,7 +170,7 @@
             const siteDescription = document.getElementById('siteDescription').value;
             const adminEmail = document.getElementById('adminEmail').value;
 
-            db.collection('settings').doc('general').set({
+            db.collection('Settings').doc('general').set({
                 siteTitle: siteTitle,
                 siteDescription: siteDescription,
                 adminEmail: adminEmail
@@ -198,7 +198,7 @@
                 }
             };
 
-            db.collection('settings').doc('limits').set(limitsData)
+            db.collection('Settings').doc('limits').set(limitsData)
                 .then(() => {
                     showSuccessMessage("Limits configuration saved successfully!");
                     document.getElementById('limitsForm').reset();
@@ -214,7 +214,7 @@
                 smsNotifications: document.getElementById('smsNotifications').value,
             };
 
-            db.collection('settings').doc('notifications').set(notificationData)
+            db.collection('Settings').doc('notifications').set(notificationData)
                 .then(() => {
                     showSuccessMessage("Notification settings saved successfully!");
                     document.getElementById('notificationSettingsForm').reset();

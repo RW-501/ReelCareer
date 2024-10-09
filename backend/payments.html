@@ -242,7 +242,7 @@ exports.updateBoostPrices = functions.https.onCall(async (data, context) => {
     // Fetch transaction history from Firebase or Stripe and display in table
     function loadTransactions() {
         // Example Firebase query to fetch transaction data
-        db.collection('transactions').get().then(querySnapshot => {
+        db.collection('Transactions').get().then(querySnapshot => {
             const transactions = querySnapshot.docs.map(doc => doc.data());
             const transactionTable = document.getElementById('transactionTable');
             transactionTable.innerHTML = transactions.map(transaction => `

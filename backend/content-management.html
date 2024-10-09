@@ -103,7 +103,7 @@
             const title = document.getElementById('newsTitle').value;
             const content = document.getElementById('newsContent').value;
 
-            db.collection('news').add({
+            db.collection('News').add({
                 title: title,
                 content: content,
                 timestamp: firebase.firestore.FieldValue.serverTimestamp()
@@ -120,7 +120,7 @@
             const title = document.getElementById('blogTitle').value;
             const content = document.getElementById('blogContent').value;
 
-            db.collection('blogs').add({
+            db.collection('Blogs').add({
                 title: title,
                 content: content,
                 timestamp: firebase.firestore.FieldValue.serverTimestamp()
@@ -156,7 +156,7 @@
             loadingIndicator.style.display = 'block'; // Show loading indicator
 
             // Load News Articles
-            db.collection('news').get().then((querySnapshot) => {
+            db.collection('News').get().then((querySnapshot) => {
                 let newsHTML = '<h3>News Articles</h3>';
                 querySnapshot.forEach((doc) => {
                     const news = doc.data();
@@ -174,7 +174,7 @@
             });
 
             // Load Blog Posts
-            db.collection('blogs').get().then((querySnapshot) => {
+            db.collection('Blogs').get().then((querySnapshot) => {
                 let blogHTML = '<h3>Blog Posts</h3>';
                 querySnapshot.forEach((doc) => {
                     const blog = doc.data();
@@ -192,7 +192,7 @@
             });
 
             // Load FAQs
-            db.collection('faqs').get().then((querySnapshot) => {
+            db.collection('FAQs').get().then((querySnapshot) => {
                 let faqHTML = '<h3>FAQs</h3>';
                 querySnapshot.forEach((doc) => {
                     const faq = doc.data();
@@ -243,7 +243,7 @@
             const form = document.getElementById('blogForm');
             form.onsubmit = function(e) {
                 e.preventDefault();
-                db.collection('blogs').doc(id).update({
+                db.collection('Blogs').doc(id).update({
                     title: document.getElementById('blogTitle').value,
                     content: document.getElementById('blogContent').value
                 }).then(() => {

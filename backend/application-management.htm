@@ -95,7 +95,7 @@
 
         // Load applications
         function loadApplications() {
-            db.collection('applications').get().then((querySnapshot) => {
+            db.collection('Applications').get().then((querySnapshot) => {
                 const applicationTableBody = document.getElementById('applicationTableBody');
                 applicationTableBody.innerHTML = ''; // Clear existing rows
                 querySnapshot.forEach((doc) => {
@@ -131,7 +131,7 @@
             const message = document.getElementById('messageContent').value;
 
             // Add message to Firestore
-            db.collection('messages').add({
+            db.collection('Messages').add({
                 applicationId: document.getElementById('applicationId').value,
                 email: email,
                 content: message,
