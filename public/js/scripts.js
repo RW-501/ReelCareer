@@ -118,13 +118,13 @@ let adjustLinkURL;
     }
 
         
-      /*  console.log("nav currentPage   ",currentPage);
+       console.log("nav currentPage   ",currentPage);
         console.log("nav isHomePage   ",isHomePage);
         console.log("nav adjustLinkURL   ",adjustLinkURL);
         console.log("nav navbarClass   ",navbarClass);
         console.log("nav adjustLinkHomeURL   ",adjustLinkHomeURL);
 
-        */
+        
 
 
  function addFavicons() {

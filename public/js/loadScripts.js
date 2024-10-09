@@ -117,7 +117,7 @@ window.addEventListener('load', hideLoader);
   // Loader and Smooth Content Transition
   window.addEventListener('load', function () {
     const loader = document.getElementById('loader');
-    const content = document.querySelector('.content');
+    const content = document.querySelector('body');
 
     // Hide loader and show content with smooth transition
     loader.classList.add('hidden');
