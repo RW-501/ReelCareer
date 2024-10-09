@@ -326,5 +326,90 @@ const closeLoginPopup = () => {
 
 
 
+    // Function to setup event listeners
+    function setupEventListeners() {
+        // Dark Mode Toggle functionality
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        darkModeToggle.addEventListener('click', toggleDarkMode);
+
+        // Initialize Dark Mode based on previous settings
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+        }
+      //  firebase.initializeApp(firebaseConfig);
+      onAuthStateChanged(auth, handleAuthStateChanged);
+
+    }
+
+    
+   // let mainDefaultPic = 
+
+
+
+
+    // Function to toggle dark mode
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+    }
+
+    // Handle authentication state changes
+    function handleAuthStateChanged(user) {
+        const authSection = document.getElementById("authSection");
+        const jobSeekerNavItem = document.getElementById("jobSeekerNavItem");
+        const recruiterNavItem = document.getElementById("recruiterNavItem");
+
+        if (user) {
+            // If the user is logged in, show profile info and logout button
+            const userName = user.displayName || 'User';
+            const defaultPic = `<img src="${adjustLinkHomeURL}images/sq_logo_n_BG_sm.png" alt="Profile Picture" class="rounded-circle" style="width: 40px; height: 40px; margin-right: 10px;">`
+            const userPhoto = user.photoURL ? `<img src="${user.photoURL}" alt="Profile Picture" class="rounded-circle" style="width: 40px; height: 40px; margin-right: 10px;">` : `"${defaultPic}"`;
+            
+            authSection.innerHTML = `
+                <div class="dropdown">
+                    <button class="btn btn-outline-primary dropdown-toggle" type="button" id="profileDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        ${userPhoto} Welcome, ${userName}
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="profileDropdown">
+                        <a class="dropdown-item" href="${adjustLinkURL}user">Profile</a>
+                        <a class="dropdown-item" href="${adjustLinkURL}messaging">Messaging</a>
+                        <a class="dropdown-item" href="${adjustLinkURL}settings">Account Settings</a>
+                        <button class="dropdown-item" id="logoutButton">Logout</button>
+                    </div>
+                </div>
+            `;
+
+            // Show Job Seeker and Recruiter links
+            jobSeekerNavItem.style.display = 'block';
+            recruiterNavItem.style.display = 'block';
+
+            // Handle logout
+            document.getElementById('logoutButton').onclick = logoutUser;
+        } else {
+            // If the user is not logged in, hide the Job Seeker and Recruiter links
+            jobSeekerNavItem.style.display = 'none';
+            recruiterNavItem.style.display = 'none';
+
+            // Show "Login / Create Account" button
+            authSection.innerHTML = `
+                <button class="btn btn-primary" id="loginButton">Login / Create Account</button>
+            `;
+
+            document.getElementById('loginButton').onclick = () => {
+                window.location.href = adjustLinkHomeURL+'views/auth'; // Redirect to login page
+            };
+        }
+    }
+
+    // Function to logout the user
+    async function logoutUser() {
+        try {
+            await firebase.auth().signOut();
+            window.location.href =  adjustLinkHomeURL+'views/auth'; // Redirect to login page after logout
+        } catch (error) {
+            console.error("Logout error:", error);
+        }
+    }
+
 
 
