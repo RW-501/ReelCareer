@@ -157,6 +157,9 @@ fetch(adjustLinkHomeURL + "public/js/suggestions.json")
     });
 
     function autoSuggest(input, suggestionsArray) {
+        console.log('input.value.length:', input.value.length); // Log the current input value
+
+        if(input.value.length > 2 ){
         const inputValue = input.value ? input.value.toLowerCase().trim() : ''; // Ensure input is defined and trim any extra spaces
         console.log('Input Value:', inputValue); // Log the current input value
         
@@ -165,8 +168,10 @@ fetch(adjustLinkHomeURL + "public/js/suggestions.json")
         // Split the input by spaces and get the last part
         const words = inputValue.split(' ');
         const lastWord = words.pop(); // Get the last word after the most recent space
+        console.log('words:', words); 
         console.log('Last Word:', lastWord); 
-    
+
+            
         // Find the first suggestion that starts with the last word
         for (let i = 0; i < suggestionsArray.length; i++) {
             if (suggestionsArray[i].toLowerCase().startsWith(lastWord)) {
@@ -183,7 +188,10 @@ fetch(adjustLinkHomeURL + "public/js/suggestions.json")
             // Update the input value to reflect the suggestion only for the last word
             input.value = words.join(' ') + ' ' + suggestion; // Preserve previous input and add the suggestion
             input.selectionStart = input.value.length; // Set the selection start after the typed characters
-            input.selectionEnd = input.value.length; // Set the selection end to the end of the input
+            input.selectionEnd = input.value.length + suggestion.length; // Set the selection end to the end of the input
+            console.log('input.value.length', input.value.length); 
+            console.log('suggestion.length:', suggestion.length); 
+
             console.log('Input Updated to Suggestion:', input.value); // Log the updated input value
         } else {
             // Clear the suggestion if no match is found
@@ -191,6 +199,7 @@ fetch(adjustLinkHomeURL + "public/js/suggestions.json")
                 input.removeAttribute('data-suggestion'); // Clear it if no suggestions
             }
         }
+    }
     }
     
 document.addEventListener('DOMContentLoaded', function() {
