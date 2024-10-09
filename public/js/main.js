@@ -340,7 +340,7 @@ const closeLoginPopup = () => {
     // Function to setup event listeners
     function setupEventListeners() {
         // Dark Mode Toggle functionality
-        const darkModeToggle = document.getElementById('darkModeToggle');
+        const darkModeToggle = document.getElementById?.('darkModeToggle');
         darkModeToggle.addEventListener('click', toggleDarkMode);
 
         // Initialize Dark Mode based on previous settings
