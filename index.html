@@ -447,6 +447,7 @@ async function fetchSponsors(excludedIds) {
     return sponsorsSnapshot.docs.map(doc => ({
     id: doc.id,
     name: doc.data().title,
+    company: doc.data().company,
     logoUrl: doc.data().logo,
     website: doc.data().website,
     // Add any other specific fields you want to include...
@@ -468,6 +469,7 @@ function addSponsorSection(sponsors, container) {
                             <img class="card-img-top" src="${sponsor.logoUrl || '/ReelCareer/images/favicons/android-chrome-512x512.png'}" alt="${sponsor.name}">
                             <div class="card-body">
                                 <h6 class="card-title">${sponsor.name}</h6>
+                                <h4 class="card-text">${sponsor.company}</h4>
                                 <p class="card-text text-muted">${truncateText(sponsor.description, 80)}</p>
                 <p class="card-text"><strong>Salary:</strong> $${sponsor.salary}</p>
                 <a href="views/job-detail.html?id=${sponsor.id}" class="btn btn-primary w-100 mt-3">Apply Now</a>                            </div>
