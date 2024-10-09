@@ -275,7 +275,7 @@ async function getUserInfo() {
             console.log("Could not retrieve location.");
         }
     } else {
-        console.log(`Retrieved from Local Storage: City: ${userLocation.city}, State: ${userLocation.state}, ZIP Code: ${userLocation.zip}`);
+     //   console.log(`Retrieved from Local Storage: City: ${userLocation.city}, State: ${userLocation.state}, ZIP Code: ${userLocation.zip}`);
     }
     userINFO = userLocation
 
