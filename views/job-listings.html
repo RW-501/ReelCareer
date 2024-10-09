@@ -507,13 +507,13 @@ async function fetchJobListings() {
 
     // Adding dynamic filters based on userINFO
     if (userINFO.city) { 
-        jobsQuery = query(jobsQuery, where('city', '==', userINFO.city));
+      //  jobsQuery = query(jobsQuery, where('city', '==', userINFO.city));
     }
     if (userINFO.state) {
         jobsQuery = query(jobsQuery, where('state', '==', userINFO.state));
     }
     if (userInterests.length > 0) {
-        jobsQuery = query(jobsQuery, where('tags', 'array-contains-any', userInterests));
+    //    jobsQuery = query(jobsQuery, where('tags', 'array-contains-any', userInterests));
     }
 
     // Exclude specified IDs if any
@@ -531,13 +531,13 @@ async function fetchJobListings() {
 
     // Adding dynamic filters based on userINFO for sponsors
     if (userINFO.state) {
-        sponsorsQuery = query(sponsorsQuery, where('state', '==', userINFO.state));
+      //  sponsorsQuery = query(sponsorsQuery, where('state', '==', userINFO.state));
     }
     if (userINFO.country) {
-        sponsorsQuery = query(sponsorsQuery, where('country', '==', userINFO.country));
+      //  sponsorsQuery = query(sponsorsQuery, where('country', '==', userINFO.country));
     }
     if (userInterests.length > 0) {
-        sponsorsQuery = query(sponsorsQuery, where('tags', 'array-contains-any', userInterests));
+       // sponsorsQuery = query(sponsorsQuery, where('tags', 'array-contains-any', userInterests));
     }
 
     // Exclude specified IDs for sponsors if necessary
@@ -569,7 +569,7 @@ async function fetchJobListings() {
                 datePosted: data.createdAt,
                 organization: data.company,
                 location: data.location,
-                employmentType: data.employmentType,
+                employmentType: data.type,
                 baseSalary: data.salary,
                 validThrough: data.boostExpiresAt,
                 url: doc.id
@@ -586,7 +586,7 @@ async function fetchJobListings() {
                 datePosted: data.createdAt,
                 organization: data.company,
                 location: data.location,
-                employmentType: data.employmentType,
+                employmentType: data.type,
                 baseSalary: data.salary,
                 validThrough: data.boostExpiresAt,
                 url: doc.id
@@ -646,7 +646,7 @@ function createSponsoredJobCard(sponsoredJob) {
                     <h5 class="card-title">${sponsoredJob.title}</h5>
                     <h6 class="card-subtitle mb-2 text-muted">${sponsoredJob.organization}</h6>
                     <p class="card-text">${sponsoredJob.description}</p>
-                    <a href="../views/job-detail.html?id=${sponsoredJob.id}" class="btn btn-success">Apply Now</a>
+                    <div  onclick="showJobDetailsFunc('${job.id}')" class="btn btn-success">Apply Now</div>
                 </div>
             </div>
         </div>
