@@ -349,9 +349,12 @@ async function fetchJobListings(page = 1) {
         // Clear previous listings before adding new ones
         jobListingsContainer.innerHTML = ''; 
 
+
+        
         // Handle job listings
         const jobListings = jobListingsSnapshot.docs.map(doc => ({
             id: doc.id,
+
             ...doc.data()
         }));
 
