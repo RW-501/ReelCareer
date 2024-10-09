@@ -169,26 +169,27 @@ document.getElementById('login-form')?.addEventListener('submit', async (e) => {
     }
 });
 
-// Logout Function
-const logout = async () => {
+document.getElementById('email-login-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = document.getElementById('login-email').value;
+    const password = document.getElementById('login-password').value;
+
     showLoading();
     try {
-        const user = auth.currentUser;
-        if (user) {
-            await signOut(auth);
-            await saveUserLoginState(user, false); // Update database to set loggedIn to false
-            localStorage.removeItem('userLoggedIn'); // Clear local storage
-            localStorage.removeItem('userEmail');
-            console.log('Logout Successful');
-        }
-        window.location.href = '/views/auth.html'; // Redirect to login/auth page after logout
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+        console.log('Email Login Successful:', user);
+        await saveUserLoginState(user, true);
+        closeLoginPopup();
     } catch (error) {
-        console.error('Error during logout:', error);
+        console.error('Error during email login:', error);
         alert(error.message);
     } finally {
         hideLoading();
     }
-};
+});
+
+
 
 // Google Login Function
 document.getElementById('google-login')?.addEventListener('click', async () => {
@@ -241,6 +242,38 @@ document.getElementById('apple-login')?.addEventListener('click', async () => {
     }
 });
 
+
+// Logout Function
+const logout = async () => {
+    showLoading();
+    try {
+        const user = auth.currentUser;
+        if (user) {
+            await signOut(auth);
+            await saveUserLoginState(user, false); // Update database to set loggedIn to false
+            localStorage.removeItem('userLoggedIn'); // Clear local storage
+            localStorage.removeItem('userEmail');
+            console.log('Logout Successful');
+        }
+        window.location.href = '/views/auth.html'; // Redirect to login/auth page after logout
+    } catch (error) {
+        console.error('Error during logout:', error);
+        alert(error.message);
+    } finally {
+        hideLoading();
+    }
+};
+
+ // Function to logout the user
+ async function logoutUser() {
+    try {
+        await firebase.auth().signOut();
+        window.location.href =  adjustLinkHomeURL+'views/auth'; // Redirect to login page after logout
+    } catch (error) {
+        console.error("Logout error:", error);
+    }
+}
+
 // Logout button on any page
 document.getElementById('logout-button')?.addEventListener('click', logout);
 
@@ -288,29 +321,7 @@ const showLoginPopup = () => {
     `;
 
     document.body.appendChild(loginPopup);
-
-
-
-
-    document.getElementById('email-login-form').addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const email = document.getElementById('login-email').value;
-        const password = document.getElementById('login-password').value;
-
-        showLoading();
-        try {
-            const userCredential = await signInWithEmailAndPassword(auth, email, password);
-            const user = userCredential.user;
-            console.log('Email Login Successful:', user);
-            await saveUserLoginState(user, true);
-            closeLoginPopup();
-        } catch (error) {
-            console.error('Error during email login:', error);
-            alert(error.message);
-        } finally {
-            hideLoading();
-        }
-    });
+ 
 };
 
 // Function to close and remove the login pop-up
@@ -401,15 +412,20 @@ const closeLoginPopup = () => {
         }
     }
 
-    // Function to logout the user
-    async function logoutUser() {
-        try {
-            await firebase.auth().signOut();
-            window.location.href =  adjustLinkHomeURL+'views/auth'; // Redirect to login page after logout
-        } catch (error) {
-            console.error("Logout error:", error);
-        }
+   
+  // Replace the navbar if not on an excluded page
+  if (!excludedPages.includes(currentPage)) {
+    let existingNavbar = document.querySelector('.navbar');
+    
+    // If an existing navbar is found, replace it
+    if (existingNavbar) {
+        existingNavbar.outerHTML = createNavbar();
+    } else {
+        // If no existing navbar, append it to the body
+        document.body.insertAdjacentHTML('afterbegin', createNavbar());
     }
 
+    setupEventListeners(); // Initialize event listeners
+    highlightActiveLink(); // Highlight the active link
 
-
+}
