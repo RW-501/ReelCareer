@@ -146,26 +146,30 @@ fetch(adjustLinkHomeURL + "public/js/suggestions.json")
         citySuggestions = data.citySuggestions;
         stateSuggestions = data.stateSuggestions;
 
-        console.log("Job Suggestions:", jobSuggestions);
+      /*  console.log("Job Suggestions:", jobSuggestions);
         console.log("Job Requirements Suggestions:", jobRequirementsSuggestions);
         console.log("Locations Suggestions:", locationsSuggestions);
         console.log("City Suggestions:", citySuggestions);
-        console.log("State Suggestions:", stateSuggestions);
+        console.log("State Suggestions:", stateSuggestions); */
     })
     .catch(error => {
         console.error('There was a problem with the fetch operation:', error);
     });
 
 function autoSuggest(input, suggestionsArray) {
-    const inputValue = input.value ? input.value.toLowerCase() : ''; // Check if input.value is defined
+    const inputValue = input.value ? input.value.toLowerCase().trim() : ''; // Ensure input is defined and trim any extra spaces
     console.log('Input Value:', inputValue); // Log the current input value
+    
     let suggestion = '';
-
-    // Find the first suggestion that starts with the input value
+    
+    // Split the input by spaces and get the last part
+    const lastWord = inputValue.split(' ').pop(); // Get the last part of the input after the most recent space
+    
+    // Find the first suggestion that starts with the last word
     for (let i = 0; i < suggestionsArray.length; i++) {
-        if (suggestionsArray[i].toLowerCase().startsWith(inputValue)) {
+        if (suggestionsArray[i].toLowerCase().startsWith(lastWord)) {
             suggestion = suggestionsArray[i];
-            // console.log('Suggestion Found:', suggestion); // Log the found suggestion
+            console.log('Suggestion Found:', suggestion); // Log the found suggestion
             break;
         }
     }
@@ -179,7 +183,7 @@ function autoSuggest(input, suggestionsArray) {
         input.selectionEnd = suggestion.length; // Set the selection end to the suggestion length
         console.log('Input Updated to Suggestion:', input.value); // Log the updated input value
     } else {
-        console.log('No suggestion available.'); // Log when no suggestion is found
+        //console.log('No suggestion available.'); // Log when no suggestion is found
         if (input.getAttribute('data-suggestion')) {
             input.removeAttribute('data-suggestion'); // Clear it if no suggestions
         }
