@@ -353,12 +353,17 @@ async function fetchJobListings(page = 1) {
         
         // Handle job listings
         const jobListings = jobListingsSnapshot.docs.map(doc => ({
-            id: doc.id,
-
-            ...doc.data()
-        }));
+    id: doc.id,
+    title: doc.data().title,
+    description: doc.data().description,
+    company: doc.data().company,
+    location: doc.data().location,
+    salary: doc.data().salary,
+    // Add any other specific fields you want to include...
+}));
 
         jobListings.forEach(job => createJobCard(job, jobListingsContainer));
+        console.log(jobListings);  // Check if this logs any job listings
 
         // Sponsor logic
         const sponsors = await fetchSponsors(excludedIds);
@@ -436,7 +441,14 @@ async function fetchSponsors(excludedIds) {
     sponsorsQuery = query(sponsorsQuery, orderBy('createdAt', 'desc'), limit(20));
 
     const sponsorsSnapshot = await getDocs(sponsorsQuery);
-    return sponsorsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    return sponsorsSnapshot.docs.map(doc => ({
+    id: doc.id,
+    name: doc.data().title,
+    logoUrl: doc.data().logo,
+    website: doc.data().website,
+    // Add any other specific fields you want to include...
+}));
+
 }
 
 // Function to add sponsor section to the container
@@ -454,8 +466,8 @@ function addSponsorSection(sponsors, container) {
                             <div class="card-body">
                                 <h6 class="card-title">${sponsor.name}</h6>
                                 <p class="card-text text-muted">${truncateText(sponsor.description, 80)}</p>
-                                <a href="${sponsor.website}" class="btn btn-outline-primary w-100" target="_blank">Visit Website</a>
-                            </div>
+                <p class="card-text"><strong>Salary:</strong> $${sponsor.salary}</p>
+                <a href="views/job-detail.html?id=${sponsor.id}" class="btn btn-primary w-100 mt-3">Apply Now</a>                            </div>
                         </div>
                     </div>
                 `).join('')}
