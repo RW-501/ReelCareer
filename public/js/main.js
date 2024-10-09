@@ -413,19 +413,7 @@ const closeLoginPopup = () => {
     }
 
    
-  // Replace the navbar if not on an excluded page
-  if (!excludedPages.includes(currentPage)) {
-    let existingNavbar = document.querySelector('.navbar');
-    
-    // If an existing navbar is found, replace it
-    if (existingNavbar) {
-        existingNavbar.outerHTML = createNavbar();
-    } else {
-        // If no existing navbar, append it to the body
-        document.body.insertAdjacentHTML('afterbegin', createNavbar());
-    }
 
-    setupEventListeners(); // Initialize event listeners
-    highlightActiveLink(); // Highlight the active link
 
-}
+setupEventListeners(); // Initialize event listeners
+highlightActiveLink(); // Highlight the active link
