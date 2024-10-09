@@ -491,7 +491,9 @@ function addSponsorSection(sponsors, container) {
     return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
     }
         
-      
+       // Load job listings on page load
+       fetchJobListings(page = 1);
+       
         document.getElementById('jobSearchForm').addEventListener('submit', function(event) { 
         event.preventDefault(); // Prevent the default form submission
 
@@ -525,9 +527,7 @@ function addSponsorSection(sponsors, container) {
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 <script>
-      // Load job listings on page load
-      document.addEventListener('DOMContentLoaded', fetchJobListings(page = 1));
-
+     
 
 </script>
 </body>
