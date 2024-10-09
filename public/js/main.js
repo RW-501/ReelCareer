@@ -333,7 +333,6 @@ const closeLoginPopup = () => {
 };
 
 
-console.log("???????outside  ?????????   ");
 
 
 // Navagtion bar  
@@ -446,7 +445,8 @@ document.addEventListener('keydown', function(event) {
     // Replace the navbar if not on an excluded page
     if (!excludedPages.includes(currentPage)) {
         let existingNavbar = document.querySelector('.navbar');
-        
+        console.log("???????outside  ?????????   ");
+
         // If an existing navbar is found, replace it
         if (existingNavbar) {
             existingNavbar.outerHTML = createNavbar();
