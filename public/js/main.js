@@ -333,21 +333,23 @@ const closeLoginPopup = () => {
 };
 
 
-// myModule.js
-export function setupLinks() {
-    const { currentPage, adjustLinkURL, adjustLinkHomeURL, excludedPages } = getAdjustedLinks();
-    // Use adjustLinkURL and adjustLinkHomeURL as needed within the module
-}
+
+
+    // myModule.js
+    export function setupLinks() {
+        const { currentPage, adjustLinkURL, adjustLinkHomeURL, excludedPages } = getAdjustedLinks();
+        // Use adjustLinkURL and adjustLinkHomeURL as needed within the module
+    }
+    
+
+// Navagtion bar  
+document.addEventListener("DOMContentLoaded", function () {
 
 // Optionally, you can call it directly in the module if needed
 const { currentPage, adjustLinkURL, adjustLinkHomeURL, excludedPages } = getAdjustedLinks();
 console.log(adjustLinkURL, adjustLinkHomeURL);
 
 
-// Navagtion bar  
-document.addEventListener("DOMContentLoaded", function () {
-
-    
     // Function to create the navbar
     function createNavbar() {
         const navbarClass = (isHomePage) ?   'navbar-light bg-light' : 'navbar-dark bg-primary ';
@@ -382,31 +384,35 @@ document.addEventListener("DOMContentLoaded", function () {
             </nav>
         `;
 
-            // Replace the navbar if not on an excluded page
-    if (!excludedPages.includes(currentPage)) {
-        let existingNavbar = document.querySelector('.navbar');
-       // console.log("???????outside  ?????????   ");
 
-        // If an existing navbar is found, replace it
-        if (existingNavbar) {
-            existingNavbar.outerHTML = createNavbar();
-        } else {
-            // If no existing navbar, append it to the body
-            document.body.insertAdjacentHTML('afterbegin', createNavbar());
+
+
+
+
+
+
+
+
+
+
+
+    // Function to setup event listeners
+    function setupEventListeners() {
+        // Dark Mode Toggle functionality
+        const darkModeToggle = document.getElementById?.('darkModeToggle');
+        darkModeToggle.addEventListener('click', toggleDarkMode);
+
+        // Initialize Dark Mode based on previous settings
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
         }
-
-        setupEventListeners(); // Initialize event listeners
-        highlightActiveLink(); // Highlight the active link
-
-    }
+      //  firebase.initializeApp(firebaseConfig);
+      onAuthStateChanged(auth, handleAuthStateChanged);
 
     }
 
-  
 
-   
-   
-   
+
 // btn-primary
 // Function to highlight active links in the navbar
 function highlightActiveLink() {
@@ -436,6 +442,34 @@ function updateNavVisibility(user) {
     }
 }
 
+
+            // Replace the navbar if not on an excluded page
+    if (!excludedPages.includes(currentPage)) {
+        let existingNavbar = document.querySelector('.navbar');
+       // console.log("???????outside  ?????????   ");
+
+        // If an existing navbar is found, replace it
+        if (existingNavbar) {
+            existingNavbar.outerHTML = createNavbar();
+        } else {
+            // If no existing navbar, append it to the body
+            document.body.insertAdjacentHTML('afterbegin', createNavbar());
+        }
+
+        setupEventListeners(); // Initialize event listeners
+        highlightActiveLink(); // Highlight the active link
+
+    }
+
+    }
+
+  
+
+   
+   
+   
+
+
 // Function to handle keyboard navigation for dropdown
 document.addEventListener('keydown', function(event) {
     if (event.key === 'Enter' || event.key === ' ') {
@@ -448,22 +482,6 @@ document.addEventListener('keydown', function(event) {
 
 
 
-
-
-    // Function to setup event listeners
-    function setupEventListeners() {
-        // Dark Mode Toggle functionality
-        const darkModeToggle = document.getElementById?.('darkModeToggle');
-        darkModeToggle.addEventListener('click', toggleDarkMode);
-
-        // Initialize Dark Mode based on previous settings
-        if (localStorage.getItem('darkMode') === 'true') {
-            document.body.classList.add('dark-mode');
-        }
-      //  firebase.initializeApp(firebaseConfig);
-      onAuthStateChanged(auth, handleAuthStateChanged);
-
-    }
 
 
 
