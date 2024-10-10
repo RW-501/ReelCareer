@@ -281,7 +281,7 @@ document.addEventListener('DOMContentLoaded', function() {
         input.addEventListener('input', function(e) {
             console.log('e.inputType.   ',e.inputType); 
             // Check for backspace input type to avoid suggesting during deletion
-            if (e.inputType !== 'deleteContentBackward' || e.inputType !== 'Space') {
+            if (e.inputType !== 'deleteContentBackward' || e.inputType !== 'insertText') {
                 let suggestionsArray;
 
                 // Detect input type and assign the corresponding suggestions array

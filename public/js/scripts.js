@@ -128,7 +128,8 @@ const { currentPage, adjustLinkURL, adjustLinkHomeURL, excludedPages } = getAdju
         console.log("nav navbarClass   ",navbarClass);
         console.log("nav adjustLinkHomeURL   ",adjustLinkHomeURL);
 */
-        
+console.log("nav currentPage   ",currentPage);
+console.log("nav isHomePage   ",isHomePage);
 
 
  function addFavicons() {

@@ -300,6 +300,7 @@
     import { db, storage, analytics, app  } from './public/js/main.js'; // Adjust the path based on your structure
     import { query, where, orderBy, limit,  collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 
+    let page = 1;
 
 
 // Function to fetch job listings and sponsors
@@ -312,8 +313,7 @@ async function fetchJobListings(page = 1) {
     errorIndicator.style.display = 'none'; // Hide error indicator
     let isFetching = false; // Flag for fetching state
 
-    console.log("????????????????   ");
-
+/*
     // Debounced scroll listener
     const debouncedScrollListener = debounce(() => {
         if (isFetching) return;
@@ -324,6 +324,7 @@ async function fetchJobListings(page = 1) {
     }, 300); // 300ms debounce delay
 
     window.onscroll = debouncedScrollListener;
+*/
 
     let userInterest1, userInterest2, userInterest3;
     let excludedIds = []; // Replace with your actual IDs
@@ -350,7 +351,7 @@ async function fetchJobListings(page = 1) {
         console.log("jobsQuery   ",jobsQuery);
         console.log("jobListingsSnapshot   ",jobListingsSnapshot);
         // Clear previous listings before adding new ones
-        jobListingsContainer.innerHTML = ''; 
+       // jobListingsContainer.innerHTML = ''; 
 
 
         
