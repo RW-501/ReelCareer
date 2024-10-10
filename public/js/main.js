@@ -701,5 +701,4 @@ document.addEventListener('DOMContentLoaded', updateFooter);
    
 
 
-setupEventListeners(); // Initialize event listeners
-highlightActiveLink(); // Highlight the active link
+
