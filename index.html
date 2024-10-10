@@ -414,15 +414,19 @@ function createLoadMoreButton(loadMoreFunc) {
     loadMoreButton.className = 'btn btn-primary w-100 mt-4';
     loadMoreButton.innerText = 'Load More Jobs';
     
-    // Add fade-out animation (using CSS class)
-    loadMoreButton.style.transition = 'opacity 0.5s ease';
-    
+
+            // Optionally re-enable the button after jobs are loaded
+            loadMoreButton.style.transition = 'opacity 0.5s ease';
+            loadMoreButton.style.display = 'block';  // Bring the button back if needed
+            loadMoreButton.style.opacity = 1;  // Reset opacity
+
     // Modify the onclick event
     loadMoreButton.onclick = () => {
         loadMoreFunc().then(() => {
-            // Optionally re-enable the button after jobs are loaded
-            loadMoreButton.style.display = 'block';  // Bring the button back if needed
-            loadMoreButton.style.opacity = 1;  // Reset opacity
+    // Add fade-out animation (using CSS class)
+    loadMoreButton.style.display = 'none';
+        loadMoreButton.outerHTML = "";
+
         }).catch(() => {
             console.error('Failed to load jobs');
         });

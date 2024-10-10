@@ -298,6 +298,7 @@ let suggestion = '';
 
 // Split the input by spaces and get the last part
 const lastWord = inputValue.split(' ').pop(); // Get the last part of the input after the most recent space
+console.log('lastWord', lastWord);
 
 // Find the first suggestion that starts with the last word
 for (let i = 0; i < suggestionsArray.length; i++) {
@@ -314,8 +315,9 @@ for (let i = 0; i < suggestionsArray.length; i++) {
 
         input.value = suggestion; // Temporarily set the input value to the suggestion
         input.selectionStart = inputValue.length; // Set the selection start after the typed characters
-        input.selectionEnd = suggestion.length; // Set the selection end to the suggestion length
-        console.log('Input Updated to Suggestion:', input.value); // Log the updated input value
+        input.selectionEnd = suggestion.length + input.value; // Set the selection end to the suggestion length
+        console.log('suggestion.length:', suggestion.length); // Log the updated input value
+        console.log('input.value:', input.value); // Log the updated input value
     } else {
         console.log('No suggestion available.'); // Log when no suggestion is found
         if (input.getAttribute('data-suggestion')) {
