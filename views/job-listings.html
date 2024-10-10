@@ -511,7 +511,7 @@ async function fetchJobListings() {
       //  jobsQuery = query(jobsQuery, where('city', '==', userINFO.city));
     }
     if (userINFO.state) {
-        jobsQuery = query(jobsQuery, where('state', '==', userINFO.state));
+   //     jobsQuery = query(jobsQuery, where('state', '==', userINFO.state));
     }
     if (userInterests.length > 0) {
     //    jobsQuery = query(jobsQuery, where('tags', 'array-contains-any', userInterests));
@@ -519,7 +519,7 @@ async function fetchJobListings() {
 
     // Exclude specified IDs if any
     if (excludedIds.length > 0) {
-        jobsQuery = query(jobsQuery, where('id', 'not-in', excludedIds));
+  //      jobsQuery = query(jobsQuery, where('id', 'not-in', excludedIds));
     }
 
     // Common conditions
@@ -543,7 +543,7 @@ async function fetchJobListings() {
 
     // Exclude specified IDs for sponsors if necessary
     if (excludedIds.length > 0) {
-        sponsorsQuery = query(sponsorsQuery, where('id', 'not-in', excludedIds));
+    //    sponsorsQuery = query(sponsorsQuery, where('id', 'not-in', excludedIds));
     }
 
     // Common conditions for sponsors
@@ -735,7 +735,7 @@ function searchJobs() {
     contractToHire,
 }) {
     try {
-        const jobListingsRef = firestore.collection('jobListings'); // Replace with your collection name
+        const jobListingsRef = firestore.collection('Jobs'); // Replace with your collection name
         let query = jobListingsRef;
 
         // Check if each field has a value and build the query accordingly
@@ -761,7 +761,7 @@ function searchJobs() {
             query = query.where('salary', '<=', salaryMax);
         }
         if (contractType) {
-            query = query.where('contractType', '==', contractType);
+            query = query.where('type', '==', contractType);
         }
         if (industry) {
             query = query.where('industry', '==', industry);

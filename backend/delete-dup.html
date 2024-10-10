@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Duplicates Manager</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .result-item {
+            padding: 10px;
+            background: #ffffff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center">Job Duplicates Manager</h1>
+        <div class="form-group">
+            <input type="text" id="searchTitle" class="form-control" placeholder="Enter job title to search...">
+        </div>
+        <button id="searchButton" class="btn btn-primary btn-block">Search</button>
+        <div id="results" class="mt-4"></div>
+        <button id="removeDuplicatesButton" class="btn btn-danger btn-block mt-2">Remove Duplicates</button>
+        <div id="message" class="mt-3 text-center"></div>
+    </div>
+
+    <!-- Firebase Configuration -->
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js"></script>
+    <script>
+        // Firebase configuration
+        const firebaseConfig = {
+    apiKey: "AIzaSyDiwC3Dmd88-t3N9iRV5cZ3snVkEXinclg",
+    authDomain: "reelcareer-cb4b0.firebaseapp.com",
+    projectId: "reelcareer-cb4b0",
+    storageBucket: "reelcareer-cb4b0.appspot.com",
+    messagingSenderId: "365163764840",
+    appId: "1:365163764840:web:21c44f8625c9b6831e6fdd",
+    measurementId: "G-LBTK319K2X"
+};
+
+
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore(app);
+
+        const searchButton = document.getElementById('searchButton');
+        const removeDuplicatesButton = document.getElementById('removeDuplicatesButton');
+        const resultsDiv = document.getElementById('results');
+        const messageDiv = document.getElementById('message');
+
+        let jobData = [];
+
+        // Search for jobs by title
+        searchButton.addEventListener('click', async () => {
+            const title = document.getElementById('searchTitle').value.trim();
+            if (!title) {
+                messageDiv.textContent = 'Please enter a job title.';
+                return;
+            }
+
+            const jobsRef = db.collection('Jobs');
+            const querySnapshot = await jobsRef.where('title', '==', title).get();
+
+            jobData = [];
+            resultsDiv.innerHTML = '';
+            if (querySnapshot.empty) {
+                messageDiv.textContent = 'No jobs found.';
+            } else {
+                let counts = {};
+                querySnapshot.forEach(doc => {
+                    const job = { id: doc.id, ...doc.data() };
+                    jobData.push(job);
+                    counts[job.title] = (counts[job.title] || 0) + 1;
+                });
+
+                // Display results
+                Object.keys(counts).forEach(key => {
+                    const count = counts[key];
+                    const resultItem = document.createElement('div');
+                    resultItem.className = 'result-item';
+                    resultItem.textContent = `${key}: ${count}`;
+                    resultsDiv.appendChild(resultItem);
+                });
+
+                messageDiv.textContent = `${jobData.length} job(s) found with the title "${title}".`;
+            }
+        });
+
+        // Remove duplicates
+        removeDuplicatesButton.addEventListener('click', async () => {
+            const title = document.getElementById('searchTitle').value.trim();
+            if (!title) {
+                messageDiv.textContent = 'Please enter a job title.';
+                return;
+            }
+
+            const counts = {};
+            const duplicatesToRemove = [];
+
+            // Count duplicates
+            jobData.forEach(job => {
+                counts[job.title] = (counts[job.title] || 0) + 1;
+                if (counts[job.title] > 1) {
+                    duplicatesToRemove.push(job.id);
+                }
+            });
+
+            // Remove duplicates
+            for (const id of duplicatesToRemove) {
+                await db.collection('Jobs').doc(id).delete();
+            }
+
+            messageDiv.textContent = `${duplicatesToRemove.length} duplicate job(s) removed.`;
+            // Refresh the results
+            await searchButton.click();
+        });
+    </script>
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
