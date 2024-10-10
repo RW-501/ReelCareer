@@ -335,29 +335,29 @@ const closeLoginPopup = () => {
 
 
 
-    // myModule.js
-    export function setupLinks() {
-        const { currentPage, adjustLinkURL, adjustLinkHomeURL, excludedPages } = getAdjustedLinks();
-        // Use adjustLinkURL and adjustLinkHomeURL as needed within the module
-    }
-    
 
-// Navagtion bar  
+
+
+// myModule.js
+export function setupLinks() {
+    const { currentPage, adjustLinkURL, adjustLinkHomeURL, excludedPages } = getAdjustedLinks();
+    // Use adjustLinkURL and adjustLinkHomeURL as needed within the module
+}
+
+// Navigation bar  
 document.addEventListener("DOMContentLoaded", function () {
 
-// Optionally, you can call it directly in the module if needed
-const { currentPage, adjustLinkURL, adjustLinkHomeURL, excludedPages } = getAdjustedLinks();
-console.log(adjustLinkURL, adjustLinkHomeURL);
-
+    // Optionally, you can call it directly in the module if needed
+    const { currentPage, adjustLinkURL, adjustLinkHomeURL, excludedPages } = getAdjustedLinks();
+    console.log(adjustLinkURL, adjustLinkHomeURL);
 
     // Function to create the navbar
     function createNavbar() {
-        const navbarClass = (isHomePage) ?   'navbar-light bg-light' : 'navbar-dark bg-primary ';
+        const isHomePage = currentPage === 'index'; // Adjust based on your logic for detecting homepage
+        const navbarClass = (isHomePage) ? 'navbar-light bg-light' : 'navbar-dark bg-primary';
 
-
-        
         return `
-            <nav class="navbar navbar-expand-lg ${navbarClass}  shadow-sm sticky-top" role="navigation">
+            <nav class="navbar navbar-expand-lg ${navbarClass} shadow-sm sticky-top" role="navigation">
                 <div class="container">
                     <a class="navbar-brand" href="${adjustLinkHomeURL}index">ReelCareer</a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
@@ -383,70 +383,55 @@ console.log(adjustLinkURL, adjustLinkHomeURL);
                 </div>
             </nav>
         `;
-
-
-
-
-
-
-
-
-
-
-
-
+    }
 
     // Function to setup event listeners
     function setupEventListeners() {
         // Dark Mode Toggle functionality
-        const darkModeToggle = document.getElementById?.('darkModeToggle');
-        darkModeToggle.addEventListener('click', toggleDarkMode);
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        darkModeToggle?.addEventListener('click', toggleDarkMode);
 
         // Initialize Dark Mode based on previous settings
         if (localStorage.getItem('darkMode') === 'true') {
             document.body.classList.add('dark-mode');
         }
-      //  firebase.initializeApp(firebaseConfig);
-      onAuthStateChanged(auth, handleAuthStateChanged);
 
+        // Firebase Authentication listener
+        firebase.initializeApp(firebaseConfig); // Ensure firebaseConfig is defined somewhere
+        onAuthStateChanged(auth, handleAuthStateChanged);
     }
 
+    // Function to highlight active links in the navbar
+    function highlightActiveLink() {
+        const navLinks = document.querySelectorAll('.navbar-nav .nav-item .nav-link');
+        navLinks.forEach(link => {
+            if (link.href === window.location.href) {
+                link.classList.add('active'); // Add the active class to the current page link
+            } else {
+                link.classList.remove('active'); // Remove it from others
+            }
+        });
+    }
 
+    // Function to update navigation visibility based on user role
+    function updateNavVisibility(user) {
+        const jobSeekerNavItem = document.getElementById("jobSeekerNavItem");
+        const recruiterNavItem = document.getElementById("recruiterNavItem");
 
-// btn-primary
-// Function to highlight active links in the navbar
-function highlightActiveLink() {
-    const navLinks = document.querySelectorAll('.navbar-nav .nav-item .nav-link');
-    navLinks.forEach(link => {
-        if (link.href === window.location.href) {
-            link.classList.add('active'); // Add the active class to the current page link
+        if (user) {
+            // Display items based on user roles
+            jobSeekerNavItem.style.display = user.role === 'jobSeeker' ? 'block' : 'none';
+            recruiterNavItem.style.display = user.role === 'recruiter' ? 'block' : 'none';
         } else {
-            link.classList.remove('active'); // Remove it from others
+            // Hide both items if not logged in
+            jobSeekerNavItem.style.display = 'none';
+            recruiterNavItem.style.display = 'none';
         }
-    });
-}
-
-// Function to update navigation visibility based on user role
-function updateNavVisibility(user) {
-    const jobSeekerNavItem = document.getElementById("jobSeekerNavItem");
-    const recruiterNavItem = document.getElementById("recruiterNavItem");
-
-    if (user) {
-        // Display items based on user roles
-        jobSeekerNavItem.style.display = user.role === 'jobSeeker' ? 'block' : 'none';
-        recruiterNavItem.style.display = user.role === 'recruiter' ? 'block' : 'none';
-    } else {
-        // Hide both items if not logged in
-        jobSeekerNavItem.style.display = 'none';
-        recruiterNavItem.style.display = 'none';
     }
-}
 
-
-            // Replace the navbar if not on an excluded page
+    // Replace the navbar if not on an excluded page
     if (!excludedPages.includes(currentPage)) {
         let existingNavbar = document.querySelector('.navbar');
-       // console.log("???????outside  ?????????   ");
 
         // If an existing navbar is found, replace it
         if (existingNavbar) {
@@ -458,45 +443,24 @@ function updateNavVisibility(user) {
 
         setupEventListeners(); // Initialize event listeners
         highlightActiveLink(); // Highlight the active link
-
     }
 
-    }
-
-  
-
-   
-   
-   
-
-
-// Function to handle keyboard navigation for dropdown
-document.addEventListener('keydown', function(event) {
-    if (event.key === 'Enter' || event.key === ' ') {
-        const target = document.activeElement;
-        if (target.classList.contains('dropdown-toggle')) {
-            target.click();
+    // Function to handle keyboard navigation for dropdowns
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Enter' || event.key === ' ') {
+            const target = document.activeElement;
+            if (target.classList.contains('dropdown-toggle')) {
+                target.click();
+            }
         }
-    }
-});
+    });
 
-
-
-
-
-
-
-
-// The Footer <footer id="dynamic-footer"></footer>
-
-
-   
-    // Additional content (e.g., company media section) can be included below
+    // Insert the footer section
     const companyMediaSectionHTML = `
         <section id="companyMedia" class="py-5 company-media">
             <div class="container">
                 <h2 class="text-center">Company Media</h2>
-                <div class="row" style=" text-align-last: center;">
+                <div class="row" style="text-align: center;">
                     <div class="col-md-6 m-auto">
                         <video controls>
                             <source src="${adjustLinkHomeURL}media/company-video.mp4" type="video/mp4">
@@ -504,7 +468,7 @@ document.addEventListener('keydown', function(event) {
                         </video>
                     </div>
                     <div class="col-md-6 m-auto">
-                        <img src="${adjustLinkHomeURL}images/sq_logo_n_BG_tie_reel.png" alt="Company Image" class="img-fluid" style="width: 15rem";>
+                        <img src="${adjustLinkHomeURL}images/sq_logo_n_BG_tie_reel.png" alt="Company Image" class="img-fluid" style="width: 15rem;">
                     </div>
                 </div>
             </div>

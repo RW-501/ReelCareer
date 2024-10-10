@@ -335,11 +335,11 @@ async function fetchJobListings(page = 1) {
 
         // Adding dynamic filters based on userINFO
       //  if (userINFO.city) jobsQuery = query(jobsQuery, where('city', '==', userINFO.city));
-        if (userINFO.state) jobsQuery = query(jobsQuery, where('state', '==', userINFO.state));
+      //  if (userINFO.state) jobsQuery = query(jobsQuery, where('state', '==', userINFO.state));
        // if (userInterests.length > 0) jobsQuery = query(jobsQuery, where('tags', 'array-contains-any', userInterests));
 
         // Exclude specified IDs
-        if (excludedIds.length > 0) jobsQuery = query(jobsQuery, where('id', 'not-in', excludedIds));
+       // if (excludedIds.length > 0) jobsQuery = query(jobsQuery, where('id', 'not-in', excludedIds));
 
         // Common conditions
         jobsQuery = query(jobsQuery, where('status', '==', 'active'));
@@ -437,7 +437,7 @@ async function fetchSponsors(excludedIds) {
     if (userINFO.country) sponsorsQuery = query(sponsorsQuery, where('country', '==', userINFO.country));
 
     // Exclude IDs
-    if (excludedIds.length > 0) sponsorsQuery = query(sponsorsQuery, where('id', 'not-in', excludedIds));
+ //   if (excludedIds.length > 0) sponsorsQuery = query(sponsorsQuery, where('id', 'not-in', excludedIds));
 
     // Filter by status and boost
     sponsorsQuery = query(sponsorsQuery, where('status', '==', 'active'), where('boosted', 'in', ['Yes', 'Active']));
@@ -493,7 +493,7 @@ function addSponsorSection(sponsors, container) {
         
        // Load job listings on page load
        fetchJobListings(page = 1);
-       
+
         document.getElementById('jobSearchForm').addEventListener('submit', function(event) { 
         event.preventDefault(); // Prevent the default form submission
 
