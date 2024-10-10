@@ -114,11 +114,11 @@ function getAdjustedLinks() {
         adjustLinkURL = "/ReelCareer/views/";
     }
 
-    return { currentPage, adjustLinkURL, adjustLinkHomeURL, excludedPages };
+    return { isHomePage, currentPage, adjustLinkURL, adjustLinkHomeURL, excludedPages };
 }
 
 // main.js
-const { currentPage, adjustLinkURL, adjustLinkHomeURL, excludedPages } = getAdjustedLinks();
+const {isHomePage, currentPage, adjustLinkURL, adjustLinkHomeURL, excludedPages } = getAdjustedLinks();
 //console.log(adjustLinkURL, adjustLinkHomeURL);
 
        /* 

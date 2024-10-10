@@ -173,13 +173,74 @@ setTimeout(() => {
     }
 }, 3000); // 3 seconds delay for timeout message
 
+function formatLocation(location) {
+    // Check if input is a valid string
+    if (typeof location !== 'string' || location.trim() === '') {
+        return ''; // Return empty string for invalid input
+    }
+    
+    // Add spaces after commas, periods, dashes, slashes, or colons
+    let formattedLocation = location.replace(/([.,-/])(\S)/g, '$1 $2');
+    
+    // Remove any extra spaces
+    formattedLocation = formattedLocation.replace(/\s+/g, ' ').trim();
 
+    // Capitalize each word
+    formattedLocation = formattedLocation.split(' ').map(word => 
+        word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+    ).join(' ');
 
+    return formattedLocation;
+}
 
+// Usage examples
+console.log(formatLocation("US,Texas,Dallas,Highland Park")); // "Us, Texas, Dallas, Highland Park"
+console.log(formatLocation("New.York,USA"));                  // "New. York, Usa"
+console.log(formatLocation("Houston.TX,USA"));                // "Houston. Tx, Usa"
+console.log(formatLocation("us-texas/dallas,highland park")); // "Us- Texas/ Dallas, Highland Park"
+console.log(formatLocation("  New York  .USA "));             // "New York. Usa"
+console.log(formatLocation(""));                              // ""
 
+function formatCurrency(value, options = {}) {
+    // Set default options for internationalization and currency formatting
+    const { locale = 'en-US', currency = 'USD', useIntl = false, decimals = 2 } = options;
 
+    // Remove any non-numeric characters except dots and commas
+    let cleanValue = value.replace(/[^0-9.,-]/g, '');
 
+    // Handle commas and convert to standard float
+    cleanValue = cleanValue.replace(/,/g, '');
 
+    // Convert to number
+    let number = parseFloat(cleanValue);
+
+    // Ensure the number is valid
+    if (isNaN(number)) {
+        return useIntl 
+            ? new Intl.NumberFormat(locale, { style: 'currency', currency }).format(0)
+            : '$0.00'; // Return default for invalid numbers
+    }
+
+    // If using Intl for international formatting
+    if (useIntl) {
+        return new Intl.NumberFormat(locale, { style: 'currency', currency }).format(number);
+    }
+
+    // Otherwise, manually format the number as currency (with commas)
+    return '$' + number.toFixed(decimals).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+}
+
+// Usage examples with default formatting
+console.log(formatCurrency("1234.56"));        // "$1,234.56"
+console.log(formatCurrency("$1,234.56"));      // "$1,234.56"
+console.log(formatCurrency("1,234,567.89"));   // "$1,234,567.89"
+console.log(formatCurrency("1000"));           // "$1,000.00"
+console.log(formatCurrency("$1,234.5"));       // "$1,234.50"
+
+// Usage examples with international formatting
+console.log(formatCurrency("1234,56", { locale: 'de-DE', currency: 'EUR', useIntl: true }));  // "1.234,56 €"
+console.log(formatCurrency("1234.56", { locale: 'en-GB', currency: 'GBP', useIntl: true }));  // "£1,234.56"
+console.log(formatCurrency("$1234.56", { locale: 'en-US', useIntl: true }));                 // "$1,234.56"
 
 
 
@@ -357,3 +418,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
+
+
+
