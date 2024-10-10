@@ -29,8 +29,9 @@ const firebaseConfig = {
 };
 
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
+// Initialize Firebase app
+const app = firebase.initializeApp(firebaseConfig);
+
 const auth = getAuth(app);
 const db = getFirestore(app);
 const storage = getStorage(app); // Correctly initialize storage
@@ -126,6 +127,19 @@ onAuthStateChanged(auth, async (user) => {
         localStorage.removeItem('userEmail');
     }
 });
+
+
+// Listen for authentication state changes
+firebase.auth().onAuthStateChanged(user => {
+    if (user) {
+        // User is signed in
+        console.log("User signed in: ", user);
+    } else {
+        // No user is signed in
+        console.log("No user signed in");
+    }
+});
+
 
 // Sign Up Function
 document.getElementById('signup-form')?.addEventListener('submit', async (e) => {
