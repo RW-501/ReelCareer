@@ -10,12 +10,11 @@
 
 
 
-
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
 import { getAuth, signInWithPopup, GoogleAuthProvider, FacebookAuthProvider, OAuthProvider, signOut, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
 import { getFirestore, doc, updateDoc, setDoc, serverTimestamp, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
-import { initializeAnalytics } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-analytics.js"; // Use the same version
-import { getStorage } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-storage.js"; 
+import { initializeAnalytics } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-analytics.js";
+import { getStorage } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-storage.js";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -28,14 +27,19 @@ const firebaseConfig = {
     measurementId: "G-LBTK319K2X"
 };
 
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
 
-// Initialize Firebase app
-const app = firebase.initializeApp(firebaseConfig);
-
+// Initialize Firebase services
 const auth = getAuth(app);
 const db = getFirestore(app);
-const storage = getStorage(app); // Correctly initialize storage
+const storage = getStorage(app);
 const analytics = initializeAnalytics(app);
+
+// Now you can use `auth`, `db`, `storage`, and `analytics` in your app
+
+
+
 
 //import { collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 //const newCollection = collection;
@@ -129,16 +133,6 @@ onAuthStateChanged(auth, async (user) => {
 });
 
 
-// Listen for authentication state changes
-firebase.auth().onAuthStateChanged(user => {
-    if (user) {
-        // User is signed in
-        console.log("User signed in: ", user);
-    } else {
-        // No user is signed in
-        console.log("No user signed in");
-    }
-});
 
 
 // Sign Up Function
@@ -411,8 +405,15 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         // Firebase Authentication listener
-        firebase.initializeApp(firebaseConfig); // Ensure firebaseConfig is defined somewhere
-        onAuthStateChanged(auth, handleAuthStateChanged);
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+        handleAuthStateChanged(user); // Call your function to handle authenticated user
+    } else {
+        handleAuthStateChanged(null); // Call your function to handle no user signed in
+    }
+});
+
+
     }
 
     // Function to highlight active links in the navbar
