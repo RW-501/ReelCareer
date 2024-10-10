@@ -381,6 +381,25 @@ document.addEventListener("DOMContentLoaded", function () {
                 </div>
             </nav>
         `;
+
+            // Replace the navbar if not on an excluded page
+    if (!excludedPages.includes(currentPage)) {
+        let existingNavbar = document.querySelector('.navbar');
+       // console.log("???????outside  ?????????   ");
+
+        // If an existing navbar is found, replace it
+        if (existingNavbar) {
+            existingNavbar.outerHTML = createNavbar();
+        } else {
+            // If no existing navbar, append it to the body
+            document.body.insertAdjacentHTML('afterbegin', createNavbar());
+        }
+
+        setupEventListeners(); // Initialize event listeners
+        highlightActiveLink(); // Highlight the active link
+
+    }
+
     }
 
   
@@ -388,29 +407,6 @@ document.addEventListener("DOMContentLoaded", function () {
    
    
    
-   
-    // Additional content (e.g., company media section) can be included below
-    const companyMediaSectionHTML = `
-        <section id="companyMedia" class="py-5 company-media">
-            <div class="container">
-                <h2 class="text-center">Company Media</h2>
-                <div class="row" style=" text-align-last: center;">
-                    <div class="col-md-6 m-auto">
-                        <video controls>
-                            <source src="${adjustLinkHomeURL}media/company-video.mp4" type="video/mp4">
-                            Your browser does not support the video tag.
-                        </video>
-                    </div>
-                    <div class="col-md-6 m-auto">
-                        <img src="${adjustLinkHomeURL}images/sq_logo_n_BG_tie_reel.png" alt="Company Image" class="img-fluid" style="width: 15rem";>
-                    </div>
-                </div>
-            </div>
-        </section>
-    `;
-    document.body.insertAdjacentHTML('beforeend', companyMediaSectionHTML);
-});
-
 // btn-primary
 // Function to highlight active links in the navbar
 function highlightActiveLink() {
@@ -451,23 +447,7 @@ document.addEventListener('keydown', function(event) {
 });
 
 
-    // Replace the navbar if not on an excluded page
-    if (!excludedPages.includes(currentPage)) {
-        let existingNavbar = document.querySelector('.navbar');
-       // console.log("???????outside  ?????????   ");
 
-        // If an existing navbar is found, replace it
-        if (existingNavbar) {
-            existingNavbar.outerHTML = createNavbar();
-        } else {
-            // If no existing navbar, append it to the body
-            document.body.insertAdjacentHTML('afterbegin', createNavbar());
-        }
-
-        setupEventListeners(); // Initialize event listeners
-        highlightActiveLink(); // Highlight the active link
-
-    }
 
 
     // Function to setup event listeners
@@ -490,6 +470,30 @@ document.addEventListener('keydown', function(event) {
 
 
 // The Footer <footer id="dynamic-footer"></footer>
+
+
+   
+    // Additional content (e.g., company media section) can be included below
+    const companyMediaSectionHTML = `
+        <section id="companyMedia" class="py-5 company-media">
+            <div class="container">
+                <h2 class="text-center">Company Media</h2>
+                <div class="row" style=" text-align-last: center;">
+                    <div class="col-md-6 m-auto">
+                        <video controls>
+                            <source src="${adjustLinkHomeURL}media/company-video.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <div class="col-md-6 m-auto">
+                        <img src="${adjustLinkHomeURL}images/sq_logo_n_BG_tie_reel.png" alt="Company Image" class="img-fluid" style="width: 15rem";>
+                    </div>
+                </div>
+            </div>
+        </section>
+    `;
+    document.body.insertAdjacentHTML('beforeend', companyMediaSectionHTML);
+});
 
 
 // Newsletter Signup Functionality
