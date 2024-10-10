@@ -104,6 +104,7 @@ function getAdjustedLinks() {
 
     let adjustLinkURL = (isHomePage) ? '/ReelCareer/views/' : '';
     let adjustLinkHomeURL = (isHomePage) ? '' : '/ReelCareer/';
+       // Pages where we don't want to show the navbar
 
     // Check specific paths
     if (currentPage.includes("/ReelCareer/public")) {
@@ -113,11 +114,11 @@ function getAdjustedLinks() {
         adjustLinkURL = "/ReelCareer/views/";
     }
 
-    return { adjustLinkURL, adjustLinkHomeURL };
+    return { adjustLinkURL, adjustLinkHomeURL, excludedPages };
 }
 
 // main.js
-const { adjustLinkURL, adjustLinkHomeURL } = getAdjustedLinks();
+const { adjustLinkURL, adjustLinkHomeURL, excludedPages } = getAdjustedLinks();
 //console.log(adjustLinkURL, adjustLinkHomeURL);
 
        /* 

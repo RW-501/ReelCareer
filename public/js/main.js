@@ -335,12 +335,12 @@ const closeLoginPopup = () => {
 
 // myModule.js
 export function setupLinks() {
-    const { adjustLinkURL, adjustLinkHomeURL } = getAdjustedLinks();
+    const { adjustLinkURL, adjustLinkHomeURL, excludedPages } = getAdjustedLinks();
     // Use adjustLinkURL and adjustLinkHomeURL as needed within the module
 }
 
 // Optionally, you can call it directly in the module if needed
-const { adjustLinkURL, adjustLinkHomeURL } = getAdjustedLinks();
+const { adjustLinkURL, adjustLinkHomeURL, excludedPages } = getAdjustedLinks();
 console.log(adjustLinkURL, adjustLinkHomeURL);
 
 
