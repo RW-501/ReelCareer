@@ -193,6 +193,7 @@ function formatLocation(location) {
     return formattedLocation;
 }
 
+/*
 // Usage examples
 console.log(formatLocation("US,Texas,Dallas,Highland Park")); // "Us, Texas, Dallas, Highland Park"
 console.log(formatLocation("New.York,USA"));                  // "New. York, Usa"
@@ -200,6 +201,8 @@ console.log(formatLocation("Houston.TX,USA"));                // "Houston. Tx, U
 console.log(formatLocation("us-texas/dallas,highland park")); // "Us- Texas/ Dallas, Highland Park"
 console.log(formatLocation("  New York  .USA "));             // "New York. Usa"
 console.log(formatLocation(""));                              // ""
+*/
+
 
 function formatCurrency(value, options = {}) {
     // Set default options for internationalization and currency formatting
@@ -230,6 +233,7 @@ function formatCurrency(value, options = {}) {
     return '$' + number.toFixed(decimals).replace(/\d(?=(\d{3})+\.)/g, '$&,');
 }
 
+/*
 // Usage examples with default formatting
 console.log(formatCurrency("1234.56"));        // "$1,234.56"
 console.log(formatCurrency("$1,234.56"));      // "$1,234.56"
@@ -241,30 +245,16 @@ console.log(formatCurrency("$1,234.5"));       // "$1,234.50"
 console.log(formatCurrency("1234,56", { locale: 'de-DE', currency: 'EUR', useIntl: true }));  // "1.234,56 €"
 console.log(formatCurrency("1234.56", { locale: 'en-GB', currency: 'GBP', useIntl: true }));  // "£1,234.56"
 console.log(formatCurrency("$1234.56", { locale: 'en-US', useIntl: true }));                 // "$1,234.56"
+*/
 
 
 
-
-function formatSalary(input) {
-    // Remove any non-numeric characters except for commas and dollar sign
-    let value = input.value.replace(/[^0-9,]/g, '');
-
-    // Remove any commas for easier processing
-    value = value.replace(/,/g, '');
-
-    // Ensure the input is valid: it should only be numeric
-    if (!/^\d*$/.test(value)) {
-        value = ''; // Reset to empty if invalid input
+// Truncate text function
+function truncateText(text, maxLength) {
+    return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
     }
 
-    // Format the number with commas
-    if (value) {
-        value = Number(value).toLocaleString();
-    }
 
-    // Set the formatted value back to the input with a dollar sign
-    input.value = value ? `$${value}` : '';
-}
 function restrictKeys(event) {
     const allowedKeys = ['Backspace', 'Tab', 'ArrowLeft', 'ArrowRight', 'Delete', 'Enter', 'Escape'];
     if (!/[0-9]/.test(event.key) && !allowedKeys.includes(event.key)) {

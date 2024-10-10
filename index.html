@@ -300,31 +300,20 @@
     import { db, storage, analytics, app  } from './public/js/main.js'; // Adjust the path based on your structure
     import { query, where, orderBy, limit,  collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 
-    let page = 1;
+
+    let lastVisible = null; // To store the last document loaded
 
 
 // Function to fetch job listings and sponsors
-async function fetchJobListings(page = 1) {
+async function fetchJobListings() {
     const jobListingsContainer = document.getElementById('jobListings');
     const loadingIndicator = document.getElementById('loadingIndicator');
     const errorIndicator = document.getElementById('errorIndicator');
 
     loadingIndicator.style.display = 'block'; // Show loading indicator
     errorIndicator.style.display = 'none'; // Hide error indicator
-    let isFetching = false; // Flag for fetching state
 
-/*
-    // Debounced scroll listener
-    const debouncedScrollListener = debounce(() => {
-        if (isFetching) return;
-        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-            isFetching = true;
-            fetchJobListings(page + 1); // Fetch next page of job listings when reaching the bottom
-        }
-    }, 300); // 300ms debounce delay
 
-    window.onscroll = debouncedScrollListener;
-*/
 
     let userInterest1, userInterest2, userInterest3;
     let excludedIds = []; // Replace with your actual IDs
@@ -347,6 +336,15 @@ async function fetchJobListings(page = 1) {
         jobsQuery = query(jobsQuery, orderBy('createdAt', 'desc'));
         jobsQuery = query(jobsQuery, limit(20)); // Limit results for pagination
 
+
+
+        // If we have already loaded jobs, start from the last visible document
+        if (lastVisible) {
+            jobsQuery = query(jobsQuery, startAfter(lastVisible));
+        }
+
+
+
         const jobListingsSnapshot = await getDocs(jobsQuery);
         console.log("jobsQuery   ",jobsQuery);
         console.log("jobListingsSnapshot   ",jobListingsSnapshot);
@@ -354,28 +352,32 @@ async function fetchJobListings(page = 1) {
        // jobListingsContainer.innerHTML = ''; 
 
 
-        
-        // Handle job listings
-        const jobListings = jobListingsSnapshot.docs.map(doc => ({
-    id: doc.id,
-    title: doc.data().title,
-    description: doc.data().description,
-    company: doc.data().company,
-    location: doc.data().location,
-    salary: doc.data().salary,
-    // Add any other specific fields you want to include...
-}));
+        // Check if we have any results
+        if (!jobListingsSnapshot.empty) {
+            lastVisible = jobListingsSnapshot.docs[jobListingsSnapshot.docs.length - 1]; // Update last visible document
 
-        jobListings.forEach(job => createJobCard(job, jobListingsContainer));
+            // Handle job listings
+            const jobListings = jobListingsSnapshot.docs.map(doc => ({
+                id: doc.id,
+                title: doc.data().title,
+                description: doc.data().description,
+                company: doc.data().company,
+                location: doc.data().location,
+                salary: doc.data().salary,
+            }));
+
+            jobListings.forEach(job => createJobCard(job, jobListingsContainer));
         console.log(jobListings);  // Check if this logs any job listings
+
+        }
 
         // Sponsor logic
         const sponsors = await fetchSponsors(excludedIds);
         addSponsorSection(sponsors, jobListingsContainer);
 
         // Add "Load More" button for Pagination if jobs are available
-        if (jobListings.length > 0) {
-            const loadMoreButton = createLoadMoreButton(() => fetchJobListings(page + 1));
+        if (jobListings.length === 20) {
+            const loadMoreButton = createLoadMoreButton(() => fetchJobListings());
             jobListingsContainer.appendChild(loadMoreButton);
         }
 
@@ -384,7 +386,6 @@ async function fetchJobListings(page = 1) {
         errorIndicator.style.display = 'block'; // Show error indicator
     } finally {
         loadingIndicator.style.display = 'none'; // Hide loading indicator
-        isFetching = false;
     }
 }
 
@@ -398,7 +399,7 @@ function createJobCard(job, container) {
                 <h5 class="card-title">${job.title}</h5>
                 <p class="card-text text-muted">${truncateText(job.description, 100)}</p>
                 <p class="card-text"><strong>Company:</strong> ${job.company}</p>
-                <p class="card-text"><strong>Location:</strong> ${job.location || 'Not specified'}</p>
+                <p class="card-text"><strong>Location:</strong> ${formatLocation(job.location) || 'Not specified'}</p>
                 <p class="card-text"><strong>Salary:</strong> $${job.salary}</p>
                 <a href="views/job-detail.html?id=${job.id}" class="btn btn-primary w-100 mt-3">View Details</a>
             </div>
@@ -408,26 +409,38 @@ function createJobCard(job, container) {
 }
 
 // Function to create and return the Load More button
-function createLoadMoreButton(loadMoreFunc) {
+function createLoadMoreButton(loadMoreFunc) { 
     const loadMoreButton = document.createElement('button');
     loadMoreButton.className = 'btn btn-primary w-100 mt-4';
     loadMoreButton.innerText = 'Load More Jobs';
-    loadMoreButton.onclick = loadMoreFunc; // Fetch next page of jobs
+    
+    // Add fade-out animation (using CSS class)
+    loadMoreButton.style.transition = 'opacity 0.5s ease';
+    
+    // Modify the onclick event
+    loadMoreButton.onclick = () => {
+        loadMoreFunc().then(() => {
+            // Optionally re-enable the button after jobs are loaded
+            loadMoreButton.style.display = 'block';  // Bring the button back if needed
+            loadMoreButton.style.opacity = 1;  // Reset opacity
+        }).catch(() => {
+            console.error('Failed to load jobs');
+        });
+        
+        // Apply fade-out effect
+        loadMoreButton.style.opacity = 0;
+        
+        // Hide the button completely after animation ends
+        setTimeout(() => {
+            loadMoreButton.style.display = 'none';  // Hide the button after it's clicked
+        }, 500); // Match the duration of the fade-out (500ms)
+    };
+
     return loadMoreButton;
 }
 
-// Debounce function to limit the rate of function execution
-function debounce(func, wait) {
-    let timeout;
-    return function executedFunction(...args) {
-        const later = () => {
-            clearTimeout(timeout);
-            func(...args);
-        };
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-    };
-}
+
+
 
 // Fetch sponsors and handle their display
 async function fetchSponsors(excludedIds) {
@@ -487,13 +500,10 @@ function addSponsorSection(sponsors, container) {
 
 
 
-// Truncate text function
-    function truncateText(text, maxLength) {
-    return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
-    }
+
         
        // Load job listings on page load
-       fetchJobListings(page = 1);
+       fetchJobListings();
 
         document.getElementById('jobSearchForm').addEventListener('submit', function(event) { 
         event.preventDefault(); // Prevent the default form submission
