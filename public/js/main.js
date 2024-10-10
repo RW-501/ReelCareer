@@ -361,7 +361,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Function to create the navbar
     function createNavbar() {
-        const isHomePage = currentPage === 'index'; // Adjust based on your logic for detecting homepage
+        const isHomePage = currentPage === '/ReelCareer/index.html' ||  '/ReelCareer/index' || currentPage === '/ReelCareer/' || currentPage === '' || currentPage === '/';
         const navbarClass = (isHomePage) ? 'navbar-light bg-light' : 'navbar-dark bg-primary';
 
         return `
