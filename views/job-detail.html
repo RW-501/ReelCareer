@@ -614,7 +614,12 @@ async function loadJobDetails(jobData) {
         console.error("Error fetching company details: ", error);
     }
 
+    if (jobData.applicationDeadline && jobData.applicationDeadline.toDate) {
     document.getElementById('applicationDeadline').textContent = new Date(jobData.applicationDeadline.toDate()).toLocaleDateString();
+} else {
+    // Fallback if applicationDeadline is missing or undefined
+    document.getElementById('applicationDeadline').textContent = "No deadline provided";
+}
     document.getElementById('applicantCount').textContent = jobData.applicantCount || 0;
     document.getElementById('companyWebsite').href = jobData.companyWebsite;
 
