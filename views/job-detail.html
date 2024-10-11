@@ -366,19 +366,20 @@
                 <!-- Social Media Sharing Buttons -->
                 <div class="social-sharing mt-3">
                     <p><strong>Share this job:</strong></p>
-                    <a href="https://www.facebook.com/sharer/sharer.php?u={{jobPageURL}}" target="_blank" class="btn btn-facebook btn-sm">
+                    <a id="facebookShare" target="_blank" class="btn btn-facebook btn-sm">
                         <i class="fab fa-facebook-f"></i> Share on Facebook
                     </a>
-                    <a href="https://twitter.com/intent/tweet?url={{jobPageURL}}&text=Check%20out%20this%20job%20opportunity%20at%20{{companyName}}!" target="_blank" class="btn btn-twitter btn-sm">
+                    <a id="twitterShare" target="_blank" class="btn btn-twitter btn-sm">
                         <i class="fab fa-twitter"></i> Tweet This Job
                     </a>
-                    <a href="https://www.linkedin.com/shareArticle?mini=true&url={{jobPageURL}}&title={{jobTitle}}&summary={{jobDescription}}&source=ReelCareer" target="_blank" class="btn btn-linkedin btn-sm">
+                    <a id="linkedinShare" target="_blank" class="btn btn-linkedin btn-sm">
                         <i class="fab fa-linkedin-in"></i> Share on LinkedIn
                     </a>
+                    <a id="emailShare" class="btn btn-email btn-sm">
+                        <i class="fas fa-envelope"></i> Share via Email
+                    </a>
                 </div>
-                <a href="mailto:?subject=Check%20out%20this%20job%20opportunity&body=I%20found%20this%20job%20at%20ReelCareer%3A%20{{jobPageURL}}" class="btn btn-email btn-sm">
-                    <i class="fas fa-envelope"></i> Share via Email
-                </a>
+          
                 
                 <hr />
 
@@ -572,7 +573,6 @@ async function loadJobDetails(jobData) {
 
     document.getElementById('jobTitle').textContent = jobData.title;
     document.getElementById("jobDescription").innerText = jobData.description;
-    document.getElementById("companyName").innerText = jobData.companyName;
     document.getElementById('jobLocation').textContent = `${formatLocation(jobData.location, { part: 'city' })}, ${formatLocation(jobData.location, { part: 'state' })}`;
     document.getElementById('employmentType').textContent = formatJobType(jobData.type);
     document.getElementById('salary').textContent = formatCurrency(jobData.salary);
@@ -590,7 +590,7 @@ async function loadJobDetails(jobData) {
             const companyData = companyDoc.data();
 
             // Populate company-related details
-            document.getElementById("companyName").innerText = companyData.name || jobData.company ;
+            document.getElementById("companyName").innerText = companyData?.name || jobData?.company;
             document.getElementById("companyLogo").src = companyData.logo; // Ensure the 'logo' field in the database is a URL
             document.getElementById("companyWebsite").href = companyData.website;
             document.getElementById("companyDescription").innerText = companyData.description;
@@ -719,7 +719,9 @@ function loadRelatedBlogs(jobIndustry) {
         .catch(error => {
             console.error("Error fetching blogs: ", error);
         });
+
 }
+
 
 
     // Apply button event listener
@@ -734,7 +736,16 @@ function loadRelatedBlogs(jobIndustry) {
     }
 });
 
+const jobPageURL = window.location.href; // Use current page URL
+    const companyName = jobData.company; // Assuming jobData has company information
+    const jobTitle = jobData.title; // Job title
+    const jobDescription = jobData.description; // Short job description
 
+    // Dynamically update social sharing links
+    document.getElementById('facebookShare').href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(jobPageURL)}`;
+    document.getElementById('twitterShare').href = `https://twitter.com/intent/tweet?url=${encodeURIComponent(jobPageURL)}&text=Check%20out%20this%20job%20opportunity%20at%20${encodeURIComponent(companyName)}!`;
+    document.getElementById('linkedinShare').href = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(jobPageURL)}&title=${encodeURIComponent(jobTitle)}&summary=${encodeURIComponent(jobDescription)}&source=ReelCareer`;
+    document.getElementById('emailShare').href = `mailto:?subject=Check%20out%20this%20job%20opportunity&body=I%20found%20this%20job%20at%20ReelCareer:%20${encodeURIComponent(jobPageURL)}`;
 
 function renderList(items, elementId) {
     const container = document.getElementById(elementId);
