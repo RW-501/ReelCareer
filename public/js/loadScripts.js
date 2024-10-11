@@ -173,8 +173,35 @@ setTimeout(() => {
     }
 }, 3000); // 3 seconds delay for timeout message
 
-function formatLocation(location) { 
-    // Check if input is a valid string
+function formatLocation(location, options = {}) {
+    const { part = 'all', reverseOrder = false } = options; // Set default options
+
+    // Check if input is an array
+    if (Array.isArray(location)) {
+        if (reverseOrder) {
+            location = location.reverse(); // Reverse the order of the array
+        }
+
+        // If the user wants only a specific part of the location (e.g., city, country)
+        switch (part) {
+            case 'country':
+                location = location[0]; // Return the first part (country)
+                break;
+            case 'state':
+                location = location[1] || ''; // Return the second part (state)
+                break;
+            case 'county':
+                location = location[2] || ''; // Return the third part (county)
+                break;
+            case 'city':
+                location = location[location.length - 1]; // Return the last part (city)
+                break;
+            default:
+                location = location.join(', '); // Join the entire array
+        }
+    }
+
+    // Check if input is a valid string after handling the array case
     if (typeof location !== 'string' || location.trim() === '') {
         return 'Not specified'; // Return 'Not specified' for invalid input
     }
@@ -190,10 +217,22 @@ function formatLocation(location) {
         word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
     ).join(' ');
 
-    console.log("Formatted Location: ", formattedLocation);
+   // console.log("Formatted Location: ", formattedLocation);
     return formattedLocation;
 }
+/*
+'country', 'state', 'city' 'county'
 
+let jobLocation = ['US', 'California', 'Los Angeles County', 'Preuss'];
+console.log(formatLocation(jobLocation, { part: 'city' }));
+// Output: "Preuss"
+
+let jobLocation = ['US', 'California', 'Los Angeles County', 'Preuss'];
+console.log(formatLocation(jobLocation, { reverseOrder: true }));
+// Output: "Preuss, Los Angeles County, California, Us"
+
+
+*/
 
 /*
 // Usage examples

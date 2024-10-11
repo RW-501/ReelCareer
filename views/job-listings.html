@@ -600,6 +600,7 @@ async function fetchJobListings() {
         // Process regular job listings
         jobListingsSnapshot.forEach(doc => {
             const data = doc.data();
+            console.log("data.type  ",data.type); 
             jobListings.push({
                 id: data.id,
                 title: data.title,
@@ -607,8 +608,8 @@ async function fetchJobListings() {
                 datePosted: data.createdAt,
                 organization: data.company,
                 location: data.location,
-                employmentType: data.type,
-                baseSalary: data.salary,
+                type: data.type,
+                salary: data.salary,
                 validThrough: data.boostExpiresAt,
                 url: data.id
             });
@@ -650,8 +651,13 @@ function createJobCard(job) {
                 <div class="card-body">
                     <h5 class="card-title">${job.title}</h5>
                     <h6 class="card-subtitle mb-2 text-muted">${job.organization}</h6>
-<p class="card-text"><strong>Location:</strong> ${formatLocation(job.location)}</p>
-                   <p class="card-text text-muted">${truncateText(job.description, 80)}</p>
+<p class="card-text"><strong>Location:</strong>
+  ${formatLocation(jobLocation, { part: 'city' })}, ${formatLocation(jobLocation, { part: 'state' })}
+     </p>
+                     <p class="card-text"><strong>Type:</strong> ${job.type}</p>
+                     <p class="card-text"><strong>Salary:</strong> ${formatCurrency(job.salary)}</p>
+
+                        <p class="card-text text-muted">${truncateText(job.description, 80)}</p>
         <button class="btn btn-info" onclick="showJobDetailsFunc('${job.id}')">View Details</button>
                 </div>
             </div>
