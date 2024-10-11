@@ -705,39 +705,7 @@ function createSponsoredJobCard(sponsoredJob) {
     `;
 }
 
-// Function to generate structured data markup for SEO
-function generateSchemaMarkup(jobListings) {
-    const schemaData = {
-        "@context": "https://schema.org",
-        "@type": "JobPosting",
-        "title": jobListings.map(job => job.title),
-        "description": jobListings.map(job => job.description),
-        "datePosted": jobListings.map(job => job.datePosted),
-        "hiringOrganization": {
-            "@type": "Organization",
-            "name": jobListings.map(job => job.organization).join(', ')
-        },
-        "jobLocation": {
-            "@type": "Place",
-            "address": {
-                "@type": "PostalAddress",
-                "addressLocality": jobListings.map(job => job.location).join(', ')
-            }
-        },
-        "employmentType": jobListings.map(job => job.employmentType).join(', '),
-        "baseSalary": {
-            "@type": "MonetaryAmount",
-            "value": jobListings.map(job => job.baseSalary).join(', '),
-            "currency": "USD"
-        },
-        "validThrough": jobListings.map(job => job.validThrough).join(', ')
-    };
 
-    const scriptTag = document.createElement('script');
-    scriptTag.type = 'application/ld+json';
-    scriptTag.innerHTML = JSON.stringify(schemaData);
-    document.head.appendChild(scriptTag); // Append schema markup to head
-}
 
 // Function to collect job requirements
 function collectJobRequirements() {
@@ -839,8 +807,51 @@ function searchJobs() {
                 url: data.id
         
                 }));
+                function generateSchemaMarkup(jobListings) {
+    // Check if jobListings is an array
+    if (!Array.isArray(jobListings)) {
+        console.error("jobListings should be an array. Received:", jobListings);
+        return; // Exit the function if it's not an array
+    }
+
+    // Map through jobListings to generate schema data
+    const schemaData = {
+        "@context": "https://schema.org",
+        "@type": "JobPosting",
+        "title": jobListings.map(job => job.title).join(', '), // Join to create a single string
+        "description": jobListings.map(job => job.description).join(' '), // Join descriptions into one string
+        "datePosted": jobListings.map(job => job.datePosted).join(', '), // Join dates
+        "hiringOrganization": {
+            "@type": "Organization",
+            "name": jobListings.map(job => job.organization).join(', ') // Join organizations
+        },
+        "jobLocation": {
+            "@type": "Place",
+            "address": {
+                "@type": "PostalAddress",
+                "addressLocality": jobListings.map(job => job.location).join(', ') // Join locations
+            }
+        },
+        "employmentType": jobListings.map(job => job.employmentType).join(', '), // Join employment types
+        "baseSalary": {
+            "@type": "MonetaryAmount",
+            "value": jobListings.map(job => job.baseSalary).join(', '), // Join salary values
+            "currency": "USD"
+        },
+        "validThrough": jobListings.map(job => job.validThrough).join(', ') // Join validity dates
+    };
+
+    const scriptTag = document.createElement('script');
+    scriptTag.type = 'application/ld+json';
+    scriptTag.innerHTML = JSON.stringify(schemaData);
+    document.head.appendChild(scriptTag); // Append schema markup to head
+}
+
+
 
         displayJobListings(jobListings);
+        generateSchemaMarkup(jobListings);
+
 
     } catch (error) {
         console.error("Error fetching filtered job listings: ", error);
