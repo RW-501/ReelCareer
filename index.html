@@ -366,8 +366,10 @@ const seenTitles = new Set();
 
 // Filter the jobs to ensure no duplicate titles
 jobs.forEach(job => {
-
+    const job = doc.data(); // Get the document data
+        
     if (!seenTitles.has(job.title)) {
+
         jobListings.push({
             id: doc.id, // Optional: If you need to store job ID
             title: job.title,
