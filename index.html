@@ -362,7 +362,6 @@ const seenTitles = new Set();
 
 // Filter the jobs to ensure no duplicate titles
 jobs.forEach(job => {
-    console.log("formatCurrency(job.salary)   ",formatCurrency(job.salary));
 
     if (!seenTitles.has(job.title)) {
         jobListings.push({
@@ -436,42 +435,39 @@ function createLoadMoreButton(loadMoreFunc) {
     const loadMoreButton = document.createElement('button');
     loadMoreButton.className = 'btn btn-primary w-100 mt-4';
     loadMoreButton.innerText = 'Load More Jobs';
-    
 
-            // Optionally re-enable the button after jobs are loaded
-            loadMoreButton.style.transition = 'opacity 0.5s ease';
-            loadMoreButton.style.display = 'block';  // Bring the button back if needed
-            loadMoreButton.style.opacity = 1;  // Reset opacity
+    // Set initial styles
+    loadMoreButton.style.transition = 'opacity 0.5s ease';
+    loadMoreButton.style.display = 'block';  // Ensure button is set to display block initially
+    loadMoreButton.style.opacity = 1;  // Ensure the opacity is fully visible
 
     // Modify the onclick event
     loadMoreButton.onclick = () => {
         loadMoreFunc().then(() => {
-
             console.log("createLoadMoreButton onclick");
-
         }).catch(() => {
             console.error('Failed to load jobs');
         });
         
-
-        
-        // Hide the button completely after animation ends
+        // Hide the button after jobs are loaded
         setTimeout(() => {
             console.log("setTimeout");
-
-                    // Apply fade-out effect
-        loadMoreButton.style.opacity = 0;
-    // Add fade-out animation (using CSS class)
-    loadMoreButton.style.display = 'none';
-      //  loadMoreButton.outerHTML = "";
-            }, 500); // Match the duration of the fade-out (500ms)
+            // Apply fade-out effect
+            loadMoreButton.style.opacity = 0;
+            loadMoreButton.style.display = 'none'; // Hide after fade-out
+        }, 500); // Match the duration of the fade-out (500ms)
     };
+
+    // Append the button to the desired container
+    const container = document.getElementById('jobsContainer'); // Change to your container's ID
+    if (container) {
+        container.appendChild(loadMoreButton); // Add button to the DOM
+    } else {
+        console.error('Container for jobs not found');
+    }
 
     return loadMoreButton;
 }
-
-
-
 
 // Fetch sponsors and handle their display
 async function fetchSponsors(excludedIds) {

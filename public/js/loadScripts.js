@@ -244,6 +244,19 @@ console.log(formatLocation("  New York  .USA "));             // "New York. Usa"
 console.log(formatLocation(""));                              // ""
 */
 
+
+function formatJobType(jobType) {
+    // Remove hyphens
+    jobType = jobType.replace(/-/g, ' ');
+
+    // Capitalize each word
+    jobType = jobType.split(' ').map(word => {
+        return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+    }).join(' ');
+
+    return jobType;
+}
+
 function formatCurrency(value, options = {}) { 
     // Set default options for internationalization and currency formatting
     const { locale = 'en-US', currency = 'USD', useIntl = false, decimals = 0 } = options;
@@ -277,10 +290,12 @@ function formatCurrency(value, options = {}) {
         return new Intl.NumberFormat(locale, { style: 'currency', currency }).format(number);
     }
 
-    // Otherwise, manually format the number as currency (with commas)
-    return '$' + number.toFixed(decimals).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+    // Manually format the number as currency (with commas)
+    const formattedNumber = number.toFixed(decimals).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    
+    // Return formatted currency
+    return `$${formattedNumber}`;
 }
-
 
 /*
 // Usage examples with default formatting
