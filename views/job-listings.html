@@ -591,7 +591,6 @@ const seenTitles = new Set();
 // Filter the jobs to ensure no duplicate titles
 jobs.forEach(job => {
     if (!seenTitles.has(job.title)) {
-        console.log("data.type  ",job.type); 
 
         jobListings.push({
                 id: job.id,
@@ -850,7 +849,11 @@ function searchJobs() {
 
 
         displayJobListings(jobListings);
-        generateSchemaMarkup(jobListings);
+
+// Example of how to call this function when window loads
+window.onload = function() {
+    generateSchemaMarkup(jobListings);
+};
 
 
     } catch (error) {

@@ -8,9 +8,13 @@
     <title>Job Detail - ReelCareer</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<!-- Popper.js -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<!-- Bootstrap JS -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -205,7 +209,7 @@
                 <button id="saveBtn" class="btn btn-outline-secondary mb-3" onclick="saveJob()">Save for Later</button>
     
                 <div class="d-flex align-items-start mb-4">
-                    <img id="companyLogo" class="job-logo img-fluid" alt="Company Logo" src="/images/sq_logo_n_BG.png" loading="lazy" />
+                    <img id="companyLogo" class="job-logo img-fluid" alt="Company Logo" src="/ReelCareer/images/sq_logo_n_BG.png" loading="lazy" />
                     <div>
                         <h1 id="jobTitle" class="mb-2 font-weight-bold" tabindex="0"></h1>
                         <p id="jobDescription" class="text-muted" tabindex="0"></p>
@@ -353,7 +357,14 @@ async function saveJob(jobId) {
             const errorMessageDiv = document.getElementById('error-message');
     const jobContainer = document.getElementById('job-container');
 
-
+if(!jobId || jobId === "undefined"){
+            // Insert "Job not found" HTML into the error-message div
+            errorMessageDiv.innerHTML = `
+            <h2>Job Not Found</h2>
+            <p>We couldn't find the job you're looking for. It might have been removed or is no longer available.</p>
+            <a href="/job-listing-page" class="btn btn-primary">Back to Jobs</a>
+        `;
+}
 
 
             try {
@@ -611,7 +622,8 @@ renderList(jobData.requirements, 'jobRequirements');
 
     <!-- Bootstrap JS and dependencies -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-ZvpUoOeGZpV4jx+arJg2eU+AjBlE5e0w4GQ/JLTAxGMOeU1ZBU/FAaI7gPbA0n40" crossorigin="anonymous"></script>
+ <!--   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-ZvpUoOeGZpV4jx+arJg2eU+AjBlE5e0w4GQ/JLTAxGMOeU1ZBU/FAaI7gPbA0n40" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-OCpA7v74fP9e7I+2KwWqFfDkE02zgt0twtR0qU97Fkt1b5Jp1XqDlRe1TIj67F0p" crossorigin="anonymous"></script>
+-->
 </body>
 </html>
