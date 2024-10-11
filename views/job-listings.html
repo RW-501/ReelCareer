@@ -681,7 +681,6 @@ function createJobCard(job) {
                      <p class="card-text"><strong>Type:</strong> ${formatJobType(job.type)}</p>
                      <p class="card-text"><strong>Salary:</strong> ${formatCurrency(job.salary)}</p>
 
-                        <p class="card-text text-muted">${truncateText(job.description, 80)}</p>
         <button class="btn btn-info" onclick="showJobDetailsFunc('${job.id}')">View Details</button>
                 </div>
             </div>
@@ -697,8 +696,9 @@ function createSponsoredJobCard(sponsoredJob) {
                 <div class="card-body">
                     <h5 class="card-title">${sponsoredJob.title}</h5>
                     <h6 class="card-subtitle mb-2 text-muted">${sponsoredJob.organization}</h6>
-                    <p class="card-text">${sponsoredJob.description}</p>
-                    <div  onclick="showJobDetailsFunc('${job.id}')" class="btn btn-success">Apply Now</div>
+                     <p class="card-text"><strong>Type:</strong> ${formatJobType(sponsoredJob.type)}</p>
+                     <p class="card-text"><strong>Salary:</strong> ${formatCurrency(sponsoredJob.salary)}</p>
+                    <div  onclick="showJobDetailsFunc('${sponsoredJob.id}')" class="btn btn-success">Apply Now</div>
                 </div>
             </div>
         </div>
