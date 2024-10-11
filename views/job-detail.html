@@ -588,24 +588,24 @@ async function loadJobDetails(jobData) {
         const companyRef = doc(db, 'Companies', jobData.companyID);
         const companyDoc = await getDoc(companyRef);
 
-        if (companyDoc.exists()) {
-            const companyData = companyDoc.data();
 
             // Populate company-related details
-            document.getElementById("companyName").innerText = companyData?.name || jobData?.company;
-            document.getElementById("companyLogo").src = companyData.logo; // Ensure the 'logo' field in the database is a URL
-            document.getElementById("companyWebsite").href = companyData.website;
-            document.getElementById("companyDescription").innerText = companyData.description;
-            document.getElementById("companyMission").innerText = companyData.missionStatement;
-
+            document.getElementById("companyName").innerText =  jobData.company;
             // Create a link to the company page
             const companyPageLink = document.getElementById("companyPageLink");
             companyPageLink.href = `company-page?jobId=${jobData.companyID}`;
             companyPageLink.textContent = "View Company Page";
+                                       // Fetch and display similar jobs
+            getSimilarJobs(jobData);
+            loadRelatedBlogs(jobData.industry);
+            
+        if (companyDoc.exists()) {
+            const companyData = companyDoc.data();
 
-                            // Fetch and display similar jobs
-                getSimilarJobs(jobData);
-                loadRelatedBlogs(jobData.industry);
+            document.getElementById("companyLogo").src = companyData.logo; // Ensure the 'logo' field in the database is a URL
+            document.getElementById("companyWebsite").href = companyData.website;
+            document.getElementById("companyDescription").innerText = companyData.description;
+            document.getElementById("companyMission").innerText = companyData.missionStatement;
 
         } else {
             console.log("No such company!");
