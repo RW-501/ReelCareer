@@ -355,7 +355,10 @@ async function fetchJobListings() {
         
 
 // Extract jobs from the snapshot
-const jobs = jobListingsSnapshot.docs.map(doc => doc.data());
+const jobs = jobListingsSnapshot.docs.map(doc => ({
+    id: doc.id, // Get the document ID
+    ...doc.data() // Spread the rest of the document data
+}));
 
 // Create a new array to store unique jobs
 const jobListings = [];
@@ -366,12 +369,11 @@ const seenTitles = new Set();
 
 // Filter the jobs to ensure no duplicate titles
 jobs.forEach(job => {
-    const job = doc.data(); // Get the document data
         
     if (!seenTitles.has(job.title)) {
 
         jobListings.push({
-            id: doc.id, // Optional: If you need to store job ID
+            id: job.id, // Job document ID
             title: job.title,
             type: job.type,
             description: job.description,
