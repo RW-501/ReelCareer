@@ -190,6 +190,7 @@ function formatLocation(location) {
         word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
     ).join(' ');
 
+    console.log("formatLocation ",formattedLocation );
     return formattedLocation;
 }
 
