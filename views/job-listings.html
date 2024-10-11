@@ -672,7 +672,7 @@ function createJobCard(job) {
                     <h5 class="card-title">${job.title}</h5>
                     <h6 class="card-subtitle mb-2 text-muted">${job.organization}</h6>
 <p class="card-text"><strong>Location:</strong>
-  ${formatLocation(jobLocation, { part: 'city' })}, ${formatLocation(jobLocation, { part: 'state' })}
+  ${formatLocation(job.location, { part: 'city' })}, ${formatLocation(job.location, { part: 'state' })}
      </p>
                      <p class="card-text"><strong>Type:</strong> ${job.type}</p>
                      <p class="card-text"><strong>Salary:</strong> ${formatCurrency(job.salary)}</p>

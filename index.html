@@ -346,7 +346,6 @@ async function fetchJobListings() {
 
 
         const jobListingsSnapshot = await getDocs(jobsQuery);
-        console.log("jobsQuery   ",jobsQuery);
         console.log("jobListingsSnapshot   ",jobListingsSnapshot);
   
         
@@ -363,10 +362,14 @@ const seenTitles = new Set();
 
 // Filter the jobs to ensure no duplicate titles
 jobs.forEach(job => {
+    console.log("job.salary   ",job.salary);
+    console.log("job.type   ",job.type);
+
     if (!seenTitles.has(job.title)) {
         jobListings.push({
             id: job.id, // Optional: If you need to store job ID
             title: job.title,
+            type: job.type,
             description: job.description,
             company: job.company,
             location: job.location,
@@ -417,9 +420,10 @@ function createJobCard(job, container) {
                 <p class="card-text text-muted">${truncateText(job.description, 100)}</p>
                 <p class="card-text"><strong>Company:</strong> ${job.company}</p>
 <p class="card-text"><strong>Location:</strong>
-  ${formatLocation(jobLocation, { part: 'city' })}, ${formatLocation(jobLocation, { part: 'state' })}
+  ${formatLocation(job.location, { part: 'city' })}, ${formatLocation(job.location, { part: 'state' })}
      </p>
-                <p class="card-text"><strong>Salary:</strong> ${formatCurrency(job.salary)}</p>
+                     <p class="card-text"><strong>Type:</strong> ${job.type}</p>
+                     <p class="card-text"><strong>Salary:</strong> ${formatCurrency(job.salary)}</p>
                 <a href="views/job-detail.html?id=${job.id}" class="btn btn-primary w-100 mt-3">View Details</a>
             </div>
         </div>
