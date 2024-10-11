@@ -9,6 +9,16 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js"></script>
+
+    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+    <script>
+        tinymce.init({
+            selector: '#newsContent, #blogContent', // Initialize TinyMCE for these textarea fields
+            plugins: 'lists link image charmap preview',
+            toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright | bullist numlist outdent indent | link image | preview',
+            height: 300 // Set the height of the editor
+        });
+    </script>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -31,11 +41,12 @@
     <div class="container mt-4">
         <h1>Content Management</h1>
     
-        <!-- Toggle Buttons for Content Types -->
-        <div class="btn-group mb-3" role="group">
-            <button type="button" class="btn btn-secondary" onclick="toggleSection('newsSection')">Manage News Articles</button>
-            <button type="button" class="btn btn-secondary" onclick="toggleSection('blogSection')">Manage Blog Posts</button>
-        </div>
+    <!-- Toggle Buttons for Content Types -->
+    <div class="btn-group mb-3" role="group">
+        <button type="button" class="btn btn-secondary" onclick="toggleSection('newsSection')">Manage News Articles</button>
+        <button type="button" class="btn btn-secondary" onclick="toggleSection('blogSection')">Manage Blog Posts</button>
+        <button type="button" class="btn btn-secondary" onclick="toggleSection('faqsSection')">Manage FAQs</button>
+    </div>
     
         <!-- News Article Form -->
         <div id="newsSection" class="content-section" style="display:none;">
@@ -184,7 +195,38 @@
                 <button type="reset" class="btn btn-secondary">Reset</button>
             </form>
         </div>
+
+
+    <!-- FAQs Section -->
+    <div id="faqsSection" class="content-section" style="display:none;">
+        <h2>Manage FAQs <i class="fas fa-question-circle" data-toggle="tooltip" title="Add and manage FAQs here."></i></h2>
+        <form id="faqsForm">
+            <div class="form-group">
+                <label for="faqQuestion">Question <i class="fas fa-question-circle" data-toggle="tooltip" title="Enter the question for the FAQ."></i></label>
+                <input type="text" class="form-control" id="faqQuestion" required>
+            </div>
+            <div class="form-group">
+                <label for="faqAnswer">Answer <i class="fas fa-question-circle" data-toggle="tooltip" title="Provide the answer to the FAQ."></i></label>
+                <textarea class="form-control" id="faqAnswer" rows="5" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="faqCategory">Category <i class="fas fa-question-circle" data-toggle="tooltip" title="Select a category for the FAQ."></i></label>
+                <select class="form-control" id="faqCategory" required>
+                    <option value="" disabled selected>Select a category</option>
+                    <option value="general">General</option>
+                    <option value="technical">Technical</option>
+                    <option value="billing">Billing</option>
+                    <option value="account">Account</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Save FAQ</button>
+            <button type="reset" class="btn btn-secondary">Reset</button>
+        </form>
     </div>
+
+
+
+</div>
     
 <div id="viewContent">
         <div class="form-group">
@@ -454,12 +496,11 @@ function filterContent() {
 }
 
 function toggleSection(sectionId) {
-        const sections = document.querySelectorAll('.content-section');
-        sections.forEach(section => {
-            section.style.display = 'none';
-        });
-        document.getElementById(sectionId).style.display = 'block';
-    }
+    const sections = ['newsSection', 'blogSection', 'faqsSection'];
+    sections.forEach((id) => {
+        document.getElementById(id).style.display = (id === sectionId) ? 'block' : 'none';
+    });
+}
 
 $(document).ready(function(){
     $('[data-toggle="tooltip"]').tooltip();
