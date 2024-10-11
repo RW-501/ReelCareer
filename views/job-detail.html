@@ -339,13 +339,13 @@
                 <hr />
     
                 <!-- Job Requirements -->
-                <div>
+                <div id="jobRequirementsArea">
                     <p><strong>Job Requirements:</strong></p>
                     <ul id="jobRequirements" class="list-unstyled" tabindex="0"></ul>
                 </div>
 
                 <!-- Additional Job Details -->
-                <div><strong>Job Benefits:</strong>
+                <div id="jobBenefitsArea"><strong>Job Benefits:</strong>
                     <ul id="jobBenefits" class="list-unstyled"></ul>
                 </div>
                 <div><strong>Application Deadline:</strong> <span id="applicationDeadline"></span></div>
@@ -383,7 +383,7 @@
                 
                 <hr />
 
-                <button id="reportJobBtn" class="btn btn-warning btn-sm mt-3" onclick="reportJob()">Report Job</button>
+                <button id="reportJobBtn" class="btn btn-warning btn-sm mt-3" onclick="openReportJobModal()">Report Job</button>
                 <hr />
 
                 <button id="applyBtn" class="btn btn-primary btn-block mt-4" aria-label="Apply for this job">Apply Now</button>
@@ -582,6 +582,10 @@ async function loadJobDetails(jobData) {
     document.getElementById('industry').textContent = jobData.industry;
     document.getElementById('createdAt').textContent = createdAt instanceof Date ? createdAt.toLocaleDateString() : createdAt;
 
+    renderList(jobData.benefits, 'jobBenefits');
+    renderList(jobData.requirements, 'jobRequirements');
+    renderTags(jobData.tags);
+
 
     // Fetch company details using companyID from the Companies collection
     try {
@@ -607,6 +611,7 @@ async function loadJobDetails(jobData) {
             document.getElementById("companyDescription").innerText = companyData.description;
             document.getElementById("companyMission").innerText = companyData.missionStatement;
 
+
         } else {
             console.log("No such company!");
         }
@@ -623,18 +628,30 @@ async function loadJobDetails(jobData) {
     document.getElementById('applicantCount').textContent = jobData.applicantCount || 0;
     document.getElementById('companyWebsite').href = jobData.companyWebsite;
 
-    const jobRequirementsList = document.getElementById('jobRequirements');
-    jobRequirementsList.innerHTML = '';
-    jobData.requirements.forEach(req => {
-        const li = document.createElement('li');
-        li.textContent = req;
-        jobRequirementsList.appendChild(li);
-    });
 
-// Use it like this
-renderList(jobData.benefits, 'jobBenefits');
-renderList(jobData.requirements, 'jobRequirements');
-renderTags(jobData.tags);
+
+
+// Assuming you have your job data in jobData
+const companyWebsite = document.getElementById('companyWebsite');
+const jobRequirementsArea = document.getElementById('jobRequirementsArea');
+const jobBenefitsArea = document.getElementById('jobBenefitsArea');
+
+// Check if the company website is valid
+if (!jobData.companyWebsite || jobData.companyWebsite === "undefined" || jobData.companyWebsite.trim() === "") {
+    jobRequirementsArea.style.display = "none"; // Hides the company website link if undefined or empty
+}
+
+// Check if job requirements are available
+if (!jobData.jobRequirements || jobData.jobRequirements.length === 0) {
+    jobRequirementsList.parentElement.style.display = "none"; // Hides the entire job requirements section if empty
+}
+
+// Check if job benefits are available
+if (!jobData.jobBenefits || jobData.jobBenefits.length === 0) {
+    jobBenefitsArea.parentElement.style.display = "none"; // Hides the entire job benefits section if empty
+}
+
+
 
 // Function to fetch similar jobs based on tags
 function getSimilarJobs(jobData) {
@@ -756,23 +773,43 @@ const jobPageURL = window.location.href; // Use current page URL
 
 function renderList(items, elementId) {
     const container = document.getElementById(elementId);
-    container.innerHTML = '';
-    items.forEach(item => {
-        const li = document.createElement('li');
-        li.textContent = item;
-        container.appendChild(li);
-    });
+    container.innerHTML = ''; // Clear previous content
+
+    // Check if items is defined and is an array
+    if (Array.isArray(items) && items.length > 0) {
+        items.forEach(item => {
+            const li = document.createElement('li');
+            li.textContent = item;
+            container.appendChild(li);
+        });
+    } else {
+        // Optionally, you can display a message if no items are available
+        const noItemsMessage = document.createElement('li');
+        noItemsMessage.textContent = 'No items available.';
+        noItemsMessage.className = 'text-muted'; // Optional styling
+        container.appendChild(noItemsMessage);
+    }
 }
 
 function renderTags(tags) {
     const jobTags = document.getElementById('jobTags');
-    jobTags.innerHTML = '';
-    tags.forEach(tag => {
-        const span = document.createElement('span');
-        span.className = 'badge badge-secondary m-1'; // Bootstrap badge
-        span.textContent = tag;
-        jobTags.appendChild(span);
-    });
+    jobTags.innerHTML = ''; // Clear previous tags
+
+    // Check if tags is defined and is an array
+    if (Array.isArray(tags) && tags.length > 0) {
+        tags.forEach(tag => {
+            const span = document.createElement('span');
+            span.className = 'badge badge-secondary m-1'; // Bootstrap badge
+            span.textContent = tag;
+            jobTags.appendChild(span);
+        });
+    } else {
+        // Optionally, you can display a message if no tags are available
+        const noTagsMessage = document.createElement('span');
+        noTagsMessage.textContent = 'No tags available.';
+        noTagsMessage.className = 'text-muted'; // Optional styling
+        jobTags.appendChild(noTagsMessage);
+    }
 }
 
 
