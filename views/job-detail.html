@@ -543,7 +543,7 @@ if(!jobId || jobId === "undefined"){
 
                 if (jobDoc.exists()) {
                     const jobData = jobDoc.data();
-                    console.log("jobData ", jobData);
+
                     loadJobDetails(jobData); // Call loadJobDetails with jobData
                 } else {
         // Insert "Job not found" HTML into the error-message div
