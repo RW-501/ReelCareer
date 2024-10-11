@@ -362,8 +362,7 @@ const seenTitles = new Set();
 
 // Filter the jobs to ensure no duplicate titles
 jobs.forEach(job => {
-    console.log("job.salary   ",job.salary);
-    console.log("job.type   ",job.type);
+    console.log("formatCurrency(job.salary)   ",formatCurrency(job.salary));
 
     if (!seenTitles.has(job.title)) {
         jobListings.push({
@@ -422,7 +421,7 @@ function createJobCard(job, container) {
 <p class="card-text"><strong>Location:</strong>
   ${formatLocation(job.location, { part: 'city' })}, ${formatLocation(job.location, { part: 'state' })}
      </p>
-                     <p class="card-text"><strong>Type:</strong> ${job.type}</p>
+                     <p class="card-text"><strong>Type:</strong> ${formatJobType(job.type)}</p>
                      <p class="card-text"><strong>Salary:</strong> ${formatCurrency(job.salary)}</p>
                 <a href="views/job-detail.html?id=${job.id}" class="btn btn-primary w-100 mt-3">View Details</a>
             </div>
