@@ -44,7 +44,7 @@ const analytics = initializeAnalytics(app);
 //import { collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 //const newCollection = collection;
 // Export the objects
-export { db, storage, analytics, app,collection, getDocs }; // Export db, storage, and analytics
+export { db, storage, analytics, app,collection, getDocs, auth }; // Export db, storage, and analytics
 
 
 /*
