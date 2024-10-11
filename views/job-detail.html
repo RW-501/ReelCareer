@@ -399,6 +399,13 @@
 </div>
 
 
+<div class="related-blogs mt-5">
+    <h3>Related Articles</h3>
+    <div id="blogContainer" class="list-group">
+        <!-- Blog links will be dynamically inserted here -->
+    </div>
+</div>
+
         </div>
     
         <div id="error-message" style="display: none; color: red; text-align: center;">
@@ -573,8 +580,7 @@ async function loadJobDetails(jobData) {
     document.getElementById('industry').textContent = jobData.industry;
     document.getElementById('createdAt').textContent = createdAt instanceof Date ? createdAt.toLocaleDateString() : createdAt;
 
-                // Fetch and display similar jobs
-                getSimilarJobs(jobData);
+
     // Fetch company details using companyID from the Companies collection
     try {
         const companyRef = doc(db, 'Companies', jobData.companyID);
@@ -594,6 +600,10 @@ async function loadJobDetails(jobData) {
             const companyPageLink = document.getElementById("companyPageLink");
             companyPageLink.href = `company-page?jobId=${jobData.companyID}`;
             companyPageLink.textContent = "View Company Page";
+
+                            // Fetch and display similar jobs
+                getSimilarJobs(jobData);
+                loadRelatedBlogs(jobData.industry);
 
         } else {
             console.log("No such company!");
@@ -682,6 +692,34 @@ function getSimilarJobs(jobData) {
 }
 
 
+function loadRelatedBlogs(jobIndustry) {
+    // Fetch blogs from the database or API where industry matches
+    firebase.firestore().collection('Blogs')
+        .where('tags', 'array-contains', jobIndustry)
+        .limit(3) // Limit to 3 related blogs
+        .get()
+        .then(querySnapshot => {
+            const blogContainer = document.getElementById('blogContainer');
+            blogContainer.innerHTML = ''; // Clear the container
+            
+            querySnapshot.forEach(doc => {
+                const blog = doc.data();
+                const blogCard = document.createElement('div');
+                blogCard.classList.add('blog-card');
+
+                blogCard.innerHTML = `
+                    <img src="${blog.featuredImage}" alt="${blog.title}" class="img-fluid blog-image" loading="lazy" />
+                    <h5>${blog.title}</h5>
+                    <p>${blog.snippet}</p>
+                    <a href="/blog/${doc.id}" class="btn btn-outline-primary">Read More</a>
+                `;
+                blogContainer.appendChild(blogCard);
+            });
+        })
+        .catch(error => {
+            console.error("Error fetching blogs: ", error);
+        });
+}
 
 
     // Apply button event listener
