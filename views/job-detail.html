@@ -401,15 +401,17 @@ if(!jobId || jobId === "undefined"){
 
         // Function to load job details into the HTML
 async function loadJobDetails(jobData) {
+    const createdAt = jobData.createdAt?.toDate ? jobData.createdAt.toDate() : "N/A"; // Fallback to "N/A" if not available
+    
     document.getElementById('jobTitle').textContent = jobData.title;
     document.getElementById("jobDescription").innerText = jobData.description;
     document.getElementById("companyName").innerText = jobData.companyName;
     document.getElementById('jobLocation').textContent = `${formatLocation(jobData.location, { part: 'city' })}, ${formatLocation(jobData.location, { part: 'state' })}`;
     document.getElementById('employmentType').textContent = formatJobType(jobData.type);
     document.getElementById('salary').textContent = formatCurrency(jobData.salary);
-    document.getElementById('createdAt').textContent = new Date(jobData.createdAt.toDate()).toLocaleDateString();
     document.getElementById('submittedBy').textContent = jobData.submittedBy;
     document.getElementById('industry').textContent = jobData.industry;
+    document.getElementById('job-created-at').textContent = createdAt instanceof Date ? createdAt.toLocaleDateString() : createdAt;
 
 
     // Fetch company details using companyID from the Companies collection
@@ -450,7 +452,7 @@ async function loadJobDetails(jobData) {
         li.textContent = req;
         jobRequirementsList.appendChild(li);
     });
-    
+
 // Use it like this
 renderList(jobData.benefits, 'jobBenefits');
 renderList(jobData.requirements, 'jobRequirements');
