@@ -351,7 +351,7 @@ async function fetchJobListings() {
         
 
 // Extract jobs from the snapshot
-const jobs = jobsSnapshot.docs.map(doc => doc.data());
+const jobs = jobListingsSnapshot.docs.map(doc => doc.data());
 
 // Create a new array to store unique jobs
 const jobListings = [];

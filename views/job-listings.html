@@ -575,8 +575,11 @@ async function fetchJobListings() {
         // Fetch job listings and sponsors
         const jobListingsSnapshot = await getDocs(jobsQuery);
         const sponsorsSnapshot = await getDocs(sponsorsQuery);
-        console.log("jobListingsSnapshot   ",jobListingsSnapshot);
+ 
+        
 
+// Extract jobs from the snapshot
+const jobs = jobListingsSnapshot.docs.map(doc => doc.data());
 
 // Create a new array to store unique jobs
 const jobListings = [];
