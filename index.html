@@ -392,6 +392,10 @@ async function fetchJobListings() {
 // Function to create a job card and append it to the container
 function createJobCard(job, container) {
     const jobCard = document.createElement('div');
+    let loc = formatLocation(job.location);
+    console.log("formatLocation(job.location)  ", formatLocation(job.location)); 
+    console.log("job.location)  ", job.location); 
+    console.log("job.location loc ", loc); 
     jobCard.className = 'col-md-4 mb-4';
     jobCard.innerHTML = `
         <div class="card h-100 shadow-sm">
