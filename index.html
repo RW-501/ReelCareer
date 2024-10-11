@@ -415,8 +415,8 @@ function createJobCard(job, container) {
         <div class="card h-100 shadow-sm">
             <div class="card-body">
                 <h5 class="card-title">${job.title}</h5>
-                <p class="card-text"><strong>Company:</strong> ${job.company}</p>
-<p class="card-text"><strong>Location:</strong>
+                <p class="card-text"><strong>${job.company}</strong></p>
+<p class="card-text">
   ${formatLocation(job.location, { part: 'city' })}, ${formatLocation(job.location, { part: 'state' })}
      </p>
                      <p class="card-text"><strong>Type:</strong> ${formatJobType(job.type)}</p>
@@ -458,7 +458,7 @@ function createLoadMoreButton(loadMoreFunc) {
     };
 
     // Append the button to the desired container
-    const container = document.getElementById('jobsContainer'); // Change to your container's ID
+    const container = document.getElementById('jobListings'); // Change to your container's ID
     if (container) {
         container.appendChild(loadMoreButton); // Add button to the DOM
     } else {

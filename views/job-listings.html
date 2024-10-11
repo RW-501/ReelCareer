@@ -607,6 +607,9 @@ jobs.forEach(job => {
         seenTitles.add(job.title); // Mark title as seen
     }
 });
+    // Display sponsored jobs if any
+    const featuredJobContainer = document.getElementById('featuredJobListings');
+    featuredJobContainer.innerHTML = ''; // Clear existing featured jobs
 
 // Check if we have any results
 if (!jobListingsSnapshot.empty) {
@@ -614,7 +617,7 @@ if (!jobListingsSnapshot.empty) {
     lastVisible = jobListingsSnapshot.docs[jobListingsSnapshot.docs.length - 1];
 
     // Handle unique job listings and render them
-    jobListings.forEach(job => createJobCard(job, jobListingsContainer));
+    jobListings.forEach(job => createJobCard(job, featuredJobContainer));
     console.log("Filtered Job Listings:", jobListings);
 } else {
     console.log("No jobs found or no more jobs to load.");
@@ -657,9 +660,6 @@ function displayJobListings({ jobListings, sponsoredJobs }) {
         jobContainer.innerHTML += jobCard; // Append job card to container
     });
 
-    // Display sponsored jobs if any
-    const featuredJobContainer = document.getElementById('featuredJobListings');
-    featuredJobContainer.innerHTML = ''; // Clear existing featured jobs
 
     sponsoredJobs.forEach(sponsoredJob => {
         const featuredJobCard = createSponsoredJobCard(sponsoredJob);
@@ -675,7 +675,7 @@ function createJobCard(job) {
                 <div class="card-body">
                     <h5 class="card-title">${job.title}</h5>
                     <h6 class="card-subtitle mb-2 text-muted">${job.organization}</h6>
-<p class="card-text"><strong>Location:</strong>
+<p class="card-text">
   ${formatLocation(job.location, { part: 'city' })}, ${formatLocation(job.location, { part: 'state' })}
      </p>
                      <p class="card-text"><strong>Type:</strong> ${formatJobType(job.type)}</p>
