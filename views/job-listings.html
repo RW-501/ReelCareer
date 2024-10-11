@@ -577,7 +577,45 @@ async function fetchJobListings() {
         const sponsorsSnapshot = await getDocs(sponsorsQuery);
         console.log("jobListingsSnapshot   ",jobListingsSnapshot);
 
-        const jobListings = []; // Array to hold job listing data
+
+// Create a new array to store unique jobs
+const jobListings = [];
+
+// Use a Set to track job titles we've already seen
+const seenTitles = new Set();
+
+// Filter the jobs to ensure no duplicate titles
+jobs.forEach(job => {
+    if (!seenTitles.has(job.title)) {
+        console.log("data.type  ",job.type); 
+
+        jobListings.push({
+                id: job.id,
+                title: job.title,
+                description: job.description,
+                datePosted: job.createdAt,
+                organization: job.company,
+                location: job.location,
+                type: job.type,
+                salary: job.salary,
+                validThrough: job.boostExpiresAt,
+            });
+        seenTitles.add(job.title); // Mark title as seen
+    }
+});
+
+// Check if we have any results
+if (!jobListingsSnapshot.empty) {
+    // Update the last visible document for pagination
+    lastVisible = jobListingsSnapshot.docs[jobListingsSnapshot.docs.length - 1];
+
+    // Handle unique job listings and render them
+    jobListings.forEach(job => createJobCard(job, jobListingsContainer));
+    console.log("Filtered Job Listings:", jobListings);
+} else {
+    console.log("No jobs found or no more jobs to load.");
+}
+
         const sponsoredJobs = [];
 
         // Process sponsored jobs
@@ -592,24 +630,6 @@ async function fetchJobListings() {
                 location: data.location,
                 employmentType: data.type,
                 baseSalary: data.salary,
-                validThrough: data.boostExpiresAt,
-                url: data.id
-            });
-        });
-
-        // Process regular job listings
-        jobListingsSnapshot.forEach(doc => {
-            const data = doc.data();
-            console.log("data.type  ",data.type); 
-            jobListings.push({
-                id: data.id,
-                title: data.title,
-                description: data.description,
-                datePosted: data.createdAt,
-                organization: data.company,
-                location: data.location,
-                type: data.type,
-                salary: data.salary,
                 validThrough: data.boostExpiresAt,
                 url: data.id
             });

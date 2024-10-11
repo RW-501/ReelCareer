@@ -348,28 +348,45 @@ async function fetchJobListings() {
         const jobListingsSnapshot = await getDocs(jobsQuery);
         console.log("jobsQuery   ",jobsQuery);
         console.log("jobListingsSnapshot   ",jobListingsSnapshot);
-        // Clear previous listings before adding new ones
-       // jobListingsContainer.innerHTML = ''; 
+  
+        
+
+// Extract jobs from the snapshot
+const jobs = jobsSnapshot.docs.map(doc => doc.data());
+
+// Create a new array to store unique jobs
+const jobListings = [];
+
+// Use a Set to track job titles we've already seen
+const seenTitles = new Set();
 
 
-        // Check if we have any results
-        if (!jobListingsSnapshot.empty) {
-            lastVisible = jobListingsSnapshot.docs[jobListingsSnapshot.docs.length - 1]; // Update last visible document
+// Filter the jobs to ensure no duplicate titles
+jobs.forEach(job => {
+    if (!seenTitles.has(job.title)) {
+        jobListings.push({
+            id: job.id, // Optional: If you need to store job ID
+            title: job.title,
+            description: job.description,
+            company: job.company,
+            location: job.location,
+            salary: job.salary,
+        });
+        seenTitles.add(job.title); // Mark title as seen
+    }
+});
 
-            // Handle job listings
-            const jobListings = jobListingsSnapshot.docs.map(doc => ({
-                id: doc.id,
-                title: doc.data().title,
-                description: doc.data().description,
-                company: doc.data().company,
-                location: doc.data().location,
-                salary: doc.data().salary,
-            }));
+// Check if we have any results
+if (!jobListingsSnapshot.empty) {
+    // Update the last visible document for pagination
+    lastVisible = jobListingsSnapshot.docs[jobListingsSnapshot.docs.length - 1];
 
-            jobListings.forEach(job => createJobCard(job, jobListingsContainer));
-        console.log(jobListings);  // Check if this logs any job listings
-
-        }
+    // Handle unique job listings and render them
+    jobListings.forEach(job => createJobCard(job, jobListingsContainer));
+    console.log("Filtered Job Listings:", jobListings);
+} else {
+    console.log("No jobs found or no more jobs to load.");
+}
 
         // Sponsor logic
         const sponsors = await fetchSponsors(excludedIds);
