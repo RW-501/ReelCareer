@@ -320,9 +320,10 @@ for (let i = 0; i < suggestionsArray.length; i++) {
 
     if (suggestion && inputValue !== '') {
         // If a suggestion is found and input isn't empty
-        input.setAttribute('data-suggestion', suggestion); // Set a custom data attribute for handling auto-suggestion
+        input.setAttribute('data-suggestion', lastWord + suggestion); // Set a custom data attribute for handling auto-suggestion
 
-        input.value = suggestion; // Temporarily set the input value to the suggestion
+        input.value = lastWord + suggestion; // Temporarily set the input value to the suggestion
+        console.log('lastWord + suggestion', lastWord + suggestion);
         input.selectionStart = inputValue.length; // Set the selection start after the typed characters
         input.selectionEnd = suggestion.length + inputValue.length; // Set the selection end to the suggestion length
         console.log('suggestion.length:', suggestion.length); // Log the updated input value
