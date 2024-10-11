@@ -7,6 +7,10 @@
     <meta name="keywords" content="jobs, job details, job openings, ReelCareer">
     <title>Job Detail - ReelCareer</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -84,13 +88,8 @@
         }
     </style>
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    
-    <!-- Bootstrap CSS -->
     <script src="../public/js/scripts.js"></script>
     <script src="../public/js/loadScripts.js"></script>
-    
 </head>
 
 <body>
@@ -124,6 +123,9 @@
     <div class="container">
         <!-- Main Job Details Section -->
         <div class="job-detail-container" role="main" aria-labelledby="jobTitle">
+            <!-- Add a Save Button -->
+<button id="saveBtn" class="btn btn-outline-secondary" onclick="saveJob()">Save for Later</button>
+
             <!-- Job Header with Logo and Title -->
             <div class="d-flex align-items-start mb-4">
                 <img id="companyLogo" class="job-logo img-fluid mr-3" alt="Company Logo" src="/images/sq_logo_n_BG.png" loading="lazy" />
@@ -138,11 +140,13 @@
                 <p><strong>Company:</strong> <span id="companyName" class="text-dark"></span></p>
                 <p><strong>Location:</strong> <span id="jobLocation"></span></p>
                 <p><strong>Employment Type:</strong> <span id="employmentType"></span></p>
-                <p><strong>Salary:</strong> $<span id="salary"></span></p>
+                <p><strong>Salary:</strong> <span id="salary"></span> <span id="currency"></span></p>
                 <p><strong>Posted On:</strong> <span id="createdAt"></span></p>
+                <p><strong>Submitted By:</strong> <span id="submittedBy"></span></p>
+                <p><strong>Industry:</strong> <span id="industry"></span></p>
             </div>
     
-            <!-- Additional jobDetails -->
+            <!-- Additional Job Details -->
             <div><strong>Job Benefits:</strong> <ul id="jobBenefits" class="list-unstyled"></ul></div>
             <div><strong>Application Deadline:</strong> <span id="applicationDeadline"></span></div>
             <div><strong>Number of Applicants:</strong> <span id="applicantCount"></span></div>
@@ -162,19 +166,80 @@
     
             <!-- Apply Button -->
             <button id="applyBtn" class="btn btn-primary btn-block mt-3" aria-label="Apply for this job">Apply Now</button>
-    
         </div>
     </div>
 
     <!-- Footer -->
     <footer id="dynamic-footer"></footer>
-    
-<!-- Firebase configuration/ Login& Out -->
-<script type="module" src="../public/js/main.js"></script> 
+
+    <!-- Firebase configuration/ Login & Out -->
+    <script type="module" src="../public/js/main.js"></script>
 
     <script type="module">
         import { db } from '../public/js/main.js'; // Adjust the path based on your structure
         import { doc, getDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+
+        import { db, auth } from '../public/js/main.js'; // Adjust path to your Firebase setup
+import { doc, getDoc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+
+// Function to save job and update savedForLater count
+async function saveJob() {
+    try {
+        const user = auth.currentUser;
+        if (!user) {
+            alert("You need to be logged in to save jobs.");
+            return;
+        }
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const jobId = urlParams.get('id'); // Get job ID from URL
+
+        if (!jobId) {
+            alert('Job ID not found in URL.');
+            return;
+        }
+
+        const jobDocRef = doc(db, 'Jobs', jobId);
+
+        // Get the job document to check if it exists
+        const jobDoc = await getDoc(jobDocRef);
+        if (!jobDoc.exists()) {
+            alert('Job does not exist.');
+            return;
+        }
+
+        // Get user-specific saved jobs (this assumes you store user-saved jobs in a "UserJobs" collection)
+        const userSavedJobsRef = doc(db, 'UserJobs', user.uid);
+        const userSavedJobsDoc = await getDoc(userSavedJobsRef);
+
+        if (userSavedJobsDoc.exists() && userSavedJobsDoc.data().savedJobs.includes(jobId)) {
+            alert('You have already saved this job.');
+            return;
+        }
+
+        // Update the job's savedForLater count
+        await updateDoc(jobDocRef, {
+            savedForLater: increment(1) // Increment the savedForLater field by 1
+        });
+
+        // Save the job to user's saved list (add jobId to the array of saved jobs)
+        if (userSavedJobsDoc.exists()) {
+            await updateDoc(userSavedJobsRef, {
+                savedJobs: [...userSavedJobsDoc.data().savedJobs, jobId]
+            });
+        } else {
+            await updateDoc(userSavedJobsRef, {
+                savedJobs: [jobId]
+            });
+        }
+
+        alert('Job saved for later!');
+
+    } catch (error) {
+        console.error("Error saving job: ", error);
+        alert("Error saving the job. Please try again.");
+    }
+}
 
         // Function to fetch job details
         async function fetchJobDetails() {
@@ -186,101 +251,90 @@
                 return;
             }
 
+            try {
                 const jobDocRef = doc(db, 'Jobs', jobId);
                 const jobDoc = await getDoc(jobDocRef);
 
                 if (jobDoc.exists()) {
                     const jobData = jobDoc.data();
-                    // Updating job details
-                    console.log("jobData ",jobData);
-
-        document.getElementById('jobTitle').innerText = jobData.title || "Job Title Unavailable";
-        document.getElementById('jobDescription').innerText = jobData.description || "No description provided.";
-        document.getElementById('companyName').innerHTML = `<a class='navbar-brand text-dark' href='../views/company-page.html?id=${jobData.companyId}'>${jobData.company || "Unknown Company"}</a>`;
-        document.getElementById('jobLocation').innerText = jobData.location || "Location not specified";
-        document.getElementById('employmentType').innerText = jobData.type || "Type not specified";
-        document.getElementById('salary').innerText = isNaN(jobData.salary) ? "Not specified" : jobData.salary; //jobData.salary.toFixed(2);
-        document.getElementById('createdAt').innerText = jobData.createdAt ? new Date(jobData.createdAt).toLocaleDateString() : "Date not available";
-        document.getElementById('companyLogo').src = jobData.companyLogo || '../images/sq_logo_n_BG.png'; 
-
-        // Benefits (Handle empty benefits)
-        if (jobData.benefits && jobData.benefits.length > 0) {
-            const benefitsList = jobData.benefits.map(benefit => `<li>${benefit}</li>`).join('');
-            document.getElementById('jobBenefits').innerHTML = benefitsList;
-        } else {
-            document.getElementById('jobBenefits').innerHTML = "<li>No benefits provided</li>";
-        }
-
-        // Application Deadline
-        if (jobData.applicationDeadline) {
-            const deadlineDate = new Date(jobData.applicationDeadline);
-            document.getElementById('applicationDeadline').innerText = deadlineDate.toLocaleDateString();
-        } else {
-            document.getElementById('applicationDeadline').innerText = "No deadline provided.";
-        }
-
-        // Applicants
-        document.getElementById('applicantCount').innerText = jobData.applicantCount || 0;
-
-        // Company Website (Handle missing URL)
-        if (jobData.companyWebsite) {
-            document.getElementById('companyWebsite').href = jobData.companyWebsite;
-        } else {
-            document.getElementById('companyWebsite').innerText = "No website provided";
-            document.getElementById('companyWebsite').style.pointerEvents = "none"; // Disable link if no website
-        }
-
-        // Job Requirements
-        if (jobData.requirements && jobData.requirements.length > 0) {
-            const requirementsList = jobData.requirements.map(req => `<li>${req}</li>`).join('');
-            document.getElementById('jobRequirements').innerHTML = requirementsList;
-        } else {
-            document.getElementById('jobRequirements').innerHTML = "<li>No specific requirements</li>";
-        }
-
-        // Job Tags
-        if (jobData.tags && jobData.tags.length > 0) {
-            const tagElements = jobData.tags.map(tag => `<span class="badge badge-primary mr-2">#${tag}</span>`).join('');
-            document.getElementById('jobTags').innerHTML = tagElements;
-        } else {
-            document.getElementById('jobTags').innerHTML = "No tags specified.";
-        }
-
-        // Apply Button Interaction (Disable if job is closed or expired)
-        const currentDate = new Date();
-        const applicationDeadline = jobData.applicationDeadline ? new Date(jobData.applicationDeadline) : null;
-        if (applicationDeadline && currentDate > applicationDeadline) {
-            document.getElementById('applyBtn').disabled = true;
-            document.getElementById('applyBtn').innerText = "Applications Closed";
-        } else {
-            document.getElementById('applyBtn').onclick = function() {
-                window.location.href = `apply.html?jobId=${jobData.jobId}`;
-            };
-        }
-                }  
+                    console.log("jobData ", jobData);
+                    loadJobDetails(jobData); // Call loadJobDetails with jobData
+                } else {
+                    alert("No such job found!");
+                }
+            } catch (error) {
+                console.error("Error fetching job details: ", error);
+                alert("Error fetching job details. Please try again later.");
             }
+        }
 
-        // Call the function to fetch job details on page load
-        window.onload = fetchJobDetails;
+        // Function to load job details into the HTML
+// Function to load job details into the HTML
+function loadJobDetails(jobData) {
+    document.getElementById('jobTitle').textContent = jobData.title;
+    document.getElementById("jobDescription").innerText = jobData.description;
+    document.getElementById("companyName").innerText = jobData.companyName;
+    document.getElementById("companyLogo").src = jobData.companyLogo;
+    document.getElementById('jobLocation').textContent = jobData.location;
+    document.getElementById('employmentType').textContent = jobData.employmentType;
+    document.getElementById('salary').textContent = jobData.salary;
+    document.getElementById('currency').textContent = jobData.currency;
+    document.getElementById('createdAt').textContent = new Date(jobData.createdAt.toDate()).toLocaleDateString();
+    document.getElementById('submittedBy').textContent = jobData.submittedBy;
+    document.getElementById('industry').textContent = jobData.industry;
 
-      
+    const jobBenefitsList = document.getElementById('jobBenefits');
+    jobBenefitsList.innerHTML = '';
+    jobData.benefits.forEach(benefit => {
+        const li = document.createElement('li');
+        li.textContent = benefit;
+        jobBenefitsList.appendChild(li);
+    });
+
+    document.getElementById('applicationDeadline').textContent = new Date(jobData.applicationDeadline.toDate()).toLocaleDateString();
+    document.getElementById('applicantCount').textContent = jobData.applicantCount;
+    document.getElementById('companyWebsite').href = jobData.companyWebsite;
+
+    const jobRequirementsList = document.getElementById('jobRequirements');
+    jobRequirementsList.innerHTML = '';
+    jobData.requirements.forEach(req => {
+        const li = document.createElement('li');
+        li.textContent = req;
+        jobRequirementsList.appendChild(li);
+    });
+
+    const jobTags = document.getElementById('jobTags');
+    jobTags.innerHTML = '';
+    jobData.tags.forEach(tag => {
+        const span = document.createElement('span');
+        span.className = 'badge badge-secondary m-1'; // Bootstrap badge
+        span.textContent = tag;
+        jobTags.appendChild(span);
+    });
+
+    // Apply button event listener
+    const applyBtn = document.getElementById('applyBtn');
+    applyBtn.addEventListener('click', function() {
+        if (jobData.applicationAvailableBool) {
+            // Redirect to the application page on your site
+            window.location.href = `apply.html?jobId=${jobData.jobId}`;
+        } else {
+            // Redirect to the external application website
+            window.location.href = jobData.applicationWebsite;
+        }
+    });
+}
+
+
+        
+
+        // Load job details on page load
+        document.addEventListener('DOMContentLoaded', fetchJobDetails);
     </script>
 
-    <!-- Footer -->
-    <footer id="dynamic-footer"></footer>
-    
-    <!-- Firebase configuration/ Login& Out -->
-    <script type="module" src="../public/js/main.js"></script> 
-
-    <!-- Dynamic Schema Markup -->
-    <script type="module">
-    import { db, storage, analytics, app  } from '../public/js/main.js'; // Adjust the path based on your structure
-    import { query, where, orderBy, limit,  collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
-    
-  </script>
     <!-- Bootstrap JS and dependencies -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-ZvpUoOeGZpV4jx+arJg2eU+AjBlE5e0w4GQ/JLTAxGMOeU1ZBU/FAaI7gPbA0n40" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-OCpA7v74fP9e7I+2KwWqFfDkE02zgt0twtR0qU97Fkt1b5Jp1XqDlRe1TIj67F0p" crossorigin="anonymous"></script>
 </body>
 </html>

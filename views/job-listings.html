@@ -513,6 +513,7 @@ function showJobDetailsFunc(jobId) {
     import { query, where, orderBy, limit,  collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 
 
+    let lastVisible = null; // To store the last document loaded
 
 let userInterests = [];
 let excludedIds = []; // Replace with your actual IDs

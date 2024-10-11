@@ -415,7 +415,6 @@ function createJobCard(job, container) {
         <div class="card h-100 shadow-sm">
             <div class="card-body">
                 <h5 class="card-title">${job.title}</h5>
-                <p class="card-text text-muted">${truncateText(job.description, 100)}</p>
                 <p class="card-text"><strong>Company:</strong> ${job.company}</p>
 <p class="card-text"><strong>Location:</strong>
   ${formatLocation(job.location, { part: 'city' })}, ${formatLocation(job.location, { part: 'state' })}
