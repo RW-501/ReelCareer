@@ -324,9 +324,9 @@ for (let i = 0; i < suggestionsArray.length; i++) {
 
         input.value = suggestion; // Temporarily set the input value to the suggestion
         input.selectionStart = inputValue.length; // Set the selection start after the typed characters
-        input.selectionEnd = suggestion.length + input.value; // Set the selection end to the suggestion length
+        input.selectionEnd = suggestion.length + inputValue.length; // Set the selection end to the suggestion length
         console.log('suggestion.length:', suggestion.length); // Log the updated input value
-        console.log('input.value:', input.value); // Log the updated input value
+        console.log('inputValue.length:', inputValue.length); // Log the updated input value
     } else {
         console.log('No suggestion available.'); // Log when no suggestion is found
         if (input.getAttribute('data-suggestion')) {
