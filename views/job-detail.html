@@ -450,8 +450,11 @@ async function loadJobDetails(jobData) {
         li.textContent = req;
         jobRequirementsList.appendChild(li);
     });
-    renderList(jobData.requirements, 'jobRequirements');
-    renderTags(jobData.tags);
+    
+// Use it like this
+renderList(jobData.benefits, 'jobBenefits');
+renderList(jobData.requirements, 'jobRequirements');
+renderTags(jobData.tags);
 
     // Apply button event listener
     document.getElementById('applyBtn').addEventListener('click', function() {
@@ -610,11 +613,6 @@ function renderList(items, elementId) {
 
    
 
-// Use it like this
-renderList(jobData.benefits, 'jobBenefits');
-renderList(jobData.requirements, 'jobRequirements');
-
-        
 
         // Load job details on page load
         document.addEventListener('DOMContentLoaded', fetchJobDetails);
