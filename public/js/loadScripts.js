@@ -204,13 +204,20 @@ console.log(formatLocation("  New York  .USA "));             // "New York. Usa"
 console.log(formatLocation(""));                              // ""
 */
 
-
-function formatCurrency(value, options = {}) {
+function formatCurrency(value, options = {}) { 
     // Set default options for internationalization and currency formatting
     const { locale = 'en-US', currency = 'USD', useIntl = false, decimals = 2 } = options;
 
+    // Check if value is undefined or null, and set to 0 in that case
+    if (value === undefined || value === null) {
+        value = 0;
+    }
+
+    // If the value is a number, convert it to a string for processing
+    let cleanValue = typeof value === 'number' ? value.toString() : value;
+
     // Remove any non-numeric characters except dots and commas
-    let cleanValue = value.replace(/[^0-9.,-]/g, '');
+    cleanValue = cleanValue.replace(/[^0-9.,-]/g, '');
 
     // Handle commas and convert to standard float
     cleanValue = cleanValue.replace(/,/g, '');
@@ -233,6 +240,7 @@ function formatCurrency(value, options = {}) {
     // Otherwise, manually format the number as currency (with commas)
     return '$' + number.toFixed(decimals).replace(/\d(?=(\d{3})+\.)/g, '$&,');
 }
+
 
 /*
 // Usage examples with default formatting

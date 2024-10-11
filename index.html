@@ -423,21 +423,23 @@ function createLoadMoreButton(loadMoreFunc) {
     // Modify the onclick event
     loadMoreButton.onclick = () => {
         loadMoreFunc().then(() => {
-    // Add fade-out animation (using CSS class)
-    loadMoreButton.style.display = 'none';
-        loadMoreButton.outerHTML = "";
+
 
         }).catch(() => {
             console.error('Failed to load jobs');
         });
         
-        // Apply fade-out effect
-        loadMoreButton.style.opacity = 0;
+
         
         // Hide the button completely after animation ends
         setTimeout(() => {
-            loadMoreButton.style.display = 'none';  // Hide the button after it's clicked
-        }, 500); // Match the duration of the fade-out (500ms)
+
+                    // Apply fade-out effect
+        loadMoreButton.style.opacity = 0;
+    // Add fade-out animation (using CSS class)
+    loadMoreButton.style.display = 'none';
+        loadMoreButton.outerHTML = "";
+            }, 500); // Match the duration of the fade-out (500ms)
     };
 
     return loadMoreButton;
