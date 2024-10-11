@@ -337,7 +337,11 @@ async function fetchJobListings() {
         jobsQuery = query(jobsQuery, limit(20)); // Limit results for pagination
 
 
-
+        // If lastVisible is defined, use startAfter to paginate
+        if (lastVisible) {
+            jobsQuery = query(jobsQuery, startAfter(lastVisible));
+        }
+        
         // If we have already loaded jobs, start from the last visible document
         if (lastVisible) {
             jobsQuery = query(jobsQuery, startAfter(lastVisible));
