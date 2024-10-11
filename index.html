@@ -399,7 +399,7 @@ function createJobCard(job, container) {
                 <h5 class="card-title">${job.title}</h5>
                 <p class="card-text text-muted">${truncateText(job.description, 100)}</p>
                 <p class="card-text"><strong>Company:</strong> ${job.company}</p>
-                <p class="card-text"><strong>Location:</strong> ${formatLocation(job.location) || 'Not specified'}</p>
+<p class="card-text"><strong>Location:</strong> ${formatLocation(job.location)}</p>
                 <p class="card-text"><strong>Salary:</strong> ${formatCurrency(job.salary)}</p>
                 <a href="views/job-detail.html?id=${job.id}" class="btn btn-primary w-100 mt-3">View Details</a>
             </div>

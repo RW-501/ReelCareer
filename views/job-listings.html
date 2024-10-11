@@ -650,6 +650,7 @@ function createJobCard(job) {
                 <div class="card-body">
                     <h5 class="card-title">${job.title}</h5>
                     <h6 class="card-subtitle mb-2 text-muted">${job.organization}</h6>
+<p class="card-text"><strong>Location:</strong> ${formatLocation(job.location)}</p>
                    <p class="card-text text-muted">${truncateText(job.description, 80)}</p>
         <button class="btn btn-info" onclick="showJobDetailsFunc('${job.id}')">View Details</button>
                 </div>

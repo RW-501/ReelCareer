@@ -173,10 +173,10 @@ setTimeout(() => {
     }
 }, 3000); // 3 seconds delay for timeout message
 
-function formatLocation(location) {
+function formatLocation(location) { 
     // Check if input is a valid string
     if (typeof location !== 'string' || location.trim() === '') {
-        return ''; // Return empty string for invalid input
+        return 'Not specified'; // Return 'Not specified' for invalid input
     }
     
     // Add spaces after commas, periods, dashes, slashes, or colons
@@ -190,9 +190,10 @@ function formatLocation(location) {
         word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
     ).join(' ');
 
-    console.log("formatLocation ",formattedLocation );
+    console.log("Formatted Location: ", formattedLocation);
     return formattedLocation;
 }
+
 
 /*
 // Usage examples
@@ -206,7 +207,7 @@ console.log(formatLocation(""));                              // ""
 
 function formatCurrency(value, options = {}) { 
     // Set default options for internationalization and currency formatting
-    const { locale = 'en-US', currency = 'USD', useIntl = false, decimals = 2 } = options;
+    const { locale = 'en-US', currency = 'USD', useIntl = false, decimals = 0 } = options;
 
     // Check if value is undefined or null, and set to 0 in that case
     if (value === undefined || value === null) {
