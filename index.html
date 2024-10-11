@@ -384,7 +384,10 @@ if (!jobListingsSnapshot.empty) {
 
     // Handle unique job listings and render them
     jobListings.forEach(job => createJobCard(job, jobListingsContainer));
-    console.log("Filtered Job Listings:", jobListings);
+    console.log("Listing lenght", jobListings.length);
+    console.log("jobs lenght", jobs.length);
+    console.log("Listing lenght", jobListings.length);
+    console.log("seenTitles:", seenTitles);
 } else {
     console.log("No jobs found or no more jobs to load.");
 }
@@ -412,7 +415,7 @@ function createJobCard(job, container) {
     const jobCard = document.createElement('div');
     jobCard.className = 'col-md-4 mb-4';
     jobCard.innerHTML = `
-        <div class="card h-100 shadow-sm">
+        <div class="card jobCard h-100 shadow-sm">
             <div class="card-body">
                 <h5 class="card-title">${job.title}</h5>
                 <p class="card-text"><strong>${job.company}</strong></p>
@@ -502,10 +505,10 @@ function addSponsorSection(sponsors, container) {
         sponsorSection.className = 'col-12 mt-4';
         sponsorSection.innerHTML = `
             <h5 class="text-center mb-4">Our Sponsors</h5>
-            <div class="row">
+            <div class="sponsorArea row">
                 ${sponsors.map(sponsor => `
                     <div class="col-md-4">
-                        <div class="card h-100 shadow-sm">
+                        <div class="card sponsorCard h-100 shadow-sm">
                             <img class="card-img-top" src="${sponsor.logoUrl || '/ReelCareer/images/favicons/android-chrome-512x512.png'}" alt="${sponsor.name}">
                             <div class="card-body">
                                 <h6 class="card-title">${sponsor.name}</h6>
