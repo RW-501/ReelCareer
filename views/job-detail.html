@@ -513,25 +513,36 @@ function createJobSchema(jobData) {
     }
 
     const jobSchema = {
+        "@context": "https://schema.org", // Schema.org context
+        "@type": "JobPosting", // Type of schema
         jobId: jobData.jobId || "", // Unique identifier for the job
         title: jobData.title || "", // Title of the job
         description: jobData.description || "", // Description of the job
-        companyName: jobData.companyName || "", // Name of the company
-        companyID: jobData.companyID || "", // Reference ID for the company
-        location: {
-            city: jobData.location?.city || "", // City
-            state: jobData.location?.state || "" // State
+        hiringOrganization: {
+            "@type": "Organization",
+            name: jobData.companyName || "", // Name of the company
+            logo: jobData.companyLogo || "", // URL for the company logo
+            website: jobData.companyWebsite || "" // Company's website link
         },
-        type: jobData.type || "", // Employment type
-        salary: jobData.salary || 0, // Salary offered
-        createdAt: jobData.createdAt ? new Date(jobData.createdAt.toDate()) : new Date(), // Date the job was created
-        submittedBy: jobData.submittedBy || "", // User who submitted the job
-        industry: jobData.industry || "", // Industry of the job
-        benefits: jobData.benefits || [], // List of job benefits
-        applicationDeadline: jobData.applicationDeadline ? new Date(jobData.applicationDeadline.toDate()) : new Date(), // Application deadline date
+        jobLocation: {
+            "@type": "Place",
+            address: {
+                "@type": "PostalAddress",
+                addressLocality: jobData.location?.city || "", // City
+                addressRegion: jobData.location?.state || "" // State
+            }
+        },
+        employmentType: jobData.type || "", // Employment type
+        baseSalary: {
+            "@type": "MonetaryAmount",
+            value: jobData.salary || 0, // Salary offered
+            currency: "USD" // Currency type
+        },
+        datePosted: jobData.createdAt ? jobData.createdAt.toISOString() : new Date().toISOString(), // Date posted
+        validThrough: jobData.applicationDeadline ? jobData.applicationDeadline.toISOString() : new Date(new Date().setFullYear(new Date().getFullYear() + 1)).toISOString(), // Application deadline date
         applicantCount: jobData.applicantCount || 0, // Number of applicants
-        companyWebsite: jobData.companyWebsite || "", // Company's website link
         requirements: jobData.requirements || [], // List of job requirements
+        benefits: jobData.benefits || [], // List of job benefits
         tags: jobData.tags || [], // Tags related to the job
         applicationAvailableBool: jobData.applicationAvailableBool || false, // Indicates if application is available
         applicationWebsite: jobData.applicationWebsite || "" // Link to the external application website
@@ -540,42 +551,41 @@ function createJobSchema(jobData) {
     return jobSchema;
 }
 
-// Company Schema Function
-function createCompanySchema(companyData) {
+
+// Company Schema Functionfunction createCompanySchema(companyData) {
     // Validate companyData if necessary
     if (!companyData) {
         throw new Error("companyData is required");
     }
 
     const companySchema = {
+        "@context": "https://schema.org", // Schema.org context
+        "@type": "Organization", // Type of schema
         companyID: companyData.companyID || "", // Unique identifier for the company
         name: companyData.name || "", // Name of the company
         logo: companyData.logo || "", // URL for the company logo
         website: companyData.website || "", // Company's website link
         description: companyData.description || "", // Description of the company
-        missionStatement: companyData.missionStatement || "" // Company mission statement
+        missionStatement: companyData.missionStatement || "", // Company mission statement
+        address: {
+            "@type": "PostalAddress",
+            addressLocality: companyData.location?.city || "",
+            addressRegion: companyData.location?.state || "",
+            postalCode: companyData.location?.postalCode || "", // Postal code
+            streetAddress: companyData.location?.streetAddress || "" // Street address
+        },
+        contactPoint: {
+            "@type": "ContactPoint",
+            contactType: "Customer Service",
+            telephone: companyData.phone || "", // Company phone number
+            email: companyData.email || "" // Company email address
+        },
+        sameAs: companyData.socialLinks || [] // Social media links
     };
 
     return companySchema;
 }
 
-// Example usage of the functions
-async function loadJobAndCompanyDetails(jobData, companyData) {
-    try {
-        const jobSchema = createJobSchema(jobData);
-        const companySchema = createCompanySchema(companyData);
-
-        // You can now use jobSchema and companySchema as needed
-        console.log("Job Schema:", jobSchema);
-        console.log("Company Schema:", companySchema);
-        
-        // Continue with additional logic...
-    } catch (error) {
-        console.error("Error generating schemas:", error);
-    }
-}
-
-}
 
 function renderList(items, elementId) {
     const container = document.getElementById(elementId);
