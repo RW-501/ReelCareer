@@ -414,6 +414,7 @@ function createJobCard(job, container) {
 
 // Function to create and return the Load More button
 function createLoadMoreButton(loadMoreFunc) { 
+    console.log("createLoadMoreButton");
     const loadMoreButton = document.createElement('button');
     loadMoreButton.className = 'btn btn-primary w-100 mt-4';
     loadMoreButton.innerText = 'Load More Jobs';
@@ -428,6 +429,7 @@ function createLoadMoreButton(loadMoreFunc) {
     loadMoreButton.onclick = () => {
         loadMoreFunc().then(() => {
 
+            console.log("createLoadMoreButton onclick");
 
         }).catch(() => {
             console.error('Failed to load jobs');
@@ -437,12 +439,13 @@ function createLoadMoreButton(loadMoreFunc) {
         
         // Hide the button completely after animation ends
         setTimeout(() => {
+            console.log("setTimeout");
 
                     // Apply fade-out effect
         loadMoreButton.style.opacity = 0;
     // Add fade-out animation (using CSS class)
     loadMoreButton.style.display = 'none';
-        loadMoreButton.outerHTML = "";
+      //  loadMoreButton.outerHTML = "";
             }, 500); // Match the duration of the fade-out (500ms)
     };
 
