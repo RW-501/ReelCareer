@@ -341,7 +341,7 @@ async function fetchJobListings() {
         if (lastVisible) {
             jobsQuery = query(jobsQuery, startAfter(lastVisible));
         }
-        
+
         // If we have already loaded jobs, start from the last visible document
         if (lastVisible) {
             jobsQuery = query(jobsQuery, startAfter(lastVisible));
@@ -369,7 +369,7 @@ jobs.forEach(job => {
 
     if (!seenTitles.has(job.title)) {
         jobListings.push({
-            id: job.id, // Optional: If you need to store job ID
+            id: doc.id, // Optional: If you need to store job ID
             title: job.title,
             type: job.type,
             description: job.description,
