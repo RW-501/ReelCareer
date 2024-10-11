@@ -16,33 +16,21 @@
             font-family: 'Arial', sans-serif;
             background-color: #f1f3f5; /* Light grey background */
         }
-
-        .navbar {
-            background-color: #007bff; /* Bootstrap primary color */
-        }
-
-        .navbar-brand, .nav-link {
-            color: #ffffff !important;
-        }
-
-        .navbar-nav .nav-link:hover {
-            color: #d4d4d4 !important;
-        }
-
+    
         .job-detail-container {
             background-color: #ffffff;
             border-radius: 15px;
             box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
             padding: 40px;
-            margin-top: 20px;
+            margin-top: 30px;
         }
-
+    
         .job-logo {
             max-width: 150px;
             border-radius: 10px;
             margin-right: 20px;
         }
-
+    
         .apply-btn {
             background-color: #007bff;
             color: white;
@@ -50,125 +38,249 @@
             padding: 12px 25px;
             transition: background-color 0.3s ease, transform 0.2s ease;
         }
-
+    
         .apply-btn:hover {
             background-color: #0056b3;
             transform: translateY(-2px);
         }
-
-        .footer {
-            background-color: #343a40;
-            color: #ffffff;
-            padding: 15px 0;
-            text-align: center;
+    
+        .job-info, .job-tags, .job-requirements {
+            margin-bottom: 20px;
         }
-
-        .job-info {
-            border-bottom: 1px solid #e9ecef;
-            padding-bottom: 15px;
-            margin-bottom: 15px;
+    
+        .job-info p {
+            font-size: 16px;
+            margin-bottom: 10px;
         }
-
+    
+        hr {
+            border-top: 1px solid #e9ecef;
+            margin: 20px 0;
+        }
+    
         .job-tags {
             background-color: #e9ecef;
             border-radius: 5px;
             padding: 5px 10px;
             display: inline-block;
-            margin: 5px 0;
+            margin-right: 10px;
+            margin-bottom: 10px;
         }
-
+    
         @media (max-width: 576px) {
             .job-detail-container {
                 padding: 20px;
             }
-
-            .apply-btn {
+    
+            #applyBtn {
                 width: 100%;
             }
         }
+    
+        #applyBtn:hover {
+            background-color: #0062cc;
+            transform: scale(1.05);
+        }
+    
+        /* Error message styling */
+        #error-message {
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid red;
+            background-color: #ffe5e5;
+            border-radius: 5px;
+            max-width: 600px;
+            text-align: center;
+        }
+    
+        #error-message h2 {
+            color: red;
+            margin-bottom: 10px;
+        }
+    
+        /* Modal container */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+    
+        /* Modal content box */
+        .modal-content {
+            background-color: white;
+            margin: 15% auto;
+            padding: 20px;
+            border-radius: 8px;
+            width: 80%;
+            max-width: 400px;
+            text-align: center;
+        }
+    
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+    
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    
+        .modal-actions {
+            margin-top: 20px;
+        }
+    
+        .modal-actions .btn {
+            padding: 10px 20px;
+            margin: 10px;
+            cursor: pointer;
+        }
+    
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+    
+        .btn-success {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+    
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+    
     </style>
-
+    
     <script src="../public/js/scripts.js"></script>
     <script src="../public/js/loadScripts.js"></script>
-</head>
-
-<body>
-
-    <!-- Navigation Bar -->
-    <nav class="navbar navbar-expand-lg navbar-dark" role="navigation" aria-label="Main navigation">
-        <a class="navbar-brand" href="../index.html">ReelCareer</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="../index.html">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="job-listings.html">Job Listings</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="about.html">About Us</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="contact.html">Contact</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
-
-    <!-- Job Detail Section -->
-    <div class="container">
-        <!-- Main Job Details Section -->
-        <div class="job-detail-container" role="main" aria-labelledby="jobTitle">
-            <!-- Add a Save Button -->
-<button id="saveBtn" class="btn btn-outline-secondary" onclick="saveJob()">Save for Later</button>
-
-            <!-- Job Header with Logo and Title -->
-            <div class="d-flex align-items-start mb-4">
-                <img id="companyLogo" class="job-logo img-fluid mr-3" alt="Company Logo" src="/images/sq_logo_n_BG.png" loading="lazy" />
+    </head>
+    
+    <body>
+    
+        <!-- Navigation Bar -->
+        <nav class="navbar navbar-expand-lg navbar-dark" role="navigation" aria-label="Main navigation">
+            <a class="navbar-brand" href="../index.html">ReelCareer</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="../index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="job-listings.html">Job Listings</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contact.html">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    
+        <!-- Job Detail Section -->
+        <div id="job-container" class="container">
+            <div class="job-detail-container" role="main" aria-labelledby="jobTitle">
+                <button id="saveBtn" class="btn btn-outline-secondary mb-3" onclick="saveJob()">Save for Later</button>
+    
+                <div class="d-flex align-items-start mb-4">
+                    <img id="companyLogo" class="job-logo img-fluid" alt="Company Logo" src="/images/sq_logo_n_BG.png" loading="lazy" />
+                    <div>
+                        <h1 id="jobTitle" class="mb-2 font-weight-bold" tabindex="0"></h1>
+                        <p id="jobDescription" class="text-muted" tabindex="0"></p>
+                    </div>
+                </div>
+    
+                <hr />
+    
+                <!-- Job Info Section -->
+                <div class="job-info">
+                    <p><strong>Company:</strong> <span id="companyName" class="text-dark"></span></p>
+                    <p><strong>Location:</strong> <span id="jobLocation"></span></p>
+                    <p><strong>Employment Type:</strong> <span id="employmentType"></span></p>
+                    <p><strong>Salary:</strong> <span id="salary"></span></p>
+                    <p><strong>Posted On:</strong> <span id="createdAt"></span></p>
+                    <p><strong>Submitted By:</strong> <span id="submittedBy"></span></p>
+                    <p><strong>Industry:</strong> <span id="industry"></span></p>
+                </div>
+    
+                <hr />
+    
+                <!-- Additional Job Details -->
+                <div><strong>Job Benefits:</strong>
+                    <ul id="jobBenefits" class="list-unstyled"></ul>
+                </div>
+                <div><strong>Application Deadline:</strong> <span id="applicationDeadline"></span></div>
+                <div><strong>Number of Applicants:</strong> <span id="applicantCount"></span></div>
+    
+                <hr />
+    
+                <!-- Company-specific details -->
+                <a id="companyWebsite" href="" target="_blank">Company Website</a>
+                <p id="companyDescription"></p>
+                <p id="companyMission"></p>
+                <a id="companyPageLink" href="">View Company Page</a>
+    
+                <hr />
+    
+                <!-- Job Requirements -->
                 <div>
-                    <h1 id="jobTitle" class="mb-2 font-weight-bold" tabindex="0"></h1>
-                    <p id="jobDescription" class="text-muted" tabindex="0"></p>
+                    <p><strong>Job Requirements:</strong></p>
+                    <ul id="jobRequirements" class="list-unstyled" tabindex="0"></ul>
+                </div>
+    
+                <hr />
+    
+                <!-- Job Tags -->
+                <div>
+                    <p><strong>Tags:</strong></p>
+                    <span id="jobTags" class="job-tags"></span>
+                </div>
+    
+                <button id="applyBtn" class="btn btn-primary btn-block mt-4" aria-label="Apply for this job">Apply Now</button>
+            </div>
+        </div>
+    
+        <div id="error-message" style="display: none; color: red; text-align: center;">
+            <!-- Error message will be dynamically inserted here -->
+        </div>
+    
+        <!-- Modal Structure -->
+        <div id="applicationModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>External Application</h2>
+                <p>This application will take you to an external website. Do you want to proceed?</p>
+                <div class="modal-actions">
+                    <button id="proceedBtn" class="btn btn-success">Proceed to Application</button>
+                    <button id="cancelBtn" class="btn btn-secondary">Cancel</button>
                 </div>
             </div>
-    
-            <!-- Job Info Section -->
-            <div class="job-info">
-                <p><strong>Company:</strong> <span id="companyName" class="text-dark"></span></p>
-                <p><strong>Location:</strong> <span id="jobLocation"></span></p>
-                <p><strong>Employment Type:</strong> <span id="employmentType"></span></p>
-                <p><strong>Salary:</strong> <span id="salary"></span> <span id="currency"></span></p>
-                <p><strong>Posted On:</strong> <span id="createdAt"></span></p>
-                <p><strong>Submitted By:</strong> <span id="submittedBy"></span></p>
-                <p><strong>Industry:</strong> <span id="industry"></span></p>
-            </div>
-    
-            <!-- Additional Job Details -->
-            <div><strong>Job Benefits:</strong> <ul id="jobBenefits" class="list-unstyled"></ul></div>
-            <div><strong>Application Deadline:</strong> <span id="applicationDeadline"></span></div>
-            <div><strong>Number of Applicants:</strong> <span id="applicantCount"></span></div>
-            <div><strong>Company Website:</strong> <a id="companyWebsite" href="#" target="_blank" aria-label="Visit the company website">Visit</a></div>
-    
-            <!-- Job Requirements -->
-            <div>
-                <p><strong>Job Requirements:</strong></p>
-                <ul id="jobRequirements" class="list-unstyled" tabindex="0"></ul>
-            </div>
-    
-            <!-- Job Tags -->
-            <div>
-                <p><strong>Tags:</strong></p>
-                <span id="jobTags" class="job-tags"></span>
-            </div>
-    
-            <!-- Apply Button -->
-            <button id="applyBtn" class="btn btn-primary btn-block mt-3" aria-label="Apply for this job">Apply Now</button>
         </div>
-    </div>
 
+
+        
     <!-- Footer -->
     <footer id="dynamic-footer"></footer>
 
@@ -176,44 +288,34 @@
     <script type="module" src="../public/js/main.js"></script>
 
     <script type="module">
-        import { db } from '../public/js/main.js'; // Adjust the path based on your structure
-        import { doc, getDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 
-        import { db, auth } from '../public/js/main.js'; // Adjust path to your Firebase setup
-import { doc, getDoc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+   import { db, auth } from '../public/js/main.js'; // Adjust path to your Firebase setup
+   import { doc, getDoc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 
 // Function to save job and update savedForLater count
-async function saveJob() {
+async function saveJob(jobId) {
+    // Disable the button and change text
+    const saveBtn = document.getElementById('saveBtn');
+    saveBtn.disabled = true;
+    saveBtn.textContent = "Saving...";
+
     try {
         const user = auth.currentUser;
         if (!user) {
             alert("You need to be logged in to save jobs.");
+            saveBtn.disabled = false;
+            saveBtn.textContent = "Save Job";
             return;
         }
 
-        const urlParams = new URLSearchParams(window.location.search);
-        const jobId = urlParams.get('id'); // Get job ID from URL
-
-        if (!jobId) {
-            alert('Job ID not found in URL.');
-            return;
-        }
-
-        const jobDocRef = doc(db, 'Jobs', jobId);
-
-        // Get the job document to check if it exists
-        const jobDoc = await getDoc(jobDocRef);
-        if (!jobDoc.exists()) {
-            alert('Job does not exist.');
-            return;
-        }
-
-        // Get user-specific saved jobs (this assumes you store user-saved jobs in a "UserJobs" collection)
-        const userSavedJobsRef = doc(db, 'UserJobs', user.uid);
+        // Get user-specific saved jobs from the 'Users' collection
+        const userSavedJobsRef = doc(db, 'Users', user.uid);
         const userSavedJobsDoc = await getDoc(userSavedJobsRef);
 
-        if (userSavedJobsDoc.exists() && userSavedJobsDoc.data().savedJobs.includes(jobId)) {
-            alert('You have already saved this job.');
+        // Check if the job is already saved
+        if (userSavedJobsDoc.exists() && userSavedJobsDoc.data().savedJobs?.includes(jobId)) {
+            saveBtn.textContent = "Saved!";
+            saveBtn.classList.add('btn-success');
             return;
         }
 
@@ -222,34 +324,37 @@ async function saveJob() {
             savedForLater: increment(1) // Increment the savedForLater field by 1
         });
 
-        // Save the job to user's saved list (add jobId to the array of saved jobs)
-        if (userSavedJobsDoc.exists()) {
-            await updateDoc(userSavedJobsRef, {
-                savedJobs: [...userSavedJobsDoc.data().savedJobs, jobId]
-            });
-        } else {
-            await updateDoc(userSavedJobsRef, {
-                savedJobs: [jobId]
-            });
-        }
+        // Save the job to user's savedJobs array using arrayUnion to prevent duplicates
+        await setDoc(userSavedJobsRef, {
+            savedJobs: arrayUnion(jobId)
+        }, { merge: true });
 
-        alert('Job saved for later!');
+        // Successfully saved
+        saveBtn.textContent = "Saved!";
+        saveBtn.classList.add('btn-success');
 
     } catch (error) {
         console.error("Error saving job: ", error);
         alert("Error saving the job. Please try again.");
+    } finally {
+        saveBtn.disabled = false;
+        saveBtn.textContent = "Save Job";
     }
 }
 
+
+
+     
         // Function to fetch job details
         async function fetchJobDetails() {
             const urlParams = new URLSearchParams(window.location.search);
             const jobId = urlParams.get('id'); // Get job ID from URL
 
-            if (!jobId) {
-                alert('Job ID not found in URL.');
-                return;
-            }
+            const errorMessageDiv = document.getElementById('error-message');
+    const jobContainer = document.getElementById('job-container');
+
+
+
 
             try {
                 const jobDocRef = doc(db, 'Jobs', jobId);
@@ -260,28 +365,68 @@ async function saveJob() {
                     console.log("jobData ", jobData);
                     loadJobDetails(jobData); // Call loadJobDetails with jobData
                 } else {
-                    alert("No such job found!");
+        // Insert "Job not found" HTML into the error-message div
+        errorMessageDiv.innerHTML = `
+            <h2>Job Not Found</h2>
+            <p>We couldn't find the job you're looking for. It might have been removed or is no longer available.</p>
+            <a href="/job-listing-page" class="btn btn-primary">Back to Jobs</a>
+        `;
+        errorMessageDiv.style.display = 'block';
+        jobContainer.style.display = 'none'; // Hide job details section if applicable
+  
                 }
             } catch (error) {
                 console.error("Error fetching job details: ", error);
-                alert("Error fetching job details. Please try again later.");
-            }
+        // Display an error message on the page
+        errorMessageDiv.innerHTML = `
+            <h2>Error Fetching Job Details</h2>
+            <p>There was an error retrieving the job details. Please try again later.</p>
+            <a href="/job-listing-page" class="btn btn-primary">Back to Jobs</a>
+        `;
+            errorMessageDiv.style.display = 'block';
+            jobContainer.style.display = 'none'; // Hide job details
+                        }
         }
 
         // Function to load job details into the HTML
-// Function to load job details into the HTML
-function loadJobDetails(jobData) {
+async function loadJobDetails(jobData) {
     document.getElementById('jobTitle').textContent = jobData.title;
     document.getElementById("jobDescription").innerText = jobData.description;
     document.getElementById("companyName").innerText = jobData.companyName;
-    document.getElementById("companyLogo").src = jobData.companyLogo;
-    document.getElementById('jobLocation').textContent = jobData.location;
-    document.getElementById('employmentType').textContent = jobData.employmentType;
-    document.getElementById('salary').textContent = jobData.salary;
-    document.getElementById('currency').textContent = jobData.currency;
+    document.getElementById('jobLocation').textContent = `${formatLocation(jobData.location, { part: 'city' })}, ${formatLocation(jobData.location, { part: 'state' })}`;
+    document.getElementById('employmentType').textContent = formatJobType(jobData.type);
+    document.getElementById('salary').textContent = formatCurrency(jobData.salary);
     document.getElementById('createdAt').textContent = new Date(jobData.createdAt.toDate()).toLocaleDateString();
     document.getElementById('submittedBy').textContent = jobData.submittedBy;
     document.getElementById('industry').textContent = jobData.industry;
+
+
+    // Fetch company details using companyID from the Companies collection
+    try {
+        const companyRef = doc(db, 'Companies', jobData.companyID);
+        const companyDoc = await getDoc(companyRef);
+
+        if (companyDoc.exists()) {
+            const companyData = companyDoc.data();
+
+            // Populate company-related details
+            document.getElementById("companyName").innerText = companyData.name;
+            document.getElementById("companyLogo").src = companyData.logo; // Ensure the 'logo' field in the database is a URL
+            document.getElementById("companyWebsite").href = companyData.website;
+            document.getElementById("companyDescription").innerText = companyData.description;
+            document.getElementById("companyMission").innerText = companyData.missionStatement;
+
+            // Create a link to the company page
+            const companyPageLink = document.getElementById("companyPageLink");
+            companyPageLink.href = `company-page?jobId=${jobData.companyID}`;
+            companyPageLink.textContent = "View Company Page";
+
+        } else {
+            console.log("No such company!");
+        }
+    } catch (error) {
+        console.error("Error fetching company details: ", error);
+    }
 
     const jobBenefitsList = document.getElementById('jobBenefits');
     jobBenefitsList.innerHTML = '';
@@ -292,7 +437,7 @@ function loadJobDetails(jobData) {
     });
 
     document.getElementById('applicationDeadline').textContent = new Date(jobData.applicationDeadline.toDate()).toLocaleDateString();
-    document.getElementById('applicantCount').textContent = jobData.applicantCount;
+    document.getElementById('applicantCount').textContent = jobData.applicantCount || 0;
     document.getElementById('companyWebsite').href = jobData.companyWebsite;
 
     const jobRequirementsList = document.getElementById('jobRequirements');
@@ -313,18 +458,60 @@ function loadJobDetails(jobData) {
     });
 
     // Apply button event listener
-    const applyBtn = document.getElementById('applyBtn');
-    applyBtn.addEventListener('click', function() {
-        if (jobData.applicationAvailableBool) {
-            // Redirect to the application page on your site
-            window.location.href = `apply.html?jobId=${jobData.jobId}`;
-        } else {
-            // Redirect to the external application website
-            window.location.href = jobData.applicationWebsite;
-        }
+    document.getElementById('applyBtn').addEventListener('click', function() {
+    if (jobData.applicationAvailableBool) {
+        // Redirect to the application page on your site
+        window.location.href = `apply.html?jobId=${jobData.jobId}`;
+    } else {
+        // Show the modal for external application
+        const modal = document.getElementById('applicationModal');
+        modal.style.display = 'block';
+    }
+});
+
+// Get elements for modal interactions
+const closeModal = document.querySelector('.close');
+const proceedBtn = document.getElementById('proceedBtn');
+const cancelBtn = document.getElementById('cancelBtn');
+const modal = document.getElementById('applicationModal');
+
+// Close modal on clicking the close button (X)
+closeModal.addEventListener('click', function() {
+    modal.style.display = 'none';
+});
+
+// Close modal on clicking the cancel button
+cancelBtn.addEventListener('click', function() {
+    modal.style.display = 'none';
+});
+
+// Proceed to external website on clicking the proceed button
+proceedBtn.addEventListener('click', function() {
+    window.location.href = jobData.applicationWebsite;
+});
+
+// Close modal if the user clicks outside of it
+window.addEventListener('click', function(event) {
+    if (event.target == modal) {
+        modal.style.display = 'none';
+    }
+});
+
+}
+
+function renderList(items, elementId) {
+    const container = document.getElementById(elementId);
+    container.innerHTML = '';
+    items.forEach(item => {
+        const li = document.createElement('li');
+        li.textContent = item;
+        container.appendChild(li);
     });
 }
 
+// Use it like this
+renderList(jobData.benefits, 'jobBenefits');
+renderList(jobData.requirements, 'jobRequirements');
 
         
 
