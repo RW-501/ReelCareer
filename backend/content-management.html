@@ -30,59 +30,199 @@
 
     <div class="container mt-4">
         <h1>Content Management</h1>
-
+    
+        <!-- Toggle Buttons for Content Types -->
+        <div class="btn-group mb-3" role="group">
+            <button type="button" class="btn btn-secondary" onclick="toggleSection('newsSection')">Manage News Articles</button>
+            <button type="button" class="btn btn-secondary" onclick="toggleSection('blogSection')">Manage Blog Posts</button>
+        </div>
+    
         <!-- News Article Form -->
-        <h2>Manage News Articles</h2>
-        <form id="newsForm">
-            <div class="form-group">
-                <label for="newsTitle">Title</label>
-                <input type="text" class="form-control" id="newsTitle" required>
-            </div>
-            <div class="form-group">
-                <label for="newsContent">Content</label>
-                <textarea class="form-control" id="newsContent" rows="5" required></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary">Save News Article</button>
-        </form>
-
+        <div id="newsSection" class="content-section" style="display:none;">
+            <h2>Manage News Articles <i class="fas fa-question-circle" data-toggle="tooltip" title="Add and manage news articles here."></i></h2>
+            <form id="newsForm">
+                <div class="form-group">
+                    <label for="newsTitle">Title <i class="fas fa-question-circle" data-toggle="tooltip" title="Enter the title of the news article."></i></label>
+                    <input type="text" class="form-control" id="newsTitle" required>
+                </div>
+                <div class="form-group">
+                    <label for="newsContent">Content <i class="fas fa-question-circle" data-toggle="tooltip" title="Write the content of the news article."></i></label>
+                    <textarea class="form-control" id="newsContent" rows="5" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="newsSource">Source <i class="fas fa-question-circle" data-toggle="tooltip" title="Enter the source of the news article with URL."></i></label>
+                    <input type="text" class="form-control" id="newsSource" placeholder="Title" required>
+                    <input type="url" class="form-control mt-2" id="newsUrl" placeholder="URL" required>
+                </div>
+                <div class="form-group">
+                    <label for="newsImage">Upload Image <i class="fas fa-question-circle" data-toggle="tooltip" title="Upload an image for the news article."></i></label>
+                    <input type="file" class="form-control" id="newsImage" accept="image/*" required>
+                </div>
+                <div class="form-group">
+                    <label for="newsPostDate">Post Date <i class="fas fa-question-circle" data-toggle="tooltip" title="Select the date when the news article will be posted."></i></label>
+                    <input type="date" class="form-control" id="newsPostDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="newsActivate">Activate <i class="fas fa-question-circle" data-toggle="tooltip" title="Choose whether to activate this article."></i></label>
+                    <select class="form-control" id="newsActivate">
+                        <option value="true">Yes</option>
+                        <option value="false">No</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="newsPostedBy">Posted By <i class="fas fa-question-circle" data-toggle="tooltip" title="Enter the name of the person posting the article."></i></label>
+                    <input type="text" class="form-control" id="newsPostedBy" required>
+                </div>
+                <div class="form-group">
+                    <label for="newsPostedById">Posted By ID <i class="fas fa-question-circle" data-toggle="tooltip" title="Enter the ID of the person posting the article."></i></label>
+                    <input type="text" class="form-control" id="newsPostedById" required>
+                </div>
+                <div class="form-group">
+                    <label for="newsCategory">Category <i class="fas fa-question-circle" data-toggle="tooltip" title="Select a category for the news article."></i></label>
+                    <select class="form-control" id="newsCategory" required>
+                        <option value="" disabled selected>Select a category</option>
+                        <option value="jobPostings">Job Postings</option>
+                        <option value="careerAdvice">Career Advice</option>
+                        <option value="industryNews">Industry News</option>
+                        <option value="eventUpdates">Event Updates</option>
+                        <option value="successStories">Success Stories</option>
+                        <option value="companyNews">Company News</option>
+                        <option value="jobMarketTrends">Job Market Trends</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="newsImageCaption">Image Caption <i class="fas fa-question-circle" data-toggle="tooltip" title="Enter a caption for the associated image."></i></label>
+                    <input type="text" class="form-control" id="newsImageCaption">
+                </div>
+                <div class="form-group">
+                    <label for="newsLikes">Likes <i class="fas fa-question-circle" data-toggle="tooltip" title="Number of likes for the article."></i></label>
+                    <input type="number" class="form-control" id="newsLikes" value="0">
+                </div>
+                <div class="form-group">
+                    <label for="newsLoves">Loves <i class="fas fa-question-circle" data-toggle="tooltip" title="Number of loves for the article."></i></label>
+                    <input type="number" class="form-control" id="newsLoves" value="0">
+                </div>
+                <div class="form-group">
+                    <label for="newsHelpful">Helpful <i class="fas fa-question-circle" data-toggle="tooltip" title="Number of helpful votes for the article."></i></label>
+                    <input type="number" class="form-control" id="newsHelpful" value="0">
+                </div>
+                <div class="form-group">
+                    <label for="newsViewCount">View Count <i class="fas fa-question-circle" data-toggle="tooltip" title="Number of views for the article."></i></label>
+                    <input type="number" class="form-control" id="newsViewCount" value="0">
+                </div>
+                <button type="submit" class="btn btn-primary">Save News Article</button>
+                <button type="reset" class="btn btn-secondary">Reset</button>
+            </form>
+        </div>
+    
         <!-- Blog Post Form -->
-        <h2 class="mt-4">Manage Blog Posts</h2>
-        <form id="blogForm">
-            <div class="form-group">
-                <label for="blogTitle">Title</label>
-                <input type="text" class="form-control" id="blogTitle" required>
-            </div>
-            <div class="form-group">
-                <label for="blogContent">Content</label>
-                <textarea class="form-control" id="blogContent" rows="5" required></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary">Save Blog Post</button>
-        </form>
-
-        <!-- FAQ Form -->
-        <h2 class="mt-4">Manage FAQs</h2>
-        <form id="faqForm">
-            <div class="form-group">
-                <label for="faqQuestion">Question</label>
-                <input type="text" class="form-control" id="faqQuestion" required>
-            </div>
-            <div class="form-group">
-                <label for="faqAnswer">Answer</label>
-                <textarea class="form-control" id="faqAnswer" rows="5" required></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary">Save FAQ</button>
-        </form>
-
-        <!-- Display Stored Content -->
-        <h2 class="mt-4">Stored Content</h2>
-        <div id="contentDisplay">
-            <div id="loading" style="display: none;">Loading content...</div>
-            <!-- News, Blog, and FAQ content will be displayed here -->
+        <div id="blogSection" class="content-section" style="display:none;">
+            <h2>Manage Blog Posts <i class="fas fa-question-circle" data-toggle="tooltip" title="Add and manage blog posts here."></i></h2>
+            <form id="blogForm">
+                <div class="form-group">
+                    <label for="blogTitle">Title <i class="fas fa-question-circle" data-toggle="tooltip" title="Enter the title of the blog post."></i></label>
+                    <input type="text" class="form-control" id="blogTitle" required>
+                </div>
+                <div class="form-group">
+                    <label for="blogContent">Content <i class="fas fa-question-circle" data-toggle="tooltip" title="Write the content of the blog post."></i></label>
+                    <textarea class="form-control" id="blogContent" rows="5" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="blogImage">Upload Image <i class="fas fa-question-circle" data-toggle="tooltip" title="Upload an image for the blog post."></i></label>
+                    <input type="file" class="form-control" id="blogImage" accept="image/*" required>
+                </div>
+                <div class="form-group">
+                    <label for="blogPostDate">Post Date <i class="fas fa-question-circle" data-toggle="tooltip" title="Select the date when the blog post will be published."></i></label>
+                    <input type="date" class="form-control" id="blogPostDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="blogActivate">Activate <i class="fas fa-question-circle" data-toggle="tooltip" title="Choose whether to activate this post."></i></label>
+                    <select class="form-control" id="blogActivate">
+                        <option value="true">Yes</option>
+                        <option value="false">No</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="blogPostedBy">Posted By <i class="fas fa-question-circle" data-toggle="tooltip" title="Enter the name of the person posting the blog."></i></label>
+                    <input type="text" class="form-control" id="blogPostedBy">
+                </div>
+                <div class="form-group">
+                    <label for="blogPostedById">Posted By ID <i class="fas fa-question-circle" data-toggle="tooltip" title="Enter the ID of the person posting the blog."></i></label>
+                    <input type="text" class="form-control" id="blogPostedById">
+                </div>
+                <div class="form-group">
+                    <label for="blogCategory">Category <i class="fas fa-question-circle" data-toggle="tooltip" title="Select a category for the blog post."></i></label>
+                    <select class="form-control" id="blogCategory" required>
+                        <option value="" disabled selected>Select a category</option>
+                        <option value="careerAdvice">Career Advice</option>
+                        <option value="interviewTips">Interview Tips</option>
+                        <option value="resumeWriting">Resume Writing</option>
+                        <option value="jobSearchStrategies">Job Search Strategies</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="blogImageCaption">Image Caption <i class="fas fa-question-circle" data-toggle="tooltip" title="Enter a caption for the associated image."></i></label>
+                    <input type="text" class="form-control" id="blogImageCaption">
+                </div>
+                <div class="form-group">
+                    <label for="blogLikes">Likes <i class="fas fa-question-circle" data-toggle="tooltip" title="Number of likes for the blog post."></i></label>
+                    <input type="number" class="form-control" id="blogLikes" value="0">
+                </div>
+                <div class="form-group">
+                    <label for="blogLoves">Loves <i class="fas fa-question-circle" data-toggle="tooltip" title="Number of loves for the blog post."></i></label>
+                    <input type="number" class="form-control" id="blogLoves" value="0">
+                </div>
+                <div class="form-group">
+                    <label for="blogHelpful">Helpful <i class="fas fa-question-circle" data-toggle="tooltip" title="Number of helpful votes for the blog post."></i></label>
+                    <input type="number" class="form-control" id="blogHelpful" value="0">
+                </div>
+                <div class="form-group">
+                    <label for="blogViewCount">View Count <i class="fas fa-question-circle" data-toggle="tooltip" title="Number of views for the blog post."></i></label>
+                    <input type="number" class="form-control" id="blogViewCount" value="0">
+                </div>
+                <button type="submit" class="btn btn-primary">Save Blog Post</button>
+                <button type="reset" class="btn btn-secondary">Reset</button>
+            </form>
         </div>
     </div>
+    
+<div id="viewContent">
+        <div class="form-group">
+            <label for="searchContent">Search Content</label>
+            <input type="text" class="form-control" id="searchContent" placeholder="Search articles, blogs, FAQs..." onkeyup="filterContent()">
+        </div>
+
+        <h2 class="mt-4">Existing Content</h2>
+        <div id="contentList"></div>
+    </div>
+    
+<!-- Modal for displaying content -->
+<div class="modal fade" id="contentModal" tabindex="-1" role="dialog" aria-labelledby="contentModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="contentModalLabel"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="modalContentBody">
+                <img id="modalImage" src="" alt="Content Image" class="img-fluid mb-3" style="display:none;">
+                <p id="modalTextContent"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-        // Firebase configuration
+        // Initialize Firebase
         const firebaseConfig = {
     apiKey: "AIzaSyDiwC3Dmd88-t3N9iRV5cZ3snVkEXinclg",
     authDomain: "reelcareer-cb4b0.firebaseapp.com",
@@ -93,203 +233,247 @@
     measurementId: "G-LBTK319K2X"
 };
 
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
+            // Initialize Firebase
+            const app = firebase.initializeApp(firebaseConfig);
+            const db = firebase.firestore();
+            const storage = firebase.storage();
 
-        // Save News Article
-        document.getElementById('newsForm').onsubmit = function(e) {
-            e.preventDefault();
-            const title = document.getElementById('newsTitle').value;
-            const content = document.getElementById('newsContent').value;
+            // Function to upload image to Firebase Storage
+            function uploadImage(file) {
+                return new Promise((resolve, reject) => {
+                    const storageRef = storage.ref('images/' + file.name);
+                    const task = storageRef.put(file);
 
-            db.collection('News').add({
-                title: title,
-                content: content,
-                timestamp: firebase.firestore.FieldValue.serverTimestamp()
-            }).then(() => {
-                alert("News article saved successfully!");
-                loadContent();
-                document.getElementById('newsForm').reset();
-            }).catch(console.error);
-        };
-
-        // Save Blog Post
-        document.getElementById('blogForm').onsubmit = function(e) {
-            e.preventDefault();
-            const title = document.getElementById('blogTitle').value;
-            const content = document.getElementById('blogContent').value;
-
-            db.collection('Blogs').add({
-                title: title,
-                content: content,
-                timestamp: firebase.firestore.FieldValue.serverTimestamp()
-            }).then(() => {
-                alert("Blog post saved successfully!");
-                loadContent();
-                document.getElementById('blogForm').reset();
-            }).catch(console.error);
-        };
-
-        // Save FAQ
-        document.getElementById('faqForm').onsubmit = function(e) {
-            e.preventDefault();
-            const question = document.getElementById('faqQuestion').value;
-            const answer = document.getElementById('faqAnswer').value;
-
-            db.collection('FAQs').add({
-                question: question,
-                answer: answer,
-                timestamp: firebase.firestore.FieldValue.serverTimestamp()
-            }).then(() => {
-                alert("FAQ saved successfully!");
-                loadContent();
-                document.getElementById('faqForm').reset();
-            }).catch(console.error);
-        };
-
-        // Load and Display Content
-        function loadContent() {
-            const contentDisplay = document.getElementById('contentDisplay');
-            const loadingIndicator = document.getElementById('loading');
-            contentDisplay.innerHTML = ''; // Clear existing content
-            loadingIndicator.style.display = 'block'; // Show loading indicator
-
-            // Load News Articles
-            db.collection('News').get().then((querySnapshot) => {
-                let newsHTML = '<h3>News Articles</h3>';
-                querySnapshot.forEach((doc) => {
-                    const news = doc.data();
-                    newsHTML += `
-                    <div class="card mt-2" id="news-${doc.id}">
-                        <div class="card-body">
-                            <h5>${news.title}</h5>
-                            <p>${news.content}</p>
-                            <button class="btn btn-warning" onclick="editNews('${doc.id}', '${news.title}', '${news.content}')">Edit</button>
-                            <button class="btn btn-danger" onclick="deleteContent('news', '${doc.id}')">Delete</button>
-                        </div>
-                    </div>`;
+                    task.on('state_changed', 
+                        function progress(snapshot) {
+                            const percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                            console.log('Upload is ' + percentage + '% done');
+                        }, 
+                        function error(err) {
+                            reject(err);
+                        }, 
+                        function complete() {
+                            task.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+                                resolve(downloadURL);
+                            });
+                        }
+                    );
                 });
-                contentDisplay.insertAdjacentHTML('beforeend', newsHTML);
-            });
-
-            // Load Blog Posts
-            db.collection('Blogs').get().then((querySnapshot) => {
-                let blogHTML = '<h3>Blog Posts</h3>';
-                querySnapshot.forEach((doc) => {
-                    const blog = doc.data();
-                    blogHTML += `
-                    <div class="card mt-2" id="blog-${doc.id}">
-                        <div class="card-body">
-                            <h5>${blog.title}</h5>
-                            <p>${blog.content}</p>
-                            <button class="btn btn-warning" onclick="editBlog('${doc.id}', '${blog.title}', '${blog.content}')">Edit</button>
-                            <button class="btn btn-danger" onclick="deleteContent('blogs', '${doc.id}')">Delete</button>
-                        </div>
-                    </div>`;
-                });
-                contentDisplay.insertAdjacentHTML('beforeend', blogHTML);
-            });
-
-            // Load FAQs
-            db.collection('FAQs').get().then((querySnapshot) => {
-                let faqHTML = '<h3>FAQs</h3>';
-                querySnapshot.forEach((doc) => {
-                    const faq = doc.data();
-                    faqHTML += `
-                    <div class="card mt-2" id="faq-${doc.id}">
-                        <div class="card-body">
-                            <h5>${faq.question}</h5>
-                            <p>${faq.answer}</p>
-                            <button class="btn btn-warning" onclick="editFAQ('${doc.id}', '${faq.question}', '${faq.answer}')">Edit</button>
-                            <button class="btn btn-danger" onclick="deleteContent('faqs', '${doc.id}')">Delete</button>
-                        </div>
-                    </div>`;
-                });
-                contentDisplay.insertAdjacentHTML('beforeend', faqHTML);
-            }).finally(() => {
-                loadingIndicator.style.display = 'none'; // Hide loading indicator after content is loaded
-            });
-        }
-
-        // Edit News Article
-        function editNews(id, title, content) {
-            document.getElementById('newsTitle').value = title;
-            document.getElementById('newsContent').value = content;
-
-            // Remove the current submit event
-            const form = document.getElementById('newsForm');
-            form.onsubmit = function(e) {
-                e.preventDefault();
-                db.collection('news').doc(id).update({
-                    title: document.getElementById('newsTitle').value,
-                    content: document.getElementById('newsContent').value
-                }).then(() => {
-                    alert("News article updated successfully!");
-                    loadContent();
-                    form.reset();
-                    // Reset form's submit event
-                    form.onsubmit = saveNews;
-                }).catch(console.error);
-            };
-        }
-
-        // Edit Blog Post
-        function editBlog(id, title, content) {
-            document.getElementById('blogTitle').value = title;
-            document.getElementById('blogContent').value = content;
-
-            // Remove the current submit event
-            const form = document.getElementById('blogForm');
-            form.onsubmit = function(e) {
-                e.preventDefault();
-                db.collection('Blogs').doc(id).update({
-                    title: document.getElementById('blogTitle').value,
-                    content: document.getElementById('blogContent').value
-                }).then(() => {
-                    alert("Blog post updated successfully!");
-                    loadContent();
-                    form.reset();
-                    // Reset form's submit event
-                    form.onsubmit = saveBlog;
-                }).catch(console.error);
-            };
-        }
-
-        // Edit FAQ
-        function editFAQ(id, question, answer) {
-            document.getElementById('faqQuestion').value = question;
-            document.getElementById('faqAnswer').value = answer;
-
-            // Remove the current submit event
-            const form = document.getElementById('faqForm');
-            form.onsubmit = function(e) {
-                e.preventDefault();
-                db.collection('faqs').doc(id).update({
-                    question: document.getElementById('faqQuestion').value,
-                    answer: document.getElementById('faqAnswer').value
-                }).then(() => {
-                    alert("FAQ updated successfully!");
-                    loadContent();
-                    form.reset();
-                    // Reset form's submit event
-                    form.onsubmit = saveFAQ;
-                }).catch(console.error);
-            };
-        }
-
-        // Delete Content
-        function deleteContent(collection, id) {
-            if (confirm("Are you sure you want to delete this content?")) {
-                db.collection(collection).doc(id).delete().then(() => {
-                    alert("Content deleted successfully!");
-                    loadContent();
-                }).catch(console.error);
             }
+
+            // Handle form submission for news articles
+            $('#newsForm').on('submit', async function(event) {
+                event.preventDefault();
+                const file = document.getElementById('newsImage').files[0];
+                try {
+                    const imageUrl = await uploadImage(file);
+                    await db.collection('News').add({
+                        title: $('#newsTitle').val(),
+                        content: $('#newsContent').val(),
+                        postDate: $('#newsPostDate').val(),
+                        activate: $('#newsActivate').val() === 'true',
+                        postedBy: $('#newsPostedBy').val(),
+                        postedById: $('#newsPostedById').val(),
+                        category: $('#newsCategory').val(),
+                        imageUrl: imageUrl,
+                        imageCaption: $('#newsImageCaption').val(),
+                        likes: parseInt($('#newsLikes').val()),
+                        loves: parseInt($('#newsLoves').val()),
+                        helpful: parseInt($('#newsHelpful').val()),
+                        viewCount: parseInt($('#newsViewCount').val())
+                    });
+                    alert('News article saved successfully!');
+                    $('#newsForm')[0].reset();
+                } catch (error) {
+                    console.error('Error adding document: ', error);
+                }
+            });
+
+            // Handle form submission for blog posts
+            $('#blogForm').on('submit', async function(event) {
+                event.preventDefault();
+                const file = document.getElementById('blogImage').files[0];
+                try {
+                    const imageUrl = await uploadImage(file);
+                    await db.collection('Blog').add({
+                        title: $('#blogTitle').val(),
+                        content: $('#blogContent').val(),
+                        postDate: $('#blogPostDate').val(),
+                        activate: $('#blogActivate').val() === 'true',
+                        postedBy: $('#blogPostedBy').val(),
+                        postedById: $('#blogPostedById').val(),
+                        category: $('#blogCategory').val(),
+                        imageUrl: imageUrl,
+                        imageCaption: $('#blogImageCaption').val(),
+                        likes: parseInt($('#blogLikes').val()),
+                        loves: parseInt($('#blogLoves').val()),
+                        helpful: parseInt($('#blogHelpful').val()),
+                        viewCount: parseInt($('#blogViewCount').val())
+                    });
+                    alert('Blog post saved successfully!');
+                    $('#blogForm')[0].reset();
+                } catch (error) {
+                    console.error('Error adding document: ', error);
+                }
+            });
+
+            // Handle form submission for FAQs
+            $('#faqForm').on('submit', async function(event) {
+                event.preventDefault();
+                try {
+                    await db.collection('FAQs').add({
+                        question: $('#faqQuestion').val(),
+                        answer: $('#faqAnswer').val(),
+                        category: $('#faqCategory').val(),
+                        helpful: parseInt($('#faqHelpful').val()),
+                        postDate: $('#faqPostDate').val(),
+                        activate: $('#faqActivate').val() === 'true'
+                    });
+                    alert('FAQ saved successfully!');
+                    $('#faqForm')[0].reset();
+                } catch (error) {
+                    console.error('Error adding document: ', error);
+                }
+            });
+            document.addEventListener('DOMContentLoaded', () => {
+    // Get the forms
+    const newsForm = document.getElementById('newsForm');
+    const blogForm = document.getElementById('blogForm');
+    const faqForm = document.getElementById('faqForm');
+
+    // Add event listener for the news form reset
+    newsForm.addEventListener('reset', () => {
+        // Reset fields in the news form
+        newsForm.querySelectorAll('input, textarea').forEach(input => {
+            if (input.type !== 'date') {
+                input.value = ''; // Clear input
+            } else {
+                input.value = new Date().toISOString().split('T')[0]; // Reset date to today
+            }
+        });
+    });
+
+    // Add event listener for the blog form reset
+    blogForm.addEventListener('reset', () => {
+        // Reset fields in the blog form
+        blogForm.querySelectorAll('input, textarea').forEach(input => {
+            if (input.type !== 'date') {
+                input.value = ''; // Clear input
+            } else {
+                input.value = new Date().toISOString().split('T')[0]; // Reset date to today
+            }
+        });
+    });
+
+    // Add event listener for the FAQ form reset
+    faqForm.addEventListener('reset', () => {
+        // Reset fields in the FAQ form
+        faqForm.querySelectorAll('input, textarea').forEach(input => {
+            if (input.type !== 'date') {
+                input.value = ''; // Clear input
+            } else {
+                input.value = new Date().toISOString().split('T')[0]; // Reset date to today
+            }
+        });
+    });
+});
+
+        // Load existing content
+        function loadContent() {
+    $('#contentList').empty();
+    db.collection('News').get().then(snapshot => {
+        snapshot.forEach(doc => {
+            const data = doc.data();
+            $('#contentList').append(`
+                <h5 class="clickable" data-title="${data.title}" data-content="${data.content}" onclick="showContentModal(this)">${data.title} (News)</h5>
+                <p>${data.content}</p>
+                <hr>
+            `);
+        });
+    });
+    
+    db.collection('Blogs').get().then(snapshot => {
+        snapshot.forEach(doc => {
+            const data = doc.data();
+            $('#contentList').append(`
+                <h5 class="clickable" data-title="${data.title}" data-content="${data.content}" onclick="showContentModal(this)">${data.title} (Blog)</h5>
+                <p>${data.content}</p>
+                <hr>
+            `);
+        });
+    });
+    
+    db.collection('FAQs').get().then(snapshot => {
+        snapshot.forEach(doc => {
+            const data = doc.data();
+            $('#contentList').append(`
+                <h5 class="clickable" data-title="${data.question}" data-content="${data.answer}" onclick="showContentModal(this)">${data.question} (FAQ)</h5>
+                <p>${data.answer}</p>
+                <hr>
+            `);
+        });
+    });
+}
+
+// Function to show modal with content
+function showContentModal(element) {
+        const title = $(element).data('title');
+        const content = $(element).data('content');
+        const imageUrl = $(element).data('image'); // Assuming data-image attribute holds the image URL
+
+        // Set the modal title
+        $('#contentModalLabel').text(title);
+
+        // Set the modal content
+        $('#modalTextContent').text(content);
+
+        // Set the image if available
+        if (imageUrl) {
+            $('#modalImage').attr('src', imageUrl).show();
+        } else {
+            $('#modalImage').hide(); // Hide the image if not available
         }
 
-        // Load initial content
-        loadContent();
+        // Show the modal
+        $('#contentModal').modal('show');
+    }
+
+function filterContent() {
+    const input = document.getElementById('searchContent');
+    const filter = input.value.toLowerCase();
+    const contentDiv = document.getElementById('contentList');
+    const contentItems = contentDiv.getElementsByTagName('div');
+
+    for (let i = 0; i < contentItems.length; i++) {
+        const title = contentItems[i].getElementsByTagName('h5')[0];
+        if (title) {
+            const txtValue = title.textContent || title.innerText;
+            contentItems[i].style.display = txtValue.toLowerCase().includes(filter) ? "" : "none";
+        }
+    }
+}
+
+function toggleSection(sectionId) {
+        const sections = document.querySelectorAll('.content-section');
+        sections.forEach(section => {
+            section.style.display = 'none';
+        });
+        document.getElementById(sectionId).style.display = 'block';
+    }
+
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();
+});
+
+// Load content on page load
+$(document).ready(function () {
+    loadContent();
+});
+
     </script>
+
+    <!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
 </body>
 </html>

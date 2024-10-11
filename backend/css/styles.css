@@ -9,7 +9,7 @@ body {
 
 /* Navbar Styles */
 .navbar {
-    background-color: #007bff; /* Bootstrap primary color */
+    background-color: #007bff !important; /* Bootstrap primary color */
 }
 
 .navbar-brand, .nav-link {
