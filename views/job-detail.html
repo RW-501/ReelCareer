@@ -170,6 +170,99 @@
             border-radius: 5px;
         }
     
+
+#reportJobModal  .modal {
+    display: none; 
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5); /* Black with opacity */
+}
+
+#reportJobModal .modal-content {
+    background-color: #fff;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 600px;
+}
+
+#reportJobModal .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+#reportJobModal .close:hover,
+#reportJobModal .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Style for similar jobs container */
+.similar-jobs {
+    margin-top: 30px;
+}
+
+.similar-job-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+}
+
+.similar-job-card:hover {
+    transform: translateY(-5px);
+}
+
+.similar-job-card h5 {
+    font-size: 1.25rem;
+    color: #007bff;
+}
+
+.similar-job-card .job-tags {
+    margin-top: 10px;
+}
+
+.similar-job-card .badge {
+    background-color: #007bff;
+    color: white;
+    margin-right: 5px;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+}
+
+.similar-job-card .view-job-btn {
+    margin-top: 10px;
+    text-align: right;
+    display: block;
+    text-decoration: none;
+    color: #fff;
+    background-color: #28a745;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.2s ease;
+}
+
+.similar-job-card .view-job-btn:hover {
+    background-color: #218838;
+}
+
+
+
+
     </style>
     
     <script src="../public/js/scripts.js"></script>
@@ -212,13 +305,11 @@
                     <img id="companyLogo" class="job-logo img-fluid" alt="Company Logo" src="/ReelCareer/images/sq_logo_n_BG.png" loading="lazy" />
                     <div>
                         <h1 id="jobTitle" class="mb-2 font-weight-bold" tabindex="0"></h1>
-                        <p id="jobDescription" class="text-muted" tabindex="0"></p>
-                    </div>
-                </div>
-    
-                <hr />
-    
-                <!-- Job Info Section -->
+                       
+                        <hr />
+
+                    
+                                    <!-- Job Info Section -->
                 <div class="job-info">
                     <p><strong>Company:</strong> <span id="companyName" class="text-dark"></span></p>
                     <p><strong>Location:</strong> <span id="jobLocation"></span></p>
@@ -228,16 +319,9 @@
                     <p><strong>Submitted By:</strong> <span id="submittedBy"></span></p>
                     <p><strong>Industry:</strong> <span id="industry"></span></p>
                 </div>
-    
-                <hr />
-    
-                <!-- Additional Job Details -->
-                <div><strong>Job Benefits:</strong>
-                    <ul id="jobBenefits" class="list-unstyled"></ul>
+                    
+                    </div>
                 </div>
-                <div><strong>Application Deadline:</strong> <span id="applicationDeadline"></span></div>
-                <div><strong>Number of Applicants:</strong> <span id="applicantCount"></span></div>
-    
                 <hr />
     
                 <!-- Company-specific details -->
@@ -246,6 +330,12 @@
                 <p id="companyMission"></p>
                 <a id="companyPageLink" href="">View Company Page</a>
     
+         
+                <hr />
+    
+                <p id="jobDescription" class="text-muted" tabindex="0"></p>
+
+    
                 <hr />
     
                 <!-- Job Requirements -->
@@ -253,6 +343,15 @@
                     <p><strong>Job Requirements:</strong></p>
                     <ul id="jobRequirements" class="list-unstyled" tabindex="0"></ul>
                 </div>
+
+                <!-- Additional Job Details -->
+                <div><strong>Job Benefits:</strong>
+                    <ul id="jobBenefits" class="list-unstyled"></ul>
+                </div>
+                <div><strong>Application Deadline:</strong> <span id="applicationDeadline"></span></div>
+                <div><strong>Number of Applicants:</strong> <span id="applicantCount"></span></div>
+    
+
     
                 <hr />
     
@@ -262,8 +361,44 @@
                     <span id="jobTags" class="job-tags"></span>
                 </div>
     
+                <hr />
+
+                <!-- Social Media Sharing Buttons -->
+                <div class="social-sharing mt-3">
+                    <p><strong>Share this job:</strong></p>
+                    <a href="https://www.facebook.com/sharer/sharer.php?u={{jobPageURL}}" target="_blank" class="btn btn-facebook btn-sm">
+                        <i class="fab fa-facebook-f"></i> Share on Facebook
+                    </a>
+                    <a href="https://twitter.com/intent/tweet?url={{jobPageURL}}&text=Check%20out%20this%20job%20opportunity%20at%20{{companyName}}!" target="_blank" class="btn btn-twitter btn-sm">
+                        <i class="fab fa-twitter"></i> Tweet This Job
+                    </a>
+                    <a href="https://www.linkedin.com/shareArticle?mini=true&url={{jobPageURL}}&title={{jobTitle}}&summary={{jobDescription}}&source=ReelCareer" target="_blank" class="btn btn-linkedin btn-sm">
+                        <i class="fab fa-linkedin-in"></i> Share on LinkedIn
+                    </a>
+                </div>
+                <a href="mailto:?subject=Check%20out%20this%20job%20opportunity&body=I%20found%20this%20job%20at%20ReelCareer%3A%20{{jobPageURL}}" class="btn btn-email btn-sm">
+                    <i class="fas fa-envelope"></i> Share via Email
+                </a>
+                
+                <hr />
+
+                <button id="reportJobBtn" class="btn btn-warning btn-sm mt-3" onclick="reportJob()">Report Job</button>
+                <hr />
+
                 <button id="applyBtn" class="btn btn-primary btn-block mt-4" aria-label="Apply for this job">Apply Now</button>
             </div>
+
+            <hr />
+
+<!-- Similar Jobs Section -->
+<div class="similar-jobs mt-5">
+    <h3>Similar Jobs:</h3>
+    <div id="similarJobsContainer" class="row">
+        <!-- Dynamically insert similar jobs here -->
+    </div>
+</div>
+
+
         </div>
     
         <div id="error-message" style="display: none; color: red; text-align: center;">
@@ -283,7 +418,32 @@
             </div>
         </div>
 
-
+        <div id="reportJobModal" class="modal" role="dialog" aria-labelledby="reportJobTitle" aria-hidden="true">
+            <div class="modal-content">
+                <span class="close" aria-label="Close" onclick="closeReportJobModal()">&times;</span>
+                <form id="reportJobForm">
+                    <p>Please select the reason(s) for reporting this job:</p>
+                    
+                    <div>
+                        <input type="checkbox" id="spam" name="reason" value="Spam">
+                        <label for="spam">Spam</label><br>
+        
+                        <input type="checkbox" id="incorrectInfo" name="reason" value="Incorrect Information">
+                        <label for="incorrectInfo">Incorrect Information</label><br>
+        
+                        <input type="checkbox" id="scam" name="reason" value="Scam">
+                        <label for="scam">Potential Scam</label><br>
+        
+                        <input type="checkbox" id="other" name="reason" value="Other">
+                        <label for="other">Other</label><br>
+                    </div>
+        
+                    <textarea id="reportMessage" class="form-control mt-3" rows="4" placeholder="Additional details..."></textarea>
+                    
+                    <button type="button" class="btn btn-primary mt-3" onclick="submitReport()">Submit Report</button>
+                </form>
+            </div>
+        </div>
 
     <!-- Footer -->
     <footer id="dynamic-footer"></footer>
@@ -413,7 +573,8 @@ async function loadJobDetails(jobData) {
     document.getElementById('industry').textContent = jobData.industry;
     document.getElementById('createdAt').textContent = createdAt instanceof Date ? createdAt.toLocaleDateString() : createdAt;
 
-
+                // Fetch and display similar jobs
+                getSimilarJobs(jobData);
     // Fetch company details using companyID from the Companies collection
     try {
         const companyRef = doc(db, 'Companies', jobData.companyID);
@@ -423,7 +584,7 @@ async function loadJobDetails(jobData) {
             const companyData = companyDoc.data();
 
             // Populate company-related details
-            document.getElementById("companyName").innerText = companyData.name;
+            document.getElementById("companyName").innerText = companyData.name || jobData.company ;
             document.getElementById("companyLogo").src = companyData.logo; // Ensure the 'logo' field in the database is a URL
             document.getElementById("companyWebsite").href = companyData.website;
             document.getElementById("companyDescription").innerText = companyData.description;
@@ -457,6 +618,71 @@ async function loadJobDetails(jobData) {
 renderList(jobData.benefits, 'jobBenefits');
 renderList(jobData.requirements, 'jobRequirements');
 renderTags(jobData.tags);
+
+// Function to fetch similar jobs based on tags
+function getSimilarJobs(jobData) {
+    const jobTags = jobData.tags; // Get tags from the current job
+    const maxSimilarJobs = 5; // Limit to 5 similar jobs
+
+    if (!jobTags || jobTags.length === 0) {
+        console.log("No tags available for this job.");
+        return;
+    }
+
+    // Query the Jobs collection to find jobs with matching tags
+    firebase.firestore().collection('Jobs')
+        .where('tags', 'array-contains-any', jobTags)
+        .limit(maxSimilarJobs)
+        .get()
+        .then(querySnapshot => {
+            if (querySnapshot.empty) {
+                document.getElementById('similarJobsContainer').innerHTML = '<p>No similar jobs found.</p>';
+                return;
+            }
+
+            // Clear the similar jobs container
+            const similarJobsContainer = document.getElementById('similarJobsContainer');
+            similarJobsContainer.innerHTML = '';
+
+            querySnapshot.forEach(doc => {
+                const similarJob = doc.data();
+
+                // Skip the current job itself in the results
+                if (doc.id === jobData.id) return;
+
+                // Create the card element for similar jobs
+                const jobCard = document.createElement('div');
+                jobCard.classList.add('col-md-6', 'col-lg-4', 'mb-3');
+
+                jobCard.innerHTML = `
+                    <div class="similar-job-card">
+                        <h5>${similarJob.title}</h5>
+                        <p><strong>${similarJob.company}</strong> - ${similarJob.location}</p>
+                        <small class="text-muted">${similarJob.type}</small>
+
+                        <!-- Display job tags -->
+                        <div class="job-tags mt-2">
+                            ${similarJob.tags.map(tag => `<span class="badge">${tag}</span>`).join('')}
+                        </div>
+
+                        <!-- View Job Button -->
+                        <a href="job-detail.html?id=${doc.id}" class="view-job-btn">View Job</a>
+                    </div>
+                `;
+
+                // Append the card to the container <img src="${similarJob.logo}" alt="${similarJob.company} Logo" class="img-fluid job-logo" loading="lazy" />
+
+                similarJobsContainer.appendChild(jobCard);
+            });
+        })
+        .catch(error => {
+            console.error("Error fetching similar jobs: ", error);
+            document.getElementById('similarJobsContainer').innerHTML = '<p>Error loading similar jobs.</p>';
+        });
+}
+
+
+
 
     // Apply button event listener
     document.getElementById('applyBtn').addEventListener('click', function() {
@@ -492,6 +718,61 @@ function renderTags(tags) {
         jobTags.appendChild(span);
     });
 }
+
+
+
+function submitReport() {
+    // Get selected checkboxes
+    const selectedReasons = [];
+    document.querySelectorAll('#reportJobForm input[type="checkbox"]:checked').forEach((checkbox) => {
+        selectedReasons.push(checkbox.value);
+    });
+
+    // Get the message from the textarea
+    const message = document.getElementById('reportMessage').value;
+
+    if (selectedReasons.length === 0 && !message) {
+        alert("Please select a reason or enter a message before submitting.");
+        return;
+    }
+
+    // Get the job details (you can fetch the job ID from the page)
+    const jobTitle = document.getElementById('jobTitle').innerText;
+
+    // Prepare the report data
+    const reportData = {
+        jobId: jobId,
+        jobTitle: jobTitle,
+        reasons: selectedReasons,
+        message: message,
+        submittedAt: new Date(),
+    };
+
+    // Send report to the SupportTickets collection in Firebase
+    firebase.firestore().collection("SupportTickets").add(reportData)
+    .then(() => {
+        alert("Your report has been submitted. Thank you for your feedback.");
+        closeReportJobModal(); // Close the modal after submission
+    })
+    .catch((error) => {
+        console.error("Error submitting report: ", error);
+        alert("There was an error submitting your report. Please try again later.");
+    });
+}
+
+
+
+// Open the modal
+function openReportJobModal() {
+    document.getElementById('reportJobModal').style.display = 'block';
+}
+
+// Close the modal
+function closeReportJobModal() {
+    document.getElementById('reportJobModal').style.display = 'none';
+}
+
+
 
 // Get elements for modal interactions
 const closeModal = document.querySelector('.close');
