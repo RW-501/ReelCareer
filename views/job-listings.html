@@ -395,10 +395,31 @@
 <div class="container mt-5">
     <h2 class="text-center font-weight-bold">Featured Jobs</h2>
     <p class="text-center text-muted">Handpicked job opportunities from top companies</p>
+    
     <div class="row" id="featuredJobListings">
         <!-- Featured jobs dynamically inserted here -->
+        
+        <!-- Message when no featured jobs are available -->
+        <div class="col-12 text-center mt-4" id="noFeaturedJobs" style="display: none;">
+            <div class="alert alert-warning" role="alert">
+                <h4 class="alert-heading">No Featured Jobs Available</h4>
+                <p>Currently, there are no featured job opportunities. However, you can still explore other available positions and enhance your visibility!</p>
+                <p>We recommend considering a boosted job post to attract more candidates.</p>
+                <hr>
+                <p class="mb-0">Looking for ideas? Here are some suggested job titles you might consider:</p>
+                <ul class="list-unstyled mt-3">
+                    <li>Data Analyst</li>
+                    <li>Software Developer</li>
+                    <li>UI/UX Designer</li>
+                    <li>Project Manager</li>
+                    <li>Marketing Specialist</li>
+                </ul>
+                <a href="create-boosted-job.html" class="btn btn-primary mt-3">Create a Boosted Job</a>
+            </div>
+        </div>
     </div>
 </div>
+
 
 <!-- All Job Listings Section -->
 <div class="container mt-5">
