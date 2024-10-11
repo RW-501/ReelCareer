@@ -384,10 +384,12 @@ if (!jobListingsSnapshot.empty) {
 
     // Handle unique job listings and render them
     jobListings.forEach(job => createJobCard(job, jobListingsContainer));
+    /*
     console.log("Listing lenght", jobListings.length);
     console.log("jobs lenght", jobs.length);
     console.log("Listing lenght", jobListings.length);
     console.log("seenTitles:", seenTitles);
+    */
 } else {
     console.log("No jobs found or no more jobs to load.");
 }
@@ -397,10 +399,9 @@ if (!jobListingsSnapshot.empty) {
         addSponsorSection(sponsors, jobListingsContainer);
 
         // Add "Load More" button for Pagination if jobs are available
-        if (jobListings.length === 20) {
             const loadMoreButton = createLoadMoreButton(() => fetchJobListings());
             jobListingsContainer.appendChild(loadMoreButton);
-        }
+        
 
     } catch (error) {
         console.error("Error fetching job listings: ", error);
