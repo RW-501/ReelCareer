@@ -829,7 +829,7 @@ async function getSimilarJobs(jobData) {
             });
     } catch (error) {
         console.error("Error fetching similar jobs: ", error);
-            document.getElementById('similarJobsContainer').innerHTML = '<p>Error loading similar jobs.</p>';
+        displayEmptyState(similarJobsContainer, 'Error loading similar jobs.', 'fas fa-briefcase');
         };
 }
 
