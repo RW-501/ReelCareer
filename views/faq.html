@@ -94,31 +94,7 @@
     
 
     // Function to load FAQs from Firestore
-    function loadFAQs() {
-        db.collection("FAQs").get().then((querySnapshot) => {
-            querySnapshot.forEach((doc) => {
-                const faq = doc.data();
-                $('#faqList').append(`
-                    <div class="faq-item">
-                        <div class="faq-question" data-toggle="collapse" data-target="#answer-${faq.question.replace(/\s+/g, '-')}">
-                            <strong>${faq.question}</strong>
-                        </div>
-                        <div id="answer-${faq.question.replace(/\s+/g, '-')}" class="faq-answer collapse">
-                            <p>${faq.answer}</p>
-                            <div class="feedback">
-                                <span>Was this helpful? </span>
-                                <button class="btn btn-sm btn-success">Yes</button>
-                                <button class="btn btn-sm btn-danger">No</button>
-                            </div>
-                        </div>
-                    </div>
-                `);
-            });
-        });
-    }
-
-    // Load FAQs when the page is ready
- // Function to load FAQs from Firestore
+   
 // Function to update FAQ feedback
 async function updateFAQFeedback(docId, feedback) {
     const faqRef = doc(db, "FAQs", docId);
