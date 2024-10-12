@@ -414,87 +414,77 @@ document.getElementById('faqForm').addEventListener('submit', async function(eve
     }
 });
 
-
-            document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', function() {
     // Get the forms
     const newsForm = document.getElementById('newsForm');
     const blogForm = document.getElementById('blogForm');
     const faqForm = document.getElementById('faqsForm');
 
-    // Add event listener for the news form reset
-    newsForm.addEventListener('reset', () => {
-        // Reset fields in the news form
-        newsForm.querySelectorAll('input, textarea').forEach(input => {
+    // Function to reset form fields, excluding date input
+    function resetFormFields(form) {
+        form.querySelectorAll('input, textarea').forEach(function(input) {
             if (input.type !== 'date') {
                 input.value = ''; // Clear input
             } else {
                 input.value = new Date().toISOString().split('T')[0]; // Reset date to today
             }
         });
+    }
+
+    // Add event listener for the news form reset
+    newsForm.addEventListener('reset', function() {
+        resetFormFields(newsForm);
     });
 
     // Add event listener for the blog form reset
-    blogForm.addEventListener('reset', () => {
-        // Reset fields in the blog form
-        blogForm.querySelectorAll('input, textarea').forEach(input => {
-            if (input.type !== 'date') {
-                input.value = ''; // Clear input
-            } else {
-                input.value = new Date().toISOString().split('T')[0]; // Reset date to today
-            }
-        });
+    blogForm.addEventListener('reset', function() {
+        resetFormFields(blogForm);
     });
 
     // Add event listener for the FAQ form reset
-    faqForm.addEventListener('reset', () => {
-        // Reset fields in the FAQ form
-        faqForm.querySelectorAll('input, textarea').forEach(input => {
-            if (input.type !== 'date') {
-                input.value = ''; // Clear input
-            } else {
-                input.value = new Date().toISOString().split('T')[0]; // Reset date to today
-            }
-        });
+    faqForm.addEventListener('reset', function() {
+        resetFormFields(faqForm);
     });
 });
 
         // Load existing content
       
-async function loadContent() {
-    $('#contentList').empty();
+        async function loadContent() {
+    const contentList = document.getElementById('contentList');
+    contentList.innerHTML = ''; // Clear existing content
 
     try {
         // Load News
         const newsSnapshot = await getDocs(collection(db, 'News'));
         newsSnapshot.forEach(doc => {
             const data = doc.data();
-            $('#contentList').append(`
+            contentList.innerHTML += `
                 <h5 class="clickable" data-title="${data.title}" data-content="${data.content}" onclick="showContentModal(this)">${data.title} (News)</h5>
                 <p>${data.content}</p>
                 <hr>
-            `);
+            `;
         });
 
         // Load Blogs
         const blogsSnapshot = await getDocs(collection(db, 'Blogs'));
         blogsSnapshot.forEach(doc => {
             const data = doc.data();
-            $('#contentList').append(`
+            contentList.innerHTML += `
                 <h5 class="clickable" data-title="${data.title}" data-content="${data.content}" onclick="showContentModal(this)">${data.title} (Blog)</h5>
                 <p>${data.content}</p>
                 <hr>
-            `);
+            `;
         });
 
         // Load FAQs
         const faqsSnapshot = await getDocs(collection(db, 'FAQs'));
         faqsSnapshot.forEach(doc => {
             const data = doc.data();
-            $('#contentList').append(`
+            contentList.innerHTML += `
                 <h5 class="clickable" data-title="${data.question}" data-content="${data.answer}" onclick="showContentModal(this)">${data.question} (FAQ)</h5>
                 <p>${data.answer}</p>
                 <hr>
-            `);
+            `;
         });
 
     } catch (error) {
@@ -556,9 +546,10 @@ $(document).ready(function(){
 });
 
 // Load content on page load
-$(document).ready(function () {
+document.addEventListener('DOMContentLoaded', function() {
     loadContent();
 });
+
 
     </script>
 
