@@ -345,7 +345,11 @@ document.getElementById('newsForm').addEventListener('submit', async function(ev
     const file = document.getElementById('newsImage').files[0];
     try {
         const imageUrl = await uploadImage(file);
-        await db.addDoc('News').add({
+     // Get a reference to the 'FAQs' collection
+     const NewsCollection = collection(db, 'News');
+
+// Add a new document to the 'FAQs' collection
+await addDoc(NewsCollection, {
             title: document.getElementById('newsTitle').value,
             content: document.getElementById('newsContent').value,
             postDate: document.getElementById('newsPostDate').value,
@@ -373,7 +377,11 @@ document.getElementById('blogForm').addEventListener('submit', async function(ev
     const file = document.getElementById('blogImage').files[0];
     try {
         const imageUrl = await uploadImage(file);
-        await db.addDoc('Blog').add({
+        // Get a reference to the 'FAQs' collection
+        const blogCollection = collection(db, 'Blogs');
+
+        // Add a new document to the 'FAQs' collection
+        await addDoc(blogCollection, {
             title: document.getElementById('blogTitle').value,
             content: document.getElementById('blogContent').value,
             postDate: document.getElementById('blogPostDate').value,
@@ -399,8 +407,12 @@ document.getElementById('blogForm').addEventListener('submit', async function(ev
 document.getElementById('faqsForm').addEventListener('submit', async function(event) {
     event.preventDefault();
     try {
-        await db.addDoc('FAQs').add({
-            question: document.getElementById('faqQuestion').value,
+        // Get a reference to the 'FAQs' collection
+        const faqsCollection = collection(db, 'FAQs');
+
+        // Add a new document to the 'FAQs' collection
+        await addDoc(faqsCollection, {
+             question: document.getElementById('faqQuestion').value,
             answer: document.getElementById('faqAnswer').value,
             category: document.getElementById('faqCategory').value,
             helpful: parseInt(document.getElementById('faqHelpful').value),
