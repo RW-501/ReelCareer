@@ -980,7 +980,7 @@ function createJobSchema(jobData) {
     // Validate companyData if necessary
     if (!companyData) {
         throw new Error("companyData is required");
-    }
+    }else{
 
     const companySchema = {
         "@context": "https://schema.org", // Schema.org context
@@ -1008,6 +1008,8 @@ function createJobSchema(jobData) {
     };
 
     return companySchema;
+    }
+
 }
 
 
