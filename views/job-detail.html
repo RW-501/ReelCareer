@@ -632,13 +632,7 @@ async function loadJobDetails(jobData) {
     document.getElementById('applicantCount').textContent = jobData.applicantCount || 0;
     document.getElementById('companyWebsite').href = jobData.companyWebsite;
 
-    const jobRequirementsList = document.getElementById('jobRequirements');
-    jobRequirementsList.innerHTML = '';
-    jobData.requirements.forEach(req => {
-        const li = document.createElement('li');
-        li.textContent = req;
-        jobRequirementsList.appendChild(li);
-    });
+
 
 // Use it like this
 renderList(jobData.benefits, 'jobBenefits');
