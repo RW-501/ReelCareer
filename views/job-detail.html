@@ -758,7 +758,7 @@ async function getSimilarJobs(jobData) {
     }
 
     // Query the Jobs collection to find jobs with matching tags
-    const jobsRef = doc(db, 'Jobs'); // Correctly use the imported Firestore instance
+    const jobsRef = collection(db, 'Jobs'); // Correctly use the imported Firestore instance
     const q = query(jobsRef, where('tags', 'array-contains-any', jobTags), limit(maxSimilarJobs));
     console.log("q    ",q);
 
