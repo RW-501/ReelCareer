@@ -848,7 +848,7 @@ async function loadRelatedBlogs(jobIndustry) {
     try {
         // Reference the 'Blogs' collection and query for blogs with matching industry tags
         const blogsRef = collection(db, 'Blogs');
-        const q = query(blogsRef, where('tags', 'array-contains', jobIndustry), limit(3));
+        const q = query(blogsRef, where('tags', 'array-contains-any', jobData.tags), limit(3));
 
         // Get the query snapshot
         const querySnapshot = await getDocs(q);
