@@ -430,10 +430,14 @@ const storage = getStorage(app);
 });
 
         // Load existing content
-        function loadContent() {
+      
+async function loadContent() {
     $('#contentList').empty();
-    db.collection('News').get().then(snapshot => {
-        snapshot.forEach(doc => {
+
+    try {
+        // Load News
+        const newsSnapshot = await getDocs(collection(db, 'News'));
+        newsSnapshot.forEach(doc => {
             const data = doc.data();
             $('#contentList').append(`
                 <h5 class="clickable" data-title="${data.title}" data-content="${data.content}" onclick="showContentModal(this)">${data.title} (News)</h5>
@@ -441,10 +445,10 @@ const storage = getStorage(app);
                 <hr>
             `);
         });
-    });
-    
-    db.collection('Blogs').get().then(snapshot => {
-        snapshot.forEach(doc => {
+
+        // Load Blogs
+        const blogsSnapshot = await getDocs(collection(db, 'Blogs'));
+        blogsSnapshot.forEach(doc => {
             const data = doc.data();
             $('#contentList').append(`
                 <h5 class="clickable" data-title="${data.title}" data-content="${data.content}" onclick="showContentModal(this)">${data.title} (Blog)</h5>
@@ -452,10 +456,10 @@ const storage = getStorage(app);
                 <hr>
             `);
         });
-    });
-    
-    db.collection('FAQs').get().then(snapshot => {
-        snapshot.forEach(doc => {
+
+        // Load FAQs
+        const faqsSnapshot = await getDocs(collection(db, 'FAQs'));
+        faqsSnapshot.forEach(doc => {
             const data = doc.data();
             $('#contentList').append(`
                 <h5 class="clickable" data-title="${data.question}" data-content="${data.answer}" onclick="showContentModal(this)">${data.question} (FAQ)</h5>
@@ -463,8 +467,12 @@ const storage = getStorage(app);
                 <hr>
             `);
         });
-    });
+
+    } catch (error) {
+        console.error("Error loading content: ", error);
+    }
 }
+
 
 // Function to show modal with content
 function showContentModal(element) {
