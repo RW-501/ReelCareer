@@ -147,7 +147,7 @@
 const blogsQuery = query(
     blogsRef,
     where("activate", "==", true), // Only fetch blogs where activate is true
-    orderBy("date", "desc"),
+    orderBy("createdAt", "desc"),
     limit(postsPerPage)
 );
 

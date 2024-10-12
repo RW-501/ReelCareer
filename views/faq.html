@@ -213,24 +213,17 @@ async function updateHelpfulStatus(docId, isHelpful) {
         });
 
 
-        
-    document.querySelectorAll('.faq-question').forEach(question => {
-        question.addEventListener('click', function() {
-            const target = document.querySelector(this.getAttribute('data-target'));
-            const isCollapsed = target.classList.contains('show');
-            
-            // Toggle the collapse manually
-            if (isCollapsed) {
-                target.classList.remove('show');
-            } else {
-                target.classList.add('show');
-            }
-        });
-    })
-    
-    
-    ;
+       
+
+
+
+
     });
+
+
+
+
+
 
     /*
     document.querySelectorAll('.faq-question').forEach(question => {
@@ -282,5 +275,25 @@ async function updateHelpfulStatus(docId, isHelpful) {
 
     // Event listener for the form submission
     document.getElementById('askQuestionForm').addEventListener('submit', submitQuestion);
+</script>
+
+<script>
+
+     
+document.querySelectorAll('.faq-question').forEach(question => {
+        question.addEventListener('click', function() {
+            const target = document.querySelector(this.getAttribute('data-target'));
+            const isCollapsed = target.classList.contains('show');
+            
+            // Toggle the collapse manually
+            if (isCollapsed) {
+                target.classList.remove('show');
+            } else {
+                target.classList.add('show');
+            }
+        });
+    }) ;
+
+
 </script>
 </html>
