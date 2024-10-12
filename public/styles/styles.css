@@ -1,59 +1,140 @@
 body {
-    font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f8f9fa; /* Light background */
+    font-family: 'Arial', sans-serif;
+    background-color: #f1f3f5; /* Light grey background */
 }
 
-.navbar {
-    border-radius: 0.5rem; /* Rounded corners for navbar */
-    background-color: #007bff; /* Primary color */
+/* Headings */
+h1 {
+    color: #5b6369;
+    font-size: 1.75rem; /* Increased size for better visibility */
 }
 
-.navbar a {
+h3 {
+    font-size: 2.75rem;
+    color: #83bad9;
+    text-shadow: -1px 1px 0px #9e9a9a;
+    font-weight: 800;
+}
+
+hr {
+    border-top: 1px solid #e9ecef;
+    margin: 20px 0;
+}
+
+/* Links */
+a {
+    color: #639ad4;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #416a9c;
+    text-decoration: underline;
+}
+
+/* Buttons */
+.btn-primary {
+    background-color: #639ad4;
     color: white;
-    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
 }
 
-.card {
-    border-radius: 0.5rem; /* Rounded corners for cards */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-}
-
-.footer {
-    border-radius: 0.5rem; /* Rounded corners for footer */
-    background-color: #343a40; /* Dark footer */
-    color: white;
-    padding: 1rem;
-    text-align: center;
-}
-
-
-.navbar {
-    border-bottom: 2px solid #007bff;
-}
-
-h1, h3, h5 {
-    color: #343a40;
-}
-
-.container {
-    background-color: #fff;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
-}
-
-
-
-.btn-warning {
-    background-color: #ffc107;
+.btn-primary:hover {
+    background-color: #416a9c;
 }
 
 .btn-info {
-    background-color: #17a2b8;
+    background-color: #83bad9;
+    color: #fff;
+    border-color: #17a2b8;
 }
 
-.btn-secondary {
+.btn-info:hover {
     background-color: #6c757d;
 }
+
+/* Cards */
+.container > .card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px; /* Increased padding for better readability */
+    margin-bottom: 20px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.container > .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.container > .card > h5 {
+    font-size: 1.25rem;
+    color: #80b6d5;
+    font-weight: 600;
+}
+
+/* Forms */
+input[type="text"],
+input[type="email"],
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #f1f3f5;
+    transition: border 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+textarea:focus {
+    border-color: #639ad4;
+    outline: none;
+}
+
+/* Alerts */
+.alert-success {
+    background-color: #28a745;
+    color: white;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.alert-warning {
+    background-color: #ffc107;
+    color: white;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.alert-error {
+    background-color: #dc3545;
+    color: white;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+/* CTA Buttons */
+.cta-button {
+    background-color: #f68c7b;
+    color: white;
+    padding: 12px 20px;
+    font-size: 1rem;
+    border-radius: 6px;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+.cta-button:hover {
+    background-color: #e27a69;
+}
+
+
