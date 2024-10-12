@@ -723,15 +723,23 @@ async function getSimilarJobs(jobData) {
 }
 
 
-function loadRelatedBlogs(jobIndustry) {
-    // Fetch blogs from the database or API where industry matches
-    firebase.firestore().collection('Blogs')
-        .where('tags', 'array-contains', jobIndustry)
-        .limit(3) // Limit to 3 related blogs
-        .get()
-        .then(querySnapshot => {
-            const blogContainer = document.getElementById('blogContainer');
-            blogContainer.innerHTML = ''; // Clear the container
+
+async function loadRelatedBlogs(jobIndustry) {
+    try {
+        // Reference the 'Blogs' collection and query for blogs with matching industry tags
+        const blogsRef = collection(db, 'Blogs');
+        const q = query(blogsRef, where('tags', 'array-contains', jobIndustry), limit(3));
+
+        // Get the query snapshot
+        const querySnapshot = await getDocs(q);
+
+        const blogContainer = document.getElementById('blogContainer');
+        blogContainer.innerHTML = ''; // Clear previous blog content
+
+        if (querySnapshot.empty) {
+            blogContainer.innerHTML = '<p>No related blogs found.</p>';
+            return;
+        }
             
             querySnapshot.forEach(doc => {
                 const blog = doc.data();
@@ -746,11 +754,10 @@ function loadRelatedBlogs(jobIndustry) {
                 `;
                 blogContainer.appendChild(blogCard);
             });
-        })
-        .catch(error => {
-            console.error("Error fetching blogs: ", error);
-        });
-
+       
+    } catch (error) {
+        console.error("Error fetching related blogs: ", error);
+    }
 }
 
 async function saveJob(jobId) {
