@@ -91,6 +91,7 @@
      import { db, storage, analytics, app, auth  } from '../public/js/main.js'; // Adjust the path based on your structure
      import { query, where, orderBy, limit,  collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 
+     
      document.querySelectorAll('.faq-question').forEach(question => {
     question.addEventListener('click', function() {
         const target = document.querySelector(this.getAttribute('data-bs-target'));
@@ -144,8 +145,11 @@ function setupFeedbackButtons() {
 // Call the setupFeedbackButtons after loading FAQs
 async function loadFAQs() {
     try {
-        const querySnapshot = await getDocs(collection(db, "FAQs"));
-        const faqList = document.getElementById('faqList');
+        // Create a query to fetch FAQs where "activate" is true
+        const faqQuery = query(collection(db, "FAQs"), where("activate", "==", true));
+
+        // Execute the query
+        const querySnapshot = await getDocs(faqQuery);
         querySnapshot.forEach((doc) => {
             const faq = doc.data();
             const faqItem = document.createElement('div');
@@ -215,6 +219,46 @@ document.addEventListener('DOMContentLoaded', () => {
         alert("Chat feature coming soon!"); // Placeholder for chat integration
     });
 });
+
+
+// Function to handle question submission
+async function submitQuestion(e) {
+    e.preventDefault();
+
+    const questionInput = document.getElementById('questionInput').value;
+    const user = auth.currentUser;
+
+    if (user && questionInput.trim()) {
+        try {
+            // Add the question to the Firestore 'FAQs' collection
+            await addDoc(collection(db, "FAQs"), {
+                question: questionInput,
+                answer: "",
+                activate: false, // Set activate to false for admin review
+                postedBy: user.displayName || user.email, // Use display name or email
+                postedById: user.uid,
+                likes: 0,
+                loves: 0,
+                helpful: 0,
+                viewCount: 0,
+                timestamp: new Date().toISOString() // Add timestamp
+            });
+
+            // Clear the input field and show a success message
+            document.getElementById('questionInput').value = '';
+            alert("Your question has been submitted for review.");
+        } catch (error) {
+            console.error("Error submitting question: ", error);
+            alert("There was an error submitting your question. Please try again.");
+        }
+    }
+}
+
+// Event listener for the form submission
+document.getElementById('askQuestionForm').addEventListener('submit', submitQuestion);
+
+// Check user authentication status when the page loads
+checkUserAuth();
 
 </script>
 
