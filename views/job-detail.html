@@ -810,7 +810,7 @@ async function getSimilarJobs(jobData) {
                 jobCard.innerHTML = `
                     <div class="similar-job-card">
                         <h5>${similarJob.title}</h5>
-                        <p><strong>${similarJob.company}</strong> -   ${formatLocation(job.location, { part: 'city' })}, ${formatLocation(job.location, { part: 'state' })}
+                        <p><strong>${similarJob.company}</strong> -   ${formatLocation(similarJob.location, { part: 'city' })}, ${formatLocation(similarJob.location, { part: 'state' })}
 </p>
                         <small class="text-muted">${formatJobType(similarJob.type)}</small>
 
@@ -1085,7 +1085,7 @@ function createJobSchema(jobData) {
         document.addEventListener('DOMContentLoaded', fetchJobDetails);
 
         // Make the function globally accessible
-//window.saveJob = saveJob;
+        window.saveJob = saveJob;
     </script>
 
 
