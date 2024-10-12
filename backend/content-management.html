@@ -86,13 +86,28 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="newsPostedBy">Posted By <i class="fas fa-question-circle" data-toggle="tooltip" title="Enter the name of the person posting the article."></i></label>
-                    <input type="text" class="form-control" id="newsPostedBy" required>
+                    <label for="newsPostedBy">Posted By <i class="fas fa-question-circle" data-toggle="tooltip" title="Select the person posting the article."></i></label>
+                    <select class="form-control" id="newsPostedBy" required>
+                        <option value="" disabled selected>Select a person</option>
+                        <option value="Web Dev">Web Dev</option>
+                        <option value="Mod Team">Mod Team</option>
+                        <option value="ReelCareer">ReelCareer</option>
+                        <option value="Help Desk">Help Desk</option>
+                        <!-- Add more options as needed -->
+                    </select>
                 </div>
                 <div class="form-group">
-                    <label for="newsPostedById">Posted By ID <i class="fas fa-question-circle" data-toggle="tooltip" title="Enter the ID of the person posting the article."></i></label>
-                    <input type="text" class="form-control" id="newsPostedById" required>
+                    <label for="newsPostedById">Posted By ID <i class="fas fa-question-circle" data-toggle="tooltip" title="Select the ID of the person posting the article."></i></label>
+                    <select class="form-control" id="newsPostedById" required>
+                        <option value="" disabled selected>Select an ID</option>
+                        <option value="0000">ID 1</option>
+                        <option value="1111">ID 2</option>
+                        <option value="2222">ID 3</option>
+                        <option value="3333">ID 4</option>
+                        <!-- Add more options as needed -->
+                    </select>
                 </div>
+                
                 <div class="form-group">
                     <label for="newsCategory">Category <i class="fas fa-question-circle" data-toggle="tooltip" title="Select a category for the news article."></i></label>
                     <select class="form-control" id="newsCategory" required>
@@ -159,14 +174,31 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="blogPostedBy">Posted By <i class="fas fa-question-circle" data-toggle="tooltip" title="Enter the name of the person posting the blog."></i></label>
-                    <input type="text" class="form-control" id="blogPostedBy">
+                    <label for="blogPostedBy">Posted By <i class="fas fa-question-circle" data-toggle="tooltip" title="Select the person posting the blog."></i></label>
+                    <select class="form-control" id="blogPostedBy">
+                        <option value="" disabled selected>Select an admin</option>
+                        <option value="Web Dev">Web Dev</option>
+                        <option value="Mod Team">Mod Team</option>
+                        <option value="ReelCareer">ReelCareer</option>
+                        <option value="Team Job Seeker">Team Job Seeker</option>
+                        <option value="Team Promos">Team Promos</option>
+                        <option value="Team Recruiter">Team Recruiter</option>
+                        <option value="Help Desk">Help Desk</option>
+                        <!-- Add more options as needed -->
+                    </select>
                 </div>
                 <div class="form-group">
-                    <label for="blogPostedById">Posted By ID <i class="fas fa-question-circle" data-toggle="tooltip" title="Enter the ID of the person posting the blog."></i></label>
-                    <input type="text" class="form-control" id="blogPostedById">
+                    <label for="blogPostedById">Posted By ID <i class="fas fa-question-circle" data-toggle="tooltip" title="Select the ID of the person posting the blog."></i></label>
+                    <select class="form-control" id="blogPostedById">
+                        <option value="" disabled selected>Select an ID</option>
+                        <option value="0000">ID 1</option>
+                        <option value="1111">ID 2</option>
+                        <option value="2222">ID 3</option>
+                        <option value="3333">ID 4</option>
+                        <!-- Add more options as needed -->
+                    </select>
                 </div>
-                <div class="form-group">
+                          <div class="form-group">
                     <label for="blogCategory">Category <i class="fas fa-question-circle" data-toggle="tooltip" title="Select a category for the blog post."></i></label>
                     <select class="form-control" id="blogCategory" required>
                         <option value="" disabled selected>Select a category</option>
