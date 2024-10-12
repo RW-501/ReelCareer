@@ -407,11 +407,14 @@
                         activate: $('#faqActivate').val() === 'true'
                     });
                     alert('FAQ saved successfully!');
-                    $('#faqForm')[0].reset();
+                 //   $('#faqForm')[0].reset();
                 } catch (error) {
                     console.error('Error adding document: ', error);
                 }
             });
+
+
+
             document.addEventListener('DOMContentLoaded', () => {
     // Get the forms
     const newsForm = document.getElementById('newsForm');
