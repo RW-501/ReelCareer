@@ -601,12 +601,12 @@ async function loadJobDetails(jobData) {
 
                 document.getElementById("companyPageLink").style.display = "none";
             }                   
-      /*      
+           
             // Fetch and display similar jobs
             getSimilarJobs(jobData);
             loadRelatedBlogs(jobData.industry);
             console.log("??????????????//");
-*/
+
     // Fetch company details using companyID from the Companies collection
     try {
         if(jobData.companyID){
@@ -659,12 +659,12 @@ if (!jobData.companyWebsite || jobData.companyWebsite === "undefined" || jobData
 
 // Check if job requirements are available
 if (!jobData.jobRequirements || jobData.jobRequirements.length === 0) {
-    jobRequirementsArea.parentElement.style.display = "none"; // Hides the entire job requirements section if empty
+    jobRequirementsArea.style.display = "none"; // Hides the entire job requirements section if empty
 }
 
 // Check if job benefits are available
 if (!jobData.jobBenefits || jobData.jobBenefits.length === 0) {
-    jobBenefitsArea.parentElement.style.display = "none"; // Hides the entire job benefits section if empty
+    jobBenefitsArea.style.display = "none"; // Hides the entire job benefits section if empty
 }
 
 
