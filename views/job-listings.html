@@ -652,23 +652,24 @@ function displayJobListings({ jobListings, sponsoredJobs }) {
 // Helper function to create a job card
 function createJobCard(job) {
     return `
-        <div class="col-md-4 mb-4">
-            <div class="card">
+        <div class="col-md-4 mb-4 d-flex">
+            <div class="card h-100"> <!-- Add h-100 to make sure card takes full height -->
                 <div class="card-body">
                     <h5 class="card-title">${job.title}</h5>
                     <h6 class="card-subtitle mb-2 text-muted">${job.organization}</h6>
-<p class="card-text">
-  ${formatLocation(job.location, { part: 'city' })}, ${formatLocation(job.location, { part: 'state' })}
-     </p>
-                     <p class="card-text"><strong>Type:</strong> ${formatJobType(job.type)}</p>
-                     <p class="card-text"><strong>Salary:</strong> ${formatCurrency(job.salary)}</p>
+                    <p class="card-text">
+                        ${formatLocation(job.location, { part: 'city' })}, ${formatLocation(job.location, { part: 'state' })}
+                    </p>
+                    <p class="card-text"><strong>Type:</strong> ${formatJobType(job.type)}</p>
+                    <p class="card-text"><strong>Salary:</strong> ${formatCurrency(job.salary)}</p>
 
-        <button class="btn btn-info" onclick="showJobDetailsFunc('${job.id}')">View Details</button>
+                    <button class="btn btn-info" onclick="showJobDetailsFunc('${job.id}')">View Details</button>
                 </div>
             </div>
         </div>
     `;
 }
+
 
 // Helper function to create a sponsored job card
 function createSponsoredJobCard(sponsoredJob) {

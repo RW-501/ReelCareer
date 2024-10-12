@@ -150,4 +150,21 @@ main  textarea:focus {
     background-color: #e27a69;
 }
 
+/* Ensure the row uses Flexbox */
+main .row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+/* Ensure the card takes up full height */
+main .card {
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* Ensure cards are stretched to fill the space */
+}
+
+/* Ensure card-body also stretches */
+main .card-body {
+    flex-grow: 1;
+}
 
