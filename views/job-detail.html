@@ -438,18 +438,23 @@
                 <!-- Social Media Sharing Buttons -->
                 <div class="social-sharing m-auto job-info-box shadow-sm  rounded">
                     <p><strong>Share this job:</strong></p>
-                    <a id="facebookShare" target="_blank" class="btn btn-facebook btn-sm">
+
+                    <a id="facebookShare" target="_blank" class="btn btn-facebook btn-sm" style="color: #3b5998; font-size: 1rem;">
                         <i class="fab fa-facebook-f"></i> Share on Facebook
                     </a>
-                    <a id="twitterShare" target="_blank" class="btn btn-twitter btn-sm">
+                    
+                    <a id="twitterShare" target="_blank" class="btn btn-twitter btn-sm" style="color: #1da1f2; font-size: 1rem;">
                         <i class="fab fa-twitter"></i> Tweet This Job
                     </a>
-                    <a id="linkedinShare" target="_blank" class="btn btn-linkedin btn-sm">
+                    
+                    <a id="linkedinShare" target="_blank" class="btn btn-linkedin btn-sm" style="color: #0077b5; font-size: 1rem;">
                         <i class="fab fa-linkedin-in"></i> Share on LinkedIn
                     </a>
-                    <a id="emailShare" class="btn btn-email btn-sm">
+                    
+                    <a id="emailShare" class="btn btn-email btn-sm" style="color: #d44638; font-size: 1rem;">
                         <i class="fas fa-envelope"></i> Share via Email
                     </a>
+                    
                 </div>
           
                 
@@ -785,11 +790,6 @@ async function getSimilarJobs(jobData) {
             querySnapshot.forEach(doc => {
                 const similarJob = doc.data();
 
-
-                console.log("similarJob  ",similarJob);
-
-                console.log("querySnapshot  ",querySnapshot);
-
                 if (querySnapshot.empty) {
     displayEmptyState(similarJobsContainer, 'No related jobs found.', 'fas fa-briefcase');
     return;
@@ -805,8 +805,9 @@ async function getSimilarJobs(jobData) {
                 jobCard.innerHTML = `
                     <div class="similar-job-card">
                         <h5>${similarJob.title}</h5>
-                        <p><strong>${similarJob.company}</strong> - ${similarJob.location}</p>
-                        <small class="text-muted">${similarJob.type}</small>
+                        <p><strong>${similarJob.company}</strong> -   ${formatLocation(job.location, { part: 'city' })}, ${formatLocation(job.location, { part: 'state' })}
+</p>
+                        <small class="text-muted">${formatJobType(similarJob.type)}</small>
 
                         <!-- Display job tags -->
                         <div class="job-tags mt-2">
