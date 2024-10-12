@@ -339,80 +339,80 @@
             }
 
             // Handle form submission for news articles
-            $('#newsForm').on('submit', async function(event) {
-                event.preventDefault();
-                const file = document.getElementById('newsImage').files[0];
-                try {
-                    const imageUrl = await uploadImage(file);
-                    await db.collection('News').add({
-                        title: $('#newsTitle').val(),
-                        content: $('#newsContent').val(),
-                        postDate: $('#newsPostDate').val(),
-                        activate: $('#newsActivate').val() === 'true',
-                        postedBy: $('#newsPostedBy').val(),
-                        postedById: $('#newsPostedById').val(),
-                        category: $('#newsCategory').val(),
-                        imageUrl: imageUrl,
-                        imageCaption: $('#newsImageCaption').val(),
-                        likes: parseInt($('#newsLikes').val()),
-                        loves: parseInt($('#newsLoves').val()),
-                        helpful: parseInt($('#newsHelpful').val()),
-                        viewCount: parseInt($('#newsViewCount').val())
-                    });
-                    alert('News article saved successfully!');
-                    $('#newsForm')[0].reset();
-                } catch (error) {
-                    console.error('Error adding document: ', error);
-                }
-            });
+           // Handle form submission for news
+document.getElementById('newsForm').addEventListener('submit', async function(event) {
+    event.preventDefault();
+    const file = document.getElementById('newsImage').files[0];
+    try {
+        const imageUrl = await uploadImage(file);
+        await db.collection('News').add({
+            title: document.getElementById('newsTitle').value,
+            content: document.getElementById('newsContent').value,
+            postDate: document.getElementById('newsPostDate').value,
+            activate: document.getElementById('newsActivate').value === 'true',
+            postedBy: document.getElementById('newsPostedBy').value,
+            postedById: document.getElementById('newsPostedById').value,
+            category: document.getElementById('newsCategory').value,
+            imageUrl: imageUrl,
+            imageCaption: document.getElementById('newsImageCaption').value,
+            likes: parseInt(document.getElementById('newsLikes').value),
+            loves: parseInt(document.getElementById('newsLoves').value),
+            helpful: parseInt(document.getElementById('newsHelpful').value),
+            viewCount: parseInt(document.getElementById('newsViewCount').value)
+        });
+        alert('News article saved successfully!');
+        document.getElementById('newsForm').reset();
+    } catch (error) {
+        console.error('Error adding document: ', error);
+    }
+});
 
-            // Handle form submission for blog posts
-            $('#blogForm').on('submit', async function(event) {
-                event.preventDefault();
-                const file = document.getElementById('blogImage').files[0];
-                try {
-                    const imageUrl = await uploadImage(file);
-                    await db.collection('Blog').add({
-                        title: $('#blogTitle').val(),
-                        content: $('#blogContent').val(),
-                        postDate: $('#blogPostDate').val(),
-                        activate: $('#blogActivate').val() === 'true',
-                        postedBy: $('#blogPostedBy').val(),
-                        postedById: $('#blogPostedById').val(),
-                        category: $('#blogCategory').val(),
-                        imageUrl: imageUrl,
-                        imageCaption: $('#blogImageCaption').val(),
-                        likes: parseInt($('#blogLikes').val()),
-                        loves: parseInt($('#blogLoves').val()),
-                        helpful: parseInt($('#blogHelpful').val()),
-                        viewCount: parseInt($('#blogViewCount').val())
-                    });
-                    alert('Blog post saved successfully!');
-                    $('#blogForm')[0].reset();
-                } catch (error) {
-                    console.error('Error adding document: ', error);
-                }
-            });
+// Handle form submission for blog posts
+document.getElementById('blogForm').addEventListener('submit', async function(event) {
+    event.preventDefault();
+    const file = document.getElementById('blogImage').files[0];
+    try {
+        const imageUrl = await uploadImage(file);
+        await db.collection('Blog').add({
+            title: document.getElementById('blogTitle').value,
+            content: document.getElementById('blogContent').value,
+            postDate: document.getElementById('blogPostDate').value,
+            activate: document.getElementById('blogActivate').value === 'true',
+            postedBy: document.getElementById('blogPostedBy').value,
+            postedById: document.getElementById('blogPostedById').value,
+            category: document.getElementById('blogCategory').value,
+            imageUrl: imageUrl,
+            imageCaption: document.getElementById('blogImageCaption').value,
+            likes: parseInt(document.getElementById('blogLikes').value),
+            loves: parseInt(document.getElementById('blogLoves').value),
+            helpful: parseInt(document.getElementById('blogHelpful').value),
+            viewCount: parseInt(document.getElementById('blogViewCount').value)
+        });
+        alert('Blog post saved successfully!');
+        document.getElementById('blogForm').reset();
+    } catch (error) {
+        console.error('Error adding document: ', error);
+    }
+});
 
-            // Handle form submission for FAQs
-            $('#faqForm').on('submit', async function(event) {
-                event.preventDefault();
-                try {
-                    await db.collection('FAQs').add({
-                        question: $('#faqQuestion').val(),
-                        answer: $('#faqAnswer').val(),
-                        category: $('#faqCategory').val(),
-                        helpful: parseInt($('#faqHelpful').val()),
-                        postDate: $('#faqPostDate').val(),
-                        activate: $('#faqActivate').val() === 'true'
-                    });
-                    alert('FAQ saved successfully!');
-                 //   $('#faqForm')[0].reset();
-                } catch (error) {
-                    console.error('Error adding document: ', error);
-                }
-            });
-
+// Handle form submission for FAQs
+document.getElementById('faqForm').addEventListener('submit', async function(event) {
+    event.preventDefault();
+    try {
+        await db.collection('FAQs').add({
+            question: document.getElementById('faqQuestion').value,
+            answer: document.getElementById('faqAnswer').value,
+            category: document.getElementById('faqCategory').value,
+            helpful: parseInt(document.getElementById('faqHelpful').value),
+            postDate: document.getElementById('faqPostDate').value,
+            activate: document.getElementById('faqActivate').value === 'true'
+        });
+        alert('FAQ saved successfully!');
+        // document.getElementById('faqForm').reset(); // Uncomment if you want to reset the form
+    } catch (error) {
+        console.error('Error adding document: ', error);
+    }
+});
 
 
             document.addEventListener('DOMContentLoaded', () => {
