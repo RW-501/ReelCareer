@@ -525,7 +525,7 @@ async function saveJob(jobId) {
             const jobId = urlParams.get('id'); // Get job ID from URL
 
             const errorMessageDiv = document.getElementById('error-message');
-    const jobContainer = document.getElementById('job-container');
+            const jobContainer = document.getElementById('job-container');
 
 if(!jobId || jobId === "undefined"){
             // Insert "Job not found" HTML into the error-message div
@@ -815,19 +815,29 @@ function renderTags(tags) {
     // Check if tags is defined and is an array
     if (Array.isArray(tags) && tags.length > 0) {
         tags.forEach(tag => {
-            const span = document.createElement('span');
-            span.className = 'badge badge-secondary m-1'; // Bootstrap badge
-            span.textContent = tag;
-            jobTags.appendChild(span);
+            // Create a button element for each tag
+            const button = document.createElement('button');
+            button.className = 'btn btn-secondary m-1'; // Bootstrap button styling
+            button.textContent = tag;
+
+            // Add a click event to redirect to job-listings with the selected tag
+            button.onclick = () => {
+                window.location.href = `job-listings/?tag=${encodeURIComponent(tag)}`;
+            };
+
+            // Append the button to the jobTags container
+            jobTags.appendChild(button);
         });
     } else {
-        // Optionally, you can display a message if no tags are available
+        // Optionally, display a message if no tags are available
         const noTagsMessage = document.createElement('span');
         noTagsMessage.textContent = 'No tags available.';
         noTagsMessage.className = 'text-muted'; // Optional styling
         jobTags.appendChild(noTagsMessage);
     }
 }
+
+
 
 
 
@@ -994,15 +1004,6 @@ function createJobSchema(jobData) {
 }
 
 
-function renderList(items, elementId) {
-    const container = document.getElementById(elementId);
-    container.innerHTML = '';
-    items.forEach(item => {
-        const li = document.createElement('li');
-        li.textContent = item;
-        container.appendChild(li);
-    });
-}
 
    
 
@@ -1011,10 +1012,10 @@ function renderList(items, elementId) {
         document.addEventListener('DOMContentLoaded', fetchJobDetails);
     </script>
 
-    <!-- Bootstrap JS and dependencies -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
- <!--   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-ZvpUoOeGZpV4jx+arJg2eU+AjBlE5e0w4GQ/JLTAxGMOeU1ZBU/FAaI7gPbA0n40" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-OCpA7v74fP9e7I+2KwWqFfDkE02zgt0twtR0qU97Fkt1b5Jp1XqDlRe1TIj67F0p" crossorigin="anonymous"></script>
--->
+    <!-- Include jQuery before Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 </body>
 </html>
