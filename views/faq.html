@@ -160,7 +160,7 @@ function setupFeedbackButtons() {
 async function loadFAQs() {
     try {
         // Create a query to fetch FAQs where "activate" is true
-        const faqQuery = query(collection(db, "FAQs"), where("activate", "==", true));
+        const faqQuery = query(collection(db, "FAQs"), where("activate", "==", "true"));
 
         // Execute the query
         const querySnapshot = await getDocs(faqQuery);
