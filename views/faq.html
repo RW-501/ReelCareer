@@ -63,15 +63,16 @@
         <button id="liveChatButton" class="btn btn-primary">Chat with Support</button>
     </div>
 </div>
-<script type="module" src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js"></script>
-<script type="module" src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js"></script>
 
 <!-- Firebase and jQuery Scripts -->
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-firestore.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
-<script>
+<script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js';
+    import { getAuth } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js';
+    import { getFirestore } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js';
+    import { getStorage } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-storage.js';
+  
     // Firebase configuration
     const firebaseConfig = {
     apiKey: "AIzaSyDiwC3Dmd88-t3N9iRV5cZ3snVkEXinclg",

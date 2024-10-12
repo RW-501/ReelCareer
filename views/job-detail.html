@@ -463,8 +463,8 @@
 
     <script type="module">
 
-   import { db, auth,  analytics, app  } from '../public/js/main.js'; // Adjust path to your Firebase setup
-   import { doc, getDoc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+import { db, auth, analytics, app } from '../public/js/main.js'; // Adjust path to your Firebase setup
+import { doc, getDoc, updateDoc, increment, collection, query, where, getDocs, limit } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 
 // Function to save job and update savedForLater count
 async function saveJob(jobId) {
@@ -671,15 +671,16 @@ async function getSimilarJobs(jobData) {
     }
 
     // Query the Jobs collection to find jobs with matching tags
-    firebase.firestore().collection('Jobs')
-        .where('tags', 'array-contains-any', jobTags)
-        .limit(maxSimilarJobs)
-        .get()
-        .then(querySnapshot => {
-            if (querySnapshot.empty) {
-                document.getElementById('similarJobsContainer').innerHTML = '<p>No similar jobs found.</p>';
-                return;
-            }
+    const jobsRef = doc(db, 'Jobs'); // Correctly use the imported Firestore instance
+    const q = query(jobsRef, where('tags', 'array-contains-any', jobTags), limit(maxSimilarJobs));
+
+    try {
+        const querySnapshot = await getDocs(q);
+        
+        if (querySnapshot.empty) {
+            document.getElementById('similarJobsContainer').innerHTML = '<p>No similar jobs found.</p>';
+            return;
+        }
 
             // Clear the similar jobs container
             const similarJobsContainer = document.getElementById('similarJobsContainer');
@@ -715,11 +716,10 @@ async function getSimilarJobs(jobData) {
 
                 similarJobsContainer.appendChild(jobCard);
             });
-        })
-        .catch(error => {
-            console.error("Error fetching similar jobs: ", error);
+    } catch (error) {
+        console.error("Error fetching similar jobs: ", error);
             document.getElementById('similarJobsContainer').innerHTML = '<p>Error loading similar jobs.</p>';
-        });
+        };
 }
 
 
