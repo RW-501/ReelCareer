@@ -310,34 +310,34 @@
 <script type="module">
      import { db, storage, analytics, app, auth  } from '../public/js/main.js'; // Adjust the path based on your structure
      import { query, where, orderBy, limit,  collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+     import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-storage.js"; // Import required functions
 
       
 
 
 
             // Function to upload image to Firebase Storage
-            function uploadImage(file) {
-                return new Promise((resolve, reject) => {
-                    const storageRef = storage.ref('images/' + file.name);
-                    const task = storageRef.put(file);
+            const storage = getStorage(app); // Make sure 'app' is your Firebase app instance
 
-                    task.on('state_changed', 
-                        function progress(snapshot) {
-                            const percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                            console.log('Upload is ' + percentage + '% done');
-                        }, 
-                        function error(err) {
-                            reject(err);
-                        }, 
-                        function complete() {
-                            task.snapshot.ref.getDownloadURL().then(function(downloadURL) {
-                                resolve(downloadURL);
-                            });
-                        }
-                    );
-                });
-            }
+function uploadImage(file) { 
+    return new Promise((resolve, reject) => {
+        const storageRef = ref(storage, 'images/' + file.name); // Use ref() instead of storage.ref()
+        const task = uploadBytes(storageRef, file); // Use uploadBytes to upload the file
 
+        task.then(snapshot => {
+            console.log('Upload successful!');
+
+            // Get the download URL
+            getDownloadURL(snapshot.ref).then(downloadURL => {
+                resolve(downloadURL);
+            }).catch(err => {
+                reject(err);
+            });
+        }).catch(err => {
+            reject(err);
+        });
+    });
+}
             // Handle form submission for news articles
            // Handle form submission for news
 document.getElementById('newsForm').addEventListener('submit', async function(event) {
