@@ -128,22 +128,6 @@
                     <label for="newsImageCaption">Image Caption <i class="fas fa-question-circle" data-toggle="tooltip" title="Enter a caption for the associated image."></i></label>
                     <input type="text" class="form-control" id="newsImageCaption">
                 </div>
-                <div class="form-group">
-                    <label for="newsLikes">Likes <i class="fas fa-question-circle" data-toggle="tooltip" title="Number of likes for the article."></i></label>
-                    <input type="number" class="form-control" id="newsLikes" value="0">
-                </div>
-                <div class="form-group">
-                    <label for="newsLoves">Loves <i class="fas fa-question-circle" data-toggle="tooltip" title="Number of loves for the article."></i></label>
-                    <input type="number" class="form-control" id="newsLoves" value="0">
-                </div>
-                <div class="form-group">
-                    <label for="newsHelpful">Helpful <i class="fas fa-question-circle" data-toggle="tooltip" title="Number of helpful votes for the article."></i></label>
-                    <input type="number" class="form-control" id="newsHelpful" value="0">
-                </div>
-                <div class="form-group">
-                    <label for="newsViewCount">View Count <i class="fas fa-question-circle" data-toggle="tooltip" title="Number of views for the article."></i></label>
-                    <input type="number" class="form-control" id="newsViewCount" value="0">
-                </div>
                 <button type="submit" class="btn btn-primary">Save News Article</button>
                 <button type="reset" class="btn btn-secondary">Reset</button>
             </form>
@@ -212,24 +196,12 @@
                     </select>
                 </div>
                 <div class="form-group">
+                <label for="blogTags">Tags (comma-separated):</label>
+<input type="text" id="blogTags" placeholder="Enter tags">
+</div>
+                <div class="form-group">
                     <label for="blogImageCaption">Image Caption <i class="fas fa-question-circle" data-toggle="tooltip" title="Enter a caption for the associated image."></i></label>
                     <input type="text" class="form-control" id="blogImageCaption">
-                </div>
-                <div class="form-group">
-                    <label for="blogLikes">Likes <i class="fas fa-question-circle" data-toggle="tooltip" title="Number of likes for the blog post."></i></label>
-                    <input type="number" class="form-control" id="blogLikes" value="0">
-                </div>
-                <div class="form-group">
-                    <label for="blogLoves">Loves <i class="fas fa-question-circle" data-toggle="tooltip" title="Number of loves for the blog post."></i></label>
-                    <input type="number" class="form-control" id="blogLoves" value="0">
-                </div>
-                <div class="form-group">
-                    <label for="blogHelpful">Helpful <i class="fas fa-question-circle" data-toggle="tooltip" title="Number of helpful votes for the blog post."></i></label>
-                    <input type="number" class="form-control" id="blogHelpful" value="0">
-                </div>
-                <div class="form-group">
-                    <label for="blogViewCount">View Count <i class="fas fa-question-circle" data-toggle="tooltip" title="Number of views for the blog post."></i></label>
-                    <input type="number" class="form-control" id="blogViewCount" value="0">
                 </div>
                 <button type="submit" class="btn btn-primary">Save Blog Post</button>
                 <button type="reset" class="btn btn-secondary">Reset</button>
@@ -249,6 +221,10 @@
                 <label for="faqAnswer">Answer <i class="fas fa-question-circle" data-toggle="tooltip" title="Provide the answer to the FAQ."></i></label>
                 <textarea class="form-control" id="faqAnswer" rows="5" required></textarea>
             </div>
+            <div class="form-group">
+                <label for="newsTags">Tags (comma-separated):</label>
+                <input type="text" id="newsTags" placeholder="Enter tags">                
+                </div>
             <div class="form-group">
                 <label for="faqCategory">Category <i class="fas fa-question-circle" data-toggle="tooltip" title="Select a category for the FAQ."></i></label>
                 <select class="form-control" id="faqCategory" required>
@@ -349,20 +325,22 @@ document.getElementById('newsForm').addEventListener('submit', async function(ev
 
 // Add a new document to the 'FAQs' collection
 await addDoc(NewsCollection, {
-            title: document.getElementById('newsTitle').value,
-            content: document.getElementById('newsContent').value,
-            postDate: document.getElementById('newsPostDate').value,
-            activate: document.getElementById('newsActivate').value === 'true',
-            postedBy: document.getElementById('newsPostedBy').value,
-            postedById: document.getElementById('newsPostedById').value,
-            category: document.getElementById('newsCategory').value,
-            imageUrl: imageUrl,
-            imageCaption: document.getElementById('newsImageCaption').value,
-            likes: 0,
-            loves: 0,
-            helpful: 0,
-            viewCount: 0
-        });
+    title: document.getElementById('newsTitle').value,
+    content: document.getElementById('newsContent').value,
+    postDate: document.getElementById('newsPostDate').value,
+    activate: document.getElementById('newsActivate').value === 'true',
+    postedBy: document.getElementById('newsPostedBy').value,
+    postedById: document.getElementById('newsPostedById').value,
+    category: document.getElementById('newsCategory').value,
+    imageUrl: imageUrl,
+    imageCaption: document.getElementById('newsImageCaption').value,
+    likes: 0,
+    loves: 0,
+    helpful: 0,
+    viewCount: 0,
+    tags: document.getElementById('newsTags').value.split(',').map(tag => tag.trim()) // Process tags as an array
+});
+
         alert('News article saved successfully!');
         document.getElementById('newsForm').reset();
     } catch (error) {
@@ -381,20 +359,22 @@ document.getElementById('blogForm').addEventListener('submit', async function(ev
 
         // Add a new document to the 'FAQs' collection
         await addDoc(blogCollection, {
-            title: document.getElementById('blogTitle').value,
-            content: document.getElementById('blogContent').value,
-            postDate: document.getElementById('blogPostDate').value,
-            activate: document.getElementById('blogActivate').value === 'true',
-            postedBy: document.getElementById('blogPostedBy').value,
-            postedById: document.getElementById('blogPostedById').value,
-            category: document.getElementById('blogCategory').value,
-            imageUrl: imageUrl,
-            imageCaption: document.getElementById('blogImageCaption').value,
-            likes: 0,
-            loves: 0,
-            helpful: 0,
-            viewCount:0
-        });
+    title: document.getElementById('blogTitle').value,
+    content: document.getElementById('blogContent').value,
+    postDate: document.getElementById('blogPostDate').value,
+    activate: document.getElementById('blogActivate').value === 'true',
+    postedBy: document.getElementById('blogPostedBy').value,
+    postedById: document.getElementById('blogPostedById').value,
+    category: document.getElementById('blogCategory').value,
+    imageUrl: imageUrl,
+    imageCaption: document.getElementById('blogImageCaption').value,
+    likes: 0,
+    loves: 0,
+    helpful: 0,
+    viewCount: 0,
+    tags: document.getElementById('blogTags').value.split(',').map(tag => tag.trim()) // Process tags as array
+});
+
         alert('Blog post saved successfully!');
         document.getElementById('blogForm').reset();
     } catch (error) {
@@ -411,12 +391,14 @@ document.getElementById('faqsForm').addEventListener('submit', async function(ev
 
         // Add a new document to the 'FAQs' collection
         await addDoc(faqsCollection, {
-             question: document.getElementById('faqQuestion').value,
-            answer: document.getElementById('faqAnswer').value,
-            category: document.getElementById('faqCategory').value,
-            helpful: 0 ,
-            activate: 'true'
-        });
+    question: document.getElementById('faqQuestion').value,
+    answer: document.getElementById('faqAnswer').value,
+    category: document.getElementById('faqCategory').value,
+    helpful: 0,
+    activate: true,
+    tags: document.getElementById('faqTags').value.split(',').map(tag => tag.trim()) // Process tags as an array
+});
+
         alert('FAQ saved successfully!');
          document.getElementById('faqsForm').reset(); // Uncomment if you want to reset the form
     } catch (error) {
