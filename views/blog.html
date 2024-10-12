@@ -16,7 +16,6 @@
 
         h1 {
             color: #343a40;
-            /* Darker color for the title */
         }
 
         .blog-post {
@@ -42,24 +41,20 @@
 
         .btn-primary {
             background-color: #007bff;
-            /* Custom primary color */
             border: none;
         }
 
         .btn-primary:hover {
             background-color: #0056b3;
-            /* Darker shade on hover */
         }
 
         .author-date {
             font-size: 0.9rem;
             color: #6c757d;
-            /* Bootstrap gray color */
         }
 
         .blog-content {
             color: #495057;
-            /* Bootstrap dark gray */
         }
 
         .search-bar {
@@ -67,13 +62,8 @@
         }
     </style>
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    
-    <!-- Bootstrap CSS -->
     <script src="../public/js/scripts.js"></script>
     <script src="../public/js/loadScripts.js"></script>
-    <!-- Custom CSS -->
     <link rel="stylesheet" href="../public/css/styles.css">
 
 </head>
@@ -100,7 +90,6 @@
                             <a class="page-link" href="#" tabindex="-1">Previous</a>
                         </li>
                         <li class="page-item active"><a class="page-link" href="#" id="page-1">1</a></li>
-                        <!-- Additional page items will be added dynamically -->
                         <li class="page-item" id="next-page">
                             <a class="page-link" href="#">Next</a>
                         </li>
@@ -129,60 +118,56 @@
             </div>
         </div>
     </div>
-    <script type="module">
-        import { db, storage, analytics, app, auth  } from '../public/js/main.js'; // Adjust the path based on your structure
-        import { query, where, orderBy, limit,  collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
-   
-        const postsPerPage = 6; // Define your posts per page
-    let currentPage = 1;
-
-    // Fetch blogs from Firestore
-    async function fetchBlogs(page) {
-        try {
-            const blogContainer = document.getElementById("blog-container");
-            blogContainer.innerHTML = ""; // Clear existing blogs
-
-            // Create a query for fetching blogs
-            const blogsRef = collection(db, "Blogs");
-const blogsQuery = query(
-    blogsRef,
-    where("activate", "==", true), // Only fetch blogs where activate is true
-    orderBy("createdAt", "desc"),
-    limit(postsPerPage)
-);
-
-
-            const querySnapshot = await getDocs(blogsQuery);
-
-            // Check if there are any documents
-            if (querySnapshot.empty) {
-                blogContainer.innerHTML = "<p>No blogs available.</p>";
-                return;
-            }
-
-            querySnapshot.forEach((doc) => {
-                const blogData = doc.data();
-                // Create blog card or element here based on your design
-                const blogCard = document.createElement("div");
-                blogCard.className = "blog-card"; // Add your CSS classes
-                blogCard.innerHTML = `
-                    <h3>${blogData.title}</h3>
-                    <p>${blogData.content}</p>
-                    <p><strong>Published on:</strong> ${new Date(blogData.date).toLocaleDateString()}</p>
-                `;
-                blogContainer.appendChild(blogCard);
-            });
-
-            // Optional: If you want to keep track of total posts for pagination
-            totalPosts = querySnapshot.size; // Adjust if you need to handle total counts in a different way
-        } catch (error) {
-            console.error("Error fetching blogs: ", error);
-            document.getElementById("blog-container").innerHTML = "<p>Error fetching blogs. Please try again later.</p>";
-        }
-    }
-
-   
     
+    <script type="module">
+        import { db } from '../public/js/main.js'; // Adjust the path based on your structure
+        import { query, where, orderBy, limit, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+
+        const postsPerPage = 6; // Define your posts per page
+        let currentPage = 1;
+
+        // Fetch blogs from Firestore
+        async function fetchBlogs(page) {
+            try {
+                const blogContainer = document.getElementById("blog-container");
+                blogContainer.innerHTML = ""; // Clear existing blogs
+
+                // Create a query for fetching blogs
+                const blogsRef = collection(db, "Blogs");
+                const blogsQuery = query(
+                    blogsRef,
+                    where("activate", "==", true), // Only fetch blogs where activate is true
+                    orderBy("createdAt", "desc"),
+                    limit(postsPerPage)
+                );
+
+                const querySnapshot = await getDocs(blogsQuery);
+
+                // Check if there are any documents
+                if (querySnapshot.empty) {
+                    blogContainer.innerHTML = "<p>No blogs available.</p>";
+                    return;
+                }
+
+                querySnapshot.forEach((doc) => {
+                    const blogData = doc.data();
+                    // Create blog card or element here based on your design
+                    const blogCard = document.createElement("div");
+                    blogCard.className = "blog-post"; // Add your CSS classes
+                    blogCard.innerHTML = `
+                        <h3>${blogData.title}</h3>
+                        <p>${blogData.content}</p>
+                        <p><strong>Published on:</strong> ${new Date(blogData.date).toLocaleDateString()}</p>
+                    `;
+                    blogContainer.appendChild(blogCard);
+                });
+
+            } catch (error) {
+                console.error("Error fetching blogs: ", error);
+                document.getElementById("blog-container").innerHTML = "<p>Error fetching blogs. Please try again later.</p>";
+            }
+        }
+
         // Show blog detail in modal
         function showBlogDetail(title, image, author, date, content) {
             document.getElementById("blogDetailModalLabel").innerText = title;
@@ -224,11 +209,11 @@ const blogsQuery = query(
             const searchTerm = this.value.toLowerCase();
             const blogPosts = document.querySelectorAll(".blog-post");
             blogPosts.forEach((post) => {
-                const title = post.querySelector("h5").textContent.toLowerCase();
+                const title = post.querySelector("h3").textContent.toLowerCase();
                 if (title.includes(searchTerm)) {
-                    post.parentElement.style.display = "block"; // Show matching post
+                    post.style.display = "block"; // Show matching post
                 } else {
-                    post.parentElement.style.display = "none"; // Hide non-matching post
+                    post.style.display = "none"; // Hide non-matching post
                 }
             });
         });
@@ -256,34 +241,20 @@ const blogsQuery = query(
             "blogPost": [
                 {
                     "@type": "BlogPosting",
-                    "headline": "Blog Title",
-                    "image": "Blog Image URL",
-                    "datePublished": "2024-10-09",
+                    "headline": "Sample Blog Post",
+                    "image": "https://www.example.com/image.jpg",
                     "author": {
                         "@type": "Person",
                         "name": "Author Name"
                     },
-                    "articleBody": "This is a brief content of the blog."
+                    "datePublished": "2024-10-10T08:00:00+08:00",
+                    "mainEntityOfPage": "https://www.example.com/user-blog/sample-post",
+                    "description": "This is a brief description of the blog post."
                 }
             ]
         }
     </script>
-
-    <!-- Footer -->
-    <footer id="dynamic-footer"></footer>
     
-    <!-- Firebase configuration/ Login& Out -->
-    <script type="module" src="../public/js/main.js"></script> 
-
-    <!-- Dynamic Schema Markup -->
-    <script type="module">
-    import { db, storage, analytics, app  } from '../public/js/main.js'; // Adjust the path based on your structure
-    import { query, where, orderBy, limit,  collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
-    
-    </script>
-
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>
