@@ -743,6 +743,15 @@ if (!jobData.jobBenefits || jobData.jobBenefits.length === 0) {
 }
 
 
+function displayEmptyState(container, message, iconClass = 'fas fa-search') {
+    container.innerHTML = `
+        <div class="empty-state text-center my-4">
+            <i class="${iconClass} fa-3x text-muted"></i>
+            <p class="text-muted mt-2">${message}</p>
+        </div>
+    `;
+}
+
 
 // Function to fetch similar jobs based on tags
 async function getSimilarJobs(jobData) {
@@ -761,10 +770,7 @@ async function getSimilarJobs(jobData) {
     try {
         const querySnapshot = await getDocs(q);
         
-        if (querySnapshot.empty) {
-            document.getElementById('similarJobsContainer').innerHTML = '<p>No similar jobs found.</p>';
-            return;
-        }
+      
 
             // Clear the similar jobs container
             const similarJobsContainer = document.getElementById('similarJobsContainer');
@@ -809,15 +815,6 @@ async function getSimilarJobs(jobData) {
         console.error("Error fetching similar jobs: ", error);
             document.getElementById('similarJobsContainer').innerHTML = '<p>Error loading similar jobs.</p>';
         };
-}
-
-function displayEmptyState(container, message, iconClass = 'fas fa-search') {
-    container.innerHTML = `
-        <div class="empty-state text-center my-4">
-            <i class="${iconClass} fa-3x text-muted"></i>
-            <p class="text-muted mt-2">${message}</p>
-        </div>
-    `;
 }
 
 
