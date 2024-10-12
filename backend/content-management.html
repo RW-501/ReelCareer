@@ -279,10 +279,11 @@
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
+
 // Initialize Firebase services
 const auth = getAuth(app);
-            const db = firebase.firestore();
-            const storage = firebase.storage();
+const db = getFirestore(app);
+const storage = getStorage(app);
 
             // Function to upload image to Firebase Storage
             function uploadImage(file) {
