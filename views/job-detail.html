@@ -268,6 +268,22 @@
 }
 
 
+.empty-state {
+    padding: 20px;
+    border: 2px dashed #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+}
+
+.empty-state i {
+    color: #ccc;
+}
+
+.empty-state p {
+    font-size: 1.1em;
+    color: #666;
+}
 
 
     </style>
@@ -714,6 +730,11 @@ async function getSimilarJobs(jobData) {
             querySnapshot.forEach(doc => {
                 const similarJob = doc.data();
 
+                if (querySnapshot.empty) {
+    displayEmptyState(similarJobsContainer, 'No related jobs found.', 'fas fa-briefcase');
+    return;
+}
+
                 // Skip the current job itself in the results
                 if (doc.id === jobData.id) return;
 
@@ -747,6 +768,14 @@ async function getSimilarJobs(jobData) {
         };
 }
 
+function displayEmptyState(container, message, iconClass = 'fas fa-search') {
+    container.innerHTML = `
+        <div class="empty-state text-center my-4">
+            <i class="${iconClass} fa-3x text-muted"></i>
+            <p class="text-muted mt-2">${message}</p>
+        </div>
+    `;
+}
 
 
 async function loadRelatedBlogs(jobIndustry) {
@@ -762,9 +791,10 @@ async function loadRelatedBlogs(jobIndustry) {
         blogContainer.innerHTML = ''; // Clear previous blog content
 
         if (querySnapshot.empty) {
-            blogContainer.innerHTML = '<p>No related blogs found.</p>';
-            return;
-        }
+    displayEmptyState(blogContainer, 'No related blogs found.', 'fas fa-newspaper');
+    return;
+}
+
             
             querySnapshot.forEach(doc => {
                 const blog = doc.data();
