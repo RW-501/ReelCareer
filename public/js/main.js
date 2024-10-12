@@ -705,6 +705,6 @@ document.addEventListener('DOMContentLoaded', updateFooter);
    
 
 // Export the objects
-export { onAuthStateChanged, checkUserAuth, db, storage, analytics, app,collection, getDocs, auth }; // Export db, storage, and analytics
+export { onAuthStateChanged, db, storage, analytics, app,collection, getDocs, auth }; // Export db, storage, and analytics
 
 
