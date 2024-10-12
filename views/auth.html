@@ -199,7 +199,9 @@ main{
 }
 
 
-
+#loading-indicator{
+    display: none;
+}
     </style>
 
     <!-- Bootstrap CSS -->
@@ -335,7 +337,7 @@ main{
     import { db, storage, analytics, app  } from '../public/js/main.js'; // Adjust the path based on your structure
     import { query, where, orderBy, limit,  collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
     
-          // Event listeners for forms
+         /* // Event listeners for forms
           document.getElementById('signup-form').addEventListener('submit', function(event) {
             event.preventDefault();
             // Your signup logic here
@@ -346,7 +348,7 @@ main{
             event.preventDefault();
             // Your login logic here
             alert("Login successful! Redirecting you to your dashboard.");
-        });
+        });*/
     </script>
 
 </body>
