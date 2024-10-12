@@ -119,11 +119,44 @@
 
     // Load FAQs when the page is ready
  // Function to load FAQs from Firestore
+// Function to update FAQ feedback
+async function updateFAQFeedback(docId, feedback) {
+    const faqRef = doc(db, "FAQs", docId);
+    try {
+        await updateDoc(faqRef, {
+            helpfulCount: feedback === 'yes' ? increment(1) : arrayUnion('not_helpful')
+        });
+        console.log(`FAQ ${docId} updated with feedback: ${feedback}`);
+    } catch (error) {
+        console.error("Error updating FAQ: ", error);
+    }
+}
+
+// Function to set up button click event listeners
+function setupFeedbackButtons() {
+    const yesButtons = document.querySelectorAll('.btn-success');
+    const noButtons = document.querySelectorAll('.btn-danger');
+
+    yesButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const docId = button.getAttribute('data-id');
+            updateFAQFeedback(docId, 'yes');
+        });
+    });
+
+    noButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const docId = button.getAttribute('data-id');
+            updateFAQFeedback(docId, 'no');
+        });
+    });
+}
+
+// Call the setupFeedbackButtons after loading FAQs
 async function loadFAQs() {
     try {
         const querySnapshot = await getDocs(collection(db, "FAQs"));
         const faqList = document.getElementById('faqList');
-
         querySnapshot.forEach((doc) => {
             const faq = doc.data();
             const faqItem = document.createElement('div');
@@ -151,14 +184,21 @@ async function loadFAQs() {
                     <p itemprop="text">${faq.answer}</p>
                     <div class="feedback">
                         <span>Was this helpful? </span>
-                        <button class="btn btn-sm btn-success" aria-label="Yes, was this helpful?">Yes</button>
-                        <button class="btn btn-sm btn-danger" aria-label="No, was this helpful?">No</button>
+                        <button class="btn btn-sm btn-success" 
+                                aria-label="Yes, was this helpful?" 
+                                data-id="${doc.id}">Yes</button>
+                        <button class="btn btn-sm btn-danger" 
+                                aria-label="No, was this helpful?" 
+                                data-id="${doc.id}">No</button>
                     </div>
                 </div>
             `;
 
             faqList.appendChild(faqItem);
         });
+
+        // Setup feedback buttons after loading FAQs
+        setupFeedbackButtons();
     } catch (error) {
         console.error("Error loading FAQs: ", error);
     }
