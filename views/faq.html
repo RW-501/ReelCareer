@@ -226,18 +226,7 @@ async function updateHelpfulStatus(docId, isHelpful) {
 
 
     /*
-    document.querySelectorAll('.faq-question').forEach(question => {
-    question.addEventListener('click', function() {
-        const targetId = this.getAttribute('data-target'); // Use data-target attribute to find the answer div
-        const target = document.querySelector(targetId);
-        
-        if (target.classList.contains('show')) {
-            target.classList.remove('show');  // Hide answer
-        } else {
-            target.classList.add('show');    // Show answer
-        }
-    });
-});
+
 
 */
     // Function to handle question submission
@@ -279,21 +268,17 @@ async function updateHelpfulStatus(docId, isHelpful) {
 
 <script>
 
-     
 document.querySelectorAll('.faq-question').forEach(question => {
-        question.addEventListener('click', function() {
-            const target = document.querySelector(this.getAttribute('data-target'));
-            const isCollapsed = target.classList.contains('show');
-            
-            // Toggle the collapse manually
-            if (isCollapsed) {
-                target.classList.remove('show');
-            } else {
-                target.classList.add('show');
-            }
-        });
-    }) ;
-
-
+    question.addEventListener('click', function() {
+        const targetId = this.getAttribute('data-target'); // Use data-target attribute to find the answer div
+        const target = document.querySelector(targetId);
+        
+        if (target.classList.contains('show')) {
+            target.classList.remove('show');  // Hide answer
+        } else {
+            target.classList.add('show');    // Show answer
+        }
+    });
+});
 </script>
 </html>
