@@ -817,8 +817,8 @@ async function getSimilarJobs(jobData) {
                         <h5>${similarJob.title}</h5>
                         <p><strong>${similarJob.company}</strong> -   ${formatLocation(similarJob.location, { part: 'city' })}, ${formatLocation(similarJob.location, { part: 'state' })}
 </p>
-                        <small class="text-muted">${formatJobType(similarJob.type)}</small>
-
+                     <p class="card-text"><strong>Type: ${formatJobType(job.type)}</strong></p>
+                     <p class="card-text">${formatCurrency(job.salary)}</p>
                         <!-- Display job tags -->
                         <div class="job-tags mt-2">
 ${similarJob.tags.map(tag => `
