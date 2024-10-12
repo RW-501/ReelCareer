@@ -60,6 +60,59 @@
         .search-bar {
             margin-bottom: 30px;
         }
+
+
+
+        .blog-post {
+    margin: 20px 0; /* Space between blog posts */
+    display: flex; /* Align items if needed */
+    justify-content: center; /* Center the blog card */
+}
+
+.blog-card {
+    background: #fff; /* White background for the card */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    padding: 20px; /* Inner padding */
+    width: 80%; /* Width of the card */
+    max-width: 600px; /* Maximum width */
+    transition: transform 0.3s; /* Smooth transform on hover */
+}
+
+.blog-card:hover {
+    transform: scale(1.02); /* Scale effect on hover */
+}
+
+.blog-image {
+    width: 100%; /* Responsive image */
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 5px; /* Rounded corners for the image */
+}
+
+.blog-content {
+    font-size: 16px; /* Font size for content */
+    line-height: 1.6; /* Line height for better readability */
+}
+
+.button-container {
+    margin-top: 15px; /* Space above buttons */
+}
+
+button {
+    background-color: #007bff; /* Button color */
+    color: white; /* Text color */
+    border: none; /* No border */
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px 15px; /* Padding for buttons */
+    cursor: pointer; /* Pointer on hover */
+    margin-right: 10px; /* Space between buttons */
+    transition: background-color 0.3s; /* Transition effect for background */
+}
+
+button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
     </style>
 
     <script src="../public/js/scripts.js"></script>
@@ -148,9 +201,6 @@
                 );
 
                 const querySnapshot = await getDocs(blogsQuery);
-                console.log("???????????????//   ",blogsQuery);
-                console.log("?????????querySnapshot??????//   ",querySnapshot);
-
                 
                 // Check if there are any documents
                 if (querySnapshot.empty) {
@@ -158,18 +208,39 @@
                     return;
                 }
 
-                querySnapshot.forEach((doc) => {
-                    const blogData = doc.data();
-                    // Create blog card or element here based on your design
-                    const blogCard = document.createElement("div");
-                    blogCard.className = "blog-post"; // Add your CSS classes
-                    blogCard.innerHTML = `
-                        <h3>${blogData.title}</h3>
-                        <p>${blogData.content}</p>
-                        <p><strong>Published on:</strong> ${new Date(blogData.date).toLocaleDateString()}</p>
-                    `;
-                    blogContainer.appendChild(blogCard);
-                });
+                querySnapshot.forEach((doc) => { 
+    const blogData = doc.data();
+    // Create blog card or element here based on your design
+    const blogCard = document.createElement("div");
+    blogCard.className = "blog-post"; // Add your CSS classes
+
+    // Build the inner HTML with all the specified fields and action buttons
+    blogCard.innerHTML = `
+        <div class="blog-card">
+            <h3>${blogData.title}</h3>
+            <img src="${blogData.imageUrl}" alt="${blogData.imageCaption}" class="blog-image" />
+            <p class="blog-content">${blogData.content}</p>
+            <hr>
+            <p><strong>Category:</strong> ${blogData.category}</p>
+            <p><strong>Published on:</strong> ${new Date(blogData.postDate).toLocaleDateString()}</p>
+            <p><strong>Posted by:</strong> ${blogData.postedBy} (ID: ${blogData.postedById})</p>
+            <p><strong>Likes:</strong> <span id="likes-${doc.id}">${blogData.likes}</span></p>
+            <p><strong>Loves:</strong> <span id="loves-${doc.id}">${blogData.loves}</span></p>
+            <p><strong>Helpful:</strong> <span id="helpful-${doc.id}">${blogData.helpful}</span></p>
+            <p><strong>Views:</strong> ${blogData.viewCount}</p>
+            <p><strong>Tags:</strong> ${blogData.tags.join(', ')}</p>
+            <div class="button-container">
+                <button onclick="likePost('${doc.id}')">Like</button>
+                <button onclick="lovePost('${doc.id}')">Love</button>
+                <button onclick="markHelpful('${doc.id}')">Mark Helpful</button>
+            </div>
+        </div>
+    `;
+
+    // Append the blog card to the container
+    blogContainer.appendChild(blogCard);
+});
+
 
             } catch (error) {
                 console.error("Error fetching blogs: ", error);
@@ -177,6 +248,60 @@
             }
         }
 
+
+// Function to handle liking a post
+function likePost(postId) {
+    const likesElement = document.getElementById(`likes-${postId}`);
+    let currentLikes = parseInt(likesElement.textContent);
+    currentLikes += 1;
+    likesElement.textContent = currentLikes;
+
+    // Update the database (Firestore)
+    const postRef = firebase.firestore().collection('blogs').doc(postId);
+    postRef.update({ likes: currentLikes })
+        .then(() => {
+            console.log("Like count updated successfully");
+        })
+        .catch((error) => {
+            console.error("Error updating like count: ", error);
+        });
+}
+
+// Function to handle loving a post
+function lovePost(postId) {
+    const lovesElement = document.getElementById(`loves-${postId}`);
+    let currentLoves = parseInt(lovesElement.textContent);
+    currentLoves += 1;
+    lovesElement.textContent = currentLoves;
+
+    // Update the database (Firestore)
+    const postRef = firebase.firestore().collection('blogs').doc(postId);
+    postRef.update({ loves: currentLoves })
+        .then(() => {
+            console.log("Love count updated successfully");
+        })
+        .catch((error) => {
+            console.error("Error updating love count: ", error);
+        });
+}
+
+// Function to handle marking a post as helpful
+function markHelpful(postId) {
+    const helpfulElement = document.getElementById(`helpful-${postId}`);
+    let currentHelpful = parseInt(helpfulElement.textContent);
+    currentHelpful += 1;
+    helpfulElement.textContent = currentHelpful;
+
+    // Update the database (Firestore)
+    const postRef = firebase.firestore().collection('blogs').doc(postId);
+    postRef.update({ helpful: currentHelpful })
+        .then(() => {
+            console.log("Helpful count updated successfully");
+        })
+        .catch((error) => {
+            console.error("Error updating helpful count: ", error);
+        });
+}
         // Show blog detail in modal
         function showBlogDetail(title, image, author, date, content) {
             document.getElementById("blogDetailModalLabel").innerText = title;
