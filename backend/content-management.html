@@ -491,6 +491,10 @@ document.addEventListener('DOMContentLoaded', function() {
         console.error("Error loading content: ", error);
     }
 }
+// Load content on page load
+document.addEventListener('DOMContentLoaded', function() {
+    loadContent();
+});
 
 </script>
 
@@ -545,10 +549,6 @@ $(document).ready(function(){
     $('[data-toggle="tooltip"]').tooltip();
 });
 
-// Load content on page load
-document.addEventListener('DOMContentLoaded', function() {
-    loadContent();
-});
 
 
     </script>
