@@ -173,6 +173,11 @@ setTimeout(() => {
     }
 }, 3000); // 3 seconds delay for timeout message
 
+
+
+
+
+
 function formatLocation(location, options = {}) {
     const { part = 'all', reverseOrder = false } = options; // Set default options
 
@@ -244,10 +249,9 @@ console.log(formatLocation("  New York  .USA "));             // "New York. Usa"
 console.log(formatLocation(""));                              // ""
 */
 
-
 function formatJobType(jobType) {
-    // Remove hyphens
-    jobType = jobType.replace(/-/g, ' ');
+    // Remove hyphens and underscores
+    jobType = jobType.replace(/[-_]/g, ' ');
 
     // Capitalize each word
     jobType = jobType.split(' ').map(word => {
@@ -256,6 +260,7 @@ function formatJobType(jobType) {
 
     return jobType;
 }
+
 
 function formatCurrency(value, options = {}) { 
     // Set default options for internationalization and currency formatting
