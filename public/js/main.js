@@ -664,7 +664,7 @@ document.addEventListener('DOMContentLoaded', updateFooter);
             // If the user is logged in, show profile info and logout button
             const userName = user.displayName || 'User';
             const defaultPic = `<img src="${adjustLinkHomeURL}images/sq_logo_n_BG_sm.png" alt="Profile Picture" class="rounded-circle" style="width: 40px; height: 40px; margin-right: 10px;">`
-            const userPhoto = user.photoURL ? `<img src="${user.photoURL}" alt="Profile Picture" class="rounded-circle" style="width: 40px; height: 40px; margin-right: 10px;">` : `"${defaultPic}"`;
+            const userPhoto = user.photoURL ? `<img src=${user.photoURL} alt="Profile Picture" class="rounded-circle" style="width: 40px; height: 40px; margin-right: 10px;">` : `${defaultPic}`;
             
             authSection.innerHTML = `
                 <div class="dropdown">
@@ -701,7 +701,23 @@ document.addEventListener('DOMContentLoaded', updateFooter);
             };
         }
     }
+    // Toggle functionality for the dropdown
+    const dropdownToggleButton = document.getElementById('profileDropdown');
+    const dropdownMenu = document.querySelector('.dropdown-menu');
 
+    dropdownToggleButton.addEventListener('click', function() {
+        const isExpanded = dropdownToggleButton.getAttribute('aria-expanded') === 'true';
+        dropdownToggleButton.setAttribute('aria-expanded', !isExpanded);
+        dropdownMenu.classList.toggle('show', !isExpanded); // Show or hide the dropdown
+    });
+
+    // Close the dropdown when clicking outside
+    document.addEventListener('click', function(event) {
+        if (!dropdownToggleButton.contains(event.target) && !dropdownMenu.contains(event.target)) {
+            dropdownToggleButton.setAttribute('aria-expanded', false);
+            dropdownMenu.classList.remove('show');
+        }
+    });
    
 
 // Export the objects
