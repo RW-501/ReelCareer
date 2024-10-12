@@ -642,12 +642,12 @@ const jobBenefitsArea = document.getElementById('jobBenefitsArea');
 
 // Check if the company website is valid
 if (!jobData.companyWebsite || jobData.companyWebsite === "undefined" || jobData.companyWebsite.trim() === "") {
-    jobRequirementsArea.style.display = "none"; // Hides the company website link if undefined or empty
+    companyWebsite.style.display = "none"; // Hides the company website link if undefined or empty
 }
 
 // Check if job requirements are available
 if (!jobData.jobRequirements || jobData.jobRequirements.length === 0) {
-    jobRequirementsList.parentElement.style.display = "none"; // Hides the entire job requirements section if empty
+    jobRequirementsArea.parentElement.style.display = "none"; // Hides the entire job requirements section if empty
 }
 
 // Check if job benefits are available
@@ -775,26 +775,57 @@ const jobPageURL = window.location.href; // Use current page URL
     document.getElementById('linkedinShare').href = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(jobPageURL)}&title=${encodeURIComponent(jobTitle)}&summary=${encodeURIComponent(jobDescription)}&source=ReelCareer`;
     document.getElementById('emailShare').href = `mailto:?subject=Check%20out%20this%20job%20opportunity&body=I%20found%20this%20job%20at%20ReelCareer:%20${encodeURIComponent(jobPageURL)}`;
 
-function renderList(items, elementId) {
+    
+    function renderList(items, elementId) {
     const container = document.getElementById(elementId);
-    container.innerHTML = '';
-    items.forEach(item => {
-        const li = document.createElement('li');
-        li.textContent = item;
-        container.appendChild(li);
-    });
+    container.innerHTML = ''; // Clear previous content
+
+    // Check if items is defined and is an array
+    if (Array.isArray(items) && items.length > 0) {
+        items.forEach(item => {
+            const li = document.createElement('li');
+            li.textContent = item;
+            container.appendChild(li);
+        });
+    } else {
+        // Optionally, you can display a message if no items are available
+        const noItemsMessage = document.createElement('li');
+        noItemsMessage.textContent = 'No items available.';
+        noItemsMessage.className = 'text-muted'; // Optional styling
+        container.appendChild(noItemsMessage);
+    }
 }
 
 function renderTags(tags) {
     const jobTags = document.getElementById('jobTags');
-    jobTags.innerHTML = '';
-    tags.forEach(tag => {
-        const span = document.createElement('span');
-        span.className = 'badge badge-secondary m-1'; // Bootstrap badge
-        span.textContent = tag;
-        jobTags.appendChild(span);
-    });
+    jobTags.innerHTML = ''; // Clear previous tags
+
+    // Check if tags is defined and is an array
+    if (Array.isArray(tags) && tags.length > 0) {
+        tags.forEach(tag => {
+            // Create a button element for each tag
+            const button = document.createElement('button');
+            button.className = 'btn btn-secondary m-1'; // Bootstrap button styling
+            button.textContent = tag;
+
+            // Add a click event to redirect to job-listings with the selected tag
+            button.onclick = () => {
+                window.location.href = `job-listings/?tag=${encodeURIComponent(tag)}`;
+            };
+
+            // Append the button to the jobTags container
+            jobTags.appendChild(button);
+        });
+    } else {
+        // Optionally, display a message if no tags are available
+        const noTagsMessage = document.createElement('span');
+        noTagsMessage.textContent = 'No tags available.';
+        noTagsMessage.className = 'text-muted'; // Optional styling
+        jobTags.appendChild(noTagsMessage);
+    }
 }
+
+
 
 
 function submitReport() {
@@ -957,18 +988,11 @@ function createJobSchema(jobData) {
     };
 
     return companySchema;
+
+
 }
 
 
-function renderList(items, elementId) {
-    const container = document.getElementById(elementId);
-    container.innerHTML = '';
-    items.forEach(item => {
-        const li = document.createElement('li');
-        li.textContent = item;
-        container.appendChild(li);
-    });
-}
 
    
 
