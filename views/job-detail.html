@@ -589,9 +589,10 @@ async function loadJobDetails(jobData) {
     renderList(jobData.requirements, 'jobRequirements');
     renderTags(jobData.tags);
 
-
+/*
 // Validate the companyID before attempting to create a document reference
     try {
+        
     const companyRef = doc(db, 'Companies', jobData.companyID);
     const companyDoc = await getDoc(companyRef);
 
@@ -635,9 +636,13 @@ async function loadJobDetails(jobData) {
     } else {
         console.log("No such company!");
     }
+
+    
 } catch (error) {
     console.error("Error fetching company details: ", error);
 }
+
+*/
 
     if (jobData.applicationDeadline && jobData.applicationDeadline.toDate) {
     document.getElementById('applicationDeadline').textContent = new Date(jobData.applicationDeadline.toDate()).toLocaleDateString();
