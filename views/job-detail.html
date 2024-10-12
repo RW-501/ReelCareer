@@ -587,9 +587,10 @@ async function loadJobDetails(jobData) {
     renderTags(jobData.tags);
 
 
-    // Fetch company details using companyID from the Companies collection
-    try {
+// Validate the companyID before attempting to create a document reference
+if (jobData && jobData.companyID) {
     const companyRef = doc(db, 'Companies', jobData.companyID);
+    try {
     const companyDoc = await getDoc(companyRef);
 
     // Always set the company name and link first
@@ -634,6 +635,9 @@ async function loadJobDetails(jobData) {
     }
 } catch (error) {
     console.error("Error fetching company details: ", error);
+}
+} else {
+    console.error("Invalid company ID. Please check the jobData object.");
 }
 
     if (jobData.applicationDeadline && jobData.applicationDeadline.toDate) {
