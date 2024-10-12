@@ -262,13 +262,7 @@ async function updateHelpfulStatus(docId, isHelpful) {
         }
     }
 
-    // Event listener for the form submission
-    document.getElementById('askQuestionForm').addEventListener('submit', submitQuestion);
-</script>
-
-<script>
-
-document.querySelectorAll('.faq-question').forEach(question => {
+    document.querySelectorAll('.faq-question').forEach(question => {
     question.addEventListener('click', function() {
         const targetId = this.getAttribute('data-target'); // Use data-target attribute to find the answer div
         const target = document.querySelector(targetId);
@@ -280,5 +274,11 @@ document.querySelectorAll('.faq-question').forEach(question => {
         }
     });
 });
+    // Event listener for the form submission
+    document.getElementById('askQuestionForm').addEventListener('submit', submitQuestion);
+</script>
+
+<script>
+
 </script>
 </html>
