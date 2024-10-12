@@ -357,10 +357,16 @@
         <!-- Job Detail Section -->
         <div id="job-container" class="container">
             <div class="job-detail-container" role="main" aria-labelledby="jobTitle">
-                <button id="saveBtn" class="btn btn-outline-secondary mb-3" onclick="saveJob()">Save for Later</button>
     
                 <div class="d-flex align-items-start mb-4">
                     <img id="companyLogo" class="job-logo img-fluid" alt="Company Logo" src="/ReelCareer/images/sq_logo_n_BG.png" loading="lazy" />
+                    <hr />
+
+                    <button id="saveBtn" class="btn btn-outline-secondary mb-3" onclick="saveJob()">Save for Later</button>
+                    <hr />
+
+                    <button id="reportJobBtn" class="btn btn-warning btn-sm mt-3" onclick="openReportJobModal()">Report Job</button>
+
                     <div>
                         <h1 id="jobTitle" class="mb-2 font-weight-bold" tabindex="0"></h1>
                        
@@ -444,8 +450,6 @@
                 
                 <hr />
 
-                <button id="reportJobBtn" class="btn btn-warning btn-sm mt-3" onclick="openReportJobModal()">Report Job</button>
-                <hr />
 
                 <button id="applyBtn" class="btn btn-primary btn-block mt-4" aria-label="Apply for this job">Apply Now</button>
             </div>
