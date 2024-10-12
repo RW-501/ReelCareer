@@ -12,11 +12,8 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <!-- Popper.js -->
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-
- <!-- Include jQuery before Bootstrap JS -->
- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
- <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<!-- Bootstrap JS -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <style>
         body {
@@ -528,7 +525,7 @@ async function saveJob(jobId) {
             const jobId = urlParams.get('id'); // Get job ID from URL
 
             const errorMessageDiv = document.getElementById('error-message');
-            const jobContainer = document.getElementById('job-container');
+    const jobContainer = document.getElementById('job-container');
 
 if(!jobId || jobId === "undefined"){
             // Insert "Job not found" HTML into the error-message div
@@ -589,60 +586,38 @@ async function loadJobDetails(jobData) {
     renderList(jobData.requirements, 'jobRequirements');
     renderTags(jobData.tags);
 
-/*
-// Validate the companyID before attempting to create a document reference
+
+    // Fetch company details using companyID from the Companies collection
     try {
-        
-    const companyRef = doc(db, 'Companies', jobData.companyID);
-    const companyDoc = await getDoc(companyRef);
+        const companyRef = doc(db, 'Companies', jobData.companyID);
+        const companyDoc = await getDoc(companyRef);
 
-    // Always set the company name and link first
-    document.getElementById("companyName").innerText = jobData.company || 'Unknown Company';
-    const companyPageLink = document.getElementById("companyPageLink");
-    companyPageLink.href = `company-page?jobId=${jobData.companyID}`;
-    companyPageLink.textContent = "View Company Page";
 
-    // Fetch and display similar jobs
-    getSimilarJobs(jobData);
-    loadRelatedBlogs(jobData.industry);
+            // Populate company-related details
+            document.getElementById("companyName").innerText =  jobData.company;
+            // Create a link to the company page
+            const companyPageLink = document.getElementById("companyPageLink");
+            companyPageLink.href = `company-page?jobId=${jobData.companyID}`;
+            companyPageLink.textContent = "View Company Page";
+                                       // Fetch and display similar jobs
+            getSimilarJobs(jobData);
+            loadRelatedBlogs(jobData.industry);
+            
+        if (companyDoc.exists()) {
+            const companyData = companyDoc.data();
 
-    if (companyDoc.exists()) {
-        const companyData = companyDoc.data();
-
-        // Log companyData for debugging
-        console.log("Company Data: ", companyData);
-
-        // Check and set company logo
-        if (companyData.logo) {
             document.getElementById("companyLogo").src = companyData.logo; // Ensure the 'logo' field in the database is a URL
-        } else {
-            console.warn("Company logo is undefined or empty.");
-        }
-
-        // Check and set company website
-        if (companyData.website) {
             document.getElementById("companyWebsite").href = companyData.website;
+            document.getElementById("companyDescription").innerText = companyData.description;
+            document.getElementById("companyMission").innerText = companyData.missionStatement;
+
+
         } else {
-            console.warn("Company website is undefined or empty.");
-            document.getElementById("companyWebsite").style.display = 'none'; // Optionally hide the link if it's not available
+            console.log("No such company!");
         }
-
-        // Check and set company description
-        document.getElementById("companyDescription").innerText = companyData.description || 'No description available.';
-        
-        // Check and set company mission statement
-        document.getElementById("companyMission").innerText = companyData.missionStatement || 'No mission statement available.';
-        
-    } else {
-        console.log("No such company!");
+    } catch (error) {
+        console.error("Error fetching company details: ", error);
     }
-
-    
-} catch (error) {
-    console.error("Error fetching company details: ", error);
-}
-
-*/
 
     if (jobData.applicationDeadline && jobData.applicationDeadline.toDate) {
     document.getElementById('applicationDeadline').textContent = new Date(jobData.applicationDeadline.toDate()).toLocaleDateString();
@@ -823,29 +798,19 @@ function renderTags(tags) {
     // Check if tags is defined and is an array
     if (Array.isArray(tags) && tags.length > 0) {
         tags.forEach(tag => {
-            // Create a button element for each tag
-            const button = document.createElement('button');
-            button.className = 'btn btn-secondary m-1'; // Bootstrap button styling
-            button.textContent = tag;
-
-            // Add a click event to redirect to job-listings with the selected tag
-            button.onclick = () => {
-                window.location.href = `job-listings/?tag=${encodeURIComponent(tag)}`;
-            };
-
-            // Append the button to the jobTags container
-            jobTags.appendChild(button);
+            const span = document.createElement('span');
+            span.className = 'badge badge-secondary m-1'; // Bootstrap badge
+            span.textContent = tag;
+            jobTags.appendChild(span);
         });
     } else {
-        // Optionally, display a message if no tags are available
+        // Optionally, you can display a message if no tags are available
         const noTagsMessage = document.createElement('span');
         noTagsMessage.textContent = 'No tags available.';
         noTagsMessage.className = 'text-muted'; // Optional styling
         jobTags.appendChild(noTagsMessage);
     }
 }
-
-
 
 
 
@@ -981,7 +946,7 @@ function createJobSchema(jobData) {
     // Validate companyData if necessary
     if (!companyData) {
         throw new Error("companyData is required");
-    }else{
+    }
 
     const companySchema = {
         "@context": "https://schema.org", // Schema.org context
@@ -1009,11 +974,18 @@ function createJobSchema(jobData) {
     };
 
     return companySchema;
-    }
-
 }
 
 
+function renderList(items, elementId) {
+    const container = document.getElementById(elementId);
+    container.innerHTML = '';
+    items.forEach(item => {
+        const li = document.createElement('li');
+        li.textContent = item;
+        container.appendChild(li);
+    });
+}
 
    
 
@@ -1022,6 +994,10 @@ function createJobSchema(jobData) {
         document.addEventListener('DOMContentLoaded', fetchJobDetails);
     </script>
 
-   
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+ <!--   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-ZvpUoOeGZpV4jx+arJg2eU+AjBlE5e0w4GQ/JLTAxGMOeU1ZBU/FAaI7gPbA0n40" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-OCpA7v74fP9e7I+2KwWqFfDkE02zgt0twtR0qU97Fkt1b5Jp1XqDlRe1TIj67F0p" crossorigin="anonymous"></script>
+-->
 </body>
 </html>
