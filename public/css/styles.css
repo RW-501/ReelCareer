@@ -8,9 +8,15 @@ body {
 /* Headings */
 h1 {
     color: #5b6369;
-    font-size: 1.75rem; /* Increased size for better visibility */
+    font-size: 2rem; /* Increased size for better visibility */
 }
 
+h2 {
+    font-size: 2.50rem;
+    color: #5b6369;
+    text-shadow: -1px 1px 0px #83bad9;
+    font-weight: 800;
+}
 h3 {
     font-size: 2.75rem;
     color: #83bad9;
@@ -36,7 +42,7 @@ a:hover {
 
 /* Buttons */
 .btn-primary {
-    background-color: #639ad4;
+    background-color: #639ad4 !important;
     color: white;
     border: none;
     border-radius: 5px;
@@ -44,11 +50,11 @@ a:hover {
 }
 
 .btn-primary:hover {
-    background-color: #416a9c;
+    background-color: #416a9c !important;
 }
 
 .btn-info {
-    background-color: #83bad9;
+    background-color: #83bad9 !important;
     color: #fff;
     border-color: #17a2b8;
 }
@@ -65,13 +71,20 @@ a:hover {
     margin-bottom: 20px;
     background-color: #fff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out !important;
 }
 
+.jobCard{
+
+transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out !important;
+}
+
+.jobCard,
 .container > .card:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
+
 
 .container > .card > h5 {
     font-size: 1.25rem;
