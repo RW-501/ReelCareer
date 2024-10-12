@@ -367,11 +367,11 @@ document.addEventListener("DOMContentLoaded", function () {
         return `
             <nav class="navbar navbar-expand-lg ${navbarClass} shadow-sm sticky-top" role="navigation">
                 <div class="container">
-                    <a class="navbar-brand" style="
+                 <a class="navbar-brand" style="
     color: #83bad9;
     font-weight: 500;
-    text-shadow: 1px 0px 0px #6253e7; href="${adjustLinkHomeURL}index">ReelCareer</a>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+    text-shadow: 1px 0px 0px #6253e7;" href="${adjustLinkHomeURL}index">ReelCareer</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
                         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
@@ -477,11 +477,11 @@ onAuthStateChanged(auth, (user) => {
     const companyMediaSectionHTML = `
         <section id="companyMedia" class="py-5 company-media">
             <div class="container">
-                <h2 class="text-center" style="
+           <h2 class="text-center" style="
     color: #83bad9;
     font-weight: 800;
-    text-shadow: 1px 0px 0px #6253e7;>Company Media</h2>
-                <div class="row" style="text-align: center;">
+    text-shadow: 1px 0px 0px #6253e7;">Company Media</h2>
+    <div class="row" style="text-align: center;">
                     <div class="col-md-6 m-auto">
                         <video controls>
                             <source src="${adjustLinkHomeURL}media/company-video.mp4" type="video/mp4">
