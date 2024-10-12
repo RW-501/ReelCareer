@@ -138,17 +138,20 @@
                 const blogContainer = document.getElementById("blog-container");
                 blogContainer.innerHTML = ""; // Clear existing blogs
 
+      
                 // Create a query for fetching blogs
                 const blogsRef = collection(db, "Blogs");
                 const blogsQuery = query(
                     blogsRef,
                     where("activate", "==", true), // Only fetch blogs where activate is true
-                    orderBy("createdAt", "desc"),
                     limit(postsPerPage)
                 );
 
                 const querySnapshot = await getDocs(blogsQuery);
+                console.log("???????????????//   ",blogsQuery);
+                console.log("?????????querySnapshot??????//   ",querySnapshot);
 
+                
                 // Check if there are any documents
                 if (querySnapshot.empty) {
                     blogContainer.innerHTML = "<p>No blogs available.</p>";
