@@ -396,7 +396,7 @@ document.getElementById('blogForm').addEventListener('submit', async function(ev
 });
 
 // Handle form submission for FAQs
-document.getElementById('faqForm').addEventListener('submit', async function(event) {
+document.getElementById('faqsForm').addEventListener('submit', async function(event) {
     event.preventDefault();
     try {
         await db.addDoc('FAQs').add({
@@ -408,7 +408,7 @@ document.getElementById('faqForm').addEventListener('submit', async function(eve
             activate: document.getElementById('faqActivate').value === 'true'
         });
         alert('FAQ saved successfully!');
-         document.getElementById('faqForm').reset(); // Uncomment if you want to reset the form
+         document.getElementById('faqsForm').reset(); // Uncomment if you want to reset the form
     } catch (error) {
         console.error('Error adding document: ', error);
     }
