@@ -301,7 +301,31 @@ main{
             toggleButton.textContent = type === "password" ? "👁️" : "👁️‍🗨️";
         }
 */
-  
+  // Function to get the URL parameter
+function getUrlParameter(name) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(name);
+}
+
+// Toggle forms based on the 'x' parameter
+function toggleForms() {
+    const action = getUrlParameter('x'); // Get the 'x' parameter from the URL
+    
+    if (action === 'login') {
+        document.getElementById('signup-form').style.display = 'none';
+        document.getElementById('login-form').style.display = 'block';
+    } else if (action === 'create') {
+        document.getElementById('login-form').style.display = 'none';
+        document.getElementById('signup-form').style.display = 'block';
+    } else {
+        // Optionally set a default behavior, like showing the login form if no 'x' parameter is provided
+        document.getElementById('signup-form').style.display = 'none';
+        document.getElementById('login-form').style.display = 'block'; // default to login
+    }
+}
+
+// Call the function to toggle forms when the page loads
+document.addEventListener('DOMContentLoaded', toggleForms);
 
         // Toggle forms
         document.getElementById('show-login').addEventListener('click', function(event) {

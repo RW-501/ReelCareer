@@ -262,6 +262,28 @@ function formatJobType(jobType) {
 }
 
 
+function formatTags(tags) {
+    // Check if tags is defined and is an array
+    if (Array.isArray(tags) && tags.length > 0) {
+        // Map each tag to a string representing a button element
+        return tags.map(tag => {
+            // Capitalize the first letter of the tag
+            const capitalizedTag = tag.charAt(0).toUpperCase() + tag.slice(1).toLowerCase();
+
+            // Return a button as a string, using Bootstrap classes and tag redirection
+            return `
+                <button class="btn btn-secondary m-1 tags" onclick="window.location.href='../views/job-listings/?tag=${encodeURIComponent(capitalizedTag)}'">
+                    ${capitalizedTag}
+                </button>
+            `;
+        }).join(''); // Join all buttons into a single string
+    }
+    return ''; // Return an empty string if no valid tags
+}
+
+// formatTags(jobData.tags);
+
+
 function formatCurrency(value, options = {}) { 
     // Set default options for internationalization and currency formatting
     const { locale = 'en-US', currency = 'USD', useIntl = false, decimals = 0 } = options;
