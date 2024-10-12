@@ -816,7 +816,11 @@ async function getSimilarJobs(jobData) {
 
                         <!-- Display job tags -->
                         <div class="job-tags mt-2">
-                            ${similarJob.tags.map(tag => `<span class="badge">${tag}</span>`).join('')}
+${similarJob.tags.map(tag => `
+    <a href="../views/job-listings/?tag=${encodeURIComponent(tag)}" class="btn btn-primary badge" style="margin: 0.2rem;">
+        ${tag}
+    </a>
+`).join('')}
                         </div>
 
                         <!-- View Job Button -->
@@ -932,7 +936,7 @@ function renderTags(tags) {
 
             // Add a click event to redirect to job-listings with the selected tag
             button.onclick = () => {
-                window.location.href = `ReelCareer/views/job-listings/?tag=${encodeURIComponent(tag)}`;
+                window.location.href = `../views/job-listings/?tag=${encodeURIComponent(tag)}`;
             };
 
             // Append the button to the jobTags container
