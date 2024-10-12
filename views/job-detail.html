@@ -464,7 +464,7 @@
     <script type="module">
 
 import { db, auth, analytics, app } from '../public/js/main.js'; // Adjust path to your Firebase setup
-import {  getDoc, updateDoc, increment, collection, query, where, getDocs, limit } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+import { doc, getDoc, updateDoc, increment, collection, query, where, getDocs, limit } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 
 // Function to save job and update savedForLater count
 async function saveJob(jobId) {
@@ -532,7 +532,7 @@ if(!jobId || jobId === "undefined"){
             errorMessageDiv.innerHTML = `
             <h2>Job Not Found</h2>
             <p>We couldn't find the job you're looking for. It might have been removed or is no longer available.</p>
-            <a href="/job-listing-page" class="btn btn-primary">Back to Jobs</a>
+            <a href="ReelCareer/views/job-listing-page" class="btn btn-primary">Back to Jobs</a>
         `;
 }
 
@@ -550,7 +550,7 @@ if(!jobId || jobId === "undefined"){
         errorMessageDiv.innerHTML = `
             <h2>Job Not Found</h2>
             <p>We couldn't find the job you're looking for. It might have been removed or is no longer available.</p>
-            <a href="/job-listing-page" class="btn btn-primary">Back to Jobs</a>
+            <a href="ReelCareer/views/job-listing-page" class="btn btn-primary">Back to Jobs</a>
         `;
         errorMessageDiv.style.display = 'block';
         jobContainer.style.display = 'none'; // Hide job details section if applicable
