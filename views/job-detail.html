@@ -1082,6 +1082,9 @@ function createJobSchema(jobData) {
 
         // Load job details on page load
         document.addEventListener('DOMContentLoaded', fetchJobDetails);
+
+        // Make the function globally accessible
+window.saveJob = saveJob;
     </script>
 
 
@@ -1127,8 +1130,7 @@ window.addEventListener('click', function(event) {
         modal.style.display = 'none';
     }
 });
-// Make the function globally accessible
-window.saveJob = saveJob;
+
 
 
 </script>
