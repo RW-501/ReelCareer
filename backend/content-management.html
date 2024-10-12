@@ -275,8 +275,12 @@
     measurementId: "G-LBTK319K2X"
 };
 
-            // Initialize Firebase
-            const app = firebase.initializeApp(firebaseConfig);
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+
+// Initialize Firebase services
+const auth = getAuth(app);
             const db = firebase.firestore();
             const storage = firebase.storage();
 
