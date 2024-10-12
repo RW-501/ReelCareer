@@ -582,6 +582,23 @@ async function loadJobDetails(jobData) {
     document.getElementById('industry').textContent = jobData.industry;
     document.getElementById('createdAt').textContent = createdAt instanceof Date ? createdAt.toLocaleDateString() : createdAt;
 
+                // Populate company-related details
+                document.getElementById("companyName").innerText =  jobData.company;
+           
+            if(jobData.companyID){
+                // Create a link to the company page
+            const companyPageLink = document.getElementById("companyPageLink");
+            companyPageLink.href = `company-page?jobId=${jobData.companyID}`;
+            companyPageLink.textContent = "View Company Page";
+            }else{
+
+                document.getElementById("companyPageLink").style.display = "none";
+            }                   
+            
+            // Fetch and display similar jobs
+            getSimilarJobs(jobData);
+            loadRelatedBlogs(jobData.industry);
+            console.log("??????????????//");
 
     // Fetch company details using companyID from the Companies collection
     try {
@@ -589,16 +606,8 @@ async function loadJobDetails(jobData) {
         const companyDoc = await getDoc(companyRef);
 
 
-            // Populate company-related details
-            document.getElementById("companyName").innerText =  jobData.company;
-            // Create a link to the company page
-            const companyPageLink = document.getElementById("companyPageLink");
-            companyPageLink.href = `company-page?jobId=${jobData.companyID}`;
-            companyPageLink.textContent = "View Company Page";
-                                       // Fetch and display similar jobs
-            getSimilarJobs(jobData);
-            loadRelatedBlogs(jobData.industry);
-            
+
+
         if (companyDoc.exists()) {
             const companyData = companyDoc.data();
 
