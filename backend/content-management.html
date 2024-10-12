@@ -416,7 +416,7 @@ document.getElementById('faqsForm').addEventListener('submit', async function(ev
             answer: document.getElementById('faqAnswer').value,
             category: document.getElementById('faqCategory').value,
             helpful: 0 ,
-            activate: document.getElementById('faqActivate').value === 'true'
+            activate: 'true'
         });
         alert('FAQ saved successfully!');
          document.getElementById('faqsForm').reset(); // Uncomment if you want to reset the form
