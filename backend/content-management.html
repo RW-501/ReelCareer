@@ -345,7 +345,7 @@ document.getElementById('newsForm').addEventListener('submit', async function(ev
     const file = document.getElementById('newsImage').files[0];
     try {
         const imageUrl = await uploadImage(file);
-        await db.collection('News').add({
+        await db.addDoc('News').add({
             title: document.getElementById('newsTitle').value,
             content: document.getElementById('newsContent').value,
             postDate: document.getElementById('newsPostDate').value,
@@ -373,7 +373,7 @@ document.getElementById('blogForm').addEventListener('submit', async function(ev
     const file = document.getElementById('blogImage').files[0];
     try {
         const imageUrl = await uploadImage(file);
-        await db.collection('Blog').add({
+        await db.addDoc('Blog').add({
             title: document.getElementById('blogTitle').value,
             content: document.getElementById('blogContent').value,
             postDate: document.getElementById('blogPostDate').value,
@@ -399,7 +399,7 @@ document.getElementById('blogForm').addEventListener('submit', async function(ev
 document.getElementById('faqForm').addEventListener('submit', async function(event) {
     event.preventDefault();
     try {
-        await db.collection('FAQs').add({
+        await db.addDoc('FAQs').add({
             question: document.getElementById('faqQuestion').value,
             answer: document.getElementById('faqAnswer').value,
             category: document.getElementById('faqCategory').value,
@@ -407,8 +407,8 @@ document.getElementById('faqForm').addEventListener('submit', async function(eve
             postDate: document.getElementById('faqPostDate').value,
             activate: document.getElementById('faqActivate').value === 'true'
         });
-       // alert('FAQ saved successfully!');
-        // document.getElementById('faqForm').reset(); // Uncomment if you want to reset the form
+        alert('FAQ saved successfully!');
+         document.getElementById('faqForm').reset(); // Uncomment if you want to reset the form
     } catch (error) {
         console.error('Error adding document: ', error);
     }
