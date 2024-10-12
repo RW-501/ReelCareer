@@ -72,18 +72,7 @@ button, .nav-link {
         margin-bottom: 0;
     }
 
-.btn-primary {
-    background-color: #639ad4 !important;
-    color: white;
-    border: none;
-    border-radius: 5px;
-}
-     h3 {
-    font-size: 2.75rem !important;
-    color: #83bad9 !important
-    text-shadow: -1px 1px 0px #9e9a9a;
-    font-weight: 800 !important;
-}
+
     `;
     document.head.appendChild(style);
 }
