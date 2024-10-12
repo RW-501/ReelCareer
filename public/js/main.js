@@ -571,7 +571,7 @@ function updateFooter() {
                     <li class="list-inline-item"><a href="${adjustLinkURL}contact" class="text-light" rel="noopener noreferrer">Contact Us</a></li>
                     <li class="list-inline-item"><a href="${adjustLinkURL}blog" class="text-light" rel="noopener noreferrer">Blog</a></li>
                     <li class="list-inline-item"><a href="${adjustLinkURL}news" class="text-light" rel="noopener noreferrer">News</a></li>
-                    <li class="list-inline-item"><a href="${adjustLinkHomeURL}faq" class="text-light" rel="noopener noreferrer">FAQs</a></li>
+                    <li class="list-inline-item"><a href="${adjustLinkURL}faq" class="text-light" rel="noopener noreferrer">FAQs</a></li>
                     <li class="list-inline-item"><a href="${adjustLinkURL}referral" class="text-light" rel="noopener noreferrer">Affiliate Program</a></li>
                     <li class="list-inline-item"><a href="${adjustLinkHomeURL}backend/dashboard" class="text-light" rel="noopener noreferrer">Admin</a></li>
                 </ul>
