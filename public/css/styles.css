@@ -41,7 +41,7 @@ a:hover {
 }
 
 /* Buttons */
-.btn-primary {
+main .btn-primary {
     background-color: #639ad4 !important;
     color: white;
     border: none;
@@ -49,17 +49,17 @@ a:hover {
     transition: background-color 0.3s ease;
 }
 
-.btn-primary:hover {
+main .btn-primary:hover {
     background-color: #416a9c !important;
 }
 
-.btn-info {
+main .btn-info {
     background-color: #83bad9 !important;
     color: #fff;
     border-color: #17a2b8;
 }
 
-.btn-info:hover {
+main .btn-info:hover {
     background-color: #6c757d;
 }
 
@@ -74,7 +74,7 @@ a:hover {
     transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out !important;
 }
 
-.jobCard{
+main  .jobCard{
 
 transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out !important;
 }
@@ -93,9 +93,9 @@ transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out !important;
 }
 
 /* Forms */
-input[type="text"],
-input[type="email"],
-textarea {
+main  input[type="text"],
+main  input[type="email"],
+main  textarea {
     width: 100%;
     padding: 10px;
     margin: 10px 0;
@@ -105,9 +105,9 @@ textarea {
     transition: border 0.3s ease;
 }
 
-input[type="text"]:focus,
-input[type="email"]:focus,
-textarea:focus {
+main  input[type="text"]:focus,
+main input[type="email"]:focus,
+main  textarea:focus {
     border-color: #639ad4;
     outline: none;
 }
