@@ -602,6 +602,7 @@ async function loadJobDetails(jobData) {
 
     // Fetch company details using companyID from the Companies collection
     try {
+        if(jobData.companyID){
         const companyRef = doc(db, 'Companies', jobData.companyID);
         const companyDoc = await getDoc(companyRef);
 
@@ -619,6 +620,7 @@ async function loadJobDetails(jobData) {
         } else {
             console.log("No such company!");
         }
+    }
     } catch (error) {
         console.error("Error fetching company details: ", error);
     }
