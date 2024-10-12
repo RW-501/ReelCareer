@@ -32,8 +32,40 @@
         .feedback {
             margin-top: 10px;
         }
-    </style>
 
+
+        body {
+            background-color: #f8f9fa;
+        }
+        .faq-item {
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 1rem;
+            padding: 1.5rem;
+            transition: transform 0.2s;
+        }
+        .faq-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+        }
+        .faq-question {
+            cursor: pointer;
+            font-weight: bold;
+            color: #007bff;
+        }
+        .faq-answer {
+            margin-top: 0.5rem;
+        }
+        .feedback {
+            margin-top: 1rem;
+        }
+        @media (max-width: 576px) {
+            .faq-item {
+                padding: 1rem;
+            }
+        }
+    </style>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     
@@ -44,25 +76,13 @@
 </head>
 
 <body>
-
-<div class="container">
-    <h2 class="text-center">Frequently Asked Questions</h2>
-    
-    <div class="text-center mb-4">
-        <form id="searchForm">
-            <input type="text" class="form-control" id="searchInput" placeholder="Search FAQs..." aria-label="Search">
-        </form>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Frequently Asked Questions</h1>
+        <input type="text" id="searchInput" class="form-control mb-4" placeholder="Search FAQs..." aria-label="Search FAQs">
+        <div id="faqList" class="list-group"></div>
+        <button id="liveChatButton" class="btn btn-primary mt-4">Live Chat</button>
     </div>
-
-    <div id="faqList">
-        <!-- FAQs will be dynamically loaded here -->
-    </div>
-    
-    <!-- Live Chat Support -->
-    <div class="text-center mt-4">
-        <button id="liveChatButton" class="btn btn-primary">Chat with Support</button>
-    </div>
-</div>
+</body>
 
 <!-- Firebase and jQuery Scripts -->
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
@@ -98,22 +118,75 @@
     }
 
     // Load FAQs when the page is ready
-    $(document).ready(() => {
-        loadFAQs();
+ // Function to load FAQs from Firestore
+async function loadFAQs() {
+    try {
+        const querySnapshot = await getDocs(collection(db, "FAQs"));
+        const faqList = document.getElementById('faqList');
 
-        // Search functionality
-        $('#searchInput').on('keyup', function() {
-            const value = $(this).val().toLowerCase();
-            $('.faq-item').filter(function() {
-                $(this).toggle($(this).find('.faq-question strong').text().toLowerCase().indexOf(value) > -1);
-            });
+        querySnapshot.forEach((doc) => {
+            const faq = doc.data();
+            const faqItem = document.createElement('div');
+            faqItem.className = 'faq-item';
+            faqItem.setAttribute('itemscope', '');
+            faqItem.setAttribute('itemtype', 'https://schema.org/FAQPage');
+
+            faqItem.innerHTML = `
+                <div class="faq-question" 
+                     data-toggle="collapse" 
+                     data-target="#answer-${faq.question.replace(/\s+/g, '-')}" 
+                     itemprop="mainEntity" 
+                     itemscope 
+                     itemtype="https://schema.org/Question" 
+                     aria-expanded="false" 
+                     aria-controls="answer-${faq.question.replace(/\s+/g, '-')}"
+                     tabindex="0">
+                    <strong itemprop="name">${faq.question}</strong>
+                </div>
+                <div id="answer-${faq.question.replace(/\s+/g, '-')}" 
+                     class="faq-answer collapse" 
+                     itemprop="acceptedAnswer" 
+                     itemscope 
+                     itemtype="https://schema.org/Answer">
+                    <p itemprop="text">${faq.answer}</p>
+                    <div class="feedback">
+                        <span>Was this helpful? </span>
+                        <button class="btn btn-sm btn-success" aria-label="Yes, was this helpful?">Yes</button>
+                        <button class="btn btn-sm btn-danger" aria-label="No, was this helpful?">No</button>
+                    </div>
+                </div>
+            `;
+
+            faqList.appendChild(faqItem);
         });
+    } catch (error) {
+        console.error("Error loading FAQs: ", error);
+    }
+}
 
-        // Live chat button functionality
-        $('#liveChatButton').on('click', function() {
-            alert("Chat feature coming soon!"); // Placeholder for chat integration
+// Load FAQs when the page is ready
+document.addEventListener('DOMContentLoaded', () => {
+    loadFAQs();
+
+    // Search functionality
+    const searchInput = document.getElementById('searchInput');
+    searchInput.addEventListener('keyup', function() {
+        const value = this.value.toLowerCase();
+        const faqItems = document.querySelectorAll('.faq-item');
+
+        faqItems.forEach(function(item) {
+            const questionText = item.querySelector('.faq-question strong').innerText.toLowerCase();
+            item.style.display = questionText.includes(value) ? '' : 'none';
         });
     });
+
+    // Live chat button functionality
+    const liveChatButton = document.getElementById('liveChatButton');
+    liveChatButton.addEventListener('click', function() {
+        alert("Chat feature coming soon!"); // Placeholder for chat integration
+    });
+});
+
 </script>
 
     <!-- Footer -->
