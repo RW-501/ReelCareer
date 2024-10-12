@@ -767,6 +767,7 @@ async function getSimilarJobs(jobData) {
     // Query the Jobs collection to find jobs with matching tags
     const jobsRef = doc(db, 'Jobs'); // Correctly use the imported Firestore instance
     const q = query(jobsRef, where('tags', 'array-contains-any', jobTags), limit(maxSimilarJobs));
+    console.log("q    ",q);
 
     try {
         const querySnapshot = await getDocs(q);
@@ -779,6 +780,11 @@ async function getSimilarJobs(jobData) {
 
             querySnapshot.forEach(doc => {
                 const similarJob = doc.data();
+
+
+                console.log("similarJob  ",similarJob);
+
+                console.log("querySnapshot  ",querySnapshot);
 
                 if (querySnapshot.empty) {
     displayEmptyState(similarJobsContainer, 'No related jobs found.', 'fas fa-briefcase');
