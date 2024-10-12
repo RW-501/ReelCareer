@@ -160,13 +160,15 @@
                         <p itemprop="text">${faq.answer}</p>
                         <div class="feedback">
                             <span>Was this helpful? </span>
-                            <button class="btn btn-sm btn-success" 
-                                    aria-label="Yes, was this helpful?" 
-                                    data-id="${doc.id}">Yes</button>
-                            <button class="btn btn-sm btn-danger" 
-                                    aria-label="No, was this helpful?" 
-                                    data-id="${doc.id}">No</button>
-                        </div>
+                    <div class="helpful-buttons">
+    <button class="btn btn-sm btn-success" 
+            aria-label="Yes, was this helpful?" 
+            data-id="${doc.id}">Yes</button>
+    <button class="btn btn-sm btn-danger" 
+            aria-label="No, was this helpful?" 
+            data-id="${doc.id}">No</button>
+</div>
+
                     </div>
                 `;
 
@@ -176,6 +178,42 @@
             console.error("Error loading FAQs: ", error);
         }
     }
+
+
+    document.querySelectorAll('.faq-question').forEach(question => {
+    question.addEventListener('click', function() {
+        const targetId = this.getAttribute('data-target'); // Use data-target attribute to find the answer div
+        const target = document.querySelector(targetId);
+        
+        if (target.classList.contains('show')) {
+            target.classList.remove('show');  // Hide answer
+        } else {
+            target.classList.add('show');    // Show answer
+        }
+    });
+});
+
+
+
+// Function to update helpful status in Firestore
+async function updateHelpfulStatus(docId, isHelpful) {
+    // Reference to the document
+    const docRef = doc(db, 'yourCollectionName', docId);
+    
+    try {
+        await updateDoc(docRef, {
+            helpfulCount: increment(isHelpful ? 1 : 0),
+            notHelpfulCount: increment(isHelpful ? 0 : 1),
+            lastFeedbackTimestamp: serverTimestamp() // Optional: Track when feedback was given
+        });
+        console.log(`Document ${docId} updated successfully: Helpful - ${isHelpful}`);
+    } catch (error) {
+        console.error("Error updating document: ", error);
+    }
+}
+
+
+
 
     // Load FAQs when the page is ready
     document.addEventListener('DOMContentLoaded', () => {
