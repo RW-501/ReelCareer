@@ -120,20 +120,11 @@ main .form-link a:hover {
     background-color: #0056b3;
 }
 
-/* ReelCareer Logo */
-.reelcareer-logo {
-    position: absolute;
-    right: -150px;
-    top: 0;
-    width: 120px;
-    height: 120px;
-    background-image: url('path/to/reelcareer-logo.png'); /* Replace with actual logo URL */
-    background-size: contain;
-    background-repeat: no-repeat;
-}
+
+
 
 @media (max-width: 768px) {
-    .reelcareer-logo {
+    .logo-area {
         display: none;
     }
 }
@@ -141,11 +132,69 @@ main .form-link a:hover {
 @media (max-width: 480px) {
     main form {
         max-width: 90%;
+        
+    }
+    .auth-area{
+        width: 100%;
     }
 }
 main{
     padding: 2rem;
 }
+
+
+.reelcareer-logo {
+    font-family: 'Arial', sans-serif; /* You can use a custom font from Google Fonts */
+    font-size: 3rem; /* Adjust the size as needed */
+    font-weight: bold;
+    color: #fff; /* White text color */
+    text-align: center; /* Center alignment */
+    text-transform: uppercase; /* Uppercase letters */
+    letter-spacing: 3px; /* Space between letters */
+    position: relative; /* Position for the pseudo-element */
+    background: linear-gradient(135deg, #007BFF, #00CFFF); /* Gradient background */
+    background-clip: text; /* Clip background to text */
+    -webkit-background-clip: text; /* Webkit support */
+    animation: shine 1.5s infinite alternate; /* Shine animation */
+    display: inline-block; /* Make it inline for proper text spacing */
+}
+
+/* Animation for shine effect */
+@keyframes shine {
+    0% {
+        filter: brightness(1);
+    }
+    100% {
+        filter: brightness(1.5);
+    }
+}
+
+/* Shadow effect */
+.reelcareer-logo::before {
+    content: ''; /* Create an empty pseudo-element */
+    position: absolute; /* Position absolutely */
+    top: 0; /* Slightly offset from top */
+    left: 0; /* Slightly offset from left */
+    right: 0; /* Stretch to right */
+    bottom: 0; /* Stretch to bottom */
+    background: rgba(0, 123, 255, 0.5); /* Shadow effect */
+    z-index: -1; /* Send behind the text */
+    border-radius: 8px; /* Optional: round the corners */
+    margin: auto;
+}
+
+#logo-area{
+    width: 50%;
+    display: block;
+    text-align: center;
+
+}
+#auth-area{
+    width: 50%;
+}
+
+
+
     </style>
 
     <!-- Bootstrap CSS -->
@@ -168,7 +217,9 @@ main{
 
     <main>
         <h1>Authentication</h1>
-        
+        <div id="auth-area">
+
+       
         <div id="loading-indicator">Loading...</div>
         <div id="error-message"></div>
         <div id="success-message"></div>
@@ -214,6 +265,13 @@ main{
             <button id="facebook-login">Facebook</button>
             <button id="apple-login">Apple</button>
         </div>
+
+    </div>
+    <div id="logo-area">
+            <!-- ReelCareer Logo -->
+    <div class="reelcareer-logo"></div>
+</div>
+
     </main>
     
     <script>
