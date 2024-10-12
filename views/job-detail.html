@@ -510,7 +510,9 @@
                 <form id="reportJobForm">
                     <p>Please select the reason(s) for reporting this job:</p>
                     
-                    <div>
+                    <div style="
+                    text-align: left;
+                ">
                         <input type="checkbox" id="spam" name="reason" value="Spam">
                         <label for="spam">Spam</label><br>
         
@@ -1123,6 +1125,9 @@ window.addEventListener('click', function(event) {
         modal.style.display = 'none';
     }
 });
+// Make the function globally accessible
+window.saveJob = saveJob;
+
 
 </script>
   <!-- jQuery (Must be included before Bootstrap JS) -->
