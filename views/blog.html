@@ -140,34 +140,57 @@
 
         // Fetch blogs from Firestore
         function fetchBlogs(page) {
-            db.collection("Blogs").orderBy("date", "desc")
-                .offset((page - 1) * postsPerPage)
-                .limit(postsPerPage)
-                .get().then((querySnapshot) => {
-                    const blogContainer = document.getElementById("blog-container");
-                    blogContainer.innerHTML = ""; // Clear existing blogs
-                    querySnapshot.forEach((doc) => {
-                        const data = doc.data();
-                        const blogPost = `
-                            <div class="col-md-4 col-sm-6">
-                                <div class="blog-post">
-                                    <img src="${data.image}" alt="${data.title}" class="blog-image img-fluid">
-                                    <h5 class="mt-2">${data.title}</h5>
-                                    <p class="author-date">By ${data.author} on ${data.date.toDate().toLocaleDateString()}</p>
-                                    <p class="blog-content">${data.content.substring(0, 100)}...</p>
-                                    <a href="#" class="btn btn-primary" onclick="showBlogDetail('${data.title}', '${data.image}', '${data.author}', '${data.date.toDate().toLocaleDateString()}', '${data.content}')">Read More</a>
-                                </div>
-                            </div>
-                        `;
-                        blogContainer.innerHTML += blogPost;
-                    });
+    const postsPerPage = 6; // Define your posts per page
+    const db = firebase.firestore(); // Ensure you're using the correct Firestore instance
 
-                    // Update pagination
-                    updatePagination();
-                }).catch((error) => {
-                    console.error("Error fetching blogs: ", error);
-                });
-        }
+    db.collection("Blogs")
+        .orderBy("date", "desc")
+        .offset((page - 1) * postsPerPage)
+        .limit(postsPerPage)
+        .get()
+        .then((querySnapshot) => {
+            const blogContainer = document.getElementById("blog-container");
+            blogContainer.innerHTML = ""; // Clear existing blogs
+
+            if (querySnapshot.empty) {
+                blogContainer.innerHTML = "<p>No blog posts available.</p>";
+                return;
+            }
+
+            querySnapshot.forEach((doc) => {
+                const data = doc.data();
+
+                // Ensure date is a Firestore Timestamp and format it correctly
+                const formattedDate = data.date instanceof firebase.firestore.Timestamp 
+                    ? data.date.toDate().toLocaleDateString() 
+                    : "Date not available";
+
+                // Create blog post elements
+                const blogPostDiv = document.createElement("div");
+                blogPostDiv.classList.add("col-md-4", "col-sm-6");
+
+                blogPostDiv.innerHTML = `
+                    <div class="blog-post">
+                        <img src="${data.image}" alt="${data.title}" class="blog-image img-fluid">
+                        <h5 class="mt-2">${data.title}</h5>
+                        <p class="author-date">By ${data.author} on ${formattedDate}</p>
+                        <p class="blog-content">${data.content.substring(0, 100)}...</p>
+                        <a href="#" class="btn btn-primary" onclick="showBlogDetail('${data.title}', '${data.image}', '${data.author}', '${formattedDate}', '${data.content}')">Read More</a>
+                    </div>
+                `;
+
+                blogContainer.appendChild(blogPostDiv); // Append the created element
+            });
+
+            // Update pagination
+            updatePagination();
+        })
+        .catch((error) => {
+            console.error("Error fetching blogs: ", error);
+            const blogContainer = document.getElementById("blog-container");
+            blogContainer.innerHTML = "<p>Error fetching blog posts. Please try again later.</p>";
+        });
+}
 
         // Show blog detail in modal
         function showBlogDetail(title, image, author, date, content) {
