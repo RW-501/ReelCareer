@@ -700,7 +700,7 @@ document.addEventListener('DOMContentLoaded', updateFooter);
                 window.location.href = adjustLinkHomeURL+'views/auth'; // Redirect to login page
             };
         }
-    }
+
     // Toggle functionality for the dropdown
     const dropdownToggleButton = document.getElementById('profileDropdown');
     const dropdownMenu = document.querySelector('.dropdown-menu');
@@ -719,6 +719,8 @@ document.addEventListener('DOMContentLoaded', updateFooter);
         }
     });
    
+}
+
 
 // Export the objects
 export { onAuthStateChanged, db, storage, analytics, app,collection, getDocs, auth }; // Export db, storage, and analytics
