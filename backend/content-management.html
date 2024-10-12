@@ -359,10 +359,10 @@ await addDoc(NewsCollection, {
             category: document.getElementById('newsCategory').value,
             imageUrl: imageUrl,
             imageCaption: document.getElementById('newsImageCaption').value,
-            likes: parseInt(document.getElementById('newsLikes').value),
-            loves: parseInt(document.getElementById('newsLoves').value),
-            helpful: parseInt(document.getElementById('newsHelpful').value),
-            viewCount: parseInt(document.getElementById('newsViewCount').value)
+            likes: 0,
+            loves: 0,
+            helpful: 0,
+            viewCount: 0
         });
         alert('News article saved successfully!');
         document.getElementById('newsForm').reset();
@@ -391,10 +391,10 @@ document.getElementById('blogForm').addEventListener('submit', async function(ev
             category: document.getElementById('blogCategory').value,
             imageUrl: imageUrl,
             imageCaption: document.getElementById('blogImageCaption').value,
-            likes: parseInt(document.getElementById('blogLikes').value),
-            loves: parseInt(document.getElementById('blogLoves').value),
-            helpful: parseInt(document.getElementById('blogHelpful').value),
-            viewCount: parseInt(document.getElementById('blogViewCount').value)
+            likes: 0,
+            loves: 0,
+            helpful: 0,
+            viewCount:0
         });
         alert('Blog post saved successfully!');
         document.getElementById('blogForm').reset();
@@ -415,8 +415,7 @@ document.getElementById('faqsForm').addEventListener('submit', async function(ev
              question: document.getElementById('faqQuestion').value,
             answer: document.getElementById('faqAnswer').value,
             category: document.getElementById('faqCategory').value,
-            helpful: parseInt(document.getElementById('faqHelpful').value),
-            postDate: document.getElementById('faqPostDate').value,
+            helpful: 0 ,
             activate: document.getElementById('faqActivate').value === 'true'
         });
         alert('FAQ saved successfully!');
