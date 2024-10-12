@@ -589,35 +589,52 @@ async function loadJobDetails(jobData) {
 
     // Fetch company details using companyID from the Companies collection
     try {
-        const companyRef = doc(db, 'Companies', jobData.companyID);
-        const companyDoc = await getDoc(companyRef);
+    const companyRef = doc(db, 'Companies', jobData.companyID);
+    const companyDoc = await getDoc(companyRef);
 
+    // Always set the company name and link first
+    document.getElementById("companyName").innerText = jobData.company || 'Unknown Company';
+    const companyPageLink = document.getElementById("companyPageLink");
+    companyPageLink.href = `company-page?jobId=${jobData.companyID}`;
+    companyPageLink.textContent = "View Company Page";
 
-            // Populate company-related details
-            document.getElementById("companyName").innerText =  jobData.company;
-            // Create a link to the company page
-            const companyPageLink = document.getElementById("companyPageLink");
-            companyPageLink.href = `company-page?jobId=${jobData.companyID}`;
-            companyPageLink.textContent = "View Company Page";
-                                       // Fetch and display similar jobs
-            getSimilarJobs(jobData);
-            loadRelatedBlogs(jobData.industry);
-            
-        if (companyDoc.exists()) {
-            const companyData = companyDoc.data();
+    // Fetch and display similar jobs
+    getSimilarJobs(jobData);
+    loadRelatedBlogs(jobData.industry);
 
+    if (companyDoc.exists()) {
+        const companyData = companyDoc.data();
+
+        // Log companyData for debugging
+        console.log("Company Data: ", companyData);
+
+        // Check and set company logo
+        if (companyData.logo) {
             document.getElementById("companyLogo").src = companyData.logo; // Ensure the 'logo' field in the database is a URL
-            document.getElementById("companyWebsite").href = companyData.website;
-            document.getElementById("companyDescription").innerText = companyData.description;
-            document.getElementById("companyMission").innerText = companyData.missionStatement;
-
-
         } else {
-            console.log("No such company!");
+            console.warn("Company logo is undefined or empty.");
         }
-    } catch (error) {
-        console.error("Error fetching company details: ", error);
+
+        // Check and set company website
+        if (companyData.website) {
+            document.getElementById("companyWebsite").href = companyData.website;
+        } else {
+            console.warn("Company website is undefined or empty.");
+            document.getElementById("companyWebsite").style.display = 'none'; // Optionally hide the link if it's not available
+        }
+
+        // Check and set company description
+        document.getElementById("companyDescription").innerText = companyData.description || 'No description available.';
+        
+        // Check and set company mission statement
+        document.getElementById("companyMission").innerText = companyData.missionStatement || 'No mission statement available.';
+        
+    } else {
+        console.log("No such company!");
     }
+} catch (error) {
+    console.error("Error fetching company details: ", error);
+}
 
     if (jobData.applicationDeadline && jobData.applicationDeadline.toDate) {
     document.getElementById('applicationDeadline').textContent = new Date(jobData.applicationDeadline.toDate()).toLocaleDateString();
@@ -638,12 +655,12 @@ const jobBenefitsArea = document.getElementById('jobBenefitsArea');
 
 // Check if the company website is valid
 if (!jobData.companyWebsite || jobData.companyWebsite === "undefined" || jobData.companyWebsite.trim() === "") {
-    jobRequirementsArea.style.display = "none"; // Hides the company website link if undefined or empty
+    companyWebsite.style.display = "none"; // Hides the company website link if undefined or empty
 }
 
 // Check if job requirements are available
 if (!jobData.jobRequirements || jobData.jobRequirements.length === 0) {
-    jobRequirementsList.parentElement.style.display = "none"; // Hides the entire job requirements section if empty
+    jobRequirementsArea.parentElement.style.display = "none"; // Hides the entire job requirements section if empty
 }
 
 // Check if job benefits are available
