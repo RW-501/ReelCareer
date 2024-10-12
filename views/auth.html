@@ -14,30 +14,30 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
    
     <style>
-        
-        main {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
+  main {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f1f3f5;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
 
-        main h1 {
+    main h1, main h2 {
         margin-bottom: 20px;
-        color: #333;
+        color: #5b6369;
+        font-size: 1.75rem;
+        font-weight: 700;
     }
 
     main form {
         display: flex;
         flex-direction: column;
         width: 100%;
-        max-width: 50%;
-        margin: 20px;
+        max-width: 400px;
         background-color: white;
         padding: 20px;
         border-radius: 8px;
@@ -45,11 +45,27 @@
     }
 
     main input {
-        margin-bottom: 15px;
+        margin-bottom: 20px;
         padding: 12px;
         border: 1px solid #ccc;
         border-radius: 4px;
         font-size: 16px;
+        width: 100%;
+        box-sizing: border-box;
+        position: relative;
+    }
+
+    .input-container {
+        position: relative;
+    }
+
+    .toggle-password {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        color: #5b6369;
     }
 
     main button {
@@ -60,26 +76,11 @@
         border-radius: 4px;
         font-size: 16px;
         cursor: pointer;
+        transition: background-color 0.3s ease;
     }
 
     main button:hover {
         background-color: #0056b3;
-    }
-
-    main #loading-indicator {
-        display: none;
-        font-weight: bold;
-        margin-bottom: 20px;
-    }
-
-    main #error-message {
-        color: red;
-        display: none;
-    }
-
-    main #success-message {
-        color: green;
-        display: none;
     }
 
     main .form-link {
@@ -96,30 +97,47 @@
         text-decoration: underline;
     }
 
-    main .toggle-password {
-        cursor: pointer;
-        display: inline-block;
-        margin-left: -30px;
-    }
-
     main .social-login {
         display: flex;
         justify-content: space-between;
         width: 100%;
         max-width: 400px;
-        margin: 20px;
+        margin: 20px 0;
     }
 
     main .social-login button {
         flex: 1;
-        margin: 5px;
+        margin: 0 5px;
         padding: 10px;
-        background-color: #007BFF;
+        background-color: #5b6369;
         color: white;
         border: none;
         border-radius: 4px;
+        font-size: 14px;
+        cursor: pointer;
     }
 
+    main .social-login button:hover {
+        background-color: #3c4858;
+    }
+
+    #loading-indicator {
+        display: none;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+
+    #error-message {
+        color: red;
+        display: none;
+        margin-bottom: 20px;
+    }
+
+    #success-message {
+        color: green;
+        display: none;
+        margin-bottom: 20px;
+    }
         
     </style>
 
@@ -140,57 +158,77 @@
     <nav>
 
     </nav>
-<main>
-    <h1>Authentication</h1>
 
-    <div id="loading-indicator">Loading...</div>
-    <div id="error-message"></div>
-    <div id="success-message"></div>
-
-    <!-- Sign Up Form -->
-    <form id="signup-form" aria-labelledby="signup-header">
-        <h2 id="signup-header">Sign Up</h2>
-        <input type="email" id="signup-email" placeholder="Email" required aria-label="Email">
-        <input type="password" id="signup-password" placeholder="Password" required aria-label="Password">
-        <span class="toggle-password" id="toggle-signup-password">👁️</span>
-        <button type="submit">Sign Up</button>
-        <div class="form-link">
-            <p>Already have an account? <a href="#" id="show-login">Log In</a></p>
+    <main>
+        <h1>Authentication</h1>
+        
+        <div id="loading-indicator">Loading...</div>
+        <div id="error-message"></div>
+        <div id="success-message"></div>
+    
+        <!-- Sign Up Form -->
+        <form id="signup-form">
+            <h2>Sign Up</h2>
+            <input type="email" id="signup-email" placeholder="Email" required>
+            
+            <div class="input-container">
+                <input type="password" id="signup-password" placeholder="Password" required>
+                <span class="toggle-password" id="toggle-signup-password">👁️</span>
+            </div>
+            
+            <button type="submit">Sign Up</button>
+            <div class="form-link">
+                <p>Already have an account? <a href="#" id="show-login">Log In</a></p>
+            </div>
+        </form>
+    
+        <!-- Log In Form -->
+        <form id="login-form" style="display: none;">
+            <h2>Log In</h2>
+            <input type="email" id="login-email" placeholder="Email" required>
+            
+            <div class="input-container">
+                <input type="password" id="login-password" placeholder="Password" required>
+                <span class="toggle-password" id="toggle-login-password">👁️</span>
+            </div>
+            
+            <button type="submit">Log In</button>
+            <div class="form-link">
+                <a href="#" id="forgot-password-link">Forgot Password?</a>
+            </div>
+            <div class="form-link">
+                <p>New user? <a href="#" id="show-signup">Sign Up</a></p>
+            </div>
+        </form>
+    
+        <!-- Social Login -->
+        <div class="social-login">
+            <button id="google-login">Google</button>
+            <button id="facebook-login">Facebook</button>
+            <button id="apple-login">Apple</button>
         </div>
-    </form>
-
-    <!-- Log In Form -->
-    <form id="login-form" aria-labelledby="login-header" style="display: none;">
-        <h2 id="login-header">Log In</h2>
-        <input type="email" id="login-email" placeholder="Email" required aria-label="Email">
-        <input type="password" id="login-password" placeholder="Password" required aria-label="Password">
-        <span class="toggle-password" id="toggle-login-password">👁️</span>
-        <button type="submit">Log In</button>
-        <div class="form-link">
-            <a href="#" id="forgot-password-link">Forgot Password?</a>
-        </div>
-        <div class="form-link">
-            <p>New user? <a href="#" id="show-signup">Sign Up</a></p>
-        </div>
-    </form>
-
-    <!-- Log In with Google, Facebook, Apple -->
-    <div class="social-login">
-        <button id="google-login" aria-label="Log In with Google">Google</button>
-        <button id="facebook-login" aria-label="Log In with Facebook">Facebook</button>
-        <button id="apple-login" aria-label="Log In with Apple">Apple</button>
-    </div>
-</main>
-
-
+    </main>
+    
+    <script>
+        // Toggle Password Visibility
+        document.getElementById('toggle-signup-password').addEventListener('click', function() {
+            let passwordField = document.getElementById('signup-password');
+            passwordField.type = passwordField.type === 'password' ? 'text' : 'password';
+        });
+    
+        document.getElementById('toggle-login-password').addEventListener('click', function() {
+            let passwordField = document.getElementById('login-password');
+            passwordField.type = passwordField.type === 'password' ? 'text' : 'password';
+        });
+    </script>
     <script>
         // Toggle password visibility for signup and login
-        function togglePasswordVisibility(passwordField, toggleButton) {
+ /*       function togglePasswordVisibility(passwordField, toggleButton) {
             const type = passwordField.type === "password" ? "text" : "password";
             passwordField.type = type;
             toggleButton.textContent = type === "password" ? "👁️" : "👁️‍🗨️";
         }
-
+*/
         // Event listeners for forms
         document.getElementById('signup-form').addEventListener('submit', function(event) {
             event.preventDefault();
