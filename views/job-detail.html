@@ -286,6 +286,41 @@
 }
 
 
+
+.job-info-box {
+    background-color: #f8f9fa; /* Light gray background */
+    border-radius: 5px; /* Rounded corners */
+    padding: 15px; /* Padding around the content */
+    margin: 15px 0; /* Space around the box */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    transition: background-color 0.3s, box-shadow 0.3s; /* Smooth transition for hover effects */
+}
+
+.job-info-box:hover {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Increase shadow on hover */
+    background-color: #e9ecef; /* Slightly darker background */
+}
+
+.job-info {
+    line-height: 1.2; /* Reduce line spacing */
+}
+
+.job-info p {
+    margin: 5px 0; /* Reduced margin between paragraphs for consistency */
+}
+
+.job-info strong {
+    color: #6c757d; /* Muted titles */
+    font-weight: 600; /* Adjust weight for titles */
+}
+
+.job-info span {
+    font-weight: 400; /* Adjust weight for content */
+}
+
+
+
+
     </style>
     
     <script src="../public/js/scripts.js"></script>
@@ -332,16 +367,19 @@
                         <hr />
 
                     
-                                    <!-- Job Info Section -->
-                <div class="job-info">
-                    <p><strong>Company:</strong> <span id="companyName" class="text-dark"></span></p>
-                    <p><strong>Location:</strong> <span id="jobLocation"></span></p>
-                    <p><strong>Employment Type:</strong> <span id="employmentType"></span></p>
-                    <p><strong>Salary:</strong> <span id="salary"></span></p>
-                    <p><strong>Posted On:</strong> <span id="createdAt"></span></p>
-                    <p><strong>Submitted By:</strong> <span id="submittedBy"></span></p>
-                    <p><strong>Industry:</strong> <span id="industry"></span></p>
-                </div>
+    <!-- Job Info Section -->
+    <div class="job-info-box">
+        <div class="job-info">
+            <p><i class="fas fa-building"></i> <strong>Company:</strong> <span id="companyName" class="text-dark"></span></p>
+            <p><i class="fas fa-map-marker-alt"></i> <strong>Location:</strong> <span id="jobLocation"></span></p>
+            <p><i class="fas fa-briefcase"></i> <strong>Employment Type:</strong> <span id="employmentType"></span></p>
+            <p><i class="fas fa-dollar-sign"></i> <strong>Salary:</strong> <span id="salary"></span></p>
+            <p><i class="fas fa-calendar-alt"></i> <strong>Posted On:</strong> <span id="createdAt"></span></p>
+            <p><i class="fas fa-user"></i> <strong>Submitted By:</strong> <span id="submittedBy"></span></p>
+            <p><i class="fas fa-industry"></i> <strong>Industry:</strong> <span id="industry"></span></p>
+        </div>
+    </div>
+                              
                     
                     </div>
                 </div>
