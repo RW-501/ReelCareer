@@ -329,7 +329,7 @@
                     
                     </div>
                 </div>
-                <hr />
+                <hr id="topHr" />
     
                 <!-- Company-specific details -->
                 <a id="companyWebsite" href="" target="_blank">Company Website</a>
@@ -338,7 +338,7 @@
                 <a id="companyPageLink" href="">View Company Page</a>
     
          
-                <hr />
+                <hr id="bottomHr" />
     
                 <p id="jobDescription" class="text-muted" tabindex="0"></p>
 
@@ -605,7 +605,6 @@ async function loadJobDetails(jobData) {
             // Fetch and display similar jobs
             getSimilarJobs(jobData);
             loadRelatedBlogs(jobData.industry);
-            console.log("??????????????//");
 
     // Fetch company details using companyID from the Companies collection
     try {
@@ -626,6 +625,7 @@ async function loadJobDetails(jobData) {
 
         } else {
             console.log("No such company!");
+
         }
     }
     } catch (error) {
@@ -651,6 +651,22 @@ renderTags(jobData.tags);
 const companyWebsite = document.getElementById('companyWebsite');
 const jobRequirementsArea = document.getElementById('jobRequirementsArea');
 const jobBenefitsArea = document.getElementById('jobBenefitsArea');
+
+const companyDescription = document.getElementById('companyDescription');
+    const companyMission = document.getElementById('companyMission');
+    const companyPageLink = document.getElementById('companyPageLink');
+    const bottomHr = document.getElementById('bottomHr');
+    
+    // Check if all company elements are empty or missing content
+    if (!companyWebsite.href || !companyDescription.textContent.trim() || 
+        !companyMission.textContent.trim() || !companyPageLink.href) {
+        
+        // Hide the company details and bottom <hr> if empty
+        bottomHr.style.display = 'none';  // Hide the extra <hr>
+    }
+
+
+
 
 // Check if the company website is valid
 if (!jobData.companyWebsite || jobData.companyWebsite === "undefined" || jobData.companyWebsite.trim() === "") {
@@ -878,7 +894,7 @@ function renderTags(tags) {
 
             // Add a click event to redirect to job-listings with the selected tag
             button.onclick = () => {
-                window.location.href = `job-listings/?tag=${encodeURIComponent(tag)}`;
+                window.location.href = `/views/job-listings/?tag=${encodeURIComponent(tag)}`;
             };
 
             // Append the button to the jobTags container
