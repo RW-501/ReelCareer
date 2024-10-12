@@ -566,7 +566,7 @@ function updateFooter() {
             <div class="container text-center">
                 <p>&copy; ${currentYear} <a href="${adjustLinkURL}about" class="text-light" rel="noopener noreferrer">ReelCareer</a>. All Rights Reserved.</p>
                 <ul class="list-inline">
-                    <li class="list-inline-item"><a href="${adjustLinkURL}public/privacy" class="text-light" rel="noopener noreferrer">Privacy Policy</a></li>
+                    <li class="list-inline-item"><a href="${adjustLinkHomeURL}public/privacy" class="text-light" rel="noopener noreferrer">Privacy Policy</a></li>
                     <li class="list-inline-item"><a href="${adjustLinkHomeURL}public/terms" class="text-light" rel="noopener noreferrer">Terms of Use</a></li>
                     <li class="list-inline-item"><a href="${adjustLinkURL}contact" class="text-light" rel="noopener noreferrer">Contact Us</a></li>
                     <li class="list-inline-item"><a href="${adjustLinkURL}blog" class="text-light" rel="noopener noreferrer">Blog</a></li>
