@@ -560,6 +560,22 @@ function addSponsorSection(sponsors, container) {
 
     });
 
+// Check if the user is logged in
+auth.onAuthStateChanged((user) => {
+    const homeCTA = document.getElementById('home-CTA');
+    
+    if (user) {
+        // User is logged in, hide the CTA
+        if (homeCTA) {
+            homeCTA.style.display = 'none';
+        }
+    } else {
+        // User is not logged in, show the CTA
+        if (homeCTA) {
+            homeCTA.style.display = 'block';
+        }
+    }
+});
 
 
         </script>
