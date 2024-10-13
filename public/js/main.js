@@ -726,6 +726,220 @@ document.addEventListener('DOMContentLoaded', updateFooter);
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+// profileModal.js
+
+// Function to create the profile modal HTML
+function createProfileModal() {
+    const modalHTML = `
+      <div id="profileModal" class="modal fade" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="profileModalLabel">Update Your Profile</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form id="profileForm">
+                <!-- Username -->
+                <div class="mb-3">
+                  <label for="usernameSET" class="form-label">Username <span class="text-danger">*</span></label>
+                  <input type="text" class="form-control" id="usernameSET" required>
+                  <small id="usernameError" class="text-danger"></small>
+                </div>
+  
+  
+                <!-- Profile Picture Upload -->
+                <div class="mb-3">
+                  <label for="profilePictureSET" class="form-label">Profile Picture</label>
+                  <input type="file" class="form-control" id="profilePictureSET" accept="image/*">
+                  <img id="profilePicPreview" class="img-thumbnail mt-2" style="display:none; width: 100px;" />
+                </div>
+
+                <!-- Email -->
+                <div class="mb-3">
+                  <label for="emailSET" class="form-label">Email <span class="text-danger">*</span></label>
+                  <div class="form-control" id="emailSET" ></div>
+                </div>
+                    
+                <!-- Name -->
+                <div class="mb-3">
+                  <label for="nameSET" class="form-label">Name <span class="text-danger">*</span></label>
+                  <input type="text" class="form-control" id="nameSET" required>
+                </div>
+
+  
+                <!-- Bio -->
+                <div class="mb-3">
+                  <label for="bioSET" class="form-label">Bio</label>
+                  <textarea class="form-control" id="bioSET" rows="3" maxlength="300"></textarea>
+                </div>
+    
+                <!-- Location (Auto-suggest) -->
+                <div class="mb-3">
+                  <label for="locationSET" class="form-label">Location</label>
+                  <input type="text" oninput="autoSuggest(this.value,'jobSuggestions')"
+                            class="form-control keywordInput job-input" 
+                             id="locationSET" placeholder="Enter your city or state">
+                </div>
+
+                <!-- Tags (Skills or Interests) -->
+                <div class="mb-3">
+                  <label for="tagsSET" class="form-label">Tags</label>
+                  <input type="text"  oninput="autoSuggest(this.value,'jobSuggestions')"
+                            class="form-control keywordInput job-input" id="tagsSET" placeholder="Add tags (e.g., JavaScript, Project Management)">
+                </div>
+  
+                <!-- Company Name (For Recruiters) -->
+                <div id="recruiterFields" class="mb-3" style="display: none;">
+                  <label for="companyNameSET" class="form-label">Company Name</label>
+                  <input type="text" class="form-control" id="companyNameSET">
+                </div>
+  
+                <!-- Current Position -->
+                <div class="mb-3">
+                  <label for="positionSET" class="form-label">Current Position</label>
+                  <input type="text"  oninput="autoSuggest(this.value,'jobSuggestions')"
+                            class="form-control keywordInput job-input" id="positionSET">
+                </div>
+  
+                <!-- Membership Status -->
+                <div class="mb-3">
+                  <label class="form-label">Membership Status</label>
+                  <p id="membershipStatusSET" class="badge bg-success">Free</p>
+                  <button type="button" class="btn btn-link" id="changeMembershipBtn">Change Membership</button>
+                </div>
+  
+                <!-- Verified Status -->
+                <div class="mb-3">
+                  <label class="form-label">Verified Status</label>
+                  <p id="verifiedStatusSET" class="badge bg-secondary">Not Verified</p>
+                </div>
+  
+                <!-- Public Profile Checkbox -->
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="publicProfileSET">
+                  <label class="form-check-label" for="publicProfileSET">Public Profile</label>
+                </div>
+  
+                <!-- Deactivate Account -->
+                <div class="mt-4">
+                  <button type="button" class="btn btn-danger" id="deactivateAccountBtn">Deactivate Account</button>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" id="saveProfileBtn">Save changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  
+    // Append modal HTML to the body
+    document.body.insertAdjacentHTML('beforeend', modalHTML);
+  }
+  
+  // Function to initialize modal functionality
+  function initializeProfileModal() {
+    const profileForm = document.getElementById('profileForm');
+    const usernameInput = document.getElementById('username');
+    const nameInput = document.getElementById('name');
+    const usernameError = document.getElementById('usernameError');
+    const profilePictureInput = document.getElementById('profilePicture');
+    const profilePicPreview = document.getElementById('profilePicPreview');
+    const saveProfileBtn = document.getElementById('saveProfileBtn');
+  
+    // Real-time validation
+    usernameInput.addEventListener('input', function () {
+      validateField(usernameInput, usernameError, 'Username is required');
+    });
+  
+    nameInput.addEventListener('input', function () {
+      validateField(nameInput, null, 'Name is required');
+    });
+  
+    function validateField(input, errorElem, errorMessage) {
+      if (!input.value.trim()) {
+        input.classList.add('is-invalid');
+        if (errorElem) errorElem.textContent = errorMessage;
+      } else {
+        input.classList.remove('is-invalid');
+        input.classList.add('is-valid');
+        if (errorElem) errorElem.textContent = '';
+      }
+    }
+  
+    // Profile picture live preview
+    profilePictureInput.addEventListener('change', function (event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          profilePicPreview.src = e.target.result;
+          profilePicPreview.style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+  
+    // Save profile button
+    saveProfileBtn.addEventListener('click', function () {
+      if (validateProfileForm()) {
+        alert('Profile saved successfully!');
+        // Add actual save logic here
+      } else {
+        alert('Please fill in all required fields.');
+      }
+    });
+  
+    function validateProfileForm() {
+      // Check if username and name are valid
+      const isUsernameValid = usernameInput.value.trim() !== '';
+      const isNameValid = nameInput.value.trim() !== '';
+      return isUsernameValid && isNameValid;
+    }
+  
+    // Change membership button
+    const changeMembershipBtn = document.getElementById('changeMembershipBtn');
+    changeMembershipBtn.addEventListener('click', function () {
+      alert('Change membership clicked');
+      // Logic to handle membership change can go here
+    });
+  }
+  
+  // Check if username is set and show modal if not
+  function checkUsernameAndShowModal() {
+    // Simulate fetching data from Firebase
+    const userProfile = { username: '', name: '', location: '' }; // Replace this with actual Firebase data fetching
+  
+    if (!userProfile.username) {
+      createProfileModal();
+      $('#profileModal').modal('show');
+      initializeProfileModal();
+    }
+  }
+  
+  // Execute the check when the page loads
+ // document.addEventListener('DOMContentLoaded', checkUsernameAndShowModal);
+  
+
+
+
+
+
+
 // Check if user data exists and show modal if missing
 document.addEventListener('DOMContentLoaded', function() {
   auth.onAuthStateChanged(user => {
@@ -736,7 +950,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function checkUserProfile(userId) {
-  db.collection('users').doc(userId).get().then(doc => {
+  db.collection('Users').doc(userId).get().then(doc => {
     if (doc.exists) {
       const userData = doc.data();
       if (!userData.username || !userData.name) {
@@ -753,26 +967,28 @@ function checkUserProfile(userId) {
 }
 
 function populateFormFields(userData) {
-  document.getElementById('username').value = userData.username || '';
-  document.getElementById('name').value = userData.name || '';
-  document.getElementById('location').value = userData.location || '';
-  document.getElementById('bio').value = userData.bio || '';
-  document.getElementById('tags').value = userData.tags ? userData.tags.join(', ') : '';
-  document.getElementById('position').value = userData.position || '';
-  document.getElementById('membershipStatus').innerText = userData.membershipStatus || 'Free';
-  document.getElementById('verifiedStatus').innerText = userData.verifiedStatus ? 'Verified' : 'Not Verified';
-  document.getElementById('publicProfile').checked = userData.publicProfile || false;
+    console.log("user info   ",userData);
+    document.getElementById('usernameSET').value = userData.username || '';
+    document.getElementById('emailSET').innerText = userData.email || '';
+    document.getElementById('nameSET').value = userData.name || '';
+  document.getElementById('locationSET').value = userData.location || '';
+  document.getElementById('bioSET').value = userData.bio || '';
+  document.getElementById('tagsSET').value = userData.tags ? userData.tags.join(', ') : '';
+  document.getElementById('positionSET').value = userData.position || '';
+  document.getElementById('membershipStatusSET').innerText = userData.membershipStatus || 'Free';
+  document.getElementById('verifiedStatusSET').innerText = userData.verifiedStatus ? 'Verified' : 'Not Verified';
+  document.getElementById('publicProfileSET').checked = userData.publicProfile || false;
   
   // Profile picture preview
   if (userData.profilePicture) {
-    document.getElementById('profilePicPreview').src = userData.profilePicture;
-    document.getElementById('profilePicPreview').style.display = 'block';
+    document.getElementById('profilePicPreviewSET').src = userData.profilePicture;
+    document.getElementById('profilePicPreviewSET').style.display = 'block';
   }
   
   // Show recruiter fields if user is a recruiter
   if (userData.userType === 'recruiter') {
-    document.getElementById('recruiterFields').style.display = 'block';
-    document.getElementById('companyName').value = userData.companyName || '';
+    document.getElementById('recruiterFieldsSET').style.display = 'block';
+    document.getElementById('companyNameSET').value = userData.companyName || '';
   }
 }
 
@@ -780,17 +996,17 @@ function populateFormFields(userData) {
 document.getElementById('saveProfileBtn').addEventListener('click', function() {
   const userId = auth.currentUser.uid;
   const profileData = {
-    username: document.getElementById('username').value,
-    name: document.getElementById('name').value,
-    location: document.getElementById('location').value,
-    bio: document.getElementById('bio').value,
-    tags: document.getElementById('tags').value.split(',').map(tag => tag.trim()),
-    position: document.getElementById('position').value,
-    publicProfile: document.getElementById('publicProfile').checked
+    username: document.getElementById('usernameSET').value,
+    name: document.getElementById('nameSET').value,
+    location: document.getElementById('locationSET').value,
+    bio: document.getElementById('bioSET').value,
+    tags: document.getElementById('tagsSET').value.split(',').map(tag => tag.trim()),
+    position: document.getElementById('positionSET').value,
+    publicProfile: document.getElementById('publicProfileSET').checked
   };
 
-  if (document.getElementById('profilePicture').files.length > 0) {
-    const file = document.getElementById('profilePicture').files[0];
+  if (document.getElementById('profilePictureSET').files.length > 0) {
+    const file = document.getElementById('profilePictureSET').files[0];
     const storageRef = firebase.storage().ref('profilePictures/' + userId);
     const uploadTask = storageRef.put(file);
 
@@ -808,7 +1024,7 @@ document.getElementById('saveProfileBtn').addEventListener('click', function() {
 });
 
 function saveProfile(userId, profileData) {
-  db.collection('users').doc(userId).set(profileData, { merge: true }).then(() => {
+  db.collection('Users').doc(userId).set(profileData, { merge: true }).then(() => {
     alert('Profile updated successfully');
     $('#profileModal').modal('hide');
   }).catch(error => {
@@ -824,7 +1040,7 @@ document.getElementById('deactivateAccountBtn').addEventListener('click', functi
 });
 
 function deactivateAccount(userId) {
-  db.collection('users').doc(userId).update({
+  db.collection('Users').doc(userId).update({
     isActive: false
   }).then(() => {
     alert('Account deactivated successfully');
