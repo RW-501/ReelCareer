@@ -663,7 +663,7 @@ document.addEventListener('DOMContentLoaded', updateFooter);
             // If the user is logged in, show profile info and logout button
             const userName = user.displayName || 'User';
             const defaultPic = `<img src="${adjustLinkHomeURL}images/sq_logo_n_BG_sm.png" alt="Profile Picture" class="rounded-circle" style="width: 40px; height: 40px; margin-right: 10px;">`
-            const userPhoto = user.photoURL ? `<img src="${user.photoURL}" alt="Profile Picture" class="rounded-circle" style="width: 40px; height: 40px; margin-right: 10px;">` : `${defaultPic}`;
+            const userPhoto = user.profilePic ? `<img src="${user.profilePic}" alt="Profile Picture" class="rounded-circle" style="width: 40px; height: 40px; margin-right: 10px;">` : `${defaultPic}`;
             
             authSection.innerHTML = `
                 <div class="dropdown">
