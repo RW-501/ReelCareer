@@ -685,7 +685,7 @@ document.addEventListener('DOMContentLoaded', updateFooter);
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="profileDropdown">
                         <a class="dropdown-item" href="${adjustLinkURL}user">Profile</a>
                         <a class="dropdown-item" href="${adjustLinkURL}messaging">Messaging</a>
-                        <button id="settingsBtn" class="dropdown-item" onclick='checkUserProfile();' ">Account Settings</button>
+                        <button id="settingsBtn" class="dropdown-item"">Account Settings</button>
                         <button class="dropdown-item" id="logoutButton">Logout</button>
                     </div>
                 </div>
@@ -989,38 +989,16 @@ saveProfileBtn.addEventListener('click', function() {
       // Logic to handle membership change can go here
     });
 
-    function checkUsernameAndShowModal() {
-        // Simulate fetching data from Firebase
-      
-        if (!userData.profilePic) {
-          createProfileModal();
-          initializeProfileModal();
-          document.getElementById('closeModalButton').addEventListener('click', function() {
-            var profileModal = document.getElementById('profileModal');
-            var modalInstance = bootstrap.Modal.getInstance(profileModal);
-            modalInstance.hide();
-        });
-        
-          alert('checkUsernameAndShowModal');
-    console.log("check 1");
-        }
-      }
+  
       
 
       console.log("settingsBtn");
 
-      document.getElementById('settingsBtn').addEventListener('click', () => {
-        console.log("check 2");
 
-    // Hide the modal
-    var profileModal = document.getElementById('profileModal');
-    var modalInstance = bootstrap.Modal.getInstance(profileModal);
-    modalInstance.hide();
-
-       });
+ 
 
 
-
+       document.getElementById('settingsBtn').addEventListener('click', showModal);
 
 
 
