@@ -655,8 +655,10 @@ document.addEventListener('DOMContentLoaded', updateFooter);
 
     // Handle authentication state changes
     function handleAuthStateChanged(user) {
+        
+        console.log("check next to last");
 
-        function checkUserProfile(userId) {
+        function checkUserProfile() {
 
         $('#profileModal').modal('show');
         }
