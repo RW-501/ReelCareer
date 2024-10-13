@@ -216,6 +216,8 @@
                 if (profileSnapshot.exists()) {
                     const profileData = profileSnapshot.data();
 
+console.log("user data  ",profileData);
+
                     // Check if the profile is public
                     if (profileData.profilePublic) {
                         await loadUserData(profileData); // Load user data if public
@@ -224,6 +226,7 @@
                         await loadUserCompanies(userIdFromURL);
                         await loadUserVideoResumes(userIdFromURL);
                         await loadSocialMedia(profileData);
+                        await loadTags(profileData);
                     } else {
                         alert('This profile is private.');
                        // window.location.href = 'user.html';
@@ -239,24 +242,22 @@
         }
 
         async function loadUserData(profileData) {
-            document.getElementById('user-name').innerText = profileData.name || 'User Name';
+            document.getElementById('user-name').innerText = profileData.displayName || 'User Name';
             document.getElementById('user-bio').innerText = profileData.bio || 'This is a short bio about the user...';
             document.getElementById('location-text').innerText = profileData.location || 'City, State';
 
             
-        async function loadTags(userId) {
-            const tagsRef = collection(db, 'Tags');
-            const q = query(tagsRef, where("userId", "==", userId));
-            const tagsSnapshot = await getDocs(q);
+        async function loadTags(profileData) {
+
             const tagsContainer = document.getElementById('tags-container');
 
-            if (tagsSnapshot.empty) {
+            if (!profileData.tags) {
                 tagsContainer.innerHTML = '<p>No tags found.</p>';
                 return;
             }
 
             const tags = [];
-            tagsSnapshot.forEach(doc => {
+            profileData.tags.forEach(doc => {
                 tags.push(doc.data().tag);
             });
 
@@ -369,12 +370,12 @@
         async function loadSocialMedia(profileData) {
             const socialMediaListContainer = document.getElementById('social-media-list');
 
-            if (profileData.socialMediaList) {
+            if (!profileData.socialMediaList) {
                 socialMediaListContainer.innerHTML = '<li>No social media links found.</li>';
                 return;
             }
 
-            socialSnapshot.forEach(doc => {
+            profileData.socialMediaList.forEach(doc => {
                 const socialData = doc.data();
                 const listItem = document.createElement('li');
                 listItem.innerHTML = `<a href="${socialData.link}" target="_blank">${socialData.platform}</a>`;
