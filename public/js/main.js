@@ -992,7 +992,7 @@ function populateFormFields(userData) {
 }
 
 // Save Profile Changes
-document.getElementById('saveProfileBtn').addEventListener('click', function() {
+saveProfileBtn.addEventListener('click', function() {
     const userId = auth.currentUser.uid;
     const profileData = {
       displayName: document.getElementById('usernameSET').value,
