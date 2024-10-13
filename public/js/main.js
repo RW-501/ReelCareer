@@ -673,7 +673,7 @@ document.addEventListener('DOMContentLoaded', updateFooter);
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="profileDropdown">
                         <a class="dropdown-item" href="${adjustLinkURL}user">Profile</a>
                         <a class="dropdown-item" href="${adjustLinkURL}messaging">Messaging</a>
-                        <a class="dropdown-item" onclick='checkUserProfile(${user.id});' ">Account Settings</a>
+                        <a class="dropdown-item" onclick='checkUserProfile(${user.uid});' ">Account Settings</a>
                         <button class="dropdown-item" id="logoutButton">Logout</button>
                     </div>
                 </div>
@@ -863,7 +863,6 @@ function createProfileModal() {
 */
 
 
-  // Function to initialize modal functionality
   function initializeProfileModal() {
     const profileForm = document.getElementById('profileForm');
     const usernameInput = document.getElementById('usernameSET');
@@ -1006,7 +1005,14 @@ saveProfileBtn.addEventListener('click', function() {
  // document.addEventListener('DOMContentLoaded', checkUsernameAndShowModal);
   
 
-
+ document.addEventListener('DOMContentLoaded', function() {
+    auth.onAuthStateChanged(user => {
+        if (user) {
+            initializeProfileModal();
+          console.log("check 2");
+        }
+    });
+    });
 
 
 
