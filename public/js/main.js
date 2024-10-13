@@ -1079,7 +1079,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (user) {
             createProfileModal();
             initializeProfileModal();
-            $('#profileModal').modal('hide');
+         //   $('#profileModal').modal('hide');
                       console.log("check 2");
         }
     });
