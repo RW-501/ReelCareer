@@ -850,7 +850,7 @@ function createProfileModal() {
   }
 
   
-  
+
   // Function to initialize modal functionality
   function initializeProfileModal() {
     const profileForm = document.getElementById('profileForm');
@@ -968,10 +968,10 @@ function checkUserProfile(userId) {
 
 function populateFormFields(userData) {
     console.log("user info fROM FIREBASE  ",userData);
-    document.getElementById('usernameSET').value = userData.username || '';
+    document.getElementById('usernameSET').value = userData.displayName || '';
     document.getElementById('emailSET').innerText = userData.email || '';
     document.getElementById('nameSET').value = userData.name || '';
-  document.getElementById('locationSET').value = userData.location || '';
+  document.getElementById('locationSET').value = userData.city+", " + userData.state  || '';
   document.getElementById('bioSET').value = userData.bio || '';
   document.getElementById('tagsSET').value = userData.tags ? userData.tags.join(', ') : '';
   document.getElementById('positionSET').value = userData.position || '';
@@ -981,7 +981,7 @@ function populateFormFields(userData) {
   
   // Profile picture preview
   if (userData.profilePicture) {
-    document.getElementById('profilePicPreviewSET').src = userData.profilePicture;
+    document.getElementById('profilePicPreviewSET').src = userData.profilePic;
     document.getElementById('profilePicPreviewSET').style.display = 'block';
   }
   
@@ -994,44 +994,61 @@ function populateFormFields(userData) {
 
 // Save Profile Changes
 document.getElementById('saveProfileBtn').addEventListener('click', function() {
-  const userId = auth.currentUser.uid;
-  const profileData = {
-    username: document.getElementById('usernameSET').value,
-    name: document.getElementById('nameSET').value,
-    location: document.getElementById('locationSET').value,
-    bio: document.getElementById('bioSET').value,
-    tags: document.getElementById('tagsSET').value.split(',').map(tag => tag.trim()),
-    position: document.getElementById('positionSET').value,
-    publicProfile: document.getElementById('publicProfileSET').checked
-  };
-
-  if (document.getElementById('profilePictureSET').files.length > 0) {
-    const file = document.getElementById('profilePictureSET').files[0];
-    const storageRef = firebase.storage().ref('profilePictures/' + userId);
-    const uploadTask = storageRef.put(file);
-
-    uploadTask.on('state_changed', null, error => {
-      console.error('Upload failed:', error);
-    }, () => {
-      uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
-        profileData.profilePicture = downloadURL;
-        saveProfile(userId, profileData);
+    const userId = auth.currentUser.uid;
+    const profileData = {
+      displayName: document.getElementById('usernameSET').value,
+      name: document.getElementById('nameSET').value,
+      location: document.getElementById('locationSET').value,
+      bio: document.getElementById('bioSET').value,
+      tags: document.getElementById('tagsSET').value.split(',').map(tag => tag.trim()),
+      position: document.getElementById('positionSET').value,
+      profilePic: document.getElementById('publicProfileSET').checked
+    };
+  
+    // Check if a new profile picture is being uploaded
+    if (document.getElementById('profilePictureSET').files.length > 0) {
+      const file = document.getElementById('profilePictureSET').files[0];
+      const storageRef = firebase.storage().ref('profilePictures/' + userId);
+      const uploadTask = storageRef.put(file);
+  
+      uploadTask.on('state_changed', null, error => {
+        console.error('Upload failed:', error);
+      }, () => {
+        uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
+          profileData.profilePicture = downloadURL;
+          updateFirebaseProfile(userId, profileData);
+        });
       });
-    });
-  } else {
-    saveProfile(userId, profileData);
-  }
-});
-
-function saveProfile(userId, profileData) {
-  db.collection('Users').doc(userId).set(profileData, { merge: true }).then(() => {
-    alert('Profile updated successfully');
-    $('#profileModal').modal('hide');
-  }).catch(error => {
-    console.error('Error updating profile:', error);
+    } else {
+      updateFirebaseProfile(userId, profileData);
+    }
   });
-}
-
+  
+  function updateFirebaseProfile(userId, profileData) {
+    // Update Firebase Auth user profile
+    const user = auth.currentUser;
+    
+    // Update Firebase Auth display name and photo URL
+    user.updateProfile({
+      displayName: profileData.displayName,
+      photoURL: profileData.profilePicture || user.photoURL // Use existing photo if not updated
+    }).then(() => {
+      // After updating Auth, save to Firestore
+      saveProfile(userId, profileData);
+    }).catch(error => {
+      console.error('Error updating Firebase Auth user:', error);
+    });
+  }
+  
+  function saveProfile(userId, profileData) {
+    db.collection('Users').doc(userId).set(profileData, { merge: true }).then(() => {
+      alert('Profile updated successfully');
+      $('#profileModal').modal('hide');
+    }).catch(error => {
+      console.error('Error updating profile:', error);
+    });
+  }
+  
 // Deactivate Account
 document.getElementById('deactivateAccountBtn').addEventListener('click', function() {
   if (confirm('Are you sure you want to deactivate your account?')) {
