@@ -1010,14 +1010,13 @@ saveProfileBtn.addEventListener('click', function() {
       console.log("settingsBtn");
 
       document.getElementById('settingsBtn').addEventListener('click', () => {
+        console.log("check 2");
 
-        auth.onAuthStateChanged(user => {
-        if (user) {
-          checkUserProfile(user.uid);
-          console.log("check 2");
-    
-        }
-      });
+    // Hide the modal
+    var profileModal = document.getElementById('profileModal');
+    var modalInstance = bootstrap.Modal.getInstance(profileModal);
+    modalInstance.hide();
+
        });
 
 
