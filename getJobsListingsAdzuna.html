@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Applications Review</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<style>
+    .container {
+        max-width: 600px;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+        text-align: center;
+    }
+
+    button {
+        display: block;
+        margin: 10px 0;
+        padding: 10px;
+        width: 100%;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+
+    .job-item {
+        border: 1px solid #ddd;
+        margin: 10px 0;
+        padding: 10px;
+        border-radius: 5px;
+    }
+
+    .job-item.selected {
+        background-color: #e0e0e0;
+    }
+
+    .error {
+        color: red;
+        text-align: center;
+        margin: 10px 0;
+    }
+
+    .job-count {
+        text-align: center;
+        margin: 10px 0;
+    }
+</style>
+<body>
+    <div class="container">
+        <h1>Job Applications Review</h1>
+
+        <label for="query">Enter Job Type:</label>
+        <input type="text" id="query" placeholder="Enter job type (e.g., developer, designer, etc.)">
+        
+
+        <button id="fetchJobs">Fetch Jobs</button>
+        <button id="startFetching">Start Fetching</button>
+        <button id="stopFetching" disabled>Stop Fetching</button>
+
+        <div class="job-count" id="jobCountDisplay">Jobs Added: 0</div>
+        <div class="error" id="errorDisplay"></div>
+
+        <div id="jobApplications"></div>
+
+        <button id="addOneJob">Add Selected Job</button>
+        <button id="addTenJobs">Add Selected Jobs (up to 10)</button>
+    </div>
+    <!-- Define toggleSelect function globally -->
+    <script>
+        function toggleSelect(button) {
+            const jobItem = button.parentElement;
+            jobItem.classList.toggle('selected');
+        }
+
+        function parseCityFromLocation(location) {
+    // Assuming location is in the format "City, State"
+    const parts = location.split(',');
+    return parts.length > 0 ? parts[0].trim() : ''; // Return the city name
+}
+function parseStateFromLocation(location) {
+    const parts = location.split(',');
+    return parts.length > 1 ? parts[1].trim() : ''; // Return the state name
+}
+
+function parseCityFromLocationNew(locationString) {
+    // Modify this function based on the structure of your location string
+    // Example: 'City, State, Country' -> extract City
+    if (locationString && locationString.includes(',')) {
+        return locationString.split(',')[0].trim();  // Get the first part (city)
+    }
+    return '';
+}
+
+
+    </script>
+    <script type="module">
+        // Import the required Firebase functions
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
+           import { getFirestore, collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+
+        // Your Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDiwC3Dmd88-t3N9iRV5cZ3snVkEXinclg",
+            authDomain: "reelcareer-cb4b0.firebaseapp.com",
+            projectId: "reelcareer-cb4b0",
+            storageBucket: "reelcareer-cb4b0.appspot.com",
+            messagingSenderId: "365163764840",
+            appId: "1:365163764840:web:21c44f8625c9b6831e6fdd",
+            measurementId: "G-LBTK319K2X"
+        };
+    
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app); // Get Firestore instance
+
+
+        async function addJobToServer(jobData) {
+        try {
+            const docRef = await addDoc(collection(db, "Jobs"), jobData);
+            console.log("Document written with ID: ", docRef.id);
+        } catch (error) {
+            console.error("Error adding document: ", error);
+        }
+    }
+
+
+        const APP_ID = '3ea9a2f1'; // Your Adzuna App ID
+        const API_KEY = 'e74d84b00c37bbfabe11710ebafcd138'; // Your Adzuna API Key
+        let fetchingJobs = false; // Flag to track fetching status
+        let jobsAddedCount = 0; // Counter for added jobs
+
+        async function fetchJobs() {
+            const query = document.getElementById("query").value;
+            const url = `https://api.adzuna.com/v1/api/jobs/us/search/1?app_id=${APP_ID}&app_key=${API_KEY}&results_per_page=10&what=${query}&where=USA`;
+
+            try {
+                const response = await axios.get(url);
+                const jobs = response.data.results;
+                displayJobs(jobs);
+                document.getElementById('errorDisplay').innerText = ''; // Clear error display
+            } catch (error) {
+                console.error('Error fetching jobs:', error);
+                document.getElementById('errorDisplay').innerText = 'Error fetching jobs. Please try again.';
+            }
+        }
+
+
+        function displayJobs(jobs) {
+            const jobApplicationsDiv = document.getElementById('jobApplications');
+            jobApplicationsDiv.innerHTML = ''; // Clear previous jobs
+
+            jobs.forEach((job) => {
+              let  job_location = job['location']['area'] || [];
+
+                const jobItem = document.createElement('div');
+                jobItem.className = 'job-item';
+                jobItem.innerHTML = `
+                    <h3>${job.title}</h3>
+                    <p><strong>Company:</strong> ${job.company.display_name}</p>
+                    <p><strong>Location:</strong> ${job.location.display_name}</p>
+                    <p><strong>Salary:</strong> $${job.salary_min || 0} - $${job.salary_max || 0}</p>
+                    <p><strong>State:</strong> ${job_location[1]}</p>
+                    <p><strong>County:</strong> ${parseStateFromLocation(job.location.display_name)}</p>
+                    <p><strong>City:</strong> ${parseCityFromLocationNew(job.location.display_name)}</p>
+                    <p><strong>Salary:</strong> ${parseFloat (job.salary_min + job.salary_max) / 2}</p>
+                    <p><strong>Tags:</strong> ${job.category && job.category.tag ? job.category.tag.split('-').map(word => word.trim()) : ""}</p>
+                    <p><strong>Description:</strong> ${job.description}</p>
+                    <button onclick="toggleSelect(this)">Select</button>
+                    <input type="hidden" value='${JSON.stringify(job)}'>
+                `;
+                jobApplicationsDiv.appendChild(jobItem);
+            });
+        }
+
+
+        async function addSelectedJobs(allowMultiple) {
+            const selectedJobs = [...document.querySelectorAll('.job-item.selected')];
+
+            // Limit to 10 if adding multiple
+            const jobsToAdd = allowMultiple ? selectedJobs.slice(0, 10) : selectedJobs.slice(0, 1);
+
+            for (const jobItem of jobsToAdd) {
+                const job = JSON.parse(jobItem.querySelector('input[type="hidden"]').value);
+                
+               let job_location = job['location']['area'] || [];
+
+                // Customize this to match your Firebase database structure
+                const jobData = {
+                    company: job.company.display_name || '', 
+                    title: job.title || '', 
+                    description: job.description || '', 
+                    location: job.location.area || '', 
+                    city: parseCityFromLocationNew(job.location.display_name) || '', 
+                    county: parseStateFromLocation(job.location.display_name) || '', 
+                    state: job_location[1] || '', 
+                    country:  job_location[0] || 'US', 
+                    type: job.contract_time || 'Full-time', 
+                    salaryMin: parseFloat(job.salary_min) || 0, 
+                    salaryMax: parseFloat(job.salary_max) || 0,   
+                    salary: parseFloat (job.salary_min + job.salary_max) / 2 || 0,
+                    contractToHire: 'No', 
+                    immediateHire: 'No', 
+                    industry: job.category.label || '', 
+                    benefits: [], 
+                    tags: job.category && job.category.tag ? job.category.tag.split('-').map(word => word.trim()) : [],
+                    boosted: "None", 
+                    boostExpiration: "None", 
+                    boostExpiresAt: "None", 
+                    boostedByID: "None", 
+                    status: "active", 
+                    createdAt: new Date(job.created), 
+                    applicantsViewed: 0, 
+                    savedForLater: 0, 
+                    applicationWebsite: job.redirect_url || '', 
+                    applicationAvailableBool: false, 
+                    submittedBy: "Adzuna", 
+                    searchableRequirements: ''
+                };
+
+                // Push jobData to your Firebase collection
+                await addJobToFirebase(jobData);
+                jobsAddedCount++; // Increment job count
+                document.getElementById('jobCountDisplay').innerText = `Jobs Added: ${jobsAddedCount}`; // Update display
+            }
+
+            // Clear selection after adding
+            document.querySelectorAll('.job-item.selected').forEach(item => item.classList.remove('selected'));
+            alert(`${jobsToAdd.length} job(s) added!`);
+        }
+
+        async function addJobToFirebase(jobData) {
+        try {
+            const docRef = await addDoc(collection(db, "Jobs"), jobData);
+            console.log("Job added with ID: ", docRef.id);
+        } catch (error) {
+            console.error("Error adding job: ", error);
+        }
+    }
+        document.getElementById('fetchJobs').addEventListener('click', fetchJobs);
+        document.getElementById('addOneJob').addEventListener('click', () => addSelectedJobs(false));
+        document.getElementById('addTenJobs').addEventListener('click', () => addSelectedJobs(true));
+
+        // Start fetching jobs on button click
+        document.getElementById('startFetching').addEventListener('click', () => {
+            fetchingJobs = true;
+            document.getElementById('startFetching').disabled = true;
+            document.getElementById('stopFetching').disabled = false;
+
+            // Continuous fetching every 5 seconds
+            const intervalId = setInterval(() => {
+                if (!fetchingJobs) {
+                    clearInterval(intervalId);
+                    return;
+                }
+                fetchJobs();
+            }, 5000);
+        });
+
+        // Stop fetching jobs on button click
+        document.getElementById('stopFetching').addEventListener('click', () => {
+            fetchingJobs = false;
+            document.getElementById('startFetching').disabled = false;
+            document.getElementById('stopFetching').disabled = true;
+        });
+    </script>
+</body>
+</html>
