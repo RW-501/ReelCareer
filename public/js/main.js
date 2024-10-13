@@ -656,8 +656,11 @@ document.addEventListener('DOMContentLoaded', updateFooter);
     // Handle authentication state changes
     function handleAuthStateChanged(user) {
 
+        function checkUserProfile(userId) {
 
-        
+        $('#profileModal').modal('show');
+        }
+     /*   
       function checkUserProfile(userId) {
         console.log("user id  ", userId);
         console.log("check next to last");
@@ -681,7 +684,7 @@ document.addEventListener('DOMContentLoaded', updateFooter);
           console.error("Error fetching user data: ", error);
         });
       }
-
+*/
         const authSection = document.getElementById("authSection");
         const jobSeekerNavItem = document.getElementById("jobSeekerNavItem");
         const recruiterNavItem = document.getElementById("recruiterNavItem");
