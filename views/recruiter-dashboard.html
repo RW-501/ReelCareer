@@ -601,7 +601,6 @@ document.getElementById("boostJobPostButton").onclick = function () {
     
   
 // Check if user data exists and show modal if missing
-document.addEventListener('DOMContentLoaded', function() {
   auth.onAuthStateChanged(user => {
     if (user) {
       checkUserProfile(user.uid);
@@ -609,7 +608,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     }
   });
-});
+
 
 
     const checkUserMembershipAndBoostCount = async (userId) => {
