@@ -983,6 +983,8 @@ saveProfileBtn.addEventListener('click', function() {
       createProfileModal();
       $('#profileModal').modal('show');
       initializeProfileModal();
+      alert('checkUsernameAndShowModal');
+console.log("check 1");
     }
   }
   
@@ -1000,6 +1002,8 @@ document.addEventListener('DOMContentLoaded', function() {
   auth.onAuthStateChanged(user => {
     if (user) {
       checkUserProfile(user.uid);
+      console.log("check 2");
+
     }
   });
 });
@@ -1008,26 +1012,31 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function checkUserProfile(userId) {
     console.log("user id  ", userId);
-    
+    console.log("check next to last");
+
     // Fetch user profile using the updated Firestore API for Firebase v9+
     const userDocRef = doc(db, 'Users', userId);
     getDoc(userDocRef).then(docSnapshot => {
       if (docSnapshot.exists()) {
         const userData = docSnapshot.data();
         if (!userData.username || !userData.name) {
-          $('#profileModal').modal('show');
-          populateFormFields(userData);
+            createProfileModal();
+            $('#profileModal').modal('show');
+                      populateFormFields(userData);
         }
       } else {
         // No user data found, show the form for first-time setup
+        createProfileModal();
         $('#profileModal').modal('show');
-      }
+          }
     }).catch(error => {
       console.error("Error fetching user data: ", error);
     });
   }
 
 function populateFormFields(userData) {
+    console.log("check last");
+
     console.log("user info fROM FIREBASE  ",userData);
     document.getElementById('usernameSET').value = userData.displayName || '';
     document.getElementById('emailSET').innerText = userData.email || '';
