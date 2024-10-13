@@ -355,8 +355,11 @@ document.addEventListener("DOMContentLoaded", function () {
     console.log("checkUserProfile");
     function checkUserProfile() {
 
-        $('#profileModal').modal('show');
-        }
+            var profileModal = document.getElementById('profileModal');
+            var modalInstance = bootstrap.Modal.getInstance(profileModal);
+            modalInstance.hide();
+        
+                }
 
     // Optionally, you can call it directly in the module if needed
     const { currentPage, adjustLinkURL, adjustLinkHomeURL, excludedPages } = getAdjustedLinks();
@@ -992,8 +995,12 @@ saveProfileBtn.addEventListener('click', function() {
         if (!userData.profilePic) {
           createProfileModal();
           initializeProfileModal();
-          $('#profileModal').modal('hide');
-
+          document.getElementById('closeModalButton').addEventListener('click', function() {
+            var profileModal = document.getElementById('profileModal');
+            var modalInstance = bootstrap.Modal.getInstance(profileModal);
+            modalInstance.hide();
+        });
+        
           alert('checkUsernameAndShowModal');
     console.log("check 1");
         }
