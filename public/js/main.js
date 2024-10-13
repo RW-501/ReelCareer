@@ -743,9 +743,9 @@ document.addEventListener('DOMContentLoaded', updateFooter);
 function createProfileModal() {
     const modalHTML = `
       <div id="profileModal" class="modal fade" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content rounded-4 shadow">
+            <div class="modal-header border-bottom-0">
               <h5 class="modal-title" id="profileModalLabel">Update Your Profile</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -758,46 +758,44 @@ function createProfileModal() {
                   <small id="usernameError" class="text-danger"></small>
                 </div>
   
-  
                 <!-- Profile Picture Upload -->
                 <div class="mb-3">
                   <label for="profilePictureSET" class="form-label">Profile Picture</label>
                   <input type="file" class="form-control" id="profilePictureSET" accept="image/*">
                   <img id="profilePicPreview" class="img-thumbnail mt-2" style="display:none; width: 100px;" />
                 </div>
-
+  
                 <!-- Email -->
                 <div class="mb-3">
                   <label for="emailSET" class="form-label">Email <span class="text-danger">*</span></label>
-                  <div class="form-control" id="emailSET" ></div>
+                  <div class="form-control" id="emailSET"></div>
                 </div>
-                    
+  
                 <!-- Name -->
                 <div class="mb-3">
                   <label for="nameSET" class="form-label">Name <span class="text-danger">*</span></label>
                   <input type="text" class="form-control" id="nameSET" required>
                 </div>
-
   
                 <!-- Bio -->
                 <div class="mb-3">
                   <label for="bioSET" class="form-label">Bio</label>
                   <textarea class="form-control" id="bioSET" rows="3" maxlength="300"></textarea>
                 </div>
-    
+  
                 <!-- Location (Auto-suggest) -->
                 <div class="mb-3">
                   <label for="locationSET" class="form-label">Location</label>
                   <input type="text" oninput="autoSuggest(this.value,'locationSuggestions')"
-                            class="form-control keywordInput location-input" 
-                             id="locationSET" placeholder="Enter your city or state">
+                         class="form-control keywordInput location-input" 
+                         id="locationSET" placeholder="Enter your city or state">
                 </div>
-
+  
                 <!-- Tags (Skills or Interests) -->
                 <div class="mb-3">
                   <label for="tagsSET" class="form-label">Tags</label>
-                  <input type="text"  oninput="autoSuggest(this.value,'jobRequirementsSuggestions')"
-                            class="form-control keywordInput " id="tagsSET" placeholder="Add tags (e.g., JavaScript, Project Management)">
+                  <input type="text" oninput="autoSuggest(this.value,'jobRequirementsSuggestions')"
+                         class="form-control keywordInput" id="tagsSET" placeholder="Add tags (e.g., JavaScript, Project Management)">
                 </div>
   
                 <!-- Company Name (For Recruiters) -->
@@ -809,8 +807,8 @@ function createProfileModal() {
                 <!-- Current Position -->
                 <div class="mb-3">
                   <label for="positionSET" class="form-label">Current Position</label>
-                  <input type="text"  oninput="autoSuggest(this.value,'jobSuggestions')"
-                            class="form-control keywordInput job-input" id="positionSET">
+                  <input type="text" oninput="autoSuggest(this.value,'jobSuggestions')"
+                         class="form-control keywordInput job-input" id="positionSET">
                 </div>
   
                 <!-- Membership Status -->
@@ -827,7 +825,7 @@ function createProfileModal() {
                 </div>
   
                 <!-- Public Profile Checkbox -->
-                <div class="form-check">
+                <div class="form-check mb-3">
                   <input type="checkbox" class="form-check-input" id="publicProfileSET">
                   <label class="form-check-label" for="publicProfileSET">Public Profile</label>
                 </div>
@@ -838,7 +836,7 @@ function createProfileModal() {
                 </div>
               </form>
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer border-top-0">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
               <button type="button" class="btn btn-primary" id="saveProfileBtn">Save changes</button>
             </div>
@@ -850,6 +848,8 @@ function createProfileModal() {
     // Append modal HTML to the body
     document.body.insertAdjacentHTML('beforeend', modalHTML);
   }
+
+  
   
   // Function to initialize modal functionality
   function initializeProfileModal() {
