@@ -788,16 +788,16 @@ function createProfileModal() {
                 <!-- Location (Auto-suggest) -->
                 <div class="mb-3">
                   <label for="locationSET" class="form-label">Location</label>
-                  <input type="text" oninput="autoSuggest(this.value,'jobSuggestions')"
-                            class="form-control keywordInput job-input" 
+                  <input type="text" oninput="autoSuggest(this.value,'locationSuggestions')"
+                            class="form-control keywordInput location-input" 
                              id="locationSET" placeholder="Enter your city or state">
                 </div>
 
                 <!-- Tags (Skills or Interests) -->
                 <div class="mb-3">
                   <label for="tagsSET" class="form-label">Tags</label>
-                  <input type="text"  oninput="autoSuggest(this.value,'jobSuggestions')"
-                            class="form-control keywordInput job-input" id="tagsSET" placeholder="Add tags (e.g., JavaScript, Project Management)">
+                  <input type="text"  oninput="autoSuggest(this.value,'jobRequirementsSuggestions')"
+                            class="form-control keywordInput " id="tagsSET" placeholder="Add tags (e.g., JavaScript, Project Management)">
                 </div>
   
                 <!-- Company Name (For Recruiters) -->
