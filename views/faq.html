@@ -157,10 +157,14 @@
 
  
     
-async function loadFAQs() {
+    async function loadFAQs() {
     try {
         const faqQuery = collection(db, "FAQs"); // Assuming FAQs is the collection name
         const querySnapshot = await getDocs(faqQuery);
+        
+        // Clear the FAQ list before loading
+        const faqList = document.getElementById('faq-list');
+        faqList.innerHTML = ''; // Clear existing FAQs
         
         querySnapshot.forEach((doc) => {
             const faq = doc.data();
@@ -169,32 +173,32 @@ async function loadFAQs() {
             faqItem.setAttribute('itemscope', '');
             faqItem.setAttribute('itemtype', 'https://schema.org/FAQPage');
 
-            // Generating an ID based on the question for toggling
+            // Generate a unique ID for the answer based on the question
             const answerId = faq.question.replace(/\s+/g, '-');
             
-            // Add the FAQ HTML structure
+            // Create the FAQ HTML structure with the question as a button
             faqItem.innerHTML = `
-                <div class="faq-question" 
-                     data-toggle="collapse" 
-                     id="question-${answerId}"
-                     itemprop="mainEntity" 
-                     itemscope 
-                     itemtype="https://schema.org/Question" 
-                     aria-expanded="false" 
-                     aria-controls="answer-${answerId}"
-                     tabindex="0"
-                     onclick="toggleAnswer('${answerId}')">
-                    <strong itemprop="name">${faq.question}</strong>
+                <div class="faq-question">
+                    <button class="btn btn-link" 
+                            onclick="toggleAnswer('${answerId}')" 
+                            id="question-${answerId}"
+                            aria-expanded="false" 
+                            aria-controls="answer-${answerId}" 
+                            itemprop="mainEntity" 
+                            itemscope 
+                            itemtype="https://schema.org/Question">
+                        <strong itemprop="name">${faq.question}</strong>
+                    </button>
                 </div>
                 <div id="answer-${answerId}" 
-                     class="faq-answer collapse" 
+                     class="faq-answer" 
                      itemprop="acceptedAnswer" 
                      itemscope 
                      itemtype="https://schema.org/Answer" 
                      style="display: none;">
                     <p itemprop="text">${faq.answer}</p>
                     <div class="feedback">
-                        <span>Was this helpful? </span>
+                        <span>Was this helpful?</span>
                         <div class="helpful-buttons">
                             <button class="btn btn-sm btn-success" 
                                     aria-label="Yes, was this helpful?" 
@@ -207,30 +211,35 @@ async function loadFAQs() {
                 </div>
             `;
 
+            // Append the generated FAQ item to the FAQ list
             faqList.appendChild(faqItem);
         });
     } catch (error) {
         console.error("Error loading FAQs: ", error);
+        faqList.innerHTML = `<p>Error loading FAQs. Please try again later.</p>`;
     }
 }
 
-        
-
+// Function to toggle answer visibility
 function toggleAnswer(answerId) {
     const answerElement = document.getElementById(`answer-${answerId}`);
-    const questionElement = document.getElementById(`question-${answerId}`);
+    const questionButton = document.getElementById(`question-${answerId}`);
     console.log("?????????????????????/");
 
     if (answerElement.style.display === "none") {
-        // Show answer
+        // Show the answer
         answerElement.style.display = "block";
-        questionElement.setAttribute("aria-expanded", "true");
+        questionButton.setAttribute("aria-expanded", "true");
     } else {
-        // Hide answer
+        // Hide the answer
         answerElement.style.display = "none";
-        questionElement.setAttribute("aria-expanded", "false");
+        questionButton.setAttribute("aria-expanded", "false");
     }
 }
+
+
+        
+
 
 
 
