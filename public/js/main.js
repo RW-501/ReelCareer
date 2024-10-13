@@ -1009,8 +1009,10 @@ saveProfileBtn.addEventListener('click', function() {
  document.addEventListener('DOMContentLoaded', function() {
     auth.onAuthStateChanged(user => {
         if (user) {
-            checkUsernameAndShowModal();
-          console.log("check 2");
+            createProfileModal();
+            initializeProfileModal();
+            $('#profileModal').modal('hide');
+                      console.log("check 2");
         }
     });
     });
