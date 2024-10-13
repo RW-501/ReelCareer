@@ -948,7 +948,9 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 
-function checkUserProfile(userId) {
+
+ function checkUserProfile(userId) {
+    console.log("user id  ",userId);
   db.collection('Users').doc(userId).get().then(doc => {
     if (doc.exists) {
       const userData = doc.data();
