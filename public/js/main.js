@@ -40,7 +40,6 @@ const analytics = initializeAnalytics(app);
 
 
 
-
 //import { collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 //const newCollection = collection;
 

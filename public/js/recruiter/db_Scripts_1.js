@@ -1,6 +1,6 @@
 
 
-import { db, storage, analytics, app  } from '../js/main.js'; // Adjust the path based on your structure
+import { db, storage, analytics, app  } from '../main.js'; // Adjust the path based on your structure
 import { query, where, orderBy, limit,  collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 
 
