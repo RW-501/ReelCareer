@@ -186,7 +186,7 @@ button:hover {
     
     <script type="module">
         import { db } from '../public/js/main.js'; // Adjust the path based on your structure
-        import { query, where, orderBy, limit, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+        import { doc, query, where, orderBy, limit, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 
         function getQueryParam(param) {
         const urlParams = new URLSearchParams(window.location.search);
