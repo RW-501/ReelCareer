@@ -708,7 +708,7 @@ document.addEventListener('DOMContentLoaded', updateFooter);
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="profileDropdown">
                         <a class="dropdown-item" href="${adjustLinkURL}user">Profile</a>
                         <a class="dropdown-item" href="${adjustLinkURL}messaging">Messaging</a>
-                        <a class="dropdown-item" onclick='checkUserProfile();' ">Account Settings</a>
+                        <button class="dropdown-item" onclick='checkUserProfile();' ">Account Settings</button>
                         <button class="dropdown-item" id="logoutButton">Logout</button>
                     </div>
                 </div>
@@ -888,15 +888,7 @@ function createProfileModal() {
     document.body.insertAdjacentHTML('beforeend', modalHTML);
   }
 /*
-  //document.addEventListener('DOMContentLoaded', function() {
-    auth.onAuthStateChanged(user => {
-        if (user) {
-          checkUserProfile(user.uid);
-          console.log("check 2");
-    
-        }
-      });
-   // });
+
 
 */
 
@@ -1035,6 +1027,17 @@ saveProfileBtn.addEventListener('click', function() {
       
 
       
+      document.getElementById('backToTop').addEventListener('click', () => {
+
+        auth.onAuthStateChanged(user => {
+        if (user) {
+          checkUserProfile(user.uid);
+          console.log("check 2");
+    
+        }
+      });
+       });
+
 
 
 
