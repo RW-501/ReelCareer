@@ -655,6 +655,33 @@ document.addEventListener('DOMContentLoaded', updateFooter);
 
     // Handle authentication state changes
     function handleAuthStateChanged(user) {
+
+
+        
+      function checkUserProfile(userId) {
+        console.log("user id  ", userId);
+        console.log("check next to last");
+    
+        // Fetch user profile using the updated Firestore API for Firebase v9+
+        const userDocRef = doc(db, 'Users', userId);
+        getDoc(userDocRef).then(docSnapshot => {
+          if (docSnapshot.exists()) {
+            const userData = docSnapshot.data();
+            if (!userData.username || !userData.name) {
+                createProfileModal();
+                $('#profileModal').modal('show');
+                          populateFormFields(userData);
+            }
+          } else {
+            // No user data found, show the form for first-time setup
+            createProfileModal();
+            $('#profileModal').modal('show');
+              }
+        }).catch(error => {
+          console.error("Error fetching user data: ", error);
+        });
+      }
+
         const authSection = document.getElementById("authSection");
         const jobSeekerNavItem = document.getElementById("jobSeekerNavItem");
         const recruiterNavItem = document.getElementById("recruiterNavItem");
@@ -998,30 +1025,6 @@ saveProfileBtn.addEventListener('click', function() {
         }
       }
       
-
-      function checkUserProfile(userId) {
-        console.log("user id  ", userId);
-        console.log("check next to last");
-    
-        // Fetch user profile using the updated Firestore API for Firebase v9+
-        const userDocRef = doc(db, 'Users', userId);
-        getDoc(userDocRef).then(docSnapshot => {
-          if (docSnapshot.exists()) {
-            const userData = docSnapshot.data();
-            if (!userData.username || !userData.name) {
-                createProfileModal();
-                $('#profileModal').modal('show');
-                          populateFormFields(userData);
-            }
-          } else {
-            // No user data found, show the form for first-time setup
-            createProfileModal();
-            $('#profileModal').modal('show');
-              }
-        }).catch(error => {
-          console.error("Error fetching user data: ", error);
-        });
-      }
 
       
 
