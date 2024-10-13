@@ -205,7 +205,7 @@ button:hover {
         // Check if the URL has a 'b' parameter (blogId)
         const blogId = getQueryParam("b");
 
-        
+        console.log("????????????  ",blogId);
         let querySnapshot;
 
         // If blogId is available, fetch the specific blog document
@@ -215,6 +215,8 @@ button:hover {
 
             if (docSnap.exists()) {
                 querySnapshot = [docSnap]; // Simulate snapshot array for a single doc
+                console.log("?querySnapshot????????  ",querySnapshot);
+
             } else {
                 blogContainer.innerHTML = "<p>Blog not found.</p>";
                 return;
