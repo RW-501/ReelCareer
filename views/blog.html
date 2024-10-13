@@ -207,40 +207,28 @@ button:hover {
 
         console.log("????????????  ",blogId);
         let querySnapshot;
+if (blogId) {
+    const docRef = doc(db, "Blogs", blogId);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+        querySnapshot = [docSnap]; // Wrap in an array to simulate array for single doc
+    } else {
+        blogContainer.innerHTML = "<p>Blog not found.</p>";
+        return;
+    }
+} else {
+    const blogsRef = collection(db, "Blogs");
+    const blogsQuery = query(blogsRef, where("activate", "==", true), limit(postsPerPage));
+    querySnapshot = await getDocs(blogsQuery);
+}
 
-        // If blogId is available, fetch the specific blog document
-        if (blogId) {
-            const docRef = doc(db, "Blogs", blogId);
-            const docSnap = await getDoc(docRef);
-
-            if (docSnap.exists()) {
-                querySnapshot = [docSnap]; // Simulate snapshot array for a single doc
-                console.log("?querySnapshot????????  ",querySnapshot);
-
-            } else {
-                blogContainer.innerHTML = "<p>Blog not found.</p>";
-                return;
-            }
-        } else {
-            // Fetch a list of blogs with pagination (use 'page' as needed)
-            const blogsRef = collection(db, "Blogs");
-            const blogsQuery = query(
-                blogsRef,
-                where("activate", "==", true), // Only fetch blogs where activate is true
-                limit(postsPerPage)
-            );
-
-            querySnapshot = await getDocs(blogsQuery);
-        }
-
-        // Check if there are any documents
-        if (!querySnapshot.length && querySnapshot.empty) {
-            blogContainer.innerHTML = "<p>No blogs available.</p>";
-            return;
-        }
-
-        querySnapshot.forEach((doc) => { 
-            const blogData = doc.data();
+  
+// Iterate and create blog posts
+if (querySnapshot.length || querySnapshot.docs.length > 0) {
+    querySnapshot.forEach((doc) => {
+        const blogData = doc.data();
+   
+      
             // Create blog card or element here based on your design
             const blogCard = document.createElement("div");
             blogCard.className = "blog-post"; // Add your CSS classes
@@ -271,7 +259,7 @@ button:hover {
             // Append the blog card to the container
             blogContainer.appendChild(blogCard);
         });
-
+    }
     } catch (error) {
         console.error("Error fetching blogs: ", error);
         document.getElementById("blog-container").innerHTML = "<p>Error fetching blogs. Please try again later.</p>";
