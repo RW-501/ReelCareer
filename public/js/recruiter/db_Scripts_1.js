@@ -1,9 +1,5 @@
 
 
-import { db, storage, analytics, app  } from '../js/main.js'; // Adjust the path based on your structure
-import { query, where, orderBy, limit,  collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
-
-
 
       // Add event listener for form submission
       document.getElementById("createJobBtn").click = async function (event) {
