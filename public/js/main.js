@@ -801,7 +801,7 @@ function createProfileModal() {
                 </div>
   
                 <!-- Company Name (For Recruiters) -->
-                <div id="recruiterFields" class="mb-3" style="display: none;">
+                <div id="recruiterFieldsSET" class="mb-3" style="display: none;">
                   <label for="companyNameSET" class="form-label">Company Name</label>
                   <input type="text" class="form-control" id="companyNameSET">
                 </div>
@@ -854,11 +854,11 @@ function createProfileModal() {
   // Function to initialize modal functionality
   function initializeProfileModal() {
     const profileForm = document.getElementById('profileForm');
-    const usernameInput = document.getElementById('username');
-    const nameInput = document.getElementById('name');
+    const usernameInput = document.getElementById('usernameSET');
+    const nameInput = document.getElementById('nameSET');
     const usernameError = document.getElementById('usernameError');
-    const profilePictureInput = document.getElementById('profilePicture');
-    const profilePicPreview = document.getElementById('profilePicPreview');
+    const profilePictureInput = document.getElementById('profilePictureSET');
+    const profilePicPreview = document.getElementById('profilePicPreviewSET');
     const saveProfileBtn = document.getElementById('saveProfileBtn');
   
     // Real-time validation
@@ -967,7 +967,7 @@ function checkUserProfile(userId) {
 }
 
 function populateFormFields(userData) {
-    console.log("user info   ",userData);
+    console.log("user info fROM FIREBASE  ",userData);
     document.getElementById('usernameSET').value = userData.username || '';
     document.getElementById('emailSET').innerText = userData.email || '';
     document.getElementById('nameSET').value = userData.name || '';
