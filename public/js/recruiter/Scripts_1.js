@@ -162,3 +162,130 @@ tagInput.addEventListener("keypress", (e) => {
 clearTagsButton.addEventListener("click", () => {
     tagsList.innerHTML = ""; // Clear all tags
 });
+
+
+
+// Function to save form values to local storage
+function saveFormValues() {
+    const formValues = {
+        company: document.getElementById('company').value,
+        jobTitle: document.getElementById('jobTitle').value,
+        jobLocation: document.getElementById('jobLocation').value,
+        jobCity: document.getElementById('jobCity').value,
+        jobState: document.getElementById('jobState').value,
+        jobZipCode: document.getElementById('jobZipCode').value,
+        jobType: document.getElementById('jobType').value,
+        jobSalary: document.getElementById('jobSalary').value,
+        jobDescription: document.getElementById('jobDescription').value,
+        jobRequirements: document.getElementById('jobRequirements').value,
+        industry: document.getElementById('industry').value,
+        jobFunction: document.getElementById('jobFunction').value,
+        contractToHire: document.getElementById('contractToHire').value,
+        immediateHire: document.getElementById('immediateHire').value,
+        benefits: document.getElementById('benefits').value,
+        education: Array.from(document.getElementById('education').selectedOptions).map(option => option.value),
+        experience: Array.from(document.getElementById('experience').selectedOptions).map(option => option.value),
+        applicationLink: document.getElementById('applicationLink').value,
+        jobTags: document.getElementById('jobTags').value,
+        customQuestions: Array.from(document.querySelectorAll('#customQuestionsContainer input')).map(input => input.value),
+        tags: Array.from(document.querySelectorAll('#tagsList .tag')).map(tag => tag.textContent)
+    };
+
+    localStorage.setItem('jobFormValues', JSON.stringify(formValues));
+}
+
+// Function to retrieve and set form values from local storage
+function loadFormValues() {
+    const formValues = JSON.parse(localStorage.getItem('jobFormValues'));
+    if (formValues) {
+        document.getElementById('company').value = formValues.company || '';
+        document.getElementById('jobTitle').value = formValues.jobTitle || '';
+        document.getElementById('jobLocation').value = formValues.jobLocation || '';
+        document.getElementById('jobCity').value = formValues.jobCity || '';
+        document.getElementById('jobState').value = formValues.jobState || '';
+        document.getElementById('jobZipCode').value = formValues.jobZipCode || '';
+        document.getElementById('jobType').value = formValues.jobType || '';
+        document.getElementById('jobSalary').value = formValues.jobSalary || '';
+        document.getElementById('jobDescription').value = formValues.jobDescription || '';
+        document.getElementById('jobRequirements').value = formValues.jobRequirements || '';
+        document.getElementById('industry').value = formValues.industry || '';
+        document.getElementById('jobFunction').value = formValues.jobFunction || '';
+        document.getElementById('contractToHire').value = formValues.contractToHire || '';
+        document.getElementById('immediateHire').value = formValues.immediateHire || '';
+        document.getElementById('benefits').value = formValues.benefits || '';
+        
+        // Set selected options for multiple selects
+        if (formValues.education) {
+            formValues.education.forEach(value => {
+                document.querySelector(`#education option[value="${value}"]`).selected = true;
+            });
+        }
+        if (formValues.experience) {
+            formValues.experience.forEach(value => {
+                document.querySelector(`#experience option[value="${value}"]`).selected = true;
+            });
+        }
+
+        document.getElementById('applicationLink').value = formValues.applicationLink || '';
+        document.getElementById('jobTags').value = formValues.jobTags || '';
+
+        // Load custom questions if any
+        if (formValues.customQuestions) {
+            formValues.customQuestions.forEach(question => {
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.value = question;
+                input.className = 'form-control';
+                document.getElementById('customQuestionsContainer').appendChild(input);
+            });
+        }
+
+        // Load tags
+        if (formValues.tags) {
+            const tagsContainer = document.getElementById('tagsList');
+            formValues.tags.forEach(tag => {
+                const tagElement = document.createElement('div');
+                tagElement.className = 'tag';
+                tagElement.textContent = tag;
+                tagsContainer.appendChild(tagElement);
+            });
+        }
+    }
+}
+
+// Function to clear local storage
+function clearLocalStorage() {
+    localStorage.removeItem('jobFormValues');
+}
+
+// Check if any values are set and remove them if necessary
+function checkAndClearValues() {
+    const formValues = JSON.parse(localStorage.getItem('jobFormValues'));
+    if (!formValues) {
+        clearLocalStorage();
+    }
+}
+
+// Attach event listeners
+document.getElementById('jobForm').addEventListener('submit', (event) => {
+    event.preventDefault(); // Prevent form submission for demo purposes
+    saveFormValues();
+    //    checkAndClearValues();
+
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    loadFormValues();
+});
+
+// Get the modal element (assuming your modal has the id 'jobModal')
+const jobModal = document.getElementById('jobModal');
+
+// Add an event listener for when the modal is fully hidden
+jobModal.addEventListener('hidden.bs.modal', function (event) {
+    // Perform actions when the modal is closed, like clearing the form or saving unsaved data
+    console.log('Modal has been closed');
+    
+    // Call your localStorage clearing function here if needed
+    saveFormValues();
+});

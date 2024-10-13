@@ -25,7 +25,7 @@ import { query, where, orderBy, limit,  collection, getDocs, addDoc } from "http
                 }
             }, false);
         })();
-    
+
         // Function to collect job requirements
     function collectJobRequirements() {
         const jobRequirements = {
