@@ -997,16 +997,6 @@ console.log("check 1");
 
 
 
-// Check if user data exists and show modal if missing
-document.addEventListener('DOMContentLoaded', function() {
-  auth.onAuthStateChanged(user => {
-    if (user) {
-      checkUserProfile(user.uid);
-      console.log("check 2");
-
-    }
-  });
-});
 
 
 
