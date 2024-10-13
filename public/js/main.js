@@ -1050,28 +1050,31 @@ function populateFormFields(userData) {
     document.getElementById('recruiterFieldsSET').style.display = 'block';
     document.getElementById('companyNameSET').value = userData.companyName || '';
   }
-}
 
+
+  
 
 // Deactivate Account
 document.getElementById('deactivateAccountBtn').addEventListener('click', function() {
-  if (confirm('Are you sure you want to deactivate your account?')) {
-    deactivateAccount(auth.currentUser.uid);
-  }
-});
-
-function deactivateAccount(userId) {
-    const userDocRef = doc(db, 'Users', userId); // Create a reference to the user's document
+    if (confirm('Are you sure you want to deactivate your account?')) {
+      deactivateAccount(auth.currentUser.uid);
+    }
+  });
   
-    updateDoc(userDocRef, {
-      isActive: false
-    }).then(() => {
-      alert('Account deactivated successfully');
-      window.location.reload(); // or redirect to a logged-out state
-    }).catch(error => {
-      console.error('Error deactivating account:', error);
-    });
-  }
+  function deactivateAccount(userId) {
+      const userDocRef = doc(db, 'Users', userId); // Create a reference to the user's document
+    
+      updateDoc(userDocRef, {
+        isActive: false
+      }).then(() => {
+        alert('Account deactivated successfully');
+        window.location.reload(); // or redirect to a logged-out state
+      }).catch(error => {
+        console.error('Error deactivating account:', error);
+      });
+    }
+  
+}
 
 // Export the objects
 export { onAuthStateChanged, db, storage, analytics, app,collection, getDocs, auth }; // Export db, storage, and analytics
