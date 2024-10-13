@@ -156,86 +156,77 @@
 
 
  
-    
     async function loadFAQs() {
+    const faqList = document.getElementById('faq-list');
+    faqList.innerHTML = ''; // Clear any existing content
+
     try {
-        const faqQuery = collection(db, "FAQs"); // Assuming FAQs is the collection name
+        const faqQuery = collection(db, "FAQs");
         const querySnapshot = await getDocs(faqQuery);
-        
-        // Clear the FAQ list before loading
-        const faqList = document.getElementById('faq-list');
-        faqList.innerHTML = ''; // Clear existing FAQs
-        
+
+        // Create a document fragment for efficient DOM manipulation
+        const fragment = document.createDocumentFragment();
+
         querySnapshot.forEach((doc) => {
-            const faq = doc.data();
+            const { question, answer } = doc.data();
             const faqItem = document.createElement('div');
             faqItem.className = 'faq-item';
-            faqItem.setAttribute('itemscope', '');
-            faqItem.setAttribute('itemtype', 'https://schema.org/FAQPage');
 
-            // Generate a unique ID for the answer based on the question
-            const answerId = faq.question.replace(/\s+/g, '-');
-            
-            // Create the FAQ HTML structure with the question as a button
+            const answerId = `answer-${doc.id}`;
+
+            // Generate the HTML structure using template literals
             faqItem.innerHTML = `
                 <div class="faq-question">
-                    <button class="btn btn-link" 
-                            onclick="toggleAnswer('${answerId}')" 
-                            id="question-${answerId}"
-                            aria-expanded="false" 
-                            aria-controls="answer-${answerId}" 
-                            itemprop="mainEntity" 
-                            itemscope 
-                            itemtype="https://schema.org/Question">
-                        <strong itemprop="name">${faq.question}</strong>
+                    <button class="faq-toggle" 
+                            data-answer="${answerId}" 
+                            aria-expanded="false"
+                            aria-controls="${answerId}">
+                        ${question}
                     </button>
                 </div>
-                <div id="answer-${answerId}" 
-                     class="faq-answer" 
-                     itemprop="acceptedAnswer" 
-                     itemscope 
-                     itemtype="https://schema.org/Answer" 
-                     style="display: none;">
-                    <p itemprop="text">${faq.answer}</p>
+                <div id="${answerId}" class="faq-answer" style="display: none;">
+                    <p>${answer}</p>
                     <div class="feedback">
                         <span>Was this helpful?</span>
                         <div class="helpful-buttons">
-                            <button class="btn btn-sm btn-success" 
-                                    aria-label="Yes, was this helpful?" 
-                                    data-id="${doc.id}">Yes</button>
-                            <button class="btn btn-sm btn-danger" 
-                                    aria-label="No, was this helpful?" 
-                                    data-id="${doc.id}">No</button>
+                            <button class="helpful-btn" data-type="yes" data-id="${doc.id}">Yes</button>
+                            <button class="helpful-btn" data-type="no" data-id="${doc.id}">No</button>
                         </div>
                     </div>
                 </div>
             `;
 
-            // Append the generated FAQ item to the FAQ list
-            faqList.appendChild(faqItem);
+            fragment.appendChild(faqItem);
         });
+
+        faqList.appendChild(fragment);
+
+        // Add event listeners using delegation
+        faqList.addEventListener('click', (event) => {
+            if (event.target.classList.contains('faq-toggle')) {
+                const answerId = event.target.dataset.answer;
+                const answerDiv = document.getElementById(answerId);
+                const isVisible = answerDiv.style.display === 'block';
+
+                // Toggle answer visibility
+                answerDiv.style.display = isVisible ? 'none' : 'block';
+                event.target.setAttribute('aria-expanded', !isVisible);
+            }
+
+            if (event.target.classList.contains('helpful-btn')) {
+                const feedbackType = event.target.dataset.type;
+                const faqId = event.target.dataset.id;
+                // Handle helpful feedback submission here (e.g., send to Firestore)
+                console.log(`Feedback: ${feedbackType} for FAQ ID: ${faqId}`);
+            }
+        });
+
     } catch (error) {
-        console.error("Error loading FAQs: ", error);
-        faqList.innerHTML = `<p>Error loading FAQs. Please try again later.</p>`;
+        console.error("Error fetching FAQs: ", error);
+        faqList.innerHTML = '<p>Failed to load FAQs. Please try again later.</p>';
     }
 }
 
-// Function to toggle answer visibility
-function toggleAnswer(answerId) {
-    const answerElement = document.getElementById(`answer-${answerId}`);
-    const questionButton = document.getElementById(`question-${answerId}`);
-    console.log("?????????????????????/");
-
-    if (answerElement.style.display === "none") {
-        // Show the answer
-        answerElement.style.display = "block";
-        questionButton.setAttribute("aria-expanded", "true");
-    } else {
-        // Hide the answer
-        answerElement.style.display = "none";
-        questionButton.setAttribute("aria-expanded", "false");
-    }
-}
 
 
         
