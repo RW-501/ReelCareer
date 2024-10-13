@@ -91,6 +91,7 @@
             <h3>Have a question?</h3>
             <p id="authMessage" class="text-danger" style="display: none;">You must be logged in to ask a question.</p>
         
+            <!-- Assume a variable isLoggedIn to check if user is authenticated -->
             <form id="askQuestionForm" style="display: none;" class="mt-3">
                 <div class="form-group">
                     <label for="questionInput">Ask Your Question</label>
@@ -98,7 +99,43 @@
                 </div>
                 <button type="submit" class="btn btn-primary mt-2">Submit Question</button>
             </form>
+            
+            <!-- Button to show the form -->
+            <button id="askQuestionBtn" class="btn btn-secondary mt-3" style="display: none;">Ask a Question</button>
         </div>
+        
+        <script>
+            // Example: Check if the user is logged in (you would replace this with your actual auth check)
+            const isLoggedIn = false; // This should be dynamically set based on your auth logic
+        
+            if (isLoggedIn) {
+                document.getElementById('askQuestionForm').style.display = 'block'; // Show form
+                document.getElementById('askQuestionBtn').style.display = 'none'; // Hide button
+            } else {
+                document.getElementById('authMessage').style.display = 'block'; // Show auth message
+                document.getElementById('askQuestionBtn').style.display = 'block'; // Show button to ask question
+            }
+        
+            // Event listener to handle form submission
+            document.getElementById('askQuestionForm').addEventListener('submit', function(event) {
+                event.preventDefault(); // Prevent default form submission
+                const question = document.getElementById('questionInput').value;
+                
+                // Handle the submission logic (e.g., send question to server)
+                console.log("Question submitted:", question);
+                
+                // Reset the form after submission
+                document.getElementById('questionInput').value = '';
+            });
+        
+            // Event listener to show the question form when the button is clicked
+            document.getElementById('askQuestionBtn').addEventListener('click', function() {
+                document.getElementById('askQuestionForm').style.display = 'block'; // Show form
+                document.getElementById('authMessage').style.display = 'none'; // Hide auth message
+                document.getElementById('askQuestionBtn').style.display = 'none'; // Hide button
+            });
+        </script>
+        
         
         <button id="liveChatButton" class="btn btn-primary mt-4">Live Chat</button>
     </div>
@@ -273,10 +310,10 @@ async function updateHelpfulStatus(docId, isHelpful) {
         const targetId = this.getAttribute('data-target'); // Use data-target attribute to find the answer div
         const target = document.querySelector(targetId);
         
-        if (target.classList.contains('show')) {
-            target.classList.remove('show');  // Hide answer
+        if (target.classList.contains('collapse')) {
+            target.classList.remove('collapse');  // Hide answer
         } else {
-            target.classList.add('show');    // Show answer
+            target.classList.add('collapse');    // Show answer
         }
     });
 });
