@@ -673,7 +673,7 @@ document.addEventListener('DOMContentLoaded', updateFooter);
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="profileDropdown">
                         <a class="dropdown-item" href="${adjustLinkURL}user">Profile</a>
                         <a class="dropdown-item" href="${adjustLinkURL}messaging">Messaging</a>
-                        <a class="dropdown-item" onclick='checkUserProfile(${user.uid});' ">Account Settings</a>
+                        <a class="dropdown-item" onclick='checkUserProfile();' ">Account Settings</a>
                         <button class="dropdown-item" id="logoutButton">Logout</button>
                     </div>
                 </div>
@@ -742,7 +742,10 @@ document.addEventListener('DOMContentLoaded', updateFooter);
 
 // Function to create the profile modal HTML
 function createProfileModal() {
-    const modalHTML = `
+
+    console.log("profileModal check 3");
+
+    const modalHTML = `<!-- profileModal -->
       <div id="profileModal" class="modal fade" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content rounded-4 shadow">
