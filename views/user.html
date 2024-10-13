@@ -206,9 +206,11 @@
 
         async function checkUser() {
             const user = auth.currentUser;
-            console.log("user ",user);
+            console.log("user ",user.id);
+            console.log("user ",user.uid);
+            console.log("user ",user.userId);
 
-            
+
             if (user) {
                 const userId = user.uid;
 
