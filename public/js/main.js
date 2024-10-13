@@ -352,6 +352,12 @@ export function setupLinks() {
 // Navigation bar  
 document.addEventListener("DOMContentLoaded", function () {
 
+
+    function checkUserProfile() {
+
+        $('#profileModal').modal('show');
+        }
+        
     // Optionally, you can call it directly in the module if needed
     const { currentPage, adjustLinkURL, adjustLinkHomeURL, excludedPages } = getAdjustedLinks();
     console.log(adjustLinkURL, adjustLinkHomeURL);
@@ -655,13 +661,10 @@ document.addEventListener('DOMContentLoaded', updateFooter);
 
     // Handle authentication state changes
     function handleAuthStateChanged(user) {
-        
+
         console.log("check next to last");
 
-        function checkUserProfile() {
-
-        $('#profileModal').modal('show');
-        }
+     
      /*   
       function checkUserProfile(userId) {
         console.log("user id  ", userId);
