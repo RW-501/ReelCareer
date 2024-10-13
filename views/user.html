@@ -7,14 +7,12 @@
     <meta name="description" content="User profile page for managing bio, resumes, messaging, and job applications.">
     <meta name="keywords" content="job applications, resumes, video resumes, job seeking, career management">
     <meta name="author" content="ReelCareer">
-    <title>User profile | ReelCareer</title>
+    <title>User Profile | ReelCareer</title>
 
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom CSS -->
     <link href="style.css" rel="stylesheet">
-
-
 
     <!-- SEO Schema Markup -->
     <script type="application/ld+json">
@@ -29,16 +27,20 @@
             }
         }
     </script>
+<style>
+    .tags-container {
+    margin-top: 10px;
+}
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    
-    <!-- Bootstrap CSS -->
+.badge {
+    background-color: #007bff;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+</style>
     <script src="../public/js/scripts.js"></script>
     <script src="../public/js/loadScripts.js"></script>
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="../public/css/styles.css">
-
 </head>
 
 <body>
@@ -56,7 +58,7 @@
                 <li class="nav-item">
                     <a class="nav-link" href="jobs.html">Jobs</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item active">
                     <a class="nav-link" href="user.html">Profile</a>
                 </li>
                 <li class="nav-item">
@@ -79,7 +81,30 @@
                         <img src="/images/sq_logo_n_BG_tie_reel.png" alt="User Profile Picture" class="img-fluid rounded-circle mb-3" style="width: 150px;">
                         <h3 id="user-name">User Name</h3>
                         <p id="user-bio">This is a short bio about the user...</p>
-                        <button class="btn btn-primary btn-block" onclick="editBio()">Edit Bio</button>
+                        <span id="membership-badge" class="badge badge-success">Premium Member</span>
+                        <span id="verified-badge" class="badge badge-info">Verified</span>
+                        <p id="user-location">Location: <span id="location-text">City, State</span></p>
+                        <div id="tags-container"></div>
+                        <button id="share-profile-btn">Share Profile</button>
+                        <button id="connect-btn">Connect</button>
+                    </div>
+                </div>
+
+                <!-- Digital Resume Link -->
+                <div class="card mt-3">
+                    <div class="card-body">
+                        <h5>Digital Resume</h5>
+                        <a href="#" id="digital-resume-link" class="btn btn-primary">View Resume</a>
+                    </div>
+                </div>
+
+                <!-- Social Media and Websites -->
+                <div class="card mt-3">
+                    <div class="card-body">
+                        <h5>Social Media & Websites</h5>
+                        <ul id="social-media-list">
+                            <!-- Social media links will be dynamically listed here -->
+                        </ul>
                     </div>
                 </div>
 
@@ -90,8 +115,7 @@
                         <ul id="video-resume-list">
                             <!-- Video resume files will be dynamically listed here -->
                         </ul>
-                        <button class="btn btn-primary btn-block" onclick="createVideoResume()">Create Video Resume</button>
-                        <button class="btn btn-secondary btn-block" onclick="editDigitalResume()">Edit Digital Resume</button>
+                        <button class="btn btn-primary btn-block" onclick="location.href='dashboard.html'">Edit Video Resumes</button>
                     </div>
                 </div>
 
@@ -99,179 +123,266 @@
                 <div class="card mt-3">
                     <div class="card-body">
                         <h5>Messages</h5>
-                        <button class="btn btn-primary btn-block" onclick="viewMessages()">View Messages</button>
+                        <button class="btn btn-primary btn-block" onclick="viewMessages()">Contact Me</button>
                     </div>
                 </div>
             </div>
 
-            <!-- Application Dashboard Section -->
             <div class="col-md-8">
-                <div class="card">
-                    <div class="card-body">
-                        <h4>Job Application Dashboard</h4>
-                        <button class="btn btn-info" onclick="boostApplication()">Boost Application</button>
-                        <hr>
-
-                        <!-- Job Applications List -->
-                        <div id="job-applications">
-                            <!-- Dynamic job application entries -->
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Preview Profile Button -->
+                <!-- Open Jobs Section -->
                 <div class="card mt-3">
                     <div class="card-body">
-                        <button class="btn btn-primary" onclick="previewProfile()">Preview Profile</button>
+                        <h5>Open Jobs</h5>
+                        <ul id="open-jobs-list">
+                            <!-- Open jobs will be dynamically listed here -->
+                        </ul>
                     </div>
                 </div>
-            </div>
-        </div>
 
-        <!-- Account Deactivation & Location Edit -->
-        <div class="row mt-5">
-            <div class="col-md-12 text-center">
-                <button class="btn btn-danger" onclick="deactivateAccount()">Deactivate Account</button>
-                <button class="btn btn-secondary" onclick="editLocation()">Edit Location</button>
+                <!-- Blogs Section -->
+                <div class="card mt-3">
+                    <div class="card-body">
+                        <h5>Blogs</h5>
+                        <ul id="blogs-list">
+                            <!-- Blogs will be dynamically listed here -->
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Companies Section -->
+                <div class="card mt-3">
+                    <div class="card-body">
+                        <h5>Companies</h5>
+                        <ul id="companies-list">
+                            <!-- Companies will be dynamically listed here -->
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-
     <!-- Footer -->
     <footer id="dynamic-footer"></footer>
-    
+
     <!-- Firebase configuration/ Login& Out -->
-    <script type="module" src="../public/js/main.js"></script> 
+    <script type="module" src="../public/js/main.js"></script>
 
-    <!-- Dynamic Schema Markup -->
     <script type="module">
-    import { db, storage, analytics, app  } from '../public/js/main.js'; // Adjust the path based on your structure
-    import { query, where, orderBy, limit,  collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
-    
-  
+        import { db, auth } from '../public/js/main.js';
+        import { doc, getDoc, collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 
-// Function to edit user bio
-async function editBio() {
-    const newBio = prompt("Enter your new bio:");
+        const urlParams = new URLSearchParams(window.location.search);
+        const userIdFromURL = urlParams.get('u');
 
-    if (newBio) {
-        const userId = auth.currentUser.uid;
-        try {
-            await updateDoc(doc(db, 'users', userId), { bio: newBio });
-            document.getElementById('user-bio').innerText = newBio;
-            alert('Bio updated successfully!');
-        } catch (error) {
-            console.error("Error updating bio: ", error);
-            alert('Error updating bio.');
+        async function checkUser() {
+            const user = auth.currentUser;
+
+            if (user) {
+                const userId = user.uid;
+
+                // Fetch profile information based on userId in the URL
+                const profileDoc = doc(db, 'users', userIdFromURL);
+                const profileSnapshot = await getDoc(profileDoc);
+
+                if (profileSnapshot.exists()) {
+                    const profileData = profileSnapshot.data();
+
+                    // Check if the profile is public
+                    if (profileData.profilePublic) {
+                        await loadUserData(profileData); // Load user data if public
+                        await loadUserJobs(userIdFromURL);
+                        await loadUserBlogs(userIdFromURL);
+                        await loadUserCompanies(userIdFromURL);
+                        await loadUserVideoResumes(userIdFromURL);
+                    } else {
+                        alert('This profile is private.');
+                        window.location.href = 'user.html';
+                    }
+                } else {
+                    console.error("No such user document!");
+                    alert('User data not found.');
+                }
+            } else {
+                alert('Please log in to access this page.');
+                window.location.href = 'login.html';
+            }
         }
-    }
-}
 
-// Function to create a new video resume
-async function createVideoResume() {
-    const videoUrl = prompt("Enter the URL of your video resume:");
+        async function loadUserData(profileData) {
+            document.getElementById('user-name').innerText = profileData.name || 'User Name';
+            document.getElementById('user-bio').innerText = profileData.bio || 'This is a short bio about the user...';
+            document.getElementById('location-text').innerText = profileData.location || 'City, State';
 
-    if (videoUrl) {
-        const userId = auth.currentUser.uid;
-        const videoResumesRef = collection(db, 'users', userId, 'videoResumes');
+            // Membership Badge
+            async function loadMembershipBadge(membership) {
+            const badge = document.getElementById('membership-badge');
+            if (membership) {
+                badge.innerHTML = `<span class="badge">Membership Level: ${membership}</span>`;
+            }
+        }
 
-        try {
-            await addDoc(videoResumesRef, {
-                url: videoUrl,
-                timestamp: new Date() // Use Date for timestamp
+        async function loadVerifiedBadge(verified) {
+            const badge = document.getElementById('verified-badge');
+            if (verified) {
+                badge.innerHTML = `<span class="badge">Verified</span>`;
+            }
+        }
+
+            // Digital Resume Link
+            const digitalResumeLink = document.getElementById('digital-resume-link');
+            digitalResumeLink.href = profileData.digitalResumeUrl || '#';
+            digitalResumeLink.innerText = profileData.digitalResumeUrl ? 'View Resume' : 'No Resume Available';
+        }
+
+        async function loadUserJobs(userId) {
+            const jobsRef = collection(db, 'Jobs');
+            const q = query(jobsRef, where("createdByID", "==", userId));
+            const jobSnapshot = await getDocs(q);
+            const jobsList = document.getElementById('open-jobs-list');
+
+            if (jobSnapshot.empty) {
+                jobsList.innerHTML = '<li>No open jobs found.</li>';
+                return;
+            }
+
+            jobSnapshot.forEach(doc => {
+                const jobData = doc.data();
+                const listItem = document.createElement('li');
+                listItem.innerText = jobData.title || 'Job Title';
+                jobsList.appendChild(listItem);
             });
-            alert('Video resume added successfully!');
-        } catch (error) {
-            console.error("Error adding video resume: ", error);
-            alert('Error adding video resume.');
         }
-    }
-}
 
-// Function to edit digital resume
-async function editDigitalResume() {
-    const digitalResume = prompt("Enter new content or upload for your digital resume:");
+        async function loadTags(userId) {
+            const tagsRef = collection(db, 'Tags');
+            const q = query(tagsRef, where("userId", "==", userId));
+            const tagsSnapshot = await getDocs(q);
+            const tagsContainer = document.getElementById('tags-container');
 
-    if (digitalResume) {
-        const userId = auth.currentUser.uid;
-        try {
-            await updateDoc(doc(db, 'users', userId), { digitalResume: digitalResume });
-            alert('Digital resume updated successfully!');
-        } catch (error) {
-            console.error("Error updating digital resume: ", error);
-            alert('Error updating digital resume.');
+            if (tagsSnapshot.empty) {
+                tagsContainer.innerHTML = '<p>No tags found.</p>';
+                return;
+            }
+
+            const tags = [];
+            tagsSnapshot.forEach(doc => {
+                tags.push(doc.data().tag);
+            });
+
+            tagsContainer.innerHTML = '<strong>Tags: </strong>' + tags.join(', ');
         }
-    }
-}
 
-// Function to boost a job application
-async function boostApplication() {
-    const jobId = prompt("Enter the Job ID you want to boost:");
+        async function loadUserBlogs(userId) {
+            const blogsRef = collection(db, 'Blogs');
+            const q = query(blogsRef, where("createdByID", "==", userId));
+            const blogSnapshot = await getDocs(q);
+            const blogsList = document.getElementById('blogs-list');
 
-    if (jobId) {
-        const userId = auth.currentUser.uid;
-        const applicationRef = doc(db, 'users', userId, 'applications', jobId);
+            if (blogSnapshot.empty) {
+                blogsList.innerHTML = '<li>No blogs found.</li>';
+                return;
+            }
 
-        try {
-            await updateDoc(applicationRef, { boosted: true });
-            alert('Job application boosted successfully!');
-        } catch (error) {
-            console.error("Error boosting application: ", error);
-            alert('Error boosting application.');
+            blogSnapshot.forEach(doc => {
+                const blogData = doc.data();
+                const listItem = document.createElement('li');
+                listItem.innerText = blogData.title || 'Blog Title';
+                blogsList.appendChild(listItem);
+            });
         }
-    }
-}
 
-// Function to deactivate user account
-async function deactivateAccount() {
-    if (confirm("Are you sure you want to deactivate your account? This action is irreversible.")) {
-        const userId = auth.currentUser.uid;
+        async function loadUserCompanies(userId) {
+            const companiesRef = collection(db, 'Companies');
+            const q = query(companiesRef, where("createdByID", "==", userId));
+            const companySnapshot = await getDocs(q);
+            const companiesList = document.getElementById('companies-list');
 
-        try {
-            await updateDoc(doc(db, 'users', userId), { active: false });
-            alert('Account deactivated successfully.');
-            // Log the user out and redirect them
-            await auth.signOut();
-            window.location.href = "views/logout.html";
-        } catch (error) {
-            console.error("Error deactivating account: ", error);
-            alert('Error deactivating account.');
+            if (companySnapshot.empty) {
+                companiesList.innerHTML = '<li>No companies found.</li>';
+                return;
+            }
+
+            companySnapshot.forEach(doc => {
+                const companyData = doc.data();
+                const listItem = document.createElement('li');
+                listItem.innerText = companyData.name || 'Company Name';
+                companiesList.appendChild(listItem);
+            });
         }
-    }
-}
 
-// Function to edit user location
-async function editLocation() {
-    const newLocation = prompt("Enter your new location:");
+        async function loadUserVideoResumes(userId) {
+            const videoResumesRef = collection(db, 'VideoResumes');
+            const q = query(videoResumesRef, where("createdByID", "==", userId));
+            const videoSnapshot = await getDocs(q);
+            const videoResumeList = document.getElementById('video-resume-list');
 
-    if (newLocation) {
-        const userId = auth.currentUser.uid;
-        try {
-            await updateDoc(doc(db, 'users', userId), { location: newLocation });
-            alert('Location updated successfully!');
-        } catch (error) {
-            console.error("Error updating location: ", error);
-            alert('Error updating location.');
+            if (videoSnapshot.empty) {
+                videoResumeList.innerHTML = '<li>No video resumes found.</li>';
+                return;
+            }
+
+            videoSnapshot.forEach(doc => {
+                const videoData = doc.data();
+                const listItem = document.createElement('li');
+                listItem.innerText = videoData.title || 'Video Resume Title';
+                listItem.addEventListener('click', () => playVideo(videoData.videoUrl));
+                videoResumeList.appendChild(listItem);
+            });
         }
-    }
-}
 
-// Function to view messages
-function viewMessages() {
-    window.location.href = "messaging.html?userId=" + auth.currentUser.uid;
-}
+        function playVideo(videoUrl) {
+            // Add logic to play video in a modal or a new page
+            alert(`Playing video from URL: ${videoUrl}`);
+        }
 
-// Function to preview profile
-function previewProfile() {
-    window.location.href = "job-seeker?userId=" + auth.currentUser.uid;
-}
+        async function loadSocialMedia(userId) {
+            const socialMediaRef = collection(db, 'SocialMedia');
+            const q = query(socialMediaRef, where("createdByID", "==", userId));
+            const socialSnapshot = await getDocs(q);
+            const socialMediaList = document.getElementById('social-media-list');
+
+            if (socialSnapshot.empty) {
+                socialMediaList.innerHTML = '<li>No social media links found.</li>';
+                return;
+            }
+
+            socialSnapshot.forEach(doc => {
+                const socialData = doc.data();
+                const listItem = document.createElement('li');
+                listItem.innerHTML = `<a href="${socialData.link}" target="_blank">${socialData.platform}</a>`;
+                socialMediaList.appendChild(listItem);
+            });
+        }
+        document.getElementById('share-profile-btn').addEventListener('click', () => {
+            const userId = "currentUserId"; // Replace with actual user ID
+            const shareUrl = `${window.location.origin}/profile/${userId}`; // Construct share URL
+            navigator.clipboard.writeText(shareUrl).then(() => {
+                alert('Profile link copied to clipboard!');
+            }).catch(err => {
+                console.error('Could not copy text: ', err);
+            });
+        });
+
+        document.getElementById('connect-btn').addEventListener('click', async () => {
+            const userId = "currentUserId"; // Replace with actual user ID
+            const currentUserId = "loggedInUserId"; // Replace with actual logic to get logged in user ID
+
+            if (userId !== currentUserId) {
+                const connectionRef = collection(db, 'Connections');
+                await addDoc(connectionRef, {
+                    from: currentUserId,
+                    to: userId,
+                    status: 'pending', // or 'accepted' based on your logic
+                });
+                alert('Connection request sent!');
+            } else {
+                alert('You cannot connect with yourself.');
+            }
+        });
+
+        checkUser();
     </script>
-
-    <!-- Bootstrap JS and dependencies -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 
 </html>
