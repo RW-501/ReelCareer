@@ -942,15 +942,19 @@ saveProfileBtn.addEventListener('click', function() {
     });
   }
   
+
   function saveProfile(userId, profileData) {
-    db.collection('Users').doc(userId).set(profileData, { merge: true }).then(() => {
-      alert('Profile updated successfully');
-      $('#profileModal').modal('hide');
-    }).catch(error => {
-      console.error('Error updating profile:', error);
-    });
+    const userDocRef = doc(db, 'Users', userId); // Create a reference to the user's document
+    
+    setDoc(userDocRef, profileData, { merge: true }) // Use setDoc to update the profile data
+      .then(() => {
+        alert('Profile updated successfully');
+        $('#profileModal').modal('hide'); // Hide the modal after successful update
+      })
+      .catch(error => {
+        console.error('Error updating profile:', error); // Log any errors
+      });
   }
-  
   
     function validateProfileForm() {
       // Check if username and name are valid
@@ -1001,23 +1005,27 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
- function checkUserProfile(userId) {
-    console.log("user id  ",userId);
-  db.collection('Users').doc(userId).get().then(doc => {
-    if (doc.exists) {
-      const userData = doc.data();
-      if (!userData.username || !userData.name) {
+
+function checkUserProfile(userId) {
+    console.log("user id  ", userId);
+    
+    // Fetch user profile using the updated Firestore API for Firebase v9+
+    const userDocRef = doc(db, 'Users', userId);
+    getDoc(userDocRef).then(docSnapshot => {
+      if (docSnapshot.exists()) {
+        const userData = docSnapshot.data();
+        if (!userData.username || !userData.name) {
+          $('#profileModal').modal('show');
+          populateFormFields(userData);
+        }
+      } else {
+        // No user data found, show the form for first-time setup
         $('#profileModal').modal('show');
-        populateFormFields(userData);
       }
-    } else {
-      // No data found, show the form for first-time setup
-      $('#profileModal').modal('show');
-    }
-  }).catch(error => {
-    console.error("Error fetching user data: ", error);
-  });
-}
+    }).catch(error => {
+      console.error("Error fetching user data: ", error);
+    });
+  }
 
 function populateFormFields(userData) {
     console.log("user info fROM FIREBASE  ",userData);
@@ -1054,16 +1062,17 @@ document.getElementById('deactivateAccountBtn').addEventListener('click', functi
 });
 
 function deactivateAccount(userId) {
-  db.collection('Users').doc(userId).update({
-    isActive: false
-  }).then(() => {
-    alert('Account deactivated successfully');
-    window.location.reload(); // or redirect to a logged-out state
-  }).catch(error => {
-    console.error('Error deactivating account:', error);
-  });
-}
-
+    const userDocRef = doc(db, 'Users', userId); // Create a reference to the user's document
+  
+    updateDoc(userDocRef, {
+      isActive: false
+    }).then(() => {
+      alert('Account deactivated successfully');
+      window.location.reload(); // or redirect to a logged-out state
+    }).catch(error => {
+      console.error('Error deactivating account:', error);
+    });
+  }
 
 // Export the objects
 export { onAuthStateChanged, db, storage, analytics, app,collection, getDocs, auth }; // Export db, storage, and analytics
