@@ -674,7 +674,7 @@ document.addEventListener('DOMContentLoaded', updateFooter);
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="profileDropdown">
                         <a class="dropdown-item" href="${adjustLinkURL}user">Profile</a>
                         <a class="dropdown-item" href="${adjustLinkURL}messaging">Messaging</a>
-                        <a class="dropdown-item" href="${adjustLinkURL}settings">Account Settings</a>
+                        <a class="dropdown-item" onclick='checkUsernameAndShowModal();' ">Account Settings</a>
                         <button class="dropdown-item" id="logoutButton">Logout</button>
                     </div>
                 </div>
@@ -719,6 +719,119 @@ document.addEventListener('DOMContentLoaded', updateFooter);
         }
     });
    
+}
+
+
+
+
+
+
+// Check if user data exists and show modal if missing
+document.addEventListener('DOMContentLoaded', function() {
+  auth.onAuthStateChanged(user => {
+    if (user) {
+      checkUserProfile(user.uid);
+    }
+  });
+});
+
+function checkUserProfile(userId) {
+  db.collection('users').doc(userId).get().then(doc => {
+    if (doc.exists) {
+      const userData = doc.data();
+      if (!userData.username || !userData.name) {
+        $('#profileModal').modal('show');
+        populateFormFields(userData);
+      }
+    } else {
+      // No data found, show the form for first-time setup
+      $('#profileModal').modal('show');
+    }
+  }).catch(error => {
+    console.error("Error fetching user data: ", error);
+  });
+}
+
+function populateFormFields(userData) {
+  document.getElementById('username').value = userData.username || '';
+  document.getElementById('name').value = userData.name || '';
+  document.getElementById('location').value = userData.location || '';
+  document.getElementById('bio').value = userData.bio || '';
+  document.getElementById('tags').value = userData.tags ? userData.tags.join(', ') : '';
+  document.getElementById('position').value = userData.position || '';
+  document.getElementById('membershipStatus').innerText = userData.membershipStatus || 'Free';
+  document.getElementById('verifiedStatus').innerText = userData.verifiedStatus ? 'Verified' : 'Not Verified';
+  document.getElementById('publicProfile').checked = userData.publicProfile || false;
+  
+  // Profile picture preview
+  if (userData.profilePicture) {
+    document.getElementById('profilePicPreview').src = userData.profilePicture;
+    document.getElementById('profilePicPreview').style.display = 'block';
+  }
+  
+  // Show recruiter fields if user is a recruiter
+  if (userData.userType === 'recruiter') {
+    document.getElementById('recruiterFields').style.display = 'block';
+    document.getElementById('companyName').value = userData.companyName || '';
+  }
+}
+
+// Save Profile Changes
+document.getElementById('saveProfileBtn').addEventListener('click', function() {
+  const userId = auth.currentUser.uid;
+  const profileData = {
+    username: document.getElementById('username').value,
+    name: document.getElementById('name').value,
+    location: document.getElementById('location').value,
+    bio: document.getElementById('bio').value,
+    tags: document.getElementById('tags').value.split(',').map(tag => tag.trim()),
+    position: document.getElementById('position').value,
+    publicProfile: document.getElementById('publicProfile').checked
+  };
+
+  if (document.getElementById('profilePicture').files.length > 0) {
+    const file = document.getElementById('profilePicture').files[0];
+    const storageRef = firebase.storage().ref('profilePictures/' + userId);
+    const uploadTask = storageRef.put(file);
+
+    uploadTask.on('state_changed', null, error => {
+      console.error('Upload failed:', error);
+    }, () => {
+      uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
+        profileData.profilePicture = downloadURL;
+        saveProfile(userId, profileData);
+      });
+    });
+  } else {
+    saveProfile(userId, profileData);
+  }
+});
+
+function saveProfile(userId, profileData) {
+  db.collection('users').doc(userId).set(profileData, { merge: true }).then(() => {
+    alert('Profile updated successfully');
+    $('#profileModal').modal('hide');
+  }).catch(error => {
+    console.error('Error updating profile:', error);
+  });
+}
+
+// Deactivate Account
+document.getElementById('deactivateAccountBtn').addEventListener('click', function() {
+  if (confirm('Are you sure you want to deactivate your account?')) {
+    deactivateAccount(auth.currentUser.uid);
+  }
+});
+
+function deactivateAccount(userId) {
+  db.collection('users').doc(userId).update({
+    isActive: false
+  }).then(() => {
+    alert('Account deactivated successfully');
+    window.location.reload(); // or redirect to a logged-out state
+  }).catch(error => {
+    console.error('Error deactivating account:', error);
+  });
 }
 
 

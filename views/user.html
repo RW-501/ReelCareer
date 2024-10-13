@@ -85,8 +85,14 @@
                         <span id="verified-badge" class="badge badge-info">Verified</span>
                         <p id="user-location">Location: <span id="location-text">City, State</span></p>
                         <div id="tags-container"></div>
-                        <button id="share-profile-btn">Share Profile</button>
-                        <button id="connect-btn">Connect</button>
+                        <!-- Messaging Area -->
+<div class="card mt-3">
+    <div class="card-body">
+        <button class="btn btn-primary btn-block" id="send-message-btn">Send Message</button>
+        <button class="btn btn-primary btn-block"  id="share-profile-btn">Share Profile</button>
+        <button class="btn btn-primary btn-block" id="connect-btn">Connect</button>
+    </div>
+</div>
                     </div>
                 </div>
 
@@ -119,14 +125,7 @@
                     </div>
                 </div>
 
-                <!-- Messaging Area -->
-                <div class="card mt-3">
-                    <div class="card-body">
-                        <h5>Messages</h5>
-                        <button class="btn btn-primary btn-block" onclick="viewMessages()">Contact Me</button>
-                    </div>
-                </div>
-            </div>
+
 
             <div class="col-md-8">
                 <!-- Open Jobs Section -->
@@ -161,6 +160,35 @@
             </div>
         </div>
     </div>
+
+<!-- Send Message Modal -->
+<div class="modal fade" id="sendMessageModal" tabindex="-1" aria-labelledby="sendMessageModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="sendMessageModalLabel">Send Message</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="sendMessageForm">
+                    <div class="form-group">
+                        <label for="message-content">Message</label>
+                        <textarea class="form-control" id="message-content" rows="4" required></textarea>
+                    </div>
+                    <input type="hidden" id="recipient-id" value="">
+                    <div class="form-group">
+                        <label for="message-attachments">Attachments</label>
+                        <input type="file" class="form-control-file" id="message-attachments">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Send</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 
     <!-- Footer -->
     <footer id="dynamic-footer"></footer>
@@ -379,6 +407,78 @@
                 alert('You cannot connect with yourself.');
             }
         });
+
+
+        document.getElementById('send-message-btn').addEventListener('click', function() {
+    // Set recipient ID from the profile data
+    document.getElementById('recipient-id').value = userIdFromURL; // Assuming userIdFromURL is the recipient ID.
+    $('#sendMessageModal').modal('show'); // Show the modal
+});
+
+
+document.getElementById('sendMessageForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const senderID = auth.currentUser.uid;
+    const recipientID = document.getElementById('recipient-id').value;
+    const content = document.getElementById('message-content').value;
+    const attachments = document.getElementById('message-attachments').files[0] || '';
+    
+    const messageData = {
+        recipientID: recipientID,
+        senderID: senderID,
+        type: 'message',
+        content: content,
+        attachments: attachments ? attachments.name : '',
+        isDeleted: false,
+        read: false,
+        createdAt: new Date(),
+    };
+    
+    try {
+        const messagesCollection = collection(db, 'Messages');
+        await addDoc(messagesCollection, messageData);
+        
+        alert('Message sent successfully!');
+        $('#sendMessageModal').modal('hide'); // Hide the modal after sending the message
+    } catch (error) {
+        console.error("Error sending message: ", error);
+        alert('Failed to send message. Please try again.');
+    }
+});
+/*
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /Messages/{message} {
+      allow create: if request.auth != null && request.resource.data.senderID == request.auth.uid;
+      allow read, update: if request.auth != null && (resource.data.recipientID == request.auth.uid || resource.data.senderID == request.auth.uid);
+    }
+  }
+}
+
+
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         checkUser();
     </script>

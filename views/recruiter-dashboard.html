@@ -509,7 +509,9 @@
 
 
    <script>
-
+  // Execute the check when the page loads
+  document.addEventListener('DOMContentLoaded', checkUsernameAndShowModal);
+  
 
 const boostButton = document.getElementById("boostButton");
 
@@ -946,6 +948,7 @@ document.getElementById("advancedFilters").onclick = async function () {
     }
 };
         </script>
+
     <script src="../public/js/recruiter/db_Scripts_1.js"></script>
     <script src="../public/js/recruiter/Scripts_1.js"></script>
     <script src="../public/js/recruiter/futureFuncs.js"></script>

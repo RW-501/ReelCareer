@@ -505,3 +505,192 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
+
+
+
+
+// profileModal.js
+
+// Function to create the profile modal HTML
+function createProfileModal() {
+    const modalHTML = `
+      <div id="profileModal" class="modal fade" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="profileModalLabel">Update Your Profile</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form id="profileForm">
+                <!-- Username -->
+                <div class="mb-3">
+                  <label for="username" class="form-label">Username <span class="text-danger">*</span></label>
+                  <input type="text" class="form-control" id="username" required>
+                  <small id="usernameError" class="text-danger"></small>
+                </div>
+  
+                <!-- Name -->
+                <div class="mb-3">
+                  <label for="name" class="form-label">Name <span class="text-danger">*</span></label>
+                  <input type="text" class="form-control" id="name" required>
+                </div>
+  
+                <!-- Location (Auto-suggest) -->
+                <div class="mb-3">
+                  <label for="location" class="form-label">Location</label>
+                  <input type="text" class="form-control" id="location" placeholder="Enter your city or state">
+                </div>
+  
+                <!-- Profile Picture Upload -->
+                <div class="mb-3">
+                  <label for="profilePicture" class="form-label">Profile Picture</label>
+                  <input type="file" class="form-control" id="profilePicture" accept="image/*">
+                  <img id="profilePicPreview" class="img-thumbnail mt-2" style="display:none; width: 100px;" />
+                </div>
+  
+                <!-- Bio -->
+                <div class="mb-3">
+                  <label for="bio" class="form-label">Bio</label>
+                  <textarea class="form-control" id="bio" rows="3" maxlength="300"></textarea>
+                </div>
+  
+                <!-- Tags (Skills or Interests) -->
+                <div class="mb-3">
+                  <label for="tags" class="form-label">Tags</label>
+                  <input type="text" class="form-control" id="tags" placeholder="Add tags (e.g., JavaScript, Project Management)">
+                </div>
+  
+                <!-- Company Name (For Recruiters) -->
+                <div id="recruiterFields" class="mb-3" style="display: none;">
+                  <label for="companyName" class="form-label">Company Name</label>
+                  <input type="text" class="form-control" id="companyName">
+                </div>
+  
+                <!-- Current Position -->
+                <div class="mb-3">
+                  <label for="position" class="form-label">Current Position</label>
+                  <input type="text" class="form-control" id="position">
+                </div>
+  
+                <!-- Membership Status -->
+                <div class="mb-3">
+                  <label class="form-label">Membership Status</label>
+                  <p id="membershipStatus" class="badge bg-success">Free</p>
+                  <button type="button" class="btn btn-link" id="changeMembershipBtn">Change Membership</button>
+                </div>
+  
+                <!-- Verified Status -->
+                <div class="mb-3">
+                  <label class="form-label">Verified Status</label>
+                  <p id="verifiedStatus" class="badge bg-secondary">Not Verified</p>
+                </div>
+  
+                <!-- Public Profile Checkbox -->
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="publicProfile">
+                  <label class="form-check-label" for="publicProfile">Public Profile</label>
+                </div>
+  
+                <!-- Deactivate Account -->
+                <div class="mt-4">
+                  <button type="button" class="btn btn-danger" id="deactivateAccountBtn">Deactivate Account</button>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" id="saveProfileBtn">Save changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  
+    // Append modal HTML to the body
+    document.body.insertAdjacentHTML('beforeend', modalHTML);
+  }
+  
+  // Function to initialize modal functionality
+  function initializeProfileModal() {
+    const profileForm = document.getElementById('profileForm');
+    const usernameInput = document.getElementById('username');
+    const nameInput = document.getElementById('name');
+    const usernameError = document.getElementById('usernameError');
+    const profilePictureInput = document.getElementById('profilePicture');
+    const profilePicPreview = document.getElementById('profilePicPreview');
+    const saveProfileBtn = document.getElementById('saveProfileBtn');
+  
+    // Real-time validation
+    usernameInput.addEventListener('input', function () {
+      validateField(usernameInput, usernameError, 'Username is required');
+    });
+  
+    nameInput.addEventListener('input', function () {
+      validateField(nameInput, null, 'Name is required');
+    });
+  
+    function validateField(input, errorElem, errorMessage) {
+      if (!input.value.trim()) {
+        input.classList.add('is-invalid');
+        if (errorElem) errorElem.textContent = errorMessage;
+      } else {
+        input.classList.remove('is-invalid');
+        input.classList.add('is-valid');
+        if (errorElem) errorElem.textContent = '';
+      }
+    }
+  
+    // Profile picture live preview
+    profilePictureInput.addEventListener('change', function (event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          profilePicPreview.src = e.target.result;
+          profilePicPreview.style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+  
+    // Save profile button
+    saveProfileBtn.addEventListener('click', function () {
+      if (validateProfileForm()) {
+        alert('Profile saved successfully!');
+        // Add actual save logic here
+      } else {
+        alert('Please fill in all required fields.');
+      }
+    });
+  
+    function validateProfileForm() {
+      // Check if username and name are valid
+      const isUsernameValid = usernameInput.value.trim() !== '';
+      const isNameValid = nameInput.value.trim() !== '';
+      return isUsernameValid && isNameValid;
+    }
+  
+    // Change membership button
+    const changeMembershipBtn = document.getElementById('changeMembershipBtn');
+    changeMembershipBtn.addEventListener('click', function () {
+      alert('Change membership clicked');
+      // Logic to handle membership change can go here
+    });
+  }
+  
+  // Check if username is set and show modal if not
+  function checkUsernameAndShowModal() {
+    // Simulate fetching data from Firebase
+    const userProfile = { username: '', name: '', location: '' }; // Replace this with actual Firebase data fetching
+  
+    if (!userProfile.username) {
+      createProfileModal();
+      $('#profileModal').modal('show');
+      initializeProfileModal();
+    }
+  }
+  
+  // Execute the check when the page loads
+ // document.addEventListener('DOMContentLoaded', checkUsernameAndShowModal);
+  
