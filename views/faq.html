@@ -155,61 +155,82 @@
     import {query, where, orderBy, limit, collection, getDocs, addDoc} from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 
 
-    // Function to load FAQs from Firestore
-    async function loadFAQs() {
-        try {
-            // Create a query to fetch FAQs where "activate" is true
-            const faqQuery = query(collection(db, "FAQs"), where("activate", "==", "true"));
+ 
+    
+async function loadFAQs() {
+    try {
+        const faqQuery = collection(db, "FAQs"); // Assuming FAQs is the collection name
+        const querySnapshot = await getDocs(faqQuery);
+        
+        querySnapshot.forEach((doc) => {
+            const faq = doc.data();
+            const faqItem = document.createElement('div');
+            faqItem.className = 'faq-item';
+            faqItem.setAttribute('itemscope', '');
+            faqItem.setAttribute('itemtype', 'https://schema.org/FAQPage');
 
-            // Execute the query
-            const querySnapshot = await getDocs(faqQuery);
-            querySnapshot.forEach((doc) => {
-                const faq = doc.data();
-                const faqItem = document.createElement('div');
-                faqItem.className = 'faq-item';
-                faqItem.setAttribute('itemscope', '');
-                faqItem.setAttribute('itemtype', 'https://schema.org/FAQPage');
-
-                faqItem.innerHTML = `
-                    <div class="faq-question" 
-                         data-toggle="collapse" 
-                         data-target="#answer-${faq.question.replace(/\s+/g, '-')}" 
-                         itemprop="mainEntity" 
-                         itemscope 
-                         itemtype="https://schema.org/Question" 
-                         aria-expanded="false" 
-                         aria-controls="answer-${faq.question.replace(/\s+/g, '-')}"
-                         tabindex="0">
-                        <strong itemprop="name">${faq.question}</strong>
+            // Generating an ID based on the question for toggling
+            const answerId = faq.question.replace(/\s+/g, '-');
+            
+            // Add the FAQ HTML structure
+            faqItem.innerHTML = `
+                <div class="faq-question" 
+                     data-toggle="collapse" 
+                     id="question-${answerId}"
+                     itemprop="mainEntity" 
+                     itemscope 
+                     itemtype="https://schema.org/Question" 
+                     aria-expanded="false" 
+                     aria-controls="answer-${answerId}"
+                     tabindex="0"
+                     onclick="toggleAnswer('${answerId}')">
+                    <strong itemprop="name">${faq.question}</strong>
+                </div>
+                <div id="answer-${answerId}" 
+                     class="faq-answer collapse" 
+                     itemprop="acceptedAnswer" 
+                     itemscope 
+                     itemtype="https://schema.org/Answer" 
+                     style="display: none;">
+                    <p itemprop="text">${faq.answer}</p>
+                    <div class="feedback">
+                        <span>Was this helpful? </span>
+                        <div class="helpful-buttons">
+                            <button class="btn btn-sm btn-success" 
+                                    aria-label="Yes, was this helpful?" 
+                                    data-id="${doc.id}">Yes</button>
+                            <button class="btn btn-sm btn-danger" 
+                                    aria-label="No, was this helpful?" 
+                                    data-id="${doc.id}">No</button>
+                        </div>
                     </div>
-                    <div id="answer-${faq.question.replace(/\s+/g, '-')}" 
-                         class="faq-answer collapse" 
-                         itemprop="acceptedAnswer" 
-                         itemscope 
-                         itemtype="https://schema.org/Answer">
-                        <p itemprop="text">${faq.answer}</p>
-                        <div class="feedback">
-                            <span>Was this helpful? </span>
-                    <div class="helpful-buttons">
-    <button class="btn btn-sm btn-success" 
-            aria-label="Yes, was this helpful?" 
-            data-id="${doc.id}">Yes</button>
-    <button class="btn btn-sm btn-danger" 
-            aria-label="No, was this helpful?" 
-            data-id="${doc.id}">No</button>
-</div>
+                </div>
+            `;
 
-                    </div>
-                `;
-
-                faqList.appendChild(faqItem);
-            });
-        } catch (error) {
-            console.error("Error loading FAQs: ", error);
-        }
+            faqList.appendChild(faqItem);
+        });
+    } catch (error) {
+        console.error("Error loading FAQs: ", error);
     }
+}
 
+        
 
+function toggleAnswer(answerId) {
+    const answerElement = document.getElementById(`answer-${answerId}`);
+    const questionElement = document.getElementById(`question-${answerId}`);
+    console.log("?????????????????????/");
+
+    if (answerElement.style.display === "none") {
+        // Show answer
+        answerElement.style.display = "block";
+        questionElement.setAttribute("aria-expanded", "true");
+    } else {
+        // Hide answer
+        answerElement.style.display = "none";
+        questionElement.setAttribute("aria-expanded", "false");
+    }
+}
 
 
 
@@ -305,19 +326,7 @@ async function updateHelpfulStatus(docId, isHelpful) {
         }
     }
 
-    document.querySelectorAll('.faq-question').forEach(question => {
-        console.log("?????????????????????/");
-    question.addEventListener('click', function() {
-        const targetId = this.getAttribute('data-target'); // Use data-target attribute to find the answer div
-        const target = document.querySelector(targetId);
-        
-        if (target.classList.contains('collapse')) {
-            target.classList.remove('collapse');  // Hide answer
-        } else {
-            target.classList.add('collapse');    // Show answer
-        }
-    });
-});
+    
     // Event listener for the form submission
     document.getElementById('askQuestionForm').addEventListener('submit', submitQuestion);
 </script>
