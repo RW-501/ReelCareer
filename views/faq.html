@@ -5,43 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FAQ - Reelcareer</title>
     <meta name="description" content="Find answers to common questions about our services, job searching tips, and more in our FAQ section.">
+
+    <!-- CSS Styles -->
     <style>
         body {
             background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
         }
-
-        h2 {
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
             margin-bottom: 30px;
         }
         .faq-item {
-            margin-bottom: 20px;
-            padding: 20px;
             border: 1px solid #dee2e6;
             border-radius: 8px;
-            background-color: #ffffff;
-        }
-        .faq-question {
-            cursor: pointer;
+            padding: 20px;
+            background-color: #fff;
             margin-bottom: 10px;
-        }
-        .faq-answer {
-            display: none; /* Hide answers by default */
-        }
-        .feedback {
-            margin-top: 10px;
-        }
-
-        .faq-item {
-            background: #ffffff;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            margin-bottom: 1rem;
-            padding: 1.5rem;
-            transition: transform 0.2s;
+            transition: transform 0.3s ease-in-out;
         }
         .faq-item:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+            transform: scale(1.02);
         }
         .faq-question {
             cursor: pointer;
@@ -49,289 +38,135 @@
             color: #007bff;
         }
         .faq-answer {
-            margin-top: 0.5rem;
+            display: none;
+            margin-top: 10px;
+        }
+        .ask-question-section {
+            margin-top: 30px;
         }
         .feedback {
-            margin-top: 1rem;
+            margin-top: 20px;
+            font-size: 0.9em;
         }
         @media (max-width: 576px) {
             .faq-item {
-                padding: 1rem;
+                padding: 15px;
             }
         }
     </style>
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    
-    <!-- Bootstrap CSS -->
-    <script src="../public/js/scripts.js"></script>
-    <script src="../public/js/loadScripts.js"></script>
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="../public/css/styles.css">
 
+    <!-- Scripts -->
+    <script defer src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
-
 <body>
-    <div class="container mt-5">
-        <h1 class="text-center mb-4">Frequently Asked Questions</h1>
+    <div class="faq-container">
+        <h1>Frequently Asked Questions</h1>
+
         <input type="text" id="searchInput" class="form-control mb-4" placeholder="Search FAQs..." aria-label="Search FAQs">
+
         <div id="faqList" class="list-group">
-            <!-- Example FAQ Item -->
-            <div class="faq-item">
-                <div class="faq-question" data-toggle="collapse" data-target="#answer-1" aria-expanded="false" aria-controls="answer-1">
-                    <strong>What is your refund policy?</strong>
-                </div>
-                <div id="answer-1" class="collapse faq-answer">
-                    <p>We offer a 30-day refund policy for all items...</p>
-                </div>
-            </div>
+            <!-- FAQ items will be dynamically loaded here -->
         </div>
-        
+
         <div class="ask-question-section">
             <h3>Have a question?</h3>
             <p id="authMessage" class="text-danger" style="display: none;">You must be logged in to ask a question.</p>
-        
-            <!-- Assume a variable isLoggedIn to check if user is authenticated -->
+
             <form id="askQuestionForm" style="display: none;" class="mt-3">
-                <div class="form-group">
-                    <label for="questionInput">Ask Your Question</label>
-                    <textarea id="questionInput" class="form-control" rows="4" placeholder="Type your question here..." required></textarea>
-                </div>
+                <textarea id="questionInput" class="form-control" rows="4" placeholder="Type your question..." required></textarea>
                 <button type="submit" class="btn btn-primary mt-2">Submit Question</button>
             </form>
-            
-            <!-- Button to show the form -->
+
             <button id="askQuestionBtn" class="btn btn-secondary mt-3" style="display: none;">Ask a Question</button>
         </div>
-        
-        <script>
-            // Example: Check if the user is logged in (you would replace this with your actual auth check)
-            const isLoggedIn = false; // This should be dynamically set based on your auth logic
-        
-            if (isLoggedIn) {
-                document.getElementById('askQuestionForm').style.display = 'block'; // Show form
-                document.getElementById('askQuestionBtn').style.display = 'none'; // Hide button
-            } else {
-                document.getElementById('authMessage').style.display = 'block'; // Show auth message
-                document.getElementById('askQuestionBtn').style.display = 'block'; // Show button to ask question
-            }
-        
-            // Event listener to handle form submission
-            document.getElementById('askQuestionForm').addEventListener('submit', function(event) {
-                event.preventDefault(); // Prevent default form submission
-                const question = document.getElementById('questionInput').value;
-                
-                // Handle the submission logic (e.g., send question to server)
-                console.log("Question submitted:", question);
-                
-                // Reset the form after submission
-                document.getElementById('questionInput').value = '';
-            });
-        
-            // Event listener to show the question form when the button is clicked
-            document.getElementById('askQuestionBtn').addEventListener('click', function() {
-                document.getElementById('askQuestionForm').style.display = 'block'; // Show form
-                document.getElementById('authMessage').style.display = 'none'; // Hide auth message
-                document.getElementById('askQuestionBtn').style.display = 'none'; // Hide button
-            });
-        </script>
-        
-        
+
         <button id="liveChatButton" class="btn btn-primary mt-4">Live Chat</button>
     </div>
-</body>
-    <!-- Footer -->
-    <footer id="dynamic-footer"></footer>
-    
-    <!-- Firebase configuration/ Login& Out -->
-    <script type="module" src="../public/js/main.js"></script> 
 
-   
-<!-- Firebase and jQuery Scripts -->
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
-<script type="module">
-    import {onAuthStateChanged, db, storage, analytics, app, auth} from '../public/js/main.js'; // Adjust the path based on your structure
-    import {doc, query, where, orderBy, limit, collection, getDocs, addDoc} from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Load FAQs
+            const faqList = document.getElementById('faqList');
+            const isLoggedIn = false;  // Replace with actual auth check logic
 
+            // Example FAQs
+            const faqs = [
+                { question: "What is your refund policy?", answer: "We offer a 30-day refund policy for all items..." },
+                { question: "How do I reset my password?", answer: "To reset your password, go to the login page and click on 'Forgot Password'..." },
+                // Add more FAQ items here
+            ];
 
- 
-    async function loadFAQs() {
-    const faqList = document.getElementById('faq-list');
-    faqList.innerHTML = ''; // Clear any existing content
+            // Load FAQs dynamically
+            loadFAQs(faqs);
 
-    try {
-        const faqQuery = collection(db, "FAQs");
-        const querySnapshot = await getDocs(faqQuery);
+            // Check if the user is logged in
+            toggleAuthState(isLoggedIn);
 
-        // Create a document fragment for efficient DOM manipulation
-        const fragment = document.createDocumentFragment();
+            // Search functionality
+            document.getElementById('searchInput').addEventListener('keyup', function () {
+                const searchTerm = this.value.toLowerCase();
+                const faqItems = document.querySelectorAll('.faq-item');
+                faqItems.forEach(item => {
+                    const question = item.querySelector('.faq-question').textContent.toLowerCase();
+                    item.style.display = question.includes(searchTerm) ? '' : 'none';
+                });
+            });
 
-        querySnapshot.forEach((doc) => {
-            const { question, answer } = doc.data();
-            const faqItem = document.createElement('div');
-            faqItem.className = 'faq-item';
+            // Live chat button
+            document.getElementById('liveChatButton').addEventListener('click', () => {
+                alert("Chat feature coming soon!");
+            });
 
-            const answerId = `answer-${doc.id}`;
+            // Toggle FAQ answer
+            faqList.addEventListener('click', function (e) {
+                if (e.target && e.target.classList.contains('faq-question')) {
+                    const answerDiv = e.target.nextElementSibling;
+                    answerDiv.style.display = answerDiv.style.display === 'block' ? 'none' : 'block';
+                }
+            });
 
-            // Generate the HTML structure using template literals
-            faqItem.innerHTML = `
-                <div class="faq-question">
-                    <button class="faq-toggle" 
-                            data-answer="${answerId}" 
-                            aria-expanded="false"
-                            aria-controls="${answerId}">
-                        ${question}
-                    </button>
-                </div>
-                <div id="${answerId}" class="faq-answer" style="display: none;">
-                    <p>${answer}</p>
-                    <div class="feedback">
-                        <span>Was this helpful?</span>
-                        <div class="helpful-buttons">
-                            <button class="helpful-btn" data-type="yes" data-id="${doc.id}">Yes</button>
-                            <button class="helpful-btn" data-type="no" data-id="${doc.id}">No</button>
-                        </div>
-                    </div>
-                </div>
-            `;
+            // Ask question form submission
+            document.getElementById('askQuestionForm').addEventListener('submit', function (e) {
+                e.preventDefault();
+                const questionInput = document.getElementById('questionInput').value;
+                console.log("Question submitted:", questionInput);
+                // Reset the form
+                document.getElementById('questionInput').value = '';
+                alert("Your question has been submitted for review.");
+            });
 
-            fragment.appendChild(faqItem);
-        });
-
-        faqList.appendChild(fragment);
-
-        // Add event listeners using delegation
-        faqList.addEventListener('click', (event) => {
-            if (event.target.classList.contains('faq-toggle')) {
-                const answerId = event.target.dataset.answer;
-                const answerDiv = document.getElementById(answerId);
-                const isVisible = answerDiv.style.display === 'block';
-
-                // Toggle answer visibility
-                answerDiv.style.display = isVisible ? 'none' : 'block';
-                event.target.setAttribute('aria-expanded', !isVisible);
-            }
-
-            if (event.target.classList.contains('helpful-btn')) {
-                const feedbackType = event.target.dataset.type;
-                const faqId = event.target.dataset.id;
-                // Handle helpful feedback submission here (e.g., send to Firestore)
-                console.log(`Feedback: ${feedbackType} for FAQ ID: ${faqId}`);
-            }
-        });
-
-    } catch (error) {
-        console.error("Error fetching FAQs: ", error);
-        faqList.innerHTML = '<p>Failed to load FAQs. Please try again later.</p>';
-    }
-}
-
-
-
-        
-
-
-
-
-// Function to update helpful status in Firestore
-async function updateHelpfulStatus(docId, isHelpful) {
-    // Reference to the document
-    const docRef = doc(db, 'yourCollectionName', docId);
-    
-    try {
-        await updateDoc(docRef, {
-            helpfulCount: increment(isHelpful ? 1 : 0),
-            notHelpfulCount: increment(isHelpful ? 0 : 1),
-            lastFeedbackTimestamp: serverTimestamp() // Optional: Track when feedback was given
-        });
-        console.log(`Document ${docId} updated successfully: Helpful - ${isHelpful}`);
-    } catch (error) {
-        console.error("Error updating document: ", error);
-    }
-}
-
-
-
-
-    // Load FAQs when the page is ready
-    document.addEventListener('DOMContentLoaded', () => {
-        loadFAQs();
-
-        // Search functionality
-        const searchInput = document.getElementById('searchInput');
-        searchInput.addEventListener('keyup', function() {
-            const value = this.value.toLowerCase();
-            const faqItems = document.querySelectorAll('.faq-item');
-
-            faqItems.forEach(function(item) {
-                const questionText = item.querySelector('.faq-question strong').innerText.toLowerCase();
-                item.style.display = questionText.includes(value) ? '' : 'none';
+            // Toggle form display on button click
+            document.getElementById('askQuestionBtn').addEventListener('click', () => {
+                document.getElementById('askQuestionForm').style.display = 'block';
+                document.getElementById('authMessage').style.display = 'none';
+                document.getElementById('askQuestionBtn').style.display = 'none';
             });
         });
 
-        // Live chat button functionality
-        const liveChatButton = document.getElementById('liveChatButton');
-        liveChatButton.addEventListener('click', function() {
-            alert("Chat feature coming soon!"); // Placeholder for chat integration
-        });
+        // Function to load FAQs dynamically
+        function loadFAQs(faqs) {
+            const faqList = document.getElementById('faqList');
+            faqs.forEach((faq, index) => {
+                const faqItem = document.createElement('div');
+                faqItem.className = 'faq-item';
+                faqItem.innerHTML = `
+                    <div class="faq-question">${faq.question}</div>
+                    <div class="faq-answer">${faq.answer}</div>
+                `;
+                faqList.appendChild(faqItem);
+            });
+        }
 
-
-       
-
-
-
-
-    });
-
-
-
-
-
-
-    /*
-
-
-*/
-    // Function to handle question submission
-    async function submitQuestion(e) {
-        e.preventDefault();
-
-        const questionInput = document.getElementById('questionInput').value;
-        const user = auth.currentUser;
-
-        if (user && questionInput.trim()) {
-            try {
-                // Add the question to the Firestore 'FAQs' collection
-                await addDoc(collection(db, "FAQs"), {
-                    question: questionInput,
-                    answer: "",
-                    activate: false, // Set activate to false for admin review
-                    postedBy: user.displayName || user.email, // Use display name or email
-                    postedById: user.uid,
-                    likes: 0,
-                    loves: 0,
-                    helpful: 0,
-                    viewCount: 0,
-                    timestamp: new Date().toISOString() // Add timestamp
-                });
-
-                // Clear the input field and show a success message
-                document.getElementById('questionInput').value = '';
-                alert("Your question has been submitted for review.");
-            } catch (error) {
-                console.error("Error submitting question: ", error);
-                alert("There was an error submitting your question. Please try again.");
+        // Function to toggle authentication state
+        function toggleAuthState(isLoggedIn) {
+            if (isLoggedIn) {
+                document.getElementById('askQuestionForm').style.display = 'block';
+            } else {
+                document.getElementById('authMessage').style.display = 'block';
+                document.getElementById('askQuestionBtn').style.display = 'block';
             }
         }
-    }
-
-    
-    // Event listener for the form submission
-    document.getElementById('askQuestionForm').addEventListener('submit', submitQuestion);
-</script>
-
-<script>
-
-</script>
+    </script>
+</body>
 </html>
