@@ -509,10 +509,7 @@
 
 
    <script>
-  // Execute the check when the page loads
-  document.addEventListener('DOMContentLoaded', checkUsernameAndShowModal);
-  
-
+ 
 const boostButton = document.getElementById("boostButton");
 
 // Function to handle boosting the job posting
@@ -602,6 +599,9 @@ document.getElementById("boostJobPostButton").onclick = function () {
     import { db, storage, analytics, app  } from '../public/js/main.js'; // Adjust the path based on your structure
     import { query, where, orderBy, limit,  collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
     
+  
+ // Execute the check when the page loads
+ document.addEventListener('DOMContentLoaded', checkUsernameAndShowModal);
   
 
     const checkUserMembershipAndBoostCount = async (userId) => {
