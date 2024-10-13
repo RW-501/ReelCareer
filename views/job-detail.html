@@ -899,7 +899,7 @@ async function loadRelatedBlogs(jobIndustry) {
                     <img src="${blog.imageUrl}" alt="${blog.title}" class="img-fluid blog-image" loading="lazy" />
                     <h5>${blog.title}</h5>
                     <p>${truncateText(blog.content, 80)}</p>
-                    <a href="/ReelCareer/views/blog/?b=${doc.id}" class="btn btn-outline-primary">Read More</a>
+                    <a href="/ReelCareer/views/blog?b=${doc.id}" class="btn btn-outline-primary">Read More</a>
                 `;
                 blogContainer.appendChild(blogCard);
             });
