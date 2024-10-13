@@ -898,8 +898,8 @@ async function loadRelatedBlogs(jobIndustry) {
                 blogCard.innerHTML = `
                     <img src="${blog.imageUrl}" alt="${blog.title}" class="img-fluid blog-image" loading="lazy" />
                     <h5>${blog.title}</h5>
-                    <p>${truncateText(blog.content, 30)}</p>
-                    <a href="/blog/${doc.id}" class="btn btn-outline-primary">Read More</a>
+                    <p>${truncateText(blog.content, 80)}</p>
+                    <a href="/blog/?b=${doc.id}" class="btn btn-outline-primary">Read More</a>
                 `;
                 blogContainer.appendChild(blogCard);
             });
@@ -1177,6 +1177,6 @@ window.addEventListener('click', function(event) {
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    
+
 </body>
 </html>
