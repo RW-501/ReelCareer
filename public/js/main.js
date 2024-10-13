@@ -999,56 +999,53 @@ saveProfileBtn.addEventListener('click', function() {
       }
       
 
-
-
-  }
-  
-  // Check if username is set and show modal if not
- 
-  // Execute the check when the page loads
- // document.addEventListener('DOMContentLoaded', checkUsernameAndShowModal);
-  
-
- document.addEventListener('DOMContentLoaded', function() {
-    auth.onAuthStateChanged(user => {
-        if (user) {
-            createProfileModal();
-            initializeProfileModal();
-            $('#profileModal').modal('hide');
-                      console.log("check 2");
-        }
-    });
-    });
-
-
-
-
-
-
-
-function checkUserProfile(userId) {
-    console.log("user id  ", userId);
-    console.log("check next to last");
-
-    // Fetch user profile using the updated Firestore API for Firebase v9+
-    const userDocRef = doc(db, 'Users', userId);
-    getDoc(userDocRef).then(docSnapshot => {
-      if (docSnapshot.exists()) {
-        const userData = docSnapshot.data();
-        if (!userData.username || !userData.name) {
+      function checkUserProfile(userId) {
+        console.log("user id  ", userId);
+        console.log("check next to last");
+    
+        // Fetch user profile using the updated Firestore API for Firebase v9+
+        const userDocRef = doc(db, 'Users', userId);
+        getDoc(userDocRef).then(docSnapshot => {
+          if (docSnapshot.exists()) {
+            const userData = docSnapshot.data();
+            if (!userData.username || !userData.name) {
+                createProfileModal();
+                $('#profileModal').modal('show');
+                          populateFormFields(userData);
+            }
+          } else {
+            // No user data found, show the form for first-time setup
             createProfileModal();
             $('#profileModal').modal('show');
-                      populateFormFields(userData);
-        }
-      } else {
-        // No user data found, show the form for first-time setup
-        createProfileModal();
-        $('#profileModal').modal('show');
-          }
-    }).catch(error => {
-      console.error("Error fetching user data: ", error);
-    });
-  }
+              }
+        }).catch(error => {
+          console.error("Error fetching user data: ", error);
+        });
+      }
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 function populateFormFields(userData) {
     console.log("check last");
@@ -1077,7 +1074,7 @@ function populateFormFields(userData) {
     document.getElementById('companyNameSET').value = userData.companyName || '';
   }
 
-
+}
   
 
 // Deactivate Account
@@ -1101,6 +1098,20 @@ document.getElementById('deactivateAccountBtn').addEventListener('click', functi
     }
   
 }
+
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    auth.onAuthStateChanged(user => {
+        if (user) {
+            createProfileModal();
+            initializeProfileModal();
+            $('#profileModal').modal('hide');
+                      console.log("check 2");
+        }
+    });
+    });
+
 
 // Export the objects
 export { onAuthStateChanged, db, storage, analytics, app,collection, getDocs, auth }; // Export db, storage, and analytics
