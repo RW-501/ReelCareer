@@ -182,7 +182,7 @@
                 const userId = user.uid;
 
                 // Fetch profile information based on userId in the URL
-                const profileDoc = doc(db, 'users', userIdFromURL);
+                const profileDoc = doc(db, 'Users', userIdFromURL);
                 const profileSnapshot = await getDoc(profileDoc);
 
                 if (profileSnapshot.exists()) {
@@ -195,9 +195,10 @@
                         await loadUserBlogs(userIdFromURL);
                         await loadUserCompanies(userIdFromURL);
                         await loadUserVideoResumes(userIdFromURL);
+                        await loadSocialMedia(profileData);
                     } else {
                         alert('This profile is private.');
-                        window.location.href = 'user.html';
+                       // window.location.href = 'user.html';
                     }
                 } else {
                     console.error("No such user document!");
@@ -205,7 +206,7 @@
                 }
             } else {
                 alert('Please log in to access this page.');
-                window.location.href = 'login.html';
+               // window.location.href = 'login.html';
             }
         }
 
@@ -214,6 +215,25 @@
             document.getElementById('user-bio').innerText = profileData.bio || 'This is a short bio about the user...';
             document.getElementById('location-text').innerText = profileData.location || 'City, State';
 
+            
+        async function loadTags(userId) {
+            const tagsRef = collection(db, 'Tags');
+            const q = query(tagsRef, where("userId", "==", userId));
+            const tagsSnapshot = await getDocs(q);
+            const tagsContainer = document.getElementById('tags-container');
+
+            if (tagsSnapshot.empty) {
+                tagsContainer.innerHTML = '<p>No tags found.</p>';
+                return;
+            }
+
+            const tags = [];
+            tagsSnapshot.forEach(doc => {
+                tags.push(doc.data().tag);
+            });
+
+            tagsContainer.innerHTML = '<strong>Tags: </strong>' + tags.join(', ');
+        }
             // Membership Badge
             async function loadMembershipBadge(membership) {
             const badge = document.getElementById('membership-badge');
@@ -254,24 +274,6 @@
             });
         }
 
-        async function loadTags(userId) {
-            const tagsRef = collection(db, 'Tags');
-            const q = query(tagsRef, where("userId", "==", userId));
-            const tagsSnapshot = await getDocs(q);
-            const tagsContainer = document.getElementById('tags-container');
-
-            if (tagsSnapshot.empty) {
-                tagsContainer.innerHTML = '<p>No tags found.</p>';
-                return;
-            }
-
-            const tags = [];
-            tagsSnapshot.forEach(doc => {
-                tags.push(doc.data().tag);
-            });
-
-            tagsContainer.innerHTML = '<strong>Tags: </strong>' + tags.join(', ');
-        }
 
         async function loadUserBlogs(userId) {
             const blogsRef = collection(db, 'Blogs');
@@ -336,14 +338,11 @@
             alert(`Playing video from URL: ${videoUrl}`);
         }
 
-        async function loadSocialMedia(userId) {
-            const socialMediaRef = collection(db, 'SocialMedia');
-            const q = query(socialMediaRef, where("createdByID", "==", userId));
-            const socialSnapshot = await getDocs(q);
-            const socialMediaList = document.getElementById('social-media-list');
+        async function loadSocialMedia(profileData) {
+            const socialMediaListContainer = document.getElementById('social-media-list');
 
-            if (socialSnapshot.empty) {
-                socialMediaList.innerHTML = '<li>No social media links found.</li>';
+            if (profileData.socialMediaList) {
+                socialMediaListContainer.innerHTML = '<li>No social media links found.</li>';
                 return;
             }
 
@@ -351,7 +350,7 @@
                 const socialData = doc.data();
                 const listItem = document.createElement('li');
                 listItem.innerHTML = `<a href="${socialData.link}" target="_blank">${socialData.platform}</a>`;
-                socialMediaList.appendChild(listItem);
+                socialMediaListContainer.appendChild(listItem);
             });
         }
         document.getElementById('share-profile-btn').addEventListener('click', () => {
