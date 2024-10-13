@@ -987,8 +987,9 @@ saveProfileBtn.addEventListener('click', function() {
       
         if (!userData.profilePic) {
           createProfileModal();
-          $('#profileModal').modal('show');
           initializeProfileModal();
+          $('#profileModal').modal('hide');
+
           alert('checkUsernameAndShowModal');
     console.log("check 1");
         }
@@ -1008,7 +1009,7 @@ saveProfileBtn.addEventListener('click', function() {
  document.addEventListener('DOMContentLoaded', function() {
     auth.onAuthStateChanged(user => {
         if (user) {
-            initializeProfileModal();
+            checkUsernameAndShowModal();
           console.log("check 2");
         }
     });
