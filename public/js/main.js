@@ -673,7 +673,7 @@ document.addEventListener('DOMContentLoaded', updateFooter);
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="profileDropdown">
                         <a class="dropdown-item" href="${adjustLinkURL}user">Profile</a>
                         <a class="dropdown-item" href="${adjustLinkURL}messaging">Messaging</a>
-                        <a class="dropdown-item" onclick='checkUsernameAndShowModal();' ">Account Settings</a>
+                        <a class="dropdown-item" onclick='checkUserProfile(${user.id});' ">Account Settings</a>
                         <button class="dropdown-item" id="logoutButton">Logout</button>
                     </div>
                 </div>
@@ -717,9 +717,11 @@ document.addEventListener('DOMContentLoaded', updateFooter);
             dropdownMenu.classList.remove('show');
         }
     });
+
+    // Check if user data exists and show modal if missing
+
    
 }
-
 
 
 
@@ -847,8 +849,19 @@ function createProfileModal() {
     // Append modal HTML to the body
     document.body.insertAdjacentHTML('beforeend', modalHTML);
   }
+/*
+  //document.addEventListener('DOMContentLoaded', function() {
+    auth.onAuthStateChanged(user => {
+        if (user) {
+          checkUserProfile(user.uid);
+          console.log("check 2");
+    
+        }
+      });
+   // });
 
-  
+*/
+
 
   // Function to initialize modal functionality
   function initializeProfileModal() {
@@ -970,24 +983,25 @@ saveProfileBtn.addEventListener('click', function() {
       // Logic to handle membership change can go here
     });
 
+    function checkUsernameAndShowModal() {
+        // Simulate fetching data from Firebase
+      
+        if (!userData.profilePic) {
+          createProfileModal();
+          $('#profileModal').modal('show');
+          initializeProfileModal();
+          alert('checkUsernameAndShowModal');
+    console.log("check 1");
+        }
+      }
+      
 
 
 
   }
   
   // Check if username is set and show modal if not
-  function checkUsernameAndShowModal() {
-    // Simulate fetching data from Firebase
-  
-    if (!userData.profilePic) {
-      createProfileModal();
-      $('#profileModal').modal('show');
-      initializeProfileModal();
-      alert('checkUsernameAndShowModal');
-console.log("check 1");
-    }
-  }
-  
+ 
   // Execute the check when the page loads
  // document.addEventListener('DOMContentLoaded', checkUsernameAndShowModal);
   

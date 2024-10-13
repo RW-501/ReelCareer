@@ -600,14 +600,6 @@ document.getElementById("boostJobPostButton").onclick = function () {
     import { query, where, orderBy, limit,  collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
     
   
-// Check if user data exists and show modal if missing
-  auth.onAuthStateChanged(user => {
-    if (user) {
-      checkUserProfile(user.uid);
-      console.log("check 2");
-
-    }
-  });
 
 
 
