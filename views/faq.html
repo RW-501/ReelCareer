@@ -306,6 +306,7 @@ async function updateHelpfulStatus(docId, isHelpful) {
     }
 
     document.querySelectorAll('.faq-question').forEach(question => {
+        console.log("?????????????????????/");
     question.addEventListener('click', function() {
         const targetId = this.getAttribute('data-target'); // Use data-target attribute to find the answer div
         const target = document.querySelector(targetId);
