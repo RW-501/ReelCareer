@@ -506,13 +506,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-    
-    function showModal() {
-        const modalElement = document.getElementById('profileModal');
-        const modal = new bootstrap.Modal(modalElement);
-        modal.show();
-    }
-
 
 
 
