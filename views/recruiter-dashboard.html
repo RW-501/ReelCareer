@@ -209,21 +209,30 @@
                         </div>
 
 
+                        <hr>
 
-                    <div class="form-row">
+  
+
                         <div class="form-group col-md-6">
-                            <label for="jobLocation">Job Location <small class="text-muted">(Required)</small></label>
-                            <input type="text" 
-                            oninput="autoSuggest(this.value,'locationSuggestions')"
-                            class="form-control keywordInput location-input" id="jobLocation" placeholder="Enter job location" required>
-                            <div class="invalid-feedback">Please enter a job location.</div>
+                        <label for="jobSalary">Salary <small class="text-muted">(Required)</small></label>
+                        <input type="text"    onkeydown="restrictKeys(event)" 
+                        aria-label="Salary Range"
+                        oninput="updateCurrency(this)" class="form-control" id="jobSalary" min="0" placeholder="Enter salary" required>
+                        <div class="invalid-feedback">Please enter a salary amount.</div>
                         </div>
-
-
+                        </div>
    
-<hr>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="jobLocation">Job Location <small class="text-muted">(Required)</small></label>
+                                <input type="text" 
+                                oninput="autoSuggest(this.value,'locationSuggestions')"
+                                class="form-control keywordInput location-input" id="jobLocation" placeholder="Enter job location" required>
+                                <div class="invalid-feedback">Please enter a job location.</div>
+                            </div>
 
-
+                            <hr>
+                            
                         <div class="form-group col-md-2">
                             <label for="jobCity">City <small class="text-muted">(Required)</small></label>
                             <input type="text"
@@ -244,18 +253,9 @@
                             <div class="invalid-feedback">Please enter the zip code.</div>
                         </div>
                     </div>
-<hr>
-<div class="form-group col-md-6">
-<label for="jobSalary">Salary <small class="text-muted">(Required)</small></label>
-<input type="text"    onkeydown="restrictKeys(event)" 
-aria-label="Salary Range"
-oninput="updateCurrency(this)" class="form-control" id="jobSalary" min="0" placeholder="Enter salary" required>
-<div class="invalid-feedback">Please enter a salary amount.</div>
-</div>
-</div>
+
   
 
-<hr>
                     <div class="form-group">
                         <label for="jobDescription">Job Description <small class="text-muted">(Required)</small></label>
                         <textarea class="form-control" id="jobDescription" rows="4" placeholder="Describe the job" required></textarea>
