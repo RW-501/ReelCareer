@@ -204,12 +204,15 @@
     <script type="module" src="../public/js/main.js"></script>
 
     <script type="module">
-        import { db, auth } from '../public/js/main.js';
+        import { onAuthStateChanged, db, auth } from '../public/js/main.js';
         import { doc, getDoc, collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 
-        const user = auth.currentUser;
-        console.log("User ID: ", user);
-
+// Check for auth state changes
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+        // User is signed in, you can get the user ID now
+        console.log("User ID: ", user.uid);
+    
         const urlParams = new URLSearchParams(window.location.search);
         const userIdFromURL = urlParams.get('u');
 
@@ -217,7 +220,7 @@
        // const user = auth.currentUser;
 
         // Log user info
-        if (user) {
+    
             console.log("User ID: ", user);
             console.log("????????????????????"); // Make sure userData is defined in the correct scope
 
@@ -249,11 +252,17 @@ console.log("user data  ",profileData);
                     console.error("No such user document!");
                   //  alert('User data not found.');
                 }
-            } else {
-              //  alert('Please log in to access this page.');
-               // window.location.href = 'login.html';
-            }
         }
+
+    } else {
+        // No user is signed in
+        console.log("No user is signed in");
+    }
+});
+
+
+
+    
 
         async function loadUserData(profileData) {
             document.getElementById('user-name').innerText = profileData.displayName || 'User Name';
