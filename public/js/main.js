@@ -1031,7 +1031,7 @@ async function getModal() {
 }
 
 // Add event listener to the settings button
-console.log('user.uid:', user.uid);
+console.log('user.uid:', user);
 console.log('User Data:', userData);
 
 document.addEventListener('DOMContentLoaded', function() {
