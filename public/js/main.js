@@ -1012,7 +1012,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 const profileForm = document.getElementById('profileForm');
                 if (profileForm) {
                     console.log('User info????????????/  :', userData);
-  
+                    console.log("verified: ", verified);
+
                     populateFormFields(user); // Populate fields with user data
                     document.getElementById('settingsBtn').addEventListener('click', showModal);
                 } else {
