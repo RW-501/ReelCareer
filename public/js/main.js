@@ -993,7 +993,6 @@ saveProfileBtn.addEventListener('click', function() {
   
       
 
-      console.log("settingsBtn");
 
 
  
@@ -1059,11 +1058,11 @@ document.getElementById('deactivateAccountBtn').addEventListener('click', functi
       });
     }
   
-    populateFormFields(userData);
 
 
     document.getElementById('settingsBtn').addEventListener('click', showModal);
 
+    populateFormFields(userData);
 
 }
 
@@ -1074,8 +1073,6 @@ document.addEventListener('DOMContentLoaded', function() {
         if (user) {
             createProfileModal();
             initializeProfileModal();
-     console.log("check for end");
-
         }
     });
     });

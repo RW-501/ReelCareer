@@ -208,7 +208,7 @@
         import { doc, getDoc, collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 
         const user = auth.currentUser;
-        console.log("User ID: ", user.uid);
+        console.log("User ID: ", user);
 
         const urlParams = new URLSearchParams(window.location.search);
         const userIdFromURL = urlParams.get('u');
