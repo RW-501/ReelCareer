@@ -81,7 +81,7 @@ import { query, where, orderBy, limit,  collection, getDocs, addDoc } from "http
             createdAt: new Date(),
             applicantsViewed: 0,
             savedForLater: 0,
-            recruiterID: UserID, // Replace with actual recruiter ID
+            recruiterID: document.getElementById("appUserID").innerText, // Replace with actual recruiter ID
             customQuestions: collectCustomQuestions(),
         };
     

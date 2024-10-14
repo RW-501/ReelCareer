@@ -324,3 +324,15 @@ function handleJobTypeChange() {
 
 // Add event listener to the job type dropdown
 document.getElementById('jobType').addEventListener('change', handleJobTypeChange);
+
+
+// Function to toggle the visibility of the input field
+document.getElementById('addExternalLinkButton').addEventListener('click', function() {
+    const applicationLinkInput = document.getElementById('applicationLink');
+    
+    // Toggle the display of the input field
+    if (applicationLinkInput.style.display === 'none') {
+        applicationLinkInput.style.display = 'block'; // Show input field
+        this.style.display = 'none'; // Hide the button
+    }
+});
