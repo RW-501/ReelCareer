@@ -870,8 +870,34 @@ function createProfileModal() {
 
 */
 
+function populateFormFields(userData) {
+    console.log("check last");
+    console.log("user info FROM FIREBASE ", userData);
+    document.getElementById('usernameSET').value = userData.displayName || '';
+    document.getElementById('emailSET').innerText = userData.email || '';
+    document.getElementById('nameSET').value = userData.name || '';
+    document.getElementById('locationSET').value = userData.city + ", " + userData.state || '';
+    document.getElementById('bioSET').value = userData.bio || '';
+    document.getElementById('tagsSET').value = userData.tags ? userData.tags.join(', ') : '';
+    document.getElementById('positionSET').value = userData.position || '';
+    document.getElementById('membershipStatusSET').innerText = userData.membershipStatus || 'Free';
+    document.getElementById('verifiedStatusSET').innerText = userData.verifiedStatus ? 'Verified' : 'Not Verified';
+    document.getElementById('publicProfileSET').checked = userData.publicProfile || false;
 
-  function initializeProfileModal() {
+    // Profile picture preview
+    if (userData.profilePicture) {
+        document.getElementById('profilePicPreviewSET').src = userData.profilePicture;
+        document.getElementById('profilePicPreviewSET').style.display = 'block';
+    }
+
+    // Show recruiter fields if user is a recruiter
+    if (userData.userType === 'recruiter') {
+        document.getElementById('recruiterFieldsSET').style.display = 'block';
+        document.getElementById('companyNameSET').value = userData.companyName || '';
+    }
+}
+
+function initializeProfileModal() {
     const profileForm = document.getElementById('profileForm');
     const usernameInput = document.getElementById('usernameSET');
     const nameInput = document.getElementById('nameSET');
@@ -879,207 +905,106 @@ function createProfileModal() {
     const profilePictureInput = document.getElementById('profilePictureSET');
     const profilePicPreview = document.getElementById('profilePicPreviewSET');
     const saveProfileBtn = document.getElementById('saveProfileBtn');
-  
+
     // Real-time validation
     usernameInput.addEventListener('input', function () {
-      validateField(usernameInput, usernameError, 'Username is required');
+        validateField(usernameInput, usernameError, 'Username is required');
     });
-  
+
     nameInput.addEventListener('input', function () {
-      validateField(nameInput, null, 'Name is required');
+        validateField(nameInput, null, 'Name is required');
     });
-  
+
     function validateField(input, errorElem, errorMessage) {
-      if (!input.value.trim()) {
-        input.classList.add('is-invalid');
-        if (errorElem) errorElem.textContent = errorMessage;
-      } else {
-        input.classList.remove('is-invalid');
-        input.classList.add('is-valid');
-        if (errorElem) errorElem.textContent = '';
-      }
+        if (!input.value.trim()) {
+            input.classList.add('is-invalid');
+            if (errorElem) errorElem.textContent = errorMessage;
+        } else {
+            input.classList.remove('is-invalid');
+            input.classList.add('is-valid');
+            if (errorElem) errorElem.textContent = '';
+        }
     }
-  
+
     // Profile picture live preview
     profilePictureInput.addEventListener('change', function (event) {
-      const file = event.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = function (e) {
-          profilePicPreview.src = e.target.result;
-          profilePicPreview.style.display = 'block';
-        };
-        reader.readAsDataURL(file);
-      }
-    });
-  
-    // Save profile button
-// Save Profile Changes
-saveProfileBtn.addEventListener('click', function() {
-    const userId = auth.currentUser.uid;
-    const profileData = {
-      displayName: document.getElementById('usernameSET').value,
-      name: document.getElementById('nameSET').value,
-      location: document.getElementById('locationSET').value,
-      bio: document.getElementById('bioSET').value,
-      tags: document.getElementById('tagsSET').value.split(',').map(tag => tag.trim()),
-      position: document.getElementById('positionSET').value,
-      profilePic: document.getElementById('publicProfileSET').checked
-    };
-  
-    // Check if a new profile picture is being uploaded
-    if (document.getElementById('profilePictureSET').files.length > 0) {
-      const file = document.getElementById('profilePictureSET').files[0];
-      const storageRef = firebase.storage().ref('profilePictures/' + userId);
-      const uploadTask = storageRef.put(file);
-  
-      uploadTask.on('state_changed', null, error => {
-        console.error('Upload failed:', error);
-      }, () => {
-        uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
-          profileData.profilePicture = downloadURL;
-          updateFirebaseProfile(userId, profileData);
-        });
-      });
-    } else {
-      updateFirebaseProfile(userId, profileData);
-    }
-  });
-  
-  function updateFirebaseProfile(userId, profileData) {
-    // Update Firebase Auth user profile
-    const user = auth.currentUser;
-    
-    // Update Firebase Auth display name and photo URL
-    user.updateProfile({
-      displayName: profileData.displayName,
-      photoURL: profileData.profilePicture || user.photoURL // Use existing photo if not updated
-    }).then(() => {
-      // After updating Auth, save to Firestore
-      saveProfile(userId, profileData);
-    }).catch(error => {
-      console.error('Error updating Firebase Auth user:', error);
-    });
-  }
-  
-
-  function saveProfile(userId, profileData) {
-    const userDocRef = doc(db, 'Users', userId); // Create a reference to the user's document
-    
-    setDoc(userDocRef, profileData, { merge: true }) // Use setDoc to update the profile data
-      .then(() => {
-        alert('Profile updated successfully');
-        $('#profileModal').modal('hide'); // Hide the modal after successful update
-      })
-      .catch(error => {
-        console.error('Error updating profile:', error); // Log any errors
-      });
-  }
-  
-    function validateProfileForm() {
-      // Check if username and name are valid
-      const isUsernameValid = usernameInput.value.trim() !== '';
-      const isNameValid = nameInput.value.trim() !== '';
-      return isUsernameValid && isNameValid;
-    }
-  
-    // Change membership button
-    const changeMembershipBtn = document.getElementById('changeMembershipBtn');
-    changeMembershipBtn.addEventListener('click', function () {
-      alert('Change membership clicked');
-      // Logic to handle membership change can go here
-    });
-
-  
-      
-
-
-
- 
-
-
-
-
-
-
-
-
-
-
-
-
-function populateFormFields(userData) {
-    console.log("check last");
-
-    console.log("user info fROM FIREBASE  ",userData);
-    document.getElementById('usernameSET').value = userData.displayName || '';
-    document.getElementById('emailSET').innerText = userData.email || '';
-    document.getElementById('nameSET').value = userData.name || '';
-  document.getElementById('locationSET').value = userData.city+", " + userData.state  || '';
-  document.getElementById('bioSET').value = userData.bio || '';
-  document.getElementById('tagsSET').value = userData.tags ? userData.tags.join(', ') : '';
-  document.getElementById('positionSET').value = userData.position || '';
-  document.getElementById('membershipStatusSET').innerText = userData.membershipStatus || 'Free';
-  document.getElementById('verifiedStatusSET').innerText = userData.verifiedStatus ? 'Verified' : 'Not Verified';
-  document.getElementById('publicProfileSET').checked = userData.publicProfile || false;
-  
-  // Profile picture preview
-  if (userData.profilePicture) {
-    document.getElementById('profilePicPreviewSET').src = userData.profilePic;
-    document.getElementById('profilePicPreviewSET').style.display = 'block';
-  }
-  
-  // Show recruiter fields if user is a recruiter
-  if (userData.userType === 'recruiter') {
-    document.getElementById('recruiterFieldsSET').style.display = 'block';
-    document.getElementById('companyNameSET').value = userData.companyName || '';
-  }
-
-}
-  
-
-// Deactivate Account
-document.getElementById('deactivateAccountBtn').addEventListener('click', function() {
-    if (confirm('Are you sure you want to deactivate your account?')) {
-      deactivateAccount(auth.currentUser.uid);
-    }
-  });
-  
-  function deactivateAccount(userId) {
-      const userDocRef = doc(db, 'Users', userId); // Create a reference to the user's document
-    
-      updateDoc(userDocRef, {
-        isActive: false
-      }).then(() => {
-        alert('Account deactivated successfully');
-        window.location.reload(); // or redirect to a logged-out state
-      }).catch(error => {
-        console.error('Error deactivating account:', error);
-      });
-    }
-  
-
-
-    document.getElementById('settingsBtn').addEventListener('click', showModal);
-
-
-}
-
-
-
-document.addEventListener('DOMContentLoaded', function() {
-    auth.onAuthStateChanged(user => {
-        if (user) {
-            createProfileModal();
-            initializeProfileModal();
-            console.log("user ",user);
-            console.log("userData ",userData);
-
-            populateFormFields(user);
-
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                profilePicPreview.src = e.target.result;
+                profilePicPreview.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
         }
     });
+
+    // Save profile button
+    saveProfileBtn.addEventListener('click', function () {
+        const userId = auth.currentUser.uid;
+        const profileData = {
+            displayName: document.getElementById('usernameSET').value,
+            name: document.getElementById('nameSET').value,
+            location: document.getElementById('locationSET').value,
+            bio: document.getElementById('bioSET').value,
+            tags: document.getElementById('tagsSET').value.split(',').map(tag => tag.trim()),
+            position: document.getElementById('positionSET').value,
+            profilePic: document.getElementById('publicProfileSET').checked
+        };
+
+        // Check if a new profile picture is being uploaded
+        if (document.getElementById('profilePictureSET').files.length > 0) {
+            const file = document.getElementById('profilePictureSET').files[0];
+            const storageRef = firebase.storage().ref('profilePictures/' + userId);
+            const uploadTask = storageRef.put(file);
+
+            uploadTask.on('state_changed', null, error => {
+                console.error('Upload failed:', error);
+            }, () => {
+                uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
+                    profileData.profilePicture = downloadURL;
+                    updateFirebaseProfile(userId, profileData);
+                });
+            });
+        } else {
+            updateFirebaseProfile(userId, profileData);
+        }
     });
+
+    function updateFirebaseProfile(userId, profileData) {
+        const user = auth.currentUser;
+
+        user.updateProfile({
+            displayName: profileData.displayName,
+            photoURL: profileData.profilePicture || user.photoURL // Use existing photo if not updated
+        }).then(() => {
+            saveProfile(userId, profileData);
+        }).catch(error => {
+            console.error('Error updating Firebase Auth user:', error);
+        });
+    }
+
+    function saveProfile(userId, profileData) {
+        const userDocRef = doc(db, 'Users', userId);
+        setDoc(userDocRef, profileData, { merge: true })
+            .then(() => {
+                alert('Profile updated successfully');
+                $('#profileModal').modal('hide');
+            })
+            .catch(error => {
+                console.error('Error updating profile:', error);
+            });
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    auth.onAuthStateChanged(user => {
+        if (user) {
+            initializeProfileModal();
+            populateFormFields(user); // Ensure user data is passed correctly
+        }
+    });
+});
 
 
 // Export the objects
