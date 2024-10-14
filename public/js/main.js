@@ -852,14 +852,14 @@ function createProfileModal() {
                                 <!-- Email -->
                 <div class="mb-3 mt-3">
                   <label for="userIdSET" class="form-label">User ID </label>
-                  <div class="m-auto " id="userIdSET"></div>
+                  <div class="text-center" id="userIdSET"></div>
                 </div>
                 <hr>
                 <!-- Deactivate Account -->
                 <div class="mt-4">
                   <button type="button" class="btn btn-danger" id="deactivateAccountBtn">Deactivate Account</button>
                 </div>
-
+                <hr>
               </form>
             </div>
             <div class="modal-footer border-top-0">
