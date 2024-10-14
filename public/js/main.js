@@ -1003,10 +1003,13 @@ document.addEventListener('DOMContentLoaded', function() {
     auth.onAuthStateChanged(user => {
         if (user) {
             // Set a small timeout to ensure elements have loaded
+
+
+            initializeProfileModal(); // Initialize modal only if the form exists
+
             setTimeout(() => {
                 const profileForm = document.getElementById('profileForm');
                 if (profileForm) {
-                    initializeProfileModal(); // Initialize modal only if the form exists
                     populateFormFields(user); // Populate fields with user data
                     document.getElementById('settingsBtn').addEventListener('click', showModal);
                 } else {
