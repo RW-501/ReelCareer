@@ -24,6 +24,13 @@ h3 {
     font-weight: 800;
 }
 
+.card h3 {
+    font-size: 1.75rem;
+    color: #83bad9;
+    text-shadow: -1px 1px 0px #9e9a9a;
+    font-weight: 800;
+}
+
 hr {
     border-top: 1px solid #e9ecef;
     margin: 20px 0;
