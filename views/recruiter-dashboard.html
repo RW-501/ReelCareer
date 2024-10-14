@@ -192,7 +192,22 @@
                             <div class="invalid-feedback">Please enter a job title.</div>
                         </div>
                     </div>
-
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="jobType">Job Type <small class="text-muted">(Required)</small></label>
+                            <select class="form-control" id="jobType" required>
+                                <option value="" disabled selected>Select type</option>
+                                <option value="full-time">Full-Time</option>
+                                <option value="part-time">Part-Time</option>
+                                <option value="contract">Contract</option>
+                                <option value="internship">Internship</option>
+                                <option value="remote">Remote</option>
+                                <option value="hybrid">Hybrid</option>
+                                <option value="freelance">Freelance</option>
+                            </select>
+                            <div class="invalid-feedback">Please select a job type.</div>
+                        </div>
+                        
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="jobLocation">Job Location <small class="text-muted">(Required)</small></label>
@@ -222,21 +237,7 @@
                         </div>
                     </div>
 
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <label for="jobType">Job Type <small class="text-muted">(Required)</small></label>
-                            <select class="form-control" id="jobType" required>
-                                <option value="" disabled selected>Select type</option>
-                                <option value="full-time">Full-Time</option>
-                                <option value="part-time">Part-Time</option>
-                                <option value="contract">Contract</option>
-                                <option value="internship">Internship</option>
-                                <option value="remote">Remote</option>
-                                <option value="hybrid">Hybrid</option>
-                                <option value="freelance">Freelance</option>
-                            </select>
-                            <div class="invalid-feedback">Please select a job type.</div>
-                        </div>
+  
                         <div class="form-group col-md-6">
                             <label for="jobSalary">Salary <small class="text-muted">(Required)</small></label>
                             <input type="text"    onkeydown="restrictKeys(event)" 

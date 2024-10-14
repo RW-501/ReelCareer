@@ -289,3 +289,38 @@ jobModal.addEventListener('hidden.bs.modal', function (event) {
     // Call your localStorage clearing function here if needed
     saveFormValues();
 });
+
+
+
+function handleJobTypeChange() {
+    const jobType = document.getElementById('jobType').value;
+    const locationInput = document.getElementById('jobLocation');
+    const cityInput = document.getElementById('jobCity');
+    const stateInput = document.getElementById('jobState');
+    const zipCodeInput = document.getElementById('jobZipCode');
+
+    if (jobType === 'remote') {
+        // Hide city, state, and zip code fields
+        cityInput.closest('.form-group').style.display = 'none';
+        stateInput.closest('.form-group').style.display = 'none';
+        zipCodeInput.closest('.form-group').style.display = 'none';
+        
+        // Set location field to "Remote" if it's blank
+        if (!locationInput.value.trim()) {
+            locationInput.value = 'Remote';
+        }
+    } else {
+        // Show city, state, and zip code fields
+        cityInput.closest('.form-group').style.display = 'block';
+        stateInput.closest('.form-group').style.display = 'block';
+        zipCodeInput.closest('.form-group').style.display = 'block';
+
+        // If the location was previously set to "Remote" and job type is changed, clear it
+        if (locationInput.value === 'Remote') {
+            locationInput.value = '';
+        }
+    }
+}
+
+// Add event listener to the job type dropdown
+document.getElementById('jobType').addEventListener('change', handleJobTypeChange);
