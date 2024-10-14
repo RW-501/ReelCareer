@@ -528,16 +528,17 @@ function showModal() {
 
 
 
-document.addEventListener('DOMContentLoaded', function() {
 function hideModal() {
     console.log('hideModal:');
 
     const modalElement = document.getElementById('profileModal');
     const modal = new bootstrap.Modal(modalElement);
     modal.hide();
+
+    $('#profileModal').modal('hide');
+
 }
 
-});
 
 
 
