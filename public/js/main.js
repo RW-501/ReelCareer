@@ -667,8 +667,6 @@ document.addEventListener('DOMContentLoaded', updateFooter);
     // Handle authentication state changes
     function handleAuthStateChanged(user) {
 
-        console.log("handleAuthStateChanged");
-
         const authSection = document.getElementById("authSection");
         const jobSeekerNavItem = document.getElementById("jobSeekerNavItem");
         const recruiterNavItem = document.getElementById("recruiterNavItem");
@@ -756,8 +754,6 @@ document.addEventListener('DOMContentLoaded', updateFooter);
 
 // Function to create the profile modal HTML
 function createProfileModal() {
-
-    console.log("profileModal check 3");
 
     const modalHTML = `<!-- profileModal -->
       <div id="profileModal" class="modal fade" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true">
@@ -881,7 +877,6 @@ function createProfileModal() {
 
 function populateFormFields(userData) {
     console.log("check last");
-    console.log("user info FROM FIREBASE ", userData);
     document.getElementById('usernameSET').value = userData.displayName || '';
     document.getElementById('emailSET').innerText = userData.email || '';
     document.getElementById('userIdSET').innerText = userData.userID || '';
@@ -1021,28 +1016,25 @@ function initializeProfileModal(user) {
 // Function to show modal and load user data
 async function getModal(user) {
     try {
+
+
+        if (user) {
         // Check if user data is already in local storage
         const storedUserData = JSON.parse(localStorage.getItem('userData'));
 
-        // Fetch user data from Firestore
-        console.log('user.uid:', user.uid);
-        const userDocRef = doc(db, 'Users', user.uid); // Reference to the user document
-        const userDoc = await getDoc(userDocRef); // Get the document
-
-        if (userDoc.exists) {
-            // User data found
-            const userData = userDoc.data();
-            console.log('User Data:', userData);
-
             // Compare with stored data
-            if (JSON.stringify(userData) !== JSON.stringify(storedUserData)) {
-                // Store the new user data in local storage
-                localStorage.setItem('userData', JSON.stringify(userData));
-                populateFormFields(userData);
-            } else {
-                // If data hasn't changed, use the stored data
+            if (storedUserData) {
                 console.log('Using stored user data');
                 populateFormFields(storedUserData);
+            } else {
+                const userDocRef = doc(db, 'Users', user.uid); // Reference to the user document
+                const userDoc = await getDoc(userDocRef); // Get the document
+                // User data found
+                const userData = userDoc.data();
+                console.log('Firebase User Data:', userData);
+                localStorage.setItem('userData', JSON.stringify(userData));
+                populateFormFields(userData);
+
             }
         } else {
             console.log('No such user!');
