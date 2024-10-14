@@ -972,8 +972,8 @@ function initializeProfileModal(user) {
     });
 
 
-    console.log('User userId:', userId);
-    console.log('User profileData:', profileData);
+   // console.log('User userId:', userId);
+  //  console.log('User profileData:', profileData);
 
     function saveProfile(userId, profileData) {
         const userDocRef = doc(db, 'Users', userId);
