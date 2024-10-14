@@ -200,6 +200,7 @@
     <script type="module">
         import { db, auth } from '../public/js/main.js';
         import { doc, getDoc, collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+        console.log("user 111   ",userData);
 
         const urlParams = new URLSearchParams(window.location.search);
         const userIdFromURL = urlParams.get('u');
