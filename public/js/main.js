@@ -63,7 +63,7 @@ const loadingIndicator = document.getElementById('loading-indicator');
 const showLoading = () => loadingIndicator.style.display = 'block';
 const hideLoading = () => loadingIndicator.style.display = 'none';
 
-
+let UserID = "";
 
 // Function to update or create user information in Firestore
 const saveUserLoginState = async (user) => {
@@ -91,6 +91,8 @@ const saveUserLoginState = async (user) => {
         try {
             await updateDoc(userDocRef, userData);
             console.log('User info updated successfully:', userData);
+            populateFormFields(userData);
+
         } catch (error) {
             // If the document doesn't exist, create it using setDoc
             if (error.code === 'not-found') {
@@ -109,7 +111,6 @@ const saveUserLoginState = async (user) => {
     }
 };
 
-let UserID = '';
 
 // Check if user is already signed in (this can be included on all pages)
 onAuthStateChanged(auth, async (user) => {
@@ -1071,7 +1072,6 @@ document.getElementById('deactivateAccountBtn').addEventListener('click', functi
     }
   
 
-    populateFormFields(userData);
 }
 
 
