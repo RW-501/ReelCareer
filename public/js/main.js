@@ -1062,7 +1062,6 @@ document.getElementById('deactivateAccountBtn').addEventListener('click', functi
 
     document.getElementById('settingsBtn').addEventListener('click', showModal);
 
-    populateFormFields(userData);
 
 }
 
@@ -1073,6 +1072,11 @@ document.addEventListener('DOMContentLoaded', function() {
         if (user) {
             createProfileModal();
             initializeProfileModal();
+            console.log("user ",user);
+            console.log("userData ",userData);
+
+            populateFormFields(user);
+
         }
     });
     });
