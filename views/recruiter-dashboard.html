@@ -241,7 +241,7 @@
                             <label for="jobSalary">Salary <small class="text-muted">(Required)</small></label>
                             <input type="text"    onkeydown="restrictKeys(event)" 
                             aria-label="Salary Range"
-                            oninput="formatCurrency(this, {decimals: 0})" class="form-control" id="jobSalary" min="0" placeholder="Enter salary" required>
+                            oninput="updateCurrency(this)" class="form-control" id="jobSalary" min="0" placeholder="Enter salary" required>
                             <div class="invalid-feedback">Please enter a salary amount.</div>
                         </div>
                     </div>

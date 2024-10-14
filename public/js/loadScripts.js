@@ -284,7 +284,7 @@ function formatTags(tags) {
 // formatTags(jobData.tags);
 
 // Function to format currency (for both input fields and static numbers)
-function formatCurrency(value, options = {}) {
+function formatCurrency(value, options = {}) { 
     const { locale = 'en-US', currency = 'USD', decimals = 0 } = options;
 
     // Convert to string if value is a number
@@ -297,6 +297,7 @@ function formatCurrency(value, options = {}) {
     cleanValue = cleanValue.replace(/,/g, '');
     let number = parseFloat(cleanValue);
 
+    // Handle invalid numbers
     if (isNaN(number)) {
         return '$0.00';  // Return default if value is invalid
     }
@@ -305,6 +306,17 @@ function formatCurrency(value, options = {}) {
     let formattedNumber = number.toFixed(decimals).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
     return `$${formattedNumber}`;
+}
+
+function updateCurrency(input) {
+    // Format the current input value
+    const formattedValue = formatCurrency(input.value, { decimals: 0 });
+    // Update the input value with formatted currency
+    input.value = formattedValue;
+
+    // Optionally, set the cursor position after the formatted number
+    const position = formattedValue.length; // Cursor position at the end
+    input.setSelectionRange(position, position);
 }
 
 

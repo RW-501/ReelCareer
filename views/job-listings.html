@@ -106,7 +106,7 @@
                         onkeydown="restrictKeys(event)" 
                         aria-label="Salary Range" 
                         id="salaryInput"
-                        oninput="formatCurrency(this, {decimals: 0})">
+                        oninput="updateCurrency(this)">
                 </div>
         <button type="submit" class="btn btn-primary btn-lg mb-2 px-4" onclick="searchJobs();">Search Jobs</button>
             </form>
@@ -173,14 +173,14 @@
             <div class="col-md-4 mb-3">
                 <label for="salaryMin" class="form-label">Minimum Salary</label>
                 <input type="text"    onkeydown="restrictKeys(event)" 
-                oninput="formatCurrency(this, {decimals: 0})" aria-label="Minimum Salary" class="form-control" id="salaryMin" placeholder="Minimum Salary" data-bs-toggle="tooltip" title="Enter your desired minimum salary." onkeydown="restrictKeys(event)" oninput="formatCurrency(this)">
+                oninput="updateCurrency(this)" aria-label="Minimum Salary" class="form-control" id="salaryMin" placeholder="Minimum Salary" data-bs-toggle="tooltip" title="Enter your desired minimum salary." onkeydown="restrictKeys(event)" oninput="formatCurrency(this)">
                 <small class="form-text text-muted">Leave blank if no minimum salary is required.</small>
             </div>
 
             <div class="col-md-4 mb-3">
                 <label for="salaryMax" class="form-label">Maximum Salary</label>
                 <input type="text"    onkeydown="restrictKeys(event)" 
-                oninput="formatCurrency(this, {decimals: 0})"  class="form-control" id="salaryMax" placeholder="Maximum Salary" data-bs-toggle="tooltip" title="Enter your desired maximum salary." onkeydown="restrictKeys(event)" oninput="formatCurrency(this)">
+                oninput="updateCurrency(this)"  class="form-control" id="salaryMax" placeholder="Maximum Salary" data-bs-toggle="tooltip" title="Enter your desired maximum salary." onkeydown="restrictKeys(event)" oninput="formatCurrency(this)">
                 <small class="form-text text-muted">Leave blank if no maximum salary is required.</small>
             </div>
 
