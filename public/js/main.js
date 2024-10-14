@@ -1001,6 +1001,7 @@ document.addEventListener('DOMContentLoaded', function () {
     auth.onAuthStateChanged(user => {
         if (user) {
             initializeProfileModal();
+            console.log("user ",user);
             populateFormFields(user); // Ensure user data is passed correctly
             document.getElementById('settingsBtn').addEventListener('click', showModal);
 
