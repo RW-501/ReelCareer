@@ -999,18 +999,6 @@ saveProfileBtn.addEventListener('click', function() {
  
 
 
-       document.getElementById('settingsBtn').addEventListener('click', showModal);
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -1072,6 +1060,10 @@ document.getElementById('deactivateAccountBtn').addEventListener('click', functi
     }
   
     populateFormFields(userData);
+
+
+    document.getElementById('settingsBtn').addEventListener('click', showModal);
+
 
 }
 
