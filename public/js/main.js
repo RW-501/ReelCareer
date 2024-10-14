@@ -997,6 +997,9 @@ function initializeProfileModal() {
                 console.error('Error updating profile:', error);
             });
     }
+
+     saveProfile(userId, profileData);
+
 }
 
 
@@ -1010,7 +1013,7 @@ function initializeProfileModal() {
 async function getModal() {
     try {
         // Fetch user data from Firestore
-        const userDoc = await db.collection('users').doc(user.uid).get();
+        const userDoc = await db.collection('Users').doc(user.uid).get();
 
         if (userDoc.exists) {
             // User data found
@@ -1018,7 +1021,7 @@ async function getModal() {
             console.log('User Data:', userData);
              populateFormFields(userData);
             
-            $('#myModal').modal('show'); // jQuery example to show a Bootstrap modal
+           // $('#myModal').modal('show'); // jQuery example to show a Bootstrap modal
         } else {
             console.log('No such user!');
         }
@@ -1028,7 +1031,6 @@ async function getModal() {
 }
 
 // Add event listener to the settings button
-document.getElementById('settingsBtn').addEventListener('click', getModal);
 console.log('user.uid:', user.uid);
 console.log('User Data:', userData);
 
@@ -1037,6 +1039,10 @@ document.addEventListener('DOMContentLoaded', function() {
         if (user) {
             createProfileModal();
             initializeProfileModal(); // Initialize modal only if the form exists
+            document.getElementById('settingsBtn').addEventListener('click', getModal);
+            document.getElementById('settingsBtn').addEventListener('click', showModal);
+
+
         }
     });
 });
