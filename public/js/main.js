@@ -999,23 +999,23 @@ function initializeProfileModal() {
 
 
 
-    document.addEventListener('DOMContentLoaded', function() {
-        auth.onAuthStateChanged(user => {
-            if (user) {
-                // Check if the modal is present before initializing
+document.addEventListener('DOMContentLoaded', function() {
+    auth.onAuthStateChanged(user => {
+        if (user) {
+            // Set a small timeout to ensure elements have loaded
+            setTimeout(() => {
                 const profileForm = document.getElementById('profileForm');
                 if (profileForm) {
-                    initializeProfileModal(); // Only call this if the modal and form exist
+                    initializeProfileModal(); // Initialize modal only if the form exists
                     populateFormFields(user); // Populate fields with user data
                     document.getElementById('settingsBtn').addEventListener('click', showModal);
-
                 } else {
                     console.error("Profile modal form not found in the DOM.");
                 }
-            }
-        });
+            }, 500); // Delay by 500 milliseconds (adjust as needed)
+        }
     });
-
+});
 
 
 // Export the objects
