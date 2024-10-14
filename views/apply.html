@@ -412,22 +412,20 @@ getDraftApplications(userId).then(draftApps => {
 
     
         // Function to handle application submission
-        document.getElementById('submitApplication')
-        .addEventListener('click', async () => {
+        document.getElementById('submitApplication').addEventListener('click', async () => {
+    // Gather applicant data
+    const applicantData = {
+        firstName: document.getElementById('firstName').value,
+        lastName: document.getElementById('lastName').value,
+        email: document.getElementById('email').value,
+        phone: document.getElementById('phone').value,
+        notes: document.getElementById('noteToRecruiter').value,
+        portfolio: document.getElementById('portfolio').value,
+        jobId: jobId,
+        submitted: new Date().toLocaleString(), // Formats the date based on the user's locale
+    };
 
-            const applicantData = {
-                firstName: document.getElementById('firstName').value,
-                lastName: document.getElementById('lastName').value,
-                email: document.getElementById('email').value,
-                phone: document.getElementById('phone').value,
-                notes: document.getElementById('noteToRecruiter').value,
-                portfolio: document.getElementById('portfolio').value,
-                jobId: jobId,
-                submitted: new Date().toLocaleString(), // This formats the date to a string based on the user's locale
-
-            };
-         
-            try {
+    try {
         // Collect personal data from candidates
         const applicant_PDC = {
             gender: document.getElementById('gender').value,
@@ -438,66 +436,66 @@ getDraftApplications(userId).then(draftApps => {
             disclosureName: document.getElementById('disclosureName').value,
             disclosureDate: document.getElementById('disclosureDate').value,
             jobId: jobId, // Ensure jobId is defined in your scope
-            submitted: new Date().toLocaleString(), // This formats the date to a string based on the user's locale
+            submitted: new Date().toLocaleString(), // Formats the date based on the user's locale
         };
 
         // Send applicant_PDC to AppDataCompliance collection
         await sendToAppDataCompliance(applicant_PDC);
 
-        // You can continue with other submission logic here (e.g., submitting the application form)
+        // Upload resume if available
+        await uploadFile('resumeUpload', 'resumes', applicantData, 'resumeUrl');
+        // Upload video resume if available
+        await uploadFile('videoResumeUpload', 'video_resumes', applicantData, 'videoResumeUrl');
+
+        // Save application data to Firestore
+        await addDoc(collection(db, 'Applications'), applicantData);
+        
+        // Simulate form submission progress
+        simulateProgressBar();
+
         console.log('Application submitted successfully!');
 
     } catch (error) {
         console.error('Error submitting application:', error);
     }
-            console.log("submitApplication  called"); // Debugging log
+});
 
-            // Upload resume if available
-            const resumeFile = document.getElementById('resumeUpload').files[0];
-            if (resumeFile) {
-                const resumeRef = storage.ref(`resumes/${resumeFile.name}`);
-                await resumeRef.put(resumeFile);
-                applicantData.resumeUrl = await resumeRef.getDownloadURL();
-            }
-
-            // Upload video resume if available
-            const videoFile = document.getElementById('videoResumeUpload').files[0];
-            if (videoFile) {
-                const videoRef = storage.ref(`video_resumes/${videoFile.name}`);
-                await videoRef.put(videoFile);
-                applicantData.videoResumeUrl = await videoRef.getDownloadURL();
-            }
-
-    
-
- // Simulate form submission
- let progress = 0;
-            progressBar.style.width = '0%';
-            const interval = setInterval(() => {
-                progress += 10;
-                progressBar.style.width = progress + '%';
-                progressBar.setAttribute('aria-valuenow', progress);
-                if (progress >= 100) {
-                    clearInterval(interval);
-                    alert('Application submitted successfully!');
-                    form.reset();
-                    progressBar.style.width = '0%';
-                }
-            }, 300);
-                            
-        });
-    
-
-        // Save application data to Firestore
-        await addDoc(collection(db, 'Applications'), applicantData);
-
-async function sendToAppDataCompliance(applicantData) {
-try {
-const docRef = await addDoc(collection(db, 'AppDataCompliance'), applicantData);
-console.log('Document written with ID: ', docRef.id);
-} catch (error) {
-console.error('Error adding document to AppDataCompliance:', error);
+// Function to upload files and add their URLs to the applicantData
+async function uploadFile(inputId, folder, applicantData, urlKey) {
+    const file = document.getElementById(inputId).files[0];
+    if (file) {
+        const fileRef = storage.ref(`${folder}/${file.name}`);
+        await fileRef.put(file);
+        applicantData[urlKey] = await fileRef.getDownloadURL();
+    }
 }
+
+// Function to send applicant_PDC to AppDataCompliance collection
+async function sendToAppDataCompliance(applicantData) {
+    try {
+        const docRef = await addDoc(collection(db, 'AppDataCompliance'), applicantData);
+        console.log('Document written with ID: ', docRef.id);
+    } catch (error) {
+        console.error('Error adding document to AppDataCompliance:', error);
+    }
+}
+
+// Function to simulate a progress bar for the form submission
+function simulateProgressBar() {
+    let progress = 0;
+    const progressBar = document.getElementById('progressBar'); // Assuming you have a progress bar element
+    progressBar.style.width = '0%';
+    const interval = setInterval(() => {
+        progress += 10;
+        progressBar.style.width = `${progress}%`;
+        progressBar.setAttribute('aria-valuenow', progress);
+        if (progress >= 100) {
+            clearInterval(interval);
+            alert('Application submitted successfully!');
+            form.reset(); // Assuming 'form' is defined as your form element
+            progressBar.style.width = '0%'; // Reset progress bar
+        }
+    }, 300);
 }
 
 
