@@ -16,6 +16,13 @@ import { query, where, orderBy, limit,  collection, getDocs, addDoc } from "http
                 var forms = document.getElementsByClassName('needs-validation');
                 for (var i = 0; i < forms.length; i++) {
                     forms[i].addEventListener('submit', function(event) {
+                        const complianceCheckbox = document.getElementById('complianceCheck');
+
+                        if (!complianceCheckbox.checked) {
+                            alert('Please confirm compliance with Employment and Labor Laws.');
+                            event.preventDefault(); // Prevent form submission if not checked
+                        }
+                        
                         if (this.checkValidity() === false) {
                             event.preventDefault();
                             event.stopPropagation();
