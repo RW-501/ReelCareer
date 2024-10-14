@@ -527,18 +527,19 @@ function showModal() {
 
 
 
-
 function hideModal() {
-    console.log('hideModal:');
-
-    const modalElement = document.getElementById('profileModal');
-    const modal = new bootstrap.Modal(modalElement);
-    modal.hide();
-
-    $('#profileModal').modal('hide');
-
+    const modal = document.getElementById('profileModal');
+    
+    // Check if the modal has the class 'show'
+    if (modal.classList.contains('show')) {
+        // If it does, remove 'show' and add 'hide' class
+        modal.classList.remove('show');
+        modal.classList.add('hide'); // Add 'hide' if you want a class to signify hidden
+    } else {
+        // If it doesn't, add 'show' class to show it
+        modal.classList.add('show');
+    }
 }
-
 
 
 

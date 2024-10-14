@@ -951,7 +951,7 @@ function initializeProfileModal(user) {
             tags: document.getElementById('tagsSET').value.split(',').map(tag => tag.trim()),
             position: document.getElementById('positionSET').value,
             publicProfile: document.getElementById('publicProfileSET').checked
-        };
+            };
     
         // Check if a new profile picture is being uploaded
         if (document.getElementById('profilePictureSET').files.length > 0) {
