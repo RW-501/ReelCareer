@@ -211,7 +211,7 @@
 onAuthStateChanged(auth, (user) => {
     if (user) {
         // User is signed in, you can get the user ID now
-        console.log("User ID: ", user.uid);
+        console.log("User ID: ", user);
     
         const urlParams = new URLSearchParams(window.location.search);
         const userIdFromURL = urlParams.get('u');
@@ -258,6 +258,9 @@ console.log("user data  ",profileData);
         // No user is signed in
         console.log("No user is signed in");
     }
+
+    checkUser();
+
 });
 
 
@@ -504,7 +507,6 @@ service cloud.firestore {
 
 
 
-        checkUser();
     </script>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
