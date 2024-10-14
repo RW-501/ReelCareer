@@ -259,7 +259,7 @@
                         class="form-control keywordInput " id="jobRequirements" rows="3" placeholder="List job requirements" required></textarea>
                         <div class="invalid-feedback">Please enter job requirements.</div>
                     </div>
-
+<hr>
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="industry">Industry <small class="text-muted">(Required)</small></label>
@@ -295,7 +295,7 @@
                             <div class="invalid-feedback">Please enter the job function.</div>
                         </div>
                     </div>
-
+<hr>
                     <div class="form-row">
                         <div class="form-group col-md-4">
                             <label for="contractToHire">Contract-to-Hire Opportunities <small class="text-muted">(Required)</small></label>
@@ -321,7 +321,7 @@
                             <div class="invalid-feedback">Please enter the benefits offered.</div>
                         </div>
                     </div>
-
+<hr>
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="education">Education Level <small class="text-muted">(Optional)</small></label>
@@ -343,12 +343,13 @@
                             </select>
                         </div>
                     </div>
+                    <hr>
                     <div class="form-group">
                         <label for="customQuestionsContainer">Custom Questions <small class="text-muted">(Optional)</small></label>
                         <div id="customQuestionsContainer"></div>
                                                     <button type="button" class="btn btn-primary btn-block rounded-pill shadow-sm font-weight-bold" id="addQuestionButton">Add Question</button>
                     </div>
-               
+               <hr>
                     <div class="form-group">
                         <label for="applicationLink">Application Link <small class="text-muted">User Will Be Notified of External Application</small></label>
                         <input type="url" class="form-control" id="applicationLink" placeholder="Enter application link">
@@ -366,13 +367,31 @@
                         </div>
                         <button id="clearTagsButton">Clear Tags</button>
                     </div>
-             
+                    <hr>
+
+                    <div class="form-check mb-3 p-3 border rounded-3 bg-light">
+                        <div class="text-muted" style="font-size: 0.9rem;">
+                            <p><strong>Employment and Labor Law Compliance</strong></p>
+                            <p>By posting this job, you agree to comply with the following laws:</p>
+                            <ul>
+                                <li><strong>Equal Employment Opportunity (EEO):</strong> Prohibit discrimination based on race, color, religion, sex, national origin, age, disability, or genetic information.</li>
+                                <li><strong>Fair Labor Standards Act (FLSA):</strong> Ensure compliance with regulations regarding minimum wage, overtime pay, and youth employment.</li>
+                            </ul>
+                            <p>Failure to comply with these laws may result in consequences as per federal and state employment regulations.</p>
+                        </div>
+                        <input class="form-check-input" type="checkbox" id="complianceCheck" required>
+                        <label class="form-check-label" for="complianceCheck">
+                            I have read and agree to comply with the employment and labor laws.
+                        </label>
+                    </div>
+                    
                 <div class="form-row ">
                     <button type="submit" id="boostButton" class="btn btn-primary btn-block rounded-pill shadow-sm font-weight-bold form-group col-md-4 mx-1">Boost Job Posting</button>
                     <button type="submit" id="saveDraftButton" class="btn btn-primary btn-block rounded-pill shadow-sm font-weight-bold form-group col-md-4 mx-1">Save to Draft</button>
                     <button type="submit" id="createJobBtn"class="btn btn-primary btn-block rounded-pill shadow-sm font-weight-bold form-group col-md-4 mx-1">Create Job</button>
                 </form>
-                <div id="appUserID"  class="d-block fs-6 position-absolute bottom-0 end-0 text-end p-4"></div>
+                <hr>
+                <div id="appUserID"  class="text-center"></div>
             </div>
             </div>
     </div>
