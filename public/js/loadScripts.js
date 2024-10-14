@@ -516,8 +516,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     
 
-
-    document.addEventListener('DOMContentLoaded', function() {
 // Function to show the modal
 function showModal() {
     console.log('hideModal:');
@@ -529,6 +527,8 @@ function showModal() {
 
 
 
+
+document.addEventListener('DOMContentLoaded', function() {
 function hideModal() {
     console.log('hideModal:');
 
