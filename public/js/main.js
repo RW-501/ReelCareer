@@ -1034,6 +1034,7 @@ document.addEventListener('DOMContentLoaded', function() {
             initializeProfileModal(user); // Initialize modal only if the form exists
             document.getElementById('settingsBtn').addEventListener('click', getModal(user));
             document.getElementById('settingsBtn').addEventListener('click', showModal);
+            document.getElementById('saveProfileCloseBtn').addEventListener('click', hideModal);
 
 
         }
