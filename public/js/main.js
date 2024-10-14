@@ -974,7 +974,7 @@ function initializeProfileModal() {
     function updateFirebaseProfile(userId, profileData) {
         const user = auth.currentUser;
         console.log("user info FROM FIREBASE ", user);
-
+/*
         user.updateProfile({
             displayName: profileData.displayName,
             photoURL: profileData.profilePicture || user.photoURL // Use existing photo if not updated
@@ -983,6 +983,7 @@ function initializeProfileModal() {
         }).catch(error => {
             console.error('Error updating Firebase Auth user:', error);
         });
+        */
     }
 
     function saveProfile(userId, profileData) {
@@ -1000,29 +1001,47 @@ function initializeProfileModal() {
 
 
 
+
+
+
+
+
+// Function to show modal and load user data
+async function getModal() {
+    try {
+        // Fetch user data from Firestore
+        const userDoc = await db.collection('users').doc(user.uid).get();
+
+        if (userDoc.exists) {
+            // User data found
+            const userData = userDoc.data();
+            console.log('User Data:', userData);
+             populateFormFields(userData);
+            
+            $('#myModal').modal('show'); // jQuery example to show a Bootstrap modal
+        } else {
+            console.log('No such user!');
+        }
+    } catch (error) {
+        console.error('Error fetching user data:', error);
+    }
+}
+
+// Add event listener to the settings button
+document.getElementById('settingsBtn').addEventListener('click', getModal);
+console.log('user.uid:', user.uid);
+console.log('User Data:', userData);
+
 document.addEventListener('DOMContentLoaded', function() {
     auth.onAuthStateChanged(user => {
         if (user) {
-            // Set a small timeout to ensure elements have loaded
-
             createProfileModal();
             initializeProfileModal(); // Initialize modal only if the form exists
-
-            setTimeout(() => {
-                const profileForm = document.getElementById('profileForm');
-                if (profileForm) {
-                    console.log('User info????????????/  :', userData);
-                    console.log("userINFO: ", userINFO);
-
-                    populateFormFields(user); // Populate fields with user data
-                    document.getElementById('settingsBtn').addEventListener('click', showModal);
-                } else {
-                    console.error("Profile modal form not found in the DOM.");
-                }
-            }, 500); // Delay by 500 milliseconds (adjust as needed)
         }
     });
 });
+
+
 
 
 // Export the objects
