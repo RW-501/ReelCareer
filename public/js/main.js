@@ -1070,6 +1070,8 @@ document.getElementById('deactivateAccountBtn').addEventListener('click', functi
       });
     }
   
+
+    populateFormFields();
 }
 
 
@@ -1079,8 +1081,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (user) {
             createProfileModal();
             initializeProfileModal();
-         //   $('#profileModal').modal('hide');
-                      console.log("check 2");
+     console.log("check 2");
         }
     });
     });
