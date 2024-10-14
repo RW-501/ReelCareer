@@ -271,7 +271,7 @@ import { onAuthStateChanged, db, auth } from '../public/js/main.js';
     
 
         async function loadUserData(profileData) {
-            document.getElementById('profilePic').src = profileData.profilePic ? profileData.profilePic : 'defaultProfilePicURL';
+            document.getElementById('profilePic').src = profileData.profilePic ? profileData.profilePic : '/ReelCareer/images/sq_logo_n_BG_sm.png';
             document.getElementById('user-name').innerText = profileData.displayName || 'User Name';
             document.getElementById('user-bio').innerText = profileData.bio || 'This is a short bio about the user...';
             document.getElementById('location-text').innerText = profileData.location || 'City, State';
