@@ -372,6 +372,7 @@
                     <button type="submit" id="saveDraftButton" class="btn btn-primary btn-block rounded-pill shadow-sm font-weight-bold form-group col-md-4 mx-1">Save to Draft</button>
                     <button type="submit" id="createJobBtn"class="btn btn-primary btn-block rounded-pill shadow-sm font-weight-bold form-group col-md-4 mx-1">Create Job</button>
                 </form>
+                <div id="appUserID"></div>
             </div>
             </div>
     </div>
@@ -604,14 +605,18 @@ document.getElementById("boostJobPostButton").onclick = function () {
     import { query, where, orderBy, limit,  collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
     
   
-
-
+    document.getElementById("appUserID")innerText = userId;
+    console.log("userID 0  ",userInfo.id);
+    console.log("userID 1  ",userData.id);
+    console.log("userID 2  ",userId);
+    
 
     const checkUserMembershipAndBoostCount = async (userId) => {
     try {
-        const userDocRef = doc(db, "users", userId);
+        const userDocRef = doc(db, "Users", userId);
         const userDoc = await getDoc(userDocRef);
         
+
         if (userDoc.exists()) {
             const userData = userDoc.data();
             const membershipType = userData.membershipType || "basic"; // Default to 'basic' if undefined
