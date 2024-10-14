@@ -1002,8 +1002,14 @@ document.addEventListener('DOMContentLoaded', function () {
         if (user) {
             initializeProfileModal();
             populateFormFields(user); // Ensure user data is passed correctly
+            document.getElementById('settingsBtn').addEventListener('click', showModal);
+
         }
+
+
     });
+
+
 });
 
 
