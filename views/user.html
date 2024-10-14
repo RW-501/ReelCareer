@@ -276,15 +276,14 @@ import { onAuthStateChanged, db, auth } from '../public/js/main.js';
             document.getElementById('user-bio').innerText = profileData.bio || 'This is a short bio about the user...';
             document.getElementById('location-text').innerText = profileData.location || 'City, State';
 
-            
-        async function loadTags(profileData) {
+            const verified = profileData.verified;
+            const membership = profileData.membership;
 
             const tagsContainer = document.getElementById('tags-container');
 
             if (!profileData.tags) {
                 tagsContainer.innerHTML = '<p>No tags found.</p>';
-                return;
-            }
+            }else{
 
             const tags = [];
             profileData.tags.forEach(doc => {
@@ -302,11 +301,18 @@ import { onAuthStateChanged, db, auth } from '../public/js/main.js';
         }
 
         async function loadVerifiedBadge(verified) {
-            const badge = document.getElementById('verified-badge');
-            if (verified) {
-                badge.innerHTML = `<span class="badge">Verified</span>`;
-            }
+    const badge = document.getElementById('verified-badge');
+    if (badge) {
+        if (verified) {
+            badge.innerHTML = `<span class="badge badge-success">Verified</span>`;
+        } else {
+            // Optionally show a "Not Verified" badge if verification status is false
+            badge.innerHTML = `<span class="badge badge-warning">Not Verified</span>`;
         }
+    } else {
+        console.error('Verified badge element not found');
+    }
+}
 
             // Digital Resume Link
             const digitalResumeLink = document.getElementById('digital-resume-link');
