@@ -378,7 +378,6 @@ fetch(adjustLinkHomeURL + "public/js/suggestions.json")
     });
 
 
-
     function autoSuggest(input, suggestionsArray) {
         const inputValue = input.value ? input.value.toLowerCase().trim() : ''; // Ensure input is defined and trim any extra spaces
         console.log('Input Value:', inputValue); // Log the current input value
@@ -399,22 +398,23 @@ fetch(adjustLinkHomeURL + "public/js/suggestions.json")
             }
         }
     
-          // Only modify input value if the suggestion is valid and input isn't empty
-    if (suggestion && lastWord !== '') {
-        const suggestionPart = suggestion.substring(lastWord.length); // Get the part of the suggestion that the user hasn't typed yet
-        const finalValue = inputParts.concat(lastWord + suggestionPart).join(' '); // Reconstruct the full sentence with the suggestion
-
-        // Set a custom data attribute for handling auto-suggestion
-        input.setAttribute('data-suggestion', suggestion);
-
-        // Temporarily set the input value to the final suggestion only if user is not actively typing
-        if (document.activeElement === input) {
-            input.value = finalValue; // Set the input value to the sentence with the suggestion
-            input.selectionStart = inputValue.length; // Set the selection start after the typed characters
-            input.selectionEnd = finalValue.length; // Set the selection end to the full suggestion length
-            console.log('Final Value:', finalValue); // Log the updated input value
-        }
-      } else {
+        // Only modify input value if the suggestion is valid and input isn't empty
+        if (suggestion && lastWord !== '') {
+            const suggestionPart = suggestion.substring(lastWord.length); // Get the part of the suggestion that the user hasn't typed yet
+            const finalValue = inputParts.concat(lastWord + suggestionPart).join(' '); // Reconstruct the full sentence with the suggestion
+    
+            // Set a custom data attribute for handling auto-suggestion
+            input.setAttribute('data-suggestion', suggestion);
+    
+            // Only update the input value if the user is still typing
+            if (document.activeElement === input) {
+                // Temporarily set the input value to the final suggestion
+                input.value = finalValue; // Set the input value to the sentence with the suggestion
+                input.selectionStart = inputValue.length; // Set the selection start after the typed characters
+                input.selectionEnd = finalValue.length; // Set the selection end to the full suggestion length
+                console.log('Final Value:', finalValue); // Log the updated input value
+            }
+        } else {
             console.log('No suggestion available.'); // Log when no suggestion is found
             if (input.getAttribute('data-suggestion')) {
                 input.removeAttribute('data-suggestion'); // Clear it if no suggestions
@@ -422,17 +422,15 @@ fetch(adjustLinkHomeURL + "public/js/suggestions.json")
         }
     }
     
-document.addEventListener('DOMContentLoaded', function() {
-    const keywordInputs = document.getElementsByClassName('keywordInput'); // Get all elements with 'keywordInput' class
-
-    // Loop through all keywordInput elements
-    Array.from(keywordInputs).forEach(function(input) {
-        input.addEventListener('input', function(e) {
-            console.log('e.inputType.   ',e.inputType); 
-            // Check for backspace input type to avoid suggesting during deletion
-            if (e.inputType !== 'deleteContentBackward' || e.inputType !== 'insertText') {
+    document.addEventListener('DOMContentLoaded', function () {
+        const keywordInputs = document.getElementsByClassName('keywordInput'); // Get all elements with 'keywordInput' class
+    
+        // Loop through all keywordInput elements
+        Array.from(keywordInputs).forEach(function (input) {
+            input.addEventListener('input', function (e) {
+                console.log('e.inputType:', e.inputType); 
                 let suggestionsArray;
-
+    
                 // Detect input type and assign the corresponding suggestions array
                 if (this.classList.contains('job-input')) {
                     suggestionsArray = jobSuggestions;
@@ -445,37 +443,33 @@ document.addEventListener('DOMContentLoaded', function() {
                 } else {
                     suggestionsArray = jobRequirementsSuggestions; // Default to job requirements if no specific input is matched
                 }
-
+    
                 if (suggestionsArray) {
                     autoSuggest(this, suggestionsArray); // Use suggestions array here
                 }
-            }
-        });
-
-        input.addEventListener('keydown', function (e) {
-
-            console.log('e.e.key.   ',e.key); 
-
-            if (e.key !== 'deleteContentBackward' || e.key !== 'insertText') {
+            });
+    
+            input.addEventListener('keydown', function (e) {
+                console.log('e.key:', e.key); 
+    
                 const suggestion = this.getAttribute('data-suggestion');
                 const inputValue = this.value ? this.value.toLowerCase() : ''; // Check if this.value is defined
-                
-            // Allow Backspace, Delete, and other keys to function normally
-            if (e.key === 'Tab' || e.key === 'Enter') {
-                // Prevent default only for Tab and Enter keys
-                e.preventDefault();
-                if (suggestion && suggestion.toLowerCase().startsWith(inputValue)) {
-                    this.value = suggestion; // Set the value to the suggestion
-                    this.setSelectionRange(suggestion.length, suggestion.length); // Move cursor to the end of the suggestion
-                }
-            }
-        }
-        });
     
+                // Allow Backspace, Delete, and other keys to function normally
+                if (e.key === 'Backspace' || e.key === 'Delete' || e.key === 'Tab' || e.key === 'Enter') {
+                    // Prevent default only for Tab and Enter keys
+                    if (e.key === 'Tab' || e.key === 'Enter') {
+                        e.preventDefault();
+                        if (suggestion && suggestion.toLowerCase().startsWith(inputValue)) {
+                            this.value = suggestion; // Set the value to the suggestion
+                            this.setSelectionRange(suggestion.length, suggestion.length); // Move cursor to the end of the suggestion
+                        }
+                    }
+                } 
+            });
+        });
     });
-});
-
-
+    
 
 
 
