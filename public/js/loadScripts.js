@@ -283,37 +283,30 @@ function formatTags(tags) {
 
 // formatTags(jobData.tags);
 
-function formatCurrency(input, options = {}) { 
-    // Set default options for internationalization and currency formatting
+// Function to format currency (for both input fields and static numbers)
+function formatCurrency(value, options = {}) {
     const { locale = 'en-US', currency = 'USD', decimals = 0 } = options;
 
-    // Get the input value
-    let value = input.value;
-
-    // Check if value is undefined or null, and set to 0 in that case
-    if (!value) {
-        return;
-    }
+    // Convert to string if value is a number
+    let cleanValue = typeof value === 'number' ? value.toString() : String(value);
 
     // Remove any non-numeric characters except dots and commas
-    let cleanValue = value.replace(/[^0-9.,-]/g, '');
+    cleanValue = cleanValue.replace(/[^0-9.,-]/g, '');
 
     // Remove commas and convert to number
     cleanValue = cleanValue.replace(/,/g, '');
     let number = parseFloat(cleanValue);
 
-    // Ensure the number is valid
     if (isNaN(number)) {
-        input.value = '';
-        return;
+        return '$0.00';  // Return default if value is invalid
     }
 
     // Manually format the number as currency (with commas)
     let formattedNumber = number.toFixed(decimals).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
-    // Set the formatted value back to the input field
-    input.value = `$${formattedNumber}`;
+    return `$${formattedNumber}`;
 }
+
 
 /*
 // Usage examples with default formatting
