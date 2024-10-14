@@ -968,7 +968,9 @@ function initializeProfileModal(user) {
                 return; // Exit if upload fails
             }
         }
+        });
         
+
    // console.log('User userId:', userId);
   //  console.log('User profileData:', profileData);
 
