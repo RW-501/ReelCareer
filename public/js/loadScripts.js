@@ -403,12 +403,12 @@ for (let i = 0; i < suggestionsArray.length; i++) {
 
     if (suggestion && inputValue !== '') {
         // If a suggestion is found and input isn't empty
-        input.setAttribute('data-suggestion', lastWord + suggestion); // Set a custom data attribute for handling auto-suggestion
+        input.setAttribute('data-suggestion', suggestion); // Set a custom data attribute for handling auto-suggestion
 
-        input.value = lastWord + suggestion; // Temporarily set the input value to the suggestion
-        console.log('lastWord + suggestion', lastWord + suggestion);
-        input.selectionStart = inputValue.length + suggestion.length; // Set the selection start after the typed characters
-        input.selectionEnd =  inputValue.length; // Set the selection end to the suggestion length
+        input.value = suggestion; // Temporarily set the input value to the suggestion
+        console.log('lastWord ', lastWord );
+        input.selectionStart = inputValue.length; // Set the selection start after the typed characters
+        input.selectionEnd =  suggestion.length; // Set the selection end to the suggestion length
         console.log('suggestion.length:', suggestion.length); // Log the updated input value
         console.log('inputValue.length:', inputValue.length); // Log the updated input value
     } else {
@@ -458,7 +458,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Prevent default only for Tab and Enter keys
                 e.preventDefault();
                 if (suggestion && suggestion.toLowerCase().startsWith(inputValue)) {
-                    this.value = inputValue + suggestion;
+                    this.value =  suggestion;
                     this.setSelectionRange(suggestion.length, suggestion.length); // Move cursor to the end of the suggestion
                 }
             }
