@@ -1003,7 +1003,8 @@ async function getModal(user) {
         // Fetch user data from Firestore
         console.log('user.uid:', user.uid);
 
-        const userDoc = await db.collection('Users').doc(user.uid).get();
+        const userDocRef = doc(db, 'Users', userID); // Reference to the user document
+        const userDoc = await getDoc(userDocRef); // Get the document
 
         if (userDoc.exists) {
             // User data found
