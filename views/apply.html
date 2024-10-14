@@ -217,13 +217,19 @@ function getUserIdFromURL() {
     const urlParams = new URLSearchParams(window.location.search);
     console.log("urlParams   ",urlParams);
 
-    return urlParams.get('userId'); // Assuming userId is the parameter name in the URL
+    return urlParams.get('uId'); // Assuming userId is the parameter name in the URL
 }
 
         // Get Job ID from URL
+        function getJobIdFromURL() {
+
         const urlParams = new URLSearchParams(window.location.search);
-        const jobId = urlParams.get('jobId');
+        const jobId = urlParams.get('jId');
         console.log("jobId   ",jobId);
+        return urlParams.get('jId'); // Assuming userId is the parameter name in the URL
+    }
+
+
  // JavaScript for form submission and error handling
  document.addEventListener('DOMContentLoaded', function () {
         const form = document.getElementById('applicationForm');
@@ -242,7 +248,138 @@ function getUserIdFromURL() {
     });
 
 
+
+
+
+
+
+
+
+
+
+
+
+
     </script>
+
+<script>
+    // Load Custom Questions
+    function loadCustomQuestions(customQuestions) {
+        const customQuestionsContainer = document.getElementById('customQuestionsContainer');
+        customQuestions.forEach(question => {
+            let inputElement;
+            switch (question.type) {
+                case 'multiple_choice':
+                    inputElement = `<div class="form-group">
+                                        <label>${question.question}</label>
+                                        ${question.options.map(option => `<div><input type="radio" name="${question.id}" value="${option}">${option}</div>`).join('')}
+                                    </div>`;
+                    break;
+                case 'text_area':
+                    inputElement = `<div class="form-group">
+                                        <label>${question.question}</label>
+                                        <textarea class="form-control" id="${question.id}"></textarea>
+                                    </div>`;
+                    break;
+                case 'input_field':
+                    inputElement = `<div class="form-group">
+                                        <label>${question.question}</label>
+                                        <input type="text" class="form-control" id="${question.id}">
+                                    </div>`;
+                    break;
+                case 'future_test':
+                    // Placeholder for future question types
+                    inputElement = `<div class="form-group">
+                                        <label>${question.question}</label>
+                                        <input type="text" class="form-control" id="${question.id}">
+                                    </div>`;
+                    break;
+            }
+            customQuestionsContainer.insertAdjacentHTML('beforeend', inputElement);
+        });
+    }
+
+
+document.getElementById('previewApplication').addEventListener('click', () => {
+console.log("????????previewApplication ????????");
+
+const firstName = document.getElementById('firstName').value;
+const lastName = document.getElementById('lastName').value;
+const email = document.getElementById('email').value;
+const phone = document.getElementById('phone').value;
+const noteToRecruiter = document.getElementById('noteToRecruiter').value;
+console.log("previewApplication   ");
+
+// Collecting custom questions responses
+const customQuestionsResponses = [];
+const customQuestions = document.querySelectorAll('#customQuestionsContainer input');
+
+customQuestions.forEach(question => {
+    customQuestionsResponses.push({
+        questionId: question.id,
+        answer: question.value,
+    });
+});
+
+// Create preview content
+const previewContent = `
+    <h3>Application Preview</h3>
+    <p><strong>First Name:</strong> ${firstName}</p>
+    <p><strong>Last Name:</strong> ${lastName}</p>
+    <p><strong>Email:</strong> ${email}</p>
+    <p><strong>Phone:</strong> ${phone}</p>
+    <p><strong>Note to Recruiter:</strong> ${noteToRecruiter}</p>
+    <h4>Custom Questions</h4>
+    <ul>
+        ${customQuestionsResponses.map(response => `<li>${response.questionId}: ${response.answer}</li>`).join('')}
+    </ul>
+`;
+
+// Display the preview in a modal or a new section
+const previewModal = document.createElement('div');
+previewModal.className = 'modal fade';
+previewModal.innerHTML = `
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Application Preview</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                ${previewContent}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+`;
+
+document.body.appendChild(previewModal);
+$(previewModal).modal('show'); // Use jQuery to display the modal
+});
+
+
+
+document.getElementById('saveForLater').addEventListener('click', () => {
+        console.log("saveForLater   ");
+const jobID = getJobIdFromURL();
+        // Save for later functionality
+        const applicationData = {
+            firstName: document.getElementById('firstName').value,
+            lastName: document.getElementById('lastName').value,
+            email: document.getElementById('email').value,
+            phone: document.getElementById('phone').value,
+            // Include other relevant fields as needed
+        };
+        localStorage.setItem(`application_${jobID}`, JSON.stringify(applicationData));
+        alert('Application saved for later!');
+    });
+
+
+
+
+</script>
 
 
 
@@ -282,41 +419,6 @@ function getUserIdFromURL() {
             loadCustomQuestions(jobData.customQuestions);
         }
 
-        // Load Custom Questions
-        function loadCustomQuestions(customQuestions) {
-            const customQuestionsContainer = document.getElementById('customQuestionsContainer');
-            customQuestions.forEach(question => {
-                let inputElement;
-                switch (question.type) {
-                    case 'multiple_choice':
-                        inputElement = `<div class="form-group">
-                                            <label>${question.question}</label>
-                                            ${question.options.map(option => `<div><input type="radio" name="${question.id}" value="${option}">${option}</div>`).join('')}
-                                        </div>`;
-                        break;
-                    case 'text_area':
-                        inputElement = `<div class="form-group">
-                                            <label>${question.question}</label>
-                                            <textarea class="form-control" id="${question.id}"></textarea>
-                                        </div>`;
-                        break;
-                    case 'input_field':
-                        inputElement = `<div class="form-group">
-                                            <label>${question.question}</label>
-                                            <input type="text" class="form-control" id="${question.id}">
-                                        </div>`;
-                        break;
-                    case 'future_test':
-                        // Placeholder for future question types
-                        inputElement = `<div class="form-group">
-                                            <label>${question.question}</label>
-                                            <input type="text" class="form-control" id="${question.id}">
-                                        </div>`;
-                        break;
-                }
-                customQuestionsContainer.insertAdjacentHTML('beforeend', inputElement);
-            });
-        }
 
 
 // Event listener for messaging the recruiter
@@ -325,6 +427,7 @@ document.getElementById('messageRecruiter').addEventListener('click', async () =
     const recruiterEmail = document.getElementById('recruiterEmail').value;
     const messageContent = document.getElementById('messageContent').value;
     const userId = getUserIdFromURL();
+    const jobID = getJobIdFromURL();
 
     if (!recruiterEmail || !messageContent) {
         alert('Please fill in all fields.');
@@ -335,6 +438,7 @@ document.getElementById('messageRecruiter').addEventListener('click', async () =
         // Construct message object
         const message = {
             senderId: userId,
+            jobID: jobID,
             recipientEmail: recruiterEmail,
             content: messageContent,
             timestamp: new Date() // Use Date for timestamp
@@ -413,7 +517,10 @@ getDraftApplications(userId).then(draftApps => {
     
         // Function to handle application submission
         document.getElementById('submitApplication').addEventListener('click', async () => {
-    // Gather applicant data
+            const userId = getUserIdFromURL();
+            const jobID = getJobIdFromURL();
+
+     // Gather applicant data
     const applicantData = {
         firstName: document.getElementById('firstName').value,
         lastName: document.getElementById('lastName').value,
@@ -421,7 +528,8 @@ getDraftApplications(userId).then(draftApps => {
         phone: document.getElementById('phone').value,
         notes: document.getElementById('noteToRecruiter').value,
         portfolio: document.getElementById('portfolio').value,
-        jobId: jobId,
+        jobId: jobID,
+        userId: userId,
         submitted: new Date().toLocaleString(), // Formats the date based on the user's locale
     };
 
@@ -435,7 +543,7 @@ getDraftApplications(userId).then(draftApps => {
             shareInfo: document.getElementById('shareInfo').checked,
             disclosureName: document.getElementById('disclosureName').value,
             disclosureDate: document.getElementById('disclosureDate').value,
-            jobId: jobId, // Ensure jobId is defined in your scope
+            jobId: jobID, // Ensure jobId is defined in your scope
             submitted: new Date().toLocaleString(), // Formats the date based on the user's locale
         };
 
@@ -513,101 +621,15 @@ function simulateProgressBar() {
         document.getElementById('boostApplication')
         .addEventListener('click', async () => {
             console.log("boostApplication   ");
+            
 
-    const applicationId = "APPLICATION_ID"; // Replace with actual application ID.
-    const userId = "USER_ID"; // Replace with the user's ID, if applicable.
-
-    try {
-        // Reference to the Firestore collection where applications are stored
-        const applicationRef = doc(collection(db, 'Applications'), applicationId);
-
-        // Update the boost status in Firestore
-        await applicationRef.update({
-            boosted: true, // Assuming there is a 'boosted' field to indicate boost status
-            boostTimestamp: firebase.firestore.FieldValue.serverTimestamp(), // Optional: timestamp for when it was boosted
-        });
-
-        alert('Application boosted successfully!');
-    } catch (error) {
-        console.error("Error boosting application: ", error);
-        alert('Failed to boost the application. Please try again.');
-    }
-});
-
-document.getElementById('previewApplication').addEventListener('click', () => {
-    console.log("????????previewApplication ????????");
-
-    const firstName = document.getElementById('firstName').value;
-    const lastName = document.getElementById('lastName').value;
-    const email = document.getElementById('email').value;
-    const phone = document.getElementById('phone').value;
-    const noteToRecruiter = document.getElementById('noteToRecruiter').value;
-    console.log("previewApplication   ");
-
-    // Collecting custom questions responses
-    const customQuestionsResponses = [];
-    const customQuestions = document.querySelectorAll('#customQuestionsContainer input');
-
-    customQuestions.forEach(question => {
-        customQuestionsResponses.push({
-            questionId: question.id,
-            answer: question.value,
-        });
-    });
-
-    // Create preview content
-    const previewContent = `
-        <h3>Application Preview</h3>
-        <p><strong>First Name:</strong> ${firstName}</p>
-        <p><strong>Last Name:</strong> ${lastName}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Phone:</strong> ${phone}</p>
-        <p><strong>Note to Recruiter:</strong> ${noteToRecruiter}</p>
-        <h4>Custom Questions</h4>
-        <ul>
-            ${customQuestionsResponses.map(response => `<li>${response.questionId}: ${response.answer}</li>`).join('')}
-        </ul>
-    `;
-
-    // Display the preview in a modal or a new section
-    const previewModal = document.createElement('div');
-    previewModal.className = 'modal fade';
-    previewModal.innerHTML = `
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Application Preview</h5>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-                <div class="modal-body">
-                    ${previewContent}
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    `;
-
-    document.body.appendChild(previewModal);
-    $(previewModal).modal('show'); // Use jQuery to display the modal
+            
 });
 
 
-        document.getElementById('saveForLater').addEventListener('click', () => {
-            console.log("saveForLater   ");
 
-            // Save for later functionality
-            const applicationData = {
-                firstName: document.getElementById('firstName').value,
-                lastName: document.getElementById('lastName').value,
-                email: document.getElementById('email').value,
-                phone: document.getElementById('phone').value,
-                // Include other relevant fields as needed
-            };
-            localStorage.setItem(`application_${jobId}`, JSON.stringify(applicationData));
-            alert('Application saved for later!');
-        });
+
+
 
  
        // Load job and company info on page load
