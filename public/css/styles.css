@@ -157,7 +157,7 @@ main .row {
 }
 
 /* Ensure the card takes up full height */
-main .card {
+main .card .h-100 {
     display: flex;
     flex-direction: column;
     height: 100%; /* Ensure cards are stretched to fill the space */
