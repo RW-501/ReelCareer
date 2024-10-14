@@ -186,7 +186,7 @@ function saveFormValues() {
         education: Array.from(document.getElementById('education').selectedOptions).map(option => option.value),
         experience: Array.from(document.getElementById('experience').selectedOptions).map(option => option.value),
         applicationLink: document.getElementById('applicationLink').value,
-        jobTags: document.getElementById('jobTags').value,
+        jobTags: document.getElementById('tagInput').value,
         customQuestions: Array.from(document.querySelectorAll('#customQuestionsContainer input')).map(input => input.value),
         tags: Array.from(document.querySelectorAll('#tagsList .tag')).map(tag => tag.textContent)
     };
@@ -227,7 +227,7 @@ function loadFormValues() {
         }
 
         document.getElementById('applicationLink').value = formValues.applicationLink || '';
-        document.getElementById('jobTags').value = formValues.jobTags || '';
+        document.getElementById('tagInput').value = formValues.jobTags || '';
 
         // Load custom questions if any
         if (formValues.customQuestions) {
