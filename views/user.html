@@ -206,14 +206,15 @@
         const userIdFromURL = urlParams.get('u');
 
         async function checkUser() {
-            const user = auth.currentUser;
-            console.log("user ",user.id);
-            console.log("user ",user.uid);
+        const user = auth.currentUser;
+
+        // Log user info
+        if (user) {
+            console.log("User ID: ", user.uid);
+            console.log("User Data: ", userData); // Make sure userData is defined in the correct scope
+
             console.log("user ",userData);
 
-
-            if (user) {
-                const userId = user.uid;
 
                 // Fetch profile information based on userId in the URL
                 const profileDoc = doc(db, 'Users', userIdFromURL);
