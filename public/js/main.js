@@ -129,6 +129,39 @@ onAuthStateChanged(auth, async (user) => {
 });
 
 
+/*
+// Retrieve userID from local storage
+const userID = localStorage.getItem('userID');
+
+if (userID) {
+    console.log('Retrieved User ID:', userID);
+} else {
+    console.log('No User ID found in local storage.');
+}
+
+*/
+onAuthStateChanged(auth, async (user) => {
+    if (user) {
+        console.log('User is signed in:', user);
+        await saveUserLoginState(user, true); // Update local storage
+
+            // Store userID separately
+            localStorage.setItem('userID', user.uid); // Store userID separately
+
+            // Optional: Redirect only if on a specific page, like the login page
+            if (window.location.pathname === '/views/auth.html') {
+                window.location.href = '/ReelCareer/views/user'; // Redirect to profile
+            }
+        
+    } else {
+        console.log('No user signed in');
+        localStorage.removeItem('userLoggedIn'); // Clear local storage
+        localStorage.removeItem('userEmail');
+        localStorage.removeItem('userData'); // Clear userData if needed
+        localStorage.removeItem('userID'); // Clear userID if needed
+    }
+});
+
 
 
 // Sign Up Function
@@ -849,6 +882,12 @@ function createProfileModal() {
                 <div class="mt-4">
                   <button type="button" class="btn btn-danger" id="deactivateAccountBtn">Deactivate Account</button>
                 </div>
+                                <!-- Email -->
+                <div class="mb-3">
+                  <label for="userIdSET" class="form-label">User ID </label>
+                  <div class="form-control" id="userIdSET"></div>
+                </div>
+
               </form>
             </div>
             <div class="modal-footer border-top-0">
@@ -873,6 +912,7 @@ function populateFormFields(userData) {
     console.log("user info FROM FIREBASE ", userData);
     document.getElementById('usernameSET').value = userData.displayName || '';
     document.getElementById('emailSET').innerText = userData.email || '';
+    document.getElementById('userIdSET').innerText = userData.userID || '';
     document.getElementById('nameSET').value = userData.name || '';
     document.getElementById('locationSET').value = userData.location || '';
     document.getElementById('bioSET').value = userData.bio || '';
@@ -881,7 +921,7 @@ function populateFormFields(userData) {
     document.getElementById('membershipStatusSET').innerText = userData.membershipStatus || 'Free';
     document.getElementById('verifiedStatusSET').innerText = userData.verifiedStatus ? 'Verified' : 'Not Verified';
     document.getElementById('publicProfileSET').checked = userData.publicProfile || false;
-
+    
     // Profile picture preview
     if (userData.profilePicture) {
         document.getElementById('profilePicPreviewSET').src = userData.profilePicture;
