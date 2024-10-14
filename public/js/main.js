@@ -897,7 +897,7 @@ function populateFormFields(userData) {
     }
 }
 
-function initializeProfileModal() {
+function initializeProfileModal(user) {
     const profileForm = document.getElementById('profileForm');
     const usernameInput = document.getElementById('usernameSET');
     const nameInput = document.getElementById('nameSET');
@@ -963,28 +963,17 @@ function initializeProfileModal() {
             }, () => {
                 uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
                     profileData.profilePicture = downloadURL;
-                    updateFirebaseProfile(userId, profileData);
+                    saveProfile(userId, profileData);
                 });
             });
         } else {
-            updateFirebaseProfile(userId, profileData);
+            saveProfile(userId, profileData);
         }
     });
 
-    function updateFirebaseProfile(userId, profileData) {
-        const user = auth.currentUser;
-        console.log("user info FROM FIREBASE ", user);
-/*
-        user.updateProfile({
-            displayName: profileData.displayName,
-            photoURL: profileData.profilePicture || user.photoURL // Use existing photo if not updated
-        }).then(() => {
-            saveProfile(userId, profileData);
-        }).catch(error => {
-            console.error('Error updating Firebase Auth user:', error);
-        });
-        */
-    }
+
+    console.log('User userId:', userId);
+    console.log('User profileData:', profileData);
 
     function saveProfile(userId, profileData) {
         const userDocRef = doc(db, 'Users', userId);
@@ -998,7 +987,6 @@ function initializeProfileModal() {
             });
     }
 
-     saveProfile(userId, profileData);
 
 }
 
@@ -1038,7 +1026,7 @@ document.addEventListener('DOMContentLoaded', function() {
     auth.onAuthStateChanged(user => {
         if (user) {
             createProfileModal();
-            initializeProfileModal(); // Initialize modal only if the form exists
+            initializeProfileModal(user); // Initialize modal only if the form exists
             document.getElementById('settingsBtn').addEventListener('click', getModal);
             document.getElementById('settingsBtn').addEventListener('click', showModal);
 
