@@ -78,8 +78,8 @@ const saveUserLoginState = async (user) => {
             lastLogin: serverTimestamp(),
             ipAddress: ip || 'Unknown',
             userID: user.uid || 'Unknown',
-            //city: location?.city || 'Unknown',
-          //  state: location?.state || 'Unknown',
+            city: location?.city || 'Unknown',
+            state: location?.state || 'Unknown',
             zip: location?.zip || 'Unknown',
             country: location?.country || 'Unknown',
         };
@@ -114,7 +114,6 @@ const saveUserLoginState = async (user) => {
 // Check if user is already signed in (this can be included on all pages)
 onAuthStateChanged(auth, async (user) => {
     if (user) {
-        console.log('User is signed in:', user);
         await saveUserLoginState(user, true); // Update local storage
         // Optional: Redirect only if on a specific page, like the login page
         UserID = user.id;
@@ -126,42 +125,12 @@ onAuthStateChanged(auth, async (user) => {
         console.log('No user signed in');
         localStorage.removeItem('userLoggedIn'); // Clear local storage
         localStorage.removeItem('userEmail');
-    }
-});
-
-
-/*
-// Retrieve userID from local storage
-const userID = localStorage.getItem('userID');
-
-if (userID) {
-    console.log('Retrieved User ID:', userID);
-} else {
-    console.log('No User ID found in local storage.');
-}
-
-*/
-onAuthStateChanged(auth, async (user) => {
-    if (user) {
-        console.log('User is signed in:', user);
-        await saveUserLoginState(user, true); // Update local storage
-
-            // Store userID separately
-            localStorage.setItem('userID', user.uid); // Store userID separately
-
-            // Optional: Redirect only if on a specific page, like the login page
-            if (window.location.pathname === '/views/auth.html') {
-                window.location.href = '/ReelCareer/views/user'; // Redirect to profile
-            }
-        
-    } else {
-        console.log('No user signed in');
-        localStorage.removeItem('userLoggedIn'); // Clear local storage
-        localStorage.removeItem('userEmail');
         localStorage.removeItem('userData'); // Clear userData if needed
-        localStorage.removeItem('userID'); // Clear userID if needed
     }
 });
+
+
+
 
 
 
@@ -879,14 +848,16 @@ function createProfileModal() {
                   <label class="form-check-label" for="publicProfileSET">Public Profile</label>
                 </div>
   
+
+                                <!-- Email -->
+                <div class="mb-3 mt-3">
+                  <label for="userIdSET" class="form-label">User ID </label>
+                  <div class="m-auto " id="userIdSET"></div>
+                </div>
+                <hr>
                 <!-- Deactivate Account -->
                 <div class="mt-4">
                   <button type="button" class="btn btn-danger" id="deactivateAccountBtn">Deactivate Account</button>
-                </div>
-                                <!-- Email -->
-                <div class="mb-3">
-                  <label for="userIdSET" class="form-label">User ID </label>
-                  <div class="form-control" id="userIdSET"></div>
                 </div>
 
               </form>
