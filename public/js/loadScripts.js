@@ -387,17 +387,22 @@ fetch(adjustLinkHomeURL + "public/js/suggestions.json")
             }
         }
     
-        if (suggestion && lastWord !== '') {
-            // If a suggestion is found and input isn't empty
-            const suggestionPart = suggestion.substring(lastWord.length); // Get the part of the suggestion that the user hasn't typed yet
-            const finalValue = inputParts.concat(lastWord + suggestionPart).join(' '); // Reconstruct the full sentence with the suggestion
-    
-            input.setAttribute('data-suggestion', suggestion); // Set a custom data attribute for handling auto-suggestion
+          // Only modify input value if the suggestion is valid and input isn't empty
+    if (suggestion && lastWord !== '') {
+        const suggestionPart = suggestion.substring(lastWord.length); // Get the part of the suggestion that the user hasn't typed yet
+        const finalValue = inputParts.concat(lastWord + suggestionPart).join(' '); // Reconstruct the full sentence with the suggestion
+
+        // Set a custom data attribute for handling auto-suggestion
+        input.setAttribute('data-suggestion', suggestion);
+
+        // Temporarily set the input value to the final suggestion only if user is not actively typing
+        if (document.activeElement === input) {
             input.value = finalValue; // Set the input value to the sentence with the suggestion
             input.selectionStart = inputValue.length; // Set the selection start after the typed characters
             input.selectionEnd = finalValue.length; // Set the selection end to the full suggestion length
             console.log('Final Value:', finalValue); // Log the updated input value
-        } else {
+        }
+      } else {
             console.log('No suggestion available.'); // Log when no suggestion is found
             if (input.getAttribute('data-suggestion')) {
                 input.removeAttribute('data-suggestion'); // Clear it if no suggestions
@@ -435,7 +440,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-        input.addEventListener('keydown', function(e) {
+        input.addEventListener('keydown', function (e) {
             const suggestion = this.getAttribute('data-suggestion');
             const inputValue = this.value ? this.value.toLowerCase() : ''; // Check if this.value is defined
 
@@ -444,15 +449,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Prevent default only for Tab and Enter keys
                 e.preventDefault();
                 if (suggestion && suggestion.toLowerCase().startsWith(inputValue)) {
-                    this.value =  suggestion;
+                    this.value = suggestion; // Set the value to the suggestion
                     this.setSelectionRange(suggestion.length, suggestion.length); // Move cursor to the end of the suggestion
                 }
             }
         });
     });
 });
-    
-
 
 
 
