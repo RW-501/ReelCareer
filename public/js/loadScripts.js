@@ -524,15 +524,13 @@ function showModal() {
 function hideModal() {
     const modal = document.getElementById('profileModal');
     
-    // Check if the modal has the class 'show'
-    if (modal.classList.contains('show')) {
-        // If it does, remove 'show' and add 'hide' class
-        modal.classList.remove('show');
-        modal.classList.add('hide'); // Add 'hide' if you want a class to signify hidden
-    } else {
-        // If it doesn't, add 'show' class to show it
-        modal.classList.add('show');
-    }
+    // Get all child elements with class 'show' and change them to 'hide'
+    const childElements = modal.querySelectorAll('.show');
+    childElements.forEach(child => {
+        child.classList.remove('show');
+        child.classList.add('hide'); // Add a 'hide' class if needed
+    });
+
 }
 
 
