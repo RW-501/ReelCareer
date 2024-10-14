@@ -22,7 +22,7 @@ import { query, where, orderBy, limit,  collection, getDocs, addDoc } from "http
                             alert('Please confirm compliance with Employment and Labor Laws.');
                             event.preventDefault(); // Prevent form submission if not checked
                         }
-                        
+
                         if (this.checkValidity() === false) {
                             event.preventDefault();
                             event.stopPropagation();
@@ -70,7 +70,7 @@ import { query, where, orderBy, limit,  collection, getDocs, addDoc } from "http
                 benefits: document.getElementById("benefits").value.split(",").map(benefit => benefit.trim()),
                 jobFunction: document.getElementById("jobFunction").value,
             tags: Array.from(tagsList.children).map(tag => tag.textContent.slice(0, -1).trim()), // Get tags without the 'x' button
-            complianceCheck: document.getElementById("complianceCheck").checked,
+            complianceConfirmed: document.getElementById("complianceCheck").checked,
             boosted:"None", // Check if boosted
             boostExpiration: "00",
             boostExpiresAt: "00",
