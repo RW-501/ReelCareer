@@ -222,7 +222,10 @@ import { onAuthStateChanged, db, auth } from '../public/js/main.js';
                 checkUser(userIdFromURL);
             } else {
                 checkUser(user.uid);
+                document.getElementById('send-message-btn').style.display = 'none';
+                document.getElementById('connect-btn').style.display = 'none';
 
+                
             }
 
             // Async function to check the user profile
