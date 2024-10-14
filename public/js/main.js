@@ -973,6 +973,7 @@ function initializeProfileModal() {
 
     function updateFirebaseProfile(userId, profileData) {
         const user = auth.currentUser;
+        console.log("user info FROM FIREBASE ", user);
 
         user.updateProfile({
             displayName: profileData.displayName,
@@ -1010,6 +1011,8 @@ document.addEventListener('DOMContentLoaded', function() {
             setTimeout(() => {
                 const profileForm = document.getElementById('profileForm');
                 if (profileForm) {
+                    console.log('User info????????????/  :', userData);
+  
                     populateFormFields(user); // Populate fields with user data
                     document.getElementById('settingsBtn').addEventListener('click', showModal);
                 } else {
