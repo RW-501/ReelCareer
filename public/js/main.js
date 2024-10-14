@@ -64,6 +64,7 @@ const showLoading = () => loadingIndicator.style.display = 'block';
 const hideLoading = () => loadingIndicator.style.display = 'none';
 
 let UserID = "";
+let userData = "";
 
 // Function to update or create user information in Firestore
 const saveUserLoginState = async (user) => {
@@ -89,10 +90,9 @@ const saveUserLoginState = async (user) => {
 
         // First attempt to update the document if it exists
         try {
-            await updateDoc(userDocRef, userData);
+            await updateDoc(userDocRef, userDataDB);
             console.log('User info updated successfully:', userData);
-            populateFormFields(userData);
-
+            userData = userDataDB
         } catch (error) {
             // If the document doesn't exist, create it using setDoc
             if (error.code === 'not-found') {
@@ -1081,7 +1081,9 @@ document.addEventListener('DOMContentLoaded', function() {
         if (user) {
             createProfileModal();
             initializeProfileModal();
-     console.log("check 2");
+     console.log("check for end");
+     populateFormFields(userData);
+
         }
     });
     });
