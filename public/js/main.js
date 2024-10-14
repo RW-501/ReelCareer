@@ -1004,7 +1004,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (user) {
             // Set a small timeout to ensure elements have loaded
 
-
+            createProfileModal();
             initializeProfileModal(); // Initialize modal only if the form exists
 
             setTimeout(() => {
