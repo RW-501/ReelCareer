@@ -77,6 +77,7 @@ const saveUserLoginState = async (user) => {
             email: user.email,
             lastLogin: serverTimestamp(),
             ipAddress: ip || 'Unknown',
+            userID: user.uid || 'Unknown',
             //city: location?.city || 'Unknown',
           //  state: location?.state || 'Unknown',
             zip: location?.zip || 'Unknown',
