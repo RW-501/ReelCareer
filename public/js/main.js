@@ -90,9 +90,9 @@ const saveUserLoginState = async (user) => {
 
         // First attempt to update the document if it exists
         try {
-            await updateDoc(userDocRef, userDataDB);
+            await updateDoc(userDocRef, userData);
             console.log('User info updated successfully:', userData);
-            userData = userDataDB
+
         } catch (error) {
             // If the document doesn't exist, create it using setDoc
             if (error.code === 'not-found') {
