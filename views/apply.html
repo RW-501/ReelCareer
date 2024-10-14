@@ -129,6 +129,11 @@
             <textarea id="noteToRecruiter" class="form-control" rows="3" placeholder="Write a brief note to the recruiter..."></textarea>
         </div>
         <div class="form-group">
+            <label for="portfolio">Portfoio</label>
+            <input type="url" id="portfolio" class="form-control" >
+            <div class="invalid-feedback">Please enter your Portfio Url</div>
+        </div>
+        <div class="form-group">
             <label for="videoResumeUpload">Upload Video Resume (optional)</label>
             <input type="file" id="videoResumeUpload" class="form-control-file">
             <button type="button" id="createVideoResume" class="btn btn-link text-primary">Create One</button>
@@ -416,23 +421,35 @@ getDraftApplications(userId).then(draftApps => {
                 email: document.getElementById('email').value,
                 phone: document.getElementById('phone').value,
                 notes: document.getElementById('noteToRecruiter').value,
+                portfolio: document.getElementById('portfolio').value,
                 jobId: jobId,
+                submitted: new Date().toLocaleString(), // This formats the date to a string based on the user's locale
 
-                // Collect custom questions responses here
-  
             };
-//Personal Data Collected from Candidates
-            const applicant_PDC = {
-                gender: document.getElementById('gender').value,
-                race: document.getElementById('race').value,
-                veteran: document.getElementById('veteran').value,
-                disability: document.getElementById('disability').value,
-                shareInfo: document.getElementById('shareInfo').checked,
-                disclosureName: document.getElementById('disclosureName').value,
-                disclosureDate: document.getElementById('disclosureDate').value,
-                jobId: jobId,
-            };
+         
+            try {
+        // Collect personal data from candidates
+        const applicant_PDC = {
+            gender: document.getElementById('gender').value,
+            race: document.getElementById('race').value,
+            veteran: document.getElementById('veteran').value,
+            disability: document.getElementById('disability').value,
+            shareInfo: document.getElementById('shareInfo').checked,
+            disclosureName: document.getElementById('disclosureName').value,
+            disclosureDate: document.getElementById('disclosureDate').value,
+            jobId: jobId, // Ensure jobId is defined in your scope
+            submitted: new Date().toLocaleString(), // This formats the date to a string based on the user's locale
+        };
 
+        // Send applicant_PDC to AppDataCompliance collection
+        await sendToAppDataCompliance(applicant_PDC);
+
+        // You can continue with other submission logic here (e.g., submitting the application form)
+        console.log('Application submitted successfully!');
+
+    } catch (error) {
+        console.error('Error submitting application:', error);
+    }
             console.log("submitApplication  called"); // Debugging log
 
             // Upload resume if available
@@ -451,8 +468,8 @@ getDraftApplications(userId).then(draftApps => {
                 applicantData.videoResumeUrl = await videoRef.getDownloadURL();
             }
 
-            // Save application data to Firestore
-            await addDoc(collection(db, 'Applications'), applicantData);
+    
+
  // Simulate form submission
  let progress = 0;
             progressBar.style.width = '0%';
@@ -470,6 +487,29 @@ getDraftApplications(userId).then(draftApps => {
                             
         });
     
+
+        // Save application data to Firestore
+        await addDoc(collection(db, 'Applications'), applicantData);
+
+async function sendToAppDataCompliance(applicantData) {
+try {
+const docRef = await addDoc(collection(db, 'AppDataCompliance'), applicantData);
+console.log('Document written with ID: ', docRef.id);
+} catch (error) {
+console.error('Error adding document to AppDataCompliance:', error);
+}
+}
+
+
+
+
+
+
+
+
+
+
+
 
         // Event Listeners
         document.getElementById('boostApplication')
