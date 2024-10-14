@@ -237,7 +237,7 @@ import { onAuthStateChanged, db, auth } from '../public/js/main.js';
                         console.log("User data: ", profileData);
 
                         // Check if the profile is public
-                        if (profileData.profilePublic) {
+                        if (!profileData.profilePublic) {
                             await loadUserData(profileData); // Load user data if public
                             await loadUserJobs(userIdFromURL);
                             await loadUserBlogs(userIdFromURL);
