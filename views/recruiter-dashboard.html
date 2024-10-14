@@ -605,10 +605,10 @@ document.getElementById("boostJobPostButton").onclick = function () {
     import { query, where, orderBy, limit,  collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
     
   
-    document.getElementById("appUserID").innerText = userId;
+    document.getElementById("appUserID").innerText = userInfo.id;
     console.log("userID 0  ",userInfo.id);
     console.log("userID 1  ",userData.id);
-    console.log("userID 2  ",userId);
+    console.log("userID 2  ",user.uid);
     
 
     const checkUserMembershipAndBoostCount = async (userId) => {
