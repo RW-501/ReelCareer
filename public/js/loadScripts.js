@@ -453,12 +453,13 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         input.addEventListener('keydown', function (e) {
-            const suggestion = this.getAttribute('data-suggestion');
-            const inputValue = this.value ? this.value.toLowerCase() : ''; // Check if this.value is defined
+
             console.log('e.e.key.   ',e.key); 
 
             if (e.key !== 'deleteContentBackward' || e.key !== 'insertText') {
-
+                const suggestion = this.getAttribute('data-suggestion');
+                const inputValue = this.value ? this.value.toLowerCase() : ''; // Check if this.value is defined
+                
             // Allow Backspace, Delete, and other keys to function normally
             if (e.key === 'Tab' || e.key === 'Enter') {
                 // Prevent default only for Tab and Enter keys
