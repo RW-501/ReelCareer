@@ -777,7 +777,7 @@ function createProfileModal() {
                 <div class="mb-3">
                   <label for="profilePictureSET" class="form-label">Profile Picture</label>
                   <input type="file" class="form-control" id="profilePictureSET" accept="image/*">
-                  <img id="profilePicPreview" class="img-thumbnail mt-2" style="display:block; width: 100px;" />
+                  <img id="profilePicPreviewSET" class="img-thumbnail mt-2" style="display:none; width: 100px;" alt="Profile Picture Preview" />
                 </div>
   
                 <!-- Email -->
