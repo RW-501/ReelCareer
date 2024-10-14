@@ -294,7 +294,8 @@ function formatCurrency(value, options = {}) {
     }
 
     // If the value is a number, convert it to a string for processing
-    let cleanValue = typeof value === 'number' ? value.toString() : value;
+    // Ensure the value is a string
+    let cleanValue = typeof value === 'number' ? value.toString() : String(value);
 
     // Remove any non-numeric characters except dots and commas
     cleanValue = cleanValue.replace(/[^0-9.,-]/g, '');
