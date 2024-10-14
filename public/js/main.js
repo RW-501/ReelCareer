@@ -779,7 +779,7 @@ function createProfileModal() {
                 <div class="mb-3">
                   <label for="profilePictureSET" class="form-label">Profile Picture</label>
                   <input type="file" class="form-control" id="profilePictureSET" accept="image/*">
-                  <img id="profilePicPreview" class="img-thumbnail mt-2" style="display:none; width: 100px;" />
+                  <img id="profilePicPreview" class="img-thumbnail mt-2" style="display:block; width: 100px;" />
                 </div>
   
                 <!-- Email -->
@@ -940,7 +940,8 @@ function initializeProfileModal(user) {
     });
 
     // Save profile button
-    saveProfileBtn.addEventListener('click', function () {
+
+    saveProfileBtn.addEventListener('click', async function () {
         const userId = auth.currentUser.uid;
         const profileData = {
             displayName: document.getElementById('usernameSET').value,
@@ -951,27 +952,23 @@ function initializeProfileModal(user) {
             position: document.getElementById('positionSET').value,
             profilePic: document.getElementById('publicProfileSET').checked
         };
-
+    
         // Check if a new profile picture is being uploaded
         if (document.getElementById('profilePictureSET').files.length > 0) {
             const file = document.getElementById('profilePictureSET').files[0];
-            const storageRef = firebase.storage().ref('profilePictures/' + userId);
-            const uploadTask = storageRef.put(file);
-
-            uploadTask.on('state_changed', null, error => {
+            const storageRef = ref(storage, 'profilePictures/' + userId); // Use the 'ref' function from the modular SDK
+            try {
+                // Upload the file
+                const snapshot = await uploadBytes(storageRef, file);
+                // Get the download URL
+                const downloadURL = await getDownloadURL(snapshot.ref);
+                profileData.profilePicture = downloadURL;
+            } catch (error) {
                 console.error('Upload failed:', error);
-            }, () => {
-                uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
-                    profileData.profilePicture = downloadURL;
-                    saveProfile(userId, profileData);
-                });
-            });
-        } else {
-            saveProfile(userId, profileData);
+                return; // Exit if upload fails
+            }
         }
-    });
-
-
+        
    // console.log('User userId:', userId);
   //  console.log('User profileData:', profileData);
 
