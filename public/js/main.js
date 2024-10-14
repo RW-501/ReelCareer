@@ -997,19 +997,24 @@ function initializeProfileModal() {
     }
 }
 
-document.addEventListener('DOMContentLoaded', function () {
-    auth.onAuthStateChanged(user => {
-        if (user) {
-            initializeProfileModal();
-            console.log("user ",user);
-            populateFormFields(user); // Ensure user data is passed correctly
-            document.getElementById('settingsBtn').addEventListener('click', showModal);
-
-        }
 
 
+    document.addEventListener('DOMContentLoaded', function() {
+        auth.onAuthStateChanged(user => {
+            if (user) {
+                // Check if the modal is present before initializing
+                const profileForm = document.getElementById('profileForm');
+                if (profileForm) {
+                    initializeProfileModal(); // Only call this if the modal and form exist
+                    populateFormFields(user); // Populate fields with user data
+                    document.getElementById('settingsBtn').addEventListener('click', showModal);
+
+                } else {
+                    console.error("Profile modal form not found in the DOM.");
+                }
+            }
+        });
     });
-
 
 });
 
