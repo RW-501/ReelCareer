@@ -244,7 +244,6 @@ import { onAuthStateChanged, db, auth } from '../public/js/main.js';
                             await loadUserCompanies(userIdFromURL);
                             await loadUserVideoResumes(userIdFromURL);
                             await loadSocialMedia(profileData);
-                            await loadTags(profileData);
                         } else {
                             alert('This profile is private.');
                           //  window.location.href = 'user.html';
