@@ -976,18 +976,22 @@ function initializeProfileModal(user) {
         
 
 
-    function saveProfile(userId, profileData) {
-        const userDocRef = doc(db, 'Users', userId);
-        setDoc(userDocRef, profileData, { merge: true })
-            .then(() => {
-               // alert('Profile updated successfully');
-                $('#profileModal').modal('hide');
-                hideModal();
-            })
-            .catch(error => {
-                console.error('Error updating profile:', error);
-            });
-    }
+        function saveProfile(userId, profileData) {
+            const userDocRef = doc(db, 'Users', userId);
+            setDoc(userDocRef, profileData, { merge: true })
+                .then(() => {
+                    // Clear the stored user data in local storage since the profile has changed
+                    localStorage.removeItem('userData');
+        
+                    // Optionally show a success message
+                    // alert('Profile updated successfully');
+                    $('#profileModal').modal('hide');
+                    hideModal();
+                })
+                .catch(error => {
+                    console.error('Error updating profile:', error);
+                });
+        }
 
 
 
@@ -1005,9 +1009,11 @@ function initializeProfileModal(user) {
 // Function to show modal and load user data
 async function getModal(user) {
     try {
+        // Check if user data is already in local storage
+        const storedUserData = JSON.parse(localStorage.getItem('userData'));
+
         // Fetch user data from Firestore
         console.log('user.uid:', user.uid);
-
         const userDocRef = doc(db, 'Users', user.uid); // Reference to the user document
         const userDoc = await getDoc(userDocRef); // Get the document
 
@@ -1015,8 +1021,17 @@ async function getModal(user) {
             // User data found
             const userData = userDoc.data();
             console.log('User Data:', userData);
-             populateFormFields(userData);
-            
+
+            // Compare with stored data
+            if (JSON.stringify(userData) !== JSON.stringify(storedUserData)) {
+                // Store the new user data in local storage
+                localStorage.setItem('userData', JSON.stringify(userData));
+                populateFormFields(userData);
+            } else {
+                // If data hasn't changed, use the stored data
+                console.log('Using stored user data');
+                populateFormFields(storedUserData);
+            }
         } else {
             console.log('No such user!');
         }
