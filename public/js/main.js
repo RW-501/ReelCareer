@@ -854,7 +854,7 @@ function createProfileModal() {
               </form>
             </div>
             <div class="modal-footer border-top-0">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"  id="saveProfileCloseBtn">Close</button>
               <button type="button" class="btn btn-primary" id="saveProfileBtn">Save changes</button>
             </div>
           </div>
@@ -905,6 +905,10 @@ function initializeProfileModal(user) {
     const profilePictureInput = document.getElementById('profilePictureSET');
     const profilePicPreview = document.getElementById('profilePicPreviewSET');
     const saveProfileBtn = document.getElementById('saveProfileBtn');
+    const saveProfileCloseBtn = document.getElementById('saveProfileCloseBtn');
+    
+
+    saveProfileCloseBtn.addEventListener('click', hideModal);
 
     // Real-time validation
     usernameInput.addEventListener('input', function () {
@@ -963,16 +967,17 @@ function initializeProfileModal(user) {
                 // Get the download URL
                 const downloadURL = await getDownloadURL(snapshot.ref);
                 profileData.profilePicture = downloadURL;
+            
             } catch (error) {
                 console.error('Upload failed:', error);
                 return; // Exit if upload fails
             }
         }
+
+        saveProfile(userId, profileData);
         });
         
 
-   // console.log('User userId:', userId);
-  //  console.log('User profileData:', profileData);
 
     function saveProfile(userId, profileData) {
         const userDocRef = doc(db, 'Users', userId);
@@ -980,6 +985,7 @@ function initializeProfileModal(user) {
             .then(() => {
                 alert('Profile updated successfully');
                 $('#profileModal').modal('hide');
+                hideModal();
             })
             .catch(error => {
                 console.error('Error updating profile:', error);
