@@ -58,49 +58,69 @@
         <div id="customQuestionsContainer"></div>
 
         <!-- Nondisclosure Questions -->
-        <h3 class="border-bottom pb-2">Nondisclosure Questions</h3>
-        <h5 class="text-muted">These questions promote transparency and compliance with equal opportunity laws.</h5>
+<!-- Optional EEO Self-Identification Section -->
+<div class="form-group mb-3">
+    <p class="text-muted"><strong>Voluntary Self-Identification</strong></p>
+    <p>This section is optional. Your response will not affect your application and is used solely for Equal Employment Opportunity (EEO) reporting purposes.</p>
+    
+    <!-- Gender (optional) -->
+    <label for="gender">Gender</label>
+    <select class="form-control" id="gender">
+        <option value="">Prefer not to answer</option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+        <option value="Non-Binary">Non-Binary</option>
+    </select>
 
-        <div class="form-group bg-light p-3 rounded mb-3">
-            <label for="sex">Gender (optional)</label>
-            <select id="sex" class="form-control">
-                <option value="" selected disabled>Select Gender</option>
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-                <option value="Non-binary">Non-binary</option>
-                <option value="Prefer not to say">Prefer not to say</option>
-            </select>
-        </div>
-        <div class="form-group bg-light p-3 rounded mb-3">
-            <label for="age">Date of Birth</label>
-            <input type="date" id="age" class="form-control" required>
-            <div class="invalid-feedback">Please select your date of birth.</div>
-        </div>
-        <div class="form-group bg-light p-3 rounded mb-3">
-            <label for="veteranStatus">Veteran Status (optional)</label>
-            <select id="veteranStatus" class="form-control">
-                <option value="" selected disabled>Select Veteran Status</option>
-                <option value="Yes">Yes</option>
-                <option value="No">No</option>
-                <option value="Prefer not to say">Prefer not to say</option>
-            </select>
-        </div>
-        <div class="form-group bg-light p-3 rounded mb-3">
-            <label for="sexualOrientation">Sexual Orientation (optional)</label>
-            <select id="sexualOrientation" class="form-control">
-                <option value="" selected disabled>Select Sexual Orientation</option>
-                <option value="Straight">Straight</option>
-                <option value="LGBTQ+">LGBTQ+</option>
-                <option value="Prefer not to say">Prefer not to say</option>
-            </select>
-        </div>
+    <!-- Race/Ethnicity (optional) -->
+    <label for="race">Race/Ethnicity</label>
+    <select class="form-control" id="race">
+        <option value="">Prefer not to answer</option>
+        <option value="White">White</option>
+        <option value="Black or African American">Black or African American</option>
+        <option value="Asian">Asian</option>
+        <option value="Hispanic or Latino">Hispanic or Latino</option>
+        <option value="Native American or Alaska Native">Native American or Alaska Native</option>
+    </select>
 
-        <div class="form-group form-check">
-            <input type="checkbox" id="shareInfo" required class="form-check-input">
-            <label for="shareInfo" class="form-check-label">I consent to the collection and sharing of my personal information as described in the <a href="#" class="text-primary">Privacy Policy</a>.</label>
-            <input type="text" id="disclosureName" placeholder="Your Name" class="form-control mt-2" required>
-            <input type="date" id="disclosureDate" class="form-control mt-2" required>
-        </div>
+    <!-- Veteran Status (optional) -->
+    <label for="veteran">Veteran Status</label>
+    <select class="form-control" id="veteran">
+        <option value="">Prefer not to answer</option>
+        <option value="Yes">Yes</option>
+        <option value="No">No</option>
+    </select>
+
+    <!-- Disability (optional) -->
+    <label for="disability">Disability Status</label>
+    <select class="form-control" id="disability">
+        <option value="">Prefer not to answer</option>
+        <option value="Yes">Yes</option>
+        <option value="No">No</option>
+    </select>
+</div>
+
+
+<div class="form-group">
+    <div class="form-check">
+        <input type="checkbox" id="shareInfo" required class="form-check-input">
+        <label for="shareInfo" class="form-check-label">
+            I consent to the collection and sharing of my personal information as described in the 
+            <a href="#" class="text-primary">Privacy Policy</a>.
+        </label>
+    </div>
+    
+    <div class="form-group mt-3">
+        <label for="disclosureName" class="form-label">Your Name</label>
+        <input type="text" id="disclosureName" placeholder="Enter your name" class="form-control" required>
+    </div>
+    
+    <div class="form-group mt-3">
+        <label for="disclosureDate" class="form-label">Date</label>
+        <input type="date" id="disclosureDate" class="form-control" required>
+    </div>
+</div>
+
 
         <!-- Resume Submission Options -->
         <h3 class="border-bottom pb-2">Resume Submission</h3>
@@ -396,17 +416,23 @@ getDraftApplications(userId).then(draftApps => {
                 email: document.getElementById('email').value,
                 phone: document.getElementById('phone').value,
                 notes: document.getElementById('noteToRecruiter').value,
-                sex: document.getElementById('sex').value,
-                age: document.getElementById('age').value,
-                veteranStatus: document.getElementById('veteranStatus').value,
-                sexualOrientation: document.getElementById('sexualOrientation').value,
+                jobId: jobId,
+
+                // Collect custom questions responses here
+  
+            };
+//Personal Data Collected from Candidates
+            const applicant_PDC = {
+                gender: document.getElementById('gender').value,
+                race: document.getElementById('race').value,
+                veteran: document.getElementById('veteran').value,
+                disability: document.getElementById('disability').value,
                 shareInfo: document.getElementById('shareInfo').checked,
                 disclosureName: document.getElementById('disclosureName').value,
                 disclosureDate: document.getElementById('disclosureDate').value,
                 jobId: jobId,
-                // Collect custom questions responses here
-  
-            };
+            },
+
             console.log("submitApplication  called"); // Debugging log
 
             // Upload resume if available
