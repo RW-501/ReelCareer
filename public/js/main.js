@@ -784,7 +784,7 @@ function createProfileModal() {
   
                 <!-- Email -->
                 <div class="mb-3">
-                  <label for="emailSET" class="form-label">Email <span class="text-danger">*</span></label>
+                  <label for="emailSET" class="form-label">Email </label>
                   <div class="form-control" id="emailSET"></div>
                 </div>
   
