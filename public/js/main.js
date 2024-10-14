@@ -983,7 +983,7 @@ function initializeProfileModal(user) {
         const userDocRef = doc(db, 'Users', userId);
         setDoc(userDocRef, profileData, { merge: true })
             .then(() => {
-                alert('Profile updated successfully');
+               // alert('Profile updated successfully');
                 $('#profileModal').modal('hide');
                 hideModal();
             })
