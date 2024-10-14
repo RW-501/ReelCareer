@@ -75,12 +75,10 @@ const saveUserLoginState = async (user) => {
         // Prepare data for user document
         const userData = {
             email: user.email,
-            profilePic: user.photoURL || null,
-            displayName: user.displayName || 'Anonymous',
             lastLogin: serverTimestamp(),
             ipAddress: ip || 'Unknown',
-            city: location?.city || 'Unknown',
-            state: location?.state || 'Unknown',
+            //city: location?.city || 'Unknown',
+          //  state: location?.state || 'Unknown',
             zip: location?.zip || 'Unknown',
             country: location?.country || 'Unknown',
         };
@@ -905,10 +903,7 @@ function initializeProfileModal(user) {
     const profilePictureInput = document.getElementById('profilePictureSET');
     const profilePicPreview = document.getElementById('profilePicPreviewSET');
     const saveProfileBtn = document.getElementById('saveProfileBtn');
-    const saveProfileCloseBtn = document.getElementById('saveProfileCloseBtn');
-    
 
-    saveProfileCloseBtn.addEventListener('click', hideModal);
 
     // Real-time validation
     usernameInput.addEventListener('input', function () {
@@ -1017,7 +1012,6 @@ async function getModal(user) {
             console.log('User Data:', userData);
              populateFormFields(userData);
             
-           // $('#myModal').modal('show'); // jQuery example to show a Bootstrap modal
         } else {
             console.log('No such user!');
         }
@@ -1035,6 +1029,8 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('settingsBtn').addEventListener('click', getModal(user));
             document.getElementById('settingsBtn').addEventListener('click', showModal);
             document.getElementById('saveProfileCloseBtn').addEventListener('click', hideModal);
+           document.getElementById('deactivateAccountBtn').addEventListener('click', hideModal);
+    
 
 
         }

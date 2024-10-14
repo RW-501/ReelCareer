@@ -519,6 +519,8 @@ function showModal() {
 
 
 function hideModal() {
+    console.log('hideModal:');
+
     const modalElement = document.getElementById('profileModal');
     const modal = new bootstrap.Modal(modalElement);
     modal.hide();
