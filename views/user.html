@@ -221,7 +221,8 @@ import { onAuthStateChanged, db, auth } from '../public/js/main.js';
             if (userIdFromURL) {
                 checkUser(userIdFromURL);
             } else {
-                console.error("No user ID found in the URL.");
+                checkUser(user.uid);
+
             }
 
             // Async function to check the user profile
@@ -246,7 +247,7 @@ import { onAuthStateChanged, db, auth } from '../public/js/main.js';
                             await loadTags(profileData);
                         } else {
                             alert('This profile is private.');
-                            window.location.href = 'user.html';
+                          //  window.location.href = 'user.html';
                         }
                     } else {
                         console.error("No such user document!");
