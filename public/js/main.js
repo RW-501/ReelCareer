@@ -1016,7 +1016,6 @@ function initializeProfileModal() {
         });
     });
 
-});
 
 
 // Export the objects
