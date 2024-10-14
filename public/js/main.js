@@ -1071,7 +1071,7 @@ document.getElementById('deactivateAccountBtn').addEventListener('click', functi
     }
   
 
-    populateFormFields();
+    populateFormFields(userData);
 }
 
 
