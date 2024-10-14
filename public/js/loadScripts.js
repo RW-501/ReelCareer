@@ -515,8 +515,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     
 
+
+    document.addEventListener('DOMContentLoaded', function() {
 // Function to show the modal
 function showModal() {
+    console.log('hideModal:');
+
     const modalElement = document.getElementById('profileModal');
     const modal = new bootstrap.Modal(modalElement);
     modal.show();
@@ -532,6 +536,7 @@ function hideModal() {
     modal.hide();
 }
 
+});
 
 
 

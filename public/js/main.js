@@ -874,7 +874,7 @@ function populateFormFields(userData) {
     document.getElementById('usernameSET').value = userData.displayName || '';
     document.getElementById('emailSET').innerText = userData.email || '';
     document.getElementById('nameSET').value = userData.name || '';
-    document.getElementById('locationSET').value = userData.city + ", " + userData.state || '';
+    document.getElementById('locationSET').value = userData.location || '';
     document.getElementById('bioSET').value = userData.bio || '';
     document.getElementById('tagsSET').value = userData.tags ? userData.tags.join(', ') : '';
     document.getElementById('positionSET').value = userData.position || '';
@@ -986,6 +986,9 @@ function initializeProfileModal(user) {
                 console.error('Error updating profile:', error);
             });
     }
+
+
+    
 
 
 }
