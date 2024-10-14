@@ -280,6 +280,8 @@ import { onAuthStateChanged, db, auth } from '../public/js/main.js';
 
             const verified = profileData.verified;
             const membership = profileData.membership;
+            console.log("membership: ", membership);
+            console.log("verified: ", verified);
 
             const tagsContainer = document.getElementById('tags-container');
 
@@ -308,7 +310,6 @@ import { onAuthStateChanged, db, auth } from '../public/js/main.js';
         if (verified) {
             badge.innerHTML = `<span class="badge badge-success">Verified</span>`;
         } else {
-            // Optionally show a "Not Verified" badge if verification status is false
             badge.innerHTML = `<span class="badge badge-warning">Not Verified</span>`;
         }
     } else {
