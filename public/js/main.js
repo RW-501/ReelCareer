@@ -998,9 +998,11 @@ function initializeProfileModal(user) {
 
 
 // Function to show modal and load user data
-async function getModal() {
+async function getModal(user) {
     try {
         // Fetch user data from Firestore
+        console.log('user.uid:', user.uid);
+
         const userDoc = await db.collection('Users').doc(user.uid).get();
 
         if (userDoc.exists) {
@@ -1018,16 +1020,13 @@ async function getModal() {
     }
 }
 
-// Add event listener to the settings button
-console.log('user.uid:', user);
-console.log('User Data:', userData);
 
 document.addEventListener('DOMContentLoaded', function() {
     auth.onAuthStateChanged(user => {
         if (user) {
             createProfileModal();
             initializeProfileModal(user); // Initialize modal only if the form exists
-            document.getElementById('settingsBtn').addEventListener('click', getModal);
+            document.getElementById('settingsBtn').addEventListener('click', getModal(user));
             document.getElementById('settingsBtn').addEventListener('click', showModal);
 
 
