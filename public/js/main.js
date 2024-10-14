@@ -754,7 +754,6 @@ document.addEventListener('DOMContentLoaded', updateFooter);
 
 // Function to create the profile modal HTML
 function createProfileModal() {
-
     const modalHTML = `<!-- profileModal -->
       <div id="profileModal" class="modal fade" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -764,116 +763,197 @@ function createProfileModal() {
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <form id="profileForm">
-                <!-- Username -->
-                <div class="mb-3">
-                  <label for="usernameSET" class="form-label">Username <span class="text-danger">*</span></label>
-                  <input type="text" class="form-control" id="usernameSET" required>
-                  <small id="usernameError" class="text-danger"></small>
-                </div>
-  
-                <!-- Profile Picture Upload -->
-                <div class="mb-3">
-                  <label for="profilePictureSET" class="form-label">Profile Picture</label>
-                  <input type="file" class="form-control" id="profilePictureSET" accept="image/*">
-                  <img id="profilePicPreviewSET" class="img-thumbnail mt-2" style="display:none; width: 100px;" alt="Profile Picture Preview" />
-                </div>
-  
-                <!-- Email -->
-                <div class="mb-3">
-                  <label for="emailSET" class="form-label">Email </label>
-                  <div class="form-control" id="emailSET"></div>
-                </div>
-  
-                <!-- Name -->
-                <div class="mb-3">
-                  <label for="nameSET" class="form-label">Name <span class="text-danger">*</span></label>
-                  <input type="text" class="form-control" id="nameSET" required>
-                </div>
-  
-                <!-- Bio -->
-                <div class="mb-3">
-                  <label for="bioSET" class="form-label">Bio</label>
-                  <textarea class="form-control" id="bioSET" rows="3" maxlength="300"></textarea>
-                </div>
-  
-                <!-- Location (Auto-suggest) -->
-                <div class="mb-3">
-                  <label for="locationSET" class="form-label">Location</label>
-                  <input type="text" oninput="autoSuggest(this,'locationSuggestions')"
-                         class="form-control keywordInput location-input" 
-                         id="locationSET" placeholder="Enter your city or state">
-                </div>
-  
-                <!-- Tags (Skills or Interests) -->
-                <div class="mb-3">
-                  <label for="tagsSET" class="form-label">Tags</label>
-                <input type="text" oninput="autoSuggest(this, 'jobRequirementsSuggestions')" class="form-control keywordInput" id="tagsSET" placeholder="Add tags (e.g., JavaScript, Project Management)">
+              <!-- Instructional Text -->
+              <p class="text-muted">Keep your profile up to date to improve your visibility and networking opportunities.</p>
+              <!-- Tabs for different sections -->
+              <ul class="nav nav-tabs" id="profileTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link active" id="personal-tab" data-bs-toggle="tab" data-bs-target="#personal" type="button" role="tab" aria-controls="personal" aria-selected="true">Personal Info</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link" id="social-tab" data-bs-toggle="tab" data-bs-target="#social" type="button" role="tab" aria-controls="social" aria-selected="false">Social Links</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link" id="membership-tab" data-bs-toggle="tab" data-bs-target="#membership" type="button" role="tab" aria-controls="membership" aria-selected="false">Membership Status</button>
+                </li>
+              </ul>
+              <div class="tab-content" id="profileTabContent">
+                <!-- Personal Info Tab -->
+                <div class="tab-pane fade show active" id="personal" role="tabpanel" aria-labelledby="personal-tab">
+                  <form id="profileForm">
+                    <!-- Username -->
+                    <div class="mb-3">
+                      <label for="usernameSET" class="form-label">Username <span class="text-danger">*</span></label>
+                      <input type="text" class="form-control" id="usernameSET" required placeholder="Your desired username">
+                      <small id="usernameError" class="text-danger"></small>
+                    </div>
 
-                </div>
-  
-                <!-- Company Name (For Recruiters) -->
-                <div id="recruiterFieldsSET" class="mb-3" style="display: none;">
-                  <label for="companyNameSET" class="form-label">Company Name</label>
-                  <input type="text" class="form-control" id="companyNameSET">
-                </div>
-  
-                <!-- Current Position -->
-                <div class="mb-3">
-                  <label for="positionSET" class="form-label">Current Position</label>
-                  <input type="text" oninput="autoSuggest(this,'jobSuggestions')"
-                         class="form-control keywordInput job-input" id="positionSET">
-                </div>
-  
-                <!-- Membership Status -->
-                <div class="mb-3">
-                  <label class="form-label">Membership Status</label>
-                  <p id="membershipStatusSET" class="badge bg-success">Free</p>
-                  <button type="button" class="btn btn-link" id="changeMembershipBtn">Change Membership</button>
-                </div>
-  
-                <!-- Verified Status -->
-                <div class="mb-3">
-                  <label class="form-label">Verified Status</label>
-                  <p id="verifiedStatusSET" class="badge bg-secondary">Not Verified</p>
-                </div>
-  
-                <!-- Public Profile Checkbox -->
-                <div class="form-check mb-3">
-                  <input type="checkbox" class="form-check-input" id="publicProfileSET">
-                  <label class="form-check-label" for="publicProfileSET">Public Profile</label>
-                </div>
-  
+                    <!-- Profile Picture Upload -->
+                    <div class="mb-3">
+                      <label for="profilePictureSET" class="form-label">Profile Picture</label>
+                      <div class="input-group">
+                        <input type="file" class="form-control" id="profilePictureSET" accept="image/*" onchange="previewProfilePicture(this)">
+                        <button type="button" class="btn btn-outline-secondary" id="uploadButton">Upload</button>
+                      </div>
+                      <img id="profilePicPreviewSET" class="img-thumbnail mt-2" style="display:none; width: 100px;" alt="Profile Picture Preview" />
+                    </div>
 
-                                <!-- Email -->
-                <div class="mb-3 mt-3">
-                  <label for="userIdSET" class="form-label">User ID </label>
-                  <div class="text-center" id="userIdSET"></div>
+                    <!-- Name -->
+                    <div class="mb-3">
+                      <label for="nameSET" class="form-label">Name <span class="text-danger">*</span></label>
+                      <input type="text" class="form-control" id="nameSET" required placeholder="Your full name">
+                    </div>
+
+                    <!-- Bio -->
+                    <div class="mb-3">
+                      <label for="bioSET" class="form-label">Bio</label>
+                      <textarea class="form-control" id="bioSET" rows="3" maxlength="300" placeholder="Tell us about yourself"></textarea>
+                    </div>
+
+                    <!-- Location (Auto-suggest) -->
+                    <div class="mb-3">
+                      <label for="locationSET" class="form-label">Location</label>
+                      <input type="text" oninput="autoSuggest(this,'locationSuggestions')"
+                             class="form-control keywordInput location-input" 
+                             id="locationSET" placeholder="Enter your city or state">
+                    </div>
+
+                    <!-- Tags (Skills or Interests) -->
+                    <div class="mb-3">
+                      <label for="tagsSET" class="form-label">Tags</label>
+                      <input type="text" oninput="autoSuggest(this, 'jobRequirementsSuggestions')" class="form-control keywordInput" id="tagsSET" placeholder="Add tags (e.g., JavaScript, Project Management)">
+                    </div>
+
+                    <!-- Current Position -->
+                    <div class="mb-3">
+                      <label for="positionSET" class="form-label">Current Position</label>
+                      <input type="text" oninput="autoSuggest(this,'jobSuggestions')"
+                             class="form-control keywordInput job-input" id="positionSET" placeholder="Your job title or current role">
+                    </div>
+
+                    <!-- Public Profile Checkbox -->
+                    <div class="form-check mb-3">
+                      <input type="checkbox" class="form-check-input" id="publicProfileSET">
+                      <label class="form-check-label" for="publicProfileSET">Public Profile</label>
+                    </div>
+
+                    <hr>
+                  </form>
                 </div>
-                <hr>
-                <!-- Deactivate Account -->
-                <div class="mt-4">
-                  <button type="button" class="btn btn-danger" id="deactivateAccountBtn">Deactivate Account</button>
+
+                <!-- Social Links Tab -->
+                <div class="tab-pane fade" id="social" role="tabpanel" aria-labelledby="social-tab">
+                  <form>
+                    <div class="mb-3">
+                      <label for="linkedinSET" class="form-label">LinkedIn Profile</label>
+                      <input type="url" class="form-control" id="linkedinSET" placeholder="https://www.linkedin.com/in/yourprofile">
+                    </div>
+                    <div class="mb-3">
+                      <label for="portfolioSET" class="form-label">Portfolio</label>
+                      <input type="url" class="form-control" id="portfolioSET" placeholder="https://portfolio.com/yourprofile">
+                    </div>
+                    <div class="mb-3">
+                      <label for="githubSET" class="form-label">GitHub Profile</label>
+                      <input type="url" class="form-control" id="githubSET" placeholder="https://github.com/yourprofile">
+                    </div>
+                    <div class="mb-3">
+                      <label for="otherSET" class="form-label">Other Website</label>
+                      <input type="url" class="form-control" id="otherSET" placeholder="https://yourwebsite.com">
+                    </div>
+                    <hr>
+                  </form>
                 </div>
-                <hr>
-              </form>
+
+                <!-- Membership Status Tab -->
+                <div class="tab-pane fade" id="membership" role="tabpanel" aria-labelledby="membership-tab">
+                  <div class="mb-3">
+                    <label class="form-label">Membership Status</label>
+                    <p id="membershipStatusSET" class="badge bg-success">Free</p>
+                    <button type="button" class="btn btn-link" id="changeMembershipBtn">Change Membership</button>
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Verified Status</label>
+                    <p id="verifiedStatusSET" class="badge bg-secondary">Not Verified</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- User ID -->
+              <div class="mb-3 mt-3">
+                <label for="userIdSET" class="form-label">User ID </label>
+                <div class="text-center" id="userIdSET"></div>
+              </div>
+              <hr>
+              <!-- Deactivate Account -->
+              <div class="mt-4">
+                <button type="button" class="btn btn-danger" id="deactivateAccountBtn">Deactivate Account</button>
+              </div>
             </div>
             <div class="modal-footer border-top-0">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"  id="saveProfileCloseBtn">Close</button>
-              <button type="button" class="btn btn-primary" id="saveProfileBtn">Save changes</button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="saveProfileCloseBtn">Close</button>
+              <button type="button" class="btn btn-primary" id="saveProfileBtn" onclick="showConfirmationDialog()">Save changes</button>
             </div>
           </div>
         </div>
       </div>
     `;
-  
+
     // Append modal HTML to the body
     document.body.insertAdjacentHTML('beforeend', modalHTML);
-  }
-/*
 
 
-*/
+ // Initialize the modal with animations
+ const profileModal = new bootstrap.Modal(document.getElementById('profileModal'));
+ profileModal.show();
+
+ // Add responsiveness
+ window.addEventListener('resize', () => {
+     // Check if modal is visible
+     if (document.body.contains(document.getElementById('profileModal'))) {
+         document.getElementById('profileModal').classList.add('modal-lg');
+     }
+ });
+}
+
+// Function to preview the profile picture
+function previewProfilePicture(input) {
+ const file = input.files[0];
+ const preview = document.getElementById('profilePicPreviewSET');
+
+ if (file) {
+     const reader = new FileReader();
+     reader.onload = function(e) {
+         preview.src = e.target.result;
+         preview.style.display = 'block';
+     };
+     reader.readAsDataURL(file);
+ } else {
+     preview.style.display = 'none';
+ }
+}
+
+// Function to show confirmation dialog before saving changes
+function showConfirmationDialog() {
+ const confirmation = confirm("Are you sure you want to save changes?");
+ if (confirmation) {
+     // Logic to save changes goes here
+ }
+}
+
+// Function to validate input
+function validateInput() {
+ const username = document.getElementById('usernameSET');
+ const usernameError = document.getElementById('usernameError');
+ 
+ if (username.value.trim() === "") {
+     usernameError.textContent = "Username is required.";
+     return false;
+ } else {
+     usernameError.textContent = "";
+     return true;
+ }
+}
+
 
 function populateFormFields(userData) {
     console.log("check last");
@@ -889,6 +969,12 @@ function populateFormFields(userData) {
     document.getElementById('verifiedStatusSET').innerText = userData.verifiedStatus ? 'Verified' : 'Not Verified';
     document.getElementById('publicProfileSET').checked = userData.publicProfile || false;
     
+    // Populate social media fields
+    document.getElementById('linkedinSET').value = userData.linkedin || '';
+    document.getElementById('PortfoioSET').value = userData.Portfoio || '';
+    document.getElementById('githubSET').value = userData.github || '';
+    document.getElementById('otherSET').value = userData.other || '';
+
     // Profile picture preview
     if (userData.profilePicture) {
         document.getElementById('profilePicPreviewSET').src = userData.profilePicture;
@@ -901,6 +987,7 @@ function populateFormFields(userData) {
         document.getElementById('companyNameSET').value = userData.companyName || '';
     }
 }
+
 
 function initializeProfileModal(user) {
     const profileForm = document.getElementById('profileForm');
@@ -946,6 +1033,12 @@ function initializeProfileModal(user) {
         }
     });
 
+
+
+
+
+
+
     // Save profile button
 
     saveProfileBtn.addEventListener('click', async function () {
@@ -956,6 +1049,10 @@ function initializeProfileModal(user) {
             location: document.getElementById('locationSET').value,
             bio: document.getElementById('bioSET').value,
             tags: document.getElementById('tagsSET').value.split(',').map(tag => tag.trim()),
+            github: document.getElementById('githubSET').value,
+            linkedin: document.getElementById('linkedinSET').value,
+            other: document.getElementById('otherSET').value,
+            portfoio: document.getElementById('PortfoioSET').value,
             position: document.getElementById('positionSET').value,
             publicProfile: document.getElementById('publicProfileSET').checked
             };

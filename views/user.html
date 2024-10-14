@@ -285,17 +285,13 @@ import { onAuthStateChanged, db, auth } from '../public/js/main.js';
 
             const tagsContainer = document.getElementById('tags-container');
 
-            if (!profileData.tags) {
-                tagsContainer.innerHTML = '<p>No tags found.</p>';
-            }else{
+            if (!profileData.tags || profileData.tags.length === 0) {
+    tagsContainer.innerHTML = '<p>No tags found.</p>';
+} else {
+    const tags = profileData.tags.map(doc => doc.tag); // Use map for cleaner syntax
+    tagsContainer.innerHTML = '<strong>Tags: </strong>' + tags.join(', ');
+}
 
-            const tags = [];
-            profileData.tags.forEach(doc => {
-                tags.push(doc.tag);
-            });
-
-            tagsContainer.innerHTML = '<strong>Tags: </strong>' + tags.join(', ');
-        }
             // Membership Badge
             async function loadMembershipBadge(membership) {
             const badge = document.getElementById('membership-badge');
@@ -407,21 +403,29 @@ import { onAuthStateChanged, db, auth } from '../public/js/main.js';
         }
 
         async function loadSocialMedia(profileData) {
-            const socialMediaListContainer = document.getElementById('social-media-list');
+    const socialMediaListContainer = document.getElementById('social-media-list');
 
-            if (!profileData.socialMediaList) {
-                socialMediaListContainer.innerHTML = '<li>No social media links found.</li>';
-                return;
-            }
+    // Check if socialMediaList exists and has items
+    if (!profileData.socialMediaList || profileData.socialMediaList.length === 0) {
+        socialMediaListContainer.innerHTML = '<li>No social media links found.</li>';
+        return;
+    }
 
-            profileData.socialMediaList.forEach(doc => {
-                const socialData = doc.data();
-                const listItem = document.createElement('li');
-                listItem.innerHTML = `<a href="${socialData.link}" target="_blank">${socialData.platform}</a>`;
-                socialMediaListContainer.appendChild(listItem);
-            });
-        }
-        document.getElementById('share-profile-btn').addEventListener('click', () => {
+    // Clear existing content (optional, if you want to refresh the list)
+    socialMediaListContainer.innerHTML = ''; 
+
+    // Iterate through each social media document
+    profileData.socialMediaList.forEach(doc => {
+        const socialData = doc.data();
+        const listItem = document.createElement('li');
+
+        // Use template literals for better readability
+        listItem.innerHTML = `<a href="${encodeURI(socialData.link)}" target="_blank" rel="noopener noreferrer">${socialData.platform}</a>`;
+        
+        socialMediaListContainer.appendChild(listItem);
+    });
+}
+ document.getElementById('share-profile-btn').addEventListener('click', () => {
             const userId = "currentUserId"; // Replace with actual user ID
             const shareUrl = `${window.location.origin}/profile/${userId}`; // Construct share URL
             navigator.clipboard.writeText(shareUrl).then(() => {
