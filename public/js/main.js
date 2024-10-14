@@ -903,7 +903,8 @@ function initializeProfileModal(user) {
     const profilePictureInput = document.getElementById('profilePictureSET');
     const profilePicPreview = document.getElementById('profilePicPreviewSET');
     const saveProfileBtn = document.getElementById('saveProfileBtn');
-
+   // const publicProfileSET = document.getElementById('publicProfileSET');
+    
 
     // Real-time validation
     usernameInput.addEventListener('input', function () {
@@ -949,12 +950,13 @@ function initializeProfileModal(user) {
             bio: document.getElementById('bioSET').value,
             tags: document.getElementById('tagsSET').value.split(',').map(tag => tag.trim()),
             position: document.getElementById('positionSET').value,
-            profilePic: document.getElementById('publicProfileSET').checked
+            publicProfile: document.getElementById('publicProfileSET').checked
         };
     
         // Check if a new profile picture is being uploaded
         if (document.getElementById('profilePictureSET').files.length > 0) {
             const file = document.getElementById('profilePictureSET').files[0];
+         
             const storageRef = ref(storage, 'profilePictures/' + userId); // Use the 'ref' function from the modular SDK
             try {
                 // Upload the file
@@ -988,7 +990,7 @@ function initializeProfileModal(user) {
     }
 
 
-    
+
 
 
 }
