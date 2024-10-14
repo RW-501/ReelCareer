@@ -501,9 +501,19 @@ document.addEventListener('DOMContentLoaded', function() {
             selectedContainer.appendChild(badge); // Append badge to the selected container
         }
     }
+
+
+
+
+
     
 
-
+// Function to show the modal
+function showModal() {
+    const modalElement = document.getElementById('profileModal');
+    const modal = new bootstrap.Modal(modalElement);
+    modal.show();
+}
 
 
 
