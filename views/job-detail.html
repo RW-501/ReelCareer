@@ -691,7 +691,7 @@ async function loadJobDetails(jobData) {
     document.getElementById("jobDescription").innerText = jobData.description;
     document.getElementById('jobLocation').textContent = `${formatLocation(jobData.location, { part: 'city' })}, ${formatLocation(jobData.location, { part: 'state' })}`;
     document.getElementById('employmentType').textContent = formatJobType(jobData.type);
-    document.getElementById('salary').textContent = formatCurrency(jobData.salary);
+    document.getElementById('salary').textContent = formatCurrency(jobData.salary, {decimals: 0});
     document.getElementById('submittedBy').textContent = jobData.submittedBy;
     document.getElementById('industry').textContent = jobData.industry;
     document.getElementById('createdAt').textContent = createdAt instanceof Date ? createdAt.toLocaleDateString() : createdAt;
@@ -846,7 +846,7 @@ async function getSimilarJobs(jobData) {
                     <p><strong>${similarJob.company}</strong> -   ${formatLocation(similarJob.location, { part: 'city' })}, ${formatLocation(similarJob.location, { part: 'state' })}
 </p>
                      <p class="card-text"><text-muted>Type:</text-muted><strong> ${formatJobType(similarJob.type)}</strong></p>
-                     <p class="card-text"><text-muted>Salary:</text-muted>${formatCurrency(similarJob.salary)}</p>
+                     <p class="card-text"><text-muted>Salary:</text-muted>${formatCurrency(similarJob.salary, {decimals: 0})}</p>
                         <!-- Display job tags -->
                         <div class="job-tags mt-2">
 ${similarJob.tags.map(tag => `

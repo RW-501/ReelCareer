@@ -283,46 +283,36 @@ function formatTags(tags) {
 
 // formatTags(jobData.tags);
 
-
-function formatCurrency(value, options = {}) { 
+function formatCurrency(input, options = {}) { 
     // Set default options for internationalization and currency formatting
-    const { locale = 'en-US', currency = 'USD', useIntl = false, decimals = 0 } = options;
+    const { locale = 'en-US', currency = 'USD', decimals = 0 } = options;
+
+    // Get the input value
+    let value = input.value;
 
     // Check if value is undefined or null, and set to 0 in that case
-    if (value === undefined || value === null) {
-        value = 0;
+    if (!value) {
+        return;
     }
 
-    // If the value is a number, convert it to a string for processing
-    // Ensure the value is a string
-    let cleanValue = typeof value === 'number' ? value.toString() : String(value);
-
     // Remove any non-numeric characters except dots and commas
-    cleanValue = cleanValue.replace(/[^0-9.,-]/g, '');
+    let cleanValue = value.replace(/[^0-9.,-]/g, '');
 
-    // Handle commas and convert to standard float
+    // Remove commas and convert to number
     cleanValue = cleanValue.replace(/,/g, '');
-
-    // Convert to number
     let number = parseFloat(cleanValue);
 
     // Ensure the number is valid
     if (isNaN(number)) {
-        return useIntl 
-            ? new Intl.NumberFormat(locale, { style: 'currency', currency }).format(0)
-            : '$0.00'; // Return default for invalid numbers
-    }
-
-    // If using Intl for international formatting
-    if (useIntl) {
-        return new Intl.NumberFormat(locale, { style: 'currency', currency }).format(number);
+        input.value = '';
+        return;
     }
 
     // Manually format the number as currency (with commas)
-    const formattedNumber = number.toFixed(decimals).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-    
-    // Return formatted currency
-    return `$${formattedNumber}`;
+    let formattedNumber = number.toFixed(decimals).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+    // Set the formatted value back to the input field
+    input.value = `$${formattedNumber}`;
 }
 
 /*
@@ -382,43 +372,46 @@ fetch(adjustLinkHomeURL + "public/js/suggestions.json")
         console.error('There was a problem with the fetch operation:', error);
     });
 
-function autoSuggest(input, suggestionsArray) {
-const inputValue = input.value ? input.value.toLowerCase().trim() : ''; // Ensure input is defined and trim any extra spaces
-console.log('Input Value:', inputValue); // Log the current input value
 
-let suggestion = '';
 
-// Split the input by spaces and get the last part
-const lastWord = inputValue.split(' ').pop(); // Get the last part of the input after the most recent space
-console.log('lastWord', lastWord);
-
-// Find the first suggestion that starts with the last word
-for (let i = 0; i < suggestionsArray.length; i++) {
-    if (suggestionsArray[i].toLowerCase().startsWith(lastWord)) {
-        suggestion = suggestionsArray[i];
-        console.log('Suggestion Found:', suggestion); // Log the found suggestion
-        break;
-    }
-}
-
-    if (suggestion && inputValue !== '') {
-        // If a suggestion is found and input isn't empty
-        input.setAttribute('data-suggestion', suggestion); // Set a custom data attribute for handling auto-suggestion
-
-        input.value = suggestion; // Temporarily set the input value to the suggestion
-        console.log('lastWord ', lastWord );
-        input.selectionStart = inputValue.length; // Set the selection start after the typed characters
-        input.selectionEnd =  suggestion.length; // Set the selection end to the suggestion length
-        console.log('suggestion.length:', suggestion.length); // Log the updated input value
-        console.log('inputValue.length:', inputValue.length); // Log the updated input value
-    } else {
-        console.log('No suggestion available.'); // Log when no suggestion is found
-        if (input.getAttribute('data-suggestion')) {
-            input.removeAttribute('data-suggestion'); // Clear it if no suggestions
-        }
+    function autoSuggest(input, suggestionsArray) {
+        const inputValue = input.value ? input.value.toLowerCase().trim() : ''; // Ensure input is defined and trim any extra spaces
+        console.log('Input Value:', inputValue); // Log the current input value
+    
+        let suggestion = '';
+    
+        // Split the input by spaces and get the last part
+        const inputParts = inputValue.split(' ');
+        const lastWord = inputParts.pop(); // Get the last part of the input after the most recent space
+        console.log('Last Word:', lastWord);
+    
+        // Find the first suggestion that starts with the last word
+        for (let i = 0; i < suggestionsArray.length; i++) {
+            if (suggestionsArray[i].toLowerCase().startsWith(lastWord)) {
+                suggestion = suggestionsArray[i];
+                console.log('Suggestion Found:', suggestion); // Log the found suggestion
+                break;
             }
-}
-
+        }
+    
+        if (suggestion && lastWord !== '') {
+            // If a suggestion is found and input isn't empty
+            const suggestionPart = suggestion.substring(lastWord.length); // Get the part of the suggestion that the user hasn't typed yet
+            const finalValue = inputParts.concat(lastWord + suggestionPart).join(' '); // Reconstruct the full sentence with the suggestion
+    
+            input.setAttribute('data-suggestion', suggestion); // Set a custom data attribute for handling auto-suggestion
+            input.value = finalValue; // Set the input value to the sentence with the suggestion
+            input.selectionStart = inputValue.length; // Set the selection start after the typed characters
+            input.selectionEnd = finalValue.length; // Set the selection end to the full suggestion length
+            console.log('Final Value:', finalValue); // Log the updated input value
+        } else {
+            console.log('No suggestion available.'); // Log when no suggestion is found
+            if (input.getAttribute('data-suggestion')) {
+                input.removeAttribute('data-suggestion'); // Clear it if no suggestions
+            }
+        }
+    }
+    
 document.addEventListener('DOMContentLoaded', function() {
     const keywordInputs = document.getElementsByClassName('keywordInput'); // Get all elements with 'keywordInput' class
 
