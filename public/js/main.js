@@ -755,7 +755,7 @@ document.addEventListener('DOMContentLoaded', updateFooter);
 // Function to create the profile modal HTML
 function createProfileModal() {
     const modalHTML = `<!-- profileModal -->
-      <div id="profileModal" class="modal fade" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true">
+      <div id="profileModal" class="modal fade hide" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content rounded-4 shadow">
             <div class="modal-header border-bottom-0">
