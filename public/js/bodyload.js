@@ -128,7 +128,7 @@ function addStyles() {
     bottom: 0;
     z-index: 9999;
     opacity: 1;
-    transition: opacity 5s ease-in-out;
+    transition: opacity 1s ease-in-out;
 }
 
 
@@ -188,13 +188,13 @@ function addStyles() {
 .loader.hidden {
     opacity: 0;
     visibility: hidden;
-    transition: visibility 0s 5s, opacity 5s;
+    transition: visibility 0s 2s, opacity 2s;
 }
 
 /* Smooth content loading */
 body {
     opacity: 0;
-    transition: opacity 5s ease-in-out;
+    transition: opacity 2s ease-in-out;
 }
 
 body.loaded {
