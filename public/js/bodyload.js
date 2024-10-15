@@ -31,26 +31,7 @@ function addStyles() {
     style.innerHTML = `
 
 /* Loader Container */
-.loader-containerXX {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    background-color: #fff;
-    top: 0;
-    bottom: 0;
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    left: 0;
-    right: 0;
-    margin: auto;
-    z-index: 9999;
-    opacity: 1;
-    transition: opacity 1s ease-in-out;
-}
+
 .loader-container {
     display: flex;
     flex-direction: column;
@@ -124,7 +105,7 @@ function addStyles() {
 @keyframes loadingText {
     0% { opacity: 0; }
     50% { opacity: 1; }
-    100% { opacity: 0; }
+    100% { opacity: 1; }
 }
 
 /* Fade out Loader */
