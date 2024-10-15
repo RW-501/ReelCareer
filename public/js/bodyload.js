@@ -80,9 +80,9 @@ function addStyles() {
     left: 0;
     right:0;
     margin:auto;
-    top: 15px;
+    top: 0px;
     color: chartreuse;
-    position: relative;
+    position: absolute;
     animation: loadingText 1s infinite cubic-bezier(0.4, 0, 1, 1);
     }
 
@@ -93,9 +93,9 @@ function addStyles() {
     right:0;
     margin:auto;
  
-        top: 25px;
+        top: 15px;
     color: chartreuse;
-    position: relative;
+    position: absolute;
      animation: loadingText 1.3s infinite cubic-bezier(0.4, 0, 1, 1);
     }
 
@@ -105,9 +105,9 @@ function addStyles() {
     left: 0;
     right:0;
     margin:auto;
-    top: 35px;
+    top: 20px;
     color: chartreuse;
-    position: relative;
+    position: absolute;
     animation: loadingText 1.6s infinite cubic-bezier(0.4, 0, 1, 1);
     }
 
@@ -116,9 +116,9 @@ function addStyles() {
     left: 0;
     right:0;
     margin:auto;
-    top: 45px;
+    top: 25px;
     color: chartreuse;
-    position: relative;
+    position: absolute;
     animation: loadingText 1.9s infinite cubic-bezier(0.4, 0, 1, 1);
     }
 
