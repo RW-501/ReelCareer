@@ -64,7 +64,7 @@ function addStyles() {
 }
 
 /* Resume Lines (Represent Text Being Typed Out) */
-.resume::before, .resume::after, .third {
+.resume::before, .resume::after, .resume::third, .resume::4  {
     position: absolute;
     left: 5px;
     border-radius: 2px;
@@ -97,7 +97,7 @@ function addStyles() {
     }
 
 /* Third Line of Text */
-.third {
+.resume::third {
     content: '';
     width: 40px;
     height: 8px;
@@ -107,6 +107,18 @@ function addStyles() {
     margin: auto;
     animation: loadingText 1.6s infinite cubic-bezier(0.4, 0, 1, 1);
     }
+
+.resume::4 {
+    content: '';
+    width: 40px;
+    height: 8px;
+    top: 45px;
+        left: 5px;
+    right: 5px;
+    margin: auto;
+    animation: loadingText 1.9s infinite cubic-bezier(0.4, 0, 1, 1);
+    }
+
 
 
 
