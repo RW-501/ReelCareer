@@ -362,20 +362,6 @@ previewModal.classList.add('show');
 
 
 
-document.getElementById('saveForLater').addEventListener('click', () => {
-        console.log("saveForLater   ");
-const jobID = getJobIdFromURL();
-        // Save for later functionality
-        const applicationData = {
-            firstName: document.getElementById('firstName').value,
-            lastName: document.getElementById('lastName').value,
-            email: document.getElementById('email').value,
-            phone: document.getElementById('phone').value,
-            // Include other relevant fields as needed
-        };
-        localStorage.setItem(`application_${jobID}`, JSON.stringify(applicationData));
-        alert('Application saved for later!');
-    });
 
 
         // Event Listeners
@@ -404,7 +390,8 @@ const jobID = getJobIdFromURL();
     import { db, storage, analytics, app  } from '../public/js/main.js'; // Adjust the path based on your structure
     import { query, where, orderBy, limit,  collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
     
-  
+   let jobTitle = '';
+
 
 
     const jobDocRef = doc(db, 'Jobs', jobId); // Reference to the job document
@@ -419,6 +406,7 @@ const jobID = getJobIdFromURL();
 
         const jobData = jobDoc.data();
             const companyData = companyDoc.data();
+            jobTitle = jobData.title;
 
             // Populate job information and company information
             document.getElementById('jobPostedByArea').innerHTML = `
@@ -429,6 +417,37 @@ const jobID = getJobIdFromURL();
             loadCustomQuestions(jobData.customQuestions);
         }
 
+      // Assuming you have initialized Firestore
+const db = firebase.firestore(); // Adjust this if your Firestore setup is different
+
+document.getElementById('saveForLater').addEventListener('click', () => {
+    console.log("saveForLater");
+    
+    const jobID = getJobIdFromURL();
+    const userId =  getUserIdFromURL();
+  //  const jobTitle = "YOUR_JOB_TITLE"; // Replace with the actual job title variable
+    
+    // Prepare the application data
+    const applicationData = {
+        jobID: jobID,
+        jobTitle: jobTitle,
+        timestamp: new Date().toLocaleString(),
+        // Include other relevant fields as needed
+    };
+    
+    // Save to Firestore
+    db.collection('Users').doc(userId).update({
+        savedApplications: firebase.firestore.FieldValue.arrayUnion(applicationData)
+    })
+    .then(() => {
+        console.log('Application saved to Firestore successfully!');
+        alert('Application saved for later!');
+    })
+    .catch((error) => {
+        console.error('Error saving application to Firestore: ', error);
+        alert('Error saving application. Please try again.');
+    });
+});
 
 
 // Event listener for messaging the recruiter
@@ -451,7 +470,7 @@ document.getElementById('messageRecruiter').addEventListener('click', async () =
             jobID: jobID,
             recipientEmail: recruiterEmail,
             content: messageContent,
-            timestamp: new Date() // Use Date for timestamp
+            timestamp:  new Date().toLocaleString(),
         };
 
         // Save message to Firestore
