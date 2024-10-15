@@ -917,7 +917,6 @@ function createProfileModal() {
          document.getElementById('profileModal').classList.add('modal-lg');
      }
  });
-}
 
 // Function to preview the profile picture
 function previewProfilePicture(input) {
@@ -956,6 +955,10 @@ function validateInput() {
      usernameError.textContent = "";
      return true;
  }
+}
+
+
+ 
 }
 
 

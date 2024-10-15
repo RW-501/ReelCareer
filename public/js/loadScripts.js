@@ -523,13 +523,19 @@ function showModal() {
 
 function hideModal() {
     const modal = document.getElementById('profileModal');
+
+    modal.classList.remove('show');
+    modal.classList.add('hide'); // Add a 'hide' class if needed
     
-    // Get all child elements with class 'show' and change them to 'hide'
-    const childElements = modal.querySelectorAll('.show');
-    childElements.forEach(child => {
-        child.classList.remove('show');
-        child.classList.add('hide'); // Add a 'hide' class if needed
-    });
+    const modalBackdrop = document.querySelector('.modal-backdrop');
+// Check if the modal backdrop exists
+if (modalBackdrop) {
+    // Remove the 'show' class
+    modalBackdrop.classList.remove('show');
+
+    // Add the 'hide' class
+    modalBackdrop.classList.add('hide');
+}
 
 }
 
