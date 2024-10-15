@@ -121,6 +121,26 @@ function addStyles() {
     position: absolute;
     animation: loadingText 1.9s infinite cubic-bezier(0.4, 0, 1, 1);
     }
+    .l5 {
+    content: '____';
+    left: 0;
+    right:0;
+    margin:auto;
+    top: 30px;
+    color: blue;
+    position: absolute;
+    animation: loadingText 1.9s infinite cubic-bezier(0.4, 0, 1, 1);
+    }
+    .l6 {
+    content: '____';
+    left: 0;
+    right:0;
+    margin:auto;
+    top: 40px;
+    color: blue;
+    position: absolute;
+    animation: loadingText 1.9s infinite cubic-bezier(0.4, 0, 1, 1);
+    }
 
 
 
@@ -187,8 +207,19 @@ function createLoader(message = 'ReelCareer') {
 
     const l3 = document.createElement('div');
     l3.classList.add('l3');
+    l3.innerHTML="____";
+
     const l4 = document.createElement('div');
     l4.classList.add('l4');
+    l4.innerHTML="____";   
+
+    const l5 = document.createElement('div');
+    l5.classList.add('l5');
+    l5.innerHTML="____";
+
+    const l6 = document.createElement('div');
+    l6.classList.add('l6');
+    l6.innerHTML="____";
 
 
     // Create dynamic loading message with dots
@@ -200,6 +231,9 @@ function createLoader(message = 'ReelCareer') {
     // Append resume and status message to loader div
     resume.appendChild(l3);
     resume.appendChild(l4);
+    resume.appendChild(l6); 
+    resume.appendChild(l6);
+
     
     loaderDiv.appendChild(resume);
     loaderDiv.appendChild(statusDiv);
