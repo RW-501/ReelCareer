@@ -128,8 +128,9 @@ function addStyles() {
     bottom: 0;
     z-index: 9999;
     opacity: 1;
-    transition: opacity 0.5s ease-in-out;
+    transition: opacity 5s ease-in-out;
 }
+
 
 
 /* Animated Resume */
@@ -187,13 +188,13 @@ function addStyles() {
 .loader.hidden {
     opacity: 0;
     visibility: hidden;
-    transition: visibility 0s 0.5s, opacity 0.5s;
+    transition: visibility 0s 5s, opacity 5s;
 }
 
 /* Smooth content loading */
 body {
     opacity: 0;
-    transition: opacity 0.5s ease-in-out;
+    transition: opacity 5s ease-in-out;
 }
 
 body.loaded {
@@ -313,6 +314,7 @@ window.addEventListener('load', () => {
 
 */
 
+addStyles();
 // Function to create and inject loader with animated resume and dynamic dots
 function createLoader(message = 'Loading') {
     const loaderDiv = document.createElement('div');
