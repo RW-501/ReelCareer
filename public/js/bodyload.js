@@ -76,7 +76,7 @@ function addStyles() {
 
 /* First Line of Text */
 .resume::before {
-    content: '____';
+    content: '__';
     left: 0;
     right:0;
     margin:auto;
