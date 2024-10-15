@@ -26,6 +26,14 @@
     .tags-container {
     margin-top: 10px;
 }
+.tag {
+    display: inline-block;
+    background-color: #e0e0e0; /* Light gray background */
+    border-radius: 3px; /* Rounded corners */
+    padding: 5px 10px; /* Padding around the text */
+    margin-right: 5px; /* Space between tags */
+    font-size: 14px; /* Font size */
+}
 
 .badge {
     background-color: #007bff;
@@ -464,7 +472,8 @@ if (!profileData.tags || profileData.tags.length === 0) {
     const tags = profileData.tags; // No need to map since they're already strings
     
     // Display the tags in the container
-    tagsContainer.innerHTML = '<strong>Tags: </strong>' + tags.join(', ');
+    const tagElements = profileData.tags.map(tag => `<span class="tag">${tag}</span>`).join(', ');
+tagsContainer.innerHTML = '<strong>Tags: </strong>' + tagElements;
 }
 
 
