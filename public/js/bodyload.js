@@ -77,6 +77,9 @@ function addStyles() {
     width: 20px;
     height: 8px;
     top: 15px;
+        left: 5px;
+    right: 5px;
+    margin: auto;
     animation: loadingText 1s infinite cubic-bezier(0.4, 0, 1, 1);
     }
 
@@ -88,14 +91,20 @@ function addStyles() {
     left: 5px;
     right: 5px;
     margin: auto;
+        top: 25px;
+
      animation: loadingText 1.3s infinite cubic-bezier(0.4, 0, 1, 1);
     }
 
 /* Third Line of Text */
 .third {
+    content: '';
     width: 40px;
     height: 8px;
-    top: 45px;
+    top: 35px;
+        left: 5px;
+    right: 5px;
+    margin: auto;
     animation: loadingText 1.6s infinite cubic-bezier(0.4, 0, 1, 1);
     }
 
@@ -160,6 +169,8 @@ function createLoader(message = 'ReelCareer') {
     // Create animated resume icon
     const resume = document.createElement('div');
     resume.classList.add('resume');
+
+
 
     // Create dynamic loading message with dots
     const statusDiv = document.createElement('div');
