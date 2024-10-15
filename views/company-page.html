@@ -12,11 +12,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <style>
         /* Custom styles */
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
-        }
-        .company-media img, .company-media video {
+        main .company-media img, .company-media video {
             max-width: 100%;
             border-radius: 8px;
             margin-bottom: 15px;
@@ -54,9 +50,6 @@
     }
 }
 
-body {
-    background-color: #f8f9fa; /* Light background for contrast */
-}
 
 h2, h4, h5 {
     color: #343a40; /* Darker color for headings */
@@ -70,42 +63,14 @@ h2, h4, h5 {
     max-height: 150px; /* Restrict logo height */
 }
 
-.social-icons a {
-    transition: background-color 0.3s ease; /* Smooth transition for button hover */
-}
 
-.social-icons a:hover {
-    background-color: #007bff; /* Change background on hover */
-    color: white; /* Change text color on hover */
-}
 
-body {
-    font-family: 'Arial', sans-serif; /* Use a clean font */
-}
-
-.container {
-    background-color: #f8f9fa; /* Light gray background for better contrast */
-}
-
-h2, h4, h5 {
-    color: #343a40; /* Darker text color */
-}
 
 .loading-state {
     color: #6c757d; /* Light gray for loading states */
 }
 
-/* Form Elements */
-.form-control {
-    border: 1px solid #ced4da;
-    border-radius: 0.25rem;
-    transition: border-color 0.2s ease-in-out;
-}
 
-.form-control:focus {
-    border-color: #007bff; /* Blue border on focus */
-    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
-}
 
 .btn-primary {
     background-color: #007bff; /* Primary button color */
@@ -126,18 +91,18 @@ h2, h4, h5 {
 }
 
 /* Sidebar and Logo */
-#companyLogo {
+main #companyLogo {
     width: 100%;
     max-width: 150px;
     height: auto;
 }
 
-.social-icons a {
+main .social-icons a {
     display: inline-block;
     margin-right: 5px;
 }
 
-.social-icons a:hover {
+main .social-icons a:hover {
     transform: scale(1.1);
     transition: transform 0.2s ease-in-out;
 }
@@ -385,11 +350,11 @@ function showMainArea() {
 
 document.getElementById("generateDescriptionBtn").addEventListener("click", function() {
     const industries = Array.from(document.getElementById("editCompanyIndustry").selectedOptions).map(option => option.value);
-    const companyDescriptionField = document.getElementById("companyDescription");
+    const companyDescriptionField = document.getElementById("editCompanyDescription");
     const companyDescription = companyDescriptionField.value;
     
     // Check if at least one industry is selected and the company description is empty (or black)
-    if (industries.length > 0 && (companyDescription === "")) {
+    if (industries.length > 0 && companyDescription === "") {
         const companyName =  document.getElementById('editCompanyName').value; // Replace with the actual company name
         
         // Define description templates for different industries
@@ -515,8 +480,8 @@ document.getElementById("generateDescriptionBtn").addEventListener("click", func
         const shortDescription = randomDescriptions.join(" ");
 
         // Set the generated description in the company description field
-        companyDescriptionField.innerText = shortDescription;
-        document.getElementById("editCompanyDescription").value = shortDescription;
+        companyDescriptionField = shortDescription;
+        document.getElementById("companyDescription").innerText = shortDescription;
     } else {
         alert("Please select at least one industry and ensure the company description is empty.");
     }
