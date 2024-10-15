@@ -356,7 +356,7 @@ addStyles();
 
 let dotsInterval;
 // Function to create and inject loader with animated resume and dynamic dots
-function createLoader(message = 'Loading') {
+function createLoader(message = 'ReelCareer') {
     const loaderDiv = document.createElement('div');
     loaderDiv.id = 'loaderX';
     loaderDiv.classList.add('loader-container');
@@ -377,7 +377,7 @@ function createLoader(message = 'Loading') {
 
     // Add loader to the body
     document.body.appendChild(loaderDiv);
-
+/*
     // Start dynamic dots animation
     let dotCount = 0;
      dotsInterval = setInterval(() => {
@@ -387,6 +387,7 @@ function createLoader(message = 'Loading') {
     }, 500); // Change dots every 500ms
 
     return dotsInterval; // Return interval ID to clear it later
+    */
 }
 
 // Function to hide loader and clear dots interval
