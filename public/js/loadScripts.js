@@ -526,7 +526,7 @@ function hideModal() {
 
     modal.classList.remove('show');
     modal.classList.add('hide'); // Add a 'hide' class if needed
-    
+
     const modalBackdrop = document.querySelector('.modal-backdrop');
 // Check if the modal backdrop exists
 if (modalBackdrop) {
@@ -536,6 +536,8 @@ if (modalBackdrop) {
     // Add the 'hide' class
     modalBackdrop.classList.add('hide');
 }
+    const modalopen = document.querySelector('body');
+    modalopen.classList.remove('modal-open');
 
 }
 
