@@ -230,7 +230,7 @@ function addStyles() {
     style.innerHTML = `
 
 /* Loader Container */
-.loader-container {
+.loader-containerXX {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -249,6 +249,22 @@ function addStyles() {
     z-index: 9999;
     opacity: 1;
     transition: opacity 1s ease-in-out;
+}
+.loader-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #fff;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9999;
+    opacity: 1;
+    transition: opacity 0.5s ease-in-out;
 }
 
 
@@ -279,7 +295,7 @@ function addStyles() {
     width: 50px;
     height: 8px;
     top: 15px;
-    animation: loadingText .5s infinite ease-in-out;
+    animation: loadingText 1s infinite ease-in-out;
 }
 
 /* Second Line of Text */
@@ -314,7 +330,7 @@ function addStyles() {
 .loader.hidden {
     opacity: 0;
     visibility: hidden;
-    transition: visibility 0s 0.3s, opacity .03s;
+    transition: visibility 0s 0.5s, opacity 0.5s;
 }
 
 /* Smooth content loading */
@@ -340,7 +356,7 @@ addStyles();
 // Function to create and inject loader with animated resume and dynamic dots
 function createLoader(message = 'Loading') {
     const loaderDiv = document.createElement('div');
-    loaderDiv.id = 'loader';
+    loaderDiv.id = 'loaderX';
     loaderDiv.classList.add('loader-container');
 
     // Create animated resume icon
@@ -372,7 +388,7 @@ function createLoader(message = 'Loading') {
 
 // Function to hide loader and clear dots interval
 function hideLoader(dotsInterval) {
-    const loader = document.getElementById('loader');
+    const loader = document.getElementById('loaderX');
     if (loader) {
 
         // Remove loader from DOM after transition and clear interval for dots
@@ -446,7 +462,9 @@ function addStyles2() {
     document.head.appendChild(style);
 }
 
-addStyles2();
+//addStyles2();
+
+
 // Lazy Load for Images using Intersection Observer
 document.addEventListener("DOMContentLoaded", function () {
     const lazyImages = document.querySelectorAll('.lazy-load');
