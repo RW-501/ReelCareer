@@ -106,7 +106,7 @@ function addStyles() {
     right:0;
     margin:auto;
     top: 20px;
-    color: chartreuse;
+    color: red;
     position: absolute;
     animation: loadingText 1.6s infinite cubic-bezier(0.4, 0, 1, 1);
     }
@@ -117,7 +117,7 @@ function addStyles() {
     right:0;
     margin:auto;
     top: 25px;
-    color: chartreuse;
+    color: blue;
     position: absolute;
     animation: loadingText 1.9s infinite cubic-bezier(0.4, 0, 1, 1);
     }
