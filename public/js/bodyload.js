@@ -169,6 +169,8 @@ function addStyles() {
     height: 8px;
     top: 30px;
     animation: loadingText 1.5s infinite ease-in-out;
+            opacity: 1;
+
 }
 
 /* Loading Message Style */
