@@ -324,12 +324,38 @@
         return new bootstrap.Tooltip(tooltipTriggerEl)
     });
 */
+
+        // Function to set up the collapse button
+        function setupCollapseButton() {
+            const toggleButton = document.querySelector('[data-bs-toggle="collapse"]');
+            const targetSection = document.querySelector('#filterSection');
+
+            if (toggleButton && targetSection) {
+                toggleButton.addEventListener('click', function () {
+                    // Get the current state
+                    const isExpanded = toggleButton.getAttribute('aria-expanded') === 'true';
+
+                    // Toggle the expanded state
+                    toggleButton.setAttribute('aria-expanded', !isExpanded);
+                    targetSection.classList.toggle('show', !isExpanded);
+
+                    // Update button text based on the state
+                    toggleButton.textContent = isExpanded ? 'Show Filters' : 'Hide Filters';
+                });
+            } else {
+                console.error('Toggle button or target section not found!');
+            }
+        }
+
+        // Run setup on DOMContentLoaded
+        document.addEventListener('DOMContentLoaded', setupCollapseButton);
+   
   // Toggle button text change
   document.querySelector('[data-bs-toggle="collapse"]').addEventListener('click', function() {
         const button = this;
         const isCollapsed = button.getAttribute('aria-expanded') === 'true';
         button.textContent = isCollapsed ? 'Show Filters' : 'Hide Filters';
-      //  console.log("Button clicked. Current state: ", button.textContent);
+       console.log("Button clicked. Current state: ", button.textContent);
     });
 
     // Save filters to local storage
