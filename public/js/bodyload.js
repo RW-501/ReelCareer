@@ -401,7 +401,7 @@ function hideLoader(dotsInterval) {
             loader.classList.add('hidden'); // Fade out loader
             console.log("Loader removed successfully.");
 
-            loader.remove();
+            loader.remove('loader-container');
             clearInterval(dotsInterval); // Stop the dot animation
         }, 5000); // Match transition time (0.5s)
     }
