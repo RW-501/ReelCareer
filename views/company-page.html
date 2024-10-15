@@ -322,13 +322,13 @@ function showMainArea() {
                 const urlParams = new URLSearchParams(window.location.search);
                 let companyName = urlParams.get('create');
                 if(!companyName){companyName = "Company"};
-            /*    
+                
                 document.getElementById("instructions").innerHTML = 
                 document.getElementById("instructions").innerHTML.replace("[Company Name]", companyName);
-*/
+
 
 // Replace placeholder in the entire document body
-document.body.innerHTML = document.body.innerHTML.replace(/\[Company Name\]/g, companyName);
+//document.body.innerHTML = document.body.innerHTML.replace(/\[Company Name\]/g, companyName);
 
 
                 // Show instructions and hide main area
