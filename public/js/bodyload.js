@@ -121,11 +121,15 @@ function addStyles() {
     justify-content: center;
     height: 100vh;
     background-color: #fff;
-    position: fixed;
     top: 0;
+    bottom: 0;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     left: 0;
     right: 0;
-    bottom: 0;
+    margin: auto;
     z-index: 9999;
     opacity: 1;
     transition: opacity 1s ease-in-out;
