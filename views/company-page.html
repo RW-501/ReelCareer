@@ -298,8 +298,8 @@ document.getElementById("generateDescriptionBtn").addEventListener("click", func
     const companyDescription = companyDescriptionField.value.trim();
     
     // Check if at least one industry is selected and the company description is empty (or black)
-    if (industries.length > 0 && (companyDescription === "" || companyDescription === "black")) {
-        const companyName =  document.getElementById('companyName').textContent; // Replace with the actual company name
+    if (industries.length > 0 && (companyDescription === "")) {
+        const companyName =  document.getElementById('editCompanyName').value; // Replace with the actual company name
         
         // Define description templates for different industries
         const descriptions = { 
@@ -424,7 +424,8 @@ document.getElementById("generateDescriptionBtn").addEventListener("click", func
         const shortDescription = randomDescriptions.join(" ");
 
         // Set the generated description in the company description field
-        companyDescriptionField.value = shortDescription;
+        companyDescriptionField.innerText = shortDescription;
+        document.getElementById("editCompanyDescription").value = shortDescription;
     } else {
         alert("Please select at least one industry and ensure the company description is empty.");
     }
