@@ -787,7 +787,11 @@ function createProfileModal() {
                       <input type="text" class="form-control" id="usernameSET" required placeholder="Your desired username">
                       <small id="usernameError" class="text-danger"></small>
                     </div>
-
+              <!-- Email -->
+              <div class="mb-3 mt-3">
+                <label for="emailSET" class="form-label">Email </label>
+                <div class="form-control" id="emailSET"></div>
+              </div>
                     <!-- Profile Picture Upload -->
                     <div class="mb-3">
                       <label for="profilePictureSET" class="form-label">Profile Picture</label>
