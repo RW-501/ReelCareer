@@ -108,7 +108,7 @@ h2, h4, h5 {
     </nav>
 
     
-    <main>
+    <main >
         <div id="instructions" class="container mt-4 p-4 border rounded shadow bg-light">
             <h2 class="text-center mb-3">Instructions</h2>
             <p class="lead mb-3">Welcome to the Company Profile management page! Here you can update all relevant details about your company.</p>
@@ -130,15 +130,16 @@ h2, h4, h5 {
                 <li>If you wish to discard changes, click <strong>"Cancel"</strong> to return to the previous view.</li>
             </ol>
         
-            <button id="editProfileBtn" class="btn btn-primary mb-3" aria-label="Display the main area" onclick="showMainArea()">Edit Profile</button>
+            <button id="editProfileBtn" class="btn btn-primary mb-3" aria-label="Edit Company Porfile" onclick="showMainArea()">Edit Profile</button>
+            <button id="cancelBtn" class="btn btn-primary mb-3" aria-label="Cancel" onclick="goBack()">Cancel</button>
         </div>
         
     
         <section class="container mt-5 p-4 shadow-lg rounded bg-white">
-            <h2 class="text-center mb-4">Company Profile</h2>
+            <h2 class="text-center mb-4">[Company Name] Profile</h2>
             <hr class="my-4">
     
-            <div id="mainArea" class="row">
+            <div id="mainArea" style="display: none;" class="row">
                 <!-- Company Info Section -->
                 <div class="col-md-8">
                     <h2 id="companyName" class="loading-state mb-4">Loading...</h2>
@@ -279,7 +280,20 @@ h2, h4, h5 {
         <p>Company not found. Please log in to create a page.</p>
     </div>
     
+<script>
 
+function goBack() {
+    window.history.back();
+}
+
+function showMainArea() {
+            // Hide the instructions and show the main area
+            document.getElementById("mainArea").style.display = "block";
+
+        }
+
+
+</script>
 
     <!-- Footer -->
     <footer id="dynamic-footer" class="text-center mt-5"></footer>
@@ -293,11 +307,6 @@ h2, h4, h5 {
         import { doc, getDoc, onSnapshot, updateDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
         document.getElementById("errorMessage").style.display = "none"; // Hide error message if shown
 
-        function showMainArea() {
-            // Hide the instructions and show the main area
-            document.getElementById("mainArea").style.display = "block";
-
-        }
 
         toggleEditMode(false)
         const urlParams = new URLSearchParams(window.location.search);
@@ -314,7 +323,7 @@ h2, h4, h5 {
                 let companyName = urlParams.get('create');
                 if(!companyName){companyName = "Company"};
 
-                document.title = document.title.replace("[Company Name]", companyName);
+                document.body = document.body.replace("[Company Name]", companyName);
 
                 // Show instructions and hide main area
                 document.getElementById("mainArea").style.display = "none";
@@ -387,7 +396,7 @@ h2, h4, h5 {
             document.getElementById('editCompanyFounded').value = companyData.founded || '';
         
             document.title = document.title.replace("[Company Name]", companyName);
-       
+            showMainArea();
         }
     
         // Load job listings for the company
@@ -425,7 +434,8 @@ h2, h4, h5 {
                 'socialInputs', 
                 'editButtons'
             ];
-            
+            document.getElementById("mainArea").style.display = "block";
+ 
             elementsToToggle.forEach(id => {
                 const element = document.getElementById(id);
                 if (element) {
@@ -483,6 +493,9 @@ toggleEditMode(false); // Exit edit mode
         document.getElementById("cancelChangesBtn").addEventListener("click", function() {
             toggleEditMode(false);
         });
+
+       
+
     </script>
           
 </body>
