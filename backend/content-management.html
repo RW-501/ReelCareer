@@ -52,6 +52,9 @@
     <div class="container mt-4">
         <h1>Content Management</h1>
     
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+        <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script> <!-- Quill JS -->
+    
     <!-- Toggle Buttons for Content Types -->
     <div class="btn-group mb-3" role="group">
         <button type="button" class="btn btn-secondary" onclick="toggleSection('newsSection')">Manage News Articles</button>
@@ -279,6 +282,30 @@
 </div>
     <!-- Footer -->
     <footer id="dynamic-footer"></footer>
+    <script>
+        // Initialize Quill editors for news and blog sections
+        const newsEditor = new Quill('#newsEditor', {
+            theme: 'snow'
+        });
+        const blogEditor = new Quill('#blogEditor', {
+            theme: 'snow'
+        });
+
+        // Save content from Quill editor to hidden input before form submission
+        $('#newsForm').on('submit', function() {
+            $('#newsContent').val(newsEditor.root.innerHTML); // Set the content
+        });
+
+        $('#blogForm').on('submit', function() {
+            $('#blogContent').val(blogEditor.root.innerHTML); // Set the content
+        });
+
+        // Toggle sections visibility
+        function toggleSection(sectionId) {
+            $('.content-section').hide(); // Hide all sections
+            $('#' + sectionId).show();    // Show selected section
+        }
+    </script>
 
     <!-- Firebase configuration/ Login & Out -->
     <script type="module" src="../public/js/main.js"></script>
