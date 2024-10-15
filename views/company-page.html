@@ -22,18 +22,29 @@
         }
         .cta-buttons a {
             margin-right: 15px;
+            transition: background-color 0.3s;
+        }
+        .cta-buttons a:hover {
+            background-color: #0056b3; /* Change the color on hover */
+            color: #fff; /* Change text color on hover */
+        }
+        .loading-state {
+            text-align: center;
+            font-size: 1.2em;
+        }
+        .social-icons a {
+            margin: 0 5px;
+            color: #007bff;
+            text-decoration: none;
+        }
+        .social-icons a:hover {
+            color: #0056b3; /* Change color on hover */
         }
     </style>
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    
-    <!-- Bootstrap CSS -->
     <script src="../public/js/scripts.js"></script>
     <script src="../public/js/loadScripts.js"></script>
-    <!-- Custom CSS -->
     <link rel="stylesheet" href="../public/css/styles.css">
-
 </head>
 
 <body>
@@ -59,33 +70,47 @@
         <section class="container mt-5">
             <div class="row">
                 <div class="col-md-8">
-                    <h2 id="companyName">Loading...</h2>
+                    <h2 id="companyName" class="loading-state">Loading...</h2>
                     <input type="text" id="editCompanyName" class="form-control" style="display:none;" placeholder="Enter Company Name">
                     
-                    <p id="companyDescription" class="lead">Loading description...</p>
+                    <p id="companyDescription" class="lead loading-state">Loading description...</p>
                     <textarea id="editCompanyDescription" class="form-control" rows="3" style="display:none;" placeholder="Enter Company Description"></textarea>
                     
-                    <p><strong>Industry:</strong> <span id="companyIndustry">Loading...</span></p>
+                    <p><strong>Industry:</strong> <span id="companyIndustry" class="loading-state">Loading...</span></p>
                     <input type="text" id="editCompanyIndustry" class="form-control" style="display:none;" placeholder="Enter Industry">
                     
-                    <p><strong>Location:</strong> <span id="companyLocation">Loading...</span></p>
+                    <p><strong>Location:</strong> <span id="companyLocation" class="loading-state">Loading...</span></p>
                     <input type="text" id="editCompanyLocation" class="form-control" style="display:none;" placeholder="Enter Location">
                     
                     <div id="editButtons" style="display:none;">
                         <button id="saveChangesBtn" class="btn btn-primary mt-3">Save Changes</button>
                         <button id="cancelChangesBtn" class="btn btn-secondary mt-3">Cancel</button>
                     </div>
+                    
+                    <!-- Company Job Listings -->
+                    <h3>Current Job Openings</h3>
+                    <div id="jobListings" class="list-group">
+                        <!-- Job listings will be dynamically inserted here -->
+                    </div>
                 </div>
                 <div class="col-md-4 text-center">
                     <img id="companyLogo" src="../images/sq_logo_n_BG.png" alt="Company Logo" class="img-fluid rounded-circle">
                     <input type="file" id="editCompanyLogo" class="form-control mt-2" style="display:none;">
                     <button id="editProfileBtn" class="btn btn-secondary" style="display:none;">Edit Profile</button>
+                    
+                    <!-- Social Media Links -->
+                    <div class="social-icons mt-3">
+                        <a href="#" aria-label="Facebook" target="_blank">Facebook</a>
+                        <a href="#" aria-label="Twitter" target="_blank">Twitter</a>
+                        <a href="#" aria-label="LinkedIn" target="_blank">LinkedIn</a>
+                    </div>
                 </div>
             </div>
         </section>
     </main>
+    
     <!-- Footer -->
-    <footer id="dynamic-footer"></footer>
+    <footer id="dynamic-footer" class="text-center mt-5"></footer>
     
     <!-- Firebase configuration/ Login& Out -->
     <script type="module" src="../public/js/main.js"></script> 
@@ -93,7 +118,7 @@
     <!-- Dynamic Schema Markup -->
     <script type="module">
         import { db, auth } from '../public/js/main.js';
-        import { doc, getDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+        import { doc, getDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 
         const urlParams = new URLSearchParams(window.location.search);
         const companyId = urlParams.get('companyId');
@@ -111,6 +136,9 @@
                     document.getElementById("companyIndustry").innerText = companyData.industry;
                     document.getElementById("companyLocation").innerText = companyData.location;
 
+                    // Load job listings
+                    loadJobListings(companyId);
+
                     // Check if the user is the admin of this company
                     if (userId === companyData.adminId) {
                         // Show editable fields
@@ -127,6 +155,27 @@
             // No companyId in the URL; show empty fields for creating a company
             toggleEditMode(false);
         }
+
+        // Load Job Listings
+
+
+// Load Job Listings
+async function loadJobListings(companyId) {
+    const jobsRef = collection(db, "Jobs");
+    const jobsQuery = query(jobsRef, where("companyId", "==", companyId));
+
+    const querySnapshot = await getDocs(jobsQuery);
+    const jobListingsContainer = document.getElementById("jobListings");
+    jobListingsContainer.innerHTML = ''; // Clear previous listings
+
+    querySnapshot.forEach((doc) => {
+        const job = doc.data();
+        const jobItem = document.createElement("div");
+        jobItem.className = "list-group-item list-group-item-action";
+        jobItem.innerHTML = `<h5>${job.title}</h5><p>${job.description}</p><a href="job-detail.html?jobId=${doc.id}" class="btn btn-link">View Job</a>`;
+        jobListingsContainer.appendChild(jobItem);
+    });
+}
 
         // Toggle Edit Mode
         document.getElementById("editProfileBtn").addEventListener("click", () => {
@@ -151,49 +200,27 @@
             document.getElementById("editCompanyDescription").style.display = isEditing ? "block" : "none";
             document.getElementById("editCompanyIndustry").style.display = isEditing ? "block" : "none";
             document.getElementById("editCompanyLocation").style.display = isEditing ? "block" : "none";
-            document.getElementById("editCompanyLogo").style.display = isEditing ? "block" : "none";
             document.getElementById("editButtons").style.display = isEditing ? "block" : "none";
-
-            // Set current values to input fields if entering edit mode
-            if (isEditing) {
-                document.getElementById("editCompanyName").value = document.getElementById("companyName").innerText;
-                document.getElementById("editCompanyDescription").value = document.getElementById("companyDescription").innerText;
-                document.getElementById("editCompanyIndustry").value = document.getElementById("companyIndustry").innerText;
-                document.getElementById("editCompanyLocation").value = document.getElementById("companyLocation").innerText;
-            } else {
-                // If not in edit mode, reset input values to empty for creating a new company
-                if (!companyId) {
-                    document.getElementById("editCompanyName").value = '';
-                    document.getElementById("editCompanyDescription").value = '';
-                    document.getElementById("editCompanyIndustry").value = '';
-                    document.getElementById("editCompanyLocation").value = '';
-                }
-            }
+            document.getElementById("editProfileBtn").style.display = isEditing ? "none" : "block";
         }
 
         function saveCompanyChanges() {
-            const updatedCompany = {
+            const updatedData = {
                 name: document.getElementById("editCompanyName").value,
                 description: document.getElementById("editCompanyDescription").value,
                 industry: document.getElementById("editCompanyIndustry").value,
-                location: document.getElementById("editCompanyLocation").value,
+                location: document.getElementById("editCompanyLocation").value
             };
-
-            const companyRef = doc(db, "Companies", companyId || updatedCompany.name); // Use companyId or new company name
-            // Update or create company data
-            // Assume a function updateCompanyInFirestore() handles this
-            updateCompanyInFirestore(companyRef, updatedCompany).then(() => {
-                alert("Company details saved successfully!");
-                toggleEditMode(false);
-                // Optionally refresh the page or redirect
-            }).catch((error) => {
-                console.error("Error saving company details:", error);
-            });
-        }
-
-        function updateCompanyInFirestore(companyRef, updatedCompany) {
-            // Implement the Firestore update/create logic
-            return null; // Replace with actual logic
+            
+            // Update Firestore document
+            updateDoc(doc(db, "Companies", companyId), updatedData)
+                .then(() => {
+                    console.log("Company data updated successfully");
+                    toggleEditMode(false); // Return to view mode
+                })
+                .catch((error) => {
+                    console.error("Error updating company data:", error);
+                });
         }
     </script>
 </body>
