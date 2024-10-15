@@ -31,7 +31,7 @@ function addStyles() {
         body {
             transition: opacity 2.0s ease-in-out;
         }
-
+/*
         .loader {
             position: fixed;
             top: 0;
@@ -110,10 +110,104 @@ function addStyles() {
         body.loaded {
             opacity: 1;
         }
+            */
+
+
+/* Loader Container */
+.loader-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #fff;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9999;
+    opacity: 1;
+    transition: opacity 0.5s ease-in-out;
+}
+
+
+/* Animated Resume */
+.resume {
+    width: 60px;
+    height: 80px;
+    background-color: #007bff;
+    position: relative;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Resume Lines (Represent Text Being Typed Out) */
+.resume::before, .resume::after {
+    content: '';
+    position: absolute;
+    left: 5px;
+    border-radius: 2px;
+    background-color: white;
+}
+
+/* First Line of Text */
+.resume::before {
+    width: 50px;
+    height: 8px;
+    top: 15px;
+    animation: loadingText 1s infinite ease-in-out;
+}
+
+/* Second Line of Text */
+.resume::after {
+    width: 40px;
+    height: 8px;
+    top: 30px;
+    animation: loadingText 1.5s infinite ease-in-out;
+}
+
+/* Loading Message Style */
+.loading-message {
+    font-size: 18px;
+    color: #333;
+    font-family: 'Arial', sans-serif;
+    text-align: center;
+}
+
+/* Loading Dots Animation */
+@keyframes loadingText {
+    0% { opacity: 0; }
+    50% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+/* Fade out Loader */
+.loader.hidden {
+    opacity: 0;
+    visibility: hidden;
+    transition: visibility 0s 0.5s, opacity 0.5s;
+}
+
+/* Smooth content loading */
+body {
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+body.loaded {
+    opacity: 1;
+}
+
+
+
+
+
     `;
     document.head.appendChild(style);
 }
-
+/*
 function typeEffect(element, text, speed = 100) {
     let index = 0;
     
@@ -217,6 +311,67 @@ window.addEventListener('load', () => {
 });
 
 
+*/
+
+// Function to create and inject loader with animated resume and dynamic dots
+function createLoader(message = 'Loading') {
+    const loaderDiv = document.createElement('div');
+    loaderDiv.id = 'loader';
+    loaderDiv.classList.add('loader-container');
+
+    // Create animated resume icon
+    const resume = document.createElement('div');
+    resume.classList.add('resume');
+
+    // Create dynamic loading message with dots
+    const statusDiv = document.createElement('div');
+    statusDiv.classList.add('loading-message');
+    statusDiv.setAttribute('role', 'status');
+    statusDiv.textContent = message;
+
+    // Append resume and status message to loader div
+    loaderDiv.appendChild(resume);
+    loaderDiv.appendChild(statusDiv);
+
+    // Add loader to the body
+    document.body.appendChild(loaderDiv);
+
+    // Start dynamic dots animation
+    let dotCount = 0;
+    const dotsInterval = setInterval(() => {
+        dotCount = (dotCount + 1) % 4; // Cycles through 0, 1, 2, 3 for dots
+        statusDiv.textContent = `${message}${'.'.repeat(dotCount)}`; // Updates dots
+    }, 500); // Change dots every 500ms
+
+    return dotsInterval; // Return interval ID to clear it later
+}
+
+// Function to hide loader and clear dots interval
+function hideLoader(dotsInterval) {
+    const loader = document.getElementById('loader');
+    if (loader) {
+
+        // Remove loader from DOM after transition and clear interval for dots
+        setTimeout(() => {
+            loader.classList.add('hidden'); // Fade out loader
+
+            loader.remove();
+            clearInterval(dotsInterval); // Stop the dot animation
+        }, 1000); // Match transition time (0.5s)
+    }
+}
+
+// Initialize loader when DOM is ready
+window.addEventListener('DOMContentLoaded', () => {
+    const dotsInterval = createLoader('Loading'); // Start loader with dots animation
+});
+
+// Hide loader and show content when page fully loads
+window.addEventListener('load', () => {
+    const dotsInterval = createLoader(); // Starts the dots animation
+    hideLoader(dotsInterval); // Hide loader when fully loaded
+    document.body.classList.add('loaded'); // Show content
+});
 
 
 
