@@ -19,99 +19,129 @@
 
 // Function to inject CSS styles into the document
         // Function to add styles
-        function addStyles() {
-            const style = document.createElement('style');
-            style.type = 'text/css';
-            style.innerHTML = `
-
-                /* Page Loader Styles */
-                .loader {
-                    position: fixed;
-                    top: 0;
-                    left: 0;
-                    right: 0;
-                    bottom: 0;
-                    background: rgba(255, 255, 255, 0.8);
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    z-index: 9999;
-                    opacity: 1;
-                    transition: opacity 0.5s ease-in-out;
-                }
-
-                .loader.hidden {
-                    opacity: 0;
-                    visibility: hidden;
-                }
-
-                /* Smooth content loading */
-                body {
-                    opacity: 0;
-                    transition: opacity 0.5s ease-in-out;
-                }
-
-                body.loaded {
-                    opacity: 1;
-                }
-
-
-
-                @keyframes shimmer {
-                    0% { background-position: -200px 0; }
-                    100% { background-position: 200px 0; }
-                }
-
-  
-            `;
-            document.head.appendChild(style);
+// Function to add styles for loader and content
+function addStyles() {
+    const style = document.createElement('style');
+    style.type = 'text/css';
+    style.innerHTML = `
+        /* Page Loader Styles */
+        body {
+            transition: opacity 0.5s ease-in-out;
         }
 
-        // Function to create and inject loader into DOM
-        function createLoader() {
-            const loaderDiv = document.createElement('div');
-            loaderDiv.id = 'loader';
-            loaderDiv.classList.add('loader');
-            loaderDiv.setAttribute('aria-live', 'polite');
-            loaderDiv.setAttribute('aria-busy', 'true');
-
-            const statusDiv = document.createElement('div');
-            statusDiv.setAttribute('role', 'status');
-            statusDiv.setAttribute('aria-label', 'Page is loading');
-            statusDiv.textContent = 'Loading...';
-console.log("created Loader   ???????????//");
-
-            loaderDiv.appendChild(statusDiv);
-
-            // Insert loader into the body
-            document.body.appendChild(loaderDiv);
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.9);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            opacity: 1;
+            transition: opacity 0.5s ease-in-out;
         }
 
-        // Function to hide loader after page load
-        function hideLoader() {
-            const loader = document.getElementById('loader');
-            if (loader) {
-                loader.classList.add('hidden');
-                console.log("hide Loader   ???????????//");
+        .loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
 
-                // Remove from DOM after transition
-                setTimeout(() => loader.remove(), 10000); // Adjusted to match opacity transition
+        /* Spinner Animation */
+        .spinner {
+            border: 8px solid rgba(255, 255, 255, 0.3);
+            border-top: 8px solid #007bff; /* Change color for branding */
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-message {
+            font-size: 18px;
+            color: #333; /* Better contrast */
+            text-align: center;
+        }
+
+        /* Smooth content loading */
+        body {
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        body.loaded {
+            opacity: 1;
+        }
+    `;
+    document.head.appendChild(style);
+}
+
+// Function to create and inject loader into DOM
+function createLoader(message = 'Loading...') {
+    const loaderDiv = document.createElement('div');
+    loaderDiv.id = 'loader';
+    loaderDiv.classList.add('loader');
+    loaderDiv.setAttribute('role', 'alert'); // Improved accessibility
+    loaderDiv.setAttribute('aria-live', 'assertive');
+    loaderDiv.setAttribute('aria-busy', 'true');
+
+    const spinner = document.createElement('div');
+    spinner.classList.add('spinner');
+
+    const statusDiv = document.createElement('div');
+    statusDiv.classList.add('loading-message');
+    statusDiv.setAttribute('role', 'status');
+    statusDiv.setAttribute('aria-label', message);
+    statusDiv.textContent = message;
+
+    console.log("Created Loader with message:", message);
+
+    loaderDiv.appendChild(spinner);
+    loaderDiv.appendChild(statusDiv);
+    document.body.appendChild(loaderDiv);
+}
+
+// Function to hide loader after page load
+function hideLoader() {
+    const loader = document.getElementById('loader');
+    if (loader) {
+        loader.classList.add('hidden');
+        console.log("Hiding Loader...");
+
+        // Remove from DOM after transition
+        setTimeout(() => {
+            try {
+                loader.remove();
+                console.log("Loader removed successfully.");
+            } catch (error) {
+                console.error("Error removing loader:", error);
             }
-        }
+        }, 50000); // Adjusted to match opacity transition time (0.5s)
+    } else {
+        console.warn("Loader not found, cannot hide.");
+    }
+}
 
-        // Initialize styles and loader on DOMContentLoaded
-        window.addEventListener('DOMContentLoaded', () => {
-            addStyles(); // Add styles first
-            createLoader(); // Then create the loader
-        });
+// Initialize styles and loader on DOMContentLoaded
+window.addEventListener('DOMContentLoaded', () => {
+    addStyles(); // Add styles first
+    createLoader(); // Then create the loader
+});
 
-        // Hide loader when the window fully loads
-        window.addEventListener('load', () => {
-            hideLoader(); // Hide loader first
-            const content = document.body;
-            content.classList.add('loaded'); // Then show content
-        });
-
+// Hide loader when the window fully loads
+window.addEventListener('load', () => {
+    hideLoader(); // Hide loader first
+    document.body.classList.add('loaded'); // Then show content
+});
 
 
 
