@@ -436,7 +436,7 @@
                 <p id="companyDescription"></p>
                 <p id="companyMission"></p>
                 <a id="companyPageLink" href="">View Company Page</a>
-    
+                
          
                 <hr id="bottomHr" />
                 
@@ -727,6 +727,7 @@ async function loadJobDetails(jobData) {
 
             document.getElementById("companyLogo").src = companyData.logo; // Ensure the 'logo' field in the database is a URL
             document.getElementById("companyWebsite").href = companyData.website;
+            document.getElementById("companyDescription").innerText = companyData.description;
             document.getElementById("companyDescription").innerText = companyData.description;
             document.getElementById("companyMission").innerText = companyData.missionStatement;
 

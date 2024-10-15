@@ -6,7 +6,8 @@
     <meta name="description" content="Explore the company profile, latest job openings, and get insights into the work environment.">
     <meta name="keywords" content="company profile, job openings, work environment, careers, apply now, job alerts">
     <meta name="robots" content="index, follow">
-    <title>Company Profile - [Company Name]</title>
+    <title>ReelCareer - Company Profile - [Company Name]</title>
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <style>
@@ -40,6 +41,46 @@
         .social-icons a:hover {
             color: #0056b3; /* Change color on hover */
         }
+
+        .cta-buttons a.btn-primary:hover {
+    background-color: #0056b3;
+    color: #fff;
+}
+
+
+@media (max-width: 768px) {
+    .company-media img, .company-media video {
+        max-width: 90%;
+    }
+}
+
+body {
+    background-color: #f8f9fa; /* Light background for contrast */
+}
+
+h2, h4, h5 {
+    color: #343a40; /* Darker color for headings */
+}
+
+.form-label {
+    font-weight: bold; /* Bolder labels */
+}
+
+.img-fluid {
+    max-height: 150px; /* Restrict logo height */
+}
+
+.social-icons a {
+    transition: background-color 0.3s ease; /* Smooth transition for button hover */
+}
+
+.social-icons a:hover {
+    background-color: #007bff; /* Change background on hover */
+    color: white; /* Change text color on hover */
+}
+
+
+
     </style>
 
     <script src="../public/js/scripts.js"></script>
@@ -65,163 +106,384 @@
             </div>
         </div>
     </nav>
+
     
     <main>
-        <section class="container mt-5">
-            <div class="row">
+        <div id="instructions" class="container mt-4 p-4 border rounded shadow bg-light">
+            <h2 class="text-center mb-3">Instructions</h2>
+            <p class="lead mb-3">Welcome to the Company Profile management page! Here you can update all relevant details about your company.</p>
+            
+            <h4 class="mb-2">Follow these steps to edit your [Company Name] profile:</h4>
+            <ol class="mb-4">
+                <li>Review the existing company details displayed on the left side of the screen.</li>
+                <li>To make changes, click the <strong>"Edit Profile"</strong> button below.</li>
+                <li>Fill in the fields you want to update, including:</li>
+                <ul>
+                    <li>Company Name</li>
+                    <li>Description</li>
+                    <li>Mission Statement</li>
+                    <li>Logo Upload</li>
+                    <li>Contact Information</li>
+                    <li>Social Media Links</li>
+                </ul>
+                <li>Once you've made your changes, click the <strong>"Save Changes"</strong> button to update your profile.</li>
+                <li>If you wish to discard changes, click <strong>"Cancel"</strong> to return to the previous view.</li>
+            </ol>
+        
+            <button id="editProfileBtn" class="btn btn-primary mb-3" aria-label="Display the main area" onclick="showMainArea()">Edit Profile</button>
+        </div>
+        
+    
+        <section class="container mt-5 p-4 shadow-lg rounded bg-white">
+            <h2 class="text-center mb-4">Company Profile</h2>
+            <hr class="my-4">
+    
+            <div id="mainArea" class="row">
+                <!-- Company Info Section -->
                 <div class="col-md-8">
-                    <h2 id="companyName" class="loading-state">Loading...</h2>
-                    <input type="text" id="editCompanyName" class="form-control" style="display:none;" placeholder="Enter Company Name">
-                    
-                    <p id="companyDescription" class="lead loading-state">Loading description...</p>
-                    <textarea id="editCompanyDescription" class="form-control" rows="3" style="display:none;" placeholder="Enter Company Description"></textarea>
-                    
-                    <p><strong>Industry:</strong> <span id="companyIndustry" class="loading-state">Loading...</span></p>
-                    <input type="text" id="editCompanyIndustry" class="form-control" style="display:none;" placeholder="Enter Industry">
-                    
-                    <p><strong>Location:</strong> <span id="companyLocation" class="loading-state">Loading...</span></p>
-                    <input type="text" id="editCompanyLocation" class="form-control" style="display:none;" placeholder="Enter Location">
-                    
-                    <div id="editButtons" style="display:none;">
-                        <button id="saveChangesBtn" class="btn btn-primary mt-3">Save Changes</button>
-                        <button id="cancelChangesBtn" class="btn btn-secondary mt-3">Cancel</button>
+                    <h2 id="companyName" class="loading-state mb-4">Loading...</h2>
+                    <input type="text" id="editCompanyName" class="form-control mb-3" style="display:none;" placeholder="Enter Company Name">
+    
+                    <p id="companyDescription" class="lead loading-state mb-3">Loading description...</p>
+                    <textarea id="editCompanyDescription" class="form-control mb-3" rows="3" style="display:none;" placeholder="Enter Company Description"></textarea>
+    
+                    <p><strong>Mission Statement:</strong></p>
+                    <p id="companyMissionStatement" class="loading-state">Loading...</p>
+                    <textarea id="editCompanyMissionStatement" class="form-control" rows="3" style="display:none;" placeholder="Enter Company Mission Statement"></textarea>
+    
+                    <div class="mb-4">
+                        <label for="editCompanyLogo" class="form-label">Company Logo</label>
+                        <input type="file" id="editCompanyLogo" class="form-control" style="display:none;">
                     </div>
-                    
-                    <!-- Company Job Listings -->
-                    <h3>Current Job Openings</h3>
-                    <div id="jobListings" class="list-group">
-                        <!-- Job listings will be dynamically inserted here -->
+    
+                    <div class="mb-4">
+                        <label for="editCompanyWebsite" class="form-label">Website</label>
+                        <input type="url" id="editCompanyWebsite" class="form-control" style="display:none;" placeholder="Enter Company Website">
+                    </div>
+    
+                    <!-- Industry -->
+                    <div class="mb-4">
+                        <label for="editCompanyIndustry" class="form-label">Industry</label>
+                        <select id="editCompanyIndustry" class="form-select" style="display:none;">
+                            <option value="">Select Industry</option>
+                            <option value="Tech">Tech</option>
+                            <option value="Finance">Finance</option>
+                            <option value="Healthcare">Healthcare</option>
+                            <option value="Retail">Retail</option>
+                            <option value="Education">Education</option>
+                            <option value="Hospitality">Hospitality</option>
+                            <option value="Construction">Construction</option>
+                            <option value="Manufacturing">Manufacturing</option>
+                            <option value="Transportation">Transportation</option>
+                            <option value="Real Estate">Real Estate</option>
+                            <option value="Legal Services">Legal Services</option>
+                            <option value="Entertainment">Entertainment</option>
+                            <option value="Marketing">Marketing</option>
+                            <option value="Non-Profit">Non-Profit</option>
+                            <option value="Telecommunications">Telecommunications</option>
+                            <option value="Energy">Energy</option>
+                            <option value="Pharmaceuticals">Pharmaceuticals</option>
+                            <option value="Agriculture">Agriculture</option>
+                            <option value="Cybersecurity">Cybersecurity</option>
+                            <option value="E-commerce">E-commerce</option>
+                            <option value="Consulting">Consulting</option>
+                            <option value="Food and Beverage">Food and Beverage</option>
+                            <option value="Textiles">Textiles</option>
+                            <option value="Aerospace">Aerospace</option>
+                            <option value="Biotechnology">Biotechnology</option>
+                            <option value="Information Technology">Information Technology</option>
+                            <!-- Add more industries as needed -->
+                        </select>
+                    </div>
+    
+                    <!-- Location -->
+                    <div class="mb-4">
+                        <label for="editCompanyLocation" class="form-label">Location</label>
+                        <input type="text" id="editCompanyLocation" class="form-control" style="display:none;" placeholder="Enter Company Location">
+                    </div>
+    
+                    <!-- Contact Email -->
+                    <div class="mb-4">
+                        <label for="editCompanyEmail" class="form-label">Contact Email</label>
+                        <input type="email" id="editCompanyEmail" class="form-control" style="display:none;" placeholder="Enter Contact Email">
+                    </div>
+    
+                    <!-- Phone Number -->
+                    <div class="mb-4">
+                        <label for="editCompanyPhone" class="form-label">Phone Number</label>
+                        <input type="tel" id="editCompanyPhone" class="form-control" style="display:none;" placeholder="Enter Phone Number">
+                    </div>
+    
+                    <!-- About Section -->
+                    <div class="mb-4">
+                        <label for="editCompanyAbout" class="form-label">About</label>
+                        <textarea id="editCompanyAbout" class="form-control" rows="4" style="display:none;" placeholder="Enter About Section"></textarea>
+                    </div>
+    
+                    <!-- Company Size -->
+                    <div class="mb-4">
+                        <label for="editCompanySize" class="form-label">Company Size</label>
+                        <select id="editCompanySize" class="form-select" style="display:none;">
+                            <option value="">Select Size</option>
+                            <option value="1-10">1-10</option>
+                            <option value="11-50">11-50</option>
+                            <option value="51-200">51-200</option>
+                            <option value="201+">201+</option>
+                        </select>
+                    </div>
+    
+                    <!-- Founded Year -->
+                    <div class="mb-4">
+                        <label for="editCompanyFounded" class="form-label">Founded Year</label>
+                        <input type="number" id="editCompanyFounded" class="form-control" style="display:none;" placeholder="Enter Founded Year">
+                    </div>
+    
+                    <!-- Save/Cancel Buttons -->
+                    <div id="editButtons" class="mt-4" style="display:none;">
+                        <button id="saveChangesBtn" class="btn btn-primary">Save Changes</button>
+                        <button id="cancelChangesBtn" class="btn btn-secondary">Cancel</button>
                     </div>
                 </div>
+    
+                <!-- Sidebar Section -->
                 <div class="col-md-4 text-center">
-                    <img id="companyLogo" src="../images/sq_logo_n_BG.png" alt="Company Logo" class="img-fluid rounded-circle">
-                    <input type="file" id="editCompanyLogo" class="form-control mt-2" style="display:none;">
-                    <button id="editProfileBtn" class="btn btn-secondary" style="display:none;">Edit Profile</button>
-                    
+                    <h4 class="mt-4">Company Logo</h4>
+                    <div class="p-3 border rounded shadow-sm bg-light mb-4">
+                        <img id="companyLogo" src="../images/sq_logo_n_BG.png" alt="Company Logo" class="img-fluid rounded-circle mb-2">
+                        <input type="file" id="editCompanyLogo" class="form-control mt-2" style="display:none;">
+                    </div>
+    
                     <!-- Social Media Links -->
                     <div class="social-icons mt-3">
-                        <a href="#" aria-label="Facebook" target="_blank">Facebook</a>
-                        <a href="#" aria-label="Twitter" target="_blank">Twitter</a>
-                        <a href="#" aria-label="LinkedIn" target="_blank">LinkedIn</a>
+                        <h5>Social Media Links</h5>
+                        <div id="socialLinks" class="mb-3">
+                            <a href="#" id="facebookLink" class="btn btn-outline-primary btn-sm me-2" target="_blank">Facebook</a>
+                            <a href="#" id="twitterLink" class="btn btn-outline-primary btn-sm me-2" target="_blank">Twitter</a>
+                            <a href="#" id="linkedinLink" class="btn btn-outline-primary btn-sm" target="_blank">LinkedIn</a>
+                        </div>
+    
+                        <!-- Editable Inputs for Social Media Links -->
+                        <div id="socialInputs" style="display:none;">
+                            <input type="text" id="editFacebook" class="form-control mb-2" placeholder="Enter Facebook URL">
+                            <input type="text" id="editTwitter" class="form-control mb-2" placeholder="Enter Twitter URL">
+                            <input type="text" id="editLinkedIn" class="form-control mb-2" placeholder="Enter LinkedIn URL">
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
     </main>
     
+
+    <div id="errorMessage" style="display: none; color: red; font-weight: bold;">
+        <p>Company not found. Please log in to create a page.</p>
+    </div>
+    
+
+
     <!-- Footer -->
     <footer id="dynamic-footer" class="text-center mt-5"></footer>
     
     <!-- Firebase configuration/ Login& Out -->
-    <script type="module" src="../public/js/main.js"></script> 
-
+    <script type="module" src="../public/js/main.js"></script>
+    
     <!-- Dynamic Schema Markup -->
     <script type="module">
         import { db, auth } from '../public/js/main.js';
-        import { doc, getDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+        import { doc, getDoc, onSnapshot, updateDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+        document.getElementById("errorMessage").style.display = "none"; // Hide error message if shown
 
+        function showMainArea() {
+            // Hide the instructions and show the main area
+            document.getElementById("mainArea").style.display = "block";
+
+        }
+
+        toggleEditMode(false)
         const urlParams = new URLSearchParams(window.location.search);
         const companyId = urlParams.get('companyId');
-        const userId = auth.currentUser ? auth.currentUser.uid : null; // Get the current user's ID
+        document.getElementById("instructions").style.display = "none";
 
-        // Check if a companyId exists in the URL
-        if (companyId) {
-            // Fetch company data from Firestore
-            const companyRef = doc(db, "Companies", companyId);
-            getDoc(companyRef).then((docSnapshot) => {
-                if (docSnapshot.exists()) {
-                    const companyData = docSnapshot.data();
-                    document.getElementById("companyName").innerText = companyData.name;
-                    document.getElementById("companyDescription").innerText = companyData.description;
-                    document.getElementById("companyIndustry").innerText = companyData.industry;
-                    document.getElementById("companyLocation").innerText = companyData.location;
+        auth.onAuthStateChanged(user => {
+            if (user || companyId ) {
+                const userId = user.uid;
+    
+                if (!companyId) {
+                toggleEditMode(true);
+                const urlParams = new URLSearchParams(window.location.search);
+                let companyName = urlParams.get('create');
+                if(!companyName){companyName = "Company"};
 
-                    // Load job listings
-                    loadJobListings(companyId);
+                document.title = document.title.replace("[Company Name]", companyName);
 
-                    // Check if the user is the admin of this company
-                    if (userId === companyData.adminId) {
-                        // Show editable fields
-                        toggleEditMode(true);
+                // Show instructions and hide main area
+                document.getElementById("mainArea").style.display = "none";
+                document.getElementById("instructions").style.display = "block";
+
+                
+            }else {
+                    const companyRef = doc(db, "Companies", companyId);
+                    getDoc(companyRef).then((docSnapshot) => {
+                        if (docSnapshot.exists()) {
+                            const companyData = docSnapshot.data();
+    
+                            // Load company info
+                            loadCompanyInfo(companyData);
+                            // Load job listings based on the companyId
+                            loadJobListings(companyId);
+    
+                            // Check if the user is the admin of this company
+                            if (userId === companyData.adminId) {
+                                toggleEditMode(true);
+                                document.getElementById("instructions").style.display = "none";
+
+                            }
+                        } else {
+                            console.log("Company not found");
+                            if (userId === companyData.adminId) {
+                            document.getElementById("mainArea").style.display = "none";
+                            document.getElementById("instructions").style.display = "block";
+                        }else{
+                            document.getElementById("errorMessage").style.display = "block"; // Hide error message if shown
+                            document.getElementById("mainArea").style.display = "none";
+                            document.getElementById("instructions").style.display = "none";
+
+                        }
                     }
-                } else {
-                    // Handle the case when the company does not exist
-                    console.log("Company not found");
+                    }).catch((error) => {
+                        console.error("Error fetching company data:", error);
+                    });
                 }
-            }).catch((error) => {
-                console.error("Error fetching company data:", error);
-            });
-        } else {
-            // No companyId in the URL; show empty fields for creating a company
-            toggleEditMode(false);
+            } else {
+                // User not logged in
+            }
+        });
+    
+        // Load company info
+        async function loadCompanyInfo(companyData) {
+            document.getElementById('companyName').textContent = companyData.name || 'Company Name';
+            document.getElementById('companyDescription').textContent = companyData.description || 'Company description...';
+            document.getElementById('companyMissionStatement').textContent = companyData.missionStatement || 'Mission statement...';
+            document.getElementById('companyLogo').src = companyData.logo || '../images/sq_logo_n_BG.png';
+    
+            // Update social media links
+            document.getElementById('facebookLink').setAttribute('href', companyData.socialMedia?.facebook || '#');
+            document.getElementById('twitterLink').setAttribute('href', companyData.socialMedia?.twitter || '#');
+            document.getElementById('linkedinLink').setAttribute('href', companyData.socialMedia?.linkedin || '#');
+    
+            // Pre-fill the edit fields
+            document.getElementById('editFacebook').value = companyData.socialMedia?.facebook || '';
+            document.getElementById('editTwitter').value = companyData.socialMedia?.twitter || '';
+            document.getElementById('editLinkedIn').value = companyData.socialMedia?.linkedin || '';
+    
+            // Other fields
+            document.getElementById('editCompanyWebsite').value = companyData.website || '';
+            document.getElementById('editCompanyIndustry').value = companyData.industry || '';
+            document.getElementById('editCompanyLocation').value = companyData.location || '';
+            document.getElementById('editCompanyEmail').value = companyData.email || '';
+            document.getElementById('editCompanyPhone').value = companyData.phone || '';
+            document.getElementById('editCompanyAbout').value = companyData.about || '';
+            document.getElementById('editCompanySize').value = companyData.size || '';
+            document.getElementById('editCompanyFounded').value = companyData.founded || '';
+        
+            document.title = document.title.replace("[Company Name]", companyName);
+       
         }
-
-        // Load Job Listings
-
-
-// Load Job Listings
-async function loadJobListings(companyId) {
-    const jobsRef = collection(db, "Jobs");
-    const jobsQuery = query(jobsRef, where("companyId", "==", companyId));
-
-    const querySnapshot = await getDocs(jobsQuery);
-    const jobListingsContainer = document.getElementById("jobListings");
-    jobListingsContainer.innerHTML = ''; // Clear previous listings
-
-    querySnapshot.forEach((doc) => {
-        const job = doc.data();
-        const jobItem = document.createElement("div");
-        jobItem.className = "list-group-item list-group-item-action";
-        jobItem.innerHTML = `<h5>${job.title}</h5><p>${job.description}</p><a href="job-detail.html?jobId=${doc.id}" class="btn btn-link">View Job</a>`;
-        jobListingsContainer.appendChild(jobItem);
-    });
-}
-
-        // Toggle Edit Mode
-        document.getElementById("editProfileBtn").addEventListener("click", () => {
-            toggleEditMode(true);
-        });
-
-        document.getElementById("saveChangesBtn").addEventListener("click", () => {
-            saveCompanyChanges();
-        });
-
-        document.getElementById("cancelChangesBtn").addEventListener("click", () => {
-            toggleEditMode(false);
-        });
-
-        function toggleEditMode(editMode) {
-            const isEditing = editMode === true;
-            document.getElementById("companyName").style.display = isEditing ? "none" : "block";
-            document.getElementById("companyDescription").style.display = isEditing ? "none" : "block";
-            document.getElementById("companyIndustry").style.display = isEditing ? "none" : "block";
-            document.getElementById("companyLocation").style.display = isEditing ? "none" : "block";
-            document.getElementById("editCompanyName").style.display = isEditing ? "block" : "none";
-            document.getElementById("editCompanyDescription").style.display = isEditing ? "block" : "none";
-            document.getElementById("editCompanyIndustry").style.display = isEditing ? "block" : "none";
-            document.getElementById("editCompanyLocation").style.display = isEditing ? "block" : "none";
-            document.getElementById("editButtons").style.display = isEditing ? "block" : "none";
-            document.getElementById("editProfileBtn").style.display = isEditing ? "none" : "block";
-        }
-
-        function saveCompanyChanges() {
-            const updatedData = {
-                name: document.getElementById("editCompanyName").value,
-                description: document.getElementById("editCompanyDescription").value,
-                industry: document.getElementById("editCompanyIndustry").value,
-                location: document.getElementById("editCompanyLocation").value
-            };
-            
-            // Update Firestore document
-            updateDoc(doc(db, "Companies", companyId), updatedData)
-                .then(() => {
-                    console.log("Company data updated successfully");
-                    toggleEditMode(false); // Return to view mode
-                })
-                .catch((error) => {
-                    console.error("Error updating company data:", error);
+    
+        // Load job listings for the company
+        async function loadJobListings(companyId) {
+            const jobsRef = collection(db, "Jobs");
+            const q = query(jobsRef, where("companyId", "==", companyId));
+            const unsubscribe = onSnapshot(q, (querySnapshot) => {
+                const jobsContainer = document.getElementById("jobsContainer");
+                jobsContainer.innerHTML = ""; // Clear existing jobs
+                querySnapshot.forEach((doc) => {
+                    const jobData = doc.data();
+                    const jobElement = document.createElement("div");
+                    jobElement.classList.add("job-listing");
+                    jobElement.innerHTML = `<h4>${jobData.title}</h4><p>${jobData.description}</p>`;
+                    jobsContainer.appendChild(jobElement);
                 });
+            });
         }
+    
+        // Toggle edit mode
+        function toggleEditMode(editing) {
+            document.getElementById("editProfileBtn").innerText = editing ? "Cancel Edit" : "Edit Profile";
+            const elementsToToggle = [
+                'editCompanyName', 
+                'editCompanyDescription', 
+                'editCompanyMissionStatement', 
+                'editCompanyWebsite', 
+                'editCompanyIndustry', 
+                'editCompanyLocation', 
+                'editCompanyEmail', 
+                'editCompanyPhone', 
+                'editCompanyAbout', 
+                'editCompanySize', 
+                'editCompanyFounded', 
+                'socialInputs', 
+                'editButtons'
+            ];
+            
+            elementsToToggle.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.style.display = editing ? 'block' : 'none';
+                }
+            });
+        }
+    
+        // Update company data
+        async function updateCompanyData(companyId) {
+            const updatedData = {
+                name: document.getElementById('editCompanyName').value,
+                description: document.getElementById('editCompanyDescription').value,
+                missionStatement: document.getElementById('editCompanyMissionStatement').value,
+                socialMedia: {
+                    facebook: document.getElementById('editFacebook').value,
+                    twitter: document.getElementById('editTwitter').value,
+                    linkedin: document.getElementById('editLinkedIn').value,
+                },
+                website: document.getElementById('editCompanyWebsite').value,
+                industry: document.getElementById('editCompanyIndustry').value,
+                location: document.getElementById('editCompanyLocation').value,
+                email: document.getElementById('editCompanyEmail').value,
+                phone: document.getElementById('editCompanyPhone').value,
+                about: document.getElementById('editCompanyAbout').value,
+                size: document.getElementById('editCompanySize').value,
+                founded: document.getElementById('editCompanyFounded').value,
+            };
+    
+            const companyRef = doc(db, "Companies", companyId); 
+
+// Use setDoc with { merge: true } to create a new document if it doesn't exist
+await setDoc(companyRef, updatedData, { merge: true });
+
+loadCompanyInfo(updatedData); // Reload to reflect changes
+toggleEditMode(false); // Exit edit mode
+
+        }
+    
+        // Event Listeners
+        document.getElementById("editProfileBtn").addEventListener("click", function() {
+            const editing = this.innerText === "Edit Profile";
+            toggleEditMode(editing);
+            if (editing) {
+                document.getElementById("editCompanyName").value = document.getElementById('companyName').textContent;
+                document.getElementById("editCompanyDescription").value = document.getElementById('companyDescription').textContent;
+                document.getElementById("editCompanyMissionStatement").value = document.getElementById('companyMissionStatement').textContent;
+            }
+        });
+    
+        document.getElementById("saveChangesBtn").addEventListener("click", function() {
+            updateCompanyData(companyId);
+        });
+    
+        document.getElementById("cancelChangesBtn").addEventListener("click", function() {
+            toggleEditMode(false);
+        });
     </script>
+          
 </body>
 </html>
