@@ -79,6 +79,78 @@ h2, h4, h5 {
     color: white; /* Change text color on hover */
 }
 
+body {
+    font-family: 'Arial', sans-serif; /* Use a clean font */
+}
+
+.container {
+    background-color: #f8f9fa; /* Light gray background for better contrast */
+}
+
+h2, h4, h5 {
+    color: #343a40; /* Darker text color */
+}
+
+.loading-state {
+    color: #6c757d; /* Light gray for loading states */
+}
+
+/* Form Elements */
+.form-control {
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    transition: border-color 0.2s ease-in-out;
+}
+
+.form-control:focus {
+    border-color: #007bff; /* Blue border on focus */
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.btn-primary {
+    background-color: #007bff; /* Primary button color */
+    border-color: #007bff;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+.btn-secondary {
+    background-color: #6c757d; /* Secondary button color */
+    border-color: #6c757d;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268; /* Darker gray on hover */
+}
+
+/* Sidebar and Logo */
+#companyLogo {
+    width: 100%;
+    max-width: 150px;
+    height: auto;
+}
+
+.social-icons a {
+    display: inline-block;
+    margin-right: 5px;
+}
+
+.social-icons a:hover {
+    transform: scale(1.1);
+    transition: transform 0.2s ease-in-out;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    #mainArea {
+        flex-direction: column; /* Stack the columns on small screens */
+    }
+    .col-md-8, .col-md-4 {
+        max-width: 100%; /* Full width on small screens */
+    }
+}
 
 
     </style>
@@ -138,14 +210,13 @@ h2, h4, h5 {
         <section class="container mt-5 p-4 shadow-lg rounded bg-white">
             <h2 id="companyTitle" class="text-center mb-4">[Company Name] Profile</h2>
             <hr class="my-4">
-    
+        
             <div id="mainArea" style="display: none;" class="row">
                 <!-- Company Info Section -->
                 <div class="col-md-8">
                     <h2 id="companyName" class="loading-state mb-4">Loading...</h2>
                     <input type="text" id="editCompanyName" class="form-control mb-3" style="display:none;" placeholder="Enter Company Name">
-    
-                    
+        
                     <!-- Industry -->
                     <div class="mb-4">
                         <label for="editCompanyIndustry" class="form-label">Industry</label>
@@ -179,48 +250,48 @@ h2, h4, h5 {
                             <option value="Information Technology">Information Technology</option>
                         </select>
                     </div>
-    
+        
                     <p id="companyDescription" class="lead loading-state mb-3">Loading description...</p>
                     <textarea id="editCompanyDescription" class="form-control mb-3" rows="3" style="display:none;" placeholder="Enter Company Description"></textarea>
-    
+                    <button id="generateDescriptionBtn" class="btn btn-primary">Generate Description</button>
                     <p><strong>Mission Statement:</strong></p>
                     <p id="companyMissionStatement" class="loading-state">Loading...</p>
                     <textarea id="editCompanyMissionStatement" class="form-control" rows="3" style="display:none;" placeholder="Enter Company Mission Statement"></textarea>
-    
+        
                     <div class="mb-4">
                         <label for="editCompanyLogo" class="form-label">Company Logo</label>
                         <input type="file" id="editCompanyLogo" class="form-control" style="display:none;">
                     </div>
-    
+        
                     <div class="mb-4">
                         <label for="editCompanyWebsite" class="form-label">Website</label>
                         <input type="url" id="editCompanyWebsite" class="form-control" style="display:none;" placeholder="Enter Company Website">
                     </div>
-    
+        
                     <!-- Location -->
                     <div class="mb-4">
                         <label for="editCompanyLocation" class="form-label">Location</label>
                         <input type="text" id="editCompanyLocation" class="form-control" style="display:none;" placeholder="Enter Company Location">
                     </div>
-    
+        
                     <!-- Contact Email -->
                     <div class="mb-4">
                         <label for="editCompanyEmail" class="form-label">Contact Email</label>
                         <input type="email" id="editCompanyEmail" class="form-control" style="display:none;" placeholder="Enter Contact Email">
                     </div>
-    
+        
                     <!-- Phone Number -->
                     <div class="mb-4">
                         <label for="editCompanyPhone" class="form-label">Phone Number</label>
                         <input type="tel" id="editCompanyPhone" class="form-control" style="display:none;" placeholder="Enter Phone Number">
                     </div>
-    
+        
                     <!-- About Section -->
                     <div class="mb-4">
                         <label for="editCompanyAbout" class="form-label">About</label>
                         <textarea id="editCompanyAbout" class="form-control" rows="4" style="display:none;" placeholder="Enter About Section"></textarea>
                     </div>
-    
+        
                     <!-- Company Size -->
                     <div class="mb-4">
                         <label for="editCompanySize" class="form-label">Company Size</label>
@@ -232,20 +303,20 @@ h2, h4, h5 {
                             <option value="201+">201+</option>
                         </select>
                     </div>
-    
+        
                     <!-- Founded Year -->
                     <div class="mb-4">
                         <label for="editCompanyFounded" class="form-label">Founded Year</label>
                         <input type="number" id="editCompanyFounded" class="form-control" style="display:none;" placeholder="Enter Founded Year">
                     </div>
-    
+        
                     <!-- Save/Cancel Buttons -->
                     <div id="editButtons" class="mt-4" style="display:none;">
                         <button id="saveChangesBtn" class="btn btn-primary">Save Changes</button>
                         <button id="cancelChangesBtn" class="btn btn-secondary">Cancel</button>
                     </div>
                 </div>
-    
+        
                 <!-- Sidebar Section -->
                 <div class="col-md-4 text-center">
                     <h4 class="mt-4">Company Logo</h4>
@@ -253,7 +324,7 @@ h2, h4, h5 {
                         <img id="companyLogo" src="../images/sq_logo_n_BG.png" alt="Company Logo" class="img-fluid rounded-circle mb-2">
                         <input type="file" id="editCompanyLogo" class="form-control mt-2" style="display:none;">
                     </div>
-    
+        
                     <!-- Social Media Links -->
                     <div class="social-icons mt-3">
                         <h5>Social Media Links</h5>
@@ -262,7 +333,7 @@ h2, h4, h5 {
                             <a href="#" id="twitterLink" class="btn btn-outline-primary btn-sm me-2" target="_blank">Twitter</a>
                             <a href="#" id="linkedinLink" class="btn btn-outline-primary btn-sm" target="_blank">LinkedIn</a>
                         </div>
-    
+        
                         <!-- Editable Inputs for Social Media Links -->
                         <div id="socialInputs" style="display:none;">
                             <input type="text" id="editFacebook" class="form-control mb-2" placeholder="Enter Facebook URL">
@@ -273,7 +344,7 @@ h2, h4, h5 {
                 </div>
             </div>
         </section>
-    </main>
+            </main>
     
 
     <div id="errorMessage" style="display: none; color: red; font-weight: bold;">
@@ -281,7 +352,6 @@ h2, h4, h5 {
     </div>
     
 <script>
-
 function goBack() {
     window.history.back();
 }
