@@ -79,6 +79,7 @@
             statusDiv.setAttribute('role', 'status');
             statusDiv.setAttribute('aria-label', 'Page is loading');
             statusDiv.textContent = 'Loading...';
+console.log("created Loader   ???????????//");
 
             loaderDiv.appendChild(statusDiv);
 
@@ -91,6 +92,8 @@
             const loader = document.getElementById('loader');
             if (loader) {
                 loader.classList.add('hidden');
+                console.log("hide Loader   ???????????//");
+
                 // Remove from DOM after transition
                 setTimeout(() => loader.remove(), 10000); // Adjusted to match opacity transition
             }
