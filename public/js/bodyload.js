@@ -54,7 +54,7 @@ function addStyles() {
 /* Animated Resume */
 .resume {
     width: 60px;
-    height: 80px;
+    height: 100px;
     background-color: #007bff;
     position: relative;
     margin-bottom: 20px;
@@ -66,7 +66,7 @@ function addStyles() {
 /* Resume Lines (Represent Text Being Typed Out) */
 .resume::before, .resume::after, .resume::third, .resume::4  {
     position: absolute;
-    left: 5px;
+    /*left: 5px;*/
     border-radius: 2px;
     background-color: white;
 }
