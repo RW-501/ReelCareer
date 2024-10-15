@@ -80,8 +80,7 @@ function addStyles() {
     left: 0;
     right:0;
     margin:auto;
-    top: 0px;
-    color: gray;
+    top: 5px;
     height: 3px;
     width: 40px;
     position: absolute;
@@ -97,7 +96,6 @@ function addStyles() {
     margin:auto;
  
         top: 10px;
-    color: gray;
     height: 3px;
     width: 30px;
     position: absolute;
@@ -112,7 +110,6 @@ function addStyles() {
     right:0;
     margin:auto;
     top: 20px;
-    color: gray;
     height: 3px;
     width: 40px;
     position: absolute;
@@ -126,7 +123,6 @@ function addStyles() {
     right:0;
     margin:auto;
     top: 30px;
-    color: gray;
     height: 3px;
     width: 40px;
     position: absolute;
@@ -139,7 +135,6 @@ function addStyles() {
     right:0;
     margin:auto;
     top: 40px;
-    color: gray;
     height: 3px;
     width: 40px;
     position: absolute;
@@ -152,7 +147,6 @@ function addStyles() {
     right:0;
     margin:auto;
     top: 50px;
-    color: gray;
     height: 3px;
     width: 40px;
     position: absolute;
@@ -167,7 +161,6 @@ function addStyles() {
     right:0;
     margin:auto;
     top: 60px;
-    color: gray;
     height: 3px;
     width: 40px;
     position: absolute;
@@ -180,7 +173,6 @@ function addStyles() {
     right:0;
     margin:auto;
     top: 70px;
-    color: gray;
     height: 3px;
     width: 40px;
     position: absolute;
