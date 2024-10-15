@@ -481,7 +481,7 @@ document.getElementById("generateDescriptionBtn").addEventListener("click", func
 
         // Set the generated description in the company description field
         companyDescriptionField = shortDescription;
-        document.getElementById("companyDescription").innerText = shortDescription;
+        document.getElementById("companyDescription").innerHTML = shortDescription;
     } else {
         alert("Please select at least one industry and ensure the company description is empty.");
     }
