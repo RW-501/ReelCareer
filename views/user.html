@@ -214,23 +214,56 @@ import { onAuthStateChanged, db, auth } from '../public/js/main.js';
             // User is signed in, proceed with user ID handling
             console.log("User ID: ", user.uid);
     
+            const urlParams = new URLSearchParams(window.location.search);
+            const userIdFromURL = urlParams.get('u');
 
+            // Ensure userIdFromURL is not null or undefined
+            if (userIdFromURL) {
+                checkUser(userIdFromURL);
+            } else {
+                checkUser(user.uid);
+                document.getElementById('send-message-btn').style.display = 'none';
+                document.getElementById('connect-btn').style.display = 'none';
+
+                
+            }
+
+            // Async function to check the user profile
+            async function checkUser(userIdFromURL) {
                 try {
                     // Fetch profile information based on userId in the URL
-                    const profileDoc = doc(db, 'Users', user.uid);
-                    const profileSnapshot =  getDoc(profileDoc);
+                    const profileDoc = doc(db, 'Users', userIdFromURL);
+                    const profileSnapshot = await getDoc(profileDoc);
 
                     if (profileSnapshot.exists()) {
                         const profileData = profileSnapshot.data();
                         console.log("User data: ", profileData);
+
+                        // Check if the profile is public
+                        if (!profileData.profilePublic) {
+                            await loadUserData(profileData); // Load user data if public
+                            await loadUserJobs(userIdFromURL);
+                            await loadUserBlogs(userIdFromURL);
+                            await loadUserCompanies(userIdFromURL);
+                            await loadUserVideoResumes(userIdFromURL);
+                            await loadSocialMedia(profileData);
+                        } else {
+                            alert('This profile is private.');
+                          //  window.location.href = 'user.html';
+                        }
+                    } else {
+                        console.error("No such user document!");
+                        alert('User data not found.');
                     }
-                   
-                
                 } catch (error) {
                     console.error("Error fetching user data:", error);
                 }
             }
-      
+        } else {
+            // User is signed out, handle accordingly
+            console.log("User is signed out.");
+            // Redirect to a login page or show a message
+        }
     });
 
 
@@ -239,12 +272,52 @@ import { onAuthStateChanged, db, auth } from '../public/js/main.js';
 
     
 
+        async function loadUserData(profileData) {
+            document.getElementById('profilePic').src = profileData.profilePic ? profileData.profilePic : '/ReelCareer/images/sq_logo_n_BG_sm.png';
+            document.getElementById('user-name').innerText = profileData.displayName || 'User Name';
+            document.getElementById('user-bio').innerText = profileData.bio || 'This is a short bio about the user...';
+            document.getElementById('location-text').innerText = profileData.location || 'City, State';
+
+            const verified = profileData.verified;
+            const membership = profileData.membership;
+            console.log("membership: ", membership);
+            console.log("verified: ", verified);
+
+            const tagsContainer = document.getElementById('tags-container');
+
+            if (!profileData.tags || profileData.tags.length === 0) {
+    tagsContainer.innerHTML = '<p>No tags found.</p>';
+} else {
+    const tags = profileData.tags.map(doc => doc.tag); // Use map for cleaner syntax
+    tagsContainer.innerHTML = '<strong>Tags: </strong>' + tags.join(', ');
+}
+
+            // Membership Badge
+            async function loadMembershipBadge(membership) {
+            const badge = document.getElementById('membership-badge');
+            if (membership) {
+                badge.innerHTML = `<span class="badge">Membership Level: ${membership}</span>`;
+            }
+        }
+
+        async function loadVerifiedBadge(verified) {
+    const badge = document.getElementById('verified-badge');
+    if (badge) {
+        if (verified) {
+            badge.innerHTML = `<span class="badge badge-success">Verified</span>`;
+        } else {
+            badge.innerHTML = `<span class="badge badge-warning">Not Verified</span>`;
+        }
+    } else {
+        console.error('Verified badge element not found');
+    }
+}
 
             // Digital Resume Link
             const digitalResumeLink = document.getElementById('digital-resume-link');
             digitalResumeLink.href = profileData.digitalResumeUrl || '#';
             digitalResumeLink.innerText = profileData.digitalResumeUrl ? 'View Resume' : 'No Resume Available';
-        
+        }
 
         async function loadUserJobs(userId) {
             const jobsRef = collection(db, 'Jobs');
@@ -329,7 +402,7 @@ import { onAuthStateChanged, db, auth } from '../public/js/main.js';
             alert(`Playing video from URL: ${videoUrl}`);
         }
 
-        async function loadSocialMedia(profileData) {
+ async function loadSocialMedia(profileData) {
     const socialMediaListContainer = document.getElementById('social-media-list');
 
     // Check if socialMediaList exists and has items

@@ -4,15 +4,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Preview your profile on ReelCareer">
-    <meta name="keywords" content="ReelCareer, Job, Profile Preview">
-    <meta property="og:title" content="Job Seeker Profile Preview - ReelCareer">
-    <meta property="og:description" content="See how your profile appears to recruiters and others.">
-    <title>Job Seeker - ReelCareer</title>
-  
+    <meta name="description" content="User profile page for managing resumes, video resumes, messaging, and job applications.">
+    <meta name="keywords" content="job applications, resumes, video resumes, job seeking, career management">
+    <meta name="author" content="ReelCareer">
+    <title>Job Seeker Dashboard | ReelCareer</title>
+
+    <!-- SEO Schema Markup -->
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            "name": "Job Seeker Dashboard",
+            "description": "Dashboard for managing resumes, applications, analytics, and more.",
+            "publisher": {
+                "@type": "Organization",
+                "name": "ReelCareer"
+            }
+        }
+    </script>
+
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../public/css/styles.css">
+
+    <style>
+        /* Dashboard styling */
+        .dashboard-container {
+            margin-top: 30px;
+        }
+
+        .card-header {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        .card {
+            margin-bottom: 20px;
+        }
+
+        .suggestions-section {
+            margin-top: 30px;
+        }
+
+        .btn-boost, .btn-upgrade, .btn-test, .btn-message {
+            margin-top: 10px;
+        }
+    </style>
+
+
+    <!-- Bootstrap CSS -->
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
     <!-- Bootstrap CSS -->
     <script src="../public/js/scripts.js"></script>
     <script src="../public/js/loadScripts.js"></script>
@@ -22,546 +67,191 @@
 </head>
 
 <body>
+    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="../index.html">ReelCareer</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item"><a class="nav-link" href="user.html">User Page</a></li>
-                <li class="nav-item"><a class="nav-link" href="messaging.html">Messaging</a></li>
-                <li class="nav-item"><a class="nav-link" href="video-resume.html">Video Resume</a></li>
-                <li class="nav-item"><a class="nav-link" href="../index.html">Home</a></li>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="news.html">News</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="jobs.html">Jobs</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="user.html">Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="messaging.html">Messages</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link btn btn-danger" href="logout.html">Logout</a>
+                </li>
             </ul>
         </div>
     </nav>
 
-    <div class="container mt-5">
-        <h1 class="text-center">Job Seeker Profile Preview</h1>
+    <!-- Dashboard Container -->
+    <main class="container dashboard-container">
         <div class="row">
-            <div class="col-md-4">
+            <!-- Resumes Section -->
+            <div class="col-md-6">
                 <div class="card">
-                    <img src="/images/sq_logo_n_BG_tie_reel.png" class="card-img-top" alt="Profile Picture" id="profilePicture">
+                    <div class="card-header">Resumes</div>
                     <div class="card-body">
-                        <h2 class="card-title" id="userName">User Name</h2>
-                        <p class="card-text" id="userBio">User bio goes here. A brief description of professional background, skills, and goals.</p>
-                        <p class="card-text"><strong>Location:</strong> <span id="userLocation">User Location</span></p>
-                        <p class="card-text"><strong>Tags:</strong> <span id="userTags">JavaScript, Web Development</span></p>
+                        <p>Upload or manage your resumes:</p>
+                        <form>
+                            <input type="file" class="form-control-file" id="resumeUpload">
+                        </form>
+                        <div class="resume-list mt-3">
+                            <!-- Resumes will be dynamically listed here -->
+                            <p><strong>Uploaded Resumes:</strong></p>
+                            <ul id="resumeList">
+                                <li>Resume 1</li>
+                                <li>Resume 2</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
 
-                        <div class="text-center mt-4">
-                            <h4>Contact User</h4>
-                            <button class="btn btn-warning" id="messageUser">Message User</button>
+                <!-- Video Resumes Section -->
+                <div class="card">
+                    <div class="card-header">Video Resumes</div>
+                    <div class="card-body">
+                        <p>Upload or generate your video resumes:</p>
+                        <form>
+                            <input type="file" class="form-control-file" id="videoResumeUpload">
+                        </form>
+                        <div class="video-resume-list mt-3">
+                            <p><strong>Uploaded/Generated Video Resumes:</strong></p>
+                            <ul id="videoResumeList">
+                                <li>Video Resume 1</li>
+                                <li>Video Resume 2</li>
+                            </ul>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="col-md-8">
-                <h3>Digital Resume</h3>
-                <div id="userResumeContainer">
-                    <p id="userResume">Digital resume information goes here.</p>
-                    <p id="recruiterNotice" class="text-danger" style="display:none;">This resume is only visible to recruiters.</p>
+            <!-- Applications Section -->
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">Applications</div>
+                    <div class="card-body">
+                        <p>Your recent job applications:</p>
+                        <ul id="applicationsList">
+                            <li>Job at Company A - Status: <strong>In Progress</strong> <button class="btn btn-primary btn-boost">Boost</button></li>
+                            <li>Job at Company B - Status: <strong>Submitted</strong> <button class="btn btn-primary btn-boost">Boost</button></li>
+                            <li>Job at Company C - Status: <strong>Archived</strong></li>
+                        </ul>
+                    </div>
                 </div>
-                <h3>Video Resumes</h3>
-                <div id="videoResumes"></div> <!-- Dynamic video resumes will be added here -->
 
-                <!-- Profile Editing Form -->
-                <h3>Edit Profile</h3>
-                <form id="editProfileForm">
-                    <div class="form-group">
-                        <label for="editUserName">Name</label>
-                        <input type="text" class="form-control" id="editUserName" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="editUserBio">Bio</label>
-                        <textarea class="form-control" id="editUserBio" rows="3" required></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="editUserLocation">Location</label>
-                        <input type="text" class="form-control" id="editUserLocation" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="editUserTags">Tags</label>
-                        <input type="text" class="form-control" id="editUserTags" placeholder="e.g., JavaScript, Web Development" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Update Profile</button>
-                </form>
-            </div>
-        </div>
-
-        <div class="text-center mt-4">
-            <h4>Download Resume</h4>
-            <select id="resumeFormat" class="form-control mb-3" style="width: 200px; display: inline-block;">
-                <option value="txt">Text Format</option>
-                <option value="pdf">PDF (Future Version)</option>
-                <option value="docx">DOCX (Future Version)</option>
-            </select>
-            <button class="btn btn-success" id="downloadResume">Download Resume</button>
-        </div>
-
-        <!-- Modal for visibility info -->
-        <div class="modal fade" id="visibilityModal" tabindex="-1" role="dialog" aria-labelledby="visibilityModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="visibilityModalLabel">Visibility of Digital Resume</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <p>Your digital resume is only visible to recruiters. If you would like to increase your visibility, consider connecting with recruiters and ensuring your profile is complete.</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <!-- Application Performance Analytics -->
+                <div class="card">
+                    <div class="card-header">Application Analytics</div>
+                    <div class="card-body">
+                        <p>Track performance of your boosted applications:</p>
+                        <ul id="analyticsList">
+                            <li>Job at Company A: Views: <strong>25</strong>, Clicks: <strong>5</strong>, Interactions: <strong>2</strong></li>
+                            <li>Job at Company B: Views: <strong>15</strong>, Clicks: <strong>3</strong></li>
+                        </ul>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Share Profile Functionality -->
-        <div class="text-center mt-4">
-            <h4>Share Your Profile</h4>
-            <button class="btn btn-primary" id="shareProfile">Share via Email</button>
-            <button class="btn btn-primary" id="shareSocial">Share on Social Media</button>
+        <!-- Suggestions Section -->
+        <div class="row suggestions-section">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">Suggested Jobs</div>
+                    <div class="card-body">
+                        <ul id="suggestedJobsList">
+                            <li>Developer at Company X</li>
+                            <li>Designer at Company Y</li>
+                            <li>Data Scientist at Company Z</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">Suggested Blogs & News</div>
+                    <div class="card-body">
+                        <ul id="suggestedBlogsList">
+                            <li>Blog Post 1</li>
+                            <li>News Article 2</li>
+                            <li>Blog Post 3</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">Suggested Profiles</div>
+                    <div class="card-body">
+                        <ul id="suggestedProfilesList">
+                            <li>John Doe (Recruiter)</li>
+                            <li>Jane Smith (HR Manager)</li>
+                            <li>Bill Johnson (Recruiter)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
 
-    <div id="messageModal" class="modal" style="display:none;">
-        <div class="modal-content">
-            <span class="close" style="cursor:pointer; float:right;">&times;</span>
-            <h2>Message <span id="modalUserName"></span></h2>
-            <textarea id="messageContent" rows="5" placeholder="Type your message here..."></textarea>
-            <button id="sendMessage" class="btn btn-primary">Send Message</button>
+        <!-- Personality & Trait Tests -->
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <button class="btn btn-success btn-test">Take Personality & Trait Test</button>
+                <button class="btn btn-warning btn-upgrade">Upgrade Membership</button>
+                <button class="btn btn-info btn-message">Messages</button>
+            </div>
         </div>
-    </div>
 
-
-    <!-- jQuery and Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-</body>
+    </main>
 
     <!-- Footer -->
     <footer id="dynamic-footer"></footer>
-    <script>
 
+    <!-- Firebase configuration/ Login & Logout -->
+    <script type="module" src="../public/js/main.js"></script>
 
-    </script>
-  
-  <!-- Firebase configuration/ Login& Out -->
-    <script type="module" src="../public/js/main.js"></script> 
-
-    <!-- Dynamic Schema Markup -->
+    <!-- Firebase Script for Loading User Data -->
     <script type="module">
-    import {onAuthStateChanged, db, storage, analytics, app  } from '../public/js/main.js'; // Adjust the path based on your structure
-    import { query, where, orderBy, limit,  collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
-    
+        import { onAuthStateChanged, db, auth } from '../public/js/main.js';
+        import { doc, getDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 
-    
-    // Check for auth state changes
-    onAuthStateChanged(auth, (user) => {
-        if (user) {
-            // User is signed in, proceed with user ID handling
-            console.log("User ID: ", user.uid);
-    
-            const urlParams = new URLSearchParams(window.location.search);
-            const userIdFromURL = urlParams.get('u');
+        // Check for auth state changes
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                console.log("User ID: ", user.uid);
 
-            // Ensure userIdFromURL is not null or undefined
-            if (userIdFromURL) {
-                checkUser(userIdFromURL);
-            } else {
-                checkUser(user.uid);
-                document.getElementById('send-message-btn').style.display = 'none';
-                document.getElementById('connect-btn').style.display = 'none';
-
-                
-            }
-
-            // Async function to check the user profile
-            async function checkUser(userIdFromURL) {
                 try {
-                    // Fetch profile information based on userId in the URL
-                    const profileDoc = doc(db, 'Users', userIdFromURL);
-                    const profileSnapshot = await getDoc(profileDoc);
-
+                    const profileDoc = doc(db, 'Users', user.uid);
+                    const profileSnapshot = getDoc(profileDoc);
                     if (profileSnapshot.exists()) {
                         const profileData = profileSnapshot.data();
                         console.log("User data: ", profileData);
-
-                        // Check if the profile is public
-                        if (!profileData.profilePublic) {
-                            await loadUserData(profileData); // Load user data if public
-                            await loadUserJobs(userIdFromURL);
-                            await loadUserBlogs(userIdFromURL);
-                            await loadUserCompanies(userIdFromURL);
-                            await loadUserVideoResumes(userIdFromURL);
-                            await loadSocialMedia(profileData);
-                        } else {
-                            alert('This profile is private.');
-                          //  window.location.href = 'user.html';
-                        }
-                    } else {
-                        console.error("No such user document!");
-                        alert('User data not found.');
+                        // Populate UI with user data
                     }
                 } catch (error) {
                     console.error("Error fetching user data:", error);
                 }
             }
-        } else {
-            // User is signed out, handle accordingly
-            console.log("User is signed out.");
-            // Redirect to a login page or show a message
-        }
-    });
+        });
+    </script>
 
-
-              // Execute the check when the page loads
-  document.addEventListener('DOMContentLoaded', checkUsernameAndShowModal);
-
-  
-document.getElementById('editProfileForm').addEventListener('submit', function (e) {
-    e.preventDefault(); // Prevent the default form submission
-
-    // Get values from the form
-    const userName = document.getElementById('editUserName').value;
-    const userBio = document.getElementById('editUserBio').value;
-    const userLocation = document.getElementById('editUserLocation').value;
-    const userTags = document.getElementById('editUserTags').value;
-
-    // Update the preview section
-    document.getElementById('userName').textContent = userName;
-    document.getElementById('userBio').textContent = userBio;
-    document.getElementById('userLocation').textContent = userLocation;
-    document.getElementById('userTags').textContent = userTags;
-
-    // Optionally, you can send this data to your backend to save changes
-    saveProfileData({ userName, userBio, userLocation, userTags });
-});
-
-// Message User Button Click Event
-document.getElementById('messageUser').addEventListener('click', function () {
-    const userName = document.getElementById('userName').textContent;
-    document.getElementById('modalUserName').textContent = userName;
-    document.getElementById('messageModal').style.display = 'block';
-});
-
-// Close Modal Event
-document.querySelector('.close').addEventListener('click', function () {
-    document.getElementById('messageModal').style.display = 'none';
-});
-
-// Share Profile Functionality (to be implemented)
-// Add event listener for email sharing
-document.getElementById('shareProfile').addEventListener('click', function () {
-    // Get the user's name and profile URL
-    const userName = document.getElementById('userName').textContent;
-    const profileUrl = window.location.href; // This should be the URL to the profile page
-
-    // Create the email content
-    const subject = `Check out ${userName}'s Profile on ReelCareer`;
-    const body = `Hi,\n\nI wanted to share with you this profile I found on ReelCareer:\n\n${profileUrl}\n\nBest,\n[Your Name]`;
-    
-    // Create a mailto link
-    const mailtoLink = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    
-    // Open the default email client
-    window.location.href = mailtoLink;
-});
-
-// Add event listener for social media sharing
-document.getElementById('shareSocial').addEventListener('click', function () {
-    // Get the profile URL
-    const profileUrl = window.location.href; // This should be the URL to the profile page
-    const userName = document.getElementById('userName').textContent;
-
-    // Sharing on Facebook
-    const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(profileUrl)}`;
-    
-    // Sharing on Twitter
-    const twitterUrl = `https://twitter.com/intent/tweet?text=Check out ${encodeURIComponent(userName)}'s profile on ReelCareer!&url=${encodeURIComponent(profileUrl)}`;
-
-    // Open sharing options in new windows
-    const shareOptions = `
-        <div>
-            <p>Share on:</p>
-            <a href="${facebookUrl}" target="_blank">Facebook</a><br>
-            <a href="${twitterUrl}" target="_blank">Twitter</a>
-        </div>
-    `;
-
-    // Create a modal for social sharing
-    const shareModal = document.createElement('div');
-    shareModal.style.position = 'fixed';
-    shareModal.style.top = '50%';
-    shareModal.style.left = '50%';
-    shareModal.style.transform = 'translate(-50%, -50%)';
-    shareModal.style.backgroundColor = 'white';
-    shareModal.style.padding = '20px';
-    shareModal.style.boxShadow = '0 4px 8px rgba(0,0,0,0.2)';
-    shareModal.innerHTML = shareOptions;
-
-    // Append the modal to the body
-    document.body.appendChild(shareModal);
-    
-    // Add an event listener to close the modal on click
-    shareModal.addEventListener('click', function () {
-        document.body.removeChild(shareModal); // Remove modal when clicked
-    });
-});
-// Function to save user profile data
-async function saveProfileData({ userName, userBio, userLocation, userTags }) {
-    try {
-        // Assuming you have the user's ID to create a unique document reference
-        const userId = getCurrentUserId(); // Implement this function based on your authentication logic
-        
-        // Create a document reference for the user profile
-        const userProfileRef = doc(db, 'userProfiles', userId); // 'userProfiles' is your collection name
-
-        // Data to be saved
-        const userProfileData = {
-            name: userName,
-            bio: userBio,
-            location: userLocation,
-            tags: userTags,
-            updatedAt: new Date(), // Timestamp for when the profile was updated
-        };
-
-        // Save the data to Firestore
-        await setDoc(userProfileRef, userProfileData, { merge: true }); // Merge to avoid overwriting existing data
-
-        console.log('Profile data saved successfully:', userProfileData);
-        // Optionally, show a success message to the user
-        alert('Profile updated successfully!');
-    } catch (error) {
-        console.error('Error saving profile data:', error);
-        // Optionally, show an error message to the user
-        alert('There was an error updating your profile. Please try again.');
-    }
-}
-// Function to send a message
-async function sendMessage(recipientId, messageContent) {
-    try {
-        // Get the current user's ID (implement this based on your authentication logic)
-        const senderId = getCurrentUserId(); // Function to retrieve the current user's ID
-        
-        // Create a message object
-        const messageData = {
-            senderId: senderId,
-            recipientId: recipientId,
-            content: messageContent,
-            timestamp: new Date(), // Timestamp for when the message was sent
-        };
-
-        // Add the message to the 'messages' collection
-        const messagesRef = collection(db, 'messages'); // 'messages' is your collection name
-        await addDoc(messagesRef, messageData);
-
-        console.log('Message sent successfully:', messageData);
-        // Optionally, show a success message to the user
-        alert('Message sent successfully!');
-    } catch (error) {
-        console.error('Error sending message:', error);
-        // Optionally, show an error message to the user
-        alert('There was an error sending your message. Please try again.');
-    }
-}
-
-// Event listener for the sendMessage button
-document.getElementById('sendMessage').addEventListener('click', function () {
-    // Get recipient ID and message content from the input fields
-    const recipientId = document.getElementById('recipientId').value; // Input for recipient ID
-    const messageContent = document.getElementById('messageContent').value; // Input for message content
-
-    // Validate input (basic example)
-    if (!recipientId || !messageContent) {
-        alert('Please enter both recipient ID and message content.');
-        return;
-    }
-
-    // Call the sendMessage function
-    sendMessage(recipientId, messageContent);
-});
-
-// Handle Download Resume
-// Function to download the resume
-async function downloadResume(format) {
-    try {
-        // Get the user's resume data (you may need to modify this based on your data source)
-        const resumeData = await fetchUserResumeData(); // Implement this function to fetch resume data
-        if (!resumeData) {
-            alert('Resume data not found.');
-            return;
-        }
-
-        // Convert the resume data to the desired format
-        let fileContent;
-        let fileExtension;
-        
-        if (format === 'pdf') {
-            // Convert resume data to PDF format
-            fileContent = await convertToPDF(resumeData); // Implement this function to convert to PDF
-            fileExtension = 'pdf';
-        } else if (format === 'docx') {
-            // Convert resume data to DOCX format
-            fileContent = await convertToDOCX(resumeData); // Implement this function to convert to DOCX
-            fileExtension = 'docx';
-        } else {
-            alert('Invalid format selected.');
-            return;
-        }
-
-        // Create a Blob from the file content
-        const blob = new Blob([fileContent], { type: `application/${fileExtension}` });
-
-        // Create a link element to trigger the download
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
-        link.download = `resume.${fileExtension}`; // Set the filename
-        document.body.appendChild(link); // Append to the body
-        link.click(); // Programmatically click the link to trigger the download
-        document.body.removeChild(link); // Clean up by removing the link element
-
-        console.log('Resume downloaded successfully:', `resume.${fileExtension}`);
-    } catch (error) {
-        console.error('Error downloading resume:', error);
-        alert('There was an error downloading your resume. Please try again.');
-    }
-}
-
-// Event listener for the download resume button
-document.getElementById('downloadResume').addEventListener('click', function () {
-    const format = document.getElementById('resumeFormat').value; // Get the selected format
-    // Call the downloadResume function with the selected format
-    downloadResume(format);
-});
-
-// Placeholder for fetching user resume data
-async function fetchUserResumeData(userId) {
-    try {
-        // Reference to the Firestore database
-        const db = firebase.firestore();
-        
-        // Fetch user resume data from the 'resumes' collection using userId
-        const resumeDocRef = doc(db, 'resumes', userId); // Create a document reference
-        const resumeDoc = await getDoc(resumeDocRef); // Fetch the document
-
-        // Check if the document exists
-        if (!resumeDoc.exists) {
-            throw new Error("No resume data found for this user.");
-        }
-
-        // Return the resume data as a JSON object
-        return resumeDoc.data();
-    } catch (error) {
-        console.error("Error fetching resume data: ", error);
-        // Handle errors as needed
-        return null; // Or throw the error for further handling
-    }
-}
-
-
-// Placeholder for converting resume data to PDF
-async function convertToPDF(resumeData) {
-    // Create a new instance of jsPDF
-    const pdfDoc = new jsPDF();
-
-    // Set the font size for the document
-    pdfDoc.setFontSize(12);
-
-    // Add content to the PDF document
-    pdfDoc.text(`Name: ${resumeData.name}`, 10, 10);
-    pdfDoc.text(`Email: ${resumeData.email}`, 10, 20);
-    
-    // Add Experience Section
-    pdfDoc.text('Experience:', 10, 30);
-    const experienceLines = pdfDoc.splitTextToSize(resumeData.experience, 190);
-    pdfDoc.text(experienceLines, 10, 40);
-    
-    // Add Education Section
-    pdfDoc.text('Education:', 10, 60);
-    const educationLines = pdfDoc.splitTextToSize(resumeData.education, 190);
-    pdfDoc.text(educationLines, 10, 70);
-    
-    // Add Skills Section
-    pdfDoc.text('Skills:', 10, 90);
-    const skillsLines = pdfDoc.splitTextToSize(resumeData.skills.join(', '), 190);
-    pdfDoc.text(skillsLines, 10, 100);
-    
-    // Save the PDF and return the output
-    return pdfDoc.output('blob'); // Returns the PDF content as a Blob for downloading
-}
-
-
-// Placeholder for converting resume data to DOCX
-async function convertToDOCX(resumeData) {
-    // Import the necessary docx classes
-    const { Document, Packer, Paragraph, TextRun } = docx;
-
-    // Create a new document
-    const doc = new Document({
-        sections: [
-            {
-                properties: {},
-                children: [
-                    new Paragraph({
-                        children: [
-                            new TextRun({
-                                text: `Name: ${resumeData.name}`,
-                                bold: true,
-                            }),
-                        ],
-                    }),
-                    new Paragraph({
-                        children: [
-                            new TextRun(`Email: ${resumeData.email}`),
-                        ],
-                    }),
-                    new Paragraph({
-                        children: [
-                            new TextRun({
-                                text: 'Experience:',
-                                bold: true,
-                            }),
-                        ],
-                    }),
-                    new Paragraph(resumeData.experience),
-                    new Paragraph({
-                        children: [
-                            new TextRun({
-                                text: 'Education:',
-                                bold: true,
-                            }),
-                        ],
-                    }),
-                    new Paragraph(resumeData.education),
-                    new Paragraph({
-                        children: [
-                            new TextRun({
-                                text: 'Skills:',
-                                bold: true,
-                            }),
-                        ],
-                    }),
-                    new Paragraph(resumeData.skills.join(', ')),
-                ],
-            },
-        ],
-    });
-
-    // Create a buffer for the document and return it
-    const buffer = await Packer.toBuffer(doc);
-    return buffer;
-}
-
-
-
-
-</script>
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
 
 </html>
