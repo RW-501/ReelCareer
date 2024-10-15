@@ -389,7 +389,7 @@ function createLoader(message = 'ReelCareer') {
     return dotsInterval; // Return interval ID to clear it later
     */
 }
-
+/*
 // Function to hide loader and clear dots interval
 function hideLoader(dotsInterval) {
     const loader = document.getElementById('loaderX');
@@ -419,13 +419,45 @@ window.addEventListener('load', () => {
     hideLoader(dotsInterval); // Hide loader when fully loaded
     document.body.classList.add('loaded'); // Show content
 });
+*/
 
 
 
 
 
+// Function to hide loader after page load
+function hideLoader() {
+    const loader = document.getElementById('loaderX');
+    if (loader) {
 
 
+        // Remove from DOM after transition
+        setTimeout(() => {
+            try {
+                loader.classList.add('hidden');
+                console.log("Hiding Loader...");
+                loader.remove();
+                console.log("Loader removed successfully.");
+            } catch (error) {
+                console.error("Error removing loader:", error);
+            }
+        }, 1000); // Adjusted to match opacity transition time (0.5s)
+    } else {
+        console.warn("Loader not found, cannot hide.");
+    }
+}
+
+// Initialize styles and loader on DOMContentLoaded
+window.addEventListener('DOMContentLoaded', () => {
+    addStyles(); // Add styles first
+    createLoader(); // Then create the loader
+});
+
+// Hide loader when the window fully loads
+window.addEventListener('load', () => {
+    hideLoader(); // Hide loader first
+    document.body.classList.add('loaded'); // Then show content
+});
 
 
 
