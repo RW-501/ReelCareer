@@ -175,7 +175,7 @@ main .card-body {
     flex-grow: 1;
 }
 
-main .card .h-100 .card-body{
+ .card .h-100 .card-body{
     display: flex;
     flex-direction: row;
     width: 100%; /* Ensure cards are stretched to fill the space */
