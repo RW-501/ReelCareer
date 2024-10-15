@@ -193,7 +193,6 @@ h2, h4, h5 {
                             <option value="Aerospace">Aerospace</option>
                             <option value="Biotechnology">Biotechnology</option>
                             <option value="Information Technology">Information Technology</option>
-                            <!-- Add more industries as needed -->
                         </select>
                     </div>
     
@@ -292,6 +291,144 @@ function showMainArea() {
 
         }
 
+document.getElementById("generateDescriptionBtn").addEventListener("click", function() {
+    const industries = Array.from(document.getElementById("editCompanyIndustry").selectedOptions).map(option => option.value);
+    const companyDescriptionField = document.getElementById("companyDescription");
+    const companyDescription = companyDescriptionField.value.trim();
+    
+    // Check if at least one industry is selected and the company description is empty (or black)
+    if (industries.length > 0 && (companyDescription === "" || companyDescription === "black")) {
+        const companyName =  document.getElementById('companyName').textContent; // Replace with the actual company name
+        
+        // Define description templates for different industries
+        const descriptions = { 
+    "Tech": [
+        `At ${companyName}, we are revolutionizing the Tech industry with innovative solutions that enhance user experience.`,
+        `${companyName} leads the way in Tech, focusing on cutting-edge technologies to empower businesses.`
+    ],
+    "Finance": [
+        `${companyName} is your trusted partner in the Finance industry, delivering unparalleled financial services.`,
+        `In the competitive world of Finance, ${companyName} stands out with tailored solutions for our clients.`
+    ],
+    "Healthcare": [
+        `${companyName} is dedicated to improving lives in the Healthcare industry through innovative solutions.`,
+        `As a leader in Healthcare, ${companyName} focuses on quality patient care and advanced medical technologies.`
+    ],
+    "Retail": [
+        `At ${companyName}, we are transforming the Retail experience with personalized service and quality products.`,
+        `Leading the Retail industry, ${companyName} is dedicated to providing exceptional customer experiences.`
+    ],
+    "Education": [
+        `At ${companyName}, we are committed to enhancing Education through innovative learning solutions.`,
+        `In the Education sector, ${companyName} leads with a focus on accessibility and quality education for all.`
+    ],
+    "Hospitality": [
+        `At ${companyName}, we create unforgettable experiences in the Hospitality industry with exceptional service.`,
+        `Dedicated to excellence, ${companyName} redefines standards in the Hospitality sector with our customer-first approach.`
+    ],
+    "Construction": [
+        `${companyName} is at the forefront of the Construction industry, delivering innovative building solutions.`,
+        `With a commitment to safety and quality, ${companyName} sets new benchmarks in Construction standards.`
+    ],
+    "Manufacturing": [
+        `${companyName} is revolutionizing the Manufacturing industry with state-of-the-art technology and processes.`,
+        `At ${companyName}, we prioritize efficiency and quality, ensuring the best products for our clients.`
+    ],
+    "Transportation": [
+        `At ${companyName}, we streamline the Transportation industry with efficient logistics and services.`,
+        `Dedicated to reliability, ${companyName} is your partner in navigating the complexities of Transportation.`
+    ],
+    "Real Estate": [
+        `${companyName} is committed to helping you find your dream property in the Real Estate market.`,
+        `With a deep understanding of the Real Estate landscape, ${companyName} offers tailored solutions for buyers and sellers.`
+    ],
+    "Legal Services": [
+        `At ${companyName}, we provide expert Legal Services tailored to meet your unique needs.`,
+        `Dedicated to justice, ${companyName} is your trusted partner in navigating the complexities of the Legal field.`
+    ],
+    "Entertainment": [
+        `At ${companyName}, we create memorable experiences in the Entertainment industry that captivate audiences.`,
+        `With a passion for creativity, ${companyName} is at the forefront of innovation in the Entertainment sector.`
+    ],
+    "Marketing": [
+        `At ${companyName}, we are redefining the Marketing landscape with data-driven strategies and creative solutions.`,
+        `Dedicated to your success, ${companyName} develops innovative Marketing campaigns that engage and inspire.`
+    ],
+    "Non-Profit": [
+        `At ${companyName}, we are committed to making a difference in the Non-Profit sector through impactful initiatives.`,
+        `With a focus on community engagement, ${companyName} strives to create positive change in the Non-Profit field.`
+    ],
+    "Telecommunications": [
+        `At ${companyName}, we lead the Telecommunications industry with cutting-edge communication solutions.`,
+        `Dedicated to connectivity, ${companyName} is your partner in navigating the evolving landscape of Telecommunications.`
+    ],
+    "Energy": [
+        `At ${companyName}, we are committed to sustainable practices in the Energy sector to power a greener future.`,
+        `Leading the way in renewable Energy, ${companyName} focuses on innovative solutions for sustainable living.`
+    ],
+    "Pharmaceuticals": [
+        `At ${companyName}, we are dedicated to advancing health through innovative Pharmaceuticals and research.`,
+        `With a focus on quality and efficacy, ${companyName} is a leader in the Pharmaceuticals industry.`
+    ],
+    "Agriculture": [
+        `At ${companyName}, we are revolutionizing the Agriculture industry with sustainable farming practices.`,
+        `Dedicated to food security, ${companyName} leverages technology to enhance productivity in Agriculture.`
+    ],
+    "Cybersecurity": [
+        `At ${companyName}, we provide top-notch Cybersecurity solutions to protect your digital assets.`,
+        `With a commitment to safety, ${companyName} is your partner in navigating the complexities of Cybersecurity.`
+    ],
+    "E-commerce": [
+        `At ${companyName}, we are transforming the E-commerce landscape with seamless online shopping experiences.`,
+        `Dedicated to customer satisfaction, ${companyName} offers a wide range of products in the E-commerce market.`
+    ],
+    "Consulting": [
+        `At ${companyName}, we provide expert Consulting services tailored to your business needs.`,
+        `With a focus on growth and strategy, ${companyName} helps you navigate challenges in the Consulting space.`
+    ],
+    "Food and Beverage": [
+        `At ${companyName}, we are passionate about delivering quality products in the Food and Beverage industry.`,
+        `With a commitment to flavor and quality, ${companyName} sets the standard in Food and Beverage services.`
+    ],
+    "Textiles": [
+        `At ${companyName}, we are dedicated to excellence in the Textiles industry through quality craftsmanship.`,
+        `With a focus on innovation, ${companyName} leads the way in sustainable practices in the Textiles sector.`
+    ],
+    "Aerospace": [
+        `At ${companyName}, we push the boundaries of innovation in the Aerospace industry with cutting-edge technologies.`,
+        `Dedicated to safety and efficiency, ${companyName} is a leader in the Aerospace field.`
+    ],
+    "Biotechnology": [
+        `At ${companyName}, we are transforming lives through groundbreaking Biotechnology research and solutions.`,
+        `With a focus on innovation, ${companyName} leads the way in the Biotechnology industry.`
+    ],
+    "Information Technology": [
+        `At ${companyName}, we are committed to driving success in the Information Technology sector with innovative solutions.`,
+        `As leaders in Information Technology, ${companyName} empowers businesses to leverage technology effectively.`
+    ]
+};
+
+
+        // Select random descriptions for each selected industry
+        const randomDescriptions = industries.map(industry => {
+            const industryDescriptions = descriptions[industry] || [];
+            if (industryDescriptions.length > 0) {
+                // Randomly select a description for the industry
+                return industryDescriptions[Math.floor(Math.random() * industryDescriptions.length)];
+            }
+            return '';
+        }).filter(desc => desc); // Remove any empty descriptions
+
+        // Combine the random descriptions into a single string
+        const shortDescription = randomDescriptions.join(" ");
+
+        // Set the generated description in the company description field
+        companyDescriptionField.value = shortDescription;
+    } else {
+        alert("Please select at least one industry and ensure the company description is empty.");
+    }
+});
+
 
 </script>
 
@@ -328,7 +465,8 @@ function showMainArea() {
                 document.getElementById("instructions").innerHTML.replace("[Company Name]", companyName);
                 document.getElementById("companyTitle").innerHTML = 
                 document.getElementById("companyTitle").innerHTML.replace("[Company Name]", companyName);
-
+                document.getElementById("editCompanyName").value = companyName;
+                document.getElementById('companyName').textContent = companyName;
 
 // Replace placeholder in the entire document body
 //document.body.innerHTML = document.body.innerHTML.replace(/\[Company Name\]/g, companyName);
