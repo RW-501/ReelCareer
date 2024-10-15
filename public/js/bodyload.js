@@ -66,7 +66,7 @@ function addStyles() {
 /* Resume Lines (Represent Text Being Typed Out) */
 .resume::before, .resume::after, .resume::third, .resume::4  {
     position: absolute;
-    /*left: 5px;*/
+    left: 5px;
     border-radius: 2px;
     background-color: white;
 }
@@ -88,9 +88,7 @@ function addStyles() {
     content: '';
     width: 40px;
     height: 8px;
-    left: 5px;
-    right: 5px;
-    margin: auto;
+ 
         top: 25px;
 
      animation: loadingText 1.3s infinite cubic-bezier(0.4, 0, 1, 1);
@@ -102,9 +100,7 @@ function addStyles() {
     width: 40px;
     height: 8px;
     top: 35px;
-        left: 5px;
-    right: 5px;
-    margin: auto;
+
     animation: loadingText 1.6s infinite cubic-bezier(0.4, 0, 1, 1);
     }
 
@@ -113,9 +109,7 @@ function addStyles() {
     width: 40px;
     height: 8px;
     top: 45px;
-        left: 5px;
-    right: 5px;
-    margin: auto;
+
     animation: loadingText 1.9s infinite cubic-bezier(0.4, 0, 1, 1);
     }
 
