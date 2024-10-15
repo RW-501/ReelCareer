@@ -998,10 +998,7 @@ function previewProfilePicture(input) {
 
 // Function to show confirmation dialog before saving changes
 function showConfirmationDialog() {
- const confirmation = confirm("Are you sure you want to save changes?");
- if (confirmation) {
-     // Logic to save changes goes here
- }
+
 }
 
 // Function to validate input
