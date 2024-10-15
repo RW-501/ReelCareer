@@ -455,12 +455,19 @@ showUserSignedOutMessage();
 
             const tagsContainer = document.getElementById('tags-container');
 
-            if (!profileData.tags || profileData.tags.length === 0) {
+// Check if the tags array is defined and has elements
+if (!profileData.tags || profileData.tags.length === 0) {
+    // If there are no tags, display a message
     tagsContainer.innerHTML = '<p>No tags found.</p>';
 } else {
-    const tags = profileData.tags.map(doc => doc.tag); // Use map for cleaner syntax
+    // Directly use the tags array since it contains strings
+    const tags = profileData.tags; // No need to map since they're already strings
+    
+    // Display the tags in the container
     tagsContainer.innerHTML = '<strong>Tags: </strong>' + tags.join(', ');
 }
+
+
 
             // Membership Badge
             async function loadMembershipBadge(membership) {
