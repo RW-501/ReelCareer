@@ -393,7 +393,7 @@ function hideLoader(dotsInterval) {
 
         // Remove loader from DOM after transition and clear interval for dots
         setTimeout(() => {
-            loader.classList.add('hidden'); // Fade out loader
+            loader.classList.remove('loader-container'); // Fade out loader
             console.log("Loader removed successfully.");
 
             loader.remove();
