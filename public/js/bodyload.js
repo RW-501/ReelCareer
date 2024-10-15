@@ -86,6 +86,7 @@ function addStyles() {
     color: #5b6369;
     text-shadow: -1px 1px 0px #83bad9;
     font-weight: 800;
+            opacity: 1;
 
         }
 
