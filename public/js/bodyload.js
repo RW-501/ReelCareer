@@ -82,8 +82,11 @@ function addStyles() {
     margin:auto;
     top: 0px;
     color: gray;
+    height: 3px;
+    width: 40px;
     position: absolute;
-    animation: loadingText 1s infinite cubic-bezier(0.4, 0, 1, 1);
+    background-color: #222222;
+        animation: loadingText 1s infinite cubic-bezier(0.4, 0, 1, 1);
     }
 
 /* Second Line of Text */
@@ -95,8 +98,11 @@ function addStyles() {
  
         top: 10px;
     color: gray;
+    height: 3px;
+    width: 30px;
     position: absolute;
-     animation: loadingText 1.3s infinite cubic-bezier(0.4, 0, 1, 1);
+    background-color: #222222;
+         animation: loadingText 1.3s infinite cubic-bezier(0.4, 0, 1, 1);
     }
 
 /* Third Line of Text */
@@ -107,8 +113,11 @@ function addStyles() {
     margin:auto;
     top: 20px;
     color: gray;
+    height: 3px;
+    width: 40px;
     position: absolute;
-    animation: loadingText 1.6s infinite cubic-bezier(0.4, 0, 1, 1);
+    background-color: #222222;
+        animation: loadingText 1.6s infinite cubic-bezier(0.4, 0, 1, 1);
     }
 
 .l4 {
@@ -118,8 +127,11 @@ function addStyles() {
     margin:auto;
     top: 30px;
     color: gray;
+    height: 3px;
+    width: 40px;
     position: absolute;
-    animation: loadingText 1.9s infinite cubic-bezier(0.4, 0, 1, 1);
+    background-color: #222222;
+        animation: loadingText 1.9s infinite cubic-bezier(0.4, 0, 1, 1);
     }
     .l5 {
     content: '____';
@@ -128,8 +140,11 @@ function addStyles() {
     margin:auto;
     top: 40px;
     color: gray;
+    height: 3px;
+    width: 40px;
     position: absolute;
-    animation: loadingText 2.3s infinite cubic-bezier(0.4, 0, 1, 1);
+    background-color: #222222;
+        animation: loadingText 2.3s infinite cubic-bezier(0.4, 0, 1, 1);
     }
     .l6 {
     content: '____';
@@ -138,8 +153,11 @@ function addStyles() {
     margin:auto;
     top: 50px;
     color: gray;
+    height: 3px;
+    width: 40px;
     position: absolute;
-    animation: loadingText 2.6s infinite cubic-bezier(0.4, 0, 1, 1);
+    background-color: #222222;
+        animation: loadingText 2.6s infinite cubic-bezier(0.4, 0, 1, 1);
     }
 
 
@@ -150,8 +168,11 @@ function addStyles() {
     margin:auto;
     top: 60px;
     color: gray;
+    height: 3px;
+    width: 40px;
     position: absolute;
-    animation: loadingText 2.8s infinite cubic-bezier(0.4, 0, 1, 1);
+    background-color: #222222;
+        animation: loadingText 2.8s infinite cubic-bezier(0.4, 0, 1, 1);
     }
     .l8 {
     content: '____';
@@ -160,7 +181,11 @@ function addStyles() {
     margin:auto;
     top: 70px;
     color: gray;
+    height: 3px;
+    width: 40px;
     position: absolute;
+    background-color: #222222;
+    
     animation: loadingText 3.0s infinite cubic-bezier(0.4, 0, 1, 1);
     }
     
