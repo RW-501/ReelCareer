@@ -232,7 +232,7 @@
                             </div>
 
                             <hr>
-                            
+
                         <div class="form-group col-md-2">
                             <label for="jobCity">City <small class="text-muted">(Required)</small></label>
                             <input type="text"
@@ -743,7 +743,7 @@ companyInput.addEventListener("keyup", debounce(async () => {
             addButton.className = "btn btn-primary";
             addButton.addEventListener("click", () => {
                 // Redirect to the create company page
-                window.location.href = "views/company-page.html?create="+companyName; 
+                window.location.href = "../views/company-page.html?create="+companyName; 
 
             });
             addCompanyButtonContainer.appendChild(addButton);
