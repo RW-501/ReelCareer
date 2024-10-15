@@ -115,116 +115,7 @@ function addStyles3() {
         `;
         document.head.appendChild(style);
     }
-        function addStyles() {
-    const style = document.createElement('style');
-    style.type = 'text/css';
-    style.innerHTML = `
 
-/* Loader Container */
-.loader-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    background-color: #fff;
-    top: 0;
-    bottom: 0;
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    left: 0;
-    right: 0;
-    margin: auto;
-    z-index: 9999;
-    opacity: 1;
-    transition: opacity 1s ease-in-out;
-}
-
-
-
-/* Animated Resume */
-.resume {
-    width: 60px;
-    height: 80px;
-    background-color: #007bff;
-    position: relative;
-    margin-bottom: 20px;
-    border-radius: 5px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        opacity: 1;
-
-}
-
-/* Resume Lines (Represent Text Being Typed Out) */
-.resume::before, .resume::after {
-    content: '';
-    position: absolute;
-    left: 5px;
-    border-radius: 2px;
-    background-color: white;
-}
-
-/* First Line of Text */
-.resume::before {
-    width: 50px;
-    height: 8px;
-    top: 15px;
-    animation: loadingText 1s infinite ease-in-out;
-}
-
-/* Second Line of Text */
-.resume::after {
-    width: 40px;
-    height: 8px;
-    top: 30px;
-    animation: loadingText 1.5s infinite ease-in-out;
-            opacity: 1;
-
-}
-
-/* Loading Message Style */
-.loading-message {
-    font-size: 18px;
-    color: #333;
-    font-family: 'Arial', sans-serif;
-    text-align: center;
-        opacity: 1;
-
-}
-
-/* Loading Dots Animation */
-@keyframes loadingText {
-    0% { opacity: 0; }
-    50% { opacity: 1; }
-    100% { opacity: 0; }
-}
-
-/* Fade out Loader */
-.loader.hidden {
-    opacity: 0;
-    visibility: hidden;
-    transition: visibility 0s 2s, opacity 2s;
-}
-
-/* Smooth content loading */
-body {
-    opacity: 0;
-    transition: opacity 2s ease-in-out;
-}
-
-body.loaded {
-    opacity: 1;
-}
-
-
-
-
-
-    `;
-    document.head.appendChild(style);
-}
 /*
 function typeEffect(element, text, speed = 100) {
     let index = 0;
@@ -330,6 +221,120 @@ window.addEventListener('load', () => {
 
 
 */
+
+
+
+function addStyles() {
+    const style = document.createElement('style');
+    style.type = 'text/css';
+    style.innerHTML = `
+
+/* Loader Container */
+.loader-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #fff;
+    top: 0;
+    bottom: 0;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    left: 0;
+    right: 0;
+    margin: auto;
+    z-index: 9999;
+    opacity: 1;
+    transition: opacity 1s ease-in-out;
+}
+
+
+
+/* Animated Resume */
+.resume {
+    width: 60px;
+    height: 80px;
+    background-color: #007bff;
+    position: relative;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+}
+
+/* Resume Lines (Represent Text Being Typed Out) */
+.resume::before, .resume::after {
+    content: '';
+    position: absolute;
+    left: 5px;
+    border-radius: 2px;
+    background-color: white;
+}
+
+/* First Line of Text */
+.resume::before {
+    width: 50px;
+    height: 8px;
+    top: 15px;
+    animation: loadingText .5s infinite ease-in-out;
+}
+
+/* Second Line of Text */
+.resume::after {
+    width: 40px;
+    height: 8px;
+    top: 30px;
+    animation: loadingText 1.5s infinite ease-in-out;
+
+}
+
+/* Loading Message Style */
+.loading-message {
+            color: #83bad9; /* Branding color */
+            
+    font-weight: 800;
+    font-size: 2.0rem;
+    text-shadow: 1px 0px 0px #6253e7;
+        font-family: 'Arial', sans-serif;
+    text-align: center;
+
+}
+
+/* Loading Dots Animation */
+@keyframes loadingText {
+    0% { opacity: 0; }
+    50% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+/* Fade out Loader */
+.loader.hidden {
+    opacity: 0;
+    visibility: hidden;
+    transition: visibility 0s 0.3s, opacity .03s;
+}
+
+/* Smooth content loading */
+body {
+    opacity: 0;
+    transition: opacity 2s ease-in-out;
+}
+
+body.loaded {
+    opacity: 1;
+}
+
+
+
+
+
+    `;
+    document.head.appendChild(style);
+}
+
 
 addStyles();
 // Function to create and inject loader with animated resume and dynamic dots
