@@ -377,7 +377,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 <div class="container">
                  <a class="navbar-brand" style="
     color: #83bad9;
-    font-weight: 500;
+    font-weight: 800;
+    font-size: 2rem;
     text-shadow: 1px 0px 0px #6253e7;" href="${adjustLinkHomeURL}index">ReelCareer</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
                         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -607,7 +608,7 @@ function updateFooter() {
                     <p id="newsletterMessage" class="text-light mt-2"></p>
                 </div>
                 <p class="mt-2">Current Date & Time: <span id="currentDateTime"></span></p>
-                <p class="mt-2">Contact Us: <a href="mailto:info@reelcareer.com" class="text-light" rel="noopener noreferrer">info@reelcareer.com</a></p>
+                <p class="mt-2"><a href="${adjustLinkURL}contact" class="text-light" rel="noopener noreferrer">Contact Us</a></p>
                 <button id="backToTop" class="btn btn-outline-light mt-2">Back to Top</button>
             </div>
         </div>
