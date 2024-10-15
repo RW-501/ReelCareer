@@ -895,7 +895,7 @@ function createProfileModal() {
             </div>
             <div class="modal-footer border-top-0">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="saveProfileCloseBtn">Close</button>
-              <button type="button" class="btn btn-primary" id="saveProfileBtn" onclick="showConfirmationDialog()">Save changes</button>
+              <button type="button" class="btn btn-primary" id="saveProfileBtn">Save changes</button>
             </div>
           </div>
         </div>
