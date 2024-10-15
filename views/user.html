@@ -208,6 +208,174 @@
 import { onAuthStateChanged, db, auth } from '../public/js/main.js';
     import { doc, getDoc, collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 
+    
+    function showPrivateProfileMessage() {
+    // Create a container div
+    const container = document.createElement('div');
+    container.className = 'private-profile-container';
+    container.style.cssText = `
+        display: flex; 
+        justify-content: center; 
+        align-items: center; 
+        height: 100vh; 
+        background-color: #f5f5f5;
+    `;
+
+    // Create the card div
+    const card = document.createElement('div');
+    card.className = 'private-profile-card';
+    card.style.cssText = `
+        background-color: white; 
+        padding: 20px; 
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+        border-radius: 8px; 
+        text-align: center;
+    `;
+
+    // Add a title to the card
+    const title = document.createElement('h3');
+    title.textContent = 'Profile is Private';
+    title.style.marginBottom = '15px';
+    card.appendChild(title);
+
+    // Add a message inside the card
+    const message = document.createElement('p');
+    message.textContent = 'This profile is private and cannot be viewed.';
+    message.style.marginBottom = '20px';
+    card.appendChild(message);
+
+    // Create a "Go Back" button
+    const goBackButton = document.createElement('button');
+    goBackButton.textContent = 'Go Back';
+    goBackButton.className = 'btn btn-primary'; // Assuming Bootstrap classes, if used
+    goBackButton.style.padding = '10px 20px';
+    
+    // Add an event listener to navigate back
+    goBackButton.addEventListener('click', () => {
+        window.history.back(); // This takes the user to the previous page
+    });
+
+    card.appendChild(goBackButton);
+
+    // Append the card to the container
+    container.appendChild(card);
+
+    // Append the container to the body (or a specific element on your page)
+    document.body.appendChild(container);
+}
+
+function showUserDataNotFoundMessage() {
+    // Create a container div
+    const container = document.createElement('div');
+    container.className = 'user-data-not-found-container';
+    container.style.cssText = `
+        display: flex; 
+        justify-content: center; 
+        align-items: center; 
+        height: 100vh; 
+        background-color: #f5f5f5;
+    `;
+
+    // Create the card div
+    const card = document.createElement('div');
+    card.className = 'user-data-not-found-card';
+    card.style.cssText = `
+        background-color: white; 
+        padding: 20px; 
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+        border-radius: 8px; 
+        text-align: center;
+    `;
+
+    // Add a title to the card
+    const title = document.createElement('h3');
+    title.textContent = 'User Data Not Found';
+    title.style.marginBottom = '15px';
+    card.appendChild(title);
+
+    // Add a message inside the card
+    const message = document.createElement('p');
+    message.textContent = 'The requested user data could not be found.';
+    message.style.marginBottom = '20px';
+    card.appendChild(message);
+
+    // Create a "Go Back" button
+    const goBackButton = document.createElement('button');
+    goBackButton.textContent = 'Go Back';
+    goBackButton.className = 'btn btn-primary'; // Assuming Bootstrap classes, if used
+    goBackButton.style.padding = '10px 20px';
+    
+    // Add an event listener to navigate back
+    goBackButton.addEventListener('click', () => {
+        window.history.back(); // This takes the user to the previous page
+    });
+
+    card.appendChild(goBackButton);
+
+    // Append the card to the container
+    container.appendChild(card);
+
+    // Append the container to the body (or a specific element on your page)
+    document.body.appendChild(container);
+}
+
+
+function showUserSignedOutMessage() {
+    // Create a container div
+    const container = document.createElement('div');
+    container.className = 'user-signed-out-container';
+    container.style.cssText = `
+        display: flex; 
+        justify-content: center; 
+        align-items: center; 
+        height: 100vh; 
+        background-color: #f5f5f5;
+    `;
+
+    // Create the card div
+    const card = document.createElement('div');
+    card.className = 'user-signed-out-card';
+    card.style.cssText = `
+        background-color: white; 
+        padding: 20px; 
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+        border-radius: 8px; 
+        text-align: center;
+    `;
+
+    // Add a title to the card
+    const title = document.createElement('h3');
+    title.textContent = 'Signed Out';
+    title.style.marginBottom = '15px';
+    card.appendChild(title);
+
+    // Add a message inside the card
+    const message = document.createElement('p');
+    message.textContent = 'You have been signed out. Please log in to continue.';
+    message.style.marginBottom = '20px';
+    card.appendChild(message);
+
+    // Create a "Login" button
+    const loginButton = document.createElement('button');
+    loginButton.textContent = 'Go to Login Page';
+    loginButton.className = 'btn btn-primary'; // Assuming Bootstrap classes, if used
+    loginButton.style.padding = '10px 20px';
+
+    // Add an event listener to redirect to the login page
+    loginButton.addEventListener('click', () => {
+        window.location.href = '/login'; // Change '/login' to your actual login page URL
+    });
+
+    card.appendChild(loginButton);
+
+    // Append the card to the container
+    container.appendChild(card);
+
+    // Append the container to the body (or a specific element on your page)
+    document.body.appendChild(container);
+}
+
+
     // Check for auth state changes
     onAuthStateChanged(auth, (user) => {
         if (user) {
@@ -235,7 +403,7 @@ import { onAuthStateChanged, db, auth } from '../public/js/main.js';
                     const profileDoc = doc(db, 'Users', userIdFromURL);
                     const profileSnapshot = await getDoc(profileDoc);
 
-                    if (profileSnapshot.exists()) {
+                    if (profileSnapshot) {
                         const profileData = profileSnapshot.data();
                         console.log("User data: ", profileData);
 
@@ -248,21 +416,23 @@ import { onAuthStateChanged, db, auth } from '../public/js/main.js';
                             await loadUserVideoResumes(userIdFromURL);
                             await loadSocialMedia(profileData);
                         } else {
-                            alert('This profile is private.');
-                          //  window.location.href = 'user.html';
+      // Call this function where you want to show the private profile message
+showPrivateProfileMessage();
+
                         }
                     } else {
-                        console.error("No such user document!");
-                        alert('User data not found.');
+ 
+// Call this function when the user data is not found
+showUserDataNotFoundMessage();
                     }
                 } catch (error) {
                     console.error("Error fetching user data:", error);
                 }
             }
         } else {
-            // User is signed out, handle accordingly
-            console.log("User is signed out.");
-            // Redirect to a login page or show a message
+
+// Call this function when the user is signed out
+showUserSignedOutMessage();
         }
     });
 
@@ -314,7 +484,7 @@ import { onAuthStateChanged, db, auth } from '../public/js/main.js';
 }
 
             // Digital Resume Link
-            const digitalResumeLink = document.getElementById('digital-resume-link');
+            const digitalResumeLink = ""
             digitalResumeLink.href = profileData.digitalResumeUrl || '#';
             digitalResumeLink.innerText = profileData.digitalResumeUrl ? 'View Resume' : 'No Resume Available';
         }
