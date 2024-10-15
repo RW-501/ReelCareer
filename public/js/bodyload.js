@@ -23,7 +23,7 @@
         // Function to add styles
 // Function to add styles for loader and content
 // Function to add styles for loader and content
-function addStyles() {
+function addStyles3() {
     const style = document.createElement('style');
     style.type = 'text/css';
     style.innerHTML = `
@@ -112,6 +112,13 @@ function addStyles() {
         }
             */
 
+        `;
+        document.head.appendChild(style);
+    }
+        function addStyles() {
+    const style = document.createElement('style');
+    style.type = 'text/css';
+    style.innerHTML = `
 
 /* Loader Container */
 .loader-container {
