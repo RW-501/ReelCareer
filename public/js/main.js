@@ -905,11 +905,72 @@ function createProfileModal() {
     // Append modal HTML to the body
     document.body.insertAdjacentHTML('beforeend', modalHTML);
 
-
- // Initialize the modal with animations
- const profileModal = new bootstrap.Modal(document.getElementById('profileModal'));
- profileModal.show();
-
+    function activateTab(selectedTab) {
+        // Get all nav-link elements within the profileModal
+        const navLinks = document.querySelectorAll('#profileModal .nav-link');
+        
+        // Remove the 'active' class from all nav-links
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            link.setAttribute('aria-selected', 'false'); // Set aria-selected to false
+        });
+    
+        // Set the selected tab as active
+        selectedTab.classList.add('active');
+        selectedTab.setAttribute('aria-selected', 'true'); // Set aria-selected to true
+    
+        // Get the aria-controls attribute of the selected tab
+        const ariaControlsValue = selectedTab.getAttribute('aria-controls');
+    
+        // Set the aria-controls value to 'a'
+        if (ariaControlsValue) {
+            selectedTab.setAttribute('aria-controls', 'a');
+        }
+    
+        // Hide all tab content and show the selected tab content
+        const tabContents = document.querySelectorAll('#profileTabContent .tab-pane');
+        tabContents.forEach(content => {
+            content.classList.remove('show', 'active'); // Remove show and active classes
+            content.classList.add('fade'); // Ensure they fade out
+        });
+    
+        // Show the selected tab content
+        const activeContent = document.getElementById(ariaControlsValue);
+        if (activeContent) {
+            activeContent.classList.add('show', 'active'); // Add show and active classes
+        }
+    }
+    
+    // Function to add listeners to specific tabs
+    function addTabListeners() {
+        const membershipTab = document.getElementById('membership-tab');
+        const socialTab = document.getElementById('social-tab');
+        const personalTab = document.getElementById('personal-tab');
+    
+        // Add event listeners to each tab
+        if (membershipTab) {
+            membershipTab.addEventListener('click', function() {
+                activateTab(this);
+            });
+        }
+    
+        if (socialTab) {
+            socialTab.addEventListener('click', function() {
+                activateTab(this);
+            });
+        }
+    
+        if (personalTab) {
+            personalTab.addEventListener('click', function() {
+                activateTab(this);
+            });
+        }
+    }
+    
+    // Initialize tab listeners on page load
+    addTabListeners();
+    
+    
  // Add responsiveness
  window.addEventListener('resize', () => {
      // Check if modal is visible
