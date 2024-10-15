@@ -48,6 +48,20 @@ a:hover {
 }
 
 /* Buttons */
+button{
+    background-color: #639ad4;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+
+}
+button:hover {
+    background-color: #416a9c ;
+}
+
+
+
 main .btn-primary {
     background-color: #639ad4 !important;
     color: white;
