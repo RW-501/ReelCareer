@@ -77,7 +77,7 @@ function addStyles() {
     width: 50px;
     height: 8px;
     top: 15px;
-    animation: loadingText 1s infinite ease-in-out;
+    animation: loadingText .5s infinite ease-in-out;
 }
 
 /* Second Line of Text */
@@ -85,7 +85,7 @@ function addStyles() {
     width: 40px;
     height: 8px;
     top: 30px;
-    animation: loadingText 1.5s infinite ease-in-out;
+    animation: loadingText 1s infinite ease-in-out;
 
 }
 
