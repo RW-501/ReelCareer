@@ -136,7 +136,7 @@ h2, h4, h5 {
         
     
         <section class="container mt-5 p-4 shadow-lg rounded bg-white">
-            <h2 class="text-center mb-4">[Company Name] Profile</h2>
+            <h2 id="companyTitle" class="text-center mb-4">[Company Name] Profile</h2>
             <hr class="my-4">
     
             <div id="mainArea" style="display: none;" class="row">
@@ -316,15 +316,18 @@ function showMainArea() {
         auth.onAuthStateChanged(user => {
             if (user || companyId ) {
                 const userId = user.uid;
-    
+                
                 if (!companyId) {
                 toggleEditMode(true);
                 const urlParams = new URLSearchParams(window.location.search);
                 let companyName = urlParams.get('create');
                 if(!companyName){companyName = "Company"};
-                
+                document.title = document.title.replace("[Company Name]", companyName);
+
                 document.getElementById("instructions").innerHTML = 
                 document.getElementById("instructions").innerHTML.replace("[Company Name]", companyName);
+                document.getElementById("companyTitle").innerHTML = 
+                document.getElementById("companyTitle").innerHTML.replace("[Company Name]", companyName);
 
 
 // Replace placeholder in the entire document body
@@ -401,7 +404,16 @@ function showMainArea() {
             document.getElementById('editCompanySize').value = companyData.size || '';
             document.getElementById('editCompanyFounded').value = companyData.founded || '';
         
+            let companyName = companyData.name;
             document.title = document.title.replace("[Company Name]", companyName);
+
+            if(!companyName){companyName = "Company"};
+                
+                document.getElementById("instructions").innerHTML = 
+                document.getElementById("instructions").innerHTML.replace("[Company Name]", companyName);
+                document.getElementById("companyTitle").innerHTML = 
+                document.getElementById("companyTitle").innerHTML.replace("[Company Name]", companyName);
+
         }
     
         // Load job listings for the company
@@ -423,7 +435,7 @@ function showMainArea() {
     
         // Toggle edit mode
         function toggleEditMode(editing) {
-            document.getElementById("editProfileBtn").innerText = editing ? "Cancel Edit" : "Edit Profile";
+            document.getElementById("editProfileBtn").innerText = editing ? "Edit" : "Edit Profile";
             const elementsToToggle = [
                 'editCompanyName', 
                 'editCompanyDescription', 
