@@ -73,7 +73,7 @@ function addStyles() {
 
 /* First Line of Text */
 .resume::before {
-    content: '';
+    content: '____';
     width: 20px;
     height: 8px;
     top: 15px;
@@ -85,7 +85,7 @@ function addStyles() {
 
 /* Second Line of Text */
 .resume::after {
-    content: '';
+    content: '____';
     width: 40px;
     height: 8px;
  
@@ -96,7 +96,7 @@ function addStyles() {
 
 /* Third Line of Text */
 .resume::third {
-    content: '';
+    content: '____';
     width: 40px;
     height: 8px;
     top: 35px;
@@ -105,7 +105,7 @@ function addStyles() {
     }
 
 .resume::4 {
-    content: '';
+    content: '____';
     width: 40px;
     height: 8px;
     top: 45px;
