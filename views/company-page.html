@@ -6,10 +6,6 @@
     <meta name="description" content="Explore the company profile, latest job openings, and get insights into the work environment.">
     <meta name="keywords" content="company profile, job openings, work environment, careers, apply now, job alerts">
     <meta name="robots" content="index, follow">
-    <meta property="og:title" content="Company Profile - [Company Name]">
-    <meta property="og:description" content="Learn about our work environment, view available job openings, and apply directly.">
-    <meta property="og:image" content="[link_to_company_image]">
-    <meta property="og:url" content="[current_url]">
     <title>Company Profile - [Company Name]</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -28,48 +24,6 @@
             margin-right: 15px;
         }
     </style>
-
-    <!-- Schema Markup for SEO -->
-    <script type="application/ld+json">
-        {
-            "@context": "https://schema.org",
-            "@type": "Organization",
-            "name": "[Company Name]",
-            "url": "[company_url]",
-            "logo": "[company_logo_url]",
-            "sameAs": [
-                "[linkedin_url]",
-                "[twitter_url]",
-                "[facebook_url]"
-            ],
-            "address": {
-                "@type": "PostalAddress",
-                "streetAddress": "[Company Address]",
-                "addressLocality": "[City]",
-                "addressRegion": "[State]",
-                "postalCode": "[ZipCode]",
-                "addressCountry": "US"
-            },
-            "description": "[Company Description]",
-            "contactPoint": {
-                "@type": "ContactPoint",
-                "telephone": "+1-555-555-5555",
-                "contactType": "Customer Service"
-            }
-        }
-    </script>
-
-
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    
-    <!-- Bootstrap CSS -->
-    <script src="../public/js/scripts.js"></script>
-    <script src="../public/js/loadScripts.js"></script>
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="../public/css/styles.css">
-
 </head>
 
 <body>
@@ -90,340 +44,142 @@
             </div>
         </div>
     </nav>
-
-    <!-- Company Profile Section -->
-    <section class="container mt-5">
-        <div class="row">
-            <div class="col-md-8">
-                <!-- Company Name -->
-                <h2 id="companyName">Loading...</h2>
-                <input type="text" id="editCompanyName" class="form-control" style="display:none;" placeholder="Enter Company Name">
     
-                <!-- Company Description -->
-                <p id="companyDescription" class="lead">Loading description...</p>
-                <textarea id="editCompanyDescription" class="form-control" rows="3" style="display:none;" placeholder="Enter Company Description"></textarea>
-    
-                <!-- Company Industry -->
-                <p><strong>Industry:</strong> <span id="companyIndustry">Loading...</span></p>
-                <input type="text" id="editCompanyIndustry" class="form-control" style="display:none;" placeholder="Enter Industry">
-    
-                <!-- Company Location -->
-                <p><strong>Location:</strong> <span id="companyLocation">Loading...</span></p>
-                <input type="text" id="editCompanyLocation" class="form-control" style="display:none;" placeholder="Enter Location">
-    
-                <!-- Save and Cancel Buttons -->
-                <div id="editButtons" style="display:none;">
-                    <button id="saveChangesBtn" class="btn btn-primary mt-3">Save Changes</button>
-                    <button id="cancelChangesBtn" class="btn btn-secondary mt-3">Cancel</button>
+    <main>
+        <section class="container mt-5">
+            <div class="row">
+                <div class="col-md-8">
+                    <h2 id="companyName">Loading...</h2>
+                    <input type="text" id="editCompanyName" class="form-control" style="display:none;" placeholder="Enter Company Name">
+                    
+                    <p id="companyDescription" class="lead">Loading description...</p>
+                    <textarea id="editCompanyDescription" class="form-control" rows="3" style="display:none;" placeholder="Enter Company Description"></textarea>
+                    
+                    <p><strong>Industry:</strong> <span id="companyIndustry">Loading...</span></p>
+                    <input type="text" id="editCompanyIndustry" class="form-control" style="display:none;" placeholder="Enter Industry">
+                    
+                    <p><strong>Location:</strong> <span id="companyLocation">Loading...</span></p>
+                    <input type="text" id="editCompanyLocation" class="form-control" style="display:none;" placeholder="Enter Location">
+                    
+                    <div id="editButtons" style="display:none;">
+                        <button id="saveChangesBtn" class="btn btn-primary mt-3">Save Changes</button>
+                        <button id="cancelChangesBtn" class="btn btn-secondary mt-3">Cancel</button>
+                    </div>
+                </div>
+                <div class="col-md-4 text-center">
+                    <img id="companyLogo" src="../images/sq_logo_n_BG.png" alt="Company Logo" class="img-fluid rounded-circle">
+                    <input type="file" id="editCompanyLogo" class="form-control mt-2" style="display:none;">
+                    <button id="editProfileBtn" class="btn btn-secondary" style="display:none;">Edit Profile</button>
                 </div>
             </div>
-            <div class="col-md-4 text-center">
-                <!-- Company Logo -->
-                <img id="companyLogo" src="../images/sq_logo_n_BG.png" alt="Company Logo" class="img-fluid rounded-circle">
-                <input type="file" id="editCompanyLogo" class="form-control mt-2" style="display:none;">
-            <!-- Moderator Edit Access (Visible only to Moderators) -->
-            <button id="editProfileBtn" class="btn btn-secondary" style="display:none;">Edit Profile</button>
-        </div>
-        </div>
-    </section>
-    
-  
-        <!-- CTA Buttons 
-        <div class="cta-buttons mt-4 text-center">
-            <a href="#" class="btn btn-primary">Apply Now</a>
-            <a href="#" class="btn btn-success">Follow Company</a>
-            <a href="#" class="btn btn-warning">Subscribe for Job Alerts</a>
-        </div>
-        -->
+        </section>
+    </main>
 
-    </section>
-
-    <!-- Company Media Section -->
-    <section class="container mt-5">
-        <h3>Work Environment</h3>
-        <div class="company-media row">
-            <div class="col-md-6">
-                <video controls>
-                    <source id="workEnvironmentVideo" src="#" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>
-            </div>
-            <div class="col-md-6">
-                <img id="workEnvironmentImage" src="../images/sq_logo_n_BG.png" alt="Company Work Environment" class="img-fluid">
-            </div>
-        </div>
-    </section>
-
-    <!-- Job Openings Widget with Search and Filters -->
-    <section class="container mt-5">
-        <h3>Latest Job Openings</h3>
-
-        <!-- Filters: Location, Job Title Search, Salary Range -->
-        <div class="row mb-4">
-            <div class="col-md-4">
-                <select id="locationDropdown" class="form-select">
-                    <option value="">All Locations</option>
-                    <option value="Dallas, TX">Dallas, TX</option>
-                    <option value="New York, NY">New York, NY</option>
-                    <option value="Remote">Remote</option>
-                </select>
-            </div>
-            <div class="col-md-4">
-                <input type="text" id="jobTitleSearch" class="form-control" placeholder="Search by Job Title">
-            </div>
-            <div class="col-md-4">
-                <input type="range" id="salaryRange" class="form-range" min="50000" max="200000" step="10000">
-                <label for="salaryRange">Salary: <span id="salaryDisplay">$50,000+</span></label>
-            </div>
-        </div>
-
-        <div id="jobOpenings" class="row">
-            <!-- Job postings will be dynamically inserted here -->
-        </div>
-    </section>
-
- 
-    <!-- Footer -->
     <footer id="dynamic-footer"></footer>
-    
-    <!-- Firebase configuration/ Login& Out -->
-    <script type="module" src="../public/js/main.js"></script> 
 
-    <!-- Dynamic Schema Markup -->
     <script type="module">
-    import { db, storage, analytics, app  } from '../public/js/main.js'; // Adjust the path based on your structure
-    import { query, where, orderBy, limit,  collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
-    
-    
+        import { db, auth } from '../public/js/main.js';
+        import { doc, getDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 
-    const companyRef = doc(db, "Companies", companyId); // Get a reference to the company document
-
-// Check if user is a moderator
-auth.onAuthStateChanged(async (user) => {
-    if (user) {
-        const moderatorRef = doc(db, "moderators", user.uid); // Get a reference to the moderator document
-        const docSnapshot = await getDoc(moderatorRef); // Fetch the document snapshot
-
-        if (docSnapshot.exists()) {
-            // Show the Edit button if the user is a moderator
-            document.getElementById("editProfileBtn").style.display = "block";
-        }
-    }
-});
-    // Toggle Edit Mode
-    document.getElementById("editProfileBtn").addEventListener("click", () => {
-        toggleEditMode(true);
-    });
-
-    // Save Changes button
-    document.getElementById("saveChangesBtn").addEventListener("click", () => {
-        saveCompanyChanges();
-    });
-
-    // Cancel Changes button
-    document.getElementById("cancelChangesBtn").addEventListener("click", () => {
-        toggleEditMode(false);
-    });
-
-    // Function to toggle between edit mode and view mode
-    function toggleEditMode(editMode) {
-        const isEditing = editMode === true;
-        document.getElementById("companyName").style.display = isEditing ? "none" : "block";
-        document.getElementById("companyDescription").style.display = isEditing ? "none" : "block";
-        document.getElementById("companyIndustry").style.display = isEditing ? "none" : "block";
-        document.getElementById("companyLocation").style.display = isEditing ? "none" : "block";
-        document.getElementById("editCompanyName").style.display = isEditing ? "block" : "none";
-        document.getElementById("editCompanyDescription").style.display = isEditing ? "block" : "none";
-        document.getElementById("editCompanyIndustry").style.display = isEditing ? "block" : "none";
-        document.getElementById("editCompanyLocation").style.display = isEditing ? "block" : "none";
-        document.getElementById("editCompanyLogo").style.display = isEditing ? "block" : "none";
-        document.getElementById("editButtons").style.display = isEditing ? "block" : "none";
-
-        // Set current values to input fields if entering edit mode
-        if (isEditing) {
-            document.getElementById("editCompanyName").value = document.getElementById("companyName").innerText;
-            document.getElementById("editCompanyDescription").value = document.getElementById("companyDescription").innerText;
-            document.getElementById("editCompanyIndustry").value = document.getElementById("companyIndustry").innerText;
-            document.getElementById("editCompanyLocation").value = document.getElementById("companyLocation").innerText;
-        }
-    }
-
-    // Save the changes made by the moderator
-    function saveCompanyChanges() {
-        const updatedCompany = {
-            name: document.getElementById("editCompanyName").value,
-            description: document.getElementById("editCompanyDescription").value,
-            industry: document.getElementById("editCompanyIndustry").value,
-            location: document.getElementById("editCompanyLocation").value,
-        };
-
-        const companyRefname = db.collection('companies').doc(updatedCompany.name);  // Assuming companyName is unique for the document ID
-// Get the company document to check if it exists
-companyRef.get().then((doc) => {
-    if (doc.exists) {
-        // If the company exists, update the document with the new data
-        companyRef.update(updatedCompany)
-        .then(() => {
-      
-
-            // Reflect changes on the page
-            document.getElementById("companyName").innerText = updatedCompany.name;
-            document.getElementById("companyDescription").innerText = updatedCompany.description;
-            document.getElementById("companyIndustry").innerText = updatedCompany.industry;
-            document.getElementById("companyLocation").innerText = updatedCompany.location;
-
-            // Exit edit mode
-            toggleEditMode(false);
-            console.log("Company updated successfully with ID:", doc.id);
-        })
-        .catch((error) => {
-            console.error("Error updating company: ", error);
-        });
-    } else {
-        // If the company does not exist, create a new document
-        companyRef.set(updatedCompany, { merge: true })  // merge: true ensures any pre-existing fields remain untouched
-        .then(() => {
-
-                        // Reflect changes on the page
-                        document.getElementById("companyName").innerText = updatedCompany.name;
-            document.getElementById("companyDescription").innerText = updatedCompany.description;
-            document.getElementById("companyIndustry").innerText = updatedCompany.industry;
-            document.getElementById("companyLocation").innerText = updatedCompany.location;
-
-            // Exit edit mode
-            toggleEditMode(false);
-            console.log("Company created successfully with ID:", companyRef.id);
-        })
-        .catch((error) => {
-            console.error("Error creating company: ", error);
-        });
-    }
-}).catch((error) => {
-    console.error("Error fetching company data: ", error);
-});
-
-    }
-
-    // Fetch the company data and populate the page
-    companyRef.get().then(doc => {
-        if (doc.exists) {
-            const companyData = doc.data();
-            document.getElementById("companyName").innerText = companyData.name;
-            document.getElementById("companyDescription").innerText = companyData.description;
-            document.getElementById("companyIndustry").innerText = companyData.industry;
-            document.getElementById("companyLocation").innerText = companyData.location;
-            document.getElementById("companyLogo").src = companyData.logoUrl;
-        } else {
-            alert("No company profile found!");
-        }
-    }).catch((error) => {
-        console.error("Error fetching company profile: ", error);
-    });
-
-    document.addEventListener("DOMContentLoaded", () => {
-
-
-        const urlParams = new URLSearchParams(window.location.search);
-        const companyId = urlParams.get('id'); // Get job ID from URL
-        const createCompany = urlParams.get('create'); // Get job ID from URL
-if(createCompany){
-    document.getElementById("editProfileBtn").style.display = "block";
-
-}
-
-
-
-// Reference to the company document
-const companyRef = doc(db, "Companies", companyId);
-
-// Fetch the document
-getDoc(companyRef).then((docSnapshot) => {
-        if (doc.exists) {
-            const companyData = doc.data();
-            document.getElementById("companyName").textContent = companyData.name;
-            document.getElementById("companyDescription").textContent = companyData.description;
-            document.getElementById("companyIndustry").textContent = companyData.industry;
-            document.getElementById("companyLocation").textContent = companyData.location;
-            document.getElementById("companyLogo").src = companyData.logoUrl;
-            document.getElementById("workEnvironmentVideo").src = companyData.videoUrl || "#";
-            document.getElementById("workEnvironmentImage").src = companyData.imageUrl || "#";
-
-            // Update dynamic meta tags
-            document.title = `Company Profile - ${companyData.name}`;
-            document.querySelector('meta[property="og:title"]').setAttribute("content", `Company Profile - ${companyData.name}`);
-            document.querySelector('meta[name="twitter:title"]').setAttribute("content", `Company Profile - ${companyData.name}`);
-            document.querySelector('meta[property="og:url"]').setAttribute("content", window.location.href);
-            document.querySelector('meta[property="og:image"]').setAttribute("content", companyData.logoUrl);
-            document.querySelector('meta[name="description"]').setAttribute("content", companyData.description);
-
-            // Show edit button for moderators
-            if (companyData.isModerator) {
-                document.getElementById("editProfileBtn").style.display = "block";
-            }
-        } else {
-            console.error("No such company!");
-        }
-    });
-});
-// Update Schema Markup for SEO
-const schemaMarkup = {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": companyData.name,
-    "url": companyData.url,
-    "logo": companyData.logoUrl,
-    "sameAs": [
-        companyData.linkedinUrl,
-        companyData.twitterUrl,
-        companyData.facebookUrl
-    ],
-    "address": {
-        "@type": "PostalAddress",
-        "streetAddress": companyData.address,
-        "addressLocality": companyData.city,
-        "addressRegion": companyData.state,
-        "postalCode": companyData.zipCode,
-        "addressCountry": "US"
-    },
-    "description": companyData.description,
-    "contactPoint": {
-        "@type": "ContactPoint",
-        "telephone": "+1-555-555-5555",
-        "contactType": "Customer Service"
-    }
-};
-
-// Inject the updated schema markup into the page
-const script = document.createElement('script');
-script.type = 'application/ld+json';
-script.textContent = JSON.stringify(schemaMarkup);
-document.head.appendChild(script);
-
-
-        // Fetch company profile based on companyId in the URL
         const urlParams = new URLSearchParams(window.location.search);
         const companyId = urlParams.get('companyId');
+        const userId = auth.currentUser ? auth.currentUser.uid : null; // Get the current user's ID
 
+        // Check if a companyId exists in the URL
         if (companyId) {
+            // Fetch company data from Firestore
+            const companyRef = doc(db, "Companies", companyId);
             getDoc(companyRef).then((docSnapshot) => {
-                if (doc.exists) {
-                    const companyData = doc.data();
-                    document.getElementById("companyName").innerText = companyData.name || "N/A";
-    document.getElementById("companyDescription").innerText = companyData.description || "Description not available.";
-    document.getElementById("companyIndustry").innerText = companyData.industry || "Industry not specified.";
-    document.getElementById("companyLocation").innerText = companyData.location || "Location not provided.";
-    
-                    document.getElementById("companyLogo").src = companyData.logoUrl  || '../images/sq_logo_n_BG.png';
-                    document.getElementById("workEnvironmentVideo").src = companyData.workEnvironmentVideo;
-                    document.getElementById("workEnvironmentImage").src = companyData.workEnvironmentImage  || '../images/sq_logo_n_BG.png';
+                if (docSnapshot.exists()) {
+                    const companyData = docSnapshot.data();
+                    document.getElementById("companyName").innerText = companyData.name;
+                    document.getElementById("companyDescription").innerText = companyData.description;
+                    document.getElementById("companyIndustry").innerText = companyData.industry;
+                    document.getElementById("companyLocation").innerText = companyData.location;
+
+                    // Check if the user is the admin of this company
+                    if (userId === companyData.adminId) {
+                        // Show editable fields
+                        toggleEditMode(true);
+                    }
                 } else {
-                    alert("Company profile not found.");
+                    // Handle the case when the company does not exist
+                    console.log("Company not found");
                 }
-            }).catch(error => {
-                console.error("Error fetching company profile:", error);
+            }).catch((error) => {
+                console.error("Error fetching company data:", error);
             });
         } else {
-            alert("No company ID provided.");
+            // No companyId in the URL; show empty fields for creating a company
+            toggleEditMode(false);
+        }
+
+        // Toggle Edit Mode
+        document.getElementById("editProfileBtn").addEventListener("click", () => {
+            toggleEditMode(true);
+        });
+
+        document.getElementById("saveChangesBtn").addEventListener("click", () => {
+            saveCompanyChanges();
+        });
+
+        document.getElementById("cancelChangesBtn").addEventListener("click", () => {
+            toggleEditMode(false);
+        });
+
+        function toggleEditMode(editMode) {
+            const isEditing = editMode === true;
+            document.getElementById("companyName").style.display = isEditing ? "none" : "block";
+            document.getElementById("companyDescription").style.display = isEditing ? "none" : "block";
+            document.getElementById("companyIndustry").style.display = isEditing ? "none" : "block";
+            document.getElementById("companyLocation").style.display = isEditing ? "none" : "block";
+            document.getElementById("editCompanyName").style.display = isEditing ? "block" : "none";
+            document.getElementById("editCompanyDescription").style.display = isEditing ? "block" : "none";
+            document.getElementById("editCompanyIndustry").style.display = isEditing ? "block" : "none";
+            document.getElementById("editCompanyLocation").style.display = isEditing ? "block" : "none";
+            document.getElementById("editCompanyLogo").style.display = isEditing ? "block" : "none";
+            document.getElementById("editButtons").style.display = isEditing ? "block" : "none";
+
+            // Set current values to input fields if entering edit mode
+            if (isEditing) {
+                document.getElementById("editCompanyName").value = document.getElementById("companyName").innerText;
+                document.getElementById("editCompanyDescription").value = document.getElementById("companyDescription").innerText;
+                document.getElementById("editCompanyIndustry").value = document.getElementById("companyIndustry").innerText;
+                document.getElementById("editCompanyLocation").value = document.getElementById("companyLocation").innerText;
+            } else {
+                // If not in edit mode, reset input values to empty for creating a new company
+                if (!companyId) {
+                    document.getElementById("editCompanyName").value = '';
+                    document.getElementById("editCompanyDescription").value = '';
+                    document.getElementById("editCompanyIndustry").value = '';
+                    document.getElementById("editCompanyLocation").value = '';
+                }
+            }
+        }
+
+        function saveCompanyChanges() {
+            const updatedCompany = {
+                name: document.getElementById("editCompanyName").value,
+                description: document.getElementById("editCompanyDescription").value,
+                industry: document.getElementById("editCompanyIndustry").value,
+                location: document.getElementById("editCompanyLocation").value,
+            };
+
+            const companyRef = doc(db, "Companies", companyId || updatedCompany.name); // Use companyId or new company name
+            // Update or create company data
+            // Assume a function updateCompanyInFirestore() handles this
+            updateCompanyInFirestore(companyRef, updatedCompany).then(() => {
+                alert("Company details saved successfully!");
+                toggleEditMode(false);
+                // Optionally refresh the page or redirect
+            }).catch((error) => {
+                console.error("Error saving company details:", error);
+            });
+        }
+
+        function updateCompanyInFirestore(companyRef, updatedCompany) {
+            // Implement the Firestore update/create logic
+            return null; // Replace with actual logic
         }
     </script>
 </body>
