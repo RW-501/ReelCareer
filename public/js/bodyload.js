@@ -142,6 +142,8 @@ function addStyles() {
     margin-bottom: 20px;
     border-radius: 5px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        opacity: 1;
+
 }
 
 /* Resume Lines (Represent Text Being Typed Out) */
@@ -175,6 +177,8 @@ function addStyles() {
     color: #333;
     font-family: 'Arial', sans-serif;
     text-align: center;
+        opacity: 1;
+
 }
 
 /* Loading Dots Animation */
@@ -356,6 +360,7 @@ function hideLoader(dotsInterval) {
         // Remove loader from DOM after transition and clear interval for dots
         setTimeout(() => {
             loader.classList.add('hidden'); // Fade out loader
+            console.log("Loader removed successfully.");
 
             loader.remove();
             clearInterval(dotsInterval); // Stop the dot animation
