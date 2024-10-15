@@ -39,12 +39,12 @@ hr {
 /* Links */
 a {
     color: #639ad4;
-    text-decoration: none;
+    text-decoration: none !important;
 }
 
 a:hover {
-    color: #416a9c;
-    text-decoration: underline;
+    color: #37567b;
+    text-decoration: none !important;
 }
 
 /* Buttons */
