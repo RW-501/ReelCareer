@@ -469,10 +469,10 @@ document.getElementById("generateDescriptionBtn").addEventListener("click", func
         // Select random descriptions for each selected industry
         const randomDescriptions = industries.map(industry => {
             const industryDescriptions = descriptions[industry] || [];
-            if (industryDescriptions.length > 0) {
+           // if (industryDescriptions.length > 0) {
                 // Randomly select a description for the industry
                 return industryDescriptions[Math.floor(Math.random() * industryDescriptions.length)];
-            }
+          //  }
             return '';
         }).filter(desc => desc); // Remove any empty descriptions
 
