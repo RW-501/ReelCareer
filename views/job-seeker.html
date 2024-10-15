@@ -157,9 +157,70 @@
 
     <!-- Dynamic Schema Markup -->
     <script type="module">
-    import { db, storage, analytics, app  } from '../public/js/main.js'; // Adjust the path based on your structure
+    import {onAuthStateChanged, db, storage, analytics, app  } from '../public/js/main.js'; // Adjust the path based on your structure
     import { query, where, orderBy, limit,  collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
     
+
+    
+    // Check for auth state changes
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            // User is signed in, proceed with user ID handling
+            console.log("User ID: ", user.uid);
+    
+            const urlParams = new URLSearchParams(window.location.search);
+            const userIdFromURL = urlParams.get('u');
+
+            // Ensure userIdFromURL is not null or undefined
+            if (userIdFromURL) {
+                checkUser(userIdFromURL);
+            } else {
+                checkUser(user.uid);
+                document.getElementById('send-message-btn').style.display = 'none';
+                document.getElementById('connect-btn').style.display = 'none';
+
+                
+            }
+
+            // Async function to check the user profile
+            async function checkUser(userIdFromURL) {
+                try {
+                    // Fetch profile information based on userId in the URL
+                    const profileDoc = doc(db, 'Users', userIdFromURL);
+                    const profileSnapshot = await getDoc(profileDoc);
+
+                    if (profileSnapshot.exists()) {
+                        const profileData = profileSnapshot.data();
+                        console.log("User data: ", profileData);
+
+                        // Check if the profile is public
+                        if (!profileData.profilePublic) {
+                            await loadUserData(profileData); // Load user data if public
+                            await loadUserJobs(userIdFromURL);
+                            await loadUserBlogs(userIdFromURL);
+                            await loadUserCompanies(userIdFromURL);
+                            await loadUserVideoResumes(userIdFromURL);
+                            await loadSocialMedia(profileData);
+                        } else {
+                            alert('This profile is private.');
+                          //  window.location.href = 'user.html';
+                        }
+                    } else {
+                        console.error("No such user document!");
+                        alert('User data not found.');
+                    }
+                } catch (error) {
+                    console.error("Error fetching user data:", error);
+                }
+            }
+        } else {
+            // User is signed out, handle accordingly
+            console.log("User is signed out.");
+            // Redirect to a login page or show a message
+        }
+    });
+
+
               // Execute the check when the page loads
   document.addEventListener('DOMContentLoaded', checkUsernameAndShowModal);
 

@@ -975,7 +975,7 @@ function populateFormFields(userData) {
     
     // Populate social media fields
     document.getElementById('linkedinSET').value = userData.linkedin || '';
-    document.getElementById('PortfoioSET').value = userData.Portfoio || '';
+    document.getElementById('portfolioSET').value = userData.portfoio || '';
     document.getElementById('githubSET').value = userData.github || '';
     document.getElementById('otherSET').value = userData.other || '';
 
@@ -1056,7 +1056,7 @@ function initializeProfileModal(user) {
             github: document.getElementById('githubSET').value,
             linkedin: document.getElementById('linkedinSET').value,
             other: document.getElementById('otherSET').value,
-            portfoio: document.getElementById('PortfoioSET').value,
+            portfolio: document.getElementById('portfolioSET').value,
             position: document.getElementById('positionSET').value,
             publicProfile: document.getElementById('publicProfileSET').checked
             };
