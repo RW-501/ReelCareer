@@ -20,13 +20,14 @@
 // Function to inject CSS styles into the document
         // Function to add styles
 // Function to add styles for loader and content
+// Function to add styles for loader and content
 function addStyles() {
     const style = document.createElement('style');
     style.type = 'text/css';
     style.innerHTML = `
         /* Page Loader Styles */
         body {
-            transition: opacity 5.0s ease-in-out;
+            transition: opacity 2.0s ease-in-out;
         }
 
         .loader {
@@ -42,7 +43,7 @@ function addStyles() {
             align-items: center;
             z-index: 9999;
             opacity: 1;
-            transition: opacity 0.5s ease-in-out;
+            transition: opacity 2.0s ease-in-out;
         }
 
         .loader.hidden {
@@ -53,12 +54,14 @@ function addStyles() {
         /* Spinner Animation */
         .spinner {
             border: 8px solid rgba(255, 255, 255, 0.3);
-            border-top: 8px solid #007bff; /* Change color for branding */
+            border-top: 8px solid #007bff; /* Branding color */
             border-radius: 50%;
-            width: 50px;
-            height: 50px;
+            width: 60px;
+            height: 60px;
             animation: spin 1s linear infinite;
             margin-bottom: 20px;
+            position: relative;
+            animation: spin 1.5s linear infinite;
         }
 
         @keyframes spin {
@@ -66,16 +69,34 @@ function addStyles() {
             100% { transform: rotate(360deg); }
         }
 
+        /* Center the logo with the spinner */
+        .loader-container {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
         .loading-message {
-            font-size: 18px;
-            color: #333; /* Better contrast */
+            font-size: 24px; /* Increased font size for better visibility */
+            font-weight: bold;
+            color: #333; /* Improved contrast */
+            text-align: center;
+        }
+
+        /* ReelCareer.co logo */
+        .logo {
+            font-size: 36px; /* Logo size */
+            font-weight: bold;
+            color: #007bff; /* Branding color */
+            margin-top: 10px; /* Space between spinner and logo */
             text-align: center;
         }
 
         /* Smooth content loading */
         body {
             opacity: 0;
-            transition: opacity 5.0s ease-in-out;
+            transition: opacity 2.0s ease-in-out;
         }
 
         body.loaded {
@@ -94,8 +115,15 @@ function createLoader(message = 'Loading...') {
     loaderDiv.setAttribute('aria-live', 'assertive');
     loaderDiv.setAttribute('aria-busy', 'true');
 
+    const loaderContainer = document.createElement('div');
+    loaderContainer.classList.add('loader-container');
+
     const spinner = document.createElement('div');
     spinner.classList.add('spinner');
+
+    const logo = document.createElement('div');
+    logo.classList.add('logo');
+    logo.textContent = 'ReelCareer.co'; // Logo text
 
     const statusDiv = document.createElement('div');
     statusDiv.classList.add('loading-message');
@@ -105,7 +133,9 @@ function createLoader(message = 'Loading...') {
 
     console.log("Created Loader with message:", message);
 
-    loaderDiv.appendChild(spinner);
+    loaderContainer.appendChild(spinner);
+    loaderContainer.appendChild(logo);
+    loaderDiv.appendChild(loaderContainer);
     loaderDiv.appendChild(statusDiv);
     document.body.appendChild(loaderDiv);
 }
@@ -126,7 +156,7 @@ function hideLoader() {
             } catch (error) {
                 console.error("Error removing loader:", error);
             }
-        }, 5000); // Adjusted to match opacity transition time (0.5s)
+        }, 3000); // Adjusted to match opacity transition time (0.5s)
     } else {
         console.warn("Loader not found, cannot hide.");
     }
