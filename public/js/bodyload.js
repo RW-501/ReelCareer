@@ -81,7 +81,7 @@ function addStyles() {
     right:0;
     margin:auto;
     top: 0px;
-    color: chartreuse;
+    color: gray;
     position: absolute;
     animation: loadingText 1s infinite cubic-bezier(0.4, 0, 1, 1);
     }
@@ -93,8 +93,8 @@ function addStyles() {
     right:0;
     margin:auto;
  
-        top: 15px;
-    color: chartreuse;
+        top: 10px;
+    color: gray;
     position: absolute;
      animation: loadingText 1.3s infinite cubic-bezier(0.4, 0, 1, 1);
     }
@@ -106,7 +106,7 @@ function addStyles() {
     right:0;
     margin:auto;
     top: 20px;
-    color: red;
+    color: gray;
     position: absolute;
     animation: loadingText 1.6s infinite cubic-bezier(0.4, 0, 1, 1);
     }
@@ -116,8 +116,8 @@ function addStyles() {
     left: 0;
     right:0;
     margin:auto;
-    top: 25px;
-    color: blue;
+    top: 30px;
+    color: gray;
     position: absolute;
     animation: loadingText 1.9s infinite cubic-bezier(0.4, 0, 1, 1);
     }
@@ -126,22 +126,44 @@ function addStyles() {
     left: 0;
     right:0;
     margin:auto;
-    top: 30px;
-    color: blue;
+    top: 40px;
+    color: gray;
     position: absolute;
-    animation: loadingText 1.9s infinite cubic-bezier(0.4, 0, 1, 1);
+    animation: loadingText 2.3s infinite cubic-bezier(0.4, 0, 1, 1);
     }
     .l6 {
     content: '____';
     left: 0;
     right:0;
     margin:auto;
-    top: 40px;
-    color: blue;
+    top: 50px;
+    color: gray;
     position: absolute;
-    animation: loadingText 1.9s infinite cubic-bezier(0.4, 0, 1, 1);
+    animation: loadingText 2.6s infinite cubic-bezier(0.4, 0, 1, 1);
     }
 
+
+.l7 {
+    content: '____';
+    left: 0;
+    right:0;
+    margin:auto;
+    top: 60px;
+    color: gray;
+    position: absolute;
+    animation: loadingText 2.8s infinite cubic-bezier(0.4, 0, 1, 1);
+    }
+    .l8 {
+    content: '____';
+    left: 0;
+    right:0;
+    margin:auto;
+    top: 70px;
+    color: gray;
+    position: absolute;
+    animation: loadingText 3.0s infinite cubic-bezier(0.4, 0, 1, 1);
+    }
+    
 
 
 
@@ -220,6 +242,14 @@ function createLoader(message = 'ReelCareer') {
     const l6 = document.createElement('div');
     l6.classList.add('l6');
     l6.innerHTML="____";
+
+    const l7 = document.createElement('div');
+    l7.classList.add('l7');
+    l7.innerHTML="____";
+
+    const l8 = document.createElement('div');
+    l8.classList.add('l8');
+    l8.innerHTML="_  _";
 
 
     // Create dynamic loading message with dots
