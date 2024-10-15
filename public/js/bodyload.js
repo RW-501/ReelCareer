@@ -399,7 +399,7 @@ function hideLoader(dotsInterval) {
 
             loader.remove();
             clearInterval(dotsInterval); // Stop the dot animation
-        }, 1000); // Match transition time (0.5s)
+        }, 5000); // Match transition time (0.5s)
     }
 }
 
