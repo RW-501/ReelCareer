@@ -60,7 +60,8 @@ function addStyles() {
     margin-bottom: 20px;
     border-radius: 5px;
     box-shadow: -6px -4px 8px 0px rgb(0 0 0 / 54%);
-
+    text-align: center;
+    color: wheat;
 }
 
 /* Resume Lines (Represent Text Being Typed Out) */
@@ -77,9 +78,8 @@ function addStyles() {
     width: 20px;
     height: 8px;
     top: 15px;
-        left: 5px;
-    right: 5px;
-    margin: auto;
+    color: chartreuse;
+    position: relative;
     animation: loadingText 1s infinite cubic-bezier(0.4, 0, 1, 1);
     }
 
@@ -90,7 +90,8 @@ function addStyles() {
     height: 8px;
  
         top: 25px;
-
+    color: chartreuse;
+    position: relative;
      animation: loadingText 1.3s infinite cubic-bezier(0.4, 0, 1, 1);
     }
 
@@ -100,7 +101,8 @@ function addStyles() {
     width: 40px;
     height: 8px;
     top: 35px;
-
+    color: chartreuse;
+    position: relative;
     animation: loadingText 1.6s infinite cubic-bezier(0.4, 0, 1, 1);
     }
 
@@ -109,7 +111,8 @@ function addStyles() {
     width: 40px;
     height: 8px;
     top: 45px;
-
+    color: chartreuse;
+    position: relative;
     animation: loadingText 1.9s infinite cubic-bezier(0.4, 0, 1, 1);
     }
 
