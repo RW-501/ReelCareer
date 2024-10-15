@@ -100,7 +100,7 @@ function addStyles() {
     }
 
 /* Third Line of Text */
-.resume::third {
+.l3 {
     content: '____';
     left: 0;
     right:0;
@@ -111,7 +111,7 @@ function addStyles() {
     animation: loadingText 1.6s infinite cubic-bezier(0.4, 0, 1, 1);
     }
 
-.resume::4 {
+.l4 {
     content: '____';
     left: 0;
     right:0;
@@ -185,6 +185,10 @@ function createLoader(message = 'ReelCareer') {
     const resume = document.createElement('div');
     resume.classList.add('resume');
 
+    const l3 = document.createElement('div');
+    l3.classList.add('l3');
+    const l4 = document.createElement('div');
+    l4.classList.add('l4');
 
 
     // Create dynamic loading message with dots
@@ -194,6 +198,8 @@ function createLoader(message = 'ReelCareer') {
     statusDiv.textContent = message;
 
     // Append resume and status message to loader div
+    loaderDiv.appendChild(l4);
+    loaderDiv.appendChild(l3);
     loaderDiv.appendChild(resume);
     loaderDiv.appendChild(statusDiv);
 
