@@ -38,7 +38,7 @@ function addStyles() {
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(82, 81, 81, 0.9);
+            background: rgba(80, 80, 80, 0.9);
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -81,7 +81,6 @@ function addStyles() {
 
         .loading-message {
             font-weight: bold;
-            color: #5b6369; /* Improved contrast */
             text-align: center;   
              font-size: 2.50rem;
     color: #5b6369;
@@ -164,7 +163,7 @@ function animateLoadingDots(element, baseMessage) {
         dotCount = (dotCount + 1) % (maxDots + 1); // Cycle between 0 and 3 dots
         const dots = '.'.repeat(dotCount); // Generate dots string based on count
         element.textContent = `${baseMessage}${dots}`; // Update the text content
-    }, loadingTime); // Adjust the speed of the dot animation (500ms per update)
+    }, 500); // Adjust the speed of the dot animation (500ms per update)
 }
 
 // Function to hide loader after page load
