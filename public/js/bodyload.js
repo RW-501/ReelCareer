@@ -113,6 +113,19 @@ function addStyles() {
     document.head.appendChild(style);
 }
 
+function typeEffect(element, text, speed = 100) {
+    let index = 0;
+    
+    function type() {
+        if (index < text.length) {
+            element.textContent += text.charAt(index);
+            index++;
+            setTimeout(type, speed);
+        }
+    }
+    
+    type();
+}
 const loadingTime = 3000;
 
 // Function to create and inject loader into DOM
@@ -132,7 +145,9 @@ function createLoader(message = 'Loading') {
 
     const logo = document.createElement('div');
     logo.classList.add('logo');
-    logo.textContent = 'ReelCareer.co'; // Logo text
+    // Start with an empty string, and use typeEffect to create typing animation
+    logo.textContent = ''; // Initially empty
+    typeEffect(logo, 'ReelCareer', 150); // Typing effect for "ReelCareer"
 
     const statusDiv = document.createElement('div');
     statusDiv.classList.add('loading-message');
