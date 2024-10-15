@@ -92,7 +92,7 @@
             if (loader) {
                 loader.classList.add('hidden');
                 // Remove from DOM after transition
-                setTimeout(() => loader.remove(), 500); // Adjusted to match opacity transition
+                setTimeout(() => loader.remove(), 10000); // Adjusted to match opacity transition
             }
         }
 
@@ -111,7 +111,7 @@
 
 
 
-        
+
 // Lazy Load for Images using Intersection Observer
 document.addEventListener("DOMContentLoaded", function () {
     const lazyImages = document.querySelectorAll('.lazy-load');
