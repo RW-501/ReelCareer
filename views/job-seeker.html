@@ -25,8 +25,6 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-
-    <!-- Custom CSS -->
     <link rel="stylesheet" href="../public/css/styles.css">
 
     <style>
@@ -52,7 +50,6 @@
             margin-top: 10px;
         }
     </style>
-
 
     <!-- Bootstrap CSS -->
 
@@ -93,129 +90,208 @@
             </ul>
         </div>
     </nav>
-
-    <!-- Dashboard Container -->
-    <main class="container dashboard-container">
-        <div class="row">
-            <!-- Resumes Section -->
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-header">Resumes</div>
-                    <div class="card-body">
-                        <p>Upload or manage your resumes:</p>
-                        <form>
-                            <input type="file" class="form-control-file" id="resumeUpload">
-                        </form>
-                        <div class="resume-list mt-3">
-                            <!-- Resumes will be dynamically listed here -->
-                            <p><strong>Uploaded Resumes:</strong></p>
-                            <ul id="resumeList">
-                                <li>Resume 1</li>
-                                <li>Resume 2</li>
-                            </ul>
-                        </div>
-                    </div>
+  <!-- Dashboard Container -->
+  <main class="container dashboard-container mt-4">
+    <div class="row">
+        <!-- Resumes Section -->
+        <div class="col-md-6">
+            <div class="card mb-4 shadow-sm">
+                <div class="card-header bg-light">
+                    <h5 class="mb-0">Resumes</h5>
                 </div>
-
-                <!-- Video Resumes Section -->
-                <div class="card">
-                    <div class="card-header">Video Resumes</div>
-                    <div class="card-body">
-                        <p>Upload or generate your video resumes:</p>
-                        <form>
-                            <input type="file" class="form-control-file" id="videoResumeUpload">
-                        </form>
-                        <div class="video-resume-list mt-3">
-                            <p><strong>Uploaded/Generated Video Resumes:</strong></p>
-                            <ul id="videoResumeList">
-                                <li>Video Resume 1</li>
-                                <li>Video Resume 2</li>
-                            </ul>
+                <div class="card-body">
+                    <p>Upload or manage your resumes:</p>
+                    <form id="resumeUploadForm">
+                        <input type="file" class="form-control-file" id="resumeUpload" accept=".pdf,.doc,.docx" aria-label="Upload Resume">
+                        <button type="submit" class="btn btn-primary mt-2" title="Upload your resume">Upload Resume</button>
+                    </form>
+                    <div id="resumeLoading" class="d-none">
+                        <div class="spinner-border" role="status">
+                            <span class="visually-hidden">Loading...</span>
                         </div>
                     </div>
+                    <div class="resume-list mt-3">
+                        <p><strong>Uploaded Resumes:</strong></p>
+                        <ul id="resumeList" class="list-group">
+                            <!-- Resumes will be dynamically listed here -->
+                        </ul>
+                    </div>
+                    <div id="resumeFeedback" class="alert d-none" role="alert"></div>
                 </div>
             </div>
 
+            <!-- Video Resumes Section -->
+            <div class="card mb-4 shadow-sm">
+                <div class="card-header bg-light">
+                    <h5 class="mb-0">Video Resumes</h5>
+                </div>
+                <div class="card-body">
+                    <p>Upload or generate your video resumes:</p>
+                    <form id="videoResumeUploadForm">
+                        <input type="file" class="form-control-file" id="videoResumeUpload" accept="video/*" aria-label="Upload Video Resume">
+                        <button type="submit" class="btn btn-primary mt-2" title="Upload your video resume">Upload Video Resume</button>
+                    </form>
+                    <div id="videoLoading" class="d-none">
+                        <div class="spinner-border" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                    <div class="video-resume-list mt-3">
+                        <p><strong>Uploaded/Generated Video Resumes:</strong></p>
+                        <ul id="videoResumeList" class="list-group">
+                            <!-- Video resumes will be dynamically listed here -->
+                        </ul>
+                    </div>
+                    <div id="videoFeedback" class="alert d-none" role="alert"></div>
+                </div>
+            </div>
+        </div>
+
+    
             <!-- Applications Section -->
             <div class="col-md-6">
-                <div class="card">
-                    <div class="card-header">Applications</div>
+                <div class="card mb-4 shadow-sm">
+                    <div class="card-header bg-light">
+                        <h5 class="mb-0">Applications</h5>
+                    </div>
                     <div class="card-body">
                         <p>Your recent job applications:</p>
-                        <ul id="applicationsList">
-                            <li>Job at Company A - Status: <strong>In Progress</strong> <button class="btn btn-primary btn-boost">Boost</button></li>
-                            <li>Job at Company B - Status: <strong>Submitted</strong> <button class="btn btn-primary btn-boost">Boost</button></li>
-                            <li>Job at Company C - Status: <strong>Archived</strong></li>
+                        <ul id="applicationsList" class="list-group">
+                            <!-- Applications will be dynamically listed here -->
                         </ul>
                     </div>
                 </div>
 
                 <!-- Application Performance Analytics -->
-                <div class="card">
-                    <div class="card-header">Application Analytics</div>
+                <div class="card mb-4 shadow-sm">
+                    <div class="card-header bg-light">
+                        <h5 class="mb-0">Application Analytics</h5>
+                    </div>
                     <div class="card-body">
-                        <p>Track performance of your boosted applications:</p>
-                        <ul id="analyticsList">
-                            <li>Job at Company A: Views: <strong>25</strong>, Clicks: <strong>5</strong>, Interactions: <strong>2</strong></li>
-                            <li>Job at Company B: Views: <strong>15</strong>, Clicks: <strong>3</strong></li>
-                        </ul>
+                        <p>Track your application performance:</p>
+                        <div id="analyticsPerformance" class="list-group">
+                            <li class="list-group-item">Total Applications: <span id="totalApplications">0</span></li>
+                            <li class="list-group-item">Total Views: <span id="totalViews">0</span></li>
+                        </div>
+                        <button class="btn btn-info mt-3" id="btnRefreshAnalytics" title="Refresh analytics">Refresh Analytics</button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Suggestions Section -->
-        <div class="row suggestions-section">
+        
             <div class="col-md-4">
-                <div class="card">
-                    <div class="card-header">Suggested Jobs</div>
+                <div class="card mb-4 shadow-sm">
+                    <div class="card-header bg-light">
+                        <h5 class="mb-0">Suggested Blogs & News</h5>
+                    </div>
                     <div class="card-body">
-                        <ul id="suggestedJobsList">
-                            <li>Developer at Company X</li>
-                            <li>Designer at Company Y</li>
-                            <li>Data Scientist at Company Z</li>
+                        <ul id="suggestedBlogsList" class="list-group">
+                            <!-- Suggested blogs will be dynamically listed here -->
                         </ul>
                     </div>
                 </div>
             </div>
-
+    
             <div class="col-md-4">
-                <div class="card">
-                    <div class="card-header">Suggested Blogs & News</div>
-                    <div class="card-body">
-                        <ul id="suggestedBlogsList">
-                            <li>Blog Post 1</li>
-                            <li>News Article 2</li>
-                            <li>Blog Post 3</li>
-                        </ul>
+                <div class="card mb-4 shadow-sm">
+                    <div class="card-header bg-light">
+                        <h5 class="mb-0">Suggested Profiles</h5>
                     </div>
-                </div>
-            </div>
-
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-header">Suggested Profiles</div>
                     <div class="card-body">
-                        <ul id="suggestedProfilesList">
-                            <li>John Doe (Recruiter)</li>
-                            <li>Jane Smith (HR Manager)</li>
-                            <li>Bill Johnson (Recruiter)</li>
+                        <ul id="suggestedProfilesList" class="list-group">
+                            <!-- Suggested profiles will be dynamically listed here -->
                         </ul>
                     </div>
                 </div>
             </div>
         </div>
-
+    
         <!-- Personality & Trait Tests -->
         <div class="row mt-4">
             <div class="col-md-12">
-                <button class="btn btn-success btn-test">Take Personality & Trait Test</button>
-                <button class="btn btn-warning btn-upgrade">Upgrade Membership</button>
-                <button class="btn btn-info btn-message">Messages</button>
+                <button class="btn btn-success me-2" onclick="location.href='traitTest.html'" title="Take personality and trait tests">Take Personality & Trait Test</button>
+                <button class="btn btn-warning me-2" onclick="location.href='upgradeMembership.html'" title="Upgrade your membership for more features">Upgrade Membership</button>
+                <button class="btn btn-info" onclick="location.href='messaging.html'" title="Check your messages">Messages</button>
             </div>
         </div>
-
     </main>
+    
+    <script>
+document.getElementById('resumeUploadForm').onsubmit = function(event) {
+    event.preventDefault();
+    showLoading('resumeLoading');
+    
+    const resumeFile = document.getElementById('resumeUpload').files[0];
+
+    if (!resumeFile) {
+        hideLoading('resumeLoading');
+        showFeedback('resumeFeedback', 'Error: Please select a file to upload.', 'error');
+        return;
+    }
+
+    // Simulate a file upload
+    setTimeout(function() {
+        hideLoading('resumeLoading');
+        showFeedback('resumeFeedback', 'Resume uploaded successfully!', 'success');
+        // Update resume list here
+    }, 2000);
+};
+
+document.getElementById('videoResumeUploadForm').onsubmit = function(event) {
+    event.preventDefault();
+    showLoading('videoLoading');
+
+    const videoFile = document.getElementById('videoResumeUpload').files[0];
+
+    if (!videoFile) {
+        hideLoading('videoLoading');
+        showFeedback('videoFeedback', 'Error: Please select a video file to upload.', 'error');
+        return;
+    }
+
+    // Simulate a file upload
+    setTimeout(function() {
+        hideLoading('videoLoading');
+        showFeedback('videoFeedback', 'Video resume uploaded successfully!', 'success');
+        // Update video resume list here
+    }, 2000);
+};
+
+    
+        function showLoading(loadingId) {
+            document.getElementById(loadingId).classList.remove('d-none');
+        }
+    
+        function hideLoading(loadingId) {
+            document.getElementById(loadingId).classList.add('d-none');
+        }
+    
+        function showFeedback(feedbackId, message, type) {
+    const feedbackElement = document.getElementById(feedbackId);
+    feedbackElement.classList.remove('d-none', 'alert-success', 'alert-danger');
+
+    // Add ARIA role and state for accessibility
+    feedbackElement.setAttribute('role', 'alert'); // ARIA role for alert
+    feedbackElement.setAttribute('aria-live', 'polite'); // Screen reader will announce updates
+
+    // Clear existing classes and set new one based on type
+    if (type === 'success') {
+        feedbackElement.classList.add('alert-success');
+        feedbackElement.innerText = message;
+    } else if (type === 'error') {
+        feedbackElement.classList.add('alert-danger');
+        feedbackElement.innerText = message;
+    }
+
+    setTimeout(() => {
+        feedbackElement.classList.add('d-none');
+    }, 3000);
+}
+
+    </script>
+    
+    
 
     <!-- Footer -->
     <footer id="dynamic-footer"></footer>
@@ -224,31 +300,91 @@
     <script type="module" src="../public/js/main.js"></script>
 
     <!-- Firebase Script for Loading User Data -->
+    // Firebase Script for Loading User Data
     <script type="module">
         import { onAuthStateChanged, db, auth } from '../public/js/main.js';
-        import { doc, getDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
-
-        // Check for auth state changes
+        import { doc, getDoc, collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+    
+        // Function to display data dynamically
+        const displayData = async (userId) => {
+            // Resumes
+            const resumesRef = collection(db, 'Users', userId, 'Resumes');
+            const resumesSnapshot = await getDocs(resumesRef);
+            const resumeList = document.getElementById('resumeList');
+            resumeList.innerHTML = '';
+            resumesSnapshot.forEach((doc) => {
+                const li = document.createElement('li');
+                li.textContent = doc.data().fileName; // Assuming the resume document has a field named fileName
+                resumeList.appendChild(li);
+            });
+    
+            // Video Resumes
+            const videoResumesRef = collection(db, 'Users', userId, 'VideoResumes');
+            const videoResumesSnapshot = await getDocs(videoResumesRef);
+            const videoResumeList = document.getElementById('videoResumeList');
+            videoResumeList.innerHTML = '';
+            videoResumesSnapshot.forEach((doc) => {
+                const li = document.createElement('li');
+                li.textContent = doc.data().fileName; // Assuming the video resume document has a field named fileName
+                videoResumeList.appendChild(li);
+            });
+    
+            // Applications - Filter by userId
+            const applicationsRef = collection(db, 'Applications');
+            const applicationsQuery = query(applicationsRef, where("userId", "==", userId)); // Filter applications by userId
+            const applicationsSnapshot = await getDocs(applicationsQuery);
+            const applicationsList = document.getElementById('applicationsList');
+            applicationsList.innerHTML = '';
+            applicationsSnapshot.forEach((doc) => {
+                const li = document.createElement('li');
+                li.textContent = `${doc.data().jobTitle} - ${doc.data().status}`; // Assuming the application document has fields named jobTitle and status
+                applicationsList.appendChild(li);
+            });
+    
+            // Suggested Jobs - Filter by userId
+            const jobsRef = collection(db, 'Jobs');
+            const jobsQuery = query(jobsRef, where("userId", "==", userId)); // Filter jobs by userId
+            const jobsSnapshot = await getDocs(jobsQuery);
+            const suggestedJobsList = document.getElementById('suggestedJobsList');
+            suggestedJobsList.innerHTML = '';
+            jobsSnapshot.forEach((doc) => {
+                const li = document.createElement('li');
+                li.textContent = doc.data().title; // Assuming the job document has a field named title
+                suggestedJobsList.appendChild(li);
+            });
+    
+            // Suggested Blogs
+            const blogsRef = collection(db, 'Blogs');
+            const blogsSnapshot = await getDocs(blogsRef);
+            const suggestedBlogsList = document.getElementById('suggestedBlogsList');
+            suggestedBlogsList.innerHTML = '';
+            blogsSnapshot.forEach((doc) => {
+                const li = document.createElement('li');
+                li.textContent = doc.data().title; // Assuming the blog document has a field named title
+                suggestedBlogsList.appendChild(li);
+            });
+    
+            // Suggested Profiles
+            const profilesRef = collection(db, 'Users');
+            const profilesSnapshot = await getDocs(profilesRef);
+            const suggestedProfilesList = document.getElementById('suggestedProfilesList');
+            suggestedProfilesList.innerHTML = '';
+            profilesSnapshot.forEach((doc) => {
+                const li = document.createElement('li');
+                li.textContent = `${doc.data().name} - ${doc.data().jobTitle}`; // Assuming the user document has fields named name and jobTitle
+                suggestedProfilesList.appendChild(li);
+            });
+        };
+    
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                console.log("User ID: ", user.uid);
-
-                try {
-                    const profileDoc = doc(db, 'Users', user.uid);
-                    const profileSnapshot = getDoc(profileDoc);
-                    if (profileSnapshot.exists()) {
-                        const profileData = profileSnapshot.data();
-                        console.log("User data: ", profileData);
-                        // Populate UI with user data
-                    }
-                } catch (error) {
-                    console.error("Error fetching user data:", error);
-                }
+                const userId = user.uid;
+                displayData(userId);
             }
         });
     </script>
-
-    <!-- Bootstrap JS -->
+    
+    <!-- Bootstrap JS and dependencies -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
