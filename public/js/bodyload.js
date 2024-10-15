@@ -393,7 +393,8 @@ function createLoader(message = 'Loading') {
 function hideLoader(dotsInterval) {
     const loader = document.getElementById('loaderX');
     if (loader) {
-
+        loader.classList.remove('loader-container'); // Fade out loader
+        loader.classList.add('hidden'); // Fade out loader
         // Remove loader from DOM after transition and clear interval for dots
         setTimeout(() => {
             loader.classList.remove('loader-container'); // Fade out loader
