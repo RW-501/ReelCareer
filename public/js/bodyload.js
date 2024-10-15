@@ -59,13 +59,12 @@ function addStyles() {
     position: relative;
     margin-bottom: 20px;
     border-radius: 5px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: -6px -4px 8px 0px rgb(0 0 0 / 54%);
 
 }
 
 /* Resume Lines (Represent Text Being Typed Out) */
-.resume::before, .resume::after {
-    content: '';
+.resume::before, .resume::after, .third {
     position: absolute;
     left: 5px;
     border-radius: 2px;
@@ -74,20 +73,31 @@ function addStyles() {
 
 /* First Line of Text */
 .resume::before {
+    content: '';
     width: 50px;
     height: 8px;
     top: 15px;
-    animation: loadingText .5s infinite ease-in-out;
-}
+    animation: loadingText 1s infinite cubic-bezier(0.4, 0, 1, 1);
+    }
 
 /* Second Line of Text */
 .resume::after {
+    content: '';
     width: 40px;
     height: 8px;
     top: 30px;
-    animation: loadingText 1s infinite ease-in-out;
+    animation: loadingText 1.3s infinite cubic-bezier(0.4, 0, 1, 1);
+    }
 
-}
+/* Third Line of Text */
+.third {
+    width: 30px;
+    height: 8px;
+    top: 45px;
+    animation: loadingText 1.6s infinite cubic-bezier(0.4, 0, 1, 1);
+    }
+
+
 
 /* Loading Message Style */
 .loading-message {
@@ -95,15 +105,15 @@ function addStyles() {
             
     font-weight: 800;
     font-size: 2.0rem;
-    text-shadow: 1px 0px 0px #6253e7;
-        font-family: 'Arial', sans-serif;
+    text-shadow: -2px -1px 0px #007bff;
+            font-family: 'Arial', sans-serif;
     text-align: center;
 
 }
 
 /* Loading Dots Animation */
 @keyframes loadingText {
-    0% { opacity: 0; }
+    0%, 100% { opacity: 0.3; }
     50% { opacity: 1; }
     100% { opacity: 1; }
 }
