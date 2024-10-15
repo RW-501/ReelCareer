@@ -381,6 +381,7 @@ function createLoader(message = 'Loading') {
     const dotsInterval = setInterval(() => {
         dotCount = (dotCount + 1) % 4; // Cycles through 0, 1, 2, 3 for dots
         statusDiv.textContent = `${message}${'.'.repeat(dotCount)}`; // Updates dots
+        console.log("dotCount  ",dotCount);
     }, 500); // Change dots every 500ms
 
     return dotsInterval; // Return interval ID to clear it later
