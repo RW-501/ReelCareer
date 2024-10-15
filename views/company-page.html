@@ -323,7 +323,7 @@ function showMainArea() {
                 let companyName = urlParams.get('create');
                 if(!companyName){companyName = "Company"};
 
-                document.body = document.body.replace("[Company Name]", companyName);
+                document.getElementById("instructions").replace("[Company Name]", companyName);
 
                 // Show instructions and hide main area
                 document.getElementById("mainArea").style.display = "none";
@@ -344,12 +344,12 @@ function showMainArea() {
                             // Check if the user is the admin of this company
                             if (userId === companyData.adminId) {
                                 toggleEditMode(true);
-                                document.getElementById("instructions").style.display = "none";
+                                document.getElementById("instructions").style.display = "block";
 
                             }
                         } else {
                             console.log("Company not found");
-                            if (userId === companyData.adminId) {
+                            if (userId) {
                             document.getElementById("mainArea").style.display = "none";
                             document.getElementById("instructions").style.display = "block";
                         }else{
@@ -396,7 +396,6 @@ function showMainArea() {
             document.getElementById('editCompanyFounded').value = companyData.founded || '';
         
             document.title = document.title.replace("[Company Name]", companyName);
-            showMainArea();
         }
     
         // Load job listings for the company
