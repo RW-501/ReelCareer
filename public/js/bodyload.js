@@ -75,7 +75,7 @@ function addStyles() {
         /* Smooth content loading */
         body {
             opacity: 0;
-            transition: opacity 0.5s ease-in-out;
+            transition: opacity 5.0s ease-in-out;
         }
 
         body.loaded {
@@ -114,18 +114,19 @@ function createLoader(message = 'Loading...') {
 function hideLoader() {
     const loader = document.getElementById('loader');
     if (loader) {
-        loader.classList.add('hidden');
-        console.log("Hiding Loader...");
+
 
         // Remove from DOM after transition
         setTimeout(() => {
             try {
+                loader.classList.add('hidden');
+                console.log("Hiding Loader...");
                 loader.remove();
                 console.log("Loader removed successfully.");
             } catch (error) {
                 console.error("Error removing loader:", error);
             }
-        }, 500000); // Adjusted to match opacity transition time (0.5s)
+        }, 5000); // Adjusted to match opacity transition time (0.5s)
     } else {
         console.warn("Loader not found, cannot hide.");
     }
