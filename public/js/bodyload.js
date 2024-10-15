@@ -353,6 +353,8 @@ body.loaded {
 
 
 addStyles();
+
+let dotsInterval;
 // Function to create and inject loader with animated resume and dynamic dots
 function createLoader(message = 'Loading') {
     const loaderDiv = document.createElement('div');
@@ -378,7 +380,7 @@ function createLoader(message = 'Loading') {
 
     // Start dynamic dots animation
     let dotCount = 0;
-    const dotsInterval = setInterval(() => {
+     dotsInterval = setInterval(() => {
         dotCount = (dotCount + 1) % 4; // Cycles through 0, 1, 2, 3 for dots
         statusDiv.textContent = `${message}${'.'.repeat(dotCount)}`; // Updates dots
         console.log("dotCount  ",dotCount);
@@ -395,6 +397,7 @@ function hideLoader(dotsInterval) {
         // Remove loader from DOM after transition and clear interval for dots
         setTimeout(() => {
             loader.classList.remove('loader-container'); // Fade out loader
+            loader.classList.add('hidden'); // Fade out loader
             console.log("Loader removed successfully.");
 
             loader.remove();
@@ -405,12 +408,12 @@ function hideLoader(dotsInterval) {
 
 // Initialize loader when DOM is ready
 window.addEventListener('DOMContentLoaded', () => {
-    const dotsInterval = createLoader('Loading'); // Start loader with dots animation
+     dotsInterval = createLoader('Loading'); // Start loader with dots animation
 });
 
 // Hide loader and show content when page fully loads
 window.addEventListener('load', () => {
-    const dotsInterval = createLoader(); // Starts the dots animation
+     dotsInterval = createLoader(); // Starts the dots animation
     hideLoader(dotsInterval); // Hide loader when fully loaded
     document.body.classList.add('loaded'); // Show content
 });
