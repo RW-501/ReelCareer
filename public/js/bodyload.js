@@ -360,6 +360,10 @@ function createLoader(message = 'ReelCareer') {
     const loaderDiv = document.createElement('div');
     loaderDiv.id = 'loaderX';
     loaderDiv.classList.add('loader-container');
+    loaderDiv.setAttribute('role', 'alert'); // Improved accessibility
+    loaderDiv.setAttribute('aria-live', 'assertive');
+    loaderDiv.setAttribute('aria-busy', 'true');
+
 
     // Create animated resume icon
     const resume = document.createElement('div');
