@@ -356,7 +356,7 @@ previewModal.innerHTML = `
 `;
 
 document.body.appendChild(previewModal);
-$(previewModal).modal('show'); // Use jQuery to display the modal
+previewModal.classList.add('show');
 });
 
 
@@ -376,6 +376,15 @@ const jobID = getJobIdFromURL();
         alert('Application saved for later!');
     });
 
+
+        // Event Listeners
+        document.getElementById('boostApplication')
+        .addEventListener('click', async () => {
+            console.log("boostApplication   ");
+            
+
+
+});
 
 
 
@@ -616,15 +625,6 @@ function simulateProgressBar() {
 
 
 
-
-        // Event Listeners
-        document.getElementById('boostApplication')
-        .addEventListener('click', async () => {
-            console.log("boostApplication   ");
-            
-
-            
-});
 
 
 
