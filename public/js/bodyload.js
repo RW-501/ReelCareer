@@ -26,7 +26,7 @@ function addStyles() {
     style.innerHTML = `
         /* Page Loader Styles */
         body {
-            transition: opacity 0.5s ease-in-out;
+            transition: opacity 3.0s ease-in-out;
         }
 
         .loader {
@@ -125,7 +125,7 @@ function hideLoader() {
             } catch (error) {
                 console.error("Error removing loader:", error);
             }
-        }, 50000); // Adjusted to match opacity transition time (0.5s)
+        }, 500000); // Adjusted to match opacity transition time (0.5s)
     } else {
         console.warn("Loader not found, cannot hide.");
     }
