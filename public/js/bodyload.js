@@ -26,7 +26,7 @@ function addStyles() {
     style.innerHTML = `
         /* Page Loader Styles */
         body {
-            transition: opacity 3.0s ease-in-out;
+            transition: opacity 5.0s ease-in-out;
         }
 
         .loader {
