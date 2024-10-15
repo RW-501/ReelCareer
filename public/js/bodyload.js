@@ -145,6 +145,20 @@ window.addEventListener('load', () => {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // Lazy Load for Images using Intersection Observer
 document.addEventListener("DOMContentLoaded", function () {
     const lazyImages = document.querySelectorAll('.lazy-load');
@@ -185,15 +199,6 @@ document.addEventListener("DOMContentLoaded", function () {
         cardObserver.observe(card);
     });
 });
-
-// Loader timeout for slow network
-setTimeout(() => {
-    const loader = document.getElementById("loader");
-    if (!document.body.classList.contains('loaded')) {
-        loader.innerHTML = "Still loading, please wait...";
-    }
-}, 3000); // 3 seconds delay for timeout message
-
 
 
 
