@@ -67,7 +67,9 @@ function addStyles() {
 /* Resume Lines (Represent Text Being Typed Out) */
 .resume::before, .resume::after, .resume::third, .resume::4  {
     position: absolute;
-    left: 5px;
+    left: 0;
+    right:0;
+    margin:auto;
     border-radius: 2px;
     background-color: white;
 }
@@ -75,8 +77,9 @@ function addStyles() {
 /* First Line of Text */
 .resume::before {
     content: '____';
-    width: 20px;
-    height: 8px;
+    left: 0;
+    right:0;
+    margin:auto;
     top: 15px;
     color: chartreuse;
     position: relative;
@@ -86,8 +89,9 @@ function addStyles() {
 /* Second Line of Text */
 .resume::after {
     content: '____';
-    width: 40px;
-    height: 8px;
+    left: 0;
+    right:0;
+    margin:auto;
  
         top: 25px;
     color: chartreuse;
@@ -98,8 +102,9 @@ function addStyles() {
 /* Third Line of Text */
 .resume::third {
     content: '____';
-    width: 40px;
-    height: 8px;
+    left: 0;
+    right:0;
+    margin:auto;
     top: 35px;
     color: chartreuse;
     position: relative;
@@ -108,8 +113,9 @@ function addStyles() {
 
 .resume::4 {
     content: '____';
-    width: 40px;
-    height: 8px;
+    left: 0;
+    right:0;
+    margin:auto;
     top: 45px;
     color: chartreuse;
     position: relative;
