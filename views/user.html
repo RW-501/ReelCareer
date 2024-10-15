@@ -456,8 +456,8 @@ showUserSignedOutMessage();
             document.getElementById('user-bio').innerText = profileData.bio || 'This is a short bio about the user...';
             document.getElementById('location-text').innerText = profileData.location || 'City, State';
 
-            const verified = profileData.verified;
-            const membership = profileData.membership;
+            const verified = profileData.verified || "Not Verified";
+            const membership = profileData.membership || "Basic";
             console.log("membership: ", membership);
             console.log("verified: ", verified);
 
@@ -466,13 +466,13 @@ showUserSignedOutMessage();
 // Check if the tags array is defined and has elements
 if (!profileData.tags || profileData.tags.length === 0) {
     // If there are no tags, display a message
-    tagsContainer.innerHTML = '<p>No tags found.</p>';
+    tagsContainer.innerHTML = '<p></p>';
 } else {
     // Directly use the tags array since it contains strings
     const tags = profileData.tags; // No need to map since they're already strings
     
     // Display the tags in the container
-    const tagElements = profileData.tags.map(tag => `<span class="tag">${tag}</span>`).join(', ');
+    const tagElements = profileData.tags.map(tag => `<span class="tag">${tag}</span>`).join(' ');
 tagsContainer.innerHTML = '<strong>Tags: </strong>' + tagElements;
 }
 
