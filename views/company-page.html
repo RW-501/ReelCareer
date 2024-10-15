@@ -24,6 +24,16 @@
             margin-right: 15px;
         }
     </style>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    
+    <!-- Bootstrap CSS -->
+    <script src="../public/js/scripts.js"></script>
+    <script src="../public/js/loadScripts.js"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../public/css/styles.css">
+
 </head>
 
 <body>
@@ -74,9 +84,13 @@
             </div>
         </section>
     </main>
-
+    <!-- Footer -->
     <footer id="dynamic-footer"></footer>
+    
+    <!-- Firebase configuration/ Login& Out -->
+    <script type="module" src="../public/js/main.js"></script> 
 
+    <!-- Dynamic Schema Markup -->
     <script type="module">
         import { db, auth } from '../public/js/main.js';
         import { doc, getDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
