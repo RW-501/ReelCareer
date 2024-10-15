@@ -17,6 +17,8 @@
 
 */
 
+//import { Collapse } from "bootstrap";
+
 // Function to inject CSS styles into the document
         // Function to add styles
 // Function to add styles for loader and content
@@ -36,7 +38,7 @@ function addStyles() {
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(82, 81, 81, 0.9);
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -54,7 +56,7 @@ function addStyles() {
         /* Spinner Animation */
         .spinner {
             border: 8px solid rgba(255, 255, 255, 0.3);
-            border-top: 8px solid #007bff; /* Branding color */
+            border-top: 8px solid #83bad9; /* Branding color */
             border-radius: 50%;
             width: 60px;
             height: 60px;
@@ -78,19 +80,25 @@ function addStyles() {
         }
 
         .loading-message {
-            font-size: 24px; /* Increased font size for better visibility */
             font-weight: bold;
-            color: #333; /* Improved contrast */
-            text-align: center;
+            color: #5b6369; /* Improved contrast */
+            text-align: center;   
+             font-size: 2.50rem;
+    color: #5b6369;
+    text-shadow: -1px 1px 0px #83bad9;
+    font-weight: 800;
+
         }
 
         /* ReelCareer.co logo */
         .logo {
-            font-size: 36px; /* Logo size */
-            font-weight: bold;
-            color: #007bff; /* Branding color */
+            color: #83bad9; /* Branding color */
             margin-top: 10px; /* Space between spinner and logo */
             text-align: center;
+            
+    font-weight: 800;
+    font-size: 3.0rem;
+    text-shadow: 1px 0px 0px #6253e7;
         }
 
         /* Smooth content loading */
@@ -106,8 +114,10 @@ function addStyles() {
     document.head.appendChild(style);
 }
 
+const loadingTime = 3000;
+
 // Function to create and inject loader into DOM
-function createLoader(message = 'Loading...') {
+function createLoader(message = 'Loading') {
     const loaderDiv = document.createElement('div');
     loaderDiv.id = 'loader';
     loaderDiv.classList.add('loader');
@@ -129,15 +139,32 @@ function createLoader(message = 'Loading...') {
     statusDiv.classList.add('loading-message');
     statusDiv.setAttribute('role', 'status');
     statusDiv.setAttribute('aria-label', message);
-    statusDiv.textContent = message;
 
     console.log("Created Loader with message:", message);
 
+    // Add spinner and logo to the loader container
     loaderContainer.appendChild(spinner);
     loaderContainer.appendChild(logo);
+
+    // Add the container and status to the loader
     loaderDiv.appendChild(loaderContainer);
     loaderDiv.appendChild(statusDiv);
     document.body.appendChild(loaderDiv);
+
+    // Start the "Loading" dots animation
+    animateLoadingDots(statusDiv, message);
+}
+
+// Function to animate the loading dots
+function animateLoadingDots(element, baseMessage) {
+    let dotCount = 0;
+    const maxDots = 3;
+
+    setInterval(() => {
+        dotCount = (dotCount + 1) % (maxDots + 1); // Cycle between 0 and 3 dots
+        const dots = '.'.repeat(dotCount); // Generate dots string based on count
+        element.textContent = `${baseMessage}${dots}`; // Update the text content
+    }, loadingTime); // Adjust the speed of the dot animation (500ms per update)
 }
 
 // Function to hide loader after page load
@@ -156,7 +183,7 @@ function hideLoader() {
             } catch (error) {
                 console.error("Error removing loader:", error);
             }
-        }, 3000); // Adjusted to match opacity transition time (0.5s)
+        }, loadingTime); // Adjusted to match opacity transition time (0.5s)
     } else {
         console.warn("Loader not found, cannot hide.");
     }
@@ -187,16 +214,51 @@ window.addEventListener('load', () => {
 
 
 
+function addStyles2() {
+    const style = document.createElement('style');
+    style.type = 'text/css';
+    style.innerHTML = `
+        /* Page Loader Styles */
+/* Loader Styles for Lazy Images */
+.lazy-load {
+    display: block; /* Make sure the images are block elements */
+    width: 100%; /* Make images responsive */
+    height: auto; /* Maintain aspect ratio */
+    opacity: 0; /* Start invisible for fade-in effect */
+    transition: opacity 0.5s ease-in-out; /* Smooth transition for fade-in */
+}
 
+/* Fade-in effect after image loads */
+.lazy-load.fade-in {
+    opacity: 1; /* Fade in when loaded */
+}
 
+/* Skeleton Loading Styles for Cards */
+.card.skeleton {
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.1) 25%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0.1) 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite; /* Skeleton animation */
+    border-radius: 4px; /* Rounded corners */
+    height: 200px; /* Placeholder height */
+}
 
+@keyframes loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+    `;
+    document.head.appendChild(style);
+}
+
+addStyles2();
 // Lazy Load for Images using Intersection Observer
 document.addEventListener("DOMContentLoaded", function () {
     const lazyImages = document.querySelectorAll('.lazy-load');
     const cards = document.querySelectorAll('.card');
 
     const observerOptions = {
-        threshold: 0.1 // Trigger lazy loading when 10% of element is visible
+        threshold: 0.1 // Trigger lazy loading when 10% of the element is visible
     };
 
     // Image lazy load observer
@@ -204,7 +266,8 @@ document.addEventListener("DOMContentLoaded", function () {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 const img = entry.target;
-                img.src = img.dataset.src;
+                img.src = img.dataset.src; // Set the image source
+                img.onload = () => img.classList.add('fade-in'); // Add a fade-in effect once loaded
                 img.removeAttribute('data-src'); // Remove data-src after loading
                 observer.unobserve(img); // Stop observing after it's loaded
             }
@@ -220,7 +283,7 @@ document.addEventListener("DOMContentLoaded", function () {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 const card = entry.target;
-                card.classList.remove('skeleton');
+                card.classList.remove('skeleton'); // Remove skeleton loading effect
                 observer.unobserve(card); // Stop observing after it's loaded
             }
         });
@@ -229,7 +292,11 @@ document.addEventListener("DOMContentLoaded", function () {
     cards.forEach(card => {
         cardObserver.observe(card);
     });
+
+    // Fallback for browsers that do not support Intersection Observer
+    if (!('IntersectionObserver' in window)) {
+        lazyImages.forEach(img => {
+            img.src = img.dataset.src; // Load images immediately
+        });
+    }
 });
-
-
-
