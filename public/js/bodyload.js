@@ -74,7 +74,7 @@ function addStyles() {
 /* First Line of Text */
 .resume::before {
     content: '';
-    width: 50px;
+    width: 20px;
     height: 8px;
     top: 15px;
     animation: loadingText 1s infinite cubic-bezier(0.4, 0, 1, 1);
@@ -85,13 +85,15 @@ function addStyles() {
     content: '';
     width: 40px;
     height: 8px;
-    top: 30px;
-    animation: loadingText 1.3s infinite cubic-bezier(0.4, 0, 1, 1);
+    left: 5px;
+    right: 5px;
+    margin: auto;
+     animation: loadingText 1.3s infinite cubic-bezier(0.4, 0, 1, 1);
     }
 
 /* Third Line of Text */
 .third {
-    width: 30px;
+    width: 40px;
     height: 8px;
     top: 45px;
     animation: loadingText 1.6s infinite cubic-bezier(0.4, 0, 1, 1);
