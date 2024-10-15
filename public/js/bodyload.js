@@ -134,8 +134,6 @@ body.loaded {
 }
 
 
-addStyles();
-
 let dotsInterval;
 // Function to create and inject loader with animated resume and dynamic dots
 function createLoader(message = 'ReelCareer') {
@@ -195,7 +193,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
 // Hide loader when the window fully loads
 window.addEventListener('load', () => {
-    hideLoader(); // Hide loader first
+   // hideLoader(); // Hide loader first
     document.body.classList.add('loaded'); // Then show content
 });
 
