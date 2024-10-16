@@ -82,7 +82,7 @@ function addStyles() {
     margin:auto;
     top: 5px;
     height: 3px;
-    width: 40px;
+    width: 50px;
     position: absolute;
     background-color: #222222;
         animation: loadingText 1s infinite cubic-bezier(0.4, 0, 1, 1);
