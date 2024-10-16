@@ -627,50 +627,6 @@ function displayJobListings({ jobListings, sponsoredJobs }) {
     });
 }
 
-// Helper function to create a job card
-function createJobCard(job) {
-    return `
-        <div class="col-md-4 mb-4 d-flex">
-            <div class="card job-card shadow-sm h-100 rounded-3">
-                <div class="card-body p-4 d-flex flex-column justify-content-between">
-                    <!-- Job Title and Organization -->
-                    <div class="mb-3">
-                        <h5 class="card-title text-primary fw-bold">${job.title}</h5>
-                        <h6 class="card-subtitle text-muted">${job.organization}</h6>
-                    </div>
-
-                    <!-- Location and Type -->
-                    <div class="mb-2">
-                        <p class="card-text">
-                            <i class="fas fa-map-marker-alt text-muted me-2"></i> 
-                            ${formatLocation(job.location, { part: 'city' })}, ${formatLocation(job.location, { part: 'state' })}
-                        </p>
-                        <p class="card-text">
-                            <i class="fas fa-briefcase text-muted me-2"></i>
-                            <strong>Type:</strong> ${formatJobType(job.type)}
-                        </p>
-                    </div>
-
-                    <!-- Salary -->
-                    <div class="mb-3">
-                        <p class="card-text">
-                            <i class="fas fa-dollar-sign text-muted me-2"></i>
-                            <strong>Salary:</strong> ${formatCurrency(job.salary, {decimals: 0})}
-                        </p>
-                    </div>
-
-                    <!-- View Details Button -->
-                    <div>
-                        <button class="btn btn-info w-100 text-white fw-bold rounded-pill" onclick="showJobDetailsFunc('${job.id}')">
-                            View Details
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    `;
-}
-
 
 // Helper function to create a sponsored job card
 function createSponsoredJobCard(sponsoredJob) {
