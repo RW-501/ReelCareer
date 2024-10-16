@@ -89,7 +89,7 @@
                 <input id="locationInput" type="text"
                 oninput="autoSuggest(this.value,'locationSuggestions')"
                  class="form-control form-control-lg mr-2 mb-2 keywordInput location-input" placeholder="Location (e.g., City)" >
-                <select id="jobTypeInput" class="form-control form-control-lg " style="
+                <select id="jobTypeInput" class="form-control mb-2 form-control-lg " style="
                 padding: 0.7rem;
             ">
                     <option value="" disabled selected>Job Type</option>
@@ -616,8 +616,8 @@ function displayJobListings({ jobListings, sponsoredJobs }) {
     jobContainer.innerHTML = ''; // Clear existing listings
 
     jobListings.forEach(job => {
-        const jobCard = createJobCard(job);
-        jobContainer.innerHTML += jobCard; // Append job card to container
+        const jobCard = createJobCard(job, jobContainer );
+        //jobContainer.innerHTML += jobCard; // Append job card to container
     });
 
 
