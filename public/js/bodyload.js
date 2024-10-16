@@ -69,7 +69,7 @@ function addStyles() {
 .resume-sidebar {
     width: 30%;
     background-color: #007bff;
-    padding: 15px;
+    padding: 10px;
     text-align: center;
     color: white;
 }
@@ -89,7 +89,7 @@ function addStyles() {
     font-size: 0.5rem;
     margin-top: 10px;
     text-align: left;
-     margin: 0 auto 15px;
+  
 
 }
 
@@ -213,9 +213,9 @@ function createLoader(message = 'ReelCareer') {
     const personalInfo = document.createElement('div');
     personalInfo.classList.add('personal-info');
     personalInfo.innerHTML = `
-        <strong>Ron W</strong><br>
-        Ron.Dot.@ReelCareer.co<br>
-        (469) 225-9929
+        <strong>Ron W</strong>
+        <p>ReelCareer.co</p>
+        <p>(469) 225-9929</p>
     `;
 
     // Append profile picture and personal info to sidebar
@@ -266,7 +266,7 @@ function hideLoader() {
         setTimeout(() => {
             loader.classList.add('hidden');
             loader.remove();
-        }, 2000);
+        }, 1500);
     }
 }
 
@@ -277,7 +277,7 @@ function hideLoader() {
 
 // Hide loader when the window fully loads
 window.addEventListener('load', () => {
-   // hideLoader(); // Hide loader first
+    hideLoader(); // Hide loader first
     document.body.classList.add('loaded'); // Then show content
 });
 
