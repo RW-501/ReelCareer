@@ -341,7 +341,7 @@ function showModal() {
 
     const modalElement = document.getElementById('profileModal');
     const modal = new bootstrap.Modal(modalElement);
-    modal.removeAttribute('inert');
+    //modal.removeAttribute('inert');
     modal.classList.add('show'); // Add bootstrap's 'show' class
     modal.setAttribute('aria-hidden', 'false');
 
