@@ -366,7 +366,7 @@ if (modalBackdrop) {
     // Add the 'hide' class
     modalBackdrop.classList.add('hide');
     
-    modalBackdrop.setAttribute('inert', '');
+   // modalBackdrop.setAttribute('inert', '');
     modalBackdrop.setAttribute('aria-hidden', 'true');
 }
     const modalopen = document.querySelector('body');
