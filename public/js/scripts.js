@@ -123,13 +123,13 @@ function getAdjustedLinks() {
 const {isHomePage, currentPage, adjustLinkURL, adjustLinkHomeURL, excludedPages } = getAdjustedLinks();
 //console.log(adjustLinkURL, adjustLinkHomeURL);
 
-       /* 
+       
        console.log("nav currentPage   ",currentPage);
         console.log("nav isHomePage   ",isHomePage);
         console.log("nav adjustLinkURL   ",adjustLinkURL);
-        console.log("nav navbarClass   ",navbarClass);
+      //  console.log("nav navbarClass   ",navbarClass);
         console.log("nav adjustLinkHomeURL   ",adjustLinkHomeURL);
-*/
+
 console.log("nav currentPage   ",currentPage);
 console.log("nav isHomePage   ",isHomePage);
 

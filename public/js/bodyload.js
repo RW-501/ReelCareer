@@ -489,7 +489,7 @@ function createJobCard(job, container) {
       </div>
 
       <!-- View Details Button -->
-      <a href="views/job-detail.html?id=${job.id}" class="btn btn-primary w-100 mt-3" style="
+      <a href="${adjustLinkURL}views/job-detail.html?id=${job.id}" class="btn btn-primary w-100 mt-3" style="
           padding: 12px 0; 
           background-color: #007bff; 
           border: none; 
