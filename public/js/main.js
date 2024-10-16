@@ -273,9 +273,11 @@ const logout = async () => {
 
  // Function to logout the user
  async function logoutUser() {
+    const auth = getAuth(); // Get the Auth instance
+
     try {
-        await firebase.auth().signOut();
-        window.location.href =  adjustLinkHomeURL+'views/auth'; // Redirect to login page after logout
+        await signOut(auth); // Sign out the user
+        window.location.href = adjustLinkHomeURL + 'views/auth'; // Redirect to login page after logout
     } catch (error) {
         console.error("Logout error:", error);
     }
