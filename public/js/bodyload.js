@@ -77,65 +77,70 @@ function addStyles() {
 /* First Line of Text */
 .l1 {
     left: 0;
-    right:0;
-    margin:auto;
-    top: 8px;
-    height: 3px;
-    width: 50px;
+    right: 0;
+    margin: auto;
+    top: 12px;
+    height: 40px;
+    width: 41px;
     position: absolute;
     background-color: #222222;
-        animation: loadingText 1s infinite cubic-bezier(0.4, 0, 1, 1);
+    /* animation: loadingText 1s infinite cubic-bezier(0.4, 0, 1, 1); */
+    border-radius: 4px;
     }
 
 /* Second Line of Text */
 .l2 {
     left: 0;
-    right:0;
-    margin:auto;
- 
-        top: 16px;
-    height: 3px;
-    width: 30px;
+    right: 0;
+    margin: auto;
+    top: 20px;
+    height: 27px;
+    width: 32px;
     position: absolute;
-    background-color: #222222;
-         animation: loadingText 1.3s infinite cubic-bezier(0.4, 0, 1, 1);
-    }
+    background-color: #ffffff;
+    /* animation: loadingText 1.3s infinite cubic-bezier(0.4, 0, 1, 1); */
+    border-radius: 50%;
+}
 
 /* Third Line of Text */
 .l3 {
-    left: 0;
-    right:0;
-    margin:auto;
-    top: 30px;
+    left: -10px;
+    right: 0;
+    margin: auto;
+    top: 27px;
     height: 3px;
-    width: 40px;
+    width: 5px;
     position: absolute;
     background-color: #222222;
-        animation: loadingText 1.6s infinite cubic-bezier(0.4, 0, 1, 1);
-    }
+    /* animation: loadingText 1.6s infinite cubic-bezier(0.4, 0, 1, 1); */
+}
 
 .l4 {
     left: 0;
-    right:0;
-    margin:auto;
-    top: 40px;
+    right: -9px;
+    margin: auto;
+    top: 27px;
     height: 3px;
-    width: 40px;
+    width: 5px;
     position: absolute;
     background-color: #222222;
-        animation: loadingText 1.9s infinite cubic-bezier(0.4, 0, 1, 1);
-    }
-    .l5 {
+    /* animation: loadingText 1.9s infinite cubic-bezier(0.4, 0, 1, 1); */
+}
+
+ .l5 {
     left: 0;
-    right:0;
-    margin:auto;
-    top: 50px;
+    right: 0;
+    margin: auto;
+    top: 37px;
     height: 3px;
-    width: 40px;
+    width: 13px;
     position: absolute;
     background-color: #222222;
-        animation: loadingText 2.3s infinite cubic-bezier(0.4, 0, 1, 1);
-    }
+    /* animation: loadingText 2.3s infinite cubic-bezier(0.4, 0, 1, 1); */
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
     .l6 {
     left: 0;
     right:0;
@@ -145,7 +150,6 @@ function addStyles() {
     width: 40px;
     position: absolute;
     background-color: #222222;
-        animation: loadingText 2.6s infinite cubic-bezier(0.4, 0, 1, 1);
     }
 
 
@@ -158,8 +162,8 @@ function addStyles() {
     width: 40px;
     position: absolute;
     background-color: #222222;
-        animation: loadingText 2.8s infinite cubic-bezier(0.4, 0, 1, 1);
     }
+
     .l8 {
     left: 0;
     right:0;
@@ -169,9 +173,7 @@ function addStyles() {
     width: 40px;
     position: absolute;
     background-color: #222222;
-    
-    animation: loadingText 3.0s infinite cubic-bezier(0.4, 0, 1, 1);
-    }
+        }
     
 
 
@@ -324,7 +326,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
 // Hide loader when the window fully loads
 window.addEventListener('load', () => {
-   // hideLoader(); // Hide loader first
+    hideLoader(); // Hide loader first
     document.body.classList.add('loaded'); // Then show content
 });
 
