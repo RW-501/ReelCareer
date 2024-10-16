@@ -396,114 +396,106 @@
         </nav>
     
         <!-- Job Detail Section -->
-        <div id="job-container" class="container">
+        <div id="job-container" class="container py-4">
             <div class="job-detail-container" role="main" aria-labelledby="jobTitle">
-    
-                <div class="d-flex align-items-start mb-4">
-                    <div  class="text-center m-auto p-3">
-                    <img id="companyLogo" class="job-logo img-fluid" alt="Company Logo" src="/ReelCareer/images/sq_logo_n_BG.png" loading="lazy" />
-                    <hr />
-
-                    <button id="saveBtn" class=" btn-block btn btn-outline-secondary mb-3" onclick="saveJob()">Save for Later</button>
-                    <hr />
-
-                    <button id="reportJobBtn" class="btn-block btn btn-warning btn-sm mt-3" onclick="openReportJobModal()">Report Job</button>
-                </div>
-                    <div class=" m-auto p-3">
-                        <h1 id="jobTitle" style="
-                        color: #5b6369;" class="mb-2 font-weight-bold" tabindex="0"></h1>
-                        
+                <div class="d-flex align-items-start mb-4 flex-wrap">
+                    <!-- Company Logo and Actions -->
+                    <div class="text-center m-auto p-3">
+                        <img id="companyLogo" class="job-logo img-fluid rounded-circle shadow" alt="Company Logo" src="/ReelCareer/images/sq_logo_n_BG.png" loading="lazy" />
                         <hr />
-
+                        <button id="saveBtn" class="btn btn-outline-secondary w-100 mb-3" onclick="saveJob()">Save for Later</button>
+                        <hr />
+                        <button id="reportJobBtn" class="btn btn-warning w-100" onclick="openReportJobModal()">Report Job</button>
+                    </div>
                     
-    <!-- Job Info Section -->
-    <div class="job-info-box m-auto p-3">
-        <div class="job-info">
-            <p><i class="fas fa-building"></i> <strong>Company:</strong> <span id="companyName" class="text-dark"></span></p>
-            <p><i class="fas fa-map-marker-alt"></i> <strong>Location:</strong> <span id="jobLocation"></span></p>
-            <p><i class="fas fa-briefcase"></i> <strong>Employment Type:</strong> <span id="employmentType"></span></p>
-            <p><i class="fas fa-dollar-sign"></i> <strong>Salary:</strong> <span id="salary"></span></p>
-            <p><i class="fas fa-calendar-alt"></i> <strong>Posted On:</strong> <span id="createdAt"></span></p>
-            <p><i class="fas fa-user"></i> <strong>Submitted By:</strong> <span id="submittedBy"></span></p>
-            <p><i class="fas fa-industry"></i> <strong>Industry:</strong> <span id="industry"></span></p>
-        </div>
-    </div>
-                              
-                    
+                    <!-- Job Title and Info -->
+                    <div class="m-auto p-3 flex-fill">
+                        <h1 id="jobTitle" class="text-primary fw-bold mb-2" tabindex="0"></h1>
+                        <hr />
+                        <div class="job-info-box m-auto p-3 bg-light rounded-3 shadow-sm">
+                            <div class="job-info">
+                                <p><i class="fas fa-building"></i> <strong>Company:</strong> <span id="companyName" class="text-dark"></span></p>
+                                <p><i class="fas fa-map-marker-alt"></i> <strong>Location:</strong> <span id="jobLocation"></span></p>
+                                <p><i class="fas fa-briefcase"></i> <strong>Employment Type:</strong> <span id="employmentType"></span></p>
+                                <p><i class="fas fa-dollar-sign"></i> <strong>Salary:</strong> <span id="salary"></span></p>
+                                <p><i class="fas fa-calendar-alt"></i> <strong>Posted On:</strong> <span id="createdAt"></span></p>
+                                <p><i class="fas fa-user"></i> <strong>Submitted By:</strong> <span id="submittedBy"></span></p>
+                                <p><i class="fas fa-industry"></i> <strong>Industry:</strong> <span id="industry"></span></p>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <hr id="topHr" />
-    
-                <!-- Company-specific details -->
-                <a id="companyWebsite" href="" target="_blank">Company Website</a>
-                <p id="companyDescription"></p>
-                <p id="companyMission"></p>
-                <a id="companyPageLink" href="">View Company Page</a>
-                
-         
-                <hr id="bottomHr" />
-                
-            <div class="job-info-box  p-3 mb-4  rounded">
-                     <p id="jobDescription" class="text-muted" tabindex="0"></p>
-            </div>
-    
+        
+                <hr class="my-4" />
+        
+                <!-- Company Website and Description -->
+                <div class="mb-4">
+                    <a id="companyWebsite" class="text-info" href="" target="_blank">Company Website</a>
+                    <p id="companyDescription" class="text-muted"></p>
+                    <p id="companyMission" class="text-muted"></p>
+                    <a id="companyPageLink" class="text-info" href="">View Company Page</a>
+                </div>
+        
+                <hr class="my-4" />
+        
+                <!-- Job Description -->
+                <div class="job-info-box p-3 mb-4 rounded bg-light shadow-sm">
+                    <p id="jobDescription" class="text-muted" tabindex="0"></p>
+                </div>
+        
                 <hr />
-    
+        
                 <!-- Job Requirements -->
-                <div id="jobRequirementsArea">
-                    <p><strong>Job Requirements:</strong></p>
+                <div id="jobRequirementsArea" class="mb-4">
+                    <h5><strong>Job Requirements:</strong></h5>
                     <ul id="jobRequirements" class="list-unstyled" tabindex="0"></ul>
                 </div>
-
+        
                 <!-- Additional Job Details -->
-                <div id="jobBenefitsArea"><strong>Job Benefits:</strong>
+                <div id="jobBenefitsArea" class="mb-4">
+                    <h5><strong>Job Benefits:</strong></h5>
                     <ul id="jobBenefits" class="list-unstyled"></ul>
                 </div>
+        
                 <div><strong>Application Deadline:</strong> <span id="applicationDeadline"></span></div>
                 <div><strong>Number of Applicants:</strong> <span id="applicantCount"></span></div>
-    
-
-    
+        
                 <hr />
-    
+        
                 <!-- Job Tags -->
                 <div>
-                    <p><strong>Tags:</strong></p>
+                    <h5><strong>Tags:</strong></h5>
                     <span id="jobTags" class="job-tags"></span>
                 </div>
-    
+        
                 <hr />
-
+        
                 <!-- Social Media Sharing Buttons -->
-                <div class="social-sharing m-auto job-info-box shadow-sm  rounded">
-                    <p><strong>Share this job:</strong></p>
-
-                    <a id="facebookShare" target="_blank" class="btn btn-facebook btn-sm" style="color: #3b5998; font-size: 1rem;">
-                        <i class="fab fa-facebook-f"></i> Share on Facebook
-                    </a>
-                    
-                    <a id="twitterShare" target="_blank" class="btn btn-twitter btn-sm" style="color: #1da1f2; font-size: 1rem;">
-                        <i class="fab fa-twitter"></i> Tweet This Job
-                    </a>
-                    
-                    <a id="linkedinShare" target="_blank" class="btn btn-linkedin btn-sm" style="color: #0077b5; font-size: 1rem;">
-                        <i class="fab fa-linkedin-in"></i> Share on LinkedIn
-                    </a>
-                    
-                    <a id="emailShare" class="btn btn-email btn-sm" style="color: #d44638; font-size: 1rem;">
-                        <i class="fas fa-envelope"></i> Share via Email
-                    </a>
-                    
+                <div class="social-sharing m-auto job-info-box shadow-sm rounded p-3">
+                    <h5><strong>Share this job:</strong></h5>
+                    <div class="d-flex justify-content-between">
+                        <a id="facebookShare" target="_blank" class="btn btn-facebook btn-sm" style="color: #3b5998;">
+                            <i class="fab fa-facebook-f"></i> Share on Facebook
+                        </a>
+                        <a id="twitterShare" target="_blank" class="btn btn-twitter btn-sm" style="color: #1da1f2;">
+                            <i class="fab fa-twitter"></i> Tweet This Job
+                        </a>
+                        <a id="linkedinShare" target="_blank" class="btn btn-linkedin btn-sm" style="color: #0077b5;">
+                            <i class="fab fa-linkedin-in"></i> Share on LinkedIn
+                        </a>
+                        <a id="emailShare" class="btn btn-email btn-sm" style="color: #d44638;">
+                            <i class="fas fa-envelope"></i> Share via Email
+                        </a>
+                    </div>
                 </div>
-          
-                
+        
                 <hr />
-
-
+        
+                <!-- Apply Now Button -->
                 <button id="applyBtn" class="btn btn-primary btn-block mt-4" aria-label="Apply for this job">Apply Now</button>
             </div>
-
-            <hr />
+        </div>
+                   <hr />
 
 <!-- Similar Jobs Section -->
 <div class="similar-jobs mt-5">
