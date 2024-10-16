@@ -436,7 +436,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // Function to create a job card and append it to the container
 function createJobCard(job, container) {
-    if (job.length > 0) {
+  //  if (job.length > 0) {
     const jobCard = document.createElement('div');
     jobCard.className = 'col-md-4 mb-4';
     jobCard.innerHTML = `
@@ -508,7 +508,7 @@ function createJobCard(job, container) {
 }
 
 
-}
+
 
 
 
