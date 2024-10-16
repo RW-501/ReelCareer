@@ -716,13 +716,14 @@ document.addEventListener('DOMContentLoaded', updateFooter);
     // Toggle functionality for the dropdown
     const dropdownToggleButton = document.getElementById('profileDropdown');
     const dropdownMenu = document.querySelector('.dropdown-menu');
-/*
+if(dropdownMenu){
     dropdownToggleButton.addEventListener('click', function() {
         const isExpanded = dropdownToggleButton.getAttribute('aria-expanded') === 'true';
         dropdownToggleButton.setAttribute('aria-expanded', !isExpanded);
         dropdownMenu.classList.toggle('show', !isExpanded); // Show or hide the dropdown
     });
-*/
+}
+/*
     // Close the dropdown when clicking outside
     document.addEventListener('click', function(event) {
         if (!dropdownToggleButton.contains(event.target) && !dropdownMenu.contains(event.target)) {
@@ -730,7 +731,7 @@ document.addEventListener('DOMContentLoaded', updateFooter);
             dropdownMenu.classList.remove('show');
         }
     });
-
+*/
     // Check if user data exists and show modal if missing
 
    
