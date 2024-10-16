@@ -185,14 +185,6 @@ body.loaded {
     document.head.appendChild(style);
 }
 
-function addStyles() {
-    const style = document.createElement('style');
-    style.type = 'text/css';
-    style.innerHTML = `
-        /* Add all the CSS code here (from the CSS block above) */
-    `;
-    document.head.appendChild(style);
-}
 
 // Function to create and inject loader with animated resume and dynamic dots
 function createLoader(message = 'ReelCareer') {

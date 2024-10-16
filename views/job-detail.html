@@ -416,11 +416,14 @@
                             <div class="job-info">
                                 <p><i class="fas fa-building"></i> <strong>Company:</strong> <span id="companyName" class="text-dark"></span></p>
                                 <p><i class="fas fa-map-marker-alt"></i> <strong>Location:</strong> <span id="jobLocation"></span></p>
+                                <p><i class=""></i> <strong>Industry:</strong> <span id="industry"></span></p>
+
+                                <hr>
                                 <p><i class="fas fa-briefcase"></i> <strong>Employment Type:</strong> <span id="employmentType"></span></p>
-                                <p><i class="fas fa-dollar-sign"></i> <strong>Salary:</strong> <span id="salary"></span></p>
+                                <p><i class=""></i> <strong>Salary:</strong> <span id="salary"></span></p>
+                                <hr>
                                 <p><i class="fas fa-calendar-alt"></i> <strong>Posted On:</strong> <span id="createdAt"></span></p>
-                                <p><i class="fas fa-user"></i> <strong>Submitted By:</strong> <span id="submittedBy"></span></p>
-                                <p><i class="fas fa-industry"></i> <strong>Industry:</strong> <span id="industry"></span></p>
+                                <p><i class=""></i> <strong>Submitted By:</strong> <span id="submittedBy"></span></p>
                             </div>
                         </div>
                     </div>
@@ -436,7 +439,7 @@
                     <a id="companyPageLink" class="text-info" href="">View Company Page</a>
                 </div>
         
-                <hr class="my-4" />
+                <hr id="bottomHr" class="my-4" />
         
                 <!-- Job Description -->
                 <div class="job-info-box p-3 mb-4 rounded bg-light shadow-sm">
@@ -751,13 +754,14 @@ renderList(jobData.benefits, 'jobBenefits');
 renderList(jobData.requirements, 'jobRequirements');
 renderTags(jobData.tags);
 // Assuming you have your job data in jobData
-const companyWebsite = document.getElementById('companyWebsite');
+const companyWebsite = document.getElementById('companyWebsite').href;
 const jobRequirementsArea = document.getElementById('jobRequirementsArea');
 const jobBenefitsArea = document.getElementById('jobBenefitsArea');
 
 const companyDescription = document.getElementById('companyDescription');
     const companyMission = document.getElementById('companyMission');
     const companyPageLink = document.getElementById('companyPageLink');
+    
     const bottomHr = document.getElementById('bottomHr');
     
     // Check if all company elements are empty or missing content
