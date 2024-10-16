@@ -240,35 +240,35 @@ function createLoader(message = 'ReelCareer') {
 
     const l1 = document.createElement('div');
     l1.classList.add('l1');
-    l1.innerHTML="_____";
+    l1.innerHTML="";
 
     const l2 = document.createElement('div');
     l2.classList.add('l2');
-    l2.innerHTML="__"; 
+    l2.innerHTML=""; 
 
     const l3 = document.createElement('div');
     l3.classList.add('l3');
-    l3.innerHTML="____";
+    l3.innerHTML="";
 
     const l4 = document.createElement('div');
     l4.classList.add('l4');
-    l4.innerHTML="____";   
+    l4.innerHTML="";   
 
     const l5 = document.createElement('div');
     l5.classList.add('l5');
-    l5.innerHTML="____";
+    l5.innerHTML="";
 
     const l6 = document.createElement('div');
     l6.classList.add('l6');
-    l6.innerHTML="____";
+    l6.innerHTML="";
 
     const l7 = document.createElement('div');
     l7.classList.add('l7');
-    l7.innerHTML="____";
+    l7.innerHTML="";
 
     const l8 = document.createElement('div');
     l8.classList.add('l8');
-    l8.innerHTML="_  _";
+    l8.innerHTML="";
 
 
     // Create dynamic loading message with dots
