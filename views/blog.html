@@ -213,26 +213,111 @@ if (querySnapshot.length || querySnapshot.docs.length > 0) {
 
             // Build the inner HTML with all the specified fields and action buttons
             blogCard.innerHTML = `
-                <div class="blog-card" style="box-shadow: 0 4px 8px rgba(0,0,0,0.1); padding: 20px; margin-bottom: 20px;">
-                    <h3>${blogData.title}</h3>
-                    <img src="${blogData.imageUrl}" alt="${blogData.imageCaption}" class="blog-image" />
-                    <p class="blog-content">${blogData.content}</p>
-                    <hr>
-                    <p><strong>Category:</strong> ${blogData.category}</p>
-                    <p><strong>Published on:</strong> ${new Date(blogData.postDate).toLocaleDateString()}</p>
-                    <p><strong>Posted by:</strong> ${blogData.postedBy} (ID: ${blogData.postedById})</p>
-                    <p><strong>Likes:</strong> <span id="likes-${doc.id}">${blogData.likes}</span></p>
-                    <p><strong>Loves:</strong> <span id="loves-${doc.id}">${blogData.loves}</span></p>
-                    <p><strong>Helpful:</strong> <span id="helpful-${doc.id}">${blogData.helpful}</span></p>
-                    <p><strong>Views:</strong> ${blogData.viewCount}</p>
-                    <p><strong>Tags:</strong> ${blogData.tags.join(', ')}</p>
-                    <div class="button-container">
-                        <button onclick="likePost('${doc.id}')">Like</button>
-                        <button onclick="lovePost('${doc.id}')">Love</button>
-                        <button onclick="markHelpful('${doc.id}')">Mark Helpful</button>
-                    </div>
-                </div>
-            `;
+  <div class="blog-card" style="
+      box-shadow: 0 8px 16px rgba(0,0,0,0.1); 
+      padding: 20px; 
+      border-radius: 10px;
+      background-color: #ffffff;
+      margin-bottom: 30px;
+      overflow: hidden;
+      transition: transform 0.3s ease;
+      ">
+      <h3 style="
+          font-size: 24px; 
+          color: #333; 
+          font-weight: 700; 
+          margin-bottom: 15px;">${blogData.title}</h3>
+
+      <img src="${blogData.imageUrl}" alt="${blogData.imageCaption}" style="
+          width: 100%; 
+          height: auto; 
+          border-radius: 8px; 
+          margin-bottom: 20px; 
+          object-fit: cover;"/>
+
+      <p style="
+          font-size: 18px; 
+          color: #555; 
+          line-height: 1.6;
+          margin-bottom: 15px;">${blogData.content}</p>
+      
+      <hr style="border: 0; border-top: 1px solid #e0e0e0; margin-bottom: 15px;">
+
+      <div style="
+          display: flex; 
+          justify-content: space-between; 
+          align-items: center; 
+          font-size: 14px; 
+          color: #999;">
+          <p><strong>Category:</strong> ${blogData.category}</p>
+          <p><strong>Published:</strong> ${new Date(blogData.postDate).toLocaleDateString()}</p>
+      </div>
+
+      <div style="
+          display: flex; 
+          justify-content: space-between; 
+          align-items: center; 
+          font-size: 14px; 
+          color: #999; 
+          margin-bottom: 20px;">
+          <p><strong>Posted by:</strong> ${blogData.postedBy}</p>
+          <p><strong>ID:</strong> ${blogData.postedById}</p>
+      </div>
+
+      <div style="
+          display: flex; 
+          justify-content: space-between; 
+          font-size: 14px; 
+          color: #999;">
+          <p><strong>Views:</strong> ${blogData.viewCount}</p>
+          <p><strong>Tags:</strong> ${blogData.tags.join(', ')}</p>
+      </div>
+
+      <hr style="border: 0; border-top: 1px solid #e0e0e0; margin-bottom: 20px;">
+
+      <div style="
+          display: flex; 
+          justify-content: space-around; 
+          align-items: center;">
+          <div style="text-align: center;">
+              <button onclick="likePost('${doc.id}')" style="
+                  background-color: #007bff; 
+                  color: white; 
+                  border: none; 
+                  padding: 10px 20px; 
+                  border-radius: 5px; 
+                  cursor: pointer;
+                  transition: background-color 0.3s ease;">👍 Like</button>
+              <p><strong>Likes:</strong> <span id="likes-${doc.id}">${blogData.likes}</span></p>
+          </div>
+
+          <div style="text-align: center;">
+              <button onclick="lovePost('${doc.id}')" style="
+                  background-color: #ff3860; 
+                  color: white; 
+                  border: none; 
+                  padding: 10px 20px; 
+                  border-radius: 5px; 
+                  cursor: pointer;
+                  transition: background-color 0.3s ease;">❤️ Love</button>
+              <p><strong>Loves:</strong> <span id="loves-${doc.id}">${blogData.loves}</span></p>
+          </div>
+
+          <div style="text-align: center;">
+              <button onclick="markHelpful('${doc.id}')" style="
+                  background-color: #23d160; 
+                  color: white; 
+                  border: none; 
+                  padding: 10px 20px; 
+                  border-radius: 5px; 
+                  cursor: pointer;
+                  transition: background-color 0.3s ease;">✔️ Helpful</button>
+              <p><strong>Helpful:</strong> <span id="helpful-${doc.id}">${blogData.helpful}</span></p>
+          </div>
+      </div>
+  </div>
+  `;
+
 
             // Append the blog card to the container
             blogContainer.appendChild(blogCard);
