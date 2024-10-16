@@ -528,7 +528,7 @@
         </div>
     
         <!-- Modal Structure -->
-        <div id="applicationModal" class="modal hidden">
+        <div id="applicationModal" class="modal hide">
             <div class="modal-content">
                 <span class="close">&times;</span>
                 <h2>External Application</h2>
@@ -540,7 +540,7 @@
             </div>
         </div>
         
-        <div id="reportJobModal" class="modal hidden" role="dialog" aria-labelledby="reportJobTitle" aria-hidden="true">
+        <div id="reportJobModal" class="modal hide" role="dialog" aria-labelledby="reportJobTitle" aria-hidden="true">
             <div class="modal-content">
                 <span class="close" aria-label="Close" onclick="closeReportJobModal()">&times;</span>
                 <form id="reportJobForm">
@@ -1055,8 +1055,8 @@ function submitReport() {
 function createJobSchema(jobData) {
     // Validate jobData if necessary
     if (!jobData) {
-        throw new Error("jobData is required");
-    }
+      //  throw new Error("jobData is required");
+    }else{
 
     const jobSchema = {
         "@context": "https://schema.org", // Schema.org context
@@ -1097,12 +1097,13 @@ function createJobSchema(jobData) {
     return jobSchema;
 }
 
+}
 
 // Company Schema Functionfunction createCompanySchema(companyData) {
     // Validate companyData if necessary
     if (!companyData) {
-        throw new Error("companyData is required");
-    }
+   //     throw new Error("companyData is required");
+    }else{
 
     const companySchema = {
         "@context": "https://schema.org", // Schema.org context
@@ -1131,7 +1132,7 @@ function createJobSchema(jobData) {
 
     return companySchema;
 
-
+    }
 }
 
 

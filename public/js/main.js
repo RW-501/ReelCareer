@@ -1210,19 +1210,21 @@ async function getModal(user) {
     }
 }
 
-
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', () => {
     auth.onAuthStateChanged(user => {
         if (user) {
-            createProfileModal();
-            initializeProfileModal(user); // Initialize modal only if the form exists
-            document.getElementById('settingsBtn').addEventListener('click', getModal(user));
-            document.getElementById('settingsBtn').addEventListener('click', showModal);
+            // Event listener for the settings button
+            document.getElementById('settingsBtn').addEventListener('click', () => {
+                createProfileModal(); // Create the modal only when settingsBtn is clicked
+                initializeProfileModal(user); // Initialize modal only if the form exists
+
+                getModal(user); // Pass user to getModal
+                showModal(); // Show modal after getting the modal
+            });
+
+            // Register event listeners for closing the modal and deactivating the account
             document.getElementById('saveProfileCloseBtn').addEventListener('click', hideModal);
-           document.getElementById('deactivateAccountBtn').addEventListener('click', hideModal);
-    
-
-
+            document.getElementById('deactivateAccountBtn').addEventListener('click', hideModal);
         }
     });
 });
