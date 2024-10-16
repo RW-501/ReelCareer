@@ -76,11 +76,10 @@ function addStyles() {
 
 /* First Line of Text */
 .resume::before {
-    content: '__';
     left: 0;
     right:0;
     margin:auto;
-    top: 5px;
+    top: 8px;
     height: 3px;
     width: 50px;
     position: absolute;
@@ -90,12 +89,11 @@ function addStyles() {
 
 /* Second Line of Text */
 .resume::after {
-    content: '____';
     left: 0;
     right:0;
     margin:auto;
  
-        top: 10px;
+        top: 16px;
     height: 3px;
     width: 30px;
     position: absolute;
@@ -105,20 +103,6 @@ function addStyles() {
 
 /* Third Line of Text */
 .l3 {
-    content: '____';
-    left: 0;
-    right:0;
-    margin:auto;
-    top: 20px;
-    height: 3px;
-    width: 40px;
-    position: absolute;
-    background-color: #222222;
-        animation: loadingText 1.6s infinite cubic-bezier(0.4, 0, 1, 1);
-    }
-
-.l4 {
-    content: '____';
     left: 0;
     right:0;
     margin:auto;
@@ -127,10 +111,10 @@ function addStyles() {
     width: 40px;
     position: absolute;
     background-color: #222222;
-        animation: loadingText 1.9s infinite cubic-bezier(0.4, 0, 1, 1);
+        animation: loadingText 1.6s infinite cubic-bezier(0.4, 0, 1, 1);
     }
-    .l5 {
-    content: '____';
+
+.l4 {
     left: 0;
     right:0;
     margin:auto;
@@ -139,14 +123,24 @@ function addStyles() {
     width: 40px;
     position: absolute;
     background-color: #222222;
-        animation: loadingText 2.3s infinite cubic-bezier(0.4, 0, 1, 1);
+        animation: loadingText 1.9s infinite cubic-bezier(0.4, 0, 1, 1);
     }
-    .l6 {
-    content: '____';
+    .l5 {
     left: 0;
     right:0;
     margin:auto;
     top: 50px;
+    height: 3px;
+    width: 40px;
+    position: absolute;
+    background-color: #222222;
+        animation: loadingText 2.3s infinite cubic-bezier(0.4, 0, 1, 1);
+    }
+    .l6 {
+    left: 0;
+    right:0;
+    margin:auto;
+    top: 60px;
     height: 3px;
     width: 40px;
     position: absolute;
@@ -156,11 +150,10 @@ function addStyles() {
 
 
 .l7 {
-    content: '____';
     left: 0;
     right:0;
     margin:auto;
-    top: 60px;
+    top: 70px;
     height: 3px;
     width: 40px;
     position: absolute;
@@ -168,11 +161,11 @@ function addStyles() {
         animation: loadingText 2.8s infinite cubic-bezier(0.4, 0, 1, 1);
     }
     .l8 {
-    content: '____';
+    content: '___ _';
     left: 0;
     right:0;
     margin:auto;
-    top: 70px;
+    top: 80px;
     height: 3px;
     width: 40px;
     position: absolute;
