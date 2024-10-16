@@ -33,6 +33,7 @@ function addStyles() {
 /* Loader Container */
 
 
+/* Loader Container */
 .loader-container {
     display: flex;
     flex-direction: column;
@@ -50,156 +51,112 @@ function addStyles() {
     transition: opacity 0.5s ease-in-out;
 }
 
-.resume:hover {
-.l1 {
-
-    background-color: #yellow;
-}
-}
-
 /* Animated Resume */
 .resume {
-    width: 60px;
-    height: 100px;
-    background-color: #007bff;
+    display: flex;
+    flex-direction: row;
+    width: 320px;
+    height: 420px;
+    background-color: #f4f4f4;
     position: relative;
     margin-bottom: 20px;
-    border-radius: 5px;
-    box-shadow: -6px -4px 8px 0px rgb(0 0 0 / 54%);
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+}
+
+/* Sidebar for Profile Picture and Personal Info */
+.resume-sidebar {
+    width: 30%;
+    background-color: #007bff;
+    padding: 15px;
     text-align: center;
+    color: white;
 }
 
-/* Resume Lines (Represent Text Being Typed Out) */
-.resume::before, .resume::after, .resume::third, .resume::4  {
-    position: absolute;
-    left: 0;
-    right:0;
-    margin:auto;
-    border-radius: 2px;
-    background-color: white;
-}
-
-/* First Line of Text */
-.l1 {
-    left: 0;
-    right: 0;
-    margin: auto;
-    top: 12px;
-    height: 40px;
-    width: 41px;
-    position: absolute;
-    background-color: #222222;
-    /* animation: loadingText 1s infinite cubic-bezier(0.4, 0, 1, 1); */
-    border-radius: 4px;
-    }
-
-/* Second Line of Text */
-.l2 {
-    left: 0;
-    right: 0;
-    margin: auto;
-    top: 20px;
-    height: 27px;
-    width: 32px;
-    position: absolute;
-    background-color: #ffffff;
-    /* animation: loadingText 1.3s infinite cubic-bezier(0.4, 0, 1, 1); */
+/* Profile Picture at the top of the sidebar */
+.profile-pic {
+    width: 70px;
+    height: 70px;
     border-radius: 50%;
+    background-color: #fff;
+    margin: 0 auto 15px;
+    border: 3px solid #ffffff;
 }
 
-/* Third Line of Text */
-.l3 {
-    left: -10px;
-    right: 0;
-    margin: auto;
-    top: 27px;
-    height: 3px;
-    width: 5px;
-    position: absolute;
-    background-color: #222222;
-    /* animation: loadingText 1.6s infinite cubic-bezier(0.4, 0, 1, 1); */
+/* Personal Information Section under profile picture */
+.personal-info {
+    font-size: 0.5rem;
+    margin-top: 10px;
+    text-align: left;
 }
 
-.l4 {
-    left: 0;
-    right: -9px;
-    margin: auto;
-    top: 27px;
-    height: 3px;
-    width: 5px;
-    position: absolute;
-    background-color: #222222;
-    /* animation: loadingText 1.9s infinite cubic-bezier(0.4, 0, 1, 1); */
+/* Main Resume Content */
+.resume-main {
+    width: 70%;
+    padding: 15px;
+    background-color: #ffffff;
+    position: relative;
 }
 
- .l5 {
-    left: 0;
-    right: 0;
-    margin: auto;
-    top: 37px;
-    height: 3px;
-    width: 13px;
+/* Header Section (Name or Title) */
+.resume-header {
     position: absolute;
-    background-color: #222222;
-    /* animation: loadingText 2.3s infinite cubic-bezier(0.4, 0, 1, 1); */
-    border-bottom-right-radius: 5px;
-    border-bottom-left-radius: 5px;
+    top: 15px;
+    left: 10px;
+    right: 10px;
+    height: 15px;
+    background-color: #007bff;
+    border-radius: 3px;
+    animation: loadingText 1s infinite ease-in-out;
 }
 
-    .l6 {
-    left: 0;
-    right:0;
-    margin:auto;
-    top: 60px;
-    height: 3px;
-    width: 40px;
+/* Line Sections (Representing Resume Content) */
+.resume-line {
     position: absolute;
-    background-color: #222222;
-    }
+    left: 10px;
+    right: 10px;
+    height: 8px;
+    background-color: #d3d3d3;
+    border-radius: 2px;
+}
 
+.l1 { top: 40px; animation: loadingText 1.2s infinite ease-in-out; }
+.l2 { top: 60px; animation: loadingText 1.4s infinite ease-in-out; }
+.l3 { top: 80px; animation: loadingText 1.6s infinite ease-in-out; }
+.l4 { top: 100px; animation: loadingText 1.8s infinite ease-in-out; }
+.l5 { top: 120px; animation: loadingText 2s infinite ease-in-out; }
+.l6 { top: 140px; animation: loadingText 2.2s infinite ease-in-out; }
+.l7 { top: 160px; animation: loadingText 2.4s infinite ease-in-out; }
+.l8 { top: 180px; animation: loadingText 2.6s infinite ease-in-out; }
 
-.l7 {
-    left: 0;
-    right:0;
-    margin:auto;
-    top: 70px;
-    height: 3px;
-    width: 40px;
+/* Footer Section (Represents Contact or Footer Info) */
+.resume-footer {
     position: absolute;
-    background-color: #222222;
-    }
-
-    .l8 {
-    left: 0;
-    right:0;
-    margin:auto;
-    top: 80px;
-    height: 3px;
-    width: 40px;
-    position: absolute;
-    background-color: #222222;
-        }
-    
-
-
+    bottom: 10px;
+    left: 10px;
+    right: 10px;
+    height: 12px;
+    background-color: #007bff;
+    border-radius: 2px;
+    animation: loadingText 2.8s infinite ease-in-out;
+}
 
 /* Loading Message Style */
 .loading-message {
-            color: #83bad9; /* Branding color */
-            
+    color: #83bad9; /* Branding color */
     font-weight: 800;
     font-size: 2.0rem;
     text-shadow: -2px -1px 0px #007bff;
-            font-family: 'Arial', sans-serif;
+    font-family: 'Arial', sans-serif;
     text-align: center;
-
+    margin-top: 20px;
 }
 
-/* Loading Dots Animation */
+/* Animation for Lines (Simulating Typing) */
 @keyframes loadingText {
-    0%, 100% { opacity: 0.1; }
-    50% { opacity: 0.5; }
-    100% { opacity: 1; }
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 1; }
 }
 
 /* Fade out Loader */
@@ -212,15 +169,14 @@ function addStyles() {
 /* Smooth content loading */
 body {
     opacity: 0;
-    display:none;
+    display: none;
     transition: opacity .5s ease-in-out;
 }
 
 body.loaded {
     opacity: 1;
-    display:block;
+    display: block;
 }
-
 
 
 
@@ -229,54 +185,67 @@ body.loaded {
     document.head.appendChild(style);
 }
 
+function addStyles() {
+    const style = document.createElement('style');
+    style.type = 'text/css';
+    style.innerHTML = `
+        /* Add all the CSS code here (from the CSS block above) */
+    `;
+    document.head.appendChild(style);
+}
 
-let dotsInterval;
 // Function to create and inject loader with animated resume and dynamic dots
 function createLoader(message = 'ReelCareer') {
     const loaderDiv = document.createElement('div');
     loaderDiv.id = 'loaderX';
     loaderDiv.classList.add('loader-container');
-    loaderDiv.setAttribute('role', 'alert'); // Improved accessibility
+    loaderDiv.setAttribute('role', 'alert');
     loaderDiv.setAttribute('aria-live', 'assertive');
     loaderDiv.setAttribute('aria-busy', 'true');
 
-
-    // Create animated resume icon
+    // Create animated resume container
     const resume = document.createElement('div');
     resume.classList.add('resume');
 
-    const l1 = document.createElement('div');
-    l1.classList.add('l1');
-    l1.innerHTML="";
+    // Sidebar
+    const sidebar = document.createElement('div');
+    sidebar.classList.add('resume-sidebar');
 
-    const l2 = document.createElement('div');
-    l2.classList.add('l2');
-    l2.innerHTML=""; 
+    // Profile Picture
+    const profilePic = document.createElement('div');
+    profilePic.classList.add('profile-pic');
 
-    const l3 = document.createElement('div');
-    l3.classList.add('l3');
-    l3.innerHTML="";
+    // Personal Info
+    const personalInfo = document.createElement('div');
+    personalInfo.classList.add('personal-info');
+    personalInfo.innerHTML = `
+        <strong>Ron W</strong><br>
+        Ron.Dot.@ReelCareer.co<br>
+        ReelCareer.co
+    `;
 
-    const l4 = document.createElement('div');
-    l4.classList.add('l4');
-    l4.innerHTML="";   
+    // Append profile picture and personal info to sidebar
+    sidebar.appendChild(profilePic);
+    sidebar.appendChild(personalInfo);
 
-    const l5 = document.createElement('div');
-    l5.classList.add('l5');
-    l5.innerHTML="";
+    // Main Resume Content
+    const mainContent = document.createElement('div');
+    mainContent.classList.add('resume-main');
 
-    const l6 = document.createElement('div');
-    l6.classList.add('l6');
-    l6.innerHTML="";
+    // Resume lines (simulating text)
+    const lines = ['l1', 'l2', 'l3', 'l4', 'l5', 'l6', 'l7', 'l8'].map(cls => {
+        const line = document.createElement('div');
+        line.classList.add('resume-line', cls);
+        return line;
+    });
 
-    const l7 = document.createElement('div');
-    l7.classList.add('l7');
-    l7.innerHTML="";
+    // Footer
+    const footer = document.createElement('div');
+    footer.classList.add('resume-footer');
 
-    const l8 = document.createElement('div');
-    l8.classList.add('l8');
-    l8.innerHTML="";
-
+    // Append lines and footer to mainContent
+    lines.forEach(line => mainContent.appendChild(line));
+    mainContent.appendChild(footer);
 
     // Create dynamic loading message with dots
     const statusDiv = document.createElement('div');
@@ -284,18 +253,11 @@ function createLoader(message = 'ReelCareer') {
     statusDiv.setAttribute('role', 'status');
     statusDiv.textContent = message;
 
-    // Append resume and status message to loader div
-    resume.appendChild(l1);
-    resume.appendChild(l2);
-    resume.appendChild(l3);
-    resume.appendChild(l4);
-    resume.appendChild(l5);
-    resume.appendChild(l6); 
-    resume.appendChild(l6);
-    resume.appendChild(l7);
-    resume.appendChild(l8);
+    // Append sidebar and mainContent to resume
+    resume.appendChild(sidebar);
+    resume.appendChild(mainContent);
 
-    
+    // Append resume and status message to loader div
     loaderDiv.appendChild(resume);
     loaderDiv.appendChild(statusDiv);
 
@@ -303,25 +265,14 @@ function createLoader(message = 'ReelCareer') {
     document.body.appendChild(loaderDiv);
 }
 
-
+// Hide loader and fade in content
 function hideLoader() {
     const loader = document.getElementById('loaderX');
     if (loader) {
-
-
-        // Remove from DOM after transition
         setTimeout(() => {
-            try {
-                loader.classList.add('hidden');
-                console.log("Hiding Loader...");
-                loader.remove();
-                console.log("Loader removed successfully.");
-            } catch (error) {
-                console.error("Error removing loader:", error);
-            }
-        }, 1500); // Adjusted to match opacity transition time (0.5s)
-    } else {
-        console.warn("Loader not found, cannot hide.");
+            loader.classList.add('hidden');
+            loader.remove();
+        }, 1500);
     }
 }
 
