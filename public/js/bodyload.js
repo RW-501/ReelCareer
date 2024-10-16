@@ -284,7 +284,7 @@ function hideLoader() {
     });
     document.getElementById('loaderX').addEventListener('click', () => {
         const loader = document.getElementById('loaderX');
-                loader.classList.add('hidden');
+                loader.classList.add('hide');
                 loader.remove();
     });
 
