@@ -1,5 +1,5 @@
 
-// anotherFile.js
+// loadScripts.js
 import { adjustLinkHomeURL, adjustLinkURL, currentPage } from '../scripts.js';
 
 console.log(adjustLinkHomeURL); // Output: /home
