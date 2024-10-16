@@ -321,8 +321,8 @@ main .jobCard:hover {
 }
 
 .text-indent{
-    padding-left: 2em;
-    text-indent: -2em;
+    padding-left: -2em;
+    text-indent: 2em;
     
     
 }
