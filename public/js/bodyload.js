@@ -263,11 +263,11 @@ function createLoader(message = 'ReelCareer') {
     // Add loader to the body
     document.body.appendChild(loaderDiv);
 }
-
+let pauseTime = false;
 // Hide loader and fade in content
 function hideLoader() {
     const loader = document.getElementById('loaderX');
-    if (loader) {
+    if (loader || pauseTime === false) {
         setTimeout(() => {
             loader.classList.add('hidden');
             loader.remove();
@@ -279,8 +279,7 @@ function hideLoader() {
     addStyles(); // Add styles first
     createLoader(); // Then create the loader
     document.getElementById('resume').addEventListener('click', () => {
-
-        createLoader(); // Then create the loader
+       pauseTime = true;
     });
     document.getElementById('loaderX').addEventListener('click', () => {
         const loader = document.getElementById('loaderX');
