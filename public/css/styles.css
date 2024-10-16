@@ -215,6 +215,15 @@ main .jobCard:hover {
     background-color: #f2f2f2; /* Placeholder background color */
 }
 
+.hide {
+    display: none !important;
+}
+
+.show {
+    display: initial !important;
+}
+
+
 
 /* General Modal Styles */
 .modal {
