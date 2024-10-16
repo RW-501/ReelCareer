@@ -200,6 +200,7 @@ function createLoader(message = 'ReelCareer') {
     // Create animated resume container
     const resume = document.createElement('div');
     resume.classList.add('resume');
+    resume.setAttribute("id","resume");
 
     // Sidebar
     const sidebar = document.createElement('div');
@@ -273,7 +274,15 @@ function hideLoader() {
 
     addStyles(); // Add styles first
     createLoader(); // Then create the loader
+    document.getElementById('resume').addEventListener('click', () => {
 
+        addStyles(); // Add styles first
+        createLoader(); // Then create the loader
+    });
+    document.getElementById('loaderX').addEventListener('click', () => {
+        hideLoader(); // Hide loader first
+
+    });
 
 // Hide loader when the window fully loads
 window.addEventListener('load', () => {
