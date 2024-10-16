@@ -1,6 +1,6 @@
 
 // anotherFile.js
-import { adjustLinkHomeURL, adjustLinkURL, currentPage } from '../scripts.js';
+import { adjustLinkHomeURL, adjustLinkURL, currentPage } from './scripts.js';
 
 console.log(adjustLinkHomeURL); // Output: /home
 console.log(adjustLinkURL);      // Output: /about
