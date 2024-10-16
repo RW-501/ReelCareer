@@ -341,7 +341,10 @@ function showModal() {
 
     const modalElement = document.getElementById('profileModal');
     const modal = new bootstrap.Modal(modalElement);
-    modal.show();
+    modal.removeAttribute('inert');
+    modal.classList.add('show'); // Add bootstrap's 'show' class
+    modal.setAttribute('aria-hidden', 'false');
+
 }
 
 
@@ -349,7 +352,9 @@ function showModal() {
 function hideModal() {
     const modal = document.getElementById('profileModal');
 
-    modal.classList.remove('show');
+    modal.setAttribute('inert', '');
+    modal.classList.remove('show'); // Remove bootstrap's 'show' class
+    modal.setAttribute('aria-hidden', 'true');
     modal.classList.add('hide'); // Add a 'hide' class if needed
 
     const modalBackdrop = document.querySelector('.modal-backdrop');
@@ -360,6 +365,9 @@ if (modalBackdrop) {
 
     // Add the 'hide' class
     modalBackdrop.classList.add('hide');
+    
+    modalBackdrop.setAttribute('inert', '');
+    modalBackdrop.setAttribute('aria-hidden', 'true');
 }
     const modalopen = document.querySelector('body');
     modalopen.classList.remove('modal-open');

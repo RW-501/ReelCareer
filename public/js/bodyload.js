@@ -215,7 +215,7 @@ function createLoader(message = 'ReelCareer') {
     personalInfo.innerHTML = `
         <strong>Ron W</strong><br>
         Ron.Dot.@ReelCareer.co<br>
-        ReelCareer.co
+        (469) 225-9929
     `;
 
     // Append profile picture and personal info to sidebar
