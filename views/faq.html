@@ -76,31 +76,121 @@
     <!-- Scripts -->
     <script defer src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <main>
-        <div class="faq-container">
-            <h1>Frequently Asked Questions</h1>
+    <main style="
+    padding: 40px 20px; 
+    background-color: #f4f4f4; 
+    display: flex; 
+    justify-content: center;">
+  
+  <div class="faq-container" style="
+      background-color: #fff; 
+      border-radius: 12px; 
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); 
+      padding: 40px; 
+      width: 100%; 
+      max-width: 800px;">
+    
+    <!-- Title Section -->
+    <h1 style="
+        font-size: 28px; 
+        font-weight: bold; 
+        text-align: center; 
+        color: #007bff; 
+        margin-bottom: 30px;">Frequently Asked Questions</h1>
 
-            <input type="text" id="searchInput" class="form-control mb-4" placeholder="Search FAQs..." aria-label="Search FAQs">
+    <!-- Search Input -->
+    <div style="margin-bottom: 30px; position: relative;">
+      <input type="text" id="searchInput" class="form-control" style="
+          padding: 12px 40px 12px 15px; 
+          font-size: 16px; 
+          border-radius: 8px; 
+          border: 1px solid #ddd;" 
+          placeholder="Search FAQs..." aria-label="Search FAQs">
+      <span style="
+          position: absolute; 
+          right: 15px; 
+          top: 12px; 
+          font-size: 18px; 
+          color: #007bff;" class="search-icon">🔍</span>
+    </div>
 
-            <div id="faqList" class="list-group">
-                <!-- FAQ items will be dynamically loaded here -->
-            </div>
+    <!-- FAQ List -->
+    <div id="faqList" class="list-group" style="
+        margin-bottom: 40px;">
+      <!-- FAQ items will be dynamically loaded here -->
+      <div class="faq-item" style="
+          border: 1px solid #ddd; 
+          border-radius: 8px; 
+          padding: 15px; 
+          margin-bottom: 10px; 
+          cursor: pointer; 
+          transition: background-color 0.3s ease;">
+        <h4 style="font-size: 18px; font-weight: 600; color: #333;">What is ReelCareer?</h4>
+        <p style="display: none; font-size: 16px; color: #666; margin-top: 10px;">ReelCareer is a dynamic job board...</p>
+      </div>
+      <!-- Additional FAQ items will go here -->
+    </div>
 
-            <div class="ask-question-section">
-                <h3>Have a question?</h3>
-                <p id="authMessage" class="text-danger" style="display: none;">You must be logged in to ask a question.</p>
+    <!-- Ask a Question Section -->
+    <div class="ask-question-section" style="
+        border-top: 1px solid #ddd; 
+        padding-top: 20px;">
+      
+      <h3 style="
+          font-size: 22px; 
+          font-weight: bold; 
+          margin-bottom: 20px; 
+          color: #007bff;">Have a question?</h3>
 
-                <form id="askQuestionForm" style="display: none;" class="mt-3">
-                    <textarea id="questionInput" class="form-control" rows="4" placeholder="Type your question..." required></textarea>
-                    <button type="submit" class="btn btn-primary mt-2">Submit Question</button>
-                </form>
+      <p id="authMessage" class="text-danger" style="
+          display: none; 
+          font-size: 16px; 
+          margin-bottom: 10px;">You must be logged in to ask a question.</p>
 
-                <button id="askQuestionBtn" class="btn btn-secondary mt-3" style="display: none;">Ask a Question</button>
-            </div>
+      <form id="askQuestionForm" style="display: none;">
+        <textarea id="questionInput" class="form-control" style="
+            width: 100%; 
+            padding: 15px; 
+            border-radius: 8px; 
+            font-size: 16px; 
+            border: 1px solid #ddd;" 
+            rows="4" placeholder="Type your question..." required></textarea>
+        <button type="submit" class="btn btn-primary mt-3" style="
+            width: 100%; 
+            padding: 12px; 
+            background-color: #007bff; 
+            border: none; 
+            font-size: 16px; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            transition: background-color 0.3s ease;">Submit Question</button>
+      </form>
 
-            <button id="liveChatButton" class="btn btn-primary mt-4">Live Chat</button>
-        </div>
-    </main>
+      <button id="askQuestionBtn" class="btn btn-secondary mt-3" style="
+          display: none; 
+          width: 100%; 
+          padding: 12px; 
+          background-color: #6c757d; 
+          border: none; 
+          font-size: 16px; 
+          border-radius: 8px; 
+          cursor: pointer; 
+          transition: background-color 0.3s ease;">Ask a Question</button>
+    </div>
+
+    <!-- Live Chat Button -->
+    <button id="liveChatButton" class="btn btn-primary mt-4" style="
+        width: 100%; 
+        padding: 15px; 
+        background-color: #007bff; 
+        font-size: 16px; 
+        border-radius: 8px; 
+        border: none; 
+        cursor: pointer; 
+        transition: background-color 0.3s ease;">Live Chat</button>
+  </div>
+</main>
+
 
     <!-- Footer -->
     <footer id="dynamic-footer"></footer>
