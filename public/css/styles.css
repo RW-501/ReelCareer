@@ -208,3 +208,9 @@ main .jobCard:hover {
     transform: translateY(-5px);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Subtle shadow on hover */
 }
+
+
+.job-image-container {
+    min-height: 150px; /* Adjust height based on your design */
+    background-color: #f2f2f2; /* Placeholder background color */
+}

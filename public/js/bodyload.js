@@ -268,11 +268,10 @@ function hideLoader() {
     }
 }
 
-// Initialize styles and loader on DOMContentLoaded
-//window.addEventListener('DOMContentLoaded', () => {
+
     addStyles(); // Add styles first
     createLoader(); // Then create the loader
-//});
+
 
 // Hide loader when the window fully loads
 window.addEventListener('load', () => {
