@@ -32,6 +32,7 @@ function addStyles() {
 
 /* Loader Container */
 
+
 .loader-container {
     display: flex;
     flex-direction: column;
@@ -207,11 +208,13 @@ function addStyles() {
 /* Smooth content loading */
 body {
     opacity: 0;
+    display:none;
     transition: opacity .5s ease-in-out;
 }
 
 body.loaded {
     opacity: 1;
+    display:block;
 }
 
 
