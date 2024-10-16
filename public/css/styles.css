@@ -194,3 +194,43 @@ main .card-body {
     flex-direction: row;
     width: 100%; /* Ensure cards are stretched to fill the space */
 }
+
+
+#apple-login{
+    width: 100%; 
+    padding: 12px; 
+    background-color: #000; 
+    color: #fff; 
+    font-size: 16px; 
+    border: none; 
+    border-radius: 6px; 
+    cursor: pointer; 
+    transition: background-color 0.3s ease;
+}
+
+#facebook-login{
+
+    width: 100%; 
+    padding: 12px; 
+    margin-bottom: 10px; 
+    background-color: #3b5998; 
+    color: #fff; 
+    font-size: 16px; 
+    border: none; 
+    border-radius: 6px; 
+    cursor: pointer; 
+    transition: background-color 0.3s ease;
+}
+
+#google-login{
+    width: 100%; 
+    padding: 12px; 
+    margin-bottom: 10px; 
+    background-color: #db4437; 
+    color: #fff; 
+    font-size: 16px; 
+    border: none; 
+    border-radius: 6px; 
+    cursor: pointer; 
+    transition: background-color 0.3s ease;
+}
