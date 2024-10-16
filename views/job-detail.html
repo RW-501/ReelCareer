@@ -637,6 +637,8 @@ async function saveJob(jobId) {
         async function fetchJobDetails() {
             const urlParams = new URLSearchParams(window.location.search);
             const jobId = urlParams.get('id'); // Get job ID from URL
+            let companyData ="";
+
 
             const errorMessageDiv = document.getElementById('error-message');
     const jobContainer = document.getElementById('job-container');
@@ -723,7 +725,7 @@ async function loadJobDetails(jobData) {
 
 
         if (companyDoc.exists()) {
-            const companyData = companyDoc.data();
+             companyData = companyDoc.data();
 
             document.getElementById("companyLogo").src = companyData.logo; // Ensure the 'logo' field in the database is a URL
             document.getElementById("companyWebsite").href = companyData.website;

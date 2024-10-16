@@ -1,6 +1,5 @@
 
 
-
 function formatLocation(location, options = {}) {
     const { part = 'all', reverseOrder = false } = options; // Set default options
 
