@@ -196,3 +196,15 @@ main .card-body {
 }
 
 
+.job-title-link:hover {
+    text-decoration: underline;
+}
+
+main .btn-primary:hover {
+    background-color: #0056b3; /* Darker blue for button hover */
+}
+
+main .jobCard:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Subtle shadow on hover */
+}

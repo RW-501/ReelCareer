@@ -895,12 +895,27 @@ async function loadRelatedBlogs(jobIndustry) {
                 const blogCard = document.createElement('div');
                 blogCard.classList.add('blog-card');
 
-                blogCard.innerHTML = `
-                    <img src="${blog.imageUrl}" alt="${blog.title}" class="img-fluid blog-image" loading="lazy" />
-                    <h5>${blog.title}</h5>
-                    <p>${truncateText(blog.content, 80)}</p>
-                    <a href="/ReelCareer/views/blog?b=${doc.id}" class="btn btn-outline-primary">Read More</a>
-                `;
+                blogCard.innerHTML = ` 
+    <!-- Blog Card Container -->
+    <div class="card blog-card h-100 shadow-sm">
+        <!-- Blog Image with clickable link -->
+        <a href="/ReelCareer/views/blog?b=${doc.id}" class="blog-image-link">
+            <img src="${blog.imageUrl}" alt="${blog.title}" class="img-fluid blog-image rounded-top" loading="lazy" />
+        </a>
+
+        <!-- Blog Content -->
+        <div class="card-body">
+            <!-- Blog Title -->
+            <h5 class="card-title text-primary">${blog.title}</h5>
+            
+            <!-- Truncated Blog Content -->
+            <p class="card-text text-muted">${truncateText(blog.content, 80)}</p>
+
+            <!-- Read More Button -->
+            <a href="/ReelCareer/views/blog?b=${doc.id}" class="btn btn-outline-primary" aria-label="Read more about ${blog.title}">Read More</a>
+        </div>
+    </div>
+`;
                 blogContainer.appendChild(blogCard);
             });
        
