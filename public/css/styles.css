@@ -220,7 +220,7 @@ main .jobCard:hover {
 }
 
 .show {
-    display: initial !important;
+    display: block !important;
 }
 
 
