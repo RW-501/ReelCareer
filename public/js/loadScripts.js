@@ -174,6 +174,9 @@ function restrictKeys(event) {
 
 let jobSuggestions, jobRequirementsSuggestions, locationsSuggestions, citySuggestions, stateSuggestions;
 
+
+
+
 fetch(adjustLinkHomeURL + "public/js/suggestions.json")
     .then(response => {
         if (!response.ok) {

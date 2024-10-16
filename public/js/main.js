@@ -1220,12 +1220,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 getModal(user); // Pass user to getModal
                 showModal(); // Show modal after getting the modal
+                
+                // Register event listeners for closing the modal and deactivating the account
+                document.getElementById('saveProfileCloseBtn').addEventListener('click', hideModal);
+                document.getElementById('deactivateAccountBtn').addEventListener('click', hideModal);
+
+
             });
 
-            // Register event listeners for closing the modal and deactivating the account
-            document.getElementById('saveProfileCloseBtn').addEventListener('click', hideModal);
-            document.getElementById('deactivateAccountBtn').addEventListener('click', hideModal);
-        }
+           }
     });
 });
 
