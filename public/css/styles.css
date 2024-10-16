@@ -310,3 +310,10 @@ main .jobCard:hover {
         opacity: 1;
     }
 }
+
+.text-indent{
+    padding-left: 2em;
+    text-indent: -2em;
+    
+    
+}
