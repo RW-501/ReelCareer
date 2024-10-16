@@ -121,6 +121,11 @@ function getAdjustedLinks() {
 
 // main.js
 const {isHomePage, currentPage, adjustLinkURL, adjustLinkHomeURL, excludedPages } = getAdjustedLinks();
+
+// Export the variables
+export { adjustLinkHomeURL, adjustLinkURL, currentPage };
+
+
 //console.log(adjustLinkURL, adjustLinkHomeURL);
 
        /*

@@ -1,4 +1,11 @@
 
+// anotherFile.js
+import { adjustLinkHomeURL, adjustLinkURL, currentPage } from './loadScripts.js';
+
+console.log(adjustLinkHomeURL); // Output: /home
+console.log(adjustLinkURL);      // Output: /about
+console.log(currentPage);        // Output: /current-page
+
 
 function formatLocation(location, options = {}) {
     const { part = 'all', reverseOrder = false } = options; // Set default options
