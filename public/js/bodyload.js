@@ -50,7 +50,12 @@ function addStyles() {
     transition: opacity 0.5s ease-in-out;
 }
 
+.resume:hover {
+.l1 {
 
+    background-color: #yellow;
+}
+}
 
 /* Animated Resume */
 .resume {
@@ -62,7 +67,6 @@ function addStyles() {
     border-radius: 5px;
     box-shadow: -6px -4px 8px 0px rgb(0 0 0 / 54%);
     text-align: center;
-    color: wheat;
 }
 
 /* Resume Lines (Represent Text Being Typed Out) */
