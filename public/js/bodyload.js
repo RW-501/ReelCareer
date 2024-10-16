@@ -277,7 +277,7 @@ function hideLoader() {
 
 // Hide loader when the window fully loads
 window.addEventListener('load', () => {
-    hideLoader(); // Hide loader first
+   // hideLoader(); // Hide loader first
     document.body.classList.add('loaded'); // Then show content
 });
 
