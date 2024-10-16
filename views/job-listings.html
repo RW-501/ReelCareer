@@ -622,28 +622,11 @@ function displayJobListings({ jobListings, sponsoredJobs }) {
 
 
     sponsoredJobs.forEach(sponsoredJob => {
-        const featuredJobCard = createSponsoredJobCard(sponsoredJob);
-        featuredJobContainer.innerHTML += featuredJobCard; // Append sponsored job card to featured jobs
+        const featuredJobCard = createSponsoredJobCard(sponsoredJob , featuredJobContainer);
+       // featuredJobContainer.innerHTML += featuredJobCard; // Append sponsored job card to featured jobs
     });
 }
 
-
-// Helper function to create a sponsored job card
-function createSponsoredJobCard(sponsoredJob) {
-    return `
-        <div class="col-md-4 mb-4">
-            <div class="card border-success">
-                <div class="card-body">
-                    <h5 class="card-title">${sponsoredJob.title}</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">${sponsoredJob.organization}</h6>
-                     <p class="card-text"><strong>Type:</strong> ${formatJobType(sponsoredJob.type)}</p>
-                     <p class="card-text"><strong>Salary:</strong> ${formatCurrency(sponsoredJob.salary)}</p>
-                    <div  onclick="showJobDetailsFunc('${sponsoredJob.id}')" class="btn btn-success">Apply Now</div>
-                </div>
-            </div>
-        </div>
-    `;
-}
 
 
 
