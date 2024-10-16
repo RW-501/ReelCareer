@@ -123,7 +123,7 @@ function getAdjustedLinks() {
 const {isHomePage, currentPage, adjustLinkURL, adjustLinkHomeURL, excludedPages } = getAdjustedLinks();
 //console.log(adjustLinkURL, adjustLinkHomeURL);
 
-       
+       /*
        console.log("nav currentPage   ",currentPage);
         console.log("nav isHomePage   ",isHomePage);
         console.log("nav adjustLinkURL   ",adjustLinkURL);
@@ -132,7 +132,7 @@ const {isHomePage, currentPage, adjustLinkURL, adjustLinkHomeURL, excludedPages 
 
 console.log("nav currentPage   ",currentPage);
 console.log("nav isHomePage   ",isHomePage);
-
+*/
 
  function addFavicons() {
     const head = document.head;
