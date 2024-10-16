@@ -214,9 +214,9 @@ function createLoader(message = 'ReelCareer') {
     const personalInfo = document.createElement('div');
     personalInfo.classList.add('personal-info');
     personalInfo.innerHTML = `
-        <strong>Ron W</strong>
-        <p>ReelCareer.co</p>
-        <p>(469) 225-9929</p>
+        <strong>Ron W.</strong>
+        <strong>ReelCareer.co</strong>
+        <strong>(469) 225-9929</strong>
     `;
 
     // Append profile picture and personal info to sidebar
