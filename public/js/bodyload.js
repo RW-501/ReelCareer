@@ -264,15 +264,15 @@ function hideLoader() {
         setTimeout(() => {
             loader.classList.add('hidden');
             loader.remove();
-        }, 1500);
+        }, 2000);
     }
 }
 
 // Initialize styles and loader on DOMContentLoaded
-window.addEventListener('DOMContentLoaded', () => {
+//window.addEventListener('DOMContentLoaded', () => {
     addStyles(); // Add styles first
     createLoader(); // Then create the loader
-});
+//});
 
 // Hide loader when the window fully loads
 window.addEventListener('load', () => {
