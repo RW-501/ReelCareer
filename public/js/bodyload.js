@@ -276,10 +276,15 @@ function createLoader(message = 'ReelCareer') {
     statusDiv.textContent = message;
 
     // Append resume and status message to loader div
+    resume.appendChild(l1);
+    resume.appendChild(l2);
     resume.appendChild(l3);
     resume.appendChild(l4);
+    resume.appendChild(l5);
     resume.appendChild(l6); 
     resume.appendChild(l6);
+    resume.appendChild(l7);
+    resume.appendChild(l8);
 
     
     loaderDiv.appendChild(resume);
