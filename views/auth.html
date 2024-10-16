@@ -141,10 +141,12 @@ main .form-link a:hover {
         width: 100%;
     }
 }
-main{
+main {
     padding: 2rem;
     background-color: #639ad4;
-    background-image: ("images/bgpic.png");
+    background-image: url("images/bgpic.png");
+    background-size: cover; /* Ensures the image covers the entire area */
+    background-position: center; /* Centers the image */
 }
 
 
@@ -182,11 +184,12 @@ main{
     left: 0; /* Slightly offset from left */
     right: 0; /* Stretch to right */
     bottom: 0; /* Stretch to bottom */
-    background: #639ad4 !important;
+   /* background: #000000 !important;*/
     z-index: -1; /* Send behind the text */
     border-radius: 8px; /* Optional: round the corners */
     margin: auto;
     font-size: 3.5rem;
+    color:#639ad4;
 }
 
 #logo-area{
@@ -220,6 +223,7 @@ display: flex;
 #apple-login{
     width: 100%; 
     padding: 12px; 
+    margin-bottom: 10px; 
     background-color: #000; 
     color: #fff; 
     font-size: 16px; 

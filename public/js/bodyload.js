@@ -89,6 +89,8 @@ function addStyles() {
     font-size: 0.5rem;
     margin-top: 10px;
     text-align: left;
+     margin: 0 auto 15px;
+
 }
 
 /* Main Resume Content */
