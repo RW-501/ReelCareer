@@ -1,10 +1,4 @@
 
-// loadScripts.js
-import { adjustLinkHomeURL, adjustLinkURL, currentPage } from '../scripts.js';
-
-console.log(adjustLinkHomeURL); // Output: /home
-console.log(adjustLinkURL);      // Output: /about
-console.log(currentPage);        // Output: /current-page
 
 
 function formatLocation(location, options = {}) {
