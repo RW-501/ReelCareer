@@ -532,21 +532,20 @@
                 <h2>External Application</h2>
                 <p>This application will take you to an external website. Do you want to proceed?</p>
                 <div class="modal-actions">
-                    <button id="proceedBtn" class="btn btn-success">Proceed to Application</button>
+                    <button id="proceedBtn" class="btn btn-primary">Proceed to Application</button>
                     <button id="cancelBtn" class="btn btn-secondary">Cancel</button>
                 </div>
             </div>
         </div>
-
+        
         <div id="reportJobModal" class="modal" role="dialog" aria-labelledby="reportJobTitle" aria-hidden="true">
             <div class="modal-content">
                 <span class="close" aria-label="Close" onclick="closeReportJobModal()">&times;</span>
                 <form id="reportJobForm">
+                    <h2 id="reportJobTitle">Report Job</h2>
                     <p>Please select the reason(s) for reporting this job:</p>
                     
-                    <div style="
-                    text-align: left;
-                ">
+                    <div class="checkbox-group">
                         <input type="checkbox" id="spam" name="reason" value="Spam">
                         <label for="spam">Spam</label><br>
         
@@ -566,6 +565,7 @@
                 </form>
             </div>
         </div>
+        
 
     <!-- Footer -->
     <footer id="dynamic-footer"></footer>
@@ -841,25 +841,29 @@ async function getSimilarJobs(jobData) {
                 jobCard.classList.add('col-md-6', 'col-lg-4', 'mb-3');
 
                 jobCard.innerHTML = `
-                    <div class="similar-job-card">
-                        <h5>${similarJob.title}</h5>
-                    <p><strong>${similarJob.company}</strong> -   ${formatLocation(similarJob.location, { part: 'city' })}, ${formatLocation(similarJob.location, { part: 'state' })}
-</p>
-                     <p class="card-text"><text-muted>Type:</text-muted><strong> ${formatJobType(similarJob.type)}</strong></p>
-                     <p class="card-text"><text-muted>Salary:</text-muted>${formatCurrency(similarJob.salary, {decimals: 0})}</p>
-                        <!-- Display job tags -->
-                        <div class="job-tags mt-2">
-${similarJob.tags.map(tag => `
-    <a href="../views/job-listings/?tag=${encodeURIComponent(tag)}" class="btn btn-primary badge" style="margin: 0.2rem;">
-        ${tag}
-    </a>
-`).join('')}
-                        </div>
+    <div class="similar-job-card">
+        <!-- Job Title as a Link -->
+        <h5><a href="../views/job-detail?id=${doc.id}" class="job-title-link">${similarJob.title}</a></h5>
+        
+        <p><strong>${similarJob.company}</strong> - ${formatLocation(similarJob.location, { part: 'city' })}, ${formatLocation(similarJob.location, { part: 'state' })}</p>
 
-                        <!-- View Job Button -->
-                        <a href="../views/job-detail?id=${doc.id}" class="view-job-btn">View Job</a>
-                    </div>
-                `;
+        <p class="card-text"><text-muted>Type:</text-muted><strong> ${formatJobType(similarJob.type)}</strong></p>
+        <p class="card-text"><text-muted>Salary:</text-muted>${formatCurrency(similarJob.salary, { decimals: 0 })}</p>
+
+        <!-- Display job tags -->
+        <div class="job-tags mt-2">
+            ${similarJob.tags.map(tag => `
+                <a href="../views/job-listings/?tag=${encodeURIComponent(tag)}" class="btn btn-primary badge" style="margin: 0.2rem;">
+                    ${tag}
+                </a>
+            `).join('')}
+        </div>
+
+        <!-- View Job Button -->
+        <a href="../views/job-detail?id=${doc.id}" class="view-job-btn">View Job</a>
+    </div>
+`;
+
 
                 // Append the card to the container <img src="${similarJob.logo}" alt="${similarJob.company} Logo" class="img-fluid job-logo" loading="lazy" />
 
