@@ -65,6 +65,10 @@ function addStyles() {
     overflow: hidden;
 }
 
+.resume:hover {
+    box-shadow: 0px 0px 13px 8px #3024f28a;
+    }
+
 /* Sidebar for Profile Picture and Personal Info */
 .resume-sidebar {
     width: 30%;
@@ -214,8 +218,8 @@ function createLoader(message = 'ReelCareer') {
     const personalInfo = document.createElement('div');
     personalInfo.classList.add('personal-info');
     personalInfo.innerHTML = `
-        <strong>Ron W.</strong>
-        <strong>ReelCareer.co</strong>
+        <strong>Ron W.</strong><hr>
+        <strong>ReelCareer.co</strong><br>
         <strong>(469) 225-9929</strong>
     `;
 
@@ -276,12 +280,12 @@ function hideLoader() {
     createLoader(); // Then create the loader
     document.getElementById('resume').addEventListener('click', () => {
 
-        addStyles(); // Add styles first
         createLoader(); // Then create the loader
     });
     document.getElementById('loaderX').addEventListener('click', () => {
-        hideLoader(); // Hide loader first
-
+        const loader = document.getElementById('loaderX');
+                loader.classList.add('hidden');
+                loader.remove();
     });
 
 // Hide loader when the window fully loads
