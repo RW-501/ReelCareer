@@ -75,7 +75,7 @@ function addStyles() {
 }
 
 /* First Line of Text */
-.resume::before {
+.l1 {
     left: 0;
     right:0;
     margin:auto;
@@ -88,7 +88,7 @@ function addStyles() {
     }
 
 /* Second Line of Text */
-.resume::after {
+.l2 {
     left: 0;
     right:0;
     margin:auto;
@@ -161,7 +161,6 @@ function addStyles() {
         animation: loadingText 2.8s infinite cubic-bezier(0.4, 0, 1, 1);
     }
     .l8 {
-    content: '___ _';
     left: 0;
     right:0;
     margin:auto;
@@ -236,6 +235,14 @@ function createLoader(message = 'ReelCareer') {
     // Create animated resume icon
     const resume = document.createElement('div');
     resume.classList.add('resume');
+
+    const l1 = document.createElement('div');
+    l1.classList.add('l1');
+    l1.innerHTML="_____";
+
+    const l2 = document.createElement('div');
+    l2.classList.add('l2');
+    l2.innerHTML="__"; 
 
     const l3 = document.createElement('div');
     l3.classList.add('l3');
