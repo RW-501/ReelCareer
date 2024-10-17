@@ -766,13 +766,13 @@ if(dropdownMenu){
 function createProfileModal() {
     const modalHTML = `<!-- profileModal -->
       <div id="profileModal" class="modal fade hide" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-dialog modal-dialog-centered modal-lg"> <!-- Adjusted size for better view -->
           <div class="modal-content rounded-4 shadow">
             <div class="modal-header border-bottom-0">
               <h5 class="modal-title" id="profileModalLabel">Update Your Profile</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" style="max-height: 400px; overflow-y: auto;"> <!-- Make the modal body scrollable -->
               <!-- Instructional Text -->
               <p class="text-muted">Keep your profile up to date to improve your visibility and networking opportunities.</p>
               <!-- Tabs for different sections -->
@@ -797,11 +797,11 @@ function createProfileModal() {
                       <input type="text" class="form-control" id="usernameSET" required placeholder="Your desired username">
                       <small id="usernameError" class="text-danger"></small>
                     </div>
-              <!-- Email -->
-              <div class="mb-3 mt-3">
-                <label for="emailSET" class="form-label">Email </label>
-                <div class="form-control" id="emailSET"></div>
-              </div>
+                    <!-- Email -->
+                    <div class="mb-3 mt-3">
+                      <label for="emailSET" class="form-label">Email </label>
+                      <div class="form-control" id="emailSET"></div>
+                    </div>
                     <!-- Profile Picture Upload -->
                     <div class="mb-3">
                       <label for="profilePictureSET" class="form-label">Profile Picture</label>
@@ -811,50 +811,39 @@ function createProfileModal() {
                       </div>
                       <img id="profilePicPreviewSET" class="img-thumbnail mt-2" style="display:none; width: 100px;" alt="Profile Picture Preview" />
                     </div>
-
                     <!-- Name -->
                     <div class="mb-3">
                       <label for="nameSET" class="form-label">Name <span class="text-danger">*</span></label>
                       <input type="text" class="form-control" id="nameSET" required placeholder="Your full name">
                     </div>
-
                     <!-- Bio -->
                     <div class="mb-3">
                       <label for="bioSET" class="form-label">Bio</label>
                       <textarea class="form-control" id="bioSET" rows="3" maxlength="300" placeholder="Tell us about yourself"></textarea>
                     </div>
-
                     <!-- Location (Auto-suggest) -->
                     <div class="mb-3">
                       <label for="locationSET" class="form-label">Location</label>
-                      <input type="text" oninput="autoSuggest(this,'locationSuggestions')"
-                             class="form-control keywordInput location-input" 
-                             id="locationSET" placeholder="Enter your city or state">
+                      <input type="text" oninput="autoSuggest(this,'locationSuggestions')" class="form-control keywordInput location-input" id="locationSET" placeholder="Enter your city or state">
                     </div>
-
                     <!-- Tags (Skills or Interests) -->
                     <div class="mb-3">
                       <label for="tagsSET" class="form-label">Tags</label>
                       <input type="text" oninput="autoSuggest(this, 'jobRequirementsSuggestions')" class="form-control keywordInput" id="tagsSET" placeholder="Add tags (e.g., JavaScript, Project Management)">
                     </div>
-
                     <!-- Current Position -->
                     <div class="mb-3">
                       <label for="positionSET" class="form-label">Current Position</label>
-                      <input type="text" oninput="autoSuggest(this,'jobSuggestions')"
-                             class="form-control keywordInput job-input" id="positionSET" placeholder="Your job title or current role">
+                      <input type="text" oninput="autoSuggest(this,'jobSuggestions')" class="form-control keywordInput job-input" id="positionSET" placeholder="Your job title or current role">
                     </div>
-
                     <!-- Public Profile Checkbox -->
                     <div class="form-check mb-3">
                       <input type="checkbox" class="form-check-input" id="publicProfileSET">
                       <label class="form-check-label" for="publicProfileSET">Public Profile</label>
                     </div>
-
                     <hr>
                   </form>
                 </div>
-
                 <!-- Social Links Tab -->
                 <div class="tab-pane fade" id="social" role="tabpanel" aria-labelledby="social-tab">
                   <form>
@@ -877,7 +866,6 @@ function createProfileModal() {
                     <hr>
                   </form>
                 </div>
-
                 <!-- Membership Status Tab -->
                 <div class="tab-pane fade" id="membership" role="tabpanel" aria-labelledby="membership-tab">
                   <div class="mb-3">
@@ -891,7 +879,6 @@ function createProfileModal() {
                   </div>
                 </div>
               </div>
-
               <!-- User ID -->
               <div class="mb-3 mt-3">
                 <label for="userIdSET" class="form-label">User ID </label>
@@ -911,6 +898,8 @@ function createProfileModal() {
         </div>
       </div>
     `;
+
+
 
     // Append modal HTML to the body
     document.body.insertAdjacentHTML('beforeend', modalHTML);
