@@ -778,7 +778,7 @@ function createProfileModal() {
                   <button class="nav-link" id="social-tab" data-bs-toggle="tab" data-bs-target="#social" type="button" role="tab" aria-controls="social" aria-selected="false">Social Links</button>
                 </li>
                 <li class="nav-item" role="presentation">
-                  <button class="nav-link" id="membership-tab" data-bs-toggle="tab" data-bs-target="#membership" type="button" role="tab" aria-controls="membership" aria-selected="false">Membership Status</button>
+                  <button class="nav-link" id="membership-tab" data-bs-toggle="tab" data-bs-target="#membership" type="button" role="tab" aria-controls="membership" aria-selected="false">Membership</button>
                 </li>
               </ul>
               <div class="tab-content" id="profileTabContent">
