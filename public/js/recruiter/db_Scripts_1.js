@@ -3,49 +3,28 @@
 import { db, storage, analytics, app  } from '../main.js'; // Adjust the path based on your structure
 import { query, where, orderBy, limit,  collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 
-// Open the job creation modal when the button is clicked
-const createJobBtn = document.getElementById('createJobPostBtn');
-createJobBtn.addEventListener('click', function() {
-    $('#jobModal').modal('show');  // This opens the modal
+document.getElementById('saveDraftButton').addEventListener('click', function(event) {
+    console.log("saveDraftButton  added???????????????????????????");
+
+    handleJobSubmission(event, 'draft');
 });
 
-// Add event listener for form submission
-document.getElementById("createJobPostBtn").addEventListener('click', async function (event) {
-    event.preventDefault(); // Prevent default form submission
- console.log("Job posting added???????????????????????????");
+document.getElementById('boostButton').addEventListener('click', function(event) {
+    console.log("boostButton added???????????????????????????");
 
-    // Custom form validation
-    (function() {
-        'use strict';
-        window.addEventListener('load', function() {
-            var forms = document.getElementsByClassName('needs-validation');
-            for (var i = 0; i < forms.length; i++) {
-                forms[i].addEventListener('submit', function(event) {
-                    const complianceCheckbox = document.getElementById('complianceCheck');
+    handleJobSubmission(event, 'boost');
+});
 
-                    if (!complianceCheckbox.checked) {
-                        alert('Please confirm compliance with Employment and Labor Laws.');
-                        event.preventDefault(); // Prevent form submission if not checked
-                    }
+document.getElementById('createJobBtn').addEventListener('click', function(event) {
+    console.log("createJobBtn???????????????????????????");
 
-                    if (this.checkValidity() === false) {
-                        event.preventDefault();
-                        event.stopPropagation();
-                    }
-                    this.classList.add('was-validated');
-                }, false);
-            }
-        }, false);
-    })();
+    handleJobSubmission(event, 'post');
+});
 
-    // Function to collect job requirements
-    function collectJobRequirements() {
-        const jobRequirements = {
-            education: Array.from(document.getElementById("education").selectedOptions).map(option => option.value),
-            experience: Array.from(document.getElementById("experience").selectedOptions).map(option => option.value),
-        };
-        return jobRequirements;
-    }
+
+
+
+
 
     // Collect input values
     const companyId = ""; // Or some existing company ID if applicable
@@ -82,20 +61,82 @@ document.getElementById("createJobPostBtn").addEventListener('click', async func
     // Call submitJobPost to create or retrieve the company ID
     const newCompanyId = await submitJobPost(jobTitle, companyId, companyName, recruiterIDs, jobIDs);
     
-    // Create job details object
-    const jobDetails = { 
-        company: companyName, // Use the correct company name
-        companyId: newCompanyId,
-        title: jobTitle,
+    
+    
+
+
+
+async function handleJobSubmission(event, actionType) {
+    event.preventDefault(); // Prevent default form submission behavior
+
+    // Validate the form (custom logic such as compliance checkbox check)
+    if (!validateForm()) {
+        return;  // Exit if validation fails
+    }
+
+    // Collect all job details from the form
+    const jobDetails = collectJobDetails();
+
+    // Based on actionType, modify the jobDetails object
+    if (actionType === 'draft') {
+        jobDetails.status = 'draft';  // Save as draft
+    } else if (actionType === 'post') {
+        jobDetails.status = 'active';  // Create job post
+    } else if (actionType === 'boost') {
+        jobDetails.status = 'active';  // Boosted jobs should be active
+        jobDetails.boosted = true;     // Mark job as boosted
+        jobDetails.boostExpiration = new Date(new Date().setDate(new Date().getDate() + 30)); // Boost for 30 days
+    }
+
+    try {
+        const jobId = await saveJobToDatabase(jobDetails); // Save job details to database
+
+        // Action-specific alerts and UI feedback
+        if (actionType === 'boost') {
+            alert("Job listing boosted successfully for 30 days!");
+        } else if (actionType === 'post') {
+            showSuccessModal(jobId, jobDetails.title);  // Show modal with job title and link
+        } else {
+            alert("Draft saved successfully.");
+        }
+        
+        resetForm();  // Reset the form after successful submission
+    } catch (error) {
+        console.error("Error submitting job:", error);
+        alert("An error occurred: " + error.message);
+    }
+}
+
+
+function validateForm() {
+    const complianceCheckbox = document.getElementById('complianceCheck');
+    if (!complianceCheckbox.checked) {
+        alert('Please confirm compliance with Employment and Labor Laws.');
+        return false;
+    }
+
+    const forms = document.getElementsByClassName('needs-validation');
+    for (let form of forms) {
+        if (!form.checkValidity()) {
+            form.classList.add('was-validated');
+            return false;  // Form validation failed
+        }
+    }
+    return true;  // Validation passed
+}
+
+function collectJobDetails() {
+    return {
+        title: document.getElementById("jobTitle").value,
         description: document.getElementById("jobDescription").value,
         requirements: document.getElementById("jobRequirements").value,
-        searchableRequirements: collectJobRequirements(), // Collect enhanced requirements
+        searchableRequirements: collectJobRequirements(),  // Collect enhanced requirements
         location: document.getElementById("jobLocation").value,
         city: document.getElementById("jobCity").value,
         state: document.getElementById("jobState").value,
         zipCode: document.getElementById("jobZipCode").value,
         type: document.getElementById("jobType").value,
-        salary: parseFloat(document.getElementById("jobSalary").value) || 0, // Ensure it's a number
+        salary: parseFloat(document.getElementById("jobSalary").value) || 0,  // Ensure it's a number
         contractToHire: document.getElementById("contractToHire").value,
         education: document.getElementById("education").value,
         experience: document.getElementById("experience").value,
@@ -104,61 +145,65 @@ document.getElementById("createJobPostBtn").addEventListener('click', async func
         industry: document.getElementById("industry").value,
         benefits: document.getElementById("benefits").value.split(",").map(benefit => benefit.trim()),
         jobFunction: document.getElementById("jobFunction").value,
-        tags: Array.from(document.getElementById("tagsList").children).map(tag => tag.textContent.slice(0, -1).trim()), // Correctly reference the tags list
+        tags: Array.from(document.getElementById("tagsList").children).map(tag => tag.textContent.slice(0, -1).trim()),  // Correctly reference the tags list
         complianceCheck: document.getElementById("complianceCheck").checked,
-        boosted: "", // Check if boosted
-        boostExpiration: "",
-        boostExpiresAt: "",
-        boostedByID: "",
-        status: "active",
+        boosted: false,  // Default not boosted
+        status: 'draft',  // Default status is draft, overridden based on action
         createdAt: new Date(),
+        recruiterID: document.getElementById("appUserID").innerText,  // Assuming this is the recruiter ID
         applicantsViewed: 0,
         savedForLater: 0,
         applicationAvailableBool: true,
-        recruiterID: recruiterIDs, // Replace with actual recruiter ID
-        customQuestions: collectCustomQuestions(),
+        customQuestions: collectCustomQuestions(),  // Assuming you have custom questions collection logic
     };
+}
 
-    console.log(jobDetails);
+async function saveJobToDatabase(jobDetails) {
+    const jobPostingsRef = collection(db, "Jobs");
+    const docRef = await addDoc(jobPostingsRef, jobDetails);  // Add job details to "Jobs" collection
+    console.log("Job posted successfully with ID:", docRef.id);
 
-    // Save jobDetails to Firebase collection
-    if (jobDetails.title && jobDetails.description && jobDetails.location && jobDetails.type) {
-        const jobPostingsRef = collection(db, "Jobs");
-        try {
-            const docRef = await addDoc(jobPostingsRef, jobDetails);
-            console.log("Job posting added successfully with ID: ", docRef.id);
+    // Update the company's jobIDs array with the new job ID
+    const companyRef = doc(db, "Companies", jobDetails.companyId);
+    await updateDoc(companyRef, {
+        jobIDs: arrayUnion(docRef.id)  // Add the new job ID to the jobIDs array
+    });
 
-            // Add the new job ID to the corresponding company's jobIDs array
-            const companyRef = doc(db, "Companies", newCompanyId);
-            await updateDoc(companyRef, {
-                jobIDs: arrayUnion(docRef.id) // Adds the new job ID to the jobIDs array
-            });
+    return docRef.id;  // Return the job ID for future use
+}
 
-            // Hide the job creation modal
-            $('#jobModal').modal('hide');
 
-// Show success modal with job ID and job title link
-document.getElementById("jobId").textContent = docRef.id;
-document.getElementById("jobTitleLink").textContent = jobDetails.title;
-document.getElementById("jobTitleLink").href = `/views/job-detail.html?id=${docRef.id}`;
-$('#jobSuccessModal').modal('show');
+function showSuccessModal(jobId, jobTitle) {
+    document.getElementById("jobId").textContent = jobId;
+    document.getElementById("jobTitleLink").textContent = jobTitle;
+    document.getElementById("jobTitleLink").href = `/views/job-detail.html?id=${jobId}`;
+    $('#jobSuccessModal').modal('show');  // Show the success modal
+}
 
-// Boost job functionality (stub)
-document.getElementById("boostJobBtn").addEventListener('click', async function() {
-    try {
-        // Example: Update job posting with boost status
-        await updateDoc(doc(db, "Jobs", docRef.id), {
-            boosted: true,
-            boostExpiration: new Date(new Date().setDate(new Date().getDate() + 30)) // 30-day boost
-        });
-        alert("Job listing boosted for 30 days!");
-    } catch (error) {
-        console.error("Error boosting job: ", error);
-        alert("Failed to boost job listing.");
+
+function resetForm() {
+    document.getElementById("jobForm").reset();
+    document.getElementById("jobForm").classList.remove('was-validated');
+}
+
+
+
+
+
+
+
+
+    // Function to collect job requirements
+    function collectJobRequirements() {
+        const jobRequirements = {
+            education: Array.from(document.getElementById("education").selectedOptions).map(option => option.value),
+            experience: Array.from(document.getElementById("experience").selectedOptions).map(option => option.value),
+        };
+        return jobRequirements;
     }
-});
-
-// Share job listing on social media (you can expand with more detailed URLs for sharing)
+         
+    
+    // Share job listing on social media (you can expand with more detailed URLs for sharing)
 document.getElementById("shareFacebook").addEventListener('click', function() {
     const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.origin + '/views/job-detail.html?id=' + docRef.id)}`;
     window.open(shareUrl, '_blank');
@@ -175,52 +220,4 @@ document.getElementById("shareTwitter").addEventListener('click', function() {
 });
 
 
-            // Reset the form
-            document.getElementById("jobForm").reset();
-            document.getElementById("jobForm").classList.remove('was-validated');
-
-        } catch (error) {
-            console.error("Error creating job posting:", error);
-            alert("Error creating job posting: " + error.message);
-        }
-    }
-});
-
-
-
-
-
-
-const saveDraftButton = document.getElementById("saveDraftButton");
-
-// Function to handle saving the job posting as a draft
-saveDraftButton.addEventListener("click", () => {
-    // Here you would gather the job posting details and save them as a draft in your database
-    const jobDetails = { 
-        company: document.getElementById("company").value,
-        companyId: "000",
-        title: document.getElementById("jobTitle").value,
-        description: document.getElementById("jobDescription").value,
-        requirements: document.getElementById("jobRequirements").value,
-        SearchableRequirements: collectJobRequirements(), // Collect enhanced requirements
-        location: document.getElementById("jobLocation").value,
-        city: document.getElementById("jobCity").value,
-        state: document.getElementById("jobState").value,
-        zipCode: document.getElementById("jobZipCode").value,
-        type: document.getElementById("jobType").value,
-        salary: parseFloat(document.getElementById("jobSalary").value),
-        tags: Array.from(tagsList.children).map(tag => tag.textContent.slice(0, -1).trim()), // Get tags without the 'x' button
-        boosted: document.getElementById("boost").checked, // Check if boosted
-        createdAt: new Date(),
-        applicantsViewed: 0,
-        savedForLater: 0,
-        recruiterID: UserID, // Replace with actual recruiter ID
-        customQuestions: collectCustomQuestions(),
-        status: "draft",
-    };
-
-    // Save jobDetails to your database
-    console.log("Job posting saved as draft:", jobDetails);
-});
-
-
+   
