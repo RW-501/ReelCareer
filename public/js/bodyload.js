@@ -365,12 +365,12 @@ function hideLoader() {
 
     addStyles(); // Add styles first
     createLoader(); // Then create the loader
-    document.getElementById('theOnlyResume').addEventListener('click', () => {
+    document.getElementById('loaderX').addEventListener('click', () => {
        pauseTime = true;
     });
 
-    document.getElementById('loaderX').addEventListener('click', () => {
-        const loader = document.getElementById('loaderX');
+    document.getElementById('theOnlyResume').addEventListener('click', () => {
+        const loader = document.getElementById('theOnlyResume');
                 loader.classList.add('hide');
                 loader.remove();
     });
