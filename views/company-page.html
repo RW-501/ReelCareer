@@ -693,10 +693,9 @@ document.getElementById("generateDescriptionBtn").addEventListener("click", func
         if (urlParams.get('create')) {
             console.log("Creating a new company...");
 
-            companyRef = doc(collection(db, "Companies")); // Create new document reference
-            
-            // Save the document with setDoc
-            await setDoc(companyRef, updatedData, { merge: true });
+                 // Use `addDoc` to auto-generate a document ID
+                 companyRef = await addDoc(collection(db, "Companies"), updatedData);
+
 
             console.log("Company created successfully with ID:", companyRef.id);
 
