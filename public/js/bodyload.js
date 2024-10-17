@@ -134,22 +134,77 @@ function addStyles() {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 20px; /* To create space between reel and lines */
+    margin-bottom: 20px;
 }
 
-/* Video Reel (Rotating element) */
+/* Movie Reel (with perforations) */
 .reel {
-    width: 60px;
-    height: 60px;
-    border: 5px solid #007bff;
+    width: 80px;
+    height: 80px;
+    border: 8px solid #007bff;
     border-radius: 50%;
     position: relative;
     background-color: #fff;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     animation: rotateReel 3s linear infinite;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-/* Rotate the reel */
+/* Reel Center (like a film reel hole) */
+.reel-center {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: #007bff;
+}
+
+/* Reel Perforations (simulating holes along the reel) */
+.reel::before, .reel::after {
+    content: '';
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #007bff;
+}
+
+.reel::before {
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.reel::after {
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* Reel Perforations on left and right */
+.reel::before, .reel::after, .reel::before {
+    content: '';
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #007bff;
+}
+
+.reel::before {
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.reel::after {
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* Optional: Refine animation */
 @keyframes rotateReel {
     from {
         transform: rotate(0deg);
@@ -158,6 +213,7 @@ function addStyles() {
         transform: rotate(360deg);
     }
 }
+
 
 /* Adjust line positions (move them down to make space for the reel) */
 .l1 { top: 200px; animation: loadingText 1.2s infinite ease-in-out; }
@@ -238,7 +294,7 @@ function createLoader(message = 'ReelCareer') {
     // Create animated resume container
     const resume = document.createElement('div');
     resume.classList.add('resume');
-    resume.setAttribute("id","resume");
+    resume.setAttribute("id","theOnlyResume");
 
     // Sidebar
     const sidebar = document.createElement('div');
@@ -280,10 +336,20 @@ function createLoader(message = 'ReelCareer') {
 const reelContainer = document.createElement('div');
 reelContainer.classList.add('reel-container');
 
-// Reel (can be an image or a div that represents the reel)
+// Reel (with perforations)
 const reel = document.createElement('div');
 reel.classList.add('reel');
+
+// Reel center (for the hole in the middle of the reel)
+const reelCenter = document.createElement('div');
+reelCenter.classList.add('reel-center');
+
+// Append reel center to the reel
+reel.appendChild(reelCenter);
+
+// Append reel to reel container
 reelContainer.appendChild(reel);
+
 
 // Append reel container to mainContent
 mainContent.appendChild(reelContainer);
@@ -324,9 +390,10 @@ function hideLoader() {
 
     addStyles(); // Add styles first
     createLoader(); // Then create the loader
-    document.getElementById('resume').addEventListener('click', () => {
+    document.getElementById('theOnlyResume').addEventListener('click', () => {
        pauseTime = true;
     });
+
     document.getElementById('loaderX').addEventListener('click', () => {
         const loader = document.getElementById('loaderX');
                 loader.classList.add('hide');
