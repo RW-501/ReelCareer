@@ -1219,11 +1219,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 initializeProfileModal(user); // Initialize modal only if the form exists
 
                 getModal(user); // Pass user to getModal
-                showModal(); // Show modal after getting the modal
+                showModal("profileModal"); // Show modal after getting the modal
                 
                 // Register event listeners for closing the modal and deactivating the account
-                document.getElementById('saveProfileCloseBtn').addEventListener('click', hideModal);
-                document.getElementById('deactivateAccountBtn').addEventListener('click', hideModal);
+                document.getElementById('saveProfileCloseBtn').addEventListener('click', hideModal("profileModal"));
+                document.getElementById('deactivateAccountBtn').addEventListener('click', hideModal("profileModal"));
 
 
             });

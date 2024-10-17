@@ -336,21 +336,21 @@ fetch(adjustLinkHomeURL + "public/js/suggestions.json")
     
 
 // Function to show the modal
-function showModal() {
+function showModal(Modal) {
     console.log('hideModal:');
 
-    const modalElement = document.getElementById('profileModal');
-    const modal = new bootstrap.Modal(modalElement);
+    const modalElement = document.getElementById(profileModal);
+    //const modal = new bootstrap.Modal(modalElement);
     //modal.removeAttribute('inert');
-    modal.classList.add('show'); // Add bootstrap's 'show' class
-    modal.setAttribute('aria-hidden', 'false');
+    modalElement.classList.add('show'); // Add bootstrap's 'show' class
+    modalElement.setAttribute('aria-hidden', 'false');
 
 }
 
 
 
-function hideModal() {
-    const modal = document.getElementById('profileModal');
+function hideModal(Modal) {
+    const modal = document.getElementById(Modal);
 
     modal.setAttribute('inert', '');
     modal.classList.remove('show'); // Remove bootstrap's 'show' class
