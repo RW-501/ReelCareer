@@ -350,15 +350,18 @@ mainContent.appendChild(reelContainer);
     // Add loader to the body
     document.body.appendChild(loaderDiv);
 }
+
+
+
+
+
 let pauseTime = false;
 // Hide loader and fade in content
 function hideLoader() {
-    const loader = document.getElementById('loaderX');
     if (pauseTime === false) {
-        setTimeout(() => {
+            const loader = document.getElementById('loaderX');
             loader.classList.add('hidden');
             loader.remove();
-        }, 3000);
     }
 }
 
@@ -377,8 +380,12 @@ function hideLoader() {
 
 // Hide loader when the window fully loads
 window.addEventListener('load', () => {
+    setTimeout(() => {
+
     hideLoader(); // Hide loader first
     document.body.classList.add('loaded'); // Then show content
+}, 3000);
+
 });
 
 
