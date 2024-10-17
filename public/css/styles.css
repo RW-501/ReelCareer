@@ -220,7 +220,7 @@ main .jobCard:hover {
     min-height: 150px; /* Adjust height based on your design */
     background-color: #f2f2f2; /* Placeholder background color */
 }
-
+/*
 .hide {
     display: none !important;
 }
@@ -229,7 +229,7 @@ main .jobCard:hover {
     display: block !important;
 }
 
-
+*/
 
 /* General Modal Styles */
 .modal {
