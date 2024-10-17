@@ -680,10 +680,10 @@ async function loadJobDetails(jobData) {
                 // Populate company-related details
                 document.getElementById("companyName").innerText =  jobData.company;
            
-            if(jobData.companyID){
+            if(jobData.companyId){
                 // Create a link to the company page
             const companyPageLink = document.getElementById("companyPageLink");
-            companyPageLink.href = `company-page?jobId=${jobData.companyID}`;
+            companyPageLink.href = `company-page?jobId=${jobData.companyId}`;
             companyPageLink.textContent = "View Company Page";
             }else{
 
@@ -694,10 +694,10 @@ async function loadJobDetails(jobData) {
             getSimilarJobs(jobData);
             loadRelatedBlogs(jobData.industry);
 
-    // Fetch company details using companyID from the Companies collection
+    // Fetch company details using companyId from the Companies collection
     try {
-        if(jobData.companyID){
-        const companyRef = doc(db, 'Companies', jobData.companyID);
+        if(jobData.companyId){
+        const companyRef = doc(db, 'Companies', jobData.companyId);
         const companyDoc = await getDoc(companyRef);
 
 
@@ -708,7 +708,6 @@ async function loadJobDetails(jobData) {
 
             document.getElementById("companyLogo").src = companyData.logo; // Ensure the 'logo' field in the database is a URL
             document.getElementById("companyWebsite").href = companyData.website;
-            document.getElementById("companyDescription").innerText = companyData.description;
             document.getElementById("companyDescription").innerText = companyData.description;
             document.getElementById("companyMission").innerText = companyData.missionStatement;
 
@@ -756,7 +755,7 @@ const companyDescription = document.getElementById('companyDescription');
     }
 
 
-
+    
 
 // Check if the company website is valid
 if (!jobData.companyWebsite || companyWebsite.href === "undefined" || jobData.companyWebsite.trim() === "") {
@@ -917,7 +916,7 @@ async function loadRelatedBlogs(jobIndustry) {
     document.getElementById('applyBtn').addEventListener('click', function() {
     if (jobData.applicationAvailableBool) {
         // Redirect to the application page on your site
-        window.location.href = `apply.html?jobId=${jobData.jobId}`;
+        window.location.href = `apply.html?jobId=${jobData.doc.id}`;
     } else {
         // Show the modal for external application
         const modal = document.getElementById('applicationModal');
@@ -1089,7 +1088,7 @@ function createJobSchema(jobData) {
     const companySchema = {
         "@context": "https://schema.org", // Schema.org context
         "@type": "Organization", // Type of schema
-        companyID: companyData.companyID || "", // Unique identifier for the company
+        companyId: companyData.companyId || "", // Unique identifier for the company
         name: companyData.name || "", // Name of the company
         logo: companyData.logo || "", // URL for the company logo
         website: companyData.website || "", // Company's website link

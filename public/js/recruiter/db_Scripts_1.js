@@ -1,6 +1,6 @@
 
 
-import { db, storage, analytics, app  } from '../main.js'; // Adjust the path based on your structure
+import { onAuthStateChanged, db, auth, storage, analytics, app  } from '../main.js'; // Adjust the path based on your structure
 import { query, where, orderBy, limit,  collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 
 document.getElementById('saveDraftButton').addEventListener('click', function(event) {
@@ -21,8 +21,36 @@ document.getElementById('createJobBtn').addEventListener('click', function(event
     handleJobSubmission(event, 'post');
 });
 
+let userName, publicBool, userPosition;
 
-
+// Check for auth state changes
+onAuthStateChanged(auth, async (user) => {
+    if (user) {
+        try {
+            // User is signed in, proceed with user ID handling
+            console.log("User ID: ", user.uid);
+            const userDocRef = doc(db, 'Users', user.uid); // Reference to the user document
+            const userDoc = await getDoc(userDocRef); // Get the document
+            if (userDoc.exists()) {
+                // User data found
+                const userData = userDoc.data();
+                console.log('userName User Data:', userData.displayName);    
+                console.log('publicBool User Data:', userData.publicProfile);    
+                console.log('userPosition User Data:', userData.position);    
+                userName = userData.displayName;
+                publicBool = userData.publicProfile;
+                userPosition = userData.position;
+            } else {
+                console.log('No such user data!');
+            }
+        } catch (error) {
+            console.error("Error getting user document: ", error);
+        }
+    } else {
+        // User is not signed in, redirect to login
+        window.location.href = "../";
+    }
+});
 
 
 
@@ -125,6 +153,14 @@ function validateForm() {
     return true;  // Validation passed
 }
 
+
+let  submittedUserPosition = "";
+let submittedBy = "";
+if(publicBool === true){
+submittedBy = userName;
+submittedUserPosition = userPosition;
+}
+
 function collectJobDetails() {
     return {
         title: document.getElementById("jobTitle").value,
@@ -136,7 +172,7 @@ function collectJobDetails() {
         state: document.getElementById("jobState").value,
         zipCode: document.getElementById("jobZipCode").value,
         type: document.getElementById("jobType").value,
-        salary: parseFloat(document.getElementById("jobSalary").value) || 0,  // Ensure it's a number
+        salary: document.getElementById("jobSalary").value,  // Ensure it's a number
         contractToHire: document.getElementById("contractToHire").value,
         education: document.getElementById("education").value,
         experience: document.getElementById("experience").value,
@@ -154,7 +190,11 @@ function collectJobDetails() {
         applicantsViewed: 0,
         savedForLater: 0,
         applicationAvailableBool: true,
-        customQuestions: collectCustomQuestions(),  // Assuming you have custom questions collection logic
+        applicationWebsite: "",
+        customQuestions: collectCustomQuestions(),
+        submittedBy:  submittedBy,
+        submittedUserPosition: submittedUserPosition,
+        applicationDeadline: new Date(new Date().setDate(new Date().getDate() + 30)), //  for 30 days
     };
 }
 
