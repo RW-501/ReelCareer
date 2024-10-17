@@ -664,7 +664,7 @@ document.getElementById("generateDescriptionBtn").addEventListener("click", func
 
             async function updateCompanyData(companyId) {
     const updatedData = {
-        name: document.getElementById('editCompanyName').value,
+        companyName: document.getElementById('editCompanyName').value,
         description: document.getElementById('editCompanyDescription').value,
         missionStatement: document.getElementById('editCompanyMissionStatement').value,
         socialMedia: {
@@ -680,6 +680,8 @@ document.getElementById("generateDescriptionBtn").addEventListener("click", func
         about: document.getElementById('editCompanyAbout').value,
         size: document.getElementById('editCompanySize').value,
         founded: document.getElementById('editCompanyFounded').value,
+        jobs: [],
+            
     };
 
 
