@@ -1066,13 +1066,19 @@ function initializeProfileModal(user) {
     const saveProfileBtn = document.getElementById('saveProfileBtn');
    // const publicProfileSET = document.getElementById('publicProfileSET');
                     // Register event listeners for closing the modal and deactivating the account
-              const saveProfileCloseBtn =  document.getElementById('saveProfileCloseBtn');
-              saveProfileCloseBtn.addEventListener('click', hideModal("profileModal"));
-              
+    //          const saveProfileCloseBtn =  document.getElementById('saveProfileCloseBtn');
+      //        saveProfileCloseBtn.addEventListener('click', hideModal("profileModal"));
+
          const     profileModal =  document.getElementById('deactivateAccountBtn');
      profileModal.addEventListener('click', hideModal("profileModal"));
     
-    
+     document.getElementById('saveProfileCloseBtn').addEventListener('click', function() {
+        const modal = bootstrap.Modal.getInstance(document.getElementById('profileModal'));
+        if (modal) {
+          modal.hide();
+        }
+      });
+      
 
     // Real-time validation
     usernameInput.addEventListener('input', function () {
