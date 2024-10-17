@@ -48,6 +48,15 @@ async function fetchUserData() {
     }
 }
 
+// Open the job creation modal when the button is clicked
+const createJobBtn = document.getElementById('createJobPostBtn');
+createJobBtn.addEventListener('click', function() {
+    console.log("createJobPostBtn");
+
+    $('#jobModal').modal('show');  // This opens the modal
+});
+
+
 // Event listener for the save draft button
 document.getElementById('saveDraftButton').addEventListener('click', async function(event) { 
     console.log("saveDraftButton added");
