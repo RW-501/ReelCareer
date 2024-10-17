@@ -1215,18 +1215,21 @@ document.addEventListener('DOMContentLoaded', () => {
         if (user) {
             // Event listener for the settings button
             document.getElementById('settingsBtn').addEventListener('click', () => {
-                createProfileModal(); // Create the modal only when settingsBtn is clicked
-                initializeProfileModal(user); // Initialize modal only if the form exists
-                setTimeout(() => {
-                    const profileModal =  document.getElementById('profileModal');
+                const profileModal =  document.getElementById('profileModal');
 
-                    if(!profileModal){
+                if(!profileModal){
+                    createProfileModal(); // Create the modal only when settingsBtn is clicked
+                    initializeProfileModal(user); // Initialize modal only if the form exists    
+                }else{
+                    profileModal.classList.add('show'); // Add bootstrap's 'show' class
+                    profileModal.setAttribute('aria-hidden', 'false');
+                }
+
+                setTimeout(() => {
+
                     getModal(user); // Pass user to getModal
                     showModal("profileModal"); // Show modal after getting the modal
-                    }else{
-                        profileModal.classList.add('show'); // Add bootstrap's 'show' class
-                        profileModal.setAttribute('aria-hidden', 'false');
-                    }
+
                     }, 300);
   
                 // Register event listeners for closing the modal and deactivating the account
