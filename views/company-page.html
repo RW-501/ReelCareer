@@ -701,31 +701,52 @@ document.getElementById("generateDescriptionBtn").addEventListener("click", func
         size: document.getElementById('editCompanySize').value,
         founded: document.getElementById('editCompanyFounded').value,
     };
+    try {
+        let companyRef;
+        const urlParams = new URLSearchParams(window.location.search);
 
-    let companyRef;
-    const urlParams = new URLSearchParams(window.location.search);
+        console.log("urlParams:", urlParams.toString());
 
-    // If creating a new company
-    if (urlParams.get('create')) {
-        companyRef = doc(collection(db, "Companies")); // Create new document reference
-        
-        // Save the document with setDoc
-        await setDoc(companyRef, updatedData, { merge: true });
+        // Check if we are creating a new company
+        if (urlParams.get('create')) {
+            console.log("Creating a new company...");
 
-        goBack();
+            companyRef = doc(collection(db, "Companies")); // Create new document reference
+            
+            // Save the document with setDoc
+            await setDoc(companyRef, updatedData, { merge: true });
+
+            console.log("Company created successfully with ID:", companyRef.id);
+
+       // goBack();
 
         // Pass the newly created companyId back to the previous page
       //  window.location.href = `previousPage.html?companyId=${companyRef.id}`;
     } else {
-        // If updating an existing company
-        companyRef = doc(db, "Companies", companyId);
-        await setDoc(companyRef, updatedData, { merge: true });
+            // If updating an existing company
+            console.log("Updating existing company with ID:", companyId);
 
+            companyRef = doc(db, "Companies", companyId);
 
+            await setDoc(companyRef, updatedData, { merge: true });
+
+            console.log("Company updated successfully with ID:", companyId);
+
+            // Redirect or go back to the previous page
+            window.location.href = `previousPage.html?companyId=${companyId}`;
+        }
+
+        // Load the updated company information and exit edit mode
+        loadCompanyInfo(updatedData); 
+        toggleEditMode(false);
+
+    } catch (error) {
+        // Log any errors that occur
+        console.error("Error occurred while updating company:", error);
+        
+        // Optionally, display an error message to the user
+        alert("An error occurred while updating the company. Please try again.");
     }
-
-    loadCompanyInfo(updatedData); // Reload to reflect changes
-    toggleEditMode(false); // Exit edit mode
 }
 
 
