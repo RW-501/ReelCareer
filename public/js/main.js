@@ -1158,8 +1158,8 @@ function initializeProfileModal(user) {
         
                     // Optionally show a success message
                     // alert('Profile updated successfully');
-                    $('#profileModal').modal('hide');
-                    hideModal();
+                 //   $('#profileModal').modal('hide');
+                    hideModal("profileModal");
                 })
                 .catch(error => {
                     console.error('Error updating profile:', error);
