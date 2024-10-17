@@ -1079,6 +1079,15 @@ function initializeProfileModal(user) {
         }
       });
       
+      const closeButton = document.querySelector('.btn-close');
+closeButton.addEventListener('click', function() {
+    const modalElement = document.getElementById('jobModal');
+    const modal = bootstrap.Modal.getInstance(modalElement); // Use Bootstrap's Modal instance
+    if (modal) {
+        modal.hide(); // This will close the modal
+    }
+});
+
 
     // Real-time validation
     usernameInput.addEventListener('input', function () {
