@@ -138,6 +138,7 @@ function addStyles() {
 }
 
 /* Reel with 5 Holes and Center Hole */
+/* Reel with 5 Holes and Center Hole */
 .reel {
     width: 100px;
     height: 100px;
@@ -150,8 +151,7 @@ function addStyles() {
 }
 
 /* Center Hole */
-.reel::before {
-    content: '';
+.reel-center {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -162,21 +162,13 @@ function addStyles() {
     transform: translate(-50%, -50%);
 }
 
-/* 5 Holes Around the Reel */
-.reel::after {
-    content: '';
+/* Reel Holes */
+.reel-hole {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 80px;
-    height: 80px;
+    width: 20px;
+    height: 20px;
+    background-color: #007bff;
     border-radius: 50%;
-    background: radial-gradient(circle at 10px 10px, transparent 10px, #007bff 11px),
-                radial-gradient(circle at 70px 10px, transparent 10px, #007bff 11px),
-                radial-gradient(circle at 10px 70px, transparent 10px, #007bff 11px),
-                radial-gradient(circle at 70px 70px, transparent 10px, #007bff 11px),
-                radial-gradient(circle at 40px 40px, transparent 7px, #007bff 8px);
-    transform: translate(-50%, -50%);
 }
 
 /* Rotate the reel */
@@ -307,27 +299,46 @@ function createLoader(message = 'ReelCareer') {
     const footer = document.createElement('div');
     footer.classList.add('resume-footer');
 
+
+
+// Create Reel Holes
+function createReelHoles(reelElement) {
+    const holePositions = [
+        { top: '10%', left: '50%' },  // Top-center
+        { top: '50%', left: '10%' },  // Left-center
+        { top: '50%', left: '90%' },  // Right-center
+        { top: '90%', left: '50%' },  // Bottom-center
+        { top: '10%', left: '90%' },  // Top-right (corner hole for symmetry)
+    ];
+
+    // Create the 5 reel holes
+    holePositions.forEach(position => {
+        const hole = document.createElement('div');
+        hole.classList.add('reel-hole');
+        hole.style.top = position.top;
+        hole.style.left = position.left;
+        reelElement.appendChild(hole);
+    });
+
+    // Create the center hole
+    const centerHole = document.createElement('div');
+    centerHole.classList.add('reel-center');
+    reelElement.appendChild(centerHole);
+}
+
 // Video Reel Container
 const reelContainer = document.createElement('div');
 reelContainer.classList.add('reel-container');
 
-// Reel (with perforations)
+// Reel (with 5 holes and center hole)
 const reel = document.createElement('div');
 reel.classList.add('reel');
-
-// Reel center (for the hole in the middle of the reel)
-const reelCenter = document.createElement('div');
-reelCenter.classList.add('reel-center');
-
-// Append reel center to the reel
-reel.appendChild(reelCenter);
-
-// Append reel to reel container
+createReelHoles(reel);  // Add the 5 holes and center hole
 reelContainer.appendChild(reel);
-
 
 // Append reel container to mainContent
 mainContent.appendChild(reelContainer);
+
 
     // Append lines and footer to mainContent
     lines.forEach(line => mainContent.appendChild(line));
@@ -369,12 +380,12 @@ function hideLoader() {
     addStyles(); // Add styles first
     createLoader(); // Then create the loader
 
-    document.getElementById('loaderX').addEventListener('click', () => {
+    document.getElementById('theOnlyResume').addEventListener('click', () => {
        pauseTime = true;
     });
 
-    document.getElementById('theOnlyResume').addEventListener('click', () => {
-        const loader = document.getElementById('theOnlyResume');
+    document.getElementById('loaderX').addEventListener('click', () => {
+        const loader = document.getElementById('loaderX');
                 loader.classList.add('hide');
                 loader.remove();
     });
@@ -386,7 +397,7 @@ window.addEventListener('load', () => {
     setTimeout(() => {
 
     hideLoader(); // Hide loader first
-}, 3000);
+}, 750);
 
 });
 
