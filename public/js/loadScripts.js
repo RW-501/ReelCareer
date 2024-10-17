@@ -174,6 +174,7 @@ function restrictKeys(event) {
 
 //let jobSuggestions, jobRequirementsSuggestions, locationsSuggestions, citySuggestions, stateSuggestions;
 
+const {isHomePage, currentPage, adjustLinkURL, adjustLinkHomeURL, excludedPages } = getAdjustedLinks();
 
 
 
