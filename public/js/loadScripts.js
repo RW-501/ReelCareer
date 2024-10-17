@@ -337,7 +337,7 @@ fetch(adjustLinkHomeURL + "public/js/suggestions.json")
 
 // Function to show the modal
 function showModal(Modal) {
-    console.log('hideModal:');
+    console.log('showModal:');
 
     const modalElement = document.getElementById(Modal);
     //const modal = new bootstrap.Modal(modalElement);
@@ -351,6 +351,7 @@ function showModal(Modal) {
 
 function hideModal(Modal) {
     const modal = document.getElementById(Modal);
+    console.log('hideModal:');
 
     modal.setAttribute('inert', '');
     modal.classList.remove('show'); // Remove bootstrap's 'show' class
