@@ -127,14 +127,48 @@ function addStyles() {
     border-radius: 2px;
 }
 
-.l1 { top: 40px; animation: loadingText 1.2s infinite ease-in-out; }
-.l2 { top: 60px; animation: loadingText 1.4s infinite ease-in-out; }
-.l3 { top: 80px; animation: loadingText 1.6s infinite ease-in-out; }
-.l4 { top: 100px; animation: loadingText 1.8s infinite ease-in-out; }
-.l5 { top: 120px; animation: loadingText 2s infinite ease-in-out; }
-.l6 { top: 140px; animation: loadingText 2.2s infinite ease-in-out; }
-.l7 { top: 160px; animation: loadingText 2.4s infinite ease-in-out; }
-.l8 { top: 180px; animation: loadingText 2.6s infinite ease-in-out; }
+/* Reel Container */
+.reel-container {
+    width: 100%;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px; /* To create space between reel and lines */
+}
+
+/* Video Reel (Rotating element) */
+.reel {
+    width: 60px;
+    height: 60px;
+    border: 5px solid #007bff;
+    border-radius: 50%;
+    position: relative;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    animation: rotateReel 3s linear infinite;
+}
+
+/* Rotate the reel */
+@keyframes rotateReel {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Adjust line positions (move them down to make space for the reel) */
+.l1 { top: 200px; animation: loadingText 1.2s infinite ease-in-out; }
+.l2 { top: 220px; animation: loadingText 1.4s infinite ease-in-out; }
+.l3 { top: 240px; animation: loadingText 1.6s infinite ease-in-out; }
+.l4 { top: 260px; animation: loadingText 1.8s infinite ease-in-out; }
+.l5 { top: 280px; animation: loadingText 2s infinite ease-in-out; }
+.l6 { top: 300px; animation: loadingText 2.2s infinite ease-in-out; }
+.l7 { top: 320px; animation: loadingText 2.4s infinite ease-in-out; }
+.l8 { top: 340px; animation: loadingText 2.6s infinite ease-in-out; }
+
 
 /* Footer Section (Represents Contact or Footer Info) */
 .resume-footer {
@@ -242,6 +276,18 @@ function createLoader(message = 'ReelCareer') {
     const footer = document.createElement('div');
     footer.classList.add('resume-footer');
 
+// Video Reel Container
+const reelContainer = document.createElement('div');
+reelContainer.classList.add('reel-container');
+
+// Reel (can be an image or a div that represents the reel)
+const reel = document.createElement('div');
+reel.classList.add('reel');
+reelContainer.appendChild(reel);
+
+// Append reel container to mainContent
+mainContent.appendChild(reelContainer);
+
     // Append lines and footer to mainContent
     lines.forEach(line => mainContent.appendChild(line));
     mainContent.appendChild(footer);
@@ -271,7 +317,7 @@ function hideLoader() {
         setTimeout(() => {
             loader.classList.add('hidden');
             loader.remove();
-        }, 750);
+        }, 3000);
     }
 }
 
