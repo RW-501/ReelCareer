@@ -46,9 +46,9 @@ function addStyles() {
     left: 0;
     right: 0;
     bottom: 0;
-    z-index: 9999;
+    z-index: 9999999999;
     opacity: 1;
-    transition: opacity 0.5s ease-in-out;
+   /* transition: opacity 0.5s ease-in-out; */
 }
 
 /* Animated Resume */
@@ -271,7 +271,7 @@ function hideLoader() {
         setTimeout(() => {
             loader.classList.add('hidden');
             loader.remove();
-        }, 1500);
+        }, 750);
     }
 }
 
