@@ -73,6 +73,7 @@ const saveUserLoginState = async (user) => {
         const location = await getUserLocationByIP(ip);
 
         // Prepare data for user document
+        // Define the data to set (conditionally update name if not present)
         const userData = {
             email: user.email,
             lastLogin: serverTimestamp(),
@@ -82,15 +83,20 @@ const saveUserLoginState = async (user) => {
             state: location?.state || 'Unknown',
             zip: location?.zip || 'Unknown',
             country: location?.country || 'Unknown',
+            // Only set the name if it doesn't exist (this will not override an existing name)
+            name: user.displayName || 'Unknown', 
         };
+
 
         // Reference to the user document
         const userDocRef = doc(db, "Users", user.uid);
 
         // First attempt to update the document if it exists
         try {
-            await updateDoc(userDocRef, userData);
-            console.log('User info updated successfully:', userData);
+        // Use merge:true to avoid overwriting the entire document
+        await setDoc(userDocRef, userData, { merge: true });
+
+        console.log('User info updated successfully:', userData);
 
         } catch (error) {
             // If the document doesn't exist, create it using setDoc
