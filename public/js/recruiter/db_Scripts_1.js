@@ -378,7 +378,7 @@ function collectJobDetails(newCompanyId) {
         type: document.getElementById("jobType").value,
         salary: document.getElementById('jobSalary').value,
         salaryPayTime: document.getElementById('salaryPayTime').value,
-        boostDuration: document.getElementById('boostDuration').value,
+       // boostDuration: document.getElementById('boostDuration').value,
         contractToHire: document.getElementById("contractToHire").value,
         education: document.getElementById("education").value,
         experience: document.getElementById("experience").value,
