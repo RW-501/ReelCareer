@@ -502,7 +502,7 @@ document.getElementById("generateDescriptionBtn").addEventListener("click", func
     <!-- Dynamic Schema Markup -->
     <script type="module">
         import { db, auth } from '../public/js/main.js';
-        import { doc, getDoc, collection , onSnapshot, updateDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+        import { addDoc, doc, setDoc, getDoc, collection , onSnapshot, updateDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
         document.getElementById("errorMessage").style.display = "none"; // Hide error message if shown
 
 
@@ -714,7 +714,7 @@ document.getElementById("generateDescriptionBtn").addEventListener("click", func
             console.log("Company updated successfully with ID:", companyId);
 
             // Redirect or go back to the previous page
-            window.location.href = `previousPage.html?companyId=${companyId}`;
+          //  window.location.href = `previousPage.html?companyId=${companyId}`;
         }
 
         // Load the updated company information and exit edit mode
