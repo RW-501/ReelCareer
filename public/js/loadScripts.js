@@ -344,7 +344,7 @@ function showModal(Modal) {
     //modal.removeAttribute('inert');
     modalElement.classList.add('show'); // Add bootstrap's 'show' class
     modalElement.setAttribute('aria-hidden', 'false');
-
+    modalElement.removeAttribute('hide');
 }
 
 
@@ -353,7 +353,7 @@ function hideModal(Modal) {
     const modal = document.getElementById(Modal);
     console.log('hideModal:');
 
-    modal.setAttribute('inert', '');
+    //modal.setAttribute('inert', '');
     modal.classList.remove('show'); // Remove bootstrap's 'show' class
     modal.setAttribute('aria-hidden', 'true');
     modal.classList.add('hide'); // Add a 'hide' class if needed
