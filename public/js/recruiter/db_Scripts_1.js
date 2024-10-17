@@ -12,6 +12,7 @@ createJobBtn.addEventListener('click', function() {
 // Add event listener for form submission
 document.getElementById("createJobPostBtn").addEventListener('click', async function (event) {
     event.preventDefault(); // Prevent default form submission
+ console.log("Job posting added???????????????????????????");
 
     // Custom form validation
     (function() {
