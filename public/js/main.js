@@ -1066,8 +1066,11 @@ function initializeProfileModal(user) {
     const saveProfileBtn = document.getElementById('saveProfileBtn');
    // const publicProfileSET = document.getElementById('publicProfileSET');
                     // Register event listeners for closing the modal and deactivating the account
-                    document.getElementById('saveProfileCloseBtn').addEventListener('click', hideModal("profileModal"));
-                    document.getElementById('deactivateAccountBtn').addEventListener('click', hideModal("profileModal"));
+              const saveProfileCloseBtn =  document.getElementById('saveProfileCloseBtn');
+              saveProfileCloseBtn.addEventListener('click', hideModal("profileModal"));
+              
+         const     profileModal =  document.getElementById('deactivateAccountBtn');
+     profileModal.addEventListener('click', hideModal("profileModal"));
     
     
 
