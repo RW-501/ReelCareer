@@ -69,13 +69,12 @@ let userData = "";
 // Function to update or create user information in Firestore
 const saveUserLoginState = async (user) => {
     try {
-        const ip = await getUserIP();
-        const location = await getUserLocationByIP(ip);
+        // Fetch IP and location data
+        const [ip, location] = await Promise.all([getUserIP(), getUserLocationByIP(await getUserIP())]);
 
-        // Prepare data for user document
-        // Define the data to set (conditionally update name if not present)
+        // Prepare user data with defaults for missing fields
         const userData = {
-            email: user.email,
+            email: user.email || 'Unknown',
             lastLogin: serverTimestamp(),
             ipAddress: ip || 'Unknown',
             userID: user.uid || 'Unknown',
@@ -83,33 +82,18 @@ const saveUserLoginState = async (user) => {
             state: location?.state || 'Unknown',
             zip: location?.zip || 'Unknown',
             country: location?.country || 'Unknown',
-            // Only set the name if it doesn't exist (this will not override an existing name)
-            name: user.displayName || 'Unknown', 
+            name: user.displayName || 'Unknown',
         };
-
 
         // Reference to the user document
         const userDocRef = doc(db, "Users", user.uid);
 
-        // First attempt to update the document if it exists
-        try {
-        // Use merge:true to avoid overwriting the entire document
+        // Update the user document if it exists, or create a new one if not found
         await setDoc(userDocRef, userData, { merge: true });
+        console.log('User info saved/updated successfully:', userData);
 
-        console.log('User info updated successfully:', userData);
-
-        } catch (error) {
-            // If the document doesn't exist, create it using setDoc
-            if (error.code === 'not-found') {
-                await setDoc(userDocRef, userData);
-                console.log('New user document created:', userData);
-            } else {
-                throw error; // Re-throw other errors
-            }
-        }
-
-        // Save login status to localStorage (optional)
-        localStorage.setItem('userLoggedIn', true);
+        // Save login state to localStorage
+        localStorage.setItem('userLoggedIn', 'true');
         localStorage.setItem('userEmail', user.email);
     } catch (error) {
         console.error('Error saving user login state:', error);
@@ -117,27 +101,25 @@ const saveUserLoginState = async (user) => {
 };
 
 
-// Check if user is already signed in (this can be included on all pages)
 onAuthStateChanged(auth, async (user) => {
     if (user) {
-        await saveUserLoginState(user, true); // Update local storage
-        // Optional: Redirect only if on a specific page, like the login page
-        UserID = user.id;
+        // Save user login state and update local storage
+        await saveUserLoginState(user);
 
+        // Store UserID (if needed globally)
+        UserID = user.uid;
+
+        // Redirect to the user profile if on the login page
         if (window.location.pathname === '/views/auth.html') {
             window.location.href = '/ReelCareer/views/user'; // Redirect to profile
         }
     } else {
         console.log('No user signed in');
-        localStorage.removeItem('userLoggedIn'); // Clear local storage
-        localStorage.removeItem('userEmail');
-        localStorage.removeItem('userData'); // Clear userData if needed
+        
+        // Clear local storage on sign-out
+        ['userLoggedIn', 'userEmail', 'userData'].forEach(item => localStorage.removeItem(item));
     }
 });
-
-
-
-
 
 
 // Sign Up Function
@@ -258,36 +240,34 @@ document.getElementById('apple-login')?.addEventListener('click', async () => {
 
 // Logout Function
 const logout = async () => {
-    showLoading();
+    showLoading(); // Show loading indicator
+    const auth = getAuth(); // Get the Firebase Auth instance
+
     try {
-        const user = auth.currentUser;
+        const user = auth.currentUser; // Get the currently signed-in user
+
         if (user) {
+            // Sign out the user
             await signOut(auth);
-            await saveUserLoginState(user, false); // Update database to set loggedIn to false
-            localStorage.removeItem('userLoggedIn'); // Clear local storage
-            localStorage.removeItem('userEmail');
-            console.log('Logout Successful');
+
+            // Optionally update user data in Firestore (e.g., set `loggedIn` to false)
+            await saveUserLoginState(user); // Assuming saveUserLoginState can handle logouts as well
+
+            // Clear relevant local storage items
+            ['userLoggedIn', 'userEmail', 'userData'].forEach(item => localStorage.removeItem(item));
+
+            console.log('Logout successful');
         }
-        window.location.href = '/views/auth.html'; // Redirect to login/auth page after logout
+
+        // Redirect to the login/auth page after logout
+        window.location.href = '/views/auth.html'; 
     } catch (error) {
         console.error('Error during logout:', error);
-        alert(error.message);
+        alert(`Error during logout: ${error.message}`);
     } finally {
-        hideLoading();
+        hideLoading(); // Hide loading indicator
     }
 };
-
- // Function to logout the user
- async function logoutUser() {
-    const auth = getAuth(); // Get the Auth instance
-
-    try {
-        await signOut(auth); // Sign out the user
-        window.location.href = adjustLinkHomeURL + 'views/auth'; // Redirect to login page after logout
-    } catch (error) {
-        console.error("Logout error:", error);
-    }
-}
 
 // Logout button on any page
 document.getElementById('logout-button')?.addEventListener('click', logout);
@@ -731,7 +711,7 @@ if(dropdownMenu){
         dropdownMenu.classList.toggle('show', !isExpanded); // Show or hide the dropdown
     });
 }
-/*
+
     // Close the dropdown when clicking outside
     document.addEventListener('click', function(event) {
         if (!dropdownToggleButton.contains(event.target) && !dropdownMenu.contains(event.target)) {
@@ -739,10 +719,7 @@ if(dropdownMenu){
             dropdownMenu.classList.remove('show');
         }
     });
-*/
-    // Check if user data exists and show modal if missing
 
-   
 }
 
 
@@ -1202,28 +1179,29 @@ closeButton.addEventListener('click', function() {
 // Function to show modal and load user data
 async function getModal(user) {
     try {
+        if (!user) {
+            console.log('No such user!');
+            return; // Exit early if no user
+        }
 
-
-        if (user) {
         // Check if user data is already in local storage
         const storedUserData = JSON.parse(localStorage.getItem('userData'));
+        if (storedUserData) {
+            console.log('Using stored user data');
+            populateFormFields(storedUserData);
+        } else {
+            // Fetch user data from Firestore
+            const userDocRef = doc(db, 'Users', user.uid); // Reference to the user document
+            const userDoc = await getDoc(userDocRef); // Get the document
 
-            // Compare with stored data
-            if (storedUserData) {
-                console.log('Using stored user data');
-                populateFormFields(storedUserData);
-            } else {
-                const userDocRef = doc(db, 'Users', user.uid); // Reference to the user document
-                const userDoc = await getDoc(userDocRef); // Get the document
-                // User data found
+            if (userDoc.exists()) { // Check if the document exists
                 const userData = userDoc.data();
                 console.log('Firebase User Data:', userData);
                 localStorage.setItem('userData', JSON.stringify(userData));
                 populateFormFields(userData);
-
+            } else {
+                console.log('User data not found in Firestore.');
             }
-        } else {
-            console.log('No such user!');
         }
     } catch (error) {
         console.error('Error fetching user data:', error);
@@ -1235,32 +1213,27 @@ document.addEventListener('DOMContentLoaded', () => {
         if (user) {
             // Event listener for the settings button
             document.getElementById('settingsBtn').addEventListener('click', () => {
-                const profileModal =  document.getElementById('profileModal');
+                const profileModal = document.getElementById('profileModal');
 
-                if(!profileModal){
-                    createProfileModal(); // Create the modal only when settingsBtn is clicked
-                    initializeProfileModal(user); // Initialize modal only if the form exists    
-                }else{
-                    profileModal.classList.add('show'); // Add bootstrap's 'show' class
+                // Create modal only when settingsBtn is clicked if it doesn't already exist
+                if (!profileModal) {
+                    createProfileModal(); // Create the modal
+                    initializeProfileModal(user); // Initialize modal
+                } else {
+                    profileModal.classList.add('show'); // Add Bootstrap's 'show' class
                     profileModal.setAttribute('aria-hidden', 'false');
                 }
 
                 setTimeout(() => {
-
-                    getModal(user); // Pass user to getModal
-                    showModal("profileModal"); // Show modal after getting the modal
-
-                    }, 300);
-  
-
+                    getModal(user); // Fetch user data and populate modal
+                    showModal("profileModal"); // Show modal after getting the data
+                }, 300);
             });
-
-           }
+        }
     });
 });
 
-
-
+           
 
 // Export the objects
 export { onAuthStateChanged, db, storage, analytics, app,collection, getDocs, auth }; // Export db, storage, and analytics

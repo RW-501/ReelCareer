@@ -3,25 +3,72 @@
 import { onAuthStateChanged, db, auth, storage, analytics, app  } from '../main.js'; // Adjust the path based on your structure
 import { query, where, orderBy, limit,  collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 
-document.getElementById('saveDraftButton').addEventListener('click', function(event) {
-    console.log("saveDraftButton  added???????????????????????????");
 
+let userName, publicBool, userPosition;
+
+// Function to fetch user data from local storage or Firestore
+async function fetchUserData() {
+    const user = auth.currentUser; // Get the currently signed-in user
+    if (!user) {
+        console.log('No user is currently signed in.');
+        return; // Exit if no user is signed in
+    }
+
+    try {
+        // Check local storage first
+        const storedUserData = JSON.parse(localStorage.getItem('userData'));
+        if (storedUserData) {
+            // Use data from local storage
+            userName = storedUserData.displayName;
+            publicBool = storedUserData.publicProfile;
+            userPosition = storedUserData.position;
+
+            console.log('Using stored user data:', userName, publicBool, userPosition);
+        } else {
+            // Fetch from Firestore if not found in local storage
+            const userDocRef = doc(db, 'Users', user.uid); // Reference to the user document
+            const userDoc = await getDoc(userDocRef); // Get the document
+
+            if (userDoc.exists()) {
+                const userData = userDoc.data();
+                console.log('Firebase User Data:', userData.displayName, userData.publicProfile, userData.position);
+
+                // Save user data to local storage
+                localStorage.setItem('userData', JSON.stringify(userData));
+
+                userName = userData.displayName;
+                publicBool = userData.publicProfile;
+                userPosition = userData.position;
+            } else {
+                console.log('No such user data!');
+            }
+        }
+    } catch (error) {
+        console.error("Error getting user document: ", error);
+    }
+}
+
+// Event listener for the save draft button
+document.getElementById('saveDraftButton').addEventListener('click', async function(event) { 
+    console.log("saveDraftButton added");
+    await fetchUserData(); // Call to fetch user data
     handleJobSubmission(event, 'draft');
 });
 
-document.getElementById('boostButton').addEventListener('click', function(event) {
-    console.log("boostButton added???????????????????????????");
-
+// Event listener for the boost button
+document.getElementById('boostButton').addEventListener('click', async function(event) {
+    console.log("boostButton added");
+    await fetchUserData(); // Call to fetch user data
     handleJobSubmission(event, 'boost');
 });
 
-document.getElementById('createJobBtn').addEventListener('click', function(event) {
-    console.log("createJobBtn???????????????????????????");
-
+// Event listener for the create job button
+document.getElementById('createJobBtn').addEventListener('click', async function(event) {
+    console.log("createJobBtn added");
+    await fetchUserData(); // Call to fetch user data
     handleJobSubmission(event, 'post');
 });
 
-let userName, publicBool, userPosition;
 
 // Check for auth state changes
 onAuthStateChanged(auth, async (user) => {
@@ -57,21 +104,21 @@ onAuthStateChanged(auth, async (user) => {
     // Collect input values
     const companyId = ""; // Or some existing company ID if applicable
     const companyName = document.getElementById("company").value;
-    const recruiterIDs = document.getElementById("appUserID").innerText;
-    const jobIDs = []; // Populate with relevant job IDs, if any
+    const recruiterID = document.getElementById("appUserID").innerText;
+    const jobID = []; // Populate with relevant job IDs, if any
     const jobTitle = document.getElementById("jobTitle").value;
 
     // Define the submitJobPost function
-    const submitJobPost = async (jobTitle, companyId, companyName, recruiterIDs, jobIDs) => {
+    const submitJobPost = async (jobTitle, companyId, companyName, recruiterID, jobID) => {
         try {
             // Check if the company ID is empty
             if (companyId === "") {
                 // Create a new company in the Companies collection
                 const newCompanyRef = await addDoc(collection(db, 'Companies'), {
                     companyName: companyName,
-                    recruiterIDs: recruiterIDs,
-                    jobIDs: jobIDs,
-                    jobTitle: jobTitle,
+                    recruiterIDs: [recruiterIDs],
+                    jobIDs: jobID,
+                    jobTitles: [jobTitle],
                 });
 
                 console.log('New company added with ID:', newCompanyRef.id);
@@ -87,7 +134,7 @@ onAuthStateChanged(auth, async (user) => {
     };
 
     // Call submitJobPost to create or retrieve the company ID
-    const newCompanyId = await submitJobPost(jobTitle, companyId, companyName, recruiterIDs, jobIDs);
+    const newCompanyId = await submitJobPost(jobTitle, companyId, companyName, recruiterID, jobID);
     
     
     
@@ -121,13 +168,25 @@ async function handleJobSubmission(event, actionType) {
 
         // Action-specific alerts and UI feedback
         if (actionType === 'boost') {
-            alert("Job listing boosted successfully for 30 days!");
-        } else if (actionType === 'post') {
+            document.getElementById("jobSuccessLabel").textContent = "Job Boosted Successfully!";
+            document.querySelector(".modal-body .lead").textContent = "Your job listing has been boosted for increased visibility!";
             showSuccessModal(jobId, jobDetails.title);  // Show modal with job title and link
+        } else if (actionType === 'post') {
+            document.getElementById("jobSuccessLabel").textContent = "Job Posted Successfully!";
+            showSuccessModal(jobId, jobDetails.title);  // Show modal with job title and link
+
         } else {
-            alert("Draft saved successfully.");
+            document.getElementById("jobSuccessLabel").textContent = "Draft Saved Successfully!";
         }
         
+
+        logEvent(analytics, 'job_post', {
+            jobTitle: jobDetails.title,
+            actionType: actionType,
+            boostStatus: jobDetails.boosted ? 'boosted' : 'normal'
+        });
+        
+
         resetForm();  // Reset the form after successful submission
     } catch (error) {
         console.error("Error submitting job:", error);
@@ -172,7 +231,9 @@ function collectJobDetails() {
         state: document.getElementById("jobState").value,
         zipCode: document.getElementById("jobZipCode").value,
         type: document.getElementById("jobType").value,
-        salary: document.getElementById("jobSalary").value,  // Ensure it's a number
+        salary: document.getElementById('jobSalary').value,
+        salaryPayTime: document.getElementById('salaryPayTime').value,
+        boostDuration: document.getElementById('boostDuration').value,
         contractToHire: document.getElementById("contractToHire").value,
         education: document.getElementById("education").value,
         experience: document.getElementById("experience").value,
@@ -203,20 +264,66 @@ async function saveJobToDatabase(jobDetails) {
     const docRef = await addDoc(jobPostingsRef, jobDetails);  // Add job details to "Jobs" collection
     console.log("Job posted successfully with ID:", docRef.id);
 
-    // Update the company's jobIDs array with the new job ID
+    // Update the company's jobs array with the new job object
     const companyRef = doc(db, "Companies", jobDetails.companyId);
     await updateDoc(companyRef, {
-        jobIDs: arrayUnion(docRef.id)  // Add the new job ID to the jobIDs array
+        jobs: arrayUnion({
+            jobID: docRef.id,
+            jobTitle: jobDetails.title,
+            submittedAt: new Date(),  // Timestamp for job submission
+            recruiterID: jobDetails.recruiterID,
+            salary: jobDetails.salary,
+            submittedBy: jobDetails.submittedBy,
+            location: jobDetails.location, // Adding location can be beneficial for filtering
+            status: jobDetails.status, // Current status (e.g., active, draft)
+            jobType: jobDetails.type, // Full-time, part-time, etc.
+            applicationLink: jobDetails.applicationLink // Direct link to apply
+        })
     });
+    
+
+    // Update the user's jobPosts array with the new job ID
+    const userRef = doc(db, 'Users', auth.currentUser.uid);
+    await updateDoc(userRef, {
+        jobPosts: arrayUnion({
+            jobID: docRef.id,
+            jobTitle: jobDetails.title,
+            status: jobDetails.status,  // E.g., 'draft', 'active', 'boosted'
+            createdAt: new Date(),  // Timestamp of job creation
+            location: jobDetails.location,  // Job location
+            boosted: jobDetails.boosted || false,  // Whether the job is boosted
+            companyName: jobDetails.companyName,  // Name of the company
+            companyId: jobDetails.companyId,  // ID of the company
+            salary: jobDetails.salary,  // Salary for the job post
+            expiryDate: jobDetails.expiryDate  // When the job posting expires
+        })
+    });
+    
+    if (jobDetails.boosted) {
+        document.getElementById("boostedLabel").style.display = "inline-block";
+        ocument.getElementById('boostDuration').textContent = boostDuration;
+    } else {
+        document.getElementById("boostedLabel").style.display = "none";
+    }
+    
 
     return docRef.id;  // Return the job ID for future use
 }
+
+
 
 
 function showSuccessModal(jobId, jobTitle) {
     document.getElementById("jobId").textContent = jobId;
     document.getElementById("jobTitleLink").textContent = jobTitle;
     document.getElementById("jobTitleLink").href = `/views/job-detail.html?id=${jobId}`;
+    document.getElementById("jobLocation").textContent = jobDetails.location;
+document.getElementById("jobSalary").textContent = jobDetails.salary;
+document.getElementById("jobExpiryDate").textContent = new Date(new Date().setDate(new Date().getDate() + 30)).toLocaleDateString();
+document.getElementById('salaryPayTime').textContent = jobDetails.salaryPayTime;
+
+
+
     $('#jobSuccessModal').modal('show');  // Show the success modal
 }
 
