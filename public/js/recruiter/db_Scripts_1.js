@@ -1,7 +1,7 @@
 
 
 import { onAuthStateChanged, db, auth, storage, analytics, app  } from '../main.js'; // Adjust the path based on your structure
-import { query, doc, where, orderBy, limit,  collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+import { query, doc, getDoc, where, orderBy, limit,  collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 
 
 let userName, publicBool, userPosition;
