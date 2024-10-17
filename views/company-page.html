@@ -502,7 +502,7 @@ document.getElementById("generateDescriptionBtn").addEventListener("click", func
     <!-- Dynamic Schema Markup -->
     <script type="module">
         import { db, auth } from '../public/js/main.js';
-        import { doc, getDoc, onSnapshot, updateDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+        import { doc, getDoc, collection , onSnapshot, updateDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
         document.getElementById("errorMessage").style.display = "none"; // Hide error message if shown
 
 
@@ -681,6 +681,8 @@ document.getElementById("generateDescriptionBtn").addEventListener("click", func
         size: document.getElementById('editCompanySize').value,
         founded: document.getElementById('editCompanyFounded').value,
     };
+
+
     try {
         let companyRef;
         const urlParams = new URLSearchParams(window.location.search);
