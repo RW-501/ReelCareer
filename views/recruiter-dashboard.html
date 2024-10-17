@@ -764,68 +764,6 @@ document.getElementById("boostJobPostButton").onclick = function () {
     }
 };
 
-    const companyInput = document.getElementById("company");
-const addCompanyButtonContainer = document.getElementById("addCompanyButtonContainer");
-
-// Function to check if the company exists
-const checkCompanyExists = async (companyName) => {
-    // Assuming you have a Firestore reference called `db`
-    const companiesRef = collection(db, "Companies");
-    const q = query(companiesRef, where("name", "==", companyName));
-    const querySnapshot = await getDocs(q);
-
-    if (!querySnapshot.empty) {
-        // Company exists, return the company ID
-        return querySnapshot.docs[0].id; // Assuming you want the first match
-    } else {
-        // Company does not exist
-        return null;
-    }
-};
-
-function debounce(func, delay) {
-    let timeoutId;
-    return (...args) => {
-        if (timeoutId) {
-            clearTimeout(timeoutId);
-        }
-        timeoutId = setTimeout(() => {
-            func.apply(null, args);
-        }, delay);
-    };
-}
-
-companyInput.addEventListener("keyup", debounce(async () => {
-    const companyName = companyInput.value.trim();
-    
-    // Clear the button container before checking
-    addCompanyButtonContainer.innerHTML = "";
-
-    if (companyName) {
-        const companyId = await checkCompanyExists(companyName);
-        
-        if (companyId) {
-            // Company exists, you can display the existing company info if needed
-            const existingButton = document.createElement("button");
-            existingButton.innerText = "Company Exists";
-            existingButton.className = "btn btn-success";
-            // You can add additional logic here for existing company if needed
-            addCompanyButtonContainer.appendChild(existingButton);
-        } else {
-            // Company does not exist, create the "Add/Create Company" button
-            const addButton = document.createElement("button");
-            addButton.innerText = "Add/Create Company";
-            addButton.className = "btn btn-primary";
-            addButton.addEventListener("click", () => {
-                // Redirect to the create company page
-                window.location.href = "../views/company-page.html?create="+companyName; 
-
-            });
-            addCompanyButtonContainer.appendChild(addButton);
-        }
-    }
-}, 300)); // Adjust delay (300ms) as needed
-
 
 
 

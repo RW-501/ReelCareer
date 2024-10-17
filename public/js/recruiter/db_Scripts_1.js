@@ -4,6 +4,117 @@ import { onAuthStateChanged, db, auth, storage, analytics, app  } from '../main.
 import { query, doc, getDoc, where, orderBy, limit,  collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 
 
+
+let companyId = ""; // Or some existing company ID if applicable
+
+const companyInput = document.getElementById("company");
+const addCompanyButtonContainer = document.getElementById("addCompanyButtonContainer");
+
+// Function to check if the company exists
+const checkCompanyExists = async (companyName) => {
+    // Assuming you have a Firestore reference called `db`
+    const companiesRef = collection(db, "Companies");
+    const q = query(companiesRef, where("companyName", "==", companyName));
+    const querySnapshot = await getDocs(q);
+
+    if (!querySnapshot.empty) {
+        // Companies exist, return all matching companies
+        return querySnapshot.docs;
+    } else {
+        // Company does not exist
+        return null;
+    }
+};
+
+function debounce(func, delay) {
+    let timeoutId;
+    return (...args) => {
+        if (timeoutId) {
+            clearTimeout(timeoutId);
+        }
+        timeoutId = setTimeout(() => {
+            func.apply(null, args);
+        }, delay);
+    };
+}
+
+companyInput.addEventListener("keyup", debounce(async () => {
+    const companyName = companyInput.value.trim();
+
+    // Clear the button container before checking
+    addCompanyButtonContainer.innerHTML = "";
+
+    if (companyName) {
+        const companyData = await checkCompanyExists(companyName);
+
+        if (companyData && companyData.length > 0) {
+            // Limit the number of visible companies
+            const visibleCount = 5;
+            let showMoreButton = null;
+
+            // Container for the company list
+            const listContainer = document.createElement("div");
+            listContainer.className = "company-list-container";
+            listContainer.style.maxHeight = "200px"; // Set max height for scrollable list
+            listContainer.style.overflowY = "auto"; // Enable vertical scroll
+
+            // Display limited companies first
+            companyData.slice(0, visibleCount).forEach((doc) => {
+                const company = doc.data();
+                const companyButton = document.createElement("button");
+                companyButton.innerHTML = `${company.companyName} - ${company.location}`;
+                companyButton.className = "btn btn-info w-100 mb-2"; // Responsive and margin
+                companyButton.addEventListener("click", () => {
+                    companyId = doc.id; // Save the selected company ID
+                    alert(`Selected company: ${company.companyName}, Location: ${company.location}`);
+                });
+                listContainer.appendChild(companyButton);
+            });
+
+            // Show more button if there are more than visibleCount companies
+            if (companyData.length > visibleCount) {
+                showMoreButton = document.createElement("button");
+                showMoreButton.innerText = "Show More";
+                showMoreButton.className = "btn btn-secondary w-100 mb-2";
+                showMoreButton.addEventListener("click", () => {
+                    // Display remaining companies
+                    companyData.slice(visibleCount).forEach((doc) => {
+                        const company = doc.data();
+                        const companyButton = document.createElement("button");
+                        companyButton.innerHTML = `${company.companyName} - ${company.location}`;
+                        companyButton.className = "btn btn-info w-100 mb-2";
+                        companyButton.addEventListener("click", () => {
+                            companyId = doc.id;
+                            alert(`Selected company: ${company.companyName}, Location: ${company.location}`);
+                        });
+                        listContainer.appendChild(companyButton);
+                    });
+                    showMoreButton.style.display = "none"; // Hide the "Show More" button after click
+                });
+            }
+
+            // Add the list container and "Show More" button to the DOM
+            addCompanyButtonContainer.appendChild(listContainer);
+            if (showMoreButton) {
+                addCompanyButtonContainer.appendChild(showMoreButton);
+            }
+
+        } else {
+            // Company does not exist, create the "Add/Create Company" button
+            const addButton = document.createElement("button");
+            addButton.innerText = "Add/Create Company";
+            addButton.className = "btn btn-primary w-100";
+            addButton.addEventListener("click", () => {
+                // Redirect to the create company page
+                window.location.href = "../views/company-page.html?create=" + companyName;
+            });
+            addCompanyButtonContainer.appendChild(addButton);
+        }
+    }
+}, 300)); // Adjust delay (300ms) as needed
+
+
+
 let userName, publicBool, userPosition;
 
 // Function to fetch user data from local storage or Firestore
@@ -111,7 +222,6 @@ onAuthStateChanged(auth, async (user) => {
 
 
     // Collect input values
-    const companyId = ""; // Or some existing company ID if applicable
     const companyName = document.getElementById("company").value;
     const recruiterID = document.getElementById("appUserID").innerText;
     const jobID = []; // Populate with relevant job IDs, if any
