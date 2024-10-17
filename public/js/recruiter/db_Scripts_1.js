@@ -9,6 +9,41 @@ let companyId = ""; // Or some existing company ID if applicable
 const companyInput = document.getElementById("company");
 const addCompanyButtonContainer = document.getElementById("addCompanyButtonContainer");
 
+
+
+    // Collect input values
+    const companyName = document.getElementById("company").value;
+    const recruiterID = document.getElementById("appUserID").innerText;
+    const jobID = []; // Populate with relevant job IDs, if any
+    const jobTitle = document.getElementById("jobTitle").value;
+
+    // Define the submitJobPost function
+    const submitJobPost = async (jobTitle, companyId, companyName, recruiterID, jobID) => {
+        try {
+            // Check if the company ID is empty
+            if (companyId === "") {
+                // Create a new company in the Companies collection
+                const newCompanyRef = await addDoc(collection(db, 'Companies'), {
+                    companyName: companyName,
+                    recruiterIDs: [recruiterID],
+                    jobIDs: jobID,
+                    jobTitles: [jobTitle],
+                });
+
+                console.log('New company added with ID:', newCompanyRef.id);
+                return newCompanyRef.id; // Return the new company ID for further use
+            } else {
+                console.log('Existing company ID:', companyId);
+                return companyId; // Use the provided company ID
+            }
+        } catch (error) {
+            console.error("Error adding company: ", error);
+            // Handle the error as needed
+        }
+    };
+
+ 
+    
 // Function to check if the company exists
 const checkCompanyExists = async (companyName) => {
     // Assuming you have a Firestore reference called `db`
@@ -75,9 +110,10 @@ companyInput.addEventListener("keyup", debounce(async () => {
                     selectedCompanyMessage.className = "alert alert-success";
                     addCompanyButtonContainer.appendChild(selectedCompanyMessage);
 
-                    // Optionally, trigger any further action with the selected company ID
-                    alert(`Selected company: ${company.companyName}, Location: ${company.location}`);
-                });
+             
+                            // Optionally, trigger any further action with the selected company ID
+                            document.getElementById('jobLocation').value = company.location;
+                                        });
                 listContainer.appendChild(companyButton);
             });
 
@@ -242,41 +278,6 @@ onAuthStateChanged(auth, async (user) => {
 
 
 
-    // Collect input values
-    const companyName = document.getElementById("company").value;
-    const recruiterID = document.getElementById("appUserID").innerText;
-    const jobID = []; // Populate with relevant job IDs, if any
-    const jobTitle = document.getElementById("jobTitle").value;
-
-    // Define the submitJobPost function
-    const submitJobPost = async (jobTitle, companyId, companyName, recruiterID, jobID) => {
-        try {
-            // Check if the company ID is empty
-            if (companyId === "") {
-                // Create a new company in the Companies collection
-                const newCompanyRef = await addDoc(collection(db, 'Companies'), {
-                    companyName: companyName,
-                    recruiterIDs: [recruiterID],
-                    jobIDs: jobID,
-                    jobTitles: [jobTitle],
-                });
-
-                console.log('New company added with ID:', newCompanyRef.id);
-                return newCompanyRef.id; // Return the new company ID for further use
-            } else {
-                console.log('Existing company ID:', companyId);
-                return companyId; // Use the provided company ID
-            }
-        } catch (error) {
-            console.error("Error adding company: ", error);
-            // Handle the error as needed
-        }
-    };
-
-    // Call submitJobPost to create or retrieve the company ID
-    const newCompanyId = await submitJobPost(jobTitle, companyId, companyName, recruiterID, jobID);
-    
-    
     
 
 
@@ -289,8 +290,11 @@ async function handleJobSubmission(event, actionType) {
         return;  // Exit if validation fails
     }
 
+       // Call submitJobPost to create or retrieve the company ID
+       const newCompanyId = await submitJobPost(jobTitle, companyId, companyName, recruiterID, jobID);
+    
     // Collect all job details from the form
-    const jobDetails = collectJobDetails();
+    const jobDetails = collectJobDetails(newCompanyId);
 
     // Based on actionType, modify the jobDetails object
     if (actionType === 'draft') {
@@ -360,9 +364,10 @@ submittedBy = userName;
 submittedUserPosition = userPosition;
 }
 
-function collectJobDetails() {
+function collectJobDetails(newCompanyId) {
     return {
         title: document.getElementById("jobTitle").value,
+        companyId:newCompanyId,
         description: document.getElementById("jobDescription").value,
         requirements: document.getElementById("jobRequirements").value,
         searchableRequirements: collectJobRequirements(),  // Collect enhanced requirements
