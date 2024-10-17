@@ -4,7 +4,6 @@ import { onAuthStateChanged, db, auth, storage, analytics, app  } from '../main.
 import { query, doc, getDoc, where, orderBy, limit,  collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 
 
-
 let companyId = ""; // Or some existing company ID if applicable
 
 const companyInput = document.getElementById("company");
@@ -66,6 +65,17 @@ companyInput.addEventListener("keyup", debounce(async () => {
                 companyButton.className = "btn btn-info w-100 mb-2"; // Responsive and margin
                 companyButton.addEventListener("click", () => {
                     companyId = doc.id; // Save the selected company ID
+
+                    // Retract or hide the list upon selection
+                    addCompanyButtonContainer.innerHTML = ""; // Clear the list
+
+                    // Show the selected company in a message
+                    const selectedCompanyMessage = document.createElement("div");
+                    selectedCompanyMessage.innerHTML = `Selected company: ${company.companyName}, Location: ${company.location}`;
+                    selectedCompanyMessage.className = "alert alert-success";
+                    addCompanyButtonContainer.appendChild(selectedCompanyMessage);
+
+                    // Optionally, trigger any further action with the selected company ID
                     alert(`Selected company: ${company.companyName}, Location: ${company.location}`);
                 });
                 listContainer.appendChild(companyButton);
@@ -85,7 +95,18 @@ companyInput.addEventListener("keyup", debounce(async () => {
                         companyButton.className = "btn btn-info w-100 mb-2";
                         companyButton.addEventListener("click", () => {
                             companyId = doc.id;
-                            alert(`Selected company: ${company.companyName}, Location: ${company.location}`);
+
+                            // Retract or hide the list upon selection
+                            addCompanyButtonContainer.innerHTML = ""; // Clear the list
+
+                            // Show the selected company in a message
+                            const selectedCompanyMessage = document.createElement("div");
+                            selectedCompanyMessage.innerHTML = `Selected company: ${company.companyName}, Location: ${company.location}`;
+                            selectedCompanyMessage.className = "alert alert-success";
+                            addCompanyButtonContainer.appendChild(selectedCompanyMessage);
+
+                            // Optionally, trigger any further action with the selected company ID
+                            document.getElementById('jobLocation').value = company.location;
                         });
                         listContainer.appendChild(companyButton);
                     });
