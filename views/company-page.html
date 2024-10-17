@@ -680,14 +680,54 @@ document.getElementById("generateDescriptionBtn").addEventListener("click", func
                 size: document.getElementById('editCompanySize').value,
                 founded: document.getElementById('editCompanyFounded').value,
             };
-    
-            const companyRef = doc(db, "Companies", companyId); 
 
-// Use setDoc with { merge: true } to create a new document if it doesn't exist
-await setDoc(companyRef, updatedData, { merge: true });
 
-loadCompanyInfo(updatedData); // Reload to reflect changes
-toggleEditMode(false); // Exit edit mode
+            async function updateCompanyData(companyId) {
+    const updatedData = {
+        name: document.getElementById('editCompanyName').value,
+        description: document.getElementById('editCompanyDescription').value,
+        missionStatement: document.getElementById('editCompanyMissionStatement').value,
+        socialMedia: {
+            facebook: document.getElementById('editFacebook').value,
+            twitter: document.getElementById('editTwitter').value,
+            linkedin: document.getElementById('editLinkedIn').value,
+        },
+        website: document.getElementById('editCompanyWebsite').value,
+        industry: document.getElementById('editCompanyIndustry').value,
+        location: document.getElementById('editCompanyLocation').value,
+        email: document.getElementById('editCompanyEmail').value,
+        phone: document.getElementById('editCompanyPhone').value,
+        about: document.getElementById('editCompanyAbout').value,
+        size: document.getElementById('editCompanySize').value,
+        founded: document.getElementById('editCompanyFounded').value,
+    };
+
+    let companyRef;
+    const urlParams = new URLSearchParams(window.location.search);
+
+    // If creating a new company
+    if (urlParams.get('create')) {
+        companyRef = doc(collection(db, "Companies")); // Create new document reference
+        
+        // Save the document with setDoc
+        await setDoc(companyRef, updatedData, { merge: true });
+
+        goBack();
+
+        // Pass the newly created companyId back to the previous page
+      //  window.location.href = `previousPage.html?companyId=${companyRef.id}`;
+    } else {
+        // If updating an existing company
+        companyRef = doc(db, "Companies", companyId);
+        await setDoc(companyRef, updatedData, { merge: true });
+
+
+    }
+
+    loadCompanyInfo(updatedData); // Reload to reflect changes
+    toggleEditMode(false); // Exit edit mode
+}
+
 
         }
     
