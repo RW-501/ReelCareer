@@ -23,7 +23,7 @@ h3 {
     text-shadow: -1px 1px 0px #9e9a9a;
     font-weight: 800;
 }
-.mb-0 h5 {
+ h5 .mb-0 {
     font-size: 1.75rem;
     color: #83bad9;
     text-shadow: -1px 1px 0px #9e9a9a;
