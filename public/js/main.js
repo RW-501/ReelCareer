@@ -941,13 +941,16 @@ function createProfileModal() {
         const tabContents = document.querySelectorAll('#profileTabContent .tab-pane');
         tabContents.forEach(content => {
             content.classList.remove('show', 'active'); // Remove show and active classes
+            content.classList.add('hide'); 
             content.classList.add('fade'); // Ensure they fade out
+
         });
     
         // Show the selected tab content
         const activeContent = document.getElementById(ariaControlsValue);
         if (activeContent) {
             activeContent.classList.add('show', 'active'); // Add show and active classes
+            activeContent.classList.remove("hide");
         }
     }
     
@@ -1073,6 +1076,10 @@ function initializeProfileModal(user) {
     const profilePicPreview = document.getElementById('profilePicPreviewSET');
     const saveProfileBtn = document.getElementById('saveProfileBtn');
    // const publicProfileSET = document.getElementById('publicProfileSET');
+                    // Register event listeners for closing the modal and deactivating the account
+                    document.getElementById('saveProfileCloseBtn').addEventListener('click', hideModal("profileModal"));
+                    document.getElementById('deactivateAccountBtn').addEventListener('click', hideModal("profileModal"));
+    
     
 
     // Real-time validation
@@ -1238,10 +1245,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     }, 300);
   
-                // Register event listeners for closing the modal and deactivating the account
-                document.getElementById('saveProfileCloseBtn').addEventListener('click', hideModal("profileModal"));
-                document.getElementById('deactivateAccountBtn').addEventListener('click', hideModal("profileModal"));
-
 
             });
 
