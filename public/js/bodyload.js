@@ -368,6 +368,7 @@ function hideLoader() {
 
     addStyles(); // Add styles first
     createLoader(); // Then create the loader
+
     document.getElementById('loaderX').addEventListener('click', () => {
        pauseTime = true;
     });
@@ -380,10 +381,11 @@ function hideLoader() {
 
 // Hide loader when the window fully loads
 window.addEventListener('load', () => {
+    document.body.classList.add('loaded'); // Then show content
+
     setTimeout(() => {
 
     hideLoader(); // Hide loader first
-    document.body.classList.add('loaded'); // Then show content
 }, 3000);
 
 });
