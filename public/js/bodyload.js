@@ -354,7 +354,7 @@ let pauseTime = false;
 // Hide loader and fade in content
 function hideLoader() {
     const loader = document.getElementById('loaderX');
-    if (loader || pauseTime === false) {
+    if (pauseTime === false) {
         setTimeout(() => {
             loader.classList.add('hidden');
             loader.remove();
