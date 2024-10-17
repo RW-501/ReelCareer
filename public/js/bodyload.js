@@ -137,74 +137,49 @@ function addStyles() {
     margin-bottom: 20px;
 }
 
-/* Movie Reel (with perforations) */
+/* Reel with 5 Holes and Center Hole */
 .reel {
-    width: 80px;
-    height: 80px;
-    border: 8px solid #007bff;
-    border-radius: 50%;
-    position: relative;
+    width: 100px;
+    height: 100px;
+    border: 10px solid #007bff; /* Reel border */
+    border-radius: 50%; /* Circular shape */
     background-color: #fff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    position: relative;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     animation: rotateReel 3s linear infinite;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
-/* Reel Center (like a film reel hole) */
-.reel-center {
+/* Center Hole */
+.reel::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
     width: 20px;
     height: 20px;
-    border-radius: 50%;
     background-color: #007bff;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
 }
 
-/* Reel Perforations (simulating holes along the reel) */
-.reel::before, .reel::after {
+/* 5 Holes Around the Reel */
+.reel::after {
     content: '';
     position: absolute;
-    width: 10px;
-    height: 10px;
+    top: 50%;
+    left: 50%;
+    width: 80px;
+    height: 80px;
     border-radius: 50%;
-    background-color: #007bff;
+    background: radial-gradient(circle at 10px 10px, transparent 10px, #007bff 11px),
+                radial-gradient(circle at 70px 10px, transparent 10px, #007bff 11px),
+                radial-gradient(circle at 10px 70px, transparent 10px, #007bff 11px),
+                radial-gradient(circle at 70px 70px, transparent 10px, #007bff 11px),
+                radial-gradient(circle at 40px 40px, transparent 7px, #007bff 8px);
+    transform: translate(-50%, -50%);
 }
 
-.reel::before {
-    top: -15px;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-.reel::after {
-    bottom: -15px;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-/* Reel Perforations on left and right */
-.reel::before, .reel::after, .reel::before {
-    content: '';
-    position: absolute;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background-color: #007bff;
-}
-
-.reel::before {
-    top: -15px;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-.reel::after {
-    bottom: -15px;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-/* Optional: Refine animation */
+/* Rotate the reel */
 @keyframes rotateReel {
     from {
         transform: rotate(0deg);
