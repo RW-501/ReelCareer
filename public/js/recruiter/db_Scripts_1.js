@@ -5,10 +5,15 @@ import { query, where, orderBy, limit,  collection, getDocs, addDoc } from "http
 
 
 
+const createJobBtn = document.getElementById('createJobPostBtn');
+createJobBtn.addEventListener('click', function() {
+    $('#jobModal').modal('show');  // This opens the modal
+});
+
+
       // Add event listener for form submission
       document.getElementById("createJobBtn").click = async function (event) {
         event.preventDefault(); // Prevent default form submission
-        $('#jobModal').modal('show');  // This opens the modal
 
         // Custom form validation
         (function() {
