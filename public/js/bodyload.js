@@ -360,14 +360,29 @@ mainContent.appendChild(reelContainer);
 
     // Add loader to the body
     document.body.appendChild(loaderDiv);
-}
 
 
-
-
+    
 
 let pauseTime = false;
 // Hide loader and fade in content
+
+    document.getElementById('theOnlyResume').addEventListener('click', () => {
+        pauseTime = true;
+     });
+ 
+     document.getElementById('loaderX').addEventListener('click', () => {
+         const loader = document.getElementById('loaderX');
+                 loader.classList.add('hide');
+                 loader.remove();
+     });
+}
+
+
+addStyles(); // Add styles first
+createLoader(); // Then create the loader
+
+
 function hideLoader() {
     if (pauseTime === false) {
             const loader = document.getElementById('loaderX');
@@ -377,18 +392,8 @@ function hideLoader() {
 }
 
 
-    addStyles(); // Add styles first
-    createLoader(); // Then create the loader
-
-    document.getElementById('theOnlyResume').addEventListener('click', () => {
-       pauseTime = true;
-    });
-
-    document.getElementById('loaderX').addEventListener('click', () => {
-        const loader = document.getElementById('loaderX');
-                loader.classList.add('hide');
-                loader.remove();
-    });
+ 
+ 
 
 // Hide loader when the window fully loads
 window.addEventListener('load', () => {
