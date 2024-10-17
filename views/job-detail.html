@@ -611,12 +611,12 @@ async function saveJob(jobId) {
 
 
 
-     
+let companyData ="";
+
         // Function to fetch job details
         async function fetchJobDetails() {
             const urlParams = new URLSearchParams(window.location.search);
             const jobId = urlParams.get('id'); // Get job ID from URL
-            let companyData ="";
 
 
             const errorMessageDiv = document.getElementById('error-message');

@@ -172,7 +172,7 @@ function restrictKeys(event) {
 }
 
 
-let jobSuggestions, jobRequirementsSuggestions, locationsSuggestions, citySuggestions, stateSuggestions;
+//let jobSuggestions, jobRequirementsSuggestions, locationsSuggestions, citySuggestions, stateSuggestions;
 
 
 
