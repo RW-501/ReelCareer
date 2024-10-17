@@ -275,7 +275,7 @@ main .jobCard:hover {
 #applicationModal, 
 #reportJobModal, 
 .otherModals {
-    display: none;  /* Hidden by default */
+    display: none !important;  /* Hidden by default */
     position: fixed; 
     z-index: 99999999; /* Highest z-index */
     left: 0;
