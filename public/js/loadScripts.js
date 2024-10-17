@@ -339,7 +339,7 @@ fetch(adjustLinkHomeURL + "public/js/suggestions.json")
 function showModal(Modal) {
     console.log('hideModal:');
 
-    const modalElement = document.getElementById(profileModal);
+    const modalElement = document.getElementById(Modal);
     //const modal = new bootstrap.Modal(modalElement);
     //modal.removeAttribute('inert');
     modalElement.classList.add('show'); // Add bootstrap's 'show' class
