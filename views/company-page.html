@@ -661,26 +661,6 @@ document.getElementById("generateDescriptionBtn").addEventListener("click", func
         }
     
         // Update company data
-        async function updateCompanyData(companyId) {
-            const updatedData = {
-                name: document.getElementById('editCompanyName').value,
-                description: document.getElementById('editCompanyDescription').value,
-                missionStatement: document.getElementById('editCompanyMissionStatement').value,
-                socialMedia: {
-                    facebook: document.getElementById('editFacebook').value,
-                    twitter: document.getElementById('editTwitter').value,
-                    linkedin: document.getElementById('editLinkedIn').value,
-                },
-                website: document.getElementById('editCompanyWebsite').value,
-                industry: document.getElementById('editCompanyIndustry').value,
-                location: document.getElementById('editCompanyLocation').value,
-                email: document.getElementById('editCompanyEmail').value,
-                phone: document.getElementById('editCompanyPhone').value,
-                about: document.getElementById('editCompanyAbout').value,
-                size: document.getElementById('editCompanySize').value,
-                founded: document.getElementById('editCompanyFounded').value,
-            };
-
 
             async function updateCompanyData(companyId) {
     const updatedData = {
