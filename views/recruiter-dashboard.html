@@ -426,23 +426,58 @@
 
   
 <!-- Success Modal for submission confirmation -->
-<div class="modal fade hide" id="jobSuccessModal" tabindex="-1" role="dialog" aria-labelledby="jobSuccessLabel" >
+<div class="modal fade" id="jobSuccessModal" tabindex="-1" role="dialog" aria-labelledby="jobSuccessLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content shadow-lg border-0">
+            <!-- Modal Header -->
             <div class="modal-header bg-success text-white">
-                <h5 class="modal-title font-weight-bold" id="jobSuccessLabel">Job Posting Created</h5>
+                <h5 class="modal-title font-weight-bold" id="jobSuccessLabel">Job Posting Successfully Created!</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
+
+            <!-- Modal Body -->
             <div class="modal-body text-center p-4">
-                <h5 class="font-weight-bold">Your job has been successfully created!</h5>
-                <p class="lead">Job ID: <span id="jobId" class="font-weight-bold"></span></p>
+                <h5 class="font-weight-bold">Your job post has been successfully created!</h5>
+                <p class="lead">You can now manage your job listing or boost its visibility.</p>
+                
+                <!-- Job Title with link to the job detail page -->
+                <div class="my-4">
+                    <p>Job Title:</p>
+                    <a id="jobTitleLink" href="#" class="font-weight-bold text-primary h5" target="_blank"></a>
+                </div>
+
+                <!-- Job ID (for reference) -->
+                <p class="text-muted">Job ID: <span id="jobId" class="font-weight-bold"></span></p>
+
+                <!-- Boost Job Button -->
+                <button id="boostJobBtn" class="btn btn-warning rounded-pill shadow-sm my-3">Boost Job Listing</button>
+
+                <!-- Share Buttons -->
+                <div class="d-flex justify-content-center my-3">
+                    <button class="btn btn-outline-primary mx-2 rounded-circle" id="shareFacebook">
+                        <i class="fab fa-facebook-f"></i>
+                    </button>
+                    <button class="btn btn-outline-info mx-2 rounded-circle" id="shareLinkedIn">
+                        <i class="fab fa-linkedin-in"></i>
+                    </button>
+                    <button class="btn btn-outline-success mx-2 rounded-circle" id="shareTwitter">
+                        <i class="fab fa-twitter"></i>
+                    </button>
+                </div>
+
+                <!-- Close Button -->
                 <button type="button" class="btn btn-outline-success rounded-pill shadow-sm" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
 </div>
+
+
+
+
+
 
 <!-- Boost Job Post Popup -->
 <div id="boostJobPostPopup" class="popup">
@@ -759,37 +794,6 @@ companyInput.addEventListener("keyup", debounce(async () => {
     }
 }, 300)); // Adjust delay (300ms) as needed
 
-
-
-
-
-
-
-
-const submitJobPost = async (companyId, companyName, recruiterIDs, jobIDs) => {
-    try {
-        // Check if the company ID is empty
-        if (companyId === "") {
-            // Create a new company in the Companies collection
-            const newCompanyRef = await addDoc(collection(db, 'Companies'), {
-                companyName: companyName,
-                recruiterIDs: recruiterIDs,
-                jobIDs: jobIDs,
-            });
-
-            console.log('New company added with ID:', newCompanyRef.id);
-            // You can now use newCompanyRef.id as the new company ID
-            return newCompanyRef.id; // Return the new company ID for further use
-        } else {
-            console.log('Existing company ID:', companyId);
-            // If company ID is provided, use it as is
-            return companyId;
-        }
-    } catch (error) {
-        console.error("Error adding company: ", error);
-        // Handle the error as needed
-    }
-};
 
 
 
