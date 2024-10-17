@@ -1,7 +1,7 @@
 
 
 import { onAuthStateChanged, db, auth, storage, analytics, app  } from '../main.js'; // Adjust the path based on your structure
-import { query, where, orderBy, limit,  collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+import { query, doc, where, orderBy, limit,  collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 
 
 let userName, publicBool, userPosition;
@@ -116,7 +116,7 @@ onAuthStateChanged(auth, async (user) => {
                 // Create a new company in the Companies collection
                 const newCompanyRef = await addDoc(collection(db, 'Companies'), {
                     companyName: companyName,
-                    recruiterIDs: [recruiterIDs],
+                    recruiterIDs: [recruiterID],
                     jobIDs: jobID,
                     jobTitles: [jobTitle],
                 });

@@ -269,6 +269,16 @@ const logout = async () => {
     }
 };
 
+ // Function to logout the user
+ async function logoutUser() {
+    try {
+        await firebase.auth().signOut();
+        window.location.href =  adjustLinkHomeURL+'views/auth'; // Redirect to login page after logout
+    } catch (error) {
+        console.error("Logout error:", error);
+    }
+}
+
 // Logout button on any page
 document.getElementById('logout-button')?.addEventListener('click', logout);
 
