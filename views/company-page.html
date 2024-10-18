@@ -221,17 +221,17 @@ main .social-icons a:hover {
                 </select>
             </div>
 </div>
-            <div class="form-group">
+<div class="form-group">
+    <p id="companyDescription" class="lead loading-state mb-3">Loading description...</p>
+    <textarea id="editCompanyDescription" class="form-control mb-3" rows="3" style="display:none;" placeholder="Enter Company Description"></textarea>
+    <button id="editCompanyDescriptionBtn" class="btn btn-secondary mb-2" style="display:none;">Edit Description</button>
+    <button id="generateDescriptionBtn" class="btn btn-primary">Generate Description</button>
+    <hr>
 
-            <p id="companyDescription" class="lead loading-state mb-3">Loading description...</p>
-            <textarea id="editCompanyDescription" class="form-control mb-3" rows="3" style="display:none;" placeholder="Enter Company Description"></textarea>
-
-            <button id="generateDescriptionBtn" class="btn btn-primary">Generate Description</button>
-            <hr>        
-
-            <p><strong>Mission Statement:</strong></p>
-            <p id="companyMissionStatement" class="loading-state">Loading...</p>
-            <textarea id="editCompanyMissionStatement" class="form-control" rows="3" style="display:none;" placeholder="Enter Company Mission Statement"></textarea>
+    <p><strong>Mission Statement:</strong></p>
+    <p id="companyMissionStatement" class="loading-state">Loading...</p>
+    <textarea id="editCompanyMissionStatement" class="form-control" rows="3" style="display:none;" placeholder="Enter Company Mission Statement"></textarea>
+    <button id="editCompanyMissionStatementBtn" class="btn btn-secondary mb-2" style="display:none;">Edit Mission Statement</button>
 </div>
 <div class="form-group">
 
@@ -272,13 +272,13 @@ main .social-icons a:hover {
         <hr>        
 
         <div class="form-group">
-  
             <!-- About Section -->
             <div class="mb-4">
                 <label for="editCompanyAbout" class="form-label">About</label>
                 <textarea id="editCompanyAbout" class="form-control" rows="4" style="display:none;" placeholder="Enter About Section"></textarea>
+                <button id="editCompanyAboutBtn" class="btn btn-secondary mb-2" style="display:none;">Edit About</button>
             </div>
-            <hr>        
+        </div>          <hr>        
 
             <!-- Company Size -->
             <div class="mb-4">
@@ -341,6 +341,37 @@ main .social-icons a:hover {
     </div>
     
 <script>
+
+       // Function to toggle visibility of textareas and loading states
+       function toggleEdit(elementId, loadingId, buttonId) {
+        const textarea = document.getElementById(elementId);
+        const loading = document.getElementById(loadingId);
+        const button = document.getElementById(buttonId);
+
+        if (loading.style.display !== 'none') {
+            loading.style.display = 'none';
+            textarea.style.display = 'block';
+            button.style.display = 'block';
+        } else {
+            textarea.style.display = 'none';
+            button.style.display = 'none';
+            loading.style.display = 'block';
+        }
+    }
+
+    // Event listeners for buttons to toggle edit mode
+    document.getElementById('editCompanyDescriptionBtn').addEventListener('click', () => {
+        toggleEdit('editCompanyDescription', 'companyDescription', 'editCompanyDescriptionBtn');
+    });
+
+    document.getElementById('editCompanyMissionStatementBtn').addEventListener('click', () => {
+        toggleEdit('editCompanyMissionStatement', 'companyMissionStatement', 'editCompanyMissionStatementBtn');
+    });
+
+    document.getElementById('editCompanyAboutBtn').addEventListener('click', () => {
+        toggleEdit('editCompanyAbout', 'editCompanyAbout', 'editCompanyAboutBtn');
+    });
+    
 function goBack() {
     window.history.back();
 }

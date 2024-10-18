@@ -289,11 +289,35 @@
     <script>
         // Initialize Quill editors for news and blog sections
         const newsEditor = new Quill('#newsEditor', {
-            theme: 'snow'
-        });
-        const blogEditor = new Quill('#blogEditor', {
-            theme: 'snow'
-        });
+    theme: 'snow',
+    modules: {
+        toolbar: [
+            [{ 'header': [1, 2, 3, false] }],          // Header sizes for structure
+            ['bold', 'italic', 'underline', 'strike'], // Basic formatting options
+            [{ 'list': 'ordered' }, { 'list': 'bullet' }], // Ordered and unordered lists
+            ['link', 'image', 'video'],                 // Insert link, image, and video
+            [{ 'color': [] }, { 'background': [] }],    // Text and background colors
+            ['blockquote', 'code-block'],                // Quote and code block options
+            ['clean']                                    // Clear formatting option
+        ]
+    }
+});
+
+const blogEditor = new Quill('#blogEditor', {
+    theme: 'snow',
+    modules: {
+        toolbar: [
+            [{ 'header': [1, 2, 3, false] }],          // Header sizes for structure
+            ['bold', 'italic', 'underline', 'strike'], // Basic formatting options
+            [{ 'list': 'ordered' }, { 'list': 'bullet' }], // Ordered and unordered lists
+            ['link', 'image', 'video'],                 // Insert link, image, and video
+            [{ 'color': [] }, { 'background': [] }],    // Text and background colors
+            ['blockquote', 'code-block'],                // Quote and code block options
+            ['clean']                                    // Clear formatting option
+        ]
+    }
+});
+
 
         // Save content from Quill editor to hidden input before form submission
         $('#newsForm').on('submit', function() {
