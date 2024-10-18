@@ -391,6 +391,7 @@ submittedUserPosition = userPosition;
 function collectJobDetails(newCompanyId) {
     return {
         title: document.getElementById("jobTitle").value,
+        company: document.getElementById("company").value,
         companyId:newCompanyId,
         description: document.getElementById("jobDescription").value,
         requirements: document.getElementById("jobRequirements").value,
