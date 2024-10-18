@@ -274,16 +274,35 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
+
+            
             <div class="modal-body" id="modalContentBody">
                 <img id="modalImage" src="" alt="Content Image" class="img-fluid mb-3" style="display:none;">
-                <p id="modalTextContent"></p>
+                <hr>
+                <div class="form-group">
+                    <label for="modalTextContent">Content <i class="fas fa-question-circle" data-toggle="tooltip" title="Update post."></i></label>
+                    <!-- Replace the textarea with a div for Quill -->
+                    <div id="updateEditor" style="height: 200px;"></div>
+                    <input type="hidden" id="modalTextContent" name="modalTextContent" required>
+                </div>
+
+
             </div>
+
+
+
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" onclick="deleteArticle()">Delete</button>
+                <button type="button" class="btn btn-primary" onclick="updateArticle()">Update</button>
             </div>
+            
         </div>
     </div>
 </div>
+
+
+
     <!-- Footer -->
     <footer id="dynamic-footer"></footer>
     <script>
@@ -319,6 +338,50 @@ const blogEditor = new Quill('#blogEditor', {
 });
 
 
+
+
+function showContentModal(element, collectionName, docId) { 
+    const title = $(element).data('title');
+    const content = $(element).data('content');
+    const imageUrl = $(element).data('image'); // Assuming data-image attribute holds the image URL
+
+    // Set the modal title
+    $('#contentModalLabel').text(title);
+
+    // Set the modal content in the Quill editor
+    const quill = new Quill('#updateEditor', {
+        theme: 'snow',
+        modules: {
+            toolbar: [
+            [{ 'header': [1, 2, 3, false] }],          // Header sizes for structure
+            ['bold', 'italic', 'underline', 'strike'], // Basic formatting options
+            [{ 'list': 'ordered' }, { 'list': 'bullet' }], // Ordered and unordered lists
+            ['link', 'image', 'video'],                 // Insert link, image, and video
+            [{ 'color': [] }, { 'background': [] }],    // Text and background colors
+            ['blockquote', 'code-block'],                // Quote and code block options
+            ['clean']                                    // Clear formatting option
+        ]
+        }
+    });
+
+    // Set the content of the editor
+    quill.setContents(quill.clipboard.convert(content));
+
+    // Set the image if available
+    if (imageUrl) {
+        $('#modalImage').attr('src', imageUrl).show();
+    } else {
+        $('#modalImage').hide(); // Hide the image if not available
+    }
+
+    // Store docId for update and delete actions
+    $('#modalTextContent').data('docId', docId);
+    $('#modalTextContent').data('collectionName', collectionName);
+
+    // Show the modal
+    $('#contentModal').modal('show');
+}
+
         // Save content from Quill editor to hidden input before form submission
         $('#newsForm').on('submit', function() {
             $('#newsContent').val(newsEditor.root.innerHTML); // Set the content
@@ -327,6 +390,8 @@ const blogEditor = new Quill('#blogEditor', {
         $('#blogForm').on('submit', function() {
             $('#blogContent').val(blogEditor.root.innerHTML); // Set the content
         });
+
+
 
         // Toggle sections visibility
         function toggleSection(sectionId) {
@@ -343,11 +408,49 @@ const blogEditor = new Quill('#blogEditor', {
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 <script type="module">
      import { db, storage, analytics, app, auth  } from '../public/js/main.js'; // Adjust the path based on your structure
-     import { query, where, orderBy, limit,  collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+     import { deleteDoc, updateDoc, query, where, orderBy, limit,  collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
      import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-storage.js"; // Import required functions
 
       
 
+
+     async function updateArticle() {
+    const docId = $('#modalTextContent').data('docId');
+    const collectionName = $('#modalTextContent').data('collectionName');
+
+    // Get the updated content from Quill
+    const updatedContent = quill.root.innerHTML; // Get the content from Quill editor
+
+    try {
+        await updateDoc(doc(db, collectionName, docId), {
+            content: updatedContent,
+            // You can update more fields as needed
+        });
+        alert('Article updated successfully!');
+        $('#contentModal').modal('hide');
+        // Optionally reload the content or update the display
+    } catch (error) {
+        console.error("Error updating document: ", error);
+        alert('Error updating article. Please try again.');
+    }
+}
+
+async function deleteArticle() {
+    const docId = $('#modalTextContent').data('docId');
+    const collectionName = $('#modalTextContent').data('collectionName');
+
+    if (confirm('Are you sure you want to delete this article? This action cannot be undone.')) {
+        try {
+            await deleteDoc(doc(db, collectionName, docId));
+            alert('Article deleted successfully!');
+            $('#contentModal').modal('hide');
+            // Optionally reload the content or update the display
+        } catch (error) {
+            console.error("Error deleting document: ", error);
+            alert('Error deleting article. Please try again.');
+        }
+    }
+}
 
 
             // Function to upload image to Firebase Storage
