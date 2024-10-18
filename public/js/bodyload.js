@@ -302,6 +302,20 @@ function createLoader(message = 'ReelCareer') {
 
 
 
+    // Append lines and footer to mainContent
+    lines.forEach(line => mainContent.appendChild(line));
+    mainContent.appendChild(footer);
+
+    // Create dynamic loading message with dots
+    const statusDiv = document.createElement('div');
+    statusDiv.classList.add('loading-message');
+    statusDiv.setAttribute('role', 'status');
+    statusDiv.textContent = message;
+
+
+
+    
+
 // Create Reel Holes
 function createReelHoles(reelElement) {
     const holePositions = [
@@ -340,17 +354,6 @@ reelContainer.appendChild(reel);
 // Append reel container to mainContent
 mainContent.appendChild(reelContainer);
 
-
-    // Append lines and footer to mainContent
-    lines.forEach(line => mainContent.appendChild(line));
-    mainContent.appendChild(footer);
-
-    // Create dynamic loading message with dots
-    const statusDiv = document.createElement('div');
-    statusDiv.classList.add('loading-message');
-    statusDiv.setAttribute('role', 'status');
-    statusDiv.textContent = message;
-
     // Append sidebar and mainContent to resume
     resume.appendChild(sidebar);
     resume.appendChild(mainContent);
@@ -367,7 +370,7 @@ mainContent.appendChild(reelContainer);
 
 // Hide loader and fade in content
 
-    document.getElementById('loaderPic').addEventListener('click', () => {
+resume.addEventListener('click', () => {
         console.log("pauseTime loaderPic 1 ",pauseTime);
 
         pauseTime = true;
@@ -375,10 +378,10 @@ mainContent.appendChild(reelContainer);
 
      });
  
-     document.getElementById('theOnlyResume').addEventListener('click', () => {
-         const loader = document.getElementById('theOnlyResume');
-                 loader.classList.add('hide');
-                 loader.remove();
+     reelContainer.addEventListener('click', () => {
+        // const loader = document.getElementById('theOnlyResume');
+         loaderDiv.classList.add('hide');
+         loaderDiv.remove();
 
                  console.log(" loader.remove();   ");
 
