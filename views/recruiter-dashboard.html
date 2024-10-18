@@ -314,14 +314,13 @@
                         <textarea class="form-control" id="jobDescription" rows="4" placeholder="Describe the job" required></textarea>
                         <div class="invalid-feedback">Please enter a job description.</div>
                         <button id="generateJobDescriptionBtn" class="btn btn-primary">Generate Description</button>
-                        <hr>      
                     </div>
 
                     <div class="form-group">
                         <label for="jobRequirements">Job Requirements <small class="text-muted">(Optional)</small></label>
                         <textarea 
                         oninput="autoSuggest(this.value,'RequirementsSuggestionsions')"
-                        class="form-control keywordInput " id="jobRequirements" rows="3" placeholder="List job requirements" ></textarea>
+                        class="form-control keywordInput " id="jobRequirements" rows="4" placeholder="List job requirements" ></textarea>
                         <div class="invalid-feedback">Please enter job requirements.</div>
                     </div>
                 </div>
@@ -330,12 +329,11 @@
                 
                 <div class="form-row">
 
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-4">
                             <label for="jobFunction">Job Function <small class="text-muted">(Optional)</small></label>
                             <input type="text" class="form-control" id="jobFunction" placeholder="Enter job function" >
                             <div class="invalid-feedback">Please enter the job function.</div>
                         </div>
-                    </div>
 
 
 
@@ -448,11 +446,14 @@
                 </div>
                     
                 <div class="form-row ">
+                    <div class="form-group">
+
                     <button type="submit" id="saveDraftButton" class="btn btn-primary btn-block rounded-pill shadow-sm font-weight-bold form-group col-md-4 mx-1">Save to Draft</button>
 
                     <button type="submit" id="boostButton" class="btn btn-primary btn-block rounded-pill shadow-sm font-weight-bold form-group col-md-4 mx-1">Boost Job Posting</button>
                     
                     <button type="submit" id="createJobBtn" class="btn btn-primary btn-block rounded-pill shadow-sm font-weight-bold form-group col-md-4 mx-1">Create Job</button>
+                    </div>
 
 
             </div>  
@@ -466,6 +467,7 @@
             <div id="appCompanyID"  class="text-center mb-4 hideg"></div>
             <hr>
             <div class="form-row">
+                <div class="form-group">
 
             <h5 class="mt-4">Job Preview</h5>
             <div id="jobPreview" class="border p-3 mb-4" style="display: none;">
@@ -479,7 +481,9 @@
                 <p id="previewRequirements"></p>
                 <p><strong>Tags:</strong> <span id="previewTags"></span></p>
             </div>
-</div>
+            </div>
+        
+        </div>
 
     </div>
 </div>
