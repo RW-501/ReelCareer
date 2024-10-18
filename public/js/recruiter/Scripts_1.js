@@ -127,40 +127,45 @@ function collectCustomQuestions() {
     return customQuestions;
 }
 
+document.addEventListener("DOMContentLoaded", function() {
+    const tagsContainer = document.getElementById("tagsContainer");
+    const tagInput = document.getElementById("tagInput");
+    const tagsList = document.getElementById("tagsList");
+    const clearTagsButton = document.getElementById("clearTagsButton");
 
-const tagsContainer = document.getElementById("tagsContainer");
-const tagInput = document.getElementById("tagInput");
-const tagsList = document.getElementById("tagsList");
-const clearTagsButton = document.getElementById("clearTagsButton");
+    // Function to add a tag
+    function addTag(tag) {
+        const tagElement = document.createElement("span");
+        tagElement.className = "tag";
+        tagElement.textContent = tag;
 
-// Function to add a tag
-function addTag(tag) {
-    const tagElement = document.createElement("span");
-    tagElement.className = "tag";
-    tagElement.textContent = tag;
+        const removeButton = document.createElement("button");
+        removeButton.textContent = "x"; // Close button
+        removeButton.onclick = () => {
+            tagsList.removeChild(tagElement);
+        };
 
-    const removeButton = document.createElement("button");
-    removeButton.textContent = "x"; // Close button
-    removeButton.onclick = () => {
-        tagsList.removeChild(tagElement);
-    };
-
-    tagElement.appendChild(removeButton);
-    tagsList.appendChild(tagElement);
-}
-
-// Event listener for tag input
-tagInput.addEventListener("keypress", (e) => {
-    if (e.key === "Enter" && tagInput.value.trim() !== "") {
-        e.preventDefault();
-        const tag = tagInput.value.trim();
-        addTag(tag);
-        tagInput.value = ""; // Clear the input
+        tagElement.appendChild(removeButton);
+        tagsList.appendChild(tagElement);
     }
-});
-// Function to clear all tags
-clearTagsButton.addEventListener("click", () => {
-    tagsList.innerHTML = ""; // Clear all tags
+
+    // Event listener for tag input
+    tagInput.addEventListener("keypress", (e) => {
+        console.log("Key pressed:", e.key); // Debugging log
+        if (e.key === "Enter" && tagInput.value.trim() !== "") {
+            e.preventDefault();
+            const tag = tagInput.value.trim();
+            console.log("Adding tag:", tag); // Debugging log
+            addTag(tag);
+            tagInput.value = ""; // Clear the input
+        }
+    });
+    
+
+    // Function to clear all tags
+    clearTagsButton.addEventListener("click", () => {
+        tagsList.innerHTML = ""; // Clear all tags
+    });
 });
 
 
@@ -176,6 +181,7 @@ function saveFormValues() {
         jobZipCode: document.getElementById('jobZipCode').value,
         jobType: document.getElementById('jobType').value,
         jobSalary: document.getElementById('jobSalary').value,
+        salaryPayTime: document.getElementById('salaryPayTime').value,
         jobDescription: document.getElementById('jobDescription').value,
         jobRequirements: document.getElementById('jobRequirements').value,
         industry: document.getElementById('industry').value,
@@ -206,6 +212,7 @@ function loadFormValues() {
         document.getElementById('jobZipCode').value = formValues.jobZipCode || '';
         document.getElementById('jobType').value = formValues.jobType || '';
         document.getElementById('jobSalary').value = formValues.jobSalary || '';
+        document.getElementById('salaryPayTime').value = formValues.salaryPayTime || '';
         document.getElementById('jobDescription').value = formValues.jobDescription || '';
         document.getElementById('jobRequirements').value = formValues.jobRequirements || '';
         document.getElementById('industry').value = formValues.industry || '';
