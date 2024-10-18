@@ -407,10 +407,12 @@ submittedUserPosition = userPosition;
 
 
 function collectJobDetails(newCompanyId) {
+    console.log("newCompanyId: ", newCompanyId);
+
     return {
         title: document.getElementById("jobTitle").value,
         company: document.getElementById("company").value,
-        companyId:newCompanyId,
+        companyId: newCompanyId,
         description: document.getElementById("jobDescription").value,
         requirements: document.getElementById("jobRequirements").value,
         searchableRequirements: collectJobRequirements(),  // Collect enhanced requirements
