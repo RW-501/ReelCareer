@@ -501,43 +501,52 @@ document.addEventListener('DOMContentLoaded', function() {
     contentList.innerHTML = ''; // Clear existing content
 
     try {
-        // Load News
-        const newsSnapshot = await getDocs(collection(db, 'News'));
-        newsSnapshot.forEach(doc => {
-            const data = doc.data();
-            contentList.innerHTML += `
-                <h5 class="clickable" data-title="${data.title}" data-content="${data.content}" onclick="showContentModal(this)">${data.title} (News)</h5>
-                <p>${data.content}</p>
-                <hr>
-            `;
-        });
-
-        // Load Blogs
-        const blogsSnapshot = await getDocs(collection(db, 'Blogs'));
-        blogsSnapshot.forEach(doc => {
-            const data = doc.data();
-            contentList.innerHTML += `
-                <h5 class="clickable" data-title="${data.title}" data-content="${data.content}" onclick="showContentModal(this)">${data.title} (Blog)</h5>
-                <p>${data.content}</p>
-                <hr>
-            `;
-        });
-
-        // Load FAQs
-        const faqsSnapshot = await getDocs(collection(db, 'FAQs'));
-        faqsSnapshot.forEach(doc => {
-            const data = doc.data();
-            contentList.innerHTML += `
-                <h5 class="clickable" data-title="${data.question}" data-content="${data.answer}" onclick="showContentModal(this)">${data.question} (FAQ)</h5>
-                <p>${data.answer}</p>
-                <hr>
-            `;
-        });
+        // Fetch and Render News, Blogs, and FAQs
+        await loadAndRenderContent('News', 'News');
+        await loadAndRenderContent('Blogs', 'Blog');
+        await loadAndRenderContent('FAQs', 'FAQ');
 
     } catch (error) {
         console.error("Error loading content: ", error);
     }
 }
+
+async function loadAndRenderContent(collectionName, label) {
+    const contentList = document.getElementById('contentList');
+    
+    try {
+        const snapshot = await getDocs(collection(db, collectionName));
+        snapshot.forEach(doc => {
+            const data = doc.data();
+            const title = collectionName === 'FAQs' ? data.question : data.title;
+            const content = collectionName === 'FAQs' ? data.answer : data.content;
+            
+            // Use DOM methods to create and append elements
+            const contentItem = document.createElement('div');
+            const titleElement = document.createElement('h5');
+            titleElement.classList.add('clickable');
+            titleElement.setAttribute('data-title', title);
+            titleElement.setAttribute('data-content', content);
+            titleElement.textContent = `${title} (${label})`;
+
+            // Add click event listener instead of inline onclick
+            titleElement.addEventListener('click', () => showContentModal(titleElement));
+
+            const contentElement = document.createElement('p');
+            contentElement.textContent = content;
+
+            // Append elements
+            contentItem.appendChild(titleElement);
+            contentItem.appendChild(contentElement);
+            contentItem.appendChild(document.createElement('hr'));
+            contentList.appendChild(contentItem);
+        });
+
+    } catch (error) {
+        console.error(`Error loading ${collectionName}: `, error);
+    }
+}
+
 // Load content on page load
 document.addEventListener('DOMContentLoaded', function() {
     loadContent();
