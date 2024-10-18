@@ -100,12 +100,11 @@ companyInput.addEventListener("keyup", debounce(async () => {
                 companyButton.className = "btn btn-info w-100 mb-2"; // Responsive and margin
                 companyButton.addEventListener("click", () => {
                     companyId = doc.id; // Save the selected company ID
-                    console.log("companyId   ",companyId);
-                    console.log("company   ",company.id);
+                    //console.log("companyId   ",companyId);
 
                     // Retract or hide the list upon selection
                     addCompanyButtonContainer.innerHTML = ""; // Clear the list
-                    document.getElementById('appCompanyID').value = companyId;
+                    document.getElementById('appCompanyID').innerText = companyId;
 
                     // Show the selected company in a message
                     const selectedCompanyMessage = document.createElement("div");
@@ -134,12 +133,11 @@ companyInput.addEventListener("keyup", debounce(async () => {
                         companyButton.className = "btn btn-info w-100 mb-2";
                         companyButton.addEventListener("click", () => {
                             companyId = doc.id;
-                            console.log("companyId   ",companyId);
-                            console.log("company   ",company.id);
+              
         
                             // Retract or hide the list upon selection
                             addCompanyButtonContainer.innerHTML = ""; // Clear the list
-                            document.getElementById('appCompanyID').value = companyId;
+                            document.getElementById('appCompanyID').innerText = companyId;
 
                             // Show the selected company in a message
                             const selectedCompanyMessage = document.createElement("div");
@@ -225,7 +223,6 @@ async function fetchUserData() {
 // Open the job creation modal when the button is clicked
 const createJobBtn = document.getElementById('createJobPostBtn');
 createJobBtn.addEventListener('click', function() {
-    console.log("createJobPostBtn");
 
     $('#jobModal').modal('show');  // This opens the modal
 });
@@ -284,7 +281,24 @@ onAuthStateChanged(auth, async (user) => {
 
 
 
-    
+    // Function to display error messages in a user-friendly way
+function showErrorMessage(message) {
+    const errorMessageElement = document.getElementById("errorMessage");
+
+    if (errorMessageElement) {
+        errorMessageElement.innerText = message;  // Set the error message text
+        errorMessageElement.style.display = "block";  // Show the error message
+        errorMessageElement.classList.add("alert", "alert-danger");  // Add Bootstrap classes for styling (if you're using Bootstrap)
+
+        // Optionally, you can auto-hide the message after a few seconds
+        setTimeout(() => {
+            errorMessageElement.style.display = "none";  // Hide the message after 5 seconds
+        }, 5000);
+    } else {
+        console.error("Error element not found on the page.");
+    }
+}
+
 
 
 async function handleJobSubmission(event, actionType) {
@@ -292,6 +306,7 @@ async function handleJobSubmission(event, actionType) {
 
     // Validate the form (custom logic such as compliance checkbox check)
     if (!validateForm()) {
+        showErrorMessage("Form validation failed. Please check your inputs.");
         return;  // Exit if validation fails
     }
 
@@ -308,7 +323,7 @@ async function handleJobSubmission(event, actionType) {
         document.getElementById('appCompanyID').value = newCompanyId;
     } catch (error) {
         console.error("Error in submitJobPost:", error);
-        alert("An error occurred while submitting the job post: " + error.message);
+        showErrorMessage("An error occurred while submitting the job post: " + error.message);
         return;  // Exit the function on error
     }
 
@@ -336,9 +351,9 @@ async function handleJobSubmission(event, actionType) {
 
     try {
         // Save job details to the database
-        console.log("Saving job to database with details:", jobDetails);
+       // console.log("Saving job to database with details:", jobDetails);
         const jobId = await saveJobToDatabase(jobDetails);
-        console.log("Job saved successfully with ID:", jobId);
+        showErrorMessage("Job saved successfully with ID:", jobId);
 
         // Action-specific alerts and UI feedback
         if (actionType === 'boost') {
@@ -362,7 +377,7 @@ async function handleJobSubmission(event, actionType) {
         resetForm();  // Reset the form after successful submission
     } catch (error) {
         console.error("Error submitting job:", error);
-        alert("An error occurred while submitting the job: " + error.message);
+        showErrorMessage("An error occurred while submitting the job: " + error.message);
     }
 }
 
@@ -370,7 +385,7 @@ async function handleJobSubmission(event, actionType) {
 function validateForm() {
     const complianceCheckbox = document.getElementById('complianceCheck');
     if (!complianceCheckbox.checked) {
-        alert('Please confirm compliance with Employment and Labor Laws.');
+        showErrorMessage('Please confirm compliance with Employment and Labor Laws.');
         return false;
     }
 
@@ -387,10 +402,9 @@ function validateForm() {
 
 let  submittedUserPosition = "";
 let submittedBy = "";
-if(publicBool === true){
 submittedBy = userName;
 submittedUserPosition = userPosition;
-}
+
 
 function collectJobDetails(newCompanyId) {
     return {
