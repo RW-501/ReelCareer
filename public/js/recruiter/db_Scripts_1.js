@@ -1,7 +1,7 @@
 
 
 import { onAuthStateChanged, db, auth, storage, analytics, app  } from '../main.js'; // Adjust the path based on your structure
-import { query, doc, getDoc, where, orderBy, limit,  collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+import { query, doc, getDoc, where, updateDoc, limit,  collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 
 
 let companyId = ""; // Or some existing company ID if applicable
@@ -292,13 +292,9 @@ async function handleJobSubmission(event, actionType) {
 
        // Call submitJobPost to create or retrieve the company ID
        const newCompanyId = await submitJobPost(jobTitle, companyId, companyName, recruiterID, jobID);
-       console.log("newCompanyId   ",newCompanyId);
-
-
+    
     // Collect all job details from the form
     const jobDetails = collectJobDetails(newCompanyId);
-
-       console.log("jobDetails   ",jobDetails);
 
     // Based on actionType, modify the jobDetails object
     if (actionType === 'draft') {
@@ -313,7 +309,6 @@ async function handleJobSubmission(event, actionType) {
 
     try {
         const jobId = await saveJobToDatabase(jobDetails); // Save job details to database
-        console.log("jobId   ",jobId);
 
         // Action-specific alerts and UI feedback
         if (actionType === 'boost') {
