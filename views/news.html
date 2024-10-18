@@ -262,7 +262,7 @@ async function submitArticle(event) {
     };
 
     try {
-        await addDoc(collection(db, 'Articles'), newArticle);
+        await addDoc(collection(db, 'News'), newArticle);
         console.log('Article successfully added!');
         
         // Close modal after submission
@@ -289,7 +289,7 @@ if (!articlesContainer) {
 }
 
 articlesContainer.innerHTML = ''; // Clear previous content
-const articlesCollectionRef = collection(db, 'Articles'); // Reference to the Articles collection
+const articlesCollectionRef = collection(db, 'News'); // Reference to the Articles collection
 
 try {
     const articlesSnapshot = await getDocs(articlesCollectionRef);
