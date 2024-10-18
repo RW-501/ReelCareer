@@ -103,6 +103,7 @@ companyInput.addEventListener("keyup", debounce(async () => {
 
                     // Retract or hide the list upon selection
                     addCompanyButtonContainer.innerHTML = ""; // Clear the list
+                    document.getElementById('appCompanyID').value = companyId;
 
                     // Show the selected company in a message
                     const selectedCompanyMessage = document.createElement("div");
@@ -131,9 +132,10 @@ companyInput.addEventListener("keyup", debounce(async () => {
                         companyButton.className = "btn btn-info w-100 mb-2";
                         companyButton.addEventListener("click", () => {
                             companyId = doc.id;
-
+                            
                             // Retract or hide the list upon selection
                             addCompanyButtonContainer.innerHTML = ""; // Clear the list
+                            document.getElementById('appCompanyID').value = companyId;
 
                             // Show the selected company in a message
                             const selectedCompanyMessage = document.createElement("div");
@@ -289,10 +291,13 @@ async function handleJobSubmission(event, actionType) {
     if (!validateForm()) {
         return;  // Exit if validation fails
     }
+const companyIdValue = document.getElementById('appCompanyID').value;
 
        // Call submitJobPost to create or retrieve the company ID
-       const newCompanyId = await submitJobPost(jobTitle, companyId, companyName, recruiterID, jobID);
+       const newCompanyId = await submitJobPost(jobTitle, companyIdValue, companyName, recruiterID, jobID);
     
+       document.getElementById('appCompanyID').value = newCompanyId;
+
     // Collect all job details from the form
     const jobDetails = collectJobDetails(newCompanyId);
 
