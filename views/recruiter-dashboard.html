@@ -305,6 +305,7 @@
                     </div>
 
                     <hr>
+                    <div class="form-row">
 
                     <div class="form-group">
                         <label for="jobDescription">Job Description <small class="text-muted">(Required)</small></label>
@@ -321,7 +322,10 @@
                         class="form-control keywordInput " id="jobRequirements" rows="3" placeholder="List job requirements" ></textarea>
                         <div class="invalid-feedback">Please enter job requirements.</div>
                     </div>
+                    </div>
+
 <hr>
+<div class="form-row">
 
                         <div class="form-group col-md-6">
                             <label for="jobFunction">Job Function <small class="text-muted">(Optional)</small></label>
@@ -385,13 +389,17 @@
                             </select>
                         </div>
                     </div>
+
                     <hr>
+
                     <div class="form-group">
                         <label for="customQuestionsContainer">Custom Questions <small class="text-muted">(Optional)</small></label>
                         <div id="customQuestionsContainer"></div>
                                                     <button type="button" class="btn btn-primary btn-block rounded-pill shadow-sm font-weight-bold" id="addQuestionButton">Add Question</button>
                     </div>
+
                <hr>
+
                <div class="form-group">
                 <label for="applicationLink">Application Link <small class="text-muted">User Will Be Notified of External Application</small></label>
                 <!-- Button to show the input -->
@@ -414,6 +422,7 @@
                         </div>
                         <button id="clearTagsButton">Clear Tags</button>
                     </div>
+
                     <hr>
 
                     <div class="form-check mb-3 p-3 border rounded-3 bg-light">
@@ -451,6 +460,8 @@
             <div id="appUserID"  class="text-center mb-4 hideg"></div>
             <div id="appCompanyID"  class="text-center mb-4 hideg"></div>
             <hr>
+            <div class="form-row">
+
             <h5 class="mt-4">Job Preview</h5>
             <div id="jobPreview" class="border p-3 mb-4" style="display: none;">
                 <h6 id="previewJobTitle"></h6>
@@ -463,6 +474,7 @@
                 <p id="previewRequirements"></p>
                 <p><strong>Tags:</strong> <span id="previewTags"></span></p>
             </div>
+</div>
 
     </div>
 </div>
