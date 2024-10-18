@@ -177,6 +177,11 @@ main  textarea:focus {
     background-color: #e27a69;
 }
 
+main{
+    margin-bottom: 20px;
+}
+
+
 /* Ensure the row uses Flexbox */
 main .row {
     display: flex;
