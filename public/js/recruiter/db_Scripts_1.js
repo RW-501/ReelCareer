@@ -283,7 +283,6 @@ onAuthStateChanged(auth, async (user) => {
     
 
 
-
 async function handleJobSubmission(event, actionType) {
     event.preventDefault(); // Prevent default form submission behavior
 
@@ -291,15 +290,34 @@ async function handleJobSubmission(event, actionType) {
     if (!validateForm()) {
         return;  // Exit if validation fails
     }
-const companyIdValue = document.getElementById('appCompanyID').value;
 
-       // Call submitJobPost to create or retrieve the company ID
-       const newCompanyId = await submitJobPost(jobTitle, companyIdValue, companyName, recruiterID, jobID);
-    
-       document.getElementById('appCompanyID').value = newCompanyId;
+    const companyIdValue = document.getElementById('appCompanyID').value;
+    let newCompanyId;
+
+    try {
+        // Call submitJobPost to create or retrieve the company ID
+        console.log("Attempting to submit job post with companyIdValue:", companyIdValue);
+        newCompanyId = await submitJobPost(jobTitle, companyIdValue, companyName, recruiterID, jobID);
+        console.log("New Company ID returned:", newCompanyId);
+
+        // Update the hidden companyId field with the new value
+        document.getElementById('appCompanyID').value = newCompanyId;
+    } catch (error) {
+        console.error("Error in submitJobPost:", error);
+        alert("An error occurred while submitting the job post: " + error.message);
+        return;  // Exit the function on error
+    }
 
     // Collect all job details from the form
-    const jobDetails = collectJobDetails(newCompanyId);
+    let jobDetails;
+    try {
+        jobDetails = collectJobDetails(newCompanyId);
+        console.log("Collected Job Details:", jobDetails);
+    } catch (error) {
+        console.error("Error collecting job details:", error);
+        alert("An error occurred while collecting job details: " + error.message);
+        return;  // Exit the function on error
+    }
 
     // Based on actionType, modify the jobDetails object
     if (actionType === 'draft') {
@@ -313,7 +331,10 @@ const companyIdValue = document.getElementById('appCompanyID').value;
     }
 
     try {
-        const jobId = await saveJobToDatabase(jobDetails); // Save job details to database
+        // Save job details to the database
+        console.log("Saving job to database with details:", jobDetails);
+        const jobId = await saveJobToDatabase(jobDetails);
+        console.log("Job saved successfully with ID:", jobId);
 
         // Action-specific alerts and UI feedback
         if (actionType === 'boost') {
@@ -323,23 +344,21 @@ const companyIdValue = document.getElementById('appCompanyID').value;
         } else if (actionType === 'post') {
             document.getElementById("jobSuccessLabel").textContent = "Job Posted Successfully!";
             showSuccessModal(jobId, jobDetails.title);  // Show modal with job title and link
-
         } else {
             document.getElementById("jobSuccessLabel").textContent = "Draft Saved Successfully!";
         }
-        
 
+        // Log the job event in analytics
         logEvent(analytics, 'job_post', {
             jobTitle: jobDetails.title,
             actionType: actionType,
             boostStatus: jobDetails.boosted ? 'boosted' : 'normal'
         });
-        
 
         resetForm();  // Reset the form after successful submission
     } catch (error) {
         console.error("Error submitting job:", error);
-        alert("An error occurred: " + error.message);
+        alert("An error occurred while submitting the job: " + error.message);
     }
 }
 
