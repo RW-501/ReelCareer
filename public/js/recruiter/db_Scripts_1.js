@@ -443,10 +443,10 @@ function collectJobDetails(newCompanyId) {
         applicantsViewed: 0,
         savedForLater: 0,
         applicationAvailableBool: true,
-        applicationWebsite: "",
+        applicationWebsite: document.getElementById("applicationLink").value,
         customQuestions: collectCustomQuestions(),
-        submittedBy:  submittedBy,
-        submittedUserPosition: submittedUserPosition,
+        submittedBy:  submittedBy || "",
+        submittedUserPosition: submittedUserPosition || "",
         applicationDeadline: new Date(new Date().setDate(new Date().getDate() + 30)), //  for 30 days
     };
 }
