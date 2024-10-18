@@ -1,7 +1,7 @@
 
 
 import { onAuthStateChanged, db, auth, storage, analytics, app  } from '../main.js'; // Adjust the path based on your structure
-import { query, doc, getDoc, where, updateDoc, limit,  collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+import { query, doc, getDoc, where, updateDoc, arrayUnion,  collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 
 
 let companyId = ""; // Or some existing company ID if applicable
