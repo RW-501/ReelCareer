@@ -1,184 +1,187 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Explore a wide range of job opportunities and apply directly through ReelCareer. Search for full-time, part-time, remote, and contract jobs tailored to your career needs.">
-    <meta name="keywords" content="job search, career opportunities, full-time jobs, part-time jobs, remote jobs, contract jobs, apply for jobs, career growth, hiring">
-    <meta name="robots" content="index, follow">
-    <title>ReelCareer - Job Listings</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Explore a wide range of job opportunities and apply directly through ReelCareer. Search for full-time, part-time, remote, and contract jobs tailored to your career needs.">
+  <meta name="keywords" content="job search, career opportunities, full-time jobs, part-time jobs, remote jobs, contract jobs, apply for jobs, career growth, hiring">
+  <meta name="robots" content="index, follow">
+  <title>ReelCareer - Job Listings</title>
 
-    <!-- Open Graph Tags -->
-    <meta property="og:title" content="ReelCareer - Job Listings">
-    <meta property="og:description" content="Find your next job opportunity with ReelCareer. Browse a variety of job listings tailored to your skills and preferences.">
-    <meta property="og:image" content="https://www.reelcareer.co/images/logo.png">
-    <meta property="og:url" content="https://www.reelcareer.co/job-listings.html">
-    <meta property="og:type" content="website">
+  <!-- Open Graph Tags -->
+  <meta property="og:title" content="ReelCareer - Job Listings">
+  <meta property="og:description" content="Find your next job opportunity with ReelCareer. Browse a variety of job listings tailored to your skills and preferences.">
+  <meta property="og:image" content="https://www.reelcareer.co/images/logo.png">
+  <meta property="og:url" content="https://www.reelcareer.co/job-listings.html">
+  <meta property="og:type" content="website">
 
-    <!-- Twitter Card Tags -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="ReelCareer - Job Listings">
-    <meta name="twitter:description" content="Explore a range of job opportunities and apply directly through ReelCareer. Your next career move is just a search away.">
-    <meta name="twitter:image" content="https://www.reelcareer.co/images/logo.png">
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <!-- Twitter Card Tags -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="ReelCareer - Job Listings">
+  <meta name="twitter:description" content="Explore a range of job opportunities and apply directly through ReelCareer. Your next career move is just a search away.">
+  <meta name="twitter:image" content="https://www.reelcareer.co/images/logo.png">
 
-    <!-- Other CSS files -->
-    <link rel="stylesheet" href="../public/css/styles.css"> <!-- Custom CSS for your page -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
-    <!-- Favicon links -->
-    <link rel="icon" type="image/x-icon" href="/ReelCareer/images/favicons/favicon.ico">
-    <link rel="icon" type="image/png" sizes="32x32" href="/ReelCareer/images/favicons/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/ReelCareer/images/favicons/favicon-16x16.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/ReelCareer/images/favicons/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="/ReelCareer/images/favicons/android-chrome-192x192.png">
-    <link rel="icon" type="image/png" sizes="512x512" href="/ReelCareer/images/favicons/android-chrome-512x512.png">
+  <!-- Other CSS files -->
+  <link rel="stylesheet" href="../public/css/styles.css"> <!-- Custom CSS for your page -->
 
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-LBTK319K2X"></script>
-    <script src="../public/js/loadScripts.js"></script>
+  <!-- Favicon links -->
+  <link rel="icon" type="image/x-icon" href="/ReelCareer/images/favicons/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/ReelCareer/images/favicons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/ReelCareer/images/favicons/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/ReelCareer/images/favicons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/ReelCareer/images/favicons/android-chrome-192x192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/ReelCareer/images/favicons/android-chrome-512x512.png">
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-LBTK319K2X"></script>
+  <script src="../public/js/loadScripts.js"></script>
 </head>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f1f3f5; /* Light grey background */
-        }
-        h1 {
-            color: #5b6369;
-    font-size: 1.5rem !important;
-}
-        .job-detail-container {
-            background-color: #ffffff;
-            border-radius: 15px;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
-            padding: 40px;
-            margin-top: 30px;
-        }
-    
-        .job-logo {
-            max-width: 150px;
-            border-radius: 10px;
-            margin-right: 20px;
-        }
-    
-        .apply-btn {
-            background-color: #007bff;
-            color: white;
-            border-radius: 5px;
-            padding: 12px 25px;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-        }
-    
-        .apply-btn:hover {
-            background-color: #0056b3;
-            transform: translateY(-2px);
-        }
-    
-        .job-info, .job-tags, .job-requirements {
-            margin-bottom: 20px;
-        }
-    
-        .job-info p {
-            font-size: 16px;
-            margin-bottom: 10px;
-        }
-    
-        hr {
-            border-top: 1px solid #e9ecef;
-            margin: 20px 0;
-        }
-    
-        .job-tags {
-            background-color: #e9ecef;
-            border-radius: 5px;
-            padding: 5px 10px;
-            display: inline-block;
-            margin-right: 10px;
-            margin-bottom: 10px;
-        }
-    
-        @media (max-width: 576px) {
-            .job-detail-container {
-                padding: 20px;
-            }
-    
-            #applyBtn {
-                width: 100%;
-            }
-        }
-    
-        #applyBtn:hover {
-            background-color: #0062cc;
-            transform: scale(1.05);
-        }
-    
-        /* Error message styling */
-        #error-message {
-            margin: 20px auto;
-            padding: 20px;
-            border: 1px solid red;
-            background-color: #ffe5e5;
-            border-radius: 5px;
-            max-width: 600px;
-            text-align: center;
-        }
-    
-        #error-message h2 {
-            color: red;
-            margin-bottom: 10px;
-        }
-    
-      
-    
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-        }
-    
-        .close:hover,
-        .close:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
-        }
-    
-        .modal-actions {
-            margin-top: 20px;
-        }
-    
-        .modal-actions .btn {
-            padding: 10px 20px;
-            margin: 10px;
-            cursor: pointer;
-        }
-    
-        .btn-primary {
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-        }
-    
-        .btn-success {
-            background-color: #28a745;
-            color: white;
-            border: none;
-            border-radius: 5px;
-        }
-    
-        .btn-secondary {
-            background-color: #6c757d;
-            color: white;
-            border: none;
-            border-radius: 5px;
-        }
-    
+<style>
+  body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f1f3f5;
+    /* Light grey background */
+  }
 
-#reportJobModal  .modal {
-    display: none; 
+  h1 {
+    color: #5b6369;
+    font-size: 1.5rem !important;
+  }
+
+  .job-detail-container {
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+    padding: 40px;
+    margin-top: 30px;
+  }
+
+  .job-logo {
+    max-width: 150px;
+    border-radius: 10px;
+    margin-right: 20px;
+  }
+
+  .apply-btn {
+    background-color: #007bff;
+    color: white;
+    border-radius: 5px;
+    padding: 12px 25px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+
+  .apply-btn:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+  }
+
+  .job-info,
+  .job-tags,
+  .job-requirements {
+    margin-bottom: 20px;
+  }
+
+  .job-info p {
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+
+  hr {
+    border-top: 1px solid #e9ecef;
+    margin: 20px 0;
+  }
+
+  .job-tags {
+    background-color: #e9ecef;
+    border-radius: 5px;
+    padding: 5px 10px;
+    display: inline-block;
+    margin-right: 10px;
+    margin-bottom: 10px;
+  }
+
+  @media (max-width: 576px) {
+    .job-detail-container {
+      padding: 20px;
+    }
+
+    #applyBtn {
+      width: 100%;
+    }
+  }
+
+  #applyBtn:hover {
+    background-color: #0062cc;
+    transform: scale(1.05);
+  }
+
+  /* Error message styling */
+  #error-message {
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid red;
+    background-color: #ffe5e5;
+    border-radius: 5px;
+    max-width: 600px;
+    text-align: center;
+  }
+
+  #error-message h2 {
+    color: red;
+    margin-bottom: 10px;
+  }
+
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .modal-actions {
+    margin-top: 20px;
+  }
+
+  .modal-actions .btn {
+    padding: 10px 20px;
+    margin: 10px;
+    cursor: pointer;
+  }
+
+  .btn-primary {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+  }
+
+  .btn-success {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+  }
+
+  .btn-secondary {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    border-radius: 5px;
+  }
+
+  #reportJobModal .modal {
+    display: none;
     position: fixed;
     z-index: 1;
     left: 0;
@@ -186,38 +189,39 @@
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: rgba(0, 0, 0, 0.5); /* Black with opacity */
-}
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Black with opacity */
+  }
 
-#reportJobModal .modal-content {
+  #reportJobModal .modal-content {
     background-color: #fff;
     margin: 15% auto;
     padding: 20px;
     border: 1px solid #888;
     width: 80%;
     max-width: 600px;
-}
+  }
 
-#reportJobModal .close {
+  #reportJobModal .close {
     color: #aaa;
     float: right;
     font-size: 28px;
     font-weight: bold;
-}
+  }
 
-#reportJobModal .close:hover,
-#reportJobModal .close:focus {
+  #reportJobModal .close:hover,
+  #reportJobModal .close:focus {
     color: black;
     text-decoration: none;
     cursor: pointer;
-}
+  }
 
-/* Style for similar jobs container */
-.similar-jobs {
+  /* Style for similar jobs container */
+  .similar-jobs {
     margin-top: 30px;
-}
+  }
 
-.similar-job-card {
+  .similar-job-card {
     border: 1px solid #ddd;
     border-radius: 8px;
     padding: 15px;
@@ -225,23 +229,23 @@
     background-color: #fff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s ease-in-out;
-}
+  }
 
-.similar-job-card:hover {
+  .similar-job-card:hover {
     transform: translateY(-5px);
-}
+  }
 
-.similar-job-card h5 {
+  .similar-job-card h5 {
     font-size: 1.25rem;
     color: #80b6d5;
     font-weight: 600;
-}
+  }
 
-.similar-job-card .job-tags {
+  .similar-job-card .job-tags {
     margin-top: 10px;
-}
+  }
 
-.similar-job-card .badge {
+  .similar-job-card .badge {
     background-color: #80b6d5;
     color: #e9ecef;
     margin-right: 5px;
@@ -249,9 +253,9 @@
     border-radius: 1rem;
     font-size: 0.8rem;
     font-weight: 700;
-}
+  }
 
-.similar-job-card .view-job-btn {
+  .similar-job-card .view-job-btn {
     margin-top: 10px;
     text-align: right;
     display: block;
@@ -262,567 +266,525 @@
     border-radius: 5px;
     font-weight: bold;
     transition: background-color 0.2s ease;
-}
+  }
 
-.similar-job-card .view-job-btn:hover {
+  .similar-job-card .view-job-btn:hover {
     background-color: #aaabac;
-}
+  }
 
-
-.empty-state {
+  .empty-state {
     padding: 20px;
     border: 2px dashed #ddd;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s ease-in-out;
-}
+  }
 
-.empty-state i {
+  .empty-state i {
     color: #ccc;
-}
+  }
 
-.empty-state p {
+  .empty-state p {
     font-size: 1.1em;
     color: #666;
-}
+  }
 
+  .job-info-box {
+    background-color: #f8f9fa;
+    /* Light gray background */
+    border-radius: 5px;
+    /* Rounded corners */
+    padding: 15px;
+    /* Padding around the content */
+    margin: 15px 0;
+    /* Space around the box */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    /* Subtle shadow */
+    transition: background-color 0.3s, box-shadow 0.3s;
+    /* Smooth transition for hover effects */
+  }
 
+  .job-info-box:hover {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    /* Increase shadow on hover */
+    background-color: #e9ecef;
+    /* Slightly darker background */
+  }
 
-.job-info-box {
-    background-color: #f8f9fa; /* Light gray background */
-    border-radius: 5px; /* Rounded corners */
-    padding: 15px; /* Padding around the content */
-    margin: 15px 0; /* Space around the box */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-    transition: background-color 0.3s, box-shadow 0.3s; /* Smooth transition for hover effects */
-}
+  .job-info {
+    line-height: 1.2;
+    /* Reduce line spacing */
+  }
 
-.job-info-box:hover {
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Increase shadow on hover */
-    background-color: #e9ecef; /* Slightly darker background */
-}
+  .job-info p {
+    margin: 5px 0;
+    /* Reduced margin between paragraphs for consistency */
+  }
 
-.job-info {
-    line-height: 1.2; /* Reduce line spacing */
-}
+  .job-info strong {
+    color: #6c757d;
+    /* Muted titles */
+    font-weight: 600;
+    /* Adjust weight for titles */
+  }
 
-.job-info p {
-    margin: 5px 0; /* Reduced margin between paragraphs for consistency */
-}
+  .job-info span {
+    font-weight: 400;
+    /* Adjust weight for content */
+  }
 
-.job-info strong {
-    color: #6c757d; /* Muted titles */
-    font-weight: 600; /* Adjust weight for titles */
-}
-
-.job-info span {
-    font-weight: 400; /* Adjust weight for content */
-}
-
-
-.btn-primary {
+  .btn-primary {
     background-color: #639ad4 !important;
     color: white;
     border: none;
     border-radius: 5px;
-}
-     h3 {
+  }
+
+  h3 {
     font-size: 2.75rem !important;
     color: #83bad9 !important;
     text-shadow: -1px 1px 0px #9e9a9a;
     font-weight: 800 !important;
-}
+  }
+</style>
 
-    </style>
-    
-    <!-- Bootstrap CSS -->
-    <script src="../public/js/scripts.js"></script>
-    <script src="../public/js/loadScripts.js"></script>
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="../public/css/styles.css">
-
-</head>
-
+<!-- Bootstrap CSS -->
+<script src="../public/js/scripts.js"></script>
+<script src="../public/js/loadScripts.js"></script>
+<!-- Custom CSS -->
+<link rel="stylesheet" href="../public/css/styles.css">
 
 <body>
-    <script src="../public/js/bodyload.js"></script>
-    
-    
+  <script src="../public/js/bodyload.js"></script>
 
-        <!-- Navigation Bar -->
-        <nav class="navbar navbar-expand-lg navbar-dark" role="navigation" aria-label="Main navigation">
-            <a class="navbar-brand" href="../index.html">ReelCareer</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="../index.html">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="job-listings.html">Job Listings</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="about.html">About Us</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="contact.html">Contact</a>
-                    </li>
-                </ul>
+  <!-- Navigation Bar -->
+  <nav class="navbar navbar-expand-lg navbar-dark" role="navigation" aria-label="Main navigation">
+    <a class="navbar-brand" href="../index.html">ReelCareer</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="../index.html">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="job-listings.html">Job Listings</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="about.html">About Us</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="contact.html">Contact</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Job Detail Section -->
+  <div id="job-container" class="container py-4">
+    <div class="job-detail-container" role="main" aria-labelledby="jobTitle">
+      <div class="d-flex align-items-center mb-4 flex-wrap">
+        <!-- Company Logo and Actions -->
+        <div class="text-center m-auto p-3">
+          <img id="companyLogo" class="job-logo img-fluid rounded-circle shadow" alt="Company Logo" src="/ReelCareer/images/sq_logo_n_BG.png" loading="lazy" />
+          <hr />
+          <button id="saveBtn" class="btn btn-outline-secondary w-100 mb-3" onclick="saveJob()">Save for Later</button>
+          <hr />
+          <button id="reportJobBtn" class="btn btn-warning w-100" onclick="openReportJobModal()">Report Job</button>
+        </div>
+
+        <!-- Job Title and Info -->
+        <div class="m-auto p-3 flex-fill">
+          <h1 id="jobTitle" class="text-primary fw-bold mb-2" tabindex="0"></h1>
+          <hr />
+          <div class="job-info-box m-auto p-3 bg-light rounded-3 shadow-sm">
+            <div class="job-info">
+              <p><i class="fas fa-building"></i> <strong>Company:</strong> <span id="companyName" class="text-dark"></span></p>
+              <p><i class=""></i> <strong>Location:</strong> <span id="jobLocation"></span></p>
+              <p><i class=""></i> <strong>Industry:</strong> <span id="industry"></span></p>
+
+              <hr>
+              <p><i class="fas fa-briefcase"></i> <strong>Employment Type:</strong> <span id="employmentType"></span></p>
+              <p><i class=""></i> <strong>Salary:</strong> <span id="salary"></span></p>
+              <hr>
+              <p><i class="fas fa-calendar-alt"></i> <strong>Posted On:</strong> <span id="createdAt"></span></p>
+              <p><i class=""></i> <strong>Submitted By:</strong> <span id="submittedBy"></span></p>
             </div>
-        </nav>
-    
-        <!-- Job Detail Section -->
-        <div id="job-container" class="container py-4">
-            <div class="job-detail-container" role="main" aria-labelledby="jobTitle">
-                <div class="d-flex align-items-center mb-4 flex-wrap">
-                    <!-- Company Logo and Actions -->
-                    <div class="text-center m-auto p-3">
-                        <img id="companyLogo" class="job-logo img-fluid rounded-circle shadow" alt="Company Logo" src="/ReelCareer/images/sq_logo_n_BG.png" loading="lazy" />
-                        <hr />
-                        <button id="saveBtn" class="btn btn-outline-secondary w-100 mb-3" onclick="saveJob()">Save for Later</button>
-                        <hr />
-                        <button id="reportJobBtn" class="btn btn-warning w-100" onclick="openReportJobModal()">Report Job</button>
-                    </div>
-                    
-                    <!-- Job Title and Info -->
-                    <div class="m-auto p-3 flex-fill">
-                        <h1 id="jobTitle" class="text-primary fw-bold mb-2" tabindex="0"></h1>
-                        <hr />
-                        <div class="job-info-box m-auto p-3 bg-light rounded-3 shadow-sm">
-                            <div class="job-info">
-                                <p><i class="fas fa-building"></i> <strong>Company:</strong> <span id="companyName" class="text-dark"></span></p>
-                                <p><i class=""></i> <strong>Location:</strong> <span id="jobLocation"></span></p>
-                                <p><i class=""></i> <strong>Industry:</strong> <span id="industry"></span></p>
+          </div>
+        </div>
+      </div>
 
-                                <hr>
-                                <p><i class="fas fa-briefcase"></i> <strong>Employment Type:</strong> <span id="employmentType"></span></p>
-                                <p><i class=""></i> <strong>Salary:</strong> <span id="salary"></span></p>
-                                <hr>
-                                <p><i class="fas fa-calendar-alt"></i> <strong>Posted On:</strong> <span id="createdAt"></span></p>
-                                <p><i class=""></i> <strong>Submitted By:</strong> <span id="submittedBy"></span></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-        
-                <hr class="my-4" />
-        
-                <!-- Company Website and Description -->
-                <div class="mb-4">
-                    <a id="companyWebsite" class="text-info" href="" target="_blank">Company Website</a>
-                    <p id="companyDescription" class="text-muted text-indent"></p>
-                    <p id="companyMission" class="text-muted  text-indent"></p>
-                    <a id="companyPageLink" class="text-info" href="">View Company Page</a>
-                </div>
-        
-                <hr id="bottomHr" class="my-4" />
-        
-                <!-- Job Description -->
-                <h2>Job Description</h2>
+      <hr class="my-4" />
 
-                <div class="job-info-box p-3 mb-4 rounded bg-light shadow-sm">
-                    <p id="jobDescription" class="text-muted  text-indent" tabindex="0"></p>
-                </div>
-        
-                <hr />
-        
-                <!-- Job Requirements -->
-                <div id="jobRequirementsArea" class="mb-4">
-                    <h5><strong>Job Requirements:</strong></h5>
-                    <ul id="jobRequirements" class="list-unstyled" tabindex="0"></ul>
-                </div>
-        
-                <!-- Additional Job Details -->
-                <div id="jobBenefitsArea" class="mb-4">
-                    <h5><strong>Job Benefits:</strong></h5>
-                    <ul id="jobBenefits" class="list-unstyled"></ul>
-                </div>
-        
-                <div><strong>Application Deadline:</strong> <span id="applicationDeadline"></span></div>
-                <div><strong>Number of Applicants:</strong> <span id="applicantCount"></span></div>
-        
-                <hr />
-        
-                <!-- Job Tags -->
-                <div>
-                    <h5><strong>Tags:</strong></h5>
-                    <span id="jobTags" class="job-tags"></span>
-                </div>
-        
-                <hr />
-        
-                <!-- Social Media Sharing Buttons -->
-                <div class="social-sharing m-auto job-info-box shadow-sm rounded p-3">
-                    <h5><strong>Share this job:</strong></h5>
-                    <div class="d-flex justify-content-between">
-                        <a id="facebookShare" target="_blank" class="btn btn-facebook btn-sm" style="color: #3b5998;">
-                            <i class="fab fa-facebook-f"></i> Share on Facebook
-                        </a>
-                        <a id="twitterShare" target="_blank" class="btn btn-twitter btn-sm" style="color: #1da1f2;">
-                            <i class="fab fa-twitter"></i> Tweet This Job
-                        </a>
-                        <a id="linkedinShare" target="_blank" class="btn btn-linkedin btn-sm" style="color: #0077b5;">
-                            <i class="fab fa-linkedin-in"></i> Share on LinkedIn
-                        </a>
-                        <a id="emailShare" class="btn btn-email btn-sm" style="color: #d44638;">
-                            <i class="fas fa-envelope"></i> Share via Email
-                        </a>
-                    </div>
-                </div>
-        
-                <hr />
-        
-                <!-- Apply Now Button -->
-                <button id="applyBtn" class="btn btn-primary btn-block mt-4" aria-label="Apply for this job">Apply Now</button>
-            </div>
-    
-                   <hr />
+      <!-- Company Website and Description -->
+      <div class="mb-4">
+        <a id="companyWebsite" class="text-info" href="" target="_blank">Company Website</a>
+        <p id="companyDescription" class="text-muted text-indent"></p>
+        <p id="companyMission" class="text-muted  text-indent"></p>
+        <a id="companyPageLink" class="text-info" href="">View Company Page</a>
+      </div>
 
-<!-- Similar Jobs Section -->
-<div class="similar-jobs mt-5">
-    <h3>Similar Jobs</h3>
+      <hr id="bottomHr" class="my-4" />
+
+      <!-- Job Description -->
+      <h2>Job Description</h2>
+
+      <div class="job-info-box p-3 mb-4 rounded bg-light shadow-sm">
+        <p id="jobDescription" class="text-muted  text-indent" tabindex="0"></p>
+      </div>
+
+      <hr />
+
+      <!-- Job Requirements -->
+      <div id="jobRequirementsArea" class="mb-4">
+        <h5><strong>Job Requirements:</strong></h5>
+        <ul id="jobRequirements" class="list-unstyled" tabindex="0"></ul>
+      </div>
+
+      <!-- Additional Job Details -->
+      <div id="jobBenefitsArea" class="mb-4">
+        <h5><strong>Job Benefits:</strong></h5>
+        <ul id="jobBenefits" class="list-unstyled"></ul>
+      </div>
+
+      <div><strong>Application Deadline:</strong> <span id="applicationDeadline"></span></div>
+      <div><strong>Number of Applicants:</strong> <span id="applicantCount"></span></div>
+
+      <hr />
+
+      <!-- Job Tags -->
+      <div>
+        <h5><strong>Tags:</strong></h5>
+        <span id="jobTags" class="job-tags"></span>
+      </div>
+
+      <hr />
+
+      <!-- Social Media Sharing Buttons -->
+      <div class="social-sharing m-auto job-info-box shadow-sm rounded p-3">
+        <h5><strong>Share this job:</strong></h5>
+        <div class="d-flex justify-content-between">
+          <a id="facebookShare" target="_blank" class="btn btn-facebook btn-sm" style="color: #3b5998;">
+            <i class="fab fa-facebook-f"></i> Share on Facebook
+          </a>
+          <a id="twitterShare" target="_blank" class="btn btn-twitter btn-sm" style="color: #1da1f2;">
+            <i class="fab fa-twitter"></i> Tweet This Job
+          </a>
+          <a id="linkedinShare" target="_blank" class="btn btn-linkedin btn-sm" style="color: #0077b5;">
+            <i class="fab fa-linkedin-in"></i> Share on LinkedIn
+          </a>
+          <a id="emailShare" class="btn btn-email btn-sm" style="color: #d44638;">
+            <i class="fas fa-envelope"></i> Share via Email
+          </a>
+        </div>
+      </div>
+
+      <hr />
+
+      <!-- Apply Now Button -->
+      <button id="applyBtn" class="btn btn-primary btn-block mt-4" aria-label="Apply for this job">Apply Now</button>
+    </div>
+
     <hr />
-    <div id="similarJobsContainer" class="row">
+
+    <!-- Similar Jobs Section -->
+    <div class="similar-jobs mt-5">
+      <h3>Similar Jobs</h3>
+      <hr />
+      <div id="similarJobsContainer" class="row">
         <!-- Dynamically insert similar jobs here -->
+      </div>
     </div>
-</div>
 
-<hr />
-
-<div class="related-blogs mt-5">
-    <h3>Related Articles</h3>
     <hr />
-    <div id="blogContainer" class="list-group">
+
+    <div class="related-blogs mt-5">
+      <h3>Related Articles</h3>
+      <hr />
+      <div id="blogContainer" class="list-group">
         <!-- Blog links will be dynamically inserted here -->
+      </div>
     </div>
-</div>
 
+  </div>
+
+  <div id="error-message" style="display: none; color: red; text-align: center;">
+    <!-- Error message will be dynamically inserted here -->
+  </div>
+
+  <!-- Modal Structure -->
+  <div id="applicationModal" class="modal " role="dialog" aria-labelledby="applicationModal" aria-hidden="true">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>External Application</h2>
+      <p>This application will take you to an external website. Do you want to proceed?</p>
+      <div class="modal-actions">
+        <button id="proceedBtn" class="btn btn-primary">Proceed to Application</button>
+        <button id="cancelBtn" class="btn btn-secondary">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="reportJobModal" class="modal " role="dialog" aria-labelledby="reportJobTitle" aria-hidden="true">
+    <div class="modal-content">
+      <span class="close" aria-label="Close" onclick="closeReportJobModal()">&times;</span>
+      <form id="reportJobForm">
+        <h2 id="reportJobTitle">Report Job</h2>
+        <p>Please select the reason(s) for reporting this job:</p>
+
+        <div class="checkbox-group">
+          <input type="checkbox" id="spam" name="reason" value="Spam">
+          <label for="spam">Spam</label><br>
+
+          <input type="checkbox" id="incorrectInfo" name="reason" value="Incorrect Information">
+          <label for="incorrectInfo">Incorrect Information</label><br>
+
+          <input type="checkbox" id="scam" name="reason" value="Scam">
+          <label for="scam">Potential Scam</label><br>
+
+          <input type="checkbox" id="other" name="reason" value="Other">
+          <label for="other">Other</label><br>
         </div>
-    
-        <div id="error-message" style="display: none; color: red; text-align: center;">
-            <!-- Error message will be dynamically inserted here -->
-        </div>
-    
-        <!-- Modal Structure -->
-        <div id="applicationModal" class="modal " role="dialog" aria-labelledby="applicationModal" aria-hidden="true">
-            <div class="modal-content">
-                <span class="close">&times;</span>
-                <h2>External Application</h2>
-                <p>This application will take you to an external website. Do you want to proceed?</p>
-                <div class="modal-actions">
-                    <button id="proceedBtn" class="btn btn-primary">Proceed to Application</button>
-                    <button id="cancelBtn" class="btn btn-secondary">Cancel</button>
-                </div>
-            </div>
-        </div>
-        
-        <div id="reportJobModal" class="modal " role="dialog" aria-labelledby="reportJobTitle" aria-hidden="true">
-            <div class="modal-content">
-                <span class="close" aria-label="Close" onclick="closeReportJobModal()">&times;</span>
-                <form id="reportJobForm">
-                    <h2 id="reportJobTitle">Report Job</h2>
-                    <p>Please select the reason(s) for reporting this job:</p>
-                    
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="spam" name="reason" value="Spam">
-                        <label for="spam">Spam</label><br>
-        
-                        <input type="checkbox" id="incorrectInfo" name="reason" value="Incorrect Information">
-                        <label for="incorrectInfo">Incorrect Information</label><br>
-        
-                        <input type="checkbox" id="scam" name="reason" value="Scam">
-                        <label for="scam">Potential Scam</label><br>
-        
-                        <input type="checkbox" id="other" name="reason" value="Other">
-                        <label for="other">Other</label><br>
-                    </div>
-        
-                    <textarea id="reportMessage" class="form-control mt-3" rows="4" placeholder="Additional details..."></textarea>
-                    
-                    <button type="button" class="btn btn-primary mt-3" onclick="submitReport()">Submit Report</button>
-                </form>
-            </div>
-        </div>
-        
 
-    <!-- Footer -->
-    <footer id="dynamic-footer"></footer>
+        <textarea id="reportMessage" class="form-control mt-3" rows="4" placeholder="Additional details..."></textarea>
 
-    <!-- Firebase configuration/ Login & Out -->
-    <script type="module" src="../public/js/main.js"></script>
+        <button type="button" class="btn btn-primary mt-3" onclick="submitReport()">Submit Report</button>
+      </form>
+    </div>
+  </div>
 
-    <script type="module">
+  <!-- Footer -->
+  <footer id="dynamic-footer"></footer>
 
-import { db, auth, analytics, app } from '../public/js/main.js'; // Adjust path to your Firebase setup
-import { doc, getDoc, updateDoc, increment, collection, query, where, getDocs, limit } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+  <!-- Firebase configuration/ Login & Out -->
+  <script type="module" src="../public/js/main.js"></script>
 
-// Function to save job and update savedForLater count
-async function saveJob(jobId) {
-    // Disable the button and change text
-    const saveBtn = document.getElementById('saveBtn');
-    saveBtn.disabled = true;
-    saveBtn.textContent = "Saving...";
-
-    try {
+  <script type="module">
+    import {
+      db,
+      auth,
+      analytics,
+      app
+    } from '../public/js/main.js'; // Adjust path to your Firebase setup
+    import {
+      doc,
+      getDoc,
+      updateDoc,
+      increment,
+      collection,
+      query,
+      where,
+      getDocs,
+      limit
+    } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+    // Function to save job and update savedForLater count
+    async function saveJob(jobId) {
+      // Disable the button and change text
+      const saveBtn = document.getElementById('saveBtn');
+      saveBtn.disabled = true;
+      saveBtn.textContent = "Saving...";
+      try {
         const user = auth.currentUser;
         if (!user) {
-            alert("You need to be logged in to save jobs.");
-            saveBtn.disabled = false;
-            saveBtn.textContent = "Save Job";
-            return;
+          alert("You need to be logged in to save jobs.");
+          saveBtn.disabled = false;
+          saveBtn.textContent = "Save Job";
+          return;
         }
-
         // Get user-specific saved jobs from the 'Users' collection
         const userSavedJobsRef = doc(db, 'Users', user.uid);
         const userSavedJobsDoc = await getDoc(userSavedJobsRef);
-
         // Check if the job is already saved
         if (userSavedJobsDoc.exists() && userSavedJobsDoc.data().savedJobs?.includes(jobId)) {
-            saveBtn.textContent = "Saved!";
-            saveBtn.classList.add('btn-success');
-            return;
+          saveBtn.textContent = "Saved!";
+          saveBtn.classList.add('btn-success');
+          return;
         }
-
         // Update the job's savedForLater count
         await updateDoc(jobDocRef, {
-            savedForLater: increment(1) // Increment the savedForLater field by 1
+          savedForLater: increment(1) // Increment the savedForLater field by 1
         });
-
         // Save the job to user's savedJobs array using arrayUnion to prevent duplicates
         await setDoc(userSavedJobsRef, {
-            savedJobs: arrayUnion(jobId)
-        }, { merge: true });
-
+          savedJobs: arrayUnion(jobId)
+        }, {
+          merge: true
+        });
         // Successfully saved
         saveBtn.textContent = "Saved!";
         saveBtn.classList.add('btn-success');
-
-    } catch (error) {
+      } catch (error) {
         console.error("Error saving job: ", error);
         alert("Error saving the job. Please try again.");
-    } finally {
+      } finally {
         saveBtn.disabled = false;
         saveBtn.textContent = "Save Job";
+      }
     }
-}
-
-
-
-let companyData ="";
-
-        // Function to fetch job details
-        async function fetchJobDetails() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const jobId = urlParams.get('id'); // Get job ID from URL
-
-
-            const errorMessageDiv = document.getElementById('error-message');
-    const jobContainer = document.getElementById('job-container');
-
-if(!jobId || jobId === "undefined"){
-            // Insert "Job not found" HTML into the error-message div
-            errorMessageDiv.innerHTML = `
-            <h2>Job Not Found</h2>
-            <p>We couldn't find the job you're looking for. It might have been removed or is no longer available.</p>
-            <a href="ReelCareer/views/job-listing-page" class="btn btn-primary">Back to Jobs</a>
-        `;
-}
-
-
-            try {
-                const jobDocRef = doc(db, 'Jobs', jobId);
-                const jobDoc = await getDoc(jobDocRef);
-
-                if (jobDoc.exists()) {
-                    const jobData = jobDoc.data();
-
-                    loadJobDetails(jobData); // Call loadJobDetails with jobData
-                } else {
+    let companyData = "";
+    // Function to fetch job details
+    async function fetchJobDetails() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const jobId = urlParams.get('id'); // Get job ID from URL
+      const errorMessageDiv = document.getElementById('error-message');
+      const jobContainer = document.getElementById('job-container');
+      if (!jobId || jobId === "undefined") {
         // Insert "Job not found" HTML into the error-message div
         errorMessageDiv.innerHTML = `
             <h2>Job Not Found</h2>
             <p>We couldn't find the job you're looking for. It might have been removed or is no longer available.</p>
             <a href="ReelCareer/views/job-listing-page" class="btn btn-primary">Back to Jobs</a>
         `;
-        errorMessageDiv.style.display = 'block';
-        jobContainer.style.display = 'none'; // Hide job details section if applicable
-  
-                }
-            } catch (error) {
-                console.error("Error fetching job details: ", error);
+      }
+      try {
+        const jobDocRef = doc(db, 'Jobs', jobId);
+        const jobDoc = await getDoc(jobDocRef);
+        if (jobDoc.exists()) {
+          const jobData = jobDoc.data();
+          loadJobDetails(jobData); // Call loadJobDetails with jobData
+        } else {
+          // Insert "Job not found" HTML into the error-message div
+          errorMessageDiv.innerHTML = `
+            <h2>Job Not Found</h2>
+            <p>We couldn't find the job you're looking for. It might have been removed or is no longer available.</p>
+            <a href="ReelCareer/views/job-listing-page" class="btn btn-primary">Back to Jobs</a>
+        `;
+          errorMessageDiv.style.display = 'block';
+          jobContainer.style.display = 'none'; // Hide job details section if applicable
+        }
+      } catch (error) {
+        console.error("Error fetching job details: ", error);
         // Display an error message on the page
         errorMessageDiv.innerHTML = `
             <h2>Error Fetching Job Details</h2>
             <p>There was an error retrieving the job details. Please try again later.</p>
             <a href="/job-listing-page" class="btn btn-primary">Back to Jobs</a>
         `;
-            errorMessageDiv.style.display = 'block';
-            jobContainer.style.display = 'none'; // Hide job details
-                        }
-        }
-
-        // Function to load job details into the HTML
-async function loadJobDetails(jobData) {
-    const createdAt = jobData.createdAt?.toDate ? jobData.createdAt.toDate() : "N/A"; // Fallback to "N/A" if not available
-
-    document.getElementById('jobTitle').textContent = jobData.title;
-    document.getElementById("jobDescription").innerText = jobData.description;
-    document.getElementById('jobLocation').textContent = `${formatLocation(jobData.location, { part: 'city' })}, ${formatLocation(jobData.location, { part: 'state' })}`;
-    document.getElementById('employmentType').textContent = formatJobType(jobData.type);
-    document.getElementById('salary').textContent = formatCurrency(jobData.salary, {decimals: 0});
-    document.getElementById('submittedBy').textContent = jobData.submittedBy;
-    document.getElementById('industry').textContent = jobData.industry;
-    document.getElementById('createdAt').textContent = createdAt instanceof Date ? createdAt.toLocaleDateString() : createdAt;
-
-                // Populate company-related details
-                document.getElementById("companyName").innerText =  jobData.company;
-           
-            if(jobData.companyId){
-                // Create a link to the company page
-            const companyPageLink = document.getElementById("companyPageLink");
-            companyPageLink.href = `company-page?jobId=${jobData.companyId}`;
-            companyPageLink.textContent = "View Company Page";
-            }else{
-
-                document.getElementById("companyPageLink").style.display = "none";
-            }                   
-           
-            // Fetch and display similar jobs
-            getSimilarJobs(jobData);
-            loadRelatedBlogs(jobData.industry);
-
-    // Fetch company details using companyId from the Companies collection
-    try {
-        if(jobData.companyId){
-        const companyRef = doc(db, 'Companies', jobData.companyId);
-        const companyDoc = await getDoc(companyRef);
-
-
-
-
-        if (companyDoc.exists()) {
-             companyData = companyDoc.data();
-
+        errorMessageDiv.style.display = 'block';
+        jobContainer.style.display = 'none'; // Hide job details
+      }
+    }
+    // Function to load job details into the HTML
+    async function loadJobDetails(jobData) {
+      const createdAt = jobData.createdAt?.toDate ? jobData.createdAt.toDate() : "N/A"; // Fallback to "N/A" if not available
+      document.getElementById('jobTitle').textContent = jobData.title;
+      document.getElementById("jobDescription").innerText = jobData.description;
+      document.getElementById('jobLocation').textContent = `${formatLocation(jobData.location, { part: 'city' })}, ${formatLocation(jobData.location, { part: 'state' })}`;
+      document.getElementById('employmentType').textContent = formatJobType(jobData.type);
+      document.getElementById('salary').textContent = formatCurrency(jobData.salary, {
+        decimals: 0
+      });
+      document.getElementById('submittedBy').textContent = jobData.submittedBy;
+      document.getElementById('industry').textContent = jobData.industry;
+      document.getElementById('createdAt').textContent = createdAt instanceof Date ? createdAt.toLocaleDateString() : createdAt;
+      // Populate company-related details
+      document.getElementById("companyName").innerText = jobData.company;
+      if (jobData.companyId) {
+        // Create a link to the company page
+        const companyPageLink = document.getElementById("companyPageLink");
+        companyPageLink.href = `company-page?jobId=${jobData.companyId}`;
+        companyPageLink.textContent = "View Company Page";
+      } else {
+        document.getElementById("companyPageLink").style.display = "none";
+      }
+      // Fetch and display similar jobs
+      getSimilarJobs(jobData);
+      loadRelatedBlogs(jobData.industry);
+      // Fetch company details using companyId from the Companies collection
+      try {
+        if (jobData.companyId) {
+          const companyRef = doc(db, 'Companies', jobData.companyId);
+          const companyDoc = await getDoc(companyRef);
+          if (companyDoc.exists()) {
+            companyData = companyDoc.data();
             document.getElementById("companyLogo").src = companyData.logo; // Ensure the 'logo' field in the database is a URL
             document.getElementById("companyWebsite").href = companyData.website;
             document.getElementById("companyDescription").innerText = companyData.description;
             document.getElementById("companyMission").innerText = companyData.missionStatement;
-
-        } else {
+          } else {
             console.log("No such company!");
-
+          }
         }
-    }
-    } catch (error) {
+      } catch (error) {
         console.error("Error fetching company details: ", error);
-    }
-
-    if (jobData.applicationDeadline && jobData.applicationDeadline.toDate) {
-    document.getElementById('applicationDeadline').textContent = new Date(jobData.applicationDeadline.toDate()).toLocaleDateString();
-} else {
-    // Fallback if applicationDeadline is missing or undefined
-    document.getElementById('applicationDeadline').textContent = "No deadline provided";
-}
-    document.getElementById('applicantCount').textContent = jobData.applicantCount || 0;
-    document.getElementById('companyWebsite').href = jobData.companyWebsite;
-
-
-
-// Use it like this
-renderList(jobData.benefits, 'jobBenefits');
-renderList(jobData.requirements, 'jobRequirements');
-renderTags(jobData.tags);
-// Assuming you have your job data in jobData
-const companyWebsite = document.getElementById('companyWebsite');
-const jobRequirementsArea = document.getElementById('jobRequirementsArea');
-const jobBenefitsArea = document.getElementById('jobBenefitsArea');
-
-const companyDescription = document.getElementById('companyDescription');
-    const companyMission = document.getElementById('companyMission');
-    const companyPageLink = document.getElementById('companyPageLink');
-    
-    const bottomHr = document.getElementById('bottomHr');
-    
-    // Check if all company elements are empty or missing content
-    if (!companyWebsite.href || !companyDescription.textContent.trim() || 
+      }
+      if (jobData.applicationDeadline && jobData.applicationDeadline.toDate) {
+        document.getElementById('applicationDeadline').textContent = new Date(jobData.applicationDeadline.toDate()).toLocaleDateString();
+      } else {
+        // Fallback if applicationDeadline is missing or undefined
+        document.getElementById('applicationDeadline').textContent = "No deadline provided";
+      }
+      document.getElementById('applicantCount').textContent = jobData.applicantCount || 0;
+      document.getElementById('companyWebsite').href = jobData.companyWebsite;
+      // Use it like this
+      renderList(jobData.benefits, 'jobBenefits');
+      renderList(jobData.requirements, 'jobRequirements');
+      renderTags(jobData.tags);
+      // Assuming you have your job data in jobData
+      const companyWebsite = document.getElementById('companyWebsite');
+      const jobRequirementsArea = document.getElementById('jobRequirementsArea');
+      const jobBenefitsArea = document.getElementById('jobBenefitsArea');
+      const companyDescription = document.getElementById('companyDescription');
+      const companyMission = document.getElementById('companyMission');
+      const companyPageLink = document.getElementById('companyPageLink');
+      const bottomHr = document.getElementById('bottomHr');
+      // Check if all company elements are empty or missing content
+      if (!companyWebsite.href || !companyDescription.textContent.trim() ||
         !companyMission.textContent.trim() || !companyPageLink.href) {
-        
         // Hide the company details and bottom <hr> if empty
-        bottomHr.style.display = 'none';  // Hide the extra <hr>
-    }
+        bottomHr.style.display = 'none'; // Hide the extra <hr>
+      }
+      // Check if the company website is valid
+      if (!jobData.companyWebsite || companyWebsite.href === "undefined" || jobData.companyWebsite.trim() === "") {
+        companyWebsite.style.display = "none"; // Hides the company website link if undefined or empty
+      }
+      // Check if job requirements are available
+      if (!jobData.jobRequirements || jobData.jobRequirements.length === 0) {
+        jobRequirementsArea.style.display = "none"; // Hides the entire job requirements section if empty
+      }
+      // Check if job benefits are available
+      if (!jobData.jobBenefits || jobData.jobBenefits.length === 0) {
+        jobBenefitsArea.style.display = "none"; // Hides the entire job benefits section if empty
+      }
 
-
-    
-
-// Check if the company website is valid
-if (!jobData.companyWebsite || companyWebsite.href === "undefined" || jobData.companyWebsite.trim() === "") {
-    companyWebsite.style.display = "none"; // Hides the company website link if undefined or empty
-}
-
-// Check if job requirements are available
-if (!jobData.jobRequirements || jobData.jobRequirements.length === 0) {
-    jobRequirementsArea.style.display = "none"; // Hides the entire job requirements section if empty
-}
-
-// Check if job benefits are available
-if (!jobData.jobBenefits || jobData.jobBenefits.length === 0) {
-    jobBenefitsArea.style.display = "none"; // Hides the entire job benefits section if empty
-}
-
-
-function displayEmptyState(container, message, iconClass = 'fas fa-search') {
-    container.innerHTML = `
+      function displayEmptyState(container, message, iconClass = 'fas fa-search') {
+        container.innerHTML = `
         <div class="empty-state text-center my-4">
             <i class="${iconClass} fa-3x text-muted"></i>
             <p class="text-muted mt-2">${message}</p>
         </div>
     `;
-}
-
-
-// Function to fetch similar jobs based on tags
-async function getSimilarJobs(jobData) {
-    const jobTags = jobData.tags; // Get tags from the current job
-    const maxSimilarJobs = 5; // Limit to 5 similar jobs
-
-    if (!jobTags || jobTags.length === 0) {
-        console.log("No tags available for this job.");
-        return;
-    }
-
-    // Query the Jobs collection to find jobs with matching tags
-    const jobsRef = collection(db, 'Jobs'); // Correctly use the imported Firestore instance
-    const q = query(jobsRef, where('tags', 'array-contains-any', jobTags), limit(maxSimilarJobs));
-    console.log("q    ",q);
-
-    try {
-        const querySnapshot = await getDocs(q);
-        
-      
-
-            // Clear the similar jobs container
-            const similarJobsContainer = document.getElementById('similarJobsContainer');
-            similarJobsContainer.innerHTML = '';
-
-            querySnapshot.forEach(doc => {
-                const similarJob = doc.data();
-
-                if (querySnapshot.empty) {
-    displayEmptyState(similarJobsContainer, 'No related jobs found.', 'fas fa-briefcase');
-    return;
-}
-
-                // Skip the current job itself in the results
-                if (doc.id === jobData.id) return;
-
-                // Create the card element for similar jobs
-                const jobCard = document.createElement('div');
-                jobCard.classList.add('col-md-6', 'col-lg-4', 'mb-3');
-
-                jobCard.innerHTML = `
+      }
+      // Function to fetch similar jobs based on tags
+      async function getSimilarJobs(jobData) {
+        const jobTags = jobData.tags; // Get tags from the current job
+        const maxSimilarJobs = 5; // Limit to 5 similar jobs
+        if (!jobTags || jobTags.length === 0) {
+          console.log("No tags available for this job.");
+          return;
+        }
+        // Query the Jobs collection to find jobs with matching tags
+        const jobsRef = collection(db, 'Jobs'); // Correctly use the imported Firestore instance
+        const q = query(jobsRef, where('tags', 'array-contains-any', jobTags), limit(maxSimilarJobs));
+        console.log("q    ", q);
+        try {
+          const querySnapshot = await getDocs(q);
+          // Clear the similar jobs container
+          const similarJobsContainer = document.getElementById('similarJobsContainer');
+          similarJobsContainer.innerHTML = '';
+          querySnapshot.forEach(doc => {
+            const similarJob = doc.data();
+            if (querySnapshot.empty) {
+              displayEmptyState(similarJobsContainer, 'No related jobs found.', 'fas fa-briefcase');
+              return;
+            }
+            // Skip the current job itself in the results
+            if (doc.id === jobData.id) return;
+            // Create the card element for similar jobs
+            const jobCard = document.createElement('div');
+            jobCard.classList.add('col-md-6', 'col-lg-4', 'mb-3');
+            jobCard.innerHTML = `
     <div class="similar-job-card">
         <!-- Job Title as a Link -->
         <h5><a href="../views/job-detail?id=${doc.id}" class="job-title-link">${similarJob.title}</a></h5>
@@ -845,43 +807,32 @@ async function getSimilarJobs(jobData) {
         <a href="../views/job-detail?id=${doc.id}" class="view-job-btn">View Job</a>
     </div>
 `;
-
-
-                // Append the card to the container <img src="${similarJob.logo}" alt="${similarJob.company} Logo" class="img-fluid job-logo" loading="lazy" />
-
-                similarJobsContainer.appendChild(jobCard);
-            });
-    } catch (error) {
-        console.error("Error fetching similar jobs: ", error);
-        displayEmptyState(similarJobsContainer, 'Error loading similar jobs.', 'fas fa-briefcase');
+            // Append the card to the container <img src="${similarJob.logo}" alt="${similarJob.company} Logo" class="img-fluid job-logo" loading="lazy" />
+            similarJobsContainer.appendChild(jobCard);
+          });
+        } catch (error) {
+          console.error("Error fetching similar jobs: ", error);
+          displayEmptyState(similarJobsContainer, 'Error loading similar jobs.', 'fas fa-briefcase');
         };
-}
-
-
-async function loadRelatedBlogs(jobIndustry) {
-    try {
-        // Reference the 'Blogs' collection and query for blogs with matching industry tags
-        const blogsRef = collection(db, 'Blogs');
-        const q = query(blogsRef, where('tags', 'array-contains-any', jobData.tags), limit(3));
-
-        // Get the query snapshot
-        const querySnapshot = await getDocs(q);
-
-        const blogContainer = document.getElementById('blogContainer');
-        blogContainer.innerHTML = ''; // Clear previous blog content
-
-        if (querySnapshot.empty) {
-    displayEmptyState(blogContainer, 'No related blogs found.', 'fas fa-newspaper');
-    return;
-}
-
-            
-            querySnapshot.forEach(doc => {
-                const blog = doc.data();
-                const blogCard = document.createElement('div');
-                blogCard.classList.add('blog-card');
-
-                blogCard.innerHTML = ` 
+      }
+      async function loadRelatedBlogs(jobIndustry) {
+        try {
+          // Reference the 'Blogs' collection and query for blogs with matching industry tags
+          const blogsRef = collection(db, 'Blogs');
+          const q = query(blogsRef, where('tags', 'array-contains-any', jobData.tags), limit(3));
+          // Get the query snapshot
+          const querySnapshot = await getDocs(q);
+          const blogContainer = document.getElementById('blogContainer');
+          blogContainer.innerHTML = ''; // Clear previous blog content
+          if (querySnapshot.empty) {
+            displayEmptyState(blogContainer, 'No related blogs found.', 'fas fa-newspaper');
+            return;
+          }
+          querySnapshot.forEach(doc => {
+            const blog = doc.data();
+            const blogCard = document.createElement('div');
+            blogCard.classList.add('blog-card');
+            blogCard.innerHTML = ` 
     <!-- Blog Card Container -->
     <div class="card blog-card h-100 shadow-sm">
         <!-- Blog Image with clickable link -->
@@ -902,284 +853,231 @@ async function loadRelatedBlogs(jobIndustry) {
         </div>
     </div>
 `;
-                blogContainer.appendChild(blogCard);
-            });
-       
-    } catch (error) {
-        console.error("Error fetching related blogs: ", error);
-    }
-}
+            blogContainer.appendChild(blogCard);
+          });
+        } catch (error) {
+          console.error("Error fetching related blogs: ", error);
+        }
+      }
+      // Apply button event listener
+      document.getElementById('applyBtn').addEventListener('click', function() {
+        if (jobData.applicationAvailableBool) {
+          // Redirect to the application page on your site
+          window.location.href = `apply.html?jobId=${jobData.doc.id}`;
+        } else {
+          // Show the modal for external application
+          const modal = document.getElementById('applicationModal');
+          modal.style.display = 'block';
+        }
+      });
+      const jobPageURL = window.location.href; // Use current page URL
+      const companyName = jobData.company; // Assuming jobData has company information
+      const jobTitle = jobData.title; // Job title
+      const jobDescription = jobData.description; // Short job description
+      // Dynamically update social sharing links
+      document.getElementById('facebookShare').href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(jobPageURL)}`;
+      document.getElementById('twitterShare').href = `https://twitter.com/intent/tweet?url=${encodeURIComponent(jobPageURL)}&text=Check%20out%20this%20job%20opportunity%20at%20${encodeURIComponent(companyName)}!`;
+      document.getElementById('linkedinShare').href = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(jobPageURL)}&title=${encodeURIComponent(jobTitle)}&summary=${encodeURIComponent(jobDescription)}&source=ReelCareer`;
+      document.getElementById('emailShare').href = `mailto:?subject=Check%20out%20this%20job%20opportunity&body=I%20found%20this%20job%20at%20ReelCareer:%20${encodeURIComponent(jobPageURL)}`;
 
-
-
-    // Apply button event listener
-    document.getElementById('applyBtn').addEventListener('click', function() {
-    if (jobData.applicationAvailableBool) {
-        // Redirect to the application page on your site
-        window.location.href = `apply.html?jobId=${jobData.doc.id}`;
-    } else {
-        // Show the modal for external application
-        const modal = document.getElementById('applicationModal');
-        modal.style.display = 'block';
-    }
-});
-
-const jobPageURL = window.location.href; // Use current page URL
-    const companyName = jobData.company; // Assuming jobData has company information
-    const jobTitle = jobData.title; // Job title
-    const jobDescription = jobData.description; // Short job description
-
-    // Dynamically update social sharing links
-    document.getElementById('facebookShare').href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(jobPageURL)}`;
-    document.getElementById('twitterShare').href = `https://twitter.com/intent/tweet?url=${encodeURIComponent(jobPageURL)}&text=Check%20out%20this%20job%20opportunity%20at%20${encodeURIComponent(companyName)}!`;
-    document.getElementById('linkedinShare').href = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(jobPageURL)}&title=${encodeURIComponent(jobTitle)}&summary=${encodeURIComponent(jobDescription)}&source=ReelCareer`;
-    document.getElementById('emailShare').href = `mailto:?subject=Check%20out%20this%20job%20opportunity&body=I%20found%20this%20job%20at%20ReelCareer:%20${encodeURIComponent(jobPageURL)}`;
-
-    
-    function renderList(items, elementId) {
-    const container = document.getElementById(elementId);
-    container.innerHTML = ''; // Clear previous content
-
-    // Check if items is defined and is an array
-    if (Array.isArray(items) && items.length > 0) {
-        items.forEach(item => {
+      function renderList(items, elementId) {
+        const container = document.getElementById(elementId);
+        container.innerHTML = ''; // Clear previous content
+        // Check if items is defined and is an array
+        if (Array.isArray(items) && items.length > 0) {
+          items.forEach(item => {
             const li = document.createElement('li');
             li.textContent = item;
             container.appendChild(li);
-        });
-    } else {
-        // Optionally, you can display a message if no items are available
-        const noItemsMessage = document.createElement('li');
-        noItemsMessage.textContent = 'No items available.';
-        noItemsMessage.className = 'text-muted'; // Optional styling
-        container.appendChild(noItemsMessage);
-    }
-}
+          });
+        } else {
+          // Optionally, you can display a message if no items are available
+          const noItemsMessage = document.createElement('li');
+          noItemsMessage.textContent = 'No items available.';
+          noItemsMessage.className = 'text-muted'; // Optional styling
+          container.appendChild(noItemsMessage);
+        }
+      }
 
-function renderTags(tags) {
-    const jobTags = document.getElementById('jobTags');
-    jobTags.innerHTML = ''; // Clear previous tags
-
-    // Check if tags is defined and is an array
-    if (Array.isArray(tags) && tags.length > 0) {
-        tags.forEach(tag => {
+      function renderTags(tags) {
+        const jobTags = document.getElementById('jobTags');
+        jobTags.innerHTML = ''; // Clear previous tags
+        // Check if tags is defined and is an array
+        if (Array.isArray(tags) && tags.length > 0) {
+          tags.forEach(tag => {
             // Create a button element for each tag
             const button = document.createElement('button');
             button.className = 'btn btn-secondary m-1'; // Bootstrap button styling
             button.textContent = tag;
-
             // Add a click event to redirect to job-listings with the selected tag
             button.onclick = () => {
-                window.location.href = `../views/job-listings/?tag=${encodeURIComponent(tag)}`;
+              window.location.href = `../views/job-listings/?tag=${encodeURIComponent(tag)}`;
             };
-
             // Append the button to the jobTags container
             jobTags.appendChild(button);
+          });
+        } else {
+          // Optionally, display a message if no tags are available
+          const noTagsMessage = document.createElement('span');
+          noTagsMessage.textContent = 'No tags available.';
+          noTagsMessage.className = 'text-muted'; // Optional styling
+          jobTags.appendChild(noTagsMessage);
+        }
+      }
+
+      function submitReport() {
+        // Get selected checkboxes
+        const selectedReasons = [];
+        document.querySelectorAll('#reportJobForm input[type="checkbox"]:checked').forEach((checkbox) => {
+          selectedReasons.push(checkbox.value);
         });
-    } else {
-        // Optionally, display a message if no tags are available
-        const noTagsMessage = document.createElement('span');
-        noTagsMessage.textContent = 'No tags available.';
-        noTagsMessage.className = 'text-muted'; // Optional styling
-        jobTags.appendChild(noTagsMessage);
-    }
-}
-
-
-
-
-
-
-function submitReport() {
-    // Get selected checkboxes
-    const selectedReasons = [];
-    document.querySelectorAll('#reportJobForm input[type="checkbox"]:checked').forEach((checkbox) => {
-        selectedReasons.push(checkbox.value);
-    });
-
-    // Get the message from the textarea
-    const message = document.getElementById('reportMessage').value;
-
-    if (selectedReasons.length === 0 && !message) {
-        alert("Please select a reason or enter a message before submitting.");
-        return;
-    }
-
-    // Get the job details (you can fetch the job ID from the page)
-    const jobTitle = document.getElementById('jobTitle').innerText;
-
-    // Prepare the report data
-    const reportData = {
-        jobId: jobId,
-        jobTitle: jobTitle,
-        reasons: selectedReasons,
-        message: message,
-        submittedAt: new Date(),
-    };
-
-    // Send report to the SupportTickets collection in Firebase
-    firebase.firestore().collection("SupportTickets").add(reportData)
-    .then(() => {
-        alert("Your report has been submitted. Thank you for your feedback.");
-        closeReportJobModal(); // Close the modal after submission
-    })
-    .catch((error) => {
-        console.error("Error submitting report: ", error);
-        alert("There was an error submitting your report. Please try again later.");
-    });
-}
-
-
-
-// Job Schema Function
-function createJobSchema(jobData) {
-    // Validate jobData if necessary
-    if (!jobData) {
-      //  throw new Error("jobData is required");
-    }else{
-
-    const jobSchema = {
-        "@context": "https://schema.org", // Schema.org context
-        "@type": "JobPosting", // Type of schema
-        jobId: jobData.jobId || "", // Unique identifier for the job
-        title: jobData.title || "", // Title of the job
-        description: jobData.description || "", // Description of the job
-        hiringOrganization: {
-            "@type": "Organization",
-            name: jobData.companyName || "", // Name of the company
-            logo: jobData.companyLogo || "", // URL for the company logo
-            website: jobData.companyWebsite || "" // Company's website link
-        },
-        jobLocation: {
-            "@type": "Place",
-            address: {
+        // Get the message from the textarea
+        const message = document.getElementById('reportMessage').value;
+        if (selectedReasons.length === 0 && !message) {
+          alert("Please select a reason or enter a message before submitting.");
+          return;
+        }
+        // Get the job details (you can fetch the job ID from the page)
+        const jobTitle = document.getElementById('jobTitle').innerText;
+        // Prepare the report data
+        const reportData = {
+          jobId: jobId,
+          jobTitle: jobTitle,
+          reasons: selectedReasons,
+          message: message,
+          submittedAt: new Date(),
+        };
+        // Send report to the SupportTickets collection in Firebase
+        firebase.firestore().collection("SupportTickets").add(reportData)
+          .then(() => {
+            alert("Your report has been submitted. Thank you for your feedback.");
+            closeReportJobModal(); // Close the modal after submission
+          })
+          .catch((error) => {
+            console.error("Error submitting report: ", error);
+            alert("There was an error submitting your report. Please try again later.");
+          });
+      }
+      // Job Schema Function
+      function createJobSchema(jobData) {
+        // Validate jobData if necessary
+        if (!jobData) {
+          //  throw new Error("jobData is required");
+        } else {
+          const jobSchema = {
+            "@context": "https://schema.org", // Schema.org context
+            "@type": "JobPosting", // Type of schema
+            jobId: jobData.jobId || "", // Unique identifier for the job
+            title: jobData.title || "", // Title of the job
+            description: jobData.description || "", // Description of the job
+            hiringOrganization: {
+              "@type": "Organization",
+              name: jobData.companyName || "", // Name of the company
+              logo: jobData.companyLogo || "", // URL for the company logo
+              website: jobData.companyWebsite || "" // Company's website link
+            },
+            jobLocation: {
+              "@type": "Place",
+              address: {
                 "@type": "PostalAddress",
                 addressLocality: jobData.location?.city || "", // City
                 addressRegion: jobData.location?.state || "" // State
-            }
-        },
-        employmentType: jobData.type || "", // Employment type
-        baseSalary: {
-            "@type": "MonetaryAmount",
-            value: jobData.salary || 0, // Salary offered
-            currency: "USD" // Currency type
-        },
-        datePosted: jobData.createdAt ? jobData.createdAt.toISOString() : new Date().toISOString(), // Date posted
-        validThrough: jobData.applicationDeadline ? jobData.applicationDeadline.toISOString() : new Date(new Date().setFullYear(new Date().getFullYear() + 1)).toISOString(), // Application deadline date
-        applicantCount: jobData.applicantCount || 0, // Number of applicants
-        requirements: jobData.requirements || [], // List of job requirements
-        benefits: jobData.benefits || [], // List of job benefits
-        tags: jobData.tags || [], // Tags related to the job
-        applicationAvailableBool: jobData.applicationAvailableBool || false, // Indicates if application is available
-        applicationWebsite: jobData.applicationWebsite || "" // Link to the external application website
-    };
-
-    return jobSchema;
-}
-
-}
-
-// Company Schema Functionfunction createCompanySchema(companyData) {
-    // Validate companyData if necessary
-    if (!companyData) {
-   //     throw new Error("companyData is required");
-    }else{
-
-    const companySchema = {
-        "@context": "https://schema.org", // Schema.org context
-        "@type": "Organization", // Type of schema
-        companyId: companyData.companyId || "", // Unique identifier for the company
-        name: companyData.name || "", // Name of the company
-        logo: companyData.logo || "", // URL for the company logo
-        website: companyData.website || "", // Company's website link
-        description: companyData.description || "", // Description of the company
-        missionStatement: companyData.missionStatement || "", // Company mission statement
-        address: {
+              }
+            },
+            employmentType: jobData.type || "", // Employment type
+            baseSalary: {
+              "@type": "MonetaryAmount",
+              value: jobData.salary || 0, // Salary offered
+              currency: "USD" // Currency type
+            },
+            datePosted: jobData.createdAt ? jobData.createdAt.toISOString() : new Date().toISOString(), // Date posted
+            validThrough: jobData.applicationDeadline ? jobData.applicationDeadline.toISOString() : new Date(new Date().setFullYear(new Date().getFullYear() + 1)).toISOString(), // Application deadline date
+            applicantCount: jobData.applicantCount || 0, // Number of applicants
+            requirements: jobData.requirements || [], // List of job requirements
+            benefits: jobData.benefits || [], // List of job benefits
+            tags: jobData.tags || [], // Tags related to the job
+            applicationAvailableBool: jobData.applicationAvailableBool || false, // Indicates if application is available
+            applicationWebsite: jobData.applicationWebsite || "" // Link to the external application website
+          };
+          return jobSchema;
+        }
+      }
+      // Company Schema Functionfunction createCompanySchema(companyData) {
+      // Validate companyData if necessary
+      if (!companyData) {
+        //     throw new Error("companyData is required");
+      } else {
+        const companySchema = {
+          "@context": "https://schema.org", // Schema.org context
+          "@type": "Organization", // Type of schema
+          companyId: companyData.companyId || "", // Unique identifier for the company
+          name: companyData.name || "", // Name of the company
+          logo: companyData.logo || "", // URL for the company logo
+          website: companyData.website || "", // Company's website link
+          description: companyData.description || "", // Description of the company
+          missionStatement: companyData.missionStatement || "", // Company mission statement
+          address: {
             "@type": "PostalAddress",
             addressLocality: companyData.location?.city || "",
             addressRegion: companyData.location?.state || "",
             postalCode: companyData.location?.postalCode || "", // Postal code
             streetAddress: companyData.location?.streetAddress || "" // Street address
-        },
-        contactPoint: {
+          },
+          contactPoint: {
             "@type": "ContactPoint",
             contactType: "Customer Service",
             telephone: companyData.phone || "", // Company phone number
             email: companyData.email || "" // Company email address
-        },
-        sameAs: companyData.socialLinks || [] // Social media links
-    };
-
-    return companySchema;
-
+          },
+          sameAs: companyData.socialLinks || [] // Social media links
+        };
+        return companySchema;
+      }
     }
-}
+    // Load job details on page load
+    document.addEventListener('DOMContentLoaded', fetchJobDetails);
+    // Make the function globally accessible
+    window.saveJob = saveJob;
+  </script>
 
-
-
-   
-
-
-        // Load job details on page load
-        document.addEventListener('DOMContentLoaded', fetchJobDetails);
-
-        // Make the function globally accessible
-        window.saveJob = saveJob;
-    </script>
-
-
-<script>
-    
-// Open the modal
-function openReportJobModal() {
-    document.getElementById('reportJobModal').style.display = 'block';
-}
-
-// Close the modal
-function closeReportJobModal() {
-    document.getElementById('reportJobModal').style.display = 'none';
-}
-
-
-
-// Get elements for modal interactions
-const closeModal = document.querySelector('.close');
-const proceedBtn = document.getElementById('proceedBtn');
-const cancelBtn = document.getElementById('cancelBtn');
-const modal = document.getElementById('applicationModal');
-
-// Close modal on clicking the close button (X)
-closeModal.addEventListener('click', function() {
-    modal.style.display = 'none';
-});
-
-// Close modal on clicking the cancel button
-cancelBtn.addEventListener('click', function() {
-    modal.style.display = 'none';
-});
-
-// Proceed to external website on clicking the proceed button
-proceedBtn.addEventListener('click', function() {
-    window.location.href = jobData.applicationWebsite;
-});
-
-
-// Close modal if the user clicks outside of it
-window.addEventListener('click', function(event) {
-    if (event.target == modal) {
+  <script>
+    // Open the modal
+    function openReportJobModal() {
+      document.getElementById('reportJobModal').style.display = 'block';
+    }
+    // Close the modal
+    function closeReportJobModal() {
+      document.getElementById('reportJobModal').style.display = 'none';
+    }
+    // Get elements for modal interactions
+    const closeModal = document.querySelector('.close');
+    const proceedBtn = document.getElementById('proceedBtn');
+    const cancelBtn = document.getElementById('cancelBtn');
+    const modal = document.getElementById('applicationModal');
+    // Close modal on clicking the close button (X)
+    closeModal.addEventListener('click', function() {
+      modal.style.display = 'none';
+    });
+    // Close modal on clicking the cancel button
+    cancelBtn.addEventListener('click', function() {
+      modal.style.display = 'none';
+    });
+    // Proceed to external website on clicking the proceed button
+    proceedBtn.addEventListener('click', function() {
+      window.location.href = jobData.applicationWebsite;
+    });
+    // Close modal if the user clicks outside of it
+    window.addEventListener('click', function(event) {
+      if (event.target == modal) {
         modal.style.display = 'none';
-    }
-});
+      }
+    });
+  </script>
 
-
-
-
-</script>
-
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 </body>
+
 </html>
