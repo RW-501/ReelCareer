@@ -310,10 +310,11 @@ async function handleJobSubmission(event, actionType) {
         return;  // Exit if validation fails
     }
 
-    const companyIdValue = document.getElementById('appCompanyID').value;
+    const companyIdValue = document.getElementById('appCompanyID').innerText;
     let newCompanyId;
 
     try {
+        
         // Call submitJobPost to create or retrieve the company ID
         console.log("Attempting to submit job post with companyIdValue:", companyIdValue);
         newCompanyId = await submitJobPost(jobTitle, companyIdValue, companyName, recruiterID, jobID);
@@ -321,6 +322,7 @@ async function handleJobSubmission(event, actionType) {
 
         // Update the hidden companyId field with the new value
         document.getElementById('appCompanyID').value = newCompanyId;
+        
     } catch (error) {
         console.error("Error in submitJobPost:", error);
         showErrorMessage("An error occurred while submitting the job post: " + error.message);
@@ -411,8 +413,8 @@ function collectJobDetails(newCompanyId) {
 
     return {
         title: document.getElementById("jobTitle").value,
-        company: document.getElementById("company").value,
-        companyId: newCompanyId,
+        company: document.getElementById("appCompanyID").value,
+        companyId: document.getElementById("jobDescription").value,
         description: document.getElementById("jobDescription").value,
         requirements: document.getElementById("jobRequirements").value,
         searchableRequirements: collectJobRequirements(),  // Collect enhanced requirements
