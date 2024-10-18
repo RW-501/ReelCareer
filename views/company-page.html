@@ -282,6 +282,67 @@ main .social-icons a:hover {
             </div>
         </div>          <hr>        
 
+
+
+        <!-- Job Description Section -->
+<div class="form-group">
+    <label for="jobDescription">Job Description <small class="text-muted">(Required)</small></label>
+    <div id="jobDescriptionEditor" style="height: 150px;"></div>
+    <div class="invalid-feedback">Please enter a job description.</div>
+    <button id="generateJobDescriptionBtn" class="btn btn-primary">Generate Description</button>
+    <hr>      
+</div>
+
+<!-- Job Requirements Section -->
+<div class="form-group">
+    <label for="jobRequirements">Job Requirements <small class="text-muted">(Optional)</small></label>
+    <div id="jobRequirementsEditor" style="height: 100px;"></div>
+    <div class="invalid-feedback">Please enter job requirements.</div>
+</div>
+
+<script>
+    // Initialize Quill editors for job description and job requirements
+    const jobDescriptionEditor = new Quill('#jobDescriptionEditor', {
+        theme: 'snow',
+        modules: {
+            toolbar: [
+                ['bold', 'italic', 'underline'],        // toggled buttons
+                ['link', 'image', 'video'],             // link and image, video
+                [{ 'list': 'ordered'}, { 'list': 'bullet' }] // lists
+            ]
+        }
+    });
+
+    const jobRequirementsEditor = new Quill('#jobRequirementsEditor', {
+        theme: 'snow',
+        modules: {
+            toolbar: [
+                ['bold', 'italic', 'underline'],        // toggled buttons
+                ['link', 'image', 'video'],             // link and image, video
+                [{ 'list': 'ordered'}, { 'list': 'bullet' }] // lists
+            ]
+        }
+    });
+
+    // Save content from Quill editor to hidden input before form submission
+    $('#yourFormId').on('submit', function() {
+        // Get the HTML content from the editors
+        const jobDescriptionHtml = jobDescriptionEditor.root.innerHTML;
+        const jobRequirementsHtml = jobRequirementsEditor.root.innerHTML;
+
+        // Set the values to hidden inputs if you have them or process as needed
+        $('#jobDescription').val(jobDescriptionHtml); // Assuming you have a hidden input for job description
+        $('#jobRequirements').val(jobRequirementsHtml); // Assuming you have a hidden input for job requirements
+    });
+/*
+    // Optional: Auto-suggest function for job requirements
+    function autoSuggest(value, suggestionsContainerId) {
+        // Your existing auto-suggest logic here
+    }
+
+    */
+</script>
+
             <!-- Company Size -->
             <div class="mb-4">
                 <label for="editCompanySize" class="form-label">Company Size</label>
