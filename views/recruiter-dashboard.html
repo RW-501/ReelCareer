@@ -174,7 +174,7 @@
     <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content shadow-lg border-0">
         <div class="modal-header bg-gradient-primary text-white">
-          <h5 class="modal-title font-weight-bold" id="jobModalLabel" style="color: #1d5fa7;">Create a Job Posting</h5>
+          <h5 class="modal-title font-weight-bold" id="jobModalLabel" >Create a Job Posting</h5>
           <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -435,14 +435,12 @@
   
            
             <hr>
-            <div id="appUserID" class="text-center mb-4 hideg"></div>
-            <div id="appCompanyID" class="text-center mb-4 hideg"></div>
-            <hr>
-            <div class="form-row">
-              <div class="form-group">
+
+            <div class="form-group">
   
-                <h5 class="mt-4">Job Preview</h5>
-                <div id="jobPreview" class="border p-3 mb-4" style="display: none;">
+                <button id="previewBTN" class="btn btn-primary mt-4">Job Preview</button>
+               <hr>
+                <div id="jobPreview" class=" p-3 mb-4 mt-4" style="display: none;">
                   <h6 id="previewJobTitle"></h6>
                   <p><strong>Company:</strong> <span id="previewCompany"></span></p>
                   <p><strong>Location:</strong> <span id="previewLocation"></span></p>
@@ -453,8 +451,13 @@
                   <p id="previewRequirements"></p>
                   <p><strong>Tags:</strong> <span id="previewTags"></span></p>
                 </div>
-              </div>
+
             </div>
+            <hr>
+
+                <div id="appUserID" class="text-center mb-4 hideg"></div>
+                <div id="appCompanyID" class="text-center mb-4 hideg"></div>
+        
           </form>
   
         </div>

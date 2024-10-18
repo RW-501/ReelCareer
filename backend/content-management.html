@@ -521,6 +521,8 @@ async function loadAndRenderContent(collectionName, label) {
         const snapshot = await getDocs(collection(db, collectionName));
         snapshot.forEach(doc => {
             const data = doc.data();
+            const docId = doc.id; // This is the document ID
+
             const title = collectionName === 'FAQs' ? data.question : data.title;
             const content = collectionName === 'FAQs' ? data.answer : data.content;
             
@@ -533,7 +535,7 @@ async function loadAndRenderContent(collectionName, label) {
             titleElement.textContent = `${title} (${label})`;
 
             // Add click event listener instead of inline onclick
-            titleElement.addEventListener('click', () => showContentModal(titleElement));
+            titleElement.addEventListener('click', () => showContentModal(titleElement, collectionName,docId ));
 
             const contentElement = document.createElement('p');
             contentElement.textContent = content;
@@ -560,7 +562,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <script>
 
 // Function to show modal with content
-function showContentModal(element) {
+function showContentModal(element, collectionName,docId) {
         const title = $(element).data('title');
         const content = $(element).data('content');
         const imageUrl = $(element).data('image'); // Assuming data-image attribute holds the image URL

@@ -350,6 +350,7 @@ document.getElementById('addExternalLinkButton').addEventListener('click', funct
 
 // Function to update job preview
 function updateJobPreview() {
+
     const company = document.getElementById('company').value;
     const jobTitle = document.getElementById('jobTitle').value;
     const jobLocation = document.getElementById('jobLocation').value;
@@ -362,6 +363,20 @@ function updateJobPreview() {
         <p>${jobDescription}</p>
     `;
 }
+
+// Function to toggle the job preview section
+document.getElementById('previewBTN').addEventListener('click', function() {
+    const jobPreview = document.getElementById('jobPreview');
+    
+    // Toggle the display style
+    if (jobPreview.style.display === 'none' || jobPreview.style.display === '') {
+        jobPreview.style.display = 'block'; // Show the preview
+    } else {
+        jobPreview.style.display = 'none';  // Hide the preview
+    }
+});
+
+
 
 let timeoutId;
 
