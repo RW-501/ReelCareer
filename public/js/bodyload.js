@@ -270,6 +270,7 @@ function createLoader(message = 'ReelCareer') {
     // Profile Picture
     const profilePic = document.createElement('div');
     profilePic.classList.add('profile-pic');
+    profilePic.setAttribute("id","loaderPic");
 
     // Personal Info
     const personalInfo = document.createElement('div');
@@ -366,16 +367,16 @@ mainContent.appendChild(reelContainer);
 
 // Hide loader and fade in content
 
-    document.getElementById('theOnlyResume').addEventListener('click', () => {
-        console.log("pauseTime theOnlyResume 1 ",pauseTime);
+    document.getElementById('loaderPic').addEventListener('click', () => {
+        console.log("pauseTime loaderPic 1 ",pauseTime);
 
         pauseTime = true;
-        console.log("pauseTime  theOnlyResume 2 ",pauseTime);
+        console.log("pauseTime  loaderPic 2 ",pauseTime);
 
      });
  
-     document.getElementById('loaderX').addEventListener('click', () => {
-         const loader = document.getElementById('loaderX');
+     document.getElementById('theOnlyResume').addEventListener('click', () => {
+         const loader = document.getElementById('theOnlyResume');
                  loader.classList.add('hide');
                  loader.remove();
 
