@@ -100,6 +100,8 @@ companyInput.addEventListener("keyup", debounce(async () => {
                 companyButton.className = "btn btn-info w-100 mb-2"; // Responsive and margin
                 companyButton.addEventListener("click", () => {
                     companyId = doc.id; // Save the selected company ID
+                    console.log("companyId   ",companyId);
+                    console.log("company   ",company.id);
 
                     // Retract or hide the list upon selection
                     addCompanyButtonContainer.innerHTML = ""; // Clear the list
@@ -132,7 +134,9 @@ companyInput.addEventListener("keyup", debounce(async () => {
                         companyButton.className = "btn btn-info w-100 mb-2";
                         companyButton.addEventListener("click", () => {
                             companyId = doc.id;
-                            
+                            console.log("companyId   ",companyId);
+                            console.log("company   ",company.id);
+        
                             // Retract or hide the list upon selection
                             addCompanyButtonContainer.innerHTML = ""; // Clear the list
                             document.getElementById('appCompanyID').value = companyId;
