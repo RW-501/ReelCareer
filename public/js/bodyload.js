@@ -367,13 +367,20 @@ mainContent.appendChild(reelContainer);
 // Hide loader and fade in content
 
     document.getElementById('theOnlyResume').addEventListener('click', () => {
+        console.log("pauseTime theOnlyResume 1 ",pauseTime);
+
         pauseTime = true;
+        console.log("pauseTime  theOnlyResume 2 ",pauseTime);
+
      });
  
      document.getElementById('loaderX').addEventListener('click', () => {
          const loader = document.getElementById('loaderX');
                  loader.classList.add('hide');
                  loader.remove();
+
+                 console.log(" loader.remove();   ");
+
      });
 }
 
@@ -384,6 +391,8 @@ createLoader(); // Then create the loader
 
 
 function hideLoader() {
+    console.log("pauseTime   ",pauseTime);
+
     if (pauseTime === false) {
             const loader = document.getElementById('loaderX');
             loader.classList.add('hidden');
@@ -398,8 +407,10 @@ function hideLoader() {
 // Hide loader when the window fully loads
 window.addEventListener('load', () => {
     document.body.classList.add('loaded'); // Then show content
+    console.log("setTimeout   1");
 
     setTimeout(() => {
+        console.log("setTimeout  2 ");
 
     hideLoader(); // Hide loader first
 }, 750);
