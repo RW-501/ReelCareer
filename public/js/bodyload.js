@@ -364,7 +364,6 @@ mainContent.appendChild(reelContainer);
 
     
 
-let pauseTime = false;
 // Hide loader and fade in content
 
     document.getElementById('theOnlyResume').addEventListener('click', () => {
@@ -378,6 +377,7 @@ let pauseTime = false;
      });
 }
 
+let pauseTime = false;
 
 addStyles(); // Add styles first
 createLoader(); // Then create the loader
