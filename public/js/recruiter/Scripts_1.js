@@ -175,6 +175,7 @@ function saveFormValues() {
     const formValues = {
         company: document.getElementById('company').value,
         jobTitle: document.getElementById('jobTitle').value,
+        appCompanyID: document.getElementById('appCompanyID').innerText,
         jobLocation: document.getElementById('jobLocation').value,
         jobCity: document.getElementById('jobCity').value,
         jobState: document.getElementById('jobState').value,
@@ -206,6 +207,7 @@ function loadFormValues() {
     if (formValues) {
         document.getElementById('company').value = formValues.company || '';
         document.getElementById('jobTitle').value = formValues.jobTitle || '';
+        document.getElementById('appCompanyID').innerText = formValues.appCompanyID || '';
         document.getElementById('jobLocation').value = formValues.jobLocation || '';
         document.getElementById('jobCity').value = formValues.jobCity || '';
         document.getElementById('jobState').value = formValues.jobState || '';
