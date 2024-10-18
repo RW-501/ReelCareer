@@ -397,9 +397,8 @@ document.addEventListener("DOMContentLoaded", function () {
   // Function to create the navbar
   function createNavbar() {
     const isHomePage =
-      currentPage === "/ReelCareer/index.html" ||
-      "/ReelCareer/index" ||
-      currentPage === "/ReelCareer/" ||
+      currentPage === "/index.html" ||
+      "/index" ||
       currentPage === "" ||
       currentPage === "/";
     const navbarClass = isHomePage

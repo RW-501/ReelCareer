@@ -98,22 +98,21 @@ function getAdjustedLinks() {
     const currentPage = window.location.pathname;
 
     // Define if the root is at the home page or deeper directories
-    const isHomePage = currentPage === '/ReelCareer/index.html' || 
-                       currentPage === '/ReelCareer/index' || 
-                       currentPage === '/ReelCareer/' || 
+    const isHomePage = currentPage === '/index.html' || 
+                       currentPage === '/index' || 
                        currentPage === '' || 
                        currentPage === '/';
 
-    let adjustLinkURL = (isHomePage) ? '/ReelCareer/views/' : '';
-    let adjustLinkHomeURL = (isHomePage) ? '' : '/ReelCareer/';
+    let adjustLinkURL = (isHomePage) ? '/views/' : '';
+    let adjustLinkHomeURL = (isHomePage) ? '' : '/';
        // Pages where we don't want to show the navbar
 
     // Check specific paths
-    if (currentPage.includes("/ReelCareer/public")) {
-        adjustLinkURL = "/ReelCareer/public/";
+    if (currentPage.includes("/public")) {
+        adjustLinkURL = "/public/";
     } 
-    if (currentPage.includes("/ReelCareer/views")) {
-        adjustLinkURL = "/ReelCareer/views/";
+    if (currentPage.includes("/views")) {
+        adjustLinkURL = "/views/";
     }
 
     return { isHomePage, currentPage, adjustLinkURL, adjustLinkHomeURL, excludedPages };
