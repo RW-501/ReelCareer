@@ -64,37 +64,34 @@
             return params.get('id');
         }
 
-        function displayArticle() {
-            const articleId = getArticleId();
-            const articleRef = ref(db, 'News/' + articleId);
+        import { doc, getDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 
-            // Using onValue for real-time updates
-            onValue(articleRef, (snapshot) => {
-                const article = snapshot.val();
-                if (article) {
-                    const articleElement = `
-                        <h2>${article.title}</h2>
-                        <img src="${article.imageUrl}" class="img-fluid" alt="${article.title}">
-                        <p>${article.content}</p>
-                        <p><strong>Tags:</strong> ${article.tags.join(', ')}</p>
-                        <p><strong>Category:</strong> ${article.category}</p>
-                        <p><strong>Posted by:</strong> ${article.postedBy}</p>
-                        <p><strong>Post Date:</strong> ${new Date(article.postDate).toLocaleDateString()}</p>
-                    `;
-                    document.getElementById('article-content').innerHTML = articleElement;
-                } else {
-                    document.getElementById('article-content').innerHTML = `<p>Article not found.</p>`;
-                }
-            });
+async function displayArticle() {
+    const articleId = getArticleId();
+    const articleRef = doc(db, 'News', articleId); // Use Firestore doc reference
 
-            // Add engagement features (like button)
-            document.getElementById('like-btn').addEventListener('click', () => {
-                // Implement your like functionality here
-                let likeCount = parseInt(document.getElementById('like-count').innerText) || 0;
-                likeCount++;
-                document.getElementById('like-count').innerText = likeCount;
-            });
+    try {
+        const snapshot = await getDoc(articleRef);
+        if (snapshot.exists()) {
+            const article = snapshot.data();
+            const articleElement = `
+                <h2>${article.title}</h2>
+                <img src="${article.imageUrl}" class="img-fluid" alt="${article.title}">
+                <p>${article.content}</p>
+                <p><strong>Tags:</strong> ${article.tags.join(', ')}</p>
+                <p><strong>Category:</strong> ${article.category}</p>
+                <p><strong>Posted by:</strong> ${article.postedBy}</p>
+                <p><strong>Post Date:</strong> ${new Date(article.postDate).toLocaleDateString()}</p>
+            `;
+            document.getElementById('article-content').innerHTML = articleElement;
+        } else {
+            document.getElementById('article-content').innerHTML = `<p>Article not found.</p>`;
         }
+    } catch (error) {
+        console.error("Error fetching article: ", error);
+        document.getElementById('article-content').innerHTML = `<p>Error fetching article.</p>`;
+    }
+}
 
         window.onload = displayArticle;
     </script>
