@@ -346,3 +346,35 @@ document.getElementById('addExternalLinkButton').addEventListener('click', funct
     }
 });
 
+
+
+// Function to update job preview
+function updateJobPreview() {
+    const company = document.getElementById('company').value;
+    const jobTitle = document.getElementById('jobTitle').value;
+    const jobLocation = document.getElementById('jobLocation').value;
+    const jobDescription = document.getElementById('jobDescription').value;
+    // Update your job preview here
+    document.getElementById('jobPreview').innerHTML = `
+        <h5>${jobTitle}</h5>
+        <p><strong>Company:</strong> ${company}</p>
+        <p><strong>Location:</strong> ${jobLocation}</p>
+        <p>${jobDescription}</p>
+    `;
+}
+
+let timeoutId;
+
+function debounce(func, delay) {
+    return function (...args) {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => func.apply(this, args), delay);
+    };
+}
+
+// Use debounce for updating job preview
+const debouncedUpdateJobPreview = debounce(updateJobPreview, 200);
+
+// Attach debounced function to input and scroll events
+document.getElementById('jobForm').addEventListener('input', debouncedUpdateJobPreview);
+window.addEventListener('scroll', debouncedUpdateJobPreview);
