@@ -311,15 +311,22 @@ async function handleJobSubmission(event, actionType) {
     }
 
     const companyIdValue = document.getElementById('appCompanyID').innerText;
-    let newCompanyId;
+    let newCompanyId = "";
 
     try {
         
         // Call submitJobPost to create or retrieve the company ID
         console.log("Attempting to submit job post with companyIdValue:", companyIdValue);
         newCompanyId = await submitJobPost(jobTitle, companyIdValue, companyName, recruiterID, jobID);
-        showErrorMessage("New Company ID returned:", newCompanyId);
+       
+        if(!newCompanyId || !companyIdValue){
+        
+            showErrorMessage("Create a Company Page");
 
+            return;
+        }else{
+        showErrorMessage("New Company ID returned:", newCompanyId);
+        }
         // Update the hidden companyId field with the new value
         document.getElementById('appCompanyID').value = newCompanyId;
         
