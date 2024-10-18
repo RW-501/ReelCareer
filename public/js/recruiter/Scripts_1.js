@@ -152,7 +152,7 @@ document.addEventListener("DOMContentLoaded", function() {
     // Event listener for tag input
     tagInput.addEventListener("keypress", (e) => {
         console.log("Key pressed:", e.key); // Debugging log
-        if (e.key === "Enter" && tagInput.value.trim() !== "") {
+        if (e.key === "Enter" ||e.key ==="insertText" && tagInput.value.trim() !== "") {
             e.preventDefault();
             const tag = tagInput.value.trim();
             console.log("Adding tag:", tag); // Debugging log
