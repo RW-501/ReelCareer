@@ -53,14 +53,15 @@
     // Function to display article
     function displayArticle() {
         const articleId = getArticleId();
-        const articleRef = firebase.database().ref('articles/' + articleId);
+
+        const articleRef = ref(db, 'News/' + articleId);
 
         articleRef.once('value').then((snapshot) => {
             const article = snapshot.val();
             if (article) {
                 const articleElement = `
                     <h2>${article.title}</h2>
-                    <img src="${article.mediaFiles[0]}" class="img-fluid" alt="${article.title}">
+                    <img src="${article.imageUrl}" class="img-fluid" alt="${article.title}">
                     <p>${article.content}</p>
                     <p>Tags: ${article.tags.join(', ')}</p>
                     <p>Category: ${article.category}</p>
