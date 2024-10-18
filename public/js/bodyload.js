@@ -66,7 +66,7 @@ function addStyles() {
 }
 
 .resume:hover {
-    box-shadow: 0px 0px 13px 8px #3024f28a;
+    box-shadow: 0px 0px 13px 8px #007bff;
     }
 
 /* Sidebar for Profile Picture and Personal Info */
@@ -142,11 +142,11 @@ function addStyles() {
 .reel {
     width: 100px;
     height: 100px;
-    border: 10px solid #007bff; /* Reel border */
-    border-radius: 50%; /* Circular shape */
-    background-color: #fff;
+    border: 10px solid #007bff;
+    border-radius: 50%;
+    background-color: #594e4e;
     position: relative;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 10px 2px rgb(125 188 255);
     animation: rotateReel 3s linear infinite;
 }
 
@@ -155,8 +155,8 @@ function addStyles() {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 20px;
-    height: 20px;
+    width: 40px;
+    height: 40px;
     background-color: #007bff;
     border-radius: 50%;
     transform: translate(-50%, -50%);
@@ -167,9 +167,11 @@ function addStyles() {
     position: absolute;
     width: 20px;
     height: 20px;
-    background-color: #007bff;
+    background-color: #6e839a;
     border-radius: 50%;
-}
+    box-shadow: 0 0 3px 0px rgb(200 207 215);
+    
+    }
 
 /* Rotate the reel */
 @keyframes rotateReel {
@@ -209,7 +211,7 @@ function addStyles() {
 .loading-message {
     color: #83bad9; /* Branding color */
     font-weight: 800;
-    font-size: 2.0rem;
+    font-size: 2.5rem;
     text-shadow: -2px -1px 0px #007bff;
     font-family: 'Arial', sans-serif;
     text-align: center;
@@ -319,11 +321,11 @@ function createLoader(message = 'ReelCareer') {
 // Create Reel Holes
 function createReelHoles(reelElement) {
     const holePositions = [
-        { top: '10%', left: '50%' },  // Top-center
+        { top: '65%', left: '45%' },  // Top-center
         { top: '50%', left: '10%' },  // Left-center
-        { top: '50%', left: '90%' },  // Right-center
-        { top: '90%', left: '50%' },  // Bottom-center
-        { top: '10%', left: '90%' },  // Top-right (corner hole for symmetry)
+        { top: '5%', left: '45%' },  // Right-center
+        { top: '15%', left: '10%' },  // Bottom-center
+        { top: '35%', left: '65%' },  // Top-right (corner hole for symmetry)
     ];
 
     // Create the 5 reel holes
