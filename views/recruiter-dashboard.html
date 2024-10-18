@@ -270,7 +270,7 @@
               <hr>
   
               <div class="form-row">
-                <div class="form-group col-md-6">
+                <div class="form-group col-md-4">
                   <label for="jobLocation">Job Location <small class="text-muted">(Required)</small></label>
                   <input type="text" oninput="autoSuggest(this.value,'locationSuggestions')" class="form-control keywordInput location-input" id="jobLocation" placeholder="Enter job location" required>
                   <div class="invalid-feedback">Please enter a job location.</div>
@@ -296,14 +296,14 @@
               <hr>
               <div class="form-row">
   
-                <div class="form-group">
+                <div class="form-group col-md-6">
                   <label for="jobDescription">Job Description <small class="text-muted">(Required)</small></label>
                   <textarea class="form-control" id="jobDescription" rows="4" placeholder="Describe the job" required></textarea>
                   <div class="invalid-feedback">Please enter a job description.</div>
                   <button id="generateJobDescriptionBtn" class="btn btn-primary">Generate Description</button>
                 </div>
   
-                <div class="form-group">
+                <div class="form-group col-md-6">
                   <label for="jobRequirements">Job Requirements <small class="text-muted">(Optional)</small></label>
                   <textarea oninput="autoSuggest(this.value,'RequirementsSuggestionsions')" class="form-control keywordInput " id="jobRequirements" rows="4" placeholder="List job requirements"></textarea>
                   <div class="invalid-feedback">Please enter job requirements.</div>
@@ -314,13 +314,13 @@
   
               <div class="form-row">
   
-                <div class="form-group col-md-4">
+                <div class="form-group col-md-6">
                   <label for="jobFunction">Job Function <small class="text-muted">(Optional)</small></label>
                   <input type="text" class="form-control" id="jobFunction" placeholder="Enter job function">
                   <div class="invalid-feedback">Please enter the job function.</div>
                 </div>
   
-                <div class="form-group col-md-4">
+                <div class="form-group col-md-6">
                   <label for="benefits">Benefits <small class="text-muted">(Optional)</small></label>
                   <input type="text" class="form-control" id="benefits" placeholder="Enter benefits (comma separated)">
                   <div class="invalid-feedback">Please enter the benefits offered.</div>
@@ -329,7 +329,7 @@
   
               <hr>
               <div class="form-row">
-                <div class="form-group col-md-4">
+                <div class="form-group col-md-6">
                   <label for="contractToHire">Contract-to-Hire Opportunities <small class="text-muted">(Optional)</small></label>
                   <select class="form-control" id="contractToHire">
                     <option value="">Select an option</option>
@@ -338,7 +338,7 @@
                   </select>
                   <div class="invalid-feedback">Please select if this is a contract-to-hire opportunity.</div>
                 </div>
-                <div class="form-group col-md-4">
+                <div class="form-group col-md-6">
                   <label for="immediateHire">Immediate Hire <small class="text-muted">(Optional)</small></label>
                   <select class="form-control" id="immediateHire">
                     <option value="">Select an option</option>
@@ -420,7 +420,8 @@
                   </label>
                 </div>
               </div>
-  
+              <div class="form-row">
+
               <div class="form-row ">
   
                   <button type="submit" id="saveDraftButton" class="btn btn-primary btn-block rounded-pill shadow-sm font-weight-bold form-group col-md-4 mx-1">Save to Draft</button>
@@ -429,7 +430,8 @@
   
                   <button type="submit" id="createJobBtn" class="btn btn-primary btn-block rounded-pill shadow-sm font-weight-bold form-group col-md-4 mx-1">Create Job</button>
   
-              </div>
+                </div>
+            </div>
   
               <div id="errorMessage" style="display: none;"></div>
   
