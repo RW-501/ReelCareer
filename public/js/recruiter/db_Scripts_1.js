@@ -318,7 +318,7 @@ async function handleJobSubmission(event, actionType) {
         // Call submitJobPost to create or retrieve the company ID
         console.log("Attempting to submit job post with companyIdValue:", companyIdValue);
         newCompanyId = await submitJobPost(jobTitle, companyIdValue, companyName, recruiterID, jobID);
-        console.log("New Company ID returned:", newCompanyId);
+        showErrorMessage("New Company ID returned:", newCompanyId);
 
         // Update the hidden companyId field with the new value
         document.getElementById('appCompanyID').value = newCompanyId;
