@@ -155,11 +155,12 @@ function addStyles() {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 40px;
-    height: 40px;
+    width: 20px;
+    height: 20px;
     background-color: #007bff;
     border-radius: 50%;
     transform: translate(-50%, -50%);
+    box-shadow: 0 0 3px 0px rgb(37 46 55);
 }
 
 /* Reel Holes */
@@ -278,9 +279,26 @@ function createLoader(message = 'ReelCareer') {
     const personalInfo = document.createElement('div');
     personalInfo.classList.add('personal-info');
     personalInfo.innerHTML = `
-        <strong>Ron W.</strong><hr>
-        <strong>ReelCareer.co</strong><br>
-        <strong>(469) 225-9929</strong>
+<div class="personal-info">
+        <strong style="
+    font-weight: 800;
+    font-size: 1rem;
+    text-align: center;
+    display: block;
+">Ron</strong><hr style="
+    margin: 5px;
+    color: #7f7f66;
+">
+        <strong style="
+    text-align: center;
+    display: block;
+">ReelCareer.co</strong>
+
+        <strong style="
+    text-align: center;
+    display: block;
+">(469) 225-9929</strong>
+    </div>
     `;
 
     // Append profile picture and personal info to sidebar
