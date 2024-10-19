@@ -1026,14 +1026,6 @@ function closeCalendarModal() {
 
 
 
-// Modal for Viewing Post Content
-function showContentModal(post) {
-    document.getElementById('modalTitle').innerText = post.title;
-    document.getElementById('modalContent').innerText = post.content;
-    
-    $('#contentModal').modal('show');
-}
-
 
 
 // Modal for Creating New Post
@@ -1059,6 +1051,17 @@ const updateEditor = new Quill('#updateEditor', {
     }
 });
 
+
+
+/*
+// Modal for Viewing Post Content
+function showContentModal(post) {
+    document.getElementById('modalTitle').innerText = post.title;
+    document.getElementById('modalContent').innerText = post.content;
+    
+    $('#contentModal').modal('show');
+}
+*/
 function showContentModal(element, collectionName, docId) {  
     const title = $(element).data('title');
     const content = $(element).data('content');
@@ -1141,12 +1144,6 @@ deleteArticleBtn.addEventListener('click', function() {
 }
 
 
-
-
-    </script>
-
-    <script>
-
 document.addEventListener('DOMContentLoaded', function() {
     loadContent();
     console.log("?????c    loadContent()????????????//");
@@ -1172,6 +1169,12 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+
+
+
+    </script>
+
+    <script>
 
     </script>
 
