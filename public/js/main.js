@@ -519,7 +519,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Insert the footer section
   const companyMediaSectionHTML = `
-        <section id="companyMedia" class="py-5 company-media">
+        <section id="companyMedia" class="bg-light py-5 company-media">
             <div class="container">
            <h2 class="text-center" style="
     color: #83bad9;
