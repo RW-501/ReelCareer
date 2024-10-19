@@ -370,7 +370,7 @@ function showContentModal(element, collectionName, docId) {
     $('#contentModalLabel').text(title);
 
     // Set the content of the editor using dangerouslyPasteHTML
-    //updateEditor.clipboard.dangerouslyPasteHTML(content); // Use this to paste HTML directly
+    updateEditor.clipboard.dangerouslyPasteHTML(content); // Use this to paste HTML directly
     $('#modalTextContent').val(updateEditor.root.innerHTML); // Set the content
 
     // Set the image if available
