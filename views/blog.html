@@ -178,8 +178,22 @@
         return urlParams.get(param);
     }  
     
-        const postsPerPage = 1; // Define your posts per page
-        let currentPage = 1;
+
+    
+let postsPerPage = 1; // Define your posts per page
+let currentPage = 1;
+let totalPosts = 0; // Track total number of posts
+let lastVisibleDoc = null; // For pagination tracking (Firestore pagination)
+let firstVisibleDoc = null; // For backward navigation
+
+// Fetch total number of active blogs from Firestore to calculate total pages
+async function fetchTotalPosts() {
+    const blogsRef = collection(db, "Blogs");
+    const totalQuery = query(blogsRef, where("activate", "==", true));
+    const totalSnapshot = await getDocs(totalQuery);
+    totalPosts = totalSnapshot.size; // Get the total number of posts
+    return totalPosts;
+}
 
         // Fetch blogs from Firestore
         async function fetchBlogs(page) { 
@@ -203,13 +217,27 @@ if (blogId) {
     }
 } else {
     const blogsRef = collection(db, "Blogs");
-    const blogsQuery = query(blogsRef, where("activate", "==", true), limit(postsPerPage));
-    querySnapshot = await getDocs(blogsQuery);
+        let blogsQuery = query(blogsRef, where("activate", "==", true), limit(postsPerPage));
+
+        // Handle pagination using Firestore's `startAfter`
+        if (page > 1 && lastVisibleDoc) {
+            blogsQuery = query(blogsRef, where("activate", "==", true), startAfter(lastVisibleDoc), limit(postsPerPage));
+        }
+
+        const querySnapshot = await getDocs(blogsQuery);
 }
 
   
 // Iterate and create blog posts
-if (querySnapshot.length || querySnapshot.docs.length > 0) {
+if (querySnapshot.length || querySnapshot.docs.length > 0) {  
+    
+    
+    firstVisibleDoc = querySnapshot.docs[0];
+
+// Store the last visible document for pagination
+lastVisibleDoc = querySnapshot.docs[querySnapshot.docs.length - 1];
+
+
     querySnapshot.forEach((doc) => {
         const blogData = doc.data();
    
@@ -329,7 +357,12 @@ if (querySnapshot.length || querySnapshot.docs.length > 0) {
             // Append the blog card to the container
             blogContainer.appendChild(blogCard);
         });
-    }
+        // Update pagination controls
+            updatePagination();
+        } else {
+            blogContainer.innerHTML = "<p>No blogs available.</p>";
+        }
+
     } catch (error) {
         console.error("Error fetching blogs: ", error);
         document.getElementById("blog-container").innerHTML = "<p>Error fetching blogs. Please try again later.</p>";
@@ -401,31 +434,37 @@ function markHelpful(postId) {
             modal.show();
         }
 
-        // Update pagination controls based on the current page
-        function updatePagination() {
-            const paginationControls = document.getElementById("pagination-controls");
-            paginationControls.innerHTML = `
-                <li class="page-item ${currentPage === 1 ? 'disabled' : ''}" id="prev-page">
-                    <a class="page-link" href="#" tabindex="-1">Previous</a>
-                </li>
-                <li class="page-item active"><a class="page-link" href="#" id="page-${currentPage}">${currentPage}</a></li>
-                <li class="page-item" id="next-page">
-                    <a class="page-link" href="#">Next</a>
-                </li>
-            `;
-            // Add event listeners for pagination controls
-            document.getElementById("prev-page").onclick = () => {
-                if (currentPage > 1) {
-                    currentPage--;
-                    fetchBlogs(currentPage);
-                }
-            };
+     
+// Update pagination controls
+function updatePagination() {
+    const paginationControls = document.getElementById("pagination-controls");
+    const totalPages = Math.ceil(totalPosts / postsPerPage); // Calculate total pages
 
-            document.getElementById("next-page").onclick = () => {
-                currentPage++;
-                fetchBlogs(currentPage);
-            };
+    paginationControls.innerHTML = `
+        <li class="page-item ${currentPage === 1 ? 'disabled' : ''}" id="prev-page">
+            <a class="page-link" href="#" tabindex="-1">Previous</a>
+        </li>
+        <li class="page-item active"><a class="page-link" href="#" id="page-${currentPage}">${currentPage}</a></li>
+        <li class="page-item ${currentPage === totalPages ? 'disabled' : ''}" id="next-page">
+            <a class="page-link" href="#">Next</a>
+        </li>
+    `;
+
+    // Add event listeners for pagination controls
+    document.getElementById("prev-page").onclick = () => {
+        if (currentPage > 1) {
+            currentPage--;
+            fetchBlogs(currentPage);
         }
+    };
+
+    document.getElementById("next-page").onclick = () => {
+        if (currentPage < totalPages) {
+            currentPage++;
+            fetchBlogs(currentPage);
+        }
+    };
+}
 
         // Search Blogs Functionality
         document.getElementById("search-input").addEventListener("input", function () {
@@ -441,8 +480,12 @@ function markHelpful(postId) {
             });
         });
 
-        // Initial blog fetch
-        fetchBlogs(currentPage);
+        
+// Initial call to fetch total posts and blogs for the first page
+(async function init() {
+    await fetchTotalPosts(); // Get the total number of posts
+    fetchBlogs(currentPage); // Fetch the first page
+})();
     </script>
 
     <!-- Schema Markup for SEO -->
