@@ -521,11 +521,6 @@
     <footer id="dynamic-footer"></footer>
     <script>
 
-
-
-
-
-
         // Initialize Quill editors for news and blog sections
         const newsEditor = new Quill('#newsEditor', {
     theme: 'snow',
@@ -791,7 +786,33 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Load existing content
       
- 
+ // Remove existing event listeners before adding new ones
+ function clearAndAddEventListeners(date) {
+    // Remove existing event listeners from calendar days
+    document.querySelectorAll('.calendar-day').forEach(dayElement => {
+        const newElement = dayElement.cloneNode(true); // Clone element to remove listeners
+        dayElement.parentNode.replaceChild(newElement, dayElement); // Replace with a clean copy
+    });
+
+    // Re-add event listeners to calendar days
+    document.querySelectorAll('.calendar-day').forEach(dayElement => {
+        dayElement.addEventListener('click', function () {
+            const selectedDate = this.dataset.date;
+            showPostTypeModal(selectedDate);
+        });
+    });
+
+    // Remove existing event listeners from buttons
+    const newsBtn = document.getElementById('addNewsBtn');
+    const blogBtn = document.getElementById('addBlogBtn');
+    const postBtn = document.getElementById('addPostBtn');
+
+    newsBtn.replaceWith(newsBtn.cloneNode(true)); // Remove listeners
+    blogBtn.replaceWith(blogBtn.cloneNode(true)); // Remove listeners
+    postBtn.replaceWith(postBtn.cloneNode(true)); // Remove listeners
+
+   }
+
 
 
 async function loadContent() {
@@ -854,40 +875,44 @@ async function loadAndRenderContent(collectionName, label) {
     }
 }
 
-// Render Calendar with Posts Marked
+
+
 function renderCalendar(posts) {
     const calendar = document.getElementById('calendar');
-    
-    // Assume days are rendered dynamically from the backend
+    calendar.innerHTML = ''; // Clear current calendar
+
     const days = ['2024-10-18', '2024-10-19', '2024-10-20']; // Example days
-    
+
     days.forEach(day => {
         const dayElement = document.createElement('div');
         dayElement.classList.add('calendar-day');
         dayElement.dataset.date = day;
         dayElement.innerText = day;
 
-        // Check if there's a post on this day
-        const post = posts.find(p => p.date === day);
-        if (post) {
-            dayElement.classList.add(post.type); // Add post type class
-            dayElement.dataset.postId = post.id; // Store post ID
-        }
+        // Find matching posts for the day
+        const dayPosts = posts.filter(post => post.date === day);
+        if (dayPosts.length > 0) {
+            dayElement.classList.add(dayPosts[0].type); // Assign type as class
+            dayElement.dataset.postId = dayPosts[0].id; // Store post ID
 
-        // Attach event listener to display post or create a new one
-        dayElement.addEventListener('click', (e) => {
-            const postId = e.target.dataset.postId;
-            if (postId) {
-                const post = posts.find(p => p.id == postId);
-                showContentModal(post);
-            } else {
+            dayElement.addEventListener('click', () => {
+                showContentModal(dayPosts[0]); // Show the first post
+            });
+        } else {
+            // If no posts for this date, allow user to create a new one
+            dayElement.addEventListener('click', () => {
                 showNewPostModal(day);
-            }
-        });
+            });
+        }
 
         calendar.appendChild(dayElement);
     });
+
+    // Call the clearAndAddEventListeners function after rendering the days
+    clearAndAddEventListeners(days); // Pass the days for button events
 }
+
+
 
 // Modal for Viewing Post Content
 function showContentModal(post) {
@@ -904,40 +929,37 @@ function showNewPostModal(date) {
 }
 
 // Handle Post Creation
- document.getElementById('eventForm').addEventListener('submit', async function(event) {
+document.getElementById('eventForm').addEventListener('submit', async function (event) {
     event.preventDefault();
 
-
     const file = document.getElementById('eventImage').files[0];
+    const quillContent = quill.getContents(); // Get content from Quill editor
+    document.getElementById('eventContent').value = quillContent; // Assign it to hidden input
+
     try {
         const imageUrl = await uploadImage(file);
 
-        const eventCollection = collection(db, 'Events');
-
-        // Add a new document to the 'FAQs' collection
-        await addDoc(eventCollection, {
+        // Add a new document to the 'Events' collection
+        await addDoc(collection(db, 'Events'), {
             type: document.getElementById('postType').value,
             postDate: document.getElementById('eventPostDate').value,
-        title: document.getElementById('postTitle').value,
-        content: document.getElementById('postContent').value,
-        imageUrl: imageUrl,
-        viewCount: 0,
-    activate: true,
-    tags: document.getElementById('eventTags').value.split(',').map(tag => tag.trim()) // Process tags as an array
-});
+            title: document.getElementById('postTitle').value,
+            content: document.getElementById('eventContent').value,
+            imageUrl: imageUrl,
+            viewCount: 0,
+            activate: true,
+            tags: document.getElementById('eventTags').value.split(',').map(tag => tag.trim())
+        });
 
-        alert('FAQ saved successfully!');
-         document.getElementById('postForm').reset(); // Uncomment if you want to reset the form
+        alert('Event saved successfully!');
+        document.getElementById('eventForm').reset(); // Reset the form after submission
+        renderCalendar(posts); // Re-render calendar with the new post
+        $('#newPostModal').modal('hide'); // Close the modal
+
     } catch (error) {
         console.error('Error adding document: ', error);
     }
-
-    posts.push(newPost);
-    renderCalendar(posts); // Re-render calendar with the new post
-
-    $('#newPostModal').modal('hide'); // Close modal
 });
-
 
 
 
@@ -994,18 +1016,28 @@ function showNewPostModal(date) {
 
 
 
-
-
-
-
-
-
-
-
-
-// Load content on page load
 document.addEventListener('DOMContentLoaded', function() {
     loadContent();
+    
+    // Add event listeners to modal buttons once
+    const date = ""; // Set default date or handle it dynamically
+    document.getElementById('addNewsBtn').addEventListener('click', function () {
+        closeCalendarModal();
+        toggleSection('newsSection');
+        document.getElementById('newsPostDate').value = date;  // Use dynamic date
+    });
+
+    document.getElementById('addBlogBtn').addEventListener('click', function () {
+        closeCalendarModal();
+        toggleSection('blogSection');
+        document.getElementById('blogPostDate').value = date;  // Use dynamic date
+    });
+
+    document.getElementById('addPostBtn').addEventListener('click', function () {
+        closeCalendarModal();
+        toggleSection('newPostModal');
+        document.getElementById('eventPostDate').value = date;  // Use dynamic date
+    });
 });
 
 
