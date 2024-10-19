@@ -304,143 +304,6 @@
     </div>
 
 
-
-    
-<div id="viewContent">
-        <div class="form-group">
-            <label for="searchContent">Search Content</label>
-            <input type="text" class="form-control" id="searchContent" placeholder="Search articles, blogs, FAQs..." onkeyup="filterContent()">
-        </div>
-
-
-
-
-
-        <div class="container mt-5">
-            <h2>Existing Content</h2>
-            <button id="toggleContentBtn" class="toggle-btn">Show Content</button>
-    
-            <!-- Scrollable content list -->
-            <div id="contentList">
-                <!-- Dynamically filled content will go here -->
-                <ul class="list-group">
-                    <li class="list-group-item">Content Item 1</li>
-                    <li class="list-group-item">Content Item 2</li>
-                    <li class="list-group-item">Content Item 3</li>
-                    <li class="list-group-item">Content Item 4</li>
-                    <li class="list-group-item">Content Item 5</li>
-                    <li class="list-group-item">Content Item 6</li>
-                    <li class="list-group-item">Content Item 7</li>
-                    <li class="list-group-item">Content Item 8</li>
-                    <li class="list-group-item">Content Item 9</li>
-                    <li class="list-group-item">Content Item 10</li>
-                </ul>
-            </div>
-    
-            <!-- Scroll to Top Button -->
-            <button id="scrollTopBtn" title="Scroll to top">
-                <i class="fas fa-arrow-up"></i>
-            </button>
-        </div>
-
-
-    </div>
-    
-</div>
-
-<style>
-    /* Calendar Day Styles */
-.calendar-day {
-    padding: 15px;
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
-}
-.calendar-day:hover {
-    background-color: #f0f8ff;
-    transform: scale(1.05);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-/* Post Type Colors */
-.blog {
-    background-color: #ffeb3b;
-}
-.news {
-    background-color: #4caf50;
-}
-.event {
-    background-color: #f44336;
-}
-
-/* Modal Styles */
-.modal .modal-header {
-    background-color: #007bff;
-    color: white;
-}
-
-.modal .modal-body {
-    background-color: #f8f9fa;
-}
-
-/* Form Customization */
-#newPostForm .form-control {
-    border-radius: 4px;
-    box-shadow: none;
-    transition: box-shadow 0.2s;
-}
-
-#newPostForm .form-control:focus {
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-    border-color: #007bff;
-}
-</style>
-
-            
-            <div class="modal-body" id="modalContentBody">
-                <img id="modalImage" src="" alt="Content Image" class="img-fluid mb-3" style="display:none;">
-                <hr>
-                <div class="form-group">
-                    <label for="modalTextContent">Content <i class="fas fa-question-circle" data-toggle="tooltip" title="Update post."></i></label>
-                    <!-- Replace the textarea with a div for Quill -->
-                    <div id="updateEditor" style="height: 200px;"></div>
-                    <input type="hidden" id="modalTextContent" name="modalTextContent" required>
-                </div>
-
-
-            </div>
-
-
-
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-danger" id="deleteArticle">Delete</button>
-                <button type="button" class="btn btn-primary" id="updateArticle">Update</button>
-            </div>
-            
-        </div>
-    </div>
-</div>
-
-
-<div id="calendar"></div>
-
-<!-- Modal for Viewing Post Content -->
-<div id="contentModal" class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 id="modalTitle" class="modal-title"></h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p id="modalContent"></p>
-            </div>
-        </div>
-    </div>
-</div>
-
 <!-- Modal for Creating New Post -->
 <div id="newPostModal" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog">
@@ -493,6 +356,143 @@
     </div>
 </div>
 
+<style>
+    /* Calendar Day Styles */
+.calendar-day {
+    padding: 15px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+.calendar-day:hover {
+    background-color: #f0f8ff;
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Post Type Colors */
+.blog {
+    background-color: #ffeb3b;
+}
+.news {
+    background-color: #4caf50;
+}
+.event {
+    background-color: #f44336;
+}
+
+/* Modal Styles */
+.modal .modal-header {
+    background-color: #007bff;
+    color: white;
+}
+
+.modal .modal-body {
+    background-color: #f8f9fa;
+}
+
+/* Form Customization */
+#newPostForm .form-control {
+    border-radius: 4px;
+    box-shadow: none;
+    transition: box-shadow 0.2s;
+}
+
+#newPostForm .form-control:focus {
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    border-color: #007bff;
+}
+</style>
+
+<div id="calendar"></div>
+
+    
+<div id="viewContent">
+        <div class="form-group">
+            <label for="searchContent">Search Content</label>
+            <input type="text" class="form-control" id="searchContent" placeholder="Search articles, blogs, FAQs..." onkeyup="filterContent()">
+        </div>
+
+
+
+
+
+        <div class="container mt-5">
+            <h2>Existing Content</h2>
+            <button id="toggleContentBtn" class="toggle-btn">Show Content</button>
+    
+            <!-- Scrollable content list -->
+            <div id="contentList">
+                <!-- Dynamically filled content will go here -->
+                <ul class="list-group">
+                    <li class="list-group-item">Content Item 1</li>
+                    <li class="list-group-item">Content Item 2</li>
+                    <li class="list-group-item">Content Item 3</li>
+                    <li class="list-group-item">Content Item 4</li>
+                    <li class="list-group-item">Content Item 5</li>
+                    <li class="list-group-item">Content Item 6</li>
+                    <li class="list-group-item">Content Item 7</li>
+                    <li class="list-group-item">Content Item 8</li>
+                    <li class="list-group-item">Content Item 9</li>
+                    <li class="list-group-item">Content Item 10</li>
+                </ul>
+            </div>
+    
+            <!-- Scroll to Top Button -->
+            <button id="scrollTopBtn" title="Scroll to top">
+                <i class="fas fa-arrow-up"></i>
+            </button>
+        </div>
+
+
+    </div>
+    
+</div>
+
+
+   
+            <div class="modal-body" id="modalContentBody">
+                <img id="modalImage" src="" alt="Content Image" class="img-fluid mb-3" style="display:none;">
+                <hr>
+                <div class="form-group">
+                    <label for="modalTextContent">Content <i class="fas fa-question-circle" data-toggle="tooltip" title="Update post."></i></label>
+                    <!-- Replace the textarea with a div for Quill -->
+                    <div id="updateEditor" style="height: 200px;"></div>
+                    <input type="hidden" id="modalTextContent" name="modalTextContent" required>
+                </div>
+
+
+            </div>
+
+
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" id="deleteArticle">Delete</button>
+                <button type="button" class="btn btn-primary" id="updateArticle">Update</button>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Modal for Viewing Post Content -->
+<div id="contentModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 id="modalTitle" class="modal-title"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id="modalContent"></p>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- HTML: Calendar Modal -->
 <div id="calendarModal" class="modal">
@@ -519,6 +519,8 @@
 
     <!-- Footer -->
     <footer id="dynamic-footer"></footer>
+
+
     <script>
      // Toggle content visibility
      const toggleBtn = document.getElementById('toggleContentBtn');
@@ -554,7 +556,7 @@
             document.documentElement.scrollTop = 0;
         });
 
-        
+
         // Initialize Quill editors for news and blog sections
         const newsEditor = new Quill('#newsEditor', {
     theme: 'snow',
@@ -852,7 +854,7 @@ document.addEventListener('DOMContentLoaded', function() {
 async function loadContent() {
     const contentList = document.getElementById('contentList');
     contentList.innerHTML = ''; // Clear existing content
-
+console.log("????????????????????//");
     try {
         // Fetch and Render News, Blogs, and FAQs
         await loadAndRenderContent('News', 'News');
@@ -938,6 +940,7 @@ function renderCalendar(posts) {
                 showNewPostModal(day);
             });
         }
+        console.log("?????calendar???????????????//");
 
         calendar.appendChild(dayElement);
     });
@@ -1052,7 +1055,8 @@ function showNewPostModal(date) {
 
 document.addEventListener('DOMContentLoaded', function() {
     loadContent();
-    
+    console.log("?????c    loadContent()????????????//");
+
     // Add event listeners to modal buttons once
     const date = ""; // Set default date or handle it dynamically
     document.getElementById('addNewsBtn').addEventListener('click', function () {
