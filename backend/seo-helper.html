@@ -101,12 +101,13 @@ main   .dropdown-menu {
 
 
 #seo-container {
-    max-height: 400px; /* Set a maximum height */
+    max-height: 1000px; /* Set a maximum height */
     overflow-y: auto;  /* Enable vertical scrolling */
     overflow-x: hidden; /* Disable horizontal scrolling if desired */
     border: 1px solid #ccc; /* Optional: Add a border for visibility */
     padding: 10px; /* Optional: Add padding for better aesthetics */
     background-color: #f9f9f9; /* Optional: Set a background color */
+    min-height: 500px;
 }
 
 
@@ -290,7 +291,26 @@ function updateErrorCount() {
           //  const currentDomain = window.location.hostname;   // Get the current domain name
           //  const currentDomain = "https://reelcareer.co/";   // Get the current domain name
 
-            allLinks.forEach(link => {
+          allLinks.forEach(link => {
+        let linkURL;
+        
+        // Check if the link is relative or absolute
+        if (link.href.startsWith('http')) {
+            linkURL = new URL(link.href); // Absolute URL, create a URL object
+        } else {
+            // Relative URL, resolve it based on the current page
+            linkURL = new URL(link.getAttribute('href'), window.location.origin);
+        }
+
+        // Check if it's internal (same domain) and valid
+        if (linkURL.hostname === currentDomain && linkURL.href !== '' && linkURL.href !== '#') {
+            internalLinks.push(linkURL.href);  // Add the full internal link to the array
+        }
+    });
+
+    return internalLinks;  // Return the array of internal links
+}
+       /*     allLinks.forEach(link => {
                 const linkHostname = new URL(link.href).hostname;  // Extract hostname from the link
                 if (linkHostname === currentDomain && link.href !== '' && link.href !== '#') {
                     internalLinks.push(link.href);  // Add the internal link to the array
@@ -298,33 +318,37 @@ function updateErrorCount() {
             });
 
             return internalLinks;  // Return the array of internal links
-        }
+     
+            }
+   */
+
 
         // Check if a link resolves and return the status
-        async function checkLinkStatus(url) {
-            try {
-                const response = await fetch(url, { method: 'HEAD' });
-                if (response.status === 404) {
-                    errorCount++;
-                    errorUrls.push(url); // Add URL to errorUrls array                updateErrorCount();
-                showBadOnCollapseButton(); // Function to update the button state
-                return response.status; // Return the HTTP status code
+async function checkLinkStatus(url) {
+    // Remove "/backend" from the URL if it exists
+    const cleanedUrl = url.replace('/backend', '');
+    
+    try {
+        const response = await fetch(cleanedUrl, { method: 'HEAD' });
+        if (response.status === 404) {
+            errorCount++;
+            errorUrls.push(cleanedUrl); // Add cleaned URL to errorUrls array
+            updateErrorCount();
+            showBadOnCollapseButton(); // Update button state
+            return response.status; // Return the HTTP status code
+        } 
+        // Handle other responses
+        return response.status;
+    } catch (error) {
+        console.error(`Error fetching ${cleanedUrl}:`, error);
+        return null;
+    }
+}
 
-            } else {
-                // Handle other responses
-            //   return response.status; // Return the HTTP status code
-
-            }
             
             
             
             
-            
-            } catch (error) {
-                console.error(`Error fetching ${url}:`, error);
-                return null; // Return null if there's an error
-            }
-        }
 
         // Fetch title, meta tags, check for Schema Markup, and extract styles for each internal link
         async function fetchPageSEOData(url) {
