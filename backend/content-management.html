@@ -906,7 +906,6 @@ async function loadAndRenderContent(collectionName, label) {
 }
 
 
-
 function renderCalendar(posts) {
     const calendar = document.getElementById('calendar');
     calendar.innerHTML = ''; // Clear current calendar
@@ -919,25 +918,28 @@ function renderCalendar(posts) {
         dayElement.dataset.date = day;
         dayElement.innerText = day;
 
-        // Find matching posts for the day
-        const dayPosts = posts.filter(post => post.date === day);
-        if (dayPosts.length > 0) {
-            dayElement.classList.add(dayPosts[0].type); // Assign type as class
-            dayElement.dataset.postId = dayPosts[0].id; // Store post ID
-
-            dayElement.addEventListener('click', () => {
-                showContentModal(dayPosts[0]); // Show the first post
-            });
-        } else {
-            // If no posts for this date, allow user to create a new one
-            dayElement.addEventListener('click', () => {
-                showNewPostModal(day);
-            });
+        // Ensure posts is an array and filter posts by the date
+        if (Array.isArray(posts)) {
+            const dayPosts = posts.filter(post => post.date === day);
+            
+            if (dayPosts.length > 0) {
+                dayElement.classList.add(dayPosts[0].type); // Assign type as class
+                dayElement.dataset.postId = dayPosts[0].id; // Store post ID
+    
+                dayElement.addEventListener('click', () => {
+                    showContentModal(dayPosts[0]); // Show the first post
+                });
+            } else {
+                // If no posts for this date, allow user to create a new one
+                dayElement.addEventListener('click', () => {
+                    showNewPostModal(day);
+                });
+            }
         }
-        console.log("?????calendar???????????????//");
-
+        
         calendar.appendChild(dayElement);
     });
+
 
     // Call the clearAndAddEventListeners function after rendering the days
     clearAndAddEventListeners(days); // Pass the days for button events
