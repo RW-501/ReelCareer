@@ -1059,9 +1059,7 @@ function showNewPostModal(date) {
     document.getElementById('eventPostDate').value = date;
     $('#newPostModal').modal('show');
 }
-</script>
 
-<script>
 
 // Initialize Quill editor once globally
 const updateEditor = new Quill('#updateEditor', {
@@ -1103,7 +1101,7 @@ function showContentModal(element, collectionName, docId) {
     updateEditor.clipboard.dangerouslyPasteHTML(content); // Use this to paste HTML directly
     console.log("???updateEditor??????????????//   ",content);
    
-    $('#modalTextContent').val(updateEditor.root.innerHTML); // Set the content
+    //$('#modalTextContent').val(updateEditor.root.innerHTML); // Set the content
 
     // Set the image if available
     if (imageUrl) {
