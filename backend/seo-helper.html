@@ -281,6 +281,9 @@ function updateErrorCount() {
 
         // Function to get internal links
         function getInternalLinks(currentDomain) {
+            console.log("currentDomain   ",currentDomain);
+            console.log("window.location.hostname   ",window.location.hostname);
+
             const allLinks = document.querySelectorAll('a');  // Select all anchor tags
             const internalLinks = [];
           //  const currentDomain = window.location.hostname;   // Get the current domain name
@@ -553,13 +556,17 @@ function updateErrorCount() {
         }
 
         // Main function to start checking pages
-        async function startChecking() {
-            const internalLinks = getInternalLinks();  // Get internal links from the page
+        async function startChecking(url) {
+            const internalLinks = getInternalLinks(url);  // Get internal links from the page
             totalPages = internalLinks.length;  // Set total pages to check
             pageCount = 0;  // Reset page count
             errorPages = [];  // Reset error pages
 
-            // Clear previous results
+            errorCount = 0; // Reset error count
+        errorUrls = []; // Reset error URLs
+        updateErrorCount(); // Update count display
+  
+        // Clear previous results
             document.getElementById('seo-container').innerHTML = '';
             document.getElementById('errorList').innerHTML = '';
             document.getElementById('progressBar').style.width = '0%'; // Reset progress bar
@@ -593,11 +600,8 @@ function updateErrorCount() {
 document.getElementById('startButton').addEventListener('click', () => {
     const url = document.getElementById('urlInput').value;
     if (url) {
-        errorCount = 0; // Reset error count
-        errorUrls = []; // Reset error URLs
-        updateErrorCount(); // Update count display
-        getInternalLinks(url); // Call the function with the provided URL
-    } else {
+        startChecking(url);
+     } else {
         alert('Please enter a valid URL.');
     }
 });
