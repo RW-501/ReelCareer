@@ -215,7 +215,7 @@ if (blogId) {
     }
 } else {
     const blogsRef = collection(db, "Blogs");
-    let blogsQuery = query(blogsRef, where("activate", "==", true), limit(postsPerPage));
+    let blogsQuery = query(blogsRef, where("activate", "==", true), limit(1));
 
         // Handle pagination using Firestore's `startAfter`
         if (page > 1 && lastVisibleDoc) {
@@ -225,6 +225,7 @@ if (blogId) {
 
         const querySnapshot = await getDocs(blogsQuery);
 }
+console.log("Query Snapshot:", querySnapshot);
 
   
 // Iterate and create blog posts
@@ -236,7 +237,6 @@ if (querySnapshot && !querySnapshot.empty) {
 // Store the last visible document for pagination
 lastVisibleDoc = querySnapshot.docs[querySnapshot.docs.length - 1];
 
-console.log("Query Snapshot:", querySnapshot);
 console.log("Query lastVisibleDoc:", lastVisibleDoc);
 console.log("Query firstVisibleDoc:", firstVisibleDoc);
 
