@@ -4,53 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SEO Helper</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        .seo-form {
-            margin-bottom: 20px;
-            padding: 15px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-        }
-        .seo-form input, .seo-form textarea {
-            width: 100%;
-            padding: 8px;
-            margin-top: 10px;
-            margin-bottom: 10px;
-            border-radius: 4px;
-        }
-        .seo-form label {
-            font-weight: bold;
-        }
-        .seo-form button {
-            background-color: #007bff;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            cursor: pointer;
-        }
-        .seo-form button:hover {
-            background-color: #0056b3;
-        }
-        .seo-form .collapsible {
-            background-color: #f1f1f1;
-            cursor: pointer;
-            padding: 10px;
-            width: 100%;
-            border: none;
-            text-align: left;
-            outline: none;
-            font-size: 16px;
-            margin-bottom: 10px;
-        }
-        .seo-form .collapsible.active, .collapsible:hover {
-            background-color: #ddd;
-        }
-        .seo-form .content {
-            padding: 0 18px;
-            display: none;
-            overflow: hidden;
-            background-color: #f9f9f9;
-        }
         /* Scroll-up button */
         #scrollUpBtn {
             display: none;
@@ -71,15 +27,40 @@
             background-color: #0056b3;
         }
     </style>
+
+    <!-- Bootstrap CSS -->
+    <script src="../public/js/scripts.js"></script>
+    <script src="../public/js/loadScripts.js"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../public/css/styles.css">
+
 </head>
+
+
 <body>
-    <h1>SEO Helper Tool</h1>
-    <div id="seo-container"></div>
+    <script src="../public/js/bodyload.js"></script>
+    
+
+    <div class="container mt-4">
+        <h1 class="text-center">SEO Helper Tool</h1>
+        <div class="text-center mb-4">
+            <button id="startButton" class="btn btn-primary">Start SEO Check</button>
+        </div>
+        <h4 id="pageCount" class="text-center"></h4>
+        <div id="seo-container"></div>
+    </div>
 
     <!-- Scroll-up button -->
     <button id="scrollUpBtn" onclick="scrollToTop()">⬆</button>
 
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
     <script>
+        let pageCount = 0; // Variable to keep track of the number of pages checked
+
         // Function to get internal links
         function getInternalLinks() {
             const allLinks = document.querySelectorAll('a');  // Select all anchor tags
@@ -123,24 +104,31 @@
         function createSEOForm(url, title, metaTags) {
             const container = document.getElementById('seo-container');
 
-            // Create a div for each SEO form
-            const formDiv = document.createElement('div');
-            formDiv.classList.add('seo-form');
+            // Create a card for each SEO form
+            const cardDiv = document.createElement('div');
+            cardDiv.classList.add('card', 'mb-3');
 
             // Create a collapsible button
-            const collapsible = document.createElement('button');
+            const collapsible = document.createElement('div');
+            collapsible.classList.add('card-header', 'd-flex', 'justify-content-between', 'align-items-center', 'cursor-pointer');
             collapsible.textContent = `SEO Details for ${url}`;
-            collapsible.classList.add('collapsible');
-            
+            const toggleIcon = document.createElement('span');
+            toggleIcon.textContent = '▼';
+            collapsible.appendChild(toggleIcon);
+            cardDiv.appendChild(collapsible);
+
             // Create a collapsible content section
             const contentDiv = document.createElement('div');
-            contentDiv.classList.add('content');
+            contentDiv.classList.add('collapse');
+            const cardBody = document.createElement('div');
+            cardBody.classList.add('card-body');
 
             // Create label and input for title
             const titleLabel = document.createElement('label');
             titleLabel.textContent = `Title for ${url}:`;
             const titleInput = document.createElement('input');
             titleInput.type = 'text';
+            titleInput.classList.add('form-control');
             titleInput.value = title;
 
             // Create label and textarea for meta tags
@@ -148,32 +136,34 @@
             metaLabel.textContent = `Meta Tags for ${url}:`;
             const metaTextarea = document.createElement('textarea');
             metaTextarea.rows = 5;
+            metaTextarea.classList.add('form-control');
             metaTextarea.value = metaTags;
 
             // Create a paragraph to display the URL
             const urlParagraph = document.createElement('p');
             urlParagraph.textContent = `Page URL: ${url}`;
+            urlParagraph.classList.add('mt-2');
 
-            // Append elements to the content div
-            contentDiv.appendChild(titleLabel);
-            contentDiv.appendChild(titleInput);
-            contentDiv.appendChild(metaLabel);
-            contentDiv.appendChild(metaTextarea);
-            contentDiv.appendChild(urlParagraph);
+            // Append elements to the card body
+            cardBody.appendChild(titleLabel);
+            cardBody.appendChild(titleInput);
+            cardBody.appendChild(metaLabel);
+            cardBody.appendChild(metaTextarea);
+            cardBody.appendChild(urlParagraph);
+            contentDiv.appendChild(cardBody);
+            cardDiv.appendChild(contentDiv);
 
-            // Append the collapsible and content divs to the form div
-            formDiv.appendChild(collapsible);
-            formDiv.appendChild(contentDiv);
-
-            // Append the form div to the container
-            container.appendChild(formDiv);
+            // Append the card div to the container
+            container.appendChild(cardDiv);
 
             // Collapsible functionality
             collapsible.addEventListener('click', function() {
-                this.classList.toggle('active');
-                const content = this.nextElementSibling;
-                content.style.display = content.style.display === 'block' ? 'none' : 'block';
+                contentDiv.classList.toggle('show');
+                toggleIcon.textContent = toggleIcon.textContent === '▼' ? '▲' : '▼';
             });
+
+            pageCount++; // Increment the page count
+            document.getElementById('pageCount').textContent = `Pages Checked: ${pageCount}`; // Update the page count display
         }
 
         // Main function to populate SEO data
@@ -185,8 +175,12 @@
             }
         }
 
-        // Run the SEO helper on page load
-        populateSEOHelper();
+        // Start button functionality
+        document.getElementById('startButton').addEventListener('click', function() {
+            pageCount = 0; // Reset the page count
+            document.getElementById('seo-container').innerHTML = ''; // Clear previous results
+            populateSEOHelper(); // Start the SEO check
+        });
 
         // Scroll-up button functionality
         const scrollUpBtn = document.getElementById('scrollUpBtn');
@@ -203,5 +197,19 @@
             document.documentElement.scrollTop = 0;
         }
     </script>
+        <!-- Footer -->
+        <footer id="dynamic-footer"></footer>
+    
+        <!-- Firebase configuration/ Login& Out -->
+        <script type="module" src="../public/js/main.js"></script> 
+    
+        <!-- Dynamic Schema Markup -->
+        <script type="module">
+        import { db, storage, analytics, app  } from '../public/js/main.js'; // Adjust the path based on your structure
+        import { query, where, orderBy, limit,  collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+        
+    
+        </script>
+    
 </body>
 </html>
