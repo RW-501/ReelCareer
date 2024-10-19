@@ -144,18 +144,27 @@ main   .dropdown-menu {
 <main>
     <div class="container mt-4">
         <h1 class="text-center">SEO Helper Tool</h1>
-        <div class="text-center mb-4">
-            <button id="startButton" class="btn btn-primary">Start SEO Check</button>
-        </div>
+      
+        <div class="container mt-4">
+            <h2>Check Internal Links</h2>
+            <div class="input-group mb-3">
+                <input type="url" id="urlInput" class="form-control" placeholder="Enter a URL" aria-label="URL input" required>
+                <button id="startButton" class="btn btn-primary">Start</button>
+            </div>
+ </div>
+
         <h4 id="pageCount" class="text-center"></h4>
         <div id="progress-container" class="mt-4">
             <div class="progress">
                 <div id="progressBar" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
             </div>
         </div>
-        <div id="seo-container"></div>
+
         <div class="mt-4">
             <h4>Pages with Errors:</h4>
+            <h4 id="errorCount" class="text-center text-danger">404 Count: 0</h4>
+            <div id="errorDropdown" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#errorModal">View Errors</div>
+       
             <div class="dropdown">
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="errorDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Select a Page
@@ -163,9 +172,28 @@ main   .dropdown-menu {
                 <div class="dropdown-menu" id="errorList" aria-labelledby="errorDropdown"></div>
             </div>
         </div>
+        <div id="seo-container"></div>
+
     </div>
 </main>
 
+<!-- Modal for Detailed Error Reporting -->
+<div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="errorModalLabel">404 Error Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <ul id="errorListModal" class="list-group"></ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 
     <!-- Scroll-up button -->
     <button id="scrollUpBtn" onclick="scrollToTop()">⬆</button>
@@ -184,6 +212,55 @@ main   .dropdown-menu {
         let pageCount = 0; // Variable to keep track of the number of pages checked
         let totalPages = 0; // Total pages to check
         let errorPages = []; // Array to keep track of pages with errors
+
+        let errorCount = 0; // Initialize a count for 404 errors
+let errorUrls = []; // Array to keep track of URLs with 404 errors
+
+
+
+/*
+// Start checking pages when the button is clicked
+document.getElementById('startButton').addEventListener('click', () => {
+    // Sample array of URLs to check
+    const urlsToCheck = [
+        'https://example.com/page1',
+        'https://example.com/page2',
+        // Add more URLs here
+    ];
+    errorCount = 0; // Reset error count
+    errorUrls = []; // Reset error URLs
+    updateErrorCount(); // Update count display
+    document.getElementById('errorList').innerHTML = ''; // Clear previous errors
+
+
+    urlsToCheck.forEach(url => getInternalLinks(url));
+});
+*/
+
+// Function to open the error modal and populate it with URLs
+function openErrorModal() {
+    const errorListModal = document.getElementById('errorListModal');
+    errorListModal.innerHTML = ''; // Clear previous error list
+
+    errorUrls.forEach(url => {
+        const listItem = document.createElement('li');
+        listItem.classList.add('list-group-item');
+        listItem.textContent = url; // Display URL
+        errorListModal.appendChild(listItem);
+    });
+}
+
+// Function to show "Bad" on the collapsible button
+function showBadOnCollapseButton() {
+    const dropdownToggle = document.getElementById('errorDropdown');
+    dropdownToggle.innerText = 'Bad';
+    dropdownToggle.classList.add('btn-danger'); // Optional: Change button color
+}
+
+// Function to update the 404 count in the UI
+function updateErrorCount() {
+    document.getElementById('errorCount').innerText = `404 Count: ${errorCount}`;
+}
 
         // Function to get internal links
         function getInternalLinks() {
@@ -206,7 +283,22 @@ main   .dropdown-menu {
         async function checkLinkStatus(url) {
             try {
                 const response = await fetch(url, { method: 'HEAD' });
+                if (response.status === 404) {
+                    errorCount++;
+                    errorUrls.push(url); // Add URL to errorUrls array                updateErrorCount();
+                showBadOnCollapseButton(); // Function to update the button state
                 return response.status; // Return the HTTP status code
+
+            } else {
+                // Handle other responses
+                return response.status; // Return the HTTP status code
+
+            }
+            
+            
+            
+            
+            
             } catch (error) {
                 console.error(`Error fetching ${url}:`, error);
                 return null; // Return null if there's an error
@@ -479,6 +571,22 @@ main   .dropdown-menu {
             document.body.scrollTop = 0; // For Safari
             document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
         }
+
+// Start checking the URL when the button is clicked
+document.getElementById('startButton').addEventListener('click', () => {
+    const url = document.getElementById('urlInput').value;
+    if (url) {
+        errorCount = 0; // Reset error count
+        errorUrls = []; // Reset error URLs
+        updateErrorCount(); // Update count display
+        getInternalLinks(url); // Call the function with the provided URL
+    } else {
+        alert('Please enter a valid URL.');
+    }
+});
+
+// Add event listener for modal opening
+document.getElementById('errorDropdown').addEventListener('click', openErrorModal);
     </script>
 </body>
 </html>
