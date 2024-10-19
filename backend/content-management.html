@@ -520,7 +520,41 @@
     <!-- Footer -->
     <footer id="dynamic-footer"></footer>
     <script>
+     // Toggle content visibility
+     const toggleBtn = document.getElementById('toggleContentBtn');
+        const contentList = document.getElementById('contentList');
+        let isVisible = false;
 
+        toggleBtn.addEventListener('click', () => {
+            isVisible = !isVisible;
+            if (isVisible) {
+                contentList.style.display = 'block';
+                toggleBtn.textContent = 'Hide Content';
+            } else {
+                contentList.style.display = 'none';
+                toggleBtn.textContent = 'Show Content';
+            }
+        });
+
+        // Scroll to top button functionality
+        const scrollTopBtn = document.getElementById('scrollTopBtn');
+
+        // Show button when scrolling down 100px
+        window.onscroll = function () {
+            if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+                scrollTopBtn.style.display = 'block';
+            } else {
+                scrollTopBtn.style.display = 'none';
+            }
+        };
+
+        // Scroll to top when the button is clicked
+        scrollTopBtn.addEventListener('click', () => {
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+        });
+
+        
         // Initialize Quill editors for news and blog sections
         const newsEditor = new Quill('#newsEditor', {
     theme: 'snow',
