@@ -49,7 +49,6 @@ main form {
 }
 
 main input {
-    margin-bottom: 15px;
     padding: 12px;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -277,14 +276,14 @@ display: flex;
         <!-- Sign Up Form -->
         <form id="signup-form">
             <h2>Sign Up</h2>
-            <input type="email" id="signup-email" placeholder="Email" required>
+            <input type="email"  class="mb-2"  id="signup-email" placeholder="Email" required>
             
             <div class="input-container">
                 <input type="password" id="signup-password" placeholder="Password" required>
                 <span class="toggle-password" id="toggle-signup-password">👁️</span>
             </div>
             
-            <button type="submit">Sign Up</button>
+            <button class="mt-2" type="submit">Sign Up</button>
             <div class="form-link">
                 <p>Already have an account? <a href="#" id="show-login">Log In</a></p>
             </div>
@@ -293,16 +292,16 @@ display: flex;
         <!-- Log In Form -->
         <form id="login-form" style="display: none;">
             <h2>Log In</h2>
-            <input type="email" id="login-email" placeholder="Email" required>
+            <input type="email"  class="mb-2"  id="login-email" placeholder="Email" required>
             
             <div class="input-container">
                 <input type="password" id="login-password" placeholder="Password" required>
                 <span class="toggle-password" id="toggle-login-password">👁️</span>
             </div>
             
-            <button type="submit">Log In</button>
+            <button type="submit"  class="mt-2" >Log In</button>
             <div class="form-link">
-                <a href="#" id="forgot-password-link">Forgot Password?</a>
+                <a href="/views/Forgot-Password" id="forgot-password-link">Forgot Password?</a>
             </div>
             <div class="form-link">
                 <p>New user? <a href="#" id="show-signup">Sign Up</a></p>
