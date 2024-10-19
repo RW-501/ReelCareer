@@ -229,7 +229,7 @@ if (blogId) {
 
   
 // Iterate and create blog posts
-if (querySnapshot.length || querySnapshot.docs.length > 0) {  
+if (!querySnapshot.empty) {
     
     
     firstVisibleDoc = querySnapshot.docs[0];
@@ -480,7 +480,7 @@ function updatePagination() {
             });
         });
 
-        
+
 // Initial call to fetch total posts and blogs for the first page
 (async function init() {
     await fetchTotalPosts(); // Get the total number of posts
