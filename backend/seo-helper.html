@@ -149,51 +149,52 @@ main   .dropdown-menu {
 
 
 
-<main>
-    <div class="container mt-4">
-        <h1 class="text-center">SEO Helper Tool</h1>
-      
+    <main>
         <div class="container mt-4">
-            <h2>Check Internal Links</h2>
-            <div class="input-group mb-3">
-                <input type="url" id="urlInput" class="form-control" placeholder="Enter a URL" aria-label="URL input" required>
-                <button id="startButton" class="btn btn-primary">Start</button>
+            <h1 class="text-center">SEO Helper Tool</h1>
+          
+            <div class="container mt-4">
+                <h2>Check Internal Links</h2>
+                <div class="input-group mb-3">
+                    <input type="url" id="urlInput" class="form-control" placeholder="Enter a URL" aria-label="URL input" required>
+                    <button id="startButton" class="btn btn-primary">Start</button>
+                </div>
+     </div>
+    
+            <h4 id="pageCount" class="text-center"></h4>
+            <div id="progress-container" class="mt-4">
+                <div class="progress">
+                    <div id="progressBar" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
             </div>
- </div>
-
-        <h4 id="pageCount" class="text-center"></h4>
-        <div id="progress-container" class="mt-4">
-            <div class="progress">
-                <div id="progressBar" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+    
+            <div class="mt-5 form-control">
+                <h4>Pages with Errors:</h4>
+                <h4 id="errorCount" class="text-center text-danger">404 Count: 0</h4>
+               
+           <hr>
+           <div  class="mt-5 form-control">
+    
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="errorDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-bs-toggle="modal" data-bs-target="#errorModal">View Errors
+                    </button>
+                    <div class="dropdown-menu" id="errorList" aria-labelledby="errorDropdown"></div>
+                </div>
             </div>
-        </div>
-
-        <div class="mt-5 form-control">
-            <h4>Pages with Errors:</h4>
-            <h4 id="errorCount" class="text-center text-danger">404 Count: 0</h4>
-            <div id="errorDropdown" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#errorModal">View Errors</div>
-       <hr>
-       <div  class="mt-5 form-control">
-
-            <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="errorDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Select a Page
-                </button>
-                <div class="dropdown-menu" id="errorList" aria-labelledby="errorDropdown"></div>
+    
+    
             </div>
+            <hr>
+    
+            <div id="seo-container" class="mt-5 form-control-lg">
+                <!-- Your content goes here -->
+            </div>
+            
         </div>
+    </main>
 
 
-        </div>
-        <hr>
-
-        <div id="seo-container" class="mt-5 form-control-lg">
-            <!-- Your content goes here -->
-        </div>
-        
-    </div>
-</main>
-
+    
 <!-- Modal for Detailed Error Reporting -->
 <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
