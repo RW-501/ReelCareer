@@ -371,6 +371,10 @@ function showContentModal(element, collectionName, docId) {
 
     // Set the content of the editor using dangerouslyPasteHTML
     updateEditor.clipboard.dangerouslyPasteHTML(content); // Use this to paste HTML directly
+    
+    console.log("content    ",  content," updateEditor  " , updateEditor);
+
+   
     $('#modalTextContent').val(updateEditor.root.innerHTML); // Set the content
 
     // Set the image if available
@@ -646,7 +650,6 @@ async function loadAndRenderContent(collectionName, label) {
 
             // Add click event listener instead of inline onclick
             titleElement.addEventListener('click', () => showContentModal(titleElement, collectionName,docId ));
-console.log("nnnntitleElement, collectionName,docId    ",  titleElement, collectionName,docId);
 
             const contentElement = document.createElement('p');
             contentElement.textContent = content;
