@@ -744,6 +744,7 @@ function handleAuthStateChanged(user) {
 
   // Close the dropdown when clicking outside
   document.addEventListener("click", function (event) {
+    if(dropdownToggleButton){
     if (
       !dropdownToggleButton.contains(event.target) &&
       !dropdownMenu.contains(event.target)
@@ -751,6 +752,7 @@ function handleAuthStateChanged(user) {
       dropdownToggleButton.setAttribute("aria-expanded", false);
       dropdownMenu.classList.remove("show");
     }
+}
   });
 }
 
