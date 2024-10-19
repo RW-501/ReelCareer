@@ -306,6 +306,12 @@
     <!-- Footer -->
     <footer id="dynamic-footer"></footer>
     <script>
+
+
+
+
+
+
         // Initialize Quill editors for news and blog sections
         const newsEditor = new Quill('#newsEditor', {
     theme: 'snow',
@@ -339,36 +345,32 @@ const blogEditor = new Quill('#blogEditor', {
 
 
 
+// Initialize Quill editor once globally
+const quill = new Quill('#updateEditor', {
+    theme: 'snow',
+    modules: {
+        toolbar: [
+            [{ 'header': [1, 2, 3, false] }],
+            ['bold', 'italic', 'underline', 'strike'],
+            [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+            ['link', 'image', 'video'],
+            [{ 'color': [] }, { 'background': [] }],
+            ['blockquote', 'code-block'],
+            ['clean']
+        ]
+    }
+});
 
-function showContentModal(element, collectionName, docId) { 
+function showContentModal(element, collectionName, docId) {  
     const title = $(element).data('title');
     const content = $(element).data('content');
     const imageUrl = $(element).data('imageUrl'); // Assuming data-image attribute holds the image URL
-  
-  
-    console.log("nnnntitleElement, collectionName,docId   content,    ",  titleElement, collectionName,docId,content);
 
     // Set the modal title
     $('#contentModalLabel').text(title);
 
-    // Set the modal content in the Quill editor
-    const quill = new Quill('#updateEditor', {
-        theme: 'snow',
-        modules: {
-            toolbar: [
-            [{ 'header': [1, 2, 3, false] }],          // Header sizes for structure
-            ['bold', 'italic', 'underline', 'strike'], // Basic formatting options
-            [{ 'list': 'ordered' }, { 'list': 'bullet' }], // Ordered and unordered lists
-            ['link', 'image', 'video'],                 // Insert link, image, and video
-            [{ 'color': [] }, { 'background': [] }],    // Text and background colors
-            ['blockquote', 'code-block'],                // Quote and code block options
-            ['clean']                                    // Clear formatting option
-        ]
-        }
-    });
-
-    // Set the content of the editor
-    quill.setContents(quill.clipboard.convert(content));
+    // Set the content of the editor using dangerouslyPasteHTML
+    quill.clipboard.dangerouslyPasteHTML(content); // Use this to paste HTML directly
 
     // Set the image if available
     if (imageUrl) {
@@ -384,6 +386,7 @@ function showContentModal(element, collectionName, docId) {
     // Show the modal
     $('#contentModal').modal('show');
 }
+
 
         // Save content from Quill editor to hidden input before form submission
         $('#newsForm').on('submit', function() {
