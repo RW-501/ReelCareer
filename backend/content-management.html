@@ -73,6 +73,7 @@
         html {
             scroll-behavior: smooth;
         }
+        
     </style>  
 <script src="../public/js/scripts.js"></script>
 <script src="../public/js/loadScripts.js"></script>
@@ -477,23 +478,6 @@
 
 
 
-<!-- Modal for Viewing Post Content -->
-<div id="contentModal" class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 id="modalTitle" class="modal-title"></h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p id="modalContent"></p>
-            </div>
-        </div>
-    </div>
-</div>
-
 <!-- HTML: Calendar Modal -->
 <div id="calendarModal" class="modal">
     <div class="modal-content">
@@ -515,13 +499,53 @@
 
 
 
+<!-- Modal for displaying content -->
+<div class="modal fade hide" id="contentModal" tabindex="-1" role="dialog" aria-labelledby="contentModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="contentModalLabel"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            
+            <div class="modal-body" id="modalContentBody">
+                <img id="modalImage" src="" alt="Content Image" class="img-fluid mb-3" style="display:none;">
+                <hr>
+                <div class="form-group">
+                    <label for="modalTextContent">Content <i class="fas fa-question-circle" data-toggle="tooltip" title="Update post."></i></label>
+                    <!-- Replace the textarea with a div for Quill -->
+                    <div id="updateEditor" style="height: 200px;"></div>
+                    <input type="hidden" id="modalTextContent" name="modalTextContent" required>
+                </div>
+
+
+            </div>
+
+
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" id="deleteArticle">Delete</button>
+                <button type="button" class="btn btn-primary" id="updateArticle">Update</button>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
 
 
     <!-- Footer -->
     <footer id="dynamic-footer"></footer>
-
-
     <script>
+
+
+
+
+
      // Toggle content visibility
      const toggleBtn = document.getElementById('toggleContentBtn');
         const contentList = document.getElementById('contentList');

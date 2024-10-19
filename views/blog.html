@@ -86,6 +86,11 @@
     margin-top: 15px; /* Space above buttons */
 }
 
+#blog-container  {
+    margin: auto;
+    width: fit-content;
+    display: block;
+}
 
     </style>
    <!-- Bootstrap CSS -->
@@ -173,7 +178,7 @@
         return urlParams.get(param);
     }  
     
-        const postsPerPage = 6; // Define your posts per page
+        const postsPerPage = 1; // Define your posts per page
         let currentPage = 1;
 
         // Fetch blogs from Firestore
