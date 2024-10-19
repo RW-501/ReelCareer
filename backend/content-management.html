@@ -346,7 +346,7 @@ const blogEditor = new Quill('#blogEditor', {
 
 
 // Initialize Quill editor once globally
-const quill = new Quill('#updateEditor', {
+const updateEditor = new Quill('#updateEditor', {
     theme: 'snow',
     modules: {
         toolbar: [
@@ -370,8 +370,8 @@ function showContentModal(element, collectionName, docId) {
     $('#contentModalLabel').text(title);
 
     // Set the content of the editor using dangerouslyPasteHTML
-    quill.clipboard.dangerouslyPasteHTML(content); // Use this to paste HTML directly
-    $('#updateEditor').val(quill.root.innerHTML); // Set the content
+    //updateEditor.clipboard.dangerouslyPasteHTML(content); // Use this to paste HTML directly
+    $('#updateEditor').val(updateEditor.root.innerHTML); // Set the content
 
     // Set the image if available
     if (imageUrl) {
