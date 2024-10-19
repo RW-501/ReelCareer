@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEO Helper</title>
+    <style>
+        .seo-form {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+        .seo-form input, .seo-form textarea {
+            width: 100%;
+            padding: 8px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+        }
+        .seo-form label {
+            font-weight: bold;
+        }
+        .seo-form button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+        }
+        .seo-form button:hover {
+            background-color: #0056b3;
+        }
+        .seo-form .collapsible {
+            background-color: #f1f1f1;
+            cursor: pointer;
+            padding: 10px;
+            width: 100%;
+            border: none;
+            text-align: left;
+            outline: none;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        .seo-form .collapsible.active, .collapsible:hover {
+            background-color: #ddd;
+        }
+        .seo-form .content {
+            padding: 0 18px;
+            display: none;
+            overflow: hidden;
+            background-color: #f9f9f9;
+        }
+        /* Scroll-up button */
+        #scrollUpBtn {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 30px;
+            z-index: 99;
+            font-size: 18px;
+            border: none;
+            outline: none;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            padding: 15px;
+            border-radius: 50%;
+        }
+        #scrollUpBtn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>SEO Helper Tool</h1>
+    <div id="seo-container"></div>
+
+    <!-- Scroll-up button -->
+    <button id="scrollUpBtn" onclick="scrollToTop()">⬆</button>
+
+    <script>
+        // Function to get internal links
+        function getInternalLinks() {
+            const allLinks = document.querySelectorAll('a');  // Select all anchor tags
+            const internalLinks = [];
+            const currentDomain = window.location.hostname;   // Get the current domain name
+
+            allLinks.forEach(link => {
+                const linkHostname = new URL(link.href).hostname;  // Extract hostname from the link
+                if (linkHostname === currentDomain && link.href !== '' && link.href !== '#') {
+                    internalLinks.push(link.href);  // Add the internal link to the array
+                }
+            });
+
+            return internalLinks;  // Return the array of internal links
+        }
+
+        // Fetch title and meta tags for each internal link
+        async function fetchPageSEOData(url) {
+            try {
+                const response = await fetch(url);
+                const text = await response.text();
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(text, 'text/html');
+                
+                // Get title
+                const title = doc.querySelector('title') ? doc.querySelector('title').innerText : 'No title found';
+                
+                // Get meta tags
+                const metaTags = Array.from(doc.querySelectorAll('meta')).map(meta => {
+                    return `${meta.getAttribute('name') || meta.getAttribute('property')}: ${meta.getAttribute('content')}`;
+                }).join('\n');
+
+                return { title, metaTags };
+            } catch (error) {
+                console.error(`Failed to fetch SEO data for ${url}:`, error);
+                return { title: 'Error fetching title', metaTags: 'Error fetching meta tags' };
+            }
+        }
+
+        // Create a form for SEO details
+        function createSEOForm(url, title, metaTags) {
+            const container = document.getElementById('seo-container');
+
+            // Create a div for each SEO form
+            const formDiv = document.createElement('div');
+            formDiv.classList.add('seo-form');
+
+            // Create a collapsible button
+            const collapsible = document.createElement('button');
+            collapsible.textContent = `SEO Details for ${url}`;
+            collapsible.classList.add('collapsible');
+            
+            // Create a collapsible content section
+            const contentDiv = document.createElement('div');
+            contentDiv.classList.add('content');
+
+            // Create label and input for title
+            const titleLabel = document.createElement('label');
+            titleLabel.textContent = `Title for ${url}:`;
+            const titleInput = document.createElement('input');
+            titleInput.type = 'text';
+            titleInput.value = title;
+
+            // Create label and textarea for meta tags
+            const metaLabel = document.createElement('label');
+            metaLabel.textContent = `Meta Tags for ${url}:`;
+            const metaTextarea = document.createElement('textarea');
+            metaTextarea.rows = 5;
+            metaTextarea.value = metaTags;
+
+            // Create a paragraph to display the URL
+            const urlParagraph = document.createElement('p');
+            urlParagraph.textContent = `Page URL: ${url}`;
+
+            // Append elements to the content div
+            contentDiv.appendChild(titleLabel);
+            contentDiv.appendChild(titleInput);
+            contentDiv.appendChild(metaLabel);
+            contentDiv.appendChild(metaTextarea);
+            contentDiv.appendChild(urlParagraph);
+
+            // Append the collapsible and content divs to the form div
+            formDiv.appendChild(collapsible);
+            formDiv.appendChild(contentDiv);
+
+            // Append the form div to the container
+            container.appendChild(formDiv);
+
+            // Collapsible functionality
+            collapsible.addEventListener('click', function() {
+                this.classList.toggle('active');
+                const content = this.nextElementSibling;
+                content.style.display = content.style.display === 'block' ? 'none' : 'block';
+            });
+        }
+
+        // Main function to populate SEO data
+        async function populateSEOHelper() {
+            const internalLinks = getInternalLinks();
+            for (const link of internalLinks) {
+                const seoData = await fetchPageSEOData(link);
+                createSEOForm(link, seoData.title, seoData.metaTags);
+            }
+        }
+
+        // Run the SEO helper on page load
+        populateSEOHelper();
+
+        // Scroll-up button functionality
+        const scrollUpBtn = document.getElementById('scrollUpBtn');
+        window.onscroll = function() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                scrollUpBtn.style.display = 'block';
+            } else {
+                scrollUpBtn.style.display = 'none';
+            }
+        };
+
+        function scrollToTop() {
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+        }
+    </script>
+</body>
+</html>
