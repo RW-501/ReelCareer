@@ -293,8 +293,8 @@
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-danger" onclick="deleteArticle()">Delete</button>
-                <button type="button" class="btn btn-primary" onclick="updateArticle()">Update</button>
+                <button type="button" class="btn btn-danger" id="deleteArticle">Delete</button>
+                <button type="button" class="btn btn-primary" id="updateArticle">Update</button>
             </div>
             
         </div>
@@ -654,7 +654,6 @@ function showContentModal(element, collectionName, docId) {
     // Set the content of the editor using dangerouslyPasteHTML
     updateEditor.clipboard.dangerouslyPasteHTML(content); // Use this to paste HTML directly
     
-    console.log("content    ",  content," updateEditor  " , updateEditor);
 
    
     $('#modalTextContent').val(updateEditor.root.innerHTML); // Set the content
@@ -674,9 +673,16 @@ function showContentModal(element, collectionName, docId) {
     $('#contentModal').modal('show');
 }
 
+const deleteArticleBtn = document.getElementById('deleteArticle');
+const updateArticleBtn = document.getElementById('updateArticle');
 
+deleteArticleBtn.addEventListener('click', function() {
+    deleteArticle();
+    });
 
-
+    updateArticleBtn.addEventListener('click', function() {
+        updateArticle();
+    });
 
 /*
 // Function to show modal with content
