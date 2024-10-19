@@ -217,7 +217,7 @@ if (blogId) {
     }
 } else {
     const blogsRef = collection(db, "Blogs");
-        let blogsQuery = query(blogsRef, where("activate", "==", true), limit(postsPerPage));
+    let blogsQuery = query(blogsRef, where("activate", "==", true), limit(postsPerPage));
 
         // Handle pagination using Firestore's `startAfter`
         if (page > 1 && lastVisibleDoc) {
