@@ -27,20 +27,8 @@
             background-color: #0056b3;
         }
     </style>
-
-    <!-- Bootstrap CSS -->
-    <script src="../public/js/scripts.js"></script>
-    <script src="../public/js/loadScripts.js"></script>
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="../public/css/styles.css">
-
 </head>
-
-
 <body>
-    <script src="../public/js/bodyload.js"></script>
-    
-
     <div class="container mt-4">
         <h1 class="text-center">SEO Helper Tool</h1>
         <div class="text-center mb-4">
@@ -77,7 +65,18 @@
             return internalLinks;  // Return the array of internal links
         }
 
-        // Fetch title and meta tags for each internal link
+        // Check if a link resolves and return the status
+        async function checkLinkStatus(url) {
+            try {
+                const response = await fetch(url, { method: 'HEAD' });
+                return response.status; // Return the HTTP status code
+            } catch (error) {
+                console.error(`Error fetching ${url}:`, error);
+                return null; // Return null if there's an error
+            }
+        }
+
+        // Fetch title, meta tags, and check for Schema Markup for each internal link
         async function fetchPageSEOData(url) {
             try {
                 const response = await fetch(url);
@@ -93,22 +92,25 @@
                     return `${meta.getAttribute('name') || meta.getAttribute('property')}: ${meta.getAttribute('content')}`;
                 }).join('\n');
 
-                return { title, metaTags };
+                // Check for Schema Markup
+                const hasSchema = doc.querySelector('script[type="application/ld+json"]') !== null;
+
+                return { title, metaTags, hasSchema };
             } catch (error) {
                 console.error(`Failed to fetch SEO data for ${url}:`, error);
-                return { title: 'Error fetching title', metaTags: 'Error fetching meta tags' };
+                return { title: 'Error fetching title', metaTags: 'Error fetching meta tags', hasSchema: false };
             }
         }
 
         // Create a form for SEO details
-        function createSEOForm(url, title, metaTags) {
-            const container = document.getElementById('seo-container');
+        async function createSEOForm(url) {
+            const seoData = await fetchPageSEOData(url);
+            const statusCode = await checkLinkStatus(url); // Get the link status code
 
-            // Create a card for each SEO form
+            const container = document.getElementById('seo-container');
             const cardDiv = document.createElement('div');
             cardDiv.classList.add('card', 'mb-3');
 
-            // Create a collapsible button
             const collapsible = document.createElement('div');
             collapsible.classList.add('card-header', 'd-flex', 'justify-content-between', 'align-items-center', 'cursor-pointer');
             collapsible.textContent = `SEO Details for ${url}`;
@@ -117,32 +119,41 @@
             collapsible.appendChild(toggleIcon);
             cardDiv.appendChild(collapsible);
 
-            // Create a collapsible content section
             const contentDiv = document.createElement('div');
             contentDiv.classList.add('collapse');
             const cardBody = document.createElement('div');
             cardBody.classList.add('card-body');
 
-            // Create label and input for title
+            // Title
             const titleLabel = document.createElement('label');
             titleLabel.textContent = `Title for ${url}:`;
             const titleInput = document.createElement('input');
             titleInput.type = 'text';
             titleInput.classList.add('form-control');
-            titleInput.value = title;
+            titleInput.value = seoData.title;
 
-            // Create label and textarea for meta tags
+            // Meta Tags
             const metaLabel = document.createElement('label');
             metaLabel.textContent = `Meta Tags for ${url}:`;
             const metaTextarea = document.createElement('textarea');
             metaTextarea.rows = 5;
             metaTextarea.classList.add('form-control');
-            metaTextarea.value = metaTags;
+            metaTextarea.value = seoData.metaTags;
 
-            // Create a paragraph to display the URL
+            // URL
             const urlParagraph = document.createElement('p');
             urlParagraph.textContent = `Page URL: ${url}`;
             urlParagraph.classList.add('mt-2');
+
+            // Status
+            const statusParagraph = document.createElement('p');
+            statusParagraph.textContent = `Status: ${statusCode === 200 ? 'OK' : statusCode === 404 ? 'Broken Link' : 'Error fetching status'}`;
+            statusParagraph.classList.add('mt-2', statusCode === 200 ? 'text-success' : 'text-danger');
+
+            // Schema Markup
+            const schemaParagraph = document.createElement('p');
+            schemaParagraph.textContent = `Schema Markup: ${seoData.hasSchema ? 'Present' : 'Not Present'}`;
+            schemaParagraph.classList.add('mt-2', seoData.hasSchema ? 'text-success' : 'text-danger');
 
             // Append elements to the card body
             cardBody.appendChild(titleLabel);
@@ -150,10 +161,11 @@
             cardBody.appendChild(metaLabel);
             cardBody.appendChild(metaTextarea);
             cardBody.appendChild(urlParagraph);
+            cardBody.appendChild(statusParagraph);
+            cardBody.appendChild(schemaParagraph);
             contentDiv.appendChild(cardBody);
             cardDiv.appendChild(contentDiv);
 
-            // Append the card div to the container
             container.appendChild(cardDiv);
 
             // Collapsible functionality
@@ -170,8 +182,7 @@
         async function populateSEOHelper() {
             const internalLinks = getInternalLinks();
             for (const link of internalLinks) {
-                const seoData = await fetchPageSEOData(link);
-                createSEOForm(link, seoData.title, seoData.metaTags);
+                await createSEOForm(link);
             }
         }
 
@@ -197,19 +208,9 @@
             document.documentElement.scrollTop = 0;
         }
     </script>
-        <!-- Footer -->
-        <footer id="dynamic-footer"></footer>
-    
-        <!-- Firebase configuration/ Login& Out -->
-        <script type="module" src="../public/js/main.js"></script> 
-    
-        <!-- Dynamic Schema Markup -->
-        <script type="module">
-        import { db, storage, analytics, app  } from '../public/js/main.js'; // Adjust the path based on your structure
-        import { query, where, orderBy, limit,  collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
-        
-    
-        </script>
-    
+    <!-- Footer -->
+    <footer id="dynamic-footer"></footer>
+    <!-- Firebase configuration/ Login& Out -->
+    <script type="module" src="../public/js/main.js"></script> 
 </body>
 </html>
