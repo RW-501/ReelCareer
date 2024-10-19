@@ -634,14 +634,33 @@ const eventEditor = new Quill('#eventEditor', {
         }
     }
 }
-/*
-function toggleSection(sectionId) {
-    const sections = ['newsSection', 'blogSection', 'faqsSection'];
-    sections.forEach((id) => {
-        document.getElementById(id).style.display = (id === sectionId) ? 'block' : 'none';
+
+document.addEventListener('DOMContentLoaded', function() {
+    loadContent();
+    console.log("?????c    loadContent()????????????//");
+
+    // Add event listeners to modal buttons once
+    const date = ""; // Set default date or handle it dynamically
+    document.getElementById('addNewsBtn').addEventListener('click', function () {
+        closeCalendarModal();
+        toggleSection('newsSection');
+        document.getElementById('newsPostDate').value = date;  // Use dynamic date
     });
-}
-*/
+
+    document.getElementById('addBlogBtn').addEventListener('click', function () {
+        closeCalendarModal();
+        toggleSection('blogSection');
+        document.getElementById('blogPostDate').value = date;  // Use dynamic date
+    });
+
+    document.getElementById('addPostBtn').addEventListener('click', function () {
+        closeCalendarModal();
+        toggleSection('newPostModal');
+        document.getElementById('eventPostDate').value = date;  // Use dynamic date
+    });
+});
+
+
 $(document).ready(function(){
     $('[data-toggle="tooltip"]').tooltip();
 });
@@ -1053,30 +1072,6 @@ function showNewPostModal(date) {
 
 
 
-document.addEventListener('DOMContentLoaded', function() {
-    loadContent();
-    console.log("?????c    loadContent()????????????//");
-
-    // Add event listeners to modal buttons once
-    const date = ""; // Set default date or handle it dynamically
-    document.getElementById('addNewsBtn').addEventListener('click', function () {
-        closeCalendarModal();
-        toggleSection('newsSection');
-        document.getElementById('newsPostDate').value = date;  // Use dynamic date
-    });
-
-    document.getElementById('addBlogBtn').addEventListener('click', function () {
-        closeCalendarModal();
-        toggleSection('blogSection');
-        document.getElementById('blogPostDate').value = date;  // Use dynamic date
-    });
-
-    document.getElementById('addPostBtn').addEventListener('click', function () {
-        closeCalendarModal();
-        toggleSection('newPostModal');
-        document.getElementById('eventPostDate').value = date;  // Use dynamic date
-    });
-});
 
 
 // Initialize Quill editor once globally
