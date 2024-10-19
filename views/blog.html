@@ -229,7 +229,7 @@ if (blogId) {
 
   
 // Iterate and create blog posts
-if (!querySnapshot.empty) {
+if (querySnapshot && !querySnapshot.empty) {
     
     
     firstVisibleDoc = querySnapshot.docs[0];
