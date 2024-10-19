@@ -168,11 +168,13 @@ main   .dropdown-menu {
             </div>
         </div>
 
-        <div class="mt-4">
+        <div class="mt-5 form-control">
             <h4>Pages with Errors:</h4>
             <h4 id="errorCount" class="text-center text-danger">404 Count: 0</h4>
             <div id="errorDropdown" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#errorModal">View Errors</div>
-       
+       <hr>
+       <div  class="mt-5 form-control">
+
             <div class="dropdown">
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="errorDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Select a Page
@@ -180,7 +182,12 @@ main   .dropdown-menu {
                 <div class="dropdown-menu" id="errorList" aria-labelledby="errorDropdown"></div>
             </div>
         </div>
-        <div id="seo-container">
+
+
+        </div>
+        <hr>
+
+        <div id="seo-container" class="mt-5 form-control-lg">
             <!-- Your content goes here -->
         </div>
         
@@ -301,7 +308,7 @@ function updateErrorCount() {
 
             } else {
                 // Handle other responses
-                return response.status; // Return the HTTP status code
+            //   return response.status; // Return the HTTP status code
 
             }
             
