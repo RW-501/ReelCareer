@@ -151,13 +151,17 @@ main .form-link a:hover {
     width: 80%;
     /* background-color: #639ad4; */
     background-image: url(../images/8pic_rc.png);
-    background-size: cover;
+    background-size: contain;
     background-position: center;
     /* background: linear-gradient(135deg, #639ad4, #00CFFF); */
     /* background-clip: text; */
     box-sizing: border-box;
     /* -webkit-background-clip: text; */
     animation: shine 1.5s infinite alternate;
+
+
+    box-shadow: 0 0 30px 20px rgba(0, 0, 0, 0.5); /* Adjust the shadow size and spread */
+    border-radius: 10px; /* Optional: makes the corners rounded */
 }
 
 /* Animation for shine effect */
