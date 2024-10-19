@@ -1062,7 +1062,7 @@ function showNewPostModal(date) {
 
 
 // Initialize Quill editor once globally
-const quill  = new Quill('#updateEditor', {
+let updateEditor  = new Quill('#updateEditor', {
     theme: 'snow',
     modules: {
         toolbar: [
@@ -1098,7 +1098,7 @@ function showContentModal(element, collectionName, docId) {
 
     // Set the content of the editor using dangerouslyPasteHTML
     
-    quill.clipboard.dangerouslyPasteHTML(content); // Use this to paste HTML directly
+    updateEditor.clipboard.dangerouslyPasteHTML(content); // Use this to paste HTML directly
     console.log("???updateEditor??????????????//   ",content);
    
     //$('#modalTextContent').val(updateEditor.root.innerHTML); // Set the content
