@@ -100,6 +100,14 @@ main   .dropdown-menu {
 
 
 
+#seo-container {
+    max-height: 400px; /* Set a maximum height */
+    overflow-y: auto;  /* Enable vertical scrolling */
+    overflow-x: hidden; /* Disable horizontal scrolling if desired */
+    border: 1px solid #ccc; /* Optional: Add a border for visibility */
+    padding: 10px; /* Optional: Add padding for better aesthetics */
+    background-color: #f9f9f9; /* Optional: Set a background color */
+}
 
 
 
@@ -172,8 +180,10 @@ main   .dropdown-menu {
                 <div class="dropdown-menu" id="errorList" aria-labelledby="errorDropdown"></div>
             </div>
         </div>
-        <div id="seo-container"></div>
-
+        <div id="seo-container">
+            <!-- Your content goes here -->
+        </div>
+        
     </div>
 </main>
 
@@ -263,11 +273,11 @@ function updateErrorCount() {
 }
 
         // Function to get internal links
-        function getInternalLinks() {
+        function getInternalLinks(currentDomain) {
             const allLinks = document.querySelectorAll('a');  // Select all anchor tags
             const internalLinks = [];
           //  const currentDomain = window.location.hostname;   // Get the current domain name
-            const currentDomain = "https://reelcareer.co/";   // Get the current domain name
+          //  const currentDomain = "https://reelcareer.co/";   // Get the current domain name
 
             allLinks.forEach(link => {
                 const linkHostname = new URL(link.href).hostname;  // Extract hostname from the link
