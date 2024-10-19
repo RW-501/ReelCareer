@@ -17,64 +17,7 @@
 <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
 
 
-      <!-- Custom CSS -->
-      <style>
-  
-  
-
-        #contentList {
-            display: none; /* Initially hidden */
-            max-height: 400px; /* Set a max-height to make it scrollable */
-            overflow-y: auto;
-            margin-top: 20px;
-            padding: 15px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Scroll-to-top button */
-        #scrollTopBtn {
-            display: none; /* Initially hidden */
-            position: fixed;
-            bottom: 40px;
-            right: 40px;
-            z-index: 99;
-            font-size: 18px;
-            border: none;
-            outline: none;
-            background-color: #007bff;
-            color: white;
-            cursor: pointer;
-            padding: 10px;
-            border-radius: 50%;
-            transition: background-color 0.3s ease;
-        }
-
-        #scrollTopBtn:hover {
-            background-color: #0056b3;
-        }
-
-        .toggle-btn {
-            background-color: #28a745;
-            color: #fff;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .toggle-btn:hover {
-            background-color: #218838;
-        }
-
-        /* Smooth scrolling */
-        html {
-            scroll-behavior: smooth;
-        }
-        
-    </style>  
+    
 <script src="../public/js/scripts.js"></script>
 <script src="../public/js/loadScripts.js"></script>
 
@@ -305,106 +248,6 @@
     </div>
 
 
-<!-- Modal for Creating New Post -->
-<div id="newPostModal" class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 id="newPostModalTitle" class="modal-title">Create New Post</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form id="eventForm">
-                    <div class="form-group">
-                        <label for="postType">Post Type</label>
-                        <select id="postType" class="form-control">
-                            <option value="blog">Blog</option>
-                            <option value="news">News</option>
-                            <option value="event">Event</option>
-                        </select>
-                    </div>
-
-
-                    <div class="form-group">
-                        <label for="postTitle">Title</label>
-                        <input type="text" class="form-control" id="postTitle" placeholder="Enter title">
-                    </div>
-                    <div class="form-group">
-                        <label for="eventContent">Content <i class="fas fa-question-circle" data-toggle="tooltip" title="Write the content of the blog post."></i></label>
-                        <!-- Replace the textarea with a div for Quill -->
-                        <div id="eventEditor" style="height: 200px;"></div>
-                        <input type="hidden" id="eventContent" name="eventContent" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="eventImage">Upload Image <i class="fas fa-question-circle" data-toggle="tooltip" title="Upload an image for the news article."></i></label>
-                        <input type="file" class="form-control" id="eventImage" accept="image/*" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="eventPostDate">Post Date <i class="fas fa-question-circle" data-toggle="tooltip" title="Select the date when the blog post will be published."></i></label>
-                        <input type="date" class="form-control" id="eventPostDate" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="eventTags">Tags (comma-separated):</label>
-        <input type="text" id="eventTags" placeholder="Enter tags">
-        </div>
-                    <input type="hidden" id="newPostModalDate">
-                    <button type="submit" class="btn btn-primary">Create Post</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-<style>
-    /* Calendar Day Styles */
-.calendar-day {
-    padding: 15px;
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
-}
-.calendar-day:hover {
-    background-color: #f0f8ff;
-    transform: scale(1.05);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-/* Post Type Colors */
-.blog {
-    background-color: #ffeb3b;
-}
-.news {
-    background-color: #4caf50;
-}
-.event {
-    background-color: #f44336;
-}
-
-/* Modal Styles */
-.modal .modal-header {
-    background-color: #007bff;
-    color: white;
-}
-
-.modal .modal-body {
-    background-color: #f8f9fa;
-}
-
-/* Form Customization */
-#newPostForm .form-control {
-    border-radius: 4px;
-    box-shadow: none;
-    transition: box-shadow 0.2s;
-}
-
-#newPostForm .form-control:focus {
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-    border-color: #007bff;
-}
-</style>
-
-<div id="calendar"></div>
 
     
 <div id="viewContent">
@@ -413,89 +256,11 @@
             <input type="text" class="form-control" id="searchContent" placeholder="Search articles, blogs, FAQs..." onkeyup="filterContent()">
         </div>
 
-
-
-
-
-        <div class="container mt-5">
-            <h2>Existing Content</h2>
-            <button id="toggleContentBtn" class="toggle-btn">Show Content</button>
-    
-            <!-- Scrollable content list -->
-            <div id="contentList">
-                <!-- Dynamically filled content will go here -->
-                <ul class="list-group">
-                    <li class="list-group-item">Content Item 1</li>
-                    <li class="list-group-item">Content Item 2</li>
-                    <li class="list-group-item">Content Item 3</li>
-                    <li class="list-group-item">Content Item 4</li>
-                    <li class="list-group-item">Content Item 5</li>
-                    <li class="list-group-item">Content Item 6</li>
-                    <li class="list-group-item">Content Item 7</li>
-                    <li class="list-group-item">Content Item 8</li>
-                    <li class="list-group-item">Content Item 9</li>
-                    <li class="list-group-item">Content Item 10</li>
-                </ul>
-            </div>
-    
-            <!-- Scroll to Top Button -->
-            <button id="scrollTopBtn" title="Scroll to top">
-                <i class="fas fa-arrow-up"></i>
-            </button>
-        </div>
-
-
+        <h2 class="mt-4">Existing Content</h2>
+        <div id="contentList"></div>
     </div>
     
 </div>
-
-
-   
-            <div class="modal-body" id="modalContentBody">
-                <img id="modalImage" src="" alt="Content Image" class="img-fluid mb-3" style="display:none;">
-                <hr>
-                <div class="form-group">
-                    <label for="modalTextContent">Content <i class="fas fa-question-circle" data-toggle="tooltip" title="Update post."></i></label>
-                    <!-- Replace the textarea with a div for Quill -->
-                    <div id="updateEditor" style="height: 200px;"></div>
-                    <input type="hidden" id="modalTextContent" name="modalTextContent" required>
-                </div>
-
-
-            </div>
-
-
-
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-danger" id="deleteArticle">Delete</button>
-                <button type="button" class="btn btn-primary" id="updateArticle">Update</button>
-            </div>
-            
-        </div>
-    </div>
-</div>
-
-
-
-<!-- HTML: Calendar Modal -->
-<div id="calendarModal" class="modal">
-    <div class="modal-content">
-        <h4>Select Post Type</h4>
-        <p>Do you want to add a News, Blog, or Post?</p>
-        <button id="addNewsBtn" class="btn">News</button>
-        <button id="addBlogBtn" class="btn">Blog</button>
-        <button id="addPostBtn" class="btn">Event</button>
-    </div>
-</div>
-
-<!-- HTML: Hidden Date Inputs for Blog and News -->
-<input type="hidden" id="newsPostDate">
-<input type="hidden" id="blogPostDate">
-
-
-
-
 
 
 
@@ -546,40 +311,6 @@
 
 
 
-     // Toggle content visibility
-     const toggleBtn = document.getElementById('toggleContentBtn');
-        const contentList = document.getElementById('contentList');
-        let isVisible = false;
-
-        toggleBtn.addEventListener('click', () => {
-            isVisible = !isVisible;
-            if (isVisible) {
-                contentList.style.display = 'block';
-                toggleBtn.textContent = 'Hide Content';
-            } else {
-                contentList.style.display = 'none';
-                toggleBtn.textContent = 'Show Content';
-            }
-        });
-
-        // Scroll to top button functionality
-        const scrollTopBtn = document.getElementById('scrollTopBtn');
-
-        // Show button when scrolling down 100px
-        window.onscroll = function () {
-            if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
-                scrollTopBtn.style.display = 'block';
-            } else {
-                scrollTopBtn.style.display = 'none';
-            }
-        };
-
-        // Scroll to top when the button is clicked
-        scrollTopBtn.addEventListener('click', () => {
-            document.body.scrollTop = 0;
-            document.documentElement.scrollTop = 0;
-        });
-
 
         // Initialize Quill editors for news and blog sections
         const newsEditor = new Quill('#newsEditor', {
@@ -613,22 +344,6 @@ const blogEditor = new Quill('#blogEditor', {
 });
 
 
-const eventEditor = new Quill('#eventEditor', {
-    theme: 'snow',
-    modules: {
-        toolbar: [
-            [{ 'header': [1, 2, 3, false] }],          // Header sizes for structure
-            ['bold', 'italic', 'underline', 'strike'], // Basic formatting options
-            [{ 'list': 'ordered' }, { 'list': 'bullet' }], // Ordered and unordered lists
-            ['link', 'image', 'video'],                 // Insert link, image, and video
-            [{ 'color': [] }, { 'background': [] }],    // Text and background colors
-            ['blockquote', 'code-block'],                // Quote and code block options
-            ['clean']                                    // Clear formatting option
-        ]
-    }
-});
-
-
 
 
         // Save content from Quill editor to hidden input before form submission
@@ -639,30 +354,8 @@ const eventEditor = new Quill('#eventEditor', {
         $('#blogForm').on('submit', function() {
             $('#blogContent').val(blogEditor.root.innerHTML); // Set the content
         });
-        $('#eventForm').on('submit', function() {
-            $('#eventContent').val(eventEditor.root.innerHTML); // Set the content
-        });
 
 
-        function filterContent() {
-    const input = document.getElementById('searchContent');
-    const filter = input.value.toLowerCase();
-    const contentDiv = document.getElementById('contentList');
-    const contentItems = contentDiv.getElementsByTagName('div');
-
-    for (let i = 0; i < contentItems.length; i++) {
-        const title = contentItems[i].getElementsByTagName('h5')[0];
-        if (title) {
-            const txtValue = title.textContent || title.innerText;
-            contentItems[i].style.display = txtValue.toLowerCase().includes(filter) ? "" : "none";
-        }
-    }
-}
-
-
-$(document).ready(function(){
-    $('[data-toggle="tooltip"]').tooltip();
-});
 
         // Toggle sections visibility
         function toggleSection(sectionId) {
@@ -679,11 +372,49 @@ $(document).ready(function(){
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 <script type="module">
      import { db, storage, analytics, app, auth  } from '../public/js/main.js'; // Adjust the path based on your structure
-     import { deleteDoc, doc, updateDoc, query, where, orderBy, limit,  collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+     import { deleteDoc, updateDoc, query, where, orderBy, limit,  collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
      import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-storage.js"; // Import required functions
 
       
 
+
+     async function updateArticle() {
+    const docId = $('#modalTextContent').data('docId');
+    const collectionName = $('#modalTextContent').data('collectionName');
+
+    // Get the updated content from Quill
+    const updatedContent = updateEditor.root.innerHTML; // Get the content from Quill editor
+
+    try {
+        await updateDoc(doc(db, collectionName, docId), {
+            content: updatedContent,
+            // You can update more fields as needed
+        });
+        alert('Article updated successfully!');
+        $('#contentModal').modal('hide');
+        // Optionally reload the content or update the display
+    } catch (error) {
+        console.error("Error updating document: ", error);
+        alert('Error updating article. Please try again.');
+    }
+}
+
+async function deleteArticle() {
+    const docId = $('#modalTextContent').data('docId');
+    const collectionName = $('#modalTextContent').data('collectionName');
+
+    if (confirm('Are you sure you want to delete this article? This action cannot be undone.')) {
+        try {
+            await deleteDoc(doc(db, collectionName, docId));
+            alert('Article deleted successfully!');
+            $('#contentModal').modal('hide');
+            // Optionally reload the content or update the display
+        } catch (error) {
+            console.error("Error deleting document: ", error);
+            alert('Error deleting article. Please try again.');
+        }
+    }
+}
 
 
             // Function to upload image to Firebase Storage
@@ -805,7 +536,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const newsForm = document.getElementById('newsForm');
     const blogForm = document.getElementById('blogForm');
     const faqForm = document.getElementById('faqsForm');
-    const eventForm = document.getElementById('eventForm');
 
     // Function to reset form fields, excluding date input
     function resetFormFields(form) {
@@ -819,10 +549,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Add event listener for the news form reset
-    eventForm.addEventListener('reset', function() {
-        resetFormFields(eventForm);
-    });
-        // Add event listener for the news form reset
     newsForm.addEventListener('reset', function() {
         resetFormFields(newsForm);
     });
@@ -840,45 +566,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Load existing content
       
- // Remove existing event listeners before adding new ones
- function clearAndAddEventListeners(date) {
-    // Remove existing event listeners from calendar days
-    document.querySelectorAll('.calendar-day').forEach(dayElement => {
-        const newElement = dayElement.cloneNode(true); // Clone element to remove listeners
-        dayElement.parentNode.replaceChild(newElement, dayElement); // Replace with a clean copy
-    });
-
-    // Re-add event listeners to calendar days
-    document.querySelectorAll('.calendar-day').forEach(dayElement => {
-        dayElement.addEventListener('click', function () {
-            const selectedDate = this.dataset.date;
-            showPostTypeModal(selectedDate);
-        });
-    });
-
-    // Remove existing event listeners from buttons
-    const newsBtn = document.getElementById('addNewsBtn');
-    const blogBtn = document.getElementById('addBlogBtn');
-    const postBtn = document.getElementById('addPostBtn');
-
-    newsBtn.replaceWith(newsBtn.cloneNode(true)); // Remove listeners
-    blogBtn.replaceWith(blogBtn.cloneNode(true)); // Remove listeners
-    postBtn.replaceWith(postBtn.cloneNode(true)); // Remove listeners
-
-   }
-
-
-
-async function loadContent() {
+        async function loadContent() {
     const contentList = document.getElementById('contentList');
     contentList.innerHTML = ''; // Clear existing content
-console.log("????????????????????//");
+
     try {
         // Fetch and Render News, Blogs, and FAQs
         await loadAndRenderContent('News', 'News');
         await loadAndRenderContent('Blogs', 'Blog');
         await loadAndRenderContent('FAQs', 'FAQ');
-        await loadAndRenderContent('Events', 'Event');
 
     } catch (error) {
         console.error("Error loading content: ", error);
@@ -897,12 +593,6 @@ async function loadAndRenderContent(collectionName, label) {
             const title = collectionName === 'FAQs' ? data.question : data.title;
             const content = collectionName === 'FAQs' ? data.answer : data.content;
             
-
-            let posts = {id: docId, type: collectionName, date: data.postDate
-            , title: title, content: content };
-
-            renderCalendar(posts);
-
             // Use DOM methods to create and append elements
             const contentItem = document.createElement('div');
             const titleElement = document.createElement('h5');
@@ -929,168 +619,16 @@ async function loadAndRenderContent(collectionName, label) {
     }
 }
 
-
-function renderCalendar(posts) {
-    const calendar = document.getElementById('calendar');
-    calendar.innerHTML = ''; // Clear current calendar
-
-    const days = ['2024-10-18', '2024-10-19', '2024-10-20']; // Example days
-
-    days.forEach(day => {
-        const dayElement = document.createElement('div');
-        dayElement.classList.add('calendar-day');
-        dayElement.dataset.date = day;
-        dayElement.innerText = day;
-
-        // Ensure posts is an array and filter posts by the date
-        if (Array.isArray(posts)) {
-            const dayPosts = posts.filter(post => post.date === day);
-            
-            if (dayPosts.length > 0) {
-                dayElement.classList.add(dayPosts[0].type); // Assign type as class
-                dayElement.dataset.postId = dayPosts[0].id; // Store post ID
-    
-                dayElement.addEventListener('click', () => {
-                    showContentModal(dayPosts[0]); // Show the first post
-                });
-            } else {
-                // If no posts for this date, allow user to create a new one
-                dayElement.addEventListener('click', () => {
-                    showNewPostModal(day);
-                });
-            }
-        }
-        
-        calendar.appendChild(dayElement);
-    });
-
-
-    // Call the clearAndAddEventListeners function after rendering the days
-    clearAndAddEventListeners(days); // Pass the days for button events
-}
-
-
-
-// Handle Post Creation
-document.getElementById('eventForm').addEventListener('submit', async function (event) {
-    event.preventDefault();
-
-    const file = document.getElementById('eventImage').files[0];
-    const quillContent = quill.getContents(); // Get content from Quill editor
-    document.getElementById('eventContent').value = quillContent; // Assign it to hidden input
-
-    try {
-        const imageUrl = await uploadImage(file);
-
-        // Add a new document to the 'Events' collection
-        await addDoc(collection(db, 'Events'), {
-            type: document.getElementById('postType').value,
-            postDate: document.getElementById('eventPostDate').value,
-            title: document.getElementById('postTitle').value,
-            content: document.getElementById('eventContent').value,
-            imageUrl: imageUrl,
-            viewCount: 0,
-            activate: true,
-            tags: document.getElementById('eventTags').value.split(',').map(tag => tag.trim())
-        });
-
-        alert('Event saved successfully!');
-        document.getElementById('eventForm').reset(); // Reset the form after submission
-        renderCalendar(posts); // Re-render calendar with the new post
-        $('#newPostModal').modal('hide'); // Close the modal
-
-    } catch (error) {
-        console.error('Error adding document: ', error);
-    }
-});
-
-
-
-
-
-// JavaScript: Add Event Listener for Calendar Days
-document.querySelectorAll('.calendar-day').forEach(dayElement => {
-    dayElement.addEventListener('click', function () {
-        const selectedDate = this.dataset.date;
-        showPostTypeModal(selectedDate);
-    });
-});
-
-// Function to Show Post Type Modal and Handle Selection
-function showPostTypeModal(date) {
-    // Open the modal
-    document.getElementById('calendarModal').style.display = 'block';
-
-    // Add event listeners to the buttons
-    document.getElementById('addNewsBtn').addEventListener('click', function () {
-        closeCalendarModal();
-        toggleSection('newsSection');
-        document.getElementById('newsPostDate').value = date;  // Insert date into input
-    });
-
-    document.getElementById('addBlogBtn').addEventListener('click', function () {
-        closeCalendarModal();
-        toggleSection('blogSection');
-        document.getElementById('blogPostDate').value = date;  // Insert date into input
-    });
-
-    document.getElementById('addPostBtn').addEventListener('click', function () {
-        closeCalendarModal();
-        toggleSection('newPostModal');
-        document.getElementById('eventPostDate').value = date;  // Insert date into input
-
-    });
-}
-
-// Function to Close Calendar Modal
-function closeCalendarModal() {
-    document.getElementById('calendarModal').style.display = 'none';
-}
-
-
-
-
-
-
-
-
-// Modal for Creating New Post
-function showNewPostModal(date) {
-    document.getElementById('eventPostDate').value = date;
-    $('#newPostModal').modal('show');
-}
-
-
+// Load content on page load
 document.addEventListener('DOMContentLoaded', function() {
     loadContent();
-    console.log("?????c    loadContent()????????????//");
-
-    // Add event listeners to modal buttons once
-    const date = ""; // Set default date or handle it dynamically
-    document.getElementById('addNewsBtn').addEventListener('click', function () {
-        closeCalendarModal();
-        toggleSection('newsSection');
-        document.getElementById('newsPostDate').value = date;  // Use dynamic date
-    });
-
-    document.getElementById('addBlogBtn').addEventListener('click', function () {
-        closeCalendarModal();
-        toggleSection('blogSection');
-        document.getElementById('blogPostDate').value = date;  // Use dynamic date
-    });
-
-    document.getElementById('addPostBtn').addEventListener('click', function () {
-        closeCalendarModal();
-        toggleSection('newPostModal');
-        document.getElementById('eventPostDate').value = date;  // Use dynamic date
-    });
 });
 
+</script>
 
-
-
+<script>
 // Initialize Quill editor once globally
-const  updateEditor  = new Quill('#updateEditor', {
+const updateEditor = new Quill('#updateEditor', {
     theme: 'snow',
     modules: {
         toolbar: [
@@ -1105,17 +643,6 @@ const  updateEditor  = new Quill('#updateEditor', {
     }
 });
 
-
-
-/*
-// Modal for Viewing Post Content
-function showContentModal(post) {
-    document.getElementById('modalTitle').innerText = post.title;
-    document.getElementById('modalContent').innerText = post.content;
-    
-    $('#contentModal').modal('show');
-}
-*/
 function showContentModal(element, collectionName, docId) {  
     const title = $(element).data('title');
     const content = $(element).data('content');
@@ -1125,11 +652,11 @@ function showContentModal(element, collectionName, docId) {
     $('#contentModalLabel').text(title);
 
     // Set the content of the editor using dangerouslyPasteHTML
-    
     updateEditor.clipboard.dangerouslyPasteHTML(content); // Use this to paste HTML directly
-    console.log("???updateEditor??????????????//   ",content);
+    
+
    
-    //$('#modalTextContent').val(updateEditor.root.innerHTML); // Set the content
+    $('#modalTextContent').val(updateEditor.root.innerHTML); // Set the content
 
     // Set the image if available
     if (imageUrl) {
@@ -1144,46 +671,7 @@ function showContentModal(element, collectionName, docId) {
 
     // Show the modal
     $('#contentModal').modal('show');
-
-    
-    async function updateArticle() {
-    const docId = $('#modalTextContent').data('docId');
-    const collectionName = $('#modalTextContent').data('collectionName');
-
-    // Get the updated content from Quill
-    const updatedContent = updateEditor.root.innerHTML; // Get the content from Quill editor
-
-    try {
-        await updateDoc(doc(db, collectionName, docId), {
-            content: updatedContent,
-            // You can update more fields as needed
-        });
-        alert('Article updated successfully!');
-        $('#contentModal').modal('hide');
-        // Optionally reload the content or update the display
-    } catch (error) {
-        console.error("Error updating document: ", error);
-        alert('Error updating article. Please try again.');
-    }
 }
-
-async function deleteArticle() {
-    const docId = $('#modalTextContent').data('docId');
-    const collectionName = $('#modalTextContent').data('collectionName');
-
-    if (confirm('Are you sure you want to delete this article? This action cannot be undone.')) {
-        try {
-            await deleteDoc(doc(db, collectionName, docId));
-            alert('Article deleted successfully!');
-            $('#contentModal').modal('hide');
-            // Optionally reload the content or update the display
-        } catch (error) {
-            console.error("Error deleting document: ", error);
-            alert('Error deleting article. Please try again.');
-        }
-    }
-}
-
 
 const deleteArticleBtn = document.getElementById('deleteArticle');
 const updateArticleBtn = document.getElementById('updateArticle');
@@ -1195,12 +683,58 @@ deleteArticleBtn.addEventListener('click', function() {
     updateArticleBtn.addEventListener('click', function() {
         updateArticle();
     });
+
+/*
+// Function to show modal with content
+function showContentModal(element, collectionName,docId) {
+        const title = $(element).data('title');
+        const content = $(element).data('content');
+        const imageUrl = $(element).data('image'); // Assuming data-image attribute holds the image URL
+
+        // Set the modal title
+        $('#contentModalLabel').text(title);
+
+        // Set the modal content
+        $('#modalTextContent').text(content);
+
+        // Set the image if available
+        if (imageUrl) {
+            $('#modalImage').attr('src', imageUrl).show();
+        } else {
+            $('#modalImage').hide(); // Hide the image if not available
+        }
+
+        // Show the modal
+        $('#contentModal').modal('show');
+    }
+*/
+function filterContent() {
+    const input = document.getElementById('searchContent');
+    const filter = input.value.toLowerCase();
+    const contentDiv = document.getElementById('contentList');
+    const contentItems = contentDiv.getElementsByTagName('div');
+
+    for (let i = 0; i < contentItems.length; i++) {
+        const title = contentItems[i].getElementsByTagName('h5')[0];
+        if (title) {
+            const txtValue = title.textContent || title.innerText;
+            contentItems[i].style.display = txtValue.toLowerCase().includes(filter) ? "" : "none";
+        }
+    }
 }
 
+function toggleSection(sectionId) {
+    const sections = ['newsSection', 'blogSection', 'faqsSection'];
+    sections.forEach((id) => {
+        document.getElementById(id).style.display = (id === sectionId) ? 'block' : 'none';
+    });
+}
 
-    </script>
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();
+});
 
-    <script>
+
 
     </script>
 
