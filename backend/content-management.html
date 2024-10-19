@@ -426,7 +426,7 @@ function showContentModal(element, collectionName, docId) {
     const collectionName = $('#modalTextContent').data('collectionName');
 
     // Get the updated content from Quill
-    const updatedContent = quill.root.innerHTML; // Get the content from Quill editor
+    const updatedContent = updateEditor.root.innerHTML; // Get the content from Quill editor
 
     try {
         await updateDoc(doc(db, collectionName, docId), {
