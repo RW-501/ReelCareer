@@ -172,19 +172,19 @@ main   .dropdown-menu {
                 <h4>Pages with Errors:</h4>
                 <h4 id="errorCount" class="text-center text-danger">404 Count: 0</h4>
                
-           <hr>
+           <hr/>
            <div  class="mt-5 form-control">
-    
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="errorDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-bs-toggle="modal" data-bs-target="#errorModal">View Errors
+            </button>
                 <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="errorDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-bs-toggle="modal" data-bs-target="#errorModal">View Errors
-                    </button>
+
                     <div class="dropdown-menu" id="errorList" aria-labelledby="errorDropdown"></div>
                 </div>
             </div>
     
     
             </div>
-            <hr>
+            <hr/>
     
             <div id="seo-container" class="mt-5 form-control-lg">
                 <!-- Your content goes here -->
@@ -194,7 +194,7 @@ main   .dropdown-menu {
     </main>
 
 
-    
+
 <!-- Modal for Detailed Error Reporting -->
 <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
