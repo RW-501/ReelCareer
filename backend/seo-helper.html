@@ -6,7 +6,60 @@
     <title>SEO Helper</title>
     <!-- Bootstrap CSS -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        h1, h4 {
+            color: #007bff;
+        }
+        .container {
+            padding: 20px;
+            border-radius: 8px;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .btn {
+            border-radius: 25px;
+            padding: 10px 20px;
+            transition: background-color 0.3s;
+        }
+
+        .btn {
+    transition: background-color 0.3s, transform 0.2s;
+}
+.btn:hover {
+    background-color: #0056b3; /* Darker shade */
+    transform: translateY(-2px); /* Lift effect */
+}
+
+        .card {
+            border: none;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.2s;
+        }
+        .card:hover {
+            transform: scale(1.01);
+        }
+        
+        .card {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    transition: box-shadow 0.3s;
+}
+.card:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+
+        .dropdown-menu {
+            max-height: 300px;
+            overflow-y: auto;
+        }
         /* Scroll-up button */
         #scrollUpBtn {
             display: none;
@@ -26,6 +79,31 @@
         #scrollUpBtn:hover {
             background-color: #0056b3;
         }
+        /* Progress bar */
+        #progressBar {
+            height: 20px;
+        }
+        #progressBar {
+    background: linear-gradient(to right, #4caf50, #81c784);
+}
+
+
+
+        @media (max-width: 768px) {
+    .card-body {
+        font-size: 14px; /* Smaller font for mobile */
+    }
+}
+
+
+
+
+
+
+
+
+
+
     </style>
 </head>
 <body>
@@ -35,7 +113,21 @@
             <button id="startButton" class="btn btn-primary">Start SEO Check</button>
         </div>
         <h4 id="pageCount" class="text-center"></h4>
+        <div id="progress-container" class="mt-4">
+            <div class="progress">
+                <div id="progressBar" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </div>
         <div id="seo-container"></div>
+        <div class="mt-4">
+            <h4>Pages with Errors:</h4>
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="errorDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Select a Page
+                </button>
+                <div class="dropdown-menu" id="errorList" aria-labelledby="errorDropdown"></div>
+            </div>
+        </div>
     </div>
 
     <!-- Scroll-up button -->
@@ -48,6 +140,8 @@
 
     <script>
         let pageCount = 0; // Variable to keep track of the number of pages checked
+        let totalPages = 0; // Total pages to check
+        let errorPages = []; // Array to keep track of pages with errors
 
         // Function to get internal links
         function getInternalLinks() {
@@ -76,17 +170,17 @@
             }
         }
 
-        // Fetch title, meta tags, and check for Schema Markup for each internal link
+        // Fetch title, meta tags, check for Schema Markup, and extract styles for each internal link
         async function fetchPageSEOData(url) {
             try {
                 const response = await fetch(url);
                 const text = await response.text();
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(text, 'text/html');
-                
+
                 // Get title
                 const title = doc.querySelector('title') ? doc.querySelector('title').innerText : 'No title found';
-                
+
                 // Get meta tags
                 const metaTags = Array.from(doc.querySelectorAll('meta')).map(meta => {
                     return `${meta.getAttribute('name') || meta.getAttribute('property')}: ${meta.getAttribute('content')}`;
@@ -95,10 +189,70 @@
                 // Check for Schema Markup
                 const hasSchema = doc.querySelector('script[type="application/ld+json"]') !== null;
 
-                return { title, metaTags, hasSchema };
+                // Get style tag contents
+                const styleTags = Array.from(doc.querySelectorAll('style')).map(style => style.innerText).join('\n\n') || 'No style tags found';
+
+                // Get word count
+                const wordCount = text.split(/\s+/).filter(word => word.length > 0).length;
+
+                // Get heading tags (H1, H2, etc.)
+                const headings = {
+                    H1: doc.querySelectorAll('h1').length,
+                    H2: doc.querySelectorAll('h2').length,
+                    H3: doc.querySelectorAll('h3').length,
+                    H4: doc.querySelectorAll('h4').length,
+                    H5: doc.querySelectorAll('h5').length,
+                    H6: doc.querySelectorAll('h6').length
+                };
+
+                // Get image alt attributes
+                const imgTags = Array.from(doc.querySelectorAll('img'));
+                const imgAltAttributes = imgTags.map(img => ({
+                    src: img.src,
+                    alt: img.alt || 'No alt attribute'
+                }));
+
+                // Get canonical tags
+                const canonicalTags = Array.from(doc.querySelectorAll('link[rel="canonical"]')).map(link => link.href);
+
+                // Get Open Graph tags
+                const ogTags = Array.from(doc.querySelectorAll('meta[property^="og:"]')).map(meta => ({
+                    property: meta.getAttribute('property'),
+                    content: meta.getAttribute('content')
+                }));
+
+                // Get Twitter Card tags
+                const twitterTags = Array.from(doc.querySelectorAll('meta[name^="twitter:"]')).map(meta => ({
+                    name: meta.getAttribute('name'),
+                    content: meta.getAttribute('content')
+                }));
+
+                return {
+                    title,
+                    metaTags,
+                    hasSchema,
+                    styleTags,
+                    wordCount,
+                    headings,
+                    imgAltAttributes,
+                    canonicalTags,
+                    ogTags,
+                    twitterTags
+                };
             } catch (error) {
                 console.error(`Failed to fetch SEO data for ${url}:`, error);
-                return { title: 'Error fetching title', metaTags: 'Error fetching meta tags', hasSchema: false };
+                return {
+                    title: 'Error fetching title',
+                    metaTags: 'Error fetching meta tags',
+                    hasSchema: false,
+                    styleTags: 'Error fetching style tags',
+                    wordCount: 0,
+                    headings: {},
+                    imgAltAttributes: [],
+                    canonicalTags: [],
+                    ogTags: [],
+                    twitterTags: []
+                };
             }
         }
 
@@ -140,77 +294,148 @@
             metaTextarea.classList.add('form-control');
             metaTextarea.value = seoData.metaTags;
 
-            // URL
-            const urlParagraph = document.createElement('p');
-            urlParagraph.textContent = `Page URL: ${url}`;
-            urlParagraph.classList.add('mt-2');
+            // Style Tags
+            const styleLabel = document.createElement('label');
+            styleLabel.textContent = `Style Tags for ${url}:`;
+            const styleTextarea = document.createElement('textarea');
+            styleTextarea.rows = 10;
+            styleTextarea.classList.add('form-control');
+            styleTextarea.value = seoData.styleTags;
 
-            // Status
-            const statusParagraph = document.createElement('p');
-            statusParagraph.textContent = `Status: ${statusCode === 200 ? 'OK' : statusCode === 404 ? 'Broken Link' : 'Error fetching status'}`;
-            statusParagraph.classList.add('mt-2', statusCode === 200 ? 'text-success' : 'text-danger');
+            // Word Count
+            const wordCountLabel = document.createElement('label');
+            wordCountLabel.textContent = `Word Count for ${url}: ${seoData.wordCount}`;
 
-            // Schema Markup
-            const schemaParagraph = document.createElement('p');
-            schemaParagraph.textContent = `Schema Markup: ${seoData.hasSchema ? 'Present' : 'Not Present'}`;
-            schemaParagraph.classList.add('mt-2', seoData.hasSchema ? 'text-success' : 'text-danger');
+            // Heading Tags
+            const headingLabel = document.createElement('label');
+            headingLabel.textContent = `Heading Tags for ${url}:`;
+            const headingsText = `H1: ${seoData.headings.H1}, H2: ${seoData.headings.H2}, H3: ${seoData.headings.H3}, H4: ${seoData.headings.H4}, H5: ${seoData.headings.H5}, H6: ${seoData.headings.H6}`;
+            const headingsDiv = document.createElement('div');
+            headingsDiv.textContent = headingsText;
 
-            // Append elements to the card body
+            // Image Alt Attributes
+            const imgAltLabel = document.createElement('label');
+            imgAltLabel.textContent = `Image Alt Attributes for ${url}:`;
+            const imgAltDiv = document.createElement('div');
+            seoData.imgAltAttributes.forEach(img => {
+                const imgAltText = document.createElement('div');
+                imgAltText.textContent = `Image: ${img.src}, Alt: ${img.alt}`;
+                imgAltDiv.appendChild(imgAltText);
+            });
+
+            // Canonical Tags
+            const canonicalLabel = document.createElement('label');
+            canonicalLabel.textContent = `Canonical Tags for ${url}:`;
+            const canonicalDiv = document.createElement('div');
+            seoData.canonicalTags.forEach(canonical => {
+                const canonicalText = document.createElement('div');
+                canonicalText.textContent = `Canonical: ${canonical}`;
+                canonicalDiv.appendChild(canonicalText);
+            });
+
+            // Open Graph Tags
+            const ogLabel = document.createElement('label');
+            ogLabel.textContent = `Open Graph Tags for ${url}:`;
+            const ogDiv = document.createElement('div');
+            seoData.ogTags.forEach(og => {
+                const ogText = document.createElement('div');
+                ogText.textContent = `${og.property}: ${og.content}`;
+                ogDiv.appendChild(ogText);
+            });
+
+            // Twitter Card Tags
+            const twitterLabel = document.createElement('label');
+            twitterLabel.textContent = `Twitter Card Tags for ${url}:`;
+            const twitterDiv = document.createElement('div');
+            seoData.twitterTags.forEach(twitter => {
+                const twitterText = document.createElement('div');
+                twitterText.textContent = `${twitter.name}: ${twitter.content}`;
+                twitterDiv.appendChild(twitterText);
+            });
+
+            // Add elements to the card body
             cardBody.appendChild(titleLabel);
             cardBody.appendChild(titleInput);
             cardBody.appendChild(metaLabel);
             cardBody.appendChild(metaTextarea);
-            cardBody.appendChild(urlParagraph);
-            cardBody.appendChild(statusParagraph);
-            cardBody.appendChild(schemaParagraph);
+            cardBody.appendChild(styleLabel);
+            cardBody.appendChild(styleTextarea);
+            cardBody.appendChild(wordCountLabel);
+            cardBody.appendChild(headingLabel);
+            cardBody.appendChild(headingsDiv);
+            cardBody.appendChild(imgAltLabel);
+            cardBody.appendChild(imgAltDiv);
+            cardBody.appendChild(canonicalLabel);
+            cardBody.appendChild(canonicalDiv);
+            cardBody.appendChild(ogLabel);
+            cardBody.appendChild(ogDiv);
+            cardBody.appendChild(twitterLabel);
+            cardBody.appendChild(twitterDiv);
+
             contentDiv.appendChild(cardBody);
             cardDiv.appendChild(contentDiv);
-
             container.appendChild(cardDiv);
 
-            // Collapsible functionality
-            collapsible.addEventListener('click', function() {
-                contentDiv.classList.toggle('show');
-                toggleIcon.textContent = toggleIcon.textContent === '▼' ? '▲' : '▼';
-            });
+            // Update error pages
+            if (statusCode !== 200) {
+                errorPages.push(url); // Add the URL to errorPages array
+                const errorItem = document.createElement('a');
+                errorItem.classList.add('dropdown-item');
+                errorItem.href = url;
+                errorItem.textContent = `Error ${statusCode}: ${url}`;
+                errorItem.target = "_blank"; // Open in a new tab
+                document.getElementById('errorList').appendChild(errorItem);
+            }
 
-            pageCount++; // Increment the page count
-            document.getElementById('pageCount').textContent = `Pages Checked: ${pageCount}`; // Update the page count display
+            pageCount++;
+            updateProgressBar();
         }
 
-        // Main function to populate SEO data
-        async function populateSEOHelper() {
-            const internalLinks = getInternalLinks();
-            for (const link of internalLinks) {
-                await createSEOForm(link);
+        // Update the progress bar
+        function updateProgressBar() {
+            const progressBar = document.getElementById('progressBar');
+            const progressPercentage = (pageCount / totalPages) * 100; // Calculate percentage
+            progressBar.style.width = `${progressPercentage}%`; // Update progress bar width
+            progressBar.setAttribute('aria-valuenow', progressPercentage); // Set aria-valuenow for accessibility
+            document.getElementById('pageCount').innerText = `Checked ${pageCount} out of ${totalPages} pages.`;
+        }
+
+        // Main function to start checking pages
+        async function startChecking() {
+            const internalLinks = getInternalLinks();  // Get internal links from the page
+            totalPages = internalLinks.length;  // Set total pages to check
+            pageCount = 0;  // Reset page count
+            errorPages = [];  // Reset error pages
+
+            // Clear previous results
+            document.getElementById('seo-container').innerHTML = '';
+            document.getElementById('errorList').innerHTML = '';
+            document.getElementById('progressBar').style.width = '0%'; // Reset progress bar
+
+            // Check each link one by one
+            for (const url of internalLinks) {
+                await createSEOForm(url);
+                await new Promise(resolve => setTimeout(resolve, 2000)); // Wait 2 seconds before checking the next page
             }
         }
 
-        // Start button functionality
-        document.getElementById('startButton').addEventListener('click', function() {
-            pageCount = 0; // Reset the page count
-            document.getElementById('seo-container').innerHTML = ''; // Clear previous results
-            populateSEOHelper(); // Start the SEO check
-        });
+        // Button click event
+        document.getElementById('startButton').addEventListener('click', startChecking);
 
-        // Scroll-up button functionality
-        const scrollUpBtn = document.getElementById('scrollUpBtn');
+        // Scroll to top function
         window.onscroll = function() {
+            const scrollUpBtn = document.getElementById("scrollUpBtn");
             if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-                scrollUpBtn.style.display = 'block';
+                scrollUpBtn.style.display = "block";
             } else {
-                scrollUpBtn.style.display = 'none';
+                scrollUpBtn.style.display = "none";
             }
         };
 
         function scrollToTop() {
-            document.body.scrollTop = 0;
-            document.documentElement.scrollTop = 0;
+            document.body.scrollTop = 0; // For Safari
+            document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
         }
     </script>
-    <!-- Footer -->
-    <footer id="dynamic-footer"></footer>
-    <!-- Firebase configuration/ Login& Out -->
-    <script type="module" src="../public/js/main.js"></script> 
 </body>
 </html>
