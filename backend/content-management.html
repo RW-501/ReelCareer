@@ -378,44 +378,6 @@ const blogEditor = new Quill('#blogEditor', {
       
 
 
-     async function updateArticle() {
-    const docId = $('#modalTextContent').data('docId');
-    const collectionName = $('#modalTextContent').data('collectionName');
-
-    // Get the updated content from Quill
-    const updatedContent = updateEditor.root.innerHTML; // Get the content from Quill editor
-
-    try {
-        await updateDoc(doc(db, collectionName, docId), {
-            content: updatedContent,
-            // You can update more fields as needed
-        });
-        alert('Article updated successfully!');
-        $('#contentModal').modal('hide');
-        // Optionally reload the content or update the display
-    } catch (error) {
-        console.error("Error updating document: ", error);
-        alert('Error updating article. Please try again.');
-    }
-}
-
-async function deleteArticle() {
-    const docId = $('#modalTextContent').data('docId');
-    const collectionName = $('#modalTextContent').data('collectionName');
-
-    if (confirm('Are you sure you want to delete this article? This action cannot be undone.')) {
-        try {
-            await deleteDoc(doc(db, collectionName, docId));
-            alert('Article deleted successfully!');
-            $('#contentModal').modal('hide');
-            // Optionally reload the content or update the display
-        } catch (error) {
-            console.error("Error deleting document: ", error);
-            alert('Error deleting article. Please try again.');
-        }
-    }
-}
-
 
             // Function to upload image to Firebase Storage
 
@@ -671,6 +633,45 @@ function showContentModal(element, collectionName, docId) {
 
     // Show the modal
     $('#contentModal').modal('show');
+
+    
+    async function updateArticle() {
+    const docId = $('#modalTextContent').data('docId');
+    const collectionName = $('#modalTextContent').data('collectionName');
+
+    // Get the updated content from Quill
+    const updatedContent = updateEditor.root.innerHTML; // Get the content from Quill editor
+
+    try {
+        await updateDoc(doc(db, collectionName, docId), {
+            content: updatedContent,
+            // You can update more fields as needed
+        });
+        alert('Article updated successfully!');
+        $('#contentModal').modal('hide');
+        // Optionally reload the content or update the display
+    } catch (error) {
+        console.error("Error updating document: ", error);
+        alert('Error updating article. Please try again.');
+    }
+}
+
+async function deleteArticle() {
+    const docId = $('#modalTextContent').data('docId');
+    const collectionName = $('#modalTextContent').data('collectionName');
+
+    if (confirm('Are you sure you want to delete this article? This action cannot be undone.')) {
+        try {
+            await deleteDoc(doc(db, collectionName, docId));
+            alert('Article deleted successfully!');
+            $('#contentModal').modal('hide');
+            // Optionally reload the content or update the display
+        } catch (error) {
+            console.error("Error deleting document: ", error);
+            alert('Error deleting article. Please try again.');
+        }
+    }
+}
 
 
 const deleteArticleBtn = document.getElementById('deleteArticle');
