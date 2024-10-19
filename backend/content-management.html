@@ -586,9 +586,7 @@ document.addEventListener('DOMContentLoaded', function() {
     loadContent();
 });
 
-</script>
 
-<script>
 // Initialize Quill editor once globally
 const updateEditor = new Quill('#updateEditor', {
     theme: 'snow',
@@ -686,30 +684,6 @@ deleteArticleBtn.addEventListener('click', function() {
     });
 }
 
-/*
-// Function to show modal with content
-function showContentModal(element, collectionName,docId) {
-        const title = $(element).data('title');
-        const content = $(element).data('content');
-        const imageUrl = $(element).data('image'); // Assuming data-image attribute holds the image URL
-
-        // Set the modal title
-        $('#contentModalLabel').text(title);
-
-        // Set the modal content
-        $('#modalTextContent').text(content);
-
-        // Set the image if available
-        if (imageUrl) {
-            $('#modalImage').attr('src', imageUrl).show();
-        } else {
-            $('#modalImage').hide(); // Hide the image if not available
-        }
-
-        // Show the modal
-        $('#contentModal').modal('show');
-    }
-*/
 function filterContent() {
     const input = document.getElementById('searchContent');
     const filter = input.value.toLowerCase();
