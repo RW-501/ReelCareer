@@ -17,7 +17,63 @@
 <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
 
 
-    
+      <!-- Custom CSS -->
+      <style>
+  
+  
+
+        #contentList {
+            display: none; /* Initially hidden */
+            max-height: 400px; /* Set a max-height to make it scrollable */
+            overflow-y: auto;
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Scroll-to-top button */
+        #scrollTopBtn {
+            display: none; /* Initially hidden */
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            z-index: 99;
+            font-size: 18px;
+            border: none;
+            outline: none;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 50%;
+            transition: background-color 0.3s ease;
+        }
+
+        #scrollTopBtn:hover {
+            background-color: #0056b3;
+        }
+
+        .toggle-btn {
+            background-color: #28a745;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .toggle-btn:hover {
+            background-color: #218838;
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>  
 <script src="../public/js/scripts.js"></script>
 <script src="../public/js/loadScripts.js"></script>
 
@@ -256,24 +312,88 @@
             <input type="text" class="form-control" id="searchContent" placeholder="Search articles, blogs, FAQs..." onkeyup="filterContent()">
         </div>
 
-        <h2 class="mt-4">Existing Content</h2>
-        <div id="contentList"></div>
+
+
+
+
+        <div class="container mt-5">
+            <h2>Existing Content</h2>
+            <button id="toggleContentBtn" class="toggle-btn">Show Content</button>
+    
+            <!-- Scrollable content list -->
+            <div id="contentList">
+                <!-- Dynamically filled content will go here -->
+                <ul class="list-group">
+                    <li class="list-group-item">Content Item 1</li>
+                    <li class="list-group-item">Content Item 2</li>
+                    <li class="list-group-item">Content Item 3</li>
+                    <li class="list-group-item">Content Item 4</li>
+                    <li class="list-group-item">Content Item 5</li>
+                    <li class="list-group-item">Content Item 6</li>
+                    <li class="list-group-item">Content Item 7</li>
+                    <li class="list-group-item">Content Item 8</li>
+                    <li class="list-group-item">Content Item 9</li>
+                    <li class="list-group-item">Content Item 10</li>
+                </ul>
+            </div>
+    
+            <!-- Scroll to Top Button -->
+            <button id="scrollTopBtn" title="Scroll to top">
+                <i class="fas fa-arrow-up"></i>
+            </button>
+        </div>
+
+
     </div>
     
 </div>
 
+<style>
+    /* Calendar Day Styles */
+.calendar-day {
+    padding: 15px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+.calendar-day:hover {
+    background-color: #f0f8ff;
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
 
+/* Post Type Colors */
+.blog {
+    background-color: #ffeb3b;
+}
+.news {
+    background-color: #4caf50;
+}
+.event {
+    background-color: #f44336;
+}
 
-<!-- Modal for displaying content -->
-<div class="modal fade hide" id="contentModal" tabindex="-1" role="dialog" aria-labelledby="contentModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="contentModalLabel"></h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
+/* Modal Styles */
+.modal .modal-header {
+    background-color: #007bff;
+    color: white;
+}
+
+.modal .modal-body {
+    background-color: #f8f9fa;
+}
+
+/* Form Customization */
+#newPostForm .form-control {
+    border-radius: 4px;
+    box-shadow: none;
+    transition: box-shadow 0.2s;
+}
+
+#newPostForm .form-control:focus {
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    border-color: #007bff;
+}
+</style>
 
             
             <div class="modal-body" id="modalContentBody">
@@ -300,6 +420,100 @@
         </div>
     </div>
 </div>
+
+
+<div id="calendar"></div>
+
+<!-- Modal for Viewing Post Content -->
+<div id="contentModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 id="modalTitle" class="modal-title"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id="modalContent"></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for Creating New Post -->
+<div id="newPostModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 id="newPostModalTitle" class="modal-title">Create New Post</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="eventForm">
+                    <div class="form-group">
+                        <label for="postType">Post Type</label>
+                        <select id="postType" class="form-control">
+                            <option value="blog">Blog</option>
+                            <option value="news">News</option>
+                            <option value="event">Event</option>
+                        </select>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="postTitle">Title</label>
+                        <input type="text" class="form-control" id="postTitle" placeholder="Enter title">
+                    </div>
+                    <div class="form-group">
+                        <label for="eventContent">Content <i class="fas fa-question-circle" data-toggle="tooltip" title="Write the content of the blog post."></i></label>
+                        <!-- Replace the textarea with a div for Quill -->
+                        <div id="eventEditor" style="height: 200px;"></div>
+                        <input type="hidden" id="eventContent" name="eventContent" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="eventImage">Upload Image <i class="fas fa-question-circle" data-toggle="tooltip" title="Upload an image for the news article."></i></label>
+                        <input type="file" class="form-control" id="eventImage" accept="image/*" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="eventPostDate">Post Date <i class="fas fa-question-circle" data-toggle="tooltip" title="Select the date when the blog post will be published."></i></label>
+                        <input type="date" class="form-control" id="eventPostDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="eventTags">Tags (comma-separated):</label>
+        <input type="text" id="eventTags" placeholder="Enter tags">
+        </div>
+                    <input type="hidden" id="newPostModalDate">
+                    <button type="submit" class="btn btn-primary">Create Post</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- HTML: Calendar Modal -->
+<div id="calendarModal" class="modal">
+    <div class="modal-content">
+        <h4>Select Post Type</h4>
+        <p>Do you want to add a News, Blog, or Post?</p>
+        <button id="addNewsBtn" class="btn">News</button>
+        <button id="addBlogBtn" class="btn">Blog</button>
+        <button id="addPostBtn" class="btn">Event</button>
+    </div>
+</div>
+
+<!-- HTML: Hidden Date Inputs for Blog and News -->
+<input type="hidden" id="newsPostDate">
+<input type="hidden" id="blogPostDate">
+
+
+
+
+
+
 
 
 
@@ -344,6 +558,22 @@ const blogEditor = new Quill('#blogEditor', {
 });
 
 
+const eventEditor = new Quill('#eventEditor', {
+    theme: 'snow',
+    modules: {
+        toolbar: [
+            [{ 'header': [1, 2, 3, false] }],          // Header sizes for structure
+            ['bold', 'italic', 'underline', 'strike'], // Basic formatting options
+            [{ 'list': 'ordered' }, { 'list': 'bullet' }], // Ordered and unordered lists
+            ['link', 'image', 'video'],                 // Insert link, image, and video
+            [{ 'color': [] }, { 'background': [] }],    // Text and background colors
+            ['blockquote', 'code-block'],                // Quote and code block options
+            ['clean']                                    // Clear formatting option
+        ]
+    }
+});
+
+
 
 
         // Save content from Quill editor to hidden input before form submission
@@ -354,8 +584,36 @@ const blogEditor = new Quill('#blogEditor', {
         $('#blogForm').on('submit', function() {
             $('#blogContent').val(blogEditor.root.innerHTML); // Set the content
         });
+        $('#eventForm').on('submit', function() {
+            $('#eventContent').val(eventEditor.root.innerHTML); // Set the content
+        });
 
 
+        function filterContent() {
+    const input = document.getElementById('searchContent');
+    const filter = input.value.toLowerCase();
+    const contentDiv = document.getElementById('contentList');
+    const contentItems = contentDiv.getElementsByTagName('div');
+
+    for (let i = 0; i < contentItems.length; i++) {
+        const title = contentItems[i].getElementsByTagName('h5')[0];
+        if (title) {
+            const txtValue = title.textContent || title.innerText;
+            contentItems[i].style.display = txtValue.toLowerCase().includes(filter) ? "" : "none";
+        }
+    }
+}
+/*
+function toggleSection(sectionId) {
+    const sections = ['newsSection', 'blogSection', 'faqsSection'];
+    sections.forEach((id) => {
+        document.getElementById(id).style.display = (id === sectionId) ? 'block' : 'none';
+    });
+}
+*/
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();
+});
 
         // Toggle sections visibility
         function toggleSection(sectionId) {
@@ -498,6 +756,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const newsForm = document.getElementById('newsForm');
     const blogForm = document.getElementById('blogForm');
     const faqForm = document.getElementById('faqsForm');
+    const eventForm = document.getElementById('eventForm');
 
     // Function to reset form fields, excluding date input
     function resetFormFields(form) {
@@ -511,6 +770,10 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Add event listener for the news form reset
+    eventForm.addEventListener('reset', function() {
+        resetFormFields(eventForm);
+    });
+        // Add event listener for the news form reset
     newsForm.addEventListener('reset', function() {
         resetFormFields(newsForm);
     });
@@ -528,7 +791,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Load existing content
       
-        async function loadContent() {
+ 
+
+
+async function loadContent() {
     const contentList = document.getElementById('contentList');
     contentList.innerHTML = ''; // Clear existing content
 
@@ -537,6 +803,7 @@ document.addEventListener('DOMContentLoaded', function() {
         await loadAndRenderContent('News', 'News');
         await loadAndRenderContent('Blogs', 'Blog');
         await loadAndRenderContent('FAQs', 'FAQ');
+        await loadAndRenderContent('Events', 'Event');
 
     } catch (error) {
         console.error("Error loading content: ", error);
@@ -555,6 +822,12 @@ async function loadAndRenderContent(collectionName, label) {
             const title = collectionName === 'FAQs' ? data.question : data.title;
             const content = collectionName === 'FAQs' ? data.answer : data.content;
             
+
+            let posts = {id: docId, type: collectionName, date: data.postDate
+            , title: title, content: content };
+
+            renderCalendar(posts);
+
             // Use DOM methods to create and append elements
             const contentItem = document.createElement('div');
             const titleElement = document.createElement('h5');
@@ -580,6 +853,155 @@ async function loadAndRenderContent(collectionName, label) {
         console.error(`Error loading ${collectionName}: `, error);
     }
 }
+
+// Render Calendar with Posts Marked
+function renderCalendar(posts) {
+    const calendar = document.getElementById('calendar');
+    
+    // Assume days are rendered dynamically from the backend
+    const days = ['2024-10-18', '2024-10-19', '2024-10-20']; // Example days
+    
+    days.forEach(day => {
+        const dayElement = document.createElement('div');
+        dayElement.classList.add('calendar-day');
+        dayElement.dataset.date = day;
+        dayElement.innerText = day;
+
+        // Check if there's a post on this day
+        const post = posts.find(p => p.date === day);
+        if (post) {
+            dayElement.classList.add(post.type); // Add post type class
+            dayElement.dataset.postId = post.id; // Store post ID
+        }
+
+        // Attach event listener to display post or create a new one
+        dayElement.addEventListener('click', (e) => {
+            const postId = e.target.dataset.postId;
+            if (postId) {
+                const post = posts.find(p => p.id == postId);
+                showContentModal(post);
+            } else {
+                showNewPostModal(day);
+            }
+        });
+
+        calendar.appendChild(dayElement);
+    });
+}
+
+// Modal for Viewing Post Content
+function showContentModal(post) {
+    document.getElementById('modalTitle').innerText = post.title;
+    document.getElementById('modalContent').innerText = post.content;
+    
+    $('#contentModal').modal('show');
+}
+
+// Modal for Creating New Post
+function showNewPostModal(date) {
+    document.getElementById('eventPostDate').value = date;
+    $('#newPostModal').modal('show');
+}
+
+// Handle Post Creation
+ document.getElementById('eventForm').addEventListener('submit', async function(event) {
+    event.preventDefault();
+
+
+    const file = document.getElementById('eventImage').files[0];
+    try {
+        const imageUrl = await uploadImage(file);
+
+        const eventCollection = collection(db, 'Events');
+
+        // Add a new document to the 'FAQs' collection
+        await addDoc(eventCollection, {
+            type: document.getElementById('postType').value,
+            postDate: document.getElementById('eventPostDate').value,
+        title: document.getElementById('postTitle').value,
+        content: document.getElementById('postContent').value,
+        imageUrl: imageUrl,
+        viewCount: 0,
+    activate: true,
+    tags: document.getElementById('eventTags').value.split(',').map(tag => tag.trim()) // Process tags as an array
+});
+
+        alert('FAQ saved successfully!');
+         document.getElementById('postForm').reset(); // Uncomment if you want to reset the form
+    } catch (error) {
+        console.error('Error adding document: ', error);
+    }
+
+    posts.push(newPost);
+    renderCalendar(posts); // Re-render calendar with the new post
+
+    $('#newPostModal').modal('hide'); // Close modal
+});
+
+
+
+
+
+
+// JavaScript: Add Event Listener for Calendar Days
+document.querySelectorAll('.calendar-day').forEach(dayElement => {
+    dayElement.addEventListener('click', function () {
+        const selectedDate = this.dataset.date;
+        showPostTypeModal(selectedDate);
+    });
+});
+
+// Function to Show Post Type Modal and Handle Selection
+function showPostTypeModal(date) {
+    // Open the modal
+    document.getElementById('calendarModal').style.display = 'block';
+
+    // Add event listeners to the buttons
+    document.getElementById('addNewsBtn').addEventListener('click', function () {
+        closeCalendarModal();
+        toggleSection('newsSection');
+        document.getElementById('newsPostDate').value = date;  // Insert date into input
+    });
+
+    document.getElementById('addBlogBtn').addEventListener('click', function () {
+        closeCalendarModal();
+        toggleSection('blogSection');
+        document.getElementById('blogPostDate').value = date;  // Insert date into input
+    });
+
+    document.getElementById('addPostBtn').addEventListener('click', function () {
+        closeCalendarModal();
+        toggleSection('newPostModal');
+        document.getElementById('eventPostDate').value = date;  // Insert date into input
+
+    });
+}
+
+// Function to Close Calendar Modal
+function closeCalendarModal() {
+    document.getElementById('calendarModal').style.display = 'none';
+}
+
+
+
+
+
+// Modal for Creating New Post
+function showNewPostModal(date) {
+    document.getElementById('newPostModalDate').value = date;
+    $('#newPostModal').modal('show');
+}
+
+
+
+
+
+
+
+
+
+
+
 
 // Load content on page load
 document.addEventListener('DOMContentLoaded', function() {
@@ -684,31 +1106,6 @@ deleteArticleBtn.addEventListener('click', function() {
     });
 }
 
-function filterContent() {
-    const input = document.getElementById('searchContent');
-    const filter = input.value.toLowerCase();
-    const contentDiv = document.getElementById('contentList');
-    const contentItems = contentDiv.getElementsByTagName('div');
-
-    for (let i = 0; i < contentItems.length; i++) {
-        const title = contentItems[i].getElementsByTagName('h5')[0];
-        if (title) {
-            const txtValue = title.textContent || title.innerText;
-            contentItems[i].style.display = txtValue.toLowerCase().includes(filter) ? "" : "none";
-        }
-    }
-}
-
-function toggleSection(sectionId) {
-    const sections = ['newsSection', 'blogSection', 'faqsSection'];
-    sections.forEach((id) => {
-        document.getElementById(id).style.display = (id === sectionId) ? 'block' : 'none';
-    });
-}
-
-$(document).ready(function(){
-    $('[data-toggle="tooltip"]').tooltip();
-});
 
 
 
