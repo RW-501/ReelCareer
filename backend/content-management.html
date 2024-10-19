@@ -345,53 +345,6 @@ const blogEditor = new Quill('#blogEditor', {
 
 
 
-// Initialize Quill editor once globally
-const updateEditor = new Quill('#updateEditor', {
-    theme: 'snow',
-    modules: {
-        toolbar: [
-            [{ 'header': [1, 2, 3, false] }],
-            ['bold', 'italic', 'underline', 'strike'],
-            [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-            ['link', 'image', 'video'],
-            [{ 'color': [] }, { 'background': [] }],
-            ['blockquote', 'code-block'],
-            ['clean']
-        ]
-    }
-});
-
-function showContentModal(element, collectionName, docId) {  
-    const title = $(element).data('title');
-    const content = $(element).data('content');
-    const imageUrl = $(element).data('imageUrl'); // Assuming data-image attribute holds the image URL
-
-    // Set the modal title
-    $('#contentModalLabel').text(title);
-
-    // Set the content of the editor using dangerouslyPasteHTML
-    updateEditor.clipboard.dangerouslyPasteHTML(content); // Use this to paste HTML directly
-    
-    console.log("content    ",  content," updateEditor  " , updateEditor);
-
-   
-    $('#modalTextContent').val(updateEditor.root.innerHTML); // Set the content
-
-    // Set the image if available
-    if (imageUrl) {
-        $('#modalImage').attr('src', imageUrl).show();
-    } else {
-        $('#modalImage').hide(); // Hide the image if not available
-    }
-
-    // Store docId for update and delete actions
-    $('#modalTextContent').data('docId', docId);
-    $('#modalTextContent').data('collectionName', collectionName);
-
-    // Show the modal
-    $('#contentModal').modal('show');
-}
-
 
         // Save content from Quill editor to hidden input before form submission
         $('#newsForm').on('submit', function() {
@@ -674,7 +627,58 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 <script>
+// Initialize Quill editor once globally
+const updateEditor = new Quill('#updateEditor', {
+    theme: 'snow',
+    modules: {
+        toolbar: [
+            [{ 'header': [1, 2, 3, false] }],
+            ['bold', 'italic', 'underline', 'strike'],
+            [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+            ['link', 'image', 'video'],
+            [{ 'color': [] }, { 'background': [] }],
+            ['blockquote', 'code-block'],
+            ['clean']
+        ]
+    }
+});
 
+function showContentModal(element, collectionName, docId) {  
+    const title = $(element).data('title');
+    const content = $(element).data('content');
+    const imageUrl = $(element).data('imageUrl'); // Assuming data-image attribute holds the image URL
+
+    // Set the modal title
+    $('#contentModalLabel').text(title);
+
+    // Set the content of the editor using dangerouslyPasteHTML
+    updateEditor.clipboard.dangerouslyPasteHTML(content); // Use this to paste HTML directly
+    
+    console.log("content    ",  content," updateEditor  " , updateEditor);
+
+   
+    $('#modalTextContent').val(updateEditor.root.innerHTML); // Set the content
+
+    // Set the image if available
+    if (imageUrl) {
+        $('#modalImage').attr('src', imageUrl).show();
+    } else {
+        $('#modalImage').hide(); // Hide the image if not available
+    }
+
+    // Store docId for update and delete actions
+    $('#modalTextContent').data('docId', docId);
+    $('#modalTextContent').data('collectionName', collectionName);
+
+    // Show the modal
+    $('#contentModal').modal('show');
+}
+
+
+
+
+
+/*
 // Function to show modal with content
 function showContentModal(element, collectionName,docId) {
         const title = $(element).data('title');
@@ -697,7 +701,7 @@ function showContentModal(element, collectionName,docId) {
         // Show the modal
         $('#contentModal').modal('show');
     }
-
+*/
 function filterContent() {
     const input = document.getElementById('searchContent');
     const filter = input.value.toLowerCase();
