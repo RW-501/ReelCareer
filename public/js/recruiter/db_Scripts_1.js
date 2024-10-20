@@ -654,8 +654,7 @@ async function fetchRecruiterData(recruiterID) {
         // Loop through job posts and display them
         if (userDoc.exists()) {
             const jobPosts = userDoc.data().jobPosts || [];
-            const moderatedCompanies = userDoc.data().moderatedCompanies || []; // Change this to match your data structure
-        
+
             // Clear containers before inserting new job posts and companies
             $('#job-posts-container').empty();
             $('#companies-container').empty();
@@ -668,7 +667,8 @@ async function fetchRecruiterData(recruiterID) {
             jobPosts.forEach(job => {
                 jobIDsList.push(job.jobID); // Push each jobID into the array
                 companiesIDsList.push(job.companyId); // Ensure companyId is available in job object
-        console.log("companyId  ",companyId);
+                console.log("jobIDsList  ",jobIDsList);
+                console.log("companiesIDsList  ",companiesIDsList);
 
                 const jobElement = $(`
                     <div class="job-post card mb-3" data-job-id="${job.jobID}">
@@ -704,7 +704,9 @@ async function fetchRecruiterData(recruiterID) {
                 const jobID = $(this).data('job-id');
                 updateJobStatus(jobID, 'deactivated'); // Update status to 'deactivated'
             });
-        
+            const moderatedCompanies = userDoc.data().companiesIDsList || []; // Change this to match your data structure
+            console.log("jobIDsLimoderatedCompaniesst  ",moderatedCompanies);
+
             // Loop through moderated companies and display them
             moderatedCompanies.forEach(company => {
                 const companyElement = $(`

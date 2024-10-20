@@ -815,22 +815,6 @@ document.getElementById("boostJobPostButton").onclick = function () {
 
 
 
-// Function to delete a job posting
-document.getElementById("deleteJob").onclick = async function() {
-    const jobId = prompt("Enter the Job ID to delete:");
-    if (jobId) {
-        const jobDocRef = doc(db, "jobPostings", jobId);
-        try {
-            await deleteDoc(jobDocRef);
-            alert("Job posting deleted successfully!");
-        } catch (error) {
-            alert("Error deleting job posting: " + error.message);
-        }
-    } else {
-        alert("Job ID is required to delete.");
-    }
-};
-
 
 // Functionality to boost job visibility
 document.getElementById("boostJob").onclick = async function() {
@@ -856,51 +840,7 @@ document.getElementById("boostJob").onclick = async function() {
     }
 };
 
-// View Companies
-document.getElementById("viewCompanies").onclick = async function () {
-    try {
-        const companiesSnapshot = await getDocs(collection(db, "Companies"));
-        let companies = [];
-        companiesSnapshot.forEach((doc) => {
-            companies.push(doc.data());
-        });
-        alert("Fetched Companies: " + JSON.stringify(companies));
-    } catch (error) {
-        alert("Error fetching companies: " + error);
-    }
-};
 
-// View Applications
-document.getElementById("viewApplications").onclick = async function () {
-    try {
-        const applicationsSnapshot = await getDocs(collection(db, "Applications"));
-        let applications = [];
-        applicationsSnapshot.forEach((doc) => {
-            applications.push(doc.data());
-        });
-        alert("Fetched Applications: " + JSON.stringify(applications));
-    } catch (error) {
-        alert("Error fetching applications: " + error);
-    }
-};
-
-// Update Application Status
-document.getElementById("updateStatus").onclick = async function () {
-    const applicationID = prompt("Enter the Application ID to update:");
-    const newStatus = prompt("Enter the new status (e.g., interview, offer, rejection):");
-
-    if (applicationID && newStatus) {
-        try {
-            const applicationDocRef = doc(db, "applications", applicationID);
-            await updateDoc(applicationDocRef, { status: newStatus });
-            alert("Application status updated successfully!");
-        } catch (error) {
-            alert("Error updating application status: " + error);
-        }
-    } else {
-        alert("Application ID and new status are required.");
-    }
-};
 
 // Provide Feedback
 document.getElementById("provideFeedback").onclick = async function () {
