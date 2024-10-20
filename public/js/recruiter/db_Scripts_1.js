@@ -663,7 +663,7 @@ async function fetchRecruiterData(recruiterID) {
                         <p>Location: ${job.location}</p>
                         <p>Company: ${job.companyName}</p>
                         <p>Salary: ${job.salary}</p>
-                        <p>Application Deadline: ${job.applicationDeadline.toDate().toLocaleString()}</p>
+                        <p>Application Deadline: ${job.applicationDeadline.toDate().toLocaleString() || "None"}</p>
                         <button class="deactivate-job" data-job-id="${job.jobID}">Deactivate</button>
                     </div>
                 </div>
