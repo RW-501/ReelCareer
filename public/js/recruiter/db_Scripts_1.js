@@ -668,7 +668,8 @@ async function fetchRecruiterData(recruiterID) {
             jobPosts.forEach(job => {
                 jobIDsList.push(job.jobID); // Push each jobID into the array
                 companiesIDsList.push(job.companyId); // Ensure companyId is available in job object
-        
+        console.log("companyId  ",companyId);
+
                 const jobElement = $(`
                     <div class="job-post card mb-3" data-job-id="${job.jobID}">
                         <div class="card-body">
@@ -757,25 +758,7 @@ async function fetchRecruiterData(recruiterID) {
                 }
         
             }
-            
-// Event delegation to handle View Company button click
-$(document).on('click', '.view-company', function () {
-    const companyId = $(this).data('company-id');
-    window.location.href = `../views/company-page?c=${companyId}`;
-});
-
-// Event delegation to handle Edit Company button click
-$(document).on('click', '.edit-company', function () {
-    const companyId = $(this).data('company-id');
-    window.location.href = `../views/company-page?edit=${companyId}`;
-});
-
-
-
-    // Implement toggle functionality for company details
-    $('.company-name').on('click', function () {
-        $(this).next('.company-details').toggle();
-    });
+            fetchJobApplications(companiesIDsList);
 }
 
 // Function to show toast notifications
@@ -848,6 +831,8 @@ async function fetchJobApplications(jobIDs) {
     const applicationsRef = collection(db, "Applications");
     const applicationsQuery = query(applicationsRef, where("jobId", "in", jobIDs));
     const querySnapshot = await getDocs(applicationsQuery);
+
+    console.log.apply("??????????????/");
 
     // Clear the container before inserting new applications
     $('#application-posts-container').empty();
@@ -941,10 +926,6 @@ function requestTest(applicantID) {
 
 
 
-
-
-// Call the function to fetch job posts and moderated companies when the page loads
-fetchRecruiterData(recruiterID);
 
 
 
