@@ -622,6 +622,75 @@ import {
 
 
 
+// Assuming you have already initialized Firebase and jQuery
+
+const recruiterID = "YOUR_RECRUITER_ID"; // Replace with the actual recruiter ID
+
+// Function to fetch job posts for the recruiter
+async function fetchRecruiterJobPosts() {
+    const userRef = doc(db, "Users", recruiterID);
+    const userDoc = await getDoc(userRef);
+    
+    if (userDoc.exists()) {
+        const jobPosts = userDoc.data().jobPosts || [];
+
+        // Clear the container before inserting new job posts
+        $('#job-posts-container').empty();
+
+        // Loop through job posts and display them
+        jobPosts.forEach(job => {
+            const jobElement = $(`
+                <div class="job-post" data-job-id="${job.jobID}">
+                    <div class="job-title" style="cursor: pointer;">${job.jobTitle}</div>
+                    <div class="job-details" style="display: none;">
+                        <p>Status: ${job.status}</p>
+                        <p>Created At: ${job.createdAt.toDate().toLocaleString()}</p>
+                        <p>Location: ${job.location}</p>
+                        <p>Company: ${job.companyName}</p>
+                        <p>Salary: ${job.salary}</p>
+                        <p>Application Deadline: ${job.applicationDeadline.toDate().toLocaleString()}</p>
+                        <button class="deactivate-job" data-job-id="${job.jobID}">Deactivate</button>
+                    </div>
+                </div>
+            `);
+            $('#job-posts-container').append(jobElement);
+        });
+
+        // Implement toggle functionality for job details
+        $('.job-title').on('click', function () {
+            $(this).next('.job-details').toggle();
+        });
+
+        // Implement deactivate job functionality
+        $('.deactivate-job').on('click', function () {
+            const jobID = $(this).data('job-id');
+            updateJobStatus(jobID, 'deactivated'); // Update status to 'deactivated'
+        });
+    } else {
+        console.error("No such document!");
+    }
+}
+
+// Function to update the job status in the Jobs collection
+async function updateJobStatus(jobID, newStatus) {
+    const jobRef = doc(db, "Jobs", jobID);
+    await updateDoc(jobRef, {
+        status: newStatus
+    });
+    alert(`Job ${jobID} has been updated to ${newStatus}.`);
+}
+
+// Function to implement search functionality
+$('#search-job').on('input', function () {
+    const searchTerm = $(this).val().toLowerCase();
+    $('.job-post').each(function () {
+        const jobTitle = $(this).find('.job-title').text().toLowerCase();
+        $(this).toggle(jobTitle.includes(searchTerm));
+    });
+});
+
+// Call the function to fetch job posts when the page loads
+fetchRecruiterJobPosts();
 
 
 
