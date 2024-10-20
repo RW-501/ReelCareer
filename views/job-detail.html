@@ -468,9 +468,9 @@ h1, h2, h4, h5 {
           <button id="saveBtn" class="btn btn-outline-secondary w-100 mb-3" onclick="saveJob()">Save for Later</button>
           <button id="reportJobBtn" class="btn btn-warning w-100" onclick="openReportJobModal()">Report Job</button>
        
-          <div class="text-center mt-5">
-            <p><label>Submitted By:</label> <name id="submittedBy" class="text-muted font-italic "></name></p>
-            <p><label>Job:</label> <id id="jobID" class="text-muted font-italic "></id></p>
+          <div class="text-center mt-3">
+            <p  class=" mt-1"><label>Submitted By:</label> <name id="submittedBy" class="text-muted font-italic "></name></p>
+            <p ><label>Job:</label> <id id="jobID" class="text-muted font-italic "></id></p>
           </div>
        
         </div>
@@ -513,7 +513,7 @@ h1, h2, h4, h5 {
       </div>
   
       <!-- Additional Job Details -->
-      <div class="job-info-box bg-light rounded-3 shadow-sm p-4 mb-4">
+      <div id="jobBenefitsArea" class="job-info-box bg-light rounded-3 shadow-sm p-4 mb-4">
         <h5>Job Benefits</h5>
         <ul id="jobBenefits" class="list-unstyled"></ul>
       </div>
@@ -758,7 +758,7 @@ jobID = jobData.id;
   if (jobData.searchableRequirements.experience && jobData.searchableRequirements.experience.length > 0) {
     jobData.searchableRequirements.experience.forEach(exp => {
       const listItem = document.createElement('li');
-      listItem.textContent = exp;
+      listItem.textContent = exp+" Years Experience";
       experienceList.appendChild(listItem);
     });
   } else {
@@ -798,11 +798,9 @@ jobID = jobData.id;
         console.error("Error fetching company details: ", error);
       }
       if (jobData.applicationDeadline && jobData.applicationDeadline.toDate) {
-        document.getElementById('applicationDeadline').textContent = new Date(jobData.applicationDeadline.toDate()).toLocaleDateString();
-      } else {
-        // Fallback if applicationDeadline is missing or undefined
-        document.getElementById('applicationDeadline').textContent = "No deadline provided";
-      }
+
+    }
+
       document.getElementById('applicantCount').textContent = jobData.applicantCount || 0;
       document.getElementById('companyWebsite').href = jobData.companyWebsite;
 
@@ -821,20 +819,12 @@ jobID = jobData.id;
       loadRelatedBlogs(jobTags);
       // Assuming you have your job data in jobData
       const companyWebsite = document.getElementById('companyWebsite');
-      const jobRequirementsArea = document.getElementById('jobRequirementsArea');
       const jobBenefitsArea = document.getElementById('jobBenefitsArea');
-      const companyDescription = document.getElementById('companyDescription');
-      const companyMission = document.getElementById('companyMission');
       const companyPageLink = document.getElementById('companyPageLink');
 
 
       console.log("q companyData.description   ", companyData.description);
       // Check if all company elements are empty or missing content
-      if (!companyWebsite.href || !companyDescription.textContent.trim() ||
-        !companyMission.textContent.trim() || !companyPageLink.href) {
-        // Hide the company details and bottom <hr> if empty
-        bottomHr.style.display = 'none'; // Hide the extra <hr>
-      }
       // Check if the company website is valid
       if (!jobData.companyWebsite || companyWebsite.href === "undefined" || jobData.companyWebsite.trim() === "") {
         companyWebsite.style.display = "none"; // Hides the company website link if undefined or empty
