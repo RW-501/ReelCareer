@@ -634,6 +634,7 @@ fetchRecruiterData(user.uid);
 
 
   const jobIDsList = []; // Initialize an empty array to store jobIDs
+  const companiesIDsList = []; // Initialize an empty array to store jobIDs
 
 
 
@@ -645,7 +646,6 @@ async function fetchRecruiterData(recruiterID) {
 
     if (userDoc.exists()) {
         const jobPosts = userDoc.data().jobPosts || [];
-        const moderatedCompanies = userDoc.data().companyId || []; // Assuming moderated companies are stored similarly
 
         // Clear containers before inserting new job posts and companies
         $('#job-posts-container').empty();
@@ -654,6 +654,8 @@ async function fetchRecruiterData(recruiterID) {
         // Loop through job posts and display them
         jobPosts.forEach(job => {
             jobIDsList.push(job.jobID); // Push each jobID into the array
+            companiesIDsList.push(job.companyId);
+
             const jobElement = $(`
                 <div class="job-post" data-job-id="${job.jobID}">
                     <div class="job-title" style="cursor: pointer;">${job.jobTitle}</div>
@@ -670,6 +672,8 @@ async function fetchRecruiterData(recruiterID) {
             `);
             $('#job-posts-container').append(jobElement);
         });
+
+        const moderatedCompanies = userDoc.data().companyId || []; // Assuming moderated companies are stored similarly
 
         // Implement toggle functionality for job details
         $('.job-title').on('click', function () {
