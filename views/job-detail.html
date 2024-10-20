@@ -345,7 +345,70 @@
     color: #83bad9 !important;
     text-shadow: -1px 1px 0px #9e9a9a;
     font-weight: 800 !important;
-  }
+  }/* General Styling */
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
+/* Job Info Boxes */
+.job-info-box {
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.text-muted {
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.job-tags span {
+  background-color: #e0e7ff;
+  padding: 5px 10px;
+  border-radius: 5px;
+  margin-right: 5px;
+  font-size: 0.875rem;
+}
+
+/* Buttons */
+.btn {
+  border-radius: 25px;
+}
+
+
+.btn:hover {
+  background-color: #0056b3;
+}
+
+.btn-outline-secondary:hover {
+  background-color: #e9ecef;
+}
+
+/* Box Shadows */
+.shadow-sm {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.text-indent {
+  text-indent: 1.5rem;
+}
+
+img.job-logo {
+  width: 150px;
+  height: 150px;
+}
+
+p {
+  margin-bottom: 1rem;
+}
+
+h1, h2, h4, h5 {
+  margin-bottom: 1rem;
+}
+
+
+
 </style>
 
 <!-- Bootstrap CSS -->
@@ -381,111 +444,77 @@
     </div>
   </nav>
 
-  <!-- Job Detail Section -->
-  <div id="job-container" class="container py-4">
-    <div class="job-detail-container" role="main" aria-labelledby="jobTitle">
-      <div class="d-flex align-items-center mb-4 flex-wrap">
-        <!-- Company Logo and Actions -->
-        <div class="text-center m-auto p-3">
-          <img id="companyLogo" class="job-logo img-fluid rounded-circle shadow" alt="Company Logo" src="/images/sq_logo_n_BG.png" loading="lazy" />
-          <hr />
+<!-- Job Detail Section -->
+<div id="job-container" class="container py-5">
+    <!-- Company Logo and Mission -->
+    <div class="text-center">
+      <img id="companyLogo" class="job-logo img-fluid rounded-circle shadow" alt="Company Logo" src="/images/sq_logo_n_BG.png" loading="lazy" />
+      <h4 class="fw-bold mt-4">Our Mission</h4>
+      <p id="companyMission" class="text-muted font-italic px-5">Company Mission Statement goes here...</p>
+    </div>
+  
+    <div class="job-detail-container bg-white shadow-sm p-4 rounded my-4" role="main" aria-labelledby="jobTitle">
+      <div class="row">
+        <!-- Company Logo & Actions -->
+        <div class="col-md-4 text-center">
           <button id="saveBtn" class="btn btn-outline-secondary w-100 mb-3" onclick="saveJob()">Save for Later</button>
-          <hr />
           <button id="reportJobBtn" class="btn btn-warning w-100" onclick="openReportJobModal()">Report Job</button>
         </div>
-
-        <!-- Job Title and Info -->
-        <div class="m-auto p-3 flex-fill">
-          <h1 id="jobTitle" class="text-primary fw-bold mb-2" tabindex="0"></h1>
-          <hr />
-          <div class="job-info-box m-auto p-3 bg-light rounded-3 shadow-sm">
-            <div class="job-info">
-              <p><i class="fas fa-building"></i> <strong>Company:</strong> <span id="companyName" class="text-dark"></span></p>
-              <p><i class=""></i> <strong>Location:</strong> <span id="jobLocation"></span></p>
-              <p><i class=""></i> <strong>Industry:</strong> <span id="industry"></span></p>
-
-              <hr>
-              <p><i class="fas fa-briefcase"></i> <strong>Employment Type:</strong> <span id="employmentType"></span></p>
-              <p><i class=""></i> <strong>Salary:</strong> <span id="salary"></span></p>
-              <hr>
-              <p><i class="fas fa-calendar-alt"></i> <strong>Posted On:</strong> <span id="createdAt"></span></p>
-              <p><i class=""></i> <strong>Submitted By:</strong> <span id="submittedBy"></span></p>
-            </div>
+        <!-- Job Title & Info -->
+        <div class="col-md-8">
+          <h1 id="jobTitle" class="text-primary fw-bold mb-3"></h1>
+          <div class="job-info-box bg-light rounded-3 shadow-sm p-4">
+            <p><strong>Company:</strong> <span id="companyName"></span></p>
+            <p><strong>Location:</strong> <span id="jobLocation"></span></p>
+            <p><strong>Industry:</strong> <span id="industry"></span></p>
+            <p><strong>Employment Type:</strong> <span id="employmentType"></span></p>
+            <p><strong>Salary:</strong> <span id="salary"></span> <span id="salaryPayTime"></span></p>
+            <p><strong>Posted On:</strong> <span id="createdAt"></span></p>
           </div>
         </div>
       </div>
-
-      <hr class="my-4" />
-
+  
       <!-- Company Website and Description -->
+      <hr class="my-4" />
       <div class="mb-4">
         <a id="companyWebsite" class="text-info" href="" target="_blank">Company Website</a>
-        <p id="companyDescription" class="text-muted text-indent"></p>
-        <p id="companyMission" class="text-muted  text-indent"></p>
+        <p id="companyDescription" class="text-muted mt-3"></p>
         <a id="companyPageLink" class="text-info" href="">View Company Page</a>
       </div>
-
-      <hr id="bottomHr" class="my-4" />
-
+  
       <!-- Job Description -->
-      <h2>Job Description</h2>
-
-      <div class="job-info-box p-3 mb-4 rounded bg-light shadow-sm">
-        <p id="jobDescription" class="text-muted  text-indent" tabindex="0"></p>
+      <div class="job-info-box bg-light rounded-3 shadow-sm p-4 mb-4">
+        <h4>Job Description</h4>
+        <p id="jobDescription" class="text-muted"></p>
+        <p><strong>Job Function:</strong> <span id="jobFunction"></span></p>
       </div>
-
-      <hr />
-
+  
       <!-- Job Requirements -->
-      <div id="jobRequirementsArea" class="mb-4">
-        <h5><strong>Job Requirements:</strong></h5>
-        <ul id="jobRequirements" class="list-unstyled" tabindex="0"></ul>
+      <div class="job-info-box bg-light rounded-3 shadow-sm p-4 mb-4">
+        <h5>Job Requirements</h5>
+        <p><strong>Education Required:</strong></p>
+        <ul id="educationRequirements" class="list-unstyled"></ul>
+        <p><strong>Experience Required:</strong></p>
+        <ul id="experienceRequirements" class="list-unstyled"></ul>
       </div>
-
+  
       <!-- Additional Job Details -->
-      <div id="jobBenefitsArea" class="mb-4">
-        <h5><strong>Job Benefits:</strong></h5>
+      <div class="job-info-box bg-light rounded-3 shadow-sm p-4 mb-4">
+        <h5>Job Benefits</h5>
         <ul id="jobBenefits" class="list-unstyled"></ul>
       </div>
-
-      <div><strong>Application Deadline:</strong> <span id="applicationDeadline"></span></div>
-      <div><strong>Number of Applicants:</strong> <span id="applicantCount"></span></div>
-
-      <hr />
-
+  
       <!-- Job Tags -->
-      <div>
+      <div class="mb-4">
         <h5><strong>Tags:</strong></h5>
         <span id="jobTags" class="job-tags"></span>
       </div>
-
-      <hr />
-
-      <!-- Social Media Sharing Buttons -->
-      <div class="social-sharing m-auto job-info-box shadow-sm rounded p-3">
-        <h5><strong>Share this job:</strong></h5>
-        <div class="d-flex justify-content-between">
-          <a id="facebookShare" target="_blank" class="btn btn-facebook btn-sm" style="color: #3b5998;">
-            <i class="fab fa-facebook-f"></i> Share on Facebook
-          </a>
-          <a id="twitterShare" target="_blank" class="btn btn-twitter btn-sm" style="color: #1da1f2;">
-            <i class="fab fa-twitter"></i> Tweet This Job
-          </a>
-          <a id="linkedinShare" target="_blank" class="btn btn-linkedin btn-sm" style="color: #0077b5;">
-            <i class="fab fa-linkedin-in"></i> Share on LinkedIn
-          </a>
-          <a id="emailShare" class="btn btn-email btn-sm" style="color: #d44638;">
-            <i class="fas fa-envelope"></i> Share via Email
-          </a>
-        </div>
-      </div>
-
-      <hr />
-
-      <!-- Apply Now Button -->
-      <button id="applyBtn" class="btn btn-primary btn-block mt-4" aria-label="Apply for this job">Apply Now</button>
+  
+      <!-- Apply Button -->
+      <button id="applyBtn" class="btn btn-primary btn-lg w-100 mt-4" aria-label="Apply for this job">Apply Now</button>
     </div>
-
+  </div>
+  
     <hr />
 
     <!-- Similar Jobs Section -->
@@ -678,6 +707,43 @@
       document.getElementById('submittedBy').textContent = jobData.submittedBy;
       document.getElementById('industry').textContent = jobData.industry;
       document.getElementById('createdAt').textContent = createdAt instanceof Date ? createdAt.toLocaleDateString() : createdAt;
+      
+      async function loadJobDetails(jobData) {
+  // Existing logic for setting job fields
+
+  // New Fields
+  document.getElementById('salaryPayTime').textContent = jobData.salaryPayTime || "N/A";
+  document.getElementById('immediateHire').textContent = jobData.immediateHire === "Yes" ? "Yes" : "No";
+  document.getElementById('contractToHire').textContent = jobData.contractToHire === "Yes" ? "Yes" : "No";
+  document.getElementById('jobFunction').textContent = jobData.jobFunction || "N/A";
+
+  // Education Requirements (array)
+  const educationList = document.getElementById('educationRequirements');
+  if (jobData.education && jobData.education.length > 0) {
+    jobData.education.forEach(edu => {
+      const listItem = document.createElement('li');
+      listItem.textContent = edu;
+      educationList.appendChild(listItem);
+    });
+  } else {
+    educationList.textContent = "Not specified";
+  }
+
+  // Experience Requirements (array)
+  const experienceList = document.getElementById('experienceRequirements');
+  if (jobData.experience && jobData.experience.length > 0) {
+    jobData.experience.forEach(exp => {
+      const listItem = document.createElement('li');
+      listItem.textContent = exp;
+      experienceList.appendChild(listItem);
+    });
+  } else {
+    experienceList.textContent = "Not specified";
+  }
+}
+
+      
+      
       // Populate company-related details
       document.getElementById("companyName").innerText = jobData.company;
       if (jobData.companyId) {
