@@ -807,10 +807,16 @@ jobID = jobData.id;
       }
       document.getElementById('applicantCount').textContent = jobData.applicantCount || 0;
       document.getElementById('companyWebsite').href = jobData.companyWebsite;
-      // Use it like this
-      renderList(jobData.benefits, 'jobBenefits');
+
+
+      let jobTags = jobData.tags; // Get tags from the current job
+      if (!jobTags || jobTags.length === 0) {
+          console.log("No tags available for this job.");
+          jobTags = ['Jobs', jobData.industry];
+        }
+    renderList(jobData.benefits, 'jobBenefits');
       renderList(jobData.requirements, 'jobRequirements');
-      renderTags(jobData.tags);
+      renderTags(jobTags);
       // Assuming you have your job data in jobData
       const companyWebsite = document.getElementById('companyWebsite');
       const jobRequirementsArea = document.getElementById('jobRequirementsArea');
@@ -846,14 +852,12 @@ jobID = jobData.id;
         </div>
     `;
       }
+
+
       // Function to fetch similar jobs based on tags
       async function getSimilarJobs(jobData) {
-        let jobTags = jobData.tags; // Get tags from the current job
         const maxSimilarJobs = 5; // Limit to 5 similar jobs
-        if (!jobTags || jobTags.length === 0) {
-          console.log("No tags available for this job.");
-          jobTags = ['Jobs', jobData.industry];
-        }
+
         // Query the Jobs collection to find jobs with matching tags
         const jobsRef = collection(db, 'Jobs'); // Correctly use the imported Firestore instance
         const q = query(jobsRef, where('tags', 'array-contains-any', jobTags), limit(maxSimilarJobs));
@@ -993,6 +997,9 @@ jobID = jobData.id;
         const jobTags = document.getElementById('jobTags');
         jobTags.innerHTML = ''; // Clear previous tags
         // Check if tags is defined and is an array
+        if (!tags || tags.length === 0) {
+            tags = jobTags;
+        }
         if (Array.isArray(tags) && tags.length > 0) {
           tags.forEach(tag => {
             // Create a button element for each tag
