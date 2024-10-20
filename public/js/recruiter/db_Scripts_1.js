@@ -540,22 +540,17 @@ import {
           createdAt: new Date(),
           location: jobDetails.location || "Unknown Location",
           boosted: jobDetails.boosted || false,
-          companyName: jobDetails.companyName || "Unknown Company",
+          companyName: jobDetails.company || "Unknown Company",
           companyId: jobDetails.companyId || "No Company ID",
           salary: jobDetails.salary || 0, // Default to 0 if undefined
-          expiryDate: jobDetails.expiryDate || new Date() // Default to current date if undefined
+          applicationDeadline: jobDetails.applicationDeadline || new Date() // Default to current date if undefined
         
       })
       
     });
-  
-    if (jobDetails.boosted) {
-      document.getElementById("boostedLabel").style.display = "inline-block";
-      ocument.getElementById("boostDuration").textContent = boostDuration;
-    } else {
-      document.getElementById("boostedLabel").style.display = "none";
-    }
-  
+  /*
+
+  */
     return docRef.id; // Return the job ID for future use
   }
   
@@ -574,6 +569,13 @@ import {
       jobDetails.salaryPayTime;
   
     $("#jobSuccessModal").modal("show"); // Show the success modal
+
+    if (jobDetails.boosted) {
+        document.getElementById("boostedLabel").style.display = "inline-block";
+        ocument.getElementById("boostDuration").textContent = boostDuration;
+      } else {
+        document.getElementById("boostedLabel").style.display = "none";
+      }
   }
   
   function resetForm() {
