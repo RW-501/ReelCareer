@@ -446,19 +446,32 @@ h1, h2, h4, h5 {
 <main>
 <!-- Job Detail Section -->
 <div id="job-container" class="container py-5">
-    <!-- Company Logo and Mission -->
-    <div class="text-center">
-      <img id="companyLogo" class="job-logo img-fluid rounded-circle shadow" alt="Company Logo" src="/images/sq_logo_n_BG.png" loading="lazy" />
-      <h4 class="fw-bold mt-4">Our Mission</h4>
-      <p id="companyMission" class="text-muted font-italic px-5">Company Mission Statement goes here...</p>
-    </div>
+
   
     <div class="job-detail-container bg-white shadow-sm p-4 rounded my-4" role="main" aria-labelledby="jobTitle">
       <div class="row">
-        <!-- Company Logo & Actions -->
+
+
+
+        <!--  Left Area -->
         <div class="col-md-4 text-center">
+            
+                        <!-- Company Logo and Mission -->
+    <div class="text-center">
+        <img id="companyLogo" class="job-logo img-fluid rounded-circle shadow" alt="Company Logo" src="/images/sq_logo_n_BG.png" loading="lazy" />
+        <h4 class="fw-bold mt-4">Our Mission</h4>
+        <p id="companyMission" class="text-muted font-italic px-5">Company Mission Statement goes here...</p>
+      </div>
+              <!--  Actions -->
+
           <button id="saveBtn" class="btn btn-outline-secondary w-100 mb-3" onclick="saveJob()">Save for Later</button>
           <button id="reportJobBtn" class="btn btn-warning w-100" onclick="openReportJobModal()">Report Job</button>
+       
+          <div class="text-center">
+            <p><strong>Submitted By:</strong> <span id="submittedBy" class="text-muted font-italic px-5"></span></p>
+            <p><strong>Job:</strong> <span id="jobID" class="text-muted font-italic px-5"></span></p>
+          </div>
+       
         </div>
         <!-- Job Title & Info -->
         <div class="col-md-8">
@@ -537,7 +550,7 @@ h1, h2, h4, h5 {
     </div>
 
   </div>
-  
+
 </main>
 
 
@@ -706,6 +719,7 @@ h1, h2, h4, h5 {
 
       const createdAt = jobData.createdAt?.toDate ? jobData.createdAt.toDate() : "N/A"; // Fallback to "N/A" if not available
       document.getElementById('jobTitle').textContent = jobData.title;
+      document.getElementById('jobID').textContent = jobData.jobData.id;
       document.getElementById("jobDescription").innerText = jobData.description;
       document.getElementById('jobLocation').textContent = `${formatLocation(jobData.location, { part: 'city' })}, ${formatLocation(jobData.location, { part: 'state' })}`;
       document.getElementById('employmentType').textContent = formatJobType(jobData.type);
