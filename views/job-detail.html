@@ -1181,39 +1181,42 @@ jobID = jobData.id;
           modal.style.display = 'block';
         }
       });
-  </script>
+
+   // Proceed to external website on clicking the proceed button
+   const proceedBtn = document.getElementById('proceedBtn');
+
+   proceedBtn.addEventListener('click', function() {
+      window.location.href = jobData.applicationWebsite;
+    });
+    
+    </script>
 
   <script>
 
-
     // Open the modal
     function openReportJobModal() {
-        document.getElementById('reportJobModal').style.display = 'block';
+        document.getElementById('reportJobModal').style.display = 'block !important;';
     }
     // Close the modal
     function closeReportJobModal() {
-        document.getElementById('reportJobModal').style.display = 'none';
+        document.getElementById('reportJobModal').style.display = 'none !important;';
     }
     window.openReportJobModal = openReportJobModal;
     window.closeReportJobModal = closeReportJobModal;
 
     // Get elements for modal interactions
     const closeModal = document.querySelector('.close');
-    const proceedBtn = document.getElementById('proceedBtn');
     const cancelBtn = document.getElementById('cancelBtn');
     const modal = document.getElementById('applicationModal');
     // Close modal on clicking the close button (X)
     closeModal.addEventListener('click', function() {
-      modal.style.display = 'none';
+      modal.style.display = 'none !important;';
     });
     // Close modal on clicking the cancel button
     cancelBtn.addEventListener('click', function() {
-      modal.style.display = 'none';
+      modal.style.display = 'none !important;';
     });
-    // Proceed to external website on clicking the proceed button
-    proceedBtn.addEventListener('click', function() {
-      window.location.href = jobData.applicationWebsite;
-    });
+ 
     // Close modal if the user clicks outside of it
     window.addEventListener('click', function(event) {
       if (event.target == modal) {
