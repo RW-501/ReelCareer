@@ -24,14 +24,23 @@ function formatLocation(location, options = {}) {
           location = location[location.length - 1]; // Return the last part (city)
           break;
         default:
-          location = location.join(", "); // Join the entire array
+          location = location.join(", "); // Join the entire array into a string
       }
+    } else if (typeof location === "string") {
+      // If location is a string, we format it directly
+      if (location.trim() === "") {
+        return "Not specified"; // Return 'Not specified' for empty string
+      }
+    } else {
+      // If location is neither an array nor a valid string, return 'Not specified'
+      return "Not specified";
     }
   
-    // Check if input is a valid string after handling the array case
-    if (typeof location !== "string" || location.trim() === "") {
-      return "Not specified"; // Return 'Not specified' for invalid input
-    }
+    // Capitalize each word of the location, whether it's from an array or string
+    location = location
+      .split(" ")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(" ");
   
     // Add spaces after commas, periods, dashes, slashes, or colons
     let formattedLocation = location.replace(/([.,-/])(\S)/g, "$1 $2");
@@ -39,15 +48,10 @@ function formatLocation(location, options = {}) {
     // Remove any extra spaces
     formattedLocation = formattedLocation.replace(/\s+/g, " ").trim();
   
-    // Capitalize each word
-    formattedLocation = formattedLocation
-      .split(" ")
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-      .join(" ");
-  
-    // console.log("Formatted Location: ", formattedLocation);
     return formattedLocation;
   }
+  
+  
   /*
   'country', 'state', 'city' 'county'
   
@@ -99,17 +103,18 @@ function formatLocation(location, options = {}) {
   
           // Return a button as a string, using Bootstrap classes and tag redirection
           return `
-                  <button class="btn btn-secondary m-1 tags" onclick="window.location.href='../views/job-listings/?tag=${encodeURIComponent(
-                    capitalizedTag
-                  )}'">
-                      ${capitalizedTag}
-                  </button>
-              `;
+            <button class="btn btn-secondary m-1 tags" onclick="window.location.href='../views/job-listings/?tag=${encodeURIComponent(
+              capitalizedTag
+            )}'">
+              ${capitalizedTag}
+            </button>
+          `;
         })
         .join(""); // Join all buttons into a single string
     }
     return ""; // Return an empty string if no valid tags
   }
+  
   
   // formatTags(jobData.tags);
   
@@ -167,7 +172,7 @@ function formatLocation(location, options = {}) {
   
   // Truncate text function
   function truncateText(text, maxLength) {
-    return text.length > maxLength ? text.substring(0, maxLength) + "..." : text;
+    return text.length > maxLength ? text.substring(0, maxLength) + "... See More" : text;
   }
   
   function restrictKeys(event) {
