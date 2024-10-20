@@ -683,7 +683,7 @@
       if (jobData.companyId) {
         // Create a link to the company page
         const companyPageLink = document.getElementById("companyPageLink");
-        companyPageLink.href = `company-page?jobId=${jobData.companyId}`;
+        companyPageLink.href = `/views/company-page?c=${jobData.companyId}`;
         companyPageLink.textContent = "View Company Page";
       } else {
         document.getElementById("companyPageLink").style.display = "none";
