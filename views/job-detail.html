@@ -863,9 +863,8 @@ jobID = jobData.id;
       let jobTags = jobData.tags; // Get tags from the current job
       if (!jobTags || jobTags.length === 0) {
           console.log("No tags available for this job.");
-          jobTags = ['Jobs', jobData.industry];
+          jobTags = ['Jobs', jobData.industry, 'Job Search'];
         }
-        console.log("jobTags   ", jobTags);
 
       renderTags(jobTags);
 
@@ -904,8 +903,8 @@ jobID = jobData.id;
         const maxSimilarJobs = 5; // Limit to 5 similar jobs
 
         // Query the Jobs collection to find jobs with matching tags
-        const jobsRef = collection(db, 'Jobs'); // Correctly use the imported Firestore instance
-        const q = query(jobsRef, where('tags', 'array-contains-any', jobTags), limit(maxSimilarJobs));
+        const jobsReff = collection(db, 'Jobs'); // Correctly use the imported Firestore instance
+        const q = query(jobsReff, where('tags', 'array-contains-any', jobTags), limit(maxSimilarJobs));
         console.log("q    ", q);
         try {
           const querySnapshot = await getDocs(q);
@@ -960,6 +959,8 @@ jobID = jobData.id;
           // Reference the 'Blogs' collection and query for blogs with matching industry tags
           const blogsRef = collection(db, 'Blogs');
           const q = query(blogsRef, where('tags', 'array-contains-any', jobTags), limit(3));
+          console.log("q tags  ", q);
+
           // Get the query snapshot
           const querySnapshot = await getDocs(q);
           const blogContainer = document.getElementById('blogContainer');
