@@ -657,20 +657,25 @@ async function fetchRecruiterData(recruiterID) {
             companiesIDsList.push(job.companyId);
 
             const jobElement = $(`
-                <div class="job-post" data-job-id="${job.jobID}">
-                    <div class="job-title" style="cursor: pointer;">${job.jobTitle}</div>
-                    <div class="job-details" style="display: none;">
-                        <p>Status: ${job.status}</p>
-                        <p>Created At: ${job.createdAt.toDate().toLocaleString()}</p>
-                        <p>Location: ${job.location}</p>
-                        <p>Company: ${job.companyName}</p>
-                        <p>Salary: ${job.salary}</p>
-<p>Application Deadline: ${job.applicationDeadline ? job.applicationDeadline.toDate().toLocaleString() : "None"}</p>
-                        <button class="deactivate-job" data-job-id="${job.jobID}">Deactivate</button>
+                <div class="job-post card mb-3" data-job-id="${job.jobID}">
+                    <div class="card-body">
+                        <h5 class="job-title card-title text-primary" style="cursor: pointer;">${job.jobTitle}</h5>
+                        <div class="job-details" style="display: none;">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item"><strong>Status:</strong> ${job.status}</li>
+                                <li class="list-group-item"><strong>Created At:</strong> ${job.createdAt.toDate().toLocaleString()}</li>
+                                <li class="list-group-item"><strong>Location:</strong> ${job.location}</li>
+                                <li class="list-group-item"><strong>Company:</strong> ${job.companyName}</li>
+                                <li class="list-group-item"><strong>Salary:</strong> ${job.salary}</li>
+                                <li class="list-group-item"><strong>Application Deadline:</strong> ${job.applicationDeadline ? job.applicationDeadline.toDate().toLocaleString() : "None"}</li>
+                            </ul>
+                            <button class="deactivate-job btn btn-danger mt-3" data-job-id="${job.jobID}">Deactivate</button>
+                        </div>
                     </div>
                 </div>
             `);
             $('#job-posts-container').append(jobElement);
+            
         });
 
         const moderatedCompanies = userDoc.data().companyId || []; // Assuming moderated companies are stored similarly
@@ -689,7 +694,7 @@ async function fetchRecruiterData(recruiterID) {
         // Add event listener for job title click to redirect to the job detail page
         $('.job-title').on('click', function () {
             const jobID = $(this).closest('.job-post').data('job-id');
-            window.location.href = `/job-detail.html?id=${jobID}`;
+            window.location.href = `../views/job-detail?j=${jobID}`;
         });
 
     } else {
@@ -699,32 +704,35 @@ async function fetchRecruiterData(recruiterID) {
     // Loop through moderated companies and display them
     moderatedCompanies.forEach(company => {
         const companyElement = $(`
-            <div class="company-post" data-company-id="${company.companyId}">
-                <div class="company-name" style="cursor: pointer;">${company.companyName}</div>
-                <div class="company-details" style="display: none;">
-                    <p>Location: ${company.location}</p>
-                    <p>Industry: ${company.industry}</p>
-                    <p>Description: ${company.description}</p>
-                    <button class="view-company" data-company-id="${company.companyId}">View Company</button>
-                    <button class="edit-company" data-company-id="${company.companyId}">Edit Company</button>
+            <div class="company-post card mb-3" data-company-id="${company.companyId}">
+                <div class="card-body">
+                    <h5 class="company-name card-title text-primary" style="cursor: pointer;">${company.companyName}</h5>
+                    <div class="company-details" style="display: none;">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item"><strong>Location:</strong> ${company.location}</li>
+                            <li class="list-group-item"><strong>Industry:</strong> ${company.industry}</li>
+                            <li class="list-group-item"><strong>Description:</strong> ${company.description}</li>
+                        </ul>
+                        <button class="view-company btn btn-info mt-3" data-company-id="${company.companyId}">View Company</button>
+                        <button class="edit-company btn btn-secondary mt-3 ms-2" data-company-id="${company.companyId}">Edit Company</button>
+                    </div>
                 </div>
             </div>
         `);
         $('#companies-container').append(companyElement);
-
-        
     });
+    
 
 // Event delegation to handle View Company button click
 $(document).on('click', '.view-company', function () {
     const companyId = $(this).data('company-id');
-    window.location.href = `/view-company.html?id=${companyId}`;
+    window.location.href = `../views/company-page?c=${companyId}`;
 });
 
 // Event delegation to handle Edit Company button click
 $(document).on('click', '.edit-company', function () {
     const companyId = $(this).data('company-id');
-    window.location.href = `/edit-company.html?id=${companyId}`;
+    window.location.href = `../views/company-page?edit=${companyId}`;
 });
 
 
@@ -812,27 +820,32 @@ async function fetchJobApplications(jobIDs) {
     querySnapshot.forEach(doc => {
         const application = doc.data();
         const applicationElement = $(`
-            <div class="application-post" data-applicant-id="${doc.id}">
-                <div class="applicant-name" style="cursor: pointer;">
-                    ${application.firstName} ${application.lastName}
-                </div>
-                <div class="application-details" style="display: none;">
-                    <p>Job Title: ${application.jobTitle}</p>
-                    <p>Company Name: ${application.companyName}</p>
-                    <p>Apply Date: ${new Date(application.applyDate.seconds * 1000).toLocaleDateString()}</p>
-                    <p>Email: ${application.email}</p>
-                    <p>Phone: ${application.phone}</p>
-                    <p>Notes: ${application.notes || "No notes available."}</p>
-                    <a href="${application.resumeLink}" target="_blank">Download Resume</a><br>
-                    <a href="${application.videoResumeLink}" target="_blank">Download Video Resume</a><br>
-                    <button class="view-application" data-applicant-id="${doc.id}">View Application</button>
-                    <button class="request-interview" data-applicant-id="${doc.id}">Request Interview</button>
-                    <button class="request-test" data-applicant-id="${doc.id}">Request Test</button>
+            <div class="application-post card mb-3" data-applicant-id="${doc.id}">
+                <div class="card-body">
+                    <h5 class="applicant-name card-title text-primary" style="cursor: pointer;">
+                        ${application.firstName} ${application.lastName}
+                    </h5>
+                    <div class="application-details" style="display: none;">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item"><strong>Job Title:</strong> ${application.jobTitle}</li>
+                            <li class="list-group-item"><strong>Company Name:</strong> ${application.companyName}</li>
+                            <li class="list-group-item"><strong>Apply Date:</strong> ${new Date(application.applyDate.seconds * 1000).toLocaleDateString()}</li>
+                            <li class="list-group-item"><strong>Email:</strong> ${application.email}</li>
+                            <li class="list-group-item"><strong>Phone:</strong> ${application.phone}</li>
+                            <li class="list-group-item"><strong>Notes:</strong> ${application.notes || "No notes available."}</li>
+                        </ul>
+                        <a href="${application.resumeLink}" target="_blank" class="btn btn-link mt-2">Download Resume</a><br>
+                        <a href="${application.videoResumeLink}" target="_blank" class="btn btn-link">Download Video Resume</a><br>
+                        <button class="view-application btn btn-info mt-3" data-applicant-id="${doc.id}">View Application</button>
+                        <button class="request-interview btn btn-secondary mt-3 ms-2" data-applicant-id="${doc.id}">Request Interview</button>
+                        <button class="request-test btn btn-warning mt-3 ms-2" data-applicant-id="${doc.id}">Request Test</button>
+                    </div>
                 </div>
             </div>
         `);
         $('#application-posts-container').append(applicationElement);
     });
+    
 
     // Implement toggle functionality for application details
     $('.applicant-name').on('click', function () {
