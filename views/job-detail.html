@@ -1170,11 +1170,8 @@ jobID = jobData.id;
     // Make the function globally accessible
     window.saveJob = saveJob;
   
-  </script>
-
-  <script>
-          // Apply button event listener
-          document.getElementById('applyBtn').addEventListener('click', function() {
+              // Apply button event listener
+              document.getElementById('applyBtn').addEventListener('click', function() {
         if (jobData.applicationAvailableBool) {
           // Redirect to the application page on your site
           document.location.href = `apply.html?jobId=${jobId}`;
@@ -1184,6 +1181,10 @@ jobID = jobData.id;
           modal.style.display = 'block';
         }
       });
+  </script>
+
+  <script>
+
 
     // Open the modal
     function openReportJobModal() {
