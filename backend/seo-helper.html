@@ -5,11 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SEO Helper</title>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <!-- Bootstrap JS and bundle for popper.js support -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
 
     <!-- Bootstrap CSS -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    
     <style>
         body {
             font-family: 'Roboto', sans-serif;
@@ -192,7 +197,7 @@ main   .dropdown-menu {
         </div>
             <hr/>
     
-            <div id="seo-container" class="mt-5 form-control-lg">
+            <div id="seo-container" class="collapse mt-5 form-control-lg">
                 <!-- Your content goes here -->
             </div>
             
@@ -287,26 +292,21 @@ function updateErrorCount() {
 
         // Function to get internal links
         function getInternalLinks(currentDomain) {
-            console.log("currentDomain   ",currentDomain);
-            console.log("window.location.hostname   ",window.location.hostname);
+    const allLinks = document.querySelectorAll('a');  // Select all anchor tags
+    const internalLinks = [];
 
-            const allLinks = document.querySelectorAll('a');  // Select all anchor tags
-            const internalLinks = [];
-          //  const currentDomain = window.location.hostname;   // Get the current domain name
-          //  const currentDomain = "https://reelcareer.co/";   // Get the current domain name
-
-          allLinks.forEach(link => {
+    allLinks.forEach(link => {
         let linkURL;
         
         // Check if the link is relative or absolute
         if (link.href.startsWith('http')) {
             linkURL = new URL(link.href); // Absolute URL, create a URL object
         } else {
-            // Relative URL, resolve it based on the current page
-            linkURL = new URL(link.getAttribute('href'), window.location.origin);
+            // Relative URL, resolve it based on the current page's origin (including paths)
+            linkURL = new URL(link.getAttribute('href'), window.location.origin + window.location.pathname);
         }
 
-        // Check if it's internal (same domain) and valid
+        // Check if the link belongs to the same domain and ignore empty/anchor links
         if (linkURL.hostname === currentDomain && linkURL.href !== '' && linkURL.href !== '#') {
             internalLinks.push(linkURL.href);  // Add the full internal link to the array
         }
@@ -314,22 +314,11 @@ function updateErrorCount() {
 
     return internalLinks;  // Return the array of internal links
 }
-       /*     allLinks.forEach(link => {
-                const linkHostname = new URL(link.href).hostname;  // Extract hostname from the link
-                if (linkHostname === currentDomain && link.href !== '' && link.href !== '#') {
-                    internalLinks.push(link.href);  // Add the internal link to the array
-                }
-            });
-
-            return internalLinks;  // Return the array of internal links
-     
-            }
-   */
-
 
         // Check if a link resolves and return the status
+// Check if a link resolves and return the status
 async function checkLinkStatus(url) {
-    // Remove "/backend" from the URL if it exists
+    // Adjust URL as needed, removing "/backend" from the URL if it exists
     const cleanedUrl = url.replace('/backend', '');
     
     try {
@@ -340,16 +329,14 @@ async function checkLinkStatus(url) {
             updateErrorCount();
             showBadOnCollapseButton(); // Update button state
             return response.status; // Return the HTTP status code
-        } 
-        // Handle other responses
-        return response.status;
+        }
+        return response.status; // Return the HTTP status code for valid links
     } catch (error) {
         console.error(`Error fetching ${cleanedUrl}:`, error);
-        return null;
+        return null; // Return null if there's an error
     }
 }
-
-            
+         
             
             
             
@@ -638,10 +625,10 @@ document.getElementById('startButton').addEventListener('click', () => {
 function toggleCollapse(collapseId) {
     const collapseElement = document.getElementById(collapseId);
 
-    if (collapseElement.classList.contains('collapse')) {
-        collapseElement.classList.toggle('show'); // Toggle the 'show' class
+    if (collapseElement) {
+        collapseElement.classList.toggle('show'); // Toggle the 'show' class for collapse
 
-        // Toggle the arrow direction (up/down)
+        // Change the arrow icon direction
         const headerElement = collapseElement.previousElementSibling;
         const arrow = headerElement.querySelector('span');
         
@@ -653,6 +640,28 @@ function toggleCollapse(collapseId) {
     }
 }
 
+// Attaching event listener to the collapsible element
+document.querySelectorAll('.card-header').forEach(header => {
+    header.addEventListener('click', function() {
+        const collapseId = this.nextElementSibling.id;  // Get the next sibling collapse div ID
+        toggleCollapse(collapseId);  // Toggle the collapse on click
+    });
+});
+
+
+
+
+  
+        
+// Add keydown event listener on the document to detect 'Enter' key press on the startButton
+document.addEventListener('keydown', function(event) {
+    const startButton = document.getElementById('startButton');
+    
+    // Check if the Enter key is pressed and the button is focused
+    if ((event.key === 'Enter' || event.keyCode === 13) && document.activeElement === startButton) {
+        startButton.click();  // Trigger the click event
+    }
+});
 
 document.getElementById('urlInput').addEventListener('keydown', function(event) {
     if (event.key === 'Enter' || event.keyCode === 13) {  // Check if the pressed key is Enter
