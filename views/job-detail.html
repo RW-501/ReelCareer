@@ -803,6 +803,8 @@ jobID = jobData.id;
 
       document.getElementById('applicantCount').textContent = jobData.applicantCount || 0;
       document.getElementById('companyWebsite').href = jobData.companyWebsite;
+      
+      console.log("qjobData.tags   ", jobData.tags);
 
 
       let jobTags = jobData.tags; // Get tags from the current job
@@ -810,7 +812,8 @@ jobID = jobData.id;
           console.log("No tags available for this job.");
           jobTags = ['Jobs', jobData.industry];
         }
-        
+        console.log("jobTags   ", jobTags);
+
     renderList(jobData.benefits, 'jobBenefits');
       renderList(jobData.requirements, 'jobRequirements');
       renderTags(jobTags);
@@ -824,7 +827,7 @@ jobID = jobData.id;
       const companyPageLink = document.getElementById('companyPageLink');
 
 
-      console.log("q companyData.description   ", companyData.description);
+      console.log("q jobData.companyWebsite   ", jobData.companyWebsite);
       // Check if all company elements are empty or missing content
       // Check if the company website is valid
       if (!jobData.companyWebsite || companyWebsite.href === "undefined" || jobData.companyWebsite.trim() === "") {
