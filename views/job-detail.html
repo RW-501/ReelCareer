@@ -1000,17 +1000,7 @@ jobID = jobData.id;
           console.error("Error fetching related blogs: ", error);
         }
       }
-      // Apply button event listener
-      window.getElementById('applyBtn').addEventListener('click', function() {
-        if (jobData.applicationAvailableBool) {
-          // Redirect to the application page on your site
-          window.location.href = `apply.html?jobId=${jobData.doc.id}`;
-        } else {
-          // Show the modal for external application
-          const modal = window.getElementById('applicationModal');
-          modal.style.display = 'block';
-        }
-      });
+
       const jobPageURL = window.location.href; // Use current page URL
       const companyName = jobData.company; // Assuming jobData has company information
       const jobTitle = jobData.title; // Job title
@@ -1168,14 +1158,29 @@ jobID = jobData.id;
   </script>
 
   <script>
+          // Apply button event listener
+          document.getElementById('applyBtn').addEventListener('click', function() {
+        if (jobData.applicationAvailableBool) {
+          // Redirect to the application page on your site
+          document.location.href = `apply.html?jobId=${jobData.doc.id}`;
+        } else {
+          // Show the modal for external application
+          const modal = window.getElementById('applicationModal');
+          modal.style.display = 'block';
+        }
+      });
+
     // Open the modal
     function openReportJobModal() {
-        window.getElementById('reportJobModal').style.display = 'block';
+        document.getElementById('reportJobModal').style.display = 'block';
     }
     // Close the modal
     function closeReportJobModal() {
-        window.getElementById('reportJobModal').style.display = 'none';
+        document.getElementById('reportJobModal').style.display = 'none';
     }
+    window.openReportJobModal = openReportJobModal;
+    window.closeReportJobModal = closeReportJobModal;
+
     // Get elements for modal interactions
     const closeModal = document.querySelector('.close');
     const proceedBtn = document.getElementById('proceedBtn');
