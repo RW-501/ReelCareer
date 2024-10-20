@@ -619,19 +619,18 @@ import {
   
 
 
-
-
-
-// Function to fetch job posts for the recruiter
-async function fetchRecruiterJobPosts() {
+// Function to fetch job posts and moderated companies for the recruiter
+async function fetchRecruiterData(recruiterID) {
     const userRef = doc(db, "Users", recruiterID);
     const userDoc = await getDoc(userRef);
-    
+
     if (userDoc.exists()) {
         const jobPosts = userDoc.data().jobPosts || [];
+        const moderatedCompanies = userDoc.data().moderatedCompanies || []; // Assuming moderated companies are stored similarly
 
-        // Clear the container before inserting new job posts
+        // Clear containers before inserting new job posts and companies
         $('#job-posts-container').empty();
+        $('#companies-container').empty();
 
         // Loop through job posts and display them
         jobPosts.forEach(job => {
@@ -665,34 +664,209 @@ async function fetchRecruiterJobPosts() {
     } else {
         console.error("No such document!");
     }
+
+
+
+  // Loop through moderated companies and display them
+  moderatedCompanies.forEach(company => {
+    const companyElement = $(`
+        <div class="company-post" data-company-id="${company.companyId}">
+            <div class="company-name" style="cursor: pointer;">${company.companyName}</div>
+            <div class="company-details" style="display: none;">
+                <p>Location: ${company.location}</p>
+                <p>Industry: ${company.industry}</p>
+                <p>Description: ${company.description}</p>
+                <button class="view-company" data-company-id="${company.companyId}">View Company</button>
+                <button class="edit-company" data-company-id="${company.companyId}">Edit Company</button>
+            </div>
+        </div>
+    `);
+    $('#companies-container').append(companyElement);
+});
+
+
+
+
+// Implement toggle functionality for job details
+$('.job-title').on('click', function () {
+    $(this).next('.job-details').toggle();
+});
+
+// Implement toggle functionality for company details
+$('.company-name').on('click', function () {
+    $(this).next('.company-details').toggle();
+});
+
+// Implement deactivate job functionality
+$('.deactivate-job').on('click', function () {
+    const jobID = $(this).data('job-id');
+    updateJobStatus(jobID, 'deactivated'); // Update status to 'deactivated'
+});
+
+// Implement view and edit company functionality
+$('.view-company').on('click', function () {
+    const companyID = $(this).data('company-id');
+    viewCompany(companyID);
+});
+
+$('.edit-company').on('click', function () {
+    const companyID = $(this).data('company-id');
+    editCompany(companyID);
+});
+
+
+
+
+
 }
+
+
+
+
+
+
+
+
+
+
 
 // Function to update the job status in the Jobs collection
 async function updateJobStatus(jobID, newStatus) {
-    const jobRef = doc(db, "Jobs", jobID);
-    await updateDoc(jobRef, {
-        status: newStatus
-    });
-    alert(`Job ${jobID} has been updated to ${newStatus}.`);
+const jobRef = doc(db, "Jobs", jobID);
+await updateDoc(jobRef, {
+status: newStatus
+});
+alert(`Job ${jobID} has been updated to ${newStatus}.`);
+}
+
+// Placeholder function to view company details
+function viewCompany(companyID) {
+console.log(`Viewing company: ${companyID}`);
+// Logic to view company details (open a modal, redirect, etc.)
+}
+
+// Placeholder function to edit company details
+function editCompany(companyID) {
+console.log(`Editing company: ${companyID}`);
+// Logic to edit company details (open a modal, redirect, etc.)
 }
 
 // Function to implement search functionality
 $('#search-job').on('input', function () {
+const searchTerm = $(this).val().toLowerCase();
+$('.job-post').each(function () {
+const jobTitle = $(this).find('.job-title').text().toLowerCase();
+$(this).toggle(jobTitle.includes(searchTerm));
+});
+});
+
+// Call the function to fetch job posts and moderated companies when the page loads
+fetchRecruiterData(recruiterID);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Function to fetch job applications based on job IDs
+async function fetchJobApplications(jobIDs) {
+    const applicationsRef = collection(db, "Applications");
+    const applicationsQuery = query(applicationsRef, where("jobId", "in", jobIDs));
+    const querySnapshot = await getDocs(applicationsQuery);
+
+    // Clear the container before inserting new applications
+    $('#application-posts-container').empty();
+
+    querySnapshot.forEach(doc => {
+        const application = doc.data();
+        const applicationElement = $(`
+            <div class="application-post" data-applicant-id="${doc.id}">
+                <div class="applicant-name" style="cursor: pointer;">
+                    ${application.firstName} ${application.lastName}
+                </div>
+                <div class="application-details" style="display: none;">
+                    <p>Job Title: ${application.jobTitle}</p>
+                    <p>Company Name: ${application.companyName}</p>
+                    <p>Apply Date: ${new Date(application.applyDate.seconds * 1000).toLocaleDateString()}</p>
+                    <p>Email: ${application.email}</p>
+                    <p>Phone: ${application.phone}</p>
+                    <p>Notes: ${application.notes || "No notes available."}</p>
+                    <a href="${application.resumeLink}" target="_blank">Download Resume</a><br>
+                    <a href="${application.videoResumeLink}" target="_blank">Download Video Resume</a><br>
+                    <button class="view-application" data-applicant-id="${doc.id}">View Application</button>
+                    <button class="request-interview" data-applicant-id="${doc.id}">Request Interview</button>
+                    <button class="request-test" data-applicant-id="${doc.id}">Request Test</button>
+                </div>
+            </div>
+        `);
+        $('#application-posts-container').append(applicationElement);
+    });
+
+    // Implement toggle functionality for application details
+    $('.applicant-name').on('click', function () {
+        $(this).next('.application-details').toggle();
+    });
+
+    // Implement action button functionality
+    $('.view-application').on('click', function () {
+        const applicantID = $(this).data('applicant-id');
+        viewApplication(applicantID); // Implement this function as needed
+    });
+
+    $('.request-interview').on('click', function () {
+        const applicantID = $(this).data('applicant-id');
+        requestInterview(applicantID); // Implement this function as needed
+    });
+
+    $('.request-test').on('click', function () {
+        const applicantID = $(this).data('applicant-id');
+        requestTest(applicantID); // Implement this function as needed
+    });
+}
+
+// Function to implement search functionality
+$('#search-applicant').on('input', function () {
     const searchTerm = $(this).val().toLowerCase();
-    $('.job-post').each(function () {
-        const jobTitle = $(this).find('.job-title').text().toLowerCase();
-        $(this).toggle(jobTitle.includes(searchTerm));
+    $('.application-post').each(function () {
+        const applicantName = $(this).find('.applicant-name').text().toLowerCase();
+        const jobTitle = $(this).find('.application-details p:contains(Job Title)').text().toLowerCase();
+        $(this).toggle(applicantName.includes(searchTerm) || jobTitle.includes(searchTerm));
     });
 });
 
-// Call the function to fetch job posts when the page loads
-fetchRecruiterJobPosts();
+// Sample job IDs array (replace this with the actual array of job IDs)
+const jobIDs = ["L6deju3QokTWiDwHNbl3", "anotherJobID"]; // Update this as necessary
 
+// Call the function to fetch job applications when the page loads
+fetchJobApplications(jobIDs);
 
+// Placeholder functions for actions
+function viewApplication(applicantID) {
+    console.log(`Viewing application for: ${applicantID}`);
+    // Logic to view application details
+}
 
+function requestInterview(applicantID) {
+    console.log(`Requesting interview for: ${applicantID}`);
+    // Logic to send interview request
+}
 
-
-
-
-
-
+function requestTest(applicantID) {
+    console.log(`Requesting test for: ${applicantID}`);
+    // Logic to send test request
+}

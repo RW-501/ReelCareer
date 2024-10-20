@@ -588,7 +588,11 @@
                 <h5>Moderated Company List</h5>
             </div>
             <div class="card-body">
-                <button class="btn btn-info" id="viewCompanies">View Companies</button>
+                <div id="job-posts-container"></div>
+                <div id="companies-container" style="margin-top: 20px;"></div>
+                
+
+
             </div>
         </div>
 
@@ -598,9 +602,14 @@
                 <h5>Applications Management</h5>
             </div>
             <div class="card-body">
-                <button class="btn btn-success" id="viewApplications">View Applications</button>
-                <button class="btn btn-warning" id="updateStatus">Update Application Status</button>
-                <button class="btn btn-secondary" id="provideFeedback">Provide Feedback</button>
+                <div id="applications-container" style="max-height: 500px; overflow-y: auto;">
+                    <input type="text" id="search-applicant" placeholder="Search applicants by name or job title..." />
+                    <div id="application-posts-container">
+                        <!-- Application posts will be dynamically inserted here -->
+                    </div>
+                </div>
+
+
             </div>
         </div>
 
