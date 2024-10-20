@@ -461,7 +461,7 @@ import {
   
     return {
       title: document.getElementById("jobTitle").value,
-      company: document.getElementById("appCompanyID").value,
+      company: document.getElementById("appCompanyID").innerText,
       companyId: document.getElementById("jobDescription").value,
       description: document.getElementById("jobDescription").value,
       requirements: document.getElementById("jobRequirements").value,
@@ -509,6 +509,9 @@ import {
     const docRef = await addDoc(jobPostingsRef, jobDetails); // Add job details to "Jobs" collection
     console.log("Job posted successfully with ID:", docRef.id);
   
+
+    console.log("jobDetails.companyId id???????????/   ",jobDetails.companyId);
+
     // Update the company's jobs array with the new job object
     const companyRef = doc(db, "Companies", jobDetails.companyId);
     await updateDoc(companyRef, {
@@ -625,4 +628,3 @@ import {
 
 
 
-  
