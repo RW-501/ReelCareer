@@ -1,6 +1,4 @@
 
-import {adjustLinkHomeURL } from "https://www.reelcareer.com/public/js/scripts.js";
-
 
 function formatLocation(location, options = {}) {
     const { part = "all", reverseOrder = false } = options; // Set default options
@@ -191,7 +189,7 @@ function formatLocation(location, options = {}) {
   
   //const {isHomePage, currentPage, adjustLinkURL, adjustLinkHomeURL, excludedPages } = getAdjustedLinks();
   
-  fetch(adjustLinkHomeURL + "public/js/suggestions.json")
+  fetch("https://reelcareer.co/public/js/suggestions.json")
     .then((response) => {
       if (!response.ok) {
         throw new Error("Network response was not ok: " + response.statusText);
