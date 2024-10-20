@@ -1170,29 +1170,6 @@ jobID = jobData.id;
     // Make the function globally accessible
     window.saveJob = saveJob;
   
-              // Apply button event listener
-              document.getElementById('applyBtn').addEventListener('click', function() {
-        if (jobData.applicationAvailableBool) {
-          // Redirect to the application page on your site
-          document.location.href = `apply.html?jobId=${jobId}`;
-        } else {
-          // Show the modal for external application
-          const modal = window.getElementById('applicationModal');
-          modal.style.display = 'block';
-        }
-      });
-
-   // Proceed to external website on clicking the proceed button
-   const proceedBtn = document.getElementById('proceedBtn');
-
-   proceedBtn.addEventListener('click', function() {
-      window.location.href = jobData.applicationWebsite;
-    });
-    
-    </script>
-
-  <script>
-
     // Open the modal
     function openReportJobModal() {
         document.getElementById('reportJobModal').style.display = 'block !important;';
@@ -1216,6 +1193,29 @@ jobID = jobData.id;
     cancelBtn.addEventListener('click', function() {
       modal.style.display = 'none !important;';
     });
+              // Apply button event listener
+              document.getElementById('applyBtn').addEventListener('click', function() {
+        if (jobData.applicationAvailableBool) {
+          // Redirect to the application page on your site
+          document.location.href = `apply.html?jobId=${jobId}`;
+        } else {
+          // Show the modal for external application
+          const modal = window.getElementById('applicationModal');
+          modal.style.display = 'block';
+        }
+      });
+
+   // Proceed to external website on clicking the proceed button
+   const proceedBtn = document.getElementById('proceedBtn');
+
+   proceedBtn.addEventListener('click', function() {
+      window.location.href = jobData.applicationWebsite;
+    });
+    
+    </script>
+
+  <script>
+
  
     // Close modal if the user clicks outside of it
     window.addEventListener('click', function(event) {
