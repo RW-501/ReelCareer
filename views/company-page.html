@@ -602,7 +602,7 @@ document.getElementById("generateDescriptionBtn").addEventListener("click", func
 
         toggleEditMode(false)
         const urlParams = new URLSearchParams(window.location.search);
-        const companyId = urlParams.get('companyId');
+        const companyId = urlParams.get('c');
         document.getElementById("instructions").style.display = "none";
 
         auth.onAuthStateChanged(user => {
