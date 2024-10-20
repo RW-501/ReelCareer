@@ -1,3 +1,7 @@
+
+import {adjustLinkHomeURL } from "https://www.reelcareer.com/public/js/scripts.js";
+
+
 function formatLocation(location, options = {}) {
     const { part = "all", reverseOrder = false } = options; // Set default options
   

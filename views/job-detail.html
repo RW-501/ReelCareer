@@ -667,12 +667,14 @@ h1, h2, h4, h5 {
         `;
       }
       try {
-        const jobDocRef = doc(db, 'Jobs', jobId);
-        const jobDoc = await getDoc(jobDocRef);
-        if (jobDoc.exists()) {
-          const jobData = jobDoc.data();
-          loadJobDetails(jobData); // Call loadJobDetails with jobData
-        } else {
+  const jobDocRef = doc(db, 'Jobs', jobId);
+  const jobDoc = await getDoc(jobDocRef);
+  
+  if (jobDoc.exists()) {
+    const jobData = jobDoc.data();
+    jobData.id = jobDoc.id; // Attach the document ID to the data
+    loadJobDetails(jobData); // Call loadJobDetails with jobData, now containing the ID
+  } else {
           // Insert "Job not found" HTML into the error-message div
           errorMessageDiv.innerHTML = `
             <h2>Job Not Found</h2>
@@ -696,6 +698,8 @@ h1, h2, h4, h5 {
     }
     // Function to load job details into the HTML
     async function loadJobDetails(jobData) {
+        console.log('Job ID:', jobData.id);
+
       const createdAt = jobData.createdAt?.toDate ? jobData.createdAt.toDate() : "N/A"; // Fallback to "N/A" if not available
       document.getElementById('jobTitle').textContent = jobData.title;
       document.getElementById("jobDescription").innerText = jobData.description;
@@ -708,7 +712,6 @@ h1, h2, h4, h5 {
       document.getElementById('industry').textContent = jobData.industry;
       document.getElementById('createdAt').textContent = createdAt instanceof Date ? createdAt.toLocaleDateString() : createdAt;
       
-      async function loadJobDetails(jobData) {
   // Existing logic for setting job fields
 
   // New Fields
@@ -740,7 +743,7 @@ h1, h2, h4, h5 {
   } else {
     experienceList.textContent = "Not specified";
   }
-}
+
 
       
       
