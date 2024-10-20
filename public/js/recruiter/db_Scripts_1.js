@@ -562,9 +562,7 @@ import {
     ).href = `/views/job-detail.html?id=${jobId}`;
     document.getElementById("jobLocation").textContent = jobDetails.location;
     document.getElementById("jobSalary").textContent = jobDetails.salary;
-    document.getElementById("jobExpiryDate").textContent = new Date(
-      new Date().setDate(new Date().getDate() + 30)
-    ).toLocaleDateString();
+    document.getElementById("jobExpiryDate").textContent = jobDetails.applicationDeadline;
     document.getElementById("salaryPayTime").textContent =
       jobDetails.salaryPayTime;
   
