@@ -650,7 +650,7 @@ h1, h2, h4, h5 {
           return;
         }
         // Update the job's savedForLater count
-        await updateDoc(jobDocRef, {
+        await updateDoc(userSavedJobsRef, {
           savedForLater: increment(1) // Increment the savedForLater field by 1
         });
         // Save the job to user's savedJobs array using arrayUnion to prevent duplicates
@@ -848,11 +848,11 @@ jobID = jobData.id;
       }
       // Function to fetch similar jobs based on tags
       async function getSimilarJobs(jobData) {
-        const jobTags = jobData.tags; // Get tags from the current job
+        let jobTags = jobData.tags; // Get tags from the current job
         const maxSimilarJobs = 5; // Limit to 5 similar jobs
         if (!jobTags || jobTags.length === 0) {
           console.log("No tags available for this job.");
-          return;
+          jobTags = ['Jobs', jobData.industry];
         }
         // Query the Jobs collection to find jobs with matching tags
         const jobsRef = collection(db, 'Jobs'); // Correctly use the imported Firestore instance
