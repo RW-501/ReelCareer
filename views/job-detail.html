@@ -827,7 +827,9 @@ jobID = jobData.id;
       const companyDescription = document.getElementById('companyDescription');
       const companyMission = document.getElementById('companyMission');
       const companyPageLink = document.getElementById('companyPageLink');
-      const bottomHr = document.getElementById('bottomHr');
+
+
+      console.log("q companyData.description   ", companyData.description);
       // Check if all company elements are empty or missing content
       if (!companyWebsite.href || !companyDescription.textContent.trim() ||
         !companyMission.textContent.trim() || !companyPageLink.href) {
