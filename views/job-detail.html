@@ -679,49 +679,49 @@ text-align: left;
       limit
     } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
     // Function to save job and update savedForLater count
-    async function saveJob(jobId) {
-      // Disable the button and change text
-      const saveBtn = document.getElementById('saveBtn');
-      saveBtn.disabled = true;
-      saveBtn.textContent = "Saving...";
-      try {
-        const user = auth.currentUser;
-        if (!user) {
-          alert("You need to be logged in to save jobs.");
-          saveBtn.disabled = false;
-          saveBtn.textContent = "Save Job";
-          return;
-        }
-        // Get user-specific saved jobs from the 'Users' collection
-        const userSavedJobsRef = doc(db, 'Users', user.uid);
-        const userSavedJobsDoc = await getDoc(userSavedJobsRef);
-        // Check if the job is already saved
-        if (userSavedJobsDoc.exists() && userSavedJobsDoc.data().savedJobs?.includes(jobId)) {
-          saveBtn.textContent = "Saved!";
-          saveBtn.classList.add('btn-success');
-          return;
-        }
-        // Update the job's savedForLater count
-        await updateDoc(userSavedJobsRef, {
-          savedForLater: increment(1) // Increment the savedForLater field by 1
-        });
-        // Save the job to user's savedJobs array using arrayUnion to prevent duplicates
-        await setDoc(userSavedJobsRef, {
-          savedJobs: arrayUnion(jobId)
-        }, {
-          merge: true
-        });
-        // Successfully saved
-        saveBtn.textContent = "Saved!";
-        saveBtn.classList.add('btn-success');
-      } catch (error) {
-        console.error("Error saving job: ", error);
-        alert("Error saving the job. Please try again.");
-      } finally {
-        saveBtn.disabled = false;
-        saveBtn.textContent = "Save Job";
-      }
+    async function saveJob(jobId) { 
+  // Disable the button and change text
+  const saveBtn = document.getElementById('saveBtn');
+  saveBtn.disabled = true;
+  saveBtn.textContent = "Saving...";
+  
+  try {
+    const user = auth.currentUser; // Corrected the user reference
+    if (!user) {
+      alert("You need to be logged in to save jobs.");
+      saveBtn.disabled = false;
+      saveBtn.textContent = "Save Job";
+      return;
     }
+
+    // Get user-specific saved jobs from the 'Users' collection
+    const userSavedJobsRef = doc(db, 'Users', user.uid);
+    const userSavedJobsDoc = await getDoc(userSavedJobsRef);
+
+    // Check if the job is already saved
+    if (userSavedJobsDoc.exists() && userSavedJobsDoc.data().savedJobs?.includes(jobId)) {
+      saveBtn.textContent = "Saved!";
+      saveBtn.classList.add('btn-success');
+      return;
+    }
+
+    // Update the user's savedJobs array using arrayUnion to prevent duplicates
+    await updateDoc(userSavedJobsRef, {
+      savedJobs: arrayUnion(jobId)
+    });
+
+    // Successfully saved
+    saveBtn.textContent = "Saved!";
+    saveBtn.classList.add('btn-success');
+  } catch (error) {
+    console.error("Error saving job: ", error);
+    alert("Error saving the job. Please try again.");
+  } finally {
+    saveBtn.disabled = false;
+    saveBtn.textContent = "Save Job";
+  }
+}
+
     let companyData = "";
     // Function to fetch job details
     async function fetchJobDetails() {
@@ -1166,7 +1166,7 @@ jobID = jobData.id;
           document.getElementById('applyBtn').addEventListener('click', function() {
         if (jobData.applicationAvailableBool) {
           // Redirect to the application page on your site
-          document.location.href = `apply.html?jobId=${jobData.doc.id}`;
+          document.location.href = `apply.html?jobId=${jobId}`;
         } else {
           // Show the modal for external application
           const modal = window.getElementById('applicationModal');
