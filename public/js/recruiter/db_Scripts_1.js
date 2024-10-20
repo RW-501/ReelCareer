@@ -829,7 +829,9 @@ async function fetchJobApplications(jobIDs) {
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item"><strong>Job Title:</strong> ${application.jobTitle}</li>
                             <li class="list-group-item"><strong>Company Name:</strong> ${application.companyName}</li>
-                            <li class="list-group-item"><strong>Apply Date:</strong> ${new Date(application.applyDate.seconds * 1000).toLocaleDateString()}</li>
+<li class="list-group-item"><strong>Apply Date:</strong> 
+    ${application.applyDate ? new Date(application.applyDate.seconds * 1000).toLocaleDateString() : "Not available"}
+</li>
                             <li class="list-group-item"><strong>Email:</strong> ${application.email}</li>
                             <li class="list-group-item"><strong>Phone:</strong> ${application.phone}</li>
                             <li class="list-group-item"><strong>Notes:</strong> ${application.notes || "No notes available."}</li>
