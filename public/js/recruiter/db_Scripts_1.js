@@ -406,11 +406,11 @@ import {
           "Job Boosted Successfully!";
         document.querySelector(".modal-body .lead").textContent =
           "Your job listing has been boosted for increased visibility!";
-        showSuccessModal(jobId, jobDetails.title); // Show modal with job title and link
+        showSuccessModal(jobId, jobDetails); // Show modal with job title and link
       } else if (actionType === "post") {
         document.getElementById("jobSuccessLabel").textContent =
           "Job Posted Successfully!";
-        showSuccessModal(jobId, jobDetails.title); // Show modal with job title and link
+        showSuccessModal(jobId, jobDetails); // Show modal with job title and link
       } else {
         document.getElementById("jobSuccessLabel").textContent =
           "Draft Saved Successfully!";
@@ -529,11 +529,7 @@ import {
       })
     });
     console.log(jobDetails);
-    if (!jobDetails.title || !jobDetails.status || !jobDetails.location || !jobDetails.companyName || !jobDetails.companyId) {
-        console.error("Missing required job details!");
-        return;
-    }
-    
+  
     // Update the user's jobPosts array with the new job ID
     const userRef = doc(db, "Users", auth.currentUser.uid);
     await updateDoc(userRef, {
@@ -561,9 +557,9 @@ import {
     return docRef.id; // Return the job ID for future use
   }
   
-  function showSuccessModal(jobId, jobTitle) {
+  function showSuccessModal(jobId, jobDetails) {
     document.getElementById("jobId").textContent = jobId;
-    document.getElementById("jobTitleLink").textContent = jobTitle;
+    document.getElementById("jobTitleLink").textContent = jobDetails.jobTitle;
     document.getElementById(
       "jobTitleLink"
     ).href = `/views/job-detail.html?id=${jobId}`;
