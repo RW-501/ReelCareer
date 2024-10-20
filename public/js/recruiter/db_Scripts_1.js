@@ -644,16 +644,36 @@ async function fetchRecruiterData(recruiterID) {
     const userDoc = await getDoc(userRef);
     console.log("recruiterID   ",recruiterID);
 
-    if (userDoc.exists()) {
-        const jobPosts = userDoc.data().jobPosts || [];
 
-        // Clear containers before inserting new job posts and companies
-        $('#job-posts-container').empty();
-        $('#companies-container').empty();
+
 
         // Loop through job posts and display them
         if (userDoc.exists()) {
             const jobPosts = userDoc.data().jobPosts || [];
+          
+          
+        
+// Create a Set to track unique company IDs
+const uniqueCompanyIds = new Set();
+
+// Filter jobPosts to create moderatedCompanies with unique company IDs
+let moderatedCompanies = jobPosts.filter(job => {
+    // Check if the companyId is already in the Set
+    if (!uniqueCompanyIds.has(job.companyId)) {
+        uniqueCompanyIds.add(job.companyId); // Add the companyId to the Set
+        return true; // Keep this job post
+    }
+    return false; // Skip this job post (duplicate)
+}).map(job => {
+    // Return the unique job post (or modify this to return the desired company structure)
+    return {
+        companyId: job.companyId,
+        companyName: job.companyName,
+        location: job.location, // Include other fields as necessary
+        industry: job.industry,
+        description: job.description,
+    };
+});
 
             // Clear containers before inserting new job posts and companies
             $('#job-posts-container').empty();
@@ -661,14 +681,12 @@ async function fetchRecruiterData(recruiterID) {
         
             // Define jobIDsList and companiesIDsList
             const jobIDsList = [];
-            const companiesIDsList = [];
         
             // Loop through job posts and display them
             jobPosts.forEach(job => {
                 jobIDsList.push(job.jobID); // Push each jobID into the array
-                companiesIDsList.push(job.companyId); // Ensure companyId is available in job object
+
                 console.log("jobIDsList  ",jobIDsList);
-                console.log("companiesIDsList  ",companiesIDsList);
 
                 const jobElement = $(`
                     <div class="job-post card mb-3" data-job-id="${job.jobID}">
@@ -704,8 +722,6 @@ async function fetchRecruiterData(recruiterID) {
                 const jobID = $(this).data('job-id');
                 updateJobStatus(jobID, 'deactivated'); // Update status to 'deactivated'
             });
-            const moderatedCompanies = userDoc.data().companiesIDsList || []; // Change this to match your data structure
-            console.log("jobIDsLimoderatedCompaniesst  ",moderatedCompanies);
 
             // Loop through moderated companies and display them
             moderatedCompanies.forEach(company => {
@@ -745,6 +761,8 @@ async function fetchRecruiterData(recruiterID) {
                 $(this).next('.company-details').toggle();
             });
         
+            fetchJobApplications(jobIDsList);
+
         } else {
             const errorMessage = $(`
                 <div class="alert alert-danger" role="alert">
@@ -758,9 +776,9 @@ async function fetchRecruiterData(recruiterID) {
             // Append the error message to the companies container
             $('#companies-container').append(errorMessage);
                 }
-        
-            }
-            fetchJobApplications(companiesIDsList);
+
+
+            
 }
 
 // Function to show toast notifications
