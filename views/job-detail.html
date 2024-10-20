@@ -507,6 +507,8 @@ h1, h2, h4, h5 {
       <!-- Job Requirements -->
       <div class="job-info-box bg-light rounded-3 shadow-sm p-4 mb-4">
         <h5>Job Requirements</h5>
+        <p id="jobRequirements" class="text-muted "></p>
+
         <p><strong>Education Required:</strong></p>
         <ul id="educationRequirements" class="list-unstyled"></ul>
         <p><strong>Experience Required:</strong></p>
@@ -525,6 +527,38 @@ h1, h2, h4, h5 {
         <span id="jobTags" class="job-tags"></span>
       </div>
   
+
+
+
+
+      <hr />
+
+      <!-- Social Media Sharing Buttons -->
+      <div class="social-sharing m-auto job-info-box shadow-sm rounded p-3">
+        <h5><strong>Share this job:</strong></h5>
+        <div class="d-flex justify-content-between">
+          <a id="facebookShare" target="_blank" class="btn btn-facebook btn-sm" style="color: #3b5998;">
+            <i class="fab fa-facebook-f"></i> Share on Facebook
+          </a>
+          <a id="twitterShare" target="_blank" class="btn btn-twitter btn-sm" style="color: #1da1f2;">
+            <i class="fab fa-twitter"></i> Tweet This Job
+          </a>
+          <a id="linkedinShare" target="_blank" class="btn btn-linkedin btn-sm" style="color: #0077b5;">
+            <i class="fab fa-linkedin-in"></i> Share on LinkedIn
+          </a>
+          <a id="emailShare" class="btn btn-email btn-sm" style="color: #d44638;">
+            <i class="fas fa-envelope"></i> Share via Email
+          </a>
+        </div>
+      </div>
+
+      <hr />
+
+
+
+
+
+
       <!-- Apply Button -->
       <button id="applyBtn" class="btn btn-primary btn-lg w-100 mt-4" aria-label="Apply for this job">Apply Now</button>
     </div>
@@ -787,7 +821,7 @@ jobID = jobData.id;
           const companyDoc = await getDoc(companyRef);
           if (companyDoc.exists()) {
             companyData = companyDoc.data();
-            document.getElementById("companyLogo").src = companyData.logo; // Ensure the 'logo' field in the database is a URL
+            document.getElementById("companyLogo").src = companyData.logo ? companyData.logo : "https://reelcareer.com/images/sq_logo_n_BG.png";
             document.getElementById("companyWebsite").href = companyData.website;
             document.getElementById("companyDescription").innerText = companyData.description;
             document.getElementById("companyMission").innerText = companyData.missionStatement;
@@ -805,7 +839,6 @@ jobID = jobData.id;
       document.getElementById('applicantCount').textContent = jobData.applicantCount || 0;
       document.getElementById('companyWebsite').href = jobData.companyWebsite;
       
-      console.log("qjobData.tags   ", jobData.tags);
 
 
       let jobTags = jobData.tags; // Get tags from the current job
@@ -854,7 +887,7 @@ jobID = jobData.id;
 
 
       // Function to fetch similar jobs based on tags
-      async function getSimilarJobs() {
+      async function getSimilarJobs(jobTags) {
         const maxSimilarJobs = 5; // Limit to 5 similar jobs
 
         // Query the Jobs collection to find jobs with matching tags
@@ -908,11 +941,12 @@ jobID = jobData.id;
           displayEmptyState(similarJobsContainer, 'Error loading similar jobs.', 'fas fa-briefcase');
         };
       }
-      async function loadRelatedBlogs(jobIndustry) {
+      async function loadRelatedBlogs(jobTags) {
         try {
+
           // Reference the 'Blogs' collection and query for blogs with matching industry tags
           const blogsRef = collection(db, 'Blogs');
-          const q = query(blogsRef, where('tags', 'array-contains-any', jobData.tags), limit(3));
+          const q = query(blogsRef, where('tags', 'array-contains-any', jobTags), limit(3));
           // Get the query snapshot
           const querySnapshot = await getDocs(q);
           const blogContainer = document.getElementById('blogContainer');
@@ -923,6 +957,8 @@ jobID = jobData.id;
           }
           querySnapshot.forEach(doc => {
             const blog = doc.data();
+
+
             const blogCard = document.createElement('div');
             blogCard.classList.add('blog-card');
             blogCard.innerHTML = ` 
