@@ -780,11 +780,14 @@ jobID = jobData.id;
       document.getElementById('industry').textContent = jobData.industry;
       document.getElementById('createdAt').textContent = createdAt instanceof Date ? createdAt.toLocaleDateString() : createdAt;
       
-  // Existing logic for setting job fields
+
 
   // New Fields
   document.getElementById('salaryPayTime').textContent = jobData.salaryPayTime || "N/A";
  document.getElementById('jobFunction').textContent = jobData.jobFunction || "N/A";
+
+ document.getElementById('jobRequirements').textContent = jobData.benefits;
+ document.getElementById('jobBenefits').textContent = jobData.requirements;
 
   // Education Requirements (array)
   const educationList = document.getElementById('educationRequirements');
@@ -858,8 +861,6 @@ jobID = jobData.id;
         }
         console.log("jobTags   ", jobTags);
 
-    renderList(jobData.benefits, 'jobBenefits');
-      renderList(jobData.requirements, 'jobRequirements');
       renderTags(jobTags);
 
           // Fetch and display similar jobs
@@ -1015,24 +1016,6 @@ jobID = jobData.id;
       document.getElementById('linkedinShare').href = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(jobPageURL)}&title=${encodeURIComponent(jobTitle)}&summary=${encodeURIComponent(jobDescription)}&source=ReelCareer`;
       document.getElementById('emailShare').href = `mailto:?subject=Check%20out%20this%20job%20opportunity&body=I%20found%20this%20job%20at%20ReelCareer:%20${encodeURIComponent(jobPageURL)}`;
 
-      function renderList(items, elementId) {
-        const container = document.getElementById(elementId);
-        container.innerHTML = ''; // Clear previous content
-        // Check if items is defined and is an array
-        if (Array.isArray(items) && items.length > 0) {
-          items.forEach(item => {
-            const li = document.createElement('li');
-            li.textContent = item;
-            container.appendChild(li);
-          });
-        } else {
-          // Optionally, you can display a message if no items are available
-          const noItemsMessage = document.createElement('li');
-          noItemsMessage.textContent = 'No items available.';
-          noItemsMessage.className = 'text-muted'; // Optional styling
-          container.appendChild(noItemsMessage);
-        }
-      }
 
       function renderTags(tags) {
         const jobTags = document.getElementById('jobTags');
