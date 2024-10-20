@@ -694,7 +694,7 @@ async function fetchRecruiterData(recruiterID) {
         // Add event listener for job title click to redirect to the job detail page
         $('.job-title').on('click', function () {
             const jobID = $(this).closest('.job-post').data('job-id');
-            window.location.href = `../views/job-detail?j=${jobID}`;
+            window.location.href = `../views/job-detail?id=${jobID}`;
         });
 
     } else {
