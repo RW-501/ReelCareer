@@ -461,7 +461,7 @@ import {
   
     return {
       title: document.getElementById("jobTitle").value,
-      company: document.getElementById("company").innerText,
+      company: document.getElementById("company").value,
       companyId: document.getElementById("appCompanyID").innerText,
       description: document.getElementById("jobDescription").value,
       requirements: document.getElementById("jobRequirements").value,
@@ -528,7 +528,12 @@ import {
         applicationLink: jobDetails.applicationLink // Direct link to apply
       })
     });
-  
+    console.log(jobDetails);
+    if (!jobDetails.title || !jobDetails.status || !jobDetails.location || !jobDetails.companyName || !jobDetails.companyId) {
+        console.error("Missing required job details!");
+        return;
+    }
+    
     // Update the user's jobPosts array with the new job ID
     const userRef = doc(db, "Users", auth.currentUser.uid);
     await updateDoc(userRef, {
@@ -542,8 +547,8 @@ import {
         companyName: jobDetails.companyName, // Name of the company
         companyId: jobDetails.companyId, // ID of the company
         salary: jobDetails.salary, // Salary for the job post
-        expiryDate: jobDetails.expiryDate // When the job posting expires
-      })
+        expiryDate: jobDetails.expiryDate || new Date() // Default to current date if undefined
+    })
     });
   
     if (jobDetails.boosted) {

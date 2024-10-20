@@ -1,0 +1,12 @@
+# Enable Rewrite Engine
+RewriteEngine On
+
+# Redirect /views/job-listings to /job-listings
+RewriteRule ^views/job-listings$ /job-listings [L,R=301]
+
+# Redirect /privacy to /public/privacy
+RewriteRule ^privacy$ /public/privacy [L,R=301]
+
+# Add more rules as needed
+# Example: Rewrite /old-path to /new-path
+# RewriteRule ^old-path$ /new-path [L,R=301]
