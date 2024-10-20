@@ -622,10 +622,6 @@ import {
 
 
 
-// Assuming you have already initialized Firebase and jQuery
-
-const recruiterID = "YOUR_RECRUITER_ID"; // Replace with the actual recruiter ID
-
 // Function to fetch job posts for the recruiter
 async function fetchRecruiterJobPosts() {
     const userRef = doc(db, "Users", recruiterID);
