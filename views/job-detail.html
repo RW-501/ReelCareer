@@ -378,7 +378,7 @@ body {
 
 
 .btn:hover {
-  background-color: #0056b3;
+  /* background-color: #0056b3;*/
 }
 
 .btn-outline-secondary:hover {
@@ -468,8 +468,8 @@ h1, h2, h4, h5 {
           <button id="reportJobBtn" class="btn btn-warning w-100" onclick="openReportJobModal()">Report Job</button>
        
           <div class="text-center">
-            <p><strong>Submitted By:</strong> <span id="submittedBy" class="text-muted font-italic px-5"></span></p>
-            <p><strong>Job:</strong> <span id="jobID" class="text-muted font-italic px-5"></span></p>
+            <p><strong>Submitted By:</strong> <name id="submittedBy" class="text-muted font-italic px-5"></name></p>
+            <p><strong>Job:</strong> <id id="jobID" class="text-muted font-italic px-5"></id></p>
           </div>
        
         </div>
@@ -477,12 +477,12 @@ h1, h2, h4, h5 {
         <div class="col-md-8">
           <h1 id="jobTitle" class="text-primary fw-bold mb-3"></h1>
           <div class="job-info-box bg-light rounded-3 shadow-sm p-4">
-            <p><strong>Company:</strong> <span id="companyName"></span></p>
-            <p><strong>Location:</strong> <span id="jobLocation"></span></p>
-            <p><strong>Industry:</strong> <span id="industry"></span></p>
-            <p><strong>Employment Type:</strong> <span id="employmentType"></span></p>
-            <p><strong>Salary:</strong> <span id="salary"></span> <span id="salaryPayTime"></span></p>
-            <p><strong>Posted On:</strong> <span id="createdAt"></span></p>
+            <p><strong>Company:</strong> <company id="companyName"></company></p>
+            <p><strong>Location:</strong> <address id="jobLocation"></address></p>
+            <p><strong>Industry:</strong> <industry id="industry"></industry></p>
+            <p><strong>Employment Type:</strong> <employmentType id="employmentType"></employmentType></p>
+            <p><strong>Salary:</strong> <spasalaryn id="salary"></salary> <span id="salaryPayTime"></span></p>
+            <p><strong>Posted On:</strong> <date id="createdAt"></date></p>
           </div>
         </div>
       </div>
