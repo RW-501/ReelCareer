@@ -461,8 +461,8 @@ import {
   
     return {
       title: document.getElementById("jobTitle").value,
-      company: document.getElementById("appCompanyID").innerText,
-      companyId: document.getElementById("jobDescription").value,
+      company: document.getElementById("company").innerText,
+      companyId: document.getElementById("appCompanyID").innerText,
       description: document.getElementById("jobDescription").value,
       requirements: document.getElementById("jobRequirements").value,
       searchableRequirements: collectJobRequirements(), // Collect enhanced requirements
