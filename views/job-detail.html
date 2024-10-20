@@ -479,7 +479,7 @@ h1, h2, h4, h5 {
           <h1 id="jobTitle" class="text-primary fw-bold mb-3"></h1>
           <div class="job-info-box bg-light rounded-3 shadow-sm p-4">
             <p><strong>Company:</strong> <company id="companyName"></company></p>
-            <p><strong>Location:</strong> <address id="jobLocation"></address></p>
+            <p><address id="jobLocation"></address></p>
             <p><strong>Industry:</strong> <industry id="industry"></industry></p>
             <p><strong>Employment Type:</strong> <employmentType id="employmentType"></employmentType></p>
             <p><strong>Salary:</strong> <spasalaryn id="salary"></salary> <span id="salaryPayTime"></span></p>
@@ -744,8 +744,8 @@ jobID = jobData.id;
 
   // Education Requirements (array)
   const educationList = document.getElementById('educationRequirements');
-  if (jobData.education && jobData.education.length > 0) {
-    jobData.education.forEach(edu => {
+  if (jobData.searchableRequirements.education && jobData.searchableRequirements.education.length > 0) {
+    jobData.searchableRequirements.education.forEach(edu => {
       const listItem = document.createElement('li');
       listItem.textContent = edu;
       educationList.appendChild(listItem);
@@ -756,8 +756,8 @@ jobID = jobData.id;
 
   // Experience Requirements (array)
   const experienceList = document.getElementById('experienceRequirements');
-  if (jobData.experience && jobData.experience.length > 0) {
-    jobData.experience.forEach(exp => {
+  if (jobData.searchableRequirements.experience && jobData.searchableRequirements.experience.length > 0) {
+    jobData.searchableRequirements.experience.forEach(exp => {
       const listItem = document.createElement('li');
       listItem.textContent = exp;
       experienceList.appendChild(listItem);
@@ -779,9 +779,7 @@ jobID = jobData.id;
       } else {
         document.getElementById("companyPageLink").style.display = "none";
       }
-      // Fetch and display similar jobs
-      getSimilarJobs(jobData);
-      loadRelatedBlogs(jobData.industry);
+  
       // Fetch company details using companyId from the Companies collection
       try {
         if (jobData.companyId) {
@@ -818,6 +816,10 @@ jobID = jobData.id;
     renderList(jobData.benefits, 'jobBenefits');
       renderList(jobData.requirements, 'jobRequirements');
       renderTags(jobTags);
+
+          // Fetch and display similar jobs
+          getSimilarJobs(jobTags);
+      loadRelatedBlogs(jobTags);
       // Assuming you have your job data in jobData
       const companyWebsite = document.getElementById('companyWebsite');
       const jobRequirementsArea = document.getElementById('jobRequirementsArea');
@@ -856,7 +858,7 @@ jobID = jobData.id;
 
 
       // Function to fetch similar jobs based on tags
-      async function getSimilarJobs(jobData) {
+      async function getSimilarJobs() {
         const maxSimilarJobs = 5; // Limit to 5 similar jobs
 
         // Query the Jobs collection to find jobs with matching tags
