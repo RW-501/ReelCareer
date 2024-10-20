@@ -1001,13 +1001,13 @@ jobID = jobData.id;
         }
       }
       // Apply button event listener
-      document.getElementById('applyBtn').addEventListener('click', function() {
+      window.getElementById('applyBtn').addEventListener('click', function() {
         if (jobData.applicationAvailableBool) {
           // Redirect to the application page on your site
           window.location.href = `apply.html?jobId=${jobData.doc.id}`;
         } else {
           // Show the modal for external application
-          const modal = document.getElementById('applicationModal');
+          const modal = window.getElementById('applicationModal');
           modal.style.display = 'block';
         }
       });
@@ -1164,16 +1164,17 @@ jobID = jobData.id;
     document.addEventListener('DOMContentLoaded', fetchJobDetails);
     // Make the function globally accessible
     window.saveJob = saveJob;
+  
   </script>
 
   <script>
     // Open the modal
     function openReportJobModal() {
-      document.getElementById('reportJobModal').style.display = 'block';
+        window.getElementById('reportJobModal').style.display = 'block';
     }
     // Close the modal
     function closeReportJobModal() {
-      document.getElementById('reportJobModal').style.display = 'none';
+        window.getElementById('reportJobModal').style.display = 'none';
     }
     // Get elements for modal interactions
     const closeModal = document.querySelector('.close');
