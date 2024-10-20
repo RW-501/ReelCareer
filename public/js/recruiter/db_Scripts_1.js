@@ -652,77 +652,112 @@ async function fetchRecruiterData(recruiterID) {
         $('#companies-container').empty();
 
         // Loop through job posts and display them
-        jobPosts.forEach(job => {
-            jobIDsList.push(job.jobID); // Push each jobID into the array
-            companiesIDsList.push(job.companyId);
-
-            const jobElement = $(`
-                <div class="job-post card mb-3" data-job-id="${job.jobID}">
-                    <div class="card-body">
-                        <h5 class="job-title card-title text-primary" style="cursor: pointer;">${job.jobTitle}</h5>
-                        <div class="job-details" style="display: none;">
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item"><strong>Status:</strong> ${job.status}</li>
-                                <li class="list-group-item"><strong>Created At:</strong> ${job.createdAt.toDate().toLocaleString()}</li>
-                                <li class="list-group-item"><strong>Location:</strong> ${job.location}</li>
-                                <li class="list-group-item"><strong>Company:</strong> ${job.companyName}</li>
-                                <li class="list-group-item"><strong>Salary:</strong> ${job.salary}</li>
-                                <li class="list-group-item"><strong>Application Deadline:</strong> ${job.applicationDeadline ? job.applicationDeadline.toDate().toLocaleString() : "None"}</li>
-                            </ul>
-                            <button class="deactivate-job btn btn-danger mt-3" data-job-id="${job.jobID}">Deactivate</button>
+        if (userDoc.exists()) {
+            const jobPosts = userDoc.data().jobPosts || [];
+            const moderatedCompanies = userDoc.data().moderatedCompanies || []; // Change this to match your data structure
+        
+            // Clear containers before inserting new job posts and companies
+            $('#job-posts-container').empty();
+            $('#companies-container').empty();
+        
+            // Define jobIDsList and companiesIDsList
+            const jobIDsList = [];
+            const companiesIDsList = [];
+        
+            // Loop through job posts and display them
+            jobPosts.forEach(job => {
+                jobIDsList.push(job.jobID); // Push each jobID into the array
+                companiesIDsList.push(job.companyId); // Ensure companyId is available in job object
+        
+                const jobElement = $(`
+                    <div class="job-post card mb-3" data-job-id="${job.jobID}">
+                        <div class="card-body">
+                            <h5 class="job-title card-title text-primary" style="cursor: pointer;">${job.jobTitle}</h5>
+                            <div class="job-details" style="display: none;">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item"><strong>Status:</strong> ${job.status}</li>
+                                    <li class="list-group-item"><strong>Created At:</strong> ${job.createdAt.toDate().toLocaleString()}</li>
+                                    <li class="list-group-item"><strong>Location:</strong> ${job.location}</li>
+                                    <li class="list-group-item"><strong>Company:</strong> ${job.companyName}</li>
+                                    <li class="list-group-item"><strong>Salary:</strong> ${job.salary}</li>
+                                    <li class="list-group-item"><strong>Application Deadline:</strong> ${job.applicationDeadline ? job.applicationDeadline.toDate().toLocaleString() : "None"}</li>
+                                </ul>
+                                <button class="deactivate-job btn btn-danger mt-3" data-job-id="${job.jobID}">Deactivate</button>
+                            </div>
                         </div>
                     </div>
+                `);
+                $('#job-posts-container').append(jobElement);
+            });
+        
+            // Implement toggle functionality for job details
+            $(document).on('click', '.job-title', function () {
+                $(this).next('.job-details').toggle();
+                // Redirect to job detail page
+                const jobID = $(this).closest('.job-post').data('job-id');
+                window.location.href = `../views/job-detail?id=${jobID}`;
+            });
+        
+            // Implement deactivate job functionality
+            $(document).on('click', '.deactivate-job', function () {
+                const jobID = $(this).data('job-id');
+                updateJobStatus(jobID, 'deactivated'); // Update status to 'deactivated'
+            });
+        
+            // Loop through moderated companies and display them
+            moderatedCompanies.forEach(company => {
+                const companyElement = $(`
+                    <div class="company-post card mb-3" data-company-id="${company.companyId}">
+                        <div class="card-body">
+                            <h5 class="company-name card-title text-primary" style="cursor: pointer;">${company.companyName}</h5>
+                            <div class="company-details" style="display: none;">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item"><strong>Location:</strong> ${company.location}</li>
+                                    <li class="list-group-item"><strong>Industry:</strong> ${company.industry}</li>
+                                    <li class="list-group-item"><strong>Description:</strong> ${company.description}</li>
+                                </ul>
+                                <button class="view-company btn btn-info mt-3" data-company-id="${company.companyId}">View Company</button>
+                                <button class="edit-company btn btn-secondary mt-3 ms-2" data-company-id="${company.companyId}">Edit Company</button>
+                            </div>
+                        </div>
+                    </div>
+                `);
+                $('#companies-container').append(companyElement);
+            });
+        
+            // Event delegation to handle View Company button click
+            $(document).on('click', '.view-company', function () {
+                const companyId = $(this).data('company-id');
+                window.location.href = `../views/company-page?c=${companyId}`;
+            });
+        
+            // Event delegation to handle Edit Company button click
+            $(document).on('click', '.edit-company', function () {
+                const companyId = $(this).data('company-id');
+                window.location.href = `../views/company-page?edit=${companyId}`;
+            });
+        
+            // Implement toggle functionality for company details
+            $(document).on('click', '.company-name', function () {
+                $(this).next('.company-details').toggle();
+            });
+        
+        } else {
+            const errorMessage = $(`
+                <div class="alert alert-danger" role="alert">
+                    <h4 class="alert-heading">Error!</h4>
+                    <p>Unable to retrieve company information. Please try again later.</p>
+                    <hr>
+                    <p class="mb-0">If the problem persists, contact support.</p>
                 </div>
             `);
-            $('#job-posts-container').append(jobElement);
+        
+            // Append the error message to the companies container
+            $('#companies-container').append(errorMessage);
+                }
+        
+            }
             
-        });
-
-        const moderatedCompanies = userDoc.data().companyId || []; // Assuming moderated companies are stored similarly
-
-        // Implement toggle functionality for job details
-        $('.job-title').on('click', function () {
-            $(this).next('.job-details').toggle();
-        });
-
-        // Implement deactivate job functionality
-        $('.deactivate-job').on('click', function () {
-            const jobID = $(this).data('job-id');
-            updateJobStatus(jobID, 'deactivated'); // Update status to 'deactivated'
-        });
-
-        // Add event listener for job title click to redirect to the job detail page
-        $('.job-title').on('click', function () {
-            const jobID = $(this).closest('.job-post').data('job-id');
-            window.location.href = `../views/job-detail?id=${jobID}`;
-        });
-
-    } else {
-        console.error("No such document!");
-    }
-
-    // Loop through moderated companies and display them
-    moderatedCompanies.forEach(company => {
-        const companyElement = $(`
-            <div class="company-post card mb-3" data-company-id="${company.companyId}">
-                <div class="card-body">
-                    <h5 class="company-name card-title text-primary" style="cursor: pointer;">${company.companyName}</h5>
-                    <div class="company-details" style="display: none;">
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item"><strong>Location:</strong> ${company.location}</li>
-                            <li class="list-group-item"><strong>Industry:</strong> ${company.industry}</li>
-                            <li class="list-group-item"><strong>Description:</strong> ${company.description}</li>
-                        </ul>
-                        <button class="view-company btn btn-info mt-3" data-company-id="${company.companyId}">View Company</button>
-                        <button class="edit-company btn btn-secondary mt-3 ms-2" data-company-id="${company.companyId}">Edit Company</button>
-                    </div>
-                </div>
-            </div>
-        `);
-        $('#companies-container').append(companyElement);
-    });
-    
-
 // Event delegation to handle View Company button click
 $(document).on('click', '.view-company', function () {
     const companyId = $(this).data('company-id');
