@@ -679,14 +679,24 @@ text-align: left;
       limit
     } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
     // Function to save job and update savedForLater count
-    async function saveJob(jobId) { 
+    async function saveJob() { 
   // Disable the button and change text
   const saveBtn = document.getElementById('saveBtn');
   saveBtn.disabled = true;
   saveBtn.textContent = "Saving...";
-  
+
+  // Log the jobId for debugging
+  console.log("Job ID: ", jobID);
+
+  if (!jobID) {
+    console.error("Job ID is undefined or invalid.");
+    saveBtn.textContent = "Save Job";
+    saveBtn.disabled = false;
+    return;
+  }
+
   try {
-    const user = auth.currentUser; // Corrected the user reference
+    const user = auth.currentUser; // Ensure auth is properly initialized
     if (!user) {
       alert("You need to be logged in to save jobs.");
       saveBtn.disabled = false;
@@ -699,13 +709,13 @@ text-align: left;
     const userSavedJobsDoc = await getDoc(userSavedJobsRef);
 
     // Check if the job is already saved
-    if (userSavedJobsDoc.exists() && userSavedJobsDoc.data().savedJobs?.includes(jobId)) {
+    if (userSavedJobsDoc.exists() && userSavedJobsDoc.data().savedJobs?.includes(jobID)) {
       saveBtn.textContent = "Saved!";
       saveBtn.classList.add('btn-success');
       return;
     }
 
-    // Update the user's savedJobs array using arrayUnion to prevent duplicates
+    // Save the job to the user's savedJobs array using arrayUnion to prevent duplicates
     await updateDoc(userSavedJobsRef, {
       savedJobs: arrayUnion(jobId)
     });
@@ -713,6 +723,7 @@ text-align: left;
     // Successfully saved
     saveBtn.textContent = "Saved!";
     saveBtn.classList.add('btn-success');
+
   } catch (error) {
     console.error("Error saving job: ", error);
     alert("Error saving the job. Please try again.");
