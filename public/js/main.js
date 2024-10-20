@@ -126,7 +126,7 @@ onAuthStateChanged(auth, async (user) => {
 
     // Redirect to the user profile if on the login page
     if (window.location.pathname === "/views/auth.html") {
-      window.location.href = "/ReelCareer/views/user"; // Redirect to profile
+      window.location.href = "/views/user"; // Redirect to profile
     }
   } else {
     console.log("No user signed in");
@@ -156,7 +156,7 @@ document
       const user = userCredential.user;
       //console.log('Sign Up Successful:', user);
       await saveUserLoginState(user, true); // Update database and local storage
-      window.location.href = "/ReelCareer/views/user"; // Redirect to profile
+      window.location.href = "/views/user"; // Redirect to profile
     } catch (error) {
       console.error("Error during sign up:", error);
       alert(error.message);
@@ -181,7 +181,7 @@ document.getElementById("login-form")?.addEventListener("submit", async (e) => {
     const user = userCredential.user;
     console.log("Login Successful:", user);
     await saveUserLoginState(user, true); // Update database and local storage
-    //  window.location.href = '/ReelCareer/views/user'; // Redirect to profile
+    //  window.location.href = '/views/user'; // Redirect to profile
   } catch (error) {
     console.error("Error during login:", error);
     alert(error.message);
@@ -224,7 +224,7 @@ document.getElementById("google-login")?.addEventListener("click", async () => {
     const user = result.user;
     console.log("Google Login Successful:", user);
     await saveUserLoginState(user, true); // Update database and local storage
-    window.location.href = "/ReelCareer/views/user"; // Redirect to profile
+    window.location.href = "/views/user"; // Redirect to profile
   } catch (error) {
     console.error("Error during Google login:", error);
     alert(error.message);
@@ -243,7 +243,7 @@ document
       const user = result.user;
       console.log("Facebook Login Successful:", user);
       await saveUserLoginState(user, true); // Update database and local storage
-      window.location.href = "/ReelCareer/views/user"; // Redirect to profile
+      window.location.href = "/views/user"; // Redirect to profile
     } catch (error) {
       console.error("Error during Facebook login:", error);
       alert(error.message);
@@ -260,7 +260,7 @@ document.getElementById("apple-login")?.addEventListener("click", async () => {
     const user = result.user;
     console.log("Apple Login Successful:", user);
     await saveUserLoginState(user, true); // Update database and local storage
-    window.location.href = "/ReelCareer/views/user"; // Redirect to profile
+    window.location.href = "/views/user"; // Redirect to profile
   } catch (error) {
     console.error("Error during Apple login:", error);
     alert(error.message);

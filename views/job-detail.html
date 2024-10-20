@@ -29,12 +29,12 @@
   <link rel="stylesheet" href="../public/css/styles.css"> <!-- Custom CSS for your page -->
 
   <!-- Favicon links -->
-  <link rel="icon" type="image/x-icon" href="/ReelCareer/images/favicons/favicon.ico">
-  <link rel="icon" type="image/png" sizes="32x32" href="/ReelCareer/images/favicons/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/ReelCareer/images/favicons/favicon-16x16.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="/ReelCareer/images/favicons/apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="192x192" href="/ReelCareer/images/favicons/android-chrome-192x192.png">
-  <link rel="icon" type="image/png" sizes="512x512" href="/ReelCareer/images/favicons/android-chrome-512x512.png">
+  <link rel="icon" type="image/x-icon" href="/images/favicons/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicons/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/images/favicons/android-chrome-192x192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/images/favicons/android-chrome-512x512.png">
 
   <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-LBTK319K2X"></script>
@@ -387,7 +387,7 @@
       <div class="d-flex align-items-center mb-4 flex-wrap">
         <!-- Company Logo and Actions -->
         <div class="text-center m-auto p-3">
-          <img id="companyLogo" class="job-logo img-fluid rounded-circle shadow" alt="Company Logo" src="/ReelCareer/images/sq_logo_n_BG.png" loading="lazy" />
+          <img id="companyLogo" class="job-logo img-fluid rounded-circle shadow" alt="Company Logo" src="/images/sq_logo_n_BG.png" loading="lazy" />
           <hr />
           <button id="saveBtn" class="btn btn-outline-secondary w-100 mb-3" onclick="saveJob()">Save for Later</button>
           <hr />
@@ -573,7 +573,7 @@
       updateDoc,
       increment,
       collection,
-      query,
+      query, jobDocRef,
       where,
       getDocs,
       limit
@@ -836,7 +836,7 @@
     <!-- Blog Card Container -->
     <div class="card blog-card h-100 shadow-sm">
         <!-- Blog Image with clickable link -->
-        <a href="/ReelCareer/views/blog?b=${doc.id}" class="blog-image-link">
+        <a href="/views/blog?b=${doc.id}" class="blog-image-link">
             <img src="${blog.imageUrl}" alt="${blog.title}" class="img-fluid blog-image rounded-top" loading="lazy" />
         </a>
 
@@ -849,7 +849,7 @@
             <p class="card-text text-muted">${truncateText(blog.content, 80)}</p>
 
             <!-- Read More Button -->
-            <a href="/ReelCareer/views/blog?b=${doc.id}" class="btn btn-outline-primary" aria-label="Read more about ${blog.title}">Read More</a>
+            <a href="/views/blog?b=${doc.id}" class="btn btn-outline-primary" aria-label="Read more about ${blog.title}">Read More</a>
         </div>
     </div>
 `;

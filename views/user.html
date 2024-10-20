@@ -95,7 +95,7 @@
                 <!-- User Info Section -->
                 <div class="card">
                     <div class="card-body text-center">
-                        <img  id="profilePic" src="/ReelCareer/images/sq_logo_n_BG_tie_reel.png" alt="User Profile Picture" class="img-fluid rounded-circle mb-3" style="width: 150px;">
+                        <img  id="profilePic" src="/images/sq_logo_n_BG_tie_reel.png" alt="User Profile Picture" class="img-fluid rounded-circle mb-3" style="width: 150px;">
                         <h3 id="user-name">User Name</h3>
                         <p id="user-bio">This is a short bio about the user...</p>
                         <span id="membership-badge" class="badge badge-success">Premium Member</span>
@@ -456,7 +456,7 @@ function showUserSignedOutMessage() {
     
     
         async function loadUserData(profileData) {
-            document.getElementById('profilePic').src = profileData.profilePic ? profileData.profilePic : '/ReelCareer/images/sq_logo_n_BG_sm.png';
+            document.getElementById('profilePic').src = profileData.profilePic ? profileData.profilePic : '/images/sq_logo_n_BG_sm.png';
             document.getElementById('user-name').innerText = profileData.displayName || 'User Name';
             document.getElementById('user-bio').innerText = profileData.bio || 'This is a short bio about the user...';
             document.getElementById('location-text').innerText = profileData.location || 'City, State';

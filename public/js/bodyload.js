@@ -617,7 +617,7 @@ function addStyles() {
                           <div class="card sponsorCard h-100 shadow-sm">
                               <img class="card-img-top" src="${
                                 sponsor.logoUrl ||
-                                "/ReelCareer/images/favicons/android-chrome-512x512.png"
+                                "/images/favicons/android-chrome-512x512.png"
                               }" alt="${sponsor.name}">
                               <div class="card-body">
                                   <h6 class="card-title">${sponsor.name}</h6>

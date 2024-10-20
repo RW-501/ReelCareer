@@ -603,13 +603,14 @@ document.getElementById("generateDescriptionBtn").addEventListener("click", func
         toggleEditMode(false)
         const urlParams = new URLSearchParams(window.location.search);
         const companyId = urlParams.get('c');
+        const editID = urlParams.get('edit');
         document.getElementById("instructions").style.display = "none";
 
         auth.onAuthStateChanged(user => {
-            if (user || companyId ) {
+            if (user && companyId  ) {
                 const userId = user.uid;
                 
-                if (!companyId) {
+                if (!companyId || editID ) {
                 toggleEditMode(true);
                 const urlParams = new URLSearchParams(window.location.search);
                 let companyName = urlParams.get('create');
@@ -633,7 +634,7 @@ document.getElementById("generateDescriptionBtn").addEventListener("click", func
 
                 
             }else {
-                    const companyRef = doc(db, "Companies", companyId);
+                    const companyRef = doc(db, "Companies", companyId || editID);
                     getDoc(companyRef).then((docSnapshot) => {
                         if (docSnapshot.exists()) {
                             const companyData = docSnapshot.data();
@@ -644,9 +645,16 @@ document.getElementById("generateDescriptionBtn").addEventListener("click", func
                             loadJobListings(companyId);
     
                             // Check if the user is the admin of this company
-                            if (userId === companyData.adminId) {
+                            if (userId === companyData.adminId || user && editID) {
                                 toggleEditMode(true);
                                 document.getElementById("instructions").style.display = "block";
+                                companyName
+                                document.getElementById("companyName").innerText =
+                                 document.getElementById("editCompanyName").value;
+
+                                document.getElementById("editCompanyName").style.display = "none";
+
+
 
                             }
                         } else {
@@ -667,6 +675,8 @@ document.getElementById("generateDescriptionBtn").addEventListener("click", func
                 }
             } else {
                 // User not logged in
+                toggleEditMode(false);
+
             }
         });
     
