@@ -533,18 +533,20 @@ import {
     // Update the user's jobPosts array with the new job ID
     const userRef = doc(db, "Users", auth.currentUser.uid);
     await updateDoc(userRef, {
-      jobPosts: arrayUnion({
-        jobID: docRef.id,
-        jobTitle: jobDetails.title,
-        status: jobDetails.status, // E.g., 'draft', 'active', 'boosted'
-        createdAt: new Date(), // Timestamp of job creation
-        location: jobDetails.location, // Job location
-        boosted: jobDetails.boosted || false, // Whether the job is boosted
-        companyName: jobDetails.companyName, // Name of the company
-        companyId: jobDetails.companyId, // ID of the company
-        salary: jobDetails.salary, // Salary for the job post
-        expiryDate: jobDetails.expiryDate || new Date() // Default to current date if undefined
-    })
+        jobPosts: arrayUnion({
+          jobID: docRef.id,
+          jobTitle: jobDetails.title || "Untitled Job",
+          status: jobDetails.status || "draft",
+          createdAt: new Date(),
+          location: jobDetails.location || "Unknown Location",
+          boosted: jobDetails.boosted || false,
+          companyName: jobDetails.companyName || "Unknown Company",
+          companyId: jobDetails.companyId || "No Company ID",
+          salary: jobDetails.salary || 0, // Default to 0 if undefined
+          expiryDate: jobDetails.expiryDate || new Date() // Default to current date if undefined
+        
+      })
+      
     });
   
     if (jobDetails.boosted) {
