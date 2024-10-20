@@ -286,6 +286,11 @@ import {
       try {
         // User is signed in, proceed with user ID handling
         console.log("User ID: ", user.uid);
+        
+// Call the function to fetch job posts and moderated companies when the page loads
+fetchRecruiterData(user.uid);
+
+
         const userDocRef = doc(db, "Users", user.uid); // Reference to the user document
         const userDoc = await getDoc(userDocRef); // Get the document
         if (userDoc.exists()) {
@@ -631,12 +636,12 @@ import {
   const jobIDsList = []; // Initialize an empty array to store jobIDs
 
 
-console.log("recruiterID   ",recruiterID);
 
 // Function to fetch job posts and moderated companies for the recruiter
 async function fetchRecruiterData(recruiterID) {
     const userRef = doc(db, "Users", recruiterID);
     const userDoc = await getDoc(userRef);
+    console.log("recruiterID   ",recruiterID);
 
     if (userDoc.exists()) {
         const jobPosts = userDoc.data().jobPosts || [];
@@ -780,10 +785,6 @@ $('#search-job').on('input', function () {
 $(document).on('click', '.job-title', function () {
     $(this).next('.job-details').toggle();
 });
-
-
-// Call the function to fetch job posts and moderated companies when the page loads
-fetchRecruiterData(recruiterID);
 
 
 
