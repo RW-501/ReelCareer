@@ -344,6 +344,7 @@ document.getElementById('jobType').addEventListener('change', handleJobTypeChang
 
 
 // Function to toggle the visibility of the input field
+// Event listener for adding application link
 document.getElementById('addExternalLinkButton').addEventListener('click', function() {
     const applicationLinkInput = document.getElementById('applicationLink');
     
@@ -351,8 +352,22 @@ document.getElementById('addExternalLinkButton').addEventListener('click', funct
     if (applicationLinkInput.style.display === 'none') {
         applicationLinkInput.style.display = 'block'; // Show input field
         this.style.display = 'none'; // Hide the button
+        document.getElementById('removeExternalLinkButton').style.display = 'inline-block'; // Show the remove button
     }
 });
+
+// Event listener for removing application link
+document.getElementById('removeExternalLinkButton').addEventListener('click', function() {
+    const applicationLinkInput = document.getElementById('applicationLink');
+    document.getElementById('applicationLinkInput').value = '';
+    // Hide the input field
+    applicationLinkInput.style.display = 'none'; // Hide input field
+    this.style.display = 'none'; // Hide the remove button
+    document.getElementById('addExternalLinkButton').style.display = 'inline-block'; // Show the add button
+});
+
+
+
 
 
 
