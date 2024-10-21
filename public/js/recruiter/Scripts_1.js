@@ -2,109 +2,223 @@
 
 
 // Function to generate a unique ID for questions
+
 let questionCounter = 0;
+const MAX_QUESTIONS = 10; // Set the limit here
 
 document.getElementById("addQuestionButton").addEventListener("click", function() {
-    addQuestionField();
+    if (questionCounter < MAX_QUESTIONS) {
+        addQuestionField();
+    } else {
+        alert(`You cannot add more than ${MAX_QUESTIONS} questions.`);
+    }
 });
 
 function addQuestionField() {
     questionCounter++;
-    
+
+    // Create the Bootstrap card for the question
     const questionDiv = document.createElement('div');
     questionDiv.id = `question-${questionCounter}`;
-    
+    questionDiv.className = "card mb-3"; // Bootstrap card with margin-bottom for spacing
+    questionDiv.setAttribute('draggable', 'true'); // Enable dragging
+
+    const cardBody = document.createElement('div');
+    cardBody.className = "card-body";
+
+    // Card header for question number
+    const cardHeader = document.createElement('h5');
+    cardHeader.className = "card-title";
+    cardHeader.innerHTML = `Question ${questionCounter}`;
+    cardBody.appendChild(cardHeader);
+
     // Add the input field for the question
     const questionInput = document.createElement('input');
     questionInput.type = 'text';
-    questionInput.className ="form-control mb-2 btn ";
-
+    questionInput.className = "form-control mb-2";
     questionInput.placeholder = `Enter question ${questionCounter}`;
     questionInput.name = `question-${questionCounter}-text`;
-    questionDiv.appendChild(questionInput);
+
+    // Add real-time validation for question text input
+    addRealTimeValidation(questionInput);
+
+    cardBody.appendChild(questionInput);
+
+    // Add helpful hints below the input
+    const helpfulHint = document.createElement('small');
+    helpfulHint.className = "form-text text-muted";
+    helpfulHint.innerHTML = 'Tip: Make your question clear and concise to get the best responses.';
+    cardBody.appendChild(helpfulHint);
 
     // Add the buttons for multiple choice or statement
     const multipleChoiceButton = document.createElement('button');
     multipleChoiceButton.type = 'button';
-    multipleChoiceButton.className ="btn btn-primary btn-block rounded-pill shadow-sm font form-group  ";
+    multipleChoiceButton.className = "btn btn-primary me-2"; // Added margin-end (me) for spacing
     multipleChoiceButton.innerHTML = 'Multiple Choice';
     multipleChoiceButton.onclick = function() {
         addMultipleChoice(questionDiv, questionCounter);
     };
-    questionDiv.appendChild(multipleChoiceButton);
+    cardBody.appendChild(multipleChoiceButton);
 
     const statementButton = document.createElement('button');
     statementButton.type = 'button';
-    statementButton.className ="btn btn-primary btn-block rounded-pill shadow-sm font form-group  ";
+    statementButton.className = "btn btn-secondary me-2";
     statementButton.innerHTML = 'Statement';
     statementButton.onclick = function() {
         addStatement(questionDiv);
     };
-    questionDiv.appendChild(statementButton);
+    cardBody.appendChild(statementButton);
+
+    // Add remove question button
+    const removeButton = document.createElement('button');
+    removeButton.type = 'button';
+    removeButton.className = "btn btn-danger";
+    removeButton.innerHTML = 'Remove Question';
+    removeButton.onclick = function() {
+        removeQuestion(questionDiv);
+    };
+    cardBody.appendChild(removeButton);
+
+    questionDiv.appendChild(cardBody);
 
     // Append the new question block to the form
     document.getElementById("customQuestionsContainer").appendChild(questionDiv);
+
+    // Refresh drag-and-drop functionality after adding a new question
+    refreshDragAndDrop();
 }
 
+
+// Function to show suggestions for common questions
+function showQuestionSuggestions(input, questionCounter) {
+    const suggestions = [
+        'What are your career goals?',
+        'What is your experience with [specific skill]?',
+        'How do you handle tight deadlines?',
+        'What are your strengths and weaknesses?',
+        'Why do you want to work with our company?'
+    ];
+
+    const suggestionDropdown = document.createElement('datalist');
+    suggestionDropdown.id = `suggestions-${questionCounter}`;
+    suggestions.forEach(suggestion => {
+        const option = document.createElement('option');
+        option.value = suggestion;
+        suggestionDropdown.appendChild(option);
+    });
+    input.setAttribute('list', suggestionDropdown.id);
+    input.parentNode.appendChild(suggestionDropdown);
+}
+
+// Other functions like addMultipleChoice, removeQuestion, etc., stay the same...
+
+// Remove question and reset labels
+function removeQuestion(questionDiv) {
+    questionDiv.remove();
+    resetQuestionLabels();
+}
+
+// Reset question numbers after deletion
+function resetQuestionLabels() {
+    const questionCards = document.querySelectorAll('#customQuestionsContainer .card');
+    questionCounter = 0;
+    questionCards.forEach((card, index) => {
+        questionCounter++;
+        card.id = `question-${questionCounter}`;
+        card.querySelector('.card-title').innerHTML = `Question ${questionCounter}`;
+        card.querySelector('input').placeholder = `Enter question ${questionCounter}`;
+        card.querySelector('input').name = `question-${questionCounter}-text`;
+
+        // Update name for multiple choice options
+        const multipleChoiceDiv = card.querySelector(`#multiple-choice-${index + 1}`);
+        if (multipleChoiceDiv) {
+            const options = multipleChoiceDiv.querySelectorAll('input');
+            options.forEach((option, i) => {
+                option.name = `question-${questionCounter}-option-${i + 1}`;
+            });
+        }
+    });
+}
+
+
 function addMultipleChoice(questionDiv, questionNumber) {
-    // Create a div to hold the multiple-choice options
     const multipleChoiceDiv = document.createElement('div');
     multipleChoiceDiv.id = `multiple-choice-${questionNumber}`;
-    
-    // Create the input field for the first multiple-choice option
+    multipleChoiceDiv.className = "mt-3"; // Added margin-top for spacing
+
+    // First choice input with validation
     const choiceInput = document.createElement('input');
     choiceInput.type = 'text';
-    choiceInput.className ="form-control mb-2 ";
-
+    choiceInput.className = "form-control mb-2";
     choiceInput.placeholder = 'Enter multiple choice option';
     choiceInput.name = `question-${questionNumber}-option-1`;
+    
+    // Real-time validation for options
+    choiceInput.addEventListener('input', function() {
+        if (this.value.trim() === '') {
+            this.classList.add('is-invalid');
+        } else {
+            this.classList.remove('is-invalid');
+        }
+    });
+
     multipleChoiceDiv.appendChild(choiceInput);
 
-    // Add "Add more" button for multiple choices
     const addMoreButton = document.createElement('button');
     addMoreButton.type = 'button';
-    addMoreButton.className ="btn btn-primary btn btn-secondary btn-block rounded-pill shadow-sm font form-group  ";
+    addMoreButton.className = "btn btn-success mt-2"; // Margin-top for spacing
     addMoreButton.innerHTML = 'Add more options';
     addMoreButton.onclick = function() {
         addMoreMultipleChoice(multipleChoiceDiv, questionNumber);
     };
     multipleChoiceDiv.appendChild(addMoreButton);
-    
+
     questionDiv.appendChild(multipleChoiceDiv);
 }
 
+
+// Add option validation for empty choices
 function addMoreMultipleChoice(multipleChoiceDiv, questionNumber) {
+    const options = multipleChoiceDiv.querySelectorAll('input');
+    
+    // Validate that all existing options have values
+    let valid = true;
+    options.forEach(option => {
+        if (option.value.trim() === '') {
+            option.classList.add('is-invalid'); // Bootstrap invalid class
+            valid = false;
+        } else {
+            option.classList.remove('is-invalid');
+        }
+    });
+
+    if (!valid) {
+        alert('Please fill in all current options before adding more.');
+        return;
+    }
+
+    // Create the next option input if validation passed
     const optionCount = multipleChoiceDiv.childElementCount - 1; // Exclude the 'Add more options' button
     const choiceInput = document.createElement('input');
     choiceInput.type = 'text';
-    choiceInput.className ="form-control mb-2";
-
+    choiceInput.className = "form-control mb-2";
     choiceInput.placeholder = `Option ${optionCount + 1}`;
     choiceInput.name = `question-${questionNumber}-option-${optionCount + 1}`;
+
+    // Add real-time validation for new option
+    addRealTimeValidation(choiceInput);
+
     multipleChoiceDiv.insertBefore(choiceInput, multipleChoiceDiv.lastElementChild);
 }
 
+
 function addStatement(questionDiv) {
-    // Create a textarea for a statement-type question
     const statementTextArea = document.createElement('textarea');
     statementTextArea.placeholder = 'Enter statement response';
-
-    // Assign Bootstrap classes for styling
-    statementTextArea.className = "form-control"; // Only the form-control class
-
-    // Add inline styles
-    statementTextArea.style.width = "100%"; // Full width
-    statementTextArea.style.padding = "1rem"; // Padding
-    statementTextArea.style.margin = "1rem 1rem"; // Horizontal margin
-    statementTextArea.style.border = "1px solid #ced4da"; // Border color matching Bootstrap
-    statementTextArea.style.borderRadius = "0.25rem"; // Border radius matching Bootstrap
-    statementTextArea.style.resize = "none"; // Prevent resizing
-
-    // Append the textarea to the provided questionDiv
+    statementTextArea.className = "form-control mt-3"; // Bootstrap class and margin-top
+    statementTextArea.style.resize = "none"; // Disable resizing
     questionDiv.appendChild(statementTextArea);
 }
-
-
 
 // Function to collect custom questions and their options
 function collectCustomQuestions() {
@@ -116,9 +230,19 @@ function collectCustomQuestions() {
         if (questionType === "multiple-choice") {
             const options = [];
             const optionInputs = document.querySelectorAll(`input[name^="question-${i}-option-"]`);
+            
+            // Ensure all multiple choice options are filled in
             optionInputs.forEach(input => {
-                options.push(input.value);
+                if (input.value.trim() !== '') {
+                    options.push(input.value);
+                }
             });
+
+            if (options.length === 0) {
+                alert(`Please provide at least one option for question ${i}`);
+                continue;
+            }
+
             customQuestions.push({ question: questionText, type: questionType, options });
         } else {
             customQuestions.push({ question: questionText, type: questionType });
@@ -126,6 +250,66 @@ function collectCustomQuestions() {
     }
     return customQuestions;
 }
+
+// Initialize Sortable.js for drag-and-drop
+function refreshDragAndDrop() {
+    new Sortable(document.getElementById('customQuestionsContainer'), {
+        animation: 150,
+        onEnd: resetQuestionLabels, // Re-label questions after reordering
+    });
+}
+
+
+
+
+function addRealTimeValidation(inputElement) {
+    inputElement.addEventListener('input', function() {
+        const errorMessage = this.nextElementSibling;
+        if (this.value.trim() === '') {
+            this.classList.add('is-invalid');
+            errorMessage.innerHTML = 'This field cannot be empty.';
+        } else {
+            this.classList.remove('is-invalid');
+            errorMessage.innerHTML = '';
+        }
+    });
+}
+
+// In the addQuestionField function, after adding input
+const questionInput = document.createElement('input');
+questionInput.type = 'text';
+questionInput.className = "form-control mb-2";
+questionInput.placeholder = `Enter question ${questionCounter}`;
+questionInput.name = `question-${questionCounter}-text`;
+
+addRealTimeValidation(questionInput);
+
+// Add an error message element after the input field
+const errorMessage = document.createElement('div');
+errorMessage.className = 'invalid-feedback'; // Bootstrap's invalid feedback class
+cardBody.appendChild(errorMessage);
+
+
+
+
+
+
+
+
+// Initialize the first time
+refreshDragAndDrop();
+
+
+
+
+
+
+
+
+
+
+
+
 
 document.addEventListener("DOMContentLoaded", function() {
     const tagsContainer = document.getElementById("tagsContainer");
