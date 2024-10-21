@@ -237,11 +237,7 @@ function addMultipleChoice(questionDiv, questionNumber) {
     const multipleChoiceButton = questionDiv.querySelector('.btn btn-primary');
     multipleChoiceButton.disabled = true; // Disable Multiple Choice Button
 
-// Check if statement already exists
-if (questionDiv.querySelector('button')) {
-    showTemporaryMessage(questionDiv,'You can only add one statement per question.');
-    return;
-}
+
     // First choice input with validation
     const choiceInput = document.createElement('input');
     choiceInput.type = 'text';
@@ -263,11 +259,18 @@ if (questionDiv.querySelector('button')) {
     multipleChoiceDiv.appendChild(addMoreButton);
 
     questionDiv.appendChild(multipleChoiceDiv);
+
+        // Check if statement already exists
+if (questionDiv.querySelector('button')) {
+    showTemporaryMessage(questionDiv,'You can only add one statement per question.');
+    return;
+}
 }
 
 function addMoreMultipleChoice(multipleChoiceDiv, questionNumber) {
     const options = multipleChoiceDiv.querySelectorAll('input');
     const optionValues = Array.from(options).map(input => input.value.trim());
+
 
     // Check for duplicates
     const duplicates = optionValues.filter((item, index) => optionValues.indexOf(item) !== index);
