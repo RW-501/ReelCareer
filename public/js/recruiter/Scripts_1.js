@@ -451,3 +451,26 @@ document.addEventListener('DOMContentLoaded', () => {
         tagInput.removeEventListener('keydown', moveToNextInput);
     }
 });
+
+
+
+// Event listener for resetting the form
+document.getElementById('resetFormButton').addEventListener('click', function() {
+    const form = document.getElementById('jobForm');
+
+    // Reset all form fields (input, select, textarea)
+    const inputs = form.querySelectorAll('input, textarea, select');
+    inputs.forEach(input => {
+        if (input.type === 'checkbox' || input.type === 'radio') {
+            input.checked = false; // Uncheck checkboxes and radio buttons
+        } else {
+            input.value = ''; // Clear the value of text inputs and textareas
+        }
+    });
+
+    // Reset visibility for specific custom UI elements
+    document.getElementById('tagsList').innerHTML = ''; // Clear tags list
+    document.getElementById('applicationLink').style.display = 'none'; // Hide the application link input
+    document.getElementById('addExternalLinkButton').style.display = 'inline-block'; // Show add button
+    document.getElementById('removeExternalLinkButton').style.display = 'none'; // Hide remove button
+});
