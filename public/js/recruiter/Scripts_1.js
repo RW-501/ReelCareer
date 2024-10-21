@@ -312,8 +312,6 @@ refreshDragAndDrop();
 
 
 
-
-
 document.addEventListener("DOMContentLoaded", function() {
     const tagsContainer = document.getElementById("tagsContainer");
     const tagInput = document.getElementById("tagInput");
@@ -322,12 +320,15 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Function to add a tag
     function addTag(tag) {
+        if (!tag) return; // Prevent empty tags
+
         const tagElement = document.createElement("span");
-        tagElement.className = "tag";
+        tagElement.className = "tag badge badge-primary mr-1"; // Bootstrap class for a nice badge look
         tagElement.textContent = tag;
 
         const removeButton = document.createElement("button");
-        removeButton.textContent = "x"; // Close button
+        removeButton.textContent = " x"; // Close button
+        removeButton.className = "ml-1 btn btn-sm btn-danger"; // Styling for remove button
         removeButton.onclick = () => {
             tagsList.removeChild(tagElement);
         };
@@ -337,23 +338,21 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     // Event listener for tag input
-    tagInput.addEventListener("keypress", (e) => {
-        console.log("Key pressed:", e.key); // Debugging log
-        if (e.key === "Enter" ||e.key ==="insertText" && tagInput.value.trim() !== "") {
-            e.preventDefault();
+    tagInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" && tagInput.value.trim() !== "") {
+            e.preventDefault(); // Prevent form submission
             const tag = tagInput.value.trim();
-            console.log("Adding tag:", tag); // Debugging log
-            addTag(tag);
+            addTag(tag); // Add the new tag
             tagInput.value = ""; // Clear the input
         }
     });
-    
 
     // Function to clear all tags
     clearTagsButton.addEventListener("click", () => {
         tagsList.innerHTML = ""; // Clear all tags
     });
 });
+
 
 
 
@@ -530,30 +529,26 @@ function handleJobTypeChange() {
 document.getElementById('jobType').addEventListener('change', handleJobTypeChange);
 
 
-// Function to toggle the visibility of the input field
-// Event listener for adding application link
+// Event listener for adding the application link
 document.getElementById('addExternalLinkButton').addEventListener('click', function() {
     const applicationLinkInput = document.getElementById('applicationLink');
     
     // Toggle the display of the input field
     if (applicationLinkInput.style.display === 'none') {
         applicationLinkInput.style.display = 'block'; // Show input field
-        this.style.display = 'none'; // Hide the button
-        document.getElementById('removeExternalLinkButton').style.display = 'inline-block'; // Show the remove button
+        this.style.display = 'none'; // Hide the "Add" button
+        document.getElementById('removeExternalLinkButton').style.display = 'inline-block'; // Show the "Remove" button
     }
 });
 
-// Event listener for removing application link
+// Event listener for removing the application link
 document.getElementById('removeExternalLinkButton').addEventListener('click', function() {
     const applicationLinkInput = document.getElementById('applicationLink');
-    document.getElementById('applicationLinkInput').value = '';
-    // Hide the input field
+    applicationLinkInput.value = ''; // Clear the input field
     applicationLinkInput.style.display = 'none'; // Hide input field
-    this.style.display = 'none'; // Hide the remove button
-    document.getElementById('addExternalLinkButton').style.display = 'inline-block'; // Show the add button
+    this.style.display = 'none'; // Hide the "Remove" button
+    document.getElementById('addExternalLinkButton').style.display = 'inline-block'; // Show the "Add" button
 });
-
-
 
 
 

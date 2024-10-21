@@ -434,23 +434,26 @@
           
                       <div class="form-group">
                         <label for="applicationLink">Application Link <small class="text-muted">User Will Be Notified of External Application</small></label>
+                        
                         <!-- Button to show the input -->
                         <button type="button" class="btn btn-outline-primary" id="addExternalLinkButton">Add an External Link</button>
-                        <button type="button" class="btn btn-outline- hide" id="removeExternalLinkButton">Remove External Link</button>
-          
+                        
+                        <!-- Button to remove the input, initially hidden -->
+                        <button type="button" class="btn btn-outline-danger" id="removeExternalLinkButton" style="display: none;">Remove External Link</button>
+                        
                         <!-- Input field, initially hidden -->
                         <input type="url" class="form-control mt-2" id="applicationLink" placeholder="Enter application link" style="display: none;">
-                      </div>
-          
-                      <div class="form-group">
-                        <label for="jobTags">Tags:<small class="text-muted">Add a tag and press Enter</small></label>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="jobTags">Tags: <small class="text-muted">Add a tag and press Enter</small></label>
                         <div id="tagsContainer">
-                          <input type="text" id="tagInput" required oninput="autoSuggest(this.value,'RequirementsSuggestionsions')" class="form-control keywordInput " placeholder="Add a tag and press Enter" />
-                          <div id="tagsList"></div>
+                            <input type="text" id="tagInput" required class="form-control keywordInput" placeholder="Add a tag and press Enter" />
+                            <div id="tagsList" class="mt-2"></div>
                         </div>
-                        <button id="clearTagsButton">Clear Tags</button>
-                      </div>
-          
+                        <button id="clearTagsButton" class="btn btn-secondary mt-2">Clear Tags</button>
+                    </div>
+                    
                       <hr>
           
                       <div class="form-check mb-3 p-3 border rounded-3 bg-light">
