@@ -380,6 +380,12 @@ console.log("jobID   ",jobID,"  userIdURL  ",userIdURL);
                      userId = user.uid; // Access the user ID
                     console.log("User ID:", userId);
                     // You can call your functions that require userId here
+                    
+// Load job and company info on page load
+fetchJobAndCompanyInfo();
+
+const jobDocRef = doc(db, 'Jobs', jobId); // Reference to the job document
+
                 } else {
                     console.error("No user is signed in.");
                     // Handle the case where the user is not signed in
@@ -448,8 +454,6 @@ function getCustomAnswers(customQuestions) {
 let companyData = '';
 let jobData = '';
 
-
-const jobDocRef = doc(db, 'Jobs', jobId); // Reference to the job document
 
 // Fetch Job and Company Information
 async function fetchJobAndCompanyInfo() {
@@ -680,9 +684,6 @@ async function sendToAppDataCompliance(applicantData) {
         console.error('Error adding document to AppDataCompliance:', error);
     }
 }
-
-// Load job and company info on page load
-fetchJobAndCompanyInfo();
 
 
 </script>
