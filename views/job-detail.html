@@ -787,7 +787,7 @@ jobID = jobData.id;
       document.getElementById('jobTitle').textContent = jobData.title;
       document.getElementById('jobID').textContent = jobData.id;
       document.getElementById("jobDescription").innerText = jobData.description;
-      document.getElementById('jobLocation').textContent = "${formatLocation(jobData.location)}";
+      document.getElementById('jobLocation').textContent = formatLocation(jobData.location);
 
     document.getElementById('employmentType').textContent = formatJobType(jobData.type);
       document.getElementById('salary').textContent = formatCurrency(jobData.salary, {
@@ -938,7 +938,7 @@ jobID = jobData.id;
         <!-- Job Title as a Link -->
         <h5><a href="../views/job-detail?id=${doc.id}" class="job-title-link">${similarJob.title}</a></h5>
         
-        <p><strong>${similarJob.company}</strong> - ${formatLocation(similarJob.location, { part: 'city' })}, ${formatLocation(similarJob.location, { part: 'state' })}</p>
+        <p><strong>${similarJob.company}</strong> - ${formatLocation(similarJob.location)}</p>
 
         <p class="card-text"><text-muted>Type:</text-muted><strong> ${formatJobType(similarJob.type)}</strong></p>
         <p class="card-text"><text-muted>Salary:</text-muted>${formatCurrency(similarJob.salary, { decimals: 0 })}</p>
