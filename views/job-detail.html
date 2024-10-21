@@ -647,8 +647,15 @@ text-align: left;
 
         <button type="button" class="btn btn-primary mt-3" onclick="submitReport()">Submit Report</button>
       </form>
+
+      <!-- Success/Error message placeholder -->
+      <div id="reportStatusMessage" class="mt-3"></div>
+
+      <!-- Close button, initially hidden -->
+      <button id="closeReportModalButton" type="button" class="btn btn-secondary mt-3" style="display: none;" onclick="closeReportJobModal()">Close</button>
     </div>
   </div>
+
 
   <!-- Footer -->
   <footer id="dynamic-footer"></footer>
@@ -1182,43 +1189,54 @@ window.saveJob = saveJob;
 window.submitReport = submitReport; // Expose submitReport globally
 
 function submitReport() {
-    // Get selected checkboxes
     const selectedReasons = [];
     document.querySelectorAll('#reportJobForm input[type="checkbox"]:checked').forEach((checkbox) => {
       selectedReasons.push(checkbox.value);
     });
 
-    // Get the message from the textarea
     const message = document.getElementById('reportMessage').value;
+    const statusMessage = document.getElementById('reportStatusMessage');
+    const closeButton = document.getElementById('closeReportModalButton');
+
+    // Clear any previous messages
+    statusMessage.innerHTML = '';
+    statusMessage.className = '';
+
     if (selectedReasons.length === 0 && !message) {
-      alert("Please select a reason or enter a message before submitting.");
-      return;
+        statusMessage.innerHTML = 'Please select a reason or enter a message before submitting.';
+        statusMessage.className = 'text-danger'; // Add error class for styling
+        return;
     }
 
-    // Get the job details (you can fetch the job ID from the page)
     const jobTitle = document.getElementById('jobTitle').innerText;
-
-    // Prepare the report data
     const reportData = {
-      jobId: jobID,
-      jobTitle: jobTitle,
-      reasons: selectedReasons,
-      message: message,
-      submittedAt: new Date(),
-      userID: userID,
+        jobId: jobId,
+        jobTitle: jobTitle,
+        reasons: selectedReasons,
+        message: message,
+        submittedAt: new Date(),
+        userID: userID,
     };
 
-    // Send report to the SupportTickets collection in Firebase
+    // Send the report to Firebase
     firebase.firestore().collection("SupportTickets").add(reportData)
       .then(() => {
-        alert("Your report has been submitted. Thank you for your feedback.");
-        closeReportJobModal(); // Close the modal after submission
+        // Display success message and show close button
+        statusMessage.innerHTML = 'Your report has been submitted. Thank you for your feedback.';
+        statusMessage.className = 'text-success'; // Add success class for styling
+        closeButton.style.display = 'block'; // Show close button
+
+        // Optionally disable the submit button after success
+        document.querySelector('#reportJobForm button[type="button"]').disabled = true;
       })
       .catch((error) => {
         console.error("Error submitting report: ", error);
-        alert("There was an error submitting your report. Please try again later.");
+        // Display error message
+        statusMessage.innerHTML = 'There was an error submitting your report. Please try again later.';
+        statusMessage.className = 'text-danger'; // Add error class for styling
       });
 }
+
 
     // Open the modal
  // Open the report job modal
