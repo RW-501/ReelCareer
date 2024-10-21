@@ -1095,7 +1095,7 @@ jobID = jobData.id;
 document.getElementById('applyBtn').addEventListener('click', function() {
     if (jobData.applicationAvailableBool) {
         // Redirect to the application page on your site
-        document.location.href = `apply.html?jobId=${jobId}`;
+        document.location.href = `apply.html?jobId=${jobID}`;
     } else {
         // Show the modal for external application
         const modal = document.getElementById('applicationModal');
