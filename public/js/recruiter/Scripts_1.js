@@ -636,6 +636,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // Event listener for resetting the form
 document.getElementById('resetFormButton').addEventListener('click', function() {
     const form = document.getElementById('jobForm');
+    clearLocalStorage();
 
     // Reset all form fields (input, select, textarea)
     const inputs = form.querySelectorAll('input, textarea, select');
