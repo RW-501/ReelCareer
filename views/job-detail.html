@@ -1207,7 +1207,7 @@ function submitReport() {
         statusMessage.className = 'text-danger'; // Add error class for styling
         return;
     }
-
+    const jobID = document.getElementById('jobID').innerText;
     const jobTitle = document.getElementById('jobTitle').innerText;
     const reportData = {
         jobId: jobID,
