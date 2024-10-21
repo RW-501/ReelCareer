@@ -252,7 +252,7 @@
 
     <script>// Function to move focus to the next input
         function moveToNextInput(e) {
-            const form = e.target.form;
+            const form = e.target.div;
             const inputs = Array.from(form.querySelectorAll('input, select, textarea'));
         
             // If the Enter key was pressed and the target isn't the tags input
