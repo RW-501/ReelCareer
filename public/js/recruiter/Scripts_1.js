@@ -43,10 +43,30 @@ function addQuestionField() {
     cardBody.appendChild(questionInput);
 
     // Add helpful hints below the input
+   
+    // Array of helpful hints
+    const helpfulHints = [
+        'Tip: Make your question clear and concise to get the best responses.',
+        'Tip: Use open-ended questions for detailed insights.',
+        'Tip: Avoid leading questions to get unbiased responses.',
+        'Tip: Frame questions that encourage elaboration.',
+        'Tip: Use simple language for better understanding.',
+        'Tip: Be specific to avoid ambiguity in responses.',
+        'Tip: Think about what information you really need.',
+        'Tip: Use neutral language to avoid influencing answers.',
+        'Tip: Consider the respondent’s perspective when crafting your question.',
+        'Tip: Try to keep questions under 20 words for clarity.'
+    ];
+
+    // Select a random hint
+    const randomHint = helpfulHints[Math.floor(Math.random() * helpfulHints.length)];
+    
+    // Add helpful hint below the input
     const helpfulHint = document.createElement('small');
     helpfulHint.className = "form-text text-muted";
-    helpfulHint.innerHTML = 'Tip: Make your question clear and concise to get the best responses.';
+    helpfulHint.innerHTML = randomHint;
     cardBody.appendChild(helpfulHint);
+
 
     // Add Multiple Choice Button
     const multipleChoiceButton = document.createElement('button');
@@ -93,24 +113,62 @@ function addQuestionField() {
 
 // Function to show suggestions for common questions
 function showQuestionSuggestions(input, questionCounter) {
-    const suggestions = [
+    // Expanded list of suggestions with multiple choice questions
+    const allSuggestions = [
         'What are your career goals?',
         'What is your experience with [specific skill]?',
         'How do you handle tight deadlines?',
         'What are your strengths and weaknesses?',
-        'Why do you want to work with our company?'
+        'Why do you want to work with our company?',
+        'Describe a challenging project you worked on.',
+        'How do you prioritize your tasks?',
+        'What motivates you to perform well?',
+        'Tell us about a time you showed leadership skills.',
+        'What do you think you could contribute to our team?',
+        'Describe a time you resolved a conflict at work.',
+        'How do you handle constructive criticism?',
+        'What is your greatest achievement so far?',
+        'How do you stay organized in a fast-paced environment?',
+        'Tell us about a time you worked as part of a team.',
+        'What do you know about our industry?',
+        'How do you handle failure?',
+        'What are your short and long-term career aspirations?',
+        'How do you deal with stressful situations?',
+        'What makes you a good fit for this role?',
+
+        // Multiple choice questions
+        'What is your preferred work environment? (Remote, On-site, Hybrid)',
+        'Which of these skills do you possess? (JavaScript, Python, Java, C#)',
+        'How do you prefer to receive feedback? (In-person, Email, Written report)',
+        'What type of projects interest you the most? (Research, Development, Management)',
+        'Which of the following best describes your leadership style? (Authoritative, Democratic, Laissez-faire, Transformational)',
+        'What kind of company culture do you thrive in? (Competitive, Collaborative, Innovative, Traditional)',
+        'How often do you like to collaborate with teammates? (Always, Often, Sometimes, Rarely)',
+        'What is your preferred method of learning? (Hands-on, Reading, Watching videos)',
+        'Which industry do you want to work in? (Technology, Healthcare, Education, Finance)',
+        'What is your ideal team size? (1-3, 4-6, 7-10, More than 10)'
     ];
 
+    // Shuffle the suggestions to randomize them
+    const shuffledSuggestions = allSuggestions.sort(() => 0.5 - Math.random());
+
+    // Limit to 5 random suggestions per question
+    const randomSuggestions = shuffledSuggestions.slice(0, 5);
+
+    // Create the datalist for suggestions
     const suggestionDropdown = document.createElement('datalist');
     suggestionDropdown.id = `suggestions-${questionCounter}`;
-    suggestions.forEach(suggestion => {
+    
+    randomSuggestions.forEach(suggestion => {
         const option = document.createElement('option');
         option.value = suggestion;
         suggestionDropdown.appendChild(option);
     });
+
     input.setAttribute('list', suggestionDropdown.id);
     input.parentNode.appendChild(suggestionDropdown);
 }
+
 
 // Other functions like addMultipleChoice, removeQuestion, etc., stay the same...
 
@@ -145,6 +203,10 @@ function resetQuestionLabels() {
 
 
 function addMultipleChoice(questionDiv, questionNumber) {
+    // Disable the Statement button
+    const statementButton = questionDiv.querySelector('.btn-secondary');
+    statementButton.disabled = true; // Disable Statement Button
+
     const multipleChoiceDiv = document.createElement('div');
     multipleChoiceDiv.id = `multiple-choice-${questionNumber}`;
     multipleChoiceDiv.className = "mt-3"; // Added margin-top for spacing
@@ -155,16 +217,9 @@ function addMultipleChoice(questionDiv, questionNumber) {
     choiceInput.className = "form-control mb-2";
     choiceInput.placeholder = 'Enter multiple choice option';
     choiceInput.name = `question-${questionNumber}-option-1`;
-    
-    // Real-time validation for options
-    choiceInput.addEventListener('input', function() {
-        if (this.value.trim() === '') {
-            this.classList.add('is-invalid');
-        } else {
-            this.classList.remove('is-invalid');
-        }
-    });
 
+    // Real-time validation for options
+    addRealTimeValidation(choiceInput);
     multipleChoiceDiv.appendChild(choiceInput);
 
     const addMoreButton = document.createElement('button');
@@ -179,11 +234,9 @@ function addMultipleChoice(questionDiv, questionNumber) {
     questionDiv.appendChild(multipleChoiceDiv);
 }
 
-
-// Add option validation for empty choices
 function addMoreMultipleChoice(multipleChoiceDiv, questionNumber) {
     const options = multipleChoiceDiv.querySelectorAll('input');
-    
+
     // Validate that all existing options have values
     let valid = true;
     options.forEach(option => {
@@ -200,8 +253,14 @@ function addMoreMultipleChoice(multipleChoiceDiv, questionNumber) {
         return;
     }
 
+    // Limit the number of options to 5
+    if (options.length >= 5) {
+        alert('You can only add up to 5 options.');
+        return;
+    }
+
     // Create the next option input if validation passed
-    const optionCount = multipleChoiceDiv.childElementCount - 1; // Exclude the 'Add more options' button
+    const optionCount = options.length; // Current number of options
     const choiceInput = document.createElement('input');
     choiceInput.type = 'text';
     choiceInput.className = "form-control mb-2";
@@ -214,8 +273,17 @@ function addMoreMultipleChoice(multipleChoiceDiv, questionNumber) {
     multipleChoiceDiv.insertBefore(choiceInput, multipleChoiceDiv.lastElementChild);
 }
 
-
 function addStatement(questionDiv) {
+    // Disable the Multiple Choice button
+    const multipleChoiceButton = questionDiv.querySelector('.btn-primary');
+    multipleChoiceButton.disabled = true; // Disable Multiple Choice Button
+
+    // Check if statement already exists
+    if (questionDiv.querySelector('textarea')) {
+        alert('You can only add one statement per question.');
+        return;
+    }
+
     const statementTextArea = document.createElement('textarea');
     statementTextArea.placeholder = 'Enter statement response';
     statementTextArea.className = "form-control mt-3"; // Bootstrap class and margin-top
@@ -233,7 +301,7 @@ function collectCustomQuestions() {
         if (questionType === "multiple-choice") {
             const options = [];
             const optionInputs = document.querySelectorAll(`input[name^="question-${i}-option-"]`);
-            
+
             // Ensure all multiple choice options are filled in
             optionInputs.forEach(input => {
                 if (input.value.trim() !== '') {
@@ -261,7 +329,6 @@ function refreshDragAndDrop() {
         onEnd: resetQuestionLabels, // Re-label questions after reordering
     });
 }
-
 
 
 
