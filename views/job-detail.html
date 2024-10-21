@@ -1171,47 +1171,62 @@ jobID = jobData.id;
     window.saveJob = saveJob;
   
     // Open the modal
-    function openReportJobModal() {
-        document.getElementById('reportJobModal').style.display = 'block !important;';
-    }
-    // Close the modal
-    function closeReportJobModal() {
-        document.getElementById('reportJobModal').style.display = 'none !important;';
-    }
-    window.openReportJobModal = openReportJobModal;
-    window.closeReportJobModal = closeReportJobModal;
+ // Open the report job modal
+function openReportJobModal() {
+    document.getElementById('reportJobModal').style.display = 'block'; // No need for !important
+}
 
-    // Get elements for modal interactions
-    const closeModal = document.querySelector('.close');
-    const cancelBtn = document.getElementById('cancelBtn');
-    const modal = document.getElementById('applicationModal');
-    // Close modal on clicking the close button (X)
+// Close the report job modal
+function closeReportJobModal() {
+    document.getElementById('reportJobModal').style.display = 'none'; // No need for !important
+}
+
+// Attach the modal open/close functions to the global window object
+window.openReportJobModal = openReportJobModal;
+window.closeReportJobModal = closeReportJobModal;
+
+// Get elements for modal interactions
+const closeModal = document.querySelector('.close');
+const cancelBtn = document.getElementById('cancelBtn');
+const modal = document.getElementById('applicationModal');
+
+// Close modal on clicking the close button (X)
+if (closeModal) {
     closeModal.addEventListener('click', function() {
-      modal.style.display = 'none !important;';
+        modal.style.display = 'none'; // No need for !important
     });
-    // Close modal on clicking the cancel button
+}
+
+// Close modal on clicking the cancel button
+if (cancelBtn) {
     cancelBtn.addEventListener('click', function() {
-      modal.style.display = 'none !important;';
+        modal.style.display = 'none'; // No need for !important
     });
-              // Apply button event listener
-              document.getElementById('applyBtn').addEventListener('click', function() {
-        if (jobData.applicationAvailableBool) {
-          // Redirect to the application page on your site
-          document.location.href = `apply.html?jobId=${jobId}`;
-        } else {
-          // Show the modal for external application
-          const modal = window.getElementById('applicationModal');
-          modal.style.display = 'block';
+}
+
+// Apply button event listener
+document.getElementById('applyBtn').addEventListener('click', function() {
+    if (jobData.applicationAvailableBool) {
+        // Redirect to the application page on your site
+        document.location.href = `apply.html?jobId=${jobId}`;
+    } else {
+        // Show the modal for external application
+        const modal = document.getElementById('applicationModal');
+        if (modal) {
+            modal.style.display = 'block'; // Ensure modal is displayed
         }
-      });
+    }
+});
 
-   // Proceed to external website on clicking the proceed button
-   const proceedBtn = document.getElementById('proceedBtn');
+// Proceed to external website on clicking the proceed button
+const proceedBtn = document.getElementById('proceedBtn');
 
-   proceedBtn.addEventListener('click', function() {
-      window.location.href = jobData.applicationWebsite;
+if (proceedBtn) {
+    proceedBtn.addEventListener('click', function() {
+        window.location.href = jobData.applicationWebsite;
     });
-    
+}
+
     </script>
 
   <script>
