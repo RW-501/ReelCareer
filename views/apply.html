@@ -378,8 +378,6 @@ previewModal.classList.add('show');
 
 
 
-const jobDocRef = doc(db, 'Jobs', jobId); // Reference to the job document
-
 
 
 document.getElementById('backToJobPost').addEventListener('click', () => {
@@ -404,10 +402,38 @@ function showToast(message, type) {
     setTimeout(() => toast.remove(), 3000);
 }
 
-// Function to sanitize user input
-function sanitizeInput(input) {
-    return input.trim().replace(/<[^>]*>/g, ''); // Basic HTML tag removal for sanitization
+// Function to retrieve answers from custom questions
+function getCustomAnswers(customQuestions) {
+    const customAnswers = {};
+    
+    customQuestions.forEach(question => {
+        let answer;
+        
+        switch (question.type) {
+            case 'multiple_choice':
+                const selectedOption = document.querySelector(`input[name="${question.id}"]:checked`);
+                answer = selectedOption ? selectedOption.value : null; // If no option selected, return null
+                break;
+            case 'text_area':
+                answer = document.getElementById(question.id).value.trim();
+                break;
+            case 'input_field':
+                answer = document.getElementById(question.id).value.trim();
+                break;
+        }
+        
+        // Add the question ID and answer to the customAnswers object
+        customAnswers[question.id] = answer;
+    });
+    
+    return customAnswers;
 }
+
+let companyData = '';
+let jobData = '';
+
+
+const jobDocRef = doc(db, 'Jobs', jobId); // Reference to the job document
 
 // Fetch Job and Company Information
 async function fetchJobAndCompanyInfo() {
@@ -417,9 +443,9 @@ async function fetchJobAndCompanyInfo() {
             throw new Error('Job not found.');
         }
 
-        const jobData = jobDoc.data();
+         jobData = jobDoc.data();
         const companyDoc = await getDoc(doc(db, 'Companies', jobData.companyId)); // Assuming you have a reference to company ID
-        const companyData = companyDoc.data();
+         companyData = companyDoc.data();
         jobTitle = jobData.title;
 
         // Populate job information and company information
@@ -435,27 +461,13 @@ async function fetchJobAndCompanyInfo() {
     }
 }
 
-// Form Validation
-function validateForm() {
-    const requiredFields = ['firstName', 'lastName', 'email', 'phone'];
-    for (const field of requiredFields) {
-        const value = sanitizeInput(document.getElementById(field).value);
-        if (!value) {
-            showToast(`${field} is required.`, 'error');
-            return false;
-        }
-        document.getElementById(field).value = value; // Update the input with sanitized value
-    }
-    return true;
-}
 
 
 
 // Event listener for messaging the recruiter
 
 document.getElementById('messageRecruiter').addEventListener('click', async () => {
-    const recruiterEmail = document.getElementById('recruiterEmail').value;
-    const messageContent = document.getElementById('messageContent').value;
+    const messageContent = sanitizeInput(document.getElementById('messageContent').value);
     const userId = getUserIdFromURL();
     const jobID = getJobIdFromURL();
 
@@ -469,7 +481,11 @@ document.getElementById('messageRecruiter').addEventListener('click', async () =
         const message = {
             senderId: userId,
             jobID: jobID,
-            recipientEmail: recruiterEmail,
+            recipientID: jobData.recruiterID,
+            subject: jobData.title,
+            senderStatus: "active",
+            recipientStatus: "active",
+            recipientRead: false,
             content: messageContent,
             timestamp:  new Date().toLocaleString(),
         };
@@ -477,7 +493,6 @@ document.getElementById('messageRecruiter').addEventListener('click', async () =
         // Save message to Firestore
         await addDoc(collection(db, "Messages"), message);
 
-        // Redirect to messaging page
         window.location.href = `messaging.html?userId=${userId}`;
     } catch (error) {
         console.error("Error sending message: ", error);
@@ -485,53 +500,138 @@ document.getElementById('messageRecruiter').addEventListener('click', async () =
     }
 });
 
+// Function to sanitize user input
+function sanitizeInput(input) {
+    return input.trim().replace(/<[^>]*>/g, ''); // Basic HTML tag removal for sanitization
+}
+
+// Form Validation
+function validateForm() {
+    const requiredFields = ['firstName', 'lastName', 'email', 'phone'];
+    for (const field of requiredFields) {
+        const value = sanitizeInput(document.getElementById(field).value);
+        if (!value) {
+            showToast(`${field} is required.`, 'error');
+            return false;
+        }
+        document.getElementById(field).value = value; // Update the input with sanitized value
+    }
+
+    // Email validation
+    const email = document.getElementById('email').value;
+    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+    if (!emailPattern.test(email)) {
+        showToast('Invalid email format.', 'error');
+        return false;
+    }
+
+    // Phone validation (simple numeric check)
+    const phone = document.getElementById('phone').value;
+    if (!/^\d+$/.test(phone)) {
+        showToast('Phone number must be numeric.', 'error');
+        return false;
+    }
+
+    return true;
+}
 
 
-// Event listener for submitting application
-document.getElementById('submitApplication').addEventListener('click', async () => {
-    if (!validateForm()) return; // Validate form before proceeding
+// Function to handle application submission
+async function submitApplication(boosted = false) {
+    if (jobData.applicationAvailableBool) {
+        // Validate form fields before proceeding
+        if (!validateForm()) {
+            return;
+        }
 
-    showLoading(); // Show loading indicator
-    const userId = getUserIdFromURL();
-    const jobID = getJobIdFromURL();
-    const applicantData = {
-        firstName: document.getElementById('firstName').value,
-        lastName: document.getElementById('lastName').value,
-        email: document.getElementById('email').value,
-        phone: document.getElementById('phone').value,
-        notes: document.getElementById('noteToRecruiter').value,
-        portfolio: document.getElementById('portfolio').value,
-        jobId: jobID,
-        userId: userId,
-        submitted: new Date().toLocaleString(),
-    };
+        const userId = getUserIdFromURL();
+        const jobId = getJobIdFromURL();
 
-    try {
+        // Assuming these values are populated elsewhere
+        const jobTitle = jobData.title; 
+        const companyName = jobData.companyName; 
+        const companyId = jobData.companyId; 
+
+        // Retrieve answers for custom questions
+        const customAnswers = getCustomAnswers(jobData.customQuestions);
+
+        // Prepare main application data
+        const applicationData = {
+            firstName: sanitizeInput(document.getElementById('firstName').value),
+            lastName: sanitizeInput(document.getElementById('lastName').value),
+            email: sanitizeInput(document.getElementById('email').value),
+            phone: sanitizeInput(document.getElementById('phone').value),
+            notes: sanitizeInput(document.getElementById('noteToRecruiter').value),
+            portfolio: sanitizeInput(document.getElementById('portfolio').value),
+            jobTitle: jobTitle,
+            companyName: companyName,
+            companyId: companyId,
+            boostedApp: boosted,  // Set to true if boosting
+            jobId: jobId,
+            status: "active",
+            interviewRequestBool: false,
+            interviewRequestDate: '',
+            testRequestBool: false,
+            testRequestExpireDate: '',
+            testRequestNames: [],
+            views: 0,
+            resumeViews: 0,
+            videoResumeViews: 0,
+            userId: userId,
+            customAnswers: customAnswers, // Add custom answers to the data
+            applyDate: new Date().toLocaleString(),
+        };
+
+        // Prepare applicant PDC data (Personal Data Compliance)
         const applicant_PDC = {
-            gender: document.getElementById('gender').value,
-            race: document.getElementById('race').value,
-            veteran: document.getElementById('veteran').value,
-            disability: document.getElementById('disability').value,
+            gender: sanitizeInput(document.getElementById('gender').value),
+            race: sanitizeInput(document.getElementById('race').value),
+            veteran: sanitizeInput(document.getElementById('veteran').value),
+            disability: sanitizeInput(document.getElementById('disability').value),
             shareInfo: document.getElementById('shareInfo').checked,
-            disclosureName: document.getElementById('disclosureName').value,
-            disclosureDate: document.getElementById('disclosureDate').value,
-            jobId: jobID,
+            disclosureName: sanitizeInput(document.getElementById('disclosureName').value),
+            disclosureDate: sanitizeInput(document.getElementById('disclosureDate').value),
+            jobId: jobId,
             submitted: new Date().toLocaleString(),
         };
 
-        await sendToAppDataCompliance(applicant_PDC);
-        await uploadFile('resumeUpload', 'resumes', applicantData, 'resumeUrl');
-        await uploadFile('videoResumeUpload', 'video_resumes', applicantData, 'videoResumeUrl');
+        try {
+            // Show loading indicator if you have one
+            showLoading();
 
-        await addDoc(collection(db, 'Applications'), applicantData);
-        showToast('Application submitted successfully!', 'success');
-    } catch (error) {
-        console.error('Error submitting application:', error);
-        showToast('Error submitting application. Please try again.', 'error');
-    } finally {
-        hideLoading(); // Hide loading indicator
+            // Upload files
+            await uploadFile('resumeUpload', 'resumes', applicationData, 'resumeUrl');
+            await uploadFile('videoResumeUpload', 'video_resumes', applicationData, 'videoResumeUrl');
+
+            // Submit the application data to Firestore
+            await addDoc(collection(db, 'Applications'), applicationData);
+
+            // Send the applicant's personal data compliance (PDC) information
+            await sendToAppDataCompliance(applicant_PDC);
+
+            // Show success message
+            showToast('Application submitted successfully!', 'success');
+        } catch (error) {
+            console.error('Error submitting application:', error);
+            showToast('Error submitting application. Please try again.', 'error');
+        } finally {
+            // Hide loading indicator
+            hideLoading();
+        }
     }
+}
+
+// Event listener for submit application button
+document.getElementById('submitApplication').addEventListener('click', () => {
+    submitApplication(false); // Regular application
 });
+
+// Event listener for boost application button
+document.getElementById('boostApplication').addEventListener('click', () => {
+    submitApplication(true); // Boosted application
+});
+
+
 
 // Function to upload files and add their URLs to the applicantData
 async function uploadFile(inputId, folder, applicantData, urlKey) {
