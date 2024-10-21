@@ -563,9 +563,7 @@ function addStyles() {
                 color: #666; 
                 margin-bottom: 5px;">
               <i class="fas fa-map-marker-alt" style="color: #007bff;"></i> 
-              ${formatLocation(job.location, {
-                part: "city"
-              })}, ${formatLocation(job.location, { part: "state" })}
+              "${formatLocation(jobData.location)}";
             </p>
             <p class="card-text" style="
                 font-size: 14px; 

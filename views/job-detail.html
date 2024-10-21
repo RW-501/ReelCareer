@@ -787,9 +787,7 @@ jobID = jobData.id;
       document.getElementById('jobTitle').textContent = jobData.title;
       document.getElementById('jobID').textContent = jobData.id;
       document.getElementById("jobDescription").innerText = jobData.description;
-      document.getElementById('jobLocation').textContent = Array.isArray(jobData.location) && jobData.location.length > 1 
-    ? `${formatLocation(jobData.location, { part: 'city' })}, ${formatLocation(jobData.location, { part: 'state' })}`
-    : jobData.location;
+      document.getElementById('jobLocation').textContent = "${formatLocation(jobData.location)}";
 
     document.getElementById('employmentType').textContent = formatJobType(jobData.type);
       document.getElementById('salary').textContent = formatCurrency(jobData.salary, {
