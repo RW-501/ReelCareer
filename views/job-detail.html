@@ -872,11 +872,16 @@ jobID = jobData.id;
       
 
 
-      let jobTags = jobData.tags; // Get tags from the current job
-      if (!jobTags || jobTags.length === 0) {
-          console.log("No tags available for this job.");
-          jobTags = ['Jobs', jobData.industry, 'Job Search'];
-        }
+     // Get the tags from the current job, ensuring the array is not empty
+let jobTags = jobData.tags;
+
+// Check if jobTags is null, undefined, or an empty array
+if (!jobTags || jobTags.length === 0) {
+    console.log("No tags available for this job. Using default tags.");
+    
+    // Use default tags if none are available in jobData
+    jobTags = ['Jobs', jobData.industry || 'General Industry', 'Job Search'];
+}
 
       renderTags(jobTags);
 
