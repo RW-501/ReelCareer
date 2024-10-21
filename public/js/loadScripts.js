@@ -382,3 +382,51 @@ function formatLocation(location, options = {}) {
     modalopen.classList.remove("modal-open");
   }
   
+
+  // Function to show toast notifications
+// Function to show toast notifications
+function showToast(message, type) {
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`; // Add classes for styling
+    toast.setAttribute('role', 'alert'); // Accessibility
+    toast.innerText = message;
+
+    // Add styles to the toast
+    toast.style.position = 'fixed';
+    toast.style.bottom = '20px';
+    toast.style.right = '20px';
+    toast.style.padding = '15px 20px';
+    toast.style.margin = '10px';
+    toast.style.borderRadius = '5px';
+    toast.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.2)';
+    toast.style.color = '#fff';
+    toast.style.zIndex = '1000';
+    toast.style.transition = 'opacity 0.5s ease-in-out';
+    toast.style.opacity = '1';
+
+    // Set background color based on the type of toast
+    switch (type) {
+        case 'success':
+            toast.style.backgroundColor = '#28a745'; // Green
+            break;
+        case 'error':
+            toast.style.backgroundColor = '#dc3545'; // Red
+            break;
+        case 'info':
+            toast.style.backgroundColor = '#17a2b8'; // Blue
+            break;
+        case 'warning':
+            toast.style.backgroundColor = '#ffc107'; // Yellow
+            break;
+        default:
+            toast.style.backgroundColor = '#6c757d'; // Default gray
+    }
+
+    document.body.appendChild(toast);
+
+    // Fade out effect before removal
+    setTimeout(() => {
+        toast.style.opacity = '0'; // Start fade-out
+        setTimeout(() => toast.remove(), 500); // Remove after fade-out
+    }, 3000);
+}

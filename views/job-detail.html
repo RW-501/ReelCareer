@@ -686,6 +686,9 @@ text-align: left;
       limit
     } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
     // Function to save job and update savedForLater count
+    const userId = user = auth.currentUser.uid;
+
+
     async function saveJob() { 
   // Disable the button and change text
   const saveBtn = document.getElementById('saveBtn');
@@ -1071,7 +1074,12 @@ if (!jobTags || jobTags.length === 0) {
 
       // Apply button event listener
 document.getElementById('applyBtn').addEventListener('click', function() {
-
+    const userId = auth.currentUser ? auth.currentUser.uid : null; // Get user ID
+    if (!userId) {
+        showToast('You must be logged in to apply.', 'error');
+        return;
+    }
+    
     if (jobData.applicationAvailableBool) {
         // Redirect to the application page on your site with both jobID and userID
         document.location.href = `apply.html?jobId=${encodeURIComponent(jobID)}&userId=${encodeURIComponent(userId)}`;

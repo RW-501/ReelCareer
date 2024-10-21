@@ -393,14 +393,7 @@ function hideLoading() {
     document.getElementById('loadingSpinner').style.display = 'none';
 }
 
-// Function to show toast notifications
-function showToast(message, type) {
-    const toast = document.createElement('div');
-    toast.className = `toast ${type}`; // Add classes for styling
-    toast.innerText = message;
-    document.body.appendChild(toast);
-    setTimeout(() => toast.remove(), 3000);
-}
+
 
 // Function to retrieve answers from custom questions
 function getCustomAnswers(customQuestions) {
@@ -538,6 +531,12 @@ function validateForm() {
 
 // Function to handle application submission
 async function submitApplication(boosted = false) {
+    const userId = auth.currentUser ? auth.currentUser.uid : null; // Get user ID
+    if (!userId) {
+        showToast('You must be logged in to apply.', 'error');
+        return;
+    }
+    
     if (jobData.applicationAvailableBool) {
         // Validate form fields before proceeding
         if (!validateForm()) {
