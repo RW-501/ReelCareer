@@ -347,7 +347,6 @@ previewModal.classList.add('show');
     import { db, storage, analytics,auth, app  } from '../public/js/main.js'; // Adjust the path based on your structure
     import { query, where, getDoc, doc, orderBy, limit,  collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
     
-    let jobTitle = '';
 
 
 // Function to extract the user ID from URL parameters
@@ -363,6 +362,10 @@ function getJobIdFromURL() {
 }
 
 
+let jobTitle = '';
+
+let companyData = '';
+let jobData = '';
 
 
 
@@ -451,9 +454,6 @@ function getCustomAnswers(customQuestions) {
     
     return customAnswers;
 }
-
-let companyData = '';
-let jobData = '';
 
 
 // Fetch Job and Company Information
