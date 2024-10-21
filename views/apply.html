@@ -362,11 +362,6 @@ function getJobIdFromURL() {
     return params.get('jobId');
 }
 
-// Example usage
-const userIdURL = getUserIdFromURL();
-const jobID = getJobIdFromURL();
-
-console.log("jobID   ",jobID,"  userIdURL  ",userIdURL);
 
 
 
@@ -381,7 +376,11 @@ console.log("jobID   ",jobID,"  userIdURL  ",userIdURL);
                     console.log("User ID:", userId);
                     // You can call your functions that require userId here
                     
+// Example usage
+const userIdURL = getUserIdFromURL();
+const jobID = getJobIdFromURL();
 
+console.log("jobID   ",jobID,"  userIdURL  ",userIdURL);
 
 const jobDocRef = doc(db, 'Jobs', jobId); // Reference to the job document
 
