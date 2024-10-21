@@ -129,6 +129,8 @@ function addQuestionField() {
     // Append the new question block to the form
     document.getElementById("customQuestionsContainer").appendChild(questionDiv);
 
+    showQuestionSuggestions(questionDiv, questionCounter);
+
     // Refresh drag-and-drop functionality after adding a new question
     refreshDragAndDrop();
 }
@@ -259,6 +261,7 @@ function addMultipleChoice(questionDiv, questionNumber) {
     multipleChoiceDiv.appendChild(addMoreButton);
 
     questionDiv.appendChild(multipleChoiceDiv);
+
 
         // Check if statement already exists
 if (questionDiv.querySelector('button')) {

@@ -217,38 +217,21 @@
     <script>
 // Function to extract the user ID from URL parameters
 function getUserIdFromURL() {
-    const urlParams = new URLSearchParams(window.location.search);
-    console.log("urlParams   ",urlParams);
-
-    return urlParams.get('uId'); // Assuming userId is the parameter name in the URL
+    const params = new URLSearchParams(window.location.search);
+    return params.get('userId');
 }
 
-        // Get Job ID from URL
-        function getJobIdFromURL() {
+// Function to retrieve jobId from the URL
+function getJobIdFromURL() {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('jobId');
+}
 
-        const urlParams = new URLSearchParams(window.location.search);
-        const jobId = urlParams.get('jId');
-        console.log("jobId   ",jobId);
-        return urlParams.get('jId'); // Assuming userId is the parameter name in the URL
-    }
+// Example usage
+const userId = getUserIdFromURL();
+const jobID = getJobIdFromURL();
 
-
- // JavaScript for form submission and error handling
- document.addEventListener('DOMContentLoaded', function () {
-        const form = document.getElementById('applicationForm');
-        const progressBar = document.getElementById('progressBar');
-
-        // Form validation
-        form.addEventListener('submit', function (event) {
-            event.preventDefault();
-            if (!form.checkValidity()) {
-                event.stopPropagation();
-                form.classList.add('was-validated');
-            } else {
-                submitApplication();
-            }
-        });
-    });
+console.log("jobID   ",jobID,"  userId  ",userId);
 
 
 
@@ -263,9 +246,7 @@ function getUserIdFromURL() {
 
 
 
-    </script>
 
-<script>
     // Load Custom Questions
     function loadCustomQuestions(customQuestions) {
         const customQuestionsContainer = document.getElementById('customQuestionsContainer');
@@ -393,64 +374,81 @@ previewModal.classList.add('show');
     import { db, storage, analytics, app  } from '../public/js/main.js'; // Adjust the path based on your structure
     import { query, where, orderBy, limit,  collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
     
-   let jobTitle = '';
+    let jobTitle = '';
 
 
 
-    const jobDocRef = doc(db, 'Jobs', jobId); // Reference to the job document
+const jobDocRef = doc(db, 'Jobs', jobId); // Reference to the job document
 
-        // Fetch Job and Company Information
-        async function fetchJobAndCompanyInfo(getDoc) {
-    // Fetch the job document
 
+
+document.getElementById('backToJobPost').addEventListener('click', () => {
+    window.history.back(); // Back to the previous page
+});
+
+// Show loading spinner
+function showLoading() {
+    document.getElementById('loadingSpinner').style.display = 'block';
+}
+
+function hideLoading() {
+    document.getElementById('loadingSpinner').style.display = 'none';
+}
+
+// Function to show toast notifications
+function showToast(message, type) {
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`; // Add classes for styling
+    toast.innerText = message;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 3000);
+}
+
+// Function to sanitize user input
+function sanitizeInput(input) {
+    return input.trim().replace(/<[^>]*>/g, ''); // Basic HTML tag removal for sanitization
+}
+
+// Fetch Job and Company Information
+async function fetchJobAndCompanyInfo() {
+    try {
         const jobDoc = await getDoc(jobDocRef); // Get the job document
-
-        console.log('No draft applications found.');
-
-        const jobData = jobDoc.data();
-            const companyData = companyDoc.data();
-            jobTitle = jobData.title;
-
-            // Populate job information and company information
-            document.getElementById('jobPostedByArea').innerHTML = `
-                <p>Job Title: ${jobData.title}</p>
-                <p>Company: ${companyData.name}</p>
-                <p>Location: ${companyData.location}</p>
-            `;
-            loadCustomQuestions(jobData.customQuestions);
+        if (!jobDoc.exists()) {
+            throw new Error('Job not found.');
         }
 
-      // Assuming you have initialized Firestore
-const db = firebase.firestore(); // Adjust this if your Firestore setup is different
+        const jobData = jobDoc.data();
+        const companyDoc = await getDoc(doc(db, 'Companies', jobData.companyId)); // Assuming you have a reference to company ID
+        const companyData = companyDoc.data();
+        jobTitle = jobData.title;
 
-document.getElementById('saveForLater').addEventListener('click', () => {
-    console.log("saveForLater");
-    
-    const jobID = getJobIdFromURL();
-    const userId =  getUserIdFromURL();
-  //  const jobTitle = "YOUR_JOB_TITLE"; // Replace with the actual job title variable
-    
-    // Prepare the application data
-    const applicationData = {
-        jobID: jobID,
-        jobTitle: jobTitle,
-        timestamp: new Date().toLocaleString(),
-        // Include other relevant fields as needed
-    };
-    
-    // Save to Firestore
-    db.collection('Users').doc(userId).update({
-        savedApplications: firebase.firestore.FieldValue.arrayUnion(applicationData)
-    })
-    .then(() => {
-        console.log('Application saved to Firestore successfully!');
-        alert('Application saved for later!');
-    })
-    .catch((error) => {
-        console.error('Error saving application to Firestore: ', error);
-        alert('Error saving application. Please try again.');
-    });
-});
+        // Populate job information and company information
+        document.getElementById('jobPostedByArea').innerHTML = `
+            <p>Job Title: ${jobData.title}</p>
+            <p>Company: ${companyData.name}</p>
+            <p>Location: ${companyData.location}</p>
+        `;
+        loadCustomQuestions(jobData.customQuestions);
+    } catch (error) {
+        console.error('Error fetching job and company info:', error);
+        showToast('Failed to load job information. Please try again.', 'error');
+    }
+}
+
+// Form Validation
+function validateForm() {
+    const requiredFields = ['firstName', 'lastName', 'email', 'phone'];
+    for (const field of requiredFields) {
+        const value = sanitizeInput(document.getElementById(field).value);
+        if (!value) {
+            showToast(`${field} is required.`, 'error');
+            return false;
+        }
+        document.getElementById(field).value = value; // Update the input with sanitized value
+    }
+    return true;
+}
+
 
 
 // Event listener for messaging the recruiter
@@ -462,7 +460,7 @@ document.getElementById('messageRecruiter').addEventListener('click', async () =
     const jobID = getJobIdFromURL();
 
     if (!recruiterEmail || !messageContent) {
-        alert('Please fill in all fields.');
+        showToast('Please fill in all fields.', 'error');
         return;
     }
 
@@ -483,76 +481,19 @@ document.getElementById('messageRecruiter').addEventListener('click', async () =
         window.location.href = `messaging.html?userId=${userId}`;
     } catch (error) {
         console.error("Error sending message: ", error);
-        alert('Failed to send the message. Please try again.');
+        showToast('Failed to send the message. Please try again.', 'error');
     }
 });
 
 
-// Function to get draft applications from Firestore
-async function getDraftApplications(userId) {
-    try {
-        // Create a query to fetch draft applications for the specified user
-        const draftQuery = query(
-            collection(db, 'Applications'),
-            where('userId', '==', userId), // Assuming userId is stored in each application
-            where('status', '==', 'draft') // Only get drafts
-        );
 
-        // Fetch the draft applications
-        const querySnapshot = await getDocs(draftQuery);
+// Event listener for submitting application
+document.getElementById('submitApplication').addEventListener('click', async () => {
+    if (!validateForm()) return; // Validate form before proceeding
 
-        // Array to hold draft applications
-        const draftApps = [];
-
-        // Loop through the query results
-        querySnapshot.forEach(doc => {
-            // Push each draft application to the array
-            draftApps.push({ id: doc.id, ...doc.data() });
-        });
-
-        // Check if there are any drafts
-        if (draftApps.length === 0) {
-            console.log('No draft applications found.');
-            return [];
-        }
-
-        // Return the array of draft applications
-        return draftApps;
-    } catch (error) {
-        console.error('Error fetching draft applications: ', error);
-        return []; // Return an empty array on error
-    }
-}
-
-
-
- 
-// Example usage
-const userId = getUserIdFromURL(); // Function to get the user ID from the URL
-/*
-getDraftApplications(userId).then(draftApps => {
-    if (draftApps.length > 0) {
-        console.log('Draft Applications:', draftApps);
-        // You can now render these applications in your UI
-    } else {
-        console.log('No draft applications available.');
-    }
-});
-*/
-        document.getElementById('backToJobPost').addEventListener('click', () => {
-            window.history.back(); // Back to the previous page
-        });
-
- 
-    
-
-    
-        // Function to handle application submission
-        document.getElementById('submitApplication').addEventListener('click', async () => {
-            const userId = getUserIdFromURL();
-            const jobID = getJobIdFromURL();
-
-     // Gather applicant data
+    showLoading(); // Show loading indicator
+    const userId = getUserIdFromURL();
+    const jobID = getJobIdFromURL();
     const applicantData = {
         firstName: document.getElementById('firstName').value,
         lastName: document.getElementById('lastName').value,
@@ -562,11 +503,10 @@ getDraftApplications(userId).then(draftApps => {
         portfolio: document.getElementById('portfolio').value,
         jobId: jobID,
         userId: userId,
-        submitted: new Date().toLocaleString(), // Formats the date based on the user's locale
+        submitted: new Date().toLocaleString(),
     };
 
     try {
-        // Collect personal data from candidates
         const applicant_PDC = {
             gender: document.getElementById('gender').value,
             race: document.getElementById('race').value,
@@ -575,28 +515,21 @@ getDraftApplications(userId).then(draftApps => {
             shareInfo: document.getElementById('shareInfo').checked,
             disclosureName: document.getElementById('disclosureName').value,
             disclosureDate: document.getElementById('disclosureDate').value,
-            jobId: jobID, // Ensure jobId is defined in your scope
-            submitted: new Date().toLocaleString(), // Formats the date based on the user's locale
+            jobId: jobID,
+            submitted: new Date().toLocaleString(),
         };
 
-        // Send applicant_PDC to AppDataCompliance collection
         await sendToAppDataCompliance(applicant_PDC);
-
-        // Upload resume if available
         await uploadFile('resumeUpload', 'resumes', applicantData, 'resumeUrl');
-        // Upload video resume if available
         await uploadFile('videoResumeUpload', 'video_resumes', applicantData, 'videoResumeUrl');
 
-        // Save application data to Firestore
         await addDoc(collection(db, 'Applications'), applicantData);
-        
-        // Simulate form submission progress
-        simulateProgressBar();
-
-        console.log('Application submitted successfully!');
-
+        showToast('Application submitted successfully!', 'success');
     } catch (error) {
         console.error('Error submitting application:', error);
+        showToast('Error submitting application. Please try again.', 'error');
+    } finally {
+        hideLoading(); // Hide loading indicator
     }
 });
 
@@ -620,43 +553,9 @@ async function sendToAppDataCompliance(applicantData) {
     }
 }
 
-// Function to simulate a progress bar for the form submission
-function simulateProgressBar() {
-    let progress = 0;
-    const progressBar = document.getElementById('progressBar'); // Assuming you have a progress bar element
-    progressBar.style.width = '0%';
-    const interval = setInterval(() => {
-        progress += 10;
-        progressBar.style.width = `${progress}%`;
-        progressBar.setAttribute('aria-valuenow', progress);
-        if (progress >= 100) {
-            clearInterval(interval);
-            alert('Application submitted successfully!');
-            form.reset(); // Assuming 'form' is defined as your form element
-            progressBar.style.width = '0%'; // Reset progress bar
-        }
-    }, 300);
-}
+// Load job and company info on page load
+fetchJobAndCompanyInfo();
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- 
-       // Load job and company info on page load
-       fetchJobAndCompanyInfo();
 
 </script>
 
