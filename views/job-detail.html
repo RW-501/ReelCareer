@@ -1171,42 +1171,50 @@ if (proceedBtn) {
     }
     // Load job details on page load
     document.addEventListener('DOMContentLoaded', fetchJobDetails);
-    // Make the function globally accessible
-    window.saveJob = saveJob;
-    function submitReport() {
-        // Get selected checkboxes
-        const selectedReasons = [];
-        document.querySelectorAll('#reportJobForm input[type="checkbox"]:checked').forEach((checkbox) => {
-          selectedReasons.push(checkbox.value);
-        });
-        // Get the message from the textarea
-        const message = document.getElementById('reportMessage').value;
-        if (selectedReasons.length === 0 && !message) {
-          alert("Please select a reason or enter a message before submitting.");
-          return;
-        }
-        // Get the job details (you can fetch the job ID from the page)
-        const jobTitle = document.getElementById('jobTitle').innerText;
-        // Prepare the report data
-        const reportData = {
-          jobId: jobId,
-          jobTitle: jobTitle,
-          reasons: selectedReasons,
-          message: message,
-          submittedAt: new Date(),
-          userID: userID,
-        };
-        // Send report to the SupportTickets collection in Firebase
-        firebase.firestore().collection("SupportTickets").add(reportData)
-          .then(() => {
-            alert("Your report has been submitted. Thank you for your feedback.");
-            closeReportJobModal(); // Close the modal after submission
-          })
-          .catch((error) => {
-            console.error("Error submitting report: ", error);
-            alert("There was an error submitting your report. Please try again later.");
-          });
-      }  
+
+// Make the function globally accessible by attaching it to the `window` object
+window.saveJob = saveJob;
+window.submitReport = submitReport; // Expose submitReport globally
+
+function submitReport() {
+    // Get selected checkboxes
+    const selectedReasons = [];
+    document.querySelectorAll('#reportJobForm input[type="checkbox"]:checked').forEach((checkbox) => {
+      selectedReasons.push(checkbox.value);
+    });
+
+    // Get the message from the textarea
+    const message = document.getElementById('reportMessage').value;
+    if (selectedReasons.length === 0 && !message) {
+      alert("Please select a reason or enter a message before submitting.");
+      return;
+    }
+
+    // Get the job details (you can fetch the job ID from the page)
+    const jobTitle = document.getElementById('jobTitle').innerText;
+
+    // Prepare the report data
+    const reportData = {
+      jobId: jobId,
+      jobTitle: jobTitle,
+      reasons: selectedReasons,
+      message: message,
+      submittedAt: new Date(),
+      userID: userID,
+    };
+
+    // Send report to the SupportTickets collection in Firebase
+    firebase.firestore().collection("SupportTickets").add(reportData)
+      .then(() => {
+        alert("Your report has been submitted. Thank you for your feedback.");
+        closeReportJobModal(); // Close the modal after submission
+      })
+      .catch((error) => {
+        console.error("Error submitting report: ", error);
+        alert("There was an error submitting your report. Please try again later.");
+      });
+}
+
     // Open the modal
  // Open the report job modal
 function openReportJobModal() {
