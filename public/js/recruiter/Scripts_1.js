@@ -55,8 +55,31 @@ function addQuestionField() {
         'Tip: Think about what information you really need.',
         'Tip: Use neutral language to avoid influencing answers.',
         'Tip: Consider the respondent’s perspective when crafting your question.',
-        'Tip: Try to keep questions under 20 words for clarity.'
+        'Tip: Try to keep questions under 20 words for clarity.',
+        'Tip: Start with a warm-up question to ease respondents into the topic.',
+        'Tip: Group similar questions together to maintain a logical flow.',
+        'Tip: Avoid jargon or technical terms that may confuse the respondent.',
+        'Tip: Use examples to clarify what you’re asking when necessary.',
+        'Tip: Ensure your questions align with your objectives for the survey.',
+        'Tip: Test your questions with a small group before wider distribution.',
+        'Tip: Use rating scales to quantify responses for easier analysis.',
+        'Tip: Limit the number of questions to keep respondents engaged.',
+        'Tip: Be mindful of cultural differences that may affect responses.',
+        'Tip: Avoid double-barreled questions that ask about two things at once.',
+        'Tip: Consider the order of questions to prevent biasing responses.',
+        'Tip: Provide context for complex questions to aid understanding.',
+        'Tip: Make sure your questions are relevant to your audience.',
+        'Tip: Use the same terminology throughout to avoid confusion.',
+        'Tip: Avoid assumptions in your questions to keep them neutral.',
+        'Tip: Consider using visual aids if the question is complex.',
+        'Tip: Keep follow-up questions related to the main question for coherence.',
+        'Tip: Allow for optional responses to avoid forcing an answer.',
+        'Tip: Use timeframes in questions to clarify the context (e.g., "In the last month...").',
+        'Tip: Encourage feedback on your questions to improve them continuously.',
+        'Tip: Use humor or a friendly tone where appropriate to create rapport.',
+        'Tip: Acknowledge the limits of your questions in terms of coverage.'
     ];
+    
 
     // Select a random hint
     const randomHint = helpfulHints[Math.floor(Math.random() * helpfulHints.length)];
@@ -211,6 +234,14 @@ function addMultipleChoice(questionDiv, questionNumber) {
     multipleChoiceDiv.id = `multiple-choice-${questionNumber}`;
     multipleChoiceDiv.className = "mt-3"; // Added margin-top for spacing
 
+    const multipleChoiceButton = questionDiv.querySelector('.btn btn-primary');
+    multipleChoiceButton.disabled = true; // Disable Multiple Choice Button
+
+// Check if statement already exists
+if (questionDiv.querySelector('button')) {
+    showTemporaryMessage(questionDiv,'You can only add one statement per question.');
+    return;
+}
     // First choice input with validation
     const choiceInput = document.createElement('input');
     choiceInput.type = 'text';
@@ -236,6 +267,18 @@ function addMultipleChoice(questionDiv, questionNumber) {
 
 function addMoreMultipleChoice(multipleChoiceDiv, questionNumber) {
     const options = multipleChoiceDiv.querySelectorAll('input');
+    const optionValues = Array.from(options).map(input => input.value.trim());
+
+    // Check for duplicates
+    const duplicates = optionValues.filter((item, index) => optionValues.indexOf(item) !== index);
+    if (duplicates.length > 0) {
+        showTemporaryMessage(multipleChoiceDiv,'Options must be unique. Please remove duplicate entries.');
+        return;
+    }
+    // Existin
+
+
+
 
     // Validate that all existing options have values
     let valid = true;
@@ -249,13 +292,13 @@ function addMoreMultipleChoice(multipleChoiceDiv, questionNumber) {
     });
 
     if (!valid) {
-        alert('Please fill in all current options before adding more.');
+        showTemporaryMessage(multipleChoiceDiv,'Please fill in all current options before adding more.');
         return;
     }
 
     // Limit the number of options to 5
     if (options.length >= 5) {
-        alert('You can only add up to 5 options.');
+        showTemporaryMessage(multipleChoiceDiv,'You can only add up to 5 options.');
         return;
     }
 
@@ -270,8 +313,20 @@ function addMoreMultipleChoice(multipleChoiceDiv, questionNumber) {
     // Add real-time validation for new option
     addRealTimeValidation(choiceInput);
 
-    multipleChoiceDiv.insertBefore(choiceInput, multipleChoiceDiv.lastElementChild);
+    // Create a remove button for the new input
+    const removeButton = document.createElement('button');
+    removeButton.type = 'button';
+    removeButton.className = "btn btn-danger mt-2";
+    removeButton.innerHTML = 'Remove option';
+    removeButton.onclick = function() {
+        choiceInput.remove();
+        removeButton.remove();
+    };
+    
+    multipleChoiceDiv.insertBefore(removeButton, multipleChoiceDiv.lastElementChild);
 }
+
+
 
 function addStatement(questionDiv) {
     // Disable the Multiple Choice button
@@ -280,7 +335,7 @@ function addStatement(questionDiv) {
 
     // Check if statement already exists
     if (questionDiv.querySelector('textarea')) {
-        alert('You can only add one statement per question.');
+       showTemporaryMessage(questionDiv,'You can only add one statement per question.');
         return;
     }
 
@@ -358,6 +413,20 @@ addRealTimeValidation(questionInput);
 
 
 
+function showTemporaryMessage(questionDiv, message) {
+    // Create a message div element
+    const messageDiv = document.createElement('div');
+    messageDiv.className = 'alert alert-warning mt-2'; // Bootstrap warning style
+    messageDiv.innerText = message;
+
+    // Attach the message to the questionDiv
+    questionDiv.appendChild(messageDiv);
+
+    // Set a timeout to remove the message after 3 seconds (3000ms)
+    setTimeout(() => {
+        questionDiv.removeChild(messageDiv);
+    }, 3000);
+}
 
 
 
