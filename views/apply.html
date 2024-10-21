@@ -230,6 +230,8 @@
     // Load Custom Questions
     function loadCustomQuestions(customQuestions) {
         const customQuestionsContainer = document.getElementById('customQuestionsContainer');
+        console.log("customQuestions ?????????/   ",customQuestions);
+     
         customQuestions.forEach(question => {
             let inputElement;
             switch (question.type) {
@@ -475,6 +477,8 @@ async function fetchJobAndCompanyInfo(jobDocRef) {
             <p>Company: ${companyData.name}</p>
             <p>Location: ${companyData.location}</p>
         `;
+        console.log("jobData.customQuestions   ",jobData.customQuestions,"  jobData.title  ",jobData.title);
+
         loadCustomQuestions(jobData.customQuestions);
     } catch (error) {
         console.error('Error fetching job and company info:', error);
