@@ -1069,8 +1069,23 @@ if (!jobTags || jobTags.length === 0) {
       }
 
 
+      // Apply button event listener
+document.getElementById('applyBtn').addEventListener('click', function() {
 
+    if (jobData.applicationAvailableBool) {
+        // Redirect to the application page on your site with both jobID and userID
+        document.location.href = `apply.html?jobId=${jobID}&userId=${userId}`;
+    } else {
+        // Show the modal for external application
+        const modal = document.getElementById('applicationModal');
 
+        if (modal) {
+            modal.style.display = 'block'; // Ensure modal is displayed
+        }
+    }
+});
+
+/*
 // Apply button event listener
 document.getElementById('applyBtn').addEventListener('click', function() {
     if (jobData.applicationAvailableBool) {
@@ -1085,6 +1100,7 @@ document.getElementById('applyBtn').addEventListener('click', function() {
         }
     }
 });
+*/
 
 // Proceed to external website on clicking the proceed button
 const proceedBtn = document.getElementById('proceedBtn');
