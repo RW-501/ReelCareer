@@ -381,12 +381,14 @@ console.log("jobID   ",jobID,"  userIdURL  ",userIdURL);
                     console.log("User ID:", userId);
                     // You can call your functions that require userId here
                     
-// Load job and company info on page load
-fetchJobAndCompanyInfo();
+
 
 const jobDocRef = doc(db, 'Jobs', jobId); // Reference to the job document
 
-                } else {
+// Load job and company info on page load
+fetchJobAndCompanyInfo(jobDocRef);
+
+} else {
                     console.error("No user is signed in.");
                     // Handle the case where the user is not signed in
                 }
@@ -456,7 +458,7 @@ let jobData = '';
 
 
 // Fetch Job and Company Information
-async function fetchJobAndCompanyInfo() {
+async function fetchJobAndCompanyInfo(jobDocRef) {
     try {
         const jobDoc = await getDoc(jobDocRef); // Get the job document
         if (!jobDoc.exists()) {
