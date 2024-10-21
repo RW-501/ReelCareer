@@ -215,26 +215,6 @@
 
     
     <script>
-// Function to extract the user ID from URL parameters
-function getUserIdFromURL() {
-    const params = new URLSearchParams(window.location.search);
-    return params.get('userId');
-}
-
-// Function to retrieve jobId from the URL
-function getJobIdFromURL() {
-    const params = new URLSearchParams(window.location.search);
-    return params.get('jobId');
-}
-
-// Example usage
-const userId = getUserIdFromURL();
-const jobID = getJobIdFromURL();
-
-console.log("jobID   ",jobID,"  userId  ",userId);
-
-
-
 
 
 
@@ -348,14 +328,7 @@ previewModal.classList.add('show');
 
 
 
-        // Event Listeners
-        document.getElementById('boostApplication')
-        .addEventListener('click', async () => {
-            console.log("boostApplication   ");
-            
-
-
-});
+  
 
 
 
@@ -375,6 +348,26 @@ previewModal.classList.add('show');
     import { query, where, orderBy, limit,  collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
     
     let jobTitle = '';
+
+
+// Function to extract the user ID from URL parameters
+function getUserIdFromURL() {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('userId');
+}
+
+// Function to retrieve jobId from the URL
+function getJobIdFromURL() {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('jobId');
+}
+
+// Example usage
+const userIdURL = getUserIdFromURL();
+const jobID = getJobIdFromURL();
+
+console.log("jobID   ",jobID,"  userId  ",userId);
+
 
 
 
@@ -399,7 +392,16 @@ previewModal.classList.add('show');
 
     initializeUserId(); // Call the function to initialize user ID
 
-
+// Assuming userIdURL is defined and accessible
+if (userIdURL !== userId) {
+    console.warn("Unauthorized access attempt detected! User ID mismatch.");
+    console.log("What are you doing?");
+    // Optionally, you could redirect the user or show a warning in the UI
+    // window.location.href = 'error.html'; // Redirect example
+    // showToast("You are not authorized to view this page.", "error"); // Example toast message
+} else {
+    console.log("Access granted. Proceeding with the operation.");
+}
 
 document.getElementById('backToJobPost').addEventListener('click', () => {
     window.history.back(); // Back to the previous page
