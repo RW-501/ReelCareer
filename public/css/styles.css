@@ -309,9 +309,15 @@ main .jobCard:hover {
     max-width: 600px;
     width: 90%;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-    position: relative;
+    position: absolute;
     text-align: center;
     transition: transform 0.3s ease-in-out;
+    top: 0;
+    margin: auto;
+    bottom: 0;
+    right: 0;
+    left: 0;
+
 }
 
 /* Close Button */
