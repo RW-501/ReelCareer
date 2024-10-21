@@ -751,9 +751,10 @@ text-align: left;
       try {
   const jobDocRef = doc(db, 'Jobs', jobId);
   const jobDoc = await getDoc(jobDocRef);
+  let jobData = '';
   
   if (jobDoc.exists()) {
-    const jobData = jobDoc.data();
+     jobData = jobDoc.data();
     jobData.id = jobDoc.id; // Attach the document ID to the data
     loadJobDetails(jobData); // Call loadJobDetails with jobData, now containing the ID
   } else {
@@ -1209,7 +1210,6 @@ document.getElementById('applyBtn').addEventListener('click', function() {
         document.location.href = `apply.html?jobId=${jobId}`;
     } else {
         // Show the modal for external application
-        const modal = document.getElementById('applicationModal');
         if (modal) {
             modal.style.display = 'block'; // Ensure modal is displayed
         }
@@ -1225,17 +1225,19 @@ if (proceedBtn) {
     });
 }
 
-    </script>
 
-  <script>
 
- 
     // Close modal if the user clicks outside of it
     window.addEventListener('click', function(event) {
       if (event.target == modal) {
         modal.style.display = 'none';
       }
     });
+    </script>
+
+  <script>
+
+ 
   </script>
 
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
