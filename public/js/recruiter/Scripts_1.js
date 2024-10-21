@@ -17,11 +17,6 @@ document.getElementById("addQuestionButton").addEventListener("click", function(
 function addQuestionField() {
     questionCounter++;
 
-    // Add an error message element after the input field
-const errorMessage = document.createElement('div');
-errorMessage.className = 'invalid-feedback'; // Bootstrap's invalid feedback class
-cardBody.appendChild(errorMessage);
-
     // Create the Bootstrap card for the question
     const questionDiv = document.createElement('div');
     questionDiv.id = `question-${questionCounter}`;
@@ -44,9 +39,7 @@ cardBody.appendChild(errorMessage);
     questionInput.placeholder = `Enter question ${questionCounter}`;
     questionInput.name = `question-${questionCounter}-text`;
 
-    // Add real-time validation for question text input
     addRealTimeValidation(questionInput);
-
     cardBody.appendChild(questionInput);
 
     // Add helpful hints below the input
@@ -55,34 +48,38 @@ cardBody.appendChild(errorMessage);
     helpfulHint.innerHTML = 'Tip: Make your question clear and concise to get the best responses.';
     cardBody.appendChild(helpfulHint);
 
-    // Add the buttons for multiple choice or statement
+    // Add Multiple Choice Button
     const multipleChoiceButton = document.createElement('button');
     multipleChoiceButton.type = 'button';
-    multipleChoiceButton.className = "btn btn-primary me-2"; // Added margin-end (me) for spacing
+    multipleChoiceButton.className = "btn btn-primary me-2";
     multipleChoiceButton.innerHTML = 'Multiple Choice';
-    multipleChoiceButton.onclick = function() {
+    multipleChoiceButton.onclick = function () {
         addMultipleChoice(questionDiv, questionCounter);
     };
     cardBody.appendChild(multipleChoiceButton);
 
+    // Add Statement Button
     const statementButton = document.createElement('button');
     statementButton.type = 'button';
     statementButton.className = "btn btn-secondary me-2";
     statementButton.innerHTML = 'Statement';
-    statementButton.onclick = function() {
+    statementButton.onclick = function () {
         addStatement(questionDiv);
     };
     cardBody.appendChild(statementButton);
 
-    // Add remove question button
+    // Add Remove Question Button
     const removeButton = document.createElement('button');
     removeButton.type = 'button';
-    removeButton.className = "btn btn-danger";
+    removeButton.className = "btn btn-danger mt-2";
     removeButton.innerHTML = 'Remove Question';
-    removeButton.onclick = function() {
+    removeButton.onclick = function () {
         removeQuestion(questionDiv);
     };
     cardBody.appendChild(removeButton);
+
+    // Add reset question label functionality
+    resetQuestionLabels();
 
     questionDiv.appendChild(cardBody);
 
