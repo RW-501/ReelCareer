@@ -576,7 +576,7 @@ function addStyles() {
                 color: #666;">
               <strong>Salary:</strong> ${formatCurrency(job.salary, {
                 decimals: 0
-              })}
+              })}<payPeriod class="ml-1 font-italic text-muted"> ${job.salaryPayTime || ""}</payPeriod>
             </p>
           </div>
     
