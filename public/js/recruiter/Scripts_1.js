@@ -393,3 +393,38 @@ const debouncedUpdateJobPreview = debounce(updateJobPreview, 200);
 // Attach debounced function to input and scroll events
 document.getElementById('jobForm').addEventListener('input', debouncedUpdateJobPreview);
 window.addEventListener('scroll', debouncedUpdateJobPreview);
+
+
+// Function to move focus to the next input
+function moveToNextInput(e) {
+    const form = e.target.form;
+    const inputs = Array.from(form.querySelectorAll('input, select, textarea'));
+
+    // If the Enter key was pressed and the target isn't the tags input
+    if (e.key === 'Enter' && e.target.id !== 'tagInput') {
+        e.preventDefault();
+        
+        const index = inputs.indexOf(e.target); // Get the index of the current input
+        const nextInput = inputs[index + 1]; // Get the next input
+
+        if (nextInput) {
+            nextInput.focus(); // Move focus to the next input
+        }
+    }
+}
+
+// Add the event listener to all input elements except the tags input
+document.addEventListener('DOMContentLoaded', () => {
+    const form = document.querySelector('#jobForm');
+    
+    // Add keydown event listener for Enter key to all inputs, selects, and textareas
+    form.querySelectorAll('input, select, textarea').forEach(input => {
+        input.addEventListener('keydown', moveToNextInput);
+    });
+    
+    // Skip adding event listener to the tags input field
+    const tagInput = document.getElementById('tagInput');
+    if (tagInput) {
+        tagInput.removeEventListener('keydown', moveToNextInput);
+    }
+});
