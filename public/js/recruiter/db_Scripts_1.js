@@ -483,6 +483,11 @@ fetchRecruiterData(user.uid);
       education: document.getElementById("education").value,
       experience: document.getElementById("experience").value,
       applicationLink: document.getElementById("applicationLink").value,
+
+      requestLetter: document.getElementById('requestLetter').checked,
+      coverLetter: document.getElementById('coverLetter').checked,
+      resumeRequired : document.getElementById('requiredResume').checked,
+
       immediateHire: document.getElementById("immediateHire").value,
       industry: document.getElementById("industry").value,
       benefits: document
@@ -515,7 +520,6 @@ fetchRecruiterData(user.uid);
     console.log("Job posted successfully with ID:", docRef.id);
   
 
-    console.log("jobDetails.companyId id???????????/   ",jobDetails.companyId);
 
     // Update the company's jobs array with the new job object
     const companyRef = doc(db, "Companies", jobDetails.companyId);

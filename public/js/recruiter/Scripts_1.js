@@ -189,6 +189,10 @@ function saveFormValues() {
         jobFunction: document.getElementById('jobFunction').value,
         contractToHire: document.getElementById('contractToHire').value,
         immediateHire: document.getElementById('immediateHire').value,
+        requestLetter: document.getElementById('requestLetter').checked,
+        coverLetter: document.getElementById('coverLetter').checked,
+        resumeRequired : document.getElementById('requiredResume'),checked,
+
         benefits: document.getElementById('benefits').value,
         education: Array.from(document.getElementById('education').selectedOptions).map(option => option.value),
         experience: Array.from(document.getElementById('experience').selectedOptions).map(option => option.value),
@@ -222,7 +226,11 @@ function loadFormValues() {
         document.getElementById('contractToHire').value = formValues.contractToHire || '';
         document.getElementById('immediateHire').value = formValues.immediateHire || '';
         document.getElementById('benefits').value = formValues.benefits || '';
-        
+        document.getElementById('requestLetter').checked = formValues.requestLetter || '';
+        document.getElementById('coverLetter').checked = formValues.coverLetter || '';
+        document.getElementById('requiredResume').checked =  formValues.requiredResume || '';
+
+
         // Set selected options for multiple selects
         if (formValues.education) {
             formValues.education.forEach(value => {
