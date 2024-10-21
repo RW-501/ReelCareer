@@ -1077,6 +1077,7 @@ jobID = jobData.id;
           reasons: selectedReasons,
           message: message,
           submittedAt: new Date(),
+          userID: userID,
         };
         // Send report to the SupportTickets collection in Firebase
         firebase.firestore().collection("SupportTickets").add(reportData)
