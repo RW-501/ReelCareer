@@ -752,7 +752,7 @@ text-align: left;
   const jobDocRef = doc(db, 'Jobs', jobId);
   const jobDoc = await getDoc(jobDocRef);
   let jobData = '';
-  
+
   if (jobDoc.exists()) {
      jobData = jobDoc.data();
     jobData.id = jobDoc.id; // Attach the document ID to the data
@@ -1179,11 +1179,12 @@ function openReportJobModal() {
 function closeReportJobModal() {
     document.getElementById('reportJobModal').style.display = 'none'; // No need for !important
 }
-/*
+
 // Attach the modal open/close functions to the global window object
 window.openReportJobModal = openReportJobModal;
 window.closeReportJobModal = closeReportJobModal;
-*/
+
+
 // Get elements for modal interactions
 const closeModal = document.querySelector('.close');
 const cancelBtn = document.getElementById('cancelBtn');
