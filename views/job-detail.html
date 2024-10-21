@@ -967,6 +967,7 @@ jobID = jobData.id;
       }
       async function loadRelatedBlogs(jobTags) {
         try {
+            console.log("jobTags  ", jobTags);
 
           // Reference the 'Blogs' collection and query for blogs with matching industry tags
           const blogsRef = collection(db, 'Blogs');
