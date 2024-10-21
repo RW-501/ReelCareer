@@ -366,8 +366,8 @@ let jobTitle = '';
 
 let companyData = '';
 let jobData = '';
-
-
+let jobId = '';
+let userIdURL = '';
 
     let userId = '';
     async function initializeUserId() {
@@ -380,8 +380,8 @@ let jobData = '';
                     // You can call your functions that require userId here
                     
 // Example usage
-const userIdURL = getUserIdFromURL();
-const jobId = getJobIdFromURL();
+ userIdURL = getUserIdFromURL();
+ jobId = getJobIdFromURL();
 
 console.log("jobId   ",jobId,"  userIdURL  ",userIdURL);
 
