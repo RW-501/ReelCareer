@@ -1089,6 +1089,42 @@ jobID = jobData.id;
             alert("There was an error submitting your report. Please try again later.");
           });
       }
+
+
+// Apply button event listener
+document.getElementById('applyBtn').addEventListener('click', function() {
+    if (jobData.applicationAvailableBool) {
+        // Redirect to the application page on your site
+        document.location.href = `apply.html?jobId=${jobId}`;
+    } else {
+        // Show the modal for external application
+        const modal = document.getElementById('applicationModal');
+
+        if (modal) {
+            modal.style.display = 'block'; // Ensure modal is displayed
+        }
+    }
+});
+
+// Proceed to external website on clicking the proceed button
+const proceedBtn = document.getElementById('proceedBtn');
+
+if (proceedBtn) {
+    proceedBtn.addEventListener('click', function() {
+        window.location.href = jobData.applicationWebsite;
+    });
+}
+
+
+
+
+
+
+
+
+
+
+
       // Job Schema Function
       function createJobSchema(jobData) {
         // Validate jobData if necessary
@@ -1202,28 +1238,6 @@ if (closeModal) {
 if (cancelBtn) {
     cancelBtn.addEventListener('click', function() {
         modal.style.display = 'none'; // No need for !important
-    });
-}
-
-// Apply button event listener
-document.getElementById('applyBtn').addEventListener('click', function() {
-    if (jobData.applicationAvailableBool) {
-        // Redirect to the application page on your site
-        document.location.href = `apply.html?jobId=${jobId}`;
-    } else {
-        // Show the modal for external application
-        if (modal) {
-            modal.style.display = 'block'; // Ensure modal is displayed
-        }
-    }
-});
-
-// Proceed to external website on clicking the proceed button
-const proceedBtn = document.getElementById('proceedBtn');
-
-if (proceedBtn) {
-    proceedBtn.addEventListener('click', function() {
-        window.location.href = jobData.applicationWebsite;
     });
 }
 
