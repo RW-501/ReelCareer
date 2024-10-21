@@ -631,6 +631,12 @@ async function submitApplication(boosted = false) {
             // Send the applicant's personal data compliance (PDC) information
             await sendToAppDataCompliance(applicant_PDC);
 
+                     // Update user's document with the job application info
+                     const userDocRef = doc(db, 'Users', userId); // Reference to the user's document
+            await updateDoc(userDocRef, {
+                userApps: arrayUnion({ jobId, jobTitle, companyName, status, boostedApp, applyDate: new Date().toISOString() })
+            });
+
             // Show success message
             showToast('Application submitted successfully!', 'success');
         } catch (error) {
