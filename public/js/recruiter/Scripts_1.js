@@ -17,6 +17,11 @@ document.getElementById("addQuestionButton").addEventListener("click", function(
 function addQuestionField() {
     questionCounter++;
 
+    // Add an error message element after the input field
+const errorMessage = document.createElement('div');
+errorMessage.className = 'invalid-feedback'; // Bootstrap's invalid feedback class
+cardBody.appendChild(errorMessage);
+
     // Create the Bootstrap card for the question
     const questionDiv = document.createElement('div');
     questionDiv.id = `question-${questionCounter}`;
@@ -129,6 +134,7 @@ function resetQuestionLabels() {
         card.querySelector('input').placeholder = `Enter question ${questionCounter}`;
         card.querySelector('input').name = `question-${questionCounter}-text`;
 
+        
         // Update name for multiple choice options
         const multipleChoiceDiv = card.querySelector(`#multiple-choice-${index + 1}`);
         if (multipleChoiceDiv) {
@@ -284,10 +290,7 @@ questionInput.name = `question-${questionCounter}-text`;
 
 addRealTimeValidation(questionInput);
 
-// Add an error message element after the input field
-const errorMessage = document.createElement('div');
-errorMessage.className = 'invalid-feedback'; // Bootstrap's invalid feedback class
-cardBody.appendChild(errorMessage);
+
 
 
 
