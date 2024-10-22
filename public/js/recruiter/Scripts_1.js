@@ -137,14 +137,26 @@ function addQuestionField() {
     // Refresh drag-and-drop functionality after adding a new question
     refreshDragAndDrop();
 }
-
-
-// Function to show suggestions for common questions
+// Function to show suggestions for common questions with collapsible container
+// Function to show suggestions for common questions with collapsible container
 function showQuestionSuggestions(cardBody, questionCounter) {
-    const suggestionsContainer = document.createElement('ul');
-    suggestionsContainer.className = "list-group mb-2"; // Bootstrap class for styling
+    // Create a collapsible container
+    const collapseButton = document.createElement('button');
+    collapseButton.className = 'btn btn-secondary mb-2';
+    collapseButton.type = 'button';
+    collapseButton.setAttribute('data-toggle', 'collapse');
+    collapseButton.setAttribute('data-target', `#suggestionsContainer${questionCounter}`);
+    collapseButton.setAttribute('aria-expanded', 'false');
+    collapseButton.setAttribute('aria-controls', `suggestionsContainer${questionCounter}`);
+    collapseButton.textContent = 'Show Suggestions';
 
+    // Suggestions container (collapsible)
+    const suggestionsContainer = document.createElement('div');
+    suggestionsContainer.id = `suggestionsContainer${questionCounter}`;
+    suggestionsContainer.className = 'collapse'; // Bootstrap collapse class
 
+    const suggestionList = document.createElement('div');
+    suggestionList.className = "list-group mb-2"; // Bootstrap list group for styling
 
     // Expanded list of suggestions with multiple choice questions
     const allSuggestions = [
@@ -188,24 +200,28 @@ function showQuestionSuggestions(cardBody, questionCounter) {
     // Limit to 5 random suggestions per question
     const randomSuggestions = shuffledSuggestions.slice(0, 5);
 
+    // Convert suggestions to buttons
     randomSuggestions.forEach(suggestion => {
-        const suggestionItem = document.createElement('li');
-        suggestionItem.className = "list-group-item";
-        suggestionItem.textContent = suggestion;
-    
+        const suggestionButton = document.createElement('button');
+        suggestionButton.className = "btn btn-outline-primary btn-sm mb-2";
+        suggestionButton.textContent = suggestion;
+        suggestionButton.style.display = 'block'; // Make each button take its own line
 
+        // Add click event to populate the question input
+        suggestionButton.onclick = function () {
+            const questionInput = cardBody.querySelector('input');
+            questionInput.value = suggestion;
+        };
 
- // Optionally add a click event to populate the question input
- suggestionItem.onclick = function() {
-    const questionInput = cardBody.querySelector('input');
-    questionInput.value = suggestion;
-};
+        suggestionList.appendChild(suggestionButton);
+    });
 
-suggestionsContainer.appendChild(suggestionItem);
-});
+    // Append the suggestion list to the collapsible container
+    suggestionsContainer.appendChild(suggestionList);
 
-// Append the suggestions container above the question input
-cardBody.appendChild(suggestionsContainer);
+    // Append the collapse button and collapsible suggestions container to the card body
+    cardBody.appendChild(collapseButton);
+    cardBody.appendChild(suggestionsContainer);
 }
 
 
