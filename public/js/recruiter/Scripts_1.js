@@ -779,7 +779,7 @@ function moveToNextInput(e) {
     const inputs = Array.from(form.querySelectorAll('input, select, textarea'));
 
     // If the Enter key was pressed and the target isn't the tags input
-    if (e.key === 'Enter' && e.target.className !== 'tagInput') {
+    if (e.key === 'Enter' && e.target.classList !== 'tagInput') {
         e.preventDefault();
         
         const index = inputs.indexOf(e.target); // Get the index of the current input
