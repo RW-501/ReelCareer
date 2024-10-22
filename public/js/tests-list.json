@@ -1,0 +1,208 @@
+{ "suggestions": [ 
+    {
+      "id": 1,
+      "title": "Big Five Personality Test",
+      "imagesURL": "https://example.com/images/big-five-personality-test.jpg",
+      "briefDescription": "Discover your dominant personality traits across five dimensions.",
+      "difficulty": [
+        { "Easy": "Active" },
+        { "Medium": "Coming Soon" },
+        { "Hard": "Coming Soon" }
+      ],
+      "audience": "Individuals interested in self-discovery"
+    },
+    {
+      "id": 2,
+      "title": "Myers-Briggs Type Indicator (MBTI)",
+      "imagesURL": "https://example.com/images/mbti.jpg",
+      "briefDescription": "Find out your personality type based on your preferences.",
+      "difficulty": [
+        { "Easy": "Active" },
+        { "Medium": "Coming Soon" },
+        { "Hard": "Coming Soon" }
+      ],
+      "audience": "Individuals seeking to understand their personality"
+    },
+    {
+      "id": 3,
+      "title": "Personality Preferences Test (Likert Scale)",
+      "imagesURL": "https://example.com/images/personality-preferences-test.jpg",
+      "briefDescription": "Gauge your preferences and tendencies in various situations.",
+      "difficulty": [
+        { "Easy": "Active" },
+        { "Medium": "Coming Soon" },
+        { "Hard": "Coming Soon" }
+      ],
+      "audience": "Individuals interested in personal insights"
+    },
+    {
+      "id": 4,
+      "title": "Emotional Intelligence (EQ) Test",
+      "imagesURL": "https://example.com/images/emotional-intelligence-test.jpg",
+      "briefDescription": "Measure your ability to recognize and manage emotions.",
+      "difficulty": [
+        { "Easy": "Coming Soon" },
+        { "Medium": "Coming Soon" },
+        { "Hard": "Coming Soon" }
+      ],
+      "audience": "Individuals looking to improve emotional awareness"
+    },
+    {
+      "id": 5,
+      "title": "Trait Self-Esteem Test",
+      "imagesURL": "https://example.com/images/trait-self-esteem-test.jpg",
+      "briefDescription": "Assess your level of self-esteem based on different traits.",
+      "difficulty": [
+        { "Easy": "Coming Soon" },
+        { "Medium": "Coming Soon" },
+        { "Hard": "Coming Soon" }
+      ],
+      "audience": "Individuals seeking self-improvement"
+    },
+    {
+      "id": 6,
+      "title": "Workplace Behavior & Strengths Test",
+      "imagesURL": "https://example.com/images/workplace-behavior-test.jpg",
+      "briefDescription": "Identify your preferred work style and strengths in professional environments.",
+      "difficulty": [
+        { "Easy": "Coming Soon" },
+        { "Medium": "Coming Soon" },
+        { "Hard": "Coming Soon" }
+      ],
+      "audience": "Professionals and team members"
+    },
+    {
+      "id": 7,
+      "title": "Communication Style Test",
+      "imagesURL": "https://example.com/images/communication-style-test.jpg",
+      "briefDescription": "Learn your communication style in various contexts.",
+      "difficulty": [
+        { "Easy": "Coming Soon" },
+        { "Medium": "Coming Soon" },
+        { "Hard": "Coming Soon" }
+      ],
+      "audience": "Individuals seeking to enhance communication skills"
+    },
+    {
+      "id": 8,
+      "title": "Cognitive Abilities Test",
+      "imagesURL": "https://example.com/images/cognitive-abilities-test.jpg",
+      "briefDescription": "Measure your reasoning and problem-solving skills.",
+      "difficulty": [
+        { "Easy": "Coming Soon" },
+        { "Medium": "Coming Soon" },
+        { "Hard": "Coming Soon" }
+      ],
+      "audience": "Individuals wanting to assess cognitive skills"
+    },
+    {
+      "id": 9,
+      "title": "Conflict Resolution Style Test",
+      "imagesURL": "https://example.com/images/conflict-resolution-test.jpg",
+      "briefDescription": "Discover how you handle conflict and stressful situations.",
+      "difficulty": [
+        { "Easy": "Coming Soon" },
+        { "Medium": "Coming Soon" },
+        { "Hard": "Coming Soon" }
+      ],
+      "audience": "Individuals interested in conflict management"
+    },
+    {
+      "id": 10,
+      "title": "Career Values Assessment",
+      "imagesURL": "https://example.com/images/career-values-assessment.jpg",
+      "briefDescription": "Understand what motivates you at work.",
+      "difficulty": [
+        { "Easy": "Coming Soon" },
+        { "Medium": "Coming Soon" },
+        { "Hard": "Coming Soon" }
+      ],
+      "audience": "Professionals seeking career insights"
+    },
+    {
+      "id": 11,
+      "title": "Motivation and Drive Test",
+      "imagesURL": "https://example.com/images/motivation-drive-test.jpg",
+      "briefDescription": "Assess what drives you to succeed and your motivation levels.",
+      "difficulty": [
+        { "Easy": "Coming Soon" },
+        { "Medium": "Coming Soon" },
+        { "Hard": "Coming Soon" }
+      ],
+      "audience": "Individuals seeking personal growth"
+    },
+    {
+      "id": 12,
+      "title": "Team Role Assessment",
+      "imagesURL": "https://example.com/images/team-role-assessment.jpg",
+      "briefDescription": "Identify the role you naturally take in team settings.",
+      "difficulty": [
+        { "Easy": "Coming Soon" },
+        { "Medium": "Coming Soon" },
+        { "Hard": "Coming Soon" }
+      ],
+      "audience": "Professionals and team members"
+    },
+    {
+      "id": 13,
+      "title": "Leadership Style Test",
+      "imagesURL": "https://example.com/images/leadership-style-test.jpg",
+      "briefDescription": "Determine your leadership approach.",
+      "difficulty": [
+        { "Easy": "Coming Soon" },
+        { "Medium": "Coming Soon" },
+        { "Hard": "Coming Soon" }
+      ],
+      "audience": "Managers and aspiring leaders"
+    },
+    {
+      "id": 14,
+      "title": "Creativity and Innovation Test",
+      "imagesURL": "https://example.com/images/creativity-innovation-test.jpg",
+      "briefDescription": "Measure your creative problem-solving abilities.",
+      "difficulty": [
+        { "Easy": "Coming Soon" },
+        { "Medium": "Coming Soon" },
+        { "Hard": "Coming Soon" }
+      ],
+      "audience": "Professionals and creatives"
+    },
+    {
+      "id": 15,
+      "title": "Adaptability and Flexibility Test",
+      "imagesURL": "https://example.com/images/adaptability-flexibility-test.jpg",
+      "briefDescription": "Assess how well you adapt to changing circumstances.",
+      "difficulty": [
+        { "Easy": "Coming Soon" },
+        { "Medium": "Coming Soon" },
+        { "Hard": "Coming Soon" }
+      ],
+      "audience": "Individuals seeking personal development"
+    },
+    {
+      "id": 16,
+      "title": "Stress Management Test",
+      "imagesURL": "https://example.com/images/stress-management-test.jpg",
+      "briefDescription": "Evaluate how you handle stress in various environments.",
+      "difficulty": [
+        { "Easy": "Coming Soon" },
+        { "Medium": "Coming Soon" },
+        { "Hard": "Coming Soon" }
+      ],
+      "audience": "Individuals seeking to improve stress management"
+    },
+    {
+      "id": 17,
+      "title": "Decision-Making Style Test",
+      "imagesURL": "https://example.com/images/decision-making-style-test.jpg",
+      "briefDescription": "Learn how you make decisions under pressure.",
+      "difficulty": [
+        { "Easy": "Coming Soon" },
+        { "Medium": "Coming Soon" },
+        { "Hard": "Coming Soon" }
+      ],
+      "audience": "Professionals and leaders"
+    }
+  ]
+}
+  

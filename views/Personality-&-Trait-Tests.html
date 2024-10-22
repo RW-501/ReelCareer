@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personality & Trait Tests</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+       body {
+    font-family: Arial, sans-serif;
+}
+
+header {
+    background: #f8f9fa;
+    padding: 50px 0;
+}
+
+.card {
+    margin: 20px 0;
+}
+
+.card-title {
+    font-size: 1.5em;
+}
+
+.progress {
+    height: 20px;
+}
+ 
+    </style>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header class="text-center py-5 bg-light">
+        <h1>Explore Our Personality & Trait Tests</h1>
+        <p>Discover insights about yourself with engaging and fun tests!</p>
+        <img src="path/to/your/visuals.jpg" alt="Test Visuals" class="img-fluid">
+    </header>
+
+    <!-- Test List Section -->
+    <section class="container my-5">
+        <div class="row" id="testList">
+            <!-- Test Cards will be dynamically inserted here -->
+        </div>
+    </section>
+
+    <!-- Test Detail Modal -->
+    <div class="modal fade" id="testDetailModal" tabindex="-1" role="dialog" aria-labelledby="testDetailModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="testDetailModalLabel">Test Details</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p id="testOverview"></p>
+                    <h6>Examples:</h6>
+                    <p id="testExamples"></p>
+                    <h6>Choose Length:</h6>
+                    <select id="testLength" class="form-control">
+                        <option value="short">Short (10 mins)</option>
+                        <option value="full">Full (20 mins)</option>
+                    </select>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="startTestButton">Start Test</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Results Page (Hidden Until Test Completion) -->
+    <section class="container my-5" id="resultsSection" style="display:none;">
+        <h2>Your Test Results</h2>
+        <p id="resultsSummary"></p>
+        <div id="detailedAnalysis"></div>
+        <div id="recommendations"></div>
+        <button class="btn btn-success" id="shareResults">Share Results</button>
+        <button class="btn btn-primary" id="exploreMoreTests">Explore More Tests</button>
+    </section>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="script.js"></script>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 20px;
+}
+
+#tests-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Spacing between tests */
+}
+
+.test-item {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    padding: 15px;
+    align-items: center;
+}
+
+.test-image {
+    flex-shrink: 0; /* Prevent image from shrinking */
+    margin-right: 15px;
+}
+
+.test-img {
+    border-radius: 5px;
+    width: 80px; /* Fixed width for consistency */
+    height: auto; /* Maintain aspect ratio */
+}
+
+.test-details {
+    flex-grow: 1; /* Allow details to take available space */
+}
+
+.test-title {
+    font-size: 1.5rem;
+    margin: 0 0 5px; /* Spacing for title */
+    color: #333;
+}
+
+.test-description {
+    font-size: 1rem;
+    color: #666;
+}
+
+.test-audience {
+    font-weight: bold;
+    color: #444;
+}
+
+.test-difficulty {
+    margin-top: 10px; /* Spacing above difficulty buttons */
+}
+
+.difficulty-button {
+    background-color: #007bff; /* Bootstrap primary color */
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+    padding: 8px 12px;
+    margin-right: 10px; /* Spacing between buttons */
+    transition: background-color 0.3s ease;
+}
+
+.difficulty-button:hover {
+    background-color: #0056b3; /* Darker shade on hover */
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent background */
+    padding-top: 60px;
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 5% auto;
+    padding: 20px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 500px; /* Limit modal width */
+}
+
+.close-button {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+
+
+
+</style>
+    <script>
+
+
+
+document.addEventListener("DOMContentLoaded", () => {
+    const testsContainer = document.getElementById("tests-container");
+    const modal = document.getElementById("infoModal");
+    const modalBody = document.getElementById("modal-body");
+    const closeButton = document.querySelector(".close-button");
+
+    // Fetch the JSON data
+    fetch('https://reelcareer.co/public/js/main-test-list.json') // Update with your JSON path
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error("Network response was not ok: " + response.statusText);
+            }
+            return response.json(); // Parse the JSON response
+        })
+        .then((data) => {
+            const previewList = data.previewList;
+            const easyTests = data.easy; // Store easy tests
+            const mediumTests = data.medium; // Store medium tests
+            const hardTests = data.hard; // Store hard tests
+
+            previewList.forEach(test => {
+                // Create test item
+                const testItem = document.createElement("div");
+                testItem.classList.add("test-item");
+
+                testItem.innerHTML = `
+                    <div class="test-image">
+                        <img src="${test.imagesURL}" alt="${test.title}" loading="lazy" class="test-img">
+                    </div>
+                    <div class="test-details">
+                        <h3 class="test-title">${test.title}</h3>
+                        <p class="test-description">${test.briefDescription}</p>
+                        <p class="test-audience"><strong>Audience:</strong> ${test.audience}</p>
+                        <div class="test-difficulty">
+                            ${test.difficulty.map(diff => {
+                                const difficultyLevel = Object.keys(diff)[0];
+                                return `
+                                    <button 
+                                        class="difficulty-button" 
+                                        onclick="showModal(${test.id}, '${difficultyLevel}')"
+                                        aria-label="Select ${difficultyLevel} difficulty for ${test.title}">
+                                        ${difficultyLevel}
+                                    </button>
+                                `;
+                            }).join('')}
+                        </div>
+                    </div>
+                `;
+
+                testsContainer.appendChild(testItem);
+            });
+
+// Function to show the modal
+window.showModal = function (testId, difficulty) {
+    let selectedTestData;
+
+    // Fetch the corresponding test data based on difficulty
+    switch (difficulty) {
+        case 'Easy':
+            selectedTestData = easyTests.find(test => test.ID === testId);
+            break;
+        case 'Medium':
+            selectedTestData = mediumTests.find(test => test.ID === testId);
+            break;
+        case 'Hard':
+            selectedTestData = hardTests.find(test => test.ID === testId);
+            break;
+        default:
+            console.error('Invalid difficulty level selected.');
+            return;
+    }
+
+    if (selectedTestData) {
+        modalBody.innerHTML = `
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>${selectedTestData.title}</h2>
+                    <button class="close-button" aria-label="Close modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <img src="${selectedTestData.imagesURL}" alt="${selectedTestData.title} image" class="test-image" loading="lazy">
+                    <p><strong>Difficulty:</strong> ${difficulty}</p>
+                    <p><strong>Category:</strong> ${selectedTestData.category}</p>
+                    <p><strong>Audience:</strong> ${selectedTestData.audience}</p>
+                    <p><strong>Estimated Time:</strong> ${selectedTestData.estimatedTime}</p>
+                    <p><strong>Instructions:</strong> ${selectedTestData.instructions}</p>
+                    <p><strong>Overview:</strong> ${selectedTestData.overview}</p>
+                    <p><strong>Completion Rate:</strong> ${selectedTestData.completionRate}%</p>
+                    <p><strong>Completion Reward:</strong> ${selectedTestData.completionReward}</p>
+                    <p><strong>Grading System:</strong> ${selectedTestData.gradingSystem}</p>
+                    <p><strong>Number of Questions:</strong> ${selectedTestData.numberOfQuestions}</p>
+                    <p><strong>Tags:</strong> ${selectedTestData.tags.join(', ')}</p>
+                    <p><strong>Example Question:</strong> ${selectedTestData.examples}</p>
+                    <p><strong>Result Interpretation:</strong> ${selectedTestData.resultInterpretation}</p>
+
+                    <div class="census-data">
+                        <h4>Census Data:</h4>
+                        <p><strong>Total Participants:</strong> ${selectedTestData.censusData.totalParticipants}</p>
+                        <p><strong>Average Scores:</strong></p>
+                        <ul>
+                            <li>Openness: ${selectedTestData.censusData.averageScore.Openness}</li>
+                            <li>Conscientiousness: ${selectedTestData.censusData.averageScore.Conscientiousness}</li>
+                            <li>Extraversion: ${selectedTestData.censusData.averageScore.Extraversion}</li>
+                            <li>Agreeableness: ${selectedTestData.censusData.averageScore.Agreeableness}</li>
+                            <li>Neuroticism: ${selectedTestData.censusData.averageScore.Neuroticism}</li>
+                        </ul>
+                    </div>
+                    
+                    <button class="status-button" aria-label="Test Status">${selectedTestData.completionRate < 100 ? 'Coming Soon' : 'Available'}</button>
+                </div>
+            </div>
+        `;
+        modal.style.display = "block";
+    } else {
+        modalBody.innerHTML = `<p>No additional information available for this test.</p>`;
+        modal.style.display = "block";
+                }
+            };
+
+        })
+        .catch(error => console.error('Error fetching the tests:', error));
+
+    // Close the modal
+    closeButton.onclick = () => {
+        modal.style.display = "none";
+    };
+
+    window.onclick = (event) => {
+        if (event.target === modal) {
+            modal.style.display = "none";
+        }
+    };
+});
+
+
+
+
+
+
+    </script>
+</body>
+</html>

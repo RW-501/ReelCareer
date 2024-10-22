@@ -1,0 +1,1465 @@
+{ "DetailedList": [ 
+  {
+    "easy": [
+            {
+              "ID": 1,
+              "description": "Discover your dominant personality traits across five dimensions (Openness, Conscientiousness, Extraversion, Agreeableness, and Neuroticism).",
+              "category": "Personality",
+              "audience": "General public, job seekers",
+              "instructions": "Answer all questions based on how you typically feel and behave to get an accurate result.",
+              "resultInterpretation": "Your scores will be displayed on a scale for each of the five traits. Higher scores indicate stronger traits.",
+              "estimatedTime": "15-20 minutes",
+              "format": "Multiple-choice questions",
+              "tags": ["Personality", "Big Five", "Traits", "Self-discovery"],
+              "examples": "I enjoy trying new things. (Agree, Neutral, Disagree)",
+              "overview": "A comprehensive test that gives insight into your personality by scoring you across five major dimensions.",
+              "imagesURL": "https://example.com/images/big-five.jpg",
+              "maxScore": 100,
+              "gradingSystem": "Scale of 1-100 for each trait",
+              "numberOfQuestions": 50,
+              "completionRate": 90,
+              "censusData": {
+                "totalParticipants": 200000,
+                "averageScore": {
+                  "Openness": 70,
+                  "Conscientiousness": 65,
+                  "Extraversion": 60,
+                  "Agreeableness": 72,
+                  "Neuroticism": 50
+                }
+              },
+              "prerequisites": "None",
+              "completionReward": "Personalized Personality Report"
+            },
+            {
+              "ID": 2,
+              "description": "Find out your personality type based on preferences in how you perceive the world (e.g., INFP, ENTJ).",
+              "category": "Personality",
+              "audience": "General public, students, professionals",
+              "instructions": "Answer each question based on your instinctual responses to situations.",
+              "resultInterpretation": "You'll be categorized into one of the 16 personality types based on your answers.",
+              "estimatedTime": "10-15 minutes",
+              "format": "Multiple-choice questions",
+              "tags": ["Personality", "MBTI", "16 Personalities", "Self-assessment"],
+              "examples": "I prefer to work alone. (Yes, No)",
+              "overview": "A widely recognized test that groups people into one of 16 personality types based on their thinking, feeling, and perception patterns.",
+              "imagesURL": "https://example.com/images/mbti.jpg",
+              "maxScore": 16,
+              "gradingSystem": "Categorical (e.g., INFP, ENTJ)",
+              "numberOfQuestions": 40,
+              "completionRate": 85,
+              "censusData": {
+                "totalParticipants": 150000,
+                "mostCommonType": "INFJ",
+                "leastCommonType": "ENTJ"
+              },
+              "prerequisites": "None",
+              "completionReward": "MBTI Personality Type Report"
+            },
+            {
+              "ID": 3,
+              "description": "Gauge your preferences and tendencies in various situations using a simple scale (More like me, Like me, A little like me, Not like me).",
+              "category": "Personality",
+              "audience": "General public",
+              "instructions": "Respond based on your usual behavior in different situations.",
+              "resultInterpretation": "Your results will indicate which preferences you lean towards in various personality aspects.",
+              "estimatedTime": "10-15 minutes",
+              "format": "Likert scale questions",
+              "tags": ["Personality", "Preferences", "Likert Scale"],
+              "examples": "I prefer working in teams. (More like me, Like me, A little like me, Not like me)",
+              "overview": "A simple preference-based test that helps you understand your personality and behavior in various situations.",
+              "imagesURL": "https://example.com/images/preferences-test.jpg",
+              "maxScore": "N/A",
+              "gradingSystem": "Preferences displayed on a scale",
+              "numberOfQuestions": 30,
+              "completionRate": 80,
+              "censusData": {
+                "totalParticipants": 120000,
+                "averagePreference": "Moderate agreement with teamwork"
+              },
+              "prerequisites": "None",
+              "completionReward": "Personality Preference Overview"
+            },
+            {
+              "ID": 4,
+              "description": "Measure your ability to recognize, understand, and manage your emotions and those of others.",
+              "category": "Emotional Intelligence",
+              "audience": "Professionals, students, general public",
+              "instructions": "Respond honestly to the scenario-based questions to accurately measure your emotional intelligence.",
+              "resultInterpretation": "Scores will reveal your strengths and areas for improvement in emotional awareness and regulation.",
+              "estimatedTime": "15-20 minutes",
+              "format": "Multiple-choice or scenario-based questions",
+              "tags": ["Emotional Intelligence", "EQ", "Self-awareness"],
+              "examples": "How would you handle a stressful work situation? (Choose the best option)",
+              "overview": "A test designed to assess your emotional intelligence, including self-awareness, empathy, and emotional regulation.",
+              "imagesURL": "https://example.com/images/eq-test.jpg",
+              "maxScore": 100,
+              "gradingSystem": "Percentile",
+              "numberOfQuestions": 40,
+              "completionRate": 75,
+              "censusData": {
+                "totalParticipants": 100000,
+                "averageEQScore": 70
+              },
+              "prerequisites": "None",
+              "completionReward": "EQ Strengths and Weaknesses Report"
+            },
+            {
+              "ID": 5,
+              "description": "Assess your level of self-esteem and self-worth based on different traits.",
+              "category": "Personality",
+              "audience": "General public, job seekers",
+              "instructions": "Rate each statement based on how much you agree with it, considering your self-esteem in different aspects of life.",
+              "resultInterpretation": "Scores will indicate your general level of self-esteem.",
+              "estimatedTime": "10-12 minutes",
+              "format": "Likert scale (Agree, Somewhat Agree, Disagree)",
+              "tags": ["Self-Esteem", "Personality", "Self-worth"],
+              "examples": "I feel confident in my abilities. (Agree, Somewhat Agree, Disagree)",
+              "overview": "A brief test designed to measure your self-esteem in various aspects of life.",
+              "imagesURL": "https://example.com/images/self-esteem-test.jpg",
+              "maxScore": 50,
+              "gradingSystem": "Scale",
+              "numberOfQuestions": 20,
+              "completionRate": 88,
+              "censusData": {
+                "totalParticipants": 80000,
+                "averageScore": 35
+              },
+              "prerequisites": "None",
+              "completionReward": "Self-Esteem Overview Report"
+            },
+                {
+                  "ID": 6,
+                  "description": "Identify your preferred work style and strengths in professional environments (e.g., teamwork, leadership, adaptability).",
+                  "category": "Workplace Behavior",
+                  "audience": "Professionals, job seekers, employees",
+                  "instructions": "Answer each scenario with how you typically respond in a professional environment.",
+                  "resultInterpretation": "Your results will indicate your dominant work behaviors and strengths in various work-related situations.",
+                  "estimatedTime": "10-15 minutes",
+                  "format": "Scenario-based questions",
+                  "tags": ["Workplace", "Strengths", "Behavior", "Teamwork", "Leadership"],
+                  "examples": "You are assigned a group task with a tight deadline. How do you approach it? (Choose the best option)",
+                  "overview": "This test evaluates your behavior in the workplace, helping you understand your strengths and work style preferences.",
+                  "imagesURL": "https://example.com/images/workplace-test.jpg",
+                  "maxScore": 100,
+                  "gradingSystem": "Scale of 1-100 in different behavioral categories (e.g., teamwork, adaptability)",
+                  "numberOfQuestions": 25,
+                  "completionRate": 85,
+                  "censusData": {
+                    "totalParticipants": 50000,
+                    "averageScore": {
+                      "Teamwork": 75,
+                      "Leadership": 65,
+                      "Adaptability": 80
+                    }
+                  },
+                  "prerequisites": "None",
+                  "completionReward": "Workplace Strengths Report"
+                },
+                {
+                  "ID": 7,
+                  "description": "Learn your communication style, whether you're more direct, empathetic, assertive, or passive.",
+                  "category": "Communication",
+                  "audience": "General public, professionals",
+                  "instructions": "Choose the response that best reflects your communication approach in everyday and professional situations.",
+                  "resultInterpretation": "Results will reveal your dominant communication style, which can help in both personal and professional settings.",
+                  "estimatedTime": "10 minutes",
+                  "format": "Likert scale or scenario-based",
+                  "tags": ["Communication", "Style", "Empathy", "Assertiveness", "Professional"],
+                  "examples": "How do you typically respond when someone disagrees with you? (Direct, Empathetic, Assertive, Passive)",
+                  "overview": "This test helps identify your communication style, whether it's more direct, empathetic, passive, or assertive.",
+                  "imagesURL": "https://example.com/images/communication-test.jpg",
+                  "maxScore": "N/A",
+                  "gradingSystem": "Categorical (Direct, Empathetic, Assertive, Passive)",
+                  "numberOfQuestions": 20,
+                  "completionRate": 90,
+                  "censusData": {
+                    "totalParticipants": 45000,
+                    "mostCommonStyle": "Empathetic"
+                  },
+                  "prerequisites": "None",
+                  "completionReward": "Communication Style Summary"
+                },
+                {
+                  "ID": 8,
+                  "description": "Measure your reasoning, problem-solving, and logical thinking skills.",
+                  "category": "Cognitive Abilities",
+                  "audience": "General public, students, professionals",
+                  "instructions": "Solve the puzzles and answer the questions to assess your cognitive abilities.",
+                  "resultInterpretation": "Scores indicate your cognitive strengths, such as problem-solving, reasoning, and logical thinking.",
+                  "estimatedTime": "15-20 minutes",
+                  "format": "Multiple-choice questions or puzzles",
+                  "tags": ["Cognitive", "Problem-solving", "Reasoning", "Logic"],
+                  "examples": "Solve this pattern puzzle: What comes next? (Choose the best option)",
+                  "overview": "This test measures different aspects of cognitive ability, including logical reasoning and problem-solving.",
+                  "imagesURL": "https://example.com/images/cognitive-test.jpg",
+                  "maxScore": 120,
+                  "gradingSystem": "Score-based",
+                  "numberOfQuestions": 35,
+                  "completionRate": 70,
+                  "censusData": {
+                    "totalParticipants": 60000,
+                    "averageScore": 85
+                  },
+                  "prerequisites": "None",
+                  "completionReward": "Cognitive Abilities Report"
+                },
+                {
+                  "ID": 9,
+                  "description": "Discover how you handle conflict and stressful situations.",
+                  "category": "Conflict Resolution",
+                  "audience": "General public, professionals",
+                  "instructions": "Rate each statement based on how you typically respond to conflict or stress.",
+                  "resultInterpretation": "Your results will categorize your conflict resolution style (e.g., Avoider, Collaborator, Competitor).",
+                  "estimatedTime": "10 minutes",
+                  "format": "Likert scale (Agree, Disagree, Neutral)",
+                  "tags": ["Conflict", "Resolution", "Stress", "Handling", "Style"],
+                  "examples": "When faced with a disagreement, I try to find a solution that works for everyone. (Agree, Disagree, Neutral)",
+                  "overview": "This test evaluates how you handle conflict and stressful situations in different environments.",
+                  "imagesURL": "https://example.com/images/conflict-resolution-test.jpg",
+                  "maxScore": "N/A",
+                  "gradingSystem": "Categorical (Avoider, Collaborator, Competitor, etc.)",
+                  "numberOfQuestions": 15,
+                  "completionRate": 88,
+                  "censusData": {
+                    "totalParticipants": 30000,
+                    "mostCommonStyle": "Collaborator"
+                  },
+                  "prerequisites": "None",
+                  "completionReward": "Conflict Resolution Style Overview"
+                },
+                {
+                  "ID": 10,
+                  "description": "Understand what motivates you at work—whether it’s salary, stability, creativity, or personal growth.",
+                  "category": "Career Values",
+                  "audience": "Job seekers, professionals",
+                  "instructions": "Answer each question about what you prioritize and value in your career.",
+                  "resultInterpretation": "The results will indicate your dominant career values (e.g., Stability, Creativity, Financial Reward).",
+                  "estimatedTime": "12-15 minutes",
+                  "format": "Likert scale",
+                  "tags": ["Career", "Values", "Motivation", "Work"],
+                  "examples": "I value a stable work environment over creative freedom. (Agree, Disagree, Neutral)",
+                  "overview": "This assessment helps users identify their key motivators and values in their professional life.",
+                  "imagesURL": "https://example.com/images/career-values-test.jpg",
+                  "maxScore": "N/A",
+                  "gradingSystem": "Categorical (Stability, Financial Reward, Creativity, etc.)",
+                  "numberOfQuestions": 20,
+                  "completionRate": 82,
+                  "censusData": {
+                    "totalParticipants": 40000,
+                    "mostCommonValue": "Stability"
+                  },
+                  "prerequisites": "None",
+                  "completionReward": "Career Values Summary Report"
+                },
+                {
+                  "ID": 11,
+                  "description": "Assess what drives you to succeed and how motivated you are in various tasks.",
+                  "category": "Motivation and Drive",
+                  "audience": "General public, professionals",
+                  "instructions": "Rate how motivated you feel towards various tasks and goals.",
+                  "resultInterpretation": "Results indicate your level of intrinsic and extrinsic motivation, providing insight into what drives you to achieve goals.",
+                  "estimatedTime": "10 minutes",
+                  "format": "Likert scale (Very motivated, Somewhat motivated, Neutral, Not motivated)",
+                  "tags": ["Motivation", "Drive", "Success", "Goals"],
+                  "examples": "How motivated are you to complete tasks with no immediate reward? (Very motivated, Somewhat motivated, Neutral, Not motivated)",
+                  "overview": "This test measures your overall motivation and drive, both intrinsic and extrinsic, across different areas of life.",
+                  "imagesURL": "https://example.com/images/motivation-test.jpg",
+                  "maxScore": 100,
+                  "gradingSystem": "Score-based",
+                  "numberOfQuestions": 15,
+                  "completionRate": 85,
+                  "censusData": {
+                    "totalParticipants": 40000,
+                    "averageScore": 75
+                  },
+                  "prerequisites": "None",
+                  "completionReward": "Motivation and Drive Report"
+                },
+                {
+                  "ID": 12,
+                  "description": "Identify the role you naturally take in team settings (e.g., leader, mediator, innovator).",
+                  "category": "Team Role",
+                  "audience": "Professionals, team members",
+                  "instructions": "Answer each question based on your typical behavior in team settings.",
+                  "resultInterpretation": "Your results will show which role you tend to take on in teams (e.g., leader, mediator, innovator).",
+                  "estimatedTime": "10-12 minutes",
+                  "format": "Scenario-based questions or Likert scale",
+                  "tags": ["Team", "Role", "Collaboration", "Leadership"],
+                  "examples": "When working in a group, how often do you take charge of organizing tasks? (Always, Sometimes, Rarely, Never)",
+                  "overview": "This assessment helps you identify your natural role in team dynamics, whether it's as a leader, mediator, or innovator.",
+                  "imagesURL": "https://example.com/images/team-role-test.jpg",
+                  "maxScore": "N/A",
+                  "gradingSystem": "Categorical (Leader, Mediator, Innovator, etc.)",
+                  "numberOfQuestions": 20,
+                  "completionRate": 80,
+                  "censusData": {
+                    "totalParticipants": 35000,
+                    "mostCommonRole": "Mediator"
+                  },
+                  "prerequisites": "None",
+                  "completionReward": "Team Role Summary"
+                },
+                {
+                  "ID": 13,
+                  "description": "Determine your leadership approach, whether it’s democratic, autocratic, or laissez-faire.",
+                  "category": "Leadership Style",
+                  "audience": "Leaders, managers, professionals",
+                  "instructions": "Answer based on how you would manage a team in various scenarios.",
+                  "resultInterpretation": "Your leadership style will be identified, such as democratic, autocratic, or laissez-faire.",
+                  "estimatedTime": "15 minutes",
+                  "format": "Scenario-based questions",
+                  "tags": ["Leadership", "Management", "Style", "Team"],
+                  "examples": "How do you typically involve team members in decision-making? (Allow input, Delegate entirely, Decide independently)",
+                  "overview": "This test evaluates how you lead others, identifying your dominant leadership style in different work settings.",
+                  "imagesURL": "https://example.com/images/leadership-test.jpg",
+                  "maxScore": "N/A",
+                  "gradingSystem": "Categorical (Democratic, Autocratic, Laissez-faire)",
+                  "numberOfQuestions": 25,
+                  "completionRate": 78,
+                  "censusData": {
+                    "totalParticipants": 45000,
+                    "mostCommonStyle": "Democratic"
+                  },
+                  "prerequisites": "None",
+                  "completionReward": "Leadership Style Report"
+                },
+                {
+                  "ID": 14,
+                  "description": "Measure your creative problem-solving and innovation abilities.",
+                  "category": "Creativity and Innovation",
+                  "audience": "Professionals, innovators, students",
+                  "instructions": "Solve puzzles and scenarios based on creative problem-solving.",
+                  "resultInterpretation": "Your score will reflect your creativity and ability to innovate in problem-solving.",
+                  "estimatedTime": "15-20 minutes",
+                  "format": "Scenario-based or puzzle-type questions",
+                  "tags": ["Creativity", "Innovation", "Problem-solving", "Thinking"],
+                  "examples": "Here's a unique problem: How would you solve it? (Choose the best solution)",
+                  "overview": "This test assesses your ability to think creatively and solve problems in innovative ways.",
+                  "imagesURL": "https://example.com/images/creativity-test.jpg",
+                  "maxScore": 120,
+                  "gradingSystem": "Score-based",
+                  "numberOfQuestions": 30,
+                  "completionRate": 70,
+                  "censusData": {
+                    "totalParticipants": 30000,
+                    "averageScore": 90
+                  },
+                  "prerequisites": "None",
+                  "completionReward": "Creativity and Innovation Report"
+                },
+                {
+                  "ID": 15,
+                  "description": "Assess how well you adapt to changing circumstances and uncertainty.",
+                  "category": "Adaptability and Flexibility",
+                  "audience": "General public, professionals",
+                  "instructions": "Rate how you respond to changing situations and environments.",
+                  "resultInterpretation": "Your adaptability and flexibility will be scored, indicating how well you manage change.",
+                  "estimatedTime": "10 minutes",
+                  "format": "Likert scale",
+                  "tags": ["Adaptability", "Flexibility", "Change", "Uncertainty"],
+                  "examples": "When faced with unexpected changes at work, how do you typically respond? (Very well, Well, Neutral, Not well)",
+                  "overview": "This test evaluates your ability to adapt and remain flexible in the face of change and uncertainty.",
+                  "imagesURL": "https://example.com/images/adaptability-test.jpg",
+                  "maxScore": 100,
+                  "gradingSystem": "Score-based",
+                  "numberOfQuestions": 15,
+                  "completionRate": 83,
+                  "censusData": {
+                    "totalParticipants": 32000,
+                    "averageScore": 78
+                  },
+                  "prerequisites": "None",
+                  "completionReward": "Adaptability and Flexibility Report"
+                },
+                {
+                  "ID": 16,
+                  "description": "Evaluate how you handle stress and pressure in various environments.",
+                  "category": "Stress Management",
+                  "audience": "General public, professionals",
+                  "instructions": "Answer based on how you manage stress in different settings, such as work or personal life.",
+                  "resultInterpretation": "Results will show your ability to manage stress and offer tips for improvement.",
+                  "estimatedTime": "10-15 minutes",
+                  "format": "Multiple-choice or Likert scale",
+                  "tags": ["Stress", "Management", "Pressure", "Coping"],
+                  "examples": "How do you typically react to high-pressure situations? (Very calmly, Calmly, Neutral, Stressed)",
+                  "overview": "This test assesses your stress management skills and ability to cope with pressure.",
+                  "imagesURL": "https://example.com/images/stress-test.jpg",
+                  "maxScore": "N/A",
+                  "gradingSystem": "Score-based or Categorical (High, Moderate, Low stress tolerance)",
+                  "numberOfQuestions": 20,
+                  "completionRate": 75,
+                  "censusData": {
+                    "totalParticipants": 40000,
+                    "averageScore": 70
+                  },
+                  "prerequisites": "None",
+                  "completionReward": "Stress Management Tips"
+                },
+                {
+                  "ID": 17,
+                  "description": "Learn how you make decisions under pressure, whether you're more analytical or instinctive.",
+                  "category": "Decision-Making",
+                  "audience": "General public, professionals",
+                  "instructions": "Choose how you would respond to each decision-making scenario under time pressure.",
+                  "resultInterpretation": "Your results will indicate whether you're more analytical or instinctive in your decision-making style.",
+                  "estimatedTime": "12 minutes",
+                  "format": "Scenario-based questions",
+                  "tags": ["Decision-making", "Style", "Pressure", "Analysis", "Instinct"],
+                  "examples": "When making a major decision under time pressure, what’s your first approach? (Analyze all details, Trust your instincts)",
+                  "overview": "This test evaluates how you make decisions, especially under pressure, whether you rely more on instinct or analysis.",
+                  "imagesURL": "https://example.com/images/decision-making-test.jpg",
+                  "maxScore": "N/A",
+                  "gradingSystem": "Categorical (Analytical, Instinctive)",
+                  "numberOfQuestions": 18,
+                  "completionRate": 82,
+                  "censusData": {
+                    "totalParticipants": 29000,
+                    "mostCommonStyle": "Analytical"
+                  },
+                  "prerequisites": "None",
+                  "completionReward": "Decision-Making Style Report"
+                }
+      
+    ],
+    "medium": [
+        [
+            {
+              "ID": 1,
+              "description": "Discover your dominant personality traits across five dimensions (Openness, Conscientiousness, Extraversion, Agreeableness, and Neuroticism).",
+              "category": "Personality",
+              "audience": "General public, professionals",
+              "instructions": "Answer based on how you typically behave and think in various situations.",
+              "resultInterpretation": "Results will display your score in each of the five personality dimensions, highlighting dominant traits.",
+              "estimatedTime": "15-20 minutes",
+              "format": "Multiple-choice questions",
+              "tags": ["Personality", "Big Five", "Traits", "Behavior"],
+              "examples": "How likely are you to try new experiences? (Very likely, Somewhat likely, Not likely)",
+              "overview": "This test helps identify your dominant personality traits based on the Big Five model: Openness, Conscientiousness, Extraversion, Agreeableness, and Neuroticism.",
+              "imagesURL": "https://example.com/images/big-five-test.jpg",
+              "maxScore": 100,
+              "gradingSystem": "Score-based, with percentile rankings for each dimension.",
+              "numberOfQuestions": 50,
+              "completionRate": 85,
+              "censusData": {
+                "totalParticipants": 50000,
+                "averageScore": 70
+              },
+              "prerequisites": "None",
+              "completionReward": "Big Five Personality Profile"
+            },
+            {
+              "ID": 2,
+              "description": "Find out your personality type based on preferences in how you perceive the world (e.g., INFP, ENTJ).",
+              "category": "Personality",
+              "audience": "General public, professionals",
+              "instructions": "Answer the questions based on how you think, make decisions, and interact with others.",
+              "resultInterpretation": "Your results will provide one of 16 personality types, such as INFP, ENTJ, etc.",
+              "estimatedTime": "10-15 minutes",
+              "format": "Multiple-choice questions",
+              "tags": ["Personality", "MBTI", "Cognitive Preferences", "Type"],
+              "examples": "When faced with a decision, do you rely more on logic or feelings? (Logic, Feelings)",
+              "overview": "This test identifies your personality type according to the Myers-Briggs Type Indicator (MBTI), one of 16 unique combinations based on your cognitive preferences.",
+              "imagesURL": "https://example.com/images/mbti-test.jpg",
+              "maxScore": "N/A",
+              "gradingSystem": "Categorical (e.g., INFP, ENTJ)",
+              "numberOfQuestions": 60,
+              "completionRate": 80,
+              "censusData": {
+                "totalParticipants": 60000,
+                "mostCommonType": "INFJ"
+              },
+              "prerequisites": "None",
+              "completionReward": "MBTI Personality Type Report"
+            },
+            {
+              "ID": 3,
+              "description": "Gauge your preferences and tendencies in various situations using a simple scale (More like me, Like me, A little like me, Not like me).",
+              "category": "Personality",
+              "audience": "General public, professionals",
+              "instructions": "Rate how each statement relates to your personal preferences in different scenarios.",
+              "resultInterpretation": "Your score will reflect how strongly you align with different personality preferences.",
+              "estimatedTime": "10-15 minutes",
+              "format": "Likert scale questions",
+              "tags": ["Personality", "Preferences", "Tendencies", "Likert"],
+              "examples": "I enjoy working in teams (More like me, Like me, A little like me, Not like me)",
+              "overview": "This test evaluates your personality preferences in common scenarios, providing insights into your tendencies and behaviors.",
+              "imagesURL": "https://example.com/images/personality-preferences-test.jpg",
+              "maxScore": 100,
+              "gradingSystem": "Score-based, Likert scale grading",
+              "numberOfQuestions": 40,
+              "completionRate": 88,
+              "censusData": {
+                "totalParticipants": 45000,
+                "averageScore": 68
+              },
+              "prerequisites": "None",
+              "completionReward": "Personality Preferences Report"
+            },
+            {
+              "ID": 4,
+              "description": "Measure your ability to recognize, understand, and manage your emotions and those of others.",
+              "category": "Emotional Intelligence",
+              "audience": "General public, professionals",
+              "instructions": "Answer questions about how you handle emotions and perceive others' emotions in different scenarios.",
+              "resultInterpretation": "Your results will show your EQ score, indicating your emotional awareness and management skills.",
+              "estimatedTime": "15-20 minutes",
+              "format": "Multiple-choice or scenario-based questions",
+              "tags": ["Emotional Intelligence", "EQ", "Emotions", "Management"],
+              "examples": "When a colleague is upset, how do you typically respond? (Comfort them, Ignore them, Offer advice)",
+              "overview": "This test evaluates your emotional intelligence, measuring how well you can recognize, understand, and manage emotions in yourself and others.",
+              "imagesURL": "https://example.com/images/emotional-intelligence-test.jpg",
+              "maxScore": 120,
+              "gradingSystem": "Score-based",
+              "numberOfQuestions": 30,
+              "completionRate": 76,
+              "censusData": {
+                "totalParticipants": 55000,
+                "averageScore": 80
+              },
+              "prerequisites": "None",
+              "completionReward": "Emotional Intelligence Report"
+            },
+            {
+              "ID": 5,
+              "description": "Assess your level of self-esteem and self-worth based on different traits.",
+              "category": "Self-Esteem",
+              "audience": "General public, professionals, students",
+              "instructions": "Rate how you agree with statements about yourself and your abilities.",
+              "resultInterpretation": "Your score will reflect your level of self-esteem across various traits, providing insight into your self-worth.",
+              "estimatedTime": "10-12 minutes",
+              "format": "Likert scale (Agree, Somewhat Agree, Disagree)",
+              "tags": ["Self-Esteem", "Confidence", "Self-Worth", "Traits"],
+              "examples": "I feel confident in my abilities (Agree, Somewhat Agree, Disagree)",
+              "overview": "This test evaluates your self-esteem by examining your level of confidence, self-worth, and belief in your abilities.",
+              "imagesURL": "https://example.com/images/self-esteem-test.jpg",
+              "maxScore": 100,
+              "gradingSystem": "Score-based, Likert scale grading",
+              "numberOfQuestions": 20,
+              "completionRate": 82,
+              "censusData": {
+                "totalParticipants": 47000,
+                "averageScore": 74
+              },
+              "prerequisites": "None",
+              "completionReward": "Self-Esteem Assessment Report"
+            },
+            {
+              "ID": 6,
+              "description": "Identify your preferred work style and strengths in professional environments (e.g., teamwork, leadership, adaptability).",
+              "category": "Workplace Behavior",
+              "audience": "Professionals, team leaders, managers",
+              "instructions": "Read each scenario and select the response that best represents your natural behavior.",
+              "resultInterpretation": "Results will highlight your preferred work styles and strengths, guiding you in team settings.",
+              "estimatedTime": "10-15 minutes",
+              "format": "Scenario-based questions",
+              "tags": ["Workplace", "Strengths", "Teamwork", "Leadership"],
+              "examples": "When faced with a team project, I usually take charge and organize the tasks.",
+              "overview": "This test helps identify your work-related strengths and preferences, enabling better teamwork and collaboration.",
+              "imagesURL": "https://example.com/images/workplace-behavior-test.jpg",
+              "maxScore": 100,
+              "gradingSystem": "Score-based, with strengths ranked",
+              "numberOfQuestions": 30,
+              "completionRate": 80,
+              "censusData": {
+                "totalParticipants": 40000,
+                "averageScore": 72
+              },
+              "prerequisites": "None",
+              "completionReward": "Workplace Strengths Profile"
+            },
+            {
+              "ID": 7,
+              "description": "Learn your communication style, whether you're more direct, empathetic, assertive, or passive.",
+              "category": "Communication",
+              "audience": "Professionals, students, teams",
+              "instructions": "Rate how closely each statement reflects your communication style.",
+              "resultInterpretation": "Results will categorize your communication style and provide tips for improvement.",
+              "estimatedTime": "10 minutes",
+              "format": "Likert scale or scenario-based",
+              "tags": ["Communication", "Style", "Interpersonal Skills"],
+              "examples": "I prefer to express my opinions directly, even if it might upset someone.",
+              "overview": "This test evaluates your communication style and how it affects your interactions with others.",
+              "imagesURL": "https://example.com/images/communication-style-test.jpg",
+              "maxScore": 100,
+              "gradingSystem": "Categorical (e.g., Direct, Empathetic, Assertive, Passive)",
+              "numberOfQuestions": 20,
+              "completionRate": 85,
+              "censusData": {
+                "totalParticipants": 35000,
+                "mostCommonStyle": "Assertive"
+              },
+              "prerequisites": "None",
+              "completionReward": "Communication Style Report"
+            },
+            {
+              "ID": 8,
+              "description": "Measure your reasoning, problem-solving, and logical thinking skills.",
+              "category": "Cognitive Abilities",
+              "audience": "General public, students, professionals",
+              "instructions": "Answer the questions to the best of your ability, selecting the most logical choice.",
+              "resultInterpretation": "Results will indicate your cognitive abilities, highlighting strengths and areas for improvement.",
+              "estimatedTime": "15-20 minutes",
+              "format": "Multiple-choice questions or puzzles",
+              "tags": ["Cognitive", "Reasoning", "Problem Solving", "Logic"],
+              "examples": "If all roses are flowers, and some flowers fade quickly, which of the following is true? (Roses fade quickly, Not enough information, Some roses fade quickly)",
+              "overview": "This test assesses your cognitive abilities, including logical reasoning, problem-solving, and analytical thinking.",
+              "imagesURL": "https://example.com/images/cognitive-abilities-test.jpg",
+              "maxScore": 120,
+              "gradingSystem": "Score-based with percentile rankings",
+              "numberOfQuestions": 25,
+              "completionRate": 78,
+              "censusData": {
+                "totalParticipants": 60000,
+                "averageScore": 75
+              },
+              "prerequisites": "None",
+              "completionReward": "Cognitive Abilities Assessment Report"
+            },
+            {
+              "ID": 9,
+              "description": "Discover how you handle conflict and stressful situations.",
+              "category": "Conflict Resolution",
+              "audience": "General public, professionals, teams",
+              "instructions": "Select the option that best describes your approach to handling conflicts.",
+              "resultInterpretation": "Results will reflect your conflict resolution style and offer strategies for improvement.",
+              "estimatedTime": "10 minutes",
+              "format": "Likert scale (Agree, Disagree, Neutral)",
+              "tags": ["Conflict Resolution", "Stress Management", "Interpersonal Skills"],
+              "examples": "I prefer to avoid conflicts whenever possible.",
+              "overview": "This test evaluates your approach to conflict and stress, providing insights into your handling of challenging situations.",
+              "imagesURL": "https://example.com/images/conflict-resolution-test.jpg",
+              "maxScore": 100,
+              "gradingSystem": "Score-based with conflict styles categorized",
+              "numberOfQuestions": 15,
+              "completionRate": 83,
+              "censusData": {
+                "totalParticipants": 50000,
+                "mostCommonStyle": "Collaborative"
+              },
+              "prerequisites": "None",
+              "completionReward": "Conflict Resolution Style Profile"
+            },
+            {
+              "ID": 10,
+              "description": "Understand what motivates you at work—whether it’s salary, stability, creativity, or personal growth.",
+              "category": "Career Values",
+              "audience": "Professionals, students, job seekers",
+              "instructions": "Rate the importance of each value to you in a work environment.",
+              "resultInterpretation": "Results will highlight your core career values and how they influence your career decisions.",
+              "estimatedTime": "12-15 minutes",
+              "format": "Likert scale",
+              "tags": ["Career", "Values", "Motivation"],
+              "examples": "I value a creative work environment highly.",
+              "overview": "This test helps you understand your key motivators in the workplace, guiding your career path.",
+              "imagesURL": "https://example.com/images/career-values-assessment.jpg",
+              "maxScore": 100,
+              "gradingSystem": "Score-based with values ranked",
+              "numberOfQuestions": 30,
+              "completionRate": 79,
+              "censusData": {
+                "totalParticipants": 45000,
+                "mostCommonValue": "Creativity"
+              },
+              "prerequisites": "None",
+              "completionReward": "Career Values Profile"
+            },
+            {
+              "ID": 11,
+              "description": "Assess what drives you to succeed and how motivated you are in various tasks.",
+              "category": "Motivation",
+              "audience": "General public, professionals, students",
+              "instructions": "Rate how motivated you feel towards various tasks using the Likert scale.",
+              "resultInterpretation": "Results will indicate your overall motivation levels and what drives you to succeed.",
+              "estimatedTime": "10 minutes",
+              "format": "Likert scale (Very motivated, Somewhat motivated, Neutral, Not motivated)",
+              "tags": ["Motivation", "Drive", "Personal Development"],
+              "examples": "I feel very motivated when working on tasks that challenge me.",
+              "overview": "This test helps assess your motivation levels and what factors contribute to your drive to succeed.",
+              "imagesURL": "https://example.com/images/motivation-drive-test.jpg",
+              "maxScore": 100,
+              "gradingSystem": "Score-based with interpretation of motivation factors",
+              "numberOfQuestions": 15,
+              "completionRate": 82,
+              "censusData": {
+                "totalParticipants": 35000,
+                "averageScore": 70
+              },
+              "prerequisites": "None",
+              "completionReward": "Motivation Assessment Report"
+            },
+            {
+              "ID": 12,
+              "description": "Identify the role you naturally take in team settings (e.g., leader, mediator, innovator).",
+              "category": "Team Dynamics",
+              "audience": "Professionals, team members, students",
+              "instructions": "Read each scenario and choose the response that best describes your behavior in team settings.",
+              "resultInterpretation": "Results will identify your primary team role and how you can leverage it in collaborative environments.",
+              "estimatedTime": "10-12 minutes",
+              "format": "Scenario-based questions or Likert scale",
+              "tags": ["Teamwork", "Roles", "Collaboration"],
+              "examples": "In group projects, I often take the lead to organize tasks.",
+              "overview": "This test helps you understand your natural role within teams and how you can enhance group dynamics.",
+              "imagesURL": "https://example.com/images/team-role-assessment.jpg",
+              "maxScore": 100,
+              "gradingSystem": "Role identification based on responses",
+              "numberOfQuestions": 20,
+              "completionRate": 79,
+              "censusData": {
+                "totalParticipants": 40000,
+                "mostCommonRole": "Mediator"
+              },
+              "prerequisites": "None",
+              "completionReward": "Team Role Profile"
+            },
+            {
+              "ID": 13,
+              "description": "Determine your leadership approach, whether it’s democratic, autocratic, or laissez-faire.",
+              "category": "Leadership",
+              "audience": "Managers, team leaders, professionals",
+              "instructions": "Select the option that best describes your leadership style in various situations.",
+              "resultInterpretation": "Results will reveal your leadership style and provide insights for improvement.",
+              "estimatedTime": "15 minutes",
+              "format": "Scenario-based questions",
+              "tags": ["Leadership", "Management", "Styles"],
+              "examples": "I often consult my team before making decisions.",
+              "overview": "This test evaluates your leadership approach, helping you understand your strengths and areas for development.",
+              "imagesURL": "https://example.com/images/leadership-style-test.jpg",
+              "maxScore": 100,
+              "gradingSystem": "Score-based with leadership styles categorized",
+              "numberOfQuestions": 25,
+              "completionRate": 80,
+              "censusData": {
+                "totalParticipants": 30000,
+                "mostCommonStyle": "Democratic"
+              },
+              "prerequisites": "None",
+              "completionReward": "Leadership Style Report"
+            },
+            {
+              "ID": 14,
+              "description": "Measure your creative problem-solving and innovation abilities.",
+              "category": "Creativity",
+              "audience": "General public, professionals, students",
+              "instructions": "Answer the questions and solve the puzzles to evaluate your creativity and innovation skills.",
+              "resultInterpretation": "Results will assess your creative abilities and suggest areas for improvement.",
+              "estimatedTime": "15-20 minutes",
+              "format": "Scenario-based or puzzle-type questions",
+              "tags": ["Creativity", "Innovation", "Problem Solving"],
+              "examples": "How would you approach a new project with limited resources?",
+              "overview": "This test assesses your ability to think creatively and solve problems in innovative ways.",
+              "imagesURL": "https://example.com/images/creativity-innovation-test.jpg",
+              "maxScore": 120,
+              "gradingSystem": "Score-based with percentile rankings",
+              "numberOfQuestions": 20,
+              "completionRate": 75,
+              "censusData": {
+                "totalParticipants": 50000,
+                "averageScore": 68
+              },
+              "prerequisites": "None",
+              "completionReward": "Creativity and Innovation Assessment Report"
+            },
+            {
+              "ID": 15,
+              "description": "Assess how well you adapt to changing circumstances and uncertainty.",
+              "category": "Adaptability",
+              "audience": "General public, professionals, students",
+              "instructions": "Rate your adaptability to various situations using the Likert scale.",
+              "resultInterpretation": "Results will reveal your adaptability levels and provide insights for personal growth.",
+              "estimatedTime": "10 minutes",
+              "format": "Likert scale",
+              "tags": ["Adaptability", "Flexibility", "Personal Development"],
+              "examples": "I find it easy to adjust my plans when unexpected events occur.",
+              "overview": "This test evaluates your adaptability to change and helps you understand your flexibility in various situations.",
+              "imagesURL": "https://example.com/images/adaptability-flexibility-test.jpg",
+              "maxScore": 100,
+              "gradingSystem": "Score-based with interpretation of adaptability levels",
+              "numberOfQuestions": 15,
+              "completionRate": 85,
+              "censusData": {
+                "totalParticipants": 40000,
+                "averageScore": 74
+              },
+              "prerequisites": "None",
+              "completionReward": "Adaptability Profile"
+            },
+            {
+              "ID": 16,
+              "description": "Evaluate how you handle stress and pressure in various environments.",
+              "category": "Stress Management",
+              "audience": "General public, professionals, students",
+              "instructions": "Select the option that best describes your response to stressful situations.",
+              "resultInterpretation": "Results will indicate your stress management style and provide tips for improvement.",
+              "estimatedTime": "10-15 minutes",
+              "format": "Multiple-choice or Likert scale",
+              "tags": ["Stress Management", "Resilience", "Personal Development"],
+              "examples": "In stressful situations, I tend to remain calm and focused.",
+              "overview": "This test assesses your ability to manage stress and pressure effectively.",
+              "imagesURL": "https://example.com/images/stress-management-test.jpg",
+              "maxScore": 100,
+              "gradingSystem": "Score-based with stress management styles categorized",
+              "numberOfQuestions": 20,
+              "completionRate": 78,
+              "censusData": {
+                "totalParticipants": 45000,
+                "mostCommonStyle": "Resilient"
+              },
+              "prerequisites": "None",
+              "completionReward": "Stress Management Assessment Report"
+            },
+            {
+              "ID": 17,
+              "description": "Learn how you make decisions under pressure, whether you're more analytical or instinctive.",
+              "category": "Decision-Making",
+              "audience": "Professionals, students, general public",
+              "instructions": "Select the response that best describes your decision-making process in various scenarios.",
+              "resultInterpretation": "Results will highlight your decision-making style and provide insights for improvement.",
+              "estimatedTime": "12 minutes",
+              "format": "Scenario-based questions",
+              "tags": ["Decision Making", "Pressure", "Analysis"],
+              "examples": "When faced with a tough choice, I analyze all possible outcomes before deciding.",
+              "overview": "This test evaluates your decision-making style and how you respond under pressure.",
+              "imagesURL": "https://example.com/images/decision-making-style-test.jpg",
+              "maxScore": 100,
+              "gradingSystem": "Score-based with decision-making styles categorized",
+              "numberOfQuestions": 15,
+              "completionRate": 81,
+              "censusData": {
+                "totalParticipants": 50000,
+                "mostCommonStyle": "Analytical"
+              },
+              "prerequisites": "None",
+              "completionReward": "Decision-Making Style Profile"
+            }
+    ]
+],
+    "hard": [
+        
+            {
+              "ID": 1,
+              "description": "Discover your dominant personality traits across five dimensions (Openness, Conscientiousness, Extraversion, Agreeableness, and Neuroticism).",
+              "category": "Personality Assessment",
+              "audience": "General public, psychologists, professionals",
+              "instructions": "Answer the multiple-choice questions as honestly as possible to determine your personality traits.",
+              "resultInterpretation": "Results will indicate your scores across the five personality dimensions and provide insights into your personality profile.",
+              "estimatedTime": "15-20 minutes",
+              "format": "Multiple-choice questions",
+              "tags": ["Personality", "Psychology", "Big Five"],
+              "examples": "I enjoy trying new things. (1-Strongly Disagree, 5-Strongly Agree)",
+              "overview": "This test helps you understand your personality traits based on the Big Five model, commonly used in psychology.",
+              "imagesURL": "https://example.com/images/big-five-personality-test.jpg",
+              "maxScore": 100,
+              "gradingSystem": "Score-based across five dimensions with interpretative feedback",
+              "numberOfQuestions": 30,
+              "completionRate": 87,
+              "censusData": {
+                "totalParticipants": 200000,
+                "averageScore": 65
+              },
+              "prerequisites": "None",
+              "completionReward": "Personality Trait Report"
+            },
+            {
+              "ID": 2,
+              "description": "Find out your personality type based on preferences in how you perceive the world (e.g., INFP, ENTJ).",
+              "category": "Personality Assessment",
+              "audience": "Individuals seeking personal development, professionals",
+              "instructions": "Complete the multiple-choice questions to identify your Myers-Briggs personality type.",
+              "resultInterpretation": "Results will indicate your Myers-Briggs type and provide insights into your personality preferences.",
+              "estimatedTime": "10-15 minutes",
+              "format": "Multiple-choice questions",
+              "tags": ["Myers-Briggs", "Personality", "Psychology"],
+              "examples": "I prefer to focus on the big picture rather than the details.",
+              "overview": "This test helps you discover your Myers-Briggs personality type, which can aid in self-understanding and professional development.",
+              "imagesURL": "https://example.com/images/myers-briggs-test.jpg",
+              "maxScore": 100,
+              "gradingSystem": "Type classification with detailed explanations of each type",
+              "numberOfQuestions": 20,
+              "completionRate": 90,
+              "censusData": {
+                "totalParticipants": 150000,
+                "mostCommonType": "ISFJ"
+              },
+              "prerequisites": "None",
+              "completionReward": "Myers-Briggs Type Report"
+            },
+            {
+              "ID": 3,
+              "description": "Gauge your preferences and tendencies in various situations using a simple scale (More like me, Like me, A little like me, Not like me).",
+              "category": "Personality Assessment",
+              "audience": "General public, psychologists, coaches",
+              "instructions": "Rate each statement based on how closely it aligns with your behavior or feelings.",
+              "resultInterpretation": "Results will highlight your personality preferences and tendencies in various contexts.",
+              "estimatedTime": "10-15 minutes",
+              "format": "Likert scale questions",
+              "tags": ["Personality", "Preferences", "Assessment"],
+              "examples": "I often enjoy social gatherings. (More like me, Like me, A little like me, Not like me)",
+              "overview": "This test assesses your personality preferences using a Likert scale to measure how closely you identify with various statements.",
+              "imagesURL": "https://example.com/images/personality-preferences-test.jpg",
+              "maxScore": 100,
+              "gradingSystem": "Score-based with descriptive interpretation of preferences",
+              "numberOfQuestions": 25,
+              "completionRate": 85,
+              "censusData": {
+                "totalParticipants": 120000,
+                "averageScore": 70
+              },
+              "prerequisites": "None",
+              "completionReward": "Personality Preferences Report"
+            },
+            {
+              "ID": 4,
+              "description": "Measure your ability to recognize, understand, and manage your emotions and those of others.",
+              "category": "Emotional Intelligence",
+              "audience": "General public, professionals, leaders",
+              "instructions": "Complete the questions to evaluate your emotional intelligence in various situations.",
+              "resultInterpretation": "Results will indicate your emotional intelligence score and suggest areas for development.",
+              "estimatedTime": "15-20 minutes",
+              "format": "Multiple-choice or scenario-based questions",
+              "tags": ["Emotional Intelligence", "EQ", "Self-Awareness"],
+              "examples": "When someone is upset, I tend to notice their emotions immediately.",
+              "overview": "This test evaluates your emotional intelligence, which is crucial for personal and professional success.",
+              "imagesURL": "https://example.com/images/emotional-intelligence-test.jpg",
+              "maxScore": 100,
+              "gradingSystem": "Score-based with interpretative feedback on emotional skills",
+              "numberOfQuestions": 30,
+              "completionRate": 80,
+              "censusData": {
+                "totalParticipants": 100000,
+                "averageScore": 72
+              },
+              "prerequisites": "None",
+              "completionReward": "Emotional Intelligence Report"
+            },
+            {
+              "ID": 5,
+              "description": "Assess your level of self-esteem and self-worth based on different traits.",
+              "category": "Self-Assessment",
+              "audience": "General public, students, professionals",
+              "instructions": "Indicate your agreement with various statements related to your self-esteem.",
+              "resultInterpretation": "Results will provide insight into your self-esteem levels and identify areas for improvement.",
+              "estimatedTime": "10-12 minutes",
+              "format": "Likert scale (Agree, Somewhat Agree, Disagree)",
+              "tags": ["Self-Esteem", "Self-Worth", "Assessment"],
+              "examples": "I feel that I am a person of worth, at least on an equal basis with others.",
+              "overview": "This test evaluates your self-esteem and self-worth, helping you understand your confidence levels.",
+              "imagesURL": "https://example.com/images/trait-self-esteem-test.jpg",
+              "maxScore": 100,
+              "gradingSystem": "Score-based with interpretation of self-esteem levels",
+              "numberOfQuestions": 25,
+              "completionRate": 88,
+              "censusData": {
+                "totalParticipants": 80000,
+                "averageScore": 65
+              },
+              "prerequisites": "None",
+              "completionReward": "Self-Esteem Assessment Report"
+            },
+            {
+              "ID": 6,
+              "description": "Identify your preferred work style and strengths in professional environments (e.g., teamwork, leadership, adaptability).",
+              "category": "Workplace Assessment",
+              "audience": "Professionals, team leaders, HR personnel",
+              "instructions": "Read each scenario and choose the response that best reflects your work style and strengths.",
+              "resultInterpretation": "Results will identify your key strengths and preferred work styles, helping you understand your role in a team.",
+              "estimatedTime": "10-15 minutes",
+              "format": "Scenario-based questions",
+              "tags": ["Workplace Behavior", "Strengths", "Assessment"],
+              "examples": "When faced with a tight deadline, I tend to organize the team to prioritize tasks effectively.",
+              "overview": "This test evaluates your workplace behavior and strengths, providing insights into your professional effectiveness.",
+              "imagesURL": "https://example.com/images/workplace-behavior-test.jpg",
+              "maxScore": 100,
+              "gradingSystem": "Score-based with detailed feedback on strengths",
+              "numberOfQuestions": 25,
+              "completionRate": 85,
+              "censusData": {
+                "totalParticipants": 70000,
+                "averageScore": 75
+              },
+              "prerequisites": "None",
+              "completionReward": "Workplace Strengths Report"
+            },
+            {
+              "ID": 7,
+              "description": "Learn your communication style, whether you're more direct, empathetic, assertive, or passive.",
+              "category": "Communication Assessment",
+              "audience": "Professionals, students, individuals seeking personal development",
+              "instructions": "Rate your agreement with each statement to identify your communication style.",
+              "resultInterpretation": "Results will reveal your dominant communication style and suggest ways to enhance your communication skills.",
+              "estimatedTime": "10 minutes",
+              "format": "Likert scale or scenario-based",
+              "tags": ["Communication", "Style", "Assessment"],
+              "examples": "I prefer to express my thoughts openly, regardless of the audience.",
+              "overview": "This test assesses your communication style, helping you understand how you interact with others.",
+              "imagesURL": "https://example.com/images/communication-style-test.jpg",
+              "maxScore": 100,
+              "gradingSystem": "Score-based with insights into communication effectiveness",
+              "numberOfQuestions": 20,
+              "completionRate": 90,
+              "censusData": {
+                "totalParticipants": 60000,
+                "mostCommonStyle": "Assertive"
+              },
+              "prerequisites": "None",
+              "completionReward": "Communication Style Report"
+            },
+            {
+              "ID": 8,
+              "description": "Measure your reasoning, problem-solving, and logical thinking skills.",
+              "category": "Cognitive Assessment",
+              "audience": "Students, professionals, individuals preparing for assessments",
+              "instructions": "Complete the multiple-choice questions or puzzles to assess your cognitive abilities.",
+              "resultInterpretation": "Results will indicate your cognitive skill level and highlight areas for improvement.",
+              "estimatedTime": "15-20 minutes",
+              "format": "Multiple-choice questions or puzzles",
+              "tags": ["Cognitive Abilities", "Assessment", "Logic"],
+              "examples": "What number comes next in the series: 2, 4, 6, 8, ___?",
+              "overview": "This test evaluates your cognitive abilities, which are crucial for academic and professional success.",
+              "imagesURL": "https://example.com/images/cognitive-abilities-test.jpg",
+              "maxScore": 100,
+              "gradingSystem": "Score-based with detailed cognitive skills interpretation",
+              "numberOfQuestions": 30,
+              "completionRate": 75,
+              "censusData": {
+                "totalParticipants": 80000,
+                "averageScore": 68
+              },
+              "prerequisites": "None",
+              "completionReward": "Cognitive Abilities Report"
+            },
+            {
+              "ID": 9,
+              "description": "Discover how you handle conflict and stressful situations.",
+              "category": "Conflict Resolution Assessment",
+              "audience": "Professionals, teams, individuals interested in personal development",
+              "instructions": "Rate each statement to evaluate your conflict resolution style.",
+              "resultInterpretation": "Results will indicate your preferred conflict resolution style and provide strategies for improvement.",
+              "estimatedTime": "10 minutes",
+              "format": "Likert scale (Agree, Disagree, Neutral)",
+              "tags": ["Conflict Resolution", "Assessment", "Self-Reflection"],
+              "examples": "I prefer to avoid conflict rather than confront it directly.",
+              "overview": "This test assesses your conflict resolution style, providing insights into how you manage disagreements.",
+              "imagesURL": "https://example.com/images/conflict-resolution-test.jpg",
+              "maxScore": 100,
+              "gradingSystem": "Score-based with feedback on conflict handling",
+              "numberOfQuestions": 15,
+              "completionRate": 80,
+              "censusData": {
+                "totalParticipants": 50000,
+                "mostCommonStyle": "Collaborative"
+              },
+              "prerequisites": "None",
+              "completionReward": "Conflict Resolution Style Report"
+            },
+            {
+              "ID": 10,
+              "description": "Understand what motivates you at work—whether it’s salary, stability, creativity, or personal growth.",
+              "category": "Career Assessment",
+              "audience": "Job seekers, professionals, individuals in career planning",
+              "instructions": "Rate your agreement with each statement regarding what motivates you at work.",
+              "resultInterpretation": "Results will reveal your primary career values and help you align your job search with your motivations.",
+              "estimatedTime": "12-15 minutes",
+              "format": "Likert scale",
+              "tags": ["Career Values", "Motivation", "Assessment"],
+              "examples": "I value having a stable job more than having a creative job.",
+              "overview": "This test evaluates your career values, aiding you in understanding what drives your professional choices.",
+              "imagesURL": "https://example.com/images/career-values-assessment.jpg",
+              "maxScore": 100,
+              "gradingSystem": "Score-based with insights into career motivations",
+              "numberOfQuestions": 20,
+              "completionRate": 88,
+              "censusData": {
+                "totalParticipants": 90000,
+                "mostCommonValue": "Stability"
+              },
+              "prerequisites": "None",
+              "completionReward": "Career Values Report"
+            },
+             {
+              "ID": 11,
+              "description": "Assess what drives you to succeed and how motivated you are in various tasks.",
+              "category": "Motivation Assessment",
+              "audience": "Professionals, students, individuals seeking personal growth",
+              "instructions": "Rate your motivation level for each task described.",
+              "resultInterpretation": "Results will identify your primary motivators and areas where you may need to enhance your motivation.",
+              "estimatedTime": "10 minutes",
+              "format": "Likert scale (Very motivated, Somewhat motivated, Neutral, Not motivated)",
+              "tags": ["Motivation", "Drive", "Assessment"],
+              "examples": "I feel highly motivated to complete projects that interest me.",
+              "overview": "This test evaluates your motivation levels and what drives your success in various tasks.",
+              "imagesURL": "https://example.com/images/motivation-drive-test.jpg",
+              "maxScore": 100,
+              "gradingSystem": "Score-based with motivational insights",
+              "numberOfQuestions": 15,
+              "completionRate": 85,
+              "censusData": {
+                "totalParticipants": 75000,
+                "averageScore": 70
+              },
+              "prerequisites": "None",
+              "completionReward": "Motivation and Drive Report"
+            },
+            {
+              "ID": 12,
+              "description": "Identify the role you naturally take in team settings (e.g., leader, mediator, innovator).",
+              "category": "Team Assessment",
+              "audience": "Professionals, team members, individuals interested in teamwork",
+              "instructions": "Read each scenario and select the option that best describes your typical behavior in teams.",
+              "resultInterpretation": "Results will reveal your preferred team role and how you can best contribute to a team environment.",
+              "estimatedTime": "10-12 minutes",
+              "format": "Scenario-based questions or Likert scale",
+              "tags": ["Team Role", "Assessment", "Collaboration"],
+              "examples": "In a team project, I often take charge and delegate tasks.",
+              "overview": "This test assesses your natural role within teams, enhancing team dynamics and collaboration.",
+              "imagesURL": "https://example.com/images/team-role-assessment.jpg",
+              "maxScore": 100,
+              "gradingSystem": "Score-based with detailed role insights",
+              "numberOfQuestions": 20,
+              "completionRate": 80,
+              "censusData": {
+                "totalParticipants": 50000,
+                "mostCommonRole": "Leader"
+              },
+              "prerequisites": "None",
+              "completionReward": "Team Role Assessment Report"
+            },
+            {
+              "ID": 13,
+              "description": "Determine your leadership approach, whether it’s democratic, autocratic, or laissez-faire.",
+              "category": "Leadership Assessment",
+              "audience": "Managers, team leaders, aspiring leaders",
+              "instructions": "Answer the questions based on your leadership style in different scenarios.",
+              "resultInterpretation": "Results will highlight your leadership style and provide suggestions for effective leadership.",
+              "estimatedTime": "15 minutes",
+              "format": "Scenario-based questions",
+              "tags": ["Leadership", "Style", "Assessment"],
+              "examples": "In decision-making, I prefer to involve my team in discussions.",
+              "overview": "This test evaluates your leadership style, offering insights to enhance your effectiveness as a leader.",
+              "imagesURL": "https://example.com/images/leadership-style-test.jpg",
+              "maxScore": 100,
+              "gradingSystem": "Score-based with leadership style interpretation",
+              "numberOfQuestions": 25,
+              "completionRate": 78,
+              "censusData": {
+                "totalParticipants": 60000,
+                "mostCommonStyle": "Democratic"
+              },
+              "prerequisites": "None",
+              "completionReward": "Leadership Style Report"
+            },
+            {
+              "ID": 14,
+              "description": "Measure your creative problem-solving and innovation abilities.",
+              "category": "Creativity Assessment",
+              "audience": "Professionals, creatives, students",
+              "instructions": "Complete the scenario-based or puzzle-type questions to assess your creativity.",
+              "resultInterpretation": "Results will provide insights into your creative strengths and areas for improvement.",
+              "estimatedTime": "15-20 minutes",
+              "format": "Scenario-based or puzzle-type questions",
+              "tags": ["Creativity", "Innovation", "Assessment"],
+              "examples": "Given a limited budget, how would you market a new product creatively?",
+              "overview": "This test evaluates your creative problem-solving skills, essential for innovation in various fields.",
+              "imagesURL": "https://example.com/images/creativity-innovation-test.jpg",
+              "maxScore": 100,
+              "gradingSystem": "Score-based with detailed creativity insights",
+              "numberOfQuestions": 20,
+              "completionRate": 82,
+              "censusData": {
+                "totalParticipants": 55000,
+                "averageScore": 75
+              },
+              "prerequisites": "None",
+              "completionReward": "Creativity and Innovation Report"
+            },
+            {
+              "ID": 15,
+              "description": "Assess how well you adapt to changing circumstances and uncertainty.",
+              "category": "Adaptability Assessment",
+              "audience": "Professionals, students, individuals seeking personal development",
+              "instructions": "Rate your agreement with each statement regarding adaptability.",
+              "resultInterpretation": "Results will indicate your adaptability level and suggest ways to enhance your flexibility.",
+              "estimatedTime": "10 minutes",
+              "format": "Likert scale",
+              "tags": ["Adaptability", "Flexibility", "Assessment"],
+              "examples": "I thrive in situations where I have to think on my feet.",
+              "overview": "This test evaluates your adaptability and flexibility in various environments and situations.",
+              "imagesURL": "https://example.com/images/adaptability-flexibility-test.jpg",
+              "maxScore": 100,
+              "gradingSystem": "Score-based with adaptability insights",
+              "numberOfQuestions": 15,
+              "completionRate": 88,
+              "censusData": {
+                "totalParticipants": 70000,
+                "averageScore": 72
+              },
+              "prerequisites": "None",
+              "completionReward": "Adaptability Assessment Report"
+            },
+            {
+              "ID": 16,
+              "description": "Evaluate how you handle stress and pressure in various environments.",
+              "category": "Stress Management Assessment",
+              "audience": "Professionals, students, individuals seeking to improve stress management",
+              "instructions": "Select the response that best describes how you handle stress in different situations.",
+              "resultInterpretation": "Results will provide insights into your stress management style and areas for improvement.",
+              "estimatedTime": "10-15 minutes",
+              "format": "Multiple-choice or Likert scale",
+              "tags": ["Stress Management", "Assessment", "Self-Reflection"],
+              "examples": "Under pressure, I remain calm and focused.",
+              "overview": "This test assesses your ability to manage stress effectively, crucial for maintaining well-being.",
+              "imagesURL": "https://example.com/images/stress-management-test.jpg",
+              "maxScore": 100,
+              "gradingSystem": "Score-based with stress management strategies",
+              "numberOfQuestions": 20,
+              "completionRate": 76,
+              "censusData": {
+                "totalParticipants": 80000,
+                "averageScore": 68
+              },
+              "prerequisites": "None",
+              "completionReward": "Stress Management Report"
+            },
+            {
+              "ID": 17,
+              "description": "Learn how you make decisions under pressure, whether you're more analytical or instinctive.",
+              "category": "Decision-Making Assessment",
+              "audience": "Professionals, students, leaders",
+              "instructions": "Answer the scenario-based questions to evaluate your decision-making style.",
+              "resultInterpretation": "Results will indicate your decision-making approach and offer tips for improvement.",
+              "estimatedTime": "12 minutes",
+              "format": "Scenario-based questions",
+              "tags": ["Decision-Making", "Assessment", "Analysis"],
+              "examples": "When faced with a tough choice, I gather as much information as possible before deciding.",
+              "overview": "This test evaluates your decision-making style, helping you make better choices under pressure.",
+              "imagesURL": "https://example.com/images/decision-making-style-test.jpg",
+              "maxScore": 100,
+              "gradingSystem": "Score-based with decision-making insights",
+              "numberOfQuestions": 18,
+              "completionRate": 84,
+              "censusData": {
+                "totalParticipants": 65000,
+                "mostCommonStyle": "Analytical"
+              },
+              "prerequisites": "None",
+              "completionReward": "Decision-Making Style Report"
+            }
+          ]
+  },
+  { "previewList": [ 
+    {
+      "id": 1,
+      "title": "Big Five Personality Test",
+      "imagesURL": "https://example.com/images/big-five-personality-test.jpg",
+      "briefDescription": "Discover your dominant personality traits across five dimensions.",
+      "difficulty": [
+        { "Easy": "Active" },
+        { "Medium": "Coming Soon" },
+        { "Hard": "Coming Soon" }
+      ],
+      "audience": "Individuals interested in self-discovery"
+    },
+    {
+      "id": 2,
+      "title": "Myers-Briggs Type Indicator (MBTI)",
+      "imagesURL": "https://example.com/images/mbti.jpg",
+      "briefDescription": "Find out your personality type based on your preferences.",
+      "difficulty": [
+        { "Easy": "Active" },
+        { "Medium": "Coming Soon" },
+        { "Hard": "Coming Soon" }
+      ],
+      "audience": "Individuals seeking to understand their personality"
+    },
+    {
+      "id": 3,
+      "title": "Personality Preferences Test (Likert Scale)",
+      "imagesURL": "https://example.com/images/personality-preferences-test.jpg",
+      "briefDescription": "Gauge your preferences and tendencies in various situations.",
+      "difficulty": [
+        { "Easy": "Active" },
+        { "Medium": "Coming Soon" },
+        { "Hard": "Coming Soon" }
+      ],
+      "audience": "Individuals interested in personal insights"
+    },
+    {
+      "id": 4,
+      "title": "Emotional Intelligence (EQ) Test",
+      "imagesURL": "https://example.com/images/emotional-intelligence-test.jpg",
+      "briefDescription": "Measure your ability to recognize and manage emotions.",
+      "difficulty": [
+        { "Easy": "Coming Soon" },
+        { "Medium": "Coming Soon" },
+        { "Hard": "Coming Soon" }
+      ],
+      "audience": "Individuals looking to improve emotional awareness"
+    },
+    {
+      "id": 5,
+      "title": "Trait Self-Esteem Test",
+      "imagesURL": "https://example.com/images/trait-self-esteem-test.jpg",
+      "briefDescription": "Assess your level of self-esteem based on different traits.",
+      "difficulty": [
+        { "Easy": "Coming Soon" },
+        { "Medium": "Coming Soon" },
+        { "Hard": "Coming Soon" }
+      ],
+      "audience": "Individuals seeking self-improvement"
+    },
+    {
+      "id": 6,
+      "title": "Workplace Behavior & Strengths Test",
+      "imagesURL": "https://example.com/images/workplace-behavior-test.jpg",
+      "briefDescription": "Identify your preferred work style and strengths in professional environments.",
+      "difficulty": [
+        { "Easy": "Coming Soon" },
+        { "Medium": "Coming Soon" },
+        { "Hard": "Coming Soon" }
+      ],
+      "audience": "Professionals and team members"
+    },
+    {
+      "id": 7,
+      "title": "Communication Style Test",
+      "imagesURL": "https://example.com/images/communication-style-test.jpg",
+      "briefDescription": "Learn your communication style in various contexts.",
+      "difficulty": [
+        { "Easy": "Coming Soon" },
+        { "Medium": "Coming Soon" },
+        { "Hard": "Coming Soon" }
+      ],
+      "audience": "Individuals seeking to enhance communication skills"
+    },
+    {
+      "id": 8,
+      "title": "Cognitive Abilities Test",
+      "imagesURL": "https://example.com/images/cognitive-abilities-test.jpg",
+      "briefDescription": "Measure your reasoning and problem-solving skills.",
+      "difficulty": [
+        { "Easy": "Coming Soon" },
+        { "Medium": "Coming Soon" },
+        { "Hard": "Coming Soon" }
+      ],
+      "audience": "Individuals wanting to assess cognitive skills"
+    },
+    {
+      "id": 9,
+      "title": "Conflict Resolution Style Test",
+      "imagesURL": "https://example.com/images/conflict-resolution-test.jpg",
+      "briefDescription": "Discover how you handle conflict and stressful situations.",
+      "difficulty": [
+        { "Easy": "Coming Soon" },
+        { "Medium": "Coming Soon" },
+        { "Hard": "Coming Soon" }
+      ],
+      "audience": "Individuals interested in conflict management"
+    },
+    {
+      "id": 10,
+      "title": "Career Values Assessment",
+      "imagesURL": "https://example.com/images/career-values-assessment.jpg",
+      "briefDescription": "Understand what motivates you at work.",
+      "difficulty": [
+        { "Easy": "Coming Soon" },
+        { "Medium": "Coming Soon" },
+        { "Hard": "Coming Soon" }
+      ],
+      "audience": "Professionals seeking career insights"
+    },
+    {
+      "id": 11,
+      "title": "Motivation and Drive Test",
+      "imagesURL": "https://example.com/images/motivation-drive-test.jpg",
+      "briefDescription": "Assess what drives you to succeed and your motivation levels.",
+      "difficulty": [
+        { "Easy": "Coming Soon" },
+        { "Medium": "Coming Soon" },
+        { "Hard": "Coming Soon" }
+      ],
+      "audience": "Individuals seeking personal growth"
+    },
+    {
+      "id": 12,
+      "title": "Team Role Assessment",
+      "imagesURL": "https://example.com/images/team-role-assessment.jpg",
+      "briefDescription": "Identify the role you naturally take in team settings.",
+      "difficulty": [
+        { "Easy": "Coming Soon" },
+        { "Medium": "Coming Soon" },
+        { "Hard": "Coming Soon" }
+      ],
+      "audience": "Professionals and team members"
+    },
+    {
+      "id": 13,
+      "title": "Leadership Style Test",
+      "imagesURL": "https://example.com/images/leadership-style-test.jpg",
+      "briefDescription": "Determine your leadership approach.",
+      "difficulty": [
+        { "Easy": "Coming Soon" },
+        { "Medium": "Coming Soon" },
+        { "Hard": "Coming Soon" }
+      ],
+      "audience": "Managers and aspiring leaders"
+    },
+    {
+      "id": 14,
+      "title": "Creativity and Innovation Test",
+      "imagesURL": "https://example.com/images/creativity-innovation-test.jpg",
+      "briefDescription": "Measure your creative problem-solving abilities.",
+      "difficulty": [
+        { "Easy": "Coming Soon" },
+        { "Medium": "Coming Soon" },
+        { "Hard": "Coming Soon" }
+      ],
+      "audience": "Professionals and creatives"
+    },
+    {
+      "id": 15,
+      "title": "Adaptability and Flexibility Test",
+      "imagesURL": "https://example.com/images/adaptability-flexibility-test.jpg",
+      "briefDescription": "Assess how well you adapt to changing circumstances.",
+      "difficulty": [
+        { "Easy": "Coming Soon" },
+        { "Medium": "Coming Soon" },
+        { "Hard": "Coming Soon" }
+      ],
+      "audience": "Individuals seeking personal development"
+    },
+    {
+      "id": 16,
+      "title": "Stress Management Test",
+      "imagesURL": "https://example.com/images/stress-management-test.jpg",
+      "briefDescription": "Evaluate how you handle stress in various environments.",
+      "difficulty": [
+        { "Easy": "Coming Soon" },
+        { "Medium": "Coming Soon" },
+        { "Hard": "Coming Soon" }
+      ],
+      "audience": "Individuals seeking to improve stress management"
+    },
+    {
+      "id": 17,
+      "title": "Decision-Making Style Test",
+      "imagesURL": "https://example.com/images/decision-making-style-test.jpg",
+      "briefDescription": "Learn how you make decisions under pressure.",
+      "difficulty": [
+        { "Easy": "Coming Soon" },
+        { "Medium": "Coming Soon" },
+        { "Hard": "Coming Soon" }
+      ],
+      "audience": "Professionals and leaders"
+    }
+
+
+
+
+  ]
+
+
+
+}
+]
+
+}  
