@@ -565,3 +565,13 @@ function createTagInputSystem({ tagsContainerId, badgeClass = "tag-primary" }) {
     // Return input and clear button for external listeners
     return { tagInput, clearTagsButton, tagsList, addTag };
 }
+
+
+// Set up event listener for focus out
+tagInput.addEventListener("focusout", () => {
+    const tag = tagInput.value.trim();
+    if (tag) {
+        // Show a toast notification when focus is lost and there's a value
+        showToast('Press Enter to add Tag', 'info');
+    }
+});
