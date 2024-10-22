@@ -394,12 +394,7 @@ fetchRecruiterData(user.uid);
         document.getElementById("jobSuccessLabel").textContent = "Draft Saved Successfully!";
       }
 
-      // Log the job event in analytics
-      logEvent(analytics, "job_post", {
-        jobTitle: jobDetails.title,
-        actionType: actionType,
-        boostStatus: jobDetails.boosted ? "boosted" : "normal"
-      });
+
 
       resetForm(); // Reset the form after successful submission
     } catch (error) {
