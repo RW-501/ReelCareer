@@ -47,7 +47,7 @@ import {
          recruiterID = document.getElementById("appUserID").innerText;
          jobID = []; // Populate with relevant job IDs, if any
          jobTitle = document.getElementById("jobTitle").value;
-         let companyIdValue = document.getElementById("appCompanyID").value;
+       const  location = document.getElementById("jobLocation").value;
 
         console.log("Collect input values   ",jobTitle," t ",
           companyIdValue," c ",
@@ -59,6 +59,7 @@ import {
           companyName: companyName,
           recruiterIDs: [recruiterID],
           jobIDs: jobID,
+          location: location,
           jobTitles: [jobTitle]
         });
   
@@ -370,16 +371,10 @@ fetchRecruiterData(user.uid);
         jobID
       );
 
-      console.log("nw comp   ",jobTitle," t ",
-        companyIdValue," c ",
-        companyName," tcn ",
-        recruiterID," r id ",
-        jobID);
   
       if (!newCompanyId || !companyIdValue) {
         showErrorMessage("Create a Company Page");
   
-        return;
       } else {
         showErrorMessage("New Company ID returned:", newCompanyId);
       }
