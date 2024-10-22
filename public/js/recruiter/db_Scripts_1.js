@@ -726,7 +726,7 @@ let moderatedCompanies = jobPosts.filter(job => {
                                 <li class="list-group-item"><strong>Salary:</strong> ${job.salary}</li>
                                 <li class="list-group-item"><strong>Application Deadline:</strong> ${job.applicationDeadline ? job.applicationDeadline.toDate().toLocaleString() : "None"}</li>
                             </ul>
-                            <button class="view-company btn btn-info mt-3" data-company-id="${company.companyId}">View Company</button>
+                            <button class="view-job btn btn-info mt-3" data-job-id="${job.jobID}">View Company</button>
                             <button class="deactivate-job btn btn-danger mt-3" data-job-id="${job.jobID}">Deactivate</button>
                             <button class="pause-job btn btn-warning mt-3" data-job-id="${job.jobID}">Pause</button>
                             <button class="edit-job btn btn-secondary mt-3" disabled>Edit Post</button> <!-- Disabled Edit Button -->
@@ -740,22 +740,42 @@ let moderatedCompanies = jobPosts.filter(job => {
             
             
             });
+     
         
-  // Filter functions
-function filterJobs(jobPosts, status) {
-    return jobPosts.filter(job => job.status === status || job.status === 'draft');
-}
-
-$('#show-active-drafts').on('click', () => {
-    fetchRecruiterData(recruiterID).then(jobPosts => {
-        const filteredJobs = filterJobs(jobPosts, 'active');
-        displayJobPosts(filteredJobs);
+  
+// Event listener for showing active and draft jobs
+$('#show-drafts').on('click', () => {
+    // Fetch the job posts data and filter for 'active' and 'draft' statuses
+    const filteredJobs = jobPosts.filter(job => {
+        const jobStatus = job.status.toLowerCase();
+        return  jobStatus === 'draft';
     });
+    
+    // Call a function to display the filtered jobs (this can be a function that updates the DOM)
+    displayJobPosts(filteredJobs);
 });
 
+// Event listener for showing active and draft jobs
 $('#show-all-jobs').on('click', () => {
-    fetchRecruiterData(recruiterID);
+    // Fetch the job posts data and filter for 'active' and 'draft' statuses
+    const filteredJobs = jobPosts.filter(job => {
+        const jobStatus = job.status.toLowerCase();
+        return jobStatus === 'active' || jobStatus === 'draft'  || jobStatus === 'paused';
+    });
+    displayJobPosts(filteredJobs);
 });
+
+    $('#show-paused').on('click', () => {
+        // Fetch the job posts data and filter for 'active' and 'draft' statuses
+        const filteredJobs = jobPosts.filter(job => {
+            const jobStatus = job.status.toLowerCase();
+            return jobStatus === 'paused';
+        });
+    
+    // Call a function to display the filtered jobs (this can be a function that updates the DOM)
+    displayJobPosts(filteredJobs);
+});
+
 
 
 $('#sort-job').on('change', function () {
@@ -825,7 +845,7 @@ $(document).on('click', '.job-post', function () {
 
 
 // Implement toggle functionality for job details
-$(document).on('click', '.job-title', function () {
+$(document).on('click', '.view-job', function () {
     $(this).next('.job-details').toggle();
     const jobID = $(this).closest('.job-post').data('job-id');
     window.location.href = `../views/job-detail?id=${jobID}`;
@@ -836,8 +856,9 @@ $(document).on('click', '.job-title', function () {
 // Implement close button functionality
 $(document).on('click', '.close-job-details', function (event) {
     event.stopPropagation(); // Prevent the event from bubbling up
-    $(this).closest('.job-details').slideUp(); // Hide the job details
+    $(this).closest('.job-details').hide(); // Hide the job details (without animation)
 });
+
 
 
 // Implement deactivate job functionality
@@ -856,8 +877,11 @@ $(document).on('click', '.pause-job', function () {
 $(document).on('click', '.view-analytics', function () {
     const jobID = $(this).data('job-id');
     // Code to open the analytics page or modal
-    openAnalytics(jobID); // Define this function to handle displaying analytics
+   // openAnalytics(jobID); // Define this function to handle displaying analytics
 });
+
+
+
 
             // Loop through moderated companies and display them
             moderatedCompanies.forEach(company => {
@@ -916,6 +940,10 @@ $(document).on('click', '.view-analytics', function () {
 
             
 }
+
+
+
+
 // Function to get the status color based on job status
 function getStatusColor(status) {
     switch (status) {
