@@ -33,7 +33,6 @@ function addQuestionField() {
     cardHeader.innerHTML = `Question ${questionCounter}`;
     cardBody.appendChild(cardHeader);
 
-    showQuestionSuggestions(cardBody, questionCounter);
 
     // Add the input field for the question
     const questionInput = document.createElement('input');
@@ -45,8 +44,9 @@ function addQuestionField() {
     addRealTimeValidation(questionInput);
     cardBody.appendChild(questionInput);
 
-    // Add helpful hints below the input
-   
+   // Show question suggestions above the question input
+   showQuestionSuggestions(cardBody, questionCounter);
+
     // Array of helpful hints
     const helpfulHints = [
         'Tip: Make your question clear and concise to get the best responses.',
@@ -140,7 +140,12 @@ function addQuestionField() {
 
 
 // Function to show suggestions for common questions
-function showQuestionSuggestions(input, questionCounter) {
+function showQuestionSuggestions(cardBody, questionCounter) {
+    const suggestionsContainer = document.createElement('ul');
+    suggestionsContainer.className = "list-group mb-2"; // Bootstrap class for styling
+
+
+
     // Expanded list of suggestions with multiple choice questions
     const allSuggestions = [
         'What are your career goals?',
@@ -183,9 +188,10 @@ function showQuestionSuggestions(input, questionCounter) {
     // Limit to 5 random suggestions per question
     const randomSuggestions = shuffledSuggestions.slice(0, 5);
 
-    // Create the datalist for suggestions
-    const suggestionDropdown = document.createElement('datalist');
-    suggestionDropdown.id = `suggestions-${questionCounter}`;
+    randomSuggestions.forEach(suggestion => {
+        const suggestionItem = document.createElement('li');
+        suggestionItem.className = "list-group-item";
+        suggestionItem.textContent = suggestion;
     
     randomSuggestions.forEach(suggestion => {
         const option = document.createElement('option');
@@ -193,11 +199,17 @@ function showQuestionSuggestions(input, questionCounter) {
         suggestionDropdown.appendChild(option);
     });
 
-    console.log("input  ", input);
-    console.log("questionCounter  ", questionCounter);
+ // Optionally add a click event to populate the question input
+ suggestionItem.onclick = function() {
+    const questionInput = cardBody.querySelector('input');
+    questionInput.value = suggestion;
+};
 
-    input.setAttribute('list', suggestionDropdown.id);
-    input.parentNode.appendChild(suggestionDropdown);
+suggestionsContainer.appendChild(suggestionItem);
+});
+
+// Append the suggestions container above the question input
+cardBody.appendChild(suggestionsContainer);
 }
 
 
@@ -268,12 +280,7 @@ function addMultipleChoice(questionDiv, questionNumber) {
 
     questionDiv.appendChild(multipleChoiceDiv);
 
-      // Check if statement already exists
-      if (multipleChoiceDiv.querySelector('button')) {
-        showTemporaryMessage(multipleChoiceDiv,'You working.');
-        return;
-    }
-
+ 
 }
 
 function addMoreMultipleChoice(multipleChoiceDiv, questionNumber) {
@@ -287,7 +294,6 @@ function addMoreMultipleChoice(multipleChoiceDiv, questionNumber) {
         showTemporaryMessage(multipleChoiceDiv,'Options must be unique. Please remove duplicate entries.');
         return;
     }
-    // Existin
 
 
 
