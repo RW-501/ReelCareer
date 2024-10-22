@@ -980,7 +980,7 @@ async function updateJobStatus(jobID, newStatus, recruiterID) {
         const jobPosts = userData.jobPosts || [];
 
         const jobIndex = jobPosts.findIndex(job => job.jobID === jobID);
-console.log(job.jobID,"   Jobs   ");
+//console.log(job.jobID,"   Jobs   ");
 
 
         if (jobIndex === -1) {
