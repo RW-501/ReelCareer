@@ -149,6 +149,20 @@ function showQuestionSuggestions(cardBody, questionCounter) {
     collapseButton.setAttribute('aria-expanded', 'false');
     collapseButton.setAttribute('aria-controls', `suggestionsContainer${questionCounter}`);
     collapseButton.textContent = 'Show Suggestions';
+    
+    // Adding event listener to handle text change on click
+    collapseButton.addEventListener('click', function() {
+        const suggestionsContainer = document.getElementById(`suggestionsContainer${questionCounter}`);
+        const isCollapsed = suggestionsContainer.classList.contains('show');
+        
+        // Update the button text based on the visibility of the suggestions
+        if (isCollapsed) {
+            collapseButton.textContent = 'Show Suggestions';
+        } else {
+            collapseButton.textContent = 'Hide Suggestions';
+        }
+    });
+    
 
     // Suggestions container (collapsible)
     const suggestionsContainer = document.createElement('div');
@@ -211,7 +225,12 @@ function showQuestionSuggestions(cardBody, questionCounter) {
         suggestionButton.onclick = function () {
             const questionInput = cardBody.querySelector('input');
             questionInput.value = suggestion;
+        
+            // Hide or collapse the suggestion box after selecting a suggestion
+            const suggestionsContainer = cardBody.querySelector(`#suggestionsContainer${questionCounter}`);
+            suggestionsContainer.classList.remove('show');  // If using Bootstrap's collapse
         };
+        
 
         suggestionList.appendChild(suggestionButton);
     });
@@ -258,15 +277,21 @@ function resetQuestionLabels() {
 
 
 function addMultipleChoice(questionDiv, questionNumber) {
+    // Check if a multiple choice section already exists
+    const existingMultipleChoiceDiv = questionDiv.querySelector(`#multiple-choice-${questionNumber}`);
+    if (existingMultipleChoiceDiv) {
+        alert('Multiple choice options have already been added for this question.');
+        return; // Exit the function if a section already exists
+    }
+
     // Disable the Statement button
     const statementButton = questionDiv.querySelector('.btn-secondary');
     statementButton.disabled = true; // Disable Statement Button
 
+    // Create the multiple choice div
     const multipleChoiceDiv = document.createElement('div');
     multipleChoiceDiv.id = `multiple-choice-${questionNumber}`;
     multipleChoiceDiv.className = "mt-3"; // Added margin-top for spacing
-
-
 
     // First choice input with validation
     const choiceInput = document.createElement('input');
@@ -279,6 +304,7 @@ function addMultipleChoice(questionDiv, questionNumber) {
     addRealTimeValidation(choiceInput);
     multipleChoiceDiv.appendChild(choiceInput);
 
+    // Add "Add more options" button
     const addMoreButton = document.createElement('button');
     addMoreButton.type = 'button';
     addMoreButton.className = "btn btn-success mt-2"; // Margin-top for spacing
@@ -288,17 +314,15 @@ function addMultipleChoice(questionDiv, questionNumber) {
     };
     multipleChoiceDiv.appendChild(addMoreButton);
 
+    // Append multiple choice div to the question div
     questionDiv.appendChild(multipleChoiceDiv);
-
- 
 }
+
 
 function addMoreMultipleChoice(multipleChoiceDiv, questionNumber) {
     const options = multipleChoiceDiv.querySelectorAll('input');
     const optionValues = Array.from(options).map(input => input.value.trim());
 
-    const multipleChoiceButton = questionDiv.querySelector('.btn btn-primary');
-    multipleChoiceButton.disabled = true; // Disable Multiple Choice Button
 
     // Check for duplicates
     const duplicates = optionValues.filter((item, index) => optionValues.indexOf(item) !== index);
