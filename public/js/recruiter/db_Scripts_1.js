@@ -997,9 +997,16 @@ async function updateJobStatus(jobID, newStatus) {
         const userData = userDoc.data();
         const jobPosts = userData.jobPosts || [];
 
-// Find the index of the job post to update
         const jobIndex = jobPosts.findIndex(job => job.jobID === jobID);
 
+        if (jobIndex === -1) {
+            console.error("Job not found in user's job posts.");
+            return; // Exit the function if the job post isn't found
+        }
+        
+        // Proceed with the update
+        jobPosts[jobIndex].status = newStatus;
+        
         if (jobIndex !== -1) {
             // Update the status of the job post in the array
             jobPosts[jobIndex].status = newStatus;
