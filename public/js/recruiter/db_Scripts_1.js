@@ -776,16 +776,7 @@ let moderatedCompanies = jobPosts.filter(job => {
             
 }
 
-// Function to show toast notifications
-function showToast(message) {
-    const toast = $(`<div class="toast">${message}</div>`);
-    $('body').append(toast);
-    setTimeout(() => {
-        toast.fadeOut(() => {
-            toast.remove();
-        });
-    }, 3000);
-}
+
 
 // Function to update the job status in the Jobs collection
 async function updateJobStatus(jobID, newStatus) {
@@ -793,7 +784,7 @@ async function updateJobStatus(jobID, newStatus) {
     await updateDoc(jobRef, {
         status: newStatus
     });
-    showToast(`Job ${jobID} has been updated to ${newStatus}.`);
+    showToast(`Job ${jobID} has been updated to ${newStatus}.`, 'success')
 }
 
 // Expand/Collapse All functionality
