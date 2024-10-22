@@ -541,7 +541,7 @@ fetchRecruiterData(user.uid);
   function showSuccessModal(jobId, jobDetails) {
     try {
         document.getElementById("jobIdSuccess").textContent = jobId;
-        document.getElementById("jobTitleLinkSuccess").textContent = jobDetails.jobTitle;
+        document.getElementById("jobTitleSuccess").textContent = `Job Title: ${jobDetails.jobTitle}`;;
         document.getElementById("jobTitleLinkSuccess").href = `/views/job-detail.html?id=${jobId}`; // Update the link properly
         document.getElementById("jobLocationSuccess").textContent = jobDetails.location;
         const formattedDate = formatDateString(jobDetails.applicationDeadline);
