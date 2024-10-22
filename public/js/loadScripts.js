@@ -491,11 +491,18 @@ function addTagStyles() {
 function createTagInputSystem({ tagsContainerId, badgeClass = "tag-primary" }) {
     const tagsContainer = document.getElementById(tagsContainerId);
 
+    // Create hidden input to store tags for database
+    const hiddenInput = document.createElement("input");
+    hiddenInput.type = "hidden"; // Make this input hidden
+    hiddenInput.name = "tags"; // Give it a name for form submission
+    tagsContainer.appendChild(hiddenInput);
+
     // Create input for tags dynamically
     const tagInput = document.createElement("input");
     tagInput.type = "text";
     tagInput.className = "form-control tagInput mt-2";
     tagInput.placeholder = "Add a tag and press Enter";
+    tagInput.style.display = "none"; // Hide the input from the user
 
     // Create tags list container dynamically
     const tagsList = document.createElement("div");
@@ -511,6 +518,12 @@ function createTagInputSystem({ tagsContainerId, badgeClass = "tag-primary" }) {
     clearTagsButton.textContent = "Clear Tags";
     tagsContainer.appendChild(clearTagsButton);
 
+    // Function to update hidden input with tags
+    function updateHiddenInput() {
+        const tags = Array.from(tagsList.children).map(tag => tag.textContent.replace(" x", "").trim());
+        hiddenInput.value = tags.join(","); // Update hidden input with comma-separated tags
+    }
+
     // Function to add a tag
     function addTag(tag) {
         if (!tag) return; // Prevent empty tags
@@ -524,10 +537,12 @@ function createTagInputSystem({ tagsContainerId, badgeClass = "tag-primary" }) {
         removeButton.className = "ml-1 btn btn-sm tag"; // Styling for remove button
         removeButton.onclick = () => {
             tagsList.removeChild(tagElement);
+            updateHiddenInput(); // Update hidden input after removing tag
         };
 
         tagElement.appendChild(removeButton);
         tagsList.appendChild(tagElement);
+        updateHiddenInput(); // Update hidden input when a new tag is added
     }
 
     // Set up event listener for the tag input
@@ -543,6 +558,7 @@ function createTagInputSystem({ tagsContainerId, badgeClass = "tag-primary" }) {
     // Event listener to clear all tags
     clearTagsButton.addEventListener("click", () => {
         tagsList.innerHTML = ""; // Clear all tags
+        updateHiddenInput(); // Update hidden input after clearing tags
     });
 
     // Return input and clear button for external listeners
