@@ -193,11 +193,7 @@ function showQuestionSuggestions(cardBody, questionCounter) {
         suggestionItem.className = "list-group-item";
         suggestionItem.textContent = suggestion;
     
-    randomSuggestions.forEach(suggestion => {
-        const option = document.createElement('option');
-        option.value = suggestion;
-        suggestionDropdown.appendChild(option);
-    });
+
 
  // Optionally add a click event to populate the question input
  suggestionItem.onclick = function() {
