@@ -828,14 +828,30 @@ $('#filter-deadline').on('change', function () {
 $(document).on('click', '.job-post', function () {
     const $jobDetails = $(this).find('.job-details');
     
-    // Hide other job details
-    $('.job-details').not($jobDetails).hide();
+    // Hide other job details, stopping any currently running animations
+    $('.job-details').not($jobDetails).stop(true, true).slideUp();
     
-    // Toggle the clicked job details
-    $jobDetails.slideToggle();
+    // Toggle the clicked job details with stop
+    $jobDetails.stop(true, true).slideToggle();
+    
+    // Update aria-expanded attribute for accessibility
+    $(this).attr('aria-expanded', $jobDetails.is(':visible'));
 });
 
 
+
+/*
+// Close job details if clicking outside of job posts
+$(document).on('click', function (event) {
+    if (!$(event.target).closest('.job-post').length) {
+        $('.job-details').slideUp();
+    }
+});
+*/
+            // Implement toggle functionality for company details
+            $(document).on('click', '.job-post', function () {
+                $(this).next('.job-details').toggle();
+            });
 
 // Implement toggle functionality for job details
 $(document).on('click', '.view-job', function () {
