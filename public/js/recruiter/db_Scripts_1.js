@@ -26,11 +26,12 @@ import {
   );
   
   // Collect input values
-  const companyName = document.getElementById("company").value;
-  const recruiterID = document.getElementById("appUserID").innerText;
-  const jobID = []; // Populate with relevant job IDs, if any
-  const jobTitle = document.getElementById("jobTitle").value;
-  
+  let companyName = document.getElementById("company").value;
+  let recruiterID = document.getElementById("appUserID").innerText;
+  let jobID = []; // Populate with relevant job IDs, if any
+  let jobTitle = document.getElementById("jobTitle").value;
+ 
+
   // Define the submitJobPost function
   const submitJobPost = async (
     jobTitle,
@@ -42,6 +43,16 @@ import {
     try {
       // Check if the company ID is empty
       if (companyId === "") {
+         companyName = document.getElementById("company").value;
+         recruiterID = document.getElementById("appUserID").innerText;
+         jobID = []; // Populate with relevant job IDs, if any
+         jobTitle = document.getElementById("jobTitle").value;
+       
+        console.log("Collect input values   ",jobTitle," t ",
+          companyIdValue," c ",
+          companyName," tcn ",
+          recruiterID," r id ",
+          jobID);
         // Create a new company in the Companies collection
         const newCompanyRef = await addDoc(collection(db, "Companies"), {
           companyName: companyName,
@@ -357,6 +368,12 @@ fetchRecruiterData(user.uid);
         recruiterID,
         jobID
       );
+
+      console.log("nw comp   ",jobTitle," t ",
+        companyIdValue," c ",
+        companyName," tcn ",
+        recruiterID," r id ",
+        jobID);
   
       if (!newCompanyId || !companyIdValue) {
         showErrorMessage("Create a Company Page");
