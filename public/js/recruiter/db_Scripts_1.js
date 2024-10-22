@@ -474,7 +474,7 @@ fetchRecruiterData(user.uid);
       .value.split(",")
       .map((jobFunction) => jobFunction.trim()),
       tags: document
-      .getElementById("tags")
+      .getElementById("tagInput")
       .value.split(",")
       .map((tags) => tags.trim()),
       complianceCheck: document.getElementById("complianceCheck").checked,
