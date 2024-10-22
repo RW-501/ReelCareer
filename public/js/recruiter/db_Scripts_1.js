@@ -829,7 +829,7 @@ $(document).on('click', '.job-post', function () {
     const $jobDetails = $(this).find('.job-details');
     
     // Hide other job details
-    $('.job-details').not($jobDetails).toggle();
+    $('.job-details').not($jobDetails).hide();
     
     // Toggle the clicked job details
     $jobDetails.slideToggle();
