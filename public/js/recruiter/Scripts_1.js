@@ -269,8 +269,8 @@ function addMultipleChoice(questionDiv, questionNumber) {
     questionDiv.appendChild(multipleChoiceDiv);
 
       // Check if statement already exists
-      if (questionDiv.querySelector('button')) {
-        showTemporaryMessage(questionDiv,'You can only add one statement per question.');
+      if (multipleChoiceDiv.querySelector('button')) {
+        showTemporaryMessage(multipleChoiceDiv,'You working.');
         return;
     }
 
