@@ -491,6 +491,8 @@ function addTagStyles() {
 
 function createTagInputSystem({ tagsContainerId, badgeClass = "tag-primary" }) {
     const tagsContainer = document.getElementById(tagsContainerId);
+    tagsContainer.classList.add("tagsContainer"); // Correct way to add a class
+
 
     // Search for the existing input within the container and hide it
     const existingInput = tagsContainer.querySelector("input[type='url']"); // Assuming this is the input you want to hide
