@@ -290,9 +290,6 @@ fetchRecruiterData(user.uid);
         if (userDoc.exists()) {
           // User data found
           const userData = userDoc.data();
-          console.log("userName User Data:", userData.displayName);
-          console.log("publicBool User Data:", userData.publicProfile);
-          console.log("userPosition User Data:", userData.position);
           userName = userData.displayName;
           publicBool = userData.publicProfile;
           userPosition = userData.position;
@@ -340,7 +337,7 @@ fetchRecruiterData(user.uid);
 
     try {
       // Call submitJobPost to create or retrieve the company ID
-      console.log("Attempting to submit job post with companyIdValue:", companyIdValue);
+    //  console.log("Attempting to submit job post with companyIdValue:", companyIdValue);
       newCompanyId = await submitJobPost(jobTitle, companyIdValue, companyName, recruiterID, jobID);
 
       // Instead of returning, handle the case where the company ID might be empty
@@ -363,7 +360,7 @@ fetchRecruiterData(user.uid);
     let jobDetails;
     try {
       jobDetails = collectJobDetails(newCompanyId);
-      console.log("Collected Job Details:", jobDetails);
+    //  console.log("Collected Job Details:", jobDetails);
     } catch (error) {
       console.error("Error collecting job details:", error);
       alert("An error occurred while collecting job details: " + error.message);
@@ -496,7 +493,7 @@ fetchRecruiterData(user.uid);
   async function saveJobToDatabase(jobDetails) {
     const jobPostingsRef = collection(db, "Jobs");
     const docRef = await addDoc(jobPostingsRef, jobDetails); // Add job details to "Jobs" collection
-    console.log("Job posted successfully with ID:", docRef.id);
+    showToast("Job posted successfully with ID:", docRef.id, 'success')
   
 
 
@@ -516,7 +513,6 @@ fetchRecruiterData(user.uid);
         applicationLink: jobDetails.applicationLink // Direct link to apply
       })
     });
-    console.log(jobDetails);
   
     // Update the user's jobPosts array with the new job ID
     const userRef = doc(db, "Users", auth.currentUser.uid);
@@ -581,6 +577,38 @@ fetchRecruiterData(user.uid);
 }
 
   
+// Function to handle job boosting
+function boostJob() {
+    // Logic for boosting the job, e.g., sending a request to your server
+    const jobId = document.getElementById("jobIdSuccess").textContent;
+
+    // Simulated request to boost the job (replace this with actual API call)
+    console.log(`Boosting job with ID: ${jobId}`);
+
+    // Example of success response (you can replace this with actual server response handling)
+    const boostDuration = 30; // Duration in days for the boost
+    document.getElementById("boostDuration").textContent = boostDuration;
+
+    // Update UI accordingly
+    document.getElementById("boostedArea").style.display = "block";
+    document.getElementById("nonBoostedArea").style.display = "none";
+}
+
+// Add event listener for boostJobBtn
+document.getElementById("boostJobBtn").addEventListener("click", function() {
+    // Call the function to boost the job
+    boostJob();
+});
+
+
+
+
+
+
+
+
+
+
   function resetForm() {
     document.getElementById("jobForm").reset();
     document.getElementById("jobForm").classList.remove("was-validated");
@@ -642,7 +670,7 @@ fetchRecruiterData(user.uid);
 async function fetchRecruiterData(recruiterID) {
     const userRef = doc(db, "Users", recruiterID);
     const userDoc = await getDoc(userRef);
-    console.log("recruiterID   ",recruiterID);
+    //console.log("recruiterID   ",recruiterID);
 
 
 
@@ -686,7 +714,7 @@ let moderatedCompanies = jobPosts.filter(job => {
             jobPosts.forEach(job => {
                 jobIDsList.push(job.jobID); // Push each jobID into the array
 
-                console.log("jobIDsList  ",jobIDsList);
+               // console.log("jobIDsList  ",jobIDsList);
 
                 const jobElement = $(`
                     <div class="job-post card mb-3" data-job-id="${job.jobID}">
