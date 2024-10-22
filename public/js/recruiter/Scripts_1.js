@@ -285,7 +285,7 @@ function addMultipleChoice(questionDiv, questionNumber) {
     // Check if a multiple choice section already exists
     const existingMultipleChoiceDiv = questionDiv.querySelector(`#multiple-choice-${questionNumber}`);
     if (existingMultipleChoiceDiv) {
-        alert('Multiple choice options have already been added for this question.');
+        showTemporaryMessage(existingMultipleChoiceDiv,'Multiple choice options have already been added for this question.');
         return; // Exit the function if a section already exists
     }
 
@@ -424,9 +424,10 @@ function collectCustomQuestions() {
             });
 
             if (options.length === 0) {
-                alert(`Please provide at least one option for question ${i}`);
+                showTemporaryMessage(optionInputs,`Please provide at least one option for question ${i}`);
                 continue;
             }
+            
 
             customQuestions.push({ question: questionText, type: questionType, options });
         } else {
