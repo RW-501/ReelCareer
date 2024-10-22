@@ -148,7 +148,7 @@ function showQuestionSuggestions(cardBody, questionCounter) {
     collapseButton.setAttribute('data-target', `#suggestionsContainer${questionCounter}`);
     collapseButton.setAttribute('aria-expanded', 'false');
     collapseButton.setAttribute('aria-controls', `suggestionsContainer${questionCounter}`);
-    collapseButton.textContent = 'Show Suggestions';
+    collapseButton.innerHTML = 'Show Suggestions';
     
     // Adding event listener to handle text change on click
     collapseButton.addEventListener('click', function() {
@@ -312,7 +312,7 @@ function addMultipleChoice(questionDiv, questionNumber) {
     // Add "Add more options" button
     const addMoreButton = document.createElement('button');
     addMoreButton.type = 'button';
-    addMoreButton.className = "btn  mt-2"; // Margin-top for spacing
+    addMoreButton.className = "btn btn-success mt-2"; // Margin-top for spacing
     addMoreButton.innerHTML = 'Add more options';
     addMoreButton.onclick = function () {
         addMoreMultipleChoice(multipleChoiceDiv, questionNumber);
