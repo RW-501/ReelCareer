@@ -107,7 +107,7 @@ function addQuestionField() {
     // Add Statement Button
     const statementButton = document.createElement('button');
     statementButton.type = 'button';
-    statementButton.className = "btn btn-secondary me-2 col-md-3 mx-2";
+    statementButton.className = "btn btn-secondary me-2 col-md-3 mx-2 statementButton";
     statementButton.innerHTML = 'Statement';
     statementButton.onclick = function () {
         addStatement(questionDiv);
@@ -290,7 +290,7 @@ function addMultipleChoice(questionDiv, questionNumber) {
     }
 
     // Disable the Statement button
-    const statementButton = questionDiv.querySelector('.btn-secondary');
+    const statementButton = questionDiv.querySelector('.btn-secondary .statementButton');
     statementButton.disabled = true; // Disable Statement Button
 
     // Create the multiple choice div
