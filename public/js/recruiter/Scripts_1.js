@@ -326,6 +326,8 @@ function addMultipleChoice(questionDiv, questionNumber) {
 
 function addMoreMultipleChoice(multipleChoiceDiv, questionNumber) {
     const options = multipleChoiceDiv.querySelectorAll('input');
+
+    /*
     const optionValues = Array.from(options).map(input => input.value.trim());
 
 
@@ -336,7 +338,7 @@ function addMoreMultipleChoice(multipleChoiceDiv, questionNumber) {
         return;
     }
 
-
+*/
 
 
     // Validate that all existing options have values
