@@ -327,19 +327,14 @@ function addMultipleChoice(questionDiv, questionNumber) {
 function addMoreMultipleChoice(multipleChoiceDiv, questionNumber) {
     const options = multipleChoiceDiv.querySelectorAll('input');
 
-    /*
     const optionValues = Array.from(options).map(input => input.value.trim());
-
 
     // Check for duplicates
     const duplicates = optionValues.filter((item, index) => optionValues.indexOf(item) !== index);
     if (duplicates.length > 0) {
-        showTemporaryMessage(multipleChoiceDiv,'Options must be unique. Please remove duplicate entries.');
+        showTemporaryMessage(multipleChoiceDiv, 'Options must be unique. Please remove duplicate entries.');
         return;
     }
-
-*/
-
 
     // Validate that all existing options have values
     let valid = true;
@@ -353,13 +348,13 @@ function addMoreMultipleChoice(multipleChoiceDiv, questionNumber) {
     });
 
     if (!valid) {
-        showTemporaryMessage(multipleChoiceDiv,'Please fill in all current options before adding more.');
+        showTemporaryMessage(multipleChoiceDiv, 'Please fill in all current options before adding more.');
         return;
     }
 
     // Limit the number of options to 5
     if (options.length >= 5) {
-        showTemporaryMessage(multipleChoiceDiv,'You can only add up to 5 options.');
+        showTemporaryMessage(multipleChoiceDiv, 'You can only add up to 5 options.');
         return;
     }
 
@@ -379,14 +374,15 @@ function addMoreMultipleChoice(multipleChoiceDiv, questionNumber) {
     removeButton.type = 'button';
     removeButton.className = "btn btn-danger mt-2";
     removeButton.innerHTML = 'Remove option';
-    removeButton.onclick = function() {
+    removeButton.onclick = function () {
         choiceInput.remove();
         removeButton.remove();
     };
-    
-    multipleChoiceDiv.insertBefore(removeButton, multipleChoiceDiv.lastElementChild);
-}
 
+    // Append the new input and remove button to the multiple choice div
+    multipleChoiceDiv.appendChild(choiceInput);
+    multipleChoiceDiv.appendChild(removeButton);
+}
 
 
 function addStatement(questionDiv) {
