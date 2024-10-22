@@ -40,7 +40,13 @@ function addQuestionField() {
     questionInput.className = "form-control mb-2";
     questionInput.placeholder = `Enter question ${questionCounter}`;
     questionInput.name = `question-${questionCounter}-text`;
- 
+     // Add input event listener for the question input
+     const suggestionsButton = cardBody.querySelector('button'); // Assuming there's a main question input
+     if (suggestionsButton) {
+         questionInput.addEventListener('input', function () {
+            suggestionsButton.innerHTML = 'Show Suggestions'; // Reset button text on input
+         });
+     }
 
 
 
