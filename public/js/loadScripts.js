@@ -495,11 +495,18 @@ function createTagInputSystem({ tagsContainerId, badgeClass = "tag-primary" }) {
 
 
     // Search for the existing input within the container and hide it
-    const existingInput = tagsContainer.querySelector("input[type='url']"); // Assuming this is the input you want to hide
+    const existingInput = tagsContainer.querySelector("input[type='text']"); // Assuming this is the input you want to hide
     if (existingInput) {
         existingInput.style.display = "none"; // Hide the existing input
     }
 
+        // Create a temporary input to handle tag entries, which will be hidden
+        const tagInput = document.createElement("input");
+        tagInput.type = "text";
+        tagInput.className = "form-control tagInput mt-2";
+        tagInput.placeholder = "Add a tag and press Enter";
+        tagsContainer.appendChild(tagInput); // Append the input to the container
+    
     // Create tags list container dynamically
     const tagsList = document.createElement("div");
     tagsList.className = "mt-2";
@@ -542,12 +549,6 @@ function createTagInputSystem({ tagsContainerId, badgeClass = "tag-primary" }) {
         updateHiddenInput(); // Update existing input when a new tag is added
     }
 
-    // Create a temporary input to handle tag entries, which will be hidden
-    const tagInput = document.createElement("input");
-    tagInput.type = "text";
-    tagInput.className = "form-control tagInput mt-2";
-    tagInput.placeholder = "Add a tag and press Enter";
-    tagsContainer.appendChild(tagInput); // Append the input to the container
 
     // Set up event listener for the tag input
     tagInput.addEventListener("keydown", (e) => {
