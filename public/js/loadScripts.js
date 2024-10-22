@@ -410,7 +410,7 @@ function showToast(message, type) {
     toast.style.borderRadius = '5px';
     toast.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.2)';
     toast.style.color = '#fff';
-    toast.style.zIndex = '1000';
+    toast.style.zIndex = '9999999999999999';
     toast.style.transition = 'opacity 0.5s ease-in-out';
     toast.style.opacity = '1';
 

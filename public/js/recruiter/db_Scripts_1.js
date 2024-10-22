@@ -709,42 +709,112 @@ let moderatedCompanies = jobPosts.filter(job => {
                 jobIDsList.push(job.jobID); // Push each jobID into the array
 
                // console.log("jobIDsList  ",jobIDsList);
-
-                const jobElement = $(`
-                    <div class="job-post card mb-3" data-job-id="${job.jobID}">
-                        <div class="card-body">
-                            <h5 class="job-title card-title text-primary" style="cursor: pointer;">${job.jobTitle}</h5>
-                            <div class="job-details" style="display: none;">
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item"><strong>Status:</strong> ${job.status}</li>
-                                    <li class="list-group-item"><strong>Created At:</strong> ${job.createdAt.toDate().toLocaleString()}</li>
-                                    <li class="list-group-item"><strong>Location:</strong> ${job.location}</li>
-                                    <li class="list-group-item"><strong>Company:</strong> ${job.companyName}</li>
-                                    <li class="list-group-item"><strong>Salary:</strong> ${job.salary}</li>
-                                    <li class="list-group-item"><strong>Application Deadline:</strong> ${job.applicationDeadline ? job.applicationDeadline.toDate().toLocaleString() : "None"}</li>
-                                </ul>
-                                <button class="deactivate-job btn btn-danger mt-3" data-job-id="${job.jobID}">Deactivate</button>
-                            </div>
+               const jobElement = $(`
+                <div class="job-post card mb-3" data-job-id="${job.jobID}">
+                    <div class="card-body">
+                        <h5 class="job-title card-title text-primary" style="cursor: pointer;">${job.jobTitle}</h5>
+                        <div class="job-details" style="display: none;">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item"><strong>Status:</strong> ${job.status}</li>
+                                <li class="list-group-item"><strong>Created At:</strong> ${job.createdAt.toDate().toLocaleString()}</li>
+                                <li class="list-group-item"><strong>Location:</strong> ${job.location}</li>
+                                <li class="list-group-item"><strong>Company:</strong> ${job.companyName}</li>
+                                <li class="list-group-item"><strong>Salary:</strong> ${job.salary}</li>
+                                <li class="list-group-item"><strong>Application Deadline:</strong> ${job.applicationDeadline ? job.applicationDeadline.toDate().toLocaleString() : "None"}</li>
+                            </ul>
+                            <button class="deactivate-job btn btn-danger mt-3" data-job-id="${job.jobID}">Deactivate</button>
+                            <button class="close-job-details btn btn-secondary mt-3">Close</button> <!-- Close button -->
                         </div>
                     </div>
-                `);
-                $('#job-posts-container').append(jobElement);
+                </div>
+            `);
+            $('#job-posts-container').append(jobElement);
+            
             });
         
-            // Implement toggle functionality for job details
-            $(document).on('click', '.job-title', function () {
-                $(this).next('.job-details').toggle();
-                // Redirect to job detail page
-                const jobID = $(this).closest('.job-post').data('job-id');
-                window.location.href = `../views/job-detail?id=${jobID}`;
-            });
-        
-            // Implement deactivate job functionality
-            $(document).on('click', '.deactivate-job', function () {
-                const jobID = $(this).data('job-id');
-                updateJobStatus(jobID, 'deactivated'); // Update status to 'deactivated'
-            });
+  // Filter functions
+function filterJobs(jobPosts, status) {
+    return jobPosts.filter(job => job.status === status || job.status === 'draft');
+}
 
+$('#show-active-drafts').on('click', () => {
+    fetchRecruiterData(recruiterID).then(jobPosts => {
+        const filteredJobs = filterJobs(jobPosts, 'active');
+        displayJobPosts(filteredJobs);
+    });
+});
+
+$('#show-all-jobs').on('click', () => {
+    fetchRecruiterData(recruiterID);
+});
+
+// Sort functions
+function sortJobsByDate(jobPosts, dateField, order = 'asc') {
+    return jobPosts.sort((a, b) => {
+        const dateA = a[dateField]?.toDate() || 0;
+        const dateB = b[dateField]?.toDate() || 0;
+        return order === 'asc' ? dateA - dateB : dateB - dateA;
+    });
+}
+
+$('#sort-createdAt-asc').on('click', () => {
+    fetchRecruiterData(recruiterID).then(jobPosts => {
+        const sortedJobs = sortJobsByDate(jobPosts, 'createdAt', 'asc');
+        displayJobPosts(sortedJobs);
+    });
+});
+
+$('#sort-createdAt-desc').on('click', () => {
+    fetchRecruiterData(recruiterID).then(jobPosts => {
+        const sortedJobs = sortJobsByDate(jobPosts, 'createdAt', 'desc');
+        displayJobPosts(sortedJobs);
+    });
+});
+
+$('#sort-applicationDeadline-asc').on('click', () => {
+    fetchRecruiterData(recruiterID).then(jobPosts => {
+        const sortedJobs = sortJobsByDate(jobPosts, 'applicationDeadline', 'asc');
+        displayJobPosts(sortedJobs);
+    });
+});
+
+$('#sort-applicationDeadline-desc').on('click', () => {
+    fetchRecruiterData(recruiterID).then(jobPosts => {
+        const sortedJobs = sortJobsByDate(jobPosts, 'applicationDeadline', 'desc');
+        displayJobPosts(sortedJobs);
+    });
+});
+
+// Implement toggle functionality for job details
+$(document).on('click', '.job-title', function () {
+    $(this).next('.job-details').toggle();
+    const jobID = $(this).closest('.job-post').data('job-id');
+    window.location.href = `../views/job-detail?id=${jobID}`;
+});
+
+// Implement toggle functionality for job details
+$(document).on('click', '.job-post', function () {
+    const $jobDetails = $(this).find('.job-details'); // Get the job details related to the clicked job post
+
+    // Hide all other job details
+    $('.job-details').not($jobDetails).slideUp(); // Collapse other job details
+
+    // Toggle the clicked job details
+    $jobDetails.slideToggle(); // Show or hide the clicked job details
+});
+
+// Implement close button functionality
+$(document).on('click', '.close-job-details', function (event) {
+    event.stopPropagation(); // Prevent the event from bubbling up
+    $(this).closest('.job-details').slideUp(); // Hide the job details
+});
+
+
+// Implement deactivate job functionality
+$(document).on('click', '.deactivate-job', function () {
+    const jobID = $(this).data('job-id');
+    updateJobStatus(jobID, 'deactivated'); // Update status to 'deactivated'
+});
             // Loop through moderated companies and display them
             moderatedCompanies.forEach(company => {
                 const companyElement = $(`
