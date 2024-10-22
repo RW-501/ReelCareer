@@ -285,7 +285,7 @@ function addMultipleChoice(questionDiv, questionNumber) {
     // Check if a multiple choice section already exists
     const existingMultipleChoiceDiv = questionDiv.querySelector(`#multiple-choice-${questionNumber}`);
     if (existingMultipleChoiceDiv) {
-        showTemporaryMessage(existingMultipleChoiceDiv,'Multiple choice options have already been added for this question.');
+        showTemporaryMessage(existingMultipleChoiceDiv, 'Multiple choice options have already been added for this question.');
         return; // Exit the function if a section already exists
     }
 
@@ -314,7 +314,7 @@ function addMultipleChoice(questionDiv, questionNumber) {
     addMoreButton.type = 'button';
     addMoreButton.className = "btn btn-success mt-2"; // Margin-top for spacing
     addMoreButton.innerHTML = 'Add more options';
-    addMoreButton.onclick = function() {
+    addMoreButton.onclick = function () {
         addMoreMultipleChoice(multipleChoiceDiv, questionNumber);
     };
     multipleChoiceDiv.appendChild(addMoreButton);
@@ -326,19 +326,15 @@ function addMultipleChoice(questionDiv, questionNumber) {
 
 function addMoreMultipleChoice(multipleChoiceDiv, questionNumber) {
     const options = multipleChoiceDiv.querySelectorAll('input');
-    
-    const optionValues = Array.from(options).map(input => input.value.trim());
 
+    const optionValues = Array.from(options).map(input => input.value.trim());
 
     // Check for duplicates
     const duplicates = optionValues.filter((item, index) => optionValues.indexOf(item) !== index);
     if (duplicates.length > 0) {
-        showTemporaryMessage(multipleChoiceDiv,'Options must be unique. Please remove duplicate entries.');
+        showTemporaryMessage(multipleChoiceDiv, 'Options must be unique. Please remove duplicate entries.');
         return;
     }
-
-
-
 
     // Validate that all existing options have values
     let valid = true;
@@ -352,13 +348,13 @@ function addMoreMultipleChoice(multipleChoiceDiv, questionNumber) {
     });
 
     if (!valid) {
-        showTemporaryMessage(multipleChoiceDiv,'Please fill in all current options before adding more.');
+        showTemporaryMessage(multipleChoiceDiv, 'Please fill in all current options before adding more.');
         return;
     }
 
     // Limit the number of options to 5
     if (options.length >= 5) {
-        showTemporaryMessage(multipleChoiceDiv,'You can only add up to 5 options.');
+        showTemporaryMessage(multipleChoiceDiv, 'You can only add up to 5 options.');
         return;
     }
 
@@ -371,27 +367,22 @@ function addMoreMultipleChoice(multipleChoiceDiv, questionNumber) {
     choiceInput.name = `question-${questionNumber}-option-${optionCount + 1}`;
 
     // Add real-time validation for new option
-   // addRealTimeValidation(choiceInput);
+    addRealTimeValidation(choiceInput);
 
     // Create a remove button for the new input
     const removeButton = document.createElement('button');
     removeButton.type = 'button';
     removeButton.className = "btn btn-danger mt-2";
     removeButton.innerHTML = 'Remove option';
-    removeButton.onclick = function() {
+    removeButton.onclick = function () {
         choiceInput.remove();
         removeButton.remove();
     };
-    
-        // Append the new input and remove button to the multiple choice div
-      //  multipleChoiceDiv.appendChild(choiceInput);
-       // multipleChoiceDiv.appendChild(removeButton);
 
-        multipleChoiceDiv.insertBefore(removeButton, multipleChoiceDiv.lastElementChild);
-       // choiceInput.insertBefore(removeButton, multipleChoiceDiv.lastElementChild);
-       choiceInput.appendChild(multipleChoiceDiv.lastElementChild);
-
-    }
+    // Insert the new input and remove button just before the "Add more options" button
+    multipleChoiceDiv.insertBefore(choiceInput, multipleChoiceDiv.lastElementChild);
+    multipleChoiceDiv.insertBefore(removeButton, multipleChoiceDiv.lastElementChild);
+}
 
 
 
