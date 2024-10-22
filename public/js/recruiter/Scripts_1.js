@@ -290,7 +290,7 @@ function addMultipleChoice(questionDiv, questionNumber) {
     }
 
     // Disable the Statement button
-    const statementButton = questionDiv.querySelector('.btn-secondary .statementButton');
+    const statementButton = questionDiv.querySelector('.statementButton');
     statementButton.disabled = true; // Disable Statement Button
 
     // Create the multiple choice div
