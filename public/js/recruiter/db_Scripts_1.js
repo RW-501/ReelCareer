@@ -751,8 +751,7 @@ $('#show-drafts').on('click', () => {
         return  jobStatus === 'draft';
     });
     
-    // Call a function to display the filtered jobs (this can be a function that updates the DOM)
-    displayJobPosts(filteredJobs);
+
 });
 
 // Event listener for showing active and draft jobs
@@ -762,7 +761,7 @@ $('#show-all-jobs').on('click', () => {
         const jobStatus = job.status.toLowerCase();
         return jobStatus === 'active' || jobStatus === 'draft'  || jobStatus === 'paused';
     });
-    displayJobPosts(filteredJobs);
+  
 });
 
     $('#show-paused').on('click', () => {
@@ -771,9 +770,7 @@ $('#show-all-jobs').on('click', () => {
             const jobStatus = job.status.toLowerCase();
             return jobStatus === 'paused';
         });
-    
-    // Call a function to display the filtered jobs (this can be a function that updates the DOM)
-    displayJobPosts(filteredJobs);
+  
 });
 
 
