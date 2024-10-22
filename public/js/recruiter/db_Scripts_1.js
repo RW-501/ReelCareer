@@ -374,6 +374,7 @@ fetchRecruiterData(user.uid);
   
       if (!newCompanyId || !companyIdValue) {
         showErrorMessage("Create a Company Page");
+        return;
   
       } else {
         showErrorMessage("New Company ID returned:", newCompanyId);
