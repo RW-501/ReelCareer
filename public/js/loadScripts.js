@@ -487,29 +487,22 @@ function addTagStyles() {
     document.head.appendChild(style);
 }
 
-// Function to create tag input system
+
+
 function createTagInputSystem({ tagsContainerId, badgeClass = "tag-primary" }) {
     const tagsContainer = document.getElementById(tagsContainerId);
 
-    // Create hidden input to store tags for database
-    const hiddenInput = document.createElement("input");
-    hiddenInput.type = "hidden"; // Make this input hidden
-    hiddenInput.name = "tags"; // Give it a name for form submission
-    tagsContainer.appendChild(hiddenInput);
-
-    // Create input for tags dynamically
-    const tagInput = document.createElement("input");
-    tagInput.type = "text";
-    tagInput.className = "form-control tagInput mt-2";
-    tagInput.placeholder = "Add a tag and press Enter";
-    tagInput.style.display = "none"; // Hide the input from the user
+    // Search for the existing input within the container and hide it
+    const existingInput = tagsContainer.querySelector("input[type='url']"); // Assuming this is the input you want to hide
+    if (existingInput) {
+        existingInput.style.display = "none"; // Hide the existing input
+    }
 
     // Create tags list container dynamically
     const tagsList = document.createElement("div");
     tagsList.className = "mt-2";
 
-    // Append input and tag list to container
-    tagsContainer.appendChild(tagInput);
+    // Append tag list to container
     tagsContainer.appendChild(tagsList);
 
     // Create the Clear Tags button dynamically
@@ -518,10 +511,12 @@ function createTagInputSystem({ tagsContainerId, badgeClass = "tag-primary" }) {
     clearTagsButton.textContent = "Clear Tags";
     tagsContainer.appendChild(clearTagsButton);
 
-    // Function to update hidden input with tags
+    // Function to update the existing input with tags
     function updateHiddenInput() {
         const tags = Array.from(tagsList.children).map(tag => tag.textContent.replace(" x", "").trim());
-        hiddenInput.value = tags.join(","); // Update hidden input with comma-separated tags
+        if (existingInput) {
+            existingInput.value = tags.join(","); // Update the existing input with comma-separated tags
+        }
     }
 
     // Function to add a tag
@@ -537,13 +532,20 @@ function createTagInputSystem({ tagsContainerId, badgeClass = "tag-primary" }) {
         removeButton.className = "ml-1 btn btn-sm tag"; // Styling for remove button
         removeButton.onclick = () => {
             tagsList.removeChild(tagElement);
-            updateHiddenInput(); // Update hidden input after removing tag
+            updateHiddenInput(); // Update existing input after removing tag
         };
 
         tagElement.appendChild(removeButton);
         tagsList.appendChild(tagElement);
-        updateHiddenInput(); // Update hidden input when a new tag is added
+        updateHiddenInput(); // Update existing input when a new tag is added
     }
+
+    // Create a temporary input to handle tag entries, which will be hidden
+    const tagInput = document.createElement("input");
+    tagInput.type = "text";
+    tagInput.className = "form-control tagInput mt-2";
+    tagInput.placeholder = "Add a tag and press Enter";
+    tagsContainer.appendChild(tagInput); // Append the input to the container
 
     // Set up event listener for the tag input
     tagInput.addEventListener("keydown", (e) => {
@@ -558,7 +560,7 @@ function createTagInputSystem({ tagsContainerId, badgeClass = "tag-primary" }) {
     // Event listener to clear all tags
     clearTagsButton.addEventListener("click", () => {
         tagsList.innerHTML = ""; // Clear all tags
-        updateHiddenInput(); // Update hidden input after clearing tags
+        updateHiddenInput(); // Update existing input after clearing tags
     });
 
     // Return input and clear button for external listeners
