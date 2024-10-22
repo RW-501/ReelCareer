@@ -543,26 +543,43 @@ fetchRecruiterData(user.uid);
   }
   
   function showSuccessModal(jobId, jobDetails) {
-    document.getElementById("jobId").textContent = jobId;
-    document.getElementById("jobTitleLink").textContent = jobDetails.jobTitle;
-    document.getElementById(
-      "jobTitleLink"
-    ).href = `/views/job-detail.html?id=${jobId}`;
-    document.getElementById("jobLocation").textContent = jobDetails.location;
-    document.getElementById("jobSalary").textContent = jobDetails.salary;
-    document.getElementById("jobExpiryDate").textContent = jobDetails.applicationDeadline;
-    document.getElementById("salaryPayTime").textContent =
-      jobDetails.salaryPayTime;
-  
-    $("#jobSuccessModal").modal("show"); // Show the success modal
+    try {
+        document.getElementById("jobIdSuccess").textContent = jobId;
+        document.getElementById("jobTitleLinkSuccess").textContent = jobDetails.jobTitle;
+        document.getElementById("jobTitleLinkSuccess").href = `/views/job-detail.html?id=${jobId}`; // Update the link properly
+        document.getElementById("jobLocationSuccess").textContent = jobDetails.location;
+        const formattedDate = formatDateString(jobDetails.applicationDeadline);
+        document.getElementById("jobExpiryDateSuccess").textContent = formattedDate;
+        document.getElementById("jobSalarySuccess").textContent = `${jobDetails.salary} ${jobDetails.salaryPayTime}`;
 
-    if (jobDetails.boosted) {
-        document.getElementById("boostedLabel").style.display = "inline-block";
-        ocument.getElementById("boostDuration").textContent = boostDuration;
-      } else {
-        document.getElementById("boostedLabel").style.display = "none";
-      }
-  }
+        if (jobDetails.boosted) {
+            document.getElementById("boostDuration").textContent = "30"; // Use appropriate duration
+            document.getElementById("nonBoostedArea").style.display = "none";
+            document.getElementById("boostedArea").style.display = "block";
+        } else {
+            document.getElementById("boostedArea").style.display = "none";
+            document.getElementById("nonBoostedArea").style.display = "block";
+        }
+
+        // Show the success modal
+        $("#jobSuccessModal").modal("show");
+
+        // Prepare sharing links
+        const jobPageURL = `https://reelcareer.co/views/job-detail.html?id=${jobId}`;     
+        const companyName = jobDetails.company;
+        const jobTitle = jobDetails.title; 
+        const jobDescription = `Salary: ${jobDetails.salary} ${jobDetails.salaryPayTime}`; 
+
+        // Dynamically update social sharing links
+        document.getElementById('shareFacebook').href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(jobPageURL)}`;
+        document.getElementById('shareTwitter').href = `https://twitter.com/intent/tweet?url=${encodeURIComponent(jobPageURL)}&text=Check%20out%20this%20job%20opportunity%20at%20${encodeURIComponent(companyName)}!`;
+        document.getElementById('shareLinkedIn').href = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(jobPageURL)}&title=${encodeURIComponent(jobTitle)}&summary=${encodeURIComponent(jobDescription)}&source=ReelCareer`;
+    } catch (error) {
+        console.error("Error displaying success modal:", error);
+        showErrorMessage("An error occurred while displaying the success message. Please try again.");
+    }
+}
+
   
   function resetForm() {
     document.getElementById("jobForm").reset();

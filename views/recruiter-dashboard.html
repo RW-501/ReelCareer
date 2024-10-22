@@ -57,6 +57,7 @@
 
     </style>
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrQ6z5DjFSLAt1SA4z2RWWOhQArZgOgBsOpQvrL1K0oMByA5ZQ9NdfFNBlnfwR7Eodt+4O4i1T7QNywwGg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 <!-- Bootstrap CSS -->
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -481,8 +482,7 @@
 
 
 
-  
-<!-- Success Modal for submission confirmation -->
+  <!-- Success Modal for submission confirmation -->
 <div class="modal fade" id="jobSuccessModal" tabindex="-1" role="dialog" aria-labelledby="jobSuccessLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content shadow-lg border-0">
@@ -496,44 +496,53 @@
 
             <!-- Modal Body -->
             <div class="modal-body text-center p-4">
-                <h5 class="font-weight-bold">Your job post has been successfully created!</h5>
-                <p class="lead">You can now manage your job listing or boost its visibility.</p>
-          <hr>      
+                <h5 class="font-weight-bold text-success">Congratulations! Your Job Post is Live!</h5>
+                <p class="lead">You can manage your job listing or boost its visibility.</p>
+                <hr>
+
                 <!-- Job Title with link to the job detail page -->
                 <div class="my-4">
-                    <p>Job Title:</p>
-                    <a id="jobTitleLink" href="#" class="font-weight-bold text-primary h5" target="_blank"></a>
+                    <p class="mb-1">Job Title:</p>
+                    <a id="jobTitleLinkSuccess" href="#" class="font-weight-bold text-primary h5" target="_blank"></a>
                 </div>
 
                 <!-- Job ID (for reference) -->
-                <p class="text-muted">Job ID: <span id="jobId" class="font-weight-bold"></span></p>
+                <p class="text-muted">Job ID: <span id="jobIdSuccess" class="font-weight-bold"></span></p>
 
+                <!-- Job Details -->
                 <div class="my-4">
-                <p>Location: <span id="jobLocation" class="font-weight-bold"></span></p>
-                <p>Salary: <span id="jobSalary" class="font-weight-bold"></span> (<span id="salaryPayTime" class="font-weight-bold"></span>)</p>
-            </div>
-<p>Expiry Date: <span id="jobExpiryDate" class="font-weight-bold"></span></p>
+                    <p class="mb-1">Location: <span id="jobLocationSuccess" class="font-weight-bold"></span></p>
+                    <p class="mb-1">Salary: <span id="jobSalarySuccess" class="font-weight-bold"></span> (<span id="salaryPayTime" class="font-weight-bold"></span>)</p>
+                    <p class="mb-1">Expiry Date: <span id="jobExpiryDateSuccess" class="font-weight-bold"></span></p>
+                </div>
 
-<div class="my-4">
-<hr>
+                <hr>
 
-<p>Boost Duration: <span id="boostDuration" class="font-weight-bold"></span> Days</p>
+                <!-- Boosted Area -->
+                <div id="boostedArea" style="display: none;">
+                    <p class="text-warning">Boost Duration: <span id="boostDuration" class="font-weight-bold"></span> Days</p>
+                    <p class="text-success">This job is currently boosted for increased visibility!</p>
+                </div>
 
-                <!-- Boost Job Button -->
-                <button id="boostJobBtn" class="btn btn-warning rounded-pill shadow-sm my-3">Boost Job Listing</button>
-            </div>
-            <hr>
+                <!-- Non-Boosted Area -->
+                <div id="nonBoostedArea" style="display: none;">
+                    <p class="text-muted">Boost this job to increase visibility!</p>
+                    <button id="boostJobBtn" class="btn btn-warning rounded-pill shadow-sm my-3">Boost Job Listing</button>
+                </div>
+
+                <hr>
+
                 <!-- Share Buttons -->
                 <div class="d-flex justify-content-center my-3">
-                    <button class="btn btn-outline-primary mx-2 rounded-circle" id="shareFacebook">
+                    <a href="#" id="shareFacebook" class="btn btn-outline-primary mx-2 rounded-circle" aria-label="Share on Facebook">
                         <i class="fab fa-facebook-f"></i>
-                    </button>
-                    <button class="btn btn-outline-info mx-2 rounded-circle" id="shareLinkedIn">
+                    </a>
+                    <a href="#" id="shareLinkedIn" class="btn btn-outline-info mx-2 rounded-circle" aria-label="Share on LinkedIn">
                         <i class="fab fa-linkedin-in"></i>
-                    </button>
-                    <button class="btn btn-outline-success mx-2 rounded-circle" id="shareTwitter">
+                    </a>
+                    <a href="#" id="shareTwitter" class="btn btn-outline-success mx-2 rounded-circle" aria-label="Share on Twitter">
                         <i class="fab fa-twitter"></i>
-                    </button>
+                    </a>
                 </div>
 
                 <!-- Close Button -->
@@ -542,9 +551,6 @@
         </div>
     </div>
 </div>
-
-
-
 
 
 
