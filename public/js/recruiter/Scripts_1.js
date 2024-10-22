@@ -312,11 +312,19 @@ function addMultipleChoice(questionDiv, questionNumber) {
     // Add "Add more options" button
     const addMoreButton = document.createElement('button');
     addMoreButton.type = 'button';
-    addMoreButton.className = "btn  mt-2"; // Margin-top for spacing
+    addMoreButton.className = "btn btn-success mt-2"; // Margin-top for spacing
     addMoreButton.innerHTML = 'Add more options';
     addMoreButton.onclick = function () {
         addMoreMultipleChoice(multipleChoiceDiv, questionNumber);
     };
+    
+    // Reassign button text in case it changes unintentionally
+     // Attach input event to the choice input to reset button text
+     choiceInput.addEventListener('input', function () {
+        addMoreButton.innerHTML = 'Add more options'; // Reset button text
+    });
+
+    
     multipleChoiceDiv.appendChild(addMoreButton);
 
     // Append multiple choice div to the question div
