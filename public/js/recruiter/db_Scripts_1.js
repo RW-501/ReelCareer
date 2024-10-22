@@ -381,6 +381,7 @@ fetchRecruiterData(user.uid);
       console.log("Collected Job Details:", jobDetails);
     } catch (error) {
       console.error("Error collecting job details:", error);
+      console.log('jobDetails   ',jobDetails);
       alert("An error occurred while collecting job details: " + error.message);
       return; // Exit the function on error
     }
