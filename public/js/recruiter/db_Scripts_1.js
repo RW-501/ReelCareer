@@ -47,7 +47,8 @@ import {
          recruiterID = document.getElementById("appUserID").innerText;
          jobID = []; // Populate with relevant job IDs, if any
          jobTitle = document.getElementById("jobTitle").value;
-       
+         let companyIdValue = document.getElementById("appCompanyID").value;
+
         console.log("Collect input values   ",jobTitle," t ",
           companyIdValue," c ",
           companyName," tcn ",
@@ -352,7 +353,7 @@ fetchRecruiterData(user.uid);
       return; // Exit if validation fails
     }
   
-    const companyIdValue = document.getElementById("appCompanyID").innerText;
+    let companyIdValue = document.getElementById("appCompanyID").innerText;
     let newCompanyId = "";
   
     try {
