@@ -326,7 +326,6 @@ function addMultipleChoice(questionDiv, questionNumber) {
 
 function addMoreMultipleChoice(multipleChoiceDiv, questionNumber) {
     const options = multipleChoiceDiv.querySelectorAll('input');
-
     
     const optionValues = Array.from(options).map(input => input.value.trim());
 
@@ -384,6 +383,8 @@ function addMoreMultipleChoice(multipleChoiceDiv, questionNumber) {
         removeButton.remove();
     };
     
+        // Append the new input and remove button to the multiple choice div
+        multipleChoiceDiv.appendChild(choiceInput);
     multipleChoiceDiv.insertBefore(removeButton, multipleChoiceDiv.lastElementChild);
 }
 
