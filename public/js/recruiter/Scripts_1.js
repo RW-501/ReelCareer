@@ -33,7 +33,7 @@ function addQuestionField() {
     cardHeader.innerHTML = `Question ${questionCounter}`;
     cardBody.appendChild(cardHeader);
 
-    showQuestionSuggestions(cardHeader, questionCounter);
+    showQuestionSuggestions(cardBody, questionCounter);
 
     // Add the input field for the question
     const questionInput = document.createElement('input');
@@ -133,11 +133,7 @@ function addQuestionField() {
     document.getElementById("customQuestionsContainer").appendChild(questionDiv);
 
 
-            // Check if statement already exists
-if (questionDiv.querySelector('button')) {
-    showTemporaryMessage(questionDiv,'You can only add one statement per question.');
-    return;
-}
+      
     // Refresh drag-and-drop functionality after adding a new question
     refreshDragAndDrop();
 }
@@ -272,7 +268,11 @@ function addMultipleChoice(questionDiv, questionNumber) {
 
     questionDiv.appendChild(multipleChoiceDiv);
 
-
+      // Check if statement already exists
+      if (questionDiv.querySelector('button')) {
+        showTemporaryMessage(questionDiv,'You can only add one statement per question.');
+        return;
+    }
 
 }
 
