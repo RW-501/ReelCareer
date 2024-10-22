@@ -74,6 +74,18 @@ header {
         </div>
     </div>
 
+
+
+        <!-- test Page (Hidden) -->
+        <section class="container my-5" id="tests-container" style="display:none;">
+            <h2> Test</h2>
+            <p id="infoModal"></p>
+            <div id="close-button modal-body"></div>
+
+            <button class="btn btn-primary" id="exploreMoreTests">Explore More Tests</button>
+        </section>
+
+
     <!-- Results Page (Hidden Until Test Completion) -->
     <section class="container my-5" id="resultsSection" style="display:none;">
         <h2>Your Test Results</h2>
@@ -214,10 +226,7 @@ if (!modalBody) console.error("Modal body not found.");
 if (!closeButton) console.error("Close button not found.");
 if (!testsContainer || !modal || !modalBody || !closeButton) return;
 
-    if (!testsContainer || !modal || !modalBody || !closeButton) {
-        console.error("One or more required elements are not found in the DOM.");
-        return; // Exit the function early if elements are not found
-    }
+  
 
     // Fetch the JSON data
     fetch('https://reelcareer.co/public/js/main-test-list.json') // Update with your JSON path
