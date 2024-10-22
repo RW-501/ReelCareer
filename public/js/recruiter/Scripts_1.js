@@ -511,13 +511,13 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     const jobFunctionTags = createTagInputSystem({
-        tagsContainerId: "jobFunctionTags",
+        tagsContainerId: "tagsContainerJobFunction",
 
        // badgeClass: "tag-info" // Different styling for job function tags
     });
 
     const benefitsTags = createTagInputSystem({
-        tagsContainerId: "benefitsTags",
+        tagsContainerId: "tagsContainerBenefits",
 
      //   badgeClass: "tag-success" // Different styling for benefits tags
     });
