@@ -471,7 +471,7 @@ fetchRecruiterData(user.uid);
         .value.split(",")
         .map((benefit) => benefit.trim()),
       jobFunction: document.getElementById("jobFunction").value,
-      tags: Array.from(document.getElementById("tagsList").children).map((tag) =>
+      tags: Array.from(document.getElementById("jobTags").children).map((tag) =>
         tag.textContent.slice(0, -1).trim()
       ), // Correctly reference the tags list
       complianceCheck: document.getElementById("complianceCheck").checked,
