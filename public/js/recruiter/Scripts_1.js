@@ -40,13 +40,7 @@ function addQuestionField() {
     questionInput.className = "form-control mb-2";
     questionInput.placeholder = `Enter question ${questionCounter}`;
     questionInput.name = `question-${questionCounter}-text`;
-     // Add input event listener for the question input
-     const suggestionsButton = cardBody.querySelector('button'); // Assuming there's a main question input
-     if (suggestionsButton) {
-         questionInput.addEventListener('input', function () {
-            suggestionsButton.innerHTML = 'Show Suggestions'; // Reset button text on input
-         });
-     }
+    
 
 
 
@@ -236,7 +230,8 @@ function showQuestionSuggestions(cardBody, questionCounter) {
         suggestionButton.onclick = function () {
             const questionInput = cardBody.querySelector('input');
             questionInput.value = suggestion;
-        
+            showSuggestionsButton.innerHTML = 'Show Suggestions'; // Reset button text on input
+
             // Hide or collapse the suggestion box after selecting a suggestion
             const suggestionsContainer = cardBody.querySelector(`#suggestionsContainer${questionCounter}`);
             suggestionsContainer.classList.remove('show');  // If using Bootstrap's collapse
