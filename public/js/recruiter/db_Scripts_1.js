@@ -513,7 +513,6 @@ fetchRecruiterData(user.uid);
     const userRef = doc(db, "Users", auth.currentUser.uid);
     await updateDoc(userRef, {
         jobPosts: arrayUnion({
-          jobID: docRef.id,
           jobTitle: jobDetails.title || "Untitled Job",
           status: jobDetails.status || "draft",
           createdAt: new Date(),
