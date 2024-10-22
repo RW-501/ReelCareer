@@ -546,7 +546,7 @@ fetchRecruiterData(user.uid);
         document.getElementById("jobLocationSuccess").textContent = jobDetails.location;
         const formattedDate = formatDateString(jobDetails.applicationDeadline);
         document.getElementById("jobExpiryDateSuccess").textContent = formattedDate;
-        document.getElementById("jobSalarySuccess").textContent = `${jobDetails.salary} ${jobDetails.salaryPayTime}`;
+        document.getElementById("jobSalarySuccess").textContent = `${jobDetails.salary} (${jobDetails.salaryPayTime})`;
 
         if (jobDetails.boosted) {
             document.getElementById("boostDuration").textContent = "30"; // Use appropriate duration
