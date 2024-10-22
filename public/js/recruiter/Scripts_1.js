@@ -266,8 +266,6 @@ function addMultipleChoice(questionDiv, questionNumber) {
     multipleChoiceDiv.id = `multiple-choice-${questionNumber}`;
     multipleChoiceDiv.className = "mt-3"; // Added margin-top for spacing
 
-    const multipleChoiceButton = questionDiv.querySelector('.btn btn-primary');
-    multipleChoiceButton.disabled = true; // Disable Multiple Choice Button
 
 
     // First choice input with validation
@@ -299,6 +297,8 @@ function addMoreMultipleChoice(multipleChoiceDiv, questionNumber) {
     const options = multipleChoiceDiv.querySelectorAll('input');
     const optionValues = Array.from(options).map(input => input.value.trim());
 
+    const multipleChoiceButton = questionDiv.querySelector('.btn btn-primary');
+    multipleChoiceButton.disabled = true; // Disable Multiple Choice Button
 
     // Check for duplicates
     const duplicates = optionValues.filter((item, index) => optionValues.indexOf(item) !== index);
@@ -540,7 +540,7 @@ function saveFormValues() {
         immediateHire: document.getElementById('immediateHire').value,
         requestLetter: document.getElementById('requestLetter').checked,
         coverLetter: document.getElementById('coverLetter').checked,
-        resumeRequired : document.getElementById('requiredResume'),checked,
+        resumeRequired : document.getElementById('requiredResume').checked,
 
         benefits: document.getElementById('benefits').value,
         education: Array.from(document.getElementById('education').selectedOptions).map(option => option.value),
