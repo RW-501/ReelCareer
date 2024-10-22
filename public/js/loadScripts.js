@@ -566,6 +566,14 @@ function createTagInputSystem({ tagsContainerId, badgeClass = "tag-primary" }) {
         }
     });
 
+    // Set up event listener for focus out
+tagInput.addEventListener("focusout", () => {
+    const tag = tagInput.value.trim();
+    if (tag) {
+        // Show a toast notification when focus is lost and there's a value
+        showToast('Press Enter to add Tag', 'info');
+    }
+});
     // Event listener to clear all tags
     clearTagsButton.addEventListener("click", () => {
         tagsList.innerHTML = ""; // Clear all tags
@@ -577,11 +585,3 @@ function createTagInputSystem({ tagsContainerId, badgeClass = "tag-primary" }) {
 }
 
 
-// Set up event listener for focus out
-tagInput.addEventListener("focusout", () => {
-    const tag = tagInput.value.trim();
-    if (tag) {
-        // Show a toast notification when focus is lost and there's a value
-        showToast('Press Enter to add Tag', 'info');
-    }
-});
