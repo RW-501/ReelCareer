@@ -49,10 +49,7 @@ import {
          jobTitle = document.getElementById("jobTitle").value;
        const  location = document.getElementById("jobLocation").value;
 
-        console.log("Collect input values   ",jobTitle," t ",
-          companyName," tcn ",
-          recruiterID," r id ",
-          jobID);
+      
         // Create a new company in the Companies collection
         const newCompanyRef = await addDoc(collection(db, "Companies"), {
           companyName: companyName,
@@ -344,50 +341,39 @@ fetchRecruiterData(user.uid);
     }
   }
   
-  async function handleJobSubmission(event, actionType) {
+  async function handleJobSubmission(event, actionType) { 
     event.preventDefault(); // Prevent default form submission behavior
-  
+
     // Validate the form (custom logic such as compliance checkbox check)
     if (!validateForm()) {
       showErrorMessage("Form validation failed. Please check your inputs.");
       return; // Exit if validation fails
     }
-  
+
     let companyIdValue = document.getElementById("appCompanyID").innerText;
     let newCompanyId = "";
-  
+
     try {
       // Call submitJobPost to create or retrieve the company ID
-      console.log(
-        "Attempting to submit job post with companyIdValue:",
-        companyIdValue
-      );
-      newCompanyId = await submitJobPost(
-        jobTitle,
-        companyIdValue,
-        companyName,
-        recruiterID,
-        jobID
-      );
+      console.log("Attempting to submit job post with companyIdValue:", companyIdValue);
+      newCompanyId = await submitJobPost(jobTitle, companyIdValue, companyName, recruiterID, jobID);
 
-  
+      // Instead of returning, handle the case where the company ID might be empty
       if (!newCompanyId || !companyIdValue) {
-        showErrorMessage("Create a Company Page");
-        return;
-  
+        showToast("Create a Company Page", 'info');
+        // Optionally, you might want to create a new company here or log a message
+        // e.g., await createCompany(companyName); // This could be your company creation logic
       } else {
-        showErrorMessage("New Company ID returned:", newCompanyId);
+        showToast("New Company ID returned:", newCompanyId, 'info');
+        // Update the hidden companyId field with the new value
+        document.getElementById("appCompanyID").value = newCompanyId;
       }
-      // Update the hidden companyId field with the new value
-      document.getElementById("appCompanyID").value = newCompanyId;
     } catch (error) {
       console.error("Error in submitJobPost:", error);
-      showErrorMessage(
-        "An error occurred while submitting the job post: " + error.message
-      );
+      showErrorMessage("An error occurred while submitting the job post: " + error.message);
       return; // Exit the function on error
     }
-  
+
     // Collect all job details from the form
     let jobDetails;
     try {
@@ -398,7 +384,7 @@ fetchRecruiterData(user.uid);
       alert("An error occurred while collecting job details: " + error.message);
       return; // Exit the function on error
     }
-  
+
     // Based on actionType, modify the jobDetails object
     if (actionType === "draft") {
       jobDetails.status = "draft"; // Save as draft
@@ -407,49 +393,41 @@ fetchRecruiterData(user.uid);
     } else if (actionType === "boost") {
       jobDetails.status = "active"; // Boosted jobs should be active
       jobDetails.boosted = true; // Mark job as boosted
-      jobDetails.boostExpiration = new Date(
-        new Date().setDate(new Date().getDate() + 30)
-      ); // Boost for 30 days
+      jobDetails.boostExpiration = new Date(new Date().setDate(new Date().getDate() + 30)); // Boost for 30 days
     }
-  
+
     try {
       // Save job details to the database
-      // console.log("Saving job to database with details:", jobDetails);
       const jobId = await saveJobToDatabase(jobDetails);
       showErrorMessage("Job saved successfully with ID:", jobId);
-  
+
       // Action-specific alerts and UI feedback
       if (actionType === "boost") {
-        document.getElementById("jobSuccessLabel").textContent =
-          "Job Boosted Successfully!";
-        document.querySelector(".modal-body .lead").textContent =
-          "Your job listing has been boosted for increased visibility!";
+        document.getElementById("jobSuccessLabel").textContent = "Job Boosted Successfully!";
         showSuccessModal(jobId, jobDetails); // Show modal with job title and link
       } else if (actionType === "post") {
-        document.getElementById("jobSuccessLabel").textContent =
-          "Job Posted Successfully!";
+        document.getElementById("jobSuccessLabel").textContent = "Job Posted Successfully!";
         showSuccessModal(jobId, jobDetails); // Show modal with job title and link
       } else {
-        document.getElementById("jobSuccessLabel").textContent =
-          "Draft Saved Successfully!";
+        document.getElementById("jobSuccessLabel").textContent = "Draft Saved Successfully!";
       }
-  
+
       // Log the job event in analytics
       logEvent(analytics, "job_post", {
         jobTitle: jobDetails.title,
         actionType: actionType,
         boostStatus: jobDetails.boosted ? "boosted" : "normal"
       });
-  
+
       resetForm(); // Reset the form after successful submission
     } catch (error) {
       console.error("Error submitting job:", error);
-      showErrorMessage(
-        "An error occurred while submitting the job: " + error.message
-      );
+      showErrorMessage("An error occurred while submitting the job: " + error.message);
     }
-  }
-  
+}
+
+
+
   function validateForm() {
     const complianceCheckbox = document.getElementById("complianceCheck");
     if (!complianceCheckbox.checked) {
