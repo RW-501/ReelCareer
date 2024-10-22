@@ -385,7 +385,8 @@ function addMoreMultipleChoice(multipleChoiceDiv, questionNumber) {
     
         // Append the new input and remove button to the multiple choice div
         multipleChoiceDiv.appendChild(choiceInput);
-    multipleChoiceDiv.insertBefore(removeButton, multipleChoiceDiv.lastElementChild);
+        multipleChoiceDiv.appendChild(removeButton);
+   // multipleChoiceDiv.insertBefore(removeButton, multipleChoiceDiv.lastElementChild);
 }
 
 
