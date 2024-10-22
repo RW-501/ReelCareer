@@ -230,7 +230,7 @@ function showQuestionSuggestions(cardBody, questionCounter) {
         suggestionButton.onclick = function () {
             const questionInput = cardBody.querySelector('input');
             questionInput.value = suggestion;
-            showSuggestionsButton.innerHTML = 'Show Suggestions'; // Reset button text on input
+            suggestionButton.innerHTML = 'Show Suggestions'; // Reset button text on input
 
             // Hide or collapse the suggestion box after selecting a suggestion
             const suggestionsContainer = cardBody.querySelector(`#suggestionsContainer${questionCounter}`);
