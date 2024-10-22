@@ -275,6 +275,11 @@ function resetQuestionLabels() {
     });
 }
 
+function resetAllQuestions() {
+    const customQuestionsContainer = document.getElementById('customQuestionsContainer');
+    customQuestionsContainer.innerHTML = '';  // Clear all questions
+    questionCounter = 0;  // Reset the question counter to 0
+}
 
 function addMultipleChoice(questionDiv, questionNumber) {
     // Check if a multiple choice section already exists
@@ -646,6 +651,8 @@ function loadFormValues() {
 // Function to clear local storage
 function clearLocalStorage() {
     localStorage.removeItem('jobFormValues');
+    resetAllQuestions();
+
 }
 
 // Check if any values are set and remove them if necessary
