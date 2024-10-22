@@ -975,7 +975,7 @@ async function updateJobStatus(jobID, newStatus) {
         status: newStatus
     });
 
-    console.log(job.jobID,"   Jobs   ", jobID, "Users", recruiterID);  
+    console.log("   Jobs   ", jobID, "Users", recruiterID);  
 
     // Update the job status in the user's jobPosts array
     const userRef = doc(db, "Users", recruiterID);
@@ -986,6 +986,8 @@ async function updateJobStatus(jobID, newStatus) {
         const jobPosts = userData.jobPosts || [];
 
         const jobIndex = jobPosts.findIndex(job => job.jobID === jobID);
+console.log(job.jobID,"   Jobs   ");
+
 
         if (jobIndex === -1) {
             console.error("Job not found in user's job posts.");
