@@ -26,11 +26,14 @@ function addQuestionField() {
     const cardBody = document.createElement('div');
     cardBody.className = "card-body";
 
+
     // Card header for question number
     const cardHeader = document.createElement('h5');
     cardHeader.className = "card-title";
     cardHeader.innerHTML = `Question ${questionCounter}`;
     cardBody.appendChild(cardHeader);
+
+    showQuestionSuggestions(cardHeader, questionCounter);
 
     // Add the input field for the question
     const questionInput = document.createElement('input');
@@ -129,7 +132,6 @@ function addQuestionField() {
     // Append the new question block to the form
     document.getElementById("customQuestionsContainer").appendChild(questionDiv);
 
-    showQuestionSuggestions(questionDiv, questionCounter);
 
             // Check if statement already exists
 if (questionDiv.querySelector('button')) {
