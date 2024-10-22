@@ -671,6 +671,7 @@ async function fetchRecruiterData(recruiterID) {
 
         // Loop through job posts and display them
         if (userDoc.exists()) {
+
             const jobPosts = userDoc.data().jobPosts || [];
           
           
@@ -712,7 +713,10 @@ let moderatedCompanies = jobPosts.filter(job => {
                const jobElement = $(`
                 <div class="job-post card mb-3" data-job-id="${job.jobID}">
                     <div class="card-body">
-                        <h5 class="job-title card-title text-primary" style="cursor: pointer;">${job.jobTitle}</h5>
+                        <h5 class="job-title card-title text-primary" style="cursor: pointer;">
+                            <i class="${getStatusIcon(job.status)}"></i> ${job.jobTitle}
+                            <span class="status-indicator" style="background-color: ${getStatusColor(job.status)};"></span>
+                        </h5>
                         <div class="job-details" style="display: none;">
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item"><strong>Status:</strong> ${job.status}</li>
@@ -722,13 +726,18 @@ let moderatedCompanies = jobPosts.filter(job => {
                                 <li class="list-group-item"><strong>Salary:</strong> ${job.salary}</li>
                                 <li class="list-group-item"><strong>Application Deadline:</strong> ${job.applicationDeadline ? job.applicationDeadline.toDate().toLocaleString() : "None"}</li>
                             </ul>
+                            <button class="view-company btn btn-info mt-3" data-company-id="${company.companyId}">View Company</button>
                             <button class="deactivate-job btn btn-danger mt-3" data-job-id="${job.jobID}">Deactivate</button>
+                            <button class="pause-job btn btn-warning mt-3" data-job-id="${job.jobID}">Pause</button>
+                            <button class="edit-job btn btn-secondary mt-3" disabled>Edit Post</button> <!-- Disabled Edit Button -->
+                            <button class="view-analytics btn btn-info mt-3" data-job-id="${job.jobID}">View Analytics</button> <!-- View Analytics Button -->
                             <button class="close-job-details btn btn-secondary mt-3">Close</button> <!-- Close button -->
                         </div>
                     </div>
                 </div>
             `);
             $('#job-posts-container').append(jobElement);
+            
             
             });
         
@@ -749,33 +758,71 @@ $('#show-all-jobs').on('click', () => {
 });
 
 
-$('#sort-createdAt-asc').on('click', () => {
-    fetchRecruiterData(recruiterID).then(jobPosts => {
-        const sortedJobs = sortJobsByDate(jobPosts, 'createdAt', 'asc');
-        displayJobPosts(sortedJobs);
+$('#sort-job').on('change', function () {
+    const sortOrder = $(this).val(); // e.g., 'asc' or 'desc'
+    
+    // Convert the NodeList to an array for sorting
+    const jobsArray = $('.job-post').get();
+    
+    jobsArray.sort(function (a, b) {
+        const dateA = new Date($(a).find('.job-details p:contains("Created At")').text());
+        const dateB = new Date($(b).find('.job-details p:contains("Created At")').text());
+        
+        return (sortOrder === 'asc') ? dateA - dateB : dateB - dateA;
+    });
+
+    // Re-append sorted jobs to the container
+    $('#job-posts-container').append(jobsArray);
+});
+
+
+$('#filter-status').on('change', function () {
+    const selectedStatus = $(this).val().toLowerCase();
+    
+    $('.job-post').each(function () {
+        const jobStatus = $(this).find('.job-details li:contains("Status")').text().toLowerCase();
+        
+        // Toggle display based on job status matching the selected status
+        $(this).toggle(jobStatus.includes(selectedStatus) || selectedStatus === 'all');
     });
 });
 
-$('#sort-createdAt-desc').on('click', () => {
-    fetchRecruiterData(recruiterID).then(jobPosts => {
-        const sortedJobs = sortJobsByDate(jobPosts, 'createdAt', 'desc');
-        displayJobPosts(sortedJobs);
+$('#filter-salary').on('input', function () {
+    const minSalary = parseInt($('#min-salary').val()) || 0;
+    const maxSalary = parseInt($('#max-salary').val()) || Infinity;
+    
+    $('.job-post').each(function () {
+        const salaryText = $(this).find('.job-details li:contains("Salary")').text();
+        const salary = parseInt(salaryText.replace(/[^0-9]/g, '')); // Extract number
+        
+        // Toggle display based on salary range
+        $(this).toggle(salary >= minSalary && salary <= maxSalary);
     });
 });
 
-$('#sort-applicationDeadline-asc').on('click', () => {
-    fetchRecruiterData(recruiterID).then(jobPosts => {
-        const sortedJobs = sortJobsByDate(jobPosts, 'applicationDeadline', 'asc');
-        displayJobPosts(sortedJobs);
+$('#filter-deadline').on('change', function () {
+    const selectedDeadline = new Date($(this).val());
+    
+    $('.job-post').each(function () {
+        const deadlineText = $(this).find('.job-details li:contains("Application Deadline")').text();
+        const deadline = new Date(deadlineText);
+        
+        // Toggle display if the job's deadline is before the selected deadline
+        $(this).toggle(deadline <= selectedDeadline || !deadlineText);
     });
 });
 
-$('#sort-applicationDeadline-desc').on('click', () => {
-    fetchRecruiterData(recruiterID).then(jobPosts => {
-        const sortedJobs = sortJobsByDate(jobPosts, 'applicationDeadline', 'desc');
-        displayJobPosts(sortedJobs);
-    });
+$(document).on('click', '.job-post', function () {
+    const $jobDetails = $(this).find('.job-details');
+    
+    // Hide other job details
+    $('.job-details').not($jobDetails).slideUp();
+    
+    // Toggle the clicked job details
+    $jobDetails.slideToggle();
 });
+
+
 
 // Implement toggle functionality for job details
 $(document).on('click', '.job-title', function () {
@@ -784,16 +831,7 @@ $(document).on('click', '.job-title', function () {
     window.location.href = `../views/job-detail?id=${jobID}`;
 });
 
-// Implement toggle functionality for job details
-$(document).on('click', '.job-post', function () {
-    const $jobDetails = $(this).find('.job-details'); // Get the job details related to the clicked job post
 
-    // Hide all other job details
-    $('.job-details').not($jobDetails).slideUp(); // Collapse other job details
-
-    // Toggle the clicked job details
-    $jobDetails.slideToggle(); // Show or hide the clicked job details
-});
 
 // Implement close button functionality
 $(document).on('click', '.close-job-details', function (event) {
@@ -807,6 +845,20 @@ $(document).on('click', '.deactivate-job', function () {
     const jobID = $(this).data('job-id');
     updateJobStatus(jobID, 'deactivated'); // Update status to 'deactivated'
 });
+
+// Implement pause job functionality
+$(document).on('click', '.pause-job', function () {
+    const jobID = $(this).data('job-id');
+    updateJobStatus(jobID, 'paused'); // Update status to 'paused'
+});
+
+// Implement view analytics functionality
+$(document).on('click', '.view-analytics', function () {
+    const jobID = $(this).data('job-id');
+    // Code to open the analytics page or modal
+    openAnalytics(jobID); // Define this function to handle displaying analytics
+});
+
             // Loop through moderated companies and display them
             moderatedCompanies.forEach(company => {
                 const companyElement = $(`
@@ -864,15 +916,34 @@ $(document).on('click', '.deactivate-job', function () {
 
             
 }
-
-// Sort functions
-function sortJobsByDate(jobPosts, dateField, order = 'asc') {
-    return jobPosts.sort((a, b) => {
-        const dateA = a[dateField]?.toDate() || 0;
-        const dateB = b[dateField]?.toDate() || 0;
-        return order === 'asc' ? dateA - dateB : dateB - dateA;
-    });
+// Function to get the status color based on job status
+function getStatusColor(status) {
+    switch (status) {
+        case 'active':
+            return 'green'; // Color for active jobs
+        case 'paused':
+            return 'orange'; // Color for paused jobs
+        case 'deactivated':
+            return 'red'; // Color for deactivated jobs
+        default:
+            return 'gray'; // Default color for unknown status
+    }
 }
+
+// Function to get the corresponding icon class based on job status
+function getStatusIcon(status) {
+    switch (status) {
+        case 'active':
+            return 'fas fa-check-circle'; // Font Awesome icon for active
+        case 'paused':
+            return 'fas fa-pause-circle'; // Font Awesome icon for paused
+        case 'deactivated':
+            return 'fas fa-times-circle'; // Font Awesome icon for deactivated
+        default:
+            return 'fas fa-question-circle'; // Default icon for unknown status
+    }
+}
+
 
 
 // Function to update the job status in the Jobs collection
@@ -881,7 +952,34 @@ async function updateJobStatus(jobID, newStatus) {
     await updateDoc(jobRef, {
         status: newStatus
     });
-    showToast(`Job ${jobID} has been updated to ${newStatus}.`, 'success')
+
+    // Update the job status in the user's jobPosts array
+    const userRef = doc(db, "Users", recruiterID);
+    const userDoc = await getDoc(userRef);
+
+    if (userDoc.exists()) {
+        const userData = userDoc.data();
+        const jobPosts = userData.jobPosts || [];
+
+        // Find the index of the job post to update
+        const jobIndex = jobPosts.findIndex(job => job.jobID === jobID);
+
+        if (jobIndex !== -1) {
+            // Update the status of the job post in the array
+            jobPosts[jobIndex].status = newStatus;
+
+            // Write the updated jobPosts array back to Firestore
+            await updateDoc(userRef, {
+                jobPosts: jobPosts
+            });
+        } else {
+            console.error("Job not found in user's job posts.");
+        }
+    } else {
+        console.error("User document does not exist.");
+    }
+
+    showToast(`Job ${jobID} has been updated to ${newStatus}.`, 'success');
 }
 
 // Expand/Collapse All functionality
@@ -914,10 +1012,7 @@ $('#search-job').on('input', function () {
     });
 });
 
-// Event delegation for dynamically added elements
-$(document).on('click', '.job-title', function () {
-    $(this).next('.job-details').toggle();
-});
+
 
 
 
