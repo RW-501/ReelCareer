@@ -131,6 +131,11 @@ function addQuestionField() {
 
     showQuestionSuggestions(questionDiv, questionCounter);
 
+            // Check if statement already exists
+if (questionDiv.querySelector('button')) {
+    showTemporaryMessage(questionDiv,'You can only add one statement per question.');
+    return;
+}
     // Refresh drag-and-drop functionality after adding a new question
     refreshDragAndDrop();
 }
@@ -189,6 +194,9 @@ function showQuestionSuggestions(input, questionCounter) {
         option.value = suggestion;
         suggestionDropdown.appendChild(option);
     });
+
+    console.log("input  ", input);
+    console.log("questionCounter  ", questionCounter);
 
     input.setAttribute('list', suggestionDropdown.id);
     input.parentNode.appendChild(suggestionDropdown);
@@ -263,11 +271,7 @@ function addMultipleChoice(questionDiv, questionNumber) {
     questionDiv.appendChild(multipleChoiceDiv);
 
 
-        // Check if statement already exists
-if (questionDiv.querySelector('button')) {
-    showTemporaryMessage(questionDiv,'You can only add one statement per question.');
-    return;
-}
+
 }
 
 function addMoreMultipleChoice(multipleChoiceDiv, questionNumber) {
