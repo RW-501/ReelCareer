@@ -501,6 +501,27 @@ refreshDragAndDrop();
 
 
 
+document.addEventListener("DOMContentLoaded", function() {
+    addTagStyles(); // Add styles for tag inputs
+
+    // Initialize tag input systems for different containers
+    const generalTags = createTagInputSystem({
+        tagsContainerId: "tagsContainer",
+        badgeClass: "tag-primary" // Custom badge class for general tags
+    });
+
+    const jobFunctionTags = createTagInputSystem({
+        tagsContainerId: "jobFunctionTags",
+
+       // badgeClass: "tag-info" // Different styling for job function tags
+    });
+
+    const benefitsTags = createTagInputSystem({
+        tagsContainerId: "benefitsTags",
+
+     //   badgeClass: "tag-success" // Different styling for benefits tags
+    });
+});
 
 
 
