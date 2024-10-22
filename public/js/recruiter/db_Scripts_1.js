@@ -931,7 +931,7 @@ $(document).on('click', '.view-analytics', function () {
             $('#companies-container').append(errorMessage);
                 }
 
-
+                console.log( "Users", recruiterID);  
             
 }
 
