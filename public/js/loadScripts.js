@@ -489,39 +489,33 @@ function addTagStyles() {
 }
 
 
-
 function createTagInputSystem({ tagsContainerId, badgeClass = "tag-primary" }) {
     const tagsContainer = document.getElementById(tagsContainerId);
-    tagsContainer.classList.add("tagsContainer"); // Correct way to add a class
-
+    tagsContainer.classList.add("tagsContainer"); // Ensure the class is added
 
     // Search for the existing input within the container and hide it
-    const existingInput = tagsContainer.querySelector("input[type='text']"); // Assuming this is the input you want to hide
+    const existingInput = tagsContainer.querySelector("input[type='text']");
     if (existingInput) {
         existingInput.style.display = "none"; // Hide the existing input
     }
 
-        // Create a temporary input to handle tag entries, which will be hidden
-        const tagInput = document.createElement("input");
-        tagInput.type = "text";
-        tagInput.className = "form-control tagInput mt-2";
-        tagInput.placeholder = "Add a tag and press Enter";
-        tagsContainer.appendChild(tagInput); // Append the input to the container
+    // Create a temporary input to handle tag entries
+    const tagInput = document.createElement("input");
+    tagInput.type = "text";
+    tagInput.className = "form-control tagInput mt-2";
+    tagInput.placeholder = "Add a tag and press Enter";
+    tagsContainer.appendChild(tagInput); // Append the new input to the container
     
     // Create tags list container dynamically
     const tagsList = document.createElement("div");
     tagsList.className = "mt-2";
-
-   
-    // Append input and tag list to container
-    tagsContainer.appendChild(tagInput);
-    tagsContainer.appendChild(tagsList);
+    tagsContainer.appendChild(tagsList); // Append the tags list to the container
 
     // Create the Clear Tags button dynamically
     const clearTagsButton = document.createElement("button");
     clearTagsButton.className = "btn clearTagsButton mt-2";
     clearTagsButton.textContent = "Clear Tags";
-    tagsContainer.appendChild(clearTagsButton);
+    tagsContainer.appendChild(clearTagsButton); // Append the clear button below the tags list
 
     // Function to update the existing input with tags
     function updateHiddenInput() {
@@ -551,7 +545,6 @@ function createTagInputSystem({ tagsContainerId, badgeClass = "tag-primary" }) {
         tagsList.appendChild(tagElement);
         updateHiddenInput(); // Update existing input when a new tag is added
     }
-
 
     // Set up event listener for the tag input
     tagInput.addEventListener("keydown", (e) => {
