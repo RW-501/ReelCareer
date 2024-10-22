@@ -371,7 +371,7 @@ function addMoreMultipleChoice(multipleChoiceDiv, questionNumber) {
     choiceInput.name = `question-${questionNumber}-option-${optionCount + 1}`;
 
     // Add real-time validation for new option
-    addRealTimeValidation(choiceInput);
+   // addRealTimeValidation(choiceInput);
 
     // Create a remove button for the new input
     const removeButton = document.createElement('button');
@@ -389,7 +389,7 @@ function addMoreMultipleChoice(multipleChoiceDiv, questionNumber) {
 
         multipleChoiceDiv.insertBefore(removeButton, multipleChoiceDiv.lastElementChild);
        // choiceInput.insertBefore(removeButton, multipleChoiceDiv.lastElementChild);
-        multipleChoiceDiv.appendChild(choiceInput);
+       choiceInput.appendChild(multipleChoiceDiv.lastElementChild);
 
     }
 
