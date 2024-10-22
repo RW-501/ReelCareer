@@ -366,7 +366,6 @@ fetchRecruiterData(user.uid);
       console.log("Collected Job Details:", jobDetails);
     } catch (error) {
       console.error("Error collecting job details:", error);
-      console.log('jobDetails   ',jobDetails);
       alert("An error occurred while collecting job details: " + error.message);
       return; // Exit the function on error
     }
@@ -470,10 +469,14 @@ fetchRecruiterData(user.uid);
         .getElementById("benefits")
         .value.split(",")
         .map((benefit) => benefit.trim()),
-      jobFunction: document.getElementById("jobFunction").value,
-      tags: Array.from(document.getElementById("jobTags").children).map((tag) =>
-        tag.textContent.slice(0, -1).trim()
-      ), // Correctly reference the tags list
+      jobFunction:  document
+      .getElementById("jobFunction")
+      .value.split(",")
+      .map((jobFunction) => jobFunction.trim()),
+      tags: document
+      .getElementById("tags")
+      .value.split(",")
+      .map((tags) => tags.trim()),
       complianceCheck: document.getElementById("complianceCheck").checked,
       boosted: false, // Default not boosted
       status: "draft", // Default status is draft, overridden based on action
