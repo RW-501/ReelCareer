@@ -779,33 +779,26 @@ $('#show-all-jobs').on('click', () => {
 
 
 $('#sort-job').on('change', function () {
-    const sortOrder = $(this).val(); // e.g., 'asc' or 'desc'
+    const sortOrder = $(this).val(); // 'asc' or 'desc'
     
-    // Convert the NodeList to an array for sorting
-    const jobsArray = $('.job-post').get();
+    // Convert the job posts to an array for sorting
+    const jobsArray = $('.job-post').toArray();
     
+    // Sort the jobs based on the createdAt field, which is assumed to be in a data attribute
     jobsArray.sort(function (a, b) {
-        const dateA = new Date($(a).find('.job-details p:contains("Created At")').text());
-        const dateB = new Date($(b).find('.job-details p:contains("Created At")').text());
-        
-        return (sortOrder === 'asc') ? dateA - dateB : dateB - dateA;
+        // Get the createdAt timestamps from data attributes or hidden fields
+        const dateA = new Date($(a).data('created-at')); // Assuming each .job-post has a data-created-at attribute
+        const dateB = new Date($(b).data('created-at'));
+
+        // Compare based on sortOrder
+        return sortOrder === 'asc' ? dateA - dateB : dateB - dateA;
     });
 
-    // Re-append sorted jobs to the container
+    // Re-append the sorted jobs to the container
     $('#job-posts-container').append(jobsArray);
 });
 
 
-$('#filter-status').on('change', function () {
-    const selectedStatus = $(this).val().toLowerCase();
-    
-    $('.job-post').each(function () {
-        const jobStatus = $(this).find('.job-details li:contains("Status")').text().toLowerCase();
-        
-        // Toggle display based on job status matching the selected status
-        $(this).toggle(jobStatus.includes(selectedStatus) || selectedStatus === 'all');
-    });
-});
 
 $('#filter-salary').on('input', function () {
     const minSalary = parseInt($('#min-salary').val()) || 0;
@@ -836,7 +829,7 @@ $(document).on('click', '.job-post', function () {
     const $jobDetails = $(this).find('.job-details');
     
     // Hide other job details
-    $('.job-details').not($jobDetails).slideUp();
+    $('.job-details').not($jobDetails).toggle();
     
     // Toggle the clicked job details
     $jobDetails.slideToggle();
