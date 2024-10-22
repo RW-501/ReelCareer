@@ -453,13 +453,14 @@ function addTagStyles() {
         }
 
         .tag {
-            background-color: #007bff; /* Bootstrap primary color */
+            background-color: #639ad4 ; 
             color: white;
             border-radius: 3px;
             padding: 5px 10px;
             margin: 3px;
             display: inline-flex;
             align-items: center;
+                font-size: 1rem;
         }
 
         .tag button {
