@@ -312,7 +312,7 @@ function addMultipleChoice(questionDiv, questionNumber) {
     // Add "Add more options" button
     const addMoreButton = document.createElement('button');
     addMoreButton.type = 'button';
-    addMoreButton.className = "btn btn-success mt-2"; // Margin-top for spacing
+    addMoreButton.className = "btn  mt-2"; // Margin-top for spacing
     addMoreButton.innerHTML = 'Add more options';
     addMoreButton.onclick = function () {
         addMoreMultipleChoice(multipleChoiceDiv, questionNumber);
