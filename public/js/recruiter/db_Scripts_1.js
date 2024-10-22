@@ -50,7 +50,6 @@ import {
        const  location = document.getElementById("jobLocation").value;
 
         console.log("Collect input values   ",jobTitle," t ",
-          companyIdValue," c ",
           companyName," tcn ",
           recruiterID," r id ",
           jobID);
