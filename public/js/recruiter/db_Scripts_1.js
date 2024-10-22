@@ -849,16 +849,71 @@ $(document).on('click', '.close-job-details', function (event) {
 
 
 
-// Implement deactivate job functionality
+
+
+
 $(document).on('click', '.deactivate-job', function () {
     const jobID = $(this).data('job-id');
-    updateJobStatus(jobID, 'deactivated', recruiterID); // Update status to 'deactivated'
+    const $jobPost = $(this).closest('.job-post'); // Get the parent job post element
+
+    // Update the job status to 'deactivated'
+    updateJobStatus(jobID, 'deactivated', recruiterID) 
+        .then(() => {
+           // $jobPost.hide();
+            // Hide the job post after successful status update
+            $jobPost.slideUp(); // Optional: use slideUp for a smooth transition
+        })
+        .catch((error) => {
+            console.error("Error updating job status:", error);
+            // Optionally, show an error message to the user
+        });
 });
 
-// Implement pause job functionality
-$(document).on('click', '.pause-job', function () {
+
+
+
+
+
+$(document).on('click', '.pause-job', async function () {
     const jobID = $(this).data('job-id');
-    updateJobStatus(jobID, 'paused', recruiterID); // Update status to 'paused'
+
+    // Check the current status
+    const currentStatus = $(this).siblings('.status').text().trim();
+
+    // Determine the new status and update accordingly
+    if (currentStatus === 'Paused') {
+        // Change to "active" status
+        await updateJobStatus(jobID, 'active', recruiterID); // Update status in the database
+
+        // Update the UI
+        $(this).siblings('.status').text('Active'); // Change displayed status to 'Active'
+        $(this).text('Pause'); // Change button text to 'Pause'
+    } else {
+        // Change to "paused" status
+        await updateJobStatus(jobID, 'paused', recruiterID);// Update status in the database
+
+        // Update the UI
+        $(this).siblings('.status').text('Paused'); // Change displayed status to 'Paused'
+        $(this).text('Resume'); // Change button text to 'Resume'
+    }
+});
+
+
+$(document).on('click', '.pause-job', async function () {
+    const jobID = $(this).data('job-id');
+
+    try {
+        // Update status to 'paused'
+        await updateJobStatus(jobID, 'paused', recruiterID);
+
+        // Update the job post status in the UI
+        const $jobPost = $(this).closest('.job-post'); // Get the parent job post
+        $jobPost.find('.status').text('Paused'); // Update the displayed status
+        $(this).text('Resume'); // Change button text to "Resume"
+    } catch (error) {
+        console.error("Error updating job status:", error);
+      
+    }
 });
 
 // Implement view analytics functionality
@@ -960,6 +1015,22 @@ function getStatusIcon(status) {
     }
 }
 
+$(document).ready(function () {
+    adjustButtonsBasedOnStatus();
+});
+
+function adjustButtonsBasedOnStatus() {
+    $('.job-post').each(function () {
+        const jobStatus = $(this).find('.status').text().trim(); // Get the current status text
+        const $pauseButton = $(this).find('.pause-job'); // Find the pause/resume button
+
+        if (jobStatus.toLowerCase() === 'paused') {
+            $pauseButton.text('Resume'); // Change button text to 'Resume'
+        } else if (jobStatus.toLowerCase() === 'active') {
+            $pauseButton.text('Pause'); // Change button text to 'Pause'
+        }
+    });
+}
 
 
 // Function to update the job status in the Jobs collection
@@ -969,7 +1040,6 @@ async function updateJobStatus(jobID, newStatus, recruiterID) {
         status: newStatus
     });
 
-    console.log("   Jobs   ", jobID, "Users", recruiterID);  
 
     // Update the job status in the user's jobPosts array
     const userRef = doc(db, "Users", recruiterID);
@@ -980,7 +1050,6 @@ async function updateJobStatus(jobID, newStatus, recruiterID) {
         const jobPosts = userData.jobPosts || [];
 
         const jobIndex = jobPosts.findIndex(job => job.jobID === jobID);
-//console.log(job.jobID,"   Jobs   ");
 
 
         if (jobIndex === -1) {
