@@ -94,7 +94,7 @@ function addQuestionField() {
     // Add Multiple Choice Button
     const multipleChoiceButton = document.createElement('button');
     multipleChoiceButton.type = 'button';
-    multipleChoiceButton.className = "btn btn-primary me-2";
+    multipleChoiceButton.className = "btn btn-primary me-2 col-md-3 mx-2";
     multipleChoiceButton.innerHTML = 'Multiple Choice';
     multipleChoiceButton.onclick = function () {
         addMultipleChoice(questionDiv, questionCounter);
@@ -104,7 +104,7 @@ function addQuestionField() {
     // Add Statement Button
     const statementButton = document.createElement('button');
     statementButton.type = 'button';
-    statementButton.className = "btn btn-secondary me-2";
+    statementButton.className = "btn btn-secondary me-2 col-md-3 mx-2";
     statementButton.innerHTML = 'Statement';
     statementButton.onclick = function () {
         addStatement(questionDiv);
@@ -114,7 +114,7 @@ function addQuestionField() {
     // Add Remove Question Button
     const removeButton = document.createElement('button');
     removeButton.type = 'button';
-    removeButton.className = "btn btn-danger mt-2";
+    removeButton.className = "btn btn-danger me-2 col-md-3 mx-2";
     removeButton.innerHTML = 'Remove Question';
     removeButton.onclick = function () {
         removeQuestion(questionDiv);
