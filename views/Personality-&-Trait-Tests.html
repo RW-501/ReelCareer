@@ -208,6 +208,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const modal = document.getElementById("infoModal");
     const modalBody = document.getElementById("modal-body");
     const closeButton = document.querySelector(".close-button");
+    if (!testsContainer) console.error("Tests container not found.");
+if (!modal) console.error("Modal not found.");
+if (!modalBody) console.error("Modal body not found.");
+if (!closeButton) console.error("Close button not found.");
+if (!testsContainer || !modal || !modalBody || !closeButton) return;
 
     if (!testsContainer || !modal || !modalBody || !closeButton) {
         console.error("One or more required elements are not found in the DOM.");
