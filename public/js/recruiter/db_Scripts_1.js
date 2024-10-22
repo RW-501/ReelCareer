@@ -751,6 +751,7 @@ $('#show-drafts').on('click', () => {
         return  jobStatus === 'draft';
     });
     
+    $(this).toggle(jobStatus.includes(filteredJobs));
 
 });
 
@@ -761,7 +762,8 @@ $('#show-all-jobs').on('click', () => {
         const jobStatus = job.status.toLowerCase();
         return jobStatus === 'active' || jobStatus === 'draft'  || jobStatus === 'paused';
     });
-  
+    $(this).toggle(jobStatus.includes(filteredJobs));
+
 });
 
     $('#show-paused').on('click', () => {
@@ -770,7 +772,7 @@ $('#show-all-jobs').on('click', () => {
             const jobStatus = job.status.toLowerCase();
             return jobStatus === 'paused';
         });
-  
+        $(this).toggle(jobfilteredJobsTitle.includes(jobStatus));
 });
 
 
@@ -825,14 +827,6 @@ $('#filter-deadline').on('change', function () {
 
 
 
-/*
-// Close job details if clicking outside of job posts
-$(document).on('click', function (event) {
-    if (!$(event.target).closest('.job-post').length) {
-        $('.job-details').slideUp();
-    }
-});
-*/
             // Implement toggle functionality for company details
             $(document).on('click', '.job-title', function () {
                 $(this).next('.job-details').toggle();
@@ -858,13 +852,13 @@ $(document).on('click', '.close-job-details', function (event) {
 // Implement deactivate job functionality
 $(document).on('click', '.deactivate-job', function () {
     const jobID = $(this).data('job-id');
-    updateJobStatus(jobID, 'deactivated'); // Update status to 'deactivated'
+    updateJobStatus(jobID, 'deactivated', recruiterID); // Update status to 'deactivated'
 });
 
 // Implement pause job functionality
 $(document).on('click', '.pause-job', function () {
     const jobID = $(this).data('job-id');
-    updateJobStatus(jobID, 'paused'); // Update status to 'paused'
+    updateJobStatus(jobID, 'paused', recruiterID); // Update status to 'paused'
 });
 
 // Implement view analytics functionality
@@ -969,7 +963,7 @@ function getStatusIcon(status) {
 
 
 // Function to update the job status in the Jobs collection
-async function updateJobStatus(jobID, newStatus) {
+async function updateJobStatus(jobID, newStatus, recruiterID) {
     const jobRef = doc(db, "Jobs", jobID);
     await updateDoc(jobRef, {
         status: newStatus
