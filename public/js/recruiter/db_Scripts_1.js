@@ -59,10 +59,10 @@ import {
           jobTitles: [jobTitle]
         });
   
-        console.log("New company added with ID:", newCompanyRef.id);
+      //  console.log("New company added with ID:", newCompanyRef.id);
         return newCompanyRef.id; // Return the new company ID for further use
       } else {
-        console.log("Existing company ID:", companyId);
+       // console.log("Existing company ID:", companyId);
         return companyId; // Use the provided company ID
       }
     } catch (error) {
@@ -220,13 +220,6 @@ import {
         userName = storedUserData.displayName;
         publicBool = storedUserData.publicProfile;
         userPosition = storedUserData.position;
-  
-        console.log(
-          "Using stored user data:",
-          userName,
-          publicBool,
-          userPosition
-        );
       } else {
         // Fetch from Firestore if not found in local storage
         const userDocRef = doc(db, "Users", user.uid); // Reference to the user document
@@ -234,13 +227,6 @@ import {
   
         if (userDoc.exists()) {
           const userData = userDoc.data();
-          console.log(
-            "Firebase User Data:",
-            userData.displayName,
-            userData.publicProfile,
-            userData.position
-          );
-  
           // Save user data to local storage
           localStorage.setItem("userData", JSON.stringify(userData));
   
@@ -284,7 +270,6 @@ import {
   document
     .getElementById("createJobBtn")
     .addEventListener("click", async function (event) {
-      console.log("createJobBtn added");
       await fetchUserData(); // Call to fetch user data
       handleJobSubmission(event, "post");
     });
@@ -294,7 +279,7 @@ import {
     if (user) {
       try {
         // User is signed in, proceed with user ID handling
-        console.log("User ID: ", user.uid);
+      //  console.log("User ID: ", user.uid);
         
 // Call the function to fetch job posts and moderated companies when the page loads
 fetchRecruiterData(user.uid);
@@ -454,7 +439,6 @@ fetchRecruiterData(user.uid);
   submittedUserPosition = userPosition;
   
   function collectJobDetails(newCompanyId) {
-    console.log("newCompanyId: ", newCompanyId);
   
     return {
       title: document.getElementById("jobTitle").value,
