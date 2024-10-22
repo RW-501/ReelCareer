@@ -40,6 +40,9 @@ function addQuestionField() {
     questionInput.className = "form-control mb-2";
     questionInput.placeholder = `Enter question ${questionCounter}`;
     questionInput.name = `question-${questionCounter}-text`;
+ 
+
+
 
     addRealTimeValidation(questionInput);
     cardBody.appendChild(questionInput);
@@ -149,7 +152,9 @@ function showQuestionSuggestions(cardBody, questionCounter) {
     collapseButton.setAttribute('aria-expanded', 'false');
     collapseButton.setAttribute('aria-controls', `suggestionsContainer${questionCounter}`);
     collapseButton.innerHTML = 'Show Suggestions';
-    
+
+
+   
     // Adding event listener to handle text change on click
     collapseButton.addEventListener('click', function() {
         const suggestionsContainer = document.getElementById(`suggestionsContainer${questionCounter}`);
@@ -157,9 +162,9 @@ function showQuestionSuggestions(cardBody, questionCounter) {
         
         // Update the button text based on the visibility of the suggestions
         if (isCollapsed) {
-            collapseButton.textContent = 'Show Suggestions';
+            collapseButton.innerHTML  = 'Show Suggestions';
         } else {
-            collapseButton.textContent = 'Hide Suggestions';
+            collapseButton.innerHTML  = 'Hide Suggestions';
         }
     });
     
@@ -323,7 +328,7 @@ function addMultipleChoice(questionDiv, questionNumber) {
      choiceInput.addEventListener('input', function () {
         addMoreButton.innerHTML = 'Add more options'; // Reset button text
     });
-
+ 
     
     multipleChoiceDiv.appendChild(addMoreButton);
 
@@ -382,6 +387,10 @@ function addMoreMultipleChoice(multipleChoiceDiv, questionNumber) {
     removeButton.type = 'button';
     removeButton.className = "btn btn-danger mt-2";
     removeButton.innerHTML = 'Remove option';
+        // Attach input event to the new choice input to reset button text
+        choiceInput.addEventListener('input', function () {
+            removeButton.innerHTML = 'Remove option'; // Reset button text
+        });
     removeButton.onclick = function () {
         choiceInput.remove();
         removeButton.remove();
