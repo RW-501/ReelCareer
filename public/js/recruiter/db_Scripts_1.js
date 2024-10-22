@@ -748,14 +748,6 @@ $('#show-all-jobs').on('click', () => {
     fetchRecruiterData(recruiterID);
 });
 
-// Sort functions
-function sortJobsByDate(jobPosts, dateField, order = 'asc') {
-    return jobPosts.sort((a, b) => {
-        const dateA = a[dateField]?.toDate() || 0;
-        const dateB = b[dateField]?.toDate() || 0;
-        return order === 'asc' ? dateA - dateB : dateB - dateA;
-    });
-}
 
 $('#sort-createdAt-asc').on('click', () => {
     fetchRecruiterData(recruiterID).then(jobPosts => {
@@ -873,6 +865,14 @@ $(document).on('click', '.deactivate-job', function () {
             
 }
 
+// Sort functions
+function sortJobsByDate(jobPosts, dateField, order = 'asc') {
+    return jobPosts.sort((a, b) => {
+        const dateA = a[dateField]?.toDate() || 0;
+        const dateB = b[dateField]?.toDate() || 0;
+        return order === 'asc' ? dateA - dateB : dateB - dateA;
+    });
+}
 
 
 // Function to update the job status in the Jobs collection
