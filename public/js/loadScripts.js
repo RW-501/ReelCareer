@@ -430,3 +430,100 @@ function showToast(message, type) {
         setTimeout(() => toast.remove(), 500); // Remove after fade-out
     }, 3000);
 }
+
+
+
+
+
+    // Function to create tag input system
+    function createTagInputSystem({ tagsContainerId, badgeClass = "badge-primary" }) {
+        const tagsContainer = document.getElementById(tagsContainerId);
+
+        // Create input for tags dynamically
+        const tagInput = document.createElement("input");
+        tagInput.type = "text";
+        tagInput.className = "form-control keywordInput mt-2";
+        tagInput.placeholder = "Add a tag and press Enter";
+
+        // Create tags list container dynamically
+        const tagsList = document.createElement("div");
+        tagsList.className = "mt-2";
+
+        // Append input and tag list to container
+        tagsContainer.appendChild(tagInput);
+        tagsContainer.appendChild(tagsList);
+
+        // Create the Clear Tags button dynamically
+        const clearTagsButton = document.createElement("button");
+        clearTagsButton.className = "btn btn-secondary mt-2";
+        clearTagsButton.textContent = "Clear Tags";
+        tagsContainer.appendChild(clearTagsButton);
+
+        // Function to add a tag
+        function addTag(tag) {
+            if (!tag) return; // Prevent empty tags
+
+            const tagElement = document.createElement("span");
+            tagElement.className = `tag badge ${badgeClass} mr-1`; // Using provided badge class
+            tagElement.textContent = tag;
+
+            const removeButton = document.createElement("button");
+            removeButton.textContent = " x"; // Close button
+            removeButton.className = "ml-1 btn btn-sm btn-danger"; // Styling for remove button
+            removeButton.onclick = () => {
+                tagsList.removeChild(tagElement);
+            };
+
+            tagElement.appendChild(removeButton);
+            tagsList.appendChild(tagElement);
+        }
+
+        // Return input and clear button for external listeners
+        return { tagInput, clearTagsButton, tagsList, addTag };
+    }
+
+
+
+
+
+
+
+
+
+
+
+    // Create tag input systems for different containers
+    const generalTags = createTagInputSystem({
+        tagsContainerId: "tagsContainer",
+        badgeClass: "badge-primary" // Custom badge class for general tags
+    });
+
+    const jobFunctionTags = createTagInputSystem({
+        tagsContainerId: "jobFunctionTagsContainer",
+        badgeClass: "badge-info" // Different styling for job function tags
+    });
+
+    const benefitsTags = createTagInputSystem({
+        tagsContainerId: "benefitsTagsContainer",
+        badgeClass: "badge-success" // Different styling for benefits tags
+    });
+
+    // Set up event listeners for the tag inputs and clear buttons
+    [generalTags, jobFunctionTags, benefitsTags].forEach(({ tagInput, clearTagsButton, addTag }) => {
+        // Event listener for tag input
+        tagInput.addEventListener("keydown", (e) => {
+            if (e.key === "Enter" && tagInput.value.trim() !== "") {
+                e.preventDefault(); // Prevent form submission
+                const tag = tagInput.value.trim();
+                addTag(tag); // Add the new tag
+                tagInput.value = ""; // Clear the input
+            }
+        });
+
+        // Event listener to clear all tags
+        clearTagsButton.addEventListener("click", () => {
+            clearTagsButton.previousElementSibling.innerHTML = ""; // Clear all tags from the tags list
+        });
+    });
+
+

@@ -504,48 +504,6 @@ refreshDragAndDrop();
 
 
 
-document.addEventListener("DOMContentLoaded", function() {
-    const tagsContainer = document.getElementById("tagsContainer");
-    const tagInput = document.getElementById("tagInput");
-    const tagsList = document.getElementById("tagsList");
-    const clearTagsButton = document.getElementById("clearTagsButton");
-
-    // Function to add a tag
-    function addTag(tag) {
-        if (!tag) return; // Prevent empty tags
-
-        const tagElement = document.createElement("span");
-        tagElement.className = "tag badge badge-primary mr-1"; // Bootstrap class for a nice badge look
-        tagElement.textContent = tag;
-
-        const removeButton = document.createElement("button");
-        removeButton.textContent = " x"; // Close button
-        removeButton.className = "ml-1 btn btn-sm btn-danger"; // Styling for remove button
-        removeButton.onclick = () => {
-            tagsList.removeChild(tagElement);
-        };
-
-        tagElement.appendChild(removeButton);
-        tagsList.appendChild(tagElement);
-    }
-
-    // Event listener for tag input
-    tagInput.addEventListener("keydown", (e) => {
-        if (e.key === "Enter" && tagInput.value.trim() !== "") {
-            e.preventDefault(); // Prevent form submission
-            const tag = tagInput.value.trim();
-            addTag(tag); // Add the new tag
-            tagInput.value = ""; // Clear the input
-        }
-    });
-
-    // Function to clear all tags
-    clearTagsButton.addEventListener("click", () => {
-        tagsList.innerHTML = ""; // Clear all tags
-    });
-});
-
-
 
 
 // Function to save form values to local storage
@@ -851,3 +809,30 @@ document.getElementById('resetFormButton').addEventListener('click', function() 
     document.getElementById('addExternalLinkButton').style.display = 'inline-block'; // Show add button
     document.getElementById('removeExternalLinkButton').style.display = 'none'; // Hide remove button
 });
+
+
+function capitalizeInput(inputField) {
+    // Capitalizes the first letter of each word
+    inputField.value = inputField.value.replace(/\b\w/g, function (char) {
+      return char.toUpperCase();
+    });
+  }
+  
+  document.getElementById('jobLocation').addEventListener('input', function() {
+    capitalizeInput(this);
+  });
+  
+  document.getElementById('jobFunction').addEventListener('input', function() {
+    capitalizeInput(this);
+  });
+  
+  // For benefits, if you want to capitalize only the first word, you can modify the function like this:
+  function capitalizeFirstWord(inputField) {
+    inputField.value = inputField.value.charAt(0).toUpperCase() + inputField.value.slice(1);
+  }
+  
+  document.getElementById('benefits').addEventListener('input', function() {
+    capitalizeFirstWord(this);
+  });
+
+  
