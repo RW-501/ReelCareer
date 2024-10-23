@@ -1429,6 +1429,7 @@ async function fetchJobApplications(jobIDs) {
 const renderJobWithApplicants = (jobTitle, companyName, applicants) => {
   const jobHTML = renderJobTitleWithApplicants(jobTitle, companyName, applicants);
   document.querySelector('#jobsContainer').innerHTML += jobHTML; // Assuming there's a container for jobs
+  console.log("?!!!!!!!!!!!!!11???????");
 
   // Attach event listeners after rendering
   attachToggleJobTitles();
@@ -1440,7 +1441,7 @@ const renderJobWithApplicants = (jobTitle, companyName, applicants) => {
 
 // Toggle Job Title Sections
 function attachToggleJobTitles() {
-  
+  console.log("?????????????????????????");
   $('.job-title').off('click').on('click', function () {
     $(this).next('.applicants-list').toggle();
 });
