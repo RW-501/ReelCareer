@@ -533,7 +533,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     <!-- Video Element with Lazy Loading, Autoplay, Muted, and Responsive -->
     <video controls autoplay muted loading="lazy" style="width: 100%; height: auto;">
-        <source src="https://www.reelcareer.co/images/intro.MP4" type="video/mp4">
+        <source src="https://reelcareer.co/images/intro.MP4" type="video/mp4">
         Your browser does not support the video tag.
 
         <!-- Optional: Subtitles for Accessibility 
