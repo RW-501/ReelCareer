@@ -15,15 +15,15 @@ body {
     text-shadow: 1px 1px 0px rgb(0 0 0 / 31%), 2px 2px 0px rgb(0 0 0 / 11%), 3px 3px 0px rgb(0 0 0 / 25%) !important;
 }
 
-.embedded {
-    position: relative; /* Positioning for shadow */
-    text-shadow: 
-        1px 1px 0 rgba(255, 255, 255, 0.8), /* Light shadow for upper left */
-        -1px -1px 0 rgba(0, 0, 0, 0.2), /* Dark shadow for lower right */
-        0 0 10px rgba(0, 0, 0, 0.1) !important; /* Soft blur for depth */
-    padding: 10px; /* Add some padding for spacing */
-    border-radius: 5px; /* Optional rounded corners */}
+.embedded-Logo {
+    position: relative;
+    text-shadow: 1px 1px 0 #83bad92b, -1px -1px 0 #639ad400, 0 0 10px #83bad926 !important;
+    padding: 10px;
+    border-radius: 5px;
+    color: #f4f4f4 !important;
 
+
+}
 /* Headings */
 h1 {
     color: #5b6369;
