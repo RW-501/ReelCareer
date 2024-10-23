@@ -1006,6 +1006,7 @@ $(document).on('click', '.view-analytics', function () {
                 }
 
                 console.log( "Users", recruiterID);  
+                console.log( "jobIDsList", jobIDsList);  
             
 }
 
@@ -1255,6 +1256,9 @@ const sortApplications = (applications, sortCriteria) => {
 
 // Fetch and Render Job Applications
 async function fetchJobApplications(jobIDs) {
+
+  console.log( "fetchJobApplications jobIDs", jobIDs);  
+
   try {
       // Show loading state
       $('#application-posts-container').html('<p>Loading applications...</p>');
