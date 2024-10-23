@@ -1229,9 +1229,9 @@ function filterByDeadline() {
 
 
 
-
+console.log(jobId,"   job id   ",jobID)
 $('#sort-applications, #filter-status').on('change', debounce(() => {
-  fetchJobApplications(/* job IDs here */);
+  fetchJobApplications(jobID);
 }, 300));
 
 // Utility: Debounce Function to Optimize Input Events
