@@ -571,7 +571,7 @@ async function fetchJobAndCompanyInfo(jobDocRef) {
         const companyDoc = await getDoc(doc(db, 'Companies', jobData.companyId)); // Assuming you have a reference to company ID
          companyData = companyDoc.data();
         jobTitle = jobData.title;
-
+        jobId = getJobIdFromURL();
         // Populate job information and company information
         document.getElementById('jobPostedByArea').innerHTML = ` 
     <div class="card border-primary mb-4 shadow-sm">
@@ -591,7 +591,7 @@ async function fetchJobAndCompanyInfo(jobDocRef) {
             </div>
             <p class="card-text"><strong>Posted on:</strong> ${new Date(jobData.createdAt.seconds * 1000).toLocaleDateString()}</p>
             <div class="text-center">
-                <a href="job-detail.html?jobId=${jobData.doc.id}" class="btn btn-primary btn-lg">View More Details</a>
+                <a href="job-detail.html?jobId=${jobId}" class="btn btn-primary btn-lg">View More Details</a>
             </div>
         </div>
     </div>
