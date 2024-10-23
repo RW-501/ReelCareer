@@ -1435,13 +1435,7 @@ const renderJobWithApplicants = (jobTitle, companyName, applicants) => {
   attachActionButtons();
 };
 
-// After approval or rejection
-const applicationPost = document.querySelector(`.application-post[data-applicant-id="${applicantId}"]`);
-applicationPost.querySelector('.applicant-name').innerHTML += ' (Approved)';
 
-// Selecting checked applicants
-const selectedApplicants = document.querySelectorAll('.select-applicant:checked');
-// Enable/disable buttons based on the selected count
 
 
 // Toggle Job Title Sections
@@ -1579,6 +1573,35 @@ async function underReviewApplication(applicantId) {
       alert('Error updating application status. Please try again.');
   }
 }
+$('#approve-selected').off('click').on('click', function() {
+  getSelectedApplicants();  // Call the function to handle selected applicants
+});
+
+function getSelectedApplicants() {
+  // Get all selected (checked) applicants
+  const selectedApplicants = document.querySelectorAll('.select-applicant:checked');
+  
+  selectedApplicants.forEach(applicant => {
+      const applicantId = applicant.getAttribute('data-applicant-id');
+      // Perform actions with each selected applicant (e.g., approve, reject, etc.)
+      approveApplication(applicantId);
+  });
+}
+
+$('#reject-selected').off('click').on('click', function() {
+  getRejectedSelectedApplicants();  // Call the function to handle selected applicants
+});
+
+function getRejectedSelectedApplicants() {
+  // Get all selected (checked) applicants
+  const selectedApplicants = document.querySelectorAll('.select-applicant:checked');
+  
+  selectedApplicants.forEach(applicant => {
+      const applicantId = applicant.getAttribute('data-applicant-id');
+      // Perform actions with each selected applicant (e.g., approve, reject, etc.)
+      rejectApplication(applicantId);
+  });
+}
 
 async function approveApplication(applicantId) {
   try {
@@ -1586,6 +1609,9 @@ async function approveApplication(applicantId) {
       await updateDoc(doc(db, "Applications", applicantId), {
           status: 'Approved' // Change status to Approved
       });
+// After approval or rejection
+const applicationPost = document.querySelector(`.application-post[data-applicant-id="${applicantId}"]`);
+applicationPost.querySelector('.applicant-name').innerHTML += ' (Approved)';
 
       showToast('Application approved successfully!', 'success');
       // Optionally, you can refresh the list of applications after approval
@@ -1603,6 +1629,9 @@ async function rejectApplication(applicantId) {
       await updateDoc(doc(db, "Applications", applicantId), {
           status: 'Rejected' // Change status to Rejected
       });
+// After approval or rejection
+const applicationPost = document.querySelector(`.application-post[data-applicant-id="${applicantId}"]`);
+applicationPost.querySelector('.applicant-name').innerHTML += ' (Rejected)';
 
       showToast('Application rejected successfully!', 'success');
       // Optionally, you can refresh the list of applications after rejection
