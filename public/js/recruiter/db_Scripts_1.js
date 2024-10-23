@@ -1127,24 +1127,30 @@ $('#search-company').on('input', function () {
 
 
 function getStatusIcon(status) {
-    let iconClass;
-    switch (status.toLowerCase()) {
-        case 'active':
-            iconClass = 'fas fa-check-circle'; // Font Awesome icon for active
-            break;
-        case 'paused':
-            iconClass = 'fas fa-pause-circle'; // Font Awesome icon for paused
-            break;
-        case 'deactivated':
-            iconClass = 'fas fa-times-circle'; // Font Awesome icon for deactivated
-            break;
-        default:
-            iconClass = 'fas fa-question-circle'; // Default icon for unknown status
-            break;
-    }
+  let iconClass;
 
-    return iconClass; // Return the icon class
+  // Ensure status is a valid string before calling toLowerCase
+  if (typeof status === 'string') {
+      switch (status.toLowerCase()) {
+          case 'active':
+              iconClass = 'fas fa-check-circle'; // Font Awesome icon for active
+              break;
+          case 'paused':
+              iconClass = 'fas fa-pause-circle'; // Font Awesome icon for paused
+              break;
+          case 'deactivated':
+              iconClass = 'fas fa-times-circle'; // Font Awesome icon for deactivated
+              break;
+          default:
+              iconClass = 'fas fa-question-circle'; // Default icon for unknown status
+              break;
+      }
+  } else {
+      // Default icon for undefined or invalid status
+      iconClass = 'fas fa-question-circle';
+  }
 
+  return iconClass; // Return the icon class
 }
 
 
