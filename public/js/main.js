@@ -531,7 +531,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     <!-- Video Element with Lazy Loading, Autoplay, Muted, and Responsive -->
 <div class="video-container" style="text-align: center; max-width: 100%; margin: 20px auto;">
-    <video id="myVideo" controls autoplay muted loading="lazy" style="max-width: 100%; height: auto;">
+    <video id="myVideo" loop  autoplay muted loading="lazy" style="max-width: 100%; height: auto;">
         <source src="https://reelcareer.co/images/intro.MP4" type="video/mp4">
         Your browser does not support the video tag.
   </video>
@@ -568,69 +568,8 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
-document.addEventListener("DOMContentLoaded", function() {
-  const video = document.getElementById('myVideo');
-  const playButton = document.getElementById('playButton');
-
-  // Hide play button initially, since the video is autoplaying
-  playButton.style.display = 'none';
-
-  // Show the play button if the video is paused
-  video.addEventListener('pause', function() {
-      playButton.style.display = 'block';
-  });
-
-  // Hide the play button when the video is playing
-  video.addEventListener('play', function() {
-      playButton.style.display = 'none';
-  });
-
-  // Play the video when clicking the custom play button
-  playButton.addEventListener('click', function() {
-      video.play();
-  });
-});
 
 
-function addVideoStyle(element, styles) {
-  for (let property in styles) {
-      if (styles.hasOwnProperty(property)) {
-          element.style[property] = styles[property];
-      }
-  }
-}
-
-// Example Usage
-window.onload = function() {
-  // Apply styles to video
-  const video = document.querySelector('video');
-  addVideoStyle(video, {
-      width: '100%',
-      height: 'auto',
-      borderRadius: '10px',  // Optional style example
-      boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.5)',  // Optional style example
-  });
-
-  // Apply styles to the video container
-  const videoContainer = document.querySelector('.video-container');
-  addVideoStyle(videoContainer, {
-      textAlign: 'center',
-      margin: '20px auto',
-      maxWidth: '600px',
-  });
-
-  // Apply styles to the custom play button
-  const playButton = document.querySelector('.custom-play-button');
-  addVideoStyle(playButton, {
-      padding: '10px 20px',
-      backgroundColor: 'rgba(0, 0, 0, 0.7)',
-      color: '#fff',
-      borderRadius: '5px',
-      border: '2px solid #fff',
-      cursor: 'pointer',
-      fontSize: '18px'
-  });
-}
 
 // Newsletter Signup Functionality
 async function handleNewsletterSignup(email) {
