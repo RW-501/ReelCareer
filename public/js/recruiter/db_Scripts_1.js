@@ -1207,6 +1207,9 @@ function filterByDeadline() {
 
 
 
+$('#sort-applications, #filter-status').on('change', debounce(() => {
+  fetchJobApplications(/* job IDs here */);
+}, 300));
 
 // Utility: Debounce Function to Optimize Input Events
  debounce = (func, delay) => {
@@ -1414,11 +1417,6 @@ function requestTest(applicantID) {
     console.log(`Requesting test for: ${applicantID}`);
     // Logic to send test request
 }
-
-// Call the function to fetch job applications when the page loads
-// Assuming you have an array of job IDs
-// const jobIDs = ["L6deju3QokTWiDwHNbl3", "anotherJobID"];
-// fetchJobApplications(jobIDs);
 
 
 
