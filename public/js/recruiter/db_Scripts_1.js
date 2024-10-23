@@ -1458,6 +1458,12 @@ $('.applicant-name').off('click').on('click', function () {
   $(this).next('.application-details').toggle();
 });
 
+
+$(document).on('click', '.job-title', function () {
+  $(this).next('.application-details').toggle();
+});
+
+
   /*
 $(document).on('click', '.applicant-name', function () {
   $(this).next('.applicants-list').toggle();
