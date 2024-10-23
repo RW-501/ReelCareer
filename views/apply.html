@@ -204,6 +204,31 @@
 
 
 
+<!-- Message Modal -->
+<div class="modal fade" id="messageModal" tabindex="-1" aria-labelledby="messageModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="messageModalLabel">Message Recruiter</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="messageForm">
+                    <div class="form-group">
+                        <label for="messageContent">Your Message</label>
+                        <textarea id="messageContent" class="form-control" rows="5" required></textarea>
+                    </div>
+                    <div class="alert alert-danger d-none" id="errorAlert"></div> <!-- Error message -->
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="sendMessage">Send Message</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 
 
@@ -259,8 +284,6 @@
 
     
     <script>
-
-
 
 
 
@@ -592,15 +615,25 @@ console.log("Custom Questions:", jobData.customQuestions);
 
 
 // Event listener for messaging the recruiter
+document.getElementById('messageRecruiter').addEventListener('click', () => {
+    // Show the message modal
+    $('#messageModal').modal('show');
+});
 
-document.getElementById('messageRecruiter').addEventListener('click', async () => {
+// Handle message sending
+document.getElementById('sendMessage').addEventListener('click', async () => {
     const messageContent = sanitizeInput(document.getElementById('messageContent').value);
     const userId = getUserIdFromURL();
     const jobID = getJobIdFromURL();
 
+    // Validate input
+    const errorAlert = document.getElementById('errorAlert');
     if (!recruiterEmail || !messageContent) {
-        showToast('Please fill in all fields.', 'error');
+        errorAlert.textContent = 'Please fill in all fields.';
+        errorAlert.classList.remove('d-none');
         return;
+    } else {
+        errorAlert.classList.add('d-none'); // Hide error alert
     }
 
     try {
@@ -614,18 +647,25 @@ document.getElementById('messageRecruiter').addEventListener('click', async () =
             recipientStatus: "active",
             recipientRead: false,
             content: messageContent,
-            timestamp:  new Date().toLocaleString(),
+            timestamp: new Date().toLocaleString(),
         };
 
         // Save message to Firestore
         await addDoc(collection(db, "Messages"), message);
+        
+        // Show success toast notification
+        showToast('Message sent successfully!', 'success');
 
-        window.location.href = `messaging.html?userId=${userId}`;
+        // Redirect to messaging page after a short delay
+        setTimeout(() => {
+           // window.location.href = `messaging.html?userId=${userId}`;
+        }, 2000);
     } catch (error) {
         console.error("Error sending message: ", error);
         showToast('Failed to send the message. Please try again.', 'error');
     }
 });
+
 
 // Function to sanitize user input
 function sanitizeInput(input) {
