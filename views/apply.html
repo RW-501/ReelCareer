@@ -198,6 +198,13 @@
     </form>
 </div>
 
+<div class="file-upload-container">
+    <input type="file" id="fileUpload" class="form-control-file" />
+    <div class="upload-overlay">
+        <span class="upload-icon">📁</span>
+        <span class="upload-text">Upload File</span>
+    </div>
+</div>
 
 </main>
 
@@ -280,12 +287,98 @@
             flex-direction: column;
         }
     }
+
+    .file-upload-container {
+    position: relative;
+    display: inline-block;
+}
+
+.form-control-file {
+    display: none; /* Hide the input field */
+}
+
+.upload-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.7); /* semi-transparent background */
+    color: #333; /* text color */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.8; /* slight transparency */
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+}
+
+.upload-overlay:hover {
+    opacity: 1; /* full opacity on hover */
+}
+
+.upload-icon {
+    font-size: 24px; /* size of the icon */
+}
+
+.upload-text {
+    margin-left: 8px; /* space between icon and text */
+}
+
 </style>
 
 
 
     
     <script>
+function createFileUploadOverlay() {
+    const fileInputs = document.querySelectorAll('input[type="file"]');
+
+    fileInputs.forEach(fileInput => {
+        // Create container if not already present
+        if (!fileInput.closest('.file-upload-container')) {
+            const container = document.createElement('div');
+            container.className = 'file-upload-container';
+
+            // Move the input into the new container
+            fileInput.parentNode.insertBefore(container, fileInput);
+            container.appendChild(fileInput);
+
+            // Hide the input field
+            fileInput.style.display = 'none'; // Hides the input
+
+            // Create overlay
+            const overlay = document.createElement('div');
+            overlay.className = 'upload-overlay';
+
+            // Add icon and text to the overlay
+            overlay.innerHTML = `
+                <span class="upload-icon">📁</span>
+                <span class="upload-text">Upload File</span>
+            `;
+
+            // Append overlay to container
+            container.appendChild(overlay);
+
+            // Handle the click event to focus on the file input
+            overlay.addEventListener('click', () => {
+                fileInput.click(); // Trigger file input click
+            });
+
+            // Show overlay only when file input is empty
+            fileInput.addEventListener('change', () => {
+                if (fileInput.files.length > 0) {
+                    overlay.style.display = 'none'; // Hide overlay when file is selected
+                } else {
+                    overlay.style.display = 'flex'; // Show overlay when no file is selected
+                }
+            });
+        }
+    });
+}
+
+// Call the function to create file upload overlays on page load
+document.addEventListener('DOMContentLoaded', createFileUploadOverlay);
 
 
 
