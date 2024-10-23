@@ -623,9 +623,7 @@ async function handleNewsletterSignup(email) {
   function addStylesFooter() {
     const styles = `
     .newsletter-signup {
-        background-color: #111;
         padding: 20px;
-        border-radius: 10px;
     }
     .custom-checkbox-wrapper {
         display: flex;
