@@ -534,10 +534,7 @@ document.addEventListener("DOMContentLoaded", function () {
     <video id="myVideo" controls autoplay muted loading="lazy" style="max-width: 100%; height: auto;">
         <source src="https://reelcareer.co/images/intro.MP4" type="video/mp4">
         Your browser does not support the video tag.
-        
-        <!-- Optional: Subtitles for Accessibility -->
-        <!-- <track src="subtitles.vtt" kind="subtitles" srclang="en" label="English"> -->
-    </video>
+  </video>
 
     <!-- Optional: Custom Play Button -->
     <div class="custom-play-button" id="playButton" style="display: none; background-color: rgba(0, 0, 0, 0.7); color: white; padding: 10px; border-radius: 5px; cursor: pointer;">Play</div>
@@ -571,13 +568,29 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
-const video = document.getElementById('myVideo');
-const playButton = document.getElementById('playButton');
+document.addEventListener("DOMContentLoaded", function() {
+  const video = document.getElementById('myVideo');
+  const playButton = document.getElementById('playButton');
 
-playButton.addEventListener('click', function() {
-    video.play();
-    playButton.style.display = 'none';
+  // Hide play button initially, since the video is autoplaying
+  playButton.style.display = 'none';
+
+  // Show the play button if the video is paused
+  video.addEventListener('pause', function() {
+      playButton.style.display = 'block';
+  });
+
+  // Hide the play button when the video is playing
+  video.addEventListener('play', function() {
+      playButton.style.display = 'none';
+  });
+
+  // Play the video when clicking the custom play button
+  playButton.addEventListener('click', function() {
+      video.play();
+  });
 });
+
 
 function addVideoStyle(element, styles) {
   for (let property in styles) {
