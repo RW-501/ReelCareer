@@ -1435,6 +1435,7 @@ function attachToggleJobTitles() {
       $(this).next('.applicants-list').toggle();
   });
 
+  
   $('.applicant-name').off('click').on('click', function () {
       $(this).next('.application-details').toggle();
   });
