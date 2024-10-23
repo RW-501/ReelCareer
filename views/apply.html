@@ -248,30 +248,14 @@
                                     <label>${question.question}</label>
                                     ${question.options ? question.options.map(option => `<div><input type="radio" name="${question.id}" value="${option}">${option}</div>`).join('') : ''}
                                 </div>`;
-                break;
-            case 'text_area':
-                inputElement = `<div class="form-group">
-                                    <label>${question.question}</label>
-                                    <textarea class="form-control" id="${question.id}"></textarea>
-                                </div>`;
-                break;
-            case 'input_field':
-                inputElement = `<div class="form-group">
-                                    <label>${question.question}</label>
-                                    <input type="text" class="form-control" id="${question.id}">
-                                </div>`;
-                break;
-            case 'future_test':
-                inputElement = `<div class="form-group">
-                                    <label>${question.question}</label>
-                                    <input type="text" class="form-control" id="${question.id}">
-                                </div>`;
+
+
                 break;
             case 'statement':
-                // Display the statement as text, you might not need an input element for this type
                 inputElement = `<div class="form-group">
                                     <label>${question.question}</label>
                                     <p>${question.question}</p> <!-- Display statement as text -->
+                                       <textarea class="form-control" id="${question.id}"></textarea>
                                 </div>`;
                 break;
             default:
