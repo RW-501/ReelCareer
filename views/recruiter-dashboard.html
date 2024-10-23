@@ -207,51 +207,76 @@
         </div>
 
         <!-- Applications Management -->
-       <!-- Applications Management -->
-<!-- Applications Management -->
-<div class="card">
-  <div class="card-header">
-      <h5>Applications Management</h5>
-  </div>
-  <div class="card-body">
-      <div id="applications-container" style="max-height: 500px; overflow-y: auto;">
-          <div class="d-flex justify-content-between mb-3">
-              <!-- Search Applicants -->
-              <input type="text" id="search-applicant" placeholder="Search applicants by name or job title..." class="form-control w-50" />
-              
-              <!-- Sort and Filter Options -->
-              <div>
-                  <select id="sort-applications" class="form-select" aria-label="Sort applications">
-                      <option value="jobTitle">Sort by Job Title</option>
-                      <option value="companyName">Sort by Company Name</option>
-                      <option value="applicantName">Sort by Applicant Name</option>
-                  </select>
+        <div class="card">
+          <div class="card-header">
+              <h5>Applications Management</h5>
+          </div>
+          <div class="card-body">
+              <!-- Search, Sort, and Filter -->
+              <div class="d-flex justify-content-between mb-3">
+                  <!-- Search Applicants -->
+                  <input type="text" id="search-applicant" placeholder="Search applicants by name or job title..." class="form-control w-50" />
                   
-                  <select id="filter-status" class="form-select" aria-label="Filter by status">
-                      <option value="all">All Statuses</option>
-                      <option value="active">Active</option>
-                      <option value="paused">Paused</option>
-                      <option value="deactivated">Deactivated</option>
-                  </select>
+                  <!-- Sort and Filter Options -->
+                  <div class="d-flex gap-2">
+                      <select id="sort-applications" class="form-select" aria-label="Sort applications">
+                          <option value="jobTitle">Sort by Job Title</option>
+                          <option value="companyName">Sort by Company Name</option>
+                          <option value="applicantName">Sort by Applicant Name</option>
+                      </select>
+                      
+                      <select id="filter-status" class="form-select" aria-label="Filter by status">
+                          <option value="all">All Statuses</option>
+                          <option value="approved">Approved</option>
+                          <option value="under_review">Under Review</option>
+                          <option value="rejected">Rejected</option>
+                          <option value="pending">Pending</option>
+                      </select>
+                  </div>
+              </div>
+      
+              <!-- Application Status Sections -->
+              <div id="applications-container" style="max-height: 500px; overflow-y: auto;">
+                  <!-- Approved Applications -->
+                  <div class="status-section mb-4" id="approvedApplicationsContainer">
+                      <h6 class="text-success">Approved Applications</h6>
+                      <div class="application-section border rounded p-2">
+                          <!-- Approved application posts dynamically inserted here -->
+                      </div>
+                  </div>
+      
+                  <!-- Under Review Applications -->
+                  <div class="status-section mb-4" id="underReviewApplicationsContainer">
+                      <h6 class="text-warning">Under Review Applications</h6>
+                      <div class="application-section border rounded p-2">
+                          <!-- Under review application posts dynamically inserted here -->
+                      </div>
+                  </div>
+      
+                  <!-- Rejected Applications -->
+                  <div class="status-section mb-4" id="rejectedApplicationsContainer">
+                      <h6 class="text-danger">Rejected Applications</h6>
+                      <div class="application-section border rounded p-2">
+                          <!-- Rejected application posts dynamically inserted here -->
+                      </div>
+                  </div>
+      
+                  <!-- Pending Applications -->
+                  <div class="status-section mb-4" id="pendingApplicationsContainer">
+                      <h6 class="text-primary">Pending Applications</h6>
+                      <div class="application-section border rounded p-2">
+                          <!-- Pending application posts dynamically inserted here -->
+                      </div>
+                  </div>
+      
+                  <!-- All applications -->
+                  <div id="application-posts-container" class="mt-4">
+                      <!-- Application posts without filters or sorting will be dynamically inserted here -->
+                  </div>
               </div>
           </div>
-
-          <div id="application-posts-container">
-              <!-- Application posts will be dynamically inserted here -->
-          </div>
       </div>
-
-      <!-- Action Buttons -->
-      <div class="action-buttons mt-3">
-          <button class="btn btn-primary" id="view-all-applications">View All Applications</button>
-          <button class="btn btn-success" id="approve-selected">Approve Selected</button>
-          <button class="btn btn-danger" id="reject-selected">Reject Selected</button>
-          <button class="btn btn-info" id="download-reports">Download Reports</button>
-      </div>
-  </div>
-</div>
-
-
+      
         <!-- Analytics and Reporting -->
         <div class="card">
             <div class="card-header">

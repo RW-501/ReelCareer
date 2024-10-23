@@ -1447,6 +1447,31 @@ async function fetchJobApplications(jobIDs) {
 
 
 
+// Toggle Job Title Sections
+function attachToggleJobTitles() {
+
+
+
+
+// Toggle for applicant names
+$(document).on('click', '.applicant-name', function () {
+  console.log("Applicant name clicked");
+  
+  // Toggle application details
+  $(this).closest('.application-post').find('.application-details').toggle();
+});
+
+// Toggle for job titles (assuming this is also included)
+$(document).on('click', '.job-title', function () {
+  console.log("Job title clicked");
+  
+  // Toggle applicants list or details associated with job title
+  $(this).next('.applicants-list').toggle(); // Adjust based on your structure
+});
+
+
+/*
+
 $('.applicant-name').off('click').on('click', function () {
   console.log("?????????????????????????");
 
@@ -1461,13 +1486,11 @@ $(document).on('click', '.job-title', function () {
 });
 
 
-// Toggle Job Title Sections
-function attachToggleJobTitles() {
+
   $('.job-title').off('click').on('click', function () {
     $(this).next('.applicants-list').toggle();
 });
 
-  /*
 $(document).on('click', '.applicant-name', function () {
   $(this).next('.applicants-list').toggle();
 });
@@ -1506,6 +1529,55 @@ $(function () {
   $('[data-toggle="tooltip"]').tooltip();
 });
 
+// Function to render applications dynamically based on status
+function renderApplication(applicantId, status, applicationHTML) {
+  const sectionIdMap = {
+      'approved': '#approvedApplicationsContainer',
+      'under_review': '#underReviewApplicationsContainer',
+      'rejected': '#rejectedApplicationsContainer',
+      'pending': '#pendingApplicationsContainer',
+  };
+
+  const container = document.querySelector(`${sectionIdMap[status]} .application-section`);
+  container.innerHTML += applicationHTML;
+}
+
+// Example of filtering and sorting logic
+function filterAndSortApplications() {
+  const searchQuery = document.querySelector('#search-applicant').value.toLowerCase();
+  const sortBy = document.querySelector('#sort-applications').value;
+  const filterStatus = document.querySelector('#filter-status').value;
+
+  const allApplications = [...document.querySelectorAll('.application-post')];
+  allApplications.forEach(app => {
+      const applicantName = app.dataset.applicantName.toLowerCase();
+      const jobTitle = app.dataset.jobTitle.toLowerCase();
+      const applicationStatus = app.dataset.status;
+
+      let shouldDisplay = true;
+
+      // Apply search filter
+      if (searchQuery && !applicantName.includes(searchQuery) && !jobTitle.includes(searchQuery)) {
+          shouldDisplay = false;
+      }
+
+      // Apply status filter
+      if (filterStatus !== 'all' && applicationStatus !== filterStatus) {
+          shouldDisplay = false;
+      }
+
+      // Display or hide based on filtering
+      app.style.display = shouldDisplay ? 'block' : 'none';
+  });
+
+  // Apply sorting (e.g., by Job Title or Applicant Name)
+  // Sorting logic can go here
+}
+
+// Attach event listeners for search, sort, and filter
+document.querySelector('#search-applicant').addEventListener('input', filterAndSortApplications);
+document.querySelector('#sort-applications').addEventListener('change', filterAndSortApplications);
+document.querySelector('#filter-status').addEventListener('change', filterAndSortApplications);
 
 
 // Action Buttons Event Listeners
