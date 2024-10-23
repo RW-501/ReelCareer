@@ -1424,6 +1424,7 @@ async function fetchJobApplications(jobIDs) {
         document.querySelector('#jobsContainer').innerHTML += jobHTML; // Assuming there's a container for jobs
         
         
+      }
         
         console.log("?!!!!!!!!!!!!!11???????");
       
@@ -1433,7 +1434,6 @@ async function fetchJobApplications(jobIDs) {
       
       
       
-      }
       
   } catch (error) {
       console.error("Error fetching applications:", error);
