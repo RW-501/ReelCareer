@@ -1254,10 +1254,9 @@ const sortApplications = (applications, sortCriteria) => {
 };
 
 
-// Fetch and Render Job Applications
-async function fetchJobApplications(jobIDs) {
 
-  console.log( "fetchJobApplications jobIDs", jobIDs);  
+async function fetchJobApplications(jobIDs) {
+  console.log("fetchJobApplications jobIDs", jobIDs);
 
   try {
       // Show loading state
@@ -1286,16 +1285,29 @@ async function fetchJobApplications(jobIDs) {
           return;
       }
 
-      // Get sort and filter criteria from dropdowns
-      const sortCriteria = sortDropdown.val();
-      const filterCriteria = filterDropdown.val();
+      // Get sort and filter criteria from dropdowns; default to empty string if not selected
+      const sortCriteria = sortDropdown.val() || ''; // Default to empty
+      const filterCriteria = filterDropdown.val() || ''; // Default to empty
 
-      // Filter applications first, then sort them
-      const filteredApplications = filterApplications(applications, filterCriteria);
-      const sortedApplications = sortApplications(filteredApplications, sortCriteria);
+      console.log("filterCriteria ", filterCriteria);  
+
+      // If no filter is applied, just use the applications as they are
+      let filteredApplications = applications;
+      if (filterCriteria) {
+          filteredApplications = filterApplications(applications, filterCriteria);
+      }
+
+      // If no sort is applied, just use the applications as they are
+      let sortedApplications = filteredApplications;
+      if (sortCriteria) {
+          sortedApplications = sortApplications(filteredApplications, sortCriteria);
+      }
+
+      console.log("sortedApplications   ", sortedApplications);  
 
       // Group by job title and company name
       const groupedApplications = groupApplicationsByJob(sortedApplications);
+      console.log("groupedApplications ", groupedApplications);  
 
       // Render job titles and applicants
       $('#application-posts-container').empty();
@@ -1304,14 +1316,13 @@ async function fetchJobApplications(jobIDs) {
           const jobSection = renderJobTitleWithApplicants(jobTitle, companyName, applicants);
           $('#application-posts-container').append(jobSection);
       });
-
-      // Attach event listeners after rendering
-      attachToggleJobTitles();
-      attachActionButtons();
+    // Attach event listeners after rendering
+    attachToggleJobTitles();
+    attachActionButtons();
 
   } catch (error) {
       console.error("Error fetching applications:", error);
-      $('#application-posts-container').html('<p>Error loading applications. Please try again later.</p>');
+      $('#application-posts-container').html('<p>Error fetching applications. Please try again later.</p>');
   }
 }
 
@@ -1399,7 +1410,7 @@ function attachToggleJobTitles() {
 
 
 $('#sort-applications, #filter-status').on('change', debounce(() => {
-  fetchJobApplications(jobIDs);
+  fetchJobApplications(jobIDsList);
 }, 300));
 
 // Utility: Debounce Function to Optimize Input Events
