@@ -988,49 +988,55 @@ $(document).on('click', '.view-analytics', function () {
 
 
 // Function to get the status color based on job status
-function getStatusColor(status) {
-    switch (status) {
-        case 'active':
-            return 'green'; // Color for active jobs
-        case 'paused':
-            return 'orange'; // Color for paused jobs
-        case 'deactivated':
-            return 'red'; // Color for deactivated jobs
-        default:
-            return 'gray'; // Default color for unknown status
-    }
-}
-
-// Function to get the corresponding icon class based on job status
 function getStatusIcon(status) {
-    switch (status) {
+    let iconClass;
+
+    switch (status.toLowerCase()) {
         case 'active':
-            return 'fas fa-check-circle'; // Font Awesome icon for active
+            iconClass = 'fas fa-check-circle'; // Font Awesome icon for active
+            break;
         case 'paused':
-            return 'fas fa-pause-circle'; // Font Awesome icon for paused
+            iconClass = 'fas fa-pause-circle'; // Font Awesome icon for paused
+            break;
         case 'deactivated':
-            return 'fas fa-times-circle'; // Font Awesome icon for deactivated
+            iconClass = 'fas fa-times-circle'; // Font Awesome icon for deactivated
+            break;
         default:
-            return 'fas fa-question-circle'; // Default icon for unknown status
+            iconClass = 'fas fa-question-circle'; // Default icon for unknown status
+            break;
+    }
+
+    return iconClass; // Return the icon class
+
+}
+
+// Example of how to update the button text based on status
+function updatePauseButton($button, status) {
+    if (status.toLowerCase() === 'paused') {
+        $button.text('Resume'); // Change button text to 'Resume'
+    } else if (status.toLowerCase() === 'active') {
+        $button.text('Pause'); // Change button text to 'Pause'
     }
 }
 
-$(document).ready(function () {
-    adjustButtonsBasedOnStatus();
+// Usage example
+$(document).on('click', '.pause-job', function () {
+    const jobID = $(this).data('job-id');
+    const currentStatus = $(this).data('status'); // Assume you have the status stored in the button
+    const newStatus = currentStatus === 'paused' ? 'active' : 'paused';
+    
+    // Call your update function
+    updateJobStatus(jobID, newStatus, recruiterID); // Update status in the database
+
+    // Update UI elements
+    const $pauseButton = $(this); // Reference to the clicked button
+    updatePauseButton($pauseButton, newStatus); // Update button text based on the new status
+
+    // Get and update the status icon
+    const iconClass = getStatusIcon(newStatus);
+    $pauseButton.find('i').attr('class', iconClass); // Update the icon class
 });
 
-function adjustButtonsBasedOnStatus() {
-    $('.job-post').each(function () {
-        const jobStatus = $(this).find('.status').text().trim(); // Get the current status text
-        const $pauseButton = $(this).find('.pause-job'); // Find the pause/resume button
-
-        if (jobStatus.toLowerCase() === 'paused') {
-            $pauseButton.text('Resume'); // Change button text to 'Resume'
-        } else if (jobStatus.toLowerCase() === 'active') {
-            $pauseButton.text('Pause'); // Change button text to 'Pause'
-        }
-    });
-}
 
 
 // Function to update the job status in the Jobs collection
