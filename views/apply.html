@@ -619,7 +619,14 @@ console.log("Custom Questions:", jobData.customQuestions);
 // Event listener for messaging the recruiter
 document.getElementById('messageRecruiter').addEventListener('click', () => {
     // Show the message modal
-    $('#messageModal').modal('show');
+    const messageModal = document.getElementById('messageModal');
+    messageModal.style.display = 'block'; // Show modal
+});
+
+document.getElementById('closeModal').addEventListener('click', () => {
+    // Close the modal
+    const messageModal = document.getElementById('messageModal');
+    messageModal.style.display = 'none'; // Hide modal
 });
 
 // Handle message sending
