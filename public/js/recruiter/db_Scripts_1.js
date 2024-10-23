@@ -737,7 +737,28 @@ function getStatusIcon(status) {
             // Loop through job posts and display them
             jobPosts.forEach(job => {
                 jobIDsList.push(job.jobID); // Push each jobID into the array
-            
+                function getStatusIcon(status) {
+                    let iconClass;
+                
+                    switch (status.toLowerCase()) {
+                        case 'active':
+                            iconClass = 'fas fa-check-circle'; // Font Awesome icon for active
+                            break;
+                        case 'paused':
+                            iconClass = 'fas fa-pause-circle'; // Font Awesome icon for paused
+                            break;
+                        case 'deactivated':
+                            iconClass = 'fas fa-times-circle'; // Font Awesome icon for deactivated
+                            break;
+                        default:
+                            iconClass = 'fas fa-question-circle'; // Default icon for unknown status
+                            break;
+                    }
+                
+                    return iconClass; // Return the icon class
+                
+                }
+
                 // Determine if the job is boosted
                 const boostButtonText = job.boosted ? 'Boosted' : 'Boost';
                 const boostIcon = job.boosted ? 'fas fa-star' : 'fas fa-star-half-alt'; // Change icon based on boosted status
