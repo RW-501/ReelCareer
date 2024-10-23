@@ -1259,13 +1259,18 @@ const filterApplications = (applications, statusFilter) => {
 const sortApplications = (applications, sortCriteria) => {
   return applications.sort((a, b) => {
       switch (sortCriteria) {
-          case "jobTitle": return a.jobTitle.localeCompare(b.jobTitle);
-          case "companyName": return a.companyName.localeCompare(b.companyName);
-          case "applicantName": return `${a.firstName} ${a.lastName}`.localeCompare(`${b.firstName} ${b.lastName}`);
-          default: return 0;
+          case "jobTitle": 
+              return (a.jobTitle || '').localeCompare(b.jobTitle || '');
+          case "companyName": 
+              return (a.companyName || '').localeCompare(b.companyName || '');
+          case "applicantName": 
+              return (`${a.firstName || ''} ${a.lastName || ''}`).localeCompare(`${b.firstName || ''} ${b.lastName || ''}`);
+          default: 
+              return 0; // No sorting if criteria is unrecognized
       }
   });
 };
+
 
 // Fetch and Render Job Applications
 async function fetchJobApplications(jobIDs) {
