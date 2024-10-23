@@ -703,6 +703,30 @@ let moderatedCompanies = jobPosts.filter(job => {
     };
 });
 
+
+// Function to get the status color based on job status
+function getStatusIcon(status) {
+    let iconClass;
+
+    switch (status.toLowerCase()) {
+        case 'active':
+            iconClass = 'fas fa-check-circle'; // Font Awesome icon for active
+            break;
+        case 'paused':
+            iconClass = 'fas fa-pause-circle'; // Font Awesome icon for paused
+            break;
+        case 'deactivated':
+            iconClass = 'fas fa-times-circle'; // Font Awesome icon for deactivated
+            break;
+        default:
+            iconClass = 'fas fa-question-circle'; // Default icon for unknown status
+            break;
+    }
+
+    return iconClass; // Return the icon class
+
+}
+
             // Clear containers before inserting new job posts and companies
             $('#job-posts-container').empty();
             $('#companies-container').empty();
@@ -932,49 +956,27 @@ $(document).on('click', '.deactivate-job', function () {
 
 
 
-
-
 $(document).on('click', '.pause-job', async function () {
     const jobID = $(this).data('job-id');
-
-    // Check the current status
     const currentStatus = $(this).siblings('.status').text().trim();
 
-    // Determine the new status and update accordingly
-    if (currentStatus === 'Paused') {
-        // Change to "active" status
-        await updateJobStatus(jobID, 'active', recruiterID); // Update status in the database
-
-        // Update the UI
-        $(this).siblings('.status').text('Active'); // Change displayed status to 'Active'
-        $(this).text('Pause'); // Change button text to 'Pause'
-    } else {
-        // Change to "paused" status
-        await updateJobStatus(jobID, 'paused', recruiterID);// Update status in the database
-
-        // Update the UI
-        $(this).siblings('.status').text('Paused'); // Change displayed status to 'Paused'
-        $(this).text('Resume'); // Change button text to 'Resume'
-    }
-});
-
-
-$(document).on('click', '.pause-job', async function () {
-    const jobID = $(this).data('job-id');
-
     try {
-        // Update status to 'paused'
-        await updateJobStatus(jobID, 'paused', recruiterID);
-
-        // Update the job post status in the UI
-        const $jobPost = $(this).closest('.job-post'); // Get the parent job post
-        $jobPost.find('.status').text('Paused'); // Update the displayed status
-        $(this).text('Resume'); // Change button text to "Resume"
+        if (currentStatus === 'Paused') {
+            // Change to "active" status
+            await updateJobStatus(jobID, 'active', recruiterID); // Update status in the database
+            $(this).siblings('.status').text('Active'); // Change displayed status to 'Active'
+            $(this).text('Pause'); // Change button text to 'Pause'
+        } else {
+            // Change to "paused" status
+            await updateJobStatus(jobID, 'paused', recruiterID); // Update status in the database
+            $(this).siblings('.status').text('Paused'); // Change displayed status to 'Paused'
+            $(this).text('Resume'); // Change button text to 'Resume'
+        }
     } catch (error) {
         console.error("Error updating job status:", error);
-      
     }
 });
+
 
 // Implement view analytics functionality
 $(document).on('click', '.view-analytics', function () {
@@ -1045,30 +1047,6 @@ $(document).on('click', '.view-analytics', function () {
 }
 
 
-
-
-// Function to get the status color based on job status
-function getStatusIcon(status) {
-    let iconClass;
-
-    switch (status.toLowerCase()) {
-        case 'active':
-            iconClass = 'fas fa-check-circle'; // Font Awesome icon for active
-            break;
-        case 'paused':
-            iconClass = 'fas fa-pause-circle'; // Font Awesome icon for paused
-            break;
-        case 'deactivated':
-            iconClass = 'fas fa-times-circle'; // Font Awesome icon for deactivated
-            break;
-        default:
-            iconClass = 'fas fa-question-circle'; // Default icon for unknown status
-            break;
-    }
-
-    return iconClass; // Return the icon class
-
-}
 
 $(document).on('click', '.pause-job', async function () {
     const jobID = $(this).data('job-id');
