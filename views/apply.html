@@ -65,14 +65,10 @@
                 <div class="invalid-feedback">Please enter a valid phone number.</div>
             </div>
             
-            <!-- Add a Submit Button 
-            <div class="text-center mb-4">
-                <button type="submit" class="btn btn-primary btn-lg">Submit Application</button>
-            </div>
-            -->
+
 
             <!-- Custom Questions -->
-            <h5 class="text-muted text-center mb-3">The following questions are provided by the recruiter and are optional.</h5>
+            <h5 id="customQuestionsText" class="text-muted text-center mb-3">The following questions are provided by the recruiter and are optional.</h5>
             <div id="customQuestionsContainer" class="mb-4"></div>
             
             <!-- Nondisclosure Questions -->
@@ -180,11 +176,7 @@
             <button type="button" id="saveForLater" class="btn btn-secondary btn-lg mx-2">Save for Later</button>
             <button type="submit" id="submitApplication" class="btn btn-success btn-lg mx-2">Submit Application</button>
         </div>
-        
-        <!-- Job Posted By Area -->
-        <h3 class="border-bottom pb-2 mb-4">Job Posted By</h3>
-        <div id="jobPostedByArea" class="bg-light p-3 rounded mb-4"></div>
-        
+      
         <!-- Recruiter Interaction Buttons -->
         <div class="d-flex justify-content-between mt-4">
             <button type="button" id="messageRecruiter" class="btn btn-primary">Message Recruiter</button>
@@ -279,12 +271,13 @@
     customQuestionsContainer.innerHTML = ''; 
 
     if (!Array.isArray(customQuestions) || customQuestions.length === 0) {
-        customQuestionsContainer.innerHTML = '<p class="text-muted">No custom questions available.</p>';
+        customQuestionsContainer.innerHTML = '';
+        document.getElementById('customQuestionsText').style.display = "none";
+
         return; 
     }
 
     let questionCount = 0; // Initialize question count
-
     customQuestions.forEach(question => {
         let inputElement; 
         questionCount++; // Increment question count
