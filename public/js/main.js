@@ -559,6 +559,7 @@ document.addEventListener("DOMContentLoaded", function () {
 }
 </script>
                     </div>
+                    </div>
                     <div class="col-md-6 m-auto">
                         <img src="${adjustLinkHomeURL}images/sq_logo_n_BG_tie_reelx.png" alt="Company Image" class="img-fluid" style="width: 15rem;">
                     </div>
