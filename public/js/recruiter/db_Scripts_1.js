@@ -28,7 +28,7 @@ import {
   // Collect input values
   let companyName = document.getElementById("company").value;
   let recruiterID = document.getElementById("appUserID").innerText;
-  let jobID = []; // Populate with relevant job IDs, if any
+  let jobIDs = []; // Populate with relevant job IDs, if any
   let jobTitle = document.getElementById("jobTitle").value;
  
 
@@ -38,7 +38,7 @@ import {
     companyId,
     companyName,
     recruiterID,
-    jobID
+    jobIDs
   ) => {
     try {
       // Check if the company ID is empty
@@ -338,7 +338,7 @@ fetchRecruiterData(user.uid);
     try {
       // Call submitJobPost to create or retrieve the company ID
     //  console.log("Attempting to submit job post with companyIdValue:", companyIdValue);
-      newCompanyId = await submitJobPost(jobTitle, companyIdValue, companyName, recruiterID, jobID);
+      newCompanyId = await submitJobPost(jobTitle, companyIdValue, companyName, recruiterID, jobIDs);
 
       // Instead of returning, handle the case where the company ID might be empty
       if (!newCompanyId || !companyIdValue) {
@@ -1227,7 +1227,7 @@ function filterByDeadline() {
 
 
 
-
+let jobID = '';
 
 console.log("   job id   ",jobID)
 
