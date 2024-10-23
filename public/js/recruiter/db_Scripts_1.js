@@ -1246,9 +1246,10 @@ async function fetchJobApplications(jobIDs) {
       });
 
       // Sort applications by selected criteria
-      const sortCriteria = $('#sort-applications').val();
-      const sortedApplications = sortApplications(applications, sortCriteria);
-
+      const filterCriteria = $('#filter-status').val();
+      const filteredApplications = filterApplications(applications, filterCriteria);
+      const sortedApplications = sortApplications(filteredApplications, sortCriteria);
+      
       // Group by job title and company name
       const groupedApplications = groupApplicationsByJob(sortedApplications);
 
@@ -1260,6 +1261,11 @@ async function fetchJobApplications(jobIDs) {
           $('#application-posts-container').append(jobSection);
       });
 
+      const filterApplications = (applications, statusFilter) => {
+        if (statusFilter === 'all') return applications;
+        return applications.filter(app => app.status === statusFilter);
+    };
+    
       // Attach event listeners after rendering
       attachToggleJobTitles();
       attachActionButtons();
@@ -1376,10 +1382,6 @@ function attachActionButtons() {
   });
 }
 
-// Placeholder for View Application and Request Actions (Implement as needed)
-function viewApplication(applicantID) { /* View Logic Here */ }
-function requestInterview(applicantID) { /* Interview Request Logic Here */ }
-function requestTest(applicantID) { /* Test Request Logic Here */ }
 
 // Search applicants functionality
 $('#search-applicant').on('input', function () {
