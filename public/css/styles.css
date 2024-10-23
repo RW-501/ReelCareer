@@ -10,7 +10,15 @@ body {
     padding: 0;
     font-family: 'Arial', sans-serif;
     background-color: #f4f4f4 !important;
+}.embossed {
+    color: #ffffff; /* Text color */
+    text-shadow: 
+        1px 1px 0px rgba(0, 0, 0, 0.5), 
+        2px 2px 0px rgba(0, 0, 0, 0.3), 
+        3px 3px 0px rgba(0, 0, 0, 0.1); /* Create embossed shadow effect */
+    font-size: 2rem; /* Adjust font size as needed */
 }
+
 
 /* Headings */
 h1 {
