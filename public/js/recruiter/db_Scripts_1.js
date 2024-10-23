@@ -1450,14 +1450,14 @@ function attachToggleJobTitles() {
   $('.applicant-name').on('click').on('click', function () {
     $(this).next('.application-details').toggle();
 });
-  
-$(document).on('click', '.job-title', function () {
+  /*
+$(document).on('click', '.applicant-name', function () {
   $(this).next('.applicants-list').toggle();
 });
 $(document).on('click', '.job-title', function () {
-  $(this).next('.applicants-list').toggle();
+  $(this).next('.application-details').toggle();
 });
-
+*/
 }
 
 $('#sort-applications, #filter-status').on('change', debounce(() => {
