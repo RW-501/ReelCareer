@@ -1553,7 +1553,7 @@ async function saveApplication(applicantId) {
           notes: notes // Save the notes (you can add more fields if needed)
       });
 
-      alert('Application saved successfully!');
+      showToast('Application saved successfully!', 'success');
   } catch (error) {
       console.error('Error saving application:', error);
       alert('Error saving application. Please try again.');
