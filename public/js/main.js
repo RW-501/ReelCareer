@@ -527,23 +527,27 @@ document.addEventListener("DOMContentLoaded", function () {
     text-shadow: 1px 0px 0px #6253e7;">Company Media</h2>
     <div class="row" style="text-align: center;">
                     <div class="col-md-6 m-auto">
-  <div class="col-md-6 m-auto">
+ <div class="col-md-6 m-auto text-center"> 
     <!-- Video Title for SEO -->
-   
+    <h2 class="text-light">ReelCareer Introductory Video</h2>
 
     <!-- Video Element with Lazy Loading, Autoplay, Muted, and Responsive -->
-    <video controls autoplay muted loading="lazy" style="width: 100%; height: auto;">
+    <video controls="play" autoplay muted loading="lazy" style="max-width: 100%; height: auto;">
         <source src="https://reelcareer.co/images/intro.MP4" type="video/mp4">
         Your browser does not support the video tag.
 
-        <!-- Optional: Subtitles for Accessibility 
-        <track src="subtitles.vtt" kind="subtitles" srclang="en" label="English"> -->
+        <!-- Optional: Subtitles for Accessibility -->
+        <!--
+        <track src="subtitles.vtt" kind="subtitles" srclang="en" label="English">
+        -->
     </video>
 
     <!-- Video Transcript for SEO and Accessibility -->
-    <div class="video-transcript">
+    <div class="video-transcript text-light mt-3" style="text-align: left;">
+        <h3>Video Transcript:</h3>
         <p>
-         
+            Welcome to ReelCareer, the #1 job board for job seekers and employers. In this video, you'll get an overview of our features, 
+            how to create your profile, post job listings, and much more. Join us in revolutionizing the job search experience.
         </p>
     </div>
 </div>
@@ -554,7 +558,7 @@ document.addEventListener("DOMContentLoaded", function () {
   "@context": "https://schema.org",
   "@type": "VideoObject",
   "name": "ReelCareer Introductory Video",
-  "description": "ReelCareer 1# Job Board - The best job hunting website",
+  "description": "Discover how ReelCareer helps job seekers and employers with a seamless job-hunting experience. Learn how to post jobs, manage applications, and find the perfect career opportunities.",
   "thumbnailUrl": "https://www.reelcareer.co/images/sq_logo_n_BG_tie_reelx.png",
   "uploadDate": "2023-10-23",
   "contentUrl": "https://www.reelcareer.co/images/intro.MP4",
@@ -562,7 +566,6 @@ document.addEventListener("DOMContentLoaded", function () {
   "duration": "PT2M30S"
 }
 </script>
-
                     </div>
                     <div class="col-md-6 m-auto">
                         <img src="${adjustLinkHomeURL}images/sq_logo_n_BG_tie_reelx.png" alt="Company Image" class="img-fluid" style="width: 15rem;">
@@ -573,6 +576,45 @@ document.addEventListener("DOMContentLoaded", function () {
     `;
   document.body.insertAdjacentHTML("beforeend", companyMediaSectionHTML);
 });
+function addVideoStyle(element, styles) {
+  for (let property in styles) {
+      if (styles.hasOwnProperty(property)) {
+          element.style[property] = styles[property];
+      }
+  }
+}
+
+// Example Usage
+window.onload = function() {
+  // Apply styles to video
+  const video = document.querySelector('video');
+  addVideoStyle(video, {
+      width: '100%',
+      height: 'auto',
+      borderRadius: '10px',  // Optional style example
+      boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.5)',  // Optional style example
+  });
+
+  // Apply styles to the video container
+  const videoContainer = document.querySelector('.video-container');
+  addVideoStyle(videoContainer, {
+      textAlign: 'center',
+      margin: '20px auto',
+      maxWidth: '600px',
+  });
+
+  // Apply styles to the custom play button
+  const playButton = document.querySelector('.custom-play-button');
+  addVideoStyle(playButton, {
+      padding: '10px 20px',
+      backgroundColor: 'rgba(0, 0, 0, 0.7)',
+      color: '#fff',
+      borderRadius: '5px',
+      border: '2px solid #fff',
+      cursor: 'pointer',
+      fontSize: '18px'
+  });
+}
 
 // Newsletter Signup Functionality
 async function handleNewsletterSignup(email) {
