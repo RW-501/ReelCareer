@@ -1,0 +1,12 @@
+RewriteEngine On
+
+# Redirect all HTTP requests to HTTPS
+RewriteCond %{HTTPS} off
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Redirect reelcareer.co and www.reelcareer.co to https://www.ReelCareer.co
+RewriteCond %{HTTP_HOST} ^reelcareer\.co [NC]
+RewriteRule ^ https://www.ReelCareer.co%{REQUEST_URI} [L,R=301]
+
+RewriteCond %{HTTP_HOST} ^www\.reelcareer\.co [NC]
+RewriteRule ^ https://www.ReelCareer.co%{REQUEST_URI} [L,R=301]
