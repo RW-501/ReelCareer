@@ -529,7 +529,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     <div class="col-md-6 m-auto">
   <div class="col-md-6 m-auto">
     <!-- Video Title for SEO -->
-    <p>ReelCareer 1# Job Board - The best job hunting website!</p>
+   
 
     <!-- Video Element with Lazy Loading, Autoplay, Muted, and Responsive -->
     <video controls autoplay muted loading="lazy" style="width: 100%; height: auto;">
@@ -543,7 +543,7 @@ document.addEventListener("DOMContentLoaded", function () {
     <!-- Video Transcript for SEO and Accessibility -->
     <div class="video-transcript">
         <p>
-            [ReelCareer ReelCareer.co ]
+         
         </p>
     </div>
 </div>
