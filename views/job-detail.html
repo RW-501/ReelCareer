@@ -614,7 +614,7 @@ text-align: left;
       <button id="applyBtn" class="btn btn-primary btn-lg w-100 mt-4" aria-label="Apply for this job">Apply Now</button>
     </div>
   </div>
-  
+
   <div class="text-center m-auto">
     <h3 class="font-weight-bold embossed">ReelCareer.co</h3>
 </div>
@@ -736,6 +736,26 @@ text-align: left;
       <button id="closeReportModalButton" type="button" class="btn btn-secondary mt-3" style="display: none;" onclick="closeReportJobModal()">Close</button>
     </div>
   </div>
+
+<!-- Modal Structure -->
+<div class="modal fade" id="blogModal" tabindex="-1" aria-labelledby="blogModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="blogModalLabel"></h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body" id="modalBody">
+              <!-- Blog content will be dynamically inserted here -->
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" id="seeMoreButton" class="btn btn-primary">See More</button>
+          </div>
+      </div>
+  </div>
+</div>
+
 
 
   <!-- Footer -->
@@ -1102,6 +1122,7 @@ async function fetchBlogs(jobTags) {
     querySnapshot.forEach(doc => {
       allBlogs.push({ id: doc.id, ...doc.data() });
     });
+console.log("allBlogs  ",allBlogs);
 
     // Display the first set of blogs
     displayBlogs();
@@ -1152,15 +1173,39 @@ function loadMoreBlogs() {
 }
 
 // Function to open the modal and show full blog content
-function openModal(blogId) {
-  const blog = allBlogs.find(b => b.id === blogId);
-  const modalBody = document.getElementById('modalBody');
-  modalBody.innerHTML = `
-    <h5 class="modal-title">${blog.title}</h5>
-    <img src="${blog.imageUrl}" alt="${blog.title}" class="img-fluid" loading="lazy" />
-    <p>${blog.content}</p>
-  `;
+async function openModal(blogId) {
+    const blog = allBlogs.find(b => b.id === blogId);
+    const modalTitle = document.getElementById('blogModalLabel');
+    const modalBody = document.getElementById('modalBody');
+
+    // Set the modal title and body content
+    modalTitle.textContent = blog.title;
+    modalBody.innerHTML = `
+        <img src="${blog.imageUrl}" alt="${blog.title}" class="img-fluid" loading="lazy" />
+        <p>${blog.content}</p>
+    `;
+
+    // Update the view count
+    await updateViewCount(blogId);
+
+    // Show the modal
+    const modal = new bootstrap.Modal(document.getElementById('blogModal'));
+    modal.show();
+    
+    // Event listener for the See More button
+    document.getElementById('seeMoreButton').onclick = () => {
+        loadMoreBlogs(blog.tags); // Assuming you have a way to fetch blogs by tags
+    };
 }
+
+// Function to update the view count for the blog
+async function updateViewCount(blogId) {
+    const blogRef = doc(db, 'Blogs', blogId);
+    await updateDoc(blogRef, {
+        views: increment(1) // Increment the views count by 1
+    });
+}
+
 
 } catch (error) {
           console.error("Error fetching related blogs: ", error);
