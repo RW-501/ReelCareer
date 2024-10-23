@@ -742,40 +742,40 @@ let moderatedCompanies = jobPosts.filter(job => {
             });
      
         
-  
-// Event listener for showing active and draft jobs
-$('#show-drafts').on('click', () => {
-    // Fetch the job posts data and filter for 'active' and 'draft' statuses
-    const filteredJobs = jobPosts.filter(job => {
-        const jobStatus = job.status.toLowerCase();
-        return  jobStatus === 'draft';
-    });
-    
-    $(this).toggle(jobStatus.includes(filteredJobs));
-
-});
-
-// Event listener for showing active and draft jobs
-$('#show-all-jobs').on('click', () => {
-    // Fetch the job posts data and filter for 'active' and 'draft' statuses
-    const filteredJobs = jobPosts.filter(job => {
-        const jobStatus = job.status.toLowerCase();
-        return jobStatus === 'active' || jobStatus === 'draft'  || jobStatus === 'paused';
-    });
-    $(this).toggle(jobStatus.includes(filteredJobs));
-
-});
-
-    $('#show-paused').on('click', () => {
-        // Fetch the job posts data and filter for 'active' and 'draft' statuses
-        const filteredJobs = jobPosts.filter(job => {
-            const jobStatus = job.status.toLowerCase();
-            return jobStatus === 'paused';
-        });
-        $(this).toggle(jobfilteredJobsTitle.includes(jobStatus));
-});
-
-
+            $('#show-drafts').on('click', () => {
+                const filteredJobs = jobPosts.filter(job => job.status.toLowerCase() === 'draft');
+            
+                // Show or hide job posts based on filtered results
+                $('.job-post').hide(); // First hide all job posts
+                filteredJobs.forEach(job => {
+                    // Show job posts that match the filtered results
+                    $(`.job-post[data-job-id="${job.jobID}"]`).show();
+                });
+            });
+            
+            $('#show-all-jobs').on('click', () => {
+                const filteredJobs = jobPosts.filter(job => {
+                    const jobStatus = job.status.toLowerCase();
+                    return jobStatus === 'active' || jobStatus === 'draft' || jobStatus === 'paused';
+                });
+            
+                $('.job-post').hide(); // First hide all job posts
+                filteredJobs.forEach(job => {
+                    // Show job posts that match the filtered results
+                    $(`.job-post[data-job-id="${job.jobID}"]`).show();
+                });
+            });
+            
+            $('#show-paused').on('click', () => {
+                const filteredJobs = jobPosts.filter(job => job.status.toLowerCase() === 'paused');
+            
+                $('.job-post').hide(); // First hide all job posts
+                filteredJobs.forEach(job => {
+                    // Show job posts that match the filtered results
+                    $(`.job-post[data-job-id="${job.jobID}"]`).show();
+                });
+            });
+            
 
 $('#sort-job').on('change', function () {
     const sortOrder = $(this).val(); // 'asc' or 'desc'
