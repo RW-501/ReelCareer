@@ -1373,7 +1373,12 @@ async function fetchJobApplications(jobIDs) {
           const application = doc.data();
           applications.push({ ...application, id: doc.id });
       });
-
+        // Now render applications using the stored statuses
+        applications.forEach(app => {
+          const applicationHTML = renderApplicationHTML(app); // Render the HTML for the application
+          renderApplication(app.applicantId, applicationStatuses[app.applicantId], applicationHTML); // Call renderApplication with the status
+      });
+      
       // Make sure the sorting and filtering dropdowns are available
       const sortDropdown = $('#sort-applications');
       const filterDropdown = $('#filter-status');
@@ -1425,7 +1430,6 @@ async function fetchJobApplications(jobIDs) {
         
         
       }
-        
       
         // Attach event listeners after rendering
         attachToggleJobTitles();
@@ -1469,35 +1473,6 @@ $(document).on('click', '.job-title', function () {
   $(this).next('.applicants-list').toggle(); // Adjust based on your structure
 });
 
-
-/*
-
-$('.applicant-name').off('click').on('click', function () {
-  console.log("?????????????????????????");
-
-  $(this).next('.application-details').toggle();
-});
-
-
-$(document).on('click', '.job-title', function () {
-  console.log("?!!!!!!!!!!!!!11???????");
-
-  $(this).next('.application-details').toggle();
-});
-
-
-
-  $('.job-title').off('click').on('click', function () {
-    $(this).next('.applicants-list').toggle();
-});
-
-$(document).on('click', '.applicant-name', function () {
-  $(this).next('.applicants-list').toggle();
-});
-$(document).on('click', '.job-title', function () {
-  $(this).next('.application-details').toggle();
-});
-*/
 }
 
 $('#sort-applications, #filter-status').on('change', debounce(() => {
