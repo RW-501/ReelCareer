@@ -207,21 +207,50 @@
         </div>
 
         <!-- Applications Management -->
-        <div class="card">
-            <div class="card-header">
-                <h5>Applications Management</h5>
-            </div>
-            <div class="card-body">
-                <div id="applications-container" style="max-height: 500px; overflow-y: auto;">
-                    <input type="text" id="search-applicant" placeholder="Search applicants by name or job title..." />
-                    <div id="application-posts-container">
-                        <!-- Application posts will be dynamically inserted here -->
-                    </div>
-                </div>
+       <!-- Applications Management -->
+<!-- Applications Management -->
+<div class="card">
+  <div class="card-header">
+      <h5>Applications Management</h5>
+  </div>
+  <div class="card-body">
+      <div id="applications-container" style="max-height: 500px; overflow-y: auto;">
+          <div class="d-flex justify-content-between mb-3">
+              <!-- Search Applicants -->
+              <input type="text" id="search-applicant" placeholder="Search applicants by name or job title..." class="form-control w-50" />
+              
+              <!-- Sort and Filter Options -->
+              <div>
+                  <select id="sort-applications" class="form-select" aria-label="Sort applications">
+                      <option value="jobTitle">Sort by Job Title</option>
+                      <option value="companyName">Sort by Company Name</option>
+                      <option value="applicantName">Sort by Applicant Name</option>
+                  </select>
+                  
+                  <select id="filter-status" class="form-select" aria-label="Filter by status">
+                      <option value="all">All Statuses</option>
+                      <option value="active">Active</option>
+                      <option value="paused">Paused</option>
+                      <option value="deactivated">Deactivated</option>
+                  </select>
+              </div>
+          </div>
 
+          <div id="application-posts-container">
+              <!-- Application posts will be dynamically inserted here -->
+          </div>
+      </div>
 
-            </div>
-        </div>
+      <!-- Action Buttons -->
+      <div class="action-buttons mt-3">
+          <button class="btn btn-primary" id="view-all-applications">View All Applications</button>
+          <button class="btn btn-success" id="approve-selected">Approve Selected</button>
+          <button class="btn btn-danger" id="reject-selected">Reject Selected</button>
+          <button class="btn btn-info" id="download-reports">Download Reports</button>
+      </div>
+  </div>
+</div>
+
 
         <!-- Analytics and Reporting -->
         <div class="card">

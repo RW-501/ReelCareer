@@ -872,43 +872,7 @@ $('#sort-job').on('change', function () {
     $('#job-posts-container').empty().append(jobsArray); // Clear the container and re-append sorted jobs
 });
 
-let debounceTimer;
 
-$('#filter-salary, #filter-deadline').on('input change', function () {
-    clearTimeout(debounceTimer);
-    debounceTimer = setTimeout(() => {
-        // Call the filtering logic functions
-        filterBySalary();
-        filterByDeadline();
-    }, 300); // Adjust the delay as necessary
-});
-
-// Filter job posts based on salary range input
-function filterBySalary() {
-    const minSalary = parseInt($('#min-salary').val()) || 0;
-    const maxSalary = parseInt($('#max-salary').val()) || Infinity;
-
-    $('.job-post').each(function () {
-        const salaryText = $(this).find('.job-details li:contains("Salary")').text();
-        const salary = parseInt(salaryText.replace(/[^0-9]/g, '')); // Extract number
-
-        // Toggle display based on salary range
-        $(this).toggle(salary >= minSalary && salary <= maxSalary);
-    });
-}
-
-// Filter job posts based on application deadline
-function filterByDeadline() {
-    const selectedDeadline = new Date($('#filter-deadline').val());
-
-    $('.job-post').each(function () {
-        const deadlineText = $(this).find('.job-details li:contains("Application Deadline")').text();
-        const deadline = new Date(deadlineText);
-        
-        // Toggle display if the job's deadline is before the selected deadline
-        $(this).toggle(deadline <= selectedDeadline || !deadlineText);
-    });
-}
 
 
             // Implement toggle functionality for company details
@@ -1200,151 +1164,194 @@ function getStatusColor(status) {
 
 
 
+// Utility: Debounce Function to Optimize Input Events
+const debounce = (func, delay) => {
+  let timeout;
+  return (...args) => {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => func.apply(this, args), delay);
+  };
+};
 
-function updateJobUI(jobID, newStatus, button) {
-    const $jobPost = $(`.job-post[data-job-id="${jobID}"]`);
-    $jobPost.find('.status').text(newStatus); // Update displayed status
-    // Additional UI changes based on status can be added here
-}
+// Utility: Throttle Function to Optimize Scroll Events (if needed)
+const throttle = (func, limit) => {
+  let inThrottle;
+  return (...args) => {
+      if (!inThrottle) {
+          func.apply(this, args);
+          inThrottle = true;
+          setTimeout(() => inThrottle = false, limit);
+      }
+  };
+};
 
-
-
-
-// Function to render all applicants under a job title, including the company name
-function renderJobTitleWithApplicants(jobTitle, companyName, applicants) {
-    const applicantsHTML = applicants.map(application => {
-        const statusIcon = getStatusIcon(application.status);
-        const statusColor = getStatusColor(application.status);
-        const isBoosted = application.isBoosted; // Assuming there’s a property that indicates if the application is boosted
-
-        return `
-            <div class="application-post" data-applicant-id="${application.id}" style="border: ${isBoosted ? '2px solid brightblue' : 'none'};">
-                <div class="card mb-3">
-                    <div class="card-body">
-                        <h5 class="applicant-name card-title text-primary" style="color: ${statusColor}; cursor: pointer;">
-                            ${application.firstName} ${application.lastName} 
-                            <i class="${statusIcon}" style="margin-left: 5px;"></i>
-                        </h5>
-                        <div class="application-details" style="display: none;">
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item"><strong>Job Title:</strong> ${jobTitle}</li>
-                                <li class="list-group-item"><strong>Company Name:</strong> ${companyName}</li>
-                                <li class="list-group-item"><strong>Apply Date:</strong> 
-                                    ${application.applyDate ? new Date(application.applyDate.seconds * 1000).toLocaleDateString() : "Not available"}
-                                </li>
-                                <li class="list-group-item"><strong>Email:</strong> ${application.email}</li>
-                                <li class="list-group-item"><strong>Phone:</strong> ${application.phone}</li>
-                                <li class="list-group-item"><strong>Notes:</strong> ${application.notes || "No notes available."}</li>
-                            </ul>
-                            <a href="${application.resumeLink}" target="_blank" class="btn btn-link mt-2">Download Resume</a><br>
-                            <a href="${application.videoResumeLink}" target="_blank" class="btn btn-link">Download Video Resume</a><br>
-                            <button class="view-application btn btn-info mt-3" data-applicant-id="${application.id}">View Application</button>
-                            <button class="request-interview btn btn-secondary mt-3 ms-2" data-applicant-id="${application.id}">Request Interview</button>
-                            <button class="request-test btn btn-warning mt-3 ms-2" data-applicant-id="${application.id}">Request Test</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        `;
-    }).join('');
-
-    return `
-        <div class="job-title-section">
-            <h4 class="job-title" style="cursor: pointer;">${jobTitle}</h4>
-            <div class="applicants-list" style="display: none;">
-                ${applicantsHTML}
-            </div>
-        </div>
-    `;
-}
-
-// Function to fetch job applications based on job IDs
+// Fetch and Render Job Applications
 async function fetchJobApplications(jobIDs) {
-    const applicationsRef = collection(db, "Applications");
-    const applicationsQuery = query(applicationsRef, where("jobId", "in", jobIDs));
-    const querySnapshot = await getDocs(applicationsQuery);
+  try {
+      // Show loading state
+      $('#application-posts-container').html('<p>Loading applications...</p>');
 
-    // Clear the container before inserting new applications
-    $('#application-posts-container').empty();
+      const applicationsRef = collection(db, "Applications");
+      const applicationsQuery = query(applicationsRef, where("jobId", "in", jobIDs));
+      const querySnapshot = await getDocs(applicationsQuery);
+      
+      const applications = [];
+      querySnapshot.forEach(doc => {
+          const application = doc.data();
+          applications.push({ ...application, id: doc.id });
+      });
 
-    const applications = [];
-    querySnapshot.forEach(doc => {
-        const application = doc.data();
-        applications.push({ ...application, id: doc.id }); // Add document ID for future reference
-    });
+      // Sort applications by selected criteria
+      const sortCriteria = $('#sort-applications').val();
+      const sortedApplications = sortApplications(applications, sortCriteria);
 
-    // Sort applications based on selected criteria
-    const sortCriteria = $('#sort-applications').val(); // Assuming you have a select element for sorting
-    applications.sort((a, b) => {
-        if (sortCriteria === "jobTitle") {
-            return a.jobTitle.localeCompare(b.jobTitle);
-        } else if (sortCriteria === "companyName") {
-            return a.companyName.localeCompare(b.companyName);
-        } else if (sortCriteria === "applicantName") {
-            return `${a.firstName} ${a.lastName}`.localeCompare(`${b.firstName} ${b.lastName}`);
-        }
-        return 0;
-    });
+      // Group by job title and company name
+      const groupedApplications = groupApplicationsByJob(sortedApplications);
 
-    // Group applications by job title and company name
-    const groupedApplications = applications.reduce((acc, app) => {
-        const key = `${app.jobTitle}|${app.companyName}`; // Unique key for job title and company
-        (acc[key] = acc[key] || []).push(app);
-        return acc;
-    }, {});
+      // Render job titles and applicants
+      $('#application-posts-container').empty();
+      Object.entries(groupedApplications).forEach(([key, applicants]) => {
+          const [jobTitle, companyName] = key.split('|');
+          const jobSection = renderJobTitleWithApplicants(jobTitle, companyName, applicants);
+          $('#application-posts-container').append(jobSection);
+      });
 
-    // Render job titles with their applicants
-    Object.entries(groupedApplications).forEach(([key, applicants]) => {
-        const [jobTitle, companyName] = key.split('|'); // Split the unique key
-        const jobSection = renderJobTitleWithApplicants(jobTitle, companyName, applicants);
-        $('#application-posts-container').append(jobSection);
-    });
+      // Attach event listeners after rendering
+      attachToggleJobTitles();
+      attachActionButtons();
 
-    // Implement toggle functionality for job titles
-    attachToggleJobTitles();
-
-    // Implement action button functionality
-    attachActionButtons();
+  } catch (error) {
+      console.error("Error fetching applications:", error);
+      $('#application-posts-container').html('<p>Error loading applications. Please try again later.</p>');
+  }
 }
 
-// Attach toggle functionality for job titles
+// Sort Applications by Criteria
+const sortApplications = (applications, criteria) => {
+  return applications.sort((a, b) => {
+      switch (criteria) {
+          case "jobTitle": return a.jobTitle.localeCompare(b.jobTitle);
+          case "companyName": return a.companyName.localeCompare(b.companyName);
+          case "applicantName": return `${a.firstName} ${a.lastName}`.localeCompare(`${b.firstName} ${b.lastName}`);
+          default: return 0;
+      }
+  });
+};
+
+// Group Applications by Job Title and Company
+const groupApplicationsByJob = (applications) => {
+  return applications.reduce((acc, app) => {
+      const key = `${app.jobTitle}|${app.companyName}`;
+      (acc[key] = acc[key] || []).push(app);
+      return acc;
+  }, {});
+};
+
+// Render Job Title with Applicants
+const renderJobTitleWithApplicants = (jobTitle, companyName, applicants) => {
+  const applicantsHTML = applicants.map(application => renderApplicationHTML(application, jobTitle, companyName)).join('');
+  
+  return `
+      <div class="job-title-section">
+          <h4 class="job-title" style="cursor: pointer;">${jobTitle}</h4>
+          <div class="applicants-list" style="display: none;">
+              ${applicantsHTML}
+          </div>
+      </div>
+  `;
+};
+
+// Render Single Application HTML
+const renderApplicationHTML = (application, jobTitle, companyName) => {
+  const statusIcon = getStatusIcon(application.status);
+  const statusColor = getStatusColor(application.status);
+
+  return `
+      <div class="application-post" data-applicant-id="${application.id}" style="border: ${getBoostedStyle(application.isBoosted)};">
+          <div class="card mb-3">
+              <div class="card-body">
+                  <div class="form-check">
+                      <input class="form-check-input select-applicant" type="checkbox" value="${application.id}" id="select-applicant-${application.id}">
+                      <label class="form-check-label" for="select-applicant-${application.id}">Select</label>
+                  </div>
+                  <h5 class="applicant-name card-title text-primary" style="color: ${statusColor}; cursor: pointer;">
+                      ${application.firstName} ${application.lastName} 
+                      <i class="${statusIcon}" style="margin-left: 5px;"></i>
+                  </h5>
+                  <div class="application-details" style="display: none;">
+                      <ul class="list-group list-group-flush">
+                          <li class="list-group-item"><strong>Job Title:</strong> ${jobTitle}</li>
+                          <li class="list-group-item"><strong>Company Name:</strong> ${companyName}</li>
+                          <li class="list-group-item"><strong>Apply Date:</strong> ${formatDate(application.applyDate)}</li>
+                          <li class="list-group-item"><strong>Email:</strong> ${application.email}</li>
+                          <li class="list-group-item"><strong>Phone:</strong> ${application.phone}</li>
+                          <li class="list-group-item"><strong>Notes:</strong> ${application.notes || "No notes available."}</li>
+                      </ul>
+                      <a href="${application.resumeLink}" target="_blank" class="btn btn-link mt-2">Download Resume</a>
+                      <a href="${application.videoResumeLink}" target="_blank" class="btn btn-link">Download Video Resume</a>
+                      <button class="view-application btn btn-info mt-3" data-applicant-id="${application.id}">View Application</button>
+                      <button class="request-interview btn btn-secondary mt-3 ms-2" data-applicant-id="${application.id}">Request Interview</button>
+                      <button class="request-test btn btn-warning mt-3 ms-2" data-applicant-id="${application.id}">Request Test</button>
+                  </div>
+              </div>
+          </div>
+      </div>
+  `;
+};
+
+// Utility: Date Formatting
+const formatDate = (dateObj) => dateObj ? new Date(dateObj.seconds * 1000).toLocaleDateString() : "Not available";
+
+// Toggle Job Title Sections
 function attachToggleJobTitles() {
-    $('.job-title').off('click').on('click', function () {
-        $(this).next('.applicants-list').toggle();
-    });
+  $('.job-title').off('click').on('click', function () {
+      $(this).next('.applicants-list').toggle();
+  });
 }
 
-// Attach action button functionality
+// Event Listeners for Sorting/Filtering
+$('#sort-applications, #filter-status').on('change', debounce(() => {
+  fetchJobApplications(/* Your job IDs here */);
+}, 300)); // Adjust delay as needed
+
+// Action Buttons Event Listeners
 function attachActionButtons() {
-    $('.view-application').off('click').on('click', function () {
-        const applicantID = $(this).data('applicant-id');
-        viewApplication(applicantID); // Implement this function as needed
-    });
+  $('.view-application').off('click').on('click', function () {
+      const applicantID = $(this).data('applicant-id');
+      viewApplication(applicantID); // Implement this function
+  });
 
-    $('.request-interview').off('click').on('click', function () {
-        const applicantID = $(this).data('applicant-id');
-        requestInterview(applicantID); // Implement this function as needed
-    });
+  $('.request-interview').off('click').on('click', function () {
+      const applicantID = $(this).data('applicant-id');
+      requestInterview(applicantID); // Implement this function
+  });
 
-    $('.request-test').off('click').on('click', function () {
-        const applicantID = $(this).data('applicant-id');
-        requestTest(applicantID); // Implement this function as needed
-    });
+  $('.request-test').off('click').on('click', function () {
+      const applicantID = $(this).data('applicant-id');
+      requestTest(applicantID); // Implement this function
+  });
 }
 
-// Implement search functionality
+// Placeholder for View Application and Request Actions (Implement as needed)
+function viewApplication(applicantID) { /* View Logic Here */ }
+function requestInterview(applicantID) { /* Interview Request Logic Here */ }
+function requestTest(applicantID) { /* Test Request Logic Here */ }
+
+// Search applicants functionality
 $('#search-applicant').on('input', function () {
-    const searchTerm = $(this).val().toLowerCase();
-    $('.job-title-section').each(function () {
-        const jobTitle = $(this).find('.job-title').text().toLowerCase();
-        const applicants = $(this).find('.application-post');
-        const hasMatchingApplicant = [...applicants].some(applicant => {
-            const applicantName = $(applicant).find('.applicant-name').text().toLowerCase();
-            return applicantName.includes(searchTerm);
-        });
-        $(this).toggle(jobTitle.includes(searchTerm) || hasMatchingApplicant);
-    });
+  const searchTerm = $(this).val().toLowerCase();
+  $('.job-title-section').each(function () {
+      const jobTitle = $(this).find('.job-title').text().toLowerCase();
+      const applicants = $(this).find('.application-post');
+      const hasMatchingApplicant = [...applicants].some(applicant => {
+          const applicantName = $(applicant).find('.applicant-name').text().toLowerCase();
+          return applicantName.includes(searchTerm);
+      });
+      $(this).toggle(jobTitle.includes(searchTerm) || hasMatchingApplicant);
+  });
 });
+
+
 
 // Placeholder functions for actions
 function viewApplication(applicantID) {
@@ -1375,7 +1382,43 @@ function requestTest(applicantID) {
 
 
 
+let debounceTimer;
 
+$('#filter-salary, #filter-deadline').on('input change', function () {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(() => {
+        // Call the filtering logic functions
+        filterBySalary();
+        filterByDeadline();
+    }, 300); // Adjust the delay as necessary
+});
+
+// Filter job posts based on salary range input
+function filterBySalary() {
+    const minSalary = parseInt($('#min-salary').val()) || 0;
+    const maxSalary = parseInt($('#max-salary').val()) || Infinity;
+
+    $('.job-post').each(function () {
+        const salaryText = $(this).find('.job-details li:contains("Salary")').text();
+        const salary = parseInt(salaryText.replace(/[^0-9]/g, '')); // Extract number
+
+        // Toggle display based on salary range
+        $(this).toggle(salary >= minSalary && salary <= maxSalary);
+    });
+}
+
+// Filter job posts based on application deadline
+function filterByDeadline() {
+    const selectedDeadline = new Date($('#filter-deadline').val());
+
+    $('.job-post').each(function () {
+        const deadlineText = $(this).find('.job-details li:contains("Application Deadline")').text();
+        const deadline = new Date(deadlineText);
+        
+        // Toggle display if the job's deadline is before the selected deadline
+        $(this).toggle(deadline <= selectedDeadline || !deadlineText);
+    });
+}
 
 
 
