@@ -1409,7 +1409,10 @@ const renderApplicationHTML = (application, jobTitle, companyName) => {
 // Function to render Job Title with Applicants
 const renderJobTitleWithApplicants = (jobTitle, companyName, applicants) => {
   const applicantsHTML = applicants.map(application => renderApplicationHTML(application, jobTitle, companyName)).join('');
+  attachActionButtons();
+  attachToggleJobTitles();
 
+  
   return `
       <div class="job-title-section">
           <h4 class="job-title" style="cursor: pointer;">${jobTitle}</h4>
@@ -1418,6 +1421,7 @@ const renderJobTitleWithApplicants = (jobTitle, companyName, applicants) => {
           </div>
       </div>
   `;
+
 };
 
 // After approval or rejection
