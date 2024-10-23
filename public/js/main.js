@@ -528,29 +528,21 @@ document.addEventListener("DOMContentLoaded", function () {
     <div class="row" style="text-align: center;">
                     <div class="col-md-6 m-auto">
  <div class="col-md-6 m-auto text-center"> 
-    <!-- Video Title for SEO -->
-    <h2 class="text-light">ReelCareer Introductory Video</h2>
 
     <!-- Video Element with Lazy Loading, Autoplay, Muted, and Responsive -->
-    <video controls="play" autoplay muted loading="lazy" style="max-width: 100%; height: auto;">
+<div class="video-container" style="text-align: center; max-width: 100%; margin: 20px auto;">
+    <video id="myVideo" controls autoplay muted loading="lazy" style="max-width: 100%; height: auto;">
         <source src="https://reelcareer.co/images/intro.MP4" type="video/mp4">
         Your browser does not support the video tag.
-
+        
         <!-- Optional: Subtitles for Accessibility -->
-        <!--
-        <track src="subtitles.vtt" kind="subtitles" srclang="en" label="English">
-        -->
+        <!-- <track src="subtitles.vtt" kind="subtitles" srclang="en" label="English"> -->
     </video>
 
-    <!-- Video Transcript for SEO and Accessibility -->
-    <div class="video-transcript text-light mt-3" style="text-align: left;">
-        <h3>Video Transcript:</h3>
-        <p>
-            Welcome to ReelCareer, the #1 job board for job seekers and employers. In this video, you'll get an overview of our features, 
-            how to create your profile, post job listings, and much more. Join us in revolutionizing the job search experience.
-        </p>
-    </div>
+    <!-- Optional: Custom Play Button -->
+    <div class="custom-play-button" id="playButton" style="display: none; background-color: rgba(0, 0, 0, 0.7); color: white; padding: 10px; border-radius: 5px; cursor: pointer;">Play</div>
 </div>
+
 
 <!-- Structured Data for SEO -->
 <script type="application/ld+json">
@@ -576,6 +568,16 @@ document.addEventListener("DOMContentLoaded", function () {
     `;
   document.body.insertAdjacentHTML("beforeend", companyMediaSectionHTML);
 });
+
+
+const video = document.getElementById('myVideo');
+const playButton = document.getElementById('playButton');
+
+playButton.addEventListener('click', function() {
+    video.play();
+    playButton.style.display = 'none';
+});
+
 function addVideoStyle(element, styles) {
   for (let property in styles) {
       if (styles.hasOwnProperty(property)) {
