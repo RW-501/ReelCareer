@@ -1444,12 +1444,13 @@ const selectedApplicants = document.querySelectorAll('.select-applicant:checked'
 
 // Toggle Job Title Sections
 function attachToggleJobTitles() {
-  $('.job-title').on('click').on('click', function () {
-      $(this).next('.applicants-list').toggle();
-  });
-  $('.applicant-name').on('click').on('click', function () {
-    $(this).next('.application-details').toggle();
+  $('.job-title').off('click').on('click', function () {
+    $(this).next('.applicants-list').toggle();
 });
+$('.applicant-name').off('click').on('click', function () {
+  $(this).next('.application-details').toggle();
+});
+
   /*
 $(document).on('click', '.applicant-name', function () {
   $(this).next('.applicants-list').toggle();
