@@ -1630,7 +1630,7 @@ applicationPost.querySelector('.applicant-name').innerHTML += ' (Approved)';
 
       showToast('Application approved successfully!', 'success');
       // Optionally, you can refresh the list of applications after approval
-      fetchJobApplications(); // Call your function to refresh the applications list
+      //fetchJobApplications(); // Call your function to refresh the applications list
   } catch (error) {
       console.error('Error approving application:', error);
       alert('Error approving application. Please try again.');
@@ -1650,7 +1650,7 @@ applicationPost.querySelector('.applicant-name').innerHTML += ' (Rejected)';
 
       showToast('Application rejected successfully!', 'success');
       // Optionally, you can refresh the list of applications after rejection
-      fetchJobApplications(); // Call your function to refresh the applications list
+    //  fetchJobApplications(); // Call your function to refresh the applications list
   } catch (error) {
       console.error('Error rejecting application:', error);
       alert('Error rejecting application. Please try again.');
