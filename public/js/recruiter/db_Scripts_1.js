@@ -1362,6 +1362,9 @@ const groupApplicationsByJob = (applications) => {
 const renderApplicationHTML = (application, jobTitle, companyName) => {
   const statusIcon = getStatusIcon(application.status);
   const statusColor = getStatusColor(application.status);
+    // Attach event listeners after rendering
+    attachToggleJobTitles();
+    attachActionButtons();
 
   return `
   <div class="application-post" data-applicant-id="${application.id}" style="border: ${getBoostedStyle(application.isBoosted)};">
@@ -1404,8 +1407,6 @@ const renderApplicationHTML = (application, jobTitle, companyName) => {
   `;
 };
 
-attachActionButtons();
-attachToggleJobTitles();
 
 // Function to render Job Title with Applicants
 const renderJobTitleWithApplicants = (jobTitle, companyName, applicants) => {
@@ -1420,6 +1421,8 @@ const renderJobTitleWithApplicants = (jobTitle, companyName, applicants) => {
               ${applicantsHTML}
           </div>
       </div>
+
+      
   `;
 
 };
