@@ -159,7 +159,7 @@ document
       window.location.href = "/views/user"; // Redirect to profile
     } catch (error) {
       console.error("Error during sign up:", error);
-      alert(error.message);
+      showToast(error.message, 'error');
     } finally {
       hideLoading();
     }
@@ -184,7 +184,7 @@ document.getElementById("login-form")?.addEventListener("submit", async (e) => {
     //  window.location.href = '/views/user'; // Redirect to profile
   } catch (error) {
     console.error("Error during login:", error);
-    alert(error.message);
+    showToast(error.message);
   } finally {
     hideLoading();
   }
@@ -210,7 +210,7 @@ document
       closeLoginPopup();
     } catch (error) {
       console.error("Error during email login:", error);
-      alert(error.message);
+      showToast(error.message);
     } finally {
       hideLoading();
     }
@@ -227,7 +227,7 @@ document.getElementById("google-login")?.addEventListener("click", async () => {
     window.location.href = "/views/user"; // Redirect to profile
   } catch (error) {
     console.error("Error during Google login:", error);
-    alert(error.message);
+    showToast(error.message);
   } finally {
     hideLoading();
   }
@@ -246,7 +246,7 @@ document
       window.location.href = "/views/user"; // Redirect to profile
     } catch (error) {
       console.error("Error during Facebook login:", error);
-      alert(error.message);
+      showToast(error.message);
     } finally {
       hideLoading();
     }
@@ -263,7 +263,7 @@ document.getElementById("apple-login")?.addEventListener("click", async () => {
     window.location.href = "/views/user"; // Redirect to profile
   } catch (error) {
     console.error("Error during Apple login:", error);
-    alert(error.message);
+    showToast(error.message);
   } finally {
     hideLoading();
   }
@@ -296,7 +296,7 @@ const logout = async () => {
     window.location.href = "/views/auth.html";
   } catch (error) {
     console.error("Error during logout:", error);
-    alert(`Error during logout: ${error.message}`);
+    showToast(`Error during logout: ${error.message}`, 'error')
   } finally {
     hideLoading(); // Hide loading indicator
   }
@@ -582,7 +582,7 @@ async function handleNewsletterSignup(email) {
 
   // Check if user has already signed up
   if (localStorage.getItem("hasSignedUp")) {
-    alert("You have already subscribed to the newsletter.");
+    showToast("You have already subscribed to the newsletter.", 'warning');
     return;
   }
 
@@ -595,9 +595,9 @@ async function handleNewsletterSignup(email) {
   }
 
   if (attempts >= MAX_ATTEMPTS) {
-    alert(
+    showToast(
       "You have exceeded the maximum number of signup attempts. Please try again later."
-    );
+      , 'warning');
     return;
   }
 
@@ -754,7 +754,7 @@ function updateFooter() {
 
       // Check if user agreed to the data privacy policy
       if (!document.getElementById("dataPrivacy").checked) {
-        alert("You must agree to the data privacy policy.");
+        showToast("You must agree to the data privacy policy.", 'warning');
         return;
       }
 

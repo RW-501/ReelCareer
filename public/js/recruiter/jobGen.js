@@ -263,6 +263,6 @@ document.getElementById("generateJobDescriptionBtn").addEventListener("click", f
         jobRequirementsField.value = `Key Requirements: ${randomRequirements}`;
 
     } else {
-        alert("Please select at least one industry and enter a job title.");
+        showToast("Please select at least one industry and enter a job title.", 'warning');
     }
 });

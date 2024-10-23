@@ -140,7 +140,7 @@
                 content: message,
                 timestamp: firebase.firestore.FieldValue.serverTimestamp()
             }).then(() => {
-                alert("Message sent successfully!");
+                showToast("Message sent successfully!", 'success');
                 $('#messageModal').modal('hide');
                 document.getElementById('messageForm').reset();
             }).catch(console.error);

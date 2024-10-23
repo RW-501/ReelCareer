@@ -580,7 +580,7 @@ document.getElementById("generateDescriptionBtn").addEventListener("click", func
         document.getElementById("editCompanyDescription").value = shortDescription;
         document.getElementById("companyDescription").innerHTML = shortDescription;
     } else {
-        alert("Please select at least one industry and ensure the company description is empty.");
+        showToast("Please select at least one industry and ensure the company description is empty.", 'warning');
     }
 });
 

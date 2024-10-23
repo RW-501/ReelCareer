@@ -191,15 +191,15 @@
                 });
 
                 if (response.ok) {
-                    alert('Message sent successfully!');
+                    showToast('Message sent successfully!', 'success');
                     // Optionally, clear the form after submission
                     document.getElementById('contact-form').reset();
                 } else {
-                    alert('Error sending message. Please try again.');
+                    showToast('Error sending message. Please try again.', 'warning');
                 }
             } catch (error) {
                 console.error('Error:', error);
-                alert('Error sending message. Please try again.');
+                showToast('Error sending message. Please try again.', 'error')
             }
         });
     </script>

@@ -10,7 +10,7 @@ document.getElementById("addQuestionButton").addEventListener("click", function(
     if (questionCounter < MAX_QUESTIONS) {
         addQuestionField();
     } else {
-        alert(`You cannot add more than ${MAX_QUESTIONS} questions.`);
+        showToast(`You cannot add more than ${MAX_QUESTIONS} questions.`, 'warning');
     }
 });
 

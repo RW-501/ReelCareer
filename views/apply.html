@@ -564,7 +564,7 @@ function showPreviewModal() {
     // Add event listener to the confirm button
     document.getElementById('confirmSubmission').addEventListener('click', () => {
         // Logic for final submission can go here
-        alert('Application submitted successfully!');
+        showToast('Application submitted successfully!', 'success');
         document.body.removeChild(previewModal); // Remove modal after submission
     });
 

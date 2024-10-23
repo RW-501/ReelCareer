@@ -261,11 +261,11 @@
 <script>
     function upgradeMembership(plan) {
         // Implement Stripe payment or Firebase logic here to handle the upgrade
-        alert('Upgrading to ' + plan.charAt(0).toUpperCase() + plan.slice(1) + ' Membership.');
+        showToast('Upgrading to ' + plan.charAt(0).toUpperCase() + plan.slice(1) + ' Membership.', 'success');
     }
 
     function viewBenefits() {
-        alert("View detailed benefits of your current membership.");
+        showToast("View detailed benefits of your current membership.", 'info');
     }
 </script>
 

@@ -363,7 +363,7 @@ fetchRecruiterData(user.uid);
     //  console.log("Collected Job Details:", jobDetails);
     } catch (error) {
       console.error("Error collecting job details:", error);
-      alert("An error occurred while collecting job details: " + error.message);
+      showToast("An error occurred while collecting job details: " + error.message, 'error')
       return; // Exit the function on error
     }
 
@@ -1635,7 +1635,7 @@ async function underReviewApplication(applicantId) {
       fetchJobApplications(); // Call your function to refresh the applications list
   } catch (error) {
       console.error('Error updating application status to Under Review:', error);
-      alert('Error updating application status. Please try again.');
+      showToast('Error updating application status. Please try again.', 'error')
   }
 }
 $('#approve-selected').off('click').on('click', function() {
@@ -1709,7 +1709,7 @@ const applicationHTML = renderApplicationHTML({ ...applicationData, status: 'rej
     //  fetchJobApplications(); // Call your function to refresh the applications list
   } catch (error) {
       console.error('Error rejecting application:', error);
-      alert('Error rejecting application. Please try again.');
+      showToast('Error rejecting application. Please try again.', 'warning');
   }
 }
 

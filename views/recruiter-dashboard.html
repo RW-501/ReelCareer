@@ -819,12 +819,12 @@ const showBoostJobPostPopup = async (userId) => {
     // Action buttons
     document.getElementById("upgradeAccount").onclick = function () {
         // Redirect or show upgrade account functionality
-        alert("Redirecting to upgrade account.");
+        showToast("Redirecting to upgrade account.");
     };
 
     document.getElementById("buyMoreCredits").onclick = function () {
         // Redirect or show buy more credits functionality
-        alert("Redirecting to buy more credits.");
+        showToast("Redirecting to buy more credits.");
     };
 
     // Boost duration buttons
@@ -836,7 +836,7 @@ const showBoostJobPostPopup = async (userId) => {
 
             if (currentBoostCount >= creditsNeeded) {
                 // Proceed to boost job post logic
-                alert(`Boosting job post for ${this.textContent}`);
+                showToast(`Boosting job post for ${this.textContent}`);
                 // Implement logic to deduct credits and boost job
 
             } else {// Example of how to trigger the popup
@@ -844,7 +844,7 @@ const userId = "123456"; // Replace with actual user ID
 document.getElementById("boostJobPostButton").onclick = function () {
     showBoostJobPostPopup(userId);
 };
-                alert("Not enough credits to boost job post. Please buy more credits or upgrade your account.");
+showToast("Not enough credits to boost job post. Please buy more credits or upgrade your account.");
             }
         };
     });

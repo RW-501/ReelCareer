@@ -828,7 +828,7 @@ text-align: left;
   try {
     const user = auth.currentUser; // Ensure auth is properly initialized
     if (!user) {
-      alert("You need to be logged in to save jobs.");
+      showToast("You need to be logged in to save jobs.", 'error')
       saveBtn.disabled = false;
       saveBtn.textContent = "Save Job";
       return;
@@ -856,7 +856,7 @@ text-align: left;
 
   } catch (error) {
     console.error("Error saving job: ", error);
-    alert("Error saving the job. Please try again.");
+    showToast("Error saving the job. Please try again.", 'warning');
   } finally {
     saveBtn.disabled = false;
     saveBtn.textContent = "Save Job";

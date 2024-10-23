@@ -590,7 +590,7 @@ tagsContainer.innerHTML = '<strong>Tags: </strong>' + tagElements;
 
         function playVideo(videoUrl) {
             // Add logic to play video in a modal or a new page
-            alert(`Playing video from URL: ${videoUrl}`);
+            showToast(`Playing video from URL: ${videoUrl}`);
         }
 
  async function loadSocialMedia(profileData) {
@@ -620,7 +620,7 @@ tagsContainer.innerHTML = '<strong>Tags: </strong>' + tagElements;
             const userId = "currentUserId"; // Replace with actual user ID
             const shareUrl = `${window.location.origin}/profile/${userId}`; // Construct share URL
             navigator.clipboard.writeText(shareUrl).then(() => {
-                alert('Profile link copied to clipboard!');
+                showToast('Profile link copied to clipboard!');
             }).catch(err => {
                 console.error('Could not copy text: ', err);
             });
@@ -637,9 +637,9 @@ tagsContainer.innerHTML = '<strong>Tags: </strong>' + tagElements;
                     to: userId,
                     status: 'pending', // or 'accepted' based on your logic
                 });
-                alert('Connection request sent!');
+                showToast('Connection request sent!');
             } else {
-                alert('You cannot connect with yourself.');
+                showToast('You cannot connect with yourself.');
             }
         });
 
@@ -674,11 +674,11 @@ document.getElementById('sendMessageForm').addEventListener('submit', async func
         const messagesCollection = collection(db, 'Messages');
         await addDoc(messagesCollection, messageData);
         
-        alert('Message sent successfully!');
+        showToast('Message sent successfully!');
         $('#sendMessageModal').modal('hide'); // Hide the modal after sending the message
     } catch (error) {
         console.error("Error sending message: ", error);
-        alert('Failed to send message. Please try again.');
+        showToast('Failed to send message. Please try again.');
     }
 });
 /*

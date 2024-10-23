@@ -186,7 +186,7 @@ document.getElementById('sendMessageButton').onclick = () => {
         }).then(() => {
             messageInput.value = ''; // Clear input
         }).catch(error => {
-            alert("Error sending message: " + error.message);
+            showToast("Error sending message: " + error.message, 'error')
         });
     }
 };
@@ -213,7 +213,7 @@ document.getElementById('sendComposeButton').onclick = () => {
             $('#composeModal').modal('hide'); // Hide modal
             loadConversations(auth.currentUser.uid); // Refresh conversation list
         }).catch(error => {
-            alert("Error sending composed message: " + error.message);
+            showToast("Error sending composed message: " + error.message, 'error')
         });
     }
 };

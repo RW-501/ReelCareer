@@ -363,7 +363,7 @@
           industry: document.getElementById('industry').value,
         };
         localStorage.setItem('jobSearchFilters', JSON.stringify(filters));
-        //  alert("Filters saved!");
+          showToast("Filters saved!", 'success');
       });
       // Load saved filters on page load
       window.onload = function() {
