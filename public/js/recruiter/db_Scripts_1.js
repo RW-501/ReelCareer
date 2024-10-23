@@ -788,6 +788,9 @@ let moderatedCompanies = jobPosts.filter(job => {
             });
             
 
+
+            
+// Sort jobs when the sort dropdown changes
 $('#sort-job').on('change', function () {
     const sortOrder = $(this).val(); // 'asc' or 'desc'
     
@@ -796,7 +799,7 @@ $('#sort-job').on('change', function () {
     
     // Sort the jobs based on the createdAt field, which is assumed to be in a data attribute
     jobsArray.sort(function (a, b) {
-        // Get the createdAt timestamps from data attributes or hidden fields
+        // Get the createdAt timestamps from data attributes
         const dateA = new Date($(a).data('created-at')); // Assuming each .job-post has a data-created-at attribute
         const dateB = new Date($(b).data('created-at'));
 
@@ -804,28 +807,28 @@ $('#sort-job').on('change', function () {
         return sortOrder === 'asc' ? dateA - dateB : dateB - dateA;
     });
 
-    // Re-append the sorted jobs to the container
-    $('#job-posts-container').append(jobsArray);
+    // Clear the current job posts container
+    $('#job-posts-container').empty().append(jobsArray); // Clear the container and re-append sorted jobs
 });
 
-
-
+// Filter job posts based on salary range input
 $('#filter-salary').on('input', function () {
     const minSalary = parseInt($('#min-salary').val()) || 0;
     const maxSalary = parseInt($('#max-salary').val()) || Infinity;
-    
+
     $('.job-post').each(function () {
         const salaryText = $(this).find('.job-details li:contains("Salary")').text();
         const salary = parseInt(salaryText.replace(/[^0-9]/g, '')); // Extract number
-        
+
         // Toggle display based on salary range
         $(this).toggle(salary >= minSalary && salary <= maxSalary);
     });
 });
 
+// Filter job posts based on application deadline
 $('#filter-deadline').on('change', function () {
     const selectedDeadline = new Date($(this).val());
-    
+
     $('.job-post').each(function () {
         const deadlineText = $(this).find('.job-details li:contains("Application Deadline")').text();
         const deadline = new Date(deadlineText);
