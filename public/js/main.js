@@ -527,10 +527,42 @@ document.addEventListener("DOMContentLoaded", function () {
     text-shadow: 1px 0px 0px #6253e7;">Company Media</h2>
     <div class="row" style="text-align: center;">
                     <div class="col-md-6 m-auto">
-                        <video controls>
-                            <source src="https://www.reelcareer.co/images/intro.MP4" type="video/MP4">
-                            Your browser does not support the video tag.
-                        </video>
+  <div class="col-md-6 m-auto">
+    <!-- Video Title for SEO -->
+    <p>ReelCareer 1# Job Board - The best job hunting website!</p>
+
+    <!-- Video Element with Lazy Loading, Autoplay, Muted, and Responsive -->
+    <video controls autoplay muted loading="lazy" style="width: 100%; height: auto;">
+        <source src="https://www.reelcareer.co/images/intro.MP4" type="video/mp4">
+        Your browser does not support the video tag.
+
+        <!-- Optional: Subtitles for Accessibility 
+        <track src="subtitles.vtt" kind="subtitles" srclang="en" label="English"> -->
+    </video>
+
+    <!-- Video Transcript for SEO and Accessibility -->
+    <div class="video-transcript">
+        <p>
+            [ReelCareer ReelCareer.co ]
+        </p>
+    </div>
+</div>
+
+<!-- Structured Data for SEO -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "VideoObject",
+  "name": "ReelCareer Introductory Video",
+  "description": "ReelCareer 1# Job Board - The best job hunting website",
+  "thumbnailUrl": "https://www.reelcareer.co/images/sq_logo_n_BG_tie_reelx.png",
+  "uploadDate": "2023-10-23",
+  "contentUrl": "https://www.reelcareer.co/images/intro.MP4",
+  "embedUrl": "https://www.reelcareer.co/",
+  "duration": "PT2M30S"
+}
+</script>
+
                     </div>
                     <div class="col-md-6 m-auto">
                         <img src="${adjustLinkHomeURL}images/sq_logo_n_BG_tie_reelx.png" alt="Company Image" class="img-fluid" style="width: 15rem;">
