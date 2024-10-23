@@ -1164,7 +1164,6 @@ $('#search-company').on('input', function () {
 
 function getStatusIcon(status) {
     let iconClass;
-
     switch (status.toLowerCase()) {
         case 'active':
             iconClass = 'fas fa-check-circle'; // Font Awesome icon for active
@@ -1183,6 +1182,8 @@ function getStatusIcon(status) {
     return iconClass; // Return the icon class
 
 }
+
+
 function getStatusColor(status) {
     switch (status) {
         case 'active':
@@ -1209,6 +1210,53 @@ function updateJobUI(jobID, newStatus, button) {
 
 
 
+// Function to render all applicants under a job title, including the company name
+function renderJobTitleWithApplicants(jobTitle, companyName, applicants) {
+    const applicantsHTML = applicants.map(application => {
+        const statusIcon = getStatusIcon(application.status);
+        const statusColor = getStatusColor(application.status);
+        const isBoosted = application.isBoosted; // Assuming there’s a property that indicates if the application is boosted
+
+        return `
+            <div class="application-post" data-applicant-id="${application.id}" style="border: ${isBoosted ? '2px solid brightblue' : 'none'};">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="applicant-name card-title text-primary" style="color: ${statusColor}; cursor: pointer;">
+                            ${application.firstName} ${application.lastName} 
+                            <i class="${statusIcon}" style="margin-left: 5px;"></i>
+                        </h5>
+                        <div class="application-details" style="display: none;">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item"><strong>Job Title:</strong> ${jobTitle}</li>
+                                <li class="list-group-item"><strong>Company Name:</strong> ${companyName}</li>
+                                <li class="list-group-item"><strong>Apply Date:</strong> 
+                                    ${application.applyDate ? new Date(application.applyDate.seconds * 1000).toLocaleDateString() : "Not available"}
+                                </li>
+                                <li class="list-group-item"><strong>Email:</strong> ${application.email}</li>
+                                <li class="list-group-item"><strong>Phone:</strong> ${application.phone}</li>
+                                <li class="list-group-item"><strong>Notes:</strong> ${application.notes || "No notes available."}</li>
+                            </ul>
+                            <a href="${application.resumeLink}" target="_blank" class="btn btn-link mt-2">Download Resume</a><br>
+                            <a href="${application.videoResumeLink}" target="_blank" class="btn btn-link">Download Video Resume</a><br>
+                            <button class="view-application btn btn-info mt-3" data-applicant-id="${application.id}">View Application</button>
+                            <button class="request-interview btn btn-secondary mt-3 ms-2" data-applicant-id="${application.id}">Request Interview</button>
+                            <button class="request-test btn btn-warning mt-3 ms-2" data-applicant-id="${application.id}">Request Test</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+    }).join('');
+
+    return `
+        <div class="job-title-section">
+            <h4 class="job-title" style="cursor: pointer;">${jobTitle}</h4>
+            <div class="applicants-list" style="display: none;">
+                ${applicantsHTML}
+            </div>
+        </div>
+    `;
+}
 
 // Function to fetch job applications based on job IDs
 async function fetchJobApplications(jobIDs) {
@@ -1216,80 +1264,87 @@ async function fetchJobApplications(jobIDs) {
     const applicationsQuery = query(applicationsRef, where("jobId", "in", jobIDs));
     const querySnapshot = await getDocs(applicationsQuery);
 
-    console.log.apply("??????????????/");
-
     // Clear the container before inserting new applications
     $('#application-posts-container').empty();
 
+    const applications = [];
     querySnapshot.forEach(doc => {
         const application = doc.data();
-        const applicationElement = $(`
-            <div class="application-post card mb-3" data-applicant-id="${doc.id}">
-                <div class="card-body">
-                    <h5 class="applicant-name card-title text-primary" style="cursor: pointer;">
-                        ${application.firstName} ${application.lastName}
-                    </h5>
-                    <div class="application-details" style="display: none;">
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item"><strong>Job Title:</strong> ${application.jobTitle}</li>
-                            <li class="list-group-item"><strong>Company Name:</strong> ${application.companyName}</li>
-<li class="list-group-item"><strong>Apply Date:</strong> 
-    ${application.applyDate ? new Date(application.applyDate.seconds * 1000).toLocaleDateString() : "Not available"}
-</li>
-                            <li class="list-group-item"><strong>Email:</strong> ${application.email}</li>
-                            <li class="list-group-item"><strong>Phone:</strong> ${application.phone}</li>
-                            <li class="list-group-item"><strong>Notes:</strong> ${application.notes || "No notes available."}</li>
-                        </ul>
-                        <a href="${application.resumeLink}" target="_blank" class="btn btn-link mt-2">Download Resume</a><br>
-                        <a href="${application.videoResumeLink}" target="_blank" class="btn btn-link">Download Video Resume</a><br>
-                        <button class="view-application btn btn-info mt-3" data-applicant-id="${doc.id}">View Application</button>
-                        <button class="request-interview btn btn-secondary mt-3 ms-2" data-applicant-id="${doc.id}">Request Interview</button>
-                        <button class="request-test btn btn-warning mt-3 ms-2" data-applicant-id="${doc.id}">Request Test</button>
-                    </div>
-                </div>
-            </div>
-        `);
-        $('#application-posts-container').append(applicationElement);
+        applications.push({ ...application, id: doc.id }); // Add document ID for future reference
     });
-    
 
-    // Implement toggle functionality for application details
-    $('.applicant-name').on('click', function () {
-        $(this).next('.application-details').toggle();
+    // Sort applications based on selected criteria
+    const sortCriteria = $('#sort-applications').val(); // Assuming you have a select element for sorting
+    applications.sort((a, b) => {
+        if (sortCriteria === "jobTitle") {
+            return a.jobTitle.localeCompare(b.jobTitle);
+        } else if (sortCriteria === "companyName") {
+            return a.companyName.localeCompare(b.companyName);
+        } else if (sortCriteria === "applicantName") {
+            return `${a.firstName} ${a.lastName}`.localeCompare(`${b.firstName} ${b.lastName}`);
+        }
+        return 0;
     });
+
+    // Group applications by job title and company name
+    const groupedApplications = applications.reduce((acc, app) => {
+        const key = `${app.jobTitle}|${app.companyName}`; // Unique key for job title and company
+        (acc[key] = acc[key] || []).push(app);
+        return acc;
+    }, {});
+
+    // Render job titles with their applicants
+    Object.entries(groupedApplications).forEach(([key, applicants]) => {
+        const [jobTitle, companyName] = key.split('|'); // Split the unique key
+        const jobSection = renderJobTitleWithApplicants(jobTitle, companyName, applicants);
+        $('#application-posts-container').append(jobSection);
+    });
+
+    // Implement toggle functionality for job titles
+    attachToggleJobTitles();
 
     // Implement action button functionality
-    $('.view-application').on('click', function () {
+    attachActionButtons();
+}
+
+// Attach toggle functionality for job titles
+function attachToggleJobTitles() {
+    $('.job-title').off('click').on('click', function () {
+        $(this).next('.applicants-list').toggle();
+    });
+}
+
+// Attach action button functionality
+function attachActionButtons() {
+    $('.view-application').off('click').on('click', function () {
         const applicantID = $(this).data('applicant-id');
         viewApplication(applicantID); // Implement this function as needed
     });
 
-    $('.request-interview').on('click', function () {
+    $('.request-interview').off('click').on('click', function () {
         const applicantID = $(this).data('applicant-id');
         requestInterview(applicantID); // Implement this function as needed
     });
 
-    $('.request-test').on('click', function () {
+    $('.request-test').off('click').on('click', function () {
         const applicantID = $(this).data('applicant-id');
         requestTest(applicantID); // Implement this function as needed
     });
 }
 
-// Function to implement search functionality
+// Implement search functionality
 $('#search-applicant').on('input', function () {
     const searchTerm = $(this).val().toLowerCase();
-    $('.application-post').each(function () {
-        const applicantName = $(this).find('.applicant-name').text().toLowerCase();
-        const jobTitle = $(this).find('.application-details p:contains(Job Title)').text().toLowerCase();
-        $(this).toggle(applicantName.includes(searchTerm) || jobTitle.includes(searchTerm));
+    $('.job-title-section').each(function () {
+        const jobTitle = $(this).find('.job-title').text().toLowerCase();
+        const applicants = $(this).find('.application-post');
+        const hasMatchingApplicant = [...applicants].some(applicant => {
+            const applicantName = $(applicant).find('.applicant-name').text().toLowerCase();
+            return applicantName.includes(searchTerm);
+        });
+        $(this).toggle(jobTitle.includes(searchTerm) || hasMatchingApplicant);
     });
 });
-
-// Sample job IDs array (replace this with the actual array of job IDs)
-//const jobIDs = ["L6deju3QokTWiDwHNbl3", "anotherJobID"]; // Update this as necessary
-
-// Call the function to fetch job applications when the page loads
-
 
 // Placeholder functions for actions
 function viewApplication(applicantID) {
@@ -1307,12 +1362,10 @@ function requestTest(applicantID) {
     // Logic to send test request
 }
 
-
-
-
-
-
-
+// Call the function to fetch job applications when the page loads
+// Assuming you have an array of job IDs
+// const jobIDs = ["L6deju3QokTWiDwHNbl3", "anotherJobID"];
+// fetchJobApplications(jobIDs);
 
 
 
