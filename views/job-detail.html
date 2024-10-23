@@ -1132,7 +1132,6 @@ if (!jobTags || jobTags.length === 0) {
                 showMoreButton.innerText = "Show More";
                 showMoreButton.className = "btn btn-primary mt-3";
                 showMoreButton.addEventListener('click', loadMoreBlogs);
-                blogContainer.appendChild(showMoreButton);
             } catch (error) {
                 console.error("Error fetching related blogs: ", error);
             }
