@@ -445,7 +445,7 @@ fetchRecruiterData(user.uid);
       type: document.getElementById("jobType").value,
       salary: document.getElementById("jobSalary").value,
       salaryPayTime: document.getElementById("salaryPayTime").value,
-      // boostDuration: document.getElementById('boostDuration').value,
+      boostDuration: new Date(new Date().setDate(new Date().getDate() + 30)), //  for 30 days
       contractToHire: document.getElementById("contractToHire").value,
       education: document.getElementById("education").value,
       experience: document.getElementById("experience").value,
@@ -518,11 +518,11 @@ fetchRecruiterData(user.uid);
           createdAt: new Date(),
           location: jobDetails.location || "Unknown Location",
           boosted: jobDetails.boosted || false,
+          boostDuration: jobDetails.boostDuration || new Date(new Date().setDate(new Date().getDate() + 30)), //  for 30 days
           companyName: jobDetails.company || "Unknown Company",
           companyId: jobDetails.companyId || "No Company ID",
-          salary: jobDetails.salary || 0, // Default to 0 if undefined
-          applicationDeadline: jobDetails.applicationDeadline || new Date() // Default to current date if undefined
-        
+          salary: jobDetails.salary || 0,
+          applicationDeadline: jobDetails.applicationDeadline || new Date(new Date().setDate(new Date().getDate() + 30)) //  for 30 days
       })
       
     });
@@ -543,7 +543,7 @@ fetchRecruiterData(user.uid);
         document.getElementById("jobSalarySuccess").textContent = `${jobDetails.salary} (${jobDetails.salaryPayTime})`;
 
         if (jobDetails.boosted) {
-            document.getElementById("boostDuration").textContent = "30"; // Use appropriate duration
+            document.getElementById("boostDuration").textContent = new Date(new Date().setDate(new Date().getDate() + 30)); //  for 30 days
             document.getElementById("nonBoostedArea").style.display = "none";
             document.getElementById("boostedArea").style.display = "block";
         } else {
@@ -580,7 +580,7 @@ function boostJob() {
     console.log(`Boosting job with ID: ${jobId}`);
 
     // Example of success response (you can replace this with actual server response handling)
-    const boostDuration = 30; // Duration in days for the boost
+    const boostDuration = 30; // Duration in days for the boost new Date(new Date().setDate(new Date().getDate() + 30)) //  for 30 days
     document.getElementById("boostDuration").textContent = boostDuration;
 
     // Update UI accordingly
@@ -789,7 +789,7 @@ let moderatedCompanies = jobPosts.filter(job => {
             
 
 
-            
+
 // Sort jobs when the sort dropdown changes
 $('#sort-job').on('change', function () {
     const sortOrder = $(this).val(); // 'asc' or 'desc'
@@ -1115,6 +1115,17 @@ $('#collapse-all-companies').on('click', function () {
     $('.company-details').hide();
 });
 
+
+
+
+
+
+
+
+
+
+
+
 // Enhanced search functionality (search across job title, location, and company name)
 $('#search-job').on('input', function () {
     const searchTerm = $(this).val().toLowerCase();
@@ -1132,6 +1143,19 @@ $('#search-job').on('input', function () {
 
 
 
+// Search companies as the user types
+$('#search-company').on('input', function () {
+    const searchTerm = $(this).val().toLowerCase(); // Get the search term and convert it to lowercase
+    
+    $('.company-post').each(function () {
+        const companyName = $(this).find('.company-name').text().toLowerCase(); // Get the company name
+        const companyLocation = $(this).find('.company-details li:contains("Location:")').text().toLowerCase(); // Get the company location
+        const companyIndustry = $(this).find('.company-details li:contains("Industry:")').text().toLowerCase(); // Get the company industry
+        
+        // Toggle display based on search matching company name, location, or industry
+        $(this).toggle(companyName.includes(searchTerm) || companyLocation.includes(searchTerm) || companyIndustry.includes(searchTerm));
+    });
+});
 
 
 
