@@ -1269,6 +1269,94 @@ const sortApplications = (applications, sortCriteria) => {
 
 
 
+
+// Utility: Date Formatting
+const formatDate = (dateObj) => dateObj ? new Date(dateObj.seconds * 1000).toLocaleDateString() : "Not available";
+
+const getBoostedStyle = (isBoosted) => {
+  if (isBoosted) {
+      return 'background-color: yellow; font-weight: bold;'; // Example boosted style
+  } else {
+      return ''; // No special style for non-boosted applications
+  }
+};
+
+
+// Group Applications by Job Title and Company
+const groupApplicationsByJob = (applications) => {
+  return applications.reduce((acc, app) => {
+      const key = `${app.jobTitle}|${app.companyName}`;
+      (acc[key] = acc[key] || []).push(app);
+      return acc;
+  }, {});
+};
+// Function to render single application HTML
+const renderApplicationHTML = (application, jobTitle, companyName) => {
+  const statusIcon = getStatusIcon(application.status);
+  const statusColor = getStatusColor(application.status);
+  
+  return `
+  <div class="application-post" data-applicant-id="${application.id}" style="border: ${getBoostedStyle(application.isBoosted)};">
+      <div class="card mb-3">
+          <div class="card-body">
+              <div class="d-flex justify-content-between">
+                  <h5 class="applicant-name card-title text-primary" style="color: ${statusColor}; cursor: pointer;">
+                      ${application.firstName} ${application.lastName} 
+                      <i class="${statusIcon}" style="margin-left: 5px;"></i>
+                  </h5>
+                  <button class="btn btn-success save-application" data-applicant-id="${application.id}">Save</button>
+              </div>
+              <div class="form-check mt-3">
+                  <input class="form-check-input select-applicant" type="checkbox" value="${application.id}" id="select-applicant-${application.id}">
+                  <label class="form-check-label" for="select-applicant-${application.id}">Select</label>
+              </div>
+              <div class="application-details" style="display: none;">
+                  <ul class="list-group list-group-flush">
+                      <li class="list-group-item"><strong>Job Title:</strong> ${jobTitle}</li>
+                      <li class="list-group-item"><strong>Company Name:</strong> ${companyName}</li>
+                      <li class="list-group-item"><strong>Apply Date:</strong> ${formatDate(application.applyDate)}</li>
+                      <li class="list-group-item"><strong>Email:</strong> ${application.email}</li>
+                      <li class="list-group-item"><strong>Phone:</strong> ${application.phone}</li>
+                      <li class="list-group-item" contenteditable="true">${application.notes || "No notes available."}</li>
+                  </ul>
+                  <a href="${application.resumeLink}" target="_blank" class="btn btn-link mt-2">Download Resume</a>
+                  <a href="${application.videoResumeLink}" target="_blank" class="btn btn-link">Download Video Resume</a>
+                  <button class="view-application btn btn-info mt-3" data-applicant-id="${application.id}">View Application</button>
+                  <button class="request-interview btn btn-secondary mt-3 ms-2" data-applicant-id="${application.id}">Request Interview</button>
+                  <button class="request-test btn btn-warning mt-3 ms-2" data-applicant-id="${application.id}">Request Test</button>
+                  <button class="under-review-application btn btn-warning mt-3 ms-2" data-applicant-id="${application.id}">Under Review</button>
+              </div>
+          </div>
+          <div class="card-footer text-end">
+              <button class="btn btn-danger reject-application" data-applicant-id="${application.id}">Reject</button>
+              <button class="btn btn-primary approve-application ms-2" data-applicant-id="${application.id}">Approve</button>
+          </div>
+      </div>
+  </div>
+  `;
+};
+
+
+
+// Function to render Job Title with Applicants
+const renderJobTitleWithApplicants = (jobTitle, companyName, applicants) => {
+  const applicantsHTML = applicants.map(application => renderApplicationHTML(application, jobTitle, companyName)).join('');
+
+
+  return `
+      <div class="job-title-section">
+          <h4 class="job-title" style="cursor: pointer;">${jobTitle}</h4>
+          <div class="applicants-list" style="display: none;">
+              ${applicantsHTML}
+          </div>
+      </div>
+
+      
+  `;
+
+};
+
+
 async function fetchJobApplications(jobIDs) {
   console.log("fetchJobApplications jobIDs", jobIDs);
 
@@ -1338,99 +1426,6 @@ async function fetchJobApplications(jobIDs) {
   }
 }
 
-// Utility: Date Formatting
-const formatDate = (dateObj) => dateObj ? new Date(dateObj.seconds * 1000).toLocaleDateString() : "Not available";
-
-const getBoostedStyle = (isBoosted) => {
-  if (isBoosted) {
-      return 'background-color: yellow; font-weight: bold;'; // Example boosted style
-  } else {
-      return ''; // No special style for non-boosted applications
-  }
-};
-
-
-// Group Applications by Job Title and Company
-const groupApplicationsByJob = (applications) => {
-  return applications.reduce((acc, app) => {
-      const key = `${app.jobTitle}|${app.companyName}`;
-      (acc[key] = acc[key] || []).push(app);
-      return acc;
-  }, {});
-};
-// Function to render single application HTML
-const renderApplicationHTML = (application, jobTitle, companyName) => {
-  const statusIcon = getStatusIcon(application.status);
-  const statusColor = getStatusColor(application.status);
-  
-  return `
-  <div class="application-post" data-applicant-id="${application.id}" style="border: ${getBoostedStyle(application.isBoosted)};">
-      <div class="card mb-3">
-          <div class="card-body">
-              <div class="d-flex justify-content-between">
-                  <h5 class="applicant-name card-title text-primary" style="color: ${statusColor}; cursor: pointer;">
-                      ${application.firstName} ${application.lastName} 
-                      <i class="${statusIcon}" style="margin-left: 5px;"></i>
-                  </h5>
-                  <button class="btn btn-success save-application" data-applicant-id="${application.id}">Save</button>
-              </div>
-              <div class="form-check mt-3">
-                  <input class="form-check-input select-applicant" type="checkbox" value="${application.id}" id="select-applicant-${application.id}">
-                  <label class="form-check-label" for="select-applicant-${application.id}">Select</label>
-              </div>
-              <div class="application-details" style="display: none;">
-                  <ul class="list-group list-group-flush">
-                      <li class="list-group-item"><strong>Job Title:</strong> ${jobTitle}</li>
-                      <li class="list-group-item"><strong>Company Name:</strong> ${companyName}</li>
-                      <li class="list-group-item"><strong>Apply Date:</strong> ${formatDate(application.applyDate)}</li>
-                      <li class="list-group-item"><strong>Email:</strong> ${application.email}</li>
-                      <li class="list-group-item"><strong>Phone:</strong> ${application.phone}</li>
-                      <li class="list-group-item" contenteditable="true">${application.notes || "No notes available."}</li>
-                  </ul>
-                  <a href="${application.resumeLink}" target="_blank" class="btn btn-link mt-2">Download Resume</a>
-                  <a href="${application.videoResumeLink}" target="_blank" class="btn btn-link">Download Video Resume</a>
-                  <button class="view-application btn btn-info mt-3" data-applicant-id="${application.id}">View Application</button>
-                  <button class="request-interview btn btn-secondary mt-3 ms-2" data-applicant-id="${application.id}">Request Interview</button>
-                  <button class="request-test btn btn-warning mt-3 ms-2" data-applicant-id="${application.id}">Request Test</button>
-                  <button class="under-review-application btn btn-warning mt-3 ms-2" data-applicant-id="${application.id}">Under Review</button>
-              </div>
-          </div>
-          <div class="card-footer text-end">
-              <button class="btn btn-danger reject-application" data-applicant-id="${application.id}">Reject</button>
-              <button class="btn btn-primary approve-application ms-2" data-applicant-id="${application.id}">Approve</button>
-          </div>
-      </div>
-  </div>
-  `;
-};
-
-
-// Function to render Job Title with Applicants
-const renderJobTitleWithApplicants = (jobTitle, companyName, applicants) => {
-  const applicantsHTML = applicants.map(application => renderApplicationHTML(application, jobTitle, companyName)).join('');
-
-// Render job titles and applicants
-$('#application-posts-container').empty();
-Object.entries(groupedApplications).forEach(([key, applicants]) => {
-    const [jobTitle, companyName] = key.split('|');
-    const jobSection = renderJobTitleWithApplicants(jobTitle, companyName, applicants);
-    $('#application-posts-container').append(jobSection);
-});
-
-
-  return `
-      <div class="job-title-section">
-          <h4 class="job-title" style="cursor: pointer;">${jobTitle}</h4>
-          <div class="applicants-list" style="display: none;">
-              ${applicantsHTML}
-          </div>
-      </div>
-
-      
-  `;
-
-};
-// Function to render the job and its applicants
 const renderJobWithApplicants = (jobTitle, companyName, applicants) => {
   const jobHTML = renderJobTitleWithApplicants(jobTitle, companyName, applicants);
   document.querySelector('#jobsContainer').innerHTML += jobHTML; // Assuming there's a container for jobs
