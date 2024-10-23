@@ -652,6 +652,54 @@ function addStyles() {
       return "No user data available"; // Fallback if no user data exists
     }
   }
+
+
+  function createFileUploadOverlay() {
+    const fileInputs = document.querySelectorAll('input[type="file"]');
+
+    fileInputs.forEach(fileInput => {
+        // Create container if not already present
+        if (!fileInput.closest('.file-upload-container')) {
+            const container = document.createElement('div');
+            container.className = 'file-upload-container';
+
+            // Move the input into the new container
+            fileInput.parentNode.insertBefore(container, fileInput);
+            container.appendChild(fileInput);
+
+            // Create overlay
+            const overlay = document.createElement('div');
+            overlay.className = 'upload-overlay';
+
+            // Add icon and text to the overlay
+            overlay.innerHTML = `
+                <span class="upload-icon">📁</span>
+                <span class="upload-text">Upload File</span>
+            `;
+
+            // Append overlay to container
+            container.appendChild(overlay);
+
+            // Handle the click event to focus on the file input
+            overlay.addEventListener('click', () => {
+                fileInput.click(); // Trigger file input click
+            });
+
+            // Show overlay only when file input is empty
+            fileInput.addEventListener('change', () => {
+                if (fileInput.files.length > 0) {
+                    overlay.style.display = 'none'; // Hide overlay when file is selected
+                } else {
+                    overlay.style.display = 'flex'; // Show overlay when no file is selected
+                }
+            });
+        }
+    });
+}
+
+// Call the function to create file upload overlays on page load
+document.addEventListener('DOMContentLoaded', createFileUploadOverlay);
+
   
   // Example usage
   const userDisplayName = getUserDisplayName();
