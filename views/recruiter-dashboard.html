@@ -186,16 +186,6 @@
 
 
 
-        <!-- Boost Job Posting Feature -->
-        <div class="card">
-            <div class="card-header">
-                <h5>Boost Job Posting Feature</h5>
-            </div>
-            <div class="card-body">
-                <button class="btn btn-warning" id="boostJob">Boost Job Visibility</button>
-                <input type="date" class="form-control" id="boostDuration" placeholder="Boost Duration">
-            </div>
-        </div>
 
         <!-- Moderated Company List -->
         <div class="card">
@@ -874,30 +864,6 @@ document.getElementById("boostJobPostButton").onclick = function () {
 
 
 
-
-// Functionality to boost job visibility
-document.getElementById("boostJob").onclick = async function() {
-    const jobId = prompt("Enter the Job ID to boost:");
-    const boostDuration = prompt("Enter Boost Duration in days:");
-    
-    if (jobId && boostDuration) {
-        const expirationDate = new Date();
-        expirationDate.setDate(expirationDate.getDate() + parseInt(boostDuration));
-        
-        try {
-            const jobDocRef = doc(db, "jobPostings", jobId);
-            await updateDoc(jobDocRef, {
-                boosted: true,
-                boostExpiration: expirationDate
-            });
-            alert("Job posting boosted successfully!");
-        } catch (error) {
-            alert("Error boosting job posting: " + error.message);
-        }
-    } else {
-        alert("Job ID and boost duration are required.");
-    }
-};
 
 /*
 // Provide Feedback

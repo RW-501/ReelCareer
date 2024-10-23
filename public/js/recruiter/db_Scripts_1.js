@@ -477,6 +477,7 @@ fetchRecruiterData(user.uid);
       applicantsViewed: 0,
       savedForLater: 0,
       applicationAvailableBool: true,
+      boostExpiration: '',
       applicationWebsite: document.getElementById("applicationLink").value,
       customQuestions: collectCustomQuestions(),
       submittedBy: submittedBy || "",
@@ -518,6 +519,7 @@ fetchRecruiterData(user.uid);
           createdAt: new Date(),
           location: jobDetails.location || "Unknown Location",
           boosted: jobDetails.boosted || false,
+          boostExpiration: '',
           boostDuration: jobDetails.boostDuration || new Date(new Date().setDate(new Date().getDate() + 30)), //  for 30 days
           companyName: jobDetails.company || "Unknown Company",
           companyId: jobDetails.companyId || "No Company ID",
@@ -759,6 +761,7 @@ $(document).on('click', '.boost-job', function() {
         // Toggle boost status
         job.boosted = !job.boosted; // Toggle the boosted status
         job.boostDuration = job.boosted ? 24 : 0; // Set duration to 24 hours if boosted, else 0
+        job.addboostExpiration;
 
         // Update the button text and icon
         const boostButton = $(this);
@@ -1067,23 +1070,16 @@ function updatePauseButton($button, status) {
     }
 }
 
-// Usage example
-$(document).on('click', '.pause-job', function () {
+$(document).on('click', '.pause-job', async function () {
     const jobID = $(this).data('job-id');
-    const currentStatus = $(this).data('status'); // Assume you have the status stored in the button
-    const newStatus = currentStatus === 'paused' ? 'active' : 'paused';
+    const currentStatus = $(this).siblings('.status').text().trim();
     
-    // Call your update function
-    updateJobStatus(jobID, newStatus, recruiterID); // Update status in the database
-
-    // Update UI elements
-    const $pauseButton = $(this); // Reference to the clicked button
-    updatePauseButton($pauseButton, newStatus); // Update button text based on the new status
-
-    // Get and update the status icon
-    const iconClass = getStatusIcon(newStatus);
-    $pauseButton.find('i').attr('class', iconClass); // Update the icon class
+    const newStatus = currentStatus === 'Paused' ? 'Active' : 'Paused';
+    
+    await updateJobStatus(jobID, newStatus, recruiterID);
+    updateJobUI(jobID, newStatus, this); // Use the new function to update UI
 });
+
 
 
 
@@ -1149,6 +1145,13 @@ $('#collapse-all-companies').on('click', function () {
     $('.company-details').hide();
 });
 
+let debounceTimer;
+$('#filter-salary, #filter-deadline').on('input change', function () {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(() => {
+        // Your filtering logic here
+    }, 300); // Adjust the delay as necessary
+});
 
 
 
@@ -1193,6 +1196,11 @@ $('#search-company').on('input', function () {
 
 
 
+function updateJobUI(jobID, newStatus, button) {
+    const $jobPost = $(`.job-post[data-job-id="${jobID}"]`);
+    $jobPost.find('.status').text(newStatus); // Update displayed status
+    // Additional UI changes based on status can be added here
+}
 
 
 
