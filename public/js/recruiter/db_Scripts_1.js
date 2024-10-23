@@ -752,6 +752,17 @@ let moderatedCompanies = jobPosts.filter(job => {
                     $(`.job-post[data-job-id="${job.jobID}"]`).show();
                 });
             });
+                    
+            $('#show-active').on('click', () => {
+                const filteredJobs = jobPosts.filter(job => job.status.toLowerCase() === 'active');
+            
+                // Show or hide job posts based on filtered results
+                $('.job-post').hide(); // First hide all job posts
+                filteredJobs.forEach(job => {
+                    // Show job posts that match the filtered results
+                    $(`.job-post[data-job-id="${job.jobID}"]`).show();
+                });
+            });
             
             $('#show-all-jobs').on('click', () => {
                 const filteredJobs = jobPosts.filter(job => {
