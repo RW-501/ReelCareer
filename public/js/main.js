@@ -408,7 +408,7 @@ document.addEventListener("DOMContentLoaded", function () {
     return `
             <nav class="navbar navbar-expand-lg ${navbarClass} shadow-sm sticky-top" role="navigation">
                 <div class="container">
-                 <a class="navbar-brand" style="
+                 <a class="navbar-brand  embossed" style="
     color: #83bad9;
     font-weight: 800;
     font-size: 2rem;
@@ -520,7 +520,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-  
+
   // Insert the footer section
   const companyMediaSectionHTML = `
         <section id="companyMedia" class="bg-light py-5 company-media">

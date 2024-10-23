@@ -10,15 +10,21 @@ body {
     padding: 0;
     font-family: 'Arial', sans-serif;
     background-color: #f4f4f4 !important;
-}.embossed {
-    color: #ffffff; /* Text color */
+}
+.embossed {
+    
     text-shadow: 
         1px 1px 0px rgba(0, 0, 0, 0.5), 
         2px 2px 0px rgba(0, 0, 0, 0.3), 
         3px 3px 0px rgba(0, 0, 0, 0.1); /* Create embossed shadow effect */
-    font-size: 2rem; /* Adjust font size as needed */
 }
 
+.embedded {
+    padding: 15px; /* Space around the text */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    display: inline-block; /* Ensures the background wraps tightly around the text */
+}
 
 /* Headings */
 h1 {
