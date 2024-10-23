@@ -1253,7 +1253,17 @@ const filterApplications = (applications, statusFilter) => {
   if (statusFilter === 'all') return applications;
   return applications.filter(app => app.status === statusFilter);
 };
-
+// Sort Applications by Criteria
+const sortApplications = (applications, criteria) => {
+  return applications.sort((a, b) => {
+      switch (criteria) {
+          case "jobTitle": return a.jobTitle.localeCompare(b.jobTitle);
+          case "companyName": return a.companyName.localeCompare(b.companyName);
+          case "applicantName": return `${a.firstName} ${a.lastName}`.localeCompare(`${b.firstName} ${b.lastName}`);
+          default: return 0;
+      }
+  });
+};
 
 // Fetch and Render Job Applications
 async function fetchJobApplications(jobIDs) {
@@ -1298,17 +1308,7 @@ async function fetchJobApplications(jobIDs) {
   }
 }
 
-// Sort Applications by Criteria
-const sortApplications = (applications, criteria) => {
-  return applications.sort((a, b) => {
-      switch (criteria) {
-          case "jobTitle": return a.jobTitle.localeCompare(b.jobTitle);
-          case "companyName": return a.companyName.localeCompare(b.companyName);
-          case "applicantName": return `${a.firstName} ${a.lastName}`.localeCompare(`${b.firstName} ${b.lastName}`);
-          default: return 0;
-      }
-  });
-};
+
 
 // Group Applications by Job Title and Company
 const groupApplicationsByJob = (applications) => {
