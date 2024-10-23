@@ -1249,14 +1249,16 @@ const throttle = (func, limit) => {
   };
 };
 
+// Define the filtering function first
 const filterApplications = (applications, statusFilter) => {
   if (statusFilter === 'all') return applications;
   return applications.filter(app => app.status === statusFilter);
 };
-// Sort Applications by Criteria
-const sortApplications = (applications, criteria) => {
+
+// Define the sorting function
+const sortApplications = (applications, sortCriteria) => {
   return applications.sort((a, b) => {
-      switch (criteria) {
+      switch (sortCriteria) {
           case "jobTitle": return a.jobTitle.localeCompare(b.jobTitle);
           case "companyName": return a.companyName.localeCompare(b.companyName);
           case "applicantName": return `${a.firstName} ${a.lastName}`.localeCompare(`${b.firstName} ${b.lastName}`);
@@ -1281,11 +1283,27 @@ async function fetchJobApplications(jobIDs) {
           applications.push({ ...application, id: doc.id });
       });
 
-      // Sort applications by selected criteria
-      const filterCriteria = $('#filter-status').val();
+      // Make sure the sorting and filtering dropdowns are available
+      const sortDropdown = $('#sort-applications');
+      const filterDropdown = $('#filter-status');
+
+      if (sortDropdown.length === 0) {
+          console.error("Sort dropdown is missing.");
+          return;
+      }
+      if (filterDropdown.length === 0) {
+          console.error("Filter dropdown is missing.");
+          return;
+      }
+
+      // Get sort and filter criteria from dropdowns
+      const sortCriteria = sortDropdown.val();
+      const filterCriteria = filterDropdown.val();
+
+      // Filter applications first, then sort them
       const filteredApplications = filterApplications(applications, filterCriteria);
       const sortedApplications = sortApplications(filteredApplications, sortCriteria);
-      
+
       // Group by job title and company name
       const groupedApplications = groupApplicationsByJob(sortedApplications);
 
@@ -1297,7 +1315,6 @@ async function fetchJobApplications(jobIDs) {
           $('#application-posts-container').append(jobSection);
       });
 
- 
       // Attach event listeners after rendering
       attachToggleJobTitles();
       attachActionButtons();
@@ -1307,6 +1324,7 @@ async function fetchJobApplications(jobIDs) {
       $('#application-posts-container').html('<p>Error loading applications. Please try again later.</p>');
   }
 }
+
 
 
 
