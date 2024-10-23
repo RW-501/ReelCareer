@@ -1093,7 +1093,7 @@ if (!jobTags || jobTags.length === 0) {
             blogCard.classList.add('blog-card');
             blogCard.innerHTML = ` 
     <!-- Blog Card Container -->
-    <div class="card blog-card h-100 shadow-sm">
+    <div class="card blog-card h-60 w-50 shadow-sm">
         <!-- Blog Image with clickable link -->
         <a href="/views/blog?b=${doc.id}" class="blog-image-link">
             <img src="${blog.imageUrl}" alt="${blog.title}" class="img-fluid blog-image rounded-top" loading="lazy" />
@@ -1181,22 +1181,6 @@ document.getElementById('applyBtn').addEventListener('click', function() {
     }
 });
 
-/*
-// Apply button event listener
-document.getElementById('applyBtn').addEventListener('click', function() {
-    if (jobData.applicationAvailableBool) {
-        // Redirect to the application page on your site
-        document.location.href = `apply.html?jobId=${jobID}`;
-    } else {
-        // Show the modal for external application
-        const modal = document.getElementById('applicationModal');
-
-        if (modal) {
-            modal.style.display = 'block'; // Ensure modal is displayed
-        }
-    }
-});
-*/
 
 // Proceed to external website on clicking the proceed button
 const proceedBtn = document.getElementById('proceedBtn');
