@@ -1330,9 +1330,7 @@ async function fetchJobApplications(jobIDs) {
           const jobSection = renderJobTitleWithApplicants(jobTitle, companyName, applicants);
           $('#application-posts-container').append(jobSection);
       });
-    // Attach event listeners after rendering
-    attachToggleJobTitles();
-    attachActionButtons();
+
 
   } catch (error) {
       console.error("Error fetching applications:", error);
