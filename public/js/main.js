@@ -528,7 +528,7 @@ document.addEventListener("DOMContentLoaded", function () {
     <div class="row" style="text-align: center;">
                     <div class="col-md-6 m-auto">
                         <video controls>
-                            <source src="https://www.reelcareer.co/images/intro.MOV" type="video/mov">
+                            <source src="https://www.reelcareer.co/images/intro.MP4" type="video/MP4">
                             Your browser does not support the video tag.
                         </video>
                     </div>
