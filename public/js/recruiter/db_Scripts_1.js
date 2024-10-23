@@ -848,8 +848,19 @@ $('#sort-job').on('change', function () {
     $('#job-posts-container').empty().append(jobsArray); // Clear the container and re-append sorted jobs
 });
 
+let debounceTimer;
+
+$('#filter-salary, #filter-deadline').on('input change', function () {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(() => {
+        // Call the filtering logic functions
+        filterBySalary();
+        filterByDeadline();
+    }, 300); // Adjust the delay as necessary
+});
+
 // Filter job posts based on salary range input
-$('#filter-salary').on('input', function () {
+function filterBySalary() {
     const minSalary = parseInt($('#min-salary').val()) || 0;
     const maxSalary = parseInt($('#max-salary').val()) || Infinity;
 
@@ -860,11 +871,11 @@ $('#filter-salary').on('input', function () {
         // Toggle display based on salary range
         $(this).toggle(salary >= minSalary && salary <= maxSalary);
     });
-});
+}
 
 // Filter job posts based on application deadline
-$('#filter-deadline').on('change', function () {
-    const selectedDeadline = new Date($(this).val());
+function filterByDeadline() {
+    const selectedDeadline = new Date($('#filter-deadline').val());
 
     $('.job-post').each(function () {
         const deadlineText = $(this).find('.job-details li:contains("Application Deadline")').text();
@@ -873,9 +884,7 @@ $('#filter-deadline').on('change', function () {
         // Toggle display if the job's deadline is before the selected deadline
         $(this).toggle(deadline <= selectedDeadline || !deadlineText);
     });
-});
-
-
+}
 
 
             // Implement toggle functionality for company details
@@ -1061,15 +1070,6 @@ function getStatusIcon(status) {
 
 }
 
-// Example of how to update the button text based on status
-function updatePauseButton($button, status) {
-    if (status.toLowerCase() === 'paused') {
-        $button.text('Resume'); // Change button text to 'Resume'
-    } else if (status.toLowerCase() === 'active') {
-        $button.text('Pause'); // Change button text to 'Pause'
-    }
-}
-
 $(document).on('click', '.pause-job', async function () {
     const jobID = $(this).data('job-id');
     const currentStatus = $(this).siblings('.status').text().trim();
@@ -1079,6 +1079,7 @@ $(document).on('click', '.pause-job', async function () {
     await updateJobStatus(jobID, newStatus, recruiterID);
     updateJobUI(jobID, newStatus, this); // Use the new function to update UI
 });
+
 
 
 
@@ -1145,21 +1146,6 @@ $('#collapse-all-companies').on('click', function () {
     $('.company-details').hide();
 });
 
-let debounceTimer;
-$('#filter-salary, #filter-deadline').on('input change', function () {
-    clearTimeout(debounceTimer);
-    debounceTimer = setTimeout(() => {
-        // Your filtering logic here
-    }, 300); // Adjust the delay as necessary
-});
-
-
-
-
-
-
-
-
 
 
 
@@ -1193,6 +1179,13 @@ $('#search-company').on('input', function () {
         $(this).toggle(companyName.includes(searchTerm) || companyLocation.includes(searchTerm) || companyIndustry.includes(searchTerm));
     });
 });
+
+
+
+
+
+
+
 
 
 
