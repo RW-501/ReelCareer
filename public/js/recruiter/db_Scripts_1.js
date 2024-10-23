@@ -1426,7 +1426,6 @@ async function fetchJobApplications(jobIDs) {
         
       }
         
-        console.log("?!!!!!!!!!!!!!11???????");
       
         // Attach event listeners after rendering
         attachToggleJobTitles();
@@ -1447,22 +1446,26 @@ async function fetchJobApplications(jobIDs) {
 
 
 
-// Toggle Job Title Sections
-function attachToggleJobTitles() {
-  console.log("?????????????????????????");
-  $('.job-title').off('click').on('click', function () {
-    $(this).next('.applicants-list').toggle();
-});
 
 $('.applicant-name').off('click').on('click', function () {
+  console.log("?????????????????????????");
+
   $(this).next('.application-details').toggle();
 });
 
 
 $(document).on('click', '.job-title', function () {
+  console.log("?!!!!!!!!!!!!!11???????");
+
   $(this).next('.application-details').toggle();
 });
 
+
+// Toggle Job Title Sections
+function attachToggleJobTitles() {
+  $('.job-title').off('click').on('click', function () {
+    $(this).next('.applicants-list').toggle();
+});
 
   /*
 $(document).on('click', '.applicant-name', function () {
