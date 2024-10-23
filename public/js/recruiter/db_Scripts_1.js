@@ -527,6 +527,8 @@ fetchRecruiterData(user.uid);
       
     });
   /*
+boostDuration
+boosted
 
   */
     return docRef.id; // Return the job ID for future use
@@ -695,6 +697,7 @@ let moderatedCompanies = jobPosts.filter(job => {
         location: job.location, // Include other fields as necessary
         industry: job.industry,
         description: job.description,
+
     };
 });
 
@@ -708,40 +711,71 @@ let moderatedCompanies = jobPosts.filter(job => {
             // Loop through job posts and display them
             jobPosts.forEach(job => {
                 jobIDsList.push(job.jobID); // Push each jobID into the array
-
-               // console.log("jobIDsList  ",jobIDsList);
-               const jobElement = $(`
-                <div class="job-post card mb-3" data-job-id="${job.jobID}">
-                    <div class="card-body">
-                        <h5 class="job-title card-title text-primary" style="cursor: pointer;">
-                            <i class="${getStatusIcon(job.status)}"></i> ${job.jobTitle}
-                            <span class="status-indicator" style="background-color: ${getStatusColor(job.status)};"></span>
-                        </h5>
-                        <div class="job-details" style="display: none;">
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item"><strong>Status:</strong> ${job.status}</li>
-                                <li class="list-group-item"><strong>Created At:</strong> ${job.createdAt.toDate().toLocaleString()}</li>
-                                <li class="list-group-item"><strong>Location:</strong> ${job.location}</li>
-                                <li class="list-group-item"><strong>Company:</strong> ${job.companyName}</li>
-                                <li class="list-group-item"><strong>Salary:</strong> ${job.salary}</li>
-                                <li class="list-group-item"><strong>Application Deadline:</strong> ${job.applicationDeadline ? job.applicationDeadline.toDate().toLocaleString() : "None"}</li>
-                            </ul>
-                            <button class="view-job btn btn-info mt-3" data-job-id="${job.jobID}">View Company</button>
-                            <button class="deactivate-job btn btn-danger mt-3" data-job-id="${job.jobID}">Deactivate</button>
-                            <button class="pause-job btn btn-warning mt-3" data-job-id="${job.jobID}">Pause</button>
-                            <button class="edit-job btn btn-secondary mt-3" disabled>Edit Post</button> <!-- Disabled Edit Button -->
-                            <button class="view-analytics btn btn-info mt-3" data-job-id="${job.jobID}">View Analytics</button> <!-- View Analytics Button -->
-                            <button class="close-job-details btn btn-secondary mt-3">Close</button> <!-- Close button -->
+            
+                // Determine if the job is boosted
+                const boostButtonText = job.boosted ? 'Boosted' : 'Boost';
+                const boostIcon = job.boosted ? 'fas fa-star' : 'fas fa-star-half-alt'; // Change icon based on boosted status
+                
+                const jobElement = $(`
+                    <div class="job-post card mb-3" data-job-id="${job.jobID}">
+                        <div class="card-body">
+                            <h5 class="job-title card-title text-primary" style="cursor: pointer;">
+                                <i class="${getStatusIcon(job.status)}"></i> ${job.jobTitle}
+                                <span class="status-indicator" style="background-color: ${getStatusColor(job.status)};"></span>
+                                <i class="${boostIcon} float-end" style="color: gold;" title="${job.boosted ? 'This job is boosted' : 'Boost this job'}"></i> <!-- Boost Icon -->
+                            </h5>
+                            <div class="job-details" style="display: none;">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item"><strong>Status:</strong> ${job.status}</li>
+                                    <li class="list-group-item"><strong>Created At:</strong> ${job.createdAt.toDate().toLocaleString()}</li>
+                                    <li class="list-group-item"><strong>Location:</strong> ${job.location}</li>
+                                    <li class="list-group-item"><strong>Company:</strong> ${job.companyName}</li>
+                                    <li class="list-group-item"><strong>Salary:</strong> ${job.salary}</li>
+                                    <li class="list-group-item"><strong>Application Deadline:</strong> ${job.applicationDeadline ? job.applicationDeadline.toDate().toLocaleString() : "None"}</li>
+                                    <li class="list-group-item"><strong>Boost Duration:</strong> ${job.boosted ? job.boostDuration + ' hours' : 'Not Boosted'}</li> <!-- Show boost duration -->
+                                </ul>
+                                <button class="view-job btn btn-info mt-3" data-job-id="${job.jobID}">View Company</button>
+                                <button class="deactivate-job btn btn-danger mt-3" data-job-id="${job.jobID}">Deactivate</button>
+                                <button class="pause-job btn btn-warning mt-3" data-job-id="${job.jobID}">Pause</button>
+                                <button class="edit-job btn btn-secondary mt-3" disabled>Edit Post</button>
+                                <button class="view-analytics btn btn-info mt-3" data-job-id="${job.jobID}">View Analytics</button>
+                                <button class="boost-job btn btn-success mt-3" data-job-id="${job.jobID}">${boostButtonText}</button> <!-- Boost Button -->
+                                <button class="close-job-details btn btn-secondary mt-3">Close</button> <!-- Close button -->
+                            </div>
                         </div>
                     </div>
-                </div>
-            `);
-            $('#job-posts-container').append(jobElement);
-            
-            
+                `);
+                $('#job-posts-container').append(jobElement);
             });
-     
+                 
+        // Event listener for the boost button
+$(document).on('click', '.boost-job', function() {
+    const jobID = $(this).closest('.job-post').data('job-id'); // Get the job ID from the parent element
+    const jobIndex = jobPosts.findIndex(job => job.jobID === jobID); // Find the job index in the jobPosts array
+
+    if (jobIndex !== -1) {
+        const job = jobPosts[jobIndex];
         
+        // Toggle boost status
+        job.boosted = !job.boosted; // Toggle the boosted status
+        job.boostDuration = job.boosted ? 24 : 0; // Set duration to 24 hours if boosted, else 0
+
+        // Update the button text and icon
+        const boostButton = $(this);
+        const boostIcon = job.boosted ? 'fas fa-star' : 'fas fa-star-half-alt';
+        const boostButtonText = job.boosted ? 'Boosted' : 'Boost';
+        
+        boostButton.text(boostButtonText);
+        boostButton.siblings('.status-indicator').toggleClass('text-warning', job.boosted); // Example of changing color
+
+        // Update the icon next to the job title
+        boostButton.closest('.job-title').find('i').first().attr('class', boostIcon);
+        
+        // Optionally, you can update the UI to reflect the boost duration, if necessary
+        $(this).closest('.job-details').find('li:contains("Boost Duration:")').text(`Boost Duration: ${job.boosted ? job.boostDuration + ' hours' : 'Not Boosted'}`);
+    }
+});
+
             $('#show-drafts').on('click', () => {
                 const filteredJobs = jobPosts.filter(job => job.status.toLowerCase() === 'draft');
             
