@@ -1340,6 +1340,8 @@ async function fetchJobApplications(jobIDs) {
   }
 }
 
+// Utility: Date Formatting
+const formatDate = (dateObj) => dateObj ? new Date(dateObj.seconds * 1000).toLocaleDateString() : "Not available";
 
 const getBoostedStyle = (isBoosted) => {
   if (isBoosted) {
@@ -1426,8 +1428,6 @@ applicationPost.querySelector('.applicant-name').innerHTML += ' (Approved)';
 const selectedApplicants = document.querySelectorAll('.select-applicant:checked');
 // Enable/disable buttons based on the selected count
 
-// Utility: Date Formatting
-const formatDate = (dateObj) => dateObj ? new Date(dateObj.seconds * 1000).toLocaleDateString() : "Not available";
 
 // Toggle Job Title Sections
 function attachToggleJobTitles() {
