@@ -1409,6 +1409,13 @@ const renderApplicationHTML = (application, jobTitle, companyName) => {
 const renderJobTitleWithApplicants = (jobTitle, companyName, applicants) => {
   const applicantsHTML = applicants.map(application => renderApplicationHTML(application, jobTitle, companyName)).join('');
 
+// Render job titles and applicants
+$('#application-posts-container').empty();
+Object.entries(groupedApplications).forEach(([key, applicants]) => {
+    const [jobTitle, companyName] = key.split('|');
+    const jobSection = renderJobTitleWithApplicants(jobTitle, companyName, applicants);
+    $('#application-posts-container').append(jobSection);
+});
 
 
   return `
@@ -1444,7 +1451,7 @@ const selectedApplicants = document.querySelectorAll('.select-applicant:checked'
 
 // Toggle Job Title Sections
 function attachToggleJobTitles() {
-  /*
+  
   $('.job-title').off('click').on('click', function () {
     $(this).next('.applicants-list').toggle();
 });
@@ -1452,15 +1459,15 @@ function attachToggleJobTitles() {
 $('.applicant-name').off('click').on('click', function () {
   $(this).next('.application-details').toggle();
 });
-*/
-  
+
+  /*
 $(document).on('click', '.applicant-name', function () {
   $(this).next('.applicants-list').toggle();
 });
 $(document).on('click', '.job-title', function () {
   $(this).next('.application-details').toggle();
 });
-
+*/
 }
 
 $('#sort-applications, #filter-status').on('change', debounce(() => {
