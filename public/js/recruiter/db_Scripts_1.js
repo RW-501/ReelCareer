@@ -1359,6 +1359,18 @@ const groupApplicationsByJob = (applications) => {
   }, {});
 };
 
+
+const selectedApplicants = document.querySelectorAll('.select-applicant:checked');
+// Enable/disable buttons based on the selected count
+
+// After approval or rejection
+const applicationPost = document.querySelector(`.application-post[data-applicant-id="${applicantId}"]`);
+applicationPost.querySelector('.applicant-name').innerHTML += ' (Approved)';
+
+// Render Single Application HTML
+const renderApplicationHTML = (application, jobTitle, companyName) => {
+  const statusIcon = getStatusIcon(application.status);
+  const statusColor = getStatusColor(application.status);
 // Render Job Title with Applicants
 const renderJobTitleWithApplicants = (jobTitle, companyName, applicants) => {
   const applicantsHTML = applicants.map(application => renderApplicationHTML(application, jobTitle, companyName)).join('');
@@ -1373,58 +1385,47 @@ const renderJobTitleWithApplicants = (jobTitle, companyName, applicants) => {
   `;
 };
 
-const selectedApplicants = document.querySelectorAll('.select-applicant:checked');
-// Enable/disable buttons based on the selected count
-
-// After approval or rejection
-const applicationPost = document.querySelector(`.application-post[data-applicant-id="${applicantId}"]`);
-applicationPost.querySelector('.applicant-name').innerHTML += ' (Approved)';
-
-// Render Single Application HTML
-const renderApplicationHTML = (application, jobTitle, companyName) => {
-  const statusIcon = getStatusIcon(application.status);
-  const statusColor = getStatusColor(application.status);
-
-  return `
-  <div class="application-post" data-applicant-id="${application.id}" style="border: ${getBoostedStyle(application.isBoosted)};">
-      <div class="card mb-3">
-          <div class="card-body">
-              <div class="d-flex justify-content-between">
-                  <h5 class="applicant-name card-title text-primary" style="color: ${statusColor}; cursor: pointer;" data-toggle="tooltip" title="Click to view details">
-                      ${application.firstName} ${application.lastName} 
-                      <i class="${statusIcon}" style="margin-left: 5px;"></i>
-                  </h5>
-                  <button class="btn btn-success save-application" data-applicant-id="${application.id}" data-toggle="tooltip" title="Save changes">Save</button>
-              </div>
-              <div class="form-check mt-3">
-                  <input class="form-check-input select-applicant" type="checkbox" value="${application.id}" id="select-applicant-${application.id}">
-                  <label class="form-check-label" for="select-applicant-${application.id}">Select</label>
-              </div>
-              <div class="application-details" style="display: none;">
-                  <ul class="list-group list-group-flush">
-                      <li class="list-group-item"><strong>Job Title:</strong> ${jobTitle}</li>
-                      <li class="list-group-item"><strong>Company Name:</strong> ${companyName}</li>
-                      <li class="list-group-item"><strong>Apply Date:</strong> ${formatDate(application.applyDate)}</li>
-                      <li class="list-group-item"><strong>Email:</strong> ${application.email}</li>
-                      <li class="list-group-item"><strong>Phone:</strong> ${application.phone}</li>
-                      <li class="list-group-item" contenteditable="true"><strong>Notes:</strong> ${application.notes || "No notes available."}</li>
-                  </ul>
-                  <a href="${application.resumeLink}" target="_blank" class="btn btn-link mt-2">Download Resume</a>
-                  <a href="${application.videoResumeLink}" target="_blank" class="btn btn-link">Download Video Resume</a>
-                  <button class="view-application btn btn-info mt-3" data-applicant-id="${application.id}">View Application</button>
-                  <button class="request-interview btn btn-secondary mt-3 ms-2" data-applicant-id="${application.id}">Request Interview</button>
-                  <button class="request-test btn btn-warning mt-3 ms-2" data-applicant-id="${application.id}">Request Test</button>
-              </div>
-          </div>
-          <div class="card-footer text-end">
-          <li class="list-group-item" contenteditable="true">${application.notes || "No notes available."}</li>
-
-              <button class="btn btn-danger reject-application" data-applicant-id="${application.id}" data-toggle="tooltip" title="Reject this application">Reject</button>
-              <button class="btn btn-primary approve-application ms-2" data-applicant-id="${application.id}" data-toggle="tooltip" title="Approve this application">Approve</button>
-          </div>
-      </div>
-  </div>
+  // Inside your application rendering function
+return `
+<div class="application-post" data-applicant-id="${application.id}" style="border: ${getBoostedStyle(application.isBoosted)};">
+    <div class="card mb-3">
+        <div class="card-body">
+            <div class="d-flex justify-content-between">
+                <h5 class="applicant-name card-title text-primary" style="color: ${statusColor}; cursor: pointer;">
+                    ${application.firstName} ${application.lastName} 
+                    <i class="${statusIcon}" style="margin-left: 5px;"></i>
+                </h5>
+                <button class="btn btn-success save-application" data-applicant-id="${application.id}">Save</button>
+            </div>
+            <div class="form-check mt-3">
+                <input class="form-check-input select-applicant" type="checkbox" value="${application.id}" id="select-applicant-${application.id}">
+                <label class="form-check-label" for="select-applicant-${application.id}">Select</label>
+            </div>
+            <div class="application-details" style="display: none;">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><strong>Job Title:</strong> ${jobTitle}</li>
+                    <li class="list-group-item"><strong>Company Name:</strong> ${companyName}</li>
+                    <li class="list-group-item"><strong>Apply Date:</strong> ${formatDate(application.applyDate)}</li>
+                    <li class="list-group-item"><strong>Email:</strong> ${application.email}</li>
+                    <li class="list-group-item"><strong>Phone:</strong> ${application.phone}</li>
+                    <li class="list-group-item" contenteditable="true">${application.notes || "No notes available."}</li>
+                </ul>
+                <a href="${application.resumeLink}" target="_blank" class="btn btn-link mt-2">Download Resume</a>
+                <a href="${application.videoResumeLink}" target="_blank" class="btn btn-link">Download Video Resume</a>
+                <button class="view-application btn btn-info mt-3" data-applicant-id="${application.id}">View Application</button>
+                <button class="request-interview btn btn-secondary mt-3 ms-2" data-applicant-id="${application.id}">Request Interview</button>
+                <button class="request-test btn btn-warning mt-3 ms-2" data-applicant-id="${application.id}">Request Test</button>
+                <button class="under-review-application btn btn-warning mt-3 ms-2" data-applicant-id="${application.id}">Under Review</button> <!-- New button -->
+            </div>
+        </div>
+        <div class="card-footer text-end">
+            <button class="btn btn-danger reject-application" data-applicant-id="${application.id}">Reject</button>
+            <button class="btn btn-primary approve-application ms-2" data-applicant-id="${application.id}">Approve</button>
+        </div>
+    </div>
+</div>
 `;
+
 
 }
 
@@ -1546,7 +1547,23 @@ function viewApplication(applicantID) {
 
 
 
-// Function to approve the application
+// Function// Function to set the application status to "Under Review"
+async function underReviewApplication(applicantId) {
+  try {
+      // Update the application status in the database
+      await updateDoc(doc(db, "Applications", applicantId), {
+          status: 'Under Review' // Change status to Under Review
+      });
+
+      showToast('Application set to Under Review successfully!', 'success');
+      // Optionally, you can refresh the list of applications after updating
+      fetchJobApplications(); // Call your function to refresh the applications list
+  } catch (error) {
+      console.error('Error updating application status to Under Review:', error);
+      alert('Error updating application status. Please try again.');
+  }
+}
+
 async function approveApplication(applicantId) {
   try {
       // Update the application status in the database
@@ -1581,6 +1598,7 @@ async function rejectApplication(applicantId) {
 }
 
 // Event listeners for the buttons
+// Event listeners for the buttons
 document.addEventListener('click', function(event) {
   if (event.target.classList.contains('save-application')) {
       const applicantId = event.target.getAttribute('data-applicant-id');
@@ -1595,6 +1613,12 @@ document.addEventListener('click', function(event) {
   if (event.target.classList.contains('reject-application')) {
       const applicantId = event.target.getAttribute('data-applicant-id');
       rejectApplication(applicantId);
+  }
+
+  // New event listener for Under Review
+  if (event.target.classList.contains('under-review-application')) {
+      const applicantId = event.target.getAttribute('data-applicant-id');
+      underReviewApplication(applicantId);
   }
 });
 
