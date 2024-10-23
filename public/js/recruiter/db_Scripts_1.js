@@ -1207,6 +1207,23 @@ function filterByDeadline() {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 $('#sort-applications, #filter-status').on('change', debounce(() => {
   fetchJobApplications(/* job IDs here */);
 }, 300));
@@ -1231,6 +1248,12 @@ const throttle = (func, limit) => {
       }
   };
 };
+
+const filterApplications = (applications, statusFilter) => {
+  if (statusFilter === 'all') return applications;
+  return applications.filter(app => app.status === statusFilter);
+};
+
 
 // Fetch and Render Job Applications
 async function fetchJobApplications(jobIDs) {
@@ -1264,11 +1287,7 @@ async function fetchJobApplications(jobIDs) {
           $('#application-posts-container').append(jobSection);
       });
 
-      const filterApplications = (applications, statusFilter) => {
-        if (statusFilter === 'all') return applications;
-        return applications.filter(app => app.status === statusFilter);
-    };
-    
+ 
       // Attach event listeners after rendering
       attachToggleJobTitles();
       attachActionButtons();
