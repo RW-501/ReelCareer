@@ -622,7 +622,65 @@ async function handleNewsletterSignup(email) {
     console.error("Error adding document: ", error);
   }
 }
+  // Function to inject styles dynamically
+  function addStylesFooter() {
+    const styles = `
+    .newsletter-signup {
+        background-color: #111;
+        padding: 20px;
+        border-radius: 10px;
+    }
+    .custom-checkbox-wrapper {
+        display: flex;
+        align-items: center;
+        position: relative;
+        padding-left: 30px;
+        color: #fff;
+    }
+    .custom-checkbox-wrapper input {
+        display: none;
+    }
+    .custom-checkbox-wrapper input:checked ~ .custom-checkbox {
+        background-color: #007bff;
+    }
+    .custom-checkbox-wrapper input:checked ~ .custom-checkbox:before {
+        content: "\\2714";
+        display: block;
+        color: #fff;
+        font-size: 12px;
+        text-align: center;
+    }
+    .custom-checkbox {
+        width: 20px;
+        height: 20px;
+        background-color: transparent;
+        border: 2px solid #fff;
+        border-radius: 3px;
+        position: absolute;
+        left: 0;
+        top: 0;
+        transition: background-color 0.3s ease;
+    }
+    .custom-checkbox:before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    #newsletterFormBtn:hover {
+        background-color: #fff;
+        color: #000;
+    }
+    `;
+    const styleSheet = document.createElement("style");
+    styleSheet.type = "text/css";
+    styleSheet.innerText = styles;
+    document.head.appendChild(styleSheet);
+}
 
+// Call the function to add the styles
+addStylesFooter();
 // Update the footer function (No changes needed for this part)
 function updateFooter() {
   const footer = document.getElementById("dynamic-footer");
@@ -643,23 +701,29 @@ function updateFooter() {
                     <li class="list-inline-item"><a href="${adjustLinkURL}Personality-&-Trait-Tests" class="text-light" rel="noopener noreferrer">Personality & Trait Tests</a></li>
                     <li class="list-inline-item"><a href="${adjustLinkHomeURL}backend/dashboard" class="text-light" rel="noopener noreferrer">Admin</a></li>
                 </ul>
-                <div class="newsletter-signup">
-                    <form id="newsletterForm" class="form-inline justify-content-center mt-4">
-                        <input type="email" class=" mr-2 mb-2" placeholder="Subscribe to our newsletter" required aria-label="Email address">
-                        <select id="newsletterType" class=" mr-2 mb-2"  required>
-                            <option value="website_updates">Website Updates</option>
-                            <option value="job_alerts">Job Alerts</option>
-                            <option value="career_advice">Career Advice</option>
-                            <option value="industry_news">Industry News</option>
-                        </select>
-                        <label  class="ml-2 mr-2 mb-2">
-                            <input type="checkbox" id="dataPrivacy" required>
-                            I agree to the   <a href="${adjustLinkHomeURL}public/privacy" class="text-light ml-1" rel="noopener noreferrer"> data privacy policy</a>.
-                        </label>
-                        <button type="submit" id="newsletterFormBtn"  class=" mr-2 mb-2 btn btn-outline-light">Subscribe</button>
-                    </form>
-                    <p id="newsletterMessage" class="text-light mt-2"></p>
-                </div>
+<div class="newsletter-signup">
+    <form id="newsletterForm" class="form-inline justify-content-center mt-4">
+        <input type="email" class="form-control mr-2 mb-2" placeholder="Subscribe to our newsletter" required aria-label="Email address">
+        
+        <select id="newsletterType" class="form-control mr-2 mb-2" required>
+            <option value="website_updates">Website Updates</option>
+            <option value="job_alerts">Job Alerts</option>
+            <option value="career_advice">Career Advice</option>
+            <option value="industry_news">Industry News</option>
+        </select>
+
+        <label class="ml-2 mr-2 mb-2 custom-checkbox-wrapper">
+            <input type="checkbox" id="dataPrivacy" required>
+            <span class="custom-checkbox"></span> 
+            I agree to the <a href="${adjustLinkHomeURL}public/privacy" class="text-light ml-1" rel="noopener noreferrer">data privacy policy</a>.
+        </label>
+
+        <button type="submit" id="newsletterFormBtn" class="mr-2 mb-2 btn btn-outline-light">Subscribe</button>
+    </form>
+
+    <p id="newsletterMessage" class="text-light mt-2"></p>
+</div>
+
                 <p class="mt-2">Current Date & Time: <span id="currentDateTime"></span></p>
                 <p class="mt-2"><a href="${adjustLinkURL}contact" class="text-light" rel="noopener noreferrer">Contact Us</a></p>
                 <button id="backToTop" class="btn btn-outline-light mt-2">Back to Top</button>
