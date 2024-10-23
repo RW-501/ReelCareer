@@ -1133,39 +1133,53 @@ function getStatusIcon(status) {
   if (typeof status === 'string') {
       switch (status.toLowerCase()) {
           case 'active':
-              iconClass = 'fas fa-check-circle'; // Font Awesome icon for active
+              iconClass = 'fas fa-check-circle'; // Active
               break;
           case 'paused':
-              iconClass = 'fas fa-pause-circle'; // Font Awesome icon for paused
+              iconClass = 'fas fa-pause-circle'; // Paused
               break;
           case 'deactivated':
-              iconClass = 'fas fa-times-circle'; // Font Awesome icon for deactivated
+              iconClass = 'fas fa-times-circle'; // Deactivated
+              break;
+          case 'approved':
+              iconClass = 'fas fa-thumbs-up'; // Approved
+              break;
+          case 'rejected':
+              iconClass = 'fas fa-thumbs-down'; // Rejected
+              break;
+          case 'under review':
+              iconClass = 'fas fa-hourglass-half'; // Under Review
               break;
           default:
-              iconClass = 'fas fa-question-circle'; // Default icon for unknown status
+              iconClass = 'fas fa-question-circle'; // Unknown status
               break;
       }
   } else {
-      // Default icon for undefined or invalid status
-      iconClass = 'fas fa-question-circle';
+      iconClass = 'fas fa-question-circle'; // Default for invalid status
   }
 
   return iconClass; // Return the icon class
 }
 
-
 function getStatusColor(status) {
-    switch (status) {
-        case 'active':
-            return 'green';
-        case 'inactive':
-            return 'red';
-        case 'pending':
-            return 'orange';
-        default:
-            return 'gray'; // Default color for unknown status
-    }
+  switch (status) {
+      case 'active':
+          return 'green';
+      case 'paused':
+          return 'yellow'; // Adjust as needed
+      case 'deactivated':
+          return 'red';
+      case 'approved':
+          return 'blue'; // Approved color
+      case 'rejected':
+          return 'darkred'; // Rejected color
+      case 'under review':
+          return 'orange'; // Under Review color
+      default:
+          return 'gray'; // Default for unknown status
+  }
 }
+
 
 
 
