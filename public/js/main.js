@@ -517,6 +517,10 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
+
+
+
+  
   // Insert the footer section
   const companyMediaSectionHTML = `
         <section id="companyMedia" class="bg-light py-5 company-media">
