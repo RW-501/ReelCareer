@@ -1362,10 +1362,7 @@ const groupApplicationsByJob = (applications) => {
 const renderApplicationHTML = (application, jobTitle, companyName) => {
   const statusIcon = getStatusIcon(application.status);
   const statusColor = getStatusColor(application.status);
-    // Attach event listeners after rendering
-    attachToggleJobTitles();
-    attachActionButtons();
-
+  
   return `
   <div class="application-post" data-applicant-id="${application.id}" style="border: ${getBoostedStyle(application.isBoosted)};">
       <div class="card mb-3">
@@ -1425,6 +1422,15 @@ const renderJobTitleWithApplicants = (jobTitle, companyName, applicants) => {
       
   `;
 
+};
+// Function to render the job and its applicants
+const renderJobWithApplicants = (jobTitle, companyName, applicants) => {
+  const jobHTML = renderJobTitleWithApplicants(jobTitle, companyName, applicants);
+  document.querySelector('#jobsContainer').innerHTML += jobHTML; // Assuming there's a container for jobs
+
+  // Attach event listeners after rendering
+  attachToggleJobTitles();
+  attachActionButtons();
 };
 
 // After approval or rejection
