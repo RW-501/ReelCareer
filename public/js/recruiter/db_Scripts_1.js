@@ -661,7 +661,7 @@ document.getElementById("boostJobBtn").addEventListener("click", function() {
 
   const jobIDsList = []; // Initialize an empty array to store jobIDs
   const companiesIDsList = []; // Initialize an empty array to store jobIDs
-
+          // Define jobIDsList and companiesIDsList
 
 
 // Function to fetch job posts and moderated companies for the recruiter
@@ -731,8 +731,7 @@ function getStatusIcon(status) {
             $('#job-posts-container').empty();
             $('#companies-container').empty();
         
-            // Define jobIDsList and companiesIDsList
-            const jobIDsList = [];
+  
         
             // Loop through job posts and display them
             jobPosts.forEach(job => {
@@ -1229,7 +1228,6 @@ function filterByDeadline() {
 
 let jobID = '';
 
-console.log("   job id   ",jobID)
 
 
 // Define the filtering function first
@@ -1397,7 +1395,7 @@ function attachToggleJobTitles() {
 
 
 $('#sort-applications, #filter-status').on('change', debounce(() => {
-  fetchJobApplications(jobID);
+  fetchJobApplications(jobIDs);
 }, 300));
 
 // Utility: Debounce Function to Optimize Input Events
