@@ -1359,43 +1359,60 @@ const renderJobTitleWithApplicants = (jobTitle, companyName, applicants) => {
   `;
 };
 
+const selectedApplicants = document.querySelectorAll('.select-applicant:checked');
+// Enable/disable buttons based on the selected count
+
+// After approval or rejection
+const applicationPost = document.querySelector(`.application-post[data-applicant-id="${applicantId}"]`);
+applicationPost.querySelector('.applicant-name').innerHTML += ' (Approved)';
+
 // Render Single Application HTML
 const renderApplicationHTML = (application, jobTitle, companyName) => {
   const statusIcon = getStatusIcon(application.status);
   const statusColor = getStatusColor(application.status);
 
   return `
-      <div class="application-post" data-applicant-id="${application.id}" style="border: ${getBoostedStyle(application.isBoosted)};">
-          <div class="card mb-3">
-              <div class="card-body">
-                  <div class="form-check">
-                      <input class="form-check-input select-applicant" type="checkbox" value="${application.id}" id="select-applicant-${application.id}">
-                      <label class="form-check-label" for="select-applicant-${application.id}">Select</label>
-                  </div>
-                  <h5 class="applicant-name card-title text-primary" style="color: ${statusColor}; cursor: pointer;">
+  <div class="application-post" data-applicant-id="${application.id}" style="border: ${getBoostedStyle(application.isBoosted)};">
+      <div class="card mb-3">
+          <div class="card-body">
+              <div class="d-flex justify-content-between">
+                  <h5 class="applicant-name card-title text-primary" style="color: ${statusColor}; cursor: pointer;" data-toggle="tooltip" title="Click to view details">
                       ${application.firstName} ${application.lastName} 
                       <i class="${statusIcon}" style="margin-left: 5px;"></i>
                   </h5>
-                  <div class="application-details" style="display: none;">
-                      <ul class="list-group list-group-flush">
-                          <li class="list-group-item"><strong>Job Title:</strong> ${jobTitle}</li>
-                          <li class="list-group-item"><strong>Company Name:</strong> ${companyName}</li>
-                          <li class="list-group-item"><strong>Apply Date:</strong> ${formatDate(application.applyDate)}</li>
-                          <li class="list-group-item"><strong>Email:</strong> ${application.email}</li>
-                          <li class="list-group-item"><strong>Phone:</strong> ${application.phone}</li>
-                          <li class="list-group-item"><strong>Notes:</strong> ${application.notes || "No notes available."}</li>
-                      </ul>
-                      <a href="${application.resumeLink}" target="_blank" class="btn btn-link mt-2">Download Resume</a>
-                      <a href="${application.videoResumeLink}" target="_blank" class="btn btn-link">Download Video Resume</a>
-                      <button class="view-application btn btn-info mt-3" data-applicant-id="${application.id}">View Application</button>
-                      <button class="request-interview btn btn-secondary mt-3 ms-2" data-applicant-id="${application.id}">Request Interview</button>
-                      <button class="request-test btn btn-warning mt-3 ms-2" data-applicant-id="${application.id}">Request Test</button>
-                  </div>
+                  <button class="btn btn-success save-application" data-applicant-id="${application.id}" data-toggle="tooltip" title="Save changes">Save</button>
+              </div>
+              <div class="form-check mt-3">
+                  <input class="form-check-input select-applicant" type="checkbox" value="${application.id}" id="select-applicant-${application.id}">
+                  <label class="form-check-label" for="select-applicant-${application.id}">Select</label>
+              </div>
+              <div class="application-details" style="display: none;">
+                  <ul class="list-group list-group-flush">
+                      <li class="list-group-item"><strong>Job Title:</strong> ${jobTitle}</li>
+                      <li class="list-group-item"><strong>Company Name:</strong> ${companyName}</li>
+                      <li class="list-group-item"><strong>Apply Date:</strong> ${formatDate(application.applyDate)}</li>
+                      <li class="list-group-item"><strong>Email:</strong> ${application.email}</li>
+                      <li class="list-group-item"><strong>Phone:</strong> ${application.phone}</li>
+                      <li class="list-group-item" contenteditable="true"><strong>Notes:</strong> ${application.notes || "No notes available."}</li>
+                  </ul>
+                  <a href="${application.resumeLink}" target="_blank" class="btn btn-link mt-2">Download Resume</a>
+                  <a href="${application.videoResumeLink}" target="_blank" class="btn btn-link">Download Video Resume</a>
+                  <button class="view-application btn btn-info mt-3" data-applicant-id="${application.id}">View Application</button>
+                  <button class="request-interview btn btn-secondary mt-3 ms-2" data-applicant-id="${application.id}">Request Interview</button>
+                  <button class="request-test btn btn-warning mt-3 ms-2" data-applicant-id="${application.id}">Request Test</button>
               </div>
           </div>
+          <div class="card-footer text-end">
+          <li class="list-group-item" contenteditable="true">${application.notes || "No notes available."}</li>
+
+              <button class="btn btn-danger reject-application" data-applicant-id="${application.id}" data-toggle="tooltip" title="Reject this application">Reject</button>
+              <button class="btn btn-primary approve-application ms-2" data-applicant-id="${application.id}" data-toggle="tooltip" title="Approve this application">Approve</button>
+          </div>
       </div>
-  `;
-};
+  </div>
+`;
+
+}
 
 // Utility: Date Formatting
 const formatDate = (dateObj) => dateObj ? new Date(dateObj.seconds * 1000).toLocaleDateString() : "Not available";
@@ -1442,6 +1459,9 @@ const throttle = (func, limit) => {
   };
 };
 
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip();
+});
 
 
 
@@ -1482,21 +1502,178 @@ $('#search-applicant').on('input', function () {
 
 // Placeholder functions for actions
 function viewApplication(applicantID) {
-    console.log(`Viewing application for: ${applicantID}`);
+  updateApplicationViews(applicationID, recruiterID);
+
+    console.log(`Viewing application for: ${applicantID}    `+recruiterID);
     // Logic to view application details
 }
 
-function requestInterview(applicantID) {
-    console.log(`Requesting interview for: ${applicantID}`);
-    // Logic to send interview request
+// Function to approve the application
+async function approveApplication(applicantId) {
+  try {
+      // Call the update function to change the status
+      await updateApplication(applicantId, { status: 'Approved' });
+
+      alert('Application approved successfully!');
+      // Refresh the list of applications after approval
+      fetchJobApplications(); // Call your function to refresh the applications list
+  } catch (error) {
+      console.error('Error approving application:', error);
+      alert('Error approving application. Please try again.');
+  }
 }
 
-function requestTest(applicantID) {
-    console.log(`Requesting test for: ${applicantID}`);
-    // Logic to send test request
+// Function to reject the application
+async function rejectApplication(applicantId) {
+  try {
+      // Call the update function to change the status
+      await updateApplication(applicantId, { status: 'Rejected' });
+
+      alert('Application rejected successfully!');
+      // Refresh the list of applications after rejection
+      fetchJobApplications(); // Call your function to refresh the applications list
+  } catch (error) {
+      console.error('Error rejecting application:', error);
+      alert('Error rejecting application. Please try again.');
+  }
+}
+
+
+
+// Function to save the application data
+async function saveApplication(applicantId) {
+  try {
+      // Retrieve the application data (e.g., notes, selected state)
+      const applicationElement = document.querySelector(`.application-post[data-applicant-id="${applicantId}"]`);
+      const notes = applicationElement.querySelector('.application-details .list-group-item:last-child').innerText; // Assuming last item is Notes
+      
+      // Save the application to the database (modify as per your database structure)
+      await updateDoc(doc(db, "Applications", applicantId), {
+          notes: notes // Save the notes (you can add more fields if needed)
+      });
+
+      alert('Application saved successfully!');
+  } catch (error) {
+      console.error('Error saving application:', error);
+      alert('Error saving application. Please try again.');
+  }
 }
 
 
 
 
 
+// Function to approve the application
+async function approveApplication(applicantId) {
+  try {
+      // Update the application status in the database
+      await updateDoc(doc(db, "Applications", applicantId), {
+          status: 'Approved' // Change status to Approved
+      });
+
+      showToast('Application approved successfully!', 'success');
+      // Optionally, you can refresh the list of applications after approval
+      fetchJobApplications(); // Call your function to refresh the applications list
+  } catch (error) {
+      console.error('Error approving application:', error);
+      alert('Error approving application. Please try again.');
+  }
+}
+
+// Function to reject the application
+async function rejectApplication(applicantId) {
+  try {
+      // Update the application status in the database
+      await updateDoc(doc(db, "Applications", applicantId), {
+          status: 'Rejected' // Change status to Rejected
+      });
+
+      showToast('Application rejected successfully!', 'success');
+      // Optionally, you can refresh the list of applications after rejection
+      fetchJobApplications(); // Call your function to refresh the applications list
+  } catch (error) {
+      console.error('Error rejecting application:', error);
+      alert('Error rejecting application. Please try again.');
+  }
+}
+
+// Event listeners for the buttons
+document.addEventListener('click', function(event) {
+  if (event.target.classList.contains('save-application')) {
+      const applicantId = event.target.getAttribute('data-applicant-id');
+      saveApplication(applicantId);
+  }
+
+  if (event.target.classList.contains('approve-application')) {
+      const applicantId = event.target.getAttribute('data-applicant-id');
+      approveApplication(applicantId);
+  }
+
+  if (event.target.classList.contains('reject-application')) {
+      const applicantId = event.target.getAttribute('data-applicant-id');
+      rejectApplication(applicantId);
+  }
+});
+
+
+
+
+
+
+
+async function updateApplicationViews(applicationID, recruiterID) {
+  // Reference to the specific application document
+  const applicationRef = doc(db, "Applications", applicationID);
+  
+  // Use Firestore's FieldValue to increment the views by 1
+  await updateDoc(applicationRef, {
+      views: increment(1), // This will increment the views field by 1
+      recruiterID: recruiterID,
+  });
+
+  // Optionally show a toast notification to the user
+  showToast(`Application ${applicationID} views updated successfully.`, 'success');
+}
+
+
+
+
+
+
+
+
+async function updateApplication(applicationID, updates) {
+  // Reference to the specific application document in Firestore
+  const applicationRef = doc(db, "Applications", applicationID);
+
+  // Update the application with the provided updates
+  await updateDoc(applicationRef, updates);
+
+  // Optionally: Update the application in the recruiter's applications array if necessary
+  const userRef = doc(db, "Users", updates.recruiterID);
+  const userDoc = await getDoc(userRef);
+
+  if (userDoc.exists()) {
+      const userData = userDoc.data();
+      const applications = userData.applications || [];
+
+      const applicationIndex = applications.findIndex(app => app.applicationID === applicationID);
+
+      if (applicationIndex !== -1) {
+          // Update application in user's applications array
+          Object.assign(applications[applicationIndex], updates);
+
+          // Write the updated applications array back to Firestore
+          await updateDoc(userRef, {
+              applications: applications
+          });
+      } else {
+          console.error("Application not found in user's applications.");
+      }
+  } else {
+      console.error("User document does not exist.");
+  }
+
+  // Optionally show a toast notification to the user
+ // showToast(`Application ${applicationID} has been updated successfully.`, 'success');
+}
