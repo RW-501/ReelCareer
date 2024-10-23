@@ -643,30 +643,24 @@ text-align: left;
       </div>
   
       <hr />
-  
-      <!-- Related Articles Section -->
-<!-- Blog Modal -->
-<div class="modal fade" id="blogModal" tabindex="-1" aria-labelledby="blogModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-          <div class="modal-header">
-              <h5 class="modal-title" id="blogModalLabel">Blog Title</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <!-- Related Articles Section -->
+    <div class="related-blogs">
+      <h3 class="font-weight-bold">Related Articles</h3>
+      <hr class="my-2" />
+      <div id="blogContainer" class="row">
+          <!-- Blog links will be dynamically inserted here -->
+          <div class="col-md-4 mb-3"> <!-- Example blog item -->
+              <div class="card shadow-sm border-light">
+                  <div class="card-body">
+                      <h5 class="card-title">Article Title 1</h5>
+                      <p class="card-text">A brief excerpt from the article goes here.</p>
+                      <a href="#" class="btn btn-secondary">Read Article</a>
+                  </div>
+              </div>
           </div>
-          <div class="modal-body" id="modalBody">
-              <!-- Full blog content will be injected here -->
-          </div>
-          <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          </div>
+          <!-- Repeat for more blog items -->
       </div>
   </div>
-</div>
-
-
-
-
-
 
   </div>
   
@@ -737,24 +731,26 @@ text-align: left;
     </div>
   </div>
 
-<!-- Modal Structure -->
+<!-- Blog Modal -->
 <div class="modal fade" id="blogModal" tabindex="-1" aria-labelledby="blogModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
       <div class="modal-content">
           <div class="modal-header">
-              <h5 class="modal-title" id="blogModalLabel"></h5>
+              <h5 class="modal-title" id="blogModalLabel">Blog Title</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-          <div class="modal-body" id="modalBody">
-              <!-- Blog content will be dynamically inserted here -->
+        <div class="modal-body" id="modalBody"> 
+          <!-- Full blog content will be injected here -->
           </div>
           <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="button" id="seeMoreButton" class="btn btn-primary">See More</button>
           </div>
       </div>
   </div>
 </div>
+
+
+
 
 
 
