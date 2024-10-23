@@ -639,23 +639,29 @@ text-align: left;
       <hr />
   
       <!-- Related Articles Section -->
-      <div class="related-blogs">
-          <h3 class="font-weight-bold">Related Articles</h3>
-          <hr class="my-2" />
-          <div id="blogContainer" class="row">
-              <!-- Blog links will be dynamically inserted here -->
-              <div class="col-md-4 mb-3"> <!-- Example blog item -->
-                  <div class="card shadow-sm border-light">
-                      <div class="card-body">
-                          <h5 class="card-title">Article Title 1</h5>
-                          <p class="card-text">A brief excerpt from the article goes here.</p>
-                          <a href="#" class="btn btn-secondary">Read Article</a>
-                      </div>
-                  </div>
-              </div>
-              <!-- Repeat for more blog items -->
+<!-- Blog Modal -->
+<div class="modal fade" id="blogModal" tabindex="-1" aria-labelledby="blogModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="blogModalLabel">Blog Title</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body" id="modalBody">
+              <!-- Full blog content will be injected here -->
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
           </div>
       </div>
+  </div>
+</div>
+
+
+
+
+
+
   </div>
   
 
@@ -1074,50 +1080,87 @@ if (!jobTags || jobTags.length === 0) {
 
           // Reference the 'Blogs' collection and query for blogs with matching industry tags
           const blogsRef = collection(db, 'Blogs');
-          const q = query(blogsRef, where('tags', 'array-contains-any', jobTags), limit(3));
-          console.log("q tags  ", q);
+const blogContainer = document.getElementById('blogContainer');
+const showMoreButton = document.createElement('button');
+let allBlogs = []; // Store all blogs
+let displayedBlogs = 0; // Track how many blogs have been displayed
+const blogsPerPage = 3; // Number of blogs to show at a time
 
-          // Get the query snapshot
-          const querySnapshot = await getDocs(q);
-          const blogContainer = document.getElementById('blogContainer');
-          blogContainer.innerHTML = ''; // Clear previous blog content
-          if (querySnapshot.empty) {
-            displayEmptyState(blogContainer, 'No related blogs found.', 'fas fa-newspaper');
-            return;
-          }
-          querySnapshot.forEach(doc => {
-            const blog = doc.data();
+// Function to fetch blogs based on job tags
+async function fetchBlogs(jobTags) {
+  try {
+    const q = query(blogsRef, where('tags', 'array-contains-any', jobTags));
+    const querySnapshot = await getDocs(q);
 
+    // Populate the allBlogs array
+    querySnapshot.forEach(doc => {
+      allBlogs.push({ id: doc.id, ...doc.data() });
+    });
 
-            const blogCard = document.createElement('div');
-            blogCard.classList.add('blog-card');
-            blogCard.innerHTML = ` 
-    <!-- Blog Card Container -->
-    <div class="card blog-card h-60 w-50 shadow-sm">
-        <!-- Blog Image with clickable link -->
-        <a href="/views/blog?b=${doc.id}" class="blog-image-link">
-            <img src="${blog.imageUrl}" alt="${blog.title}" class="img-fluid blog-image rounded-top" loading="lazy" />
-        </a>
+    // Display the first set of blogs
+    displayBlogs();
 
-        <!-- Blog Content -->
-        <div class="card-body">
-            <!-- Blog Title -->
-            <h5 class="card-title text-primary">${blog.title}</h5>
-            
-            <!-- Truncated Blog Content -->
-            <p class="card-text text-muted">${truncateText(blog.content, 80)}</p>
+    // Create "Show More" button
+    showMoreButton.innerText = "Show More";
+    showMoreButton.className = "btn btn-primary mt-3";
+    showMoreButton.addEventListener('click', loadMoreBlogs);
+    blogContainer.appendChild(showMoreButton);
+  } catch (error) {
+    console.error("Error fetching related blogs: ", error);
+  }
+}
 
-            <!-- Read More Button -->
-            <a href="/views/blog?b=${doc.id}" class="btn btn-outline-primary" aria-label="Read more about ${blog.title}">Read More</a>
-        </div>
-    </div>
-`;
-            blogContainer.appendChild(blogCard);
-          });
-        } catch (error) {
+// Function to display blogs
+function displayBlogs() {
+  const blogsToShow = allBlogs.slice(displayedBlogs, displayedBlogs + blogsPerPage);
+  
+  blogsToShow.forEach(blog => {
+    const blogCard = document.createElement('div');
+    blogCard.classList.add('col-md-4', 'mb-4'); // Use Bootstrap column classes for spacing
+    blogCard.innerHTML = `
+      <div class="card blog-card shadow-sm">
+          <a href="#" data-bs-toggle="modal" data-bs-target="#blogModal" onclick="openModal('${blog.id}')">
+              <img src="${blog.imageUrl}" alt="${blog.title}" class="card-img-top" loading="lazy" />
+          </a>
+          <div class="card-body">
+              <h5 class="card-title text-primary">${blog.title}</h5>
+              <p class="card-text text-muted">${truncateText(blog.content, 80)}</p>
+              <a href="#" class="btn btn-outline-primary" onclick="openModal('${blog.id}')">Read More</a>
+          </div>
+      </div>
+    `;
+    blogContainer.appendChild(blogCard);
+  });
+
+  displayedBlogs += blogsToShow.length;
+
+  // Hide button if no more blogs to display
+  if (displayedBlogs >= allBlogs.length) {
+    showMoreButton.style.display = 'none'; // Hide the button if there are no more blogs
+  }
+}
+        
+// Function to load more blogs
+function loadMoreBlogs() {
+  displayBlogs();
+}
+
+// Function to open the modal and show full blog content
+function openModal(blogId) {
+  const blog = allBlogs.find(b => b.id === blogId);
+  const modalBody = document.getElementById('modalBody');
+  modalBody.innerHTML = `
+    <h5 class="modal-title">${blog.title}</h5>
+    <img src="${blog.imageUrl}" alt="${blog.title}" class="img-fluid" loading="lazy" />
+    <p>${blog.content}</p>
+  `;
+}
+
+} catch (error) {
           console.error("Error fetching related blogs: ", error);
         }
       }
+        
 
       const jobPageURL = window.location.href; // Use current page URL
       const companyName = jobData.company; // Assuming jobData has company information
