@@ -616,27 +616,57 @@ text-align: left;
   </div>
   
     <hr />
-    <div class="ml-3 mr-3">
-
-    <!-- Similar Jobs Section -->
-    <div class="similar-jobs mt-5">
-      <h3>Similar Jobs</h3>
-      <hr />
-      <div id="similarJobsContainer" class="row">
-        <!-- Dynamically insert similar jobs here -->
+    <div class="container mt-5"> <!-- Use a container for consistent padding -->
+      <!-- Similar Jobs Section -->
+      <div class="similar-jobs mb-5">
+          <h3 class="font-weight-bold">Similar Jobs</h3>
+          <hr class="my-2" />
+          <div id="similarJobsContainer" class="row">
+              <!-- Dynamically insert similar jobs here -->
+              <div class="col-md-4 mb-3"> <!-- Example job item -->
+                  <div class="card shadow-sm border-light">
+                      <div class="card-body">
+                          <h5 class="card-title">Job Title 1</h5>
+                          <p class="card-text">Short description of the job goes here.</p>
+                          <a href="#" class="btn btn-primary">View Job</a>
+                      </div>
+                  </div>
+              </div>
+              <!-- Repeat for more job items -->
+          </div>
       </div>
-    </div>
-
-    <hr />
-
-    <div class="related-blogs mt-5  ">
-      <h3>Related Articles</h3>
+  
       <hr />
-      <div id="blogContainer" class="row">
-        <!-- Blog links will be dynamically inserted here -->
+  
+      <!-- Related Articles Section -->
+      <div class="related-blogs">
+          <h3 class="font-weight-bold">Related Articles</h3>
+          <hr class="my-2" />
+          <div id="blogContainer" class="row">
+              <!-- Blog links will be dynamically inserted here -->
+              <div class="col-md-4 mb-3"> <!-- Example blog item -->
+                  <div class="card shadow-sm border-light">
+                      <div class="card-body">
+                          <h5 class="card-title">Article Title 1</h5>
+                          <p class="card-text">A brief excerpt from the article goes here.</p>
+                          <a href="#" class="btn btn-secondary">Read Article</a>
+                      </div>
+                  </div>
+              </div>
+              <!-- Repeat for more blog items -->
+          </div>
       </div>
-    </div>
-    </div>
+  </div>
+  
+
+
+
+
+
+
+
+
+
 
   </div>
 
