@@ -1230,30 +1230,7 @@ function filterByDeadline() {
 
 
 console.log("   job id   ",jobID)
-$('#sort-applications, #filter-status').on('change', debounce(() => {
-  fetchJobApplications(jobID);
-}, 300));
 
-// Utility: Debounce Function to Optimize Input Events
- debounce = (func, delay) => {
-  let timeout;
-  return (...args) => {
-      clearTimeout(timeout);
-      timeout = setTimeout(() => func.apply(this, args), delay);
-  };
-};
-
-// Utility: Throttle Function to Optimize Scroll Events (if needed)
-const throttle = (func, limit) => {
-  let inThrottle;
-  return (...args) => {
-      if (!inThrottle) {
-          func.apply(this, args);
-          inThrottle = true;
-          setTimeout(() => inThrottle = false, limit);
-      }
-  };
-};
 
 // Define the filtering function first
 const filterApplications = (applications, statusFilter) => {
@@ -1417,10 +1394,35 @@ function attachToggleJobTitles() {
   });
 }
 
-// Event Listeners for Sorting/Filtering
+
+
 $('#sort-applications, #filter-status').on('change', debounce(() => {
-  fetchJobApplications(/* Your job IDs here */);
-}, 300)); // Adjust delay as needed
+  fetchJobApplications(jobID);
+}, 300));
+
+// Utility: Debounce Function to Optimize Input Events
+ debounce = (func, delay) => {
+  let timeout;
+  return (...args) => {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => func.apply(this, args), delay);
+  };
+};
+
+// Utility: Throttle Function to Optimize Scroll Events (if needed)
+const throttle = (func, limit) => {
+  let inThrottle;
+  return (...args) => {
+      if (!inThrottle) {
+          func.apply(this, args);
+          inThrottle = true;
+          setTimeout(() => inThrottle = false, limit);
+      }
+  };
+};
+
+
+
 
 // Action Buttons Event Listeners
 function attachActionButtons() {
