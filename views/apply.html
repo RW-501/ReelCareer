@@ -230,18 +230,23 @@
     // Load Custom Questions
     function loadCustomQuestions(customQuestions) { 
     const customQuestionsContainer = document.getElementById('customQuestionsContainer');
-    console.log("customQuestions ?????????/   ", customQuestions);
+    console.log("Custom Questions: ", customQuestions);
     
     // Clear any existing questions before loading new ones
     customQuestionsContainer.innerHTML = '';
 
+    if (!Array.isArray(customQuestions) || customQuestions.length === 0) {
+        customQuestionsContainer.innerHTML = '<p>No custom questions available.</p>';
+        return; // Exit if there are no questions
+    }
+
     customQuestions.forEach(question => {
         let inputElement;
         switch (question.type) {
-            case 'multiple-choice': // Match the type as per the DB
+            case 'multiple-choice':
                 inputElement = `<div class="form-group">
                                     <label>${question.question}</label>
-                                    ${question.options.map(option => `<div><input type="radio" name="${question.id}" value="${option}">${option}</div>`).join('')}
+                                    ${question.options ? question.options.map(option => `<div><input type="radio" name="${question.id}" value="${option}">${option}</div>`).join('') : ''}
                                 </div>`;
                 break;
             case 'text_area':
@@ -262,7 +267,8 @@
                                     <input type="text" class="form-control" id="${question.id}">
                                 </div>`;
                 break;
-            case 'statement': // Handle the 'statement' type
+            case 'statement':
+                // Display the statement as text, you might not need an input element for this type
                 inputElement = `<div class="form-group">
                                     <label>${question.question}</label>
                                     <p>${question.question}</p> <!-- Display statement as text -->
@@ -275,6 +281,7 @@
         customQuestionsContainer.insertAdjacentHTML('beforeend', inputElement);
     });
 }
+
 
 
 document.getElementById('previewApplication').addEventListener('click', () => {
