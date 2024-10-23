@@ -1164,8 +1164,52 @@ function getStatusColor(status) {
 
 
 
+
+
+
+let debounceTimer;
+
+$('#filter-salary, #filter-deadline').on('input change', function () {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(() => {
+        // Call the filtering logic functions
+        filterBySalary();
+        filterByDeadline();
+    }, 300); // Adjust the delay as necessary
+});
+
+// Filter job posts based on salary range input
+function filterBySalary() {
+    const minSalary = parseInt($('#min-salary').val()) || 0;
+    const maxSalary = parseInt($('#max-salary').val()) || Infinity;
+
+    $('.job-post').each(function () {
+        const salaryText = $(this).find('.job-details li:contains("Salary")').text();
+        const salary = parseInt(salaryText.replace(/[^0-9]/g, '')); // Extract number
+
+        // Toggle display based on salary range
+        $(this).toggle(salary >= minSalary && salary <= maxSalary);
+    });
+}
+
+// Filter job posts based on application deadline
+function filterByDeadline() {
+    const selectedDeadline = new Date($('#filter-deadline').val());
+
+    $('.job-post').each(function () {
+        const deadlineText = $(this).find('.job-details li:contains("Application Deadline")').text();
+        const deadline = new Date(deadlineText);
+        
+        // Toggle display if the job's deadline is before the selected deadline
+        $(this).toggle(deadline <= selectedDeadline || !deadlineText);
+    });
+}
+
+
+
+
 // Utility: Debounce Function to Optimize Input Events
-const debounce = (func, delay) => {
+ debounce = (func, delay) => {
   let timeout;
   return (...args) => {
       clearTimeout(timeout);
@@ -1375,50 +1419,6 @@ function requestTest(applicantID) {
 // fetchJobApplications(jobIDs);
 
 
-
-
-
-
-
-
-
-let debounceTimer;
-
-$('#filter-salary, #filter-deadline').on('input change', function () {
-    clearTimeout(debounceTimer);
-    debounceTimer = setTimeout(() => {
-        // Call the filtering logic functions
-        filterBySalary();
-        filterByDeadline();
-    }, 300); // Adjust the delay as necessary
-});
-
-// Filter job posts based on salary range input
-function filterBySalary() {
-    const minSalary = parseInt($('#min-salary').val()) || 0;
-    const maxSalary = parseInt($('#max-salary').val()) || Infinity;
-
-    $('.job-post').each(function () {
-        const salaryText = $(this).find('.job-details li:contains("Salary")').text();
-        const salary = parseInt(salaryText.replace(/[^0-9]/g, '')); // Extract number
-
-        // Toggle display based on salary range
-        $(this).toggle(salary >= minSalary && salary <= maxSalary);
-    });
-}
-
-// Filter job posts based on application deadline
-function filterByDeadline() {
-    const selectedDeadline = new Date($('#filter-deadline').val());
-
-    $('.job-post').each(function () {
-        const deadlineText = $(this).find('.job-details li:contains("Application Deadline")').text();
-        const deadline = new Date(deadlineText);
-        
-        // Toggle display if the job's deadline is before the selected deadline
-        $(this).toggle(deadline <= selectedDeadline || !deadlineText);
-    });
-}
 
 
 
