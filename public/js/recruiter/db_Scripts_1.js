@@ -1229,7 +1229,7 @@ function filterByDeadline() {
 
 
 
-console.log(jobId,"   job id   ",jobID)
+console.log("   job id   ",jobID)
 $('#sort-applications, #filter-status').on('change', debounce(() => {
   fetchJobApplications(jobID);
 }, 300));
