@@ -1331,6 +1331,13 @@ async function fetchJobApplications(jobIDs) {
 }
 
 
+const getBoostedStyle = (isBoosted) => {
+  if (isBoosted) {
+      return 'background-color: yellow; font-weight: bold;'; // Example boosted style
+  } else {
+      return ''; // No special style for non-boosted applications
+  }
+};
 
 
 // Group Applications by Job Title and Company
