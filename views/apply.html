@@ -228,42 +228,53 @@
 
 
     // Load Custom Questions
-    function loadCustomQuestions(customQuestions) {
-        const customQuestionsContainer = document.getElementById('customQuestionsContainer');
-        console.log("customQuestions ?????????/   ",customQuestions);
-     
-        customQuestions.forEach(question => {
-            let inputElement;
-            switch (question.type) {
-                case 'multiple_choice':
-                    inputElement = `<div class="form-group">
-                                        <label>${question.question}</label>
-                                        ${question.options.map(option => `<div><input type="radio" name="${question.id}" value="${option}">${option}</div>`).join('')}
-                                    </div>`;
-                    break;
-                case 'text_area':
-                    inputElement = `<div class="form-group">
-                                        <label>${question.question}</label>
-                                        <textarea class="form-control" id="${question.id}"></textarea>
-                                    </div>`;
-                    break;
-                case 'input_field':
-                    inputElement = `<div class="form-group">
-                                        <label>${question.question}</label>
-                                        <input type="text" class="form-control" id="${question.id}">
-                                    </div>`;
-                    break;
-                case 'future_test':
-                    // Placeholder for future question types
-                    inputElement = `<div class="form-group">
-                                        <label>${question.question}</label>
-                                        <input type="text" class="form-control" id="${question.id}">
-                                    </div>`;
-                    break;
-            }
-            customQuestionsContainer.insertAdjacentHTML('beforeend', inputElement);
-        });
-    }
+    function loadCustomQuestions(customQuestions) { 
+    const customQuestionsContainer = document.getElementById('customQuestionsContainer');
+    console.log("customQuestions ?????????/   ", customQuestions);
+    
+    // Clear any existing questions before loading new ones
+    customQuestionsContainer.innerHTML = '';
+
+    customQuestions.forEach(question => {
+        let inputElement;
+        switch (question.type) {
+            case 'multiple-choice': // Match the type as per the DB
+                inputElement = `<div class="form-group">
+                                    <label>${question.question}</label>
+                                    ${question.options.map(option => `<div><input type="radio" name="${question.id}" value="${option}">${option}</div>`).join('')}
+                                </div>`;
+                break;
+            case 'text_area':
+                inputElement = `<div class="form-group">
+                                    <label>${question.question}</label>
+                                    <textarea class="form-control" id="${question.id}"></textarea>
+                                </div>`;
+                break;
+            case 'input_field':
+                inputElement = `<div class="form-group">
+                                    <label>${question.question}</label>
+                                    <input type="text" class="form-control" id="${question.id}">
+                                </div>`;
+                break;
+            case 'future_test':
+                inputElement = `<div class="form-group">
+                                    <label>${question.question}</label>
+                                    <input type="text" class="form-control" id="${question.id}">
+                                </div>`;
+                break;
+            case 'statement': // Handle the 'statement' type
+                inputElement = `<div class="form-group">
+                                    <label>${question.question}</label>
+                                    <p>${question.question}</p> <!-- Display statement as text -->
+                                </div>`;
+                break;
+            default:
+                console.warn('Unknown question type:', question.type);
+                break;
+        }
+        customQuestionsContainer.insertAdjacentHTML('beforeend', inputElement);
+    });
+}
 
 
 document.getElementById('previewApplication').addEventListener('click', () => {
@@ -478,6 +489,8 @@ async function fetchJobAndCompanyInfo(jobDocRef) {
             <p>Location: ${companyData.location}</p>
         `;
         console.log("jobData.customQuestions   ",jobData.customQuestions,"  jobData.title  ",jobData.title);
+        console.log("Job Data:", jobData);
+console.log("Custom Questions:", jobData.customQuestions);
 
         loadCustomQuestions(jobData.customQuestions);
     } catch (error) {
