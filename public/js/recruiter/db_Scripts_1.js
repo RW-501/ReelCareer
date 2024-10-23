@@ -1500,45 +1500,6 @@ $('#search-applicant').on('input', function () {
 
 
 
-// Placeholder functions for actions
-function viewApplication(applicantID) {
-  updateApplicationViews(applicationID, recruiterID);
-
-    console.log(`Viewing application for: ${applicantID}    `+recruiterID);
-    // Logic to view application details
-}
-
-// Function to approve the application
-async function approveApplication(applicantId) {
-  try {
-      // Call the update function to change the status
-      await updateApplication(applicantId, { status: 'Approved' });
-
-      alert('Application approved successfully!');
-      // Refresh the list of applications after approval
-      fetchJobApplications(); // Call your function to refresh the applications list
-  } catch (error) {
-      console.error('Error approving application:', error);
-      alert('Error approving application. Please try again.');
-  }
-}
-
-// Function to reject the application
-async function rejectApplication(applicantId) {
-  try {
-      // Call the update function to change the status
-      await updateApplication(applicantId, { status: 'Rejected' });
-
-      alert('Application rejected successfully!');
-      // Refresh the list of applications after rejection
-      fetchJobApplications(); // Call your function to refresh the applications list
-  } catch (error) {
-      console.error('Error rejecting application:', error);
-      alert('Error rejecting application. Please try again.');
-  }
-}
-
-
 
 // Function to save the application data
 async function saveApplication(applicantId) {
@@ -1560,6 +1521,14 @@ async function saveApplication(applicantId) {
 }
 
 
+
+// Placeholder functions for actions
+function viewApplication(applicantID) {
+  updateApplicationViews(applicationID, recruiterID);
+
+    console.log(`Viewing application for: ${applicantID}    `+recruiterID);
+    // Logic to view application details
+}
 
 
 
