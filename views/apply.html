@@ -227,35 +227,43 @@
 
 
 
-    // Load Custom Questions
     function loadCustomQuestions(customQuestions) { 
     const customQuestionsContainer = document.getElementById('customQuestionsContainer');
-    console.log("Custom Questions: ", customQuestions);
+    console.log("Loading Custom Questions. Current content:", customQuestionsContainer.innerHTML);
     
-    // Clear any existing questions before loading new ones
-    customQuestionsContainer.innerHTML = '';
+    // Clear existing questions
+    customQuestionsContainer.innerHTML = ''; 
 
     if (!Array.isArray(customQuestions) || customQuestions.length === 0) {
-        customQuestionsContainer.innerHTML = '<p>No custom questions available.</p>';
-        return; // Exit if there are no questions
+        customQuestionsContainer.innerHTML = '<p class="text-muted">No custom questions available.</p>';
+        return; 
     }
 
+    let questionCount = 0; // Initialize question count
+
     customQuestions.forEach(question => {
-        let inputElement;
+        let inputElement; 
+        questionCount++; // Increment question count
         switch (question.type) {
             case 'multiple-choice':
-                inputElement = `<div class="form-group">
-                                    <label>${question.question}</label>
-                                    ${question.options ? question.options.map(option => `<div><input type="radio" name="${question.id}" value="${option}">${option}</div>`).join('') : ''}
+                inputElement = `<div class="form-group border rounded p-3 mb-4 shadow-sm bg-light">
+                                    <label class="font-weight-bold">Question #${questionCount}</label>
+                                    <hr>
+                                    <p>${question.question}</p>
+                                    <div class="custom-control custom-radio mb-2">
+                                        ${question.options.map(option => `
+                                            <input type="radio" id="${option}-${questionCount}" name="${question.id}" class="custom-control-input" value="${option}">
+                                            <label class="custom-control-label" for="${option}-${questionCount}">${option}</label>
+                                        `).join('')}
+                                    </div>
                                 </div>`;
-
-
                 break;
             case 'statement':
-                inputElement = `<div class="form-group">
-                                    <label>${question.question}</label>
-                                    <p>${question.question}</p> <!-- Display statement as text -->
-                                       <textarea class="form-control" id="${question.id}"></textarea>
+                inputElement = `<div class="form-group border rounded p-3 mb-4 shadow-sm bg-light">
+                                    <label class="font-weight-bold">Question #${questionCount}</label>
+                                    <hr/>
+                                    <p>${question.question}</p>
+                                    <textarea class="form-control" id="${question.id}" rows="3" placeholder="Your answer here..."></textarea>
                                 </div>`;
                 break;
             default:
@@ -265,6 +273,7 @@
         customQuestionsContainer.insertAdjacentHTML('beforeend', inputElement);
     });
 }
+
 
 
 
@@ -387,7 +396,7 @@ let userIdURL = '';
  userIdURL = getUserIdFromURL();
  jobId = getJobIdFromURL();
 
-console.log("jobId   ",jobId,"  userIdURL  ",userIdURL);
+//console.log("jobId   ",jobId,"  userIdURL  ",userIdURL);
 
 const jobDocRef = doc(db, 'Jobs', jobId); // Reference to the job document
 
@@ -474,12 +483,25 @@ async function fetchJobAndCompanyInfo(jobDocRef) {
         jobTitle = jobData.title;
 
         // Populate job information and company information
-        document.getElementById('jobPostedByArea').innerHTML = `
-            <p>Job Title: ${jobData.title}</p>
-            <p>Company: ${companyData.name}</p>
-            <p>Location: ${companyData.location}</p>
-        `;
-        console.log("jobData.customQuestions   ",jobData.customQuestions,"  jobData.title  ",jobData.title);
+        document.getElementById('jobPostedByArea').innerHTML = ` 
+    <div class="card border-primary mb-4 shadow-sm">
+        <div class="card-header bg-primary text-white font-weight-bold">
+            Job Details
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">${jobData.title}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">${companyData.name}</h6>
+            <p class="card-text"><strong>Location:</strong> ${companyData.location}</p>
+            <p class="card-text"><strong>Industry:</strong> ${jobData.industry}</p>
+            <p class="card-text"><strong>Type:</strong> ${jobData.type}</p>
+            <p class="card-text"><strong>Salary:</strong> ${jobData.salary} ${jobData.salaryPayTime ? jobData.salaryPayTime : ''}</p>
+            <p class="card-text"><strong>Posted on:</strong> ${new Date(jobData.createdAt.seconds * 1000).toLocaleDateString()}</p>
+            <a href="apply.html?jobId=${jobData.id}" class="btn btn-primary">Apply Now</a>
+        </div>
+    </div>
+`;
+
+
         console.log("Job Data:", jobData);
 console.log("Custom Questions:", jobData.customQuestions);
 
