@@ -1419,27 +1419,27 @@ async function fetchJobApplications(jobIDs) {
           $('#application-posts-container').append(jobSection);
       });
 
-
+      const renderJobWithApplicants = (jobTitle, companyName, applicants) => {
+        const jobHTML = renderJobTitleWithApplicants(jobTitle, companyName, applicants);
+        document.querySelector('#jobsContainer').innerHTML += jobHTML; // Assuming there's a container for jobs
+        
+        
+        
+        console.log("?!!!!!!!!!!!!!11???????");
+      
+        // Attach event listeners after rendering
+        attachToggleJobTitles();
+        attachActionButtons();
+      
+      
+      
+      }
+      
   } catch (error) {
       console.error("Error fetching applications:", error);
       $('#application-posts-container').html('<p>Error fetching applications. Please try again later.</p>');
   }
 
-const renderJobWithApplicants = (jobTitle, companyName, applicants) => {
-  const jobHTML = renderJobTitleWithApplicants(jobTitle, companyName, applicants);
-  document.querySelector('#jobsContainer').innerHTML += jobHTML; // Assuming there's a container for jobs
-  
-  
-  
-  console.log("?!!!!!!!!!!!!!11???????");
-
-  // Attach event listeners after rendering
-  attachToggleJobTitles();
-  attachActionButtons();
-
-
-
-}
 
 
 };
