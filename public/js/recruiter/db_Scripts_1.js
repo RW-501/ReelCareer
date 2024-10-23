@@ -1378,7 +1378,7 @@ async function fetchJobApplications(jobIDs) {
           const applicationHTML = renderApplicationHTML(app); // Render the HTML for the application
           renderApplication(app.applicantId, applicationStatuses[app.applicantId], applicationHTML); // Call renderApplication with the status
       });
-      
+
       // Make sure the sorting and filtering dropdowns are available
       const sortDropdown = $('#sort-applications');
       const filterDropdown = $('#filter-status');
@@ -1677,6 +1677,9 @@ async function approveApplication(applicantId) {
 // After approval or rejection
 const applicationPost = document.querySelector(`.application-post[data-applicant-id="${applicantId}"]`);
 applicationPost.querySelector('.applicant-name').innerHTML += ' (Approved)';
+  const applicationHTML = renderApplicationHTML({ ...applicationData, status: 'approved' }); // Generate HTML for the approved application
+        renderApplication(applicantId, 'approved', applicationHTML); // Render the application with new status
+
 
       showToast('Application approved successfully!', 'success');
       // Optionally, you can refresh the list of applications after approval
@@ -1697,6 +1700,9 @@ async function rejectApplication(applicantId) {
 // After approval or rejection
 const applicationPost = document.querySelector(`.application-post[data-applicant-id="${applicantId}"]`);
 applicationPost.querySelector('.applicant-name').innerHTML += ' (Rejected)';
+        
+const applicationHTML = renderApplicationHTML({ ...applicationData, status: 'rejected' }); // Generate HTML for the rejected application
+        renderApplication(applicantId, 'rejected', applicationHTML); // Render the application with new status
 
       showToast('Application rejected successfully!', 'success');
       // Optionally, you can refresh the list of applications after rejection
