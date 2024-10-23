@@ -1,12 +1,23 @@
+# Enable the Rewrite Engine
 RewriteEngine On
 
 # Redirect all HTTP requests to HTTPS
 RewriteCond %{HTTPS} off
 RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
-# Redirect reelcareer.co and www.reelcareer.co to https://www.ReelCareer.co
+# Redirect non-www to www version of the site
 RewriteCond %{HTTP_HOST} ^reelcareer\.co [NC]
 RewriteRule ^ https://www.ReelCareer.co%{REQUEST_URI} [L,R=301]
 
+# Redirect www to the canonical URL (if needed)
 RewriteCond %{HTTP_HOST} ^www\.reelcareer\.co [NC]
 RewriteRule ^ https://www.ReelCareer.co%{REQUEST_URI} [L,R=301]
+
+# Rewrite rules for masking "/views/" in URLs
+RewriteCond %{REQUEST_URI} !^/views/ [NC]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ /views/$1 [L]
+
+# Custom Redirect for the root home page
+RewriteRule ^$ index.php [L]
