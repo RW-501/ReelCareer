@@ -30,141 +30,168 @@
     <form id="applicationForm" class="shadow p-4 rounded bg-white" novalidate>
         <!-- Progress Indicator -->
         <div class="form-group  mb-3" >
-            <div id="jobPostedByArea" class="" ></div>
-        </div>
-<hr/>
-        <!-- Applicant Information -->
-        <h3 class="border-bottom pb-2">Applicant Information</h3>
-        <div class="form-group">
-            <label for="firstName">First Name</label>
-            <input type="text" id="firstName" class="form-control" required>
-            <div class="invalid-feedback">Please enter your first name.</div>
-        </div>
-        <div class="form-group">
-            <label for="lastName">Last Name</label>
-            <input type="text" id="lastName" class="form-control" required>
-            <div class="invalid-feedback">Please enter your last name.</div>
-        </div>
-        <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" id="email" class="form-control" required>
-            <div class="invalid-feedback">Please enter a valid email address.</div>
-        </div>
-        <div class="form-group">
-            <label for="phone">Phone</label>
-            <input type="tel" id="phone" class="form-control" required>
-            <div class="invalid-feedback">Please enter a valid phone number.</div>
-        </div>
+            <div id="jobPostedByArea" class="mb-4"></div>
+            <hr/>
+            
+            <!-- Applicant Information -->
+            <h3 class="border-bottom pb-2 mb-4">Applicant Information</h3>
+            
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <div class="form-group">
+                        <label for="firstName" class="font-weight-bold">First Name</label>
+                        <input type="text" id="firstName" class="form-control" required>
+                        <div class="invalid-feedback">Please enter your first name.</div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="form-group">
+                        <label for="lastName" class="font-weight-bold">Last Name</label>
+                        <input type="text" id="lastName" class="form-control" required>
+                        <div class="invalid-feedback">Please enter your last name.</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group mb-3">
+                <label for="email" class="font-weight-bold">Email</label>
+                <input type="email" id="email" class="form-control" required>
+                <div class="invalid-feedback">Please enter a valid email address.</div>
+            </div>
+            
+            <div class="form-group mb-4">
+                <label for="phone" class="font-weight-bold">Phone</label>
+                <input type="tel" id="phone" class="form-control" required>
+                <div class="invalid-feedback">Please enter a valid phone number.</div>
+            </div>
+            
+            <!-- Add a Submit Button 
+            <div class="text-center mb-4">
+                <button type="submit" class="btn btn-primary btn-lg">Submit Application</button>
+            </div>
+            -->
 
-        <!-- Custom Questions -->
-        <h5 class="text-muted">The following questions are provided by the recruiter and are optional.</h5>
-        <div id="customQuestionsContainer"></div>
-
-        <!-- Nondisclosure Questions -->
-<!-- Optional EEO Self-Identification Section -->
-<div class="form-group mb-3">
-    <p class="text-muted"><strong>Voluntary Self-Identification</strong></p>
-    <p>This section is optional. Your response will not affect your application and is used solely for Equal Employment Opportunity (EEO) reporting purposes.</p>
-    
-    <!-- Gender (optional) -->
-    <label for="gender">Gender</label>
-    <select class="form-control" id="gender">
-        <option value="">Prefer not to answer</option>
-        <option value="Male">Male</option>
-        <option value="Female">Female</option>
-        <option value="Non-Binary">Non-Binary</option>
-    </select>
-
-    <!-- Race/Ethnicity (optional) -->
-    <label for="race">Race/Ethnicity</label>
-    <select class="form-control" id="race">
-        <option value="">Prefer not to answer</option>
-        <option value="White">White</option>
-        <option value="Black or African American">Black or African American</option>
-        <option value="Asian">Asian</option>
-        <option value="Hispanic or Latino">Hispanic or Latino</option>
-        <option value="Native American or Alaska Native">Native American or Alaska Native</option>
-    </select>
-
-    <!-- Veteran Status (optional) -->
-    <label for="veteran">Veteran Status</label>
-    <select class="form-control" id="veteran">
-        <option value="">Prefer not to answer</option>
-        <option value="Yes">Yes</option>
-        <option value="No">No</option>
-    </select>
-
-    <!-- Disability (optional) -->
-    <label for="disability">Disability Status</label>
-    <select class="form-control" id="disability">
-        <option value="">Prefer not to answer</option>
-        <option value="Yes">Yes</option>
-        <option value="No">No</option>
-    </select>
-</div>
-
-
-<div class="form-group">
-    <div class="form-check">
-        <input type="checkbox" id="shareInfo" required class="form-check-input">
-        <label for="shareInfo" class="form-check-label">
-            I consent to the collection and sharing of my personal information as described in the 
-            <a href="#" class="text-primary">Privacy Policy</a>.
-        </label>
-    </div>
-    
-    <div class="form-group mt-3">
-        <label for="disclosureName" class="form-label">Your Name</label>
-        <input type="text" id="disclosureName" placeholder="Enter your name" class="form-control" required>
-    </div>
-    
-    <div class="form-group mt-3">
-        <label for="disclosureDate" class="form-label">Date</label>
-        <input type="date" id="disclosureDate" class="form-control" required>
-    </div>
-</div>
+            <!-- Custom Questions -->
+            <h5 class="text-muted text-center mb-3">The following questions are provided by the recruiter and are optional.</h5>
+            <div id="customQuestionsContainer" class="mb-4"></div>
+            
+            <!-- Nondisclosure Questions -->
+            <div class="form-group mb-4">
+                <p class="text-muted font-weight-bold">Voluntary Self-Identification</p>
+                <p>This section is optional. Your response will not affect your application and is used solely for Equal Employment Opportunity (EEO) reporting purposes.</p>
+                
+                <!-- Gender (optional) -->
+                <label for="gender" class="font-weight-bold">Gender</label>
+                <select class="form-control" id="gender">
+                    <option value="">Prefer not to answer</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Non-Binary">Non-Binary</option>
+                </select>
+            
+                <!-- Race/Ethnicity (optional) -->
+                <label for="race" class="font-weight-bold mt-3">Race/Ethnicity</label>
+                <select class="form-control" id="race">
+                    <option value="">Prefer not to answer</option>
+                    <option value="White">White</option>
+                    <option value="Black or African American">Black or African American</option>
+                    <option value="Asian">Asian</option>
+                    <option value="Hispanic or Latino">Hispanic or Latino</option>
+                    <option value="Native American or Alaska Native">Native American or Alaska Native</option>
+                </select>
+            
+                <!-- Veteran Status (optional) -->
+                <label for="veteran" class="font-weight-bold mt-3">Veteran Status</label>
+                <select class="form-control" id="veteran">
+                    <option value="">Prefer not to answer</option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                </select>
+            
+                <!-- Disability (optional) -->
+                <label for="disability" class="font-weight-bold mt-3">Disability Status</label>
+                <select class="form-control" id="disability">
+                    <option value="">Prefer not to answer</option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                </select>
+            </div>
+            
+            <!-- Consent Section -->
+            <div class="form-group mb-4">
+                <div class="form-check">
+                    <input type="checkbox" id="shareInfo" required class="form-check-input">
+                    <label for="shareInfo" class="form-check-label">
+                        I consent to the collection and sharing of my personal information as described in the 
+                        <a href="#" class="text-primary">Privacy Policy</a>.
+                    </label>
+                </div>
+            </div>
+            
+            <!-- Disclosure Section -->
+            <div class="form-group mt-4">
+                <label for="disclosureName" class="form-label font-weight-bold">Your Name</label>
+                <input type="text" id="disclosureName" placeholder="Enter your name" class="form-control" required>
+            </div>
+            
+            <div class="form-group mb-4">
+                <label for="disclosureDate" class="form-label font-weight-bold">Date</label>
+                <input type="date" id="disclosureDate" class="form-control" required>
+            </div>
+            
 
 
         <!-- Resume Submission Options -->
-        <h3 class="border-bottom pb-2">Resume Submission</h3>
+       <div class="container mt-5">
+    <h3 class="border-bottom pb-2 mb-4">Resume Submission</h3>
+    
+    <form>
+        <!-- Note to Recruiter -->
         <div class="form-group">
-            <label for="noteToRecruiter">Note to Recruiter</label>
+            <label for="noteToRecruiter" class="font-weight-bold">Note to Recruiter</label>
             <textarea id="noteToRecruiter" class="form-control" rows="3" placeholder="Write a brief note to the recruiter..."></textarea>
         </div>
+        
+        <!-- Portfolio URL -->
         <div class="form-group">
-            <label for="portfolio">Portfoio</label>
-            <input type="url" id="portfolio" class="form-control" >
-            <div class="invalid-feedback">Please enter your Portfio Url</div>
+            <label for="portfolio" class="font-weight-bold">Portfolio</label>
+            <input type="url" id="portfolio" class="form-control" placeholder="https://yourportfolio.com">
+            <div class="invalid-feedback">Please enter your Portfolio URL.</div>
         </div>
+        
+        <!-- Video Resume Upload -->
         <div class="form-group">
-            <label for="videoResumeUpload">Upload Video Resume (optional)</label>
+            <label for="videoResumeUpload" class="font-weight-bold">Upload Video Resume (optional)</label>
             <input type="file" id="videoResumeUpload" class="form-control-file">
             <button type="button" id="createVideoResume" class="btn btn-link text-primary">Create One</button>
         </div>
+        
+        <!-- Resume Upload -->
         <div class="form-group">
-            <label for="resumeUpload">Upload New Resume <span class="text-danger">*</span></label>
+            <label for="resumeUpload" class="font-weight-bold">Upload New Resume <span class="text-danger">*</span></label>
             <input type="file" id="resumeUpload" class="form-control-file" required>
             <div class="invalid-feedback">Please upload your resume.</div>
         </div>
-
-        <div class="form-group text-center">
+        
+        <!-- Action Buttons -->
+        <div class="form-group text-center mt-4">
             <button type="button" id="boostApplication" class="btn btn-warning btn-lg mx-2">Boost Application</button>
             <button type="button" id="previewApplication" class="btn btn-info btn-lg mx-2">Preview Application</button>
             <button type="button" id="saveForLater" class="btn btn-secondary btn-lg mx-2">Save for Later</button>
             <button type="submit" id="submitApplication" class="btn btn-success btn-lg mx-2">Submit Application</button>
         </div>
-
+        
         <!-- Job Posted By Area -->
-        <h3 class="border-bottom pb-2">Job Posted By</h3>
-        <div id="jobPostedByArea" class="bg-light p-3 rounded mb-3"></div>
+        <h3 class="border-bottom pb-2 mb-4">Job Posted By</h3>
+        <div id="jobPostedByArea" class="bg-light p-3 rounded mb-4"></div>
+        
+        <!-- Recruiter Interaction Buttons -->
         <div class="d-flex justify-content-between mt-4">
             <button type="button" id="messageRecruiter" class="btn btn-primary">Message Recruiter</button>
             <button type="button" id="backToJobPost" class="btn btn-light">Back to Job Post</button>
         </div>
     </form>
 </div>
-
-
 
 <style>
     /* Custom styles for enhanced UI/UX */
@@ -288,6 +315,7 @@ const noteToRecruiter = document.getElementById('noteToRecruiter').value;
 console.log("previewApplication   ");
 
 // Collecting custom questions responses
+// Collect responses from custom questions
 const customQuestionsResponses = [];
 const customQuestions = document.querySelectorAll('#customQuestionsContainer input');
 
@@ -298,49 +326,72 @@ customQuestions.forEach(question => {
     });
 });
 
-// Create preview content
-const previewContent = `
-    <h3>Application Preview</h3>
-    <p><strong>First Name:</strong> ${firstName}</p>
-    <p><strong>Last Name:</strong> ${lastName}</p>
-    <p><strong>Email:</strong> ${email}</p>
-    <p><strong>Phone:</strong> ${phone}</p>
-    <p><strong>Note to Recruiter:</strong> ${noteToRecruiter}</p>
-    <h4>Custom Questions</h4>
-    <ul>
-        ${customQuestionsResponses.map(response => `<li>${response.questionId}: ${response.answer}</li>`).join('')}
-    </ul>
-`;
+// Function to create and display preview modal
+function showPreviewModal() {
+    // Get values from form fields
+    const firstName = document.getElementById('firstName').value;
+    const lastName = document.getElementById('lastName').value;
+    const email = document.getElementById('email').value;
+    const phone = document.getElementById('phone').value;
+    const noteToRecruiter = document.getElementById('noteToRecruiter').value;
 
-// Display the preview in a modal or a new section
-const previewModal = document.createElement('div');
-previewModal.className = 'modal fade';
-previewModal.innerHTML = `
-<!-- Preview Area -->
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Application Preview</h5>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-            <div class="modal-body">
-                ${previewContent}
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+    // Create preview content
+    const previewContent = `
+        <h3 class="text-primary">Application Preview</h3>
+        <p><strong>First Name:</strong> ${firstName}</p>
+        <p><strong>Last Name:</strong> ${lastName}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Phone:</strong> ${phone}</p>
+        <p><strong>Note to Recruiter:</strong> ${noteToRecruiter || 'No note provided.'}</p>
+        <h4 class="mt-3">Custom Questions</h4>
+        <ul class="list-group">
+            ${customQuestionsResponses.map(response => `
+                <li class="list-group-item">
+                    <strong>${response.questionId}:</strong> ${response.answer || 'No response'}
+                </li>
+            `).join('')}
+        </ul>
+    `;
+
+    // Create modal structure
+    const previewModal = document.createElement('div');
+    previewModal.className = 'modal fade show';
+    previewModal.style.display = 'block'; // Show modal immediately
+    previewModal.innerHTML = `
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Application Preview</h5>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    ${previewContent}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-success" id="confirmSubmission">Confirm Submission</button>
+                </div>
             </div>
         </div>
-    </div>
-`;
+    `;
 
-document.body.appendChild(previewModal);
-previewModal.classList.add('show');
+    // Append modal to the body
+    document.body.appendChild(previewModal);
+
+    // Add event listener to the confirm button
+    document.getElementById('confirmSubmission').addEventListener('click', () => {
+        // Logic for final submission can go here
+        alert('Application submitted successfully!');
+        document.body.removeChild(previewModal); // Remove modal after submission
+    });
+
+    // Close modal on close button click
+    previewModal.querySelector('.close').addEventListener('click', () => {
+        document.body.removeChild(previewModal); // Remove modal when closed
+    });
+}
+
 });
-
-
-
-
-
   
 
 
@@ -491,15 +542,22 @@ async function fetchJobAndCompanyInfo(jobDocRef) {
         <div class="card-body">
             <h5 class="card-title">${jobData.title}</h5>
             <h6 class="card-subtitle mb-2 text-muted">${companyData.name}</h6>
-            <p class="card-text"><strong>Location:</strong> ${companyData.location}</p>
-            <p class="card-text"><strong>Industry:</strong> ${jobData.industry}</p>
-            <p class="card-text"><strong>Type:</strong> ${jobData.type}</p>
-            <p class="card-text"><strong>Salary:</strong> ${jobData.salary} ${jobData.salaryPayTime ? jobData.salaryPayTime : ''}</p>
+            <div class="d-flex justify-content-between">
+                <p class="card-text"><strong>Location:</strong> ${companyData.location}</p>
+                <p class="card-text"><strong>Type:</strong> ${jobData.type}</p>
+            </div>
+            <div class="d-flex justify-content-between">
+                <p class="card-text"><strong>Industry:</strong> ${jobData.industry}</p>
+                <p class="card-text"><strong>Salary:</strong> ${jobData.salary} ${jobData.salaryPayTime ? jobData.salaryPayTime : ''}</p>
+            </div>
             <p class="card-text"><strong>Posted on:</strong> ${new Date(jobData.createdAt.seconds * 1000).toLocaleDateString()}</p>
-            <a href="apply.html?jobId=${jobData.id}" class="btn btn-primary">Apply Now</a>
+            <div class="text-center">
+                <a href="job-detail.html?jobId=${jobData.doc.id}" class="btn btn-primary btn-lg">View More Details</a>
+            </div>
         </div>
     </div>
 `;
+
 
 
         console.log("Job Data:", jobData);
