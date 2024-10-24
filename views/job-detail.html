@@ -1007,8 +1007,25 @@ if (!jobTags || jobTags.length === 0) {
 
 
 
+
+
+
+
+          document.addEventListener('load', () => {
+            console.log('load  norm ?????????????');
+
+loadRelatedBlogs(jobTags, 'blogContainer');
+});
+
+
+          document.addEventListener('load', () => {
+            console.log('load  doc ?????????????');
+
+document.loadRelatedBlogs(jobTags, 'blogContainer');
+});
+
           window.addEventListener('load', () => {
-            console.log('load ?????????????');
+            console.log('load win ?????????????');
 
 window.loadRelatedBlogs(jobTags, 'blogContainer');
 });
