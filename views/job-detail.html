@@ -1360,7 +1360,7 @@ if (cancelBtn) {
 
 
 
-document.addEventListener('load', () => {
+window.addEventListener('load', () => {
   console.log('load win ?????????????');
 const jobTags = document.getElementById('tag-list').textContent;
 document.loadRelatedBlogs(jobTags, 'blogContainer');
