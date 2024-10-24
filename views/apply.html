@@ -735,7 +735,7 @@ async function fetchJobAndCompanyInfo(jobDocRef) {
             </div>
             <p class="card-text"><strong>Posted on:</strong> ${new Date(jobData.createdAt.seconds * 1000).toLocaleDateString()}</p>
             <div class="text-center">
-                <a href="job-detail.html?jobId=${jobId}" class="btn btn-primary btn-lg">View More Details</a>
+                <a href="job-detail?id=${jobId}" class="btn btn-primary btn-lg">View More Details</a>
             </div>
         </div>
     </div>
