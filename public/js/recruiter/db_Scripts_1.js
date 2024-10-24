@@ -1412,7 +1412,7 @@ console.log("Final status: ", statusValue);
       const sortCriteria = sortDropdown.val() || ''; // Default to empty
       const filterCriteria = filterDropdown.val() || ''; // Default to empty
 
-      console.log("filterCriteria ", filterCriteria);  
+     // console.log("filterCriteria ", filterCriteria);  
 
       // If no filter is applied, just use the applications as they are
       let filteredApplications = applications;
@@ -1543,7 +1543,7 @@ $(function () {
 function renderApplication(applicantId, status, applicationHTML) {
 
   console.log("status  ",status);
-  console.log("applicationHTML  ",applicationHTML);
+ // console.log("applicationHTML  ",applicationHTML);
 
   const sectionIdMap = {
       'Approved': '#approvedApplicationsContainer',
@@ -1553,7 +1553,7 @@ function renderApplication(applicantId, status, applicationHTML) {
   };
 
   const container = document.querySelector(`${sectionIdMap[status]} .application-section`);
- // container.innerHTML += applicationHTML;
+  container.innerHTML += applicationHTML;
 }
 
 // Example of filtering and sorting logic
