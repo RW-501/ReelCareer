@@ -290,7 +290,7 @@ function addStyles() {
            <strong class="muted" style="
       text-align: center;
       display: block;
-  ">Web Dev, Video Editor</strong>
+  ">Web Dev,<br/> Video Editor</strong>
 
           <strong style="
       text-align: center;
