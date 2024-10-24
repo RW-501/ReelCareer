@@ -1438,6 +1438,8 @@ async function fetchJobApplications(jobIDs) {
 
       // Render job titles and applicants
       $('#application-posts-container').empty();
+      console.log("Object  ",Object);
+//applications
       Object.entries(groupedApplications).forEach(([key, applicants]) => {
           const [jobTitle, companyName] = key.split('|');
           const jobSection = renderJobTitleWithApplicants(jobTitle, companyName, applicants);
