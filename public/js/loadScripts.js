@@ -633,13 +633,13 @@ async function loadRelatedBlogs(jobTags, containerId) {
               blogCard.classList.add('col-md-4', 'mb-4'); // Use Bootstrap column classes for spacing
               blogCard.innerHTML = `
                 <div class="card blog-card shadow-sm">
-                    <a href="#" data-bs-toggle="modal" data-bs-target="#blogModal" onclick="openModal('${blog.id}')">
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#blogModal" onclick="openBlogModal('${blog.id}')">
                         <img src="${blog.imageUrl}" alt="${blog.title}" class="card-img-top" loading="lazy" />
                     </a>
                     <div class="card-body">
                         <h5 class="card-title text-primary">${blog.title}</h5>
                         <p class="card-text text-muted">${truncateText(blog.content, 80)}</p>
-                        <a href="#" class="btn btn-outline-primary" onclick="openModal('${blog.id}')">Read More</a>
+                        <a href="#" class="btn btn-outline-primary" onclick="openBlogModal('${blog.id}')">Read More</a>
                     </div>
                 </div>
               `;
@@ -661,10 +661,10 @@ async function loadRelatedBlogs(jobTags, containerId) {
       }
 
       // Function to open the modal and show full blog content
-      async function openModal(blogId) {
+      async function openBlogModal(blogId) {
           const blog = allBlogs.find(b => b.id === blogId);
           const modalTitle = document.getElementById('blogModalLabel');
-          const modalBody = document.getElementById('modalBody');
+          const modalBody = document.getElementById('modalBlogBody');
 
           // Set the modal title and body content
           modalTitle.textContent = blog.title;
