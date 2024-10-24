@@ -1014,16 +1014,7 @@ console.log("jobTags ?????????/! ", jobTags);
 
 // Proceed with your Firestore query
 if (jobTags.length > 0) {
-    // Use jobTags in your Firestore query here
-    try {
-        const q = query(blogsRef, where('tags', 'array-contains-any', jobTags));
-        const querySnapshot = await getDocs(q);
-        // Process your querySnapshot here
-    } catch (error) {
-        console.error("Error fetching related blogs:", error);
-    }
-} else {
-    console.error("No valid job tags available for Firestore query.");
+
 }
 
 
