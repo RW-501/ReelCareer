@@ -554,6 +554,7 @@ boosted
             document.getElementById("boostedArea").style.display = "none";
             document.getElementById("nonBoostedArea").style.display = "block";
         }
+
         showLoader(1000);
 
         $("#jobModal").modal("hide");
@@ -690,6 +691,8 @@ const uniqueCompanyIds = new Set();
 // Filter jobPosts to create moderatedCompanies with unique company IDs
 let moderatedCompanies = jobPosts.filter(job => {
     // Check if the companyId is already in the Set
+    let companyID = removeUndefined(job.companyId);
+
     if (!uniqueCompanyIds.has(companyID)) {
         uniqueCompanyIds.add(companyID); // Add the companyId to the Set
         return true; // Keep this job post
