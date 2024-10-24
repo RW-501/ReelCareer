@@ -1472,10 +1472,9 @@ window.addEventListener('load', function() {
 
               const blogModal =  document.getElementById('blogModal');
 
-              if(!blogModal){
                 createBlogModal();
 
-              }else
+             
 
 
               // Set the modal title and body content
