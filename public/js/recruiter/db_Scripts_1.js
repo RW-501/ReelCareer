@@ -1139,58 +1139,34 @@ $('#search-company').on('input', function () {
 function getStatusIcon(status) {
   let iconClass;
 
-  // Ensure status is a valid string before calling toLowerCase
   if (typeof status === 'string') {
       switch (status.toLowerCase()) {
-          case 'active':
-              iconClass = 'fas fa-check-circle'; // Active
-              break;
-          case 'paused':
-              iconClass = 'fas fa-pause-circle'; // Paused
-              break;
-          case 'deactivated':
-              iconClass = 'fas fa-times-circle'; // Deactivated
-              break;
-          case 'approved':
-              iconClass = 'fas fa-thumbs-up'; // Approved
-              break;
-          case 'rejected':
-              iconClass = 'fas fa-thumbs-down'; // Rejected
-              break;
-          case 'under review':
-              iconClass = 'fas fa-hourglass-half'; // Under Review
-              break;
-          default:
-              iconClass = 'fas fa-question-circle'; // Unknown status
-              break;
+          case 'active': iconClass = 'fas fa-check-circle'; break;
+          case 'paused': iconClass = 'fas fa-pause-circle'; break;
+          case 'deactivated': iconClass = 'fas fa-times-circle'; break;
+          case 'approved': iconClass = 'fas fa-thumbs-up'; break;
+          case 'rejected': iconClass = 'fas fa-thumbs-down'; break;
+          case 'under review': iconClass = 'fas fa-hourglass-half'; break;
+          default: iconClass = 'fas fa-question-circle'; break;
       }
   } else {
-      iconClass = 'fas fa-question-circle'; // Default for invalid status
+      iconClass = 'fas fa-question-circle';
   }
 
-  return iconClass; // Return the icon class
+  return iconClass;
 }
 
 function getStatusColor(status) {
-  switch (status) {
-      case 'active':
-          return 'green';
-      case 'paused':
-          return 'yellow'; // Adjust as needed
-      case 'deactivated':
-          return 'red';
-      case 'approved':
-          return 'blue'; // Approved color
-      case 'rejected':
-          return 'darkred'; // Rejected color
-      case 'under review':
-          return 'orange'; // Under Review color
-      default:
-          return 'gray'; // Default for unknown status
+  switch (status.toLowerCase()) {
+      case 'active': return 'green';
+      case 'paused': return 'yellow';
+      case 'deactivated': return 'red';
+      case 'approved': return 'blue';
+      case 'rejected': return 'darkred';
+      case 'under review': return 'orange';
+      default: return 'gray';
   }
 }
-
-
 
 
 
@@ -1307,49 +1283,68 @@ const groupApplicationsByJob = (applications) => {
 const renderApplicationHTML = (application, jobTitle, companyName) => {
   const statusIcon = getStatusIcon(application.status);
   const statusColor = getStatusColor(application.status);
-  
+
+  const customQuestionsButton = application.customQuestions && application.customQuestions.length > 0
+    ? `<button class="btn btn-info mt-3 view-video-answers" data-applicant-id="${application.id}">View Video Question Answers</button>`
+    : '';
+
+  const statusButtons = {
+    "Under Review": application.status !== "Under Review"
+      ? `<button class="under-review-application btn btn-warning mt-3 ms-2" data-applicant-id="${application.id}">Under Review</button>`
+      : `<button class="btn btn-warning mt-3 ms-2" disabled title="Already under review">Already Under Review</button>`,
+    "Request Interview": application.status !== "Interview Requested"
+      ? `<button class="request-interview btn btn-secondary mt-3 ms-2" data-applicant-id="${application.id}">Request Interview</button>`
+      : `<button class="btn btn-secondary mt-3 ms-2" disabled title="Interview already requested">Interview Requested</button>`,
+    "Request Test": application.status !== "Test Requested"
+      ? `<button class="request-test btn btn-warning mt-3 ms-2" data-applicant-id="${application.id}">Request Test</button>`
+      : `<button class="btn btn-warning mt-3 ms-2" disabled title="Test already requested">Test Requested</button>`
+  };
+
   return `
-  <div class="application-post" data-applicant-id="${application.id}" style="border: ${getBoostedStyle(application.isBoosted)};">
-      <div class="card mb-3">
-          <div class="card-body">
-              <div class="d-flex justify-content-between">
-                  <h5 class="applicant-name card-title text-primary" style="color: ${statusColor}; cursor: pointer;">
-                      ${application.firstName} ${application.lastName} 
-                      <i class="${statusIcon}" style="margin-left: 5px;"></i>
-                  </h5>
-                  <button class="btn btn-success save-application" data-applicant-id="${application.id}">Save</button>
-              </div>
-              <div class="form-check mt-3">
-                  <input class="form-check-input select-applicant" type="checkbox" value="${application.id}" id="select-applicant-${application.id}">
-                  <label class="form-check-label" for="select-applicant-${application.id}">Select</label>
-              </div>
-              <div class="application-details" style="display: none;">
-                  <ul class="list-group list-group-flush">
-                      <li class="list-group-item"><strong>Job Title:</strong> ${jobTitle}</li>
-                      <li class="list-group-item"><strong>Company Name:</strong> ${companyName}</li>
-                      <li class="list-group-item"><strong>Apply Date:</strong> ${formatDate(application.applyDate)}</li>
-                      <li class="list-group-item"><strong>Email:</strong> ${application.email}</li>
-                      <li class="list-group-item"><strong>Phone:</strong> ${application.phone}</li>
-                      <li class="list-group-item" contenteditable="true">${application.notes || "No notes available."}</li>
-                  </ul>
-                  <a href="${application.resumeLink}" target="_blank" class="btn btn-link mt-2">Download Resume</a>
-                  <a href="${application.videoResumeLink}" target="_blank" class="btn btn-link">Download Video Resume</a>
-                  <button class="view-application btn btn-info mt-3" data-applicant-id="${application.id}">View Application</button>
-                  <button class="request-interview btn btn-secondary mt-3 ms-2" data-applicant-id="${application.id}">Request Interview</button>
-                  <button class="request-test btn btn-warning mt-3 ms-2" data-applicant-id="${application.id}">Request Test</button>
-                  <button class="under-review-application btn btn-warning mt-3 ms-2" data-applicant-id="${application.id}">Under Review</button>
-              </div>
-          </div>
-          <div class="card-footer text-end">
-              <button class="btn btn-danger reject-application" data-applicant-id="${application.id}">Reject</button>
-              <button class="btn btn-primary approve-application ms-2" data-applicant-id="${application.id}">Approve</button>
-          </div>
-      </div>
-  </div>
+    <div class="application-post" data-applicant-id="${application.id}" style="border: ${getBoostedStyle(application.isBoosted)};">
+        <div class="card mb-3">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <h5 class="applicant-name card-title text-primary" style="color: ${statusColor}; cursor: pointer;">
+                        ${application.firstName} ${application.lastName} 
+                        <i class="${statusIcon}" style="margin-left: 5px;"></i>
+                    </h5>
+                    <button class="btn btn-success save-application" data-applicant-id="${application.id}">Save</button>
+                </div>
+                <div class="form-check mt-3">
+                    <input class="form-check-input select-applicant" type="checkbox" value="${application.id}" id="select-applicant-${application.id}">
+                    <label class="form-check-label" for="select-applicant-${application.id}">Select</label>
+                </div>
+                <div class="application-details" style="display: none;">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><strong>Job Title:</strong> ${jobTitle}</li>
+                        <li class="list-group-item"><strong>Company Name:</strong> ${companyName}</li>
+                        <li class="list-group-item"><strong>Apply Date:</strong> ${formatDate(application.applyDate)}</li>
+                        <li class="list-group-item"><strong>Email:</strong> ${application.email}</li>
+                        <li class="list-group-item"><strong>Phone:</strong> ${application.phone}</li>
+                        <li class="list-group-item"><strong>Portfolio:</strong> <a href="${application.portfolio}" target="_blank">${application.portfolio || 'N/A'}</a></li>
+                        <li class="list-group-item"><strong>Feedback:</strong> ${application.feedback }</li>
+                        <li class="list-group-item"><strong>Status:</strong> <span class="badge" style="background-color: ${statusColor};">${application.status}</span></li>
+                        ${application.boostedApp ? '<span class="badge bg-warning text-dark">Boosted Application</span>' : ''}
+                        <li class="list-group-item" contenteditable="true">${application.notes || "No notes available."}</li>
+                    </ul>
+                    <a href="${application.resumeLink}" target="_blank" class="btn btn-link mt-2">Download Resume</a>
+                    <a href="${application.videoResumeLink}" target="_blank" class="btn btn-link">Download Video Resume</a>
+                    <button class="view-application btn btn-info mt-3" data-applicant-id="${application.id}">View Application</button>
+                    ${statusButtons["Request Interview"]}
+                    ${statusButtons["Request Test"]}
+                    ${statusButtons["Under Review"]}
+                    ${customQuestionsButton} <!-- Button for video answers -->
+                </div>
+            </div>
+            <div class="card-footer text-end">
+                <button class="btn btn-danger reject-application" data-applicant-id="${application.id}">Reject</button>
+                <button class="btn btn-primary approve-application ms-2" data-applicant-id="${application.id}">Approve</button>
+            </div>
+        </div>
+    </div>
   `;
 };
-
-
 
 
 
@@ -1444,37 +1439,35 @@ console.log("Final status: ", statusValue);
 const renderJobTitleWithApplicants = (jobTitle, companyName, boosted, applicants) => {
   const applicantsHTML = applicants.map(application => renderApplicationHTML(application, jobTitle, companyName)).join('');
 
-  if(boosted){
-  const jobHTML = `
-      <div class="job-title-section border colorBlue">
-          <h4 class="job-title" style="cursor: pointer;">${jobTitle} - ${companyName}</h4>
-          <div class="applicants-list" style="display: block;">
+  // Boosted job styling
+  if (boosted === 'true') {
+    const jobHTML = `
+      <div class="job-title-section boosted-job border border-primary shadow p-3 mb-3 rounded" style="background-color: #f0f8ff;">
+          <div class="d-flex justify-content-between align-items-center">
+              <h4 class="job-title text-primary font-weight-bold" style="cursor: pointer;">${jobTitle} - ${companyName}</h4>
+              <span class="badge bg-success text-white" style="font-size: 1rem;">Boosted</span>
+          </div>
+          <div class="applicants-list mt-3" style="display: block;">
               ${applicantsHTML}
           </div>
       </div>
-  `;
-
-  // Return the generated jobHTML to be appended elsewhere
-  return jobHTML;
-
-
-  }else{
-const jobHTML = `
-      <div class="job-title-section">
-          <h4 class="job-title" style="cursor: pointer;">${jobTitle} - ${companyName}</h4>
-          <div class="applicants-list" style="display: none;">
+    `;
+    return jobHTML;
+  } else {
+    const jobHTML = `
+      <div class="job-title-section non-boosted-job border border-secondary shadow-sm p-3 mb-3 rounded">
+          <h4 class="job-title text-secondary" style="cursor: pointer;">${jobTitle} - ${companyName}</h4>
+          <div class="applicants-list mt-2" style="display: none;">
               ${applicantsHTML}
           </div>
       </div>
-  `;
-
-  // Return the generated jobHTML to be appended elsewhere
-  return jobHTML;
-
+    `;
+    return jobHTML;
   }
-
-
 };
+
+
+
 
 Object.entries(groupedApplications).forEach(([key, applicants]) => {
   const [jobTitle, companyName, boosted] = key.split('|');
