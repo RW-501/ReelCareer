@@ -584,8 +584,7 @@ tagInput.addEventListener("focusout", () => {
     return { tagInput, clearTagsButton, tagsList, addTag };
 }
 
-
-async function loadRelatedBlogs(jobTags, containerId) {
+window.loadRelatedBlogs = async function(jobTags, containerId) {
   try {
       console.log("jobTags:", jobTags);
 
@@ -702,9 +701,15 @@ async function loadRelatedBlogs(jobTags, containerId) {
   } catch (error) {
       console.error("Error in loadRelatedBlogs:", error);
   }
-}
+};
+
+// Load the function only after the page has fully loaded
 
 /*
+window.addEventListener('load', () => {
+  // Call the function with job tags and the container ID when needed
+  // Example: window.loadRelatedBlogs(['tech', 'web development'], 'blogContainer');
+});
 const jobTags = ['tag1', 'tag2']; // Replace with your actual job tags
 loadRelatedBlogs(jobTags, 'blogContainer'); // Replace 'blogContainer' with your actual container ID
 
