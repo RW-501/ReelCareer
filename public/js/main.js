@@ -1421,13 +1421,13 @@ window.loadRelatedBlogs = async function(jobTags, containerId) {
               blogCard.classList.add('col-md-4', 'mb-4'); // Use Bootstrap column classes for spacing
               blogCard.innerHTML = `
                 <div class="card blog-card shadow-sm">
-                    <a href="#" data-bs-toggle="modal" data-bs-target="#blogModal" onclick="openBlogModal('${blog.id}')">
+                    <div data-bs-toggle="modal" data-bs-target="#blogModal" onclick="openBlogModal('${blog.id}')">
                         <img src="${blog.imageUrl}" alt="${blog.title}" class="card-img-top" loading="lazy" />
-                    </a>
+                    </div>
                     <div class="card-body">
                         <h5 class="card-title text-primary">${blog.title}</h5>
-                        <p class="card-text text-muted">${truncateText(blog.content, 80)}</p>
-                        <a href="#" class="btn btn-outline-primary" onclick="openBlogModal('${blog.id}')">Read More</a>
+                        <p class="card-text text-muted"><a href="https://reelcareer.co/views/blog?id=${blog.id}" >${truncateText(blog.content, 80)}</a></p>
+                        <div class="btn btn-outline-primary" onclick="openBlogModal('${blog.id}')">Read More</div>
                     </div>
                 </div>
               `;
@@ -1505,7 +1505,7 @@ loadRelatedBlogs(jobTags, 'blogContainer'); // Replace 'blogContainer' with your
 <div class="related-blogs">
     <h3 class="font-weight-bold">Related Articles</h3>
     <hr class="my-2" />
-    <div id="blogContainer" class="row">
+    <div id="blogContainer" class="row p-4">
         <!-- Blog links will be dynamically inserted here -->
     </div>
 </div>
