@@ -660,8 +660,8 @@ document.getElementById("boostJobBtn").addEventListener("click", function() {
 
 
 
-  const jobIDsList = []; // Initialize an empty array to store jobIDs
-  const companiesIDsList = []; // Initialize an empty array to store jobIDs
+  let jobIDsList = []; // Initialize an empty array to store jobIDs
+  let companiesIDsList = []; // Initialize an empty array to store jobIDs
           // Define jobIDsList and companiesIDsList
 
 
@@ -678,8 +678,10 @@ async function fetchRecruiterData(recruiterID) {
         if (userDoc.exists()) {
 
             let jobPosts = userDoc.data().jobPosts || [];
+
             jobPosts = removeUndefined(jobPosts);
-          
+         let companyID = removeUndefined(job.companyId);
+
         
 // Create a Set to track unique company IDs
 const uniqueCompanyIds = new Set();
@@ -687,8 +689,8 @@ const uniqueCompanyIds = new Set();
 // Filter jobPosts to create moderatedCompanies with unique company IDs
 let moderatedCompanies = jobPosts.filter(job => {
     // Check if the companyId is already in the Set
-    if (!uniqueCompanyIds.has(job.companyId)) {
-        uniqueCompanyIds.add(job.companyId); // Add the companyId to the Set
+    if (!uniqueCompanyIds.has(companyID)) {
+        uniqueCompanyIds.add(companyID); // Add the companyId to the Set
         return true; // Keep this job post
     }
     return false; // Skip this job post (duplicate)
@@ -737,7 +739,8 @@ function getStatusIcon(status) {
             // Loop through job posts and display them
             jobPosts.forEach(job => {
                 jobIDsList.push(job.jobID); // Push each jobID into the array
-    
+                jobIDsList = removeUndefined(jobIDsList);
+
                 // Determine if the job is boosted
                 const boostButtonText = job.boosted ? 'Boosted' : 'Boost';
                 const boostIcon = job.boosted ? 'fas fa-star' : 'fas fa-star-half-alt'; // Change icon based on boosted status
@@ -1360,6 +1363,8 @@ const renderJobTitleWithApplicants = (jobTitle, companyName, applicants) => {
 
 
 async function fetchJobApplications(jobIDs) {
+  jobIDs = removeUndefined(jobIDs);
+
   console.log("fetchJobApplications jobIDs", jobIDs);
 
   try {
