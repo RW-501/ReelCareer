@@ -24,7 +24,30 @@ body {
 
 
 }
-
+/* Flexbox for equal height */
+.blog-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between; /* Ensures spacing between items */
+  }
+  
+  .blog-card {
+    display: flex;
+    flex-direction: column; /* Stack content vertically */
+    flex: 1 1 30%; /* Cards take up 30% of the container width, adjust as needed */
+    max-width: 30%;
+    margin-bottom: 20px; /* Space between cards */
+  }
+  
+  .blog-card .card-body {
+    flex-grow: 1; /* Makes the body grow to fill available space */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Ensures content is spaced within the card */
+  }
+  
+  /* Ensure all images inside blog cards maintai
+  
 .noCopy {
     user-select: none !important;
 }
