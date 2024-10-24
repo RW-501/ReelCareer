@@ -1436,39 +1436,33 @@ console.log("Final status: ", statusValue);
       $('#application-posts-container').empty();
       console.log("Object  ",Object);
 //applications
-      Object.entries(groupedApplications).forEach(([key, applicants]) => {
-          const [jobTitle, companyName] = key.split('|');
-          const jobSection = renderJobTitleWithApplicants(jobTitle, companyName, applicants);
-          $('#application-posts-container').append(jobSection);
-      });
+Object.entries(groupedApplications).forEach(([key, applicants]) => {
+  const [jobTitle, companyName] = key.split('|');
+  const jobSection = renderJobTitleWithApplicants(jobTitle, companyName, applicants);
+  $('#application-posts-container').append(jobSection); // Assuming jQuery is used for DOM manipulation
+});
 
-      const renderJobTitleWithApplicants = (jobTitle, companyName, applicants) => {
-        const jobHTML = renderJobTitleWithApplicants(jobTitle, companyName, applicants);
 // Function to render Job Title with Applicants
 const renderJobTitleWithApplicants = (jobTitle, companyName, applicants) => {
   const applicantsHTML = applicants.map(application => renderApplicationHTML(application, jobTitle, companyName)).join('');
 
-
   return `
       <div class="job-title-section">
-          <h4 class="job-title" style="cursor: pointer;">${jobTitle}</h4>
+          <h4 class="job-title" style="cursor: pointer;">${jobTitle} - ${companyName}</h4>
           <div class="applicants-list" style="display: none;">
               ${applicantsHTML}
           </div>
       </div>
+     `;
 
-      
-  `;
+    // Return the generated jobHTML to be appended elsewhere
+    return jobHTML;
 
 };
 
-
-
-
-        document.querySelector('#application-posts-container').innerHTML += jobHTML; // Assuming there's a container for jobs
         
         
-      }
+      
       
         // Attach event listeners after rendering
         attachToggleJobTitles();
