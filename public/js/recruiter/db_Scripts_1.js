@@ -1716,7 +1716,7 @@ async function approveApplication(applicantId) {
 // After approval or rejection
 const applicationPost = document.querySelector(`.application-post[data-applicant-id="${applicantId}"]`);
 applicationPost.querySelector('.applicant-name').innerHTML += ' (Approved)';
-  const applicationHTML = renderApplicationHTML({ ...applicationData, status: 'approved' }); // Generate HTML for the approved application
+  const applicationHTML = renderApplicationHTML({ application, status: 'Approved' }); // Generate HTML for the approved application
         renderApplication(applicantId, 'Approved', applicationHTML); // Render the application with new status
 
 
@@ -1740,7 +1740,7 @@ async function rejectApplication(applicantId) {
 const applicationPost = document.querySelector(`.application-post[data-applicant-id="${applicantId}"]`);
 applicationPost.querySelector('.applicant-name').innerHTML += ' (Rejected)';
         
-const applicationHTML = renderApplicationHTML({ ...applicationData, status: 'rejected' }); // Generate HTML for the rejected application
+const applicationHTML = renderApplicationHTML({ application, status: 'Rejected' }); // Generate HTML for the rejected application
         renderApplication(applicantId, 'Rejected', applicationHTML); // Render the application with new status
 
       showToast('Application rejected successfully!', 'success');
