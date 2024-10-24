@@ -805,6 +805,8 @@ document.getElementById('closeModal').addEventListener('click', () => {
     messageModal.style.display = 'none'; // Hide modal
 });
 */
+
+/*
 // Handle message sending
 document.getElementById('sendMessage').addEventListener('click', async () => {
     const messageContent = sanitizeInput(document.getElementById('messageContent').value);
@@ -852,10 +854,13 @@ document.getElementById('sendMessage').addEventListener('click', async () => {
 });
 
 
+*/
 
 // Function to sanitize user input
 function sanitizeInput(input) {
-    return input.trim().replace(/<[^>]*>/g, '');
+   // return input.trim().replace(/<[^>]*>/g, '');
+
+   return input;
 }
 
 // Form Validation
@@ -941,6 +946,8 @@ async function submitApplication(boosted = false) {
             applyDate: new Date().toLocaleString(),
         };
 
+        console.log("applicationData  ",applicationData);
+
         // Prepare applicant PDC data (Personal Data Compliance)
         const applicant_PDC = {
             gender: sanitizeInput(document.getElementById('gender').value),
@@ -953,6 +960,9 @@ async function submitApplication(boosted = false) {
             jobId: jobId,
             submitted: new Date().toLocaleString(),
         };
+        console.log("applicant_PDC  ",applicant_PDC);
+
+        return;
 
         try {
             // Show loading indicator if you have one
