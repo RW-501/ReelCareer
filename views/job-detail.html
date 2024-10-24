@@ -997,7 +997,7 @@ if (!jobTags || jobTags.length === 0) {
     console.log("No tags available for this job. Using default tags.");
     
     // Use default tags if none are available in jobData
-    jobTags = ['Jobs', jobData.industry || 'General Industry', 'Job Search'];
+    jobTags = ['Jobs', jobData.industry , "job" || 'General Industry', 'Job Search', 'new jobs'];
 }
 
       renderTags(jobTags);
