@@ -57,6 +57,42 @@ body {
     color: #222222 !important;
 }
 
+.bg-mainColor {
+    background-color: #639ad4 !important;
+}
+
+.bg-colorWhite {
+    background-color: #ffffff !important;
+}
+
+.bg-colorGray {
+    background-color: #6e6e6e !important;
+}
+
+.bg-colorDarkBlue {
+    background-color: #09213a !important;
+}
+
+.bg-colorRed {
+    background-color: #d30000 !important;
+}
+
+.bg-colorGreen {
+    background-color: #05722a !important;
+}
+
+.bg-colorLightGray {
+    background-color: #949596 !important;
+}
+
+.bg-colorDarkGray {
+    background-color: #444444 !important;
+}
+
+.bg-colorBlack {
+    background-color: #222222 !important;
+}
+
 
 
 /* Flexbox for equal height */
