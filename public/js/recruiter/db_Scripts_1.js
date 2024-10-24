@@ -1360,8 +1360,13 @@ async function fetchJobApplications(jobIDs) {
   try {
       // Show loading state
       $('#application-posts-container').html('<p>Loading applications...</p>');
-      let applicationStatuses = {}; // Or an appropriate data structure
-
+      let applicationStatuses = {
+        "Approved": "Application Approved",
+        "Rejected": "Application Rejected",
+        "Under Review": "Under Review",
+        "Pending": "Pending",
+        // Add other statuses as needed
+      };
       const applicationsRef = collection(db, "Applications");
       const applicationsQuery = query(applicationsRef, where("jobId", "in", jobIDs));
       const querySnapshot = await getDocs(applicationsQuery);
@@ -1376,6 +1381,8 @@ async function fetchJobApplications(jobIDs) {
 
         // Now render applications using the stored statuses
         applications.forEach(app => {
+
+
           const applicationHTML = renderApplicationHTML(app);
           const statusKey = app.status.trim().toLowerCase();
 const statusValue = applicationStatuses[statusKey.charAt(0).toUpperCase() + statusKey.slice(1)];
