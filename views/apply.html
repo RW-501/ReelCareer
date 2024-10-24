@@ -709,14 +709,6 @@ document.getElementById('backToJobPost').addEventListener('click', () => {
 });
 
 // Show loading spinner
-function showLoading() {
-    document.getElementById('loadingSpinner').style.display = 'block';
-}
-
-function hideLoading() {
-    document.getElementById('loadingSpinner').style.display = 'none';
-}
-
 
 
 // Function to retrieve answers from custom questions
@@ -787,7 +779,7 @@ async function fetchJobAndCompanyInfo(jobDocRef) {
 
 
 
-        console.log("Job Data:", jobData);
+        console.log("XXXXX  Job Data:     ", jobData);
 console.log("Custom Questions:", jobData.customQuestions);
 
         loadCustomQuestions(jobData.customQuestions);
@@ -964,8 +956,7 @@ async function submitApplication(boosted = false) {
 
         try {
             // Show loading indicator if you have one
-            showLoading();
-
+         
             // Upload files
             await uploadFile('resumeUpload', 'resumes', applicationData, 'resumeUrl');
             await uploadFile('videoResumeUpload', 'video_resumes', applicationData, 'videoResumeUrl');
@@ -988,8 +979,7 @@ async function submitApplication(boosted = false) {
             console.error('Error submitting application:', error);
             showToast('Error submitting application. Please try again.', 'error');
         } finally {
-            // Hide loading indicator
-            hideLoading();
+        
         }
     }
 }
