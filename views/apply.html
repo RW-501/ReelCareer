@@ -372,6 +372,69 @@
     margin-left: 8px; /* space between icon and text */
 }
 
+
+.custom-control-enhanced {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding-left: 40px;
+    margin-bottom: 12px;
+}
+
+.custom-radio-enhanced .custom-control-input {
+    position: absolute;
+    left: 0;
+    z-index: -1;
+    width: 1rem;
+    height: 1rem;
+    opacity: 0;
+}
+
+.custom-radio-enhanced .custom-control-label {
+    position: relative;
+    margin-bottom: 0;
+    padding-left: 2.5rem;
+    cursor: pointer;
+    font-size: 1rem;
+    color: #495057;
+    transition: color 0.2s;
+}
+
+.custom-radio-enhanced .custom-control-label:before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 1.5rem;
+    height: 1.5rem;
+    border: 2px solid #007bff;
+    border-radius: 50%;
+    background-color: transparent;
+    transform: translateY(-50%);
+    transition: all 0.2s;
+}
+
+.custom-radio-enhanced .custom-control-input:checked ~ .custom-control-label:before {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.custom-radio-enhanced .custom-control-input:checked ~ .custom-control-label:after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0.5rem;
+    width: 0.5rem;
+    height: 0.5rem;
+    background-color: white;
+    border-radius: 50%;
+    transform: translateY(-50%);
+}
+
+.custom-radio-enhanced:hover .custom-control-label:before {
+    border-color: #0056b3;
+}
+
 </style>
 
 
@@ -456,17 +519,20 @@ document.addEventListener('DOMContentLoaded', createFileUploadOverlay);
         questionCount++; // Increment question count
         switch (question.type) {
             case 'multiple-choice':
-                inputElement = `<div class="form-group border rounded p-3 mb-4 shadow-sm bg-light">
-                                    <label class="font-weight-bold">Question #${questionCount}</label>
-                                    <hr>
-                                    <p>${question.question}</p>
-                                    <div class="custom-control custom-radio mb-2">
-                                        ${question.options.map(option => `
-                                            <input type="radio" id="${option}-${questionCount}" name="${question.id}" class="custom-control-input" value="${option}">
-                                            <label class="custom-control-label" for="${option}-${questionCount}">${option}</label>
-                                        `).join('')}
-                                    </div>
-                                </div>`;
+                inputElement = `<div class="form-group border rounded p-4 mb-4 shadow-sm bg-light">
+    <label class="font-weight-bold">Question #${questionCount}</label>
+    <hr>
+    <p>${question.question}</p>
+    <div class="custom-control-wrapper">
+        ${question.options.map(option => `
+            <div class="custom-control custom-radio custom-radio-enhanced mb-3">
+                <input type="radio" id="option-${option}-${questionCount}" name="question-${question.id}" class="custom-control-input" value="${option}">
+                <label class="custom-control-label" for="option-${option}-${questionCount}">${option}</label>
+            </div>
+        `).join('')}
+    </div>
+</div>
+`;
                 break;
             case 'statement':
                 inputElement = `<div class="form-group border rounded p-3 mb-4 shadow-sm bg-light">
