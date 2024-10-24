@@ -680,7 +680,6 @@ async function fetchRecruiterData(recruiterID) {
             let jobPosts = userDoc.data().jobPosts || [];
 
             jobPosts = removeUndefined(jobPosts);
-         let companyID = removeUndefined(job.companyId);
 
         
 // Create a Set to track unique company IDs
