@@ -478,7 +478,7 @@ document.addEventListener('DOMContentLoaded', createFileUploadOverlay);
 
 
 
-    function loadCustomQuestions(customQuestions) { 
+function loadCustomQuestions(customQuestions) {
     const customQuestionsContainer = document.getElementById('customQuestionsContainer');
     console.log("Loading Custom Questions. Current content:", customQuestionsContainer.innerHTML);
     
@@ -488,43 +488,49 @@ document.addEventListener('DOMContentLoaded', createFileUploadOverlay);
     if (!Array.isArray(customQuestions) || customQuestions.length === 0) {
         customQuestionsContainer.innerHTML = '';
         document.getElementById('customQuestionsText').style.display = "none";
-
         return; 
     }
 
     let questionCount = 0; // Initialize question count
     customQuestions.forEach(question => {
-        let inputElement; 
         questionCount++; // Increment question count
+        let inputElement;
+
         switch (question.type) {
             case 'multiple-choice':
-                inputElement = `<div class="form-group border rounded p-4 mb-4 shadow-sm bg-light">
-    <label class="font-weight-bold">Question #${questionCount}</label>
-    <hr>
-    <p>${question.question}</p>
-    <div class="custom-control-wrapper">
-        ${question.options.map(option => `
-            <div class="custom-control custom-radio custom-radio-enhanced mb-3">
-                <input type="radio" id="option-${option}-${questionCount}" name="question-${question.id}" class="custom-control-input" value="${option}">
-                <label class="custom-control-label" for="option-${option}-${questionCount}">${option}</label>
-            </div>
-        `).join('')}
-    </div>
-</div>
-`;
+                inputElement = `
+                <div class="form-group border rounded p-4 mb-4 shadow-sm bg-light">
+                    <label class="font-weight-bold">Question #${questionCount}</label>
+                    <hr>
+                    <p>${question.question}</p>
+                    <div class="custom-control-wrapper">
+                        ${question.options.map(option => `
+                            <div class="custom-control custom-radio custom-radio-enhanced mb-3">
+                                <input type="radio" id="option-${option}-${question.id}" name="question-${question.id}" class="custom-control-input" value="${option}">
+                                <label class="custom-control-label" for="option-${option}-${question.id}">${option}</label>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+                `;
                 break;
+
             case 'statement':
-                inputElement = `<div class="form-group border rounded p-3 mb-4 shadow-sm bg-light">
-                                    <label class="font-weight-bold">Question #${questionCount}</label>
-                                    <hr/>
-                                    <p>${question.question}</p>
-                                    <textarea class="form-control" id="${question.id}" rows="3" placeholder="Your answer here..."></textarea>
-                                </div>`;
+                inputElement = `
+                <div class="form-group border rounded p-3 mb-4 shadow-sm bg-light">
+                    <label class="font-weight-bold">Question #${questionCount}</label>
+                    <hr/>
+                    <p>${question.question}</p>
+                    <textarea class="form-control" id="${question.id}" rows="3" placeholder="Your answer here..."></textarea>
+                </div>
+                `;
                 break;
+
             default:
                 console.warn('Unknown question type:', question.type);
                 break;
         }
+
         customQuestionsContainer.insertAdjacentHTML('beforeend', inputElement);
     });
 }
@@ -720,16 +726,15 @@ function getCustomAnswers(customQuestions) {
         let answer;
         console.log("Processing question: ", question);
 
-        // Assign a unique ID if it's missing
+        // Ensure question.id is valid
         if (!question.id) {
             console.warn("Missing question.id for question: ", question);
             question.id = `question_${index}`; // Assign a dummy ID based on index
         }
 
-        // Handle question types
         switch (question.type) {
-            case 'multiple_choice':
-                const selectedOption = document.querySelector(`input[name="${question.id}"]:checked`);
+            case 'multiple-choice':
+                const selectedOption = document.querySelector(`input[name="question-${question.id}"]:checked`);
                 answer = selectedOption ? selectedOption.value : 'No option selected';
                 break;
             case 'text_area':
@@ -739,8 +744,7 @@ function getCustomAnswers(customQuestions) {
                 answer = document.getElementById(question.id)?.value?.trim() || 'No answer provided';
                 break;
             case 'statement':
-                // For 'statement' type, there's no answer to capture, so we use a placeholder
-                answer = "N/A";
+                answer = document.getElementById(question.id)?.value?.trim() || 'N/A'; // Default for statements
                 break;
             default:
                 console.warn(`Unhandled question type: ${question.type}`);
@@ -748,20 +752,19 @@ function getCustomAnswers(customQuestions) {
                 break;
         }
 
-        // Log the question and the answer for debugging
         console.log(`Captured question: ${question.question}`);
         console.log(`Captured answer: ${answer}`);
 
         // Store both the question and its answer in the customAnswers object
         customAnswers[question.id] = {
             question: question.question,
-            answer: answer,
-            timestamp:  new Date().toLocaleString()
+            answer: answer
         };
     });
 
     return customAnswers;
 }
+
 
 // Fetch Job and Company Information
 async function fetchJobAndCompanyInfo(jobDocRef) {
@@ -1026,9 +1029,16 @@ console.log('Form submitted:', formData);
 
                      // Update user's document with the job application info
                      const userDocRef = doc(db, 'Users', userId); // Reference to the user's document
-            await updateDoc(userDocRef, {
-                userApps: arrayUnion({ jobId, jobTitle, companyName, status, boostedApp, applyDate: new Date().toISOString() })
-            });
+                     await updateDoc(userDocRef, {
+    userApps: arrayUnion({
+        JobID: jobId,
+        JobTitle: jobTitle,
+        CompanyName: companyName,
+        Status: status,
+        IsBoosted: isBoosted,
+        ApplyDate: new Date().toISOString()
+    })
+});
 
             // Show success message
             showToast('Application submitted successfully!', 'success');
