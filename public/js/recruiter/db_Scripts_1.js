@@ -1637,9 +1637,20 @@ function filterAndSortApplications() {
       }
     }
 
+    // Apply search filter
+    if (searchQuery && !applicantName.includes(searchQuery) && !jobTitle.includes(searchQuery)) {
+      shouldDisplay = false;
+    }
+
+    // Apply status filter
+    if (filterStatus !== 'all' && applicationStatus !== filterStatus) {
+      shouldDisplay = false;
+    }
+
     // Display or hide based on filtering
     app.style.display = shouldDisplay ? 'block' : 'none';
   });
+  
 
   // Apply sorting logic based on the sortBy value
   if (sortBy === 'applicant-name-asc') {
@@ -1657,6 +1668,14 @@ function filterAndSortApplications() {
   } else if (sortBy === 'job-title-desc') {
     allApplications.sort((a, b) => 
       b.dataset.jobTitle.localeCompare(a.dataset.jobTitle)
+    );
+  } else if (sortBy === 'company-name-asc') {
+    allApplications.sort((a, b) => 
+      a.dataset.companyName.localeCompare(b.dataset.companyName)
+    );
+  } else if (sortBy === 'company-name-desc') {
+    allApplications.sort((a, b) => 
+      b.dataset.companyName.localeCompare(a.dataset.companyName)
     );
   }
 
