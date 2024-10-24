@@ -456,9 +456,9 @@
     });
 
     const jobTags = ['job', 'jobs', 'new jobs']; 
-loadRelatedBlogs(jobTags, 'blogContainer');
-
-
+          window.addEventListener('load', () => {
+window.loadRelatedBlogs(jobTags, 'blogContainer');
+});
 
 
 

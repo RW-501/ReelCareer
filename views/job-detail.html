@@ -1004,8 +1004,9 @@ if (!jobTags || jobTags.length === 0) {
 
           // Fetch and display similar jobs
           getSimilarJobs(jobTags);
-          
-          loadRelatedBlogs(jobTags, 'blogContainer');
+          window.addEventListener('load', () => {
+window.loadRelatedBlogs(jobTags, 'blogContainer');
+});
 
       // Assuming you have your job data in jobData
       const companyWebsite = document.getElementById('companyWebsite');
