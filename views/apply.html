@@ -901,14 +901,14 @@ async function submitApplication(boosted = false) {
         showToast('You must be logged in to apply.', 'error');
         return;
     }
-    
+   
     if (jobData.applicationAvailableBool) {
         // Validate form fields before proceeding
         if (!validateForm()) {
             return;
         }
 
-        const userId = getUserIdFromURL();
+       // const userId = getUserIdFromURL();
         const jobId = getJobIdFromURL();
 
         // Assuming these values are populated elsewhere
