@@ -1446,9 +1446,9 @@ async function fetchJobApplications(jobIDs) {
           $('#application-posts-container').append(jobSection);
       });
 
-      const renderJobWithApplicants = (jobTitle, companyName, applicants) => {
+      const renderJobTitleWithApplicants = (jobTitle, companyName, applicants) => {
         const jobHTML = renderJobTitleWithApplicants(jobTitle, companyName, applicants);
-        document.querySelector('#jobsContainer').innerHTML += jobHTML; // Assuming there's a container for jobs
+        document.querySelector('#application-posts-container').innerHTML += jobHTML; // Assuming there's a container for jobs
         
         
       }
