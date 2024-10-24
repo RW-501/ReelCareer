@@ -1253,11 +1253,11 @@ function filterByDeadline() {
 
 let jobID = '';
 
+let applicationStatuses = {}; // Or an appropriate data structure
 
 
 // Define the filtering function first
 const filterApplications = (applications, statusFilter) => {
-  let applicationStatuses = {}; // Or an appropriate data structure
 
 
   if (statusFilter === 'all') return applications;
