@@ -1388,12 +1388,18 @@ async function fetchJobApplications(jobIDs) {
           const application = doc.data();
           applications.push({ ...application, id: doc.id });
       });
+
+      console.log("applications  ",applications);
+      console.log("applicationStatuses  ",applicationStatuses);
+
         // Now render applications using the stored statuses
         applications.forEach(app => {
           const applicationHTML = renderApplicationHTML(app); // Render the HTML for the application
           renderApplication(app.applicantId, applicationStatuses[app.applicantId], applicationHTML); // Call renderApplication with the status
-      });
+   console.log("applicationStatuses[app.applicantId]   ",applicationStatuses[app.applicantId]);
 
+   
+        });
       // Make sure the sorting and filtering dropdowns are available
       const sortDropdown = $('#sort-applications');
       const filterDropdown = $('#filter-status');
