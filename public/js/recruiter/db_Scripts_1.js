@@ -1285,85 +1285,105 @@ const renderApplicationHTML = (application, jobTitle, companyName) => {
   const statusColor = getStatusColor(application.status);
 
   const customQuestionsButton = application.customQuestions && application.customQuestions.length > 0
-    ? `<button class="btn btn-info mt-3 view-video-answers" data-applicant-id="${application.id}">View Video Question Answers</button>`
+    ? `<button class="btn btn-outline-info mt-3 view-video-answers" data-applicant-id="${application.id}">
+         <i class="bi bi-camera-video"></i> View Video Answers
+       </button>`
     : '';
 
   const statusButtons = {
     "Under Review": application.status !== "Under Review"
-      ? `<button class="under-review-application btn btn-warning mt-3 ms-2" data-applicant-id="${application.id}">Under Review</button>`
-      : `<button class="btn btn-warning mt-3 ms-2" disabled title="Already under review">Already Under Review</button>`,
+      ? `<button class="btn btn-warning btn-sm mt-3 ms-2 under-review-application" data-applicant-id="${application.id}">
+           <i class="bi bi-pencil-square"></i> Under Review
+         </button>`
+      : `<button class="btn btn-outline-warning btn-sm mt-3 ms-2" disabled title="Already under review">
+           <i class="bi bi-check-circle"></i> Already Under Review
+         </button>`,
     "Request Interview": application.status !== "Interview Requested"
-      ? `<button class="request-interview btn btn-secondary mt-3 ms-2" data-applicant-id="${application.id}">Request Interview</button>`
-      : `<button class="btn btn-secondary mt-3 ms-2" disabled title="Interview already requested">Interview Requested</button>`,
+      ? `<button class="btn btn-secondary btn-sm mt-3 ms-2 request-interview" data-applicant-id="${application.id}">
+           <i class="bi bi-calendar3"></i> Request Interview
+         </button>`
+      : `<button class="btn btn-outline-secondary btn-sm mt-3 ms-2" disabled title="Interview already requested">
+           <i class="bi bi-check-circle"></i> Interview Requested
+         </button>`,
     "Request Test": application.status !== "Test Requested"
-      ? `<button class="request-test btn btn-warning mt-3 ms-2" data-applicant-id="${application.id}">Request Test</button>`
-      : `<button class="btn btn-warning mt-3 ms-2" disabled title="Test already requested">Test Requested</button>`
+      ? `<button class="btn btn-warning btn-sm mt-3 ms-2 request-test" data-applicant-id="${application.id}">
+           <i class="bi bi-file-earmark-text"></i> Request Test
+         </button>`
+      : `<button class="btn btn-outline-warning btn-sm mt-3 ms-2" disabled title="Test already requested">
+           <i class="bi bi-check-circle"></i> Test Requested
+         </button>`
   };
 
   return `
-    <div class="application-post" data-applicant-id="${application.id}" style="border: ${getBoostedStyle(application.isBoosted)};">
-        <div class="card mb-3">
-            <div class="card-body">
-                <div class="d-flex justify-content-between">
-                    <h5 class="applicant-name card-title text-primary" style="color: ${statusColor}; cursor: pointer;">
-                        ${application.firstName} ${application.lastName} 
-                        <i class="${statusIcon}" style="margin-left: 5px;"></i>
-                    </h5>
-                    <button class="btn btn-success save-application" data-applicant-id="${application.id}">Save</button>
-                </div>
-                <div class="form-check mt-3">
-                    <input class="form-check-input select-applicant" type="checkbox" value="${application.id}" id="select-applicant-${application.id}">
-                    <label class="form-check-label" for="select-applicant-${application.id}">Select</label>
-                </div>
-                <div class="application-details" style="display: none;">
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item"><strong>Job Title:</strong> ${jobTitle}</li>
-                        <li class="list-group-item"><strong>Company Name:</strong> ${companyName}</li>
-                        <li class="list-group-item"><strong>Apply Date:</strong> ${formatDate(application.applyDate)}</li>
-                        <li class="list-group-item"><strong>Email:</strong> ${application.email}</li>
-                        <li class="list-group-item"><strong>Phone:</strong> ${application.phone}</li>
-                        <li class="list-group-item"><strong>Portfolio:</strong> <a href="${application.portfolio}" target="_blank">${application.portfolio || 'N/A'}</a></li>
-                        <li class="list-group-item"><strong>Feedback:</strong> ${application.feedback }</li>
-                        <li class="list-group-item"><strong>Status:</strong> <span class="badge" style="background-color: ${statusColor};">${application.status}</span></li>
-                        ${application.boostedApp ? '<span class="badge bg-warning text-dark">Boosted Application</span>' : ''}
-<li class="list-group-item">
-  <label for="noteType-${application.id}"><strong>Note Type:</strong></label>
-  <select class="form-select note-type-selector" id="noteType-${application.id}">
-    <option value="General">General</option>
-    <option value="Important">Important</option>
-    <option value="Follow-up">Follow-up</option>
-  </select>
-</li>
-<li class="list-group-item">
-  <label for="notes-${application.id}"><strong>Notes:</strong></label>
-  <textarea id="notes-${application.id}" class="form-control notes-input" rows="4">${application.notes || "No notes available."}</textarea>
-</li>
-              <button class="btn btn-success save-application" data-applicant-id="${application.id}">
-  <span class="spinner-border spinner-border-sm" role="status" style="display:none;"></span>
-  Save
-</button>
-                    </ul>
-                    <a href="${application.resumeLink}" target="_blank" class="btn btn-link mt-2">Download Resume</a>
-                    <a href="${application.videoResumeLink}" target="_blank" class="btn btn-link">Download Video Resume</a>
-                    <button class="view-application btn btn-info mt-3" data-applicant-id="${application.id}">View Application</button>
-                    <button class="pending-application" data-applicant-id="${application.id}">Set as Pending</button>
-                    ${statusButtons["Request Interview"]}
-                    ${statusButtons["Request Test"]}
-                    ${statusButtons["Under Review"]}
-                    ${customQuestionsButton} <!-- Button for video answers -->
-                </div>
-            </div>
-            <div class="card-footer text-end">
-                <button class="btn btn-danger reject-application" data-applicant-id="${application.id}">Reject</button>
-                <button class="btn btn-primary approve-application ms-2" data-applicant-id="${application.id}">Approve</button>
-  
-
-            </div>
+    <div class="application-post card mb-3" data-applicant-id="${application.id}" style="border: ${getBoostedStyle(application.isBoosted)};">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center">
+          <div class="d-flex align-items-center">
+            <h5 class="applicant-name card-title text-primary" style="color: ${statusColor}; cursor: pointer;">
+              ${application.firstName} ${application.lastName} 
+              <i class="${statusIcon}" style="margin-left: 5px;"></i>
+            </h5>
+            ${application.boostedApp ? '<span class="badge bg-warning text-dark ms-2">Boosted</span>' : ''}
+          </div>
+          <button class="btn btn-outline-success save-application" data-applicant-id="${application.id}">
+            <i class="bi bi-bookmark"></i> Save
+          </button>
         </div>
+
+        <div class="mt-2">
+          <input class="form-check-input select-applicant" type="checkbox" value="${application.id}" id="select-applicant-${application.id}">
+          <label class="form-check-label" for="select-applicant-${application.id}">Select</label>
+        </div>
+
+        <div class="application-details mt-3" style="display: none;">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>Job Title:</strong> ${jobTitle}</li>
+            <li class="list-group-item"><strong>Company Name:</strong> ${companyName}</li>
+            <li class="list-group-item"><strong>Apply Date:</strong> ${formatDate(application.applyDate)}</li>
+            <li class="list-group-item"><strong>Email:</strong> ${application.email}</li>
+            <li class="list-group-item"><strong>Phone:</strong> ${application.phone}</li>
+            <li class="list-group-item"><strong>Portfolio:</strong> <a href="${application.portfolio}" target="_blank">${application.portfolio || 'N/A'}</a></li>
+            <li class="list-group-item"><strong>Feedback:</strong> ${application.feedback || 'No feedback yet.'}</li>
+            <li class="list-group-item"><strong>Status:</strong> <span class="badge" style="background-color: ${statusColor};">${application.status}</span></li>
+            <li class="list-group-item">
+              <label for="noteType-${application.id}"><strong>Note Type:</strong></label>
+              <select class="form-select note-type-selector" id="noteType-${application.id}">
+                <option value="General">General</option>
+                <option value="Important">Important</option>
+                <option value="Follow-up">Follow-up</option>
+              </select>
+            </li>
+            <li class="list-group-item">
+              <label for="notes-${application.id}"><strong>Notes:</strong></label>
+              <textarea id="notes-${application.id}" class="form-control notes-input" rows="4">${application.notes || "No notes available."}</textarea>
+            </li>
+            <button class="btn btn-outline-success mt-3 save-notes" data-applicant-id="${application.id}">
+              <span class="spinner-border spinner-border-sm" role="status" style="display:none;"></span>
+              Save Notes
+            </button>
+          </ul>
+          <div class="mt-3">
+            <a href="${application.resumeLink}" target="_blank" class="btn btn-link"><i class="bi bi-file-earmark"></i> Download Resume</a>
+            <a href="${application.videoResumeLink}" target="_blank" class="btn btn-link"><i class="bi bi-camera-video"></i> Download Video Resume</a>
+          </div>
+          ${statusButtons["Request Interview"]}
+          ${statusButtons["Request Test"]}
+          ${statusButtons["Under Review"]}
+          ${customQuestionsButton} <!-- Button for video answers -->
+        </div>
+      </div>
+
+      <div class="card-footer d-flex justify-content-between">
+        <button class="btn btn-outline-danger reject-application" data-applicant-id="${application.id}">
+          <i class="bi bi-x-circle"></i> Reject
+        </button>
+        <button class="btn btn-primary approve-application" data-applicant-id="${application.id}">
+          <i class="bi bi-check-circle"></i> Approve
+        </button>
+      </div>
     </div>
   `;
 };
-
 
 async function fetchJobApplications(jobIDs) {
   jobIDs = removeUndefined(jobIDs);

@@ -217,97 +217,100 @@
 
 
 
-        
-        <!-- Applications Management -->
-        <div class="card">
-            <div class="card-header">
-              <h5 class="fw-bold">Applications Management</h5>
-            </div>
-          
-            <div class="card-body">
-              <!-- Application Status Sections -->
-              <div id="applications-container" style="max-height: 500px; overflow-y: auto;">
-                <!-- Approved Applications -->
-                <div class="status-section mb-4" id="approvedApplicationsContainer">
-                  <h6 class="text-success fw-semibold">Approved Applications</h6>
-                  <div class="application-section border rounded p-3 bg-light">
-                    <!-- Approved application posts dynamically inserted here -->
-                  </div>
-                </div>
-          
-                <!-- Under Review Applications -->
-                <div class="status-section mb-4" id="underReviewApplicationsContainer">
-                  <h6 class="text-warning fw-semibold">Under Review Applications</h6>
-                  <div class="application-section border rounded p-3 bg-light">
-                    <!-- Under review application posts dynamically inserted here -->
-                  </div>
-                </div>
-          
-                <!-- Rejected Applications -->
-                <div class="status-section mb-4" id="rejectedApplicationsContainer">
-                  <h6 class="text-danger fw-semibold">Rejected Applications</h6>
-                  <div class="application-section border rounded p-3 bg-light">
-                    <!-- Rejected application posts dynamically inserted here -->
-                  </div>
-                </div>
-          
-                <!-- Pending Applications -->
-                <div class="status-section mb-4" id="pendingApplicationsContainer">
-                  <h6 class="text-primary fw-semibold">Pending Applications</h6>
-                  <div class="application-section border rounded p-3 bg-light">
-                    <!-- Pending application posts dynamically inserted here -->
-                  </div>
-                </div>
-              </div>
-          
-              <hr class="my-4" />
-          
-              <!-- Companies Section -->
-              <div class="card">
-                <div class="card-header">
-                  <h5 class="fw-bold">Companies</h5>
-                </div>
-          
-                <div class="card-body">
-                  <!-- Search, Sort, and Filter -->
-                  <div class="d-flex justify-content-between align-items-center mb-3">
-                    <!-- Search Applicants -->
-                    <div class="input-group w-50">
-                      <span class="input-group-text"><i class="bi bi-search"></i></span>
-                      <input type="text" id="search-applicant" class="form-control" placeholder="Search applicants by name or job title..." />
-                    </div>
-          
-                    <!-- Sort and Filter Options -->
-                    <div class="d-flex gap-3">
-                      <select id="sort-applications" class="form-select">
-                        <option value="jobTitle">Sort by Job Title</option>
-                        <option value="companyName">Sort by Company Name</option>
-                        <option value="applicantName">Sort by Applicant Name</option>
-                      </select>
-          
-                      <select id="filter-status" class="form-select">
-                        <option value="all">All Statuses</option>
-                        <option value="approved">Approved</option>
-                        <option value="under_review">Under Review</option>
-                        <option value="rejected">Rejected</option>
-                        <option value="pending">Pending</option>
-                      </select>
-                    </div>
-                  </div>
-          
-                  <!-- Application Posts Section -->
-                  <div id="application-posts-container" class="application-list mt-4">
-                    <!-- Application posts dynamically inserted here -->
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          
 
+       <!-- Applications Management -->
+<div class="card">
+  <div class="card-header d-flex justify-content-between align-items-center">
+    <h5 class="fw-bold">Applications Management</h5>
+    <!-- A Filter Summary: Displaying current filter status for quick overview -->
+    <div id="filter-summary" class="text-muted">Showing: All Applications</div>
+  </div>
 
+  <div class="card-body">
+    <!-- Tabs for Application Status Sections -->
+    <ul class="nav nav-tabs mb-4" id="applicationTabs" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="approved-tab" data-bs-toggle="tab" data-bs-target="#approvedApplications" type="button" role="tab">Approved</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="underReview-tab" data-bs-toggle="tab" data-bs-target="#underReviewApplications" type="button" role="tab">Under Review</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="rejected-tab" data-bs-toggle="tab" data-bs-target="#rejectedApplications" type="button" role="tab">Rejected</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="pending-tab" data-bs-toggle="tab" data-bs-target="#pendingApplications" type="button" role="tab">Pending</button>
+      </li>
+    </ul>
 
+    <!-- Tab Content for Application Status Sections -->
+    <div class="tab-content" id="applicationTabContent">
+      <div class="tab-pane fade show active" id="approvedApplications" role="tabpanel">
+        <div class="row g-3" id="approvedApplicationsContainer">
+          <!-- Approved application cards dynamically inserted here -->
+        </div>
+      </div>
 
+      <div class="tab-pane fade" id="underReviewApplications" role="tabpanel">
+        <div class="row g-3" id="underReviewApplicationsContainer">
+          <!-- Under review application cards dynamically inserted here -->
+        </div>
+      </div>
+
+      <div class="tab-pane fade" id="rejectedApplications" role="tabpanel">
+        <div class="row g-3" id="rejectedApplicationsContainer">
+          <!-- Rejected application cards dynamically inserted here -->
+        </div>
+      </div>
+
+      <div class="tab-pane fade" id="pendingApplications" role="tabpanel">
+        <div class="row g-3" id="pendingApplicationsContainer">
+          <!-- Pending application cards dynamically inserted here -->
+        </div>
+      </div>
+    </div>
+
+    <hr class="my-4" />
+
+    <!-- Companies Section -->
+    <div class="card">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <h5 class="fw-bold">Companies</h5>
+        <!-- Sticky search and filter bar -->
+        <div class="input-group w-50 position-sticky top-0">
+          <span class="input-group-text"><i class="bi bi-search"></i></span>
+          <input type="text" id="search-applicant" class="form-control" placeholder="Search applicants..." />
+        </div>
+      </div>
+
+      <div class="card-body">
+        <!-- Sort and Filter Options -->
+        <div class="d-flex gap-3 mb-3">
+          <select id="sort-applications" class="form-select">
+            <option value="jobTitle">Sort by Job Title</option>
+            <option value="companyName">Sort by Company Name</option>
+            <option value="applicantName">Sort by Applicant Name</option>
+          </select>
+
+          <select id="filter-status" class="form-select">
+            <option value="all">All Statuses</option>
+            <option value="approved">Approved</option>
+            <option value="under_review">Under Review</option>
+            <option value="rejected">Rejected</option>
+            <option value="pending">Pending</option>
+          </select>
+          <!-- Clear Filters Button -->
+          <button class="btn btn-outline-secondary" id="clear-filters">Clear Filters</button>
+        </div>
+
+        <!-- Application Cards -->
+        <div id="application-posts-container" class="application-list mt-4 row g-3">
+          <!-- Application posts dynamically inserted here -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 
