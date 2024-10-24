@@ -398,6 +398,7 @@
     font-size: 1rem;
     color: #495057;
     transition: color 0.2s;
+    font-weight: 800;
 }
 
 .custom-radio-enhanced .custom-control-label:before {
@@ -407,7 +408,7 @@
     left: 0;
     width: 1.5rem;
     height: 1.5rem;
-    border: 2px solid #007bff;
+    border: 2px solid #343535;
     border-radius: 50%;
     background-color: transparent;
     transform: translateY(-50%);
@@ -415,8 +416,8 @@
 }
 
 .custom-radio-enhanced .custom-control-input:checked ~ .custom-control-label:before {
-    background-color: #007bff;
-    border-color: #007bff;
+    background-color: #694fff;
+    border-color: #606060;
 }
 
 .custom-radio-enhanced .custom-control-input:checked ~ .custom-control-label:after {
@@ -432,7 +433,7 @@
 }
 
 .custom-radio-enhanced:hover .custom-control-label:before {
-    border-color: #0056b3;
+    border-color: #2d5279;
 }
 
 </style>
@@ -631,7 +632,6 @@ function showPreviewModal() {
     document.getElementById('confirmSubmission').addEventListener('click', () => {
         // Logic for final submission can go here
         showToast('Application submitted successfully!', 'success');
-        document.body.removeChild(previewModal); // Remove modal after submission
     });
 
     // Close modal on close button click
@@ -821,12 +821,12 @@ console.log("Custom Questions:", jobData.customQuestions);
 
 
 
-
+/*
 // Event listener for messaging the recruiter
 document.getElementById('messageRecruiter').addEventListener('click', () => {
     // Show the message modal
     const messageModal = document.getElementById('messageModal');
-    messageModal.style.display = 'block'; // Show modal
+   // messageModal.style.display = 'block'; // Show modal
 });
 
 document.getElementById('closeModal').addEventListener('click', () => {
@@ -834,7 +834,7 @@ document.getElementById('closeModal').addEventListener('click', () => {
     const messageModal = document.getElementById('messageModal');
     messageModal.style.display = 'none'; // Hide modal
 });
-
+*/
 // Handle message sending
 document.getElementById('sendMessage').addEventListener('click', async () => {
     const messageContent = sanitizeInput(document.getElementById('messageContent').value);
