@@ -1375,7 +1375,6 @@ window.addEventListener('load', function() {
   window.loadRelatedBlogs = async function(jobTags, containerId) {
       try {
 
-        console.log("jobTags ?????????/!main   ",jobTags);
 
            //Reference the 'Blogs' collection
           const blogsRef = collection(db, 'Blogs');
