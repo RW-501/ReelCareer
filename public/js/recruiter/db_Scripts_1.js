@@ -1257,6 +1257,9 @@ let jobID = '';
 
 // Define the filtering function first
 const filterApplications = (applications, statusFilter) => {
+  let applicationStatuses = {}; // Or an appropriate data structure
+
+
   if (statusFilter === 'all') return applications;
   return applications.filter(app => app.status === statusFilter);
 };
