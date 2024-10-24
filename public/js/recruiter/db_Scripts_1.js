@@ -1437,11 +1437,7 @@ console.log("Final status: ", statusValue);
 
       
 
-      Object.entries(groupedApplications).forEach(([key, applicants]) => {
-  const [jobTitle, companyName] = key.split('|');
-  const jobSection = renderJobTitleWithApplicants(jobTitle, companyName, applicants);
-  $('#application-posts-container').append(jobSection); // Assuming jQuery is used for DOM manipulation
-});
+ 
 
 // Function to render Job Title with Applicants
 const renderJobTitleWithApplicants = (jobTitle, companyName, applicants) => {
@@ -1460,6 +1456,11 @@ const renderJobTitleWithApplicants = (jobTitle, companyName, applicants) => {
   return jobHTML;
 };
 
+Object.entries(groupedApplications).forEach(([key, applicants]) => {
+  const [jobTitle, companyName] = key.split('|');
+  const jobSection = renderJobTitleWithApplicants(jobTitle, companyName, applicants);
+  $('#application-posts-container').append(jobSection); // Assuming jQuery is used for DOM manipulation
+});
 
         
         
