@@ -1302,6 +1302,7 @@ const groupApplicationsByJob = (applications) => {
       return acc;
   }, {});
 };
+
 // Function to render single application HTML
 const renderApplicationHTML = (application, jobTitle, companyName) => {
   const statusIcon = getStatusIcon(application.status);
@@ -1716,7 +1717,7 @@ async function approveApplication(applicantId) {
 // After approval or rejection
 const applicationPost = document.querySelector(`.application-post[data-applicant-id="${applicantId}"]`);
 applicationPost.querySelector('.applicant-name').innerHTML += ' (Approved)';
-  const applicationHTML = renderApplicationHTML({ application, status: 'Approved' }); // Generate HTML for the approved application
+  const applicationHTML = renderApplicationHTML({ applicationPost, status: 'Approved' }); // Generate HTML for the approved application
         renderApplication(applicantId, 'Approved', applicationHTML); // Render the application with new status
 
 
@@ -1725,7 +1726,7 @@ applicationPost.querySelector('.applicant-name').innerHTML += ' (Approved)';
       //fetchJobApplications(); // Call your function to refresh the applications list
   } catch (error) {
       console.error('Error approving application:', error);
-      alert('Error approving application. Please try again.');
+      showToast('Error approving application. Please try again.');
   }
 }
 
@@ -1740,7 +1741,7 @@ async function rejectApplication(applicantId) {
 const applicationPost = document.querySelector(`.application-post[data-applicant-id="${applicantId}"]`);
 applicationPost.querySelector('.applicant-name').innerHTML += ' (Rejected)';
         
-const applicationHTML = renderApplicationHTML({ application, status: 'Rejected' }); // Generate HTML for the rejected application
+const applicationHTML = renderApplicationHTML({ applicationPost, status: 'Rejected' }); // Generate HTML for the rejected application
         renderApplication(applicantId, 'Rejected', applicationHTML); // Render the application with new status
 
       showToast('Application rejected successfully!', 'success');
