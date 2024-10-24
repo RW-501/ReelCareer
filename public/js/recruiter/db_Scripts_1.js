@@ -1590,10 +1590,10 @@ function renderApplication(applicantId, status, applicationHTML) {
  // console.log("applicationHTML  ",applicationHTML);
 
   const sectionIdMap = {
-      'Approved': '#approvedApplicationsContainer',
-      'Under Review': '#underReviewApplicationsContainer',
-      'Rejected': '#rejectedApplicationsContainer',
-      'Pending': '#pendingApplicationsContainer',
+      'approved': '#approvedApplicationsContainer',
+      'under review': '#underReviewApplicationsContainer',
+      'rejected': '#rejectedApplicationsContainer',
+      'pending': '#pendingApplicationsContainer',
   };
 
   const container = document.querySelector(`${sectionIdMap[status]} .application-section`);
@@ -1812,7 +1812,7 @@ async function underReviewApplication(applicantId) {
       // Update the application status in the database
       await updateDoc(doc(db, "Applications", applicantId), {
           status: arrayUnion({  // Use arrayUnion to append a new status
-              status: 'Under Review', // Change status to Under Review
+              status: 'under review', // Change status to Under Review
               timestamp: new Date().toLocaleString() // Capture the current time
           })
       });
@@ -1832,7 +1832,7 @@ async function pendingApplication(applicantId) {
       // Update the application status in the database
       await updateDoc(doc(db, "Applications", applicantId), {
           status: arrayUnion({  // Use arrayUnion to append a new status
-              status: 'Pending', // Add 'Pending' status
+              status: 'pending', // Add 'Pending' status
               timestamp: new Date().toLocaleString() // Capture the current time
           })
       });
@@ -1885,7 +1885,7 @@ async function approveApplication(applicantId) {
       // Add the new status to the application's status array in the database
       await updateDoc(doc(db, "Applications", applicantId), {
           status: arrayUnion({  // Use arrayUnion to append a new status
-              status: 'Approved', // Add 'Approved' status
+              status: 'approved', // Add 'Approved' status
               timestamp: new Date().toLocaleString() // Capture the current time
           })
       });
@@ -1913,7 +1913,7 @@ async function rejectApplication(applicantId) {
       // Add the new status to the application's status array in the database
       await updateDoc(doc(db, "Applications", applicantId), {
           status: arrayUnion({ // Use arrayUnion to append a new status
-              status: 'Rejected', // Add 'Rejected' status
+              status: 'rejected', // Add 'Rejected' status
               timestamp: new Date().toLocaleString() // Capture the current time
           })
       });
