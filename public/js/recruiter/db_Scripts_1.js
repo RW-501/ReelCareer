@@ -1605,19 +1605,50 @@ $(function () {
 
 // Function to render applications dynamically based on status
 function renderApplication(applicantId, status, applicationHTML) {
+  console.log("status  ", status);
 
-  console.log("status  ",status);
-  //console.log("applicationHTML  ",applicationHTML);
-
-  const sectionIdMap = {
-      'approved': '#approvedApplicationsContainer',
-      'under review': '#underReviewApplicationsContainer',
-      'rejected': '#rejectedApplicationsContainer',
-      'pending': '#pendingApplicationsContainer',
+  // Mapping system for statuses
+  const statusMappings = {
+    "approved": ["approved", "Application Approved", "application approved"],
+    "rejected": ["rejected", "Application Rejected", "application rejected"],
+    "under review": ["under review", "Under Review"],
+    "pending": ["pending", "pending approval", "Pending Approval"]
   };
 
-  const container = document.querySelector(`${sectionIdMap[status]} .application-section`);
-  container.innerHTML += applicationHTML;
+  // Mapping system for corresponding section IDs
+  const sectionIdMap = {
+    'approved': '#approvedApplicationsContainer',
+    'under review': '#underReviewApplicationsContainer',
+    'rejected': '#rejectedApplicationsContainer',
+    'pending': '#pendingApplicationsContainer'
+  };
+
+  // Function to normalize status
+  function getStatusKey(status) {
+    for (const [key, variations] of Object.entries(statusMappings)) {
+      if (variations.includes(status.toLowerCase())) {
+        return key; // Return the standard status key if a match is found
+      }
+    }
+    return null; // Return null if no matching status is found
+  }
+
+  // Get the normalized status key
+  const statusKey = getStatusKey(status);
+
+  // If we have a valid status key, find the corresponding container
+  if (statusKey) {
+    const containerSelector = sectionIdMap[statusKey]; // Get the container based on normalized status
+    const container = document.querySelector(`${containerSelector} .application-section`);
+    
+    if (container) {
+      container.innerHTML += applicationHTML; // Insert the passed HTML into the correct section
+    } else {
+      console.error(`Container for status ${statusKey} not found.`);
+    }
+  } else {
+    console.error(`Unknown status: ${status}`);
+  }
 }
 
 // Example of filtering and sorting logic
@@ -1628,13 +1659,6 @@ function filterAndSortApplications() {
 
   const allApplications = [...document.querySelectorAll('.application-post')];
 
-  // Define status equivalence (mapping old and new status terms)
-  const statusMappings = {
-    "approved": ["approved", "Application Approved", "application approved"],
-    "rejected": ["rejected", "Application Rejected", "application rejected"],
-    "under review": ["under review", "Under Review"],
-    "pending": ["pending", "pending approval", "Pending Approval"]
-  };
 
   allApplications.forEach(app => {
     const applicantName = app.dataset.applicantName.toLowerCase();
