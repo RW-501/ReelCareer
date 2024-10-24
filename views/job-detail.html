@@ -808,9 +808,9 @@ text-align: left;
   console.log("Job ID: ", jobID);
 
   if (!jobID) {
-    console.error("Job ID is undefined or invalid.");
+    showToast("Job ID is undefined or invalid.", 'error')
     saveBtn.textContent = "Save Job";
-    saveBtn.disabled = false;
+    saveBtn.disabled = true;
     return;
   }
 
@@ -818,9 +818,8 @@ text-align: left;
     const user = auth.currentUser; // Ensure auth is properly initialized
     if (!user) {
       showToast("You need to be logged in to save jobs.", 'error')
-      saveBtn.disabled = false;
+      saveBtn.disabled = true;
       saveBtn.textContent = "Save Job";
-      showLoader(1000);
       return;
     }
 
@@ -832,6 +831,10 @@ text-align: left;
     if (userSavedJobsDoc.exists() && userSavedJobsDoc.data().savedJobs?.includes(jobID)) {
       saveBtn.textContent = "Saved!";
       saveBtn.classList.add('btn-success');
+      showToast("Saved Job", 'success');
+      showLoader(1000);
+      saveBtn.disabled = true;
+
       return;
     }
 
