@@ -1413,7 +1413,7 @@ console.log("Final status: ", statusValue);
       const sortCriteria = sortDropdown.val() || ''; // Default to empty
       const filterCriteria = filterDropdown.val() || ''; // Default to empty
 
-     // console.log("filterCriteria ", filterCriteria);  
+      console.log("filterCriteria ", filterCriteria);  
 
       // If no filter is applied, just use the applications as they are
       let filteredApplications = applications;

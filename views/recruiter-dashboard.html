@@ -211,6 +211,44 @@
           <div class="card-header">
               <h5>Applications Management</h5>
           </div>
+
+              <!-- Application Status Sections -->
+              <div id="applications-container" style="max-height: 500px; overflow-y: auto;">
+                <!-- Approved Applications -->
+                <div class="status-section mb-4" id="approvedApplicationsContainer">
+                    <h6 class="text-success">Approved Applications</h6>
+                    <div class="application-section border rounded p-2">
+                        <!-- Approved application posts dynamically inserted here -->
+                    </div>
+                </div>
+    
+                <!-- Under Review Applications -->
+                <div class="status-section mb-4" id="underReviewApplicationsContainer">
+                    <h6 class="text-warning">Under Review Applications</h6>
+                    <div class="application-section border rounded p-2">
+                        <!-- Under review application posts dynamically inserted here -->
+                    </div>
+                </div>
+    
+                <!-- Rejected Applications -->
+                <div class="status-section mb-4" id="rejectedApplicationsContainer">
+                    <h6 class="text-danger">Rejected Applications</h6>
+                    <div class="application-section border rounded p-2">
+                        <!-- Rejected application posts dynamically inserted here -->
+                    </div>
+                </div>
+    
+                <!-- Pending Applications -->
+                <div class="status-section mb-4" id="pendingApplicationsContainer">
+                    <h6 class="text-primary">Pending Applications</h6>
+                    <div class="application-section border rounded p-2">
+                        <!-- Pending application posts dynamically inserted here -->
+                    </div>
+                </div>
+    
+
+
+
           <div class="card-body">
               <!-- Search, Sort, and Filter -->
               <div class="d-flex justify-content-between mb-3">
@@ -235,40 +273,7 @@
                   </div>
               </div>
       
-              <!-- Application Status Sections -->
-              <div id="applications-container" style="max-height: 500px; overflow-y: auto;">
-                  <!-- Approved Applications -->
-                  <div class="status-section mb-4" id="approvedApplicationsContainer">
-                      <h6 class="text-success">Approved Applications</h6>
-                      <div class="application-section border rounded p-2">
-                          <!-- Approved application posts dynamically inserted here -->
-                      </div>
-                  </div>
-      
-                  <!-- Under Review Applications -->
-                  <div class="status-section mb-4" id="underReviewApplicationsContainer">
-                      <h6 class="text-warning">Under Review Applications</h6>
-                      <div class="application-section border rounded p-2">
-                          <!-- Under review application posts dynamically inserted here -->
-                      </div>
-                  </div>
-      
-                  <!-- Rejected Applications -->
-                  <div class="status-section mb-4" id="rejectedApplicationsContainer">
-                      <h6 class="text-danger">Rejected Applications</h6>
-                      <div class="application-section border rounded p-2">
-                          <!-- Rejected application posts dynamically inserted here -->
-                      </div>
-                  </div>
-      
-                  <!-- Pending Applications -->
-                  <div class="status-section mb-4" id="pendingApplicationsContainer">
-                      <h6 class="text-primary">Pending Applications</h6>
-                      <div class="application-section border rounded p-2">
-                          <!-- Pending application posts dynamically inserted here -->
-                      </div>
-                  </div>
-      
+
                   <!-- All applications -->
                   <div id="application-posts-container" class="mt-4">
                       <!-- Application posts without filters or sorting will be dynamically inserted here -->
