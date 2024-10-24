@@ -1391,7 +1391,7 @@ console.log("Final status: ", statusValue);
           console.log("app.status: ", app.status); // Check the status
           console.log("applicationStatuses[app.status]: ", applicationStatuses[app.status]);
           // Render the HTML for the application
-          renderApplication(app.userId, applicationStatuses[app.status], applicationHTML); // Call renderApplication with the status
+          renderApplication(app.userId, app.status, applicationHTML); // Call renderApplication with the status
 
    
         });
