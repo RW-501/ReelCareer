@@ -949,7 +949,7 @@ console.log('Form submitted:', formData);
             lastName: sanitizeInput(document.getElementById('lastName').value),
             email: sanitizeInput(document.getElementById('email').value),
             phone: sanitizeInput(document.getElementById('phone').value),
-            notes: sanitizeInput(document.getElementById('noteToRecruiter').value),
+            feedback: sanitizeInput(document.getElementById('noteToRecruiter').value),
             portfolio: sanitizeInput(document.getElementById('portfolio').value),
             jobTitle: jobTitle,
             companyName: companyName || "",
@@ -957,6 +957,7 @@ console.log('Form submitted:', formData);
             boostedApp: isBoosted,  // Set to true if boosting
             jobId: jobId,
             status: "active",
+            notes: "",
             interviewRequestBool: false,
             interviewRequestDate: '',
             testRequestBool: false,

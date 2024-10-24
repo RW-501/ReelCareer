@@ -1441,10 +1441,25 @@ console.log("Final status: ", statusValue);
  
 
 // Function to render Job Title with Applicants
-const renderJobTitleWithApplicants = (jobTitle, companyName, applicants) => {
+const renderJobTitleWithApplicants = (jobTitle, companyName, boosted, applicants) => {
   const applicantsHTML = applicants.map(application => renderApplicationHTML(application, jobTitle, companyName)).join('');
 
+  if(boosted){
   const jobHTML = `
+      <div class="job-title-section border colorBlue">
+          <h4 class="job-title" style="cursor: pointer;">${jobTitle} - ${companyName}</h4>
+          <div class="applicants-list" style="display: block;">
+              ${applicantsHTML}
+          </div>
+      </div>
+  `;
+
+  // Return the generated jobHTML to be appended elsewhere
+  return jobHTML;
+
+
+  }else{
+const jobHTML = `
       <div class="job-title-section">
           <h4 class="job-title" style="cursor: pointer;">${jobTitle} - ${companyName}</h4>
           <div class="applicants-list" style="display: none;">
@@ -1455,11 +1470,15 @@ const renderJobTitleWithApplicants = (jobTitle, companyName, applicants) => {
 
   // Return the generated jobHTML to be appended elsewhere
   return jobHTML;
+
+  }
+
+
 };
 
 Object.entries(groupedApplications).forEach(([key, applicants]) => {
-  const [jobTitle, companyName] = key.split('|');
-  const jobSection = renderJobTitleWithApplicants(jobTitle, companyName, applicants);
+  const [jobTitle, companyName, boosted] = key.split('|');
+  const jobSection = renderJobTitleWithApplicants(jobTitle, companyName, boosted, applicants);
   $('#application-posts-container').append(jobSection); // Assuming jQuery is used for DOM manipulation
 });
 
