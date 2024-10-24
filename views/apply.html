@@ -951,7 +951,7 @@ const customAnswers = getCustomAnswers(jobData.customQuestions);
             notes: sanitizeInput(document.getElementById('noteToRecruiter').value),
             portfolio: sanitizeInput(document.getElementById('portfolio').value),
             jobTitle: jobTitle,
-            companyName: companyName,
+            companyName: companyName || "",
             companyId: companyId,
             boostedApp: isBoosted,  // Set to true if boosting
             jobId: jobId,
