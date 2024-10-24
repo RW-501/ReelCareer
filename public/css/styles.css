@@ -24,6 +24,41 @@ body {
 
 
 }
+
+.mainBGcolor{
+    background-color: #639ad4 !important;
+
+}
+.mainColor{
+    color: #639ad4 !important;
+}
+.colorWhite{
+    color: #ffffff !important;
+}
+.colorGray{
+    color: #6e6e6e !important;
+}
+.colorDarkBlue{
+    color: #09213a !important;
+}
+.colorRed{
+    color: #d30000 !important;
+}
+.colorGreen{
+    color: #05722a !important;
+}
+.colorLightGray{
+    color: #949596 !important;
+}
+.colorDarkGray{
+    color: #444444 !important;
+}
+.colorBlack{
+    color: #222222 !important;
+}
+
+
+
 /* Flexbox for equal height */
 .blog-container {
     display: flex;
