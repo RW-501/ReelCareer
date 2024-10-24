@@ -1532,6 +1532,10 @@ $(function () {
 
 // Function to render applications dynamically based on status
 function renderApplication(applicantId, status, applicationHTML) {
+
+  console.log("status  ",status);
+  console.log("applicationHTML  ",applicationHTML);
+
   const sectionIdMap = {
       'Approved': '#approvedApplicationsContainer',
       'Under Review': '#underReviewApplicationsContainer',
@@ -1540,7 +1544,7 @@ function renderApplication(applicantId, status, applicationHTML) {
   };
 
   const container = document.querySelector(`${sectionIdMap[status]} .application-section`);
-  container.innerHTML += applicationHTML;
+ // container.innerHTML += applicationHTML;
 }
 
 // Example of filtering and sorting logic
