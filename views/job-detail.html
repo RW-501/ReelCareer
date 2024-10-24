@@ -1360,10 +1360,12 @@ if (cancelBtn) {
 
 
 
-window.addEventListener('load', () => {
-  console.log('load win ?????????????');
-const jobTags = document.getElementById('tag-list').textContent;
-window.loadRelatedBlogs(jobTags, 'blogContainer');
+document.addEventListener('DOMContentLoaded', () => {
+  setTimeout(() => {
+    console.log('load win ?????????????');
+    const jobTags = document.getElementById('tag-list').textContent;
+    window.loadRelatedBlogs(jobTags, 'blogContainer');
+  }, 2000);
 });
 
  
