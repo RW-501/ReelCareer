@@ -73,7 +73,7 @@
 </nav>
 <main>
 <div class="container mt-5 mb-5">
-    <h1 class="text-center mb-4 embossed">Job Application</h1>
+    <h1 class="text-center mb-4 text-muted">Job Application</h1>
     <app>
     <form id="applicationForm" class="shadow p-4 rounded bg-white" novalidate>
         <!-- Progress Indicator -->
@@ -953,7 +953,7 @@ const customAnswers = getCustomAnswers(jobData.customQuestions);
             jobTitle: jobTitle,
             companyName: companyName,
             companyId: companyId,
-            boostedApp: boosted,  // Set to true if boosting
+            boostedApp: isBoosted,  // Set to true if boosting
             jobId: jobId,
             status: "active",
             interviewRequestBool: false,
