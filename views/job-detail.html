@@ -1384,8 +1384,8 @@ if (cancelBtn) {
 
 document.addEventListener('DOMContentLoaded', () => {
   setTimeout(() => {
-//    console.log('load win ?????????????');
-   const jobTags = document.getElementById('tag-list').textContent;
+    const jobTags = ['job', 'jobs', 'new jobs']; 
+   //const jobTags = document.getElementById('tag-list').textContent;
     window.loadRelatedBlogs(jobTags, 'blogContainer');
   }, 2000);
 });
