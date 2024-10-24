@@ -287,6 +287,11 @@ function addStyles() {
       margin: 5px;
       color: #7f7f66;
   ">
+           <strong class="muted" style="
+      text-align: center;
+      display: block;
+  ">Web Dev, Video Editor</strong>
+
           <strong style="
       text-align: center;
       display: block;
