@@ -677,8 +677,8 @@ async function fetchRecruiterData(recruiterID) {
         // Loop through job posts and display them
         if (userDoc.exists()) {
 
-            const jobPosts = userDoc.data().jobPosts || [];
-          
+            let jobPosts = userDoc.data().jobPosts || [];
+            jobPosts = removeUndefined(jobPosts);
           
         
 // Create a Set to track unique company IDs
@@ -990,6 +990,7 @@ $(document).on('click', '.view-analytics', function () {
                 $(this).next('.company-details').toggle();
             });
         
+
             fetchJobApplications(jobIDsList);
 
         } else {

@@ -588,6 +588,33 @@ tagInput.addEventListener("focusout", () => {
 
 
 
+function removeUndefined(arr) {
+  if (!Array.isArray(arr)) {
+      console.error("Input is not an array. Please provide a valid array.");
+      return [];
+  }
+  
+  // Log original array length
+  const originalLength = arr.length;
 
+  // Filter out undefined values
+  const filteredArr = arr.filter(item => item !== undefined);
 
+  // Log how many undefined values were removed
+  const removedCount = originalLength - filteredArr.length;
+  if (removedCount > 0) {
+      console.log(`${removedCount} undefined value(s) removed.`);
+  } else {
+      console.log("No undefined values were found.");
+  }
+
+  return filteredArr;
+}
+/*
+// Example usage
+let arr = ['4WGIUfwBvFZmZ2LgNCOi', '0sokveOmwRnDpwxJeKen', 'gKLzhmR5OZenwMqZO9Vz', 'e51VHSQm6LwE3y6LZ5Eg', '7UfXOPzgojo2bUCQB25Q', undefined];
+let cleanedArr = removeUndefined(arr);
+console.log(cleanedArr);
+
+*/
 
