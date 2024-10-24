@@ -990,17 +990,19 @@ jobID = jobData.id;
 
 
      // Get the tags from the current job, ensuring the array is not empty
-let jobTags = jobData.tags;
+     let jobTags = jobData.tags;
 
-// Check if jobTags is null, undefined, or an empty array
-if (!jobTags || jobTags.length === 0) {
+// Check if jobTags is not an array or if it's an empty array
+if (!Array.isArray(jobTags) || jobTags.length === 0) {
     console.log("No tags available for this job. Using default tags.");
     
     // Use default tags if none are available in jobData
     jobTags = ['job', 'jobs', 'new jobs'] || ['Jobs', jobData.industry , "job"] || ['General Industry', 'Job Search', 'new jobs'];
-    document.getElementById('tag-list').textContent = jobTags;
+}
 
-  }    
+// Convert the array into a single string and set the textContent
+document.getElementById('tag-list').textContent = jobTags.join(', ');
+
 
 
   console.log("jobTags ?????????/!   ",jobTags);
