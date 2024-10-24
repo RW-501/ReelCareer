@@ -1004,7 +1004,12 @@ if (!jobTags || jobTags.length === 0) {
 
           // Fetch and display similar jobs
           getSimilarJobs(jobTags);
+
+
+
           window.addEventListener('load', () => {
+            console.log('load ?????????????');
+
 window.loadRelatedBlogs(jobTags, 'blogContainer');
 });
 
