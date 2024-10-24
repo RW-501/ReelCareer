@@ -743,7 +743,7 @@ text-align: left;
 
 
 
-
+<div id="tag-list" class="hide"></div>
 
   <!-- Footer -->
   <footer id="dynamic-footer"></footer>
@@ -1006,29 +1006,11 @@ if (!jobTags || jobTags.length === 0) {
           getSimilarJobs(jobTags);
 
 
+          document.getElementById('tag-list').textContent = jobTags;
 
 
 
 
-
-          document.addEventListener('load', () => {
-            console.log('load  norm ?????????????');
-
-loadRelatedBlogs(jobTags, 'blogContainer');
-});
-
-
-          document.addEventListener('load', () => {
-            console.log('load  doc ?????????????');
-
-document.loadRelatedBlogs(jobTags, 'blogContainer');
-});
-
-          window.addEventListener('load', () => {
-            console.log('load win ?????????????');
-
-window.loadRelatedBlogs(jobTags, 'blogContainer');
-});
 
       // Assuming you have your job data in jobData
       const companyWebsite = document.getElementById('companyWebsite');
@@ -1373,6 +1355,16 @@ if (cancelBtn) {
     </script>
 
   <script>
+
+
+
+
+
+window.addEventListener('load', () => {
+  console.log('load win ?????????????');
+const jobTags = document.getElementById('tag-list').textContent
+window.loadRelatedBlogs(jobTags, 'blogContainer');
+});
 
  
   </script>
