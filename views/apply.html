@@ -716,48 +716,52 @@ function getCustomAnswers(customQuestions) {
     const customAnswers = {};
     console.log("customQuestions: ", customQuestions);
 
-    customQuestions.forEach(question => {
+    customQuestions.forEach((question, index) => {
         let answer;
-        console.log("question: ", question);
-        console.log("question type: ", question.type);
-        
-        // Ensure question.id is defined
+        console.log("Processing question: ", question);
+
+        // Assign a unique ID if it's missing
         if (!question.id) {
-            console.error("Missing question.id for question: ", question);
-            return; // Skip processing this question if no valid id
+            console.warn("Missing question.id for question: ", question);
+            question.id = `question_${index}`; // Assign a dummy ID based on index
         }
 
+        // Handle question types
         switch (question.type) {
             case 'multiple_choice':
                 const selectedOption = document.querySelector(`input[name="${question.id}"]:checked`);
-                answer = selectedOption ? selectedOption.value : null; // If no option selected, return null
+                answer = selectedOption ? selectedOption.value : 'No option selected';
                 break;
             case 'text_area':
-                answer = document.getElementById(question.id)?.value?.trim() || null;
+                answer = document.getElementById(question.id)?.value?.trim() || 'No answer provided';
                 break;
             case 'input_field':
-                answer = document.getElementById(question.id)?.value?.trim() || null;
+                answer = document.getElementById(question.id)?.value?.trim() || 'No answer provided';
+                break;
+            case 'statement':
+                // For 'statement' type, there's no answer to capture, so we use a placeholder
+                answer = "N/A";
                 break;
             default:
                 console.warn(`Unhandled question type: ${question.type}`);
+                answer = "N/A";
                 break;
         }
 
-        console.log("Answer: ", answer);
-        console.log("Question ID: ", question.id);
+        // Log the question and the answer for debugging
+        console.log(`Captured question: ${question.question}`);
+        console.log(`Captured answer: ${answer}`);
 
-        // Only add to customAnswers if both question.id and answer are valid
-        if (answer !== null) {
-            customAnswers[question.id] = answer;
-        } else {
-            console.warn(`Skipping question due to missing answer or invalid ID for question: ${question.id}`);
-        }
+        // Store both the question and its answer in the customAnswers object
+        customAnswers[question.id] = {
+            question: question.question,
+            answer: answer,
+            timestamp:  new Date().toLocaleString()
+        };
     });
 
     return customAnswers;
 }
-
-
 
 // Fetch Job and Company Information
 async function fetchJobAndCompanyInfo(jobDocRef) {

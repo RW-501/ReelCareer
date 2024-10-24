@@ -1607,17 +1607,13 @@ $(function () {
 function renderApplication(applicantId, status, applicationHTML) {
 
   console.log("status  ",status);
-  console.log("applicationHTML  ",applicationHTML);
+  //console.log("applicationHTML  ",applicationHTML);
 
   const sectionIdMap = {
       'approved': '#approvedApplicationsContainer',
       'under review': '#underReviewApplicationsContainer',
       'rejected': '#rejectedApplicationsContainer',
       'pending': '#pendingApplicationsContainer',
-      'Approved': '#approvedApplicationsContainer',
-      'Under Review': '#underReviewApplicationsContainer',
-      'Rejected': '#rejectedApplicationsContainer',
-      'Pending': '#pendingApplicationsContainer',
   };
 
   const container = document.querySelector(`${sectionIdMap[status]} .application-section`);
