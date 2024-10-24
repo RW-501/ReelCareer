@@ -397,7 +397,7 @@ function formatLocation(location, options = {}) {
 // Function to show toast notifications
 function showToast(message, type) {
     const toast = document.createElement('div');
-    toast.className = `toast ${type}`; // Add classes for styling
+    toast.className = `toast ${type} noCopy`; // Add classes for styling
     toast.setAttribute('role', 'alert'); // Accessibility
     toast.innerText = message;
 
@@ -512,13 +512,13 @@ function createTagInputSystem({ tagsContainerId, badgeClass = "tag-primary" }) {
     // Create a temporary input to handle tag entries
     const tagInput = document.createElement("input");
     tagInput.type = "text";
-    tagInput.className = "form-control tagInput mt-2";
+    tagInput.className = "form-control tagInput mt-2 noCopy";
     tagInput.placeholder = "Add a tag and press Enter";
     tagsContainer.appendChild(tagInput); // Append the new input to the container
     
     // Create tags list container dynamically
     const tagsList = document.createElement("div");
-    tagsList.className = "mt-2";
+    tagsList.className = "mt-2 noCopy";
     tagsContainer.appendChild(tagsList); // Append the tags list to the container
 
     // Create the Clear Tags button dynamically

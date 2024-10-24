@@ -254,7 +254,7 @@ function addStyles() {
   function createLoader(message = "ReelCareer") {
     const loaderDiv = document.createElement("div");
     loaderDiv.id = "loaderX";
-    loaderDiv.classList.add("loader-container");
+    loaderDiv.classList.add("loader-container noCopy");
     loaderDiv.setAttribute("role", "alert");
     loaderDiv.setAttribute("aria-live", "assertive");
     loaderDiv.setAttribute("aria-busy", "true");
@@ -277,7 +277,7 @@ function addStyles() {
     const personalInfo = document.createElement("div");
     personalInfo.classList.add("personal-info");
     personalInfo.innerHTML = `
-  <div class="personal-info">
+  <div class="personal-info noCopy">
           <strong style="
       font-weight: 800;
       font-size: 1rem;
@@ -514,7 +514,7 @@ function addStyles() {
   function createJobCard(job, container) {
     // Create the job card
     const jobCard = document.createElement("div");
-    jobCard.className = "col-md-4 mb-4";
+    jobCard.className = "col-md-4 mb-4 noCopy";
     jobCard.innerHTML = `
       <div class="card jobCard h-100 shadow-sm" style="
           border-radius: 12px; 
@@ -604,7 +604,7 @@ function addStyles() {
   function createSponsoredJobCard(sponsors, container) {
     if (sponsors.length > 0) {
       const sponsorSection = document.createElement("div");
-      sponsorSection.className = "col-12 mt-4";
+      sponsorSection.className = "col-12 mt-4 noCopy";
       sponsorSection.innerHTML = `
               <h5 class="text-center mb-4">Our Sponsors</h5>
               <div class="sponsorArea row">

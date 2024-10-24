@@ -24,6 +24,10 @@ body {
 
 
 }
+
+.noCopy {
+    user-select: none !important;
+}
 /* Headings */
 h1 {
     color: #5b6369;
