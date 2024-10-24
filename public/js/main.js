@@ -21,7 +21,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
 import {
   getFirestore,
-  doc,
+  doc, where,
   updateDoc,
   setDoc,
   serverTimestamp,query ,
