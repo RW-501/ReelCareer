@@ -254,7 +254,7 @@ function addStyles() {
   function createLoader(message = "ReelCareer") {
     const loaderDiv = document.createElement("div");
     loaderDiv.id = "loaderX";
-    loaderDiv.classList.add("loader-container noCopy");
+    loaderDiv.classList.add("loader-container");
     loaderDiv.setAttribute("role", "alert");
     loaderDiv.setAttribute("aria-live", "assertive");
     loaderDiv.setAttribute("aria-busy", "true");
