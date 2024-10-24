@@ -1374,7 +1374,10 @@ export {
 window.addEventListener('load', function() {
   window.loadRelatedBlogs = async function(jobTags, containerId) {
       try {
-          // Reference the 'Blogs' collection
+
+        console.log("jobTags ?????????/!main   ",jobTags);
+
+           //Reference the 'Blogs' collection
           const blogsRef = collection(db, 'Blogs');
           const blogContainer = document.getElementById(containerId);
           const showMoreButton = document.createElement('button');
