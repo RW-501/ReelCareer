@@ -1465,14 +1465,19 @@ window.addEventListener('load', function() {
 
           // Function to open the modal and show full blog content
           async function openBlogModal(blogId) {
+
               const blog = allBlogs.find(b => b.id === blogId);
               const modalTitle = document.getElementById('blogModalLabel');
               const modalBody = document.getElementById('modalBlogBody');
 
-if(!modalTitle){
-              // Call the function to create the modal
-createBlogModal();
-}else
+              const blogModal =  document.getElementById('blogModal');
+
+              if(!blogModal){
+                createBlogModal();
+
+              }else
+
+
               // Set the modal title and body content
               modalTitle.textContent = blog.title;
               modalBody.innerHTML = `
