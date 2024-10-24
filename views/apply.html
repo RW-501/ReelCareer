@@ -760,7 +760,7 @@ async function fetchJobAndCompanyInfo(jobDocRef) {
         </div>
         <div class="card-body">
             <h5 class="card-title">${jobData.title}</h5>
-            <h6 class="card-subtitle mb-2 text-muted">${companyData.name}</h6>
+            <h6 class="card-subtitle mb-2 text-muted">${companyData.company}</h6>
             <div class="d-flex justify-content-between">
                 <p class="card-text"><strong>Location:</strong> ${companyData.location}</p>
                 <p class="card-text"><strong>Type:</strong> ${jobData.type}</p>
@@ -915,13 +915,6 @@ console.log('Form submitted:', formData);
     const jobId = getJobIdFromURL();
     console.log("jobId  ",jobId);
 
-// Assuming these values are populated elsewhere
-const jobTitle = jobData.title; 
-const companyName = jobData.companyName; 
-const companyId = jobData.companyId; 
-
-// Retrieve answers for custom questions
-const customAnswers = getCustomAnswers(jobData.customQuestions);
 
 
    
@@ -936,7 +929,7 @@ const customAnswers = getCustomAnswers(jobData.customQuestions);
 
         // Assuming these values are populated elsewhere
         const jobTitle = jobData.title; 
-        const companyName = jobData.companyName; 
+        const companyName = jobData.company; 
         const companyId = jobData.companyId; 
 
         // Retrieve answers for custom questions
