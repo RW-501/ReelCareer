@@ -897,11 +897,56 @@ function validateForm() {
 // Function to handle application submission
 async function submitApplication(boosted = false) {
     const userId = auth.currentUser ? auth.currentUser.uid : null; // Get user ID
+    console.log("userId  ",userId);
+
+   
+   
     if (!userId) {
         showToast('You must be logged in to apply.', 'error');
-        return;
+        //return;
     }
-   
+
+
+    const jobId = getJobIdFromURL();
+
+// Assuming these values are populated elsewhere
+const jobTitle = jobData.title; 
+const companyName = jobData.companyName; 
+const companyId = jobData.companyId; 
+
+// Retrieve answers for custom questions
+const customAnswers = getCustomAnswers(jobData.customQuestions);
+
+// Prepare main application data
+const applicationData = {
+    firstName: sanitizeInput(document.getElementById('firstName').value),
+    lastName: sanitizeInput(document.getElementById('lastName').value),
+    email: sanitizeInput(document.getElementById('email').value),
+    phone: sanitizeInput(document.getElementById('phone').value),
+    notes: sanitizeInput(document.getElementById('noteToRecruiter').value),
+    portfolio: sanitizeInput(document.getElementById('portfolio').value),
+    jobTitle: jobTitle,
+    companyName: companyName,
+    companyId: companyId,
+    boostedApp: boosted,  // Set to true if boosting
+    jobId: jobId,
+    status: "active",
+    interviewRequestBool: false,
+    interviewRequestDate: '',
+    testRequestBool: false,
+    testRequestExpireDate: '',
+    testRequestNames: [],
+    views: 0,
+    resumeViews: 0,
+    videoResumeViews: 0,
+    userId: userId,
+    customAnswers: customAnswers, // Add custom answers to the data
+    applyDate: new Date().toLocaleString(),
+};
+
+console.log("applicationData  ",applicationData);
+
+   /*
     if (jobData.applicationAvailableBool) {
         // Validate form fields before proceeding
         if (!validateForm()) {
@@ -992,6 +1037,8 @@ async function submitApplication(boosted = false) {
         
         }
     }
+
+    */
 }
 
 // Event listener for submit application button
