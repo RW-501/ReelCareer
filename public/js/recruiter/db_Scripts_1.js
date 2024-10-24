@@ -1634,8 +1634,8 @@ function filterAndSortApplications() {
 
   // Define status equivalence (mapping old and new status terms)
   const statusMappings = {
-    "approved": ["approved", "application approved"],
-    "rejected": ["rejected", "application rejected"],
+    "approved": ["approved", "Application Approved", "application approved"],
+    "rejected": ["rejected", "Application Rejected", "application rejected"],
     "under review": ["under review"],
     "pending": ["pending", "pending approval"]
   };
