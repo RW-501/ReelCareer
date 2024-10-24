@@ -714,11 +714,15 @@ document.getElementById('backToJobPost').addEventListener('click', () => {
 // Function to retrieve answers from custom questions
 function getCustomAnswers(customQuestions) {
     const customAnswers = {};
-    
+    console.log("customQuestions     ",customQuestions);
+
     customQuestions.forEach(question => {
         let answer;
-        
+        console.log("question     ",question);
+        console.log("question type     ",question.type);
+
         switch (question.type) {
+            
             case 'multiple_choice':
                 const selectedOption = document.querySelector(`input[name="${question.id}"]:checked`);
                 answer = selectedOption ? selectedOption.value : null; // If no option selected, return null
@@ -730,7 +734,10 @@ function getCustomAnswers(customQuestions) {
                 answer = document.getElementById(question.id).value.trim();
                 break;
         }
-        
+       // console.log("selectedOption     ",selectedOption);
+       console.log("answer     ",answer);
+       console.log("question.id     ",question.id);
+
         // Add the question ID and answer to the customAnswers object
         customAnswers[question.id] = answer;
     });
