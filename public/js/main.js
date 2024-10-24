@@ -1371,126 +1371,134 @@ export {
       }
 */
 
+window.addEventListener('load', function() {
+  window.loadRelatedBlogs = async function(jobTags, containerId) {
+      try {
+          // Reference the 'Blogs' collection
+          const blogsRef = collection(db, 'Blogs');
+          const blogContainer = document.getElementById(containerId);
+          const showMoreButton = document.createElement('button');
+          let allBlogs = []; // Store all blogs
+          let displayedBlogs = 0; // Track how many blogs have been displayed
+          const blogsPerPage = 3; // Number of blogs to show at a time
 
+          // Function to load more blogs
+          function loadMoreBlogs() {
+              displayBlogs();
+              console.log("Loaded more blogs.");
+          }
 
-window.loadRelatedBlogs = async function(jobTags, containerId) {
-  try {
-      console.log("jobTags:", jobTags);
+          // Function to open the modal and show full blog content
+          async function openBlogModal(blogId) {
+              const blog = allBlogs.find(b => b.id === blogId);
+              const modalTitle = document.getElementById('blogModalLabel');
+              const modalBody = document.getElementById('modalBlogBody');
 
-      // Reference the 'Blogs' collection
-      const blogsRef = collection(db, 'Blogs');
-      const blogContainer = document.getElementById(containerId);
-      const showMoreButton = document.createElement('button');
-      let allBlogs = []; // Store all blogs
-      let displayedBlogs = 0; // Track how many blogs have been displayed
-      const blogsPerPage = 3; // Number of blogs to show at a time
+              // Set the modal title and body content
+              modalTitle.textContent = blog.title;
+              modalBody.innerHTML = `
+                  <img src="${blog.imageUrl}" alt="${blog.title}" class="img-fluid" loading="lazy" />
+                  <p>${blog.content}</p>
+                  <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button class="btn btn-primary" id="seeMoreButton">See More</button>
+              `;
 
-      // Function to fetch blogs based on job tags
-      async function fetchBlogs(jobTags) {
-          try {
-              const q = query(blogsRef, where('tags', 'array-contains-any', jobTags));
-              const querySnapshot = await getDocs(q);
+              // Update the view count
+              await updateViewCount(blogId);
 
-              // Populate the allBlogs array
-              querySnapshot.forEach(doc => {
-                  allBlogs.push({ id: doc.id, ...doc.data() });
+              // Show the modal
+              const modal = new bootstrap.Modal(document.getElementById('blogModal'));
+              modal.show();
+
+              // Event listener for the See More button
+              document.getElementById('seeMoreButton').onclick = () => {
+                  loadMoreBlogs(blog.tags); // Fetch more blogs based on the same tags if desired
+              };
+          }
+
+          // Function to fetch blogs based on job tags
+          async function fetchBlogs(jobTags) {
+              try {
+                  const q = query(blogsRef, where('tags', 'array-contains-any', jobTags));
+                  const querySnapshot = await getDocs(q);
+
+                  // Populate the allBlogs array
+                  querySnapshot.forEach(doc => {
+                      allBlogs.push({ id: doc.id, ...doc.data() });
+                  });
+
+                  console.log("allBlogs:", allBlogs);
+
+                  // Display the first set of blogs
+                  displayBlogs();
+
+                  // Create "Show More" button
+                  showMoreButton.innerText = "Show More";
+                  showMoreButton.className = "btn btn-primary mt-3";
+                  showMoreButton.addEventListener('click', loadMoreBlogs);
+                  blogContainer.appendChild(showMoreButton);
+              } catch (error) {
+                  console.error("Error fetching related blogs:", error);
+              }
+          }
+
+          // Function to display blogs
+          function displayBlogs() {
+              const blogsToShow = allBlogs.slice(displayedBlogs, displayedBlogs + blogsPerPage);
+              console.log("Displaying blogs...");
+
+              blogsToShow.forEach(blog => {
+                  const blogCard = document.createElement('div');
+                  blogCard.classList.add('col-md-4', 'mb-4'); // Use Bootstrap column classes for spacing
+                  blogCard.innerHTML = `
+                      <div class="card blog-card shadow-sm">
+                          <div data-bs-toggle="modal" data-bs-target="#blogModal" class="blog-card-trigger" data-blog-id="${blog.id}">
+                              <img src="${blog.imageUrl}" alt="${blog.title}" class="card-img-top" loading="lazy" />
+                          </div>
+                          <div class="card-body">
+                              <h5 class="card-title text-primary">${blog.title}</h5>
+                              <p class="card-text text-muted">
+                                  <a href="https://reelcareer.co/views/blog?id=${blog.id}">${truncateText(blog.content, 80)}</a>
+                              </p>
+                              <button class="btn btn-outline-primary blog-card-trigger" data-blog-id="${blog.id}">Read More</button>
+                          </div>
+                      </div>
+                  `;
+                  blogContainer.appendChild(blogCard);
               });
 
-              console.log("allBlogs:", allBlogs);
+              displayedBlogs += blogsToShow.length;
 
-              // Display the first set of blogs
-              displayBlogs();
-
-              // Create "Show More" button
-              showMoreButton.innerText = "Show More";
-              showMoreButton.className = "btn btn-primary mt-3";
-              showMoreButton.addEventListener('click', loadMoreBlogs);
-              blogContainer.appendChild(showMoreButton);
-          } catch (error) {
-              console.error("Error fetching related blogs:", error);
+              // Hide button if no more blogs to display
+              if (displayedBlogs >= allBlogs.length) {
+                  showMoreButton.style.display = 'none'; // Hide the button if there are no more blogs
+              }
           }
-      }
 
-      // Function to display blogs
-      function displayBlogs() {
-          const blogsToShow = allBlogs.slice(displayedBlogs, displayedBlogs + blogsPerPage);
-          console.log("Displaying blogs...");
-
-          blogsToShow.forEach(blog => {
-              const blogCard = document.createElement('div');
-              blogCard.classList.add('col-md-4', 'mb-4'); // Use Bootstrap column classes for spacing
-              blogCard.innerHTML = `
-                <div class="card blog-card shadow-sm">
-                    <div data-bs-toggle="modal" data-bs-target="#blogModal" onclick="openBlogModal('${blog.id}')">
-                        <img src="${blog.imageUrl}" alt="${blog.title}" class="card-img-top" loading="lazy" />
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title text-primary">${blog.title}</h5>
-                        <p class="card-text text-muted"><a href="https://reelcareer.co/views/blog?id=${blog.id}" >${truncateText(blog.content, 80)}</a></p>
-                        <div class="btn btn-outline-primary" onclick="openBlogModal('${blog.id}')">Read More</div>
-                    </div>
-                </div>
-              `;
-              blogContainer.appendChild(blogCard);
+          // Event listener for blog cards to open modal
+          blogContainer.addEventListener('click', function(e) {
+              if (e.target.classList.contains('blog-card-trigger')) {
+                  const blogId = e.target.getAttribute('data-blog-id');
+                  openBlogModal(blogId);
+              }
           });
 
-          displayedBlogs += blogsToShow.length;
-
-          // Hide button if no more blogs to display
-          if (displayedBlogs >= allBlogs.length) {
-              showMoreButton.style.display = 'none'; // Hide the button if there are no more blogs
+          // Function to update the view count for the blog
+          async function updateViewCount(blogId) {
+              const blogRef = doc(db, 'Blogs', blogId);
+              await updateDoc(blogRef, {
+                  views: increment(1) // Increment the views count by 1
+              });
           }
+
+          // Start fetching blogs
+          await fetchBlogs(jobTags);
+
+      } catch (error) {
+          console.error("Error in loadRelatedBlogs:", error);
       }
-
-      // Function to load more blogs
-      function loadMoreBlogs() {
-          displayBlogs();
-          console.log("Loaded more blogs.");
-      }
-
-      // Function to open the modal and show full blog content
-      async function openBlogModal(blogId) {
-          const blog = allBlogs.find(b => b.id === blogId);
-          const modalTitle = document.getElementById('blogModalLabel');
-          const modalBody = document.getElementById('modalBlogBody');
-
-          // Set the modal title and body content
-          modalTitle.textContent = blog.title;
-          modalBody.innerHTML = `
-              <img src="${blog.imageUrl}" alt="${blog.title}" class="img-fluid" loading="lazy" />
-              <p>${blog.content}</p>
-              <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button class="btn btn-primary" id="seeMoreButton">See More</button>
-          `;
-
-          // Update the view count
-          await updateViewCount(blogId);
-
-          // Show the modal
-          const modal = new bootstrap.Modal(document.getElementById('blogModal'));
-          modal.show();
-
-          // Event listener for the See More button
-          document.getElementById('seeMoreButton').onclick = () => {
-              loadMoreBlogs(blog.tags); // Fetch more blogs based on the same tags if desired
-          };
-      }
-
-      // Function to update the view count for the blog
-      async function updateViewCount(blogId) {
-          const blogRef = doc(db, 'Blogs', blogId);
-          await updateDoc(blogRef, {
-              views: increment(1) // Increment the views count by 1
-          });
-      }
-
-      // Start fetching blogs
-      await fetchBlogs(jobTags);
-
-  } catch (error) {
-      console.error("Error in loadRelatedBlogs:", error);
-  }
-};
+  };
+});
 
 // Load the function only after the page has fully loaded
 

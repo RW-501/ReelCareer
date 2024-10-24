@@ -998,15 +998,15 @@ if (!jobTags || jobTags.length === 0) {
     
     // Use default tags if none are available in jobData
     jobTags = ['Jobs', jobData.industry , "job" || 'General Industry', 'Job Search', 'new jobs'];
-}
+    document.getElementById('tag-list').textContent = jobTags;
+
+  }
+
+  console.log("jobTags ?????????/!   ",jobTags);
 
       renderTags(jobTags);
+      getSimilarJobs(jobTags);
 
-          // Fetch and display similar jobs
-          getSimilarJobs(jobTags);
-
-
-          document.getElementById('tag-list').textContent = jobTags;
 
 
 
@@ -1362,7 +1362,7 @@ if (cancelBtn) {
 
 window.addEventListener('load', () => {
   console.log('load win ?????????????');
-const jobTags = document.getElementById('tag-list').textContent
+const jobTags = document.getElementById('tag-list').textContent;
 window.loadRelatedBlogs(jobTags, 'blogContainer');
 });
 
