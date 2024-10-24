@@ -404,29 +404,41 @@ function addStyles() {
   
   addStyles(); // Add styles first
   createLoader(); // Then create the loader
-  
-  function hideLoader() {
-    console.log("pauseTime   ", pauseTime);
-  
-    if (pauseTime === false) {
-      const loader = document.getElementById("loaderX");
-      loader.classList.add("hidden");
-      loader.remove();
-    }
+  let loaderTimer = 700;
+
+  function setLoaderTimer(loaderTimer) {
+    setTimeout(() => {
+      hideLoader(); // Hide loader first
+      pauseTime = false;
+    }, loaderTimer);
+
+    function hideLoader() {
+      console.log("pauseTime   ", pauseTime);
+      if (pauseTime === false) {
+        const loader = document.getElementById("loaderX");
+        loader.classList.add("hidden");
+        loader.remove();
+      }
+      }
   }
   
+  function showLoader(timer = 700) {
+    pauseTime = false;
+    createLoader(); 
+    setLoaderTimer(timer);
+  }
+
   // Hide loader when the window fully loads
   window.addEventListener("load", () => {
     document.body.classList.add("loaded"); // Then show content
-    console.log("setTimeout   1");
-  
-    setTimeout(() => {
-      console.log("setTimeout  2 ");
-  
-      hideLoader(); // Hide loader first
-    }, 750);
+  setLoaderTimer(700);
   });
-  
+
+
+ 
+
+
+
   function addStyles2() {
     const style = document.createElement("style");
     style.type = "text/css";

@@ -554,6 +554,7 @@ boosted
             document.getElementById("boostedArea").style.display = "none";
             document.getElementById("nonBoostedArea").style.display = "block";
         }
+        $("#jobModal").modal("hide");
 
         // Show the success modal
         $("#jobSuccessModal").modal("show");

@@ -820,6 +820,7 @@ text-align: left;
       showToast("You need to be logged in to save jobs.", 'error')
       saveBtn.disabled = false;
       saveBtn.textContent = "Save Job";
+      showLoader(1000);
       return;
     }
 
