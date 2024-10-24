@@ -1614,6 +1614,10 @@ function renderApplication(applicantId, status, applicationHTML) {
       'under review': '#underReviewApplicationsContainer',
       'rejected': '#rejectedApplicationsContainer',
       'pending': '#pendingApplicationsContainer',
+      'Approved': '#approvedApplicationsContainer',
+      'Under Review': '#underReviewApplicationsContainer',
+      'Rejected': '#rejectedApplicationsContainer',
+      'Pending': '#pendingApplicationsContainer',
   };
 
   const container = document.querySelector(`${sectionIdMap[status]} .application-section`);
@@ -1632,8 +1636,8 @@ function filterAndSortApplications() {
   const statusMappings = {
     "approved": ["approved", "Application Approved", "application approved"],
     "rejected": ["rejected", "Application Rejected", "application rejected"],
-    "under review": ["under review"],
-    "pending": ["pending", "pending approval"]
+    "under review": ["under review", "Under Review"],
+    "pending": ["pending", "pending approval", "Pending Approval"]
   };
 
   allApplications.forEach(app => {
