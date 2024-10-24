@@ -1253,7 +1253,6 @@ function filterByDeadline() {
 
 let jobID = '';
 
-let applicationStatuses = {}; // Or an appropriate data structure
 
 
 // Define the filtering function first
@@ -1378,6 +1377,7 @@ async function fetchJobApplications(jobIDs) {
   try {
       // Show loading state
       $('#application-posts-container').html('<p>Loading applications...</p>');
+      let applicationStatuses = {}; // Or an appropriate data structure
 
       const applicationsRef = collection(db, "Applications");
       const applicationsQuery = query(applicationsRef, where("jobId", "in", jobIDs));
