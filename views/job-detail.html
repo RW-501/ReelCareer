@@ -1035,12 +1035,19 @@ if (jobTags.length > 0) {
       const companyWebsite = document.getElementById('companyWebsite');
       const jobBenefitsArea = document.getElementById('jobBenefitsArea');
       const companyPageLink = document.getElementById('companyPageLink');
+      const companyDescription =  document.getElementById("companyDescription")
+      const companyMission =  document.getElementById("companyMission")
 
 
       // Check if all company elements are empty or missing content
       // Check if the company website is valid
       if (!jobData.companyWebsite || companyWebsite.href === "undefined" ||  jobData.companyWebsite ===  undefined || jobData.companyWebsite.trim() === "") {
         companyWebsite.style.display = "none"; // Hides the company website link if undefined or empty
+      }
+      if (!companyDescription.innerText || companyDescription.innerText === "undefined" ||  companyDescription.innerText ===  undefined || companyDescription.innerText.trim() === "") {
+        companyDescription.style.display = "none"; // Hides the company website link if undefined or empty
+        companyPageLink.style.display = "none"; // Hides the company website link if undefined or empty
+        companyMission.style.display = "none"; // Hides the company website link if undefined or empty
       }
 
       // Check if job benefits are available
