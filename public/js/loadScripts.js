@@ -583,3 +583,11 @@ tagInput.addEventListener("focusout", () => {
     // Return input and clear button for external listeners
     return { tagInput, clearTagsButton, tagsList, addTag };
 }
+
+
+
+
+
+
+
+

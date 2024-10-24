@@ -816,9 +816,10 @@ document.getElementById('sendMessage').addEventListener('click', async () => {
 });
 
 
+
 // Function to sanitize user input
 function sanitizeInput(input) {
-    return input.trim().replace(/<[^>]*>/g, ''); // Basic HTML tag removal for sanitization
+    return input.trim().replace(/<[^>]*>/g, '');
 }
 
 // Form Validation

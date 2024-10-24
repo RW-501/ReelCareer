@@ -744,6 +744,7 @@ text-align: left;
 
 
 <div id="tag-list" class="hide"></div>
+<div id="userID" class="hide"></div>
 
   <!-- Footer -->
   <footer id="dynamic-footer"></footer>
@@ -783,6 +784,7 @@ text-align: left;
                 if (user) {
                      userId = user.uid; // Access the user ID
                     console.log("User ID:", userId);
+                    document.getElementById('userID').innerText = userId;
                     // You can call your functions that require userId here
                 } else {
                     console.error("No user is signed in.");
@@ -1283,6 +1285,7 @@ function submitReport() {
     }
     const jobID = document.getElementById('jobID').innerText;
     const jobTitle = document.getElementById('jobTitle').innerText;
+    const userID = document.getElementById('userID').innerText;
     const reportData = {
         jobId: jobID,
         jobTitle: jobTitle,
