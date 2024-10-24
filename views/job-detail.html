@@ -1287,7 +1287,7 @@ if (proceedBtn) {
 window.saveJob = saveJob;
 window.submitReport = submitReport; // Expose submitReport globally
 
-function submitReport() {
+async function submitReport() {
     const selectedReasons = [];
     document.querySelectorAll('#reportJobForm input[type="checkbox"]:checked').forEach((checkbox) => {
       selectedReasons.push(checkbox.value);
@@ -1319,8 +1319,11 @@ function submitReport() {
     };
 
     // Send the report to Firebase
-    firebase.firestore().collection("SupportTickets").add(reportData)
-      .then(() => {
+   
+    try {
+        // Add the report data to the SupportTickets collection
+        await addDoc(collection(db, 'SupportTickets'), reportData);
+
         // Display success message and show close button
         statusMessage.innerHTML = 'Your report has been submitted. Thank you for your feedback.';
         statusMessage.className = 'text-success'; // Add success class for styling
@@ -1328,13 +1331,12 @@ function submitReport() {
 
         // Optionally disable the submit button after success
         document.querySelector('#reportJobForm button[type="button"]').disabled = true;
-      })
-      .catch((error) => {
+    } catch (error) {
         console.error("Error submitting report: ", error);
         // Display error message
         statusMessage.innerHTML = 'There was an error submitting your report. Please try again later.';
         statusMessage.className = 'text-danger'; // Add error class for styling
-      });
+    }
 }
 
 
