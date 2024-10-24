@@ -1326,11 +1326,27 @@ const renderApplicationHTML = (application, jobTitle, companyName) => {
                         <li class="list-group-item"><strong>Feedback:</strong> ${application.feedback }</li>
                         <li class="list-group-item"><strong>Status:</strong> <span class="badge" style="background-color: ${statusColor};">${application.status}</span></li>
                         ${application.boostedApp ? '<span class="badge bg-warning text-dark">Boosted Application</span>' : ''}
-                        <li class="list-group-item" contenteditable="true">${application.notes || "No notes available."}</li>
+<li class="list-group-item">
+  <label for="noteType-${application.id}"><strong>Note Type:</strong></label>
+  <select class="form-select note-type-selector" id="noteType-${application.id}">
+    <option value="General">General</option>
+    <option value="Important">Important</option>
+    <option value="Follow-up">Follow-up</option>
+  </select>
+</li>
+<li class="list-group-item">
+  <label for="notes-${application.id}"><strong>Notes:</strong></label>
+  <textarea id="notes-${application.id}" class="form-control notes-input" rows="4">${application.notes || "No notes available."}</textarea>
+</li>
+              <button class="btn btn-success save-application" data-applicant-id="${application.id}">
+  <span class="spinner-border spinner-border-sm" role="status" style="display:none;"></span>
+  Save
+</button>
                     </ul>
                     <a href="${application.resumeLink}" target="_blank" class="btn btn-link mt-2">Download Resume</a>
                     <a href="${application.videoResumeLink}" target="_blank" class="btn btn-link">Download Video Resume</a>
                     <button class="view-application btn btn-info mt-3" data-applicant-id="${application.id}">View Application</button>
+                    <button class="pending-application" data-applicant-id="${application.id}">Set as Pending</button>
                     ${statusButtons["Request Interview"]}
                     ${statusButtons["Request Test"]}
                     ${statusButtons["Under Review"]}
@@ -1340,12 +1356,13 @@ const renderApplicationHTML = (application, jobTitle, companyName) => {
             <div class="card-footer text-end">
                 <button class="btn btn-danger reject-application" data-applicant-id="${application.id}">Reject</button>
                 <button class="btn btn-primary approve-application ms-2" data-applicant-id="${application.id}">Approve</button>
+  
+
             </div>
         </div>
     </div>
   `;
 };
-
 
 
 async function fetchJobApplications(jobIDs) {
@@ -1354,94 +1371,107 @@ async function fetchJobApplications(jobIDs) {
   console.log("fetchJobApplications jobIDs", jobIDs);
 
   try {
-      // Show loading state
-      $('#application-posts-container').html('<p>Loading applications...</p>');
-      let applicationStatuses = {
-        "Approved": "Application Approved",
-        "Rejected": "Application Rejected",
-        "Under Review": "Under Review",
-        "Pending": "Pending",
-        // Add other statuses as needed
-      };
-      const applicationsRef = collection(db, "Applications");
-      const applicationsQuery = query(applicationsRef, where("jobId", "in", jobIDs));
-      const querySnapshot = await getDocs(applicationsQuery);
-      
-      const applications = [];
-      querySnapshot.forEach(doc => {
-          const application = doc.data();
-          applications.push({ ...application, id: doc.id });
-      });
+    // Show loading state
+    $("#application-posts-container").html("<p>Loading applications...</p>");
 
-      console.log("applications  ",applications);
+    // Define both old and new statuses
+    let applicationStatuses = {
+      "approved": "Application Approved",
+      "rejected": "Application Rejected",
+      "under review": "Under Review",
+      "pending": "Pending",
+      "application approved": "Application Approved",  // New way
+      "application rejected": "Application Rejected",  // New way
+      "under review": "Under Review",                  // New way
+      "pending approval": "Pending Approval"           // New way, add others as needed
+    };
 
-        // Now render applications using the stored statuses
-        applications.forEach(app => {
+    const applicationsRef = collection(db, "Applications");
+    const applicationsQuery = query(
+      applicationsRef,
+      where("jobId", "in", jobIDs)
+    );
+    const querySnapshot = await getDocs(applicationsQuery);
 
+    const applications = [];
+    querySnapshot.forEach((doc) => {
+      const application = doc.data();
+      applications.push({ ...application, id: doc.id });
+    });
 
-          const applicationHTML = renderApplicationHTML(app);
-          const statusKey = app.status.trim().toLowerCase();
-const statusValue = applicationStatuses[statusKey.charAt(0).toUpperCase() + statusKey.slice(1)];
-console.log("Final status: ", statusValue);
+    console.log("applications  ", applications);
 
-          console.log("app.status: ", app.status); // Check the status
-          console.log("applicationStatuses[app.status]: ", applicationStatuses[app.status]);
-          // Render the HTML for the application
-          renderApplication(app.userId, app.status, applicationHTML); // Call renderApplication with the status
+    // Now render applications using the stored statuses
+    applications.forEach((app) => {
+      const applicationHTML = renderApplicationHTML(app);
 
-   
-        });
-      // Make sure the sorting and filtering dropdowns are available
-      const sortDropdown = $('#sort-applications');
-      const filterDropdown = $('#filter-status');
+      // Normalize status: lowercase, trim, and map to the corresponding value
+      const statusKey = app.status ? app.status.trim().toLowerCase() : "";
+      const statusValue = applicationStatuses[statusKey] || "Unknown Status";  // Handle unmapped statuses
 
-      if (sortDropdown.length === 0) {
-          console.error("Sort dropdown is missing.");
-          return;
-      }
-      if (filterDropdown.length === 0) {
-          console.error("Filter dropdown is missing.");
-          return;
-      }
+      console.log("Final status: ", statusValue);
+      console.log("app.status: ", app.status); // Check the status
 
-      // Get sort and filter criteria from dropdowns; default to empty string if not selected
-      const sortCriteria = sortDropdown.val() || ''; // Default to empty
-      const filterCriteria = filterDropdown.val() || ''; // Default to empty
+      // Render the HTML for the application with the normalized status
+      renderApplication(app.userId, statusValue, applicationHTML);
+    });
 
-      console.log("filterCriteria ", filterCriteria);  
+    // Make sure the sorting and filtering dropdowns are available
+    const sortDropdown = $("#sort-applications");
+    const filterDropdown = $("#filter-status");
 
-      // If no filter is applied, just use the applications as they are
-      let filteredApplications = applications;
-      if (filterCriteria) {
-          filteredApplications = filterApplications(applications, filterCriteria);
-      }
+    if (sortDropdown.length === 0) {
+      console.error("Sort dropdown is missing.");
+      return;
+    }
+    if (filterDropdown.length === 0) {
+      console.error("Filter dropdown is missing.");
+      return;
+    }
 
-      // If no sort is applied, just use the applications as they are
-      let sortedApplications = filteredApplications;
-      if (sortCriteria) {
-          sortedApplications = sortApplications(filteredApplications, sortCriteria);
-      }
+    // Get sort and filter criteria from dropdowns; default to empty string if not selected
+    const sortCriteria = sortDropdown.val() || ""; // Default to empty
+    const filterCriteria = filterDropdown.val() || ""; // Default to empty
 
-      console.log("sortedApplications   ", sortedApplications);  
+    console.log("filterCriteria ", filterCriteria);
 
-      // Group by job title and company name
-      const groupedApplications = groupApplicationsByJob(sortedApplications);
-      console.log("groupedApplications ", groupedApplications);  
+    // If no filter is applied, just use the applications as they are
+    let filteredApplications = applications;
+    if (filterCriteria) {
+      filteredApplications = filterApplications(applications, filterCriteria);
+    }
 
-      // Render job titles and applicants
-      $('#application-posts-container').empty();
+    // If no sort is applied, just use the applications as they are
+    let sortedApplications = filteredApplications;
+    if (sortCriteria) {
+      sortedApplications = sortApplications(filteredApplications, sortCriteria);
+    }
 
-      
+    console.log("sortedApplications   ", sortedApplications);
 
- 
+    // Group by job title and company name
+    const groupedApplications = groupApplicationsByJob(sortedApplications);
+    console.log("groupedApplications ", groupedApplications);
 
-// Function to render Job Title with Applicants
-const renderJobTitleWithApplicants = (jobTitle, companyName, boosted, applicants) => {
-  const applicantsHTML = applicants.map(application => renderApplicationHTML(application, jobTitle, companyName)).join('');
+    // Render job titles and applicants
+    $("#application-posts-container").empty();
 
-  // Boosted job styling
-  if (boosted === 'true') {
-    const jobHTML = `
+    // Function to render Job Title with Applicants
+    const renderJobTitleWithApplicants = (
+      jobTitle,
+      companyName,
+      boosted,
+      applicants
+    ) => {
+      const applicantsHTML = applicants
+        .map((application) =>
+          renderApplicationHTML(application, jobTitle, companyName)
+        )
+        .join("");
+
+      // Boosted job styling
+      if (boosted === "true") {
+        const jobHTML = `
       <div class="job-title-section boosted-job border border-primary shadow p-3 mb-3 rounded" style="background-color: #f0f8ff;">
           <div class="d-flex justify-content-between align-items-center">
               <h4 class="job-title text-primary font-weight-bold" style="cursor: pointer;">${jobTitle} - ${companyName}</h4>
@@ -1452,9 +1482,9 @@ const renderJobTitleWithApplicants = (jobTitle, companyName, boosted, applicants
           </div>
       </div>
     `;
-    return jobHTML;
-  } else {
-    const jobHTML = `
+        return jobHTML;
+      } else {
+        const jobHTML = `
       <div class="job-title-section non-boosted-job border border-secondary shadow-sm p-3 mb-3 rounded">
           <h4 class="job-title text-secondary" style="cursor: pointer;">${jobTitle} - ${companyName}</h4>
           <div class="applicants-list mt-2" style="display: none;">
@@ -1462,38 +1492,39 @@ const renderJobTitleWithApplicants = (jobTitle, companyName, boosted, applicants
           </div>
       </div>
     `;
-    return jobHTML;
-  }
-};
+        return jobHTML;
+      }
+    };
 
+    Object.entries(groupedApplications).forEach(([key, applicants]) => {
+      const [jobTitle, companyName, boosted] = key.split("|");
+      const jobSection = renderJobTitleWithApplicants(
+        jobTitle,
+        companyName,
+        boosted,
+        applicants
+      );
+      $("#application-posts-container").append(jobSection); // Assuming jQuery is used for DOM manipulation
+    });
 
-
-
-Object.entries(groupedApplications).forEach(([key, applicants]) => {
-  const [jobTitle, companyName, boosted] = key.split('|');
-  const jobSection = renderJobTitleWithApplicants(jobTitle, companyName, boosted, applicants);
-  $('#application-posts-container').append(jobSection); // Assuming jQuery is used for DOM manipulation
-});
-
-        
-        
-      
-      
-        // Attach event listeners after rendering
-        attachToggleJobTitles();
-        attachActionButtons();
-      
-      
-      
-      
+    // Attach event listeners after rendering
+    attachToggleJobTitles();
+    attachActionButtons();
   } catch (error) {
-      console.error("Error fetching applications:", error);
-      $('#application-posts-container').html('<p>Error fetching applications. Please try again later.</p>');
+    console.error("Error fetching applications:", error);
+    $("#application-posts-container").html(
+      "<p>Error fetching applications. Please try again later.</p>"
+    );
   }
+}
 
 
 
-};
+
+
+
+
+
 
 
 
@@ -1645,20 +1676,45 @@ $('#search-applicant').on('input', function () {
 
 // Function to save the application data
 async function saveApplication(applicantId) {
+  const saveButton = document.querySelector(`.save-application[data-applicant-id="${applicantId}"]`);
+  const spinner = saveButton.querySelector('.spinner-border');
+  
   try {
-      // Retrieve the application data (e.g., notes, selected state)
-      const applicationElement = document.querySelector(`.application-post[data-applicant-id="${applicantId}"]`);
-      const notes = applicationElement.querySelector('.application-details .list-group-item:last-child').innerText; // Assuming last item is Notes
+      // Show spinner
+      spinner.style.display = 'inline-block';
+      saveButton.disabled = true;
       
-      // Save the application to the database (modify as per your database structure)
+      const applicationElement = document.querySelector(`.application-post[data-applicant-id="${applicantId}"]`);
+      const notes = applicationElement.querySelector('.notes-input').value;
+      const noteType = applicationElement.querySelector('.note-type-selector').value;
+      
+      const maxLength = 500;
+      if (notes.length > maxLength) {
+          alert(`Please limit your notes to ${maxLength} characters.`);
+          return; 
+      }
+
+      // Optional: confirmation prompt
+      if (!confirm("Are you sure you want to save these notes?")) {
+          return; 
+      }
+
       await updateDoc(doc(db, "Applications", applicantId), {
-          notes: notes // Save the notes (you can add more fields if needed)
+          notes: arrayUnion({  
+              note: notes, 
+              type: noteType,
+              timestamp: new Date().toLocaleString() 
+          })
       });
 
       showToast('Application saved successfully!', 'success');
   } catch (error) {
       console.error('Error saving application:', error);
       alert('Error saving application. Please try again.');
+  } finally {
+      // Hide spinner and enable button
+      spinner.style.display = 'none';
+      saveButton.disabled = false;
   }
 }
 
@@ -1674,12 +1730,38 @@ function viewApplication(applicantID) {
 
 
 
-// Function// Function to set the application status to "Under Review"
+
+
+
+
+
+
+async function updateApplicationViews(applicationID, recruiterID) {
+  // Reference to the specific application document
+  const applicationRef = doc(db, "Applications", applicationID);
+  
+  // Use Firestore's FieldValue to increment the views by 1
+  await updateDoc(applicationRef, {
+      views: increment(1), // This will increment the views field by 1
+      recruiterID: recruiterID,
+  });
+
+  // Optionally show a toast notification to the user
+  showToast(`Application ${applicationID} views updated successfully.`, 'success');
+}
+
+
+
+
+// Function to set the application status to "Under Review"
 async function underReviewApplication(applicantId) {
   try {
       // Update the application status in the database
       await updateDoc(doc(db, "Applications", applicantId), {
-          status: 'Under Review' // Change status to Under Review
+          status: arrayUnion({  // Use arrayUnion to append a new status
+              status: 'Under Review', // Change status to Under Review
+              timestamp: new Date().toLocaleString() // Capture the current time
+          })
       });
 
       showToast('Application set to Under Review successfully!', 'success');
@@ -1687,9 +1769,31 @@ async function underReviewApplication(applicantId) {
       fetchJobApplications(); // Call your function to refresh the applications list
   } catch (error) {
       console.error('Error updating application status to Under Review:', error);
-      showToast('Error updating application status. Please try again.', 'error')
+      showToast('Error updating application status. Please try again.', 'error');
   }
 }
+
+// Function to set the application status to "Pending"
+async function pendingApplication(applicantId) {
+  try {
+      // Update the application status in the database
+      await updateDoc(doc(db, "Applications", applicantId), {
+          status: arrayUnion({  // Use arrayUnion to append a new status
+              status: 'Pending', // Add 'Pending' status
+              timestamp: new Date().toLocaleString() // Capture the current time
+          })
+      });
+
+      showToast('Application set to Pending successfully!', 'success');
+      // Optionally, refresh the list of applications after updating
+      fetchJobApplications(); // Call your function to refresh the applications list
+  } catch (error) {
+      console.error('Error updating application status to Pending:', error);
+      showToast('Error updating application status. Please try again.', 'error');
+  }
+}
+
+
 $('#approve-selected').off('click').on('click', function() {
   getSelectedApplicants();  // Call the function to handle selected applicants
 });
@@ -1720,52 +1824,75 @@ function getRejectedSelectedApplicants() {
   });
 }
 
+
+
+// Function to approve the application
 async function approveApplication(applicantId) {
   try {
-      // Update the application status in the database
+      // Add the new status to the application's status array in the database
       await updateDoc(doc(db, "Applications", applicantId), {
-          status: 'Approved' // Change status to Approved
+          status: arrayUnion({  // Use arrayUnion to append a new status
+              status: 'Approved', // Add 'Approved' status
+              timestamp: new Date().toLocaleString() // Capture the current time
+          })
       });
-// After approval or rejection
-const applicationPost = document.querySelector(`.application-post[data-applicant-id="${applicantId}"]`);
-applicationPost.querySelector('.applicant-name').innerHTML += ' (Approved)';
-  const applicationHTML = renderApplicationHTML({ applicationPost, status: 'Approved' }); // Generate HTML for the approved application
-        renderApplication(applicantId, 'Approved', applicationHTML); // Render the application with new status
 
+      // After approval 
+      const applicationPost = document.querySelector(`.application-post[data-applicant-id="${applicantId}"]`);
+      if (applicationPost) {
+          applicationPost.querySelector('.applicant-name').innerHTML += ' (Approved)';
+          const applicationHTML = renderApplicationHTML({ applicationPost, status: 'Approved' }); // Generate HTML for the approved application
+          renderApplication(applicantId, 'Approved', applicationHTML); // Render the application with new status
+      }
 
       showToast('Application approved successfully!', 'success');
       // Optionally, you can refresh the list of applications after approval
-      //fetchJobApplications(); // Call your function to refresh the applications list
+      // fetchJobApplications(); // Call your function to refresh the applications list
   } catch (error) {
       console.error('Error approving application:', error);
-      showToast('Error approving application. Please try again.');
+      showToast('Error approving application. Please try again.', 'error');
   }
 }
 
 // Function to reject the application
 async function rejectApplication(applicantId) {
   try {
-      // Update the application status in the database
+      // Add the new status to the application's status array in the database
       await updateDoc(doc(db, "Applications", applicantId), {
-          status: 'Rejected' // Change status to Rejected
+          status: arrayUnion({ // Use arrayUnion to append a new status
+              status: 'Rejected', // Add 'Rejected' status
+              timestamp: new Date().toLocaleString() // Capture the current time
+          })
       });
-// After approval or rejection
-const applicationPost = document.querySelector(`.application-post[data-applicant-id="${applicantId}"]`);
-applicationPost.querySelector('.applicant-name').innerHTML += ' (Rejected)';
-        
-const applicationHTML = renderApplicationHTML({ applicationPost, status: 'Rejected' }); // Generate HTML for the rejected application
-        renderApplication(applicantId, 'Rejected', applicationHTML); // Render the application with new status
+
+      // After approval or rejection
+      const applicationPost = document.querySelector(`.application-post[data-applicant-id="${applicantId}"]`);
+      if (applicationPost) {
+          applicationPost.querySelector('.applicant-name').innerHTML += ' (Rejected)';
+          const applicationHTML = renderApplicationHTML({ applicationPost, status: 'Rejected' }); // Generate HTML for the rejected application
+          renderApplication(applicantId, 'Rejected', applicationHTML); // Render the application with new status
+      }
 
       showToast('Application rejected successfully!', 'success');
       // Optionally, you can refresh the list of applications after rejection
-    //  fetchJobApplications(); // Call your function to refresh the applications list
+      // fetchJobApplications(); // Call your function to refresh the applications list
   } catch (error) {
       console.error('Error rejecting application:', error);
-      showToast('Error rejecting application. Please try again.', 'warning');
+      showToast('Error rejecting application. Please try again.', 'error');
   }
 }
 
-// Event listeners for the buttons
+
+
+
+
+
+
+
+
+
+
+
 // Event listeners for the buttons
 document.addEventListener('click', function(event) {
   if (event.target.classList.contains('save-application')) {
@@ -1788,27 +1915,14 @@ document.addEventListener('click', function(event) {
       const applicantId = event.target.getAttribute('data-applicant-id');
       underReviewApplication(applicantId);
   }
+
+  // New event listener for Pending
+  if (event.target.classList.contains('pending-application')) {
+      const applicantId = event.target.getAttribute('data-applicant-id');
+      pendingApplication(applicantId);
+  }
 });
 
-
-
-
-
-
-
-async function updateApplicationViews(applicationID, recruiterID) {
-  // Reference to the specific application document
-  const applicationRef = doc(db, "Applications", applicationID);
-  
-  // Use Firestore's FieldValue to increment the views by 1
-  await updateDoc(applicationRef, {
-      views: increment(1), // This will increment the views field by 1
-      recruiterID: recruiterID,
-  });
-
-  // Optionally show a toast notification to the user
-  showToast(`Application ${applicationID} views updated successfully.`, 'success');
-}
 
 
 

@@ -956,8 +956,13 @@ console.log('Form submitted:', formData);
             companyId: companyId,
             boostedApp: isBoosted,  // Set to true if boosting
             jobId: jobId,
-            status: "active",
-            notes: "",
+            status: [
+    {
+      status: "active",
+      timestamp: new Date().toLocaleString()
+    }
+  ],
+  notes: [],
             interviewRequestBool: false,
             interviewRequestDate: '',
             testRequestBool: false,
