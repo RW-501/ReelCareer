@@ -1604,32 +1604,66 @@ function renderApplication(applicantId, status, applicationHTML) {
 function filterAndSortApplications() {
   const searchQuery = document.querySelector('#search-applicant').value.toLowerCase();
   const sortBy = document.querySelector('#sort-applications').value;
-  const filterStatus = document.querySelector('#filter-status').value;
+  const filterStatus = document.querySelector('#filter-status').value.toLowerCase();
 
   const allApplications = [...document.querySelectorAll('.application-post')];
+
+  // Define status equivalence (mapping old and new status terms)
+  const statusMappings = {
+    "approved": ["approved", "application approved"],
+    "rejected": ["rejected", "application rejected"],
+    "under review": ["under review"],
+    "pending": ["pending", "pending approval"]
+  };
+
   allApplications.forEach(app => {
-      const applicantName = app.dataset.applicantName.toLowerCase();
-      const jobTitle = app.dataset.jobTitle.toLowerCase();
-      const applicationStatus = app.dataset.status;
+    const applicantName = app.dataset.applicantName.toLowerCase();
+    const jobTitle = app.dataset.jobTitle.toLowerCase();
+    const applicationStatus = app.dataset.status.toLowerCase();
 
-      let shouldDisplay = true;
+    let shouldDisplay = true;
 
-      // Apply search filter
-      if (searchQuery && !applicantName.includes(searchQuery) && !jobTitle.includes(searchQuery)) {
-          shouldDisplay = false;
+    // Apply search filter for applicant name and job title
+    if (searchQuery && !applicantName.includes(searchQuery) && !jobTitle.includes(searchQuery)) {
+      shouldDisplay = false;
+    }
+
+    // Apply status filter, handling both old and new status terms
+    if (filterStatus !== 'all') {
+      // Find if the applicationStatus matches any status in the selected filterStatus group
+      const validStatuses = statusMappings[filterStatus] || [filterStatus]; // Use filterStatus directly if it's not mapped
+      if (!validStatuses.includes(applicationStatus)) {
+        shouldDisplay = false;
       }
+    }
 
-      // Apply status filter
-      if (filterStatus !== 'all' && applicationStatus !== filterStatus) {
-          shouldDisplay = false;
-      }
-
-      // Display or hide based on filtering
-      app.style.display = shouldDisplay ? 'block' : 'none';
+    // Display or hide based on filtering
+    app.style.display = shouldDisplay ? 'block' : 'none';
   });
 
-  // Apply sorting (e.g., by Job Title or Applicant Name)
-  // Sorting logic can go here
+  // Apply sorting logic based on the sortBy value
+  if (sortBy === 'applicant-name-asc') {
+    allApplications.sort((a, b) => 
+      a.dataset.applicantName.localeCompare(b.dataset.applicantName)
+    );
+  } else if (sortBy === 'applicant-name-desc') {
+    allApplications.sort((a, b) => 
+      b.dataset.applicantName.localeCompare(a.dataset.applicantName)
+    );
+  } else if (sortBy === 'job-title-asc') {
+    allApplications.sort((a, b) => 
+      a.dataset.jobTitle.localeCompare(b.dataset.jobTitle)
+    );
+  } else if (sortBy === 'job-title-desc') {
+    allApplications.sort((a, b) => 
+      b.dataset.jobTitle.localeCompare(a.dataset.jobTitle)
+    );
+  }
+
+  // Re-append sorted applications to the container
+  const container = document.querySelector('#application-posts-container');
+  container.innerHTML = ''; // Clear current contents
+  allApplications.forEach(app => container.appendChild(app)); // Append sorted applications
 }
 
 // Attach event listeners for search, sort, and filter
