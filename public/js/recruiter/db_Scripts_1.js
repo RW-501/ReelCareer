@@ -1434,9 +1434,10 @@ console.log("Final status: ", statusValue);
 
       // Render job titles and applicants
       $('#application-posts-container').empty();
-      console.log("Object  ",Object);
-//applications
-Object.entries(groupedApplications).forEach(([key, applicants]) => {
+
+      
+
+      Object.entries(groupedApplications).forEach(([key, applicants]) => {
   const [jobTitle, companyName] = key.split('|');
   const jobSection = renderJobTitleWithApplicants(jobTitle, companyName, applicants);
   $('#application-posts-container').append(jobSection); // Assuming jQuery is used for DOM manipulation
@@ -1446,19 +1447,19 @@ Object.entries(groupedApplications).forEach(([key, applicants]) => {
 const renderJobTitleWithApplicants = (jobTitle, companyName, applicants) => {
   const applicantsHTML = applicants.map(application => renderApplicationHTML(application, jobTitle, companyName)).join('');
 
-  return `
+  const jobHTML = `
       <div class="job-title-section">
           <h4 class="job-title" style="cursor: pointer;">${jobTitle} - ${companyName}</h4>
           <div class="applicants-list" style="display: none;">
               ${applicantsHTML}
           </div>
       </div>
-     `;
+  `;
 
-    // Return the generated jobHTML to be appended elsewhere
-    return jobHTML;
-
+  // Return the generated jobHTML to be appended elsewhere
+  return jobHTML;
 };
+
 
         
         
