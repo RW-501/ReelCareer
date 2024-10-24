@@ -844,15 +844,15 @@ text-align: left;
     });
 
     // Successfully saved
-    saveBtn.textContent = "Saved!";
+    saveBtn.textContent = "Saved";
     saveBtn.classList.add('btn-success');
 
   } catch (error) {
     console.error("Error saving job: ", error);
     showToast("Error saving the job. Please try again.", 'warning');
   } finally {
-    saveBtn.disabled = false;
-    saveBtn.textContent = "Save Job";
+    saveBtn.disabled = true;
+    saveBtn.textContent = "Saved";
   }
 }
 
