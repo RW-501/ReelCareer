@@ -238,41 +238,13 @@
 
 
     <!-- Dynamic News Section -->
-    <div class="container mt-5">
-      <h2 class="text-center mb-4">Latest Career News</h2>
-      <div class="row">
-        <div class="col-md-4">
-          <div class="card mb-4">
-            <img class="card-img-top" src="/ReelCareer/images/rc_text_sm.png" alt="Article 1">
-            <div class="card-body">
-              <h5 class="card-title">Industry Trends in 2024</h5>
-              <p class="card-text">Stay ahead in your career with the latest industry trends and news.</p>
-              <a href="#" class="btn btn-primary">Read More</a>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="card mb-4">
-            <img class="card-img-top" src="/images/rc_text_sm.png" alt="Article 2">
-            <div class="card-body">
-              <h5 class="card-title">How to Stand Out as a Job Seeker</h5>
-              <p class="card-text">Learn the best strategies for getting noticed by top recruiters.</p>
-              <a href="#" class="btn btn-primary">Read More</a>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="card mb-4">
-            <img class="card-img-top" src="/images/rc_text_sm.png" alt="Article 3">
-            <div class="card-body">
-              <h5 class="card-title">Top Remote Work Opportunities</h5>
-              <p class="card-text">Discover the top remote jobs and what employers are looking for.</p>
-              <a href="#" class="btn btn-primary">Read More</a>
-            </div>
-          </div>
-        </div>
+    <div class="related-blogs">
+      <h3 class="font-weight-bold">Related Articles</h3>
+      <hr class="my-2" />
+      <div id="blogContainer" class="row">
+          <!-- Blog links will be dynamically inserted here -->
       </div>
-    </div>
+  </div>
 
     <!-- Call to Action -->
     <div id="home-CTA" class="container-fluid bg-light py-5 mt-5">
@@ -482,6 +454,20 @@
         }
       }
     });
+
+    const jobTags = ['job', 'jobs', 'new jobs']; 
+loadRelatedBlogs(jobTags, 'blogContainer');
+
+
+
+
+
+
+
+
+
+
+
   </script>
 
   <!-- Bootstrap JS and dependencies -->
