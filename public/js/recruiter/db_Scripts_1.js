@@ -993,6 +993,7 @@ $(document).on('click', '.view-analytics', function () {
                 $(this).next('.company-details').toggle();
             });
         
+            jobIDsList = removeUndefined(jobIDsList);
 
             fetchJobApplications(jobIDsList);
 
