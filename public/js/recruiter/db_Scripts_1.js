@@ -1529,10 +1529,10 @@ $(function () {
 // Function to render applications dynamically based on status
 function renderApplication(applicantId, status, applicationHTML) {
   const sectionIdMap = {
-      'approved': '#approvedApplicationsContainer',
-      'under_review': '#underReviewApplicationsContainer',
-      'rejected': '#rejectedApplicationsContainer',
-      'pending': '#pendingApplicationsContainer',
+      'Approved': '#approvedApplicationsContainer',
+      'Under_review': '#underReviewApplicationsContainer',
+      'Rejected': '#rejectedApplicationsContainer',
+      'Pending': '#pendingApplicationsContainer',
   };
 
   const container = document.querySelector(`${sectionIdMap[status]} .application-section`);
