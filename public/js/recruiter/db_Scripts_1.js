@@ -1530,7 +1530,7 @@ $(function () {
 function renderApplication(applicantId, status, applicationHTML) {
   const sectionIdMap = {
       'Approved': '#approvedApplicationsContainer',
-      'Under_review': '#underReviewApplicationsContainer',
+      'Under Review': '#underReviewApplicationsContainer',
       'Rejected': '#rejectedApplicationsContainer',
       'Pending': '#pendingApplicationsContainer',
   };
@@ -1700,7 +1700,7 @@ async function approveApplication(applicantId) {
 const applicationPost = document.querySelector(`.application-post[data-applicant-id="${applicantId}"]`);
 applicationPost.querySelector('.applicant-name').innerHTML += ' (Approved)';
   const applicationHTML = renderApplicationHTML({ ...applicationData, status: 'approved' }); // Generate HTML for the approved application
-        renderApplication(applicantId, 'approved', applicationHTML); // Render the application with new status
+        renderApplication(applicantId, 'Approved', applicationHTML); // Render the application with new status
 
 
       showToast('Application approved successfully!', 'success');
@@ -1724,7 +1724,7 @@ const applicationPost = document.querySelector(`.application-post[data-applicant
 applicationPost.querySelector('.applicant-name').innerHTML += ' (Rejected)';
         
 const applicationHTML = renderApplicationHTML({ ...applicationData, status: 'rejected' }); // Generate HTML for the rejected application
-        renderApplication(applicantId, 'rejected', applicationHTML); // Render the application with new status
+        renderApplication(applicantId, 'Rejected', applicationHTML); // Render the application with new status
 
       showToast('Application rejected successfully!', 'success');
       // Optionally, you can refresh the list of applications after rejection
