@@ -1376,9 +1376,15 @@ async function fetchJobApplications(jobIDs) {
 
         // Now render applications using the stored statuses
         applications.forEach(app => {
-          const applicationHTML = renderApplicationHTML(app); // Render the HTML for the application
+          const applicationHTML = renderApplicationHTML(app);
+          const statusKey = app.status.trim().toLowerCase();
+const statusValue = applicationStatuses[statusKey.charAt(0).toUpperCase() + statusKey.slice(1)];
+console.log("Final status: ", statusValue);
+
+          console.log("app.status: ", app.status); // Check the status
+          console.log("applicationStatuses[app.status]: ", applicationStatuses[app.status]);
+          // Render the HTML for the application
           renderApplication(app.userId, applicationStatuses[app.status], applicationHTML); // Call renderApplication with the status
-   console.log("applicationStatuses[app.status]   ",applicationStatuses[app.status]);
 
    
         });
