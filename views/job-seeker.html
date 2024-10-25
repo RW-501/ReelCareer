@@ -414,13 +414,106 @@ const viewJob = (jobId) => {
     // For example: window.location.href = `/job-detail/${jobId}`;
 };
 
-// Generate suggestions and display them after a 2-second delay
+
+
+
+
+
+
+
+
+
+const generateUserSuggestions = (userData, savedJobs, jobData, applicationsData) => {
+    const suggestions = [];
+
+    // Check if jobData is an array
+    if (!Array.isArray(jobData)) {
+        console.error("jobData is not an array", jobData);
+        return suggestions; // Return an empty array if jobData is not valid
+    }
+
+    // Initialize totalApplications and totalViews
+    let totalApplications = applicationsData.length;
+    let totalViews = applicationsData.reduce((acc, application) => acc + application.views, 0);
+
+    // Check saved jobs
+    if (savedJobs.length > 0) {
+        suggestions.push('You have saved jobs. Make sure to check them regularly for updates.');
+
+        // Suggest similar jobs based on saved jobs
+        const jobTitles = savedJobs.map(jobId => {
+            const job = jobData.find(job => job.id === jobId);
+            return job ? job.title : null;
+        }).filter(Boolean);
+
+        if (jobTitles.length > 0) {
+            suggestions.push(`You have saved the following jobs: ${jobTitles.join(', ')}.`);
+        }
+    }
+
+    // Suggest based on total applications
+    if (totalApplications > 0) {
+        suggestions.push(`You have submitted a total of ${totalApplications} applications.`);
+        
+        // Suggest checking the status of applications
+        const activeApplications = applicationsData.filter(app => app.status === 'active').length;
+        if (activeApplications > 0) {
+            suggestions.push(`You have ${activeApplications} active applications. Consider following up!`);
+        }
+
+        // Suggest improving application views
+        if (totalViews < totalApplications * 2) {
+            suggestions.push('Consider revisiting your applications to improve visibility and engagement.');
+        }
+    } else {
+        suggestions.push('You have not submitted any applications yet. Consider applying to some jobs that interest you!');
+    }
+
+    // Suggest jobs based on recent postings
+    const recentJobs = jobData.filter(job => {
+        const postedDate = new Date(job.postedDate);
+        const today = new Date();
+        const daysSincePosted = Math.floor((today - postedDate) / (1000 * 60 * 60 * 24));
+        return daysSincePosted <= 7; // Adjust this to change the time frame for recent postings
+    });
+
+    if (recentJobs.length > 0) {
+        const recentJobTitles = recentJobs.map(job => job.title).join(', ');
+        suggestions.push(`Check out these recently posted jobs: ${recentJobTitles}.`);
+    }
+
+    console.log("suggestions", suggestions);
+    return suggestions;
+};
+
+    // Additional suggestion logic can go here...
+    console.log("suggestions  ",suggestions);
+    return suggestions;
+};
+
+
+// Function to display suggestions in the HTML
+const displaySuggestions = (suggestions) => {
+    const suggestedJobsList = document.getElementById('suggestedJobsList');
+    suggestedJobsList.innerHTML = ''; // Clear previous suggestions
+
+    suggestions.forEach(suggestion => {
+        const li = document.createElement('li');
+        li.className = 'list-group-item';
+        li.textContent = suggestion; // Set the text content to the suggestion
+        suggestedJobsList.appendChild(li); // Append to the list
+    });
+};
+
+// Generate suggestions and display them
 setTimeout(() => {
     const userSuggestions = generateUserSuggestions(userData, savedJobs, jobData, applicationsData);
     displaySuggestions(userSuggestions);
 
     console.log(userSuggestions);
 }, 2000); // 2000 milliseconds = 2 seconds
+
+
 
 
 
@@ -624,89 +717,6 @@ document.getElementById('btnRefreshAnalytics').addEventListener('click', () => {
             });
         };
     
-
-        
-
-const generateUserSuggestions = (userData, savedJobs, jobData, applicationsData) => {
-    const suggestions = [];
-
-    // Check if jobData is an array
-    if (!Array.isArray(jobData)) {
-        console.error("jobData is not an array", jobData);
-        return suggestions; // Return an empty array if jobData is not valid
-    }
-
-    // Initialize totalApplications and totalViews
-    let totalApplications = applicationsData.length;
-    let totalViews = applicationsData.reduce((acc, application) => acc + application.views, 0);
-
-    // Check saved jobs
-    if (savedJobs.length > 0) {
-        suggestions.push('You have saved jobs. Make sure to check them regularly for updates.');
-
-        // Suggest similar jobs based on saved jobs
-        const jobTitles = savedJobs.map(jobId => {
-            const job = jobData.find(job => job.id === jobId);
-            return job ? job.title : null;
-        }).filter(Boolean);
-
-        if (jobTitles.length > 0) {
-            suggestions.push(`You have saved the following jobs: ${jobTitles.join(', ')}.`);
-        }
-    }
-
-    // Suggest based on total applications
-    if (totalApplications > 0) {
-        suggestions.push(`You have submitted a total of ${totalApplications} applications.`);
-        
-        // Suggest checking the status of applications
-        const activeApplications = applicationsData.filter(app => app.status === 'active').length;
-        if (activeApplications > 0) {
-            suggestions.push(`You have ${activeApplications} active applications. Consider following up!`);
-        }
-
-        // Suggest improving application views
-        if (totalViews < totalApplications * 2) {
-            suggestions.push('Consider revisiting your applications to improve visibility and engagement.');
-        }
-    } else {
-        suggestions.push('You have not submitted any applications yet. Consider applying to some jobs that interest you!');
-    }
-
-    // Suggest jobs based on recent postings
-    const recentJobs = jobData.filter(job => {
-        const postedDate = new Date(job.postedDate);
-        const today = new Date();
-        const daysSincePosted = Math.floor((today - postedDate) / (1000 * 60 * 60 * 24));
-        return daysSincePosted <= 7; // Adjust this to change the time frame for recent postings
-    });
-
-    if (recentJobs.length > 0) {
-        const recentJobTitles = recentJobs.map(job => job.title).join(', ');
-        suggestions.push(`Check out these recently posted jobs: ${recentJobTitles}.`);
-    }
-
-    console.log("suggestions", suggestions);
-    return suggestions;
-};
-
-   
-// Function to display suggestions in the HTML
-const displaySuggestions = (suggestions) => {
-    const suggestedJobsList = document.getElementById('suggestedJobsList');
-    suggestedJobsList.innerHTML = ''; // Clear previous suggestions
-    console.log("???????????????????     ",userSuggestions);
-
-    suggestions.forEach(suggestion => {
-        const li = document.createElement('li');
-        li.className = 'list-group-item';
-        li.textContent = suggestion; // Set the text content to the suggestion
-        suggestedJobsList.appendChild(li); // Append to the list
-    });
-};
-
-
-
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 const userId = user.uid;
