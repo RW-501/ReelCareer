@@ -601,7 +601,7 @@ const generateUserSuggestions = (userData, savedJobs, jobData, applicationsData,
     let totalViews = applicationsData.reduce((acc, application) => acc + application.views, 0);
 
     // Check saved jobs
-    if (savedJobs.length > 0) {
+ if (savedJobs.length > 0) {
     categorizedSuggestions.savedJobs.push('You have saved jobs. Make sure to check them regularly for updates.');
 
     const savedJobsWithTimestamps = savedJobs.map(job => {
