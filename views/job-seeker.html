@@ -59,6 +59,7 @@
 
 <!-- Bootstrap Bundle with Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://mozilla.github.io/pdf.js/build/pdf.js"></script>
 
     <!-- Bootstrap CSS -->
     <script src="../public/js/scripts.js"></script>
@@ -125,10 +126,15 @@
                 <div class="card-header bg-light">
                     <h5 class="mb-0">Resumes</h5>
                 </div>
+
+                <div class="card-body">
+                <div id="main-resume" contenteditable="true" style="border: 1px solid #ccc; padding: 10px; min-height: 200px;"></div>
+                </div>
+
                 <div class="card-body">
                     <p>Upload or manage your resumes:</p>
                     <form id="resumeUploadForm">
-                        <input type="file" class="form-control-file" id="resumeUpload" accept=".pdf,.doc,.docx" aria-label="Upload Resume">
+                        <input type="file" class="form-control-file" id="resume-input"  accept=".pdf,.doc,.docx" aria-label="Upload Resume">
                         <button type="submit" class="btn btn-primary mt-2" title="Upload your resume">Upload Resume</button>
                     </form>
                     <div id="resumeLoading" class="d-none">
@@ -693,17 +699,116 @@ const togglePreference = (category) => {
     savePreferencesToLocalStorage(preferences); // Save the updated preferences to local storage
 };
 
+// Set up the event listener for file input
+document.getElementById('resume-input').addEventListener('change', handleFileUpload);
 
-// Example: Call this function when a user interacts with a toggle switch for categories
-// togglePreference('Saved Jobs Suggestions'); // Call this function to toggle the saved jobs suggestions
+async function handleFileUpload(event) {
+    const file = event.target.files[0];
+    if (!file) return;
 
-// Generate suggestions and display them
-  // Assuming you have the userData, savedJobs, jobData, and applicationsData available, you can call the function like this:
-// Example to save preferences when the user toggles a suggestion category
+    const fileExtension = file.name.split('.').pop().toLowerCase();
+
+    if (fileExtension === 'pdf') {
+        // Process PDF files using PDF.js
+        parsePdf(file);
+    } else if (fileExtension === 'txt') {
+        // Process plain text files
+        parseTxt(file);
+    } else {
+        alert('Please upload a .pdf or .txt file');
+    }
+}
+
+function parseTxt(file) {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+        const text = e.target.result;
+        displayInEditableDiv(text);
+    };
+    reader.readAsText(file);
+}
+
+async function parsePdf(file) {
+    const pdfData = await file.arrayBuffer();
+
+    const pdf = await pdfjsLib.getDocument({ data: pdfData }).promise;
+    let textContent = '';
+
+    for (let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber++) {
+        const page = await pdf.getPage(pageNumber);
+        const text = await page.getTextContent();
+        const pageText = text.items.map((item) => item.str).join(' ');
+        textContent += pageText + '\n';
+    }
+
+    displayInEditableDiv(textContent);
+}
 
 
+function displayInEditableDiv(text) {
 
+// Define more regex patterns to capture additional sections
+const nameRegex = /Name[:\-]?\s*(.*)/i;
+const contactRegex = /Contact[:\-]?\s*(.*)/i;
+const experienceRegex = /Experience[:\-]?([\s\S]*?)(Education|$)/i;
+const educationRegex = /Education[:\-]?([\s\S]*?)(Skills|$)/i;
+const skillsRegex = /Skills[:\-]?([\s\S]*?)(Certifications|Achievements|$)/i;
+const certificationsRegex = /Certifications[:\-]?([\s\S]*?)(Languages|Achievements|$)/i;
+const languagesRegex = /Languages[:\-]?([\s\S]*?)(Achievements|References|$)/i;
+const achievementsRegex = /Achievements[:\-]?([\s\S]*?)(References|$)/i;
+const summaryRegex = /Summary[:\-]?([\s\S]*?)(Experience|Education|$)/i;
+const objectiveRegex = /Objective[:\-]?([\s\S]*?)(Experience|Skills|$)/i;
+const missionRegex = /Mission[:\-]?([\s\S]*?)(Experience|Education|$)/i;
+const tradeRegex = /Trade[:\-]?([\s\S]*?)(Experience|Skills|$)/i;
+const hobbiesRegex = /Hobbies[:\-]?([\s\S]*?)(Languages|Achievements|$)/i;
+const interestsRegex = /Interests[:\-]?([\s\S]*?)(Skills|Certifications|$)/i;
+const referencesRegex = /References[:\-]?([\s\S]*)/i;
+const addressRegex = /Address[:\-]?\s*([\s\S]*?)(Contact|$)/i;
+const socialLinksRegex = /Links[:\-]?([\s\S]*?)(Experience|Education|$)/i;
 
+// Use regex patterns to extract specific resume information
+const nameMatch = text.match(nameRegex);
+const contactMatch = text.match(contactRegex);
+const experienceMatch = text.match(experienceRegex);
+const educationMatch = text.match(educationRegex);
+const skillsMatch = text.match(skillsRegex);
+const certificationsMatch = text.match(certificationsRegex);
+const languagesMatch = text.match(languagesRegex);
+const achievementsMatch = text.match(achievementsRegex);
+const summaryMatch = text.match(summaryRegex);
+const objectiveMatch = text.match(objectiveRegex);
+const missionMatch = text.match(missionRegex);
+const tradeMatch = text.match(tradeRegex);
+const hobbiesMatch = text.match(hobbiesRegex);
+const interestsMatch = text.match(interestsRegex);
+const referencesMatch = text.match(referencesRegex);
+const addressMatch = text.match(addressRegex);
+const socialLinksMatch = text.match(socialLinksRegex);
+
+// Display parsed results in the editable div
+const formattedText = `
+    <strong>Name:</strong> ${nameMatch ? nameMatch[1] : 'N/A'}<br>
+    <strong>Contact:</strong> ${contactMatch ? contactMatch[1] : 'N/A'}<br>
+    <strong>Address:</strong> ${addressMatch ? addressMatch[1] : 'N/A'}<br>
+    <strong>Summary:</strong><br> ${summaryMatch ? summaryMatch[1] : 'N/A'}<br>
+    <strong>Objective:</strong><br> ${objectiveMatch ? objectiveMatch[1] : 'N/A'}<br>
+    <strong>Mission:</strong><br> ${missionMatch ? missionMatch[1] : 'N/A'}<br>
+    <strong>Trade:</strong><br> ${tradeMatch ? tradeMatch[1] : 'N/A'}<br>
+    <strong>Experience:</strong><br> ${experienceMatch ? experienceMatch[1] : 'N/A'}<br>
+    <strong>Education:</strong><br> ${educationMatch ? educationMatch[1] : 'N/A'}<br>
+    <strong>Skills:</strong><br> ${skillsMatch ? skillsMatch[1] : 'N/A'}<br>
+    <strong>Certifications:</strong><br> ${certificationsMatch ? certificationsMatch[1] : 'N/A'}<br>
+    <strong>Languages:</strong><br> ${languagesMatch ? languagesMatch[1] : 'N/A'}<br>
+    <strong>Achievements:</strong><br> ${achievementsMatch ? achievementsMatch[1] : 'N/A'}<br>
+    <strong>Hobbies:</strong><br> ${hobbiesMatch ? hobbiesMatch[1] : 'N/A'}<br>
+    <strong>Interests:</strong><br> ${interestsMatch ? interestsMatch[1] : 'N/A'}<br>
+    <strong>Social Links:</strong><br> ${socialLinksMatch ? socialLinksMatch[1] : 'N/A'}<br>
+    <strong>References:</strong><br> ${referencesMatch ? referencesMatch[1] : 'N/A'}<br>
+`;
+
+// Inject formatted text into the div
+document.getElementById('main-resume').innerHTML = formattedText;
+}
 
 
 
