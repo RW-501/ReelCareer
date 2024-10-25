@@ -649,7 +649,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const categorizedSuggestions = generateUserSuggestions(userData, savedJobs, jobData, applicationsData, preferences);
     displaySuggestions(categorizedSuggestions, preferences);
 
-    console.log(userSuggestions);
+    console.log("categorizedSuggestions    ",categorizedSuggestions);
+    console.log("preferences     ",preferences);
 }, 2000); // 2000 milliseconds = 2 seconds
 
 
