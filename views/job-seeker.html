@@ -447,31 +447,6 @@ const generateUserSuggestions = (userData, savedJobs, jobData, applicationsData)
 };
 
 
-/*
-// Example usage:
-const userData = []; // Example user data
-const savedJobs = ["yWtoX9sy0UK7aXUGV8kN", "ybczQ0a4ohnpkk8EOnHi"];
-const jobData = [
-    { id: "yWtoX9sy0UK7aXUGV8kN", title: "Web Developer", companyName: "TechNoob", isTrending: true },
-    { id: "ybczQ0a4ohnpkk8EOnHi", title: "Data Scientist", companyName: "Data Corp", isTrending: false },
-    { id: "Lq4fig2IY17qVykfOMlm", title: "UX Designer", companyName: "Designify", isTrending: true }
-];
-let applicationsData = [
-    { id: "app1", status: [{ status: 'active' }] },
-    { id: "app2", status: [{ status: 'withdrawn' }] }
-];
-
-// Generate suggestions
-const userSuggestions = generateUserSuggestions(userData, savedJobs, jobData, applicationsData);
-console.log(userSuggestions);
-
-*/
-
-
-// Assuming the previous function generateUserSuggestions is already defined
-
-
-
 // Function to display suggestions in the HTML
 const displaySuggestions = (suggestions) => {
     const suggestedJobsList = document.getElementById('suggestedJobsList');
@@ -490,6 +465,7 @@ const userSuggestions = generateUserSuggestions(userData, savedJobs, jobData, ap
 displaySuggestions(userSuggestions);
 
 
+console.log(userSuggestions);
 
 
 
