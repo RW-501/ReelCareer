@@ -409,7 +409,7 @@ const removeSavedJob = async (userId, jobId) => {
     await updateDoc(userRef, {
         savedJobs: arrayRemove(jobId) // Remove the jobId from savedJobs
     });
-    displaySavedJobs(userId); // Refresh the list
+    displayData(userId); // Refresh the list
 };
 
 // Function to view a job (could redirect to a job detail page)
