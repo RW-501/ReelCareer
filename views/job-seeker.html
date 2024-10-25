@@ -343,7 +343,7 @@ document.getElementById('videoResumeUploadForm').onsubmit = function(event) {
     <!-- Firebase Script for Loading User Data -->
     <script type="module">
         import { onAuthStateChanged, db, auth } from '../public/js/main.js';
-        import { doc, getDoc, collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+        import { doc, getDoc, updateDoc,  collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
     
         // Function to display data dynamically
         const displayData = async (userId) => {
@@ -421,8 +421,6 @@ const viewJob = (jobId) => {
 
 
 
-
-
 const generateUserSuggestions = (userData, savedJobs, jobData, applicationsData) => {
     const suggestions = [];
 
@@ -454,7 +452,7 @@ const generateUserSuggestions = (userData, savedJobs, jobData, applicationsData)
     // Suggest based on total applications
     if (totalApplications > 0) {
         suggestions.push(`You have submitted a total of ${totalApplications} applications.`);
-        
+
         // Suggest checking the status of applications
         const activeApplications = applicationsData.filter(app => app.status === 'active').length;
         if (activeApplications > 0) {
@@ -464,6 +462,13 @@ const generateUserSuggestions = (userData, savedJobs, jobData, applicationsData)
         // Suggest improving application views
         if (totalViews < totalApplications * 2) {
             suggestions.push('Consider revisiting your applications to improve visibility and engagement.');
+        }
+
+        // Suggest trends based on application data
+        const highViewJobs = applicationsData.filter(app => app.views > 10); // Example threshold
+        if (highViewJobs.length > 0) {
+            const highViewJobTitles = highViewJobs.map(app => jobData.find(job => job.id === app.jobId).title).join(', ');
+            suggestions.push(`Jobs that have received high views recently: ${highViewJobTitles}. Consider applying!`);
         }
     } else {
         suggestions.push('You have not submitted any applications yet. Consider applying to some jobs that interest you!');
@@ -482,10 +487,54 @@ const generateUserSuggestions = (userData, savedJobs, jobData, applicationsData)
         suggestions.push(`Check out these recently posted jobs: ${recentJobTitles}.`);
     }
 
+    // Suggest jobs based on user preferences
+    if (userData.preferences && userData.preferences.jobTypes.length > 0) {
+        const preferredJobs = jobData.filter(job =>
+            userData.preferences.jobTypes.includes(job.type) // Assuming job has a 'type' field
+        );
+
+        if (preferredJobs.length > 0) {
+            const preferredJobTitles = preferredJobs.map(job => job.title).join(', ');
+            suggestions.push(`Based on your preferences, consider these jobs: ${preferredJobTitles}.`);
+        }
+    }
+
+    // Suggest networking opportunities if the user has saved jobs or applications
+    if (savedJobs.length > 0 || totalApplications > 0) {
+        suggestions.push('Consider reaching out to professionals in your network for job referrals!');
+    }
+
+    // Suggest checking profile completeness if applicable
+    if (!userData.profileComplete) {
+        suggestions.push('Your profile is not fully complete. Consider adding more information to enhance visibility.');
+    }
+
+    // Suggest skills improvement if the user has job preferences
+    if (userData.preferences && userData.preferences.skills.length > 0) {
+        suggestions.push('To enhance your job prospects, consider improving your skills in areas like: ' + userData.preferences.skills.join(', ') + '.');
+    }
+
+    // Suggesting popular job locations based on userData
+    if (userData.location) {
+        const popularJobs = jobData.filter(job => job.location === userData.location);
+        if (popularJobs.length > 0) {
+            const popularJobTitles = popularJobs.map(job => job.title).join(', ');
+            suggestions.push(`Jobs popular in your area (${userData.location}): ${popularJobTitles}.`);
+        }
+    }
+
+    // Adding motivational messages based on user activity
+    if (totalApplications < 5) {
+        suggestions.push('Remember, persistence is key! Keep applying to increase your chances.');
+    } else if (totalApplications >= 5 && totalApplications < 10) {
+        suggestions.push('Great job on your applications! Keep up the good work and don’t hesitate to explore more opportunities.');
+    } else {
+        suggestions.push('Impressive! You’re actively pursuing your job search. Stay focused and you’ll find the right opportunity soon.');
+    }
+
     console.log("suggestions", suggestions);
     return suggestions;
 };
-
 
 // Function to display suggestions in the HTML
 const displaySuggestions = (suggestions) => {
