@@ -1615,9 +1615,9 @@ function filterAndSortApplications() {
 
   const allApplications = [...document.querySelectorAll('.application-post')];
   const filteredApplications = allApplications.filter(app => {
-    const applicantName = app.dataset.applicantName.toLowerCase();
-    const jobTitle = app.dataset.jobTitle.toLowerCase();
-    const applicationStatus = app.dataset.status.toLowerCase();
+    const applicantName = (app.dataset.applicantName || "").toLowerCase();
+    const jobTitle = (app.dataset.jobTitle || "").toLowerCase();
+    const applicationStatus = (app.dataset.status || "").toLowerCase();
 
     // Apply search filter
     const matchesSearch = searchQuery === '' || applicantName.includes(searchQuery) || jobTitle.includes(searchQuery);
@@ -1631,17 +1631,17 @@ function filterAndSortApplications() {
   // Apply sorting logic
   filteredApplications.sort((a, b) => {
     if (sortBy === 'applicant-name-asc') {
-      return a.dataset.applicantName.localeCompare(b.dataset.applicantName);
+      return (a.dataset.applicantName || "").localeCompare(b.dataset.applicantName || "");
     } else if (sortBy === 'applicant-name-desc') {
-      return b.dataset.applicantName.localeCompare(a.dataset.applicantName);
+      return (b.dataset.applicantName || "").localeCompare(a.dataset.applicantName || "");
     } else if (sortBy === 'job-title-asc') {
-      return a.dataset.jobTitle.localeCompare(b.dataset.jobTitle);
+      return (a.dataset.jobTitle || "").localeCompare(b.dataset.jobTitle || "");
     } else if (sortBy === 'job-title-desc') {
-      return b.dataset.jobTitle.localeCompare(a.dataset.jobTitle);
+      return (b.dataset.jobTitle || "").localeCompare(a.dataset.jobTitle || "");
     } else if (sortBy === 'company-name-asc') {
-      return a.dataset.companyName.localeCompare(b.dataset.companyName);
+      return (a.dataset.companyName || "").localeCompare(b.dataset.companyName || "");
     } else if (sortBy === 'company-name-desc') {
-      return b.dataset.companyName.localeCompare(a.dataset.companyName);
+      return (b.dataset.companyName || "").localeCompare(a.dataset.companyName || "");
     }
     return 0; // Default case
   });
