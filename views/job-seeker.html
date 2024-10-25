@@ -533,10 +533,6 @@ setTimeout(() => {
 
 
 
-};
-
-
-
 
 
 
@@ -669,6 +665,7 @@ async function withdrawApplication(applicationId) {
 }
 
 
+
 // Function to handle contacting the recruiter
 function contactRecruiter(companyId) {
     // Logic to contact the recruiter, such as opening a chat or sending an email
@@ -739,7 +736,10 @@ document.getElementById('btnRefreshAnalytics').addEventListener('click', () => {
                 suggestedProfilesList.appendChild(li);
             });
         
-    
+        };
+
+
+
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 const userId = user.uid;
