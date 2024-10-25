@@ -1168,7 +1168,7 @@ const useOldFormat = true; // Change to false if using the new format
     const experienceMatch = text.match(experienceRegex);
     if (experienceMatch) {
 
-        bulletPoints =  extractBulletedList( experienceMatch[1].trim());
+       let  bulletPoints =  extractBulletedList( experienceMatch[1].trim());
         extractedData.experience = bulletPoints;
         
 console.log("bulletPoints   ",bulletPoints);
