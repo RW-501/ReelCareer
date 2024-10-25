@@ -348,9 +348,9 @@ document.getElementById('videoResumeUploadForm').onsubmit = function(event) {
     const userRef = doc(db, 'Users', userId);
     const userSnapshot = await getDoc(userRef);
 
-    const userData = [];
-    const savedJobs = [];
-    const jobData = '';
+    let userData = [];
+    let savedJobs = [];
+    let jobData = '';
     let applicationsData = [];
 
     if (userSnapshot.exists()) {
