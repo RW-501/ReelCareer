@@ -404,11 +404,26 @@ document.getElementById('videoResumeUploadForm').onsubmit = function(event) {
     }
 
     // Function to remove a saved job
-const removeSavedJob = async (userId, jobId) => {
+    const removeSavedJob = async (userId, jobId) => {
     const userRef = doc(db, 'Users', userId);
-    await updateDoc(userRef, {
-        savedJobs: arrayRemove(jobId) // Remove the jobId from savedJobs
-    });
+
+    // Assuming jobData is available as an array or a Map
+    // If it's an array of job objects, you can find the job by ID
+    const job = jobData.find(job => job.id === jobId); // Assuming jobData contains job objects with an id property
+
+    if (job) {
+        // Proceed to remove the job ID from savedJobs
+        await updateDoc(userRef, {
+            savedJobs: arrayRemove(jobId) // Remove the jobId from savedJobs
+        });
+
+        // Show the toast with the job name
+        showToast(`You have removed "${job.title}" from Saved Jobs`, 'success');
+    } else {
+        // Handle the case where the job is not found
+        showToast('Job not found', 'error');
+    }
+
     displayData(userId); // Refresh the list
 };
 
