@@ -1135,41 +1135,43 @@ $('#search-company').on('input', function () {
 
 
 
-
 function getStatusIcon(status) {
   let iconClass;
 
-  if (typeof status === 'string') {
-      switch (status.toLowerCase()) {
-          case 'active': iconClass = 'fas fa-check-circle'; break;
-          case 'paused': iconClass = 'fas fa-pause-circle'; break;
-          case 'deactivated': iconClass = 'fas fa-times-circle'; break;
-          case 'approved': iconClass = 'fas fa-thumbs-up'; break;
-          case 'rejected': iconClass = 'fas fa-thumbs-down'; break;
-          case 'under review': iconClass = 'fas fa-hourglass-half'; break;
-          default: iconClass = 'fas fa-question-circle'; break;
-      }
+  if (typeof status === 'string' && status.trim() !== '') {
+    switch (status.toLowerCase()) {
+      case 'active': iconClass = 'fas fa-check-circle'; break;
+      case 'paused': iconClass = 'fas fa-pause-circle'; break;
+      case 'deactivated': iconClass = 'fas fa-times-circle'; break;
+      case 'approved': iconClass = 'fas fa-thumbs-up'; break;
+      case 'rejected': iconClass = 'fas fa-thumbs-down'; break;
+      case 'under review': iconClass = 'fas fa-hourglass-half'; break;
+      default: iconClass = 'fas fa-question-circle'; break;
+    }
   } else {
-      iconClass = 'fas fa-question-circle';
+    iconClass = 'fas fa-question-circle'; // Default icon for undefined or invalid status
   }
 
   return iconClass;
 }
 
+
+
 function getStatusColor(status) {
-  switch (status.toLowerCase()) {
+  if (typeof status === 'string' && status.trim() !== '') {
+    switch (status.toLowerCase()) {
       case 'active': return 'green';
       case 'paused': return 'yellow';
       case 'deactivated': return 'red';
       case 'approved': return 'blue';
       case 'rejected': return 'darkred';
       case 'under review': return 'orange';
-      default: return 'gray';
+      default: return 'gray'; // Default color for unknown status
+    }
+  } else {
+    return 'gray'; // Default color for undefined or invalid status
   }
 }
-
-
-
 
 
 
