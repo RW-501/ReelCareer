@@ -657,131 +657,233 @@ const generateUserSuggestions = (userData, savedJobs, jobData, applicationsData,
     });
 
     savedJobsWithTimestamps.forEach(savedJob => {
-        // Check if savedJob is defined and has the necessary properties
-        if (savedJob && savedJob.savedAt && savedJob.title) {
-            const savedAtTimestamp = savedJob.savedAt.seconds ? savedJob.savedAt.seconds * 1000 : null; // Convert seconds to milliseconds if defined
-            if (savedAtTimestamp) {
-                const daysSinceSaved = Math.floor((Date.now() - savedAtTimestamp) / (1000 * 60 * 60 * 24));
+    // Check that savedJob is not null or undefined and has 'savedAt' and 'title' properties
+    if (savedJob && savedJob.savedAt?.seconds != null && savedJob.title != null) {
+        const savedAtTimestamp = savedJob.savedAt.seconds * 1000; // Convert seconds to milliseconds
+        const daysSinceSaved = Math.floor((Date.now() - savedAtTimestamp) / (1000 * 60 * 60 * 24));
 
-                categorizedSuggestions.savedJobs.push(`It has been ${daysSinceSaved} days since you saved the job "${savedJob.title}".`);
+        // Ensure daysSinceSaved is valid before pushing
+        if (!isNaN(daysSinceSaved)) {
+            categorizedSuggestions.savedJobs.push(`It has been ${daysSinceSaved} days since you saved the job "${savedJob.title}".`);
 
-                // Additional suggestions based on the number of days since saved
-                if (daysSinceSaved > 14) {
-                    categorizedSuggestions.savedJobs.push(`Consider checking for updates on "${savedJob.title}" since it has been over 2 weeks since you saved it.`);
-                }
+            // Additional suggestions based on daysSinceSaved
+            if (daysSinceSaved > 14) {
+                categorizedSuggestions.savedJobs.push(`Consider checking for updates on "${savedJob.title}" since it has been over 2 weeks since you saved it.`);
+            }
 
-                if (daysSinceSaved < 30) {
-                    categorizedSuggestions.savedJobs.push(`Don't miss out on "${savedJob.title}". Have you considered applying yet?`);
-                }
-            } else {
-                console.warn(`Missing savedAt timestamp for savedJob: ${JSON.stringify(savedJob)}`);
+            if (daysSinceSaved < 30) {
+                categorizedSuggestions.savedJobs.push(`Don't miss out on "${savedJob.title}". Have you considered applying yet?`);
             }
         } else {
-            console.warn(`Missing data for savedJob: ${JSON.stringify(savedJob)}`);
+            console.warn(`Invalid calculation for daysSinceSaved for savedJob: ${JSON.stringify(savedJob)}`);
         }
-    });
+    } else {
+        console.warn(`Missing or incomplete data for savedJob: ${JSON.stringify(savedJob)}`);
+    }
+});
 
+   // Ensure savedJobs is defined and has entries
+if (Array.isArray(savedJobs) && savedJobs.length > 0) {
     categorizedSuggestions.savedJobs.push(`You currently have ${savedJobs.length} saved jobs. Regularly reviewing them can help you stay updated!`);
-
-    const similarJobTitles = savedJobsWithTimestamps
-        .map(savedJob => {
-            if (savedJob.jobType) {
-                return jobData
-                    .filter(job => job.type === savedJob.jobType && job.title !== savedJob.title)
-                    .map(job => job.title);
-            }
-            return []; // Return an empty array if jobType is not defined
-        })
-        .flat()
-        .filter((title, index, self) => self.indexOf(title) === index); // Remove duplicates
-
-    if (similarJobTitles.length > 0) {
-        categorizedSuggestions.savedJobs.push(`You might also be interested in these similar jobs: ${similarJobTitles.join(', ')}.`);
-    }
-
-    const relevanceCheckPeriod = 30; // days
-    if (savedJobsWithTimestamps.some(job => {
-        const savedAtTimestamp = job.savedAt.seconds ? job.savedAt.seconds * 1000 : null; // Convert seconds to milliseconds if defined
-        if (savedAtTimestamp) {
-            const daysSinceSaved = Math.floor((Date.now() - savedAtTimestamp) / (1000 * 60 * 60 * 24));
-            return daysSinceSaved > relevanceCheckPeriod;
-        }
-        return false; // Return false if savedAt is not defined
-    })) {
-        categorizedSuggestions.savedJobs.push('Some of your saved jobs may no longer be relevant. Consider reviewing them for new opportunities!');
-    }
+} else {
+    console.warn(`The 'savedJobs' array is either undefined or empty.`);
 }
 
-    if (totalApplications > 0) {
-        categorizedSuggestions.applications.push(`You have submitted a total of ${totalApplications} applications.`);
-        const activeApplications = applicationsData.filter(app => app.status === 'active').length;
-        if (activeApplications > 0) {
-            categorizedSuggestions.applications.push(`You have ${activeApplications} active applications. Consider following up!`);
+const similarJobTitles = savedJobsWithTimestamps
+    .map(savedJob => {
+        if (savedJob && savedJob.jobType) { // Check if savedJob and jobType are defined
+            return jobData
+                .filter(job => job && job.type === savedJob.jobType && job.title && job.title !== savedJob.title) // Check job and title
+                .map(job => job.title);
         }
+        console.warn(`Missing or undefined 'jobType' in savedJob: ${JSON.stringify(savedJob)}`);
+        return []; // Return an empty array if jobType is not defined
+    })
+    .flat()
+    .filter((title, index, self) => self.indexOf(title) === index); // Remove duplicates
 
-        if (totalViews < totalApplications * 2) {
-            categorizedSuggestions.applications.push('Consider revisiting your applications to improve visibility and engagement.');
-        }
+// Check if similarJobTitles has valid entries before pushing
+if (similarJobTitles.length > 0) {
+    categorizedSuggestions.savedJobs.push(`You might also be interested in these similar jobs: ${similarJobTitles.join(', ')}.`);
+} else {
+    console.warn(`No similar job titles found or 'similarJobTitles' array is empty.`);
+}
 
-        const highViewJobs = applicationsData.filter(app => app.views > 10);
-        if (highViewJobs.length > 0) {
-            const highViewJobTitles = highViewJobs.map(app => jobData.find(job => job.id === app.jobId).title).join(', ');
+const relevanceCheckPeriod = 30; // days
+
+if (savedJobsWithTimestamps.some(job => {
+    // Ensure savedAt and savedAt.seconds are defined
+    if (job && job.savedAt?.seconds != null) {
+        const savedAtTimestamp = job.savedAt.seconds * 1000; // Convert seconds to milliseconds
+        const daysSinceSaved = Math.floor((Date.now() - savedAtTimestamp) / (1000 * 60 * 60 * 24));
+
+        // Return true if job is older than relevanceCheckPeriod
+        return daysSinceSaved > relevanceCheckPeriod;
+    } else {
+        console.warn(`Missing or incomplete 'savedAt' data in job: ${JSON.stringify(job)}`);
+    }
+    return false; // Return false if savedAt or seconds is undefined
+})) {
+    categorizedSuggestions.savedJobs.push('Some of your saved jobs may no longer be relevant. Consider reviewing them for new opportunities!');
+}
+
+}
+
+if (totalApplications > 0) {
+    categorizedSuggestions.applications.push(`You have submitted a total of ${totalApplications} applications.`);
+
+    // Check for valid applicationsData array
+    const activeApplications = Array.isArray(applicationsData)
+        ? applicationsData.filter(app => app && app.status === 'active').length
+        : 0;
+
+    if (activeApplications > 0) {
+        categorizedSuggestions.applications.push(`You have ${activeApplications} active applications. Consider following up!`);
+    }
+
+    // Check if totalViews and totalApplications are valid numbers
+    if (typeof totalViews === 'number' && typeof totalApplications === 'number' && totalViews < totalApplications * 2) {
+        categorizedSuggestions.applications.push('Consider revisiting your applications to improve visibility and engagement.');
+    }
+
+    // Filter for jobs with high views if applicationsData is valid
+    const highViewJobs = Array.isArray(applicationsData)
+        ? applicationsData.filter(app => app && typeof app.views === 'number' && app.views > 10)
+        : [];
+
+    if (highViewJobs.length > 0 && Array.isArray(jobData)) {
+        const highViewJobTitles = highViewJobs
+            .map(app => {
+                const job = jobData.find(job => job && job.id === app.jobId);
+                return job ? job.title : null;
+            })
+            .filter(title => title) // Remove null titles
+            .join(', ');
+
+        if (highViewJobTitles) {
             categorizedSuggestions.applications.push(`Jobs that have received high views recently: ${highViewJobTitles}. Consider applying!`);
         }
     } else {
-        categorizedSuggestions.applications.push('You have not submitted any applications yet. Consider applying to some jobs that interest you!');
+        console.warn(`No high-view jobs or 'applicationsData'/'jobData' is invalid.`);
     }
+} else {
+    categorizedSuggestions.applications.push('You have not submitted any applications yet. Consider applying to some jobs that interest you!');
+}
 
-    const recentJobs = jobData.filter(job => {
+
+const recentJobs = Array.isArray(jobData) ? jobData.filter(job => {
+    // Ensure job and job.postedDate are defined
+    if (job && job.postedDate) {
         const postedDate = new Date(job.postedDate);
         const today = new Date();
-        const daysSincePosted = Math.floor((today - postedDate) / (1000 * 60 * 60 * 24));
-        return daysSincePosted <= 7; // Adjust this to change the time frame for recent postings
-    });
+        
+        // Verify that postedDate is a valid date
+        if (!isNaN(postedDate)) {
+            const daysSincePosted = Math.floor((today - postedDate) / (1000 * 60 * 60 * 24));
+            return daysSincePosted <= 7; // Adjust this to change the time frame for recent postings
+        } else {
+            console.warn(`Invalid postedDate format for job: ${JSON.stringify(job)}`);
+        }
+    } else {
+        console.warn(`Missing or undefined 'postedDate' in job: ${JSON.stringify(job)}`);
+    }
+    return false; // Exclude job if postedDate is undefined or invalid
+}) : [];
 
-    if (recentJobs.length > 0) {
-        const recentJobTitles = recentJobs.map(job => job.title).join(', ');
+if (recentJobs.length === 0) {
+    console.warn('No recent jobs found or jobData array is empty.');
+}
+
+
+if (recentJobs.length > 0) {
+    const recentJobTitles = recentJobs
+        .map(job => job && job.title ? job.title : null) // Ensure job title is defined
+        .filter(title => title) // Filter out null or undefined titles
+        .join(', ');
+
+    if (recentJobTitles) {
         categorizedSuggestions.recentJobs.push(`Check out these recently posted jobs: ${recentJobTitles}.`);
+    } else {
+        console.warn('No valid job titles found in recent jobs.');
     }
+} else {
+    console.warn('No recent jobs available for suggestions.');
+}
 
-    if (userData.preferences && userData.preferences.jobTypes.length > 0) {
-        const preferredJobs = jobData.filter(job =>
-            userData.preferences.jobTypes.includes(job.type)
-        );
+if (userData && userData.preferences && Array.isArray(userData.preferences.jobTypes) && userData.preferences.jobTypes.length > 0) {
+    const preferredJobs = Array.isArray(jobData)
+        ? jobData.filter(job => job && job.type && userData.preferences.jobTypes.includes(job.type))
+        : [];
 
-        if (preferredJobs.length > 0) {
-            const preferredJobTitles = preferredJobs.map(job => job.title).join(', ');
+    if (preferredJobs.length > 0) {
+        const preferredJobTitles = preferredJobs
+            .map(job => job.title)
+            .filter(title => title) // Filter out undefined or null titles
+            .join(', ');
+
+        if (preferredJobTitles) {
             categorizedSuggestions.preferences.push(`Based on your preferences, consider these jobs: ${preferredJobTitles}.`);
+        } else {
+            console.warn('No valid job titles found for preferred jobs.');
         }
+    } else {
+        console.warn('No preferred jobs found matching user preferences.');
     }
+} else {
+    console.warn('User preferences for job types are missing or invalid.');
+}
 
-    if (savedJobs.length > 0 || totalApplications > 0) {
-        categorizedSuggestions.networking.push('Consider reaching out to professionals in your network for job referrals!');
-    }
+// Suggest networking if there are saved jobs or applications
+if (Array.isArray(savedJobs) && savedJobs.length > 0 || totalApplications > 0) {
+    categorizedSuggestions.networking.push('Consider reaching out to professionals in your network for job referrals!');
+}
 
-    if (!userData.profileComplete) {
-        categorizedSuggestions.profileCompleteness.push('Your profile is not fully complete. Consider adding more information to enhance visibility.');
-    }
+// Suggest profile completion if it's marked as incomplete
+if (userData && userData.profileComplete === false) {
+    categorizedSuggestions.profileCompleteness.push('Your profile is not fully complete. Consider adding more information to enhance visibility.');
+}
 
-    if (userData.preferences && userData.preferences.skills.length > 0) {
-        categorizedSuggestions.skillsImprovement.push('To enhance your job prospects, consider improving your skills in areas like: ' + userData.preferences.skills.join(', ') + '.');
-    }
+// Suggest skill improvements based on user preferences
+if (userData && userData.preferences && Array.isArray(userData.preferences.skills) && userData.preferences.skills.length > 0) {
+    categorizedSuggestions.skillsImprovement.push(
+        'To enhance your job prospects, consider improving your skills in areas like: ' + userData.preferences.skills.join(', ') + '.'
+    );
+}
 
-    if (userData.location) {
-        const popularJobs = jobData.filter(job => job.location === userData.location);
-        if (popularJobs.length > 0) {
-            const popularJobTitles = popularJobs.map(job => job.title).join(', ');
+// Suggest popular jobs in user's location if location is set
+if (userData && userData.location) {
+    const popularJobs = Array.isArray(jobData)
+        ? jobData.filter(job => job && job.location === userData.location)
+        : [];
+
+    if (popularJobs.length > 0) {
+        const popularJobTitles = popularJobs
+            .map(job => job && job.title ? job.title : null) // Ensure title is defined
+            .filter(title => title) // Filter out null titles
+            .join(', ');
+
+        if (popularJobTitles) {
             categorizedSuggestions.location.push(`Jobs popular in your area (${userData.location}): ${popularJobTitles}.`);
+        } else {
+            console.warn('No valid job titles found for popular jobs in the specified location.');
         }
+    } else {
+        console.warn(`No jobs found for the location: ${userData.location}.`);
     }
+}
 
+
+if (typeof totalApplications === 'number') {
     if (totalApplications < 5) {
         categorizedSuggestions.motivational.push('Remember, persistence is key! Keep applying to increase your chances.');
     } else if (totalApplications >= 5 && totalApplications < 10) {
         categorizedSuggestions.motivational.push('Great job on your applications! Keep up the good work and don’t hesitate to explore more opportunities.');
     } else {
-        categorizedSuggestions.motivational.push('Impressive! You’re actively pursuing your job search. Stay focused and you’ll find the right opportunity soon.');
+        categorizedSuggestions.motivational.push('Impressive! You’re actively pursuing your job search. Stay focused, and you’ll find the right opportunity soon.');
     }
+} else {
+    console.warn('Invalid totalApplications value: Expected a number.');
+}
 
     console.log("suggestions", categorizedSuggestions);
     return categorizedSuggestions;
