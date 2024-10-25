@@ -1460,7 +1460,7 @@ function renderApplications(applications) {
 
   Object.entries(groupedApplications).forEach(([key, applicants]) => {
     const [jobTitle, companyName, boosted] = key.split("|");
-    const jobSection = renderJobTitleWithApplicants(jobTitle, companyName, boosted, applicants);
+    const jobSection = renderApplicationHTML (jobTitle, companyName, boosted, applicants);
     $("#application-posts-container").append(jobSection);
   });
 
