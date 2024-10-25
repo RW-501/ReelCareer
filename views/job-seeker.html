@@ -368,6 +368,49 @@ document.head.insertAdjacentHTML("beforeend", `
             0% { width: 0; }
             100% { width: 100%; }
         }
+
+        .missing-fields-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    z-index: 1000;
+}
+
+.missing-fields-popup h3 {
+    margin: 0 0 10px;
+}
+
+.missing-fields-popup p {
+    margin: 10px 0;
+}
+
+.missing-fields-popup ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 10px 0;
+}
+
+.missing-fields-popup button {
+    margin: 5px;
+}
+
+.close-popup {
+    background: transparent;
+    border: none;
+    font-size: 16px;
+    color: #888;
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
     </style>
 `);
 
@@ -1154,6 +1197,11 @@ function showMissingFieldsPopup(missingFields) {
     const popup = document.createElement("div");
     popup.classList.add("missing-fields-popup");
 
+    // Add a close button
+    const closeButton = document.createElement("button");
+    closeButton.innerText = "✖ Close";
+    closeButton.classList.add("close-popup");
+
     popup.innerHTML = `
         <h3>Complete Your Profile</h3>
         <p>We noticed some fields are missing. Would you like to add the following information?</p>
@@ -1164,6 +1212,8 @@ function showMissingFieldsPopup(missingFields) {
         <button id="dismissPopupBtn">No, Maybe Later</button>
     `;
 
+    // Append the close button to the popup
+    popup.appendChild(closeButton);
     document.body.appendChild(popup);
 
     // Add event listeners
@@ -1175,8 +1225,12 @@ function showMissingFieldsPopup(missingFields) {
     document.getElementById("dismissPopupBtn").addEventListener("click", () => {
         popup.remove();
     });
-}
 
+    // Close button event listener
+    closeButton.addEventListener("click", () => {
+        popup.remove();
+    });
+}
 
 function openProfileEditForm(missingFields) {
     const formContainer = document.createElement("div");
