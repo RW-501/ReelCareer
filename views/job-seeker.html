@@ -424,7 +424,28 @@ const viewJob = (jobId) => {
 
 
 
-const generateUserSuggestions = (userData, savedJobs, jobData, applicationsData) => {
+
+
+
+
+
+
+
+
+
+// Function to save preferences to local storage
+const savePreferencesToLocalStorage = (preferences) => {
+    localStorage.setItem('userPreferences', JSON.stringify(preferences));
+};
+
+// Function to retrieve preferences from local storage
+const getPreferencesFromLocalStorage = () => {
+    const preferences = localStorage.getItem('userPreferences');
+    return preferences ? JSON.parse(preferences) : {};
+};
+
+// Function to generate user suggestions
+const generateUserSuggestions = (userData, savedJobs, jobData, applicationsData, preferences) => {
     const categorizedSuggestions = {
         savedJobs: [],
         applications: [],
@@ -451,46 +472,39 @@ const generateUserSuggestions = (userData, savedJobs, jobData, applicationsData)
     if (savedJobs.length > 0) {
         categorizedSuggestions.savedJobs.push('You have saved jobs. Make sure to check them regularly for updates.');
 
-        // Create a structure to hold saved job IDs and their saved timestamps
         const savedJobsWithTimestamps = savedJobs.map(job => {
-            const jobInfo = jobData.find(j => j.id === job.id); // Assuming each saved job has a 'savedAt' property
+            const jobInfo = jobData.find(j => j.id === job.id);
             return {
                 title: jobInfo ? jobInfo.title : 'Unknown Job',
-                savedAt: job.savedAt, // Assuming savedAt is available in savedJobs
-                jobType: jobInfo ? jobInfo.type : null // Assuming job has a 'type' field
+                savedAt: job.savedAt,
+                jobType: jobInfo ? jobInfo.type : null
             };
         });
 
-        // Suggest saved jobs and calculate days since saved
         savedJobsWithTimestamps.forEach(savedJob => {
             const daysSinceSaved = Math.floor((Date.now() - savedJob.savedAt.seconds * 1000) / (1000 * 60 * 60 * 24));
             categorizedSuggestions.savedJobs.push(`It has been ${daysSinceSaved} days since you saved the job "${savedJob.title}".`);
 
-            // Suggest checking for updates
             if (daysSinceSaved > 14) {
                 categorizedSuggestions.savedJobs.push(`Consider checking for updates on "${savedJob.title}" since it has been over 2 weeks since you saved it.`);
             }
 
-            // Encourage applying if saved job is relevant
-            if (daysSinceSaved < 30) { // Assuming relevance for one month
+            if (daysSinceSaved < 30) {
                 categorizedSuggestions.savedJobs.push(`Don't miss out on "${savedJob.title}". Have you considered applying yet?`);
             }
         });
 
-        // Count of saved jobs
         categorizedSuggestions.savedJobs.push(`You currently have ${savedJobs.length} saved jobs. Regularly reviewing them can help you stay updated!`);
 
-        // Suggest similar jobs
         const similarJobTitles = savedJobsWithTimestamps
             .map(savedJob => jobData.filter(job => job.type === savedJob.jobType && job.title !== savedJob.title).map(job => job.title))
             .flat()
-            .filter((title, index, self) => self.indexOf(title) === index); // Unique titles only
+            .filter((title, index, self) => self.indexOf(title) === index);
 
         if (similarJobTitles.length > 0) {
             categorizedSuggestions.savedJobs.push(`You might also be interested in these similar jobs: ${similarJobTitles.join(', ')}.`);
         }
 
-        // Encourage relevance checks after a set period
         const relevanceCheckPeriod = 30; // days
         if (savedJobsWithTimestamps.some(job => {
             const daysSinceSaved = Math.floor((Date.now() - job.savedAt.seconds * 1000) / (1000 * 60 * 60 * 24));
@@ -500,23 +514,18 @@ const generateUserSuggestions = (userData, savedJobs, jobData, applicationsData)
         }
     }
 
-    // Suggest based on total applications
     if (totalApplications > 0) {
         categorizedSuggestions.applications.push(`You have submitted a total of ${totalApplications} applications.`);
-
-        // Suggest checking the status of applications
         const activeApplications = applicationsData.filter(app => app.status === 'active').length;
         if (activeApplications > 0) {
             categorizedSuggestions.applications.push(`You have ${activeApplications} active applications. Consider following up!`);
         }
 
-        // Suggest improving application views
         if (totalViews < totalApplications * 2) {
             categorizedSuggestions.applications.push('Consider revisiting your applications to improve visibility and engagement.');
         }
 
-        // Suggest trends based on application data
-        const highViewJobs = applicationsData.filter(app => app.views > 10); // Example threshold
+        const highViewJobs = applicationsData.filter(app => app.views > 10);
         if (highViewJobs.length > 0) {
             const highViewJobTitles = highViewJobs.map(app => jobData.find(job => job.id === app.jobId).title).join(', ');
             categorizedSuggestions.applications.push(`Jobs that have received high views recently: ${highViewJobTitles}. Consider applying!`);
@@ -525,7 +534,6 @@ const generateUserSuggestions = (userData, savedJobs, jobData, applicationsData)
         categorizedSuggestions.applications.push('You have not submitted any applications yet. Consider applying to some jobs that interest you!');
     }
 
-    // Suggest jobs based on recent postings
     const recentJobs = jobData.filter(job => {
         const postedDate = new Date(job.postedDate);
         const today = new Date();
@@ -538,10 +546,9 @@ const generateUserSuggestions = (userData, savedJobs, jobData, applicationsData)
         categorizedSuggestions.recentJobs.push(`Check out these recently posted jobs: ${recentJobTitles}.`);
     }
 
-    // Suggest jobs based on user preferences
     if (userData.preferences && userData.preferences.jobTypes.length > 0) {
         const preferredJobs = jobData.filter(job =>
-            userData.preferences.jobTypes.includes(job.type) // Assuming job has a 'type' field
+            userData.preferences.jobTypes.includes(job.type)
         );
 
         if (preferredJobs.length > 0) {
@@ -550,22 +557,18 @@ const generateUserSuggestions = (userData, savedJobs, jobData, applicationsData)
         }
     }
 
-    // Suggest networking opportunities if the user has saved jobs or applications
     if (savedJobs.length > 0 || totalApplications > 0) {
         categorizedSuggestions.networking.push('Consider reaching out to professionals in your network for job referrals!');
     }
 
-    // Suggest checking profile completeness if applicable
     if (!userData.profileComplete) {
         categorizedSuggestions.profileCompleteness.push('Your profile is not fully complete. Consider adding more information to enhance visibility.');
     }
 
-    // Suggest skills improvement if the user has job preferences
     if (userData.preferences && userData.preferences.skills.length > 0) {
         categorizedSuggestions.skillsImprovement.push('To enhance your job prospects, consider improving your skills in areas like: ' + userData.preferences.skills.join(', ') + '.');
     }
 
-    // Suggesting popular job locations based on userData
     if (userData.location) {
         const popularJobs = jobData.filter(job => job.location === userData.location);
         if (popularJobs.length > 0) {
@@ -574,7 +577,6 @@ const generateUserSuggestions = (userData, savedJobs, jobData, applicationsData)
         }
     }
 
-    // Adding motivational messages based on user activity
     if (totalApplications < 5) {
         categorizedSuggestions.motivational.push('Remember, persistence is key! Keep applying to increase your chances.');
     } else if (totalApplications >= 5 && totalApplications < 10) {
@@ -588,7 +590,7 @@ const generateUserSuggestions = (userData, savedJobs, jobData, applicationsData)
 };
 
 // Function to display suggestions in the HTML
-const displaySuggestions = (categorizedSuggestions) => {
+const displaySuggestions = (categorizedSuggestions, preferences) => {
     const suggestedJobsList = document.getElementById('suggestedJobsList');
     suggestedJobsList.innerHTML = ''; // Clear previous suggestions
 
@@ -600,6 +602,10 @@ const displaySuggestions = (categorizedSuggestions) => {
 
     // Function to create a section for suggestions
     const createSuggestionSection = (sectionTitle, suggestions) => {
+        if (preferences[sectionTitle] && preferences[sectionTitle] === false) {
+            return; // Skip this section if the user has opted out
+        }
+
         if (suggestions.length > 0) {
             const section = document.createElement('div');
             const sectionHeader = document.createElement('h5');
@@ -634,13 +640,28 @@ const displaySuggestions = (categorizedSuggestions) => {
     createSuggestionSection('Motivational Suggestions', categorizedSuggestions.motivational);
 };
 
+// Initializing the preferences when the page loads
+document.addEventListener('DOMContentLoaded', () => {
+    const preferences = getPreferencesFromLocalStorage();
 
+    // Assuming you have the userData, savedJobs, jobData, and applicationsData available
+    const categorizedSuggestions = generateUserSuggestions(userData, savedJobs, jobData, applicationsData, preferences);
+    displaySuggestions(categorizedSuggestions, preferences);
+});
+
+
+// Example: Call this function when a user interacts with a toggle switch for categories
+// togglePreference('Saved Jobs Suggestions'); // Call this function to toggle the saved jobs suggestions
 
 // Generate suggestions and display them
 setTimeout(() => {
   // Assuming you have the userData, savedJobs, jobData, and applicationsData available, you can call the function like this:
-const categorizedSuggestions = generateUserSuggestions(userData, savedJobs, jobData, applicationsData);
-displaySuggestions(categorizedSuggestions);
+// Example to save preferences when the user toggles a suggestion category
+const togglePreference = (category) => {
+    const preferences = getPreferencesFromLocalStorage();
+    preferences[category] = !preferences[category]; // Toggle the preference
+    savePreferencesToLocalStorage(preferences); // Save the updated preferences to local storage
+};
 
     console.log(userSuggestions);
 }, 2000); // 2000 milliseconds = 2 seconds
