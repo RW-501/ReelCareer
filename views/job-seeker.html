@@ -715,7 +715,7 @@ document.getElementById('btnRefreshAnalytics').addEventListener('click', () => {
                 li.textContent = `${doc.data().name} - ${doc.data().jobTitle}`; // Assuming the user document has fields named name and jobTitle
                 suggestedProfilesList.appendChild(li);
             });
-        };
+        
     
         onAuthStateChanged(auth, (user) => {
             if (user) {
