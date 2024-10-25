@@ -123,6 +123,22 @@
                 </div>
             </div>
 
+            <div class="card mb-4 shadow-sm">
+                <div class="card-header bg-light">
+                    <h5 class="mb-0">Saved Jobs</h5>
+                </div>
+                <div class="card-body">
+                    <ul id="savedJobsList" class="list-group">
+                        <!-- Saved jobs will be dynamically inserted here -->
+                    </ul>
+                </div>
+            </div>
+            
+
+
+
+
+
             <!-- Video Resumes Section -->
             <div class="card mb-4 shadow-sm">
                 <div class="card-header bg-light">
@@ -195,6 +211,10 @@
                     </ul>
                 </div>
             </div>
+        </div>
+        
+
+
         </div>
             <div class="col-md-4">
                 <div class="card mb-4 shadow-sm">
@@ -322,6 +342,177 @@ document.getElementById('videoResumeUploadForm').onsubmit = function(event) {
     
         // Function to display data dynamically
         const displayData = async (userId) => {
+
+
+    // Reference to the user document
+    const userRef = doc(db, 'Users', userId);
+    const userSnapshot = await getDoc(userRef);
+
+    const userData = [];
+    const savedJobs = [];
+    const jobData = '';
+    let applicationsData = [];
+
+    if (userSnapshot.exists()) {
+         userData = userSnapshot.data();
+         savedJobs = userData.savedJobs || []; // Retrieve savedJobs array
+
+        const jobsList = document.getElementById('savedJobsList');
+        jobsList.innerHTML = ''; // Clear existing jobs
+
+        // Fetch job details for each saved job ID
+        for (const jobId of savedJobs) {
+            const jobRef = doc(db, 'Jobs', jobId);
+            const jobSnapshot = await getDoc(jobRef);
+
+            if (jobSnapshot.exists()) {
+                const jobData = jobSnapshot.data();
+                
+                // Create a list item for the saved job
+                const li = document.createElement('li');
+                li.className = 'list-group-item';
+                li.innerHTML = `
+                    <strong>${jobData.jobTitle}</strong> at <em>${jobData.companyName}</em>
+                    <p>Location: ${jobData.location || 'N/A'}</p>
+                    <p>Posted on: ${jobData.postedDate || 'N/A'}</p>
+                    <div>
+                        <button class="btn btn-danger btn-sm" id="remove-${jobId}">Remove</button>
+                        <button class="btn btn-primary btn-sm" id="view-${jobId}">View Job</button>
+                    </div>
+                `;
+                
+                // Append to the saved jobs list
+                jobsList.appendChild(li);
+
+                // Event listeners for the buttons
+                document.getElementById(`remove-${jobId}`).addEventListener('click', () => removeSavedJob(userId, jobId));
+                document.getElementById(`view-${jobId}`).addEventListener('click', () => viewJob(jobId));
+            }
+        }
+    }
+
+    // Function to remove a saved job
+const removeSavedJob = async (userId, jobId) => {
+    const userRef = doc(db, 'Users', userId);
+    await updateDoc(userRef, {
+        savedJobs: arrayRemove(jobId) // Remove the jobId from savedJobs
+    });
+    displaySavedJobs(userId); // Refresh the list
+};
+
+// Function to view a job (could redirect to a job detail page)
+const viewJob = (jobId) => {
+    // Logic to navigate to the job detail page
+    console.log(`Navigating to job detail for ID: ${jobId}`);
+    // For example: window.location.href = `/job-detail/${jobId}`;
+};
+
+
+
+const generateUserSuggestions = (userData, savedJobs, jobData, applicationsData) => {
+    const suggestions = [];
+
+    // 1. Check applications status
+    const activeApplications = applicationsData.filter(app => app.status[0].status === 'active');
+    if (activeApplications.length > 0) {
+        suggestions.push('You have active applications. Consider following up with the recruiters.');
+    } else {
+        suggestions.push('You have no active applications. Explore more job opportunities!');
+    }
+
+    // 2. Analyze saved jobs
+    if (savedJobs.length > 0) {
+        suggestions.push('You have saved jobs. Make sure to check them regularly for updates.');
+        
+        // Suggest similar jobs based on saved jobs
+        const jobTitles = savedJobs.map(jobId => {
+            const job = jobData.find(job => job.id === jobId);
+            return job ? job.title : null;
+        }).filter(Boolean);
+
+        if (jobTitles.length > 0) {
+            suggestions.push(`Based on your saved jobs, consider applying for other roles related to: ${jobTitles.join(', ')}.`);
+        }
+    } else {
+        suggestions.push('Consider saving jobs that interest you to apply later.');
+    }
+
+    // 3. Job trends analysis
+    const trendingJobs = jobData.filter(job => job.isTrending); // Assuming jobData contains a field `isTrending`
+    if (trendingJobs.length > 0) {
+        suggestions.push('Check out these trending job opportunities in your field:');
+        trendingJobs.forEach(job => {
+            suggestions.push(`- ${job.title} at ${job.companyName}`);
+        });
+    }
+
+    // 4. Completion rate analysis
+    const applicationCount = applicationsData.length;
+    const savedJobsCount = savedJobs.length;
+
+    if (applicationCount < savedJobsCount) {
+        suggestions.push('You have more saved jobs than applications submitted. Try applying to some of your saved jobs!');
+    } else if (applicationCount === 0) {
+        suggestions.push('Consider submitting applications to jobs that match your profile.');
+    }
+
+    // 5. Personalized notifications
+    suggestions.push('Don\'t forget to update your resume and profile regularly to attract more opportunities!');
+
+    return suggestions;
+};
+
+/*
+// Example usage:
+const userData = []; // Example user data
+const savedJobs = ["yWtoX9sy0UK7aXUGV8kN", "ybczQ0a4ohnpkk8EOnHi"];
+const jobData = [
+    { id: "yWtoX9sy0UK7aXUGV8kN", title: "Web Developer", companyName: "TechNoob", isTrending: true },
+    { id: "ybczQ0a4ohnpkk8EOnHi", title: "Data Scientist", companyName: "Data Corp", isTrending: false },
+    { id: "Lq4fig2IY17qVykfOMlm", title: "UX Designer", companyName: "Designify", isTrending: true }
+];
+let applicationsData = [
+    { id: "app1", status: [{ status: 'active' }] },
+    { id: "app2", status: [{ status: 'withdrawn' }] }
+];
+
+// Generate suggestions
+const userSuggestions = generateUserSuggestions(userData, savedJobs, jobData, applicationsData);
+console.log(userSuggestions);
+
+*/
+
+
+// Assuming the previous function generateUserSuggestions is already defined
+
+
+
+// Function to display suggestions in the HTML
+const displaySuggestions = (suggestions) => {
+    const suggestedJobsList = document.getElementById('suggestedJobsList');
+    suggestedJobsList.innerHTML = ''; // Clear previous suggestions
+
+    suggestions.forEach(suggestion => {
+        const li = document.createElement('li');
+        li.className = 'list-group-item';
+        li.textContent = suggestion; // Set the text content to the suggestion
+        suggestedJobsList.appendChild(li); // Append to the list
+    });
+};
+
+// Generate suggestions and display them
+const userSuggestions = generateUserSuggestions(userData, savedJobs, jobData, applicationsData);
+displaySuggestions(userSuggestions);
+
+
+
+
+
+
+
+
+
+
             // Resumes
             const resumesRef = collection(db, 'Users', userId, 'Resumes');
             const resumesSnapshot = await getDocs(resumesRef);
@@ -345,17 +536,146 @@ document.getElementById('videoResumeUploadForm').onsubmit = function(event) {
             });
     
             // Applications - Filter by userId
-            const applicationsRef = collection(db, 'Applications');
-            const applicationsQuery = query(applicationsRef, where("userId", "==", userId)); // Filter applications by userId
-            const applicationsSnapshot = await getDocs(applicationsQuery);
-            const applicationsList = document.getElementById('applicationsList');
-            applicationsList.innerHTML = '';
-            applicationsSnapshot.forEach((doc) => {
-                const li = document.createElement('li');
-                li.textContent = `${doc.data().jobTitle} - ${doc.data().status}`; // Assuming the application document has fields named jobTitle and status
-                applicationsList.appendChild(li);
-            });
+// Initialize an array to hold application data
+// Initialize an array to hold application data
+
+// Fetch applications from Firestore
+const applicationsRef = collection(db, 'Applications'); 
+const applicationsQuery = query(applicationsRef, where("userId", "==", userId)); // Filter applications by userId
+const applicationsSnapshot = await getDocs(applicationsQuery);
+const applicationsList = document.getElementById('applicationsList');
+applicationsList.innerHTML = '';
+
+// Process each application document
+applicationsSnapshot.forEach((doc, index) => {
+    const data = doc.data();
+    const applicationId = doc.id;
+
+    // Store each application data in the array
+    applicationsData.push({
+        id: applicationId,
+        jobTitle: data.jobTitle,
+        companyName: data.companyName || 'N/A',
+        applyDate: data.applyDate,
+        status: data.status[0].status,
+        views: data.views,
+        resumeViews: data.resumeViews,
+        videoResumeViews: data.videoResumeViews,
+        timestamp: data.status[0].timestamp
+    });
+
+    // Create list item for the accordion
+    const li = document.createElement('li');
+    li.className = 'list-group-item';
+
+    // Accordion header with job title and status
+    li.innerHTML = `
+        <div class="accordion" id="applicationAccordion-${index}">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="heading-${index}">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-${index}" aria-expanded="false" aria-controls="collapse-${index}">
+                        ${data.jobTitle} - <span class="badge bg-${data.status[0].status === 'active' ? 'success' : 'secondary'}">${data.status[0].status}</span>
+                    </button>
+                </h2>
+                <div id="collapse-${index}" class="accordion-collapse collapse" aria-labelledby="heading-${index}" data-bs-parent="#applicationAccordion-${index}">
+                    <div class="accordion-body">
+                        <p><strong>Company:</strong> ${data.companyName || 'N/A'}</p>
+                        <p><strong>Applied Date:</strong> ${data.applyDate}</p>
+                        <p><strong>Status:</strong> ${data.status[0].status} (Updated: ${data.status[0].timestamp})</p>
+                        <p><strong>Views:</strong> ${data.views}</p>
+                        <p><strong>Resume Views:</strong> ${data.resumeViews}</p>
+                        <p><strong>Video Resume Views:</strong> ${data.videoResumeViews}</p>
+                        <div class="mt-3">
+                            <button class="btn btn-danger btn-sm" id="withdraw-${applicationId}">Withdraw</button>
+                            <button class="btn btn-primary btn-sm" id="contact-${applicationId}">Contact Recruiter</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+
+    // Append to the application list
+    applicationsList.appendChild(li);
+
+  
+
+    // Add event listener to the withdraw button
+    document.getElementById(`withdraw-${applicationId}`).addEventListener('click', async () => {
+        await withdrawApplication(applicationId);
+        showToast('Application withdrawn successfully', 'success');
+        // Optionally, you can remove or update the UI after withdrawal
+    });
+
+    // Add event listener to the contact recruiter button
+    document.getElementById(`contact-${applicationId}`).addEventListener('click', () => {
+        contactRecruiter(data.companyId);
+    });
+});
+
+// Function to handle withdrawing an application
+async function withdrawApplication(applicationId) {
+    // Step 1: Update the application status
+    const applicationRef = doc(db, 'Applications', applicationId);
+    await updateDoc(applicationRef, {
+        status: [{ status: 'withdrawn', timestamp: new Date().toLocaleString() }]
+    });
+
+    // Step 2: Remove applicationId from user's userApps array
+    const userRef = doc(db, 'Users', userId); // Assuming userId is available in your scope
+    const userDoc = await getDoc(userRef);
     
+    if (userDoc.exists()) {
+        const userData = userDoc.data();
+        const userApps = userData.userApps || []; // Default to an empty array if userApps doesn't exist
+        
+        // Filter out the withdrawn applicationId
+        const updatedUserApps = userApps.filter(appId => appId !== applicationId);
+        
+        // Update the user's userApps array
+        await updateDoc(userRef, {
+            userApps: updatedUserApps
+        });
+    }
+}
+
+
+// Function to handle contacting the recruiter
+function contactRecruiter(companyId) {
+    // Logic to contact the recruiter, such as opening a chat or sending an email
+    window.location.href = `/contact-recruiter?companyId=${companyId}`;
+}
+
+    
+
+
+// Function to update analytics section
+function updateAnalytics() {
+    // Get the total number of applications
+    const totalApplications = applicationsData.length;
+
+    // Calculate total views
+    const totalViews = applicationsData.reduce((acc, app) => acc + app.views, 0);
+
+    // Update the UI with the calculated values
+    document.getElementById('totalApplications').textContent = totalApplications;
+    document.getElementById('totalViews').textContent = totalViews;
+}
+
+// Call this function after fetching applications and populating the UI
+updateAnalytics();
+
+// Optional: Add event listener for the refresh button
+document.getElementById('btnRefreshAnalytics').addEventListener('click', () => {
+    // Optionally, you can refresh data here if you need to fetch the latest from Firestore
+    // For now, we'll just call updateAnalytics to refresh the display
+    updateAnalytics();
+});
+
+
+
+
+
             // Suggested Jobs - Filter by userId
             const jobsRef = collection(db, 'Jobs');
             const jobsQuery = query(jobsRef, where("userId", "==", userId)); // Filter jobs by userId
