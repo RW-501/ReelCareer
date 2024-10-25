@@ -1437,10 +1437,14 @@ async function getApplicationsFromDB(jobIDs) {
 
   // Normalize and map application statuses
   applications.forEach(app => {
-    const statusKey = app.status ? app.status.trim().toLowerCase() : "";
+    if (typeof app.status !== 'string') {
+        console.warn('Unexpected status value:', app.status);
+    }
+    const statusKey = (typeof app.status === 'string' ? app.status.trim() : "").toLowerCase();
     const statusValue = applicationStatuses[statusKey] || "Unknown Status";
     app.normalizedStatus = statusValue; // Add normalized status to the application object
-  });
+});
+
 
   return applications;
 }
@@ -1601,82 +1605,43 @@ function filterAndSortApplications() {
   const filterStatus = document.querySelector('#filter-status').value.toLowerCase();
 
   const allApplications = [...document.querySelectorAll('.application-post')];
-
-  allApplications.forEach(app => {
+  const filteredApplications = allApplications.filter(app => {
     const applicantName = app.dataset.applicantName.toLowerCase();
     const jobTitle = app.dataset.jobTitle.toLowerCase();
     const applicationStatus = app.dataset.status.toLowerCase();
 
-    let shouldDisplay = true;
-
-    // Apply search filter for applicant name and job title
-    if (searchQuery && !applicantName.includes(searchQuery) && !jobTitle.includes(searchQuery)) {
-      shouldDisplay = false;
-    }
-
-<<<<<<< HEAD
-=======
-    // Apply status filter, handling both old and new status terms
-    if (filterStatus !== 'all') {
-      // Find if the applicationStatus matches any status in the selected filterStatus group
-      const validStatuses = statusMappings[filterStatus] || [filterStatus]; // Use filterStatus directly if it's not mapped
-      if (!validStatuses.includes(applicationStatus)) {
-        shouldDisplay = false;
-      }
-    }
-
     // Apply search filter
-
-    // Apply search filter
-    if (searchQuery && !applicantName.includes(searchQuery) && !jobTitle.includes(searchQuery)) {
-      shouldDisplay = false;
-    }
-
->>>>>>> 9b154b30f2f13a7c18bb9a413325b4860e98a00d
-    // Apply status filter
-    if (filterStatus !== 'all' && applicationStatus !== filterStatus) {
-      shouldDisplay = false;
-    }
+    const matchesSearch = searchQuery === '' || applicantName.includes(searchQuery) || jobTitle.includes(searchQuery);
     
-    // Display or hide based on filtering
-    app.style.display = shouldDisplay ? 'block' : 'none';
+    // Apply status filter
+    const matchesStatus = filterStatus === 'all' || applicationStatus === filterStatus;
+
+    return matchesSearch && matchesStatus;
   });
 
-  // Apply sorting logic based on the sortBy value
-  const sortedApplications = allApplications.filter(app => app.style.display !== 'none');
-
-  if (sortBy === 'applicant-name-asc') {
-    sortedApplications.sort((a, b) => 
-      a.dataset.applicantName.localeCompare(b.dataset.applicantName)
-    );
-  } else if (sortBy === 'applicant-name-desc') {
-    sortedApplications.sort((a, b) => 
-      b.dataset.applicantName.localeCompare(a.dataset.applicantName)
-    );
-  } else if (sortBy === 'job-title-asc') {
-    sortedApplications.sort((a, b) => 
-      a.dataset.jobTitle.localeCompare(b.dataset.jobTitle)
-    );
-  } else if (sortBy === 'job-title-desc') {
-    sortedApplications.sort((a, b) => 
-      b.dataset.jobTitle.localeCompare(a.dataset.jobTitle)
-    );
-  } else if (sortBy === 'company-name-asc') {
-    sortedApplications.sort((a, b) => 
-      a.dataset.companyName.localeCompare(b.dataset.companyName)
-    );
-  } else if (sortBy === 'company-name-desc') {
-    sortedApplications.sort((a, b) => 
-      b.dataset.companyName.localeCompare(a.dataset.companyName)
-    );
-  }
+  // Apply sorting logic
+  filteredApplications.sort((a, b) => {
+    if (sortBy === 'applicant-name-asc') {
+      return a.dataset.applicantName.localeCompare(b.dataset.applicantName);
+    } else if (sortBy === 'applicant-name-desc') {
+      return b.dataset.applicantName.localeCompare(a.dataset.applicantName);
+    } else if (sortBy === 'job-title-asc') {
+      return a.dataset.jobTitle.localeCompare(b.dataset.jobTitle);
+    } else if (sortBy === 'job-title-desc') {
+      return b.dataset.jobTitle.localeCompare(a.dataset.jobTitle);
+    } else if (sortBy === 'company-name-asc') {
+      return a.dataset.companyName.localeCompare(b.dataset.companyName);
+    } else if (sortBy === 'company-name-desc') {
+      return b.dataset.companyName.localeCompare(a.dataset.companyName);
+    }
+    return 0; // Default case
+  });
 
   // Finally, append sorted applications back to the container
   const container = document.querySelector('#application-posts-container');
   container.innerHTML = '';
-  sortedApplications.forEach(app => container.appendChild(app));
+  filteredApplications.forEach(app => container.appendChild(app));
 }
-
 
 // Attach event listeners for search, sort, and filter
 document.querySelector('#search-applicant').addEventListener('input', filterAndSortApplications);
