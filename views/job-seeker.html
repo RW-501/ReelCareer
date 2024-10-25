@@ -212,15 +212,21 @@
         </div>
     </div>
 
+
+    
+
             <div class="card mb-4 shadow-sm">
                 <div class="card-header bg-light">
                     <h5 class="mb-0">Applications</h5>
                 </div>
                 <div class="card-body">
                     <p>Your recent job applications:</p>
-                    <ul id="applicationsList" class="list-group">
-                        <!-- Applications will be dynamically listed here -->
-                    </ul>
+                    <div id="applicationsList" style="max-height: 400px; overflow-y: auto;">
+                        <ul class="list-group">
+                            <!-- Application items will be appended here -->
+                        </ul>
+                    </div>
+                    
                 </div>
             </div>
 
@@ -231,9 +237,12 @@
                     <h5 class="mb-0">Saved Jobs</h5>
                 </div>
                 <div class="card-body">
-                    <ul id="savedJobsList" class="list-group">
-                        <!-- Saved jobs will be dynamically inserted here -->
-                    </ul>
+                    <div id="savedJobsList" style="max-height: 400px; overflow-y: auto;">
+                        <ul class="list-group">
+                            <!-- Saved job items will be appended here -->
+                        </ul>
+                    </div>
+                    
                 </div>
             </div>
             
@@ -537,51 +546,86 @@ document.getElementById('videoResumeUploadForm').onsubmit = function(event) {
     let jobData = [];
     let applicationsData = [];
 
-    if (userSnapshot.exists()) {
-         userData = userSnapshot.data();
-         savedJobs = userData.savedJobs || []; // Retrieve savedJobs array
+    const savedJobsList = document.getElementById('savedJobsList'); // Your jobs list container
+const itemsToShow = 3; // Number of items to show at a time
+let currentJobIndex = 0; // Track the current index for displaying saved jobs
 
-        const jobsList = document.getElementById('savedJobsList');
-        jobsList.innerHTML = ''; // Clear existing jobs
+if (userSnapshot.exists()) {
+    userData = userSnapshot.data();
+    savedJobs = userData.savedJobs || []; // Retrieve savedJobs array
 
-        // Fetch job details for each saved job ID
-        for (const jobId of savedJobs) {
-            const jobRef = doc(db, 'Jobs', jobId);
-            const jobSnapshot = await getDoc(jobRef);
+    // Clear existing jobs
+    savedJobsList.innerHTML = ''; 
+    displaySavedJobs(); // Initial display of saved jobs
+}
 
-            if (jobSnapshot.exists()) {
-                const jobData = jobSnapshot.data();
-                
-                // Create a list item for the saved job
-                const li = document.createElement('li');
-                li.className = 'list-group-item';
-                li.innerHTML = `
-                    <strong>${jobData.title}</strong> at <em>${jobData.company}</em>
-                    <p>Location: ${jobData.location || jobData.city+", "+ jobData.state}</p>
-                    <p>Posted on: ${formatDateString(jobData.createdAt) || 'N/A'}</p>
-                    <div>
-                        <button class="btn btn-danger btn-sm" id="remove-${jobId}">Remove</button>
-                        <button class="btn btn-primary btn-sm" id="view-${jobId}">View Job</button>
-                    </div>
-                `;
-                
-                // Append to the saved jobs list
-                jobsList.appendChild(li);
+// Function to display saved jobs
+async function displaySavedJobs() {
+    const end = Math.min(currentJobIndex + itemsToShow, savedJobs.length);
+    
+    for (let i = currentJobIndex; i < end; i++) {
+        const jobId = savedJobs[i];
+        const jobRef = doc(db, 'Jobs', jobId);
+        const jobSnapshot = await getDoc(jobRef);
 
-                // Event listeners for the buttons
-                document.getElementById(`remove-${jobId}`).addEventListener('click', () => removeSavedJob(userId, jobId));
-                document.getElementById(`view-${jobId}`).addEventListener('click', () => viewJob(jobId));
-            }
+        if (jobSnapshot.exists()) {
+            const jobData = jobSnapshot.data();
+            
+            // Create a list item for the saved job
+            const li = document.createElement('li');
+            li.className = 'list-group-item';
+            li.innerHTML = `
+                <strong>${jobData.title}</strong> at <em>${jobData.company}</em>
+                <p>Location: ${jobData.location || jobData.city + ", " + jobData.state}</p>
+                <p>Posted on: ${formatDateString(jobData.createdAt) || 'N/A'}</p>
+                <div>
+                    <button class="btn btn-danger btn-sm" id="remove-${jobId}">Remove</button>
+                    <button class="btn btn-primary btn-sm" id="view-${jobId}">View Job</button>
+                </div>
+            `;
+            
+            // Append to the saved jobs list
+            savedJobsList.appendChild(li);
+
+            // Event listeners for the buttons
+            document.getElementById(`remove-${jobId}`).addEventListener('click', () => removeSavedJob(userId, jobId));
+            document.getElementById(`view-${jobId}`).addEventListener('click', () => viewJob(jobId));
         }
     }
+    
+    currentJobIndex = end; // Update the current index
 
-    // Function to remove a saved job
-    const removeSavedJob = async (userId, jobId) => {
+    // Check if there are more jobs to show
+    if (currentJobIndex < savedJobs.length) {
+        addViewMoreButton(); // Add "View More" button if there are more jobs
+    }
+}
+
+// Function to add the "View More" button
+function addViewMoreButton() {
+    const existingButton = document.getElementById('viewMoreBtn');
+    if (existingButton) return; // Prevent adding multiple buttons
+
+    const viewMoreButton = document.createElement('button');
+    viewMoreButton.innerText = 'View More';
+    viewMoreButton.className = 'btn btn-secondary mt-3';
+    viewMoreButton.id = 'viewMoreBtn';
+
+    viewMoreButton.addEventListener('click', () => {
+        displaySavedJobs(); // Display the next set of saved jobs
+        if (currentJobIndex >= savedJobs.length) {
+            viewMoreButton.remove(); // Remove button if no more saved jobs
+        }
+    });
+
+    savedJobsList.appendChild(viewMoreButton);
+}
+
+// Function to remove a saved job
+const removeSavedJob = async (userId, jobId) => {
     const userRef = doc(db, 'Users', userId);
 
-    // Assuming jobData is available as an array or a Map
-    // If it's an array of job objects, you can find the job by ID
-    const job = jobData.find(job => job.id === jobId); // Assuming jobData contains job objects with an id property
+    const job = await getJobData(jobId); // Fetch job data if needed
 
     if (job) {
         // Proceed to remove the job ID from savedJobs
@@ -601,11 +645,18 @@ document.getElementById('videoResumeUploadForm').onsubmit = function(event) {
 
 // Function to view a job (could redirect to a job detail page)
 const viewJob = (jobId) => {
-    // Logic to navigate to the job detail page
-  //  console.log(`Navigating to job detail for ID: ${jobId}`);
     window.location.href = `/job-detail?=${jobId}`;
 };
 
+// Fetch job data for the jobId
+const getJobData = async (jobId) => {
+    const jobRef = doc(db, 'Jobs', jobId);
+    const jobSnapshot = await getDoc(jobRef);
+    return jobSnapshot.exists() ? jobSnapshot.data() : null;
+};
+
+// Initialize the display
+displaySavedJobs();
 
 
 
@@ -1488,19 +1539,17 @@ applicationsSnapshot.forEach((doc) => {
     });
 });
 
-// Limit to the first 3 applications
-let currentIndex = 0;
-const itemsToShow = 3;
 
-// Function to display applications
 function displayApplications() {
     const end = Math.min(currentIndex + itemsToShow, applicationsData.length);
+    
     for (let i = currentIndex; i < end; i++) {
         const data = applicationsData[i];
         const li = document.createElement('li');
         li.className = 'list-group-item';
 
         let commonAccordionId = data.id;
+
         // Accordion header with job title and status
         li.innerHTML = `
             <div class="accordion" id="${commonAccordionId}">
@@ -1529,6 +1578,18 @@ function displayApplications() {
         `;
 
         applicationsList.appendChild(li);
+
+        // Add event listener for the withdraw button
+        document.getElementById(`withdraw-${commonAccordionId}`).addEventListener('click', async () => {
+            await withdrawApplication(data.id); // Use the correct application ID
+            showToast('Application withdrawn successfully', 'success');
+            // Optionally, you can remove or update the UI after withdrawal
+        });
+
+        // Add event listener for the contact recruiter button
+        document.getElementById(`contact-${commonAccordionId}`).addEventListener('click', () => {
+            contactRecruiter(data.companyId);
+        });
     }
     currentIndex = end; // Update the current index
 
@@ -1540,6 +1601,9 @@ function displayApplications() {
 
 // Function to add the "View More" button
 function addViewMoreButton() {
+    const existingButton = document.getElementById('viewMoreBtn');
+    if (existingButton) return; // Prevent adding multiple buttons
+
     const viewMoreButton = document.createElement('button');
     viewMoreButton.innerText = 'View More';
     viewMoreButton.className = 'btn btn-secondary mt-3';
@@ -1550,24 +1614,14 @@ function addViewMoreButton() {
         if (currentIndex >= applicationsData.length) {
             viewMoreButton.remove(); // Remove button if no more applications
         }
-      // Add event listener to the withdraw button
-      document.getElementById(`withdraw-${applicationId}`).addEventListener('click', async () => {
-        await withdrawApplication(applicationId);
-        showToast('Application withdrawn successfully', 'success');
-        // Optionally, you can remove or update the UI after withdrawal
     });
-
-    // Add event listener to the contact recruiter button
-    document.getElementById(`contact-${applicationId}`).addEventListener('click', () => {
-        contactRecruiter(data.companyId);
-    });
-});
 
     applicationsList.appendChild(viewMoreButton);
 }
 
 // Initial display of applications
 displayApplications();
+
 
 
 
