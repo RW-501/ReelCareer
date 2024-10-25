@@ -679,7 +679,7 @@ let userIdURL = '';
             await auth.onAuthStateChanged((user) => {
                 if (user) {
                      userId = user.uid; // Access the user ID
-                    console.log("User ID:", userId);
+                 //   console.log("User ID:", userId);
                     // You can call your functions that require userId here
                     
 // Example usage
@@ -726,16 +726,14 @@ document.getElementById('backToJobPost').addEventListener('click', () => {
 // Function to gather answers from custom questions
 function getCustomAnswers(customQuestions) { 
     const customAnswers = {};
-    console.log("customQuestions: ", customQuestions);
 
     customQuestions.forEach((question, index) => {
         let answer;
-        console.log("Processing question: ", question);
+//        console.log("Processing question: ", question);
 
         // Ensure question.id is valid
         if (!question.id) {
             console.warn("Missing question.id for question: ", question);
-            question.id = `question_${index}`; // Assign a dummy ID based on index
         }
 
         switch (question.type) {
@@ -752,13 +750,12 @@ function getCustomAnswers(customQuestions) {
                 break;
         }
 
-        console.log(`Captured question: ${question.question}`);
-        console.log(`Captured answer: ${answer}`);
 
         // Store both the question and its answer in the customAnswers object
         customAnswers[question.id] = {
             question: question.question,
-            answer: answer
+            answer: answer,
+            timestamp: new Date().toLocaleString()
         };
     });
 
@@ -818,70 +815,6 @@ console.log("Custom Questions:", jobData.customQuestions);
 
 
 
-/*
-// Event listener for messaging the recruiter
-document.getElementById('messageRecruiter').addEventListener('click', () => {
-    // Show the message modal
-    const messageModal = document.getElementById('messageModal');
-   // messageModal.style.display = 'block'; // Show modal
-});
-
-document.getElementById('closeModal').addEventListener('click', () => {
-    // Close the modal
-    const messageModal = document.getElementById('messageModal');
-    messageModal.style.display = 'none'; // Hide modal
-});
-*/
-
-/*
-// Handle message sending
-document.getElementById('sendMessage').addEventListener('click', async () => {
-    const messageContent = sanitizeInput(document.getElementById('messageContent').value);
-    const userId = getUserIdFromURL();
-    const jobID = getJobIdFromURL();
-
-    // Validate input
-    const errorAlert = document.getElementById('errorAlert');
-    if (!recruiterEmail || !messageContent) {
-        errorAlert.textContent = 'Please fill in all fields.';
-        errorAlert.classList.remove('d-none');
-        return;
-    } else {
-        errorAlert.classList.add('d-none'); // Hide error alert
-    }
-
-    try {
-        // Construct message object
-        const message = {
-            senderId: userId,
-            jobID: jobID,
-            recipientID: jobData.recruiterID,
-            subject: jobData.title,
-            senderStatus: "active",
-            recipientStatus: "active",
-            recipientRead: false,
-            content: messageContent,
-            timestamp: new Date().toLocaleString(),
-        };
-
-        // Save message to Firestore
-        await addDoc(collection(db, "Messages"), message);
-        
-        // Show success toast notification
-        showToast('Message sent successfully!', 'success');
-
-        // Redirect to messaging page after a short delay
-        setTimeout(() => {
-           // window.location.href = `messaging.html?userId=${userId}`;
-        }, 2000);
-    } catch (error) {
-        console.error("Error sending message: ", error);
-        showToast('Failed to send the message. Please try again.', 'error');
-    }
-});
-
-
-*/
 
 // Function to sanitize user input
 function sanitizeInput(input) {
@@ -937,10 +870,10 @@ console.log('Form submitted:', formData);
         //return;
     }
 
-    console.log("userId  ",userId);
+//    console.log("userId  ",userId);
 
     const jobId = getJobIdFromURL();
-    console.log("jobId  ",jobId);
+   // console.log("jobId  ",jobId);
 
 
 

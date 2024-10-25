@@ -1236,7 +1236,7 @@ const filterApplications = (applications, statusFilter) => {
 
 
   if (statusFilter === 'all') return applications;
-  return applications.filter(app => app.status === statusFilter);
+  return applications.filter(app => app.status === criteria);
 };
 
 // Define the sorting function
@@ -1247,8 +1247,9 @@ const sortApplications = (applications, sortCriteria) => {
               return (a.jobTitle || '').localeCompare(b.jobTitle || '');
           case "companyName": 
               return (a.companyName || '').localeCompare(b.companyName || '');
-          case "applicantName": 
-              return (`${a.firstName || ''} ${a.lastName || ''}`).localeCompare(`${b.firstName || ''} ${b.lastName || ''}`);
+              case "applicantName": 
+              return `${a.firstName || ''} ${a.lastName || ''}`.localeCompare(`${b.firstName || ''} ${b.lastName || ''}`);
+          
           default: 
               return 0; // No sorting if criteria is unrecognized
       }
@@ -1273,8 +1274,8 @@ const getBoostedStyle = (isBoosted) => {
 // Group Applications by Job Title and Company
 const groupApplicationsByJob = (applications) => {
   return applications.reduce((acc, app) => {
-      const key = `${app.jobTitle}|${app.companyName}`;
-      (acc[key] = acc[key] || []).push(app);
+    const key = `${app.jobTitle}|${app.companyName}`;
+    (acc[key] = acc[key] || []).push(app);
       return acc;
   }, {});
 };
@@ -1523,16 +1524,16 @@ $('#sort-applications, #filter-status').on('change', debounce(() => {
 };
 
 // Utility: Throttle Function to Optimize Scroll Events (if needed)
-const throttle = (func, limit) => {
-  let inThrottle;
-  return (...args) => {
-      if (!inThrottle) {
-          func.apply(this, args);
-          inThrottle = true;
-          setTimeout(() => inThrottle = false, limit);
+function throttle(fn, wait) {
+  let lastTime = 0;
+  return function(...args) {
+      const now = Date.now();
+      if (now - lastTime >= wait) {
+          lastTime = now;
+          return fn.apply(this, args);
       }
   };
-};
+}
 
 $(function () {
   $('[data-toggle="tooltip"]').tooltip();
@@ -1560,11 +1561,14 @@ function renderApplication(applicantId, status, applicationHTML) {
 
   // Function to normalize status
   function getStatusKey(status) {
+
     for (const [key, variations] of Object.entries(statusMappings)) {
       if (variations.includes(status.toLowerCase())) {
         return key; // Return the standard status key if a match is found
       }
-    }
+    }  
+
+
     return null; // Return null if no matching status is found
   }
 
@@ -1584,6 +1588,10 @@ function renderApplication(applicantId, status, applicationHTML) {
   } else {
     console.error(`Unknown status: ${status}`);
   }
+  return 
+  ;
+  
+
 }
 
 // Example of filtering and sorting logic
@@ -1593,7 +1601,6 @@ function filterAndSortApplications() {
   const filterStatus = document.querySelector('#filter-status').value.toLowerCase();
 
   const allApplications = [...document.querySelectorAll('.application-post')];
-
 
   allApplications.forEach(app => {
     const applicantName = app.dataset.applicantName.toLowerCase();
@@ -1607,20 +1614,6 @@ function filterAndSortApplications() {
       shouldDisplay = false;
     }
 
-    // Apply status filter, handling both old and new status terms
-    if (filterStatus !== 'all') {
-      // Find if the applicationStatus matches any status in the selected filterStatus group
-      const validStatuses = statusMappings[filterStatus] || [filterStatus]; // Use filterStatus directly if it's not mapped
-      if (!validStatuses.includes(applicationStatus)) {
-        shouldDisplay = false;
-      }
-    }
-
-    // Apply search filter
-    if (searchQuery && !applicantName.includes(searchQuery) && !jobTitle.includes(searchQuery)) {
-      shouldDisplay = false;
-    }
-
     // Apply status filter
     if (filterStatus !== 'all' && applicationStatus !== filterStatus) {
       shouldDisplay = false;
@@ -1629,40 +1622,42 @@ function filterAndSortApplications() {
     // Display or hide based on filtering
     app.style.display = shouldDisplay ? 'block' : 'none';
   });
-  
 
   // Apply sorting logic based on the sortBy value
+  const sortedApplications = allApplications.filter(app => app.style.display !== 'none');
+
   if (sortBy === 'applicant-name-asc') {
-    allApplications.sort((a, b) => 
+    sortedApplications.sort((a, b) => 
       a.dataset.applicantName.localeCompare(b.dataset.applicantName)
     );
   } else if (sortBy === 'applicant-name-desc') {
-    allApplications.sort((a, b) => 
+    sortedApplications.sort((a, b) => 
       b.dataset.applicantName.localeCompare(a.dataset.applicantName)
     );
   } else if (sortBy === 'job-title-asc') {
-    allApplications.sort((a, b) => 
+    sortedApplications.sort((a, b) => 
       a.dataset.jobTitle.localeCompare(b.dataset.jobTitle)
     );
   } else if (sortBy === 'job-title-desc') {
-    allApplications.sort((a, b) => 
+    sortedApplications.sort((a, b) => 
       b.dataset.jobTitle.localeCompare(a.dataset.jobTitle)
     );
   } else if (sortBy === 'company-name-asc') {
-    allApplications.sort((a, b) => 
+    sortedApplications.sort((a, b) => 
       a.dataset.companyName.localeCompare(b.dataset.companyName)
     );
   } else if (sortBy === 'company-name-desc') {
-    allApplications.sort((a, b) => 
+    sortedApplications.sort((a, b) => 
       b.dataset.companyName.localeCompare(a.dataset.companyName)
     );
   }
 
-  // Re-append sorted applications to the container
+  // Finally, append sorted applications back to the container
   const container = document.querySelector('#application-posts-container');
-  container.innerHTML = ''; // Clear current contents
-  allApplications.forEach(app => container.appendChild(app)); // Append sorted applications
+  container.innerHTML = '';
+  sortedApplications.forEach(app => container.appendChild(app));
 }
+
 
 // Attach event listeners for search, sort, and filter
 document.querySelector('#search-applicant').addEventListener('input', filterAndSortApplications);
