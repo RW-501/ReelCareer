@@ -541,13 +541,33 @@ const displaySuggestions = (suggestions) => {
     const suggestedJobsList = document.getElementById('suggestedJobsList');
     suggestedJobsList.innerHTML = ''; // Clear previous suggestions
 
+    // Create a title for the suggestions using Bootstrap
+    const title = document.createElement('h4');
+    title.className = 'mt-3 mb-3 text-primary text-center'; // Bootstrap classes for spacing and color
+    title.textContent = 'Job Suggestions for You'; // Title for the suggestions
+    suggestedJobsList.appendChild(title); // Append the title to the list
+
+    // Add a Bootstrap list group to contain the suggestions
+    const suggestionContainer = document.createElement('ul');
+    suggestionContainer.className = 'list-group'; // Bootstrap list group class
+
     suggestions.forEach(suggestion => {
         const li = document.createElement('li');
-        li.className = 'list-group-item';
+        li.className = 'list-group-item list-group-item-action d-flex align-items-center'; // Bootstrap classes for list items
         li.textContent = suggestion; // Set the text content to the suggestion
-        suggestedJobsList.appendChild(li); // Append to the list
+        
+        // Optionally, add icons for visual interest
+        const icon = document.createElement('span');
+        icon.className = 'me-2'; // Bootstrap margin class for spacing
+        icon.innerHTML = '🔔'; // You can use an icon library like Font Awesome for better icons
+
+        li.prepend(icon); // Add the icon to the start of the list item
+        suggestionContainer.appendChild(li); // Append to the list group
     });
+
+    suggestedJobsList.appendChild(suggestionContainer); // Append the suggestion container to the list
 };
+
 
 // Generate suggestions and display them
 setTimeout(() => {
