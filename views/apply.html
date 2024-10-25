@@ -52,460 +52,424 @@
   <!-- Chrome Favicon (512x512) -->
   <link rel="icon" type="image/png" sizes="512x512" href="https://www.ReelCareer.co/images/favicons/android-chrome-512x512.png">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    
-    <!-- Bootstrap CSS -->
-    <script src="../public/js/scripts.js"></script>
-    <script src="../public/js/loadScripts.js"></script>
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="../public/css/styles.css">
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+  <!-- Bootstrap CSS -->
+  <script src="../public/js/scripts.js"></script>
+  <script src="../public/js/loadScripts.js"></script>
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="../public/css/styles.css">
 
 </head>
 
-
 <body>
-    <script src="../public/js/bodyload.js"></script>
-    
-<!-- Navigation Bar -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+  <script src="../public/js/bodyload.js"></script>
 
-</nav>
-<main>
-<div class="container mt-5 mb-5">
-    <h1 class="text-center mb-4 text-muted">Job Application</h1>
-    <app>
-    <form id="applicationForm" class="shadow p-4 rounded bg-white" novalidate>
-        <!-- Progress Indicator -->
-        <div class="form-group  mb-3" >
+  <!-- Navigation Bar -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+
+  </nav>
+  <main>
+    <div class="container mt-5 mb-5">
+      <h1 class="text-center mb-4 text-muted">Job Application</h1>
+
+      <form id="applicationForm" class="shadow p-4 rounded bg-white" novalidate>
+
+        <app>
+          <div class="form-group  mb-3">
             <div id="jobPostedByArea" class="mb-4"></div>
-            <hr/>
-            
+            <hr />
+
             <!-- Applicant Information -->
             <h3 class="border-bottom pb-2 mb-4">Applicant Information</h3>
-            
+
             <div class="row">
-                <div class="col-md-6 mb-3">
-                    <div class="form-group">
-                        <label for="firstName" class="font-weight-bold">First Name</label>
-                        <input type="text" id="firstName" class="form-control" required>
-                        <div class="invalid-feedback">Please enter your first name.</div>
-                    </div>
+              <div class="col-md-6 mb-3">
+                <div class="form-group">
+                  <label for="firstName" class="font-weight-bold">First Name</label>
+                  <input type="text" id="firstName" class="form-control" required>
+                  <div class="invalid-feedback">Please enter your first name.</div>
                 </div>
-                <div class="col-md-6 mb-3">
-                    <div class="form-group">
-                        <label for="lastName" class="font-weight-bold">Last Name</label>
-                        <input type="text" id="lastName" class="form-control" required>
-                        <div class="invalid-feedback">Please enter your last name.</div>
-                    </div>
+              </div>
+              <div class="col-md-6 mb-3">
+                <div class="form-group">
+                  <label for="lastName" class="font-weight-bold">Last Name</label>
+                  <input type="text" id="lastName" class="form-control" required>
+                  <div class="invalid-feedback">Please enter your last name.</div>
                 </div>
+              </div>
             </div>
-            
+
             <div class="form-group mb-3">
-                <label for="email" class="font-weight-bold">Email</label>
-                <input type="email" id="email" class="form-control" required>
-                <div class="invalid-feedback">Please enter a valid email address.</div>
-            </div>
-            
-            <div class="form-group mb-4">
-                <label for="phone" class="font-weight-bold">Phone</label>
-                <input type="tel" id="phone" class="form-control" required>
-                <div class="invalid-feedback">Please enter a valid phone number.</div>
-            </div>
-        </app>   
-
-
-            <!-- Custom Questions -->
-            <h5 id="customQuestionsText" class="text-muted text-center mb-3">The following questions are provided by the recruiter and are optional.</h5>
-            <div id="customQuestionsContainer" class="mb-4"></div>
-            
-
-            <app>
-
-            <!-- Nondisclosure Questions -->
-            <div class="form-group mb-4">
-                <p class="text-muted font-weight-bold">Voluntary Self-Identification</p>
-                <p>This section is optional. Your response will not affect your application and is used solely for Equal Employment Opportunity (EEO) reporting purposes.</p>
+              <label for="email" class="font-weight-bold">Email</label>
+              <input type="email" id="email" class="form-control" required>
+              <div class="invalid-feedback">Please enter a valid email address.</div>
             </div>
 
             <div class="form-group mb-4">
+              <label for="phone" class="font-weight-bold">Phone</label>
+              <input type="tel" id="phone" class="form-control" required>
+              <div class="invalid-feedback">Please enter a valid phone number.</div>
+            </div>
+          </div>
+        </app>
+
+        <!-- Custom Questions -->
+        <h5 id="customQuestionsText" class="text-muted text-center mb-3">The following questions are provided by the recruiter and are optional.</h5>
+        <div id="customQuestionsContainer" class="mb-4"></div>
+
+        <app>
+
+          <!-- Nondisclosure Questions -->
+          <div class="form-group mb-4">
+            <p class="text-muted font-weight-bold">Voluntary Self-Identification</p>
+            <p>This section is optional. Your response will not affect your application and is used solely for Equal Employment Opportunity (EEO) reporting purposes.</p>
+          </div>
+
+          <div class="form-group mb-4">
             <!-- Gender (optional) -->
-                <label for="gender" class="font-weight-bold">Gender</label>
-                <select class="form-control" id="gender">
-                    <option value="">Prefer not to answer</option>
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
-                    <option value="Non-Binary">Non-Binary</option>
-                </select>
+            <label for="gender" class="font-weight-bold">Gender</label>
+            <select class="form-control" id="gender">
+              <option value="">Prefer not to answer</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Non-Binary">Non-Binary</option>
+            </select>
+          </div>
+
+          <div class="form-group mb-4">
+            <!-- Race/Ethnicity (optional) -->
+            <label for="race" class="font-weight-bold mt-3">Race/Ethnicity</label>
+            <select class="form-control" id="race">
+              <option value="">Prefer not to answer</option>
+              <option value="White">White</option>
+              <option value="Black or African American">Black or African American</option>
+              <option value="Asian">Asian</option>
+              <option value="Hispanic or Latino">Hispanic or Latino</option>
+              <option value="Native American or Alaska Native">Native American or Alaska Native</option>
+            </select>
+          </div>
+
+          <div class="form-group mb-4">
+            <!-- Veteran Status (optional) -->
+            <label for="veteran" class="font-weight-bold mt-3">Veteran Status</label>
+            <select class="form-control" id="veteran">
+              <option value="">Prefer not to answer</option>
+              <option value="Yes">Yes</option>
+              <option value="No">No</option>
+            </select>
+          </div>
+
+          <div class="form-group mb-4">
+            <!-- Disability (optional) -->
+            <label for="disability" class="font-weight-bold mt-3">Disability Status</label>
+            <select class="form-control" id="disability">
+              <option value="">Prefer not to answer</option>
+              <option value="Yes">Yes</option>
+              <option value="No">No</option>
+            </select>
+          </div>
+        </app>
+
+        <!-- Consent Section -->
+        <div class="form-group mb-4">
+          <div class="form-check">
+            <input type="checkbox" id="shareInfo" required class="form-check-input">
+            <label for="shareInfo" class="form-check-label">
+              I consent to the collection and sharing of my personal information as described in the
+              <a href="#" class="text-primary">Privacy Policy</a>.
+            </label>
+          </div>
+        </div>
+
+        <!-- Disclosure Section -->
+        <div class="form-group mt-4">
+          <label for="disclosureName" class="form-label font-weight-bold">Your Name</label>
+          <input type="text" id="disclosureName" placeholder="Enter your name" class="form-control" required>
+        </div>
+
+        <div class="form-group mb-4">
+          <label for="disclosureDate" class="form-label font-weight-bold">Date</label>
+          <input type="date" id="disclosureDate" class="form-control" required>
+        </div>
+        <app>
+
+          <!-- Imprint  -->
+          <div class="text-center m-auto">
+            <h3 class="font-weight-bold embedded-Logo">ReelCareer.co</h3>
+          </div>
+
+          <!-- Resume Submission Options -->
+          <div class="container mt-5">
+            <h3 class="border-bottom pb-2 mb-4">Resume Submission</h3>
+
+            <!-- Note to Recruiter -->
+            <div class="form-group">
+              <label for="noteToRecruiter" class="font-weight-bold">Note to Recruiter</label>
+              <textarea id="noteToRecruiter" class="form-control" rows="3" placeholder="Write a brief note to the recruiter..."></textarea>
             </div>
 
-            <div class="form-group mb-4">
-                <!-- Race/Ethnicity (optional) -->
-                <label for="race" class="font-weight-bold mt-3">Race/Ethnicity</label>
-                <select class="form-control" id="race">
-                    <option value="">Prefer not to answer</option>
-                    <option value="White">White</option>
-                    <option value="Black or African American">Black or African American</option>
-                    <option value="Asian">Asian</option>
-                    <option value="Hispanic or Latino">Hispanic or Latino</option>
-                    <option value="Native American or Alaska Native">Native American or Alaska Native</option>
-                </select>
+            <!-- Portfolio URL -->
+            <div class="form-group">
+              <label for="portfolio" class="font-weight-bold">Portfolio</label>
+              <input type="url" id="portfolio" class="form-control" placeholder="https://yourportfolio.com">
+              <div class="invalid-feedback">Please enter your Portfolio URL.</div>
             </div>
 
-            <div class="form-group mb-4">
-                <!-- Veteran Status (optional) -->
-                <label for="veteran" class="font-weight-bold mt-3">Veteran Status</label>
-                <select class="form-control" id="veteran">
-                    <option value="">Prefer not to answer</option>
-                    <option value="Yes">Yes</option>
-                    <option value="No">No</option>
-                </select>
+            <!-- Video Resume Upload -->
+            <div class="form-group">
+              <label for="videoResumeUpload" class="mb-5 font-weight-bold">Upload Video Resume (optional)</label>
+              <input type="file" id="videoResumeUpload" class="form-control-file">
+              <button type="button" id="createVideoResume" class="btn btn-link bg-colorLightGray outline">Create One</button>
             </div>
 
-            <div class="form-group mb-4">
-                <!-- Disability (optional) -->
-                <label for="disability" class="font-weight-bold mt-3">Disability Status</label>
-                <select class="form-control" id="disability">
-                    <option value="">Prefer not to answer</option>
-                    <option value="Yes">Yes</option>
-                    <option value="No">No</option>
-                </select>
-            </div>
-        </div>
-
-            <!-- Consent Section -->
-            <div class="form-group mb-4">
-                <div class="form-check">
-                    <input type="checkbox" id="shareInfo" required class="form-check-input">
-                    <label for="shareInfo" class="form-check-label">
-                        I consent to the collection and sharing of my personal information as described in the 
-                        <a href="#" class="text-primary">Privacy Policy</a>.
-                    </label>
-                </div>
+            <!-- Resume Upload -->
+            <div class="form-group">
+              <label for="resumeUpload" class="mb-5 font-weight-bold">Upload New Resume <span class="text-danger">*</span></label>
+              <input type="file" id="resumeUpload" class="form-control-file" required>
+              <div class="invalid-feedback">Please upload your resume.</div>
             </div>
 
-            <!-- Disclosure Section -->
-            <div class="form-group mt-4">
-                <label for="disclosureName" class="form-label font-weight-bold">Your Name</label>
-                <input type="text" id="disclosureName" placeholder="Enter your name" class="form-control" required>
+            <!-- Action Buttons -->
+            <div class="form-group text-center mt-4">
+              <button type="button" id="boostApplication" class="btn btn-warning btn-lg mx-2">Boost Application</button>
+              <button type="button" id="previewApplication" class="btn btn-info btn-lg mx-2">Preview Application</button>
+              <!--      <button type="button" id="saveForLater" class="btn btn-secondary btn-lg mx-2">Save for Later</button> -->
+              <button type="submit" id="submitApplication" class="btn btn-success btn-lg mx-2">Submit Application</button>
             </div>
 
-            <div class="form-group mb-4">
-                <label for="disclosureDate" class="form-label font-weight-bold">Date</label>
-                <input type="date" id="disclosureDate" class="form-control" required>
+            <!-- Recruiter Interaction Buttons -->
+            <div class="d-flex justify-content-between mt-4">
+              <button type="button" id="backToJobPost" class="btn btn-light">Back to Job Post</button>
             </div>
-        </div>
-    </app>
+          </div>
+        </app>
 
-<!-- Imprint  -->
-<div class="text-center m-auto">
-    <h3 class="font-weight-bold embedded-Logo">ReelCareer.co</h3>
-</div>
+      </form>
 
+    </div>
 
+  </main>
 
-
-        <!-- Resume Submission Options -->
-       <div class="container mt-5">
-    <h3 class="border-bottom pb-2 mb-4">Resume Submission</h3>
-    
-   
-        <!-- Note to Recruiter -->
-        <div class="form-group">
-            <label for="noteToRecruiter" class="font-weight-bold">Note to Recruiter</label>
-            <textarea id="noteToRecruiter" class="form-control" rows="3" placeholder="Write a brief note to the recruiter..."></textarea>
-        </div>
-        
-        <!-- Portfolio URL -->
-        <div class="form-group">
-            <label for="portfolio" class="font-weight-bold">Portfolio</label>
-            <input type="url" id="portfolio" class="form-control" placeholder="https://yourportfolio.com">
-            <div class="invalid-feedback">Please enter your Portfolio URL.</div>
-        </div>
-        
-        <!-- Video Resume Upload -->
-        <div class="form-group">
-            <label for="videoResumeUpload" class="mb-5 font-weight-bold">Upload Video Resume (optional)</label>
-            <input type="file" id="videoResumeUpload" class="form-control-file">
-            <button type="button" id="createVideoResume" class="btn btn-link bg-colorLightGray outline">Create One</button>
-        </div>
-        
-        <!-- Resume Upload -->
-        <div class="form-group">
-            <label for="resumeUpload" class="mb-5 font-weight-bold">Upload New Resume <span class="text-danger">*</span></label>
-            <input type="file" id="resumeUpload" class="form-control-file" required>
-            <div class="invalid-feedback">Please upload your resume.</div>
-        </div>
-        
-        <!-- Action Buttons -->
-        <div class="form-group text-center mt-4">
-            <button type="button" id="boostApplication" class="btn btn-warning btn-lg mx-2">Boost Application</button>
-            <button type="button" id="previewApplication" class="btn btn-info btn-lg mx-2">Preview Application</button>
-      <!--      <button type="button" id="saveForLater" class="btn btn-secondary btn-lg mx-2">Save for Later</button> -->
-            <button type="submit" id="submitApplication" class="btn btn-success btn-lg mx-2">Submit Application</button>
-        </div>
-      
-        <!-- Recruiter Interaction Buttons -->
-        <div class="d-flex justify-content-between mt-4">
-            <button type="button" id="backToJobPost" class="btn btn-light">Back to Job Post</button>
-        </div>
-
-    </form>
-</div>
-
-<div class="file-upload-container">
+  <div class="file-upload-container">
     <input type="file" id="fileUpload" class="form-control-file" />
     <div class="upload-overlay">
-        <span class="upload-icon">📁</span>
-        <span class="upload-text">Upload File</span>
+      <span class="upload-icon">📁</span>
+      <span class="upload-text">Upload File</span>
     </div>
-</div>
+  </div>
 
-</main>
-
-
-
-
-
-
-
-
-
-<style>
+  <style>
     /* Custom styles for enhanced UI/UX */
     body {
-        font-family: 'Arial', sans-serif;
-        background-color: #f8f9fa;
+      font-family: 'Arial', sans-serif;
+      background-color: #f8f9fa;
     }
 
-    
     app .form-group {
-        transition: box-shadow 0.3s, transform 0.3s;
-        
-    padding: 10px;
-    background-color: #ffffff;
-    border-radius: 25px;
-
+      transition: box-shadow 0.3s, transform 0.3s;
+      padding: 10px;
+      background-color: #ffffff;
+      border-radius: 25px;
     }
 
     app .form-group:hover {
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-        transform: scale(1.02);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      transform: scale(1.02);
     }
 
     .progress {
-        height: 20px;
+      height: 20px;
     }
 
     /* Tooltip styles */
     .tooltip-inner {
-        background-color: #5cb85c;
+      background-color: #5cb85c;
     }
 
     .tooltip-arrow {
-        border-top-color: #5cb85c;
+      border-top-color: #5cb85c;
     }
 
     /* Mobile responsiveness */
     @media (max-width: 768px) {
-        .navbar {
-            flex-direction: column;
-        }
+      .navbar {
+        flex-direction: column;
+      }
     }
 
     .file-upload-container {
-    position: relative;
-    display: inline-block;
-}
+      position: relative;
+      display: inline-block;
+    }
 
-.form-control-file {
-    display: none; /* Hide the input field */
-}
+    .form-control-file {
+      display: none;
+      /* Hide the input field */
+    }
 
-.upload-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(255, 255, 255, 0.7); /* semi-transparent background */
-    color: #333; /* text color */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0.8; /* slight transparency */
-    cursor: pointer;
-    transition: opacity 0.3s ease;
-}
+    .upload-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(255, 255, 255, 0.7);
+      /* semi-transparent background */
+      color: #333;
+      /* text color */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0.8;
+      /* slight transparency */
+      cursor: pointer;
+      transition: opacity 0.3s ease;
+    }
 
-.upload-overlay:hover {
-    opacity: 1; /* full opacity on hover */
-}
+    .upload-overlay:hover {
+      opacity: 1;
+      /* full opacity on hover */
+    }
 
-.upload-icon {
-    font-size: 24px; /* size of the icon */
-}
+    .upload-icon {
+      font-size: 24px;
+      /* size of the icon */
+    }
 
-.upload-text {
-    margin-left: 8px; /* space between icon and text */
-}
+    .upload-text {
+      margin-left: 8px;
+      /* space between icon and text */
+    }
 
+    .custom-control-enhanced {
+      position: relative;
+      display: flex;
+      align-items: center;
+      padding-left: 40px;
+      margin-bottom: 12px;
+    }
 
-.custom-control-enhanced {
-    position: relative;
-    display: flex;
-    align-items: center;
-    padding-left: 40px;
-    margin-bottom: 12px;
-}
+    .custom-radio-enhanced .custom-control-input {
+      position: absolute;
+      left: 0;
+      z-index: -1;
+      width: 1rem;
+      height: 1rem;
+      opacity: 0;
+    }
 
-.custom-radio-enhanced .custom-control-input {
-    position: absolute;
-    left: 0;
-    z-index: -1;
-    width: 1rem;
-    height: 1rem;
-    opacity: 0;
-}
+    .custom-radio-enhanced .custom-control-label {
+      position: relative;
+      margin-bottom: 0;
+      padding-left: 2.5rem;
+      cursor: pointer;
+      font-size: 1rem;
+      color: #495057;
+      transition: color 0.2s;
+      font-weight: 800;
+    }
 
-.custom-radio-enhanced .custom-control-label {
-    position: relative;
-    margin-bottom: 0;
-    padding-left: 2.5rem;
-    cursor: pointer;
-    font-size: 1rem;
-    color: #495057;
-    transition: color 0.2s;
-    font-weight: 800;
-}
+    .custom-radio-enhanced .custom-control-label:before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0;
+      width: 1.5rem;
+      height: 1.5rem;
+      border: 2px solid #343535;
+      border-radius: 50%;
+      background-color: transparent;
+      transform: translateY(-50%);
+      transition: all 0.2s;
+    }
 
-.custom-radio-enhanced .custom-control-label:before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 0;
-    width: 1.5rem;
-    height: 1.5rem;
-    border: 2px solid #343535;
-    border-radius: 50%;
-    background-color: transparent;
-    transform: translateY(-50%);
-    transition: all 0.2s;
-}
+    .custom-radio-enhanced .custom-control-input:checked~.custom-control-label:before {
+      background-color: #9482ff;
+      border-color: #606060;
+    }
 
-.custom-radio-enhanced .custom-control-input:checked ~ .custom-control-label:before {
-    background-color: #9482ff;
-    border-color: #606060;
-}
+    .custom-radio-enhanced .custom-control-input:checked~.custom-control-label:after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0.5rem;
+      width: 0.5rem;
+      height: 0.5rem;
+      background-color: white;
+      border-radius: 50%;
+      transform: translateY(-50%);
+    }
 
-.custom-radio-enhanced .custom-control-input:checked ~ .custom-control-label:after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 0.5rem;
-    width: 0.5rem;
-    height: 0.5rem;
-    background-color: white;
-    border-radius: 50%;
-    transform: translateY(-50%);
-}
+    .custom-radio-enhanced:hover .custom-control-label:before {
+      border-color: #4398f3;
+    }
+  </style>
 
-.custom-radio-enhanced:hover .custom-control-label:before {
-    border-color: #4398f3;
-}
-
-</style>
-
-
-
-    
-    <script>
-function createFileUploadOverlay() {
-    const fileInputs = document.querySelectorAll('input[type="file"]');
-
-    fileInputs.forEach(fileInput => {
+  <script>
+    function createFileUploadOverlay() {
+      const fileInputs = document.querySelectorAll('input[type="file"]');
+      fileInputs.forEach(fileInput => {
         // Create container if not already present
         if (!fileInput.closest('.file-upload-container')) {
-            const container = document.createElement('div');
-            container.className = 'file-upload-container';
-
-            // Move the input into the new container
-            fileInput.parentNode.insertBefore(container, fileInput);
-            container.appendChild(fileInput);
-
-            // Hide the input field
-            fileInput.style.display = 'none'; // Hides the input
-
-            // Create overlay
-            const overlay = document.createElement('div');
-            overlay.className = 'upload-overlay';
-
-            // Add icon and text to the overlay
-            overlay.innerHTML = `
+          const container = document.createElement('div');
+          container.className = 'file-upload-container';
+          // Move the input into the new container
+          fileInput.parentNode.insertBefore(container, fileInput);
+          container.appendChild(fileInput);
+          // Hide the input field
+          fileInput.style.display = 'none'; // Hides the input
+          // Create overlay
+          const overlay = document.createElement('div');
+          overlay.className = 'upload-overlay';
+          // Add icon and text to the overlay
+          overlay.innerHTML = `
                 <span class="upload-icon">📁</span>
                 <span class="upload-text">Upload File</span>
             `;
-
-            // Append overlay to container
-            container.appendChild(overlay);
-
-            // Handle the click event to focus on the file input
-            overlay.addEventListener('click', () => {
-                fileInput.click(); // Trigger file input click
-            });
-
-            // Show overlay only when file input is empty
-            fileInput.addEventListener('change', () => {
-                if (fileInput.files.length > 0) {
-                    overlay.style.display = 'none'; // Hide overlay when file is selected
-                } else {
-                    overlay.style.display = 'flex'; // Show overlay when no file is selected
-                }
-            });
+          // Append overlay to container
+          container.appendChild(overlay);
+          // Handle the click event to focus on the file input
+          overlay.addEventListener('click', () => {
+            fileInput.click(); // Trigger file input click
+          });
+          // Show overlay only when file input is empty
+          fileInput.addEventListener('change', () => {
+            if (fileInput.files.length > 0) {
+              overlay.style.display = 'none'; // Hide overlay when file is selected
+            } else {
+              overlay.style.display = 'flex'; // Show overlay when no file is selected
+            }
+          });
         }
-    });
-}
-
-// Call the function to create file upload overlays on page load
-document.addEventListener('DOMContentLoaded', createFileUploadOverlay);
-
-
-
-
-
-
-
-
-
-
-// Function to load custom questions into the container
-function loadCustomQuestions(customQuestions) { 
-    const customQuestionsContainer = document.getElementById('customQuestionsContainer');
-    console.log("Loading Custom Questions. Current content:", customQuestionsContainer.innerHTML);
-    
-    // Clear existing questions
-    customQuestionsContainer.innerHTML = ''; 
-
-    if (!Array.isArray(customQuestions) || customQuestions.length === 0) {
+      });
+    }
+    // Call the function to create file upload overlays on page load
+    document.addEventListener('DOMContentLoaded', createFileUploadOverlay);
+    // Function to load custom questions into the container
+    function loadCustomQuestions(customQuestions) {
+      const customQuestionsContainer = document.getElementById('customQuestionsContainer');
+      console.log("Loading Custom Questions. Current content:", customQuestionsContainer.innerHTML);
+      // Clear existing questions
+      customQuestionsContainer.innerHTML = '';
+      if (!Array.isArray(customQuestions) || customQuestions.length === 0) {
         customQuestionsContainer.innerHTML = '';
         document.getElementById('customQuestionsText').style.display = "none";
-        return; 
-    }
-
-    let questionCount = 0; // Initialize question count
-    customQuestions.forEach(question => {
+        return;
+      }
+      let questionCount = 0; // Initialize question count
+      customQuestions.forEach(question => {
         questionCount++; // Increment question count
         let inputElement;
-
         // Ensure each question has a unique id
         if (!question.id) {
-            console.warn("Missing question.id for question: ", question);
-            question.id = `question_${questionCount}`; // Assign a dummy ID based on count
+          console.warn("Missing question.id for question: ", question);
+          question.id = `question_${questionCount}`; // Assign a dummy ID based on count
         }
-
         switch (question.type) {
-            case 'multiple-choice':
-                inputElement = `
+          case 'multiple-choice':
+            inputElement = `
                 <div class="form-group border rounded p-4 mb-4 shadow-sm bg-light">
                     <label class="font-weight-bold">Question #${questionCount}</label>
                     <hr>
@@ -520,10 +484,9 @@ function loadCustomQuestions(customQuestions) {
                     </div>
                 </div>
                 `;
-                break;
-
-            case 'statement':
-                inputElement = `
+            break;
+          case 'statement':
+            inputElement = `
                 <div class="form-group border rounded p-3 mb-4 shadow-sm bg-light">
                     <label class="font-weight-bold">Question #${questionCount}</label>
                     <hr/>
@@ -531,250 +494,222 @@ function loadCustomQuestions(customQuestions) {
                     <textarea class="form-control" id="${question.id}" rows="3" placeholder="Your answer here..."></textarea>
                 </div>
                 `;
-                break;
-
-            default:
-                console.warn('Unknown question type:', question.type);
-                break;
+            break;
+          default:
+            console.warn('Unknown question type:', question.type);
+            break;
         }
-
         customQuestionsContainer.insertAdjacentHTML('beforeend', inputElement);
-    });
-}
-
-
-
-document.getElementById('previewApplication').addEventListener('click', () => {
-console.log("????????previewApplication ????????");
-
-const firstName = document.getElementById('firstName').value;
-const lastName = document.getElementById('lastName').value;
-const email = document.getElementById('email').value;
-const phone = document.getElementById('phone').value;
-const noteToRecruiter = document.getElementById('noteToRecruiter').value;
-console.log("previewApplication   ");
-
-// Collecting custom questions responses
-// Collect responses from custom questions
-const customQuestionsResponses = [];
-const customQuestions = document.querySelectorAll('#customQuestionsContainer input');
-
-customQuestions.forEach(question => {
-    customQuestionsResponses.push({
-        questionId: question.id,
-        answer: question.value,
-    });
-});
-
-// Function to create and display preview modal
-function showPreviewModal() {
-    // Get values from form fields
-    const firstName = document.getElementById('firstName').value;
-    const lastName = document.getElementById('lastName').value;
-    const email = document.getElementById('email').value;
-    const phone = document.getElementById('phone').value;
-    const noteToRecruiter = document.getElementById('noteToRecruiter').value;
-
-    // Create preview content
-    const previewContent = `
-        <h3 class="text-primary">Application Preview</h3>
-        <p><strong>First Name:</strong> ${firstName}</p>
-        <p><strong>Last Name:</strong> ${lastName}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Phone:</strong> ${phone}</p>
-        <p><strong>Note to Recruiter:</strong> ${noteToRecruiter || 'No note provided.'}</p>
-        <h4 class="mt-3">Custom Questions</h4>
-        <ul class="list-group">
-            ${customQuestionsResponses.map(response => `
-                <li class="list-group-item">
-                    <strong>${response.questionId}:</strong> ${response.answer || 'No response'}
-                </li>
-            `).join('')}
-        </ul>
-    `;
-
-    // Create modal structure
-    const previewModal = document.createElement('div');
-    previewModal.className = 'modal fade show';
-    previewModal.style.display = 'block'; // Show modal immediately
-    previewModal.innerHTML = `
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Application Preview</h5>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-                <div class="modal-body">
-                    ${previewContent}
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-success" id="confirmSubmission">Confirm Submission</button>
+      });
+    }
+    document.getElementById('previewApplication').addEventListener('click', () => {
+      const firstName = document.getElementById('firstName').value;
+      const lastName = document.getElementById('lastName').value;
+      const email = document.getElementById('email').value;
+      const phone = document.getElementById('phone').value;
+      const noteToRecruiter = document.getElementById('noteToRecruiter').value;
+      console.log("previewApplication");
+      // Collecting custom questions responses
+      const customQuestionsResponses = [];
+      // Get custom questions from the customQuestionsContainer
+      const customQuestions = document.querySelectorAll('#customQuestionsContainer .form-group'); // Select the form groups
+      customQuestions.forEach((question, index) => {
+        const questionId = question.querySelector('label').innerText; // Getting question text as ID
+        let answer;
+        // Check if it's a multiple-choice question
+        const selectedOption = question.querySelector(`input[name="question-${index}"]:checked`);
+        if (selectedOption) {
+          answer = selectedOption.value; // Get the selected option value
+        } else {
+          // Otherwise, get the answer from the textarea
+          const textarea = question.querySelector('textarea');
+          answer = textarea ? textarea.value.trim() : 'No answer provided'; // Trim whitespace
+        }
+        customQuestionsResponses.push({
+          questionId: questionId,
+          answer: answer,
+        });
+      });
+      // Function to create and display preview modal
+      function showPreviewModal() {
+        // Create preview content
+        const previewContent = `
+            <h3 class="text-primary">Application Preview</h3>
+            <p><strong>First Name:</strong> ${firstName}</p>
+            <p><strong>Last Name:</strong> ${lastName}</p>
+            <p><strong>Email:</strong> ${email}</p>
+            <p><strong>Phone:</strong> ${phone}</p>
+            <p><strong>Note to Recruiter:</strong> ${noteToRecruiter || 'No note provided.'}</p>
+            <h4 class="mt-3">Custom Questions</h4>
+            <ul class="list-group">
+                ${customQuestionsResponses.map(response => `
+                    <li class="list-group-item">
+                        <strong>${response.questionId}:</strong> ${response.answer || 'No response'}
+                    </li>
+                `).join('')}
+            </ul>
+        `;
+        // Create modal structure
+        const previewModal = document.createElement('div');
+        previewModal.className = 'modal fade show';
+        previewModal.style.display = 'block'; // Show modal immediately
+        previewModal.innerHTML = `
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Application Preview</h5>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        ${previewContent}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-success" id="confirmSubmission">Confirm Submission</button>
+                    </div>
                 </div>
             </div>
-        </div>
-    `;
-
-    // Append modal to the body
-    document.main.appendChild(previewModal);
-
-    // Add event listener to the confirm button
-    document.getElementById('confirmSubmission').addEventListener('click', () => {
-        // Logic for final submission can go here
-        showToast('Application submitted successfully!', 'success');
+        `;
+        // Append modal to the body
+        document.body.appendChild(previewModal); // Use document.body instead of document.main
+        // Add event listener to the confirm button
+        document.getElementById('confirmSubmission').addEventListener('click', () => {
+          // Logic for final submission can go here
+          showToast('Application submitted successfully!', 'success');
+        });
+        // Close modal on close button click
+        previewModal.querySelector('.close').addEventListener('click', () => {
+          document.body.removeChild(previewModal); // Remove modal when closed
+        });
+      }
+      showPreviewModal(); // Call the function to show the preview modal
     });
+  </script>
 
-    // Close modal on close button click
-    previewModal.querySelector('.close').addEventListener('click', () => {
-        document.body.removeChild(previewModal); // Remove modal when closed
-    });
-}
+  <!-- Footer -->
+  <footer id="dynamic-footer"></footer>
 
-});
-  
+  <!-- Firebase configuration/ Login& Out -->
+  <script type="module" src="../public/js/main.js"></script>
 
-
-
-</script>
-
-
-
-    <!-- Footer -->
-    <footer id="dynamic-footer"></footer>
-    
-    <!-- Firebase configuration/ Login& Out -->
-    <script type="module" src="../public/js/main.js"></script> 
-
-    <!-- Dynamic Schema Markup -->
-    <script type="module">
-    import { db, storage, analytics,auth, app  } from '../public/js/main.js'; // Adjust the path based on your structure
-    import { query, where, arrayUnion,  updateDoc, getDoc, doc, orderBy, limit,  collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
-    
-
-
-// Function to extract the user ID from URL parameters
-function getUserIdFromURL() {
-    const params = new URLSearchParams(window.location.search);
-    return params.get('userId');
-}
-
-// Function to retrieve jobId from the URL
-function getJobIdFromURL() {
-    const params = new URLSearchParams(window.location.search);
-    return params.get('jobId');
-}
-
-
-let jobTitle = '';
-
-let companyData = '';
-let jobData = '';
-let jobId = '';
-let userIdURL = '';
-
+  <!-- Dynamic Schema Markup -->
+  <script type="module">
+    import {
+      db,
+      storage,
+      analytics,
+      auth,
+      app
+    } from '../public/js/main.js'; // Adjust the path based on your structure
+    import {
+      query,
+      where,
+      arrayUnion,
+      updateDoc,
+      getDoc,
+      doc,
+      orderBy,
+      limit,
+      collection,
+      getDocs,
+      addDoc
+    } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+    // Function to extract the user ID from URL parameters
+    function getUserIdFromURL() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get('userId');
+    }
+    // Function to retrieve jobId from the URL
+    function getJobIdFromURL() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get('jobId');
+    }
+    let jobTitle = '';
+    let companyData = '';
+    let jobData = '';
+    let jobId = '';
+    let userIdURL = '';
     let userId = '';
     async function initializeUserId() {
-        try {
-            // Wait for the Firebase Auth state to initialize
-            await auth.onAuthStateChanged((user) => {
-                if (user) {
-                     userId = user.uid; // Access the user ID
-                 //   console.log("User ID:", userId);
-                    // You can call your functions that require userId here
-                    
-// Example usage
- userIdURL = getUserIdFromURL();
- jobId = getJobIdFromURL();
-
-//console.log("jobId   ",jobId,"  userIdURL  ",userIdURL);
-
-const jobDocRef = doc(db, 'Jobs', jobId); // Reference to the job document
-
-// Load job and company info on page load
-fetchJobAndCompanyInfo(jobDocRef);
-
-} else {
-                    console.error("No user is signed in.");
-                    // Handle the case where the user is not signed in
-                }
-            });
-        } catch (error) {
-            console.error("Error initializing user ID:", error);
-        }
+      try {
+        // Wait for the Firebase Auth state to initialize
+        await auth.onAuthStateChanged((user) => {
+          if (user) {
+            userId = user.uid; // Access the user ID
+            //   console.log("User ID:", userId);
+            // You can call your functions that require userId here
+            // Example usage
+            userIdURL = getUserIdFromURL();
+            jobId = getJobIdFromURL();
+            //console.log("jobId   ",jobId,"  userIdURL  ",userIdURL);
+            const jobDocRef = doc(db, 'Jobs', jobId); // Reference to the job document
+            // Load job and company info on page load
+            fetchJobAndCompanyInfo(jobDocRef);
+          } else {
+            console.error("No user is signed in.");
+            // Handle the case where the user is not signed in
+          }
+        });
+      } catch (error) {
+        console.error("Error initializing user ID:", error);
+      }
     }
-
     initializeUserId(); // Call the function to initialize user ID
-
-// Assuming userIdURL is defined and accessible
-if (userIdURL !== userId) {
-    console.warn("Unauthorized access attempt detected! User ID mismatch.");
-    console.log("What are you doing?");
-    // Optionally, you could redirect the user or show a warning in the UI
-    // window.location.href = 'error.html'; // Redirect example
-    // showToast("You are not authorized to view this page.", "error"); // Example toast message
-} else {
-    console.log("Access granted. Proceeding with the operation.");
-}
-
-document.getElementById('backToJobPost').addEventListener('click', () => {
-    window.history.back(); // Back to the previous page
-});
-
-// Show loading spinner
-
-
-// Function to gather answers from custom questions
-function getCustomAnswers(customQuestions) { 
-    const customAnswers = {};
-
-    customQuestions.forEach((question, index) => {
+    // Assuming userIdURL is defined and accessible
+    if (userIdURL !== userId) {
+      console.warn("Unauthorized access attempt detected! User ID mismatch.");
+      console.log("What are you doing?");
+      // Optionally, you could redirect the user or show a warning in the UI
+      // window.location.href = 'error.html'; // Redirect example
+      // showToast("You are not authorized to view this page.", "error"); // Example toast message
+    } else {
+      console.log("Access granted. Proceeding with the operation.");
+    }
+    document.getElementById('backToJobPost').addEventListener('click', () => {
+      window.history.back(); // Back to the previous page
+    });
+    // Show loading spinner
+    // Function to gather answers from custom questions
+    function getCustomAnswers(customQuestions) {
+      const customAnswers = {};
+      customQuestions.forEach((question, index) => {
         let answer;
-//        console.log("Processing question: ", question);
-
+        //        console.log("Processing question: ", question);
         // Ensure question.id is valid
         if (!question.id) {
-            console.warn("Missing question.id for question: ", question);
+          console.warn("Missing question.id for question: ", question);
         }
-
         switch (question.type) {
-            case 'multiple-choice':
-                const selectedOption = document.querySelector(`input[name="question-${question.id}"]:checked`);
-                answer = selectedOption ? selectedOption.value : 'No option selected';
-                break;
-            case 'statement':
-                answer = document.getElementById(question.id)?.value?.trim() || 'N/A'; // Default for statements
-                break;
-            default:
-                console.warn(`Unhandled question type: ${question.type}`);
-                answer = "N/A";
-                break;
+          case 'multiple-choice':
+            const selectedOption = document.querySelector(`input[name="question-${question.id}"]:checked`);
+            answer = selectedOption ? selectedOption.value : 'No option selected';
+            break;
+          case 'statement':
+            answer = document.getElementById(question.id)?.value?.trim() || 'N/A'; // Default for statements
+            break;
+          default:
+            console.warn(`Unhandled question type: ${question.type}`);
+            answer = "N/A";
+            break;
         }
-
-
         // Store both the question and its answer in the customAnswers object
         customAnswers[question.id] = {
-            question: question.question,
-            answer: answer,
-            timestamp: new Date().toLocaleString()
+          question: question.question,
+          answer: answer,
+          timestamp: new Date().toLocaleString()
         };
-    });
-
-    return customAnswers;
-}
-
-// Fetch Job and Company Information
-async function fetchJobAndCompanyInfo(jobDocRef) {
-    try {
+      });
+      return customAnswers;
+    }
+    // Fetch Job and Company Information
+    async function fetchJobAndCompanyInfo(jobDocRef) {
+      try {
         const jobDoc = await getDoc(jobDocRef); // Get the job document
         if (!jobDoc.exists()) {
-            throw new Error('Job not found.');
+          throw new Error('Job not found.');
         }
-
-         jobData = jobDoc.data();
-        const companyDoc = await getDoc(doc(db, 'Companies', jobData.companyId)); // Assuming you have a reference to company ID
-         companyData = companyDoc.data();
+        jobData = jobDoc.data();
         jobTitle = jobData.title;
-        console.log("com  Data   ",companyData);
         jobId = getJobIdFromURL();
         // Populate job information and company information
         document.getElementById('jobPostedByArea').innerHTML = ` 
@@ -800,225 +735,174 @@ async function fetchJobAndCompanyInfo(jobDocRef) {
         </div>
     </div>
 `;
-
-
-
-        console.log("XXXXX  Job Data:     ", jobData);
-console.log("Custom Questions:", jobData.customQuestions);
-
+        console.log("Custom Questions:", jobData.customQuestions);
         loadCustomQuestions(jobData.customQuestions);
-    } catch (error) {
+      } catch (error) {
         console.error('Error fetching job and company info:', error);
         showToast('Failed to load job information. Please try again.', 'error');
+      }
     }
-}
-
-
-
-
-// Function to sanitize user input
-function sanitizeInput(input) {
-   // return input.trim().replace(/<[^>]*>/g, '');
-
-   return input;
-}
-
-// Form Validation
-function validateForm() {
-    const requiredFields = ['firstName', 'lastName', 'email', 'phone'];
-    for (const field of requiredFields) {
+    // Function to sanitize user input
+    function sanitizeInput(input) {
+      return input.trim().replace(/<[^>]*>/g, '');
+      return input;
+    }
+    // Form Validation
+    function validateForm() {
+      const requiredFields = ['firstName', 'lastName', 'email', 'phone'];
+      for (const field of requiredFields) {
         const value = sanitizeInput(document.getElementById(field).value);
         if (!value) {
-            showToast(`${field} is required.`, 'error');
-            return false;
+          showToast(`${field} is required.`, 'error');
+          return false;
         }
         document.getElementById(field).value = value; // Update the input with sanitized value
-    }
-
-    // Email validation
-    const email = document.getElementById('email').value;
-    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
-    if (!emailPattern.test(email)) {
+      }
+      // Email validation
+      const email = document.getElementById('email').value;
+      const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+      if (!emailPattern.test(email)) {
         showToast('Invalid email format.', 'error');
         return false;
-    }
-
-    // Phone validation (simple numeric check)
-    const phone = document.getElementById('phone').value;
-    if (!/^\d+$/.test(phone)) {
+      }
+      // Phone validation (simple numeric check)
+      const phone = document.getElementById('phone').value;
+      if (!/^\d+$/.test(phone)) {
         showToast('Phone number must be numeric.', 'error');
         return false;
+      }
+      return true;
     }
-
-    return true;
-}
-
-
-// Function to handle application submission
-async function submitApplication(event, isBoosted) {
-    // const userId = auth.currentUser ? auth.currentUser.uid : null; // Get user ID
-    event.preventDefault(); // Prevent the form from refreshing the page
-
-// Now proceed with your form submission logic
-const formData = new FormData(this);
-
-// Example: log the form data
-console.log('Form submitted:', formData);
-   
-    if (!userId) {
+    // Function to handle application submission
+    async function submitApplication(event, isBoosted) {
+      // const userId = auth.currentUser ? auth.currentUser.uid : null; // Get user ID
+      event.preventDefault(); // Prevent the form from refreshing the page
+      // Now proceed with your form submission logic
+      const formData = new FormData(this);
+      // Example: log the form data
+      //console.log('Form submitted:', formData);
+      if (!userId) {
         showToast('You must be logged in to apply.', 'error');
-        //return;
-    }
-
-//    console.log("userId  ",userId);
-
-    const jobId = getJobIdFromURL();
-   // console.log("jobId  ",jobId);
-
-
-
-   
-    if (jobData.applicationAvailableBool) {
+        return;
+      }
+      //    console.log("userId  ",userId);
+      const jobId = getJobIdFromURL();
+      // console.log("jobId  ",jobId);
+      if (jobData.applicationAvailableBool) {
         // Validate form fields before proceeding
         if (!validateForm()) {
-            return;
+          return;
         }
-
-       // const userId = getUserIdFromURL();
+        // const userId = getUserIdFromURL();
         const jobId = getJobIdFromURL();
-
         // Assuming these values are populated elsewhere
-        const jobTitle = jobData.title; 
-        const companyName = jobData.company; 
-        const companyId = jobData.companyId; 
-
+        const jobTitle = jobData.title;
+        const companyName = jobData.company;
+        const companyId = jobData.companyId;
         // Retrieve answers for custom questions
         const customAnswers = getCustomAnswers(jobData.customQuestions);
-
         // Prepare main application data
         const applicationData = {
-            firstName: sanitizeInput(document.getElementById('firstName').value),
-            lastName: sanitizeInput(document.getElementById('lastName').value),
-            email: sanitizeInput(document.getElementById('email').value),
-            phone: sanitizeInput(document.getElementById('phone').value),
-            feedback: sanitizeInput(document.getElementById('noteToRecruiter').value),
-            portfolio: sanitizeInput(document.getElementById('portfolio').value),
-            jobTitle: jobTitle,
-            companyName: companyName || "",
-            companyId: companyId,
-            boostedApp: isBoosted,  // Set to true if boosting
-            jobId: jobId,
-            status: [
-    {
-      status: "active",
-      timestamp: new Date().toLocaleString()
-    }
-  ],
-  notes: [],
-            interviewRequestBool: false,
-            interviewRequestDate: '',
-            testRequestBool: false,
-            testRequestExpireDate: '',
-            testRequestNames: [],
-            views: 0,
-            resumeViews: 0,
-            videoResumeViews: 0,
-            userId: userId,
-            customAnswers: customAnswers, // Add custom answers to the data
-            applyDate: new Date().toLocaleString(),
+          firstName: sanitizeInput(document.getElementById('firstName').value),
+          lastName: sanitizeInput(document.getElementById('lastName').value),
+          email: sanitizeInput(document.getElementById('email').value),
+          phone: sanitizeInput(document.getElementById('phone').value),
+          feedback: sanitizeInput(document.getElementById('noteToRecruiter').value),
+          portfolio: sanitizeInput(document.getElementById('portfolio').value),
+          jobTitle: jobTitle,
+          companyName: companyName || "",
+          companyId: companyId,
+          boostedApp: isBoosted, // Set to true if boosting
+          jobId: jobId,
+          status: [{
+            status: "active",
+            timestamp: new Date().toLocaleString()
+          }],
+          notes: [],
+          interviewRequestBool: false,
+          interviewRequestDate: '',
+          testRequestBool: false,
+          testRequestExpireDate: '',
+          testRequestNames: [],
+          views: 0,
+          resumeViews: 0,
+          videoResumeViews: 0,
+          userId: userId,
+          customAnswers: customAnswers, // Add custom answers to the data
+          applyDate: new Date().toLocaleString(),
         };
-
-        console.log("applicationData  ",applicationData);
-
+        //  console.log("applicationData  ",applicationData);
         // Prepare applicant PDC data (Personal Data Compliance)
         const applicant_PDC = {
-            gender: sanitizeInput(document.getElementById('gender').value),
-            race: sanitizeInput(document.getElementById('race').value),
-            veteran: sanitizeInput(document.getElementById('veteran').value),
-            disability: sanitizeInput(document.getElementById('disability').value),
-            shareInfo: document.getElementById('shareInfo').checked,
-            disclosureName: sanitizeInput(document.getElementById('disclosureName').value),
-            disclosureDate: sanitizeInput(document.getElementById('disclosureDate').value),
-            jobId: jobId,
-            submitted: new Date().toLocaleString(),
+          gender: sanitizeInput(document.getElementById('gender').value),
+          race: sanitizeInput(document.getElementById('race').value),
+          veteran: sanitizeInput(document.getElementById('veteran').value),
+          disability: sanitizeInput(document.getElementById('disability').value),
+          shareInfo: document.getElementById('shareInfo').checked,
+          disclosureName: sanitizeInput(document.getElementById('disclosureName').value),
+          disclosureDate: sanitizeInput(document.getElementById('disclosureDate').value),
+          jobId: jobId,
+          submitted: new Date().toLocaleString(),
         };
-        console.log("applicant_PDC  ",applicant_PDC);
-
+        // console.log("applicant_PDC  ",applicant_PDC);
         //return;
-
         try {
-            // Show loading indicator if you have one
-         
-            // Upload files
-            await uploadFile('resumeUpload', 'resumes', applicationData, 'resumeUrl');
-            await uploadFile('videoResumeUpload', 'video_resumes', applicationData, 'videoResumeUrl');
-
-            // Submit the application data to Firestore
-            await addDoc(collection(db, 'Applications'), applicationData);
-
-            // Send the applicant's personal data compliance (PDC) information
-            await sendToAppDataCompliance(applicant_PDC);
-
-                     // Update user's document with the job application info
-                     const userDocRef = doc(db, 'Users', userId); // Reference to the user's document
-                     await updateDoc(userDocRef, {
-    userApps: arrayUnion({
-        JobID: jobId,
-        JobTitle: jobTitle,
-        CompanyName: companyName,
-        Status: status,
-        IsBoosted: isBoosted,
-        ApplyDate: new Date().toISOString()
-    })
-});
-
-            // Show success message
-            showToast('Application submitted successfully!', 'success');
+          // Show loading indicator if you have one
+          // Upload files
+          await uploadFile('resumeUpload', 'resumes', applicationData, 'resumeUrl');
+          await uploadFile('videoResumeUpload', 'video_resumes', applicationData, 'videoResumeUrl');
+          // Submit the application data to Firestore
+          await addDoc(collection(db, 'Applications'), applicationData);
+          // Send the applicant's personal data compliance (PDC) information
+          await sendToAppDataCompliance(applicant_PDC);
+          // Update user's document with the job application info
+          const userDocRef = doc(db, 'Users', userId); // Reference to the user's document
+          await updateDoc(userDocRef, {
+            userApps: arrayUnion({
+              JobID: jobId,
+              JobTitle: jobTitle,
+              CompanyName: companyName,
+              Status: status,
+              IsBoosted: isBoosted,
+              ApplyDate: new Date().toISOString()
+            })
+          });
+          // Show success message
+          showToast('Application submitted successfully!', 'success');
         } catch (error) {
-            console.error('Error submitting application:', error);
-            showToast('Error submitting application. Please try again.', 'error');
-        } finally {
-        
-        }
+          console.error('Error submitting application:', error);
+          showToast('Error submitting application. Please try again.', 'error');
+        } finally {}
+      }
     }
-
-
-}
-
-// Event listener for regular application submission
-document.getElementById('submitApplication').addEventListener('click', (event) => {
-    submitApplication(event, false); // Regular application
-});
-
-// Event listener for boosted application submission
-document.getElementById('boostApplication').addEventListener('click', (event) => {
-    submitApplication(event, true); // Boosted application
-});
-
-
-
-// Function to upload files and add their URLs to the applicantData
-async function uploadFile(inputId, folder, applicantData, urlKey) {
-    const file = document.getElementById(inputId).files[0];
-    if (file) {
+    // Event listener for regular application submission
+    document.getElementById('submitApplication').addEventListener('click', (event) => {
+      submitApplication(event, false); // Regular application
+    });
+    // Event listener for boosted application submission
+    document.getElementById('boostApplication').addEventListener('click', (event) => {
+      submitApplication(event, true); // Boosted application
+    });
+    // Function to upload files and add their URLs to the applicantData
+    async function uploadFile(inputId, folder, applicantData, urlKey) {
+      const file = document.getElementById(inputId).files[0];
+      if (file) {
         const fileRef = storage.ref(`${folder}/${file.name}`);
         await fileRef.put(file);
         applicantData[urlKey] = await fileRef.getDownloadURL();
+      }
     }
-}
-
-// Function to send applicant_PDC to AppDataCompliance collection
-async function sendToAppDataCompliance(applicantData) {
-    try {
+    // Function to send applicant_PDC to AppDataCompliance collection
+    async function sendToAppDataCompliance(applicantData) {
+      try {
         const docRef = await addDoc(collection(db, 'AppDataCompliance'), applicantData);
-        console.log('Document written with ID: ', docRef.id);
-    } catch (error) {
-        console.error('Error adding document to AppDataCompliance:', error);
+        // console.log('Document written with ID: ', docRef.id);
+      } catch (error) {
+        // console.error('Error adding document to AppDataCompliance:', error);
+      }
     }
-}
-
-
-</script>
+  </script>
 
 </body>
+
 </html>
