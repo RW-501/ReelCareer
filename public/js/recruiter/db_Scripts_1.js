@@ -1441,9 +1441,15 @@ async function getApplicationsFromDB(jobIDs) {
   // Normalize and map application statuses
   applications.forEach(app => {
     if (typeof app.status !== 'string') {
-        console.warn('Unexpected status value:', app.status);
+        console.warn('Unexpected status value (not a string):', app.status);
     }
-    const statusKey = (typeof app.status === 'string' ? app.status.trim() : "").toLowerCase();
+
+    const statusKey = (typeof app.status === 'string' ? app.status.trim().toLowerCase() : "");
+    
+    if (!statusKey || !applicationStatuses[statusKey]) {
+        console.warn('Unexpected or missing status value:', app.status);
+    }
+
     const statusValue = applicationStatuses[statusKey] || "Unknown Status";
     app.normalizedStatus = statusValue; // Add normalized status to the application object
 });
