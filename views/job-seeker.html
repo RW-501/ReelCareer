@@ -930,69 +930,107 @@ async function parseWord(file) {
 }
 
 function displayInEditableDiv(text) {
-    // Determine if old format is being used
-    const useOldFormat = true;
+    // Determine if old format is being used (you can adjust this condition as needed)
+    const useOldFormat = true; // Change to false if using the new format
 
     // Define regex patterns to capture additional sections
-    const regexPatterns = {
-        summary: useOldFormat ? /SUMMARY\s*([\s\S]*?)(KEY SKILLS|EXPERIENCE|$)/ : /Summary[:\-]?([\s\S]*?)(Experience|Education|$)/i,
-        skills: useOldFormat ? /KEY SKILLS\s*([\s\S]*?)(EXPERIENCE|EDUCATION|$)/ : /Skills[:\-]?([\s\S]*?)(Certifications|Achievements|$)/i,
-        experience: useOldFormat ? /EXPERIENCE\s*([\s\S]*?)(EDUCATION|$)/ : /Experience[:\-]?([\s\S]*?)(Education|$)/i,
-        education: useOldFormat ? /EDUCATION\s*([\s\S]*?)(REFERENCES|$)/ : /Education[:\-]?([\s\S]*?)(Skills|$)/i,
-        certifications: /Certifications[:\-]?([\s\S]*?)(Languages|Achievements|$)/i,
-        languages: /Languages[:\-]?([\s\S]*?)(Achievements|References|$)/i,
-        achievements: /Achievements[:\-]?([\s\S]*?)(References|$)/i,
-        objective: /Objective[:\-]?\s*[\r\n]*([\•\*\-\•]?[\s\S]*?)(?=\n*Experience|Skills|$)/i,
-        mission: /Mission[:\-]?([\s\S]*?)(Experience|Education|$)/i,
-        trade: /Trade[:\-]?([\s\S]*?)(Experience|Skills|$)/i,
-        hobbies: /Hobbies[:\-]?([\s\S]*?)(Languages|Achievements|$)/i,
-        interests: /Interests[:\-]?([\s\S]*?)(Skills|Certifications|$)/i,
-        references: /References[:\-]?([\s\S]*)/i,
-        address: /Address[:\-]?\s*([\s\S]*?)(Contact|$)/i,
-        socialLinks: /Links[:\-]?([\s\S]*?)(Experience|Education|$)/i,
-        contact: /Contact[:\-]?\s*(.*)/i,
-        name: /Name[:\-]?\s*(.*)/i,
-        phone: /Phone:\s*(\(\d{3}\)\s*\d{3}-\d{4})/i,
-        email: /Email:\s*([\w\.-]+@[\w\.-]+)/i,
-        linkedin: /LinkedIn:\s*(https?:\/\/\S+)/i,
-        portfolio: /Portfolio:\s*(https?:\/\/\S+)/i
-    };
+    const summaryRegex = useOldFormat 
+        ? /SUMMARY\s*([\s\S]*?)(KEY SKILLS|EXPERIENCE|$)/ 
+        : /Summary[:\-]?([\s\S]*?)(Experience|Education|$)/i;
+
+    const skillsRegex = useOldFormat 
+        ? /KEY SKILLS\s*([\s\S]*?)(EXPERIENCE|EDUCATION|$)/ 
+        : /Skills[:\-]?([\s\S]*?)(Certifications|Achievements|$)/i;
+
+    const experienceRegex = useOldFormat 
+        ? /EXPERIENCE\s*([\s\S]*?)(EDUCATION|$)/ 
+        : /Experience[:\-]?([\s\S]*?)(Education|$)/i;
+
+    const educationRegex = useOldFormat 
+        ? /EDUCATION\s*([\s\S]*?)(REFERENCES|$)/ 
+        : /Education[:\-]?([\s\S]*?)(Skills|$)/i;
+
+    const phoneRegex = /Phone:\s*(\(\d{3}\)\s*\d{3}-\d{4})/;
+    const emailRegex = /Email:\s*([\w\.-]+@[\w\.-]+)/;
+    const linkedinRegex = /LinkedIn:\s*(https?:\/\/\S+)/;
+    const portfolioRegex = /Portfolio:\s*(https?:\/\/\S+)/;
+    const nameRegex = /Name[:\-]?\s*(.*)/i;
+    const contactRegex = /Contact[:\-]?\s*(.*)/i;
+    const certificationsRegex = /Certifications[:\-]?([\s\S]*?)(Languages|Achievements|$)/i;
+    const languagesRegex = /Languages[:\-]?([\s\S]*?)(Achievements|References|$)/i;
+    const achievementsRegex = /Achievements[:\-]?([\s\S]*?)(References|$)/i;
+    const objectiveRegex = /Objective[:\-]?\s*[\r\n]*([\•\*\-\•]?[\s\S]*?)(?=\n*Experience|Skills|$)/i;
+    const missionRegex = /Mission[:\-]?([\s\S]*?)(Experience|Education|$)/i;
+    const tradeRegex = /Trade[:\-]?([\s\S]*?)(Experience|Skills|$)/i;
+    const hobbiesRegex = /Hobbies[:\-]?([\s\S]*?)(Languages|Achievements|$)/i;
+    const interestsRegex = /Interests[:\-]?([\s\S]*?)(Skills|Certifications|$)/i;
+    const referencesRegex = /References[:\-]?([\s\S]*)/i;
+    const addressRegex = /Address[:\-]?\s*([\s\S]*?)(Contact|$)/i;
+    const socialLinksRegex = /Links[:\-]?([\s\S]*?)(Experience|Education|$)/i;
 
     // Initialize an object to hold extracted data
     const extractedData = {};
 
-    // Helper function to extract data using regex
-    const extractData = (pattern) => {
-        const match = text.match(pattern);
-        return match ? match[1].trim() : '';
-    };
+    // Use regex patterns to extract specific resume information
+    const summaryMatch = text.match(summaryRegex);
+    if (summaryMatch) {
+        extractedData.summary = summaryMatch[1].trim();
+    }
 
-    // Extract each section
-    Object.keys(regexPatterns).forEach(key => {
-        extractedData[key] = extractData(regexPatterns[key]);
-    });
+    const skillsMatch = text.match(skillsRegex);
+    if (skillsMatch) {
+        extractedData.skills = skillsMatch[1].split('|').map(skill => skill.trim());
+    }
+    
+    const experienceMatch = text.match(experienceRegex);
+    if (experienceMatch) {
+        extractedData.experience = experienceMatch[1].trim();
+    }
+
+    const educationMatch = text.match(educationRegex);
+    if (educationMatch) {
+        extractedData.education = educationMatch[1].trim();
+    }
+
+    const certificationsMatch = certificationsRegex ? text.match(certificationsRegex) : null;
+    if (certificationsMatch) {
+        extractedData.certifications = certificationsMatch[1].trim();
+    }
+
+    const nameMatch = text.match(nameRegex);
+    const contactMatch = text.match(contactRegex);
+    const languagesMatch = text.match(languagesRegex);
+    const achievementsMatch = text.match(achievementsRegex);
+    const objectiveMatch = text.match(objectiveRegex);
+    const missionMatch = text.match(missionRegex);
+    const tradeMatch = text.match(tradeRegex);
+    const hobbiesMatch = text.match(hobbiesRegex);
+    const interestsMatch = text.match(interestsRegex);
+    const referencesMatch = text.match(referencesRegex);
+    const addressMatch = text.match(addressRegex);
+    const socialLinksMatch = text.match(socialLinksRegex);
 
     // Retrieve user data from local storage
     const userData = JSON.parse(localStorage.getItem("userData")) || {};
 
-    // Define field mappings for extracted data
+    // Define field mappings for regex matches to user profile fields
     const fieldMappings = {
-        name: extractedData.name,
-        contact: extractedData.contact,
-        experience: extractedData.experience,
-        education: extractedData.education,
-        skills: extractedData.skills.split('|').map(skill => skill.trim()),
-        certifications: extractedData.certifications,
-        languages: extractedData.languages,
-        achievements: extractedData.achievements,
-        summary: extractedData.summary,
-        objective: extractedData.objective,
-        mission: extractedData.mission,
-        trade: extractedData.trade,
-        interests: [...(extractedData.hobbies.split('|')), ...(extractedData.interests.split('|'))],
-        references: extractedData.references,
-        address: extractedData.address,
-        socialLinks: extractedData.socialLinks
+        name: nameMatch ? nameMatch[1] : "",
+        contact: contactMatch ? contactMatch[1] : "",
+        experience: experienceMatch ? experienceMatch[1] : "",
+        education: educationMatch ? educationMatch[1] : "",
+        skills: skillsMatch ? skillsMatch[1].split('|') : [],
+        certifications: certificationsMatch ? certificationsMatch[1] : "",
+        languages: languagesMatch ? languagesMatch[1] : "",
+        achievements: achievementsMatch ? achievementsMatch[1] : "",
+        summary: summaryMatch ? summaryMatch[1] : "",
+        objective: objectiveMatch ? objectiveMatch[1] : "",
+        mission: missionMatch ? missionMatch[1] : "",
+        trade: tradeMatch ? tradeMatch[1] : "",
+        interests: [...(hobbiesMatch ? hobbiesMatch[1].split('|') : []), ...(interestsMatch ? interestsMatch[1].split('|') : [])],
+        references: referencesMatch ? referencesMatch[1] : "",
+        address: addressMatch ? addressMatch[1] : "",
+        socialLinks: socialLinksMatch ? socialLinksMatch[1] : ""
     };
 
     // Required fields for a complete profile
@@ -1001,40 +1039,69 @@ function displayInEditableDiv(text) {
     // Find missing fields
     const missingFields = requiredFields.filter(field => !userData[field] || userData[field].trim() === "");
 
-    // Dynamically show missing fields pop-up if necessary
+    // Dynamically show missing fields pop-up
     if (missingFields.length > 0) {
         showMissingFieldsPopup(missingFields);
     }
 
-    // Construct formatted text dynamically
-    const formatSection = (label, content) => content ? `<strong>${label}:</strong><br>${content}<br><br>` : '';
+     // Construct formatted text dynamically
+     let formattedText = '';
+     if (nameMatch) {
+    formattedText += `<strong>Name:</strong> ${nameMatch[1]}<br><br>`;
+}
+if (contactMatch) {
+    formattedText += `<strong>Contact:</strong> ${contactMatch[1]}<br><br>`;
+}
+if (addressMatch) {
+    formattedText += `<strong>Address:</strong> ${addressMatch[1]}<br><br>`;
+}
+if (summaryMatch) {
+    formattedText += `<strong>Summary:</strong><br>${summaryMatch[1]}<br><br>`;
+}
+if (objectiveMatch) {
+    formattedText += `<strong>Objective:</strong><br>${objectiveMatch[1]}<br><br>`;
+}
+if (missionMatch) {
+    formattedText += `<strong>Mission:</strong><br>${missionMatch[1]}<br><br>`;
+}
+if (tradeMatch) {
+    formattedText += `<strong>Trade:</strong><br>${tradeMatch[1]}<br><br>`;
+}
+if (experienceMatch) {
+    formattedText += `<strong>Experience:</strong><br>${experienceMatch[1]}<br><br>`;
+}
+if (educationMatch) {
+    formattedText += `<strong>Education:</strong><br>${educationMatch[1]}<br><br>`;
+}
+if (skillsMatch) {
+    formattedText += `<strong>Skills:</strong><br>${skillsMatch[1]}<br><br>`;
+}
+if (certificationsMatch) {
+    formattedText += `<strong>Certifications:</strong><br>${certificationsMatch[1]}<br><br>`;
+}
+if (languagesMatch) {
+    formattedText += `<strong>Languages:</strong><br>${languagesMatch[1]}<br><br>`;
+}
+if (achievementsMatch) {
+    formattedText += `<strong>Achievements:</strong><br>${achievementsMatch[1]}<br><br>`;
+}
+if (hobbiesMatch) {
+    formattedText += `<strong>Hobbies:</strong><br>${hobbiesMatch[1]}<br><br>`;
+}
+if (interestsMatch) {
+    formattedText += `<strong>Interests:</strong><br>${interestsMatch[1]}<br><br>`;
+}
+if (socialLinksMatch) {
+    formattedText += `<strong>Social Links:</strong><br>${socialLinksMatch[1]}<br><br>`;
+}
+if (referencesMatch) {
+    formattedText += `<strong>References:</strong><br>${referencesMatch[1]}<br><br>`;
+}
 
-    let formattedText = `
-        <div class="resume-section">
-            ${formatSection('Name', extractedData.name)}
-            ${formatSection('Contact', extractedData.contact)}
-            ${formatSection('Address', extractedData.address)}
-            ${formatSection('Summary', extractedData.summary)}
-            ${formatSection('Objective', extractedData.objective)}
-            ${formatSection('Mission', extractedData.mission)}
-            ${formatSection('Trade', extractedData.trade)}
-            ${formatSection('Experience', extractedData.experience)}
-            ${formatSection('Education', extractedData.education)}
-            ${formatSection('Skills', extractedData.skills.join(', '))}
-            ${formatSection('Certifications', extractedData.certifications)}
-            ${formatSection('Languages', extractedData.languages)}
-            ${formatSection('Achievements', extractedData.achievements)}
-            ${formatSection('Hobbies', extractedData.hobbies)}
-            ${formatSection('Interests', extractedData.interests)}
-            ${formatSection('Social Links', extractedData.socialLinks)}
-            ${formatSection('References', extractedData.references)}
-        </div>
-    `;
 
     // Inject formatted text into the div
     document.getElementById('main-resume').innerHTML = formattedText;
 }
-
 
 
 // Progress Bar UI Functions
