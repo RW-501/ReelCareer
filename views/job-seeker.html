@@ -143,7 +143,14 @@
                         <div id="file-name-display" ></div>
                         <div id="progress-bar" ></div>
                         
-                        <input type="file" class="form-control-file" id="resume-input"  accept=".pdf,.doc,.docx" aria-label="Upload Resume">
+                        <div class="file-upload">
+                            <label for="resume-input" class="file-upload-label">
+                                <span id="file-name">Upload Resume (PDF, DOC, DOCX)</span>
+                                <input type="file" class="file-upload-input" id="resume-input" accept=".pdf,.doc,.docx" aria-label="Upload Resume">
+                            </label>
+                            <div class="file-upload-preview" id="file-upload-preview"></div>
+                        </div>
+
                         <button type="submit" class="btn btn-primary mt-2" title="Upload your resume">Upload Resume</button>
                     </form>
                     <div id="resumeLoading" class="d-none">
@@ -174,10 +181,9 @@
                 </div>
                 <div class="card-body">
                     <p>Upload or generate your video resumes:</p>
-                    <form id="videoResumeUploadForm">
-                        <input type="file" class="form-control-file" id="videoResumeUpload" accept="video/*" aria-label="Upload Video Resume">
+                    <div id="videoResumeUploadForm">
                         <button type="submit" class="btn btn-primary mt-2" title="Upload your video resume">Upload Video Resume</button>
-                    </form>
+                    </div>
                     <div id="videoLoading" class="d-none">
                         <div class="spinner-border" role="status">
                             <span class="visually-hidden">Loading...</span>
@@ -432,8 +438,107 @@ document.head.insertAdjacentHTML("beforeend", `
     right: 10px;
 }
 
+
+
+.file-upload {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    max-width: 400px; /* Adjust based on your layout */
+    margin: 20px 0;
+}
+
+.file-upload-label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 2px dashed #007bff; /* Change to your desired border color */
+    border-radius: 8px;
+    padding: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    background-color: #f8f9fa; /* Light background color */
+}
+
+.file-upload-label:hover {
+    background-color: #e2e6ea; /* Background color on hover */
+}
+
+.file-upload-input {
+    display: none; /* Hide the default file input */
+}
+
+.file-upload-preview {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #6c757d; /* Text color for file name */
+}
+
+.file-upload-preview img {
+    max-width: 100%; /* Ensure images don't overflow */
+    margin-top: 10px;
+}
+
     </style>
 `);
+
+const resumeInput = document.getElementById('resume-input');
+const fileNameDisplay = document.getElementById('file-name');
+const fileUploadPreview = document.getElementById('file-upload-preview');
+
+// Handle file selection
+resumeInput.addEventListener('change', handleFiles);
+
+function handleFiles() {
+    const files = resumeInput.files;
+    if (files.length > 0) {
+        const fileName = files[0].name;
+        fileNameDisplay.textContent = fileName;
+
+        // Optional: Show a preview if the file is an image
+        if (/\.(jpe?g|png|gif)$/i.test(fileName)) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                fileUploadPreview.innerHTML = ''; // Clear previous previews
+                fileUploadPreview.appendChild(img);
+            };
+            reader.readAsDataURL(files[0]);
+        } else {
+            fileUploadPreview.innerHTML = ''; // Clear previous previews
+        }
+    } else {
+        fileNameDisplay.textContent = 'Upload Resume (PDF, DOC, DOCX)'; // Reset display
+    }
+}
+
+// Drag and Drop Functionality
+const fileUploadLabel = document.querySelector('.file-upload-label');
+
+fileUploadLabel.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    fileUploadLabel.style.backgroundColor = '#e2e6ea'; // Change background on drag over
+});
+
+fileUploadLabel.addEventListener('dragleave', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    fileUploadLabel.style.backgroundColor = '#f8f9fa'; // Reset background
+});
+
+fileUploadLabel.addEventListener('drop', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    fileUploadLabel.style.backgroundColor = '#f8f9fa'; // Reset background
+    const files = e.dataTransfer.files;
+    if (files.length > 0) {
+        resumeInput.files = files; // Assign the files to the input
+        handleFiles(); // Process the dropped files
+    }
+});
 
 
 document.getElementById("resume-input").addEventListener("change", function() {
