@@ -658,20 +658,35 @@ const displaySuggestions = (categorizedSuggestions, preferences) => {
 // Initializing the preferences when the page loads
 document.addEventListener('DOMContentLoaded', () => {
     const preferences = getPreferencesFromLocalStorage();
+
+    // Log preferences to ensure they're retrieved correctly
+    console.log("Preferences retrieved: ", preferences);
+
     setTimeout(() => {
+        // Assuming userData, savedJobs, jobData, and applicationsData are defined and populated
+        if (!userData || !savedJobs || !jobData || !applicationsData) {
+            console.error("One or more data sources are undefined. Please check your data initialization.");
+            return;
+        }
 
-    // Assuming you have the userData, savedJobs, jobData, and applicationsData available
-    const categorizedSuggestions = generateUserSuggestions(userData, savedJobs, jobData, applicationsData, preferences);
-    displaySuggestions(categorizedSuggestions, preferences);
-
-    console.log("categorizedSuggestions    ",categorizedSuggestions);
-    console.log("preferences     ",preferences);
-}, 2000); // 2000 milliseconds = 2 seconds
-
-
-
-
+        const categorizedSuggestions = generateUserSuggestions(userData, savedJobs, jobData, applicationsData, preferences);
+        
+        // Log categorized suggestions to check the output
+        console.log("Categorized suggestions: ", categorizedSuggestions);
+        
+        // Check if suggestions are empty or not before displaying
+        if (categorizedSuggestions.length === 0) {
+            console.warn("No categorized suggestions found.");
+        } else {
+            displaySuggestions(categorizedSuggestions, preferences);
+        }
+    }, 2000); // 2000 milliseconds = 2 seconds
 });
+
+
+
+
+
 
 const togglePreference = (category) => {
     const preferences = getPreferencesFromLocalStorage();
