@@ -1102,7 +1102,7 @@ document.head.insertAdjacentHTML("beforeend", `
 `);
 
 
-document.getElementById("resumeUpload").addEventListener("change", function() {
+document.getElementById("resume-input").addEventListener("change", function() {
     const fileNameDisplay = document.getElementById("file-name-display");
     const fileName = this.files[0] ? this.files[0].name : "No file chosen";
     fileNameDisplay.textContent = fileName;
