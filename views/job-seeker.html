@@ -602,56 +602,72 @@ const generateUserSuggestions = (userData, savedJobs, jobData, applicationsData,
 
     // Check saved jobs
     if (savedJobs.length > 0) {
-        categorizedSuggestions.savedJobs.push('You have saved jobs. Make sure to check them regularly for updates.');
+    categorizedSuggestions.savedJobs.push('You have saved jobs. Make sure to check them regularly for updates.');
 
-        const savedJobsWithTimestamps = savedJobs.map(job => {
-            const jobInfo = jobData.find(j => j.id === job.id);
-            return {
-                title: jobInfo ? jobInfo.title : 'Unknown Job',
-                savedAt: job.savedAt,
-                jobType: jobInfo ? jobInfo.type : null
-            };
-        });
+    const savedJobsWithTimestamps = savedJobs.map(job => {
+        const jobInfo = jobData.find(j => j.id === job.id);
+        return {
+            title: jobInfo ? jobInfo.title : 'Unknown Job',
+            savedAt: job.savedAt,
+            jobType: jobInfo ? jobInfo.type : null
+        };
+    });
 
-        savedJobsWithTimestamps.forEach(savedJob => {
-    // Check if savedJob is defined and has the necessary properties
-    if (savedJob && savedJob.savedAt && savedJob.title) {
-        const daysSinceSaved = Math.floor((Date.now() - savedJob.savedAt.seconds * 1000) / (1000 * 60 * 60 * 24));
+    savedJobsWithTimestamps.forEach(savedJob => {
+        // Check if savedJob is defined and has the necessary properties
+        if (savedJob && savedJob.savedAt && savedJob.title) {
+            const savedAtTimestamp = savedJob.savedAt.seconds ? savedJob.savedAt.seconds * 1000 : null; // Convert seconds to milliseconds if defined
+            if (savedAtTimestamp) {
+                const daysSinceSaved = Math.floor((Date.now() - savedAtTimestamp) / (1000 * 60 * 60 * 24));
 
-        categorizedSuggestions.savedJobs.push(`It has been ${daysSinceSaved} days since you saved the job "${savedJob.title}".`);
+                categorizedSuggestions.savedJobs.push(`It has been ${daysSinceSaved} days since you saved the job "${savedJob.title}".`);
 
-        // Additional suggestions based on the number of days since saved
-        if (daysSinceSaved > 14) {
-            categorizedSuggestions.savedJobs.push(`Consider checking for updates on "${savedJob.title}" since it has been over 2 weeks since you saved it.`);
+                // Additional suggestions based on the number of days since saved
+                if (daysSinceSaved > 14) {
+                    categorizedSuggestions.savedJobs.push(`Consider checking for updates on "${savedJob.title}" since it has been over 2 weeks since you saved it.`);
+                }
+
+                if (daysSinceSaved < 30) {
+                    categorizedSuggestions.savedJobs.push(`Don't miss out on "${savedJob.title}". Have you considered applying yet?`);
+                }
+            } else {
+                console.warn(`Missing savedAt timestamp for savedJob: ${JSON.stringify(savedJob)}`);
+            }
+        } else {
+            console.warn(`Missing data for savedJob: ${JSON.stringify(savedJob)}`);
         }
+    });
 
-        if (daysSinceSaved < 30) {
-            categorizedSuggestions.savedJobs.push(`Don't miss out on "${savedJob.title}". Have you considered applying yet?`);
-        }
-    } else {
-        console.warn(`Missing data for savedJob: ${JSON.stringify(savedJob)}`);
+    categorizedSuggestions.savedJobs.push(`You currently have ${savedJobs.length} saved jobs. Regularly reviewing them can help you stay updated!`);
+
+    const similarJobTitles = savedJobsWithTimestamps
+        .map(savedJob => {
+            if (savedJob.jobType) {
+                return jobData
+                    .filter(job => job.type === savedJob.jobType && job.title !== savedJob.title)
+                    .map(job => job.title);
+            }
+            return []; // Return an empty array if jobType is not defined
+        })
+        .flat()
+        .filter((title, index, self) => self.indexOf(title) === index); // Remove duplicates
+
+    if (similarJobTitles.length > 0) {
+        categorizedSuggestions.savedJobs.push(`You might also be interested in these similar jobs: ${similarJobTitles.join(', ')}.`);
     }
-});
 
-        categorizedSuggestions.savedJobs.push(`You currently have ${savedJobs.length} saved jobs. Regularly reviewing them can help you stay updated!`);
-
-        const similarJobTitles = savedJobsWithTimestamps
-            .map(savedJob => jobData.filter(job => job.type === savedJob.jobType && job.title !== savedJob.title).map(job => job.title))
-            .flat()
-            .filter((title, index, self) => self.indexOf(title) === index);
-
-        if (similarJobTitles.length > 0) {
-            categorizedSuggestions.savedJobs.push(`You might also be interested in these similar jobs: ${similarJobTitles.join(', ')}.`);
-        }
-
-        const relevanceCheckPeriod = 30; // days
-        if (savedJobsWithTimestamps.some(job => {
-            const daysSinceSaved = Math.floor((Date.now() - job.savedAt.seconds * 1000) / (1000 * 60 * 60 * 24));
+    const relevanceCheckPeriod = 30; // days
+    if (savedJobsWithTimestamps.some(job => {
+        const savedAtTimestamp = job.savedAt.seconds ? job.savedAt.seconds * 1000 : null; // Convert seconds to milliseconds if defined
+        if (savedAtTimestamp) {
+            const daysSinceSaved = Math.floor((Date.now() - savedAtTimestamp) / (1000 * 60 * 60 * 24));
             return daysSinceSaved > relevanceCheckPeriod;
-        })) {
-            categorizedSuggestions.savedJobs.push('Some of your saved jobs may no longer be relevant. Consider reviewing them for new opportunities!');
         }
+        return false; // Return false if savedAt is not defined
+    })) {
+        categorizedSuggestions.savedJobs.push('Some of your saved jobs may no longer be relevant. Consider reviewing them for new opportunities!');
     }
+}
 
     if (totalApplications > 0) {
         categorizedSuggestions.applications.push(`You have submitted a total of ${totalApplications} applications.`);
