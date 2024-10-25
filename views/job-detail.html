@@ -841,7 +841,7 @@ text-align: left;
     // Save the job to the user's savedJobs array using arrayUnion to prevent duplicates
     await updateDoc(userSavedJobsRef, {
             savedJobs: arrayUnion(jobID),
-            savedAt: serverTimestamp() // Add timestamp field
+            savedAt: new Date().toLocaleString()  // Add timestamp field
         });
 
     // Successfully saved

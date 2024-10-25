@@ -611,7 +611,12 @@ const generateUserSuggestions = (userData, savedJobs, jobData, applicationsData,
         });
 
         savedJobsWithTimestamps.forEach(savedJob => {
-            const daysSinceSaved = Math.floor((Date.now() - savedJob.savedAt.seconds * 1000) / (1000 * 60 * 60 * 24));
+            if (savedJob.savedAt) {
+        const daysSinceSaved = Math.floor((Date.now() - savedJob.savedAt.seconds * 1000) / (1000 * 60 * 60 * 24));
+        categorizedSuggestions.savedJobs.push(`It has been ${daysSinceSaved} days since you saved the job "${savedJob.title}".`);
+    } else {
+        console.warn(`Missing savedAt for job "${savedJob.title}"`);
+    }
             categorizedSuggestions.savedJobs.push(`It has been ${daysSinceSaved} days since you saved the job "${savedJob.title}".`);
 
             if (daysSinceSaved > 14) {
