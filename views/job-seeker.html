@@ -929,6 +929,24 @@ async function parseWord(file) {
     showToast('Word document parsed successfully', 'success');
 }
 
+
+
+
+
+function extractBulletedList(text) {
+    // Define regex to match common bullet points or list indicators
+    const bulletRegex = /[\u2022\u2023\u25AA\u25AB\*\-\•]?\s*(.+?)(?=\n|$)/g;
+    const matches = [];
+    let match;
+
+    // Use regex to find all matches
+    while ((match = bulletRegex.exec(text)) !== null) {
+        matches.push(match[1].trim());
+    }
+
+    return matches;
+}
+
 function displayInEditableDiv(text) {
     // Determine if old format is being used (you can adjust this condition as needed)
     const useOldFormat = true; // Change to false if using the new format
@@ -950,23 +968,9 @@ function displayInEditableDiv(text) {
         ? /EDUCATION\s*([\s\S]*?)(REFERENCES|$)/ 
         : /Education[:\-]?([\s\S]*?)(Skills|$)/i;
 
-    const phoneRegex = /Phone:\s*(\(\d{3}\)\s*\d{3}-\d{4})/;
-    const emailRegex = /Email:\s*([\w\.-]+@[\w\.-]+)/;
-    const linkedinRegex = /LinkedIn:\s*(https?:\/\/\S+)/;
-    const portfolioRegex = /Portfolio:\s*(https?:\/\/\S+)/;
-    const nameRegex = /Name[:\-]?\s*(.*)/i;
-    const contactRegex = /Contact[:\-]?\s*(.*)/i;
     const certificationsRegex = /Certifications[:\-]?([\s\S]*?)(Languages|Achievements|$)/i;
     const languagesRegex = /Languages[:\-]?([\s\S]*?)(Achievements|References|$)/i;
     const achievementsRegex = /Achievements[:\-]?([\s\S]*?)(References|$)/i;
-    const objectiveRegex = /Objective[:\-]?\s*[\r\n]*([\•\*\-\•]?[\s\S]*?)(?=\n*Experience|Skills|$)/i;
-    const missionRegex = /Mission[:\-]?([\s\S]*?)(Experience|Education|$)/i;
-    const tradeRegex = /Trade[:\-]?([\s\S]*?)(Experience|Skills|$)/i;
-    const hobbiesRegex = /Hobbies[:\-]?([\s\S]*?)(Languages|Achievements|$)/i;
-    const interestsRegex = /Interests[:\-]?([\s\S]*?)(Skills|Certifications|$)/i;
-    const referencesRegex = /References[:\-]?([\s\S]*)/i;
-    const addressRegex = /Address[:\-]?\s*([\s\S]*?)(Contact|$)/i;
-    const socialLinksRegex = /Links[:\-]?([\s\S]*?)(Experience|Education|$)/i;
 
     // Initialize an object to hold extracted data
     const extractedData = {};
@@ -979,28 +983,39 @@ function displayInEditableDiv(text) {
 
     const skillsMatch = text.match(skillsRegex);
     if (skillsMatch) {
-        extractedData.skills = skillsMatch[1].split('|').map(skill => skill.trim());
+        extractedData.skills = extractBulletedList(skillsMatch[1]);
     }
-    
+
     const experienceMatch = text.match(experienceRegex);
     if (experienceMatch) {
-        extractedData.experience = experienceMatch[1].trim();
+        extractedData.experience = extractBulletedList(experienceMatch[1]);
     }
 
     const educationMatch = text.match(educationRegex);
     if (educationMatch) {
-        extractedData.education = educationMatch[1].trim();
+        extractedData.education = extractBulletedList(educationMatch[1]);
     }
 
-    const certificationsMatch = certificationsRegex ? text.match(certificationsRegex) : null;
+    const certificationsMatch = text.match(certificationsRegex);
     if (certificationsMatch) {
-        extractedData.certifications = certificationsMatch[1].trim();
+        extractedData.certifications = extractBulletedList(certificationsMatch[1]);
     }
+
+    const languagesMatch = text.match(languagesRegex);
+    if (languagesMatch) {
+        extractedData.languages = extractBulletedList(languagesMatch[1]);
+    }
+
+    const achievementsMatch = text.match(achievementsRegex);
+    if (achievementsMatch) {
+        extractedData.achievements = extractBulletedList(achievementsMatch[1]);
+    }
+
+ 
+
 
     const nameMatch = text.match(nameRegex);
     const contactMatch = text.match(contactRegex);
-    const languagesMatch = text.match(languagesRegex);
-    const achievementsMatch = text.match(achievementsRegex);
     const objectiveMatch = text.match(objectiveRegex);
     const missionMatch = text.match(missionRegex);
     const tradeMatch = text.match(tradeRegex);
