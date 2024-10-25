@@ -353,6 +353,8 @@ document.getElementById('videoResumeUploadForm').onsubmit = function(event) {
     const userRef = doc(db, 'Users', userId);
     const userSnapshot = await getDoc(userRef);
 
+    let totalApplications = 0;
+    let totalViews = 0;
     let userData = [];
     let savedJobs = [];
     let jobData = [];
@@ -436,6 +438,7 @@ const generateUserSuggestions = (userData, savedJobs, jobData, applicationsData)
         if (jobTitles.length > 0) {
             suggestions.push(`You have saved the following jobs: ${jobTitles.join(', ')}.`);
         }
+
     }
 
     // Additional suggestion logic can go here...
@@ -634,10 +637,10 @@ function contactRecruiter(companyId) {
 // Function to update analytics section
 function updateAnalytics() {
     // Get the total number of applications
-    const totalApplications = applicationsData.length;
+     totalApplications = applicationsData.length;
 
     // Calculate total views
-    const totalViews = applicationsData.reduce((acc, app) => acc + app.views, 0);
+     totalViews = applicationsData.reduce((acc, app) => acc + app.views, 0);
 
     // Update the UI with the calculated values
     document.getElementById('totalApplications').textContent = totalApplications;
