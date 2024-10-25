@@ -1233,21 +1233,38 @@ function showMissingFieldsPopup(missingFields) {
 }
 
 function openProfileEditForm(missingFields) {
-    const formContainer = document.createElement("div");
-    formContainer.classList.add("profile-edit-form");
+    // Logic to open the profile edit form
+    const editForm = document.createElement("div");
+    editForm.classList.add("profile-edit-form");
 
-    formContainer.innerHTML = `
-        <h3>Fill in Your Information</h3>
-        <form id="profileForm">
-            ${missingFields.map(field => `
-                <label for="${field}">${field.charAt(0).toUpperCase() + field.slice(1)}:</label>
-                <input type="text" id="${field}" name="${field}" placeholder="Enter your ${field}">
-            `).join("")}
-            <button type="submit">Save</button>
-        </form>
-    `;
+    // Add a close button to the edit form
+    const closeButton = document.createElement("button");
+    closeButton.innerText = "✖ Close";
+    closeButton.classList.add("close-form");
 
-    document.body.appendChild(formContainer);
+    // Populate form with missing fields and resume data
+    missingFields.forEach(field => {
+        const fieldLabel = document.createElement("label");
+        fieldLabel.innerText = field.charAt(0).toUpperCase() + field.slice(1);
+        
+        const input = document.createElement("input");
+        input.type = "text";
+        input.value = fieldMappings[field] || ""; // Populate with data from the resume
+        
+        // Align labels and inputs
+        editForm.appendChild(fieldLabel);
+        editForm.appendChild(input);
+    });
+
+    // Append the close button to the form
+    editForm.appendChild(closeButton);
+    document.body.appendChild(editForm);
+
+    // Close button event listener
+    closeButton.addEventListener("click", () => {
+        editForm.remove();
+    });
+
 
     document.getElementById("profileForm").addEventListener("submit", async (e) => {
         e.preventDefault();
