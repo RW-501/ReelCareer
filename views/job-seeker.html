@@ -1481,10 +1481,10 @@ applicationsSnapshot.forEach((doc, index) => {
     const li = document.createElement('li');
 li.className = 'list-group-item';
 
-
+let commonAccordionId = data.id;
 // Accordion header with job title and status
 li.innerHTML = `
-    <div class="accordion" id="${data.id}">
+    <div class="accordion" id="${commonAccordionId}">
         <div class="accordion-item">
             <h2 class="accordion-header" id="heading-${index}">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-${index}" aria-expanded="false" aria-controls="collapse-${index}">
