@@ -687,7 +687,7 @@ const generateUserSuggestions = (userData, savedJobs, jobData, applicationsData)
 const displaySuggestions = (suggestions) => {
     const suggestedJobsList = document.getElementById('suggestedJobsList');
     suggestedJobsList.innerHTML = ''; // Clear previous suggestions
-    console.log("???????????????????     ",suggestions);
+    console.log("???????????????????     ",userSuggestions);
 
     suggestions.forEach(suggestion => {
         const li = document.createElement('li');
@@ -697,13 +697,13 @@ const displaySuggestions = (suggestions) => {
     });
 };
 
-// Generate suggestions and display them
-const userSuggestions = generateUserSuggestions(userData, savedJobs, jobData, applicationsData);
-displaySuggestions(userSuggestions);
+// Generate suggestions and display them after a 2-second delay
+setTimeout(() => {
+    const userSuggestions = generateUserSuggestions(userData, savedJobs, jobData, applicationsData);
+    displaySuggestions(userSuggestions);
 
-
-console.log(userSuggestions);
-
+    console.log(userSuggestions);
+}, 2000); // 2000 milliseconds = 2 seconds
 
 
 
