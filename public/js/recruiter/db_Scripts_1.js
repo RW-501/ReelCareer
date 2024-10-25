@@ -1637,7 +1637,7 @@ function filterAndSortApplications() {
     if (filterStatus !== 'all' && applicationStatus !== filterStatus) {
       shouldDisplay = false;
     }
-
+    
     // Display or hide based on filtering
     app.style.display = shouldDisplay ? 'block' : 'none';
   });
