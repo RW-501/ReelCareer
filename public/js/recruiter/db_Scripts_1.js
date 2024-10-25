@@ -1234,29 +1234,26 @@ let jobID = '';
 
 
 // Define the filtering function first
-const filterApplications = (applications, statusFilter) => {
+const setupSortingAndFiltering = (applications) => {
+  // Get references to the sorting and filtering dropdowns or controls
+  const sortingDropdown = $("#sorting-dropdown");
+  const filteringDropdown = $("#filtering-dropdown");
 
+  // Add event listener for sorting
+  sortingDropdown.on('change', () => {
+    const selectedSortCriteria = sortingDropdown.val();
+    const sortedApplications = sortApplications(applications, selectedSortCriteria);
+    renderApplications(sortedApplications);
+  });
 
-  if (statusFilter === 'all') return applications;
-  return applications.filter(app => app.status === criteria);
-};
-
-// Define the sorting function
-const sortApplications = (applications, sortCriteria) => {
-  return applications.sort((a, b) => {
-      switch (sortCriteria) {
-          case "jobTitle": 
-              return (a.jobTitle || '').localeCompare(b.jobTitle || '');
-          case "companyName": 
-              return (a.companyName || '').localeCompare(b.companyName || '');
-              case "applicantName": 
-              return `${a.firstName || ''} ${a.lastName || ''}`.localeCompare(`${b.firstName || ''} ${b.lastName || ''}`);
-          
-          default: 
-              return 0; // No sorting if criteria is unrecognized
-      }
+  // Add event listener for filtering
+  filteringDropdown.on('change', () => {
+    const selectedStatusFilter = filteringDropdown.val();
+    const filteredApplications = filterApplications(applications, selectedStatusFilter);
+    renderApplications(filteredApplications);
   });
 };
+
 
 
 
