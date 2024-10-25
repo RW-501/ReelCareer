@@ -425,72 +425,117 @@ const viewJob = (jobId) => {
 
 
 const generateUserSuggestions = (userData, savedJobs, jobData, applicationsData) => {
-    const suggestions = [];
-    
-    // Check if jobData is valid
+    const categorizedSuggestions = {
+        savedJobs: [],
+        applications: [],
+        recentJobs: [],
+        preferences: [],
+        networking: [],
+        profileCompleteness: [],
+        skillsImprovement: [],
+        location: [],
+        motivational: []
+    };
+
+    // Check if jobData is an array
     if (!Array.isArray(jobData)) {
         console.error("jobData is not an array", jobData);
-        return suggestions; // Return an empty array if jobData is not valid
+        return categorizedSuggestions; // Return an empty object if jobData is not valid
     }
 
     // Initialize totalApplications and totalViews
-    const totalApplications = applicationsData.length;
-    const totalViews = applicationsData.reduce((acc, application) => acc + application.views, 0);
-
-    // Function to format time since last login
-    const timeSinceLastLogin = (lastLogin) => {
-        const lastLoginDate = new Date(lastLogin.seconds * 1000); // Convert seconds to milliseconds
-        const now = new Date();
-        const differenceInDays = Math.floor((now - lastLoginDate) / (1000 * 60 * 60 * 24));
-        return differenceInDays === 0 ? 'today' : `${differenceInDays} days ago`;
-    };
-
-    // Add last login suggestion
-    if (userData.lastLogin) {
-        suggestions.push(`Welcome back! Your last login was ${timeSinceLastLogin(userData.lastLogin)}.`);
-    }
+    let totalApplications = applicationsData.length;
+    let totalViews = applicationsData.reduce((acc, application) => acc + application.views, 0);
 
     // Check saved jobs
     if (savedJobs.length > 0) {
-        suggestions.push('You have saved jobs. Make sure to check them regularly for updates.');
+        categorizedSuggestions.savedJobs.push('You have saved jobs. Make sure to check them regularly for updates.');
 
-        const jobTitles = savedJobs.map(jobId => jobData.find(job => job.id === jobId)?.title).filter(Boolean);
-        if (jobTitles.length > 0) {
-            suggestions.push(`You have saved the following jobs: ${jobTitles.join(', ')}.`);
+        // Create a structure to hold saved job IDs and their saved timestamps
+        const savedJobsWithTimestamps = savedJobs.map(job => {
+            const jobInfo = jobData.find(j => j.id === job.id); // Assuming each saved job has a 'savedAt' property
+            return {
+                title: jobInfo ? jobInfo.title : 'Unknown Job',
+                savedAt: job.savedAt, // Assuming savedAt is available in savedJobs
+                jobType: jobInfo ? jobInfo.type : null // Assuming job has a 'type' field
+            };
+        });
+
+        // Suggest saved jobs and calculate days since saved
+        savedJobsWithTimestamps.forEach(savedJob => {
+            const daysSinceSaved = Math.floor((Date.now() - savedJob.savedAt.seconds * 1000) / (1000 * 60 * 60 * 24));
+            categorizedSuggestions.savedJobs.push(`It has been ${daysSinceSaved} days since you saved the job "${savedJob.title}".`);
+
+            // Suggest checking for updates
+            if (daysSinceSaved > 14) {
+                categorizedSuggestions.savedJobs.push(`Consider checking for updates on "${savedJob.title}" since it has been over 2 weeks since you saved it.`);
+            }
+
+            // Encourage applying if saved job is relevant
+            if (daysSinceSaved < 30) { // Assuming relevance for one month
+                categorizedSuggestions.savedJobs.push(`Don't miss out on "${savedJob.title}". Have you considered applying yet?`);
+            }
+        });
+
+        // Count of saved jobs
+        categorizedSuggestions.savedJobs.push(`You currently have ${savedJobs.length} saved jobs. Regularly reviewing them can help you stay updated!`);
+
+        // Suggest similar jobs
+        const similarJobTitles = savedJobsWithTimestamps
+            .map(savedJob => jobData.filter(job => job.type === savedJob.jobType && job.title !== savedJob.title).map(job => job.title))
+            .flat()
+            .filter((title, index, self) => self.indexOf(title) === index); // Unique titles only
+
+        if (similarJobTitles.length > 0) {
+            categorizedSuggestions.savedJobs.push(`You might also be interested in these similar jobs: ${similarJobTitles.join(', ')}.`);
+        }
+
+        // Encourage relevance checks after a set period
+        const relevanceCheckPeriod = 30; // days
+        if (savedJobsWithTimestamps.some(job => {
+            const daysSinceSaved = Math.floor((Date.now() - job.savedAt.seconds * 1000) / (1000 * 60 * 60 * 24));
+            return daysSinceSaved > relevanceCheckPeriod;
+        })) {
+            categorizedSuggestions.savedJobs.push('Some of your saved jobs may no longer be relevant. Consider reviewing them for new opportunities!');
         }
     }
 
     // Suggest based on total applications
     if (totalApplications > 0) {
-        suggestions.push(`You have submitted a total of ${totalApplications} applications.`);
+        categorizedSuggestions.applications.push(`You have submitted a total of ${totalApplications} applications.`);
 
+        // Suggest checking the status of applications
         const activeApplications = applicationsData.filter(app => app.status === 'active').length;
         if (activeApplications > 0) {
-            suggestions.push(`You have ${activeApplications} active applications. Consider following up!`);
+            categorizedSuggestions.applications.push(`You have ${activeApplications} active applications. Consider following up!`);
         }
 
+        // Suggest improving application views
         if (totalViews < totalApplications * 2) {
-            suggestions.push('Consider revisiting your applications to improve visibility and engagement.');
+            categorizedSuggestions.applications.push('Consider revisiting your applications to improve visibility and engagement.');
         }
 
+        // Suggest trends based on application data
         const highViewJobs = applicationsData.filter(app => app.views > 10); // Example threshold
         if (highViewJobs.length > 0) {
-            const highViewJobTitles = highViewJobs.map(app => jobData.find(job => job.id === app.jobId)?.title).join(', ');
-            suggestions.push(`Jobs that have received high views recently: ${highViewJobTitles}. Consider applying!`);
+            const highViewJobTitles = highViewJobs.map(app => jobData.find(job => job.id === app.jobId).title).join(', ');
+            categorizedSuggestions.applications.push(`Jobs that have received high views recently: ${highViewJobTitles}. Consider applying!`);
         }
     } else {
-        suggestions.push('You have not submitted any applications yet. Consider applying to some jobs that interest you!');
+        categorizedSuggestions.applications.push('You have not submitted any applications yet. Consider applying to some jobs that interest you!');
     }
 
     // Suggest jobs based on recent postings
     const recentJobs = jobData.filter(job => {
         const postedDate = new Date(job.postedDate);
-        return (new Date() - postedDate) / (1000 * 60 * 60 * 24) <= 7; // Within the last 7 days
+        const today = new Date();
+        const daysSincePosted = Math.floor((today - postedDate) / (1000 * 60 * 60 * 24));
+        return daysSincePosted <= 7; // Adjust this to change the time frame for recent postings
     });
 
     if (recentJobs.length > 0) {
         const recentJobTitles = recentJobs.map(job => job.title).join(', ');
-        suggestions.push(`Check out these recently posted jobs: ${recentJobTitles}.`);
+        categorizedSuggestions.recentJobs.push(`Check out these recently posted jobs: ${recentJobTitles}.`);
     }
 
     // Suggest jobs based on user preferences
@@ -501,49 +546,49 @@ const generateUserSuggestions = (userData, savedJobs, jobData, applicationsData)
 
         if (preferredJobs.length > 0) {
             const preferredJobTitles = preferredJobs.map(job => job.title).join(', ');
-            suggestions.push(`Based on your preferences, consider these jobs: ${preferredJobTitles}.`);
+            categorizedSuggestions.preferences.push(`Based on your preferences, consider these jobs: ${preferredJobTitles}.`);
         }
     }
 
-    // Suggest networking opportunities
+    // Suggest networking opportunities if the user has saved jobs or applications
     if (savedJobs.length > 0 || totalApplications > 0) {
-        suggestions.push('Consider reaching out to professionals in your network for job referrals!');
+        categorizedSuggestions.networking.push('Consider reaching out to professionals in your network for job referrals!');
     }
 
     // Suggest checking profile completeness if applicable
     if (!userData.profileComplete) {
-        suggestions.push('Your profile is not fully complete. Consider adding more information to enhance visibility.');
+        categorizedSuggestions.profileCompleteness.push('Your profile is not fully complete. Consider adding more information to enhance visibility.');
     }
 
-    // Suggest skills improvement
+    // Suggest skills improvement if the user has job preferences
     if (userData.preferences && userData.preferences.skills.length > 0) {
-        suggestions.push('To enhance your job prospects, consider improving your skills in areas like: ' + userData.preferences.skills.join(', ') + '.');
+        categorizedSuggestions.skillsImprovement.push('To enhance your job prospects, consider improving your skills in areas like: ' + userData.preferences.skills.join(', ') + '.');
     }
 
-    // Suggesting popular job locations
+    // Suggesting popular job locations based on userData
     if (userData.location) {
         const popularJobs = jobData.filter(job => job.location === userData.location);
         if (popularJobs.length > 0) {
             const popularJobTitles = popularJobs.map(job => job.title).join(', ');
-            suggestions.push(`Jobs popular in your area (${userData.location}): ${popularJobTitles}.`);
+            categorizedSuggestions.location.push(`Jobs popular in your area (${userData.location}): ${popularJobTitles}.`);
         }
     }
 
     // Adding motivational messages based on user activity
     if (totalApplications < 5) {
-        suggestions.push('Remember, persistence is key! Keep applying to increase your chances.');
-    } else if (totalApplications < 10) {
-        suggestions.push('Great job on your applications! Keep up the good work and don’t hesitate to explore more opportunities.');
+        categorizedSuggestions.motivational.push('Remember, persistence is key! Keep applying to increase your chances.');
+    } else if (totalApplications >= 5 && totalApplications < 10) {
+        categorizedSuggestions.motivational.push('Great job on your applications! Keep up the good work and don’t hesitate to explore more opportunities.');
     } else {
-        suggestions.push('Impressive! You’re actively pursuing your job search. Stay focused and you’ll find the right opportunity soon.');
+        categorizedSuggestions.motivational.push('Impressive! You’re actively pursuing your job search. Stay focused and you’ll find the right opportunity soon.');
     }
 
-    console.log("suggestions", suggestions);
-    return suggestions;
+    console.log("suggestions", categorizedSuggestions);
+    return categorizedSuggestions;
 };
 
 // Function to display suggestions in the HTML
-const displaySuggestions = (suggestions) => {
+const displaySuggestions = (categorizedSuggestions) => {
     const suggestedJobsList = document.getElementById('suggestedJobsList');
     suggestedJobsList.innerHTML = ''; // Clear previous suggestions
 
@@ -553,32 +598,49 @@ const displaySuggestions = (suggestions) => {
     title.textContent = 'Job Suggestions for You'; // Title for the suggestions
     suggestedJobsList.appendChild(title); // Append the title to the list
 
-    // Add a Bootstrap list group to contain the suggestions
-    const suggestionContainer = document.createElement('ul');
-    suggestionContainer.className = 'list-group'; // Bootstrap list group class
+    // Function to create a section for suggestions
+    const createSuggestionSection = (sectionTitle, suggestions) => {
+        if (suggestions.length > 0) {
+            const section = document.createElement('div');
+            const sectionHeader = document.createElement('h5');
+            sectionHeader.className = 'text-secondary'; // Bootstrap classes for styling
+            sectionHeader.textContent = sectionTitle;
+            section.appendChild(sectionHeader);
 
-    suggestions.forEach(suggestion => {
-        const li = document.createElement('li');
-        li.className = 'list-group-item list-group-item-action d-flex align-items-center'; // Bootstrap classes for list items
-        li.textContent = suggestion; // Set the text content to the suggestion
-        
-        // Optionally, add icons for visual interest
-        const icon = document.createElement('span');
-        icon.className = 'me-2'; // Bootstrap margin class for spacing
-        icon.innerHTML = '🔔'; // You can use an icon library like Font Awesome for better icons
+            const suggestionContainer = document.createElement('ul');
+            suggestionContainer.className = 'list-group'; // Bootstrap list group class
 
-        li.prepend(icon); // Add the icon to the start of the list item
-        suggestionContainer.appendChild(li); // Append to the list group
-    });
+            suggestions.forEach(suggestion => {
+                const li = document.createElement('li');
+                li.className = 'list-group-item list-group-item-action d-flex align-items-center'; // Bootstrap classes for list items
+                li.textContent = suggestion;
+                suggestionContainer.appendChild(li);
+            });
 
-    suggestedJobsList.appendChild(suggestionContainer); // Append the suggestion container to the list
+            section.appendChild(suggestionContainer);
+            suggestedJobsList.appendChild(section); // Append the section to the main list
+        }
+    };
+
+    // Create sections for each category of suggestions
+    createSuggestionSection('Saved Jobs Suggestions', categorizedSuggestions.savedJobs);
+    createSuggestionSection('Application Suggestions', categorizedSuggestions.applications);
+    createSuggestionSection('Recent Job Suggestions', categorizedSuggestions.recentJobs);
+    createSuggestionSection('Preferences Suggestions', categorizedSuggestions.preferences);
+    createSuggestionSection('Networking Suggestions', categorizedSuggestions.networking);
+    createSuggestionSection('Profile Completeness Suggestions', categorizedSuggestions.profileCompleteness);
+    createSuggestionSection('Skills Improvement Suggestions', categorizedSuggestions.skillsImprovement);
+    createSuggestionSection('Location-Based Suggestions', categorizedSuggestions.location);
+    createSuggestionSection('Motivational Suggestions', categorizedSuggestions.motivational);
 };
+
 
 
 // Generate suggestions and display them
 setTimeout(() => {
-    const userSuggestions = generateUserSuggestions(userData, savedJobs, jobData, applicationsData);
-    displaySuggestions(userSuggestions);
+  // Assuming you have the userData, savedJobs, jobData, and applicationsData available, you can call the function like this:
+const categorizedSuggestions = generateUserSuggestions(userData, savedJobs, jobData, applicationsData);
+displaySuggestions(categorizedSuggestions);
 
     console.log(userSuggestions);
 }, 2000); // 2000 milliseconds = 2 seconds
