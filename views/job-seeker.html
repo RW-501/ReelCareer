@@ -614,22 +614,24 @@ const generateUserSuggestions = (userData, savedJobs, jobData, applicationsData,
         });
 
         savedJobsWithTimestamps.forEach(savedJob => {
-            if (savedJob.savedAt) {
+    // Check if savedJob is defined and has the necessary properties
+    if (savedJob && savedJob.savedAt && savedJob.title) {
         const daysSinceSaved = Math.floor((Date.now() - savedJob.savedAt.seconds * 1000) / (1000 * 60 * 60 * 24));
+
         categorizedSuggestions.savedJobs.push(`It has been ${daysSinceSaved} days since you saved the job "${savedJob.title}".`);
+
+        // Additional suggestions based on the number of days since saved
+        if (daysSinceSaved > 14) {
+            categorizedSuggestions.savedJobs.push(`Consider checking for updates on "${savedJob.title}" since it has been over 2 weeks since you saved it.`);
+        }
+
+        if (daysSinceSaved < 30) {
+            categorizedSuggestions.savedJobs.push(`Don't miss out on "${savedJob.title}". Have you considered applying yet?`);
+        }
     } else {
-        console.warn(`Missing savedAt for job "${savedJob.title}"`);
+        console.warn(`Missing data for savedJob: ${JSON.stringify(savedJob)}`);
     }
-            categorizedSuggestions.savedJobs.push(`It has been ${daysSinceSaved} days since you saved the job "${savedJob.title}".`);
-
-            if (daysSinceSaved > 14) {
-                categorizedSuggestions.savedJobs.push(`Consider checking for updates on "${savedJob.title}" since it has been over 2 weeks since you saved it.`);
-            }
-
-            if (daysSinceSaved < 30) {
-                categorizedSuggestions.savedJobs.push(`Don't miss out on "${savedJob.title}". Have you considered applying yet?`);
-            }
-        });
+});
 
         categorizedSuggestions.savedJobs.push(`You currently have ${savedJobs.length} saved jobs. Regularly reviewing them can help you stay updated!`);
 
