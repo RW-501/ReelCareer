@@ -111,7 +111,7 @@
                 </div>
             </div>
 
-            
+
     <div class="row">
 
         <!-- Resumes Section -->
@@ -417,15 +417,13 @@ const viewJob = (jobId) => {
 const generateUserSuggestions = (userData, savedJobs, jobData, applicationsData) => {
     const suggestions = [];
 
-    // 1. Check applications status
-    const activeApplications = applicationsData.filter(app => app.status[0].status === 'active');
-    if (activeApplications.length > 0) {
-        suggestions.push('You have active applications. Consider following up with the recruiters.');
-    } else {
-        suggestions.push('You have no active applications. Explore more job opportunities!');
+    // Check if jobData is an array
+    if (!Array.isArray(jobData)) {
+        console.error("jobData is not an array", jobData);
+        return suggestions; // Return an empty array if jobData is not valid
     }
 
-    // 2. Analyze saved jobs
+    // Check saved jobs
     if (savedJobs.length > 0) {
         suggestions.push('You have saved jobs. Make sure to check them regularly for updates.');
         
@@ -436,36 +434,15 @@ const generateUserSuggestions = (userData, savedJobs, jobData, applicationsData)
         }).filter(Boolean);
 
         if (jobTitles.length > 0) {
-            suggestions.push(`Based on your saved jobs, consider applying for other roles related to: ${jobTitles.join(', ')}.`);
+            suggestions.push(`You have saved the following jobs: ${jobTitles.join(', ')}.`);
         }
-    } else {
-        suggestions.push('Consider saving jobs that interest you to apply later.');
     }
 
-    // 3. Job trends analysis
-    const trendingJobs = jobData.filter(job => job.isTrending); // Assuming jobData contains a field `isTrending`
-    if (trendingJobs.length > 0) {
-        suggestions.push('Check out these trending job opportunities in your field:');
-        trendingJobs.forEach(job => {
-            suggestions.push(`- ${job.title} at ${job.companyName}`);
-        });
-    }
-
-    // 4. Completion rate analysis
-    const applicationCount = applicationsData.length;
-    const savedJobsCount = savedJobs.length;
-
-    if (applicationCount < savedJobsCount) {
-        suggestions.push('You have more saved jobs than applications submitted. Try applying to some of your saved jobs!');
-    } else if (applicationCount === 0) {
-        suggestions.push('Consider submitting applications to jobs that match your profile.');
-    }
-
-    // 5. Personalized notifications
-    suggestions.push('Don\'t forget to update your resume and profile regularly to attract more opportunities!');
-
+    // Additional suggestion logic can go here...
+    
     return suggestions;
 };
+
 
 /*
 // Example usage:
