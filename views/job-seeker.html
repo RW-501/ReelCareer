@@ -544,9 +544,9 @@ document.getElementById('videoResumeUploadForm').onsubmit = function(event) {
                 const li = document.createElement('li');
                 li.className = 'list-group-item';
                 li.innerHTML = `
-                    <strong>${jobData.jobTitle}</strong> at <em>${jobData.companyName}</em>
+                    <strong>${jobData.title}</strong> at <em>${jobData.company}</em>
                     <p>Location: ${jobData.location || 'N/A'}</p>
-                    <p>Posted on: ${jobData.postedDate || 'N/A'}</p>
+                    <p>Posted on: ${jobData.createdAt || 'N/A'}</p>
                     <div>
                         <button class="btn btn-danger btn-sm" id="remove-${jobId}">Remove</button>
                         <button class="btn btn-primary btn-sm" id="view-${jobId}">View Job</button>
@@ -590,8 +590,8 @@ document.getElementById('videoResumeUploadForm').onsubmit = function(event) {
 // Function to view a job (could redirect to a job detail page)
 const viewJob = (jobId) => {
     // Logic to navigate to the job detail page
-    console.log(`Navigating to job detail for ID: ${jobId}`);
-    // For example: window.location.href = `/job-detail/${jobId}`;
+  //  console.log(`Navigating to job detail for ID: ${jobId}`);
+    window.location.href = `/job-detail?=${jobId}`;
 };
 
 
