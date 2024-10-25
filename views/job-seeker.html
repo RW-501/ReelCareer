@@ -60,6 +60,8 @@
 <!-- Bootstrap Bundle with Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://mozilla.github.io/pdf.js/build/pdf.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
 
     <!-- Bootstrap CSS -->
     <script src="../public/js/scripts.js"></script>
@@ -698,6 +700,37 @@ const togglePreference = (category) => {
     preferences[category] = !preferences[category]; // Toggle the preference
     savePreferencesToLocalStorage(preferences); // Save the updated preferences to local storage
 };
+// Define the function that handles the file upload
+function handleFileUpload(event) {
+    const file = event.target.files[0]; // Get the first file from the input
+
+    // Check if a file is selected
+    if (file) {
+        parseFile(file); // Call your file parsing function
+    } else {
+        console.log("No file selected.");
+    }
+}
+
+// Function to parse the uploaded file (ensure this function exists)
+async function parseFile(file) {
+    // Your existing file parsing logic goes here...
+    // This could include checking the file type, parsing text, PDF, Word, etc.
+    const fileType = file.type;
+
+    if (fileType.includes('text/plain')) {
+        parseTxt(file);
+    } else if (fileType.includes('application/pdf')) {
+        await parsePdf(file);
+    } else if (fileType.includes('application/vnd.openxmlformats-officedocument.wordprocessingml.document') || file.name.endsWith('.docx')) {
+        await parseWord(file);
+    } else {
+        alert('Unsupported file format');
+    }
+}
+
+// Add the event listener after defining the function
+document.getElementById('resume-input').addEventListener('change', handleFileUpload);
 
 // Set up the event listener for file input
 document.getElementById('resume-input').addEventListener('change', handleFileUpload);
