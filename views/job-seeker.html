@@ -656,7 +656,6 @@ const displaySuggestions = (categorizedSuggestions, preferences) => {
 };
 
 // Initializing the preferences when the page loads
-document.addEventListener('DOMContentLoaded', () => {
     const preferences = getPreferencesFromLocalStorage();
 
     // Log preferences to ensure they're retrieved correctly
@@ -681,7 +680,7 @@ document.addEventListener('DOMContentLoaded', () => {
             displaySuggestions(categorizedSuggestions, preferences);
         }
     }, 2000); // 2000 milliseconds = 2 seconds
-});
+
 
 
 
