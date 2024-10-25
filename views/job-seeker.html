@@ -1094,7 +1094,7 @@ async function parseWord(file) {
 
 function extractBulletedList(text) {
     // Define regex to match common bullet points, numbered lists, and indicators
-    const bulletRegex = /(?:[\u2022\u2023\u25AA\u25AB\*\-\•]|(\d+\.)|•)\s*(.+?)(?=\n|$)/g;
+    const bulletRegex = /(?:[\u2022\u2023\u25AA\u25AB\*\-\•]|(\d+\.)|•)\s*(.+?)(?=\n|\r|\r\n|$)/g;
     const matches = [];
     let match;
 
@@ -1163,7 +1163,11 @@ const useOldFormat = true; // Change to false if using the new format
     
     const experienceMatch = text.match(experienceRegex);
     if (experienceMatch) {
-        extractedData.experience = experienceMatch[1].trim();
+
+        bulletPoints =  extractBulletedList( experienceMatch[1].trim());
+        extractedData.experience = bulletPoints;
+        
+console.log("bulletPoints   ",bulletPoints);
     }
 
     const educationMatch = text.match(educationRegex);
