@@ -414,6 +414,14 @@ const viewJob = (jobId) => {
     // For example: window.location.href = `/job-detail/${jobId}`;
 };
 
+// Generate suggestions and display them after a 2-second delay
+setTimeout(() => {
+    const userSuggestions = generateUserSuggestions(userData, savedJobs, jobData, applicationsData);
+    displaySuggestions(userSuggestions);
+
+    console.log(userSuggestions);
+}, 2000); // 2000 milliseconds = 2 seconds
+
 
 
 
@@ -696,14 +704,6 @@ const displaySuggestions = (suggestions) => {
         suggestedJobsList.appendChild(li); // Append to the list
     });
 };
-
-// Generate suggestions and display them after a 2-second delay
-setTimeout(() => {
-    const userSuggestions = generateUserSuggestions(userData, savedJobs, jobData, applicationsData);
-    displaySuggestions(userSuggestions);
-
-    console.log(userSuggestions);
-}, 2000); // 2000 milliseconds = 2 seconds
 
 
 
