@@ -52,14 +52,36 @@ function formatLocation(location, options = {}) {
   }
   
   function formatDateString(dateString) {
+    // Attempt to create a Date object
     const date = new Date(dateString);
+
+    // Check if the date is valid
+    if (isNaN(date.getTime())) {
+        // Handle cases where dateString may be in an unrecognized format
+        const regex = /^\d{4}-\d{2}-\d{2}$/; // YYYY-MM-DD format
+        if (regex.test(dateString)) {
+            // If in YYYY-MM-DD format, split and create a date
+            const parts = dateString.split("-");
+            const formattedDate = new Date(parts[0], parts[1] - 1, parts[2]);
+            return formattedDate.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+        } else {
+            // Return a default value for unrecognized formats
+            return "Invalid date";
+        }
+    }
+
+    // If date is valid, format it and return
     return date.toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
     });
-  }
-  
+}
+
 
   
   /*
