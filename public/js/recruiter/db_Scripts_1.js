@@ -1247,8 +1247,9 @@ const sortApplications = (applications, sortCriteria) => {
               return (a.jobTitle || '').localeCompare(b.jobTitle || '');
           case "companyName": 
               return (a.companyName || '').localeCompare(b.companyName || '');
-          case "applicantName": 
-              return (`${a.firstName || ''} ${a.lastName || ''}`).localeCompare(`${b.firstName || ''} ${b.lastName || ''}`);
+              case "applicantName": 
+              return `${a.firstName || ''} ${a.lastName || ''}`.localeCompare(`${b.firstName || ''} ${b.lastName || ''}`);
+          
           default: 
               return 0; // No sorting if criteria is unrecognized
       }
@@ -1273,8 +1274,8 @@ const getBoostedStyle = (isBoosted) => {
 // Group Applications by Job Title and Company
 const groupApplicationsByJob = (applications) => {
   return applications.reduce((acc, app) => {
-      const key = `${app.jobTitle}|${app.companyName}`;
-      (acc[key] = acc[key] || []).push(app);
+    const key = `${app.jobTitle}|${app.companyName}`;
+    (acc[key] = acc[key] || []).push(app);
       return acc;
   }, {});
 };
@@ -1560,11 +1561,14 @@ function renderApplication(applicantId, status, applicationHTML) {
 
   // Function to normalize status
   function getStatusKey(status) {
+
     for (const [key, variations] of Object.entries(statusMappings)) {
       if (variations.includes(status.toLowerCase())) {
         return key; // Return the standard status key if a match is found
       }
-    }
+    }  
+
+
     return null; // Return null if no matching status is found
   }
 
@@ -1584,6 +1588,10 @@ function renderApplication(applicantId, status, applicationHTML) {
   } else {
     console.error(`Unknown status: ${status}`);
   }
+  return 
+  ;
+  
+
 }
 
 // Example of filtering and sorting logic
@@ -1615,6 +1623,8 @@ function filterAndSortApplications() {
         shouldDisplay = false;
       }
     }
+
+    // Apply search filter
 
     // Apply search filter
     if (searchQuery && !applicantName.includes(searchQuery) && !jobTitle.includes(searchQuery)) {
