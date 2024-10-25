@@ -643,29 +643,33 @@ const displaySuggestions = (categorizedSuggestions, preferences) => {
 // Initializing the preferences when the page loads
 document.addEventListener('DOMContentLoaded', () => {
     const preferences = getPreferencesFromLocalStorage();
+    setTimeout(() => {
 
     // Assuming you have the userData, savedJobs, jobData, and applicationsData available
     const categorizedSuggestions = generateUserSuggestions(userData, savedJobs, jobData, applicationsData, preferences);
     displaySuggestions(categorizedSuggestions, preferences);
+
+    console.log(userSuggestions);
+}, 2000); // 2000 milliseconds = 2 seconds
+
+
+
+
 });
 
-
-// Example: Call this function when a user interacts with a toggle switch for categories
-// togglePreference('Saved Jobs Suggestions'); // Call this function to toggle the saved jobs suggestions
-
-// Generate suggestions and display them
-setTimeout(() => {
-  // Assuming you have the userData, savedJobs, jobData, and applicationsData available, you can call the function like this:
-// Example to save preferences when the user toggles a suggestion category
 const togglePreference = (category) => {
     const preferences = getPreferencesFromLocalStorage();
     preferences[category] = !preferences[category]; // Toggle the preference
     savePreferencesToLocalStorage(preferences); // Save the updated preferences to local storage
 };
 
-    console.log(userSuggestions);
-}, 2000); // 2000 milliseconds = 2 seconds
 
+// Example: Call this function when a user interacts with a toggle switch for categories
+// togglePreference('Saved Jobs Suggestions'); // Call this function to toggle the saved jobs suggestions
+
+// Generate suggestions and display them
+  // Assuming you have the userData, savedJobs, jobData, and applicationsData available, you can call the function like this:
+// Example to save preferences when the user toggles a suggestion category
 
 
 
