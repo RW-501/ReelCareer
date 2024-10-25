@@ -934,18 +934,21 @@ async function parseWord(file) {
 
 
 function extractBulletedList(text) {
-    // Define regex to match common bullet points or list indicators
-    const bulletRegex = /[\u2022\u2023\u25AA\u25AB\*\-\•]?\s*(.+?)(?=\n|$)/g;
+    // Define regex to match common bullet points, numbered lists, and indicators
+    const bulletRegex = /(?:[\u2022\u2023\u25AA\u25AB\*\-\•]|(\d+\.)|•)\s*(.+?)(?=\n|$)/g;
     const matches = [];
     let match;
 
     // Use regex to find all matches
     while ((match = bulletRegex.exec(text)) !== null) {
-        matches.push(match[1].trim());
+        // Push the matched content to the array, trimming whitespace
+        matches.push(match[2] ? match[2].trim() : match[0].trim());
     }
 
-    return matches;
+    // Return the cleaned array of matches, excluding empty entries
+    return matches.filter(item => item !== '');
 }
+
 
 function displayInEditableDiv(text) {
     // Determine if old format is being used (you can adjust this condition as needed)
