@@ -701,36 +701,53 @@ const togglePreference = (category) => {
 
 // Set up the event listener for file input
 document.getElementById('resume-input').addEventListener('change', handleFileUpload);
+// Main function to parse different file types with progress indication
+async function parseFile(file) {
+    const fileType = file.type;
 
-async function handleFileUpload(event) {
-    const file = event.target.files[0];
-    if (!file) return;
+    // Show progress bar
+    showProgressBar();
+    
+    try {
+        if (file.size > 5 * 1024 * 1024) {
+            showToast('File is too large, please upload a file smaller than 5MB', 'error');
+            hideProgressBar();
+            return;
+        }
 
-    const fileExtension = file.name.split('.').pop().toLowerCase();
-
-    if (fileExtension === 'pdf') {
-        // Process PDF files using PDF.js
-        parsePdf(file);
-    } else if (fileExtension === 'txt') {
-        // Process plain text files
-        parseTxt(file);
-    } else {
-        alert('Please upload a .pdf or .txt file');
+        if (fileType.includes('text/plain')) {
+            await parseTxt(file);
+        } else if (fileType.includes('application/pdf')) {
+            await parsePdf(file);
+        } else if (fileType.includes('application/vnd.openxmlformats-officedocument.wordprocessingml.document') || file.name.endsWith('.docx')) {
+            await parseWord(file);
+        } else {
+            showToast('Unsupported file format', 'error');
+        }
+    } catch (error) {
+        showToast('An error occurred while parsing the file', 'error');
+        console.error(error);
+    } finally {
+        // Hide progress bar with a slight delay
+        setTimeout(hideProgressBar, 500);
     }
 }
 
-function parseTxt(file) {
+// Function to parse plain text files (.txt)
+async function parseTxt(file) {
     const reader = new FileReader();
     reader.onload = (e) => {
         const text = e.target.result;
         displayInEditableDiv(text);
+        showToast('Text file parsed successfully', 'success');
     };
+    reader.onerror = () => showToast('Failed to parse text file', 'error');
     reader.readAsText(file);
 }
 
+// Function to parse PDF files with a timeout and pdfjsLib
 async function parsePdf(file) {
     const pdfData = await file.arrayBuffer();
-
     const pdf = await pdfjsLib.getDocument({ data: pdfData }).promise;
     let textContent = '';
 
@@ -742,8 +759,28 @@ async function parsePdf(file) {
     }
 
     displayInEditableDiv(textContent);
+    showToast('PDF parsed successfully', 'success');
 }
 
+// Function to parse Word files (.docx) using the docx library with a timeout
+async function parseWord(file) {
+    const arrayBuffer = await file.arrayBuffer();
+    const zip = new JSZip();
+    const doc = await zip.loadAsync(arrayBuffer);
+    const documentXml = await doc.file("word/document.xml").async("string");
+
+    const parser = new DOMParser();
+    const xmlDoc = parser.parseFromString(documentXml, "application/xml");
+    const paragraphs = xmlDoc.getElementsByTagName("w:t");
+    let textContent = '';
+
+    for (let i = 0; i < paragraphs.length; i++) {
+        textContent += paragraphs[i].textContent + ' ';
+    }
+
+    displayInEditableDiv(textContent);
+    showToast('Word document parsed successfully', 'success');
+}
 
 function displayInEditableDiv(text) {
 
@@ -811,11 +848,104 @@ document.getElementById('main-resume').innerHTML = formattedText;
 }
 
 
+// Progress Bar UI Functions
+function showProgressBar() {
+    const progressBar = document.getElementById('progress-bar');
+    progressBar.style.display = 'block';
+}
+
+function hideProgressBar() {
+    const progressBar = document.getElementById('progress-bar');
+    progressBar.style.display = 'none';
+}
 
 
+// Add these styles for progress bar and toast notifications
+document.head.insertAdjacentHTML("beforeend", `
+    <style>
+        /* File Upload Container */
+.file-upload-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: Arial, sans-serif;
+    margin: 20px 0;
+}
+
+/* Label Button Styling */
+.file-upload-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    font-weight: 500;
+}
+
+.file-upload-label:hover {
+    background-color: #0056b3;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.file-upload-label span::before {
+    content: "📄"; /* Add an icon before the label text */
+    margin-right: 8px;
+}
+
+/* Hide the native file input */
+.file-upload-label input[type="file"] {
+    display: none;
+}
+
+/* Display Selected File Name */
+.file-name-display {
+    font-size: 14px;
+    color: #666;
+}
+
+/* Hover and Focus States */
+.file-upload-label:focus-within {
+    outline: 2px solid #0056b3;
+    outline-offset: 2px;
+}
+
+/* Media Query for Responsive Text */
+@media (max-width: 600px) {
+    .file-upload-label {
+        font-size: 14px;
+        padding: 10px 16px;
+    }
+    .file-name-display {
+        font-size: 13px;
+    }
+}
+
+        #progress-bar {
+            display: none;
+            width: 100%;
+            height: 4px;
+            background: #4caf50;
+            animation: load 2s linear infinite;
+        }
+   
+        @keyframes load {
+            0% { width: 0; }
+            100% { width: 100%; }
+        }
+    </style>
+`);
 
 
-
+document.getElementById("resumeUpload").addEventListener("change", function() {
+    const fileNameDisplay = document.getElementById("file-name-display");
+    const fileName = this.files[0] ? this.files[0].name : "No file chosen";
+    fileNameDisplay.textContent = fileName;
+});
 
 
 
