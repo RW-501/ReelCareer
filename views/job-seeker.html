@@ -424,31 +424,37 @@ const viewJob = (jobId) => {
 
 
 
-
-
 const generateUserSuggestions = (userData, savedJobs, jobData, applicationsData) => {
     const suggestions = [];
-
-    // Check if jobData is an array
+    
+    // Check if jobData is valid
     if (!Array.isArray(jobData)) {
         console.error("jobData is not an array", jobData);
         return suggestions; // Return an empty array if jobData is not valid
     }
 
     // Initialize totalApplications and totalViews
-    let totalApplications = applicationsData.length;
-    let totalViews = applicationsData.reduce((acc, application) => acc + application.views, 0);
+    const totalApplications = applicationsData.length;
+    const totalViews = applicationsData.reduce((acc, application) => acc + application.views, 0);
+
+    // Function to format time since last login
+    const timeSinceLastLogin = (lastLogin) => {
+        const lastLoginDate = new Date(lastLogin.seconds * 1000); // Convert seconds to milliseconds
+        const now = new Date();
+        const differenceInDays = Math.floor((now - lastLoginDate) / (1000 * 60 * 60 * 24));
+        return differenceInDays === 0 ? 'today' : `${differenceInDays} days ago`;
+    };
+
+    // Add last login suggestion
+    if (userData.lastLogin) {
+        suggestions.push(`Welcome back! Your last login was ${timeSinceLastLogin(userData.lastLogin)}.`);
+    }
 
     // Check saved jobs
     if (savedJobs.length > 0) {
         suggestions.push('You have saved jobs. Make sure to check them regularly for updates.');
 
-        // Suggest similar jobs based on saved jobs
-        const jobTitles = savedJobs.map(jobId => {
-            const job = jobData.find(job => job.id === jobId);
-            return job ? job.title : null;
-        }).filter(Boolean);
-
+        const jobTitles = savedJobs.map(jobId => jobData.find(job => job.id === jobId)?.title).filter(Boolean);
         if (jobTitles.length > 0) {
             suggestions.push(`You have saved the following jobs: ${jobTitles.join(', ')}.`);
         }
@@ -458,21 +464,18 @@ const generateUserSuggestions = (userData, savedJobs, jobData, applicationsData)
     if (totalApplications > 0) {
         suggestions.push(`You have submitted a total of ${totalApplications} applications.`);
 
-        // Suggest checking the status of applications
         const activeApplications = applicationsData.filter(app => app.status === 'active').length;
         if (activeApplications > 0) {
             suggestions.push(`You have ${activeApplications} active applications. Consider following up!`);
         }
 
-        // Suggest improving application views
         if (totalViews < totalApplications * 2) {
             suggestions.push('Consider revisiting your applications to improve visibility and engagement.');
         }
 
-        // Suggest trends based on application data
         const highViewJobs = applicationsData.filter(app => app.views > 10); // Example threshold
         if (highViewJobs.length > 0) {
-            const highViewJobTitles = highViewJobs.map(app => jobData.find(job => job.id === app.jobId).title).join(', ');
+            const highViewJobTitles = highViewJobs.map(app => jobData.find(job => job.id === app.jobId)?.title).join(', ');
             suggestions.push(`Jobs that have received high views recently: ${highViewJobTitles}. Consider applying!`);
         }
     } else {
@@ -482,9 +485,7 @@ const generateUserSuggestions = (userData, savedJobs, jobData, applicationsData)
     // Suggest jobs based on recent postings
     const recentJobs = jobData.filter(job => {
         const postedDate = new Date(job.postedDate);
-        const today = new Date();
-        const daysSincePosted = Math.floor((today - postedDate) / (1000 * 60 * 60 * 24));
-        return daysSincePosted <= 7; // Adjust this to change the time frame for recent postings
+        return (new Date() - postedDate) / (1000 * 60 * 60 * 24) <= 7; // Within the last 7 days
     });
 
     if (recentJobs.length > 0) {
@@ -504,7 +505,7 @@ const generateUserSuggestions = (userData, savedJobs, jobData, applicationsData)
         }
     }
 
-    // Suggest networking opportunities if the user has saved jobs or applications
+    // Suggest networking opportunities
     if (savedJobs.length > 0 || totalApplications > 0) {
         suggestions.push('Consider reaching out to professionals in your network for job referrals!');
     }
@@ -514,12 +515,12 @@ const generateUserSuggestions = (userData, savedJobs, jobData, applicationsData)
         suggestions.push('Your profile is not fully complete. Consider adding more information to enhance visibility.');
     }
 
-    // Suggest skills improvement if the user has job preferences
+    // Suggest skills improvement
     if (userData.preferences && userData.preferences.skills.length > 0) {
         suggestions.push('To enhance your job prospects, consider improving your skills in areas like: ' + userData.preferences.skills.join(', ') + '.');
     }
 
-    // Suggesting popular job locations based on userData
+    // Suggesting popular job locations
     if (userData.location) {
         const popularJobs = jobData.filter(job => job.location === userData.location);
         if (popularJobs.length > 0) {
@@ -531,7 +532,7 @@ const generateUserSuggestions = (userData, savedJobs, jobData, applicationsData)
     // Adding motivational messages based on user activity
     if (totalApplications < 5) {
         suggestions.push('Remember, persistence is key! Keep applying to increase your chances.');
-    } else if (totalApplications >= 5 && totalApplications < 10) {
+    } else if (totalApplications < 10) {
         suggestions.push('Great job on your applications! Keep up the good work and don’t hesitate to explore more opportunities.');
     } else {
         suggestions.push('Impressive! You’re actively pursuing your job search. Stay focused and you’ll find the right opportunity soon.');
