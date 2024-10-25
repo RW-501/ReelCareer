@@ -822,6 +822,42 @@ const referencesMatch = text.match(referencesRegex);
 const addressMatch = text.match(addressRegex);
 const socialLinksMatch = text.match(socialLinksRegex);
 
+
+// Retrieve user data from local storage
+const userData = JSON.parse(localStorage.getItem("userData")) || {};
+
+// Define field mappings for regex matches to user profile fields
+const fieldMappings = {
+    name: nameMatch ? nameMatch[0] : "",
+    contact: contactMatch ? contactMatch[0] : "",
+    experience: experienceMatch ? experienceMatch[0] : "",
+    education: educationMatch ? educationMatch[0] : "",
+    skills: skillsMatch ? skillsMatch[0].split(',') : [],
+    certifications: certificationsMatch ? certificationsMatch[0] : "",
+    languages: languagesMatch ? languagesMatch[0] : "",
+    achievements: achievementsMatch ? achievementsMatch[0] : "",
+    summary: summaryMatch ? summaryMatch[0] : "",
+    objective: objectiveMatch ? objectiveMatch[0] : "",
+    mission: missionMatch ? missionMatch[0] : "",
+    trade: tradeMatch ? tradeMatch[0] : "",
+    interests: [...(hobbiesMatch ? hobbiesMatch[0].split(',') : []), ...(interestsMatch ? interestsMatch[0].split(',') : [])],
+    references: referencesMatch ? referencesMatch[0] : "",
+    address: addressMatch ? addressMatch[0] : "",
+    socialLinks: socialLinksMatch ? socialLinksMatch[0] : ""
+};
+
+// Required fields for a complete profile
+const requiredFields = ["bio", "github", "linkedin", "portfolio", "position", "skills", "interests"];
+
+// Find missing fields
+const missingFields = requiredFields.filter(field => !userData[field] || userData[field].trim() === "");
+
+// Dynamically show missing fields pop-up
+if (missingFields.length > 0) {
+    showMissingFieldsPopup(missingFields);
+}
+
+
 // Display parsed results in the editable div
 const formattedText = `
     <strong>Name:</strong> ${nameMatch ? nameMatch[1] : 'N/A'}<br>
@@ -859,10 +895,104 @@ function hideProgressBar() {
     progressBar.style.display = 'none';
 }
 
+// Function to show a pop-up for missing fields
+function showMissingFieldsPopup(missingFields) {
+    const popup = document.createElement("div");
+    popup.classList.add("missing-fields-popup");
+
+    popup.innerHTML = `
+        <h3>Complete Your Profile</h3>
+        <p>We noticed some fields are missing. Would you like to add the following information?</p>
+        <ul>
+            ${missingFields.map(field => `<li>${field.charAt(0).toUpperCase() + field.slice(1)}</li>`).join("")}
+        </ul>
+        <button id="completeProfileBtn">Yes, Complete Profile</button>
+        <button id="dismissPopupBtn">No, Maybe Later</button>
+    `;
+
+    document.body.appendChild(popup);
+
+    // Add event listeners
+    document.getElementById("completeProfileBtn").addEventListener("click", () => {
+        openProfileEditForm(missingFields);
+        popup.remove();
+    });
+
+    document.getElementById("dismissPopupBtn").addEventListener("click", () => {
+        popup.remove();
+    });
+}
+
+
+function openProfileEditForm(missingFields) {
+    const formContainer = document.createElement("div");
+    formContainer.classList.add("profile-edit-form");
+
+    formContainer.innerHTML = `
+        <h3>Fill in Your Information</h3>
+        <form id="profileForm">
+            ${missingFields.map(field => `
+                <label for="${field}">${field.charAt(0).toUpperCase() + field.slice(1)}:</label>
+                <input type="text" id="${field}" name="${field}" placeholder="Enter your ${field}">
+            `).join("")}
+            <button type="submit">Save</button>
+        </form>
+    `;
+
+    document.body.appendChild(formContainer);
+
+    document.getElementById("profileForm").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const updatedData = {};
+
+        missingFields.forEach(field => {
+            const fieldValue = document.getElementById(field).value.trim();
+            if (fieldValue) {
+                updatedData[field] = fieldValue;
+            }
+        });
+
+        // Save updated data in Firestore under Users collection
+        await saveToFirestore(updatedData);
+        
+        // Update local storage
+        Object.assign(userData, updatedData);
+        localStorage.setItem("userData", JSON.stringify(userData));
+        
+        showToast("Profile updated successfully!");
+        formContainer.remove();
+    });
+}
+
+async function saveToFirestore(updatedData) {
+    try {
+        const userId = userData.userID;
+        const userDocRef = firebase.firestore().collection("Users").doc(userId);
+        await userDocRef.update(updatedData);
+    } catch (error) {
+        showToast("Error saving data. Please try again.", "error");
+        console.error("Error saving data to Firestore:", error);
+    }
+}
 
 // Add these styles for progress bar and toast notifications
 document.head.insertAdjacentHTML("beforeend", `
     <style>
+
+
+
+        /* Missing Fields Popup */
+.missing-fields-popup, .profile-edit-form {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+}
         /* File Upload Container */
 .file-upload-container {
     display: flex;
