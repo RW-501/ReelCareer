@@ -1385,6 +1385,10 @@ const renderApplicationHTML = (application, jobTitle, companyName) => {
     </div>
   `;
 };
+
+
+
+
 async function fetchJobApplications(jobIDs) {
   jobIDs = removeUndefined(jobIDs);
   
