@@ -481,6 +481,15 @@ document.head.insertAdjacentHTML("beforeend", `
     margin-top: 10px;
 }
 
+
+#applicationsList {
+    position: relative;
+    overflow-y: auto; /* Optional for scrolling */
+}
+
+.viewMoreContainer {
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.1); /* Optional for visual separation */
+}
     </style>
 `);
 
@@ -1737,7 +1746,8 @@ applicationsSnapshot.forEach((doc) => {
 });
 
 let currentIndex = 0;
-function displayApplications() {
+// Function to display applications
+function displayApplications() { 
     const end = Math.min(currentIndex + itemsToShow, applicationsData.length);
     
     for (let i = currentIndex; i < end; i++) {
@@ -1798,28 +1808,42 @@ function displayApplications() {
 
 // Function to add the "View More" button
 function addViewMoreButton() {
-    const existingButton = document.getElementById('viewMoreBtn');
-    if (existingButton) return; // Prevent adding multiple buttons
+    // Check if a "View More" container already exists
+    let viewMoreContainer = document.getElementById('viewMoreContainer');
+    if (!viewMoreContainer) {
+        viewMoreContainer = document.createElement('div');
+        viewMoreContainer.className = 'viewMoreContainer';
+        viewMoreContainer.style.position = 'fixed';
+        viewMoreContainer.style.bottom = '0';
+        viewMoreContainer.style.width = '100%';
+        viewMoreContainer.style.backgroundColor = '#f8f9fa'; // Optional for visibility
+        viewMoreContainer.style.padding = '10px';
+        viewMoreContainer.style.textAlign = 'center';
+        
+        applicationsList.appendChild(viewMoreContainer);
+    }
 
-    const viewMoreButton = document.createElement('button');
-    viewMoreButton.innerText = 'View More';
-    viewMoreButton.className = 'btn btn-secondary mt-3';
-    viewMoreButton.id = 'viewMoreBtn';
+    // Create the "View More" button if it doesn't already exist
+    let viewMoreButton = document.getElementById('viewMoreBtn');
+    if (!viewMoreButton) {
+        viewMoreButton = document.createElement('button');
+        viewMoreButton.innerText = 'View More';
+        viewMoreButton.className = 'btn btn-secondary viewMoreBtn';
+        viewMoreButton.id = 'viewMoreBtn';
 
-    viewMoreButton.addEventListener('click', () => {
-        displayApplications(); // Display the next set of applications
-        if (currentIndex >= applicationsData.length) {
-            viewMoreButton.remove(); // Remove button if no more applications
-        }
-    });
+        viewMoreButton.addEventListener('click', () => {
+            displayApplications(); // Display the next set of applications
+            if (currentIndex >= applicationsData.length) {
+                viewMoreButton.style.display = 'none'; // Hide button if no more applications
+            }
+        });
 
-    applicationsList.appendChild(viewMoreButton);
+        viewMoreContainer.appendChild(viewMoreButton);
+    }
 }
 
 // Initial display of applications
 displayApplications();
-
-
 
 
   
