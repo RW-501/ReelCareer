@@ -501,9 +501,14 @@ const fileUploadPreview = document.getElementById('file-upload-preview');
 resumeInput.addEventListener('change', handleFiles);
 
 function handleFiles() {
-    const files = resumeInput.files;
-    if (files.length > 0) {
-        const fileName = files[0].name;
+    // Ensure these elements are defined
+    const resumeInput = document.getElementById('resumeInput');
+    const fileNameDisplay = document.getElementById('fileNameDisplay');
+    const fileUploadPreview = document.getElementById('fileUploadPreview');
+
+    // Check if resumeInput exists and has files selected
+    if (resumeInput && resumeInput.files.length > 0) {
+        const fileName = resumeInput.files[0].name;
         fileNameDisplay.textContent = fileName;
 
         // Optional: Show a preview if the file is an image
@@ -515,12 +520,15 @@ function handleFiles() {
                 fileUploadPreview.innerHTML = ''; // Clear previous previews
                 fileUploadPreview.appendChild(img);
             };
-            reader.readAsDataURL(files[0]);
+            reader.readAsDataURL(resumeInput.files[0]);
         } else {
             fileUploadPreview.innerHTML = ''; // Clear previous previews
         }
     } else {
-        fileNameDisplay.textContent = 'Upload Resume (PDF, DOC, DOCX)'; // Reset display
+        // Reset the display if no file is selected
+        if (fileNameDisplay) {
+            fileNameDisplay.textContent = 'Upload Resume (PDF, DOC, DOCX)';
+        }
     }
 }
 
