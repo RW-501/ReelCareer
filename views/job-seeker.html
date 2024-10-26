@@ -160,7 +160,6 @@
                     </div>
                     <div class="resume-list mt-3">
                         <p><strong>Uploaded Resumes:</strong></p>
-                        <div id="resumesPreview-1" class="image images"></div>
                             <ul id="resumeList" class="list-group">
                                 <!-- Resumes will be dynamically listed here -->
                         </ul>
@@ -493,23 +492,23 @@ document.head.insertAdjacentHTML("beforeend", `
 }
     </style>
 `);
-
-const resumeInput = document.getElementById('resume-input');
-const fileNameDisplay = document.getElementById('file-name');
-const fileUploadPreview = document.getElementById('file-upload-preview');
+const resumeInput = document.getElementById('resumeInput');
+const fileNameDisplay = document.getElementById('fileNameDisplay');
+const fileUploadPreview = document.getElementById('fileUploadPreview');
+const previewModal = document.getElementById('previewModal');
+const resumePreviewContent = document.getElementById('resumePreviewContent');
+const saveButton = document.getElementById('saveButton');
+const closeButton = document.querySelector('.close-button');
+const resumeTitleInput = document.getElementById('resumeTitle');
+const skillsTagsInput = document.getElementById('skillsTags');
 
 // Handle file selection
 resumeInput.addEventListener('change', handleFiles);
 
 function handleFiles() {
-    // Ensure these elements are defined
-    const resumeInput = document.getElementById('resumeInput');
-    const fileNameDisplay = document.getElementById('fileNameDisplay');
-    const fileUploadPreview = document.getElementById('fileUploadPreview');
-
-    // Check if resumeInput exists and has files selected
-    if (resumeInput && resumeInput.files.length > 0) {
-        const fileName = resumeInput.files[0].name;
+    if (resumeInput.files.length > 0) {
+        const file = resumeInput.files[0];
+        const fileName = file.name;
         fileNameDisplay.textContent = fileName;
 
         // Optional: Show a preview if the file is an image
@@ -521,18 +520,53 @@ function handleFiles() {
                 fileUploadPreview.innerHTML = ''; // Clear previous previews
                 fileUploadPreview.appendChild(img);
             };
-            reader.readAsDataURL(resumeInput.files[0]);
+            reader.readAsDataURL(file);
         } else {
             fileUploadPreview.innerHTML = ''; // Clear previous previews
         }
+
+        // Open the modal for preview
+        openModal(file);
     } else {
-        // Reset the display if no file is selected
-        if (fileNameDisplay) {
-            fileNameDisplay.textContent = 'Upload Resume (PDF, DOC, DOCX)';
-        }
+        fileNameDisplay.textContent = 'Upload Resume (PDF, DOC, DOCX)'; // Reset display
     }
 }
 
+// Open modal to preview the resume
+function openModal(file) {
+    // Prepare modal content
+    resumePreviewContent.innerHTML = `
+        <p>File Name: ${file.name}</p>
+        <p>File Type: ${file.type}</p>
+        <p>File Size: ${file.size} bytes</p>
+    `;
+    previewModal.style.display = 'block'; // Show the modal
+}
+
+// Close the modal
+closeButton.onclick = function () {
+    previewModal.style.display = 'none';
+};
+
+// Handle save action
+saveButton.onclick = function () {
+    const resumeTitle = resumeTitleInput.value;
+    const skillsTags = skillsTagsInput.value.split(',').map(tag => tag.trim()).filter(tag => tag);
+
+    // Handle saving logic here
+    console.log("Saving resume with title:", resumeTitle);
+    console.log("Skills Tags:", skillsTags);
+
+    // Close modal after saving
+    previewModal.style.display = 'none';
+};
+
+// Close modal when clicking outside of it
+window.onclick = function (event) {
+    if (event.target === previewModal) {
+        previewModal.style.display = 'none';
+    }
+};
 // Drag and Drop Functionality
 const fileUploadLabel = document.querySelector('.file-upload-label');
 
@@ -653,7 +687,7 @@ document.getElementById('videoResumeUploadForm').onsubmit = function(event) {
     <!-- Firebase Script for Loading User Data -->
     <script type="module">
         import { onAuthStateChanged, db, auth } from '../public/js/main.js';
-        import { doc,storage, arrayRemove , getDoc, updateDoc,  collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+        import { doc, arrayRemove , getDoc, updateDoc,  collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
         import { getStorage,  ref, uploadBytesResumable, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-storage.js";
 
         // Function to display data dynamically
