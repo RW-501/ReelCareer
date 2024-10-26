@@ -692,7 +692,7 @@ async function displaySavedJobs() {
             li.innerHTML = `
                 <strong>${jobData.title}</strong> at <em>${jobData.company}</em>
                 <p>Location: ${jobData.location || jobData.city + ", " + jobData.state}</p>
-                <p>Posted on: ${formatDateString(jobData.createdAt) || 'N/A'}</p>
+                <p>Deadline: ${formatDateString(jobData.applicationDeadline) || 'N/A'}</p>
                 <div>
                     <button class="btn btn-danger btn-sm" id="remove-${jobId}">Remove</button>
                     <button class="btn btn-primary btn-sm" id="view-${jobId}">View Job</button>
