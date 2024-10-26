@@ -228,8 +228,8 @@
                 </div>
                 <div class="card-body">
                     <p>Your recent job applications:</p>
-                    <div id="applicationsList" style="max-height: 400px; overflow-y: auto;">
-                        <ul class="list-group">
+                    <div id="applicationsList" style="max-height: 400px; ">
+                        <ul class="list-group" style="max-height: 400px; overflow-y: auto;">
                             <!-- Application items will be appended here -->
                         </ul>
                     </div>
@@ -1822,7 +1822,7 @@ function addViewMoreButton() {
         viewMoreContainer = document.createElement('div');
         viewMoreContainer.className = 'viewMoreContainer';
         viewMoreContainer.id = 'viewMoreContainerApps';
-        viewMoreContainer.style.position = 'fixed';
+        viewMoreContainer.style.position = 'block';
         viewMoreContainer.style.bottom = '0';
         viewMoreContainer.style.width = '100%';
         viewMoreContainer.style.backgroundColor = '#f8f9fa'; // Optional for visibility
