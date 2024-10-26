@@ -157,11 +157,12 @@
                         <div class="spinner-border" role="status">
                             <span class="visually-hidden">Loading...</span>
                         </div>
-                    </div>
+                    </div>resumesPreview-1
                     <div class="resume-list mt-3">
                         <p><strong>Uploaded Resumes:</strong></p>
-                        <ul id="resumeList" class="list-group">
-                            <!-- Resumes will be dynamically listed here -->
+                        <div id="resumesPreview-1" class="image images"></div>
+                            <ul id="resumeList" class="list-group">
+                                <!-- Resumes will be dynamically listed here -->
                         </ul>
                     </div>
                     <div id="resumeFeedback" class="alert d-none" role="alert"></div>
@@ -1146,8 +1147,99 @@ const togglePreference = (category) => {
     savePreferencesToLocalStorage(preferences); // Save the updated preferences to local storage
 };
 // Define the function that handles the file upload
-function handleFileUpload(event) {
+async function handleFileUpload(event) {
     const file = event.target.files[0]; // Get the first file from the input
+
+
+
+
+    // Check if the file is a valid type (PDF, DOC/DOCX, or TXT)
+    const validTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'text/plain'];
+    if (!validTypes.includes(file.type)) {
+        showToast("Please upload a PDF, DOC, or TXT file.", "warning");
+        return;
+    }
+
+    // Define document type based on file extension
+    let docType;
+    let previewImageSrc;
+    if (file.type === 'application/pdf') {
+        docType = 'pdf';
+        previewImageSrc = '/path/to/pdf-icon.png';
+    } else if (file.type === 'application/msword' || file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
+        docType = 'doc';
+        previewImageSrc = '/path/to/doc-icon.png';
+    } else if (file.type === 'text/plain') {
+        docType = 'txt';
+        previewImageSrc = '/path/to/txt-icon.png';
+    }
+
+    // Show upload start message
+    showToast("Uploading file...", "info");
+
+    // Create a storage reference and upload the file with progress tracking
+    const storageRef = ref(storage, `users/${userId}/files/${file.name}`);
+    const uploadTask = uploadBytesResumable(storageRef, file);
+
+    uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+            // Calculate upload progress percentage
+            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            console.log(`Upload is ${progress}% done`);
+            // Show progress in a toast or progress bar (optional)
+        },
+        (error) => {
+            console.error("Error uploading file: ", error);
+            showToast("Error uploading file. Please try again.", "error");
+        },
+        async () => {
+            // File upload completed
+            const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+
+            // Define file data object
+            const fileData = {
+                fileName: file.name,
+                docType: docType,
+                notes: notes,
+                fileURL: downloadURL,
+                digitalResume: '',
+                views: 0,
+                tags: '',
+                comments: comments,
+                status: status,
+                createdDate: serverTimestamp(),
+            };
+
+            // Update Firestore document in Users collection
+            const userDocRef = doc(db, "Users", userId);
+            await updateDoc(userDocRef, {
+                resumes: arrayUnion(fileData)
+            });
+
+            showToast("File uploaded and data saved successfully!","success");
+
+            // Display the preview image in the designated div
+            const previewDiv = document.getElementById('resumesPreview-1');
+            if (previewDiv) {
+                // Create an img element for the preview
+                const img = document.createElement('img');
+                img.src = previewImageSrc;
+                img.alt = `${docType} preview`;
+                img.style.width = '100px';
+                img.style.height = 'auto';
+                previewDiv.innerHTML = '';
+                previewDiv.appendChild(img);
+            }
+        }
+    );
+
+
+
+
+
+
+
 
     // Check if a file is selected
     if (file) {
