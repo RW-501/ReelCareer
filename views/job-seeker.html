@@ -1242,6 +1242,9 @@ async function handleFileUpload(event) {
     // Show upload start message
     showToast("Uploading file...", "info");
 
+// Initialize Firebase Storage
+const storage = getStorage();  // This should be defined once globally.
+
     // Create a storage reference and upload the file with progress tracking
     const storageRef = ref(storage, `users/${userId}/files/${file.name}`);
     const uploadTask = uploadBytesResumable(storageRef, file);
