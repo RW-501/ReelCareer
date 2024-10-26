@@ -654,7 +654,8 @@ document.getElementById('videoResumeUploadForm').onsubmit = function(event) {
     <script type="module">
         import { onAuthStateChanged, db, auth } from '../public/js/main.js';
         import { doc, arrayRemove , getDoc, updateDoc,  collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
-    
+        import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-storage.js";
+
         // Function to display data dynamically
         const displayData = async (userId) => {
 
