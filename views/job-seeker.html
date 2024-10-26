@@ -144,7 +144,7 @@
                         <div id="progress-bar" ></div>
                         
                         <div class="file-upload">
-                            <label for="resume-input" class="file-upload-label">
+                            <label for="resume-input" class="file-upload-label" id="fileNameDisplay">
                                 <span id="file-name">Upload Resume (PDF, DOC, DOCX)</span>
                                 <input type="file" class="file-upload-input" id="resume-input" accept=".pdf,.doc,.docx" aria-label="Upload Resume">
                             </label>
@@ -170,7 +170,19 @@
 
 
 
-
+<!-- Modal Structure -->
+<div id="previewModal" class="modal">
+    <div class="modal-content">
+        <span class="close-button">&times;</span>
+        <h2>Resume Preview</h2>
+        <div id="resumePreviewContent"></div>
+        <label for="resumeTitle">Resume Title:</label>
+        <input type="text" id="resumeTitle" placeholder="Enter your resume title" />
+        <label for="skillsTags">Skills Tags:</label>
+        <input type="text" id="skillsTags" placeholder="Add skills (comma-separated)" />
+        <button id="saveButton">Save</button>
+    </div>
+</div>
 
 
 
