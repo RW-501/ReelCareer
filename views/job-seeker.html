@@ -232,6 +232,7 @@
                         <ul class="list-group" style="max-height: 400px; overflow-y: auto;">
                             <!-- Application items will be appended here -->
                         </ul>
+                        <div id="applicationsBottom" ></div>
                     </div>
                     
                 </div>
@@ -1793,7 +1794,7 @@ function displayApplications() {
         `;
 
         applicationsList.appendChild(li);
-
+        
         // Add event listener for the withdraw button
         document.getElementById(`withdraw-${commonAccordionId}`).addEventListener('click', async () => {
             await withdrawApplication(data.id); // Use the correct application ID
@@ -1813,6 +1814,8 @@ function displayApplications() {
         addViewMoreButton();
     }
 }
+let applicationsBottom = document.getElementById('applicationsBottom');
+
 
 // Function to add the "View More" button
 function addViewMoreButton() {
@@ -1829,7 +1832,7 @@ function addViewMoreButton() {
         viewMoreContainer.style.padding = '10px';
         viewMoreContainer.style.textAlign = 'center';
         
-        applicationsList.appendChild(viewMoreContainer);
+        applicationsBottom.appendChild(viewMoreContainer);
     }
 
     // Create the "View More" button if it doesn't already exist
@@ -1847,7 +1850,7 @@ function addViewMoreButton() {
             }
         });
 
-        applicationsList.appendChild(viewMoreButton);
+        viewMoreContainer.appendChild(viewMoreButton);
     }
 }
 
