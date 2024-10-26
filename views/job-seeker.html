@@ -1818,6 +1818,7 @@ function displayApplications() {
 
 // Function to add the "View More" button
 function addViewMoreButton() {
+    let applicationsBottom = document.getElementById('applicationsBottom');
     // Check if a "View More" container already exists
     let viewMoreContainer = document.getElementById('viewMoreContainer');
     if (!viewMoreContainer) {
@@ -1830,7 +1831,6 @@ function addViewMoreButton() {
         viewMoreContainer.style.backgroundColor = '#f8f9fa'; // Optional for visibility
         viewMoreContainer.style.padding = '10px';
         viewMoreContainer.style.textAlign = 'center';
-        let applicationsBottom = document.getElementById('applicationsBottom');
 
         applicationsBottom.appendChild(viewMoreContainer);
     }
