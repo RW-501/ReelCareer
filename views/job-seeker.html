@@ -1523,7 +1523,7 @@ function openProfileEditForm(missingFields) {
         
         const input = document.createElement("input");
         input.type = "text";
-        input.value = fieldMappings[field] || ""; // Populate with data from the resume
+        input.value = missingFields[field] || ""; // Populate with data from the resume
         
         // Align labels and inputs
         editForm.appendChild(fieldLabel);
