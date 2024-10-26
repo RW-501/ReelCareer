@@ -1758,7 +1758,6 @@ let currentIndex = 0;
 // Function to display applications
 function displayApplications() { 
     const end = Math.min(currentIndex + itemsToShow, applicationsData.length);
-    let applicationsBottom = document.getElementById('applicationsBottom');
 
     for (let i = currentIndex; i < end; i++) {
         const data = applicationsData[i];
@@ -1831,7 +1830,8 @@ function addViewMoreButton() {
         viewMoreContainer.style.backgroundColor = '#f8f9fa'; // Optional for visibility
         viewMoreContainer.style.padding = '10px';
         viewMoreContainer.style.textAlign = 'center';
-        
+        let applicationsBottom = document.getElementById('applicationsBottom');
+
         applicationsBottom.appendChild(viewMoreContainer);
     }
 
