@@ -1818,7 +1818,6 @@ function displayApplications() {
 
 // Function to add the "View More" button
 function addViewMoreButton() {
-    let applicationsBottom = document.getElementById('applicationsBottom');
     // Check if a "View More" container already exists
     let viewMoreContainer = document.getElementById('viewMoreContainer');
     if (!viewMoreContainer) {
@@ -1832,7 +1831,7 @@ function addViewMoreButton() {
         viewMoreContainer.style.padding = '10px';
         viewMoreContainer.style.textAlign = 'center';
 
-        applicationsBottom.appendChild(viewMoreContainer);
+        applicationsList.appendChild(viewMoreContainer);
     }
 
     // Create the "View More" button if it doesn't already exist
@@ -1850,7 +1849,7 @@ function addViewMoreButton() {
             }
         });
 
-        viewMoreContainer.appendChild(viewMoreButton);
+        applicationsList.appendChild(viewMoreButton);
     }
 }
 
