@@ -1758,7 +1758,8 @@ let currentIndex = 0;
 // Function to display applications
 function displayApplications() { 
     const end = Math.min(currentIndex + itemsToShow, applicationsData.length);
-    
+    let applicationsBottom = document.getElementById('applicationsBottom');
+
     for (let i = currentIndex; i < end; i++) {
         const data = applicationsData[i];
         const li = document.createElement('li');
@@ -1814,7 +1815,6 @@ function displayApplications() {
         addViewMoreButton();
     }
 }
-let applicationsBottom = document.getElementById('applicationsBottom');
 
 
 // Function to add the "View More" button
