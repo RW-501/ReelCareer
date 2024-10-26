@@ -1736,7 +1736,7 @@ applicationsSnapshot.forEach((doc) => {
     });
 });
 
-
+let currentIndex = 0;
 function displayApplications() {
     const end = Math.min(currentIndex + itemsToShow, applicationsData.length);
     
