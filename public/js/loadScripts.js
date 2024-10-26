@@ -53,15 +53,18 @@ function formatLocation(location, options = {}) {
 
 
 
+  function formatDateString(dateString) {
+    // Ensure dateString is a string
+    if (typeof dateString !== 'string') {
+        dateString = String(dateString);
+    }
 
-
-function formatDateString(dateString) {
-    // First, try to parse with Date
+    // Try to parse with Date object directly
     let date = new Date(dateString);
 
-    // Check if date is invalid
+    // Check if date is valid
     if (isNaN(date.getTime())) {
-        // Try to match the specific format "Month DD, YYYY, at HH:mm:ss AM/PM UTC±HH"
+        // Regex to match "Month DD, YYYY, at HH:mm:ss AM/PM UTC±HH" format
         const regex = /(\w+ \d{1,2}, \d{4}),? at (\d{1,2}:\d{2}:\d{2})\s?(AM|PM) UTC([+-]\d{1,2})/;
         const match = dateString.match(regex);
 
@@ -70,14 +73,21 @@ function formatDateString(dateString) {
             const [ , monthDayYear, time, period, offset ] = match;
 
             // Combine date and time into a standard parseable format
-            const dateString = `${monthDayYear} ${time} ${period}`;
-            date = new Date(dateString);
+            const formattedDateString = `${monthDayYear} ${time} ${period}`;
+            date = new Date(formattedDateString);
 
-            // Adjust for UTC offset
+            // Adjust for UTC offset if applicable
             const offsetHours = parseInt(offset, 10);
             date.setHours(date.getHours() - offsetHours);
         } else {
-            return "Invalid date";
+            // Fallback regex for "YYYY-MM-DD" format
+            const fallbackRegex = /^\d{4}-\d{2}-\d{2}$/;
+            if (fallbackRegex.test(dateString)) {
+                const parts = dateString.split("-");
+                date = new Date(parts[0], parts[1] - 1, parts[2]);
+            } else {
+                return "Invalid date";
+            }
         }
     }
 
@@ -89,6 +99,10 @@ function formatDateString(dateString) {
     });
 }
 
+// Test cases
+console.log(formatDateString("November 19, 2024, at 3:21:48 AM UTC-6")); // Expected: "November 19, 2024"
+console.log(formatDateString("2024-11-19"));                             // Expected: "November 19, 2024"
+console.log(formatDateString(1732032108000));                           // Expected: Date based on timestamp
 
   /*
   'country', 'state', 'city' 'county'
