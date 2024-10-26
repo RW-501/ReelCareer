@@ -50,26 +50,33 @@ function formatLocation(location, options = {}) {
   
     return formattedLocation;
   }
-  
-  function formatDateString(dateString) {
-    // Attempt to create a Date object
-    const date = new Date(dateString);
 
-    // Check if the date is valid
+
+
+
+
+function formatDateString(dateString) {
+    // First, try to parse with Date
+    let date = new Date(dateString);
+
+    // Check if date is invalid
     if (isNaN(date.getTime())) {
-        // Handle cases where dateString may be in an unrecognized format
-        const regex = /^\d{4}-\d{2}-\d{2}$/; // YYYY-MM-DD format
-        if (regex.test(dateString)) {
-            // If in YYYY-MM-DD format, split and create a date
-            const parts = dateString.split("-");
-            const formattedDate = new Date(parts[0], parts[1] - 1, parts[2]);
-            return formattedDate.toLocaleDateString('en-US', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-            });
+        // Try to match the specific format "Month DD, YYYY, at HH:mm:ss AM/PM UTC±HH"
+        const regex = /(\w+ \d{1,2}, \d{4}),? at (\d{1,2}:\d{2}:\d{2})\s?(AM|PM) UTC([+-]\d{1,2})/;
+        const match = dateString.match(regex);
+
+        if (match) {
+            // Destructure matched parts
+            const [ , monthDayYear, time, period, offset ] = match;
+
+            // Combine date and time into a standard parseable format
+            const dateString = `${monthDayYear} ${time} ${period}`;
+            date = new Date(dateString);
+
+            // Adjust for UTC offset
+            const offsetHours = parseInt(offset, 10);
+            date.setHours(date.getHours() - offsetHours);
         } else {
-            // Return a default value for unrecognized formats
             return "Invalid date";
         }
     }
@@ -83,7 +90,6 @@ function formatLocation(location, options = {}) {
 }
 
 
-  
   /*
   'country', 'state', 'city' 'county'
   
