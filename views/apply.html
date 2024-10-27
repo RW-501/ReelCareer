@@ -78,241 +78,229 @@
 
         <app>
 
+          <!-- Applicant Information -->
+          <h3 class="border-bottom pb-2 mb-4">Applicant Information</h3>
+          <div class="form-group  mb-3">
+            <div id="jobPostedByArea" class="mb-4"></div>
 
-
-                  <!-- Applicant Information -->
-                  <h3 class="border-bottom pb-2 mb-4">Applicant Information</h3>
-                  <div class="form-group  mb-3">
-                    <div id="jobPostedByArea" class="mb-4"></div>
-                    
-                  <div class="row">
-                    <div class="col-md-6 mb-3">
-                      <div class="form-group">
-                        <label for="firstName" class="font-weight-bold">First Name</label>
-                        <input type="text" id="firstName" class="form-control" required>
-                        <div class="invalid-feedback">Please enter your first name.</div>
-                      </div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                      <div class="form-group">
-                        <label for="lastName" class="font-weight-bold">Last Name</label>
-                        <input type="text" id="lastName" class="form-control" required>
-                        <div class="invalid-feedback">Please enter your last name.</div>
-                      </div>
-                    </div>
-                  </div>
-      
-                  <div class="form-group mb-3">
-                    <label for="email" class="font-weight-bold">Email</label>
-                    <input type="email" id="email" class="form-control" required>
-                    <div class="invalid-feedback">Please enter a valid email address.</div>
-                  </div>
-      
-          <!-- User Location -->
-          <div class="form-group">
-            <label for="userLocation" class="font-weight-bold">Location</label>
-            <input type="text" id="userLocation" class="form-control" placeholder="Enter your skills separated by commas">
-            <div class="invalid-feedback">Please enter a valid address.</div>
-          </div>
-      
-                  <div class="form-group mb-4">
-                    <label for="phone" class="font-weight-bold">Phone</label>
-                    <input type="tel" id="phone" class="form-control" required>
-                    <div class="invalid-feedback">Please enter a valid phone number.</div>
-                  </div>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <div class="form-group">
+                  <label for="firstName" class="font-weight-bold">First Name</label>
+                  <input type="text" id="firstName" class="form-control" required>
+                  <div class="invalid-feedback">Please enter your first name.</div>
                 </div>
-            
-      
-  <!-- Expected Salary -->
-  <div class="form-group" id="salaryExpectionArea">
-    <label for="expectedSalary" class="font-weight-bold">Expected Salary</label>
-    <input type="text" id="expectedSalary" class="form-control" value="Negotiable">
-</div>
+              </div>
+              <div class="col-md-6 mb-3">
+                <div class="form-group">
+                  <label for="lastName" class="font-weight-bold">Last Name</label>
+                  <input type="text" id="lastName" class="form-control" required>
+                  <div class="invalid-feedback">Please enter your last name.</div>
+                </div>
+              </div>
+            </div>
 
-<!-- Skills Tags -->
-<div class="form-group">
-    <label for="skillsTags" class="font-weight-bold">Skills Tags</label>
-    <input type="text" id="skillsTags" class="form-control" placeholder="Enter your skills separated by commas">
-</div>
+            <div class="form-group mb-3">
+              <label for="email" class="font-weight-bold">Email</label>
+              <input type="email" id="email" class="form-control" required>
+              <div class="invalid-feedback">Please enter a valid email address.</div>
+            </div>
 
-
-</app>
-
-
-              <!-- Custom Questions -->
-              <h5 id="customQuestionsText" class="text-muted text-center mb-3">The following questions are provided by the recruiter and are optional.</h5>
-              <div id="customQuestionsContainer" class="mb-4"></div>
-      
-                        <!-- Imprint  -->
-          <div class="text-center m-auto">
-            <h3 class="font-weight-bold embedded-Logo">ReelCareer.co</h3>
-          </div>
-
-          <!-- Resume Submission Options -->
-          <div class="container mt-5">
-            <h3 class="border-bottom pb-2 mb-4">Resume Submission</h3>
-
-            <hr />
-            <!-- Your URLs -->
+            <!-- User Location -->
             <div class="form-group">
-              <label for="portfolio" class="font-weight-bold">Portfolio</label>
-              <input type="url" id="portfolio" class="form-control" placeholder="https://yourPortfolio.com">
-              
-              <label for="linkedIn" class="font-weight-bold">LinkedIn</label>
-              <input type="url" id="linkedIn" class="form-control" placeholder="https://www.linkedin.com/in/yourLinkedin">
-              
-              <label for="website" class="font-weight-bold">Website</label>
-              <input type="url" id="website" class="form-control" placeholder="https://yourWebsite.com">
+              <label for="userLocation" class="font-weight-bold">Location</label>
+              <input type="text" id="userLocation" class="form-control" placeholder="Enter your skills separated by commas">
+              <div class="invalid-feedback">Please enter a valid address.</div>
             </div>
 
-
-
-            <!-- Video Resume Upload -->
-            <div class="form-group hide">
-              <label for="videoResumeUpload" class="mb-5 font-weight-bold">Upload Video Resume (Coming Soon)</label>
-              <input type="file" id="videoResumeUpload" class="form-control-file" disabled>
-              <button type="button" id="createVideoResume" class="btn btn-link bg-colorLightGray outline" disabled>Create One</button>
-            </div>
-
-    <!-- Cover Letter -->
-    <div class="form-group" id="coverLetterArea">
-      <label for="coverLetter" class="font-weight-bold">Cover Letter</label>
-      <textarea id="coverLetter" class="form-control" rows="3" placeholder="Summarize your experience..."></textarea>
-  </div>
-
-  <div class="file-upload-container">
-    <label class="file-upload-label" for="resumeInput">
-        <span>Upload Resume (PDF, DOC, DOCX)</span>
-        <input type="file" id="resumeInput" accept=".pdf, .doc, .docx, .jpeg, .jpg, .png" class="file-upload-input">
-    </label>
-    <div class="file-name-display" id="fileNameDisplay">No file selected</div>
-</div>
-
-<div id="previewModal" class="modal">
-    <div class="modal-content">
-        <button class="close-popup" id="closeButton">✖</button>
-        <div id="resumePreviewContent"></div>
-        <input type="text" id="resumeTitle" placeholder="Enter Resume Title" class="resume-title-input">
-        <button id="useResume" class="modal-action-btn">Use This Resume</button>
-    </div>
-</div>
-
-<hr/>
-
-                 <!-- Note to Recruiter -->
-                 <div class="form-group">
-                  <label for="noteToRecruiter" class="font-weight-bold">Note to Recruiter</label>
-                  <textarea id="noteToRecruiter" class="form-control" rows="3" placeholder="Write a brief note to the recruiter..."></textarea>
-                </div>
-       
-                  <hr />
-      
-
-                <!-- Nondisclosure Questions -->
-                <div class="form-group mb-4">
-                  <p class="text-muted font-weight-bold">Voluntary Self-Identification</p>
-                  <p>This section is optional. Your response will not affect your application and is used solely for Equal Employment Opportunity (EEO) reporting purposes.</p>
-                </div>
-      
-                <div class="form-group mb-4">
-                  <!-- Gender (optional) -->
-                  <label for="gender" class="font-weight-bold">Gender</label>
-                  <select class="form-control" id="gender">
-                    <option value="">Prefer not to answer</option>
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
-                    <option value="Non-Binary">Non-Binary</option>
-                  </select>
-                </div>
-      
-                <div class="form-group mb-4">
-                <label for="preferredPronouns">Preferred Pronouns:</label>
-<select id="preferredPronouns" name="preferredPronouns">
-    <option value="">Select your pronouns</option>
-    <option value="he/him">He/Him</option>
-    <option value="she/her">She/Her</option>
-    <option value="they/them">They/Them</option>
-    <option value="other">Other</option>
-</select>
-</div>
-                <div class="form-group mb-4">
-                  <!-- Race/Ethnicity (optional) -->
-                  <label for="race" class="font-weight-bold mt-3">Race/Ethnicity</label>
-                  <select class="form-control" id="race">
-                    <option value="">Prefer not to answer</option>
-                    <option value="White">White</option>
-                    <option value="Black or African American">Black or African American</option>
-                    <option value="Asian">Asian</option>
-                    <option value="Hispanic or Latino">Hispanic or Latino</option>
-                    <option value="Native American or Alaska Native">Native American or Alaska Native</option>
-                  </select>
-                </div>
-      
-                <div class="form-group mb-4">
-                  <!-- Veteran Status (optional) -->
-                  <label for="veteran" class="font-weight-bold mt-3">Veteran Status</label>
-                  <select class="form-control" id="veteran">
-                    <option value="">Prefer not to answer</option>
-                    <option value="Yes">Yes</option>
-                    <option value="No">No</option>
-                  </select>
-                </div>
-      
-                <div class="form-group mb-4">
-                  <!-- Disability (optional) -->
-                  <label for="disability" class="font-weight-bold mt-3">Disability Status</label>
-                  <select class="form-control" id="disability">
-                    <option value="">Prefer not to answer</option>
-                    <option value="Yes">Yes</option>
-                    <option value="No">No</option>
-                  </select>
-                </div>
-      
-              <!-- Consent Section -->
-              <div class="form-group mb-4">
-                <div class="form-check">
-                  <input type="checkbox" id="consentAcknowledgement" required class="form-check-input">
-                  <label for="consentAcknowledgement" class="form-check-label">
-                    I consent to the collection and sharing of my personal information as described in the
-                    <a href="https://reelcareer.co/views/privacy" class="text-light" rel="noopener noreferrer">Privacy Policy</a>.
-                  </label>
-                </div>
-              </div>
-      
-              <!-- Disclosure Section -->
-              <div class="form-group mt-4">
-                <label for="disclosureName" class="form-label font-weight-bold">Your Name</label>
-                <input type="text" id="disclosureName" placeholder="Enter your name" class="form-control" required>
-              </div>
-      
-              <div class="form-group mb-4">
-                <label for="disclosureDate" class="form-label font-weight-bold">Date</label>
-                <input type="date" id="disclosureDate" class="form-control" required>
-              </div>
-
-
-
-            <!-- Action Buttons -->
-            <div class="form-group text-center mt-4">
-              <button type="button" id="boostApplication" class="btn btn-warning btn-lg mx-2">Boost Application</button>
-              <button type="button" id="previewApplication" class="btn btn-info btn-lg mx-2">Preview Application</button>
-              <!--      <button type="button" id="saveForLater" class="btn btn-secondary btn-lg mx-2">Save for Later</button> -->
-              <button type="submit" id="submitApplication" class="btn btn-success btn-lg mx-2">Submit Application</button>
-            </div>
-
-            <!-- Recruiter Interaction Buttons -->
-            <div class="d-flex justify-content-between mt-4">
-              <button type="button" id="backToJobPost" class="btn btn-light">Back to Job Post</button>
+            <div class="form-group mb-4">
+              <label for="phone" class="font-weight-bold">Phone</label>
+              <input type="tel" id="phone" class="form-control" required>
+              <div class="invalid-feedback">Please enter a valid phone number.</div>
             </div>
           </div>
+
+          <!-- Expected Salary -->
+          <div class="form-group" id="salaryExpectionArea">
+            <label for="expectedSalary" class="font-weight-bold">Expected Salary</label>
+            <input type="text" id="expectedSalary" class="form-control" value="Negotiable">
+          </div>
+
+          <!-- Skills Tags -->
+          <div class="form-group">
+            <label for="skillsTags" class="font-weight-bold">Skills Tags</label>
+            <input type="text" id="skillsTags" class="form-control" placeholder="Enter your skills separated by commas">
+          </div>
+
+        </app>
+
+        <!-- Custom Questions -->
+        <h5 id="customQuestionsText" class="text-muted text-center mb-3">The following questions are provided by the recruiter and are optional.</h5>
+        <div id="customQuestionsContainer" class="mb-4"></div>
+
+        <!-- Imprint  -->
+        <div class="text-center m-auto">
+          <h3 class="font-weight-bold embedded-Logo">ReelCareer.co</h3>
+        </div>
+
+        <!-- Resume Submission Options -->
+        <div class="container mt-5">
+          <h3 class="border-bottom pb-2 mb-4">Resume Submission</h3>
+
+          <hr />
+          <!-- Your URLs -->
+          <div class="form-group">
+            <label for="portfolio" class="font-weight-bold">Portfolio</label>
+            <input type="url" id="portfolio" class="form-control" placeholder="https://yourPortfolio.com">
+
+            <label for="linkedIn" class="font-weight-bold">LinkedIn</label>
+            <input type="url" id="linkedIn" class="form-control" placeholder="https://www.linkedin.com/in/yourLinkedin">
+
+            <label for="website" class="font-weight-bold">Website</label>
+            <input type="url" id="website" class="form-control" placeholder="https://yourWebsite.com">
+          </div>
+
+          <!-- Video Resume Upload -->
+          <div class="form-group hide">
+            <label for="videoResumeUpload" class="mb-5 font-weight-bold">Upload Video Resume (Coming Soon)</label>
+            <input type="file" id="videoResumeUpload" class="form-control-file" disabled>
+            <button type="button" id="createVideoResume" class="btn btn-link bg-colorLightGray outline" disabled>Create One</button>
+          </div>
+
+          <!-- Cover Letter -->
+          <div class="form-group" id="coverLetterArea">
+            <label for="coverLetter" class="font-weight-bold">Cover Letter</label>
+            <textarea id="coverLetter" class="form-control" rows="3" placeholder="Summarize your experience..."></textarea>
+          </div>
+
+          <div class="file-upload-container">
+            <label class="file-upload-label" for="resumeInput">
+              <span>Upload Resume (PDF, DOC, DOCX)</span>
+              <input type="file" id="resumeInput" accept=".pdf, .doc, .docx, .jpeg, .jpg, .png" class="file-upload-input">
+            </label>
+            <div class="file-name-display" id="fileNameDisplay">No file selected</div>
+          </div>
+
+          <div id="previewModal" class="modal">
+            <div class="modal-content">
+              <button class="close-popup" id="closeButton">✖</button>
+              <div id="resumePreviewContent"></div>
+              <input type="text" id="resumeTitle" placeholder="Enter Resume Title" class="resume-title-input">
+              <button id="useResume" class="modal-action-btn">Use This Resume</button>
+            </div>
+          </div>
+
+          <hr />
+
+          <!-- Note to Recruiter -->
+          <div class="form-group">
+            <label for="noteToRecruiter" class="font-weight-bold">Note to Recruiter</label>
+            <textarea id="noteToRecruiter" class="form-control" rows="3" placeholder="Write a brief note to the recruiter..."></textarea>
+          </div>
+
+          <hr />
+
+          <!-- Nondisclosure Questions -->
+          <div class="form-group mb-4">
+            <p class="text-muted font-weight-bold">Voluntary Self-Identification</p>
+            <p>This section is optional. Your response will not affect your application and is used solely for Equal Employment Opportunity (EEO) reporting purposes.</p>
+          </div>
+
+          <div class="form-group mb-4">
+            <!-- Gender (optional) -->
+            <label for="gender" class="font-weight-bold">Gender</label>
+            <select class="form-control" id="gender">
+              <option value="">Prefer not to answer</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Non-Binary">Non-Binary</option>
+            </select>
+          </div>
+
+          <div class="form-group mb-4">
+            <label for="preferredPronouns">Preferred Pronouns:</label>
+            <select id="preferredPronouns" name="preferredPronouns">
+              <option value="">Select your pronouns</option>
+              <option value="he/him">He/Him</option>
+              <option value="she/her">She/Her</option>
+              <option value="they/them">They/Them</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div class="form-group mb-4">
+            <!-- Race/Ethnicity (optional) -->
+            <label for="race" class="font-weight-bold mt-3">Race/Ethnicity</label>
+            <select class="form-control" id="race">
+              <option value="">Prefer not to answer</option>
+              <option value="White">White</option>
+              <option value="Black or African American">Black or African American</option>
+              <option value="Asian">Asian</option>
+              <option value="Hispanic or Latino">Hispanic or Latino</option>
+              <option value="Native American or Alaska Native">Native American or Alaska Native</option>
+            </select>
+          </div>
+
+          <div class="form-group mb-4">
+            <!-- Veteran Status (optional) -->
+            <label for="veteran" class="font-weight-bold mt-3">Veteran Status</label>
+            <select class="form-control" id="veteran">
+              <option value="">Prefer not to answer</option>
+              <option value="Yes">Yes</option>
+              <option value="No">No</option>
+            </select>
+          </div>
+
+          <div class="form-group mb-4">
+            <!-- Disability (optional) -->
+            <label for="disability" class="font-weight-bold mt-3">Disability Status</label>
+            <select class="form-control" id="disability">
+              <option value="">Prefer not to answer</option>
+              <option value="Yes">Yes</option>
+              <option value="No">No</option>
+            </select>
+          </div>
+
+          <!-- Consent Section -->
+          <div class="form-group mb-4">
+            <div class="form-check">
+              <input type="checkbox" id="consentAcknowledgement" required class="form-check-input">
+              <label for="consentAcknowledgement" class="form-check-label">
+                I consent to the collection and sharing of my personal information as described in the
+                <a href="https://reelcareer.co/views/privacy" class="text-light" rel="noopener noreferrer">Privacy Policy</a>.
+              </label>
+            </div>
+          </div>
+
+          <!-- Disclosure Section -->
+          <div class="form-group mt-4">
+            <label for="disclosureName" class="form-label font-weight-bold">Your Name</label>
+            <input type="text" id="disclosureName" placeholder="Enter your name" class="form-control" required>
+          </div>
+
+          <div class="form-group mb-4">
+            <label for="disclosureDate" class="form-label font-weight-bold">Date</label>
+            <input type="date" id="disclosureDate" class="form-control" required>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="form-group text-center mt-4">
+            <button type="button" id="boostApplication" class="btn btn-warning btn-lg mx-2">Boost Application</button>
+            <button type="button" id="previewApplication" class="btn btn-info btn-lg mx-2">Preview Application</button>
+            <!--      <button type="button" id="saveForLater" class="btn btn-secondary btn-lg mx-2">Save for Later</button> -->
+            <button type="submit" id="submitApplication" class="btn btn-success btn-lg mx-2">Submit Application</button>
+          </div>
+
+          <!-- Recruiter Interaction Buttons -->
+          <div class="d-flex justify-content-between mt-4">
+            <button type="button" id="backToJobPost" class="btn btn-light">Back to Job Post</button>
+          </div>
+        </div>
 
       </form>
 
     </div>
 
   </main>
-
-
 
   <style>
     /* Custom styles for enhanced UI/UX */
@@ -346,7 +334,6 @@
       border-top-color: #5cb85c;
     }
 
-   
     .custom-control-enhanced {
       position: relative;
       display: flex;
@@ -411,136 +398,122 @@
     }
 
     .modal {
-    display: none; /* Hidden by default */
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.5); /* Background overlay */
-}
+      display: none;
+      /* Hidden by default */
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.5);
+      /* Background overlay */
+    }
 
-.modal-content {
-    position: relative;
-    background-color: #fff;
-    margin: 10% auto;
-    padding: 20px;
-    border-radius: 10px;
-    width: 90%;
-    max-width: 500px;
-}
+    .modal-content {
+      position: relative;
+      background-color: #fff;
+      margin: 10% auto;
+      padding: 20px;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 500px;
+    }
 
-.close-popup {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 20px;
-    color: #888;
-    cursor: pointer;
-    background: transparent;
-    border: none;
-}
+    .close-popup {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 20px;
+      color: #888;
+      cursor: pointer;
+      background: transparent;
+      border: none;
+    }
 
-.modal-action-btn {
-    margin-top: 10px;
-    padding: 8px 16px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
+    .modal-action-btn {
+      margin-top: 10px;
+      padding: 8px 16px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
 
-.modal-action-btn:hover {
-    background-color: #0056b3;
-}
+    .modal-action-btn:hover {
+      background-color: #0056b3;
+    }
+  </style>
 
+  <script>
+    const resumeInput = document.getElementById('resumeInput');
+    const fileNameDisplay = document.getElementById('fileNameDisplay');
+    const previewModal = document.getElementById('previewModal');
+    const resumePreviewContent = document.getElementById('resumePreviewContent');
+    const useResume = document.getElementById('useResume');
+    const closeButton = document.getElementById('closeButton');
+    const resumeTitleInput = document.getElementById('resumeTitle');
+    // Handle file selection and preview
+    resumeInput.addEventListener('change', handleFiles);
 
-    </style>
-
-<script>
-const resumeInput = document.getElementById('resumeInput');
-const fileNameDisplay = document.getElementById('fileNameDisplay');
-const previewModal = document.getElementById('previewModal');
-const resumePreviewContent = document.getElementById('resumePreviewContent');
-const useResume = document.getElementById('useResume');
-const closeButton = document.getElementById('closeButton');
-const resumeTitleInput = document.getElementById('resumeTitle');
-
-// Handle file selection and preview
-resumeInput.addEventListener('change', handleFiles);
-
-function handleFiles() {
-    if (resumeInput.files.length > 0) {
+    function handleFiles() {
+      if (resumeInput.files.length > 0) {
         const file = resumeInput.files[0];
         const fileName = file.name;
         fileNameDisplay.textContent = fileName;
-
         // Open the modal for preview
         openModal(file);
-    } else {
+      } else {
         fileNameDisplay.textContent = 'Upload Resume (PDF, DOC, DOCX)'; // Reset display
+      }
     }
-}
-
-// Open modal to preview the resume
-function openModal(file) {
-    resumePreviewContent.innerHTML = `
+    // Open modal to preview the resume
+    function openModal(file) {
+      resumePreviewContent.innerHTML = `
         <p>File: ${file.name}.${file.type}</p>
 
     `;
-    previewModal.style.display = 'block'; // Show the modal
-}
-
-// Close the modal
-closeButton.onclick = function () {
-    previewModal.style.display = 'none';
-};
-
-// Handle save action
-useResume.onclick = function () {
-    const resumeTitle = resumeTitleInput.value;
-
-    // Add saving logic here
- //   showToast("Saving resume with title:", resumeTitle, "info");
-
-    // Close modal after saving
-    previewModal.style.display = 'none';
-};
-
-// Close modal when clicking outside of it
-window.onclick = function (event) {
-    if (event.target === previewModal) {
-        previewModal.style.display = 'none';
+      previewModal.style.display = 'block'; // Show the modal
     }
-};
-
-// Drag and Drop functionality
-const fileUploadLabel = document.querySelector('.file-upload-label');
-
-fileUploadLabel.addEventListener('dragover', (e) => {
-    e.preventDefault();
-    fileUploadLabel.style.backgroundColor = '#e2e6ea'; // Background on drag over
-});
-
-fileUploadLabel.addEventListener('dragleave', (e) => {
-    fileUploadLabel.style.backgroundColor = '#f8f9fa'; // Reset background
-});
-
-fileUploadLabel.addEventListener('drop', (e) => {
-    e.preventDefault();
-    fileUploadLabel.style.backgroundColor = '#f8f9fa'; // Reset background
-    const files = e.dataTransfer.files;
-    if (files.length > 0) {
+    // Close the modal
+    closeButton.onclick = function() {
+      previewModal.style.display = 'none';
+    };
+    // Handle save action
+    useResume.onclick = function() {
+      const resumeTitle = resumeTitleInput.value;
+      // Add saving logic here
+      //   showToast("Saving resume with title:", resumeTitle, "info");
+      // Close modal after saving
+      previewModal.style.display = 'none';
+    };
+    // Close modal when clicking outside of it
+    window.onclick = function(event) {
+      if (event.target === previewModal) {
+        previewModal.style.display = 'none';
+      }
+    };
+    // Drag and Drop functionality
+    const fileUploadLabel = document.querySelector('.file-upload-label');
+    fileUploadLabel.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      fileUploadLabel.style.backgroundColor = '#e2e6ea'; // Background on drag over
+    });
+    fileUploadLabel.addEventListener('dragleave', (e) => {
+      fileUploadLabel.style.backgroundColor = '#f8f9fa'; // Reset background
+    });
+    fileUploadLabel.addEventListener('drop', (e) => {
+      e.preventDefault();
+      fileUploadLabel.style.backgroundColor = '#f8f9fa'; // Reset background
+      const files = e.dataTransfer.files;
+      if (files.length > 0) {
         resumeInput.files = files; // Assign the files to the input
         handleFiles(); // Process the dropped files
-    }
-});
-
-
+      }
+    });
     // Function to load custom questions into the container
     function loadCustomQuestions(customQuestions) {
       const customQuestionsContainer = document.getElementById('customQuestionsContainer');
@@ -879,7 +852,6 @@ fileUploadLabel.addEventListener('drop', (e) => {
         showToast('You must be logged in to apply.', 'error');
         return;
       }
-
       //    console.log("userId  ",userId);
       const jobId = getJobIdFromURL();
       // console.log("jobId  ",jobId);
@@ -896,120 +868,111 @@ fileUploadLabel.addEventListener('drop', (e) => {
         const companyId = jobData.companyId;
         const referralSource = new URLSearchParams(window.location.search).get('referralSource') || 'Direct Visit'; // Get referral source from URL
         const experienceSummary = document.getElementById('experienceSummary').value;
-    const expectedSalary = document.getElementById('expectedSalary').value;
-    const skillsTags = document.getElementById('skillsTags').value.split(',').map(tag => tag.trim());
-    
-     
-        const linkedIn =   sanitizeInput(document.getElementById('linkedin').value);
-        const portfolio =  sanitizeInput(document.getElementById('portfolio').value);
-        const website =  sanitizeInput(document.getElementById('website').value);
-
+        const expectedSalary = document.getElementById('expectedSalary').value;
+        const skillsTags = document.getElementById('skillsTags').value.split(',').map(tag => tag.trim());
+        const linkedIn = sanitizeInput(document.getElementById('linkedin').value);
+        const portfolio = sanitizeInput(document.getElementById('portfolio').value);
+        const website = sanitizeInput(document.getElementById('website').value);
         // Retrieve answers for custom questions
         const customAnswers = getCustomAnswers(jobData.customQuestions);
         // Prepare main application data
         const applicationData = {
-  firstName: sanitizeInput(document.getElementById('firstName').value),
-  lastName: sanitizeInput(document.getElementById('lastName').value),
-  location: sanitizeInput(document.getElementById('userLocation').value),
-  email: sanitizeInput(document.getElementById('email').value),
-  phone: sanitizeInput(document.getElementById('phone').value),
-  feedback: sanitizeInput(document.getElementById('noteToRecruiter').value),
-  jobTitle: jobTitle,
-  companyName: companyName || "",
-  companyId: companyId,
-  boostedApp: isBoosted,
-  jobId: jobId,
-  status: [{
-    status: "active",
-    timestamp: new Date().toLocaleString()
-  }],
-  statusHistory: [
-    {
-      status: "applied",
-      timestamp: new Date().toLocaleString(),
-    }
-  ],
-  notes: [],
-  interviewRequestBool: false,
-  interviewRequestDate: '',
-  testRequestBool: false,
-  testRequestExpireDate: '',
-  testRequestNames: [],
-  views: 0,
-  applicantCount:  increment(1),
-  resumeViews: 0,
-  videoResumeViews: 0,
-  userId: userId,
-  customAnswers: customAnswers,
-  applyDate: new Date().toLocaleString(),
-  source: referralSource,
-  digitalResume: "",
-  userLinks: { LinkedIn: linkedIn, Website: website, Portfolio: portfolio }, // optional social links
-  coverLetter: sanitizeInput(document.getElementById('coverLetter').value),
-  expectedSalary: expectedSalary, // or collected from the applicant
-  skillsTags: skillsTags,
-  boostNotes: isBoosted ? "Application boosted on " + new Date().toLocaleString() : "",
-};
-
-
-       //  console.log("applicationData  ",applicationData);
+          firstName: sanitizeInput(document.getElementById('firstName').value),
+          lastName: sanitizeInput(document.getElementById('lastName').value),
+          location: sanitizeInput(document.getElementById('userLocation').value),
+          email: sanitizeInput(document.getElementById('email').value),
+          phone: sanitizeInput(document.getElementById('phone').value),
+          feedback: sanitizeInput(document.getElementById('noteToRecruiter').value),
+          jobTitle: jobTitle,
+          companyName: companyName || "",
+          companyId: companyId,
+          boostedApp: isBoosted,
+          jobId: jobId,
+          status: [{
+            status: "active",
+            timestamp: new Date().toLocaleString()
+          }],
+          statusHistory: [{
+            status: "applied",
+            timestamp: new Date().toLocaleString(),
+          }],
+          notes: [],
+          interviewRequestBool: false,
+          interviewRequestDate: '',
+          testRequestBool: false,
+          testRequestExpireDate: '',
+          testRequestNames: [],
+          views: 0,
+          applicantCount: increment(1),
+          resumeViews: 0,
+          videoResumeViews: 0,
+          userId: userId,
+          customAnswers: customAnswers,
+          applyDate: new Date().toLocaleString(),
+          source: referralSource,
+          digitalResume: "",
+          userLinks: {
+            LinkedIn: linkedIn,
+            Website: website,
+            Portfolio: portfolio
+          }, // optional social links
+          coverLetter: sanitizeInput(document.getElementById('coverLetter').value),
+          expectedSalary: expectedSalary, // or collected from the applicant
+          skillsTags: skillsTags,
+          boostNotes: isBoosted ? "Application boosted on " + new Date().toLocaleString() : "",
+        };
+        //  console.log("applicationData  ",applicationData);
         // Prepare applicant PDC data (Personal Data Compliance)
         const applicant_PDC = {
-  gender: sanitizeInput(document.getElementById('gender').value),
-  race: sanitizeInput(document.getElementById('race').value),
-  ethnicity: sanitizeInput(document.getElementById('ethnicity')?.value || ""),
-  veteran: sanitizeInput(document.getElementById('veteran').value),
-  disability: sanitizeInput(document.getElementById('disability').value),
-  preferredPronouns: sanitizeInput(document.getElementById('preferredPronouns')?.value || ""),
-  
-  consentAcknowledgement: document.getElementById('consentAcknowledgement').checked,
-  disclosureName: sanitizeInput(document.getElementById('disclosureName').value),
-  disclosureDate: sanitizeInput(document.getElementById('disclosureDate').value),
-  disclosureLocation: sanitizeInput(document.getElementById('userLocation')?.value || ""),
-legalDisclosures: document.getElementById('legalDisclosures')?.checked || false,
-  
-  // Job-specific information
-  jobTitle: jobTitle,
-  companyName: companyName || "",
-
-  jobId: jobId,
-  submitted: new Date().toLocaleString(),
-};
+          gender: sanitizeInput(document.getElementById('gender').value),
+          race: sanitizeInput(document.getElementById('race').value),
+          ethnicity: sanitizeInput(document.getElementById('ethnicity')?.value || ""),
+          veteran: sanitizeInput(document.getElementById('veteran').value),
+          disability: sanitizeInput(document.getElementById('disability').value),
+          preferredPronouns: sanitizeInput(document.getElementById('preferredPronouns')?.value || ""),
+          consentAcknowledgement: document.getElementById('consentAcknowledgement').checked,
+          disclosureName: sanitizeInput(document.getElementById('disclosureName').value),
+          disclosureDate: sanitizeInput(document.getElementById('disclosureDate').value),
+          disclosureLocation: sanitizeInput(document.getElementById('userLocation')?.value || ""),
+          legalDisclosures: document.getElementById('legalDisclosures')?.checked || false,
+          // Job-specific information
+          jobTitle: jobTitle,
+          companyName: companyName || "",
+          jobId: jobId,
+          submitted: new Date().toLocaleString(),
+        };
         // console.log("applicant_PDC  ",applicant_PDC);
         //return;
         try {
           // Show loading indicator if you have one
           // Upload files
           await uploadFile('resumeInput', 'resumes', applicationData, 'resumeUrl');
-       //   await uploadFile('videoResumeUpload', 'video_resumes', applicationData, 'videoResumeUrl');
+          //   await uploadFile('videoResumeUpload', 'video_resumes', applicationData, 'videoResumeUrl');
           // Submit the application data to Firestore
           await addDoc(collection(db, 'Applications'), applicationData);
           // Send the applicant's personal data compliance (PDC) information
           await sendToAppDataCompliance(applicant_PDC);
           // Update user's document with the job application info
           const userDocRef = doc(db, 'Users', userId); // Reference to the user's document
-
-await updateDoc(userDocRef, {
-  userApps: arrayUnion({
-    JobID: jobId,
-    JobTitle: jobTitle,
-    CompanyName: companyName,
-    Status: status,                  // e.g., "Active," "Interview Scheduled"
-    IsBoosted: isBoosted,             // Shows if the application was boosted
-    ApplyDate: new Date().toISOString(),
-    
-    // Additional helpful fields for user summary
-    Location: jobLocation,            // Location of the job, if available
-    ApplicationCount: applicationCount + 1,  // Keeps track of the total applications user has submitted
-    LastStatusUpdate: new Date().toISOString(), // Tracks when the status was last updated
-    ResumeLastViewed: null,           // Tracks last viewed date of resume by recruiter
-    Notes: [],                        // Allows user or system to add notes about the application
-    AppliedFromPlatform: platform,    // Captures source if multi-platform (e.g., website, mobile app)
-    UpcomingInterviewDate: interviewDate || null, // Tracks any scheduled interviews
-    RequiredTestsCompleted: false,     // Tracks if user completed required assessments or tests
-  })
-});
-
+          await updateDoc(userDocRef, {
+            userApps: arrayUnion({
+              JobID: jobId,
+              JobTitle: jobTitle,
+              CompanyName: companyName,
+              Status: status, // e.g., "Active," "Interview Scheduled"
+              IsBoosted: isBoosted, // Shows if the application was boosted
+              ApplyDate: new Date().toISOString(),
+              // Additional helpful fields for user summary
+              Location: jobLocation, // Location of the job, if available
+              ApplicationCount: applicationCount + 1, // Keeps track of the total applications user has submitted
+              LastStatusUpdate: new Date().toISOString(), // Tracks when the status was last updated
+              ResumeLastViewed: null, // Tracks last viewed date of resume by recruiter
+              Notes: [], // Allows user or system to add notes about the application
+              AppliedFromPlatform: platform, // Captures source if multi-platform (e.g., website, mobile app)
+              UpcomingInterviewDate: interviewDate || null, // Tracks any scheduled interviews
+              RequiredTestsCompleted: false, // Tracks if user completed required assessments or tests
+            })
+          });
           // Show success message
           showToast('Application submitted successfully!', 'success');
         } catch (error) {
@@ -1044,143 +1007,114 @@ await updateDoc(userDocRef, {
         // console.error('Error adding document to AppDataCompliance:', error);
       }
     }
-
-
-
-
     let viewStartTime;
-
-// Function to set the last internal page in sessionStorage before navigating
-function setInternalPageSource() {
-    sessionStorage.setItem('lastInternalPage', window.location.href);
-}
-
-// Function to start tracking the view time when the page loads
-function startViewTimer() {
-    viewStartTime = Date.now();
-}
-
-// Function to update the application's 'applicantsViewed' count, view source, and view duration in Firebase
-async function updateApplicationViewData() {
-    // Calculate view duration in seconds
-    const viewEndTime = Date.now();
-    const durationOfView = (viewEndTime - viewStartTime) / 1000; // Convert ms to seconds
-
-    // Determine the source
-    const externalSource = document.referrer && !document.referrer.includes(window.location.origin)
-        ? document.referrer
-        : null;
-    const internalSource = sessionStorage.getItem('lastInternalPage');
-    const viewSource = externalSource || internalSource || 'Direct Visit';
-
-    // Retrieve job and user information
-    const jobId = new URLSearchParams(window.location.search).get('jobId'); // Get jobId from URL
-    const jobTitle = document.getElementById('jobTitle')?.innerText || ''; // Job title can be set here if needed
-    const userId = new URLSearchParams(window.location.search).get('userId');
-    const viewerRole = auth.currentUser ? 'job seeker' : 'guest'; // Set role based on login status
-    const referralSource = new URLSearchParams(window.location.search).get('referralSource') || 'Direct Visit'; // Get referral source from URL
-
-    // Validate job ID before proceeding
-    if (!jobId) {
+    // Function to set the last internal page in sessionStorage before navigating
+    function setInternalPageSource() {
+      sessionStorage.setItem('lastInternalPage', window.location.href);
+    }
+    // Function to start tracking the view time when the page loads
+    function startViewTimer() {
+      viewStartTime = Date.now();
+    }
+    // Function to update the application's 'applicantsViewed' count, view source, and view duration in Firebase
+    async function updateApplicationViewData() {
+      // Calculate view duration in seconds
+      const viewEndTime = Date.now();
+      const durationOfView = (viewEndTime - viewStartTime) / 1000; // Convert ms to seconds
+      // Determine the source
+      const externalSource = document.referrer && !document.referrer.includes(window.location.origin) ?
+        document.referrer :
+        null;
+      const internalSource = sessionStorage.getItem('lastInternalPage');
+      const viewSource = externalSource || internalSource || 'Direct Visit';
+      // Retrieve job and user information
+      const jobId = new URLSearchParams(window.location.search).get('jobId'); // Get jobId from URL
+      const jobTitle = document.getElementById('jobTitle')?.innerText || ''; // Job title can be set here if needed
+      const userId = new URLSearchParams(window.location.search).get('userId');
+      const viewerRole = auth.currentUser ? 'job seeker' : 'guest'; // Set role based on login status
+      const referralSource = new URLSearchParams(window.location.search).get('referralSource') || 'Direct Visit'; // Get referral source from URL
+      // Validate job ID before proceeding
+      if (!jobId) {
         console.error("Missing jobId. View data not recorded.");
         return;
-    }
-
-    // Update the job view data in the Jobs collection
-    try {
+      }
+      // Update the job view data in the Jobs collection
+      try {
         await updateDoc(doc(db, 'Jobs', jobId), {
-            viewedBy: arrayUnion({
-                viewerId: userId,                       // ID of the user or 'guest'
-                viewerRole: viewerRole,                 // Role of the viewer (e.g., 'job seeker', 'recruiter', or 'guest')
-                viewDate: new Date().toISOString(),
-                viewMethod: navigator.userAgentData?.mobile ? "mobile" : "desktop", // Detects desktop or mobile view
-                durationOfView: durationOfView || null, // Optional: estimated duration of view in seconds
-                viewSource: viewSource,                 // Tracks the source of the view
-                referralSource: referralSource           // Tracks the referral source
-            }),
-            applicantsViewed: increment(1),
+          viewedBy: arrayUnion({
+            viewerId: userId, // ID of the user or 'guest'
+            viewerRole: viewerRole, // Role of the viewer (e.g., 'job seeker', 'recruiter', or 'guest')
+            viewDate: new Date().toISOString(),
+            viewMethod: navigator.userAgentData?.mobile ? "mobile" : "desktop", // Detects desktop or mobile view
+            durationOfView: durationOfView || null, // Optional: estimated duration of view in seconds
+            viewSource: viewSource, // Tracks the source of the view
+            referralSource: referralSource // Tracks the referral source
+          }),
+          applicantsViewed: increment(1),
         });
         console.log("Job view data updated successfully.");
-    } catch (error) {
+      } catch (error) {
         console.error("Error updating job view data:", error);
+      }
     }
-}
-
-// Event listener to set last internal page before navigating away
-window.addEventListener('beforeunload', setInternalPageSource);
-
-// Event listener to start timing the view when the page loads
-window.addEventListener('load', startViewTimer);
-
-// Event listener to record data when the page is unloaded
-window.addEventListener('beforeunload', updateApplicationViewData);
-
-
-
-// Function to load form values from local storage
-function loadFormValues() {
-    // Load stored user data
-    const storedUserData = localStorage.getItem('userData');
-
-    if (storedUserData) {
+    // Event listener to set last internal page before navigating away
+    window.addEventListener('beforeunload', setInternalPageSource);
+    // Event listener to start timing the view when the page loads
+    window.addEventListener('load', startViewTimer);
+    // Event listener to record data when the page is unloaded
+    window.addEventListener('beforeunload', updateApplicationViewData);
+    // Function to load form values from local storage
+    function loadFormValues() {
+      // Load stored user data
+      const storedUserData = localStorage.getItem('userData');
+      if (storedUserData) {
         // Parse the stored data
         const userData = JSON.parse(storedUserData);
         document.getElementById('portfolio').value = userData.portfolio || '';
         document.getElementById('userLocation').value = userData.location || '';
         document.getElementById('email').value = userData.email || '';
         document.getElementById('website').value = userData.other || '';
-    }
-
-    // Load job form values
-    const formValues = localStorage.getItem('jobFormValues');
-
-    if (formValues) {
+      }
+      // Load job form values
+      const formValues = localStorage.getItem('jobFormValues');
+      if (formValues) {
         const parsedFormValues = JSON.parse(formValues);
-        
         // Loop through form fields and set their values or set to empty if they don't exist
         for (const [key, value] of Object.entries(parsedFormValues)) {
-            const inputElement = document.getElementById(key);
-            if (inputElement) {
-                inputElement.value = value || '';
-            }
+          const inputElement = document.getElementById(key);
+          if (inputElement) {
+            inputElement.value = value || '';
+          }
         }
         showToast('Form values loaded successfully!', "success");
-
+      }
+      if (jobData) {
+        // Display or hide cover letter area based on jobData.coverLetter
+        if (jobData.coverLetter) {
+          document.getElementById('coverLetterArea').style.display = "block";
+        } else {
+          document.getElementById('coverLetterArea').style.display = "none";
+        }
+        // Set or remove 'required' attribute for cover letter based on jobData.requiredCoverLetter
+        const coverLetterField = document.getElementById('requiredCoverLetter');
+        if (jobData.requiredCoverLetter) {
+          coverLetterField.setAttribute("required", "true");
+        } else {
+          coverLetterField.removeAttribute("required");
+          document.getElementById('coverLetter').value = "Not Required";
+        }
+        // Set or remove 'required' attribute for resume based on jobData.resumeRequired
+        const resumeField = document.getElementById('resumeInput');
+        if (jobData.resumeRequired) {
+          resumeField.setAttribute("required", "true");
+        } else {
+          resumeField.removeAttribute("required");
+        }
+      }
     }
-    if(jobData) {
-  // Display or hide cover letter area based on jobData.coverLetter
-  if(jobData.coverLetter) {
-    document.getElementById('coverLetterArea').style.display = "block";
-  } else {
-    document.getElementById('coverLetterArea').style.display = "none";
-  }
-
-  // Set or remove 'required' attribute for cover letter based on jobData.requiredCoverLetter
-  const coverLetterField = document.getElementById('requiredCoverLetter');
-  if(jobData.requiredCoverLetter) {
-    coverLetterField.setAttribute("required", "true");
-  } else {
-    coverLetterField.removeAttribute("required");
-    document.getElementById('coverLetter').value = "Not Required";
-  }
-
-  // Set or remove 'required' attribute for resume based on jobData.resumeRequired
-  const resumeField = document.getElementById('resumeInput');
-  if(jobData.resumeRequired) {
-    resumeField.setAttribute("required", "true");
-  } else {
-    resumeField.removeAttribute("required");
-  }
-}
-
-    
-  
-    
-}
-
-// Function to save form values to local storage
-function saveFormValues() {
-    const formValues = {
+    // Function to save form values to local storage
+    function saveFormValues() {
+      const formValues = {
         firstName: document.getElementById('firstName').value,
         lastName: document.getElementById('lastName').value,
         email: document.getElementById('email').value,
@@ -1200,27 +1134,15 @@ function saveFormValues() {
         coverLetter: document.getElementById('coverLetter').value,
         expectedSalary: document.getElementById('expectedSalary').value,
         skillsTags: document.getElementById('skillsTags').value,
-    };
-
-
-  
-    // Store form values in local storage
-    localStorage.setItem('jobFormValues', JSON.stringify(formValues));
-    showToast('Form values saved successfully!', "success");
-
-}
-
-// Load form values when the page is loaded
-window.onload = loadFormValues;
-
-// Save form values when the form is submitted (add this to your form submit handler)
-document.getElementById('applicationForm').onsubmit = function() {
-};
-
-
-
-
-
+      };
+      // Store form values in local storage
+      localStorage.setItem('jobFormValues', JSON.stringify(formValues));
+      showToast('Form values saved successfully!', "success");
+    }
+    // Load form values when the page is loaded
+    window.onload = loadFormValues;
+    // Save form values when the form is submitted (add this to your form submit handler)
+    document.getElementById('applicationForm').onsubmit = function() {};
   </script>
 
 </body>
