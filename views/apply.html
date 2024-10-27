@@ -706,10 +706,11 @@ function openModal(file) {
         let answer;
         // Check if it's a multiple-choice question
 // Check if the question has multiple-choice options
-const selectedOption = question.querySelector(`input[name="question-${questionId}"]:checked`);
+const selectedOption = question.querySelector(`id="option-school-${questionId}"`).checked;
   
   if (selectedOption) {
     // If a radio button is selected, use its value
+
     previewAnswer = selectedOption.value;
   } else {
     // Otherwise, check if there's a textarea (for open-ended answers)
@@ -767,18 +768,16 @@ const selectedOption = question.querySelector(`input[name="question-${questionId
                 </div>
             </div>
         `;
-                if (previewModal) {
-                    // Close modal when user clicks outside of it
-                    window.addEventListener('click', (event) => {
-                        if (event.target != previewModal) {
-                          window.removeChild(previewModal); // Remove modal when closed
-                        }
-                    });
-                }
+          
         // Append modal to the body
         document.body.appendChild(previewModal); // Use document.body instead of document.main
-        // Add event listener to the confirm button
-        // Close modal on close button click
+          // Close modal when user clicks outside of it
+          window.addEventListener('click', (event) => {
+                        if (event.target != previewModal) {
+                          document.body.removeChild(previewModal); // Remove modal when closed
+                        }
+                    });
+                        // Close modal on close button click
         previewModal.querySelector('.close').addEventListener('click', () => {
           document.body.removeChild(previewModal); // Remove modal when closed
         });
