@@ -706,7 +706,7 @@ function openModal(file) {
         let answer;
         // Check if it's a multiple-choice question
 // Check if the question has multiple-choice options
-const selectedOption = question.querySelector(`id="option-school-${questionId}"`).checked;
+const selectedOption = question.querySelector(`option-school_${questionId}"]:checked`);
   
   if (selectedOption) {
     // If a radio button is selected, use its value
@@ -768,11 +768,11 @@ const selectedOption = question.querySelector(`id="option-school-${questionId}"`
                 </div>
             </div>
         `;
-          
+
         // Append modal to the body
         document.body.appendChild(previewModal); // Use document.body instead of document.main
-          // Close modal when user clicks outside of it
-          window.addEventListener('click', (event) => {
+                    // Close modal when user clicks outside of it
+                    window.addEventListener('click', (event) => {
                         if (event.target != previewModal) {
                           document.body.removeChild(previewModal); // Remove modal when closed
                         }
