@@ -311,6 +311,11 @@ console.log(formatDateString(1732032108000));                           // Expec
         console.log("Final Value:", finalValue); // Log the updated input value
       }
     } else {
+    // Check if input is a valid HTMLInputElement
+    if (!(input instanceof HTMLInputElement)) {
+      //console.error('Input is not a valid HTMLInputElement:', input);
+      return; // Exit the function if it's not valid
+  }
       console.log("No suggestion available."); // Log when no suggestion is found
       if (input.getAttribute("data-suggestion")) {
         input.removeAttribute("data-suggestion"); // Clear it if no suggestions
