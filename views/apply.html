@@ -763,7 +763,7 @@ const selectedOption = question.querySelector(`input[name="question-question_${i
                         ${previewContent}
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="close btn btn-secondary " data-dismiss="modal">Close</button>
+<button type="button" class="btn btn-secondary close-btn" data-dismiss="modal">Close</button> <!-- Footer close button -->
                     </div>
                 </div>
             </div>
@@ -788,7 +788,7 @@ const selectedOption = question.querySelector(`input[name="question-question_${i
 
   // Add event listeners to both close buttons
   previewModal.querySelector('.close').addEventListener('click', closeModal);
-  previewModal.querySelector('.close .btn').addEventListener('click', closeModal);
+  previewModal.querySelector('.close-btn').addEventListener('click', closeModal);
       }
  
 
