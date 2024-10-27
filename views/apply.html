@@ -109,7 +109,7 @@
             <!-- User Location -->
             <div class="form-group">
               <label for="userLocation" class="font-weight-bold">Location</label>
-              <input type="text" id="userLocation" class="form-control" placeholder="Enter your skills separated by commas">
+              <input type="text" id="userLocation" class="form-control" placeholder="Enter your location">
               <div class="invalid-feedback">Please enter a valid address.</div>
             </div>
 
@@ -126,11 +126,7 @@
             <input type="text" id="expectedSalary" class="form-control" value="Negotiable">
           </div>
 
-          <!-- Skills Tags -->
-          <div class="form-group">
-            <label for="skillsTags" class="font-weight-bold">Skills Tags</label>
-            <input type="text" id="skillsTags" class="form-control" placeholder="Enter your skills separated by commas">
-          </div>
+
 
         </app>
 
@@ -147,14 +143,17 @@
         <div class="container mt-5">
           <h3 class="border-bottom pb-2 mb-4">Resume Submission</h3>
 
-          <hr />
           <!-- Your URLs -->
           <div class="form-group">
             <label for="portfolio" class="font-weight-bold">Portfolio</label>
             <input type="url" id="portfolio" class="form-control" placeholder="https://yourPortfolio.com">
+          </div>
+          <div class="form-group">
 
             <label for="linkedIn" class="font-weight-bold">LinkedIn</label>
             <input type="url" id="linkedIn" class="form-control" placeholder="https://www.linkedin.com/in/yourLinkedin">
+          </div>
+          <div class="form-group">
 
             <label for="website" class="font-weight-bold">Website</label>
             <input type="url" id="website" class="form-control" placeholder="https://yourWebsite.com">
@@ -176,7 +175,7 @@
           <div class="file-upload-container">
             <label class="file-upload-label" for="resumeInput">
               <span>Upload Resume (PDF, DOC, DOCX)</span>
-              <input type="file" id="resumeInput" accept=".pdf, .doc, .docx, .jpeg, .jpg, .png" class="file-upload-input">
+              <input type="file" id="resumeInput" accept=".pdf, .doc, .docx" class="file-upload-input">
             </label>
             <div class="file-name-display" id="fileNameDisplay">No file selected</div>
           </div>
@@ -869,7 +868,6 @@
         const referralSource = new URLSearchParams(window.location.search).get('referralSource') || 'Direct Visit'; // Get referral source from URL
         const experienceSummary = document.getElementById('experienceSummary').value;
         const expectedSalary = document.getElementById('expectedSalary').value;
-        const skillsTags = document.getElementById('skillsTags').value.split(',').map(tag => tag.trim());
         const linkedIn = sanitizeInput(document.getElementById('linkedin').value);
         const portfolio = sanitizeInput(document.getElementById('portfolio').value);
         const website = sanitizeInput(document.getElementById('website').value);
@@ -918,7 +916,6 @@
           }, // optional social links
           coverLetter: sanitizeInput(document.getElementById('coverLetter').value),
           expectedSalary: expectedSalary, // or collected from the applicant
-          skillsTags: skillsTags,
           boostNotes: isBoosted ? "Application boosted on " + new Date().toLocaleString() : "",
         };
         //  console.log("applicationData  ",applicationData);
@@ -1090,10 +1087,17 @@
       }
       if (jobData) {
         // Display or hide cover letter area based on jobData.coverLetter
-        if (jobData.coverLetter) {
+        if (jobData.expectedSalary) {
+          document.getElementById('expectedSalary').style.display = "block";
+        } else {
+          document.getElementById('expectedSalary').style.display = "none";
+          document.getElementById('expectedSalary').value = "Not Asked";
+        }       
+         if (jobData.coverLetter) {
           document.getElementById('coverLetterArea').style.display = "block";
         } else {
           document.getElementById('coverLetterArea').style.display = "none";
+          document.getElementById('coverLetter').value = "Not Asked";
         }
         // Set or remove 'required' attribute for cover letter based on jobData.requiredCoverLetter
         const coverLetterField = document.getElementById('requiredCoverLetter');
@@ -1101,7 +1105,6 @@
           coverLetterField.setAttribute("required", "true");
         } else {
           coverLetterField.removeAttribute("required");
-          document.getElementById('coverLetter').value = "Not Required";
         }
         // Set or remove 'required' attribute for resume based on jobData.resumeRequired
         const resumeField = document.getElementById('resumeInput');
@@ -1133,7 +1136,6 @@
         website: document.getElementById('website').value,
         coverLetter: document.getElementById('coverLetter').value,
         expectedSalary: document.getElementById('expectedSalary').value,
-        skillsTags: document.getElementById('skillsTags').value,
       };
       // Store form values in local storage
       localStorage.setItem('jobFormValues', JSON.stringify(formValues));
