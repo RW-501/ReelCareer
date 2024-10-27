@@ -1161,9 +1161,21 @@ const selectedOption = question.querySelector(`input[name="question-question_${i
     async function uploadFile(inputId, folder, applicantData, urlKey) {
       const file = document.getElementById(inputId).files[0];
       if (file) {
-        const fileRef = storage.ref(`${folder}/${file.name}`);
-        await fileRef.put(file);
-        applicantData[urlKey] = await fileRef.getDownloadURL();
+        const fileRef = ref(storage, `${folder}/${file.name}`); // Reference to file in the specified folder
+        const uploadTask = uploadBytesResumable(fileRef, file); // Start the upload
+
+        // Await upload completion and get the download URL
+        await new Promise((resolve, reject) => {
+            uploadTask.on(
+                'state_changed', 
+                null,
+                (error) => reject(error), // Handle any errors
+                async () => {
+                    applicantData[urlKey] = await getDownloadURL(uploadTask.snapshot.ref);
+                    resolve();
+                }
+            );
+        });
       }
     }
     // Function to send applicant_PDC to AppDataCompliance collection
