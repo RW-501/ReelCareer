@@ -1604,3 +1604,79 @@ loadRelatedBlogs(jobTags, 'blogContainer'); // Replace 'blogContainer' with your
 </div>
 
 */
+
+
+// Function to load similar jobs based on tags
+async function getSimilarJobs(jobTags, JobsContainer) {
+  const maxSimilarJobs = 5; // Limit the number of similar jobs displayed
+
+  try {
+      // Reference to the 'Jobs' collection and query based on tags
+      const jobsRef = collection(db, 'Jobs');
+      const q = query(jobsRef, where('tags', 'array-contains-any', jobTags), limit(maxSimilarJobs));
+      const querySnapshot = await getDocs(q);
+
+      // Clear the specified jobs container
+      JobsContainer.innerHTML = ''; // Reset the container for fresh data
+
+      // Check if there are any matching jobs
+      if (querySnapshot.empty) {
+          displayEmptyState(JobsContainer, 'No related jobs found.', 'fas fa-briefcase');
+          return;
+      }
+
+      querySnapshot.forEach(doc => {
+          const similarJob = doc.data();
+          
+          // Skip displaying the current job itself if desired (optional, can add logic here)
+          // if (doc.id === currentJobId) return;
+
+          // Create the card element for similar jobs
+          const jobCard = document.createElement('div');
+          jobCard.classList.add('col-md-6', 'col-lg-4', 'mb-3');
+          jobCard.innerHTML = `
+              <div class="similar-job-card">
+                  <!-- Job Title as a Link -->
+                  <h5><a href="../views/job-detail?id=${doc.id}" class="job-title-link">${similarJob.title}</a></h5>
+                  <p><strong>${similarJob.company}</strong> - ${formatLocation(similarJob.location)}</p>
+                  <p class="card-text"><strong>Type:</strong> ${formatJobType(similarJob.type)}</p>
+                  <p class="card-text"><strong>Salary:</strong> ${formatCurrency(similarJob.salary, { decimals: 0 })}</p>
+
+                  <!-- Display job tags as clickable buttons -->
+                  <div class="job-tags mt-2">
+                      ${similarJob.tags.map(tag => `
+                          <a href="../views/job-listings/?tag=${encodeURIComponent(tag)}" class="btn btn-primary badge" style="margin: 0.2rem;">
+                              ${tag}
+                          </a>
+                      `).join('')}
+                  </div>
+
+                  <!-- View Job Button -->
+                  <a href="../views/job-detail?id=${doc.id}" class="view-job-btn">View Job</a>
+              </div>
+          `;
+
+          // Append the card to the specified container
+          JobsContainer.appendChild(jobCard);
+      });
+  } catch (error) {
+      console.error("Error fetching similar jobs: ", error);
+      displayEmptyState(JobsContainer, 'Error loading similar jobs.', 'fas fa-briefcase');
+  }
+}
+
+// Function to display an empty state message
+function displayEmptyState(container, message, iconClass = 'fas fa-search') {
+  container.innerHTML = `
+  <div class="empty-state text-center my-4">
+      <i class="${iconClass} fa-3x text-muted"></i>
+      <p class="text-muted mt-2">${message}</p>
+  </div>
+`;
+}
+
+/*
+// Call the function with jobTags and a container element as arguments
+const JobsContainer = document.getElementById('similarJobsContainer'); // Example target container
+getSimilarJobs(jobTags, JobsContainer);
+*/

@@ -848,7 +848,7 @@ const selectedOption = question.querySelector(`input[name="question-question_${i
             jobId = getJobIdFromURL();
 
             // Load job and company info on page load
-            if (jobId != null) {  // Check if jobDocRef is NOT null
+            if (jobId != null && userIdURL != null) {  // Check if jobDocRef is NOT null
                           //console.log("jobId   ",jobId,"  userIdURL  ",userIdURL);
             const jobDocRef = doc(db, 'Jobs', jobId); // Reference to the job document
   fetchJobAndCompanyInfo(jobDocRef);
@@ -1142,11 +1142,72 @@ const selectedOption = question.querySelector(`input[name="question-question_${i
             })
           });
           // Show success message
-          showToast('Application submitted successfully!', 'success');
+          const applicationForm = document.getElementById('applicationForm');
+applicationForm.textContent = "";  // Clear any existing content
+
+applicationForm.innerHTML = `
+    <div style="text-align: center; padding: 20px;">
+        <div class="success-animation" style="margin-bottom: 15px;">
+            <svg width="80" height="80" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9 12l2 2l4 -4" stroke="#4CAF50" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="12" cy="12" r="9" stroke="#4CAF50" stroke-width="2"/>
+            </svg>
+        </div>
+        <h2>Congratulations on Submitting Your Application!</h2>
+        <p>Thank you for applying! Track your application status and manage your job search from your 
+            <a href="https://reelcareer.co/views/job-seeker" class="btn btn-primary">Job Seeker Dashboard</a>.
+        </p>
+        <p>Explore more opportunities or check out our latest career advice articles below:</p>
+        <a href="/job-listing-page" class="btn btn-secondary">Back to Jobs</a>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 40px; margin-top: 50px;">
+        <!-- Section for Similar Jobs -->
+        <div class="similar-jobs-section">
+            <h3>Similar Job Opportunities</h3>
+            <div id="similarJobsContainer" class="job-cards" style="display: flex; gap: 20px; overflow-x: auto;">
+                <!-- Example job cards, populate dynamically with similar jobs -->
+       
+                <!-- Add more job cards as needed -->
+            </div>
+        </div>
+        <!-- Section for Blog Articles -->
+        <div class="blog-articles-section">
+            <h3>Latest Career Advice</h3>
+            <div id="blogContainer" class="blog-cards" style="display: flex; gap: 20px; overflow-x: auto;">
+                <!-- Example blog cards, populate dynamically with blog articles -->
+           
+                <!-- Add more blog cards as needed -->
+            </div>
+        </div>
+    </div>
+`;
+const jobTags = ['job', 'jobs', 'new jobs']; 
+
+const similarJobsContainer = document.getElementById('similarJobsContainer');
+
+// Function to fetch similar jobs based on tags
+
+const JobsContainer = document.getElementById('similarJobsContainer'); // Example target container
+getSimilarJobs(jobTags, JobsContainer);
+
+          window.addEventListener('load', () => {
+window.loadRelatedBlogs(jobTags, 'blogContainer');
+});
+
+// Optional: Redirect to dashboard after a few seconds
+setTimeout(() => {
+    window.location.href = "https://reelcareer.co/views/job-seeker";
+}, 10000); // Redirects after 10 seconds
+
+  showToast('Application submitted successfully!', 'success');
+
         } catch (error) {
           console.error('Error submitting application:', error);
           showToast('Error submitting application. Please try again.', 'error');
-        } finally {}
+        } finally {
+
+
+        }
       }
     }
     // Event listener for regular application submission
