@@ -206,12 +206,12 @@ console.log(formatDateString(1732032108000));                           // Expec
 
      // Check if the input is "N" or "n" and return "Negotiable" if so
      if (input.trim().toLowerCase() === "n") {
-      return "Negotiable";
+      input.value = "Negotiable";
     }
     // Format the current input value
     const formattedValue = formatCurrency(input.value, { decimals: 0 });
     // Update the input value with formatted currency or "Negotiable"
-    input.value = formattedValue;
+    input.value  = formattedValue;
   
     // Optionally, set the cursor position after the formatted number
     const position = formattedValue.length; // Cursor position at the end
