@@ -501,7 +501,7 @@ text-align: left;
 
                         <!-- Company Logo and Mission -->
     <div class="text-center">
-        <img id="companyLogo" class="job-logo img-fluid rounded-circle shadow" alt="Company Logo" src="/images/sq_logo_n_BG.png" loading="lazy" />
+        <img id="companyLogo" class="job-logo img-fluid rounded-circle shadow fw-800" alt="Company Logo" src="/images/sq_logo_n_BG.png" loading="lazy" />
         <h4 class="fw-bold mt-4">Our Mission</h4>
         <p id="companyMission" class="text-muted font-italic px-5">Company Mission Statement goes here...</p>
       </div>
@@ -1189,6 +1189,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     : null;
                 const internalSource = sessionStorage.getItem('lastInternalPage');
                 const referralSource = externalSource || internalSource || 'Direct Visit';
+
+                console.log("referralSource  ",referralSource);
+                console.log("jobID  ",userId);
+                console.log("referralSource  ",referralSource);
 
                 // Redirect to the application page with jobID, userID, and referralSource as URL parameters
                 document.location.href = `apply.html?jobId=${encodeURIComponent(jobID)}&userId=${encodeURIComponent(userId)}&referralSource=${encodeURIComponent(referralSource)}`;
