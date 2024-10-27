@@ -450,7 +450,7 @@
   <script>
     const resumeInput = document.getElementById('resumeInput');
     const fileNameDisplay = document.getElementById('fileNameDisplay');
-    const previewModal = document.getElementById('previewModal');
+    const resumePreviewModal = document.getElementById('resumePreviewModal');
     const resumePreviewContent = document.getElementById('resumePreviewContent');
     const useResume = document.getElementById('useResume');
     const closeButton = document.getElementById('closeButton');
@@ -475,11 +475,11 @@
         <p>File: ${file.name}.${file.type}</p>
 
     `;
-      previewModal.style.display = 'block'; // Show the modal
+    resumePreviewModal.style.display = 'block'; // Show the modal
     }
     // Close the modal
     closeButton.onclick = function() {
-      previewModal.style.display = 'none';
+      resumePreviewModal.style.display = 'none';
     };
     // Handle save action
     useResume.onclick = function() {
@@ -487,12 +487,12 @@
       // Add saving logic here
       //   showToast("Saving resume with title:", resumeTitle, "info");
       // Close modal after saving
-      previewModal.style.display = 'none';
+      resumePreviewModal.style.display = 'none';
     };
     // Close modal when clicking outside of it
     window.onclick = function(event) {
       if (event.target === previewModal) {
-        previewModal.style.display = 'none';
+        resumePreviewModal.style.display = 'none';
       }
     };
     // Drag and Drop functionality
@@ -513,6 +513,17 @@
         handleFiles(); // Process the dropped files
       }
     });
+
+
+
+
+
+
+
+
+
+
+    
     // Function to load custom questions into the container
     function loadCustomQuestions(customQuestions) {
       const customQuestionsContainer = document.getElementById('customQuestionsContainer');
