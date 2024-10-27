@@ -1136,7 +1136,7 @@ const selectedOption = question.querySelector(`input[name="question-question_${i
               LastStatusUpdate: new Date().toISOString(), // Tracks when the status was last updated
               ResumeLastViewed: null, // Tracks last viewed date of resume by recruiter
               Notes: [], // Allows user or system to add notes about the application
-              AppliedFromPlatform: platform, // Captures source if multi-platform (e.g., website, mobile app)
+              viewMethod: navigator.userAgentData?.mobile ? "mobile" : "desktop", // Detects desktop or mobile view
               UpcomingInterviewDate: interviewDate || null, // Tracks any scheduled interviews
               RequiredTestsCompleted: false, // Tracks if user completed required assessments or tests
             })
@@ -1230,7 +1230,7 @@ const selectedOption = question.querySelector(`input[name="question-question_${i
             viewSource: viewSource, // Tracks the source of the view
             referralSource: referralSource // Tracks the referral source
           }),
-          applicantsViewed:  (applicantsViewed || 0) + 1,
+          applicantsViewed: + 1,
         });
         console.log("Job view data updated successfully.");
       } catch (error) {
