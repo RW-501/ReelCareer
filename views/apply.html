@@ -773,7 +773,7 @@ const selectedOption = question.querySelector(`input[name="question-question_${i
         document.body.appendChild(previewModal); // Use document.body instead of document.main
   
   // Close modal on close button click
-  const closeModal = () => {
+  function closeModal(){
    document.body.removeChild(previewModal); // Remove modal when closed
   };
  
