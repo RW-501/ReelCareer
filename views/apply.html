@@ -103,7 +103,7 @@
                         <!-- User Location -->
                         <div class="form-group">
                           <label for="userLocation" class="font-weight-bold">Location</label>
-                          <input type="text" id="userLocation" class="form-control" placeholder="Enter your location">
+                          <input type="text" id="userLocation" oninput="autoSuggest(this.value,'locationSuggestions')" class="form-control  keywordInput location-input" placeholder="Enter your location">
                           <div class="invalid-feedback">Please enter a valid address.</div>
                         </div>
             
@@ -125,7 +125,7 @@
           <!-- Expected Salary -->
           <div class="form-group" id="salaryExpectionArea">
             <label for="expectedSalary" class="font-weight-bold">Expected Salary</label>
-            <input type="text" id="expectedSalary" class="form-control" value="Negotiable">
+            <input type="text" id="expectedSalary" class="form-control"  onkeydown="restrictKeys(event)" aria-label="Salary Range" oninput="updateCurrency(this)" class="form-control" id="jobSalary" min="0" placeholder="Enter salary"  value="Negotiable">
           </div>
 
 

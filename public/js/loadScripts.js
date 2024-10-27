@@ -171,8 +171,13 @@ console.log(formatDateString(1732032108000));                           // Expec
   // formatTags(jobData.tags);
   
   // Function to format currency (for both input fields and static numbers)
-  function formatCurrency(value, options = {}) {
+  function formatCurrency(value, options = {}) { 
     const { locale = "en-US", currency = "USD", decimals = 0 } = options;
+  
+    // If the input is exactly "Negotiable," return it directly without formatting
+    if (value === "Negotiable") {
+      return value;
+    }
   
     // Convert to string if value is a number
     let cleanValue = typeof value === "number" ? value.toString() : String(value);
@@ -207,7 +212,7 @@ console.log(formatDateString(1732032108000));                           // Expec
     const position = formattedValue.length; // Cursor position at the end
     input.setSelectionRange(position, position);
   }
-  
+    
   /*
   // Usage examples with default formatting
   console.log(formatCurrency("1234.56"));        // "$1,234.56"
