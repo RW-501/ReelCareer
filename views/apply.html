@@ -824,10 +824,11 @@ function openModal(file) {
             // Example usage
             userIdURL = getUserIdFromURL();
             jobId = getJobIdFromURL();
-            //console.log("jobId   ",jobId,"  userIdURL  ",userIdURL);
-            const jobDocRef = doc(db, 'Jobs', jobId); // Reference to the job document
+
             // Load job and company info on page load
-            if (jobDocRef != null) {  // Check if jobDocRef is NOT null
+            if (jobId != null) {  // Check if jobDocRef is NOT null
+                          //console.log("jobId   ",jobId,"  userIdURL  ",userIdURL);
+            const jobDocRef = doc(db, 'Jobs', jobId); // Reference to the job document
   fetchJobAndCompanyInfo(jobDocRef);
 } else {
   // Show error message if jobDocRef is null

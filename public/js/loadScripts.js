@@ -205,7 +205,7 @@ console.log(formatDateString(1732032108000));                           // Expec
   function updateCurrency(input) {
 
      // Check if the input is "N" or "n" and return "Negotiable" if so
-     if (input.trim().toLowerCase() === "n") {
+     if (input.value.trim().toLowerCase() === "n") {
       input.value = "Negotiable";
     }
     // Format the current input value
