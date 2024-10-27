@@ -973,30 +973,49 @@ const selectedOption = question.querySelector(`input[name="question-question_${i
     }
     // Form Validation
     function validateForm() {
-      const requiredFields = ['firstName', 'lastName', 'email', 'phone'];
-      for (const field of requiredFields) {
-        const value = sanitizeInput(document.getElementById(field).value);
-        if (!value) {
-          showToast(`${field} is required.`, 'error');
-          return false;
-        }
-        document.getElementById(field).value = value; // Update the input with sanitized value
-      }
-      // Email validation
-      const email = document.getElementById('email').value;
-      const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
-      if (!emailPattern.test(email)) {
-        showToast('Invalid email format.', 'error');
-        return false;
-      }
-      // Phone validation (simple numeric check)
-      const phone = document.getElementById('phone').value;
-      if (!/^\d+$/.test(phone)) {
-        showToast('Phone number must be numeric.', 'error');
-        return false;
-      }
-      return true;
-    }
+  const email = document.getElementById('email').value.trim();
+  const phone = document.getElementById('phone').value.trim();
+  const linkedIn = document.getElementById('linkedin').value.trim();
+  const portfolio = document.getElementById('portfolio').value.trim();
+  const website = document.getElementById('website').value.trim();
+
+  // Email validation
+  const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+  if (!emailPattern.test(email)) {
+    showToast('Invalid email format.', 'error');
+    return false;
+  }
+
+  // Phone validation - checking for numeric values with 10-15 digits
+  const phonePattern = /^\d{10,15}$/;
+  if (!phonePattern.test(phone)) {
+    showToast('Phone number must be numeric and between 10 to 15 digits.', 'error');
+    return false;
+  }
+
+  // URL validation pattern for LinkedIn, portfolio, and website
+  const urlPattern = /^(https?:\/\/)?([\w-]+\.)+[\w-]{2,6}\/?/;
+
+  // LinkedIn validation
+  if (linkedIn && !urlPattern.test(linkedIn)) {
+    showToast('Invalid LinkedIn URL format.', 'error');
+    return false;
+  }
+
+  // Portfolio validation
+  if (portfolio && !urlPattern.test(portfolio)) {
+    showToast('Invalid portfolio URL format.', 'error');
+    return false;
+  }
+
+  // Website validation
+  if (website && !urlPattern.test(website)) {
+    showToast('Invalid website URL format.', 'error');
+    return false;
+  }
+
+  return true;
+}
     // Function to handle application submission
     async function submitApplication(event, isBoosted) {
       // const userId = auth.currentUser ? auth.currentUser.uid : null; // Get user ID
@@ -1029,7 +1048,8 @@ const selectedOption = question.querySelector(`input[name="question-question_${i
         const linkedIn = sanitizeInput(document.getElementById('linkedin').value);
         const portfolio = sanitizeInput(document.getElementById('portfolio').value);
         const website = sanitizeInput(document.getElementById('website').value);
-        // Retrieve answers for custom questions
+
+      // Retrieve answers for custom questions
         const customAnswers = getCustomAnswers(jobData.customQuestions);
         // Prepare main application data
         const applicationData = {
