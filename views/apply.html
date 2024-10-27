@@ -527,10 +527,22 @@
     const file = resumeInput.files[0];
     const fileName = file.name;
     fileNameDisplay.textContent = fileName;
-    openModal(file);  // Open the modal for preview
-  } else {
-    fileNameDisplay.textContent = 'Upload Resume (PDF, DOC, DOCX)';  // Reset display
-  }
+
+// Open the modal for preview
+openModal(file);  
+
+// Add onclick event to display the filename as a clickable button
+fileNameDisplay.onclick = function() {
+  fileNameDisplay.style.display = 'block';
+  fileNameDisplay.classList.add("btn");  // Use classList.add to add the class
+};
+
+// Handle case when no file is selected
+} else {
+  fileNameDisplay.textContent = 'Upload Resume (PDF, DOC, DOCX)';  // Reset display
+  fileNameDisplay.classList.remove("btn");  // Use classList.remove to remove the class
+}
+
 }
 
 // Open modal to preview the resume

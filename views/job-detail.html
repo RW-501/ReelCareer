@@ -1189,9 +1189,7 @@ if (jobTags.length > 0) {
                 const internalSource = sessionStorage.getItem('lastInternalPage');
                 const referralSource = externalSource || internalSource || 'Direct Visit';
 
-                console.log("referralSource  ",referralSource);
-                console.log("jobID  ",userId);
-                console.log("referralSource  ",referralSource);
+
 
                 // Redirect to the application page with jobID, userID, and referralSource as URL parameters
                 document.location.href = `apply.html?jobId=${encodeURIComponent(jobID)}&userId=${encodeURIComponent(userId)}&referralSource=${encodeURIComponent(referralSource)}`;
