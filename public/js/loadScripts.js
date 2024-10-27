@@ -174,11 +174,7 @@ console.log(formatDateString(1732032108000));                           // Expec
   function formatCurrency(value, options = {}) { 
     const { locale = "en-US", currency = "USD", decimals = 0 } = options;
   
-    // Check if the input is "N" or "n" and return "Negotiable" if so
-    if (value.trim().toLowerCase() === "n") {
-      return "Negotiable";
-    }
-  
+
     // Convert to string if value is a number
     let cleanValue = typeof value === "number" ? value.toString() : String(value);
   
@@ -204,10 +200,7 @@ console.log(formatDateString(1732032108000));                           // Expec
   
   function updateCurrency(input) {
 
-     // Check if the input is "N" or "n" and return "Negotiable" if so
-     if (input.value.trim().toLowerCase() === "n") {
-      input.value = "Negotiable";
-    }
+ 
     // Format the current input value
     const formattedValue = formatCurrency(input.value, { decimals: 0 });
     // Update the input value with formatted currency or "Negotiable"
