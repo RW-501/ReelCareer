@@ -1033,7 +1033,6 @@ const selectedOption = question.querySelector(`input[name="question-question_${i
         const companyName = jobData.company;
         const companyId = jobData.companyId;
         const referralSource = new URLSearchParams(window.location.search).get('referralSource') || 'Direct Visit'; // Get referral source from URL
-        const experienceSummary = document.getElementById('experienceSummary').value;
         const expectedSalary = document.getElementById('expectedSalary').value;
         const linkedIn = sanitizeInput(document.getElementById('linkedIn').value);
         const portfolio = sanitizeInput(document.getElementById('portfolio').value);
