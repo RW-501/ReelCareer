@@ -803,47 +803,73 @@
         const customAnswers = getCustomAnswers(jobData.customQuestions);
         // Prepare main application data
         const applicationData = {
-          firstName: sanitizeInput(document.getElementById('firstName').value),
-          lastName: sanitizeInput(document.getElementById('lastName').value),
-          email: sanitizeInput(document.getElementById('email').value),
-          phone: sanitizeInput(document.getElementById('phone').value),
-          feedback: sanitizeInput(document.getElementById('noteToRecruiter').value),
-          portfolio: sanitizeInput(document.getElementById('portfolio').value),
-          jobTitle: jobTitle,
-          companyName: companyName || "",
-          companyId: companyId,
-          boostedApp: isBoosted, // Set to true if boosting
-          jobId: jobId,
-          status: [{
-            status: "active",
-            timestamp: new Date().toLocaleString()
-          }],
-          notes: [],
-          interviewRequestBool: false,
-          interviewRequestDate: '',
-          testRequestBool: false,
-          testRequestExpireDate: '',
-          testRequestNames: [],
-          views: 0,
-          resumeViews: 0,
-          videoResumeViews: 0,
-          userId: userId,
-          customAnswers: customAnswers, // Add custom answers to the data
-          applyDate: new Date().toLocaleString(),
-        };
-        //  console.log("applicationData  ",applicationData);
+  firstName: sanitizeInput(document.getElementById('firstName').value),
+  lastName: sanitizeInput(document.getElementById('lastName').value),
+  email: sanitizeInput(document.getElementById('email').value),
+  phone: sanitizeInput(document.getElementById('phone').value),
+  feedback: sanitizeInput(document.getElementById('noteToRecruiter').value),
+  portfolio: sanitizeInput(document.getElementById('portfolio').value),
+  jobTitle: jobTitle,
+  companyName: companyName || "",
+  companyId: companyId,
+  boostedApp: isBoosted,
+  jobId: jobId,
+  status: [{
+    status: "active",
+    timestamp: new Date().toLocaleString()
+  }],
+  statusHistory: [
+    {
+      status: "applied",
+      timestamp: new Date().toLocaleString(),
+    }
+  ],
+  notes: [],
+  interviewRequestBool: false,
+  interviewRequestDate: '',
+  testRequestBool: false,
+  testRequestExpireDate: '',
+  testRequestNames: [],
+  views: 0,
+  resumeViews: 0,
+  videoResumeViews: 0,
+  userId: userId,
+  customAnswers: customAnswers,
+  applyDate: new Date().toLocaleString(),
+  source: "ReelCareer Job Board",
+  digitalResume: "",
+  applicantLocation: "Dallas, TX", // or fetched dynamically
+  socialLinks: { linkedIn: "", portfolio: "" }, // optional social links
+  experienceSummary: "5+ years in Web Development, JavaScript, Firebase",
+  expectedSalary: "Negotiable", // or collected from the applicant
+  skillsTags: ["JavaScript", "Firebase", "UI/UX"],
+  boostNotes: isBoosted ? "Application boosted on " + new Date().toLocaleString() : "",
+};
+       //  console.log("applicationData  ",applicationData);
         // Prepare applicant PDC data (Personal Data Compliance)
         const applicant_PDC = {
-          gender: sanitizeInput(document.getElementById('gender').value),
-          race: sanitizeInput(document.getElementById('race').value),
-          veteran: sanitizeInput(document.getElementById('veteran').value),
-          disability: sanitizeInput(document.getElementById('disability').value),
-          shareInfo: document.getElementById('shareInfo').checked,
-          disclosureName: sanitizeInput(document.getElementById('disclosureName').value),
-          disclosureDate: sanitizeInput(document.getElementById('disclosureDate').value),
-          jobId: jobId,
-          submitted: new Date().toLocaleString(),
-        };
+  gender: sanitizeInput(document.getElementById('gender').value),
+  race: sanitizeInput(document.getElementById('race').value),
+  ethnicity: sanitizeInput(document.getElementById('ethnicity')?.value || ""),
+  veteran: sanitizeInput(document.getElementById('veteran').value),
+  disability: sanitizeInput(document.getElementById('disability').value),
+  preferredPronouns: sanitizeInput(document.getElementById('preferredPronouns')?.value || ""),
+  shareInfo: document.getElementById('shareInfo').checked,
+  consentAcknowledgement: document.getElementById('consentAcknowledgement').checked,
+  disclosureName: sanitizeInput(document.getElementById('disclosureName').value),
+  disclosureDate: sanitizeInput(document.getElementById('disclosureDate').value),
+  disclosureLocation: sanitizeInput(document.getElementById('disclosureLocation')?.value || ""),
+  applicantComments: sanitizeInput(document.getElementById('applicantComments')?.value || ""),
+  dataRetentionPeriod: sanitizeInput(document.getElementById('dataRetentionPeriod')?.value || "1 year"),
+  legalDisclosures: document.getElementById('legalDisclosures')?.checked || false,
+  
+  // Job-specific information
+  jobTitle: jobTitle,
+  companyName: companyName || "",
+
+  jobId: jobId,
+  submitted: new Date().toLocaleString(),
+};
         // console.log("applicant_PDC  ",applicant_PDC);
         //return;
         try {
@@ -857,16 +883,27 @@
           await sendToAppDataCompliance(applicant_PDC);
           // Update user's document with the job application info
           const userDocRef = doc(db, 'Users', userId); // Reference to the user's document
-          await updateDoc(userDocRef, {
-            userApps: arrayUnion({
-              JobID: jobId,
-              JobTitle: jobTitle,
-              CompanyName: companyName,
-              Status: status,
-              IsBoosted: isBoosted,
-              ApplyDate: new Date().toISOString()
-            })
-          });
+await updateDoc(userDocRef, {
+  userApps: arrayUnion({
+    JobID: jobId,
+    JobTitle: jobTitle,
+    CompanyName: companyName,
+    Status: status,                  // e.g., "Active," "Interview Scheduled"
+    IsBoosted: isBoosted,             // Shows if the application was boosted
+    ApplyDate: new Date().toISOString(),
+    
+    // Additional helpful fields for user summary
+    Location: jobLocation,            // Location of the job, if available
+    ApplicationCount: applicationCount + 1,  // Keeps track of the total applications user has submitted
+    LastStatusUpdate: new Date().toISOString(), // Tracks when the status was last updated
+    ResumeLastViewed: null,           // Tracks last viewed date of resume by recruiter
+    Notes: [],                        // Allows user or system to add notes about the application
+    AppliedFromPlatform: platform,    // Captures source if multi-platform (e.g., website, mobile app)
+    UpcomingInterviewDate: interviewDate || null, // Tracks any scheduled interviews
+    RequiredTestsCompleted: false,     // Tracks if user completed required assessments or tests
+  })
+});
+
           // Show success message
           showToast('Application submitted successfully!', 'success');
         } catch (error) {
@@ -901,6 +938,88 @@
         // console.error('Error adding document to AppDataCompliance:', error);
       }
     }
+
+
+
+
+    let viewStartTime;
+
+// Function to set the last internal page in sessionStorage before navigating
+function setInternalPageSource() {
+    sessionStorage.setItem('lastInternalPage', window.location.href);
+}
+
+// Function to start tracking the view time when the page loads
+function startViewTimer() {
+    viewStartTime = Date.now();
+}
+
+// Function to update the application's 'applicantsViewed' count, view source, and view duration in Firebase
+async function updateApplicationViewData() {
+    // Calculate view duration in seconds
+    const viewEndTime = Date.now();
+    const durationOfView = (viewEndTime - viewStartTime) / 1000; // Convert ms to seconds
+
+    // Determine the source
+    const externalSource = document.referrer && !document.referrer.includes(window.location.origin)
+        ? document.referrer
+        : null;
+    const internalSource = sessionStorage.getItem('lastInternalPage');
+    const viewSource = externalSource || internalSource || 'Direct Visit';
+
+    // Retrieve job and user information
+    const jobId = new URLSearchParams(window.location.search).get('jobId'); // Get jobId from URL
+    const jobTitle = document.getElementById('jobTitle')?.innerText || ''; // Job title can be set here if needed
+    const userId = auth.currentUser ? auth.currentUser.uid : 'guest'; // Get user ID
+    const viewerRole = auth.currentUser ? 'job seeker' : 'guest'; // Set role based on login status
+    const referralSource = new URLSearchParams(window.location.search).get('referralSource') || 'Direct Visit'; // Get referral source from URL
+
+    // Validate job ID before proceeding
+    if (!jobId) {
+        console.error("Missing jobId. View data not recorded.");
+        return;
+    }
+
+    // Update the job view data in the Jobs collection
+    try {
+        await updateDoc(doc(db, 'Jobs', jobId), {
+            viewedBy: arrayUnion({
+                viewerId: userId,                       // ID of the user or 'guest'
+                viewerRole: viewerRole,                 // Role of the viewer (e.g., 'job seeker', 'recruiter', or 'guest')
+                viewDate: new Date().toISOString(),
+                viewMethod: navigator.userAgentData?.mobile ? "mobile" : "desktop", // Detects desktop or mobile view
+                durationOfView: durationOfView || null, // Optional: estimated duration of view in seconds
+                viewSource: viewSource,                 // Tracks the source of the view
+                referralSource: referralSource           // Tracks the referral source
+            }),
+            applicantsViewed: increment(1),
+        });
+        console.log("Job view data updated successfully.");
+    } catch (error) {
+        console.error("Error updating job view data:", error);
+    }
+}
+
+// Event listener to set last internal page before navigating away
+window.addEventListener('beforeunload', setInternalPageSource);
+
+// Event listener to start timing the view when the page loads
+window.addEventListener('load', startViewTimer);
+
+// Event listener to record data when the page is unloaded
+window.addEventListener('beforeunload', updateApplicationViewData);
+
+
+
+
+
+
+
+
+
+
+
+
   </script>
 
 </body>
