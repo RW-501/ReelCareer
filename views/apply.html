@@ -777,12 +777,12 @@ const selectedOption = question.querySelector(`input[name="question-question_${i
    document.body.removeChild(previewModal); // Remove modal when closed
   };
  
+  showPreviewModal(); // Call the function to show the preview modal
+
 
   // Add event listeners to both close buttons
-  previewModal.querySelector('.close').addEventListener('click', closeModal);
-  previewModal.querySelector('.close-btn').addEventListener('click', closeModal);
-
-  showPreviewModal(); // Call the function to show the preview modal
+  previewModal.querySelector('.close').addEventListener('click', closeModal());
+  previewModal.querySelector('.close-btn').addEventListener('click', closeModal());
 
       }
  
