@@ -551,13 +551,35 @@ function handleFiles() {
 
 // Open modal to preview the resume
 function openModal(file) {
-    // Prepare modal content
-    resumePreviewContent.innerHTML = `
-        <p>File Name: ${file.name}</p>
-        <p>File Type: ${file.type}</p>
-        <p>File Size: ${file.size} bytes</p>
+  // Check if the file is an image
+  const isImage = /\.(jpe?g|png|gif)$/i.test(file.name);
+  const isPDF = /\.pdf$/i.test(file.name);
+
+  // Create preview content
+  let previewContent = `<p>File: ${file.name}</p>`;
+
+  if (isImage) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      previewContent += `<img src="${e.target.result}" alt="Image Preview" style="max-width:100%; margin-top: 10px;">`;
+      resumePreviewContent.innerHTML = previewContent;  // Insert content into modal
+      resumePreviewModal.style.display = 'block';  // Show the modal
+    };
+    reader.readAsDataURL(file);  // Load image as base64 URL
+  } else if (isPDF) {
+    const pdfUrl = URL.createObjectURL(file);
+    previewContent += `
+      <object data="${pdfUrl}" type="application/pdf" width="100%" height="500px">
+        <p>Your browser does not support inline PDF previews. <a href="${pdfUrl}" target="_blank">Download PDF</a></p>
+      </object>
     `;
-    previewModal.style.display = 'block'; // Show the modal
+    resumePreviewContent.innerHTML = previewContent;
+    resumePreviewModal.style.display = 'block';
+  } else {
+    previewContent += `<p>No preview available. Please upload a PDF or image file.</p>`;
+    resumePreviewContent.innerHTML = previewContent;
+    resumePreviewModal.style.display = 'block';
+  }
 }
 
 // Close the modal
