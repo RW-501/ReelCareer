@@ -1012,14 +1012,13 @@
         const applicant_PDC = {
           gender: sanitizeInput(document.getElementById('gender').value),
           race: sanitizeInput(document.getElementById('race').value),
-          ethnicity: sanitizeInput(document.getElementById('ethnicity')?.value || ""),
           veteran: sanitizeInput(document.getElementById('veteran').value),
           disability: sanitizeInput(document.getElementById('disability').value),
-          preferredPronouns: sanitizeInput(document.getElementById('preferredPronouns')?.value || ""),
+          preferredPronouns: sanitizeInput(document.getElementById('preferredPronouns').value || ""),
           consentAcknowledgement: document.getElementById('consentAcknowledgement').checked,
           disclosureName: sanitizeInput(document.getElementById('disclosureName').value),
           disclosureDate: sanitizeInput(document.getElementById('disclosureDate').value),
-          disclosureLocation: sanitizeInput(document.getElementById('userLocation')?.value || ""),
+          disclosureLocation: sanitizeInput(document.getElementById('userLocation').value || ""),
           legalDisclosures: document.getElementById('legalDisclosures')?.checked || false,
           // Job-specific information
           jobTitle: jobTitle,
