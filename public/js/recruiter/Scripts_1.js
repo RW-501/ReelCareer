@@ -551,12 +551,12 @@ function saveFormValues() {
         tags: Array.from(document.querySelectorAll('#tagsList .tag')).map(tag => tag.textContent)
     };
 
-    localStorage.setItem('jobFormValues', JSON.stringify(formValues));
+    localStorage.setItem('recuiterJobFormValues', JSON.stringify(formValues));
 }
 
 // Function to retrieve and set form values from local storage
 function loadFormValues() {
-    const formValues = JSON.parse(localStorage.getItem('jobFormValues'));
+    const formValues = JSON.parse(localStorage.getItem('recuiterJobFormValues'));
     if (formValues) {
         document.getElementById('company').value = formValues.company || '';
         document.getElementById('jobTitle').value = formValues.jobTitle || '';

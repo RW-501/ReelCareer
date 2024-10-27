@@ -1419,7 +1419,7 @@ function startViewTimer() {
     viewStartTime = Date.now();
 }
 
-// Function to update the Job Detail's 'applicantsViewed' count, view source, and view duration in Firebase
+// Function to update the Job Detail's 'jobDetailViews' count, view source, and view duration in Firebase
 async function updateJobViewData() {
     // Calculate view duration in seconds
     const viewEndTime = Date.now();
@@ -1455,7 +1455,7 @@ async function updateJobViewData() {
                 durationOfView: durationOfView || null, // Optional: estimated duration of view in seconds
                 viewSource: viewSource,                 // Tracks the source of the view
             }),
-            applicantsViewed: increment(1),
+            jobDetailViews: increment(1),
         });
         console.log("Job view data updated successfully.");
     } catch (error) {
