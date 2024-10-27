@@ -168,8 +168,8 @@
 
           <!-- Cover Letter -->
           <div class="form-group" id="coverLetterArea">
-            <label for="coverLetter" class="font-weight-bold">Cover Letter</label>
-            <textarea id="coverLetter" class="form-control" rows="3" placeholder="Summarize your experience..."></textarea>
+            <label for="coverLetterField" class="font-weight-bold">Cover Letter</label>
+            <textarea id="coverLetterField" class="form-control" rows="3" placeholder="Summarize your experience..."></textarea>
           </div>
 
           <div class="file-upload-container form-group">
@@ -1086,7 +1086,7 @@ const selectedOption = question.querySelector(`input[name="question-question_${i
             Website: website,
             Portfolio: portfolio
           }, // optional social links
-          coverLetter: sanitizeInput(document.getElementById('coverLetter').value),
+          coverLetter: sanitizeInput(document.getElementById('coverLetterField').value),
           expectedSalary: expectedSalary, // or collected from the applicant
           boostNotes: isBoosted ? "Application boosted on " + new Date().toLocaleString() : "",
         };
