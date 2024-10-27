@@ -816,7 +816,11 @@ const selectedOption = question.querySelector(`input[name="question-question_${i
       getDocs,
       addDoc
     } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
-    // Function to extract the user ID from URL parameters
+    import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-storage.js";
+
+
+    const storage = getStorage(); // Initialize the storage instance
+
     function getUserIdFromURL() {
       const params = new URLSearchParams(window.location.search);
       return params.get('userId');
