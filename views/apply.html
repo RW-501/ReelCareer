@@ -705,20 +705,26 @@ function openModal(file) {
         let previewQuestion = question.querySelector('p').innerText;
         let answer;
         // Check if it's a multiple-choice question
-        const selectedOption = question.querySelector(`input[name="question_${index}"]:checked`);
-        if (selectedOption) {
-          previewAnswer = selectedOption.value; // Get the selected option value
-        } else {
-          // Otherwise, get the answer from the textarea
-          const textarea = question.querySelector('textarea');
-          previewAnswer = textarea ? textarea.value.trim() : 'No answer provided'; // Trim whitespace
-        }
-        customQuestionsResponses.push({
-          questionId: questionId,
-          question: previewQuestion,
-          answer: previewAnswer
+// Check if the question has multiple-choice options
+const selectedOption = question.querySelector(`input[name="question-${questionId}"]:checked`);
+  
+  if (selectedOption) {
+    // If a radio button is selected, use its value
+    previewAnswer = selectedOption.value;
+  } else {
+    // Otherwise, check if there's a textarea (for open-ended answers)
+    const textarea = question.querySelector('textarea');
+    previewAnswer = textarea ? textarea.value.trim() : 'No answer provided';
+  }
 
-          });
+  // Store question and answer in the responses array
+  customQuestionsResponses.push({
+    questionId,
+    question: previewQuestion,
+    answer: previewAnswer
+  });
+
+  
       });
       // Function to create and display preview modal
       function showPreviewModal() {
@@ -765,7 +771,7 @@ function openModal(file) {
                     // Close modal when user clicks outside of it
                     window.addEventListener('click', (event) => {
                         if (event.target != previewModal) {
-                          previewModal.style.display = 'none';
+                          document.body.removeChild(previewModal); // Remove modal when closed
                         }
                     });
                 }
