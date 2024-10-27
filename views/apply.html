@@ -756,7 +756,7 @@ function openModal(file) {
                         ${previewContent}
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary close" data-dismiss="modal">Close</button>
+                        <button type="button" class="close btn btn-secondary " data-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
@@ -764,7 +764,7 @@ function openModal(file) {
                 if (previewModal) {
                     // Close modal when user clicks outside of it
                     window.addEventListener('click', (event) => {
-                        if (event.target === previewModal) {
+                        if (event.target != previewModal) {
                           previewModal.style.display = 'none';
                         }
                     });
