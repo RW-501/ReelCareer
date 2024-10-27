@@ -827,7 +827,7 @@ function openModal(file) {
             //console.log("jobId   ",jobId,"  userIdURL  ",userIdURL);
             const jobDocRef = doc(db, 'Jobs', jobId); // Reference to the job document
             // Load job and company info on page load
-            if(jobDocRef){
+            if(jobDocRef == null){
             fetchJobAndCompanyInfo(jobDocRef);
             }else{
               document.getElementById('applicationForm').textContent = "";
