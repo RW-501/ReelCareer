@@ -452,7 +452,7 @@ fetchRecruiterData(user.uid);
       applicationLink: document.getElementById("applicationLink").value,
 
       requestLetter: document.getElementById('requestLetter').checked,
-      coverLetter: document.getElementById('coverLetter').checked,
+      requiredCoverLetter: document.getElementById('coverLetter').checked,
       resumeRequired : document.getElementById('requiredResume').checked,
 
       immediateHire: document.getElementById("immediateHire").value,

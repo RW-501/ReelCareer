@@ -82,7 +82,9 @@
 
                   <!-- Applicant Information -->
                   <h3 class="border-bottom pb-2 mb-4">Applicant Information</h3>
-      
+                  <div class="form-group  mb-3">
+                    <div id="jobPostedByArea" class="mb-4"></div>
+                    
                   <div class="row">
                     <div class="col-md-6 mb-3">
                       <div class="form-group">
@@ -202,8 +204,7 @@
                   <label for="noteToRecruiter" class="font-weight-bold">Note to Recruiter</label>
                   <textarea id="noteToRecruiter" class="form-control" rows="3" placeholder="Write a brief note to the recruiter..."></textarea>
                 </div>
-                <div class="form-group  mb-3">
-                  <div id="jobPostedByArea" class="mb-4"></div>
+       
                   <hr />
       
 
@@ -273,7 +274,7 @@
                   <input type="checkbox" id="consentAcknowledgement" required class="form-check-input">
                   <label for="consentAcknowledgement" class="form-check-label">
                     I consent to the collection and sharing of my personal information as described in the
-                    <a href="https://reelcareer.co/views/privacy" class="text-light" rel="noopener noreferrer">Privacy Policy</a>" class="text-primary">Privacy Policy</a>.
+                    <a href="https://reelcareer.co/views/privacy" class="text-light" rel="noopener noreferrer">Privacy Policy</a>.
                   </label>
                 </div>
               </div>
@@ -1160,6 +1161,7 @@ function loadFormValues() {
     coverLetterField.setAttribute("required", "true");
   } else {
     coverLetterField.removeAttribute("required");
+    document.getElementById('coverLetter').value = "Not Required";
   }
 
   // Set or remove 'required' attribute for resume based on jobData.resumeRequired
