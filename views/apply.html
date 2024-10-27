@@ -829,7 +829,18 @@ function openModal(file) {
             //console.log("jobId   ",jobId,"  userIdURL  ",userIdURL);
             const jobDocRef = doc(db, 'Jobs', jobId); // Reference to the job document
             // Load job and company info on page load
+            if(jobDocRef){
             fetchJobAndCompanyInfo(jobDocRef);
+            }else{
+              document.getElementById('applicationForm').textContent = "";
+              const applicationForm = document.getElementById('applicationForm');
+
+              applicationForm.innerHTML = `
+            <h2>Error Fetching Job Details</h2>
+            <p>There was an error retrieving the job details. Please try again later.</p>
+            <a href="/job-listing-page" class="btn btn-primary">Back to Jobs</a>
+        `;
+            }
           } else {
             console.error("No user is signed in.");
             // Handle the case where the user is not signed in
