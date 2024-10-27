@@ -771,7 +771,7 @@ const selectedOption = question.querySelector(`input[name="question-${questionId
                     // Close modal when user clicks outside of it
                     window.addEventListener('click', (event) => {
                         if (event.target != previewModal) {
-                          document.body.removeChild(previewModal); // Remove modal when closed
+                          window.removeChild(previewModal); // Remove modal when closed
                         }
                     });
                 }
