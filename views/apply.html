@@ -699,6 +699,8 @@ function openModal(file) {
       // Get custom questions from the customQuestionsContainer
       const customQuestions = document.querySelectorAll('#customQuestionsContainer .form-group'); // Select the form groups
       customQuestions.forEach((question, index) => {
+        console.log("question  ",question);
+
         const questionId = question.querySelector('label').innerText; // Getting question text as ID
         let answer;
         // Check if it's a multiple-choice question
@@ -712,7 +714,7 @@ function openModal(file) {
         }
         customQuestionsResponses.push({
           questionId: questionId,
-          question: question.question,
+          question: customQuestions[index],
           answer: answer,
                 });
       });
