@@ -771,10 +771,11 @@ const selectedOption = question.querySelector(`input[name="question-question_${i
 
         // Append modal to the body
         document.body.appendChild(previewModal); // Use document.body instead of document.main
-     
+        showPreviewModal(); // Call the function to show the preview modal
+  
   // Close modal on close button click
   const closeModal = () => {
-   // document.body.removeChild(previewModal); // Remove modal when closed
+   document.body.removeChild(previewModal); // Remove modal when closed
     window.removeEventListener('click', outsideClickListener); // Clean up listener
   };
   // Close modal when user clicks outside of the modal-dialog area
@@ -792,8 +793,7 @@ const selectedOption = question.querySelector(`input[name="question-question_${i
       }
  
 
-      showPreviewModal(); // Call the function to show the preview modal
-    });
+  });
   </script>
 
   <!-- Footer -->
