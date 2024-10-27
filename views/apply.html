@@ -771,17 +771,27 @@ const selectedOption = question.querySelector(`input[name="question-question_${i
 
         // Append modal to the body
         document.body.appendChild(previewModal); // Use document.body instead of document.main
-                    // Close modal when user clicks outside of it
-                    window.addEventListener('click', (event) => {
-                        if (event.target != previewModal) {
-                          document.body.removeChild(previewModal); // Remove modal when closed
-                        }
-                    });
-                        // Close modal on close button click
-        previewModal.querySelector('.close').addEventListener('click', () => {
-          document.body.removeChild(previewModal); // Remove modal when closed
-        });
+     
+  // Close modal when user clicks outside of the modal-dialog area
+  const outsideClickListener = (event) => {
+    if (!previewModal.querySelector('.modal-dialog').contains(event.target)) {
+      closeModal();
+    }
+  };
+  window.addEventListener('click', outsideClickListener);
+
+  // Close modal on close button click
+  const closeModal = () => {
+    document.body.removeChild(previewModal); // Remove modal when closed
+    window.removeEventListener('click', outsideClickListener); // Clean up listener
+  };
+
+  // Add event listeners to both close buttons
+  previewModal.querySelector('.close').addEventListener('click', closeModal);
+  previewModal.querySelector('.close-btn').addEventListener('click', closeModal);
       }
+ 
+      
       showPreviewModal(); // Call the function to show the preview modal
     });
   </script>
