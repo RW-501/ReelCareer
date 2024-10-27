@@ -702,21 +702,21 @@ function openModal(file) {
         console.log("question  ",question);
 
         const questionId = question.querySelector('label').innerText; // Getting question text as ID
-        const question = question.querySelector('p').innerText;
+        let previewQuestion = question.querySelector('p').innerText;
         let answer;
         // Check if it's a multiple-choice question
         const selectedOption = question.querySelector(`input[name="question-${index}"]:checked`);
         if (selectedOption) {
-          answer = selectedOption.value; // Get the selected option value
+          previewAnswer = selectedOption.value; // Get the selected option value
         } else {
           // Otherwise, get the answer from the textarea
           const textarea = question.querySelector('textarea');
-          answer = textarea ? textarea.value.trim() : 'No answer provided'; // Trim whitespace
+          previewAnswer = textarea ? textarea.value.trim() : 'No answer provided'; // Trim whitespace
         }
         customQuestionsResponses.push({
           questionId: questionId,
-          question: question,
-          answer: answer
+          question: previewQuestion,
+          answer: previewAnswer
 
           });
       });
