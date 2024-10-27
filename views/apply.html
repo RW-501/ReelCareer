@@ -1131,7 +1131,7 @@ const selectedOption = question.querySelector(`input[name="question-question_${i
               IsBoosted: isBoosted, // Shows if the application was boosted
               ApplyDate: new Date().toISOString(),
               // Additional helpful fields for user summary
-              Location: jobLocation, // Location of the job, if available
+              Location: sanitizeInput(document.getElementById('userLocation').value), // Location of the job, if available
               ApplicationCount:  + 1, // Keeps track of the total applications user has submitted
               LastStatusUpdate: new Date().toISOString(), // Tracks when the status was last updated
               ResumeLastViewed: null, // Tracks last viewed date of resume by recruiter
