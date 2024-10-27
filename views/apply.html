@@ -685,6 +685,13 @@ function openModal(file) {
         customQuestionsContainer.insertAdjacentHTML('beforeend', inputElement);
       });
     }
+
+  // Close modal on close button click
+  function closeModal(){
+   document.body.removeChild(previewModal); // Remove modal when closed
+  };
+
+
     document.getElementById('previewApplication').addEventListener('click', () => {
       const firstName = document.getElementById('firstName').value;
       const lastName = document.getElementById('lastName').value;
@@ -773,13 +780,7 @@ const selectedOption = question.querySelector(`input[name="question-question_${i
         document.body.appendChild(previewModal); // Use document.body instead of document.main
        
        
-        if(previewModal){
-  // Close modal on close button click
-  function closeModal(){
-   document.body.removeChild(previewModal); // Remove modal when closed
-  };
-}
-
+      
   showPreviewModal(); // Call the function to show the preview modal
 
   // Add event listeners to both close buttons
