@@ -1137,7 +1137,7 @@ const selectedOption = question.querySelector(`input[name="question-question_${i
               ResumeLastViewed: null, // Tracks last viewed date of resume by recruiter
               Notes: [], // Allows user or system to add notes about the application
               viewMethod: navigator.userAgentData?.mobile ? "mobile" : "desktop", // Detects desktop or mobile view
-              UpcomingInterviewDate: interviewDate || null, // Tracks any scheduled interviews
+              UpcomingInterviewDate: '', // Tracks any scheduled interviews
               RequiredTestsCompleted: false, // Tracks if user completed required assessments or tests
             })
           });
