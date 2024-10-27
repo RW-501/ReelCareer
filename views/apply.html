@@ -1143,26 +1143,29 @@ function loadFormValues() {
         showToast('Form values loaded successfully!', "success");
 
     }
-
-if(jobData){
-  if(jobData.coverLetter){
+    if(jobData) {
+  // Display or hide cover letter area based on jobData.coverLetter
+  if(jobData.coverLetter) {
     document.getElementById('coverLetterArea').style.display = "block";
-  }else{
+  } else {
     document.getElementById('coverLetterArea').style.display = "none";
   }
 
-  if(jobData.requiredCoverLetter){
-    document.getElementById('requiredCoverLetter').require = "true";
-  }else{
-    document.getElementById('requiredCoverLetter').require = "fasle";
+  // Set or remove 'required' attribute for cover letter based on jobData.requiredCoverLetter
+  const coverLetterField = document.getElementById('requiredCoverLetter');
+  if(jobData.requiredCoverLetter) {
+    coverLetterField.setAttribute("required", "true");
+  } else {
+    coverLetterField.removeAttribute("required");
   }
 
-  if(jobData.resumeRequired){
-    document.getElementById('resumeInput').require = "true";
-  }else{
-    document.getElementById('resumeInput').require = "fasle";
+  // Set or remove 'required' attribute for resume based on jobData.resumeRequired
+  const resumeField = document.getElementById('resumeInput');
+  if(jobData.resumeRequired) {
+    resumeField.setAttribute("required", "true");
+  } else {
+    resumeField.removeAttribute("required");
   }
-
 }
 
     
