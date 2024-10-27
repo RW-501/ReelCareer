@@ -1456,7 +1456,7 @@ async function updateJobViewData() {
                 durationOfView: durationOfView || null, // Optional: estimated duration of view in seconds
                 viewSource: viewSource,                 // Tracks the source of the view
             }),
-            jobDetailViews: increment(1),
+            jobDetailViews: + 1,
         });
         console.log("Job view data updated successfully.");
     } catch (error) {

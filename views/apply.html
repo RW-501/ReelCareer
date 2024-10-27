@@ -780,6 +780,8 @@ const selectedOption = question.querySelector(`input[name="question-question_${i
         });
         // Close modal on close button click
         previewModal.querySelector('.close').addEventListener('click', () => {
+          document.body.removeChild(previewModal); // Remove modal when closed
+
         });
       }
       showPreviewModal(); // Call the function to show the preview modal
@@ -1068,7 +1070,7 @@ const selectedOption = question.querySelector(`input[name="question-question_${i
           testRequestExpireDate: '',
           testRequestNames: [],
           views: 0,
-          applicantCount: (applicantCount || 0) + 1,
+          applicantCount: + 1,
           resumeViews: 0,
           videoResumeViews: 0,
           userId: userId,
@@ -1127,7 +1129,7 @@ const selectedOption = question.querySelector(`input[name="question-question_${i
               ApplyDate: new Date().toISOString(),
               // Additional helpful fields for user summary
               Location: jobLocation, // Location of the job, if available
-              ApplicationCount: applicationCount + 1, // Keeps track of the total applications user has submitted
+              ApplicationCount:  + 1, // Keeps track of the total applications user has submitted
               LastStatusUpdate: new Date().toISOString(), // Tracks when the status was last updated
               ResumeLastViewed: null, // Tracks last viewed date of resume by recruiter
               Notes: [], // Allows user or system to add notes about the application
