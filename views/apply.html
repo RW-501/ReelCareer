@@ -776,12 +776,10 @@ const selectedOption = question.querySelector(`input[name="question-question_${i
         document.body.appendChild(previewModal); // Use document.body instead of document.main
    // Add event listener to the confirm button
    previewModal.querySelector('.close-btn').addEventListener('click', () => {
-          // Logic for final submission can go here
-          showToast('Application submitted successfully!', 'success');
+    document.body.removeChild(previewModal); // Remove modal when closed
         });
         // Close modal on close button click
         previewModal.querySelector('.close').addEventListener('click', () => {
-          document.body.removeChild(previewModal); // Remove modal when closed
         });
       }
       showPreviewModal(); // Call the function to show the preview modal
