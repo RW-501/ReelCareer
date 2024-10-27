@@ -570,11 +570,16 @@ function openModal(file) {
 
     // Close the modal
     closeButton.onclick = function() {
+      event.preventDefault(); // Prevent the form from refreshing the page
+
       resumePreviewModal.style.display = 'none';
     };
     // Handle save action
     useResume.onclick = function() {
+      event.preventDefault(); // Prevent the form from refreshing the page
+
       const resumeTitle = resumeTitleInput.value;
+
       // Add saving logic here
       //   showToast("Saving resume with title:", resumeTitle, "info");
       // Close modal after saving

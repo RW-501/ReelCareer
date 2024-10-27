@@ -584,11 +584,15 @@ function openModal(file) {
 
 // Close the modal
 closeButton.onclick = function () {
+    event.preventDefault(); // Prevent the form from refreshing the page
+
     previewModal.style.display = 'none';
 };
 
 // Handle save action
 saveButton.onclick = function () {
+    event.preventDefault(); // Prevent the form from refreshing the page
+
     const resumeTitle = resumeTitleInput.value;
     const skillsTags = skillsTagsInput.value.split(',').map(tag => tag.trim()).filter(tag => tag);
 
@@ -604,6 +608,8 @@ saveButton.onclick = function () {
 window.onclick = function (event) {
     if (event.target === previewModal) {
         previewModal.style.display = 'none';
+        event.preventDefault(); // Prevent the form from refreshing the page
+
     }
 };
 // Drag and Drop Functionality
