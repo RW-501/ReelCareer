@@ -1328,7 +1328,22 @@ const selectedOption = question.querySelector(`input[name="question-question_${i
     window.onload = loadFormValues;
     // Save form values when the form is submitted (add this to your form submit handler)
     document.getElementById('applicationForm').onsubmit = function() {};
-  </script>
+ 
+ 
+    document.addEventListener('DOMContentLoaded', () => {
+            const disclosureDateInput = document.getElementById('disclosureDate');
+            
+            // Get today's date
+            const today = new Date();
+            const year = today.getFullYear();
+            const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed
+            const day = String(today.getDate()).padStart(2, '0');
+            
+            // Set the value of the input to today's date in the format YYYY-MM-DD
+            disclosureDateInput.value = `${year}-${month}-${day}`;
+        });
+        
+        </script>
 
 </body>
 
