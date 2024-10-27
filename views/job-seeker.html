@@ -239,13 +239,13 @@
                 </div>
                 <div class="card-body">
                     <p>Your recent job applications:</p>
-                    <div id="applicationsList" style="max-height: 400px; ">
+                    <div id="applicationsList" style="max-height: 400px; overflow-y: hidden;">
                         <ul class="list-group" style="max-height: 400px; overflow-y: auto;">
                             <!-- Application items will be appended here -->
                         </ul>
-                        <div id="applicationsBottom" ></div>
                     </div>
-                    
+                    <div id="applicationsBottom" ></div>
+
                 </div>
             </div>
 
@@ -256,8 +256,8 @@
                     <h5 class="mb-0">Saved Jobs</h5>
                 </div>
                 <div class="card-body">
-                    <div id="savedJobsList" style="max-height: 400px; overflow-y: auto;">
-                        <ul class="list-group">
+                    <div id="savedJobsList" style="max-height: 400px; overflow-y: hidden;">
+                        <ul class="list-group"  style="max-height: 400px; overflow-y: auto;">
                             <!-- Saved job items will be appended here -->
                         </ul>
                     </div>
