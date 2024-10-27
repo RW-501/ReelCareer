@@ -760,7 +760,7 @@ function openModal(file) {
                 if (previewModal) {
                     // Close modal when user clicks outside of it
                     window.addEventListener('click', (event) => {
-                        if (event.target === modal) {
+                        if (event.target === previewModal) {
                           previewModal.style.display = 'none';
                         }
                     });
