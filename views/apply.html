@@ -771,13 +771,15 @@ const selectedOption = question.querySelector(`input[name="question-question_${i
 
         // Append modal to the body
         document.body.appendChild(previewModal); // Use document.body instead of document.main
+       
+       
         if(previewModal){
-
   // Close modal on close button click
   function closeModal(){
    document.body.removeChild(previewModal); // Remove modal when closed
   };
 }
+
   showPreviewModal(); // Call the function to show the preview modal
 
   // Add event listeners to both close buttons
@@ -1039,7 +1041,7 @@ const selectedOption = question.querySelector(`input[name="question-question_${i
         const referralSource = new URLSearchParams(window.location.search).get('referralSource') || 'Direct Visit'; // Get referral source from URL
         const experienceSummary = document.getElementById('experienceSummary').value;
         const expectedSalary = document.getElementById('expectedSalary').value;
-        const linkedIn = sanitizeInput(document.getElementById('linkedin').value);
+        const linkedIn = sanitizeInput(document.getElementById('linkedIn').value);
         const portfolio = sanitizeInput(document.getElementById('portfolio').value);
         const website = sanitizeInput(document.getElementById('website').value);
 
