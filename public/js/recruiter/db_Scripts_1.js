@@ -451,10 +451,11 @@ fetchRecruiterData(user.uid);
       experience: document.getElementById("experience").value,
       applicationLink: document.getElementById("applicationLink").value,
 
+      requestExpectedSalary: document.getElementById('requestExpectedSalary').checked,
       requestLetter: document.getElementById('requestLetter').checked,
       requiredCoverLetter: document.getElementById('coverLetter').checked,
       resumeRequired : document.getElementById('requiredResume').checked,
-
+      
       immediateHire: document.getElementById("immediateHire").value,
       industry: document.getElementById("industry").value,
       benefits: document
