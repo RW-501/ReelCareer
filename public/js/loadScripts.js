@@ -174,9 +174,9 @@ console.log(formatDateString(1732032108000));                           // Expec
   function formatCurrency(value, options = {}) { 
     const { locale = "en-US", currency = "USD", decimals = 0 } = options;
   
-    // If the input is exactly "Negotiable," return it directly without formatting
-    if (value === "Negotiable") {
-      return value;
+    // Check if the input is "N" or "n" and return "Negotiable" if so
+    if (value.trim().toLowerCase() === "n") {
+      return "Negotiable";
     }
   
     // Convert to string if value is a number
@@ -205,14 +205,14 @@ console.log(formatDateString(1732032108000));                           // Expec
   function updateCurrency(input) {
     // Format the current input value
     const formattedValue = formatCurrency(input.value, { decimals: 0 });
-    // Update the input value with formatted currency
+    // Update the input value with formatted currency or "Negotiable"
     input.value = formattedValue;
   
     // Optionally, set the cursor position after the formatted number
     const position = formattedValue.length; // Cursor position at the end
     input.setSelectionRange(position, position);
   }
-    
+     
   /*
   // Usage examples with default formatting
   console.log(formatCurrency("1234.56"));        // "$1,234.56"
