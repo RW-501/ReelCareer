@@ -1880,6 +1880,8 @@ getSimilarJobs(jobTags, JobsContainer);
             // Capitalize the first word using regex to handle punctuation and spaces
             content = content.replace(/^\s*([\w])/, (match) => match.toUpperCase());
             element.innerText = content;
+            console.log("capitalizeFirstWord  content ??????????/   ",content);
+
         }
     };
 
@@ -1898,7 +1900,7 @@ getSimilarJobs(jobTags, JobsContainer);
     document.querySelectorAll('*').forEach(element => {
         if (isChildOfSpecifiedContainers(element) && Array.from(element.classList).some(cls => classPattern.test(cls))) {
             capitalizeFirstWord(element);
-            console.log("capitalizeFirstWord  ??????????/   ",element);
+            console.log("capitalizeFirstWord element ??????????/   ",element);
 
         }
     });
