@@ -287,7 +287,11 @@
       getDocs,
       addDoc
     } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
-    let lastVisible = null; // To store the last document loaded
+   
+   
+   
+    let jobListingsCache = [];
+let lastVisible; // Keep track of pagination
     // Function to fetch job listings and sponsors
     async function fetchJobListings() {
       console.log("fetchJobListings");
@@ -305,6 +309,10 @@ const jobListings = [];
 const seenTitles = new Set();
 const seenIDs = new Set();
       let userInterests = [userInterest1, userInterest2, userInterest3].filter(Boolean); // Ensure userInterests is an array
+    
+    
+      if (jobListingsCache.length === 0 || (lastVisible && jobListingsCache.length < 500)) {
+  
       try {
         // Create the base query for Jobs
         let jobsQuery = collection(db, 'Jobs');
@@ -316,18 +324,17 @@ const seenIDs = new Set();
         // if (excludedIds.length > 0) jobsQuery = query(jobsQuery, where('id', 'not-in', excludedIds));
         // Common conditions
 
-
         jobsQuery = query(jobsQuery, where('status', '==', 'active'));
         jobsQuery = query(jobsQuery, orderBy('createdAt', 'desc'));
-        jobsQuery = query(jobsQuery, limit(25)); // Limit results for pagination
+        jobsQuery = query(jobsQuery, limit(500)); // Limit results for pagination
         
+
+        if (lastVisible) {
+                jobsQuery = query(jobsQuery, startAfter(lastVisible));
+            }
+
     
-    /*    
-    // Start from the last visible document if it exists
-    if (lastVisible) {
-      jobsQuery = query(jobsQuery, startAfter(lastVisible));
-    }
-*/
+   
     // Execute the query
     const jobListingsSnapshot = await getDocs(jobsQuery);
 
@@ -358,7 +365,7 @@ jobs.forEach(job => {
     isValidValue(job.location) &&
     isValidValue(job.salary) 
   ) {
-    jobListings.push({
+    jobListingsCache.push({
       id: job.id, // Job document ID
       title: job.title,
       type: job.type,
@@ -374,26 +381,18 @@ jobs.forEach(job => {
   }
 });
 
-// Check if we have any results
-if (!jobListingsSnapshot.empty) {
-  // Update the last visible document for pagination
-  lastVisible = jobListingsSnapshot.docs[jobListingsSnapshot.docs.length - 1];
-  
-  // Render unique and valid job listings
-  jobListings.forEach(job => createJobCard(job, jobListingsContainer));
-  
+
+
   /*
   console.log("Listing length", jobListings.length);
   console.log("jobs length", jobs.length);
   console.log("seenTitles:", seenTitles);
   */
-} else {
-  console.log("No jobs found or no more jobs to load.");
-}
+
+  
 
 
-
-
+      
         // Sponsor logic
         const sponsors = await fetchSponsors(excludedIds);
         createSponsoredJobCard(sponsors, jobListingsContainer);
@@ -407,6 +406,18 @@ if (!jobListingsSnapshot.empty) {
         loadingIndicator.style.display = 'none'; // Hide loading indicator
       }
     }
+
+        // Render job listings from cache
+        jobListingsCache.forEach(job => createJobCard(job, jobListingsContainer));
+
+// Add "Load More" button for pagination if there are more jobs to load
+if (lastVisible) {
+    const loadMoreButton = createLoadMoreButton(() => fetchJobListings());
+    jobListingsContainer.appendChild(loadMoreButton);
+}
+
+
+  }
     // Function to create and return the Load More button
     function createLoadMoreButton(loadMoreFunc) {
       console.log("createLoadMoreButton");
@@ -446,7 +457,7 @@ if (!jobListingsSnapshot.empty) {
 
 
 container.appendChild(loadMoreButton); // Add button to the DOM   capitalizeFirstWordInTitlesAndText(['.check-cap', 'main'], 1000);
-/*
+
 const theLogo = `  <div class="text-center m-auto">
     <h3 class="font-weight-bold embedded-Logo">ReelCareer.co</h3>
 </div>`;
@@ -459,7 +470,7 @@ tempDiv.innerHTML = theLogo;
 container.appendChild(tempDiv.firstElementChild);
 
 
-*/
+
       } else {
         console.error('Container for jobs not found');
       }
@@ -467,6 +478,12 @@ container.appendChild(tempDiv.firstElementChild);
     }, 500); // Match the duration of the fade-out (500ms)
 
     }
+
+
+
+
+
+
     // Fetch sponsors and handle their display
     async function fetchSponsors(excludedIds) {
       let sponsorsQuery = query(collection(db, 'Jobs'));
