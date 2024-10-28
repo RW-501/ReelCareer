@@ -1916,4 +1916,4 @@ function capitalizeFirstWordInTitlesAndText(containers = ['main', '.container'],
 }
 
 // Usage
-capitalizeFirstWordInTitlesAndText(['main', '.container', '.custom-section'], 300);
+// capitalizeFirstWordInTitlesAndText(['main', '.container', '.custom-section'], 300);
