@@ -778,7 +778,7 @@ async function displaySavedJobs() {
             
             // Create a list item for the saved job
             const li = document.createElement('li');
-            li.className = 'list-group-item';
+            li.className = 'list-group-item mb-2';
             li.innerHTML = `
                 <strong>${jobData.title}</strong> at <em>${jobData.company}</em>
                 <p>Location: ${jobData.location || jobData.city + ", " + jobData.state}</p>
