@@ -455,12 +455,14 @@
       }
     });
 
+
+    
+setTimeout(() => {
+    console.log("loadRelatedBlogs");
     const jobTags = ['job', 'jobs', 'new jobs']; 
-          window.addEventListener('load', () => {
-window.loadRelatedBlogs(jobTags, 'blogContainer');
-});
-
-
+   //const jobTags = document.getElementById('tag-list').textContent;
+   window.loadRelatedBlogs(jobTags, 'blogContainer');
+  }, 2000);
 
 
 
