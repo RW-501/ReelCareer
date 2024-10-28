@@ -1877,9 +1877,8 @@ function capitalizeFirstWordInTitlesAndText(containers = ['main', '.container'],
       if (content) {
           // Capitalize the first word using regex to handle punctuation and spaces
           content = content.replace(/^\s*([\w])/, (match) => match.toUpperCase());
-          element.innerText = content;
+          element.innerText = content; // Apply the modified text back to the element
           console.log("capitalizeFirstWord content:", content);
-
       }
   };
 
@@ -1898,9 +1897,8 @@ function capitalizeFirstWordInTitlesAndText(containers = ['main', '.container'],
   const processElements = (elements) => {
       elements.forEach(element => {
           if (isChildOfSpecifiedContainers(element) && Array.from(element.classList).some(cls => classPattern.test(cls))) {
-              capitalizeFirstWord(element);
+              capitalizeFirstWord(element); // Only modifies the inner text
               console.log("capitalizeFirstWord element:", element);
-
           }
       });
   };
