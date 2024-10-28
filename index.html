@@ -364,7 +364,7 @@
         createSponsoredJobCard(sponsors, jobListingsContainer);
         // Add "Load More" button for Pagination if jobs are available
         const loadMoreButton = createLoadMoreButton(() => fetchJobListings());
-        jobListingsContainer.appendChild(loadMoreButton);
+       jobListingsContainer.appendChild(loadMoreButton);
       } catch (error) {
         console.error("Error fetching job listings: ", error);
         errorIndicator.style.display = 'block'; // Show error indicator
@@ -391,22 +391,23 @@
         });
         // Hide the button after jobs are loaded
         setTimeout(() => {
-          console.log("setTimeout");
           // Apply fade-out effect
           loadMoreButton.style.opacity = 0;
           loadMoreButton.style.display = 'none'; // Hide after fade-out
-                
-          // Append the button to the desired container
-      const container = document.getElementById('jobListings'); // Change to your container's ID
+
+        }, 500); // Match the duration of the fade-out (500ms)
+      };
+      setTimeout(() => {
+
+                // Append the button to the desired container
+                const container = document.getElementById('jobListings'); // Change to your container's ID
       if (container) {
         container.appendChild(loadMoreButton); // Add button to the DOM
       } else {
         console.error('Container for jobs not found');
       }
       return loadMoreButton;
-
-        }, 500); // Match the duration of the fade-out (500ms)
-      };
+    }, 500); // Match the duration of the fade-out (500ms)
 
     }
     // Fetch sponsors and handle their display
