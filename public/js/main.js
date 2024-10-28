@@ -1956,7 +1956,7 @@ capitalizeFirstWordInTitlesAndText(['#job-title-link','.custom-section'], 300);
    document.addEventListener("DOMContentLoaded", function () {
        const mainDivs = document.querySelectorAll(".main > div");
        let delay = 2000; // Delay between roll-ins, in milliseconds
-   
+   console.log("Hiding  ??????????/");
        // Hide body initially
        document.body.classList.add("hidden");
    
@@ -1967,6 +1967,8 @@ capitalizeFirstWordInTitlesAndText(['#job-title-link','.custom-section'], 300);
            // Sequentially add the "roll-in" class to each div with a delay
            mainDivs.forEach((div, index) => {
                setTimeout(() => {
+                console.log("showing  ??????????/   ",index);
+
                    div.classList.add("roll-in");
                }, index * delay);
            });
