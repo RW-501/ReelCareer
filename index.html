@@ -290,6 +290,8 @@
     let lastVisible = null; // To store the last document loaded
     // Function to fetch job listings and sponsors
     async function fetchJobListings() {
+      console.log("fetchJobListings");
+
       const jobListingsContainer = document.getElementById('jobListings');
       const loadingIndicator = document.getElementById('loadingIndicator');
       const errorIndicator = document.getElementById('errorIndicator');
