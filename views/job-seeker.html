@@ -1843,6 +1843,15 @@ missingFields.forEach(field => {
 
 
 
+const storage = getStorage();
+async function getDownloadUrl(filePath) {
+    const fileRef = ref(storage, filePath);
+    try {
+        return await getDownloadURL(fileRef);
+    } catch (error) {
+        console.error("Error fetching file URL:", error);
+    }
+}
 
 
 
@@ -1873,6 +1882,7 @@ async function renderPDFThumbnail(url, canvasId) {
 resumesData.forEach(async (doc, index) => {
     const imgContainer = document.createElement('div');
     imgContainer.style.display = "inline-block";
+    const fileUrl = await getDownloadUrl(`users/${userId}/files/${doc.fileName}`);
 
     if (doc.docType === "pdf") {
         // Render PDF thumbnail
@@ -1882,7 +1892,7 @@ resumesData.forEach(async (doc, index) => {
     } else if (doc.docType === "doc" || doc.docType === "txt") {
         // Placeholder image or icon for DOC/TXT files
         const img = document.createElement('img');
-        img.src = 'default-doc-thumbnail.png';
+        img.src = fileUrl;
         img.alt = `${doc.docType} preview`;
         img.style.width = '150px';
         img.style.height = 'auto';
@@ -2130,11 +2140,9 @@ document.getElementById('btnRefreshAnalytics').addEventListener('click', () => {
 });
 
 
-console.log("???!!!!!!!!!!!!!!!!!!!!!!???:");
 
 
 
-window.addEventListener('DOMContentLoaded', () => {
   setTimeout(() => {
     console.log("????????????????????????:");
 
@@ -2144,7 +2152,7 @@ window.addEventListener('DOMContentLoaded', () => {
    window.loadRelatedBlogs(jobTags, 'suggestedBlogs');
    window.getSimilarJobs(jobTags, 'suggestedJobs');
   }, 2000);
-});
+
 
  
 
