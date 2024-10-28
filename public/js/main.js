@@ -1386,6 +1386,7 @@ function createBlogModal() {
   // Create modal content
   const modalContent = document.createElement('div');
   modalContent.className = 'modal-content';
+  modalContent.id = 'blogModalContent';
 
   // Create modal header
   const modalHeader = document.createElement('div');
@@ -1408,7 +1409,7 @@ function createBlogModal() {
   // Create modal body
   const modalBody = document.createElement('div');
   modalBody.className = 'modal-body';
-  modalBody.id = 'modalBody'; // ID for content insertion
+  modalBody.id = 'modalBlogBody'; // ID for content insertion
 
   // Create modal footer
   const modalFooter = document.createElement('div');
@@ -1465,9 +1466,9 @@ window.addEventListener('load', function() {
 
           // Function to open the modal and show full blog content
           async function openBlogModal(blogId, blogContainer) {
+            createBlogModal();
 
               const blog = allBlogs.find(b => b.id === blogId);
-              createBlogModal();
 
               const modalTitle = document.getElementById('blogModalLabel');
               const modalBody = document.getElementById('modalBlogBody');
