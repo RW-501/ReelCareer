@@ -1866,3 +1866,54 @@ getSimilarJobs(jobTags, JobsContainer);
 
 
 
+function capitalizeFirstWordInTitlesAndText(containers = ['main', '.container'], throttleTime = 200) {
+  // Regular expression to match classes with "title," "text," "tag," or "tags" (case-insensitive)
+  const classPattern = /(title|text|tag|tags)/i;
+
+  // Function to capitalize the first word in the text content of matching elements
+  const capitalizeFirstWord = (element) => {
+      let content = element.innerText;
+      if (content) {
+          // Capitalize the first word using regex to handle punctuation and spaces
+          content = content.replace(/^\s*([\w])/, (match) => match.toUpperCase());
+          element.innerText = content;
+      }
+  };
+
+  // Function to check if an element is a child of specified containers
+  const isChildOfSpecifiedContainers = (element) => {
+      return element.closest(containers.join(',')) !== null;
+  };
+
+  // Select initial elements within specified containers and apply capitalization
+  document.querySelectorAll('*').forEach(element => {
+      if (isChildOfSpecifiedContainers(element) && Array.from(element.classList).some(cls => classPattern.test(cls))) {
+          capitalizeFirstWord(element);
+      }
+  });
+
+  // Throttling function to limit execution rate
+  let lastRunTime = 0;
+  const throttledHandler = (mutations) => {
+      const now = Date.now();
+      if (now - lastRunTime >= throttleTime) {
+          lastRunTime = now;
+          mutations.forEach(mutation => {
+              mutation.addedNodes.forEach(node => {
+                  if (node.nodeType === Node.ELEMENT_NODE && isChildOfSpecifiedContainers(node)) {
+                      if (Array.from(node.classList).some(cls => classPattern.test(cls))) {
+                          capitalizeFirstWord(node);
+                      }
+                  }
+              });
+          });
+      }
+  };
+
+  // Set up a MutationObserver to monitor DOM changes, with throttling
+  const observer = new MutationObserver(throttledHandler);
+  observer.observe(document.body, { childList: true, subtree: true });
+}
+
+// Usage
+capitalizeFirstWordInTitlesAndText(['main', '.container', '.custom-section'], 300);
