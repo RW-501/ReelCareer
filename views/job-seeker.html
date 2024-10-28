@@ -1478,23 +1478,32 @@ async function parseWord(file) {
     showToast('Word document parsed successfully', 'success');
 }
 
-
-
 function extractBulletedList(text) {
-    // Define regex to match common bullet points, numbered lists, and indicators
-    const bulletRegex = /(?:[\u2022\u2023\u25AA\u25AB\*\-\•]|(\d+\.)|•)\s*(.+?)(?=\n|\r|\r\n|$)/g;
+    // Define regex to match positions and the bullets following them
+    const positionRegex = /([A-Za-z\s]+)\s+([\w\s]+),\s+([\w\s]+)\s+(\w+\s+\d{4}\s*-\s*(\w+\s+\d{4}|Present))\s*((?:•\s+.+?)+)/g;
     const matches = [];
     let match;
 
-    // Use regex to find all matches
-    while ((match = bulletRegex.exec(text)) !== null) {
-        // Push the matched content to the array, trimming whitespace
-        matches.push(match[2] ? match[2].trim() : match[0].trim());
+    // Loop through each match of a position and its associated bullets
+    while ((match = positionRegex.exec(text)) !== null) {
+        const positionInfo = {
+            position: match[1].trim(),
+            company: match[2].trim(),
+            location: match[3].trim(),
+            duration: match[4].trim(),
+            responsibilities: []
+        };
+        
+        // Extract each bullet point for this position
+        const bullets = match[6].split("•").map(bullet => bullet.trim()).filter(Boolean);
+        positionInfo.responsibilities.push(...bullets);
+
+        matches.push(positionInfo);
     }
 
-    // Return the cleaned array of matches, excluding empty entries
-    return matches.filter(item => item !== '');
+    return matches;
 }
+
 
 function displayInEditableDiv(text) {
     // Determine if old format is being used (you can adjust this condition as needed)
