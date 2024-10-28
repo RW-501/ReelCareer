@@ -431,7 +431,6 @@ function addStyles() {
       loaderDiv.classList.add("hide");
       loaderDiv.remove();
   
-      console.log(" loader.remove();   ");
     });
   }
   
@@ -454,6 +453,8 @@ function addStyles() {
         const loader = document.getElementById("loaderX");
         loader.classList.add("hidden");
         loader.remove();
+        console.log(" loader.remove();   ");
+
       }
       }
   }
