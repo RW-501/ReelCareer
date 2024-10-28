@@ -22,13 +22,17 @@ body {
 .embedded-Logo {
     position: relative;
     text-shadow: 1px 1px 0 #83bad92b, -1px -1px 0 #639ad400, 0 0 10px #83bad926 !important;
-    padding: 10px;
-    border-radius: 5px;
     color: #f4f4f4 !important;
     user-select: none;
-    
+    font-size: 2.75rem;
+    font-family: cursive;
 
+}
 
+.font-weight-bold {
+    font-weight: 700 !important;
+    user-select: none;
+    font-size: 2.75rem !important;
 }
 
 .mainBGcolor{
