@@ -317,7 +317,7 @@ const seenIDs = new Set();
         // Common conditions
         jobsQuery = query(jobsQuery, where('status', '==', 'active'));
         jobsQuery = query(jobsQuery, orderBy('createdAt', 'desc'));
-        jobsQuery = query(jobsQuery, limit(500)); // Limit results for pagination
+        jobsQuery = query(jobsQuery, limit(30)); // Limit results for pagination
         /*
                 // If we have already loaded jobs, start from the last visible document
                 if (lastVisible) {
