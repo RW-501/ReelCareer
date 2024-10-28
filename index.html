@@ -289,7 +289,8 @@
     } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
    
    
-   
+   let showCount = 0;
+
     let jobListingsCache = [];
 let lastVisible; // Keep track of pagination
     // Function to fetch job listings and sponsors
@@ -354,7 +355,6 @@ const jobs = jobListingsSnapshot.docs
 
 // Helper function to check if a value is valid (not undefined, null, or blank)
 const isValidValue = value => value !== undefined && value !== null && value !== "";
-let index = 1;
 
 // Filter jobs to ensure no duplicate titles or IDs, and no undefined, null, or blank fields
 jobs.forEach(job => {
@@ -367,7 +367,10 @@ jobs.forEach(job => {
     isValidValue(job.location) &&
     isValidValue(job.salary) 
   ) {
-    jobListingsCache.push({
+
+    showCount = + 1;
+    if(showCount < 30){
+      jobListingsCache.push({
       id: job.id, // Job document ID
       title: job.title,
       type: job.type,
@@ -380,11 +383,25 @@ jobs.forEach(job => {
     seenTitles.add(job.title); // Mark title as seen
     seenIDs.add(job.id);       // Mark ID as seen
     console.log("Added Job Title: ", job.title);
-    index += 1;
+    }else{
+      showCount = 0;
+      jobListingsCache.push({
+      id: job.id, // Job document ID
+      title: job.title,
+      type: job.type,
+      description: job.description,
+      company: job.company,
+      location: job.location,
+      salary: job.salary,
+      salaryPayTime: job.salaryPayTime
+    });
+    seenTitles.add(job.title); // Mark title as seen
+    seenIDs.add(job.id);       // Mark ID as seen
+    console.log("showCount = 0 Added Job Title: ", job.title);
+    }
+
   }
 });
-
-let showMoreCount = jobListingsCache.length / lastVisible.length;
 
 
 
@@ -414,14 +431,13 @@ console.log("index:", index);
 
        */
 
-    if(showMoreCount > index) {
-        // Render job listings from cache
+               // Render job listings from cache
         jobListingsCache.forEach(job => createJobCard(job, jobListingsContainer));
-    }else{
+
     const loadMoreButton = createLoadMoreButton(() => fetchJobListings());
     jobListingsContainer.appendChild(loadMoreButton);
-}
 
+  
 } catch (error) {
        // console.error("Error fetching job listings: ", error);
        // errorIndicator.style.display = 'block'; // Show error indicator
