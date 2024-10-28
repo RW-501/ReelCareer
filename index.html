@@ -216,7 +216,7 @@ document.head.appendChild(loading_style);
 // Roll-in function
 document.addEventListener("DOMContentLoaded", function () {
     const mainDivs = document.querySelectorAll(".main > div");
-    let delay = 500; // Delay between roll-ins, in milliseconds
+    let delay = 1000; // Delay between roll-ins, in milliseconds
 
     // Hide body initially
     document.body.classList.add("hidden");
@@ -231,7 +231,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 div.classList.add("roll-in");
             }, index * delay);
         });
-    }, 500); // Initial delay before body appears
+    }, 700); // Initial delay before body appears
 });
 </script>
     <!-- Hero Section -->
