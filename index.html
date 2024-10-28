@@ -380,14 +380,18 @@ jobs.forEach(job => {
     seenTitles.add(job.title); // Mark title as seen
     seenIDs.add(job.id);       // Mark ID as seen
     console.log("Added Job Title: ", job.title);
-    index = + 1;
+    index += 1;
   }
 });
 
 let showMoreCount = jobListingsCache.length / lastVisible.length;
 
+
+
+console.log("jobListingsCache.length:", jobListingsCache.length);
 console.log("showMoreCount:", showMoreCount);
-console.log("seenTitles:", seenTitles.length);
+console.log("seenTitles:", seenTitles);
+console.log("lastVisible:", lastVisible);
 console.log("index:", index);
 
   /*
