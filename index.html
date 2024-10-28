@@ -328,9 +328,10 @@
         const jobListings = [];
         // Use a Set to track job titles we've already seen
         const seenTitles = new Set();
+        const seenIDs = new Set();
         // Filter the jobs to ensure no duplicate titles
         jobs.forEach(job => {
-          if (!seenTitles.has(job.title)) {
+          if (!seenTitles.has(job.title) || !seenTitles.has(job.seenIDs) ) {
             jobListings.push({
               id: job.id, // Job document ID
               title: job.title,
@@ -342,6 +343,7 @@
               salaryPayTime: job.salaryPayTime,
             });
             seenTitles.add(job.title); // Mark title as seen
+            seenIDs.add(job.id); 
           }
         });
         // Check if we have any results
@@ -367,6 +369,11 @@ setTimeout(() => {
         } else {
           console.log("No jobs found or no more jobs to load.");
         }
+
+
+
+
+
         // Sponsor logic
         const sponsors = await fetchSponsors(excludedIds);
         createSponsoredJobCard(sponsors, jobListingsContainer);
