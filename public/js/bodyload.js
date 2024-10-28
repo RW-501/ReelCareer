@@ -276,6 +276,7 @@ function addStyles() {
   body.loaded {
       opacity: 1;
       display: block;
+        background-color: #f4f4f4 !important;
   }
   
   
