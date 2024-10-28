@@ -1862,3 +1862,7 @@ function displayEmptyState(container, message, iconClass = 'fas fa-search') {
 const JobsContainer = document.getElementById('similarJobsContainer'); // Example target container
 getSimilarJobs(jobTags, JobsContainer);
 */
+
+
+
+

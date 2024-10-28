@@ -623,8 +623,11 @@ function addStyles() {
           }
     
           <!-- Location, Type, and Salary -->
-          <div>
-            <p class="card-text" style="
+<div style="
+    background-color: #f3f3f369;
+    padding: 10px 25px;
+    border-radius: 5px;
+">            <p class="card-text" style="
                 font-size: 14px; 
                 color: #666; 
                 margin-bottom: 5px;">
