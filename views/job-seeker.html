@@ -1886,7 +1886,9 @@ resumesData.forEach(async (doc, index) => {
 
     if (doc.docType === "pdf") {
         // Render PDF thumbnail
-        const pdfCanvas = await renderPDFThumbnail(doc.fileURL, `pdfCanvas_${index}`);
+        const pdfCanvas = await renderPDFThumbnail("https://example.com/sample.pdf", `pdfCanvas_${index}`);
+
+       // const pdfCanvas = await renderPDFThumbnail(doc.fileURL, `pdfCanvas_${index}`);
         imgContainer.appendChild(pdfCanvas);
 
     } else if (doc.docType === "doc" || doc.docType === "txt") {
