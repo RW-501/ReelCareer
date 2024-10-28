@@ -239,10 +239,12 @@ main .btn-info:hover {
     transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out !important;
 }
 
-.jobCard :hover,
-.blog-card :hover,
+
+.jobCard:hover,
+.blog-card:hover,
 .similar-job-card:hover {
     transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 main  .jobCard{
@@ -250,10 +252,9 @@ main  .jobCard{
 transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out !important;
 }
 
-.jobCard,
 .container > .card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 8px 16px rgba(244, 9, 9, 0.2);
 }
 
 
