@@ -322,12 +322,12 @@ const seenIDs = new Set();
         jobsQuery = query(jobsQuery, limit(25)); // Limit results for pagination
         
     
-        
+    /*    
     // Start from the last visible document if it exists
     if (lastVisible) {
       jobsQuery = query(jobsQuery, startAfter(lastVisible));
     }
-
+*/
     // Execute the query
     const jobListingsSnapshot = await getDocs(jobsQuery);
 
@@ -357,7 +357,6 @@ jobs.forEach(job => {
     isValidValue(job.company) &&
     isValidValue(job.location) &&
     isValidValue(job.salary) 
-    //isValidValue(job.salaryPayTime)
   ) {
     jobListings.push({
       id: job.id, // Job document ID
