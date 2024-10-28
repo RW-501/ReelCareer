@@ -129,14 +129,11 @@ body {
   
   .blog-card .card-title {
     margin-bottom: .75rem;
-    color: #007bff !important;
+    color: #909090 !important;
     background-color: #f3f3f3 !important;
     padding: 5px 10px;
     border-radius: 5px;
-    overflow: visible;
-    width: 110%;
-    position: relative;
-    left: -15px !important;
+
 }
   .blog-card .card-body a {
     color: #047af1 !important;
@@ -242,6 +239,7 @@ main .btn-info:hover {
     transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out !important;
 }
 
+.jobCard :hover,
 .blog-card :hover,
 .similar-job-card:hover {
     transform: translateY(-5px);
