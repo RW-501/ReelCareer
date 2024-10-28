@@ -535,7 +535,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     <!-- Video Element with Lazy Loading, Autoplay, Muted, and Responsive -->
 <div class="video-container" style="text-align: center; max-width: 100%; margin: 20px auto;">
-    <video id="myVideo" loop  autoplay muted loading="lazy" style="max-width: 150%; height: auto;">
+    <video id="myVideo" loop  autoplay muted loading="lazy" style="max-width: 100%; magrain:auto; height: auto;">
         <source src="https://reelcareer.co/images/intro.MP4" type="video/mp4">
         Your browser does not support the video tag.
   </video>
