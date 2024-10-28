@@ -1625,7 +1625,7 @@ window.addEventListener('load', function() {
       const querySnapshot = await getDocs(q);
 
       if(!JobsContainer || querySnapshot.empty) {
-        displayEmptyState(JobsContainer, 'No related jobs found.', 'fas fa-briefcase');
+     /*   displayEmptyState(JobsContainer, 'No related jobs found.', 'fas fa-briefcase');  */
         return;
       }
       // Clear the specified jobs container
