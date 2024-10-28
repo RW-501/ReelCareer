@@ -389,13 +389,15 @@
         }).catch(() => {
           console.error('Failed to load jobs');
         });
+
+
         // Hide the button after jobs are loaded
         setTimeout(() => {
           // Apply fade-out effect
           loadMoreButton.style.opacity = 0;
           loadMoreButton.style.display = 'none'; // Hide after fade-out
 
-        }, 500); // Match the duration of the fade-out (500ms)
+        }, 200); // Match the duration of the fade-out (500ms)
       };
       setTimeout(() => {
 
