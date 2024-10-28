@@ -412,7 +412,7 @@ document.addEventListener("DOMContentLoaded", function () {
     color: #83bad9;
     font-weight: 800;
     font-size: 2rem;
-    text-shadow: 1px 0px 0px #6253e7;" href="${adjustLinkHomeURL}index">ReelCareer</a>
+    text-shadow: 1px 0px 0px #6253e7;" href="${adjustLinkHomeURL}">ReelCareer</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
                         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
