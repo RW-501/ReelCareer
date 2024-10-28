@@ -529,8 +529,6 @@ document.head.insertAdjacentHTML("beforeend", `
 `);
 const resumeInput = document.getElementById('resumeInput');
 const fileNameDisplay = document.getElementById('fileNameDisplay');
-const fileUploadPreview = document.getElementById('fileUploadPreview');
-const resumePreviewContent = document.getElementById('resumePreviewContent');
 const saveButton = document.getElementById('saveButton');
 const closeButton = document.querySelector('.close-button');
 const resumeTitleInput = document.getElementById('resumeTitle');
@@ -568,6 +566,9 @@ function handleFiles() {
 
 // Open modal to preview the resume
 function openModal(file) {
+    const fileUploadPreview = document.getElementById('fileUploadPreview');
+    const resumePreviewContent = document.getElementById('resumePreviewContent');
+
   // Check if the file is an image
   const isImage = /\.(jpe?g|png|gif)$/i.test(file.name);
   const isPDF = /\.pdf$/i.test(file.name);
@@ -580,7 +581,7 @@ function openModal(file) {
     reader.onload = function(e) {
       previewContent += `<img src="${e.target.result}" alt="Image Preview" style="max-width:100%; margin-top: 10px;">`;
       resumePreviewContent.innerHTML = previewContent;  // Insert content into modal
-      resumePreviewModal.style.display = 'block';  // Show the modal
+      fileUploadPreview.style.display = 'block';  // Show the modal
     };
     reader.readAsDataURL(file);  // Load image as base64 URL
   } else if (isPDF) {
@@ -591,11 +592,11 @@ function openModal(file) {
       </object>
     `;
     resumePreviewContent.innerHTML = previewContent;
-    resumePreviewModal.style.display = 'block';
+    fileUploadPreview.style.display = 'block';
   } else {
     previewContent += `<p>No preview available. Please upload a PDF or image file.</p>`;
     resumePreviewContent.innerHTML = previewContent;
-    resumePreviewModal.style.display = 'block';
+    fileUploadPreview.style.display = 'block';
   }
 }
 
