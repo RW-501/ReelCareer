@@ -275,10 +275,7 @@ main textarea {
     transition: border 0.3s ease;
 }
 
-/* Specific styles for the job search form */
-#jobSearchForm {
-    background-color: #ffffff; /* White background for the form */
-}
+
 
 /* Ensure inputs inside the job search form are white */
 #jobSearchForm input[type="text"],
