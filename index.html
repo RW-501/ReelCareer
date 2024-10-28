@@ -315,6 +315,8 @@ const seenIDs = new Set();
         // Exclude specified IDs
         // if (excludedIds.length > 0) jobsQuery = query(jobsQuery, where('id', 'not-in', excludedIds));
         // Common conditions
+
+
         jobsQuery = query(jobsQuery, where('status', '==', 'active'));
         jobsQuery = query(jobsQuery, orderBy('createdAt', 'desc'));
         jobsQuery = query(jobsQuery, limit(25)); // Limit results for pagination
@@ -451,10 +453,10 @@ if (!jobListingsSnapshot.empty) {
 
 const tempDiv = document.createElement('div');
 tempDiv.innerHTML = theLogo;
-//container.insertAdjacentHTML('beforeend', theLogo); // Insert the HTML directly
+container.insertAdjacentHTML('beforeend', theLogo); // Insert the HTML directly
 
 // Append the parsed HTML (the first child of tempDiv)
-container.appendChild(tempDiv.firstElementChild);
+//container.appendChild(tempDiv.firstElementChild);
 container.appendChild(loadMoreButton); // Add button to the DOM   capitalizeFirstWordInTitlesAndText(['.check-cap', 'main'], 1000);
 
       } else {
