@@ -2,8 +2,20 @@ html {
     margin: 0;
     padding: 0;
     font-family: 'Arial', sans-serif;
-    animation: backgroundFade 2s ease forwards;
 }
+
+
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+ /*   background-color: #f4f4f4 !important; */
+
+ animation: backgroundFade 2s ease forwards;
+
+}
+
 
 /* Keyframes for fading background color */
 @keyframes backgroundFade {
@@ -15,12 +27,7 @@ html {
     }
 }
 
-body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Arial', sans-serif;
- /*   background-color: #f4f4f4 !important; */
-}
+
 .fw-800{
     font-weight: 800;
 }
