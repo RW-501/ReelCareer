@@ -1436,9 +1436,8 @@ document.addEventListener('DOMContentLoaded', () => {
   setTimeout(() => {
     const jobTags = ['job', 'jobs', 'new jobs']; 
    //const jobTags = document.getElementById('tag-list').textContent;
-   
-   window.getSimilarJobs(jobTags, 'similarJobsContainer');
    window.loadRelatedBlogs(jobTags, 'blogContainer');
+   window.getSimilarJobs(jobTags, 'similarJobsContainer');
   }, 2000);
 });
 

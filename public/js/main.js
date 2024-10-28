@@ -1612,7 +1612,6 @@ loadRelatedBlogs(jobTags, 'blogContainer'); // Replace 'blogContainer' with your
 */
 
 
-
 window.addEventListener('load', function() {
   window.getSimilarJobs = async function(jobTags, containerId) {
   const maxSimilarJobs = 5; // Limit the number of similar jobs displayed
