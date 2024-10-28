@@ -2027,29 +2027,18 @@ document.getElementById('btnRefreshAnalytics').addEventListener('click', () => {
 
 
 
-            // Suggested Jobs - Filter by userId
-            const jobsRef = collection(db, 'Jobs');
-            const jobsQuery = query(jobsRef, where("userId", "==", userId)); // Filter jobs by userId
-            const jobsSnapshot = await getDocs(jobsQuery);
-            const suggestedJobsList = document.getElementById('suggestedJobsList');
-            suggestedJobsList.innerHTML = '';
-            jobsSnapshot.forEach((doc) => {
-                const li = document.createElement('li');
-                li.textContent = doc.data().title; // Assuming the job document has a field named title
-                suggestedJobsList.appendChild(li);
-            });
-    
-            // Suggested Blogs
-            const blogsRef = collection(db, 'Blogs');
-            const blogsSnapshot = await getDocs(blogsRef);
-            const suggestedBlogsList = document.getElementById('suggestedBlogsList');
-            suggestedBlogsList.innerHTML = '';
-            blogsSnapshot.forEach((doc) => {
-                const li = document.createElement('li');
-                li.textContent = doc.data().title; // Assuming the blog document has a field named title
-                suggestedBlogsList.appendChild(li);
-            });
-    
+document.addEventListener('DOMContentLoaded', () => {
+  setTimeout(() => {
+    const jobTags = ['job', 'jobs', 'new jobs']; 
+   //const jobTags = document.getElementById('tag-list').textContent;
+   
+   window.getSimilarJobs(jobTags, 'suggestedJobsList');
+   window.loadRelatedBlogs(jobTags, 'suggestedBlogsList');
+  }, 2000);
+});
+
+ 
+
             // Suggested Profiles
             const profilesRef = collection(db, 'Users');
             const profilesSnapshot = await getDocs(profilesRef);
