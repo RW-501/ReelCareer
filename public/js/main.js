@@ -1930,6 +1930,8 @@ getSimilarJobs(jobTags, JobsContainer);
 capitalizeFirstWordInTitlesAndText(['#job-title-link','.custom-section'], 300);
 
 
+
+function roll_in_animations(){
    // Inject CSS Styles
    const loading_style = document.createElement('style');
    loading_style.innerHTML = `
@@ -1976,3 +1978,7 @@ capitalizeFirstWordInTitlesAndText(['#job-title-link','.custom-section'], 300);
            });
        }, 2000); // Initial delay before body appears
    });
+
+  }
+
+ // roll_in_animations();
