@@ -1901,7 +1901,7 @@ function capitalizeFirstWordInTitlesAndText(containers = ['main', '.container'],
       elements.forEach(element => {
           if (isChildOfSpecifiedContainers(element) && Array.from(element.classList).some(cls => classPattern.test(cls))) {
               capitalizeFirstWord(element); // Only modifies the inner text
-              console.log("capitalizeFirstWord element:", element);
+            //  console.log("capitalizeFirstWord element:", element);
           }
       });
   };

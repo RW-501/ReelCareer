@@ -386,6 +386,9 @@ jobs.forEach(job => {
 
 let showMoreCount = jobListingsCache.length / lastVisible.length;
 
+console.log("showMoreCount:", showMoreCount);
+console.log("seenTitles:", seenTitles.length);
+console.log("index:", index);
 
   /*
   console.log("Listing length", jobListings.length);
@@ -396,20 +399,16 @@ let showMoreCount = jobListingsCache.length / lastVisible.length;
   
 
 
-      
+      /*
         // Sponsor logic
         const sponsors = await fetchSponsors(excludedIds);
         createSponsoredJobCard(sponsors, jobListingsContainer);
         // Add "Load More" button for Pagination if jobs are available
         const loadMoreButton = createLoadMoreButton(() => fetchJobListings());
        jobListingsContainer.appendChild(loadMoreButton);
-      } catch (error) {
-       // console.error("Error fetching job listings: ", error);
-       // errorIndicator.style.display = 'block'; // Show error indicator
-      } finally {
-        loadingIndicator.style.display = 'none'; // Hide loading indicator
-      }
-    
+
+
+       */
 
     if(showMoreCount > index) {
         // Render job listings from cache
@@ -418,6 +417,14 @@ let showMoreCount = jobListingsCache.length / lastVisible.length;
     const loadMoreButton = createLoadMoreButton(() => fetchJobListings());
     jobListingsContainer.appendChild(loadMoreButton);
 }
+
+} catch (error) {
+       // console.error("Error fetching job listings: ", error);
+       // errorIndicator.style.display = 'block'; // Show error indicator
+      } finally {
+        loadingIndicator.style.display = 'none'; // Hide loading indicator
+      }
+    
 
 
   }
