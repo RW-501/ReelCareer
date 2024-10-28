@@ -1809,31 +1809,33 @@ missingFields.forEach(field => {
 
 
             // Resumes
-            const resumesRef = collection(db, 'Users', userId, 'resumes');
-            const resumesSnapshot = await getDocs(resumesRef);
-            const resumeList = document.getElementById('resumeList');
-            resumeList.innerHTML = '';
+   // Assuming userData.resumes contains resume data directly without needing Firestore snapshot
+const resumeList = document.getElementById('resumeList');
+resumeList.innerHTML = '';
 
+// Ensure resumesData exists before proceeding
+let resumesData = userData.resumes || [];
+console.log("userData:", userData);
+console.log("resumesData:", resumesData);
 
+resumesData.forEach((doc) => {
+    const li = document.createElement('li');
+    console.log("doc:", doc);
+    
+    // Create an image element for the resume preview
+    const img = document.createElement('img');
+    img.src = doc.fileURL || 'default-image-url.png';  // Set a default image if fileURL is missing
+    img.alt = `${doc.docType || 'Resume'} preview`;    // Set a default text if docType is missing
+    img.style.width = '100px';
+    img.style.height = 'auto';
 
-            let resumesData = userData.resumes;
-            console.log("userData   ",userData);
-            console.log("resumesData   ",resumesData);
+    // Append image to list item
+    li.appendChild(img);
+    
+    // Append list item to the resume list
+    resumeList.appendChild(li);
+});
 
-            resumesData.forEach((doc) => {
-                const li = document.createElement('li');
-                console.log("doc   ",doc);
-                console.log("doc.data()   ",doc.data());
-
-                const img = document.createElement('img');
-                img.src = doc.fileURL;
-                img.alt = `${doc.docType} preview`;
-                img.style.width = '100px';
-                img.style.height = 'auto';
-                li.appendChild(img);
-                
-                resumeList.appendChild(li);
-            });
     
             // Video Resumes
             const videoResumesRef = collection(db, 'Users', userId, 'VideoResumes');
