@@ -1464,7 +1464,7 @@ window.addEventListener('load', function() {
           }
 
           // Function to open the modal and show full blog content
-          async function openBlogModal(blogId) {
+          async function openBlogModal(blogId, blogContainer) {
 
               const blog = allBlogs.find(b => b.id === blogId);
               const modalTitle = document.getElementById('blogModalLabel');
@@ -1482,22 +1482,28 @@ window.addEventListener('load', function() {
               modalBody.innerHTML = `
                   <img src="${blog.imageUrl}" alt="${blog.title}" class="img-fluid" loading="lazy" />
                   <p>${blog.content}</p>
-                  <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button class="btn btn-secondary close" data-bs-dismiss="modal">Close</button>
                   <button class="btn btn-primary" id="seeMoreButton">See More</button>
               `;
 
               // Update the view count
-              await updateViewCount(blogId);
+        //      await updateViewCount(blogId);
 
-              // Show the modal
-              const modal = new bootstrap.Modal(document.getElementById('blogModal'));
-              modal.show();
+        blogModal.appendChild(modalBody);
+        
+        modalBody.querySelector('.close').addEventListener('click', () => {
+          document.body.removeChild(blogModal); // Remove modal when closed
+
+        });
 
               // Event listener for the See More button
               document.getElementById('seeMoreButton').onclick = () => {
                   loadMoreBlogs(blog.tags); // Fetch more blogs based on the same tags if desired
               };
           }
+
+
+
 
           // Function to fetch blogs based on job tags
           async function fetchBlogs(jobTags) {
@@ -1564,7 +1570,7 @@ window.addEventListener('load', function() {
                   const blogId = e.target.getAttribute('data-blog-id');
 
   console.log("????????????????????????? openBlogModal  ",blogId);
-                  openBlogModal(blogId);
+                  openBlogModal(blogId, blogContainer);
               }
           });
 
