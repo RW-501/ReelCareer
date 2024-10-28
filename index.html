@@ -344,6 +344,9 @@
             });
             seenTitles.add(job.title); // Mark title as seen
             seenIDs.add(job.id); 
+            console.log("seenTitles  ",seenTitles);
+            console.log("seenIDs  ",seenIDs);
+
           }
         });
         // Check if we have any results
@@ -353,13 +356,7 @@
           // Handle unique job listings and render them
           jobListings.forEach(job => createJobCard(job, jobListingsContainer));
         
-          jobListingsContainer.style.opacity = '0';
- 
-          // Delay function to set the opacity after a specified time
-setTimeout(() => {
-    jobListingsContainer.style.opacity = '1';
-}, 500); // Delay in milliseconds (2000 ms = 2 seconds)
-        
+
           /*
           console.log("Listing lenght", jobListings.length);
           console.log("jobs lenght", jobs.length);
