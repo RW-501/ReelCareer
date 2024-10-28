@@ -318,12 +318,7 @@ const seenIDs = new Set();
         jobsQuery = query(jobsQuery, where('status', '==', 'active'));
         jobsQuery = query(jobsQuery, orderBy('createdAt', 'desc'));
         jobsQuery = query(jobsQuery, limit(30)); // Limit results for pagination
-        /*
-                // If we have already loaded jobs, start from the last visible document
-                if (lastVisible) {
-                    jobsQuery = query(jobsQuery, startAfter(lastVisible));
-                }
-        */
+  
     // Start from the last visible document if it exists
     if (lastVisible) {
       jobsQuery = query(jobsQuery, startAfter(lastVisible));
@@ -331,6 +326,12 @@ const seenIDs = new Set();
 
     // Execute the query
     const jobListingsSnapshot = await getDocs(jobsQuery);
+
+  // Check if the snapshot is empty
+  if (jobListingsSnapshot.empty) {
+      console.log("No jobs found or no more jobs to load.");
+      return; // Exit if no jobs found
+    }
 
     // Update lastVisible for the next pagination
     lastVisible = jobListingsSnapshot.docs[jobListingsSnapshot.docs.length - 1];
@@ -358,7 +359,6 @@ jobs.forEach(job => {
     isValidValue(job.company) &&
     isValidValue(job.location) &&
     isValidValue(job.salary) 
-    //isValidValue(job.salaryPayTime)
   ) {
     jobListings.push({
       id: job.id, // Job document ID
@@ -376,22 +376,18 @@ jobs.forEach(job => {
   }
 });
 
-// Check if we have any results
-if (!jobListingsSnapshot.empty) {
-  // Update the last visible document for pagination
-  lastVisible = jobListingsSnapshot.docs[jobListingsSnapshot.docs.length - 1];
-  
-  // Render unique and valid job listings
-  jobListings.forEach(job => createJobCard(job, jobListingsContainer));
-  
+
+ // Render unique job listings
+ jobListings.forEach(job => createJobCard(job, jobListingsContainer));
+
+
+
   /*
   console.log("Listing length", jobListings.length);
   console.log("jobs length", jobs.length);
   console.log("seenTitles:", seenTitles);
   */
-} else {
-  console.log("No jobs found or no more jobs to load.");
-}
+
 
 
 
