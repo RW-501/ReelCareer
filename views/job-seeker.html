@@ -1840,9 +1840,6 @@ missingFields.forEach(field => {
 
 
 
-
-
-
 const storage = getStorage();
 async function getDownloadUrl(filePath) {
     const fileRef = ref(storage, filePath);
@@ -1853,8 +1850,6 @@ async function getDownloadUrl(filePath) {
     }
 }
 
-
-
 const resumeCarousel = document.getElementById('resumeCarousel');
 const mainResumeDisplay = document.getElementById('mainResumeDisplay');
 resumeCarousel.innerHTML = '';  // Clear existing content
@@ -1862,12 +1857,13 @@ resumeCarousel.innerHTML = '';  // Clear existing content
 let resumesData = userData.resumes || [];
 console.log("resumesData:", resumesData);
 
-async function renderPDFThumbnail(url, canvasId) {
+async function renderPDFThumbnail(fileUrl, canvasId) {  // Receive `fileUrl` as a parameter here
     const loadingTask = pdfjsLib.getDocument({
-    url: fileUrl,
-    withCredentials: true,  // Optional, to enable cookies if required by Firebase auth
-    mode: 'no-cors'
-});
+        url: fileUrl,
+        withCredentials: true,  // Optional, to enable cookies if required by Firebase auth
+        mode: 'no-cors'
+    });
+    
     const pdf = await loadingTask.promise;
     const page = await pdf.getPage(1);  // Render first page as thumbnail
 
@@ -1888,13 +1884,9 @@ resumesData.forEach(async (doc, index) => {
     imgContainer.style.display = "inline-block";
     const fileUrl = await getDownloadUrl(`users/${userId}/files/${doc.fileName}`);
    
-   
-
     if (doc.docType === "pdf") {
-        // Render PDF thumbnail
-        const pdfCanvas = await renderPDFThumbnail("https://example.com/sample.pdf", `pdfCanvas_${index}`);
-
-       // const pdfCanvas = await renderPDFThumbnail(doc.fileURL, `pdfCanvas_${index}`);
+        // Render PDF thumbnail and pass `fileUrl` to the function
+        const pdfCanvas = await renderPDFThumbnail(fileUrl, `pdfCanvas_${index}`);
         imgContainer.appendChild(pdfCanvas);
 
     } else if (doc.docType === "doc" || doc.docType === "txt") {
@@ -1918,7 +1910,6 @@ resumesData.forEach(async (doc, index) => {
     // Append image container to carousel
     resumeCarousel.appendChild(imgContainer);
 });
-
 
     
             // Video Resumes
