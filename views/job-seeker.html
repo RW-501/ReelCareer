@@ -1727,10 +1727,11 @@ function showMissingFieldsPopup(missingFields) {
 }
 
 function openProfileEditForm(missingFields) {
-    
+    console.log("missingFields    ",missingFields);
+
     document.getElementById("settingsBtn").click();
 
-
+/*
         fieldLabel.innerText = field.charAt(0).toUpperCase() + field.slice(1);
        
         input.value = missingFields[field] || ""; // Populate with data from the resume
@@ -1743,11 +1744,8 @@ missingFields.forEach(field => {
         updatedData[field] = fieldValue;
     }
 });
-    
-    // Close button event listener
-    closeButton.addEventListener("click", () => {
-        editForm.remove();
-    });
+    */
+  
 
 
 }
