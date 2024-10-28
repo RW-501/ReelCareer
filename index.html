@@ -297,6 +297,11 @@
       errorIndicator.style.display = 'none'; // Hide error indicator
       let userInterest1, userInterest2, userInterest3;
       let excludedIds = []; // Replace with your actual IDs
+      // Create a new array to store unique jobs
+const jobListings = [];
+// Use Sets to track job titles and IDs we've already seen
+const seenTitles = new Set();
+const seenIDs = new Set();
       let userInterests = [userInterest1, userInterest2, userInterest3].filter(Boolean); // Ensure userInterests is an array
       try {
         // Create the base query for Jobs
@@ -310,7 +315,7 @@
         // Common conditions
         jobsQuery = query(jobsQuery, where('status', '==', 'active'));
         jobsQuery = query(jobsQuery, orderBy('createdAt', 'desc'));
-        jobsQuery = query(jobsQuery, limit(20)); // Limit results for pagination
+        jobsQuery = query(jobsQuery, limit(25)); // Limit results for pagination
         /*
                 // If we have already loaded jobs, start from the last visible document
                 if (lastVisible) {
@@ -318,19 +323,16 @@
                 }
         */
         const jobListingsSnapshot = await getDocs(jobsQuery);
-console.log("jobListingsSnapshot   ", jobListingsSnapshot);
+//console.log("jobListingsSnapshot   ", jobListingsSnapshot);
 
-// Extract jobs from the snapshot
-const jobs = jobListingsSnapshot.docs.map(doc => ({
-  id: doc.id, // Get the document ID
-  ...doc.data() // Spread the rest of the document data
-}));
+// Extract jobs from the snapshot, excluding those with seen IDs
+const jobs = jobListingsSnapshot.docs
+  .filter(doc => !seenIDs.has(doc.id)) // Exclude seen IDs here
+  .map(doc => ({
+    id: doc.id,
+    ...doc.data()
+  }));
 
-// Create a new array to store unique jobs
-const jobListings = [];
-// Use Sets to track job titles and IDs we've already seen
-const seenTitles = new Set();
-const seenIDs = new Set();
 
 // Helper function to check if a value is valid (not undefined, null, or blank)
 const isValidValue = value => value !== undefined && value !== null && value !== "";
