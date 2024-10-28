@@ -51,42 +51,53 @@ function formatLocation(location, options = {}) {
     return formattedLocation;
   }
 
-
-
   function formatDateString(dateString) {
-    // Ensure dateString is a string
-    if (typeof dateString !== 'string') {
-        dateString = String(dateString);
+    // Ensure dateString is a string or object with seconds and nanoseconds
+    if (typeof dateString !== 'string' && typeof dateString !== 'object') {
+        return "Invalid date";
     }
 
-    // Try to parse with Date object directly
-    let date = new Date(dateString);
+    let date;
 
-    // Check if date is valid
-    if (isNaN(date.getTime())) {
-        // Regex to match "Month DD, YYYY, at HH:mm:ss AM/PM UTC±HH" format
-        const regex = /(\w+ \d{1,2}, \d{4}),? at (\d{1,2}:\d{2}:\d{2})\s?(AM|PM) UTC([+-]\d{1,2})/;
-        const match = dateString.match(regex);
+    // Check for object format with seconds and nanoseconds
+    if (typeof dateString === 'object' && dateString.seconds && dateString.nanoseconds) {
+        // Convert seconds to milliseconds and create a Date object
+        date = new Date(dateString.seconds * 1000 + dateString.nanoseconds / 1000000);
+    } else {
+        // If dateString is not already a string, convert it to a string
+        if (typeof dateString !== 'string') {
+            dateString = String(dateString);
+        }
 
-        if (match) {
-            // Destructure matched parts
-            const [ , monthDayYear, time, period, offset ] = match;
+        // Try to parse with Date object directly
+        date = new Date(dateString);
 
-            // Combine date and time into a standard parseable format
-            const formattedDateString = `${monthDayYear} ${time} ${period}`;
-            date = new Date(formattedDateString);
+        // Check if date is valid
+        if (isNaN(date.getTime())) {
+            // Regex to match "Month DD, YYYY, at HH:mm:ss AM/PM UTC±HH" format
+            const regex = /(\w+ \d{1,2}, \d{4}),? at (\d{1,2}:\d{2}:\d{2})\s?(AM|PM) UTC([+-]\d{1,2})/;
+            const match = dateString.match(regex);
 
-            // Adjust for UTC offset if applicable
-            const offsetHours = parseInt(offset, 10);
-            date.setHours(date.getHours() - offsetHours);
-        } else {
-            // Fallback regex for "YYYY-MM-DD" format
-            const fallbackRegex = /^\d{4}-\d{2}-\d{2}$/;
-            if (fallbackRegex.test(dateString)) {
-                const parts = dateString.split("-");
-                date = new Date(parts[0], parts[1] - 1, parts[2]);
+            if (match) {
+                // Destructure matched parts
+                const [ , monthDayYear, time, period, offset ] = match;
+
+                // Combine date and time into a standard parseable format
+                const formattedDateString = `${monthDayYear} ${time} ${period}`;
+                date = new Date(formattedDateString);
+
+                // Adjust for UTC offset if applicable
+                const offsetHours = parseInt(offset, 10);
+                date.setHours(date.getHours() - offsetHours);
             } else {
-                return "Invalid date";
+                // Fallback regex for "YYYY-MM-DD" format
+                const fallbackRegex = /^\d{4}-\d{2}-\d{2}$/;
+                if (fallbackRegex.test(dateString)) {
+                    const parts = dateString.split("-");
+                    date = new Date(parts[0], parts[1] - 1, parts[2]);
+                } else {
+                    return "Invalid date";
+                }
             }
         }
     }
@@ -98,6 +109,7 @@ function formatLocation(location, options = {}) {
         day: 'numeric'
     });
 }
+
 /*
 // Test cases
 console.log(formatDateString("November 19, 2024, at 3:21:48 AM UTC-6")); // Expected: "November 19, 2024"
