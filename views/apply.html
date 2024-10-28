@@ -1181,18 +1181,12 @@ applicationForm.innerHTML = `
         </div>
     </div>
 `;
+
 const jobTags = ['job', 'jobs', 'new jobs']; 
-
-const similarJobsContainer = document.getElementById('similarJobsContainer');
-
-// Function to fetch similar jobs based on tags
-
-const JobsContainer = document.getElementById('similarJobsContainer'); // Example target container
-getSimilarJobs(jobTags, JobsContainer);
-
-          window.addEventListener('load', () => {
-window.loadRelatedBlogs(jobTags, 'blogContainer');
-});
+   //const jobTags = document.getElementById('tag-list').textContent;
+   
+   window.getSimilarJobs(jobTags, 'similarJobsContainer');
+   window.loadRelatedBlogs(jobTags, 'blogContainer');
 
 // Optional: Redirect to dashboard after a few seconds
 setTimeout(() => {
