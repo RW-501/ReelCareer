@@ -98,12 +98,12 @@ function formatLocation(location, options = {}) {
         day: 'numeric'
     });
 }
-
+/*
 // Test cases
 console.log(formatDateString("November 19, 2024, at 3:21:48 AM UTC-6")); // Expected: "November 19, 2024"
 console.log(formatDateString("2024-11-19"));                             // Expected: "November 19, 2024"
 console.log(formatDateString(1732032108000));                           // Expected: Date based on timestamp
-
+*/
   /*
   'country', 'state', 'city' 'county'
   
