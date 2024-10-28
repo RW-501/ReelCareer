@@ -1478,7 +1478,7 @@ async function parseWord(file) {
     showToast('Word document parsed successfully', 'success');
 }
 
-function extractBulletedList(text) {
+function extractBulletedListPart2(text) {
     // Define regex to match positions and the bullets following them
     const positionRegex = /([A-Za-z\s]+)\s+([\w\s]+),\s+([\w\s]+)\s+(\w+\s+\d{4}\s*-\s*(\w+\s+\d{4}|Present))\s*((?:•\s+.+?)+)/g;
     const matches = [];
@@ -1504,6 +1504,21 @@ function extractBulletedList(text) {
     return matches;
 }
 
+function extractBulletedList(text) {
+    // Define regex to match common bullet points, numbered lists, and indicators
+    const bulletRegex = /(?:[\u2022\u2023\u25AA\u25AB\*\-\•]|(\d+\.)|•)\s*(.+?)(?=\n|\r|\r\n|$)/g;
+    const matches = [];
+    let match;
+
+    // Use regex to find all matches
+    while ((match = bulletRegex.exec(text)) !== null) {
+        // Push the matched content to the array, trimming whitespace
+        matches.push(match[2] ? match[2].trim() : match[0].trim());
+    }
+
+    // Return the cleaned array of matches, excluding empty entries
+    return matches.filter(item => item !== '');
+}
 
 function displayInEditableDiv(text) {
     // Determine if old format is being used (you can adjust this condition as needed)
@@ -1563,8 +1578,10 @@ const useOldFormat = true; // Change to false if using the new format
 
        let  bulletPoints =  extractBulletedList( experienceMatch[1].trim());
         extractedData.experience = bulletPoints;
-        
+        let bullets2 = extractBulletedListPart2(bulletPoints);
+
 console.log("bulletPoints   ",bulletPoints);
+console.log("bullets2   ",bullets2);
     }
 
     const educationMatch = text.match(educationRegex);
