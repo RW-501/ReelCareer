@@ -531,7 +531,7 @@ document.addEventListener("DOMContentLoaded", function () {
     text-shadow: 1px 0px 0px #6253e7;">Company Media</h2>
     <div class="row" style="text-align: center;">
                     <div class="col-md-6 m-auto">
- <div class="col-md-6 m-auto text-center"> 
+ <div class="col-md-6 m-auto text-center d-block"> 
 
     <!-- Video Element with Lazy Loading, Autoplay, Muted, and Responsive -->
 <div class="video-container" style="text-align: center; max-width: 100%; margin: 20px auto;">
