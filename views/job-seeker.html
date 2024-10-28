@@ -1479,31 +1479,42 @@ async function parseWord(file) {
     showToast('Word document parsed successfully', 'success');
 }
 
-function extractBulletedListPart2(text) {
-    // Define regex to match positions and the bullets following them
-    const positionRegex = /([A-Za-z\s]+)\s+([\w\s]+),\s+([\w\s]+)\s+(\w+\s+\d{4}\s*-\s*(\w+\s+\d{4}|Present))\s*((?:•\s+.+?)+)/g;
-    const matches = [];
+// Function to extract each job entry with roles and bullets
+function extractJobEntries(text) {
+    // Regex for job entries with position, company, location, duration, and bullets
+    const positionRegex = /([A-Za-z\s]+)\s*–?\s*([\w\s]+),\s*([\w\s]+)\s*\((\w+\s+\d{4}\s*-\s*(\w+\s+\d{4}|Present))\)\s*((?:•\s+.+?)+)/g;
+    const entries = [];
     let match;
 
-    // Loop through each match of a position and its associated bullets
+    // Extract each job entry match
     while ((match = positionRegex.exec(text)) !== null) {
-        const positionInfo = {
+        const jobEntry = {
             position: match[1].trim(),
             company: match[2].trim(),
             location: match[3].trim(),
             duration: match[4].trim(),
-            responsibilities: []
+            responsibilities: extractBullets(match[6])  // Pass bullets to the next function
         };
-        
-        // Extract each bullet point for this position
-        const bullets = match[6].split("•").map(bullet => bullet.trim()).filter(Boolean);
-        positionInfo.responsibilities.push(...bullets);
-
-        matches.push(positionInfo);
+        entries.push(jobEntry);
     }
 
-    return matches;
+    return entries;
 }
+
+// Function to break down each bullet within a job entry
+function extractBullets(text) {
+    const bulletRegex = /(?:•|•|\d+\.)\s*(.+?)(?=\n|\r|\r\n|$)/g;
+    const bullets = [];
+    let match;
+
+    // Extract each bullet point
+    while ((match = bulletRegex.exec(text)) !== null) {
+        bullets.push(match[1].trim());
+    }
+
+    return bullets;
+}
+
 
 function extractBulletedList(text) {
     // Define regex to match common bullet points, numbered lists, and indicators
@@ -1577,12 +1588,13 @@ const useOldFormat = true; // Change to false if using the new format
     const experienceMatch = text.match(experienceRegex);
     if (experienceMatch) {
 
-       let  bulletPoints =  extractBulletedList( experienceMatch[1].trim());
+       let  bulletPoints =  extractJobEntries( experienceMatch[1].trim());
         extractedData.experience = bulletPoints;
-        let bullets2 = extractBulletedListPart2(bulletPoints);
 
 console.log("bulletPoints   ",bulletPoints);
-console.log("bullets2   ",bullets2);
+
+
+
     }
 
     const educationMatch = text.match(educationRegex);
