@@ -1563,7 +1563,7 @@ window.addEventListener('load', function() {
               if (e.target.classList.contains('blog-card-trigger')) {
                   const blogId = e.target.getAttribute('data-blog-id');
 
-  
+  console.log("????????????????????????? openBlogModal  ",blogId);
                   openBlogModal(blogId);
               }
           });
