@@ -447,10 +447,32 @@
     </div>
   </div>
   
-   <!-- Imprint  -->
-   <div class="text-center m-auto">
+
+  <div class="container mt-5"> 
+    <!-- Use a container for consistent padding -->
+ <!-- Imprint  -->
+
+
+  <div class="text-center m-auto">
     <h3 class="font-weight-bold embedded-Logo">ReelCareer.co</h3>
 </div>
+
+
+  <!-- Dynamic News Section -->
+  <div class="related-blogs">
+    <h3 class="font-weight-bold">Related Articles</h3>
+    <hr class="my-2" />
+    <div id="blogContainer" class="row p-4 noCopy">
+        <!-- Blog links will be dynamically inserted here -->
+    </div>
+</div>
+
+
+</div>
+
+
+
+
 
 
   <style>
@@ -831,6 +853,18 @@
         displayJobListings(jobListings); // Display job listings
       }
     };
+
+    
+setTimeout(() => {
+    console.log("loadRelatedBlogs");
+    const jobTags = ['job', 'jobs', 'new jobs']; 
+   //const jobTags = document.getElementById('tag-list').textContent;
+   window.loadRelatedBlogs(jobTags, 'blogContainer');
+  }, 2000);
+
+
+
+
   </script>
   <!-- jQuery (Must be included before Bootstrap JS) -->
   <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
