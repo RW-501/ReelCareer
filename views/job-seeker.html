@@ -160,9 +160,11 @@
                     </div>
                     <div class="resume-list mt-3">
                         <p><strong>Uploaded Resumes:</strong></p>
-                            <ul id="resumeList" class="list-group">
-                                <!-- Resumes will be dynamically listed here -->
-                        </ul>
+                        <div class="carousel-container">
+                            <div id="resumeCarousel" class="carousel-inner"></div>
+                        </div>
+                        <div id="mainResumeDisplay" class="resume-content"></div>
+                        
                     </div>
                     <div id="resumeFeedback" class="alert d-none" role="alert"></div>
                 </div>
@@ -525,6 +527,41 @@ document.head.insertAdjacentHTML("beforeend", `
 .viewMoreContainer {
     box-shadow: 0 -2px 5px rgba(0,0,0,0.1); /* Optional for visual separation */
 }
+
+
+
+
+
+.carousel-container {
+    display: flex;
+    overflow-x: auto;
+    gap: 20px;
+    padding: 20px;
+    white-space: nowrap;
+    scroll-snap-type: x mandatory;
+}
+
+.carousel-container img {
+    scroll-snap-align: center;
+    transition: transform 0.3s ease;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+}
+
+.carousel-container img:hover {
+    transform: scale(1.05);
+}
+
+.resume-content {
+    margin-top: 20px;
+    padding: 20px;
+    background: #f9f9f9;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    min-height: 300px;
+}
+
     </style>
 `);
 const resumeInput = document.getElementById('resumeInput');
@@ -1810,30 +1847,34 @@ missingFields.forEach(field => {
 
             // Resumes
    // Assuming userData.resumes contains resume data directly without needing Firestore snapshot
-const resumeList = document.getElementById('resumeList');
-resumeList.innerHTML = '';
+   const resumeCarousel = document.getElementById('resumeCarousel');
+const mainResumeDisplay = document.getElementById('mainResumeDisplay');
+resumeCarousel.innerHTML = '';  // Clear existing content
 
-// Ensure resumesData exists before proceeding
-let resumesData = userData.resumes || [];
-console.log("userData:", userData);
+let resumesData = userData.resumes || [];  // Fetch resume data
 console.log("resumesData:", resumesData);
 
 resumesData.forEach((doc) => {
-    const li = document.createElement('li');
-    console.log("doc:", doc);
+    const imgContainer = document.createElement('div');
+    imgContainer.style.display = "inline-block";
     
-    // Create an image element for the resume preview
     const img = document.createElement('img');
-    img.src = doc.fileURL || 'default-image-url.png';  // Set a default image if fileURL is missing
-    img.alt = `${doc.docType || 'Resume'} preview`;    // Set a default text if docType is missing
-    img.style.width = '100px';
+    img.src = doc.fileURL || 'default-thumbnail.png';
+    img.alt = `${doc.docType || 'Resume'} preview`;
+    img.style.width = '150px';
     img.style.height = 'auto';
-
-    // Append image to list item
-    li.appendChild(img);
     
-    // Append list item to the resume list
-    resumeList.appendChild(li);
+    // Clickable to populate the main resume display
+    img.addEventListener('click', () => {
+        mainResumeDisplay.innerHTML = ''; // Clear previous content
+        const resumeContent = document.createElement('div');
+        resumeContent.innerHTML = doc.digitalResume || 'No content available';
+        mainResumeDisplay.appendChild(resumeContent);
+    });
+    
+    // Append image to container and container to carousel
+    imgContainer.appendChild(img);
+    resumeCarousel.appendChild(imgContainer);
 });
 
     
