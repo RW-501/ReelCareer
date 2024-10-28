@@ -240,7 +240,7 @@ console.log(formatDateString(1732032108000));                           // Expec
   // Truncate text function
   function truncateText(text, maxLength, href) {
     return text.length > maxLength 
-        ? text.substring(0, maxLength) + `<a href="${href}">... See More</a>` 
+        ? text.substring(0, maxLength) + `... <a href="${href}">See More</a>` 
         : text;
 }
 

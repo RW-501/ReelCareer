@@ -242,6 +242,11 @@ main .btn-info:hover {
     transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out !important;
 }
 
+.blog-card :hover,
+.similar-job-card:hover {
+    transform: translateY(-5px);
+}
+
 main  .jobCard{
 
 transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out !important;
