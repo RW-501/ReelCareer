@@ -798,7 +798,9 @@ async function displaySavedJobs() {
             li.className = 'list-group-item mb-2';
             li.innerHTML = `
                 <strong>${jobData.title}</strong> at <em>${jobData.company}</em>
-                <p>Location: ${jobData.location || jobData.city + ", " + jobData.state}</p>
+    <p>
+        Location: ${jobData.location || `${jobData.city}, ${jobData.state}`}
+    </p>
     <p>
         ${jobData.applicationDeadline ? "Deadline: " + formatDateString(jobData.applicationDeadline) : "Created At: " + formatDateString(jobData.createdAt)}
     </p>                <div>
