@@ -409,7 +409,7 @@ let showMoreCount = jobListingsCache.length / lastVisible.length;
       } finally {
         loadingIndicator.style.display = 'none'; // Hide loading indicator
       }
-    }
+    
 
     if(showMoreCount > index) {
         // Render job listings from cache
@@ -421,6 +421,8 @@ let showMoreCount = jobListingsCache.length / lastVisible.length;
 
 
   }
+
+}
     // Function to create and return the Load More button
     function createLoadMoreButton(loadMoreFunc) {
       console.log("createLoadMoreButton");
