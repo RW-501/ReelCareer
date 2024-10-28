@@ -1930,7 +1930,7 @@ getSimilarJobs(jobTags, JobsContainer);
 }
 
 // Usage
-capitalizeFirstWordInTitlesAndText(['.check-cap'], 300);
+capitalizeFirstWordInTitlesAndText(['.check-cap'], 1000);
 
 
 
