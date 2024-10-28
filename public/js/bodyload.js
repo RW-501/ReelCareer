@@ -566,9 +566,13 @@ function addStyles() {
               ${job.title}
             </a>
             <p class="card-text" style="
-                font-size: 16px; 
-                color: #333; 
-                margin-bottom: 10px;">
+                font-size: 16px;
+                color: #333;
+                margin-bottom: 10px;
+                background-color: #dcdcdc59;
+                border-radius: 9px;
+                padding: 9px;
+                ">
               <strong>${job.company}</strong>
             </p>
           </div>
