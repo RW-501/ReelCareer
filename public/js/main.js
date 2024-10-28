@@ -1558,7 +1558,7 @@ window.addEventListener('load', function() {
                           <div class="card-body">
                                <a href="https://reelcareer.co/views/blog?id=${blog.id}"><h5 class="card-title text-primary">${blog.title}</h5></a>
                               <p class="card-text text-muted">
-                                  <div>${truncateText(blog.content, 80, "https://reelcareer.co/views/blog?id=${blog.id}")}</div>
+                                  <div>${truncateText(blog.content, 80, `https://reelcareer.co/views/blog?id="${blog.id}"`)}</div>
                               </p>
                               <button class="btn btn-outline-primary blog-card-trigger" data-blog-id="${blog.id}">Read More</button>
                           </div>
