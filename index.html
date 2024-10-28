@@ -317,33 +317,23 @@ const seenIDs = new Set();
         // Common conditions
         jobsQuery = query(jobsQuery, where('status', '==', 'active'));
         jobsQuery = query(jobsQuery, orderBy('createdAt', 'desc'));
-        jobsQuery = query(jobsQuery, limit(30)); // Limit results for pagination
-  
-    // Start from the last visible document if it exists
-    if (lastVisible) {
-      jobsQuery = query(jobsQuery, startAfter(lastVisible));
-    }
-
-    // Execute the query
-    const jobListingsSnapshot = await getDocs(jobsQuery);
-
-  // Check if the snapshot is empty
-  if (jobListingsSnapshot.empty) {
-      console.log("No jobs found or no more jobs to load.");
-      return; // Exit if no jobs found
-    }
-
-    // Update lastVisible for the next pagination
-    lastVisible = jobListingsSnapshot.docs[jobListingsSnapshot.docs.length - 1];
+        jobsQuery = query(jobsQuery, limit(25)); // Limit results for pagination
+        /*
+                // If we have already loaded jobs, start from the last visible document
+                if (lastVisible) {
+                    jobsQuery = query(jobsQuery, startAfter(lastVisible));
+                }
+        */
+        const jobListingsSnapshot = await getDocs(jobsQuery);
 //console.log("jobListingsSnapshot   ", jobListingsSnapshot);
 
-    // Extract and filter jobs to ensure no duplicates
-    const jobs = jobListingsSnapshot.docs
-      .filter(doc => !seenIDs.has(doc.id)) // Exclude seen IDs
-      .map(doc => {
-        seenIDs.add(doc.id); // Add ID to seen set
-        return { id: doc.id, ...doc.data() };
-      });
+// Extract jobs from the snapshot, excluding those with seen IDs
+const jobs = jobListingsSnapshot.docs
+  .filter(doc => !seenIDs.has(doc.id)) // Exclude seen IDs here
+  .map(doc => ({
+    id: doc.id,
+    ...doc.data()
+  }));
 
 
 // Helper function to check if a value is valid (not undefined, null, or blank)
@@ -359,6 +349,7 @@ jobs.forEach(job => {
     isValidValue(job.company) &&
     isValidValue(job.location) &&
     isValidValue(job.salary) 
+    //isValidValue(job.salaryPayTime)
   ) {
     jobListings.push({
       id: job.id, // Job document ID
@@ -376,18 +367,22 @@ jobs.forEach(job => {
   }
 });
 
-
- // Render unique job listings
- jobListings.forEach(job => createJobCard(job, jobListingsContainer));
-
-
-
+// Check if we have any results
+if (!jobListingsSnapshot.empty) {
+  // Update the last visible document for pagination
+  lastVisible = jobListingsSnapshot.docs[jobListingsSnapshot.docs.length - 1];
+  
+  // Render unique and valid job listings
+  jobListings.forEach(job => createJobCard(job, jobListingsContainer));
+  
   /*
   console.log("Listing length", jobListings.length);
   console.log("jobs length", jobs.length);
   console.log("seenTitles:", seenTitles);
   */
-
+} else {
+  console.log("No jobs found or no more jobs to load.");
+}
 
 
 
