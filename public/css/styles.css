@@ -243,20 +243,31 @@ transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out !important;
 }
 
 /* Forms */
-main  input[type="text"],
-main  input[type="email"],
-main  textarea {
+/* Styles for input fields and textareas within the main element */
+main input[type="text"],
+main input[type="email"],
+main textarea {
     width: 100%;
     padding: 10px;
     margin: 10px 0;
     border: 1px solid #ddd;
     border-radius: 4px;
-    background-color: #f1f3f5;
+    background-color: #f1f3f5; /* Light background */
+    color: #000; /* Default text color */
     transition: border 0.3s ease;
-    
-#jobSearchForm{
-    background-color: #ffffff;
-    }
+}
+
+/* Specific styles for the job search form */
+#jobSearchForm {
+    background-color: #ffffff; /* White background for the form */
+}
+
+/* Ensure inputs inside the job search form are white */
+#jobSearchForm input[type="text"],
+#jobSearchForm input[type="email"],
+#jobSearchForm textarea {
+    background-color: #ffffff; /* White background for inputs inside the job search form */
+    color: #000; /* Text color for inputs */
 }
 
 main  input[type="text"]:focus,
