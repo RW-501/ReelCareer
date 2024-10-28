@@ -8,6 +8,7 @@
     <meta name="keywords" content="job applications, resumes, video resumes, job seeking, career management">
     <meta name="author" content="ReelCareer">
     <title>Job Seeker Dashboard | ReelCareer</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.9.359/pdf.min.js"></script>
 
     <!-- SEO Schema Markup -->
     <script type="application/ld+json">
@@ -1845,37 +1846,61 @@ missingFields.forEach(field => {
 
 
 
-            // Resumes
-   // Assuming userData.resumes contains resume data directly without needing Firestore snapshot
-   const resumeCarousel = document.getElementById('resumeCarousel');
+const resumeCarousel = document.getElementById('resumeCarousel');
 const mainResumeDisplay = document.getElementById('mainResumeDisplay');
 resumeCarousel.innerHTML = '';  // Clear existing content
 
-let resumesData = userData.resumes || [];  // Fetch resume data
+let resumesData = userData.resumes || [];
 console.log("resumesData:", resumesData);
 
-resumesData.forEach((doc) => {
+async function renderPDFThumbnail(url, canvasId) {
+    const loadingTask = pdfjsLib.getDocument(url);
+    const pdf = await loadingTask.promise;
+    const page = await pdf.getPage(1);  // Render first page as thumbnail
+
+    const canvas = document.createElement('canvas');
+    canvas.id = canvasId;
+    const context = canvas.getContext('2d');
+    const viewport = page.getViewport({ scale: 0.5 });
+
+    canvas.width = viewport.width;
+    canvas.height = viewport.height;
+    await page.render({ canvasContext: context, viewport }).promise;
+
+    return canvas;
+}
+
+resumesData.forEach(async (doc, index) => {
     const imgContainer = document.createElement('div');
     imgContainer.style.display = "inline-block";
-    
-    const img = document.createElement('img');
-    img.src = doc.fileURL || 'default-thumbnail.png';
-    img.alt = `${doc.docType || 'Resume'} preview`;
-    img.style.width = '150px';
-    img.style.height = 'auto';
-    
+
+    if (doc.docType === "pdf") {
+        // Render PDF thumbnail
+        const pdfCanvas = await renderPDFThumbnail(doc.fileURL, `pdfCanvas_${index}`);
+        imgContainer.appendChild(pdfCanvas);
+
+    } else if (doc.docType === "doc" || doc.docType === "txt") {
+        // Placeholder image or icon for DOC/TXT files
+        const img = document.createElement('img');
+        img.src = 'default-doc-thumbnail.png';
+        img.alt = `${doc.docType} preview`;
+        img.style.width = '150px';
+        img.style.height = 'auto';
+        imgContainer.appendChild(img);
+    }
+
     // Clickable to populate the main resume display
-    img.addEventListener('click', () => {
+    imgContainer.addEventListener('click', () => {
         mainResumeDisplay.innerHTML = ''; // Clear previous content
         const resumeContent = document.createElement('div');
         resumeContent.innerHTML = doc.digitalResume || 'No content available';
         mainResumeDisplay.appendChild(resumeContent);
     });
-    
-    // Append image to container and container to carousel
-    imgContainer.appendChild(img);
+
+    // Append image container to carousel
     resumeCarousel.appendChild(imgContainer);
 });
+
 
     
             // Video Resumes
