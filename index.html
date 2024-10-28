@@ -318,55 +318,67 @@
                 }
         */
         const jobListingsSnapshot = await getDocs(jobsQuery);
-        console.log("jobListingsSnapshot   ", jobListingsSnapshot);
-        // Extract jobs from the snapshot
-        const jobs = jobListingsSnapshot.docs.map(doc => ({
-          id: doc.id, // Get the document ID
-          ...doc.data() // Spread the rest of the document data
-        }));
-        // Create a new array to store unique jobs
-        const jobListings = [];
-        // Use a Set to track job titles we've already seen
-        const seenTitles = new Set();
-        const seenIDs = new Set();
-        // Filter the jobs to ensure no duplicate titles
-        jobs.forEach(job => {
-          if (!seenTitles.has(job.title) || !seenTitles.has(job.seenIDs) ) {
-            jobListings.push({
-              id: job.id, // Job document ID
-              title: job.title,
-              type: job.type,
-              description: job.description,
-              company: job.company,
-              location: job.location,
-              salary: job.salary,
-              salaryPayTime: job.salaryPayTime,
-            });
-            seenTitles.add(job.title); // Mark title as seen
-            seenIDs.add(job.id); 
-            console.log("seenTitles  ",seenTitles);
-            console.log("seenIDs  ",seenIDs);
+console.log("jobListingsSnapshot   ", jobListingsSnapshot);
 
-          }
-        });
-        // Check if we have any results
-        if (!jobListingsSnapshot.empty) {
-          // Update the last visible document for pagination
-          lastVisible = jobListingsSnapshot.docs[jobListingsSnapshot.docs.length - 1];
-          // Handle unique job listings and render them
-          jobListings.forEach(job => createJobCard(job, jobListingsContainer));
-        
+// Extract jobs from the snapshot
+const jobs = jobListingsSnapshot.docs.map(doc => ({
+  id: doc.id, // Get the document ID
+  ...doc.data() // Spread the rest of the document data
+}));
 
-          /*
-          console.log("Listing lenght", jobListings.length);
-          console.log("jobs lenght", jobs.length);
-          console.log("Listing lenght", jobListings.length);
-          console.log("seenTitles:", seenTitles);
-          */
-        } else {
-          console.log("No jobs found or no more jobs to load.");
-        }
+// Create a new array to store unique jobs
+const jobListings = [];
+// Use Sets to track job titles and IDs we've already seen
+const seenTitles = new Set();
+const seenIDs = new Set();
 
+// Helper function to check if a value is valid (not undefined, null, or blank)
+const isValidValue = value => value !== undefined && value !== null && value !== "";
+
+// Filter jobs to ensure no duplicate titles or IDs, and no undefined, null, or blank fields
+jobs.forEach(job => {
+  if (
+    (!seenTitles.has(job.title) && !seenIDs.has(job.id)) && // Check for uniqueness
+    isValidValue(job.title) &&
+    isValidValue(job.type) &&
+    isValidValue(job.description) &&
+    isValidValue(job.company) &&
+    isValidValue(job.location) &&
+    isValidValue(job.salary) &&
+    isValidValue(job.salaryPayTime)
+  ) {
+    jobListings.push({
+      id: job.id, // Job document ID
+      title: job.title,
+      type: job.type,
+      description: job.description,
+      company: job.company,
+      location: job.location,
+      salary: job.salary,
+      salaryPayTime: job.salaryPayTime
+    });
+    seenTitles.add(job.title); // Mark title as seen
+    seenIDs.add(job.id);       // Mark ID as seen
+    console.log("Added Job Title: ", job.title);
+  }
+});
+
+// Check if we have any results
+if (!jobListingsSnapshot.empty) {
+  // Update the last visible document for pagination
+  lastVisible = jobListingsSnapshot.docs[jobListingsSnapshot.docs.length - 1];
+  
+  // Render unique and valid job listings
+  jobListings.forEach(job => createJobCard(job, jobListingsContainer));
+  
+  /*
+  console.log("Listing length", jobListings.length);
+  console.log("jobs length", jobs.length);
+  console.log("seenTitles:", seenTitles);
+  */
+} else {
+  console.log("No jobs found or no more jobs to load.");
+}
 
 
 
