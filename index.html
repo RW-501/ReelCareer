@@ -321,10 +321,7 @@ const seenIDs = new Set();
         jobsQuery = query(jobsQuery, orderBy('createdAt', 'desc'));
         jobsQuery = query(jobsQuery, limit(25)); // Limit results for pagination
         
-                // If we have already loaded jobs, start from the last visible document
-                if (lastVisible) {
-                    jobsQuery = query(jobsQuery, startAfter(lastVisible));
-                }
+    
         
     // Start from the last visible document if it exists
     if (lastVisible) {
@@ -421,7 +418,7 @@ if (!jobListingsSnapshot.empty) {
       loadMoreButton.style.transition = 'opacity 0.5s ease';
       loadMoreButton.style.fontWeight = '800';
       loadMoreButton.style.margin = '5px';
-      loadMoreButton.style.padding = '5px';
+      loadMoreButton.style.padding = '1rem';
       loadMoreButton.style.display = 'block'; // Ensure button is set to display block initially
       loadMoreButton.style.opacity = 1; // Ensure the opacity is fully visible
       // Modify the onclick event
@@ -448,8 +445,7 @@ if (!jobListingsSnapshot.empty) {
       if (container) {
 
 
-// Append the parsed HTML (the first child of tempDiv)
-//container.appendChild(tempDiv.firstElementChild);
+
 container.appendChild(loadMoreButton); // Add button to the DOM   capitalizeFirstWordInTitlesAndText(['.check-cap', 'main'], 1000);
 /*
 const theLogo = `  <div class="text-center m-auto">
@@ -458,8 +454,10 @@ const theLogo = `  <div class="text-center m-auto">
 
 const tempDiv = document.createElement('div');
 tempDiv.innerHTML = theLogo;
-loadMoreButton.insertAdjacentHTML('beforeend', theLogo); // Insert the HTML directly
+//container.insertAdjacentHTML('beforeend', theLogo); // Insert the HTML directly
 
+// Append the parsed HTML (the first child of tempDiv)
+container.appendChild(tempDiv.firstElementChild);
 
 
 */
