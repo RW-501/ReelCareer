@@ -1863,7 +1863,11 @@ let resumesData = userData.resumes || [];
 console.log("resumesData:", resumesData);
 
 async function renderPDFThumbnail(url, canvasId) {
-    const loadingTask = pdfjsLib.getDocument(url);
+    const loadingTask = pdfjsLib.getDocument({
+    url: fileUrl,
+    withCredentials: true,  // Optional, to enable cookies if required by Firebase auth
+    mode: 'no-cors'
+});
     const pdf = await loadingTask.promise;
     const page = await pdf.getPage(1);  // Render first page as thumbnail
 
@@ -1884,11 +1888,7 @@ resumesData.forEach(async (doc, index) => {
     imgContainer.style.display = "inline-block";
     const fileUrl = await getDownloadUrl(`users/${userId}/files/${doc.fileName}`);
    
-    const loadingTask = pdfjsLib.getDocument({
-    url: fileUrl,
-    withCredentials: true,  // Optional, to enable cookies if required by Firebase auth
-    mode: 'no-cors'
-});
+   
 
     if (doc.docType === "pdf") {
         // Render PDF thumbnail
