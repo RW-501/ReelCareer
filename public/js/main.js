@@ -1467,12 +1467,13 @@ window.addEventListener('load', function() {
           async function openBlogModal(blogId, blogContainer) {
 
               const blog = allBlogs.find(b => b.id === blogId);
+              createBlogModal();
+
               const modalTitle = document.getElementById('blogModalLabel');
               const modalBody = document.getElementById('modalBlogBody');
 
               const blogModal =  document.getElementById('blogModal');
 
-                createBlogModal();
 
              
 
