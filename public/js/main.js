@@ -1889,7 +1889,7 @@ getSimilarJobs(jobTags, JobsContainer);
         const isInSpecifiedContainer = element.closest(containers.join(',')) !== null;
 
         // Check for exceptions
-        const isInExceptions = element.matches('searcharea, #jobSearchForm, #filterSection');
+        const isInExceptions = element.matches('.loader-container, searcharea, #jobSearchForm, #filterSection');
 
         return isInSpecifiedContainer && !isInExceptions;
     };
