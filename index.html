@@ -440,9 +440,8 @@ document.addEventListener("DOMContentLoaded", function () {
           // Apply fade-out effect
           loadMoreButton.style.opacity = 0;
           loadMoreButton.style.display = 'none'; // Hide after fade-out
-        }, 500); // Match the duration of the fade-out (500ms)
-      };
-      // Append the button to the desired container
+                
+          // Append the button to the desired container
       const container = document.getElementById('jobListings'); // Change to your container's ID
       if (container) {
         container.appendChild(loadMoreButton); // Add button to the DOM
@@ -450,6 +449,10 @@ document.addEventListener("DOMContentLoaded", function () {
         console.error('Container for jobs not found');
       }
       return loadMoreButton;
+
+        }, 500); // Match the duration of the fade-out (500ms)
+      };
+
     }
     // Fetch sponsors and handle their display
     async function fetchSponsors(excludedIds) {
