@@ -1336,7 +1336,7 @@ const storage = getStorage();  // This should be defined once globally.
                 tags: '',
                 comments: '',
                 status: 'active',
-                createdDate: serverTimestamp(),
+                createdDate:  new Date().toLocaleString(),
             };
 
             // Update Firestore document in Users collection
@@ -1727,14 +1727,8 @@ function showMissingFieldsPopup(missingFields) {
 }
 
 function openProfileEditForm(missingFields) {
-    // Logic to open the profile edit form
-    const editForm = document.createElement("div");
-    editForm.classList.add("profile-edit-form");
-
-    // Add a close button to the edit form
-    const closeButton = document.createElement("button");
-    closeButton.innerText = "✖ Close";
-    closeButton.classList.add("close-form");
+    
+    document.getElementById("settingsBtn").click();
 
     // Populate form with missing fields and resume data
     missingFields.forEach(field => {
@@ -1750,10 +1744,8 @@ function openProfileEditForm(missingFields) {
         editForm.appendChild(input);
     });
 
-    // Append the close button to the form
-    editForm.appendChild(closeButton);
-    document.body.appendChild(editForm);
-
+    
+    
     // Close button event listener
     closeButton.addEventListener("click", () => {
         editForm.remove();

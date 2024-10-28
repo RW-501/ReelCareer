@@ -862,7 +862,7 @@ function createProfileModal() {
           <div class="modal-content rounded-4 shadow">
             <div class="modal-header border-bottom-0">
               <h5 class="modal-title" id="profileModalLabel">Update Your Profile</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              <button type="button" class="settings-close-btn" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" style="max-height: 400px; overflow-y: auto;"> <!-- Make the modal body scrollable -->
               <!-- Instructional Text -->
@@ -983,7 +983,7 @@ function createProfileModal() {
               </div>
             </div>
             <div class="modal-footer border-top-0">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="saveProfileCloseBtn">Close</button>
+              <button type="button" class="settings-btn-close btn btn-secondary" data-bs-dismiss="modal" id="saveProfileCloseBtn">Close</button>
               <button type="button" class="btn btn-primary" id="saveProfileBtn">Save changes</button>
             </div>
           </div>
@@ -1173,8 +1173,15 @@ function initializeProfileModal(user) {
         modal.hide();
       }
     });
-
-  const closeButton = document.querySelector(".btn-close");
+    profileForm.querySelector('.settings-close-btn').addEventListener('click', () => {
+      const modalElement = document.getElementById("jobModal");
+      const modal = bootstrap.Modal.getInstance(modalElement); // Use Bootstrap's Modal instance
+      if (modal) {
+        modal.hide(); // This will close the modal
+      }
+    });
+          
+  const closeButton = profileForm.querySelector(".settings-btn-close");
   closeButton.addEventListener("click", function () {
     const modalElement = document.getElementById("jobModal");
     const modal = bootstrap.Modal.getInstance(modalElement); // Use Bootstrap's Modal instance
