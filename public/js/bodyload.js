@@ -674,7 +674,7 @@ function addStyles() {
       // Delay function to set the opacity after a specified time
 setTimeout(() => {
   jobCard.style.opacity = '1';
-}, 300); // Delay in milliseconds (2000 ms = 2 seconds)
+}, 700); // Delay in milliseconds (2000 ms = 2 seconds)
     
     container.appendChild(jobCard);
   }

@@ -1865,14 +1865,17 @@ getSimilarJobs(jobTags, JobsContainer);
 
 
 
-
-
 function capitalizeFirstWordInTitlesAndText(containers = ['main', '.container'], throttleTime = 1000) {
   // Regular expression to match classes containing "title," "text," "tag," or "tags" as part of the class name
   const classPattern = /(title|text|tag|tags)([\w-]*)/i;
 
   // Function to capitalize the first word in the text content of matching elements
   const capitalizeFirstWord = (element) => {
+      // Check if the element has any child elements; if so, skip it
+      if (Array.from(element.childNodes).some(child => child.nodeType === Node.ELEMENT_NODE)) {
+          return; // Skip elements with nested elements
+      }
+
       let content = element.innerText;
       if (content) {
           // Capitalize the first word using regex to handle punctuation and spaces
@@ -1897,7 +1900,7 @@ function capitalizeFirstWordInTitlesAndText(containers = ['main', '.container'],
   const processElements = (elements) => {
       elements.forEach(element => {
           if (isChildOfSpecifiedContainers(element) && Array.from(element.classList).some(cls => classPattern.test(cls))) {
-             /// capitalizeFirstWord(element); // Only modifies the inner text
+              capitalizeFirstWord(element); // Only modifies the inner text
               console.log("capitalizeFirstWord element:", element);
           }
       });
@@ -1934,7 +1937,6 @@ function capitalizeFirstWordInTitlesAndText(containers = ['main', '.container'],
 capitalizeFirstWordInTitlesAndText(['.check-cap', 'main'], 1000);
 
 console.log("capitalizeFirstWordInTitlesAndText");
-
 
 
 function roll_in_animations(){
