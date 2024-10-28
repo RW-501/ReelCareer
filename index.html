@@ -380,6 +380,8 @@ jobs.forEach(job => {
       salary: job.salary,
       salaryPayTime: job.salaryPayTime
     });
+    console.log("showCount:", showCount);
+
     seenTitles.add(job.title); // Mark title as seen
     seenIDs.add(job.id);       // Mark ID as seen
     console.log("Added Job Title: ", job.title);
