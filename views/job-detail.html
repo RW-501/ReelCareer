@@ -1064,14 +1064,6 @@ if (jobTags.length > 0) {
 
   
 
-      const similarJobsContainer = document.getElementById('similarJobsContainer');
-
-      // Function to fetch similar jobs based on tags
-
-      const JobsContainer = document.getElementById('similarJobsContainer'); // Example target container
-getSimilarJobs(jobTags, JobsContainer);
-
-
 
        const jobPageURL = window.location.href; // Use current page URL
       const companyName = jobData.company; // Assuming jobData has company information
@@ -1434,13 +1426,19 @@ window.addEventListener('beforeunload', updateJobViewData);
 
 
 
+const similarJobsContainer = document.getElementById('similarJobsContainer');
+
+// Function to fetch similar jobs based on tags
+
 
 
 document.addEventListener('DOMContentLoaded', () => {
   setTimeout(() => {
     const jobTags = ['job', 'jobs', 'new jobs']; 
    //const jobTags = document.getElementById('tag-list').textContent;
-    window.loadRelatedBlogs(jobTags, 'blogContainer');
+   
+   window.getSimilarJobs(jobTags, 'similarJobsContainer');
+   window.loadRelatedBlogs(jobTags, 'blogContainer');
   }, 2000);
 });
 
