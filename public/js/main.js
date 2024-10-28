@@ -1624,14 +1624,12 @@ window.addEventListener('load', function() {
       const q = query(jobsRef, where('tags', 'array-contains-any', jobTags), limit(maxSimilarJobs));
       const querySnapshot = await getDocs(q);
 
+      if(!JobsContainer || querySnapshot.empty) {
+        displayEmptyState(JobsContainer, 'No related jobs found.', 'fas fa-briefcase');
+        return;
+      }
       // Clear the specified jobs container
       JobsContainer.innerHTML = ''; // Reset the container for fresh data
-
-      // Check if there are any matching jobs
-      if (querySnapshot.empty) {
-          displayEmptyState(JobsContainer, 'No related jobs found.', 'fas fa-briefcase');
-          return;
-      }
 
       querySnapshot.forEach(doc => {
           const similarJob = doc.data();
