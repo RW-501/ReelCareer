@@ -47,6 +47,15 @@ function scrollToDivOnLoad(divId = null) {
 // Default load at the top
 scrollToDivOnLoad();
 
+/*
+// Extract `divId` from URL if available
+const urlParams = new URLSearchParams(window.location.search);
+const divId = urlParams.get("scrollTo");
+
+// Pass the extracted divId to the function
+scrollToDivOnLoad(divId);
+*/
+
 // Scroll to a specific div if ID is provided, for example "targetDivId"
 //scrollToDivOnLoad("targetDivId");
 
