@@ -1629,185 +1629,159 @@ function getSimilarJobsStyles() {
 
   
   /* Style for similar jobs container */
-  .similar-jobs {
-    margin-top: 30px;
-  }
+.similar-jobs {
+  margin-top: 30px;
+}
 
-  .similar-job-card {
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 15px;
-    margin-bottom: 20px;
-    background-color: #fff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s ease-in-out;
-  }
+.similar-job-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 20px;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease-in-out;
+}
 
-  .similar-job-card:hover {
-    transform: translateY(-5px);
-  }
+.similar-job-card:hover {
+  transform: translateY(-5px);
+}
 
-  .similar-job-card h5 {
-    font-size: 1.25rem;
-    color: #80b6d5;
-    font-weight: 600;
-  }
+.similar-job-card h5 {
+  font-size: 1.25rem;
+  color: #80b6d5;
+  font-weight: 600;
+}
 
-  .similar-job-card .job-tags {
-    margin-top: 10px;
-  }
+.similar-job-card .job-tags {
+  margin-top: 10px;
+  background-color: #e9ecef;
+  border-radius: 5px;
+  padding: 5px 10px;
+  display: inline-block;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
 
-  .similar-job-card .badge {
-    background-color: #80b6d5;
-    color: #e9ecef;
-    margin-right: 5px;
-    padding: 5px 10px;
-    border-radius: 1rem;
-    font-size: 0.8rem;
-    font-weight: 700;
-  }
+.similar-job-card .badge {
+  background-color: #80b6d5;
+  color: #e9ecef;
+  margin-right: 5px;
+  padding: 5px 10px;
+  border-radius: 1rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
 
-  .similar-job-card .view-job-btn {
-    margin-top: 10px;
-    text-align: right;
-    display: block;
-    text-decoration: none;
-    color: #fff;
-    background-color: #80b6d5 !important;
-    padding: 10px 15px;
-    border-radius: 5px;
-    font-weight: bold;
-    transition: background-color 0.2s ease;
-  }
+.similar-job-card .view-job-btn {
+  margin-top: 10px;
+  text-align: right;
+  display: block;
+  text-decoration: none;
+  color: #fff;
+  background-color: #80b6d5 !important;
+  padding: 10px 15px;
+  border-radius: 5px;
+  font-weight: bold;
+  transition: background-color 0.2s ease;
+}
 
-  .similar-job-card .view-job-btn:hover {
-    background-color: #aaabac;
-  }
+.similar-job-card .view-job-btn:hover {
+  background-color: #aaabac;
+}
 
-  .empty-state {
-    padding: 20px;
-    border: 2px dashed #ddd;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s ease-in-out;
-  }
+.similar-job-card .empty-state {
+  padding: 20px;
+  border: 2px dashed #ddd;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease-in-out;
+}
 
-  .empty-state i {
-    color: #ccc;
-  }
+.similar-job-card .empty-state i {
+  color: #ccc;
+}
 
-  .empty-state p {
-    font-size: 1.1em;
-    color: #666;
-  }
+.similar-job-card .empty-state p {
+  font-size: 1.1em;
+  color: #666;
+}
 
+.similar-job-card .job-info-box {
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  padding: 1.5rem;
+  margin: 15px 0;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
 
-  .job-info-box {
-    background-color: #f8f9fa;
-    /* Light gray background */
-    border-radius: 5px;
-    /* Rounded corners */
-    padding: 15px;
-    /* Padding around the content */
-    margin: 15px 0;
-    /* Space around the box */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    /* Subtle shadow */
-    transition: background-color 0.3s, box-shadow 0.3s;
-    /* Smooth transition for hover effects */
-  }
+.similar-job-card .job-info-box:hover {
+  background-color: #e9ecef;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
 
-  .job-info-box:hover {
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    /* Increase shadow on hover */
-    background-color: #e9ecef;
-    /* Slightly darker background */
-  }
+.similar-job-card .job-info {
+  line-height: 1.2;
+}
 
-  .job-info {
-    line-height: 1.2;
-    /* Reduce line spacing */
-  }
+.similar-job-card .job-info p {
+  margin: 5px 0;
+}
 
-  .job-info p {
-    margin: 5px 0;
-    /* Reduced margin between paragraphs for consistency */
-  }
+.similar-job-card .job-info strong {
+  color: #6c757d;
+  font-weight: 600;
+}
 
-  .job-info strong {
-    color: #6c757d;
-    /* Muted titles */
-    font-weight: 600;
-    /* Adjust weight for titles */
-  }
+.similar-job-card .job-info span {
+  font-weight: 400;
+}
 
-  .job-info span {
-    font-weight: 400;
-    /* Adjust weight for content */
-  }
+/* Buttons */
+.similar-job-card .btn-primary {
+  background-color: #639ad4 !important;
+  color: white;
+  border: none;
+  border-radius: 5px;
+}
 
-  .btn-primary {
-    background-color: #639ad4 !important;
-    color: white;
-    border: none;
-    border-radius: 5px;
-  }
+.similar-job-card .btn {
+  border-radius: 25px;
+}
 
-  /* Job Info Boxes */
-  .job-info-box {
-    background-color: #f8f9fa;
-    border-radius: 10px;
-    padding: 1.5rem;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
+.similar-job-card .btn-outline-secondary:hover {
+  background-color: #e9ecef;
+}
 
-  .text-muted {
-    font-size: 1rem;
-    line-height: 1.6;
-  }
-  
-  
-  
-  .job-tags button {
-      background-color: #83bad9;
-  
-  }
-  
-  .job-tags button:hover {
-  
+/* Box Shadows */
+.similar-job-card .shadow-sm {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.similar-job-card .text-indent {
+  text-indent: 1.5rem;
+}
+
+.similar-job-card img.job-logo {
+  width: 150px;
+  height: 150px;
+}
+
+/* Job Tags */
+.similar-job-card .job-tags button {
+  background-color: #83bad9;
+}
+
+.similar-job-card .job-tags button:hover {
   background-color: #0056b3;
-  }
-  
-  /* Buttons */
-  .btn {
-    border-radius: 25px;
-  }
-  
-   /* 
-  .btn:hover {
-  
-   background-color: #0056b3;
-  }
-  */
-  .btn-outline-secondary:hover {
-    background-color: #e9ecef;
-  }
-  
-  /* Box Shadows */
-  .shadow-sm {
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  .text-indent {
-    text-indent: 1.5rem;
-  }
-  
-  img.job-logo {
-    width: 150px;
-    height: 150px;
-  }
-  
+}
+
+.similar-job-card .text-muted {
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
   `;
   document.head.appendChild(style);
 }
