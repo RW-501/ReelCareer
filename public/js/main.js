@@ -1870,6 +1870,7 @@ getSimilarJobs(jobTags, JobsContainer);
 
   // Function to check if an element is a child of specified containers
   function capitalizeFirstWordInTitlesAndText(containers, throttleTime) {
+    const containers = document.getElementById(containers);
     // Regular expression to match classes with "title," "text," "tag," or "tags" (case-insensitive)
     const classPattern = /(title|text|tag|tags)/i;
 
@@ -1929,7 +1930,7 @@ getSimilarJobs(jobTags, JobsContainer);
 }
 
 // Usage
-capitalizeFirstWordInTitlesAndText(['#jobListings','#featuredJobListings'], 300);
+capitalizeFirstWordInTitlesAndText(['jobListings','featuredJobListings'], 300);
 
 
 
