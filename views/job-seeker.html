@@ -1730,21 +1730,19 @@ function openProfileEditForm(missingFields) {
     
     document.getElementById("settingsBtn").click();
 
-    // Populate form with missing fields and resume data
-    missingFields.forEach(field => {
-        const fieldLabel = document.createElement("label");
-        fieldLabel.innerText = field.charAt(0).toUpperCase() + field.slice(1);
-        
-        const input = document.createElement("input");
-        input.type = "text";
-        input.value = missingFields[field] || ""; // Populate with data from the resume
-        
-        // Align labels and inputs
-        editForm.appendChild(fieldLabel);
-        editForm.appendChild(input);
-    });
 
-    
+        fieldLabel.innerText = field.charAt(0).toUpperCase() + field.slice(1);
+       
+        input.value = missingFields[field] || ""; // Populate with data from the resume
+
+        const updatedData = {};
+
+missingFields.forEach(field => {
+    const fieldValue = document.getElementById(field).value.trim();
+    if (fieldValue) {
+        updatedData[field] = fieldValue;
+    }
+});
     
     // Close button event listener
     closeButton.addEventListener("click", () => {
@@ -1752,39 +1750,8 @@ function openProfileEditForm(missingFields) {
     });
 
 
-    document.getElementById("profileForm").addEventListener("submit", async (e) => {
-        e.preventDefault();
-        const updatedData = {};
-
-        missingFields.forEach(field => {
-            const fieldValue = document.getElementById(field).value.trim();
-            if (fieldValue) {
-                updatedData[field] = fieldValue;
-            }
-        });
-
-        // Save updated data in Firestore under Users collection
-        await saveToFirestore(updatedData);
-        
-        // Update local storage
-        Object.assign(userData, updatedData);
-        localStorage.setItem("userData", JSON.stringify(userData));
-        
-        showToast("Profile updated successfully!");
-        formContainer.remove();
-    });
 }
 
-async function saveToFirestore(updatedData) {
-    try {
-        const userId = userData.userID;
-        const userDocRef = firebase.firestore().collection("Users").doc(userId);
-        await userDocRef.update(updatedData);
-    } catch (error) {
-        showToast("Error saving data. Please try again.", "error");
-        console.error("Error saving data to Firestore:", error);
-    }
-}
 
 
 

@@ -1166,6 +1166,8 @@ function initializeProfileModal(user) {
   document
     .getElementById("saveProfileCloseBtn")
     .addEventListener("click", function () {
+      showToast("Profile updated successfully!","success");
+
       const modal = bootstrap.Modal.getInstance(
         document.getElementById("profileModal")
       );
