@@ -1752,7 +1752,7 @@ function showMissingFieldsPopup(missingFields) {
     // Add event listeners
     document.getElementById("completeProfileBtn").addEventListener("click", () => {
         openProfileEditForm(missingFields);
-        popup.remove();
+       // popup.remove();
     });
 
     document.getElementById("dismissPopupBtn").addEventListener("click", () => {
@@ -1768,7 +1768,9 @@ function showMissingFieldsPopup(missingFields) {
 function openProfileEditForm(missingFields) {
     console.log("missingFields    ",missingFields);
 
-    document.getElementById("settingsBtn").click();
+    window.addEventListener('DOMContentLoaded', (event) => {
+    document.getElementById("settingsBtn")?.click();
+});
 
 /*
         fieldLabel.innerText = field.charAt(0).toUpperCase() + field.slice(1);
@@ -1807,13 +1809,29 @@ missingFields.forEach(field => {
 
 
             // Resumes
-            const resumesRef = collection(db, 'Users', userId, 'Resumes');
+            const resumesRef = collection(db, 'Users', userId, 'resumes');
             const resumesSnapshot = await getDocs(resumesRef);
             const resumeList = document.getElementById('resumeList');
             resumeList.innerHTML = '';
-            resumesSnapshot.forEach((doc) => {
+
+
+
+            let resumesData = userData.resumes;
+            console.log("userData   ",userData);
+            console.log("resumesData   ",resumesData);
+
+            resumesData.forEach((doc) => {
                 const li = document.createElement('li');
-                li.textContent = doc.data().fileName; // Assuming the resume document has a field named fileName
+                console.log("doc   ",doc);
+                console.log("doc.data()   ",doc.data());
+
+                const img = document.createElement('img');
+                img.src = doc.fileURL;
+                img.alt = `${doc.docType} preview`;
+                img.style.width = '100px';
+                img.style.height = 'auto';
+                li.appendChild(img);
+                
                 resumeList.appendChild(li);
             });
     
