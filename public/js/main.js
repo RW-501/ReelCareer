@@ -1866,6 +1866,7 @@ getSimilarJobs(jobTags, JobsContainer);
 
 
 
+
 function capitalizeFirstWordInTitlesAndText(containers = ['main', '.container'], throttleTime = 1000) {
   // Regular expression to match classes containing "title," "text," "tag," or "tags" as part of the class name
   const classPattern = /(title|text|tag|tags)([\w-]*)/i;
@@ -1877,6 +1878,8 @@ function capitalizeFirstWordInTitlesAndText(containers = ['main', '.container'],
           // Capitalize the first word using regex to handle punctuation and spaces
           content = content.replace(/^\s*([\w])/, (match) => match.toUpperCase());
           element.innerText = content;
+          console.log("capitalizeFirstWord content:", content);
+
       }
   };
 
@@ -1891,15 +1894,24 @@ function capitalizeFirstWordInTitlesAndText(containers = ['main', '.container'],
       return isInSpecifiedContainer && !isInExceptions;
   };
 
-  // Select initial elements within specified containers and apply capitalization if class matches pattern
-  document.querySelectorAll('*').forEach(element => {
-      if (isChildOfSpecifiedContainers(element) && Array.from(element.classList).some(cls => classPattern.test(cls))) {
-          capitalizeFirstWord(element);
-          console.log("capitalizeFirstWord element:", element);
-      }
-  });
+  // Function to process elements for capitalization
+  const processElements = (elements) => {
+      elements.forEach(element => {
+          if (isChildOfSpecifiedContainers(element) && Array.from(element.classList).some(cls => classPattern.test(cls))) {
+              capitalizeFirstWord(element);
+              console.log("capitalizeFirstWord element:", element);
 
-  // Throttling function to limit execution rate
+          }
+      });
+  };
+
+  // Select initial elements within specified containers and apply capitalization if class matches pattern
+  setTimeout(() => {
+      const initialElements = document.querySelectorAll('*');
+      processElements(initialElements);
+  }, throttleTime);
+
+  // Throttling function to limit execution rate for dynamic elements
   let lastRunTime = 0;
   const throttledHandler = (mutations) => {
       const now = Date.now();
@@ -1907,10 +1919,8 @@ function capitalizeFirstWordInTitlesAndText(containers = ['main', '.container'],
           lastRunTime = now;
           mutations.forEach(mutation => {
               mutation.addedNodes.forEach(node => {
-                  if (node.nodeType === Node.ELEMENT_NODE && isChildOfSpecifiedContainers(node)) {
-                      if (Array.from(node.classList).some(cls => classPattern.test(cls))) {
-                          capitalizeFirstWord(node);
-                      }
+                  if (node.nodeType === Node.ELEMENT_NODE) {
+                      processElements([node]);
                   }
               });
           });
@@ -1923,7 +1933,8 @@ function capitalizeFirstWordInTitlesAndText(containers = ['main', '.container'],
 }
 
 // Usage
-capitalizeFirstWordInTitlesAndText(['.check-cap', 'main'], 5000);
+capitalizeFirstWordInTitlesAndText(['.check-cap', 'main'], 1000);
+
 console.log("capitalizeFirstWordInTitlesAndText");
 
 
