@@ -1925,4 +1925,50 @@ getSimilarJobs(jobTags, JobsContainer);
 }
 
 // Usage
-capitalizeFirstWordInTitlesAndText(['main', '.container', '.custom-section'], 300);
+capitalizeFirstWordInTitlesAndText(['#job-title-link','.custom-section'], 300);
+
+
+   // Inject CSS Styles
+   const loading_style = document.createElement('style');
+   loading_style.innerHTML = `
+       /* Hide body initially */
+       body.hidden { 
+           opacity: 0; 
+           overflow: hidden;
+       }
+   
+       /* Hidden state for .main child divs */
+       .main > div {
+           opacity: 0;
+           transform: translateX(-100%);
+           transition: opacity 0.6s ease, transform 0.6s ease;
+       }
+   
+       /* Roll-in effect */
+       .main > div.roll-in {
+           opacity: 1;
+           transform: translateX(0);
+       }
+   `;
+   document.head.appendChild(loading_style);
+   
+   // Roll-in function
+   document.addEventListener("DOMContentLoaded", function () {
+       const mainDivs = document.querySelectorAll(".main > div");
+       let delay = 2000; // Delay between roll-ins, in milliseconds
+   
+       // Hide body initially
+       document.body.classList.add("hidden");
+   
+       // Reveal body and trigger roll-in animations
+       setTimeout(() => {
+           document.body.classList.remove("hidden");
+   
+           // Sequentially add the "roll-in" class to each div with a delay
+           mainDivs.forEach((div, index) => {
+               setTimeout(() => {
+                   div.classList.add("roll-in");
+               }, index * delay);
+           });
+       }, 2000); // Initial delay before body appears
+   });
