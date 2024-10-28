@@ -434,7 +434,14 @@ if (!jobListingsSnapshot.empty) {
                 // Append the button to the desired container
         const container = document.getElementById('jobListings'); // Change to your container's ID
       if (container) {
+
+        const theLogo = `  <div class="text-center m-auto">
+    <h3 class="font-weight-bold embedded-Logo">ReelCareer.co</h3>
+</div>`;
+container.appendChild(theLogo);
         container.appendChild(loadMoreButton); // Add button to the DOM
+        capitalizeFirstWordInTitlesAndText(['.check-cap', 'main'], 1000);
+
       } else {
         console.error('Container for jobs not found');
       }
