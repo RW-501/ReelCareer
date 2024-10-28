@@ -447,17 +447,18 @@ if (!jobListingsSnapshot.empty) {
         const container = document.getElementById('jobListings'); // Change to your container's ID
       if (container) {
 
-        const theLogo = `  <div class="text-center m-auto">
+
+// Append the parsed HTML (the first child of tempDiv)
+//container.appendChild(tempDiv.firstElementChild);
+container.appendChild(loadMoreButton); // Add button to the DOM   capitalizeFirstWordInTitlesAndText(['.check-cap', 'main'], 1000);
+
+const theLogo = `  <div class="text-center m-auto">
     <h3 class="font-weight-bold embedded-Logo">ReelCareer.co</h3>
 </div>`;
 
 const tempDiv = document.createElement('div');
 tempDiv.innerHTML = theLogo;
-container.insertAdjacentHTML('beforeend', theLogo); // Insert the HTML directly
-
-// Append the parsed HTML (the first child of tempDiv)
-//container.appendChild(tempDiv.firstElementChild);
-container.appendChild(loadMoreButton); // Add button to the DOM   capitalizeFirstWordInTitlesAndText(['.check-cap', 'main'], 1000);
+loadMoreButton.insertAdjacentHTML('beforeend', theLogo); // Insert the HTML directly
 
       } else {
         console.error('Container for jobs not found');
