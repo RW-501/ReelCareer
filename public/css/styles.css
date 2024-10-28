@@ -27,6 +27,9 @@ body {
     }
 }
 
+.shadow-sm {
+    box-shadow: 0 .125rem 0rem 0px rgb(0 0 0 / 34%) !important;
+}
 
 .fw-800{
     font-weight: 800;
