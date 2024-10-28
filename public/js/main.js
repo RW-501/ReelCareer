@@ -1866,67 +1866,60 @@ getSimilarJobs(jobTags, JobsContainer);
 
 
 
+function capitalizeFirstWordInTitlesAndText(containers = ['main', '.container'], throttleTime = 1000) {
+  // Regular expression to match classes containing "title," "text," "tag," or "tags" as part of the class name
+  const classPattern = /(title|text|tag|tags)([\w-]*)/i;
 
+  // Function to capitalize the first word in the text content of matching elements
+  const capitalizeFirstWord = (element) => {
+      let content = element.innerText;
+      if (content) {
+          // Capitalize the first word using regex to handle punctuation and spaces
+          content = content.replace(/^\s*([\w])/, (match) => match.toUpperCase());
+          element.innerText = content;
+      }
+  };
 
-  // Function to check if an element is a child of specified containers
-  function capitalizeFirstWordInTitlesAndText(containers, throttleTime) {
-    // containers = document.getElementById(containers);
-    // Regular expression to match classes with "title," "text," "tag," or "tags" (case-insensitive)
-    const classPattern = /(title|text|tag|tags)/i;
+  // Helper function to determine if the element is within specified containers and not within exceptions
+  const isChildOfSpecifiedContainers = (element) => {
+      // Check if the element is within any specified container
+      const isInSpecifiedContainer = element.closest(containers.join(',')) !== null;
 
-    // Function to capitalize the first word in the text content of matching elements
-    const capitalizeFirstWord = (element) => {
-        let content = element.innerText;
-        if (content) {
-            // Capitalize the first word using regex to handle punctuation and spaces
-            content = content.replace(/^\s*([\w])/, (match) => match.toUpperCase());
-            element.innerText = content;
-            console.log("capitalizeFirstWord  content ??????????/   ",content);
+      // Check for exceptions
+      const isInExceptions = element.matches('.loader-container, searcharea, #jobSearchForm, #filterSection');
 
-        }
-    };
+      return isInSpecifiedContainer && !isInExceptions;
+  };
 
-    // Function to check if an element is a child of specified containers, excluding exceptions
-    const isChildOfSpecifiedContainers = (element) => {
-        // Check if the element is within any specified container
-        const isInSpecifiedContainer = element.closest(containers.join(',')) !== null;
+  // Select initial elements within specified containers and apply capitalization if class matches pattern
+  document.querySelectorAll('*').forEach(element => {
+      if (isChildOfSpecifiedContainers(element) && Array.from(element.classList).some(cls => classPattern.test(cls))) {
+          capitalizeFirstWord(element);
+          console.log("capitalizeFirstWord element:", element);
+      }
+  });
 
-        // Check for exceptions
-        const isInExceptions = element.matches('.loader-container, searcharea, #jobSearchForm, #filterSection');
+  // Throttling function to limit execution rate
+  let lastRunTime = 0;
+  const throttledHandler = (mutations) => {
+      const now = Date.now();
+      if (now - lastRunTime >= throttleTime) {
+          lastRunTime = now;
+          mutations.forEach(mutation => {
+              mutation.addedNodes.forEach(node => {
+                  if (node.nodeType === Node.ELEMENT_NODE && isChildOfSpecifiedContainers(node)) {
+                      if (Array.from(node.classList).some(cls => classPattern.test(cls))) {
+                          capitalizeFirstWord(node);
+                      }
+                  }
+              });
+          });
+      }
+  };
 
-        return isInSpecifiedContainer && !isInExceptions;
-    };
-
-    // Select initial elements within specified containers and apply capitalization
-    document.querySelectorAll('*').forEach(element => {
-        if (isChildOfSpecifiedContainers(element) && Array.from(element.classList).some(cls => classPattern.test(cls))) {
-            capitalizeFirstWord(element);
-            console.log("capitalizeFirstWord element ??????????/   ",element);
-
-        }
-    });
-
-    // Throttling function to limit execution rate
-    let lastRunTime = 0;
-    const throttledHandler = (mutations) => {
-        const now = Date.now();
-        if (now - lastRunTime >= throttleTime) {
-            lastRunTime = now;
-            mutations.forEach(mutation => {
-                mutation.addedNodes.forEach(node => {
-                    if (node.nodeType === Node.ELEMENT_NODE && isChildOfSpecifiedContainers(node)) {
-                        if (Array.from(node.classList).some(cls => classPattern.test(cls))) {
-                            capitalizeFirstWord(node);
-                        }
-                    }
-                });
-            });
-        }
-    };
-
-    // Set up a MutationObserver to monitor DOM changes, with throttling
-    const observer = new MutationObserver(throttledHandler);
-    observer.observe(document.body, { childList: true, subtree: true });
+  // Set up a MutationObserver to monitor DOM changes, with throttling
+  const observer = new MutationObserver(throttledHandler);
+  observer.observe(document.body, { childList: true, subtree: true });
 }
 
 // Usage
