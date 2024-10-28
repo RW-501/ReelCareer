@@ -1924,6 +1924,7 @@ function capitalizeFirstWordInTitlesAndText(containers = ['main', '.container'],
 
 // Usage
 capitalizeFirstWordInTitlesAndText(['.check-cap'], 5000);
+console.log("capitalizeFirstWordInTitlesAndText");
 
 
 
