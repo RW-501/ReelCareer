@@ -127,6 +127,20 @@ body {
     justify-content: space-between; /* Ensures content is spaced within the card */
   }
   
+  .blog-card .card-title {
+    margin-bottom: .75rem;
+    color: #007bff !important;
+    background-color: #f3f3f3 !important;
+    padding: 5px 10px;
+    border-radius: 5px;
+    overflow: visible;
+    width: 110%;
+    position: relative;
+    left: -15px !important;
+}
+  .blog-card .card-body a {
+    color: #7f7d7c !important;
+  }
   
 .noCopy {
     user-select: none !important;

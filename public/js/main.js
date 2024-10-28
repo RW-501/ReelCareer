@@ -1553,10 +1553,10 @@ window.addEventListener('load', function() {
                   blogCard.innerHTML = `
                       <div class="card blog-card shadow-sm">
                           <div data-bs-toggle="modal" data-bs-target="#blogModal" class="blog-card-trigger" data-blog-id="${blog.id}">
-                              <img src="${blog.imageUrl}" alt="${blog.title}" class="card-img-top" loading="lazy" />
+                               <a href="https://reelcareer.co/views/blog?id=${blog.id}"><img src="${blog.imageUrl}" alt="${blog.title}" class="card-img-top" loading="lazy" /></a>
                           </div>
                           <div class="card-body">
-                              <h5 class="card-title text-primary">${blog.title}</h5>
+                               <a href="https://reelcareer.co/views/blog?id=${blog.id}"><h5 class="card-title text-primary">${blog.title}</h5></a>
                               <p class="card-text text-muted">
                                   <a href="https://reelcareer.co/views/blog?id=${blog.id}">${truncateText(blog.content, 80)}</a>
                               </p>
