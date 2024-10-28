@@ -287,12 +287,12 @@
 
         </div>
 
-        <div class="col-md-4">
-            <div class="card mb-4 shadow-sm">
+        <div class="col-md">
+            <div class=" mb-4 ">
                 <div class="card-header bg-light">
                     <h5 class="mb-0">Suggested Jobs</h5>
                 </div>
-                <div class="card-body">
+                <div class="">
                     <div id="suggestedJobs"  class="row p-4 noCopy">
                         <!-- Suggested blogs will be dynamically listed here -->
                     </div>
@@ -2143,9 +2143,7 @@ document.getElementById('btnRefreshAnalytics').addEventListener('click', () => {
 
 
   setTimeout(() => {
-    console.log("????????????????????????:");
-
-    
+    console.log("loader");
     const jobTags = ['job', 'jobs', 'new jobs']; 
    //const jobTags = document.getElementById('tag-list').textContent;
    window.loadRelatedBlogs(jobTags, 'suggestedBlogs');
