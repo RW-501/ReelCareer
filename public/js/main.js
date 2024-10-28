@@ -1606,9 +1606,11 @@ loadRelatedBlogs(jobTags, 'blogContainer'); // Replace 'blogContainer' with your
 */
 
 
-// Function to load similar jobs based on tags
-async function getSimilarJobs(jobTags, JobsContainer) {
+
+window.addEventListener('load', function() {
+  window.getSimilarJobs = async function(jobTags, containerId) {
   const maxSimilarJobs = 5; // Limit the number of similar jobs displayed
+  const JobsContainer = document.getElementById(containerId);
 
   try {
       // Reference to the 'Jobs' collection and query based on tags
@@ -1664,6 +1666,7 @@ async function getSimilarJobs(jobTags, JobsContainer) {
       displayEmptyState(JobsContainer, 'Error loading similar jobs.', 'fas fa-briefcase');
   }
 }
+});
 
 // Function to display an empty state message
 function displayEmptyState(container, message, iconClass = 'fas fa-search') {
