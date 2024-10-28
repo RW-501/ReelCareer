@@ -1883,6 +1883,12 @@ resumesData.forEach(async (doc, index) => {
     const imgContainer = document.createElement('div');
     imgContainer.style.display = "inline-block";
     const fileUrl = await getDownloadUrl(`users/${userId}/files/${doc.fileName}`);
+   
+    const loadingTask = pdfjsLib.getDocument({
+    url: fileUrl,
+    withCredentials: true,  // Optional, to enable cookies if required by Firebase auth
+    mode: 'no-cors'
+});
 
     if (doc.docType === "pdf") {
         // Render PDF thumbnail
