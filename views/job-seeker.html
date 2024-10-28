@@ -171,7 +171,7 @@
 
 
 <!-- Modal Structure -->
-<div id="previewModal" class="modal">
+<div id="fileUploadPreview" class="modal">
     <div class="modal-content">
         <span class="close-button">&times;</span>
         <h2>Resume Preview</h2>
@@ -530,7 +530,6 @@ document.head.insertAdjacentHTML("beforeend", `
 const resumeInput = document.getElementById('resumeInput');
 const fileNameDisplay = document.getElementById('fileNameDisplay');
 const fileUploadPreview = document.getElementById('fileUploadPreview');
-const previewModal = document.getElementById('previewModal');
 const resumePreviewContent = document.getElementById('resumePreviewContent');
 const saveButton = document.getElementById('saveButton');
 const closeButton = document.querySelector('.close-button');
@@ -604,7 +603,7 @@ function openModal(file) {
 closeButton.onclick = function () {
     event.preventDefault(); // Prevent the form from refreshing the page
 
-    previewModal.style.display = 'none';
+    fileUploadPreview.style.display = 'none';
 };
 
 // Handle save action
@@ -619,13 +618,13 @@ saveButton.onclick = function () {
     console.log("Skills Tags:", skillsTags);
 
     // Close modal after saving
-    previewModal.style.display = 'none';
+    fileUploadPreview.style.display = 'none';
 };
 
 // Close modal when clicking outside of it
 window.onclick = function (event) {
-    if (event.target === previewModal) {
-        previewModal.style.display = 'none';
+    if (event.target === fileUploadPreview) {
+        fileUploadPreview.style.display = 'none';
         event.preventDefault(); // Prevent the form from refreshing the page
 
     }
@@ -1332,10 +1331,11 @@ const storage = getStorage();  // This should be defined once globally.
                 notes: '',
                 fileURL: downloadURL,
                 digitalResume: '',
+                downloadCount: 0,
                 views: 0,
                 tags: '',
-                comments: comments,
-                status: status,
+                comments: '',
+                status: 'active',
                 createdDate: serverTimestamp(),
             };
 
