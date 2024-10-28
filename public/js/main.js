@@ -1898,6 +1898,8 @@ getSimilarJobs(jobTags, JobsContainer);
     document.querySelectorAll('*').forEach(element => {
         if (isChildOfSpecifiedContainers(element) && Array.from(element.classList).some(cls => classPattern.test(cls))) {
             capitalizeFirstWord(element);
+            console.log("capitalizeFirstWord  ??????????/   ",element);
+
         }
     });
 
