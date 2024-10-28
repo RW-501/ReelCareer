@@ -1927,7 +1927,7 @@ getSimilarJobs(jobTags, JobsContainer);
 }
 
 // Usage
-capitalizeFirstWordInTitlesAndText(['#job-title-link','.custom-section'], 300);
+capitalizeFirstWordInTitlesAndText(['main','.custom-section'], 300);
 
 
 
