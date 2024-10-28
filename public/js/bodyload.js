@@ -420,10 +420,10 @@ function addStyles() {
     // Hide loader and fade in content
   
     resume.addEventListener("click", () => {
-      console.log("pauseTime loaderPic 1 ", pauseTime);
+  //    console.log("pauseTime loaderPic 1 ", pauseTime);
   
       pauseTime = true;
-      console.log("pauseTime  loaderPic 2 ", pauseTime);
+    //  console.log("pauseTime  loaderPic 2 ", pauseTime);
     });
   
     reelContainer.addEventListener("click", () => {
@@ -440,6 +440,7 @@ function addStyles() {
   addStyles(); // Add styles first
   createLoader(); // Then create the loader
   let loaderTimer = 700;
+  console.log(" createLoader();   ");
 
   function setLoaderTimer(loaderTimer) {
     setTimeout(() => {
@@ -448,7 +449,7 @@ function addStyles() {
     }, loaderTimer);
 
     function hideLoader() {
-      console.log("pauseTime   ", pauseTime);
+     // console.log("pauseTime   ", pauseTime);
       if (pauseTime === false) {
         const loader = document.getElementById("loaderX");
         loader.classList.add("hidden");
