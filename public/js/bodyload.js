@@ -440,7 +440,7 @@ function addStyles() {
   addStyles(); // Add styles first
   createLoader(); // Then create the loader
   let loaderTimer = 700;
-  console.log(" createLoader();   ");
+ // console.log(" createLoader();   ");
 
   function setLoaderTimer(loaderTimer) {
     setTimeout(() => {
@@ -454,7 +454,7 @@ function addStyles() {
         const loader = document.getElementById("loaderX");
         loader.classList.add("hidden");
         loader.remove();
-        console.log(" loader.remove();   ");
+       // console.log(" loader.remove();   ");
 
       }
       }
@@ -469,7 +469,7 @@ function addStyles() {
   // Hide loader when the window fully loads
   window.addEventListener("load", () => {
     document.body.classList.add("loaded"); // Then show content
-  setLoaderTimer(700);
+  setLoaderTimer(500);
   });
 
 
