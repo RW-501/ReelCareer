@@ -225,12 +225,13 @@
                 <h5 class="mb-0">Saved Jobs</h5>
             </div>
             <div class="card-body">
-                <div id="savedJobsList" style="max-height: 400px; overflow-y: hidden;">
-                    <ul class="list-group"  style="max-height: 400px; overflow-y: auto;">
+                <div id="savedJobsList" style="max-height: 400px; overflow-y: auto;">
+                    <ul class="list-group mb-2"  style="max-height: 400px; ">
                         <!-- Saved job items will be appended here -->
                     </ul>
                 </div>
-                
+                <div id="savedJobsBottom" ></div>
+
             </div>
         </div>
 
@@ -258,8 +259,8 @@
                 </div>
                 <div class="card-body">
                     <p>Your recent job applications:</p>
-                    <div id="applicationsList" style="max-height: 400px; overflow-y: hidden;">
-                        <ul class="list-group" style="max-height: 400px; overflow-y: auto;">
+                    <div id="applicationsList" style="max-height: 400px; overflow-y: auto;">
+                        <ul class="list-group mb-2" style="max-height: 400px; ">
                             <!-- Application items will be appended here -->
                         </ul>
                     </div>
@@ -801,6 +802,7 @@ async function displaySavedJobs() {
         }
     }
     
+    //savedJobsBottom
     currentJobIndex = end; // Update the current index
 
     // Check if there are more jobs to show
@@ -1818,6 +1820,7 @@ const applicationsRef = collection(db, 'Applications');
 const applicationsQuery = query(applicationsRef, where("userId", "==", userId)); // Filter applications by userId
 const applicationsSnapshot = await getDocs(applicationsQuery);
 const applicationsList = document.getElementById('applicationsList');
+const applicationsBottom = document.getElementById('applicationsBottom');
 applicationsList.innerHTML = '';
 
 
@@ -1911,14 +1914,14 @@ function addViewMoreButton() {
         viewMoreContainer = document.createElement('div');
         viewMoreContainer.className = 'viewMoreContainer';
         viewMoreContainer.id = 'viewMoreContainerApps';
-        viewMoreContainer.style.position = 'block';
+        viewMoreContainer.style.position = 'fixed';
         viewMoreContainer.style.bottom = '0';
         viewMoreContainer.style.width = '100%';
         viewMoreContainer.style.backgroundColor = '#f8f9fa'; // Optional for visibility
         viewMoreContainer.style.padding = '10px';
         viewMoreContainer.style.textAlign = 'center';
 
-        applicationsList.appendChild(viewMoreContainer);
+        applicationsBottom.appendChild(viewMoreContainer);
     }
 
     // Create the "View More" button if it doesn't already exist
@@ -1936,7 +1939,7 @@ function addViewMoreButton() {
             }
         });
 
-        applicationsList.appendChild(viewMoreButton);
+        applicationsBottom.appendChild(viewMoreButton);
     }
 }
 
