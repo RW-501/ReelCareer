@@ -1929,7 +1929,7 @@ getSimilarJobs(jobTags, JobsContainer);
 }
 
 // Usage
-capitalizeFirstWordInTitlesAndText(['main','.custom-section'], 300);
+capitalizeFirstWordInTitlesAndText(['#jobListings','#featuredJobListings'], 300);
 
 
 
