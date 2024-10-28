@@ -1923,7 +1923,7 @@ function capitalizeFirstWordInTitlesAndText(containers = ['main', '.container'],
 }
 
 // Usage
-capitalizeFirstWordInTitlesAndText(['.check-cap'], 5000);
+capitalizeFirstWordInTitlesAndText(['.check-cap', 'main'], 5000);
 console.log("capitalizeFirstWordInTitlesAndText");
 
 
