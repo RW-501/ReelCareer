@@ -144,7 +144,7 @@
                         <div id="progress-bar" ></div>
                         
                         <div class="file-upload">
-                            <label for="resume-input" class="file-upload-label" id="fileNameDisplay">
+                            <label for="resumeInput" class="file-upload-label" id="fileNameDisplay">
                                 <span id="file-name">Upload Resume (PDF, DOC, DOCX)</span>
                                 <input type="file" class="file-upload-input" id="resumeInput" accept=".pdf,.doc,.docx" aria-label="Upload Resume">
                             </label>
@@ -639,7 +639,7 @@ fileUploadLabel.addEventListener('drop', (e) => {
 });
 
 
-document.getElementById("resume-input").addEventListener("change", function() {
+document.getElementById("resumeInput").addEventListener("change", function() {
     const fileNameDisplay = document.getElementById("file-name-display");
     const fileName = this.files[0] ? this.files[0].name : "No file chosen";
     fileNameDisplay.textContent = fileName;
@@ -1372,7 +1372,7 @@ async function parseFile(file) {
 }
 
 // Add the event listener after defining the function
-document.getElementById('resume-input').addEventListener('change', handleFileUpload);
+document.getElementById('resumeInput').addEventListener('change', handleFileUpload);
 
 // Main function to parse different file types with progress indication
 async function parseFile(file) {
