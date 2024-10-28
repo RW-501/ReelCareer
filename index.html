@@ -295,7 +295,6 @@
       const errorIndicator = document.getElementById('errorIndicator');
       loadingIndicator.style.display = 'block'; // Show loading indicator
       errorIndicator.style.display = 'none'; // Hide error indicator
-      jobListingsContainer.style.opacity = '0';
       let userInterest1, userInterest2, userInterest3;
       let excludedIds = []; // Replace with your actual IDs
       let userInterests = [userInterest1, userInterest2, userInterest3].filter(Boolean); // Ensure userInterests is an array
@@ -351,7 +350,10 @@
           lastVisible = jobListingsSnapshot.docs[jobListingsSnapshot.docs.length - 1];
           // Handle unique job listings and render them
           jobListings.forEach(job => createJobCard(job, jobListingsContainer));
-        // Delay function to set the opacity after a specified time
+        
+          jobListingsContainer.style.opacity = '0';
+ 
+          // Delay function to set the opacity after a specified time
 setTimeout(() => {
     jobListingsContainer.style.opacity = '1';
 }, 500); // Delay in milliseconds (2000 ms = 2 seconds)
