@@ -340,7 +340,8 @@ const seenIDs = new Set();
 
     // Update lastVisible for the next pagination
     lastVisible = jobListingsSnapshot.docs[jobListingsSnapshot.docs.length - 1];
-//console.log("jobListingsSnapshot   ", jobListingsSnapshot);
+    console.log("lastVisible   ", lastVisible);
+    console.log("lastVisible lenght   ", lastVisible.length);
 
 // Extract jobs from the snapshot, excluding those with seen IDs
 const jobs = jobListingsSnapshot.docs
@@ -353,6 +354,7 @@ const jobs = jobListingsSnapshot.docs
 
 // Helper function to check if a value is valid (not undefined, null, or blank)
 const isValidValue = value => value !== undefined && value !== null && value !== "";
+let index = 1;
 
 // Filter jobs to ensure no duplicate titles or IDs, and no undefined, null, or blank fields
 jobs.forEach(job => {
@@ -378,9 +380,11 @@ jobs.forEach(job => {
     seenTitles.add(job.title); // Mark title as seen
     seenIDs.add(job.id);       // Mark ID as seen
     console.log("Added Job Title: ", job.title);
+    index = + 1;
   }
 });
 
+let showMoreCount = jobListingsCache.length / lastVisible.length;
 
 
   /*
@@ -407,11 +411,10 @@ jobs.forEach(job => {
       }
     }
 
+    if(showMoreCount > index) {
         // Render job listings from cache
         jobListingsCache.forEach(job => createJobCard(job, jobListingsContainer));
-
-// Add "Load More" button for pagination if there are more jobs to load
-if (lastVisible) {
+    }else{
     const loadMoreButton = createLoadMoreButton(() => fetchJobListings());
     jobListingsContainer.appendChild(loadMoreButton);
 }
