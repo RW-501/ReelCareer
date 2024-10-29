@@ -390,11 +390,15 @@ function renderJobs() {
 </div>`;
 
 const tempDiv = document.createElement('div');
+tempDiv.style.transition = 'opacity 0.5s ease';
+tempDiv.style.display = 'block';
+  tempDiv.style.margin = 'auto';
+
 tempDiv.innerHTML = theLogo;
-//jobListingsContainer.insertAdjacentHTML('beforeend', theLogo); // Insert the HTML directly
+jobListingsContainer.insertAdjacentHTML('beforeend', theLogo); // Insert the HTML directly
 
 // Append the parsed HTML (the first child of tempDiv)
-jobListingsContainer.appendChild(tempDiv);
+//jobListingsContainer.appendChild(tempDiv);
 
 
   }
@@ -550,22 +554,42 @@ setTimeout(() => {
                         salary.includes(lowerCaseSearchTerm) ||
                         jobType.includes(lowerCaseSearchTerm);
 
+
+                        card.style.transition = 'opacity 0.5s ease';
+                        card.style.opacity = 0;
+
+    
+                        setTimeout(() => {
   // Show or hide the card based on whether it matches the search term
   card.style.display = matches ? 'block' : 'none';
+  card.style.opacity = 1;
+
+  }, 300);
+
+
+
 
 // Update the hasMatches flag
 if (matches) {
     hasMatches = true;
 }
+
+
 });
 
 // Show or hide the "no results" message based on matches
 const noResultsMessage = document.getElementById("noResultsMessage");
+noResultsMessage.style.transition = 'opacity 0.5s ease';
+
 if (hasMatches) {
 noResultsMessage.style.display = 'none'; // Hide message if there are matches
 } else {
 noResultsMessage.style.display = 'block'; // Show message if no matches
 }
+
+
+
+
 }
 
 
