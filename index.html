@@ -548,7 +548,7 @@ setTimeout(() => {
   function normalizeJobType(jobType) {
     // Check if jobType is undefined or null and return an empty string if so
     if (!jobType) return "";
-
+let hasMatches = false;
     // Convert jobType to lower case and trim whitespace
     const lowerCaseType = jobType.toLowerCase().trim();
 
