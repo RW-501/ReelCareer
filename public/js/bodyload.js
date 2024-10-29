@@ -583,13 +583,13 @@ function addStyles() {
     jobCard.className = "col-md-4 mb-4 noCopy";
     
     // Adding data attributes for search purposes
-    jobCard.dataset.title = job.title.toLowerCase();      
-    jobCard.dataset.company = job.company.toLowerCase();  
-    jobCard.dataset.company = job.type.toLowerCase(); 
+    jobCard.dataset.title = job.title;      
+    jobCard.dataset.company = job.company;
+    jobCard.dataset.company = job.type; 
     jobCard.dataset.salary = job.salary;                  
  
     // Check if job.location is an array; if so, join it into a string
-    jobCard.dataset.location = Array.isArray(job.location) ? job.location.join(', ').toLowerCase() : (typeof job.location === 'string' ? job.location.toLowerCase() : "");
+ //   jobCard.dataset.location = Array.isArray(job.location) ? job.location.join(', ').toLowerCase() : (typeof job.location === 'string' ? job.location.toLowerCase() : "");
     
     jobCard.innerHTML = `
       <div class="card jobCard h-100 shadow-sm" style="
