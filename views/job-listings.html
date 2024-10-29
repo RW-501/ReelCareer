@@ -125,7 +125,7 @@
 
     <!-- Toggle Button for Collapse -->
     <div class="d-flex justify-content-center mb-3">
-      <button class="btn btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#filterSection" aria-expanded="false" aria-controls="filterSection">
+      <button id="filter-btn" class="btn btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#filterSection" aria-expanded="false" aria-controls="filterSection">
         Show Filters
       </button>
     </div>
@@ -388,7 +388,7 @@
 
 
       document.querySelector('.close').addEventListener('click', function() {
-         document.querySelector('[data-bs-toggle="collapse"]').click;
+         document.querySelector('#filter-btn').click;
        });
 
 
