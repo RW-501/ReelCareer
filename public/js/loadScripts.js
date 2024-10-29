@@ -266,196 +266,195 @@ console.log(formatDateString(1732032108000));                           // Expec
   function getSuggestionStyles() {
     const style = document.createElement("style");
     style.textContent = `
-  .suggestion-dropdown {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  border: 1px solid #ccc;
-  background-color: white;
-  max-height: 200px;
-  overflow-y: auto; /* Allow scrolling if too many suggestions */
-  width: 100%; /* Match input width */
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-  z-index: 1000; /* Ensure dropdown appears above other elements */
-}
-
-.suggestion-dropdown li {
-  padding: 8px 12px;
-  cursor: pointer;
-}
-
-.suggestion-dropdown li:hover {
-  background-color: #f0f0f0; /* Highlight on hover */
-}
-
-.suggestion-dropdown li:focus {
-  outline: none; /* Remove default outline */
-  background-color: #e6e6e6; /* Highlight when focused */
-}
-
-    
-     `;
-  document.head.appendChild(style);
-}
-
-getSuggestionStyles();
-// Constants for configuration 
-const SUGGESTIONS_URL = "https://reelcareer.co/public/js/suggestions.json";
-const DEBOUNCE_DELAY = 300;
-
-// Fetch suggestions data from JSON file
-async function fetchSuggestions() {
-  try {
-    const response = await fetch(SUGGESTIONS_URL);
-    if (!response.ok) throw new Error(`Network response was not ok: ${response.statusText}`);
-
-    const data = await response.json();
-    
-    // Assign the fetched data to your variables with default empty array fallback
-    jobSuggestions = data.suggestions || [];
-    jobRequirementsSuggestions = data.jobRequirementsSuggestions || [];
-    locationsSuggestions = data.locationsSuggestions || [];
-    citySuggestions = data.citySuggestions || [];
-    stateSuggestions = data.stateSuggestions || [];
-  } catch (error) {
-    handleFetchError(error);
-  }
-}
-
-// Handle fetch errors
-function handleFetchError(error) {
-  console.error("There was a problem with the fetch operation:", error);
-  alert("Failed to fetch suggestions. Please try again later."); // User-friendly error message
-}
-
-// Debounce function to limit function call frequency
-function debounce(func, delay) {
-  let timeoutId;
-  return function (...args) {
-    clearTimeout(timeoutId);
-    timeoutId = setTimeout(() => func.apply(this, args), delay);
-  };
-}
-
-// Create a suggestions dropdown
-function createSuggestionDropdown(input, suggestions) {
-  // Remove existing dropdown if present
-  const existingDropdown = document.querySelector('.suggestion-dropdown');
-  if (existingDropdown) {
-    existingDropdown.remove();
-  }
-
-  // Create a new dropdown
-  const dropdown = document.createElement('ul');
-  dropdown.classList.add('suggestion-dropdown');
-
-  suggestions.forEach(suggestion => {
-    const listItem = document.createElement('li');
-    listItem.textContent = suggestion;
-    listItem.tabIndex = 0; // Make the list items focusable
-    listItem.addEventListener('click', () => {
-      input.value = suggestion; // Set input value on suggestion click
-      input.focus(); // Refocus on the input
-      dropdown.remove(); // Remove dropdown after selection
-    });
-    
-    // Keyboard navigation for list items
-    listItem.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') {
-        input.value = suggestion;
-        input.focus();
-        dropdown.remove();
-      }
-    });
-
-    dropdown.appendChild(listItem);
-  });
-
-  document.body.appendChild(dropdown); // Append dropdown to body
-  const { top, left, height } = input.getBoundingClientRect();
-  dropdown.style.position = 'absolute';
-  dropdown.style.top = `${top + height}px`;
-  dropdown.style.left = `${left}px`;
-}
-
-// Auto-suggest function
-function autoSuggest(input, suggestionsArray) {
-  const inputValue = input.value.toLowerCase().trim();
-  const inputParts = inputValue.split(" ");
-  const lastWord = inputParts.pop() || "";
-
-  // Check for last word length before searching for suggestions
-  if (lastWord.length < 3) {
-    input.removeAttribute("data-suggestion");
-    return;
-  }
-
-  const matchedSuggestions = suggestionsArray.filter(s => s.toLowerCase().startsWith(lastWord));
+    .suggestion-dropdown {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      border: 1px solid #ccc;
+      background-color: white;
+      max-height: 200px;
+      overflow-y: auto; /* Allow scrolling if too many suggestions */
+      width: 100%; /* Match input width */
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+      z-index: 1000; /* Ensure dropdown appears above other elements */
+    }
   
-  if (matchedSuggestions.length > 0) {
-    createSuggestionDropdown(input, matchedSuggestions); // Show dropdown with suggestions
-  } else {
-    input.removeAttribute("data-suggestion");
+    .suggestion-dropdown li {
+      padding: 8px 12px;
+      cursor: pointer;
+    }
+  
+    .suggestion-dropdown li:hover {
+      background-color: #f0f0f0; /* Highlight on hover */
+    }
+  
+    .suggestion-dropdown li:focus {
+      outline: none; /* Remove default outline */
+      background-color: #e6e6e6; /* Highlight when focused */
+    }
+    `;
+    document.head.appendChild(style);
   }
-}
-
-// Initialize on DOM content loaded
-document.addEventListener("DOMContentLoaded", () => {
-  fetchSuggestions(); // Fetch suggestions when DOM is loaded
-
-  const keywordInputs = document.querySelectorAll(".keywordInput");
-
-  // Debounced autoSuggest function
-  const debouncedAutoSuggest = debounce((input) => {
-    let suggestionsArray;
-
-    // Determine which suggestions array to use based on class
-    if (input.classList.contains("job-input")) {
-      suggestionsArray = jobSuggestions;
-    } else if (input.classList.contains("location-input")) {
-      suggestionsArray = locationsSuggestions;
-    } else if (input.classList.contains("city-input")) {
-      suggestionsArray = citySuggestions;
-    } else if (input.classList.contains("state-input")) {
-      suggestionsArray = stateSuggestions;
+  
+  getSuggestionStyles();
+  // Constants for configuration 
+  const SUGGESTIONS_URL = "https://reelcareer.co/public/js/suggestions.json";
+  const DEBOUNCE_DELAY = 300;
+  
+  // Fetch suggestions data from JSON file
+  async function fetchSuggestions() {
+    try {
+      const response = await fetch(SUGGESTIONS_URL);
+      if (!response.ok) throw new Error(`Network response was not ok: ${response.statusText}`);
+  
+      const data = await response.json();
+      
+      jobSuggestions = data.suggestions || [];
+      jobRequirementsSuggestions = data.jobRequirementsSuggestions || [];
+      locationsSuggestions = data.locationsSuggestions || [];
+      citySuggestions = data.citySuggestions || [];
+      stateSuggestions = data.stateSuggestions || [];
+    } catch (error) {
+      handleFetchError(error);
+    }
+  }
+  
+  // Handle fetch errors
+  function handleFetchError(error) {
+    console.error("There was a problem with the fetch operation:", error);
+    alert("Failed to fetch suggestions. Please try again later.");
+  }
+  
+  // Debounce function to limit function call frequency
+  function debounce(func, delay) {
+    let timeoutId;
+    return function (...args) {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => func.apply(this, args), delay);
+    };
+  }
+  
+  // Create a suggestions dropdown
+  function createSuggestionDropdown(input, suggestions) {
+    // Remove existing dropdown if present
+    const existingDropdown = document.querySelector('.suggestion-dropdown');
+    if (existingDropdown) {
+      existingDropdown.remove();
+    }
+  
+    // Create a new dropdown
+    const dropdown = document.createElement('ul');
+    dropdown.classList.add('suggestion-dropdown');
+  
+    suggestions.forEach(suggestion => {
+      const listItem = document.createElement('li');
+      listItem.textContent = suggestion;
+      listItem.tabIndex = 0; // Make the list items focusable
+      listItem.addEventListener('click', () => {
+        input.value = suggestion; // Set input value on suggestion click
+        input.focus(); // Refocus on the input
+        dropdown.remove(); // Remove dropdown after selection
+      });
+      
+      // Keyboard navigation for list items
+      listItem.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          input.value = suggestion;
+          input.focus();
+          dropdown.remove();
+        }
+      });
+  
+      dropdown.appendChild(listItem);
+    });
+  
+    document.body.appendChild(dropdown); // Append dropdown to body
+    const { top, left, height } = input.getBoundingClientRect();
+    dropdown.style.position = 'absolute';
+    dropdown.style.top = `${top + height}px`;
+    dropdown.style.left = `${left}px`;
+  
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (event) => {
+      if (!dropdown.contains(event.target) && event.target !== input) {
+        dropdown.remove(); // Remove dropdown if clicking outside
+      }
+    });
+  }
+  
+  // Auto-suggest function
+  function autoSuggest(input, suggestionsArray) {
+    const inputValue = input.value.toLowerCase().trim();
+    const inputParts = inputValue.split(" ");
+    const lastWord = inputParts.pop() || "";
+  
+    if (lastWord.length < 3) {
+      input.removeAttribute("data-suggestion");
+      return;
+    }
+  
+    const matchedSuggestions = suggestionsArray.filter(s => s.toLowerCase().startsWith(lastWord));
+    
+    if (matchedSuggestions.length > 0) {
+      createSuggestionDropdown(input, matchedSuggestions);
     } else {
-      suggestionsArray = jobRequirementsSuggestions;
+      input.removeAttribute("data-suggestion");
     }
-
-    // Call autoSuggest only if suggestions array is not empty
-    if (suggestionsArray.length > 0) {
-      autoSuggest(input, suggestionsArray);
-    }
-  }, DEBOUNCE_DELAY);
-
-  // Event delegation for keyword inputs
-  document.body.addEventListener("input", (e) => {
-    if (e.target.classList.contains("keywordInput")) {
-      debouncedAutoSuggest(e.target);
-    }
-  });
-
-  // Event listener for keydown events on all inputs
-  document.body.addEventListener("keydown", (e) => {
-    const target = e.target;
-    if (target.classList.contains("keywordInput")) {
-      const suggestion = target.getAttribute("data-suggestion");
-
-      // Allow normal functionality for certain keys
-      if (["Backspace", "Delete", "ArrowLeft", "ArrowRight"].includes(e.key)) {
-        return; // Allow normal functionality
+  }
+  
+  // Initialize on DOM content loaded
+  document.addEventListener("DOMContentLoaded", () => {
+    fetchSuggestions();
+  
+    const keywordInputs = document.querySelectorAll(".keywordInput");
+  
+    // Debounced autoSuggest function
+    const debouncedAutoSuggest = debounce((input) => {
+      let suggestionsArray;
+  
+      if (input.classList.contains("job-input")) {
+        suggestionsArray = jobSuggestions;
+      } else if (input.classList.contains("location-input")) {
+        suggestionsArray = locationsSuggestions;
+      } else if (input.classList.contains("city-input")) {
+        suggestionsArray = citySuggestions;
+      } else if (input.classList.contains("state-input")) {
+        suggestionsArray = stateSuggestions;
+      } else {
+        suggestionsArray = jobRequirementsSuggestions;
       }
-
-      // Handle Tab and Enter key
-      if (["Tab", "Enter"].includes(e.key) && suggestion) {
-        e.preventDefault(); // Prevent default action
-        target.value = suggestion; // Set the input value to the suggestion
-        target.setSelectionRange(suggestion.length, suggestion.length); // Move cursor to end of suggestion
+  
+      if (suggestionsArray.length > 0) {
+        autoSuggest(input, suggestionsArray);
       }
-    }
+    }, DEBOUNCE_DELAY);
+  
+    // Event delegation for keyword inputs
+    document.body.addEventListener("input", (e) => {
+      if (e.target.classList.contains("keywordInput")) {
+        debouncedAutoSuggest(e.target);
+      }
+    });
+  
+    // Event listener for keydown events on all inputs
+    document.body.addEventListener("keydown", (e) => {
+      const target = e.target;
+      if (target.classList.contains("keywordInput")) {
+        const suggestion = target.getAttribute("data-suggestion");
+  
+        if (["Backspace", "Delete", "ArrowLeft", "ArrowRight"].includes(e.key)) {
+          return;
+        }
+  
+        if (["Tab", "Enter"].includes(e.key) && suggestion) {
+          e.preventDefault();
+          target.value = suggestion;
+          target.setSelectionRange(suggestion.length, suggestion.length);
+        }
+      }
+    });
   });
-});
-
+  
   
   // Function to add selected job requirement
   function addJobRequirement(input, suggestion) {
