@@ -489,8 +489,7 @@ setTimeout(() => {
   
   function filterJobCards(searchTerm) {
   const jobCards = document.querySelectorAll('.jobCard'); // Select all job cards
-  const lowerCaseSearchTerm = searchTerm; // Convert search term to lower case
-  console.log("lowerCaseSearchTerm   ",lowerCaseSearchTerm);
+  console.log("searchTerm   ",searchTerm);
 
   jobCards.forEach(card => {
       const title = card.dataset.title || ""; // Safely access dataset attributes
@@ -507,11 +506,11 @@ setTimeout(() => {
 
 
       // Check if any of the attributes include the search term
-      const matches = title.includes(lowerCaseSearchTerm) ||
-                      company.includes(lowerCaseSearchTerm) ||
-                      location.includes(lowerCaseSearchTerm) ||
-                      salary.includes(lowerCaseSearchTerm) ||
-                      jobType.includes(lowerCaseSearchTerm);
+      const matches = title.includes(searchTerm) ||
+                      company.includes(searchTerm) ||
+                      location.includes(searchTerm) ||
+                      salary.includes(searchTerm) ||
+                      jobType.includes(searchTerm);
 
       // Show or hide the card based on whether it matches the search term
       card.style.display = matches ? 'block' : 'none';
