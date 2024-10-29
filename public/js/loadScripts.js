@@ -310,8 +310,8 @@ console.log(formatDateString(1732032108000));                           // Expec
       const data = await response.json();
       
       jobSuggestions = data.suggestions || [];
-      jobRequirementsSuggestions = data.jobRequirementsSuggestions || [];
-      locationsSuggestions = data.locationsSuggestions || [];
+      jobRequirementsSuggestions = data.jobRequirementsSuggestions && data.suggestions || [];
+      locationsSuggestions = data.locationsSuggestions && data.stateSuggestions && data.citySuggestions || [];
       citySuggestions = data.citySuggestions || [];
       stateSuggestions = data.stateSuggestions || [];
     } catch (error) {
@@ -376,7 +376,8 @@ function createSuggestionDropdown(input, suggestions) {
   dropdown.style.position = 'absolute';
   dropdown.style.top = `${top + height}px`;
   dropdown.style.width = `auto`;
-  dropdown.style.left = `${left}px`;
+  let newLeft = left + 50 / 4;
+  dropdown.style.left = `${newLeft}px`;
   dropdown.style.right = `${right}px`;
 
   // Close dropdown when clicking outside
@@ -388,7 +389,13 @@ function createSuggestionDropdown(input, suggestions) {
 }
   
  // Update autoSuggest function to display the suggestion in the input field
-function autoSuggest(input, suggestionsArray) {
+ function autoSuggest(input, suggestionsArray) {
+  // Check if input value exists and is a string
+  if (!input || typeof input.value !== "string") {
+    console.error("Invalid input element or value is undefined");
+    return;
+  }
+
   const inputValue = input.value.toLowerCase().trim();
   const inputParts = inputValue.split(" ");
   const lastWord = inputParts.pop() || "";
@@ -413,7 +420,6 @@ function autoSuggest(input, suggestionsArray) {
     input.placeholder = ""; // Clear placeholder if no match found
   }
 }
-
 
 
   // Initialize on DOM content loaded
