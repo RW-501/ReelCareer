@@ -585,9 +585,11 @@ function addStyles() {
     // Adding data attributes for search purposes
     jobCard.dataset.title = job.title.toLowerCase();      
     jobCard.dataset.company = job.company.toLowerCase();  
+    jobCard.dataset.company = job.type.toLowerCase(); 
+    jobCard.dataset.salary = job.salary;                  
+ 
     // Check if job.location is an array; if so, join it into a string
     jobCard.dataset.location = Array.isArray(job.location) ? job.location.join(', ').toLowerCase() : (typeof job.location === 'string' ? job.location.toLowerCase() : "");
-        jobCard.dataset.salary = job.salary;                  
     
     jobCard.innerHTML = `
       <div class="card jobCard h-100 shadow-sm" style="
