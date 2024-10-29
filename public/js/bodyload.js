@@ -597,14 +597,14 @@ function addStyles() {
             <a href="${adjustLinkURL}job-detail.html?id=${
       job.id
     }" class="job-title-link" style="
-                font-size: 2rem; 
+                font-size: 1.5rem; 
                 font-weight: 800; 
                 color: #007bff; 
                 margin-bottom: 10px;">
               ${job.title}
             </a>
             <p class="card-text" style="
-                font-size: 1.5rem;
+                font-size: 1.2rem;
                 color: #333;
                 margin-bottom: 10px;
                 background-color: #dcdcdc59;
@@ -631,20 +631,20 @@ function addStyles() {
     padding: 10px 25px;
     border-radius: 5px;
 ">            <p class="card-text" style="
-                font-size: 1.2rem; 
+                font-size: 1rem; 
                 color: #666; 
                 margin-bottom: 5px;">
               <i class="fas fa-map-marker-alt" style="color: #007bff;"></i> 
               ${formatLocation(job.location)}
             </p>
             <p class="card-text" style="
-                font-size: 1rem; 
+                font-size: .75rem; 
                 color: #666; 
                 margin-bottom: 5px; text-align: end;">
               <strong>Type:</strong> ${formatJobType(job.type)}
             </p>
             <p class="card-text" style="
-                font-size: 1rem; 
+                font-size: .75rem; 
                 color: #666; text-align: end;">
               <strong>Salary:</strong> ${formatCurrency(job.salary, {
                 decimals: 0
