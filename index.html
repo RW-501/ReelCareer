@@ -288,213 +288,95 @@
       addDoc
     } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
    
-   
-   let showCount = 0;
-
-    let jobListingsCache = [];
+    let showCount = 0;
+let jobListingsCache = [];
 let lastVisible; // Keep track of pagination
-    // Function to fetch job listings and sponsors
-    const seenTitles = new Set();
+const seenTitles = new Set();
 const seenIDs = new Set();
-
 let userInterest1, userInterest2, userInterest3;
-      let excludedIds = []; // Replace with your actual IDs
+let excludedIds = [];
+let userInterests = [userInterest1, userInterest2, userInterest3].filter(Boolean);
 
-      let userInterests = [userInterest1, userInterest2, userInterest3].filter(Boolean); // Ensure userInterests is an array
-    
-    async function fetchJobListings() {
-      console.log("fetchJobListings");
+async function fetchJobListings() {
+  console.log("fetchJobListings");
 
-      const jobListingsContainer = document.getElementById('jobListings');
-      const loadingIndicator = document.getElementById('loadingIndicator');
-      const errorIndicator = document.getElementById('errorIndicator');
-      loadingIndicator.style.display = 'block'; // Show loading indicator
-      errorIndicator.style.display = 'none'; // Hide error indicator
+  const jobListingsContainer = document.getElementById('jobListings');
+  const loadingIndicator = document.getElementById('loadingIndicator');
+  const errorIndicator = document.getElementById('errorIndicator');
+  loadingIndicator.style.display = 'block';
+  errorIndicator.style.display = 'none';
 
-    
-      if (jobListingsCache.length === 0 || (lastVisible && jobListingsCache.length < 500)) {
-  
-      try {
-        // Create the base query for Jobs
-        let jobsQuery = collection(db, 'Jobs');
-        // Adding dynamic filters based on userINFO
-        //  if (userINFO.city) jobsQuery = query(jobsQuery, where('city', '==', userINFO.city));
-        //  if (userINFO.state) jobsQuery = query(jobsQuery, where('state', '==', userINFO.state));
-        // if (userInterests.length > 0) jobsQuery = query(jobsQuery, where('tags', 'array-contains-any', userInterests));
-        // Exclude specified IDs
-        // if (excludedIds.length > 0) jobsQuery = query(jobsQuery, where('id', 'not-in', excludedIds));
-        // Common conditions
+  if (jobListingsCache.length === 0 || (lastVisible && jobListingsCache.length < 500)) {
+    try {
+      let jobsQuery = collection(db, 'Jobs');
+      jobsQuery = query(jobsQuery, where('status', '==', 'active'), orderBy('createdAt', 'desc'), limit(500));
 
-        jobsQuery = query(jobsQuery, where('status', '==', 'active'));
-        jobsQuery = query(jobsQuery, orderBy('createdAt', 'desc'));
-        jobsQuery = query(jobsQuery, limit(500)); // Limit results for pagination
-        
-/*
-        if (lastVisible) {
-                jobsQuery = query(jobsQuery, startAfter(lastVisible));
-            }
+      const jobListingsSnapshot = await getDocs(jobsQuery);
+      lastVisible = jobListingsSnapshot.docs[jobListingsSnapshot.docs.length - 1];
 
-    */
-   
-    // Execute the query
-    const jobListingsSnapshot = await getDocs(jobsQuery);
-
-    // Update lastVisible for the next pagination
-    lastVisible = jobListingsSnapshot.docs[jobListingsSnapshot.docs.length - 1];
-
-// Extract jobs from the snapshot, excluding those with seen IDs
-const jobs = jobListingsSnapshot.docs
-  .filter(doc => !seenIDs.has(doc.id)) // Exclude seen IDs here
-  .map(doc => ({
-    id: doc.id,
-    ...doc.data()
-  }));
-
-
-// Helper function to check if a value is valid (not undefined, null, or blank)
-const isValidValue = value => value !== undefined && value !== null && value !== "";
-
-// Filter jobs to ensure no duplicate titles or IDs, and no undefined, null, or blank fields
-jobs.forEach(job => {
-  if (
-    (!seenTitles.has(job.title) && !seenIDs.has(job.id)) && // Check for uniqueness
-    isValidValue(job.title) &&
-    isValidValue(job.type) &&
-    isValidValue(job.description) &&
-    isValidValue(job.company) &&
-    isValidValue(job.location) &&
-    isValidValue(job.salary) 
-  ) {
-
-    showCount++ ;
-    if(showCount < 30){
-      jobListingsCache.push({
-      id: job.id, // Job document ID
-      title: job.title,
-      type: job.type,
-      description: job.description,
-      company: job.company,
-      location: job.location,
-      salary: job.salary,
-      salaryPayTime: job.salaryPayTime
-    });
-    console.log("showCount:", showCount);
-
-    seenTitles.add(job.title); // Mark title as seen
-    seenIDs.add(job.id);       // Mark ID as seen
-  //  console.log("Added Job Title: ", job.title);
+      jobListingsSnapshot.docs.forEach(doc => {
+        if (!seenIDs.has(doc.id)) {
+          const job = {
+            id: doc.id,
+            ...doc.data()
+          };
+          if (!seenTitles.has(job.title) && isValidValue(job.title) && isValidValue(job.type) &&
+              isValidValue(job.description) && isValidValue(job.company) &&
+              isValidValue(job.location) && isValidValue(job.salary)) {
+            
+            jobListingsCache.push(job);
+            seenTitles.add(job.title);
+            seenIDs.add(job.id);
+          }
+        }
+      });
+    } catch (error) {
+      console.error("Error fetching job listings: ", error);
+      errorIndicator.style.display = 'block';
+    } finally {
+      loadingIndicator.style.display = 'none';
     }
-
   }
-});
-
-
-
-console.log("showCount:", showCount);
-console.log("seenTitles:", seenTitles);
-
-
-  /*
-  console.log("Listing length", jobListings.length);
-  console.log("jobs length", jobs.length);
-  console.log("seenTitles:", seenTitles);
-  */
-
   
-
-
-      /*
-        // Sponsor logic
-        const sponsors = await fetchSponsors(excludedIds);
-        createSponsoredJobCard(sponsors, jobListingsContainer);
-        // Add "Load More" button for Pagination if jobs are available
-        const loadMoreButton = createLoadMoreButton(() => fetchJobListings());
-       jobListingsContainer.appendChild(loadMoreButton);
-
-
-       */
-
-
-} catch (error) {
-       // console.error("Error fetching job listings: ", error);
-       // errorIndicator.style.display = 'block'; // Show error indicator
-      } finally {
-        loadingIndicator.style.display = 'none'; // Hide loading indicator
-      }
-    
-               // Render job listings from cache
-               jobListingsCache.forEach(job => createJobCard(job, jobListingsContainer));
-
-const loadMoreButton = createLoadMoreButton(() => fetchJobListings());
-jobListingsContainer.appendChild(loadMoreButton);
-showCount = 0;
-
-
-
-  }
-
+  renderJobs();
 }
-    // Function to create and return the Load More button
-    function createLoadMoreButton(loadMoreFunc) {
-      console.log("createLoadMoreButton");
-      const loadMoreButton = document.createElement('button');
-      loadMoreButton.className = 'btn btn-primary w-100 mt-4';
-      loadMoreButton.innerText = 'Load More Jobs';
-      // Set initial styles
-      loadMoreButton.style.transition = 'opacity 0.5s ease';
-      loadMoreButton.style.fontWeight = '800';
-      loadMoreButton.style.margin = '5px';
-      loadMoreButton.style.padding = '1rem';
-      loadMoreButton.style.display = 'block'; // Ensure button is set to display block initially
-      loadMoreButton.style.opacity = 1; // Ensure the opacity is fully visible
-      // Modify the onclick event
-      loadMoreButton.onclick = () => {
-        loadMoreFunc().then(() => {
-          console.log("createLoadMoreButton onclick");
-        }).catch(() => {
-          console.error('Failed to load jobs');
-        });
 
+// Function to render jobs in batches of 30
+function renderJobs() {
+  const jobListingsContainer = document.getElementById('jobListings');
+  
+  // Only render the next 30 jobs from cache, if available
+  const jobsToRender = jobListingsCache.slice(showCount, showCount + 30);
+  jobsToRender.forEach(job => createJobCard(job, jobListingsContainer));
+  showCount += jobsToRender.length;
 
-        // Hide the button after jobs are loaded
-        setTimeout(() => {
-          // Apply fade-out effect
-          loadMoreButton.style.opacity = 0;
-        //  loadMoreButton.style.display = 'none'; // Hide after fade-out
+  // Add "Load More" button if more jobs are available in cache
+  if (showCount < jobListingsCache.length) {
+    const loadMoreButton = createLoadMoreButton(renderJobs);
+    jobListingsContainer.appendChild(loadMoreButton);
+  }
+}
 
-        }, 200); // Match the duration of the fade-out (500ms)
-      };
-      setTimeout(() => {
+// Function to create and return the Load More button
+function createLoadMoreButton(loadMoreFunc) {
+  console.log("createLoadMoreButton");
+  const loadMoreButton = document.createElement('button');
+  loadMoreButton.className = 'btn btn-primary w-100 mt-4';
+  loadMoreButton.innerText = 'Load More Jobs';
+  loadMoreButton.style.transition = 'opacity 0.5s ease';
+  loadMoreButton.style.fontWeight = '800';
+  loadMoreButton.style.margin = '5px';
+  loadMoreButton.style.padding = '1rem';
+  loadMoreButton.onclick = () => {
+    loadMoreFunc();
+    loadMoreButton.style.opacity = 0;
+    setTimeout(() => loadMoreButton.remove(), 500); // Fade out and remove
+  };
+  return loadMoreButton;
+}
 
-                // Append the button to the desired container
-        const container = document.getElementById('jobListings'); // Change to your container's ID
-      if (container) {
-
-
-
-container.appendChild(loadMoreButton); // Add button to the DOM   capitalizeFirstWordInTitlesAndText(['.check-cap', 'main'], 1000);
-
-const theLogo = `  <div class="text-center m-auto">
-    <h3 class="font-weight-bold embedded-Logo">ReelCareer.co</h3>
-</div>`;
-
-const tempDiv = document.createElement('div');
-tempDiv.innerHTML = theLogo;
-//container.insertAdjacentHTML('beforeend', theLogo); // Insert the HTML directly
-
-// Append the parsed HTML (the first child of tempDiv)
-container.appendChild(tempDiv.firstElementChild);
-
-
-
-      } else {
-        console.error('Container for jobs not found');
-      }
-      return loadMoreButton;
-    }, 500); // Match the duration of the fade-out (500ms)
-
-    }
-
+// Helper function to validate values
+const isValidValue = value => value !== undefined && value !== null && value !== "";
 
 
 
