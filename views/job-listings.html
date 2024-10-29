@@ -275,7 +275,7 @@
           <div class="col-12 text-end">
             <div>
             <button class="btn btn-secondary rounded-pill me-2" type="reset">Clear Filters</button>
-            <button class="btn btn-primary rounded-pill" type="submit" onclick="searchJobs();" id="searchButton">Search Jobs</button>
+            <button class="btn btn-primary rounded-pill" type="submit" onclick="mainFilterJobCards();" id="searchButton">Search Jobs</button>
           </div>
           
             <button class="close btn btn-secondary rounded-pill me-2" type="button" data-bs-toggle="collapse" data-bs-target="#filterSection" aria-expanded="true" aria-controls="filterSection">Close</button>
@@ -617,18 +617,40 @@ border-radius: 12px;
         jobs.forEach(job => {
           if (!seenTitles.has(job.title)) {
             jobListings.push({
-              id: job.id, // Job document ID
-              title: job.title,
-              description: job.description,
-              datePosted: job.createdAt,
-              company: job.company,
-              location: job.location,
-              type: job.type,
-              salary: job.salary,
-              validThrough: job.boostExpiresAt,
-              salaryPayTime: job.salaryPayTime,
+    id: job.id, // Job document ID
+    title: job.title,
+    description: job.description,
+    datePosted: job.createdAt,
+    company: job.company,
+    location: job.location,
+    city: job.city,
+    state: job.state,
+    country: job.country,
+    county: job.county,
+    type: job.type,
+    industry: job.industry,
+    salary: job.salary,
+    salaryMin: job.salaryMin,
+    salaryMax: job.salaryMax,
+    salaryPayTime: job.salaryPayTime,
+    validThrough: job.boostExpiresAt,
+    status: job.status,
+    applicationAvailableBool: job.applicationAvailableBool,
+    applicantsViewed: job.applicantsViewed,
+    applicationWebsite: job.applicationWebsite,
+    benefits: job.benefits || [], // Default to empty array if undefined
+    boostExpiration: job.boostExpiration,
+    boostExpiresAt: job.boostExpiresAt,
+    boosted: job.boosted,
+    boostedByID: job.boostedByID,
+    contractToHire: job.contractToHire,
+    immediateHire: job.immediateHire,
+    savedForLater: job.savedForLater,
+    searchableRequirements: job.searchableRequirements || '', // Default to empty string if undefined
+    submittedBy: job.submittedBy,
+    tags: job.tags || [] // Default to empty array if undefined
+});
 
-            });
             seenTitles.add(job.title); // Mark title as seen
           }
         });
@@ -792,42 +814,11 @@ border-radius: 12px;
               console.error("jobListings should be an array. Received:", jobListings);
               return; // Exit the function if it's not an array
             }
-            // Map through jobListings to generate schema data
-            const schemaData = {
-              "@context": "https://schema.org",
-              "@type": "JobPosting",
-              "title": jobListings.map(job => job.title).join(', '), // Join to create a single string
-              "description": jobListings.map(job => job.description).join(' '), // Join descriptions into one string
-              "datePosted": jobListings.map(job => job.datePosted).join(', '), // Join dates
-              "hiringOrganization": {
-                "@type": "Organization",
-                "name": jobListings.map(job => job.organization).join(', ') // Join organizations
-              },
-              "jobLocation": {
-                "@type": "Place",
-                "address": {
-                  "@type": "PostalAddress",
-                  "addressLocality": jobListings.map(job => job.location).join(', ') // Join locations
-                }
-              },
-              "employmentType": jobListings.map(job => job.employmentType).join(', '), // Join employment types
-              "baseSalary": {
-                "@type": "MonetaryAmount",
-                "value": jobListings.map(job => job.baseSalary).join(', '), // Join salary values
-                "currency": "USD"
-              },
-              "validThrough": jobListings.map(job => job.validThrough).join(', ') // Join validity dates
-            };
-            const scriptTag = document.createElement('script');
-            scriptTag.type = 'application/ld+json';
-            scriptTag.innerHTML = JSON.stringify(schemaData);
-            document.head.appendChild(scriptTag); // Append schema markup to head
-          }
+            }
+
           displayJobListings(jobListings);
-          // Example of how to call this function when window loads
-          window.onload = function() {
-            generateSchemaMarkup(jobListings);
-          };
+
+          
         } catch (error) {
           console.error("Error fetching filtered job listings: ", error);
           throw error; // Rethrow the error to handle it later
@@ -906,29 +897,80 @@ border-radius: 12px;
   const lowerCaseSearchTerm = searchTerm.toLowerCase(); // Convert search term to lower case
   console.log("lowerCaseSearchTerm   ",lowerCaseSearchTerm);
 
-  jobCards.forEach(card => {
-        const title = card.dataset.title || ""; // Safely access dataset attributes
-        const company = card.dataset.company || "";
-        const location = card.dataset.location || "";
-        const salary = card.dataset.salary || ""; // Ensure you handle salary if needed
-        const jobType = card.dataset.jobType || ""; // Added job type for filtering
-         /*               
-        console.log("title   ",title);
-      console.log("salary   ",salary);
-      console.log("location   ",location);
-      console.log("jobType   ",jobType);
-*/
+
+// Creating the job card dataset attributes
+jobCard.dataset.title = job.title ? job.title.toLowerCase() : '';
+jobCard.dataset.company = job.company ? job.company.toLowerCase() : '';
+jobCard.dataset.location = Array.isArray(job.location) 
+    ? job.location.join(', ').toLowerCase() 
+    : (job.location ? job.location.toLowerCase() : '');
+jobCard.dataset.salary = job.salary && job.salary !== 0 ? job.salary.toString() : '$0.00';
+jobCard.dataset.jobType = normalizeJobType(job.type);
+jobCard.dataset.city = job.city ? job.city.toLowerCase() : '';
+jobCard.dataset.state = job.state ? job.state.toLowerCase() : '';
+jobCard.dataset.zipCode = job.zipCode ? job.zipCode.toString() : '';
+jobCard.dataset.industry = job.industry ? job.industry.toLowerCase() : '';
+jobCard.dataset.immediateHire = job.immediateHire !== undefined ? job.immediateHire.toString() : '';
+jobCard.dataset.contractToHire = job.contractToHire !== undefined ? job.contractToHire.toString() : '';
+jobCard.dataset.country = job.country ? job.country.toLowerCase() : '';
+jobCard.dataset.county = job.county ? job.county.toLowerCase() : '';
+jobCard.dataset.status = job.status ? job.status.toLowerCase() : '';
+jobCard.dataset.salaryMin = job.salaryMin ? job.salaryMin.toString() : '';
+jobCard.dataset.salaryMax = job.salaryMax ? job.salaryMax.toString() : '';
+jobCard.dataset.benefits = Array.isArray(job.benefits) ? job.benefits.join(', ').toLowerCase() : '';
+jobCard.dataset.requirements = Array.isArray(job.requirements) 
+    ? job.requirements.join(', ').toLowerCase() 
+    : (job.requirements ? job.requirements.toLowerCase() : '');
+jobCard.dataset.tags = Array.isArray(job.tags) ? job.tags.join(', ').toLowerCase() : '';
+jobCard.dataset.submittedBy = job.submittedBy ? job.submittedBy.toLowerCase() : '';
 
 
+jobCards.forEach(card => {
+    const title = card.dataset.title || "";
+    const company = card.dataset.company || "";
+    const location = card.dataset.location || "";
+    const salary = card.dataset.salary || "";
+    const jobType = card.dataset.jobType || "";
+    const city = card.dataset.city || "";
+    const state = card.dataset.state || "";
+    const zipCode = card.dataset.zipCode || "";
+    const industry = card.dataset.industry || "";
+    const immediateHire = card.dataset.immediateHire || "";
+    const contractToHire = card.dataset.contractToHire || "";
+    const country = card.dataset.country || "";
+    const county = card.dataset.county || "";
+    const status = card.dataset.status || "";
+    const salaryMin = card.dataset.salaryMin || "";
+    const salaryMax = card.dataset.salaryMax || "";
+    const benefits = card.dataset.benefits || "";
+    const requirements = card.dataset.requirements || "";
+    const tags = card.dataset.tags || "";
+    const submittedBy = card.dataset.submittedBy || "";
 
-      // Check if any of the attributes include the search term
-      const matches = title.includes(lowerCaseSearchTerm) ||
-                        company.includes(lowerCaseSearchTerm) ||
-                        location.includes(lowerCaseSearchTerm) ||
-                        salary.includes(lowerCaseSearchTerm) ||
-                        jobType.includes(lowerCaseSearchTerm);
+    // Check if any dataset attributes include the search term
+    const matches = title.includes(lowerCaseSearchTerm) ||
+                    company.includes(lowerCaseSearchTerm) ||
+                    location.includes(lowerCaseSearchTerm) ||
+                    salary.includes(lowerCaseSearchTerm) ||
+                    jobType.includes(lowerCaseSearchTerm) ||
+                    city.includes(lowerCaseSearchTerm) ||
+                    state.includes(lowerCaseSearchTerm) ||
+                    zipCode.includes(lowerCaseSearchTerm) ||
+                    industry.includes(lowerCaseSearchTerm) ||
+                    immediateHire.includes(lowerCaseSearchTerm) ||
+                    contractToHire.includes(lowerCaseSearchTerm) ||
+                    country.includes(lowerCaseSearchTerm) ||
+                    county.includes(lowerCaseSearchTerm) ||
+                    status.includes(lowerCaseSearchTerm) ||
+                    salaryMin.includes(lowerCaseSearchTerm) ||
+                    salaryMax.includes(lowerCaseSearchTerm) ||
+                    benefits.includes(lowerCaseSearchTerm) ||
+                    requirements.includes(lowerCaseSearchTerm) ||
+                    tags.includes(lowerCaseSearchTerm) ||
+                    submittedBy.includes(lowerCaseSearchTerm);
 
-
+    // Do something with `matches` (e.g., display/hide job cards based on matches)
+    
                         card.style.transition = 'opacity 0.5s ease';
                         card.style.opacity = 0;
 
@@ -943,6 +985,9 @@ border-radius: 12px;
 // Update the hasMatches flag
 if (matches) {
     hasMatches = true;
+}else{
+   searchJobs();
+
 }
 
 // Show or hide the "no results" message based on matches
@@ -955,18 +1000,12 @@ noResultsMessage.style.display = 'none'; // Hide message if there are matches
 noResultsMessage.style.display = 'block'; // Show message if no matches
 }
 
-
-
-  
   }, 300);
 
 
 
 
 });
-
-
-
 
 
 }
@@ -989,7 +1028,79 @@ document.getElementById("salaryInput").addEventListener("keyup", function() {
     filterJobCards(this.value); // Pass the current value of the input
 });
 
- 
+ function mainFilterJobCards() {
+    // Retrieve input values
+    const location = document.getElementById('jobLocation').value.toLowerCase();
+    const city = document.getElementById('jobCity').value.toLowerCase();
+    const state = document.getElementById('jobState').value.toLowerCase();
+    const zipCode = document.getElementById('jobZip').value;
+    const salaryMin = document.getElementById('salaryMin').value || 0;
+    const salaryMax = document.getElementById('salaryMax').value || Infinity;
+    const contractType = document.getElementById('contractType').value.toLowerCase();
+    const industry = document.getElementById('industry').value.toLowerCase();
+    const immediateHire = document.getElementById('immediateHire').checked;
+    const contractToHire = document.getElementById('contractToHire').checked;
+    const postingDate = document.getElementById('postingDate').value.toLowerCase();
+    const education = document.getElementById('education').value.toLowerCase();
+    const experience = document.getElementById('experience').value;
+    const requirements = document.getElementById('jobRequirements').value.toLowerCase().split(',');
+
+    // Filter job cards based on retrieved values
+    jobCards.forEach(card => {
+        const matches = 
+            (location ? card.dataset.location.includes(location) : true) &&
+            (city ? card.dataset.city.includes(city) : true) &&
+            (state ? card.dataset.state.includes(state) : true) &&
+            (zipCode ? card.dataset.zipCode === zipCode : true) &&
+            (contractType ? card.dataset.jobType.includes(contractType) : true) &&
+            (industry ? card.dataset.industry.includes(industry) : true) &&
+            (!immediateHire || card.dataset.immediateHire === 'true') &&
+            (!contractToHire || card.dataset.contractToHire === 'true') &&
+            (postingDate ? card.dataset.postingDate === postingDate : true) &&
+            (education ? card.dataset.education === education : true) &&
+            (experience ? parseInt(card.dataset.experience) >= parseInt(experience) : true) &&
+            (requirements.length === 0 || requirements.some(req => card.dataset.requirements.includes(req.trim())));
+
+        // Toggle visibility based on match result
+       
+        card.style.transition = 'opacity 0.5s ease';
+                        card.style.opacity = 0;
+
+    
+                        setTimeout(() => {
+  // Show or hide the card based on whether it matches the search term
+  card.style.display = matches ? 'block' : 'none';
+  card.style.opacity = 1;
+
+
+
+// Update the hasMatches flag
+if (matches) {
+    hasMatches = true;
+}else{
+   searchJobs();
+
+}
+
+// Show or hide the "no results" message based on matches
+const noResultsMessage = document.getElementById("noResultsMessage");
+noResultsMessage.style.transition = 'opacity 0.5s ease';
+
+if (hasMatches) {
+noResultsMessage.style.display = 'none'; // Hide message if there are matches
+} else {
+noResultsMessage.style.display = 'block'; // Show message if no matches
+}
+
+  }, 300);
+
+
+    });
+}
+
+
+
+
     
 setTimeout(() => {
     console.log("loadRelatedBlogs");

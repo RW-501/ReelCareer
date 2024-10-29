@@ -595,17 +595,37 @@ function addStyles() {
     jobCard.className = "JOB_CARD col-md-4 mb-4 noCopy";
     
     // Adding data attributes for search purposes
-    jobCard.dataset.title = job.title.toLowerCase();      
-    jobCard.dataset.company = job.company.toLowerCase();  
+    jobCard.dataset.title = job.title ? job.title.toLowerCase() : '';
+    jobCard.dataset.company = job.company ? job.company.toLowerCase() : '';
     jobCard.dataset.location = Array.isArray(job.location) 
-        ? job.location.join(", ").toLowerCase() // Normalize location if it's an array
-        : (job.location ? job.location.toLowerCase() : "");
-        jobCard.dataset.salary = job.salary && job.salary !== 0 ? job.salary : "$0.00";
-        jobCard.dataset.jobType = normalizeJobType(job.type); // Normalize job type here
-                    
- 
-    // Check if job.location is an array; if so, join it into a string
-   jobCard.dataset.location = Array.isArray(job.location) ? job.location.join(', ').toLowerCase() : (typeof job.location === 'string' ? job.location.toLowerCase() : "");
+        ? job.location.join(', ').toLowerCase() 
+        : (job.location ? job.location.toLowerCase() : '');
+    jobCard.dataset.salary = job.salary && job.salary !== 0 ? job.salary : '$0.00';
+    jobCard.dataset.jobType = normalizeJobType(job.type); // Normalize job type if applicable
+    jobCard.dataset.city = job.city ? job.city.toLowerCase() : '';
+    jobCard.dataset.state = job.state ? job.state.toLowerCase() : '';
+    jobCard.dataset.zipCode = job.zipCode ? job.zipCode.toString() : '';
+    jobCard.dataset.industry = job.industry ? job.industry.toLowerCase() : '';
+    jobCard.dataset.immediateHire = job.immediateHire !== undefined ? job.immediateHire.toString() : '';
+    jobCard.dataset.contractToHire = job.contractToHire !== undefined ? job.contractToHire.toString() : '';
+    jobCard.dataset.country = job.country ? job.country.toLowerCase() : '';
+    jobCard.dataset.county = job.county ? job.county.toLowerCase() : '';
+    jobCard.dataset.status = job.status ? job.status.toLowerCase() : '';
+    
+    // Salary min/max datasets
+    jobCard.dataset.salaryMin = job.salaryMin ? job.salaryMin : '';
+    jobCard.dataset.salaryMax = job.salaryMax ? job.salaryMax : '';
+    
+
+    // Benefits, requirements, and tags datasets (arrays converted to strings for filtering)
+    jobCard.dataset.benefits = job.benefits ? job.benefits.join(', ').toLowerCase() : '';
+    jobCard.dataset.requirements = Array.isArray(job.requirements) 
+        ? job.requirements.join(', ').toLowerCase() 
+        : (job.requirements ? job.requirements.toLowerCase() : '');
+    jobCard.dataset.tags = job.tags ? job.tags.join(', ').toLowerCase() : '';
+    
+    // Additional metadata
+    jobCard.dataset.submittedBy = job.submittedBy ? job.submittedBy.toLowerCase() : '';
     
     jobCard.innerHTML = `
       <div class="card jobCard h-100 shadow-sm" style="
