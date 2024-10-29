@@ -579,10 +579,15 @@ function addStyles() {
   function createJobCard(job, container) {
     // Create the job card
     const jobCard = document.createElement("div");
-    jobCard.id = `job_Card_${
-      job.id
-    }`;
+    jobCard.id = `job_Card_${job.id}`;
     jobCard.className = "col-md-4 mb-4 noCopy";
+    
+    // Adding data attributes for search purposes
+    jobCard.dataset.title = job.title.toLowerCase();      
+    jobCard.dataset.company = job.company.toLowerCase();  
+    jobCard.dataset.location = job.location.toLowerCase(); 
+    jobCard.dataset.salary = job.salary;                  
+    
     jobCard.innerHTML = `
       <div class="card jobCard h-100 shadow-sm" style="
           border-radius: 12px; 
@@ -619,14 +624,12 @@ function addStyles() {
           </div>
     
           <!-- Job Image with Lazy Load (optional) -->
-          ${
-            job.imageUrl
-              ? `
+          ${job.imageUrl
+            ? `
             <div class="job-image-container mb-3">
               <img src="${job.imageUrl}" alt="${job.title}" class="img-fluid" loading="lazy" style="border-radius: 8px;">
             </div>`
-              : ""
-          }
+            : ""}
     
           <!-- Location, Type, and Salary -->
 <div style="
@@ -682,45 +685,8 @@ setTimeout(() => {
 }, 700); // Delay in milliseconds (2000 ms = 2 seconds)
     
     container.appendChild(jobCard);
-  }
-  
-  // Function to add sponsor section to the container
-  function createSponsoredJobCard(sponsors, container) {
-    if (sponsors.length > 0) {
-      const sponsorSection = document.createElement("div");
-      sponsorSection.className = "col-12 mt-4 noCopy";
-      sponsorSection.innerHTML = `
-              <h5 class="text-center mb-4">Our Sponsors</h5>
-              <div class="sponsorArea row">
-                  ${sponsors
-                    .map(
-                      (sponsor) => `
-                      <div class="col-md-4">
-                          <div class="card sponsorCard h-100 shadow-sm">
-                              <img class="card-img-top" src="${
-                                sponsor.logoUrl ||
-                                "/images/favicons/android-chrome-512x512.png"
-                              }" alt="${sponsor.name}">
-                              <div class="card-body">
-                                  <h6 class="card-title">${sponsor.name}</h6>
-                                  <h4 class="card-text">${sponsor.company}</h4>
-                  <p class="card-text"><strong>Salary:</strong> $${
-                    sponsor.salary
-                  }</p>
-                  <a href="views/job-detail.html?id=${
-                    sponsor.id
-                  }" class="btn btn-primary w-100 mt-3">Apply Now</a>                            </div>
-                          </div>
-                      </div>
-                  `
-                    )
-                    .join("")}
-              </div>
-          `;
-      container.appendChild(sponsorSection);
-    }
-  }
-  
+}
+
   function getUserDisplayName() {
     // Retrieve user data from local storage
     const storedUserData = localStorage.getItem("userData");
