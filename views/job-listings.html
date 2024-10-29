@@ -276,7 +276,7 @@
             <div style="
     display: inline;
 ">
-            <button class="btn btn-secondary rounded-pill me-2" type="reset">Clear Filters</button>
+            <button class="btn btn-secondary rounded-pill me-2 reset_filter" type="reset">Clear Filters</button>
             <button class="btn btn-primary rounded-pill" type="submit" onclick="mainFilterJobCards();" id="searchButton">Search Jobs</button>
           </div>
           
@@ -351,6 +351,20 @@
         const isCollapsed = button.getAttribute('aria-expanded') === 'true';
         button.textContent = isCollapsed ? 'Show Filters' : 'Hide Filters';
         console.log("Button clicked. Current state: ", button.textContent);
+      });
+      document.querySelector('.close').addEventListener('click', function() {
+        const button = this;
+        const isCollapsed = button.getAttribute('aria-expanded') === 'true';
+        button.textContent = isCollapsed ? 'Show Filters' : 'Hide Filters';
+        console.log("Button clicked. Current state: ", button.textContent);
+      });
+      document.querySelector('.reset_filter').addEventListener('click', function() {
+        const form = document.querySelector('#filterSection');
+            
+            // Add keydown event listener for Enter key to all inputs, selects, and textareas
+            form.querySelectorAll('input, select, textarea').forEach(input => {
+                input.value = '';
+            });
       });
       // Save filters to local storage
       document.getElementById('searchButton').addEventListener('click', function() {
