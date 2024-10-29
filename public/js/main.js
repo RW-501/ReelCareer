@@ -1885,7 +1885,7 @@ function capitalizeFirstWordInTitlesAndText(containers = ['main', '.container'],
           // Capitalize the first word using regex to handle punctuation and spaces
           content = content.replace(/^\s*([\w])/, (match) => match.toUpperCase());
           element.innerText = content; // Apply the modified text back to the element
-          console.log("capitalizeFirstWord content:", content);
+          //console.log("capitalizeFirstWord content:", content);
       }
   };
 

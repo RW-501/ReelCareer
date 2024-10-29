@@ -490,7 +490,7 @@ setTimeout(() => {
   
   function filterJobCards(searchTerm) {
   const jobCards = document.querySelectorAll('.jobCard'); // Select all job cards
-  const lowerCaseSearchTerm = searchTerm.toLowerCase(); // Convert search term to lower case
+  const lowerCaseSearchTerm = searchTerm; // Convert search term to lower case
 
   jobCards.forEach(card => {
       const title = card.dataset.title || ""; // Safely access dataset attributes
