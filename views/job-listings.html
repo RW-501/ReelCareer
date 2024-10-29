@@ -102,7 +102,7 @@
 
             <input id="locationInput" type="text" oninput="autoSuggest(this.value,'locationSuggestions')" class="form-control form-control-lg mr-2 mb-2 keywordInput location-input" placeholder="Location (e.g., City)">
             <select id="jobTypeInput" class="form-control mb-2 mr-2 form-control-lg " style="
-                padding: 0.7rem;
+                padding: 2.5rem;
             ">
               <option value="" disabled selected>Job Type</option>
               <option value="">Job Type</option>
@@ -116,14 +116,13 @@
             <div class="form-group">
               <input type="text" class="form-control form-control-lg mr-2 mb-2" placeholder="Salary Range (e.g., $50,000)" onkeydown="restrictKeys(event)" aria-label="Salary Range" id="salaryInput" oninput="updateCurrency(this)">
             </div>
-            <button type="submit" class="btn btn-primary btn-lg mb-2 px-4" onclick="mainFilterJobCards();">Search Jobs</button>
+            <button id="main-search-btn" type="submit" class="btn btn-primary btn-lg mb-2 px-4" onclick="searchJobs();">Search Jobs</button>
           </form>
         </div>
       </div>
     </div>
   </searchArea>
   <div class="container mt-5">
-    <h2 class="mb-4 text-center">Job Search Filters</h2>
 
     <!-- Toggle Button for Collapse -->
     <div class="d-flex justify-content-center mb-3">
@@ -133,7 +132,10 @@
     </div>
 
     <!-- Filter Section (Initially Collapsed) -->
-    <div class="collapse" id="filterSection">
+    <div class="collapse" id="filterSection"  style="
+    z-index: 200;
+    position: absolute;
+">
       <div class="card shadow-lg p-4" style="border-radius: 12px;">
         <div class="row">
           <!-- Filter Title -->
@@ -327,7 +329,7 @@
       function setupCollapseButton() {
         const toggleButton = document.querySelector('[data-bs-toggle="collapse"]');
         const targetSection = document.querySelector('#filterSection');
-        const closeButton = targetSection.querySelector('.close');
+//        const closeButton = targetSection.querySelector('.close');
 
         if (toggleButton && targetSection) {
           toggleButton.addEventListener('click', function() {
@@ -342,21 +344,6 @@
         } 
 
 
-        if (closeButton && targetSection) {
-          closeButton.addEventListener('click', function() {
-            // Get the current state
-            const isExpanded = closeButton.getAttribute('aria-expanded') === 'true';
-            // Toggle the expanded state
-            closeButton.setAttribute('aria-expanded', !isExpanded);
-            targetSection.classList.toggle('show', !isExpanded);
-            // Update button text based on the state
-            closeButton.textContent = isExpanded ? 'Show Filters' : 'Hide Filters';
-          });
-
-
-
-        } 
-
 
 
 
@@ -368,16 +355,16 @@
         const button = this;
         const isCollapsed = button.getAttribute('aria-expanded') === 'true';
         button.textContent = isCollapsed ? 'Show Filters' : 'Hide Filters';
-        console.log("Button clicked. Current state: ", button.textContent);
       });
 
 
       document.querySelector('.close').addEventListener('click', function() {
-        const button = this;
-        const isCollapsed = button.getAttribute('aria-expanded') === 'true';
-        button.textContent = isCollapsed ? 'Show Filters' : 'Hide Filters';
-        console.log("Button clicked. Current state: ", button.textContent);
-      });
+        closeButton.addEventListener('click', function() {
+         document.querySelector('[data-bs-toggle="collapse"]').click;
+       });
+});
+
+
 
 
       document.querySelector('.reset_filter').addEventListener('click', function() {
@@ -387,6 +374,9 @@
             form.querySelectorAll('input, select, textarea').forEach(input => {
                 input.value = '';
             });
+
+
+
       });
       // Save filters to local storage
       document.getElementById('searchButton').addEventListener('click', function() {
@@ -567,7 +557,7 @@ border-radius: 12px;
     // Function to redirect user to the job details page with job ID in the URL
     function showJobDetailsFunc(jobId) {
       // Construct the URL with the job ID as a query parameter
-      const jobDetailsUrl = `../views/job-detail.html?id=${jobId}`;
+      const jobDetailsUrl = `../views/job-detail?id=${jobId}`;
       // Redirect to the job details page
       window.location.href = jobDetailsUrl;
     }
@@ -762,7 +752,18 @@ border-radius: 12px;
       return document.getElementById("jobRequirements").value.split(',').map(req => req.trim());
     }
 
+    
+document.querySelector('#main-search-btn').addEventListener('click', function() {  
+      console.log("#main-search-btn");
+
+
+  searchJobs();
+});
+
+
     function searchJobs() {
+      console.log("kkkkkkkkk");
+
       const requirements = collectJobRequirements();
       const location = document.getElementById("jobLocation").value;
       const city = document.getElementById("jobCity").value;
@@ -853,13 +854,7 @@ border-radius: 12px;
             url: data.id
           }));
 
-          function generateSchemaMarkup(jobListings) {
-            // Check if jobListings is an array
-            if (!Array.isArray(jobListings)) {
-              console.error("jobListings should be an array. Received:", jobListings);
-              return; // Exit the function if it's not an array
-            }
-            }
+ 
 
           displayJobListings(jobListings);
 
