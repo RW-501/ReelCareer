@@ -579,6 +579,9 @@ function addStyles() {
   function createJobCard(job, container) {
     // Create the job card
     const jobCard = document.createElement("div");
+    jobCard.id = `job_Card_${
+      job.id
+    }`;
     jobCard.className = "col-md-4 mb-4 noCopy";
     jobCard.innerHTML = `
       <div class="card jobCard h-100 shadow-sm" style="
