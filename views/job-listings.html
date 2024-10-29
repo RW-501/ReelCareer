@@ -101,9 +101,7 @@
             </div>
 
             <input id="locationInput" type="text" oninput="autoSuggest(this.value,'locationSuggestions')" class="form-control form-control-lg mr-2 mb-2 keywordInput location-input" placeholder="Location (e.g., City)">
-            <select id="jobTypeInput" class="form-control mb-2 mr-2 form-control-lg " style="
-                padding: 1.5rem;
-            "  placeholder="Job Type (e.g., Full Time)"></select>
+            <select id="jobTypeInput" class="form-control mb-2 mr-2 form-control-lg " style="padding: 1.5rem;"  placeholder="Job Type (e.g., Full Time)">
               <option value="" disabled selected>Job Type</option>
               <option value="full-time">Full-time</option>
               <option value="part-time">Part-time</option>
@@ -279,20 +277,26 @@
           <div class="col-md-4 mb-4">
             <label for="education" class="form-label">Education Level <i class="fas fa-graduation-cap"></i></label>
             <select class="form-select rounded-pill" id="education">
+              <option value="">Select Education Level</option>
               <option value="highSchool">High School</option>
+              <option value="associateDegree">Associate's Degree</option>
               <option value="bachelorDegree">Bachelor's Degree</option>
-              <!-- More education options -->
+              <option value="mastersDegree">Master's Degree</option>
+              <option value="doctorateDegree">Doctorate (PhD)</option>
+              <option value="other">Other</option>
             </select>
           </div>
-
+          
           <div class="col-md-4 mb-4">
             <label for="experience" class="form-label">Years of Experience <i class="fas fa-briefcase"></i></label>
             <select class="form-select rounded-pill" id="experience">
+              <option value="">Select Experience Level</option>
               <option value="0-1">0-1 years</option>
               <option value="2-5">2-5 years</option>
-              <!-- More experience options -->
+              <option value="6-10">6-10+ years</option>
             </select>
           </div>
+          
 
           <div class="w-100">
             <hr class="my-3">
