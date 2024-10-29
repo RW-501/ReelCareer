@@ -369,11 +369,12 @@ console.log(formatDateString(1732032108000));                           // Expec
     });
   
     document.body.appendChild(dropdown); // Append dropdown to body
-    const { top, left, height } = input.getBoundingClientRect();
+    const { top, left, right, height } = input.getBoundingClientRect();
     dropdown.style.position = 'absolute';
     dropdown.style.top = `${top + height}px`;
     dropdown.style.left = `${left}px`;
-  
+    dropdown.style.right = `${right}px`;
+
     // Close dropdown when clicking outside
     document.addEventListener('click', (event) => {
       if (!dropdown.contains(event.target) && event.target !== input) {
@@ -388,7 +389,7 @@ console.log(formatDateString(1732032108000));                           // Expec
     const inputParts = inputValue.split(" ");
     const lastWord = inputParts.pop() || "";
   
-    if (lastWord.length < 3) {
+    if (lastWord.length < 2) {
       input.removeAttribute("data-suggestion");
       return;
     }
