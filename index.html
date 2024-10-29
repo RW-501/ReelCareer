@@ -384,7 +384,7 @@ function createLoadMoreButton(loadMoreFunc) {
     loadMoreFunc();
     loadMoreButton.style.opacity = 0;
     setTimeout(() => loadMoreButton.remove(), 500); // Fade out and remove
-    window.capitalizeFirstWordInTitlesAndText(['.check-cap', 'main'], 3000);
+    capitalizeFirstWordInTitlesAndText(['.check-cap', 'main'], 3000);
 
   };
   return loadMoreButton;

@@ -1883,7 +1883,7 @@ window.addEventListener('load', function() {
           const typeLetter = () => {
               if (index < content.length) {
                   // Add current character, handle space formatting
-                  element.textContent += content[index] === " " ? "\u00A0" : content[index];
+                  element.innerHTML += content[index] === " " ? "\u00A0" : content[index];
                   index++;
 
                   // Delay typing of spaces slightly less, for a more natural effect
