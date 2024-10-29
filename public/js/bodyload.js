@@ -686,8 +686,8 @@ function addStyles() {
     border-style: solid;
     border-color: #84adea1a;
 ">            <p class="card-text" style="
-                font-size: 1.2rem; 
-               font-weight: 500; 
+                font-size: 1rem; 
+               font-weight: 400; 
                 color: #666; 
                 margin-bottom: 5px;">
               <i class="fas fa-map-marker-alt" style="color: #007bff;"></i> 
