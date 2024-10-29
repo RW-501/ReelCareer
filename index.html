@@ -220,6 +220,8 @@
     <!-- Featured Jobs Section -->
     <div class="container mt-5">
       <h2 class="text-center mb-4">Featured Jobs</h2>
+
+      
       <div id="noResultsMessage" style="display: none; text-align: center; margin-top: 20px;">
         <div class="alert alert-warning" role="alert" style="
 border-radius: 12px;
@@ -563,9 +565,10 @@ setTimeout(() => {
     // Return the original jobType if it doesn't match known formats
     return jobType; 
 }
-let hasMatches = false;
 
   function filterJobCards(searchTerm) {
+    let hasMatches = false;
+
   const jobCards = document.querySelectorAll('.JOB_CARD'); // Select all job cards
   console.log("searchTerm   ",searchTerm);
   const lowerCaseSearchTerm = searchTerm.toLowerCase(); // Convert search term to lower case
