@@ -548,7 +548,6 @@ setTimeout(() => {
   function normalizeJobType(jobType) {
     // Check if jobType is undefined or null and return an empty string if so
     if (!jobType) return "";
-let hasMatches = false;
     // Convert jobType to lower case and trim whitespace
     const lowerCaseType = jobType.toLowerCase().trim();
 
@@ -562,6 +561,7 @@ let hasMatches = false;
     // Return the original jobType if it doesn't match known formats
     return jobType; 
 }
+let hasMatches = false;
 
   function filterJobCards(searchTerm) {
   const jobCards = document.querySelectorAll('.JOB_CARD'); // Select all job cards
