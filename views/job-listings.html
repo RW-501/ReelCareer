@@ -1065,6 +1065,11 @@ document.getElementById("salaryInput").addEventListener("keyup", function() {
 });
 
  function mainFilterJobCards() {
+
+  let hasMatches = false;
+
+const jobCards = document.querySelectorAll('.JOB_CARD'); // Select all job cards
+
     // Retrieve input values
     const location = document.getElementById('jobLocation').value.toLowerCase();
     const city = document.getElementById('jobCity').value.toLowerCase();
