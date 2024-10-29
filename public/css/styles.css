@@ -227,7 +227,8 @@ main .btn-primary:hover {
 }
 
 main .btn-primary {
-    background-color: #639ad4 !important;
+   /* background-color: #639ad4 !important; */
+    background-color: #639ad475 !important;
     color: white;
     border: none;
     border-radius: 5px;

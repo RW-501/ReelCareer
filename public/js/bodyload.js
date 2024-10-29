@@ -647,10 +647,11 @@ function addStyles() {
             <a href="${adjustLinkURL}job-detail?id=${
       job.id
     }" class="job-title-link" style="
-                font-size: 1.5rem; 
-                font-weight: 800; 
-                color: #007bff; 
-                margin-bottom: 10px;">
+                font-size: 1.5rem;
+                font-weight: 800;
+                color: #639ad4a3;
+                margin-bottom: 10px;
+                ">
               ${job.title}
             </a>
             <p class="card-text" style="
