@@ -1871,7 +1871,8 @@ getSimilarJobs(jobTags, JobsContainer);
 
 
 
-function capitalizeAndTypeEffectInTitlesAndTextSequentially(containers = ['main', '.container'], throttleTime = 1000) {
+  window.addEventListener('load', function() {
+    window.capitalizeAndTypeEffectInTitlesAndTextSequentially =  function(containers = ['main', '.container'], throttleTime = 1000) {
   const classPattern = /(title|text|tag|tags)([\w-]*)/i;
   let elementsQueue = [];
 
@@ -1960,11 +1961,10 @@ function capitalizeAndTypeEffectInTitlesAndTextSequentially(containers = ['main'
   const observer = new MutationObserver(throttledHandler);
   observer.observe(document.body, { childList: true, subtree: true });
 }
-
-// Usage
-window.addEventListener('load', function() {
-  window.capitalizeAndTypeEffectInTitlesAndTextSequentially(['.check-cap', 'main'], 3000);
 });
+// Usage
+capitalizeAndTypeEffectInTitlesAndTextSequentially(['.check-cap', 'main'], 3000);
+
 
 console.log("capitalizeFirstWordInTitlesAndText");
 
