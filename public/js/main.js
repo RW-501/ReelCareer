@@ -1961,12 +1961,17 @@ getSimilarJobs(jobTags, JobsContainer);
   const observer = new MutationObserver(throttledHandler);
   observer.observe(document.body, { childList: true, subtree: true });
 }
-});
+
+
 // Usage
 window.capitalizeAndTypeEffectInTitlesAndTextSequentially(['.check-cap', 'main'], 3000);
 
 
 console.log("capitalizeFirstWordInTitlesAndText");
+
+
+
+});
 
 
 function roll_in_animations(){
