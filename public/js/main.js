@@ -1875,7 +1875,7 @@ function capitalizeAndTypeEffectInTitlesAndText(containers = ['main', '.containe
           if (index < content.length) {
               element.innerText += content.charAt(index);
               index++;
-              setTimeout(typeLetter, 50); // Adjust speed here (in milliseconds) for typing effect
+              setTimeout(typeLetter, 5000); // Adjust speed here (in milliseconds) for typing effect
           }
       };
       typeLetter();
