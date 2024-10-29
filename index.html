@@ -221,7 +221,7 @@
     <div class="container mt-5">
       <h2 class="text-center mb-4">Featured Jobs</h2>
 
-      
+
       <div id="noResultsMessage" style="display: none; text-align: center; margin-top: 20px;">
         <div class="alert alert-warning" role="alert" style="
 border-radius: 12px;
@@ -342,10 +342,10 @@ async function fetchJobListings() {
   loadingIndicator.style.display = 'block';
   errorIndicator.style.display = 'none';
 
-  if (jobListingsCache.length === 0 || (lastVisible && jobListingsCache.length < 100)) {
+  if (jobListingsCache.length === 0 || (lastVisible && jobListingsCache.length < 50)) {
     try {
       let jobsQuery = collection(db, 'Jobs');
-      jobsQuery = query(jobsQuery, where('status', '==', 'active'), orderBy('createdAt', 'desc'), limit(100));
+      jobsQuery = query(jobsQuery, where('status', '==', 'active'), orderBy('createdAt', 'desc'), limit(50));
 
       const jobListingsSnapshot = await getDocs(jobsQuery);
       lastVisible = jobListingsSnapshot.docs[jobListingsSnapshot.docs.length - 1];
