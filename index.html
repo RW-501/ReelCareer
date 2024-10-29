@@ -389,25 +389,26 @@ function renderJobs() {
     const loadMoreButton = createLoadMoreButton(renderJobs);
     jobListingsContainer.appendChild(loadMoreButton);
 
-    const theLogo = `  <div class="text-center m-auto mt-4">
-    <h3 class="font-weight-bold embedded-Logo">ReelCareer.co</h3>
-</div>`;
 
-const tempDiv = document.createElement('div');
-tempDiv.style.transition = 'opacity 0.5s ease';
-tempDiv.style.display = 'block';
-  tempDiv.style.margin = 'auto';
-
-tempDiv.innerHTML = theLogo;
-jobListingsContainer.insertAdjacentHTML('beforeend', tempDiv); // Insert the HTML directly
-
-// Append the parsed HTML (the first child of tempDiv)
-//jobListingsContainer.appendChild(tempDiv);
-const noResultsMessage = document.getElementById("noResultsMessage");
-
+ const noResultsMessage = document.getElementById("noResultsMessage");
 if(noResultsMessage){
 noResultsMessage.style.display = 'none';
 }
+
+
+// Create the logo HTML string
+const theLogo = `
+    <div class="text-center m-auto mt-4">
+        <h3 class="font-weight-bold embedded-Logo">ReelCareer.co</h3>
+    </div>
+`;
+
+// Use insertAdjacentHTML to add the logo directly to the jobListingsContainer
+jobListingsContainer.insertAdjacentHTML('beforeend', theLogo);
+
+// Append the parsed HTML (the first child of tempDiv)
+//jobListingsContainer.appendChild(tempDiv);
+
 
   }else{
 // Function to smoothly scroll back to the top of the page
