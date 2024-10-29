@@ -329,7 +329,7 @@
         const targetSection = document.querySelector('#filterSection');
         const closeButton = targetSection.querySelector('.close');
 
-        if (toggleButton && targetSection || closeButton && targetSection) {
+        if (toggleButton && targetSection) {
           toggleButton.addEventListener('click', function() {
             // Get the current state
             const isExpanded = toggleButton.getAttribute('aria-expanded') === 'true';
@@ -339,9 +339,27 @@
             // Update button text based on the state
             toggleButton.textContent = isExpanded ? 'Show Filters' : 'Hide Filters';
           });
-        } else {
-          console.error('Toggle button or target section not found!');
-        }
+        } 
+
+
+        if (closeButton && targetSection) {
+          closeButton.addEventListener('click', function() {
+            // Get the current state
+            const isExpanded = closeButton.getAttribute('aria-expanded') === 'true';
+            // Toggle the expanded state
+            closeButton.setAttribute('aria-expanded', !isExpanded);
+            targetSection.classList.toggle('show', !isExpanded);
+            // Update button text based on the state
+            closeButton.textContent = isExpanded ? 'Show Filters' : 'Hide Filters';
+          });
+
+
+
+        } 
+
+
+
+
       }
       // Run setup on DOMContentLoaded
       document.addEventListener('DOMContentLoaded', setupCollapseButton);
@@ -352,12 +370,16 @@
         button.textContent = isCollapsed ? 'Show Filters' : 'Hide Filters';
         console.log("Button clicked. Current state: ", button.textContent);
       });
+
+
       document.querySelector('.close').addEventListener('click', function() {
         const button = this;
         const isCollapsed = button.getAttribute('aria-expanded') === 'true';
         button.textContent = isCollapsed ? 'Show Filters' : 'Hide Filters';
         console.log("Button clicked. Current state: ", button.textContent);
       });
+
+
       document.querySelector('.reset_filter').addEventListener('click', function() {
         const form = document.querySelector('#filterSection');
             
