@@ -708,14 +708,14 @@ function addStyles() {
                 justify-content: space-between;
                 display: flex;
                 ">
-              <strong>Salary:</strong> ${formatCurrency(job.salary, {
+              <div class="salary-pay"> <strong>Salary:</strong> ${formatCurrency(job.salary, {
                 decimals: 0
-              })}<payPeriod class=" font-italic text-muted"> ${job.salaryPayTime || ""}</payPeriod>
+              })}<payPeriod class=" font-italic text-muted"> ${job.salaryPayTime || ""}</payPeriod></div>
             </p>
           </div>
     
           <!-- View Details Button -->
-          <a href="${adjustLinkURL}job-detail.html?id=${
+          <a href="${adjustLinkURL}job-detail?id=${
       job.id
     }" class="btn btn-primary w-100 mt-3" style="
               padding: 12px 0; 
