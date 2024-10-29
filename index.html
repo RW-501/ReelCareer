@@ -329,12 +329,12 @@ const seenIDs = new Set();
         jobsQuery = query(jobsQuery, orderBy('createdAt', 'desc'));
         jobsQuery = query(jobsQuery, limit(500)); // Limit results for pagination
         
-
+/*
         if (lastVisible) {
                 jobsQuery = query(jobsQuery, startAfter(lastVisible));
             }
 
-    
+    */
    
     // Execute the query
     const jobListingsSnapshot = await getDocs(jobsQuery);
@@ -383,9 +383,6 @@ jobs.forEach(job => {
     seenTitles.add(job.title); // Mark title as seen
     seenIDs.add(job.id);       // Mark ID as seen
     console.log("Added Job Title: ", job.title);
-    }else{
-      showCount = 0;
-  
     }
 
   }
@@ -424,6 +421,7 @@ console.log("index:", index);
 
     const loadMoreButton = createLoadMoreButton(() => fetchJobListings());
     jobListingsContainer.appendChild(loadMoreButton);
+    showCount = 0;
 
   
 } catch (error) {
