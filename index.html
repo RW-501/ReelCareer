@@ -404,6 +404,10 @@ jobListingsContainer.insertAdjacentHTML('beforeend', theLogo); // Insert the HTM
 // Append the parsed HTML (the first child of tempDiv)
 //jobListingsContainer.appendChild(tempDiv);
 
+if(document.getElementById("noResultsMessage")){
+const noResultsMessage = document.getElementById("noResultsMessage");
+noResultsMessage.style.display = 'none';
+}
 
   }else{
 // Function to smoothly scroll back to the top of the page
