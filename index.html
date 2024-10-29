@@ -223,6 +223,24 @@
       <div class="row check-cap" id="jobListings">
         <!-- Job cards will be dynamically inserted here -->
       </div>
+      <div id="noResultsMessage" style="display: none; text-align: center; margin-top: 20px;">
+        <div class="alert alert-warning" role="alert" style="
+            border-radius: 12px; 
+            padding: 20px; 
+            background-color: #fffae6; 
+            border: 1px solid #ffeeba; 
+            color: #2b70c3;">
+            <h2 style="margin: 0; font-size: 24px; font-weight: bold;">No Results Found</h2>
+            <p style="font-size: 18px; margin: 5px 0;">
+                Sorry, we couldn't find any jobs matching your search.
+            </p>
+            <p style="font-size: 16px; margin: 5px 0;">
+                Please try different keywords or adjust your filters.
+            </p>
+            <img src="path/to/your/image.svg" alt="No Results" style="width: 100px; margin-top: 10px;">
+        </div>
+    </div>
+    
       <div id="loadingIndicator" class="text-center mt-4" style="display:none;">
         <p>Loading job listings...</p>
       </div>
@@ -486,37 +504,70 @@ setTimeout(() => {
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
   <script>
-  
+  function normalizeJobType(jobType) {
+    // Check if jobType is undefined or null and return an empty string if so
+    if (!jobType) return "";
+
+    // Convert jobType to lower case and trim whitespace
+    const lowerCaseType = jobType.toLowerCase().trim();
+
+    // Normalize to specific terms
+    if (lowerCaseType.includes("full-time") || lowerCaseType.includes("full time")) {
+        return "full-time"; // Standardized format for full-time
+    } else if (lowerCaseType.includes("part-time") || lowerCaseType.includes("part time")) {
+        return "part-time"; // Standardized format for part-time
+    }
+
+    // Return the original jobType if it doesn't match known formats
+    return jobType; 
+}
+
   function filterJobCards(searchTerm) {
   const jobCards = document.querySelectorAll('.JOB_CARD'); // Select all job cards
   console.log("searchTerm   ",searchTerm);
+  const lowerCaseSearchTerm = searchTerm.toLowerCase(); // Convert search term to lower case
+  console.log("lowerCaseSearchTerm   ",lowerCaseSearchTerm);
 
   jobCards.forEach(card => {
-      const title = card.dataset.title || ""; // Safely access dataset attributes
-      const company = card.dataset.company || "";
-      const location = card.dataset.location || "";
-      const salary = card.dataset.salary || ""; // Ensure you handle salary if needed
-      const jobType = card.dataset.jobType || ""; // Added job type for filtering
-      console.log("title   ",title);
+        const title = card.dataset.title || ""; // Safely access dataset attributes
+        const company = card.dataset.company || "";
+        const location = card.dataset.location || "";
+        const salary = card.dataset.salary || ""; // Ensure you handle salary if needed
+        const jobType = card.dataset.jobType || ""; // Added job type for filtering
+                        
+        console.log("title   ",title);
       console.log("salary   ",salary);
       console.log("location   ",location);
-      console.log("searchTerm   ",searchTerm);
+      console.log("jobType   ",jobType);
 
 
 
 
       // Check if any of the attributes include the search term
-      const matches = title.includes(searchTerm) ||
-                      company.includes(searchTerm) ||
-                      location.includes(searchTerm) ||
-                      salary.includes(searchTerm) ||
-                      jobType.includes(searchTerm);
+      const matches = title.includes(lowerCaseSearchTerm) ||
+                        company.includes(lowerCaseSearchTerm) ||
+                        location.includes(lowerCaseSearchTerm) ||
+                        salary.includes(lowerCaseSearchTerm) ||
+                        jobType.includes(lowerCaseSearchTerm);
 
-      // Show or hide the card based on whether it matches the search term
-      card.style.display = matches ? 'block' : 'none';
-  });
+  // Show or hide the card based on whether it matches the search term
+  card.style.display = matches ? 'block' : 'none';
 
+// Update the hasMatches flag
+if (matches) {
+    hasMatches = true;
 }
+});
+
+// Show or hide the "no results" message based on matches
+const noResultsMessage = document.getElementById("noResultsMessage");
+if (hasMatches) {
+noResultsMessage.style.display = 'none'; // Hide message if there are matches
+} else {
+noResultsMessage.style.display = 'block'; // Show message if no matches
+}
+}
+
 
 // Add keyup event listeners to filter on each key press
 document.getElementById("keywordInput").addEventListener("keyup", function() {
