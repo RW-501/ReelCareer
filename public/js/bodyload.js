@@ -640,11 +640,11 @@ function addStyles() {
             justify-content: space-between;
             border-radius: 5px;
             border-style: solid;
-            border-color: #f4f4f4;
+            border-color: #f4f4f4;">
             
           <!-- Job Title and Company -->
           <div>
-            <a href="${adjustLinkURL}job-detail.html?id=${
+            <a href="${adjustLinkURL}job-detail?id=${
       job.id
     }" class="job-title-link" style="
                 font-size: 1.5rem; 
