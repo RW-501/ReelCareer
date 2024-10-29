@@ -970,31 +970,6 @@ function normalizeJobType(jobType) {
   console.log("lowerCaseSearchTerm   ",lowerCaseSearchTerm);
 
 
-// Creating the job card dataset attributes
-jobCard.dataset.title = job.title ? job.title.toLowerCase() : '';
-jobCard.dataset.company = job.company ? job.company.toLowerCase() : '';
-jobCard.dataset.location = Array.isArray(job.location) 
-    ? job.location.join(', ').toLowerCase() 
-    : (job.location ? job.location.toLowerCase() : '');
-jobCard.dataset.salary = job.salary && job.salary !== 0 ? job.salary.toString() : '$0.00';
-jobCard.dataset.jobType = normalizeJobType(job.type);
-jobCard.dataset.city = job.city ? job.city.toLowerCase() : '';
-jobCard.dataset.state = job.state ? job.state.toLowerCase() : '';
-jobCard.dataset.zipCode = job.zipCode ? job.zipCode.toString() : '';
-jobCard.dataset.industry = job.industry ? job.industry.toLowerCase() : '';
-jobCard.dataset.immediateHire = job.immediateHire !== undefined ? job.immediateHire.toString() : '';
-jobCard.dataset.contractToHire = job.contractToHire !== undefined ? job.contractToHire.toString() : '';
-jobCard.dataset.country = job.country ? job.country.toLowerCase() : '';
-jobCard.dataset.county = job.county ? job.county.toLowerCase() : '';
-jobCard.dataset.status = job.status ? job.status.toLowerCase() : '';
-jobCard.dataset.salaryMin = job.salaryMin ? job.salaryMin.toString() : '';
-jobCard.dataset.salaryMax = job.salaryMax ? job.salaryMax.toString() : '';
-jobCard.dataset.benefits = Array.isArray(job.benefits) ? job.benefits.join(', ').toLowerCase() : '';
-jobCard.dataset.requirements = Array.isArray(job.requirements) 
-    ? job.requirements.join(', ').toLowerCase() 
-    : (job.requirements ? job.requirements.toLowerCase() : '');
-jobCard.dataset.tags = Array.isArray(job.tags) ? job.tags.join(', ').toLowerCase() : '';
-jobCard.dataset.submittedBy = job.submittedBy ? job.submittedBy.toLowerCase() : '';
 
 
 jobCards.forEach(card => {
@@ -1058,7 +1033,7 @@ jobCards.forEach(card => {
 if (matches) {
     hasMatches = true;
 }else{
-   searchJobs();
+ //  searchJobs();
 
 }
 
@@ -1155,7 +1130,7 @@ const jobCards = document.querySelectorAll('.JOB_CARD'); // Select all job cards
 if (matches) {
     hasMatches = true;
 }else{
-   searchJobs();
+  // searchJobs();
 
 }
 
