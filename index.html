@@ -294,6 +294,14 @@
     let jobListingsCache = [];
 let lastVisible; // Keep track of pagination
     // Function to fetch job listings and sponsors
+    const seenTitles = new Set();
+const seenIDs = new Set();
+
+let userInterest1, userInterest2, userInterest3;
+      let excludedIds = []; // Replace with your actual IDs
+
+      let userInterests = [userInterest1, userInterest2, userInterest3].filter(Boolean); // Ensure userInterests is an array
+    
     async function fetchJobListings() {
       console.log("fetchJobListings");
 
@@ -302,15 +310,7 @@ let lastVisible; // Keep track of pagination
       const errorIndicator = document.getElementById('errorIndicator');
       loadingIndicator.style.display = 'block'; // Show loading indicator
       errorIndicator.style.display = 'none'; // Hide error indicator
-      let userInterest1, userInterest2, userInterest3;
-      let excludedIds = []; // Replace with your actual IDs
-      // Create a new array to store unique jobs
-const jobListings = [];
-// Use Sets to track job titles and IDs we've already seen
-const seenTitles = new Set();
-const seenIDs = new Set();
-      let userInterests = [userInterest1, userInterest2, userInterest3].filter(Boolean); // Ensure userInterests is an array
-    
+
     
       if (jobListingsCache.length === 0 || (lastVisible && jobListingsCache.length < 500)) {
   
@@ -414,14 +414,7 @@ console.log("seenTitles:", seenTitles);
 
        */
 
-               // Render job listings from cache
-    jobListingsCache.forEach(job => createJobCard(job, jobListingsContainer));
 
-    const loadMoreButton = createLoadMoreButton(() => fetchJobListings());
-    jobListingsContainer.appendChild(loadMoreButton);
-    showCount = 0;
-
-  
 } catch (error) {
        // console.error("Error fetching job listings: ", error);
        // errorIndicator.style.display = 'block'; // Show error indicator
@@ -429,6 +422,13 @@ console.log("seenTitles:", seenTitles);
         loadingIndicator.style.display = 'none'; // Hide loading indicator
       }
     
+               // Render job listings from cache
+               jobListingsCache.forEach(job => createJobCard(job, jobListingsContainer));
+
+const loadMoreButton = createLoadMoreButton(() => fetchJobListings());
+jobListingsContainer.appendChild(loadMoreButton);
+showCount = 0;
+
 
 
   }
