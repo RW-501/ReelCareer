@@ -366,7 +366,6 @@ tempDiv.innerHTML = theLogo;
 // Append the parsed HTML (the first child of tempDiv)
 jobListingsContainer.appendChild(tempDiv.firstElementChild);
 
-window.capitalizeFirstWordInTitlesAndText(['.check-cap', 'main'], 3000);
 
   }
 }
@@ -385,6 +384,8 @@ function createLoadMoreButton(loadMoreFunc) {
     loadMoreFunc();
     loadMoreButton.style.opacity = 0;
     setTimeout(() => loadMoreButton.remove(), 500); // Fade out and remove
+    window.capitalizeFirstWordInTitlesAndText(['.check-cap', 'main'], 3000);
+
   };
   return loadMoreButton;
 }
