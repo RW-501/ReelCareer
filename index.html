@@ -405,6 +405,39 @@ jobListingsContainer.insertAdjacentHTML('beforeend', theLogo); // Insert the HTM
 //jobListingsContainer.appendChild(tempDiv);
 
 
+  }else{
+// Function to smoothly scroll back to the top of the page
+function backToTop() {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth' // This makes the scroll smooth
+    });
+}
+
+// Create the "Back to Top" div
+const theDiv = `
+    <div class="text-center m-auto" style="cursor: pointer;">
+        <h3 class="font-weight-bold">Back to Top</h3>
+    </div>
+`;
+
+const tempDiv = document.createElement('span');
+tempDiv.style.transition = 'opacity 0.5s ease';
+tempDiv.style.display = 'block';
+tempDiv.innerHTML = theDiv;
+
+// Set up the click event to call backToTop
+tempDiv.onclick = () => {
+    backToTop(); // Call the function to scroll to the top
+};
+
+// Optionally, you can add styling or classes to the tempDiv for better appearance
+tempDiv.classList.add('back-to-top'); // Add a class for easier styling
+
+// Append the div to the job listings container
+const jobListingsContainer = document.getElementById('jobListingsContainer'); // Make sure this ID matches your actual container ID
+jobListingsContainer.appendChild(tempDiv);
+
   }
 }
 
