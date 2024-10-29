@@ -580,7 +580,7 @@ function addStyles() {
     // Create the job card
     const jobCard = document.createElement("div");
     jobCard.id = `job_Card_${job.id}`;
-    jobCard.className = "col-md-4 mb-4 noCopy";
+    jobCard.className = "JOB_CARD col-md-4 mb-4 noCopy";
     
     // Adding data attributes for search purposes
     jobCard.dataset.title = job.title;      
