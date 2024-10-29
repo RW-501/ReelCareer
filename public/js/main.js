@@ -1862,11 +1862,21 @@ function displayEmptyState(container, message, iconClass = 'fas fa-search') {
 const JobsContainer = document.getElementById('similarJobsContainer'); // Example target container
 getSimilarJobs(jobTags, JobsContainer);
 */
-function capitalizeAndTypeEffectInTitlesAndText(containers = ['main', '.container'], throttleTime = 1000) {
+
+
+
+
+
+
+
+
+
+function capitalizeAndTypeEffectInTitlesAndTextSequentially(containers = ['main', '.container'], throttleTime = 1000) {
   const classPattern = /(title|text|tag|tags)([\w-]*)/i;
+  let elementsQueue = [];
 
   // Typing effect function with space handling
-  const applyTypingEffect = (element, content) => {
+  const applyTypingEffect = (element, content, callback) => {
       element.innerText = ""; // Clear the text before starting
       let index = 0;
 
@@ -1877,8 +1887,10 @@ function capitalizeAndTypeEffectInTitlesAndText(containers = ['main', '.containe
               index++;
 
               // Delay typing of spaces slightly less, for a more natural effect
-              const delay = content[index - 1] === " " ? 20 : 200;
+              const delay = content[index - 1] === " " ? 20 : 50;
               setTimeout(typeLetter, delay); // Adjust speed here
+          } else if (callback) {
+              callback(); // Move to next element when typing is complete
           }
       };
       typeLetter();
@@ -1893,7 +1905,7 @@ function capitalizeAndTypeEffectInTitlesAndText(containers = ['main', '.containe
       if (content) {
           // Capitalize the first word
           content = content.replace(/^\s*([\w])/, match => match.toUpperCase());
-          applyTypingEffect(element, content); // Apply typing effect with capitalized content
+          applyTypingEffect(element, content, processNextElement); // Apply typing effect with callback
           console.log("Typing effect content:", content);
       }
   };
@@ -1904,19 +1916,30 @@ function capitalizeAndTypeEffectInTitlesAndText(containers = ['main', '.containe
       return isInSpecifiedContainer && !isInExceptions;
   };
 
-  const processElements = (elements) => {
+  const enqueueElements = (elements) => {
       elements.forEach(element => {
           if (isChildOfSpecifiedContainers(element) && Array.from(element.classList).some(cls => classPattern.test(cls))) {
-              capitalizeAndType(element);
+              elementsQueue.push(element);
           }
       });
   };
 
+  // Process next element in the queue
+  const processNextElement = () => {
+      if (elementsQueue.length > 0) {
+          const nextElement = elementsQueue.shift();
+          capitalizeAndType(nextElement);
+      }
+  };
+
+  // Initial processing with specified containers
   setTimeout(() => {
       const initialElements = document.querySelectorAll('*');
-      processElements(initialElements);
+      enqueueElements(initialElements);
+      processNextElement(); // Start processing the first element
   }, throttleTime);
 
+  // Throttling function for MutationObserver
   let lastRunTime = 0;
   const throttledHandler = (mutations) => {
       const now = Date.now();
@@ -1925,19 +1948,21 @@ function capitalizeAndTypeEffectInTitlesAndText(containers = ['main', '.containe
           mutations.forEach(mutation => {
               mutation.addedNodes.forEach(node => {
                   if (node.nodeType === Node.ELEMENT_NODE) {
-                      processElements([node]);
+                      enqueueElements([node]);
+                      if (elementsQueue.length === 1) processNextElement(); // Start typing if only one element is in queue
                   }
               });
           });
       }
   };
 
+  // Set up a MutationObserver to monitor DOM changes, with throttling
   const observer = new MutationObserver(throttledHandler);
   observer.observe(document.body, { childList: true, subtree: true });
 }
 
 // Usage
-capitalizeAndTypeEffectInTitlesAndText(['.check-cap', 'main'], 3000);
+capitalizeAndTypeEffectInTitlesAndTextSequentially(['.check-cap', 'main'], 3000);
 
 console.log("capitalizeFirstWordInTitlesAndText");
 
