@@ -1962,7 +1962,9 @@ function capitalizeAndTypeEffectInTitlesAndTextSequentially(containers = ['main'
 }
 
 // Usage
-capitalizeAndTypeEffectInTitlesAndTextSequentially(['.check-cap', 'main'], 3000);
+window.addEventListener('load', function() {
+  window.capitalizeAndTypeEffectInTitlesAndTextSequentially(['.check-cap', 'main'], 3000);
+});
 
 console.log("capitalizeFirstWordInTitlesAndText");
 
