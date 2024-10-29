@@ -520,10 +520,10 @@ setTimeout(() => {
 
 }
     // Add keyup event listeners to filter on each key press
-    document.getElementById("keywordInput").addEventListener("keyup", filterJobCards);
-    document.getElementById("locationInput").addEventListener("keyup", filterJobCards);
-    document.getElementById("jobTypeInput").addEventListener("change", filterJobCards);
-    document.getElementById("salaryInput").addEventListener("keyup", filterJobCards);
+    document.getElementById("keywordInput").addEventListener("keyup", filterJobCards(this.value));
+    document.getElementById("locationInput").addEventListener("keyup", filterJobCards(this.value));
+    document.getElementById("jobTypeInput").addEventListener("change", filterJobCards(this.value));
+    document.getElementById("salaryInput").addEventListener("keyup", filterJobCards(this.value));
 });
 
 
