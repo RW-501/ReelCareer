@@ -341,8 +341,6 @@ const seenIDs = new Set();
 
     // Update lastVisible for the next pagination
     lastVisible = jobListingsSnapshot.docs[jobListingsSnapshot.docs.length - 1];
-    console.log("lastVisible   ", lastVisible);
-    console.log("lastVisible lenght   ", lastVisible.length);
 
 // Extract jobs from the snapshot, excluding those with seen IDs
 const jobs = jobListingsSnapshot.docs
@@ -387,19 +385,7 @@ jobs.forEach(job => {
     console.log("Added Job Title: ", job.title);
     }else{
       showCount = 0;
-      jobListingsCache.push({
-      id: job.id, // Job document ID
-      title: job.title,
-      type: job.type,
-      description: job.description,
-      company: job.company,
-      location: job.location,
-      salary: job.salary,
-      salaryPayTime: job.salaryPayTime
-    });
-    seenTitles.add(job.title); // Mark title as seen
-    seenIDs.add(job.id);       // Mark ID as seen
-    console.log("showCount = 0 Added Job Title: ", job.title);
+  
     }
 
   }
@@ -434,7 +420,7 @@ console.log("index:", index);
        */
 
                // Render job listings from cache
-        jobListingsCache.forEach(job => createJobCard(job, jobListingsContainer));
+    jobListingsCache.forEach(job => createJobCard(job, jobListingsContainer));
 
     const loadMoreButton = createLoadMoreButton(() => fetchJobListings());
     jobListingsContainer.appendChild(loadMoreButton);
