@@ -518,32 +518,6 @@ setTimeout(() => {
 
 }
 
-
-    // Add keyup event listeners to filter on each key press
-// Function to filter job cards based on search term
-function filterJobCards(searchTerm) {
-    const jobCards = document.querySelectorAll('.jobCard'); // Select all job cards
-    const lowerCaseSearchTerm = searchTerm.toLowerCase(); // Convert search term to lower case
-
-    jobCards.forEach(card => {
-        const title = card.dataset.title || ""; // Safely access dataset attributes
-        const company = card.dataset.company || "";
-        const location = card.dataset.location || "";
-        const salary = card.dataset.salary || ""; // Ensure you handle salary if needed
-        const jobType = card.dataset.jobType || ""; // Added job type for filtering
-
-        // Check if any of the attributes include the search term
-        const matches = title.includes(lowerCaseSearchTerm) ||
-                        company.includes(lowerCaseSearchTerm) ||
-                        location.includes(lowerCaseSearchTerm) ||
-                        salary.includes(lowerCaseSearchTerm) ||
-                        jobType.includes(lowerCaseSearchTerm);
-
-        // Show or hide the card based on whether it matches the search term
-        card.style.display = matches ? 'block' : 'none';
-    });
-}
-
 // Add keyup event listeners to filter on each key press
 document.getElementById("keywordInput").addEventListener("keyup", function() {
     filterJobCards(this.value); // Pass the current value of the input
