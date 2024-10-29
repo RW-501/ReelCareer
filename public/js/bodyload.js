@@ -628,7 +628,7 @@ function addStyles() {
     jobCard.dataset.submittedBy = job.submittedBy ? job.submittedBy.toLowerCase() : '';
     
     jobCard.innerHTML = `
-      <div class="card jobCard h-100 shadow-sm" style="
+      <div class="card jobCard gridBody h-100 shadow-sm" style="
           border-radius: 12px; 
           overflow: hidden; 
           transition: transform 0.3s ease, box-shadow 0.3s ease;">
@@ -643,7 +643,7 @@ function addStyles() {
             border-color: #f4f4f4;">
             
           <!-- Job Title and Company -->
-          <div>
+          <div class="gridTop">
             <a href="${adjustLinkURL}job-detail?id=${
       job.id
     }" class="job-title-link" style="
@@ -679,7 +679,7 @@ function addStyles() {
             : ""}
     
           <!-- Location, Type, and Salary -->
-<div style="
+ <div class="gridMid" style="
     background-color: #639ad41a;
     padding: 10px 25px;
     border-radius: 5px;

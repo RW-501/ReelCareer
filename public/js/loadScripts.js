@@ -375,7 +375,7 @@ function createSuggestionDropdown(input, suggestions) {
   const { top, left, right, height } = input.getBoundingClientRect();
   dropdown.style.position = 'absolute';
   dropdown.style.top = `${top + height}px`;
-  dropdown.style.width = `auto`;
+  dropdown.style.width = `fit-content`;
   let newLeft = left + 50 / 4;
   dropdown.style.left = `${newLeft}px`;
   dropdown.style.right = `${right}px`;
@@ -389,9 +389,10 @@ function createSuggestionDropdown(input, suggestions) {
 }
   
  // Update autoSuggest function to display the suggestion in the input field
- function autoSuggest(input, suggestionsArray) {
-  // Check if input value exists and is a string
-  if (!input || typeof input.value !== "string") {
+// Enhanced autoSuggest function
+function autoSuggest(input, suggestionsArray) {
+  // Validate the input element and its value
+  if (!input || !input.value || typeof input.value !== "string") {
     console.error("Invalid input element or value is undefined");
     return;
   }
@@ -406,20 +407,21 @@ function createSuggestionDropdown(input, suggestions) {
     return;
   }
 
-  // Filter suggestions to match last word
+  // Filter suggestions to match the last word
   const matchedSuggestions = suggestionsArray.filter(s => s.toLowerCase().startsWith(lastWord));
 
   if (matchedSuggestions.length > 0) {
     // Display the first suggestion as placeholder text
     input.placeholder = input.value + matchedSuggestions[0].slice(lastWord.length);
 
-    // Create dropdown for additional options
+    // Create a dropdown for additional options
     createSuggestionDropdown(input, matchedSuggestions);
   } else {
     input.removeAttribute("data-suggestion");
     input.placeholder = ""; // Clear placeholder if no match found
   }
 }
+
 
 
   // Initialize on DOM content loaded
@@ -434,10 +436,14 @@ function createSuggestionDropdown(input, suggestions) {
   
       if (input.classList.contains("job-input")) {
         suggestionsArray = jobSuggestions;
-      } else if (input.classList.contains("location-input")) {
+      } else if (input.classList.contains("tagInput")) {
         suggestionsArray = locationsSuggestions;
+      } else if (input.classList.contains("keywordInput")) {
+        suggestionsArray = citySuggestions;      
+      } else if (input.classList.contains("location-input")) {
+          suggestionsArray = citySuggestions;      
       } else if (input.classList.contains("city-input")) {
-        suggestionsArray = citySuggestions;
+            suggestionsArray = citySuggestions;
       } else if (input.classList.contains("state-input")) {
         suggestionsArray = stateSuggestions;
       } else {

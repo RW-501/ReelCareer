@@ -273,8 +273,9 @@ transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out !important;
 
 .container > .card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 16px rgba(244, 9, 9, 0.2);
+    box-shadow: 0 8px 16px rgb(41 9 244 / 8%);
 }
+
 
 
 .container > .card > h5 {
