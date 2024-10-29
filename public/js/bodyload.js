@@ -658,6 +658,7 @@ function addStyles() {
                 border-radius: 9px;
                 padding: 9px;
                 ">
+                <i class="fas fa-building" style="color: #007bff;"></i>
               <strong>${job.company}</strong>
             </p>
           </div>
