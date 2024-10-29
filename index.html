@@ -340,10 +340,10 @@ async function fetchJobListings() {
   loadingIndicator.style.display = 'block';
   errorIndicator.style.display = 'none';
 
-  if (jobListingsCache.length === 0 || (lastVisible && jobListingsCache.length < 500)) {
+  if (jobListingsCache.length === 0 || (lastVisible && jobListingsCache.length < 100)) {
     try {
       let jobsQuery = collection(db, 'Jobs');
-      jobsQuery = query(jobsQuery, where('status', '==', 'active'), orderBy('createdAt', 'desc'), limit(500));
+      jobsQuery = query(jobsQuery, where('status', '==', 'active'), orderBy('createdAt', 'desc'), limit(100));
 
       const jobListingsSnapshot = await getDocs(jobsQuery);
       lastVisible = jobListingsSnapshot.docs[jobListingsSnapshot.docs.length - 1];
