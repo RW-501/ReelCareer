@@ -880,6 +880,9 @@ document.querySelector('#main-search-btn').addEventListener('click', function() 
           }
           // Execute the query
           const jobListingsSnapshot = await query.get();
+
+          console.log("jobListingsSnapshot:", jobListingsSnapshot);
+
           const jobListings = jobListingsSnapshot.docs.map(data => ({
             id: data.id,
             title: data.title,
@@ -892,6 +895,7 @@ document.querySelector('#main-search-btn').addEventListener('click', function() 
             validThrough: data.boostExpiresAt,
             url: data.id
           }));
+          console.log("jobListings:", jobListings);
 
  
 
@@ -976,214 +980,92 @@ setTimeout(() => {
   <script>
 
     
-
-    
+// Function to normalize job type input
 function normalizeJobType(jobType) {
-    // Check if jobType is undefined or null and return an empty string if so
     if (!jobType) return "";
-    // Convert jobType to lower case and trim whitespace
     const lowerCaseType = jobType.toLowerCase().trim();
-
-    // Normalize to specific terms
-    if (lowerCaseType.includes("full-time") || lowerCaseType.includes("full time")) {
-        return "full-time"; // Standardized format for full-time
-    } else if (lowerCaseType.includes("part-time") || lowerCaseType.includes("part time")) {
-        return "part-time"; // Standardized format for part-time
-    }
-
-    // Return the original jobType if it doesn't match known formats
-    return jobType; 
+    return lowerCaseType.includes("full-time") ? "full-time" : 
+           lowerCaseType.includes("part-time") ? "part-time" : jobType;
 }
 
-  function filterJobCards(searchTerm) {
-    let hasMatches = false;
+// Main function to retrieve and filter job cards based on input values
+function filterJobCards() {
+    // Retrieve all filter input values once
+    const values = {
+        keyword: document.getElementById('keywordInput').value.toLowerCase(),
+        location: document.getElementById('locationInput').value.toLowerCase(),
+        jobType: document.getElementById('jobTypeInput').value.toLowerCase(),
+        salary: document.getElementById('salaryInput').value,
+        jobLocation: document.getElementById('jobLocation').value.toLowerCase(),
+        city: document.getElementById('jobCity').value.toLowerCase(),
+        state: document.getElementById('jobState').value.toLowerCase(),
+        zipCode: document.getElementById('jobZip').value,
+        salaryMin: parseInt(document.getElementById('salaryMin').value) || 0,
+        salaryMax: parseInt(document.getElementById('salaryMax').value) || Infinity,
+        contractType: document.getElementById('contractType').value.toLowerCase(),
+        industry: document.getElementById('industry').value.toLowerCase(),
+        immediateHire: document.getElementById('immediateHire').checked,
+        contractToHire: document.getElementById('contractToHire').checked,
+        postingDate: document.getElementById('postingDate').value,
+        education: document.getElementById('education').value.toLowerCase(),
+        experience: parseInt(document.getElementById('experience').value) || 0,
+        requirements: document.getElementById('jobRequirements').value.toLowerCase().split(',').map(item => item.trim())
+    };
 
-  const jobCard = document.querySelectorAll('.JOB_CARD'); // Select all job cards
-  console.log("searchTerm   ",searchTerm);
-  const lowerCaseSearchTerm = searchTerm.toLowerCase(); // Convert search term to lower case
-  console.log("lowerCaseSearchTerm   ",lowerCaseSearchTerm);
+    // Select all job cards
+    const jobCards = document.querySelectorAll('.JOB_CARD');
+    let hasMatches = false; // Initialize match flag
 
-
-
-
-  jobCard.forEach(card => {
-    const title = card.dataset.title || "";
-    const company = card.dataset.company || "";
-    const location = card.dataset.location || "";
-    const salary = card.dataset.salary || "";
-    const jobType = card.dataset.jobType || "";
-    const city = card.dataset.city || "";
-    const state = card.dataset.state || "";
-    const zipCode = card.dataset.zipCode || "";
-    const industry = card.dataset.industry || "";
-    const immediateHire = card.dataset.immediateHire || "";
-    const contractToHire = card.dataset.contractToHire || "";
-    const country = card.dataset.country || "";
-    const county = card.dataset.county || "";
-    const status = card.dataset.status || "";
-    const salaryMin = card.dataset.salaryMin || "";
-    const salaryMax = card.dataset.salaryMax || "";
-    const benefits = card.dataset.benefits || "";
-    const requirements = card.dataset.requirements || "";
-    const tags = card.dataset.tags || "";
-    const submittedBy = card.dataset.submittedBy || "";
-
-    // Check if any dataset attributes include the search term
-    const matches = title.includes(lowerCaseSearchTerm) ||
-                    company.includes(lowerCaseSearchTerm) ||
-                    location.includes(lowerCaseSearchTerm) ||
-                    salary.includes(lowerCaseSearchTerm) ||
-                    jobType.includes(lowerCaseSearchTerm) ||
-                    city.includes(lowerCaseSearchTerm) ||
-                    state.includes(lowerCaseSearchTerm) ||
-                    zipCode.includes(lowerCaseSearchTerm) ||
-                    industry.includes(lowerCaseSearchTerm) ||
-                    immediateHire.includes(lowerCaseSearchTerm) ||
-                    contractToHire.includes(lowerCaseSearchTerm) ||
-                    country.includes(lowerCaseSearchTerm) ||
-                    county.includes(lowerCaseSearchTerm) ||
-                    status.includes(lowerCaseSearchTerm) ||
-                    salaryMin.includes(lowerCaseSearchTerm) ||
-                    salaryMax.includes(lowerCaseSearchTerm) ||
-                    benefits.includes(lowerCaseSearchTerm) ||
-                    requirements.includes(lowerCaseSearchTerm) ||
-                    tags.includes(lowerCaseSearchTerm) ||
-                    submittedBy.includes(lowerCaseSearchTerm);
-
-    // Do something with `matches` (e.g., display/hide job cards based on matches)
-    
-                        card.style.transition = 'opacity 0.5s ease';
-                        card.style.opacity = 0;
-
-    
-                        setTimeout(() => {
-  // Show or hide the card based on whether it matches the search term
-  card.style.display = matches ? 'block' : 'none';
-  card.style.opacity = 1;
-
-
-
-// Update the hasMatches flag
-if (matches) {
-    hasMatches = true;
-}else{
- //  searchJobs();
-
-}
-
-// Show or hide the "no results" message based on matches
-const noResultsMessage = document.getElementById("noResultsMessage");
-noResultsMessage.style.transition = 'opacity 0.5s ease';
-
-if (hasMatches) {
-noResultsMessage.style.display = 'none'; // Hide message if there are matches
-} else {
-noResultsMessage.style.display = 'block'; // Show message if no matches
-}
-
-  }, 300);
-
-
-
-
-});
-
-
-}
-
-
-// Add keyup event listeners to filter on each key press
-document.getElementById("keywordInput").addEventListener("keyup", function() {
-    filterJobCards(this.value); // Pass the current value of the input
-});
-
-document.getElementById("locationInput").addEventListener("keyup", function() {
-    filterJobCards(this.value); // Pass the current value of the input
-});
-
-document.getElementById("jobTypeInput").addEventListener("change", function() {
-    filterJobCards(this.value); // Pass the current value of the select input
-});
-
-document.getElementById("salaryInput").addEventListener("keyup", function() {
-    filterJobCards(this.value); // Pass the current value of the input
-});
-
- function mainFilterJobCards() {
-
-  let hasMatches = false;
-
-const jobCards = document.querySelectorAll('.JOB_CARD'); // Select all job cards
-
-    // Retrieve input values
-    const location = document.getElementById('jobLocation').value.toLowerCase();
-    const city = document.getElementById('jobCity').value.toLowerCase();
-    const state = document.getElementById('jobState').value.toLowerCase();
-    const zipCode = document.getElementById('jobZip').value;
-    const salaryMin = document.getElementById('salaryMin').value || 0;
-    const salaryMax = document.getElementById('salaryMax').value || Infinity;
-    const contractType = document.getElementById('contractType').value.toLowerCase();
-    const industry = document.getElementById('industry').value.toLowerCase();
-    const immediateHire = document.getElementById('immediateHire').checked;
-    const contractToHire = document.getElementById('contractToHire').checked;
-    const postingDate = document.getElementById('postingDate').value.toLowerCase();
-    const education = document.getElementById('education').value.toLowerCase();
-    const experience = document.getElementById('experience').value;
-    const requirements = document.getElementById('jobRequirements').value.toLowerCase().split(',');
-
-    // Filter job cards based on retrieved values
     jobCards.forEach(card => {
         const matches = 
-            (location ? card.dataset.location.includes(location) : true) &&
-            (city ? card.dataset.city.includes(city) : true) &&
-            (state ? card.dataset.state.includes(state) : true) &&
-            (zipCode ? card.dataset.zipCode === zipCode : true) &&
-            (contractType ? card.dataset.jobType.includes(contractType) : true) &&
-            (industry ? card.dataset.industry.includes(industry) : true) &&
-            (!immediateHire || card.dataset.immediateHire === 'true') &&
-            (!contractToHire || card.dataset.contractToHire === 'true') &&
-            (postingDate ? card.dataset.postingDate === postingDate : true) &&
-            (education ? card.dataset.education === education : true) &&
-            (experience ? parseInt(card.dataset.experience) >= parseInt(experience) : true) &&
-            (requirements.length === 0 || requirements.some(req => card.dataset.requirements.includes(req.trim())));
+            (!values.keyword || card.dataset.title.toLowerCase().includes(values.keyword)) &&
+            (!values.location || card.dataset.location.toLowerCase().includes(values.location)) &&
+            (!values.city || card.dataset.city.toLowerCase().includes(values.city)) &&
+            (!values.state || card.dataset.state.toLowerCase().includes(values.state)) &&
+            (!values.zipCode || card.dataset.zipCode === values.zipCode) &&
+            (!values.contractType || card.dataset.jobType.toLowerCase().includes(values.contractType)) &&
+            (!values.industry || card.dataset.industry.toLowerCase().includes(values.industry)) &&
+            (!values.immediateHire || card.dataset.immediateHire === 'true') &&
+            (!values.contractToHire || card.dataset.contractToHire === 'true') &&
+            (!values.postingDate || card.dataset.postingDate === values.postingDate) &&
+            (!values.education || card.dataset.education.toLowerCase() === values.education) &&
+            (!values.experience || parseInt(card.dataset.experience) >= values.experience) &&
+            (values.salaryMin <= parseInt(card.dataset.salary || "0") && parseInt(card.dataset.salary || "0") <= values.salaryMax) &&
+            (values.requirements.length === 0 || values.requirements.some(req => card.dataset.requirements.includes(req)));
 
-        // Toggle visibility based on match result
-       
         card.style.transition = 'opacity 0.5s ease';
-                        card.style.opacity = 0;
+        card.style.opacity = 0;
 
-    
-                        setTimeout(() => {
-  // Show or hide the card based on whether it matches the search term
-  card.style.display = matches ? 'block' : 'none';
-  card.style.opacity = 1;
+        // Show or hide the card based on whether it matches the search criteria
+        setTimeout(() => {
+            card.style.display = matches ? 'block' : 'none';
+            card.style.opacity = 1;
 
-
-
-// Update the hasMatches flag
-if (matches) {
-    hasMatches = true;
-}else{
-  // searchJobs();
-
-}
-
-// Show or hide the "no results" message based on matches
-const noResultsMessage = document.getElementById("noResultsMessage");
-noResultsMessage.style.transition = 'opacity 0.5s ease';
-
-if (hasMatches) {
-noResultsMessage.style.display = 'none'; // Hide message if there are matches
-} else {
-noResultsMessage.style.display = 'block'; // Show message if no matches
-}
-
-  }, 300);
-
-
+            if (matches) hasMatches = true;
+            toggleNoResultsMessage(hasMatches);
+        }, 300);
     });
 }
 
+// Function to toggle "no results" message
+function toggleNoResultsMessage(hasMatches) {
+    const noResultsMessage = document.getElementById("noResultsMessage");
+    noResultsMessage.style.transition = 'opacity 0.5s ease';
+    noResultsMessage.style.display = hasMatches ? 'none' : 'block';
+}
+
+// Add event listeners for filter inputs
+const filterInputs = [
+    "keywordInput", "locationInput", "jobTypeInput", "salaryInput", 
+    "jobLocation", "jobCity", "jobState", "jobZip", "salaryMin", 
+    "salaryMax", "contractType", "industry", "immediateHire", 
+    "contractToHire", "postingDate", "education", "experience", 
+    "jobRequirements"
+];
+filterInputs.forEach(id => {
+    const input = document.getElementById(id);
+    input.addEventListener(input.tagName === "SELECT" || input.type === "checkbox" ? "change" : "keyup", filterJobCards);
+});
 
   </script>
 </body>
