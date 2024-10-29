@@ -334,76 +334,88 @@ console.log(formatDateString(1732032108000));                           // Expec
     };
   }
   
-  // Create a suggestions dropdown
-  function createSuggestionDropdown(input, suggestions) {
-    // Remove existing dropdown if present
-    const existingDropdown = document.querySelector('.suggestion-dropdown');
-    if (existingDropdown) {
-      existingDropdown.remove();
-    }
-  
-    // Create a new dropdown
-    const dropdown = document.createElement('ul');
-    dropdown.classList.add('suggestion-dropdown');
-  
-    suggestions.forEach(suggestion => {
-      const listItem = document.createElement('li');
-      listItem.textContent = suggestion;
-      listItem.tabIndex = 0; // Make the list items focusable
-      listItem.addEventListener('click', () => {
-        input.value = suggestion; // Set input value on suggestion click
-        input.focus(); // Refocus on the input
-        dropdown.remove(); // Remove dropdown after selection
-      });
-      
-      // Keyboard navigation for list items
-      listItem.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') {
-          input.value = suggestion;
-          input.focus();
-          dropdown.remove();
-        }
-      });
-  
-      dropdown.appendChild(listItem);
-    });
-  
-    document.body.appendChild(dropdown); // Append dropdown to body
-    const { top, left, right, height } = input.getBoundingClientRect();
-    dropdown.style.position = 'absolute';
-    dropdown.style.top = `${top + height}px`;
-    dropdown.style.width = `auto`;
-    dropdown.style.left = `${left}px`;
-    dropdown.style.right = `${right}px`;
 
-    // Close dropdown when clicking outside
-    document.addEventListener('click', (event) => {
-      if (!dropdown.contains(event.target) && event.target !== input) {
-        dropdown.remove(); // Remove dropdown if clicking outside
+// Adjust createSuggestionDropdown to keep dropdown behavior the same
+function createSuggestionDropdown(input, suggestions) {
+  // Remove existing dropdown if present
+  const existingDropdown = document.querySelector('.suggestion-dropdown');
+  if (existingDropdown) {
+    existingDropdown.remove();
+  }
+
+  // Create a new dropdown
+  const dropdown = document.createElement('ul');
+  dropdown.classList.add('suggestion-dropdown');
+
+  suggestions.forEach(suggestion => {
+    const listItem = document.createElement('li');
+    listItem.textContent = suggestion;
+    listItem.tabIndex = 0; // Make the list items focusable
+    listItem.addEventListener('click', () => {
+      input.value = suggestion; // Set input value on suggestion click
+      input.placeholder = ""; // Clear placeholder on selection
+      input.focus(); // Refocus on the input
+      dropdown.remove(); // Remove dropdown after selection
+    });
+
+    // Keyboard navigation for list items
+    listItem.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        input.value = suggestion;
+        input.placeholder = ""; // Clear placeholder on selection
+        input.focus();
+        dropdown.remove();
       }
     });
-  }
-  
-  // Auto-suggest function
-  function autoSuggest(input, suggestionsArray) {
-    const inputValue = input.value.toLowerCase().trim();
-    const inputParts = inputValue.split(" ");
-    const lastWord = inputParts.pop() || "";
-  
-    if (lastWord.length < 2) {
-      input.removeAttribute("data-suggestion");
-      return;
+
+    dropdown.appendChild(listItem);
+  });
+
+  document.body.appendChild(dropdown); // Append dropdown to body
+  const { top, left, right, height } = input.getBoundingClientRect();
+  dropdown.style.position = 'absolute';
+  dropdown.style.top = `${top + height}px`;
+  dropdown.style.width = `auto`;
+  dropdown.style.left = `${left}px`;
+  dropdown.style.right = `${right}px`;
+
+  // Close dropdown when clicking outside
+  document.addEventListener('click', (event) => {
+    if (!dropdown.contains(event.target) && event.target !== input) {
+      dropdown.remove(); // Remove dropdown if clicking outside
     }
+  });
+}
   
-    const matchedSuggestions = suggestionsArray.filter(s => s.toLowerCase().startsWith(lastWord));
-    
-    if (matchedSuggestions.length > 0) {
-      createSuggestionDropdown(input, matchedSuggestions);
-    } else {
-      input.removeAttribute("data-suggestion");
-    }
+ // Update autoSuggest function to display the suggestion in the input field
+function autoSuggest(input, suggestionsArray) {
+  const inputValue = input.value.toLowerCase().trim();
+  const inputParts = inputValue.split(" ");
+  const lastWord = inputParts.pop() || "";
+
+  if (lastWord.length < 2) {
+    input.removeAttribute("data-suggestion");
+    input.placeholder = ""; // Clear placeholder when there's no suggestion
+    return;
   }
-  
+
+  // Filter suggestions to match last word
+  const matchedSuggestions = suggestionsArray.filter(s => s.toLowerCase().startsWith(lastWord));
+
+  if (matchedSuggestions.length > 0) {
+    // Display the first suggestion as placeholder text
+    input.placeholder = input.value + matchedSuggestions[0].slice(lastWord.length);
+
+    // Create dropdown for additional options
+    createSuggestionDropdown(input, matchedSuggestions);
+  } else {
+    input.removeAttribute("data-suggestion");
+    input.placeholder = ""; // Clear placeholder if no match found
+  }
+}
+
+
+
   // Initialize on DOM content loaded
   document.addEventListener("DOMContentLoaded", () => {
     fetchSuggestions();
@@ -456,6 +468,15 @@ console.log(formatDateString(1732032108000));                           // Expec
       }
     });
   });
+
+
+
+
+
+
+
+
+
   
   
   // Function to add selected job requirement
