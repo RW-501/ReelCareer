@@ -589,7 +589,7 @@ function addStyles() {
     jobCard.dataset.salary = job.salary;                  
  
     // Check if job.location is an array; if so, join it into a string
- //   jobCard.dataset.location = Array.isArray(job.location) ? job.location.join(', ').toLowerCase() : (typeof job.location === 'string' ? job.location.toLowerCase() : "");
+   jobCard.dataset.location = Array.isArray(job.location) ? job.location.join(', ').toLowerCase() : (typeof job.location === 'string' ? job.location.toLowerCase() : "");
     
     jobCard.innerHTML = `
       <div class="card jobCard h-100 shadow-sm" style="
