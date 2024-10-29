@@ -368,7 +368,7 @@ jobs.forEach(job => {
     isValidValue(job.salary) 
   ) {
 
-    showCount = + 1;
+    showCount++ ;
     if(showCount < 30){
       jobListingsCache.push({
       id: job.id, // Job document ID
