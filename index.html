@@ -291,26 +291,27 @@
 
 
 
-// Function to filter job cards based on search input
-function filterJobCards() {
-  const keyword = document.getElementById("keywordInput").value.toLowerCase();
-  const location = document.getElementById("locationInput").value.toLowerCase();
-  const jobType = document.getElementById("jobTypeInput").value;
-  const salary = parseInt(document.getElementById("salaryInput").value.replace(/[^0-9]/g, "")) || 0;
+    function filterJobCards(searchTerm) {
+    const jobCards = document.querySelectorAll('.jobCard'); // Select all job cards
+    const lowerCaseSearchTerm = searchTerm.toLowerCase(); // Convert search term to lower case
 
-  // Select all job cards
-  const jobCards = document.querySelectorAll(".jobCard");
+    jobCards.forEach(card => {
+        const title = card.dataset.title || ""; // Safely access dataset attributes
+        const company = card.dataset.company || "";
+        const location = card.dataset.location || "";
+        const salary = card.dataset.salary || ""; // Ensure you handle salary if needed
+        const jobType = card.dataset.jobType || ""; // Added job type for filtering
 
-  // Loop through each job card to see if it matches the filter criteria
-  jobCards.forEach(card => {
-    const matchesKeyword = card.dataset.title.includes(keyword) || card.dataset.company.includes(keyword);
-    const matchesLocation = !location || card.dataset.location.includes(location);
-    const matchesJobType = !jobType || (card.dataset.jobType === jobType);
-    const matchesSalary = !salary || parseInt(card.dataset.salary) >= salary;
+        // Check if any of the attributes include the search term
+        const matches = title.includes(lowerCaseSearchTerm) ||
+                        company.includes(lowerCaseSearchTerm) ||
+                        location.includes(lowerCaseSearchTerm) ||
+                        salary.includes(lowerCaseSearchTerm) ||
+                        jobType.includes(lowerCaseSearchTerm);
 
-    // Show or hide card based on matching criteria
-    card.style.display = matchesKeyword && matchesLocation && matchesJobType && matchesSalary ? "block" : "none";
-  });
+        // Show or hide the card based on whether it matches the search term
+        card.style.display = matches ? 'block' : 'none';
+    });
 }
 
 // Add keyup event listeners to filter on each key press
