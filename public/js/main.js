@@ -1963,7 +1963,7 @@ getSimilarJobs(jobTags, JobsContainer);
 }
 });
 // Usage
-capitalizeAndTypeEffectInTitlesAndTextSequentially(['.check-cap', 'main'], 3000);
+window.capitalizeAndTypeEffectInTitlesAndTextSequentially(['.check-cap', 'main'], 3000);
 
 
 console.log("capitalizeFirstWordInTitlesAndText");
