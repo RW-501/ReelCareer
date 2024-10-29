@@ -263,133 +263,199 @@ console.log(formatDateString(1732032108000));                           // Expec
   //let jobSuggestions, jobRequirementsSuggestions, locationsSuggestions, citySuggestions, stateSuggestions;
   
   //const {isHomePage, currentPage, adjustLinkURL, adjustLinkHomeURL, excludedPages } = getAdjustedLinks();
-  
-  fetch("https://reelcareer.co/public/js/suggestions.json")
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error("Network response was not ok: " + response.statusText);
-      }
-      return response.json(); // Parse the JSON response
-    })
-    .then((data) => {
-      // Assign the fetched data to your variables
-      jobSuggestions = data.suggestions;
-      jobRequirementsSuggestions = data.jobRequirementsSuggestions;
-      locationsSuggestions = data.locationsSuggestions;
-      citySuggestions = data.citySuggestions;
-      stateSuggestions = data.stateSuggestions;
-  
-      /*  console.log("Job Suggestions:", jobSuggestions);
-          console.log("Job Requirements Suggestions:", jobRequirementsSuggestions);
-          console.log("Locations Suggestions:", locationsSuggestions);
-          console.log("City Suggestions:", citySuggestions);
-          console.log("State Suggestions:", stateSuggestions); */
-    })
-    .catch((error) => {
-      console.error("There was a problem with the fetch operation:", error);
-    });
-  
-  function autoSuggest(input, suggestionsArray) {
-    const inputValue = input.value ? input.value.toLowerCase().trim() : ""; // Ensure input is defined and trim any extra spaces
-    console.log("Input Value:", inputValue); // Log the current input value
-  
-    let suggestion = "";
-  
-    // Split the input by spaces and get the last part
-    const inputParts = inputValue.split(" ");
-    const lastWord = inputParts.pop(); // Get the last part of the input after the most recent space
-    console.log("Last Word:", lastWord);
-  
-    // Find the first suggestion that starts with the last word
-    for (let i = 0; i < suggestionsArray.length; i++) {
-      if (suggestionsArray[i].toLowerCase().startsWith(lastWord)) {
-        suggestion = suggestionsArray[i];
-        console.log("Suggestion Found:", suggestion); // Log the found suggestion
-        break;
-      }
-    }
-  
-    // Only modify input value if the suggestion is valid and input isn't empty
-    if (suggestion && lastWord !== "") {
-      const suggestionPart = suggestion.substring(lastWord.length); // Get the part of the suggestion that the user hasn't typed yet
-      const finalValue = inputParts.concat(lastWord + suggestionPart).join(" "); // Reconstruct the full sentence with the suggestion
-  
-      // Set a custom data attribute for handling auto-suggestion
-      input.setAttribute("data-suggestion", suggestion);
-  
-      // Only update the input value if the user is still typing
-      if (document.activeElement === input) {
-        // Temporarily set the input value to the final suggestion
-        input.value = finalValue; // Set the input value to the sentence with the suggestion
-        input.selectionStart = inputValue.length; // Set the selection start after the typed characters
-        input.selectionEnd = finalValue.length; // Set the selection end to the full suggestion length
-        console.log("Final Value:", finalValue); // Log the updated input value
-      }
-    } else {
-    // Check if input is a valid HTMLInputElement
-    if (!(input instanceof HTMLInputElement)) {
-      //console.error('Input is not a valid HTMLInputElement:', input);
-      return; // Exit the function if it's not valid
+  function getSuggestionStyles() {
+    const style = document.createElement("style");
+    style.textContent = `
+  .suggestion-dropdown {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border: 1px solid #ccc;
+  background-color: white;
+  max-height: 200px;
+  overflow-y: auto; /* Allow scrolling if too many suggestions */
+  width: 100%; /* Match input width */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1000; /* Ensure dropdown appears above other elements */
+}
+
+.suggestion-dropdown li {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.suggestion-dropdown li:hover {
+  background-color: #f0f0f0; /* Highlight on hover */
+}
+
+.suggestion-dropdown li:focus {
+  outline: none; /* Remove default outline */
+  background-color: #e6e6e6; /* Highlight when focused */
+}
+
+    
+     `;
+  document.head.appendChild(style);
+}
+
+getSuggestionStyles();
+// Constants for configuration 
+const SUGGESTIONS_URL = "https://reelcareer.co/public/js/suggestions.json";
+const DEBOUNCE_DELAY = 300;
+
+// Fetch suggestions data from JSON file
+async function fetchSuggestions() {
+  try {
+    const response = await fetch(SUGGESTIONS_URL);
+    if (!response.ok) throw new Error(`Network response was not ok: ${response.statusText}`);
+
+    const data = await response.json();
+    
+    // Assign the fetched data to your variables with default empty array fallback
+    jobSuggestions = data.suggestions || [];
+    jobRequirementsSuggestions = data.jobRequirementsSuggestions || [];
+    locationsSuggestions = data.locationsSuggestions || [];
+    citySuggestions = data.citySuggestions || [];
+    stateSuggestions = data.stateSuggestions || [];
+  } catch (error) {
+    handleFetchError(error);
   }
-      console.log("No suggestion available."); // Log when no suggestion is found
-      if (input.getAttribute("data-suggestion")) {
-        input.removeAttribute("data-suggestion"); // Clear it if no suggestions
-      }
-    }
+}
+
+// Handle fetch errors
+function handleFetchError(error) {
+  console.error("There was a problem with the fetch operation:", error);
+  alert("Failed to fetch suggestions. Please try again later."); // User-friendly error message
+}
+
+// Debounce function to limit function call frequency
+function debounce(func, delay) {
+  let timeoutId;
+  return function (...args) {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => func.apply(this, args), delay);
+  };
+}
+
+// Create a suggestions dropdown
+function createSuggestionDropdown(input, suggestions) {
+  // Remove existing dropdown if present
+  const existingDropdown = document.querySelector('.suggestion-dropdown');
+  if (existingDropdown) {
+    existingDropdown.remove();
   }
-  
-  document.addEventListener("DOMContentLoaded", function () {
-    const keywordInputs = document.getElementsByClassName("keywordInput"); // Get all elements with 'keywordInput' class
-  
-    // Loop through all keywordInput elements
-    Array.from(keywordInputs).forEach(function (input) {
-      input.addEventListener("input", function (e) {
-        console.log("e.inputType:", e.inputType);
-        let suggestionsArray;
-  
-        // Detect input type and assign the corresponding suggestions array
-        if (this.classList.contains("job-input")) {
-          suggestionsArray = jobSuggestions;
-        } else if (this.classList.contains("location-input")) {
-          suggestionsArray = locationsSuggestions;
-        } else if (this.classList.contains("city-input")) {
-          suggestionsArray = citySuggestions;
-        } else if (this.classList.contains("state-input")) {
-          suggestionsArray = stateSuggestions;
-        } else {
-          suggestionsArray = jobRequirementsSuggestions; // Default to job requirements if no specific input is matched
-        }
-  
-        if (suggestionsArray) {
-          autoSuggest(this, suggestionsArray); // Use suggestions array here
-        }
-      });
-  
-      input.addEventListener("keydown", function (e) {
-        console.log("e.key:", e.key);
-  
-        const suggestion = this.getAttribute("data-suggestion");
-        const inputValue = this.value ? this.value.toLowerCase() : ""; // Check if this.value is defined
-  
-        // Allow Backspace, Delete, and other keys to function normally
-        if (
-          e.key === "Backspace" ||
-          e.key === "Delete" ||
-          e.key === "Tab" ||
-          e.key === "Enter"
-        ) {
-          // Prevent default only for Tab and Enter keys
-          if (e.key === "Tab" || e.key === "Enter") {
-            e.preventDefault();
-            if (suggestion && suggestion.toLowerCase().startsWith(inputValue)) {
-              this.value = suggestion; // Set the value to the suggestion
-              this.setSelectionRange(suggestion.length, suggestion.length); // Move cursor to the end of the suggestion
-            }
-          }
-        }
-      });
+
+  // Create a new dropdown
+  const dropdown = document.createElement('ul');
+  dropdown.classList.add('suggestion-dropdown');
+
+  suggestions.forEach(suggestion => {
+    const listItem = document.createElement('li');
+    listItem.textContent = suggestion;
+    listItem.tabIndex = 0; // Make the list items focusable
+    listItem.addEventListener('click', () => {
+      input.value = suggestion; // Set input value on suggestion click
+      input.focus(); // Refocus on the input
+      dropdown.remove(); // Remove dropdown after selection
     });
+    
+    // Keyboard navigation for list items
+    listItem.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        input.value = suggestion;
+        input.focus();
+        dropdown.remove();
+      }
+    });
+
+    dropdown.appendChild(listItem);
   });
+
+  document.body.appendChild(dropdown); // Append dropdown to body
+  const { top, left, height } = input.getBoundingClientRect();
+  dropdown.style.position = 'absolute';
+  dropdown.style.top = `${top + height}px`;
+  dropdown.style.left = `${left}px`;
+}
+
+// Auto-suggest function
+function autoSuggest(input, suggestionsArray) {
+  const inputValue = input.value.toLowerCase().trim();
+  const inputParts = inputValue.split(" ");
+  const lastWord = inputParts.pop() || "";
+
+  // Check for last word length before searching for suggestions
+  if (lastWord.length < 3) {
+    input.removeAttribute("data-suggestion");
+    return;
+  }
+
+  const matchedSuggestions = suggestionsArray.filter(s => s.toLowerCase().startsWith(lastWord));
+  
+  if (matchedSuggestions.length > 0) {
+    createSuggestionDropdown(input, matchedSuggestions); // Show dropdown with suggestions
+  } else {
+    input.removeAttribute("data-suggestion");
+  }
+}
+
+// Initialize on DOM content loaded
+document.addEventListener("DOMContentLoaded", () => {
+  fetchSuggestions(); // Fetch suggestions when DOM is loaded
+
+  const keywordInputs = document.querySelectorAll(".keywordInput");
+
+  // Debounced autoSuggest function
+  const debouncedAutoSuggest = debounce((input) => {
+    let suggestionsArray;
+
+    // Determine which suggestions array to use based on class
+    if (input.classList.contains("job-input")) {
+      suggestionsArray = jobSuggestions;
+    } else if (input.classList.contains("location-input")) {
+      suggestionsArray = locationsSuggestions;
+    } else if (input.classList.contains("city-input")) {
+      suggestionsArray = citySuggestions;
+    } else if (input.classList.contains("state-input")) {
+      suggestionsArray = stateSuggestions;
+    } else {
+      suggestionsArray = jobRequirementsSuggestions;
+    }
+
+    // Call autoSuggest only if suggestions array is not empty
+    if (suggestionsArray.length > 0) {
+      autoSuggest(input, suggestionsArray);
+    }
+  }, DEBOUNCE_DELAY);
+
+  // Event delegation for keyword inputs
+  document.body.addEventListener("input", (e) => {
+    if (e.target.classList.contains("keywordInput")) {
+      debouncedAutoSuggest(e.target);
+    }
+  });
+
+  // Event listener for keydown events on all inputs
+  document.body.addEventListener("keydown", (e) => {
+    const target = e.target;
+    if (target.classList.contains("keywordInput")) {
+      const suggestion = target.getAttribute("data-suggestion");
+
+      // Allow normal functionality for certain keys
+      if (["Backspace", "Delete", "ArrowLeft", "ArrowRight"].includes(e.key)) {
+        return; // Allow normal functionality
+      }
+
+      // Handle Tab and Enter key
+      if (["Tab", "Enter"].includes(e.key) && suggestion) {
+        e.preventDefault(); // Prevent default action
+        target.value = suggestion; // Set the input value to the suggestion
+        target.setSelectionRange(suggestion.length, suggestion.length); // Move cursor to end of suggestion
+      }
+    }
+  });
+});
+
   
   // Function to add selected job requirement
   function addJobRequirement(input, suggestion) {
