@@ -1869,102 +1869,78 @@ getSimilarJobs(jobTags, JobsContainer);
 
 
 
+function capitalizeFirstWordInTitlesAndText(containers = ['main', '.container'], throttleTime = 1000) {
+  // Regular expression to match classes containing "title," "text," "tag," or "tags" as part of the class name
+  const classPattern = /(title|text|tag|tags)([\w-]*)/i;
 
-window.addEventListener('load', function() {
-  window.capitalizeAndTypeEffectInTitlesAndTextSequentially = function(containers = ['main', '.container'], throttleTime = 1000) {
-      const classPattern = /(title|text|tag|tags)([\w-]*)/i;
-      let elementsQueue = [];
+  // Function to capitalize the first word in the text content of matching elements
+  const capitalizeFirstWord = (element) => {
+      // Check if the element has any child elements; if so, skip it
+      if (Array.from(element.childNodes).some(child => child.nodeType === Node.ELEMENT_NODE)) {
+          return; // Skip elements with nested elements
+      }
 
-      // Typing effect function with proper space handling
-      const applyTypingEffect = (element, content, callback) => {
-          element.textContent = ""; // Clear the text before starting
-          let index = 0;
+      let content = element.innerText;
+      if (content) {
+          // Capitalize the first word using regex to handle punctuation and spaces
+          content = content.replace(/^\s*([\w])/, (match) => match.toUpperCase());
+          element.innerText = content; // Apply the modified text back to the element
+          console.log("capitalizeFirstWord content:", content);
+      }
+  };
 
-          const typeLetter = () => {
-              if (index < content.length) {
-                  // Add current character, handle space formatting
-                  element.innerText += content[index] === " " ? "\u00A0" : content[index];
-                  index++;
+  // Helper function to determine if the element is within specified containers and not within exceptions
+  const isChildOfSpecifiedContainers = (element) => {
+      // Check if the element is within any specified container
+      const isInSpecifiedContainer = element.closest(containers.join(',')) !== null;
 
-                  // Delay typing of spaces slightly less, for a more natural effect
-                  const delay = content[index - 1] === " " ? 20 : 100;
-                  setTimeout(typeLetter, delay); // Adjust speed here
-              } else if (callback) {
-                  callback(); // Move to next element when typing is complete
-              }
-          };
-          typeLetter();
-      };
+      // Check for exceptions
+      const isInExceptions = element.matches('.loader-container, searcharea, #jobSearchForm, #filterSection');
 
-      const capitalizeAndType = (element) => {
-          if (Array.from(element.childNodes).some(child => child.nodeType === Node.ELEMENT_NODE)) {
-              return; // Skip if element has nested elements
+      return isInSpecifiedContainer && !isInExceptions;
+  };
+
+  // Function to process elements for capitalization
+  const processElements = (elements) => {
+      elements.forEach(element => {
+          if (isChildOfSpecifiedContainers(element) && Array.from(element.classList).some(cls => classPattern.test(cls))) {
+              capitalizeFirstWord(element); // Only modifies the inner text
+            //  console.log("capitalizeFirstWord element:", element);
           }
+      });
+  };
 
-          let content = element.textContent;
-          if (content) {
-              // Capitalize the first word
-              content = content.replace(/^\s*([\w])/, match => match.toUpperCase());
-              applyTypingEffect(element, content, processNextElement); // Apply typing effect with callback
-              console.log("Typing effect content:", content);
-          }
-      };
+  // Select initial elements within specified containers and apply capitalization if class matches pattern
+  setTimeout(() => {
+      const initialElements = document.querySelectorAll('*');
+      processElements(initialElements);
+  }, throttleTime);
 
-      const isChildOfSpecifiedContainers = (element) => {
-          const isInSpecifiedContainer = element.closest(containers.join(',')) !== null;
-          const isInExceptions = element.matches('.loader-container, searcharea, #jobSearchForm, #filterSection');
-          return isInSpecifiedContainer && !isInExceptions;
-      };
-
-      const enqueueElements = (elements) => {
-          elements.forEach(element => {
-              if (isChildOfSpecifiedContainers(element) && Array.from(element.classList).some(cls => classPattern.test(cls))) {
-                  elementsQueue.push(element);
-              }
-          });
-      };
-
-      // Process next element in the queue
-      const processNextElement = () => {
-          if (elementsQueue.length > 0) {
-              const nextElement = elementsQueue.shift();
-              capitalizeAndType(nextElement);
-          }
-      };
-
-      // Initial processing with specified containers
-      setTimeout(() => {
-          const initialElements = document.querySelectorAll('div');
-          enqueueElements(initialElements);
-          processNextElement(); // Start processing the first element
-      }, throttleTime);
-
-      // Throttling function for MutationObserver
-      let lastRunTime = 0;
-      const throttledHandler = (mutations) => {
-          const now = Date.now();
-          if (now - lastRunTime >= throttleTime) {
-              lastRunTime = now;
-              mutations.forEach(mutation => {
-                  mutation.addedNodes.forEach(node => {
-                      if (node.nodeType === Node.ELEMENT_NODE) {
-                          enqueueElements([node]);
-                          if (elementsQueue.length === 1) processNextElement(); // Start typing if only one element is in queue
-                      }
-                  });
+  // Throttling function to limit execution rate for dynamic elements
+  let lastRunTime = 0;
+  const throttledHandler = (mutations) => {
+      const now = Date.now();
+      if (now - lastRunTime >= throttleTime) {
+          lastRunTime = now;
+          mutations.forEach(mutation => {
+              mutation.addedNodes.forEach(node => {
+                  if (node.nodeType === Node.ELEMENT_NODE) {
+                      processElements([node]);
+                  }
               });
-          }
-      };
+          });
+      }
+  };
 
-      // Set up a MutationObserver to monitor DOM changes, with throttling
-      const observer = new MutationObserver(throttledHandler);
-      observer.observe(document.body, { childList: true, subtree: true });
-  }
+  // Set up a MutationObserver to monitor DOM changes, with throttling
+  const observer = new MutationObserver(throttledHandler);
+  observer.observe(document.body, { childList: true, subtree: true });
+}
 
-  // Usage
-  window.capitalizeAndTypeEffectInTitlesAndTextSequentially(['.check-cap', 'main'], 3000);
-  console.log("capitalizeAndTypeEffectInTitlesAndTextSequentially initialized");
-});
+// Usage
+capitalizeFirstWordInTitlesAndText(['.check-cap', 'main'], 3000);
+console.log("capitalizeAndTypeEffectInTitlesAndTextSequentially initialized");
+
 
 
 function roll_in_animations(){
