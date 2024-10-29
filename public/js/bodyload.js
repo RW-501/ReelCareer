@@ -666,7 +666,7 @@ function addStyles() {
                 border-color: #84adea08;
                 ">
                 <i class="fas fa-building" style="color: #007bff;"></i>
-              <strong>${job.company}</strong>
+              <strong>${ job.company}</strong>
             </p>
           </div>
     
@@ -686,22 +686,28 @@ function addStyles() {
     border-style: solid;
     border-color: #84adea1a;
 ">            <p class="card-text" style="
-                font-size: 1rem; 
-               font-weight: 400; 
+                font-size: 1.2rem; 
+               font-weight: 500; 
                 color: #666; 
                 margin-bottom: 5px;">
               <i class="fas fa-map-marker-alt" style="color: #007bff;"></i> 
-              ${formatLocation(job.location)}
+              ${ formatLocation(job.location)}
             </p>
             <p class="card-text" style="
                 font-size: 1rem; 
                 color: #666; 
-                margin-bottom: 5px; text-align: end;">
+                margin-bottom: 5px;                 
+                justify-content: space-between;
+                display: flex;
+                ">
               <strong>Type:</strong> ${formatJobType(job.type)}
             </p>
             <p class="card-text" style="
                 font-size: 1rem; 
-                color: #666; text-align: end;">
+                color: #666;                 
+                justify-content: space-between;
+                display: flex;
+                ">
               <strong>Salary:</strong> ${formatCurrency(job.salary, {
                 decimals: 0
               })}<payPeriod class=" font-italic text-muted"> ${job.salaryPayTime || ""}</payPeriod>
