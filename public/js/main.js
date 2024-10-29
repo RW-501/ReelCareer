@@ -1863,56 +1863,56 @@ const JobsContainer = document.getElementById('similarJobsContainer'); // Exampl
 getSimilarJobs(jobTags, JobsContainer);
 */
 
-
-
-function capitalizeFirstWordInTitlesAndText(containers = ['main', '.container'], throttleTime = 1000) {
-  // Regular expression to match classes containing "title," "text," "tag," or "tags" as part of the class name
+function capitalizeAndTypeEffectInTitlesAndText(containers = ['main', '.container'], throttleTime = 1000) {
   const classPattern = /(title|text|tag|tags)([\w-]*)/i;
 
-  // Function to capitalize the first word in the text content of matching elements
-  const capitalizeFirstWord = (element) => {
-      // Check if the element has any child elements; if so, skip it
+  // Typing effect function
+  const applyTypingEffect = (element, content) => {
+      element.innerText = ""; // Clear the text before starting
+      let index = 0;
+
+      const typeLetter = () => {
+          if (index < content.length) {
+              element.innerText += content.charAt(index);
+              index++;
+              setTimeout(typeLetter, 50); // Adjust speed here (in milliseconds) for typing effect
+          }
+      };
+      typeLetter();
+  };
+
+  const capitalizeAndType = (element) => {
       if (Array.from(element.childNodes).some(child => child.nodeType === Node.ELEMENT_NODE)) {
-          return; // Skip elements with nested elements
+          return; // Skip if element has nested elements
       }
 
       let content = element.innerText;
       if (content) {
-          // Capitalize the first word using regex to handle punctuation and spaces
-          content = content.replace(/^\s*([\w])/, (match) => match.toUpperCase());
-          element.innerText = content; // Apply the modified text back to the element
-          console.log("capitalizeFirstWord content:", content);
+          content = content.replace(/^\s*([\w])/, match => match.toUpperCase()); // Capitalize first word
+          applyTypingEffect(element, content); // Apply typing effect with capitalized content
+          console.log("Typing effect content:", content);
       }
   };
 
-  // Helper function to determine if the element is within specified containers and not within exceptions
   const isChildOfSpecifiedContainers = (element) => {
-      // Check if the element is within any specified container
       const isInSpecifiedContainer = element.closest(containers.join(',')) !== null;
-
-      // Check for exceptions
       const isInExceptions = element.matches('.loader-container, searcharea, #jobSearchForm, #filterSection');
-
       return isInSpecifiedContainer && !isInExceptions;
   };
 
-  // Function to process elements for capitalization
   const processElements = (elements) => {
       elements.forEach(element => {
           if (isChildOfSpecifiedContainers(element) && Array.from(element.classList).some(cls => classPattern.test(cls))) {
-              capitalizeFirstWord(element); // Only modifies the inner text
-            //  console.log("capitalizeFirstWord element:", element);
+              capitalizeAndType(element);
           }
       });
   };
 
-  // Select initial elements within specified containers and apply capitalization if class matches pattern
   setTimeout(() => {
       const initialElements = document.querySelectorAll('*');
       processElements(initialElements);
   }, throttleTime);
 
-  // Throttling function to limit execution rate for dynamic elements
   let lastRunTime = 0;
   const throttledHandler = (mutations) => {
       const now = Date.now();
@@ -1928,13 +1928,12 @@ function capitalizeFirstWordInTitlesAndText(containers = ['main', '.container'],
       }
   };
 
-  // Set up a MutationObserver to monitor DOM changes, with throttling
   const observer = new MutationObserver(throttledHandler);
   observer.observe(document.body, { childList: true, subtree: true });
 }
 
 // Usage
-capitalizeFirstWordInTitlesAndText(['.check-cap', 'main'], 3000);
+capitalizeAndTypeEffectInTitlesAndText(['.check-cap', 'main'], 3000);
 
 console.log("capitalizeFirstWordInTitlesAndText");
 

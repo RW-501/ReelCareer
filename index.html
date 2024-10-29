@@ -354,6 +354,19 @@ function renderJobs() {
   if (showCount < jobListingsCache.length) {
     const loadMoreButton = createLoadMoreButton(renderJobs);
     jobListingsContainer.appendChild(loadMoreButton);
+
+    const theLogo = `  <div class="text-center m-auto">
+    <h3 class="font-weight-bold embedded-Logo">ReelCareer.co</h3>
+</div>`;
+
+const tempDiv = document.createElement('div');
+tempDiv.innerHTML = theLogo;
+//container.insertAdjacentHTML('beforeend', theLogo); // Insert the HTML directly
+
+// Append the parsed HTML (the first child of tempDiv)
+container.appendChild(tempDiv.firstElementChild);
+capitalizeFirstWordInTitlesAndText(['.check-cap', 'main'], 3000);
+
   }
 }
 
