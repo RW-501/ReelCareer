@@ -632,19 +632,20 @@ function addStyles() {
     border-radius: 5px;
 ">            <p class="card-text" style="
                 font-size: 1rem; 
+               font-weight: 400; 
                 color: #666; 
                 margin-bottom: 5px;">
               <i class="fas fa-map-marker-alt" style="color: #007bff;"></i> 
               ${formatLocation(job.location)}
             </p>
             <p class="card-text" style="
-                font-size: .75rem; 
+                font-size: 1rem; 
                 color: #666; 
                 margin-bottom: 5px; text-align: end;">
               <strong>Type:</strong> ${formatJobType(job.type)}
             </p>
             <p class="card-text" style="
-                font-size: .75rem; 
+                font-size: 1rem; 
                 color: #666; text-align: end;">
               <strong>Salary:</strong> ${formatCurrency(job.salary, {
                 decimals: 0
@@ -659,6 +660,7 @@ function addStyles() {
               padding: 12px 0; 
               background-color: #007bff; 
               border: none; 
+             font-weight: 500; 
               border-radius: 8px; 
               font-size: 16px; 
               transition: background-color 0.3s ease;
