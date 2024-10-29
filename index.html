@@ -403,9 +403,9 @@ jobListingsContainer.insertAdjacentHTML('beforeend', tempDiv); // Insert the HTM
 
 // Append the parsed HTML (the first child of tempDiv)
 //jobListingsContainer.appendChild(tempDiv);
-
-if(document.getElementById("noResultsMessage")){
 const noResultsMessage = document.getElementById("noResultsMessage");
+
+if(noResultsMessage){
 noResultsMessage.style.display = 'none';
 }
 
