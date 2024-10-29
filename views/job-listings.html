@@ -389,8 +389,8 @@
       });
 
 
-      document.querySelector('.close').addEventListener('click', function() {
-        closeButton.addEventListener('click', function() {
+      document.querySelector('.close').addEventListener('click', function(this) {
+        this.addEventListener('click', function() {
          document.querySelector('[data-bs-toggle="collapse"]').click;
        });
 });
