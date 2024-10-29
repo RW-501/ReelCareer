@@ -509,7 +509,7 @@ const isValidValue = value => value !== undefined && value !== null && value !==
         salaryRange: salaryRange
       }).toString();
       // Navigate to the job listings page with the search parameters
-      window.location.href = `./views/job-listings?${queryParams}`;
+      window.location.href = `./views/job-listings?id=${queryParams}`;
     });
     // Check if the user is logged in
     auth.onAuthStateChanged((user) => {
