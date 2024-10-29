@@ -327,7 +327,9 @@
       function setupCollapseButton() {
         const toggleButton = document.querySelector('[data-bs-toggle="collapse"]');
         const targetSection = document.querySelector('#filterSection');
-        if (toggleButton && targetSection) {
+        const closeButton = targetSection.querySelector('.close');
+
+        if (toggleButton && targetSection || closeButton && targetSection) {
           toggleButton.addEventListener('click', function() {
             // Get the current state
             const isExpanded = toggleButton.getAttribute('aria-expanded') === 'true';
@@ -370,6 +372,11 @@
         };
         localStorage.setItem('jobSearchFilters', JSON.stringify(filters));
           showToast("Filters saved!", 'success');
+
+          mainFilterJobCards();
+
+
+
       });
       // Load saved filters on page load
       window.onload = function() {
