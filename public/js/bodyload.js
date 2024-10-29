@@ -575,6 +575,18 @@ function addStyles() {
     }
   });
   
+
+
+
+
+
+
+
+
+
+
+
+
   // Function to create a job card and append it to the container
   function createJobCard(job, container) {
     // Create the job card
@@ -588,8 +600,8 @@ function addStyles() {
     jobCard.dataset.location = Array.isArray(job.location) 
         ? job.location.join(", ").toLowerCase() // Normalize location if it's an array
         : (job.location ? job.location.toLowerCase() : "");
-    jobCard.dataset.salary = job.salary;                  
-    jobCard.dataset.jobType = normalizeJobType(job.type); // Normalize job type here
+        jobCard.dataset.salary = job.salary && job.salary !== 0 ? job.salary : "$0.00";
+        jobCard.dataset.jobType = normalizeJobType(job.type); // Normalize job type here
                     
  
     // Check if job.location is an array; if so, join it into a string
