@@ -372,6 +372,7 @@ console.log(formatDateString(1732032108000));                           // Expec
     const { top, left, right, height } = input.getBoundingClientRect();
     dropdown.style.position = 'absolute';
     dropdown.style.top = `${top + height}px`;
+    dropdown.style.width = `auto`;
     dropdown.style.left = `${left}px`;
     dropdown.style.right = `${right}px`;
 
