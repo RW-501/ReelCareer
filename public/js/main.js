@@ -1887,7 +1887,7 @@ function capitalizeAndTypeEffectInTitlesAndTextSequentially(containers = ['main'
               index++;
 
               // Delay typing of spaces slightly less, for a more natural effect
-              const delay = content[index - 1] === " " ? 20 : 50;
+              const delay = content[index - 1] === " " ? 20 : 100;
               setTimeout(typeLetter, delay); // Adjust speed here
           } else if (callback) {
               callback(); // Move to next element when typing is complete
