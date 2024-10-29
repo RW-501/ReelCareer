@@ -877,6 +877,23 @@ border-radius: 12px;
 
 
     
+    function normalizeJobType(jobType) {
+    // Check if jobType is undefined or null and return an empty string if so
+    if (!jobType) return "";
+    // Convert jobType to lower case and trim whitespace
+    const lowerCaseType = jobType.toLowerCase().trim();
+
+    // Normalize to specific terms
+    if (lowerCaseType.includes("full-time") || lowerCaseType.includes("full time")) {
+        return "full-time"; // Standardized format for full-time
+    } else if (lowerCaseType.includes("part-time") || lowerCaseType.includes("part time")) {
+        return "part-time"; // Standardized format for part-time
+    }
+
+    // Return the original jobType if it doesn't match known formats
+    return jobType; 
+}
+
   function filterJobCards(searchTerm) {
     let hasMatches = false;
 
