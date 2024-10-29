@@ -635,9 +635,12 @@ function addStyles() {
           
         <div class="card-body" style="
             padding: 20px;
-            display: flex; 
-            flex-direction: column; 
-            justify-content: space-between;">
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border-radius: 5px;
+            border-style: solid;
+            border-color: #f4f4f4;
             
           <!-- Job Title and Company -->
           <div>
@@ -654,9 +657,12 @@ function addStyles() {
                 font-size: 1.2rem;
                 color: #333;
                 margin-bottom: 10px;
-                background-color: #dcdcdc59;
+                background-color: #dcdcdc14;
                 border-radius: 9px;
                 padding: 9px;
+                border-radius: 5px;
+                border-style: solid;
+                border-color: #84adea08;
                 ">
                 <i class="fas fa-building" style="color: #007bff;"></i>
               <strong>${job.company}</strong>
@@ -673,9 +679,11 @@ function addStyles() {
     
           <!-- Location, Type, and Salary -->
 <div style="
-    background-color: #f3f3f369;
+    background-color: #639ad41a;
     padding: 10px 25px;
     border-radius: 5px;
+    border-style: solid;
+    border-color: #84adea1a;
 ">            <p class="card-text" style="
                 font-size: 1rem; 
                font-weight: 400; 
