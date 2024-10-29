@@ -1862,20 +1862,23 @@ function displayEmptyState(container, message, iconClass = 'fas fa-search') {
 const JobsContainer = document.getElementById('similarJobsContainer'); // Example target container
 getSimilarJobs(jobTags, JobsContainer);
 */
-
 function capitalizeAndTypeEffectInTitlesAndText(containers = ['main', '.container'], throttleTime = 1000) {
   const classPattern = /(title|text|tag|tags)([\w-]*)/i;
 
-  // Typing effect function
+  // Typing effect function with space handling
   const applyTypingEffect = (element, content) => {
       element.innerText = ""; // Clear the text before starting
       let index = 0;
 
       const typeLetter = () => {
           if (index < content.length) {
-              element.innerText += content.charAt(index);
+              // Add current character and move to the next one
+              element.innerText += content[index];
               index++;
-              setTimeout(typeLetter, 5000); // Adjust speed here (in milliseconds) for typing effect
+
+              // Delay typing of spaces slightly less, for a more natural effect
+              const delay = content[index - 1] === " " ? 20 : 200;
+              setTimeout(typeLetter, delay); // Adjust speed here
           }
       };
       typeLetter();
@@ -1888,7 +1891,8 @@ function capitalizeAndTypeEffectInTitlesAndText(containers = ['main', '.containe
 
       let content = element.innerText;
       if (content) {
-          content = content.replace(/^\s*([\w])/, match => match.toUpperCase()); // Capitalize first word
+          // Capitalize the first word
+          content = content.replace(/^\s*([\w])/, match => match.toUpperCase());
           applyTypingEffect(element, content); // Apply typing effect with capitalized content
           console.log("Typing effect content:", content);
       }
