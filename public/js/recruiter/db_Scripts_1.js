@@ -1397,7 +1397,8 @@ try {
   $("#application-posts-container").html("<p>Loading applications...</p>");
 
   const applications = await getApplicationsFromDB(jobIDs);
-  
+  console.log("applications Step 1 ", applications);
+
   // Render applications once they are fetched
   renderApplications(applications);
 
@@ -1433,9 +1434,10 @@ async function getApplicationsFromDB(jobIDs) {
   querySnapshot.forEach((doc) => {
     const application = doc.data();
     applications.push({ ...application, id: doc.id });
+
   });
 
-  console.log("applications  ", applications);
+  console.log("applications get Apps  ", applications);
 
   // Normalize and map application statuses
   applications.forEach(app => {
@@ -1475,7 +1477,8 @@ function setupSortingAndFiltering(applications){
       if (filterCriteria) {
         filteredApplications = filterApplications(applications, filterCriteria);
       }
-  
+      console.log("filteredApplications ", filteredApplications);
+
       // If no sort is applied, just use the applications as they are
       let sortedApplications = filteredApplications;
       if (sortCriteria) {
@@ -1550,6 +1553,8 @@ const jobHTML = `
 Object.entries(groupedApplications).forEach(([key, applicants]) => {
   const [jobTitle, companyName, boosted] = key.split("|");
   const jobSection = renderJobTitleWithApplicants(jobTitle, companyName, boosted, applicants);
+  console.log("#application-posts-container  ", jobSection);
+
   $("#application-posts-container").append(jobSection);
 });
 
