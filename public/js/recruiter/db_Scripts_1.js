@@ -1471,6 +1471,8 @@ async function getApplicationsFromDB(jobIDs) {
   applications.forEach(app => {
     const statusKey = typeof app.status === 'string' ? app.status.trim().toLowerCase() : "";
     const statusValue = applicationStatuses[statusKey] || "Unknown Status";
+    
+    updateApplicationUI(app.id, statusValue) 
     app.normalizedStatus = statusValue; // Add normalized status to the application object
   });
 
@@ -1618,11 +1620,6 @@ if (applicationElement) {
 }
 }
 
-// Example of how to call the update function when a status is changed
-// updateApplicationStatus('some-application-id', 'approved'); // Call this with the actual application ID and the new status
-
-// Other existing functions like renderJobTitleWithApplicants, attachToggleJobTitles, attachActionButtons, etc. remain the same
-
 
 
 
@@ -1729,7 +1726,7 @@ if (statusKey) {
     console.error(`Container for status ${statusKey} not found.`);
   }
 } else {
-  console.error(`Unknown status: ${status}`);
+  console.error(`main area Unknown status: ${status}`);
 }
 return 
 ;
