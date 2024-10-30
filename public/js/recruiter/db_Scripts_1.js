@@ -1488,6 +1488,7 @@ async function getApplicationsFromDB(jobIDs) {
           const statusKey = app.status.trim().toLowerCase();
           statusValue = applicationStatuses[statusKey] ? applicationStatuses[statusKey][0] : "Unknown Status";
       }
+      console.log("app.id  ", app.id, "  statusValue  ",statusValue );
 
       // Update the UI and add the normalized status to the application object
       updateApplicationUI(app.id, statusValue);
