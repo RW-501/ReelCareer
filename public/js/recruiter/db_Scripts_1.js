@@ -2156,8 +2156,6 @@ if (userDoc.exists()) {
 
 
 
-
-// Function to open a specific tab
 function openTab(event, tabId) {
   // Prevent default anchor click behavior
   event.preventDefault();
@@ -2176,15 +2174,24 @@ function openTab(event, tabId) {
     content.classList.remove('show');
   });
 
-  // Add 'active' class to the clicked tab link and the corresponding tab pane
+  // Add 'active' class to the clicked tab link
   event.target.classList.add('active');
+
+  // Ensure tabId starts with a #
+  if (!tabId.startsWith('#')) tabId = `#${tabId}`;
+
+  // Get the corresponding tab pane and check if it exists
   const tabContent = document.querySelector(tabId);
-  tabContent.classList.add('active', 'show');
+  if (tabContent) {
+    tabContent.classList.add('active', 'show');
+  } else {
+    console.error(`Tab content with ID '${tabId}' not found.`);
+  }
 }
 
 // Attach click event listeners to the tab links
 document.querySelectorAll('.nav-link').forEach(tab => {
   tab.addEventListener('click', (event) => {
-    openTab(event, tab.getAttribute('href'));
+    openTab(event, tab.getAttribute('data-bs-target'));
   });
 });
