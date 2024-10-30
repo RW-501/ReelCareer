@@ -1411,38 +1411,38 @@ try {
 }
 
 // Function to get applications from the database
-async function getApplicationsFromDB(jobIDs) {
-const applicationStatuses = {
-  "approved": "Application Approved",
-  "rejected": "Application Rejected",
-  "under review": "Under Review",
-  "pending": "Pending",
-  "application approved": "Application Approved",
-  "application rejected": "Application Rejected",
-  "under review": "Under Review",
-  "pending approval": "Pending Approval"
-};
+async function getApplicationsFromDB(jobIDs) { 
+  const applicationStatuses = {
+    "approved": "Application Approved",
+    "rejected": "Application Rejected",
+    "under review": "Under Review",
+    "pending": "Pending",
+    "application approved": "Application Approved",
+    "application rejected": "Application Rejected",
+    "under review": "Under Review",
+    "pending approval": "Pending Approval"
+  };
 
-const applicationsRef = collection(db, "Applications");
-const applicationsQuery = query(applicationsRef, where("jobId", "in", jobIDs));
-const querySnapshot = await getDocs(applicationsQuery);
+  const applicationsRef = collection(db, "Applications");
+  const applicationsQuery = query(applicationsRef, where("jobId", "in", jobIDs));
+  const querySnapshot = await getDocs(applicationsQuery);
 
-const applications = [];
-querySnapshot.forEach((doc) => {
-  const application = doc.data();
-  applications.push({ ...application, id: doc.id });
-});
+  const applications = [];
+  querySnapshot.forEach((doc) => {
+    const application = doc.data();
+    applications.push({ ...application, id: doc.id });
+  });
 
-console.log("applications  ", applications);
+  console.log("applications  ", applications);
 
-// Normalize and map application statuses
-applications.forEach(app => {
-  const statusKey = app.status ? app.status.trim().toLowerCase() : "";
-  const statusValue = applicationStatuses[statusKey] || "Unknown Status";
-  app.normalizedStatus = statusValue; // Add normalized status to the application object
-});
+  // Normalize and map application statuses
+  applications.forEach(app => {
+    const statusKey = typeof app.status === 'string' ? app.status.trim().toLowerCase() : "";
+    const statusValue = applicationStatuses[statusKey] || "Unknown Status";
+    app.normalizedStatus = statusValue; // Add normalized status to the application object
+  });
 
-return applications;
+  return applications;
 }
 
 // Function to render applications
