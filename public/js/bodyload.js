@@ -520,6 +520,34 @@ function addStyles() {
       100% { background-position: -200% 0; }
   }
   
+
+
+
+
+
+  /* Flexbox Layout Spacing */
+  .card-top, .card-bottom {
+      gap: 0.5rem;
+  }
+
+  /* Job Details Section Background and Shadow */
+  .card-bottom {
+      background: linear-gradient(145deg, var(--highlight-bg), #ffffff);
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+      padding: 10px 25px;
+      border-radius: 5px;
+      border-style: solid;
+      border-color: var(--highlight-bg);
+  }
+
+
+
+
+
+
+
+
+
       `;
     document.head.appendChild(style);
   }
@@ -638,7 +666,7 @@ function addStyles() {
         justify-content: space-between;">
       
       <!-- Job Title and Company -->
-      <div style="gap: 0.5rem;">
+      <div class="card-top" style="gap: 0.5rem;">
         <a href="${adjustLinkURL}job-detail?id=${job.id}"
            class="job-title-link" 
            style="
@@ -673,7 +701,7 @@ function addStyles() {
       }
   
       <!-- Location, Type, and Salary -->
-      <div style="
+      <div class="card-bottom" style="
           background-color: rgba(99, 154, 212, 0.1);
           padding: 10px 25px;
           border-radius: 5px;
