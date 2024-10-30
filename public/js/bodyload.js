@@ -731,7 +731,7 @@ function addStyles() {
             color: #666;
             margin-bottom: 5px;
             display: flex;
-            justify-content: space-between;">
+            justify-content: space-evenly;">
           <strong>Type:</strong> ${formatJobType(job.type)}
         </p>
         
@@ -739,9 +739,12 @@ function addStyles() {
             font-size: 1rem; 
             color: #666;
             display: flex;
-            justify-content: space-between;">
-          <strong>Salary:</strong> ${formatCurrency(job.salary, { decimals: 0 })}
+            justify-content: space-evenly;">
+          <strong>Salary:</strong>
+           <p class="card-text">
+          ${formatCurrency(job.salary, { decimals: 0 })}
           <span class="font-italic text-muted">${job.salaryPayTime || ""}</span>
+        </p>
         </p>
       </div>
   
