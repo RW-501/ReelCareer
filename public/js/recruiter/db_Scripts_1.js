@@ -1565,17 +1565,18 @@ const jobHTML = `
 
 };
 
+// Make sure sorting and filtering dropdowns are available
+jobSection = setupSortingAndFiltering(applications);
+
+console.log("setupSortingAndFiltering  ", jobSection);
+
 const groupedApplications = groupApplicationsByJob(applications);
 
 Object.entries(groupedApplications).forEach(([key, applicants]) => {
   const [jobTitle, companyName, boosted] = key.split("|");
   let  jobSection = renderJobTitleWithApplicants(jobTitle, companyName, boosted, applicants);
-  console.log("#application-posts-container  ", jobSection);
+ // console.log("#application-posts-container  ", jobSection);
 
-// Make sure sorting and filtering dropdowns are available
-jobSection = setupSortingAndFiltering(applications);
-
-console.log("setupSortingAndFiltering <BR> #application-posts-container     ", jobSection);
 
 
   $("#application-posts-container").append(jobSection);
