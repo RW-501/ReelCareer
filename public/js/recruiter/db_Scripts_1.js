@@ -1400,7 +1400,9 @@ try {
   console.log("applications Step 1 ", applications);
 
   // Render applications once they are fetched
-  renderApplications(applications);
+  let theReturn = renderApplications(applications);
+
+  console.log("theReturn ", theReturn);
 
   // Attach event listeners after rendering
   attachToggleJobTitles();
