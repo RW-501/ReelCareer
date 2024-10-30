@@ -1242,23 +1242,30 @@ const applicationStatuses = {
 // Define the filtering function first
 const filterApplications = (applications, statusFilter) => {
   applications.forEach(app => {
-      //console.log(`Application ID: ${app.id}, Status: ${JSON.stringify(app.status)}`);
+      console.log(`Application ID: ${app.id}, Status: ${JSON.stringify(app.status)}`);
   });
 
   // If 'all' is selected, return all applications
   if (statusFilter === 'all') return applications;
 
-  // Filter applications based on the statusFilter
+  // Normalize the status filter for comparison
+  const normalizedFilter = statusFilter.toLowerCase();
+
+  // Get the accepted statuses based on the filter
+  const acceptedStatuses = Object.keys(applicationStatuses).find(key =>
+      applicationStatuses[key].some(status => status.toLowerCase() === normalizedFilter)
+  );
+
+  // Filter applications based on the accepted status
   return applications.filter(app => {
       // Check if app.status is an array and if so, filter on that
       if (Array.isArray(app.status)) {
-          return app.status.some(s => s.status.toLowerCase() === statusFilter.toLowerCase());
+          return app.status.some(s => s.status.toLowerCase() === acceptedStatuses);
       } 
       // If status is a string, check directly
-      return typeof app.status === 'string' && app.status.toLowerCase() === statusFilter.toLowerCase();
+      return typeof app.status === 'string' && app.status.toLowerCase() === acceptedStatuses;
   });
 };
-
 
 const sortApplications = (applications, sortCriteria) => {
   return applications.sort((a, b) => {
