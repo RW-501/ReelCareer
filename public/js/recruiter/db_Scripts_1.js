@@ -1761,12 +1761,17 @@ const sortBy = document.querySelector('#sort-applications').value;
 const filterStatus = document.querySelector('#filter-status').value.toLowerCase();
 
 const allApplications = [...document.querySelectorAll('.application-post')];
-let applicantNameClean = removeUndefined(app.dataset.applicantName);
 
 allApplications.forEach(app => {
-  const applicantName = app.dataset.applicantName.toLowerCase();
-  const jobTitle = applicantNameClean.toLowerCase();
-  const applicationStatus = app.dataset.status.toLowerCase();
+
+
+  let applicantNameClean = removeUndefined(app.dataset.applicantName);
+  let jobTitleClean = removeUndefined(app.dataset.jobTitle);
+  let applicationStatusClean = removeUndefined(app.dataset.status);
+
+  const applicantName = applicantNameClean.toLowerCase();
+  const jobTitle = jobTitleClean.toLowerCase();
+  const applicationStatus = applicationStatusClean.toLowerCase();
 
   let shouldDisplay = true;
 
