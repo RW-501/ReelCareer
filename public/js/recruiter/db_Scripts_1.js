@@ -1242,7 +1242,7 @@ const applicationStatuses = {
 // Define the filtering function first
 const filterApplications = (applications, statusFilter) => {
   applications.forEach(app => {
-      console.log(`Application ID: ${app.id}, Status: ${JSON.stringify(app.status)}`);
+      //console.log(`Application ID: ${app.id}, Status: ${JSON.stringify(app.status)}`);
   });
 
   // If 'all' is selected, return all applications
@@ -1446,12 +1446,12 @@ try {
 }
 
 // Function to get applications from the database
-async function getApplicationsFromDB(jobIDs) { 
+async function getApplicationsFromDB(jobIDs) {
   const applicationStatuses = {
-    "approved": ["Application Approved", "application approved", "Application Approved"],
-    "rejected": ["Application Rejected", "application rejected", "Application Rejected"],
-    "under review": ["Under Review", "Under Review", "under_review"],
-    "pending": ["Pending", "pending approval", "Pending Approval"],
+      "approved": ["Application Approved", "application approved", "Application Approved"],
+      "rejected": ["Application Rejected", "application rejected", "Application Rejected"],
+      "under review": ["Under Review", "under review", "under_review"],
+      "pending": ["Pending", "pending approval", "Pending Approval"],
   };
 
   const applicationsRef = collection(db, "Applications");
@@ -1460,20 +1460,31 @@ async function getApplicationsFromDB(jobIDs) {
 
   const applications = [];
   querySnapshot.forEach((doc) => {
-    const application = doc.data();
-    applications.push({ ...application, id: doc.id });
-
+      const application = doc.data();
+      applications.push({ ...application, id: doc.id });
   });
 
   console.log("applications get Apps  ", applications);
 
   // Normalize and map application statuses
   applications.forEach(app => {
-    const statusKey = typeof app.status === 'string' ? app.status.trim().toLowerCase() : "";
-    const statusValue = applicationStatuses[statusKey] || "Unknown Status";
-    
-    updateApplicationUI(app.id, statusValue) 
-    app.normalizedStatus = statusValue; // Add normalized status to the application object
+      let statusValue = "Unknown Status"; // Default value for unknown statuses
+
+      // Handle cases where status is an array
+      if (Array.isArray(app.status)) {
+          // If there are multiple status objects, take the latest one (optional logic)
+          const latestStatus = app.status[app.status.length - 1]; // Assuming the last entry is the most recent
+          const statusKey = latestStatus.status ? latestStatus.status.trim().toLowerCase() : "";
+          statusValue = applicationStatuses[statusKey] ? applicationStatuses[statusKey][0] : "Unknown Status";
+      } else if (typeof app.status === 'string') {
+          // If the status is a string, normalize and check directly
+          const statusKey = app.status.trim().toLowerCase();
+          statusValue = applicationStatuses[statusKey] ? applicationStatuses[statusKey][0] : "Unknown Status";
+      }
+
+      // Update the UI and add the normalized status to the application object
+      updateApplicationUI(app.id, statusValue);
+      app.normalizedStatus = statusValue; // Add normalized status to the application object
   });
 
   return applications;
