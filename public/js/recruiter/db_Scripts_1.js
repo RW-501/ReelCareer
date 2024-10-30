@@ -1561,14 +1561,21 @@ const jobHTML = `
 
 Object.entries(groupedApplications).forEach(([key, applicants]) => {
   const [jobTitle, companyName, boosted] = key.split("|");
-  const jobSection = renderJobTitleWithApplicants(jobTitle, companyName, boosted, applicants);
+  let  jobSection = renderJobTitleWithApplicants(jobTitle, companyName, boosted, applicants);
   console.log("#application-posts-container  ", jobSection);
+
+// Make sure sorting and filtering dropdowns are available
+jobSection = setupSortingAndFiltering(applications);
+
+console.log("setupSortingAndFiltering <BR> #application-posts-container     ", jobSection);
+
 
   $("#application-posts-container").append(jobSection);
 });
 
-// Make sure sorting and filtering dropdowns are available
-setupSortingAndFiltering(applications);
+
+
+
 }
 
 // Function to handle status updates without re-fetching from the database
