@@ -671,9 +671,8 @@ function addStyles() {
         overflow: hidden;
         transition: transform 0.3s ease, box-shadow 0.3s ease;
         padding: 20px;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;">
+
+        ">
       
       <!-- Job Title and Company -->
       <div class="card-top" style="gap: 0.5rem;">
