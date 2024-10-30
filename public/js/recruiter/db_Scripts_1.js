@@ -1235,27 +1235,28 @@ let jobID = '';
 
 // Define the filtering function first
 const filterApplications = (applications, statusFilter) => {
+  if (statusFilter === 'all') return applications;
 
-
-if (statusFilter === 'all') return applications;
-return applications.filter(app => app.status === criteria);
+  return applications.filter(app => 
+      app.status.some(s => s.status === statusFilter)
+  );
 };
 
-// Define the sorting function
 const sortApplications = (applications, sortCriteria) => {
-return applications.sort((a, b) => {
-    switch (sortCriteria) {
-        case "jobTitle": 
-            return (a.jobTitle || '').localeCompare(b.jobTitle || '');
-        case "companyName": 
-            return (a.companyName || '').localeCompare(b.companyName || '');
-            case "applicantName": 
-            return `${a.firstName || ''} ${a.lastName || ''}`.localeCompare(`${b.firstName || ''} ${b.lastName || ''}`);
-        
-        default: 
-            return 0; // No sorting if criteria is unrecognized
-    }
-});
+  return applications.sort((a, b) => {
+      switch (sortCriteria) {
+          case "jobTitle": 
+              return (a.jobTitle || '').localeCompare(b.jobTitle || '');
+          case "companyName": 
+              return (a.companyName || '').localeCompare(b.companyName || '');
+          case "applicantName": 
+              return `${a.firstName || ''} ${a.lastName || ''}`.localeCompare(`${b.firstName || ''} ${b.lastName || ''}`);
+          case "applyDate": // Add sorting by apply date if needed
+              return new Date(a.applyDate) - new Date(b.applyDate);
+          default: 
+              return 0; // No sorting if criteria is unrecognized
+      }
+  });
 };
 
 
