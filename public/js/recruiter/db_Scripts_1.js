@@ -1387,12 +1387,19 @@ return `
   </div>
 `;
 };
+
+
+
 async function fetchJobApplications(jobIDs) {
 jobIDs = removeUndefined(jobIDs);
 
 console.log("fetchJobApplications jobIDs", jobIDs);
+console.log("before    ");
 
 try {
+
+  console.log("try  ?????????  ");
+
   // Show loading state
   $("#application-posts-container").html("<p>Loading applications...</p>");
 
