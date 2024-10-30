@@ -1245,7 +1245,10 @@ const applicationStatuses = {
 
 // Define the filtering function first
 const filterApplications = (applications, statusFilter) => {
-  
+  applications.forEach(app => {
+    console.log(`Application ID: ${app.id}, Status: ${JSON.stringify(app.status)}`);
+});
+
   // If 'all' is selected, return all applications
   if (statusFilter === 'all') return applications;
 
