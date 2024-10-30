@@ -731,10 +731,11 @@ function addStyles() {
             margin-bottom: 5px;
             display: flex;
             justify-content: space-evenly;">
-          <strong>Type:</strong> ${formatJobType(job.type)}
+          <strong>Type:</strong><p> ${formatJobType(job.type)}
+        </p>
         </p>
         
-        <p class="card-text" style="
+        <p class="salary-text" style="
             font-size: 1rem; 
             color: #666;
             display: flex;
