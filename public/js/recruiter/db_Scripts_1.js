@@ -1646,27 +1646,25 @@ if (applicationElement) {
 
 // Toggle Job Title Sections
 function attachToggleJobTitles() {
+  // Toggle for applicant names
+  $(document).on('click', '.applicant-name', function () {
+      console.log("Applicant name clicked");
+      
+      // Toggle application details
+      $(this).closest('.application-post').find('.application-details').toggle();
+  });
 
-
-
-
-// Toggle for applicant names
-$(document).on('click', '.applicant-name', function () {
-console.log("Applicant name clicked");
-
-// Toggle application details
-$(this).closest('.application-post').find('.application-details').toggle();
-});
-
-// Toggle for job titles (assuming this is also included)
-$(document).on('click', '.job-title', function () {
-console.log("Job title clicked");
-
-// Toggle applicants list or details associated with job title
-$(this).next('.applicants-list').toggle(); // Adjust based on your structure
-});
-
+  // Toggle for job titles
+  $(document).on('click', '.job-title', function () {
+      console.log("Job title clicked");
+      
+      // Toggle applicants list or details associated with the job title
+      $(this).closest('.job-title-section').find('.applicants-list').toggle(); // Adjusted to correctly find the associated applicants list
+  });
 }
+
+// Call the function to attach the event listeners
+//attachToggleJobTitles();
 
 $('#sort-applications, #filter-status').on('change', debounce(() => {
 fetchJobApplications(jobIDsList);
