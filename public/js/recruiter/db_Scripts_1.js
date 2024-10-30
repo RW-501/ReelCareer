@@ -2150,3 +2150,38 @@ if (userDoc.exists()) {
 }
 
 */
+
+
+
+
+// Function to open a specific tab
+function openTab(event, tabId) {
+  // Prevent default anchor click behavior
+  event.preventDefault();
+
+  // Remove 'active' class from all tab links and tab panes
+  const tabs = document.querySelectorAll('.nav-link');
+  const tabContents = document.querySelectorAll('.tab-pane');
+
+  tabs.forEach(tab => {
+    tab.classList.remove('active');
+    tab.classList.remove('show');
+  });
+
+  tabContents.forEach(content => {
+    content.classList.remove('active');
+    content.classList.remove('show');
+  });
+
+  // Add 'active' class to the clicked tab link and the corresponding tab pane
+  event.target.classList.add('active');
+  const tabContent = document.querySelector(tabId);
+  tabContent.classList.add('active', 'show');
+}
+
+// Attach click event listeners to the tab links
+document.querySelectorAll('.nav-link').forEach(tab => {
+  tab.addEventListener('click', (event) => {
+    openTab(event, tab.getAttribute('href'));
+  });
+});
