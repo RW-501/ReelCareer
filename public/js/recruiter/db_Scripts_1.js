@@ -1233,14 +1233,10 @@ let jobID = '';
 
 // Define the applicationStatuses object in a globally accessible scope
 const applicationStatuses = {
-  "approved": "Application Approved",
-  "rejected": "Application Rejected",
-  "under review": "Under Review",
-  "pending": "Pending",
-  "application approved": "Application Approved",
-  "application rejected": "Application Rejected",
-  "under review": "Under Review",
-  "pending approval": "Pending Approval"
+  "approved": ["Application Approved", "application approved", "Application Approved"],
+  "rejected": ["Application Rejected", "application rejected", "Application Rejected"],
+  "under review": ["Under Review", "Under Review", "under_review"],
+  "pending": ["Pending", "pending approval", "Pending Approval"],
 };
 
 // Define the filtering function first
@@ -1447,14 +1443,10 @@ try {
 // Function to get applications from the database
 async function getApplicationsFromDB(jobIDs) { 
   const applicationStatuses = {
-    "approved": "Application Approved",
-    "rejected": "Application Rejected",
-    "under review": "Under Review",
-    "pending": "Pending",
-    "application approved": "Application Approved",
-    "application rejected": "Application Rejected",
-    "under review": "Under Review",
-    "pending approval": "Pending Approval"
+    "approved": ["Application Approved", "application approved", "Application Approved"],
+    "rejected": ["Application Rejected", "application rejected", "Application Rejected"],
+    "under review": ["Under Review", "Under Review", "under_review"],
+    "pending": ["Pending", "pending approval", "Pending Approval"],
   };
 
   const applicationsRef = collection(db, "Applications");
