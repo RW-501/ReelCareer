@@ -1231,10 +1231,21 @@ function filterByDeadline() {
 
 let jobID = '';
 
-
+// Define the applicationStatuses object in a globally accessible scope
+const applicationStatuses = {
+  "approved": "Application Approved",
+  "rejected": "Application Rejected",
+  "under review": "Under Review",
+  "pending": "Pending",
+  "application approved": "Application Approved",
+  "application rejected": "Application Rejected",
+  "under review": "Under Review",
+  "pending approval": "Pending Approval"
+};
 
 // Define the filtering function first
 const filterApplications = (applications, statusFilter) => {
+  
   // If 'all' is selected, return all applications
   if (statusFilter === 'all') return applications;
 
