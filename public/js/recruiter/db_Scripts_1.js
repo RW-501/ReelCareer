@@ -1447,6 +1447,63 @@ async function getApplicationsFromDB(jobIDs) {
   return applications;
 }
 
+
+
+function setupSortingAndFiltering(applications){
+
+      // Make sure the sorting and filtering dropdowns are available
+      const sortDropdown = $("#sort-applications");
+      const filterDropdown = $("#filter-status");
+  
+      if (sortDropdown.length === 0) {
+        console.error("Sort dropdown is missing.");
+        return;
+      }
+      if (filterDropdown.length === 0) {
+        console.error("Filter dropdown is missing.");
+        return;
+      }
+  
+      // Get sort and filter criteria from dropdowns; default to empty string if not selected
+      const sortCriteria = sortDropdown.val() || ""; // Default to empty
+      const filterCriteria = filterDropdown.val() || ""; // Default to empty
+  
+      console.log("filterCriteria ", filterCriteria);
+  
+      // If no filter is applied, just use the applications as they are
+      let filteredApplications = applications;
+      if (filterCriteria) {
+        filteredApplications = filterApplications(applications, filterCriteria);
+      }
+  
+      // If no sort is applied, just use the applications as they are
+      let sortedApplications = filteredApplications;
+      if (sortCriteria) {
+        sortedApplications = sortApplications(filteredApplications, sortCriteria);
+      }
+  
+      console.log("sortedApplications   ", sortedApplications);
+  
+      // Group by job title and company name
+      const groupedApplications = groupApplicationsByJob(sortedApplications);
+      console.log("groupedApplications ", groupedApplications);
+  
+      // Render job titles and applicants
+      $("#application-posts-container").empty();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 // Function to render applications
 function renderApplications(applications) {
 const groupedApplications = groupApplicationsByJob(applications);
