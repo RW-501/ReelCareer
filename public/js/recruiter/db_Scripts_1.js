@@ -1235,12 +1235,15 @@ let jobID = '';
 
 // Define the filtering function first
 const filterApplications = (applications, statusFilter) => {
+  // If 'all' is selected, return all applications
   if (statusFilter === 'all') return applications;
 
+  // Filter applications based on the statusFilter
   return applications.filter(app => 
-      app.status.some(s => s.status === statusFilter)
+      app.status.some(s => s.status === applicationStatuses[statusFilter])
   );
 };
+
 
 const sortApplications = (applications, sortCriteria) => {
   return applications.sort((a, b) => {
