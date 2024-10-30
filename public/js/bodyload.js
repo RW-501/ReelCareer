@@ -523,11 +523,21 @@ function addStyles() {
 
 
 
+.gridBody{
+   grid-gap: .05rem !important;
+         display: grid  !important;
 
+}
 
   /* Flexbox Layout Spacing */
   .card-top, .card-bottom {
-      gap: 0.5rem;
+      display: grid  !important;
+    width: auto;
+    column-gap: .5rem !important;
+    -webkit-text-stroke: thin;
+    grid-row: auto;
+    grid-area: auto;
+    grid-gap: .05rem !important;
   }
 
   /* Job Details Section Background and Shadow */
