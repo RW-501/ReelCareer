@@ -628,109 +628,105 @@ function addStyles() {
     jobCard.dataset.submittedBy = job.submittedBy ? job.submittedBy.toLowerCase() : '';
     
     jobCard.innerHTML = `
-      <div class="card jobCard gridBody h-100 shadow-sm" style="
-          border-radius: 12px; 
-          overflow: hidden; 
-          transition: transform 0.3s ease, box-shadow 0.3s ease;">
-          
-        <div class="card-body" style="
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
+    <div class="card jobCard gridBody h-100 shadow-sm" style="
+        border-radius: 12px;
+        overflow: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;">
+      
+      <!-- Job Title and Company -->
+      <div style="gap: 0.5rem;">
+        <a href="${adjustLinkURL}job-detail?id=${job.id}"
+           class="job-title-link" 
+           style="
+             font-size: 1.5rem;
+             font-weight: 800;
+             color: #639ad4a3;
+             margin-bottom: 10px;
+             text-decoration: none;">
+          ${job.title}
+        </a>
+        <p class="card-text" style="
+            font-size: 1.2rem;
+            color: #333;
+            margin-bottom: 10px;
+            background-color: rgba(220, 220, 220, 0.08);
             border-radius: 5px;
-            border-style: solid;
-            border-color: #f4f4f4;">
-            
-          <!-- Job Title and Company -->
-          <div class="gridTop">
-            <a href="${adjustLinkURL}job-detail?id=${
-      job.id
-    }" class="job-title-link" style="
-                font-size: 1.5rem;
-                font-weight: 800;
-                color: #639ad4a3;
-                margin-bottom: 10px;
-                ">
-              ${job.title}
-            </a>
-            <p class="card-text" style="
-                font-size: 1.2rem;
-                color: #333;
-                margin-bottom: 10px;
-                background-color: #dcdcdc14;
-                border-radius: 9px;
-                padding: 9px;
-                border-radius: 5px;
-                border-style: solid;
-                border-color: #84adea08;
-                ">
-                <i class="fas fa-building" style="color: #007bff;"></i>
-              <strong>${ job.company}</strong>
-            </p>
-          </div>
-    
-          <!-- Job Image with Lazy Load (optional) -->
-          ${job.imageUrl
-            ? `
-            <div class="job-image-container mb-3">
-              <img src="${job.imageUrl}" alt="${job.title}" class="img-fluid" loading="lazy" style="border-radius: 8px;">
-            </div>`
-            : ""}
-    
-          <!-- Location, Type, and Salary -->
- <div class="gridMid" style="
-    background-color: #639ad41a;
-    padding: 10px 25px;
-    border-radius: 5px;
-    border-style: solid;
-    border-color: #84adea1a;
-">            <p class="card-text" style="
-                font-size: 1rem; 
-               font-weight: 400; 
-                color: #666; 
-                margin-bottom: 5px;">
-              <i class="fas fa-map-marker-alt" style="color: #007bff;"></i> 
-              ${ formatLocation(job.location)}
-            </p>
-            <p class="card-text" style="
-                font-size: 1rem; 
-                color: #666; 
-                margin-bottom: 5px;                 
-                justify-content: space-between;
-                display: flex;
-                ">
-              <strong>Type:</strong> ${formatJobType(job.type)}
-            </p>
-            <p class="card-text" style="
-                font-size: 1rem; 
-                color: #666;                 
-                justify-content: space-between;
-                display: flex;
-                ">
-              <div class="salary-pay"> <strong>Salary:</strong> ${formatCurrency(job.salary, {
-                decimals: 0
-              })}<pay-period class=" font-italic text-muted"> ${job.salaryPayTime || ""}</pay-period></div>
-            </p>
-          </div>
-    
-          <!-- View Details Button -->
-          <a href="${adjustLinkURL}job-detail?id=${
-      job.id
-    }" class="btn btn-primary w-100 mt-3" style="
-              padding: 12px 0; 
-              background-color: #007bff; 
-              border: none; 
-             font-weight: 600; 
-              border-radius: 8px; 
-              font-size: 16px; 
-              transition: background-color 0.3s ease;
-              text-transform: uppercase;">
-            View Details
-          </a>
-        </div>
+            border: solid 1px rgba(132, 173, 234, 0.03);
+            padding: 9px;">
+            <i class="fas fa-building" style="color: #007bff;"></i>
+            <strong>${job.company}</strong>
+        </p>
       </div>
-      `;
+  
+      <!-- Job Image with Lazy Load (optional) -->
+      ${
+        job.imageUrl
+          ? `
+        <div class="job-image-container mb-3" style="margin-bottom: 15px;">
+          <img src="${job.imageUrl}" alt="${job.title}" class="img-fluid" loading="lazy" style="border-radius: 8px; width: 100%; height: auto;">
+        </div>`
+          : ""
+      }
+  
+      <!-- Location, Type, and Salary -->
+      <div style="
+          background-color: rgba(99, 154, 212, 0.1);
+          padding: 10px 25px;
+          border-radius: 5px;
+          border: solid 1px rgba(132, 173, 234, 0.1);
+          gap: 0.5rem;">
+        
+        <p class="card-text" style="
+            font-size: 1rem; 
+            color: #666;
+            margin-bottom: 5px;">
+          <i class="fas fa-map-marker-alt" style="color: #007bff;"></i> 
+          ${formatLocation(job.location)}
+        </p>
+        
+        <p class="card-text" style="
+            font-size: 1rem; 
+            color: #666;
+            margin-bottom: 5px;
+            display: flex;
+            justify-content: space-between;">
+          <strong>Type:</strong> ${formatJobType(job.type)}
+        </p>
+        
+        <p class="card-text" style="
+            font-size: 1rem; 
+            color: #666;
+            display: flex;
+            justify-content: space-between;">
+          <strong>Salary:</strong> ${formatCurrency(job.salary, { decimals: 0 })}
+          <span class="font-italic text-muted">${job.salaryPayTime || ""}</span>
+        </p>
+      </div>
+  
+      <!-- View Details Button -->
+      <a href="${adjustLinkURL}job-detail?id=${job.id}" 
+         class="btn btn-primary w-100 mt-3" 
+         aria-label="View job details for ${job.title}"
+         style="
+           padding: 12px 0;
+           background-color: #007bff;
+           border: none;
+           font-weight: 600;
+           border-radius: 8px;
+           font-size: 16px;
+           text-transform: uppercase;
+           transition: background-color 0.3s ease;
+           color: white;
+           text-align: center;">
+        View Details
+      </a>
+    </div>
+  `;
+  
       
       jobCard.style.opacity = '0';
  
