@@ -1155,19 +1155,21 @@ if (typeof status === 'string') {
 
 return iconClass;
 }
-
 function getStatusColor(status) {
-switch (status.toLowerCase()) {
-    case 'active': return 'green';
-    case 'paused': return 'yellow';
-    case 'deactivated': return 'red';
-    case 'approved': return 'blue';
-    case 'rejected': return 'darkred';
-    case 'under review': return 'orange';
-    default: return 'gray';
+  if (typeof status !== 'string') {
+      return 'gray'; // Default color for non-string values
+  }
+  
+  switch (status.toLowerCase()) {
+      case 'active': return 'green';
+      case 'paused': return 'yellow';
+      case 'deactivated': return 'red';
+      case 'approved': return 'blue';
+      case 'rejected': return 'darkred';
+      case 'under review': return 'orange';
+      default: return 'gray';
+  }
 }
-}
-
 
 
 
