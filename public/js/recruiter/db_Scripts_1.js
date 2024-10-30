@@ -1287,18 +1287,6 @@ const sortApplications = (applications, sortCriteria) => {
 
 
 
-// Utility: Date Formatting
-const formatDate = (dateObj) => dateObj ? new Date(dateObj.seconds * 1000).toLocaleDateString() : "Not available";
-
-const getBoostedStyle = (isBoosted) => {
-if (isBoosted) {
-    return 'background-color: yellow; font-weight: bold;'; // Example boosted style
-} else {
-    return ''; // No special style for non-boosted applications
-}
-};
-
-
 // Group Applications by Job Title and Company
 const groupApplicationsByJob = (applications) => {
 return applications.reduce((acc, app) => {
@@ -1312,6 +1300,23 @@ return applications.reduce((acc, app) => {
 const renderApplicationHTML = (application, jobTitle, companyName) => {
 const statusIcon = getStatusIcon(application.status);
 const statusColor = getStatusColor(application.status);
+
+// Get the latest status from the array, assuming it's sorted by timestamp or use the last entry.
+const latestStatus = application.status && application.status.length > 0
+  ? application.status[application.status.length - 1].status
+  : "No Status";
+
+
+// Utility: Date Formatting
+const formatDate = (dateObj) => dateObj ? new Date(dateObj.seconds * 1000).toLocaleDateString() : "Not available";
+
+const getBoostedStyle = (isBoosted) => {
+if (isBoosted) {
+    return 'background-color: yellow; font-weight: bold;'; // Example boosted style
+} else {
+    return ''; // No special style for non-boosted applications
+}
+};
 
 const customQuestionsButton = application.customQuestions && application.customQuestions.length > 0
   ? `<button class="btn btn-outline-info mt-3 view-video-answers" data-applicant-id="${application.id}">
@@ -1344,8 +1349,15 @@ const statusButtons = {
 };
 
 return `
-  <div class="application-post card mb-3" data-applicant-id="${application.id}" style="border: ${getBoostedStyle(application.isBoosted)};">
-    <div class="card-body">
+  <div class="application-post card mb-3" 
+       data-applicant-id="${application.id}" 
+       data-applicant-name="${application.firstName} ${application.lastName}" 
+       data-job-title="${jobTitle}" 
+       data-status="${latestStatus}" 
+       style="border: ${getBoostedStyle(application.isBoosted)};">
+    <!-- The rest of your template -->
+
+     <div class="card-body">
       <div class="d-flex justify-content-between align-items-center">
         <div class="d-flex align-items-center">
           <h5 class="applicant-name card-title text-primary" style="color: ${statusColor}; cursor: pointer;">
@@ -1368,7 +1380,7 @@ return `
         <ul class="list-group list-group-flush">
           <li class="list-group-item"><strong>Job Title:</strong> ${jobTitle}</li>
           <li class="list-group-item"><strong>Company Name:</strong> ${companyName}</li>
-          <li class="list-group-item"><strong>Apply Date:</strong> ${formatDate(application.applyDate)}</li>
+          <li class="list-group-item"><strong>Apply Date:</strong> ${formatDate(application.applyDate) || application.applyDate}}</li>
           <li class="list-group-item"><strong>Email:</strong> ${application.email}</li>
           <li class="list-group-item"><strong>Phone:</strong> ${application.phone}</li>
           <li class="list-group-item"><strong>Portfolio:</strong> <a href="${application.portfolio}" target="_blank">${application.portfolio || 'N/A'}</a></li>
