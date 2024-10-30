@@ -1756,81 +1756,94 @@ return
 }
 
 // Example of filtering and sorting logic
-function filterAndSortApplications() {
-const searchQuery = document.querySelector('#search-applicant').value.toLowerCase();
-const sortBy = document.querySelector('#sort-applications').value;
-const filterStatus = document.querySelector('#filter-status').value.toLowerCase();
+function filterAndSortApplications(resetFilters = false) { 
+  // Select search, sort, and filter elements
+  const searchInput = document.querySelector('#search-applicant');
+  const sortByInput = document.querySelector('#sort-applications');
+  const filterStatusInput = document.querySelector('#filter-status');
 
-const allApplications = [...document.querySelectorAll('.application-post')];
-
-allApplications.forEach(app => {
-
-
-  let applicantNameClean = removeUndefined(app.dataset.applicantName);
-  let jobTitleClean = removeUndefined(app.dataset.jobTitle);
-  let applicationStatusClean = removeUndefined(app.dataset.status);
-
-  const applicantName = applicantNameClean.toLowerCase();
-  const jobTitle = jobTitleClean.toLowerCase();
-  const applicationStatus = applicationStatusClean.toLowerCase();
-
-  let shouldDisplay = true;
-
-  // Apply search filter for applicant name and job title
-  if (searchQuery && !applicantName.includes(searchQuery) && !jobTitle.includes(searchQuery)) {
-    shouldDisplay = false;
+  // Reset filters if requested
+  if (resetFilters) {
+    searchInput.value = '';
+    sortByInput.value = 'applicant-name-asc'; // or a default sorting option
+    filterStatusInput.value = 'all';
   }
 
-  // Apply status filter
-  if (filterStatus !== 'all' && applicationStatus !== filterStatus) {
-    shouldDisplay = false;
+  const searchQuery = searchInput.value.toLowerCase();
+  const sortBy = sortByInput.value;
+  const filterStatus = filterStatusInput.value.toLowerCase();
+
+  const allApplications = [...document.querySelectorAll('.application-post')];
+
+  allApplications.forEach(app => {
+    console.log("app:  ", app);
+
+    let applicantNameClean = removeUndefined(app.dataset.applicantName);
+    let jobTitleClean = removeUndefined(app.dataset.jobTitle);
+    let applicationStatusClean = removeUndefined(app.dataset.status);
+
+    const applicantName = applicantNameClean.toLowerCase();
+    const jobTitle = jobTitleClean.toLowerCase();
+    const applicationStatus = applicationStatusClean.toLowerCase();
+
+    let shouldDisplay = true;
+
+    // Apply search filter for applicant name and job title
+    if (searchQuery && !applicantName.includes(searchQuery) && !jobTitle.includes(searchQuery)) {
+      shouldDisplay = false;
+    }
+
+    // Apply status filter
+    if (filterStatus !== 'all' && applicationStatus !== filterStatus) {
+      shouldDisplay = false;
+    }
+
+    // Display or hide based on filtering
+    app.style.display = shouldDisplay ? 'block' : 'none';
+  });
+
+  // Apply sorting logic based on the sortBy value
+  const sortedApplications = allApplications.filter(app => app.style.display !== 'none');
+
+  if (sortBy === 'applicant-name-asc') {
+    sortedApplications.sort((a, b) => 
+      a.dataset.applicantName.localeCompare(b.dataset.applicantName)
+    );
+  } else if (sortBy === 'applicant-name-desc') {
+    sortedApplications.sort((a, b) => 
+      b.dataset.applicantName.localeCompare(a.dataset.applicantName)
+    );
+  } else if (sortBy === 'job-title-asc') {
+    sortedApplications.sort((a, b) => 
+      a.dataset.jobTitle.localeCompare(b.dataset.jobTitle)
+    );
+  } else if (sortBy === 'job-title-desc') {
+    sortedApplications.sort((a, b) => 
+      b.dataset.jobTitle.localeCompare(a.dataset.jobTitle)
+    );
+  } else if (sortBy === 'company-name-asc') {
+    sortedApplications.sort((a, b) => 
+      a.dataset.companyName.localeCompare(b.dataset.companyName)
+    );
+  } else if (sortBy === 'company-name-desc') {
+    sortedApplications.sort((a, b) => 
+      b.dataset.companyName.localeCompare(a.dataset.companyName)
+    );
   }
-  
-  // Display or hide based on filtering
-  app.style.display = shouldDisplay ? 'block' : 'none';
-});
 
-// Apply sorting logic based on the sortBy value
-const sortedApplications = allApplications.filter(app => app.style.display !== 'none');
-
-if (sortBy === 'applicant-name-asc') {
-  sortedApplications.sort((a, b) => 
-    a.dataset.applicantName.localeCompare(b.dataset.applicantName)
-  );
-} else if (sortBy === 'applicant-name-desc') {
-  sortedApplications.sort((a, b) => 
-    b.dataset.applicantName.localeCompare(a.dataset.applicantName)
-  );
-} else if (sortBy === 'job-title-asc') {
-  sortedApplications.sort((a, b) => 
-    a.dataset.jobTitle.localeCompare(b.dataset.jobTitle)
-  );
-} else if (sortBy === 'job-title-desc') {
-  sortedApplications.sort((a, b) => 
-    b.dataset.jobTitle.localeCompare(a.dataset.jobTitle)
-  );
-} else if (sortBy === 'company-name-asc') {
-  sortedApplications.sort((a, b) => 
-    a.dataset.companyName.localeCompare(b.dataset.companyName)
-  );
-} else if (sortBy === 'company-name-desc') {
-  sortedApplications.sort((a, b) => 
-    b.dataset.companyName.localeCompare(a.dataset.companyName)
-  );
+  // Finally, append sorted applications back to the container
+  const container = document.querySelector('#application-posts-container');
+  container.innerHTML = '';
+  sortedApplications.forEach(app => container.appendChild(app));
 }
-
-// Finally, append sorted applications back to the container
-const container = document.querySelector('#application-posts-container');
-container.innerHTML = '';
-sortedApplications.forEach(app => container.appendChild(app));
-}
-
 
 // Attach event listeners for search, sort, and filter
-document.querySelector('#search-applicant').addEventListener('input', filterAndSortApplications);
-document.querySelector('#sort-applications').addEventListener('change', filterAndSortApplications);
-document.querySelector('#filter-status').addEventListener('change', filterAndSortApplications);
+document.querySelector('#search-applicant').addEventListener('input', () => filterAndSortApplications());
+document.querySelector('#sort-applications').addEventListener('change', () => filterAndSortApplications());
+document.querySelector('#filter-status').addEventListener('change', () => filterAndSortApplications());
 
+// Attach event listener for clear filters button
+document.querySelector('#clear-filters').addEventListener('click', () => filterAndSortApplications(true));
 
 // Action Buttons Event Listeners
 function attachActionButtons() {
