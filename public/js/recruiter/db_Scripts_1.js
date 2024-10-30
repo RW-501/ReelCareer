@@ -1614,25 +1614,6 @@ allApplications.forEach(app => {
     shouldDisplay = false;
   }
 
-<<<<<<< HEAD
-=======
-  // Apply status filter, handling both old and new status terms
-  if (filterStatus !== 'all') {
-    // Find if the applicationStatus matches any status in the selected filterStatus group
-    const validStatuses = statusMappings[filterStatus] || [filterStatus]; // Use filterStatus directly if it's not mapped
-    if (!validStatuses.includes(applicationStatus)) {
-      shouldDisplay = false;
-    }
-  }
-
-  // Apply search filter
-
-  // Apply search filter
-  if (searchQuery && !applicantName.includes(searchQuery) && !jobTitle.includes(searchQuery)) {
-    shouldDisplay = false;
-  }
-
->>>>>>> 9b154b30f2f13a7c18bb9a413325b4860e98a00d
   // Apply status filter
   if (filterStatus !== 'all' && applicationStatus !== filterStatus) {
     shouldDisplay = false;
