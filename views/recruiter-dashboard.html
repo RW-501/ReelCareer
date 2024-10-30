@@ -295,18 +295,29 @@
             <option value="jobTitle">Sort by Job Title</option>
             <option value="companyName">Sort by Company Name</option>
             <option value="applicantName">Sort by Applicant Name</option>
+            <option value="apply-date-asc">Sort by Apply Date (Oldest First)</option>
+            <option value="apply-date-desc">Sort by Apply Date (Newest First)</option>
+            <option value="boosted-first">Sort by Boosted Applications First</option>
           </select>
-
+        
           <select id="filter-status" class="form-select">
             <option value="all">All Statuses</option>
+            <option value="active">Sort by New Applications</option>
             <option value="approved">Approved</option>
             <option value="under_review">Under Review</option>
             <option value="rejected">Rejected</option>
             <option value="pending">Pending</option>
           </select>
-          <!-- Clear Filters Button -->
+        
+          <select id="filter-boosted" class="form-select">
+            <option value="all">All Applications</option>
+            <option value="boosted">Boosted Only</option>
+            <option value="non-boosted">Non-Boosted Only</option>
+          </select>
+        
           <button class="btn btn-outline-secondary" id="clear-filters">Clear Filters</button>
         </div>
+        
 
         <!-- Application Cards -->
         <div id="application-posts-container" class="application-list mt-4  g-3">

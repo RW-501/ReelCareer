@@ -1237,12 +1237,13 @@ const applicationStatuses = {
   "rejected": ["Application Rejected", "application rejected", "Application Rejected"],
   "under review": ["Under Review", "Under Review", "under_review"],
   "pending": ["Pending", "pending approval", "Pending Approval"],
+  "new": ["active", "Active"],
 };
 
 // Define the filtering function first
 const filterApplications = (applications, statusFilter) => {
   applications.forEach(app => {
-      console.log(`Application ID: ${app.id}, Status: ${JSON.stringify(app.status)}`);
+    //  console.log(`Application ID: ${app.id}, Status: ${JSON.stringify(app.status)}`);
   });
 
   // If 'all' is selected, return all applications
@@ -1267,7 +1268,7 @@ const filterApplications = (applications, statusFilter) => {
   });
 };
 
-const sortApplications = (applications, sortCriteria) => {
+const sortApplications = (applications, sortCriteria) => { 
   return applications.sort((a, b) => {
       switch (sortCriteria) {
           case "jobTitle": 
@@ -1276,13 +1277,16 @@ const sortApplications = (applications, sortCriteria) => {
               return (a.companyName || '').localeCompare(b.companyName || '');
           case "applicantName": 
               return `${a.firstName || ''} ${a.lastName || ''}`.localeCompare(`${b.firstName || ''} ${b.lastName || ''}`);
-          case "applyDate": // Add sorting by apply date if needed
+          case "applyDate": 
               return new Date(a.applyDate) - new Date(b.applyDate);
+          case "boostedApp":
+              return b.boostedApp - a.boostedApp; // prioritize boosted applications
           default: 
-              return 0; // No sorting if criteria is unrecognized
+              return 0;
       }
   });
 };
+
 
 
 
@@ -1350,12 +1354,23 @@ const statusButtons = {
 
 return `
   <div class="application-post card mb-3" 
-       data-applicant-id="${application.id}" 
+       data-applicant-id="${application.userId}" 
        data-applicant-name="${application.firstName} ${application.lastName}" 
-       data-job-title="${jobTitle}" 
-       data-status="${latestStatus}" 
-       style="border: ${getBoostedStyle(application.isBoosted)};">
-    <!-- The rest of your template -->
+       data-job-title="${application.jobTitle}" 
+       data-status="${application.status[0]?.status || 'N/A'}" 
+       data-apply-date="${application.applyDate}" 
+       data-boosted="${application.boostedApp}" 
+       data-company-name="${application.companyName}" 
+       data-email="${application.email}" 
+       data-interview-request="${application.interviewRequestBool}" 
+       data-interview-request-date="${application.interviewRequestDate}" 
+       data-job-id="${application.jobId}" 
+       data-notes="${application.notes?.join(', ') || 'N/A'}" 
+       data-phone="${application.phone}" 
+       data-test-request="${application.testRequestBool}" 
+       data-test-request-expire-date="${application.testRequestExpireDate}" 
+       style="border: ${getBoostedStyle(application.boostedApp)};">
+
 
      <div class="card-body">
       <div class="d-flex justify-content-between align-items-center">
@@ -1433,13 +1448,11 @@ jobIDs = removeUndefined(jobIDs);
 
 console.log("fetchJobApplications jobIDs", jobIDs);
 
-console.log("before    ");
 
 
 
 try {
 
-  console.log("try  ????????newwwww?  ");
 
 
   // Show loading state
@@ -1471,7 +1484,9 @@ async function getApplicationsFromDB(jobIDs) {
       "rejected": ["Application Rejected", "application rejected", "Application Rejected"],
       "under review": ["Under Review", "under review", "under_review"],
       "pending": ["Pending", "pending approval", "Pending Approval"],
-  };
+      "new": ["active", "Active"],
+    };
+    
 
   const applicationsRef = collection(db, "Applications");
   const applicationsQuery = query(applicationsRef, where("jobId", "in", jobIDs));
@@ -1610,7 +1625,6 @@ const jobHTML = `
 
   }
 
-
 };
 
 // Make sure sorting and filtering dropdowns are available
@@ -1621,6 +1635,12 @@ Object.entries(groupedApplications).forEach(([key, applicants]) => {
   const [jobTitle, companyName, boosted] = key.split("|");
   let  jobSection = renderJobTitleWithApplicants(jobTitle, companyName, boosted, applicants);
  // console.log("#application-posts-container  ", jobSection);
+
+ //renderApplication(applicantId, status, jobSection);
+ console.log("key  ", key);
+ console.log("applicants  ", applicants);
+ console.log("applications  ", applications);
+
 
   $("#application-posts-container").append(jobSection);
 });
@@ -1714,14 +1734,15 @@ $('[data-toggle="tooltip"]').tooltip();
 
 // Function to render applications dynamically based on status
 function renderApplication(applicantId, status, applicationHTML) {
-console.log("status  ", status);
+console.log("status Main???  ", status);
 
 // Mapping system for statuses
 const statusMappings = {
   "approved": ["approved", "Application Approved", "application approved"],
   "rejected": ["rejected", "Application Rejected", "application rejected"],
   "under review": ["under review", "Under Review"],
-  "pending": ["pending", "pending approval", "Pending Approval"]
+  "pending": ["pending", "pending approval", "Pending Approval"],
+  "active": ["active", "Active"]
 };
 
 // Mapping system for corresponding section IDs
@@ -1730,6 +1751,7 @@ const sectionIdMap = {
   'under review': '#underReviewApplicationsContainer',
   'rejected': '#rejectedApplicationsContainer',
   'pending': '#pendingApplicationsContainer'
+ // 'active': '#activeApplicationsContainer'
 };
 
 // Function to normalize status
@@ -1769,38 +1791,34 @@ return
 
 // Example of filtering and sorting logic
 function filterAndSortApplications(resetFilters = false) { 
-  // Select search, sort, and filter elements
   const searchInput = document.querySelector('#search-applicant');
   const sortByInput = document.querySelector('#sort-applications');
   const filterStatusInput = document.querySelector('#filter-status');
+  const filterBoostedInput = document.querySelector('#filter-boosted'); // new filter for boosted apps
 
-  // Reset filters if requested
   if (resetFilters) {
     searchInput.value = '';
-    sortByInput.value = 'applicant-name-asc'; // or a default sorting option
+    sortByInput.value = 'applicant-name-asc';
     filterStatusInput.value = 'all';
+    filterBoostedInput.value = 'all';
   }
 
   const searchQuery = searchInput.value.toLowerCase();
   const sortBy = sortByInput.value;
   const filterStatus = filterStatusInput.value.toLowerCase();
+  const filterBoosted = filterBoostedInput.value;
 
   const allApplications = [...document.querySelectorAll('.application-post')];
 
   allApplications.forEach(app => {
-    console.log("app:  ", app);
-
-    let applicantNameClean = removeUndefined(app.dataset.applicantName);
-    let jobTitleClean = removeUndefined(app.dataset.jobTitle);
-    let applicationStatusClean = removeUndefined(app.dataset.status);
-
-    const applicantName = applicantNameClean.toLowerCase();
-    const jobTitle = jobTitleClean.toLowerCase();
-    const applicationStatus = applicationStatusClean.toLowerCase();
+    const applicantName = (app.dataset.applicantName || '').toLowerCase();
+    const jobTitle = (app.dataset.jobTitle || '').toLowerCase();
+    const applicationStatus = (app.dataset.status || '').toLowerCase();
+    const boostedStatus = app.dataset.boosted === 'true';
 
     let shouldDisplay = true;
 
-    // Apply search filter for applicant name and job title
+    // Apply search filter
     if (searchQuery && !applicantName.includes(searchQuery) && !jobTitle.includes(searchQuery)) {
       shouldDisplay = false;
     }
@@ -1810,40 +1828,46 @@ function filterAndSortApplications(resetFilters = false) {
       shouldDisplay = false;
     }
 
-    // Display or hide based on filtering
+    // Apply boosted filter
+    if (filterBoosted === 'boosted' && !boostedStatus) {
+      shouldDisplay = false;
+    } else if (filterBoosted === 'non-boosted' && boostedStatus) {
+      shouldDisplay = false;
+    }
+
     app.style.display = shouldDisplay ? 'block' : 'none';
   });
 
-  // Apply sorting logic based on the sortBy value
+  // Apply sorting based on sortBy value
   const sortedApplications = allApplications.filter(app => app.style.display !== 'none');
 
-  if (sortBy === 'applicant-name-asc') {
-    sortedApplications.sort((a, b) => 
-      a.dataset.applicantName.localeCompare(b.dataset.applicantName)
-    );
-  } else if (sortBy === 'applicant-name-desc') {
-    sortedApplications.sort((a, b) => 
-      b.dataset.applicantName.localeCompare(a.dataset.applicantName)
-    );
-  } else if (sortBy === 'job-title-asc') {
-    sortedApplications.sort((a, b) => 
-      a.dataset.jobTitle.localeCompare(b.dataset.jobTitle)
-    );
-  } else if (sortBy === 'job-title-desc') {
-    sortedApplications.sort((a, b) => 
-      b.dataset.jobTitle.localeCompare(a.dataset.jobTitle)
-    );
-  } else if (sortBy === 'company-name-asc') {
-    sortedApplications.sort((a, b) => 
-      a.dataset.companyName.localeCompare(b.dataset.companyName)
-    );
-  } else if (sortBy === 'company-name-desc') {
-    sortedApplications.sort((a, b) => 
-      b.dataset.companyName.localeCompare(a.dataset.companyName)
-    );
+  switch (sortBy) {
+    case 'applicant-name-asc':
+      sortedApplications.sort((a, b) => a.dataset.applicantName.localeCompare(b.dataset.applicantName));
+      break;
+    case 'applicant-name-desc':
+      sortedApplications.sort((a, b) => b.dataset.applicantName.localeCompare(a.dataset.applicantName));
+      break;
+    case 'job-title-asc':
+      sortedApplications.sort((a, b) => a.dataset.jobTitle.localeCompare(b.dataset.jobTitle));
+      break;
+    case 'job-title-desc':
+      sortedApplications.sort((a, b) => b.dataset.jobTitle.localeCompare(a.dataset.jobTitle));
+      break;
+    case 'apply-date-asc':
+      sortedApplications.sort((a, b) => new Date(a.dataset.applyDate) - new Date(b.dataset.applyDate));
+      break;
+    case 'apply-date-desc':
+      sortedApplications.sort((a, b) => new Date(b.dataset.applyDate) - new Date(a.dataset.applyDate));
+      break;
+    case 'boosted-first':
+      sortedApplications.sort((a, b) => (b.dataset.boosted === 'true') - (a.dataset.boosted === 'true'));
+      break;
+    default:
+      break;
   }
 
-  // Finally, append sorted applications back to the container
+  // Update the DOM
   const container = document.querySelector('#application-posts-container');
   container.innerHTML = '';
   sortedApplications.forEach(app => container.appendChild(app));
@@ -1853,6 +1877,7 @@ function filterAndSortApplications(resetFilters = false) {
 document.querySelector('#search-applicant').addEventListener('input', () => filterAndSortApplications());
 document.querySelector('#sort-applications').addEventListener('change', () => filterAndSortApplications());
 document.querySelector('#filter-status').addEventListener('change', () => filterAndSortApplications());
+document.querySelector('#filter-boosted').addEventListener('change', () => filterAndSortApplications());
 
 // Attach event listener for clear filters button
 document.querySelector('#clear-filters').addEventListener('click', () => filterAndSortApplications(true));
