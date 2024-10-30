@@ -1506,8 +1506,12 @@ function setupSortingAndFiltering(applications){
   
       // Render job titles and applicants
       $("#application-posts-container").empty();
-}
 
+   // Render grouped applications or whatever you need to display
+    // For example: renderGroupedApplications(groupedApplications);
+
+    return sortedApplications; // Ensure you return a value here
+}
 
 
 
@@ -1522,7 +1526,6 @@ function setupSortingAndFiltering(applications){
 
 // Function to render applications
 function renderApplications(applications) {
-const groupedApplications = groupApplicationsByJob(applications);
 $("#application-posts-container").empty();
 
 
@@ -1562,6 +1565,7 @@ const jobHTML = `
 
 };
 
+const groupedApplications = groupApplicationsByJob(applications);
 
 Object.entries(groupedApplications).forEach(([key, applicants]) => {
   const [jobTitle, companyName, boosted] = key.split("|");
