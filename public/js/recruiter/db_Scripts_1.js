@@ -1996,6 +1996,8 @@ selectedApplicants.forEach(applicant => {
 // Function to approve the application
 async function approveApplication(applicantId) {
 try {
+  console.log(`db: ${db}    `);
+
   // Add the new status to the application's status array in the database
   await updateDoc(doc(db, "Applications", applicantId), {
     status: arrayUnion({  // Use arrayUnion to append a new status
@@ -2061,6 +2063,8 @@ if (event.target.classList.contains('save-application')) {
 if (event.target.classList.contains('approve-application')) {
     const applicantId = event.target.getAttribute('data-applicant-id');
     approveApplication(applicantId);
+    console.log(`approveApplication: ${applicantId}    `);
+
 }
 
 if (event.target.classList.contains('reject-application')) {
