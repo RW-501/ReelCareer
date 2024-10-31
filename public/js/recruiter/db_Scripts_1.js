@@ -1637,7 +1637,7 @@ Object.entries(groupedApplications).forEach(([key, applicants]) => {
  // console.log("#application-posts-container  ", jobSection);
 
  //renderApplication(applicantId, status, jobSection);
- console.log("key  ", key);
+ console.log("key????????????  ", key);
  console.log("applicants  ", applicants);
  console.log("applications  ", applications);
 
