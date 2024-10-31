@@ -1291,14 +1291,8 @@ const sortApplications = (applications, sortCriteria) => {
 
 
 
-// Group Applications by Job Title and Company
-const groupApplicationsByJob = (applications) => {
-return applications.reduce((acc, app) => {
-  const key = `${app.jobTitle}|${app.companyName}`;
-  (acc[key] = acc[key] || []).push(app);
-    return acc;
-}, {});
-};
+
+const applications = [];
 
 // Function to render single application HTML
 const renderApplicationHTML = (application, jobTitle, companyName) => {
@@ -1486,18 +1480,18 @@ async function getApplicationsFromDB(jobIDs) {
       "new": ["active", "Active"],
     };
     
+    if (applications.length === 0) {  // Check if 'applications' array is empty
+      const applicationsRef = collection(db, "Applications");
+      const applicationsQuery = query(applicationsRef, where("jobId", "in", jobIDs));
+      const querySnapshot = await getDocs(applicationsQuery);
+      console.log("applications DB pull:  ", applications);
 
-  const applicationsRef = collection(db, "Applications");
-  const applicationsQuery = query(applicationsRef, where("jobId", "in", jobIDs));
-  const querySnapshot = await getDocs(applicationsQuery);
-
-  const applications = [];
-  querySnapshot.forEach((doc) => {
-      const application = doc.data();
-      applications.push({ ...application, id: doc.id });
-  });
-
-  console.log("applications get Apps  ", applications);
+      querySnapshot.forEach((doc) => {
+          const application = doc.data();
+          applications.push({ ...application, id: doc.id });
+      });
+    }
+    
 
   // Normalize and map application statuses
   applications.forEach(app => {
@@ -1509,15 +1503,15 @@ async function getApplicationsFromDB(jobIDs) {
           const latestStatus = app.status[app.status.length - 1]; // Assuming the last entry is the most recent
           const statusKey = latestStatus.status ? latestStatus.status.trim().toLowerCase() : "";
           statusValue = applicationStatuses[statusKey] ? applicationStatuses[statusKey][0] : "active";
-          console.log("Array.isArray   applicationStatuses[statusKey]  ", applicationStatuses[statusKey], "  applicationStatuses[statusKey][0]  " );
+      //    console.log("Array.isArray   applicationStatuses[statusKey]  ", applicationStatuses[statusKey], "  applicationStatuses[statusKey][0]  " );
 
         } else if (typeof app.status === 'string') {
           // If the status is a string, normalize and check directly
           const statusKey = app.status.trim().toLowerCase();
           statusValue = applicationStatuses[statusKey] ? applicationStatuses[statusKey][0] : "active";
-          console.log("typeof   applicationStatuses[statusKey]  ", applicationStatuses[statusKey], "  applicationStatuses[statusKey][0]  ",applicationStatuses[statusKey][0] );
+        //  console.log("typeof   applicationStatuses[statusKey]  ", applicationStatuses[statusKey], "  applicationStatuses[statusKey][0]  ",applicationStatuses[statusKey][0] );
         }
-      console.log("app.id  ", app.id, "  statusValue  ",statusValue );
+    //  console.log("app.id  ", app.id, "  statusValue  ",statusValue );
 
       // Update the UI and add the normalized status to the application object
       updateApplicationUI(app.id, statusValue);
@@ -1548,8 +1542,7 @@ function setupSortingAndFiltering(applications){
       const sortCriteria = sortDropdown.val() || ""; // Default to empty
       const filterCriteria = filterDropdown.val() || ""; // Default to empty
   
-      console.log("filterCriteria ", filterCriteria);
-  
+
       // If no filter is applied, just use the applications as they are
       let filteredApplications = applications;
       if (filterCriteria) {
@@ -1565,8 +1558,12 @@ function setupSortingAndFiltering(applications){
   
       console.log("sortedApplications   ", sortedApplications);
   
+      console.log("sortCriteria ", sortCriteria);
+      console.log("filterCriteria ", filterCriteria);
+  
+
       // Group by job title and company name
-      const groupedApplications = groupApplicationsByJob(sortedApplications);
+      const groupedApplications = groupApplicationsWithTitles(sortedApplications);
       console.log("groupedApplications ", groupedApplications);
   
       // Render job titles and applicants
@@ -1577,7 +1574,14 @@ function setupSortingAndFiltering(applications){
 }
 
 
-
+// Group Applications by Job Title and Company
+const groupApplicationsWithTitles = (applications) => {
+  return applications.reduce((acc, app) => {
+    const key = `${app.jobTitle}|${app.companyName}`;
+    (acc[key] = acc[key] || []).push(app);
+      return acc;
+  }, {});
+  };
 
 
 
