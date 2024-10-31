@@ -1510,7 +1510,7 @@ async function getApplicationsFromDB(jobIDs) {
           const latestStatus = app.status[app.status.length - 1]; // Assuming the last entry is the most recent
           const statusKey = latestStatus.status ? latestStatus.status.trim().toLowerCase() : "";
           statusValue = applicationStatuses[statusKey] ? applicationStatuses[statusKey][0] : "active";
-          console.log("Array.isArray   applicationStatuses[statusKey]  ", applicationStatuses[statusKey], "  applicationStatuses[statusKey][0]  ",applicationStatuses[statusKey][0] );
+          console.log("Array.isArray   applicationStatuses[statusKey]  ", applicationStatuses[statusKey], "  applicationStatuses[statusKey][0]  " );
 
         } else if (typeof app.status === 'string') {
           // If the status is a string, normalize and check directly
