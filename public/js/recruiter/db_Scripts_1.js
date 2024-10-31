@@ -1634,12 +1634,13 @@ console.log("setupSortingAndFiltering  ", groupedApplications);
 Object.entries(groupedApplications).forEach(([key, applicants]) => {
   const [jobTitle, companyName, boosted] = key.split("|");
   let  jobSection = renderJobTitleWithApplicants(jobTitle, companyName, boosted, applicants);
- // console.log("#application-posts-container  ", jobSection);
+ //console.log("#application-posts-container  ", jobSection);
 
- //renderApplication(applicantId, status, jobSection);
+ 
+ renderApplication(applicants.id, applicants.status[0], jobSection);
  console.log("key????????????  ", key);
- console.log("applicants  ", applicants);
- console.log("applications  ", applications);
+ //console.log("applicants  ", applicants);
+ //console.log("applications  ", applications);
 
 
   $("#application-posts-container").append(jobSection);
