@@ -1762,16 +1762,18 @@ const sectionIdMap = {
 
 // Function to normalize status
 function getStatusKey(status) {
+  // Ensure 'status' is a string before proceeding
+  const statusString = typeof status === 'object' && status !== null ? status.status : status;
 
   for (const [key, variations] of Object.entries(statusMappings)) {
-    if (variations.includes(status.toLowerCase())) {
+    if (variations.includes(statusString.toLowerCase())) {
       return key; // Return the standard status key if a match is found
     }
   }  
 
-
   return null; // Return null if no matching status is found
 }
+
 //status = removeUndefined(status);
 
 // Get the normalized status key
