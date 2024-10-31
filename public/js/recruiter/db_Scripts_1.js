@@ -1644,7 +1644,7 @@ Object.entries(groupedApplications).forEach(([key, applicants]) => {
   // Render application with safe status check
   renderApplication(applicants.id, status, jobSection);
   
-console.log("key????????????  ", key);
+console.log("status????????????  ", status);
  //console.log("applicants  ", applicants);
  //console.log("applications  ", applications);
 
