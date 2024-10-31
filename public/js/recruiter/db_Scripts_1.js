@@ -1502,7 +1502,7 @@ async function getApplicationsFromDB(jobIDs) {
 
   // Normalize and map application statuses
   applications.forEach(app => {
-      let statusValue = "Unknown Status"; // Default value for unknown statuses
+      let statusValue = "active"; // Default value for unknown statuses
 
       // Handle cases where status is an array
       if (Array.isArray(app.status)) {
