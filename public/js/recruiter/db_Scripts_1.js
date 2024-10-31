@@ -1309,6 +1309,8 @@ const latestStatus = application.status && application.status.length > 0
 const formatDate = (dateObj) => dateObj ? new Date(dateObj.seconds * 1000).toLocaleDateString() : "Not available";
 
 const getBoostedStyle = (isBoosted) => {
+  console.log("isBoosted????????????  ", isBoosted);
+
 if (isBoosted) {
     return 'background-color: yellow; font-weight: bold;'; // Example boosted style
 } else {
@@ -1345,6 +1347,7 @@ const statusButtons = {
          <i class="bi bi-check-circle"></i> Test Requested
        </button>`
 };
+console.log("application.boostedApp????????????  ", application.boostedApp);
 
 return `
   <div class="application-post card mb-3" 
@@ -1389,12 +1392,12 @@ return `
         <ul class="list-group list-group-flush">
           <li class="list-group-item"><strong>Job Title:</strong> ${jobTitle}</li>
           <li class="list-group-item"><strong>Company Name:</strong> ${companyName}</li>
-          <li class="list-group-item"><strong>Apply Date:</strong> ${formatDate(application.applyDate) || application.applyDate}}</li>
+<li class="list-group-item"><strong>Apply Date:</strong> ${application.applyDate ? formatDate(application.applyDate) : "No date available"}</li>
           <li class="list-group-item"><strong>Email:</strong> ${application.email}</li>
           <li class="list-group-item"><strong>Phone:</strong> ${application.phone}</li>
           <li class="list-group-item"><strong>Portfolio:</strong> <a href="${application.portfolio}" target="_blank">${application.portfolio || 'N/A'}</a></li>
           <li class="list-group-item"><strong>Feedback:</strong> ${application.feedback || 'No feedback yet.'}</li>
-          <li class="list-group-item"><strong>Status:</strong> <span class="badge" style="background-color: ${statusColor};">${application.status}</span></li>
+          <li class="list-group-item"><strong>Status:</strong> <span class="badge" style="background-color: ${statusColor};">  ${application.status[0]?.status || 'active'}  </span></li>
           <li class="list-group-item">
             <label for="noteType-${application.id}"><strong>Note Type:</strong></label>
             <select class="form-select note-type-selector" id="noteType-${application.id}">
@@ -1561,10 +1564,28 @@ function setupSortingAndFiltering(applications){
       console.log("sortCriteria ", sortCriteria);
       console.log("filterCriteria ", filterCriteria);
   
+      let groupedApplications = '';
 
-      // Group by job title and company name
-      const groupedApplications = groupApplicationsWithTitles(sortedApplications);
-      console.log("groupedApplications ", groupedApplications);
+      if(sortCriteria === "jobTitle"){
+        groupedApplications = groupApplicationsWithTitles(sortedApplications, sortCriteria);
+      }
+      if(sortCriteria === "companyName"){
+        groupedApplications = groupApplicationsWithTitles(sortedApplications, sortCriteria);
+      }
+      if(sortCriteria === "applicantName"){
+        groupedApplications = groupApplicationsWithTitles(sortedApplications, sortCriteria);
+      }
+      if(sortCriteria === "apply-date-asc" || sortCriteria === "apply-date-desc"){
+        groupedApplications = groupApplicationsWithTitles(sortedApplications, sortCriteria);
+      }
+      if(sortCriteria === "boosted-first"){
+        groupedApplications = groupApplicationsWithTitles(sortedApplications, sortCriteria);
+      }
+
+
+
+
+console.log("groupedApplications ", groupedApplications);
   
       // Render job titles and applicants
       $("#application-posts-container").empty();
@@ -1605,7 +1626,7 @@ const renderJobTitleWithApplicants = (jobTitle, companyName, boosted, applicants
       <div class="job-title-section border colorBlue">
           <h4 class="job-title" style="cursor: pointer;">${jobTitle} - ${companyName}</h4>
           <div class="applicants-list" style="display: block;">
-              ${applicantsHTML}
+           boosted   ${applicantsHTML}
           </div>
       </div>
   `;
@@ -1619,7 +1640,7 @@ const jobHTML = `
       <div class="job-title-section">
           <h4 class="job-title" style="cursor: pointer;">${jobTitle} - ${companyName}</h4>
           <div class="applicants-list" style="display: none;">
-              ${applicantsHTML}
+          not boosted    ${applicantsHTML}
           </div>
       </div>
   `;
