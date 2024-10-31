@@ -1385,7 +1385,7 @@ return `
         <label class="form-check-label" for="select-applicant-${application.id}">Select</label>
       </div>
 
-      <div class="application-details mt-3" style="display: none;">
+      <div class="application-details mt-3"${application.boostedApp ? 'style="display: block;"' : 'style="display: none;"'}>
         <ul class="list-group list-group-flush">
           <li class="list-group-item"><strong>Job Title:</strong> ${jobTitle}</li>
           <li class="list-group-item"><strong>Company Name:</strong> ${companyName}</li>
