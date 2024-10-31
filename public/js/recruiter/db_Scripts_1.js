@@ -1462,9 +1462,8 @@ try {
   console.log("applications Step 1 ", applications);
 
   // Render applications once they are fetched
-  let theReturn = renderApplications(applications);
+   renderApplications(applications);
 
-  console.log("theReturn ", theReturn);
 
   // Attach event listeners after rendering
   attachToggleJobTitles();
@@ -1749,7 +1748,7 @@ const statusMappings = {
   "rejected": ["rejected", "Application Rejected", "application rejected"],
   "under review": ["under review", "Under Review"],
   "pending": ["pending", "pending approval", "Pending Approval"],
-  "active": ["active", "Active"]
+  "active": ["active", "Active","N/A"]
 };
 
 // Mapping system for corresponding section IDs
@@ -1773,6 +1772,7 @@ function getStatusKey(status) {
 
   return null; // Return null if no matching status is found
 }
+status = removeUndefined(status);
 
 // Get the normalized status key
 const statusKey = getStatusKey(status);
