@@ -1509,12 +1509,15 @@ async function getApplicationsFromDB(jobIDs) {
           // If there are multiple status objects, take the latest one (optional logic)
           const latestStatus = app.status[app.status.length - 1]; // Assuming the last entry is the most recent
           const statusKey = latestStatus.status ? latestStatus.status.trim().toLowerCase() : "";
-          statusValue = applicationStatuses[statusKey] ? applicationStatuses[statusKey][0] : "Unknown Status";
-      } else if (typeof app.status === 'string') {
+          statusValue = applicationStatuses[statusKey] ? applicationStatuses[statusKey][0] : "active";
+          console.log("Array.isArray   applicationStatuses[statusKey]  ", applicationStatuses[statusKey], "  applicationStatuses[statusKey][0]  ",applicationStatuses[statusKey][0] );
+
+        } else if (typeof app.status === 'string') {
           // If the status is a string, normalize and check directly
           const statusKey = app.status.trim().toLowerCase();
-          statusValue = applicationStatuses[statusKey] ? applicationStatuses[statusKey][0] : "Unknown Status";
-      }
+          statusValue = applicationStatuses[statusKey] ? applicationStatuses[statusKey][0] : "active";
+          console.log("typeof   applicationStatuses[statusKey]  ", applicationStatuses[statusKey], "  applicationStatuses[statusKey][0]  ",applicationStatuses[statusKey][0] );
+        }
       console.log("app.id  ", app.id, "  statusValue  ",statusValue );
 
       // Update the UI and add the normalized status to the application object
@@ -1570,9 +1573,7 @@ function setupSortingAndFiltering(applications){
       // Render job titles and applicants
       $("#application-posts-container").empty();
 
-   // Render grouped applications or whatever you need to display
-    // For example: renderGroupedApplications(groupedApplications);
-
+  
     return groupedApplications; // Ensure you return a value here
 }
 
