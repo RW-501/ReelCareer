@@ -1357,7 +1357,7 @@ return `
        data-applicant-id="${application.userId}" 
        data-applicant-name="${application.firstName} ${application.lastName}" 
        data-job-title="${application.jobTitle}" 
-       data-status="${application.status[0]?.status || 'N/A'}" 
+       data-status="${application.status[0]?.status || 'active'}" 
        data-apply-date="${application.applyDate}" 
        data-boosted="${application.boostedApp}" 
        data-company-name="${application.companyName}" 
@@ -1365,7 +1365,7 @@ return `
        data-interview-request="${application.interviewRequestBool}" 
        data-interview-request-date="${application.interviewRequestDate}" 
        data-job-id="${application.jobId}" 
-       data-notes="${application.notes?.join(', ') || 'N/A'}" 
+       data-notes="${application.notes?.join(', ') || ''}" 
        data-phone="${application.phone}" 
        data-test-request="${application.testRequestBool}" 
        data-test-request-expire-date="${application.testRequestExpireDate}" 
@@ -1638,7 +1638,7 @@ Object.entries(groupedApplications).forEach(([key, applicants]) => {
 
  
   // Safely check if status exists and has at least one item
-  const status = applicants.status && applicants.status.length > 0 ? applicants.status[0] : { status: 'N/A' };
+  const status = applicants.status && applicants.status.length > 0 ? applicants.status[0] : { status: 'active' };
 
   // Render application with safe status check
   renderApplication(applicants.id, status, jobSection);
