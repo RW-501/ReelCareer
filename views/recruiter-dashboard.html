@@ -290,8 +290,9 @@
 
       <div class="card-body">
         <!-- Sort and Filter Options -->
-        <div class="d-flex gap-3 mb-3">
-          <select id="sort-applications" class="form-select">
+        <div class="d-flex gap-3 mb-3" style="
+        font-size: .7rem;
+    ">          <select id="sort-applications" class="form-select" placeholder="Sort by... " >
             <option value="jobTitle">Sort by Job Title</option>
             <option value="companyName">Sort by Company Name</option>
             <option value="applicantName">Sort by Applicant Name</option>
@@ -300,16 +301,16 @@
             <option value="boosted-first">Sort by Boosted Applications First</option>
           </select>
         
-          <select id="filter-status" class="form-select">
+          <select id="filter-status" class="form-select"  placeholder="Filer by status " ></select>
             <option value="all">All Statuses</option>
-            <option value="active">Sort by New Applications</option>
+            <option value="active">New Applications</option>
             <option value="approved">Approved</option>
             <option value="under_review">Under Review</option>
             <option value="rejected">Rejected</option>
             <option value="pending">Pending</option>
           </select>
         
-          <select id="filter-boosted" class="form-select">
+          <select id="filter-boosted" class="form-select"  placeholder="Filter by boosted " ></select>
             <option value="all">All Applications</option>
             <option value="boosted">Boosted Only</option>
             <option value="non-boosted">Non-Boosted Only</option>
