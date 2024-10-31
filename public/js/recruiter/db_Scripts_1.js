@@ -1756,8 +1756,8 @@ const sectionIdMap = {
   'approved': '#approvedApplicationsContainer',
   'under review': '#underReviewApplicationsContainer',
   'rejected': '#rejectedApplicationsContainer',
-  'pending': '#pendingApplicationsContainer'
- // 'active': '#activeApplicationsContainer'
+  'pending': '#pendingApplicationsContainer',
+  'active': '#activeApplicationsContainer'
 };
 
 // Function to normalize status
