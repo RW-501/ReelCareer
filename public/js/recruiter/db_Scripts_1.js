@@ -1637,8 +1637,13 @@ Object.entries(groupedApplications).forEach(([key, applicants]) => {
  //console.log("#application-posts-container  ", jobSection);
 
  
- renderApplication(applicants.id, applicants.status[0], jobSection);
- console.log("key????????????  ", key);
+  // Safely check if status exists and has at least one item
+  const status = applicants.status && applicants.status.length > 0 ? applicants.status[0] : { status: 'N/A' };
+
+  // Render application with safe status check
+  renderApplication(applicants.id, status, jobSection);
+  
+console.log("key????????????  ", key);
  //console.log("applicants  ", applicants);
  //console.log("applications  ", applications);
 
