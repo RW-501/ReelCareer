@@ -1772,7 +1772,7 @@ function getStatusKey(status) {
 
   return null; // Return null if no matching status is found
 }
-status = removeUndefined(status);
+//status = removeUndefined(status);
 
 // Get the normalized status key
 const statusKey = getStatusKey(status);
