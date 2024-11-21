@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <!-- Homepage -->
+    <url>
+        <loc>https://reelcareer.co/</loc>
+        <lastmod>2024-11-21</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>1.0</priority>
+    </url>
+
+    <!-- Job Listings -->
+    <url>
+        <loc>https://reelcareer.co/views/job-listings</loc>
+        <lastmod>2024-11-21</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- About Us -->
+    <url>
+        <loc>https://reelcareer.co/views/about</loc>
+        <lastmod>2024-11-21</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- Job Seeker -->
+    <url>
+        <loc>https://reelcareer.co/views/job-seeker</loc>
+        <lastmod>2024-11-21</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <!-- Recruiter Dashboard -->
+    <url>
+        <loc>https://reelcareer.co/views/recruiter-dashboard</loc>
+        <lastmod>2024-11-21</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <!-- Blog -->
+    <url>
+        <loc>https://reelcareer.co/views/blog</loc>
+        <lastmod>2024-11-21</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <!-- Membership -->
+    <url>
+        <loc>https://reelcareer.co/views/membership</loc>
+        <lastmod>2024-11-21</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+
+    <!-- Privacy Policy -->
+    <url>
+        <loc>https://reelcareer.co/public/privacy</loc>
+        <changefreq>yearly</changefreq>
+        <priority>0.5</priority>
+    </url>
+
+    <!-- Terms of Use -->
+    <url>
+        <loc>https://reelcareer.co/public/terms</loc>
+        <changefreq>yearly</changefreq>
+        <priority>0.5</priority>
+    </url>
+
+    <!-- Contact Us -->
+    <url>
+        <loc>https://reelcareer.co/views/contact</loc>
+        <lastmod>2024-11-21</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+
+    <!-- News -->
+    <url>
+        <loc>https://reelcareer.co/views/news</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+
+    <!-- FAQs -->
+    <url>
+        <loc>https://reelcareer.co/views/faq</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+
+    <!-- Affiliate Program -->
+    <url>
+        <loc>https://reelcareer.co/views/referral</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+
+    <!-- Personality & Trait Tests -->
+    <url>
+        <loc>https://reelcareer.co/views/Personality-&amp;-Trait-Tests</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+
+    <!-- Admin Dashboard (For admins only) -->
+    <url>
+        <loc>https://reelcareer.co/backend/dashboard</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.4</priority>
+    </url>
+
+</urlset>
