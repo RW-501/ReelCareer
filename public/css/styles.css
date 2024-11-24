@@ -29,7 +29,7 @@ body {
 
 main {
     width: 90%;
-    margin: auto 2rem;
+    margin: 2rem auto;
     padding: 2rem;
     height: 100%;
     display: grid;
