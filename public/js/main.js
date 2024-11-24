@@ -686,7 +686,7 @@ function updateFooter() {
   const currentYear = new Date().getFullYear();
 
   const newContent = `
-        <div class="bg-dark text-light py-4">
+        <div class=" py-4">
             <div class="container text-center">
                 <p>&copy; ${currentYear} <a href="${adjustLinkURL}about" class="text-light" rel="noopener noreferrer">ReelCareer</a>. All Rights Reserved.</p>
                 <ul class="list-inline">

@@ -27,8 +27,23 @@ body {
     }
 }
 
+main {
+    width: 90%;
+    margin: auto 2rem;
+    padding: 2rem;
+    height: 100%;
+    display: grid;
+    background: linear-gradient(to bottom, #fff, #e0e0e0);
+}
 
+#dynamic-footer {
+    background: linear-gradient(to bottom, #f8f9fa, #83bad9);
+}
 
+*{
+    user-select: none;
+    box-sizing: border-box;
+}
 .fw-800{
     font-weight: 800;
 }
