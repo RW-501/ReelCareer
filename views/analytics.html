@@ -47,8 +47,8 @@
     <script src="../public/js/bodyload.js"></script>
     
 
-<div class="container">
-    <h2 class="text-center">Analytics and Reporting</h2>
+    <main id="main-content">
+        <h2 class="text-center">Analytics and Reporting</h2>
 
     <!-- Job Posting Performance -->
     <div class="card">
@@ -148,11 +148,32 @@
         </div>
     </div>
 
-</div>
+    </main>
+
+
 
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
+    <!-- Firebase JS SDK and Custom Scripts -->
+
+    <script type="module">
+        import {
+            db, doc, getDoc, query, updateDoc,
+            setDoc, ref, signInWithPopup, orderBy,
+            GoogleAuthProvider, FacebookAuthProvider,
+            uploadBytes, OAuthProvider, arrayUnion, getStorage,
+            signOut, addDoc, increment, onAuthStateChanged,
+            createUserWithEmailAndPassword, signInWithEmailAndPassword,
+            where, getDocs, storage, collection, deleteObject, 
+            auth, analytics, deleteDoc, getDownloadURL
+        } from '../js/module.js';
+
+
+
+
+
+
+
     // Sample Chart.js implementation for Job Performance
     const ctx1 = document.getElementById('jobPerformanceChart').getContext('2d');
     const jobPerformanceChart = new Chart(ctx1, {

@@ -365,6 +365,7 @@ text-align: left;
     </ol>
   </nav>
 
+  <main id="main-content">
 
 <!-- Job Detail Section -->
 <div id="job-container" class="container py-5 check-cap">
@@ -536,7 +537,7 @@ text-align: left;
   
 
 
-
+</main>
 
 
 
@@ -628,29 +629,22 @@ text-align: left;
   <!-- Firebase configuration/ Login & Out -->
   <script type="module" src="../public/js/main.js"></script>
 
-  <script type="module">
-    let jobID = "";
+  
+    <!-- Firebase JS SDK and Custom Scripts -->
 
+<script type="module">
     import {
-      db,
-      auth,
-      analytics,
-      app
-    } from '../public/js/main.js'; // Adjust path to your Firebase setup
-    import {
-      doc,
-      getDoc,addDoc ,
-      setDoc,
-      updateDoc,
-      arrayUnion,
-      increment,
-      collection,
-      query,
-      where,
-      getDocs,
-      limit
-    } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
-    // Function to save job and update savedForLater count
+        db, doc, getDoc, query, updateDoc,
+        setDoc, ref, signInWithPopup, orderBy,
+        GoogleAuthProvider, FacebookAuthProvider,
+        uploadBytes, OAuthProvider, arrayUnion, getStorage,
+        signOut, addDoc, increment, onAuthStateChanged,
+        createUserWithEmailAndPassword, signInWithEmailAndPassword,
+        where, getDocs, storage, collection, deleteObject, 
+        auth, analytics, deleteDoc, getDownloadURL
+    } from '../js/module.js';
+
+    let jobID = "";
 
 
     let userId = '';

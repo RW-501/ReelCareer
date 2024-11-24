@@ -125,11 +125,12 @@
       </nav>
 
       
-    <div class="container mt-5">
+      <main id="main-content">
+
+
         <h1 class="text-center">Contact Us</h1>
         <p>If you have any questions or need further information, feel free to reach out to us!</p>
 
-        <div class="row">
             <div class="col-md-6">
                 <h2>Contact Information</h2>
                 <p><strong>Email:</strong> <a href="mailto:support@reelcareer.com">support@reelcareer.com</a></p>
@@ -137,30 +138,72 @@
                 <p><strong>Address:</strong> 123 Career Lane, Dallas, TX 75001</p>
             </div>
 
-            <div class="col-md-6">
-                <h2>Send Us a Message</h2>
-                <form id="contact-form">
-                    <div class="form-group">
-                        <label for="name">Name</label>
-                        <input type="text" class="form-control" id="name" name="name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" class="form-control" id="email" name="email" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="subject">Subject</label>
-                        <input type="text" class="form-control" id="subject" name="subject" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="message">Message</label>
-                        <textarea class="form-control" id="message" name="message" rows="4" required></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Send Message</button>
-                </form>
-            </div>
-        </div>
-    </div>
+            <section id="contact-page">
+                <!-- Contact Form Section -->
+                <div class="contact-form-container">
+                    <h2>Contact Us</h2>
+                    <p>We’d love to hear from you! Please fill out the form below and we’ll get back to you shortly.</p>
+                    <form id="main-contact-form">
+                        <p id="contact_Message"></p>
+            
+                        <!-- Name Field -->
+                        <div class="form-group">
+                            <label for="name">Name (required)</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+            
+                        <!-- Email Field -->
+                        <div class="form-group">
+                            <label for="email">Email (optional)</label>
+                            <input type="email" id="email" name="email" >
+                        </div>
+            
+                        <!-- Phone Field -->
+                        <div class="form-group">
+                            <label for="phone">Phone Number (optional)</label>
+                            <input type="tel" id="phone" name="phone">
+                        </div>
+                                <!-- Subject Field -->
+                                <div class="form-group">
+                                  <label for="subject">Subject</label>
+                                  <input type="text" id="subject" name="subject">
+                              </div>
+    
+                        <!-- Message Type Field -->
+                        <div class="form-group">
+                            <label for="messageType">Message Type:</label>
+                            <select id="messageType" name="messageType" aria-label="Type of your message">
+                                <option value="general">General Inquiry</option>
+                                <option value="purchase">Photo Purchase Inquiry</option>
+                                <option value="book">Event Booking</option>
+                                <option value="feedback">Feedback</option>
+                            </select>
+                        </div>
+            
+                        <!-- Message Field -->
+                        <div class="form-group">
+                            <label for="message">Message (required)</label>
+                            <textarea id="message" name="message" rows="4" required></textarea>
+                        </div>
+            
+                        <!-- Captcha Field -->
+                        <div class="form-group" id="captcha-container">
+                            <label for="captcha">Please verify you're human</label>
+                            <input type="text" id="captcha" name="captcha" required>
+                        </div>
+            
+                        <!-- Submit Button -->
+                        <div class="form-group">
+                            <button id="submitButton" type="submit">Send Message</button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+            
+    
+    
+            
+      </main>
 
     <!-- Footer -->
     <footer id="dynamic-footer"></footer>
@@ -168,57 +211,245 @@
     <!-- Firebase configuration/ Login& Out -->
     <script type="module" src="../public/js/main.js"></script> 
 
-    <!-- Dynamic Schema Markup -->
-    <script type="module">
-    import { db, storage, analytics, app  } from '../public/js/main.js'; // Adjust the path based on your structure
-    import { query, where, orderBy, limit,  collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
-    
   
 
-         document.getElementById('contact-form').addEventListener('submit', async function (event) {
-            event.preventDefault(); // Prevent the default form submission
+<!-- Firebase JS SDK and Custom Scripts -->
 
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const subject = document.getElementById('subject').value; // Get subject
-            const message = document.getElementById('message').value;
+<script type="module">
+    import {
+        db, doc, getDoc, query, updateDoc,
+        setDoc, ref, signInWithPopup, orderBy,
+        GoogleAuthProvider, FacebookAuthProvider,
+        uploadBytes, OAuthProvider, arrayUnion, getStorage,
+        signOut, addDoc, increment, onAuthStateChanged,
+        createUserWithEmailAndPassword, signInWithEmailAndPassword,
+        where, getDocs, storage, collection, deleteObject, 
+        auth, analytics, deleteDoc, getDownloadURL
+    } from '../js/module.js';
 
-            // Prepare the data to send to the server
-            const data = {
-                name: name,
-                email: email,
-                subject: subject, // Include subject
-                message: message
-            };
 
-            try {
-                // Send a POST request to your server-side script
-                const response = await fetch('your-server-side-script.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(data)
-                });
+// Handle the change event for the message type dropdown
+document.getElementById("messageType").addEventListener("change", function () {
+    const form = document.getElementById("main-contact-form");
 
-                if (response.ok) {
-                    showToast('Message sent successfully!', 'success');
-                    // Optionally, clear the form after submission
-                    document.getElementById('contact-form').reset();
-                } else {
-                    showToast('Error sending message. Please try again.', 'warning');
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                showToast('Error sending message. Please try again.', 'error')
-            }
+    // Add/remove fields based on selected message type
+    if (this.value === "book") {
+        // Add Budget field if not already present
+        if (!document.getElementById("budget")) {
+            const budgetField = document.createElement("div");
+            budgetField.className = "form-group";
+            budgetField.innerHTML = `
+                <label for="budget">Budget:</label>
+                <input type="text" id="budget" name="budget" aria-label="Estimated budget for the event" placeholder="$500" onkeydown="restrictKeys(event)" oninput="updateCurrency(this)">
+            `;
+            form.insertBefore(budgetField, document.getElementById("subject").parentNode);
+        }
+
+        // Add Calendar field if not already present
+        if (!document.getElementById("eventDate")) {
+            const calendarField = document.createElement("div");
+            calendarField.className = "form-group";
+            calendarField.innerHTML = `
+                <label for="eventDate">Event Date:</label>
+                <input type="date" id="eventDate" name="eventDate" aria-label="Select the date for your event">
+            `;
+            form.insertBefore(calendarField, document.getElementById("subject").parentNode);
+        }
+    } else {
+        // Remove Budget and Calendar fields if they exist
+        const budgetField = document.getElementById("budget");
+        if (budgetField) budgetField.parentNode.remove();
+
+        const calendarField = document.getElementById("eventDate");
+        if (calendarField) calendarField.parentNode.remove();
+    }
+});
+
+// Pre-select "book" in messageType dropdown if URL contains '#book'
+document.addEventListener("DOMContentLoaded", () => {
+    if (window.checkUrl("#book")) {
+        const messageTypeSelect = document.getElementById("messageType");
+        messageTypeSelect.value = "book";
+
+        // Trigger the change event manually
+        const changeEvent = new Event('change', { bubbles: true, cancelable: true });
+        messageTypeSelect.dispatchEvent(changeEvent);
+    }
+});
+
+// Form submission handler
+document.getElementById('main-contact-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    let formValid = true;
+    const submitButton = document.getElementById("submitButton");
+    submitButton.disabled = true; // Disable button
+    submitButton.innerHTML = "Sending..."; // Show loading state
+
+    // Retrieve and sanitize input values
+    const name = sanitizeInput(document.getElementById('name').value);
+    const email = sanitizeInput(document.getElementById('email').value);
+    const phone = sanitizeInput(document.getElementById('phone').value);
+    const subject = sanitizeInput(document.getElementById('subject').value);
+    const messageType = document.getElementById('messageType').value;
+    const message = sanitizeInput(document.getElementById('message').value);
+
+    // Basic validation
+    if (!name || !message) {
+        formValid = false;
+        showToast('Please fill in all required fields!', "error");
+        submitButton.disabled = false;
+        submitButton.innerHTML = "Send Message";
+        return;
+    }
+
+    // Check message history to enforce the limit
+    let messageHistory = JSON.parse(localStorage.getItem('messageHistory')) || [];
+    const now = Date.now();
+    const thirtyMinutesAgo = now - 30 * 60 * 1000;
+
+    // Filter out messages older than 30 minutes
+    messageHistory = messageHistory.filter((timestamp) => timestamp > thirtyMinutesAgo);
+
+    // Check if the user has exceeded the message limit
+    if (messageHistory.length >= 3) {
+        showToast('You have reached the message limit. Please try again in 30 minutes.', "error");
+        document.getElementById('contact-submit-btn').disabled = true;
+        setTimeout(() => {
+            document.getElementById('contact-submit-btn').disabled = false;
+        }, 30 * 60 * 1000); // Re-enable button after 30 minutes
+        submitButton.disabled = false;
+        submitButton.innerHTML = "Send Message";
+        return;
+    }
+
+    // Additional fields for "Event Booking"
+    let budget = null;
+    let eventDate = null;
+    if (messageType === "book") {
+        budget = sanitizeInput(document.getElementById('budget')?.value);
+        eventDate = sanitizeInput(document.getElementById('eventDate')?.value);
+
+        // Validation for Budget and Event Date
+        if (!budget  || budget < 0) {
+            showToast('Please provide a valid budget.', "error");
+            submitButton.disabled = false;
+            submitButton.innerHTML = "Send Message";
+            return;
+        }
+
+        if (!eventDate) {
+            showToast('Please select a valid event date.', "error");
+            submitButton.disabled = false;
+            submitButton.innerHTML = "Send Message";
+            return;
+        }
+    }
+
+    // Input validation (sanitize all fields)
+    if (!isSafeInput(name) || !isSafeInput(email) || !isSafeInput(phone) || !isSafeInput(subject) || !isSafeInput(message)) {
+        showToast('Invalid characters detected in form. Please remove any special characters.', "error");
+        submitButton.disabled = false;
+        submitButton.innerHTML = "Send Message";
+        return;
+    }
+
+
+    const locationDataString = sessionStorage.getItem('userLocation');
+    const locationData = locationDataString ? JSON.parse(locationDataString) : {};
+    const ipAddress = sessionStorage.getItem('userIP');
+
+
+    // If form is valid, save to Firestore
+    if (formValid) {
+        const contactData = {
+            name,
+            email,
+            phone: phone || '', // if phone is empty, use an empty string
+            message,
+            messageType,
+            status: "unread",
+            budget: messageType === "book" ? budget : null,
+            eventDate: messageType === "book" ? eventDate : null,
+            ipAddress: ipAddress, // Should be fetched properly
+            city: locationData.city,
+            zipCode: locationData.zip,
+            state: locationData.state,
+            country: locationData.country,
+            timestamp: new Date(),
+        };
+
+        // Save the contact data to Firestore
+        db.collection('Contacts').add(contactData)
+            .then(() => {
+                showToast('Message sent successfully!', "success");
+                document.getElementById('main-contact-form').reset(); // Reset the form after successful submission
+                submitButton.innerHTML = "Sent"; // Show "Sent" state
+                messageHistory.push(now);
+                localStorage.setItem('messageHistory', JSON.stringify(messageHistory));
+            })
+            .catch((error) => {
+                showToast('Error submitting contact. Please try again.', "error");
+                console.error("Error submitting contact form: ", error);
+            });
+    } else {
+        showToast('Error submitting contact. Please check your input.', "error");
+        submitButton.disabled = false;
+        submitButton.innerHTML = "Send Message";
+    }
+});
+
+// Check if the user is blocked on page load
+document.addEventListener("DOMContentLoaded", function () {
+    const messageHistory = JSON.parse(localStorage.getItem('messageHistory')) || [];
+    const thirtyMinutesAgo = Date.now() - 30 * 60 * 1000;
+    const validMessages = messageHistory.filter((timestamp) => timestamp > thirtyMinutesAgo);
+
+    if (validMessages.length >= 3) {
+        document.getElementById('contact-submit-btn').disabled = true;
+        showToast("You are temporarily blocked from sending messages. Please try again later.", "error");
+    }
+});
+
+// Google Map Embed (this is an example; customize with your location)
+function initMap() {
+        const location = { lat: 34.7465, lng: -92.2896 }; // Little Rock, Arkansas
+
+        // Create a new map centered at the given location
+        const map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 8,
+          center: location,
         });
-    </script>
-        <!-- jQuery and Bootstrap JS -->
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    
+
+        // Create a new advanced marker element
+        const marker = new google.maps.marker.AdvancedMarkerElement({
+          position: location,
+          map: map,
+          content: '<div style="color: red;">📍</div>',  // You can replace this with your own custom HTML or image
+        });
+      }
+
+      // Initialize the map when the API is loaded
+   //   window.initMap = initMap;
+
+
+// Execute the function on DOMContentLoaded
+document.addEventListener("DOMContentLoaded", () => {
+    // Fetch Gallery and Site Info from HomePage collection
+    const galleryImagesContainer = document.getElementById("gallery-images");
+const mainTextArea = document.getElementById("text-area");
+
+  if (mainTextArea && galleryImagesContainer) {
+    fetchGalleryAndSiteInfo(mainTextArea, galleryImagesContainer, "ContactPage");
+  } else {
+    console.error("Required elements are missing in the DOM.");
+  }
+});
+
+
+
+
+</script>
 </body>
 
 </html>

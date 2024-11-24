@@ -150,8 +150,7 @@ main .social-icons a:hover {
     </nav>
 
     
-    <main >
-
+    
 
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
@@ -162,6 +161,7 @@ main .social-icons a:hover {
             </ol>
           </nav>
 
+          <main id="main-content">
 
           
         <div id="instructions" class="container mt-4 p-4 border rounded shadow bg-light">
@@ -409,6 +409,8 @@ main .social-icons a:hover {
         </div>
     </div>
 </section>
+
+
     </main>
     
 
@@ -606,10 +608,25 @@ document.getElementById("generateDescriptionBtn").addEventListener("click", func
     <!-- Firebase configuration/ Login& Out -->
     <script type="module" src="../public/js/main.js"></script>
     
-    <!-- Dynamic Schema Markup -->
-    <script type="module">
-        import { db, auth } from '../public/js/main.js';
-        import { addDoc, doc, setDoc, getDoc, collection , onSnapshot, updateDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+
+
+<!-- Firebase JS SDK and Custom Scripts -->
+
+<script type="module">
+    import {
+        db, doc, getDoc, query, updateDoc,
+        setDoc, ref, signInWithPopup, orderBy,
+        GoogleAuthProvider, FacebookAuthProvider,
+        uploadBytes, OAuthProvider, arrayUnion, getStorage,
+        signOut, addDoc, increment, onAuthStateChanged,
+        createUserWithEmailAndPassword, signInWithEmailAndPassword,
+        where, getDocs, storage, collection, deleteObject, 
+        auth, analytics, deleteDoc, getDownloadURL
+    } from '../js/module.js';
+
+
+       
+       
         document.getElementById("errorMessage").style.display = "none"; // Hide error message if shown
 
 

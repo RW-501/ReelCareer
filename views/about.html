@@ -108,7 +108,7 @@
         </nav>
     </header>
 
-    <main class="container my-5">
+    <main id="main-content">
 
 
         <nav aria-label="breadcrumb">
@@ -139,9 +139,7 @@
             <p>Our dedicated team of professionals brings together diverse expertise in technology, recruitment, and customer service, ensuring that our users have the best experience possible.</p>
             <ul>
                 <li><strong>Ron Wilson II</strong> - Founder & CEO</li>
-                <li><strong>Jane Doe</strong> - Head of Product Development</li>
-                <li><strong>John Smith</strong> - Chief Marketing Officer</li>
-                <li><strong>Emily Johnson</strong> - Customer Success Manager</li>
+    
             </ul>
         </section>
 
@@ -158,10 +156,24 @@
     <!-- Firebase configuration/ Login& Out -->
     <script type="module" src="../public/js/main.js"></script> 
 
-    <!-- Dynamic Schema Markup -->
+    <!-- Firebase JS SDK and Custom Scripts -->
+
     <script type="module">
-    import { db, storage, analytics, app  } from '../public/js/main.js'; // Adjust the path based on your structure
-    import { query, where, orderBy, limit,  collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+        import {
+            db, doc, getDoc, query, updateDoc,
+            setDoc, ref, signInWithPopup, orderBy,
+            GoogleAuthProvider, FacebookAuthProvider,
+            uploadBytes, OAuthProvider, arrayUnion, getStorage,
+            signOut, addDoc, increment, onAuthStateChanged,
+            createUserWithEmailAndPassword, signInWithEmailAndPassword,
+            where, getDocs, storage, collection, deleteObject, 
+            auth, analytics, deleteDoc, getDownloadURL
+        } from '../js/module.js';
+
+
+
+
+
 
 </script> 
 

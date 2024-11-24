@@ -165,7 +165,8 @@
         </ol>
       </nav>
 
-      
+      <main id="main-content">
+
     <div class="container mt-5">
         <h1 class="text-center mb-4">Reel Career Blog</h1>
 
@@ -215,7 +216,7 @@
             </div>
         </div>
     </div>
-    
+    </main>
 
     <!-- Footer -->
     <footer id="dynamic-footer"></footer>
@@ -226,9 +227,23 @@
    
     
 
+    <!-- Firebase JS SDK and Custom Scripts -->
+
     <script type="module">
-     import { db } from '../public/js/main.js'; // Adjust the path based on your structure
-    import { doc, query, where, orderBy, limit, collection, getDocs, getDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+        import {
+            db, doc, getDoc, query, updateDoc,
+            setDoc, ref, signInWithPopup, orderBy,
+            GoogleAuthProvider, FacebookAuthProvider,
+            uploadBytes, OAuthProvider, arrayUnion, getStorage,
+            signOut, addDoc, increment, onAuthStateChanged,
+            createUserWithEmailAndPassword, signInWithEmailAndPassword,
+            where, getDocs, storage, collection, deleteObject, 
+            auth, analytics, deleteDoc, getDownloadURL
+        } from '../js/module.js';
+
+
+
+
 
         function getQueryParam(param) {
         const urlParams = new URLSearchParams(window.location.search);

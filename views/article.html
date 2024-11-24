@@ -33,7 +33,6 @@
         <h1>Article Detail</h1>
     </header>
 
-    <main class="container my-5">
 
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
@@ -43,6 +42,9 @@
               <li class="breadcrumb-item active" aria-current="page">Confirmation</li>
             </ol>
           </nav>
+
+
+          <main id="main-content">
 
           
         <div id="article-content"></div>
@@ -65,17 +67,28 @@
     <!-- Firebase configuration/ Login& Out -->
     <script type="module" src="../public/js/main.js"></script>
 
-    <!-- Firebase Firestore to display article -->
-    <script type="module">
-        import { db, app } from '../public/js/main.js'; 
-        import { ref, get, onValue } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js"; // Update import for database
+      <!-- Firebase JS SDK and Custom Scripts -->
 
-        function getArticleId() {
+    <script type="module">
+        import {
+            db, doc, getDoc, query, updateDoc,
+            setDoc, ref, signInWithPopup, orderBy,
+            GoogleAuthProvider, FacebookAuthProvider,
+            uploadBytes, OAuthProvider, arrayUnion, getStorage,
+            signOut, addDoc, increment, onAuthStateChanged,
+            createUserWithEmailAndPassword, signInWithEmailAndPassword,
+            where, getDocs, storage, collection, deleteObject, 
+            auth, analytics, deleteDoc, getDownloadURL
+        } from '../js/module.js';
+
+
+
+
+     function getArticleId() {
             const params = new URLSearchParams(window.location.search);
             return params.get('id');
         }
 
-        import { doc, getDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 
 async function displayArticle() {
     const articleId = getArticleId();
