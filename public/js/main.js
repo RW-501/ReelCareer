@@ -78,8 +78,21 @@ const hideLoading = () => (loadingIndicator.style.display = "none");
 
 let UserID = "";
 let userData = "";
-import {getUserIP, getUserLocationByIP, ipAddress} from 'https://reelcareer.co/js/module.js';
 
+const ipAPI = 'https://api.ipify.org?format=json';
+
+
+// Fetch the user's IP address
+const getUserIP = async () => {
+    try {
+        const response = await fetch(ipAPI);
+        const data = await response.json();
+        return data.ip;
+    } catch (error) {
+        console.error('Error fetching IP address:', error);
+        return null;
+    }
+};
 // Function to update or create user information in Firestore
 const saveUserLoginState = async (user) => {
   try {
