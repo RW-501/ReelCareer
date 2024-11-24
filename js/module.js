@@ -215,6 +215,8 @@ window.userLocationService = function() {
         }
     };
 
+    window.getUserIP = getUserIP;
+
     // Fetch the user's location based on IP address
     const getUserLocationByIP = async (ip) => {
         try {
@@ -231,6 +233,8 @@ window.userLocationService = function() {
             return null;
         }
     };
+
+
 
     // Main function to get IP and location together
     const getUserIPAndLocation = async () => {
@@ -266,6 +270,7 @@ window.userLocationService = function() {
     };
 }();
 
+
 // Function to set the last internal page
 function setInternalPageSource() {
     sessionStorage.setItem('lastInternalPage', window.location.href);
@@ -274,6 +279,8 @@ function setInternalPageSource() {
 // Function to start tracking the view time
 function startViewTimer() {
     viewStartTime = Date.now();
+
+    console.log("start tracking");
 }
 
 // Determine the source of the visit
@@ -297,6 +304,9 @@ async function attachTrackingListeners() {
         console.error("Error fetching user IP and location:", error);
     }
 }
+
+export {  getUserIP, getUserLocationByIP, ipAddress  };
+
 
 // Function to determine the correct `ViewedBy` field based on the URL
 // Function to determine the correct `ViewedBy` field based on the URL

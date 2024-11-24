@@ -327,5 +327,24 @@ if (!testsContainer || !modal || !modalBody || !closeButton) return;
 
 
     </script>
+
+<!-- Firebase JS SDK and Custom Scripts -->
+
+<script type="module">
+    import {
+        db, doc, getDoc, query, updateDoc,
+        setDoc, ref, signInWithPopup, orderBy,
+        GoogleAuthProvider, FacebookAuthProvider,
+        uploadBytes, OAuthProvider, arrayUnion, getStorage,
+        signOut, addDoc, increment, onAuthStateChanged,
+        createUserWithEmailAndPassword, signInWithEmailAndPassword,
+        where, getDocs, storage, collection, deleteObject, 
+        auth, analytics, deleteDoc, getDownloadURL
+    } from '../js/module.js';
+
+
+
+
+</script>
 </body>
 </html>

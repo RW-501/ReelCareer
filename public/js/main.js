@@ -78,6 +78,7 @@ const hideLoading = () => (loadingIndicator.style.display = "none");
 
 let UserID = "";
 let userData = "";
+import {getUserIP, getUserLocationByIP, ipAddress} from '../js/module.js';
 
 // Function to update or create user information in Firestore
 const saveUserLoginState = async (user) => {
