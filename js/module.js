@@ -305,8 +305,6 @@ async function attachTrackingListeners() {
     }
 }
 
-export {  getUserIP, getUserLocationByIP, ipAddress  };
-
 
 // Function to determine the correct `ViewedBy` field based on the URL
 // Function to determine the correct `ViewedBy` field based on the URL
