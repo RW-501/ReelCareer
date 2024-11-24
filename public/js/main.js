@@ -1852,7 +1852,7 @@ window.addEventListener('load', function() {
           jobCard.innerHTML = `
               <div class="similar-job-card">
                   <!-- Job Title as a Link -->
-                  <h5><a href="../views/job-detail?id=${doc.id}" class="job-title-link">${similarJob.title}</a></h5>
+                  <h5><a href="../views/job-details?id=${doc.id}" class="job-title-link">${similarJob.title}</a></h5>
                   <p><strong>${similarJob.company}</strong> - ${formatLocation(similarJob.location)}</p>
                   <p class="card-text"><strong>Type:</strong> ${formatJobType(similarJob.type)}</p>
                   <p class="card-text"><strong>Salary:</strong> ${formatCurrency(similarJob.salary, { decimals: 0 })}</p>
@@ -1867,7 +1867,7 @@ window.addEventListener('load', function() {
                   </div>
 
                   <!-- View Job Button -->
-                  <a href="../views/job-detail?id=${doc.id}" class="view-job-btn">View Job</a>
+                  <a href="../views/job-details?id=${doc.id}" class="view-job-btn">View Job</a>
               </div>
           `;
 

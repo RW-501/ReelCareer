@@ -540,7 +540,7 @@ function showSuccessModal(jobId, jobDetails) {
   try {
       document.getElementById("jobIdSuccess").textContent = jobId;
       document.getElementById("jobTitleSuccess").textContent = `Job Title: ${jobDetails.jobTitle}`;;
-      document.getElementById("jobTitleLinkSuccess").href = `/views/job-detail.html?id=${jobId}`; // Update the link properly
+      document.getElementById("jobTitleLinkSuccess").href = `/views/job-details.html?id=${jobId}`; // Update the link properly
       document.getElementById("jobLocationSuccess").textContent = jobDetails.location;
       const formattedDate = formatDateString(jobDetails.applicationDeadline);
       document.getElementById("jobExpiryDateSuccess").textContent = formattedDate;
@@ -563,7 +563,7 @@ function showSuccessModal(jobId, jobDetails) {
       $("#jobSuccessModal").modal("show");
 
       // Prepare sharing links
-      const jobPageURL = `https://reelcareer.co/views/job-detail.html?id=${jobId}`;     
+      const jobPageURL = `https://reelcareer.co/views /job-details.html?id=${jobId}`;     
       const companyName = jobDetails.company;
       const jobTitle = jobDetails.title; 
       const jobDescription = `Salary: ${jobDetails.salary} ${jobDetails.salaryPayTime}`; 
@@ -632,21 +632,21 @@ function collectJobRequirements() {
 // Share job listing on social media (you can expand with more detailed URLs for sharing)
 document.getElementById("shareFacebook").addEventListener("click", function () {
   const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-    window.location.origin + "/views/job-detail.html?id=" + docRef.id
+    window.location.origin + "/views /job-details.html?id=" + docRef.id
   )}`;
   window.open(shareUrl, "_blank");
 });
 
 document.getElementById("shareLinkedIn").addEventListener("click", function () {
   const shareUrl = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(
-    window.location.origin + "/views/job-detail.html?id=" + docRef.id
+    window.location.origin + "/views /job-details.html?id=" + docRef.id
   )}`;
   window.open(shareUrl, "_blank");
 });
 
 document.getElementById("shareTwitter").addEventListener("click", function () {
   const shareUrl = `https://twitter.com/share?url=${encodeURIComponent(
-    window.location.origin + "/views/job-detail.html?id=" + docRef.id
+    window.location.origin + "/views /job-details.html?id=" + docRef.id
   )}&text=Check out this job listing!`;
   window.open(shareUrl, "_blank");
 });
@@ -891,7 +891,7 @@ $('#sort-job').on('change', function () {
 $(document).on('click', '.view-job', function () {
   $(this).next('.job-details').toggle();
   const jobID = $(this).closest('.job-post').data('job-id');
-  window.location.href = `../views/job-detail?id=${jobID}`;
+  window.location.href = `../views /job-details?id=${jobID}`;
 });
 
 
