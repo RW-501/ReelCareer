@@ -66,29 +66,63 @@ firebase.analytics().logEvent('referral_participation', { referrer_id: 'user456'
 
     <div class="container mt-4">
         <h1>Analytics & Reporting</h1>
+<style>
+
+    #analytics-cards {
+       gap: 1.5rem;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    }
 
 
-        <div class="col-md-3">
-            <div class="card analytics-card shadow-sm">
+    .analytics-card {
+    gap: .5rem;
+    display: flex;
+    overflow: hidden;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 100%;
+    flex-direction: row;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</style>
+<section id="analytics-cards">
+        <div class="col-md-3 card analytics-card shadow-sm">
                 <div class="card-body">
                     <h5 class="section-title">Total Messages</h5>
                     <p id="msgCountDisplay" class="display-4">Loading...</p>
                     <div class="loading-spinner loading" id="loadingUserEngagement"></div>
                 </div>
             </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card analytics-card shadow-sm">
+
+            <div class="col-md-3 card analytics-card shadow-sm">
                 <div class="card-body">
                     <h5 class="section-title">Total Users:</h5>
                     <p id="usersDisplay" class="display-4">Loading...</p>
                     <div class="loading-spinner loading" id="loadingEventPurchases"></div>
                 </div>
             </div>
-        </div>
 
+            
         <!-- User Engagement Section -->
-        <div class="card mb-4">
+        <div class="col-md-3 card analytics-card shadow-sm">
             <div class="card-body">
                 <h4>User Engagement</h4>
                 <canvas id="userEngagementChart"></canvas>
@@ -97,7 +131,7 @@ firebase.analytics().logEvent('referral_participation', { referrer_id: 'user456'
         </div>
 
         <!-- Job Posting Performance Section -->
-        <div class="card mb-4">
+        <div class="col-md-3 card analytics-card shadow-sm">
             <div class="card-body">
                 <h4>Job Posting Performance</h4>
                 <canvas id="jobPerformanceChart"></canvas>
@@ -106,7 +140,7 @@ firebase.analytics().logEvent('referral_participation', { referrer_id: 'user456'
         </div>
 
         <!-- Job Activity Insights Section -->
-        <div class="card mb-4">
+        <div class="col-md-3 card analytics-card shadow-sm">
             <div class="card-body">
                 <h4>Job Activity Insights</h4>
                 <canvas id="jobActivityChart"></canvas>
@@ -115,14 +149,13 @@ firebase.analytics().logEvent('referral_participation', { referrer_id: 'user456'
         </div>
 
         <!-- User Demographics Section -->
-        <div class="card mb-4">
-            <div class="card-body">
+        <div class="col-md-3 card analytics-card shadow-sm">            <div class="card-body">
                 <h4>User Demographics</h4>
                 <canvas id="userDemographicsChart"></canvas>
                 <p id="userDemographicsMetrics">Loading...</p>
             </div>
         </div>
-
+    </section>
 
 
 
