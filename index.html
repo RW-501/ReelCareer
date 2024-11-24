@@ -475,7 +475,7 @@ const isValidValue = value => value !== undefined && value !== null && value !==
       //   if (excludedIds.length > 0) sponsorsQuery = query(sponsorsQuery, where('id', 'not-in', excludedIds));
       // Filter by status and boost
       sponsorsQuery = query(sponsorsQuery, where('status', '==', 'active'), where('boosted', 'in', ['Yes', 'Active']));
-      sponsorsQuery = query(sponsorsQuery, orderBy('createdAt', 'desc'), limit(20));
+      sponsorsQuery = query(sponsorsQuery, orderBy('createdAt', 'desc'), limit(50));
       const sponsorsSnapshot = await getDocs(sponsorsQuery);
       return sponsorsSnapshot.docs.map(doc => ({
         id: doc.id,

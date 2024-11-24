@@ -97,7 +97,7 @@
           <p class="lead text-muted">Search from thousands of jobs that fit your skills and preferences</p>
           <form id="jobSearchForm" class="form-inline justify-content-center mt-4">
             <div class="form-group position-relative" style="width: auto;">
-              <input type="text" class="form-control form-control-lg mr-2 mb-2 keywordInput job-input" placeholder="Keywords (e.g., Developer)" aria-label="Keywords" id="keywordInput" required oninput="autoSuggest(this.value,'jobSuggestions')" autocomplete="off">
+              <input id="keywordInput" type="text" class="form-control form-control-lg mr-2 mb-2 keywordInput job-input" placeholder="Keywords (e.g., Developer)" aria-label="Keywords" id="keywordInput" required oninput="autoSuggest(this.value,'jobSuggestions')" autocomplete="off">
             </div>
 
             <input id="locationInput" type="text" oninput="autoSuggest(this.value,'locationSuggestions')" class="form-control form-control-lg mr-2 mb-2 keywordInput location-input" placeholder="Location (e.g., City)">
@@ -109,6 +109,8 @@
               <option value="remote">Remote</option>
               <option value="hybrid">Hybrid</option>
               <option value="freelance">Freelance</option>
+              <option value="">All</option>
+
             </select>
             
             <div class="form-group">
@@ -207,6 +209,8 @@
               <option value="remote">Remote</option>
               <option value="hybrid">Hybrid</option>
               <option value="freelance">Freelance</option>
+              <option value="">All</option>
+
             </select>
           </div>
 
@@ -285,6 +289,8 @@
               <option value="mastersDegree">Master's Degree</option>
               <option value="doctorateDegree">Doctorate (PhD)</option>
               <option value="other">Other</option>
+              <option value="">Any</option>
+
             </select>
           </div>
           
@@ -295,6 +301,8 @@
               <option value="0-1">0-1 years</option>
               <option value="2-5">2-5 years</option>
               <option value="6-10">6-10+ years</option>
+              <option value="">Any</option>
+
             </select>
           </div>
           
