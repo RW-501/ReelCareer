@@ -823,9 +823,6 @@ const selectedOption = question.querySelector(`input[name="question-question_${i
 
 
 
-
-    const storage = getStorage(); // Initialize the storage instance
-
     function getUserIdFromURL() {
       const params = new URLSearchParams(window.location.search);
       return params.get('userId');
