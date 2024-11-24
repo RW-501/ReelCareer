@@ -2172,7 +2172,7 @@ async function attachTrackingListeners() {
     }
 }
 
-
+window.attachTrackingListeners = attachTrackingListeners;
 // Function to determine the correct `ViewedBy` field based on the URL
 // Function to determine the correct `ViewedBy` field based on the URL
 function getViewedByField() {
