@@ -67,6 +67,26 @@ firebase.analytics().logEvent('referral_participation', { referrer_id: 'user456'
     <div class="container mt-4">
         <h1>Analytics & Reporting</h1>
 
+
+        <div class="col-md-3">
+            <div class="card analytics-card shadow-sm">
+                <div class="card-body">
+                    <h5 class="section-title">Total Messages</h5>
+                    <p id="msgCountDisplay" class="display-4">Loading...</p>
+                    <div class="loading-spinner loading" id="loadingUserEngagement"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card analytics-card shadow-sm">
+                <div class="card-body">
+                    <h5 class="section-title">Total Users:</h5>
+                    <p id="usersDisplay" class="display-4">Loading...</p>
+                    <div class="loading-spinner loading" id="loadingEventPurchases"></div>
+                </div>
+            </div>
+        </div>
+
         <!-- User Engagement Section -->
         <div class="card mb-4">
             <div class="card-body">
@@ -102,6 +122,130 @@ firebase.analytics().logEvent('referral_participation', { referrer_id: 'user456'
                 <p id="userDemographicsMetrics">Loading...</p>
             </div>
         </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <section>
+            <title>User Analytics</title>
+            <style>
+              main {
+                font-family: Arial, sans-serif;
+                margin: 20px;
+                background-color: #f4f4f9;
+              }
+              table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 20px;
+              }
+              th, td {
+                padding: 12px;
+                text-align: left;
+                border: 1px solid #ddd;
+              }
+              th {
+                background-color: #4CAF50;
+                color: white;
+              }
+              tr:nth-child(even) {
+                background-color: #f2f2f2;
+              }
+
+              section {
+                margin: 3rem;
+              }
+            </style>
+       
+       
+            <h1>User Analytics</h1>
+            <div id="userAnalyticsTableContainer">
+              <!-- The table will be injected here -->
+            </div>
+        </section>
+
+
+
+
+        <section>
+
+            <title>Contacts Management</title>
+            <style>
+        
+        
+                #contacts-container {
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 20px;
+                }
+        
+                .contact-card {
+                    border: 1px solid #ccc;
+                    border-radius: 8px;
+                    padding: 20px;
+                    width: 300px;
+                    background-color: #f9f9f9;
+                    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                }
+        
+                .contact-card h3 {
+                    margin-top: 0;
+                    color: #333;
+                }
+        
+                .contact-card p {
+                    margin: 5px 0;
+                    color: #555;
+                }
+        
+                .view-btn {
+                    display: inline-block;
+                    padding: 10px 15px;
+                    border: none;
+                    border-radius: 5px;
+                    background-color: #007BFF;
+                    color: white;
+                    cursor: pointer;
+                    text-decoration: none;
+                    font-size: 14px;
+                }
+        
+                .view-btn:hover {
+                    background-color: #0056b3;
+                }
+            </style>
+            <h1>Contact Messages</h1>
+            <div id="contacts-container"></div>
+        
+        </section>
+        
+
+
+
+
+
+
+
+
+
 
         <!-- Custom Report Generation Section -->
         <div class="card mb-4">
@@ -147,6 +291,319 @@ firebase.analytics().logEvent('referral_participation', { referrer_id: 'user456'
         const app = firebase.initializeApp(firebaseConfig);
         const analytics = firebase.analytics(app);
         const db = firebase.firestore();
+
+
+
+
+
+
+
+/**
+ * Helper function to format date and time based on specified options
+ * @param {string} dateString - The date string to format
+ * @param {Object} options - Formatting options
+ * @returns {string} - Formatted date and time
+ */
+ function formatDate(dateInput, options = {}) {
+  let date;
+
+  // Check if the input is a Firestore timestamp object (with seconds and nanoseconds)
+  if (dateInput && dateInput.seconds && dateInput.nanoseconds) {
+    // Convert Firestore timestamp to JavaScript Date object
+    date = new Date(dateInput.seconds * 1000 + dateInput.nanoseconds / 1000000);
+  } else {
+    // Parse the date string into a Date object
+    date = new Date(dateInput);
+  }
+
+  // Check if the date is valid
+  if (isNaN(date)) {
+    console.error("Invalid date string:", dateInput);
+    return "Invalid Date";
+  }
+
+  // Default formatting options
+  const defaultOptions = {
+    weekday: "long", // "Monday"
+    year: "numeric", // "2024"
+    month: "long", // "November"
+    day: "numeric", // "21"
+    hour: "numeric", // "12"
+    minute: "numeric", // "11"
+    second: "numeric", // "26"
+    hour12: true // Use 12-hour clock with AM/PM
+  };
+
+  // Merge user options with defaults
+  const finalOptions = { ...defaultOptions, ...options };
+
+  // Return formatted date
+  return date.toLocaleString("en-US", finalOptions);
+}
+
+
+
+// Function to format the "viewedBy" data into an HTML structure
+function formatViewedBy(viewedByData = {}) {
+  return `
+    <ul>
+      <li><strong>Duration of View:</strong> ${viewedByData.durationOfView || 'N/A'} seconds</li>
+      <li><strong>Contact Views:</strong> ${viewedByData.contactViews || 'N/A'}</li>
+      <li><strong>View Method:</strong> ${viewedByData.viewMethod || 'N/A'}</li>
+      <li><strong>View Source:</strong> ${viewedByData.viewSource || 'N/A'}</li>
+      <li><strong>View Date:</strong> ${viewedByData.viewDate ? formatDate(viewedByData.viewDate) : 'N/A'}</li>
+    </ul>
+  `;
+}
+
+// Function to toggle visibility of detail rows
+function toggleDetailSection(rowId) {
+  const detailRow = document.getElementById(`details-${rowId}`);
+  if (detailRow) {
+    detailRow.style.display = detailRow.style.display === 'none' ? 'table-row' : 'none';
+  }
+}
+
+// Main function to display user analytics
+async function displayUserAnalytics() {
+  const analyticsData = await fetchUserAnalyticsData(); // Fetch the data
+  const totalUsers = analyticsData.length;
+
+  // Display the total user count
+  document.getElementById('usersDisplay').innerHTML = `<h3>${totalUsers}</h3>`;
+
+  // Construct the table structure
+  let tableHTML = `
+    <table>
+      <thead>
+        <tr>
+          <th>IP Address</th>
+          <th>City</th>
+          <th>Country</th>
+          <th>State</th>
+          <th>Last View Date</th>
+          <th>Total Duration (Seconds)</th>
+          <th>Activities Count</th>
+          <th>User Blocked</th>
+        </tr>
+      </thead>
+      <tbody>
+  `;
+
+  analyticsData.forEach(user => {
+    // Add main row
+    tableHTML += `
+      <tr>
+        <td><button class="collapsible" onclick="toggleDetailSection('${user.ipAddress}')">${user.ipAddress}</button></td>
+        <td>${user.city || 'N/A'}</td>
+        <td>${user.country || 'N/A'}</td>
+        <td>${user.state || 'N/A'}</td>
+        <td>${user.lastViewDate ? formatDate(user.lastViewDate) : 'N/A'}</td>
+        <td>${user.totalDuration || 0}</td>
+        <td>${user.userActivitiesCount || 0}</td>
+        <td>${user.userBlocked ? 'Yes' : 'No'}</td>
+      </tr>
+    `;
+
+    // Filter out invalid `viewedBy` data
+    const viewedByDetails = [
+      user.contactViewedBy,
+      user.eventDetailsViewedBy,
+      user.homeViewedBy,
+      user.aboutViewedBy,
+      user.confirmationViewedBy,
+      user.eventsViewedBy,
+      user.galleryViewedBy
+    ]
+      .filter(detail => detail) // Exclude undefined, null, or empty values
+      .map(detail => formatViewedBy(detail)) // Format valid entries
+      .join(""); // Combine them into a single string
+
+    // Only include the collapsible row if there are valid details
+    if (viewedByDetails) {
+      tableHTML += `
+        <tr id="details-${user.ipAddress}" class="details-row" style="display: none;">
+          <td colspan="8">
+            <div class="user-details">
+              <h4>Details for ${user.ipAddress}</h4>
+              ${viewedByDetails}
+            </div>
+          </td>
+        </tr>
+      `;
+    }
+  });
+
+  // Close table
+  tableHTML += '</tbody></table>';
+
+  // Insert the table into the container
+  document.getElementById('userAnalyticsTableContainer').innerHTML = tableHTML;
+}
+
+// Fetch user analytics data from Firestore
+async function fetchUserAnalyticsData() {
+  const analyticsCollection = collection(db, "Analytics"); // Reference to the Analytics collection
+  const analyticsSnapshot = await getDocs(analyticsCollection); // Fetch all documents
+  const analyticsList = analyticsSnapshot.docs.map(doc => ({
+    ipAddress: doc.id, // IP address as doc ID
+    city: doc.data().city,
+    country: doc.data().country,
+    state: doc.data().state,
+    totalDuration: doc.data().totalDuration,
+    userActivitiesCount: doc.data().userActivitiesCount,
+    userBlocked: doc.data().userBlocked || false,
+    contactViewedBy: doc.data().contactViewedBy || {}, // Ensure fallback is an empty object
+    eventDetailsViewedBy: doc.data().eventDetailsViewedBy || {}, 
+    homeViewedBy: doc.data().homeViewedBy || {}, 
+    aboutViewedBy: doc.data().aboutViewedBy || {}, 
+    confirmationViewedBy: doc.data().confirmationViewedBy || {}, 
+    eventsViewedBy: doc.data().eventsViewedBy || {}, 
+    galleryViewedBy: doc.data().galleryViewedBy || {}, 
+    lastViewDate: doc.data().lastViewDate,
+  }));
+  return analyticsList;
+}
+
+// Execute the function on page load
+displayUserAnalytics();
+
+
+
+
+
+
+
+
+        async function fetchAndRenderContacts() {
+    // Reference to the Contacts collection in Firebase
+    const contactsCollection = collection(db, "Contacts"); // Reference to the Contacts collection in Firestore
+    
+    try {
+        // Fetch documents from the Contacts collection
+        const snapshot = await getDocs(contactsCollection);
+        const contacts = snapshot.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data()
+        }));
+
+        // Render the contacts in the UI
+        renderContacts(contacts);
+    } catch (error) {
+        console.error("Error fetching contacts:", error);
+    }
+}
+
+function renderContacts(contacts) {
+    const container = document.getElementById('contacts-container');
+    if (!container) {
+        console.error("Container not found!");
+        return; // Exit if the container element is not found
+    }
+
+    container.innerHTML = ""; // Clear the container
+
+    let unReadMsg = 0; // Counter for unread messages
+
+    contacts.forEach(contact => {
+        // Create a card for each contact
+        const card = document.createElement('div');
+        card.className = 'contact-card';
+
+        // Populate the card with contact details
+        card.innerHTML = `
+            <h3>${contact.name || "No Name Provided"}</h3>
+            <p><strong>Status:</strong> ${contact.status || "No Status"}</p>
+            <p><strong>Subject:</strong> ${contact.subject || "No Subject"}</p>
+            <p><strong>Messages:</strong> ${contact.messages || 0}</p>
+            <p><strong>Timestamp:</strong> ${contact.timestamp ? new Date(contact.timestamp).toLocaleString() : "No Timestamp"}</p>
+            <button class="view-btn" onclick="goToAdminContact('${contact.id}')">View Details</button>
+        `;
+
+        // Increment unread message count if the status is "unread"
+        if (contact.status === "unread") {
+            unReadMsg += 1;
+        }
+
+        // Append the card to the container
+        container.appendChild(card);
+    });
+
+    // Update the display for total messages and unread messages
+    const msgCountDisplay = document.getElementById('msgCountDisplay');
+    if (msgCountDisplay) {
+        msgCountDisplay.innerHTML = `
+            <h3>Total Messages: ${contacts.length}</h3>
+            <p>Unread Messages: ${unReadMsg}</p>
+        `;
+    } else {
+        console.error("Message count display element not found.");
+    }
+}
+
+function goToAdminContact(docId) {
+    // Redirect to the admin contact page with the docId in the query string
+    window.location.href = `/admin/contact?msg=${docId}`;
+}
+
+
+
+
+
+
+
+
+window.onload = function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const eventId = urlParams.get("eventId");
+
+
+            // my Analyics
+     
+            fetchUserAnalyticsData();
+   // Display user analytics when the page loads
+   displayUserAnalytics();
+  
+// Call the function on page load
+fetchAndRenderContacts();
+
+fetchAndRender();
+
+
+        };
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         // Log custom event for user engagement
         function logUserEngagement(eventName) {
