@@ -676,7 +676,7 @@ function addStyles() {
       
       <!-- Job Title and Company -->
       <div class="card-top" style="gap: 0.5rem;">
-        <a href="${adjustLinkURL}job-detail?id=${job.id}"
+        <a href="${adjustLinkURL} /job-details?id=${job.id}"
            class="job-title-link" 
            style="
              font-size: 1.5rem;
@@ -749,7 +749,7 @@ function addStyles() {
       </div>
   
       <!-- View Details Button -->
-      <a href="${adjustLinkURL}job-detail?id=${job.id}" 
+      <a href="${adjustLinkURL} /job-details?id=${job.id}" 
          class="btn btn-primary w-100 mt-3" 
          aria-label="View job details for ${job.title}"
          style="
