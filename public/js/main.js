@@ -93,6 +93,25 @@ const getUserIP = async () => {
         return null;
     }
 };
+
+
+const getUserLocationByIP = async (ip) => {
+  try {
+      const response = await fetch(`${locationAPI}/${ip}/json/`);
+      const data = await response.json();
+      return {
+          city: data.city || 'N/A',
+          state: data.region || 'N/A',
+          zip: data.postal || 'N/A',
+          country: data.country_name || 'N/A'
+      };
+  } catch (error) {
+      console.error('Error fetching location by IP:', error);
+      return null;
+  }
+};
+
+
 // Function to update or create user information in Firestore
 const saveUserLoginState = async (user) => {
   try {
