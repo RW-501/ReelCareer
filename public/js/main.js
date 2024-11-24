@@ -340,14 +340,28 @@ const logout = async () => {
 async function logoutUser() {
   try {
     await firebase.auth().signOut();
-    window.location.href = adjustLinkHomeURL + "views/auth"; // Redirect to login page after logout
-  } catch (error) {
-    console.error("Logout error:", error);
-  }
+
+
+  clearTimeout(autoLogoutTimer);
+  localStorage.removeItem('isLoggedIn');
+  localStorage.removeItem('autoLogoutTime');
+  showToast('You have been logged out.');
+  // Redirect to login or home page
+  window.location.href = '../';
+
+} catch (error) {
+  console.error("Logout error:", error);
 }
 
+
+
+}
+
+
+window.logoutUser = logoutUser;
+
 // Logout button on any page
-document.getElementById("logout-button")?.addEventListener("click", logout);
+document.getElementById("logout-button")?.addEventListener("click", logoutUser);
 
 // Function to check if a user is logged in
 const checkUserLoggedIn = () => {
@@ -2288,18 +2302,6 @@ function checkUserLoginStatus() {
 window.checkUserLoginStatus = checkUserLoginStatus;
 
 
-// Logout function
-function logout() {    // Clear auto logout timer
-  clearTimeout(autoLogoutTimer);
-  localStorage.removeItem('isLoggedIn');
-  localStorage.removeItem('autoLogoutTime');
-  showToast('You have been logged out.');
-  // Redirect to login or home page
-  window.location.href = '../';
-}
-
-
-window.logout = logout;
 
 
 // Check if user is logged in and handle admin area access
@@ -2340,7 +2342,7 @@ function initializeAutoLogout() {
   if (savedMinutes && !isNaN(savedMinutes)) {
       // Set the timer using the saved setting
       autoLogoutTimer = setTimeout(() => {
-          logout();
+        logoutUser();
       }, parseInt(savedMinutes) * 60 * 1000);
 
 
