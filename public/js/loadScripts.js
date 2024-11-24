@@ -15,22 +15,23 @@ function formatLocation(location, options = {}) {
         location = location[0]; // Return the first part (country)
         break;
       case "state":
-        location = `<a href="/state#${encodeURIComponent(location[1] || "").toLowerCase()}">${location[1] || ""}</a>`; // Return state link
+
+        location = `<a href="/state#${encodeURIComponent(location[1] || "").toLowerCase().trim()}">${location[1] || ""}</a>`; // Return state link
         break;
       case "county":
         location = location[2] || ""; // Return the third part (county)
         break;
       case "city":
-        location = `<a href="/city#${encodeURIComponent(location[location.length - 1]).toLowerCase()}">${location[location.length - 1]}</a>`; // Return city link
+        location = `<a href="/city#${encodeURIComponent(location[location.length - 1]).toLowerCase().trim()}">${location[location.length - 1]}</a>`; // Return city link
         break;
       default:
         location = location.map((part, index) => {
           if (index === 1) {
             // State
-            return `<a href="/state#${encodeURIComponent(part).toLowerCase()}">${part}</a>`;
+            return `<a href="/state#${encodeURIComponent(part).toLowerCase().trim()}">${part}</a>`;
           } else if (index === location.length - 1) {
             // City
-            return `<a href="/city#${encodeURIComponent(part).toLowerCase()}">${part}</a>`;
+            return `<a href="/city#${encodeURIComponent(part).toLowerCase().trim()}">${part}</a>`;
           } else {
             return part;
           }
