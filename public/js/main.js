@@ -2039,7 +2039,7 @@ function roll_in_animations(){
   // Select the last breadcrumb anchor
   const lastBreadcrumb = document.getElementById("lastBreadcrumb_a");
 
-  if (id) {
+  if (id && lastBreadcrumb){
       // Append the ID to the href
       lastBreadcrumb.href = `https://reelcareer.com/views/job-listings?id=${id}`;
   } else {
