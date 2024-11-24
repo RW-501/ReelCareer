@@ -210,7 +210,7 @@
  // Helper function to get the state name from URL
  function getStateFromURL() {
       const path = window.location.pathname;
-      const segments = path.split('/');
+      const segments = path.split('#');
       return segments[segments.length - 1]; // Assumes the state name is the last segment
     }
 

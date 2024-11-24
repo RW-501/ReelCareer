@@ -164,7 +164,7 @@
         } from 'https://reelcareer.co/js/module.js';
 
     document.addEventListener('DOMContentLoaded', async () => {
-      const cityName = decodeURIComponent(window.location.pathname.split('/').pop());
+      const cityName = decodeURIComponent(window.location.pathname.split('#').pop());
       document.getElementById('city-name').textContent = cityName;
 
       const db = firebase.firestore();
