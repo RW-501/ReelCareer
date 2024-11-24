@@ -297,27 +297,19 @@ border-radius: 12px;
   <!-- Firebase configuration/ Login& Out  -->
   <script type="module" src="public/js/main.js"></script>
 
-  <script type="module">
-    import {
-      auth,
-      db,
-      storage,
-      analytics,
-      app
-    } from './public/js/main.js'; // Adjust the path based on your structure
-    import {
-      query,
-      where,
-      orderBy,
-      limit,
-      collection,
-      getDocs,
-      addDoc
-    } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
-   
+<!-- Firebase JS SDK and Custom Scripts -->
 
-
-
+<script type="module">
+  import {
+      db, doc, getDoc, query, updateDoc,
+      setDoc, ref, signInWithPopup, orderBy,
+      GoogleAuthProvider, FacebookAuthProvider,
+      uploadBytes, OAuthProvider, arrayUnion, getStorage,
+      signOut, addDoc, increment, onAuthStateChanged,
+      createUserWithEmailAndPassword, signInWithEmailAndPassword,
+      where, getDocs, storage, collection, deleteObject, 
+      auth, analytics, deleteDoc, getDownloadURL
+  } from '../js/module.js';
 
 
 
