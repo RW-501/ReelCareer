@@ -515,10 +515,11 @@ const isValidValue = value => value !== undefined && value !== null && value !==
 
     });
 
-
+let login = checkUserLoginStatus();
+console.log("logged in   ",login);
     // Check if the user is logged in
       const homeCTA = document.getElementById('home-CTA');
-      if (checkUserLoginStatus()) {
+      if (login) {
         // User is logged in, hide the CTA
         if (homeCTA) {
           homeCTA.style.display = 'none';
