@@ -45,6 +45,10 @@ h1, h2, h3, h4 {
     text-transform: capitalize !important;
 }
 
+.form-group {
+    gap: 1rem;
+    display: flex;
+}
 
 *{
     user-select: none;

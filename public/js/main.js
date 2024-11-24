@@ -2039,11 +2039,20 @@ function roll_in_animations(){
 
   // Select the last breadcrumb anchor
   const lastBreadcrumb = document.getElementById("lastBreadcrumb_a");
-
+  const breadcrumbjobTitleActive = document.getElementById("breadcrumb-active-title");
+  const jobTitle = document.getElementById("jobTitle");
+  const appyJobTitle = document.getElementById("appyJobTitle");
+  
   if (id && lastBreadcrumb){
       // Append the ID to the href
-      lastBreadcrumb.href = `https://reelcareer.com/views/job-listings?id=${id}`;
+      lastBreadcrumb.href = `https://reelcareer.com/views/job-details?id=${id}`;
   } 
+  if (breadcrumbjobTitleActive && jobTitle){
+    breadcrumbjobTitleActive.innerText = jobTitle.innerText;
+  }
+  if (breadcrumbjobTitleActive && appyJobTitle){
+    breadcrumbjobTitleActive.innerText = appyJobTitle.innerText;
+  }
 
 });
 
