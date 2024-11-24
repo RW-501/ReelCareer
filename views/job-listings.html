@@ -88,6 +88,15 @@
     </div>
   </nav>
 
+
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li id="lastBreadcrumb_home" class="breadcrumb-item"><a href="https://reelcareer.co/">Home</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Job Listings</li>
+    </ol>
+  </nav>
+
+  
   <!-- Job Search Section -->
   <searchArea>
     <div class="container mt-5">
@@ -503,12 +512,7 @@ border-radius: 12px;
   </div>
 
 
-    <nav aria-label="breadcrumb">
-      <ol class="breadcrumb">
-          <li id="lastBreadcrumb_home" class="breadcrumb-item"><a href="https://reelcareer.co/">Home</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Job Listings</li>
-      </ol>
-    </nav>
+
 
   <main id="main-content">
 
@@ -928,14 +932,42 @@ document.querySelector('#main-search-btn').addEventListener('click', function() 
     }
     // Function to get URL parameters
     function getUrlParameters() {
-      const params = new URLSearchParams(window.location.search);
+  const params = new URLSearchParams(window.location.search);
+
+  // Try to fetch multiple parameters, and if they are not available, fallback to an alternative logic
+  try {
+    const keywords = params.get('keywords');
+    const location = params.get('location');
+    const jobType = params.get('jobType');
+    const salaryRange = params.get('salaryRange');
+
+    // If 'keywords' or other parameters are present, return the full object
+    if (keywords || location || jobType || salaryRange) {
       return {
-        keywords: params.get('keywords') || '',
-        location: params.get('location') || '',
-        jobType: params.get('jobType') || '',
-        salaryRange: params.get('salaryRange') || ''
+        keywords: keywords || '',
+        location: location || '',
+        jobType: jobType || '',
+        salaryRange: salaryRange || ''
       };
     }
+
+    // Fallback case when none of the main parameters are available
+    return {
+      keywords: params.get('tag') || '',
+    };
+  } catch (error) {
+    console.error('Error parsing URL parameters:', error);
+
+    // Return a default object in case of any parsing errors
+    return {
+      keywords: '',
+      location: '',
+      jobType: '',
+      salaryRange: ''
+    };
+  }
+}
+
     // Populate the search bar with URL parameters
     function populateSearchBar() {
       const {
