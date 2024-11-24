@@ -80,6 +80,7 @@ let UserID = "";
 let userData = "";
 
 const ipAPI = 'https://api.ipify.org?format=json';
+const locationAPI = 'https://ipapi.co';
 
 
 // Fetch the user's IP address
