@@ -2056,16 +2056,7 @@ function roll_in_animations(){
 
 });
 
-import {
-  db, doc, getDoc, query, updateDoc,
-  setDoc, ref, signInWithPopup, orderBy,
-   
-  uploadBytes, OAuthProvider, arrayUnion, getStorage,
-  signOut, addDoc, increment, onAuthStateChanged,
-  createUserWithEmailAndPassword, signInWithEmailAndPassword,
-  where, getDocs, storage, collection, deleteObject, 
-  auth, analytics, deleteDoc, getDownloadURL
-} from 'https://reelcareer.co/js/module.js';
+
 
 // Utility variables
 let viewStartTime;
