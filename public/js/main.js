@@ -1826,7 +1826,7 @@ window.addEventListener('load', function() {
                   <!-- Display job tags as clickable buttons -->
                   <div class="job-tags mt-2">
                       ${similarJob.tags.map(tag => `
-                          <a href="../views/job-listings/?tag=${encodeURIComponent(tag)}" class="btn btn-primary badge" style="margin: 0.2rem;">
+                          <a href="../views/job-listings?tag=${encodeURIComponent(tag)}" class="btn btn-primary badge" style="margin: 0.2rem;">
                               ${tag}
                           </a>
                       `).join('')}
@@ -1994,3 +1994,26 @@ function roll_in_animations(){
   }
 
  // roll_in_animations();
+
+
+
+ 
+ document.addEventListener("DOMContentLoaded", () => {
+  // Get the ID from the URL
+  const urlParams = new URLSearchParams(window.location.search);
+  const id = urlParams.get("id"); // Assuming the ID is passed as a query parameter 'id'
+
+  // Select the last breadcrumb anchor
+  const lastBreadcrumb = document.getElementById("lastBreadcrumb_a");
+
+  if (id) {
+      // Append the ID to the href
+      lastBreadcrumb.href = `https://reelcareer.com/views/job-listings?id=${id}`;
+  } else {
+      console.warn("No ID found in the URL.");
+  }
+
+
+});
+
+
