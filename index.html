@@ -517,9 +517,8 @@ const isValidValue = value => value !== undefined && value !== null && value !==
 
 
     // Check if the user is logged in
-    auth.onAuthStateChanged((user) => {
       const homeCTA = document.getElementById('home-CTA');
-      if (user) {
+      if (checkUserLoginStatus()) {
         // User is logged in, hide the CTA
         if (homeCTA) {
           homeCTA.style.display = 'none';
@@ -530,7 +529,7 @@ const isValidValue = value => value !== undefined && value !== null && value !==
           homeCTA.style.display = 'block';
         }
       }
-    });
+  
 
 
     

@@ -81,11 +81,14 @@ function checkUserLoginStatus() {
       if (user) {
         // User is signed in
         console.log('User is logged in:', user);
+        return user;
       } else {
         // No user is signed in
         console.log('No user is logged in.');
+        return false;
       }
     });
+
   }
 
 window.checkUserLoginStatus = checkUserLoginStatus;
