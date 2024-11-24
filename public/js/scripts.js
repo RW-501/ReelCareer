@@ -191,7 +191,43 @@ addFavicons();
 
 
 
-  
+
+
+
+// Function to fetch the user's IP address and location
+const getUserIP = async () => {
+    try {
+        const response = await fetch('https://api.ipify.org?format=json');
+        const data = await response.json();
+        return data.ip;
+    } catch (error) {
+        console.error('Error fetching IP address:', error);
+        return null;
+    }
+};
+
+const getUserLocationByIP = async (ip) => {
+    try {
+        const response = await fetch(`https://ipapi.co/${ip}/json/`);
+        const data = await response.json();
+        return {
+            city: data.city,
+            state: data.region,
+            zip: data.postal,
+            country: data.country_name,
+        };
+    } catch (error) {
+        console.error('Error fetching location by IP:', error);
+        return null;
+    }
+};
+
+
+
+
+
+
+
     
 
 // Simple encryption/decryption functions
