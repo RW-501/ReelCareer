@@ -37,11 +37,15 @@ main {
 }
 
 #dynamic-footer {
-    background: linear-gradient(to bottom, #f8f9fa, #83bad9);
+    background: linear-gradient(to bottom, #f4f4f4, #83bad9);
 }
+
+
 h1, h2, h3, h4 {
-    text-transform: capitalize;
+    text-transform: capitalize !important;
 }
+
+
 *{
     user-select: none;
     box-sizing: border-box;
