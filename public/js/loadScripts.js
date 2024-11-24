@@ -1,55 +1,66 @@
 
 
 function formatLocation(location, options = {}) {
-    const { part = "all", reverseOrder = false } = options; // Set default options
-  
-    // Check if input is an array
-    if (Array.isArray(location)) {
-      if (reverseOrder) {
-        location = location.reverse(); // Reverse the order of the array
-      }
-  
-      // If the user wants only a specific part of the location (e.g., city, country)
-      switch (part) {
-        case "country":
-          location = location[0]; // Return the first part (country)
-          break;
-        case "state":
-          location = location[1] || ""; // Return the second part (state)
-          break;
-        case "county":
-          location = location[2] || ""; // Return the third part (county)
-          break;
-        case "city":
-          location = location[location.length - 1]; // Return the last part (city)
-          break;
-        default:
-          location = location.join(", "); // Join the entire array into a string
-      }
-    } else if (typeof location === "string") {
-      // If location is a string, we format it directly
-      if (location.trim() === "") {
-        return "Not specified"; // Return 'Not specified' for empty string
-      }
-    } else {
-      // If location is neither an array nor a valid string, return 'Not specified'
-      return "Not specified";
+  const { part = "all", reverseOrder = false } = options; // Set default options
+
+  // Check if input is an array
+  if (Array.isArray(location)) {
+    if (reverseOrder) {
+      location = location.reverse(); // Reverse the order of the array
     }
-  
-    // Capitalize each word of the location, whether it's from an array or string
-    location = location
-      .split(" ")
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-      .join(" ");
-  
-    // Add spaces after commas, periods, dashes, slashes, or colons
-    let formattedLocation = location.replace(/([.,-/])(\S)/g, "$1 $2");
-  
-    // Remove any extra spaces
-    formattedLocation = formattedLocation.replace(/\s+/g, " ").trim();
-  
-    return formattedLocation;
+
+    // If the user wants only a specific part of the location (e.g., city, country)
+    switch (part) {
+      case "country":
+        location = location[0]; // Return the first part (country)
+        break;
+      case "state":
+        location = `<a href="../state/${encodeURIComponent(location[1] || "").toLowerCase()}">${location[1] || ""}</a>`; // Return state link
+        break;
+      case "county":
+        location = location[2] || ""; // Return the third part (county)
+        break;
+      case "city":
+        location = `<a href="../city/${encodeURIComponent(location[location.length - 1]).toLowerCase()}">${location[location.length - 1]}</a>`; // Return city link
+        break;
+      default:
+        location = location.map((part, index) => {
+          if (index === 1) {
+            // State
+            return `<a href="../state/${encodeURIComponent(part).toLowerCase()}">${part}</a>`;
+          } else if (index === location.length - 1) {
+            // City
+            return `<a href="../city/${encodeURIComponent(part).toLowerCase()}">${part}</a>`;
+          } else {
+            return part;
+          }
+        }).join(", "); // Join the entire array into a string
+    }
+  } else if (typeof location === "string") {
+    // If location is a string, we format it directly
+    if (location.trim() === "") {
+      return "Not specified"; // Return 'Not specified' for empty string
+    }
+  } else {
+    // If location is neither an array nor a valid string, return 'Not specified'
+    return "Not specified";
   }
+
+  // Capitalize each word of the location, whether it's from an array or string
+  location = location
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(" ");
+
+  // Add spaces after commas, periods, dashes, slashes, or colons
+  let formattedLocation = location.replace(/([.,-/])(\S)/g, "$1 $2");
+
+  // Remove any extra spaces
+  formattedLocation = formattedLocation.replace(/\s+/g, " ").trim();
+
+  return formattedLocation;
+}
+
 
   function formatDateString(dateString) {
     // Ensure dateString is a string or object with seconds and nanoseconds
