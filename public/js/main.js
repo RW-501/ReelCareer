@@ -2043,10 +2043,7 @@ function roll_in_animations(){
   if (id && lastBreadcrumb){
       // Append the ID to the href
       lastBreadcrumb.href = `https://reelcareer.com/views/job-listings?id=${id}`;
-  } else {
-      console.warn("No ID found in the URL.");
-  }
-
+  } 
 
 });
 

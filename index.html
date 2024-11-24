@@ -486,8 +486,7 @@ const isValidValue = value => value !== undefined && value !== null && value !==
         // Add any other specific fields you want to include...
       }));
     }
-    // Load job listings on page load
-    fetchJobListings();
+  
     document.getElementById('jobSearchForm').addEventListener('submit', function(event) {
       event.preventDefault(); // Prevent the default form submission
       // Get the values from the input fields
@@ -505,6 +504,18 @@ const isValidValue = value => value !== undefined && value !== null && value !==
       // Navigate to the job listings page with the search parameters
       window.location.href = `./views/job-listings?id=${queryParams}`;
     });
+
+
+
+    document.addEventListener("DOMContentLoaded", () => {
+
+      // Load job listings on page load
+      fetchJobListings();
+
+
+    });
+
+
     // Check if the user is logged in
     auth.onAuthStateChanged((user) => {
       const homeCTA = document.getElementById('home-CTA');
