@@ -2259,7 +2259,6 @@ function getViewedByField() {
             durationOfView: durationOfView,
             contactViews: increment(1),
             viewSource: getViewSource(),
-            timer: timer,
             exitTrack: exitTrack
         },
         ipAddress,
@@ -2318,7 +2317,7 @@ let TrackingOn = true;
 if(TrackingOn){
 
   event.preventDefault();
-  
+
     // Get the clicked element
     const target = event.target;
     let interceptTimer = 10000;
