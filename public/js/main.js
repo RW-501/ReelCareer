@@ -454,12 +454,12 @@ document.addEventListener("DOMContentLoaded", function () {
                     </button>
                     <div class="collapse navbar-collapse" id="navbarNav">
                         <ul class="navbar-nav ml-auto">
-                            <li class="nav-item"><a class="nav-link" href="${adjustLinkURL}job-listings">Job Listings</a></li>
-                            <li class="nav-item"><a class="nav-link" href="${adjustLinkURL}about">About Us</a></li>
-                            <li class="nav-item" id="jobSeekerNavItem"><a class="nav-link" href="${adjustLinkURL}job-seeker">Job Seeker</a></li>
-                            <li class="nav-item" id="recruiterNavItem"><a class="nav-link" href="${adjustLinkURL}recruiter-dashboard">Recruiter Dashboard</a></li>
+                            <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/views/job-listings">Job Listings</a></li>
+                            <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/views/about">About Us</a></li>
+                            <li class="nav-item" id="jobSeekerNavItem"><a class="nav-link" href="https://reelcareer.co/views/job-seeker">Job Seeker</a></li>
+                            <li class="nav-item" id="recruiterNavItem"><a class="nav-link" href="https://reelcareer.co/views/recruiter-dashboard">Recruiter Dashboard</a></li>
                             <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/views/blog">Blog</a></li>
-                            <li class="nav-item"><a class="nav-link" href="${adjustLinkURL}membership">Membership</a></li>
+                            <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/views/membership">Membership</a></li>
                             <li class="nav-item">
                                 <div id="authSection" class="d-flex align-items-center"></div>
                             </li>
