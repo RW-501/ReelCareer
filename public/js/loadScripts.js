@@ -309,7 +309,7 @@ console.log(formatDateString(1732032108000));                           // Expec
   }
   
   getSuggestionStyles();
-  const DEBOUNCE_DELAY = 300;
+  let DEBOUNCE_DELAY = 300;
 
   // Fetch suggestions data from JSON file
   async function fetchSuggestions() {
