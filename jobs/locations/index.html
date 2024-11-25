@@ -357,12 +357,12 @@ const city = [...new Set(snapshot.docs.map(doc => doc.data().city.trim()))]
         .map(city => `<div class="state-city-card">
     <i class="fas fa-city"></i><h4><a href="https://reelcareer.co/jobs/city#${city}">${city}</a></h4></div>`)
         .join("");
-
+/*
         city.forEach(city => {
     
     console.log(`https://reelcareer.co/jobs/city#${city}`);
 });
-
+*/
       // Inject HTML into the container
       document.getElementById("cityListContainer").innerHTML = `
         <h2>Available Cities</h2>
