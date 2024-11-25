@@ -10,111 +10,102 @@
 <body>
     <div class="container mt-5">
         <h1 class="text-center">Adzuna Labor Market Insights</h1>
-        
+  
+        <!-- Filters Section -->
+        <div class="mb-4">
+            <form id="filtersForm" class="d-flex flex-column gap-2">
+                <input type="text" id="location" placeholder="Location" class="form-control">
+                <input type="number" id="minSalary" placeholder="Min Salary" class="form-control">
+                <button type="submit" class="btn btn-primary">Apply Filters</button>
+            </form>
+        </div>
+  
         <!-- Fetch Data Section -->
         <div class="mb-4">
             <button id="fetchDataBtn" class="btn btn-primary">Fetch Labor Market Insights</button>
+            <div id="fetchLoader" class="spinner-border text-primary d-none" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
         </div>
-        
+  
         <!-- Data Display Section -->
         <div class="mb-4">
             <h3>Insights Data</h3>
-            <pre id="dataDisplay" style="background: #f8f9fa; padding: 15px; border-radius: 5px; overflow-x: auto; height: 300px;"></pre>
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="toggleDataView" />
+                <label for="toggleDataView" class="form-check-label">Show/Hide Data</label>
+            </div>
+            <pre id="dataDisplay" style="background: #f8f9fa; padding: 15px; border-radius: 5px; overflow-x: auto; height: 300px; display: none;"></pre>
         </div>
-
-        <!-- Save Data Section -->
-        <div class="mb-4">
+  
+        <!-- Save and Upload Section -->
+        <div class="mb-4 d-flex gap-3">
             <button id="saveDataBtn" class="btn btn-success">Save Data Locally</button>
-        </div>
-
-        <!-- Check Saved Data Section -->
-        <div class="mb-4">
-            <h3>Saved Data</h3>
-            <pre id="savedDataDisplay" style="background: #f8f9fa; padding: 15px; border-radius: 5px; overflow-x: auto; height: 300px;"></pre>
-        </div>
-
-        <!-- Upload Data to Database Section -->
-        <div class="mb-4">
             <button id="uploadDataBtn" class="btn btn-info">Upload to Database</button>
+            <div id="uploadLoader" class="spinner-border text-info d-none" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
         </div>
     </div>
-
+  
     <script type="module">
-        import {
-            db, doc, getDoc, query, updateDoc,
-            setDoc, ref, signInWithPopup, orderBy,
-             
-            uploadBytes, OAuthProvider, arrayUnion, getStorage,
-            signOut, addDoc, increment, onAuthStateChanged,
-            createUserWithEmailAndPassword, signInWithEmailAndPassword,
-            where, getDocs, storage, collection, deleteObject, 
-            auth, analytics, deleteDoc, getDownloadURL
-        } from 'https://reelcareer.co/js/module.js';
-    
+        import { db, batch, collection } from 'https://reelcareer.co/js/module.js';
+  
         const apiUrl = 'https://api.adzuna.com/v1/api/jobs/us/search/1?app_id=3ea9a2f1&app_key=e74d84b00c37bbfabe11710ebafcd138';
-        let fetchedData = null;
-        
-        // Fetch Data
-        document.getElementById('fetchDataBtn').addEventListener('click', async () => {
+  
+        const fetchDataBtn = document.getElementById('fetchDataBtn');
+        const fetchLoader = document.getElementById('fetchLoader');
+        const dataDisplay = document.getElementById('dataDisplay');
+        const toggleDataView = document.getElementById('toggleDataView');
+        const saveDataBtn = document.getElementById('saveDataBtn');
+        const uploadDataBtn = document.getElementById('uploadDataBtn');
+        const uploadLoader = document.getElementById('uploadLoader');
+  
+        let fetchedData = [];
+  
+        // Fetch and Filter Data
+        fetchDataBtn.addEventListener('click', async () => {
             try {
-                const response = await axios.get(apiUrl);
-                fetchedData = response.data;
-                document.getElementById('dataDisplay').textContent = JSON.stringify(fetchedData, null, 2);
+                fetchLoader.classList.remove('d-none');
+                const allData = await fetchAllPages();
+                fetchedData = allData.map(transformJobData);
+                dataDisplay.textContent = JSON.stringify(fetchedData, null, 2);
                 alert('Data fetched successfully!');
             } catch (error) {
                 console.error('Error fetching data:', error);
-                alert('Failed to fetch data. Please check the console for details.');
+                alert('Failed to fetch data.');
+            } finally {
+                fetchLoader.classList.add('d-none');
             }
         });
+  
+        
+    // Upload Data to Database
+    uploadDataBtn.addEventListener('click', async () => {
+      try {
+        const savedData = JSON.parse(localStorage.getItem('adzunaData'));
+        if (!savedData) throw new Error('No saved data found.');
 
-        // Save Data Locally
-        document.getElementById('saveDataBtn').addEventListener('click', () => {
-            if (fetchedData) {
-                localStorage.setItem('adzunaData', JSON.stringify(fetchedData));
-                alert('Data saved locally!');
-            } else {
-                alert('No data to save. Please fetch data first.');
-            }
-        });
-
-        // Check Saved Data
-        document.getElementById('savedDataDisplay').textContent = localStorage.getItem('adzunaData') || 'No saved data found.';
-
-        // Upload Data to Database
-        document.getElementById('uploadDataBtn').addEventListener('click', async () => {
-            const savedData = localStorage.getItem('adzunaData');
-            if (!savedData) {
-                alert('No saved data to upload.');
-                return;
-            }
-
-            try {
-            
-                
-                addDoc(collection(db, 'States'), {
-            stateID: stateName,
-            stateName: stateName, 
-
-            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-            created: '2024',
+        uploadLoader.classList.remove('d-none');
+        for (const location of savedData.results) {
+          await addDoc(collection(db, 'State',stateName), {
+            stateName: location.stateName,
+    salary_min: location.salary_min || 0,
+    salary_max: location.salary_max || 0,
             source: 'Adzuna',
-            status: 'active',
-        }).then(() => {
-
-        }).catch(error => {
-            showToast("Error sending message: " + error.message, 'error')
-        });
-
-
-
-
-
-
-            } catch (error) {
-                console.error('Error uploading data:', error);
-                alert('Failed to upload data. Please check the console for details.');
-            }
-        });
+            created_at: new Date().toISOString(),
+          });
+        }
+        alert('Data uploaded successfully!');
+      } catch (error) {
+        console.error('Error uploading data:', error);
+        alert('Failed to upload data.');
+      } finally {
+        uploadLoader.classList.add('d-none');
+      }
+    });
     </script>
-</body>
+  </body>
+  
+  
 </html>
