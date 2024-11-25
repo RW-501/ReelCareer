@@ -2240,7 +2240,7 @@ function getViewedByField() {
 
 
 // Function to update view data on unload or visibility change
- async function updateViewData(ipAddress, timer, exitTrack) {
+ async function updateViewData(ipAddress, exitTrack) {
     const viewEndTime = Date.now();
     const durationOfView = (viewEndTime - viewStartTime) / 1000;
     const viewedByField = getViewedByField();
@@ -2284,18 +2284,16 @@ function getViewedByField() {
     window.addEventListener('beforeunload', setInternalPageSource);
     window.addEventListener('load', startViewTimer);
     //console.log("startViewTimer");
-    let timer = 20000;
-
-    triggerUpdateWithTimeout(ipAddress, timer);
-
+ 
+  }
     document.addEventListener('visibilitychange', () => {
         if (document.visibilityState === 'hidden') {
          // console.log("TrackingListeners  last");
 
-            updateViewData(ipAddress, '', "offLoad");
+            updateViewData(ipAddress, "visibilitychange");
         }
     });
-}
+
 
 
  // Define the  function to check if a specific keyword is in the URL
@@ -2311,18 +2309,59 @@ function getViewedByField() {
 
 
 
-// Function to trigger the update after 20 seconds
-function triggerUpdateWithTimeout(ipAddress, time) {
-    
-    // Set a timeout for 20 seconds (20000 milliseconds)
-    setTimeout(() => {
-      // Call the updateViewData function after the delay
-      updateViewData(ipAddress, time, 'timeOut');
-    }, time);  // 20,000 milliseconds = 20 seconds
-  }
-  
 
 
+  document.addEventListener('click', function (event) {
+    // Get the clicked element
+    const target = event.target;
+    let interceptTimer = 10000;
+
+    // Check if it's an anchor tag
+    if (target.tagName === 'A' || target.closest('a')) {
+        // Prevent default link navigation
+        event.preventDefault();
+
+        // Get the URL of the anchor
+        const href = target.href || target.closest('a').href;
+
+        // Perform a custom action before navigating
+        console.log(`Intercepted link: ${href}`);
+
+        // Timeout before proceeding
+        setTimeout(() => {
+            // Navigate to the URL
+            window.location.href = href;
+        }, interceptTimer); // Delay for 1 second
+    } else if (typeof target.onclick === 'function' || target.hasAttribute('onclick')) {
+        // Intercept buttons or elements with onclick handlers
+        event.preventDefault();
+
+        // Handle inline onclick attribute
+        if (target.hasAttribute('onclick')) {
+            const onclickAttr = target.getAttribute('onclick');
+            console.log(`Intercepted inline onclick: ${onclickAttr}`);
+
+            // Timeout before manually executing the inline onclick
+            setTimeout(() => {
+                // Inline onclick execution (using eval)
+                eval(onclickAttr);
+            }, interceptTimer); // Delay for 1 second
+        } else if (typeof target.onclick === 'function') {
+            // Handle programmatically assigned onclick handlers
+            console.log('Intercepted programmatic onclick handler.');
+
+            // Save the original onclick handler
+            const handler = target.onclick;
+
+            // Timeout before manually triggering the original handler
+            setTimeout(() => {
+                handler.call(target, event); // Execute the handler in the correct context
+            }, interceptTimer); // Delay for 1 second
+        }
+    }
+});
+
+//updateViewData(ipAddress, "visibilitychange");
 
 
 // Function to check if the user is logged in
