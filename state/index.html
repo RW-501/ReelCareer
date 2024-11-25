@@ -257,7 +257,7 @@ const querySnapshot = await getDocs(jobsQuery);
  function getStateFromURL() {
       const path = window.location.pathname;
       const segments = path.split('#');
-      return segments[segments.length - 1]; // Assumes the state name is the last segment
+      return segments[segments.length + 1]; // Assumes the state name is the last segment
     }
 
     // Initialize page
