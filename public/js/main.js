@@ -2262,10 +2262,10 @@ function getViewedByField() {
 // Function to update view data on unload or visibility change
  async function updateViewData(ipAddress, actionTrack, actionName, pageTitle, jobTitleName  ) {
     const viewEndTime = Date.now();
-    const durationOfView = (viewEndTime - viewStartTime) / 1000;
+    const durationOfTheView = (viewEndTime - viewStartTime) / 1000;
     const viewedByField = getViewedByField();
 
-   // console.log(`${ipAddress} ipAddress ???????? .`);
+    console.log(`${durationOfTheView} durationOfTheView ???????? .`);
 
 
     // Retrieve user data from local storage
@@ -2287,7 +2287,7 @@ function getViewedByField() {
         [viewedByField]: {
             viewDate: new Date().toISOString(),
             viewMethod: navigator.userAgentData?.mobile ? "mobile" : "desktop",
-            durationOfView: durationOfView,
+            durationOfView: durationOfTheView,
             maxScrollDepth: maxScrollDepth,
             viewsCount: increment(1),
             viewSource: getViewSource(),
