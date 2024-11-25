@@ -254,25 +254,20 @@ const querySnapshot = await getDocs(jobsQuery);
     }
 
      // Helper function to get the state name from URL
- function getStateFromURL() {
-      const path = window.location.pathname;
-      const segments = path.split('#');
-      return segments[segments.length + 1]; // Assumes the state name is the last segment
+ function getHashFromURL() {
+  const hash = window.location.hash;
+
+// Remove the '#' symbol and extract the state
+const segments = hash ? hash.substring(1) : null;
+      return segments;
     }
 
     // Initialize page
     document.addEventListener('DOMContentLoaded', () => {
-      const state = getStateFromURL();
+      const state = getHashFromURL();
       document.getElementById('state-name').textContent = state;
       fetchJobsByState(state);
     });
-/*
-    document.addEventListener('DOMContentLoaded', async () => {
-      const cityName = decodeURIComponent(window.location.pathname.split('#').pop());
-      document.getElementById('city-name').textContent = cityName;
-      fetchJobsByCity(cityName);
-    });
-*/
 
 </script> 
 
