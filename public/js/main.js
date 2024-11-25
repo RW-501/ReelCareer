@@ -429,15 +429,17 @@ document.addEventListener("DOMContentLoaded", function () {
   
   // Function to create the navbar
   function createNavbar() {
-    const isHomePage =
-      currentPage === "/index.html" ||
-      "/index" ||
-      currentPage === "" ||
-      currentPage === "/";
+    const currentPage = window.location.pathname; // Get the current path from the URL
+    const isHomePage = 
+          currentPage === "/index.html" || 
+          currentPage === "/index" || 
+          currentPage === "" || 
+          currentPage === "/";
+    
     const navbarClass = isHomePage
-      ? "navbar-light bg-light"
-      : "navbar-dark bg-primary";
-
+          ? "navbar-light bg-light"
+          : "navbar-dark bg-primary";
+    
     return `
             <nav class="navbar navbar-expand-lg ${navbarClass} shadow-sm sticky-top" role="navigation">
                 <div class="container">
