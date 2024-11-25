@@ -733,46 +733,143 @@ function updateFooter() {
   const footer = document.getElementById("dynamic-footer");
   const currentYear = new Date().getFullYear();
 
+  // Footer links data (from JSON)
+  const footerLinks = [
+    {
+      "url": "/about",
+      "name": "ReelCareer",
+      "title": "About ReelCareer - Who We Are and Our Mission",
+      "category": "General",
+      "order": 1
+    },
+    {
+      "url": "/public/privacy",
+      "name": "Privacy Policy",
+      "title": "Privacy Policy - How We Protect Your Data",
+      "category": "Legal",
+      "order": 2
+    },
+    {
+      "url": "/public/terms",
+      "name": "Terms of Use",
+      "title": "Terms of Use - Website User Agreement and Guidelines",
+      "category": "Legal",
+      "order": 3
+    },
+    {
+      "url": "/contact",
+      "name": "Contact Us",
+      "title": "Contact ReelCareer - Get in Touch for Support and Inquiries",
+      "category": "General",
+      "order": 4
+    },
+    {
+      "url": "/blog",
+      "name": "Blog",
+      "title": "ReelCareer Blog - Career Advice, News, and Insights",
+      "category": "Content",
+      "order": 5
+    },
+    {
+      "url": "/news",
+      "name": "News",
+      "title": "ReelCareer News - Latest Updates and Industry Trends",
+      "category": "Content",
+      "order": 6
+    },
+    {
+      "url": "/faq",
+      "name": "FAQs",
+      "title": "Frequently Asked Questions - Get Answers to Common Queries",
+      "category": "Support",
+      "order": 7
+    },
+    {
+      "url": "/referral",
+      "name": "Affiliate Program",
+      "title": "Join the ReelCareer Affiliate Program and Earn Rewards",
+      "category": "Marketing",
+      "order": 8
+    },
+    {
+      "url": "/Personality-&-Trait-Tests",
+      "name": "Personality & Trait Tests",
+      "title": "Personality & Trait Tests - Discover Your Strengths and Work Style",
+      "category": "Features",
+      "order": 9
+    },
+    {
+      "url": "/backend/dashboard",
+      "name": "Admin",
+      "title": "Admin Dashboard - Manage Users, Jobs, and Content",
+      "category": "Admin",
+      "order": 10
+    },
+    {
+      "url": "/jobs/city",
+      "name": "City Jobs",
+      "title": "City Jobs - Find Career Opportunities by Location",
+      "category": "Features",
+      "order": 11
+    },
+    {
+      "url": "/jobs/state",
+      "name": "State Jobs",
+      "title": "State Jobs - Explore Job Listings by State",
+      "category": "Admin",
+      "order": 12
+    },
+    {
+      "url": "/jobs/locations",
+      "name": "Job Locations",
+      "title": "Job Locations - Browse Jobs in Your Area",
+      "category": "Features",
+      "order": 13
+    },
+    {
+      "url": "/views/job-listings",
+      "name": "Job Listings",
+      "title": "Job Listings - Search and Apply for Job Openings",
+      "category": "Admin",
+      "order": 14
+    }
+  ];
+  
+  // Sort the links based on their order
+  footerLinks.sort((a, b) => a.order - b.order);
+
+  // Generate the footer HTML content dynamically
   const newContent = `
-        <div class=" py-4">
+        <div class="py-4">
             <div class="container text-center">
-                <p>&copy; ${currentYear} <a href="${adjustLinkURL}about" class="text-light" rel="noopener noreferrer">ReelCareer</a>. All Rights Reserved.</p>
+                <p>&copy; ${currentYear} <a href="${footerLinks[0].url}" class="text-light" rel="noopener noreferrer">${footerLinks[0].name}</a>. All Rights Reserved.</p>
                 <ul class="list-inline">
-                    <li class="list-inline-item"><a href="${adjustLinkHomeURL}public/privacy" class="text-light" rel="noopener noreferrer">Privacy Policy</a></li>
-                    <li class="list-inline-item"><a href="${adjustLinkHomeURL}public/terms" class="text-light" rel="noopener noreferrer">Terms of Use</a></li>
-                    <li class="list-inline-item"><a href="${adjustLinkURL}contact" class="text-light" rel="noopener noreferrer">Contact Us</a></li>
-                    <li class="list-inline-item"><a href="${adjustLinkURL}blog" class="text-light" rel="noopener noreferrer">Blog</a></li>
-                    <li class="list-inline-item"><a href="${adjustLinkURL}news" class="text-light" rel="noopener noreferrer">News</a></li>
-                    <li class="list-inline-item"><a href="${adjustLinkURL}faq" class="text-light" rel="noopener noreferrer">FAQs</a></li>
-                    <li class="list-inline-item"><a href="${adjustLinkURL}referral" class="text-light" rel="noopener noreferrer">Affiliate Program</a></li>
-                    <li class="list-inline-item"><a href="${adjustLinkURL}Personality-&-Trait-Tests" class="text-light" rel="noopener noreferrer">Personality & Trait Tests</a></li>
-                    <li class="list-inline-item"><a href="${adjustLinkHomeURL}backend/dashboard" class="text-light" rel="noopener noreferrer">Admin</a></li>
+                  ${footerLinks.map(link => `
+                    <li class="list-inline-item">
+                      <a href="${link.url}" class="text-light" rel="noopener noreferrer" title="${link.title}">${link.name}</a>
+                    </li>
+                  `).join('')}
                 </ul>
-<div class="newsletter-signup">
-    <form id="newsletterForm" class="form-inline justify-content-center mt-4">
-        <input type="email" class="form-control mr-2 mb-2" placeholder="Subscribe to our newsletter" required aria-label="Email address">
-        
-        <select id="newsletterType" class="form-control mr-2 mb-2" required>
-            <option value="website_updates">Website Updates</option>
-            <option value="job_alerts">Job Alerts</option>
-            <option value="career_advice">Career Advice</option>
-            <option value="industry_news">Industry News</option>
-        </select>
-
-        <label class="ml-2 mr-2 mb-2 custom-checkbox-wrapper">
-            <input type="checkbox" id="dataPrivacy" required>
-            <span class="custom-checkbox"></span> 
-            I agree to the <a href="${adjustLinkHomeURL}public/privacy" class="text-light ml-1" rel="noopener noreferrer">data privacy policy</a>.
-        </label>
-
-        <button type="submit" id="newsletterFormBtn" class="mr-2 mb-2 btn btn-outline-light">Subscribe</button>
-    </form>
-
-    <p id="newsletterMessage" class="text-light mt-2"></p>
-</div>
-
+                <div class="newsletter-signup">
+                    <form id="newsletterForm" class="form-inline justify-content-center mt-4">
+                        <input type="email" class="form-control mr-2 mb-2" placeholder="Subscribe to our newsletter" required aria-label="Email address">
+                        <select id="newsletterType" class="form-control mr-2 mb-2" required>
+                            <option value="website_updates">Website Updates</option>
+                            <option value="job_alerts">Job Alerts</option>
+                            <option value="career_advice">Career Advice</option>
+                            <option value="industry_news">Industry News</option>
+                        </select>
+                        <label class="ml-2 mr-2 mb-2 custom-checkbox-wrapper">
+                            <input type="checkbox" id="dataPrivacy" required>
+                            <span class="custom-checkbox"></span> 
+                            I agree to the <a href="${footerLinks.find(link => link.category === 'Legal').url}" class="text-light ml-1" rel="noopener noreferrer">data privacy policy</a>.
+                        </label>
+                        <button type="submit" id="newsletterFormBtn" class="mr-2 mb-2 btn btn-outline-light">Subscribe</button>
+                    </form>
+                    <p id="newsletterMessage" class="text-light mt-2"></p>
+                </div>
                 <p class="mt-2">Current Date & Time: <span id="currentDateTime"></span></p>
-                <p class="mt-2"><a href="${adjustLinkURL}contact" class="text-light" rel="noopener noreferrer">Contact Us</a></p>
+                <p class="mt-2"><a href="${footerLinks.find(link => link.name === 'Contact Us').url}" class="text-light" rel="noopener noreferrer">Contact Us</a></p>
                 <button id="backToTop" class="btn btn-outline-light mt-2">Back to Top</button>
             </div>
         </div>
@@ -780,7 +877,7 @@ function updateFooter() {
 
   footer.innerHTML = newContent; // Update the footer's HTML content
 
-  // Current Date and Time
+ // Current Date and Time
   const updateDateTime = () => {
     const now = new Date();
     document.getElementById("currentDateTime").innerText = now.toLocaleString();
