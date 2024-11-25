@@ -51,7 +51,8 @@
   <!-- Chrome Favicon (512x512) -->
   <link rel="icon" type="image/png" sizes="512x512" href="https://www.ReelCareer.co/images/favicons/android-chrome-512x512.png">
 
-
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+  
     <!-- Schema.org markup for Google+ -->
     <script type="application/ld+json">
         {
@@ -261,6 +262,22 @@
               .explore-btn:hover {
                 background-color: #0056b3;
               }
+
+              .state-city-body {
+                display: flex;
+                flex-wrap: wrap;
+                width: 100%;
+                gap: 1rem;
+
+              }
+
+              .state-city-card {
+                width: 20%;
+
+
+              }
+
+
             </style>
             
 
@@ -331,7 +348,7 @@ const city = [...new Set(snapshot.docs.map(doc => doc.data().city.trim()))]
   .filter(city => city.length > 0)  // Remove empty strings, just in case
   .sort();  // Sort alphabetically
 
-  
+
       // Generate HTML for the city list
       const cityListHTML = city
         .map(city => `<div class="state-city-card">
