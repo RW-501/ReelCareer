@@ -590,7 +590,7 @@ document.addEventListener("DOMContentLoaded", function () {
   "name": "ReelCareer Introductory Video",
   "description": "Discover how ReelCareer helps job seekers and employers with a seamless job-hunting experience. Learn how to post jobs, manage applications, and find the perfect career opportunities.",
   "thumbnailUrl": "https://www.reelcareer.co/images/sq_logo_n_BG_tie_reelx.png",
-  "uploadDate": "2023-10-23",
+  "uploadDate": "2024-10-23",
   "contentUrl": "https://www.reelcareer.co/images/intro.MP4",
   "embedUrl": "https://www.reelcareer.co/",
   "duration": "PT2M30S"
