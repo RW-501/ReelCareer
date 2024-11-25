@@ -1973,12 +1973,12 @@ function roll_in_animations(){
 
 
 function setBreadcrumb(){
+
+  // Get the ID from the URL
+  const urlParams = new URLSearchParams(window.location.search);
   const id = urlParams.get("id"); // Assuming the ID is passed as a query parameter 'id'
   const jobId = urlParams.get("jobId");
   
-  // Get the ID from the URL
-  const urlParams = new URLSearchParams(window.location.search);
-
   // Select the last breadcrumb anchor
   const lastBreadcrumb = document.getElementById("lastBreadcrumb_a");
   const breadcrumbjobTitleActive = document.getElementById("breadcrumb-active-title");
