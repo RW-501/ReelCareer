@@ -2191,7 +2191,7 @@ function setInternalPageSource() {
 function startViewTimer() {
     viewStartTime = Date.now();
 
-    console.log("start tracking");
+   // console.log("start tracking");
 }
 
 // Determine the source of the visit
@@ -2362,29 +2362,34 @@ function getViewedByField() {
 let TrackingOn = true;
     // Get the clicked element
     const target = event.target;
-    let interceptTimer = 5000;
+    let interceptTimer = 300;
 
-    console.log("TrackingOn: ", TrackingOn);
-    console.log("interceptTimer: ", interceptTimer);
+//    console.log("TrackingOn: ", TrackingOn);
+   // console.log("interceptTimer: ", interceptTimer);
+
+   if (window.checkUrl("/backend/") || window.checkUrl("/backend")) {
+    TrackingOn = false;
+   }
+
 if(TrackingOn){
 
 
 
         // Get the page title
         const pageTitle = document.title;
-        console.log(`Page title: ${pageTitle}`);
+       // console.log(`Page title: ${pageTitle}`);
         let jobTitleName = '';
 
         const jobTitle = document.getElementById("jobTitle");
         const appyJobTitle = document.getElementById("appyJobTitle");
         if (jobTitle){
           jobTitleName = jobTitle.innerText;
-          console.log(`Job title: ${jobTitleName}`);
+         // console.log(`Job title: ${jobTitleName}`);
 
         }
         if (appyJobTitle){
            jobTitleName = appyJobTitle.innerText;
-          console.log(`Appy Job title: ${jobTitleName}`);
+         // console.log(`Appy Job title: ${jobTitleName}`);
 
         }
       
@@ -2402,8 +2407,8 @@ if(TrackingOn){
    
              
              // Perform a custom action before navigating
-             console.log(`Intercepted link: ${href}`);
-             console.log(`Link text: ${linkText}`);
+         //    console.log(`Intercepted link: ${href}`);
+          //   console.log(`Link text: ${linkText}`);
 
 
              updateViewData(ipAddress, "link", linkText, pageTitle, jobTitleName  );
@@ -2424,8 +2429,8 @@ if(TrackingOn){
         const elementText = target.innerText.trim();
 
         // Log the onclick attribute and the inner text
-        console.log(`Intercepted inline onclick: ${onclickAttr}`);
-        console.log(`Element text: ${elementText}`);
+       // console.log(`Intercepted inline onclick: ${onclickAttr}`);
+      //  console.log(`Element text: ${elementText}`);
 
         updateViewData(ipAddress, onclickAttr, elementText, pageTitle, jobTitleName  );
 
@@ -2447,11 +2452,11 @@ if(TrackingOn){
         // Get the inner text of the element
         const elementText = target.innerText.trim();
 
-        // Log the function name and the element text
+    /*    // Log the function name and the element text
         console.log('Intercepted programmatic onclick handler.');
         console.log(`Function name: ${functionName}`);
         console.log(`Element text: ${elementText}`);
-
+*/
         updateViewData(ipAddress, functionName, elementText, pageTitle, jobTitleName  );
             // Save the original onclick handler
             const handler = target.onclick;
@@ -2466,7 +2471,7 @@ if(TrackingOn){
   
           // Get the button text
           const buttonText = target.innerText.trim();
-          console.log(`Intercepted button: ${buttonText}`);
+      //    console.log(`Intercepted button: ${buttonText}`);
   
           // Find the closest form element
           const form = target.closest('form');
@@ -2484,11 +2489,11 @@ if(TrackingOn){
 
               // Delay before submitting the form
               setTimeout(() => {
-                  console.log('Proceeding with the submit action after delay.');
+            //      console.log('Proceeding with the submit action after delay.');
                   form.submit(); // Trigger the form submission programmatically
               }, interceptTimer); // Delay by 1 second
           } else {
-              console.log('No associated form found for this submit button.');
+          //    console.log('No associated form found for this submit button.');
   
         // Check if the button is inside a class job-tags
         if (target.closest('.job-tags')) {
@@ -2498,7 +2503,7 @@ if(TrackingOn){
           // Add the button text to the array if not already present
           if (!userTagInterest.includes(buttonText)) {
               userTagInterest.push(buttonText);
-              console.log(`Added tag to interest: ${buttonText}`);
+          //    console.log(`Added tag to interest: ${buttonText}`);
           }
 
           // Save the updated array back to local storage
@@ -2508,7 +2513,7 @@ if(TrackingOn){
 
               // Optionally, handle cases where no form is present
               setTimeout(() => {
-                  console.log('No form submission performed.');
+            //      console.log('No form submission performed.');
               }, interceptTimer); // Delay for consistency
           }
       }
@@ -2518,7 +2523,8 @@ if(TrackingOn){
 
 });
 
-//updateViewData(ipAddress, "visibilitychange");
+
+
 /*
 
 
@@ -2565,15 +2571,15 @@ function checkLogin() {
   const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
 
   // Redirect to home if user is not logged in and is in the admin area
-  if (window.location.pathname.includes('/admin/')) {
+  if (window.location.pathname.includes('/backend')) {
       if (!isLoggedIn) {
-          if (window.location.pathname.includes('/admin/index')) {
+          if (window.location.pathname.includes('/backend')) {
               showToast('You need to log in to access the Admin area.');
           } else {
               // Redirect to login page or main admin page
-              window.location.href = '/admin/index';
+              window.location.href = '/backend/dashboard/';
           }
-      } else if (window.location.pathname.includes('/admin') || window.location.pathname.includes('/admin/index') || window.location.pathname.includes('/admin/')) {
+      } else if (window.location.pathname.includes('/backend') || window.location.pathname.includes('/backend/index') || window.location.pathname.includes('/backend/')) {
           showToast('Admin Logged In');
           let firebaseLogin = document.getElementById("firebaseLogin");
           let dashboardContent = document.getElementById("dashboardContent");
