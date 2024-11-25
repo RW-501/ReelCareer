@@ -5,7 +5,7 @@ import {
     storage,
     analytics,
     app
-  } from "../main.js"; // Adjust the path based on your structure
+  } from "https://reelcareer.co/main.js"; // Adjust the path based on your structure
   import {
     query,
     doc,

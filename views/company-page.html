@@ -120,27 +120,27 @@ main .social-icons a:hover {
 
     </style>
 
-    <script src="../public/js/scripts.js"></script>
-    <script src="../public/js/loadScripts.js"></script>
-    <link rel="stylesheet" href="../public/css/styles.css">
+    <script src="https://reelcareer.co/public/js/scripts.js"></script>
+    <script src="https://reelcareer.co/public/js/loadScripts.js"></script>
+    <link rel="stylesheet" href="https://reelcareer.co/public/css/styles.css">
     <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 
 </head>
 
 
 <body>
-    <script src="../public/js/bodyload.js"></script>
+    <script src="https://reelcareer.co/public/js/bodyload.js"></script>
     
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
-            <a class="navbar-brand" href="../index.html">ReelCareer</a>
+            <a class="navbar-brand" href="https://reelcareer.co/index.html">ReelCareer</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="../index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/index.html">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="job-listings.html">Jobs</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Companies</a></li>
                     <li class="nav-item"><a class="nav-link" href="auth.html">Login</a></li>
@@ -385,7 +385,7 @@ main .social-icons a:hover {
         <div class="col-md-4 text-center">
             <h4 class="mt-4">Company Logo</h4>
             <div class="p-3 border rounded shadow-sm bg-light mb-4">
-                <img id="companyLogo" src="../images/sq_logo_n_BG.png" alt="Company Logo" class="img-fluid rounded-circle mb-2">
+                <img id="companyLogo" src="https://reelcareer.co/images/sq_logo_n_BG.png" alt="Company Logo" class="img-fluid rounded-circle mb-2">
                 <input type="file" id="editCompanyLogo" class="form-control mt-2" style="display:none;">
             </div>
 
@@ -605,7 +605,7 @@ document.getElementById("generateDescriptionBtn").addEventListener("click", func
     <footer id="dynamic-footer" class="text-center mt-5"></footer>
     
     <!-- Firebase configuration/ Login& Out -->
-    <script type="module" src="../public/js/main.js"></script>
+    <script type="module" src="https://reelcareer.co/public/js/main.js"></script>
     
 
 
@@ -714,7 +714,7 @@ document.getElementById("generateDescriptionBtn").addEventListener("click", func
             document.getElementById('companyName').textContent = companyData.name || 'Company Name';
             document.getElementById('companyDescription').textContent = companyData.description || 'Company description...';
             document.getElementById('companyMissionStatement').textContent = companyData.missionStatement || 'Mission statement...';
-            document.getElementById('companyLogo').src = companyData.logo || '../images/sq_logo_n_BG.png';
+            document.getElementById('companyLogo').src = companyData.logo || 'https://reelcareer.co/images/sq_logo_n_BG.png';
     
             // Update social media links
             document.getElementById('facebookLink').setAttribute('href', companyData.socialMedia?.facebook || '#');

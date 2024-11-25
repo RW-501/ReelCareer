@@ -1,7 +1,7 @@
 /*
     
 <!-- Firebase configuration/ Login& Out -->
-<script src="../public/js/main.js"></script> 
+<script src="https://reelcareer.co/public/js/main.js"></script> 
 
 */
 
@@ -347,7 +347,7 @@ async function logoutUser() {
   localStorage.removeItem('autoLogoutTime');
   showToast('You have been logged out.');
   // Redirect to login or home page
-  window.location.href = '../';
+  window.location.href = 'https://reelcareer.co/';
 
 } catch (error) {
   console.error("Logout error:", error);
@@ -749,14 +749,14 @@ function updateFooter() {
       "order": 1
     },
     {
-      "url": "/views/public/privacy",
+      "url": "/views/privacy",
       "name": "Privacy Policy",
       "title": "Privacy Policy - How We Protect Your Data",
       "category": "Legal",
       "order": 2
     },
     {
-      "url": "/views/public/terms",
+      "url": "/views/terms",
       "name": "Terms of Use",
       "title": "Terms of Use - Website User Agreement and Guidelines",
       "category": "Legal",
@@ -1969,7 +1969,7 @@ window.addEventListener('load', function() {
           jobCard.innerHTML = `
               <div class="similar-job-card">
                   <!-- Job Title as a Link -->
-                  <h5><a href="../views/job-details?id=${doc.id}" class="job-title-link">${similarJob.title}</a></h5>
+                  <h5><a href="https://reelcareer.co/views/job-details?id=${doc.id}" class="job-title-link">${similarJob.title}</a></h5>
                   <p><strong>${similarJob.company}</strong> - ${formatLocation(similarJob.location)}</p>
                   <p class="card-text"><strong>Type:</strong> ${formatJobType(similarJob.type)}</p>
                   <p class="card-text"><strong>Salary:</strong> ${formatCurrency(similarJob.salary, { decimals: 0 })}</p>
@@ -1977,14 +1977,14 @@ window.addEventListener('load', function() {
                   <!-- Display job tags as clickable buttons -->
                   <div class="job-tags mt-2">
                       ${similarJob.tags.map(tag => `
-                          <a href="../views/job-listings?tag=${encodeURIComponent(tag)}" class="btn btn-primary badge" style="margin: 0.2rem;">
+                          <a href="https://reelcareer.co/views/job-listings?tag=${encodeURIComponent(tag)}" class="btn btn-primary badge" style="margin: 0.2rem;">
                               ${tag}
                           </a>
                       `).join('')}
                   </div>
 
                   <!-- View Job Button -->
-                  <a href="../views/job-details?id=${doc.id}" class="view-job-btn">View Job</a>
+                  <a href="https://reelcareer.co/views/job-details?id=${doc.id}" class="view-job-btn">View Job</a>
               </div>
           `;
 

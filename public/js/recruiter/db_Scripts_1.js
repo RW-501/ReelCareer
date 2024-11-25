@@ -5,7 +5,7 @@ import {
   storage,
   analytics,
   app
-} from "../main.js"; // Adjust the path based on your structure
+} from "https://reelcareer.co/main.js"; // Adjust the path based on your structure
 import {
   query,
   doc,
@@ -194,7 +194,7 @@ companyInput.addEventListener(
         addButton.addEventListener("click", () => {
           // Redirect to the create company page
           window.location.href =
-            "../views/company-page.html?create=" + companyName;
+            "https://reelcareer.co/views/company-page.html?create=" + companyName;
         });
         addCompanyButtonContainer.appendChild(addButton);
       }
@@ -301,7 +301,7 @@ fetchRecruiterData(user.uid);
     }
   } else {
     // User is not signed in, redirect to login
-    window.location.href = "../";
+    window.location.href = "https://reelcareer.co/";
   }
 });
 
@@ -891,7 +891,7 @@ $('#sort-job').on('change', function () {
 $(document).on('click', '.view-job', function () {
   $(this).next('.job-details').toggle();
   const jobID = $(this).closest('.job-post').data('job-id');
-  window.location.href = `../views /job-details?id=${jobID}`;
+  window.location.href = `https://reelcareer.co/views /job-details?id=${jobID}`;
 });
 
 
@@ -983,13 +983,13 @@ $(document).on('click', '.view-analytics', function () {
           // Event delegation to handle View Company button click
           $(document).on('click', '.view-company', function () {
               const companyId = $(this).data('company-id');
-              window.location.href = `../views/company-page?c=${companyId}`;
+              window.location.href = `https://reelcareer.co/views/company-page?c=${companyId}`;
           });
       
           // Event delegation to handle Edit Company button click
           $(document).on('click', '.edit-company', function () {
               const companyId = $(this).data('company-id');
-              window.location.href = `../views/company-page?edit=${companyId}`;
+              window.location.href = `https://reelcareer.co/views/company-page?edit=${companyId}`;
           });
       
           // Implement toggle functionality for company details
