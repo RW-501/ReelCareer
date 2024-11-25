@@ -202,6 +202,14 @@
               </div>
             
             </section>
+    <!-- Dynamic News Section -->
+    <div class="related-blogs">
+      <h3 class="font-weight-bold">Related Articles</h3>
+      <hr class="my-2" />
+      <div id="blogContainer" class="row p-4 noCopy">
+          <!-- Blog links will be dynamically inserted here -->
+      </div>
+  </div>
 
 
     </main>
@@ -413,6 +421,15 @@ async function generateJobSchemas(querySnapshot) {
   // Append the script tag to the head of the page
   document.head.appendChild(schemaScript);
 }
+
+
+    
+setTimeout(() => {
+    const jobTags = ['job', 'jobs', 'new jobs']; 
+   //const jobTags = document.getElementById('tag-list').textContent;
+   window.loadRelatedBlogs(jobTags, 'blogContainer');
+  }, 2000);
+
 
 </script> 
 

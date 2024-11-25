@@ -749,7 +749,7 @@ function addStyles() {
       </div>
   
       <!-- View Details Button -->
-      <a href="${adjustLinkURL}job-details?id=${job.id}" 
+      <a href="https://reelcareer.co/views/job-details?id=${job.id}" 
          class="btn btn-primary w-100 mt-3" 
          aria-label="View job details for ${job.title}"
          style="
