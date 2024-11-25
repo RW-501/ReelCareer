@@ -2351,7 +2351,7 @@ if(TrackingOn){
         const href = target.href || target.closest('a').href;
 
              // Get the URL and inner text of the anchor
-             const linkText = anchor.innerText.trim();
+             const linkText = target.innerText.trim();
      
              // Perform a custom action before navigating
              console.log(`Intercepted link: ${href}`);
