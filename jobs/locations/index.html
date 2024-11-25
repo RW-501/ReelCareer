@@ -154,26 +154,115 @@
               </div>
             </div>
             
-        <section class="mt-4">
-            <div class="container">
-              <div id="stateDialog">
-                <p>Click on a state to explore job opportunities in that area.</p>
-                <div id="stateListContainer"></div>
-
-              </div>
-              </div>
-            
-            </section>
             <section class="mt-4">
               <div class="container">
-                <div id="cityDialog">
-                  <p>Click on a city to explore job opportunities in that area.</p>
-                  <div id="cityListContainer"></div>
-
+                <!-- State Section -->
+                <div id="stateDialog" class="card p-4">
+                  <h2 class="text-center text-primary">Explore Job Opportunities by State</h2>
+                  <p class="text-center mb-4">Click on a state to explore job opportunities in that area.</p>
+                  <div id="stateListContainer" class="d-flex flex-wrap justify-content-center">
+                    <!-- States List (Generated Dynamically) -->
+                  </div>
                 </div>
+              </div>
+            </section>
+            
+            <section class="mt-4">
+              <div class="container">
+                <!-- City Section -->
+                <div id="cityDialog" class="card p-4">
+                  <h2 class="text-center text-primary">Explore Job Opportunities by City</h2>
+                  <p class="text-center mb-4">Click on a city to explore job opportunities in that area.</p>
+                  <div id="cityListContainer" class="d-flex flex-wrap justify-content-center">
+                    <!-- Cities List (Generated Dynamically) -->
+                  </div>
                 </div>
-              
-              </section>
+              </div>
+            </section>
+            
+            <style>
+              /* General Layout Styling */
+              .container {
+                max-width: 1200px;
+                margin: 0 auto;
+              }
+            
+              .card {
+                border: 1px solid #ddd;
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                background-color: #fff;
+                padding: 20px;
+              }
+            
+              /* Text Styling */
+              h2 {
+                font-size: 2rem;
+                font-weight: bold;
+              }
+            
+              h4 {
+                font-size: 1.25rem;
+                color: #333;
+              }
+            
+              .text-primary {
+                color: #007bff;
+              }
+            
+              /* State and City List Styling */
+              #stateListContainer, #cityListContainer {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 1rem;
+                justify-content: center;
+              }
+            
+              .state-city-card {
+                background-color: #f8f9fa;
+                border-radius: 8px;
+                padding: 20px;
+                width: 200px;
+                text-align: center;
+                cursor: pointer;
+                transition: all 0.3s ease;
+              }
+            
+              .state-city-card:hover {
+                transform: scale(1.05);
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+              }
+            
+              .state-city-card i {
+                font-size: 30px;
+                margin-bottom: 10px;
+                color: #007bff;
+              }
+            
+              .state-city-card p {
+                font-size: 1rem;
+                font-weight: bold;
+                color: #333;
+              }
+            
+              /* Button Styling */
+              .explore-btn {
+                background-color: #007bff;
+                color: white;
+                border: none;
+                padding: 10px 20px;
+                border-radius: 4px;
+                cursor: pointer;
+                text-transform: uppercase;
+                font-weight: bold;
+                margin-top: 10px;
+              }
+            
+              .explore-btn:hover {
+                background-color: #0056b3;
+              }
+            </style>
+            
 
     </main>
 
@@ -210,7 +299,7 @@
 
       // Generate HTML for the state list
       const stateListHTML = states
-        .map(state => `<li><a href="https://reelcareer.co/jobs/state/#${state}">${state}</a></li>`)
+        .map(state => `<h4><a href="https://reelcareer.co/jobs/state#${state}">${state}</a></h4>`)
         .join("");
 
 
@@ -224,7 +313,10 @@
       document.getElementById("stateListContainer").innerHTML = `
         <h2>Available States</h2>
                 <hr>
-        <ul><h4>${stateListHTML}</h4></ul>
+                  <div class="state-city-card">
+    <i class="fas fa-city"></i>
+<p>${stateListHTML}</p>
+        </div>
       `;
     } catch (error) {
       console.error("Error fetching states:", error);
@@ -243,14 +335,18 @@
 
       // Generate HTML for the city list
       const cityListHTML = city
-        .map(city => `<li><a href="https://reelcareer.co/jobs/city#${city}">${city}</a></li>`)
+        .map(city => `<h4><a href="https://reelcareer.co/jobs/city#${city}">${city}</a></h4>`)
         .join("");
 
       // Inject HTML into the container
       document.getElementById("cityListContainer").innerHTML = `
         <h2>Available Cities</h2>
         <hr>
-        <ul><h4>${cityListHTML}</h4></ul>
+               <div class="state-city-card">
+    <i class="fas fa-city"></i>
+<p>${cityListHTML}</p>
+        </div>
+      
       `;
     } catch (error) {
       console.error("Error fetching city:", error);
