@@ -7,18 +7,134 @@ body {
     padding: 0;
 }
 
-/* Navbar Styles */
-.navbar {
-    background-color: #007bff !important; /* Bootstrap primary color */
+
+/* Theme Colors and Enhanced Navbar Styling */
+:root {
+    --primary-color: #1a73e8; /* Light Blue */
+    --primary-light: #d2e3fc; /* Lighter Blue */
+    --primary-dark: #0b4fa1; /* Darker Blue */
+    --secondary-color: #121212; /* Black */
+    --secondary-light: #2c2c2c; /* Dark Gray */
+    --secondary-dark: #000000; /* Pure Black */
+    --accent-color: #ffffff; /* White */
+    --accent-light: #f4f4f4; /* Off-White */
+    --shadow-color: rgba(0, 0, 0, 0.3); /* Shadow */
+    --link-hover-color: #90caf9; /* Hover Blue */
 }
 
-.navbar-brand, .nav-link {
-    color: #ffffff !important; /* White text for navbar links */
+#Main_Nav {
+    background: linear-gradient(to right, var(--secondary-color), var(--primary-color)); /* Gradient */
+    color: var(--accent-color);
+    font-weight: bold;
+    box-shadow: 0 4px 20px var(--shadow-color);
+    z-index: 999;
+    transition: background-color 0.3s ease;
+    padding: 1rem 2%;
 }
 
-.nav-link:hover {
-    color: #d4d4d4 !important; /* Light gray on hover */
+#Main_Nav .navbar-brand {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--accent-color);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transition: color 0.3s ease;
+    text-decoration: none;
 }
+
+#Main_Nav .navbar-brand:hover {
+    color: var(--primary-light);
+}
+
+#Main_Nav .nav-links {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: 1rem;
+    list-style: none;
+}
+
+#Main_Nav .nav-links a {
+    color: var(--accent-color) !important;
+    font-weight: bold;
+    font-size: 1.1rem;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: color 0.3s ease, transform 0.2s ease, text-shadow 0.3s ease;
+}
+
+#Main_Nav .nav-links a:hover {
+    color: var(--link-hover-color) !important;
+    transform: translateY(-3px);
+    text-shadow: 1px 1px 8px rgba(255, 255, 255, 0.6);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.nav-links li {
+    display: inline-block;
+}
+
+/* Menu toggle button (hamburger icon) */
+.nav-toggle-label {
+    display: none; /* Hide by default */
+    font-size: 2rem;
+    cursor: pointer;
+    color: var(--accent-color);
+    position: absolute;
+    right: 2%;
+    top: 1.5%;
+}
+
+/* Hamburger icon bars */
+.nav-toggle-label span {
+    display: block;
+    width: 30px;
+    height: 4px;
+    background-color: var(--accent-color);
+    margin: 6px 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* Animation when toggled */
+#nav-toggle:checked + .nav-toggle-label span:nth-child(1) {
+    transform: rotate(-45deg) translate(-5px, 6px);
+}
+
+#nav-toggle:checked + .nav-toggle-label span:nth-child(2) {
+    opacity: 0;
+}
+
+#nav-toggle:checked + .nav-toggle-label span:nth-child(3) {
+    transform: rotate(45deg) translate(-5px, -6px);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    #Main_Nav .nav-links {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: var(--secondary-dark);
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease, opacity 0.3s ease;
+    }
+
+    #nav-toggle:checked + .nav-toggle-label + .nav-links {
+        max-height: 500px;
+        opacity: 1;
+    }
+
+    .nav-toggle-label {
+        display: block;
+    }
+}
+
 
 /* Container Styles */
 .container {

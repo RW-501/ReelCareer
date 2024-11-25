@@ -45,24 +45,68 @@ firebase.analytics().logEvent('referral_participation', { referrer_id: 'user456'
 <body>
     <script src="https://reelcareer.co/public/js/bodyload.js"></script>
     
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">Reelcareer Admin</a>
-        <div class="collapse navbar-collapse">
-            <ul class="navbar-nav">
-                <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/dashboard.html">Dashboard</a></li>
-                <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/user-management.html">User Management</a></li>
-                <li class="nav-item"><a class="nav-link"  href="https://reelcareer.co/job-management.html">Job Management</a></li>
-                <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/application-management.html">Application Management</a></li>
-                <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/content-management.html">Content Management</a></li>
-                <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/chatbot.html">Chatbot</a></li>
-                <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/support.html">Support</a></li>
-                <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/monetization.html">Monetization</a></li>
-                <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/payments.html">Payments</a></li>
-                <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/settings.html">Settings</a></li>
-                <li class="nav-item"><a class="nav-link" href="/index.html">Home</a></li>
-            </ul>
-        </div>
-    </nav>
+ <!-- Navbar section -->
+<nav id="Main_Nav" class="main_Navbar" role="navigation" aria-label="Main Navigation" itemscope itemtype="https://schema.org/WebPage">
+    <!-- Logo/Brand Name -->
+    <a class="navbar-brand" href="https://reelcareer.co">ReelCareer.co</a>
+
+    <!-- Menu toggle checkbox and label -->
+    <input type="checkbox" id="nav-toggle">
+    <label for="nav-toggle" class="nav-toggle-label">
+        <span class="bar1"></span>
+        <span class="bar2"></span>
+        <span class="bar3"></span>
+    </label>
+
+    <div class="collapse navbar-collapse">
+        <!-- Navigation links -->
+        <ul class="nav-links" id="navbarNav">
+            <!-- Dashboard and Analytics Group -->
+            <div class="navGroup" title="Dashboard and Analytics">
+                <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/dashboard">Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/analytics">Analytics</a></li>
+                <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/state-labour-market">State Labour Market</a></li>
+                <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/ping">Ping</a></li>
+                <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/page-editor">Page Editor</a></li>
+                <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/notes">Notes</a></li>
+            </div>
+            <!-- Management Tools -->
+            <div class="navGroup" title="Management Tools">
+                <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/content-management">Content <small>Management</small></a></li>
+                <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/user-management">User <small>Management</small></a></li>
+                <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/job-management">Job <small>Management</small></a></li>
+                <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/application-management">Application <small>Management</small></a></li>
+            </div>
+            <!-- General Settings and Utilities -->
+            <div class="navGroup" title="General Settings and Utilities">
+                <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/contact">Contact</a></li>
+                <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/settings">Settings</a></li>
+                <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/support">Support</a></li>
+                <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/chatbot">Chatbot</a></li>
+                <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/notifications-management">Notifications <small>Management</small></a></li>
+                <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/system-logs">System Logs</a></li>
+            </div>
+            <!-- Finance and Monetization -->
+            <div class="navGroup" title="Finance and Monetization">
+                <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/transactions">Transactions</a></li>
+                <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/integration-management">Integration <small>Management</small></a></li>
+                <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/payments">Payments</a></li>
+                <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/monetization">Monetization</a></li>
+            </div>
+            <!-- SEO and Cleanup -->
+            <div class="navGroup" title="SEO and Cleanup">
+                <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/delete-dup">Delete Dup</a></li>
+                <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/seo-helper">SEO Helper</a></li>
+            </div>
+            <!-- Role and Personality Management -->
+            <div class="navGroup" title="Role and Personality Management">
+                <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/role-management">Role <small>Management</small></a></li>
+                <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/trait-personality-management">Trait Personality <small>Management</small></a></li>
+            </div>
+        </ul>
+    </div>
+</nav>
+
 
     <div class="container mt-4">
         <h1>Analytics & Reporting</h1>
@@ -478,8 +522,6 @@ async function fetchUserAnalyticsData() {
   }));
 }
 
-// Execute the function on page load
-displayUserAnalytics();
 
 // Example view data collection object
 const viewData = {
@@ -607,20 +649,14 @@ function goToAdminContact(docId) {
 
 
 window.onload = function () {
-            const urlParams = new URLSearchParams(window.location.search);
-            const eventId = urlParams.get("eventId");
-
-
+           
+    
             // my Analyics
      
             fetchUserAnalyticsData();
    // Display user analytics when the page loads
    displayUserAnalytics();
   
-// Call the function on page load
-fetchAndRenderContacts();
-
-fetchAndRender();
 
 
         };
@@ -658,176 +694,7 @@ fetchAndRender();
 
 
 
-        // Log custom event for user engagement
-        function logUserEngagement(eventName) {
-            analytics.logEvent(eventName);
-        }
-
-        // Load User Engagement Metrics and Chart
-        function loadUserEngagementMetrics() {
-            // Fetch engagement data from Firestore or Analytics API
-            const engagementData = {
-                activeUsers: 1200,
-                newUsers: 300,
-                averageSessionDuration: "5m 30s"
-            };
-            document.getElementById('engagementMetrics').innerText = 
-                `Active Users: ${engagementData.activeUsers}, New Users: ${engagementData.newUsers}, Average Session Duration: ${engagementData.averageSessionDuration}`;
-            
-            // Populate Chart
-            const ctx = document.getElementById('userEngagementChart').getContext('2d');
-            new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: ['Active Users', 'New Users'],
-                    datasets: [{
-                        label: 'User Engagement',
-                        data: [engagementData.activeUsers, engagementData.newUsers],
-                        backgroundColor: ['rgba(75, 192, 192, 0.2)', 'rgba(153, 102, 255, 0.2)'],
-                        borderColor: ['rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)'],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
-                    }
-                }
-            });
-            logUserEngagement('view_engagement_metrics');
-        }
-
-        // Load Job Posting Performance Metrics and Chart
-        function loadJobPerformanceMetrics() {
-            const jobData = {
-                totalJobsPosted: 250,
-                jobsFilled: 180,
-                jobViews: 5000
-            };
-            document.getElementById('jobPerformanceMetrics').innerText = 
-                `Total Jobs Posted: ${jobData.totalJobsPosted}, Jobs Filled: ${jobData.jobsFilled}, Job Views: ${jobData.jobViews}`;
-            
-            // Populate Chart
-            const ctx = document.getElementById('jobPerformanceChart').getContext('2d');
-            new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: ['Jobs Posted', 'Jobs Filled', 'Job Views'],
-                    datasets: [{
-                        label: 'Job Performance',
-                        data: [jobData.totalJobsPosted, jobData.jobsFilled, jobData.jobViews],
-                        borderColor: 'rgba(255, 159, 64, 1)',
-                        fill: false
-                    }]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
-                    }
-                }
-            });
-            logUserEngagement('view_job_performance_metrics');
-        }
-
-        // Load Job Activity Insights
-        function loadJobActivityInsights() {
-            // Simulated data
-            const jobActivityData = {
-                jobTypes: ['Developer', 'Data Scientist', 'Web Designer', 'Software Engineer', 'Customer Service'],
-                jobViews: [1200, 800, 600, 900, 700],
-                activityDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
-                activityCounts: [100, 150, 200, 250, 300]
-            };
-            document.getElementById('jobActivityMetrics').innerText = 
-                `Most Active Job Types: ${jobActivityData.jobTypes.join(', ')} with views ${jobActivityData.jobViews.join(', ')}`;
-            
-            // Populate Job Activity Chart
-            const ctx = document.getElementById('jobActivityChart').getContext('2d');
-            new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: jobActivityData.jobTypes,
-                    datasets: [{
-                        label: 'Job Views',
-                        data: jobActivityData.jobViews,
-                        backgroundColor: 'rgba(255, 206, 86, 0.2)',
-                        borderColor: 'rgba(255, 206, 86, 1)',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
-                    }
-                }
-            });
-            logUserEngagement('view_job_activity_insights');
-        }
-
-        // Load User Demographics
-        function loadUserDemographics() {
-            const demographicsData = {
-                ageGroups: ['18-24', '25-34', '35-44', '45-54', '55+'],
-                userCounts: [200, 500, 300, 200, 100]
-            };
-            document.getElementById('userDemographicsMetrics').innerText = 
-                `User Demographics: ${demographicsData.ageGroups.join(', ')} with counts ${demographicsData.userCounts.join(', ')}`;
-            
-            // Populate Demographics Chart
-            const ctx = document.getElementById('userDemographicsChart').getContext('2d');
-            new Chart(ctx, {
-                type: 'pie',
-                data: {
-                    labels: demographicsData.ageGroups,
-                    datasets: [{
-                        label: 'User Demographics',
-                        data: demographicsData.userCounts,
-                        backgroundColor: [
-                            'rgba(255, 99, 132, 0.2)',
-                            'rgba(54, 162, 235, 0.2)',
-                            'rgba(255, 206, 86, 0.2)',
-                            'rgba(75, 192, 192, 0.2)',
-                            'rgba(153, 102, 255, 0.2)'
-                        ],
-                        borderColor: [
-                            'rgba(255, 99, 132, 1)',
-                            'rgba(54, 162, 235, 1)',
-                            'rgba(255, 206, 86, 1)',
-                            'rgba(75, 192, 192, 1)',
-                            'rgba(153, 102, 255, 1)'
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true
-                }
-            });
-            logUserEngagement('view_user_demographics');
-        }
-
-        // Handle Custom Report Generation
-        $('#reportForm').on('submit', function (e) {
-            e.preventDefault();
-            const reportType = $('#reportType').val();
-            const startDate = $('#startDate').val();
-            const endDate = $('#endDate').val();
-            // Simulated report generation
-            $('#reportOutput').html(`<p>Report for ${reportType} from ${startDate} to ${endDate} generated successfully!</p>`);
-            logUserEngagement('generate_custom_report');
-        });
-
-        // Initial load
-        loadUserEngagementMetrics();
-        loadJobPerformanceMetrics();
-        loadJobActivityInsights();
-        loadUserDemographics();
+        
     </script>
 </body>
 </html>

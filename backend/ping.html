@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ping Search Engines</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f7f6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            color: #333;
+        }
+
+        .container {
+            text-align: center;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #fff;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            max-width: 450px;
+            width: 100%;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #007BFF;
+        }
+
+        select, button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 15px;
+            border-radius: 5px;
+            border: 1px solid #007BFF;
+            outline: none;
+        }
+
+        select {
+            width: 100%;
+        }
+
+        button {
+            background-color: #007BFF;
+            color: white;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        button:disabled {
+            background-color: #aaa;
+            cursor: not-allowed;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 16px;
+            font-weight: bold;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        #loading {
+            display: none;
+            color: #28a745;
+            font-size: 18px;
+            margin-top: 10px;
+        }
+
+        .error {
+            color: #dc3545;
+        }
+
+        .success {
+            color: #28a745;
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 20px;
+            }
+
+            select, button {
+                width: 100%;
+            }
+        }
+
+        select:focus, button:focus {
+    outline: 2px solid #0056b3;
+    outline-offset: 2px;
+}
+
+#error, #success {
+    opacity: 0;
+    animation: fade-in 0.5s forwards;
+}
+
+@keyframes fade-in {
+    to {
+        opacity: 1;
+    }
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Ping Search Engines</h1>
+
+        <label for="domainSelect">Select Your Domain:</label>
+        <select id="domainSelect">
+            <!-- Options will be populated by JavaScript -->
+        </select>
+
+        <label for="searchEnginesSelect">Select Search Engines to Ping:</label>
+        <select id="searchEnginesSelect" multiple>
+            <!-- Options will be populated by JavaScript -->
+        </select>
+
+        <button id="pingButton">Ping Selected Search Engines</button>
+
+        <p id="loading">Sending requests... Please wait.</p>
+        <p id="result"></p>
+        <div id="results"></div>
+
+    </div>
+
+    <script>
+        // List of domains and search engines
+        const domains = [
+            { name: 'Shutterworx.co', url: 'https://shutterworx.co/sitemap.xml' },
+            { name: 'maximusbrand.com', url: 'https://maximusbrand.com/sitemap.xml' },
+            { name: 'rawphotographysite.com', url: 'https://rawphotographysite.com/sitemap.xml' },
+            { name: 'reelcareer.co', url: 'https://reelcareer.co/sitemap.xml' },
+            { name: 'rw-501.github.io%2FPortfolio', url: 'https://rw-501.github.io%2FPortfolio/sitemap.xml' }
+        ];
+
+        const searchEngines = [
+    { name: 'Google', url: 'https://www.google.com/ping?sitemap=' },
+    { name: 'Bing', url: 'https://www.bing.com/ping?sitemap=' },
+    { name: 'Yandex', url: 'https://webmaster.yandex.com/ping?sitemap=' },
+    { name: 'Baidu', url: 'https://ping.baidu.com/ping?sitemap=' },
+    { name: 'DuckDuckGo', url: 'https://duckduckgo.com/ping?sitemap=' },
+    { name: 'Ecosia', url: 'https://www.ecosia.org/ping?sitemap=' },  // Example of another search engine
+    { name: 'Ask.com', url: 'https://submissions.ask.com/ping?sitemap=' },  // Example of adding Ask.com
+    { name: 'Seznam', url: 'https://search.seznam.cz/ping?sitemap=' },  // Example of adding Seznam (Czech search engine)
+    { name: 'Naver', url: 'https://sitemap.naver.com/ping?sitemap=' },  // Naver is a popular search engine in South Korea
+    { name: 'Sogou', url: 'https://www.sogou.com/sogou-ping/ping?sitemap=' },  // Sogou is a Chinese search engine
+    { name: 'Qwant', url: 'https://www.qwant.com/ping?sitemap=' },  // Qwant is a privacy-focused European search engine
+    { name: 'Yahoo', url: 'https://search.yahoo.com/ping?sitemap=' },  // Yahoo search engine
+    { name: 'Exalead', url: 'https://www.exalead.com/search/ping?sitemap=' }  // Exalead is a search engine by Dassault Systèmes
+];
+
+if (!sitemapURL || selectedEngines.length === 0) {
+    document.getElementById('result').textContent = 'Please select a domain and at least one search engine.';
+    document.getElementById('result').classList.add('error');
+    button.disabled = false;
+    document.getElementById('loading').style.display = 'none';
+    return;
+}
+let dots = 0;
+const loadingInterval = setInterval(() => {
+    dots = (dots + 1) % 4;
+    document.getElementById('loading').textContent = `Sending requests${'.'.repeat(dots)}`;
+}, 500);
+
+        // Populate domain select options dynamically
+        const domainSelect = document.getElementById('domainSelect');
+        domains.forEach(domain => {
+            const option = document.createElement('option');
+            option.value = domain.url;
+            option.textContent = domain.name;
+            domainSelect.appendChild(option);
+        });
+
+        // Populate search engine select options dynamically
+        const searchEnginesSelect = document.getElementById('searchEnginesSelect');
+        searchEngines.forEach(engine => {
+            const option = document.createElement('option');
+            option.value = engine.url;
+            option.textContent = engine.name;
+            searchEnginesSelect.appendChild(option);
+        });
+
+        document.getElementById('pingButton').addEventListener('click', async () => {
+    try {
+        // Save selected domain and engines to localStorage
+        const domainSelect = document.getElementById('domainSelect');
+        const searchEnginesSelect = document.getElementById('searchEnginesSelect');
+        const sitemapURL = domainSelect.value;
+        const selectedEngines = Array.from(searchEnginesSelect.selectedOptions).map(option => option.value);
+
+        localStorage.setItem('selectedDomain', sitemapURL);
+        localStorage.setItem('selectedEngines', JSON.stringify(selectedEngines));
+
+        // Load saved settings
+        const savedDomain = localStorage.getItem('selectedDomain');
+        const savedEngines = JSON.parse(localStorage.getItem('selectedEngines'));
+        if (savedDomain) domainSelect.value = savedDomain;
+        if (savedEngines) {
+            searchEnginesSelect.querySelectorAll('option').forEach(option => {
+                option.selected = savedEngines.includes(option.value);
+            });
+        }
+
+        // UI feedback during operation
+        const button = document.getElementById('pingButton');
+        button.disabled = true;
+        document.getElementById('loading').style.display = 'block';
+        document.getElementById('result').textContent = '';
+        document.getElementById('results').innerHTML = '';
+
+        // Start pinging search engines
+        const startTime = performance.now();
+        const requests = selectedEngines.map(async (url) => {
+            const engineStartTime = performance.now();
+            const response = await fetch(`${url}${sitemapURL}`);
+            const engineEndTime = performance.now();
+            return {
+                url,
+                status: response.ok ? 'Success' : 'Failed',
+                statusCode: response.status,
+                responseTime: `${(engineEndTime - engineStartTime).toFixed(2)} ms`
+            };
+        });
+
+        // Wait for all requests to finish
+        const results = await Promise.all(requests);
+
+        // Generate and render results table
+        const resultsContainer = document.getElementById('results');
+        resultsContainer.innerHTML = `
+            <table>
+                <thead>
+                    <tr>
+                        <th>Search Engine</th>
+                        <th>Status</th>
+                        <th>Status Code</th>
+                        <th>Response Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${results.map(result => `
+                        <tr>
+                            <td>${result.url}</td>
+                            <td>${result.status}</td>
+                            <td>${result.statusCode}</td>
+                            <td>${result.responseTime}</td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            </table>
+        `;
+
+        // Display success and error summaries
+        const success = results.filter(result => result.status === 'Success');
+        const failed = results.filter(result => result.status === 'Failed');
+
+        if (success.length === selectedEngines.length) {
+            document.getElementById('result').textContent = `Successfully pinged ${success.map(r => r.url).join(', ')}!`;
+            document.getElementById('result').className = 'success';
+        } else {
+            document.getElementById('result').textContent = `Failed to ping ${failed.map(r => r.url).join(', ')}.`;
+            document.getElementById('result').className = 'error';
+        }
+
+    } catch (error) {
+        console.error('An error occurred while pinging search engines:', error);
+        document.getElementById('result').textContent = 'An error occurred while pinging.';
+        document.getElementById('result').className = 'error';
+    } finally {
+        // Reset UI after operation
+        document.getElementById('pingButton').disabled = false;
+        document.getElementById('loading').style.display = 'none';
+    }
+});
+
+    </script>
+</body>
+</html>
