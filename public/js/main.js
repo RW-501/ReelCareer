@@ -1973,11 +1973,11 @@ function roll_in_animations(){
 
 
 function setBreadcrumb(){
-
+  const id = urlParams.get("id"); // Assuming the ID is passed as a query parameter 'id'
+  const jobId = urlParams.get("jobId");
   
   // Get the ID from the URL
   const urlParams = new URLSearchParams(window.location.search);
-  const id = urlParams.get("id"); // Assuming the ID is passed as a query parameter 'id'
 
   // Select the last breadcrumb anchor
   const lastBreadcrumb = document.getElementById("lastBreadcrumb_a");
@@ -1986,9 +1986,11 @@ function setBreadcrumb(){
   const appyJobTitle = document.getElementById("appyJobTitle");
   
   if (id && lastBreadcrumb){
-      // Append the ID to the href
       lastBreadcrumb.href = `https://reelcareer.com/views/job-details?id=${id}`;
   } 
+  if (jobId && lastBreadcrumb){
+    lastBreadcrumb.href = `https://reelcareer.com/views/job-details?id=${jobId}`;
+} 
   if (breadcrumbjobTitleActive && jobTitle){
     breadcrumbjobTitleActive.innerText = jobTitle.innerText;
   }
