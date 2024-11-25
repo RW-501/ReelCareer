@@ -295,7 +295,9 @@ async function fetchJobsByState(state) {
 // Helper function to get the state name from URL
 function getHashFromURL() {
   const hash = window.location.hash;
-  const segments = hash ? hash.substring(1) : null;
+
+  // Remove the '#' symbol, decode the URL, and clean up unwanted characters
+  const segments = hash ? decodeURIComponent(hash.substring(1)).replace(/[^\w\s-]/g, '') : null;
   return segments;
 }
 
