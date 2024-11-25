@@ -736,63 +736,63 @@ function updateFooter() {
   // Footer links data (from JSON)
   const footerLinks = [
     {
-      "url": "/about",
+      "url": "/views/about",
       "name": "ReelCareer",
       "title": "About ReelCareer - Who We Are and Our Mission",
       "category": "General",
       "order": 1
     },
     {
-      "url": "/public/privacy",
+      "url": "/views/public/privacy",
       "name": "Privacy Policy",
       "title": "Privacy Policy - How We Protect Your Data",
       "category": "Legal",
       "order": 2
     },
     {
-      "url": "/public/terms",
+      "url": "/views/public/terms",
       "name": "Terms of Use",
       "title": "Terms of Use - Website User Agreement and Guidelines",
       "category": "Legal",
       "order": 3
     },
     {
-      "url": "/contact",
+      "url": "/views/contact",
       "name": "Contact Us",
       "title": "Contact ReelCareer - Get in Touch for Support and Inquiries",
       "category": "General",
       "order": 4
     },
     {
-      "url": "/blog",
+      "url": "/views/blog",
       "name": "Blog",
       "title": "ReelCareer Blog - Career Advice, News, and Insights",
       "category": "Content",
       "order": 5
     },
     {
-      "url": "/news",
+      "url": "/views/news",
       "name": "News",
       "title": "ReelCareer News - Latest Updates and Industry Trends",
       "category": "Content",
       "order": 6
     },
     {
-      "url": "/faq",
+      "url": "/views/faq",
       "name": "FAQs",
       "title": "Frequently Asked Questions - Get Answers to Common Queries",
       "category": "Support",
       "order": 7
     },
     {
-      "url": "/referral",
+      "url": "/views/referral",
       "name": "Affiliate Program",
       "title": "Join the ReelCareer Affiliate Program and Earn Rewards",
       "category": "Marketing",
       "order": 8
     },
     {
-      "url": "/Personality-&-Trait-Tests",
+      "url": "/views/Personality-&-Trait-Tests",
       "name": "Personality & Trait Tests",
       "title": "Personality & Trait Tests - Discover Your Strengths and Work Style",
       "category": "Features",
