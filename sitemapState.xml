@@ -191,6 +191,8 @@
         <lastmod>2024-11-24</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
+            </url>
+
     <url>
         <loc>https://reelcareer.co/jobs/state#Texas</loc>
         <lastmod>2024-11-24</lastmod>
@@ -239,4 +241,5 @@
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
+
 </urlset>

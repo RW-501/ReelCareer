@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adzuna Labor Market Insights</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"></script>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Adzuna Labor Market Insights</h1>
+        
+        <!-- Fetch Data Section -->
+        <div class="mb-4">
+            <button id="fetchDataBtn" class="btn btn-primary">Fetch Labor Market Insights</button>
+        </div>
+        
+        <!-- Data Display Section -->
+        <div class="mb-4">
+            <h3>Insights Data</h3>
+            <pre id="dataDisplay" style="background: #f8f9fa; padding: 15px; border-radius: 5px; overflow-x: auto; height: 300px;"></pre>
+        </div>
+
+        <!-- Save Data Section -->
+        <div class="mb-4">
+            <button id="saveDataBtn" class="btn btn-success">Save Data Locally</button>
+        </div>
+
+        <!-- Check Saved Data Section -->
+        <div class="mb-4">
+            <h3>Saved Data</h3>
+            <pre id="savedDataDisplay" style="background: #f8f9fa; padding: 15px; border-radius: 5px; overflow-x: auto; height: 300px;"></pre>
+        </div>
+
+        <!-- Upload Data to Database Section -->
+        <div class="mb-4">
+            <button id="uploadDataBtn" class="btn btn-info">Upload to Database</button>
+        </div>
+    </div>
+
+    <script type="module">
+        import {
+            db, doc, getDoc, query, updateDoc,
+            setDoc, ref, signInWithPopup, orderBy,
+             
+            uploadBytes, OAuthProvider, arrayUnion, getStorage,
+            signOut, addDoc, increment, onAuthStateChanged,
+            createUserWithEmailAndPassword, signInWithEmailAndPassword,
+            where, getDocs, storage, collection, deleteObject, 
+            auth, analytics, deleteDoc, getDownloadURL
+        } from 'https://reelcareer.co/js/module.js';
+    
+        const apiUrl = 'https://api.adzuna.com/v1/api/jobs/us/search/1?app_id=3ea9a2f1&app_key=e74d84b00c37bbfabe11710ebafcd138';
+        let fetchedData = null;
+        
+        // Fetch Data
+        document.getElementById('fetchDataBtn').addEventListener('click', async () => {
+            try {
+                const response = await axios.get(apiUrl);
+                fetchedData = response.data;
+                document.getElementById('dataDisplay').textContent = JSON.stringify(fetchedData, null, 2);
+                alert('Data fetched successfully!');
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                alert('Failed to fetch data. Please check the console for details.');
+            }
+        });
+
+        // Save Data Locally
+        document.getElementById('saveDataBtn').addEventListener('click', () => {
+            if (fetchedData) {
+                localStorage.setItem('adzunaData', JSON.stringify(fetchedData));
+                alert('Data saved locally!');
+            } else {
+                alert('No data to save. Please fetch data first.');
+            }
+        });
+
+        // Check Saved Data
+        document.getElementById('savedDataDisplay').textContent = localStorage.getItem('adzunaData') || 'No saved data found.';
+
+        // Upload Data to Database
+        document.getElementById('uploadDataBtn').addEventListener('click', async () => {
+            const savedData = localStorage.getItem('adzunaData');
+            if (!savedData) {
+                alert('No saved data to upload.');
+                return;
+            }
+
+            try {
+            
+                
+                addDoc(collection(db, 'States'), {
+            stateID: stateName,
+            stateName: stateName, 
+
+            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+            created: '2024',
+            source: 'Adzuna',
+            status: 'active',
+        }).then(() => {
+
+        }).catch(error => {
+            showToast("Error sending message: " + error.message, 'error')
+        });
+
+
+
+
+
+
+            } catch (error) {
+                console.error('Error uploading data:', error);
+                alert('Failed to upload data. Please check the console for details.');
+            }
+        });
+    </script>
+</body>
+</html>
