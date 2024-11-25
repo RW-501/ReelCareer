@@ -2311,16 +2311,19 @@ function getViewedByField() {
 
   document.addEventListener('click', function (event) {
 
+   
+
 let TrackingOn = true;
-
-    console.log("TrackingOn: ", TrackingOn);
-if(TrackingOn){
-
-  event.preventDefault();
-
     // Get the clicked element
     const target = event.target;
     let interceptTimer = 10000;
+
+    console.log("TrackingOn: ", TrackingOn);
+    console.log("interceptTimer: ", interceptTimer);
+if(TrackingOn){
+
+
+
         // Get the page title
         const pageTitle = document.title;
         console.log(`Page title: ${pageTitle}`);
@@ -2380,6 +2383,9 @@ if(TrackingOn){
                 eval(onclickAttr);
             }, interceptTimer); // Delay for 1 second
         } else if (typeof target.onclick === 'function') {
+
+                 // Prevent default action
+        event.preventDefault();
         // Get the onclick handler function
         const onclickFunction = target.onclick;
 
