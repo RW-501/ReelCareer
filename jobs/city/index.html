@@ -188,6 +188,8 @@
 
 
         async function fetchJobsByCity(cityName) {
+          const jobsContainer = document.getElementById('jobs-container');
+
           try {
       const jobsRef = collection(db, "Jobs");
       const snapshot = await getDocs(jobsRef);
