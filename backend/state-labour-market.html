@@ -30,37 +30,99 @@
             <p><strong>Region:</strong> <span id="region"></span></p>
             <p><strong>Last Updated:</strong> <span id="lastUpdated"></span></p>
             
-            <h3>Job Openings Data</h3>
-            <p><strong>Total Job Openings:</strong> <span id="totalJobOpenings"></span></p>
-            <div id="jobOpeningsByIndustry"></div>
-            <div id="jobOpeningsByRole"></div>
-            <div id="jobOpeningsBySkillLevel"></div>
-            <p><strong>Trending Industries:</strong> <span id="trendingIndustries"></span></p>
-            <p><strong>Geographic Distribution:</strong> <span id="geographicDistribution"></span></p>
-            
-            <h3>Category Selection</h3>
-            <select id="categorySelect" onchange="loadCategoryData()">
-              <option value="jobOpenings">Job Openings Data</option>
-              <option value="wageSalary">Wage and Salary Information</option>
-              <option value="demandSupply">Demand vs. Supply Metrics</option>
-              <option value="labourForce">Labour Force Demographics</option>
-              <option value="economicIndicators">Economic Indicators</option>
-              <option value="educationalInsights">Educational Insights</option>
-              <option value="remoteWork">Remote Work Trends</option>
-              <option value="labourPolicy">Statewide Labour Policy Information</option>
-              <option value="jobSeeker">Job Seeker Behavior</option>
-              <option value="employerInsights">Employer Insights</option>
-            </select>
-            
-            <div id="categoryDataDisplay" class="d-none">
-              <!-- Data will be dynamically loaded here based on the category selected -->
-            </div>
-            
+            <select id="categories">
+                <option value="job-openings-data">Job Openings Data</option>
+                <option value="wage-and-salary-information">Wage and Salary Information</option>
+                <option value="demand-vs-supply-metrics">Demand vs. Supply Metrics</option>
+                <option value="labour-force-demographics">Labour Force Demographics</option>
+                <option value="economic-indicators">Economic Indicators</option>
+                <option value="educational-insights">Educational Insights</option>
+                <option value="remote-work-trends">Remote Work Trends</option>
+                <option value="statewide-labour-policy-information">Statewide Labour Policy Information</option>
+                <option value="job-seeker-behavior">Job Seeker Behavior</option>
+                <option value="employer-insights">Employer Insights</option>
+              </select>
+              
+
+<!-- Text Area -->
+<textarea id="stateDetails" rows="4" cols="50" placeholder="State details will be populated here..."></textarea>
+
+<!-- Init Button -->
+<button id="initButton">Init</button>
 
 
-
-
-
+<form id="stateDataForm">
+    <h2>State Data Information</h2>
+    
+    <!-- Job Openings Data -->
+    <h3>Job Openings Data</h3>
+    <textarea id="totalJobOpenings" rows="3" cols="50" placeholder="Total number of job openings in the state (e.g., 12000)"></textarea><br><br>
+    <textarea id="jobOpeningsByIndustry" rows="5" cols="50" placeholder="Job openings by industry (e.g., { 'Tech': 12000, 'Healthcare': 8000 })"></textarea><br><br>
+    <textarea id="jobOpeningsByRole" rows="5" cols="50" placeholder="Job openings by role (e.g., { 'Software Engineer': 3000, 'Nurse': 1500 })"></textarea><br><br>
+    <textarea id="jobOpeningsBySkillLevel" rows="5" cols="50" placeholder="Job openings by skill level (e.g., { 'Entry-Level': 5000, 'Mid-Level': 7000 })"></textarea><br><br>
+    <textarea id="trendingIndustries" rows="3" cols="50" placeholder="Trending industries (e.g., ['AI', 'Green Energy'])"></textarea><br><br>
+    <textarea id="geographicDistribution" rows="3" cols="50" placeholder="Geographic distribution (e.g., { 'Metro': '70%', 'Rural': '30%' })"></textarea><br><br>
+    
+    <!-- Wage and Salary Information -->
+    <h3>Wage and Salary Information</h3>
+    <textarea id="medianSalaries" rows="5" cols="50" placeholder="Median salaries (e.g., { 'Software Engineer': 120000, 'Nurse': 85000 })"></textarea><br><br>
+    <textarea id="salaryGrowthTrends" rows="5" cols="50" placeholder="Salary growth trends (e.g., { '2022': '3.5%', '2023': '4.2%' })"></textarea><br><br>
+    <textarea id="localVsNationalSalaries" rows="5" cols="50" placeholder="Local vs National salaries (e.g., { 'Local': 110000, 'National': 115000 })"></textarea><br><br>
+    <textarea id="genderPayGap" rows="5" cols="50" placeholder="Gender pay gap (e.g., { 'Male': 75000, 'Female': 69000 })"></textarea><br><br>
+    
+    <!-- Demand vs Supply Metrics -->
+    <h3>Demand vs Supply Metrics</h3>
+    <textarea id="highDemandLowSupplySkills" rows="3" cols="50" placeholder="High demand, low supply skills (e.g., ['Cloud Computing', 'Cybersecurity'])"></textarea><br><br>
+    <textarea id="applicationsPerJob" rows="3" cols="50" placeholder="Average number of applications per job (e.g., 30)"></textarea><br><br>
+    <textarea id="skillGapAnalysis" rows="5" cols="50" placeholder="Skill gap analysis (e.g., { 'Requested': ['JavaScript'], 'Possessed': ['Python'] })"></textarea><br><br>
+    
+    <!-- Labour Force Demographics -->
+    <h3>Labour Force Demographics</h3>
+    <textarea id="ageBreakdown" rows="3" cols="50" placeholder="Age breakdown (e.g., { '18-25': '20%', '26-40': '50%' })"></textarea><br><br>
+    <textarea id="genderBreakdown" rows="3" cols="50" placeholder="Gender breakdown (e.g., { 'Male': '60%', 'Female': '40%' })"></textarea><br><br>
+    <textarea id="educationBreakdown" rows="3" cols="50" placeholder="Education breakdown (e.g., { 'High School': '40%', 'Bachelor's': '45%' })"></textarea><br><br>
+    <textarea id="employmentStatus" rows="3" cols="50" placeholder="Employment status (e.g., { 'Full-time': '70%', 'Part-time': '30%' })"></textarea><br><br>
+    
+    <!-- Economic Indicators -->
+    <h3>Economic Indicators</h3>
+    <textarea id="unemploymentRate" rows="3" cols="50" placeholder="Unemployment rate (e.g., 4.5%)"></textarea><br><br>
+    <textarea id="jobCreationTrends" rows="3" cols="50" placeholder="Job creation trends (e.g., '2022': '3.0%', '2023': '4.0%')"></textarea><br><br>
+    <textarea id="seasonalIndustryImpact" rows="3" cols="50" placeholder="Seasonal industry impact (e.g., { 'Tourism': '+30%', 'Agriculture': '+20%' })"></textarea><br><br>
+    <textarea id="stateEconomicGrowth" rows="3" cols="50" placeholder="Economic growth (e.g., { '2022': '3.0%', '2023': '3.5%' })"></textarea><br><br>
+    
+    <!-- Educational Insights -->
+    <h3>Educational Insights</h3>
+    <textarea id="localTrainingPrograms" rows="3" cols="50" placeholder="Local training programs (e.g., ['AWS Certification', 'Data Science Bootcamp'])"></textarea><br><br>
+    <textarea id="skillsInDemand" rows="3" cols="50" placeholder="Skills in demand (e.g., ['JavaScript', 'Python', 'Cloud Computing'])"></textarea><br><br>
+    <textarea id="topInstitutions" rows="3" cols="50" placeholder="Top institutions (e.g., ['MIT', 'Stanford'])"></textarea><br><br>
+    
+    <!-- Remote Work Trends -->
+    <h3>Remote Work Trends</h3>
+    <textarea id="remoteJobOpportunities" rows="3" cols="50" placeholder="Remote job opportunities (e.g., { 'Tech': 5000, 'Marketing': 3000 })"></textarea><br><br>
+    <textarea id="hybridWorkRates" rows="3" cols="50" placeholder="Hybrid work adoption (e.g., { 'Tech': '60%', 'Healthcare': '20%' })"></textarea><br><br>
+    <textarea id="remoteWorkImpact" rows="3" cols="50" placeholder="Remote work impact (e.g., 'Reduced office space by 25%')"></textarea><br><br>
+    
+    <!-- Statewide Labour Policy Information -->
+    <h3>Statewide Labour Policy Information</h3>
+    <textarea id="minimumWage" rows="3" cols="50" placeholder="Minimum wage (e.g., 15.00)"></textarea><br><br>
+    <textarea id="employmentIncentives" rows="3" cols="50" placeholder="Employment incentives (e.g., { 'Hiring Bonus': '500', 'Relocation': '1000' })"></textarea><br><br>
+    <textarea id="unionActivity" rows="3" cols="50" placeholder="Union activity (e.g., { 'Union Participation': '30%', 'Recent Strike': 'July 2023' })"></textarea><br><br>
+    
+    <!-- Job Seeker Behavior -->
+    <h3>Job Seeker Behavior</h3>
+    <textarea id="mostSearchedTitles" rows="3" cols="50" placeholder="Most searched job titles (e.g., ['Data Scientist', 'Nurse'])"></textarea><br><br>
+    <textarea id="averageTimeToHire" rows="3" cols="50" placeholder="Average time to hire (e.g., 30 days)"></textarea><br><br>
+    <textarea id="jobSeekerPreferences" rows="3" cols="50" placeholder="Job seeker preferences (e.g., { 'Healthcare': 70%, 'Flexibility': 50% })"></textarea><br><br>
+    
+    <!-- Employer Insights -->
+    <h3>Employer Insights</h3>
+    <textarea id="topHiringCompanies" rows="3" cols="50" placeholder="Top hiring companies (e.g., ['Google', 'Amazon'])"></textarea><br><br>
+    <textarea id="industriesWithTurnover" rows="3" cols="50" placeholder="Industries with turnover (e.g., ['Retail', 'Food Service'])"></textarea><br><br>
+    <textarea id="emergingIndustries" rows="3" cols="50" placeholder="Emerging industries (e.g., ['AI', 'Green Energy'])"></textarea><br><br>
+    
+    <button type="button" id="submitStateData">Submit</button>
+  </form>
+  
 
 
 
@@ -149,103 +211,175 @@
                 stateDropdown.appendChild(option);
             });
 
-            // Mock function to fetch state data
-   // Sample data (you can replace it with real data from your API or database)
-const stateData = {
-  jobOpenings: {
-    totalJobOpenings: 35000,
-    jobOpeningsByIndustry: { "Tech": 12000, "Healthcare": 8000 },
-    jobOpeningsByRole: { "Software Engineer": 5000, "Nurse": 3000 },
-    jobOpeningsBySkillLevel: { "Entry-Level": 10000, "Mid-Level": 15000, "Senior-Level": 10000 },
-    trendingIndustries: ["AI", "Green Energy"],
-    geographicDistribution: { "Metro": "70%", "Rural": "30%" },
-  },
-  wageSalary: {
-    medianSalaries: { "Software Engineer": 120000, "Nurse": 85000 },
-    salaryGrowthTrends: { "2022": "3.5%", "2023": "4.2%" },
-    localVsNationalSalaries: { "Local": 110000, "National": 115000 },
-    genderPayGap: { "Male": 75000, "Female": 69000 },
-  },
-  demandSupply: {
-    highDemandLowSupplySkills: ["Cloud Computing", "Cybersecurity"],
-    applicationsPerJob: 50,
-    skillGapAnalysis: { "Requested": ["JavaScript", "Python"], "Possessed": ["JavaScript"] },
-  },
-  labourForce: {
-    ageBreakdown: { "18-25": "20%", "26-40": "50%", "41-60": "25%", "60+": "5%" },
-    genderBreakdown: { "Male": "60%", "Female": "40%" },
-    educationBreakdown: { "High School": "40%", "Bachelor's": "45%", "Master's": "10%", "PhD": "5%" },
-    employmentStatus: { "Full-Time": "70%", "Part-Time": "20%", "Freelance": "10%" },
-  },
-  economicIndicators: {
-    unemploymentRate: "4.5%",
-    jobCreationTrends: { "2023": "3.2%", "2024": "3.5%" },
-    seasonalIndustryImpact: { "Tourism": "+30%", "Agriculture": "+20%" },
-    stateEconomicGrowth: { "2022": "3.0%", "2023": "3.5%" },
-  },
-  // Other categories like educationalInsights, remoteWork, etc. will be similar
+            document.getElementById('initButton').addEventListener('click', function() {
+  // Get the selected value from the state dropdown
+  const stateDropdown = document.getElementById('stateDropdown');
+  const selectedStateCode = stateDropdown.value;
+
+
+
+  // Get the state name based on selected state code
+  const stateName = stateNames[selectedStateCode];
+
+  // Populate the stateName and stateCode
+  document.getElementById('stateName').textContent = stateName;
+  document.getElementById('stateCode').textContent = selectedStateCode;
+
+});
+
+// Function to read and parse the JSON, and then populate the preview for editing
+function loadStateDetails() {
+  const stateDetailsText = document.getElementById('stateDetails').value;
+
+  try {
+    // Parse the JSON from the textarea
+ // Assuming stateDetailsText contains the JSON data
+const stateData = JSON.parse(stateDetailsText);
+
+// Populate the input fields with the corresponding values from stateData
+document.getElementById("totalJobOpenings").value = stateData.totalJobOpenings;
+document.getElementById("jobOpeningsByIndustry").value = stateData.jobOpeningsByIndustry;
+document.getElementById("jobOpeningsByRole").value = stateData.jobOpeningsByRole;
+document.getElementById("jobOpeningsBySkillLevel").value = stateData.jobOpeningsBySkillLevel;
+document.getElementById("trendingIndustries").value = stateData.trendingIndustries;
+document.getElementById("geographicDistribution").value = stateData.geographicDistribution;
+document.getElementById("medianSalaries").value = stateData.medianSalaries;
+document.getElementById("salaryGrowthTrends").value = stateData.salaryGrowthTrends;
+document.getElementById("localVsNationalSalaries").value = stateData.localVsNationalSalaries;
+document.getElementById("genderPayGap").value = stateData.genderPayGap;
+document.getElementById("highDemandLowSupplySkills").value = stateData.highDemandLowSupplySkills;
+document.getElementById("applicationsPerJob").value = stateData.applicationsPerJob;
+document.getElementById("skillGapAnalysis").value = stateData.skillGapAnalysis;
+document.getElementById("ageBreakdown").value = stateData.ageBreakdown;
+document.getElementById("genderBreakdown").value = stateData.genderBreakdown;
+document.getElementById("educationBreakdown").value = stateData.educationBreakdown;
+document.getElementById("employmentStatus").value = stateData.employmentStatus;
+document.getElementById("unemploymentRate").value = stateData.unemploymentRate;
+document.getElementById("jobCreationTrends").value = stateData.jobCreationTrends;
+document.getElementById("seasonalIndustryImpact").value = stateData.seasonalIndustryImpact;
+document.getElementById("stateEconomicGrowth").value = stateData.stateEconomicGrowth;
+document.getElementById("localTrainingPrograms").value = stateData.localTrainingPrograms;
+document.getElementById("skillsInDemand").value = stateData.skillsInDemand;
+document.getElementById("topInstitutions").value = stateData.topInstitutions;
+document.getElementById("remoteJobOpportunities").value = stateData.remoteJobOpportunities;
+document.getElementById("hybridWorkRates").value = stateData.hybridWorkRates;
+document.getElementById("remoteWorkImpact").value = stateData.remoteWorkImpact;
+document.getElementById("minimumWage").value = stateData.minimumWage;
+document.getElementById("employmentIncentives").value = stateData.employmentIncentives;
+document.getElementById("unionActivity").value = stateData.unionActivity;
+document.getElementById("mostSearchedTitles").value = stateData.mostSearchedTitles;
+document.getElementById("averageTimeToHire").value = stateData.averageTimeToHire;
+document.getElementById("jobSeekerPreferences").value = stateData.jobSeekerPreferences;
+document.getElementById("topHiringCompanies").value = stateData.topHiringCompanies;
+document.getElementById("industriesWithTurnover").value = stateData.industriesWithTurnover;
+document.getElementById("emergingIndustries").value = stateData.emergingIndustries;
+
+//console.log(stateData);  // Now stateData is populated in the inputs
+
+} catch (error) {
+    // If there's an error in parsing JSON, notify the user
+    alert('Invalid JSON format. Please check the state details.');
+  }
+}
+let stateData ;
+
+// Function to handle the upload of state info (for example, uploading to Firebase or similar)
+function uploadStateInfo() {
+  const stateCode = document.getElementById('previewStateCode').value;
+  const stateName = document.getElementById('previewStateName').value;
+
+  if (!stateCode || !stateName ) {
+    alert('Please fill in all fields correctly before uploading.');
+    return;
+  }
+
+  document.getElementById("submitStateData").addEventListener("click", function() {
+     stateData = {
+  totalJobOpenings: document.getElementById("totalJobOpenings").value,
+  jobOpeningsByIndustry: document.getElementById("jobOpeningsByIndustry").value,
+  jobOpeningsByRole: document.getElementById("jobOpeningsByRole").value,
+  jobOpeningsBySkillLevel: document.getElementById("jobOpeningsBySkillLevel").value,
+  trendingIndustries: document.getElementById("trendingIndustries").value,
+  geographicDistribution: document.getElementById("geographicDistribution").value,
+  medianSalaries: document.getElementById("medianSalaries").value,
+  salaryGrowthTrends: document.getElementById("salaryGrowthTrends").value,
+  localVsNationalSalaries: document.getElementById("localVsNationalSalaries").value,
+  genderPayGap: document.getElementById("genderPayGap").value,
+  highDemandLowSupplySkills: document.getElementById("highDemandLowSupplySkills").value,
+  applicationsPerJob: document.getElementById("applicationsPerJob").value,
+  skillGapAnalysis: document.getElementById("skillGapAnalysis").value,
+  ageBreakdown: document.getElementById("ageBreakdown").value,
+  genderBreakdown: document.getElementById("genderBreakdown").value,
+  educationBreakdown: document.getElementById("educationBreakdown").value,
+  employmentStatus: document.getElementById("employmentStatus").value,
+  unemploymentRate: document.getElementById("unemploymentRate").value,
+  jobCreationTrends: document.getElementById("jobCreationTrends").value,
+  seasonalIndustryImpact: document.getElementById("seasonalIndustryImpact").value,
+  stateEconomicGrowth: document.getElementById("stateEconomicGrowth").value,
+  localTrainingPrograms: document.getElementById("localTrainingPrograms").value,
+  skillsInDemand: document.getElementById("skillsInDemand").value,
+  topInstitutions: document.getElementById("topInstitutions").value,
+  remoteJobOpportunities: document.getElementById("remoteJobOpportunities").value,
+  hybridWorkRates: document.getElementById("hybridWorkRates").value,
+  remoteWorkImpact: document.getElementById("remoteWorkImpact").value,
+  minimumWage: document.getElementById("minimumWage").value,
+  employmentIncentives: document.getElementById("employmentIncentives").value,
+  unionActivity: document.getElementById("unionActivity").value,
+  mostSearchedTitles: document.getElementById("mostSearchedTitles").value,
+  averageTimeToHire: document.getElementById("averageTimeToHire").value,
+  jobSeekerPreferences: document.getElementById("jobSeekerPreferences").value,
+  topHiringCompanies: document.getElementById("topHiringCompanies").value,
+  industriesWithTurnover: document.getElementById("industriesWithTurnover").value,
+  emergingIndustries: document.getElementById("emergingIndustries").value
 };
 
-// Function to load category data based on selection
-function loadCategoryData() {
-  const categorySelect = document.getElementById("categorySelect");
-  const selectedCategory = categorySelect.value;
-  const categoryDataDisplay = document.getElementById("categoryDataDisplay");
+console.log(stateData);  // You can now process the data or parse the JSON when needed
+});
 
-  // Clear previous content
-  categoryDataDisplay.innerHTML = "";
-  categoryDataDisplay.classList.remove("d-none");
 
-  // Display the selected category's data
-  if (selectedCategory === "jobOpenings") {
-    const jobData = stateData.jobOpenings;
-    categoryDataDisplay.innerHTML = `
-      <p><strong>Total Job Openings:</strong> ${jobData.totalJobOpenings}</p>
-      <p><strong>Job Openings by Industry:</strong> ${JSON.stringify(jobData.jobOpeningsByIndustry)}</p>
-      <p><strong>Job Openings by Role:</strong> ${JSON.stringify(jobData.jobOpeningsByRole)}</p>
-      <p><strong>Job Openings by Skill Level:</strong> ${JSON.stringify(jobData.jobOpeningsBySkillLevel)}</p>
-      <p><strong>Trending Industries:</strong> ${jobData.trendingIndustries.join(", ")}</p>
-      <p><strong>Geographic Distribution:</strong> Metro: ${jobData.geographicDistribution.Metro}, Rural: ${jobData.geographicDistribution.Rural}</p>
-    `;
-  } else if (selectedCategory === "wageSalary") {
-    const wageData = stateData.wageSalary;
-    categoryDataDisplay.innerHTML = `
-      <p><strong>Median Salaries:</strong> ${JSON.stringify(wageData.medianSalaries)}</p>
-      <p><strong>Salary Growth Trends:</strong> ${JSON.stringify(wageData.salaryGrowthTrends)}</p>
-      <p><strong>Local vs National Salaries:</strong> ${JSON.stringify(wageData.localVsNationalSalaries)}</p>
-      <p><strong>Gender Pay Gap:</strong> ${JSON.stringify(wageData.genderPayGap)}</p>
-    `;
-  } else if (selectedCategory === "demandSupply") {
-    const demandData = stateData.demandSupply;
-    categoryDataDisplay.innerHTML = `
-      <p><strong>High Demand, Low Supply Skills:</strong> ${demandData.highDemandLowSupplySkills.join(", ")}</p>
-      <p><strong>Applications per Job:</strong> ${demandData.applicationsPerJob}</p>
-      <p><strong>Skill Gap Analysis:</strong> ${JSON.stringify(demandData.skillGapAnalysis)}</p>
-    `;
+
+async function saveStateData() {
+  const stateName =  document.getElementById('stateName').textContent;
+
+  
+  try {
+    // Ensure the stateName is part of the document collection name (use it as a document ID)
+    const docRef = await addDoc(collection(db, 'StateData',stateName), {
+      stateName: stateName, // You can store the state name as a field, or use it as part of the document ID
+      stateData,
+      source: '', // You can replace this with actual source if necessary
+      created_at: new Date().toISOString(),
+    });
+
+    console.log("Document written with ID: ", docRef.id);
+    alert('Data uploaded successfully!');
+  } catch (error) {
+    console.error('Error uploading data:', error);
+    alert('Failed to upload data.');
+  } finally {
+    uploadLoader.classList.add('d-none'); // Hide the loader
   }
-  // Add more 'else if' blocks for each category
 }
 
 
-            // Display state data
-            stateDropdown.addEventListener('change', () => {
-                const selectedState = stateDropdown.value;
 
-                if (!selectedState) {
-                    dataDisplay.classList.add('d-none');
-                    return;
-                }
 
-                const data = fetchStateData(selectedState);
-                document.getElementById('stateName').textContent = data.stateName;
-                document.getElementById('stateCode').textContent = data.stateCode;
-                document.getElementById('region').textContent = data.region;
-                document.getElementById('lastUpdated').textContent = data.lastUpdated;
-                document.getElementById('totalJobOpenings').textContent = data.totalJobOpenings;
-                document.getElementById('trendingIndustries').textContent = data.trendingIndustries.join(', ');
-                document.getElementById('geographicDistribution').textContent = `Metro: ${data.geographicDistribution.Metro}, Rural: ${data.geographicDistribution.Rural}`;
-                dataDisplay.classList.remove('d-none');
-            });
+
+  console.log('Uploading state info:', stateData);
+
+  // Mock upload response
+  setTimeout(() => {
+    document.getElementById('uploadStatus').textContent = 'State information uploaded successfully!';
+  }, 1000);
+}
+
+// Initialize the preview when the page loads or when the textarea changes
+document.getElementById('stateDetails').addEventListener('input', loadStateDetails);
+
+// Handle the upload button click
+document.getElementById('uploadStateInfo').addEventListener('click', uploadStateInfo);
+
+
 
             // Edit functionality
             editButton.addEventListener('click', () => {
