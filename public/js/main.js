@@ -2228,7 +2228,28 @@ async function attachTrackingListeners() {
 }
 
 window.attachTrackingListeners = attachTrackingListeners;
-// Function to determine the correct `ViewedBy` field based on the URL
+
+function getScrollDepthPercentage() {
+  const scrollTop = window.scrollY || document.documentElement.scrollTop;
+  const windowHeight = window.innerHeight;
+  const fullHeight = document.documentElement.scrollHeight;
+
+  // Calculate the percentage of page scrolled
+  const scrollPercentage = (scrollTop + windowHeight) / fullHeight * 100;
+
+  // Ensure percentage stays within 0-100 range
+  return Math.min(100, Math.max(0, scrollPercentage.toFixed(2)));
+}
+
+let maxScrollDepth = 0;
+
+window.addEventListener('scroll', () => {
+    const currentScrollDepth = getScrollDepthPercentage();
+    maxScrollDepth = Math.max(maxScrollDepth, currentScrollDepth);
+    console.log(`Current Scroll Depth: ${currentScrollDepth}%`);
+    console.log(`Max Scroll Depth: ${maxScrollDepth}%`);
+});
+
 // Function to determine the correct `ViewedBy` field based on the URL
 function getViewedByField() {
     const path = window.location.pathname;
@@ -2239,38 +2260,74 @@ function getViewedByField() {
 
 
 // Function to update view data on unload or visibility change
- async function updateViewData(ipAddress, exitTrack) {
+ async function updateViewData(ipAddress, actionTrack, actionName, pageTitle, jobTitleName  ) {
     const viewEndTime = Date.now();
     const durationOfView = (viewEndTime - viewStartTime) / 1000;
     const viewedByField = getViewedByField();
 
    // console.log(`${ipAddress} ipAddress ???????? .`);
 
-    if (!ipAddress) {
-        console.error("Missing IP address. View data not recorded.");
-        return;
-    }
 
+    // Retrieve user data from local storage
+    const storedUserData = localStorage.getItem("userData");
+
+    let userData = '';
+
+    if (storedUserData) {
+      // Parse the stored data
+       userData = JSON.parse(storedUserData);
+  } 
+
+    if (!ipAddress && !userData.ipAddress ) {
+      console.error("Missing IP address. View data not recorded.");
+      return;
+  }
     // Dynamically set the field for the viewed page
     const viewData = {
         [viewedByField]: {
             viewDate: new Date().toISOString(),
             viewMethod: navigator.userAgentData?.mobile ? "mobile" : "desktop",
             durationOfView: durationOfView,
-            contactViews: increment(1),
+            maxScrollDepth: maxScrollDepth,
+            viewsCount: increment(1),
             viewSource: getViewSource(),
-            exitTrack: exitTrack
+            actionTrack: actionTrack,
+            actionName: actionName,
+            pageTitle: pageTitle,
+            jobTitleName: jobTitleName,
+            lastViewDate: new Date().toISOString()
+
+
         },
-        ipAddress,
-        ...locationData,
-        lastViewDate: new Date().toISOString(),
+        ipAddress: ipAddress || userData.ipAddress,
+        name: userData.name || 'N/A',
+        displayName: userData.displayName || 'N/A',
+        userID: userData.userID || 'N/A',
+        lastLogin: userData.lastLogin || 'N/A',
+        city: locationData.city || 'N/A',
+        state: locationData.region || 'N/A',
+        zip: locationData.postal || 'N/A',
+        country: locationData.country_name || 'N/A',
+        // Additional Data
+        browser: navigator.userAgentData?.brands?.[0]?.brand || navigator.userAgent,
+        os: navigator.platform || 'N/A',
+        screenResolution: `${screen.width}x${screen.height}`,
+        viewportSize: `${window.innerWidth}x${window.innerHeight}`,
+        devicePixelRatio: window.devicePixelRatio,
+        referrer: document.referrer || 'Direct',
+        entryURL: window.location.href,
+        networkType: navigator.connection?.effectiveType || 'N/A',
+        connectionSpeed: navigator.connection?.downlink || 'N/A',
+        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || 'N/A',
+        language: navigator.language || 'N/A',
+        lastUpdate: new Date().toISOString(),
         userActivitiesCount: increment(1),
         totalDuration: increment(durationOfView),
         userBlocked: false
     };
 
     try {
-        await setDoc(doc(db, 'Analytics', ipAddress), viewData, { merge: true });
+        await setDoc(doc(db, 'Analytics', ipAddress || userData.ipAddress), viewData, { merge: true });
         console.log(`${viewedByField} data updated successfully.`);
     } catch (error) {
         console.error(`Error updating ${viewedByField} data:`, error);
@@ -2283,7 +2340,7 @@ function getViewedByField() {
     window.addEventListener('load', startViewTimer);
     //console.log("startViewTimer");
  
-  }
+
     document.addEventListener('visibilitychange', () => {
         if (document.visibilityState === 'hidden') {
          // console.log("TrackingListeners  last");
@@ -2292,7 +2349,7 @@ function getViewedByField() {
         }
     });
 
-
+  }
 
  // Define the  function to check if a specific keyword is in the URL
  window.checkUrl = function(keyword) {
@@ -2327,16 +2384,17 @@ if(TrackingOn){
         // Get the page title
         const pageTitle = document.title;
         console.log(`Page title: ${pageTitle}`);
+        let jobTitleName = '';
 
         const jobTitle = document.getElementById("jobTitle");
         const appyJobTitle = document.getElementById("appyJobTitle");
         if (jobTitle){
-         let jobTitleName = jobTitle.innerText;
+          jobTitleName = jobTitle.innerText;
           console.log(`Job title: ${jobTitleName}`);
 
         }
         if (appyJobTitle){
-          let jobTitleName = appyJobTitle.innerText;
+           jobTitleName = appyJobTitle.innerText;
           console.log(`Appy Job title: ${jobTitleName}`);
 
         }
@@ -2358,6 +2416,8 @@ if(TrackingOn){
              console.log(`Intercepted link: ${href}`);
              console.log(`Link text: ${linkText}`);
 
+
+             updateViewData(ipAddress, "link", linkText, pageTitle, jobTitleName  );
         // Timeout before proceeding
         setTimeout(() => {
             // Navigate to the URL
@@ -2377,6 +2437,8 @@ if(TrackingOn){
         // Log the onclick attribute and the inner text
         console.log(`Intercepted inline onclick: ${onclickAttr}`);
         console.log(`Element text: ${elementText}`);
+
+        updateViewData(ipAddress, onclickAttr, elementText, pageTitle, jobTitleName  );
 
             // Timeout before manually executing the inline onclick
             setTimeout(() => {
@@ -2401,6 +2463,7 @@ if(TrackingOn){
         console.log(`Function name: ${functionName}`);
         console.log(`Element text: ${elementText}`);
 
+        updateViewData(ipAddress, functionName, elementText, pageTitle, jobTitleName  );
             // Save the original onclick handler
             const handler = target.onclick;
 
@@ -2408,7 +2471,7 @@ if(TrackingOn){
             setTimeout(() => {
                 handler.call(target, event); // Execute the handler in the correct context
             }, interceptTimer); // Delay for 1 second
-        }if (target.tagName === 'BUTTON' && target.type === 'submit') {
+        } if (target.tagName === 'BUTTON' && target.type === 'submit') {
           // Prevent the default submit action
           event.preventDefault();
   
@@ -2424,7 +2487,12 @@ if(TrackingOn){
               const formName = form.getAttribute('name') || '(no name)';
               const formId = form.id || '(no id)';
               console.log(`Associated form: Name = ${formName}, ID = ${formId}`);
+
+              const formNameId = formName || formId;
+
   
+              updateViewData(ipAddress, formNameId, buttonText, pageTitle, jobTitleName  );
+
               // Delay before submitting the form
               setTimeout(() => {
                   console.log('Proceeding with the submit action after delay.');
@@ -2433,6 +2501,22 @@ if(TrackingOn){
           } else {
               console.log('No associated form found for this submit button.');
   
+        // Check if the button is inside a class job-tags
+        if (target.closest('.job-tags')) {
+          // Retrieve existing tags from local storage
+          let userTagInterest = JSON.parse(localStorage.getItem('userTagInterest')) || [];
+
+          // Add the button text to the array if not already present
+          if (!userTagInterest.includes(buttonText)) {
+              userTagInterest.push(buttonText);
+              console.log(`Added tag to interest: ${buttonText}`);
+          }
+
+          // Save the updated array back to local storage
+          localStorage.setItem('userTagInterest', JSON.stringify(userTagInterest));
+      }
+
+
               // Optionally, handle cases where no form is present
               setTimeout(() => {
                   console.log('No form submission performed.');
@@ -2446,6 +2530,24 @@ if(TrackingOn){
 });
 
 //updateViewData(ipAddress, "visibilitychange");
+/*
+
+
+
+// Function to retrieve and log tags from local storage
+function getUserTagInterest() {
+    const userTagInterest = JSON.parse(localStorage.getItem('userTagInterest')) || [];
+    console.log('User Tag Interests:', userTagInterest);
+    return userTagInterest;
+}
+
+// Example usage: Call this function to retrieve the tags
+getUserTagInterest();
+
+
+
+*/
+
 
 
 // Function to check if the user is logged in

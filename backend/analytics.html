@@ -308,80 +308,69 @@ firebase.analytics().logEvent('referral_participation', { referrer_id: 'user456'
         </div>
     </div>
 
-    <script>
-        // Firebase configuration
-        const firebaseConfig = {
-    apiKey: "AIzaSyDiwC3Dmd88-t3N9iRV5cZ3snVkEXinclg",
-    authDomain: "reelcareer-cb4b0.firebaseapp.com",
-    projectId: "reelcareer-cb4b0",
-    storageBucket: "reelcareer-cb4b0.appspot.com",
-    messagingSenderId: "365163764840",
-    appId: "1:365163764840:web:21c44f8625c9b6831e6fdd",
-    measurementId: "G-LBTK319K2X"
-};
+    <!-- Footer -->
+    <footer id="dynamic-footer"></footer>
+    
+    <!-- Firebase configuration/ Login& Out -->
+    <script type="module" src="https://reelcareer.co/public/js/main.js"></script> 
 
-        // Initialize Firebase
-        const app = firebase.initializeApp(firebaseConfig);
-        const analytics = firebase.analytics(app);
-        const db = firebase.firestore();
+    <!-- Firebase JS SDK and Custom Scripts -->
 
-
-
-
-
+    <script type="module">
+        import {
+            db, doc, getDoc, query, updateDoc,
+            setDoc, ref, signInWithPopup, orderBy,
+             
+            uploadBytes, OAuthProvider, arrayUnion, getStorage,
+            signOut, addDoc, increment, onAuthStateChanged,
+            createUserWithEmailAndPassword, signInWithEmailAndPassword,
+            where, getDocs, storage, collection, deleteObject, 
+            auth, analytics, deleteDoc, getDownloadURL
+        } from 'https://reelcareer.co/js/module.js';
 
 
-/**
- * Helper function to format date and time based on specified options
- * @param {string} dateString - The date string to format
- * @param {Object} options - Formatting options
- * @returns {string} - Formatted date and time
- */
- function formatDate(dateInput, options = {}) {
+
+
+
+
+
+        
+// Function to format dates with added support for Firestore timestamps
+function formatDate(dateInput, options = {}) {
   let date;
 
-  // Check if the input is a Firestore timestamp object (with seconds and nanoseconds)
   if (dateInput && dateInput.seconds && dateInput.nanoseconds) {
-    // Convert Firestore timestamp to JavaScript Date object
     date = new Date(dateInput.seconds * 1000 + dateInput.nanoseconds / 1000000);
   } else {
-    // Parse the date string into a Date object
     date = new Date(dateInput);
   }
 
-  // Check if the date is valid
   if (isNaN(date)) {
     console.error("Invalid date string:", dateInput);
     return "Invalid Date";
   }
 
-  // Default formatting options
   const defaultOptions = {
-    weekday: "long", // "Monday"
-    year: "numeric", // "2024"
-    month: "long", // "November"
-    day: "numeric", // "21"
-    hour: "numeric", // "12"
-    minute: "numeric", // "11"
-    second: "numeric", // "26"
-    hour12: true // Use 12-hour clock with AM/PM
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+    second: "numeric",
+    hour12: true,
   };
 
-  // Merge user options with defaults
   const finalOptions = { ...defaultOptions, ...options };
-
-  // Return formatted date
   return date.toLocaleString("en-US", finalOptions);
 }
-
-
 
 // Function to format the "viewedBy" data into an HTML structure
 function formatViewedBy(viewedByData = {}) {
   return `
     <ul>
       <li><strong>Duration of View:</strong> ${viewedByData.durationOfView || 'N/A'} seconds</li>
-      <li><strong>Contact Views:</strong> ${viewedByData.contactViews || 'N/A'}</li>
+      <li><strong>Contact Views:</strong> ${viewedByData.viewsCount || 'N/A'}</li>
       <li><strong>View Method:</strong> ${viewedByData.viewMethod || 'N/A'}</li>
       <li><strong>View Source:</strong> ${viewedByData.viewSource || 'N/A'}</li>
       <li><strong>View Date:</strong> ${viewedByData.viewDate ? formatDate(viewedByData.viewDate) : 'N/A'}</li>
@@ -399,13 +388,11 @@ function toggleDetailSection(rowId) {
 
 // Main function to display user analytics
 async function displayUserAnalytics() {
-  const analyticsData = await fetchUserAnalyticsData(); // Fetch the data
+  const analyticsData = await fetchUserAnalyticsData();
   const totalUsers = analyticsData.length;
 
-  // Display the total user count
   document.getElementById('usersDisplay').innerHTML = `<h3>${totalUsers}</h3>`;
 
-  // Construct the table structure
   let tableHTML = `
     <table>
       <thead>
@@ -424,7 +411,6 @@ async function displayUserAnalytics() {
   `;
 
   analyticsData.forEach(user => {
-    // Add main row
     tableHTML += `
       <tr>
         <td><button class="collapsible" onclick="toggleDetailSection('${user.ipAddress}')">${user.ipAddress}</button></td>
@@ -438,7 +424,6 @@ async function displayUserAnalytics() {
       </tr>
     `;
 
-    // Filter out invalid `viewedBy` data
     const viewedByDetails = [
       user.contactViewedBy,
       user.eventDetailsViewedBy,
@@ -446,13 +431,12 @@ async function displayUserAnalytics() {
       user.aboutViewedBy,
       user.confirmationViewedBy,
       user.eventsViewedBy,
-      user.galleryViewedBy
+      user.galleryViewedBy,
     ]
-      .filter(detail => detail) // Exclude undefined, null, or empty values
-      .map(detail => formatViewedBy(detail)) // Format valid entries
-      .join(""); // Combine them into a single string
+      .filter(detail => detail)
+      .map(detail => formatViewedBy(detail))
+      .join("");
 
-    // Only include the collapsible row if there are valid details
     if (viewedByDetails) {
       tableHTML += `
         <tr id="details-${user.ipAddress}" class="details-row" style="display: none;">
@@ -467,40 +451,76 @@ async function displayUserAnalytics() {
     }
   });
 
-  // Close table
   tableHTML += '</tbody></table>';
-
-  // Insert the table into the container
   document.getElementById('userAnalyticsTableContainer').innerHTML = tableHTML;
 }
 
 // Fetch user analytics data from Firestore
 async function fetchUserAnalyticsData() {
-  const analyticsCollection = collection(db, "Analytics"); // Reference to the Analytics collection
-  const analyticsSnapshot = await getDocs(analyticsCollection); // Fetch all documents
-  const analyticsList = analyticsSnapshot.docs.map(doc => ({
-    ipAddress: doc.id, // IP address as doc ID
+  const analyticsCollection = collection(db, "Analytics");
+  const analyticsSnapshot = await getDocs(analyticsCollection);
+  return analyticsSnapshot.docs.map(doc => ({
+    ipAddress: doc.id,
     city: doc.data().city,
     country: doc.data().country,
     state: doc.data().state,
     totalDuration: doc.data().totalDuration,
     userActivitiesCount: doc.data().userActivitiesCount,
     userBlocked: doc.data().userBlocked || false,
-    contactViewedBy: doc.data().contactViewedBy || {}, // Ensure fallback is an empty object
-    eventDetailsViewedBy: doc.data().eventDetailsViewedBy || {}, 
-    homeViewedBy: doc.data().homeViewedBy || {}, 
-    aboutViewedBy: doc.data().aboutViewedBy || {}, 
-    confirmationViewedBy: doc.data().confirmationViewedBy || {}, 
-    eventsViewedBy: doc.data().eventsViewedBy || {}, 
-    galleryViewedBy: doc.data().galleryViewedBy || {}, 
+    contactViewedBy: doc.data().contactViewedBy || {},
+    eventDetailsViewedBy: doc.data().eventDetailsViewedBy || {},
+    homeViewedBy: doc.data().homeViewedBy || {},
+    aboutViewedBy: doc.data().aboutViewedBy || {},
+    confirmationViewedBy: doc.data().confirmationViewedBy || {},
+    eventsViewedBy: doc.data().eventsViewedBy || {},
+    galleryViewedBy: doc.data().galleryViewedBy || {},
     lastViewDate: doc.data().lastViewDate,
   }));
-  return analyticsList;
 }
 
 // Execute the function on page load
 displayUserAnalytics();
 
+// Example view data collection object
+const viewData = {
+  viewedByField: {
+    viewDate: new Date().toISOString(),
+    viewMethod: navigator.userAgentData?.mobile ? "mobile" : "desktop",
+    durationOfView: durationOfView,
+    maxScrollDepth: maxScrollDepth,
+    viewsCount: increment(1),
+    viewSource: getViewSource(),
+    actionTrack: actionTrack,
+    actionName: actionName,
+    pageTitle: pageTitle,
+    jobTitleName: jobTitleName,
+    lastViewDate: new Date().toISOString(),
+  },
+  ipAddress: ipAddress || userData.ipAddress,
+  name: userData.name || 'N/A',
+  displayName: userData.displayName || 'N/A',
+  userID: userData.userID || 'N/A',
+  lastLogin: userData.lastLogin || 'N/A',
+  city: locationData.city || 'N/A',
+  state: locationData.region || 'N/A',
+  zip: locationData.postal || 'N/A',
+  country: locationData.country_name || 'N/A',
+  browser: navigator.userAgentData?.brands?.[0]?.brand || navigator.userAgent,
+  os: navigator.platform || 'N/A',
+  screenResolution: `${screen.width}x${screen.height}`,
+  viewportSize: `${window.innerWidth}x${window.innerHeight}`,
+  devicePixelRatio: window.devicePixelRatio,
+  referrer: document.referrer || 'Direct',
+  entryURL: window.location.href,
+  networkType: navigator.connection?.effectiveType || 'N/A',
+  connectionSpeed: navigator.connection?.downlink || 'N/A',
+  timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || 'N/A',
+  language: navigator.language || 'N/A',
+  lastUpdate: new Date().toISOString(),
+  userActivitiesCount: increment(1),
+  totalDuration: increment(durationOfView),
+  userBlocked: false,
+};
 
 
 
