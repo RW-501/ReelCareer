@@ -304,11 +304,7 @@
         .join("");
 
 
-        states.forEach(state => {
-    
-                 console.log(`https://reelcareer.co/jobs/state#${state}`);
-      });
-
+      
 
       // Inject HTML into the container
       document.getElementById("stateListContainer").innerHTML = `
@@ -330,14 +326,22 @@
       const jobsRef = collection(db, "Jobs");
       const snapshot = await getDocs(jobsRef);
       
-      // Extract and sort unique city names
-      const city = [...new Set(snapshot.docs.map(doc => doc.data().city))].sort();
+  // Extract, trim, and sort unique city names
+const city = [...new Set(snapshot.docs.map(doc => doc.data().city.trim()))]
+  .filter(city => city.length > 0)  // Remove empty strings, just in case
+  .sort();  // Sort alphabetically
 
+  
       // Generate HTML for the city list
       const cityListHTML = city
         .map(city => `<div class="state-city-card">
     <i class="fas fa-city"></i><h4><a href="https://reelcareer.co/jobs/city#${city}">${city}</a></h4></div>`)
         .join("");
+
+        city.forEach(city => {
+    
+    console.log(`https://reelcareer.co/jobs/city#${city}`);
+});
 
       // Inject HTML into the container
       document.getElementById("cityListContainer").innerHTML = `
