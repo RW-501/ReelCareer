@@ -299,7 +299,8 @@
 
       // Generate HTML for the state list
       const stateListHTML = states
-        .map(state => `<h4><a href="https://reelcareer.co/jobs/state#${state}">${state}</a></h4>`)
+        .map(state => ` <div class="state-city-card">
+    <i class="fas fa-city"></i><h4><a href="https://reelcareer.co/jobs/state#${state}">${state}</a></h4></div>`)
         .join("");
 
 
@@ -313,8 +314,7 @@
       document.getElementById("stateListContainer").innerHTML = `
         <h2>Available States</h2>
                 <hr>
-                  <div class="state-city-card">
-    <i class="fas fa-city"></i>
+        <div class="state-city-body">         
 <p>${stateListHTML}</p>
         </div>
       `;
@@ -335,15 +335,15 @@
 
       // Generate HTML for the city list
       const cityListHTML = city
-        .map(city => `<h4><a href="https://reelcareer.co/jobs/city#${city}">${city}</a></h4>`)
+        .map(city => `<div class="state-city-card">
+    <i class="fas fa-city"></i><h4><a href="https://reelcareer.co/jobs/city#${city}">${city}</a></h4></div>`)
         .join("");
 
       // Inject HTML into the container
       document.getElementById("cityListContainer").innerHTML = `
         <h2>Available Cities</h2>
         <hr>
-               <div class="state-city-card">
-    <i class="fas fa-city"></i>
+        <div class="state-city-body">         
 <p>${cityListHTML}</p>
         </div>
       
