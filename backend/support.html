@@ -155,23 +155,30 @@
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js"></script>
-    <script>
-        // Firebase configuration
-        const firebaseConfig = {
-    apiKey: "AIzaSyDiwC3Dmd88-t3N9iRV5cZ3snVkEXinclg",
-    authDomain: "reelcareer-cb4b0.firebaseapp.com",
-    projectId: "reelcareer-cb4b0",
-    storageBucket: "reelcareer-cb4b0.appspot.com",
-    messagingSenderId: "365163764840",
-    appId: "1:365163764840:web:21c44f8625c9b6831e6fdd",
-    measurementId: "G-LBTK319K2X"
-};
+ 
+    <!-- Footer -->
+    <footer id="dynamic-footer"></footer>
+    
+    <!-- Firebase configuration/ Login& Out -->
+    <script type="module" src="https://reelcareer.co/public/js/main.js"></script> 
 
-        // Initialize Firebase
-        const app = firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
+    <!-- Firebase JS SDK and Custom Scripts -->
+
+    <script type="module">
+        import {
+            db, doc, getDoc, query, updateDoc,
+            setDoc, ref, signInWithPopup, orderBy,
+             
+            uploadBytes, OAuthProvider, arrayUnion, getStorage,
+            signOut, addDoc, increment, onAuthStateChanged,
+            createUserWithEmailAndPassword, signInWithEmailAndPassword,
+            where, getDocs, storage, collection, deleteObject, 
+            auth, analytics, deleteDoc, getDownloadURL
+        } from 'https://reelcareer.co/js/module.js';
+
+
+
+
 
         // Submit the form and save the inquiry to Firestore
         document.getElementById('supportForm').addEventListener('submit', function(e) {

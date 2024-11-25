@@ -203,7 +203,31 @@
         </div>
     </div>
 
-    <script>
+  
+    <!-- Footer -->
+    <footer id="dynamic-footer"></footer>
+    
+    <!-- Firebase configuration/ Login& Out -->
+    <script type="module" src="https://reelcareer.co/public/js/main.js"></script> 
+
+    <!-- Firebase JS SDK and Custom Scripts -->
+
+    <script type="module">
+        import {
+            db, doc, getDoc, query, updateDoc,
+            setDoc, ref, signInWithPopup, orderBy,
+             
+            uploadBytes, OAuthProvider, arrayUnion, getStorage,
+            signOut, addDoc, increment, onAuthStateChanged,
+            createUserWithEmailAndPassword, signInWithEmailAndPassword,
+            where, getDocs, storage, collection, deleteObject, 
+            auth, analytics, deleteDoc, getDownloadURL
+        } from 'https://reelcareer.co/js/module.js';
+
+
+
+
+
         document.addEventListener('DOMContentLoaded', () => {
             const stateDropdown = document.getElementById('stateDropdown');
             const dataDisplay = document.getElementById('dataDisplay');
@@ -347,6 +371,9 @@ document.getElementById("emergingIndustries").value = stateData.emergingIndustri
     alert('Invalid JSON format. Please check the state details.');
   }
 }
+
+
+
 let stateData ;
 
 // Function to handle the upload of state info (for example, uploading to Firebase or similar)
