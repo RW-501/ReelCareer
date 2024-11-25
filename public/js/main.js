@@ -2324,8 +2324,12 @@ function getViewedByField() {
         // Get the URL of the anchor
         const href = target.href || target.closest('a').href;
 
-        // Perform a custom action before navigating
-        console.log(`Intercepted link: ${href}`);
+             // Get the URL and inner text of the anchor
+             const linkText = anchor.innerText.trim();
+     
+             // Perform a custom action before navigating
+             console.log(`Intercepted link: ${href}`);
+             console.log(`Link text: ${linkText}`);
 
         // Timeout before proceeding
         setTimeout(() => {
@@ -2338,8 +2342,14 @@ function getViewedByField() {
 
         // Handle inline onclick attribute
         if (target.hasAttribute('onclick')) {
-            const onclickAttr = target.getAttribute('onclick');
-            console.log(`Intercepted inline onclick: ${onclickAttr}`);
+
+          // Get the onclick attribute and the inner text of the element
+        const onclickAttr = target.getAttribute('onclick');
+        const elementText = target.innerText.trim();
+
+        // Log the onclick attribute and the inner text
+        console.log(`Intercepted inline onclick: ${onclickAttr}`);
+        console.log(`Element text: ${elementText}`);
 
             // Timeout before manually executing the inline onclick
             setTimeout(() => {
@@ -2347,8 +2357,19 @@ function getViewedByField() {
                 eval(onclickAttr);
             }, interceptTimer); // Delay for 1 second
         } else if (typeof target.onclick === 'function') {
-            // Handle programmatically assigned onclick handlers
-            console.log('Intercepted programmatic onclick handler.');
+        // Get the onclick handler function
+        const onclickFunction = target.onclick;
+
+        // Extract the function name (if available)
+        const functionName = onclickFunction.name || '(anonymous)';
+
+        // Get the inner text of the element
+        const elementText = target.innerText.trim();
+
+        // Log the function name and the element text
+        console.log('Intercepted programmatic onclick handler.');
+        console.log(`Function name: ${functionName}`);
+        console.log(`Element text: ${elementText}`);
 
             // Save the original onclick handler
             const handler = target.onclick;
