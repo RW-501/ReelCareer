@@ -218,7 +218,13 @@
         const jobsContainer = document.getElementById('jobs-container');
         jobsContainer.innerHTML = '<p>Loading jobs...</p>';
 
-        const querySnapshot = await db.collection('Jobs').where('state', '==', state).get();
+// Reference the 'Jobs' collection
+const jobsRef = collection(db, "Jobs");
+        // Create the query
+const jobsQuery = query(jobsRef, where("state", "==", state));
+
+// Execute the query
+const querySnapshot = await getDocs(jobsQuery);
         console.log("querySnapshot ",querySnapshot);
 
         if (querySnapshot.empty) {

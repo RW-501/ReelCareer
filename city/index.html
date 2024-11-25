@@ -189,10 +189,11 @@
       console.log("city name ",cityName);
       
       const jobsRef = db.collection('Jobs');
-      const querySnapshot = await jobsRef.where('city', '==', cityName).get();
+// Create the query
+const jobsQuery = query(jobsRef, where("city", "==", cityName));
 
-      console.log("querySnapshot ",querySnapshot);
-
+// Execute the query
+const querySnapshot = await getDocs(jobsQuery);
       if (querySnapshot.empty) {
           jobsContainer.innerHTML = '<p>No jobs found for this state.</p>';
           return;
