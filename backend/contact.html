@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Contact Page</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Link your CSS file -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #ffffff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        #msgCountDisplay {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .contact-card {
+            background: #f1f1f1;
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .contact-card h3 {
+            margin: 0 0 10px;
+        }
+
+        .contact-card p {
+            margin: 5px 0;
+        }
+
+        .view-btn {
+            display: inline-block;
+            padding: 8px 15px;
+            color: #fff;
+            background: #007bff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .view-btn:hover {
+            background: #0056b3;
+        }
+
+        .error-message {
+            color: red;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Admin Contact Messages</h1>
+        <div id="msgCountDisplay">
+            <h3>Total Messages: 0</h3>
+            <p>Unread Messages: 0</p>
+        </div>
+        <div id="contacts-container">
+            <!-- Contact cards will be dynamically populated here -->
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer id="dynamic-footer"></footer>
+    
+    <!-- Firebase configuration/ Login& Out -->
+    <script type="module" src="https://reelcareer.co/public/js/main.js"></script> 
+
+    <!-- Firebase JS SDK and Custom Scripts -->
+
+    <script type="module">
+        import {
+            db, doc, getDoc, query, updateDoc,
+            setDoc, ref, signInWithPopup, orderBy,
+             
+            uploadBytes, OAuthProvider, arrayUnion, getStorage,
+            signOut, addDoc, increment, onAuthStateChanged,
+            createUserWithEmailAndPassword, signInWithEmailAndPassword,
+            where, getDocs, storage, collection, deleteObject, 
+            auth, analytics, deleteDoc, getDownloadURL
+        } from 'https://reelcareer.co/js/module.js';
+
+
+        // Fetch and render contacts
+        async function fetchAndRenderContacts() {
+            const contactsCollection = collection(db, "ContactMessages");
+            try {
+                const snapshot = await getDocs(contactsCollection);
+                const contacts = snapshot.docs.map(doc => ({
+                    id: doc.id,
+                    ...doc.data()
+                }));
+
+                renderContacts(contacts);
+            } catch (error) {
+                console.error("Error fetching contacts:", error);
+                document.getElementById('contacts-container').innerHTML = '<p class="error-message">Failed to load contacts. Please try again later.</p>';
+            }
+        }
+
+        function renderContacts(contacts) {
+            const container = document.getElementById('contacts-container');
+            if (!container) return;
+
+            container.innerHTML = "";
+            let unReadMsg = 0;
+
+            contacts.forEach(contact => {
+                const card = document.createElement('div');
+                card.className = 'contact-card';
+                card.innerHTML = `
+                    <h3>${contact.name || "No Name Provided"}</h3>
+                    <p><strong>Status:</strong> ${contact.status || "No Status"}</p>
+                    <p><strong>Subject:</strong> ${contact.subject || "No Subject"}</p>
+                    <p><strong>Messages:</strong> ${contact.messages || 0}</p>
+                    <p><strong>Timestamp:</strong> ${contact.timestamp ? new Date(contact.timestamp).toLocaleString() : "No Timestamp"}</p>
+                    <button class="view-btn" onclick="goToAdminContact('${contact.id}')">View Details</button>
+                `;
+
+                if (contact.status === "unread") unReadMsg++;
+
+                container.appendChild(card);
+            });
+
+            const msgCountDisplay = document.getElementById('msgCountDisplay');
+            if (msgCountDisplay) {
+                msgCountDisplay.innerHTML = `
+                    <h3>Total Messages: ${contacts.length}</h3>
+                    <p>Unread Messages: ${unReadMsg}</p>
+                `;
+            }
+        }
+
+        function goToAdminContact(docId) {
+            window.location.href = `#${docId}`;
+        }
+
+        // Initialize the fetching process
+        fetchAndRenderContacts();
+    </script>
+
+</body>
+</html>

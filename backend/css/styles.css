@@ -201,9 +201,9 @@ form {
 }
 
 /* Footer Styles */
-.footer {
-    background-color: #343a40; /* Dark footer */
-    color: #ffffff; /* White text for footer */
+.dynamic-footer {
+    background-color: #8a86cd;
+    color: #313136;
     padding: 15px 0; /* Padding in footer */
     text-align: center; /* Centered text */
     position: fixed;
@@ -221,3 +221,5 @@ form {
         padding: 10px; /* Reduced padding on smaller screens */
     }
 }
+
+
