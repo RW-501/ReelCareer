@@ -265,6 +265,8 @@ const segments = hash ? hash.substring(1) : null;
     // Initialize page
     document.addEventListener('DOMContentLoaded', () => {
       const state = getHashFromURL();
+      document.getElementById("breadcrumb-active-title").textContent = state;
+
       document.getElementById('state-name').textContent = state;
       fetchJobsByState(state);
     });

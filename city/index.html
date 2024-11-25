@@ -230,6 +230,8 @@ const segments = hash ? hash.substring(1) : null;
 
     document.addEventListener('DOMContentLoaded', async () => {
       const cityName = getHashFromURL();
+      document.getElementById("breadcrumb-active-title").textContent = cityName;
+
       document.getElementById('city-name').textContent = cityName;
       fetchJobsByCity(cityName);
     });
