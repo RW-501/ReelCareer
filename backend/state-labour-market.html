@@ -29,7 +29,7 @@
             <p><strong>State Code:</strong> <span id="stateCode"></span></p>
             <p><strong>Region:</strong> <span id="region"></span></p>
             <p><strong>Last Updated:</strong> <span id="lastUpdated"></span></p>
-
+            
             <h3>Job Openings Data</h3>
             <p><strong>Total Job Openings:</strong> <span id="totalJobOpenings"></span></p>
             <div id="jobOpeningsByIndustry"></div>
@@ -37,8 +37,35 @@
             <div id="jobOpeningsBySkillLevel"></div>
             <p><strong>Trending Industries:</strong> <span id="trendingIndustries"></span></p>
             <p><strong>Geographic Distribution:</strong> <span id="geographicDistribution"></span></p>
+            
+            <h3>Category Selection</h3>
+            <select id="categorySelect" onchange="loadCategoryData()">
+              <option value="jobOpenings">Job Openings Data</option>
+              <option value="wageSalary">Wage and Salary Information</option>
+              <option value="demandSupply">Demand vs. Supply Metrics</option>
+              <option value="labourForce">Labour Force Demographics</option>
+              <option value="economicIndicators">Economic Indicators</option>
+              <option value="educationalInsights">Educational Insights</option>
+              <option value="remoteWork">Remote Work Trends</option>
+              <option value="labourPolicy">Statewide Labour Policy Information</option>
+              <option value="jobSeeker">Job Seeker Behavior</option>
+              <option value="employerInsights">Employer Insights</option>
+            </select>
+            
+            <div id="categoryDataDisplay" class="d-none">
+              <!-- Data will be dynamically loaded here based on the category selected -->
+            </div>
+            
 
-            <!-- Add more sections as needed following the collection schema -->
+
+
+
+
+
+
+
+
+
 
             <div class="mt-4">
                 <button id="editButton" class="btn btn-primary">Edit</button>
@@ -123,18 +150,82 @@
             });
 
             // Mock function to fetch state data
-            function fetchStateData(stateCode) {
-                return {
-                    stateName: 'California',
-                    stateCode: 'CA',
-                    region: 'West',
-                    lastUpdated: '2024-11-24',
-                    totalJobOpenings: 50000,
-                    jobOpeningsByIndustry: { 'Tech': 20000, 'Healthcare': 15000 },
-                    trendingIndustries: ['AI', 'Green Energy'],
-                    geographicDistribution: { 'Metro': '70%', 'Rural': '30%' }
-                };
-            }
+   // Sample data (you can replace it with real data from your API or database)
+const stateData = {
+  jobOpenings: {
+    totalJobOpenings: 35000,
+    jobOpeningsByIndustry: { "Tech": 12000, "Healthcare": 8000 },
+    jobOpeningsByRole: { "Software Engineer": 5000, "Nurse": 3000 },
+    jobOpeningsBySkillLevel: { "Entry-Level": 10000, "Mid-Level": 15000, "Senior-Level": 10000 },
+    trendingIndustries: ["AI", "Green Energy"],
+    geographicDistribution: { "Metro": "70%", "Rural": "30%" },
+  },
+  wageSalary: {
+    medianSalaries: { "Software Engineer": 120000, "Nurse": 85000 },
+    salaryGrowthTrends: { "2022": "3.5%", "2023": "4.2%" },
+    localVsNationalSalaries: { "Local": 110000, "National": 115000 },
+    genderPayGap: { "Male": 75000, "Female": 69000 },
+  },
+  demandSupply: {
+    highDemandLowSupplySkills: ["Cloud Computing", "Cybersecurity"],
+    applicationsPerJob: 50,
+    skillGapAnalysis: { "Requested": ["JavaScript", "Python"], "Possessed": ["JavaScript"] },
+  },
+  labourForce: {
+    ageBreakdown: { "18-25": "20%", "26-40": "50%", "41-60": "25%", "60+": "5%" },
+    genderBreakdown: { "Male": "60%", "Female": "40%" },
+    educationBreakdown: { "High School": "40%", "Bachelor's": "45%", "Master's": "10%", "PhD": "5%" },
+    employmentStatus: { "Full-Time": "70%", "Part-Time": "20%", "Freelance": "10%" },
+  },
+  economicIndicators: {
+    unemploymentRate: "4.5%",
+    jobCreationTrends: { "2023": "3.2%", "2024": "3.5%" },
+    seasonalIndustryImpact: { "Tourism": "+30%", "Agriculture": "+20%" },
+    stateEconomicGrowth: { "2022": "3.0%", "2023": "3.5%" },
+  },
+  // Other categories like educationalInsights, remoteWork, etc. will be similar
+};
+
+// Function to load category data based on selection
+function loadCategoryData() {
+  const categorySelect = document.getElementById("categorySelect");
+  const selectedCategory = categorySelect.value;
+  const categoryDataDisplay = document.getElementById("categoryDataDisplay");
+
+  // Clear previous content
+  categoryDataDisplay.innerHTML = "";
+  categoryDataDisplay.classList.remove("d-none");
+
+  // Display the selected category's data
+  if (selectedCategory === "jobOpenings") {
+    const jobData = stateData.jobOpenings;
+    categoryDataDisplay.innerHTML = `
+      <p><strong>Total Job Openings:</strong> ${jobData.totalJobOpenings}</p>
+      <p><strong>Job Openings by Industry:</strong> ${JSON.stringify(jobData.jobOpeningsByIndustry)}</p>
+      <p><strong>Job Openings by Role:</strong> ${JSON.stringify(jobData.jobOpeningsByRole)}</p>
+      <p><strong>Job Openings by Skill Level:</strong> ${JSON.stringify(jobData.jobOpeningsBySkillLevel)}</p>
+      <p><strong>Trending Industries:</strong> ${jobData.trendingIndustries.join(", ")}</p>
+      <p><strong>Geographic Distribution:</strong> Metro: ${jobData.geographicDistribution.Metro}, Rural: ${jobData.geographicDistribution.Rural}</p>
+    `;
+  } else if (selectedCategory === "wageSalary") {
+    const wageData = stateData.wageSalary;
+    categoryDataDisplay.innerHTML = `
+      <p><strong>Median Salaries:</strong> ${JSON.stringify(wageData.medianSalaries)}</p>
+      <p><strong>Salary Growth Trends:</strong> ${JSON.stringify(wageData.salaryGrowthTrends)}</p>
+      <p><strong>Local vs National Salaries:</strong> ${JSON.stringify(wageData.localVsNationalSalaries)}</p>
+      <p><strong>Gender Pay Gap:</strong> ${JSON.stringify(wageData.genderPayGap)}</p>
+    `;
+  } else if (selectedCategory === "demandSupply") {
+    const demandData = stateData.demandSupply;
+    categoryDataDisplay.innerHTML = `
+      <p><strong>High Demand, Low Supply Skills:</strong> ${demandData.highDemandLowSupplySkills.join(", ")}</p>
+      <p><strong>Applications per Job:</strong> ${demandData.applicationsPerJob}</p>
+      <p><strong>Skill Gap Analysis:</strong> ${JSON.stringify(demandData.skillGapAnalysis)}</p>
+    `;
+  }
+  // Add more 'else if' blocks for each category
+}
+
 
             // Display state data
             stateDropdown.addEventListener('change', () => {
