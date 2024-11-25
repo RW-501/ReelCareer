@@ -736,8 +736,14 @@ function updateFooter() {
   // Footer links data (from JSON)
   const footerLinks = [
     {
-      "url": "/views/about",
+      "url": "/",
       "name": "ReelCareer",
+      "title": "ReelCareer - #1 Job Board - Find a job today",
+      "category": "General",
+      "order": 0
+    },{
+      "url": "/views/about",
+      "name": "About ReelCareer",
       "title": "About ReelCareer - Who We Are and Our Mission",
       "category": "General",
       "order": 1
