@@ -2002,8 +2002,10 @@ function setBreadcrumb(){
 window.setBreadcrumb = setBreadcrumb;
 
  document.addEventListener("DOMContentLoaded", () => {
-  setBreadcrumb();
-});
+  setTimeout(() => {
+    setBreadcrumb();
+  }, 1000); // 2000 milliseconds = 2 seconds
+  });
 
 
 
