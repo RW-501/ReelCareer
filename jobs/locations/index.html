@@ -210,13 +210,13 @@
 
       // Generate HTML for the state list
       const stateListHTML = states
-        .map(state => `<li><a href="https://reelcareer.co/views/state/#${state}">${state}</a></li>`)
+        .map(state => `<li><a href="https://reelcareer.co/jobs/state/#${state}">${state}</a></li>`)
         .join("");
 
 
         states.forEach(state => {
     
-                 console.log(`https://reelcareer.co/views/state#${state}`);
+                 console.log(`https://reelcareer.co/jobs/state#${state}`);
       });
 
 
@@ -243,7 +243,7 @@
 
       // Generate HTML for the city list
       const cityListHTML = city
-        .map(city => `<li><a href="https://reelcareer.co/views/city#${city}">${city}</a></li>`)
+        .map(city => `<li><a href="https://reelcareer.co/jobs/city#${city}">${city}</a></li>`)
         .join("");
 
       // Inject HTML into the container
