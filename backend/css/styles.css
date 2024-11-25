@@ -47,13 +47,16 @@ body {
 }
 
 #Main_Nav .nav-links {
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: space-around;
     gap: 1rem;
     list-style: none;
 }
-
+#nav-toggle:checked + .nav-toggle-label + .nav-links {
+    display: flex;
+    flex-direction: column;
+}
 #Main_Nav .nav-links a {
     color: var(--accent-color) !important;
     font-weight: bold;
@@ -63,7 +66,10 @@ body {
     text-decoration: none;
     transition: color 0.3s ease, transform 0.2s ease, text-shadow 0.3s ease;
 }
-
+.nav-toggle-label {
+    display: block;
+    cursor: pointer;
+}
 #Main_Nav .nav-links a:hover {
     color: var(--link-hover-color) !important;
     transform: translateY(-3px);
