@@ -166,13 +166,13 @@
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li id="lastBreadcrumb_home" class="breadcrumb-item"><a href="https://reelcareer.co/">Home</a></li>
-              <li class="breadcrumb-item active" aria-current="page">About</li>
+              <li class="breadcrumb-item active" aria-current="page">State</li>
             </ol>
           </nav>
 
           <main id="main-content">
     
-        <h1 class="text-center mb-4">About Us</h1>
+        <h1 class="text-center mb-4">Jobs By State</h1>
         <p class="lead text-center">At ReelCareer, we connect passionate job seekers with top recruiters, making the job search experience efficient and effective.</p>
 
         <section class="mt-4">
@@ -207,20 +207,19 @@
             auth, analytics, deleteDoc, getDownloadURL
         } from 'https://reelcareer.co/js/module.js';
 
- // Helper function to get the state name from URL
- function getStateFromURL() {
-      const path = window.location.pathname;
-      const segments = path.split('#');
-      return segments[segments.length - 1]; // Assumes the state name is the last segment
-    }
+
 
  // Fetch jobs based on state
  async function fetchJobsByState(state) {
       try {
+
+        console.log("state name ",state);
+
         const jobsContainer = document.getElementById('jobs-container');
         jobsContainer.innerHTML = '<p>Loading jobs...</p>';
 
         const querySnapshot = await db.collection('Jobs').where('state', '==', state).get();
+        console.log("querySnapshot ",querySnapshot);
 
         if (querySnapshot.empty) {
           jobsContainer.innerHTML = '<p>No jobs found for this state.</p>';
@@ -234,10 +233,10 @@
             <div class="job-card">
               <h2>${job.title}</h2>
               <p><strong>Company:</strong> ${job.company}</p>
-              <p><strong>City:</strong> ${job.city}</p>
+              <p><strong>Location:</strong> ${job.city}, ${job.state}</p>
               <p><strong>Salary:</strong> $${job.salary.toLocaleString()}</p>
               <p><strong>Description:</strong> ${job.description}</p>
-              <a href="${job.applicationWebsite}" target="_blank" class="apply-link">Apply Now</a>
+              <a href="https://reelcareer.co/views/job-details?id=${doc.id}" target="_blank" class="apply-link">Apply Now</a>
             </div>
           `;
           jobsContainer.innerHTML += jobCard;
@@ -248,6 +247,12 @@
       }
     }
 
+     // Helper function to get the state name from URL
+ function getStateFromURL() {
+      const path = window.location.pathname;
+      const segments = path.split('#');
+      return segments[segments.length - 1]; // Assumes the state name is the last segment
+    }
 
     // Initialize page
     document.addEventListener('DOMContentLoaded', () => {
@@ -255,7 +260,13 @@
       document.getElementById('state-name').textContent = state;
       fetchJobsByState(state);
     });
-
+/*
+    document.addEventListener('DOMContentLoaded', async () => {
+      const cityName = decodeURIComponent(window.location.pathname.split('#').pop());
+      document.getElementById('city-name').textContent = cityName;
+      fetchJobsByCity(cityName);
+    });
+*/
 
 </script> 
 

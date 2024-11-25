@@ -134,13 +134,27 @@
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li id="lastBreadcrumb_home" class="breadcrumb-item"><a href="https://reelcareer.co/">Home</a></li>
-      <li class="breadcrumb-item active" aria-current="page">About</li>
+      <li class="breadcrumb-item active" aria-current="page">City</li>
     </ol>
   </nav>
 
-  <main id="main-content"    class="container">
+  <main id="main-content" >
+
+    <h1 class="text-center mb-4">Jobs By City</h1>
+    <p class="lead text-center">At ReelCareer, we connect passionate job seekers with top recruiters, making the job search experience efficient and effective.</p>
+
+    <section class="mt-4">
+      <div class="container">
+
     <h1>Jobs in <span id="city-name">City</span></h1>
-    <div id="job-list"></div>
+    <div id="jobs-container"></div>
+
+  </div>
+
+
+  </section>
+
+
   </main>
 
     <!-- Footer -->
@@ -163,15 +177,27 @@
             auth, analytics, deleteDoc, getDownloadURL
         } from 'https://reelcareer.co/js/module.js';
 
-    document.addEventListener('DOMContentLoaded', async () => {
-      const cityName = decodeURIComponent(window.location.pathname.split('#').pop());
-      document.getElementById('city-name').textContent = cityName;
 
-      const db = firebase.firestore();
+      async function fetchJobsByCity(city) {
+
+
+      try {
+
+      const jobsContainer = document.getElementById('jobs-container');
+        jobsContainer.innerHTML = '<p>Loading jobs...</p>';
+
+      console.log("city name ",cityName);
+      
       const jobsRef = db.collection('Jobs');
       const querySnapshot = await jobsRef.where('city', '==', cityName).get();
 
-      if (!querySnapshot.empty) {
+      console.log("querySnapshot ",querySnapshot);
+
+      if (querySnapshot.empty) {
+          jobsContainer.innerHTML = '<p>No jobs found for this state.</p>';
+          return;
+        }
+
         querySnapshot.forEach((doc) => {
           const job = doc.data();
           const jobCard = `
@@ -179,15 +205,27 @@
               <h2>${job.title}</h2>
               <p><strong>Company:</strong> ${job.company}</p>
               <p><strong>Location:</strong> ${job.city}, ${job.state}</p>
-              <a href="/jobs/${doc.id}" class="apply-link">View Job</a>
+              <p><strong>Salary:</strong> $${job.salary.toLocaleString()}</p>
+              <p><strong>Description:</strong> ${job.description}</p>
+              <a href="https://reelcareer.co/views/job-details?id=${doc.id}" class="apply-link">View Job</a>
             </div>
           `;
-          document.getElementById('job-list').insertAdjacentHTML('beforeend', jobCard);
+          jobsContainer.innerHTML += jobCard;
         });
-      } else {
-        document.getElementById('job-list').innerHTML = '<p>No jobs found in this city.</p>';
+      } catch (error) {
+        console.error('Error fetching jobs:', error);
+        document.getElementById('jobs-container').innerHTML = '<p>Error loading jobs. Please try again later.</p>';
       }
+    }
+
+
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      const cityName = decodeURIComponent(window.location.pathname.split('#').pop());
+      document.getElementById('city-name').textContent = cityName;
+      fetchJobsByCity(cityName);
     });
+
   </script>
 </body>
 
