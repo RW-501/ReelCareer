@@ -523,7 +523,7 @@ document.addEventListener("DOMContentLoaded", function () {
       recruiterNavItem.style.display = "none";
     }
   }
-
+/*
   // Replace the navbar if not on an excluded page
   if (!excludedPages.includes(currentPage)) {
     let existingNavbar = document.querySelector(".navbar");
@@ -532,13 +532,17 @@ document.addEventListener("DOMContentLoaded", function () {
     if (existingNavbar) {
       existingNavbar.outerHTML = createNavbar();
     } else {
+
+    }
+}
+    */
       // If no existing navbar, append it to the body
       document.body.insertAdjacentHTML("afterbegin", createNavbar());
-    }
+
 
     setupEventListeners(); // Initialize event listeners
     highlightActiveLink(); // Highlight the active link
-  }
+  
 
   // Function to handle keyboard navigation for dropdowns
   document.addEventListener("keydown", function (event) {
