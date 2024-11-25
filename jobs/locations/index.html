@@ -142,14 +142,15 @@
             <div class="page-header" id="locations-header">
               <h1>Explore Job Opportunities Across Locations</h1>
               <p class="intro-text">
-                Searching for job opportunities in various locations? ReelCareer brings you job listings from cities and towns across the United States. Whether you want to work in [City Name], [City Name], or beyond, explore options that match your skills and career goals.
+                Searching for job opportunities in various locations? ReelCareer brings you job listings from cities and towns across the United States. Whether you want to work in Little Rock, Dallas, or beyond, explore options that match your skills and career goals.
               </p>
             
               <div class="call-to-action">
                 <p>
                   Our platform offers an easy way to find jobs in multiple locations. From urban centers to remote opportunities, explore the best jobs tailored to your career preferences in locations across the country.
                 </p>
-                <button onclick="window.location.href='#stateListContainer'">Browse Jobs by Location</button>
+                <button onclick="window.location.href='#stateListContainer'">Browse Jobs by State</button>
+                <button onclick="window.location.href='#cityListContainer'">Browse Jobs by City</button>
               </div>
             </div>
             
@@ -215,14 +216,15 @@
 
         states.forEach(state => {
     
-                 console.log(`https://reelcareer.co/views/state/#${state}`);
+                 console.log(`https://reelcareer.co/views/state#${state}`);
       });
 
 
       // Inject HTML into the container
       document.getElementById("stateListContainer").innerHTML = `
         <h2>Available States</h2>
-        <ul>${stateListHTML}</ul>
+                <hr>
+        <ul><h4>${stateListHTML}</h4></ul>
       `;
     } catch (error) {
       console.error("Error fetching states:", error);
@@ -241,16 +243,17 @@
 
       // Generate HTML for the city list
       const cityListHTML = city
-        .map(city => `<li><a href="https://reelcareer.co/views/city/#${city}">${city}</a></li>`)
+        .map(city => `<li><a href="https://reelcareer.co/views/city#${city}">${city}</a></li>`)
         .join("");
 
       // Inject HTML into the container
-      document.getElementById("stateListContainer").innerHTML = `
-        <h2>Available States</h2>
-        <ul>${cityListHTML}</ul>
+      document.getElementById("cityListContainer").innerHTML = `
+        <h2>Available Cities</h2>
+        <hr>
+        <ul><h4>${cityListHTML}</h4></ul>
       `;
     } catch (error) {
-      console.error("Error fetching states:", error);
+      console.error("Error fetching city:", error);
       document.getElementById("cityListContainer").innerHTML = `<p>Failed to load city list.</p>`;
     }
   }
