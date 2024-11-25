@@ -1917,78 +1917,6 @@ getSimilarJobs(jobTags, JobsContainer);
 
 
 
-function capitalizeFirstWordInTitlesAndText(containers = ['main', '.container'], throttleTime = 1000) {
-  // Regular expression to match classes containing "title," "text," "tag," or "tags" as part of the class name
-  const classPattern = /(title|text|tag|tags)([\w-]*)/i;
-
-  // Function to capitalize the first word in the text content of matching elements
-  const capitalizeFirstWord = (element) => {
-      // Check if the element has any child elements; if so, skip it
-      if (Array.from(element.childNodes).some(child => child.nodeType === Node.ELEMENT_NODE)) {
-          return; // Skip elements with nested elements
-      }
-
-      let content = element.innerText;
-      if (content) {
-          // Capitalize the first word using regex to handle punctuation and spaces
-          content = content.replace(/^\s*([\w])/, (match) => match.toUpperCase());
-          element.innerText = content; // Apply the modified text back to the element
-          //console.log("capitalizeFirstWord content:", content);
-      }
-  };
-
-  // Helper function to determine if the element is within specified containers and not within exceptions
-  const isChildOfSpecifiedContainers = (element) => {
-      // Check if the element is within any specified container
-      const isInSpecifiedContainer = element.closest(containers.join(',')) !== null;
-
-      // Check for exceptions
-      const isInExceptions = element.matches('.loader-container, searcharea, #jobSearchForm, #filterSection');
-
-      return isInSpecifiedContainer && !isInExceptions;
-  };
-
-  // Function to process elements for capitalization
-  const processElements = (elements) => {
-      elements.forEach(element => {
-          if (isChildOfSpecifiedContainers(element) && Array.from(element.classList).some(cls => classPattern.test(cls))) {
-              capitalizeFirstWord(element); // Only modifies the inner text
-            //  console.log("capitalizeFirstWord element:", element);
-          }
-      });
-  };
-
-  // Select initial elements within specified containers and apply capitalization if class matches pattern
-  setTimeout(() => {
-      const initialElements = document.querySelectorAll('*');
-      processElements(initialElements);
-  }, throttleTime);
-
-  // Throttling function to limit execution rate for dynamic elements
-  let lastRunTime = 0;
-  const throttledHandler = (mutations) => {
-      const now = Date.now();
-      if (now - lastRunTime >= throttleTime) {
-          lastRunTime = now;
-          mutations.forEach(mutation => {
-              mutation.addedNodes.forEach(node => {
-                  if (node.nodeType === Node.ELEMENT_NODE) {
-                      processElements([node]);
-                  }
-              });
-          });
-      }
-  };
-
-  // Set up a MutationObserver to monitor DOM changes, with throttling
-  const observer = new MutationObserver(throttledHandler);
-  observer.observe(document.body, { childList: true, subtree: true });
-}
-
-// Usage
-capitalizeFirstWordInTitlesAndText(['.check-cap', 'main'], 3000);
-console.log("capitalizeAndTypeEffectInTitlesAndTextSequentially initialized");
-
 
 
 function roll_in_animations(){
@@ -2044,9 +1972,9 @@ function roll_in_animations(){
  // roll_in_animations();
 
 
+function setBreadcrumb(){
 
- 
- document.addEventListener("DOMContentLoaded", () => {
+  
   // Get the ID from the URL
   const urlParams = new URLSearchParams(window.location.search);
   const id = urlParams.get("id"); // Assuming the ID is passed as a query parameter 'id'
@@ -2067,7 +1995,14 @@ function roll_in_animations(){
   if (breadcrumbjobTitleActive && appyJobTitle){
     breadcrumbjobTitleActive.innerText = appyJobTitle.innerText;
   }
+  console.log("setBreadcrumb  ??????????/   ",id, "xxxx   ",jobTitle.innerText);
 
+}
+ 
+window.setBreadcrumb = setBreadcrumb;
+
+ document.addEventListener("DOMContentLoaded", () => {
+  setBreadcrumb();
 });
 
 
