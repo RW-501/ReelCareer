@@ -2113,7 +2113,6 @@ window.setBreadcrumb = setBreadcrumb;
   });
 
 
-
 // Utility variables
 let viewStartTime;
 let locationData;
@@ -2317,6 +2316,9 @@ let TrackingOn = true;
 
     console.log("TrackingOn: ", TrackingOn);
 if(TrackingOn){
+
+  event.preventDefault();
+  
     // Get the clicked element
     const target = event.target;
     let interceptTimer = 10000;
@@ -2324,7 +2326,19 @@ if(TrackingOn){
         const pageTitle = document.title;
         console.log(`Page title: ${pageTitle}`);
 
+        const jobTitle = document.getElementById("jobTitle");
+        const appyJobTitle = document.getElementById("appyJobTitle");
+        if (jobTitle){
+         let jobTitleName = jobTitle.innerText;
+          console.log(`Job title: ${jobTitleName}`);
 
+        }
+        if (appyJobTitle){
+          let jobTitleName = appyJobTitle.innerText;
+          console.log(`Appy Job title: ${jobTitleName}`);
+
+        }
+      
 
     // Check if it's an anchor tag
     if (target.tagName === 'A' || target.closest('a')) {

@@ -310,13 +310,13 @@ console.log(formatDateString(1732032108000));                           // Expec
   
   getSuggestionStyles();
   // Constants for configuration 
-  const SUGGESTIONS_URL = "https://reelcareer.co/public/js/suggestions.json";
+  const Main_SUGGESTIONS_URL = "https://reelcareer.co/public/js/suggestions.json";
   const DEBOUNCE_DELAY = 300;
   
   // Fetch suggestions data from JSON file
   async function fetchSuggestions() {
     try {
-      const response = await fetch(SUGGESTIONS_URL);
+      const response = await fetch(Main_SUGGESTIONS_URL);
       if (!response.ok) throw new Error(`Network response was not ok: ${response.statusText}`);
   
       const data = await response.json();
