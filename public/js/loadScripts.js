@@ -272,9 +272,6 @@ console.log(formatDateString(1732032108000));                           // Expec
     }
   }
   
-  //let jobSuggestions, jobRequirementsSuggestions, locationsSuggestions, citySuggestions, stateSuggestions;
-  
-  //const {isHomePage, currentPage, adjustLinkURL, adjustLinkHomeURL, excludedPages } = getAdjustedLinks();
   function getSuggestionStyles() {
     const style = document.createElement("style");
     style.textContent = `

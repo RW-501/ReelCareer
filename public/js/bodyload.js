@@ -1,5 +1,5 @@
 /*
-<link rel="prefetch" href="next-page.html">
+<link rel="prefetch" href="next-page">
 
         // Function to dynamically add a prefetch link
         function addPrefetchLink(href) {

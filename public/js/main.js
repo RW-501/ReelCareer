@@ -399,7 +399,7 @@ const showLoginPopup = () => {
             <input type="password" id="login-password" placeholder="Password" required><br><br>
             <button type="submit">Login with Email</button>
         </form>
-        <p class="form-link">Don't have an account? <a href="/views/auth.html">Create an account</a></p>
+        <p class="form-link">Don't have an account? <a href="/views/auth">Create an account</a></p>
     `;
 
   document.body.appendChild(loginPopup);
@@ -413,16 +413,8 @@ const closeLoginPopup = () => {
   }
 };
 
-// myModule.js
-export function setupLinks() {
-  const {
-    currentPage,
-    adjustLinkURL,
-    adjustLinkHomeURL,
-    excludedPages
-  } = getAdjustedLinks();
-  // Use adjustLinkURL and adjustLinkHomeURL as needed within the module
-}
+
+
 
 // Navigation bar
 document.addEventListener("DOMContentLoaded", function () {
@@ -433,15 +425,8 @@ document.addEventListener("DOMContentLoaded", function () {
     modalInstance.hide();
   }
 
-  // Optionally, you can call it directly in the module if needed
-  const {
-    currentPage,
-    adjustLinkURL,
-    adjustLinkHomeURL,
-    excludedPages
-  } = getAdjustedLinks();
-  console.log(adjustLinkURL, adjustLinkHomeURL);
 
+  
   // Function to create the navbar
   function createNavbar() {
     const isHomePage =
@@ -460,7 +445,7 @@ document.addEventListener("DOMContentLoaded", function () {
     color: #83bad9;
     font-weight: 800;
     font-size: 2rem;
-    text-shadow: 1px 0px 0px #6253e7;" href="${adjustLinkHomeURL}">ReelCareer</a>
+    text-shadow: 1px 0px 0px #6253e7;" href="https://reelcareer.co/">ReelCareer</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
                         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
@@ -471,7 +456,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             <li class="nav-item"><a class="nav-link" href="${adjustLinkURL}about">About Us</a></li>
                             <li class="nav-item" id="jobSeekerNavItem"><a class="nav-link" href="${adjustLinkURL}job-seeker">Job Seeker</a></li>
                             <li class="nav-item" id="recruiterNavItem"><a class="nav-link" href="${adjustLinkURL}recruiter-dashboard">Recruiter Dashboard</a></li>
-                            <li class="nav-item"><a class="nav-link" href="${adjustLinkHomeURL}views/blog">Blog</a></li>
+                            <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/views/blog">Blog</a></li>
                             <li class="nav-item"><a class="nav-link" href="${adjustLinkURL}membership">Membership</a></li>
                             <li class="nav-item">
                                 <div id="authSection" class="d-flex align-items-center"></div>
@@ -610,7 +595,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     </div>
                     </div>
                     <div class="col-md-6 m-auto">
-                        <img src="${adjustLinkHomeURL}images/sq_logo_n_BG_tie_reelx.png" alt="Company Image" class="img-fluid" style="width: 15rem;">
+                        <img src="https://reelcareer.co/images/sq_logo_n_BG_tie_reelx.png" alt="Company Image" class="img-fluid" style="width: 15rem;">
                     </div>
                 </div>
             </div>
@@ -937,7 +922,7 @@ function handleAuthStateChanged(user) {
   if (user) {
     // If the user is logged in, show profile info and logout button
     const userName = user.displayName || "User";
-    const defaultPic = `<img src="${adjustLinkHomeURL}images/sq_logo_n_BG_sm.png" alt="Profile Picture" class="rounded-circle" style="width: 40px; height: 40px; margin-right: 10px;">`;
+    const defaultPic = `<img src="https://reelcareer.co/images/sq_logo_n_BG_sm.png" alt="Profile Picture" class="rounded-circle" style="width: 40px; height: 40px; margin-right: 10px;">`;
     const userPhoto = user.profilePic
       ? `<img src="${user.profilePic}" alt="Profile Picture" class="rounded-circle" style="width: 40px; height: 40px; margin-right: 10px;">`
       : `${defaultPic}`;
@@ -2246,8 +2231,8 @@ let maxScrollDepth = 0;
 window.addEventListener('scroll', () => {
     const currentScrollDepth = getScrollDepthPercentage();
     maxScrollDepth = Math.max(maxScrollDepth, currentScrollDepth);
-    console.log(`Current Scroll Depth: ${currentScrollDepth}%`);
-    console.log(`Max Scroll Depth: ${maxScrollDepth}%`);
+   // console.log(`Current Scroll Depth: ${currentScrollDepth}%`);
+  ///  console.log(`Max Scroll Depth: ${maxScrollDepth}%`);
 });
 
 // Function to determine the correct `ViewedBy` field based on the URL

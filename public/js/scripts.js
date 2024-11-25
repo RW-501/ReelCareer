@@ -93,49 +93,6 @@ gtag('js', new Date());
 gtag('config', 'G-LBTK319K2X');
 
 
-function getAdjustedLinks() {
-    const excludedPages = ['/indexxxx.html', '/aboutxx.html'];
-    const currentPage = window.location.pathname;
-
-    // Define if the root is at the home page or deeper directories
-    const isHomePage = currentPage === '/index.html' || 
-                       currentPage === '/index' || 
-                       currentPage === '' || 
-                       currentPage === '/';
-
-    let adjustLinkURL = (isHomePage) ? '/views/' : '';
-    let adjustLinkHomeURL = (isHomePage) ? '' : '/';
-       // Pages where we don't want to show the navbar
-
-    // Check specific paths
-    if (currentPage.includes("/public")) {
-        adjustLinkURL = "/public/";
-    } 
-    if (currentPage.includes("/views")) {
-        adjustLinkURL = "/views/";
-    }
-
-    return { isHomePage, currentPage, adjustLinkURL, adjustLinkHomeURL, excludedPages };
-}
-
-// scripts.js
-const {isHomePage, currentPage, adjustLinkURL, adjustLinkHomeURL, excludedPages } = getAdjustedLinks();
-
-
-
-//console.log(adjustLinkURL, adjustLinkHomeURL);
-
-       /*
-       console.log("nav currentPage   ",currentPage);
-        console.log("nav isHomePage   ",isHomePage);
-        console.log("nav adjustLinkURL   ",adjustLinkURL);
-      //  console.log("nav navbarClass   ",navbarClass);
-        console.log("nav adjustLinkHomeURL   ",adjustLinkHomeURL);
-
-console.log("nav currentPage   ",currentPage);
-console.log("nav isHomePage   ",isHomePage);
-*/
-
  function addFavicons() {
     const head = document.head;
 
@@ -143,7 +100,7 @@ console.log("nav isHomePage   ",isHomePage);
     const faviconStandard = document.createElement('link');
     faviconStandard.rel = 'icon';
     faviconStandard.type = 'image/x-icon';
-    faviconStandard.href = adjustLinkHomeURL+'images/favicons/favicon.ico';
+    faviconStandard.href = 'https://reelcareer.co/images/favicons/favicon.ico';
     head.appendChild(faviconStandard);
 
     // 32x32 Favicon
@@ -151,7 +108,7 @@ console.log("nav isHomePage   ",isHomePage);
     favicon32.rel = 'icon';
     favicon32.type = 'image/png';
     favicon32.sizes = '32x32';
-    favicon32.href = adjustLinkHomeURL+'images/favicons/favicon-32x32.png';
+    favicon32.href = 'https://reelcareer.co/images/favicons/favicon-32x32.png';
     head.appendChild(favicon32);
 
     // 16x16 Favicon
@@ -159,14 +116,14 @@ console.log("nav isHomePage   ",isHomePage);
     favicon16.rel = 'icon';
     favicon16.type = 'image/png';
     favicon16.sizes = '16x16';
-    favicon16.href = adjustLinkHomeURL+'images/favicons/favicon-16x16.png';
+    favicon16.href = 'https://reelcareer.co/images/favicons/favicon-16x16.png';
     head.appendChild(favicon16);
 
     // Apple Touch Icon
     const appleTouchIcon = document.createElement('link');
     appleTouchIcon.rel = 'apple-touch-icon';
     appleTouchIcon.sizes = '180x180';
-    appleTouchIcon.href = adjustLinkHomeURL+'images/favicons/apple-touch-icon.png';
+    appleTouchIcon.href = 'https://reelcareer.co/images/favicons/apple-touch-icon.png';
     head.appendChild(appleTouchIcon);
 
     // Android Favicon (192x192)
@@ -174,7 +131,7 @@ console.log("nav isHomePage   ",isHomePage);
     androidFavicon192.rel = 'icon';
     androidFavicon192.type = 'image/png';
     androidFavicon192.sizes = '192x192';
-    androidFavicon192.href = adjustLinkHomeURL+'images/favicons/android-chrome-192x192.png';
+    androidFavicon192.href = 'https://reelcareer.co/images/favicons/android-chrome-192x192.png';
     head.appendChild(androidFavicon192);
 
     // Chrome Favicon (512x512)
@@ -182,7 +139,7 @@ console.log("nav isHomePage   ",isHomePage);
     androidFavicon512.rel = 'icon';
     androidFavicon512.type = 'image/png';
     androidFavicon512.sizes = '512x512';
-    androidFavicon512.href = adjustLinkHomeURL+'images/favicons/android-chrome-512x512.png';
+    androidFavicon512.href = 'https://reelcareer.co/images/favicons/android-chrome-512x512.png';
     head.appendChild(androidFavicon512);
 }
 

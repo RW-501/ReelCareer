@@ -65,7 +65,7 @@
 
     <!-- Terms of Use -->
     <url>
-        <loc>https://reelcareer.co/public/terms</loc>
+        <loc>https://reelcareer.co/views/terms</loc>
         <changefreq>yearly</changefreq>
         <priority>0.5</priority>
     </url>
