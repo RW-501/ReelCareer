@@ -2316,7 +2316,7 @@ function getViewedByField() {
 let TrackingOn = true;
     // Get the clicked element
     const target = event.target;
-    let interceptTimer = 10000;
+    let interceptTimer = 5000;
 
     console.log("TrackingOn: ", TrackingOn);
     console.log("interceptTimer: ", interceptTimer);
@@ -2408,7 +2408,37 @@ if(TrackingOn){
             setTimeout(() => {
                 handler.call(target, event); // Execute the handler in the correct context
             }, interceptTimer); // Delay for 1 second
-        }
+        }if (target.tagName === 'BUTTON' && target.type === 'submit') {
+          // Prevent the default submit action
+          event.preventDefault();
+  
+          // Get the button text
+          const buttonText = target.innerText.trim();
+          console.log(`Intercepted button: ${buttonText}`);
+  
+          // Find the closest form element
+          const form = target.closest('form');
+  
+          if (form) {
+              // Log the form's name or id
+              const formName = form.getAttribute('name') || '(no name)';
+              const formId = form.id || '(no id)';
+              console.log(`Associated form: Name = ${formName}, ID = ${formId}`);
+  
+              // Delay before submitting the form
+              setTimeout(() => {
+                  console.log('Proceeding with the submit action after delay.');
+                  form.submit(); // Trigger the form submission programmatically
+              }, interceptTimer); // Delay by 1 second
+          } else {
+              console.log('No associated form found for this submit button.');
+  
+              // Optionally, handle cases where no form is present
+              setTimeout(() => {
+                  console.log('No form submission performed.');
+              }, interceptTimer); // Delay for consistency
+          }
+      }
     }
 
 }
