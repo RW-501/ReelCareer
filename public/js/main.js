@@ -2246,8 +2246,8 @@ let maxScrollDepth = 0;
 window.addEventListener('scroll', () => {
     const currentScrollDepth = getScrollDepthPercentage();
     maxScrollDepth = Math.max(maxScrollDepth, currentScrollDepth);
-    console.log(`Current Scroll Depth: ${currentScrollDepth}%`);
-    console.log(`Max Scroll Depth: ${maxScrollDepth}%`);
+   // console.log(`Current Scroll Depth: ${currentScrollDepth}%`);
+  ///  console.log(`Max Scroll Depth: ${maxScrollDepth}%`);
 });
 
 // Function to determine the correct `ViewedBy` field based on the URL
