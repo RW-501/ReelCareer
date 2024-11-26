@@ -2761,7 +2761,6 @@ function checkUserLoginStatus() {
 
     if (user) {
 
-      updateNavVisibility(user);
 
       // User is signed in
       console.log('User is logged in:', user);
@@ -2779,6 +2778,7 @@ function checkUserLoginStatus() {
       profileModal.classList.add("show"); // Add Bootstrap's 'show' class
       profileModal.setAttribute("aria-hidden", "false");
     }
+    updateNavVisibility(user);
 
     setTimeout(() => {
       getModal(user); // Fetch user data and populate modal
