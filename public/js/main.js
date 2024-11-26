@@ -501,23 +501,8 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // Function to update navigation visibility based on user role
-  function updateNavVisibility(user) {
-    const jobSeekerNavItem = document.getElementById("jobSeekerNavItem");
-    const recruiterNavItem = document.getElementById("recruiterNavItem");
 
-    if (user) {
-      // Display items based on user roles
-      jobSeekerNavItem.style.display =
-        user.role === "jobSeeker" ? "block" : "none";
-      recruiterNavItem.style.display =
-        user.role === "recruiter" ? "block" : "none";
-    } else {
-      // Hide both items if not logged in
-      jobSeekerNavItem.style.display = "none";
-      recruiterNavItem.style.display = "none";
-    }
-  }
+    
 
   const currentPage = window.location.pathname; // Get the current path from the URL
 
@@ -538,9 +523,6 @@ console.log("currentPage    ",currentPage);
 
     }
 
-
-    window.updateNavVisibility = updateNavVisibility;
-    
 
     setupEventListeners(); // Initialize event listeners
     highlightActiveLink(); // Highlight the active link
@@ -2798,7 +2780,25 @@ function initializeAutoLogout() {
 window.initializeAutoLogout = initializeAutoLogout;
 
 
+  // Function to update navigation visibility based on user role
+  function updateNavVisibility(user) {
+    const jobSeekerNavItem = document.getElementById("jobSeekerNavItem");
+    const recruiterNavItem = document.getElementById("recruiterNavItem");
 
+    if (user) {
+      // Display items based on user roles
+      jobSeekerNavItem.style.display =
+        user.role === "jobSeeker" ? "block" : "none";
+      recruiterNavItem.style.display =
+        user.role === "recruiter" ? "block" : "none";
+    } else {
+      // Hide both items if not logged in
+      jobSeekerNavItem.style.display = "none";
+      recruiterNavItem.style.display = "none";
+    }
+  }
+
+  window.updateNavVisibility = updateNavVisibility;
 // Initialization
 document.addEventListener('DOMContentLoaded', () => {
   checkLogin(); // Ensure login is valid on page load
