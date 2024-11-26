@@ -2112,6 +2112,11 @@ window.userLocationService = function() {
     };
 
 
+    locationData = JSON.parse(sessionStorage.getItem('userLocation'));
+
+    if(!locationData){
+      locationData = getUserIPAndLocation();
+    }
 
     // Main function to get IP and location together
     const getUserIPAndLocation = async () => {
