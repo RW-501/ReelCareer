@@ -97,15 +97,13 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .main-navbar-dark{
-    background: linear-gradient(135deg, #83bad9, transparent);
-
+    background: linear-gradient(135deg, #83bad9, #95c3dd);
 }
 
 .main-navbar-light {
     color: rgba(0, 0, 0, .5);
     border-color: rgba(0, 0, 0, .1);
-    background: linear-gradient(135deg, #83bad9, transparent);
-}
+    background: linear-gradient(135deg, #83bad9, #95c3dd);}
 
 #main-search-btn {
     background: linear-gradient(to bottom, #f4f4f4, #83bad9);

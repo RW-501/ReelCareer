@@ -2550,9 +2550,10 @@ function handleJobInput(jobInput, action = "visit") {
     return input
       .split(/\s+/) // Split by whitespace
       .map(word => word.trim()) // Trim extra spaces
-      .filter(word => word.length > 0); // Filter out empty strings
+      .filter(word => word.length > 0) // Filter out empty strings
+      .map(word => word.replace(/[^a-zA-Z0-9]/g, '')); // Remove characters that are not a-z, A-Z, or 0-9
   }
-
+  
   // Main logic
   let userJobInterest = JSON.parse(localStorage.getItem('userJobInterest')) || [];
 
