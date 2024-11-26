@@ -533,6 +533,8 @@ document.addEventListener("DOMContentLoaded", function () {
         currentPage === "" || 
         currentPage === "/";
 
+        let  excludedPages = "/backend";
+
   // Replace the navbar if not on an excluded page
   if (!excludedPages.includes(currentPage)) {
     let existingNavbar = document.querySelector(".navbar");
