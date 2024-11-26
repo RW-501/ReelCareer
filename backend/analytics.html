@@ -37,7 +37,45 @@ firebase.analytics().logEvent('referral_participation', { referrer_id: 'user456'
     <link rel="stylesheet" href="https://reelcareer.co/backend/css/styles.css">
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
-    
+    <style>
+
+.analytics-container {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.filter-section {
+  margin-bottom: 15px;
+}
+
+.filter-section input, .filter-section select {
+  padding: 8px;
+  margin-right: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.analytics-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.analytics-table th, .analytics-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.analytics-table th {
+  cursor: pointer;
+  background-color: #f4f4f4;
+}
+
+.analytics-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+    </style>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
@@ -253,6 +291,24 @@ firebase.analytics().logEvent('referral_participation', { referrer_id: 'user456'
        
        
             <h1>User Analytics</h1>
+            <div id="analytics-header">
+
+              <div class="filter-section">
+                <input type="text" id="searchInput" placeholder="Search by Name, Country, or Browser" oninput="filterTable()" />
+                <select id="countryFilter" onchange="filterTable()">
+                  <option value="">All Countries</option>
+                  <option value="USA">USA</option>
+                  <option value="India">India</option>
+                  <option value="Germany">Germany</option>
+                </select>
+              </div>
+
+              <div class="sort-section">
+
+            </div>
+            
+          
+          </div>
             <div id="userAnalyticsTableContainer">
               <!-- The table will be injected here -->
             </div>
@@ -305,6 +361,43 @@ firebase.analytics().logEvent('referral_participation', { referrer_id: 'user456'
             </div>
         </div>
     </div>
+
+
+
+    <script>
+
+function filterTable() {
+  const searchInput = document.getElementById('searchInput').value.toLowerCase();
+  const countryFilter = document.getElementById('countryFilter').value;
+  const rows = document.querySelectorAll('#analyticsBody tr');
+
+  rows.forEach(row => {
+    const [user, , , , country] = row.children;
+    const matchesSearch = user.textContent.toLowerCase().includes(searchInput);
+    const matchesCountry = !countryFilter || country.textContent === countryFilter;
+
+    row.style.display = matchesSearch && matchesCountry ? '' : 'none';
+  });
+}
+
+function sortTable(colIndex) {
+  const table = document.querySelector('.analytics-table tbody');
+  const rows = Array.from(table.rows);
+  const isAscending = table.getAttribute('data-sort-asc') === 'true';
+
+  rows.sort((a, b) => {
+    const valA = a.children[colIndex].textContent.trim();
+    const valB = b.children[colIndex].textContent.trim();
+
+    return isAscending ? valA.localeCompare(valB) : valB.localeCompare(valA);
+  });
+
+  rows.forEach(row => table.appendChild(row));
+  table.setAttribute('data-sort-asc', !isAscending);
+}
+
+    </script>
+
 
     <!-- Footer -->
     <footer id="dynamic-footer"></footer>
@@ -366,12 +459,25 @@ function formatDate(dateInput, options = {}) {
 // Function to format the "viewedBy" data into an HTML structure
 function formatViewedBy(viewedByData = {}) {
   return `
-    <ul>
+    <ul ${viewedByData.durationOfView ? 'class= "show"' : 'class= "hidden"'}>
+
+      <li><strong>View pageTitle:</strong> ${viewedByData.pageTitle || 'N/A'}</li>
       <li><strong>Duration of View:</strong> ${viewedByData.durationOfView || 'N/A'} seconds</li>
-      <li><strong>Contact Views:</strong> ${viewedByData.viewsCount || 'N/A'}</li>
+      <li><strong>Max Scroll Depth:</strong> ${viewedByData.maxScrollDepth || 'N/A'}</li>
+      <li><strong>Views:</strong> ${viewedByData.viewsCount || viewedByData.contactViews  || 1}</li>
+      <li><strong>Date:</strong> ${viewedByData.viewDate ? formatDate(viewedByData.viewDate) : 'N/A'}</li>
+      <li><strong>Last View Date:</strong> ${viewedByData.lastViewDate || 'N/A'}</li>
+<hr>
       <li><strong>View Method:</strong> ${viewedByData.viewMethod || 'N/A'}</li>
       <li><strong>View Source:</strong> ${viewedByData.viewSource || 'N/A'}</li>
-      <li><strong>View Date:</strong> ${viewedByData.viewDate ? formatDate(viewedByData.viewDate) : 'N/A'}</li>
+      <li><strong>Referrer:</strong> ${viewedByData.referrer || 'N/A'}</li>
+<hr>
+      <li><strong>Job Title Name:</strong> ${viewedByData.jobTitleName || 'N/A'}</li>
+      <li><strong>View Exit Track:</strong> ${viewedByData.exitTrack || 'N/A'}</li>
+      <li><strong>View Action Name:</strong> ${viewedByData.actionName || 'N/A'}</li>
+     
+
+
     </ul>
   `;
 }
@@ -396,12 +502,13 @@ async function displayUserAnalytics() {
       <thead>
         <tr>
           <th>IP Address</th>
-          <th>City</th>
+          <th onclick="sortTable(0)">City</th>
+          <th onclick="sortTable(1)">State</th>
           <th>Country</th>
-          <th>State</th>
-          <th>Last View Date</th>
-          <th>Total Duration (Seconds)</th>
-          <th>Activities Count</th>
+          <th onclick="sortTable(2)">Last View Date</th>
+          <th  onclick="sortTable(3)">Total Duration (Seconds)</th>
+          <th  onclick="sortTable(4)">Activities Count</th>
+          <th  onclick="sortTable(5)">Member</th>
           <th>User Blocked</th>
         </tr>
       </thead>
@@ -413,23 +520,32 @@ async function displayUserAnalytics() {
       <tr>
         <td><button class="collapsible" onclick="toggleDetailSection('${user.ipAddress}')">${user.ipAddress}</button></td>
         <td>${user.city || 'N/A'}</td>
-        <td>${user.country || 'N/A'}</td>
         <td>${user.state || 'N/A'}</td>
+        <td>${user.country || 'N/A'}</td>
         <td>${user.lastViewDate ? formatDate(user.lastViewDate) : 'N/A'}</td>
         <td>${user.totalDuration || 0}</td>
         <td>${user.userActivitiesCount || 0}</td>
         <td>${user.userBlocked ? 'Yes' : 'No'}</td>
+        <td>${user.userID ? 'Yes' : 'No'}</td>
       </tr>
     `;
 
     const viewedByDetails = [
-      user.contactViewedBy,
-      user.eventDetailsViewedBy,
-      user.homeViewedBy,
-      user.aboutViewedBy,
-      user.confirmationViewedBy,
-      user.eventsViewedBy,
-      user.galleryViewedBy,
+    applyViewedBy,
+    authViewedBy,
+    aboutViewedBy,
+    blogViewedBy,
+    companypageViewedBy,
+    contactViewedBy,
+    homeViewedBy,
+    index.htmlViewedBy,
+    jobdetailsViewedBy,
+    joblistingsViewedBy,
+    locationsViewedBy,
+    privacyViewedBy,
+    recruiterdashboardViewedBy,
+    cityViewedBy,
+    stateViewedBy
     ]
       .filter(detail => detail)
       .map(detail => formatViewedBy(detail))
@@ -441,7 +557,49 @@ async function displayUserAnalytics() {
           <td colspan="8">
             <div class="user-details">
               <h4>Details for ${user.ipAddress}</h4>
+
+              <div class="userAnalyicsBody" >
+              <p>User: ${user.displayName}</p>
+              <p>User Name: ${user.name}</p>
+              <p>User ID: ${user.userID}</p>
+              <p>Last Login: ${user.lastLogin}</p>
+              <p>Last Update: ${user.lastUpdate}</p>
+              <p>Last View Date: ${user.lastViewDate}</p>
+              <p>User Activities Count: ${user.userActivitiesCount}</p>
+              <p>Total Duration: ${user.totalDuration}</p>
+              <p>Last View Date: ${user.lastViewDate}</p>
+              <p>Entry URL: ${user.entryURL}</p>
+              <p>Referrer URL: ${user.referrer}</p>
+<hr>
+              <p>Timezone: ${user.timezone}</p>
+              <p>Language: ${user.language}</p>
+              <p>Country: ${user.country}</p>
+              <p>State: ${user.state}</p>
+              <p>City: ${user.city}</p>
+              <p>Zip: ${user.zip}</p>
+<hr>
+              <p>Browser: ${user.browser}</p>
+              <p>Network Type: ${user.networkType}</p>
+              <p>OS: ${user.os}</p>
+              <p>Connection Speed: ${user.connectionSpeed}</p>
+              <p>Screen Resolution: ${user.screenResolution}</p>
+              <p>View Port Size: ${user.viewportSize}</p>
+              <p>Screen Resolution: ${user.screenResolution}</p>
+<hr>
+
+              
+
+
+              <p>User Blocked: ${user.userBlocked}</p>
+
+                            </div>
+
+              <div class="userAnalyicsViewedbyInfo" >
               ${viewedByDetails}
+              </div>
+
+
+
             </div>
           </td>
         </tr>
@@ -465,14 +623,24 @@ async function fetchUserAnalyticsData() {
     totalDuration: doc.data().totalDuration,
     userActivitiesCount: doc.data().userActivitiesCount,
     userBlocked: doc.data().userBlocked || false,
-    contactViewedBy: doc.data().contactViewedBy || {},
-    eventDetailsViewedBy: doc.data().eventDetailsViewedBy || {},
-    homeViewedBy: doc.data().homeViewedBy || {},
-    aboutViewedBy: doc.data().aboutViewedBy || {},
-    confirmationViewedBy: doc.data().confirmationViewedBy || {},
-    eventsViewedBy: doc.data().eventsViewedBy || {},
-    galleryViewedBy: doc.data().galleryViewedBy || {},
     lastViewDate: doc.data().lastViewDate,
+
+    contactViewedBy: doc.data().contactViewedBy || {},
+    applyViewedBy: doc.data().apply.htmlViewedBy || doc.data().applyViewedBy || {},
+    homeViewedBy: doc.data().homeViewedBy || doc.data().indexViewedBy|| {},
+    aboutViewedBy: doc.data().aboutViewedBy || {},
+    authViewedBy: doc.data().authViewedBy || {},
+    blogViewedBy: doc.data().blogViewedBy || {},
+    cityViewedBy: doc.data().cityViewedBy || {},
+    companypageViewedBy: doc.data().company-pageViewedBy || {},
+   
+    jobdetailsViewedBy: doc.data().job-detailsViewedBy || {},
+    joblistingsViewedBy: doc.data().job-listingsViewedBy || {},
+    locationsViewedBy: doc.data().locationsViewedBy || {},
+    privacyViewedBy: doc.data().privacyViewedBy || {},
+    recruiterdashboardViewedBy: doc.data().recruiter-dashboardViewedBy || {},
+    stateViewedBy: doc.data().stateViewedBy || {},
+
   }));
 }
 

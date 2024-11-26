@@ -2243,6 +2243,7 @@ function getViewedByField() {
             actionName: actionName,
             pageTitle: pageTitle,
             jobTitleName: jobTitleName,
+            referrer: document.referrer || 'Direct',
             lastViewDate: new Date().toISOString()
 
 
