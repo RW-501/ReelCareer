@@ -59,7 +59,7 @@ function formatLocation(location, options = {}) {
   // Remove any extra spaces
   formattedLocation = formattedLocation.replace(/\s+/g, " ").trim();
 
-  return formattedLocation;
+  return `<a  class= 'loc-link' href="https://reelcareer.co/location#${encodeURIComponent(formattedLocation).toLowerCase().trim()}">${formattedLocation}</a>`;
 }
 
 
