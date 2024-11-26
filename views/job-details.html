@@ -1312,6 +1312,8 @@ if(!tagInterest){
 if(!jobInterest){
   jobInterest = jobTags;
 }
+console.log(tagInterest, ' =   jobInterest =  ', jobInterest);
+
    window.loadRelatedBlogs(tagInterest, 'blogContainer');
    window.getSimilarJobs(jobInterest, 'similarJobsContainer');
   }, 1000);
