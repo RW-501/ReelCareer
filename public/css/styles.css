@@ -33,7 +33,8 @@ main {
     padding: 2rem;
     height: 100%;
     display: grid;
-    background: linear-gradient(to bottom, #fff, #e0e0e0);
+    font-family: 'Roboto', sans-serif;
+      
 }
 .text-light {
     color: #676767 !important;
@@ -45,9 +46,10 @@ main {
 }
 
 
-h1, h2, h3, h4 {
+h1, h2, h3, h4, h5, h6 {
     text-transform: capitalize !important;
 }
+
 
 .form-group {
     gap: 1rem;
@@ -81,14 +83,10 @@ h1, h2, h3, h4 {
     user-select: none;
     font-size: 2.75rem !important;
 }
-.JOB_CARD{
 
-    flex: 0 0 30%;
-    max-width: 30%;
-margin: 0;
-padding: 0;
+.job-title-link, .badge, .btn, .btn-primary, .btn-secondary, .breadcrumb-item, .cap  {
+    text-transform: capitalize !important;
 }
-
 
 .mainBGcolor{
     background-color: #639ad4 !important;
@@ -300,19 +298,24 @@ main .btn-info:hover {
 .blog-card:hover,
 .similar-job-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-}
-
-main  .jobCard{
-
-transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out !important;
-}
-
-.container > .card:hover {
-    transform: translateY(-5px);
     box-shadow: 0 8px 16px rgb(41 9 244 / 8%);
+
 }
 
+.jobCard,
+.blog-card,
+.similar-job-car {
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out !important;
+
+}
+
+.JOB_CARD{
+
+    flex: 0 0 30%;
+    max-width: 30%;
+margin: 0;
+padding: 0;
+}
 
 
 .container > .card > h5 {
@@ -401,6 +404,9 @@ main{
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
+        gap: .5rem 1rem;
+        row-gap: 0.5rem;
+    
     }
 
 /* Ensure the card takes up full height */
