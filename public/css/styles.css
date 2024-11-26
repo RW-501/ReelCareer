@@ -533,6 +533,9 @@ main .btn-info:hover {
 
 }
 
+#dynamic-footer p {
+    color: white;
+}
 .container > .card > h5 {
     font-size: 1.25rem;
     color: #80b6d5;
