@@ -388,6 +388,8 @@ main .btn-info:hover {
 
 #similarJobsContainer{
     display: flex;
+    flex-wrap: wrap;
+
 }
 .JOB_CARD{
 
