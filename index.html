@@ -603,19 +603,7 @@ const isValidValue = value => value !== undefined && value !== null && value !==
 
 
     document.addEventListener("DOMContentLoaded", () => {
-      const jobTags = ["job", "jobs", "new jobs"];
-
-
-
-      // Retrieve user interests for tags and jobs
-let uTagInterestNorm = getUserTagInterest();
-let userTagInterest = uTagInterestNorm && uTagInterestNorm.length > 0 ? uTagInterestNorm : jobTags;
-
-let uJobInterestNorm = getUserJobInterest();
-let userJobInterest = uJobInterestNorm && uJobInterestNorm.length > 0 ? uJobInterestNorm : jobTags;
-      // Load job listings on page load
-      fetchJobListings(userJobInterest, userTagInterest);
-
+  
 
 
     // Check if the user is logged in
@@ -645,12 +633,18 @@ document.addEventListener("DOMContentLoaded", () => {
     const jobTags = ["job", "jobs", "new jobs"];
 
 
-    let tagInterestNorm = getUserTagInterest(); // Retrieve user tag interest
 
-    let tagInterest =
-      tagInterestNorm && tagInterestNorm.length > 0 ? tagInterestNorm : jobTags;
+      // Retrieve user interests for tags and jobs
+let uTagInterestNorm = getUserTagInterest();
+let userTagInterest = uTagInterestNorm && uTagInterestNorm.length > 0 ? uTagInterestNorm : jobTags;
 
-    loadRelatedBlogs(tagInterest, "blogContainer");
+let uJobInterestNorm = getUserJobInterest();
+let userJobInterest = uJobInterestNorm && uJobInterestNorm.length > 0 ? uJobInterestNorm : jobTags;
+      // Load job listings on page load
+      fetchJobListings(userJobInterest, userTagInterest);
+
+
+    loadRelatedBlogs(userTagInterest, "blogContainer");
 
   }, 1000);
 });
