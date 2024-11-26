@@ -803,3 +803,9 @@ main .jobCard:hover {
     display: flex;
     justify-content: space-between;
 }
+
+
+.job-header {
+    gap:0;
+
+}
