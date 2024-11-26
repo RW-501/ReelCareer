@@ -363,29 +363,45 @@ async function fetchJobListings() {
 
   try {
     let jobsQuery = collection(db, 'Jobs');
+    let locationQuery;
+    let tagQuery;
 
     // Validate inputs
-    if (!Array.isArray(locationData) || !Array.isArray(userTagInterest) || !Array.isArray(userJobInterest)) {
-      console.error("userTagInterest and userJobInterest must be arrays.");
-      return;
-    }
-
-    // Build query for matching tags
-    const locationQuery = query(
+    if (Array.isArray(locationData)){
+    
+        // Build query for matching tags
+       locationQuery = query(
       jobsQuery,
       where('status', '==', 'active'),
       where('location', 'array-contains-any', locationData),
       orderBy('createdAt', 'desc'),
       limit(50)
     );
-    // Build query for matching tags
-    const tagQuery = query(
+    }else{
+
+      console.error("userTagInterest  must be arrays.");
+
+    }
+        if (Array.isArray(userTagInterest)){
+
+        // Build query for matching tags
+     tagQuery = query(
       jobsQuery,
       where('status', '==', 'active'),
       where('tags', 'array-contains-any', userTagInterest),
       orderBy('createdAt', 'desc'),
       limit(50)
     );
+        }else{
+          console.error("userTagInterest  must be arrays.");
+
+          
+        }
+
+
+     
+
+
 
     // Title query: Match any word in the title with user's job interests
     const titleQuery = query(
@@ -398,7 +414,8 @@ async function fetchJobListings() {
     // Fetch job listings for both queries (tags and titles)
     const [tagSnapshot, titleSnapshot] = await Promise.all([
       getDocs(tagQuery),
-      getDocs(titleQuery)
+      getDocs(titleQuery),
+      getDocs(locationQuery)
     ]);
 
     // Filter and combine results
