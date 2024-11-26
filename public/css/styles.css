@@ -298,6 +298,24 @@ main .btn-primary:hover {
     transition: background-color 0.3s ease;
 
 }
+.navbar-nav {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style: none;
+    align-content: flex-end;
+    justify-content: space-around;
+    align-items: baseline;
+}
+
+.nav-link {
+    font-size: 1.2rem;
+    color: #335274;
+    padding: .5rem 1rem;
+}
 
 main .btn-primary {
    /* background-color: #639ad4 !important; */
@@ -381,7 +399,7 @@ main .btn-info:hover {
     justify-content: space-evenly;
     align-items: stretch;
     justify-items: stretch;
-    
+
     .card-top {
         font-size: xx-large;
 
