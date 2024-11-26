@@ -939,8 +939,8 @@ function handleAuthStateChanged(user) {
                         ${userPhoto} Welcome, ${userName}
                     </button>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="profileDropdown">
-                        <a class="dropdown-item" href="${adjustLinkURL}user">Profile</a>
-                        <a class="dropdown-item" href="${adjustLinkURL}messaging">Messaging</a>
+                        <a class="dropdown-item" href="https://reelcareer.co/views/user">Profile</a>
+                        <a class="dropdown-item" href="https://reelcareer.co/views/messaging">Messaging</a>
                         <button id="settingsBtn" class="dropdown-item"">Account Settings</button>
                         <button class="dropdown-item" id="logoutButton">Logout</button>
                     </div>

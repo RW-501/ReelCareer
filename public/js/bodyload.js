@@ -676,7 +676,7 @@ function addStyles() {
       
       <!-- Job Title and Company -->
       <div class="card-top" style="gap: 0.5rem;">
-        <a href="${adjustLinkURL}job-details?id=${job.id}"
+        <a href="https://reelcareer.co/views/job-details?id=${job.id}"
            class="job-title-link" 
            style="
              font-size: 1.5rem;
