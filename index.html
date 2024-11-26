@@ -350,6 +350,7 @@ let userTagInterest = uTagInterestNorm && uTagInterestNorm.length > 0 ? uTagInte
 
 let uJobInterestNorm = getUserJobInterest();
 let userJobInterest = uJobInterestNorm && uJobInterestNorm.length > 0 ? uJobInterestNorm : jobTags;
+let locationData = JSON.parse(sessionStorage.getItem('userLocation'));
 
 async function fetchJobListings() {
   console.log("fetchJobListings");
@@ -364,12 +365,19 @@ async function fetchJobListings() {
     let jobsQuery = collection(db, 'Jobs');
 
     // Validate inputs
-    if (!Array.isArray(userTagInterest) || !Array.isArray(userJobInterest)) {
+    if (!Array.isArray(locationData) || !Array.isArray(userTagInterest) || !Array.isArray(userJobInterest)) {
       console.error("userTagInterest and userJobInterest must be arrays.");
       return;
     }
-    locationData = JSON.parse(sessionStorage.getItem('userLocation'));
 
+    // Build query for matching tags
+    const locationQuery = query(
+      jobsQuery,
+      where('status', '==', 'active'),
+      where('location', 'array-contains-any', locationData),
+      orderBy('createdAt', 'desc'),
+      limit(50)
+    );
     // Build query for matching tags
     const tagQuery = query(
       jobsQuery,
