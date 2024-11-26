@@ -1490,6 +1490,7 @@ export {
 */
 
 window.addEventListener('load', function() {
+  let allBlogs = []; // Store all blogs
 
 
 
@@ -1501,7 +1502,6 @@ window.addEventListener('load', function() {
           const blogsRef = collection(db, 'Blogs');
           const blogContainer = document.getElementById(containerId);
           const showMoreButton = document.createElement('button');
-          let allBlogs = []; // Store all blogs
           let displayedBlogs = 0; // Track how many blogs have been displayed
           const blogsPerPage = 3; // Number of blogs to show at a time
 
