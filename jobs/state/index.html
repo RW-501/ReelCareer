@@ -450,23 +450,18 @@ document.addEventListener("DOMContentLoaded", () => {
   setTimeout(() => {
     const jobTags = ["job", "jobs", "new jobs"];
 
-    console.log("const jobTags =", jobTags);
 
     let tagInterestNorm = getUserTagInterest(); // Retrieve user tag interest
-    console.log("let tagInterestNorm =", tagInterestNorm);
 
     let tagInterest =
       tagInterestNorm && tagInterestNorm.length > 0 ? tagInterestNorm : jobTags;
-    console.log("const tagInterest =", tagInterest);
 
     loadRelatedBlogs(tagInterest, "blogContainer");
 
     let jobInterestNorm = getUserJobInterest(); // Retrieve user tag interest
-    console.log("let jobInterestNorm =", jobInterestNorm);
 
     let jobInterest =
       jobInterestNorm && jobInterestNorm.length > 0 ? jobInterestNorm : jobTags;
-    console.log("jobInterestNorm.length ", jobInterestNorm.length);
     getSimilarJobs(jobInterestNorm, "similarJobsContainer");
   }, 1000);
 });

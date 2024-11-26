@@ -338,13 +338,26 @@ function getHashFromURL() {
 
 
 
+document.addEventListener("DOMContentLoaded", () => {
+  setTimeout(() => {
+    const jobTags = ["job", "jobs", "new jobs"];
 
-    
-setTimeout(() => {
-    const jobTags = ['job', 'jobs', 'new jobs']; 
-   //const jobTags = document.getElementById('tag-list').textContent;
-   window.loadRelatedBlogs(jobTags, 'blogContainer');
-  }, 2000);
+
+    let tagInterestNorm = getUserTagInterest(); // Retrieve user tag interest
+
+    let tagInterest =
+      tagInterestNorm && tagInterestNorm.length > 0 ? tagInterestNorm : jobTags;
+
+    loadRelatedBlogs(tagInterest, "blogContainer");
+
+    let jobInterestNorm = getUserJobInterest(); // Retrieve user tag interest
+
+    let jobInterest =
+      jobInterestNorm && jobInterestNorm.length > 0 ? jobInterestNorm : jobTags;
+    getSimilarJobs(jobInterestNorm, "similarJobsContainer");
+  }, 1000);
+});
+
 
   </script>
       <!-- Schema.org Markup -->

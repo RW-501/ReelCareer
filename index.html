@@ -548,14 +548,24 @@ const isValidValue = value => value !== undefined && value !== null && value !==
     });
 
 
-    
-setTimeout(() => {
-    const jobTags = ['job', 'jobs', 'new jobs']; 
-   //const jobTags = document.getElementById('tag-list').textContent;
-   window.loadRelatedBlogs(jobTags, 'blogContainer');
-  }, 2000);
+    const similarJobsContainer = document.getElementById("similarJobsContainer");
+
+// Function to fetch similar jobs based on tags
+
+document.addEventListener("DOMContentLoaded", () => {
+  setTimeout(() => {
+    const jobTags = ["job", "jobs", "new jobs"];
 
 
+    let tagInterestNorm = getUserTagInterest(); // Retrieve user tag interest
+
+    let tagInterest =
+      tagInterestNorm && tagInterestNorm.length > 0 ? tagInterestNorm : jobTags;
+
+    loadRelatedBlogs(tagInterest, "blogContainer");
+
+  }, 1000);
+});
 
 
 
