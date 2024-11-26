@@ -2202,7 +2202,9 @@ window.addEventListener('scroll', () => {
 function getViewedByField() {
     const path = window.location.pathname;
     const page = path === '/' || path === '/index.html' ? 'home' : path.split('/').filter(Boolean).pop();
-    
+   
+   
+    console.log(`${page}ViewedBy`);
     return `${page}ViewedBy`;
 }
 

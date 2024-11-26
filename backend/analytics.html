@@ -545,7 +545,8 @@ async function displayUserAnalytics() {
     privacyViewedBy,
     recruiterdashboardViewedBy,
     cityViewedBy,
-    stateViewedBy
+    stateViewedBy,
+    otherPagesViewedBy
     ]
       .filter(detail => detail)
       .map(detail => formatViewedBy(detail))
@@ -631,7 +632,6 @@ async function fetchUserAnalyticsData() {
     aboutViewedBy: doc.data().aboutViewedBy || {},
     authViewedBy: doc.data().authViewedBy || {},
     blogViewedBy: doc.data().blogViewedBy || {},
-    cityViewedBy: doc.data().cityViewedBy || {},
     companypageViewedBy: doc.data().company-pageViewedBy || {},
    
     jobdetailsViewedBy: doc.data().job-detailsViewedBy || {},
@@ -640,52 +640,12 @@ async function fetchUserAnalyticsData() {
     privacyViewedBy: doc.data().privacyViewedBy || {},
     recruiterdashboardViewedBy: doc.data().recruiter-dashboardViewedBy || {},
     stateViewedBy: doc.data().stateViewedBy || {},
+    cityViewedBy: doc.data().cityViewedBy || {},
+
+    otherPagesViewedBy: doc.data().stateViewedBy || {},
 
   }));
 }
-
-/*
-// Example view data collection object
-const viewData = {
-  viewedByField: {
-    viewDate: new Date().toISOString(),
-    viewMethod: navigator.userAgentData?.mobile ? "mobile" : "desktop",
-    durationOfView: durationOfView,
-    maxScrollDepth: maxScrollDepth,
-    viewsCount: increment(1),
-    viewSource: getViewSource(),
-    actionTrack: actionTrack,
-    actionName: actionName,
-    pageTitle: pageTitle,
-    jobTitleName: jobTitleName,
-    lastViewDate: new Date().toISOString(),
-  },
-  ipAddress: ipAddress || userData.ipAddress,
-  name: userData.name || 'N/A',
-  displayName: userData.displayName || 'N/A',
-  userID: userData.userID || 'N/A',
-  lastLogin: userData.lastLogin || 'N/A',
-  city: locationData.city || 'N/A',
-  state: locationData.region || 'N/A',
-  zip: locationData.postal || 'N/A',
-  country: locationData.country_name || 'N/A',
-  browser: navigator.userAgentData?.brands?.[0]?.brand || navigator.userAgent,
-  os: navigator.platform || 'N/A',
-  screenResolution: `${screen.width}x${screen.height}`,
-  viewportSize: `${window.innerWidth}x${window.innerHeight}`,
-  devicePixelRatio: window.devicePixelRatio,
-  referrer: document.referrer || 'Direct',
-  entryURL: window.location.href,
-  networkType: navigator.connection?.effectiveType || 'N/A',
-  connectionSpeed: navigator.connection?.downlink || 'N/A',
-  timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || 'N/A',
-  language: navigator.language || 'N/A',
-  lastUpdate: new Date().toISOString(),
-  userActivitiesCount: increment(1),
-  totalDuration: increment(durationOfView),
-  userBlocked: false,
-};
-*/
 
 
 

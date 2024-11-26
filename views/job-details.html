@@ -1315,7 +1315,7 @@ console.log('let tagInterestNorm =', tagInterestNorm);
 let tagInterest = tagInterestNorm && tagInterestNorm.length > 0 ? tagInterestNorm : jobTags;
 console.log('const tagInterest =', tagInterest);
 
-loadRelatedBlogs(JSON.stringify(tagInterest), 'blogContainer');
+loadRelatedBlogs(tagInterest, 'blogContainer');
 
 
 
@@ -1324,7 +1324,7 @@ let jobInterestNorm = getUserJobInterest(); // Retrieve user tag interest
 console.log('let jobInterestNorm =', jobInterestNorm);
 
 let jobInterest = jobInterestNorm && jobInterestNorm.length > 0 ? jobInterestNorm : jobTags;
-console.log('jobInterestNorm.length =', jobInterestNorm.length);
+console.log('jobInterestNorm.length ', jobInterestNorm.length);
 getSimilarJobs(jobInterestNorm, 'similarJobsContainer');
 
 
