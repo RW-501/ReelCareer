@@ -339,9 +339,22 @@ let jobListingsCache = [];
 let lastVisible; // Keep track of pagination
 const seenTitles = new Set();
 const seenIDs = new Set();
-let userInterest1, userInterest2, userInterest3;
+
 let excludedIds = [];
-let userInterests = [userInterest1, userInterest2, userInterest3].filter(Boolean);
+
+const jobTags = ["job", "jobs", "new jobs"];
+
+
+let uTagInterestNorm = getUserTagInterest(); // Retrieve user tag interest
+
+let userTagInterest =
+uTagInterestNorm && uTagInterestNorm.length > 0 ? uTagInterestNorm : jobTags;
+
+let uJobInterestNorm = getUserJobInterest(); // Retrieve user tag interest
+
+let userJobInterest =
+uJobInterestNorm && uJobInterestNorm.length > 0 ? uJobInterestNorm : jobTags;
+
 
 async function fetchJobListings() {
   console.log("fetchJobListings");
@@ -355,7 +368,7 @@ async function fetchJobListings() {
   if (jobListingsCache.length === 0 || (lastVisible && jobListingsCache.length < 50)) {
     try {
       let jobsQuery = collection(db, 'Jobs');
-      jobsQuery = query(jobsQuery, where('status', '==', 'active'), orderBy('createdAt', 'desc'), limit(50));
+      jobsQuery = query(jobsQuery, where('status', '==', 'active'), where('title', 'conatin any', userJobInterest), || where('tags', 'contains any', userTagInterest),orderBy('createdAt', 'desc'), limit(50));
 
       const jobListingsSnapshot = await getDocs(jobsQuery);
       lastVisible = jobListingsSnapshot.docs[jobListingsSnapshot.docs.length - 1];
