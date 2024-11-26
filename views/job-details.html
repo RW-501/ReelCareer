@@ -643,6 +643,9 @@ text-align: left;
 
 
     let userId = '';
+
+    document.addEventListener('DOMContentLoaded', () => {
+
     async function initializeUserId() {
         try {
             // Wait for the Firebase Auth state to initialize
@@ -664,6 +667,8 @@ text-align: left;
 
     initializeUserId(); // Call the function to initialize user ID
 
+  });
+  
     async function saveJob() { 
   // Disable the button and change text
   const saveBtn = document.getElementById('saveBtn');
