@@ -2112,11 +2112,6 @@ window.userLocationService = function() {
     };
 
 
-     locationData = localStorage.getItem("userLocation");
-
-    if(!locationData){
-      locationData = getUserIPAndLocation();
-    }
 
     // Main function to get IP and location together
     const getUserIPAndLocation = async () => {
@@ -2152,6 +2147,11 @@ window.userLocationService = function() {
     };
 }();
 
+locationData = localStorage.getItem("userLocation");
+
+if(!locationData){
+  locationData = getUserIPAndLocation();
+}
 
 // Function to set the last internal page
 function setInternalPageSource() {
