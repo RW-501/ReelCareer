@@ -2112,7 +2112,7 @@ window.userLocationService = function() {
     };
 
 
-    locationData = JSON.parse(sessionStorage.getItem('userLocation'));
+     locationData = localStorage.getItem("userLocation");
 
     if(!locationData){
       locationData = getUserIPAndLocation();
