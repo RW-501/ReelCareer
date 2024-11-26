@@ -437,8 +437,8 @@ document.addEventListener("DOMContentLoaded", function () {
           currentPage === "/";
     
     const navbarClass = isHomePage
-          ? "navbar-light bg-light"
-          : "navbar-dark bg-primary";
+          ? "navbar-dark bg-primary"
+          : "navbar-light bg-light";
     
     return `
             <nav class="navbar navbar-expand-lg ${navbarClass} shadow-sm sticky-top" role="navigation">
