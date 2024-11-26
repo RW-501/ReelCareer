@@ -1307,27 +1307,28 @@ const jobTags = ['job', 'jobs', 'new jobs'];
 console.log('const jobTags =', jobTags);
 
 let tagInterestNorm = getUserTagInterest(); // Retrieve user tag interest
-console.log('const tagInterestNorm =', tagInterestNorm);
+console.log('let tagInterestNorm =', tagInterestNorm);
+
+
+
 
 let tagInterest = tagInterestNorm && tagInterestNorm.length > 0 ? tagInterestNorm : jobTags;
 console.log('const tagInterest =', tagInterest);
 
+loadRelatedBlogs(JSON.stringify(tagInterest), 'blogContainer');
 
 
 
 
 let jobInterestNorm = getUserJobInterest(); // Retrieve user tag interest
-console.log('const jobInterestNorm =', jobInterestNorm);
+console.log('let jobInterestNorm =', jobInterestNorm);
 
 let jobInterest = jobInterestNorm && jobInterestNorm.length > 0 ? jobInterestNorm : jobTags;
-console.log('const jobInterest =', jobInterest);
+console.log('jobInterestNorm.length =', jobInterestNorm.length);
+getSimilarJobs(jobInterestNorm, 'similarJobsContainer');
 
-const arrayAsString = jobInterestNorm.join(', '); // Join elements with a comma and a space
 
-console.log('Array as String:', arrayAsString);
 
-   loadRelatedBlogs([JSON.stringify(jobInterestNorm)], 'blogContainer');
-   getSimilarJobs([arrayAsString], 'similarJobsContainer');
   }, 1000);
 });
 
