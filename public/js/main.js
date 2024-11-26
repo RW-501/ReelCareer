@@ -2147,11 +2147,7 @@ window.userLocationService = function() {
     };
 }();
 
-locationData = localStorage.getItem("userLocation");
 
-if(!locationData){
-  locationData = getUserIPAndLocation();
-}
 
 // Function to set the last internal page
 function setInternalPageSource() {
@@ -2180,6 +2176,8 @@ async function attachTrackingListeners() {
         const { ipAddress: ip, locationData: location } = await userLocationService.getUserIPAndLocation(); // Fixed destructuring
         ipAddress = ip;
         locationData = location;
+
+
 
         setTrackingListeners(ipAddress);
     } catch (error) {
