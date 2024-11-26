@@ -2804,7 +2804,8 @@ function checkUserLoginStatus() {
       localStorage.setItem('userLoggedIn', true);
       handleAuthStateChanged(user); // Call your function to handle authenticated user
       checkLogin(); // Ensure login is valid on page load
-      isLoggedIn
+      
+      
   // Event listener for the settings button
   document.getElementById("settingsBtn").addEventListener("click", () => {
     const profileModal = document.getElementById("profileModal");
