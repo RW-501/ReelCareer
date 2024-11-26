@@ -1326,8 +1326,8 @@ const arrayAsString = jobInterestNorm.join(', '); // Join elements with a comma 
 
 console.log('Array as String:', arrayAsString);
 
-   loadRelatedBlogs([JSON.stringify(jobInterestNorm)], 'blogContainer');
-   getSimilarJobs([arrayAsString], 'similarJobsContainer');
+   loadRelatedBlogs(JSON.stringify(arrayAsString), 'blogContainer');
+   getSimilarJobs(arrayAsString, 'similarJobsContainer');
   }, 1000);
 });
 
