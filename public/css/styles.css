@@ -322,7 +322,93 @@ main .btn-info:hover {
     min-width: 30%;
     flex-basis: max-content;
 }
+.JOB_CARD {
 
+    .card-bottom {
+        text-transform: capitalize;
+    background-color: rgba(99, 154, 212, 0.1);
+    padding: 10px 25px;
+    border-radius: 5px;
+    border: solid 1px rgba(132, 173, 234, 0.1);
+    gap: 0.5rem;
+
+    
+        background: linear-gradient(145deg, var(--highlight-bg), #ffffff);
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+        padding: 10px 25px;
+        border-radius: 5px;
+        border-style: solid;
+        border-color: var(--highlight-bg);
+    }
+
+
+    .location-text-area {
+        font-size: 1rem;
+        color: #666;
+        margin-bottom: 5px;
+        text-transform: capitalize;
+        text-decoration: none;
+    }
+    .location-text-area a {
+        font-size: 1rem;
+        color: #4231b0;
+        text-transform: capitalize;
+        text-decoration: none;
+    }
+    .job-type-text-area {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 5px;
+    display: flex;
+    justify-content: space-evenly;
+    text-transform: capitalize;
+    text-decoration: none;
+}
+
+.salary-text-area {
+    font-size: 1rem;
+    color: #666;
+    display: flex;
+    justify-content: space-evenly;
+    text-transform: capitalize;
+    text-decoration: none;
+}
+
+.salary-text {
+    font-style: italic !important;
+    color: #6c757d !important;
+    text-transform: capitalize;
+    text-decoration: none;
+
+}
+
+.card-CTA-Btn {
+    padding: 12px 0;
+    background-color: #007bff;
+    border: none;
+    font-weight: 600;
+    border-radius: 8px;
+    font-size: 16px;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease;
+    color: white;
+    text-align: center;
+    element.style {
+        padding: 12px 0;
+        background-color: #007bff;
+        border: none;
+        font-weight: 600;
+        border-radius: 8px;
+        font-size: 16px;
+        text-transform: uppercase;
+        transition: background-color 0.3s ease;
+        color: white;
+        text-align: center;
+        height: fit-content;
+    }
+}
+
+}
 
 .container > .card > h5 {
     font-size: 1.25rem;

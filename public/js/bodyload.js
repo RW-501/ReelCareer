@@ -710,59 +710,30 @@ function addStyles() {
       }
   
       <!-- Location, Type, and Salary -->
-      <div class="card-bottom" style="
-          background-color: rgba(99, 154, 212, 0.1);
-          padding: 10px 25px;
-          border-radius: 5px;
-          border: solid 1px rgba(132, 173, 234, 0.1);
-          gap: 0.5rem;">
+      <div class="card-bottom" >
         
-        <p class="card-text" style="
-            font-size: 1rem; 
-            color: #666;
-            margin-bottom: 5px;">
+        <p class="location-text-area c-text">
           <i class="fas fa-map-marker-alt" style="color: #007bff;"></i> 
           ${formatLocation(job.location)}
         </p>
         
-        <p class="card-text" style="
-            font-size: 1rem; 
-            color: #666;
-            margin-bottom: 5px;
-            display: flex;
-            justify-content: space-evenly;">
-          <strong>Type:</strong><p> ${formatJobType(job.type)}
-        </p>
+        <p class="job-type-text-area c-text">
+          <strong>Type:</strong>
+           ${formatJobType(job.type)}
         </p>
         
-        <p class="salary-text" style="
-            font-size: 1rem; 
-            color: #666;
-            display: flex;
-            justify-content: space-evenly;">
+        <p class="salary-text-area c-text">
           <strong>Salary:</strong>
-           <p class="card-text">
           ${formatCurrency(job.salary, { decimals: 0 })}
-          <span class="font-italic text-muted">${job.salaryPayTime || ""}</span>
+          <span class="salary-text">${job.salaryPayTime || ""}</span>
         </p>
-        </p>
+
       </div>
   
       <!-- View Details Button -->
       <a href="https://reelcareer.co/views/job-details?id=${job.id}" 
-         class="btn btn-primary w-100 mt-3" 
-         aria-label="View job details for ${job.title}"
-         style="
-           padding: 12px 0;
-           background-color: #007bff;
-           border: none;
-           font-weight: 600;
-           border-radius: 8px;
-           font-size: 16px;
-           text-transform: uppercase;
-           transition: background-color 0.3s ease;
-           color: white;
-           text-align: center;">
+         class="card-CTA-Btn" 
+         aria-label="View job details for ${job.title}">
         View Details
       </a>
     </div>
