@@ -348,9 +348,13 @@
 
       // Generate HTML for the state list
       const stateListHTML = states
-        .map(state => ` <div class="state-city-card">
-    <i class="fas fa-city"></i><h4><a href="https://reelcareer.co/jobs/state#${state}">${state}</a></h4></div>`)
-        .join("");
+  .filter(state => state && state.trim() !== "") // Filter out null, empty, or whitespace-only states
+  .map(state => `
+    <div class="state-city-card">
+      <i class="fas fa-city"></i>
+      <h4><a href="https://reelcareer.co/jobs/state#${state}">${state}</a></h4>
+    </div>`)
+  .join("");
 
 
       
@@ -383,9 +387,14 @@ const city = [...new Set(snapshot.docs.map(doc => doc.data().city.trim()))]
 
       // Generate HTML for the city list
       const cityListHTML = city
-        .map(city => `<div class="state-city-card">
-    <i class="fas fa-city"></i><h4><a href="https://reelcareer.co/jobs/city#${city}">${city}</a></h4></div>`)
-        .join("");
+  .filter(city => city && city.trim() !== "") // Filter out null or empty strings
+  .map(city => `
+    <div class="state-city-card">
+      <i class="fas fa-city"></i>
+      <h4><a href="https://reelcareer.co/jobs/city#${city}">${city}</a></h4>
+    </div>`)
+  .join("");
+
 /*
         city.forEach(city => {
     
