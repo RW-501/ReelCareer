@@ -365,7 +365,7 @@ function filterJobs(searchQuery) {
   const cities = document.getElementsByClassName("cities");
   const stateHeader = document.getElementById("state-header");
 
-stateHeader.innerHTML = stateHeader.innerHTML.replaceAll("[City Name]", cities[0]);
+stateHeader.innerHTML = stateHeader.innerHTML.replaceAll("[City Name]", cities[0].textContent);
 }
 
 // Initialize page

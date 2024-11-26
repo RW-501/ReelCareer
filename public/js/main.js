@@ -2195,6 +2195,12 @@ window.addEventListener('scroll', () => {
 function getViewedByField() {
   const { pathname, search, hash } = window.location;
 
+  // Ensure valid pathname, search, and hash values before proceeding
+  if (!pathname || !search || !hash) {
+    console.error("Missing necessary parts of the URL: pathname, search, or hash.");
+    return null; // Return null or a default value
+  }
+
   // Extract the base path and remove leading/trailing slashes
   const path = pathname.split('/').filter(Boolean).join('-');
 
@@ -2210,9 +2216,11 @@ function getViewedByField() {
   // Append 'ViewedBy' for the field name
   const fieldName = `${page}ViewedBy`;
 
-  console.log(fieldName);
-  return fieldName;
+  console.log(fieldName); // Log for debugging
+
+  return fieldName || 'defaultViewedBy'; // Fallback value if the field name is somehow invalid
 }
+
 
 
 // Function to update view data on unload or visibility change
