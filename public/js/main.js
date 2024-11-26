@@ -527,13 +527,10 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   const currentPage = window.location.pathname; // Get the current path from the URL
-  const isHomePage = 
-        currentPage === "/index.html" || 
-        currentPage === "/index" || 
-        currentPage === "" || 
-        currentPage === "/";
+
 
         let  excludedPages = "/backend";
+console.log("currentPage    ",currentPage);
 
   // Replace the navbar if not on an excluded page
   if (!excludedPages.includes(currentPage)) {
