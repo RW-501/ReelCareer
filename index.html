@@ -350,7 +350,8 @@ let userTagInterest = uTagInterestNorm && uTagInterestNorm.length > 0 ? uTagInte
 
 let uJobInterestNorm = getUserJobInterest();
 let userJobInterest = uJobInterestNorm && uJobInterestNorm.length > 0 ? uJobInterestNorm : jobTags;
-let locationData = (sessionStorage.getItem('userData'));
+//let locationData = (sessionStorage.getItem('userData'));
+let userlocationData = localStorage.getItem("userLocation");
 
 async function fetchJobListings() {
   console.log("fetchJobListings");
@@ -367,7 +368,7 @@ async function fetchJobListings() {
     let tagQuery;
 
     // Validate inputs
-    if (Array.isArray(locationData)){
+    if (Array.isArray(userlocationData)){
     
         // Build query for matching tags
        locationQuery = query(
