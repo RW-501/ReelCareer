@@ -2323,8 +2323,9 @@ function getViewedByField() {
     document.addEventListener('visibilitychange', () => {
         if (document.visibilityState === 'hidden') {
          // console.log("TrackingListeners  last");
+         const pageTitle = document.title;
 
-            updateViewData(ipAddress, "visibilitychange");
+         updateViewData(ipAddress, "visibilitychange", "N/A", pageTitle, "N/A"  );
         }
     });
 

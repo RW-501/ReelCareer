@@ -368,6 +368,7 @@ async function fetchJobListings() {
       console.error("userTagInterest and userJobInterest must be arrays.");
       return;
     }
+    locationData = JSON.parse(sessionStorage.getItem('userLocation'));
 
     // Build query for matching tags
     const tagQuery = query(
