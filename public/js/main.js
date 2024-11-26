@@ -2242,9 +2242,9 @@ function getViewedByField() {
             viewsCount: increment(1),
             viewSource: getViewSource(),
             actionTrack: actionTrack,
-            actionName: actionName,
+            actionName: actionName || "Click",
             pageTitle: pageTitle,
-            jobTitleName: jobTitleName,
+            jobTitleName: jobTitleName || "N/A",
             referrer: document.referrer || 'Direct',
             lastViewDate: new Date().toISOString()
 
