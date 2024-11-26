@@ -2270,7 +2270,7 @@ function getViewedByField() {
         language: navigator.language || 'N/A',
         lastUpdate: new Date().toISOString(),
         userActivitiesCount: increment(1),
-        totalDuration: increment(durationOfView),
+        totalDuration: increment(durationOfTheView),
         userBlocked: false
     };
 
