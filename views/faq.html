@@ -271,7 +271,7 @@
 
         document.addEventListener('DOMContentLoaded', async () => {
             const faqList = document.getElementById('faqList');
-            const isLoggedIn = false;  // Replace with actual auth check logic
+            const isLoggedIn = localStorage.getItem('userLoggedIn') === 'true';
 
             faqList.innerHTML = ''; // Clear any existing content
 

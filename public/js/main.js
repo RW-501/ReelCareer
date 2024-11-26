@@ -2719,7 +2719,7 @@ window.getUserTagInterest = getUserTagInterest;
 
 // Check if user is logged in and handle admin area access
 function checkLogin() {
-  const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+  const isLoggedIn = localStorage.getItem('userLoggedIn') === 'true';
 
   // Redirect to home if user is not logged in and is in the admin area
   if (window.location.pathname.includes('/backend')) {
@@ -2804,7 +2804,7 @@ function checkUserLoginStatus() {
       localStorage.setItem('userLoggedIn', true);
       handleAuthStateChanged(user); // Call your function to handle authenticated user
       checkLogin(); // Ensure login is valid on page load
-
+      isLoggedIn
   // Event listener for the settings button
   document.getElementById("settingsBtn").addEventListener("click", () => {
     const profileModal = document.getElementById("profileModal");
