@@ -781,6 +781,8 @@ text-align: left;
         console.log('Job ID:', jobData.id);
 jobID = jobData.id;
 
+ document.getElementById("breadcrumb-active-title").innerText =  jobData.title;
+
       const createdAt = jobData.createdAt?.toDate ? jobData.createdAt.toDate() : "N/A"; // Fallback to "N/A" if not available
       document.getElementById('jobTitle').textContent = jobData.title;
       document.getElementById('jobID').textContent = jobData.id;

@@ -437,8 +437,8 @@ document.addEventListener("DOMContentLoaded", function () {
           currentPage === "/";
     
     const navbarClass = isHomePage
-          ? "navbar-dark bg-primary"
-          : "navbar-light bg-light";
+          ? "navbar-light bg-light "
+          : "navbar-dark bg-primary";
     
     return `
             <nav class="navbar navbar-expand-lg ${navbarClass} shadow-sm sticky-top" role="navigation">
@@ -525,7 +525,14 @@ document.addEventListener("DOMContentLoaded", function () {
       recruiterNavItem.style.display = "none";
     }
   }
-/*
+
+  const currentPage = window.location.pathname; // Get the current path from the URL
+  const isHomePage = 
+        currentPage === "/index.html" || 
+        currentPage === "/index" || 
+        currentPage === "" || 
+        currentPage === "/";
+
   // Replace the navbar if not on an excluded page
   if (!excludedPages.includes(currentPage)) {
     let existingNavbar = document.querySelector(".navbar");
@@ -534,13 +541,13 @@ document.addEventListener("DOMContentLoaded", function () {
     if (existingNavbar) {
       existingNavbar.outerHTML = createNavbar();
     } else {
+  // If no existing navbar, append it to the body
+  document.body.insertAdjacentHTML("afterbegin", createNavbar());
 
     }
 }
-    */
-      // If no existing navbar, append it to the body
-      document.body.insertAdjacentHTML("afterbegin", createNavbar());
-
+    window.updateNavVisibility = updateNavVisibility;
+    
 
     setupEventListeners(); // Initialize event listeners
     highlightActiveLink(); // Highlight the active link
@@ -2076,7 +2083,6 @@ function setBreadcrumb(){
   // Select the last breadcrumb anchor
   const lastBreadcrumb = document.getElementById("lastBreadcrumb_a");
   const breadcrumbjobTitleActive = document.getElementById("breadcrumb-active-title");
-  const jobTitle = document.getElementById("jobTitle");
   const appyJobTitle = document.getElementById("appyJobTitle");
   
   if (id && lastBreadcrumb){
@@ -2085,9 +2091,7 @@ function setBreadcrumb(){
   if (jobId && lastBreadcrumb){
     lastBreadcrumb.href = `https://reelcareer.com/views/job-details?id=${jobId}`;
 } 
-  if (breadcrumbjobTitleActive && jobTitle){
-    breadcrumbjobTitleActive.innerText = jobTitle.innerText;
-  }
+
   if (breadcrumbjobTitleActive && appyJobTitle){
     breadcrumbjobTitleActive.innerText = appyJobTitle.innerText;
   }
@@ -2490,7 +2494,7 @@ handleJobInput(jobTitleName, "apply");
               // Log the form's name or id
               const formName = form.getAttribute('name') || '(no name)';
               const formId = form.id || '(no id)';
-              console.log(`Associated form: Name = ${formName}, ID = ${formId}`);
+             // console.log(`Associated form: Name = ${formName}, ID = ${formId}`);
 
               const formNameId = formName || formId;
 
@@ -2798,11 +2802,11 @@ window.initializeAutoLogout = initializeAutoLogout;
 // Initialization
 document.addEventListener('DOMContentLoaded', () => {
   checkLogin(); // Ensure login is valid on page load
-
+let user =   checkUserLoginStatus();
+updateNavVisibility(user);
     
 if (window.checkUrl("/backend/") || window.checkUrl("/backend")) {
   console.log("Admin View");
-  checkUserLoginStatus();
   initializeAutoLogout();
 } else {
   console.log("User View");
