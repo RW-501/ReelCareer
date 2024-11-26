@@ -159,7 +159,7 @@ onAuthStateChanged(auth, async (user) => {
     UserID = user.uid;
 
     // Redirect to the user profile if on the login page
-    if (window.location.pathname === "/views/auth.html") {
+    if (window.location.pathname === "/views/auth") {
       window.location.href = "/views/user"; // Redirect to profile
     }
   } else {
@@ -484,14 +484,7 @@ document.addEventListener("DOMContentLoaded", function () {
       document.body.classList.add("dark-mode");
     }
 
-    // Firebase Authentication listener
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        handleAuthStateChanged(user); // Call your function to handle authenticated user
-      } else {
-        handleAuthStateChanged(null); // Call your function to handle no user signed in
-      }
-    });
+
   }
 
   // Function to highlight active links in the navbar
@@ -2726,7 +2719,7 @@ window.getUserTagInterest = getUserTagInterest;
 
 
 
-
+localStorage.getItem('userTagInterest')
 
 // Function to check if the user is logged in
 function checkUserLoginStatus() {
@@ -2734,8 +2727,14 @@ function checkUserLoginStatus() {
     if (user) {
       // User is signed in
       console.log('User is logged in:', user);
+      localStorage.setItem('userLoggedIn', true);
+      handleAuthStateChanged(user); // Call your function to handle authenticated user
+
       return user;
     } else {
+      localStorage.setItem('userLoggedIn', false);
+      handleAuthStateChanged(null); // Call your function to handle no user signed in
+
       // No user is signed in
       console.log('No user is logged in.');
       return false;
@@ -2745,7 +2744,6 @@ function checkUserLoginStatus() {
 }
 
 window.checkUserLoginStatus = checkUserLoginStatus;
-
 
 
 
