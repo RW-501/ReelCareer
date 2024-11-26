@@ -83,8 +83,8 @@ h1, h2, h3, h4 {
 }
 .JOB_CARD{
 
-    
-min-width: 300px;
+    flex: 0 0 30%;
+    max-width: 30%;
 margin: 0;
 padding: 0;
 }
@@ -397,10 +397,11 @@ main{
 
 
 /* Ensure the row uses Flexbox */
-main .row {
-    display: flex;
-    flex-wrap: wrap;
-}
+    main .row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
 
 /* Ensure the card takes up full height */
 main .card .h-100 {
