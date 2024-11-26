@@ -908,6 +908,7 @@ function handleAuthStateChanged(user) {
   const authSection = document.getElementById("authSection");
   const jobSeekerNavItem = document.getElementById("jobSeekerNavItem");
   const recruiterNavItem = document.getElementById("recruiterNavItem");
+console.log("user >>>>>>>>>>>>>.    ",user );
 
   if (user) {
     // If the user is logged in, show profile info and logout button
@@ -2815,6 +2816,8 @@ if (window.checkUrl("/backend/") || window.checkUrl("/backend")) {
   console.log("User View");
   attachTrackingListeners();
 }
+
+checkUserLoginStatus();
 
 });
 
