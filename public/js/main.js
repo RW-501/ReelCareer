@@ -2120,7 +2120,7 @@ window.userLocationService = function() {
             locationData = JSON.parse(sessionStorage.getItem('userLocation'));
 
             // If IP or location are not cached, fetch them
-            if (!ipAddress || !locationData) { // Fixed condition here
+            if (!ipAddress && !locationData) { // Fixed condition here
                 ipAddress = await getUserIP();
                 locationData = await getUserLocationByIP(ipAddress);
 
