@@ -452,15 +452,15 @@ document.addEventListener('DOMContentLoaded', () => {
     let tagInterestNorm = getUserTagInterest();
     let tagInterest = JSON.stringify(tagInterestNorm);
     console.log('const tagInterestNorm =', tagInterestNorm);
-    console.log('const tagInterest =', JSON.stringify(tagInterest));
+    console.log('const tagInterest =', tagInterest);
 
 if(!tagInterest){
   tagInterest = jobTags;
 }
-    let jobInterest = getUserJobInterest();
-    let jobInterestNorm = JSON.stringify(jobInterestNorm);
+    let jobInterestNorm = getUserJobInterest();
+    let jobInterest = JSON.stringify(jobInterestNorm);
     console.log('const jobInterestNorm =', jobInterestNorm);
-    console.log('const jobInterest =', JSON.stringify(jobInterest));
+    console.log('const jobInterest =', jobInterest);
 
 if(!jobInterest){
   jobInterest = jobTags;

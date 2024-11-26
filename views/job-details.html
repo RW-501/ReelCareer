@@ -1290,7 +1290,6 @@ const similarJobsContainer = document.getElementById('similarJobsContainer');
 // Function to fetch similar jobs based on tags
 
 
-
 document.addEventListener('DOMContentLoaded', () => {
   setTimeout(() => {
     const jobTags = ['job', 'jobs', 'new jobs']; 
@@ -1300,15 +1299,15 @@ document.addEventListener('DOMContentLoaded', () => {
     let tagInterestNorm = getUserTagInterest();
     let tagInterest = JSON.stringify(tagInterestNorm);
     console.log('const tagInterestNorm =', tagInterestNorm);
-    console.log('const tagInterest =', JSON.stringify(tagInterest));
+    console.log('const tagInterest =', tagInterest);
 
 if(!tagInterest){
   tagInterest = jobTags;
 }
-    let jobInterest = getUserJobInterest();
-    let jobInterestNorm = JSON.stringify(jobInterestNorm);
+    let jobInterestNorm = getUserJobInterest();
+    let jobInterest = JSON.stringify(jobInterestNorm);
     console.log('const jobInterestNorm =', jobInterestNorm);
-    console.log('const jobInterest =', JSON.stringify(jobInterest));
+    console.log('const jobInterest =', jobInterest);
 
 if(!jobInterest){
   jobInterest = jobTags;
@@ -1318,8 +1317,6 @@ if(!jobInterest){
   }, 1000);
 });
 
-
- 
   </script>
 
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

@@ -1,38 +1,9 @@
-<script>
-
-    /*
-    
-    <button id="applyNowButton" class="btn btn-primary">Apply Now</button>
-    
-        document.getElementById('applyNowButton').addEventListener('click', function() {
-            firebase.analytics().logEvent('button_click', { button_name: 'Apply Now' });
-        });
-    
-    firebase.analytics().logEvent('form_submission', { form_name: 'Job Application' });
-    
-    firebase.analytics().logEvent('page_view', { page_name: 'Job Listings' });
-    firebase.analytics().logEvent('page_view', { page_name: 'Job Listings' });
-    
-    firebase.analytics().logEvent('content_view', { content_type: 'FAQ', content_title: 'How to Apply' });
-    firebase.analytics().logEvent('job_post_action', { action: 'view', job_id: '1234' });
-    firebase.analytics().logEvent('application_start', { job_id: '1234' });
-    firebase.analytics().logEvent('session_duration', { duration: 300 }); // duration in seconds
-    firebase.analytics().logEvent('user_retention', { user_id: 'user123' });
-    firebase.analytics().logEvent('feedback_submission', { feedback_type: 'Job Quality', user_id: 'user123' });
-    firebase.analytics().logEvent('referral_participation', { referrer_id: 'user456' });
-    
-    
-    
-    
-    */
-    </script>
-    
     <!DOCTYPE html>
     <html lang="en">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Analytics - Admin</title>
+        <title>Admin Notes and To-Do</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://reelcareer.co/backend/css/styles.css">
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
@@ -111,34 +82,95 @@
             <h1>Analytics & Reporting</h1>
     <style>
     
-        #analytics-cards {
-           gap: 1.5rem;
-        width: 100%;
-        display: flex;
-        flex-wrap: wrap;
-        flex-direction: row;
+    .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #ffffff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+    
+        textarea, input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 15px;
+            color: #fff;
+            background: #007bff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            margin-right: 5px;
         }
     
     
-        .analytics-card {
-        gap: .5rem;
-        display: flex;
-        overflow: hidden;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        width: 100%;
-        flex-direction: row;
-    }
+        .btn:hover {
+            background: #0056b3;
+        }
+
+        .note-list, .todo-list {
+            margin-top: 20px;
+        }
+
+        .item {
+            padding: 10px;
+            background: #f1f1f1;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
     
     
     
-    
-    
-    
-    
-    
-    
-    
+        .item p {
+            margin: 0;
+        }
+
+        .edit-btn, .delete-btn {
+            margin-left: 10px;
+        }
+
+        .edit-btn {
+            background: #ffc107;
+        }
+
+        .edit-btn:hover {
+            background: #e0a800;
+        }
+
+        .delete-btn {
+            background: #dc3545;
+        }
+
+        .delete-btn:hover {
+            background: #c82333;
+        }
     
     
     
@@ -146,59 +178,26 @@
     
     
     </style>
-    <section id="analytics-cards">
-            <div class="col-md-3 card analytics-card shadow-sm">
-                    <div class="card-body">
-                        <h5 class="section-title">Total Messages</h5>
-                        <p id="msgCountDisplay" class="display-4">Loading...</p>
-                        <div class="loading-spinner loading" id="loadingUserEngagement"></div>
-                    </div>
-                </div>
-    
-                <div class="col-md-3 card analytics-card shadow-sm">
-                    <div class="card-body">
-                        <h5 class="section-title">Total Users:</h5>
-                        <p id="usersDisplay" class="display-4">Loading...</p>
-                        <div class="loading-spinner loading" id="loadingEventPurchases"></div>
-                    </div>
-                </div>
-    
-                
-            <!-- User Engagement Section -->
-            <div class="col-md-3 card analytics-card shadow-sm">
-                <div class="card-body">
-                    <h4>User Engagement</h4>
-                    <canvas id="userEngagementChart"></canvas>
-                    <p id="engagementMetrics">Loading...</p>
-                </div>
-            </div>
-    
-            <!-- Job Posting Performance Section -->
-            <div class="col-md-3 card analytics-card shadow-sm">
-                <div class="card-body">
-                    <h4>Job Posting Performance</h4>
-                    <canvas id="jobPerformanceChart"></canvas>
-                    <p id="jobPerformanceMetrics">Loading...</p>
-                </div>
-            </div>
-    
-            <!-- Job Activity Insights Section -->
-            <div class="col-md-3 card analytics-card shadow-sm">
-                <div class="card-body">
-                    <h4>Job Activity Insights</h4>
-                    <canvas id="jobActivityChart"></canvas>
-                    <p id="jobActivityMetrics">Loading...</p>
-                </div>
-            </div>
-    
-            <!-- User Demographics Section -->
-            <div class="col-md-3 card analytics-card shadow-sm">            <div class="card-body">
-                    <h4>User Demographics</h4>
-                    <canvas id="userDemographicsChart"></canvas>
-                    <p id="userDemographicsMetrics">Loading...</p>
-                </div>
-            </div>
-        </section>
+   <div class="container">
+    <h1>Admin Notes and To-Do</h1>
+
+    <div class="form-group">
+        <label for="note">Add a Note</label>
+        <textarea id="note" placeholder="Type your note here..."></textarea>
+        <button class="btn" id="saveNote">Save Note</button>
+    </div>
+
+    <div class="form-group">
+        <label for="todo">Add a To-Do</label>
+        <input type="text" id="todo" placeholder="Type your to-do here...">
+        <button class="btn" id="saveTodo">Add To-Do</button>
+    </div>
+
+    <h2>Notes</h2>
+    <div class="note-list" id="noteList">
+        <!-- Notes will be displayed here -->
+    </div>
+
     
     
     
@@ -207,105 +206,12 @@
     
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-            <section>
-                <title>User Analytics</title>
-                <style>
-                  main {
-                    font-family: Arial, sans-serif;
-                    margin: 20px;
-                    background-color: #f4f4f9;
-                  }
-                  table {
-                    width: 100%;
-                    border-collapse: collapse;
-                    margin-top: 20px;
-                  }
-                  th, td {
-                    padding: 12px;
-                    text-align: left;
-                    border: 1px solid #ddd;
-                  }
-                  th {
-                    background-color: #4CAF50;
-                    color: white;
-                  }
-                  tr:nth-child(even) {
-                    background-color: #f2f2f2;
-                  }
-    
-                  section {
-                    margin: 3rem;
-                  }
-                </style>
-           
-           
-                <h1>User Analytics</h1>
-                <div id="userAnalyticsTableContainer">
-                  <!-- The table will be injected here -->
-                </div>
-            </section>
-    
-    
-    
-    
-            <section>
-    
-               
-              
-            
-            </section>
-            
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-            <!-- Custom Report Generation Section -->
-            <div class="card mb-4">
-                <div class="card-body">
-                    <h4>Generate Custom Reports</h4>
-                    <form id="reportForm">
-                        <div class="form-group">
-                            <label for="reportType">Select Report Type</label>
-                            <select class="form-control" id="reportType">
-                                <option value="userEngagement">User Engagement</option>
-                                <option value="jobPerformance">Job Posting Performance</option>
-                                <option value="jobActivity">Job Activity Insights</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="startDate">Start Date</label>
-                            <input type="date" class="form-control" id="startDate" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="endDate">End Date</label>
-                            <input type="date" class="form-control" id="endDate" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Generate Report</button>
-                    </form>
-                    <div id="reportOutput" class="mt-3"></div>
-                </div>
-            </div>
-        </div>
-    
+    <h2>To-Do List</h2>
+    <div class="todo-list" id="todoList">
+        <!-- To-Do items will be displayed here -->
+    </div>
+</div>
+
         <!-- Footer -->
         <footer id="dynamic-footer"></footer>
         
@@ -363,216 +269,114 @@
       return date.toLocaleString("en-US", finalOptions);
     }
     
-    // Function to format the "viewedBy" data into an HTML structure
-    function formatViewedBy(viewedByData = {}) {
-      return `
-        <ul>
-          <li><strong>Duration of View:</strong> ${viewedByData.durationOfView || 'N/A'} seconds</li>
-          <li><strong>Contact Views:</strong> ${viewedByData.viewsCount || 'N/A'}</li>
-          <li><strong>View Method:</strong> ${viewedByData.viewMethod || 'N/A'}</li>
-          <li><strong>View Source:</strong> ${viewedByData.viewSource || 'N/A'}</li>
-          <li><strong>View Date:</strong> ${viewedByData.viewDate ? formatDate(viewedByData.viewDate) : 'N/A'}</li>
-        </ul>
-      `;
-    }
-    
-    // Function to toggle visibility of detail rows
-    function toggleDetailSection(rowId) {
-      const detailRow = document.getElementById(`details-${rowId}`);
-      if (detailRow) {
-        detailRow.style.display = detailRow.style.display === 'none' ? 'table-row' : 'none';
-      }
-    }
-    
-    // Main function to display user analytics
-    async function displayUserAnalytics() {
-      const analyticsData = await fetchUserAnalyticsData();
-      const totalUsers = analyticsData.length;
-    
-      document.getElementById('usersDisplay').innerHTML = `<h3>${totalUsers}</h3>`;
-    
-      let tableHTML = `
-        <table>
-          <thead>
-            <tr>
-              <th>IP Address</th>
-              <th>City</th>
-              <th>Country</th>
-              <th>State</th>
-              <th>Last View Date</th>
-              <th>Total Duration (Seconds)</th>
-              <th>Activities Count</th>
-              <th>User Blocked</th>
-            </tr>
-          </thead>
-          <tbody>
-      `;
-    
-      analyticsData.forEach(user => {
-        tableHTML += `
-          <tr>
-            <td><button class="collapsible" onclick="toggleDetailSection('${user.ipAddress}')">${user.ipAddress}</button></td>
-            <td>${user.city || 'N/A'}</td>
-            <td>${user.country || 'N/A'}</td>
-            <td>${user.state || 'N/A'}</td>
-            <td>${user.lastViewDate ? formatDate(user.lastViewDate) : 'N/A'}</td>
-            <td>${user.totalDuration || 0}</td>
-            <td>${user.userActivitiesCount || 0}</td>
-            <td>${user.userBlocked ? 'Yes' : 'No'}</td>
-          </tr>
-        `;
-    
-        const viewedByDetails = [
-          user.contactViewedBy,
-          user.eventDetailsViewedBy,
-          user.homeViewedBy,
-          user.aboutViewedBy,
-          user.confirmationViewedBy,
-          user.eventsViewedBy,
-          user.galleryViewedBy,
-        ]
-          .filter(detail => detail)
-          .map(detail => formatViewedBy(detail))
-          .join("");
-    
-        if (viewedByDetails) {
-          tableHTML += `
-            <tr id="details-${user.ipAddress}" class="details-row" style="display: none;">
-              <td colspan="8">
-                <div class="user-details">
-                  <h4>Details for ${user.ipAddress}</h4>
-                  ${viewedByDetails}
-                </div>
-              </td>
-            </tr>
-          `;
+     async function fetchAndRender(collectionRef, renderFn) {
+            try {
+                const snapshot = await getDocs(collectionRef);
+                const items = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                renderFn(items);
+            } catch (error) {
+                console.error("Error fetching items:", error);
+            }
         }
-      });
+
+        async function saveItem(collectionRef, data, fetchFn) {
+            try {
+                await addDoc(collectionRef, data);
+                fetchFn();
+            } catch (error) {
+                console.error("Error saving item:", error);
+            }
+        }
+        async function updateItem(docId, collectionRef, data, fetchFn) {
+            try {
+                const itemRef = doc(collectionRef, docId);
+                await updateDoc(itemRef, data);
+                fetchFn();
+            } catch (error) {
+                console.error("Error updating item:", error);
+            }
+        }
+
+        async function deleteItem(docId, collectionRef, fetchFn) {
+            try {
+                const itemRef = doc(collectionRef, docId);
+                await deleteDoc(itemRef);
+                fetchFn();
+            } catch (error) {
+                console.error("Error deleting item:", error);
+            }
+        }
     
-      tableHTML += '</tbody></table>';
-      document.getElementById('userAnalyticsTableContainer').innerHTML = tableHTML;
-    }
-    
-    // Fetch user analytics data from Firestore
-    async function fetchUserAnalyticsData() {
-      const analyticsCollection = collection(db, "Analytics");
-      const analyticsSnapshot = await getDocs(analyticsCollection);
-      return analyticsSnapshot.docs.map(doc => ({
-        ipAddress: doc.id,
-        city: doc.data().city,
-        country: doc.data().country,
-        state: doc.data().state,
-        totalDuration: doc.data().totalDuration,
-        userActivitiesCount: doc.data().userActivitiesCount,
-        userBlocked: doc.data().userBlocked || false,
-        contactViewedBy: doc.data().contactViewedBy || {},
-        eventDetailsViewedBy: doc.data().eventDetailsViewedBy || {},
-        homeViewedBy: doc.data().homeViewedBy || {},
-        aboutViewedBy: doc.data().aboutViewedBy || {},
-        confirmationViewedBy: doc.data().confirmationViewedBy || {},
-        eventsViewedBy: doc.data().eventsViewedBy || {},
-        galleryViewedBy: doc.data().galleryViewedBy || {},
-        lastViewDate: doc.data().lastViewDate,
-      }));
-    }
-    
-    /*
-    // Example view data collection object
-    const viewData = {
-      viewedByField: {
-        viewDate: new Date().toISOString(),
-        viewMethod: navigator.userAgentData?.mobile ? "mobile" : "desktop",
-        durationOfView: durationOfView,
-        maxScrollDepth: maxScrollDepth,
-        viewsCount: increment(1),
-        viewSource: getViewSource(),
-        actionTrack: actionTrack,
-        actionName: actionName,
-        pageTitle: pageTitle,
-        jobTitleName: jobTitleName,
-        lastViewDate: new Date().toISOString(),
-      },
-      ipAddress: ipAddress || userData.ipAddress,
-      name: userData.name || 'N/A',
-      displayName: userData.displayName || 'N/A',
-      userID: userData.userID || 'N/A',
-      lastLogin: userData.lastLogin || 'N/A',
-      city: locationData.city || 'N/A',
-      state: locationData.region || 'N/A',
-      zip: locationData.postal || 'N/A',
-      country: locationData.country_name || 'N/A',
-      browser: navigator.userAgentData?.brands?.[0]?.brand || navigator.userAgent,
-      os: navigator.platform || 'N/A',
-      screenResolution: `${screen.width}x${screen.height}`,
-      viewportSize: `${window.innerWidth}x${window.innerHeight}`,
-      devicePixelRatio: window.devicePixelRatio,
-      referrer: document.referrer || 'Direct',
-      entryURL: window.location.href,
-      networkType: navigator.connection?.effectiveType || 'N/A',
-      connectionSpeed: navigator.connection?.downlink || 'N/A',
-      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || 'N/A',
-      language: navigator.language || 'N/A',
-      lastUpdate: new Date().toISOString(),
-      userActivitiesCount: increment(1),
-      totalDuration: increment(durationOfView),
-      userBlocked: false,
-    };
-    */
-    
-    
-    
-    
-    
-    
-    window.toggleDetailSection  = toggleDetailSection ;
-    
-    
-    window.onload = function () {
-               
-        
-                // my Analyics
-         
-                fetchUserAnalyticsData();
-       // Display user analytics when the page loads
-       displayUserAnalytics();
-      
-    
-    
-            };
-        
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+        function renderNotes(notes) {
+            const noteList = document.getElementById("noteList");
+            noteList.innerHTML = "";
+            notes.forEach(note => {
+                const div = document.createElement("div");
+                div.className = "item";
+                div.innerHTML = `
+                    <p>${note.content}</p>
+                    <div>
+                        <button class="btn edit-btn" onclick="editNote('${note.id}', '${note.content}')">Edit</button>
+                        <button class="btn delete-btn" onclick="deleteItem('${note.id}', notesCollection, fetchNotes)">Delete</button>
+                    </div>
+                `;
+                noteList.appendChild(div);
+            });
+        }
+        function renderTodos(todos) {
+            const todoList = document.getElementById("todoList");
+            todoList.innerHTML = "";
+            todos.forEach(todo => {
+                const div = document.createElement("div");
+                div.className = "item";
+                div.innerHTML = `
+                    <p>${todo.content}</p>
+                    <div>
+                        <button class="btn edit-btn" onclick="editTodo('${todo.id}', '${todo.content}')">Edit</button>
+                        <button class="btn delete-btn" onclick="deleteItem('${todo.id}', todosCollection, fetchTodos)">Delete</button>
+                    </div>
+                `;
+                todoList.appendChild(div);
+            });
+        }
+
+        async function fetchNotes() {
+            await fetchAndRender(notesCollection, renderNotes);
+        }
+
+        async function fetchTodos() {
+            await fetchAndRender(todosCollection, renderTodos);
+        }
+
+
+        document.getElementById("saveNote").addEventListener("click", () => {
+            const noteInput = document.getElementById("note");
+            if (noteInput.value.trim()) {
+                saveItem(notesCollection, { content: noteInput.value.trim() }, fetchNotes);
+                noteInput.value = "";
+            }
+        });
+
+        document.getElementById("saveTodo").addEventListener("click", () => {
+            const todoInput = document.getElementById("todo");
+            if (todoInput.value.trim()) {
+                saveItem(todosCollection, { content: todoInput.value.trim() }, fetchTodos);
+                todoInput.value = "";
+            }
+        });
+
+        // Initialize
+        fetchNotes();
+        fetchTodos();
+
+
+
+
+
+
+
+
+
             
         </script>
     </body>
