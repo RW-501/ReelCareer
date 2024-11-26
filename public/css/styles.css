@@ -405,7 +405,7 @@ main .btn-info:hover {
     .card-top {
 
         display: grid !important;
-        width: 100%;
+        width: 260px;
         column-gap: .5rem !important;
         -webkit-text-stroke: thin;
         grid-row: auto;
