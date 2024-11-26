@@ -374,10 +374,19 @@ main .btn-info:hover {
     flex-basis: max-content;
 }
 .JOB_CARD {
-
+    opacity: 1;
+    width: 100%;
+    display: grid;
+    align-content: stretch;
+    justify-content: space-evenly;
+    align-items: stretch;
+    justify-items: stretch;
+    
     .card-top {
+        font-size: xx-large;
+
         display: grid !important;
-        width: auto;
+        width: 100%;
         column-gap: .5rem !important;
         -webkit-text-stroke: thin;
         grid-row: auto;

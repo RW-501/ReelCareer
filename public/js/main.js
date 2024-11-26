@@ -2207,12 +2207,25 @@ window.addEventListener('scroll', () => {
 
 // Function to determine the correct `ViewedBy` field based on the URL
 function getViewedByField() {
-    const path = window.location.pathname;
-    const page = path === '/' || path === '/index.html' ? 'home' : path.split('/').filter(Boolean).pop();
-   
-   
-    console.log(`${page}ViewedBy`);
-    return `${page}ViewedBy`;
+  const { pathname, search, hash } = window.location;
+
+  // Extract the base path and remove leading/trailing slashes
+  const path = pathname.split('/').filter(Boolean).join('-');
+
+  // Normalize query parameters and hash fragments
+  const query = new URLSearchParams(search).toString(); // e.g., "id=ybczQ0a4ohnpkk8EOnHi"
+  const hashFragment = hash.replace('#', ''); // Remove '#' from hash
+
+  // Construct a uniform field name
+  let page = path || 'home'; // Default to 'home' for empty paths
+  if (query) page += `-${query}`;
+  if (hashFragment) page += `-${hashFragment}`;
+
+  // Append 'ViewedBy' for the field name
+  const fieldName = `${page}ViewedBy`;
+
+  console.log(fieldName);
+  return fieldName;
 }
 
 
