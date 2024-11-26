@@ -2503,6 +2503,7 @@ handleJobInput(jobTitleName, "apply");
 
 
 */
+
 function handleJobInput(jobInput, action = "visit") { 
   // Helper function to compare jobs for similarity
   function isSimilarJob(job1, job2) {
@@ -2522,6 +2523,14 @@ function handleJobInput(jobInput, action = "visit") {
     return userJobInterest.sort((a, b) => b.rank - a.rank);
   }
 
+  // Helper function to clean and split input
+  function splitAndCleanInput(input) {
+    return input
+      .split(/\s+/) // Split by whitespace
+      .map(word => word.trim()) // Trim extra spaces
+      .filter(word => word.length > 0); // Filter out empty strings
+  }
+
   // Main logic
   let userJobInterest = JSON.parse(localStorage.getItem('userJobInterest')) || [];
 
@@ -2531,40 +2540,39 @@ function handleJobInput(jobInput, action = "visit") {
   // Rank increment values
   const rankIncrement = action === "apply" ? 5 : 2;
 
-  // Check if a similar job already exists
-  const existingJobIndex = userJobInterest.findIndex(item => 
-    isSimilarJob(item.job, jobInput)
-  );
+  // Process each job from the input
+  const jobInputs = splitAndCleanInput(jobInput);
+  jobInputs.forEach(job => {
+    // Check if a similar job already exists
+    const existingJobIndex = userJobInterest.findIndex(item => 
+      isSimilarJob(item.job, job)
+    );
 
-  if (existingJobIndex !== -1) {
-    // Increment rank if a similar job exists
-    userJobInterest[existingJobIndex].rank += rankIncrement;
-  } else {
-    // Add a new job if it doesn't already exist
-    const newJob = { job: jobInput.trim(), rank: rankIncrement };
-    if (userJobInterest.length === 6) {
-      // If at capacity, replace the "last" job or least popular job
-      const lastJobIndex = userJobInterest.findIndex(item => item.isLast);
-      if (lastJobIndex !== -1) {
-        userJobInterest.splice(lastJobIndex, 1, newJob);
-      } else {
+    if (existingJobIndex !== -1) {
+      // Increment rank if a similar job exists
+      userJobInterest[existingJobIndex].rank += rankIncrement;
+    } else {
+      // Add a new job if it doesn't already exist
+      const newJob = { job: job.trim(), rank: rankIncrement };
+      if (userJobInterest.length === 15) { // Updated capacity from 6 to 15
+        // If at capacity, replace the least popular job
         userJobInterest = prioritizeJobs(userJobInterest);
         userJobInterest.pop();
         userJobInterest.push(newJob);
+      } else {
+        // Add the new job directly if space is available
+        userJobInterest.push(newJob);
       }
-    } else {
-      // Add the new job directly if space is available
-      userJobInterest.push(newJob);
     }
-  }
+  });
 
   // Mark the most recently clicked job as "last"
   userJobInterest.forEach(item => (item.isLast = false));
-  const currentJobIndex = userJobInterest.findIndex(item => 
-    isSimilarJob(item.job, jobInput)
+  const lastJobIndex = userJobInterest.findIndex(item => 
+    jobInputs.some(job => isSimilarJob(item.job, job))
   );
-  if (currentJobIndex !== -1) {
-    userJobInterest[currentJobIndex].isLast = true;
+  if (lastJobIndex !== -1) {
+    userJobInterest[lastJobIndex].isLast = true;
   }
 
   // Prioritize popular jobs and save
@@ -2583,7 +2591,6 @@ function getUserJobInterest() {
   console.log('User Job Interests:', jobArray);
   return jobArray;
 }
-
 
 /*
 const jobInterest = getUserJobInterest();

@@ -365,40 +365,71 @@ async function fetchJobListings() {
   loadingIndicator.style.display = 'block';
   errorIndicator.style.display = 'none';
 
-  if (jobListingsCache.length === 0 || (lastVisible && jobListingsCache.length < 50)) {
-    try {
-      let jobsQuery = collection(db, 'Jobs');
-      jobsQuery = query(jobsQuery, where('status', '==', 'active'), where('title', 'conatin any', userJobInterest), || where('tags', 'contains any', userTagInterest),orderBy('createdAt', 'desc'), limit(50));
+  try {
+    let jobsQuery = collection(db, 'Jobs');
 
-      const jobListingsSnapshot = await getDocs(jobsQuery);
-      lastVisible = jobListingsSnapshot.docs[jobListingsSnapshot.docs.length - 1];
-
-      jobListingsSnapshot.docs.forEach(doc => {
-        if (!seenIDs.has(doc.id)) {
-          const job = {
-            id: doc.id,
-            ...doc.data()
-          };
-          if (!seenTitles.has(job.title) && isValidValue(job.title) && isValidValue(job.type) &&
-              isValidValue(job.description) && isValidValue(job.company) &&
-              isValidValue(job.location) && isValidValue(job.salary)) {
-            
-            jobListingsCache.push(job);
-            seenTitles.add(job.title);
-            seenIDs.add(job.id);
-          }
-        }
-      });
-    } catch (error) {
-      console.error("Error fetching job listings: ", error);
-      errorIndicator.style.display = 'block';
-    } finally {
-      loadingIndicator.style.display = 'none';
+    // Validate inputs
+    if (!Array.isArray(userTagInterest) || !Array.isArray(userJobInterest)) {
+      console.error("userTagInterest and userJobInterest must be arrays.");
+      return;
     }
+
+    // Build queries for matching tags and titles separately
+    const tagQuery = query(
+      jobsQuery,
+      where('status', '==', 'active'),
+      where('tags', 'array-contains-any', userTagInterest),
+      orderBy('createdAt', 'desc'),
+      limit(50)
+    );
+
+    const titleQuery = query(
+      jobsQuery,
+      where('status', '==', 'active'),
+      where('title', 'array-contains-any', userJobInterest),
+      orderBy('createdAt', 'desc'),
+      limit(50)
+    );
+
+    // Execute both queries
+    const [tagSnapshot, titleSnapshot] = await Promise.all([
+      getDocs(tagQuery),
+      getDocs(titleQuery)
+    ]);
+
+    // Process results
+    const jobDocs = [...tagSnapshot.docs, ...titleSnapshot.docs];
+    jobDocs.forEach(doc => {
+      if (!seenIDs.has(doc.id)) {
+        const job = {
+          id: doc.id,
+          ...doc.data()
+        };
+        if (
+          !seenTitles.has(job.title) &&
+          isValidValue(job.title) &&
+          isValidValue(job.type) &&
+          isValidValue(job.description) &&
+          isValidValue(job.company) &&
+          isValidValue(job.location) &&
+          isValidValue(job.salary)
+        ) {
+          jobListingsCache.push(job);
+          seenTitles.add(job.title);
+          seenIDs.add(job.id);
+        }
+      }
+    });
+  } catch (error) {
+    console.error("Error fetching job listings: ", error);
+    errorIndicator.style.display = 'block';
+  } finally {
+    loadingIndicator.style.display = 'none';
   }
-  
+
   renderJobs();
 }
+
 
 // Function to render jobs in batches of 30
 function renderJobs() {

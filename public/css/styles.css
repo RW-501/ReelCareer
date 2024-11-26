@@ -386,6 +386,9 @@ main .btn-info:hover {
     width: 300px;
 }
 
+#similarJobsContainer{
+    display: flex;
+}
 .JOB_CARD{
 
     margin: 0;
