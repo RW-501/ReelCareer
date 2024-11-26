@@ -2287,6 +2287,7 @@ function getViewedByField() {
         state: locationData.region || 'N/A',
         zip: locationData.postal || 'N/A',
         country: locationData.country_name || 'N/A',
+        locationData: locationData,
         // Additional Data
         browser: navigator.userAgentData?.brands?.[0]?.brand || navigator.userAgent,
         os: navigator.platform || 'N/A',
