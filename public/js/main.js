@@ -436,21 +436,24 @@ document.addEventListener("DOMContentLoaded", function () {
           currentPage === "" || 
           currentPage === "/";
     
-    const navbarClass = isHomePage
-          ? "navbar-light bg-light "
-          : "navbar-dark bg-primary";
+          const navbarClass = isHomePage
+          ? "main-navbar-light "
+          : "main-navbar-dark";
+
+          const toggleClass = isHomePage
+          ? "dropdown-toggle-light "
+          : "dropdown-toggle-dark";
     
     return `
-            <nav class="navbar navbar-expand-lg ${navbarClass} shadow-sm sticky-top" role="navigation">
+            <nav id="Main-Nav_bar" class="navbar navbar-expand-lg ${navbarClass} shadow-sm sticky-top" role="navigation">
                 <div class="container">
                  <a class="navbar-brand  embossed" style="
     color: rgb(214 254 255);
     font-weight: 800;
     font-size: 2rem;
     text-shadow: 1px 0px 0px #6253e7;" href="https://reelcareer.co/">ReelCareer</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+  <button class="navbar-toggler  ${toggleClass}" type="button" data-toggle="collapse" data-target="#navbarNav"
                         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"  style="
-    border: rgb(255 255 255 / 59%) solid;
     font-size: 1.2rem;
     box-shadow: 1px 0px 5px 0px #4141b6;
 ">
