@@ -2500,8 +2500,8 @@ handleJobInput(jobTitleName, "apply");
           } else {
             console.log(`Associated form: buttonText = ${buttonText}, target = ${target}`);
             // Check if the button is inside a class job-tags
-        if (target.contains.classList('tags')) {
-       
+            if (target.classList.contains('tags')) {
+          
      
 
               handleTagInput(buttonText);
