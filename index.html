@@ -529,11 +529,10 @@ const isValidValue = value => value !== undefined && value !== null && value !==
       fetchJobListings();
 
 
-let login = checkUserLoginStatus();
-console.log("logged in   ",login);
+
     // Check if the user is logged in
       const homeCTA = document.getElementById('home-CTA');
-      if (login) {
+      if (localStorage.getItem('userLoggedIn') ) {
         // User is logged in, hide the CTA
         if (homeCTA) {
           homeCTA.style.display = 'none';

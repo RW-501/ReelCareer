@@ -2701,32 +2701,6 @@ window.getUserTagInterest = getUserTagInterest;
 
 
 
-localStorage.getItem('userTagInterest')
-
-// Function to check if the user is logged in
-function checkUserLoginStatus() {
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      // User is signed in
-      console.log('User is logged in:', user);
-      localStorage.setItem('userLoggedIn', true);
-      handleAuthStateChanged(user); // Call your function to handle authenticated user
-
-      return user;
-    } else {
-      localStorage.setItem('userLoggedIn', false);
-      handleAuthStateChanged(null); // Call your function to handle no user signed in
-
-      // No user is signed in
-      console.log('No user is logged in.');
-      return false;
-    }
-  });
-
-}
-
-window.checkUserLoginStatus = checkUserLoginStatus;
-
 
 
 // Check if user is logged in and handle admin area access
@@ -2801,10 +2775,43 @@ window.initializeAutoLogout = initializeAutoLogout;
   window.updateNavVisibility = updateNavVisibility;
 // Initialization
 document.addEventListener('DOMContentLoaded', () => {
-  checkLogin(); // Ensure login is valid on page load
-let user =   checkUserLoginStatus();
-updateNavVisibility(user);
-    
+ 
+
+ 
+
+// Function to check if the user is logged in
+function checkUserLoginStatus() {
+  onAuthStateChanged(auth, (user) => {
+    checkLogin(); // Ensure login is valid on page load
+
+    if (user) {
+
+      updateNavVisibility(user);
+
+      // User is signed in
+      console.log('User is logged in:', user);
+      localStorage.setItem('userLoggedIn', true);
+      handleAuthStateChanged(user); // Call your function to handle authenticated user
+
+      return user;
+    } else {
+      updateNavVisibility(null);
+
+      localStorage.setItem('userLoggedIn', false);
+      handleAuthStateChanged(null); // Call your function to handle no user signed in
+
+      // No user is signed in
+      console.log('No user is logged in.');
+      return false;
+    }
+  });
+
+}
+
+window.checkUserLoginStatus = checkUserLoginStatus;
+
+
+
 if (window.checkUrl("/backend/") || window.checkUrl("/backend")) {
   console.log("Admin View");
   initializeAutoLogout();
@@ -2812,7 +2819,6 @@ if (window.checkUrl("/backend/") || window.checkUrl("/backend")) {
   console.log("User View");
   attachTrackingListeners();
 }
-
 
 });
 
