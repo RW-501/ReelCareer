@@ -1548,7 +1548,7 @@ window.addEventListener('load', function() {
 
               blogsToShow.forEach(blog => {
                   const blogCard = document.createElement('div');
-                  blogCard.classList.add('col-md-4', 'mb-4'); // Use Bootstrap column classes for spacing
+                  blogCard.classList.add('blogCard'); // Use Bootstrap column classes for spacing
                   blogCard.innerHTML = `
                       <div class="card blog-card shadow-sm">
                           <div data-bs-toggle="modal" data-bs-target="#blogModal" class="blog-card-trigger" data-blog-id="${blog.id}">
