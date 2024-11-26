@@ -353,6 +353,19 @@ main .btn-info:hover {
     transition: transform 0.2s ease-in-out;
 }
 
+.gridBody  {
+    grid-gap: .05rem !important;
+    display: grid !important;
+    align-content: stretch;
+    justify-content: space-between;
+    align-items: stretch;
+    justify-items: stretch;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    padding: 20px;
+}
+
 .JOB_CARD{
 
     margin: 0;
@@ -362,6 +375,19 @@ main .btn-info:hover {
 }
 .JOB_CARD {
 
+    .card-top {
+        display: grid !important;
+        width: auto;
+        column-gap: .5rem !important;
+        -webkit-text-stroke: thin;
+        grid-row: auto;
+        grid-area: auto;
+        grid-gap: .05rem !important;
+        align-content: space-between;
+        justify-content: space-around;
+        align-items: start;
+        justify-items: stretch; 
+    }
     .card-bottom {
         text-transform: capitalize;
         background-color: rgba(99, 154, 212, 0.1);
@@ -441,7 +467,25 @@ main .btn-info:hover {
 
 }
 
+.company-card-text-area {
+    height: fit-content;
+    font-size: 1.2rem;
+    color: #333;
+    margin-bottom: 10px;
+    background-color: rgba(220, 220, 220, 0.08);
+    border-radius: 5px;
+    border: solid 1px rgba(132, 173, 234, 0.03);
+    padding: 9px;
 
+}
+
+.card lin {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #639ad4a3;
+    margin-bottom: 10px;
+    text-decoration: none;
+}
     .card-CTA-Btn {
         padding: 12px 0;
         background-color: #007bff;

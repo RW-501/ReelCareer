@@ -666,34 +666,16 @@ function addStyles() {
     jobCard.dataset.submittedBy = job.submittedBy ? job.submittedBy.toLowerCase() : '';
     
     jobCard.innerHTML = `
-    <div class="card jobCard gridBody h-100 shadow-sm" style="
-        border-radius: 12px;
-        overflow: hidden;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        padding: 20px;
-
-        ">
+    <div class="card jobCard gridBody h-100 shadow-sm" >
       
       <!-- Job Title and Company -->
-      <div class="card-top" style="gap: 0.5rem;">
+      <div class="card-top" >
         <a href="https://reelcareer.co/views/job-details?id=${job.id}"
            class="job-title-link" 
-           style="
-             font-size: 1.5rem;
-             font-weight: 800;
-             color: #639ad4a3;
-             margin-bottom: 10px;
-             text-decoration: none;">
+          >
           ${job.title}
         </a>
-        <p class="card-text" style="
-            font-size: 1.2rem;
-            color: #333;
-            margin-bottom: 10px;
-            background-color: rgba(220, 220, 220, 0.08);
-            border-radius: 5px;
-            border: solid 1px rgba(132, 173, 234, 0.03);
-            padding: 9px;">
+        <p class="company-card-text-area" >
             <i class="fas fa-building" style="color: #007bff;"></i>
             <strong>${job.company}</strong>
         </p>
