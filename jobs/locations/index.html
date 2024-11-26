@@ -351,7 +351,7 @@
   .filter(state => state && state.trim() !== "") // Filter out null, empty, or whitespace-only states
   .map(state => `
     <div class="state-city-card">
-      <i class="fas fa-city"></i>
+      </i><a href="https://reelcareer.co/jobs/state#${state}"><i class="fas fa-city"></a>
       <h4><a href="https://reelcareer.co/jobs/state#${state}">${state}</a></h4>
     </div>`)
   .join("");
@@ -390,7 +390,7 @@ const city = [...new Set(snapshot.docs.map(doc => doc.data().city.trim()))]
   .filter(city => city && city.trim() !== "") // Filter out null or empty strings
   .map(city => `
     <div class="state-city-card">
-      <i class="fas fa-city"></i>
+      <a href="https://reelcareer.co/jobs/city#${city}"><i class="fas fa-city"></i></a>
       <h4><a href="https://reelcareer.co/jobs/city#${city}">${city}</a></h4>
     </div>`)
   .join("");
