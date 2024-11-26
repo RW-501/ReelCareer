@@ -305,7 +305,6 @@ main .btn-info:hover {
 .jobCard,
 .blog-card,
 .similar-job-car {
-    flex: 0 0 30%;
     min-width: 30%;
     border: 1px solid #ddd;
     border-radius: 8px;
@@ -318,7 +317,6 @@ main .btn-info:hover {
 
 .JOB_CARD{
 
-    flex: 0 0 30%;
     min-width: 30%;
 margin: 0;
 padding: 0;
