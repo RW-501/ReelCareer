@@ -306,7 +306,7 @@ console.log(formatDateString(1732032108000));                           // Expec
   }
   
   getSuggestionStyles();
-  let DEBOUNCE_DELAY = 300;
+  let DEBOUNCe_DELAY = 300;
 
   // Fetch suggestions data from JSON file
   async function fetchSuggestions() {
@@ -465,7 +465,7 @@ function autoSuggest(input, suggestionsArray) {
       if (suggestionsArray.length > 0) {
         autoSuggest(input, suggestionsArray);
       }
-    }, DEBOUNCE_DELAY);
+    }, DEBOUNCe_DELAY);
   
     // Event delegation for keyword inputs
     document.body.addEventListener("input", (e) => {
