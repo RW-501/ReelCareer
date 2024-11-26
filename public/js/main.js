@@ -1443,31 +1443,6 @@ async function getModal(user) {
   }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  auth.onAuthStateChanged((user) => {
-    if (user) {
-      // Event listener for the settings button
-      document.getElementById("settingsBtn").addEventListener("click", () => {
-        const profileModal = document.getElementById("profileModal");
-
-        // Create modal only when settingsBtn is clicked if it doesn't already exist
-        if (!profileModal) {
-          createProfileModal(); // Create the modal
-          initializeProfileModal(user); // Initialize modal
-        } else {
-          profileModal.classList.add("show"); // Add Bootstrap's 'show' class
-          profileModal.setAttribute("aria-hidden", "false");
-        }
-
-        setTimeout(() => {
-          getModal(user); // Fetch user data and populate modal
-          showModal("profileModal"); // Show modal after getting the data
-        }, 300);
-      });
-    }
-  });
-});
-
 // Export the objects
 export {
   onAuthStateChanged,
@@ -2750,7 +2725,6 @@ function initializeAutoLogout() {
      // showToast('Auto logout is disabled.');
   }
 }
-
 window.initializeAutoLogout = initializeAutoLogout;
 
 
@@ -2792,7 +2766,24 @@ function checkUserLoginStatus() {
       console.log('User is logged in:', user);
       localStorage.setItem('userLoggedIn', true);
       handleAuthStateChanged(user); // Call your function to handle authenticated user
+  // Event listener for the settings button
+  document.getElementById("settingsBtn").addEventListener("click", () => {
+    const profileModal = document.getElementById("profileModal");
 
+    // Create modal only when settingsBtn is clicked if it doesn't already exist
+    if (!profileModal) {
+      createProfileModal(); // Create the modal
+      initializeProfileModal(user); // Initialize modal
+    } else {
+      profileModal.classList.add("show"); // Add Bootstrap's 'show' class
+      profileModal.setAttribute("aria-hidden", "false");
+    }
+
+    setTimeout(() => {
+      getModal(user); // Fetch user data and populate modal
+      showModal("profileModal"); // Show modal after getting the data
+    }, 300);
+  });
       return user;
     } else {
       updateNavVisibility(null);
@@ -2805,6 +2796,11 @@ function checkUserLoginStatus() {
       return false;
     }
   });
+
+
+  
+
+  
 
 }
 
