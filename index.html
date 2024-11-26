@@ -342,19 +342,12 @@ const seenIDs = new Set();
 
 let excludedIds = [];
 
-const jobTags = ["job", "jobs", "new jobs"];
 
-// Retrieve user interests for tags and jobs
-let uTagInterestNorm = getUserTagInterest();
-let userTagInterest = uTagInterestNorm && uTagInterestNorm.length > 0 ? uTagInterestNorm : jobTags;
 
-let uJobInterestNorm = getUserJobInterest();
-let userJobInterest = uJobInterestNorm && uJobInterestNorm.length > 0 ? uJobInterestNorm : jobTags;
+async function  fetchJobListings(userJobInterest, userTagInterest) {
+  console.log("fetchJobListings");
 //let locationData = (sessionStorage.getItem('userData'));
 let userlocationData = localStorage.getItem("userLocation");
-
-async function fetchJobListings() {
-  console.log("fetchJobListings");
 
   const jobListingsContainer = document.getElementById('jobListings');
   const loadingIndicator = document.getElementById('loadingIndicator');
@@ -610,9 +603,18 @@ const isValidValue = value => value !== undefined && value !== null && value !==
 
 
     document.addEventListener("DOMContentLoaded", () => {
+      const jobTags = ["job", "jobs", "new jobs"];
 
+
+
+      // Retrieve user interests for tags and jobs
+let uTagInterestNorm = getUserTagInterest();
+let userTagInterest = uTagInterestNorm && uTagInterestNorm.length > 0 ? uTagInterestNorm : jobTags;
+
+let uJobInterestNorm = getUserJobInterest();
+let userJobInterest = uJobInterestNorm && uJobInterestNorm.length > 0 ? uJobInterestNorm : jobTags;
       // Load job listings on page load
-      fetchJobListings();
+      fetchJobListings(userJobInterest, userTagInterest);
 
 
 
