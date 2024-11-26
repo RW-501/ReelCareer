@@ -174,15 +174,12 @@ console.log(formatDateString(1732032108000));                           // Expec
       return tags
         .map((tag) => {
           // Capitalize the first letter of the tag
-          const capitalizedTag =
-            tag.charAt(0).toUpperCase() + tag.slice(1).toLowerCase();
+  
   
           // Return a button as a string, using Bootstrap classes and tag redirection
           return `
-            <button class="btn btn-secondary m-1 tags" onclick="window.location.href='https://reelcareer.co/views/job-listings?tag=${encodeURIComponent(
-              capitalizedTag
+            <button class="btn btn-secondary m-1 tags cap" onclick="window.location.href='https://reelcareer.co/views/job-listings?tag=${encodeURIComponent(
             )}'">
-              ${capitalizedTag}
             </button>
           `;
         })
