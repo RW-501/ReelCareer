@@ -544,13 +544,16 @@ console.log("currentPage    ",currentPage);
   document.body.insertAdjacentHTML("afterbegin", createNavbar());
 
     }
-}
+
+
     window.updateNavVisibility = updateNavVisibility;
     
 
     setupEventListeners(); // Initialize event listeners
     highlightActiveLink(); // Highlight the active link
   
+}
+ 
 
   // Function to handle keyboard navigation for dropdowns
   document.addEventListener("keydown", function (event) {
