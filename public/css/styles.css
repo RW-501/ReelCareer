@@ -305,14 +305,21 @@ main .btn-info:hover {
 .jobCard,
 .blog-card,
 .similar-job-car {
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out !important;
-
+    flex: 0 0 30%;
+    max-width: 30%;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
 }
 
 .JOB_CARD{
 
     flex: 0 0 30%;
-    max-width: 30%;
+    min-width: 30%;
 margin: 0;
 padding: 0;
 }
