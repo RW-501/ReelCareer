@@ -286,7 +286,7 @@
    <div class="similar-jobs mb-5">
     <h3 class="font-weight-bold">Similar Jobs</h3>
     <hr class="my-2" />
-    <div id="similarJobsContainer" class="row">
+    <div id="similarJobsContainer" class="similarJobsContainer">
         <!-- Dynamically insert similar jobs here -->
         <div class="col-md-4 mb-3"> <!-- Example job item -->
             <div class="card shadow-sm border-light">
@@ -419,11 +419,35 @@ const city = [...new Set(snapshot.docs.map(doc => doc.data().city.trim()))]
 
     
     
-setTimeout(() => {
-    const jobTags = ['job', 'jobs', 'new jobs']; 
-   //const jobTags = document.getElementById('tag-list').textContent;
-   window.loadRelatedBlogs(jobTags, 'blogContainer');
-  }, 2000);
+    const similarJobsContainer = document.getElementById("similarJobsContainer");
+
+// Function to fetch similar jobs based on tags
+
+document.addEventListener("DOMContentLoaded", () => {
+  setTimeout(() => {
+    const jobTags = ["job", "jobs", "new jobs"];
+
+    console.log("const jobTags =", jobTags);
+
+    let tagInterestNorm = getUserTagInterest(); // Retrieve user tag interest
+    console.log("let tagInterestNorm =", tagInterestNorm);
+
+    let tagInterest =
+      tagInterestNorm && tagInterestNorm.length > 0 ? tagInterestNorm : jobTags;
+    console.log("const tagInterest =", tagInterest);
+
+    loadRelatedBlogs(tagInterest, "blogContainer");
+
+    let jobInterestNorm = getUserJobInterest(); // Retrieve user tag interest
+    console.log("let jobInterestNorm =", jobInterestNorm);
+
+    let jobInterest =
+      jobInterestNorm && jobInterestNorm.length > 0 ? jobInterestNorm : jobTags;
+    console.log("jobInterestNorm.length ", jobInterestNorm.length);
+    getSimilarJobs(jobInterestNorm, "similarJobsContainer");
+  }, 1000);
+});
+
 
 
 </script> 

@@ -497,7 +497,7 @@ text-align: left;
       <div class="similar-jobs mb-5">
           <h3 class="font-weight-bold">Similar Jobs</h3>
           <hr class="my-2" />
-          <div id="similarJobsContainer" class="row">
+          <div id="similarJobsContainer" class="similarJobsContainer">
               <!-- Dynamically insert similar jobs here -->
               <div class="col-md-4 mb-3"> <!-- Example job item -->
                   <div class="card shadow-sm border-light">
@@ -1285,45 +1285,32 @@ window.addEventListener('beforeunload', updateJobViewData);
   <script>
 
 
-
-const similarJobsContainer = document.getElementById('similarJobsContainer');
+const similarJobsContainer = document.getElementById("similarJobsContainer");
 
 // Function to fetch similar jobs based on tags
 
-
-
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
   setTimeout(() => {
+    const jobTags = ["job", "jobs", "new jobs"];
 
-    
+    console.log("const jobTags =", jobTags);
 
-const jobTags = ['job', 'jobs', 'new jobs'];
+    let tagInterestNorm = getUserTagInterest(); // Retrieve user tag interest
+    console.log("let tagInterestNorm =", tagInterestNorm);
 
-console.log('const jobTags =', jobTags);
+    let tagInterest =
+      tagInterestNorm && tagInterestNorm.length > 0 ? tagInterestNorm : jobTags;
+    console.log("const tagInterest =", tagInterest);
 
-let tagInterestNorm = getUserTagInterest(); // Retrieve user tag interest
-console.log('let tagInterestNorm =', tagInterestNorm);
+    loadRelatedBlogs(tagInterest, "blogContainer");
 
+    let jobInterestNorm = getUserJobInterest(); // Retrieve user tag interest
+    console.log("let jobInterestNorm =", jobInterestNorm);
 
-
-
-let tagInterest = tagInterestNorm && tagInterestNorm.length > 0 ? tagInterestNorm : jobTags;
-console.log('const tagInterest =', tagInterest);
-
-loadRelatedBlogs(tagInterest, 'blogContainer');
-
-
-
-
-let jobInterestNorm = getUserJobInterest(); // Retrieve user tag interest
-console.log('let jobInterestNorm =', jobInterestNorm);
-
-let jobInterest = jobInterestNorm && jobInterestNorm.length > 0 ? jobInterestNorm : jobTags;
-console.log('jobInterestNorm.length ', jobInterestNorm.length);
-getSimilarJobs(jobInterestNorm, 'similarJobsContainer');
-
-
-
+    let jobInterest =
+      jobInterestNorm && jobInterestNorm.length > 0 ? jobInterestNorm : jobTags;
+    console.log("jobInterestNorm.length ", jobInterestNorm.length);
+    getSimilarJobs(jobInterestNorm, "similarJobsContainer");
   }, 1000);
 });
 
