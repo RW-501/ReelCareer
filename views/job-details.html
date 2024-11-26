@@ -1294,11 +1294,30 @@ const similarJobsContainer = document.getElementById('similarJobsContainer');
 document.addEventListener('DOMContentLoaded', () => {
   setTimeout(() => {
     const jobTags = ['job', 'jobs', 'new jobs']; 
-   //const jobTags = document.getElementById('tag-list').textContent;
-   window.loadRelatedBlogs(jobTags, 'blogContainer');
-   window.getSimilarJobs(jobTags, 'similarJobsContainer');
-  }, 2000);
+
+    console.log('const jobTags =', jobTags);
+
+    let tagInterestNorm = getUserTagInterest();
+    let tagInterest = JSON.stringify(tagInterestNorm);
+    console.log('const tagInterestNorm =', tagInterestNorm);
+    console.log('const tagInterest =', JSON.stringify(tagInterest));
+
+if(!tagInterest){
+  tagInterest = jobTags;
+}
+    let jobInterest = getUserJobInterest();
+    let jobInterestNorm = JSON.stringify(jobInterestNorm);
+    console.log('const jobInterestNorm =', jobInterestNorm);
+    console.log('const jobInterest =', JSON.stringify(jobInterest));
+
+if(!jobInterest){
+  jobInterest = jobTags;
+}
+   window.loadRelatedBlogs(tagInterest, 'blogContainer');
+   window.getSimilarJobs(jobInterest, 'similarJobsContainer');
+  }, 1000);
 });
+
 
  
   </script>
