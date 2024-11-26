@@ -1323,8 +1323,8 @@ let jobInterest = jobInterestNorm && jobInterestNorm.length > 0 ? jobInterestNor
 console.log('const jobInterest =', jobInterest);
 
 
-   loadRelatedBlogs([tagInterest], 'blogContainer');
-   getSimilarJobs([jobInterest], 'similarJobsContainer');
+   loadRelatedBlogs([jobInterestNorm], 'blogContainer');
+   getSimilarJobs([jobInterestNorm], 'similarJobsContainer');
   }, 1000);
 });
 
