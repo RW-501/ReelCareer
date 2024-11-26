@@ -1663,12 +1663,12 @@ window.addEventListener('load', function() {
                       <div class="card blog-card shadow-sm">
                           <div data-bs-toggle="modal" data-bs-target="#blogModal" class="blog-card-trigger" data-blog-id="${blog.id}">
                                <a href="https://reelcareer.co/views/blog?id=${blog.id}"><img src="${blog.imageUrl}" alt="${blog.title}" class="card-img-top" loading="lazy" /></a>
-                          </div>
                           <div class="card-body">
                                <a href="https://reelcareer.co/views/blog?id=${blog.id}"><h5 class="card-title text-primary">${blog.title}</h5></a>
-                              <p class="card-text text-muted">
-<div>${truncateText(blog.content, 80, `https://reelcareer.co/views/blog?id=${blog.id}`)}</div>
-                              </p>
+                              <div class="card-text text-muted">
+
+                              <div>${truncateText(blog.content, 80, `https://reelcareer.co/views/blog?id=${blog.id}`)}</div>
+                              </div>
                               <button class="btn btn-outline-primary blog-card-trigger" data-blog-id="${blog.id}">Read More</button>
                           </div>
                       </div>
