@@ -1294,34 +1294,38 @@ const similarJobsContainer = document.getElementById('similarJobsContainer');
 // Function to fetch similar jobs based on tags
 
 
+
 document.addEventListener('DOMContentLoaded', () => {
   setTimeout(() => {
-    const jobTags = ['job', 'jobs', 'new jobs']; 
 
-    console.log('const jobTags =', jobTags);
+    
 
-    let tagInterestNorm = getUserTagInterest();
-    let tagInterest = JSON.stringify(tagInterestNorm);
-    console.log('const tagInterestNorm =', tagInterestNorm);
-    console.log('const tagInterest =', tagInterest);
+const jobTags = ['job', 'jobs', 'new jobs'];
 
-if(!tagInterest){
-  tagInterest = jobTags;
-}
-    let jobInterestNorm = getUserJobInterest();
-    let jobInterest = JSON.stringify(jobInterestNorm);
-    console.log('const jobInterestNorm =', jobInterestNorm);
-    console.log('const jobInterest =', jobInterest);
+console.log('const jobTags =', jobTags);
 
-if(!jobInterest){
-  jobInterest = jobTags;
-}
-console.log(tagInterest, ' =   jobInterest =  ', jobInterest);
+let tagInterestNorm = getUserTagInterest(); // Retrieve user tag interest
+console.log('const tagInterestNorm =', tagInterestNorm);
+
+let tagInterest = tagInterestNorm && tagInterestNorm.length > 0 ? tagInterestNorm : jobTags;
+console.log('const tagInterest =', tagInterest);
+
+
+
+
+
+let jobInterestNorm = getUserTagInterest(); // Retrieve user tag interest
+console.log('const jobInterestNorm =', jobInterestNorm);
+
+let jobInterest = jobInterestNorm && jobInterestNorm.length > 0 ? jobInterestNorm : jobTags;
+console.log('const jobInterest =', jobInterest);
+
 
    loadRelatedBlogs(tagInterest, 'blogContainer');
    getSimilarJobs(jobInterest, 'similarJobsContainer');
   }, 1000);
 });
+
 
   </script>
 
