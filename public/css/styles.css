@@ -369,6 +369,7 @@ main .btn-info:hover {
     background-color: #fff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s ease-in-out;
+    width: 300px;
 }
 
 .gridBody  {
@@ -382,6 +383,7 @@ main .btn-info:hover {
     overflow: hidden;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     padding: 20px;
+    width: 300px;
 }
 
 .JOB_CARD{
@@ -401,7 +403,6 @@ main .btn-info:hover {
     justify-items: stretch;
 
     .card-top {
-        font-size: xx-large;
 
         display: grid !important;
         width: 100%;
@@ -424,6 +425,8 @@ main .btn-info:hover {
         margin: .5rem auto;
         box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
         width: 100%;
+        font-size: xx-large;
+
     }
 
 
