@@ -344,17 +344,12 @@ let excludedIds = [];
 
 const jobTags = ["job", "jobs", "new jobs"];
 
+// Retrieve user interests for tags and jobs
+let uTagInterestNorm = getUserTagInterest();
+let userTagInterest = uTagInterestNorm && uTagInterestNorm.length > 0 ? uTagInterestNorm : jobTags;
 
-let uTagInterestNorm = getUserTagInterest(); // Retrieve user tag interest
-
-let userTagInterest =
-uTagInterestNorm && uTagInterestNorm.length > 0 ? uTagInterestNorm : jobTags;
-
-let uJobInterestNorm = getUserJobInterest(); // Retrieve user tag interest
-
-let userJobInterest =
-uJobInterestNorm && uJobInterestNorm.length > 0 ? uJobInterestNorm : jobTags;
-
+let uJobInterestNorm = getUserJobInterest();
+let userJobInterest = uJobInterestNorm && uJobInterestNorm.length > 0 ? uJobInterestNorm : jobTags;
 
 async function fetchJobListings() {
   console.log("fetchJobListings");
@@ -374,7 +369,7 @@ async function fetchJobListings() {
       return;
     }
 
-    // Build queries for matching tags and titles separately
+    // Build query for matching tags
     const tagQuery = query(
       jobsQuery,
       where('status', '==', 'active'),
@@ -383,28 +378,42 @@ async function fetchJobListings() {
       limit(50)
     );
 
+    // Title query: Match any word in the title with user's job interests
     const titleQuery = query(
       jobsQuery,
       where('status', '==', 'active'),
-      where('title', 'array-contains-any', userJobInterest),
       orderBy('createdAt', 'desc'),
       limit(50)
     );
 
-    // Execute both queries
+    // Fetch job listings for both queries (tags and titles)
     const [tagSnapshot, titleSnapshot] = await Promise.all([
       getDocs(tagQuery),
       getDocs(titleQuery)
     ]);
 
-    // Process results
-    const jobDocs = [...tagSnapshot.docs, ...titleSnapshot.docs];
+    // Filter and combine results
+    const jobDocs = [
+      ...tagSnapshot.docs,
+      ...titleSnapshot.docs.filter(doc => {
+        const jobTitle = doc.data().title.toLowerCase();
+        return userJobInterest.some(interest => jobTitle.includes(interest.toLowerCase()));
+      })
+    ];
+
+    const seenTitles = new Set();
+    const seenIDs = new Set();
+    const jobListingsCache = []; // Cache to store unique jobs
+
+    // Process job documents
     jobDocs.forEach(doc => {
       if (!seenIDs.has(doc.id)) {
         const job = {
           id: doc.id,
           ...doc.data()
         };
+
+        // Check if the job title, type, description, company, location, and salary are valid
         if (
           !seenTitles.has(job.title) &&
           isValidValue(job.title) &&
@@ -414,20 +423,47 @@ async function fetchJobListings() {
           isValidValue(job.location) &&
           isValidValue(job.salary)
         ) {
+          // Add to the cache and mark as seen
           jobListingsCache.push(job);
           seenTitles.add(job.title);
           seenIDs.add(job.id);
         }
       }
     });
+
+    // Optional: Render jobs or update the UI
+    renderJobs(jobListingsCache);
+
   } catch (error) {
     console.error("Error fetching job listings: ", error);
     errorIndicator.style.display = 'block';
   } finally {
     loadingIndicator.style.display = 'none';
   }
+}
 
-  renderJobs();
+// Example of the renderJobs function (you can customize it)
+function renderJobs(jobListings) {
+  const jobListingsContainer = document.getElementById('jobListings');
+  jobListingsContainer.innerHTML = ''; // Clear existing job listings
+
+  jobListings.forEach(job => {
+    const jobElement = document.createElement('div');
+    jobElement.classList.add('job-listing');
+    jobElement.innerHTML = `
+      <h3>${job.title}</h3>
+      <p>${job.company}</p>
+      <p>${job.location}</p>
+      <p>${job.salary}</p>
+      <p>${job.description}</p>
+    `;
+    jobListingsContainer.appendChild(jobElement);
+  });
+}
+
+// Example helper function for value validation
+function isValidValue(value) {
+  return value && value.trim().length > 0;
 }
 
 
