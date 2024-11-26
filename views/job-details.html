@@ -1322,9 +1322,12 @@ console.log('const jobInterestNorm =', jobInterestNorm);
 let jobInterest = jobInterestNorm && jobInterestNorm.length > 0 ? jobInterestNorm : jobTags;
 console.log('const jobInterest =', jobInterest);
 
+const arrayAsString = array.join(', '); // Join elements with a comma and a space
 
-   loadRelatedBlogs(JSON.stringify(jobInterestNorm), 'blogContainer');
-   getSimilarJobs(JSON.stringify(jobInterestNorm), 'similarJobsContainer');
+console.log('Array as String:', arrayAsString);
+
+   loadRelatedBlogs([JSON.stringify(jobInterestNorm)], 'blogContainer');
+   getSimilarJobs([arrayAsString], 'similarJobsContainer');
   }, 1000);
 });
 
