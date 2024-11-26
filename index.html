@@ -350,7 +350,7 @@ let userTagInterest = uTagInterestNorm && uTagInterestNorm.length > 0 ? uTagInte
 
 let uJobInterestNorm = getUserJobInterest();
 let userJobInterest = uJobInterestNorm && uJobInterestNorm.length > 0 ? uJobInterestNorm : jobTags;
-let locationData = JSON.parse(sessionStorage.getItem('userData'));
+let locationData = (sessionStorage.getItem('userData'));
 
 async function fetchJobListings() {
   console.log("fetchJobListings");
