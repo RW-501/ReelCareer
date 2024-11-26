@@ -324,6 +324,11 @@ function getHashFromURL() {
       document.getElementById("breadcrumb-active-title").textContent = cityName;
 
       document.getElementById('city-name').textContent = cityName;
+      const cityHeader = document.getElementById("city-header");
+
+      cityHeader.innerHTML = cityHeader.innerHTML.replaceAll("[City Name]", cityName);
+
+
       fetchJobsByCity(cityName);
    
   // Attach search event

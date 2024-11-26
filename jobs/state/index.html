@@ -368,6 +368,12 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById("breadcrumb-active-title").textContent = state;
 
   document.getElementById('state-name').textContent = state;
+
+  const stateHeader = document.getElementById("state-header");
+  stateHeader.innerHTML = stateHeader.innerHTML.replaceAll("[State Name]", state);
+
+
+
   fetchJobsByState(state);
 
   // Add search functionality
