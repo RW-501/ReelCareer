@@ -1488,82 +1488,11 @@ export {
         });
       }
 */
-function createBlogModal() {
-  // Create modal container
-  const modal = document.createElement('div');
-  modal.className = 'modal fade';
-  modal.id = 'blogModal';
-  modal.tabIndex = '-1';
-  modal.setAttribute('aria-labelledby', 'blogModalLabel');
-  modal.setAttribute('aria-hidden', 'true');
-
-  // Create modal dialog
-  const modalDialog = document.createElement('div');
-  modalDialog.className = 'modal-dialog';
-
-  // Create modal content
-  const modalContent = document.createElement('div');
-  modalContent.className = 'modal-content';
-  modalContent.id = 'blogModalContent';
-
-  // Create modal header
-  const modalHeader = document.createElement('div');
-  modalHeader.className = 'modal-header';
-
-  const modalTitle = document.createElement('h5');
-  modalTitle.className = 'modal-title';
-  modalTitle.id = 'blogModalLabel';
-
-  const closeButton = document.createElement('button');
-  closeButton.type = 'button';
-  closeButton.className = 'btn-close';
-  closeButton.setAttribute('data-bs-dismiss', 'modal');
-  closeButton.setAttribute('aria-label', 'Close');
-
-  // Append elements to modal header
-  modalHeader.appendChild(modalTitle);
-  modalHeader.appendChild(closeButton);
-
-  // Create modal body
-  const modalBody = document.createElement('div');
-  modalBody.className = 'modal-body';
-  modalBody.id = 'modalBlogBody'; // ID for content insertion
-
-  // Create modal footer
-  const modalFooter = document.createElement('div');
-  modalFooter.className = 'modal-footer';
-
-  const closeFooterButton = document.createElement('button');
-  closeFooterButton.type = 'button';
-  closeFooterButton.className = 'btn btn-secondary';
-  closeFooterButton.setAttribute('data-bs-dismiss', 'modal');
-  closeFooterButton.textContent = 'Close';
-
-  const seeMoreButton = document.createElement('button');
-  seeMoreButton.type = 'button';
-  seeMoreButton.id = 'seeMoreButton';
-  seeMoreButton.className = 'btn btn-primary';
-  seeMoreButton.textContent = 'See More';
-
-  // Append buttons to modal footer
-  modalFooter.appendChild(closeFooterButton);
-  modalFooter.appendChild(seeMoreButton);
-
-  // Assemble modal content
-  modalContent.appendChild(modalHeader);
-  modalContent.appendChild(modalBody);
-  modalContent.appendChild(modalFooter);
-
-  // Assemble modal dialog
-  modalDialog.appendChild(modalContent);
-  modal.appendChild(modalDialog);
-
-  // Append modal to body
-  document.body.appendChild(modal);
-}
-
 
 window.addEventListener('load', function() {
+
+
+
   window.loadRelatedBlogs = async function(jobTags, containerId) {
       try {
 
@@ -1583,47 +1512,8 @@ window.addEventListener('load', function() {
           }
 
           // Function to open the modal and show full blog content
-          async function openBlogModal(blogId, blogContainer) {
-            createBlogModal();
-
-              const blog = allBlogs.find(b => b.id === blogId);
-
-              const modalTitle = document.getElementById('blogModalLabel');
-              const modalBody = document.getElementById('modalBlogBody');
-
-              const blogModal =  document.getElementById('blogModal');
-
-
-             
-
-
-              // Set the modal title and body content
-              modalTitle.textContent = blog.title;
-              modalBody.innerHTML = `
-                  <img src="${blog.imageUrl}" alt="${blog.title}" class="img-fluid" loading="lazy" />
-                  <p>${blog.content}</p>
-                  <button class="btn btn-secondary close" data-bs-dismiss="modal">Close</button>
-                  <button class="btn btn-primary" id="seeMoreButton">See More</button>
-              `;
-
-              // Update the view count
-        //      await updateViewCount(blogId);
-
-        blogModal.appendChild(modalBody);
-        
-        modalBody.querySelector('.close').addEventListener('click', () => {
-          document.body.removeChild(blogModal); // Remove modal when closed
-
-        });
-
-              // Event listener for the See More button
-              document.getElementById('seeMoreButton').onclick = () => {
-                  loadMoreBlogs(blog.tags); // Fetch more blogs based on the same tags if desired
-              };
-          }
-
-
-
+         
+          
 
           // Function to fetch blogs based on job tags
           async function fetchBlogs(jobTags) {
@@ -1711,25 +1601,110 @@ window.addEventListener('load', function() {
   };
 });
 
-// Load the function only after the page has fully loaded
+async function openBlogModal(blogId, blogContainer) {
+  const existingModal = document.getElementById('blogModal');
+  if (!existingModal) {
+      createBlogModal(); // Ensure modal exists
+  }
 
-/*
-window.addEventListener('load', () => {
-  // Call the function with job tags and the container ID when needed
-  // Example: window.loadRelatedBlogs(['tech', 'web development'], 'blogContainer');
-});
-const jobTags = ['tag1', 'tag2']; // Replace with your actual job tags
-loadRelatedBlogs(jobTags, 'blogContainer'); // Replace 'blogContainer' with your actual container ID
+  const blog = allBlogs.find(b => b.id === blogId);
 
-<div class="related-blogs">
-    <h3 class="font-weight-bold">Related Articles</h3>
-    <hr class="my-2" />
-    <div id="blogContainer" class="row p-4">
-        <!-- Blog links will be dynamically inserted here -->
-    </div>
-</div>
+  // Select modal elements
+  const modalTitle = document.getElementById('blogModalLabel');
+  const modalBody = document.getElementById('modalBlogBody');
 
-*/
+  // Set the modal title and body content
+  modalTitle.textContent = blog.title;
+  modalBody.innerHTML = `
+      <img src="${blog.imageUrl}" alt="${blog.title}" class="img-fluid" loading="lazy" />
+      <p>${blog.content}</p>
+  `;
+
+  // Add event listener for "See More" button
+  const seeMoreButton = document.getElementById('seeMoreButton');
+  seeMoreButton.addEventListener('click', () => {
+      alert('See More clicked!'); // Replace with your actual functionality
+  });
+
+  // Show the modal using Bootstrap's API
+  const bootstrapModal = new bootstrap.Modal(existingModal);
+  bootstrapModal.show();
+}
+
+// Function to create modal structure
+function createBlogModal() {
+  // Create modal container
+  const modal = document.createElement('div');
+  modal.className = 'modal fade';
+  modal.id = 'blogModal';
+  modal.tabIndex = '-1';
+  modal.setAttribute('aria-labelledby', 'blogModalLabel');
+  modal.setAttribute('aria-hidden', 'true');
+
+  // Create modal dialog
+  const modalDialog = document.createElement('div');
+  modalDialog.className = 'modal-dialog';
+
+  // Create modal content
+  const modalContent = document.createElement('div');
+  modalContent.className = 'modal-content';
+
+  // Create modal header
+  const modalHeader = document.createElement('div');
+  modalHeader.className = 'modal-header';
+
+  const modalTitle = document.createElement('h5');
+  modalTitle.className = 'modal-title';
+  modalTitle.id = 'blogModalLabel';
+
+  const closeButton = document.createElement('button');
+  closeButton.type = 'button';
+  closeButton.className = 'btn-close';
+  closeButton.setAttribute('data-bs-dismiss', 'modal');
+  closeButton.setAttribute('aria-label', 'Close');
+
+  // Append elements to modal header
+  modalHeader.appendChild(modalTitle);
+  modalHeader.appendChild(closeButton);
+
+  // Create modal body
+  const modalBody = document.createElement('div');
+  modalBody.className = 'modal-body';
+  modalBody.id = 'modalBlogBody';
+
+  // Create modal footer
+  const modalFooter = document.createElement('div');
+  modalFooter.className = 'modal-footer';
+
+  const closeFooterButton = document.createElement('button');
+  closeFooterButton.type = 'button';
+  closeFooterButton.className = 'btn btn-secondary';
+  closeFooterButton.setAttribute('data-bs-dismiss', 'modal');
+  closeFooterButton.textContent = 'Close';
+
+  const seeMoreButton = document.createElement('button');
+  seeMoreButton.type = 'button';
+  seeMoreButton.id = 'seeMoreButton';
+  seeMoreButton.className = 'btn btn-primary';
+  seeMoreButton.textContent = 'See More';
+
+  // Append buttons to modal footer
+  modalFooter.appendChild(closeFooterButton);
+  modalFooter.appendChild(seeMoreButton);
+
+  // Assemble modal content
+  modalContent.appendChild(modalHeader);
+  modalContent.appendChild(modalBody);
+  modalContent.appendChild(modalFooter);
+
+  // Assemble modal dialog
+  modalDialog.appendChild(modalContent);
+  modal.appendChild(modalDialog);
+
+  // Append modal to body
+  document.body.appendChild(modal);
+}
+
 
 // Function to create and add styles for tag-primary and other elements
 function getSimilarJobsStyles() {

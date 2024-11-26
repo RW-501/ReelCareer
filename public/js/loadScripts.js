@@ -1,65 +1,52 @@
-
-
 function formatLocation(location, options = {}) {
-  const { part = "all", reverseOrder = false } = options; // Set default options
+  const { part = "all", reverseOrder = false } = options;
 
-  // Check if input is an array
   if (Array.isArray(location)) {
+    // Reverse the order if needed
     if (reverseOrder) {
-      location = location.reverse(); // Reverse the order of the array
+      location = location.reverse();
     }
 
-    // If the user wants only a specific part of the location (e.g., city, country)
-    switch (part) {
-      case "country":
-        location = location[0]; // Return the first part (country)
-        break;
-      case "state":
-
-        location = `${(location[1] || "").toLowerCase().trim()}">${location[1] || ""}`; // Return state link
-        break;
-      case "county":
-        location = location[2] || ""; // Return the third part (county)
-        break;
-      case "city":
-        location = `${(location[location.length - 1]).toLowerCase().trim()}">${location[location.length - 1]}`; // Return city link
-        break;
-      default:
-        location = location.map((part, index) => {
-          if (index === 1) {
-            // State
-            return `<a  class= 'loc-link' href="https://reelcareer.co/state#${encodeURIComponent(part).toLowerCase().trim()}">${part}</a>`;
-          } else if (index === location.length - 1) {
-            // City
-            return `<a  class= 'loc-link' href="https://reelcareer.co/city#${encodeURIComponent(part).toLowerCase().trim()}">${part}</a>`;
-          } else {
-            return part;
-          }
-        }).join(", "); // Join the entire array into a string
+    // Handle specific parts of the location
+    if (part === "country") {
+      return location[0] || "Unknown Country";
     }
+    if (part === "state") {
+      const state = location[1] || "Unknown State";
+      return `<a class="loc-link" href="https://reelcareer.co/state#${encodeURIComponent(state.toLowerCase().trim())}">${state}</a>`;
+    }
+    if (part === "county") {
+      return location[2] || "Unknown County";
+    }
+    if (part === "city") {
+      const city = location[location.length - 1] || "Unknown City";
+      return `<a class="loc-link" href="https://reelcareer.co/city#${encodeURIComponent(city.toLowerCase().trim())}">${city}</a>`;
+    }
+
+    // Default: Create links for each relevant part
+    return location
+      .map((part, index) => {
+        if (index === 1) {
+          // State link
+          return `<a class="loc-link" href="https://reelcareer.co/state#${encodeURIComponent(part.toLowerCase().trim())}">${part}</a>`;
+        } else if (index === location.length - 1) {
+          // City link
+          return `<a class="loc-link" href="https://reelcareer.co/city#${encodeURIComponent(part.toLowerCase().trim())}">${part}</a>`;
+        } else {
+          // Regular text
+          return part;
+        }
+      })
+      .join(", ");
   } else if (typeof location === "string") {
-    // If location is a string, we format it directly
     if (location.trim() === "") {
-      return "Not specified"; // Return 'Not specified' for empty string
+      return "Not specified";
     }
-  } else {
-    // If location is neither an array nor a valid string, return 'Not specified'
-    return "Not specified";
+    // Directly format string
+    return `<a class="loc-link" href="https://reelcareer.co/location#${encodeURIComponent(location.toLowerCase().trim())}">${location}</a>`;
   }
 
-  // Capitalize each word of the location, whether it's from an array or string
-  location = location
-    .split(" ")
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-    .join(" ");
-
-  // Add spaces after commas, periods, dashes, slashes, or colons
-  let formattedLocation = location.replace(/([.,-/])(\S)/g, "$1 $2");
-
-  // Remove any extra spaces
-  formattedLocation = formattedLocation.replace(/\s+/g, " ").trim();
-
-  return `<a  class= 'loc-link' href="https://reelcareer.co/location#${encodeURIComponent(formattedLocation).toLowerCase().trim()}">${formattedLocation}</a>`;
+  return "Not specified";
 }
 
 
