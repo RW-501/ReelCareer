@@ -2491,16 +2491,14 @@ handleJobInput(jobTitleName, "apply");
                   form.submit(); // Trigger the form submission programmatically
               }, interceptTimer); // Delay by 1 second
           } else {
-          //    console.log('No associated form found for this submit button.');
-  
-        // Check if the button is inside a class job-tags
-        if (target.closest('.job-tags')) {
+            console.log(`Associated form: buttonText = ${buttonText}, target = ${target}`);
+            // Check if the button is inside a class job-tags
+        if (target.contains.classList('tags')) {
        
-          // Add the button text to the array if not already present
-          if (!userTagInterest.includes(buttonText)) {
-              userTagInterest.push(buttonText);
-              handleTagInput(userTagInterest);
-            }
+     
+
+              handleTagInput(buttonText);
+            
 
       }
 

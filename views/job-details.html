@@ -956,7 +956,7 @@ document.getElementById('tag-list').textContent = jobTags.join(', ');
           tags.forEach(tag => {
             // Create a button element for each tag
             const button = document.createElement('button');
-            button.className = 'btn btn-secondary m-1'; // Bootstrap button styling
+            button.className = 'btn btn-secondary m-1 tags'; // Bootstrap button styling
             button.textContent = tag;
             // Add a click event to redirect to job-listings with the selected tag
             button.onclick = () => {
