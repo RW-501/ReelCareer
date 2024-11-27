@@ -1,259 +1,258 @@
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Admin Notes and To-Do</title>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-        <link rel="stylesheet" href="https://reelcareer.co/backend/css/styles.css">
-        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    
-        
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    </head>
-    
-    <body>
-        <script src="https://reelcareer.co/public/js/bodyload.js"></script>
-        
-     <!-- Navbar section -->
-    <nav id="Main_Nav" class="main_Navbar" role="navigation" aria-label="Main Navigation" itemscope itemtype="https://schema.org/WebPage">
-        <!-- Logo/Brand Name -->
-        <a class="navbar-brand" href="https://reelcareer.co">ReelCareer.co</a>
-    
-        <!-- Menu toggle checkbox and label -->
-        <input type="checkbox" id="nav-toggle">
-        <label for="nav-toggle" class="nav-toggle-label">
-            <span class="bar1"></span>
-            <span class="bar2"></span>
-            <span class="bar3"></span>
-        </label>
-    
-        <div class="nav-links">
-            <!-- Navigation links -->
-            <ul  id="navbarNav">
-                <!-- Dashboard and Analytics Group -->
-                <div class="navGroup" title="Dashboard and Analytics">
-                    <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/dashboard">Dashboard</a></li>
-                    <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/analytics">Analytics</a></li>
-                    <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/state-labour-market">State Labour Market</a></li>
-                    <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/ping">Ping</a></li>
-                    <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/page-editor">Page Editor</a></li>
-                    <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/notes">Notes</a></li>
-                </div>
-                <!-- Management Tools -->
-                <div class="navGroup" title="Management Tools">
-                    <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/content-management">Content <small>Management</small></a></li>
-                    <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/user-management">User <small>Management</small></a></li>
-                    <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/job-management">Job <small>Management</small></a></li>
-                    <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/application-management">Application <small>Management</small></a></li>
-                </div>
-                <!-- General Settings and Utilities -->
-                <div class="navGroup" title="General Settings and Utilities">
-                    <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/contact">Contact</a></li>
-                    <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/settings">Settings</a></li>
-                    <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/support">Support</a></li>
-                    <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/chatbot">Chatbot</a></li>
-                    <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/notifications-management">Notifications <small>Management</small></a></li>
-                    <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/system-logs">System Logs</a></li>
-                </div>
-                <!-- Finance and Monetization -->
-                <div class="navGroup" title="Finance and Monetization">
-                    <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/transactions">Transactions</a></li>
-                    <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/integration-management">Integration <small>Management</small></a></li>
-                    <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/payments">Payments</a></li>
-                    <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/monetization">Monetization</a></li>
-                </div>
-                <!-- SEO and Cleanup -->
-                <div class="navGroup" title="SEO and Cleanup">
-                    <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/delete-dup">Delete Dup</a></li>
-                    <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/seo-helper">SEO Helper</a></li>
-                </div>
-                <!-- Role and Personality Management -->
-                <div class="navGroup" title="Role and Personality Management">
-                    <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/role-management">Role <small>Management</small></a></li>
-                    <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/trait-personality-management">Trait Personality <small>Management</small></a></li>
-                </div>
-            </ul>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Notes and To-Do</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://reelcareer.co/backend/css/styles.css">
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+  <script src="https://reelcareer.co/public/js/bodyload.js"></script>
+
+  <!-- Navbar section -->
+  <nav id="Main_Nav" class="main_Navbar" role="navigation" aria-label="Main Navigation" itemscope itemtype="https://schema.org/WebPage">
+    <!-- Logo/Brand Name -->
+    <a class="navbar-brand" href="https://reelcareer.co">ReelCareer.co</a>
+
+    <!-- Menu toggle checkbox and label -->
+    <input type="checkbox" id="nav-toggle">
+    <label for="nav-toggle" class="nav-toggle-label">
+      <span class="bar1"></span>
+      <span class="bar2"></span>
+      <span class="bar3"></span>
+    </label>
+
+    <div class="nav-links">
+      <!-- Navigation links -->
+      <ul id="navbarNav">
+        <!-- Dashboard and Analytics Group -->
+        <div class="navGroup" title="Dashboard and Analytics">
+          <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/dashboard">Dashboard</a></li>
+          <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/analytics">Analytics</a></li>
+          <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/state-labour-market">State Labour Market</a></li>
+          <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/ping">Ping</a></li>
+          <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/page-editor">Page Editor</a></li>
+          <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/notes">Notes</a></li>
         </div>
-    </nav>
-    
-    
-        <div class="container mt-4">
-            <h1>Analytics & Reporting</h1>
-    <style>
-    
+        <!-- Management Tools -->
+        <div class="navGroup" title="Management Tools">
+          <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/content-management">Content <small>Management</small></a></li>
+          <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/user-management">User <small>Management</small></a></li>
+          <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/job-management">Job <small>Management</small></a></li>
+          <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/application-management">Application <small>Management</small></a></li>
+        </div>
+        <!-- General Settings and Utilities -->
+        <div class="navGroup" title="General Settings and Utilities">
+          <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/contact">Contact</a></li>
+          <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/settings">Settings</a></li>
+          <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/support">Support</a></li>
+          <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/chatbot">Chatbot</a></li>
+          <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/notifications-management">Notifications <small>Management</small></a></li>
+          <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/system-logs">System Logs</a></li>
+        </div>
+        <!-- Finance and Monetization -->
+        <div class="navGroup" title="Finance and Monetization">
+          <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/transactions">Transactions</a></li>
+          <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/integration-management">Integration <small>Management</small></a></li>
+          <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/payments">Payments</a></li>
+          <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/monetization">Monetization</a></li>
+        </div>
+        <!-- SEO and Cleanup -->
+        <div class="navGroup" title="SEO and Cleanup">
+          <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/delete-dup">Delete Dup</a></li>
+          <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/seo-helper">SEO Helper</a></li>
+        </div>
+        <!-- Role and Personality Management -->
+        <div class="navGroup" title="Role and Personality Management">
+          <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/role-management">Role <small>Management</small></a></li>
+          <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/trait-personality-management">Trait Personality <small>Management</small></a></li>
+        </div>
+      </ul>
+    </div>
+  </nav>
+
+  <style>
     .container {
-            max-width: 1200px;
-            margin: 20px auto;
-            padding: 20px;
-            background: #ffffff;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-        }
+      max-width: 1200px;
+      margin: 20px auto;
+      padding: 20px;
+      background: #ffffff;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+    }
 
-        h1 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
 
-        .form-group {
-            margin-bottom: 20px;
-        }
+    .form-group {
+      margin-bottom: 20px;
+    }
 
-        label {
-            font-weight: bold;
-            display: block;
-            margin-bottom: 5px;
-        }
+    label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 5px;
+    }
 
-    
-        textarea, input {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
+    textarea,
+    input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
 
-        .btn {
-            display: inline-block;
-            padding: 10px 15px;
-            color: #fff;
-            background: #007bff;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            text-decoration: none;
-            margin-right: 5px;
-        }
-    
-    
-        .btn:hover {
-            background: #0056b3;
-        }
+    .btn {
+      display: inline-block;
+      padding: 10px 15px;
+      color: #fff;
+      background: #007bff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      text-decoration: none;
+      margin-right: 5px;
+    }
 
-        .note-list, .todo-list {
-            margin-top: 20px;
-        }
+    .btn:hover {
+      background: #0056b3;
+    }
 
-        .item {
-            padding: 10px;
-            background: #f1f1f1;
-            margin-bottom: 10px;
-            border-radius: 4px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-    
-    
-    
-        .item p {
-            margin: 0;
-        }
+    .note-list,
+    .todo-list {
+      margin-top: 20px;
+    }
 
-        .edit-btn, .delete-btn {
-            margin-left: 10px;
-        }
+    .item {
+      padding: 10px;
+      background: #f1f1f1;
+      margin-bottom: 10px;
+      border-radius: 4px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
 
-        .edit-btn {
-            background: #ffc107;
-        }
+    .item p {
+      margin: 0;
+    }
 
-        .edit-btn:hover {
-            background: #e0a800;
-        }
+    .edit-btn,
+    .delete-btn {
+      margin-left: 10px;
+    }
 
-        .delete-btn {
-            background: #dc3545;
-        }
+    .edit-btn {
+      background: #ffc107;
+    }
 
-        .delete-btn:hover {
-            background: #c82333;
-        }
-    
-    
-    
-    
-    
-    
-    </style>
-   <div class="container">
+    .edit-btn:hover {
+      background: #e0a800;
+    }
+
+    .delete-btn {
+      background: #dc3545;
+    }
+
+    .delete-btn:hover {
+      background: #c82333;
+    }
+  </style>
+<div class="container">
     <h1>Admin Notes and To-Do</h1>
-
-    <div class="form-group">
+  
+    <section>
+      <form class="form-group">
         <label for="note">Add a Note</label>
-        <textarea id="note" placeholder="Type your note here..."></textarea>
-        <button class="btn" id="saveNote">Save Note</button>
-    </div>
-
-    <div class="form-group">
+        <textarea id="note" placeholder="Type your note here..." aria-label="Note text"></textarea>
+        <button class="btn btn-primary" id="saveNote">Save Note</button>
+      </form>
+    </section>
+  
+    <section>
+      <form class="form-group">
         <label for="todo">Add a To-Do</label>
-        <input type="text" id="todo" placeholder="Type your to-do here...">
-        <button class="btn" id="saveTodo">Add To-Do</button>
-    </div>
+        <input type="text" id="todo" placeholder="Type your to-do here..." aria-label="To-do text">
+        <button class="btn btn-primary" id="saveTodo">Add To-Do</button>
+      </form>
+    </section>
+  
+    <article>
+      <h2>Notes</h2>
+      <div class="note-list" id="noteList" role="list">
+        <!-- Notes dynamically loaded here -->
+      </div>
+    </article>
+  
+    <article>
+      <h2>To-Do List</h2>
+      <div class="todo-list" id="todoList" role="list">
+        <!-- To-Do items dynamically loaded here -->
+      </div>
+    </article>
+  </div>
+  
 
-    <h2>Notes</h2>
-    <div class="note-list" id="noteList">
-        <!-- Notes will be displayed here -->
-    </div>
+  <!-- Footer -->
+  <footer id="dynamic-footer"></footer>
 
-    
-    
-    
-    
-    
-    
-    
-    
-    <h2>To-Do List</h2>
-    <div class="todo-list" id="todoList">
-        <!-- To-Do items will be displayed here -->
-    </div>
-</div>
+  <!-- Firebase configuration/ Login& Out -->
+  <script type="module" src="https://reelcareer.co/public/js/main.js"></script>
 
-        <!-- Footer -->
-        <footer id="dynamic-footer"></footer>
-        
-        <!-- Firebase configuration/ Login& Out -->
-        <script type="module" src="https://reelcareer.co/public/js/main.js"></script> 
-    
-        <!-- Firebase JS SDK and Custom Scripts -->
-    
-        <script type="module">
-            import {
-                db, doc, getDoc, query, updateDoc,
-                setDoc, ref, signInWithPopup, orderBy,
-                 
-                uploadBytes, OAuthProvider, arrayUnion, getStorage,
-                signOut, addDoc, increment, onAuthStateChanged,
-                createUserWithEmailAndPassword, signInWithEmailAndPassword,
-                where, getDocs, storage, collection, deleteObject, 
-                auth, analytics, deleteDoc, getDownloadURL
-            } from 'https://reelcareer.co/js/module.js';
-    
-    
-    
-    
-    
-    
-    
-            
+  <!-- Firebase JS SDK and Custom Scripts -->
+
+  <script type="module">
+    import {
+      db,
+      doc,
+      getDoc,
+      query,
+      updateDoc,
+      setDoc,
+      ref,
+      signInWithPopup,
+      orderBy,
+      uploadBytes,
+      OAuthProvider,
+      arrayUnion,
+      getStorage,
+      signOut,
+      addDoc,
+      increment,
+      onAuthStateChanged,
+      createUserWithEmailAndPassword,
+      signInWithEmailAndPassword,
+      where,
+      getDocs,
+      storage,
+      collection,
+      deleteObject,
+      auth,
+      analytics,
+      deleteDoc,
+      getDownloadURL
+    } from 'https://reelcareer.co/js/module.js';
     // Function to format dates with added support for Firestore timestamps
     function formatDate(dateInput, options = {}) {
       let date;
-    
       if (dateInput && dateInput.seconds && dateInput.nanoseconds) {
         date = new Date(dateInput.seconds * 1000 + dateInput.nanoseconds / 1000000);
       } else {
         date = new Date(dateInput);
       }
-    
       if (isNaN(date)) {
         console.error("Invalid date string:", dateInput);
         return "Invalid Date";
       }
-    
       const defaultOptions = {
         weekday: "long",
         year: "numeric",
@@ -264,121 +263,118 @@
         second: "numeric",
         hour12: true,
       };
-    
-      const finalOptions = { ...defaultOptions, ...options };
+      const finalOptions = {
+        ...defaultOptions,
+        ...options
+      };
       return date.toLocaleString("en-US", finalOptions);
     }
-    
-     async function fetchAndRender(collectionRef, renderFn) {
-            try {
-                const snapshot = await getDocs(collectionRef);
-                const items = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                renderFn(items);
-            } catch (error) {
-                console.error("Error fetching items:", error);
-            }
-        }
+    async function fetchAndRender(collectionRef, renderFn) {
+      try {
+        const snapshot = await getDocs(collectionRef);
+        const items = snapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+        renderFn(items);
+      } catch (error) {
+        console.error("Error fetching items:", error);
+      }
+    }
+    async function saveItem(collectionRef, data, fetchFn) {
+      try {
+        await addDoc(collectionRef, data);
+        fetchFn();
+      } catch (error) {
+        console.error("Error saving item:", error);
+      }
+    }
+    window.saveItem = saveItem;
+    window.fetchAndRender = fetchAndRender;
+    async function updateItem(docId, collectionRef, data, fetchFn) {
+      try {
+        const itemRef = doc(collectionRef, docId);
+        await updateDoc(itemRef, data);
+        fetchFn();
+      } catch (error) {
+        console.error("Error updating item:", error);
+      }
+    }
+    async function deleteItem(docId, collectionRef, fetchFn) {
+      try {
+        const itemRef = doc(collectionRef, docId);
+        await deleteDoc(itemRef);
+        fetchFn();
+      } catch (error) {
+        console.error("Error deleting item:", error);
+      }
+    }
 
-        async function saveItem(collectionRef, data, fetchFn) {
-            try {
-                await addDoc(collectionRef, data);
-                fetchFn();
-            } catch (error) {
-                console.error("Error saving item:", error);
-            }
-        }
-        async function updateItem(docId, collectionRef, data, fetchFn) {
-            try {
-                const itemRef = doc(collectionRef, docId);
-                await updateDoc(itemRef, data);
-                fetchFn();
-            } catch (error) {
-                console.error("Error updating item:", error);
-            }
-        }
-
-        async function deleteItem(docId, collectionRef, fetchFn) {
-            try {
-                const itemRef = doc(collectionRef, docId);
-                await deleteDoc(itemRef);
-                fetchFn();
-            } catch (error) {
-                console.error("Error deleting item:", error);
-            }
-        }
-    
-        function renderNotes(notes) {
-            const noteList = document.getElementById("noteList");
-            noteList.innerHTML = "";
-            notes.forEach(note => {
-                const div = document.createElement("div");
-                div.className = "item";
-                div.innerHTML = `
+    function renderNotes(notes) {
+      const noteList = document.getElementById("noteList");
+      noteList.innerHTML = "";
+      notes.forEach(note => {
+        const div = document.createElement("div");
+        div.className = "item";
+        div.innerHTML = `
                     <p>${note.content}</p>
                     <div>
                         <button class="btn edit-btn" onclick="editNote('${note.id}', '${note.content}')">Edit</button>
                         <button class="btn delete-btn" onclick="deleteItem('${note.id}', notesCollection, fetchNotes)">Delete</button>
                     </div>
                 `;
-                noteList.appendChild(div);
-            });
-        }
-        function renderTodos(todos) {
-            const todoList = document.getElementById("todoList");
-            todoList.innerHTML = "";
-            todos.forEach(todo => {
-                const div = document.createElement("div");
-                div.className = "item";
-                div.innerHTML = `
+        noteList.appendChild(div);
+      });
+    }
+    window.renderNotes = renderNotes;
+
+    function renderTodos(todos) {
+      const todoList = document.getElementById("todoList");
+      todoList.innerHTML = "";
+      todos.forEach(todo => {
+        const div = document.createElement("div");
+        div.className = "item";
+        div.innerHTML = `
                     <p>${todo.content}</p>
                     <div>
                         <button class="btn edit-btn" onclick="editTodo('${todo.id}', '${todo.content}')">Edit</button>
                         <button class="btn delete-btn" onclick="deleteItem('${todo.id}', todosCollection, fetchTodos)">Delete</button>
                     </div>
                 `;
-                todoList.appendChild(div);
-            });
-        }
+        todoList.appendChild(div);
+      });
+    }
+    window.renderTodos = renderTodos;
+    window.deleteItem = deleteItem;
+    window.updateItem = updateItem;
+    async function fetchNotes() {
+      await fetchAndRender(notesCollection, renderNotes);
+    }
+    async function fetchTodos() {
+      await fetchAndRender(todosCollection, renderTodos);
+    }
+    document.getElementById("saveNote").addEventListener("click", () => {
+      const noteInput = document.getElementById("note");
+      if (noteInput.value.trim()) {
+        saveItem(notesCollection, {
+          content: noteInput.value.trim()
+        }, fetchNotes);
+        noteInput.value = "";
+      }
+    });
+    document.getElementById("saveTodo").addEventListener("click", () => {
+      const todoInput = document.getElementById("todo");
+      if (todoInput.value.trim()) {
+        saveItem(todosCollection, {
+          content: todoInput.value.trim()
+        }, fetchTodos);
+        todoInput.value = "";
+      }
+    });
+    // Initialize
+    fetchNotes();
+    fetchTodos();
+  </script>
+</body>
 
-        async function fetchNotes() {
-            await fetchAndRender(notesCollection, renderNotes);
-        }
-
-        async function fetchTodos() {
-            await fetchAndRender(todosCollection, renderTodos);
-        }
-
-
-        document.getElementById("saveNote").addEventListener("click", () => {
-            const noteInput = document.getElementById("note");
-            if (noteInput.value.trim()) {
-                saveItem(notesCollection, { content: noteInput.value.trim() }, fetchNotes);
-                noteInput.value = "";
-            }
-        });
-
-        document.getElementById("saveTodo").addEventListener("click", () => {
-            const todoInput = document.getElementById("todo");
-            if (todoInput.value.trim()) {
-                saveItem(todosCollection, { content: todoInput.value.trim() }, fetchTodos);
-                todoInput.value = "";
-            }
-        });
-
-        // Initialize
-        fetchNotes();
-        fetchTodos();
-
-
-
-
-
-
-
-
-
-            
-        </script>
-    </body>
-    </html>
-    
+</html>
