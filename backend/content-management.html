@@ -789,36 +789,23 @@
         // Load content on page load
         document.addEventListener('DOMContentLoaded', function () {
             loadContent();
+            function filterContent(type) {
+    const input = document.getElementById('searchContent');
+    const filter = input ? input.value.toLowerCase() : '';
+    const contentList = document.getElementById('contentList');
+    const items = contentList.querySelectorAll('div[data-type]');
 
-            function filterContent(type = 'All') {
+    items.forEach(item => {
+        const title = item.querySelector('h5');
+        const matchesType = type === 'All' || item.getAttribute('data-type') === type;
+        const matchesFilter = title && title.textContent.toLowerCase().includes(filter);
 
-console.log("type   ",type);
-
-const input = document.getElementById('searchContent');
-const filter = input.value.toLowerCase();
-const contentDiv = document.getElementById('contentList');
-const contentItems = contentDiv.getElementsByTagName('div');
-const items = contentList.querySelectorAll('div[data-type]');
-
-for (let i = 0; i < contentItems.length; i++) {
-    const title = contentItems[i].getElementsByTagName('h5')[0];
-    if (title) {
-        const txtValue = title.textContent || title.innerText;
-        contentItems[i].style.display = txtValue.toLowerCase().includes(filter) ? "" : "none";
-    }
-}
-
-
-items.forEach(item => {
-if (type === 'All' || item.getAttribute('data-type') === type) {
-item.style.display = 'block';
-} else {
-item.style.display = 'none';
-}
-});
-
-
-
+        if (matchesType && matchesFilter) {
+            item.style.display = '';
+        } else {
+            item.style.display = 'none';
+        }
+    });
 }
             // Add buttons for filtering
             const buttonContainer = document.getElementById('buttonContainer');
