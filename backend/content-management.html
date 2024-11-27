@@ -728,68 +728,68 @@
 
 
 
-        // Load existing content
+       // Function to load and render content for all types
+async function loadContent() {
+    const contentList = document.getElementById('contentList');
+    contentList.innerHTML = ''; // Clear existing content
 
-        async function loadContent() {
-            const contentList = document.getElementById('contentList');
-            contentList.innerHTML = ''; // Clear existing content
+    try {
+        // Fetch and Render News, Blogs, and FAQs
+        await loadAndRenderContent('News', 'News');
+        await loadAndRenderContent('Blogs', 'Blog');
+        await loadAndRenderContent('FAQs', 'FAQ');
 
-            try {
-                // Fetch and Render News, Blogs, and FAQs
-                await loadAndRenderContent('News', 'News');
-                await loadAndRenderContent('Blogs', 'Blog');
-                await loadAndRenderContent('FAQs', 'FAQ');
+    } catch (error) {
+        console.error("Error loading content: ", error);
+    }
+}
 
-            } catch (error) {
-                console.error("Error loading content: ", error);
-            }
-        }
+// Function to load and render a specific content type
+async function loadAndRenderContent(collectionName, label) {
+    const contentList = document.getElementById('contentList');
 
-        async function loadAndRenderContent(collectionName, label) {
-            const contentList = document.getElementById('contentList');
+    try {
+        const snapshot = await getDocs(collection(db, collectionName));
+        snapshot.forEach(doc => {
+            const data = doc.data();
+            const docId = doc.id; // Document ID
 
-            try {
-                const snapshot = await getDocs(collection(db, collectionName));
-                snapshot.forEach(doc => {
-                    const data = doc.data();
-                    const docId = doc.id; // This is the document ID
+            const title = collectionName === 'FAQs' ? data.question : data.title;
+            const content = collectionName === 'FAQs' ? data.answer : data.content;
 
-                    const title = collectionName === 'FAQs' ? data.question : data.title;
-                    const content = collectionName === 'FAQs' ? data.answer : data.content;
+            // Create elements dynamically
+            const contentItem = document.createElement('div');
+            contentItem.setAttribute('data-type', label); // Set data-type for filtering
 
-                    // Use DOM methods to create and append elements
-                    const contentItem = document.createElement('div');
-                    const titleElement = document.createElement('h5');
-                    titleElement.classList.add('clickable');
-                    titleElement.setAttribute('data-title', title);
-                    titleElement.setAttribute('data-content', content);
-                    titleElement.textContent = `${title} (${label})`;
+            const titleElement = document.createElement('h5');
+            titleElement.classList.add('clickable');
+            titleElement.setAttribute('data-title', title);
+            titleElement.setAttribute('data-content', content);
+            titleElement.textContent = `${title} (${label})`;
 
-                    // Add click event listener instead of inline onclick
-                    titleElement.addEventListener('click', () => showContentModal(titleElement, collectionName, docId));
+            // Add click event listener
+            titleElement.addEventListener('click', () => {
+                console.log('Modal triggered for:', title);
+                showContentModal(titleElement, collectionName, docId);
+            });
 
-                    const contentElement = document.createElement('p');
-                    contentElement.textContent = content;
+            const contentElement = document.createElement('p');
+            contentElement.textContent = content;
 
-                    // Append elements
-                    contentItem.appendChild(titleElement);
-                    // contentItem.appendChild(contentElement);
-                    contentItem.appendChild(document.createElement('hr'));
-                    contentList.appendChild(contentItem);
-                });
+            // Append elements
+            contentItem.appendChild(titleElement);
+            contentItem.appendChild(document.createElement('hr'));
+            contentList.appendChild(contentItem);
+        });
 
-            } catch (error) {
-                console.error(`Error loading ${collectionName}: `, error);
-            }
-        }
+    } catch (error) {
+        console.error(`Error loading ${collectionName}: `, error);
+    }
+}
 
-     
-        
-
-        // Load content on page load
-        document.addEventListener('DOMContentLoaded', function () {
-            loadContent();
-            function filterContent(type) {
+// Filter function to show only selected content type
+function filterContent(type) {
+    console.log('Filter type:', type);
     const input = document.getElementById('searchContent');
     const filter = input ? input.value.toLowerCase() : '';
     const contentList = document.getElementById('contentList');
@@ -800,6 +800,8 @@
         const matchesType = type === 'All' || item.getAttribute('data-type') === type;
         const matchesFilter = title && title.textContent.toLowerCase().includes(filter);
 
+        console.log(`Item: ${title?.textContent}, MatchesType: ${matchesType}, MatchesFilter: ${matchesFilter}`);
+
         if (matchesType && matchesFilter) {
             item.style.display = '';
         } else {
@@ -807,30 +809,60 @@
         }
     });
 }
-            // Add buttons for filtering
-            const buttonContainer = document.getElementById('buttonContainer');
 
-            const allButton = document.createElement('button');
-            allButton.textContent = 'Show All';
-            allButton.addEventListener('click', () => filterContent('All'));
-            buttonContainer.appendChild(allButton);
+// Event listener for page load
+document.addEventListener('DOMContentLoaded', function () {
+    // Load all content initially
+    loadContent();
 
-            const newsButton = document.createElement('button');
-            newsButton.textContent = 'Show News';
-            newsButton.addEventListener('click', () => filterContent('News'));
-            buttonContainer.appendChild(newsButton);
+    // Add buttons for filtering
+    const buttonContainer = document.getElementById('buttonContainer');
 
-            const blogsButton = document.createElement('button');
-            blogsButton.textContent = 'Show Blogs';
-            blogsButton.addEventListener('click', () => filterContent('Blog'));
-            buttonContainer.appendChild(blogsButton);
+    const allButton = document.createElement('button');
+    allButton.textContent = 'Show All';
+    allButton.addEventListener('click', () => {
+        console.log('Filter: All');
+        filterContent('All');
+    });
+    buttonContainer.appendChild(allButton);
 
-            const faqsButton = document.createElement('button');
-            faqsButton.textContent = 'Show FAQs';
-            faqsButton.addEventListener('click', () => filterContent('FAQ'));
-            buttonContainer.appendChild(faqsButton);
-        });
+    const newsButton = document.createElement('button');
+    newsButton.textContent = 'Show News';
+    newsButton.addEventListener('click', () => {
+        console.log('Filter: News');
+        filterContent('News');
+    });
+    buttonContainer.appendChild(newsButton);
 
+    const blogsButton = document.createElement('button');
+    blogsButton.textContent = 'Show Blogs';
+    blogsButton.addEventListener('click', () => {
+        console.log('Filter: Blogs');
+        filterContent('Blog');
+    });
+    buttonContainer.appendChild(blogsButton);
+
+    const faqsButton = document.createElement('button');
+    faqsButton.textContent = 'Show FAQs';
+    faqsButton.addEventListener('click', () => {
+        console.log('Filter: FAQs');
+        filterContent('FAQ');
+    });
+    buttonContainer.appendChild(faqsButton);
+
+    // Add a search bar for filtering by text
+    const searchBar = document.createElement('input');
+    searchBar.type = 'text';
+    searchBar.id = 'searchContent';
+    searchBar.placeholder = 'Search content...';
+    searchBar.addEventListener('input', () => {
+        const activeButton = document.querySelector('button.active');
+        const activeType = activeButton ? activeButton.textContent : 'All';
+        console.log('Search input triggered, active filter:', activeType);
+        filterContent(activeType);
+    });
+    buttonContainer.appendChild(searchBar);
+});
 
     </script>
 
