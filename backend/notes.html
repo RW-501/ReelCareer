@@ -6,9 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Notes and To-Do</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://reelcareer.co/backend/css/styles.css">
   <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
@@ -23,191 +21,60 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
-  
-                          <!-- Dashboard and New Group -->
-                          <div class="navGroup" title="Dashboard and Analytics">
-                              <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/notes">Notes</a></li>
-                              <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/titles-fix">Title Fix</a></li>
-                    </div>
-  
-              <!-- Dashboard and Analytics Group -->
-              <div class="navGroup" title="Dashboard and Analytics">
-                  <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/dashboard">Dashboard</a></li>
-                  <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/analytics">Analytics</a></li>
-                  <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/state-labour-market">State Labour Market</a></li>
-                  <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/ping">Ping</a></li>
-                  <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/page-editor">Page Editor</a></li>
-                  <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/notes">Notes</a></li>
-              </div>
-              <!-- Management Tools -->
-              <div class="navGroup" title="Management Tools">
-                  <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/content-management">Content <small>Management</small></a></li>
-                  <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/user-management">User <small>Management</small></a></li>
-                  <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/job-management">Job <small>Management</small></a></li>
-                  <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/application-management">Application <small>Management</small></a></li>
-              </div>
-              <!-- General Settings and Utilities -->
-              <div class="navGroup" title="General Settings and Utilities">
-                  <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/contact">Contact</a></li>
-                  <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/settings">Settings</a></li>
-                  <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/support">Support</a></li>
-                  <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/chatbot">Chatbot</a></li>
-                  <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/notifications-management">Notifications <small>Management</small></a></li>
-                  <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/system-logs">System Logs</a></li>
-              </div>
-              <!-- Finance and Monetization -->
-              <div class="navGroup" title="Finance and Monetization">
-                  <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/transactions">Transactions</a></li>
-                  <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/integration-management">Integration <small>Management</small></a></li>
-                  <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/payments">Payments</a></li>
-                  <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/monetization">Monetization</a></li>
-              </div>
-              <!-- SEO and Cleanup -->
-              <div class="navGroup" title="SEO and Cleanup">
-                  <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/delete-dup">Delete Dup</a></li>
-                  <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/seo-helper">SEO Helper</a></li>
-              </div>
-              <!-- Role and Personality Management -->
-              <div class="navGroup" title="Role and Personality Management">
-                  <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/role-management">Role <small>Management</small></a></li>
-                  <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/trait-personality-management">Trait Personality <small>Management</small></a></li>
-              </div>
-          </ul>
-      </div>
+        <!-- Menu items go here -->
+      </ul>
+    </div>
   </nav>
 
-  <style>
-    .container {
-      max-width: 1200px;
-      margin: 20px auto;
-      padding: 20px;
-      background: #ffffff;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      border-radius: 8px;
-    }
+  <div class="container mt-5">
+    <h1 class="text-center">Admin Notes and To-Do</h1>
 
-    h1 {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    .form-group {
-      margin-bottom: 20px;
-    }
-
-    label {
-      font-weight: bold;
-      display: block;
-      margin-bottom: 5px;
-    }
-
-    textarea,
-    input {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      box-sizing: border-box;
-    }
-
-    .btn {
-      display: inline-block;
-      padding: 10px 15px;
-      color: #fff;
-      background: #007bff;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      text-decoration: none;
-      margin-right: 5px;
-    }
-
-    .btn:hover {
-      background: #0056b3;
-    }
-
-    .note-list,
-    .todo-list {
-      margin-top: 20px;
-    }
-
-    .item {
-      padding: 10px;
-      background: #f1f1f1;
-      margin-bottom: 10px;
-      border-radius: 4px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .item p {
-      margin: 0;
-    }
-
-    .edit-btn,
-    .delete-btn {
-      margin-left: 10px;
-    }
-
-    .edit-btn {
-      background: #ffc107;
-    }
-
-    .edit-btn:hover {
-      background: #e0a800;
-    }
-
-    .delete-btn {
-      background: #dc3545;
-    }
-
-    .delete-btn:hover {
-      background: #c82333;
-    }
-  </style>
-<div class="container">
-    <h1>Admin Notes and To-Do</h1>
-  
-    <section>
-      <form class="form-group">
-        <label for="note">Add a Note</label>
-        <textarea id="note" placeholder="Type your note here..." aria-label="Note text"></textarea>
-        <button class="btn btn-primary" id="saveNote" type="button">Save Note</button>
-      </form>
-    </section>
-  
-    <section>
-      <form class="form-group">
-        <label for="todo">Add a To-Do</label>
-        <input type="text" id="todo" placeholder="Type your to-do here..." aria-label="To-do text">
-        <button class="btn btn-primary" id="saveTodo" type="button">Add To-Do</button>
-      </form>
-    </section>
-  
-    <article>
-      <h2>Notes</h2>
-      <div class="note-list" id="noteList" role="list">
-        <!-- Notes dynamically loaded here -->
+    <!-- Tab Navigation -->
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" id="notes-tab" data-toggle="tab" href="#notes" role="tab" aria-controls="notes" aria-selected="true">Notes</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="todos-tab" data-toggle="tab" href="#todos" role="tab" aria-controls="todos" aria-selected="false">To-Do List</a>
+      </li>
+    </ul>
+    
+    <div class="tab-content mt-3">
+      <!-- Notes Tab -->
+      <div class="tab-pane fade show active" id="notes" role="tabpanel" aria-labelledby="notes-tab">
+        <form class="form-group mb-4">
+          <label for="note">Add a Note</label>
+          <textarea id="note" class="form-control" placeholder="Type your note here..."></textarea>
+          <input type="text" id="noteGroup" class="form-control mt-2" placeholder="Enter group name">
+          <input type="text" id="noteLink" class="form-control mt-2" placeholder="Enter link to topic">
+          <button class="btn btn-primary mt-2" id="saveNote" type="button">Save Note</button>
+        </form>
+        <div id="noteList" class="note-list"></div>
       </div>
-    </article>
-  
-    <article>
-      <h2>To-Do List</h2>
-      <div class="todo-list" id="todoList" role="list">
-        <!-- To-Do items dynamically loaded here -->
+
+      <!-- To-Do Tab -->
+      <div class="tab-pane fade" id="todos" role="tabpanel" aria-labelledby="todos-tab">
+        <form class="form-group mb-4">
+          <label for="todo">Add a To-Do</label>
+          <input type="text" id="todo" class="form-control" placeholder="Type your to-do here...">
+          <input type="text" id="todoGroup" class="form-control mt-2" placeholder="Enter group name">
+          <input type="text" id="todoLink" class="form-control mt-2" placeholder="Enter link to topic">
+          <label for="todoComplete" class="mt-2">Mark as Complete</label>
+          <input type="checkbox" id="todoComplete">
+          <label for="todoComplete" class="ml-2">Need to Complete By</label>
+          <input type="date" id="todoDueDate" class="form-control mt-2">
+          <button class="btn btn-primary mt-2" id="saveTodo" type="button">Add To-Do</button>
+        </form>
+        <div id="todoList" class="todo-list"></div>
       </div>
-    </article>
+    </div>
   </div>
-  
 
   <!-- Footer -->
   <footer id="dynamic-footer"></footer>
 
   <!-- Firebase configuration/ Login& Out -->
   <script type="module" src="https://reelcareer.co/public/js/main.js"></script>
-
-  <!-- Firebase JS SDK and Custom Scripts -->
 
   <script type="module">
     import {
@@ -240,52 +107,6 @@
       deleteDoc,
       getDownloadURL
     } from 'https://reelcareer.co/js/module.js';
-    // Function to format dates with added support for Firestore timestamps
-
-// Get a reference to the "Notes" collection
-
-
-    function formatDate(dateInput, options = {}) {
-      let date;
-      if (dateInput && dateInput.seconds && dateInput.nanoseconds) {
-        date = new Date(dateInput.seconds * 1000 + dateInput.nanoseconds / 1000000);
-      } else {
-        date = new Date(dateInput);
-      }
-      if (isNaN(date)) {
-        console.error("Invalid date string:", dateInput);
-        return "Invalid Date";
-      }
-      const defaultOptions = {
-        weekday: "long",
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-        hour: "numeric",
-        minute: "numeric",
-        second: "numeric",
-        hour12: true,
-      };
-      const finalOptions = {
-        ...defaultOptions,
-        ...options
-      };
-      return date.toLocaleString("en-US", finalOptions);
-    }
-    async function fetchAndRender(collectionRef, renderFn) {
-  try {
-    console.log("Fetching from collection:", collectionRef); // Debugging line
-    const snapshot = await getDocs(collectionRef);
-    const items = snapshot.docs.map(doc => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
-    console.log("Fetched items:", items);
-    renderFn(items);
-  } catch (error) {
-    console.error("Error fetching items:", error);
-  }
-}
 
     async function saveItem(collectionRef, data, fetchFn) {
       try {
@@ -295,125 +116,113 @@
         console.error("Error saving item:", error);
       }
     }
-    window.saveItem = saveItem;
-    window.fetchAndRender = fetchAndRender;
-    async function updateItem(docId, collectionRef, data, fetchFn) {
+
+    async function fetchAndRender(collectionRef, renderFn) {
       try {
-        const itemRef = doc(collectionRef, docId);
-        await updateDoc(itemRef, data);
-        fetchFn();
+        const snapshot = await getDocs(collectionRef);
+        const items = snapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        renderFn(items);
       } catch (error) {
-        console.error("Error updating item:", error);
+        console.error("Error fetching items:", error);
       }
     }
-    async function deleteItem(docId, collectionRef, fetchFn) {
-      try {
-        const itemRef = doc(collectionRef, docId);
-        await deleteDoc(itemRef);
-        fetchFn();
-      } catch (error) {
-        console.error("Error deleting item:", error);
-      }
-    }
+
+    const todosCollection = collection(db, "Todos");
+    const notesCollection = collection(db, "Notes");
 
     function renderNotes(notes) {
-  const noteList = document.getElementById("noteList");
-  noteList.innerHTML = "";
-  notes.forEach(note => {
-    const div = document.createElement("div");
-    div.className = "item";
-    div.innerHTML = `
-      <p>${note.content}</p>
-      <div>
-        <button class="btn edit-btn" onclick="editItem('${note.id}', notesCollection, '${note.content}', fetchNotes)">Edit</button>
-        <button class="btn delete-btn" onclick="deleteItem('${note.id}', notesCollection, fetchNotes)">Delete</button>
-      </div>
-    `;
-    noteList.appendChild(div);
-  });
-}
+      const noteList = document.getElementById("noteList");
+      noteList.innerHTML = "";
+      notes.forEach(note => {
+        const div = document.createElement("div");
+        div.className = "item";
+        div.innerHTML = `
+          <p>${note.content} <small>(${note.timestamp})</small></p>
+          <p>Group: ${note.group}</p>
+          <p>Link: <a href="${note.link}" target="_blank">${note.link}</a></p>
+          <div>
+            <button class="btn edit-btn" onclick="editItem('${note.id}', notesCollection, '${note.content}', fetchNotes)">Edit</button>
+            <button class="btn delete-btn" onclick="deleteItem('${note.id}', notesCollection, fetchNotes)">Delete</button>
+          </div>
+        `;
+        noteList.appendChild(div);
+      });
+    }
 
-function renderTodos(todos) {
-  const todoList = document.getElementById("todoList");
-  todoList.innerHTML = "";
-  todos.forEach(todo => {
-    const div = document.createElement("div");
-    div.className = "item";
-    div.innerHTML = `
-      <p>${todo.content}</p>
-      <div>
-        <button class="btn edit-btn" onclick="editItem('${todo.id}', todosCollection, '${todo.content}', fetchTodos)">Edit</button>
-        <button class="btn delete-btn" onclick="deleteItem('${todo.id}', todosCollection, fetchTodos)">Delete</button>
-      </div>
-    `;
-    todoList.appendChild(div);
-  });
-}
+    function renderTodos(todos) {
+      const todoList = document.getElementById("todoList");
+      todoList.innerHTML = "";
+      todos.forEach(todo => {
+        const div = document.createElement("div");
+        div.className = "item";
+        div.innerHTML = `
+          <p>${todo.content} <small>(${todo.timestamp})</small></p>
+          <p>Group: ${todo.group}</p>
+          <p>Link: <a href="${todo.link}" target="_blank">${todo.link}</a></p>
+          <p>Due Date: ${todo.dueDate}</p>
+          <input type="checkbox" ${todo.completed ? "checked" : ""} onclick="toggleComplete('${todo.id}', todosCollection, fetchTodos)">
+          <span>Complete</span>
+          <div>
+            <button class="btn edit-btn" onclick="editItem('${todo.id}', todosCollection, '${todo.content}', fetchTodos)">Edit</button>
+            <button class="btn delete-btn" onclick="deleteItem('${todo.id}', todosCollection, fetchTodos)">Delete</button>
+          </div>
+        `;
+        todoList.appendChild(div);
+      });
+    }
 
-    window.renderTodos = renderTodos;
-    window.deleteItem = deleteItem;
-    window.updateItem = updateItem;
+    document.getElementById("saveNote").addEventListener("click", async () => {
+      const note = document.getElementById("note").value;
+      const group = document.getElementById("noteGroup").value;
+      const link = document.getElementById("noteLink").value;
+      const timestamp = new Date().toLocaleString();
+      const noteData = { content: note, group, link, timestamp };
+      await saveItem(notesCollection, noteData, fetchNotes);
+    });
+
+    document.getElementById("saveTodo").addEventListener("click", async () => {
+      const todo = document.getElementById("todo").value;
+      const group = document.getElementById("todoGroup").value;
+      const link = document.getElementById("todoLink").value;
+      const completed = document.getElementById("todoComplete").checked;
+      const dueDate = document.getElementById("todoDueDate").value;
+      const timestamp = new Date().toLocaleString();
+      const todoData = { content: todo, group, link, completed, dueDate, timestamp };
+      await saveItem(todosCollection, todoData, fetchTodos);
+    });
 
     async function fetchNotes() {
-      console.log("??????fetchNotes???????");
-
-      const  notesCollection = collection(db, "Notes");
-
-  await fetchAndRender(notesCollection, renderNotes);
-}
-
-async function fetchTodos() {
-  const  notesCollection = collection(db, "Notes");
-
-  await fetchAndRender(notesCollection, renderTodos);
-}
-
-    document.getElementById("saveNote").addEventListener("click", function () {
-    const noteText = document.getElementById("note").value.trim();
-console.log("??????????????????");
-
-
-    if (noteText) {
-        // Call your function to save the note in the "Notes" collection
-        saveNoteToDatabase(noteText);
-        document.getElementById("note").value = ""; // Clear the textarea
-    } else {
-      showToast("Please enter a note!");
+      await fetchAndRender(notesCollection, renderNotes);
     }
-});
-document.getElementById("saveTodo").addEventListener("click", function () {
-    const todoText = document.getElementById("todo").value.trim();
 
-    if (todoText) {
-        // Call your function to save the to-do in the collection
-        saveTodoToDatabase(todoText);
-        document.getElementById("todo").value = ""; // Clear the input field
-    } else {
-      showToast("Please enter a to-do!");
+    async function fetchTodos() {
+      await fetchAndRender(todosCollection, renderTodos);
     }
-});
 
-
-
-function saveNoteToDatabase(note) {
-  const  notesCollection = collection(db, "Notes");
-
-  saveItem(notesCollection, { content: note }, fetchNotes);
-  showToast("Saving note:", note);
-}
-
-function saveTodoToDatabase(todo) {
-  const  notesCollection = collection(db, "Notes");
-
-  saveItem(notesCollection, { content: todo }, fetchTodos);
-  showToast("Saving to-do:", todo);
-}
-
-
-    // Initialize
     fetchNotes();
     fetchTodos();
+
+    function deleteItem(itemId, collectionRef, fetchFn) {
+      const itemRef = doc(db, collectionRef, itemId);
+      deleteDoc(itemRef)
+        .then(() => fetchFn())
+        .catch(error => console.error("Error deleting item:", error));
+    }
+
+    function toggleComplete(itemId, collectionRef, fetchFn) {
+      const itemRef = doc(db, collectionRef, itemId);
+      updateDoc(itemRef, { completed: !itemRef.completed })
+        .then(() => fetchFn())
+        .catch(error => console.error("Error toggling complete:", error));
+    }
   </script>
+
+  <!-- Optional JavaScript and Bootstrap dependencies -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
