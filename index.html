@@ -341,28 +341,18 @@ const seenTitles = new Set();
 const seenIDs = new Set();
 
 let excludedIds = [];
-
 function prepareLocationForFirebase(userlocationData) {
-  console.log('Prepared Location Array:', userlocationData);
-
-  const locationArray = [];
-  
   // Extract location components
   const { city, state, zip, country } = userlocationData;
-  console.log(' city, state, zip, country :',  city, state, zip, country );
+  console.log('City:', city, 'State:', state, 'Zip:', zip, 'Country:', country);
 
-  // Add combinations of location components to the array
-  if (city) locationArray.push(city);
-  if (state) locationArray.push(state);
-  if (zip) locationArray.push(zip);
-  if (country) locationArray.push(country);
-  console.log('#1 Prepared Location Array:', locationArray);
-
-  // Add hierarchical combinations
-  if (city && state) locationArray.push(`${city}, ${state}`);
-  if (state && country) locationArray.push(`${state}, ${country}`);
-  if (city && state && country) locationArray.push(`${city}, ${state}, ${country}`);
-  if (zip && country) locationArray.push(`${zip}, ${country}`);
+  // Ensure all values are strings and not undefined or null
+  const locationArray = [
+    city || '',      // Default to an empty string if undefined or null
+    state || '',
+    zip || '',
+    country || ''
+  ];
 
   console.log('Prepared Location Array:', locationArray);
   return locationArray;
