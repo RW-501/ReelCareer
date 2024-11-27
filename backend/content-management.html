@@ -783,24 +783,42 @@
             }
         }
 
-        // Filter function to show only selected content type
-        function filterContent(type) {
-            const contentList = document.getElementById('contentList');
-            const items = contentList.querySelectorAll('div[data-type]');
-
-            items.forEach(item => {
-                if (type === 'All' || item.getAttribute('data-type') === type) {
-                    item.style.display = 'block';
-                } else {
-                    item.style.display = 'none';
-                }
-            });
-        }
+     
+        
 
         // Load content on page load
         document.addEventListener('DOMContentLoaded', function () {
             loadContent();
 
+            function filterContent(type = 'All') {
+
+console.log("type   ",type);
+
+const input = document.getElementById('searchContent');
+const filter = input.value.toLowerCase();
+const contentDiv = document.getElementById('contentList');
+const contentItems = contentDiv.getElementsByTagName('div');
+
+for (let i = 0; i < contentItems.length; i++) {
+    const title = contentItems[i].getElementsByTagName('h5')[0];
+    if (title) {
+        const txtValue = title.textContent || title.innerText;
+        contentItems[i].style.display = txtValue.toLowerCase().includes(filter) ? "" : "none";
+    }
+}
+
+
+items.forEach(item => {
+if (type === 'All' || item.getAttribute('data-type') === type) {
+item.style.display = 'block';
+} else {
+item.style.display = 'none';
+}
+});
+
+
+
+}
             // Add buttons for filtering
             const buttonContainer = document.getElementById('buttonContainer');
 
@@ -911,35 +929,7 @@
                 $('#contentModal').modal('show');
             }
         */
-        function filterContent(type = 'All') {
-
-            console.log("type   ",type);
-
-            const input = document.getElementById('searchContent');
-            const filter = input.value.toLowerCase();
-            const contentDiv = document.getElementById('contentList');
-            const contentItems = contentDiv.getElementsByTagName('div');
-
-            for (let i = 0; i < contentItems.length; i++) {
-                const title = contentItems[i].getElementsByTagName('h5')[0];
-                if (title) {
-                    const txtValue = title.textContent || title.innerText;
-                    contentItems[i].style.display = txtValue.toLowerCase().includes(filter) ? "" : "none";
-                }
-            }
-
-
-            items.forEach(item => {
-        if (type === 'All' || item.getAttribute('data-type') === type) {
-            item.style.display = 'block';
-        } else {
-            item.style.display = 'none';
-        }
-    });
-
-
-
-        }
+      
 
         function toggleSection(sectionId) {
             const sections = ['newsSection', 'blogSection', 'faqsSection'];
