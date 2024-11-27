@@ -273,11 +273,16 @@ let collectionRef = "Notes";
     }
     async function fetchAndRender(collectionRef, renderFn) {
       try {
+
+        console.log("collectionRef   ",collectionRef,", renderFn   ", renderFn);
+
         const snapshot = await getDocs(collectionRef);
         const items = snapshot.docs.map(doc => ({
           id: doc.id,
           ...doc.data()
         }));
+        console.log("items   ",items);
+
         renderFn(items);
       } catch (error) {
         console.error("Error fetching items:", error);
