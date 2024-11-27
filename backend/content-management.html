@@ -176,6 +176,7 @@
                     <label for="newsImageCaption">Image Caption <i class="fas fa-question-circle" data-toggle="tooltip" title="Enter a caption for the associated image."></i></label>
                     <input type="text" class="form-control" id="newsImageCaption">
                 </div>
+                <button onclick="addCommasToNewsTags()">Add Commas to News Tags</button>
                 <button type="submit" class="btn btn-primary">Save News Article</button>
                 <button type="reset" class="btn btn-secondary">Reset</button>
             </form>
@@ -253,6 +254,7 @@
                     <label for="blogImageCaption">Image Caption <i class="fas fa-question-circle" data-toggle="tooltip" title="Enter a caption for the associated image."></i></label>
                     <input type="text" class="form-control" id="blogImageCaption">
                 </div>
+                <button onclick="addCommasToBlogTags()">Add Commas to Blog Tags</button>
                 <button type="submit" class="btn btn-primary">Save Blog Post</button>
                 <button type="reset" class="btn btn-secondary">Reset</button>
             </form>
@@ -285,6 +287,7 @@
                     <option value="Account">Account</option>
                 </select>
             </div>
+            <button onclick="addCommasToAnotherTag()">Add Commas to Another Tag</button>
             <button type="submit" class="btn btn-primary">Save FAQ</button>
             <button type="reset" class="btn btn-secondary">Reset</button>
         </form>
@@ -619,7 +622,33 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-        // Load existing content
+ // Function to add commas to the Blog Tags input
+ function addCommasToBlogTags() {
+      let blogTagsInput = document.getElementById('blogTags');
+      let tags = blogTagsInput.value.split(/\s+/);  // Split by spaces
+      blogTagsInput.value = tags.join(', ');  // Join with commas
+    }
+
+    // Function to add commas to the News Tags input
+    function addCommasToNewsTags() {
+      let newsTagsInput = document.getElementById('newsTags');
+      let tags = newsTagsInput.value.split(/\s+/);  // Split by spaces
+      newsTagsInput.value = tags.join(', ');  // Join with commas
+    }
+
+    // Function to add commas to the Another Tags input
+    function addCommasToAnotherTag() {
+      let anotherTagInput = document.getElementById('anotherTag');
+      let tags = anotherTagInput.value.split(/\s+/);  // Split by spaces
+      anotherTagInput.value = tags.join(', ');  // Join with commas
+    }
+    window.addCommasToBlogTags = addCommasToBlogTags;
+    window.addCommasToNewsTags = addCommasToNewsTags;
+
+    window.addCommasToAnotherTag = addCommasToAnotherTag;
+
+
+// Load existing content
       
         async function loadContent() {
     const contentList = document.getElementById('contentList');
