@@ -348,6 +348,7 @@ async function  fetchJobListings(userJobInterest, userTagInterest) {
   console.log("fetchJobListings");
 //let locationData = (sessionStorage.getItem('userLocation'));
 let userlocationData = localStorage.getItem("userData");
+console.log('userlocationData:', userlocationData);
 
   const jobListingsContainer = document.getElementById('jobListings');
   const loadingIndicator = document.getElementById('loadingIndicator');
@@ -367,7 +368,7 @@ let userlocationData = localStorage.getItem("userData");
        locationQuery = query(
       jobsQuery,
       where('status', '==', 'active'),
-      where('location', 'array-contains-any', locationData),
+      where('location', 'array-contains-any', userlocationData),
       orderBy('createdAt', 'desc'),
       limit(50)
     );
@@ -376,7 +377,6 @@ let userlocationData = localStorage.getItem("userData");
       console.log("locationData  must be arrays.");
 
     }
-    console.log('locationData:', locationData);
 
         if (Array.isArray(userTagInterest)){
 
