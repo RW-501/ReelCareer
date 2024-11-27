@@ -519,7 +519,7 @@ let excludedPages = ["/backend/", "/admin/", "/settings/"];
 
 
   // Replace the navbar if not on an excluded page
-  if (!excludedPages.includes(currentPage)) {
+  if (excludedPages.some((excluded) => currentPage.startsWith(excluded))) {
     let existingNavbar = document.querySelector(".navbar");
 
     // If an existing navbar is found, replace it
