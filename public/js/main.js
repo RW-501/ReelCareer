@@ -2782,8 +2782,11 @@ function checkUserLoginStatus() {
       updateNavVisibility(null);
 
       localStorage.setItem('userLoggedIn', false);
-      handleAuthStateChanged(null); // Call your function to handle no user signed in
 
+        if (!window.checkUrl("/backend/") || !window.checkUrl("/backend")) {
+
+      handleAuthStateChanged(user); // Call your function to handle authenticated user
+      }
       // No user is signed in
       console.log('No user is logged in.');
       return false;
