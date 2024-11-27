@@ -243,7 +243,8 @@
     // Function to format dates with added support for Firestore timestamps
 
 // Get a reference to the "Notes" collection
-let collectionRef = collection(db, "Notes");
+let notesCollection = collection(db, "Notes");
+let todosCollection = collection(db, "Todos");
 
     function formatDate(dateInput, options = {}) {
       let date;
@@ -273,22 +274,20 @@ let collectionRef = collection(db, "Notes");
       return date.toLocaleString("en-US", finalOptions);
     }
     async function fetchAndRender(collectionRef, renderFn) {
-      try {
+  try {
+    console.log("Fetching from collection:", collectionRef); // Debugging line
+    const snapshot = await getDocs(collectionRef);
+    const items = snapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+    console.log("Fetched items:", items);
+    renderFn(items);
+  } catch (error) {
+    console.error("Error fetching items:", error);
+  }
+}
 
-        console.log("collectionRef   ",collectionRef,", renderFn   ", renderFn);
-
-        const snapshot = await getDocs(collectionRef);
-        const items = snapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data()
-        }));
-        console.log("items   ",items);
-
-        renderFn(items);
-      } catch (error) {
-        console.error("Error fetching items:", error);
-      }
-    }
     async function saveItem(collectionRef, data, fetchFn) {
       try {
         await addDoc(collectionRef, data);
@@ -319,48 +318,50 @@ let collectionRef = collection(db, "Notes");
     }
 
     function renderNotes(notes) {
-      const noteList = document.getElementById("noteList");
-      noteList.innerHTML = "";
-      notes.forEach(note => {
-        const div = document.createElement("div");
-        div.className = "item";
-        div.innerHTML = `
-                    <p>${note.content}</p>
-                    <div>
-                        <button class="btn edit-btn" onclick="editNote('${note.id}', '${note.content}')">Edit</button>
-                        <button class="btn delete-btn" onclick="deleteItem('${note.id}', notesCollection, fetchNotes)">Delete</button>
-                    </div>
-                `;
-        noteList.appendChild(div);
-      });
-    }
-    window.renderNotes = renderNotes;
+  const noteList = document.getElementById("noteList");
+  noteList.innerHTML = "";
+  notes.forEach(note => {
+    const div = document.createElement("div");
+    div.className = "item";
+    div.innerHTML = `
+      <p>${note.content}</p>
+      <div>
+        <button class="btn edit-btn" onclick="editItem('${note.id}', notesCollection, '${note.content}', fetchNotes)">Edit</button>
+        <button class="btn delete-btn" onclick="deleteItem('${note.id}', notesCollection, fetchNotes)">Delete</button>
+      </div>
+    `;
+    noteList.appendChild(div);
+  });
+}
 
-    function renderTodos(todos) {
-      const todoList = document.getElementById("todoList");
-      todoList.innerHTML = "";
-      todos.forEach(todo => {
-        const div = document.createElement("div");
-        div.className = "item";
-        div.innerHTML = `
-                    <p>${todo.content}</p>
-                    <div>
-                        <button class="btn edit-btn" onclick="editTodo('${todo.id}', '${todo.content}')">Edit</button>
-                        <button class="btn delete-btn" onclick="deleteItem('${todo.id}', todosCollection, fetchTodos)">Delete</button>
-                    </div>
-                `;
-        todoList.appendChild(div);
-      });
-    }
+function renderTodos(todos) {
+  const todoList = document.getElementById("todoList");
+  todoList.innerHTML = "";
+  todos.forEach(todo => {
+    const div = document.createElement("div");
+    div.className = "item";
+    div.innerHTML = `
+      <p>${todo.content}</p>
+      <div>
+        <button class="btn edit-btn" onclick="editItem('${todo.id}', todosCollection, '${todo.content}', fetchTodos)">Edit</button>
+        <button class="btn delete-btn" onclick="deleteItem('${todo.id}', todosCollection, fetchTodos)">Delete</button>
+      </div>
+    `;
+    todoList.appendChild(div);
+  });
+}
+
     window.renderTodos = renderTodos;
     window.deleteItem = deleteItem;
     window.updateItem = updateItem;
     async function fetchNotes() {
-      await fetchAndRender(collectionRef, renderNotes);
-    }
-    async function fetchTodos() {
-      await fetchAndRender(collectionRef, renderTodos);
-    }
+  await fetchAndRender(notesCollection, renderNotes);
+}
+
+async function fetchTodos() {
+  await fetchAndRender(todosCollection, renderTodos);
+}
+
     document.getElementById("saveNote").addEventListener("click", function () {
     const noteText = document.getElementById("note").value.trim();
 
@@ -387,16 +388,15 @@ document.getElementById("saveTodo").addEventListener("click", function () {
 
 
 function saveNoteToDatabase(note) {
-    saveItem(collectionRef, { content: note }, fetchNotes);
-    showToast("Saving note:", note);
-
+  saveItem(notesCollection, { content: note }, fetchNotes);
+  showToast("Saving note:", note);
 }
 
 function saveTodoToDatabase(todo) {
-    saveItem(collectionRef, { content: todo }, fetchTodos);
-    showToast("Saving to-do:", todo);
-
+  saveItem(todosCollection, { content: todo }, fetchTodos);
+  showToast("Saving to-do:", todo);
 }
+
 
     // Initialize
     fetchNotes();
