@@ -135,27 +135,39 @@
         let selectedCollectionFields = [];
         let uploadedJson = null;
 
-        // Firebase Event Tracking
-        function logFirebaseEvent(eventName, params) {
-            firebase.analytics().logEvent(eventName, params);
-        }
+    // Firebase Event Tracking
+function logFirebaseEvent(eventName, params) {
+    firebase.analytics().logEvent(eventName, params);
+}
 
-        // Load Collections
-        async function loadCollections() {
-            try {
-                logFirebaseEvent("page_view", { page_name: "JSON Uploader" });
-                const collectionsSnapshot = await getDocs(collection(db, 'YourCollectionMetadata'));
-                collectionsSnapshot.forEach(doc => {
-                    const option = document.createElement("option");
-                    option.value = doc.id;
-                    option.textContent = doc.id;
-                    collectionDropdown.appendChild(option);
-                });
-            } catch (error) {
-                console.error("Error loading collections:", error);
-                alert("Error loading collections.");
-            }
+// Load Collections
+async function loadCollections() {
+    try {
+        logFirebaseEvent("page_view", { page_name: "JSON Uploader" });
+        
+        // Check if db and getDocs are correctly initialized
+        if (!db) {
+            console.error("Firestore is not initialized.");
+            return;
         }
+        
+        const collectionsSnapshot = await getDocs(collection(db, 'YourCollectionMetadata'));
+        
+        if (collectionsSnapshot.empty) {
+            console.log("No collections found.");
+        } else {
+            collectionsSnapshot.forEach(doc => {
+                const option = document.createElement("option");
+                option.value = doc.id;
+                option.textContent = doc.id;
+                collectionDropdown.appendChild(option);
+            });
+        }
+    } catch (error) {
+        console.error("Error loading collections:", error);
+        alert("Error loading collections.");
+    }
+}
 
         // Handle collection change
         collectionDropdown.addEventListener("change", async () => {
