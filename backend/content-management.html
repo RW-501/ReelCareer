@@ -798,6 +798,7 @@ const input = document.getElementById('searchContent');
 const filter = input.value.toLowerCase();
 const contentDiv = document.getElementById('contentList');
 const contentItems = contentDiv.getElementsByTagName('div');
+const items = contentList.querySelectorAll('div[data-type]');
 
 for (let i = 0; i < contentItems.length; i++) {
     const title = contentItems[i].getElementsByTagName('h5')[0];
