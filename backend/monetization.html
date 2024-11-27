@@ -50,6 +50,13 @@ exports.generateReport = functions.https.onCall(async (data, context) => {
   </button>
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav">
+
+                        <!-- Dashboard and New Group -->
+                        <div class="navGroup" title="Dashboard and Analytics">
+                            <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/notes">Notes</a></li>
+                            <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/titles-fix">Title Fix</a></li>
+                  </div>
+
             <!-- Dashboard and Analytics Group -->
             <div class="navGroup" title="Dashboard and Analytics">
                 <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/dashboard">Dashboard</a></li>
@@ -95,7 +102,6 @@ exports.generateReport = functions.https.onCall(async (data, context) => {
         </ul>
     </div>
 </nav>
-
 <div class="container mt-5">
     <h2>Monetization Settings</h2>
     <hr>
