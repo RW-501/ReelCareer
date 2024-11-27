@@ -370,10 +370,10 @@ function prepareLocationForFirebase(userlocationData) {
 }
 
 async function fetchJobListings(userJobInterest, userTagInterest) {
-  console.log("fetchJobListings");
   
   let userlocationData = sessionStorage.getItem('userLocation'); // or localStorage.getItem("userData")
-  console.log('userlocationData:', userlocationData);
+  console.log('userJobInterest:', userJobInterest);
+  console.log("userTagInterest   ",userTagInterest);
 
   const jobListingsContainer = document.getElementById('jobListings');
   const loadingIndicator = document.getElementById('loadingIndicator');
