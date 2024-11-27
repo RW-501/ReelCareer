@@ -195,34 +195,16 @@
     });
 
     async function fetchNotes() {
-      await fetchAndRender(notesCollection, renderNotes);
+      fetchAndRender(notesCollection, renderNotes);
     }
 
     async function fetchTodos() {
-      await fetchAndRender(todosCollection, renderTodos);
+      fetchAndRender(todosCollection, renderTodos);
     }
 
     fetchNotes();
     fetchTodos();
-
-    function deleteItem(itemId, collectionRef, fetchFn) {
-      const itemRef = doc(db, collectionRef, itemId);
-      deleteDoc(itemRef)
-        .then(() => fetchFn())
-        .catch(error => console.error("Error deleting item:", error));
-    }
-
-    function toggleComplete(itemId, collectionRef, fetchFn) {
-      const itemRef = doc(db, collectionRef, itemId);
-      updateDoc(itemRef, { completed: !itemRef.completed })
-        .then(() => fetchFn())
-        .catch(error => console.error("Error toggling complete:", error));
-    }
   </script>
-
-  <!-- Optional JavaScript and Bootstrap dependencies -->
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
