@@ -369,86 +369,95 @@ function prepareLocationForFirebase(userlocationData) {
   return locationArray;
 }
 
-async function fetchJobListings( userTagInterest, userJobInterest) {
-  
-  let userlocationData = sessionStorage.getItem('userLocation'); 
+async function fetchJobListings(userTagInterest, userJobInterest) {
   console.log('userJobInterest:', userJobInterest);
-  console.log("userTagInterest   ",userTagInterest);
+  console.log("userTagInterest:", userTagInterest);
+
+  let userlocationData = sessionStorage.getItem('userLocation');
+  console.log('userlocationData:', userlocationData);
 
   const jobListingsContainer = document.getElementById('jobListings');
   const loadingIndicator = document.getElementById('loadingIndicator');
   const errorIndicator = document.getElementById('errorIndicator');
-  
+
   loadingIndicator.style.display = 'block';
   errorIndicator.style.display = 'none';
 
   try {
-    let jobsQuery = collection(db, 'Jobs');
-    
-    // Build the tag query only if userTagInterest is an array
-    let tagQuery = null;
+    const jobsQuery = collection(db, 'Jobs');
+
+    // Helper to validate results
+    const hasResults = (snapshot) => snapshot && snapshot.docs.length > 0;
+
+    // Tag query
+    let tagSnapshot = null;
     if (Array.isArray(userTagInterest)) {
-      tagQuery = query(
+      const tagQuery = query(
         jobsQuery,
         where('status', '==', 'active'),
         where('tags', 'array-contains-any', userTagInterest),
         orderBy('createdAt', 'desc'),
         limit(50)
       );
-    } else {
-      console.log("userTagInterest must be an array.");
+      tagSnapshot = await getDocs(tagQuery);
+      if (hasResults(tagSnapshot)) {
+        console.log('Tag query returned results');
+      } else {
+        console.log('Tag query returned no results');
+      }
     }
 
-    // Location query: Matching location data
-    const locationArray = prepareLocationForFirebase(userlocationData);
-    const locationQuery = query(
-      jobsQuery,
-      where('status', '==', 'active'),
-      where('location', 'array-contains-any', locationArray),
-      orderBy('createdAt', 'desc'),
-      limit(50)
-    );
+    // Location query
+    let locationSnapshot = null;
+    if (!hasResults(tagSnapshot)) { // Only execute if tag query has no results
+      const locationArray = prepareLocationForFirebase(userlocationData);
+      const locationQuery = query(
+        jobsQuery,
+        where('status', '==', 'active'),
+        where('location', 'array-contains-any', locationArray),
+        orderBy('createdAt', 'desc'),
+        limit(50)
+      );
+      locationSnapshot = await getDocs(locationQuery);
+      if (hasResults(locationSnapshot)) {
+        console.log('Location query returned results');
+      } else {
+        console.log('Location query returned no results');
+      }
+    }
 
-    // Title query: Match job titles with user interests
-    const titleQuery = query(
-      jobsQuery,
-      where('status', '==', 'active'),
-      orderBy('createdAt', 'desc'),
-      limit(50)
-    );
+    // Title query
+    let titleSnapshot = null;
+    if (!hasResults(tagSnapshot) && !hasResults(locationSnapshot)) { // Only execute if no previous results
+      const titleQuery = query(
+        jobsQuery,
+        where('status', '==', 'active'),
+        orderBy('createdAt', 'desc'),
+        limit(50)
+      );
+      titleSnapshot = await getDocs(titleQuery);
+      console.log('Title query returned results:', hasResults(titleSnapshot));
+    }
 
-    // Fetch job listings for tags, titles, and location simultaneously
-    const [tagSnapshot, titleSnapshot, locationSnapshot] = await Promise.all([
-      tagQuery ? getDocs(tagQuery) : Promise.resolve({ docs: [] }),  // Only fetch tag query if it's defined
-      getDocs(titleQuery),
-      getDocs(locationQuery)
-    ]);
-
-    // Combine results from tag, title, and location queries
+    // Process and merge results
     const jobDocs = [
-      ...tagSnapshot.docs,
-      ...locationSnapshot.docs,
-      ...titleSnapshot.docs.filter(doc => {
+      ...(tagSnapshot ? tagSnapshot.docs : []),
+      ...(locationSnapshot ? locationSnapshot.docs : []),
+      ...(titleSnapshot ? titleSnapshot.docs.filter(doc => {
         const jobTitle = doc.data().title.toLowerCase();
         return userJobInterest.some(interest => jobTitle.includes(interest.toLowerCase()));
-      })
+      }) : [])
     ];
 
-    // Remove duplicates based on job ID and job title
+    // Deduplicate and filter results
     const seenTitles = new Set();
     const seenIDs = new Set();
     const jobListingsCache = [];
 
     jobDocs.forEach(doc => {
-      if (!seenIDs.has(doc.id)) {
-        const job = {
-          id: doc.id,
-          ...doc.data()
-        };
-
-        // Check if the job fields are valid
+      const job = { id: doc.id, ...doc.data() };
+      if (!seenIDs.has(doc.id) && !seenTitles.has(job.title)) {
         if (
-          !seenTitles.has(job.title) &&
           isValidValue(job.title) &&
           isValidValue(job.type) &&
           isValidValue(job.description) &&
@@ -456,19 +465,22 @@ async function fetchJobListings( userTagInterest, userJobInterest) {
           isValidValue(job.location) &&
           isValidValue(job.salary)
         ) {
-          // Add to cache and mark as seen
           jobListingsCache.push(job);
           seenTitles.add(job.title);
-          seenIDs.add(job.id);
+          seenIDs.add(doc.id);
         }
       }
     });
 
     // Render the filtered job listings
-    renderJobs(jobListingsCache);
-
+    if (jobListingsCache.length > 0) {
+      renderJobs(jobListingsCache);
+    } else {
+      console.log('No job listings found');
+      errorIndicator.style.display = 'block';
+    }
   } catch (error) {
-    console.error("Error fetching job listings: ", error);
+    console.error('Error fetching job listings:', error);
     errorIndicator.style.display = 'block';
   } finally {
     loadingIndicator.style.display = 'none';
