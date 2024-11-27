@@ -346,8 +346,8 @@ let excludedIds = [];
 
 async function  fetchJobListings(userJobInterest, userTagInterest) {
   console.log("fetchJobListings");
-//let locationData = (sessionStorage.getItem('userLocation'));
-let userlocationData = localStorage.getItem("userData");
+let userlocationData = (sessionStorage.getItem('userLocation'));
+//let userlocationData = localStorage.getItem("userData");
 console.log('userlocationData:', userlocationData);
 
   const jobListingsContainer = document.getElementById('jobListings');
