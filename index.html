@@ -361,22 +361,7 @@ console.log('userlocationData:', userlocationData);
     let locationQuery;
     let tagQuery;
 
-    // Validate inputs
-    if (Array.isArray(userlocationData)){
-    
-        // Build query for matching tags
-       locationQuery = query(
-      jobsQuery,
-      where('status', '==', 'active'),
-      where('location', 'array-contains-any', userlocationData),
-      orderBy('createdAt', 'desc'),
-      limit(50)
-    );
-    }else{
-
-      console.log("locationData  must be arrays.");
-
-    }
+  
 
         if (Array.isArray(userTagInterest)){
 
@@ -406,9 +391,24 @@ console.log('userlocationData:', userlocationData);
       orderBy('createdAt', 'desc'),
       limit(50)
     );
+  // Validate inputs
+  if (Array.isArray(userlocationData)){
+    
+    // Build query for matching tags
+   locationQuery = query(
+  jobsQuery,
+  where('status', '==', 'active'),
+  where('location', 'array-contains-any', userlocationData),
+  orderBy('createdAt', 'desc'),
+  limit(50)
+);
+}else{
 
+  console.log("locationData  must be arrays.");
+
+}
     // Fetch job listings for both queries (tags and titles)
-    const [tagSnapshot, titleSnapshot] = await Promise.all([
+    const [tagSnapshot, titleSnapshot, locationSnapshot] = await Promise.all([
       getDocs(tagQuery),
       getDocs(titleQuery),
       getDocs(locationQuery)
@@ -417,6 +417,7 @@ console.log('userlocationData:', userlocationData);
     // Filter and combine results
     const jobDocs = [
       ...tagSnapshot.docs,
+      ...locationSnapshot.docs,
       ...titleSnapshot.docs.filter(doc => {
         const jobTitle = doc.data().title.toLowerCase();
         return userJobInterest.some(interest => jobTitle.includes(interest.toLowerCase()));
@@ -641,10 +642,10 @@ let userTagInterest = uTagInterestNorm && uTagInterestNorm.length > 0 ? uTagInte
 let uJobInterestNorm = getUserJobInterest();
 let userJobInterest = uJobInterestNorm && uJobInterestNorm.length > 0 ? uJobInterestNorm : jobTags;
       // Load job listings on page load
-      fetchJobListings(userJobInterest, userTagInterest);
+      fetchJobListings(uJobInterestNorm, uTagInterestNorm);
 
 
-    loadRelatedBlogs(userTagInterest, "blogContainer");
+    loadRelatedBlogs(uTagInterestNorm, "blogContainer");
 
   }, 1000);
 });
