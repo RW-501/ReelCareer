@@ -34,44 +34,56 @@
       <input type="text" id="search" class="form-control" placeholder="Search..." onkeyup="filterItems()">
     </div>
 
-    <!-- Tab Navigation -->
-    <ul class="nav nav-tabs" id="myTab" role="tablist">
-      <li class="nav-item">
-        <a class="nav-link active" id="notes-tab" data-toggle="tab" href="#notes" role="tab" aria-controls="notes" aria-selected="true">Notes</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" id="todos-tab" data-toggle="tab" href="#todos" role="tab" aria-controls="todos" aria-selected="false">To-Do List</a>
-      </li>
-    </ul>
-
-    <div class="tab-content mt-3">
-      <!-- Notes Tab -->
-      <div class="tab-pane fade show active" id="notes" role="tabpanel" aria-labelledby="notes-tab">
-        <form class="form-group mb-4">
-          <label for="note">Add a Note</label>
-          <textarea id="note" class="form-control" placeholder="Type your note here..."></textarea>
-          <input type="text" id="noteGroup" class="form-control mt-2" placeholder="Enter group name">
-          <input type="text" id="noteLink" class="form-control mt-2" placeholder="Enter link to topic">
-          <button class="btn btn-primary mt-2" id="saveNote" type="button" aria-label="Save Note">Save Note</button>
-        </form>
-        <div id="noteList" class="note-list"></div>
+    <article>
+      <h2>Notes</h2>
+      <div class="note-list" id="noteList" role="list">
+        <!-- Notes dynamically loaded here -->
       </div>
-
-      <!-- To-Do Tab -->
-      <div class="tab-pane fade" id="todos" role="tabpanel" aria-labelledby="todos-tab">
-        <form class="form-group mb-4">
-          <label for="todo">Add a To-Do</label>
-          <input type="text" id="todo" class="form-control" placeholder="Type your to-do here...">
-          <input type="text" id="todoGroup" class="form-control mt-2" placeholder="Enter group name">
-          <input type="text" id="todoLink" class="form-control mt-2" placeholder="Enter link to topic">
-          <label for="todoComplete" class="mt-2">Mark as Complete</label>
-          <input type="checkbox" id="todoComplete">
-          <label for="todoComplete" class="ml-2">Need to Complete By</label>
-          <input type="date" id="todoDueDate" class="form-control mt-2">
-          <button class="btn btn-primary mt-2" id="saveTodo" type="button">Add To-Do</button>
-        </form>
-        <div id="todoList" class="todo-list"></div>
+    </article>
+  
+    <article>
+      <h2>To-Do List</h2>
+      <div class="todo-list" id="todoList" role="list">
+        <!-- To-Do items dynamically loaded here -->
       </div>
+    </article>
+  </div>
+
+  <!-- Tab Navigation -->
+  <ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item">
+      <a class="nav-link active" id="notes-tab" data-toggle="tab" href="#notes" role="tab" aria-controls="notes" aria-selected="true">Notes</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="todos-tab" data-toggle="tab" href="#todos" role="tab" aria-controls="todos" aria-selected="false">To-Do List</a>
+    </li>
+  </ul>
+
+  <div class="tab-content mt-3">
+    <!-- Notes Tab -->
+    <div class="tab-pane fade show active" id="notes" role="tabpanel" aria-labelledby="notes-tab">
+      <form class="form-group mb-4">
+        <label for="note">Add a Note</label>
+        <textarea id="note" class="form-control" placeholder="Type your note here..."></textarea>
+        <input type="text" id="noteGroup" class="form-control mt-2" placeholder="Enter group name">
+        <input type="text" id="noteLink" class="form-control mt-2" placeholder="Enter link to topic">
+        <button class="btn btn-primary mt-2" id="saveNote" type="button" aria-label="Save Note">Save Note</button>
+      </form>
+    </div>
+
+    <!-- To-Do Tab -->
+    <div class="tab-pane fade" id="todos" role="tabpanel" aria-labelledby="todos-tab">
+      <form class="form-group mb-4">
+        <label for="todo">Add a To-Do</label>
+        <input type="text" id="todo" class="form-control" placeholder="Type your to-do here...">
+        <input type="text" id="todoGroup" class="form-control mt-2" placeholder="Enter group name">
+        <input type="text" id="todoLink" class="form-control mt-2" placeholder="Enter link to topic">
+        <label for="todoComplete" class="mt-2">Mark as Complete</label>
+        <input type="checkbox" id="todoComplete">
+        <label for="todoComplete" class="ml-2">Need to Complete By</label>
+        <input type="date" id="todoDueDate" class="form-control mt-2">
+        <button class="btn btn-primary mt-2" id="saveTodo" type="button">Add To-Do</button>
+      </form>
     </div>
   </div>
 
@@ -188,11 +200,6 @@
       }
     }
 
-    // Edit Item (Modal Logic)
-    function editItem(itemId, collectionName) {
-      // Modal code for editing items (simplified for this implementation)
-    }
-
     // Filter Function for Search Bar
     function filterItems() {
       const searchText = document.getElementById('search').value.toLowerCase();
@@ -202,15 +209,60 @@
       renderItems(filteredTodos, "todoList", renderTodoItem);
     }
 
-    // Fetch Notes and Todos
-    const notesRef = collection(db, "Notes");
-    const todosRef = collection(db, "Todos");
+    // Handle Add Note
+    $("#saveNote").click(async function () {
+      const noteContent = $("#note").val();
+      const noteGroup = $("#noteGroup").val();
+      const noteLink = $("#noteLink").val();
 
-    let notes = [];
-    let todos = [];
+      if (noteContent && noteGroup) {
+        const collectionRef = collection(db, "Notes");
+        await addDoc(collectionRef, {
+          content: noteContent,
+          group: noteGroup,
+          link: noteLink,
+        });
 
-    fetchAndRender(notesRef, renderNoteItem);
-    fetchAndRender(todosRef, renderTodoItem);
+        // Clear input fields
+        $("#note").val('');
+        $("#noteGroup").val('');
+        $("#noteLink").val('');
+
+        fetchAndRender(collection(db, "Notes"), renderNoteItem);
+      }
+    });
+
+    // Handle Add To-Do
+    $("#saveTodo").click(async function () {
+      const todoContent = $("#todo").val();
+      const todoGroup = $("#todoGroup").val();
+      const todoLink = $("#todoLink").val();
+      const todoDueDate = $("#todoDueDate").val();
+      const todoComplete = $("#todoComplete").is(':checked');
+
+      if (todoContent && todoGroup) {
+        const collectionRef = collection(db, "Todos");
+        await addDoc(collectionRef, {
+          content: todoContent,
+          group: todoGroup,
+          link: todoLink,
+          completed: todoComplete,
+          dueDate: todoDueDate,
+        });
+
+        // Clear input fields
+        $("#todo").val('');
+        $("#todoGroup").val('');
+        $("#todoLink").val('');
+        $("#todoComplete").prop('checked', false);
+        $("#todoDueDate").val('');
+
+        fetchAndRender(collection(db, "Todos"), renderTodoItem);
+      }
+    });
+
+    fetchAndRender(collection(db, "Notes"), renderNoteItem);
+    fetchAndRender(collection(db, "Todos"), renderTodoItem);
   </script>
 </body>
 
