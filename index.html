@@ -343,16 +343,20 @@ const seenIDs = new Set();
 let excludedIds = [];
 
 function prepareLocationForFirebase(userlocationData) {
+  console.log('Prepared Location Array:', userlocationData);
+
   const locationArray = [];
   
   // Extract location components
   const { city, state, zip, country } = userlocationData;
+  console.log(' city, state, zip, country :',  city, state, zip, country );
 
   // Add combinations of location components to the array
   if (city) locationArray.push(city);
   if (state) locationArray.push(state);
   if (zip) locationArray.push(zip);
   if (country) locationArray.push(country);
+  console.log('#1 Prepared Location Array:', locationArray);
 
   // Add hierarchical combinations
   if (city && state) locationArray.push(`${city}, ${state}`);
