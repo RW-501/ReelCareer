@@ -1185,11 +1185,25 @@ applicationForm.innerHTML = `
     </div>
 `;
 
-const jobTags = ['job', 'jobs', 'new jobs']; 
-   //const jobTags = document.getElementById('tag-list').textContent;
-   
-   window.getSimilarJobs(jobTags, 'similarJobsContainer');
-   window.loadRelatedBlogs(jobTags, 'blogContainer');
+// Function to fetch similar jobs based on tags
+
+document.addEventListener("DOMContentLoaded", () => {
+  setTimeout(() => {
+  
+      // Retrieve user interests for tags and jobs
+let uTagInterestNorm = getUserTagInterest();
+
+let uJobInterestNorm = getUserJobInterest();
+
+// Load job listings on page load
+  getSimilarJobs(uJobInterestNorm, 'similarJobsContainer');
+
+    loadRelatedBlogs(uTagInterestNorm, "blogContainer");
+
+  }, 1000);
+});
+
+
 
 // Optional: Redirect to dashboard after a few seconds
 setTimeout(() => {

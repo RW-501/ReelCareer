@@ -2160,17 +2160,24 @@ document.getElementById('btnRefreshAnalytics').addEventListener('click', () => {
 
 
 
+// Function to fetch similar jobs based on tags
 
+document.addEventListener("DOMContentLoaded", () => {
   setTimeout(() => {
-    console.log("loader");
-    const jobTags = ['job', 'jobs', 'new jobs']; 
-   //const jobTags = document.getElementById('tag-list').textContent;
-   window.loadRelatedBlogs(jobTags, 'suggestedBlogs');
-   window.getSimilarJobs(jobTags, 'suggestedJobs');
-  }, 2000);
+  
+      // Retrieve user interests for tags and jobs
+let uTagInterestNorm = getUserTagInterest();
 
+let uJobInterestNorm = getUserJobInterest();
 
- 
+// Load job listings on page load
+  getSimilarJobs(uJobInterestNorm, 'similarJobsContainer');
+
+    loadRelatedBlogs(uTagInterestNorm, "blogContainer");
+
+  }, 1000);
+});
+
 
             // Suggested Profiles
             const profilesRef = collection(db, 'Users');

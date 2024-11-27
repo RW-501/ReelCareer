@@ -1905,7 +1905,7 @@ window.addEventListener('load', function() {
   try {
       // Reference to the 'Jobs' collection and query based on tags
       const jobsRef = collection(db, 'Jobs');
-      const q = query(jobsRef, where('tags', 'array-contains-any', jobTags), limit(maxSimilarJobs));
+      const q = query(jobsRef, where('searchableTitle', 'array-contains-any', jobTags), limit(maxSimilarJobs));
       const querySnapshot = await getDocs(q);
 
       if(!JobsContainer || querySnapshot.empty) {

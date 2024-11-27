@@ -1293,36 +1293,23 @@ window.addEventListener('beforeunload', updateJobViewData);
 
   <script>
 
-
-const similarJobsContainer = document.getElementById("similarJobsContainer");
-
 // Function to fetch similar jobs based on tags
 
 document.addEventListener("DOMContentLoaded", () => {
   setTimeout(() => {
-    const jobTags = ["job", "jobs", "new jobs"];
+  
+      // Retrieve user interests for tags and jobs
+let uTagInterestNorm = getUserTagInterest();
 
-    console.log("const jobTags =", jobTags);
+let uJobInterestNorm = getUserJobInterest();
 
-    let tagInterestNorm = getUserTagInterest(); // Retrieve user tag interest
-    console.log("let tagInterestNorm =", tagInterestNorm);
+// Load job listings on page load
+  getSimilarJobs(uJobInterestNorm, 'similarJobsContainer');
 
-    let tagInterest =
-      tagInterestNorm && tagInterestNorm.length > 0 ? tagInterestNorm : jobTags;
-    console.log("const tagInterest =", tagInterest);
+    loadRelatedBlogs(uTagInterestNorm, "blogContainer");
 
-    loadRelatedBlogs(tagInterest, "blogContainer");
-
-    let jobInterestNorm = getUserJobInterest(); // Retrieve user tag interest
-    console.log("let jobInterestNorm =", jobInterestNorm);
-
-    let jobInterest =
-      jobInterestNorm && jobInterestNorm.length > 0 ? jobInterestNorm : jobTags;
-    console.log("jobInterestNorm.length ", jobInterestNorm.length);
-    getSimilarJobs(jobInterestNorm, "similarJobsContainer");
   }, 1000);
 });
-
 
   </script>
 
