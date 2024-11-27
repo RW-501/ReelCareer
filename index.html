@@ -466,7 +466,7 @@ async function fetchJobListings(userJobInterest) {
 }
 
 // Function to render jobs in batches of 30
-function renderJobs() {
+function renderJobs(jobListingsCache) {
   const jobListingsContainer = document.getElementById('jobListings');
   
   // Only render the next 30 jobs from cache, if available
