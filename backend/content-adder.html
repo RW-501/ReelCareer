@@ -32,7 +32,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Analytics - Admin</title>
+        <title>JSON Viewer and Uploader</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://reelcareer.co/backend/css/styles.css">
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
@@ -182,21 +182,27 @@
     
     
     </style>
-    <section id="analytics-cards">
-        <!DOCTYPE html>
-        <html lang="en">
-        <head>
-          <meta charset="UTF-8">
-          <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <title>Update Jobs Searchable Title</title>
-          <script type="module" src="updateJobs.js"></script>
-        </head>
-        <body>
-          <h1>Update Jobs Collection</h1>
-          <button id="updateJobs">Update Jobs Collection</button>
-          <p id="status"></p>
-        </body>
-        </html>
+    <section id="mapper-cards">
+        <h1>JSON Uploader and Database Mapper</h1>
+
+        <label for="collectionSelect">Select Collection:</label>
+        <select id="collectionSelect">
+            <option value="">-- Select a Collection --</option>
+        </select>
+    
+        <h2>Upload JSON</h2>
+        <input type="file" id="jsonFile" accept="application/json">
+        <button id="viewJson">View JSON</button>
+    
+        <h2>Field Mapping</h2>
+        <div id="fieldMappingContainer"></div>
+    
+        <h2>JSON Viewer</h2>
+        <div id="jsonViewer"></div>
+    
+        <button id="uploadToDb">Upload to Database</button>
+    
+    
         
         </section>
     
@@ -249,11 +255,132 @@
             } from 'https://reelcareer.co/js/module.js';
     
     
-    
-    
-    
+            const collectionDropdown = document.getElementById("collectionSelect");
+        const fieldMappingContainer = document.getElementById("fieldMappingContainer");
+        const jsonViewer = document.getElementById("jsonViewer");
+        const jsonFileInput = document.getElementById("jsonFile");
+        const viewJsonButton = document.getElementById("viewJson");
+        const uploadButton = document.getElementById("uploadToDb");
+        
+        let selectedCollectionFields = [];
+        let uploadedJson = null;
+
+        // Load collections into the dropdown
+        async function loadCollections() {
+            try {
+                const collectionsSnapshot = await getDocs(collection(db, 'YourCollectionMetadata'));
+                collectionsSnapshot.forEach(doc => {
+                    const option = document.createElement("option");
+                    option.value = doc.id;
+                    option.textContent = doc.id;
+                    collectionDropdown.appendChild(option);
+                });
+            } catch (error) {
+                console.error("Error loading collections:", error);
+            }
+        }
+
+        // Handle collection change
+        collectionDropdown.addEventListener("change", async () => {
+            const selectedCollection = collectionDropdown.value;
+            fieldMappingContainer.innerHTML = ""; // Clear previous fields
+            selectedCollectionFields = [];
+
+            if (!selectedCollection) return;
+
+            try {
+                const fieldsSnapshot = await getDocs(collection(db, `${selectedCollection}-Fields`));
+                fieldsSnapshot.forEach(doc => {
+                    selectedCollectionFields.push(doc.id);
+                });
+
+                selectedCollectionFields.forEach(field => {
+                    const button = document.createElement("button");
+                    button.textContent = field;
+                    button.className = "field-button";
+                    button.addEventListener("click", () => {
+                        mapField(field);
+                    });
+                    fieldMappingContainer.appendChild(button);
+                });
+
+                // Option to add a new field
+                const addFieldButton = document.createElement("button");
+                addFieldButton.textContent = "Add New Field";
+                addFieldButton.className = "field-button";
+                addFieldButton.addEventListener("click", addField);
+                fieldMappingContainer.appendChild(addFieldButton);
+
+            } catch (error) {
+                console.error("Error loading collection fields:", error);
+            }
+        });
+
+        // View uploaded JSON
+        viewJsonButton.addEventListener("click", () => {
+            const file = jsonFileInput.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = () => {
+                    try {
+                        uploadedJson = JSON.parse(reader.result);
+                        jsonViewer.textContent = JSON.stringify(uploadedJson, null, 2);
+                    } catch (e) {
+                        alert("Invalid JSON file.");
+                    }
+                };
+                reader.readAsText(file);
+            } else {
+                alert("Please upload a JSON file first.");
+            }
+        });
+
+        // Map a field
+        function mapField(fieldName) {
+            const fieldContainer = document.createElement("div");
+            fieldContainer.className = "input-field";
+
+            const label = document.createElement("label");
+            label.textContent = `Map field: ${fieldName}`;
+
+            const input = document.createElement("input");
+            input.type = "text";
+            input.value = uploadedJson?.[fieldName] || "";
+
+            fieldContainer.appendChild(label);
+            fieldContainer.appendChild(input);
+            fieldMappingContainer.appendChild(fieldContainer);
+        }
+
+        // Add a new field
+        function addField() {
+            const fieldName = prompt("Enter the new field name:");
+            if (fieldName) {
+                mapField(fieldName);
+            }
+        }
+
+        // Upload to database
+        uploadButton.addEventListener("click", async () => {
+            const selectedCollection = collectionDropdown.value;
+            if (!selectedCollection || !uploadedJson) {
+                alert("Please select a collection and upload a JSON file.");
+                return;
+            }
+
+            // Process and upload data to database
+            try {
+                console.log("Data ready to be uploaded:", uploadedJson);
+                // Implement database upload logic here
+                alert("Data uploaded successfully!");
+            } catch (error) {
+                console.error("Error uploading data:", error);
+            }
+        });
+
+        // Load collections on page load
+        document.addEventListener("DOMContentLoaded", loadCollections);
             
-    
     window.onload = function () {
                
         
