@@ -242,6 +242,9 @@
       getDownloadURL
     } from 'https://reelcareer.co/js/module.js';
     // Function to format dates with added support for Firestore timestamps
+
+let collectionRef = "Notes";
+
     function formatDate(dateInput, options = {}) {
       let date;
       if (dateInput && dateInput.seconds && dateInput.nanoseconds) {
