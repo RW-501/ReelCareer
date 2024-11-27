@@ -173,7 +173,7 @@
       <form class="form-group">
         <label for="note">Add a Note</label>
         <textarea id="note" placeholder="Type your note here..." aria-label="Note text"></textarea>
-        <button class="btn btn-primary" id="saveNote">Save Note</button>
+        <button class="btn btn-primary" id="saveNote" type="button">Save Note</button>
       </form>
     </section>
   
@@ -181,7 +181,7 @@
       <form class="form-group">
         <label for="todo">Add a To-Do</label>
         <input type="text" id="todo" placeholder="Type your to-do here..." aria-label="To-do text">
-        <button class="btn btn-primary" id="saveTodo">Add To-Do</button>
+        <button class="btn btn-primary" id="saveTodo" type="button">Add To-Do</button>
       </form>
     </section>
   
@@ -360,24 +360,43 @@ let collectionRef = "Notes";
     async function fetchTodos() {
       await fetchAndRender(collectionRef, renderTodos);
     }
-    document.getElementById("saveNote").addEventListener("click", () => {
-      const noteInput = document.getElementById("note");
-      if (noteInput.value.trim()) {
-        saveItem(notesCollection, {
-          content: noteInput.value.trim()
-        }, fetchNotes);
-        noteInput.value = "";
-      }
-    });
-    document.getElementById("saveTodo").addEventListener("click", () => {
-      const todoInput = document.getElementById("todo");
-      if (todoInput.value.trim()) {
-        saveItem(todosCollection, {
-          content: todoInput.value.trim()
-        }, fetchTodos);
-        todoInput.value = "";
-      }
-    });
+    document.getElementById("saveNote").addEventListener("click", function () {
+    const noteText = document.getElementById("note").value.trim();
+
+    if (noteText) {
+        // Call your function to save the note in the "Notes" collection
+        saveNoteToDatabase(noteText);
+        document.getElementById("note").value = ""; // Clear the textarea
+    } else {
+        alert("Please enter a note!");
+    }
+});
+document.getElementById("saveTodo").addEventListener("click", function () {
+    const todoText = document.getElementById("todo").value.trim();
+
+    if (todoText) {
+        // Call your function to save the to-do in the collection
+        saveTodoToDatabase(todoText);
+        document.getElementById("todo").value = ""; // Clear the input field
+    } else {
+        alert("Please enter a to-do!");
+    }
+});
+
+
+
+function saveNoteToDatabase(note) {
+    saveItem(collectionRef, { content: note }, fetchNotes);
+    showToast("Saving note:", note);
+
+}
+
+function saveTodoToDatabase(todo) {
+    saveItem(collectionRef, { content: todo }, fetchTodos);
+    showToast("Saving to-do:", todo);
+
+}
+
     // Initialize
     fetchNotes();
     fetchTodos();
