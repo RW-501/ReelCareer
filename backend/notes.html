@@ -359,7 +359,7 @@ function renderTodos(todos) {
 }
 
 async function fetchTodos() {
-  await fetchAndRender(todosCollection, renderTodos);
+  await fetchAndRender(notesCollection, renderTodos);
 }
 
     document.getElementById("saveNote").addEventListener("click", function () {
