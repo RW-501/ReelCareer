@@ -530,23 +530,23 @@ async function displayUserAnalytics() {
       </tr>
     `;
 
- // Create an array of all variables
-const viewedByDetails = [
-  applyViewedByVAR,
-  authViewedByVAR,
-  aboutViewedByVAR,
-  blogViewedByVAR,
-  companypageViewedByVAR,
-  contactViewedByVAR,
-  homeViewedByVAR,
-  jobdetailsViewedByVAR,
-  joblistingsViewedByVAR,
-  locationsViewedByVAR,
-  privacyViewedByVAR,
-  recruiterdashboardViewedByVAR,
-  cityViewedByVAR,
-  stateViewedByVAR,
-  otherPagesViewedByVAR
+    const viewedByDetails = [
+  applyViewedBy ?? '',
+  authViewedBy ?? '',
+  aboutViewedBy ?? '',
+  blogViewedBy ?? '',
+  companypageViewedBy ?? '',
+  contactViewedBy ?? '',
+  homeViewedBy ?? '',
+  indexhtmlViewedBy ?? '',
+  jobdetailsViewedBy ?? '',
+  joblistingsViewedBy ?? '',
+  locationsViewedBy ?? '',
+  privacyViewedBy ?? '',
+  recruiterdashboardViewedBy ?? '',
+  cityViewedBy ?? '',
+  stateViewedBy ?? '',
+  otherPagesViewedBy ?? ''
 ]
       .filter(detail => detail)
       .map(detail => formatViewedBy(detail))
@@ -626,23 +626,23 @@ async function fetchUserAnalyticsData() {
     userBlocked: doc.data().userBlocked || false,
     lastViewDate: doc.data().lastViewDate,
 
-    contactViewedByVAR: doc.data().contactViewedBy || {},
-    applyViewedByVAR: doc.data().applyhtmlViewedBy || doc.data().applyViewedBy || {},
-    homeViewedByVAR: doc.data().homeViewedBy || doc.data().indexViewedBy|| {},
-    aboutViewedByVAR: doc.data().aboutViewedBy || {},
-    authViewedByVAR: doc.data().authViewedBy || {},
-    blogViewedByVAR: doc.data().blogViewedBy || {},
-    companypageViewedByVAR: doc.data().companypageViewedBy || {},
+    contactViewedBy: doc.data().contactViewedBy || {},
+    applyViewedBy: doc.data().applyhtmlViewedBy || doc.data().applyViewedBy || {},
+    homeViewedBy: doc.data().homeViewedBy || doc.data().indexViewedBy|| {},
+    aboutViewedBy: doc.data().aboutViewedBy || {},
+    authViewedBy: doc.data().authViewedBy || {},
+    blogViewedBy: doc.data().blogViewedBy || {},
+    companypageViewedBy: doc.data().companypageViewedBy || {},
    
-    jobdetailsViewedByVAR: doc.data().jobdetailsViewedBy || {},
-    joblistingsViewedByVAR: doc.data().joblistingsViewedBy || {},
-    locationsViewedByVAR: doc.data().locationsViewedBy || {},
-    privacyViewedByVAR: doc.data().privacyViewedBy || {},
-    recruiterdashboardViewedByVAR: doc.data().recruiterdashboardViewedBy || {},
-    stateViewedByVAR: doc.data().stateViewedBy || {},
-    cityViewedByVAR: doc.data().cityViewedBy || {},
+    jobdetailsViewedBy: doc.data().jobdetailsViewedBy || {},
+    joblistingsViewedBy: doc.data().joblistingsViewedBy || {},
+    locationsViewedBy: doc.data().locationsViewedBy || {},
+    privacyViewedBy: doc.data().privacyViewedBy || {},
+    recruiterdashboardViewedBy: doc.data().recruiterdashboardViewedBy || {},
+    stateViewedBy: doc.data().stateViewedBy || {},
+    cityViewedBy: doc.data().cityViewedBy || {},
 
-    otherPagesViewedByVAR: doc.data().stateViewedBy || {},
+    otherPagesViewedBy: doc.data().stateViewedBy || {},
 
   }));
 }
