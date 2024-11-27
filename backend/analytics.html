@@ -531,22 +531,9 @@ async function displayUserAnalytics() {
     `;
 
     const viewedByDetails = [
-  applyViewedBy ?? '',
-  authViewedBy ?? '',
-  aboutViewedBy ?? '',
-  blogViewedBy ?? '',
-  companypageViewedBy ?? '',
-  contactViewedBy ?? '',
-  homeViewedBy ?? '',
-  indexhtmlViewedBy ?? '',
-  jobdetailsViewedBy ?? '',
-  joblistingsViewedBy ?? '',
-  locationsViewedBy ?? '',
-  privacyViewedBy ?? '',
-  recruiterdashboardViewedBy ?? '',
-  cityViewedBy ?? '',
-  stateViewedBy ?? '',
-  otherPagesViewedBy ?? ''
+
+  contactViewedBy ?? ''
+
 ]
       .filter(detail => detail)
       .map(detail => formatViewedBy(detail))
