@@ -644,26 +644,19 @@ const isValidValue = value => value !== undefined && value !== null && value !==
 
 document.addEventListener("DOMContentLoaded", () => {
   setTimeout(() => {
-    const jobTags = ["job", "jobs", "new jobs"];
-
-
-
+  
       // Retrieve user interests for tags and jobs
 let uTagInterestNorm = getUserTagInterest();
-let userTagInterest;
 
 let uJobInterestNorm = getUserJobInterest();
-let userJobInterest;
 
 
 
-userTagInterest = JSON.parse(uTagInterestNorm);  
-userJobInterest = JSON.parse(uJobInterestNorm); 
 // Load job listings on page load
-      fetchJobListings(userJobInterest, userTagInterest);
+  fetchJobListings(uTagInterestNorm, uJobInterestNorm);
 
 
-    loadRelatedBlogs(userTagInterest, "blogContainer");
+    loadRelatedBlogs(uTagInterestNorm, "blogContainer");
 
   }, 1000);
 });
