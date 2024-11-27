@@ -226,3 +226,7 @@ form {
 .nav-item {
     color: white !important;
 }
+
+#dynamic-footer {
+    background-color: #2f2be2;
+}
