@@ -364,47 +364,47 @@ function prepareLocationForFirebase(userlocationData) {
   return locationArray;
 }
 
-
-async function  fetchJobListings(userJobInterest, userTagInterest) {
+async function fetchJobListings(userJobInterest, userTagInterest) {
   console.log("fetchJobListings");
-let userlocationData = (sessionStorage.getItem('userLocation'));
-//let userlocationData = localStorage.getItem("userData");
-console.log('userlocationData:', userlocationData);
+  
+  let userlocationData = sessionStorage.getItem('userLocation'); // or localStorage.getItem("userData")
+  console.log('userlocationData:', userlocationData);
 
   const jobListingsContainer = document.getElementById('jobListings');
   const loadingIndicator = document.getElementById('loadingIndicator');
   const errorIndicator = document.getElementById('errorIndicator');
+  
   loadingIndicator.style.display = 'block';
   errorIndicator.style.display = 'none';
 
   try {
     let jobsQuery = collection(db, 'Jobs');
-    let tagQuery;
+    
+    // Build the tag query only if userTagInterest is an array
+    let tagQuery = null;
+    if (Array.isArray(userTagInterest)) {
+      tagQuery = query(
+        jobsQuery,
+        where('status', '==', 'active'),
+        where('tags', 'array-contains-any', userTagInterest),
+        orderBy('createdAt', 'desc'),
+        limit(50)
+      );
+    } else {
+      console.log("userTagInterest must be an array.");
+    }
 
-  
-
-        if (Array.isArray(userTagInterest)){
-
-        // Build query for matching tags
-     tagQuery = query(
+    // Location query: Matching location data
+    const locationArray = prepareLocationForFirebase(userlocationData);
+    const locationQuery = query(
       jobsQuery,
       where('status', '==', 'active'),
-      where('tags', 'array-contains-any', userTagInterest),
+      where('location', 'array-contains-any', locationArray),
       orderBy('createdAt', 'desc'),
       limit(50)
     );
-        }else{
-          console.log("userTagInterest  must be arrays.");
 
-          
-        }
-
-
-     
-
-
-
-    // Title query: Match any word in the title with user's job interests
+    // Title query: Match job titles with user interests
     const titleQuery = query(
       jobsQuery,
       where('status', '==', 'active'),
@@ -412,30 +412,14 @@ console.log('userlocationData:', userlocationData);
       limit(50)
     );
 
-    
-
-    
-    // Build query for matching tags
-    const locationArray = prepareLocationForFirebase(userlocationData);
-
-// Firebase query
-const locationQuery = query(
-  jobsQuery,
-  where('status', '==', 'active'),
-  where('location', 'array-contains-any', locationArray),
-  orderBy('createdAt', 'desc'),
-  limit(50)
-);
-
-
-    // Fetch job listings for both queries (tags and titles)
+    // Fetch job listings for tags, titles, and location simultaneously
     const [tagSnapshot, titleSnapshot, locationSnapshot] = await Promise.all([
-      getDocs(tagQuery),
+      tagQuery ? getDocs(tagQuery) : Promise.resolve({ docs: [] }),  // Only fetch tag query if it's defined
       getDocs(titleQuery),
       getDocs(locationQuery)
     ]);
 
-    // Filter and combine results
+    // Combine results from tag, title, and location queries
     const jobDocs = [
       ...tagSnapshot.docs,
       ...locationSnapshot.docs,
@@ -445,11 +429,11 @@ const locationQuery = query(
       })
     ];
 
+    // Remove duplicates based on job ID and job title
     const seenTitles = new Set();
     const seenIDs = new Set();
-    const jobListingsCache = []; // Cache to store unique jobs
+    const jobListingsCache = [];
 
-    // Process job documents
     jobDocs.forEach(doc => {
       if (!seenIDs.has(doc.id)) {
         const job = {
@@ -457,7 +441,7 @@ const locationQuery = query(
           ...doc.data()
         };
 
-        // Check if the job title, type, description, company, location, and salary are valid
+        // Check if the job fields are valid
         if (
           !seenTitles.has(job.title) &&
           isValidValue(job.title) &&
@@ -467,7 +451,7 @@ const locationQuery = query(
           isValidValue(job.location) &&
           isValidValue(job.salary)
         ) {
-          // Add to the cache and mark as seen
+          // Add to cache and mark as seen
           jobListingsCache.push(job);
           seenTitles.add(job.title);
           seenIDs.add(job.id);
@@ -475,7 +459,7 @@ const locationQuery = query(
       }
     });
 
-    // Optional: Render jobs or update the UI
+    // Render the filtered job listings
     renderJobs(jobListingsCache);
 
   } catch (error) {
@@ -485,8 +469,6 @@ const locationQuery = query(
     loadingIndicator.style.display = 'none';
   }
 }
-
-
 
 // Function to render jobs in batches of 30
 function renderJobs() {
