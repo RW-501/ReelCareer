@@ -910,7 +910,7 @@
                 $('#contentModal').modal('show');
             }
         */
-        function filterContent() {
+        function filterContent(type = 'All') {
             const input = document.getElementById('searchContent');
             const filter = input.value.toLowerCase();
             const contentDiv = document.getElementById('contentList');
@@ -923,6 +923,18 @@
                     contentItems[i].style.display = txtValue.toLowerCase().includes(filter) ? "" : "none";
                 }
             }
+
+
+            items.forEach(item => {
+        if (type === 'All' || item.getAttribute('data-type') === type) {
+            item.style.display = 'block';
+        } else {
+            item.style.display = 'none';
+        }
+    });
+
+
+
         }
 
         function toggleSection(sectionId) {
