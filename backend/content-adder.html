@@ -145,81 +145,103 @@
     
         <div class="container mt-4">
             <h1>New Page</h1>
+
+
     <style>
-    
-        #analytics-cards {
-           gap: 1.5rem;
-        width: 100%;
-        display: flex;
-        flex-wrap: wrap;
-        flex-direction: row;
+        .analytics-container {
+            padding: 20px;
+            font-family: Arial, sans-serif;
         }
-    
-    
+
+        .filter-section {
+            margin-bottom: 15px;
+        }
+
+        .filter-section input, .filter-section select {
+            padding: 8px;
+            margin-right: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .analytics-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .analytics-table th, .analytics-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .analytics-table th {
+            cursor: pointer;
+            background-color: #f4f4f4;
+        }
+
+        .analytics-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        #analytics-cards {
+            gap: 1.5rem;
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            flex-direction: row;
+        }
+
         .analytics-card {
-        gap: .5rem;
-        display: flex;
-        overflow: hidden;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        width: 100%;
-        flex-direction: row;
-    }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+            gap: .5rem;
+            display: flex;
+            overflow: hidden;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            width: 100%;
+            flex-direction: row;
+        }
     </style>
-    <section id="mapper-cards">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <script src="https://reelcareer.co/public/js/bodyload.js"></script>
+    
+    <nav id="Main_Nav" class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="https://reelcareer.co">ReelCareer.co</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/dashboard">Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/analytics">Analytics</a></li>
+                <!-- More links here -->
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
         <h1>JSON Uploader and Database Mapper</h1>
 
         <label for="collectionSelect">Select Collection:</label>
-        <select id="collectionSelect">
+        <select id="collectionSelect" class="form-control">
             <option value="">-- Select a Collection --</option>
         </select>
     
         <h2>Upload JSON</h2>
-        <input type="file" id="jsonFile" accept="application/json">
-        <button id="viewJson">View JSON</button>
+        <input type="file" id="jsonFile" class="form-control" accept="application/json">
+        <button id="viewJson" class="btn btn-info mt-2">View JSON</button>
     
         <h2>Field Mapping</h2>
         <div id="fieldMappingContainer"></div>
     
         <h2>JSON Viewer</h2>
-        <div id="jsonViewer"></div>
+        <div id="jsonViewer" class="preformatted"></div>
     
-        <button id="uploadToDb">Upload to Database</button>
-    
-    
-        
-        </section>
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+        <button id="uploadToDb" class="btn btn-success mt-2">Upload to Database</button>
+    </div>
+ 
     
     
     
@@ -254,128 +276,116 @@
                 auth, analytics, deleteDoc, getDownloadURL
             } from 'https://reelcareer.co/js/module.js';
     
-       // A simplified version of some of the suggestions implemented
-const collectionDropdown = document.getElementById("collectionSelect");
-const fieldMappingContainer = document.getElementById("fieldMappingContainer");
-const jsonViewer = document.getElementById("jsonViewer");
-const jsonFileInput = document.getElementById("jsonFile");
-const viewJsonButton = document.getElementById("viewJson");
-const uploadButton = document.getElementById("uploadToDb");
-const errorMessageContainer = document.getElementById("errorMessageContainer");
+  
+        // DOM Elements
+        const collectionDropdown = document.getElementById("collectionSelect");
+        const fieldMappingContainer = document.getElementById("fieldMappingContainer");
+        const jsonViewer = document.getElementById("jsonViewer");
+        const jsonFileInput = document.getElementById("jsonFile");
+        const viewJsonButton = document.getElementById("viewJson");
+        const uploadButton = document.getElementById("uploadToDb");
 
-let selectedCollectionFields = [];
-let uploadedJson = null;
+        let selectedCollectionFields = [];
+        let uploadedJson = null;
 
-// Function to display errors in a user-friendly manner
-function displayError(message, error = "") {
-    errorMessageContainer.textContent = message;
-    errorMessageContainer.style.display = 'block';
-    console.error(message, error);
-}
-
-// Load collections with a loading indicator
-async function loadCollections() {
-    try {
-        showLoadingIndicator(true);
-        const collectionsSnapshot = await getDocs(collection(db, 'YourCollectionMetadata'));
-        collectionsSnapshot.forEach(doc => {
-            const option = document.createElement("option");
-            option.value = doc.id;
-            option.textContent = doc.id;
-            collectionDropdown.appendChild(option);
-        });
-        showLoadingIndicator(false);
-    } catch (error) {
-        displayError("Error loading collections.", error);
-        showLoadingIndicator(false);
-    }
-}
-
-// Show loading spinner
-function showLoadingIndicator(isLoading) {
-    const spinner = document.getElementById("loadingSpinner");
-    spinner.style.display = isLoading ? "block" : "none";
-}
-
-// Handle collection change with error message if necessary
-collectionDropdown.addEventListener("change", async () => {
-    const selectedCollection = collectionDropdown.value;
-    clearFieldMappings();
-
-    if (!selectedCollection) return;
-
-    try {
-        const fieldsSnapshot = await getDocs(collection(db, `${selectedCollection}-Fields`));
-        fieldsSnapshot.forEach(doc => {
-            selectedCollectionFields.push(doc.id);
-        });
-        selectedCollectionFields.forEach(field => createFieldMappingButton(field));
-        createAddFieldButton();
-    } catch (error) {
-        displayError("Error loading collection fields.", error);
-    }
-});
-
-// Upload button action
-uploadButton.addEventListener("click", async () => {
-    const selectedCollection = collectionDropdown.value;
-    if (!selectedCollection || !uploadedJson) {
-        alert("Please select a collection and upload a JSON file.");
-        return;
-    }
-
-    const missingFields = selectedCollectionFields.filter(field => !uploadedJson[field]);
-    if (missingFields.length > 0) {
-        alert(`Missing fields: ${missingFields.join(", ")}`);
-        return;
-    }
-
-    const confirmUpload = confirm("Are you sure you want to upload this data?");
-    if (confirmUpload) {
-        try {
-            console.log("Data ready to be uploaded:", uploadedJson);
-            alert("Data uploaded successfully!");
-        } catch (error) {
-            displayError("Error uploading data.", error);
+        // Firebase Event Tracking
+        function logFirebaseEvent(eventName, params) {
+            firebase.analytics().logEvent(eventName, params);
         }
-    }
-});
 
-// Example of showing a brief preview of the uploaded JSON
-viewJsonButton.addEventListener("click", () => {
-    const file = jsonFileInput.files[0];
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = () => {
+        // Load Collections
+        async function loadCollections() {
             try {
-                uploadedJson = JSON.parse(reader.result);
-                jsonViewer.textContent = JSON.stringify(uploadedJson, null, 2);
-                previewJson(uploadedJson);
-            } catch (e) {
-                alert("Invalid JSON file.");
+                logFirebaseEvent("page_view", { page_name: "JSON Uploader" });
+                const collectionsSnapshot = await getDocs(collection(db, 'YourCollectionMetadata'));
+                collectionsSnapshot.forEach(doc => {
+                    const option = document.createElement("option");
+                    option.value = doc.id;
+                    option.textContent = doc.id;
+                    collectionDropdown.appendChild(option);
+                });
+            } catch (error) {
+                console.error("Error loading collections:", error);
+                alert("Error loading collections.");
             }
-        };
-        reader.readAsText(file);
-    } else {
-        alert("Please upload a JSON file first.");
-    }
-});
+        }
 
-// Preview the first few items from the JSON to ensure it's correct
-function previewJson(jsonData) {
-    const previewContainer = document.getElementById("jsonPreviewContainer");
-    previewContainer.innerHTML = JSON.stringify(jsonData.slice(0, 3), null, 2);  // Show the first 3 items
-}
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+        // Handle collection change
+        collectionDropdown.addEventListener("change", async () => {
+            const selectedCollection = collectionDropdown.value;
+            clearFieldMappings();
+
+            if (!selectedCollection) return;
+
+            try {
+                const fieldsSnapshot = await getDocs(collection(db, `${selectedCollection}-Fields`));
+                selectedCollectionFields = [];
+                fieldsSnapshot.forEach(doc => {
+                    selectedCollectionFields.push(doc.id);
+                });
+
+                selectedCollectionFields.forEach(field => {
+                    const button = document.createElement("button");
+                    button.textContent = `Map ${field}`;
+                    button.className = "btn btn-outline-secondary mb-2";
+                    fieldMappingContainer.appendChild(button);
+                });
+            } catch (error) {
+                console.error("Error loading fields:", error);
+                alert("Error loading fields.");
+            }
+        });
+
+        // Handle JSON file preview
+        viewJsonButton.addEventListener("click", () => {
+            const file = jsonFileInput.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = () => {
+                    try {
+                        uploadedJson = JSON.parse(reader.result);
+                        jsonViewer.textContent = JSON.stringify(uploadedJson, null, 2);
+                        logFirebaseEvent("json_preview", { file_name: file.name });
+                    } catch (e) {
+                        alert("Invalid JSON file.");
+                    }
+                };
+                reader.readAsText(file);
+            } else {
+                alert("Please upload a JSON file first.");
+            }
+        });
+
+        // Upload JSON to DB
+        uploadButton.addEventListener("click", async () => {
+            const selectedCollection = collectionDropdown.value;
+            if (!selectedCollection || !uploadedJson) {
+                alert("Please select a collection and upload a JSON file.");
+                return;
+            }
+
+            const confirmUpload = confirm("Are you sure you want to upload this data?");
+            if (confirmUpload) {
+                try {
+                    // Perform the upload here (Example: upload to Firebase)
+                    await uploadDataToDatabase(selectedCollection, uploadedJson);
+                    logFirebaseEvent("json_upload", { collection_name: selectedCollection });
+                    alert("Data uploaded successfully!");
+                } catch (error) {
+                    console.error("Error uploading data:", error);
+                    alert("Error uploading data.");
+                }
+            }
+        });
+
+        // Function to upload data to database (stub for example)
+        async function uploadDataToDatabase(collection, data) {
+            // Example: Upload logic here (could involve Firestore or other Firebase services)
+            console.log(`Uploading data to ${collection}:`, data);
+        }
+
+        // Initial function call to load collections
+        loadCollections();    
     
     
     
