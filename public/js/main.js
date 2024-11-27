@@ -514,11 +514,12 @@ document.addEventListener("DOMContentLoaded", function () {
   const currentPage = window.location.pathname; // Get the current path from the URL
 
 
-console.log("currentPage    ",currentPage);
+console.log("currentPageXC    ",currentPage);
 let excludedPages = ["/backend/", "/admin/", "/settings/"];
 
+
   // Replace the navbar if not on an excluded page
-  if (!excludedPages.some((excluded) => currentPage.startsWith(excluded))) {
+  if (!excludedPages.includes(currentPage)) {
     let existingNavbar = document.querySelector(".navbar");
 
     // If an existing navbar is found, replace it
