@@ -220,7 +220,7 @@
       ref,
       signInWithPopup,
       orderBy,
-      uploadBytes,getFirestore,
+      uploadBytes,
       OAuthProvider,
       arrayUnion,
       getStorage,
@@ -243,8 +243,8 @@
     // Function to format dates with added support for Firestore timestamps
 
 // Get a reference to the "Notes" collection
-let notesCollection = collection(db, "Notes");
-let todosCollection = collection(db, "Todos");
+const  notesCollection = collection(db, "Notes");
+const  todosCollection = collection(db, "Todos");
 
     function formatDate(dateInput, options = {}) {
       let date;
