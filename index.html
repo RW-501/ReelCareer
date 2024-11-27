@@ -342,6 +342,27 @@ const seenIDs = new Set();
 
 let excludedIds = [];
 
+function prepareLocationForFirebase(userlocationData) {
+  const locationArray = [];
+  
+  // Extract location components
+  const { city, state, zip, country } = userlocationData;
+
+  // Add combinations of location components to the array
+  if (city) locationArray.push(city);
+  if (state) locationArray.push(state);
+  if (zip) locationArray.push(zip);
+  if (country) locationArray.push(country);
+
+  // Add hierarchical combinations
+  if (city && state) locationArray.push(`${city}, ${state}`);
+  if (state && country) locationArray.push(`${state}, ${country}`);
+  if (city && state && country) locationArray.push(`${city}, ${state}, ${country}`);
+  if (zip && country) locationArray.push(`${zip}, ${country}`);
+
+  console.log('Prepared Location Array:', locationArray);
+  return locationArray;
+}
 
 
 async function  fetchJobListings(userJobInterest, userTagInterest) {
@@ -358,7 +379,6 @@ console.log('userlocationData:', userlocationData);
 
   try {
     let jobsQuery = collection(db, 'Jobs');
-    let locationQuery;
     let tagQuery;
 
   
@@ -391,22 +411,23 @@ console.log('userlocationData:', userlocationData);
       orderBy('createdAt', 'desc'),
       limit(50)
     );
-  // Validate inputs
-  if (Array.isArray(userlocationData)){
+
+    
+
     
     // Build query for matching tags
-   locationQuery = query(
+    const locationArray = prepareLocationForFirebase(userlocationData);
+
+// Firebase query
+const locationQuery = query(
   jobsQuery,
   where('status', '==', 'active'),
-  where('location', 'array-contains-any', userlocationData),
+  where('location', 'array-contains-any', locationArray),
   orderBy('createdAt', 'desc'),
   limit(50)
 );
-}else{
 
-  console.log("locationData  must be arrays.");
 
-}
     // Fetch job listings for both queries (tags and titles)
     const [tagSnapshot, titleSnapshot, locationSnapshot] = await Promise.all([
       getDocs(tagQuery),
@@ -625,7 +646,12 @@ const isValidValue = value => value !== undefined && value !== null && value !==
     });
 
 
-    const similarJobsContainer = document.getElementById("similarJobsContainer");
+    function getUserTagInterestX() {
+  const userTagInterest = JSON.parse(localStorage.getItem('userTagInterest')) || [];
+  const tagArray = userTagInterest.map(item => item.tag); // Extract only the tags
+  console.log('User Tag Interests:', tagArray);
+  return tagArray;
+}
 
 // Function to fetch similar jobs based on tags
 
