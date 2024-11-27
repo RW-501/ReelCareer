@@ -911,6 +911,9 @@
             }
         */
         function filterContent(type = 'All') {
+
+            console.log("type   ",type);
+            
             const input = document.getElementById('searchContent');
             const filter = input.value.toLowerCase();
             const contentDiv = document.getElementById('contentList');
