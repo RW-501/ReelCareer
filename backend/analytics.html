@@ -530,15 +530,7 @@ async function displayUserAnalytics() {
       </tr>
     `;
 
-    const viewedByDetails = [
-
-
-]
-      .filter(detail => detail)
-      .map(detail => formatViewedBy(detail))
-      .join("");
-
-    if (viewedByDetails) {
+   
       tableHTML += `
         <tr id="details-${user.ipAddress}" class="details-row" style="display: none;">
           <td colspan="8">
@@ -581,20 +573,36 @@ async function displayUserAnalytics() {
 
                             </div>
 
-              <div class="userAnalyicsViewedbyInfo" >
+        
+
+
+          
+      `;
+      const viewedByDetails = []
+      .filter(detail => detail)
+      .map(detail => formatViewedBy(detail))
+      .join("");
+
+    if (viewedByDetails) {
+      tableHTML += `
+        <div class="userAnalyicsViewedbyInfo" >
               ${viewedByDetails}
               </div>
 
-
-
-            </div>
-          </td>
-        </tr>
-      `;
+     `;
+  
     }
   });
 
-  tableHTML += '</tbody></table>';
+
+
+
+
+
+  
+  tableHTML += `   </div>
+          </td>
+        </tr>  </tbody></table>  `;
   document.getElementById('userAnalyticsTableContainer').innerHTML = tableHTML;
 }
 
