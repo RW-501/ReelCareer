@@ -341,20 +341,19 @@ const seenTitles = new Set();
 const seenIDs = new Set();
 
 let excludedIds = [];
+
+
+
 function prepareLocationForFirebase(userlocationData) {
   console.log('Raw userlocationData:', userlocationData);
 
-  // Check if userlocationData is valid
-  if (!userlocationData || typeof userlocationData !== 'object') {
-    console.log('Invalid location data');
-    return [];
-  }
-
-  // Extract location components
+  // Directly extract location components (no need for type check)
   const { city, state, zip, country } = userlocationData;
+
+  // Log extracted values to ensure they are being picked up
   console.log('City:', city, 'State:', state, 'Zip:', zip, 'Country:', country);
 
-  // Prepare location for Firestore query
+  // Prepare location array for Firestore query (handling missing data with defaults)
   const locationArray = [
     city || '',      // Default to an empty string if undefined or null
     state || '',
