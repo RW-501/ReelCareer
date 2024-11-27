@@ -342,11 +342,19 @@ const seenIDs = new Set();
 
 let excludedIds = [];
 function prepareLocationForFirebase(userlocationData) {
+  console.log('Raw userlocationData:', userlocationData);
+
+  // Check if userlocationData is valid
+  if (!userlocationData || typeof userlocationData !== 'object') {
+    console.log('Invalid location data');
+    return [];
+  }
+
   // Extract location components
   const { city, state, zip, country } = userlocationData;
   console.log('City:', city, 'State:', state, 'Zip:', zip, 'Country:', country);
 
-  // Ensure all values are strings and not undefined or null
+  // Prepare location for Firestore query
   const locationArray = [
     city || '',      // Default to an empty string if undefined or null
     state || '',
@@ -357,6 +365,7 @@ function prepareLocationForFirebase(userlocationData) {
   console.log('Prepared Location Array:', locationArray);
   return locationArray;
 }
+
 
 async function fetchJobListings(userJobInterest, userTagInterest) {
   console.log("fetchJobListings");
