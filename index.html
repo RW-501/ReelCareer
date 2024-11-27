@@ -368,10 +368,8 @@ function prepareLocationForFirebase(userlocationData) {
  // console.log('Prepared Location Array:', locationArray);
   return locationArray;
 }
-
-async function fetchJobListings(userTagInterest, userJobInterest) {
+async function fetchJobListings(userJobInterest) {
   console.log('userJobInterest:', userJobInterest);
-  console.log("userTagInterest:", userTagInterest);
 
   let userlocationData = sessionStorage.getItem('userLocation');
   console.log('userlocationData:', userlocationData);
@@ -389,27 +387,11 @@ async function fetchJobListings(userTagInterest, userJobInterest) {
     // Helper to validate results
     const hasResults = (snapshot) => snapshot && snapshot.docs.length > 0;
 
-    // Tag query
-    let tagSnapshot = null;
-    if (Array.isArray(userTagInterest)) {
-      const tagQuery = query(
-        jobsQuery,
-        where('status', '==', 'active'),
-        where('tags', 'array-contains-any', userTagInterest),
-        orderBy('createdAt', 'desc'),
-        limit(50)
-      );
-      tagSnapshot = await getDocs(tagQuery);
-      if (hasResults(tagSnapshot)) {
-        console.log('Tag query returned results');
-      } else {
-        console.log('Tag query returned no results');
-      }
-    }
+    let locationSnapshot = null;
+    let titleSnapshot = null;
 
     // Location query
-    let locationSnapshot = null;
-    if (!hasResults(tagSnapshot)) { // Only execute if tag query has no results
+    if (userlocationData) {
       const locationArray = prepareLocationForFirebase(userlocationData);
       const locationQuery = query(
         jobsQuery,
@@ -419,44 +401,41 @@ async function fetchJobListings(userTagInterest, userJobInterest) {
         limit(50)
       );
       locationSnapshot = await getDocs(locationQuery);
-      if (hasResults(locationSnapshot)) {
-        console.log('Location query returned results');
-      } else {
-        console.log('Location query returned no results');
-      }
+      console.log(
+        'Location query returned results:',
+        hasResults(locationSnapshot)
+      );
     }
 
-    // Title query
-    let titleSnapshot = null;
-    if (!hasResults(tagSnapshot) && !hasResults(locationSnapshot)) { // Only execute if no previous results
+    // Title query (only if location returns no results)
+    if (!hasResults(locationSnapshot)) {
       const titleQuery = query(
         jobsQuery,
         where('status', '==', 'active'),
+        where('searchableTitle', 'array-contains-any', userJobInterest),
         orderBy('createdAt', 'desc'),
         limit(50)
       );
       titleSnapshot = await getDocs(titleQuery);
-      console.log('Title query returned results:', hasResults(titleSnapshot));
+      console.log(
+        'Title query returned results:',
+        hasResults(titleSnapshot)
+      );
     }
 
     // Process and merge results
     const jobDocs = [
-      ...(tagSnapshot ? tagSnapshot.docs : []),
       ...(locationSnapshot ? locationSnapshot.docs : []),
-      ...(titleSnapshot ? titleSnapshot.docs.filter(doc => {
-        const jobTitle = doc.data().title.toLowerCase();
-        return userJobInterest.some(interest => jobTitle.includes(interest.toLowerCase()));
-      }) : [])
+      ...(titleSnapshot ? titleSnapshot.docs : [])
     ];
 
     // Deduplicate and filter results
-    const seenTitles = new Set();
     const seenIDs = new Set();
     const jobListingsCache = [];
 
-    jobDocs.forEach(doc => {
+    jobDocs.forEach((doc) => {
       const job = { id: doc.id, ...doc.data() };
-      if (!seenIDs.has(doc.id) && !seenTitles.has(job.title)) {
+      if (!seenIDs.has(doc.id)) {
         if (
           isValidValue(job.title) &&
           isValidValue(job.type) &&
@@ -466,7 +445,6 @@ async function fetchJobListings(userTagInterest, userJobInterest) {
           isValidValue(job.salary)
         ) {
           jobListingsCache.push(job);
-          seenTitles.add(job.title);
           seenIDs.add(doc.id);
         }
       }
@@ -665,7 +643,7 @@ let uJobInterestNorm = getUserJobInterest();
 
 
 // Load job listings on page load
-  fetchJobListings(uTagInterestNorm, uJobInterestNorm);
+  fetchJobListings( uJobInterestNorm);
 
 
     loadRelatedBlogs(uTagInterestNorm, "blogContainer");
