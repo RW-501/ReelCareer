@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,139 +10,178 @@
     <title>Content Management</title>
 
 
-<!-- Quill CSS -->
-<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <!-- Quill CSS -->
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 
-<!-- Quill JS -->
-<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+    <!-- Quill JS -->
+    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
 
 
-    
-<script src="https://reelcareer.co/public/js/scripts.js"></script>
-<script src="https://reelcareer.co/public/js/loadScripts.js"></script>
-<link rel="stylesheet" href="https://reelcareer.co/backend/css/styles.css">
+
+    <script src="https://reelcareer.co/public/js/scripts.js"></script>
+    <script src="https://reelcareer.co/public/js/loadScripts.js"></script>
+    <link rel="stylesheet" href="https://reelcareer.co/backend/css/styles.css">
 
 </head>
 <style>
-
-#contentList {
-    height: 500px;
-    overflow-y: scroll;
-    padding: 2rem;
-}
+    #contentList {
+        height: 500px;
+        overflow-y: scroll;
+        padding: 2rem;
+    }
 </style>
 
 <body>
     <script src="https://reelcareer.co/public/js/bodyload.js"></script>
-    
-  <!-- Navbar section -->
-<nav id="Main_Nav" class="navbar navbar-expand-lg navbar-light bg-light" role="navigation" aria-label="Main Navigation">
-  <a class="navbar-brand" href="https://reelcareer.co">ReelCareer.co</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarNav">
-    <ul class="navbar-nav">
 
-                        <!-- Dashboard and New Group -->
-                        <div class="navGroup" title="Dashboard and Analytics">
-                            <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/notes">Notes</a></li>
-                            <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/titles-fix">Title Fix</a></li>
-                  </div>
+    <!-- Navbar section -->
+    <nav id="Main_Nav" class="navbar navbar-expand-lg navbar-light bg-light" role="navigation"
+        aria-label="Main Navigation">
+        <a class="navbar-brand" href="https://reelcareer.co">ReelCareer.co</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
 
-            <!-- Dashboard and Analytics Group -->
-            <div class="navGroup" title="Dashboard and Analytics">
-                <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/dashboard">Dashboard</a></li>
-                <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/analytics">Analytics</a></li>
-                <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/state-labour-market">State Labour Market</a></li>
-                <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/ping">Ping</a></li>
-                <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/page-editor">Page Editor</a></li>
-                <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/notes">Notes</a></li>
-            </div>
-            <!-- Management Tools -->
-            <div class="navGroup" title="Management Tools">
-                <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/content-management">Content <small>Management</small></a></li>
-                <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/user-management">User <small>Management</small></a></li>
-                <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/job-management">Job <small>Management</small></a></li>
-                <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/application-management">Application <small>Management</small></a></li>
-            </div>
-            <!-- General Settings and Utilities -->
-            <div class="navGroup" title="General Settings and Utilities">
-                <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/contact">Contact</a></li>
-                <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/settings">Settings</a></li>
-                <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/support">Support</a></li>
-                <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/chatbot">Chatbot</a></li>
-                <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/notifications-management">Notifications <small>Management</small></a></li>
-                <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/system-logs">System Logs</a></li>
-            </div>
-            <!-- Finance and Monetization -->
-            <div class="navGroup" title="Finance and Monetization">
-                <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/transactions">Transactions</a></li>
-                <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/integration-management">Integration <small>Management</small></a></li>
-                <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/payments">Payments</a></li>
-                <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/monetization">Monetization</a></li>
-            </div>
-            <!-- SEO and Cleanup -->
-            <div class="navGroup" title="SEO and Cleanup">
-                <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/delete-dup">Delete Dup</a></li>
-                <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/seo-helper">SEO Helper</a></li>
-            </div>
-            <!-- Role and Personality Management -->
-            <div class="navGroup" title="Role and Personality Management">
-                <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/role-management">Role <small>Management</small></a></li>
-                <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/trait-personality-management">Trait Personality <small>Management</small></a></li>
-            </div>
-        </ul>
-    </div>
-</nav>
+                <!-- Dashboard and New Group -->
+                <div class="navGroup" title="Dashboard and Analytics">
+                    <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/notes">Notes</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/titles-fix">Title
+                            Fix</a></li>
+                </div>
+
+                <!-- Dashboard and Analytics Group -->
+                <div class="navGroup" title="Dashboard and Analytics">
+                    <li class="nav-item"><a class="nav-link"
+                            href="https://reelcareer.co/backend/dashboard">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link"
+                            href="https://reelcareer.co/backend/analytics">Analytics</a></li>
+                    <li class="nav-item"><a class="nav-link"
+                            href="https://reelcareer.co/backend/state-labour-market">State Labour Market</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/ping">Ping</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/page-editor">Page
+                            Editor</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/notes">Notes</a></li>
+                </div>
+                <!-- Management Tools -->
+                <div class="navGroup" title="Management Tools">
+                    <li class="nav-item"><a class="nav-link"
+                            href="https://reelcareer.co/backend/content-management">Content
+                            <small>Management</small></a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/user-management">User
+                            <small>Management</small></a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/job-management">Job
+                            <small>Management</small></a></li>
+                    <li class="nav-item"><a class="nav-link"
+                            href="https://reelcareer.co/backend/application-management">Application
+                            <small>Management</small></a></li>
+                </div>
+                <!-- General Settings and Utilities -->
+                <div class="navGroup" title="General Settings and Utilities">
+                    <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/contact">Contact</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/settings">Settings</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/support">Support</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/chatbot">Chatbot</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link"
+                            href="https://reelcareer.co/backend/notifications-management">Notifications
+                            <small>Management</small></a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/system-logs">System
+                            Logs</a></li>
+                </div>
+                <!-- Finance and Monetization -->
+                <div class="navGroup" title="Finance and Monetization">
+                    <li class="nav-item"><a class="nav-link"
+                            href="https://reelcareer.co/backend/transactions">Transactions</a></li>
+                    <li class="nav-item"><a class="nav-link"
+                            href="https://reelcareer.co/backend/integration-management">Integration
+                            <small>Management</small></a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/payments">Payments</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link"
+                            href="https://reelcareer.co/backend/monetization">Monetization</a></li>
+                </div>
+                <!-- SEO and Cleanup -->
+                <div class="navGroup" title="SEO and Cleanup">
+                    <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/delete-dup">Delete
+                            Dup</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/seo-helper">SEO
+                            Helper</a></li>
+                </div>
+                <!-- Role and Personality Management -->
+                <div class="navGroup" title="Role and Personality Management">
+                    <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/backend/role-management">Role
+                            <small>Management</small></a></li>
+                    <li class="nav-item"><a class="nav-link"
+                            href="https://reelcareer.co/backend/trait-personality-management">Trait Personality
+                            <small>Management</small></a></li>
+                </div>
+            </ul>
+        </div>
+    </nav>
     <div class="container mt-4">
         <h1>Content Management</h1>
-    
+
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    
-    <!-- Toggle Buttons for Content Types -->
-    <div class="btn-group mb-3" role="group">
-        <button type="button" class="btn btn-secondary" onclick="toggleSection('newsSection')">Manage News Articles</button>
-        <button type="button" class="btn btn-secondary" onclick="toggleSection('blogSection')">Manage Blog Posts</button>
-        <button type="button" class="btn btn-secondary" onclick="toggleSection('faqsSection')">Manage FAQs</button>
-    </div>
-    
+
+        <!-- Toggle Buttons for Content Types -->
+        <div class="btn-group mb-3" role="group">
+            <button type="button" class="btn btn-secondary" onclick="toggleSection('newsSection')">Manage News
+                Articles</button>
+            <button type="button" class="btn btn-secondary" onclick="toggleSection('blogSection')">Manage Blog
+                Posts</button>
+            <button type="button" class="btn btn-secondary" onclick="toggleSection('faqsSection')">Manage FAQs</button>
+        </div>
+
         <!-- News Article Form -->
         <div id="newsSection" class="content-section" style="display:none;">
-            <h2>Manage News Articles <i class="fas fa-question-circle" data-toggle="tooltip" title="Add and manage news articles here."></i></h2>
+            <h2>Manage News Articles <i class="fas fa-question-circle" data-toggle="tooltip"
+                    title="Add and manage news articles here."></i></h2>
             <form id="newsForm">
                 <div class="form-group">
-                    <label for="newsTitle">Title <i class="fas fa-question-circle" data-toggle="tooltip" title="Enter the title of the news article."></i></label>
+                    <label for="newsTitle">Title <i class="fas fa-question-circle" data-toggle="tooltip"
+                            title="Enter the title of the news article."></i></label>
                     <input type="text" class="form-control" id="newsTitle" required>
                 </div>
                 <div class="form-group">
-                    <label for="newsContent">Content <i class="fas fa-question-circle" data-toggle="tooltip" title="Write the content of the news article."></i></label>
+                    <label for="newsContent">Content <i class="fas fa-question-circle" data-toggle="tooltip"
+                            title="Write the content of the news article."></i></label>
                     <!-- Replace the textarea with a div for Quill -->
                     <div id="newsEditor" style="height: 200px;"></div>
                     <input type="hidden" id="newsContent" name="newsContent" required>
                 </div>
                 <div class="form-group">
-                    <label for="newsSource">Source <i class="fas fa-question-circle" data-toggle="tooltip" title="Enter the source of the news article with URL."></i></label>
+                    <label for="newsSource">Source <i class="fas fa-question-circle" data-toggle="tooltip"
+                            title="Enter the source of the news article with URL."></i></label>
                     <input type="text" class="form-control" id="newsSource" placeholder="Title" required>
                     <input type="url" class="form-control mt-2" id="newsUrl" placeholder="URL" required>
                 </div>
                 <div class="form-group">
-                    <label for="newsImage">Upload Image <i class="fas fa-question-circle" data-toggle="tooltip" title="Upload an image for the news article."></i></label>
+                    <label for="newsImage">Upload Image <i class="fas fa-question-circle" data-toggle="tooltip"
+                            title="Upload an image for the news article."></i></label>
                     <input type="file" class="form-control" id="newsImage" accept="image/*" required>
                 </div>
                 <div class="form-group">
-                    <label for="newsPostDate">Post Date <i class="fas fa-question-circle" data-toggle="tooltip" title="Select the date when the news article will be posted."></i></label>
+                    <label for="newsPostDate">Post Date <i class="fas fa-question-circle" data-toggle="tooltip"
+                            title="Select the date when the news article will be posted."></i></label>
                     <input type="date" class="form-control" id="newsPostDate" required>
                 </div>
                 <div class="form-group">
-                    <label for="newsActivate">Activate <i class="fas fa-question-circle" data-toggle="tooltip" title="Choose whether to activate this article."></i></label>
+                    <label for="newsActivate">Activate <i class="fas fa-question-circle" data-toggle="tooltip"
+                            title="Choose whether to activate this article."></i></label>
                     <select class="form-control" id="newsActivate">
                         <option value="true">Yes</option>
                         <option value="false">No</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="newsPostedBy">Posted By <i class="fas fa-question-circle" data-toggle="tooltip" title="Select the person posting the article."></i></label>
+                    <label for="newsPostedBy">Posted By <i class="fas fa-question-circle" data-toggle="tooltip"
+                            title="Select the person posting the article."></i></label>
                     <select class="form-control" id="newsPostedBy" required>
                         <option value="" disabled selected>Select a person</option>
                         <option value="Web Dev">Web Dev</option>
@@ -152,7 +192,8 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="newsPostedById">Posted By ID <i class="fas fa-question-circle" data-toggle="tooltip" title="Select the ID of the person posting the article."></i></label>
+                    <label for="newsPostedById">Posted By ID <i class="fas fa-question-circle" data-toggle="tooltip"
+                            title="Select the ID of the person posting the article."></i></label>
                     <select class="form-control" id="newsPostedById" required>
                         <option value="" disabled selected>Select an ID</option>
                         <option value="0000">ID 1</option>
@@ -164,10 +205,11 @@
                 </div>
                 <div class="form-group">
                     <label for="newsTags">Tags (comma-separated):</label>
-    <input type="text" id="newsTags" placeholder="Enter tags">
-    </div>      
+                    <input type="text" id="newsTags" placeholder="Enter tags">
+                </div>
                 <div class="form-group">
-                    <label for="newsCategory">Category <i class="fas fa-question-circle" data-toggle="tooltip" title="Select a category for the news article."></i></label>
+                    <label for="newsCategory">Category <i class="fas fa-question-circle" data-toggle="tooltip"
+                            title="Select a category for the news article."></i></label>
                     <select class="form-control" id="newsCategory" required>
                         <option value="" disabled selected>Select a category</option>
                         <option value="Job Postings">Job Postings</option>
@@ -180,7 +222,8 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="newsImageCaption">Image Caption <i class="fas fa-question-circle" data-toggle="tooltip" title="Enter a caption for the associated image."></i></label>
+                    <label for="newsImageCaption">Image Caption <i class="fas fa-question-circle" data-toggle="tooltip"
+                            title="Enter a caption for the associated image."></i></label>
                     <input type="text" class="form-control" id="newsImageCaption">
                 </div>
                 <button onclick="addCommasToNewsTags()">Add Commas to News Tags</button>
@@ -188,38 +231,45 @@
                 <button type="reset" class="btn btn-secondary">Reset</button>
             </form>
         </div>
-    
+
         <!-- Blog Post Form -->
         <div id="blogSection" class="content-section" style="display:none;">
-            <h2>Manage Blog Posts <i class="fas fa-question-circle" data-toggle="tooltip" title="Add and manage blog posts here."></i></h2>
+            <h2>Manage Blog Posts <i class="fas fa-question-circle" data-toggle="tooltip"
+                    title="Add and manage blog posts here."></i></h2>
             <form id="blogForm">
                 <div class="form-group">
-                    <label for="blogTitle">Title <i class="fas fa-question-circle" data-toggle="tooltip" title="Enter the title of the blog post."></i></label>
+                    <label for="blogTitle">Title <i class="fas fa-question-circle" data-toggle="tooltip"
+                            title="Enter the title of the blog post."></i></label>
                     <input type="text" class="form-control" id="blogTitle" required>
                 </div>
                 <div class="form-group">
-                    <label for="blogContent">Content <i class="fas fa-question-circle" data-toggle="tooltip" title="Write the content of the blog post."></i></label>
+                    <label for="blogContent">Content <i class="fas fa-question-circle" data-toggle="tooltip"
+                            title="Write the content of the blog post."></i></label>
                     <!-- Replace the textarea with a div for Quill -->
                     <div id="blogEditor" style="height: 200px;"></div>
                     <input type="hidden" id="blogContent" name="blogContent" required>
                 </div>
                 <div class="form-group">
-                    <label for="blogImage">Upload Image <i class="fas fa-question-circle" data-toggle="tooltip" title="Upload an image for the blog post."></i></label>
+                    <label for="blogImage">Upload Image <i class="fas fa-question-circle" data-toggle="tooltip"
+                            title="Upload an image for the blog post."></i></label>
                     <input type="file" class="form-control" id="blogImage" accept="image/*" required>
                 </div>
                 <div class="form-group">
-                    <label for="blogPostDate">Post Date <i class="fas fa-question-circle" data-toggle="tooltip" title="Select the date when the blog post will be published."></i></label>
+                    <label for="blogPostDate">Post Date <i class="fas fa-question-circle" data-toggle="tooltip"
+                            title="Select the date when the blog post will be published."></i></label>
                     <input type="date" class="form-control" id="blogPostDate" required>
                 </div>
                 <div class="form-group">
-                    <label for="blogActivate">Activate <i class="fas fa-question-circle" data-toggle="tooltip" title="Choose whether to activate this post."></i></label>
+                    <label for="blogActivate">Activate <i class="fas fa-question-circle" data-toggle="tooltip"
+                            title="Choose whether to activate this post."></i></label>
                     <select class="form-control" id="blogActivate">
                         <option value="true">Yes</option>
                         <option value="false">No</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="blogPostedBy">Posted By <i class="fas fa-question-circle" data-toggle="tooltip" title="Select the person posting the blog."></i></label>
+                    <label for="blogPostedBy">Posted By <i class="fas fa-question-circle" data-toggle="tooltip"
+                            title="Select the person posting the blog."></i></label>
                     <select class="form-control" id="blogPostedBy">
                         <option value="" disabled selected>Select an admin</option>
                         <option value="Web Dev">Web Dev</option>
@@ -233,7 +283,8 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="blogPostedById">Posted By ID <i class="fas fa-question-circle" data-toggle="tooltip" title="Select the ID of the person posting the blog."></i></label>
+                    <label for="blogPostedById">Posted By ID <i class="fas fa-question-circle" data-toggle="tooltip"
+                            title="Select the ID of the person posting the blog."></i></label>
                     <select class="form-control" id="blogPostedById">
                         <option value="" disabled selected>Select an ID</option>
                         <option value="0000">ID 1</option>
@@ -243,8 +294,9 @@
                         <!-- Add more options as needed -->
                     </select>
                 </div>
-                          <div class="form-group">
-                    <label for="blogCategory">Category <i class="fas fa-question-circle" data-toggle="tooltip" title="Select a category for the blog post."></i></label>
+                <div class="form-group">
+                    <label for="blogCategory">Category <i class="fas fa-question-circle" data-toggle="tooltip"
+                            title="Select a category for the blog post."></i></label>
                     <select class="form-control" id="blogCategory" required>
                         <option value="" disabled selected>Select a category</option>
                         <option value="Career Advice">Career Advice</option>
@@ -254,11 +306,12 @@
                     </select>
                 </div>
                 <div class="form-group">
-                <label for="blogTags">Tags (comma-separated):</label>
-<input type="text" id="blogTags" placeholder="Enter tags">
-</div>
+                    <label for="blogTags">Tags (comma-separated):</label>
+                    <input type="text" id="blogTags" placeholder="Enter tags">
+                </div>
                 <div class="form-group">
-                    <label for="blogImageCaption">Image Caption <i class="fas fa-question-circle" data-toggle="tooltip" title="Enter a caption for the associated image."></i></label>
+                    <label for="blogImageCaption">Image Caption <i class="fas fa-question-circle" data-toggle="tooltip"
+                            title="Enter a caption for the associated image."></i></label>
                     <input type="text" class="form-control" id="blogImageCaption">
                 </div>
                 <button onclick="addCommasToBlogTags()">Add Commas to Blog Tags</button>
@@ -268,91 +321,100 @@
         </div>
 
 
-    <!-- FAQs Section -->
-    <div id="faqsSection" class="content-section" style="display:none;">
-        <h2>Manage FAQs <i class="fas fa-question-circle" data-toggle="tooltip" title="Add and manage FAQs here."></i></h2>
-        <form id="faqsForm">
-            <div class="form-group">
-                <label for="faqQuestion">Question <i class="fas fa-question-circle" data-toggle="tooltip" title="Enter the question for the FAQ."></i></label>
-                <input type="text" class="form-control" id="faqQuestion" required>
-            </div>
-            <div class="form-group">
-                <label for="faqAnswer">Answer <i class="fas fa-question-circle" data-toggle="tooltip" title="Provide the answer to the FAQ."></i></label>
-                <textarea class="form-control" id="faqAnswer" rows="5" required></textarea>
-            </div>
-            <div class="form-group">
-                <label for="newsTags">Tags (comma-separated):</label>
-                <input type="text" id="newsTags" placeholder="Enter tags">                
-                </div>
-            <div class="form-group">
-                <label for="faqCategory">Category <i class="fas fa-question-circle" data-toggle="tooltip" title="Select a category for the FAQ."></i></label>
-                <select class="form-control" id="faqCategory" required>
-                    <option value="" disabled selected>Select a category</option>
-                    <option value="General">General</option>
-                    <option value="Technical">Technical</option>
-                    <option value="Billing">Billing</option>
-                    <option value="Account">Account</option>
-                </select>
-            </div>
-            <button onclick="addCommasToAnotherTag()">Add Commas to Another Tag</button>
-            <button type="submit" class="btn btn-primary">Save FAQ</button>
-            <button type="reset" class="btn btn-secondary">Reset</button>
-        </form>
-    </div>
-
-
-
-    
-<div id="viewContent">
-        <div class="form-group">
-            <label for="searchContent">Search Content</label>
-            <input type="text" class="form-control" id="searchContent" placeholder="Search articles, blogs, FAQs..." onkeyup="filterContent()">
-        </div>
-
-        <h2 class="mt-4">Existing Content</h2>
-        <div id="contentList"></div>
-    </div>
-    
-</div>
-
-
-
-<!-- Modal for displaying content -->
-<div class="modal fade hide" id="contentModal" tabindex="-1" role="dialog" aria-labelledby="contentModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="contentModalLabel"></h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-
-            
-            <div class="modal-body" id="modalContentBody">
-                <img id="modalImage" src="" alt="Content Image" class="img-fluid mb-3" style="display:none;">
-                <hr>
+        <!-- FAQs Section -->
+        <div id="faqsSection" class="content-section" style="display:none;">
+            <h2>Manage FAQs <i class="fas fa-question-circle" data-toggle="tooltip"
+                    title="Add and manage FAQs here."></i></h2>
+            <form id="faqsForm">
                 <div class="form-group">
-                    <label for="modalTextContent">Content <i class="fas fa-question-circle" data-toggle="tooltip" title="Update post."></i></label>
-                    <!-- Replace the textarea with a div for Quill -->
-                    <div id="updateEditor" style="height: 200px;"></div>
-                    <input type="hidden" id="modalTextContent" name="modalTextContent" required>
+                    <label for="faqQuestion">Question <i class="fas fa-question-circle" data-toggle="tooltip"
+                            title="Enter the question for the FAQ."></i></label>
+                    <input type="text" class="form-control" id="faqQuestion" required>
+                </div>
+                <div class="form-group">
+                    <label for="faqAnswer">Answer <i class="fas fa-question-circle" data-toggle="tooltip"
+                            title="Provide the answer to the FAQ."></i></label>
+                    <textarea class="form-control" id="faqAnswer" rows="5" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="newsTags">Tags (comma-separated):</label>
+                    <input type="text" id="newsTags" placeholder="Enter tags">
+                </div>
+                <div class="form-group">
+                    <label for="faqCategory">Category <i class="fas fa-question-circle" data-toggle="tooltip"
+                            title="Select a category for the FAQ."></i></label>
+                    <select class="form-control" id="faqCategory" required>
+                        <option value="" disabled selected>Select a category</option>
+                        <option value="General">General</option>
+                        <option value="Technical">Technical</option>
+                        <option value="Billing">Billing</option>
+                        <option value="Account">Account</option>
+                    </select>
+                </div>
+                <button onclick="addCommasToAnotherTag()">Add Commas to Another Tag</button>
+                <button type="submit" class="btn btn-primary">Save FAQ</button>
+                <button type="reset" class="btn btn-secondary">Reset</button>
+            </form>
+        </div>
+
+
+
+
+        <div id="viewContent">
+            <div class="form-group">
+                <label for="searchContent">Search Content</label>
+                <input type="text" class="form-control" id="searchContent" placeholder="Search articles, blogs, FAQs..."
+                    onkeyup="filterContent()">
+            </div>
+
+            <h2 class="mt-4">Existing Content</h2>
+            <div id="buttonContainer"></div>
+
+            <div id="contentList"></div>
+        </div>
+
+    </div>
+
+
+
+    <!-- Modal for displaying content -->
+    <div class="modal fade hide" id="contentModal" tabindex="-1" role="dialog" aria-labelledby="contentModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="contentModalLabel"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
 
 
+                <div class="modal-body" id="modalContentBody">
+                    <img id="modalImage" src="" alt="Content Image" class="img-fluid mb-3" style="display:none;">
+                    <hr>
+                    <div class="form-group">
+                        <label for="modalTextContent">Content <i class="fas fa-question-circle" data-toggle="tooltip"
+                                title="Update post."></i></label>
+                        <!-- Replace the textarea with a div for Quill -->
+                        <div id="updateEditor" style="height: 200px;"></div>
+                        <input type="hidden" id="modalTextContent" name="modalTextContent" required>
+                    </div>
+
+
+                </div>
+
+
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-danger" id="deleteArticle">Delete</button>
+                    <button type="button" class="btn btn-primary" id="updateArticle">Update</button>
+                </div>
+
             </div>
-
-
-
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-danger" id="deleteArticle">Delete</button>
-                <button type="button" class="btn btn-primary" id="updateArticle">Update</button>
-            </div>
-            
         </div>
     </div>
-</div>
 
 
 
@@ -367,44 +429,44 @@
 
         // Initialize Quill editors for news and blog sections
         const newsEditor = new Quill('#newsEditor', {
-    theme: 'snow',
-    modules: {
-        toolbar: [
-            [{ 'header': [1, 2, 3, false] }],          // Header sizes for structure
-            ['bold', 'italic', 'underline', 'strike'], // Basic formatting options
-            [{ 'list': 'ordered' }, { 'list': 'bullet' }], // Ordered and unordered lists
-            ['link', 'image', 'video'],                 // Insert link, image, and video
-            [{ 'color': [] }, { 'background': [] }],    // Text and background colors
-            ['blockquote', 'code-block'],                // Quote and code block options
-            ['clean']                                    // Clear formatting option
-        ]
-    }
-});
+            theme: 'snow',
+            modules: {
+                toolbar: [
+                    [{ 'header': [1, 2, 3, false] }],          // Header sizes for structure
+                    ['bold', 'italic', 'underline', 'strike'], // Basic formatting options
+                    [{ 'list': 'ordered' }, { 'list': 'bullet' }], // Ordered and unordered lists
+                    ['link', 'image', 'video'],                 // Insert link, image, and video
+                    [{ 'color': [] }, { 'background': [] }],    // Text and background colors
+                    ['blockquote', 'code-block'],                // Quote and code block options
+                    ['clean']                                    // Clear formatting option
+                ]
+            }
+        });
 
-const blogEditor = new Quill('#blogEditor', {
-    theme: 'snow',
-    modules: {
-        toolbar: [
-            [{ 'header': [1, 2, 3, false] }],          // Header sizes for structure
-            ['bold', 'italic', 'underline', 'strike'], // Basic formatting options
-            [{ 'list': 'ordered' }, { 'list': 'bullet' }], // Ordered and unordered lists
-            ['link', 'image', 'video'],                 // Insert link, image, and video
-            [{ 'color': [] }, { 'background': [] }],    // Text and background colors
-            ['blockquote', 'code-block'],                // Quote and code block options
-            ['clean']                                    // Clear formatting option
-        ]
-    }
-});
+        const blogEditor = new Quill('#blogEditor', {
+            theme: 'snow',
+            modules: {
+                toolbar: [
+                    [{ 'header': [1, 2, 3, false] }],          // Header sizes for structure
+                    ['bold', 'italic', 'underline', 'strike'], // Basic formatting options
+                    [{ 'list': 'ordered' }, { 'list': 'bullet' }], // Ordered and unordered lists
+                    ['link', 'image', 'video'],                 // Insert link, image, and video
+                    [{ 'color': [] }, { 'background': [] }],    // Text and background colors
+                    ['blockquote', 'code-block'],                // Quote and code block options
+                    ['clean']                                    // Clear formatting option
+                ]
+            }
+        });
 
 
 
 
         // Save content from Quill editor to hidden input before form submission
-        $('#newsForm').on('submit', function() {
+        $('#newsForm').on('submit', function () {
             $('#newsContent').val(newsEditor.root.innerHTML); // Set the content
         });
 
-        $('#blogForm').on('submit', function() {
+        $('#blogForm').on('submit', function () {
             $('#blogContent').val(blogEditor.root.innerHTML); // Set the content
         });
 
@@ -420,9 +482,9 @@ const blogEditor = new Quill('#blogEditor', {
     <!-- Firebase configuration/ Login & Out -->
     <script type="module" src="https://reelcareer.co/public/js/main.js"></script>
 
-<!-- Bootstrap JS and dependencies -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
 
     <!-- Firebase JS SDK and Custom Scripts -->
@@ -431,11 +493,11 @@ const blogEditor = new Quill('#blogEditor', {
         import {
             db, doc, getDoc, query, updateDoc,
             setDoc, ref, signInWithPopup, orderBy,
-             
+
             uploadBytes, OAuthProvider, arrayUnion, getStorage,
             signOut, addDoc, increment, onAuthStateChanged,
             createUserWithEmailAndPassword, signInWithEmailAndPassword,
-            where, getDocs, storage, collection, deleteObject, 
+            where, getDocs, storage, collection, deleteObject,
             auth, analytics, deleteDoc, getDownloadURL
         } from 'https://reelcareer.co/js/module.js';
 
@@ -443,403 +505,456 @@ const blogEditor = new Quill('#blogEditor', {
 
 
 
-     async function updateArticle() {
-    const docId = $('#modalTextContent').data('docId');
-    const collectionName = $('#modalTextContent').data('collectionName');
+        async function updateArticle() {
+            const docId = $('#modalTextContent').data('docId');
+            const collectionName = $('#modalTextContent').data('collectionName');
 
-    // Get the updated content from Quill
-    const updatedContent = updateEditor.root.innerHTML; // Get the content from Quill editor
+            // Get the updated content from Quill
+            const updatedContent = updateEditor.root.innerHTML; // Get the content from Quill editor
 
-    try {
-        await updateDoc(doc(db, collectionName, docId), {
-            content: updatedContent,
-            // You can update more fields as needed
-        });
-        alert('Article updated successfully!');
-        $('#contentModal').modal('hide');
-        // Optionally reload the content or update the display
-    } catch (error) {
-        console.error("Error updating document: ", error);
-        alert('Error updating article. Please try again.');
-    }
-}
-
-async function deleteArticle() {
-    const docId = $('#modalTextContent').data('docId');
-    const collectionName = $('#modalTextContent').data('collectionName');
-
-    if (confirm('Are you sure you want to delete this article? This action cannot be undone.')) {
-        try {
-            await deleteDoc(doc(db, collectionName, docId));
-            alert('Article deleted successfully!');
-            $('#contentModal').modal('hide');
-            // Optionally reload the content or update the display
-        } catch (error) {
-            console.error("Error deleting document: ", error);
-            alert('Error deleting article. Please try again.');
+            try {
+                await updateDoc(doc(db, collectionName, docId), {
+                    content: updatedContent,
+                    // You can update more fields as needed
+                });
+                alert('Article updated successfully!');
+                $('#contentModal').modal('hide');
+                // Optionally reload the content or update the display
+            } catch (error) {
+                console.error("Error updating document: ", error);
+                alert('Error updating article. Please try again.');
+            }
         }
-    }
-}
+
+        async function deleteArticle() {
+            const docId = $('#modalTextContent').data('docId');
+            const collectionName = $('#modalTextContent').data('collectionName');
+
+            if (confirm('Are you sure you want to delete this article? This action cannot be undone.')) {
+                try {
+                    await deleteDoc(doc(db, collectionName, docId));
+                    alert('Article deleted successfully!');
+                    $('#contentModal').modal('hide');
+                    // Optionally reload the content or update the display
+                } catch (error) {
+                    console.error("Error deleting document: ", error);
+                    alert('Error deleting article. Please try again.');
+                }
+            }
+        }
 
 
-            // Function to upload image to Firebase Storage
+        // Function to upload image to Firebase Storage
 
-function uploadImage(file) { 
-    return new Promise((resolve, reject) => {
-        const storageRef = ref(storage, 'images/' + file.name); // Use ref() instead of storage.ref()
-        const task = uploadBytes(storageRef, file); // Use uploadBytes to upload the file
+        function uploadImage(file) {
+            return new Promise((resolve, reject) => {
+                const storageRef = ref(storage, 'images/' + file.name); // Use ref() instead of storage.ref()
+                const task = uploadBytes(storageRef, file); // Use uploadBytes to upload the file
 
-        task.then(snapshot => {
-            console.log('Upload successful!');
+                task.then(snapshot => {
+                    console.log('Upload successful!');
 
-            // Get the download URL
-            getDownloadURL(snapshot.ref).then(downloadURL => {
-                resolve(downloadURL);
-            }).catch(err => {
-                reject(err);
+                    // Get the download URL
+                    getDownloadURL(snapshot.ref).then(downloadURL => {
+                        resolve(downloadURL);
+                    }).catch(err => {
+                        reject(err);
+                    });
+                }).catch(err => {
+                    reject(err);
+                });
             });
-        }).catch(err => {
-            reject(err);
-        });
-    });
-}
-            // Handle form submission for news articles
-           // Handle form submission for news
-document.getElementById('newsForm').addEventListener('submit', async function(event) {
-    event.preventDefault();
-    const file = document.getElementById('newsImage').files[0];
-    try {
-        const imageUrl = await uploadImage(file);
-     // Get a reference to the 'FAQs' collection
-     const NewsCollection = collection(db, 'News');
+        }
+        // Handle form submission for news articles
+        // Handle form submission for news
+        document.getElementById('newsForm').addEventListener('submit', async function (event) {
+            event.preventDefault();
+            const file = document.getElementById('newsImage').files[0];
+            try {
+                const imageUrl = await uploadImage(file);
+                // Get a reference to the 'FAQs' collection
+                const NewsCollection = collection(db, 'News');
 
-// Add a new document to the 'FAQs' collection
-await addDoc(NewsCollection, {
-    title: document.getElementById('newsTitle').value,
-    content: document.getElementById('newsContent').value,
-    postDate: document.getElementById('newsPostDate').value,
-    activate: document.getElementById('newsActivate').value === 'true',
-    postedBy: document.getElementById('newsPostedBy').value,
-    postedById: document.getElementById('newsPostedById').value,
-    category: document.getElementById('newsCategory').value,
-    imageUrl: imageUrl,
-    imageCaption: document.getElementById('newsImageCaption').value,
-    likes: 0,
-    loves: 0,
-    helpful: 0,
-    viewCount: 0,
-    tags: document.getElementById('newsTags').value.split(',').map(tag => tag.trim()) // Process tags as an array
-});
+                // Add a new document to the 'FAQs' collection
+                await addDoc(NewsCollection, {
+                    title: document.getElementById('newsTitle').value,
+                    content: document.getElementById('newsContent').value,
+                    postDate: document.getElementById('newsPostDate').value,
+                    activate: document.getElementById('newsActivate').value === 'true',
+                    postedBy: document.getElementById('newsPostedBy').value,
+                    postedById: document.getElementById('newsPostedById').value,
+                    category: document.getElementById('newsCategory').value,
+                    imageUrl: imageUrl,
+                    imageCaption: document.getElementById('newsImageCaption').value,
+                    likes: 0,
+                    loves: 0,
+                    helpful: 0,
+                    viewCount: 0,
+                    tags: document.getElementById('newsTags').value.split(',').map(tag => tag.trim()) // Process tags as an array
+                });
 
-        alert('News article saved successfully!');
-        document.getElementById('newsForm').reset();
-    } catch (error) {
-        console.error('Error adding document: ', error);
-    }
-});
-
-// Handle form submission for blog posts
-document.getElementById('blogForm').addEventListener('submit', async function(event) {
-    event.preventDefault();
-    const file = document.getElementById('blogImage').files[0];
-    try {
-        const imageUrl = await uploadImage(file);
-        // Get a reference to the 'FAQs' collection
-        const blogCollection = collection(db, 'Blogs');
-
-        // Add a new document to the 'FAQs' collection
-        await addDoc(blogCollection, {
-    title: document.getElementById('blogTitle').value,
-    content: document.getElementById('blogContent').value,
-    postDate: document.getElementById('blogPostDate').value,
-    activate: document.getElementById('blogActivate').value === 'true',
-    postedBy: document.getElementById('blogPostedBy').value,
-    postedById: document.getElementById('blogPostedById').value,
-    category: document.getElementById('blogCategory').value,
-    imageUrl: imageUrl,
-    imageCaption: document.getElementById('blogImageCaption').value,
-    likes: 0,
-    loves: 0,
-    helpful: 0,
-    viewCount: 0,
-    tags: document.getElementById('blogTags').value.split(',').map(tag => tag.trim()) // Process tags as array
-});
-
-        alert('Blog post saved successfully!');
-        document.getElementById('blogForm').reset();
-    } catch (error) {
-        console.error('Error adding document: ', error);
-    }
-});
-
-// Handle form submission for FAQs
-document.getElementById('faqsForm').addEventListener('submit', async function(event) {
-    event.preventDefault();
-    try {
-        // Get a reference to the 'FAQs' collection
-        const faqsCollection = collection(db, 'FAQs');
-
-        // Add a new document to the 'FAQs' collection
-        await addDoc(faqsCollection, {
-    question: document.getElementById('faqQuestion').value,
-    answer: document.getElementById('faqAnswer').value,
-    category: document.getElementById('faqCategory').value,
-    helpful: 0,
-    activate: true,
-    tags: document.getElementById('faqTags').value.split(',').map(tag => tag.trim()) // Process tags as an array
-});
-
-        alert('FAQ saved successfully!');
-         document.getElementById('faqsForm').reset(); // Uncomment if you want to reset the form
-    } catch (error) {
-        console.error('Error adding document: ', error);
-    }
-});
-
-document.addEventListener('DOMContentLoaded', function() {
-    // Get the forms
-    const newsForm = document.getElementById('newsForm');
-    const blogForm = document.getElementById('blogForm');
-    const faqForm = document.getElementById('faqsForm');
-
-    // Function to reset form fields, excluding date input
-    function resetFormFields(form) {
-        form.querySelectorAll('input, textarea').forEach(function(input) {
-            if (input.type !== 'date') {
-                input.value = ''; // Clear input
-            } else {
-                input.value = new Date().toISOString().split('T')[0]; // Reset date to today
+                alert('News article saved successfully!');
+                document.getElementById('newsForm').reset();
+            } catch (error) {
+                console.error('Error adding document: ', error);
             }
         });
-    }
 
-    // Add event listener for the news form reset
-    newsForm.addEventListener('reset', function() {
-        resetFormFields(newsForm);
-    });
+        // Handle form submission for blog posts
+        document.getElementById('blogForm').addEventListener('submit', async function (event) {
+            event.preventDefault();
+            const file = document.getElementById('blogImage').files[0];
+            try {
+                const imageUrl = await uploadImage(file);
+                // Get a reference to the 'FAQs' collection
+                const blogCollection = collection(db, 'Blogs');
 
-    // Add event listener for the blog form reset
-    blogForm.addEventListener('reset', function() {
-        resetFormFields(blogForm);
-    });
+                // Add a new document to the 'FAQs' collection
+                await addDoc(blogCollection, {
+                    title: document.getElementById('blogTitle').value,
+                    content: document.getElementById('blogContent').value,
+                    postDate: document.getElementById('blogPostDate').value,
+                    activate: document.getElementById('blogActivate').value === 'true',
+                    postedBy: document.getElementById('blogPostedBy').value,
+                    postedById: document.getElementById('blogPostedById').value,
+                    category: document.getElementById('blogCategory').value,
+                    imageUrl: imageUrl,
+                    imageCaption: document.getElementById('blogImageCaption').value,
+                    likes: 0,
+                    loves: 0,
+                    helpful: 0,
+                    viewCount: 0,
+                    tags: document.getElementById('blogTags').value.split(',').map(tag => tag.trim()) // Process tags as array
+                });
 
-    // Add event listener for the FAQ form reset
-    faqForm.addEventListener('reset', function() {
-        resetFormFields(faqForm);
-    });
-});
-
- // Function to add commas to the Blog Tags input
- function addCommasToBlogTags() {
-      let blogTagsInput = document.getElementById('blogTags');
-      let tags = blogTagsInput.value.split(/\s+/);  // Split by spaces
-      blogTagsInput.value = tags.join(', ');  // Join with commas
-    }
-
-    // Function to add commas to the News Tags input
-    function addCommasToNewsTags() {
-      let newsTagsInput = document.getElementById('newsTags');
-      let tags = newsTagsInput.value.split(/\s+/);  // Split by spaces
-      newsTagsInput.value = tags.join(', ');  // Join with commas
-    }
-
-    // Function to add commas to the Another Tags input
-    function addCommasToAnotherTag() {
-      let anotherTagInput = document.getElementById('anotherTag');
-      let tags = anotherTagInput.value.split(/\s+/);  // Split by spaces
-      anotherTagInput.value = tags.join(', ');  // Join with commas
-    }
-    window.addCommasToBlogTags = addCommasToBlogTags;
-    window.addCommasToNewsTags = addCommasToNewsTags;
-
-    window.addCommasToAnotherTag = addCommasToAnotherTag;
-
-
-// Load existing content
-      
-        async function loadContent() {
-    const contentList = document.getElementById('contentList');
-    contentList.innerHTML = ''; // Clear existing content
-
-    try {
-        // Fetch and Render News, Blogs, and FAQs
-        await loadAndRenderContent('News', 'News');
-        await loadAndRenderContent('Blogs', 'Blog');
-        await loadAndRenderContent('FAQs', 'FAQ');
-
-    } catch (error) {
-        console.error("Error loading content: ", error);
-    }
-}
-
-async function loadAndRenderContent(collectionName, label) {
-    const contentList = document.getElementById('contentList');
-    
-    try {
-        const snapshot = await getDocs(collection(db, collectionName));
-        snapshot.forEach(doc => {
-            const data = doc.data();
-            const docId = doc.id; // This is the document ID
-
-            const title = collectionName === 'FAQs' ? data.question : data.title;
-            const content = collectionName === 'FAQs' ? data.answer : data.content;
-            
-            // Use DOM methods to create and append elements
-            const contentItem = document.createElement('div');
-            const titleElement = document.createElement('h5');
-            titleElement.classList.add('clickable');
-            titleElement.setAttribute('data-title', title);
-            titleElement.setAttribute('data-content', content);
-            titleElement.textContent = `${title} (${label})`;
-
-            // Add click event listener instead of inline onclick
-            titleElement.addEventListener('click', () => showContentModal(titleElement, collectionName,docId ));
-
-            const contentElement = document.createElement('p');
-            contentElement.textContent = content;
-
-            // Append elements
-            contentItem.appendChild(titleElement);
-           // contentItem.appendChild(contentElement);
-            contentItem.appendChild(document.createElement('hr'));
-            contentList.appendChild(contentItem);
+                alert('Blog post saved successfully!');
+                document.getElementById('blogForm').reset();
+            } catch (error) {
+                console.error('Error adding document: ', error);
+            }
         });
 
-    } catch (error) {
-        console.error(`Error loading ${collectionName}: `, error);
-    }
-}
+        // Handle form submission for FAQs
+        document.getElementById('faqsForm').addEventListener('submit', async function (event) {
+            event.preventDefault();
+            try {
+                // Get a reference to the 'FAQs' collection
+                const faqsCollection = collection(db, 'FAQs');
 
-// Load content on page load
-document.addEventListener('DOMContentLoaded', function() {
-    loadContent();
-});
+                // Add a new document to the 'FAQs' collection
+                await addDoc(faqsCollection, {
+                    question: document.getElementById('faqQuestion').value,
+                    answer: document.getElementById('faqAnswer').value,
+                    category: document.getElementById('faqCategory').value,
+                    helpful: 0,
+                    activate: true,
+                    tags: document.getElementById('faqTags').value.split(',').map(tag => tag.trim()) // Process tags as an array
+                });
 
-</script>
+                alert('FAQ saved successfully!');
+                document.getElementById('faqsForm').reset(); // Uncomment if you want to reset the form
+            } catch (error) {
+                console.error('Error adding document: ', error);
+            }
+        });
 
-<script>
-// Initialize Quill editor once globally
-const updateEditor = new Quill('#updateEditor', {
-    theme: 'snow',
-    modules: {
-        toolbar: [
-            [{ 'header': [1, 2, 3, false] }],
-            ['bold', 'italic', 'underline', 'strike'],
-            [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-            ['link', 'image', 'video'],
-            [{ 'color': [] }, { 'background': [] }],
-            ['blockquote', 'code-block'],
-            ['clean']
-        ]
-    }
-});
+        document.addEventListener('DOMContentLoaded', function () {
+            // Get the forms
+            const newsForm = document.getElementById('newsForm');
+            const blogForm = document.getElementById('blogForm');
+            const faqForm = document.getElementById('faqsForm');
 
-function showContentModal(element, collectionName, docId) {  
-    const title = $(element).data('title');
-    const content = $(element).data('content');
-    const imageUrl = $(element).data('imageUrl'); // Assuming data-image attribute holds the image URL
+            // Function to reset form fields, excluding date input
+            function resetFormFields(form) {
+                form.querySelectorAll('input, textarea').forEach(function (input) {
+                    if (input.type !== 'date') {
+                        input.value = ''; // Clear input
+                    } else {
+                        input.value = new Date().toISOString().split('T')[0]; // Reset date to today
+                    }
+                });
+            }
 
-    // Set the modal title
-    $('#contentModalLabel').text(title);
+            // Add event listener for the news form reset
+            newsForm.addEventListener('reset', function () {
+                resetFormFields(newsForm);
+            });
 
-    // Set the content of the editor using dangerouslyPasteHTML
-    updateEditor.clipboard.dangerouslyPasteHTML(content); // Use this to paste HTML directly
-    
+            // Add event listener for the blog form reset
+            blogForm.addEventListener('reset', function () {
+                resetFormFields(blogForm);
+            });
 
-   
-    $('#modalTextContent').val(updateEditor.root.innerHTML); // Set the content
+            // Add event listener for the FAQ form reset
+            faqForm.addEventListener('reset', function () {
+                resetFormFields(faqForm);
+            });
+        });
 
-    // Set the image if available
-    if (imageUrl) {
-        $('#modalImage').attr('src', imageUrl).show();
-    } else {
-        $('#modalImage').hide(); // Hide the image if not available
-    }
-
-    // Store docId for update and delete actions
-    $('#modalTextContent').data('docId', docId);
-    $('#modalTextContent').data('collectionName', collectionName);
-
-    // Show the modal
-    $('#contentModal').modal('show');
-
-
-const deleteArticleBtn = document.getElementById('deleteArticle');
-const updateArticleBtn = document.getElementById('updateArticle');
-
-deleteArticleBtn.addEventListener('click', function() {
-    deleteArticle();
-    });
-
-    updateArticleBtn.addEventListener('click', function() {
-        updateArticle();
-    });
-}
-
-/*
-// Function to show modal with content
-function showContentModal(element, collectionName,docId) {
-        const title = $(element).data('title');
-        const content = $(element).data('content');
-        const imageUrl = $(element).data('image'); // Assuming data-image attribute holds the image URL
-
-        // Set the modal title
-        $('#contentModalLabel').text(title);
-
-        // Set the modal content
-        $('#modalTextContent').text(content);
-
-        // Set the image if available
-        if (imageUrl) {
-            $('#modalImage').attr('src', imageUrl).show();
-        } else {
-            $('#modalImage').hide(); // Hide the image if not available
+        // Function to add commas to the Blog Tags input
+        function addCommasToBlogTags() {
+            let blogTagsInput = document.getElementById('blogTags');
+            let tags = blogTagsInput.value.split(/\s+/);  // Split by spaces
+            blogTagsInput.value = tags.join(', ');  // Join with commas
         }
 
-        // Show the modal
-        $('#contentModal').modal('show');
-    }
-*/
-function filterContent() {
-    const input = document.getElementById('searchContent');
-    const filter = input.value.toLowerCase();
-    const contentDiv = document.getElementById('contentList');
-    const contentItems = contentDiv.getElementsByTagName('div');
-
-    for (let i = 0; i < contentItems.length; i++) {
-        const title = contentItems[i].getElementsByTagName('h5')[0];
-        if (title) {
-            const txtValue = title.textContent || title.innerText;
-            contentItems[i].style.display = txtValue.toLowerCase().includes(filter) ? "" : "none";
+        // Function to add commas to the News Tags input
+        function addCommasToNewsTags() {
+            let newsTagsInput = document.getElementById('newsTags');
+            let tags = newsTagsInput.value.split(/\s+/);  // Split by spaces
+            newsTagsInput.value = tags.join(', ');  // Join with commas
         }
-    }
-}
 
-function toggleSection(sectionId) {
-    const sections = ['newsSection', 'blogSection', 'faqsSection'];
-    sections.forEach((id) => {
-        document.getElementById(id).style.display = (id === sectionId) ? 'block' : 'none';
-    });
-}
+        // Function to add commas to the Another Tags input
+        function addCommasToAnotherTag() {
+            let anotherTagInput = document.getElementById('anotherTag');
+            let tags = anotherTagInput.value.split(/\s+/);  // Split by spaces
+            anotherTagInput.value = tags.join(', ');  // Join with commas
+        }
+        window.addCommasToBlogTags = addCommasToBlogTags;
+        window.addCommasToNewsTags = addCommasToNewsTags;
 
-$(document).ready(function(){
-    $('[data-toggle="tooltip"]').tooltip();
-});
+        window.addCommasToAnotherTag = addCommasToAnotherTag;
+
+
+
+
+
+
+
+
+
+
+
+
+        // Load existing content
+
+        async function loadContent() {
+            const contentList = document.getElementById('contentList');
+            contentList.innerHTML = ''; // Clear existing content
+
+            try {
+                // Fetch and Render News, Blogs, and FAQs
+                await loadAndRenderContent('News', 'News');
+                await loadAndRenderContent('Blogs', 'Blog');
+                await loadAndRenderContent('FAQs', 'FAQ');
+
+            } catch (error) {
+                console.error("Error loading content: ", error);
+            }
+        }
+
+        async function loadAndRenderContent(collectionName, label) {
+            const contentList = document.getElementById('contentList');
+
+            try {
+                const snapshot = await getDocs(collection(db, collectionName));
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    const docId = doc.id; // This is the document ID
+
+                    const title = collectionName === 'FAQs' ? data.question : data.title;
+                    const content = collectionName === 'FAQs' ? data.answer : data.content;
+
+                    // Use DOM methods to create and append elements
+                    const contentItem = document.createElement('div');
+                    const titleElement = document.createElement('h5');
+                    titleElement.classList.add('clickable');
+                    titleElement.setAttribute('data-title', title);
+                    titleElement.setAttribute('data-content', content);
+                    titleElement.textContent = `${title} (${label})`;
+
+                    // Add click event listener instead of inline onclick
+                    titleElement.addEventListener('click', () => showContentModal(titleElement, collectionName, docId));
+
+                    const contentElement = document.createElement('p');
+                    contentElement.textContent = content;
+
+                    // Append elements
+                    contentItem.appendChild(titleElement);
+                    // contentItem.appendChild(contentElement);
+                    contentItem.appendChild(document.createElement('hr'));
+                    contentList.appendChild(contentItem);
+                });
+
+            } catch (error) {
+                console.error(`Error loading ${collectionName}: `, error);
+            }
+        }
+
+        // Filter function to show only selected content type
+        function filterContent(type) {
+            const contentList = document.getElementById('contentList');
+            const items = contentList.querySelectorAll('div[data-type]');
+
+            items.forEach(item => {
+                if (type === 'All' || item.getAttribute('data-type') === type) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        // Load content on page load
+        document.addEventListener('DOMContentLoaded', function () {
+            loadContent();
+
+            // Add buttons for filtering
+            const buttonContainer = document.getElementById('buttonContainer');
+
+            const allButton = document.createElement('button');
+            allButton.textContent = 'Show All';
+            allButton.addEventListener('click', () => filterContent('All'));
+            buttonContainer.appendChild(allButton);
+
+            const newsButton = document.createElement('button');
+            newsButton.textContent = 'Show News';
+            newsButton.addEventListener('click', () => filterContent('News'));
+            buttonContainer.appendChild(newsButton);
+
+            const blogsButton = document.createElement('button');
+            blogsButton.textContent = 'Show Blogs';
+            blogsButton.addEventListener('click', () => filterContent('Blog'));
+            buttonContainer.appendChild(blogsButton);
+
+            const faqsButton = document.createElement('button');
+            faqsButton.textContent = 'Show FAQs';
+            faqsButton.addEventListener('click', () => filterContent('FAQ'));
+            buttonContainer.appendChild(faqsButton);
+        });
+
+
+    </script>
+
+    <script>
+        // Initialize Quill editor once globally
+        const updateEditor = new Quill('#updateEditor', {
+            theme: 'snow',
+            modules: {
+                toolbar: [
+                    [{ 'header': [1, 2, 3, false] }],
+                    ['bold', 'italic', 'underline', 'strike'],
+                    [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+                    ['link', 'image', 'video'],
+                    [{ 'color': [] }, { 'background': [] }],
+                    ['blockquote', 'code-block'],
+                    ['clean']
+                ]
+            }
+        });
+
+        function showContentModal(element, collectionName, docId) {
+            const title = $(element).data('title');
+            const content = $(element).data('content');
+            const imageUrl = $(element).data('imageUrl'); // Assuming data-image attribute holds the image URL
+
+            // Set the modal title
+            $('#contentModalLabel').text(title);
+
+            // Set the content of the editor using dangerouslyPasteHTML
+            updateEditor.clipboard.dangerouslyPasteHTML(content); // Use this to paste HTML directly
+
+
+
+            $('#modalTextContent').val(updateEditor.root.innerHTML); // Set the content
+
+            // Set the image if available
+            if (imageUrl) {
+                $('#modalImage').attr('src', imageUrl).show();
+            } else {
+                $('#modalImage').hide(); // Hide the image if not available
+            }
+
+            // Store docId for update and delete actions
+            $('#modalTextContent').data('docId', docId);
+            $('#modalTextContent').data('collectionName', collectionName);
+
+            // Show the modal
+            $('#contentModal').modal('show');
+
+
+            const deleteArticleBtn = document.getElementById('deleteArticle');
+            const updateArticleBtn = document.getElementById('updateArticle');
+
+            deleteArticleBtn.addEventListener('click', function () {
+                deleteArticle();
+            });
+
+            updateArticleBtn.addEventListener('click', function () {
+                updateArticle();
+            });
+        }
+
+        /*
+        // Function to show modal with content
+        function showContentModal(element, collectionName,docId) {
+                const title = $(element).data('title');
+                const content = $(element).data('content');
+                const imageUrl = $(element).data('image'); // Assuming data-image attribute holds the image URL
+        
+                // Set the modal title
+                $('#contentModalLabel').text(title);
+        
+                // Set the modal content
+                $('#modalTextContent').text(content);
+        
+                // Set the image if available
+                if (imageUrl) {
+                    $('#modalImage').attr('src', imageUrl).show();
+                } else {
+                    $('#modalImage').hide(); // Hide the image if not available
+                }
+        
+                // Show the modal
+                $('#contentModal').modal('show');
+            }
+        */
+        function filterContent() {
+            const input = document.getElementById('searchContent');
+            const filter = input.value.toLowerCase();
+            const contentDiv = document.getElementById('contentList');
+            const contentItems = contentDiv.getElementsByTagName('div');
+
+            for (let i = 0; i < contentItems.length; i++) {
+                const title = contentItems[i].getElementsByTagName('h5')[0];
+                if (title) {
+                    const txtValue = title.textContent || title.innerText;
+                    contentItems[i].style.display = txtValue.toLowerCase().includes(filter) ? "" : "none";
+                }
+            }
+        }
+
+        function toggleSection(sectionId) {
+            const sections = ['newsSection', 'blogSection', 'faqsSection'];
+            sections.forEach((id) => {
+                document.getElementById(id).style.display = (id === sectionId) ? 'block' : 'none';
+            });
+        }
+
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
 
 
 
     </script>
 
     <!-- Font Awesome -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-<!-- jQuery (Must be included before Bootstrap JS) -->
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    
-<!-- Popper.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- jQuery (Must be included before Bootstrap JS) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
-<!-- Bootstrap JS -->
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    <!-- Popper.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"
+        integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+        crossorigin="anonymous"></script>
+
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+        crossorigin="anonymous"></script>
 
 </body>
+
 </html>
