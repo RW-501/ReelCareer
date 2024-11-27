@@ -343,8 +343,12 @@ const seenIDs = new Set();
 let excludedIds = [];
 
 
-
 function prepareLocationForFirebase(userlocationData) {
+  // Check if the data is a string and parse it
+  if (typeof userlocationData === 'string') {
+    userlocationData = JSON.parse(userlocationData);  // Parse the string to an object
+  }
+
   console.log('Raw userlocationData:', userlocationData);
 
   // Directly extract location components (no need for type check)
@@ -364,7 +368,6 @@ function prepareLocationForFirebase(userlocationData) {
   console.log('Prepared Location Array:', locationArray);
   return locationArray;
 }
-
 
 async function fetchJobListings(userJobInterest, userTagInterest) {
   console.log("fetchJobListings");
