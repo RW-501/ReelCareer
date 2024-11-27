@@ -350,10 +350,10 @@ let collectionRef = "Notes";
     window.deleteItem = deleteItem;
     window.updateItem = updateItem;
     async function fetchNotes() {
-      await fetchAndRender(notesCollection, renderNotes);
+      await fetchAndRender(collectionRef, renderNotes);
     }
     async function fetchTodos() {
-      await fetchAndRender(todosCollection, renderTodos);
+      await fetchAndRender(collectionRef, renderTodos);
     }
     document.getElementById("saveNote").addEventListener("click", () => {
       const noteInput = document.getElementById("note");
