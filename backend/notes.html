@@ -200,70 +200,83 @@
       }
     }
 
-    // Filter Function for Search Bar
-    function filterItems() {
-      const searchText = document.getElementById('search').value.toLowerCase();
-      const filteredNotes = notes.filter(note => note.content.toLowerCase().includes(searchText));
-      const filteredTodos = todos.filter(todo => todo.content.toLowerCase().includes(searchText));
-      renderItems(filteredNotes, "noteList", renderNoteItem);
-      renderItems(filteredTodos, "todoList", renderTodoItem);
-    }
+    // Handle Add Note (Vanilla JS)
+    document.getElementById("saveNote").addEventListener("click", async function () {
+      const noteContent = document.getElementById("note").value;
+      const noteGroup = document.getElementById("noteGroup").value;
+      const noteLink = document.getElementById("noteLink").value;
 
-    // Handle Add Note
-    $("#saveNote").click(async function () {
-      const noteContent = $("#note").val();
-      const noteGroup = $("#noteGroup").val();
-      const noteLink = $("#noteLink").val();
+      console.log("Saving note:", noteContent, noteGroup, noteLink);
 
       if (noteContent && noteGroup) {
-        const collectionRef = collection(db, "Notes");
-        await addDoc(collectionRef, {
-          content: noteContent,
-          group: noteGroup,
-          link: noteLink,
-        });
+        try {
+          const collectionRef = collection(db, "Notes");
+          await addDoc(collectionRef, {
+            content: noteContent,
+            group: noteGroup,
+            link: noteLink,
+          });
 
-        // Clear input fields
-        $("#note").val('');
-        $("#noteGroup").val('');
-        $("#noteLink").val('');
+          console.log("Note saved successfully");
 
-        fetchAndRender(collection(db, "Notes"), renderNoteItem);
+          // Clear input fields
+          document.getElementById("note").value = '';
+          document.getElementById("noteGroup").value = '';
+          document.getElementById("noteLink").value = '';
+
+          fetchAndRender(collection(db, "Notes"), renderNoteItem);
+        } catch (error) {
+          console.error("Error saving note:", error);
+        }
+      } else {
+        console.log("Note content or group missing");
       }
     });
 
-    // Handle Add To-Do
-    $("#saveTodo").click(async function () {
-      const todoContent = $("#todo").val();
-      const todoGroup = $("#todoGroup").val();
-      const todoLink = $("#todoLink").val();
-      const todoDueDate = $("#todoDueDate").val();
-      const todoComplete = $("#todoComplete").is(':checked');
+    // Handle Add To-Do (Vanilla JS)
+    document.getElementById("saveTodo").addEventListener("click", async function () {
+      const todoContent = document.getElementById("todo").value;
+      const todoGroup = document.getElementById("todoGroup").value;
+      const todoLink = document.getElementById("todoLink").value;
+      const todoDueDate = document.getElementById("todoDueDate").value;
+      const todoComplete = document.getElementById("todoComplete").checked;
+
+      console.log("Saving todo:", todoContent, todoGroup, todoLink, todoDueDate, todoComplete);
 
       if (todoContent && todoGroup) {
-        const collectionRef = collection(db, "Todos");
-        await addDoc(collectionRef, {
-          content: todoContent,
-          group: todoGroup,
-          link: todoLink,
-          completed: todoComplete,
-          dueDate: todoDueDate,
-        });
+        try {
+          const collectionRef = collection(db, "Todos");
+          await addDoc(collectionRef, {
+            content: todoContent,
+            group: todoGroup,
+            link: todoLink,
+            completed: todoComplete,
+            dueDate: todoDueDate,
+          });
 
-        // Clear input fields
-        $("#todo").val('');
-        $("#todoGroup").val('');
-        $("#todoLink").val('');
-        $("#todoComplete").prop('checked', false);
-        $("#todoDueDate").val('');
+          console.log("To-Do saved successfully");
 
-        fetchAndRender(collection(db, "Todos"), renderTodoItem);
+          // Clear input fields
+          document.getElementById("todo").value = '';
+          document.getElementById("todoGroup").value = '';
+          document.getElementById("todoLink").value = '';
+          document.getElementById("todoComplete").checked = false;
+          document.getElementById("todoDueDate").value = '';
+
+          fetchAndRender(collection(db, "Todos"), renderTodoItem);
+        } catch (error) {
+          console.error("Error saving todo:", error);
+        }
+      } else {
+        console.log("To-Do content or group missing");
       }
     });
 
+    // Initial Fetch and Render
     fetchAndRender(collection(db, "Notes"), renderNoteItem);
     fetchAndRender(collection(db, "Todos"), renderTodoItem);
-  </script>
+
+    </script>
 </body>
 
 </html>
