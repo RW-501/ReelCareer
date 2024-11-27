@@ -151,14 +151,8 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    // Reusable Render Function for Items
-    function renderItems(items, containerId, renderItemFn) {
-      const container = document.getElementById(containerId);
-      container.innerHTML = "";
-      items.forEach(item => renderItemFn(item, container));
-    }
-
-    function renderNoteItem(note, container) {
+  
+    function renderNoteItem(note) {
       const div = document.createElement("div");
       div.className = "card mb-3";
       div.innerHTML = `
@@ -175,7 +169,7 @@ document.addEventListener('DOMContentLoaded', () => {
       document.getElementById("noteList").appendChild(div);
     }
 
-    function renderTodoItem(todo, container) {
+    function renderTodoItem(todo) {
       const div = document.createElement("div");
       div.className = "card mb-3";
       div.innerHTML = `
