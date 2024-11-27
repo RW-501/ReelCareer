@@ -396,11 +396,15 @@ document.getElementById("saveTodo").addEventListener("click", function () {
 
 
 function saveNoteToDatabase(note) {
+  const  notesCollection = collection(db, "Notes");
+
   saveItem(notesCollection, { content: note }, fetchNotes);
   showToast("Saving note:", note);
 }
 
 function saveTodoToDatabase(todo) {
+  const  notesCollection = collection(db, "Notes");
+
   saveItem(notesCollection, { content: todo }, fetchTodos);
   showToast("Saving to-do:", todo);
 }
