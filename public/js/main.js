@@ -480,64 +480,7 @@ document.addEventListener("DOMContentLoaded", function () {
         `;
   }
 
-  // Function to setup event listeners
-  function setupEventListeners() {
-    // Dark Mode Toggle functionality
-    const darkModeToggle = document.getElementById("darkModeToggle");
-    darkModeToggle?.addEventListener("click", toggleDarkMode);
-
-    // Initialize Dark Mode based on previous settings
-    if (localStorage.getItem("darkMode") === "true") {
-      document.body.classList.add("dark-mode");
-    }
-
-
-  }
-
-  // Function to highlight active links in the navbar
-  function highlightActiveLink() {
-    const navLinks = document.querySelectorAll(
-      ".navbar-nav .nav-item .nav-link"
-    );
-    navLinks.forEach((link) => {
-      if (link.href === window.location.href) {
-        link.classList.add("active"); // Add the active class to the current page link
-      } else {
-        link.classList.remove("active"); // Remove it from others
-      }
-    });
-  }
-
-
-    
-
-  const currentPage = window.location.pathname; // Get the current path from the URL
-
-
-console.log("currentPageXC    ",currentPage);
-let excludedPages = ["/backend/", "/admin/", "/settings/"];
-
-
-  // Replace the navbar if not on an excluded page
-  if (!excludedPages.some((excluded) => currentPage.startsWith(excluded))) {
-    let existingNavbar = document.querySelector(".navbar");
-
-    // If an existing navbar is found, replace it
-    if (existingNavbar) {
-      existingNavbar.outerHTML = createNavbar();
-    } else {
-  // If no existing navbar, append it to the body
-  document.body.insertAdjacentHTML("afterbegin", createNavbar());
-
-    }
-
-
-    setupEventListeners(); // Initialize event listeners
-    highlightActiveLink(); // Highlight the active link
   
-}
- 
-
   // Function to handle keyboard navigation for dropdowns
   document.addEventListener("keydown", function (event) {
     if (event.key === "Enter" || event.key === " ") {
@@ -2807,7 +2750,11 @@ function checkUserLoginStatus() {
       // User is signed in
       console.log('User is logged in:', user);
       localStorage.setItem('userLoggedIn', true);
+
+      if (!window.checkUrl("/backend/") || !window.checkUrl("/backend")) {
+
       handleAuthStateChanged(user); // Call your function to handle authenticated user
+      }
       checkLogin(); // Ensure login is valid on page load
       
       
@@ -2851,6 +2798,59 @@ function checkUserLoginStatus() {
 }
 
 window.checkUserLoginStatus = checkUserLoginStatus;
+
+// Function to setup event listeners
+function setupEventListeners() {
+  // Dark Mode Toggle functionality
+  const darkModeToggle = document.getElementById("darkModeToggle");
+  darkModeToggle?.addEventListener("click", toggleDarkMode);
+
+  // Initialize Dark Mode based on previous settings
+  if (localStorage.getItem("darkMode") === "true") {
+    document.body.classList.add("dark-mode");
+  }
+
+
+}
+
+// Function to highlight active links in the navbar
+function highlightActiveLink() {
+  const navLinks = document.querySelectorAll(
+    ".navbar-nav .nav-item .nav-link"
+  );
+  navLinks.forEach((link) => {
+    if (link.href === window.location.href) {
+      link.classList.add("active"); // Add the active class to the current page link
+    } else {
+      link.classList.remove("active"); // Remove it from others
+    }
+  });
+}
+
+
+  
+
+const currentPage = window.location.pathname; // Get the current path from the URL
+let excludedPages = ["/backend/", "/admin/", "/settings/"];
+
+// Replace the navbar if not on an excluded page
+if (!excludedPages.some((excluded) => currentPage.startsWith(excluded))) {
+  let existingNavbar = document.querySelector(".navbar");
+
+  // If an existing navbar is found, replace it
+  if (existingNavbar) {
+    existingNavbar.outerHTML = createNavbar();
+  } else {
+// If no existing navbar, append it to the body
+document.body.insertAdjacentHTML("afterbegin", createNavbar());
+
+  }
+
+
+  setupEventListeners(); // Initialize event listeners
+  highlightActiveLink(); // Highlight the active link
+
+}
 
 
 
