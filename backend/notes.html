@@ -243,8 +243,7 @@
     // Function to format dates with added support for Firestore timestamps
 
 // Get a reference to the "Notes" collection
-const  notesCollection = collection(db, "Notes");
-const collectionRef = collection(db, "Notes");
+
 
     function formatDate(dateInput, options = {}) {
       let date;
@@ -354,16 +353,25 @@ function renderTodos(todos) {
     window.renderTodos = renderTodos;
     window.deleteItem = deleteItem;
     window.updateItem = updateItem;
+
     async function fetchNotes() {
+      console.log("??????fetchNotes???????");
+
+      const  notesCollection = collection(db, "Notes");
+
   await fetchAndRender(notesCollection, renderNotes);
 }
 
 async function fetchTodos() {
+  const  notesCollection = collection(db, "Notes");
+
   await fetchAndRender(notesCollection, renderTodos);
 }
 
     document.getElementById("saveNote").addEventListener("click", function () {
     const noteText = document.getElementById("note").value.trim();
+console.log("??????????????????");
+
 
     if (noteText) {
         // Call your function to save the note in the "Notes" collection
