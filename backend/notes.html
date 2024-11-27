@@ -244,7 +244,7 @@
 
 // Get a reference to the "Notes" collection
 const  notesCollection = collection(db, "Notes");
-const  todosCollection = collection(db, "Todos");
+const collectionRef = collection(db, "Notes");
 
     function formatDate(dateInput, options = {}) {
       let date;
@@ -393,7 +393,7 @@ function saveNoteToDatabase(note) {
 }
 
 function saveTodoToDatabase(todo) {
-  saveItem(todosCollection, { content: todo }, fetchTodos);
+  saveItem(notesCollection, { content: todo }, fetchTodos);
   showToast("Saving to-do:", todo);
 }
 
