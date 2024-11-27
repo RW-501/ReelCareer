@@ -220,7 +220,7 @@
       ref,
       signInWithPopup,
       orderBy,
-      uploadBytes,
+      uploadBytes,getFirestore,
       OAuthProvider,
       arrayUnion,
       getStorage,
@@ -242,7 +242,8 @@
     } from 'https://reelcareer.co/js/module.js';
     // Function to format dates with added support for Firestore timestamps
 
-let collectionRef = "Notes";
+// Get a reference to the "Notes" collection
+let collectionRef = collection(db, "Notes");
 
     function formatDate(dateInput, options = {}) {
       let date;
@@ -368,7 +369,7 @@ let collectionRef = "Notes";
         saveNoteToDatabase(noteText);
         document.getElementById("note").value = ""; // Clear the textarea
     } else {
-        alert("Please enter a note!");
+      showToast("Please enter a note!");
     }
 });
 document.getElementById("saveTodo").addEventListener("click", function () {
@@ -379,7 +380,7 @@ document.getElementById("saveTodo").addEventListener("click", function () {
         saveTodoToDatabase(todoText);
         document.getElementById("todo").value = ""; // Clear the input field
     } else {
-        alert("Please enter a to-do!");
+      showToast("Please enter a to-do!");
     }
 });
 
