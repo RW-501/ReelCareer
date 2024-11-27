@@ -349,13 +349,13 @@ function prepareLocationForFirebase(userlocationData) {
     userlocationData = JSON.parse(userlocationData);  // Parse the string to an object
   }
 
-  console.log('Raw userlocationData:', userlocationData);
+  //console.log('Raw userlocationData:', userlocationData);
 
   // Directly extract location components (no need for type check)
-  const { city, state, zip, country } = userlocationData;
+ const { city, state, zip, country } = userlocationData;
 
   // Log extracted values to ensure they are being picked up
-  console.log('City:', city, 'State:', state, 'Zip:', zip, 'Country:', country);
+ // console.log('City:', city, 'State:', state, 'Zip:', zip, 'Country:', country);
 
   // Prepare location array for Firestore query (handling missing data with defaults)
   const locationArray = [
@@ -365,7 +365,7 @@ function prepareLocationForFirebase(userlocationData) {
     country || ''
   ];
 
-  console.log('Prepared Location Array:', locationArray);
+ // console.log('Prepared Location Array:', locationArray);
   return locationArray;
 }
 
@@ -650,15 +650,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // Retrieve user interests for tags and jobs
 let uTagInterestNorm = getUserTagInterest();
-let userTagInterest = uTagInterestNorm && uTagInterestNorm.length > 0 ? uTagInterestNorm : jobTags;
+let userTagInterest;
 
 let uJobInterestNorm = getUserJobInterest();
-let userJobInterest = uJobInterestNorm && uJobInterestNorm.length > 0 ? uJobInterestNorm : jobTags;
-      // Load job listings on page load
-      fetchJobListings(uJobInterestNorm, uTagInterestNorm);
+let userJobInterest;
 
 
-    loadRelatedBlogs(uTagInterestNorm, "blogContainer");
+
+userTagInterest = JSON.parse(uTagInterestNorm);  
+userJobInterest = JSON.parse(uJobInterestNorm); 
+// Load job listings on page load
+      fetchJobListings(userJobInterest, userTagInterest);
+
+
+    loadRelatedBlogs(userTagInterest, "blogContainer");
 
   }, 1000);
 });
