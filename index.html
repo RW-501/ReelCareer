@@ -428,11 +428,11 @@ async function fetchJobListings(userJobInterest) {
       ...(locationSnapshot ? locationSnapshot.docs : []),
       ...(titleSnapshot ? titleSnapshot.docs : [])
     ];
-
+/*
     // Deduplicate and filter results
     const seenIDs = new Set();
-    const jobListingsCache = [];
-
+     jobListingsCache = [];
+*/
     jobDocs.forEach((doc) => {
       const job = { id: doc.id, ...doc.data() };
       if (!seenIDs.has(doc.id)) {
