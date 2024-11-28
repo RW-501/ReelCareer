@@ -648,7 +648,9 @@ function addStyles() {
     jobCard.dataset.country = job.country ? job.country.toLowerCase() : '';
     jobCard.dataset.county = job.county ? job.county.toLowerCase() : '';
     jobCard.dataset.status = job.status ? job.status.toLowerCase() : '';
-    jobCard.dataset.searchableTitle = job.searchableTitle ? job.searchableTitle.toLowerCase() : '';
+    jobCard.dataset.searchableTitle  = Array.isArray(job.searchableTitle) 
+    ? job.searchableTitle.join(', ').toLowerCase() 
+    : (job.searchableTitle ? job.searchableTitle.toLowerCase() : '');
     jobCard.dataset.source = job.source ? job.source.toLowerCase() : '';
     
     // Salary min/max datasets
