@@ -371,7 +371,7 @@ function getHashFromURL() {
   // Remove the '#' symbol, decode the URL, and clean up unwanted characters
   let segments = hash ? decodeURIComponent(hash.substring(1)).replace(/[^\w\s-]/g, '') : null;
 
-  segments = segments.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ');
+  segments = segments ? segments.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' '): null;
 
   return segments;
 }
@@ -380,6 +380,7 @@ function getHashFromURL() {
     document.addEventListener('DOMContentLoaded', async () => {
       let cityName = getHashFromURL();
 
+cityName ? null : "City!";
 
       document.getElementById("breadcrumb-active-title").textContent = cityName;
 
@@ -388,13 +389,9 @@ function getHashFromURL() {
 
       cityHeader.innerHTML = cityHeader.innerHTML.replaceAll("[City Name]", cityName);
       
-      if(!cityName){
-        
-        fetchJobsByCity(null);
 
-      }else{
       fetchJobsByCity(cityName);
-      }
+      
 
   // Attach search event
   document.getElementById('search-bar').addEventListener('input', searchJobs);

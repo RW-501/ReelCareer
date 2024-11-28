@@ -369,9 +369,11 @@ async function fetchJobsByState(state) {
 // Helper function to get the state name from URL
 function getHashFromURL() {
   const hash = window.location.hash;
-
   // Remove the '#' symbol, decode the URL, and clean up unwanted characters
-  const segments = hash ? decodeURIComponent(hash.substring(1)).replace(/[^\w\s-]/g, '') : null;
+  let segments = hash ? decodeURIComponent(hash.substring(1)).replace(/[^\w\s-]/g, '') : null;
+
+  segments = segments ? segments.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' '): null;
+
   return segments;
 }
 
@@ -412,6 +414,9 @@ function filterJobs(searchQuery) {
 // Initialize page
 document.addEventListener('DOMContentLoaded', () => {
   const state = getHashFromURL();
+
+  state ? null : "State!";
+
   document.getElementById("breadcrumb-active-title").textContent = state;
 
   document.getElementById('state-name').textContent = state;
