@@ -144,7 +144,7 @@
     <section class="mt-4">
       <div class="container">
 
-    <h1>Jobs in <span id="city-name">City</span></h1>
+    <h1><span id="city-name">Jobs in City</span></h1>
     <div id="cityListContainer" class="listContainer"></div>
 
   </div>
@@ -253,7 +253,7 @@ async function displayCityList(jobsContainer) {
     // Inject HTML into the container
     jobsContainer.innerHTML = `
       <h2>Available Cities</h2>
-      <span>Total Jobs: ${totalJobs}</span>
+      <h4>Total Jobs: ${totalJobs}</h4>
       <hr>
       <div class="state-city-body">${groupedCityHTML}</div>
     `;
@@ -390,11 +390,15 @@ function getHashFromURL() {
 
 
     document.addEventListener('DOMContentLoaded', async () => {
-      let cityName = getHashFromURL() || "City!"; // Default to "City!" if no city name is found
+      let h2Header = document.getElementById('city-name');
+
+let cityName = getHashFromURL() || "City";
+if(cityName == "City"){
+h2Header.style.display= "none"; 
+}
 
 // Set the city name in the breadcrumb and header
 document.getElementById("breadcrumb-active-title").textContent = cityName;
-document.getElementById('city-name').textContent = cityName;
 
 const cityHeader = document.getElementById("city-header");
 

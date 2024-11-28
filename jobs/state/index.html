@@ -181,7 +181,7 @@
 
         <section class="mt-4">
             <div class="container">
-                <h1>Jobs in <span id="state-name"></span></h1>
+                <h1><span id="state-name">Jobs in State</span></h1>
                 <div id="stateListContainer" class="listContainer"></div>
               </div>
             
@@ -413,11 +413,16 @@ function filterJobs(searchQuery) {
 
 // Initialize page
 document.addEventListener('DOMContentLoaded', () => {
-  let state = getHashFromURL() || "State!"; 
+  let h2Header = document.getElementById('state-name');
 
+  let state = getHashFromURL() || "State";
+  if(state == "State"){
+  h2Header.style.display= "none"; 
+  }
+  
   document.getElementById("breadcrumb-active-title").textContent = state;
 
-  document.getElementById('state-name').textContent = state;
+  document.getElementById('state-name').textContent = "Jobs in [State Name]";
 
   const stateHeader = document.getElementById("state-header");
   stateHeader.innerHTML = stateHeader.innerHTML.replaceAll("[State Name]", state);
