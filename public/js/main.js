@@ -2568,10 +2568,10 @@ function handleJobInput(jobInput, action = "visit") {
 window.handleJobInput = handleJobInput;
 
 // Function to retrieve and log jobs as a simple array
-function getUserJobInterest() {
+function getUserJobInterest() { 
   const userJobInterest = JSON.parse(localStorage.getItem('userJobInterest')) || [];
-  const jobArray = userJobInterest.map(item => item.job); // Extract only the jobs
- // console.log('User Job Interests:', jobArray);
+  const jobArray = userJobInterest.map(item => item.job.toLowerCase()); // Convert to lowercase
+  console.log('User Job Interests (lowercase):', jobArray);
   return jobArray;
 }
 
@@ -2666,8 +2666,8 @@ window.handleTagInput = handleTagInput;
 // Function to retrieve and log tags as a simple array
 function getUserTagInterest() {
   const userTagInterest = JSON.parse(localStorage.getItem('userTagInterest')) || [];
-  const tagArray = userTagInterest.map(item => item.tag); // Extract only the tags
-  console.log('User Tag Interests:', tagArray);
+  const tagArray = userTagInterest.map(item => item.tag.toLowerCase()); // Convert to lowercase
+  console.log('User Tag Interests (lowercase):', tagArray);
   return tagArray;
 }
 
