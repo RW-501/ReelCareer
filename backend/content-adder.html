@@ -189,44 +189,54 @@ function logFirebaseEvent(eventName, params) {
 }
 
 // Load Collections
-// Load Collections
 async function loadCollections() {
     try {
+        // Log Firebase analytics event
         logFirebaseEvent("page_view", { page_name: "JSON Uploader" });
-        
-        // Check if db and getDocs are correctly initialized
+
+        // Check if Firestore is correctly initialized
         if (!db) {
             console.error("Firestore is not initialized.");
             return;
         }
-        
-        
-async function listRootCollections() {
-  try {
-    const rootCollections = await listCollections(db);
-    console.log("Root-Level Collections:");
-    rootCollections.forEach(collectionRef => {
-                const option = document.createElement("option");
-                option.value = collectionRef.id;
-                option.textContent = collectionRef.id;
-                collectionDropdown.appendChild(option);
-                console.log(collectionRef.id);
 
-            });
-  
-  } catch (error) {
-    console.error("Error listing collections:", error);
-  }
-}
-
-listRootCollections();
-        // Get all collections at the root level of Firestore
-     
+        // Call the function to list root-level collections
+        await listRootCollections();
     } catch (error) {
         console.error("Error loading collections:", error);
         alert("Error loading collections.");
     }
 }
+
+// List Root-Level Collections and populate the dropdown
+async function listRootCollections() {
+    try {
+        // Get root-level collections
+        const rootCollections = await listCollections(db);
+
+        // Check if collections exist
+        if (rootCollections.length === 0) {
+            console.warn("No root-level collections found.");
+            return;
+        }
+
+        console.log("Root-Level Collections:");
+        const collectionDropdown = document.getElementById("collectionDropdown"); // Ensure this ID matches your HTML
+
+        // Clear existing options (optional, based on your use case)
+        collectionDropdown.innerHTML = "";
+
+        // Populate the dropdown with collection IDs
+        rootCollections.forEach(collectionRef => {
+            const option = document.createElement("option");
+            option.value = collectionRef.id;
+            option.textContent = collectionRef.id;
+            collectionDropdown.appendChild(option);
+            console.log(collectionRef.id); // Log each collection ID
+        });
+    } catch (error) {
+        console.error("Error listing collections:", error);
+    }
 
 
         // Handle collection change
@@ -312,7 +322,9 @@ listRootCollections();
             }
         });
 
-        // Function to upload data to database (stub for example)
+    }
+    
+    // Function to upload data to database (stub for example)
         async function uploadDataToDatabase(collection, data) {
             // Example: Upload logic here (could involve Firestore or other Firebase services)
             console.log(`Uploading data to ${collection}:`, data);
