@@ -2272,6 +2272,7 @@ function getViewedByField() {
     } catch (error) {
         console.error(`Error updating ${viewedByField} data:`, error);
     }
+    viewStartTime = 0;
 }
 
 // Attach event listeners for tracking
