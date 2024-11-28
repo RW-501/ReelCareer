@@ -350,20 +350,12 @@ const similarJobsContainer = document.getElementById("similarJobsContainer");
 
 document.addEventListener("DOMContentLoaded", () => {
   setTimeout(() => {
-    const jobTags = ["job", "jobs", "new jobs"];
-
-
     let tagInterestNorm = getUserTagInterest(); // Retrieve user tag interest
 
-    let tagInterest =
-      tagInterestNorm && tagInterestNorm.length > 0 ? tagInterestNorm : jobTags;
-
-    loadRelatedBlogs(tagInterest, "blogContainer");
+    loadRelatedBlogs(tagInterestNorm, "blogContainer");
 
     let jobInterestNorm = getUserJobInterest(); // Retrieve user tag interest
 
-    let jobInterest =
-      jobInterestNorm && jobInterestNorm.length > 0 ? jobInterestNorm : jobTags;
     getSimilarJobs(jobInterestNorm, "similarJobsContainer");
   }, 1000);
 });

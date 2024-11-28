@@ -1458,11 +1458,15 @@ window.addEventListener('load', function() {
           // Function to open the modal and show full blog content
          
           
-
+     
           // Function to fetch blogs based on job tags
           async function fetchBlogs(jobTags) {
               try {
-                  const q = query(blogsRef, where('tags', 'array-contains-any', jobTags));
+
+                let uTagInterestNorm = getUserTagInterest();
+                let uJobInterestNorm = getUserJobInterest();
+
+                  const q = query(blogsRef, where('tags', 'array-contains-any', uTagInterestNorm));
                   const querySnapshot = await getDocs(q);
 
                   // Populate the allBlogs array
@@ -1843,13 +1847,15 @@ function getSimilarJobsStyles() {
 
 window.addEventListener('load', function() {
   window.getSimilarJobs = async function(jobTags, containerId) {
-  const maxSimilarJobs = 5; // Limit the number of similar jobs displayed
+  const maxSimilarJobs = 6; // Limit the number of similar jobs displayed
   const JobsContainer = document.getElementById(containerId);
   getSimilarJobsStyles();
   try {
+    let jobInterestNorm = getUserJobInterest(); // Retrieve user tag interest
+
       // Reference to the 'Jobs' collection and query based on tags
       const jobsRef = collection(db, 'Jobs');
-      const q = query(jobsRef, where('searchableTitle', 'array-contains-any', jobTags), limit(maxSimilarJobs));
+      const q = query(jobsRef, where('searchableTitle', 'array-contains-any', jobInterestNorm), limit(maxSimilarJobs));
       const querySnapshot = await getDocs(q);
 
       if(!JobsContainer || querySnapshot.empty) {

@@ -1189,20 +1189,15 @@ applicationForm.innerHTML = `
 
 document.addEventListener("DOMContentLoaded", () => {
   setTimeout(() => {
-  
-      // Retrieve user interests for tags and jobs
-let uTagInterestNorm = getUserTagInterest();
+    let tagInterestNorm = getUserTagInterest(); // Retrieve user tag interest
 
-let uJobInterestNorm = getUserJobInterest();
+    loadRelatedBlogs(tagInterestNorm, "blogContainer");
 
-// Load job listings on page load
-  getSimilarJobs(uJobInterestNorm, 'similarJobsContainer');
+    let jobInterestNorm = getUserJobInterest(); // Retrieve user tag interest
 
-    loadRelatedBlogs(uTagInterestNorm, "blogContainer");
-
+    getSimilarJobs(jobInterestNorm, "similarJobsContainer");
   }, 1000);
 });
-
 
 
 // Optional: Redirect to dashboard after a few seconds
