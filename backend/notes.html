@@ -193,11 +193,98 @@
 
 document.addEventListener('DOMContentLoaded', () => {
  
+  // Initialize arrays to store notes and to-dos
+  let notes = [];
+  let todos = [];
 
-  $('#myTab a').on('click', function (e) {
-    e.preventDefault();
-    $(this).tab('show');
-});
+  // Utility function to render lists dynamically
+  function renderList(list, elementId) {
+    const container = document.getElementById(elementId);
+    container.innerHTML = ''; // Clear existing content
+    list.forEach((item, index) => {
+      const div = document.createElement('div');
+      div.className = 'list-item mb-2';
+      div.innerHTML = `
+        <div>
+          <strong>${item.text}</strong>
+          ${item.group ? `<span class="badge badge-info ml-2">${item.group}</span>` : ''}
+          ${item.link ? `<a href="${item.link}" target="_blank" class="ml-2">Link</a>` : ''}
+        </div>
+        <button class="btn btn-sm btn-danger mt-1" onclick="deleteItem('${elementId}', ${index})">Delete</button>
+      `;
+      container.appendChild(div);
+    });
+  }
+
+  // Save a note
+  document.getElementById('saveNote').addEventListener('click', () => {
+    const noteText = document.getElementById('note').value.trim();
+    const noteGroup = document.getElementById('noteGroup').value.trim();
+    const noteLink = document.getElementById('noteLink').value.trim();
+
+    if (noteText) {
+      notes.push({ text: noteText, group: noteGroup, link: noteLink });
+      renderList(notes, 'noteList');
+      clearInputs(['note', 'noteGroup', 'noteLink']);
+    }
+  });
+
+  // Save a to-do
+  document.getElementById('todos-tab').addEventListener('click', () => {
+    document.getElementById('saveTodo').addEventListener('click', () => {
+      const todoText = document.getElementById('todo').value.trim();
+      const todoGroup = document.getElementById('todoGroup').value.trim();
+      const todoLink = document.getElementById('todoLink').value.trim();
+      const todoComplete = document.getElementById('todoComplete').checked;
+
+      if (todoText) {
+        todos.push({ text: todoText, group: todoGroup, link: todoLink, complete: todoComplete });
+        renderList(todos, 'todoList');
+        clearInputs(['todo', 'todoGroup', 'todoLink', 'todoComplete']);
+      }
+    });
+  });
+
+  // Delete an item
+  function deleteItem(listType, index) {
+    if (listType === 'noteList') {
+      notes.splice(index, 1);
+      renderList(notes, 'noteList');
+    } else if (listType === 'todoList') {
+      todos.splice(index, 1);
+      renderList(todos, 'todoList');
+    }
+  }
+
+  // Filter items based on search input
+  function filterItems() {
+    const query = document.getElementById('search').value.toLowerCase();
+    const filteredNotes = notes.filter((note) =>
+      note.text.toLowerCase().includes(query) ||
+      (note.group && note.group.toLowerCase().includes(query))
+    );
+    const filteredTodos = todos.filter((todo) =>
+      todo.text.toLowerCase().includes(query) ||
+      (todo.group && todo.group.toLowerCase().includes(query))
+    );
+
+    renderList(filteredNotes, 'noteList');
+    renderList(filteredTodos, 'todoList');
+  }
+
+  // Clear input fields
+  function clearInputs(ids) {
+    ids.forEach((id) => {
+      const input = document.getElementById(id);
+      if (input.type === 'checkbox') {
+        input.checked = false;
+      } else {
+        input.value = '';
+      }
+    });
+  }
+
+
 
     // Loading Spinner
     function showLoading(state) {
@@ -259,14 +346,7 @@ document.addEventListener('DOMContentLoaded', () => {
    document.getElementById("todoList").appendChild(div);
     }
 
-    // Delete Item
-    async function deleteItem(itemId, collectionName) {
-      if (confirm("Are you sure you want to delete this item?")) {
-        const collectionRef = collection(db, collectionName);
-        await deleteDoc(doc(collectionRef, itemId));
-        fetchAndRender(collectionRef, collectionName === 'Notes' ? renderNoteItem : renderTodoItem);
-      }
-    }
+
 
     // Handle Add Note (Vanilla JS)
     document.getElementById("saveNote").addEventListener("click", async function () {
@@ -343,7 +423,18 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initial Fetch and Render
     fetchAndRender(collection(db, "Notes"), renderNoteItem);
     fetchAndRender(collection(db, "Todos"), renderTodoItem);
-
+/*
+      // Initial rendering
+  document.addEventListener('DOMContentLoaded', () => {
+    renderList(notes, 'noteList');
+    renderList(todos, 'todoList');
+  });
+*/
+  
+  $('#myTab a').on('click', function (e) {
+    e.preventDefault();
+    $(this).tab('show');
+});
   });
 
     </script>
