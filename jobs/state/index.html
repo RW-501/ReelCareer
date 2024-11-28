@@ -267,8 +267,10 @@
       jobsContainer.innerHTML = `
         <h2>Available States</h2>
                 <hr>
-        <div class="state-city-body">         
-<p>${stateListHTML}</p>
+        <div class="state-city-body">             
+          <div class="state-list">
+${stateListHTML}
+</div>
         </div>
       `;
     } catch (error) {

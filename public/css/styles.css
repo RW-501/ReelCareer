@@ -896,8 +896,10 @@ main .jobCard:hover {
               }
 
               .city-letter {
-                
+                display: block;
+
               }
+              .state-list, 
               .city-list {
 
                 display: flex;
