@@ -316,10 +316,11 @@ ${stateListHTML}
         totalJobs += cityList.length; // Add to total count
         return `
           <div class="city-group">
-            <div class="city-letter">
-              <h3>${letter} <span>(${cityList.length})</span></h3>
-              <hr>
-            </div>
+<div class="city-letter">
+  <h3 class="city-letter-title">${letter} <span class="city-count">(${cityList.length})</span></h3>
+  <hr class="city-divider">
+</div>
+
 
             <div class="city-list">
               ${cityList.map(city => `
@@ -336,11 +337,13 @@ ${stateListHTML}
 
     // Inject HTML into the container
     document.getElementById("cityListContainer").innerHTML = `
-      <h2>Available Cities</h2>
-      <h4>Total Jobs: ${totalJobs}</h4>
-            <hr>
-      <div class="state-city-body">${groupedCityHTML}</div>
-    `;
+  <div class="jobs-header">
+    <h2 class="header-title">Available Cities</h2>
+    <h4 class="header-subtitle">Total Jobs: <span class="job-count">${totalJobs}</span></h4>
+    <hr class="header-divider">
+  </div>
+  <div class="state-city-body">${groupedCityHTML}</div>
+`;
 
     // Display the total number of jobs
   //  document.getElementById("totalJobs").innerText = `Total Jobs: ${totalJobs}`;

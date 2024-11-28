@@ -926,3 +926,113 @@ main .jobCard:hover {
               .apply-link:hover {
                 background: #0056b3;
               }
+
+              /* Container styling */
+.jobs-header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .header-title {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .header-subtitle {
+    font-size: 1.5rem;
+    color: #555;
+    font-weight: 400;
+  }
+  
+  .job-count {
+    font-weight: 700;
+    color: #007bff; /* Use a theme color */
+  }
+  
+  .header-divider {
+    border: 0;
+    height: 1px;
+    background: #ddd;
+    margin: 10px auto;
+    width: 80%; /* Optional */
+  }
+  
+  /* Body content styling */
+  .state-city-body {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* Space between city groups */
+    justify-content: center; /* Center the content */
+  }
+  
+  .city-group {
+    width: 300px; /* Define width for consistency */
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .city-letter h3 {
+    font-size: 1.25rem;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .city-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .state-city-card {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .state-city-card a {
+    text-decoration: none;
+    color: inherit;
+  }
+  
+  .state-city-card i {
+    font-size: 1.5rem;
+    color: #007bff;
+  }
+  
+  .state-city-card h4 {
+    font-size: 1rem;
+    color: #555;
+    margin: 0;
+  }
+  
+
+  /* Container styling */
+.city-letter {
+    margin: 20px 0; /* Add spacing around the block */
+    text-align: left; /* Align text to the left */
+  }
+  
+  .city-letter-title {
+    font-size: 1.5rem; /* Adjust size for better readability */
+    font-weight: 600; /* Make it semi-bold */
+    color: #333; /* Neutral dark color for text */
+    margin-bottom: 5px; /* Space between title and divider */
+  }
+  
+  .city-count {
+    font-size: 1rem; /* Slightly smaller size for count */
+    font-weight: 400; /* Regular weight */
+    color: #007bff; /* Accent color to distinguish count */
+  }
+  
+  .city-divider {
+    border: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #007bff, #00c6ff); /* Gradient for a modern effect */
+    width: 100%; /* Full width */
+    margin-top: 5px; /* Space between title and divider */
+  }
+  
