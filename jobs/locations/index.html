@@ -343,8 +343,10 @@
       const jobsRef = collection(db, "Jobs");
       const snapshot = await getDocs(jobsRef);
       
+      console.log("State snapshot:?    ",snapshot)
       // Extract and sort unique state names
       const states = [...new Set(snapshot.docs.map(doc => doc.data().state))].sort();
+      console.log("State :?    ",states)
 
       // Generate HTML for the state list
       const stateListHTML = states
