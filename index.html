@@ -400,7 +400,7 @@ async function fetchJobListings(userJobInterest) {
     // Location query
     if (userlocationData) {
       const locationArray = prepareLocationForFirebase(userlocationData);
- console.log('locationArray: cleaned  ', locationArray);
+      console.log('locationArray: cleaned  ', locationArray);
 
       const locationQuery = query(
         jobsQuery,
@@ -419,7 +419,6 @@ async function fetchJobListings(userJobInterest) {
     // Title query (only if location returns no results)
     if (!hasResults(locationSnapshot) || hasResults(locationSnapshot)) {
       console.log('userJobInterest:   ', userJobInterest);
-
 
       const titleQuery = query(
         jobsQuery,
@@ -442,10 +441,12 @@ async function fetchJobListings(userJobInterest) {
     ];
 
     // Shuffle the jobDocs array
-const randomizedJobDocs = shuffleArray(jobDocs);
+    const randomizedJobDocs = shuffleArray(jobDocs);
 
-randomizedJobDocs.forEach((doc) => {
+    randomizedJobDocs.forEach((doc) => {
       const job = { id: doc.id, ...doc.data() };
+
+      // Avoid duplicates
       if (!seenIDs.has(doc.id)) {
         if (
           isValidValue(job.title) &&
@@ -455,6 +456,13 @@ randomizedJobDocs.forEach((doc) => {
           isValidValue(job.location) &&
           isValidValue(job.salary)
         ) {
+          // Add the source field based on the source of the listing
+          if (locationSnapshot && locationSnapshot.docs.includes(doc)) {
+            job.source = 'Location';  // Job was found through location query
+          } else if (titleSnapshot && titleSnapshot.docs.includes(doc)) {
+            job.source = 'Job Interest';  // Job was found through job interest query
+          }
+
           jobListingsCache.push(job);
           seenIDs.add(doc.id);
         }

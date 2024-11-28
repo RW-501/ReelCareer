@@ -648,6 +648,8 @@ function addStyles() {
     jobCard.dataset.country = job.country ? job.country.toLowerCase() : '';
     jobCard.dataset.county = job.county ? job.county.toLowerCase() : '';
     jobCard.dataset.status = job.status ? job.status.toLowerCase() : '';
+    jobCard.dataset.searchableTitle = job.searchableTitle ? job.searchableTitle.toLowerCase() : '';
+    jobCard.dataset.source = job.source ? job.source.toLowerCase() : '';
     
     // Salary min/max datasets
     jobCard.dataset.salaryMin = job.salaryMin ? job.salaryMin : '';
@@ -707,6 +709,12 @@ function addStyles() {
           <strong>Salary:</strong>
           ${formatCurrency(job.salary, { decimals: 0 })}
           <span class="salary-text">${job.salaryPayTime || ""}</span>
+        </p>
+
+        <p class="source-text-area c-text">
+          <small>Source:</small>
+            <small>${job.source}</small>
+
         </p>
 
       </div>
