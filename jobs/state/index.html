@@ -268,7 +268,7 @@
         <h2>Available States</h2>
                 <hr>
         <div class="state-city-body">             
-          <div class="state-list">
+          <div id="state-list-Container" class="state-list">
 ${stateListHTML}
 </div>
         </div>
@@ -378,8 +378,8 @@ function getHashFromURL() {
 }
 
 // Function to filter the jobs based on search input
-function filterJobs(searchQuery) {
-  const jobsContainer = document.getElementById('stateListContainer');
+function filterJobs(searchQuery,container) {
+  const jobsContainer = document.getElementById(container);
   jobsContainer.innerHTML = ''; // Clear the container before adding filtered jobs
 
   const filteredJobs = allJobs.filter(job => {
@@ -415,10 +415,12 @@ function filterJobs(searchQuery) {
 // Initialize page
 document.addEventListener('DOMContentLoaded', () => {
   let h2Header = document.getElementById('state-name');
+let container = "stateListContainer";
 
   let state = getHashFromURL() || "State";
   if(state == "State"){
   h2Header.style.display= "none"; 
+  container = "state-list-Container";
   }
 
   document.getElementById("breadcrumb-active-title").textContent = state;
@@ -437,7 +439,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const searchInput = document.getElementById('job-search');
   searchInput.addEventListener('input', (e) => {
     const searchQuery = e.target.value;
-    filterJobs(searchQuery);
+    filterJobs(searchQuery, container);
   });
 });
 

@@ -260,7 +260,7 @@ async function displayCityList(jobsContainer) {
     <h4 class="header-subtitle">Total Jobs: <span class="job-count">${totalJobs}</span></h4>
     <hr class="header-divider">
   </div>
-  <div class="state-city-body">${groupedCityHTML}</div>
+  <div id="state-city-body-Container" class="state-city-body">${groupedCityHTML}</div>
 `;
 
 
@@ -348,7 +348,7 @@ async function displayCityList(jobsContainer) {
 }
 function searchJobs() {
   const searchTerm = document.getElementById('search-bar').value.toLowerCase();
-  const jobsContainer = document.getElementById('cityListContainer');
+  const jobsContainer = document.getElementById(container);
   const jobs = JSON.parse(jobsContainer.dataset.jobs);
 
   // Filter jobs based on title, company, and location
@@ -398,10 +398,13 @@ function getHashFromURL() {
 
     document.addEventListener('DOMContentLoaded', async () => {
       let h2Header = document.getElementById('city-name');
+      let container = "cityListContainer";
 
 let cityName = getHashFromURL() || "City";
 if(cityName == "City"){
 h2Header.style.display= "none"; 
+ container = "state-city-body-Container";
+
 }
 
 // Set the city name in the breadcrumb and header
@@ -418,7 +421,7 @@ fetchJobsByCity(cityName);
       
 
   // Attach search event
-  document.getElementById('job-search').addEventListener('input', searchJobs);
+  document.getElementById('job-search').addEventListener('input', searchJobs(container));
 
 });
 
