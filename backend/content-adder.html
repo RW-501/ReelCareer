@@ -222,7 +222,7 @@ async function listRootCollections() {
       collectionDropdown.appendChild(placeholderOption);
 
         // Populate the dropdown with collection IDs
-        rootCollections.forEach(collectionRef => {
+        collections.forEach(collectionRef => {
             const option = document.createElement("option");
             option.value = collectionRef.id;
             option.textContent = collectionRef.id;
