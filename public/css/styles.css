@@ -959,15 +959,8 @@ main .jobCard:hover {
   }
   
   /* Body content styling */
-  .state-city-body {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px; /* Space between city groups */
-    justify-content: center; /* Center the content */
-  }
-  
+
   .city-group {
-    width: 300px; /* Define width for consistency */
     background: #f9f9f9;
     padding: 15px;
     border-radius: 8px;
