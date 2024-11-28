@@ -457,7 +457,7 @@ const closeLoginPopup = () => {
     font-size: 1.2rem;
     box-shadow: 1px 0px 5px 0px #4141b6;
 ">
-                        <span class="navbar-toggler-icon"></span>
+    <span class="navbar-toggler-icon">☰</span>
                     </button>
                     <div class="collapse navbar-collapse" id="navbarNav">
                         <ul class="navbar-nav ml-auto">
