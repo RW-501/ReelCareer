@@ -386,7 +386,8 @@ function filterJobs(searchQuery) {
     return job.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
            job.company.toLowerCase().includes(searchQuery.toLowerCase()) || 
            job.city.toLowerCase().includes(searchQuery.toLowerCase()) ||
-           job.description.toLowerCase().includes(searchQuery.toLowerCase());
+           job.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+           job.location.toLowerCase().includes(searchQuery.toLowerCase());
   });
 
   if (filteredJobs.length === 0) {
@@ -419,7 +420,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if(state == "State"){
   h2Header.style.display= "none"; 
   }
-  
+
   document.getElementById("breadcrumb-active-title").textContent = state;
 
   document.getElementById('state-name').textContent = "Jobs in [State Name]";

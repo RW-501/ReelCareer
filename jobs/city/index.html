@@ -352,7 +352,8 @@ function searchJobs() {
     job.title.toLowerCase().includes(searchTerm) ||
     job.company.toLowerCase().includes(searchTerm) ||
     job.city.toLowerCase().includes(searchTerm) ||
-    job.state.toLowerCase().includes(searchTerm)
+    job.state.toLowerCase().includes(searchTerm) ||
+    job.location.toLowerCase().includes(searchTerm)
   );
 
   // Clear the existing jobs display
@@ -413,14 +414,8 @@ fetchJobsByCity(cityName);
       
 
   // Attach search event
-  document.getElementById('search-bar').addEventListener('input', searchJobs);
-  // Add search functionality  
-  const searchInput = document.getElementById('job-search');
+  document.getElementById('job-search').addEventListener('input', searchJobs);
 
-  searchInput.addEventListener('input', (e) => {
-    const searchQuery = e.target.value;
-    filterJobs(searchQuery);
-  });
 });
 
 
