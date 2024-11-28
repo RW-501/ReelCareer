@@ -430,59 +430,63 @@ submittedBy = userName;
 submittedUserPosition = userPosition;
 
 function collectJobDetails(newCompanyId) {
+  // Helper function to process input
+  const getInputValue = (id) =>
+    document.getElementById(id)?.value?.trim() || "";
+
+  // Combine inputs into searchableTitle
+  const searchableTitle = [
+    ...getInputValue("jobTitle").split(",").map((item) => item.toLowerCase().trim()),
+    ...getInputValue("tagInput").split(",").map((item) => item.toLowerCase().trim()),
+    ...getInputValue("company").split(",").map((item) => item.toLowerCase().trim())
+  ];
 
   return {
-    title: document.getElementById("jobTitle").value,
-    company: document.getElementById("company").value,
-    companyId: document.getElementById("appCompanyID").innerText || newCompanyId,
-    description: document.getElementById("jobDescription").value,
-    requirements: document.getElementById("jobRequirements").value,
+    title: getInputValue("jobTitle"),
+    company: getInputValue("company"),
+    companyId: document.getElementById("appCompanyID")?.innerText || newCompanyId,
+    description: getInputValue("jobDescription"),
+    requirements: getInputValue("jobRequirements"),
     searchableRequirements: collectJobRequirements(), // Collect enhanced requirements
-    location: document.getElementById("jobLocation").value,
-    city: document.getElementById("jobCity").value,
-    state: document.getElementById("jobState").value,
-    zipCode: document.getElementById("jobZipCode").value,
-    type: document.getElementById("jobType").value,
-    salary: document.getElementById("jobSalary").value,
-    salaryPayTime: document.getElementById("salaryPayTime").value,
-    boostDuration: new Date(new Date().setDate(new Date().getDate() + 30)), //  for 30 days
-    contractToHire: document.getElementById("contractToHire").value,
-    education: document.getElementById("education").value,
-    experience: document.getElementById("experience").value,
-    applicationLink: document.getElementById("applicationLink").value,
+    location: getInputValue("jobLocation"),
+    city: getInputValue("jobCity"),
+    state: getInputValue("jobState"),
+    zipCode: getInputValue("jobZipCode"),
+    type: getInputValue("jobType"),
+    salary: getInputValue("jobSalary"),
+    salaryPayTime: getInputValue("salaryPayTime"),
+    boostDuration: new Date(new Date().setDate(new Date().getDate() + 30)), // 30-day boost duration
+    contractToHire: getInputValue("contractToHire"),
+    education: getInputValue("education"),
+    experience: getInputValue("experience"),
+    applicationLink: getInputValue("applicationLink"),
 
-    requestLetter: document.getElementById('requestLetter').checked,
-    coverLetter: document.getElementById('coverLetter').checked,
-    resumeRequired : document.getElementById('requiredResume').checked,
+    // Create final searchable title with deduplication
+    searchableTitle: [...new Set(searchableTitle)].join(","),
 
-    immediateHire: document.getElementById("immediateHire").value,
-    industry: document.getElementById("industry").value,
-    benefits: document
-      .getElementById("benefits")
-      .value.split(",")
-      .map((benefit) => benefit.trim()),
-    jobFunction:  document
-    .getElementById("jobFunction")
-    .value.split(",")
-    .map((jobFunction) => jobFunction.trim()),
-    tags: document
-    .getElementById("tagInput")
-    .value.split(",")
-    .map((tags) => tags.trim()),
-    complianceCheck: document.getElementById("complianceCheck").checked,
+    requestLetter: document.getElementById("requestLetter")?.checked || false,
+    coverLetter: document.getElementById("coverLetter")?.checked || false,
+    resumeRequired: document.getElementById("requiredResume")?.checked || false,
+
+    immediateHire: getInputValue("immediateHire"),
+    industry: getInputValue("industry"),
+    benefits: getInputValue("benefits").split(",").map((benefit) => benefit.trim()),
+    jobFunction: getInputValue("jobFunction").split(",").map((jobFunction) => jobFunction.trim()),
+    tags: getInputValue("tagInput").split(",").map((tags) => tags.trim()),
+    complianceCheck: document.getElementById("complianceCheck")?.checked || false,
     boosted: false, // Default not boosted
-    status: "draft", // Default status is draft, overridden based on action
+    status: "draft", // Default status
     createdAt: new Date(),
-    recruiterID: document.getElementById("appUserID").innerText, // Assuming this is the recruiter ID
+    recruiterID: document.getElementById("appUserID")?.innerText || "", // Assuming recruiter ID
     applicantsViewed: 0,
     savedForLater: 0,
     applicationAvailableBool: true,
-    boostExpiration: '',
-    applicationWebsite: document.getElementById("applicationLink").value,
+    boostExpiration: "",
+    applicationWebsite: getInputValue("applicationLink"),
     customQuestions: collectCustomQuestions(),
     submittedBy: submittedBy || "",
     submittedUserPosition: submittedUserPosition || "",
-    applicationDeadline: new Date(new Date().setDate(new Date().getDate() + 30)) //  for 30 days
+    applicationDeadline: new Date(new Date().setDate(new Date().getDate() + 30)) // 30-day deadline
   };
 }
 
