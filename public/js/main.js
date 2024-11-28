@@ -2164,8 +2164,8 @@ function getViewedByField() {
 
   // Ensure valid pathname, search, and hash values before proceeding
   if (!pathname || !search || !hash) {
-    console.error("Missing necessary parts of the URL: pathname, search, or hash.");
-    return null; // Return null or a default value
+   // console.error("Missing necessary parts of the URL: pathname, search, or hash.");
+    return "home"; // Return null or a default value
   }
 
   // Extract the base path and remove leading/trailing slashes
