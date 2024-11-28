@@ -293,7 +293,7 @@ window.addEventListener('load', loadCollections);
 
         // Upload JSON to DB
         uploadButton.addEventListener("click", async () => {
-            const selectedCollection = collectionDropdown.value;
+            const selectedCollection = "States"; //collectionDropdown.value;
             if (!selectedCollection || !uploadedJson) {
                 alert("Please select a collection and upload or paste JSON data.");
                 return;
