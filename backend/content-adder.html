@@ -238,6 +238,8 @@ async function listRootCollections() {
         console.error("Error listing collections:", error);
     }
 
+// Add an event listener to the window load event to load collections on page load
+window.addEventListener('load', loadCollections);
 
         // Handle collection change
         collectionDropdown.addEventListener("change", async () => {
