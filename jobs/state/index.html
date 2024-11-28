@@ -255,7 +255,7 @@
       const stateListHTML = states
   .filter(state => state && state.trim() !== "") // Filter out null, empty, or whitespace-only states
   .map(state => `
-              <div class="state-city-card" data-job-location="${state},>
+              <div class="state-city-card" data-job-location="${state}">
       <a href="https://reelcareer.co/jobs/state#${state}"><i class="fas fa-city"></i></a>
       <h4><a href="https://reelcareer.co/jobs/state#${state}">${state}</a></h4>
     </div>`)
@@ -335,7 +335,7 @@ async function fetchJobsByState(state) {
       });
 
       const jobCard = `
-        <div class="job-card" data-job-id="${doc.id}">
+              <div class="job-card" data-job-title="${job.title}" data-job-company="${job.company}" data-job-location="${job.city}, ${job.state}">
           <h2>${job.title}</h2>
           <p><strong>Company:</strong> ${job.company}</p>
           <p><strong>Industry:</strong> ${job.industry}</p>

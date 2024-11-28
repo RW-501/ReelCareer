@@ -204,7 +204,9 @@
             auth, analytics, deleteDoc, getDownloadURL
         } from 'https://reelcareer.co/js/module.js';
 
-        async function displayCityList(jobsContainer) {
+
+        
+async function displayCityList(jobsContainer) {
   try {
     const jobsRef = collection(db, "Jobs");
     const snapshot = await getDocs(jobsRef);
@@ -222,25 +224,31 @@
       return acc;
     }, {});
 
+    // Initialize a total counter
+    let totalJobs = 0;
+
     // Generate HTML for each group
     const groupedCityHTML = Object.entries(groupedCities)
-      .map(([letter, cityList]) => `
-        <div class="city-group">
-                  <div class="city-letter">
-          <h3>${letter} <span>(${cityList.length})</span></h3>
-          <hr>
-          </div>
+      .map(([letter, cityList]) => {
+        totalJobs += cityList.length; // Add to total count
+        return `
+          <div class="city-group">
+            <div class="city-letter">
+              <h3>${letter} <span>(${cityList.length})</span></h3>
+              <hr>
+            </div>
 
-          <div class="city-list">
-            ${cityList.map(city => `
-              <div class="state-city-card" data-job-location="${city},>
-                <a href="https://reelcareer.co/jobs/city#${city}"><i class="fas fa-city"></i></a>
-                <h4><a href="https://reelcareer.co/jobs/city#${city}">${city}</a></h4>
-              </div>
-            `).join("")}
+            <div class="city-list">
+              ${cityList.map(city => `
+              <div class="state-city-card" data-job-location="${city}">
+                  <a href="https://reelcareer.co/jobs/city#${city}"><i class="fas fa-city"></i></a>
+                  <h4><a href="https://reelcareer.co/jobs/city#${city}">${city}</a></h4>
+                </div>
+              `).join("")}
+            </div>
           </div>
-        </div>
-      `)
+        `;
+      })
       .join("");
 
     // Inject HTML into the container
@@ -249,9 +257,12 @@
       <hr>
       <div class="state-city-body">${groupedCityHTML}</div>
     `;
+
+    // Display the total number of jobs
+    document.getElementById("totalJobs").innerText = `Total Jobs: ${totalJobs}`;
   } catch (error) {
     console.error("Error fetching city:", error);
-    jobsContainer.innerHTML = `<p>Failed to load City list.</p>`;
+    jobsContainer.innerHTML = `<p>Failed to load city list.</p>`;
   }
 }
 
