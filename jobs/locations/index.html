@@ -161,7 +161,7 @@
                 <div id="stateDialog" class="card p-4">
                   <h2 class="text-center text-primary">Explore Job Opportunities by State</h2>
                   <p class="text-center mb-4">Click on a state to explore job opportunities in that area.</p>
-                  <div id="stateListContainer" class="d-flex flex-wrap justify-content-center">
+                  <div id="stateListContainer" class="listContainer">
                     <!-- States List (Generated Dynamically) -->
                   </div>
                 </div>
@@ -174,7 +174,7 @@
                 <div id="cityDialog" class="card p-4">
                   <h2 class="text-center text-primary">Explore Job Opportunities by City</h2>
                   <p class="text-center mb-4">Click on a city to explore job opportunities in that area.</p>
-                  <div id="cityListContainer" class="d-flex flex-wrap justify-content-center">
+                  <div id="cityListContainer" class="listContainer">
                     <!-- Cities List (Generated Dynamically) -->
                   </div>
                 </div>
@@ -291,7 +291,7 @@
         <div class="col-md-4 mb-3"> <!-- Example job item -->
             <div class="card shadow-sm border-light">
                 <div class="card-body">
-                    <h5 class="card-title">Job Title 1</h5>
+                    <h5 class="card-title">Job Title</h5>
                     <p class="card-text">Short description of the job goes here.</p>
                     <a href="https://reelcareer.co/views/job-listings" class="btn btn-primary">View Job</a>
                 </div>
@@ -397,8 +397,11 @@
     const groupedCityHTML = Object.entries(groupedCities)
       .map(([letter, cityList]) => `
         <div class="city-group">
+                  <div class="city-letter">
           <h3>${letter} <span>(${cityList.length})</span></h3>
           <hr>
+          </div>
+
           <div class="city-list">
             ${cityList.map(city => `
               <div class="state-city-card">
