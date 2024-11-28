@@ -372,7 +372,6 @@ async function fetchJobListings(userJobInterest) {
   console.log('userJobInterest:', userJobInterest);
 
   let userlocationData = sessionStorage.getItem('userLocation');
-  console.log('userlocationData:', userlocationData);
 
   const jobListingsContainer = document.getElementById('jobListings');
   const loadingIndicator = document.getElementById('loadingIndicator');
@@ -393,6 +392,8 @@ async function fetchJobListings(userJobInterest) {
     // Location query
     if (userlocationData) {
       const locationArray = prepareLocationForFirebase(userlocationData);
+ console.log('locationArray: cleaned  ', locationArray);
+
       const locationQuery = query(
         jobsQuery,
         where('status', '==', 'active'),
@@ -409,6 +410,9 @@ async function fetchJobListings(userJobInterest) {
 
     // Title query (only if location returns no results)
     if (!hasResults(locationSnapshot) || hasResults(locationSnapshot)) {
+      console.log('userJobInterest: cleaned  ', userJobInterest);
+
+
       const titleQuery = query(
         jobsQuery,
         where('status', '==', 'active'),

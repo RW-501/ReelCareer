@@ -140,7 +140,7 @@ const saveUserLoginState = async (user) => {
 
     // Update the user document if it exists, or create a new one if not found
     await setDoc(userDocRef, userData, { merge: true });
-    console.log("User info saved/updated successfully:", userData);
+   // console.log("User info saved/updated successfully:", userData);
 
     // Save login state to localStorage
     localStorage.setItem("userLoggedIn", "true");
@@ -418,14 +418,15 @@ const closeLoginPopup = () => {
 
 // Navigation bar
 // document.addEventListener("DOMContentLoaded", function () {
-  console.log("checkUserProfile");
   function checkUserProfile() {
+    console.log("checkUserProfile");
+
     var profileModal = document.getElementById("profileModal");
     var modalInstance = bootstrap.Modal.getInstance(profileModal);
     modalInstance.hide();
   }
 
-
+window.checkUserProfile = checkUserProfile;
   
   // Function to create the navbar
   function createNavbar() {
@@ -859,7 +860,7 @@ function handleAuthStateChanged(user) {
   const authSection = document.getElementById("authSection");
   const jobSeekerNavItem = document.getElementById("jobSeekerNavItem");
   const recruiterNavItem = document.getElementById("recruiterNavItem");
-console.log("user >>>>>>>>>>>>>.    ",user );
+//console.log("user >>>>>>>>>>>>>.    ",user );
 
   if (user) {
     // If the user is logged in, show profile info and logout button
@@ -1460,7 +1461,7 @@ window.addEventListener('load', function() {
           
      
           // Function to fetch blogs based on job tags
-          async function fetchBlogs(jobTags) {
+          async function fetchBlogs() {
               try {
 
                 let uTagInterestNorm = getUserTagInterest();
@@ -1474,16 +1475,22 @@ window.addEventListener('load', function() {
                       allBlogs.push({ id: doc.id, ...doc.data() });
                   });
 
-                  console.log("allBlogs:", allBlogs);
+                  if(querySnapshot.length > 0){
+                    console.log("allBlogs:", allBlogs);
 
-                  // Display the first set of blogs
-                  displayBlogs();
+                    // Display the first set of blogs
+                    displayBlogs();
+  
+                    // Create "Show More" button
+                    showMoreButton.innerText = "Show More";
+                    showMoreButton.className = "btn btn-primary mt-3";
+                    showMoreButton.addEventListener('click', loadMoreBlogs);
+                    blogContainer.appendChild(showMoreButton);
+                  }else{
+                    console.log("No blogs...");
 
-                  // Create "Show More" button
-                  showMoreButton.innerText = "Show More";
-                  showMoreButton.className = "btn btn-primary mt-3";
-                  showMoreButton.addEventListener('click', loadMoreBlogs);
-                  blogContainer.appendChild(showMoreButton);
+                  }
+
               } catch (error) {
                   console.error("Error fetching related blogs:", error);
               }
@@ -2564,7 +2571,7 @@ window.handleJobInput = handleJobInput;
 function getUserJobInterest() {
   const userJobInterest = JSON.parse(localStorage.getItem('userJobInterest')) || [];
   const jobArray = userJobInterest.map(item => item.job); // Extract only the jobs
-  console.log('User Job Interests:', jobArray);
+ // console.log('User Job Interests:', jobArray);
   return jobArray;
 }
 
