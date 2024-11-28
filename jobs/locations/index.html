@@ -373,60 +373,59 @@
     }
   }
 
-
   async function displayCityList() {
-    try {
-      const jobsRef = collection(db, "Jobs");
-      const snapshot = await getDocs(jobsRef);
-      
-  // Extract, trim, and sort unique city names
-const city = [...new Set(snapshot.docs.map(doc => doc.data().city.trim()))]
-  .filter(city => city.length > 0)  // Remove empty strings, just in case
-  .sort();  // Sort alphabetically
+  try {
+    const jobsRef = collection(db, "Jobs");
+    const snapshot = await getDocs(jobsRef);
 
+    // Extract, trim, and sort unique city names
+    const cities = [...new Set(snapshot.docs.map(doc => doc.data().city?.trim()))]
+      .filter(city => city?.length > 0) // Remove empty or undefined strings
+      .sort(); // Sort alphabetically
 
-      // Generate HTML for the city list
-      const cityListHTML = city
-  .filter(city => city && city.trim() !== "") // Filter out null or empty strings
-  .map(city => `
-    <div class="state-city-card">
-      <a href="https://reelcareer.co/jobs/city#${city}"><i class="fas fa-city"></i></a>
-      <h4><a href="https://reelcareer.co/jobs/city#${city}">${city}</a></h4>
-    </div>`)
-  .join("");
+    // Group cities by their first letter
+    const groupedCities = cities.reduce((acc, city) => {
+      const firstLetter = city[0].toUpperCase();
+      if (!acc[firstLetter]) acc[firstLetter] = [];
+      acc[firstLetter].push(city);
+      return acc;
+    }, {});
 
-/*
-        city.forEach(city => {
-    
-    console.log(`https://reelcareer.co/jobs/city#${city}`);
-});
-*/
-      // Inject HTML into the container
-      document.getElementById("cityListContainer").innerHTML = `
-        <h2>Available Cities</h2>
-        <hr>
-        <div class="state-city-body">         
-<p>${cityListHTML}</p>
+    // Generate HTML for each group
+    const groupedCityHTML = Object.entries(groupedCities)
+      .map(([letter, cityList]) => `
+        <div class="city-group">
+          <h3>${letter} <span>(${cityList.length})</span></h3>
+          <hr>
+          <div class="city-list">
+            ${cityList.map(city => `
+              <div class="state-city-card">
+                <a href="https://reelcareer.co/jobs/city#${city}"><i class="fas fa-city"></i></a>
+                <h4><a href="https://reelcareer.co/jobs/city#${city}">${city}</a></h4>
+              </div>
+            `).join("")}
+          </div>
         </div>
-      
-      `;
-    } catch (error) {
-      console.error("Error fetching city:", error);
-      document.getElementById("cityListContainer").innerHTML = `<p>Failed to load city list.</p>`;
-    }
+      `)
+      .join("");
+
+    // Inject HTML into the container
+    document.getElementById("cityListContainer").innerHTML = `
+      <h2>Available Cities</h2>
+      <hr>
+      <div class="state-city-body">${groupedCityHTML}</div>
+    `;
+  } catch (error) {
+    console.error("Error fetching city:", error);
+    document.getElementById("cityListContainer").innerHTML = `<p>Failed to load city list.</p>`;
   }
+}
 
-
-
-    // Initialize page
-    document.addEventListener('DOMContentLoaded', () => {
-   // Call the function on page load
-   displayStateList(); displayCityList();
-
-
-    });
-
-    
+// Initialize page
+document.addEventListener('DOMContentLoaded', () => {
+  // Call the function on page load
+  displayCityList();
+});
     
 
 // Function to fetch similar jobs based on tags
