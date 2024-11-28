@@ -205,28 +205,23 @@ async function listRootCollections() {
   try {
     const rootCollections = await listCollections(db);
     console.log("Root-Level Collections:");
-    rootCollections.forEach((collection) => {
-      console.log(collection.id);
-    });
+    rootCollections.forEach(collectionRef => {
+                const option = document.createElement("option");
+                option.value = collectionRef.id;
+                option.textContent = collectionRef.id;
+                collectionDropdown.appendChild(option);
+                console.log(collectionRef.id);
+
+            });
+  
   } catch (error) {
     console.error("Error listing collections:", error);
   }
 }
 
-//listRootCollections();
+listRootCollections();
         // Get all collections at the root level of Firestore
-        const collectionsSnapshot = await db.listCollections();
-
-        if (collectionsSnapshot.length === 0) {
-            console.log("No collections found.");
-        } else {
-            collectionsSnapshot.forEach(collectionRef => {
-                const option = document.createElement("option");
-                option.value = collectionRef.id;
-                option.textContent = collectionRef.id;
-                collectionDropdown.appendChild(option);
-            });
-        }
+     
     } catch (error) {
         console.error("Error loading collections:", error);
         alert("Error loading collections.");
