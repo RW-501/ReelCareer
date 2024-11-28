@@ -318,7 +318,7 @@ window.addEventListener('load', loadCollections);
 // Function to upload data to database (stub for example)
 async function uploadDataToDatabase(collectionName, data) {
   try {
-    const collectionRef = collection(db, collectionName,"texas"); 
+    const collectionRef = collection(db, collectionName,'texas'); 
     // Add data to the collection (adjust as necessary for your data structure)
     await addDoc(collectionRef, data);
     console.log('Data uploaded successfully to', collectionName);
