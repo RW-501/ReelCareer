@@ -408,7 +408,7 @@ async function fetchJobListings(userJobInterest) {
     }
 
     // Title query (only if location returns no results)
-    if (!hasResults(locationSnapshot)) {
+    if (!hasResults(locationSnapshot) || hasResults(locationSnapshot)) {
       const titleQuery = query(
         jobsQuery,
         where('status', '==', 'active'),
