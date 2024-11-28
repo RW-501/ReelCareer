@@ -351,7 +351,7 @@
   .filter(state => state && state.trim() !== "") // Filter out null, empty, or whitespace-only states
   .map(state => `
     <div class="state-city-card">
-      <a href="https://reelcareer.co/jobs/state#${state}"></a>
+      <a href="https://reelcareer.co/jobs/state#${state}"><i class="fas fa-city"></i></a>
       <h4><a href="https://reelcareer.co/jobs/state#${state}">${state}</a></h4>
     </div>`)
   .join("");
