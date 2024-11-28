@@ -823,10 +823,12 @@ main .jobCard:hover {
 
               /* State and City List Styling */
               #stateListContainer, #cityListContainer {
-                display: flex;
-                flex-wrap: wrap;
+                display: grid;
                 gap: 1rem;
-                justify-content: center;
+                justify-content: start;
+                align-content: stretch;
+                align-items: baseline;
+                justify-items: start;
               }
             
               .state-city-card {
