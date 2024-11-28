@@ -693,25 +693,54 @@
         });
 
         // Function to add commas to the Blog Tags input
-        function addCommasToBlogTags() {
-            let blogTagsInput = document.getElementById('blogTags');
-            let tags = blogTagsInput.value.split(/\s+/);  // Split by spaces
-            blogTagsInput.value = tags.join(', ');  // Join with commas
-        }
+// Function to add commas to Blog Tags input and ensure uniqueness, lowercase
+function addCommasToBlogTags() {
+    let blogTagsInput = document.getElementById('blogTags');
+    let blogTitle = document.getElementById('blogTitle');
+    
+    // Combine and clean tags
+    let tags = blogTagsInput.value.split(/\s+/).map(tag => tag.trim().toLowerCase());
+    let titleTags = blogTitle.value.split(/\s+/).map(tag => tag.trim().toLowerCase());
 
-        // Function to add commas to the News Tags input
-        function addCommasToNewsTags() {
-            let newsTagsInput = document.getElementById('newsTags');
-            let tags = newsTagsInput.value.split(/\s+/);  // Split by spaces
-            newsTagsInput.value = tags.join(', ');  // Join with commas
-        }
+    // Remove duplicates
+    let uniqueTags = [...new Set([...tags, ...titleTags])];
+    
+    // Update the input value with joined, cleaned tags
+    blogTagsInput.value = uniqueTags.join(', ');
+}
 
-        // Function to add commas to the Another Tags input
-        function addCommasToAnotherTag() {
-            let anotherTagInput = document.getElementById('anotherTag');
-            let tags = anotherTagInput.value.split(/\s+/);  // Split by spaces
-            anotherTagInput.value = tags.join(', ');  // Join with commas
-        }
+// Function to add commas to News Tags input and ensure uniqueness, lowercase
+function addCommasToNewsTags() {
+    let newsTagsInput = document.getElementById('newsTags');
+    let newsTitle = document.getElementById('newsTitle');
+
+    // Combine and clean tags
+    let tags = newsTagsInput.value.split(/\s+/).map(tag => tag.trim().toLowerCase());
+    let titleTags = newsTitle.value.split(/\s+/).map(tag => tag.trim().toLowerCase());
+
+    // Remove duplicates
+    let uniqueTags = [...new Set([...tags, ...titleTags])];
+
+    // Update the input value with joined, cleaned tags
+    newsTagsInput.value = uniqueTags.join(', ');
+}
+
+// Function to add commas to Another Tags input and ensure uniqueness, lowercase
+function addCommasToAnotherTag() {
+    let anotherTagInput = document.getElementById('anotherTag');
+    let faqQuestion = document.getElementById('faqQuestion');
+
+    // Combine and clean tags
+    let tags = anotherTagInput.value.split(/\s+/).map(tag => tag.trim().toLowerCase());
+    let titleTags = faqQuestion.value.split(/\s+/).map(tag => tag.trim().toLowerCase());
+
+    // Remove duplicates
+    let uniqueTags = [...new Set([...tags, ...titleTags])];
+
+    // Update the input value with joined, cleaned tags
+    anotherTagInput.value = uniqueTags.join(', ');
+}
+
         window.addCommasToBlogTags = addCommasToBlogTags;
         window.addCommasToNewsTags = addCommasToNewsTags;
 
