@@ -220,6 +220,11 @@ async function listRootCollections() {
 
         // Clear existing options (optional, based on your use case)
         collectionDropdown.innerHTML = "";
+      // Add default placeholder option
+      const placeholderOption = document.createElement("option");
+      placeholderOption.value = "";
+      placeholderOption.textContent = "-- Select a Collection --";
+      collectionDropdown.appendChild(placeholderOption);
 
         // Populate the dropdown with collection IDs
         rootCollections.forEach(collectionRef => {
@@ -269,7 +274,6 @@ async function listRootCollections() {
                     try {
                         uploadedJson = JSON.parse(reader.result);
                         jsonViewer.textContent = JSON.stringify(uploadedJson, null, 2);
-                        logFirebaseEvent("json_preview", { file_name: file.name });
                     } catch (e) {
                         alert("Invalid JSON file.");
                     }
@@ -308,7 +312,6 @@ async function listRootCollections() {
                 try {
                     // Perform the upload here (Example: upload to Firebase)
                     await uploadDataToDatabase(selectedCollection, uploadedJson);
-                    logFirebaseEvent("json_upload", { collection_name: selectedCollection });
                     alert("Data uploaded successfully!");
                 } catch (error) {
                     console.error("Error uploading data:", error);
@@ -320,10 +323,25 @@ async function listRootCollections() {
     }
     
     // Function to upload data to database (stub for example)
-        async function uploadDataToDatabase(collection, data) {
-            // Example: Upload logic here (could involve Firestore or other Firebase services)
-            console.log(`Uploading data to ${collection}:`, data);
-        }
+// Function to upload data to database (stub for example)
+async function uploadDataToDatabase(collectionName, data) {
+  try {
+    const collectionRef = collection(db, collectionName);
+    // Add data to the collection (adjust as necessary for your data structure)
+    await addDoc(collectionRef, data);
+    console.log('Data uploaded successfully to', collectionName);
+  } catch (error) {
+    console.error("Error uploading data:", error);
+    alert("Error uploading data.");
+  }
+}
+
+
+  // Clear field mappings (helper function)
+  function clearFieldMappings() {
+    fieldMappingContainer.innerHTML = "";
+  }
+
 // Initialization
 document.addEventListener('DOMContentLoaded', () => {
  
