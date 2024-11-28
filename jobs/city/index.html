@@ -286,6 +286,20 @@
     // Execute the query
     const querySnapshot = await getDocs(jobsQuery);
     if (querySnapshot.empty) {
+      const cityHeader = document.getElementById("city-header");
+
+      cityHeader.innerHTML = `
+        <h1>Oops! No Jobs Found</h1>
+        <p class="intro-text">
+          Unfortunately, there are no job listings available right now. Please check back later, or explore job opportunities in other cities.
+        </p>
+        <div class="call-to-action">
+          <p>
+            Start your job search in other locations or visit our <a href="https://reelcareer.co/jobs/locations">Available Location Page</a> to explore a wide range of opportunities across various industries.
+          </p>
+        </div>
+      `;
+
       displayCityList(jobsContainer)
       return;
     }
@@ -378,19 +392,20 @@ function getHashFromURL() {
 
 
     document.addEventListener('DOMContentLoaded', async () => {
-      let cityName = getHashFromURL();
+      let cityName = getHashFromURL() || "City!"; // Default to "City!" if no city name is found
 
-cityName ? null : "City!";
+// Set the city name in the breadcrumb and header
+document.getElementById("breadcrumb-active-title").textContent = cityName;
+document.getElementById('city-name').textContent = cityName;
 
-      document.getElementById("breadcrumb-active-title").textContent = cityName;
+const cityHeader = document.getElementById("city-header");
 
-      document.getElementById('city-name').textContent = cityName;
-      const cityHeader = document.getElementById("city-header");
+// Replace placeholders with city name in the city header
+cityHeader.innerHTML = cityHeader.innerHTML.replaceAll("[City Name]", cityName);
 
-      cityHeader.innerHTML = cityHeader.innerHTML.replaceAll("[City Name]", cityName);
-      
+// Fetch jobs for the specified city
+fetchJobsByCity(cityName);
 
-      fetchJobsByCity(cityName);
       
 
   // Attach search event

@@ -314,6 +314,19 @@ async function fetchJobsByState(state) {
     console.log("querySnapshot ", querySnapshot);
 
     if (querySnapshot.empty) {
+
+      cityHeader.innerHTML = `
+        <h1>Oops! No Jobs Found</h1>
+        <p class="intro-text">
+          Unfortunately, there are no job listings available right now. Please check back later, or explore job opportunities in other cities.
+        </p>
+        <div class="call-to-action">
+          <p>
+            Start your job search in other locations or visit our <a href="https://reelcareer.co/jobs/locations">Available Location Page</a> to explore a wide range of opportunities across various industries.
+          </p>
+        </div>
+      `;
+
       displayStateList(jobsContainer);
             return;
     }
@@ -413,9 +426,7 @@ function filterJobs(searchQuery) {
 
 // Initialize page
 document.addEventListener('DOMContentLoaded', () => {
-  const state = getHashFromURL();
-
-  state ? null : "State!";
+  let state = getHashFromURL() || "State!"; 
 
   document.getElementById("breadcrumb-active-title").textContent = state;
 
