@@ -238,7 +238,8 @@ window.addEventListener('load', loadCollections);
             if (!selectedCollection) return;
 
             try {
-                const fieldsSnapshot = await getDocs(collection(db, `${selectedCollection}-Fields`));
+                const fieldsSnapshot = await getDocs(collection(db, `${selectedCollection}`));
+            //    const fieldsSnapshot = await getDocs(collection(db, `${selectedCollection}-Fields`));
                 selectedCollectionFields = [];
                 fieldsSnapshot.forEach(doc => {
                     selectedCollectionFields.push(doc.id);
