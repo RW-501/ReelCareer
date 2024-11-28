@@ -169,8 +169,8 @@
     
     <script type="module">
         import { db, getDocs, collection,  getDownloadURL, uploadBytes, analytics } from 'https://reelcareer.co/js/module.js';
-        import { getFirestore,  listCollections } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js';
 
+        
         // DOM Elements
         let collectionDropdown = document.getElementById("collectionSelect");
         const fieldMappingContainer = document.getElementById("fieldMappingContainer");
@@ -207,7 +207,7 @@ async function loadCollections() {
 // List Root-Level Collections and populate the dropdown
 async function listRootCollections() {
     try {
-        const querySnapshot = await getDocs(collection(db, "your-collection-name"));
+        const querySnapshot = await getDocs(collection(db, "Notes"));
         const collections = querySnapshot.docs.map(doc => doc.id);
         console.log(collections);
     
