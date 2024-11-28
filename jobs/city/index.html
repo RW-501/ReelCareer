@@ -129,7 +129,7 @@
         <p>
           Start your job search in [City Name] with ReelCareer and find your perfect match. We’ve gathered the latest openings from top employers across the city to help you kickstart your career journey in [City Name].
         </p>
-        <button onclick="window.location.href='#jobs-container'">Browse Jobs in [City Name]</button>
+        <button onclick="window.location.href='#cityListContainer'">Browse Jobs in [City Name]</button>
       </div>
     </div>
     
@@ -137,7 +137,6 @@
     <section class="mt-4">
 
       <input type="text" id="job-search" placeholder="Search jobs...">
-      <div id="jobs-container"></div>
       
     </section>
 
@@ -146,7 +145,7 @@
       <div class="container">
 
     <h1>Jobs in <span id="city-name">City</span></h1>
-    <div id="jobs-container"></div>
+    <div id="cityListContainer" class="listContainer"></div>
 
   </div>
 
@@ -268,7 +267,7 @@ async function displayCityList(jobsContainer) {
 }
 
         async function fetchJobsByCity(cityName) {
-          const jobsContainer = document.getElementById('jobs-container');
+          const jobsContainer = document.getElementById('cityListContainer');
 
           try {
       const jobsRef = collection(db, "Jobs");
@@ -338,12 +337,12 @@ async function displayCityList(jobsContainer) {
     jobsContainer.dataset.jobs = JSON.stringify(jobs);
   } catch (error) {
     console.error('Error fetching jobs:', error);
-    document.getElementById('jobs-container').innerHTML = '<p>Error loading jobs. Please try again later.</p>';
+    document.getElementById('cityListContainer').innerHTML = '<p>Error loading jobs. Please try again later.</p>';
   }
 }
 function searchJobs() {
   const searchTerm = document.getElementById('search-bar').value.toLowerCase();
-  const jobsContainer = document.getElementById('jobs-container');
+  const jobsContainer = document.getElementById('cityListContainer');
   const jobs = JSON.parse(jobsContainer.dataset.jobs);
 
   // Filter jobs based on title, company, and location
@@ -479,7 +478,10 @@ document.addEventListener("DOMContentLoaded", () => {
         ]
       }
       </script>
-      
+         <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 
 </html>

@@ -169,21 +169,20 @@
                 <p>
                   Looking for a job in [State Name]? Browse through full-time, part-time, and remote positions in various sectors, from tech to education. Our state-specific job listings make finding your next career easy!
                 </p>
-                <button onclick="window.location.href='#jobs-container'">Explore Jobs in [State Name]</button>
+                <button onclick="window.location.href='#stateListContainer'">Explore Jobs in [State Name]</button>
               </div>
             </div>
             
         <section class="mt-4">
 
         <input type="text" id="job-search" placeholder="Search jobs...">
-        <div id="jobs-container"></div>
         
       </section>
 
         <section class="mt-4">
             <div class="container">
                 <h1>Jobs in <span id="state-name"></span></h1>
-                <div id="jobs-container"></div>
+                <div id="stateListContainer" class="listContainer"></div>
               </div>
             
             </section>
@@ -285,7 +284,7 @@ async function fetchJobsByState(state) {
   try {
     console.log("state name ", state);
 
-    const jobsContainer = document.getElementById('jobs-container');
+    const jobsContainer = document.getElementById('stateListContainer');
     jobsContainer.innerHTML = '<p>Loading jobs...</p>';
 
     // Reference the 'Jobs' collection
@@ -361,7 +360,7 @@ async function fetchJobsByState(state) {
 
   } catch (error) {
     console.error('Error fetching jobs:', error);
-    document.getElementById('jobs-container').innerHTML = '<p>Error loading jobs. Please try again later.</p>';
+    document.getElementById('stateListContainer').innerHTML = '<p>Error loading jobs. Please try again later.</p>';
   }
 }
 
@@ -378,7 +377,7 @@ function getHashFromURL() {
 
 // Function to filter the jobs based on search input
 function filterJobs(searchQuery) {
-  const jobsContainer = document.getElementById('jobs-container');
+  const jobsContainer = document.getElementById('stateListContainer');
   jobsContainer.innerHTML = ''; // Clear the container before adding filtered jobs
 
   const filteredJobs = allJobs.filter(job => {
