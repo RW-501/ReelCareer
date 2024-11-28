@@ -342,7 +342,7 @@ function shuffleArray(array) {
 
 
 const limits = 25;
-    let showCount = 0;
+let showCount = 0;
 let jobListingsCache = [];
 let lastVisible; // Keep track of pagination
 const seenTitles = new Set();
@@ -446,6 +446,8 @@ async function fetchJobListings(userJobInterest) {
     randomizedJobDocs.forEach((doc) => {
       const job = { id: doc.id, ...doc.data() };
 
+      console.log('seenIDs   ',seenIDs,'doc.id   ',doc.id);
+
       // Avoid duplicates
       if (!seenIDs.has(doc.id)) {
         if (
@@ -462,6 +464,7 @@ async function fetchJobListings(userJobInterest) {
           } else if (titleSnapshot && titleSnapshot.docs.includes(doc)) {
             job.source = 'Job Interest';  // Job was found through job interest query
           }
+          console.log('Job object with source:', job);  // Debugging line
 
           jobListingsCache.push(job);
           seenIDs.add(doc.id);
