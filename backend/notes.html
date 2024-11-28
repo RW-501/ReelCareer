@@ -149,7 +149,7 @@
     </div>
   </div>
 
-<
+
 
   <!-- Footer -->
   <footer id="dynamic-footer"></footer>
@@ -193,6 +193,12 @@
 
 document.addEventListener('DOMContentLoaded', () => {
  
+
+  $('#myTab a').on('click', function (e) {
+    e.preventDefault();
+    $(this).tab('show');
+});
+
     // Loading Spinner
     function showLoading(state) {
       document.getElementById('loadingSpinner').style.display = state ? 'block' : 'none';
