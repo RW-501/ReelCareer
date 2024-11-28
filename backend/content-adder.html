@@ -183,17 +183,12 @@
         let selectedCollectionFields = [];
         let uploadedJson = null;
 
-    // Firebase Event Tracking
-function logFirebaseEvent(eventName, params) {
-    firebase.analytics().logEvent(eventName, params);
-}
+
 
 // Load Collections
 async function loadCollections() {
     try {
-        // Log Firebase analytics event
-        logFirebaseEvent("page_view", { page_name: "JSON Uploader" });
-
+    
         // Check if Firestore is correctly initialized
         if (!db) {
             console.error("Firestore is not initialized.");
