@@ -225,7 +225,6 @@
       const jobsRef = collection(db, "Jobs");
       const snapshot = await getDocs(jobsRef);
 
-cityName = cityName.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ');
 
 
     console.log("city name ", cityName);
@@ -319,7 +318,10 @@ function getHashFromURL() {
   const hash = window.location.hash;
 
   // Remove the '#' symbol, decode the URL, and clean up unwanted characters
-  const segments = hash ? decodeURIComponent(hash.substring(1)).replace(/[^\w\s-]/g, '') : null;
+  let segments = hash ? decodeURIComponent(hash.substring(1)).replace(/[^\w\s-]/g, '') : null;
+
+  segments = segments.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ');
+
   return segments;
 }
 
