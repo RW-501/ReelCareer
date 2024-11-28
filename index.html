@@ -341,7 +341,7 @@ function shuffleArray(array) {
 }
 
 
-
+const limits = 25;
     let showCount = 0;
 let jobListingsCache = [];
 let lastVisible; // Keep track of pagination
@@ -400,14 +400,14 @@ async function fetchJobListings(userJobInterest) {
     // Location query
     if (userlocationData) {
       const locationArray = prepareLocationForFirebase(userlocationData);
-      console.log('locationArray: cleaned  ', locationArray);
+     // console.log('locationArray: cleaned  ', locationArray);
 
       const locationQuery = query(
         jobsQuery,
         where('status', '==', 'active'),
         where('location', 'array-contains-any', locationArray),
         orderBy('createdAt', 'desc'),
-        limit(50)
+        limit(limits)
       );
       locationSnapshot = await getDocs(locationQuery);
       console.log(
@@ -418,14 +418,14 @@ async function fetchJobListings(userJobInterest) {
 
     // Title query (only if location returns no results)
     if (!hasResults(locationSnapshot) || hasResults(locationSnapshot)) {
-      console.log('userJobInterest:   ', userJobInterest);
+     // console.log('userJobInterest:   ', userJobInterest);
 
       const titleQuery = query(
         jobsQuery,
         where('status', '==', 'active'),
         where('searchableTitle', 'array-contains-any', userJobInterest),
         orderBy('createdAt', 'desc'),
-        limit(50)
+        limit(limits)
       );
       titleSnapshot = await getDocs(titleQuery);
       console.log(
@@ -495,6 +495,8 @@ function renderJobs() {
   
   // Only render the next 30 jobs from cache, if available
   const jobsToRender = jobListingsCache.slice(showCount, showCount + 30);
+  console.log('jobsToRender:   ', jobsToRender);
+
   jobsToRender.forEach(job => createJobCard(job, jobListingsContainer));
   showCount += jobsToRender.length;
 
