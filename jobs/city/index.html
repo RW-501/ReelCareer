@@ -42,7 +42,7 @@
 
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    
+
     <!-- Bootstrap CSS -->
     <script src="https://reelcareer.co/public/js/scripts.js"></script>
     <script src="https://reelcareer.co/public/js/loadScripts.js"></script>
@@ -254,12 +254,13 @@ async function displayCityList(jobsContainer) {
     // Inject HTML into the container
     jobsContainer.innerHTML = `
       <h2>Available Cities</h2>
+      <span>Total Jobs: ${totalJobs}</span>
       <hr>
       <div class="state-city-body">${groupedCityHTML}</div>
     `;
 
     // Display the total number of jobs
-    document.getElementById("totalJobs").innerText = `Total Jobs: ${totalJobs}`;
+   // document.getElementById("totalJobs").innerText = `Total Jobs: ${totalJobs}`;
   } catch (error) {
     console.error("Error fetching city:", error);
     jobsContainer.innerHTML = `<p>Failed to load city list.</p>`;
