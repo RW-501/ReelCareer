@@ -200,6 +200,20 @@ async function loadCollections() {
             return;
         }
         
+        
+async function listRootCollections() {
+  try {
+    const rootCollections = await listCollections(db);
+    console.log("Root-Level Collections:");
+    rootCollections.forEach((collection) => {
+      console.log(collection.id);
+    });
+  } catch (error) {
+    console.error("Error listing collections:", error);
+  }
+}
+
+//listRootCollections();
         // Get all collections at the root level of Firestore
         const collectionsSnapshot = await db.listCollections();
 
