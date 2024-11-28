@@ -878,14 +878,47 @@ main .jobCard:hover {
               }
 
               .state-city-body {
-                display: flex;
-    flex-wrap: wrap;
-    width: 100%;
-    gap: 1rem;
-    justify-content: center;
-    flex-direction: row;
-    flex-basis: max-content;
+                display: grid;
+                width: 100%;
+                gap: 1rem;
+                justify-content: space-around;
+                align-content: stretch;
+                align-items: start;
+                justify-items: stretch;
+              }
+              .city-group {
+                width: 100%;
+                display: grid;
+                align-content: stretch;
+                justify-content: space-between;
+                align-items: start;
+                justify-items: stretch;
+              }
 
+              .city-letter {
+                
+              }
+              .city-list {
+
+                display: flex;
+                flex-wrap: wrap;
+                width: 100%;
+                gap: 1rem;
+                justify-content: center;
+                flex-direction: row; 
               }
 
               
+              .apply-link {
+                display: inline-block;
+                margin-top: 10px;
+                padding: 10px 15px;
+                background: #007BFF;
+                color: #fff;
+                text-decoration: none;
+                border-radius: 5px;
+              }
+          
+              .apply-link:hover {
+                background: #0056b3;
+              }

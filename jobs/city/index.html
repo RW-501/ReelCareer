@@ -50,23 +50,8 @@
     <link rel="stylesheet" href="https://reelcareer.co/public/css/styles.css">
 
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #f4f4f4;
-    }
 
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 20px;
-    }
-
-    h1 {
-      text-align: center;
-      margin-bottom: 20px;
-    }
+/*
 
     .job-card {
       background: #fff;
@@ -98,6 +83,8 @@
     .apply-link:hover {
       background: #0056b3;
     }
+
+    */
   </style>
 </head>
 
@@ -246,7 +233,7 @@
 
           <div class="city-list">
             ${cityList.map(city => `
-              <div class="state-city-card">
+              <div class="state-city-card" data-job-location="${city},>
                 <a href="https://reelcareer.co/jobs/city#${city}"><i class="fas fa-city"></i></a>
                 <h4><a href="https://reelcareer.co/jobs/city#${city}">${city}</a></h4>
               </div>
@@ -412,7 +399,7 @@ fetchJobsByCity(cityName);
   document.getElementById('search-bar').addEventListener('input', searchJobs);
   // Add search functionality  
   const searchInput = document.getElementById('job-search');
-  
+
   searchInput.addEventListener('input', (e) => {
     const searchQuery = e.target.value;
     filterJobs(searchQuery);
