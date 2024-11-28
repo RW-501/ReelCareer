@@ -232,7 +232,7 @@ window.addEventListener('load', loadCollections);
 
         // Handle collection change
         collectionDropdown.addEventListener("change", async () => {
-            const selectedCollection = collectionDropdown.value;
+            const selectedCollection = "States"; //collectionDropdown.value;
             clearFieldMappings();
 
             if (!selectedCollection) return;
