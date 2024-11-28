@@ -217,6 +217,56 @@
             auth, analytics, deleteDoc, getDownloadURL
         } from 'https://reelcareer.co/js/module.js';
 
+        async function displayCityList(jobsContainer) {
+  try {
+    const jobsRef = collection(db, "Jobs");
+    const snapshot = await getDocs(jobsRef);
+
+    // Extract, trim, and sort unique city names
+    const cities = [...new Set(snapshot.docs.map(doc => doc.data().city?.trim()))]
+      .filter(city => city?.length > 0) // Remove empty or undefined strings
+      .sort(); // Sort alphabetically
+
+    // Group cities by their first letter
+    const groupedCities = cities.reduce((acc, city) => {
+      const firstLetter = city[0].toUpperCase();
+      if (!acc[firstLetter]) acc[firstLetter] = [];
+      acc[firstLetter].push(city);
+      return acc;
+    }, {});
+
+    // Generate HTML for each group
+    const groupedCityHTML = Object.entries(groupedCities)
+      .map(([letter, cityList]) => `
+        <div class="city-group">
+                  <div class="city-letter">
+          <h3>${letter} <span>(${cityList.length})</span></h3>
+          <hr>
+          </div>
+
+          <div class="city-list">
+            ${cityList.map(city => `
+              <div class="state-city-card">
+                <a href="https://reelcareer.co/jobs/city#${city}"><i class="fas fa-city"></i></a>
+                <h4><a href="https://reelcareer.co/jobs/city#${city}">${city}</a></h4>
+              </div>
+            `).join("")}
+          </div>
+        </div>
+      `)
+      .join("");
+
+    // Inject HTML into the container
+    jobsContainer.innerHTML = `
+      <h2>Available Cities</h2>
+      <hr>
+      <div class="state-city-body">${groupedCityHTML}</div>
+    `;
+  } catch (error) {
+    console.error("Error fetching city:", error);
+    jobsContainer.innerHTML = `<p>Failed to load City list.</p>`;
+  }
+}
 
         async function fetchJobsByCity(cityName) {
           const jobsContainer = document.getElementById('jobs-container');
@@ -236,9 +286,10 @@
     // Execute the query
     const querySnapshot = await getDocs(jobsQuery);
     if (querySnapshot.empty) {
-      jobsContainer.innerHTML = '<p>No jobs found for this state.</p>';
+      displayCityList(jobsContainer)
       return;
     }
+
 
     let jobs = [];
 
@@ -327,17 +378,24 @@ function getHashFromURL() {
 
 
     document.addEventListener('DOMContentLoaded', async () => {
-      const cityName = getHashFromURL();
+      let cityName = getHashFromURL();
+
+
       document.getElementById("breadcrumb-active-title").textContent = cityName;
 
       document.getElementById('city-name').textContent = cityName;
       const cityHeader = document.getElementById("city-header");
 
       cityHeader.innerHTML = cityHeader.innerHTML.replaceAll("[City Name]", cityName);
+      
+      if(!cityName){
+        
+        fetchJobsByCity(null);
 
-
+      }else{
       fetchJobsByCity(cityName);
-   
+      }
+
   // Attach search event
   document.getElementById('search-bar').addEventListener('input', searchJobs);
   // Add search functionality
