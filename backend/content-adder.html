@@ -207,7 +207,7 @@ async function loadCollections() {
 // List Root-Level Collections and populate the dropdown
 async function listRootCollections() {
     try {
-        const querySnapshot = await getDocs(collection(db, "FAQs"));
+        const querySnapshot = await getDocs(collection(db, "States"));
         const collections = querySnapshot.docs.map(doc => doc.id);
         console.log("Root-Level Collections:     ",collections);
     
