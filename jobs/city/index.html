@@ -410,8 +410,9 @@ fetchJobsByCity(cityName);
 
   // Attach search event
   document.getElementById('search-bar').addEventListener('input', searchJobs);
-  // Add search functionality
+  // Add search functionality  
   const searchInput = document.getElementById('job-search');
+  
   searchInput.addEventListener('input', (e) => {
     const searchQuery = e.target.value;
     filterJobs(searchQuery);

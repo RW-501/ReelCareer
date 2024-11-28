@@ -314,8 +314,9 @@ async function fetchJobsByState(state) {
     console.log("querySnapshot ", querySnapshot);
 
     if (querySnapshot.empty) {
+      const stateHeader = document.getElementById("state-header");
 
-      cityHeader.innerHTML = `
+      stateHeader.innerHTML = `
         <h1>Oops! No Jobs Found</h1>
         <p class="intro-text">
           Unfortunately, there are no job listings available right now. Please check back later, or explore job opportunities in other cities.
