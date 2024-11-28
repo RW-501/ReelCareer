@@ -207,19 +207,13 @@ async function loadCollections() {
 // List Root-Level Collections and populate the dropdown
 async function listRootCollections() {
     try {
-        const querySnapshot = await getDocs(collection(db, "Notes"));
+        const querySnapshot = await getDocs(collection(db, "FAQs"));
         const collections = querySnapshot.docs.map(doc => doc.id);
-        console.log(collections);
+        console.log("Root-Level Collections:     ",collections);
     
 
 
-        console.log("Root-Level Collections:");
        
-      // Add default placeholder option
-      const placeholderOption = document.createElement("option");
-      placeholderOption.value = "";
-      placeholderOption.textContent = "-- Select a Collection --";
-      collectionDropdown.appendChild(placeholderOption);
 
         // Populate the dropdown with collection IDs
         collections.forEach(collectionRef => {
