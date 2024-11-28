@@ -168,7 +168,8 @@
     <script type="module" src="https://reelcareer.co/public/js/main.js"></script>
     
     <script type="module">
-        import { db, getDocs, collection, getDownloadURL, uploadBytes, analytics } from 'https://reelcareer.co/js/module.js';
+        import { db, getDocs, collection,  getDownloadURL, uploadBytes, analytics } from 'https://reelcareer.co/js/module.js';
+        import { getFirestore,  listCollections } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js';
 
         // DOM Elements
         const collectionDropdown = document.getElementById("collectionSelect");
