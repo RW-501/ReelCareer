@@ -417,7 +417,7 @@ const closeLoginPopup = () => {
 
 
 // Navigation bar
-document.addEventListener("DOMContentLoaded", function () {
+// document.addEventListener("DOMContentLoaded", function () {
   console.log("checkUserProfile");
   function checkUserProfile() {
     var profileModal = document.getElementById("profileModal");
@@ -543,7 +543,7 @@ document.addEventListener("DOMContentLoaded", function () {
         </section>
     `;
   document.body.insertAdjacentHTML("beforeend", companyMediaSectionHTML);
-});
+//});
 
 
 
