@@ -1456,6 +1456,7 @@ window.addEventListener('load', function () {
               try {
                   const uTagInterestNorm = getUserTagInterest();
                   const uJobInterestNorm = getUserJobInterest();
+                  const userlocationData = sessionStorage.getItem('userLocation');
                   const locationArray = prepareLocationForFirebase(userlocationData);
 
                   let q;
