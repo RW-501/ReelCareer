@@ -5,7 +5,7 @@ import {
   signOut, addDoc, increment, onAuthStateChanged,
   createUserWithEmailAndPassword, signInWithEmailAndPassword,
   where, getDocs, storage, collection, deleteObject, 
-  auth, analytics, googleProvider, facebookProvider,appleProvider,  getDownloadURL
+  auth, analytics, googleProvider, facebookProvider,  getDownloadURL
 } from 'https://reelcareer.co/js/module.js';
 
 
