@@ -376,6 +376,7 @@ function prepareLocationForFirebase(userlocationData) {
  // console.log('Prepared Location Array:', locationArray);
   return locationArray;
 }
+
 async function fetchJobListings(userJobInterest) {
   console.log('userJobInterest:', userJobInterest);
   jobListingsCache = [];
@@ -491,7 +492,6 @@ async function fetchJobListings(userJobInterest) {
     loadingIndicator.style.display = 'none';
   }
 }
-
 
 // Function to render jobs in batches of 30
 function renderJobs() {
