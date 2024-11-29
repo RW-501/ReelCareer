@@ -1294,3 +1294,51 @@ main .jobCard:hover {
     font-size: 1rem;
     line-height: 1.6;
   }
+
+
+
+  .newsletter-signup {
+    padding: 20px;
+}
+.custom-checkbox-wrapper {
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding-left: 30px;
+    color: #fff;
+}
+.custom-checkbox-wrapper input {
+    display: none;
+}
+.custom-checkbox-wrapper input:checked ~ .custom-checkbox {
+    background-color: #007bff;
+}
+.custom-checkbox-wrapper input:checked ~ .custom-checkbox:before {
+    content: "\\2714";
+    display: block;
+    color: #fff;
+    font-size: 12px;
+    text-align: center;
+}
+.custom-checkbox {
+    width: 20px;
+    height: 20px;
+    background-color: transparent;
+    border: 2px solid #fff;
+    border-radius: 3px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    transition: background-color 0.3s ease;
+}
+.custom-checkbox:before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+#newsletterFormBtn:hover {
+    background-color: #fff;
+    color: #000;
+}

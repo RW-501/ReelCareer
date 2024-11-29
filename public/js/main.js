@@ -496,356 +496,11 @@ window.checkUserProfile = checkUserProfile;
 
 
 
-  // Insert the footer section
-  const companyMediaSectionHTML = `
-        <section id="companyMedia" class="bg-light py-5 company-media">
-            <div class="container">
-           <h2 class="text-center" style="
-    color: #83bad9;
-    font-weight: 800;
-    text-shadow: 1px 0px 0px #6253e7;">Company Media</h2>
-    <div class="row" style="text-align: center;">
-                    <div class="col-md-6 m-auto">
- <div class="col-md-6 m-auto text-center d-block"> 
-
-    <!-- Video Element with Lazy Loading, Autoplay, Muted, and Responsive -->
-<div class="video-container" style="text-align: center; max-width: 100%; margin: 20px auto;">
-    <video id="myVideo" loop  autoplay muted loading="lazy" style="max-width: 100%; magrain:auto; height: auto;">
-        <source src="https://reelcareer.co/images/intro.MP4" type="video/mp4">
-        Your browser does not support the video tag.
-  </video>
-
-    <!-- Optional: Custom Play Button -->
-    <div class="custom-play-button" id="playButton" style="display: none; background-color: rgba(0, 0, 0, 0.7); color: white; padding: 10px; border-radius: 5px; cursor: pointer;">Play</div>
-</div>
-
-
-<!-- Structured Data for SEO -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "VideoObject",
-  "name": "ReelCareer Introductory Video",
-  "description": "Discover how ReelCareer helps job seekers and employers with a seamless job-hunting experience. Learn how to post jobs, manage applications, and find the perfect career opportunities.",
-  "thumbnailUrl": "https://www.reelcareer.co/images/sq_logo_n_BG_tie_reelx.png",
-  "uploadDate": "2024-10-23",
-  "contentUrl": "https://www.reelcareer.co/images/intro.MP4",
-  "embedUrl": "https://www.reelcareer.co/",
-  "duration": "PT2M30S"
-}
-</script>
-                    </div>
-                    </div>
-                    <div class="col-md-6 m-auto">
-                        <img src="https://reelcareer.co/images/sq_logo_n_BG_tie_reelx.png" alt="Company Image" class="img-fluid" style="width: 15rem;">
-                    </div>
-                </div>
-            </div>
-        </section>
-    `;
-  document.body.insertAdjacentHTML("beforeend", companyMediaSectionHTML);
-//});
 
 
 
 
 
-// Newsletter Signup Functionality
-async function handleNewsletterSignup(email) {
-  const ipAddress = await getUserIP();
-  const location = await getUserLocation();
-
-  // Check if user has already signed up
-  if (localStorage.getItem("hasSignedUp")) {
-    showToast("You have already subscribed to the newsletter.", 'warning');
-    return;
-  }
-
-  // Rate Limiting Check
-  const currentTime = new Date().getTime();
-  if (!firstAttemptTime || currentTime - firstAttemptTime > RATE_LIMIT_TIME) {
-    // Reset attempts after the time limit
-    attempts = 0;
-    firstAttemptTime = currentTime;
-  }
-
-  if (attempts >= MAX_ATTEMPTS) {
-    showToast(
-      "You have exceeded the maximum number of signup attempts. Please try again later."
-      , 'warning');
-    return;
-  }
-
-  attempts++; // Increment the attempt count
-
-  try {
-    // Add a new document to the NewsLetter collection
-    await db.collection("NewsLetter").add({
-      email: email,
-      ipAddress: ipAddress,
-      location: location,
-      timestamp: firebase.firestore.FieldValue.serverTimestamp()
-    });
-
-    // Store sign-up status in local storage
-    localStorage.setItem("hasSignedUp", "true");
-
-    const newsletterMessage = document.getElementById("newsletterMessage");
-    newsletterMessage.innerText = `Thank you for subscribing, ${email}!`;
-  } catch (error) {
-    const newsletterMessage = document.getElementById("newsletterMessage");
-    newsletterMessage.innerText = `Error: Unable to subscribe. Please try again later.`;
-    console.error("Error adding document: ", error);
-  }
-}
-  // Function to inject styles dynamically
-  function addStylesFooter() {
-    const styles = `
-    .newsletter-signup {
-        padding: 20px;
-    }
-    .custom-checkbox-wrapper {
-        display: flex;
-        align-items: center;
-        position: relative;
-        padding-left: 30px;
-        color: #fff;
-    }
-    .custom-checkbox-wrapper input {
-        display: none;
-    }
-    .custom-checkbox-wrapper input:checked ~ .custom-checkbox {
-        background-color: #007bff;
-    }
-    .custom-checkbox-wrapper input:checked ~ .custom-checkbox:before {
-        content: "\\2714";
-        display: block;
-        color: #fff;
-        font-size: 12px;
-        text-align: center;
-    }
-    .custom-checkbox {
-        width: 20px;
-        height: 20px;
-        background-color: transparent;
-        border: 2px solid #fff;
-        border-radius: 3px;
-        position: absolute;
-        left: 0;
-        top: 0;
-        transition: background-color 0.3s ease;
-    }
-    .custom-checkbox:before {
-        content: "";
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-    }
-    #newsletterFormBtn:hover {
-        background-color: #fff;
-        color: #000;
-    }
-    `;
-    const styleSheet = document.createElement("style");
-    styleSheet.type = "text/css";
-    styleSheet.innerText = styles;
-    document.head.appendChild(styleSheet);
-}
-
-// Call the function to add the styles
-addStylesFooter();
-// Update the footer function (No changes needed for this part)
-function updateFooter() {
-  const footer = document.getElementById("dynamic-footer");
-  const currentYear = new Date().getFullYear();
-
-  // Footer links data (from JSON)
-  const footerLinks = [
-    {
-      "url": "/",
-      "name": "ReelCareer",
-      "title": "ReelCareer - #1 Job Board - Find a job today",
-      "category": "General",
-      "order": 0
-    },{
-      "url": "/views/about",
-      "name": "About ReelCareer",
-      "title": "About ReelCareer - Who We Are and Our Mission",
-      "category": "General",
-      "order": 1
-    },
-    {
-      "url": "/views/privacy",
-      "name": "Privacy Policy",
-      "title": "Privacy Policy - How We Protect Your Data",
-      "category": "Legal",
-      "order": 2
-    },
-    {
-      "url": "/views/terms",
-      "name": "Terms of Use",
-      "title": "Terms of Use - Website User Agreement and Guidelines",
-      "category": "Legal",
-      "order": 3
-    },
-    {
-      "url": "/views/contact",
-      "name": "Contact Us",
-      "title": "Contact ReelCareer - Get in Touch for Support and Inquiries",
-      "category": "General",
-      "order": 4
-    },
-    {
-      "url": "/views/blog",
-      "name": "Blog",
-      "title": "ReelCareer Blog - Career Advice, News, and Insights",
-      "category": "Content",
-      "order": 5
-    },
-    {
-      "url": "/views/news",
-      "name": "News",
-      "title": "ReelCareer News - Latest Updates and Industry Trends",
-      "category": "Content",
-      "order": 6
-    },
-    {
-      "url": "/views/faq",
-      "name": "FAQs",
-      "title": "Frequently Asked Questions - Get Answers to Common Queries",
-      "category": "Support",
-      "order": 7
-    },
-    {
-      "url": "/views/referral",
-      "name": "Affiliate Program",
-      "title": "Join the ReelCareer Affiliate Program and Earn Rewards",
-      "category": "Marketing",
-      "order": 8
-    },
-    {
-      "url": "/views/Personality-&-Trait-Tests",
-      "name": "Personality & Trait Tests",
-      "title": "Personality & Trait Tests - Discover Your Strengths and Work Style",
-      "category": "Features",
-      "order": 9
-    },
-    {
-      "url": "/backend/dashboard",
-      "name": "Admin",
-      "title": "Admin Dashboard - Manage Users, Jobs, and Content",
-      "category": "Admin",
-      "order": 10
-    },
-    {
-      "url": "/jobs/city",
-      "name": "City Jobs",
-      "title": "City Jobs - Find Career Opportunities by Location",
-      "category": "Features",
-      "order": 11
-    },
-    {
-      "url": "/jobs/state",
-      "name": "State Jobs",
-      "title": "State Jobs - Explore Job Listings by State",
-      "category": "Admin",
-      "order": 12
-    },
-    {
-      "url": "/jobs/locations",
-      "name": "Job Locations",
-      "title": "Job Locations - Browse Jobs in Your Area",
-      "category": "Features",
-      "order": 13
-    },
-    {
-      "url": "/views/job-listings",
-      "name": "Job Listings",
-      "title": "Job Listings - Search and Apply for Job Openings",
-      "category": "Admin",
-      "order": 14
-    }
-  ];
-  
-  // Sort the links based on their order
-  footerLinks.sort((a, b) => a.order - b.order);
-
-  // Generate the footer HTML content dynamically
-  const newContent = `
-        <div class="py-4">
-            <div class="container text-center">
-                <p>&copy; ${currentYear} <a href="${footerLinks[0].url}" class="text-light" rel="noopener noreferrer">${footerLinks[0].name}</a>. All Rights Reserved.</p>
-                <ul class="list-inline">
-                  ${footerLinks.map(link => `
-                    <li class="list-inline-item">
-                      <a href="${link.url}" class="text-light" rel="noopener noreferrer" title="${link.title}">${link.name}</a>
-                    </li>
-                  `).join('')}
-                </ul>
-                <div class="newsletter-signup">
-                    <form id="newsletterForm" class="form-inline justify-content-center mt-4">
-                        <input type="email" class="form-control mr-2 mb-2" placeholder="Subscribe to our newsletter" required aria-label="Email address">
-                        <select id="newsletterType" class="form-control mr-2 mb-2" required>
-                            <option value="website_updates">Website Updates</option>
-                            <option value="job_alerts">Job Alerts</option>
-                            <option value="career_advice">Career Advice</option>
-                            <option value="industry_news">Industry News</option>
-                        </select>
-                        <label class="ml-2 mr-2 mb-2 custom-checkbox-wrapper">
-                            <input type="checkbox" id="dataPrivacy" required>
-                            <span class="custom-checkbox"></span> 
-                            I agree to the <a href="${footerLinks.find(link => link.category === 'Legal').url}" class="text-light ml-1" rel="noopener noreferrer">data privacy policy</a>.
-                        </label>
-                        <button type="submit" id="newsletterFormBtn" class="mr-2 mb-2 btn btn-outline-light">Subscribe</button>
-                    </form>
-                    <p id="newsletterMessage" class="text-light mt-2"></p>
-                </div>
-                <p class="mt-2">Current Date & Time: <span id="currentDateTime"></span></p>
-                <p class="mt-2"><a href="${footerLinks.find(link => link.name === 'Contact Us').url}" class="text-light" rel="noopener noreferrer">Contact Us</a></p>
-                <button id="backToTop" class="btn btn-outline-light mt-2">Back to Top</button>
-            </div>
-        </div>
-    `;
-
-  footer.innerHTML = newContent; // Update the footer's HTML content
-
- // Current Date and Time
-  const updateDateTime = () => {
-    const now = new Date();
-    document.getElementById("currentDateTime").innerText = now.toLocaleString();
-  };
-  updateDateTime();
-  setInterval(updateDateTime, 1000);
-
-  // Back to Top Button Functionality
-  document.getElementById("backToTop").addEventListener("click", () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  });
-
-
-  // Update the event listener for the form
-  document
-    .getElementById("newsletterFormBtn")
-    .addEventListener("submit", async function (event) {
-      event.preventDefault();
-      const email = this.querySelector('input[type="email"]').value;
-
-      // Check if user agreed to the data privacy policy
-      if (!document.getElementById("dataPrivacy").checked) {
-        showToast("You must agree to the data privacy policy.", 'warning');
-        return;
-      }
-
-      // Handle the newsletter signup process
-      await handleNewsletterSignup(email);
-    });
-}
-
-// Call the function to update the footer when the document is loaded
-document.addEventListener("DOMContentLoaded", updateFooter);
-
-// let mainDefaultPic =
 
 // Function to toggle dark mode
 function toggleDarkMode() {
@@ -1436,6 +1091,28 @@ export {
 */
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 function prepareLocationForFirebase(userlocationData) {
   if (typeof userlocationData === 'string') {
     userlocationData = JSON.parse(userlocationData); // Parse if it's a string
@@ -1730,6 +1407,342 @@ window.setBreadcrumb = setBreadcrumb;
     setBreadcrumb();
   }, 1500); // 2000 milliseconds = 2 seconds
   });
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+// Update the footer function (No changes needed for this part)
+function updateFooter() {
+  const footer = document.getElementById("dynamic-footer");
+  const currentYear = new Date().getFullYear();
+
+  // Footer links data (from JSON)
+  const footerLinks = [
+    {
+      "url": "/",
+      "name": "ReelCareer",
+      "title": "ReelCareer - #1 Job Board - Find a job today",
+      "category": "General",
+      "order": 0
+    },{
+      "url": "/views/about",
+      "name": "About ReelCareer",
+      "title": "About ReelCareer - Who We Are and Our Mission",
+      "category": "General",
+      "order": 1
+    },
+    {
+      "url": "/views/privacy",
+      "name": "Privacy Policy",
+      "title": "Privacy Policy - How We Protect Your Data",
+      "category": "Legal",
+      "order": 2
+    },
+    {
+      "url": "/views/terms",
+      "name": "Terms of Use",
+      "title": "Terms of Use - Website User Agreement and Guidelines",
+      "category": "Legal",
+      "order": 3
+    },
+    {
+      "url": "/views/contact",
+      "name": "Contact Us",
+      "title": "Contact ReelCareer - Get in Touch for Support and Inquiries",
+      "category": "General",
+      "order": 4
+    },
+    {
+      "url": "/views/blog",
+      "name": "Blog",
+      "title": "ReelCareer Blog - Career Advice, News, and Insights",
+      "category": "Content",
+      "order": 5
+    },
+    {
+      "url": "/views/news",
+      "name": "News",
+      "title": "ReelCareer News - Latest Updates and Industry Trends",
+      "category": "Content",
+      "order": 6
+    },
+    {
+      "url": "/views/faq",
+      "name": "FAQs",
+      "title": "Frequently Asked Questions - Get Answers to Common Queries",
+      "category": "Support",
+      "order": 7
+    },
+    {
+      "url": "/views/referral",
+      "name": "Affiliate Program",
+      "title": "Join the ReelCareer Affiliate Program and Earn Rewards",
+      "category": "Marketing",
+      "order": 8
+    },
+    {
+      "url": "/views/Personality-&-Trait-Tests",
+      "name": "Personality & Trait Tests",
+      "title": "Personality & Trait Tests - Discover Your Strengths and Work Style",
+      "category": "Features",
+      "order": 9
+    },
+    {
+      "url": "/backend/dashboard",
+      "name": "Admin",
+      "title": "Admin Dashboard - Manage Users, Jobs, and Content",
+      "category": "Admin",
+      "order": 10
+    },
+    {
+      "url": "/jobs/city",
+      "name": "City Jobs",
+      "title": "City Jobs - Find Career Opportunities by Location",
+      "category": "Features",
+      "order": 11
+    },
+    {
+      "url": "/jobs/state",
+      "name": "State Jobs",
+      "title": "State Jobs - Explore Job Listings by State",
+      "category": "Admin",
+      "order": 12
+    },
+    {
+      "url": "/jobs/locations",
+      "name": "Job Locations",
+      "title": "Job Locations - Browse Jobs in Your Area",
+      "category": "Features",
+      "order": 13
+    },
+    {
+      "url": "/views/job-listings",
+      "name": "Job Listings",
+      "title": "Job Listings - Search and Apply for Job Openings",
+      "category": "Admin",
+      "order": 14
+    }
+  ];
+  
+  // Sort the links based on their order
+  footerLinks.sort((a, b) => a.order - b.order);
+
+
+
+
+
+  const config = {
+    newsletter: {
+      rateLimitTime: 60000, // Example: 60 seconds
+      maxAttempts: 3,
+      storageKey: "newsletter_hasSignedUp",
+      messages: {
+        alreadySubscribed: "You have already subscribed to the newsletter.",
+        tooManyAttempts: "Too many attempts. Please try again later.",
+        success: email => `Thank you for subscribing, ${email}!`,
+        error: "Error: Unable to subscribe. Please try again."
+      }
+    },
+    footer: {
+      currentYear: new Date().getFullYear(),
+      links: [
+        { url: "/", name: "ReelCareer", title: "ReelCareer - #1 Job Board - Find a job today", order: 0 },
+        { url: "/views/about", name: "About ReelCareer", title: "About ReelCareer - Who We Are and Our Mission", order: 1 },
+        { url: "/views/privacy", name: "Privacy Policy", title: "Privacy Policy - How We Protect Your Data", order: 2 },
+        { url: "/views/terms", name: "Terms of Use", title: "Terms of Use - Website User Agreement and Guidelines", order: 3 },
+        { url: "/views/contact", name: "Contact Us", title: "Contact ReelCareer - Get in Touch for Support and Inquiries", order: 4 }
+      ]
+    },
+    companyMedia: {
+      title: "Company Media",
+      titleStyle: "color: #83bad9; font-weight: 800; text-shadow: 1px 0px 0px #6253e7;",
+      video: {
+        source: "https://reelcareer.co/images/intro.MP4",
+        type: "video/mp4"
+      },
+      image: {
+        src: "https://reelcareer.co/images/sq_logo_n_BG_tie_reelx.png",
+        alt: "Company Image",
+        style: "width: 15rem;"
+      }
+    }
+  };
+  
+  // Helper to render a toast
+  function showToast(message, type = "info") {
+    console.log(`[${type.toUpperCase()}] ${message}`);
+  }
+  
+  // Handle newsletter signup
+  async function handleNewsletterSignup(email) {
+    const { rateLimitTime, maxAttempts, storageKey, messages } = config.newsletter;
+    let attempts = 0;
+    let firstAttemptTime = null;
+  
+    try {
+      const ipAddress = await getUserIP();
+      const location = await getUserLocation();
+  
+      if (localStorage.getItem(storageKey)) {
+        showToast(messages.alreadySubscribed, "warning");
+        return;
+      }
+  
+      const currentTime = Date.now();
+      if (!firstAttemptTime || currentTime - firstAttemptTime > rateLimitTime) {
+        attempts = 0; // Reset attempts
+        firstAttemptTime = currentTime;
+      }
+  
+      if (attempts >= maxAttempts) {
+        showToast(messages.tooManyAttempts, "error");
+        return;
+      }
+  
+      attempts++;
+      await db.collection("NewsLetter").add({
+        email,
+        ipAddress,
+        location,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+      });
+  
+      localStorage.setItem(storageKey, "true");
+      document.getElementById("newsletterMessage").textContent = messages.success(email);
+  
+    } catch (error) {
+      console.error("Newsletter signup failed:", error);
+      document.getElementById("newsletterMessage").textContent = error.message || messages.error;
+    }
+  }
+  
+
+
+    // Group links by category
+    const groupedLinks = footerLinks.reduce((acc, link) => {
+      if (!acc[link.category]) acc[link.category] = [];
+      acc[link.category].push(link);
+      return acc;
+  }, {});
+
+
+  // Render dynamic footer links
+  function renderFooterLinks() {
+    const { currentYear, links } = config.footer;
+    const sortedLinks = links.sort((a, b) => a.order - b.order);
+    const footerHTML = `
+      <footer>
+        <div class="container text-center">
+          <p>&copy; ${currentYear} ReelCareer</p>
+          <nav>
+            ${Object.keys(groupedLinks).map(category => `
+              <div>
+                <h5>${category}</h5>
+                ${groupedLinks[category].map(link => `<a href="${link.url}" title="${link.title}">${link.name}</a>`).join(" | ")}
+              </div>`).join("\n")}
+          </nav>
+        </div>
+      </footer>`;
+    document.body.insertAdjacentHTML("beforeend", footerHTML);
+  }
+  
+  // Render company media
+  function renderCompanyMedia() {
+    const { title, titleStyle, video, image } = config.companyMedia;
+    const mediaHTML = `
+      <section id="companyMedia" class="bg-light py-5 company-media">
+        <div class="container">
+          <h2 class="text-center" style="${titleStyle}">${title}</h2>
+          <div class="row text-center">
+            <div class="col-md-6 m-auto">
+              <div class="video-container">
+                <video loop autoplay muted loading="lazy">
+                  <source src="${video.source}" type="${video.type}">
+                  Your browser does not support the video tag.
+                </video>
+              </div>
+            </div>
+            <div class="col-md-6 m-auto">
+<img loading="lazy" src="${image.src}" alt="${image.alt}" class="img-fluid" style="${image.style}">
+            </div>
+          </div>
+        </div>
+      </section>`;
+    document.body.insertAdjacentHTML("beforeend", mediaHTML);
+  }
+  
+  // Initialize page content
+  document.addEventListener("DOMContentLoaded", () => {
+    renderFooterLinks();
+    renderCompanyMedia();
+  });
+  
+
+
+ // Current Date and Time
+  const updateDateTime = () => {
+    const now = new Date();
+    document.getElementById("currentDateTime").innerText = now.toLocaleString();
+  };
+  updateDateTime();
+  setInterval(updateDateTime, 1000);
+
+  // Back to Top Button Functionality
+  document.getElementById("backToTop").addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+
+
+  // Update the event listener for the form
+  document
+    .getElementById("newsletterFormBtn")
+    .addEventListener("submit", async function (event) {
+      event.preventDefault();
+      const email = this.querySelector('input[type="email"]').value;
+
+      // Check if user agreed to the data privacy policy
+      if (!document.getElementById("dataPrivacy").checked) {
+        showToast("You must agree to the data privacy policy.", 'warning');
+        return;
+      }
+
+      // Handle the newsletter signup process
+      await handleNewsletterSignup(email);
+    });
+}
+
+// Call the function to update the footer when the document is loaded
+document.addEventListener("DOMContentLoaded", updateFooter);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 // Utility variables
