@@ -1284,6 +1284,9 @@ document.addEventListener("DOMContentLoaded", updateFooter);
 
 
 
+ document.addEventListener("DOMContentLoaded", () => {
+
+
  // Back to Top Button Functionality
  document.getElementById("backToTop").addEventListener("click", () => {
   window.scrollTo({ top: 0, behavior: "smooth" });
@@ -1307,7 +1310,8 @@ document.addEventListener("DOMContentLoaded", updateFooter);
  });
 
 
-
+ });
+ 
 
 
 
