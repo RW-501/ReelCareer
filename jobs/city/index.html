@@ -284,7 +284,7 @@
 function searchCities(containerId) {
   const searchTerm = document.getElementById('job-search').value.toLowerCase();
   const jobsContainer = document.getElementById(containerId);
-
+  
   if (!jobsContainer || !jobsContainer.dataset.jobs) {
     console.error("Jobs container or dataset not found.");
     return;
@@ -292,39 +292,38 @@ function searchCities(containerId) {
 
   const jobs = JSON.parse(jobsContainer.dataset.jobs);
 
-  // Filter jobs by city, ensuring the city matches the search term
-  const filteredJobs = jobs.filter(job => job.city.toLowerCase().includes(searchTerm.toLowerCase()));
+  // Filter jobs based on both title and city
+  const filteredJobs = jobs.filter(job => 
+    job.city.toLowerCase().includes(searchTerm) || 
+    job.title.toLowerCase().includes(searchTerm)
+  );
 
   if (filteredJobs.length === 0) {
     jobsContainer.innerHTML = '<p>No jobs found matching your search.</p>';
     return;
   }
 
-  // Generate HTML for filtered jobs
-  const jobsHTML = filteredJobs.map(job => `
-    <div class="job-card" data-job-title="${job.title}" data-job-company="${job.company}" data-job-location="${job.city}, ${job.state}">
-      <h2>${job.title}</h2>
-      <p><strong>Company:</strong> ${job.company}</p>
-      <p><strong>Industry:</strong> ${job.industry}</p>
-      <p><strong>Location:</strong> ${job.city}, ${job.state}</p>
-      <p><strong>Salary:</strong> $${job.salary.toLocaleString()}</p>
-      <p><strong>Description:</strong> ${job.description}</p>
-      <a href="${job.url}" class="apply-link">View Job</a>
-    </div>
-  `).join("");
+  // Generate filtered job list (show title, company, and location)
+  const jobHTML = filteredJobs
+    .map(job => `
+      <div class="job-card" data-job-title="${job.title}" data-job-company="${job.company}" data-job-location="${job.city}, ${job.state}">
+        <h2>${job.title}</h2>
+        <p><strong>Company:</strong> ${job.company}</p>
+        <p><strong>Location:</strong> ${job.city}, ${job.state}</p>
+        <p><strong>Salary:</strong> $${job.salary.toLocaleString()}</p>
+        <a href="${job.url}" class="apply-link">View Job</a>
+      </div>
+    `).join("");
 
-  // Inject the filtered jobs into the container
   jobsContainer.innerHTML = `
     <div class="jobs-header">
-      <h2 class="header-title">Filtered Jobs by City</h2>
+      <h2 class="header-title">Filtered Jobs</h2>
       <hr class="header-divider">
     </div>
-    <div id="cityListContainer" class="city-list">${jobsHTML}</div>
+    <div id="state-city-body-Container" class="state-city-body">${jobHTML}</div>
   `;
 }
-
-
-        async function fetchJobsByCity(cityName, container) {
+      async function fetchJobsByCity(cityName, container) {
           const jobsContainer = document.getElementById(container);
 
           try {
