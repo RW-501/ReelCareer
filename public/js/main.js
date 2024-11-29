@@ -8,6 +8,9 @@ import {
   auth, analytics, googleProvider,  getDownloadURL
 } from 'https://reelcareer.co/js/module.js';
 
+// Initialize Google and Facebook Auth Providers
+const googleProvider = new GoogleAuthProvider();
+const facebookProvider = new FacebookAuthProvider();
 
 let UserID = "";
 let userData = "";
