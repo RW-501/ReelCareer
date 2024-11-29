@@ -75,6 +75,9 @@ document.addEventListener('DOMContentLoaded', () => {
       await saveUserLoginState(user);
       const UserID = user.uid;
 
+      handleAuthStateChanged(user);
+      createProfileModal();
+
       // Redirect to the user page if on the auth page
       if (window.location.pathname === "/views/auth") {
         window.location.href = "/views/user";
@@ -86,6 +89,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
+
+
 
 // Event listener to handle clicks outside dropdown to close it
 document.addEventListener('click', (e) => {
@@ -409,10 +414,6 @@ window.addEventListener('load', () => {
   }
 });
 
-window.addEventListener('load', () => {
-  handleAuthStateChanged(currentUser);
-  createProfileModal();
-});
 
 
 // Helper function to handle authentication state changes
