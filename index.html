@@ -397,6 +397,7 @@ async function fetchJobListings(userJobInterest) {
     let locationSnapshot = null;
     let titleSnapshot = null;
 
+    // Title query
     if (userJobInterest) {
       const titleQuery = query(
         jobsQuery,
@@ -423,11 +424,24 @@ async function fetchJobListings(userJobInterest) {
       console.log('Location query returned results:', hasResults(locationSnapshot));
     }
 
-    // Process and merge results
+    // Process results from both queries
     const jobDocs = [
       ...(locationSnapshot ? locationSnapshot.docs : []),
       ...(titleSnapshot ? titleSnapshot.docs : [])
     ];
+
+    if (jobDocs.length === 0) {
+      // Fallback to fetching all active listings
+      const fallbackQuery = query(
+        jobsQuery,
+        where('status', '==', 'active'),
+        orderBy('createdAt', 'desc'),
+        limit(limits)
+      );
+      const fallbackSnapshot = await getDocs(fallbackQuery);
+      console.log('Fallback query returned results:', hasResults(fallbackSnapshot));
+      jobDocs.push(...fallbackSnapshot.docs);
+    }
 
     // Shuffle the jobDocs array
     const randomizedJobDocs = shuffleArray(jobDocs);
@@ -449,11 +463,13 @@ async function fetchJobListings(userJobInterest) {
         ) {
           // Add the source field based on the source of the listing
           if (locationSnapshot && locationSnapshot.docs.includes(doc)) {
-            job.source = 'Location'; // Job was found through location query
+            job.source = 'Location';
           } else if (titleSnapshot && titleSnapshot.docs.includes(doc)) {
-            job.source = 'Job Interest'; // Job was found through job interest query
+            job.source = 'Job Interest';
+          } else {
+            job.source = 'Fallback'; // Job found via fallback query
           }
-          console.log('Job object with source:', job); // Debugging line
+          console.log('Job object with source:', job);
 
           jobListingsCache.push(job);
           seenIDs.add(doc.id);
@@ -475,6 +491,7 @@ async function fetchJobListings(userJobInterest) {
     loadingIndicator.style.display = 'none';
   }
 }
+
 
 // Function to render jobs in batches of 30
 function renderJobs() {
