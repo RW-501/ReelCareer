@@ -829,6 +829,7 @@ main .jobCard:hover {
                 align-content: stretch;
                 align-items: baseline;
                 justify-items: start;
+                width: 100%;
               }
             
               .state-city-card {
