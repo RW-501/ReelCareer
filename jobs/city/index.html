@@ -350,7 +350,7 @@ async function displayCityList(jobsContainer) {
     document.getElementById('cityListContainer').innerHTML = '<p>Error loading jobs. Please try again later.</p>';
   }
 }
-function searchJobs() {
+function searchJobs(container) {
   const searchTerm = document.getElementById('job-search').value.toLowerCase();
   const jobsContainer = document.getElementById(container);
   const jobs = JSON.parse(jobsContainer.dataset.jobs);
