@@ -1118,8 +1118,7 @@ document.getElementById('tag-list').textContent = jobTags.join(', ');
         return companySchema;
       }
     }
-    // Load job details on page load
-    document.addEventListener('DOMContentLoaded', fetchJobDetails);
+
   //  console.log("jobTags ??document???????/!   ",jobTags);
 
 // Make the function globally accessible by attaching it to the `window` object
@@ -1296,20 +1295,25 @@ window.addEventListener('beforeunload', updateJobViewData);
 // Function to fetch similar jobs based on tags
 
 document.addEventListener("DOMContentLoaded", () => {
+
+});
+
+window.onload = async function () {
   setTimeout(() => {
-  
-      // Retrieve user interests for tags and jobs
+      // Load job details on page load
+      document.addEventListener('DOMContentLoaded', fetchJobDetails);
+  // Retrieve user interests for tags and jobs
 let uTagInterestNorm = getUserTagInterest();
 
 let uJobInterestNorm = getUserJobInterest();
 
 // Load job listings on page load
-  getSimilarJobs(uJobInterestNorm, 'similarJobsContainer');
+getSimilarJobs(uJobInterestNorm, 'similarJobsContainer');
 
-    loadRelatedBlogs(uTagInterestNorm, "blogContainer");
+loadRelatedBlogs(uTagInterestNorm, "blogContainer");
 
-  }, 1000);
-});
+}, 1000);
+};
 
   </script>
 
