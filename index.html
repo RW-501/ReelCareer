@@ -328,9 +328,6 @@ border-radius: 12px;
 
 
 
-
-
-
 // Function to shuffle an array (Fisher-Yates Shuffle)
 function shuffleArray(array) {
   for (let i = array.length - 1; i > 0; i--) {
@@ -340,48 +337,23 @@ function shuffleArray(array) {
   return array;
 }
 
-
 const limits = 25;
 let showCount = 0;
 let jobListingsCache = [];
-let lastVisible; // Keep track of pagination
-const seenTitles = new Set();
 const seenIDs = new Set();
 
-let excludedIds = [];
-
-
 function prepareLocationForFirebase(userlocationData) {
-  // Check if the data is a string and parse it
   if (typeof userlocationData === 'string') {
-    userlocationData = JSON.parse(userlocationData);  // Parse the string to an object
+    userlocationData = JSON.parse(userlocationData); // Parse if it's a string
   }
-
-  //console.log('Raw userlocationData:', userlocationData);
-
-  // Directly extract location components (no need for type check)
- const { city, state, zip, country } = userlocationData;
-
-  // Log extracted values to ensure they are being picked up
- // console.log('City:', city, 'State:', state, 'Zip:', zip, 'Country:', country);
-
-  // Prepare location array for Firestore query (handling missing data with defaults)
-  const locationArray = [
-    city || '',      // Default to an empty string if undefined or null
-    state || '',
-    zip || '',
-    country || ''
-  ];
-
- // console.log('Prepared Location Array:', locationArray);
-  return locationArray;
+  const { city, state, zip, country } = userlocationData || {};
+  return [city || '', state || '', zip || '', country || ''];
 }
 
 async function fetchJobListings(userJobInterest) {
   console.log('userJobInterest:', userJobInterest);
-  jobListingsCache = [];
-  let userlocationData = sessionStorage.getItem('userLocation');
-
+  jobListingsCache = []; // Clear cache before fetching
+  const userlocationData = sessionStorage.getItem('userLocation');
   const jobListingsContainer = document.getElementById('jobListings');
   const loadingIndicator = document.getElementById('loadingIndicator');
   const errorIndicator = document.getElementById('errorIndicator');
@@ -392,13 +364,10 @@ async function fetchJobListings(userJobInterest) {
   try {
     const jobsQuery = collection(db, 'Jobs');
 
-    // Helper to validate results
     const hasResults = (snapshot) => snapshot && snapshot.docs.length > 0;
-
     let locationSnapshot = null;
     let titleSnapshot = null;
 
-    // Title query
     if (userJobInterest) {
       const titleQuery = query(
         jobsQuery,
@@ -411,7 +380,6 @@ async function fetchJobListings(userJobInterest) {
       console.log('Title query returned results:', hasResults(titleSnapshot));
     }
 
-    // Location query
     if (userlocationData) {
       const locationArray = prepareLocationForFirebase(userlocationData);
       const locationQuery = query(
@@ -425,15 +393,12 @@ async function fetchJobListings(userJobInterest) {
       console.log('Location query returned results:', hasResults(locationSnapshot));
     }
 
-    // Process results from both queries
-    const jobDocs = [
-      ...(locationSnapshot ? locationSnapshot.docs : []),
-      ...(titleSnapshot ? titleSnapshot.docs : [])
+    let jobDocs = [
+      ...(locationSnapshot?.docs || []),
+      ...(titleSnapshot?.docs || [])
     ];
 
-
     if (jobDocs.length === 0) {
-      // Fallback to fetching all active listings
       const fallbackQuery = query(
         jobsQuery,
         where('status', '==', 'active'),
@@ -442,131 +407,65 @@ async function fetchJobListings(userJobInterest) {
       );
       const fallbackSnapshot = await getDocs(fallbackQuery);
       console.log('Fallback query returned results:', hasResults(fallbackSnapshot));
-      jobDocs.push(...fallbackSnapshot.docs);
+      jobDocs = [...(fallbackSnapshot?.docs || [])];
     }
 
-    // Shuffle the jobDocs array
     const randomizedJobDocs = shuffleArray(jobDocs);
 
     randomizedJobDocs.forEach((doc) => {
       const job = { id: doc.id, ...doc.data() };
-
-      console.log('seenIDs:', seenIDs, 'doc.id:', doc.id);
-
-      // Avoid duplicates
       if (!seenIDs.has(doc.id)) {
-        if (
-          isValidValue(job.title) &&
-          isValidValue(job.type) &&
-          isValidValue(job.description) &&
-          isValidValue(job.company) &&
-          isValidValue(job.location) &&
-          isValidValue(job.salary)
-        ) {
-          // Add the source field based on the source of the listing
-          if (locationSnapshot && locationSnapshot.docs.includes(doc)) {
-            job.source = 'Location';
-          } else if (titleSnapshot && titleSnapshot.docs.includes(doc)) {
-            job.source = 'Job Interest';
-          } else {
-            job.source = 'Fallback'; // Job found via fallback query
-          }
-          console.log('Job object with source:', job);
-
+        if (isValidValue(job.title) && isValidValue(job.description)) {
           jobListingsCache.push(job);
           seenIDs.add(doc.id);
         }
       }
     });
 
-    // Render only if jobListingsCache is non-empty
     if (jobListingsCache.length > 0) {
-      renderJobs(jobListingsCache);
+      renderJobs();
     } else {
       console.log('No job listings found');
       errorIndicator.style.display = 'block';
     }
   } catch (error) {
-    console.log('Error fetching job listings:', error);
+    console.error('Error fetching job listings:', error);
     errorIndicator.style.display = 'block';
   } finally {
     loadingIndicator.style.display = 'none';
   }
 }
 
-// Function to render jobs in batches of 30
 function renderJobs() {
-
   if (!Array.isArray(jobListingsCache)) {
     console.error('jobListingsCache is not an array.');
     return;
   }
-  const jobListingsContainer = document.getElementById('jobListings');
-  
-  // Only render the next 30 jobs from cache, if available
-  const jobsToRender = jobListingsCache.slice(showCount, showCount + 30);
-  console.log('jobsToRender:   ', jobsToRender);
 
-  jobsToRender.forEach(job => createJobCard(job, jobListingsContainer));
+  const jobListingsContainer = document.getElementById('jobListings');
+  const jobsToRender = jobListingsCache.slice(showCount, showCount + 30);
+
+  jobsToRender.forEach((job) => createJobCard(job, jobListingsContainer));
   showCount += jobsToRender.length;
 
-  // Add "Load More" button if more jobs are available in cache
   if (showCount < jobListingsCache.length) {
     const loadMoreButton = createLoadMoreButton(renderJobs);
     jobListingsContainer.appendChild(loadMoreButton);
-
-
- const noResultsMessage = document.getElementById("noResultsMessage");
-if(noResultsMessage){
-noResultsMessage.style.display = 'none';
+  } else {
+    const backToTopDiv = `
+      <div class="text-center m-auto mt-4" style="cursor: pointer;">
+        <h3 class="font-weight-bold">Back to Top</h3>
+      </div>
+    `;
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = backToTopDiv;
+    tempDiv.addEventListener('click', backToTop);
+    jobListingsContainer.appendChild(tempDiv);
+  }
 }
 
-
-// Create the logo HTML string
-const theLogo = `
-    <div class="text-center m-auto mt-4">
-        <h3 class="font-weight-bold embedded-Logo">ReelCareer.co</h3>
-    </div>
-`;
-
-// Use insertAdjacentHTML to add the logo directly to the jobListingsContainer
-jobListingsContainer.insertAdjacentHTML('beforeend', theLogo);
-
-// Append the parsed HTML (the first child of tempDiv)
-//jobListingsContainer.appendChild(tempDiv);
-
-
-  }else{
-    window.onload = function() {
-    const theDiv = `
-        <div class="text-center m-auto mt-4" style="cursor: pointer;">
-            <h3 class="font-weight-bold">Back to Top</h3>
-        </div>
-    `;
-
-    const tempDiv = document.createElement('span');
-    tempDiv.style.transition = 'opacity 0.5s ease';
-    tempDiv.style.display = 'block';
-    tempDiv.innerHTML = theDiv;
-
-    // Set up the click event to call backToTop
-    tempDiv.onclick = () => {
-        backToTop(); // Call the function to scroll to the top
-    };
-
-    // Optionally, you can add styling or classes to the tempDiv for easier styling
-    tempDiv.classList.add('back-to-top'); // Add a class for easier styling
-
-    // Append the div to the job listings container
-    const jobListingsContainer = document.getElementById('jobListingsContainer'); // Ensure the ID is correct
-    if (jobListingsContainer) {
-        jobListingsContainer.appendChild(tempDiv);
-    } else {
-        console.error("jobListingsContainer not found in the DOM.");
-    }
-};
-
-  }
+function isValidValue(value) {
+  return value !== undefined && value !== null && value !== '';
 }
 
 // Function to create and return the Load More button
