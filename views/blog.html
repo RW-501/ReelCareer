@@ -572,10 +572,17 @@ function updatePagination() {
 
 
 // Initial call to fetch total posts and blogs for the first page
-(async function init() {
-    await fetchTotalPosts(); // Get the total number of posts
-    fetchBlogs(currentPage); // Fetch the first page
-})();
+window.onload = async function () {
+    try {
+        await fetchTotalPosts(); // Get the total number of posts
+        await fetchBlogs(currentPage); // Fetch the first page
+    } catch (error) {
+        console.error("Error during initialization:", error);
+    }
+};
+
+
+
     </script>
 
     <!-- Schema Markup for SEO -->
