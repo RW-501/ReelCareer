@@ -1184,7 +1184,9 @@ function updateFooter() {
 <button id="backToTop" title="Go to top">↑</button>
 
       </footer>`;
-    document.body.insertAdjacentHTML("beforeend", footerHTML);
+      const footer = document.getElementById('dynamic-footer');
+
+    footer.insertAdjacentHTML("beforeend", footerHTML);
   }
   
   // Render company media
