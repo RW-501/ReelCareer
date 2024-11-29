@@ -368,7 +368,7 @@ async function fetchJobListings(userJobInterest) {
     let locationSnapshot = null;
     let titleSnapshot = null;
 
-    if (userJobInterest) {
+    if (userJobInterest.length > 0) {
       const titleQuery = query(
         jobsQuery,
         where('status', '==', 'active'),
@@ -380,7 +380,7 @@ async function fetchJobListings(userJobInterest) {
       console.log('Title query returned results:', hasResults(titleSnapshot));
     }
 
-    if (userlocationData) {
+    if (userlocationData.length > 0) {
       const locationArray = prepareLocationForFirebase(userlocationData);
       const locationQuery = query(
         jobsQuery,
@@ -398,7 +398,7 @@ async function fetchJobListings(userJobInterest) {
       ...(titleSnapshot?.docs || [])
     ];
 
-    if (jobDocs.length === 0) {
+    if (jobDocs.length == 0) {
       const fallbackQuery = query(
         jobsQuery,
         where('status', '==', 'active'),
