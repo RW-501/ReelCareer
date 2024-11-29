@@ -1447,8 +1447,7 @@ window.addEventListener('load', function() {
            //Reference the 'Blogs' collection
           const blogsRef = collection(db, 'Blogs');
           const blogContainer = document.getElementById('blogContainer');
-          let displayedBlogs = 0; // Track how many blogs have been displayed
-          const blogsPerPage = 3; // Number of blogs to show at a time
+
 
    
      
