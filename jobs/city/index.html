@@ -206,7 +206,7 @@
         } from 'https://reelcareer.co/js/module.js';
 
 
-        async function displayCityList(jobsContainerId) {
+        async function displayCityList(jobsContainer) {
   try {
     const jobsRef = collection(db, "Jobs");
     const snapshot = await getDocs(jobsRef);
@@ -232,7 +232,7 @@
     });
 
     // Get the jobs container element
-    const jobsContainer = document.getElementById(jobsContainerId);
+
     if (!jobsContainer) throw new Error("Jobs container element not found");
 
     // Save jobs data as JSON for filtering
