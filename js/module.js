@@ -85,7 +85,7 @@ export {  db,getStorage, ref, uploadBytes, getDownloadURL,limit ,
     doc,arrayUnion, RecaptchaVerifier ,increment, getDoc   ,signInWithPhoneNumber,
      query, updateDoc , setDoc, addDoc,signInAnonymously, orderBy,onAuthStateChanged,
       signInWithPopup,FacebookAuthProvider, GoogleAuthProvider,startAfter ,
-       OAuthProvider, signOut, onAuthStateChanged, deleteDoc, getFirestore,
+       OAuthProvider, signOut, deleteDoc, getFirestore,
         createUserWithEmailAndPassword, signInWithEmailAndPassword, deleteObject,
          where, getDocs,googleProvider,facebookProvider,  storage, getAuth, collection, auth, analytics };
 
