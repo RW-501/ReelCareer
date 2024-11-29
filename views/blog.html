@@ -251,7 +251,7 @@
     
 
     let page = 1;
-let postsPerPage = 1; // Define your posts per page
+let postsPerPage = 5; // Define your posts per page
 let currentPage = 1;
 let totalPosts = 0; // Track total number of posts
 let lastVisibleDoc = null; // For pagination tracking (Firestore pagination)
@@ -294,9 +294,17 @@ async function fetchBlogs(page) {
             let blogsQuery = query(blogsRef, where("activate", "==", true), limit(postsPerPage));
 
             // Handle pagination using Firestore's `startAfter`
-            if (page > 1 && lastVisibleDoc) {
-                blogsQuery = query(blogsRef, where("activate", "==", true), startAfter(lastVisibleDoc), limit(postsPerPage));
-            }
+if (page > 1 && lastVisibleDoc) {
+    blogsQuery = query(
+        blogsRef,
+        where("activate", "==", true),
+        startAfter(lastVisibleDoc),
+        limit(postsPerPage)
+    );
+} else {
+    blogsQuery = query(blogsRef, where("activate", "==", true), limit(postsPerPage));
+}
+
 
             console.log("Blogs Query:", blogsQuery);
             const querySnap = await getDocs(blogsQuery);
