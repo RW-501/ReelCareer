@@ -1235,7 +1235,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Render dynamic content
   renderFooterLinks();
   renderCompanyMedia();
-
+console.log("footer loaded?");
   // Back to Top Button Functionality
   const backToTopButton = document.getElementById("backToTop");
   if (backToTopButton) {
