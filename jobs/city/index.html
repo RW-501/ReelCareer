@@ -446,7 +446,7 @@ fetchJobsByCity(cityName);
       
 
   // Attach search event
-  document.getElementById('job-search').addEventListener('input', searchCities(container));
+  document.getElementById('job-search').addEventListener('input', () => searchCities(container));
 
 });
 
