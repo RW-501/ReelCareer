@@ -1270,28 +1270,8 @@ function updateFooter() {
 
 
 
-  // Back to Top Button Functionality
-  document.getElementById("backToTop").addEventListener("click", () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  });
-
-
-  // Update the event listener for the form
-  document
-    .getElementById("newsletterFormBtn")
-    .addEventListener("submit", async function (event) {
-      event.preventDefault();
-      const email = this.querySelector('input[type="email"]').value;
-
-      // Check if user agreed to the data privacy policy
-      if (!document.getElementById("dataPrivacy").checked) {
-        showToast("You must agree to the data privacy policy.", 'warning');
-        return;
-      }
-
-      // Handle the newsletter signup process
-      await handleNewsletterSignup(email);
-    });
+ 
+ 
 }
 
 // Call the function to update the footer when the document is loaded
@@ -1304,7 +1284,27 @@ document.addEventListener("DOMContentLoaded", updateFooter);
 
 
 
+ // Back to Top Button Functionality
+ document.getElementById("backToTop").addEventListener("click", () => {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+});
 
+ // Update the event listener for the form
+ document
+ .getElementById("newsletterFormBtn")
+ .addEventListener("submit", async function (event) {
+   event.preventDefault();
+   const email = this.querySelector('input[type="email"]').value;
+
+   // Check if user agreed to the data privacy policy
+   if (!document.getElementById("dataPrivacy").checked) {
+     showToast("You must agree to the data privacy policy.", 'warning');
+     return;
+   }
+
+   // Handle the newsletter signup process
+   await handleNewsletterSignup(email);
+ });
 
 
 
