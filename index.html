@@ -343,13 +343,14 @@ let jobListingsCache = [];
 const seenIDs = new Set();
 
 
-async function fetchJobListings(userJobInterest) {
-  console.log('userJobInterest:', userJobInterest);
+async function fetchJobListings() {
+
   jobListingsCache = []; // Clear cache before fetching
   const userlocationData = sessionStorage.getItem('userLocation');
   const jobListingsContainer = document.getElementById('jobListings');
   const loadingIndicator = document.getElementById('loadingIndicator');
   const errorIndicator = document.getElementById('errorIndicator');
+  const userJobInterest = getUserJobInterest();
 
   loadingIndicator.style.display = 'block';
   errorIndicator.style.display = 'none';
