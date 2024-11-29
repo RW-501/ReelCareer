@@ -927,87 +927,6 @@ function displayEmptyState(container, message, iconClass = 'fas fa-search') {
 
 
 
-function rollInAnimations(config = {}) {
-  // Default configuration
-  const {
-      delayBetweenDivs = 300, // Delay between div animations (ms)
-      initialBodyDelay = 1000, // Delay before showing body (ms)
-      animationDuration = 600, // Animation duration (ms)
-      animationTimingFunction = 'ease', // CSS timing function
-      hiddenClass = 'hidden', // Class to hide body
-  } = config;
-
-  // Inject CSS Styles
-  const loadingStyle = document.createElement('style');
-  loadingStyle.innerHTML = `
-      /* Hide body initially */
-      body.${hiddenClass} { 
-          opacity: 0; 
-          overflow: hidden;
-      }
-  
-      /* Hidden state for .main child divs */
-      .main > div {
-          opacity: 0;
-          transform: translateX(-100%);
-          transition: opacity ${animationDuration}ms ${animationTimingFunction}, 
-                      transform ${animationDuration}ms ${animationTimingFunction};
-      }
-  
-      /* Roll-in effect */
-      .main > div.roll-in {
-          opacity: 1;
-          transform: translateX(0);
-      }
-  `;
-  document.head.appendChild(loadingStyle);
-
-  // Main roll-in logic
-  document.addEventListener('DOMContentLoaded', function () {
-      const mainDivs = document.querySelectorAll('.main > div');
-
-      // Check if elements exist
-      if (!mainDivs.length) {
-          console.warn('No child divs found in .main container for animations.');
-          return;
-      }
-
-      // Hide body initially
-      document.body.classList.add(hiddenClass);
-      document.body.setAttribute('aria-hidden', 'true');
-
-      // Reveal body and trigger roll-in animations
-      setTimeout(() => {
-          document.body.classList.remove(hiddenClass);
-          document.body.removeAttribute('aria-hidden');
-          console.log('Body revealed, starting roll-in animations...');
-
-          // Sequentially add the "roll-in" class to each div with a delay
-          mainDivs.forEach((div, index) => {
-              setTimeout(() => {
-                  div.classList.add('roll-in');
-                  console.log(`Div #${index + 1} roll-in animation triggered.`);
-              }, index * delayBetweenDivs);
-          });
-      }, initialBodyDelay);
-  });
-}
-
-// Example usage
-rollInAnimations({
-  delayBetweenDivs: 500,
-  initialBodyDelay: 1500,
-  animationDuration: 700,
-  animationTimingFunction: 'cubic-bezier(0.68, -0.55, 0.27, 1.55)' // Easing function for bounce effect
-});
-
-
-
-
-
-
-
-
 
 
 
@@ -2255,6 +2174,87 @@ if (window.checkUrl("/backend/") || window.checkUrl("/backend")) {
 checkUserLoginStatus();
 
 });
+
+
+
+
+
+
+function rollInAnimations(config = {}) {
+  // Default configuration
+  const {
+      delayBetweenDivs = 300, // Delay between div animations (ms)
+      initialBodyDelay = 1000, // Delay before showing body (ms)
+      animationDuration = 600, // Animation duration (ms)
+      animationTimingFunction = 'ease', // CSS timing function
+      hiddenClass = 'hidden', // Class to hide body
+  } = config;
+
+  // Inject CSS Styles
+  const loadingStyle = document.createElement('style');
+  loadingStyle.innerHTML = `
+      /* Hide body initially */
+      body.${hiddenClass} { 
+          opacity: 0; 
+          overflow: hidden;
+      }
+  
+      /* Hidden state for .main child divs */
+      .main > div {
+          opacity: 0;
+          transform: translateX(-100%);
+          transition: opacity ${animationDuration}ms ${animationTimingFunction}, 
+                      transform ${animationDuration}ms ${animationTimingFunction};
+      }
+  
+      /* Roll-in effect */
+      .main > div.roll-in {
+          opacity: 1;
+          transform: translateX(0);
+      }
+  `;
+  document.head.appendChild(loadingStyle);
+
+  // Main roll-in logic
+  document.addEventListener('DOMContentLoaded', function () {
+      const mainDivs = document.querySelectorAll('.main > div');
+
+      // Check if elements exist
+      if (!mainDivs.length) {
+          console.warn('No child divs found in .main container for animations.');
+          return;
+      }
+
+      // Hide body initially
+      document.body.classList.add(hiddenClass);
+      document.body.setAttribute('aria-hidden', 'true');
+
+      // Reveal body and trigger roll-in animations
+      setTimeout(() => {
+          document.body.classList.remove(hiddenClass);
+          document.body.removeAttribute('aria-hidden');
+          console.log('Body revealed, starting roll-in animations...');
+
+          // Sequentially add the "roll-in" class to each div with a delay
+          mainDivs.forEach((div, index) => {
+              setTimeout(() => {
+                  div.classList.add('roll-in');
+                  console.log(`Div #${index + 1} roll-in animation triggered.`);
+              }, index * delayBetweenDivs);
+          });
+      }, initialBodyDelay);
+  });
+}
+
+// Example usage
+rollInAnimations({
+  delayBetweenDivs: 500,
+  initialBodyDelay: 1500,
+  animationDuration: 700,
+  animationTimingFunction: 'cubic-bezier(0.68, -0.55, 0.27, 1.55)' // Easing function for bounce effect
+});
+
+
 
 
 
