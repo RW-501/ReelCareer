@@ -1440,14 +1440,13 @@ window.addEventListener('load', function() {
 
 
 
-  window.loadRelatedBlogs = async function(jobTags, containerId) {
+  window.loadRelatedBlogs = async function() {
       try {
 
 
            //Reference the 'Blogs' collection
           const blogsRef = collection(db, 'Blogs');
-          const blogContainer = document.getElementById(containerId);
-          const showMoreButton = document.createElement('button');
+          const blogContainer = document.getElementById('blogContainer');
           let displayedBlogs = 0; // Track how many blogs have been displayed
           const blogsPerPage = 3; // Number of blogs to show at a time
 
@@ -1486,7 +1485,7 @@ window.addEventListener('load', function() {
                     console.log("allBlogs:", allBlogs);
 
                     // Display the first set of blogs
-                    displayBlogs();
+                    displayBlogs(allBlogs);
 
                   }else{
                     console.log("No blogs...");
@@ -1499,11 +1498,10 @@ window.addEventListener('load', function() {
           }
 
           // Function to display blogs
-          function displayBlogs() {
-              const blogsToShow = allBlogs.slice(displayedBlogs, displayedBlogs + blogsPerPage);
+          function displayBlogs(allBlogs) {
               console.log("Displaying blogs...");
 
-              blogsToShow.forEach(blog => {
+              allBlogs.forEach(blog => {
                   const blogCard = document.createElement('div');
                   blogCard.classList.add('blogCard'); // Use Bootstrap column classes for spacing
                   blogCard.innerHTML = `
@@ -1523,12 +1521,8 @@ window.addEventListener('load', function() {
                   blogContainer.appendChild(blogCard);
               });
 
-              displayedBlogs += blogsToShow.length;
 
-              // Hide button if no more blogs to display
-              if (displayedBlogs >= allBlogs.length) {
-                  showMoreButton.style.display = 'none'; // Hide the button if there are no more blogs
-              }
+         
           }
 
           // Event listener for blog cards to open modal
