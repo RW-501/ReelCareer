@@ -19,7 +19,7 @@ import {
     getAuth,
     signInWithPopup, 
     GoogleAuthProvider, 
-    FacebookAuthProvider, 
+    FacebookAuthProvider, facebookProvider,
     OAuthProvider, signInAnonymously  ,
     signOut, RecaptchaVerifier,
     onAuthStateChanged, signInWithPhoneNumber,
