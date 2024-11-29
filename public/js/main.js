@@ -706,6 +706,8 @@ async function loadRelatedBlogs() {
   }
 }
 
+window.loadRelatedBlogs = loadRelatedBlogs;
+
 // Function to display fetched blogs
 function displayBlogs(blogs, container) {
   container.innerHTML = ''; // Clear previous blogs
@@ -736,9 +738,9 @@ function displayBlogs(blogs, container) {
 }
 
 // Function to fetch and display similar jobs with better handling
-async function getSimilarJobs(containerId) {
+async function getSimilarJobs() {
   const maxSimilarJobs = 6;
-  const jobsContainer = document.getElementById(containerId);
+  const jobsContainer = document.getElementById('similarJobsContainer');
 
   try {
       const jobInterestNorm = getUserJobInterest();
@@ -773,6 +775,7 @@ async function getSimilarJobs(containerId) {
       displayEmptyState(jobsContainer, 'Error loading similar jobs.', 'fas fa-exclamation-triangle');
   }
 }
+window.getSimilarJobs = getSimilarJobs;
 
 // Function to create a job card element
 function createJobCard(jobId, jobData) {
@@ -805,10 +808,6 @@ function displayEmptyState(container, message, iconClass = 'fas fa-search') {
   `;
 }
 
-window.addEventListener('load', () => {
-  loadRelatedBlogs();
-  getSimilarJobs('similarJobsContainer');
-});
 
 
 
