@@ -140,6 +140,14 @@
     display: block;
 }
 
+
+
+h3 {
+    font-size: 1.75rem;
+    color: #83bad9;
+    text-shadow: -1px 1px 0px #9e9a9a;
+    font-weight: 800;
+}
     </style>
    <!-- Bootstrap CSS -->
    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -159,7 +167,7 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li id="lastBreadcrumb_home" class="breadcrumb-item"><a href="https://reelcareer.co/">Home</a></li>
-          <li id="lastBreadcrumb_last" class="breadcrumb-item"><a id="lastBreadcrumb_a" href="https://reelcareer.co/views/blogs">Blogs</a></li>
+          <li id="lastBreadcrumb_last" class="breadcrumb-item"><a id="lastBreadcrumb_a" href="https://reelcareer.co/views/blog">Blogs</a></li>
           <li class="breadcrumb-item active" aria-current="page">Blog</li>
         </ol>
       </nav>
@@ -354,9 +362,10 @@ if (page > 1 && lastVisibleDoc) {
           margin-bottom: 15px;">${blogData.title}</h3>
 
       <img src="${blogData.imageUrl}" alt="${blogData.imageCaption}" style="
-          width: 100%; 
+          width: 50%; 
           height: auto; 
-          border-radius: 8px; 
+          border-radius: 8px;
+          margin: auto; 
           margin-bottom: 20px; 
           object-fit: cover;"/>
 
