@@ -431,7 +431,7 @@ async function fetchJobListings(userJobInterest) {
       ...(titleSnapshot ? titleSnapshot.docs : [])
     ];
 
-    
+
     if (jobDocs.length === 0) {
       // Fallback to fetching all active listings
       const fallbackQuery = query(
@@ -487,7 +487,7 @@ async function fetchJobListings(userJobInterest) {
       errorIndicator.style.display = 'block';
     }
   } catch (error) {
-    console.error('Error fetching job listings:', error);
+    console.log('Error fetching job listings:', error);
     errorIndicator.style.display = 'block';
   } finally {
     loadingIndicator.style.display = 'none';
