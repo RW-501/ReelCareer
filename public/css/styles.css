@@ -927,6 +927,17 @@ main .jobCard:hover {
               }
 
               /* Container styling */
+
+              .listContainer {
+                display: flex;
+                flex-direction: row;
+                gap: 10px;
+                justify-content: space-around;
+                align-items: flex-start;
+                flex-wrap: wrap;
+              }
+
+              
 .jobs-header {
     text-align: center;
     margin-bottom: 20px;
