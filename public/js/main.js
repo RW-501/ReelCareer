@@ -75,6 +75,10 @@ document.addEventListener('DOMContentLoaded', () => {
       await saveUserLoginState(user);
       const UserID = user.uid;
 
+      if (localStorage.getItem("darkMode") === "true") {
+        document.body.classList.add("dark-mode");
+      }
+
       handleAuthStateChanged(user);
       createProfileModal();
 
@@ -388,6 +392,7 @@ function toggleDarkMode() {
   document.body.classList.toggle("dark-mode");
   localStorage.setItem("darkMode", document.body.classList.contains("dark-mode"));
 }
+
 
 // Add smoother transitions for modals and popups
 const applySmoothTransitions = () => {
@@ -724,16 +729,6 @@ function generateFileInput(id, label) {
 function capitalize(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
-
-// Initialize
-window.onload = () => {
-  if (localStorage.getItem("darkMode") === "true") {
-    document.body.classList.add("dark-mode");
-  }
-
-  handleAuthStateChanged(currentUser);  // This function will handle both login/logout logic and rendering user-specific content.
-  createProfileModal();  // Render profile modal when page loads.
-};
 
 
 
@@ -1161,50 +1156,6 @@ function updateFooter() {
   
   
   
-  
-  // Handle newsletter signup
-  async function handleNewsletterSignup(email) {
-    const { rateLimitTime, maxAttempts, storageKey, messages } = config.newsletter;
-    let attempts = 0;
-    let firstAttemptTime = null;
-  
-    try {
-      const ipAddress = await getUserIP();
-      const location = await getUserLocation();
-  
-      if (localStorage.getItem(storageKey)) {
-        showToast(messages.alreadySubscribed, "warning");
-        return;
-      }
-  
-      const currentTime = Date.now();
-      if (!firstAttemptTime || currentTime - firstAttemptTime > rateLimitTime) {
-        attempts = 0; // Reset attempts
-        firstAttemptTime = currentTime;
-      }
-  
-      if (attempts >= maxAttempts) {
-        showToast(messages.tooManyAttempts, "error");
-        return;
-      }
-  
-      attempts++;
-      await db.collection("NewsLetter").add({
-        email,
-        ipAddress,
-        location,
-        timestamp: firebase.firestore.FieldValue.serverTimestamp()
-      });
-  
-      localStorage.setItem(storageKey, "true");
-      document.getElementById("newsletterMessage").textContent = messages.success(email);
-  
-    } catch (error) {
-      console.error("Newsletter signup failed:", error);
-      document.getElementById("newsletterMessage").textContent = error.message || messages.error;
-    }
-  }
-  
 
 
     // Group links by category
@@ -1287,6 +1238,50 @@ document.addEventListener("DOMContentLoaded", updateFooter);
 
  document.addEventListener("DOMContentLoaded", () => {
 
+  
+  // Handle newsletter signup
+  async function handleNewsletterSignup(email) {
+    const { rateLimitTime, maxAttempts, storageKey, messages } = config.newsletter;
+    let attempts = 0;
+    let firstAttemptTime = null;
+  
+    try {
+      const ipAddress = await getUserIP();
+      const location = await getUserLocation();
+  
+      if (localStorage.getItem(storageKey)) {
+        showToast(messages.alreadySubscribed, "warning");
+        return;
+      }
+  
+      const currentTime = Date.now();
+      if (!firstAttemptTime || currentTime - firstAttemptTime > rateLimitTime) {
+        attempts = 0; // Reset attempts
+        firstAttemptTime = currentTime;
+      }
+  
+      if (attempts >= maxAttempts) {
+        showToast(messages.tooManyAttempts, "error");
+        return;
+      }
+  
+      attempts++;
+      await db.collection("NewsLetter").add({
+        email,
+        ipAddress,
+        location,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+      });
+  
+      localStorage.setItem(storageKey, "true");
+      document.getElementById("newsletterMessage").textContent = messages.success(email);
+  
+    } catch (error) {
+      console.error("Newsletter signup failed:", error);
+      document.getElementById("newsletterMessage").textContent = error.message || messages.error;
+    }
+  }
+  
 
  // Back to Top Button Functionality
  document.getElementById("backToTop").addEventListener("click", () => {
