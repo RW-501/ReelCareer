@@ -322,8 +322,8 @@ function searchCities(containerId) {
 }
 
 
-        async function fetchJobsByCity(cityName) {
-          const jobsContainer = document.getElementById('cityListContainer');
+        async function fetchJobsByCity(cityName, container) {
+          const jobsContainer = document.getElementById(container);
 
           try {
       const jobsRef = collection(db, "Jobs");
@@ -449,7 +449,7 @@ const cityHeader = document.getElementById("city-header");
 cityHeader.innerHTML = cityHeader.innerHTML.replaceAll("[City Name]", cityName);
 
 // Fetch jobs for the specified city
-fetchJobsByCity(cityName);
+fetchJobsByCity(cityName,container );
 
       
 
