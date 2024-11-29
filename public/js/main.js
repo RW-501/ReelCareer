@@ -593,7 +593,7 @@ function membershipTabContent() {
 
 
 // Event handler for saving profile data
-function saveProfileData() {
+async function saveProfileData() {
   const profileData = {
     username: document.getElementById('usernameSET').value,
     email: document.getElementById('emailSET').value,
@@ -605,8 +605,99 @@ function saveProfileData() {
   };
 
   console.log(profileData);
-  // Save logic (e.g., send data to backend or Firebase)
+
+  /*
+  const userId = auth.currentUser.uid;
+    displayName: document.getElementById("usernameSET").value,
+    name: document.getElementById("nameSET").value,
+    location: document.getElementById("locationSET").value,
+    bio: document.getElementById("bioSET").value,
+    tags: document
+      .getElementById("tagsSET")
+      .value.split(",")
+      .map((tag) => tag.trim()),
+    github: document.getElementById("githubSET").value,
+    linkedin: document.getElementById("linkedinSET").value,
+    other: document.getElementById("otherSET").value,
+    portfolio: document.getElementById("portfolioSET").value,
+    position: document.getElementById("positionSET").value,
+    publicProfile: document.getElementById("publicProfileSET").checked
+*/
+  
+
+
+  // Check if a new profile picture is being uploaded
+  if (document.getElementById("profilePictureSET").files.length > 0) {
+    const file = document.getElementById("profilePictureSET").files[0];
+
+    const storageRef = ref(storage, "profilePictures/" + userId); // Use the 'ref' function from the modular SDK
+    try {
+      // Upload the file
+      const snapshot = await uploadBytes(storageRef, file);
+      // Get the download URL
+      const downloadURL = await getDownloadURL(snapshot.ref);
+      profileData.profilePicture = downloadURL;
+    } catch (error) {
+      console.error("Upload failed:", error);
+      return; // Exit if upload fails
+    }
+  }
+
+  saveProfile(userId, profileData);
+};
+
+function saveProfile(userId, profileData) {
+  const userDocRef = doc(db, "Users", userId);
+  setDoc(userDocRef, profileData, { merge: true })
+    .then(() => {
+      // Clear the stored user data in local storage since the profile has changed
+      localStorage.removeItem("userData");
+
+      // Optionally show a success message
+      // alert('Profile updated successfully');
+      //   $('#profileModal').modal('hide');
+      hideModal("profileModal");
+    })
+    .catch((error) => {
+      console.error("Error updating profile:", error);
+    });
 }
+
+
+// Function to show modal and load user data
+async function getModal(user) {
+try {
+  if (!user) {
+    console.log("No such user!");
+    return; // Exit early if no user
+  }
+
+  // Check if user data is already in local storage
+  const storedUserData = JSON.parse(localStorage.getItem("userData"));
+  if (storedUserData) {
+    console.log("Using stored user data");
+    populateFormFields(storedUserData);
+  } else {
+    // Fetch user data from Firestore
+    const userDocRef = doc(db, "Users", user.uid); // Reference to the user document
+    const userDoc = await getDoc(userDocRef); // Get the document
+
+    if (userDoc.exists()) {
+      // Check if the document exists
+      const userData = userDoc.data();
+      console.log("Firebase User Data:", userData);
+      localStorage.setItem("userData", JSON.stringify(userData));
+      populateFormFields(userData);
+    } else {
+      console.log("User data not found in Firestore.");
+    }
+  }
+} catch (error) {
+  console.error("Error fetching user data:", error);
+}
+}
+
+
 
 function generateInput(type, id, label, placeholder = '', required = false) {
   return `
