@@ -398,8 +398,6 @@ async function fetchJobListings(userJobInterest) {
     let titleSnapshot = null;
 
     if (userJobInterest) {
-     // console.log('userJobInterest:   ', userJobInterest);
-
       const titleQuery = query(
         jobsQuery,
         where('status', '==', 'active'),
@@ -408,16 +406,12 @@ async function fetchJobListings(userJobInterest) {
         limit(limits)
       );
       titleSnapshot = await getDocs(titleQuery);
-      console.log(
-        'Title query returned results:',
-        hasResults(titleSnapshot)
-      );
+      console.log('Title query returned results:', hasResults(titleSnapshot));
     }
+
     // Location query
     if (userlocationData) {
       const locationArray = prepareLocationForFirebase(userlocationData);
-     // console.log('locationArray: cleaned  ', locationArray);
-
       const locationQuery = query(
         jobsQuery,
         where('status', '==', 'active'),
@@ -426,14 +420,8 @@ async function fetchJobListings(userJobInterest) {
         limit(limits)
       );
       locationSnapshot = await getDocs(locationQuery);
-      console.log(
-        'Location query returned results:',
-        hasResults(locationSnapshot)
-      );
+      console.log('Location query returned results:', hasResults(locationSnapshot));
     }
-
-    // Title query (only if location returns no results)
-
 
     // Process and merge results
     const jobDocs = [
@@ -447,7 +435,7 @@ async function fetchJobListings(userJobInterest) {
     randomizedJobDocs.forEach((doc) => {
       const job = { id: doc.id, ...doc.data() };
 
-      console.log('seenIDs   ',seenIDs,'doc.id   ',doc.id);
+      console.log('seenIDs:', seenIDs, 'doc.id:', doc.id);
 
       // Avoid duplicates
       if (!seenIDs.has(doc.id)) {
@@ -461,11 +449,11 @@ async function fetchJobListings(userJobInterest) {
         ) {
           // Add the source field based on the source of the listing
           if (locationSnapshot && locationSnapshot.docs.includes(doc)) {
-            job.source = 'Location';  // Job was found through location query
+            job.source = 'Location'; // Job was found through location query
           } else if (titleSnapshot && titleSnapshot.docs.includes(doc)) {
-            job.source = 'Job Interest';  // Job was found through job interest query
+            job.source = 'Job Interest'; // Job was found through job interest query
           }
-          console.log('Job object with source:', job);  // Debugging line
+          console.log('Job object with source:', job); // Debugging line
 
           jobListingsCache.push(job);
           seenIDs.add(doc.id);
@@ -473,7 +461,7 @@ async function fetchJobListings(userJobInterest) {
       }
     });
 
-    // Render the filtered job listings
+    // Render only if jobListingsCache is non-empty
     if (jobListingsCache.length > 0) {
       renderJobs(jobListingsCache);
     } else {
