@@ -292,15 +292,7 @@ async function displayStateListWithSearch(jobsContainer) {
     // Inject the search bar and initial state list
     jobsContainer.innerHTML = `
       <h2>Available States</h2>
-      <div class="search-bar">
-        <input 
-          type="text" 
-          id="state-search" 
-          placeholder="Search for a location..." 
-          class="search-input"
-          oninput="filterStates(this.value, 'state-list-container')"
-        />
-      </div>
+
       <hr>
       <div id="state-list-container" class="state-list">
         ${states
