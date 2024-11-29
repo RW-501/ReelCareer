@@ -937,7 +937,7 @@ main .jobCard:hover {
                 flex-wrap: wrap;
               }
 
-              
+
 .jobs-header {
     text-align: center;
     margin-bottom: 20px;
@@ -1040,3 +1040,98 @@ main .jobCard:hover {
     display: block;
     width: 100%;
   }
+
+  .location-job-card {
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin: 20px 0;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .location-job-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+  }
+  
+  .location-job-card h2 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 12px;
+    color: #333;
+  }
+  
+  .location-job-card p {
+    font-size: 16px;
+    color: #555;
+    margin: 8px 0;
+  }
+  
+  .location-job-card p strong {
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .location-job-card .apply-link {
+    display: inline-block;
+    margin-top: 16px;
+    padding: 12px 24px;
+    background-color: #007bff;
+    color: #fff;
+    border-radius: 5px;
+    text-align: center;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+  }
+  
+  .location-job-card .apply-link:hover {
+    background-color: #0056b3;
+  }
+  
+  .location-job-card p strong:first-child {
+    color: #333;
+  }
+  
+  .location-job-card .location-job-card-info {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 16px;
+  }
+  
+  .location-job-card .location-job-card-info div {
+    display: flex;
+    align-items: center;
+  }
+  
+  .location-job-card .location-job-card-info i {
+    margin-right: 8px;
+    font-size: 18px;
+  }
+  
+  .location-job-card .location-job-card-info span {
+    font-size: 16px;
+  }
+  
+  .location-job-card .location-job-card-info .salary {
+    font-weight: bold;
+    color: #28a745;
+  }
+  
+  .location-job-card .location-job-card-info .location {
+    font-weight: 600;
+  }
+  
+  .location-job-card .location-job-card-info .industry {
+    font-weight: 600;
+    color: #ff6f61;
+  }
+  
+  .location-job-card .description-text {
+    margin-top: 16px;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #666;
+  }
+  

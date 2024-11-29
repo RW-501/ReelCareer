@@ -347,7 +347,7 @@ async function fetchJobsByState(state) {
       });
 
       const jobCard = `
-              <div class="job-card" data-job-title="${job.title}" data-job-company="${job.company}" data-job-location="${job.city}, ${job.state}">
+              <div class="location-job-card" data-job-title="${job.title}" data-job-company="${job.company}" data-job-location="${job.city}, ${job.state}">
           <h2>${job.title}</h2>
           <p><strong>Company:</strong> ${job.company}</p>
           <p><strong>Industry:</strong> ${job.industry}</p>
