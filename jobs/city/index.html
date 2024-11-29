@@ -206,7 +206,6 @@
         } from 'https://reelcareer.co/js/module.js';
 
 
-        
         async function displayCityList(jobsContainerId) {
   try {
     const jobsRef = collection(db, "Jobs");
@@ -232,8 +231,11 @@
       });
     });
 
-    // Save jobs data as JSON for filtering
+    // Get the jobs container element
     const jobsContainer = document.getElementById(jobsContainerId);
+    if (!jobsContainer) throw new Error("Jobs container element not found");
+
+    // Save jobs data as JSON for filtering
     jobsContainer.dataset.jobs = JSON.stringify(jobs);
 
     // Group cities by their first letter
@@ -246,7 +248,7 @@
 
     // Generate HTML for each group
     const groupedCityHTML = Object.entries(groupedCities)
-      .map(([letter, cityList]) => `
+      .map(([letter, cityList]) => `  
         <div id="${letter}" class="city-group">
           <div class="city-letter">
             <h3 class="city-letter-title">${letter} <span class="city-count">(${cityList.length})</span></h3>
@@ -282,8 +284,13 @@
 function searchCities(containerId) {
   const searchTerm = document.getElementById('job-search').value.toLowerCase();
   const jobsContainer = document.getElementById(containerId);
-  const jobs = JSON.parse(jobsContainer.dataset.jobs);
+  
+  if (!jobsContainer || !jobsContainer.dataset.jobs) {
+    console.error("Jobs container or dataset not found.");
+    return;
+  }
 
+  const jobs = JSON.parse(jobsContainer.dataset.jobs);
   const filteredCities = jobs
     .filter(job => job.city.toLowerCase().includes(searchTerm))
     .map(job => job.city);
@@ -313,6 +320,7 @@ function searchCities(containerId) {
     <div id="state-city-body-Container" class="state-city-body">${cityHTML}</div>
   `;
 }
+
 
         async function fetchJobsByCity(cityName) {
           const jobsContainer = document.getElementById('cityListContainer');
