@@ -4,7 +4,7 @@ import {
   uploadBytes, OAuthProvider, arrayUnion, getStorage,
   signOut, addDoc, increment, onAuthStateChanged,
   createUserWithEmailAndPassword, signInWithEmailAndPassword,
-  where, getDocs, storage, collection, deleteObject, 
+  where, getDocs, storage, collection, deleteObject, onAuthStateChanged,
   auth, analytics, googleProvider,facebookProvider,  getDownloadURL
 } from 'https://reelcareer.co/js/module.js';
 

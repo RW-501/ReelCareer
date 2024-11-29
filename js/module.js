@@ -83,7 +83,7 @@ const facebookProvider = new FacebookAuthProvider();
   // Export Firestore, Storage, and Auth instances for use in other modules
 export {  db,getStorage, ref, uploadBytes, getDownloadURL,limit ,
     doc,arrayUnion, RecaptchaVerifier ,increment, getDoc   ,signInWithPhoneNumber,
-     query, updateDoc , setDoc, addDoc,signInAnonymously, orderBy,
+     query, updateDoc , setDoc, addDoc,signInAnonymously, orderBy,onAuthStateChanged,
       signInWithPopup,FacebookAuthProvider, GoogleAuthProvider,startAfter ,
        OAuthProvider, signOut, onAuthStateChanged, deleteDoc, getFirestore,
         createUserWithEmailAndPassword, signInWithEmailAndPassword, deleteObject,
