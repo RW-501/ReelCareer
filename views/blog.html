@@ -250,7 +250,7 @@
     }  
     
 
-let page = 1;
+    let page = 1;
 let postsPerPage = 1; // Define your posts per page
 let currentPage = 1;
 let totalPosts = 0; // Track total number of posts
@@ -266,8 +266,8 @@ async function fetchTotalPosts() {
     return totalPosts;
 }
 
-        // Fetch blogs from Firestore
-        async function fetchBlogs(page) { 
+// Fetch blogs from Firestore
+async function fetchBlogs(page) {
     try {
         const blogContainer = document.getElementById("blog-container");
         blogContainer.innerHTML = ""; // Clear existing blogs
@@ -275,47 +275,54 @@ async function fetchTotalPosts() {
         // Check if the URL has a 'b' parameter (blogId)
         const blogId = getQueryParam("b");
 
-        console.log("????????????  ",blogId);
+        console.log("Blog ID from URL:", blogId);
         let querySnapshot;
-if (blogId) {
-    const docRef = doc(db, "Blogs", blogId);
-    const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-        querySnapshot = [docSnap]; // Wrap in an array to simulate array for single doc
-    } else {
-        blogContainer.innerHTML = "<p>Blog not found.</p>";
-        return;
-    }
-} else {
-    const blogsRef = collection(db, "Blogs");
-    let blogsQuery = query(blogsRef, where("activate", "==", true), limit(1));
 
-        // Handle pagination using Firestore's `startAfter`
-        if (page > 1 && lastVisibleDoc) {
-            blogsQuery = query(blogsRef, where("activate", "==", true), startAfter(lastVisibleDoc), limit(postsPerPage));
+        if (blogId) {
+            // Fetch a specific blog by ID
+            const docRef = doc(db, "Blogs", blogId);
+            const docSnap = await getDoc(docRef);
+            if (docSnap.exists()) {
+                querySnapshot = [docSnap]; // Wrap in an array to simulate array for a single doc
+            } else {
+                blogContainer.innerHTML = "<p>Blog not found.</p>";
+                return;
+            }
+        } else {
+            // General blogs fetching logic
+            const blogsRef = collection(db, "Blogs");
+            let blogsQuery = query(blogsRef, where("activate", "==", true), limit(postsPerPage));
+
+            // Handle pagination using Firestore's `startAfter`
+            if (page > 1 && lastVisibleDoc) {
+                blogsQuery = query(blogsRef, where("activate", "==", true), startAfter(lastVisibleDoc), limit(postsPerPage));
+            }
+
+            console.log("Blogs Query:", blogsQuery);
+            const querySnap = await getDocs(blogsQuery);
+
+            if (querySnap.empty) {
+                blogContainer.innerHTML = "<p>No blogs available.</p>";
+                return;
+            }
+
+            querySnapshot = querySnap.docs; // Assign docs array to querySnapshot
         }
-        console.log("???blogsQuery??????  ",blogsQuery);
 
-        const querySnapshot = await getDocs(blogsQuery);
-}
-console.log("Query Snapshot:", querySnapshot);
+        console.log("Query Snapshot:", querySnapshot);
 
-  
-// Iterate and create blog posts
-if (querySnapshot && !querySnapshot.empty) {
-    
-    
-    firstVisibleDoc = querySnapshot.docs[0];
+        // Iterate and create blog posts
+        if (querySnapshot && querySnapshot.length > 0) {
+            firstVisibleDoc = querySnapshot[0];
 
-// Store the last visible document for pagination
-lastVisibleDoc = querySnapshot.docs[querySnapshot.docs.length - 1];
+            // Store the last visible document for pagination
+            lastVisibleDoc = querySnapshot[querySnapshot.length - 1];
 
-console.log("Query lastVisibleDoc:", lastVisibleDoc);
-console.log("Query firstVisibleDoc:", firstVisibleDoc);
+            console.log("First Visible Doc:", firstVisibleDoc);
+            console.log("Last Visible Doc:", lastVisibleDoc);
 
-    querySnapshot.forEach((doc) => {
-        const blogData = doc.data();
-   
+            querySnapshot.forEach((doc) => {
+                const blogData = doc.data();
       
             // Create blog card or element here based on your design
             const blogCard = document.createElement("div");
