@@ -291,9 +291,16 @@ function searchCities(containerId) {
   }
 
   const jobs = JSON.parse(jobsContainer.dataset.jobs);
+  /*
   const filteredCities = jobs
     .filter(job => job.city.toLowerCase().includes(searchTerm))
     .map(job => job.city);
+*/
+    const filteredCities = jobs
+    .map(job => job.city)
+    .filter((city, index, self) => city && city.toLowerCase().includes(searchTerm.toLowerCase()) && self.indexOf(city) === index) // Remove duplicates
+    .sort();
+
 
   const uniqueCities = [...new Set(filteredCities)];
 
