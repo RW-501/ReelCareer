@@ -75,6 +75,9 @@ document.addEventListener('DOMContentLoaded', initializeFirebase);
   
 
 
+// Initialize Google and Facebook Auth Providers
+const googleProvider = new GoogleAuthProvider();
+const facebookProvider = new FacebookAuthProvider();
 
 
   // Export Firestore, Storage, and Auth instances for use in other modules
@@ -84,7 +87,7 @@ export {  db,getStorage, ref, uploadBytes, getDownloadURL,limit ,
       signInWithPopup,FacebookAuthProvider, GoogleAuthProvider,startAfter ,
        OAuthProvider, signOut, onAuthStateChanged, deleteDoc, getFirestore,
         createUserWithEmailAndPassword, signInWithEmailAndPassword, deleteObject,
-         where, getDocs, storage, getAuth, collection, auth, analytics };
+         where, getDocs,googleProvider,facebookProvider,  storage, getAuth, collection, auth, analytics };
 
 
 
