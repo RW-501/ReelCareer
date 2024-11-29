@@ -276,7 +276,7 @@
     `;
   } catch (error) {
     console.error("Error fetching city:", error);
-    document.getElementById(jobsContainerId).innerHTML = `<p>Failed to load city list.</p>`;
+    jobsContainer.innerHTML = `<p>Failed to load city list.</p>`;
   }
 }
 
@@ -393,11 +393,11 @@ function searchCities(containerId) {
           <a href="${job.url}" class="apply-link">View Job</a>
         </div>
       `;
-      jobsContainer.innerHTML += jobCard;
+      document.getElementById('cityListContainer').innerHTML += jobCard;
     });
 
     // Store the jobs data in the container's dataset for future searches
-    jobsContainer.dataset.jobs = JSON.stringify(jobs);
+    document.getElementById('cityListContainer').dataset.jobs = JSON.stringify(jobs);
   } catch (error) {
     console.error('Error fetching jobs:', error);
     document.getElementById('cityListContainer').innerHTML = '<p>Error loading jobs. Please try again later.</p>';
