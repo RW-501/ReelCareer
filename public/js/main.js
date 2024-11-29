@@ -67,19 +67,24 @@ const saveUserLoginState = async (user) => {
   }
 };
 
-// Event listener for auth state changes
-onAuthStateChanged(auth, async (user) => {
-  if (user) {
-    await saveUserLoginState(user);
-    UserID = user.uid;
+// Function to initialize Firebase and set up event listeners
+document.addEventListener('DOMContentLoaded', () => {
+  // Wait until Firebase is initialized before using onAuthStateChanged
+  onAuthStateChanged(auth, async (user) => {
+    if (user) {
+      await saveUserLoginState(user);
+      const UserID = user.uid;
 
-    if (window.location.pathname === "/views/auth") {
-      window.location.href = "/views/user";
+      // Redirect to the user page if on the auth page
+      if (window.location.pathname === "/views/auth") {
+        window.location.href = "/views/user";
+      }
+    } else {
+      console.log("No user signed in");
+      // Remove user data from local storage if no user is signed in
+      ["userLoggedIn", "userEmail", "userData"].forEach((item) => localStorage.removeItem(item));
     }
-  } else {
-    console.log("No user signed in");
-    ["userLoggedIn", "userEmail", "userData"].forEach((item) => localStorage.removeItem(item));
-  }
+  });
 });
 
 // Event listener to handle clicks outside dropdown to close it
