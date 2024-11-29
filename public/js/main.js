@@ -1217,7 +1217,6 @@ function updateFooter() {
  
   
 
-document.addEventListener("DOMContentLoaded", () => {
   // Render dynamic content
   renderFooterLinks();
   renderCompanyMedia();
@@ -1245,7 +1244,7 @@ console.log("footer loaded?");
       await handleNewsletterSignup(email);
     });
   }
-});
+
 
 
 
