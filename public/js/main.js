@@ -1212,14 +1212,8 @@ function updateFooter() {
     document.body.insertAdjacentHTML("beforeend", mediaHTML);
   }
   
-  // Initialize page content
-  document.addEventListener("DOMContentLoaded", () => {
-    renderFooterLinks();
-    renderCompanyMedia();
-  });
+ 
   
-
-
 
 
  
@@ -1235,81 +1229,35 @@ document.addEventListener("DOMContentLoaded", updateFooter);
 
 
 
+document.addEventListener("DOMContentLoaded", () => {
+  // Render dynamic content
+  renderFooterLinks();
+  renderCompanyMedia();
 
- document.addEventListener("DOMContentLoaded", () => {
-
-  
-  // Handle newsletter signup
-  async function handleNewsletterSignup(email) {
-    const { rateLimitTime, maxAttempts, storageKey, messages } = config.newsletter;
-    let attempts = 0;
-    let firstAttemptTime = null;
-  
-    try {
-      const ipAddress = await getUserIP();
-      const location = await getUserLocation();
-  
-      if (localStorage.getItem(storageKey)) {
-        showToast(messages.alreadySubscribed, "warning");
-        return;
-      }
-  
-      const currentTime = Date.now();
-      if (!firstAttemptTime || currentTime - firstAttemptTime > rateLimitTime) {
-        attempts = 0; // Reset attempts
-        firstAttemptTime = currentTime;
-      }
-  
-      if (attempts >= maxAttempts) {
-        showToast(messages.tooManyAttempts, "error");
-        return;
-      }
-  
-      attempts++;
-      await db.collection("NewsLetter").add({
-        email,
-        ipAddress,
-        location,
-        timestamp: firebase.firestore.FieldValue.serverTimestamp()
-      });
-  
-      localStorage.setItem(storageKey, "true");
-      document.getElementById("newsletterMessage").textContent = messages.success(email);
-  
-    } catch (error) {
-      console.error("Newsletter signup failed:", error);
-      document.getElementById("newsletterMessage").textContent = error.message || messages.error;
-    }
+  // Back to Top Button Functionality
+  const backToTopButton = document.getElementById("backToTop");
+  if (backToTopButton) {
+    backToTopButton.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
   }
-  
 
- // Back to Top Button Functionality
- document.getElementById("backToTop").addEventListener("click", () => {
-  window.scrollTo({ top: 0, behavior: "smooth" });
+  // Update the event listener for the newsletter form
+  const newsletterFormBtn = document.getElementById("newsletterFormBtn");
+  if (newsletterFormBtn) {
+    newsletterFormBtn.addEventListener("submit", async function (event) {
+      event.preventDefault();
+      const email = this.querySelector('input[type="email"]').value;
+
+      if (!document.getElementById("dataPrivacy")?.checked) {
+        showToast("You must agree to the data privacy policy.", 'warning');
+        return;
+      }
+
+      await handleNewsletterSignup(email);
+    });
+  }
 });
-
- // Update the event listener for the form
- document
- .getElementById("newsletterFormBtn")
- .addEventListener("submit", async function (event) {
-   event.preventDefault();
-   const email = this.querySelector('input[type="email"]').value;
-
-   // Check if user agreed to the data privacy policy
-   if (!document.getElementById("dataPrivacy").checked) {
-     showToast("You must agree to the data privacy policy.", 'warning');
-     return;
-   }
-
-   // Handle the newsletter signup process
-   await handleNewsletterSignup(email);
- });
-
-
- });
- 
-
-
 
 
 
