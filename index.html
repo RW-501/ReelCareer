@@ -397,6 +397,22 @@ async function fetchJobListings(userJobInterest) {
     let locationSnapshot = null;
     let titleSnapshot = null;
 
+    if (userJobInterest) {
+     // console.log('userJobInterest:   ', userJobInterest);
+
+      const titleQuery = query(
+        jobsQuery,
+        where('status', '==', 'active'),
+        where('searchableTitle', 'array-contains-any', userJobInterest),
+        orderBy('createdAt', 'desc'),
+        limit(limits)
+      );
+      titleSnapshot = await getDocs(titleQuery);
+      console.log(
+        'Title query returned results:',
+        hasResults(titleSnapshot)
+      );
+    }
     // Location query
     if (userlocationData) {
       const locationArray = prepareLocationForFirebase(userlocationData);
@@ -417,22 +433,7 @@ async function fetchJobListings(userJobInterest) {
     }
 
     // Title query (only if location returns no results)
-    if (!hasResults(locationSnapshot) || hasResults(locationSnapshot)) {
-     // console.log('userJobInterest:   ', userJobInterest);
 
-      const titleQuery = query(
-        jobsQuery,
-        where('status', '==', 'active'),
-        where('searchableTitle', 'array-contains-any', userJobInterest),
-        orderBy('createdAt', 'desc'),
-        limit(limits)
-      );
-      titleSnapshot = await getDocs(titleQuery);
-      console.log(
-        'Title query returned results:',
-        hasResults(titleSnapshot)
-      );
-    }
 
     // Process and merge results
     const jobDocs = [
