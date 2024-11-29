@@ -562,6 +562,36 @@ function personalTabContent() {
     </form>`;
 }
 
+// Helper function for social tab content
+// Helper function for social tab content
+function socialTabContent() {
+  return `
+    <form>
+      ${generateInput('url', 'linkedinSET', 'LinkedIn Profile', 'https://www.linkedin.com/in/yourprofile')}
+      ${generateInput('url', 'portfolioSET', 'Portfolio', 'https://portfolio.com/yourprofile')}
+      ${generateInput('url', 'githubSET', 'GitHub Profile', 'https://github.com/yourprofile')}
+      ${generateInput('url', 'otherSET', 'Other Website', 'https://otherwebsite.com/yourprofile')}
+    </form>`;
+}
+
+// Helper function for membership tab content
+function membershipTabContent() {
+  return `
+    <form>
+      <div class="mb-3">
+        <label for="membershipTypeSET" class="form-label">Membership Type</label>
+        <select id="membershipTypeSET" class="form-control">
+          <option value="free">Free</option>
+          <option value="premium">Premium</option>
+          <option value="enterprise">Enterprise</option>
+        </select>
+      </div>
+      ${generateInput('text', 'membershipStatusSET', 'Membership Status', '', false, { value: 'Active', disabled: true })}
+      ${generateInput('date', 'renewalDateSET', 'Renewal Date')}
+    </form>`;
+}
+
+
 // Event handler for saving profile data
 function saveProfileData() {
   const profileData = {
