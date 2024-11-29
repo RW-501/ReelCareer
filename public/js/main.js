@@ -612,17 +612,6 @@ window.onload = () => {
 
 
 
-// Export the objects
-export {
-  onAuthStateChanged,
-  db,
-  storage,
-  analytics,
-  app,
-  collection,
-  getDocs,
-  auth
-}; 
 
 
 

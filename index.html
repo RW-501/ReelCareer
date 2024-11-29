@@ -569,19 +569,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
 window.onload = async function () {
   setTimeout(() => {
-  
-  // Retrieve user interests for tags and jobs
-let uTagInterestNorm = getUserTagInterest();
-
-let uJobInterestNorm = getUserJobInterest();
-
-
-
 // Load job listings on page load
-fetchJobListings( uJobInterestNorm);
+fetchJobListings( );
 
-
-loadRelatedBlogs(uTagInterestNorm, "blogContainer");
+loadRelatedBlogs();
 
 }, 1000);
 };
