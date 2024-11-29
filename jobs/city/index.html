@@ -306,13 +306,16 @@ function searchCities(containerId) {
   // Generate filtered job list (show title, company, and location)
   const jobHTML = filteredJobs
     .map(job => `
-      <div class="job-card" data-job-title="${job.title}" data-job-company="${job.company}" data-job-location="${job.city}, ${job.state}">
-        <h2>${job.title}</h2>
-        <p><strong>Company:</strong> ${job.company}</p>
-        <p><strong>Location:</strong> ${job.city}, ${job.state}</p>
-        <p><strong>Salary:</strong> $${job.salary.toLocaleString()}</p>
-        <a href="${job.url}" class="apply-link">View Job</a>
-      </div>
+
+            <div class="job-card" data-job-title="${job.title}" data-job-company="${job.company}" data-job-location="${job.city}, ${job.state}">
+          <h2>${job.title}</h2>
+          <p><strong>Company:</strong> ${job.company}</p>
+          <p><strong>Industry:</strong> ${job.industry}</p>
+             <p><strong>Location:</strong> ${job.city}, ${job.state}</p>
+          <p><strong>Salary:</strong> $${job.salary.toLocaleString()}</p>
+          <p><strong>Description:</strong> ${job.description}</p>
+          <a href="${job.url}" class="apply-link">View Job</a>
+        </div>
     `).join("");
 
   jobsContainer.innerHTML = `
