@@ -284,47 +284,42 @@
 function searchCities(containerId) {
   const searchTerm = document.getElementById('job-search').value.toLowerCase();
   const jobsContainer = document.getElementById(containerId);
-  
+
   if (!jobsContainer || !jobsContainer.dataset.jobs) {
     console.error("Jobs container or dataset not found.");
     return;
   }
 
   const jobs = JSON.parse(jobsContainer.dataset.jobs);
-  /*
-  const filteredCities = jobs
-    .filter(job => job.city.toLowerCase().includes(searchTerm))
-    .map(job => job.city);
-*/
-    const filteredCities = jobs
-    .map(job => job.city)
-    .filter((city, index, self) => city && city.toLowerCase().includes(searchTerm.toLowerCase()) && self.indexOf(city) === index) // Remove duplicates
-    .sort();
 
+  // Filter jobs by city, ensuring the city matches the search term
+  const filteredJobs = jobs.filter(job => job.city.toLowerCase().includes(searchTerm.toLowerCase()));
 
-  const uniqueCities = [...new Set(filteredCities)];
-
-  if (uniqueCities.length === 0) {
-    jobsContainer.innerHTML = '<p>No cities found matching your search.</p>';
+  if (filteredJobs.length === 0) {
+    jobsContainer.innerHTML = '<p>No jobs found matching your search.</p>';
     return;
   }
 
-  // Generate filtered city list
-  const cityHTML = uniqueCities
-    .sort()
-    .map(city => `
-      <div class="state-city-card" data-job-location="${city}">
-        <a href="https://reelcareer.co/jobs/city#${city}"><i class="fas fa-city"></i></a>
-        <h4><a href="https://reelcareer.co/jobs/city#${city}">${city}</a></h4>
-      </div>
-    `).join("");
+  // Generate HTML for filtered jobs
+  const jobsHTML = filteredJobs.map(job => `
+    <div class="job-card" data-job-title="${job.title}" data-job-company="${job.company}" data-job-location="${job.city}, ${job.state}">
+      <h2>${job.title}</h2>
+      <p><strong>Company:</strong> ${job.company}</p>
+      <p><strong>Industry:</strong> ${job.industry}</p>
+      <p><strong>Location:</strong> ${job.city}, ${job.state}</p>
+      <p><strong>Salary:</strong> $${job.salary.toLocaleString()}</p>
+      <p><strong>Description:</strong> ${job.description}</p>
+      <a href="${job.url}" class="apply-link">View Job</a>
+    </div>
+  `).join("");
 
+  // Inject the filtered jobs into the container
   jobsContainer.innerHTML = `
     <div class="jobs-header">
-      <h2 class="header-title">Filtered Cities</h2>
+      <h2 class="header-title">Filtered Jobs by City</h2>
       <hr class="header-divider">
     </div>
-    <div id="state-city-body-Container" class="state-city-body">${cityHTML}</div>
+    <div id="cityListContainer" class="city-list">${jobsHTML}</div>
   `;
 }
 
