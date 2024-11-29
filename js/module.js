@@ -4,7 +4,7 @@ import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.17.2/firebas
 import { 
     getFirestore, 
     doc, 
-    getDoc, 
+    getDoc, serverTimestamp, 
     query, startAfter ,
     updateDoc,orderBy, 
     setDoc, limit,    
@@ -85,7 +85,7 @@ export {  db,getStorage, ref, uploadBytes, getDownloadURL,limit ,
     doc,arrayUnion, RecaptchaVerifier ,increment, getDoc   ,signInWithPhoneNumber,
      query, updateDoc , setDoc, addDoc,signInAnonymously, orderBy,onAuthStateChanged,
       signInWithPopup,FacebookAuthProvider, GoogleAuthProvider,startAfter ,
-       OAuthProvider, signOut, deleteDoc, getFirestore,
+       OAuthProvider, signOut, deleteDoc, getFirestore, serverTimestamp ,
         createUserWithEmailAndPassword, signInWithEmailAndPassword, deleteObject,
          where, getDocs,googleProvider,facebookProvider,  storage, getAuth, collection, auth, analytics };
 
