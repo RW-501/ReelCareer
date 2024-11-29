@@ -303,20 +303,24 @@ async function fetchJobsByState(state) {
       const stateHeader = document.getElementById("state-header");
 
       stateHeader.innerHTML = `
-        <h1>Oops! No Jobs Found</h1>
-        <p class="intro-text">
-          Unfortunately, there are no job listings available right now. Please check back later, or explore job opportunities in other cities.
+    <div class="search-container">
+      <h1>Search Jobs by Location</h1>
+      <p class="intro-text">
+        Search or select from our list of locations below to find exciting job opportunities near you.
+      </p>
+      <div class="call-to-action">
+        <p>
+          Start your journey by exploring jobs in various locations. Check out our 
+          <a href="https://reelcareer.co/jobs/locations" class="link">Available Location Page</a>
+          for a complete list of opportunities across industries.
         </p>
-        <div class="call-to-action">
-          <p>
-            Start your job search in other locations or visit our <a href="https://reelcareer.co/jobs/locations">Available Location Page</a> to explore a wide range of opportunities across various industries.
-          </p>
-        </div>
-      `;
+      </div>
+    </div>
+  `;
 
-      displayStateList(jobsContainer);
-            return;
-    }
+  displayStateList(jobsContainer);
+  return;
+}
 
     jobsContainer.innerHTML = ''; // Clear the loading text
     allJobs = []; // Reset the allJobs array before adding new data
