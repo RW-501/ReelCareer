@@ -240,15 +240,43 @@
         } from 'https://reelcareer.co/js/module.js';
 
 
-        async function displayStateList(jobsContainer) {
-    try {
-      const jobsRef = collection(db, "Jobs");
-      const snapshot = await getDocs(jobsRef);
-      
-      console.log("State snapshot:?    ",snapshot)
-      // Extract and sort unique state names
-      const states = [...new Set(snapshot.docs.map(doc => doc.data().state))].sort();
-      console.log("State :?    ",states)
+    // Function to filter and display states
+function filterStates(searchQuery, container) {
+  const stateListContainer = document.getElementById(container);
+  stateListContainer.innerHTML = ''; // Clear the container before filtering
+  
+  // Filter states based on search query
+  const filteredStates = allJobs
+    .map(job => job.state)
+    .filter((state, index, self) => state && state.toLowerCase().includes(searchQuery.toLowerCase()) && self.indexOf(state) === index) // Remove duplicates
+    .sort();
+  
+  if (filteredStates.length === 0) {
+    stateListContainer.innerHTML = '<p>No locations found matching your search.</p>';
+    return;
+  }
+
+  // Generate and inject filtered state list
+  const stateListHTML = filteredStates
+    .map(state => `
+      <div class="state-city-card" data-job-location="${state}">
+        <a href="https://reelcareer.co/jobs/state#${state}"><i class="fas fa-city"></i></a>
+        <h4><a href="https://reelcareer.co/jobs/state#${state}">${state}</a></h4>
+      </div>
+    `)
+    .join("");
+
+  stateListContainer.innerHTML = stateListHTML;
+}
+
+// Function to display state list with a search bar
+async function displayStateListWithSearch(jobsContainer) {
+  try {
+    const jobsRef = collection(db, "Jobs");
+    const snapshot = await getDocs(jobsRef);
+
+    // Extract and sort unique state names
+    const states = [...new Set(snapshot.docs.map(doc => doc.data().state))].sort();
 
     allJobs = []; // Reset the allJobs array before adding new data
 
@@ -258,37 +286,39 @@
         city: job.city,
         state: job.state,
         salary: job.salary,
- 
       });
-    })
-      // Generate HTML for the state list
-      const stateListHTML = states
-  .filter(state => state && state.trim() !== "") // Filter out null, empty, or whitespace-only states
-  .map(state => `
-              <div class="state-city-card" data-job-location="${state}">
-      <a href="https://reelcareer.co/jobs/state#${state}"><i class="fas fa-city"></i></a>
-      <h4><a href="https://reelcareer.co/jobs/state#${state}">${state}</a></h4>
-    </div>`)
-  .join("");
+    });
 
-
-      
-
-      // Inject HTML into the container
-      jobsContainer.innerHTML = `
-        <h2>Available States</h2>
-                <hr>
-        <div class="state-city-body">             
-          <div id="state-list-Container" class="state-list">
-${stateListHTML}
-</div>
-        </div>
-      `;
-    } catch (error) {
-      console.error("Error fetching states:", error);
-      jobsContainer.innerHTML = `<p>Failed to load State list.</p>`;
-    }
+    // Inject the search bar and initial state list
+    jobsContainer.innerHTML = `
+      <h2>Available States</h2>
+      <div class="search-bar">
+        <input 
+          type="text" 
+          id="state-search" 
+          placeholder="Search for a location..." 
+          class="search-input"
+          oninput="filterStates(this.value, 'state-list-container')"
+        />
+      </div>
+      <hr>
+      <div id="state-list-container" class="state-list">
+        ${states
+          .map(state => `
+            <div class="state-city-card" data-job-location="${state}">
+              <a href="https://reelcareer.co/jobs/state#${state}"><i class="fas fa-city"></i></a>
+              <h4><a href="https://reelcareer.co/jobs/state#${state}">${state}</a></h4>
+            </div>
+          `)
+          .join("")}
+      </div>
+    `;
+  } catch (error) {
+    console.error("Error fetching states:", error);
+    jobsContainer.innerHTML = `<p>Failed to load State list.</p>`;
   }
+}
+
  // Fetch jobs based on state
  let allJobs = []; // This will store all the jobs fetched for the state
 
@@ -331,7 +361,7 @@ async function fetchJobsByState(state) {
     </div>
   `;
 
-  displayStateList(jobsContainer);
+  displayStateListWithSearch(jobsContainer);
   return;
 }
 
@@ -394,40 +424,6 @@ function getHashFromURL() {
   return segments;
 }
 
-// Function to filter the jobs based on search input
-function filterJobs(searchQuery,container) {
-  const jobsContainer = document.getElementById(container);
-  jobsContainer.innerHTML = ''; // Clear the container before adding filtered jobs
-
-  const filteredJobs = allJobs.filter(job => {
-    return job.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-           job.company.toLowerCase().includes(searchQuery.toLowerCase()) || 
-           job.city.toLowerCase().includes(searchQuery.toLowerCase()) ||
-           job.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-           job.location.toLowerCase().includes(searchQuery.toLowerCase());
-  });
-
-  if (filteredJobs.length === 0) {
-    jobsContainer.innerHTML = '<p>No jobs found matching your search.</p>';
-    return;
-  }
-
-  filteredJobs.forEach(job => {
-    const jobCard = `
-      <div class="job-card" data-job-id="${job.id}">
-        <h2>${job.title}</h2>
-        <p><strong>Company:</strong> ${job.company}</p>
-          <p><strong>Location:</strong> ${job.city}, ${job.state}</p>
-        <p><strong>Salary:</strong> $${job.salary.toLocaleString()}</p>
-        <p><strong>Description:</strong> ${job.description}</p>
-        <a href="https://reelcareer.co/views/job-details?id=${job.id}" target="_blank" class="apply-link">Apply Now</a>
-      </div>
-    `;
-    jobsContainer.innerHTML += jobCard;
-  });
-
-
-}
 
 // Initialize page
 document.addEventListener('DOMContentLoaded', () => {
@@ -459,7 +455,7 @@ let container = "stateListContainer";
   const searchInput = document.getElementById('job-search');
   searchInput.addEventListener('input', (e) => {
     const searchQuery = e.target.value;
-    filterJobs(searchQuery, container);
+    filterStates(searchQuery, container);
   });
 });
 
