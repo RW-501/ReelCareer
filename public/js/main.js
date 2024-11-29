@@ -1233,13 +1233,7 @@ function updateFooter() {
   
 
 
- // Current Date and Time
-  const updateDateTime = () => {
-    const now = new Date();
-    document.getElementById("currentDateTime").innerText = now.toLocaleString();
-  };
-  updateDateTime();
-  setInterval(updateDateTime, 1000);
+
 
   // Back to Top Button Functionality
   document.getElementById("backToTop").addEventListener("click", () => {
