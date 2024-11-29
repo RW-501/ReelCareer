@@ -453,7 +453,7 @@ function renderJobs() {
     jobListingsContainer.appendChild(loadMoreButton);
   } else {
     const backToTopDiv = `
-      <div class="text-center m-auto mt-4" style="cursor: pointer;">
+      <div id="backToTopBtn" style="cursor: pointer;">
         <h3 class="font-weight-bold">Back to Top</h3>
       </div>
     `;
@@ -463,6 +463,9 @@ function renderJobs() {
     jobListingsContainer.appendChild(tempDiv);
   }
 }
+function backToTop(){
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
 
 function isValidValue(value) {
   return value !== undefined && value !== null && value !== '';

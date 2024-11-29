@@ -1029,3 +1029,8 @@ main .jobCard:hover {
     margin-top: 5px; /* Space between title and divider */
   }
   
+
+  #backToTopBtn {
+    display: block;
+    width: 100%;
+  }

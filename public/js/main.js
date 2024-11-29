@@ -823,6 +823,7 @@ function updateFooter() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   });
 
+
   // Update the event listener for the form
   document
     .getElementById("newsletterFormBtn")
