@@ -905,11 +905,10 @@ main .jobCard:hover {
               .city-list {
 
                 display: flex;
-                flex-wrap: wrap;
-                width: 100%;
-                gap: 1rem;
-                justify-content: center;
-                flex-direction: row; 
+                flex-direction: row;
+                gap: 10px;
+                justify-content: space-around;
+                align-items: flex-start;
               }
 
               
@@ -973,12 +972,7 @@ main .jobCard:hover {
     margin-bottom: 10px;
   }
   
-  .city-list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  
+
   .state-city-card {
     display: flex;
     align-items: center;

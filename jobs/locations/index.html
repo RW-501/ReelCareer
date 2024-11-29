@@ -315,7 +315,7 @@ ${stateListHTML}
       .map(([letter, cityList]) => {
         totalJobs += cityList.length; // Add to total count
         return `
-          <div class="city-group">
+          <div id="${letter}" class="city-group">
 <div class="city-letter">
   <h3 class="city-letter-title">${letter} <span class="city-count">(${cityList.length})</span></h3>
   <hr class="city-divider">
