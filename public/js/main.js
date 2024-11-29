@@ -1434,130 +1434,97 @@ export {
         });
       }
 */
+// Helper function to shuffle an array
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+  }
+}
 
-window.addEventListener('load', function() {
+window.addEventListener('load', function () {
   let allBlogs = []; // Store all blogs
 
-
-
-  window.loadRelatedBlogs = async function() {
+  window.loadRelatedBlogs = async function () {
       try {
-
-
-           //Reference the 'Blogs' collection
           const blogsRef = collection(db, 'Blogs');
           const blogContainer = document.getElementById('blogContainer');
+          const maxSimilarBlogs = 5;
 
-
-   
-     
-          // Function to fetch blogs based on job tags
+          // Function to fetch blogs based on tags
           async function fetchBlogs() {
               try {
-                let maxSimilarBlogs = 5;
+                  const uTagInterestNorm = getUserTagInterest();
+                  const uJobInterestNorm = getUserJobInterest();
+                  const locationArray = prepareLocationForFirebase(userlocationData);
 
-                const uTagInterestNorm = getUserTagInterest();
-                const uJobInterestNorm = getUserJobInterest();
-                const locationArray = prepareLocationForFirebase(userlocationData);
-
-                let q;
-
-                if(uTagInterestNorm.length == 0){
-                  q = query(blogsRef, where('tags', 'array-contains-any', uTagInterestNorm), limit(maxSimilarBlogs));
-                }else if(uJobInterestNorm.length == 0) {
-                  q = query(blogsRef, where('tags', 'array-contains-any', uJobInterestNorm), limit(maxSimilarBlogs));
-                }else {
-                  q = query(blogsRef, where('tags', 'array-contains-any', locationArray), limit(maxSimilarBlogs));
-
-                }
-
-
+                  let q;
+                  if (uTagInterestNorm.length > 0) {
+                      q = query(blogsRef, where('tags', 'array-contains-any', uTagInterestNorm), limit(maxSimilarBlogs));
+                  } else if (uJobInterestNorm.length > 0) {
+                      q = query(blogsRef, where('tags', 'array-contains-any', uJobInterestNorm), limit(maxSimilarBlogs));
+                  } else {
+                      q = query(blogsRef, where('tags', 'array-contains-any', locationArray), limit(maxSimilarBlogs));
+                  }
 
                   const querySnapshot = await getDocs(q);
 
-                  // Populate the allBlogs array
-                  querySnapshot.forEach(doc => {
+                  querySnapshot.forEach((doc) => {
                       allBlogs.push({ id: doc.id, ...doc.data() });
                   });
 
-                  if(querySnapshot.length > 0){
-                    console.log("allBlogs:", allBlogs);
-
-                    // Display the first set of blogs
-                    displayBlogs(allBlogs);
-
-                  }else{
-                    console.log("No blogs...");
-
+                  if (allBlogs.length > 0) {
+                      // Shuffle blogs for random display
+                      shuffleArray(allBlogs);
+                      displayBlogs(allBlogs);
+                  } else {
+                      console.log("No blogs found.");
                   }
-
               } catch (error) {
                   console.error("Error fetching related blogs:", error);
               }
           }
 
           // Function to display blogs
-          function displayBlogs(allBlogs) {
-              console.log("Displaying blogs...");
+          function displayBlogs(blogs) {
+              blogContainer.innerHTML = ''; // Clear existing blogs
 
-              allBlogs.forEach(blog => {
+              blogs.forEach((blog) => {
                   const blogCard = document.createElement('div');
-                  blogCard.classList.add('blogCard'); // Use Bootstrap column classes for spacing
+                  blogCard.classList.add('blogCard');
                   blogCard.innerHTML = `
                       <div class="card blog-card shadow-sm">
                           <div data-bs-toggle="modal" data-bs-target="#blogModal" class="blog-card-trigger" data-blog-id="${blog.id}">
-                               <a href="https://reelcareer.co/views/blog?id=${blog.id}"><img src="${blog.imageUrl}" alt="${blog.title}" class="card-img-top" loading="lazy" /></a>
-                          <div class="card-body">
-                               <a href="https://reelcareer.co/views/blog?id=${blog.id}"><h5 class="card-title text-primary">${blog.title}</h5></a>
-                              <div class="card-text text-muted">
-
-                              <div>${truncateText(blog.content, 80, `https://reelcareer.co/views/blog?id=${blog.id}`)}</div>
+                              <a href="https://reelcareer.co/views/blog?id=${blog.id}"><img src="${blog.imageUrl}" alt="${blog.title}" class="card-img-top" loading="lazy" /></a>
+                              <div class="card-body">
+                                  <a href="https://reelcareer.co/views/blog?id=${blog.id}"><h5 class="card-title text-primary">${blog.title}</h5></a>
+                                  <div class="card-text text-muted">
+                                      <div>${truncateText(blog.content, 80, `https://reelcareer.co/views/blog?id=${blog.id}`)}</div>
+                                  </div>
+                                  <button class="btn btn-outline-primary blog-card-trigger" data-blog-id="${blog.id}">Read More</button>
                               </div>
-                              <button class="btn btn-outline-primary blog-card-trigger" data-blog-id="${blog.id}">Read More</button>
                           </div>
                       </div>
                   `;
                   blogContainer.appendChild(blogCard);
               });
-
-
-         
           }
 
           // Event listener for blog cards to open modal
-          blogContainer.addEventListener('click', function(e) {
+          blogContainer.addEventListener('click', function (e) {
               if (e.target.classList.contains('blog-card-trigger')) {
                   const blogId = e.target.getAttribute('data-blog-id');
-
-  console.log("????????????????????????? openBlogModal  ",blogId);
+                  console.log("Opening Blog Modal:", blogId);
               }
           });
 
-
-
           // Start fetching blogs
-          await fetchBlogs(jobTags);
-
+          await fetchBlogs();
       } catch (error) {
           console.error("Error in loadRelatedBlogs:", error);
       }
-
-
-
-
   };
-
-  
-
-
-
-
-
-
-
-
 });
-
 
 function prepareLocationForFirebase(userlocationData) {
   if (typeof userlocationData === 'string') {
