@@ -290,6 +290,9 @@ async function displayCityList(jobsContainer) {
     // Execute the query
     const querySnapshot = await getDocs(jobsQuery);
     if (querySnapshot.empty) {
+      let h2Header = document.getElementById('city-name');
+      h2Header.style.display= "none"; 
+
       const cityHeader = document.getElementById("city-header");
 
       cityHeader.innerHTML = `
@@ -401,14 +404,17 @@ function getHashFromURL() {
 
 
     document.addEventListener('DOMContentLoaded', async () => {
-      let h2Header = document.getElementById('city-name');
+
+
       let container = "cityListContainer";
 
 let cityName = getHashFromURL() || "City";
 if(cityName == "City"){
-h2Header.style.display= "none"; 
  container = "state-city-body-Container";
 
+}else{
+  let h2Header = document.getElementById('city-name');
+  h2Header.style.display= `Jobs In ${cityName}`; 
 }
 
 // Set the city name in the breadcrumb and header

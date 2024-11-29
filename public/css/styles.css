@@ -814,10 +814,7 @@ main .jobCard:hover {
 }
 
 
-.job-header {
-    gap:0 !important;
 
-}
 
 
 
@@ -933,8 +930,9 @@ main .jobCard:hover {
 .jobs-header {
     text-align: center;
     margin-bottom: 20px;
-  }
-  
+    width: 100%;
+    
+    }  
   .header-title {
     font-size: 2rem;
     color: #333;

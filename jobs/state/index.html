@@ -250,6 +250,17 @@
       const states = [...new Set(snapshot.docs.map(doc => doc.data().state))].sort();
       console.log("State :?    ",states)
 
+    allJobs = []; // Reset the allJobs array before adding new data
+
+    snapshot.forEach(doc => {
+      const job = doc.data();
+      allJobs.push({
+        city: job.city,
+        state: job.state,
+        salary: job.salary,
+ 
+      });
+    })
       // Generate HTML for the state list
       const stateListHTML = states
   .filter(state => state && state.trim() !== "") // Filter out null, empty, or whitespace-only states
@@ -300,6 +311,8 @@ async function fetchJobsByState(state) {
     console.log("querySnapshot ", querySnapshot);
 
     if (querySnapshot.empty) {
+      let h2Header = document.getElementById('state-name');
+      h2Header.style.display= "none"; 
       const stateHeader = document.getElementById("state-header");
 
       stateHeader.innerHTML = `
@@ -418,14 +431,17 @@ function filterJobs(searchQuery,container) {
 
 // Initialize page
 document.addEventListener('DOMContentLoaded', () => {
-  let h2Header = document.getElementById('state-name');
+
+
 let container = "stateListContainer";
 
   let state = getHashFromURL() || "State";
   if(state == "State"){
-  h2Header.style.display= "none"; 
   container = "state-list-Container";
-  }
+  }else{
+  let h2Header = document.getElementById('state-name');
+  h2Header.style.display= `Jobs In ${state}`; 
+}
 
   document.getElementById("breadcrumb-active-title").textContent = state;
 
