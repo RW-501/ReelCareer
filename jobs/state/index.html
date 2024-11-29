@@ -421,15 +421,26 @@ function getHashFromURL() {
 document.addEventListener('DOMContentLoaded', () => {
 
 
-let container = "stateListContainer";
+  let container = "state-list-Container";
 
-  let state = getHashFromURL() || "State";
-  if(state == 'State'){
-  container = "state-list-Container";
-  }else{
-  let h2Header = document.getElementById('state-name');
-  h2Header.style.display= `Jobs In ${state}`; 
+const state = getHashFromURL() || "State";
+if (state !== "State") {
+  container = "stateListContainer";
+
+  // Update the header to show "Jobs In [State Name]"
+  const h2Header = document.getElementById('state-name');
+  if (h2Header) {
+    h2Header.textContent = `Jobs In ${state}`; // Update header text
+    h2Header.style.display = "block"; // Ensure the header is visible
+  }
+} else {
+  // Hide the header when no specific state is selected
+  const h2Header = document.getElementById('state-name');
+  if (h2Header) {
+    h2Header.style.display = "none";
+  }
 }
+
 
   document.getElementById("breadcrumb-active-title").textContent = state;
 

@@ -412,15 +412,24 @@ function getHashFromURL() {
     document.addEventListener('DOMContentLoaded', async () => {
 
 
-      let container = "cityListContainer";
+      let container = "state-city-body-Container";
 
-let cityName = getHashFromURL() || "City";
-if(cityName == 'City'){
- container = "state-city-body-Container";
+const cityName = getHashFromURL() || "City";
+if (cityName !== "City") {
+  container = "cityListContainer";
 
-}else{
-  let h2Header = document.getElementById('city-name');
-  h2Header.style.display= `Jobs In ${cityName}`; 
+  // Update the header to show "Jobs In [City Name]"
+  const h2Header = document.getElementById('city-name');
+  if (h2Header) {
+    h2Header.textContent = `Jobs In ${cityName}`;
+    h2Header.style.display = "block"; // Ensure the header is visible
+  }
+} else {
+  // Hide the header when no specific city is selected
+  const h2Header = document.getElementById('city-name');
+  if (h2Header) {
+    h2Header.style.display = "none";
+  }
 }
 
 // Set the city name in the breadcrumb and header
