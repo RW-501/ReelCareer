@@ -571,9 +571,13 @@ function createLoadMoreButton(loadMoreFunc) {
 // Function to fetch similar jobs based on tags
 
 document.addEventListener("DOMContentLoaded", () => {
+
+});
+
+window.onload = async function () {
   setTimeout(() => {
   
-      // Retrieve user interests for tags and jobs
+  // Retrieve user interests for tags and jobs
 let uTagInterestNorm = getUserTagInterest();
 
 let uJobInterestNorm = getUserJobInterest();
@@ -581,14 +585,13 @@ let uJobInterestNorm = getUserJobInterest();
 
 
 // Load job listings on page load
-  fetchJobListings( uJobInterestNorm);
+fetchJobListings( uJobInterestNorm);
 
 
-    loadRelatedBlogs(uTagInterestNorm, "blogContainer");
+loadRelatedBlogs(uTagInterestNorm, "blogContainer");
 
-  }, 1000);
-});
-
+}, 1000);
+};
 
 
 
