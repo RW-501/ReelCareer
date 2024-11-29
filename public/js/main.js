@@ -1247,12 +1247,6 @@ console.log("footer loaded?");
 
 
 
-
-
-
-
- 
- 
 }
 
 // Call the function to update the footer when the document is loaded
