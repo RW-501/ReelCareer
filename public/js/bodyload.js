@@ -146,8 +146,6 @@ createLoader("ReelCareer");
 
   let pauseTime = false;
   
-  addStyles(); // Add styles first
-  createLoader(); // Then create the loader
   let loaderTimer = 700;
  // console.log(" createLoader();   ");
 
