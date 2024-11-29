@@ -1196,10 +1196,10 @@ function updateFooter() {
       <section id="companyMedia" class="bg-light py-5 company-media">
         <div class="container">
           <h2 class="text-center" style="${titleStyle}">${title}</h2>
-          <div class="row text-center">
+          <div class="footerMediaArea text-center">
             <div class="col-md-6 m-auto">
               <div class="video-container">
-                <video loop autoplay muted loading="lazy">
+                <video  class="footerVideo"  loop autoplay muted loading="lazy">
                   <source src="${video.source}" type="${video.type}">
                   Your browser does not support the video tag.
                 </video>

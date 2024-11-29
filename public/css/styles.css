@@ -548,6 +548,17 @@ main .btn-info:hover {
 
 }
 
+.footerMediaArea {
+    display: flex;
+    flex-wrap: nowrap;
+    margin-right: -15px;
+    margin-left: -15px;
+}
+
+.footerVideo {
+    width: 200px;
+
+}
 #dynamic-footer p {
     color: white;
 }
