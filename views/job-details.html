@@ -1302,16 +1302,10 @@ window.onload = async function () {
   setTimeout(() => {
       // Load job details on page load
       document.addEventListener('DOMContentLoaded', fetchJobDetails);
-  // Retrieve user interests for tags and jobs
-let uTagInterestNorm = getUserTagInterest();
 
-let uJobInterestNorm = getUserJobInterest();
+loadRelatedBlogs();
 
-// Load job listings on page load
-getSimilarJobs(uJobInterestNorm, 'similarJobsContainer');
-
-loadRelatedBlogs(uTagInterestNorm, "blogContainer");
-
+getSimilarJobs();
 }, 1000);
 };
 

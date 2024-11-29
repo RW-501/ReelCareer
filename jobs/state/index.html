@@ -501,14 +501,11 @@ async function generateJobSchemas(querySnapshot) {
 // Function to fetch similar jobs based on tags
 document.addEventListener("DOMContentLoaded", () => {
   setTimeout(() => {
-    let tagInterestNorm = getUserTagInterest(); // Retrieve user tag interest
 
+loadRelatedBlogs();
 
-    loadRelatedBlogs(tagInterestNorm, "blogContainer");
-
-    let jobInterestNorm = getUserJobInterest(); // Retrieve user tag interest
-   getSimilarJobs(jobInterestNorm, "similarJobsContainer");
-  }, 1000);
+getSimilarJobs();
+}, 1000);
 });
 
 </script> 

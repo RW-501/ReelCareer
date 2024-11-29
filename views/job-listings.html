@@ -1008,18 +1008,10 @@ document.querySelector('#main-search-btn').addEventListener('click', function() 
 
 document.addEventListener("DOMContentLoaded", () => {
   setTimeout(() => {
-  
-      // Retrieve user interests for tags and jobs
-let uTagInterestNorm = getUserTagInterest();
 
-let uJobInterestNorm = getUserJobInterest();
+loadRelatedBlogs();
 
-// Load job listings on page load
-  //getSimilarJobs(uJobInterestNorm, 'similarJobsContainer');
-
-    loadRelatedBlogs(uTagInterestNorm, "blogContainer");
-
-  }, 1000);
+}, 1000);
 });
 
 

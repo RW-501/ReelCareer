@@ -342,13 +342,6 @@ let showCount = 0;
 let jobListingsCache = [];
 const seenIDs = new Set();
 
-function prepareLocationForFirebase(userlocationData) {
-  if (typeof userlocationData === 'string') {
-    userlocationData = JSON.parse(userlocationData); // Parse if it's a string
-  }
-  const { city, state, zip, country } = userlocationData || {};
-  return [city || '', state || '', zip || '', country || ''];
-}
 
 async function fetchJobListings(userJobInterest) {
   console.log('userJobInterest:', userJobInterest);

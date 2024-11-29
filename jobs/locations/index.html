@@ -366,14 +366,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
 document.addEventListener("DOMContentLoaded", () => {
   setTimeout(() => {
-    let tagInterestNorm = getUserTagInterest(); // Retrieve user tag interest
 
-    loadRelatedBlogs(tagInterestNorm, "blogContainer");
+loadRelatedBlogs();
 
-    let jobInterestNorm = getUserJobInterest(); // Retrieve user tag interest
-
-    getSimilarJobs(jobInterestNorm, "similarJobsContainer");
-  }, 1000);
+getSimilarJobs();
+}, 1000);
 });
 
 
