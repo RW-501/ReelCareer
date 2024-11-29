@@ -1217,20 +1217,6 @@ function updateFooter() {
  
   
 
-
- 
- 
-}
-
-// Call the function to update the footer when the document is loaded
-document.addEventListener("DOMContentLoaded", updateFooter);
-
-
-
-
-
-
-
 document.addEventListener("DOMContentLoaded", () => {
   // Render dynamic content
   renderFooterLinks();
@@ -1260,6 +1246,20 @@ console.log("footer loaded?");
     });
   }
 });
+
+
+
+
+
+
+ 
+ 
+}
+
+// Call the function to update the footer when the document is loaded
+document.addEventListener("DOMContentLoaded", updateFooter);
+
+
 
 
 
