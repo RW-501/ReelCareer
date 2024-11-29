@@ -431,6 +431,7 @@ async function fetchJobListings(userJobInterest) {
       ...(titleSnapshot ? titleSnapshot.docs : [])
     ];
 
+    
     if (jobDocs.length === 0) {
       // Fallback to fetching all active listings
       const fallbackQuery = query(
