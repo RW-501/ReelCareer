@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', initializeFirebase);
   // Export Firestore, Storage, and Auth instances for use in other modules
 export {  db,getStorage, ref, uploadBytes, getDownloadURL,limit ,
     doc,arrayUnion, RecaptchaVerifier ,increment, getDoc   ,signInWithPhoneNumber,
-     query, updateDoc , setDoc, addDoc,signInAnonymously, facebookProvider, orderBy,
+     query, updateDoc , setDoc, addDoc,signInAnonymously, orderBy,
       signInWithPopup,FacebookAuthProvider, GoogleAuthProvider,startAfter ,
        OAuthProvider, signOut, onAuthStateChanged, deleteDoc, getFirestore,
         createUserWithEmailAndPassword, signInWithEmailAndPassword, deleteObject,
