@@ -653,9 +653,7 @@ function saveProfile(userId, profileData) {
       // Clear the stored user data in local storage since the profile has changed
       localStorage.removeItem("userData");
 
-      // Optionally show a success message
-      // alert('Profile updated successfully');
-      //   $('#profileModal').modal('hide');
+      showToast('Profile updated successfully');
       hideModal("profileModal");
     })
     .catch((error) => {
