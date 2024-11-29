@@ -361,13 +361,17 @@ if (page > 1 && lastVisibleDoc) {
           font-weight: 700; 
           margin-bottom: 15px;">${blogData.title}</h3>
 
-      <img src="${blogData.imageUrl}" alt="${blogData.imageCaption}" style="
-          width: 50%; 
-          height: auto; 
-          border-radius: 8px;
-          margin: auto; 
-          margin-bottom: 20px; 
-          object-fit: cover;"/>
+     ${
+          blogData.imageUrl 
+          ? `<img src="${blogData.imageUrl}" alt="${blogData.imageCaption || 'Blog Image'}" style="
+              width: 50%; 
+              height: auto; 
+              border-radius: 8px;
+              margin: auto; 
+              margin-bottom: 20px; 
+              object-fit: cover;"/>`
+          : ""
+      }
 
       <p style="
           font-size: 18px; 
