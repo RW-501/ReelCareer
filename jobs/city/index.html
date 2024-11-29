@@ -351,7 +351,7 @@ async function displayCityList(jobsContainer) {
   }
 }
 function searchJobs() {
-  const searchTerm = document.getElementById('search-bar').value.toLowerCase();
+  const searchTerm = document.getElementById('job-search').value.toLowerCase();
   const jobsContainer = document.getElementById(container);
   const jobs = JSON.parse(jobsContainer.dataset.jobs);
 
