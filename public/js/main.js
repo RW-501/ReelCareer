@@ -1310,6 +1310,8 @@ function updateFooter() {
               </div>`).join("\n")}
           </nav>
         </div>
+<button id="backToTop" title="Go to top">↑</button>
+
       </footer>`;
     document.body.insertAdjacentHTML("beforeend", footerHTML);
   }
