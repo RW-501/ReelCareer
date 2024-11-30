@@ -163,121 +163,171 @@
 
             
                   <div class="container py-5">
-                    <h1 class="mb-4">Profile Settings</h1>
-                    <p class="text-muted">Keep your profile up to date to improve your visibility and networking opportunities.</p>
-                
-                    <ul class="nav nav-tabs" id="profileTab" role="tablist">
-                      <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="personal-tab" data-bs-toggle="tab" data-bs-target="#personal" type="button" role="tab" aria-controls="personal" aria-selected="true">Personal</button>
-                      </li>
-                      <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="social-tab" data-bs-toggle="tab" data-bs-target="#social" type="button" role="tab" aria-controls="social" aria-selected="false">Social</button>
-                      </li>
-                      <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="membership-tab" data-bs-toggle="tab" data-bs-target="#membership" type="button" role="tab" aria-controls="membership" aria-selected="false">Membership</button>
-                      </li>
-                    </ul>
-                
-                    <div class="tab-content mt-4" id="profileTabContent">
-                      <!-- Personal Tab -->
-                      <div class="tab-pane fade show active" id="personal" role="tabpanel" aria-labelledby="personal-tab">
-                        <form id="personalForm">
-                          <div class="mb-3">
-                            <label for="usernameSET" class="form-label">Username</label>
-                            <input type="text" class="form-control" id="usernameSET" placeholder="Your desired username">
-                          </div>
-                          <div class="mb-3">
-                            <label for="emailSET" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="emailSET" placeholder="example@domain.com">
-                          </div>
-                          <div class="mb-3">
-                            <label for="profilePictureSET" class="form-label">Profile Picture</label>
-                            <input type="file" class="form-control" id="profilePictureSET">
-                          </div>
-                          <div class="mb-3">
-                            <label for="nameSET" class="form-label">Name</label>
-                            <input type="text" class="form-control" id="nameSET" placeholder="Your full name">
-                          </div>
-                          <div class="mb-3">
-                            <label for="bioSET" class="form-label">Bio</label>
-                            <textarea class="form-control" id="bioSET" rows="3" placeholder="Tell us about yourself"></textarea>
-                          </div>
-                          <div class="mb-3">
-                            <label for="locationSET" class="form-label">Location</label>
-                            <input type="text" class="form-control" id="locationSET" placeholder="Enter your city or state">
-                          </div>
-                          <div class="mb-3">
-                            <label for="tagsSET" class="form-label">Tags</label>
-                            <input type="text" class="form-control" id="tagsSET" placeholder="Add tags (e.g., JavaScript, Management)">
-                          </div>
-                          <div class="mb-3">
-                            <label for="positionSET" class="form-label">Current Position</label>
-                            <input type="text" class="form-control" id="positionSET" placeholder="Your job title or current role">
-                          </div>
-                          <div class="form-check mb-3">
-                            <input type="checkbox" class="form-check-input" id="publicProfileSET">
-                            <label class="form-check-label" for="publicProfileSET">Public Profile</label>
-                          </div>
-                        </form>
-                      </div>
-                
-                      <!-- Social Tab -->
-                      <div class="tab-pane fade" id="social" role="tabpanel" aria-labelledby="social-tab">
-                        <form id="socialForm">
-                          <div class="mb-3">
-                            <label for="linkedinSET" class="form-label">LinkedIn Profile</label>
-                            <input type="url" class="form-control" id="linkedinSET" placeholder="https://www.linkedin.com/in/yourprofile">
-                          </div>
-                          <div class="mb-3">
-                            <label for="portfolioSET" class="form-label">Portfolio</label>
-                            <input type="url" class="form-control" id="portfolioSET" placeholder="https://portfolio.com/yourprofile">
-                          </div>
-                          <div class="mb-3">
-                            <label for="githubSET" class="form-label">GitHub Profile</label>
-                            <input type="url" class="form-control" id="githubSET" placeholder="https://github.com/yourprofile">
-                          </div>
-                          <div class="mb-3">
-                            <label for="otherSET" class="form-label">Other Website</label>
-                            <input type="url" class="form-control" id="otherSET" placeholder="https://otherwebsite.com/yourprofile">
-                          </div>
-                        </form>
-                      </div>
-                
-                      <!-- Membership Tab -->
-                      <div class="tab-pane fade" id="membership" role="tabpanel" aria-labelledby="membership-tab">
-                        <form id="membershipForm">
-                          <div class="mb-3">
-                            <label for="membershipTypeSET" class="form-label">Membership Type</label>
-                            <select class="form-select" id="membershipTypeSET">
-                              <option value="free">Free</option>
-                              <option value="premium">Premium</option>
-                              <option value="enterprise">Enterprise</option>
-                            </select>
-                          </div>
-                          <div class="mb-3">
-                            <label for="membershipStatusSET" class="form-label">Membership Status</label>
-                            <input type="text" class="form-control" id="membershipStatusSET" value="Active" disabled>
-                          </div>
-                          <div class="mb-3">
-                            <label for="renewalDateSET" class="form-label">Renewal Date</label>
-                            <input type="date" class="form-control" id="renewalDateSET">
-                          </div>
-                        </form>
-                      </div>
-                    </div>
+
+
+
+<div class="container py-5">
+  <h1 class="mb-4">Profile Settings</h1>
+  <p class="text-muted">Keep your profile up to date to improve your visibility and networking opportunities.</p>
+
+  <ul class="nav profile-nav-item" id="profileTab" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button class="nav-link active" id="profile-personal-tab" data-bs-toggle="tab" data-bs-target="#personal-profile" type="button" role="tab" aria-controls="personal" aria-selected="true">
+        Personal
+      </button>
+    </li>
+    <li class="profile-nav-item" role="presentation">
+      <button class="nav-link" id="profile-social-tab" data-bs-toggle="tab" data-bs-target="#social-profile" type="button" role="tab" aria-controls="social" aria-selected="false">
+        Social
+      </button>
+    </li>
+    <li class="profile-nav-item" role="presentation">
+      <button class="nav-link" id="profile-membership-tab" data-bs-toggle="tab" data-bs-target="#membership-profile" type="button" role="tab" aria-controls="membership" aria-selected="false">
+        Membership
+      </button>
+    </li>
+  </ul>
+
+  <div class="tab-content mt-4">
+    <div class="tab-pane fade show active" id="personal-profile" role="tabpanel" aria-labelledby="profile-personal-tab">
+      <h3>Personal Information</h3>
+      <p>Update your personal details here.</p>
+  <!-- Personal Tab -->
+    <form id="personalForm-profile">
+      <div class="mb-3">
+        <label for="usernameSET-profile" class="form-label">Username</label>
+        <input type="text" class="form-control" id="usernameSET-profile" placeholder="Your desired username">
+      </div>
+      <div class="mb-3">
+        <label for="emailSET-profile" class="form-label">Email</label>
+        <input type="email" class="form-control" id="emailSET-profile" placeholder="example@domain.com">
+      </div>
+      <div class="mb-3">
+        <label for="profilePictureSET-profile" class="form-label">Profile Picture</label>
+        <input type="file" class="form-control" id="profilePictureSET-profile">
+      </div>
+      <div class="mb-3">
+        <label for="nameSET-profile" class="form-label">Name</label>
+        <input type="text" class="form-control" id="nameSET-profile" placeholder="Your full name">
+      </div>
+      <div class="mb-3">
+        <label for="bioSET-profile" class="form-label">Bio</label>
+        <textarea class="form-control" id="bioSET-profile" rows="3" placeholder="Tell us about yourself"></textarea>
+      </div>
+      <div class="mb-3">
+        <label for="locationSET-profile" class="form-label">Location</label>
+        <input type="text" class="form-control" id="locationSET-profile" placeholder="Enter your city or state">
+      </div>
+      <div class="mb-3">
+        <label for="tagsSET-profile" class="form-label">Tags</label>
+        <input type="text" class="form-control" id="tagsSET-profile" placeholder="Add tags (e.g., JavaScript, Management)">
+      </div>
+      <div class="mb-3">
+        <label for="positionSET-profile" class="form-label">Current Position</label>
+        <input type="text" class="form-control" id="positionSET-profile" placeholder="Your job title or current role">
+      </div>
+      <div class="form-check mb-3">
+        <input type="checkbox" class="form-check-input" id="publicProfileSET-profile">
+        <label class="form-check-label" for="publicProfileSET-profile">Public Profile</label>
+      </div>
+    </form>
+
+
+
+
+    </div>
+    <div class="tab-pane fade" id="social-profile" role="tabpanel" aria-labelledby="profile-social-tab">
+      <h3>Social Profiles</h3>
+      <p>Manage your social media links here.</p>
+ <!-- Social Tab -->
+    <form id="socialForm-profile">
+      <div class="mb-3">
+        <label for="linkedinSET-profile" class="form-label">LinkedIn Profile</label>
+        <input type="url" class="form-control" id="linkedinSET-profile" placeholder="https://www.linkedin.com/in/yourprofile">
+      </div>
+      <div class="mb-3">
+        <label for="portfolioSET-profile" class="form-label">Portfolio</label>
+        <input type="url" class="form-control" id="portfolioSET-profile" placeholder="https://portfolio.com/yourprofile">
+      </div>
+      <div class="mb-3">
+        <label for="githubSET-profile" class="form-label">GitHub Profile</label>
+        <input type="url" class="form-control" id="githubSET-profile" placeholder="https://github.com/yourprofile">
+      </div>
+      <div class="mb-3">
+        <label for="otherSET-profile" class="form-label">Other Website</label>
+        <input type="url" class="form-control" id="otherSET-profile" placeholder="https://otherwebsite.com/yourprofile">
+      </div>
+    </form>
+
+
+
+    </div>
+    <div class="tab-pane fade" id="membership-profile" role="tabpanel" aria-labelledby="profile-membership-tab">
+      <h3>Membership Details</h3>
+      <p>Check your membership information here.</p>
+
+ <!-- Membership Tab -->
+    <form id="membershipForm-profile">
+      <div class="mb-3">
+        <label for="membershipTypeSET-profile" class="form-label">Membership Type</label>
+        <select class="form-select" id="membershipTypeSET-profile">
+          <option value="free">Free</option>
+          <option value="premium">Premium</option>
+          <option value="enterprise">Enterprise</option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label for="membershipStatusSET-profile" class="form-label">Membership Status</label>
+        <input type="text" class="form-control" id="membershipStatusSET-profile" value="Active" disabled>
+      </div>
+      <div class="mb-3">
+        <label for="renewalDateSET-profile" class="form-label">Renewal Date</label>
+        <input type="date" class="form-control" id="renewalDateSET-profile">
+      </div>
+    </form>
+
+
+
+    </div>
+  </div>
+</div>
+
                 
                     <div class="d-flex justify-content-between mt-4">
-                      <button type="button" class="btn btn-danger" id="deactivateAccountBtn">Deactivate Account</button>
-                      <button type="button" class="btn btn-primary" id="saveProfileBtn">Save Changes</button>
+                      <button type="button" class="btn btn-danger" id="deactivateAccountBtn-profile">Deactivate Account</button>
+                      <button type="button" class="btn btn-primary" id="saveProfileBtn-profile">Save Changes</button>
                     </div>
-                  </div>
+              
                 
-                  <script>
-                    document.getElementById('saveProfileBtn').addEventListener('click', () => {
+                  <script>document.addEventListener("DOMContentLoaded", () => {
+                    const tabs = document.querySelectorAll(".nav-link");
+                    const tabContents = document.querySelectorAll(".tab-pane");
+                  
+                    tabs.forEach((tab) => {
+                      tab.addEventListener("click", (e) => {
+                        // Remove active class from all tabs
+                        tabs.forEach((t) => t.classList.remove("active"));
+                  
+                        // Hide all tab contents
+                        tabContents.forEach((content) => content.classList.remove("active", "show"));
+                  
+                        // Add active class to the clicked tab
+                        e.target.classList.add("active");
+                  
+                        // Show the corresponding tab content
+                        const target = document.querySelector(e.target.dataset.bsTarget);
+                        if (target) {
+                          target.classList.add("active", "show");
+                        }
+                      });
+                    });
+                  });
+                  
+                    document.getElementById('saveProfileBtn-profile').addEventListener('click', () => {
                       alert('Profile saved!');
                     });
                 
-                    document.getElementById('deactivateAccountBtn').addEventListener('click', () => {
+                    document.getElementById('deactivateAccountBtn-profile').addEventListener('click', () => {
                       alert('Account deactivated!');
                     });
                   </script>
