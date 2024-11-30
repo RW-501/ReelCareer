@@ -665,6 +665,8 @@ console.log("Module User We outside: ", userId);
             document.getElementById('jobSeeker-btn').style.display = 'none';
             document.getElementById('recruiter-btn').style.display = 'none';
             document.getElementById('view-profile-btn').style.display = 'none';
+
+            document.getElementById('view-profile-btn').style.display = 'none';
       
         } else {
             checkUser(userId);
@@ -672,6 +674,8 @@ console.log("Module User We outside: ", userId);
             document.getElementById('connect-btn').style.display = 'none';
             document.getElementById('jobSeeker-btn').style.display = 'block';
             document.getElementById('recruiter-btn').style.display = 'block';
+            document.getElementById('view-profile-btn').style.display = 'block';
+
             document.getElementById('view-profile-btn').style.display = 'block';
         }
      
@@ -1097,7 +1101,7 @@ tagsContainer.innerHTML = '<strong>Tags: </strong>' + tagElements;
   const userId = getUserId();
 
      // Replace with actual user ID
-            const shareUrl = `https://reelcareer.co/views/user/?u=${userId}`; // Construct share URL
+            const shareUrl = `https://reelcareer.co/views/user?u=${userId}`; // Construct share URL
             navigator.clipboard.writeText(shareUrl).then(() => {
                 showToast('Profile link copied to clipboard!');
             }).catch(err => {
@@ -1112,8 +1116,8 @@ tagsContainer.innerHTML = '<strong>Tags: </strong>' + tagElements;
         });
 
 
-        document.getElementById('jobSeeker-btn').addEventListener('click', async () => {
-          window.location.href = 'https://reelcareer.co/views/job-seeker';
+        document.getElementById('recruiter-btn').addEventListener('click', async () => {
+          window.location.href = 'https://reelcareer.co/views/recruiter-dashboard';
 
         });
 
@@ -1151,6 +1155,9 @@ tagsContainer.innerHTML = '<strong>Tags: </strong>' + tagElements;
 
 
         document.getElementById('send-message-btn').addEventListener('click', function() {
+          const urlParams = new URLSearchParams(window.location.search);
+        const userIdFromURL = urlParams.get('u');
+
     // Set recipient ID from the profile data
     document.getElementById('recipient-id').value = userIdFromURL; // Assuming userIdFromURL is the recipient ID.
     $('#sendMessageModal').modal('show'); // Show the modal
