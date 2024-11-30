@@ -1176,7 +1176,7 @@ function updateFooter() {
             ${Object.keys(groupedLinks).map(category => `
               <div class='footerNavItems'>
                 <h5>${category}</h5>
-                ${groupedLinks[category].map(link => `<a href="${link.url}" title="${link.title}">${link.name}</a>`).join("  ")}
+                ${groupedLinks[category].map(link => `<a href="${link.url}" title="${link.title}">${link.name}</a>`).join("")}
               </div>`).join("\n")}
           </nav>
         </div>
