@@ -166,11 +166,10 @@
 
 
             
-                  <div class="container py-5">
 
 
 
-<div class="container">
+<div id="profileSettings"  class="container">
   <h1 class="mb-4">Profile Settings</h1>
   <p class="text-muted">Keep your profile up to date to improve your visibility and networking opportunities.</p>
 
@@ -322,6 +321,9 @@
 
     </div>
   </div>
+  
+
+
 </div>
 
                 
@@ -666,7 +668,7 @@ console.log("Module User We outside: ", userId);
             document.getElementById('recruiter-btn').style.display = 'none';
             document.getElementById('view-profile-btn').style.display = 'none';
 
-            document.getElementById('view-profile-btn').style.display = 'none';
+            document.getElementById('profileSettings').style.display = 'none';
       
         } else {
             checkUser(userId);
@@ -676,7 +678,7 @@ console.log("Module User We outside: ", userId);
             document.getElementById('recruiter-btn').style.display = 'block';
             document.getElementById('view-profile-btn').style.display = 'block';
 
-            document.getElementById('view-profile-btn').style.display = 'block';
+            document.getElementById('profileSettings').style.display = 'block';
         }
      
         
@@ -761,7 +763,10 @@ const websites = websitesSetup.filter(site => site.url !== "");
       location: document.getElementById('locationSET-profile').value.trim(),
       position: document.getElementById('positionSET-profile').value.trim(),
       publicProfile: document.getElementById('publicProfileSET-profile').checked,
-      tags: document.getElementById('tagsSET-profile').value.trim(),
+
+
+      tags: document.getElementById('tagsSET-profile').trim().split(",").map((item) => item.toLowerCase().trim()),
+
 
       // Social Profiles tab
       linkedin: document.getElementById('linkedinSET-profile').value.trim(),
