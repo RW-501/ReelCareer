@@ -196,7 +196,7 @@
     <form id="personalForm-profile">
       <div class="mb-3">
         <label for="usernameSET-profile" class="form-label">Username</label>
-        <input type="text" class="form-control" id="usernameSET-profile" placeholder="Your desired username">
+        <input type="name" class="form-control" id="usernameSET-profile" placeholder="Your desired username">
       </div>
       <div class="mb-3">
         <label for="emailSET-profile" class="form-label">Email</label>
@@ -208,8 +208,19 @@
       </div>
       <div class="mb-3">
         <label for="nameSET-profile" class="form-label">Name</label>
-        <input type="text" class="form-control" id="nameSET-profile" placeholder="Your full name">
+        <input type="name" class="form-control" id="nameSET-profile" placeholder="Your full name">
       </div>
+
+      <div class="mb-3">
+        <label for="phoneSET-profile" class="form-label">Phone</label>
+        <input type="tel" class="form-control" id="phoneSET-profile">
+      </div>
+
+      <div class="mb-3">
+        <label for="dobSET-profile" class="form-label">DOB</label>
+        <input type="date" class="form-control" id="dobSET-profile">
+      </div>
+
       <div class="mb-3">
         <label for="bioSET-profile" class="form-label">Bio</label>
         <textarea class="form-control" id="bioSET-profile" rows="3" placeholder="Tell us about yourself"></textarea>
@@ -703,8 +714,8 @@ document.querySelectorAll('.save-button').forEach(button => {
       // Personal Information tab
       fullName: document.getElementById('full-name-profile').value.trim(),
       email: document.getElementById('email-profile').value.trim(),
-      phone: document.getElementById('phone-profile').value.trim(),
-      dob: document.getElementById('dob-profile').value.trim(),
+      phone: document.getElementById('phoneSET-profile').value.trim(),
+      dob: document.getElementById('dobSET-profile').value.trim(),
       address: document.getElementById('address-profile').value.trim(),
 
       // Social Profiles tab
