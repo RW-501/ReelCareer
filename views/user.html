@@ -418,7 +418,7 @@
    
    
    import {
-    userId, db, doc, getDoc, query, updateDoc,
+    getUserId, db, doc, getDoc, query, updateDoc,
         setDoc, ref, signInWithPopup, orderBy,
         arrayRemove, arrayUnion , uploadBytesResumable, 
         uploadBytes, OAuthProvider, getStorage,
@@ -428,7 +428,7 @@
         auth, analytics, deleteDoc, getDownloadURL
     } from 'https://reelcareer.co/js/module.js';
 
-    
+  const userId =  getUserId();
 
     console.log("Module User We outside: ", userId);
 
