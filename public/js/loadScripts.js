@@ -240,7 +240,7 @@ console.log(formatDateString(1732032108000));                           // Expec
         : text;
 }
 
-  
+
   function restrictKeys(event) {
     const allowedKeys = [
       "Backspace",
