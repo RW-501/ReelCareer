@@ -822,7 +822,7 @@ function displayBlogs(blogs, container) {
       blogCard.innerHTML = `
           <div class="card blog-card shadow-sm">
               <div data-bs-toggle="modal" data-bs-target="#blogModal" class="blog-card-trigger" data-blog-id="${blog.id}">
-                  <a href="https://reelcareer.co/views/blog?id=${blog.id}">
+                  <a  title="${blog.title}" href="https://reelcareer.co/views/blog?id=${blog.id}">
                       <img src="${checkImageURL(blog.imageUrl)}" alt="${blog.title}" class="card-img-top" loading="lazy" />
                   </a>
                   <div class="card-body">

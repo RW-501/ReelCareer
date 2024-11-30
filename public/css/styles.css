@@ -280,8 +280,15 @@ align-items: flex-start;
     background-color: #f3f3f3 !important;
     padding: 5px 10px;
     border-radius: 5px;
+    font-size: 1rem;
 
 }
+.blog-card .card-title * {
+
+    font-size: .5rem !important;
+}
+
+
   .blog-card .card-body a {
     color: #047af1 !important;
   }
