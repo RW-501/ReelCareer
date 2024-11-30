@@ -428,9 +428,6 @@
         auth, analytics, deleteDoc, getDownloadURL
     } from 'https://reelcareer.co/js/module.js';
 
-  const userId =  getUserId();
-
-    console.log("Module User We outside: ", userId);
 
 
 
@@ -608,16 +605,14 @@ function showUserSignedOutMessage() {
 
 
 
-// Define Firestore and reference the user collection
-const usersCollection = db.collection('users'); // Update this path if needed
-
-// Example user ID (replace with actual logic for fetching logged-in user's ID)
-
 
 // Retrieve and populate form inputs for tabs
 document.addEventListener("DOMContentLoaded", async () => {
   try {
 
+    const userId =  getUserId();
+
+console.log("Module User We outside: ", userId);
 
     
 
