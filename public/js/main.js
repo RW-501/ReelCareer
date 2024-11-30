@@ -2009,6 +2009,7 @@ function checkUserLoginStatus() {
   // Event listener for the settings button
   document.getElementById("settingsBtn").addEventListener("click", () => {
     const profileModal = document.getElementById("profileModal");
+    console.log('settingsBtn');
 
     // Create modal only when settingsBtn is clicked if it doesn't already exist
     if (!profileModal) {
