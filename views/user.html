@@ -120,6 +120,9 @@
         <button class="btn btn-primary btn-block" id="send-message-btn">Send Message</button>
         <button class="btn btn-primary btn-block"  id="share-profile-btn">Share Profile</button>
         <button class="btn btn-primary btn-block" id="connect-btn">Connect</button>
+
+        <button class="btn btn-primary btn-block" id="jobSeeker-btn">Job Seeker Dashboard</button>
+        <button class="btn btn-primary btn-block" id="recruiter-btn">Recruiter Dashboard</button>
     </div>
 </div>
                     
@@ -662,9 +665,11 @@ console.log("Module User We outside: ", userId);
             checkUser(userId);
             document.getElementById('send-message-btn').style.display = 'none';
             document.getElementById('connect-btn').style.display = 'none';
+            document.getElementById('jobSeeker-btn').style.display = 'block';
+            document.getElementById('recruiter-btn').style.display = 'block';
         }
-
-
+     
+        
 
 
    
@@ -990,7 +995,7 @@ tagsContainer.innerHTML = '<strong>Tags: </strong>' + tagElements;
             userData.jobPosts.forEach(jobData => {
                 
                 const listItem = document.createElement('li');
-                listItem.innerText = '<a href="https://reelcareer.co/views/job-details?id=${jobData.jobID}" title="${jobData.jobTitle}">${jobData.jobTitle}</a>'   || '';
+                listItem.innerHTML =  `<a href="https://reelcareer.co/views/job-details?id=${jobData.jobID}" title="${jobData.jobTitle}">${jobData.jobTitle}</a>`   || '';
                 jobsList.appendChild(listItem);
             });
         }
@@ -1083,25 +1088,53 @@ tagsContainer.innerHTML = '<strong>Tags: </strong>' + tagElements;
     });
 }
  document.getElementById('share-profile-btn').addEventListener('click', () => {
-          
+  const userId = getUserId();
+
      // Replace with actual user ID
-            const shareUrl = `${window.location.origin}/profile/${userId}`; // Construct share URL
+            const shareUrl = `https://reelcareer.co/views/user/?u=${userId}`; // Construct share URL
             navigator.clipboard.writeText(shareUrl).then(() => {
                 showToast('Profile link copied to clipboard!');
             }).catch(err => {
                 console.error('Could not copy text: ', err);
             });
         });
+  
+
+        document.getElementById('jobSeeker-btn').addEventListener('click', async () => {
+          window.location.href = 'https://reelcareer.co/views/job-seeker';
+
+        });
+
+
+        document.getElementById('jobSeeker-btn').addEventListener('click', async () => {
+          window.location.href = 'https://reelcareer.co/views/job-seeker';
+
+        });
+
+
+        document.getElementById('view-profile-btn').addEventListener('click', async () => {
+          const userId = getUserId();
+
+          window.location.href = `https://reelcareer.co/views/user/?u=${userId}`;
+
+        });
+
+
+
+
 
         document.getElementById('connect-btn').addEventListener('click', async () => {
-            const userId = "currentUserId"; // Replace with actual user ID
-            const currentUserId = "loggedInUserId"; // Replace with actual logic to get logged in user ID
+          const userId = getUserId();
 
-            if (userId !== currentUserId) {
+          const urlParams = new URLSearchParams(window.location.search);
+        const userIdFromURL = urlParams.get('u');
+
+
+            if (userId !== userIdFromURL) {
                 const connectionRef = collection(db, 'Connections');
                 await addDoc(connectionRef, {
-                    from: currentUserId,
-                    to: userId,
+                    from: userId,
+                    to: userIdFromURL,
                     status: 'pending', // or 'accepted' based on your logic
                 });
                 showToast('Connection request sent!');
@@ -1133,7 +1166,7 @@ document.getElementById('sendMessageForm').addEventListener('submit', async func
         content: content,
         attachments: attachments ? attachments.name : '',
         isDeleted: false,
-        read: false,
+        status: "unread",
         createdAt: new Date(),
     };
     
