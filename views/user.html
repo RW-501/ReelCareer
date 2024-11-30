@@ -978,7 +978,7 @@ tagsContainer.innerHTML = '<strong>Tags: </strong>' + tagElements;
             userData.jobPosts.forEach(jobData => {
                 
                 const listItem = document.createElement('li');
-                listItem.innerText = `<a href="https://reelcareer.co/views/job-details?id=${jobData.jobID}" title="${jobData.jobTitle}">${jobData.jobTitle}</a>`   || 'Job Title';
+                listItem.innerText = '<a href="https://reelcareer.co/views/job-details?id=${jobData.jobID}" title="${jobData.jobTitle}">${jobData.jobTitle}</a>'   || '';
                 jobsList.appendChild(listItem);
             });
         }
