@@ -499,13 +499,7 @@ main .btn-info:hover {
         width: 260px;
         column-gap: .5rem !important;
         -webkit-text-stroke: thin;
-        grid-row: auto;
-        grid-area: auto;
-        grid-gap: .05rem !important;
-        align-content: space-between;
-        justify-content: space-around;
-        align-items: start;
-        justify-items: stretch; 
+  
     }
     .card-bottom {
         text-transform: capitalize;
@@ -520,7 +514,10 @@ main .btn-info:hover {
 
     }
 
-
+.source-text-area {
+  -webkit-text-stroke-width: thin;
+  font-size: .8rem;
+}
 
     .location-text-area {
         font-size: 1rem;
