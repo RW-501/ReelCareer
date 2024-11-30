@@ -283,7 +283,7 @@ align-items: flex-start;
     font-size: 1rem;
 
 }
-.blog-card .card-title * {
+.blog-card .card-text * {
 
     font-size: .5rem !important;
 }
