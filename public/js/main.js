@@ -810,36 +810,38 @@ async function loadRelatedBlogs() {
 window.loadRelatedBlogs = loadRelatedBlogs;
 
 // Function to display fetched blogs
-function displayBlogs(blogs, container) {
+async function displayBlogs(blogs, container) {
   container.innerHTML = ''; // Clear previous blogs
 
-  blogs.forEach((blog) => {
-  
+  for (const blog of blogs) {
+    const blogCard = document.createElement('div');
+    blogCard.classList.add('blogCard');
+    
+    // Use await to resolve the image URL before using it
+    const imageUrl = await checkImageURL(blog.imageUrl);
 
-  
-      const blogCard = document.createElement('div');
-      blogCard.classList.add('blogCard');
-      blogCard.innerHTML = `
-          <div class="card blog-card shadow-sm">
-              <div data-bs-toggle="modal" data-bs-target="#blogModal" class="blog-card-trigger" data-blog-id="${blog.id}">
-                  <a  title="${blog.title}" href="https://reelcareer.co/views/blog?id=${blog.id}">
-                      <img src="${checkImageURL(blog.imageUrl)}" alt="${blog.title}" class="card-img-top" loading="lazy" />
-                  </a>
-                  <div class="card-body">
-                      <a href="https://reelcareer.co/views/blog?id=${blog.id}">
-                          <h5 class="card-title text-primary">${blog.title}</h5>
-                      </a>
-                      <div class="card-text text-muted">
-                          <div>${truncateText(blog.content, 80, `https://reelcareer.co/views/blog?id=${blog.id}`)}</div>
-                      </div>
-                      <button class="btn btn-outline-primary blog-card-trigger" data-blog-id="${blog.id}">Read More</button>
-                  </div>
-              </div>
-          </div>
-      `;
-      container.appendChild(blogCard);
-  });
+    blogCard.innerHTML = `
+        <div class="card blog-card shadow-sm">
+            <div data-bs-toggle="modal" data-bs-target="#blogModal" class="blog-card-trigger" data-blog-id="${blog.id}">
+                <a title="${blog.title}" href="https://reelcareer.co/views/blog?id=${blog.id}">
+                    <img src="${imageUrl}" alt="${blog.title}" class="card-img-top" loading="lazy" />
+                </a>
+                <div class="card-body">
+                    <a href="https://reelcareer.co/views/blog?id=${blog.id}">
+                        <h5 class="card-title text-primary">${blog.title}</h5>
+                    </a>
+                    <div class="card-text text-muted">
+                        <div>${truncateText(blog.content, 80, `https://reelcareer.co/views/blog?id=${blog.id}`)}</div>
+                    </div>
+                    <button class="btn btn-outline-primary blog-card-trigger" data-blog-id="${blog.id}">Read More</button>
+                </div>
+            </div>
+        </div>
+    `;
+    container.appendChild(blogCard);
+  }
 }
+
 
 // Function to fetch and display similar jobs with better handling
 async function getSimilarJobs() {
