@@ -753,7 +753,7 @@ const websites = websitesSetup.filter(site => site.url !== "");
 
         
  // Create a reference to the user's document
- const userDocRef = doc(db, "Users", userId);
+ const userDocRef = doc(db, "Users", getUserId());
 
 // Update the user's document with merge: true
 await setDoc(userDocRef, userData, { merge: true });
