@@ -277,15 +277,26 @@
         </select>
       </div>
       <div class="mb-3">
-        <label for="membershipStatusSET-profile" class="form-label">Membership Status</label>
+        <label for="membershipStatus-profile" class="form-label">Membership Status</label>
         <input type="text" class="form-control" id="membershipStatusSET-profile" value="Active" disabled>
       </div>
       <div class="mb-3">
         <label for="renewalDateSET-profile" class="form-label">Renewal Date</label>
         <input type="date" class="form-control" id="renewalDateSET-profile">
       </div>
+
+      <div class="mb-3">
+        <label for="lastLogin-profile" class="form-label">lastLogin</label>
+        <input type="date" class="form-control" id="lastLogin-profile">
+      </div>
+      <div class="mb-3">
+        <label for="userID-profile" class="form-label">userID</label>
+        <input type="text" class="form-control" id="userID-profile">
+      </div>
+
     </form>
 
+    
     <div class="d-flex justify-content-between mt-4">
         <button type="button" class="btn btn-danger" id="deactivateAccountBtn-profile">Deactivate Account</button>
         <button type="button" class="btn btn-primary" id="saveProfileBtn-profile">Save Changes</button>
@@ -736,21 +747,30 @@ if (profileData) {
   const userData = profileData;
 
   // Populate the Personal Information tab
-  document.getElementById('full-name-profile').value = userData.fullName || "";
-  document.getElementById('email-profile').value = userData.email || "";
+  document.getElementById('usernameSET-profile').value = userData.displayName || "";
+  document.getElementById('emailSET-profile').value = userData.email || "";
   document.getElementById('phone-profile').value = userData.phone || "";
   document.getElementById('dob-profile').value = userData.dob || "";
-  document.getElementById('address-profile').value = userData.address || "";
+  document.getElementById('locationSET-profile').value = userData.location || "";
+  document.getElementById('nameSET-profile').value = userData.name || "";
+  document.getElementById('bioSET-profile').value = userData.bio || "";
+  document.getElementById('tagsSET-profile').value = userData.tags || "";
+  document.getElementById('positionSET-profile').value = userData.position || "";
+  document.getElementById('publicProfileSET-profile').checked = userData.publicProfile || "";
 
   // Populate the Social Profiles tab
-  document.getElementById('linkedin-profile').value = userData.linkedin || "";
-  document.getElementById('twitter-profile').value = userData.twitter || "";
-  document.getElementById('github-profile').value = userData.github || "";
-  document.getElementById('portfolio-profile').value = userData.portfolio || "";
+  document.getElementById('linkedinSET-profile').value = userData.linkedin || "";
+  document.getElementById('otherSET-profile').value = userData.other || "";
+  document.getElementById('githubSET-profile').value = userData.github || "";
+  document.getElementById('portfolioSET-profile').value = userData.portfolio || "";
 
   // Populate the Membership Details tab
-  document.getElementById('membership-type-profile').value = userData.membershipType || "";
-  document.getElementById('membership-expiry-profile').value = userData.membershipExpiry || "";
+  document.getElementById('membershipTypeSET-profile').value = userData.membershipType || "";
+  document.getElementById('membershipStatus-profile').value = userData.membershipType || "";
+  document.getElementById('renewalDateSET-profile').value = userData.membershipExpiry || "";
+
+  document.getElementById('lastLogin-profile').value = userData.lastLogin || "";
+  document.getElementById('userID-profile').value = userData.userID || "";
 } else {
   console.log("No user data found!");
 }
