@@ -450,9 +450,9 @@ let backTopTopCount = 0;
     backTopTopCount += 1;
     if(backTopTopCount == 1){
     const backToTopDiv = `
-      <div id="backToTopBtn" style="cursor: pointer;">
-        <h3 class="font-weight-bold" btn btn-primary w-100 mt-4>Back to Top</h3>
-      </div>
+      <h3 id="backToTopBtn" style="cursor: pointer;"
+        class="font-weight-bold" btn btn-primary w-100 mt-4>Back to Top
+      </h3>
     `;
     const tempDiv = document.createElement('button');
     tempDiv.innerHTML = backToTopDiv;
