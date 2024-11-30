@@ -729,15 +729,20 @@ document.getElementById('saveProfileBtn-profile').addEventListener('click', asyn
     
     const userData = {
       // Personal Information tab
-      fullName: document.getElementById('full-name-profile').value.trim(),
-      email: document.getElementById('emailSET-profile').value.trim(),
+      displayName: document.getElementById('usernameSET-profile').value.trim(),
+     // email: document.getElementById('emailSET-profile').value.trim(),
       phone: document.getElementById('phoneSET-profile').value.trim(),
       dob: document.getElementById('dobSET-profile').value.trim(),
-      address: document.getElementById('address-profile').value.trim(),
+      name: document.getElementById('nameSET-profile').value.trim(),
+      bio: document.getElementById('bioSET-profile').value.trim(),
+      location: document.getElementById('locationSET-profile').value.trim(),
+      position: document.getElementById('positionSET-profile').value.trim(),
+      publicProfile: document.getElementById('publicProfileSET-profile').checked,
+      tags: document.getElementById('tagsSET-profile').value.trim(),
 
       // Social Profiles tab
       linkedin: document.getElementById('linkedin-profile').value.trim(),
-      twitter: document.getElementById('twitter-profile').value.trim(),
+      other: document.getElementById('twitter-profile').value.trim(),
       github: document.getElementById('github-profile').value.trim(),
       portfolio: document.getElementById('portfolio-profile').value.trim(),
 
