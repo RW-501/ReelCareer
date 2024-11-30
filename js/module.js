@@ -72,18 +72,35 @@ document.addEventListener('DOMContentLoaded', initializeFirebase);
 
 
  console.log("Page loaded Module ?????????????");
-  
+
+
+
+
+ let userId; 
+
  onAuthStateChanged(auth, (user) => {
     if (user) {
-        // User is signed in, proceed with user ID handling
-        console.log("Module User ID: ", user.uid);
-
-        // Store user ID and email in local storage
-        localStorage.setItem('userLoggedIn', 'true');
-        localStorage.setItem('userID', user.uid);
-        localStorage.setItem('userEmail', user.email);
+      console.log("Module User ID: ", user.uid);
+  
+      // Store user ID and email in local storage
+      localStorage.setItem('userLoggedIn', 'true');
+      localStorage.setItem('userID', user.uid);
+      localStorage.setItem('userEmail', user.email);
+  
+      // Use user ID where necessary
+       userId = user.uid;
+      console.log("User ID: ", userId);
+    } else {
+      console.log("No user signed in");
+  
+      // Clear local storage
+      localStorage.removeItem('userLoggedIn');
+      localStorage.removeItem('userID');
+      localStorage.removeItem('userEmail');
     }
-    });
+  });
+  
+
 
 // Initialize Google and Facebook Auth Providers
 const googleProvider = new GoogleAuthProvider();
@@ -91,7 +108,7 @@ const facebookProvider = new FacebookAuthProvider();
 
 
   // Export Firestore, Storage, and Auth instances for use in other modules
-export { user, db,getStorage, ref, uploadBytes, getDownloadURL,limit ,
+export { userId, db,getStorage, ref, uploadBytes, getDownloadURL,limit ,
     doc,arrayUnion, RecaptchaVerifier ,increment, getDoc, arrayRemove  ,signInWithPhoneNumber,
      query, updateDoc , setDoc, addDoc,signInAnonymously, orderBy,onAuthStateChanged,
      uploadBytesResumable,   signInWithPopup,FacebookAuthProvider, GoogleAuthProvider,startAfter ,
