@@ -462,6 +462,9 @@ function handleAuthStateChanged(user) {
   setupDropdownToggle();
 }
 
+window.handleAuthStateChanged = handleAuthStateChanged;
+
+
 // Dropdown toggle and close logic encapsulated into a function
 function setupDropdownToggle() {
   const dropdownToggleButton = document.getElementById("profileDropdown");
