@@ -830,7 +830,7 @@ async function displayBlogs(blogs, container) {
                     <a href="https://reelcareer.co/views/blog?id=${blog.id}">
                         <h5 class="card-title text-primary">${blog.title}</h5>
                     </a>
-                    <div class="card-text text-muted">
+                    <div class="blog-card-text text-muted">
                         <div>${truncateText(blog.content, 80, `https://reelcareer.co/views/blog?id=${blog.id}`)}</div>
                     </div>
                 

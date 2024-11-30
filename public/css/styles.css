@@ -309,7 +309,12 @@ height: 200px;
 overflow: hidden;
 
 }
-
+.blog-card .card-body {
+  padding: 0;
+}
+.blog-card .blog-card-text {
+  padding: .2rem 1rem;
+}
 .blog-card .blog-card-trigger {
   margin: auto;
   display: block;
