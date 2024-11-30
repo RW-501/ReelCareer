@@ -3,7 +3,7 @@ import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.17.2/firebas
 // Firestore imports
 import { 
     getFirestore, 
-    doc, 
+    doc, arrayRemove,
     getDoc, serverTimestamp, 
     query, startAfter ,
     updateDoc,orderBy, 
@@ -82,7 +82,7 @@ const facebookProvider = new FacebookAuthProvider();
 
   // Export Firestore, Storage, and Auth instances for use in other modules
 export {  db,getStorage, ref, uploadBytes, getDownloadURL,limit ,
-    doc,arrayUnion, RecaptchaVerifier ,increment, getDoc   ,signInWithPhoneNumber,
+    doc,arrayUnion, RecaptchaVerifier ,increment, getDoc, arrayRemove  ,signInWithPhoneNumber,
      query, updateDoc , setDoc, addDoc,signInAnonymously, orderBy,onAuthStateChanged,
       signInWithPopup,FacebookAuthProvider, GoogleAuthProvider,startAfter ,
        OAuthProvider, signOut, deleteDoc, getFirestore, serverTimestamp ,
