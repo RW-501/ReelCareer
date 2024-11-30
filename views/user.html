@@ -627,101 +627,74 @@ function showUserSignedOutMessage() {
 // Retrieve and populate form inputs for tabs
 window.onload = async function () {
     setTimeout(() => {
-  try {
+        try {
+            const userId = getUserId();
+            console.log("Module User We outside: ", userId);
 
-    const userId =  getUserId();
+            const urlParams = new URLSearchParams(window.location.search);
+            const userIdFromURL = urlParams.get('u');
 
-console.log("Module User We outside: ", userId);
+            // Function to handle UI updates based on user existence
+            const updateUI = (isPublicProfile) => {
+                const sendMessageBtn = document.getElementById('send-message-btn');
+                const connectBtn = document.getElementById('connect-btn');
 
-    
-
-        const urlParams = new URLSearchParams(window.location.search);
-        const userIdFromURL = urlParams.get('u');
-
-        // Ensure userIdFromURL is not null or undefined
-        if (userIdFromURL) {
-            checkUser(userIdFromURL);
-            document.getElementById('currentUserId').innerText = userId;
-            document.getElementById('userPageId').innerText = userIdFromURL;
-
-            document.getElementById('send-message-btn').style.display = 'block';
-            document.getElementById('connect-btn').style.display = 'block';
-      
-        } else {
-            checkUser(userId);
-            document.getElementById('send-message-btn').style.display = 'none';
-            document.getElementById('connect-btn').style.display = 'none';
-        }
-
-        // Async function to check the user profile (userData)
-        async function checkUser(userIdFromURL) {
-            try {
-                // Fetch profile information based on userId in the URL
-                const profileDoc = doc(db, 'Users', userIdFromURL);
-                const profileSnapshot = await getDoc(profileDoc);
-
-                if (profileSnapshot.exists()) {
-                    const userData = profileSnapshot.data();
-                    console.log("User data fetched from Firestore:", userData);
-
-             
-                    // Check if the profile is public
-                    if (userData.profilePublic) {
-                        showPrivateProfileMessage(); // Show private profile message
-                    } else {
-                        await loadUserData(userData); // Load user data if public
-                        await loadUserJobs(userData);
-                        await loadUserBlogs(userIdFromURL);
-                        await loadUserCompanies(userIdFromURL);
-                        await loadUserVideoResumes(userData);
-                        await loadSocialMedia(userData);
-                    }
+                if (isPublicProfile) {
+                    sendMessageBtn.style.display = 'block';
+                    connectBtn.style.display = 'block';
                 } else {
-                    // Call this function when the user data is not found
-                    showUserDataNotFoundMessage();
+                    sendMessageBtn.style.display = 'none';
+                    connectBtn.style.display = 'none';
                 }
-            } catch (error) {
-                console.error("Error fetching user data:", error);
+            };
+
+            // Function to check user profile (async)
+            async function checkUser(userIdFromURL) {
+                try {
+                    const profileDoc = doc(db, 'Users', userIdFromURL);
+                    const profileSnapshot = await getDoc(profileDoc);
+
+                    if (profileSnapshot.exists()) {
+                        const userData = profileSnapshot.data();
+                        console.log("User data fetched from Firestore:", userData);
+
+                        if (!userData.profilePublic) {
+                            // Load public profile data
+                            await loadUserData(userData);
+                            await loadUserJobs(userData);
+                            await loadUserBlogs(userIdFromURL);
+                            await loadUserCompanies(userIdFromURL);
+                            await loadUserVideoResumes(userData);
+                            await loadSocialMedia(userData);
+                            updateUI(true);
+                        } else {
+                            // Profile is private
+                            showPrivateProfileMessage();
+                            updateUI(false);
+                        }
+                    } else {
+                        showUserDataNotFoundMessage();
+                        updateUI(false);
+                    }
+                } catch (error) {
+                    console.error("Error fetching user data:", error);
+                }
             }
+
+            if (userIdFromURL) {
+                checkUser(userIdFromURL);
+                document.getElementById('currentUserId').innerText = userId;
+                document.getElementById('userPageId').innerText = userIdFromURL;
+            } else {
+                console.warn("No userIdFromURL found.");
+                updateUI(false);
+            }
+
+        } catch (error) {
+            console.error("Error retrieving user data: ", error);
         }
-    } else {
-        const urlParams = new URLSearchParams(window.location.search);
-        const userIdFromURL = urlParams.get('u');
-
-        // Ensure userIdFromURL is not null or undefined
-        if (userIdFromURL) {
-            checkUser(userIdFromURL);
-    
-            document.getElementById('send-message-btn').style.display = 'none';
-            document.getElementById('connect-btn').style.display = 'none';
-        }
-        // join us
-    }
-
-    
-  } catch (error) {
-    console.error("Error retrieving user data: ", error);
-  }
-
-
-// Save input data across tabs
-document.querySelectorAll('.save-button').forEach(button => {
-  button.addEventListener('click', async () => {
-   
-  });
-});
-
-
-
-
-
-}, 1000);
+    }, 1000);
 };
-
-    
-
-
-
 
 
 
