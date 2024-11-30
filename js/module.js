@@ -28,7 +28,7 @@ import {
 } from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-auth.js';
 
 // Storage import
-import { getDownloadURL,uploadBytes,  ref, getStorage, deleteObject } from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-storage.js';
+import { getDownloadURL,uploadBytes, uploadBytesResumable, ref, getStorage, deleteObject } from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-storage.js';
 
 // Analytics import
 import { initializeAnalytics } from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-analytics.js';
@@ -84,7 +84,7 @@ const facebookProvider = new FacebookAuthProvider();
 export {  db,getStorage, ref, uploadBytes, getDownloadURL,limit ,
     doc,arrayUnion, RecaptchaVerifier ,increment, getDoc, arrayRemove  ,signInWithPhoneNumber,
      query, updateDoc , setDoc, addDoc,signInAnonymously, orderBy,onAuthStateChanged,
-      signInWithPopup,FacebookAuthProvider, GoogleAuthProvider,startAfter ,
+     uploadBytesResumable,   signInWithPopup,FacebookAuthProvider, GoogleAuthProvider,startAfter ,
        OAuthProvider, signOut, deleteDoc, getFirestore, serverTimestamp ,
         createUserWithEmailAndPassword, signInWithEmailAndPassword, deleteObject,
          where, getDocs,googleProvider,facebookProvider,  storage, getAuth, collection, auth, analytics };
