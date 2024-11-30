@@ -285,12 +285,11 @@ align-items: flex-start;
     padding: 5px 10px;
     border-radius: 5px;
     font-size: 1rem;
+    width: 100%;
+    margin-top: 1rem;
 
 }
-.blog-card .card-text * {
 
-    font-size: .8rem !important;
-}
 .blog-card .blog-image-area {
   width: 250px;
   height: 200px;
@@ -324,7 +323,10 @@ overflow: hidden;
 
   font-size: .8rem !important;
 }
+.blog-card .card-text * {
 
+  font-size: .8rem !important;
+}
 
   .blog-card .card-body a {
     color: #047af1 !important;
