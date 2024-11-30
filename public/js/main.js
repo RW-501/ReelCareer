@@ -1,5 +1,5 @@
 import {
-  db, doc, getDoc, query, updateDoc,
+  db, doc, getDoc, query, updateDoc,getAuth,
   setDoc, ref, signInWithPopup, orderBy, limit,
   uploadBytes, OAuthProvider, arrayUnion, getStorage,
   signOut, addDoc, increment, onAuthStateChanged,
