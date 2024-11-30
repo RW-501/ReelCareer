@@ -157,7 +157,7 @@
            
 
 
-            <div class="col-md-8">
+            <div class="col-md-8 public">
                 <!-- Open Jobs Section -->
                 <div class="card mt-3">
                     <div class="card-body">
@@ -188,6 +188,9 @@
                     </div>
                 </div>
             </div>
+
+
+
         </div>
     </div>
        
@@ -234,7 +237,7 @@
 <script type="module">
     import {
         db, doc, getDoc, query, updateDoc,
-        setDoc, ref, signInWithPopup, orderBy,
+        setDoc, ref, signInWithPopup, orderBy,auth,
          
         uploadBytes, OAuthProvider, arrayUnion, getStorage,
         signOut, addDoc, increment, onAuthStateChanged,
