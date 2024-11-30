@@ -716,6 +716,26 @@ function capitalize(string) {
 
 
 
+async function checkImageURL(url) {
+  try {
+      const response = await fetch(url, { method: 'HEAD' });
+      if (response.ok) {
+          return url; // Image is accessible
+      } else if (response.status === 403) {
+          console.error(`403 Forbidden: Cannot access the image at ${url}`);
+          return 'https://ReelCareer.co/images/rc_text_sm.png';
+      } else {
+          console.warn(`Unexpected response: ${response.status}`);
+          return 'https://ReelCareer.co/images/rc_text_sm.png';
+      }
+  } catch (error) {
+      console.error(`Error checking image URL: ${error.message}`);
+      return 'https://ReelCareer.co/images/rc_text_sm.png';
+  }
+}
+
+
+window.checkImageURL = checkImageURL;
 
 
 
@@ -794,13 +814,16 @@ function displayBlogs(blogs, container) {
   container.innerHTML = ''; // Clear previous blogs
 
   blogs.forEach((blog) => {
+  
+
+  
       const blogCard = document.createElement('div');
       blogCard.classList.add('blogCard');
       blogCard.innerHTML = `
           <div class="card blog-card shadow-sm">
               <div data-bs-toggle="modal" data-bs-target="#blogModal" class="blog-card-trigger" data-blog-id="${blog.id}">
                   <a href="https://reelcareer.co/views/blog?id=${blog.id}">
-                      <img src="${blog.imageUrl}" alt="${blog.title}" class="card-img-top" loading="lazy" />
+                      <img src="${checkImageURL(blog.imageUrl)}" alt="${blog.title}" class="card-img-top" loading="lazy" />
                   </a>
                   <div class="card-body">
                       <a href="https://reelcareer.co/views/blog?id=${blog.id}">
@@ -1451,7 +1474,7 @@ function getViewedByField() {
         userID: userData.userID || 'N/A',
         lastLogin: userData.lastLogin || 'N/A',
         city: locationData.city || 'N/A',
-        state: locationData.region || 'N/A',
+        state: locationData.state || 'N/A',
         zip: locationData.zip || 'N/A',
         country: locationData.country || 'N/A',
         locationData: locationData,
