@@ -727,6 +727,19 @@ document.querySelectorAll('.save-button').forEach(button => {
 
 document.getElementById('saveProfileBtn-profile').addEventListener('click', async () => {
     
+
+    // Create an array of website info
+const websitesSetup = [
+  { name: "LinkedIn", url: document.getElementById('linkedinSET-profile').value.trim() },
+  { name: "Other", url: document.getElementById('otherSET-profile').value.trim() },
+  { name: "GitHub", url: document.getElementById('githubSET-profile').value.trim() },
+  { name: "Portfolio", url: document.getElementById('portfolioSET-profile').value.trim() }
+];
+
+// Optionally, you can filter out empty entries like this:
+const websites = websitesSetup.filter(site => site.url !== "");
+
+
     const userData = {
       // Personal Information tab
       displayName: document.getElementById('usernameSET-profile').value.trim(),
@@ -745,8 +758,10 @@ document.getElementById('saveProfileBtn-profile').addEventListener('click', asyn
       other: document.getElementById('otherSET-profile').value.trim(),
       github: document.getElementById('githubSET-profile').value.trim(),
       portfolio: document.getElementById('portfolioSET-profile').value.trim(),
+      websites: websites,
 
-      // Membership Details tab
+
+// Membership Details tab
       membershipType: document.getElementById('membershipTypeSET-profile').value.trim(),
       membershipExpiry: document.getElementById('renewalDateSET-profile').value.trim(),
     };
@@ -980,7 +995,7 @@ tagsContainer.innerHTML = '<strong>Tags: </strong>' + tagElements;
             userData.jobPosts.forEach(jobData => {
                 
                 const listItem = document.createElement('li');
-                listItem.innerText = jobData.jobTitle || 'Job Title';
+                listItem.innerText = `<a href="https://reelcareer.co/views/job-details?id=${jobData.jobID}" title="${jobData.jobTitle}">${jobData.jobTitle}</a>`   || 'Job Title';
                 jobsList.appendChild(listItem);
             });
         }
@@ -1053,7 +1068,7 @@ tagsContainer.innerHTML = '<strong>Tags: </strong>' + tagElements;
     const socialMediaListContainer = document.getElementById('social-media-list');
 
     // Check if socialMediaList exists and has items
-    if (!profileData.socialMediaList || profileData.socialMediaList.length === 0) {
+    if (!profileData.websites || profileData.websites.length === 0) {
         socialMediaListContainer.innerHTML = '<li>No social media links found.</li>';
         return;
     }
@@ -1062,18 +1077,19 @@ tagsContainer.innerHTML = '<strong>Tags: </strong>' + tagElements;
     socialMediaListContainer.innerHTML = ''; 
 
     // Iterate through each social media document
-    profileData.socialMediaList.forEach(doc => {
+    profileData.websites.forEach(doc => {
         const socialData = doc.data();
         const listItem = document.createElement('li');
 
         // Use template literals for better readability
-        listItem.innerHTML = `<a href="${encodeURI(socialData.link)}" target="_blank" rel="noopener noreferrer">${socialData.platform}</a>`;
+        listItem.innerHTML = `<a href="${encodeURI(socialData.url)}" target="_blank" rel="noopener noreferrer">${socialData.name}</a>`;
         
         socialMediaListContainer.appendChild(listItem);
     });
 }
  document.getElementById('share-profile-btn').addEventListener('click', () => {
-            const userId = "currentUserId"; // Replace with actual user ID
+          
+     // Replace with actual user ID
             const shareUrl = `${window.location.origin}/profile/${userId}`; // Construct share URL
             navigator.clipboard.writeText(shareUrl).then(() => {
                 showToast('Profile link copied to clipboard!');
