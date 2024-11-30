@@ -204,6 +204,11 @@ h1, h2, h3, h4, h5, h6 {
     background-color: #222222 !important;
 }
 
+.footerMainContainer {
+    width: 100%;
+    display: block;
+    margin: auto;
+}
 .footerNavContainer {
     display: flex;
     gap: 1rem;

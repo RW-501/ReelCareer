@@ -1170,13 +1170,13 @@ function updateFooter() {
     const { currentYear, links } = config.footer;
     const footerHTML = `
       <footer>
-        <div class="container text-center">
+        <div class="footerMainContainer text-center">
           <p>&copy; ${currentYear} ReelCareer</p>
           <nav class='footerNavContainer'>
             ${Object.keys(groupedLinks).map(category => `
               <div class='footerNavItems'>
                 <h5>${category}</h5>
-                ${groupedLinks[category].map(link => `<a href="${link.url}" title="${link.title}">${link.name}</a>`).join(" | ")}
+                ${groupedLinks[category].map(link => `<a href="${link.url}" title="${link.title}">${link.name}</a>`).join("  ")}
               </div>`).join("\n")}
           </nav>
         </div>
