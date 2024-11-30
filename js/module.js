@@ -56,9 +56,9 @@ function initializeFirebase() {
     db = getFirestore(app);
     storage = getStorage(app);
     analytics = initializeAnalytics(app);
-    console.log("Firebase initialized successfully");
+ //   console.log("Firebase initialized successfully");
   } catch (error) {
-    console.error("Error initializing Firebase:", error);
+    console.error("Error, TRY RELOADING:", error);
   }
 }
 

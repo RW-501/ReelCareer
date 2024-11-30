@@ -713,7 +713,7 @@ document.querySelectorAll('.save-button').forEach(button => {
     const userData = {
       // Personal Information tab
       fullName: document.getElementById('full-name-profile').value.trim(),
-      email: document.getElementById('email-profile').value.trim(),
+      email: document.getElementById('emailSET-profile').value.trim(),
       phone: document.getElementById('phoneSET-profile').value.trim(),
       dob: document.getElementById('dobSET-profile').value.trim(),
       address: document.getElementById('address-profile').value.trim(),
@@ -760,8 +760,8 @@ if (profileData) {
   // Populate the Personal Information tab
   document.getElementById('usernameSET-profile').value = userData.displayName || "";
   document.getElementById('emailSET-profile').value = userData.email || "";
-  document.getElementById('phone-profile').value = userData.phone || "";
-  document.getElementById('dob-profile').value = userData.dob || "";
+  document.getElementById('phoneSET-profile').value = userData.phone || "";
+  document.getElementById('dobSET-profile').value = userData.dob || "";
   document.getElementById('locationSET-profile').value = userData.location || "";
   document.getElementById('nameSET-profile').value = userData.name || "";
   document.getElementById('bioSET-profile').value = userData.bio || "";
