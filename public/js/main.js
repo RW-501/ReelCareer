@@ -62,6 +62,8 @@ const saveUserLoginState = async (user) => {
       lastLogin: serverTimestamp(),
       ipAddress: ip || "",
       userID: user.uid || "",
+      verified: user.emailVerified || false,
+      phoneNumber: user.phoneNumber || '',
   
 
       tags: tagArray || "",
