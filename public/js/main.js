@@ -10,37 +10,8 @@ import {
 
 
 
-let UserID = "";
-let userData = "";
 
-// Fetch the user's IP address
-const getUserIP = async () => {
-    try {
-        const response = await fetch('https://api.ipify.org?format=json');
-        const data = await response.json();
-        return data.ip;
-    } catch (error) {
-        console.error('Error fetching IP address:', error);
-        return null;
-    }
-};
 
-// Get user location by IP
-const getUserLocationByIP = async (ip) => {
-  try {
-      const response = await fetch(`https://ipapi.co/${ip}/json/`);
-      const data = await response.json();
-      return {
-          city: data.city || 'N/A',
-          state: data.region || 'N/A',
-          zip: data.postal || 'N/A',
-          country: data.country_name || 'N/A'
-      };
-  } catch (error) {
-      console.error('Error fetching location by IP:', error);
-      return null;
-  }
-};
 
 // Function to update or create user information in Firestore
 const saveUserLoginState = async (user) => {
@@ -1254,15 +1225,13 @@ document.addEventListener("DOMContentLoaded", updateFooter);
 
 
 
-
-
-
-
-
 // Utility variables
 let viewStartTime;
 let locationData;
 let ipAddress;
+
+
+
 
 
 window.userLocationService = function() {
@@ -1403,11 +1372,14 @@ window.addEventListener('scroll', () => {
 function getViewedByField() {
   const { pathname, search, hash } = window.location;
 
+
+  /*
   // Ensure valid pathname, search, and hash values before proceeding
   if (!pathname || !search || !hash) {
    // console.error("Missing necessary parts of the URL: pathname, search, or hash.");
     return "home"; // Return null or a default value
   }
+*/
 
   // Extract the base path and remove leading/trailing slashes
   const path = pathname.split('/').filter(Boolean).join('-');
@@ -1468,7 +1440,8 @@ function getViewedByField() {
             pageTitle: pageTitle,
             jobTitleName: jobTitleName || "N/A",
             referrer: document.referrer || 'Direct',
-            lastViewDate: new Date().toISOString()
+            lastViewDate: new Date().toISOString(),
+            entryURL: window.location.href,
 
 
         },
