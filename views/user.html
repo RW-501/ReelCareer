@@ -418,7 +418,7 @@
    
    
    import {
-        db, doc, getDoc, query, updateDoc,
+    user, db, doc, getDoc, query, updateDoc,
         setDoc, ref, signInWithPopup, orderBy,
         arrayRemove, arrayUnion , uploadBytesResumable, 
         uploadBytes, OAuthProvider, getStorage,
@@ -429,6 +429,17 @@
     } from 'https://reelcareer.co/js/module.js';
 
     
+
+    console.log("Module User We outside: ", user.uid);
+
+
+
+
+
+
+
+
+
     function showPrivateProfileMessage() {
     // Create a container div
     const container = document.createElement('div');
@@ -596,8 +607,19 @@ function showUserSignedOutMessage() {
 }
 
 
-document.addEventListener("DOMContentLoaded", () => {
 
+// Define Firestore and reference the user collection
+const usersCollection = db.collection('users'); // Update this path if needed
+
+// Example user ID (replace with actual logic for fetching logged-in user's ID)
+const userId = "exampleUserId";
+
+// Retrieve and populate form inputs for tabs
+document.addEventListener("DOMContentLoaded", async () => {
+  try {
+
+
+    
 
     // Check for auth state changes
     onAuthStateChanged(auth, (user) => {
@@ -609,7 +631,7 @@ document.addEventListener("DOMContentLoaded", () => {
         localStorage.setItem('userLoggedIn', 'true');
         localStorage.setItem('userID', user.uid);
         localStorage.setItem('userEmail', user.email);
-
+    
         const urlParams = new URLSearchParams(window.location.search);
         const userIdFromURL = urlParams.get('u');
 
@@ -664,6 +686,73 @@ document.addEventListener("DOMContentLoaded", () => {
         showUserSignedOutMessage();
     }
 });
+    const doc = await usersCollection.doc(userId).get();
+
+    if (doc.exists) {
+      const userData = doc.data();
+
+      // Populate the Personal Information tab
+      document.getElementById('full-name-profile').value = userData.fullName || "";
+      document.getElementById('email-profile').value = userData.email || "";
+      document.getElementById('phone-profile').value = userData.phone || "";
+      document.getElementById('dob-profile').value = userData.dob || "";
+      document.getElementById('address-profile').value = userData.address || "";
+
+      // Populate the Social Profiles tab
+      document.getElementById('linkedin-profile').value = userData.linkedin || "";
+      document.getElementById('twitter-profile').value = userData.twitter || "";
+      document.getElementById('github-profile').value = userData.github || "";
+      document.getElementById('portfolio-profile').value = userData.portfolio || "";
+
+      // Populate the Membership Details tab
+      document.getElementById('membership-type-profile').value = userData.membershipType || "";
+      document.getElementById('membership-expiry-profile').value = userData.membershipExpiry || "";
+    } else {
+      console.log("No user data found!");
+    }
+  } catch (error) {
+    console.error("Error retrieving user data: ", error);
+  }
+
+
+// Save input data across tabs
+document.querySelectorAll('.save-button').forEach(button => {
+  button.addEventListener('click', async () => {
+    const userData = {
+      // Personal Information tab
+      fullName: document.getElementById('full-name-profile').value.trim(),
+      email: document.getElementById('email-profile').value.trim(),
+      phone: document.getElementById('phone-profile').value.trim(),
+      dob: document.getElementById('dob-profile').value.trim(),
+      address: document.getElementById('address-profile').value.trim(),
+
+      // Social Profiles tab
+      linkedin: document.getElementById('linkedin-profile').value.trim(),
+      twitter: document.getElementById('twitter-profile').value.trim(),
+      github: document.getElementById('github-profile').value.trim(),
+      portfolio: document.getElementById('portfolio-profile').value.trim(),
+
+      // Membership Details tab
+      membershipType: document.getElementById('membership-type-profile').value.trim(),
+      membershipExpiry: document.getElementById('membership-expiry-profile').value.trim(),
+    };
+
+    try {
+      await usersCollection.doc(userId).set(userData, { merge: true });
+      console.log("User data saved successfully!");
+      alert("Your profile has been updated successfully.");
+    } catch (error) {
+      console.error("Error saving user data: ", error);
+      alert("There was an error updating your profile. Please try again later.");
+    }
+  });
+});
+
+
+
+
+
+
 
 });
 

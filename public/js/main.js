@@ -1090,7 +1090,7 @@ function updateFooter() {
       "url": "/jobs/state",
       "name": "State Jobs",
       "title": "State Jobs - Explore Job Listings by State",
-      "category": "Admin",
+      "category": "Features",
       "order": 12
     },
     {
