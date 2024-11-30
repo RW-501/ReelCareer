@@ -292,8 +292,10 @@ align-items: flex-start;
     font-size: .8rem !important;
 }
 .blog-card .blog-image-area {
-  width: auto;
+  width: 200px;
   height: 200px;
+overflow: hidden;
+
 }
 .blog-card .blog-card-img-top {
   border-top-left-radius: calc(.25rem - 1px);
@@ -301,6 +303,9 @@ align-items: flex-start;
 object-fit: cover;
 vertical-align: middle;
 margin: auto;
+width: 200px;
+height: 200px;
+overflow: hidden;
 
 }
 
