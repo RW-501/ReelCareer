@@ -624,6 +624,9 @@ if(userId){
         // Ensure userIdFromURL is not null or undefined
         if (userIdFromURL) {
             checkUser(userIdFromURL);
+            document.getElementById('send-message-btn').style.display = 'block';
+            document.getElementById('connect-btn').style.display = 'block';
+      
         } else {
             checkUser(user.uid);
             document.getElementById('send-message-btn').style.display = 'none';
@@ -641,10 +644,7 @@ if(userId){
                     const userData = profileSnapshot.data();
                     console.log("User data fetched from Firestore:", userData);
 
-                    // Save userData to local storage
-                    localStorage.setItem('userData', JSON.stringify(userData));
-                    console.log("User data stored in localStorage:", userData);
-
+             
                     // Check if the profile is public
                     if (userData.profilePublic) {
                         showPrivateProfileMessage(); // Show private profile message
@@ -665,11 +665,17 @@ if(userId){
             }
         }
     } else {
-        // User is signed out, clear local storage and show signed out message
-        ['userLoggedIn', 'userID', 'userEmail', 'userData'].forEach(item => localStorage.removeItem(item));
+        const urlParams = new URLSearchParams(window.location.search);
+        const userIdFromURL = urlParams.get('u');
 
-        // Call this function when the user is signed out
-        showUserSignedOutMessage();
+        // Ensure userIdFromURL is not null or undefined
+        if (userIdFromURL) {
+            checkUser(userIdFromURL);
+    
+            document.getElementById('send-message-btn').style.display = 'none';
+            document.getElementById('connect-btn').style.display = 'none';
+        }
+        // join us
     }
 
     
