@@ -77,6 +77,7 @@ document.addEventListener('DOMContentLoaded', initializeFirebase);
 
 
  let userId; 
+ document.addEventListener("DOMContentLoaded", async () => {
 
  onAuthStateChanged(auth, (user) => {
     if (user) {
@@ -100,7 +101,7 @@ document.addEventListener('DOMContentLoaded', initializeFirebase);
     }
   });
   
-
+ });
 
 // Initialize Google and Facebook Auth Providers
 const googleProvider = new GoogleAuthProvider();
