@@ -62,6 +62,11 @@ function initializeFirebase() {
   }
 }
 
+// Function to get the current user ID
+function getUserId() {
+  return userId;
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   initializeFirebase();
 
@@ -85,23 +90,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
       userId = null;
     }
-
-function getUserId(){
-
-    return userId;
-}
-
-window.getUserId = getUserId;
   });
-
-
 });
-
 
 // Initialize Google and Facebook Auth Providers
 const googleProvider = new GoogleAuthProvider();
 const facebookProvider = new FacebookAuthProvider();
-
 
 // Export Firestore, Storage, and Auth instances for use in other modules
 export {
@@ -114,5 +108,5 @@ export {
   where, getDocs, storage, getAuth, collection, auth, analytics,
   googleProvider,
   facebookProvider,
-  getUserId
+  getUserId // Export the function
 };
