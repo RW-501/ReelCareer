@@ -285,12 +285,12 @@ align-items: flex-start;
 }
 .blog-card .card-text * {
 
-    font-size: .5rem !important;
+    font-size: .8rem !important;
 }
 .blog-card .card-text h1,.blog-card .card-text strong,
 .blog-card .card-text a {
 
-  font-size: .5rem !important;
+  font-size: .8rem !important;
 }
 
 
