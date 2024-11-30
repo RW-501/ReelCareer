@@ -318,12 +318,12 @@ overflow: hidden;
   margin: auto;
   display: block;
 }
-.blog-card .card-text h1,.blog-card .card-text strong,
-.blog-card .card-text a {
+.blog-card .blog-card-text h1,.blog-card .blog-card-text strong,
+.blog-card .blog-card-text a {
 
   font-size: .8rem !important;
 }
-.blog-card .card-text * {
+.blog-card .blog-card-text * {
 
   font-size: .8rem !important;
 }
