@@ -722,14 +722,14 @@ async function checkImageURL(url) {
       if (response.ok) {
           return url; // Image is accessible
       } else if (response.status === 403) {
-          console.error(`403 Forbidden: Cannot access the image at ${url}`);
+       //   console.error(`403 Forbidden: Cannot access the image at ${url}`);
           return 'https://reelcareer.co/images/rc_text_sm.png'; // Correct the protocol here
       } else {
-          console.warn(`Unexpected response: ${response.status}`);
+      //    console.warn(`Unexpected response: ${response.status}`);
           return 'https://reelcareer.co/images/rc_text_sm.png'; // Correct the protocol here
       }
   } catch (error) {
-      console.error(`Error checking image URL: ${error.message}`);
+    //  console.error(`Error checking image URL: ${error.message}`);
       return 'https://reelcareer.co/images/rc_text_sm.png'; // Correct the protocol here
   }
 }
