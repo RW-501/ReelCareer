@@ -80,7 +80,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       handleAuthStateChanged(user);
-      createProfileModal();
 
       // Redirect to the user page if on the auth page
       if (window.location.pathname === "/views/auth") {
