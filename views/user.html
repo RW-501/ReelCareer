@@ -365,17 +365,17 @@
 <!-- Firebase JS SDK and Custom Scripts -->
 
 <script type="module">
-    import {
+   
+   import {
         db, doc, getDoc, query, updateDoc,
         setDoc, ref, signInWithPopup, orderBy,
-         
+        arrayRemove, arrayUnion , uploadBytesResumable, 
         uploadBytes, OAuthProvider, arrayUnion, getStorage,
         signOut, addDoc, increment, onAuthStateChanged,
         createUserWithEmailAndPassword, signInWithEmailAndPassword,
         where, getDocs, storage, collection, deleteObject, 
         auth, analytics, deleteDoc, getDownloadURL
     } from 'https://reelcareer.co/js/module.js';
-
 
     
     function showPrivateProfileMessage() {

@@ -803,9 +803,18 @@ document.getElementById('videoResumeUploadForm').onsubmit = function(event) {
 
     <!-- Firebase Script for Loading User Data -->
     <script type="module">
-        import { onAuthStateChanged, db, auth } from 'https://reelcareer.co/public/js/main.js';
-        import { doc, arrayRemove, arrayUnion , getDoc, updateDoc,  collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
-        import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-storage.js";
+   
+   
+        import {
+        db, doc, getDoc, query, updateDoc,
+        setDoc, ref, signInWithPopup, orderBy,
+        arrayRemove, arrayUnion , uploadBytesResumable, 
+        uploadBytes, OAuthProvider, arrayUnion, getStorage,
+        signOut, addDoc, increment, onAuthStateChanged,
+        createUserWithEmailAndPassword, signInWithEmailAndPassword,
+        where, getDocs, storage, collection, deleteObject, 
+        auth, analytics, deleteDoc, getDownloadURL
+    } from 'https://reelcareer.co/js/module.js';
 
 
 
