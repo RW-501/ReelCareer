@@ -345,13 +345,7 @@
                     });
                   });
                   
-                    document.getElementById('saveProfileBtn-profile').addEventListener('click', () => {
-                      alert('Profile saved!');
-                    });
-                
-                    document.getElementById('deactivateAccountBtn-profile').addEventListener('click', () => {
-                      alert('Account deactivated!');
-                    });
+
                   </script>
              
                 
@@ -710,6 +704,29 @@ if(userId){
 // Save input data across tabs
 document.querySelectorAll('.save-button').forEach(button => {
   button.addEventListener('click', async () => {
+   
+  });
+});
+
+
+
+
+
+}, 1000);
+};
+
+    
+
+
+
+
+
+
+
+
+
+document.getElementById('saveProfileBtn-profile').addEventListener('click', async () => {
+    
     const userData = {
       // Personal Information tab
       fullName: document.getElementById('full-name-profile').value.trim(),
@@ -741,17 +758,112 @@ document.querySelectorAll('.save-button').forEach(button => {
       console.error("Error saving user data: ", error);
       showToast("There was an error updating your profile. Please try again later.");
     }
-  });
+
+                      
+                    });
+                
+
+
+                    document.getElementById('deactivateAccountBtn-profile').addEventListener('click', async () => {
+  const userDocRef = doc(db, 'Users', getUserId());
+
+  try {
+    // Check if user ID is valid
+    const userId = getUserId();
+    if (!userId) {
+      alert('Invalid user ID. Please log in again.');
+      return;
+    }
+
+    // Fetch current user status
+    const userDoc = await getDoc(userDocRef);
+    if (!userDoc.exists()) {
+      alert('User not found! Please contact support.');
+      return;
+    }
+
+    const currentStatus = userDoc.data().status;
+    if (!currentStatus) {
+      alert('Unable to retrieve account status. Please try again.');
+      return;
+    }
+
+    const isCurrentlyActive = currentStatus === 'active';
+
+    // Confirmation message based on current status
+    const action = isCurrentlyActive ? 'deactivate' : 'reactivate';
+    const confirmToggle = confirm(`Are you sure you want to ${action} your account?`);
+
+    if (!confirmToggle) {
+      console.log(`${action.charAt(0).toUpperCase() + action.slice(1)} canceled by the user.`);
+      return;
+    }
+
+    // Toggle status
+    const newStatus = isCurrentlyActive ? 'inactive' : 'active';
+
+    // Update user's status
+    await updateDoc(userDocRef, { status: newStatus });
+    console.log(`User account status updated to ${newStatus}`);
+
+    // Update job posts' status
+    try {
+      const jobsQuery = query(
+        collection(db, 'Jobs'),
+        where('createdBy', '==', userId)
+      );
+      const jobDocs = await getDocs(jobsQuery);
+
+      if (!jobDocs.empty) {
+        jobDocs.forEach(async (jobDoc) => {
+          const jobRef = doc(db, 'Jobs', jobDoc.id);
+          await updateDoc(jobRef, { status: newStatus });
+          console.log(`Job post ${jobDoc.id} status updated to ${newStatus}`);
+        });
+      } else {
+        console.log('No job posts found for the user.');
+      }
+    } catch (jobError) {
+      console.error('Error updating job posts status:', jobError);
+      alert('An error occurred while updating job posts. Please try again later.');
+    }
+
+    // Update applications' status
+    try {
+      const applicationsQuery = query(
+        collection(db, 'Applications'),
+        where('userId', '==', userId)
+      );
+      const applicationDocs = await getDocs(applicationsQuery);
+
+      if (!applicationDocs.empty) {
+        applicationDocs.forEach(async (appDoc) => {
+          const appRef = doc(db, 'Applications', appDoc.id);
+          await updateDoc(appRef, { status: newStatus });
+          console.log(`Application ${appDoc.id} status updated to ${newStatus}`);
+        });
+      } else {
+        console.log('No applications found for the user.');
+      }
+    } catch (appError) {
+      console.error('Error updating applications status:', appError);
+      alert('An error occurred while updating applications. Please try again later.');
+    }
+
+    // Update button text
+    const button = document.getElementById('deactivateAccountBtn-profile');
+    button.textContent = isCurrentlyActive ? 'Reactivate Account' : 'Deactivate Account';
+
+    // Notify user of successful update
+    alert(`Your account and related data have been successfully ${action}d.`);
+  } catch (error) {
+    console.error('Error during toggle process:', error);
+    alert('An unexpected error occurred. Please try again later.');
+  }
 });
 
 
 
-
-
-}, 1000);
-};
-
-    
         async function loadUserData(profileData) {
 
 
@@ -851,10 +963,16 @@ tagsContainer.innerHTML = '<strong>Tags: </strong>' + tagElements;
             const jobSnapshot = await getDocs(q);
             const jobsList = document.getElementById('open-jobs-list');
 
+
+
             if (jobSnapshot.empty) {
                 jobsList.innerHTML = '<li>No open jobs found.</li>';
                 return;
             }
+
+
+
+
 
             jobSnapshot.forEach(doc => {
                 const jobData = doc.data();
@@ -1016,18 +1134,6 @@ document.getElementById('sendMessageForm').addEventListener('submit', async func
         showToast('Failed to send message. Please try again.');
     }
 });
-/*
-service cloud.firestore {
-  match /databases/{database}/documents {
-    match /Messages/{message} {
-      allow create: if request.auth != null && request.resource.data.senderID == request.auth.uid;
-      allow read, update: if request.auth != null && (resource.data.recipientID == request.auth.uid || resource.data.senderID == request.auth.uid);
-    }
-  }
-}
-
-
-*/
 
 
 
