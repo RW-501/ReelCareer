@@ -612,7 +612,7 @@ function showUserSignedOutMessage() {
 const usersCollection = db.collection('users'); // Update this path if needed
 
 // Example user ID (replace with actual logic for fetching logged-in user's ID)
-const userId = "exampleUserId";
+const userId = user.id;
 
 // Retrieve and populate form inputs for tabs
 document.addEventListener("DOMContentLoaded", async () => {
@@ -625,7 +625,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     onAuthStateChanged(auth, (user) => {
     if (user) {
         // User is signed in, proceed with user ID handling
-        console.log("User ID: ", user.uid);
+        console.log("User ID onAuthStateChanged: ", user.uid);
 
         // Store user ID and email in local storage
         localStorage.setItem('userLoggedIn', 'true');
