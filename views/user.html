@@ -754,17 +754,17 @@ document.getElementById('saveProfileBtn-profile').addEventListener('click', asyn
     try {
 
         
-        const usersCollection = db.collection('Users'); // Update this path if needed
+ // Create a reference to the user's document
+ const userDocRef = doc(db, "Users", userId);
 
-      await usersCollection.doc(userId).set(userData, { merge: true });
-      console.log("User data saved successfully!");
-      showToast("Your profile has been updated successfully.");
-    } catch (error) {
-      console.error("Error saving user data: ", error);
-      showToast("There was an error updating your profile. Please try again later.");
-    }
-
-                      
+// Update the user's document with merge: true
+await setDoc(userDocRef, userData, { merge: true });
+console.log("User data saved successfully!");
+showToast("Your profile has been updated successfully.");
+} catch (error) {
+console.error("Error saving user data:", error.message);
+showToast("There was an error updating your profile. Please try again later.");
+}            
                     });
                 
 
