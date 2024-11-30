@@ -421,6 +421,8 @@
 
 </main>
 
+<div id="currentUserId" hidden></div>
+<div id="userPageId" hidden></div>
 
     <!-- Footer -->
     <footer id="dynamic-footer"></footer>
@@ -633,14 +635,15 @@ console.log("Module User We outside: ", userId);
 
     
 
-if(userId){
-   
         const urlParams = new URLSearchParams(window.location.search);
         const userIdFromURL = urlParams.get('u');
 
         // Ensure userIdFromURL is not null or undefined
         if (userIdFromURL) {
             checkUser(userIdFromURL);
+            document.getElementById('currentUserId').innerText = userId;
+            document.getElementById('userPageId').innerText = userIdFromURL;
+
             document.getElementById('send-message-btn').style.display = 'block';
             document.getElementById('connect-btn').style.display = 'block';
       
