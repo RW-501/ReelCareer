@@ -135,6 +135,10 @@ h1, h2, h3, h4, h5, h6 {
 .job-title-link, .badge, .btn, .btn-primary, .btn-secondary, .breadcrumb-item, .cap  {
     text-transform: capitalize !important;
 }
+#darkModeToggle {
+  width: max-content;
+
+}
 
 .mainBGcolor{
     background-color: #639ad4 !important;
@@ -289,8 +293,7 @@ align-items: flex-start;
 }
 .blog-card .blog-image-area {
   width: auto;
-  height: 400px;
-  justify-content: center;
+  height: 200px;
 }
 .blog-card .blog-card-img-top {
   border-top-left-radius: calc(.25rem - 1px);
