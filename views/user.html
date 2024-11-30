@@ -912,7 +912,7 @@ if (profileData) {
             document.getElementById('location-text').innerText = profileData.location || 'City, State';
 
             const verified = profileData.verified || "Not Verified";
-            const membership = profileData.membership || "Basic";
+            const membership = profileData.membershipType || "Basic";
             console.log("membership: ", membership);
             console.log("verified: ", verified);
 
@@ -927,7 +927,7 @@ if (!profileData.tags || profileData.tags.length === 0) {
     const tags = profileData.tags; // No need to map since they're already strings
     
     // Display the tags in the container
-    const tagElements = profileData.tags.map(tag => `<span class="tag mb-1">${tag}</span>`).join(' ');
+    const tagElements = tags.map(tag => `<span class="tag mb-1">${tag}</span>`).join(' ');
 tagsContainer.innerHTML = '<strong>Tags: </strong>' + tagElements;
 }
 

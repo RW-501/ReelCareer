@@ -16,7 +16,9 @@ import {
 // Function to update or create user information in Firestore
 const saveUserLoginState = async (user) => {
   try {
+    console.log(" User info: ", user);
 
+//    await saveUserLoginState(user, true); // Update database and local storage
 
     const userDataSaved = JSON.parse(localStorage.getItem('userData')) || [];
    
@@ -500,6 +502,9 @@ function createProfileModal() {
   document.getElementById('saveProfileBtn').addEventListener('click', saveProfileData);
   document.getElementById('deactivateAccountBtn').addEventListener('click', () => alert('Account deactivated.'));
 }
+
+window.createProfileModal = createProfileModal;
+
 
 // Function to generate a tab item
 function createTabItem(tab, idx) {
