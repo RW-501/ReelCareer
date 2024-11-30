@@ -158,6 +158,136 @@
 
 
             <div class="col-md-8 public">
+
+
+
+            
+                  <div class="container py-5">
+                    <h1 class="mb-4">Profile Settings</h1>
+                    <p class="text-muted">Keep your profile up to date to improve your visibility and networking opportunities.</p>
+                
+                    <ul class="nav nav-tabs" id="profileTab" role="tablist">
+                      <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="personal-tab" data-bs-toggle="tab" data-bs-target="#personal" type="button" role="tab" aria-controls="personal" aria-selected="true">Personal</button>
+                      </li>
+                      <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="social-tab" data-bs-toggle="tab" data-bs-target="#social" type="button" role="tab" aria-controls="social" aria-selected="false">Social</button>
+                      </li>
+                      <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="membership-tab" data-bs-toggle="tab" data-bs-target="#membership" type="button" role="tab" aria-controls="membership" aria-selected="false">Membership</button>
+                      </li>
+                    </ul>
+                
+                    <div class="tab-content mt-4" id="profileTabContent">
+                      <!-- Personal Tab -->
+                      <div class="tab-pane fade show active" id="personal" role="tabpanel" aria-labelledby="personal-tab">
+                        <form id="personalForm">
+                          <div class="mb-3">
+                            <label for="usernameSET" class="form-label">Username</label>
+                            <input type="text" class="form-control" id="usernameSET" placeholder="Your desired username">
+                          </div>
+                          <div class="mb-3">
+                            <label for="emailSET" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="emailSET" placeholder="example@domain.com">
+                          </div>
+                          <div class="mb-3">
+                            <label for="profilePictureSET" class="form-label">Profile Picture</label>
+                            <input type="file" class="form-control" id="profilePictureSET">
+                          </div>
+                          <div class="mb-3">
+                            <label for="nameSET" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="nameSET" placeholder="Your full name">
+                          </div>
+                          <div class="mb-3">
+                            <label for="bioSET" class="form-label">Bio</label>
+                            <textarea class="form-control" id="bioSET" rows="3" placeholder="Tell us about yourself"></textarea>
+                          </div>
+                          <div class="mb-3">
+                            <label for="locationSET" class="form-label">Location</label>
+                            <input type="text" class="form-control" id="locationSET" placeholder="Enter your city or state">
+                          </div>
+                          <div class="mb-3">
+                            <label for="tagsSET" class="form-label">Tags</label>
+                            <input type="text" class="form-control" id="tagsSET" placeholder="Add tags (e.g., JavaScript, Management)">
+                          </div>
+                          <div class="mb-3">
+                            <label for="positionSET" class="form-label">Current Position</label>
+                            <input type="text" class="form-control" id="positionSET" placeholder="Your job title or current role">
+                          </div>
+                          <div class="form-check mb-3">
+                            <input type="checkbox" class="form-check-input" id="publicProfileSET">
+                            <label class="form-check-label" for="publicProfileSET">Public Profile</label>
+                          </div>
+                        </form>
+                      </div>
+                
+                      <!-- Social Tab -->
+                      <div class="tab-pane fade" id="social" role="tabpanel" aria-labelledby="social-tab">
+                        <form id="socialForm">
+                          <div class="mb-3">
+                            <label for="linkedinSET" class="form-label">LinkedIn Profile</label>
+                            <input type="url" class="form-control" id="linkedinSET" placeholder="https://www.linkedin.com/in/yourprofile">
+                          </div>
+                          <div class="mb-3">
+                            <label for="portfolioSET" class="form-label">Portfolio</label>
+                            <input type="url" class="form-control" id="portfolioSET" placeholder="https://portfolio.com/yourprofile">
+                          </div>
+                          <div class="mb-3">
+                            <label for="githubSET" class="form-label">GitHub Profile</label>
+                            <input type="url" class="form-control" id="githubSET" placeholder="https://github.com/yourprofile">
+                          </div>
+                          <div class="mb-3">
+                            <label for="otherSET" class="form-label">Other Website</label>
+                            <input type="url" class="form-control" id="otherSET" placeholder="https://otherwebsite.com/yourprofile">
+                          </div>
+                        </form>
+                      </div>
+                
+                      <!-- Membership Tab -->
+                      <div class="tab-pane fade" id="membership" role="tabpanel" aria-labelledby="membership-tab">
+                        <form id="membershipForm">
+                          <div class="mb-3">
+                            <label for="membershipTypeSET" class="form-label">Membership Type</label>
+                            <select class="form-select" id="membershipTypeSET">
+                              <option value="free">Free</option>
+                              <option value="premium">Premium</option>
+                              <option value="enterprise">Enterprise</option>
+                            </select>
+                          </div>
+                          <div class="mb-3">
+                            <label for="membershipStatusSET" class="form-label">Membership Status</label>
+                            <input type="text" class="form-control" id="membershipStatusSET" value="Active" disabled>
+                          </div>
+                          <div class="mb-3">
+                            <label for="renewalDateSET" class="form-label">Renewal Date</label>
+                            <input type="date" class="form-control" id="renewalDateSET">
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                
+                    <div class="d-flex justify-content-between mt-4">
+                      <button type="button" class="btn btn-danger" id="deactivateAccountBtn">Deactivate Account</button>
+                      <button type="button" class="btn btn-primary" id="saveProfileBtn">Save Changes</button>
+                    </div>
+                  </div>
+                
+                  <script>
+                    document.getElementById('saveProfileBtn').addEventListener('click', () => {
+                      alert('Profile saved!');
+                    });
+                
+                    document.getElementById('deactivateAccountBtn').addEventListener('click', () => {
+                      alert('Account deactivated!');
+                    });
+                  </script>
+             
+                
+
+
+
+
+
                 <!-- Open Jobs Section -->
                 <div class="card mt-3">
                     <div class="card-body">
