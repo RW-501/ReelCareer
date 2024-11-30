@@ -200,7 +200,7 @@
       </div>
       <div class="mb-3">
         <label for="emailSET-profile" class="form-label">Email</label>
-        <input type="email" class="form-control" id="emailSET-profile" placeholder="example@domain.com">
+        <input type="email" class="form-control" id="emailSET-profile" disabled>
       </div>
       <div class="mb-3">
         <label for="profilePictureSET-profile" class="form-label">Profile Picture</label>
@@ -730,12 +730,16 @@ document.querySelectorAll('.save-button').forEach(button => {
     };
 
     try {
+
+        
+        const usersCollection = db.collection('Users'); // Update this path if needed
+
       await usersCollection.doc(userId).set(userData, { merge: true });
       console.log("User data saved successfully!");
-      alert("Your profile has been updated successfully.");
+      showToast("Your profile has been updated successfully.");
     } catch (error) {
       console.error("Error saving user data: ", error);
-      alert("There was an error updating your profile. Please try again later.");
+      showToast("There was an error updating your profile. Please try again later.");
     }
   });
 });
