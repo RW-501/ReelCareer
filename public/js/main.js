@@ -45,53 +45,48 @@ const getUserLocationByIP = async (ip) => {
 // Function to update or create user information in Firestore
 const saveUserLoginState = async (user) => {
   try {
+
+
+    const userDataSaved = JSON.parse(localStorage.getItem('userData')) || [];
+   
+    const userTagInterest = JSON.parse(localStorage.getItem('userTagInterest')) || [];
+    const tagArray = userTagInterest.map(item => item.tag); // Extract only the tags
+
+    const userJobInterest = JSON.parse(localStorage.getItem('userJobInterest')) || [];
+    const jobArray = userJobInterest.map(item => item.tag); // Extract only the tags
+
+
     const [ip, location] = await Promise.all([getUserIP(), getUserLocationByIP(await getUserIP())]);
     const userData = {
       email: user.email || "Unknown",
       lastLogin: serverTimestamp(),
-      ipAddress: ip || "Unknown",
-      userID: user.uid || "Unknown",
-      city: location?.city || "Unknown",
-      state: location?.state || "Unknown",
-      zip: location?.zip || "Unknown",
-      country: location?.country || "Unknown",
-      name: user.displayName || "Unknown"
+      ipAddress: ip || "",
+      userID: user.uid || "",
+  
+
+      tags: tagArray || "",
+      jobInterest: jobArray  || "",
+      publicProfile: userDataSaved.publicProfile || true,
+      resumeCount: userDataSaved.resumes.length || 0,
+      savedForLater: userDataSaved.savedJobs.length || 0,
+      userAppsCount: userDataSaved.userApps.length || 0,
+      jobPostsCount: userDataSaved.jobPosts.length || 0,
+      tagsCount: tagArray.length || 0,
+      jobInterestCount: jobArray.length || 0,
+
     };
 
     const userDocRef = doc(db, "Users", user.uid);
     await setDoc(userDocRef, userData, { merge: true });
     localStorage.setItem("userLoggedIn", "true");
-    localStorage.setItem("userEmail", user.email);
   } catch (error) {
     console.error("Error saving user login state:", error);
   }
 };
 
-// Function to initialize Firebase and set up event listeners
-document.addEventListener('DOMContentLoaded', () => {
-  // Wait until Firebase is initialized before using onAuthStateChanged
-  onAuthStateChanged(auth, async (user) => {
-    if (user) {
-      await saveUserLoginState(user);
-      const UserID = user.uid;
 
-      if (localStorage.getItem("darkMode") === "true") {
-        document.body.classList.add("dark-mode");
-      }
 
-      handleAuthStateChanged(user);
 
-      // Redirect to the user page if on the auth page
-      if (window.location.pathname === "/views/auth") {
-        window.location.href = "/views/user";
-      }
-    } else {
-      console.log("No user signed in");
-      // Remove user data from local storage if no user is signed in
-      ["userLoggedIn", "userEmail", "userData"].forEach((item) => localStorage.removeItem(item));
-    }
-  });
-});
 
 
 
@@ -1914,7 +1909,7 @@ window.getUserTagInterest = getUserTagInterest;
 
 
 // Check if user is logged in and handle admin area access
-function checkLogin() {
+function checkLogin(user) {
   const isLoggedIn = localStorage.getItem('userLoggedIn') === 'true';
 
   // Redirect to home if user is not logged in and is in the admin area
@@ -1927,16 +1922,28 @@ function checkLogin() {
               window.location.href = '/backend/dashboard/';
           }
       } else if (window.location.pathname.includes('/backend') || window.location.pathname.includes('/backend/index') || window.location.pathname.includes('/backend/')) {
-          showToast('Admin Logged In');
-          let firebaseLogin = document.getElementById("firebaseLogin");
-          let dashboardContent = document.getElementById("dashboardContent");
-      
+        let firebaseLogin = document.getElementById("firebaseLogin");
+        let dashboardContent = document.getElementById("dashboardContent");
+    
+        if(user.email == "1988lrp@gmail.com"){
+        showToast('Admin Logged In, Welcome ',user.displayName);
+
           if(firebaseLogin){
               firebaseLogin = firebaseLogin.style.display = "none";
               dashboardContent = dashboardContent.style.display = "block";
 
           }
       
+        }else{
+          showToast('You are not a admin');
+
+          if(firebaseLogin){
+            firebaseLogin = firebaseLogin.style.display = "none";
+            dashboardContent = dashboardContent.style.display = "block";
+
+        }
+        }
+
       }
   }
 }
@@ -1988,68 +1995,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
  
 
-// Function to check if the user is logged in
-function checkUserLoginStatus() {
-  onAuthStateChanged(auth, (user) => {
-
-    if (user) {
-
-
-      // User is signed in
-      console.log('User is logged in:', user);
-      localStorage.setItem('userLoggedIn', true);
-
-      if (!window.checkUrl("/backend/") || !window.checkUrl("/backend")) {
-
-      handleAuthStateChanged(user); // Call your function to handle authenticated user
-      }
-      checkLogin(); // Ensure login is valid on page load
-      
-      
-  // Event listener for the settings button
-  document.getElementById("settingsBtn").addEventListener("click", () => {
-    const profileModal = document.getElementById("profileModal");
-    console.log('settingsBtn');
-
-    // Create modal only when settingsBtn is clicked if it doesn't already exist
-    if (!profileModal) {
-      createProfileModal(); // Create the modal
-      initializeProfileModal(user); // Initialize modal
-    } else {
-      profileModal.classList.add("show"); // Add Bootstrap's 'show' class
-      profileModal.setAttribute("aria-hidden", "false");
-    }
-    updateNavVisibility(user);
-
-    setTimeout(() => {
-      getModal(user); // Fetch user data and populate modal
-      showModal("profileModal"); // Show modal after getting the data
-    }, 300);
-  });
-      return user;
-    } else {
-      updateNavVisibility(null);
-
-      localStorage.setItem('userLoggedIn', false);
-
-        if (!window.checkUrl("/backend/") || !window.checkUrl("/backend")) {
-
-      handleAuthStateChanged(user); // Call your function to handle authenticated user
-      }
-      // No user is signed in
-      console.log('No user is logged in.');
-      return false;
-    }
-  });
-
-
-  
-
-  
-
-}
-
-window.checkUserLoginStatus = checkUserLoginStatus;
 
 // Function to setup event listeners
 function setupEventListeners() {
@@ -2114,7 +2059,6 @@ if (window.checkUrl("/backend/") || window.checkUrl("/backend")) {
   attachTrackingListeners();
 }
 
-checkUserLoginStatus();
 
 });
 

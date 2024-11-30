@@ -80,6 +80,43 @@ document.addEventListener('DOMContentLoaded', () => {
       localStorage.setItem('userEmail', user.email);
 
       userId = user.uid;
+
+      if (!window.checkUrl("/backend/") || !window.checkUrl("/backend")) {
+  
+        handleAuthStateChanged(user); // Call your function to handle authenticated user
+        }
+        if (localStorage.getItem("darkMode") === "true") {
+            document.body.classList.add("dark-mode");
+          }
+    
+    
+          // Redirect to the user page if on the auth page
+          if (window.location.pathname === "/views/auth") {
+            window.location.href = "/views/user";
+          }
+        
+    // Event listener for the settings button
+    document.getElementById("settingsBtn").addEventListener("click", () => {
+      const profileModal = document.getElementById("profileModal");
+      console.log('settingsBtn');
+  
+      // Create modal only when settingsBtn is clicked if it doesn't already exist
+      if (!profileModal) {
+        createProfileModal(); // Create the modal
+        initializeProfileModal(user); // Initialize modal
+      } else {
+        profileModal.classList.add("show"); // Add Bootstrap's 'show' class
+        profileModal.setAttribute("aria-hidden", "false");
+      }
+      updateNavVisibility(user);
+  
+      setTimeout(() => {
+        getModal(user); // Fetch user data and populate modal
+        showModal("profileModal"); // Show modal after getting the data
+      }, 300);
+    });
+
+
     } else {
       console.log("No user signed in");
 
@@ -89,7 +126,19 @@ document.addEventListener('DOMContentLoaded', () => {
       localStorage.removeItem('userEmail');
 
       userId = null;
+
+      updateNavVisibility(null);
+  
+      localStorage.setItem('userLoggedIn', false);
+
+        if (!window.checkUrl("/backend/") || !window.checkUrl("/backend")) {
+
+      handleAuthStateChanged(user); // Call your function to handle authenticated user
+      }
     }
+    checkLogin(user); // Ensure login is valid on page load
+
+
   });
 });
 
@@ -110,3 +159,4 @@ export {
   facebookProvider,
   getUserId // Export the function
 };
+
