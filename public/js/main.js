@@ -824,8 +824,8 @@ async function displayBlogs(blogs, container) {
         <div class="card blog-card shadow-sm">
             <div data-bs-toggle="modal" data-bs-target="#blogModal" class="blog-card-trigger" data-blog-id="${blog.id}">
                 <a title="${blog.title}" href="https://reelcareer.co/views/blog?id=${blog.id}">
-                    <img src="${imageUrl}" alt="${blog.title}" class="card-img-top" loading="lazy" />
-                </a>
+                   <div class="blog-image-area" <img src="${imageUrl}" alt="${blog.title}" class="blog-card-img-top" loading="lazy" />
+              </div>  </a>
                 <div class="card-body">
                     <a href="https://reelcareer.co/views/blog?id=${blog.id}">
                         <h5 class="card-title text-primary">${blog.title}</h5>

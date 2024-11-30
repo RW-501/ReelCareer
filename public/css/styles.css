@@ -287,6 +287,21 @@ align-items: flex-start;
 
     font-size: .8rem !important;
 }
+.blog-card .blog-image-area {
+  width: auto;
+  height: 400px;
+  justify-content: center;
+}
+.blog-card .blog-card-img-top {
+  border-top-left-radius: calc(.25rem - 1px);
+  border-top-right-radius: calc(.25rem - 1px);
+object-fit: cover;
+vertical-align: middle;
+margin: auto;
+
+}
+
+
 .blog-card .card-text h1,.blog-card .card-text strong,
 .blog-card .card-text a {
 
