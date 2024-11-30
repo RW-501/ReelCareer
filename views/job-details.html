@@ -1295,13 +1295,11 @@ window.addEventListener('beforeunload', updateJobViewData);
 // Function to fetch similar jobs based on tags
 
 document.addEventListener("DOMContentLoaded", () => {
-
+  fetchJobDetails();
 });
 
 window.onload = async function () {
   setTimeout(() => {
-      // Load job details on page load
-      document.addEventListener('DOMContentLoaded', fetchJobDetails);
 
 loadRelatedBlogs();
 
