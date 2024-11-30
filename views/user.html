@@ -667,10 +667,10 @@ if(userId){
                         showPrivateProfileMessage(); // Show private profile message
                     } else {
                         await loadUserData(userData); // Load user data if public
-                        await loadUserJobs(userIdFromURL);
+                        await loadUserJobs(userData);
                         await loadUserBlogs(userIdFromURL);
                         await loadUserCompanies(userIdFromURL);
-                        await loadUserVideoResumes(userIdFromURL);
+                        await loadUserVideoResumes(userData);
                         await loadSocialMedia(userData);
                     }
                 } else {
@@ -962,15 +962,13 @@ tagsContainer.innerHTML = '<strong>Tags: </strong>' + tagElements;
           //  digitalResumeLink.innerText = profileData.digitalResumeUrl ? 'View Resume' : 'No Resume Available';
         }
 
-        async function loadUserJobs(userId) {
-            const jobsRef = collection(db, 'Jobs');
-            const q = query(jobsRef, where("createdByID", "==", userId));
-            const jobSnapshot = await getDocs(q);
+        async function loadUserJobs(userData) {
+
             const jobsList = document.getElementById('open-jobs-list');
 
 
 
-            if (jobSnapshot.empty) {
+            if (!userData.jobPosts) {
                 jobsList.innerHTML = '<li>No open jobs found.</li>';
                 return;
             }
@@ -979,10 +977,10 @@ tagsContainer.innerHTML = '<strong>Tags: </strong>' + tagElements;
 
 
 
-            jobSnapshot.forEach(doc => {
-                const jobData = doc.data();
+            userData.jobPosts.forEach(jobData => {
+                
                 const listItem = document.createElement('li');
-                listItem.innerText = jobData.title || 'Job Title';
+                listItem.innerText = jobData.jobTitle || 'Job Title';
                 jobsList.appendChild(listItem);
             });
         }
@@ -1026,21 +1024,21 @@ tagsContainer.innerHTML = '<strong>Tags: </strong>' + tagElements;
             });
         }
 
-        async function loadUserVideoResumes(userId) {
-            const videoResumesRef = collection(db, 'VideoResumes');
-            const q = query(videoResumesRef, where("createdByID", "==", userId));
-            const videoSnapshot = await getDocs(q);
+        async function loadUserVideoResumes(userData) {
+          //  const videoResumesRef = collection(db, 'VideoResumes');
+          //  const q = query(videoResumesRef, where("createdByID", "==", userId));
+         //   const videoSnapshot = await getDocs(q);
             const videoResumeList = document.getElementById('video-resume-list');
 
-            if (videoSnapshot.empty) {
+            if (!userData.resumes) {
                 videoResumeList.innerHTML = '<li>No video resumes found.</li>';
                 return;
             }
 
-            videoSnapshot.forEach(doc => {
-                const videoData = doc.data();
+            userData.resumes.forEach(videoData => {
+                //const videoData = doc.data();
                 const listItem = document.createElement('li');
-                listItem.innerText = videoData.title || 'Video Resume Title';
+                listItem.innerText = videoData.fileName || 'Video Resume Title';
                 listItem.addEventListener('click', () => playVideo(videoData.videoUrl));
                 videoResumeList.appendChild(listItem);
             });
