@@ -438,6 +438,7 @@ function renderJobs() {
 
   const jobListingsContainer = document.getElementById('jobListings');
   const jobsToRender = jobListingsCache.slice(showCount, showCount + 30);
+let backTopTopCount = 0;
 
   jobsToRender.forEach((job) => createJobCard(job, jobListingsContainer));
   showCount += jobsToRender.length;
@@ -446,16 +447,23 @@ function renderJobs() {
     const loadMoreButton = createLoadMoreButton(renderJobs);
     jobListingsContainer.appendChild(loadMoreButton);
   } else {
+    backTopTopCount += 1;
+    if(backTopTopCount == 1){
     const backToTopDiv = `
       <div id="backToTopBtn" style="cursor: pointer;">
-        <h3 class="font-weight-bold">Back to Top</h3>
+        <h3 class="font-weight-bold" btn btn-primary w-100 mt-4>Back to Top</h3>
       </div>
     `;
-    const tempDiv = document.createElement('div');
+    const tempDiv = document.createElement('button');
     tempDiv.innerHTML = backToTopDiv;
+    tempDiv.style.transition = 'opacity 0.5s ease';
+    tempDiv.style.fontWeight = '800';
+    tempDiv.style.margin = '5px';
+    tempDiv.style.padding = '1rem';
     tempDiv.addEventListener('click', backToTop);
     jobListingsContainer.appendChild(tempDiv);
   }
+}
 }
 function backToTop(){
     window.scrollTo({ top: 0, behavior: "smooth" });
