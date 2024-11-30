@@ -545,6 +545,9 @@ function showUserSignedOutMessage() {
 }
 
 
+document.addEventListener("DOMContentLoaded", () => {
+
+
     // Check for auth state changes
     onAuthStateChanged(auth, (user) => {
     if (user) {
@@ -611,7 +614,8 @@ function showUserSignedOutMessage() {
     }
 });
 
-    
+});
+
     
         async function loadUserData(profileData) {
             document.getElementById('profilePic').src = profileData.profilePic ? profileData.profilePic : '/images/sq_logo_n_BG_sm.png';

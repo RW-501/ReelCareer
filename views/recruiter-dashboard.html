@@ -963,6 +963,8 @@ showToast("Not enough credits to boost job post. Please buy more credits or upgr
   } from 'https://reelcareer.co/js/module.js';
 
 
+  document.addEventListener("DOMContentLoaded", () => {
+
       // Check for auth state changes
       onAuthStateChanged(auth, (user) => {
         if (user) {
@@ -1011,6 +1013,7 @@ showToast("Not enough credits to boost job post. Please buy more credits or upgr
 };
 
 
+});
 
 
 
