@@ -621,17 +621,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     
 
-    // Check for auth state changes
-    onAuthStateChanged(auth, (user) => {
-    if (user) {
-        // User is signed in, proceed with user ID handling
-        console.log("User ID onAuthStateChanged: ", user.uid);
-
-        // Store user ID and email in local storage
-        localStorage.setItem('userLoggedIn', 'true');
-        localStorage.setItem('userID', user.uid);
-        localStorage.setItem('userEmail', user.email);
-    
+if(userId){
+   
         const urlParams = new URLSearchParams(window.location.search);
         const userIdFromURL = urlParams.get('u');
 
@@ -685,31 +676,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         // Call this function when the user is signed out
         showUserSignedOutMessage();
     }
-});
-    const doc = await usersCollection.doc(userId).get();
 
-    if (doc.exists) {
-      const userData = doc.data();
-
-      // Populate the Personal Information tab
-      document.getElementById('full-name-profile').value = userData.fullName || "";
-      document.getElementById('email-profile').value = userData.email || "";
-      document.getElementById('phone-profile').value = userData.phone || "";
-      document.getElementById('dob-profile').value = userData.dob || "";
-      document.getElementById('address-profile').value = userData.address || "";
-
-      // Populate the Social Profiles tab
-      document.getElementById('linkedin-profile').value = userData.linkedin || "";
-      document.getElementById('twitter-profile').value = userData.twitter || "";
-      document.getElementById('github-profile').value = userData.github || "";
-      document.getElementById('portfolio-profile').value = userData.portfolio || "";
-
-      // Populate the Membership Details tab
-      document.getElementById('membership-type-profile').value = userData.membershipType || "";
-      document.getElementById('membership-expiry-profile').value = userData.membershipExpiry || "";
-    } else {
-      console.log("No user data found!");
-    }
+    
   } catch (error) {
     console.error("Error retrieving user data: ", error);
   }
@@ -758,6 +726,35 @@ document.querySelectorAll('.save-button').forEach(button => {
 
     
         async function loadUserData(profileData) {
+
+
+
+            console.log("profileDatam   ",profileData);
+
+if (profileData) {
+  const userData = profileData;
+
+  // Populate the Personal Information tab
+  document.getElementById('full-name-profile').value = userData.fullName || "";
+  document.getElementById('email-profile').value = userData.email || "";
+  document.getElementById('phone-profile').value = userData.phone || "";
+  document.getElementById('dob-profile').value = userData.dob || "";
+  document.getElementById('address-profile').value = userData.address || "";
+
+  // Populate the Social Profiles tab
+  document.getElementById('linkedin-profile').value = userData.linkedin || "";
+  document.getElementById('twitter-profile').value = userData.twitter || "";
+  document.getElementById('github-profile').value = userData.github || "";
+  document.getElementById('portfolio-profile').value = userData.portfolio || "";
+
+  // Populate the Membership Details tab
+  document.getElementById('membership-type-profile').value = userData.membershipType || "";
+  document.getElementById('membership-expiry-profile').value = userData.membershipExpiry || "";
+} else {
+  console.log("No user data found!");
+}
+
+
             document.getElementById('profilePic').src = profileData.profilePic ? profileData.profilePic : '/images/sq_logo_n_BG_sm.png';
             document.getElementById('user-name').innerText = profileData.displayName || 'User Name';
             document.getElementById('user-bio').innerText = profileData.bio || 'This is a short bio about the user...';
