@@ -723,14 +723,14 @@ async function checkImageURL(url) {
           return url; // Image is accessible
       } else if (response.status === 403) {
           console.error(`403 Forbidden: Cannot access the image at ${url}`);
-          return 'https://ReelCareer.co/images/rc_text_sm.png';
+          return 'https://reelcareer.co/images/rc_text_sm.png'; // Correct the protocol here
       } else {
           console.warn(`Unexpected response: ${response.status}`);
-          return 'https://ReelCareer.co/images/rc_text_sm.png';
+          return 'https://reelcareer.co/images/rc_text_sm.png'; // Correct the protocol here
       }
   } catch (error) {
       console.error(`Error checking image URL: ${error.message}`);
-      return 'https://ReelCareer.co/images/rc_text_sm.png';
+      return 'https://reelcareer.co/images/rc_text_sm.png'; // Correct the protocol here
   }
 }
 
