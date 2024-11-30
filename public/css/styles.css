@@ -203,7 +203,11 @@ h1, h2, h3, h4, h5, h6 {
 .bg-colorBlack {
     background-color: #222222 !important;
 }
-
+.heroContainer {
+    margin: auto;
+    display: block;
+    width: 100%;
+}
 .footerMainContainer {
     width: 100%;
     display: block;
