@@ -1069,7 +1069,7 @@ function updateFooter() {
       "url": "/views/Personality-&-Trait-Tests",
       "name": "Personality & Trait Tests",
       "title": "Personality & Trait Tests - Discover Your Strengths and Work Style",
-      "category": "Features",
+      "category": "Content",
       "order": 9
     },
     {
@@ -1104,7 +1104,7 @@ function updateFooter() {
       "url": "/views/job-listings",
       "name": "Job Listings",
       "title": "Job Listings - Search and Apply for Job Openings",
-      "category": "Admin",
+      "category": "General",
       "order": 14
     }
   ];
@@ -1172,9 +1172,9 @@ function updateFooter() {
       <footer>
         <div class="container text-center">
           <p>&copy; ${currentYear} ReelCareer</p>
-          <nav>
+          <nav class='footerNavContainer'>
             ${Object.keys(groupedLinks).map(category => `
-              <div>
+              <div class='footerNavItems'>
                 <h5>${category}</h5>
                 ${groupedLinks[category].map(link => `<a href="${link.url}" title="${link.title}">${link.name}</a>`).join(" | ")}
               </div>`).join("\n")}

@@ -204,6 +204,25 @@ h1, h2, h3, h4, h5, h6 {
     background-color: #222222 !important;
 }
 
+.footerNavContainer {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: stretch;
+
+}
+.footerNavItems {
+    display: grid;
+    align-content: stretch;
+    justify-content: space-between;
+    align-items: start;
+    justify-items: stretch;
+
+
+}
+
 .userProfile {
 display: flex;
 flex-wrap: wrap;
