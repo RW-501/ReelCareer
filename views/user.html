@@ -607,7 +607,8 @@ function showUserSignedOutMessage() {
 
 
 // Retrieve and populate form inputs for tabs
-document.addEventListener("DOMContentLoaded", async () => {
+window.onload = async function () {
+    setTimeout(() => {
   try {
 
     const userId =  getUserId();
@@ -721,9 +722,8 @@ document.querySelectorAll('.save-button').forEach(button => {
 
 
 
-
-
-});
+}, 1000);
+};
 
     
         async function loadUserData(profileData) {
