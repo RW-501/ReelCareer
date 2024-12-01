@@ -269,93 +269,120 @@
     } from 'https://reelcareer.co/js/module.js';
 
 
-        document.addEventListener('DOMContentLoaded', async () => {
-            const faqList = document.getElementById('faqList');
-            const isLoggedIn = localStorage.getItem('userLoggedIn') === 'true';
+    document.addEventListener('DOMContentLoaded', async () => {
+        const faqList = document.getElementById('faqList');
+        const isLoggedIn = localStorage.getItem('userLoggedIn') === 'true';
 
-            faqList.innerHTML = ''; // Clear any existing content
+        faqList.innerHTML = ''; // Clear any existing content
 
-            // Fetch FAQs from Firestore
-            const faqs = [];
-            const faqQuery = collection(db, "FAQs");
-            const querySnapshot = await getDocs(faqQuery);
+        // Fetch FAQs from Firestore
+        const faqs = [];
+        const faqQuery = collection(db, "FAQs");
+        const querySnapshot = await getDocs(faqQuery);
 
-            querySnapshot.forEach((doc) => {
-                const { question, answer } = doc.data();
-                faqs.push({ question, answer });
-            });
+        querySnapshot.forEach((doc) => {
+            const { question, answer } = doc.data();
+            faqs.push({ question, answer });
+        });
 
-            // Load FAQs dynamically
-            loadFAQs(faqs);
+        // Load FAQs dynamically
+        loadFAQs(faqs);
 
-            // Check if the user is logged in
-            toggleAuthState(isLoggedIn);
+        // Generate FAQ schema and add to the page
+        generateFAQSchema(faqs);
 
-            // Search functionality
-            document.getElementById('searchInput').addEventListener('keyup', function () {
-                const searchTerm = this.value.toLowerCase();
-                const faqItems = document.querySelectorAll('.faq-item');
-                faqItems.forEach(item => {
-                    const question = item.querySelector('.faq-question').textContent.toLowerCase();
-                    item.style.display = question.includes(searchTerm) ? '' : 'none';
-                });
-            });
+        // Check if the user is logged in
+        toggleAuthState(isLoggedIn);
 
-            // Live chat button
-            document.getElementById('liveChatButton').addEventListener('click', () => {
-                alert("Chat feature coming soon!");
-            });
-
-            // Toggle FAQ answer
-            faqList.addEventListener('click', function (e) {
-                if (e.target && e.target.classList.contains('faq-question')) {
-                    const answerDiv = e.target.nextElementSibling;
-                    answerDiv.style.display = answerDiv.style.display === 'block' ? 'none' : 'block';
-                }
-            });
-
-            // Ask question form submission
-            document.getElementById('askQuestionForm').addEventListener('submit', function (e) {
-                e.preventDefault();
-                const questionInput = document.getElementById('questionInput').value;
-                console.log("Question submitted:", questionInput);
-                // Reset the form
-                document.getElementById('questionInput').value = '';
-                aleshowToastrt("Your question has been submitted for review.", 'success');
-            });
-
-            // Toggle form display on button click
-            document.getElementById('askQuestionBtn').addEventListener('click', () => {
-                document.getElementById('askQuestionForm').style.display = 'block';
-                document.getElementById('authMessage').style.display = 'none';
-                document.getElementById('askQuestionBtn').style.display = 'none';
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('keyup', function () {
+            const searchTerm = this.value.toLowerCase();
+            const faqItems = document.querySelectorAll('.faq-item');
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question').textContent.toLowerCase();
+                item.style.display = question.includes(searchTerm) ? '' : 'none';
             });
         });
 
-        // Function to load FAQs dynamically
-        function loadFAQs(faqs) {
-            const faqList = document.getElementById('faqList');
-            faqs.forEach((faq, index) => {
-                const faqItem = document.createElement('div');
-                faqItem.className = 'faq-item';
-                faqItem.innerHTML = `
-                    <div class="faq-question">${faq.question}</div>
-                    <div class="faq-answer">${faq.answer}</div>
-                `;
-                faqList.appendChild(faqItem);
-            });
-        }
+        // Live chat button
+        document.getElementById('liveChatButton').addEventListener('click', () => {
+            alert("Chat feature coming soon!");
+        });
 
-        // Function to toggle authentication state
-        function toggleAuthState(isLoggedIn) {
-            if (isLoggedIn) {
-                document.getElementById('askQuestionForm').style.display = 'block';
-            } else {
-                document.getElementById('authMessage').style.display = 'block';
-                document.getElementById('askQuestionBtn').style.display = 'block';
+        // Toggle FAQ answer
+        faqList.addEventListener('click', function (e) {
+            if (e.target && e.target.classList.contains('faq-question')) {
+                const answerDiv = e.target.nextElementSibling;
+                answerDiv.style.display = answerDiv.style.display === 'block' ? 'none' : 'block';
             }
+        });
+
+        // Ask question form submission
+        document.getElementById('askQuestionForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const questionInput = document.getElementById('questionInput').value;
+            console.log("Question submitted:", questionInput);
+            // Reset the form
+            document.getElementById('questionInput').value = '';
+            aleshowToast("Your question has been submitted for review.", 'success');
+        });
+
+        // Toggle form display on button click
+        document.getElementById('askQuestionBtn').addEventListener('click', () => {
+            document.getElementById('askQuestionForm').style.display = 'block';
+            document.getElementById('authMessage').style.display = 'none';
+            document.getElementById('askQuestionBtn').style.display = 'none';
+        });
+    });
+
+    // Function to load FAQs dynamically
+    function loadFAQs(faqs) {
+        const faqList = document.getElementById('faqList');
+        faqs.forEach((faq, index) => {
+            const faqItem = document.createElement('div');
+            faqItem.className = 'faq-item';
+            faqItem.innerHTML = `
+                <div class="faq-question">${faq.question}</div>
+                <div class="faq-answer">${faq.answer}</div>
+            `;
+            faqList.appendChild(faqItem);
+        });
+    }
+
+    // Function to generate FAQ schema and inject into the page
+    function generateFAQSchema(faqs) {
+        const faqSchema = {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": faqs.map(faq => ({
+                "@type": "Question",
+                "name": faq.question,
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": faq.answer
+                }
+            }))
+        };
+
+        // Create a script tag for the schema
+        const schemaScript = document.createElement('script');
+        schemaScript.type = 'application/ld+json';
+        schemaScript.textContent = JSON.stringify(faqSchema, null, 2);
+
+        // Append the schema script to the head
+        document.head.appendChild(schemaScript);
+    }
+
+    // Function to toggle authentication state
+    function toggleAuthState(isLoggedIn) {
+        if (isLoggedIn) {
+            document.getElementById('askQuestionForm').style.display = 'block';
+        } else {
+            document.getElementById('authMessage').style.display = 'block';
+            document.getElementById('askQuestionBtn').style.display = 'block';
         }
-    </script>
+    }
+</script>
       
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
