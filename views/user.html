@@ -694,6 +694,7 @@ document.getElementById('profileSettings').style.display = 'none';
 
 
 
+          let userId = null;
 
 const urlParams = new URLSearchParams(window.location.search);
 const userIdFromURL = urlParams.get('u');
@@ -705,7 +706,7 @@ const userIdFromURL = urlParams.get('u');
 window.onload = async function () {
 
  
-  let userId =  getUserId();
+   userId =  getUserId();
 
 
 
