@@ -646,7 +646,6 @@ window.onload = async function () {
 
 
 
-   // setTimeout(() => {
 
     const userId =  getUserId();
 
@@ -700,7 +699,10 @@ console.log("Module User We outside: ", userId);
                 console.error("Error fetching user data:", error);
             }
 
+      
+          }
 
+   setTimeout(() => {
 
     /*
 
@@ -787,19 +789,16 @@ if(userId){
   lastBreadcrumb_last.innerText = "Create a Profile";
   lastBreadcrumb_a.href = `https://reelcareer.co/views/auth`;
 
-  // login and create a profile
 }
         }
      
 
 
 
-            
-        }
+      
 
 
-
-// }, 1000);
+ }, 1000);
 
 };
 
