@@ -1199,6 +1199,8 @@ function updateFooter() {
   // Render company media
   function renderCompanyMedia() {
     const { title, titleStyle, video, image } = config.companyMedia;
+    const uploadDate = new Date().toISOString();
+
     const mediaHTML = `
       <section id="companyMedia" class="bg-light py-5 company-media">
         <div class="container">
