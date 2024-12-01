@@ -1227,7 +1227,9 @@ function updateFooter() {
                   }
                   </script>
                   `}
-                  <a href="${video.source}">Watch our latest video</a>
+                  <a href="${video.source}"style="
+    display: block;
+">Watch our latest video</a>
 
               </div>
             </div>
