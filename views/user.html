@@ -1075,7 +1075,7 @@ if (!profileData.tags || profileData.tags.length === 0) {
     document.getElementById('tagsSET-profile').value = profileData.tags || "";
 
 const tagsContainer = document.getElementById('tagsList');
-userData.tags.forEach(tag => {
+profileData.tags.forEach(tag => {
               const tagElement = document.createElement('div');
               tagElement.className = 'tag';
               tagElement.innerHTML = `<span class="tag badge tag-primary mr-1">
