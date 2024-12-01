@@ -655,12 +655,6 @@ console.log("Module User We outside: ", userId);
         const userIdFromURL = urlParams.get('u');
 
 
-  // Ensure userIdFromURL is not null or undefined
-  if (userIdFromURL) {
-            checkUser(userIdFromURL);
-          } else {
-            checkUser(userId);
-          }
 
         
           const lastBreadcrumb_1 = document.getElementById("lastBreadcrumb_1");
@@ -716,6 +710,12 @@ document.getElementById('profileSettings').style.display = 'none';
 
    setTimeout(() => {
 
+  // Ensure userIdFromURL is not null or undefined
+  if (userIdFromURL) {
+            checkUser(userIdFromURL);
+          } else {
+            checkUser(userId);
+          }
 
 /*
   // Select the last breadcrumb anchor
