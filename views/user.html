@@ -699,10 +699,12 @@ document.getElementById('profileSettings').style.display = 'none';
 const urlParams = new URLSearchParams(window.location.search);
 const userIdFromURL = urlParams.get('u');
 
+document.addEventListener('DOMContentLoaded', () => {
 
 userId =  getUserId();
 
-     
+});
+ 
 // Retrieve and populate form inputs for tabs
 window.onload = async function () {
 
