@@ -333,13 +333,19 @@ async function fetchBlogs(page) {
 
                 // Build the inner HTML with just the image and title, wrapped with a clickable link
                 blogCard.innerHTML = `
-                    <div class="blog-card" style="box-shadow: 0 8px 16px rgba(0,0,0,0.1); padding: 20px; border-radius: 10px; background-color: #ffffff; margin-bottom: 30px; overflow: hidden; transition: transform 0.3s ease;">
-                        <a href="blog/?b=${doc.id}" style="text-decoration: none; color: inherit;">
-                            <h3 style="font-size: 24px; color: #333; font-weight: 700; margin-bottom: 15px;">${blogData.title}</h3>
-                            ${imageUrl ? `<img src="${imageUrl}" alt="${blogData.imageCaption || 'Blog Image'}" style="width: 200px; height: auto; border-radius: 8px; margin: auto; margin-bottom: 20px; object-fit: cover;"/>` : ""}
-                        </a>
-                    </div>
-                `;
+    <div class="blog-card" style="box-shadow: 0 8px 16px rgba(0,0,0,0.1); padding: 20px; border-radius: 10px; background-color: #ffffff; margin-bottom: 30px; overflow: hidden; display: flex; align-items: flex-start; gap: 20px; transition: transform 0.3s ease;">
+        <a href="https://reelcareer.co/views/blog/?b=${doc.id}" style="text-decoration: none; color: inherit; display: flex; gap: 20px; width: 100%;">
+            ${imageUrl ? `<img src="${imageUrl}" alt="${blogData.imageCaption || 'Blog Image'}" style="width: 200px; height: auto; border-radius: 8px; object-fit: cover; flex-shrink: 0;"/>` : ""}
+            <div class="blog-content" style="flex-grow: 1;">
+                <h3 style="font-size: 24px; color: #333; font-weight: 700; margin-bottom: 15px;">${blogData.title}</h3>
+                <div class="blog-card-text text-muted" style="font-size: 14px; line-height: 1.6; color: #666;">
+                    ${truncateText(blog.content, 80, `https://reelcareer.co/views/blog?b=${blog.id}`)}
+                </div>
+            </div>
+        </a>
+    </div>
+`;
+
 
                 // Append the blog card to the container
                 blogContainer.appendChild(blogCard);
@@ -356,23 +362,39 @@ async function fetchBlogs(page) {
     }
 }
 
-
-
-     
 // Update pagination controls
 function updatePagination() {
     const paginationControls = document.getElementById("pagination-controls");
     const totalPages = Math.ceil(totalPosts / postsPerPage); // Calculate total pages
 
-    paginationControls.innerHTML = `
+    if (totalPages <= 1) {
+        // Hide pagination controls if there is only one page
+        paginationControls.innerHTML = "";
+        return;
+    }
+
+    let paginationHTML = `
         <li class="page-item ${currentPage === 1 ? 'disabled' : ''}" id="prev-page">
             <a class="page-link" href="#" tabindex="-1">Previous</a>
         </li>
-        <li class="page-item active"><a class="page-link" href="#" id="page-${currentPage}">${currentPage}</a></li>
+    `;
+
+    // Dynamically generate page numbers
+    for (let page = 1; page <= totalPages; page++) {
+        paginationHTML += `
+            <li class="page-item ${page === currentPage ? 'active' : ''}" id="page-${page}">
+                <a class="page-link" href="#">${page}</a>
+            </li>
+        `;
+    }
+
+    paginationHTML += `
         <li class="page-item ${currentPage === totalPages ? 'disabled' : ''}" id="next-page">
             <a class="page-link" href="#">Next</a>
         </li>
     `;
+
+    paginationControls.innerHTML = paginationHTML;
 
     // Add event listeners for pagination controls
     document.getElementById("prev-page").onclick = () => {
@@ -388,9 +410,19 @@ function updatePagination() {
             fetchBlogs(currentPage);
         }
     };
-}
 
-        // Search Blogs Functionality
+    // Add event listeners for individual page numbers
+    for (let page = 1; page <= totalPages; page++) {
+        const pageElement = document.getElementById(`page-${page}`);
+        pageElement.onclick = () => {
+            if (currentPage !== page) {
+                currentPage = page;
+                fetchBlogs(currentPage);
+            }
+        };
+    }
+}
+  // Search Blogs Functionality
         document.getElementById("search-input").addEventListener("input", function () {
             const searchTerm = this.value.toLowerCase();
             const blogPosts = document.querySelectorAll(".blog-post");
