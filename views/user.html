@@ -1287,6 +1287,7 @@ document.getElementById('sendMessageForm').addEventListener('submit', async func
     const messageData = {
         recipientID: recipientID,
         senderID: senderID,
+        conversationID:  recipientID,
         type: 'message',
         content: content,
         createdAt: new Date(),
