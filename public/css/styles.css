@@ -134,6 +134,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .job-title-link, .badge, .btn, .btn-primary, .btn-secondary, .breadcrumb-item, .cap  {
     text-transform: capitalize !important;
+    font-family: ui-rounded;
 }
 #darkModeToggle {
   width: max-content;
@@ -247,7 +248,7 @@ color: #0056b3;
 .footerNavItems a {
 text-align: left;
 font-size: 1rem;
-
+font-family: system-ui;
 
 }
 
@@ -542,7 +543,7 @@ main .btn-info:hover {
         box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
         width: 100%;
         font-size: x-large;
-
+        font-family: system-ui;
     }
 
 .source-text-area {
