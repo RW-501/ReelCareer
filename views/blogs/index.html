@@ -313,7 +313,7 @@ async function fetchBlogs(page) {
                 const blogCard = document.createElement("div");
                 blogCard.className = "blog-post"; // Add your CSS classes
 
-                if(!blogData.title){
+                if(blogData.title){
                 // Build the inner HTML with just the image and title, wrapped with a clickable link
                 blogCard.innerHTML = `
     <div class="blog-card" style="box-shadow: 0 8px 16px rgba(0,0,0,0.1); padding: 20px; border-radius: 10px; background-color: #ffffff; margin-bottom: 30px; overflow: hidden; display: flex; align-items: flex-start; gap: 20px; transition: transform 0.3s ease;">
