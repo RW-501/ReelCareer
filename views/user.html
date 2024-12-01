@@ -694,7 +694,7 @@ document.getElementById('profileSettings').style.display = 'none';
 
 
 
-          let userId = null;
+          let userId;
 
 const urlParams = new URLSearchParams(window.location.search);
 const userIdFromURL = urlParams.get('u');
@@ -729,7 +729,7 @@ window.onload = async function () {
 
         }, 300);
 
-      }, 300);
+      }, 500);
 
 
 /*
