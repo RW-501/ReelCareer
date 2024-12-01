@@ -674,11 +674,20 @@ console.log("Module User We outside: ", userId);
             checkUser(userId);
             document.getElementById('send-message-btn').style.display = 'none';
             document.getElementById('connect-btn').style.display = 'none';
-            document.getElementById('jobSeeker-btn').style.display = 'block';
-            document.getElementById('recruiter-btn').style.display = 'block';
-            document.getElementById('view-profile-btn').style.display = 'block';
 
-            document.getElementById('profileSettings').style.display = 'block';
+  document.getElementById('profileSettings').style.display = 'none';
+  document.getElementById('jobSeeker-btn').style.display = 'none';
+  document.getElementById('recruiter-btn').style.display = 'none';
+  document.getElementById('view-profile-btn').style.display = 'none';
+
+if(userId){
+  document.getElementById('profileSettings').style.display = 'block';
+  document.getElementById('jobSeeker-btn').style.display = 'block';
+  document.getElementById('recruiter-btn').style.display = 'block';
+  document.getElementById('view-profile-btn').style.display = 'block';
+
+
+}
         }
      
         
