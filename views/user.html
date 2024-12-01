@@ -1330,6 +1330,7 @@ document.getElementById('sendMessageForm').addEventListener('submit', async func
             senderProfilePicture: userDataSaved.profilePicture || profilePic,
             senderProfileURL: `https://reelcareer.co/views/user?u=${senderID}`,
 
+            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
             contentType: 'text', /// video, picture, resume, link
             status: "unread", 
             attachments: attachments ? attachments.name : '',
