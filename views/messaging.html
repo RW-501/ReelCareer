@@ -233,12 +233,15 @@ main .row {
     }, 1000);
 
     function loadContacts(userID) {
-        const contactsRef = collection(db, 'Messages');
-        const q = query(contactsRef, where('recipientID', '==', userID));
+
+        const contactList = document.getElementById('contactList');
+        contactList.innerHTML = '';
+
+        let contactsRef = collection(db, 'Messages');
+        let q = query(contactsRef, where('recipientID', '==', userID));
 
         onSnapshot(q, snapshot => {
-            const contactList = document.getElementById('contactList');
-            contactList.innerHTML = '';
+
             snapshot.forEach(doc => {
                 const data = doc.data();
                 const listItem = document.createElement('li');
@@ -251,6 +254,26 @@ main .row {
                 contactList.appendChild(listItem);
             });
         });
+
+         contactsRef = collection(db, 'Connections');
+         q = query(contactsRef, where('recipientID', '==', userID));
+
+        onSnapshot(q, snapshot => {
+
+            snapshot.forEach(doc => {
+                const data = doc.data();
+                const listItem = document.createElement('li');
+                listItem.className = 'list-group-item';
+                listItem.innerHTML = `
+    <img src="${data.fromProfilePicture || 'default-avatar.png'}" alt="Avatar" class="avatar">
+    <span>${data.to}</span>
+`;
+                listItem.onclick = () => loadMessages(data.conversationID, data.senderID);
+                contactList.appendChild(listItem);
+            });
+        });
+
+
     }
 
     function loadMessages(conversationID, contactID) {

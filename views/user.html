@@ -1146,6 +1146,8 @@ tagsContainer.innerHTML = '<strong>Tags: </strong>' + tagElements;
           const urlParams = new URLSearchParams(window.location.search);
         const userIdFromURL = urlParams.get('u');
 
+        const userDataSaved = JSON.parse(localStorage.getItem('userData')) || [];
+
 
             if (userId !== userIdFromURL) {
                 const connectionRef = collection(db, 'Connections');
@@ -1153,7 +1155,16 @@ tagsContainer.innerHTML = '<strong>Tags: </strong>' + tagElements;
                     from: userId,
                     to: userIdFromURL,
                     status: 'pending', // or 'accepted' based on your logic
-                });
+                    createdAt: new Date(),
+                    fromGroup: 'new',
+                    fromNote: '',
+                    fromName: userDataSaved.displayName,
+                    fromProfilePicture: 'main',
+                    fromProfileURL: `https://reelcareer.co/views/user?u=${userId}`,
+                
+                
+                
+                  });
                 showToast('Connection request sent!');
             } else {
                 showToast('You cannot connect with yourself.');
