@@ -213,6 +213,10 @@ h1, h2, h3, h4, h5, h6, li, p {
     display: block;
     width: 100%;
 }
+.footerCopyWrite {
+  font-variant-caps: all-petite-caps;
+  font-size: 1.5rem;
+}
 .footerMainContainer {
     width: 100%;
     display: block;
