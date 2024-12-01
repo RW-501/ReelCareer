@@ -1184,10 +1184,15 @@ document.getElementById('sendMessageForm').addEventListener('submit', async func
         senderID: senderID,
         type: 'message',
         content: content,
-        attachments: attachments ? attachments.name : '',
-        isDeleted: false,
-        status: "unread",
         createdAt: new Date(),
+            read: false,
+            messageType: 'contact', // group, system, advertisment, 
+
+            group: 'main',
+            contentType: 'text', /// video, picture, resume, link
+            status: "unread", 
+            attachments: attachments ? attachments.name : '',
+            isDeleted: false
     };
     
     try {
