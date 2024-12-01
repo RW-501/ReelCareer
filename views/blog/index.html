@@ -337,9 +337,13 @@ if (page > 1 && lastVisibleDoc) {
             console.log("First Visible Doc:", firstVisibleDoc);
             console.log("Last Visible Doc:", lastVisibleDoc);
 
-            querySnapshot.forEach((doc) => {
+
+
+            querySnapshot.forEach(async (doc) => { // Added 'async' here for async operations inside the loop
                 const blogData = doc.data();
-      
+         // Use await to resolve the image URL before using it
+   const imageUrl = await checkImageURL(blogData.imageUrl);
+
             // Create blog card or element here based on your design
             const blogCard = document.createElement("div");
             blogCard.className = "blog-post"; // Add your CSS classes
@@ -362,14 +366,14 @@ if (page > 1 && lastVisibleDoc) {
           margin-bottom: 15px;">${blogData.title}</h3>
 
      ${
-          blogData.imageUrl 
-          ? `<img src="${blogData.imageUrl}" alt="${blogData.imageCaption || 'Blog Image'}" style="
-              width: 50%; 
+                        imageUrl 
+                        ? ` <a title="${blogData.title}" href="${imageUrl}"><img src="${imageUrl}" alt="${blogData.imageCaption || 'Blog Image'}" style="
+                            width: 50%;  
               height: auto; 
               border-radius: 8px;
               margin: auto; 
               margin-bottom: 20px; 
-              object-fit: cover;"/>`
+              object-fit: cover;"/></a>`
           : ""
       }
 
