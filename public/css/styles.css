@@ -12,7 +12,7 @@ body {
     font-family: 'Arial', sans-serif;
  /*   background-color: #f4f4f4 !important; */
 
- animation: backgroundFade 2s ease forwards;
+ animation: backgroundFade 3s ease forwards;
 
     transition: background-color 0.3s, color 0.3s;
   }
@@ -49,7 +49,7 @@ main {
 }
 
 
-h1, h2, h3, h4, h5, h6 {
+h1, h2, h3, h4, h5, h6, li, p {
     text-transform: capitalize !important;
 }
 
