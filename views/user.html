@@ -652,16 +652,18 @@ window.onload = async function () {
 
 console.log("Module User We outside: ", userId);
 
-
-
         const urlParams = new URLSearchParams(window.location.search);
         const userIdFromURL = urlParams.get('u');
 
 
+  // Ensure userIdFromURL is not null or undefined
+  if (userIdFromURL) {
+            checkUser(userIdFromURL);
+          } else {
+            checkUser(userId);
+          }
 
         
-
-
    
 
 
@@ -700,8 +702,7 @@ console.log("Module User We outside: ", userId);
 
 
 
-
-            /*
+    /*
 
         <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
@@ -733,7 +734,7 @@ console.log("Module User We outside: ", userId);
 
         // Ensure userIdFromURL is not null or undefined
         if (userIdFromURL) {
-            checkUser(userIdFromURL);
+           // checkUser(userIdFromURL);
             document.getElementById('userPageId').innerText = userIdFromURL;
 
 
@@ -761,7 +762,7 @@ console.log("Module User We outside: ", userId);
             document.getElementById('profileSettings').style.display = 'none';
       
         } else {
-            checkUser(userId);
+           // checkUser(userId);
             document.getElementById('send-message-btn').style.display = 'none';
             document.getElementById('connect-btn').style.display = 'none';
 
@@ -790,6 +791,7 @@ if(userId){
 }
         }
      
+
 
 
             
