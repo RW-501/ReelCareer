@@ -307,17 +307,6 @@ async function fetchBlogs(page) {
 
     
 
-            console.log("Blogs Query:", blogsQuery);
-            const querySnap = await getDocs(blogsQuery);
-
-            if (querySnap.empty) {
-                blogContainer.innerHTML = "<p>No blogs available.</p>";
-                return;
-            }
-
-            querySnapshot = querySnap.docs; // Assign docs array to querySnapshot
-        
-
         console.log("Query Snapshot:", querySnapshot);
 
         // Iterate and create blog posts
