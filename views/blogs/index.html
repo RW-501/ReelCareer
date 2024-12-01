@@ -26,7 +26,7 @@
   <!-- Twitter Cards -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:site" content="@ReelCareer">
-  <meta name="twitter:title" content="Career Advice & Professional Development | ReelCareer Blog">
+  <meta name="twitter:title" content="Career Advice & Professional Development | ReelCareer Blogs">
   <meta name="twitter:description" content="Read the latest career tips, job search strategies, and insights from industry experts on the ReelCareer blog.">
   <meta name="twitter:image" content="https://www.reelcareer.co/images/sq_logo_n_BG_tie_reelx.png"> <!-- Update image path accordingly -->
 
@@ -307,6 +307,12 @@ async function fetchBlogs(page) {
                 const imageUrl = await checkImageURL(blogData.imageUrl);
 
                 const blogSchema = generateBlogSchema(blogData, doc.id);
+
+                const script = document.createElement('script');
+    script.type = 'application/ld+json';
+    script.textContent = JSON.stringify(blogSchema);
+    document.body.appendChild(script); // Attach it to the body
+
 //console.log( `https://reelcareer.co/views/blog/?b=${doc.id}`);
 
                 // Create blog card or element here based on your design
