@@ -652,21 +652,53 @@ window.onload = async function () {
 
 console.log("Module User We outside: ", userId);
 
-    
+    /*
+
+        <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+          <li id="lastBreadcrumb_home" class="breadcrumb-item"><a href="https://reelcareer.co/">Home</a></li>
+          <li id="lastBreadcrumb_1" class="breadcrumb-item"><a href="https://reelcareer.co/views/user">Edit Profile</a></li>
+          <li id="lastBreadcrumb_last" class="breadcrumb-item"><a id="lastBreadcrumb_a" href="https://reelcareer.co/views/user">View Profile</a></li>
+          <li id="breadcrumb-active-title" class="breadcrumb-item active" aria-current="page">User</li>
+        </ol>
+    </nav>
+
+    */
 
         const urlParams = new URLSearchParams(window.location.search);
         const userIdFromURL = urlParams.get('u');
+
+  // Select the last breadcrumb anchor
+  const lastBreadcrumb_1 = document.getElementById("lastBreadcrumb_1");
+
+  const lastBreadcrumb_last = document.getElementById("lastBreadcrumb_last");
+  const lastBreadcrumb_a = document.getElementById("lastBreadcrumb_a");
+  
+  const breadcrumbjobTitleActive = document.getElementById("breadcrumb-active-title");
+  
+  const userName = document.getElementById("user-name").innerText;
+
+  lastBreadcrumb_1.style.display = "none";
+
+  lastBreadcrumb_last.style.display = "none";
+  lastBreadcrumb_a.href = `https://reelcareer.co/views/user?u=${userId}`;
+
+  breadcrumbjobTitleActive.innerText = userName;
 
         // Ensure userIdFromURL is not null or undefined
         if (userIdFromURL) {
             checkUser(userIdFromURL);
             document.getElementById('userPageId').innerText = userIdFromURL;
+
+
+
             if(userId){
               document.getElementById('currentUserId').innerText = userId;
 
             document.getElementById('send-message-btn').style.display = 'block';
             document.getElementById('connect-btn').style.display = 'block';
             if (userId == userIdFromURL) {
+              lastBreadcrumb_1.style.display = "block";
 
             }
 
@@ -693,6 +725,8 @@ console.log("Module User We outside: ", userId);
   document.getElementById('view-profile-btn').style.display = 'none';
 
 if(userId){
+  lastBreadcrumb_last.style.display = "block";
+
   document.getElementById('profileSettings').style.display = 'block';
   document.getElementById('jobSeeker-btn').style.display = 'block';
   document.getElementById('recruiter-btn').style.display = 'block';
@@ -700,6 +734,12 @@ if(userId){
 
 
 }else{
+  breadcrumbjobTitleActive.style.display = "none";
+
+  lastBreadcrumb_last.style.display = "block";
+  lastBreadcrumb_last.innerText = "Create a Profile";
+  lastBreadcrumb_a.href = `https://reelcareer.co/views/auth`;
+
   // login and create a profile
 }
         }
