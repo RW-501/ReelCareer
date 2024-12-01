@@ -702,7 +702,6 @@ window.onload = async function () {
 
  
 
-    console.log("Module User We outside: ", userId);
 
 const urlParams = new URLSearchParams(window.location.search);
 const userIdFromURL = urlParams.get('u');
@@ -716,6 +715,7 @@ const userIdFromURL = urlParams.get('u');
   
 
    setTimeout(() => {
+    console.log("Module User We outside: ", userId);
 
  // Ensure userIdFromURL is not null or undefined
  if (userIdFromURL) {
