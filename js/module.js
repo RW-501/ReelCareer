@@ -63,8 +63,19 @@ function initializeFirebase() {
 }
 
 // Function to get the current user ID
-function getUserId() {
-  return userId;
+
+async function getUserId() {
+    const auth = getAuth();
+    return new Promise((resolve, reject) => {
+        const unsubscribe = auth.onAuthStateChanged(user => {
+            unsubscribe(); // Cleanup listener
+            if (user) {
+                resolve(user.uid);
+            } else {
+                reject(null);
+            }
+        });
+    });
 }
 
 document.addEventListener('DOMContentLoaded', () => {
