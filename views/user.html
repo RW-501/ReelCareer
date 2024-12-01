@@ -704,18 +704,7 @@ console.log("Module User We outside: ", userId);
 
    setTimeout(() => {
 
-    /*
 
-        <nav aria-label="breadcrumb">
-      <ol class="breadcrumb">
-          <li id="lastBreadcrumb_home" class="breadcrumb-item"><a href="https://reelcareer.co/">Home</a></li>
-          <li id="lastBreadcrumb_1" class="breadcrumb-item"><a href="https://reelcareer.co/views/user">Edit Profile</a></li>
-          <li id="lastBreadcrumb_last" class="breadcrumb-item"><a id="lastBreadcrumb_a" href="https://reelcareer.co/views/user">View Profile</a></li>
-          <li id="breadcrumb-active-title" class="breadcrumb-item active" aria-current="page">User</li>
-        </ol>
-    </nav>
-
-    */
 
   // Select the last breadcrumb anchor
   const lastBreadcrumb_1 = document.getElementById("lastBreadcrumb_1");
@@ -786,14 +775,25 @@ if(userId){
   breadcrumbjobTitleActive.style.display = "none";
 
   lastBreadcrumb_last.style.display = "block";
-  lastBreadcrumb_last.innerText = "Create a Profile";
+  lastBreadcrumb_a.innerText = "Create a Profile";
   lastBreadcrumb_a.href = `https://reelcareer.co/views/auth`;
 
 }
         }
      
 
+    /*
 
+        <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+          <li id="lastBreadcrumb_home" class="breadcrumb-item"><a href="https://reelcareer.co/">Home</a></li>
+          <li id="lastBreadcrumb_1" class="breadcrumb-item"><a href="https://reelcareer.co/views/user">Edit Profile</a></li>
+          <li id="lastBreadcrumb_last" class="breadcrumb-item"><a id="lastBreadcrumb_a" href="https://reelcareer.co/views/user">View Profile</a></li>
+          <li id="breadcrumb-active-title" class="breadcrumb-item active" aria-current="page">User</li>
+        </ol>
+    </nav>
+
+    */
 
       
 
