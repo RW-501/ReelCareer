@@ -285,6 +285,9 @@ main .row {
     }
 
     function loadMessages(conversationID, data) {
+
+        console.log("data: ", data);
+
         const messageBox = document.getElementById('messageBox');
         const conversationTitle = document.getElementById('conversationTitle');
         const contactInfo = document.getElementById('contactInfo');
@@ -294,8 +297,8 @@ main .row {
     <span>${data.senderName}</span>
 `;
         contactInfo.innerHTML = `<p>Contact: ${data.senderName}</p><p>Status: Online</p>`; // Display contact info dynamically
-        console.log("conversationID: ", data.conversationID);
-        console.log("contactID: ", contactID);
+        console.log("conversationID: ", conversationID);
+        console.log("contactID: ", data.contactID);
 
         messageBox.innerHTML = '';
         const messagesRef = collection(db, 'Messages');
