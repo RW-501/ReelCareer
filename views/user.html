@@ -680,11 +680,16 @@ document.getElementById('profileSettings').style.display = 'none';
                         await loadUserVideoResumes(userData);
                         await loadSocialMedia(userData);
                     }
+
+
                 } else {
                     // Call this function when the user data is not found
                     showUserDataNotFoundMessage();
                 }
-                
+                      setTimeout(() => {
+            setUpUI();
+        }, 300);
+
             } catch (error) {
                 console.error("Error fetching user data:", error);
             }
@@ -721,10 +726,7 @@ window.onload = async function () {
             console.error("No user ID found in URL or session.");
         }
 
-        setTimeout(() => {
-            setUpUI();
-        }, 300);
-
+  
     }, 300);
 };
 
