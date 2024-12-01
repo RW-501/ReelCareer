@@ -1072,7 +1072,7 @@ if (!profileData.tags || profileData.tags.length === 0) {
     const tags = profileData.tags; // No need to map since they're already strings
     
     console.log("tags: ", tags);
-    document.getElementById('tagsSET-profile').value = userData.tags || "";
+    document.getElementById('tagsSET-profile').value = profileData.tags || "";
 
 const tagsContainer = document.getElementById('tagsList');
 userData.tags.forEach(tag => {
@@ -1268,6 +1268,7 @@ userData.tags.forEach(tag => {
         const userIdFromURL = urlParams.get('u');
 
         const userDataSaved = JSON.parse(localStorage.getItem('userData')) || [];
+        const profilePic = document.getElementById('profilePic').src;
 
 
             if (userId !== userIdFromURL) {
@@ -1280,7 +1281,7 @@ userData.tags.forEach(tag => {
                     fromGroup: 'new',
                     fromNote: '',
                     fromName: userDataSaved.displayName,
-                    fromProfilePicture: 'main',
+                    fromProfilePicture:  userDataSaved.profilePicture || profilePic,
                     fromProfileURL: `https://reelcareer.co/views/user?u=${userId}`,
                 
                 
@@ -1305,7 +1306,8 @@ userData.tags.forEach(tag => {
 
 document.getElementById('sendMessageForm').addEventListener('submit', async function(e) {
     e.preventDefault();
-    
+    const profilePic = document.getElementById('profilePic').src;
+
     const senderID = auth.currentUser.uid;
     const recipientID = document.getElementById('recipient-id').value;
     const content = document.getElementById('message-content').value;
@@ -1325,7 +1327,7 @@ document.getElementById('sendMessageForm').addEventListener('submit', async func
             messageType: 'contact', // group, system, advertisment, 
            
             senderName: userDataSaved.displayName,
-            senderProfilePicture: userDataSaved.profilePicture,
+            senderProfilePicture: userDataSaved.profilePicture || profilePic,
             senderProfileURL: `https://reelcareer.co/views/user?u=${senderID}`,
 
             contentType: 'text', /// video, picture, resume, link
