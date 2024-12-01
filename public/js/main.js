@@ -1133,16 +1133,19 @@ function updateFooter() {
     },
     footer: {
       currentYear: new Date().getFullYear(),
-      links: [
+
+   /*   links: [
         { url: "/", name: "ReelCareer", title: "ReelCareer - #1 Job Board - Find a job today", order: 0 },
         { url: "/views/about", name: "About ReelCareer", title: "About ReelCareer - Who We Are and Our Mission", order: 1 },
         { url: "/views/privacy", name: "Privacy Policy", title: "Privacy Policy - How We Protect Your Data", order: 2 },
         { url: "/views/terms", name: "Terms of Use", title: "Terms of Use - Website User Agreement and Guidelines", order: 3 },
         { url: "/views/contact", name: "Contact Us", title: "Contact ReelCareer - Get in Touch for Support and Inquiries", order: 4 }
       ]
+*/
+
     },
     companyMedia: {
-      title: "Company Media",
+      title: "ReelCareer.co Media",
       titleStyle: "color: #83bad9; font-weight: 800; text-shadow: 1px 0px 0px #6253e7;",
       video: {
         source: "https://reelcareer.co/images/intro.MP4",
@@ -1150,7 +1153,7 @@ function updateFooter() {
       },
       image: {
         src: "https://reelcareer.co/images/sq_logo_n_BG_tie_reelx.png",
-        alt: "Company Image",
+        alt: "ReelCareer.co  Image",
         style: "width: 15rem;"
       }
     }
@@ -1171,6 +1174,8 @@ function updateFooter() {
   // Render dynamic footer links
   function renderFooterLinks() {
     const { currentYear, links } = config.footer;
+    const uploadDate = new Date().toISOString();
+
     const footerHTML = `
       <footer>
         <div class="footerMainContainer text-center">
@@ -1205,11 +1210,30 @@ function updateFooter() {
                   <source src="${video.source}" type="${video.type}">
                   Your browser does not support the video tag.
                 </video>
+                ${`<script type="application/ld+json">
+                  {
+                    "@context": "https://schema.org",
+                    "@type": "VideoObject",
+                    "name": "Intro Video",
+                    "description": "Introduction to ReelCareer",
+                    "thumbnailUrl": "${image.src}",
+                    "uploadDate": "${uploadDate} , 
+                    "contentUrl": "${video.source}",
+                    "embedUrl": "${video.source}",
+                    "encodingFormat": "video/mp4",
+                     "duration": "PT2M30S"
+                  }
+                  </script>
+                  `}
+                  <a href="${video.source}">Watch our latest video</a>
+
               </div>
             </div>
             <div class="col-md-6 m-auto">
+            <a href="${image.src}">
 <img loading="lazy" src="${image.src}" alt="${image.alt}" class="img-fluid" style="${image.style}">
-            </div>
+          </a>
+</div>
           </div>
         </div>
       </section>`;

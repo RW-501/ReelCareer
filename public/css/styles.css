@@ -234,8 +234,23 @@ h1, h2, h3, h4, h5, h6 {
     align-items: start;
     justify-items: stretch;
 
+    height: fit-content;
+}
+.footerNavItems h5 {
+  font-variant-caps: all-petite-caps;
+  font-size: 1.5rem;
+
+font-weight: 600;
+color: #0056b3;
+}
+
+.footerNavItems a {
+text-align: left;
+font-size: 1rem;
+
 
 }
+
 #companyMedia .container {
     width: 100%;
     display: block;
