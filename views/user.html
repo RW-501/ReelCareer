@@ -652,7 +652,56 @@ window.onload = async function () {
 
 console.log("Module User We outside: ", userId);
 
-    /*
+
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const userIdFromURL = urlParams.get('u');
+
+
+
+        
+
+
+   
+
+
+
+        // Async function to check the user profile (userData)
+        async function checkUser(userIdFromURL) {
+            try {
+                // Fetch profile information based on userId in the URL
+                const profileDoc = doc(db, 'Users', userIdFromURL);
+                const profileSnapshot = await getDoc(profileDoc);
+
+                if (profileSnapshot.exists()) {
+                    const userData = profileSnapshot.data();
+                    console.log("User data fetched from Firestore:", userData);
+
+             
+                    // Check if the profile is public
+                    if (userData.profilePublic) {
+                        showPrivateProfileMessage(); // Show private profile message
+                    } else {
+                        await loadUserData(userData); // Load user data if public
+                        await loadUserJobs(userData);
+                        await loadUserBlogs(userIdFromURL);
+                        await loadUserCompanies(userIdFromURL);
+                        await loadUserVideoResumes(userData);
+                        await loadSocialMedia(userData);
+                    }
+                } else {
+                    // Call this function when the user data is not found
+                    showUserDataNotFoundMessage();
+                }
+                
+            } catch (error) {
+                console.error("Error fetching user data:", error);
+            }
+
+
+
+
+            /*
 
         <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
@@ -664,9 +713,6 @@ console.log("Module User We outside: ", userId);
     </nav>
 
     */
-
-        const urlParams = new URLSearchParams(window.location.search);
-        const userIdFromURL = urlParams.get('u');
 
   // Select the last breadcrumb anchor
   const lastBreadcrumb_1 = document.getElementById("lastBreadcrumb_1");
@@ -744,44 +790,8 @@ if(userId){
 }
         }
      
-        
 
 
-   
-
-
-
-        // Async function to check the user profile (userData)
-        async function checkUser(userIdFromURL) {
-            try {
-                // Fetch profile information based on userId in the URL
-                const profileDoc = doc(db, 'Users', userIdFromURL);
-                const profileSnapshot = await getDoc(profileDoc);
-
-                if (profileSnapshot.exists()) {
-                    const userData = profileSnapshot.data();
-                    console.log("User data fetched from Firestore:", userData);
-
-             
-                    // Check if the profile is public
-                    if (userData.profilePublic) {
-                        showPrivateProfileMessage(); // Show private profile message
-                    } else {
-                        await loadUserData(userData); // Load user data if public
-                        await loadUserJobs(userData);
-                        await loadUserBlogs(userIdFromURL);
-                        await loadUserCompanies(userIdFromURL);
-                        await loadUserVideoResumes(userData);
-                        await loadSocialMedia(userData);
-                    }
-                } else {
-                    // Call this function when the user data is not found
-                    showUserDataNotFoundMessage();
-                }
-                
-            } catch (error) {
-                console.error("Error fetching user data:", error);
-            }
             
         }
 
