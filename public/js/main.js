@@ -400,8 +400,8 @@ function handleAuthStateChanged(user) {
     // If logged in, show profile info and logout button
     const userName = user.displayName || "User";
     const userPhoto = user.profilePic ? 
-      `<img src="${user.profilePic}" alt="Profile Picture" class="rounded-circle" style="width: 40px; height: 40px; margin-right: 10px;">` :
-      `<img src="https://reelcareer.co/images/sq_logo_n_BG_sm.png" alt="Profile Picture" class="rounded-circle" style="width: 40px; height: 40px; margin-right: 10px;">`;
+      `<img id="nav-bar-profilePic" src="${user.profilePic}" alt="Profile Picture" class="rounded-circle" style="width: 40px; height: 40px; margin-right: 10px;">` :
+      `<img id="nav-bar-profilePic" src="https://reelcareer.co/images/sq_logo_n_BG_sm.png" alt="Profile Picture" class="rounded-circle" style="width: 40px; height: 40px; margin-right: 10px;">`;
 
     authSection.innerHTML = `
       <div class="dropdown">

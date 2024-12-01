@@ -292,9 +292,10 @@ contactList.appendChild(listItem);
         const conversationTitle = document.getElementById('conversationTitle');
         const contactInfo = document.getElementById('contactInfo');
 
+        
         conversationTitle.innerHTML = `Conversation with <a href="https://reelcareer.co/views/user/?u=${data.senderID}" style="text-decoration: none;color: inherit;">
         <img src="${data.senderProfilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_tie_reel.png'}" alt="Avatar" class="avatar"></a>
-    <span>${data.senderName}</span>
+    <span>${data.senderName}</span>  data-conversation-id="${conversationID}"
 `;
         contactInfo.innerHTML = `<p>Contact: ${data.senderName}</p><p>Status: Online</p>`; // Display contact info dynamically
         console.log("conversationID: ", conversationID);
@@ -336,54 +337,75 @@ messageDiv.appendChild(timestampDiv);
                 messageBox.appendChild(messageDiv);
             });
             messageBox.scrollTop = messageBox.scrollHeight;
-        });
+        }, 
+    error => {
+        console.error("Error fetching messages:", error.message);
+        showToast("Unable to load messages. Please try again.", 'error');
+    }
+);
     }
 
-    document.getElementById('sendMessageButton').onclick = () => {
-        const messageInput = document.getElementById('messageInput');
-        const conversationID = document.getElementById('conversationTitle').textContent.split(' ')[2];
-        const message = messageInput.value;
-        const attachmentInput = document.getElementById('attachmentInput').files[0];
+    document.getElementById('sendMessageButton').onclick = async () => {
+    const messageInput = document.getElementById('messageInput');
+    const conversationID = document.getElementById('conversationTitle').getAttribute('data-conversation-id');
+    const message = messageInput.value;
+    const attachmentInput = document.getElementById('attachmentInput').files[0];
+    const profilePic = document.getElementById('nav-bar-profilePic').src;
 
-        if (message && conversationID) {
-            let attachmentUrl = '';
-            if (attachmentInput) {
-                // Handle file upload to Firebase storage (example)
-                const fileRef = storageRef(storage, `messages/${conversationID}/${attachmentInput.name}`);
-                uploadBytes(fileRef, attachmentInput).then(snapshot => {
-                    getDownloadURL(snapshot.ref).then(url => {
-                        attachmentUrl = url;
-                        sendMessage(conversationID, message, attachmentUrl);
-                    });
-                });
-            } else {
-                sendMessage(conversationID, message);
-            }
+    if (!message && !attachmentInput) {
+        showToast("Please enter a message or attach a file.", 'warning');
+        return;
+    }
+
+    try {
+        let attachmentUrl = '';
+        if (attachmentInput) {
+            attachmentUrl = await uploadAttachment(conversationID, attachmentInput);
         }
-    };
+        await sendMessage(conversationID, message, attachmentUrl);
+        messageInput.value = ''; // Clear input
+        document.getElementById('attachmentInput').value = ''; // Clear attachment
+    } catch (error) {
+        console.error("Error sending message:", error.message);
+        showToast("Failed to send message. Please try again.", 'error');
+    }
+};
 
-    function sendMessage(conversationID, message, attachmentUrl = '') {
+
+function sendMessage(conversationID, message, attachmentUrl = '') {
         addDoc(collection(db, 'Messages'), {
             senderID: auth.currentUser.uid,
             recipientID: conversationID,
             conversationID: conversationID,
-            profilePicture: '',
+            profilePicture: profilePic,
             content: message,
-            createdAt: new Date(),
-            read: false,
+            contentType: attachmentUrl ? (attachmentUrl.match(/\.(jpg|png)$/) ? 'image' : 'video') : 'text',
+            attachments: attachmentUrl,
+
             messageType: 'contact',
             group: 'main',
-            contentType: attachmentUrl ? (attachmentUrl.endsWith('.jpg') || attachmentUrl.endsWith('.png') ? 'image' : 'video') : 'text',
-            status: "unread",
-            attachments: attachmentUrl,
-            isDeleted: false
+            createdAt: serverTimestamp(),
+
+    read: false,
+    status: "unread",
+    isDeleted: false
         }).then(() => {
             document.getElementById('messageInput').value = ''; // Clear input
             document.getElementById('attachmentInput').value = ''; // Clear attachment
         }).catch(error => {
             showToast("Error sending message: " + error.message, 'error');
         });
-    }    </script>
+    }    
+    
+    async function uploadAttachment(conversationID, file) {
+    const fileRef = storageRef(storage, `messages/${conversationID}/${file.name}`);
+    const snapshot = await uploadBytes(fileRef, file);
+    return getDownloadURL(snapshot.ref);
+}
+
+    
+    
+    </script>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
