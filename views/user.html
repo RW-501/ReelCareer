@@ -1089,10 +1089,12 @@ if (!profileData.tags || profileData.tags.length === 0) {
 
 
             userData.jobPosts.forEach(jobData => {
-                
+              if(jobData.jobID){ 
                 const listItem = document.createElement('li');
-                listItem.innerHTML =  jobData.jobID ? `<a href="https://reelcareer.co/views/job-details?id=${jobData.jobID}" title="${jobData.jobTitle}">${jobData.jobTitle}</a>`   || '' : '';
+                listItem.innerHTML =  `<a href="https://reelcareer.co/views/job-details?id=${jobData.jobID}" title="${jobData.jobTitle}">${jobData.jobTitle}</a>`   || '' ;
                 jobsList.appendChild(listItem);
+              }
+                
             });
         }
 
