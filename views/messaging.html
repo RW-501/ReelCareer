@@ -258,8 +258,8 @@ main .row {
         <img src="${data.senderProfilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_tie_reel.png'}" alt="Avatar" class="avatar"></a>
     <span>${data.senderName}</span>
 `;
-                listItem.onclick = () => loadMessages(data.conversationID, data.senderID);
-                contactList.appendChild(listItem);
+listItem.onclick = () => loadMessages(data.conversationID, data);
+contactList.appendChild(listItem);
             });
         });
 
@@ -292,7 +292,7 @@ main .row {
         const conversationTitle = document.getElementById('conversationTitle');
         const contactInfo = document.getElementById('contactInfo');
 
-        conversationTitle.textContent = `Conversation with <a href="https://reelcareer.co/views/user/?u=${data.senderID}" style="text-decoration: none;color: inherit;">
+        conversationTitle.innerHTML = `Conversation with <a href="https://reelcareer.co/views/user/?u=${data.senderID}" style="text-decoration: none;color: inherit;">
         <img src="${data.senderProfilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_tie_reel.png'}" alt="Avatar" class="avatar"></a>
     <span>${data.senderName}</span>
 `;
