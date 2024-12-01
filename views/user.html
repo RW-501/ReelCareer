@@ -89,13 +89,15 @@
 
 
 
-    
     <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li id="lastBreadcrumb_home" class="breadcrumb-item"><a href="https://reelcareer.co/">Home</a></li>
-          <li class="breadcrumb-item active" aria-current="page">User</li>
+      <ol class="breadcrumb">
+          <li id="lastBreadcrumb_home" class="breadcrumb-item"><a href="https://reelcareer.co/">Home</a></li>
+          <li id="lastBreadcrumb_1" class="breadcrumb-item"><a href="https://reelcareer.co/views/user">Edit Profile</a></li>
+          <li id="lastBreadcrumb_last" class="breadcrumb-item"><a id="lastBreadcrumb_a" href="https://reelcareer.co/views/user">View Profile</a></li>
+          <li id="breadcrumb-active-title" class="breadcrumb-item active" aria-current="page">User</li>
         </ol>
-      </nav>
+    </nav>
+
 
         <main id="main-content">
 
@@ -664,8 +666,16 @@ console.log("Module User We outside: ", userId);
 
             document.getElementById('send-message-btn').style.display = 'block';
             document.getElementById('connect-btn').style.display = 'block';
+            if (userId == userIdFromURL) {
+
             }
-            
+
+            }else{
+              document.getElementById('send-message-btn').style.display = 'none';
+              document.getElementById('connect-btn').style.display = 'none';
+
+            }
+
             document.getElementById('jobSeeker-btn').style.display = 'none';
             document.getElementById('recruiter-btn').style.display = 'none';
             document.getElementById('view-profile-btn').style.display = 'none';
@@ -689,6 +699,8 @@ if(userId){
   document.getElementById('view-profile-btn').style.display = 'block';
 
 
+}else{
+  // login and create a profile
 }
         }
      
@@ -1039,7 +1051,7 @@ if (!profileData.tags || profileData.tags.length === 0) {
             userData.jobPosts.forEach(jobData => {
                 
                 const listItem = document.createElement('li');
-                listItem.innerHTML =  `<a href="https://reelcareer.co/views/job-details?id=${jobData.jobID}" title="${jobData.jobTitle}">${jobData.jobTitle}</a>`   || '';
+                listItem.innerHTML =  jobData.jobID ? `<a href="https://reelcareer.co/views/job-details?id=${jobData.jobID}" title="${jobData.jobTitle}">${jobData.jobTitle}</a>`   || '' : '';
                 jobsList.appendChild(listItem);
             });
         }
