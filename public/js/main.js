@@ -427,7 +427,7 @@ function handleAuthStateChanged(user) {
     authSection.innerHTML = `<button class="btn btn-primary" id="loginButton">Login / Create Account</button>`;
 
     document.getElementById("loginButton").onclick = () => {
-      window.location.href = adjustLinkHomeURL + "views/auth"; // Redirect to login page
+      window.location.href = "https://reelcareer.co/views/auth"; // Redirect to login page
     };
   }
 
