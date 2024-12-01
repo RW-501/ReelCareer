@@ -1134,14 +1134,6 @@ function updateFooter() {
     footer: {
       currentYear: new Date().getFullYear(),
 
-   /*   links: [
-        { url: "/", name: "ReelCareer", title: "ReelCareer - #1 Job Board - Find a job today", order: 0 },
-        { url: "/views/about", name: "About ReelCareer", title: "About ReelCareer - Who We Are and Our Mission", order: 1 },
-        { url: "/views/privacy", name: "Privacy Policy", title: "Privacy Policy - How We Protect Your Data", order: 2 },
-        { url: "/views/terms", name: "Terms of Use", title: "Terms of Use - Website User Agreement and Guidelines", order: 3 },
-        { url: "/views/contact", name: "Contact Us", title: "Contact ReelCareer - Get in Touch for Support and Inquiries", order: 4 }
-      ]
-*/
 
     },
     companyMedia: {
@@ -1179,7 +1171,7 @@ function updateFooter() {
     const footerHTML = `
       <footer>
         <div class="footerMainContainer text-center">
-          <p>&copy; ${currentYear} ReelCareer</p>
+          <p class="footerSocialMedia" ></p>
           <nav class='footerNavContainer'>
             ${Object.keys(groupedLinks).map(category => `
               <div class='footerNavItems'>
@@ -1187,6 +1179,8 @@ function updateFooter() {
                 ${groupedLinks[category].map(link => `<a href="${link.url}" title="${link.title}">${link.name}</a>`).join("")}
               </div>`).join("\n")}
           </nav>
+                    <p class="footerCopyWrite" >&copy; ${currentYear} ReelCareer</p>
+
         </div>
 <button id="backToTop" title="Go to top">↑</button>
 
