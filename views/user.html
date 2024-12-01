@@ -634,6 +634,7 @@ function showUserSignedOutMessage() {
 
 
 
+const userId =  getUserId();
 
 // Retrieve and populate form inputs for tabs
 window.onload = async function () {
@@ -647,7 +648,6 @@ window.onload = async function () {
 
 
 
-    const userId =  getUserId();
 
 console.log("Module User We outside: ", userId);
 
@@ -663,7 +663,20 @@ console.log("Module User We outside: ", userId);
           }
 
         
-   
+          const lastBreadcrumb_1 = document.getElementById("lastBreadcrumb_1");
+
+const lastBreadcrumb_last = document.getElementById("lastBreadcrumb_last");
+const lastBreadcrumb_a = document.getElementById("lastBreadcrumb_a");
+
+const breadcrumbjobTitleActive = document.getElementById("breadcrumb-active-title");
+
+const userName = document.getElementById("user-name").innerText;
+
+lastBreadcrumb_1.style.display = "none";
+lastBreadcrumb_last.style.display = "none";
+breadcrumbjobTitleActive.style.display = "none";
+
+document.getElementById('profileSettings').style.display = 'none';
 
 
 
@@ -705,7 +718,7 @@ console.log("Module User We outside: ", userId);
    setTimeout(() => {
 
 
-
+/*
   // Select the last breadcrumb anchor
   const lastBreadcrumb_1 = document.getElementById("lastBreadcrumb_1");
 
@@ -715,7 +728,7 @@ console.log("Module User We outside: ", userId);
   const breadcrumbjobTitleActive = document.getElementById("breadcrumb-active-title");
   
   const userName = document.getElementById("user-name").innerText;
-
+*/
   lastBreadcrumb_1.style.display = "none";
 
   lastBreadcrumb_last.style.display = "none";
