@@ -840,7 +840,7 @@ async function displayBlogs(blogs, container) {
                     </div>
                 
                     
-                    <a class="btn btn-outline-primary blog-card-trigger" title="${blog.title}" href="https://reelcareer.co/views/blog?id=${blog.id} data-blog-id="${blog.id}">Read More</a>
+                    <a class="btn btn-outline-primary blog-card-trigger" title="${blog.title}" href="https://reelcareer.co/views/blog?b=${blog.id}">Read More</a>
                 </div>
             </div>
         </div>
