@@ -658,12 +658,14 @@ console.log("Module User We outside: ", userId);
         // Ensure userIdFromURL is not null or undefined
         if (userIdFromURL) {
             checkUser(userIdFromURL);
-            document.getElementById('currentUserId').innerText = userId;
             document.getElementById('userPageId').innerText = userIdFromURL;
+            if(userId){
+              document.getElementById('currentUserId').innerText = userId;
 
             document.getElementById('send-message-btn').style.display = 'block';
             document.getElementById('connect-btn').style.display = 'block';
-
+            }
+            
             document.getElementById('jobSeeker-btn').style.display = 'none';
             document.getElementById('recruiter-btn').style.display = 'none';
             document.getElementById('view-profile-btn').style.display = 'none';
