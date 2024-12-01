@@ -856,12 +856,12 @@ const websitesSetup = [
 
 // Optionally, you can filter out empty entries like this:
 const websites = websitesSetup.filter(site => site.url !== "");
-let tag1 = document.getElementById("tagsList").split(",").map((tags) => tags.trim());
+//let tag1 = document.getElementById("tagsSET-profile").split(",").map((tags) => tags.trim());
 
-let tag2 =  document.getElementById('tagsList').split(",").map((tags) => tags.trim());
+let tag2 =  document.getElementById('tagsSET-profile').split(",").map((tags) => tags.trim());
 let tag3 =  Array.from(document.querySelectorAll('#tagsList .tag')).map(tag => tag.textContent);
 
-console.log("tag1:  ", tag1);
+//console.log("tag1:  ", tag1);
 console.log("tag2:  ", tag2);
 console.log("tag3:  ", tag3);
 
