@@ -586,11 +586,44 @@ function updatePagination() {
             });
         });
 
+  
+        function generateBlogSchema(blog) {
+    const schema = {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": blog.title,
+        "image": blog.imageUrl || "https://reelcareer.co/images/rc_text_sm.png", // Fallback image
+        "author": {
+            "@type": "Person",
+            "name":  "ReelCareer"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "ReelCareer",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://reelcareer.co/images/rc_text_sm.png"
+            }
+        },
+        "datePublished": blog.postDate || new Date().toISOString(),
+        "dateModified":  new Date().toISOString(),
+        "description": blog.content || truncateText(blog.content, 160),
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": `https://reelcareer.co/views/blog/?b=${blog.id}`
+        }
+    };
+
+    return JSON.stringify(schema, null, 2); // Returns the schema as a formatted string
+}
+
+
+
+
 
 // Initial call to fetch total posts and blogs for the first page
 window.onload = async function () {
     try {
-        await fetchTotalPosts(); // Get the total number of posts
         await fetchBlogs(currentPage); // Fetch the first page
     } catch (error) {
         console.error("Error during initialization:", error);
@@ -601,38 +634,7 @@ window.onload = async function () {
 
     </script>
 
-    <!-- Schema Markup for SEO -->
-    <script type="application/ld+json">
-        {
-            "@context": "https://schema.org",
-            "@type": "Blog",
-            "name": "User Blog",
-            "url": "https://www.example.com/user-blog",
-            "description": "Explore the latest blog posts from our users.",
-            "publisher": {
-                "@type": "Organization",
-                "name": "Your Organization Name",
-                "logo": {
-                    "@type": "ImageObject",
-                    "url": "https://www.example.com/logo.png"
-                }
-            },
-            "blogPost": [
-                {
-                    "@type": "BlogPosting",
-                    "headline": "Sample Blog Post",
-                    "image": "https://www.example.com/image.jpg",
-                    "author": {
-                        "@type": "Person",
-                        "name": "Author Name"
-                    },
-                    "datePublished": "2024-10-10T08:00:00+08:00",
-                    "mainEntityOfPage": "https://www.example.com/user-blog/sample-post",
-                    "description": "This is a brief description of the blog post."
-                }
-            ]
-        }
-    </script>
+
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
