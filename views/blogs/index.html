@@ -334,7 +334,7 @@ async function fetchBlogs(page) {
             <div class="blog-content" style="flex-grow: 1;">
                 <h3 style="font-size: 24px; color: #333; font-weight: 700; margin-bottom: 15px;">${blogData.title}</h3>
                 <div class="blog-card-text text-muted" style="font-size: 14px; line-height: 1.6; color: #666;">
-                    ${truncateText(blogData.content, 80, `https://reelcareer.co/views/blog?b=${blog.id}`)}
+                    ${truncateText(blogData.content, 80, `https://reelcareer.co/views/blog?b=${doc.id}`)}
                 </div>
             </div>
         </a>
