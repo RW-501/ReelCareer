@@ -656,7 +656,7 @@ const userIdFromURL = urlParams.get('u');
  if (userIdFromURL) {
             checkUser(userIdFromURL);
           } else {
-            checkUser(userId);
+            await checkUser(userId);
           }
         
         
