@@ -233,6 +233,7 @@ main .row {
     }, 1000);
 
     function loadContacts(userID) {
+        console.log("userID: ", userID);
 
         const contactList = document.getElementById('contactList');
         contactList.innerHTML = '';
@@ -283,6 +284,8 @@ main .row {
 
         conversationTitle.textContent = `Conversation with ${contactID}`;
         contactInfo.innerHTML = `<p>Contact: ${contactID}</p><p>Status: Online</p>`; // Display contact info dynamically
+        console.log("conversationID: ", conversationID);
+        console.log("contactID: ", contactID);
 
         messageBox.innerHTML = '';
         const messagesRef = collection(db, 'Messages');
