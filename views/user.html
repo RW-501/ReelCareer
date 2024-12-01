@@ -670,7 +670,6 @@ const lastBreadcrumb_a = document.getElementById("lastBreadcrumb_a");
 
 const breadcrumbjobTitleActive = document.getElementById("breadcrumb-active-title");
 
-const userName = document.getElementById("user-name").innerText;
 
 lastBreadcrumb_1.style.display = "none";
 lastBreadcrumb_last.style.display = "none";
@@ -733,6 +732,7 @@ document.getElementById('profileSettings').style.display = 'none';
 
   lastBreadcrumb_last.style.display = "none";
   lastBreadcrumb_a.href = `https://reelcareer.co/views/user?u=${userId}`;
+  const userName = document.getElementById("user-name").innerText;
 
   breadcrumbjobTitleActive.innerText = userName;
 
