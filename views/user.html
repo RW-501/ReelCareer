@@ -750,7 +750,7 @@ const websitesSetup = [
 
 // Optionally, you can filter out empty entries like this:
 const websites = websitesSetup.filter(site => site.url !== "");
-let tag1 = document.getElementById("tagsListe").split(",").map((tags) => tags.trim());
+let tag1 = document.getElementById("tagsList").split(",").map((tags) => tags.trim());
 
 let tag2 =  document.getElementById('tagsList').split(",").map((tags) => tags.trim());
 let tag3 =  Array.from(document.querySelectorAll('#tagsList .tag')).map(tag => tag.textContent);
