@@ -194,43 +194,7 @@
 
         <div id="blog-container" class="row"></div>
 
-        <!-- Pagination Controls -->
-        <div class="row">
-            <div class="col-md-12 text-center">
-                <nav aria-label="Page navigation">
-                    <ul class="pagination" id="pagination-controls">
-                        <li class="page-item disabled" id="prev-page">
-                            <a class="page-link" href="#" tabindex="-1">Previous</a>
-                        </li>
-                        <li class="page-item active"><a class="page-link" href="#" id="page-1">1</a></li>
-                        <li class="page-item" id="next-page">
-                            <a class="page-link" href="#">Next</a>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
-        </div>
-    </div>
-
-    <!-- Blog Detail Modal -->
-    <div class="modal fade hide" id="blogDetailModal" tabindex="-1" aria-labelledby="blogDetailModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="blogDetailModalLabel">Blog Title</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <img id="modal-blog-image" src="" alt="Blog Image" class="img-fluid mb-3" />
-                    <p id="modal-blog-author-date" class="author-date"></p>
-                    <p id="modal-blog-content" class="blog-content"></p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-
+  
     </main>
 
     <!-- Footer -->
@@ -353,7 +317,7 @@ document.head.appendChild(scriptTag);
      ${
                         imageUrl 
                         ? ` <a title="${blogData.title}" href="${imageUrl}"><img src="${imageUrl}" alt="${blogData.imageCaption || 'Blog Image'}" style="
-                            width: 50%;  
+                            width: 100%;  
               height: auto; 
               border-radius: 8px;
               margin: auto; 
