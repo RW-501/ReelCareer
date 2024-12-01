@@ -1145,7 +1145,7 @@ function updateFooter() {
 
     },
     companyMedia: {
-      title: "ReelCareer.co Media",
+      title: "ReelCareer Media",
       titleStyle: "color: #83bad9; font-weight: 800; text-shadow: 1px 0px 0px #6253e7;",
       video: {
         source: "https://reelcareer.co/images/intro.MP4",
