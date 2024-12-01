@@ -772,7 +772,7 @@ function shuffleArray(array) {
 
 // Function to display blogs dynamically with enhanced error handling
 async function loadRelatedBlogs() {
-  const maxSimilarBlogs = 5;
+  const maxSimilarBlogs = 6;
   const blogContainer = document.getElementById('blogContainer');
   const allBlogs = [];
 
