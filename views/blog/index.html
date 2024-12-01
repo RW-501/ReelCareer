@@ -302,18 +302,10 @@ async function fetchBlogs(page) {
             const blogsRef = collection(db, "Blogs");
             let blogsQuery = query(blogsRef, where("activate", "==", true), limit(postsPerPage));
 
-            // Handle pagination using Firestore's `startAfter`
-if (page > 1 && lastVisibleDoc) {
-    blogsQuery = query(
-        blogsRef,
-        where("activate", "==", true),
-        startAfter(lastVisibleDoc),
-        limit(postsPerPage)
-    );
-} else {
-    blogsQuery = query(blogsRef, where("activate", "==", true), limit(postsPerPage));
+
 }
 
+    
 
             console.log("Blogs Query:", blogsQuery);
             const querySnap = await getDocs(blogsQuery);
@@ -324,20 +316,13 @@ if (page > 1 && lastVisibleDoc) {
             }
 
             querySnapshot = querySnap.docs; // Assign docs array to querySnapshot
-        }
+        
 
         console.log("Query Snapshot:", querySnapshot);
 
         // Iterate and create blog posts
         if (querySnapshot && querySnapshot.length > 0) {
-            firstVisibleDoc = querySnapshot[0];
-
-            // Store the last visible document for pagination
-            lastVisibleDoc = querySnapshot[querySnapshot.length - 1];
-
-            console.log("First Visible Doc:", firstVisibleDoc);
-            console.log("Last Visible Doc:", lastVisibleDoc);
-
+      
 
 
             querySnapshot.forEach(async (doc) => { // Added 'async' here for async operations inside the loop
