@@ -918,8 +918,9 @@ if (profileData) {
   document.getElementById('nameSET-profile').value = userData.name || "";
   document.getElementById('bioSET-profile').value = userData.bio || "";
   document.getElementById('tagsSET-profile').value = userData.tags || "";
+  
   const tagsContainer = document.getElementById('tagsList');
-            formValues.tags.forEach(tag => {
+  userData.tags.forEach(tag => {
                 const tagElement = document.createElement('div');
                 tagElement.className = 'tag';
                 tagElement.textContent = tag;
