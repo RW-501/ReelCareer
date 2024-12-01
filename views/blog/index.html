@@ -409,12 +409,12 @@ document.head.appendChild(scriptTag);
   </div>
   `;
 
-
+  document.getElementById("blog-container").innerHTML ='';
             // Append the blog card to the container
             blogContainer.appendChild(blogCard);
         });
-        // Update pagination controls
-            updatePagination();
+   
+        
         } else {
             blogContainer.innerHTML = "<p>No blogs available.</p>";
         }
@@ -484,51 +484,7 @@ function markHelpful(postId) {
 }
     window.markHelpful  = markHelpful ;
 
-     
-// Update pagination controls
-function updatePagination() {
-    const paginationControls = document.getElementById("pagination-controls");
-    const totalPages = Math.ceil(totalPosts / postsPerPage); // Calculate total pages
-
-    paginationControls.innerHTML = `
-        <li class="page-item ${currentPage === 1 ? 'disabled' : ''}" id="prev-page">
-            <a class="page-link" href="#" tabindex="-1">Previous</a>
-        </li>
-        <li class="page-item active"><a class="page-link" href="#" id="page-${currentPage}">${currentPage}</a></li>
-        <li class="page-item ${currentPage === totalPages ? 'disabled' : ''}" id="next-page">
-            <a class="page-link" href="#">Next</a>
-        </li>
-    `;
-
-    // Add event listeners for pagination controls
-    document.getElementById("prev-page").onclick = () => {
-        if (currentPage > 1) {
-            currentPage--;
-            fetchBlogs(currentPage);
-        }
-    };
-
-    document.getElementById("next-page").onclick = () => {
-        if (currentPage < totalPages) {
-            currentPage++;
-            fetchBlogs(currentPage);
-        }
-    };
-}
-
-        // Search Blogs Functionality
-        document.getElementById("search-input").addEventListener("input", function () {
-            const searchTerm = this.value.toLowerCase();
-            const blogPosts = document.querySelectorAll(".blog-post");
-            blogPosts.forEach((post) => {
-                const title = post.querySelector("h3").textContent.toLowerCase();
-                if (title.includes(searchTerm)) {
-                    post.style.display = "block"; // Show matching post
-                } else {
-                    post.style.display = "none"; // Hide non-matching post
-                }
-            });
-        });
+  
 
   
         function generateBlogSchema(blog, id) {
