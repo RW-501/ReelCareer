@@ -347,6 +347,16 @@ if (page > 1 && lastVisibleDoc) {
             const blogCard = document.createElement("div");
             blogCard.className = "blog-post"; // Add your CSS classes
 
+
+            const blogSchema = generateBlogSchema(blogData, doc.id);
+
+// Inject into the head of your HTML page
+const scriptTag = document.createElement("script");
+scriptTag.type = "application/ld+json";
+scriptTag.innerHTML = blogSchema;
+document.head.appendChild(scriptTag);
+
+
             // Build the inner HTML with all the specified fields and action buttons
             blogCard.innerHTML = `
   <div class="blog-card" style="
@@ -587,7 +597,7 @@ function updatePagination() {
         });
 
   
-        function generateBlogSchema(blog) {
+        function generateBlogSchema(blog, id) {
     const schema = {
         "@context": "https://schema.org",
         "@type": "BlogPosting",
@@ -610,7 +620,7 @@ function updatePagination() {
         "description": blog.content || truncateText(blog.content, 160),
         "mainEntityOfPage": {
             "@type": "WebPage",
-            "@id": `https://reelcareer.co/views/blog/?b=${blog.id}`
+            "@id": `https://reelcareer.co/views/blog/?b=${id}`
         }
     };
 
