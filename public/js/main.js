@@ -2175,7 +2175,7 @@ function rollInAnimations(config = {}) {
 rollInAnimations({
   delayBetweenDivs: 500,
   initialBodyDelay: 1500,
-  animationDuration: 700,
+  animationDuration: 1500,
   animationTimingFunction: 'cubic-bezier(0.68, -0.55, 0.27, 1.55)' // Easing function for bounce effect
 });
 
