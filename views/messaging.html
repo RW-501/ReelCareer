@@ -6,19 +6,10 @@
     <title>Messaging</title>
      <style>
         /* Custom styles */
-/* General Styles */
-body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f5f6fa;
-    margin: 0;
-    padding: 0;
-}
 
-h2, h4 {
-    color: #333;
-}
+        
 
-.container {
+#main-content  .container {
     margin-top: 20px;
     background-color: #fff;
     padding: 20px;
@@ -26,12 +17,12 @@ h2, h4 {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.row {
+#main-content .row {
     display: flex;
 }
 
 /* Contacts List */
-.list-group {
+#main-content .list-group {
     max-height: 400px;
     overflow-y: auto;
     padding: 10px;
@@ -40,7 +31,7 @@ h2, h4 {
     border: 1px solid #e0e0e0;
 }
 
-.list-group-item {
+#main-content .list-group-item {
     display: flex;
     align-items: center;
     padding: 10px;
@@ -52,11 +43,11 @@ h2, h4 {
     transition: background-color 0.3s ease;
 }
 
-.list-group-item:hover {
+#main-content .list-group-item:hover {
     background-color: #f0f8ff;
 }
 
-.avatar {
+#main-content .avatar {
     width: 40px;
     height: 40px;
     border-radius: 50%;
@@ -64,7 +55,7 @@ h2, h4 {
 }
 
 /* Messaging Area */
-#messageBox {
+#main-content #messageBox {
     max-height: 400px;
     overflow-y: auto;
     padding: 15px;
@@ -73,7 +64,7 @@ h2, h4 {
     background-color: #f9f9f9;
 }
 
-.message {
+#main-content .message {
     margin-bottom: 15px;
     padding: 10px;
     border-radius: 8px;
@@ -82,32 +73,32 @@ h2, h4 {
     position: relative;
 }
 
-.message.sent {
+#main-content .message.sent {
     background-color: #d1f7c4;
     align-self: flex-end;
     margin-left: auto;
 }
 
-.message.received {
+#main-content .message.received {
     background-color: #f1f0f0;
     align-self: flex-start;
     margin-right: auto;
 }
 
-.media-attachment img,
-.media-attachment video {
+#main-content .media-attachment img,
+#main-content .media-attachment video {
     max-width: 100%;
     border-radius: 8px;
     margin-top: 10px;
 }
 
-.timestamp {
+#main-content .timestamp {
     font-size: 0.8em;
     color: #888;
     margin-top: 5px;
 }
 
-.contact-info {
+#main-content .contact-info {
     margin-bottom: 10px;
     background-color: #f9f9f9;
     padding: 10px;
@@ -116,16 +107,16 @@ h2, h4 {
 }
 
 /* Input Area */
-.input-group {
+#main-content .input-group {
     margin-top: 10px;
 }
 
-#messageInput {
+#main-content #messageInput {
     border-radius: 6px;
     border: 1px solid #ccc;
 }
 
-#sendMessageButton {
+#main-content #sendMessageButton {
     background-color: #28a745;
     color: white;
     border: none;
@@ -135,15 +126,15 @@ h2, h4 {
     transition: background-color 0.3s ease;
 }
 
-#sendMessageButton:hover {
+#main-content #sendMessageButton:hover {
     background-color: #218838;
 }
 
-.attachment-area {
+#main-content .attachment-area {
     margin-top: 10px;
 }
 
-.attachment-area input {
+#main-content .attachment-area input {
     border: none;
     border-radius: 6px;
     padding: 5px;
