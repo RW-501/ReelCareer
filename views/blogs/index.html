@@ -259,13 +259,20 @@
     
 
     let page = 1;
-let postsPerPage = 1; // Define your posts per page
+let postsPerPage = 10; // Define your posts per page
 let currentPage = 1;
 let totalPosts = 0; // Track total number of posts
+let lastVisibleDoc = null; // For pagination tracking (Firestore pagination)
+let firstVisibleDoc = null; // For backward navigation
 
-
-
-
+// Fetch total number of active blogs from Firestore to calculate total pages
+async function fetchTotalPosts() {
+    const blogsRef = collection(db, "Blogs");
+    const totalQuery = query(blogsRef, where("activate", "==", true));
+    const totalSnapshot = await getDocs(totalQuery);
+    totalPosts = totalSnapshot.size; // Get the total number of posts
+    return totalPosts;
+}
 
 // Fetch blogs from Firestore
 async function fetchBlogs(page) {
@@ -273,41 +280,26 @@ async function fetchBlogs(page) {
         const blogContainer = document.getElementById("blog-container");
         blogContainer.innerHTML = ""; // Clear existing blogs
 
-        // Check if the URL has a 'b' parameter (blogId)
-        const blogId = getQueryParam("b");
-
-        console.log("Blog ID from URL:", blogId);
+    
         let querySnapshot;
 
-        if (blogId) {
-            // Fetch a specific blog by ID
-            const docRef = doc(db, "Blogs", blogId);
-            const docSnap = await getDoc(docRef);
-            if (docSnap.exists()) {
-                querySnapshot = [docSnap]; // Wrap in an array to simulate array for a single doc
-            } else {
-                blogContainer.innerHTML = "<p>Blog not found.</p>";
-                return;
-            }
-        } else {
+        if (blogContainer){
             // General blogs fetching logic
             const blogsRef = collection(db, "Blogs");
             let blogsQuery = query(blogsRef, where("activate", "==", true), limit(postsPerPage));
 
             // Handle pagination using Firestore's `startAfter`
-if (page > 1 && lastVisibleDoc) {
-    blogsQuery = query(
-        blogsRef,
-        where("activate", "==", true),
-        startAfter(lastVisibleDoc),
-        limit(postsPerPage)
-    );
-} else {
-    blogsQuery = query(blogsRef, where("activate", "==", true), limit(postsPerPage));
-}
+            if (page > 1 && lastVisibleDoc) {
+                blogsQuery = query(
+                    blogsRef,
+                    where("activate", "==", true),
+                    startAfter(lastVisibleDoc),
+                    limit(postsPerPage)
+                );
+            } else {
+                blogsQuery = query(blogsRef, where("activate", "==", true), limit(postsPerPage));
+            }
 
-
-            console.log("Blogs Query:", blogsQuery);
             const querySnap = await getDocs(blogsQuery);
 
             if (querySnap.empty) {
@@ -318,8 +310,6 @@ if (page > 1 && lastVisibleDoc) {
             querySnapshot = querySnap.docs; // Assign docs array to querySnapshot
         }
 
-        console.log("Query Snapshot:", querySnapshot);
-
         // Iterate and create blog posts
         if (querySnapshot && querySnapshot.length > 0) {
             firstVisibleDoc = querySnapshot[0];
@@ -327,137 +317,29 @@ if (page > 1 && lastVisibleDoc) {
             // Store the last visible document for pagination
             lastVisibleDoc = querySnapshot[querySnapshot.length - 1];
 
-            console.log("First Visible Doc:", firstVisibleDoc);
-            console.log("Last Visible Doc:", lastVisibleDoc);
-
-
-
             querySnapshot.forEach(async (doc) => { // Added 'async' here for async operations inside the loop
                 const blogData = doc.data();
-         // Use await to resolve the image URL before using it
-   const imageUrl = await checkImageURL(blogData.imageUrl);
+                // Use await to resolve the image URL before using it
+                const imageUrl = await checkImageURL(blogData.imageUrl);
 
-            // Create blog card or element here based on your design
-            const blogCard = document.createElement("div");
-            blogCard.className = "blog-post"; // Add your CSS classes
+                // Create blog card or element here based on your design
+                const blogCard = document.createElement("div");
+                blogCard.className = "blog-post"; // Add your CSS classes
 
-            // Build the inner HTML with all the specified fields and action buttons
-            blogCard.innerHTML = `
-  <div class="blog-card" style="
-      box-shadow: 0 8px 16px rgba(0,0,0,0.1); 
-      padding: 20px; 
-      border-radius: 10px;
-      background-color: #ffffff;
-      margin-bottom: 30px;
-      overflow: hidden;
-      transition: transform 0.3s ease;
-      ">
-      <h3 style="
-          font-size: 24px; 
-          color: #333; 
-          font-weight: 700; 
-          margin-bottom: 15px;">${blogData.title}</h3>
+                // Build the inner HTML with just the image and title, wrapped with a clickable link
+                blogCard.innerHTML = `
+                    <div class="blog-card" style="box-shadow: 0 8px 16px rgba(0,0,0,0.1); padding: 20px; border-radius: 10px; background-color: #ffffff; margin-bottom: 30px; overflow: hidden; transition: transform 0.3s ease;">
+                        <a href="blog/?b=${doc.id}" style="text-decoration: none; color: inherit;">
+                            <h3 style="font-size: 24px; color: #333; font-weight: 700; margin-bottom: 15px;">${blogData.title}</h3>
+                            ${imageUrl ? `<img src="${imageUrl}" alt="${blogData.imageCaption || 'Blog Image'}" style="width: 200px; height: auto; border-radius: 8px; margin: auto; margin-bottom: 20px; object-fit: cover;"/>` : ""}
+                        </a>
+                    </div>
+                `;
 
-     ${
-                        imageUrl 
-                        ? ` <a title="${blogData.title}" href="${imageUrl}"><img src="${imageUrl}" alt="${blogData.imageCaption || 'Blog Image'}" style="
-                            width: 50%;  
-              height: auto; 
-              border-radius: 8px;
-              margin: auto; 
-              margin-bottom: 20px; 
-              object-fit: cover;"/></a>`
-          : ""
-      }
-
-      <p style="
-          font-size: 18px; 
-          color: #555; 
-          line-height: 1.6;
-          margin-bottom: 15px;">${blogData.content}</p>
-      
-      <hr style="border: 0; border-top: 1px solid #e0e0e0; margin-bottom: 15px;">
-
-      <div style="
-          display: flex; 
-          justify-content: space-between; 
-          align-items: center; 
-          font-size: 14px; 
-          color: #999;">
-          <p><strong>Category:</strong> ${blogData.category}</p>
-          <p><strong>Published:</strong> ${new Date(blogData.postDate).toLocaleDateString()}</p>
-      </div>
-
-      <div style="
-          display: flex; 
-          justify-content: space-between; 
-          align-items: center; 
-          font-size: 14px; 
-          color: #999; 
-          margin-bottom: 20px;">
-          <p><strong>Posted by:</strong> ${blogData.postedBy}</p>
-          <p><strong>ID:</strong> ${blogData.postedById}</p>
-      </div>
-
-      <div style="
-          display: flex; 
-          justify-content: space-between; 
-          font-size: 14px; 
-          color: #999;">
-          <p><strong>Views:</strong> ${blogData.viewCount}</p>
-          <p><strong>Tags:</strong> ${blogData.tags.join(', ')}</p>
-      </div>
-
-      <hr style="border: 0; border-top: 1px solid #e0e0e0; margin-bottom: 20px;">
-
-      <div style="
-          display: flex; 
-          justify-content: space-around; 
-          align-items: center;">
-          <div style="text-align: center;">
-              <button onclick="likePost('${doc.id}')" style="
-                  background-color: #007bff; 
-                  color: white; 
-                  border: none; 
-                  padding: 10px 20px; 
-                  border-radius: 5px; 
-                  cursor: pointer;
-                  transition: background-color 0.3s ease;">👍 Like</button>
-              <p><strong>Likes:</strong> <span id="likes-${doc.id}">${blogData.likes}</span></p>
-          </div>
-
-          <div style="text-align: center;">
-              <button onclick="lovePost('${doc.id}')" style="
-                  background-color: #ff3860; 
-                  color: white; 
-                  border: none; 
-                  padding: 10px 20px; 
-                  border-radius: 5px; 
-                  cursor: pointer;
-                  transition: background-color 0.3s ease;">❤️ Love</button>
-              <p><strong>Loves:</strong> <span id="loves-${doc.id}">${blogData.loves}</span></p>
-          </div>
-
-          <div style="text-align: center;">
-              <button onclick="markHelpful('${doc.id}')" style="
-                  background-color: #23d160; 
-                  color: white; 
-                  border: none; 
-                  padding: 10px 20px; 
-                  border-radius: 5px; 
-                  cursor: pointer;
-                  transition: background-color 0.3s ease;">✔️ Helpful</button>
-              <p><strong>Helpful:</strong> <span id="helpful-${doc.id}">${blogData.helpful}</span></p>
-          </div>
-      </div>
-  </div>
-  `;
-
-
-            // Append the blog card to the container
-            blogContainer.appendChild(blogCard);
-        });
-        // Update pagination controls
+                // Append the blog card to the container
+                blogContainer.appendChild(blogCard);
+            });
+            // Update pagination controls
             updatePagination();
         } else {
             blogContainer.innerHTML = "<p>No blogs available.</p>";
@@ -470,69 +352,6 @@ if (page > 1 && lastVisibleDoc) {
 }
 
 
-
-// Function to handle liking a post
-function likePost(postId) {
-    const likesElement = document.getElementById(`likes-${postId}`);
-    let currentLikes = parseInt(likesElement.textContent);
-    currentLikes += 1;
-    likesElement.textContent = currentLikes;
-
-    // Update the database (Firestore)
-    const postRef = firebase.firestore().collection('blogs').doc(postId);
-    postRef.update({ likes: currentLikes })
-        .then(() => {
-            console.log("Like count updated successfully");
-        })
-        .catch((error) => {
-            console.error("Error updating like count: ", error);
-        });
-}
-
-// Function to handle loving a post
-function lovePost(postId) {
-    const lovesElement = document.getElementById(`loves-${postId}`);
-    let currentLoves = parseInt(lovesElement.textContent);
-    currentLoves += 1;
-    lovesElement.textContent = currentLoves;
-
-    // Update the database (Firestore)
-    const postRef = firebase.firestore().collection('blogs').doc(postId);
-    postRef.update({ loves: currentLoves })
-        .then(() => {
-            console.log("Love count updated successfully");
-        })
-        .catch((error) => {
-            console.error("Error updating love count: ", error);
-        });
-}
-
-// Function to handle marking a post as helpful
-function markHelpful(postId) {
-    const helpfulElement = document.getElementById(`helpful-${postId}`);
-    let currentHelpful = parseInt(helpfulElement.textContent);
-    currentHelpful += 1;
-    helpfulElement.textContent = currentHelpful;
-
-    // Update the database (Firestore)
-    const postRef = firebase.firestore().collection('blogs').doc(postId);
-    postRef.update({ helpful: currentHelpful })
-        .then(() => {
-            console.log("Helpful count updated successfully");
-        })
-        .catch((error) => {
-            console.error("Error updating helpful count: ", error);
-        });
-}
-        // Show blog detail in modal
-        function showBlogDetail(title, image, author, date, content) {
-            document.getElementById("blogDetailModalLabel").innerText = title;
-            document.getElementById("modal-blog-image").src = image;
-            document.getElementById("modal-blog-author-date").innerText = `By ${author} on ${date}`;
-            document.getElementById("modal-blog-content").innerText = content;
-            const modal = new bootstrap.Modal(document.getElementById('blogDetailModal'));
-            modal.show();
-        }
 
      
 // Update pagination controls
