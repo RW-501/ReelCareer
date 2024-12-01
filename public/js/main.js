@@ -345,7 +345,7 @@ function createNavbar() {
             <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/views/about">About Us</a></li>
             <li class="nav-item" id="jobSeekerNavItem"><a class="nav-link" href="https://reelcareer.co/views/job-seeker">Job Seeker</a></li>
             <li class="nav-item" id="recruiterNavItem"><a class="nav-link" href="https://reelcareer.co/views/recruiter-dashboard">Recruiter Dashboard</a></li>
-            <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/views/blog">Blog</a></li>
+            <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/views/blogs">Blogs</a></li>
             <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/views/membership">Membership</a></li>
             <li class="nav-item"><div id="authSection" class="d-flex align-items-center"></div></li>
             <li class="nav-item"><button id="darkModeToggle" class="btn btn-outline-secondary ml-3">Dark Mode</button></li>
@@ -1041,8 +1041,8 @@ function updateFooter() {
       "order": 4
     },
     {
-      "url": "/views/blog",
-      "name": "Blog",
+      "url": "/views/blogs",
+      "name": "Blogs",
       "title": "ReelCareer Blog - Career Advice, News, and Insights",
       "category": "Content",
       "order": 5
