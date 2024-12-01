@@ -435,7 +435,7 @@ function likePost(postId) {
     likesElement.textContent = currentLikes;
 
     // Update the database (Firestore)
-    const postRef = firebase.firestore().collection('blogs').doc(postId);
+    const postRef = firebase.firestore().collection('Blogs').doc(postId);
     postRef.update({ likes: currentLikes })
         .then(() => {
             console.log("Like count updated successfully");
@@ -444,6 +444,7 @@ function likePost(postId) {
             console.error("Error updating like count: ", error);
         });
 }
+window.likePost  = likePost ;
 
 // Function to handle loving a post
 function lovePost(postId) {
@@ -453,7 +454,7 @@ function lovePost(postId) {
     lovesElement.textContent = currentLoves;
 
     // Update the database (Firestore)
-    const postRef = firebase.firestore().collection('blogs').doc(postId);
+    const postRef = firebase.firestore().collection('Blogs').doc(postId);
     postRef.update({ loves: currentLoves })
         .then(() => {
             console.log("Love count updated successfully");
@@ -462,6 +463,7 @@ function lovePost(postId) {
             console.error("Error updating love count: ", error);
         });
 }
+window.lovePost  = lovePost ;
 
 // Function to handle marking a post as helpful
 function markHelpful(postId) {
@@ -471,7 +473,7 @@ function markHelpful(postId) {
     helpfulElement.textContent = currentHelpful;
 
     // Update the database (Firestore)
-    const postRef = firebase.firestore().collection('blogs').doc(postId);
+    const postRef = firebase.firestore().collection('Blogs').doc(postId);
     postRef.update({ helpful: currentHelpful })
         .then(() => {
             console.log("Helpful count updated successfully");
@@ -480,15 +482,7 @@ function markHelpful(postId) {
             console.error("Error updating helpful count: ", error);
         });
 }
-        // Show blog detail in modal
-        function showBlogDetail(title, image, author, date, content) {
-            document.getElementById("blogDetailModalLabel").innerText = title;
-            document.getElementById("modal-blog-image").src = image;
-            document.getElementById("modal-blog-author-date").innerText = `By ${author} on ${date}`;
-            document.getElementById("modal-blog-content").innerText = content;
-            const modal = new bootstrap.Modal(document.getElementById('blogDetailModal'));
-            modal.show();
-        }
+    window.markHelpful  = markHelpful ;
 
      
 // Update pagination controls
