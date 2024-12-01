@@ -9,7 +9,7 @@ import {
   setDoc, limit,
   addDoc, deleteDoc,
   getDocs, increment,
-  where, arrayUnion,
+  where, arrayUnion,onSnapshot ,
   collection
 } from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js';
 
@@ -155,7 +155,7 @@ export {
   OAuthProvider, signOut, deleteDoc, getFirestore, serverTimestamp,
   createUserWithEmailAndPassword, signInWithEmailAndPassword, deleteObject,
   where, getDocs, storage, getAuth, collection, auth, analytics,
-  googleProvider,
+  googleProvider,onSnapshot ,
   facebookProvider,
   getUserId // Export the function
 };

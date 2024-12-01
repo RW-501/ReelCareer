@@ -143,12 +143,7 @@
 
 main .row {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
-    row-gap: 0.5rem;
-    width: 100%;
-    margin: 0;
-    padding: 0;
+    grid-column-gap: unset;
 }
     </style>
 
@@ -217,7 +212,7 @@ main .row {
 <script type="module">
     import {
         getUserId, db, doc, getDoc, query, updateDoc,
-        setDoc, ref, signInWithPopup, orderBy,
+        setDoc, ref, signInWithPopup, orderBy,onSnapshot ,
          
         uploadBytes, OAuthProvider, arrayUnion, getStorage,
         signOut, addDoc, increment, onAuthStateChanged,
@@ -333,6 +328,7 @@ messageDiv.appendChild(timestampDiv);
             senderID: auth.currentUser.uid,
             recipientID: conversationID,
             conversationID: conversationID,
+            profilePicture: '',
             content: message,
             createdAt: new Date(),
             read: false,
