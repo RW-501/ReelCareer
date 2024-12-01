@@ -1282,17 +1282,23 @@ document.getElementById('sendMessageForm').addEventListener('submit', async func
     const recipientID = document.getElementById('recipient-id').value;
     const content = document.getElementById('message-content').value;
     const attachments = document.getElementById('message-attachments').files[0] || '';
-    
+    const userDataSaved = JSON.parse(localStorage.getItem('userData')) || [];
+
     const messageData = {
         recipientID: recipientID,
         senderID: senderID,
         type: 'message',
         content: content,
         createdAt: new Date(),
-            read: false,
-            messageType: 'contact', // group, system, advertisment, 
+        recipientRead: false,
+        recipientGroup: 'main',
 
-            group: 'main',
+            messageType: 'contact', // group, system, advertisment, 
+           
+            senderName: userDataSaved.displayName,
+            senderProfilePicture: userDataSaved.profilePicture,
+            senderProfileURL: `https://reelcareer.co/views/user?u=${senderID}`,
+
             contentType: 'text', /// video, picture, resume, link
             status: "unread", 
             attachments: attachments ? attachments.name : '',
