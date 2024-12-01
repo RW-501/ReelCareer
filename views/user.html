@@ -765,7 +765,7 @@ const websites = websitesSetup.filter(site => site.url !== "");
       publicProfile: document.getElementById('publicProfileSET-profile').checked,
 
 
-      tags: document.getElementById('tagsSET-profile').trim().split(",").map((item) => item.toLowerCase().trim()),
+      tags: document.getElementById('tagsSET-profile').textContent.trim().split(",").map((item) => item.toLowerCase().trim()),
 
 
       // Social Profiles tab
