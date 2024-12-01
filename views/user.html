@@ -633,12 +633,39 @@ function showUserSignedOutMessage() {
 }
 
 
+let userId =  getUserId();
 
 
 // Retrieve and populate form inputs for tabs
 window.onload = async function () {
+  try {
 
-  const userId =  getUserId();
+  if (!userId) {
+    console.log("return ", userId);
+
+    return;
+    }
+
+
+    console.log("Module User We outside: ", userId);
+
+const urlParams = new URLSearchParams(window.location.search);
+const userIdFromURL = urlParams.get('u');
+
+ // Ensure userIdFromURL is not null or undefined
+ if (userIdFromURL) {
+            checkUser(userIdFromURL);
+          } else {
+            checkUser(userId);
+          }
+        
+        
+        } catch (error) {
+        console.error("Error loading userid:", error);
+    }
+
+
+
 
   const generalTags = createTagInputSystem({
         tagsContainerId: "tagsContainertagsSET-profile",
@@ -649,12 +676,7 @@ window.onload = async function () {
 
 
 
-console.log("Module User We outside: ", userId);
-
-        const urlParams = new URLSearchParams(window.location.search);
-        const userIdFromURL = urlParams.get('u');
-
-
+ 
 
         
           const lastBreadcrumb_1 = document.getElementById("lastBreadcrumb_1");
@@ -710,12 +732,7 @@ document.getElementById('profileSettings').style.display = 'none';
 
    setTimeout(() => {
 
-  // Ensure userIdFromURL is not null or undefined
-  if (userIdFromURL) {
-            checkUser(userIdFromURL);
-          } else {
-            checkUser(userId);
-          }
+
 
 /*
   // Select the last breadcrumb anchor
