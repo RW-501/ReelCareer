@@ -177,7 +177,7 @@
         <ol class="breadcrumb">
             <li id="lastBreadcrumb_home" class="breadcrumb-item"><a href="https://reelcareer.co/">Home</a></li>
           <li id="lastBreadcrumb_last" class="breadcrumb-item"><a id="lastBreadcrumb_a" href="https://reelcareer.co/views/blogs">Blogs</a></li>
-          <li class="breadcrumb-item active" aria-current="page">Blog</li>
+          <li id="lastBreadcrumb" class="breadcrumb-item active" aria-current="page">Blog</li>
         </ol>
       </nav>
 
@@ -185,12 +185,7 @@
 
         <h1 class="text-center mb-4">Reel Career Blog</h1>
 
-        <!-- Search Bar -->
-        <div class="row">
-            <div class="col-md-12 search-bar">
-                <input type="text" id="search-input" class="form-control" placeholder="Search blogs...">
-            </div>
-        </div>
+
 
         <div id="blog-container" class="row"></div>
 
@@ -296,6 +291,8 @@ scriptTag.type = "application/ld+json";
 scriptTag.innerHTML = blogSchema;
 document.head.appendChild(scriptTag);
 
+
+document.getElementById("lastBreadcrumb").innerHTML = `${blogData.title}`;
 
             // Build the inner HTML with all the specified fields and action buttons
             blogCard.innerHTML = `
