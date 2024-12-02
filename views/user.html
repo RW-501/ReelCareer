@@ -1045,7 +1045,7 @@ if (profileData) {
   document.getElementById('emailSET-profile').value = userData.email || "";
   document.getElementById('phoneSET-profile').value = userData.phone || "";
   document.getElementById('dobSET-profile').value = userData.dob || "";
-  document.getElementById('locationSET-profile').value = userData.location || "";
+  document.getElementById('locationSET-profile').value = userData.location || ` ${userDataSaved.city},  ${userDataSaved.state}`;
   document.getElementById('nameSET-profile').value = userData.name || "";
   document.getElementById('bioSET-profile').value = userData.bio || "";
   
@@ -1072,13 +1072,13 @@ if (profileData) {
 }
 
 
-            document.getElementById('profilePic').src = profileData.profilePic ? profileData.profilePic : '/images/sq_logo_n_BG_sm.png';
+            document.getElementById('profilePic').src = userData.profilePicture ? profileData.profilePic : '/images/sq_logo_n_BG_sm.png';
             document.getElementById('user-name').innerText = profileData.displayName || 'User Name';
             document.getElementById('user-bio').innerText = profileData.bio || 'This is a short bio about the user...';
-            document.getElementById('location-text').innerText = profileData.location || 'City, State';
+            document.getElementById('location-text').innerText = profileData.location || ` ${userDataSaved.city},  ${userDataSaved.state}`;
 
             const verified = profileData.verified || "Not Verified";
-            const membership = profileData.membershipType || "Basic";
+            const membership = profileData.membershipType || "free";
             console.log("membership: ", membership);
             console.log("verified: ", verified);
 
