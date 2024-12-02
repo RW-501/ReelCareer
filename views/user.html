@@ -706,7 +706,6 @@ const userIdFromURL = urlParams.get('u');
 document.addEventListener('DOMContentLoaded', async () => {
     try {
         userId = await getUserId(); // Await here to properly set userId
-        console.log("User ID fetched during DOMContentLoaded:", userId);
     } catch (error) {
         console.error("Error fetching user ID:", error);
     }
@@ -757,7 +756,6 @@ breadcrumbjobTitleActive.innerText = userName;
 breadcrumbjobTitleActive.style.display = "block";
       // Ensure userIdFromURL is not null or undefined
       if (userIdFromURL) {
-         // checkUser(userIdFromURL);
           document.getElementById('userPageId').innerText = userIdFromURL;
 
 
@@ -804,6 +802,8 @@ document.getElementById('view-profile-btn').style.display = 'block';
 
 
 }else{
+  console.log("No User No URL");
+
 breadcrumbjobTitleActive.style.display = "none";
 
 lastBreadcrumb_last.style.display = "block";
