@@ -102,10 +102,10 @@ const userIP = JSON.parse(localStorage.getItem('userIP')) || [];
       tags: tagArray || "",
       jobInterest: jobArray  || "",
       publicProfile: userDataSaved.publicProfile || true,
-      resumeCount: userDataSaved.resumes.length || 0,
-      savedForLater: userDataSaved.savedJobs.length || 0,
-      userAppsCount: userDataSaved.userApps.length || 0,
-      jobPostsCount: userDataSaved.jobPosts.length || 0,
+      resumeCount: userDataSaved.resumes?.length || 0, // Optional chaining prevents errors if `resumes` is undefined
+      savedForLater: userDataSaved.savedJobs?.length || 0,
+      userAppsCount: userDataSaved.userApps?.length || 0,
+      jobPostsCount: userDataSaved.jobPosts?.length || 0,
       tagsCount: tagArray.length || 0,
       jobInterestCount: jobArray.length || 0,
 
