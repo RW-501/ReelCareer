@@ -522,35 +522,48 @@ document.addEventListener('DOMContentLoaded', trackAllFormsWithExitWarning);
           </div>
       </div>
          
-  
   <!-- Send Message Modal -->
-  <div class="modal fade hide" id="sendMessageModal" tabindex="-1" aria-labelledby="sendMessageModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-          <div class="modal-content">
-              <div class="modal-header">
-                  <h5 class="modal-title" id="sendMessageModalLabel">Send Message</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                  </button>
-              </div>
-              <div class="modal-body">
-                  <form id="sendMessageForm">
-                      <div class="form-group">
-                          <label for="message-content">Message</label>
-                          <textarea class="form-control" id="message-content" rows="4" required></textarea>
-                      </div>
-                      <input type="hidden" id="recipient-id" value="">
-                      <div class="form-group">
-                          <label for="message-attachments">Attachments</label>
-                          <input type="file" class="form-control-file" id="message-attachments">
-                      </div>
-                      <button type="submit" class="btn btn-primary">Send</button>
-                  </form>
-              </div>
+<div class="modal fade hide" id="sendMessageModal" tabindex="-1" aria-labelledby="sendMessageModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+          <div class="modal-header border-0">
+              <h5 class="modal-title" id="sendMessageModalLabel">Send Message</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          <div class="modal-body">
+              <form id="sendMessageForm">
+                  <div class="form-group">
+                      <label for="message-content">Message</label>
+                      <textarea class="form-control" id="message-content" rows="4" placeholder="Type your message here..." required></textarea>
+                  </div>
+                  <input type="hidden" id="recipient-id" value="">
+
+                  <!-- Attachment Button -->
+                  <div class="attachment-container">
+                      <button type="button" id="attachment-btn" class="btn btn-outline-secondary">
+                          <i class="fas fa-paperclip"></i> Attach File
+                      </button>
+                      <input type="file" id="message-attachments" class="d-none" />
+                  </div>
+
+                  <!-- Attachment Preview -->
+                  <div id="attachment-preview" class="mt-2 d-none">
+                      <span id="attachment-name"></span>
+                      <img id="attachment-thumbnail" class="d-none" src="" alt="Attachment preview" width="100">
+                  </div>
+
+                  <button type="submit" class="btn btn-primary mt-3">Send</button>
+              </form>
           </div>
       </div>
   </div>
-  
+</div>
+
+<!-- Include Font Awesome for the paperclip icon -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
   </main>
 
 <div id="currentUserId" hidden></div>
@@ -1541,14 +1554,13 @@ document.getElementById('connect-btn').addEventListener('click', async () => {
     connectBtn.disabled = false;
   }
 });
-
 document.addEventListener('DOMContentLoaded', async () => {
-  const userId = getUserId();
-  const urlParams = new URLSearchParams(window.location.search);
-    const userIdFromURL = urlParams.get('u');
+    const userId = getUserId(); // Get logged-in user ID
+    const urlParams = new URLSearchParams(window.location.search);
+    const userIdFromURL = urlParams.get('u'); // Get profile user ID
 
     if (!userId || !userIdFromURL || userId === userIdFromURL) {
-        return; // No need to check if the IDs are invalid or the user views their own profile
+        return; // Exit if IDs are invalid or user is viewing their own profile
     }
 
     const docId = userId < userIdFromURL
@@ -1562,22 +1574,28 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (connectionDoc.exists()) {
             const connectionData = connectionDoc.data();
             if (connectionData.status === 'pending') {
-                connectBtn.innerText = 'Pending';
-                connectBtn.disabled = true; // Prevent further clicks
+                updateButtonState(connectBtn, 'Pending', true);
             } else if (connectionData.status === 'connected') {
-                connectBtn.innerText = 'Connected';
-                connectBtn.disabled = true;
+                updateButtonState(connectBtn, 'Connected', true);
             } else {
-                connectBtn.innerText = 'Connect';
+                updateButtonState(connectBtn, 'Connect');
             }
         } else {
-            connectBtn.innerText = 'Connect'; // Default state if no connection exists
+            updateButtonState(connectBtn, 'Connect'); // Default state
         }
     } catch (error) {
         console.error('Error fetching connection status:', error);
         showToast('Failed to load connection status.');
+        updateButtonState(connectBtn, 'Connect', false); // Reset to default
     }
 });
+
+
+// Utility Function: Update Button State
+function updateButtonState(button, text, disable = false) {
+    button.innerText = text;
+    button.disabled = disable;
+}
 
 
 document.getElementById('connect-btn').addEventListener('click', async () => {
@@ -1623,6 +1641,54 @@ document.getElementById('connect-btn').addEventListener('click', async () => {
     }
 });
 
+
+
+// Send Message Button Handler
+document.getElementById('send-message-btn').addEventListener('click', () => {
+    const userId = getUserId(); // Logged-in user
+    const urlParams = new URLSearchParams(window.location.search);
+    const userIdFromURL = urlParams.get('u'); // Profile user
+
+    if (userId !== userIdFromURL) {
+        document.getElementById('recipient-id').value = userIdFromURL; // Set recipient ID
+        $('#sendMessageModal').modal('show'); // Show modal
+    } else {
+        showToast('You cannot send a message to yourself.');
+    }
+});
+
+document.getElementById('attachment-btn').addEventListener('click', () => {
+    document.getElementById('message-attachments').click(); // Trigger file input on button click
+});
+
+document.getElementById('message-attachments').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    const previewContainer = document.getElementById('attachment-preview');
+    const fileName = document.getElementById('attachment-name');
+    const fileThumbnail = document.getElementById('attachment-thumbnail');
+
+    if (file) {
+        // Show attachment name
+        fileName.textContent = file.name;
+        fileThumbnail.classList.add('d-none'); // Hide thumbnail if not an image
+
+        // If image file, show thumbnail preview
+        if (file.type.startsWith('image/')) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                fileThumbnail.src = e.target.result;
+                fileThumbnail.classList.remove('d-none'); // Show image thumbnail
+            };
+            reader.readAsDataURL(file);
+        }
+
+        previewContainer.classList.remove('d-none'); // Show the attachment preview section
+    } else {
+        previewContainer.classList.add('d-none'); // Hide the attachment preview if no file is selected
+    }
+});
+
+// Message sending function
 document.getElementById('sendMessageForm').addEventListener('submit', async function(e) {
     e.preventDefault();
     const profilePic = document.getElementById('profilePic').src;
@@ -1636,26 +1702,23 @@ document.getElementById('sendMessageForm').addEventListener('submit', async func
     const messageData = {
         recipientID: recipientID,
         senderID: senderID || userDataSaved.userID,
-        conversationID:  recipientID,
+        conversationID: recipientID,
         type: 'message',
         content: content,
         createdAt: new Date(),
         recipientRead: false,
         recipientGroup: 'main',
-
-            messageType: 'contact', // group, system, advertisment, 
-           
-            senderName: userDataSaved.displayName,
-            senderProfilePicture: userDataSaved.profilePicture || profilePic,
-            senderProfileURL: `https://reelcareer.co/views/user?u=${senderID}`,
-
-            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-            contentType: 'text', /// video, picture, resume, link
-            status: "unread", 
-            attachments: attachments ? attachments.name : '',
-            isDeleted: false
+        messageType: 'contact',
+        senderName: userDataSaved.displayName,
+        senderProfilePicture: userDataSaved.profilePicture || profilePic,
+        senderProfileURL: `https://reelcareer.co/views/user?u=${senderID}`,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+        contentType: 'text', // or 'video', 'picture', 'resume', 'link'
+        status: 'unread',
+        attachments: attachments ? attachments.name : '',
+        isDeleted: false
     };
-    
+
     try {
         const messagesCollection = collection(db, 'Messages');
         await addDoc(messagesCollection, messageData);
@@ -1667,12 +1730,6 @@ document.getElementById('sendMessageForm').addEventListener('submit', async func
         showToast('Failed to send message. Please try again.');
     }
 });
-
-
-
-
-
-
 
 
 
