@@ -578,6 +578,7 @@ document.addEventListener('DOMContentLoaded', trackAllFormsWithExitWarning);
         auth, analytics, deleteDoc, getDownloadURL
     } from 'https://reelcareer.co/js/module.js';
 
+//         const userId = auth.currentUser.uid;
 
 
 
@@ -987,24 +988,27 @@ const generalTags = createTagInputSystem({
     
 
 // Trigger file input when `profilePic` is clicked
-document.getElementById('profilePic').addEventListener('click', () => {
+document.getElementById('profilePic').addEventListener('click', async () => {
   console.log("profilePic clicked.");
 
-  const userId = getUserId();
+  try {
+    const userId = await getUserId(); // Await if getUserId is asynchronous
+    const userPageId = document.getElementById('userPageId').innerText;
 
-const userPageId = document.getElementById('userPageId').innerText;
+    console.log("userId:", userId);
+    console.log("userPageId:", userPageId);
 
-console.log("userId   ",userId);
-console.log("userPageId   ",userPageId);
-
-  if (userId && !userPageId) {
-    document.getElementById('profilePictureSET-profile').click();
-  }else{
-    showToast("View Profile picture");
-
+    if (userId && !userPageId) {
+      document.getElementById('profilePictureSET-profile').click();
+    } else {
+      showToast("View Profile Picture");
+    }
+  } catch (err) {
+    console.error("Error fetching userId:", err);
+    showToast("Failed to fetch user details.");
   }
-
 });
+
 
 // File handling logic
 document.getElementById('profilePictureSET-profile').addEventListener('change', async (event) => {
@@ -1017,7 +1021,7 @@ document.getElementById('profilePictureSET-profile').addEventListener('change', 
 
     try {
         // Get user ID
-        const userId = getUserId();
+        const userId = await getUserId(); // Await if getUserId is asynchronous
 
         // Firebase storage reference
         const storage = getStorage();
@@ -1096,7 +1100,7 @@ document.getElementById('saveProfileBtn-profile').addEventListener('click', asyn
 
   try {
     // Check if user ID is valid
-    const userId = getUserId();
+    const userId = await getUserId(); // Await if getUserId is asynchronous
     if (!userId) {
       alert('Invalid user ID. Please log in again.');
       return;
@@ -1461,70 +1465,86 @@ document.getElementById('share-profile-btn').addEventListener('click', async () 
 
 
         document.getElementById('view-profile-btn').addEventListener('click', async () => {
-          const userId = getUserId();
+  try {
+    const userId = await getUserId(); // Await the userId if getUserId is asynchronous
 
-          window.location.href = `https://reelcareer.co/views/user?u=${userId}`;
+    if (userId) {
+      window.location.href = `https://reelcareer.co/views/user?u=${userId}`;
+    } else {
+      showToast('User ID could not be retrieved. Please try again.');
+    }
+  } catch (error) {
+    console.error('Error fetching userId:', error);
+    showToast('An error occurred while navigating to the profile page.');
+  }
+});
 
-        });
 
 
 
-
-        document.getElementById('connect-btn').addEventListener('click', async () => {
-    const userId = getUserId();
+document.getElementById('connect-btn').addEventListener('click', async () => {
+  try {
+    // Fetch required data
+    const userId = await getUserId(); // Ensure getUserId handles asynchronous behavior
     const urlParams = new URLSearchParams(window.location.search);
     const userIdFromURL = urlParams.get('u');
-    const userDataSaved = getUserData() || {};
+    const userDataSaved = await getUserData() || {};
     const profilePic = document.getElementById('profilePic')?.src;
 
+    // Validate inputs
     if (!userId || !userIdFromURL) {
-        showToast('User information is incomplete.');
-        return;
+      showToast('User information is incomplete.');
+      return;
     }
 
     if (userId === userIdFromURL) {
-        showToast('You cannot connect with yourself.');
-        return;
+      showToast('You cannot connect with yourself.');
+      return;
     }
 
+    // Construct document ID
     const docId = userId < userIdFromURL 
-        ? `${userId}_${userIdFromURL}`
-        : `${userIdFromURL}_${userId}`;
+      ? `${userId}_${userIdFromURL}`
+      : `${userIdFromURL}_${userId}`;
     const connectionRef = doc(db, 'Connections', docId);
 
+    // Update button state
     const connectBtn = document.getElementById('connect-btn');
     connectBtn.disabled = true;
     connectBtn.innerText = 'Sending...';
 
-    try {
-    
+    // Prepare and save connection data
+    const connectionData = {
+      from: userId,
+      to: userIdFromURL,
+      status: 'pending',
+      createdAt: new Date(),
+      fromGroup: 'new',
+      fromNote: '',
+      fromName: userDataSaved.displayName,
+      fromProfilePicture: userDataSaved.profilePicture || profilePic,
+      fromProfileURL: `https://reelcareer.co/views/user?u=${userId}`
+    };
 
-        await setDoc(connectionRef, {
-            from: userId,
-            to: userIdFromURL,
-            status: 'pending',
-            createdAt: new Date(),
-            fromGroup: 'new',
-            fromNote: '',
-            fromName: userDataSaved.displayName,
-            fromProfilePicture: userDataSaved.profilePicture || profilePic,
-            fromProfileURL: `https://reelcareer.co/views/user?u=${userId}`
-        });
+    await setDoc(connectionRef, connectionData);
 
-        connectBtn.innerText = 'Pending';
-        showToast('Connection request sent!');
-    } catch (error) {
-        console.error('Error sending connection request:', error);
-        connectBtn.innerText = 'Connect';
-        showToast('Error sending connection request. Please try again.');
-    } finally {
-        connectBtn.disabled = false;
-    }
+    // Update button and notify user
+    connectBtn.innerText = 'Pending';
+    showToast('Connection request sent!');
+  } catch (error) {
+    console.error('Error sending connection request:', error);
+    const connectBtn = document.getElementById('connect-btn');
+    connectBtn.innerText = 'Connect';
+    showToast('Error sending connection request. Please try again.');
+  } finally {
+    const connectBtn = document.getElementById('connect-btn');
+    connectBtn.disabled = false;
+  }
 });
 
 document.addEventListener('DOMContentLoaded', async () => {
-    const userId = getUserId();
-    const urlParams = new URLSearchParams(window.location.search);
+  const userId = auth.currentUser.uid;
+  const urlParams = new URLSearchParams(window.location.search);
     const userIdFromURL = urlParams.get('u');
 
     if (!userId || !userIdFromURL || userId === userIdFromURL) {
@@ -1564,7 +1584,7 @@ document.addEventListener('DOMContentLoaded', async () => {
           const urlParams = new URLSearchParams(window.location.search);
         const userIdFromURL = urlParams.get('u');
 
-        const userId = getUserId();
+        const userId = auth.currentUser.uid;
 
         if (userId !== userIdFromURL) {
 
