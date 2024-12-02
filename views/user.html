@@ -1543,7 +1543,7 @@ document.getElementById('connect-btn').addEventListener('click', async () => {
 });
 
 document.addEventListener('DOMContentLoaded', async () => {
-  const userId = auth.currentUser.uid;
+  const userId = getUserId();
   const urlParams = new URLSearchParams(window.location.search);
     const userIdFromURL = urlParams.get('u');
 
@@ -1580,26 +1580,48 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 
-        document.getElementById('send-message-btn').addEventListener('click', function() {
-          const urlParams = new URLSearchParams(window.location.search);
-        const userIdFromURL = urlParams.get('u');
+document.getElementById('connect-btn').addEventListener('click', async () => {
+    const userId = getUserId();
+    const urlParams = new URLSearchParams(window.location.search);
+    const userIdFromURL = urlParams.get('u');
 
-        const userId = auth.currentUser.uid;
+    if (!userId || !userIdFromURL || userId === userIdFromURL) {
+        showToast('Invalid operation.');
+        return;
+    }
 
-        if (userId !== userIdFromURL) {
+    const docId = userId < userIdFromURL
+        ? `${userId}_${userIdFromURL}`
+        : `${userIdFromURL}_${userId}`;
+    const connectionRef = doc(db, 'Connections', docId);
 
-    // Set recipient ID from the profile data
-    document.getElementById('recipient-id').value = userIdFromURL; // Assuming userIdFromURL is the recipient ID.
-    $('#sendMessageModal').modal('show'); // Show the modal
+    const connectBtn = document.getElementById('connect-btn');
+    connectBtn.disabled = true;
+    connectBtn.innerText = 'Sending...';
 
+    try {
+        await setDoc(connectionRef, {
+            from: userId,
+            to: userIdFromURL,
+            status: 'pending',
+            createdAt: new Date(),
+            fromGroup: 'new',
+            fromNote: '',
+            fromName: getUserData()?.displayName,
+            fromProfilePicture: document.getElementById('profilePic')?.src || '',
+            fromProfileURL: `https://reelcareer.co/views/user?u=${userId}`
+        });
 
-  } else {
-                showToast('You cannot Send send msg to yourself.');
-            }
-
-
+        connectBtn.innerText = 'Pending';
+        showToast('Connection request sent!');
+    } catch (error) {
+        console.error('Error sending connection request:', error);
+        connectBtn.innerText = 'Connect';
+        showToast('Failed to send connection request.');
+    } finally {
+        connectBtn.disabled = false;
+    }
 });
-
 
 document.getElementById('sendMessageForm').addEventListener('submit', async function(e) {
     e.preventDefault();
@@ -1613,7 +1635,7 @@ document.getElementById('sendMessageForm').addEventListener('submit', async func
 
     const messageData = {
         recipientID: recipientID,
-        senderID: senderID,
+        senderID: senderID || userDataSaved.userID,
         conversationID:  recipientID,
         type: 'message',
         content: content,
