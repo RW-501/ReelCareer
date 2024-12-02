@@ -327,7 +327,7 @@ document.getElementById("google-login")?.addEventListener("click", async () => {
     const user = result.user;
     console.log("Google Login Successful:", user);
     await saveUserLoginState(user, true); // Update database and local storage
-    window.location.href = "/views/user"; // Redirect to profile
+   // window.location.href = "/views/user"; // Redirect to profile
   } catch (error) {
     console.error("Error during Google login:", error);
     showToast(error.message);
