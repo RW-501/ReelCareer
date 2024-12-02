@@ -18,18 +18,68 @@ const saveUserLoginState = async (user) => {
   try {
     console.log(" User info: ", user);
 
-//    await saveUserLoginState(user, true); // Update database and local storage
 
     const userDataSaved = JSON.parse(localStorage.getItem('userData')) || [];
    
-    const userTagInterest = JSON.parse(localStorage.getItem('userTagInterest')) || [];
-    const tagArray = userTagInterest.map(item => item.tag); // Extract only the tags
+    let userTagInterest = JSON.parse(localStorage.getItem('userTagInterest')) || [];
 
-    const userJobInterest = JSON.parse(localStorage.getItem('userJobInterest')) || [];
-    const jobArray = userJobInterest.map(item => item.tag); // Extract only the tags
+    let userJobInterest = JSON.parse(localStorage.getItem('userJobInterest')) || [];
+    console.log(" User userTagInterest: ", userTagInterest);
+    console.log(" User userJobInterest: ", userJobInterest);
 
+    const profilePic = document.getElementById('nav-bar-profilePic').src;
 
     const [ip, location] = await Promise.all([getUserIP(), getUserLocationByIP(await getUserIP())]);
+    console.log(" User location: ", location);
+
+    if(tagArray.length == 0){
+      userTagInterest = [
+   {
+    tag: location.city,
+    rank: 1
+    }, {
+      isLast: true,
+      tag: location.state,
+      rank: 1
+      }, {
+        isLast: true,
+        tag: "job",
+        rank: 1
+        }, {
+          isLast: true,
+          tag: "jobs",
+          rank: 1
+          }
+  ];
+  }
+
+  if(jobArray.length == 0){
+    userJobInterest =  [  {
+      isLast: true,
+      job: location.city,
+      rank: 1
+      }, {
+        isLast: true,
+        job: location.state,
+        rank: 1
+        }, {
+          isLast: true,
+          job: "job",
+          rank: 1
+          }, {
+            isLast: true,
+            job: "jobs",
+            rank: 1
+            }
+    ];
+  }
+  let tagArray = userTagInterest.map(item => item.tag); // Extract only the tags
+
+  let jobArray = userJobInterest.map(item => item.job); // Extract only the tags
+
+  console.log(" User tagArray: ", tagArray);
+  console.log(" User jobArray: ", jobArray);
+
     const userData = {
       email: user.email || "Unknown",
       lastLogin: serverTimestamp(),
@@ -37,6 +87,12 @@ const saveUserLoginState = async (user) => {
       userID: user.uid || "",
       verified: user.emailVerified || false,
       phoneNumber: user.phoneNumber || '',
+      profilePicture: user.profilePicture || profilePic,
+      membershipType: userDataSaved.membershipType || "free",
+      verified: user.membershipType || "Not Verified",
+      membershipExpiry: userDataSaved.membershipExpiry || new Date(new Date().setDate(new Date().getDate() + 30)), // 30-day deadline
+
+      membershipType: userDataSaved.membershipType || "Basic",
   
 
       tags: tagArray || "",
@@ -51,8 +107,14 @@ const saveUserLoginState = async (user) => {
 
     };
 
+
+
     const userDocRef = doc(db, "Users", user.uid);
     await setDoc(userDocRef, userData, { merge: true });
+    localStorage.setItem("userTagInterest", userTagInterest);
+    localStorage.setItem("userJobInterest", userJobInterest);
+
+    localStorage.setItem("userData", userData);
     localStorage.setItem("userLoggedIn", "true");
   } catch (error) {
     console.error("Error saving user login state:", error);

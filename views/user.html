@@ -291,8 +291,8 @@
         <label for="membershipTypeSET-profile" class="form-label">Membership Type</label>
         <select class="form-select" id="membershipTypeSET-profile">
           <option value="free">Free</option>
-          <option value="premium">Premium</option>
-          <option value="enterprise">Enterprise</option>
+          <option value="basic">Basic</option>
+          <option value="pro">Pro</option>
         </select>
       </div>
       <div class="mb-3">
@@ -860,11 +860,7 @@ const websitesSetup = [
 const websites = websitesSetup.filter(site => site.url !== "");
 let tag = element.value.split(",").map((tags) => tags.trim());
 
-let tag3 =  Array.from(document.querySelectorAll('#tagsList .tag')).map(tag => tag.textContent);
 
-//console.log("tag1:  ", tag1);
-console.log("tag:  ", tag);
-console.log("tag3:  ", tag3);
 
     const userData = {
       // Personal Information tab
@@ -1020,6 +1016,10 @@ showToast("There was an error updating your profile. Please try again later.");
 
 if (profileData) {
   const userData = profileData;
+      
+  const userlocationData = sessionStorage.getItem('userLocation');
+
+const userDataSaved = JSON.parse(localStorage.getItem('userData')) || [];
 
   // Populate the Personal Information tab
   document.getElementById('usernameSET-profile').value = userData.displayName || "";
@@ -1266,6 +1266,7 @@ profileData.tags.forEach(tag => {
 
           const urlParams = new URLSearchParams(window.location.search);
         const userIdFromURL = urlParams.get('u');
+
 
         const userDataSaved = JSON.parse(localStorage.getItem('userData')) || [];
         const profilePic = document.getElementById('profilePic').src;
