@@ -1676,25 +1676,26 @@ function updateButtonState(button, text, disable = false) {
 
 
 document.getElementById('connect-btn').addEventListener('click', async () => {
-    const userId = getUserId();
-    const urlParams = new URLSearchParams(window.location.search);
-    const userIdFromURL = urlParams.get('u');
-
-    if (!userId || !userIdFromURL || userId === userIdFromURL) {
-        showToast('Invalid operation.');
-        return;
-    }
-
-    const docId = userId < userIdFromURL
-        ? `${userId}_${userIdFromURL}`
-        : `${userIdFromURL}_${userId}`;
-    const connectionRef = doc(db, 'Connections', docId);
-
-    const connectBtn = document.getElementById('connect-btn');
-    connectBtn.disabled = true;
-    connectBtn.innerText = 'Sending...';
-
     try {
+        const userId = await getUserId();  // Await the promise to get the actual userId
+        const urlParams = new URLSearchParams(window.location.search);
+        const userIdFromURL = urlParams.get('u');
+
+        if (!userId || !userIdFromURL || userId === userIdFromURL) {
+            showToast('Invalid operation.');
+            return;
+        }
+
+        const docId = userId < userIdFromURL
+            ? `${userId}_${userIdFromURL}`
+            : `${userIdFromURL}_${userId}`;
+
+        const connectionRef = doc(db, 'Connections', docId);
+
+        const connectBtn = document.getElementById('connect-btn');
+        connectBtn.disabled = true;
+        connectBtn.innerText = 'Sending...';
+
         await setDoc(connectionRef, {
             from: userId,
             to: userIdFromURL,
@@ -1717,7 +1718,6 @@ document.getElementById('connect-btn').addEventListener('click', async () => {
         connectBtn.disabled = false;
     }
 });
-
 
 
 // Send Message Button Handler
@@ -1766,6 +1766,9 @@ document.getElementById('message-attachments').addEventListener('change', functi
 });
 
 // Message sending function
+
+
+// Your form submission logic
 document.getElementById('sendMessageForm').addEventListener('submit', async function(e) {
     e.preventDefault();
     const profilePic = document.getElementById('profilePic').src;
@@ -1789,7 +1792,7 @@ document.getElementById('sendMessageForm').addEventListener('submit', async func
         senderName: userDataSaved.displayName,
         senderProfilePicture: userDataSaved.profilePicture || profilePic,
         senderProfileURL: `https://reelcareer.co/views/user?u=${senderID}`,
-        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+        timestamp: serverTimestamp(),  // Use the imported serverTimestamp function
         contentType: 'text', // or 'video', 'picture', 'resume', 'link'
         status: 'unread',
         attachments: attachments ? attachments.name : '',
@@ -1807,12 +1810,6 @@ document.getElementById('sendMessageForm').addEventListener('submit', async func
         showToast('Failed to send message. Please try again.');
     }
 });
-
-
-
-
-
-
 
 
 
