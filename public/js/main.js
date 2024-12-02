@@ -13,10 +13,15 @@ import {
 // Function to encode user data
 const encodeUserData = (userData, secretKey = '') => {
   try {
+    let base64String;
       // Serialize user data to a JSON string
       const jsonString = JSON.stringify(userData);
+      if(jsonString){
       // Apply a Base64 encoding
-      const base64String = btoa(jsonString);
+       base64String = btoa(jsonString);
+      }else{
+        return null;
+      }
       // Optionally append a secret key for basic obfuscation
       return secretKey ? btoa(base64String + secretKey) : base64String;
   } catch (error) {
@@ -31,11 +36,20 @@ const decodeUserData = (encodedData, secretKey = '') => {
   console.log(" User encodedData: ", encodedData);
 
   try {
-      // Decode from Base64
-      const decodedBase64 = atob(encodedData);
+
+    let decodedBase64;
+
+    if(jsonString){
+    // Decode from Base64
+     decodedBase64 = atob(encodedData);
+      }else{
+        return null;
+      }
+  
       // Remove the secret key if provided
       const jsonString = secretKey ? atob(decodedBase64).replace(secretKey, '') : decodedBase64;
       console.log(" User jsonString: ", jsonString);
+      
       // Parse the JSON string back into an object
       return JSON.parse(jsonString);
   } catch (error) {
