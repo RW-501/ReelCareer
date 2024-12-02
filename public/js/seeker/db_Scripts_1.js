@@ -27,7 +27,7 @@ import {
 
   try {
     // Check local storage first
-    const storedUserData = JSON.parse(localStorage.getItem("userData"));
+    const storedUserData = getUserData();
     if (storedUserData) {
       // Use data from local storage
       userName = storedUserData.displayName;
@@ -54,12 +54,14 @@ import {
           userData.position
         );
 
-        // Save user data to local storage
-        localStorage.setItem("userData", JSON.stringify(userData));
-
         userName = userData.displayName;
         publicBool = userData.publicProfile;
         userPosition = userData.position;
+
+        userData = setUserData(userData);
+        // Save user data to local storage
+        localStorage.setItem("userData", JSON.stringify(userData));
+
       } else {
         console.log("No such user data!");
       }
@@ -151,6 +153,7 @@ $('#search-applicant').on('input', function () {
 //const jobIDs = ["L6deju3QokTWiDwHNbl3", "anotherJobID"]; // Update this as necessary
 
 // Call the function to fetch job applications when the page loads
+window.fetchJobApplications = fetchJobApplications;
 
 
 // Placeholder functions for actions

@@ -504,7 +504,7 @@ function showToast(message, type) {
   
     if (storedUserData) {
       // Parse the stored data
-      const userData = JSON.parse(storedUserData);
+      const userData =  getUserData();
   
       // Return the displayName if it exists
       return userData.displayName || "No display name available"; // Fallback if displayName is not set

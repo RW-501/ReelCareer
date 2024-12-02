@@ -1687,7 +1687,7 @@ console.log("bulletPoints   ",bulletPoints);
     const socialLinksMatch = text.match(socialLinksRegex);
 
     // Retrieve user data from local storage
-     userData = JSON.parse(localStorage.getItem("userData")) || {};
+     userData = getUserData() || {};
 
     // Define field mappings for regex matches to user profile fields
     const fieldMappings = {

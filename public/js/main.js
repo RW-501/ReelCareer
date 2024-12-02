@@ -10,8 +10,38 @@ import {
 
 
 
+// Function to encode user data
+const encodeUserData = (userData, secretKey = '') => {
+  try {
+      // Serialize user data to a JSON string
+      const jsonString = JSON.stringify(userData);
+      // Apply a Base64 encoding
+      const base64String = btoa(jsonString);
+      // Optionally append a secret key for basic obfuscation
+      return secretKey ? btoa(base64String + secretKey) : base64String;
+  } catch (error) {
+      console.error("Error encoding user data:", error);
+      return null;
+  }
+};
+window.encodeUserData = encodeUserData;
 
+// Function to decode user data
+const decodeUserData = (encodedData, secretKey = '') => {
+  try {
+      // Decode from Base64
+      const decodedBase64 = atob(encodedData);
+      // Remove the secret key if provided
+      const jsonString = secretKey ? atob(decodedBase64).replace(secretKey, '') : decodedBase64;
+      // Parse the JSON string back into an object
+      return JSON.parse(jsonString);
+  } catch (error) {
+      console.error("Error decoding user data:", error);
+      return null;
+  }
+};
 
+window.decodeUserData = decodeUserData;
 
 // Function to update or create user information in Firestore
 const saveUserLoginState = async (user) => {
@@ -21,7 +51,7 @@ const saveUserLoginState = async (user) => {
  
 let jobArray = [], tagArray = [];
 
-const userDataSaved = JSON.parse(localStorage.getItem('userData')) || [];
+const userDataSaved =  getUserData() || [];
 const userIP = sessionStorage.getItem('userIP') || "";
 
     let userTagInterest = JSON.parse(localStorage.getItem('userTagInterest')) || [];
@@ -90,6 +120,7 @@ const userIP = sessionStorage.getItem('userIP') || "";
       lastLogin: serverTimestamp(),
       ipAddress: userIP || "",
       userID: user.uid || "",
+      displayName: userDataSaved.displayName || user.displayName,
       verified: user.emailVerified || false,
       phoneNumber: user.phoneNumber || '',
       profilePicture: user.photoURL || profilePic,
@@ -117,7 +148,11 @@ const userIP = sessionStorage.getItem('userIP') || "";
     const userDocRef = doc(db, "Users", user.uid);
     await setDoc(userDocRef, userData, { merge: true });
 
-    
+
+
+
+ userData = setUserData(userData);
+
     localStorage.setItem('userData', JSON.stringify(userData));
 
     localStorage.setItem('userJobInterest', JSON.stringify(userJobInterest));
@@ -140,10 +175,26 @@ const userIP = sessionStorage.getItem('userIP') || "";
 
 };
 
+function setUserData(userData){
+// Encode user data
+const encodedData = encodeUserData(userData, "WeTheBest");
+console.log("Encoded Data:", encodedData);
 
+return encodedData;
+}
+window.setUserData = setUserData;
 
+function getUserData(){
+const encodedData = JSON.parse(localStorage.getItem('userData')) || [];
 
+// Decode user data
+const decodedData = decodeUserData(encodedData, "WeTheBest");
+console.log("Decoded Data:", decodedData);
 
+return decodedData;
+}
+
+window.getUserData = getUserData;
 
 
 // Event listener to handle clicks outside dropdown to close it
@@ -681,9 +732,10 @@ try {
     console.log("No such user!");
     return; // Exit early if no user
   }
+window.getModal = getModal;
 
   // Check if user data is already in local storage
-  const storedUserData = JSON.parse(localStorage.getItem("userData"));
+  const storedUserData =  getUserData();
   if (storedUserData) {
     console.log("Using stored user data");
     populateFormFields(storedUserData);
@@ -696,6 +748,7 @@ try {
       // Check if the document exists
       const userData = userDoc.data();
       console.log("Firebase User Data:", userData);
+      userData = setUserData(userData);
       localStorage.setItem("userData", JSON.stringify(userData));
       populateFormFields(userData);
     } else {
@@ -1496,7 +1549,7 @@ function getViewedByField() {
 
     console.log(`${durationOfTheView} durationOfTheView ???????? .`);
 
-
+    
     // Retrieve user data from local storage
     const storedUserData = localStorage.getItem("userData");
 
@@ -1504,7 +1557,7 @@ function getViewedByField() {
 
     if (storedUserData) {
       // Parse the stored data
-       userData = JSON.parse(storedUserData);
+       userData = getUserData();
   } 
 
     if (!ipAddress && !userData.ipAddress ) {

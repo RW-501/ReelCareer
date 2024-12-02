@@ -214,7 +214,7 @@ async function fetchUserData() {
 
   try {
     // Check local storage first
-    const storedUserData = JSON.parse(localStorage.getItem("userData"));
+    const storedUserData = getUserData();
     if (storedUserData) {
       // Use data from local storage
       userName = storedUserData.displayName;
@@ -228,6 +228,7 @@ async function fetchUserData() {
       if (userDoc.exists()) {
         const userData = userDoc.data();
         // Save user data to local storage
+        userData = setUserData(userData);
         localStorage.setItem("userData", JSON.stringify(userData));
 
         userName = userData.displayName;
