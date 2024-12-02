@@ -498,12 +498,16 @@ function handleAuthStateChanged(user) {
   const authSection = document.getElementById("authSection");
 
   if (user) {
-    console.log("profilePic:?  ", user);
+
+    const userDataSaved = getUserData() || [];
+
+
+    console.log("profilePic:?  ", userDataSaved.profilePicture);
 
     // If logged in, show profile info and logout button
-    const userName = user.displayName || "User";
-    const userPhoto = user.profilePic ? 
-      `<img id="nav-bar-profilePic" src="${user.profilePic}" alt="Profile Picture" class="rounded-circle" style="width: 40px; height: 40px; margin-right: 10px;">` :
+    const userName = userDataSaved.displayName || "User";
+    const userPhoto = userDataSaved.profilePicture ? 
+      `<img id="nav-bar-profilePic" src="${userPhoto}" alt="Profile Picture" class="rounded-circle" style="width: 40px; height: 40px; margin-right: 10px;">` :
       `<img id="nav-bar-profilePic" src="https://reelcareer.co/images/sq_logo_n_BG_sm.png" alt="Profile Picture" class="rounded-circle" style="width: 40px; height: 40px; margin-right: 10px;">`;
 
     authSection.innerHTML = `
