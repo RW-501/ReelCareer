@@ -125,9 +125,10 @@ const userIP = sessionStorage.getItem('userIP') || "";
 
     localStorage.setItem("userData", userData);
     localStorage.setItem("userLoggedIn", "true");
-    
+
     window.location.href = "/views/user"; // Redirect to profile
 
+    
   } catch (error) {
     console.error("Error saving user login state:", error);
   }
