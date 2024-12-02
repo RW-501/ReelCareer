@@ -13,7 +13,7 @@ import {
 // Function to encode user data
 const encodeUserData = (userData, secretKey = '') => {
   try {
-    console.log("secretKey: ", secretKey);
+ //   console.log("secretKey: ", secretKey);
 
     // Serialize user data to a JSON string
     const jsonString = JSON.stringify(userData);
@@ -21,19 +21,19 @@ const encodeUserData = (userData, secretKey = '') => {
       console.error("Error: User data is empty or invalid");
       return null;
     }
-    console.log("userData User Data: ", userData);
-    console.log("jsonString Data: ", jsonString);
+  //  console.log("userData User Data: ", userData);
+   // console.log("jsonString Data: ", jsonString);
 
     // Base64 encode the JSON string
     let base64String = btoa(jsonString);
-    console.log("base64String Data: ", base64String);
+   // console.log("base64String Data: ", base64String);
 
     // Optionally append a secret key for obfuscation
     if (secretKey) {
       base64String = btoa(base64String + secretKey);
     }
 
-    console.log("Encoded Data: ", base64String);
+   // console.log("Encoded Data: ", base64String);
     return base64String;
   } catch (error) {
     console.error("Error encoding user data:", error);
@@ -46,7 +46,7 @@ window.encodeUserData = encodeUserData;
 // Function to decode user data
 const decodeUserData = (encodedData, secretKey = '') => {
   try {
-    console.log("Encoded Data: ", encodedData);
+   // console.log("Encoded Data: ", encodedData);
 
     // Optionally remove the secret key if it's been appended
     let base64String = encodedData;
@@ -56,16 +56,16 @@ const decodeUserData = (encodedData, secretKey = '') => {
 
     // Decode from Base64
     let jsonString = atob(base64String);
-    console.log("Decoded Base64 String: ", jsonString);
+ //   console.log("Decoded Base64 String: ", jsonString);
 
     // Check if the decoded string is valid JSON
     try {
       const userData = JSON.parse(jsonString);
-      console.log("Decoded User Data: ", userData);
+    //  console.log("Decoded User Data: ", userData);
       return userData;
     } catch (jsonError) {
       console.error("Error parsing JSON:", jsonError);
-      console.log("Decoded Base64 String is not valid JSON:", jsonString);
+     // console.log("Decoded Base64 String is not valid JSON:", jsonString);
       return null;
     }
 
@@ -195,14 +195,14 @@ const userIP = sessionStorage.getItem('userIP') || "";
 
 
  userData = setUserData(userData);
- console.log("userData   ",userData);
+// console.log("userData   ",userData);
 
  localStorage.setItem('userData', userData);
-//  localStorage.setItem('userData', JSON.stringify(userData));
 
-let newUserData = getUserData();
+ 
+//let newUserData = getUserData();
 
-console.log("newUserData   ",newUserData);
+//console.log("newUserData   ",newUserData);
 
     localStorage.setItem('userJobInterest', JSON.stringify(userJobInterest));
     localStorage.setItem('userTagInterest', JSON.stringify(userTagInterest));
@@ -213,7 +213,7 @@ console.log("newUserData   ",newUserData);
 
     showToast("Login state saved successfully!", "success");
 
-    //window.location.href = "/views/user"; // Redirect to profile
+  window.location.href = "/views/user"; // Redirect to profile
 
     
   } catch (error) {
@@ -236,7 +236,7 @@ function setUserData(userData) {
   let encodedData = encodeUserData(userData, "WeThaBest");
   encodedData = addBase64Padding(encodedData);
 
-  console.log("Encoded Data:", encodedData);
+  //console.log("Encoded Data:", encodedData);
 
   // Store in localStorage
   localStorage.setItem(LOCAL_STORAGE_KEY, encodedData);
@@ -249,7 +249,7 @@ function getUserData() {
   try {
     const encodedData = localStorage.getItem(LOCAL_STORAGE_KEY);
     if (!encodedData) {
-      console.error("No data found in localStorage");
+      //console.error("No data found in localStorage");
       return null;
     }
 
@@ -259,14 +259,14 @@ function getUserData() {
 
     // Remove the secret key part (if it was added during encoding)
     const base64WithoutSecretKey = decodedString.replace(secretKey, "");
-    console.log("Decoded Base64 String without Secret Key:", base64WithoutSecretKey);
+   // console.log("Decoded Base64 String without Secret Key:", base64WithoutSecretKey);
 
     // Now decode the base64 string without the secret key
     const jsonString = atob(base64WithoutSecretKey);
 
     // Parse the JSON string
     const userData = JSON.parse(jsonString);
-    console.log("Decoded User Data:", userData);
+    //console.log("Decoded User Data:", userData);
     return userData;
   } catch (error) {
     console.error("Error decoding user data:", error);
