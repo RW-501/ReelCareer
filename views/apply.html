@@ -1313,7 +1313,7 @@ setTimeout(() => {
       const storedUserData = localStorage.getItem('userData');
       if (storedUserData) {
         // Parse the stored data
-        const userData = JSON.parse(storedUserData);
+        const userData = getUserData();
         document.getElementById('portfolio').value = userData.portfolio || '';
         document.getElementById('userLocation').value = userData.location || '';
         document.getElementById('email').value = userData.email || '';

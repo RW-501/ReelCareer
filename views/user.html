@@ -1035,7 +1035,7 @@ if (profileData) {
       
   const userlocationData = sessionStorage.getItem('userLocation');
 
-  const userDataSaved = JSON.parse(localStorage.getItem('userData')) || [];
+  const userDataSaved = getUserData() || [];
 
   // Populate the Personal Information tab
   document.getElementById('usernameSET-profile').value = userData.displayName || "";
@@ -1284,7 +1284,7 @@ profileData.tags.forEach(tag => {
         const userIdFromURL = urlParams.get('u');
 
 
-        const userDataSaved = JSON.parse(localStorage.getItem('userData')) || [];
+        const userDataSaved = getUserData() || [];
         const profilePic = document.getElementById('profilePic').src;
 
 
@@ -1329,7 +1329,7 @@ document.getElementById('sendMessageForm').addEventListener('submit', async func
     const recipientID = document.getElementById('recipient-id').value;
     const content = document.getElementById('message-content').value;
     const attachments = document.getElementById('message-attachments').files[0] || '';
-    const userDataSaved = JSON.parse(localStorage.getItem('userData')) || [];
+    const userDataSaved = getUserData() || [];
 
     const messageData = {
         recipientID: recipientID,
