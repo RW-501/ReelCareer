@@ -107,7 +107,9 @@ const saveUserLoginState = async (user) => {
 
     };
 
+    console.log(" User userData: ", userData);
 
+    return;
 
     const userDocRef = doc(db, "Users", user.uid);
     await setDoc(userDocRef, userData, { merge: true });
@@ -116,6 +118,7 @@ const saveUserLoginState = async (user) => {
 
     localStorage.setItem("userData", userData);
     localStorage.setItem("userLoggedIn", "true");
+
   } catch (error) {
     console.error("Error saving user login state:", error);
   }
