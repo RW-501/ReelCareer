@@ -96,7 +96,6 @@ const userIP = sessionStorage.getItem('userIP') || "";
       membershipType: userDataSaved.membershipType || "free",
       membershipExpiry: userDataSaved.membershipExpiry || new Date(new Date().setDate(new Date().getDate() + 30)), // 30-day deadline
 
-      membershipType: userDataSaved.membershipType || "Basic",
   
 
       tags: tagArray || "",
@@ -127,12 +126,15 @@ const userIP = sessionStorage.getItem('userIP') || "";
     localStorage.setItem("userLoggedIn", "true");
 
 
+    showToast("Login state saved successfully!", "success");
+
+   // window.location.href = "/views/user"; // Redirect to profile
+
     
   } catch (error) {
     console.error("Error saving user login state:", error);
   }
 
-  window.location.href = "/views/user"; // Redirect to profile
 
 
 };
