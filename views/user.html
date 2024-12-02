@@ -1141,7 +1141,7 @@ document.getElementById('saveProfileBtn-profile').addEventListener('click', asyn
     const websites = websitesSetup.filter(site => site.url !== "");
 
 // Make sure tagsList is not empty or null
-const tagsText = document.getElementById('tagsList') ? document.getElementById('tagsList').textContent.trim() : '';
+const tagsText = document.getElementById('tagsSET-profile') ? document.getElementById('tagsList').textContent.trim() : '';
 const tags = tagsText ? tagsText.split(",").map(item => item.toLowerCase().trim()) : [];
 
     const userData = {
