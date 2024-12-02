@@ -304,8 +304,8 @@ contactList.appendChild(listItem);
 
         contactInfo.innerHTML = `<p>Contact: ${data.senderName}</p><p>Status: Online</p>`; // Display contact info dynamically
         console.log("conversationID: ", conversationID);
-        console.log("contactID: ", data.contactID);
 
+        
         messageBox.innerHTML = '';
         const messagesRef = collection(db, 'Messages');
         const q = query(messagesRef, where('conversationID', '==', conversationID), orderBy('createdAt'));
