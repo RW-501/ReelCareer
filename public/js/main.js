@@ -222,23 +222,6 @@ const hideLoading = () => {
   }
 };
 
-// Improved login form submission
-document.getElementById("login-form")?.addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const email = document.getElementById("login-email").value;
-  const password = document.getElementById("login-password").value;
-
-  showLoading();
-  try {
-    const userCredential = await signInWithEmailAndPassword(auth, email, password);
-    await saveUserLoginState(userCredential.user);
-    window.location.href = "/views/user"; 
-  } catch (error) {
-    showToast(error.message);
-  } finally {
-    hideLoading();
-  }
-});
 
 // Other event listeners (Google, Facebook, Apple login) go here...
 // Sign Up Function
@@ -268,7 +251,9 @@ document
     }
   });
 
-// Login with Email
+
+
+  // Improved login form submission
 document.getElementById("login-form")?.addEventListener("submit", async (e) => {
   e.preventDefault();
   const email = document.getElementById("login-email").value;
@@ -276,48 +261,18 @@ document.getElementById("login-form")?.addEventListener("submit", async (e) => {
 
   showLoading();
   try {
-    const userCredential = await signInWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
-    const user = userCredential.user;
-    console.log("Login Successful:", user);
-    await saveUserLoginState(user, true); // Update database and local storage
-    //  window.location.href = '/views/user'; // Redirect to profile
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    await saveUserLoginState(userCredential.user);
+    window.location.href = "/views/user"; 
   } catch (error) {
-    console.error("Error during login:", error);
     showToast(error.message);
   } finally {
     hideLoading();
   }
 });
 
-document
-  .getElementById("email-login-form")
-  ?.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const email = document.getElementById("login-email").value;
-    const password = document.getElementById("login-password").value;
 
-    showLoading();
-    try {
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      const user = userCredential.user;
-      console.log("Email Login Successful:", user);
-      await saveUserLoginState(user, true);
-      closeLoginPopup();
-    } catch (error) {
-      console.error("Error during email login:", error);
-      showToast(error.message);
-    } finally {
-      hideLoading();
-    }
-  });
+
 
 // Google Login Function
 document.getElementById("google-login")?.addEventListener("click", async () => {
