@@ -159,7 +159,7 @@
                           <ul id="video-resume-list">
                               <!-- Video resume files will be dynamically listed here -->
                           </ul>
-                          <button class="btn btn-primary btn-block" onclick="location.href='https://reelcareer.co/views/user?.html'">Edit Video Resumes</button>
+                          <button class="btn btn-primary btn-block" id="profile-view-video-resume-btn">Edit Video Resumes</button>
                       </div>
                   </div>               
               </div>       
@@ -221,7 +221,7 @@
         <p>Update your Settings here.</p>
   
    <!-- Settings Tab -->
-      <form id="personalForm-profile">
+      <form id="settingslForm-profile">
         <div class="mb-3">
   
           <div class="form-check mb-3">
@@ -384,7 +384,50 @@
                    
                 
                   
-                    <script>document.addEventListener("DOMContentLoaded", () => {
+                    <script>
+
+                    
+let unsavedChanges = false;
+
+const setUnsavedChanges = (isChanged) => {
+    unsavedChanges = isChanged;
+    document.getElementById('saveProfileBtn-profile').innerText= "Save Changes";
+
+};
+
+const trackAllFormsWithExitWarning = () => {
+    const forms = [
+        'membershipForm-profile',
+        'socialForm-profile',
+        'settingsForm-profile',
+        'personalForm-profile'
+    ];
+
+    forms.forEach((formId) =>
+        trackFormChanges(formId, (isChanged) => {
+            setUnsavedChanges(isChanged);
+        })
+    );
+
+    window.addEventListener('beforeunload', (event) => {
+        if (unsavedChanges) {
+            event.preventDefault();
+            event.returnValue = ''; // Standard for most browsers
+            showToast("Don't Forget to Save your Changes");
+
+        }
+    });
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+    trackAllForms();
+});
+
+
+document.addEventListener('DOMContentLoaded', trackAllFormsWithExitWarning);
+
+                    
+                    document.addEventListener("DOMContentLoaded", () => {
                       const tabs = document.querySelectorAll(".nav-link");
                       const tabContents = document.querySelectorAll(".tab-pane");
                     
@@ -972,6 +1015,9 @@ await setDoc(userDocRef, userData, { merge: true });
 setUserData(userData);
 
 console.log("User data saved successfully!");
+
+document.getElementById('saveProfileBtn-profile').innerText= "Saved";
+
 showToast("Your profile has been updated successfully.");
 } catch (error) {
 console.error("Error saving user data:", error.message);
@@ -1316,7 +1362,12 @@ profileData.tags.forEach(tag => {
           window.location.href = 'https://reelcareer.co/views/messaging';
 
         });
+        
 
+        document.getElementById('profile-view-video-resume-btn').addEventListener('click', async () => {
+          window.location.href = 'https://reelcareer.co/views/videoResume';
+
+        });
 
 
 
