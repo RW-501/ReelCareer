@@ -39,47 +39,27 @@ const encodeUserData = (userData, secretKey = '') => {
 window.encodeUserData = encodeUserData;
 
 // Function to decode user data
-const decodeUserData = (encodedData, secretKey = '') => {
-  console.log("User encodedData: ", encodedData);
-
+function decodeUserData(encodedData) {
   try {
-    if (!encodedData) {
-      console.error("Error: No encoded data provided");
-      return null;
-    }
+      // Decode Base64
+      const base64Decoded = atob(encodedData);
+      console.log("Decoded Base64: ", decodedBase64);
 
-    // Ensure the data is Base64 valid before attempting to decode
-    const base64Regex = /^[A-Za-z0-9+/=]+$/;
-    if (!base64Regex.test(encodedData)) {
-      console.error("Error: Encoded data is not valid Base64");
-      return null;
-    }
+      // Remove secret key or any appended string (adjust logic as needed)
+      const jsonString = base64Decoded.replace('WeThaBest', '');
+      console.log("Decoded Base64 after removing secret key: ", jsonString);
 
-    // Decode Base64
-    let decodedBase64 = atob(encodedData);
-    console.log("Decoded Base64: ", decodedBase64);
-
-    // Remove the secret key if provided and appended
-    if (secretKey && decodedBase64.endsWith(secretKey)) {
-      decodedBase64 = decodedBase64.slice(0, -secretKey.length);
-    }
-
-    console.log("Decoded Base64 after removing secret key: ", decodedBase64);
-
-    // Attempt to parse the JSON string
-    try {
-      const parsedData = JSON.parse(decodedBase64);
+      // Parse JSON
+      const parsedData = JSON.parse(jsonString);
       console.log("Parsed User Data: ", parsedData);
+
       return parsedData;
-    } catch (jsonError) {
-      console.error("Error parsing JSON:", jsonError);
-      return null;
-    }
   } catch (error) {
-    console.error("Error decoding user data:", error);
-    return null;
+      console.error('Error parsing JSON:', error);
+      console.error('Decoded string:', encodedData); // Log the problematic data
+      return null;
   }
-};
+}
 
 window.decodeUserData = decodeUserData;
 
