@@ -1075,15 +1075,15 @@ showToast("There was an error updating your profile. Please try again later.");
         async function loadUserData(profileData) {
 
 
+          const userDataSaved = getUserData() || [];
+          const userlocationData = sessionStorage.getItem('userLocation');
 
             console.log("profileDatam   ",profileData);
 
 if (profileData) {
   const userData = profileData;
       
-  const userlocationData = sessionStorage.getItem('userLocation');
 
-  const userDataSaved = getUserData() || [];
 
   // Populate the Personal Information tab
   document.getElementById('usernameSET-profile').value = userData.displayName || "";
