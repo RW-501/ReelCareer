@@ -201,6 +201,8 @@ return encodedData;
 }
 window.setUserData = setUserData;
 
+
+
 function getUserData(){
   const encodedData = JSON.parse(localStorage.getItem('userData')) || [];
  // const encodedData = localStorage.getItem('userData') || [];
@@ -1344,6 +1346,8 @@ function getViewedByField() {
     if (storedUserData) {
       // Parse the stored data
        userData = getUserData();
+       console.log(`${userData} userData ???????? .`);
+
   } 
 
     if (!ipAddress && !userData.ipAddress ) {
