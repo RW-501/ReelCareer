@@ -173,7 +173,7 @@
 
 
 
-<div id="profileSettings"  class="container">
+<div id="profileSettingsMain"  class="container">
   <h1 class="mb-4">Profile Settings</h1>
   <p class="text-muted">Keep your profile up to date to improve your visibility and networking opportunities.</p>
 
@@ -209,7 +209,7 @@
 
 
   <div class="tab-content mt-4">
-    <div class="tab-pane fade" id="settings-profile" role="tabpanel" aria-labelledby="profile-settings-tab">
+    <div class="tab-pane fade" id="settings-profile-tab" role="tabpanel" aria-labelledby="profile-settings-tab">
       <h3>Settings</h3>
       <p>Update your Settings here.</p>
 
@@ -718,7 +718,7 @@ lastBreadcrumb_1.style.display = "none";
 lastBreadcrumb_last.style.display = "none";
 breadcrumbjobTitleActive.style.display = "none";
 
-document.getElementById('profileSettings').style.display = 'none';
+document.getElementById('profileSettingsMain').style.display = 'none';
 document.getElementById('view-messages-btn').style.display = 'none';
 
 
@@ -859,14 +859,14 @@ breadcrumbjobTitleActive.style.display = "block";
           document.getElementById('recruiter-btn').style.display = 'none';
           document.getElementById('view-profile-btn').style.display = 'none';
 
-          document.getElementById('profileSettings').style.display = 'none';
+          document.getElementById('profileSettingsMain').style.display = 'none';
     
       } else {
          // checkUser(userId);
           document.getElementById('send-message-btn').style.display = 'none';
           document.getElementById('connect-btn').style.display = 'none';
 
-document.getElementById('profileSettings').style.display = 'none';
+document.getElementById('profileSettingsMain').style.display = 'none';
 document.getElementById('jobSeeker-btn').style.display = 'none';
 document.getElementById('recruiter-btn').style.display = 'none';
 document.getElementById('view-profile-btn').style.display = 'none';
@@ -874,7 +874,7 @@ document.getElementById('view-profile-btn').style.display = 'none';
 if(userId){
 lastBreadcrumb_last.style.display = "block";
 
-document.getElementById('profileSettings').style.display = 'block';
+document.getElementById('profileSettingsMain').style.display = 'block';
 document.getElementById('jobSeeker-btn').style.display = 'block';
 document.getElementById('recruiter-btn').style.display = 'block';
 document.getElementById('view-profile-btn').style.display = 'block';
