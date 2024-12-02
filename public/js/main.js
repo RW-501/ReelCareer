@@ -238,6 +238,8 @@ function getUserData() {
   // Decode user data
   try {
     const decodedBase64 = decodeUserData(encodedData, "WeThaBest");
+    console.log("decodedBase64:", decodedBase64);
+
     const decodedData = JSON.parse(decodedBase64);
 
     console.log("Decoded Data:", decodedData);
