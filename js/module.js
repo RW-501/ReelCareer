@@ -103,7 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
           // Redirect to the user page if on the auth page
           if (window.location.pathname === "/views/auth") {
-          //  window.location.href = "/views/user";
+            window.location.href = "/views/user";
           }
         
     // Event listener for the settings button
