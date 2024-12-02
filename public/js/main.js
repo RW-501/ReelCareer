@@ -128,7 +128,7 @@ const userIP = sessionStorage.getItem('userIP') || "";
 
     showToast("Login state saved successfully!", "success");
 
-   // window.location.href = "/views/user"; // Redirect to profile
+    window.location.href = "/views/user"; // Redirect to profile
 
     
   } catch (error) {
