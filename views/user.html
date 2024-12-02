@@ -922,6 +922,76 @@ breadcrumbjobTitleActive.innerText = userName;
 
 breadcrumbjobTitleActive.style.display = "block";
       // Ensure userIdFromURL is not null or undefined
+
+// Select all necessary elements once to avoid redundant DOM lookups
+const sendMessageBtn = document.getElementById('send-message-btn');
+const connectBtn = document.getElementById('connect-btn');
+const jobSeekerBtn = document.getElementById('jobSeeker-btn');
+const recruiterBtn = document.getElementById('recruiter-btn');
+const viewProfileBtn = document.getElementById('view-profile-btn');
+const profileSettingsMain = document.getElementById('profileSettingsMain');
+const currentUserId = document.getElementById('currentUserId');
+const lastBreadcrumb_1 = document.getElementById('lastBreadcrumb_1');
+const lastBreadcrumb_last = document.getElementById('lastBreadcrumb_last');
+const viewMessagesBtn = document.getElementById('view-messages-btn');
+
+// Function to hide all buttons and settings
+function hideAllElements() {
+  sendMessageBtn.style.display = 'none';
+  connectBtn.style.display = 'none';
+  jobSeekerBtn.style.display = 'none';
+  recruiterBtn.style.display = 'none';
+  viewProfileBtn.style.display = 'none';
+  profileSettingsMain.style.display = 'none';
+  viewMessagesBtn.style.display = 'none';
+}
+
+// Function to show buttons for logged-in users
+function showLoggedInUserElements() {
+  sendMessageBtn.style.display = 'block';
+  connectBtn.style.display = 'block';
+  viewProfileBtn.style.display = 'block';
+}
+
+// Function to show profile and job seeker/recruiter buttons
+function showUserProfileElements() {
+  profileSettingsMain.style.display = 'block';
+  jobSeekerBtn.style.display = 'block';
+  recruiterBtn.style.display = 'block';
+  viewProfileBtn.style.display = 'block';
+  viewMessagesBtn.style.display = 'block';
+}
+
+if (userIdFromURL) {
+  // Display the user ID from the URL
+  document.getElementById('userPageId').innerText = userIdFromURL;
+
+  if (userId) {
+    // User is logged in
+    currentUserId.innerText = userId;
+    showLoggedInUserElements();
+
+    if (userId === userIdFromURL) {
+      lastBreadcrumb_1.style.display = "block";  // Show breadcrumb if it's the user's own profile
+    }
+  } else {
+    hideAllElements(); // If user is not logged in, hide all buttons
+  }
+} else {
+  // No user ID from the URL
+  hideAllElements();
+
+  if (userId) {
+    lastBreadcrumb_last.style.display = "block"; // Show breadcrumb for logged-in users without URL user ID
+    currentUserId.innerText = userId;
+    showUserProfileElements();
+  } else {
+    showUserDataNotFoundMessage(); // Show message if no user data is found
+    console.log("No user ID found in URL or session.");
+  }
+}
+
+      /*
       if (userIdFromURL) {
           document.getElementById('userPageId').innerText = userIdFromURL;
 
@@ -978,7 +1048,7 @@ return;
 }
       }
    
-
+*/
 
 
 }
