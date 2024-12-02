@@ -105,27 +105,8 @@ document.addEventListener('DOMContentLoaded', () => {
           if (window.location.pathname === "/views/auth") {
           //  window.location.href = "/views/user";
           }
-        
-    // Event listener for the settings button
-    document.getElementById("settingsBtn").addEventListener("click", () => {
-      const profileModal = document.getElementById("profileModal");
-      console.log('settingsBtn');
-  
-      // Create modal only when settingsBtn is clicked if it doesn't already exist
-      if (!profileModal) {
-        createProfileModal(); // Create the modal
-        initializeProfileModal(user); // Initialize modal
-      } else {
-        profileModal.classList.add("show"); // Add Bootstrap's 'show' class
-        profileModal.setAttribute("aria-hidden", "false");
-      }
-      updateNavVisibility(user);
-  
-      setTimeout(() => {
-        getModal(user); // Fetch user data and populate modal
-        showModal("profileModal"); // Show modal after getting the data
-      }, 300);
-    });
+
+          
 
 
     } else {
