@@ -39,7 +39,7 @@ const decodeUserData = (encodedData, secretKey = '') => {
 
     let decodedBase64;
 
-    if(jsonString){
+    if(encodedData){
     // Decode from Base64
      decodedBase64 = atob(encodedData);
       }else{
