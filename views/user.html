@@ -301,16 +301,16 @@
       </div>
       <div class="mb-3">
         <label for="renewalDateSET-profile" class="form-label">Renewal Date</label>
-        <input type="date" class="form-control" id="renewalDateSET-profile">
+        <input type="time" class="form-control" id="renewalDateSET-profile" disabled>
       </div>
 
       <div class="mb-3">
         <label for="lastLogin-profile" class="form-label">lastLogin</label>
-        <input type="date" class="form-control" id="lastLogin-profile">
+        <input type="datetime" class="form-control" id="lastLogin-profile">
       </div>
       <div class="mb-3">
         <label for="userID-profile" class="form-label">userID</label>
-        <input type="text" class="form-control" id="userID-profile">
+        <input type="text" class="form-control" id="userID-profile" disabled>
       </div>
 
     </form>
@@ -874,7 +874,7 @@ const websitesSetup = [
 
 // Optionally, you can filter out empty entries like this:
 const websites = websitesSetup.filter(site => site.url !== "");
-let tag = element.value.split(",").map((tags) => tags.trim());
+//let tag = element.value.split(",").map((tags) => tags.trim());
 
 
 
