@@ -620,7 +620,7 @@ function showUserSignedOutMessage() {
 
     // Add an event listener to redirect to the login page
     loginButton.addEventListener('click', () => {
-        window.location.href = '/login'; // Change '/login' to your actual login page URL
+        window.location.href = '/auth'; // Change '/login' to your actual login page URL
     });
 
     card.appendChild(loginButton);
@@ -683,8 +683,8 @@ document.getElementById('profileSettings').style.display = 'none';
 
 
                 } else {
-                    // Call this function when the user data is not found
-                    showUserDataNotFoundMessage();
+             
+                  return;
                 }
                       setTimeout(() => {
             setUpUI();
@@ -722,7 +722,22 @@ window.onload = async function () {
         } else if (userId) {
             checkUser(userId);
         } else {
-            console.error("No user ID found in URL or session.");
+
+ 
+let mainContainer = document.getElementById('main-content');
+
+mainContainer.innerHTML = '';
+
+breadcrumbjobTitleActive.style.display = "none";
+
+lastBreadcrumb_last.style.display = "block";
+lastBreadcrumb_a.innerText = "Create a Profile";
+lastBreadcrumb_a.href = `https://reelcareer.co/views/auth`;
+
+
+      // Call this function when the user data is not found
+      showUserDataNotFoundMessage();
+            console.log("No user ID found in URL or session.");
         }
 
   
@@ -802,30 +817,13 @@ document.getElementById('view-profile-btn').style.display = 'block';
 
 
 }else{
-  console.log("No User No URL");
 
-breadcrumbjobTitleActive.style.display = "none";
-
-lastBreadcrumb_last.style.display = "block";
-lastBreadcrumb_a.innerText = "Create a Profile";
-lastBreadcrumb_a.href = `https://reelcareer.co/views/auth`;
-
+return;
 }
       }
    
 
-  /*
 
-      <nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-        <li id="lastBreadcrumb_home" class="breadcrumb-item"><a href="https://reelcareer.co/">Home</a></li>
-        <li id="lastBreadcrumb_1" class="breadcrumb-item"><a href="https://reelcareer.co/views/user">Edit Profile</a></li>
-        <li id="lastBreadcrumb_last" class="breadcrumb-item"><a id="lastBreadcrumb_a" href="https://reelcareer.co/views/user">View Profile</a></li>
-        <li id="breadcrumb-active-title" class="breadcrumb-item active" aria-current="page">User</li>
-      </ol>
-  </nav>
-
-  */
 
 }
 
