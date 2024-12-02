@@ -125,6 +125,8 @@ const userIP = sessionStorage.getItem('userIP') || "";
 
     localStorage.setItem("userData", userData);
     localStorage.setItem("userLoggedIn", "true");
+    
+    window.location.href = "/views/user"; // Redirect to profile
 
   } catch (error) {
     console.error("Error saving user login state:", error);
@@ -252,7 +254,6 @@ document
       const user = userCredential.user;
       //console.log('Sign Up Successful:', user);
       await saveUserLoginState(user, true); // Update database and local storage
-      window.location.href = "/views/user"; // Redirect to profile
     } catch (error) {
       console.error("Error during sign up:", error);
       showToast(error.message, 'error');
@@ -273,7 +274,6 @@ document.getElementById("login-form")?.addEventListener("submit", async (e) => {
   try {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
     await saveUserLoginState(userCredential.user);
-    window.location.href = "/views/user"; 
   } catch (error) {
     showToast(error.message);
   } finally {
@@ -293,7 +293,6 @@ document.getElementById("google-login")?.addEventListener("click", async () => {
     console.log("Google Login Successful:", user);
     await saveUserLoginState(user, true); // Update database and local storage
 
-   window.location.href = "/views/user"; // Redirect to profile
   } catch (error) {
     console.error("Error during Google login:", error);
     showToast(error.message);
@@ -312,7 +311,6 @@ document
       const user = result.user;
       console.log("Facebook Login Successful:", user);
       await saveUserLoginState(user, true); // Update database and local storage
-      window.location.href = "/views/user"; // Redirect to profile
     } catch (error) {
       console.error("Error during Facebook login:", error);
       showToast(error.message);
@@ -329,7 +327,6 @@ document.getElementById("apple-login")?.addEventListener("click", async () => {
     const user = result.user;
     console.log("Apple Login Successful:", user);
     await saveUserLoginState(user, true); // Update database and local storage
-    window.location.href = "/views/user"; // Redirect to profile
   } catch (error) {
     console.error("Error during Apple login:", error);
     showToast(error.message);
