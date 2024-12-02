@@ -123,6 +123,8 @@
         <button class="btn btn-primary btn-block"  id="share-profile-btn">Share Profile</button>
         <button class="btn btn-primary btn-block" id="connect-btn">Connect</button>
         <button class="btn btn-primary btn-block" id="view-profile-btn">View Profile</button>
+      
+        <button class="btn btn-primary btn-block" id="view-messages-btn">Messages</button>
 
         <button class="btn btn-primary btn-block" id="jobSeeker-btn">Job Seeker Dashboard</button>
         <button class="btn btn-primary btn-block" id="recruiter-btn">Recruiter Dashboard</button>
@@ -269,7 +271,7 @@
         <input type="tel" class="form-control" id="phoneSET-profile">
       </div>
 
-      <div class="mb-3">
+      <div class="mb-3" hidden>
         <label for="dobSET-profile" class="form-label">DOB</label>
         <input type="date" class="form-control" id="dobSET-profile">
       </div>
@@ -713,6 +715,7 @@ lastBreadcrumb_last.style.display = "none";
 breadcrumbjobTitleActive.style.display = "none";
 
 document.getElementById('profileSettings').style.display = 'none';
+document.getElementById('view-messages-btn').style.display = 'none';
 
 
 
@@ -830,7 +833,7 @@ breadcrumbjobTitleActive.style.display = "block";
       if (userIdFromURL) {
           document.getElementById('userPageId').innerText = userIdFromURL;
 
-
+          
 
           if(userId){
             document.getElementById('currentUserId').innerText = userId;
@@ -871,6 +874,7 @@ document.getElementById('profileSettings').style.display = 'block';
 document.getElementById('jobSeeker-btn').style.display = 'block';
 document.getElementById('recruiter-btn').style.display = 'block';
 document.getElementById('view-profile-btn').style.display = 'block';
+document.getElementById('view-messages-btn').style.display = 'block';
 
 
 }else{
@@ -1298,6 +1302,14 @@ profileData.tags.forEach(tag => {
             });
         });
   
+
+        document.getElementById('view-messages-btn').addEventListener('click', async () => {
+          window.location.href = 'https://reelcareer.co/views/messaging';
+
+        });
+
+
+
 
         document.getElementById('jobSeeker-btn').addEventListener('click', async () => {
           window.location.href = 'https://reelcareer.co/views/job-seeker';
