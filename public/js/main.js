@@ -19,6 +19,7 @@ const saveUserLoginState = async (user) => {
     console.log(" User info: ", user);
 
  
+let jobArray, tagArray;
 
     const userDataSaved = JSON.parse(localStorage.getItem('userData')) || [];
    
@@ -75,9 +76,9 @@ const saveUserLoginState = async (user) => {
             }
     ];
   }
-  let tagArray = userTagInterest.map(item => item.tag); // Extract only the tags
+   tagArray = userTagInterest.map(item => item.tag); // Extract only the tags
 
-  let jobArray = userJobInterest.map(item => item.job); // Extract only the tags
+   jobArray = userJobInterest.map(item => item.job); // Extract only the tags
 
   console.log(" User tagArray: ", tagArray);
   console.log(" User jobArray: ", jobArray);
