@@ -165,9 +165,13 @@ main .row {
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li id="lastBreadcrumb_home" class="breadcrumb-item"><a href="https://reelcareer.co/">Home</a></li>
-          <li class="breadcrumb-item active" aria-current="page">Messaging</li>
+            <li id="lastBreadcrumb_last" class="breadcrumb-item"><a id="lastBreadcrumb_a" href="https://reelcareer.co/views/user">View Profile</a></li>
+
+            <li class="breadcrumb-item active" aria-current="page">Messaging</li>
         </ol>
       </nav>
+
+
 
       <main id="main-content">
 
@@ -236,7 +240,11 @@ main .row {
     }
 });
 
+const lastBreadcrumb_a = document.getElementById("lastBreadcrumb_a").innerText;
+  
+  const userName = document.getElementById("nav-user-name").innerText;
 
+  lastBreadcrumb_a = userName;
 
     function loadContacts(userID) {
         console.log("userID: ", userID);

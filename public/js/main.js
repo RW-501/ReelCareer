@@ -586,7 +586,7 @@ function handleAuthStateChanged(user) {
     authSection.innerHTML = `
       <div class="dropdown">
         <button class="btn btn-outline-primary dropdown-toggle" type="button" id="profileDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          ${userPhoto} Welcome, ${userName}
+          ${userPhoto} Welcome, <name id='nav-user-name'>${userName}</name>
         </button>
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="profileDropdown">
           <a class="dropdown-item" href="https://reelcareer.co/views/user">Profile</a>
