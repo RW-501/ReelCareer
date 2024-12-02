@@ -240,6 +240,15 @@ return decodedData;
 window.getUserData = getUserData;
 
 
+// Convert Firestore timestamp to Date
+const convertFirestoreTimestamp = (timestamp) => {
+  // Create a new Date object from the timestamp (seconds value)
+  const date = new Date(timestamp.seconds * 1000); // Multiply by 1000 to convert to milliseconds
+  return date.toLocaleString(); // Or you can use any formatting method you prefer
+};
+
+window.convertFirestoreTimestamp = convertFirestoreTimestamp;
+
 // Event listener to handle clicks outside dropdown to close it
 document.addEventListener('click', (e) => {
   const dropdown = document.getElementById("dropdown");

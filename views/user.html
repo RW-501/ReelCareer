@@ -1169,6 +1169,10 @@ document.getElementById('saveProfileBtn-profile').addEventListener('click', asyn
 if (profileData) {
   const userData = profileData;
       
+// Example usage
+const lastLoginDate = convertFirestoreTimestamp(userData.lastLogin);
+const membershipExpiryDate = convertFirestoreTimestamp(userData.membershipExpiry);
+
 
 
   // Populate the Personal Information tab
@@ -1194,9 +1198,9 @@ if (profileData) {
   // Populate the Membership Details tab
   document.getElementById('membershipTypeSET-profile').value = userData.membershipType || "";
   document.getElementById('membershipStatus-profile').value = userData.membershipType || "";
-  document.getElementById('renewalDateSET-profile').value = userData.membershipExpiry || "";
+  document.getElementById('renewalDateSET-profile').value = membershipExpiryDate  || "";
 
-  document.getElementById('lastLogin-profile').value = userData.lastLogin || "";
+  document.getElementById('lastLogin-profile').value = lastLoginDate  || "";
   document.getElementById('userID-profile').value = userData.userID || "";
 } else {
   console.log("No user data found!");
