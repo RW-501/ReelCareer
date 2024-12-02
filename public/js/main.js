@@ -15,24 +15,27 @@ const encodeUserData = (userData, secretKey = '') => {
   try {
     // Serialize user data to a JSON string
     const jsonString = JSON.stringify(userData);
-    if (jsonString) {
-      // Apply a Base64 encoding
-      let base64String = btoa(jsonString);
-      
-      // Optionally append a secret key for obfuscation
-      if (secretKey) {
-        base64String = btoa(base64String + secretKey);
-      }
-
-      return base64String;
-    } else {
+    if (!jsonString) {
+      console.error("Error: User data is empty or invalid");
       return null;
     }
+
+    // Base64 encode the JSON string
+    let base64String = btoa(jsonString);
+
+    // Optionally append a secret key for obfuscation
+    if (secretKey) {
+      base64String = btoa(base64String + secretKey);
+    }
+
+    console.log("Encoded Data: ", base64String);
+    return base64String;
   } catch (error) {
     console.error("Error encoding user data:", error);
     return null;
   }
 };
+
 window.encodeUserData = encodeUserData;
 
 // Function to decode user data
@@ -52,23 +55,26 @@ const decodeUserData = (encodedData, secretKey = '') => {
       return null;
     }
 
-    // Decode from Base64
+    // Decode Base64
     let decodedBase64 = atob(encodedData);
     console.log("Decoded Base64: ", decodedBase64);
 
-    // Remove the secret key if provided (only if the secret key is found)
+    // Remove the secret key if provided and appended
     if (secretKey && decodedBase64.endsWith(secretKey)) {
       decodedBase64 = decodedBase64.slice(0, -secretKey.length);
     }
 
     console.log("Decoded Base64 after removing secret key: ", decodedBase64);
 
-    // Parse the JSON string back into an object
-    const parsedData = JSON.parse(decodedBase64);
-
-    console.log("Parsed User Data: ", parsedData);
-    return parsedData;
-
+    // Attempt to parse the JSON string
+    try {
+      const parsedData = JSON.parse(decodedBase64);
+      console.log("Parsed User Data: ", parsedData);
+      return parsedData;
+    } catch (jsonError) {
+      console.error("Error parsing JSON:", jsonError);
+      return null;
+    }
   } catch (error) {
     console.error("Error decoding user data:", error);
     return null;
@@ -217,59 +223,58 @@ const userIP = sessionStorage.getItem('userIP') || "";
 
 };
 
-
 // Add padding to Base64 string if necessary
 const addBase64Padding = (base64String) => {
   return base64String.length % 4 === 0 ? base64String : base64String + '='.repeat(4 - (base64String.length % 4));
 };
 
+const LOCAL_STORAGE_KEY = 'userData';
 
-function setUserData(userData){
-// Encode user data
-let encodedData = encodeUserData(userData, "WeThaBest");
+function setUserData(userData) {
+  // Encode user data
+  let encodedData = encodeUserData(userData, "WeThaBest");
+  encodedData = addBase64Padding(encodedData);
 
-encodedData = addBase64Padding(encodedData);
+  console.log("Encoded Data:", encodedData);
 
-console.log("Encoded Data:", encodedData);
-
-return encodedData;
+  // Store in localStorage
+  localStorage.setItem(LOCAL_STORAGE_KEY, encodedData);
+  return encodedData;
 }
+
 window.setUserData = setUserData;
 
-
-
-function getUserData(){
-  //const encodedData = JSON.parse(localStorage.getItem('userData')) || [];
-  let encodedData = localStorage.getItem('userData') || [];
-  
-  
-  let decodedData;
-if(encodedData){
+function getUserData() {
+  // Retrieve encoded data from localStorage
+  let encodedData = localStorage.getItem(LOCAL_STORAGE_KEY);
+  if (!encodedData) {
+    console.warn("No data found in localStorage.");
+    return null;
+  }
 
   encodedData = addBase64Padding(encodedData);
 
-// Decode user data
-let decodedBase64 = decodeUserData(encodedData, "WeThaBest");
+  // Decode user data
+  try {
+    const decodedBase64 = decodeUserData(encodedData, "WeThaBest");
+    const decodedData = JSON.parse(decodedBase64);
 
-try {
-  decodedData = JSON.parse(decodedBase64);
-
-} catch (error) {
-  console.error("Error parsing JSON:", error);
-  return null;
-}
-
-
-console.log("Decoded Data:", decodedData);
-}else{
-
-  return null;
-}
-
-return decodedData;
+    console.log("Decoded Data:", decodedData);
+    return decodedData;
+  } catch (error) {
+    console.error("Error decoding or parsing user data:", error);
+    return null;
+  }
 }
 
 window.getUserData = getUserData;
+
+
+
+
+
+
+
 
 
 // Convert Firestore timestamp to Date
