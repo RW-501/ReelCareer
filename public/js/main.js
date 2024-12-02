@@ -44,30 +44,30 @@ const encodeUserData = (userData, secretKey = '') => {
 window.encodeUserData = encodeUserData;
 
 // Function to decode user data
-function decodeUserData(encodedData) {
+const decodeUserData = (encodedData, secretKey = '') => {
   try {
+    console.log("Encoded Data: ", encodedData);
 
-    console.log("encodedData: ", encodedData);
+    // Optionally remove the secret key if it's been appended
+    let base64String = encodedData;
+    if (secretKey) {
+      base64String = base64String.replace(secretKey, ''); // Remove the secret key if appended
+    }
 
-      // Decode Base64
-      const base64Decoded = atob(encodedData);
-      console.log("Decoded Base64: ", base64Decoded);
+    // Decode from Base64
+    let jsonString = atob(base64String);
+    console.log("Decoded Base64 String: ", jsonString);
 
-      // Remove secret key or any appended string (adjust logic as needed)
-      const jsonString = base64Decoded.replace('WeThaBest', '');
-      console.log("Decoded Base64 after removing secret key: ", jsonString);
+    // Parse the JSON string back into an object
+    const userData = JSON.parse(jsonString);
+    console.log("Decoded User Data: ", userData);
 
-      // Parse JSON
-      const parsedData = JSON.parse(jsonString);
-      console.log("Parsed User Data: ", parsedData);
-
-      return parsedData;
+    return userData;
   } catch (error) {
-      console.error('Error parsing JSON:', error);
-      console.error('Decoded string:', encodedData); // Log the problematic data
-      return null;
+    console.error("Error decoding user data:", error);
+    return null;
   }
-}
+};
 
 window.decodeUserData = decodeUserData;
 
