@@ -522,6 +522,17 @@
 }
 
 function showUserDataNotFoundMessage() {
+  breadcrumbjobTitleActive.style.display = "none";
+
+lastBreadcrumb_last.style.display = "block";
+lastBreadcrumb_a.innerText = "Create a Profile";
+lastBreadcrumb_a.href = `https://reelcareer.co/views/auth`;
+
+let mainContainer = document.getElementById('main-content');
+
+
+  mainContainer.innerHTML = '';
+
     // Create a container div
     const container = document.createElement('div');
     container.className = 'user-data-not-found-container';
@@ -569,11 +580,24 @@ function showUserDataNotFoundMessage() {
 
     card.appendChild(goBackButton);
 
+    // Create a "Login" button
+    const loginButton = document.createElement('button');
+    loginButton.textContent = 'Go to Login Page';
+    loginButton.className = 'btn btn-primary'; // Assuming Bootstrap classes, if used
+    loginButton.style.padding = '10px 20px';
+
+    // Add an event listener to redirect to the login page
+    loginButton.addEventListener('click', () => {
+        window.location.href = 'https://reelcareer.co/views/auth'; // Change '/login' to your actual login page URL
+    });
+
+    card.appendChild(loginButton);
+
     // Append the card to the container
     container.appendChild(card);
 
     // Append the container to the body (or a specific element on your page)
-    document.body.appendChild(container);
+    mainContainer.appendChild(container);
 }
 
 
@@ -683,7 +707,9 @@ document.getElementById('profileSettings').style.display = 'none';
 
 
                 } else {
-             
+                 // Call this function when the user data is not found
+      showUserDataNotFoundMessage();
+            console.log("No user ID found in URL or session.");
                   return;
                 }
                       setTimeout(() => {
@@ -707,7 +733,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     try {
         userId = await getUserId(); // Await here to properly set userId
     } catch (error) {
-        console.error("Error fetching user ID:", error);
+       // console.error("Error fetching user ID:", error);
     }
 });
 
@@ -724,15 +750,6 @@ window.onload = async function () {
         } else {
 
  
-let mainContainer = document.getElementById('main-content');
-
-mainContainer.innerHTML = '';
-
-breadcrumbjobTitleActive.style.display = "none";
-
-lastBreadcrumb_last.style.display = "block";
-lastBreadcrumb_a.innerText = "Create a Profile";
-lastBreadcrumb_a.href = `https://reelcareer.co/views/auth`;
 
 
       // Call this function when the user data is not found
@@ -817,7 +834,9 @@ document.getElementById('view-profile-btn').style.display = 'block';
 
 
 }else{
-
+    // Call this function when the user data is not found
+    showUserDataNotFoundMessage();
+            console.log("No user ID found in URL or session.");
 return;
 }
       }
