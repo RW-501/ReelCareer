@@ -188,9 +188,14 @@ const userIP = sessionStorage.getItem('userIP') || "";
 
 
  userData = setUserData(userData);
+ console.log("userData   ",userData);
 
  localStorage.setItem('userData', userData);
 //  localStorage.setItem('userData', JSON.stringify(userData));
+
+let newUserData = getUserData();
+
+console.log("newUserData   ",newUserData);
 
     localStorage.setItem('userJobInterest', JSON.stringify(userJobInterest));
     localStorage.setItem('userTagInterest', JSON.stringify(userTagInterest));
@@ -201,7 +206,7 @@ const userIP = sessionStorage.getItem('userIP') || "";
 
     showToast("Login state saved successfully!", "success");
 
-    window.location.href = "/views/user"; // Redirect to profile
+    //window.location.href = "/views/user"; // Redirect to profile
 
     
   } catch (error) {
