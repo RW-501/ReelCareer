@@ -18,8 +18,7 @@ const saveUserLoginState = async (user) => {
   try {
     console.log(" User info: ", user);
 
-    const userlocationData = sessionStorage.getItem('userLocation');
-    const locationArray = prepareLocationForFirebase(userlocationData);
+ 
 
     const userDataSaved = JSON.parse(localStorage.getItem('userData')) || [];
    
@@ -31,19 +30,18 @@ const saveUserLoginState = async (user) => {
 
     const profilePic = document.getElementById('nav-bar-profilePic').src;
 
-    console.log(" User userlocationData: ", userlocationData);
-    console.log(" User locationArray: ", locationArray);
-    console.log(" User userlocationData.city: ", userlocationData.city);
-    console.log(" User locationArray.city: ", locationArray.city);
+ 
+    console.log(" User locationData.state: ", locationData.state);
+    console.log(" User locationData.city: ", locationData.city);
 
     if(tagArray.length == 0){
       userTagInterest = [
    {
-    tag: userlocationData.city,
+    tag: locationData.city,
     rank: 1
     }, {
       isLast: true,
-      tag: userlocationData.state,
+      tag: locationData.state,
       rank: 1
       }, {
         isLast: true,
@@ -60,11 +58,11 @@ const saveUserLoginState = async (user) => {
   if(jobArray.length == 0){
     userJobInterest =  [  {
       isLast: true,
-      job: userlocationData.city,
+      job: locationData.city,
       rank: 1
       }, {
         isLast: true,
-        job: userlocationData.state,
+        job: locationData.state,
         rank: 1
         }, {
           isLast: true,
