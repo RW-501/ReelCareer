@@ -99,385 +99,385 @@
     </nav>
 
 
-        <main id="main-content">
+    <main id="main-content">
 
 
 
-    <!-- User Profile Section -->
-    <div class="container mt-5">
-        <div class="userProfile">
-            <div class="col-md-4">
-                <!-- User Info Section -->
-                <div class="card">
-                    <div class="card-body text-center">
-                        <img  id="profilePic" src="/images/sq_logo_n_BG_tie_reel.png" alt="User Profile Picture" class="img-fluid rounded-circle mb-3" style="width: 150px;">
-                        <h3 id="user-name">User Name</h3>
-                        <p id="user-bio">This is a short bio about the user...</p>
-                        <span id="membership-badge" class="badge badge-success">Premium Member</span>
-                        <span id="verified-badge" class="badge badge-info">Verified</span>
-                        <p id="user-location">Location: <span id="location-text">City, State</span></p>
-                        <div id="tags-container"></div>
-
-                        
-        <button class="btn btn-primary btn-block" id="send-message-btn">Send Message</button>
-        <button class="btn btn-primary btn-block"  id="share-profile-btn">Share Profile</button>
-        <button class="btn btn-primary btn-block" id="connect-btn">Connect</button>
-        <button class="btn btn-primary btn-block" id="view-profile-btn">View Profile</button>
-      
-        <button class="btn btn-primary btn-block" id="view-messages-btn">Messages</button>
-
-        <button class="btn btn-primary btn-block" id="jobSeeker-btn">Job Seeker Dashboard</button>
-        <button class="btn btn-primary btn-block" id="recruiter-btn">Recruiter Dashboard</button>
-    </div>
-</div>
-                    
-
-                <!-- Digital Resume Link -->
-                <div class="card mt-3">
-                    <div class="card-body">
-                        <h5>Digital Resume</h5>
-                        <a href="#" id="digital-resume-link" class="btn btn-primary">View Resume</a>
-                    </div>
-                </div>
-
-                <!-- Social Media and Websites -->
-                <div class="card mt-3">
-                    <div class="card-body">
-                        <h5>Social Media & Websites</h5>
-                        <ul id="social-media-list">
-                            <!-- Social media links will be dynamically listed here -->
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- Video Resumes -->
-                <div class="card mt-3">
-                    <div class="card-body">
-                        <h5>Video Resumes</h5>
-                        <ul id="video-resume-list">
-                            <!-- Video resume files will be dynamically listed here -->
-                        </ul>
-                        <button class="btn btn-primary btn-block" onclick="location.href='dashboard.html'">Edit Video Resumes</button>
-                    </div>
-                </div>               
-            </div>       
-        
-           
-
-
-            <div class="col-md-8 public">
-
-
-
-            
-
-
-
-<div id="profileSettingsMain"  class="container">
-  <h1 class="mb-4">Profile Settings</h1>
-  <p class="text-muted">Keep your profile up to date to improve your visibility and networking opportunities.</p>
-
-  <ul class="nav profile-nav-item" id="profileTab" role="tablist">
-
-
-    <li class="nav-item" role="presentation">
-      <button class="nav-link active" id="profile-personal-tab" data-bs-toggle="tab" data-bs-target="#personal-profile" type="button" role="tab" aria-controls="personal" aria-selected="true">
-        Personal
-      </button>
-    </li>
-    <li class="profile-nav-item" role="presentation">
-      <button class="nav-link" id="profile-social-tab" data-bs-toggle="tab" data-bs-target="#social-profile" type="button" role="tab" aria-controls="social" aria-selected="false">
-        Social
-      </button>
-    </li>
-    
-    <li class="nav-item" role="presentation">
-      <button class="nav-link active" id="profile-settings-tab" data-bs-toggle="tab" data-bs-target="#settings-profile" type="button" role="tab" aria-controls="personal" aria-selected="true">
-        Settings
-      </button>
-    </li>
-
-    <li class="profile-nav-item" role="presentation">
-      <button class="nav-link" id="profile-membership-tab" data-bs-toggle="tab" data-bs-target="#membership-profile" type="button" role="tab" aria-controls="membership" aria-selected="false">
-        Membership
-      </button>
-    </li>
-  </ul>
-</div>
-
-
-
-
-  <div class="tab-content mt-4">
-    <div class="tab-pane fade" id="settings-profile-tab" role="tabpanel" aria-labelledby="profile-settings-tab">
-      <h3>Settings</h3>
-      <p>Update your Settings here.</p>
-
- <!-- Settings Tab -->
-    <form id="settings-profile">
-      <div class="mb-3">
-
-        <div class="form-check mb-3">
-          <input type="checkbox" class="form-check-input" id="publicProfileSET-profile">
-          <label class="form-check-label" for="publicProfileSET-profile">Public Profile</label>
-        </div>
-        
-        <div class="mb-3">
-          <label for="tagsSET-profile">Tags <small class="text-muted">(Add a tag and press Enter)</small></label>
-          <div id="tagsContainertagsSET-profile">
-          <input type="text" class="form-control" id="tagsSET-profile" placeholder="(e.g., JavaScript, Management)">
-         </div>
-        </div>
-
-      <div class="mb-3">
-     
-        
-      </div>
-
-      
-
-    </form>
-
-    
-    <div class="d-flex justify-content-between mt-4">
-        <button type="button" class="btn btn-primary" id="saveProfileBtn-profile">Save Changes</button>
-      </div>
-
-    </div>
-
-
-
-
-    <div class="tab-pane fade show active" id="personal-profile" role="tabpanel" aria-labelledby="profile-personal-tab">
-      <h3>Personal Information</h3>
-      <p>Update your personal details here.</p>
-  <!-- Personal Tab -->
-    <form id="personalForm-profile">
-      <div class="mb-3">
-        <label for="usernameSET-profile" class="form-label">Username</label>
-        <input type="name" class="form-control" id="usernameSET-profile" placeholder="Your desired username">
-      </div>
-      <div class="mb-3">
-        <label for="emailSET-profile" class="form-label">Email</label>
-        <input type="email" class="form-control" id="emailSET-profile" disabled>
-      </div>
-      <div class="mb-3">
-        <label for="profilePictureSET-profile" class="form-label">Profile Picture</label>
-        <input type="file" class="form-control" id="profilePictureSET-profile">
-      </div>
-      <div class="mb-3">
-        <label for="nameSET-profile" class="form-label">Name</label>
-        <input type="name" class="form-control" id="nameSET-profile" placeholder="Your full name">
-      </div>
-
-      <div class="mb-3">
-        <label for="phoneSET-profile" class="form-label">Phone</label>
-        <input type="tel" class="form-control" id="phoneSET-profile">
-      </div>
-
-      <div class="mb-3" hidden>
-        <label for="dobSET-profile" class="form-label">DOB</label>
-        <input type="date" class="form-control" id="dobSET-profile">
-      </div>
-
-      <div class="mb-3">
-        <label for="bioSET-profile" class="form-label">Bio</label>
-        <textarea class="form-control" id="bioSET-profile" rows="3" placeholder="Tell us about yourself"></textarea>
-      </div>
-      <div class="mb-3">
-        <label for="locationSET-profile" class="form-label">Location</label>
-        <input type="text" class="form-control" id="locationSET-profile" placeholder="Enter your city or state">
-      </div>
- 
-      <div class="mb-3">
-        <label for="positionSET-profile" class="form-label">Current Position</label>
-        <input type="text" class="form-control" id="positionSET-profile" placeholder="Your job title or current role">
-      </div>
-
-    </form>
-  </div>
-
-
-
+      <!-- User Profile Section -->
+      <div class="container mt-5">
+          <div class="userProfile">
+              <div class="col-md-4">
+                  <!-- User Info Section -->
+                  <div class="card">
+                      <div class="card-body text-center">
+                          <img  id="profilePic" src="/images/sq_logo_n_BG_tie_reel.png" alt="User Profile Picture" class="img-fluid rounded-circle mb-3" style="width: 150px;">
+                          <h3 id="user-name">User Name</h3>
+                          <p id="user-bio">This is a short bio about the user...</p>
+                          <span id="membership-badge" class="badge badge-success">Premium Member</span>
+                          <span id="verified-badge" class="badge badge-info">Verified</span>
+                          <p id="user-location">Location: <span id="location-text">City, State</span></p>
+                          <div id="tags-container"></div>
   
-    <div class="tab-pane fade" id="social-profile" role="tabpanel" aria-labelledby="profile-social-tab">
-      <h3>Social Profiles</h3>
-      <p>Manage your social media links here.</p>
- <!-- Social Tab -->
-    <form id="socialForm-profile">
-      <div class="mb-3">
-        <label for="linkedinSET-profile" class="form-label">LinkedIn Profile</label>
-        <input type="url" class="form-control" id="linkedinSET-profile" placeholder="https://www.linkedin.com/in/yourprofile">
-      </div>
-      <div class="mb-3">
-        <label for="portfolioSET-profile" class="form-label">Portfolio</label>
-        <input type="url" class="form-control" id="portfolioSET-profile" placeholder="https://portfolio.com/yourprofile">
-      </div>
-      <div class="mb-3">
-        <label for="githubSET-profile" class="form-label">GitHub Profile</label>
-        <input type="url" class="form-control" id="githubSET-profile" placeholder="https://github.com/yourprofile">
-      </div>
-      <div class="mb-3">
-        <label for="otherSET-profile" class="form-label">Other Website</label>
-        <input type="url" class="form-control" id="otherSET-profile" placeholder="https://otherwebsite.com/yourprofile">
-      </div>
-    </form>
-  </div>
-
-
-    
-    <div class="tab-pane fade" id="membership-profile" role="tabpanel" aria-labelledby="profile-membership-tab">
-      <h3>Membership Details</h3>
-      <p>Check your membership information here.</p>
-
- <!-- Membership Tab -->
-    <form id="membershipForm-profile">
-      <div class="mb-3">
-        <label for="membershipTypeSET-profile" class="form-label">Membership Type</label>
-        <select class="form-select" id="membershipTypeSET-profile">
-          <option value="free">Free</option>
-          <option value="basic">Basic</option>
-          <option value="pro">Pro</option>
-        </select>
-      </div>
-      <div class="mb-3">
-        <label for="membershipStatus-profile" class="form-label">Membership Status</label>
-        <input type="text" class="form-control" id="membershipStatus-profile" value="Active" disabled>
-      </div>
-      <div class="mb-3">
-        <label for="renewalDateSET-profile" class="form-label">Renewal Date</label>
-        <input type="time" class="form-control" id="renewalDateSET-profile" disabled>
-      </div>
-
-      <div class="mb-3">
-        <label for="lastLogin-profile" class="form-label">lastLogin</label>
-        <input type="datetime" class="form-control" id="lastLogin-profile">
-      </div>
-      <div class="mb-3">
-        <label for="userID-profile" class="form-label">userID</label>
-        <input type="text" class="form-control" id="userID-profile" disabled>
-      </div>
-
-    </form>
-
-    
-    <div class="d-flex justify-content-between mt-4">
-        <button type="button" class="btn btn-danger" id="deactivateAccountBtn-profile">Deactivate Account</button>
-      </div>
-
-    </div>
-
-
-
-    
+                          
+          <button class="btn btn-primary btn-block" id="send-message-btn">Send Message</button>
+          <button class="btn btn-primary btn-block"  id="share-profile-btn">Share Profile</button>
+          <button class="btn btn-primary btn-block" id="connect-btn">Connect</button>
+          <button class="btn btn-primary btn-block" id="view-profile-btn">View Profile</button>
+        
+          <button class="btn btn-primary btn-block" id="view-messages-btn">Messages</button>
   
-
-
-</div>
-
-                
-                 
+          <button class="btn btn-primary btn-block" id="jobSeeker-btn">Job Seeker Dashboard</button>
+          <button class="btn btn-primary btn-block" id="recruiter-btn">Recruiter Dashboard</button>
+      </div>
+  </div>
+                      
+  
+                  <!-- Digital Resume Link -->
+                  <div class="card mt-3">
+                      <div class="card-body">
+                          <h5>Digital Resume</h5>
+                          <a href="#" id="digital-resume-link" class="btn btn-primary">View Resume</a>
+                      </div>
+                  </div>
+  
+                  <!-- Social Media and Websites -->
+                  <div class="card mt-3">
+                      <div class="card-body">
+                          <h5>Social Media & Websites</h5>
+                          <ul id="social-media-list">
+                              <!-- Social media links will be dynamically listed here -->
+                          </ul>
+                      </div>
+                  </div>
+  
+                  <!-- Video Resumes -->
+                  <div class="card mt-3">
+                      <div class="card-body">
+                          <h5>Video Resumes</h5>
+                          <ul id="video-resume-list">
+                              <!-- Video resume files will be dynamically listed here -->
+                          </ul>
+                          <button class="btn btn-primary btn-block" onclick="location.href='dashboard.html'">Edit Video Resumes</button>
+                      </div>
+                  </div>               
+              </div>       
+          
+             
+  
+  
+              <div class="col-md-8 public">
+  
+  
+  
               
+  
+  
+  
+  <div id="profileSettingsMain"  class="container">
+    <h1 class="mb-4">Profile Settings</h1>
+    <p class="text-muted">Keep your profile up to date to improve your visibility and networking opportunities.</p>
+  
+    <ul class="nav profile-nav-item" id="profileTab" role="tablist">
+  
+  
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="profile-personal-tab" data-bs-toggle="tab" data-bs-target="#personal-profile" type="button" role="tab" aria-controls="personal" aria-selected="true">
+          Personal
+        </button>
+      </li>
+      <li class="profile-nav-item" role="presentation">
+        <button class="nav-link" id="profile-social-tab" data-bs-toggle="tab" data-bs-target="#social-profile" type="button" role="tab" aria-controls="social" aria-selected="false">
+          Social
+        </button>
+      </li>
+      
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="profile-settings-tab" data-bs-toggle="tab" data-bs-target="#settings-profile" type="button" role="tab" aria-controls="personal" aria-selected="true">
+          Settings
+        </button>
+      </li>
+  
+      <li class="profile-nav-item" role="presentation">
+        <button class="nav-link" id="profile-membership-tab" data-bs-toggle="tab" data-bs-target="#membership-profile" type="button" role="tab" aria-controls="membership" aria-selected="false">
+          Membership
+        </button>
+      </li>
+    </ul>
+  </div>
+  
+  
+  
+  
+    <div class="tab-content mt-4">
+      <div class="tab-pane fade" id="settings-profile-tab" role="tabpanel" aria-labelledby="profile-settings-tab">
+        <h3>Settings</h3>
+        <p>Update your Settings here.</p>
+  
+   <!-- Settings Tab -->
+      <form id="settings-profile">
+        <div class="mb-3">
+  
+          <div class="form-check mb-3">
+            <input type="checkbox" class="form-check-input" id="publicProfileSET-profile">
+            <label class="form-check-label" for="publicProfileSET-profile">Public Profile</label>
+          </div>
+          
+          <div class="mb-3">
+            <label for="tagsSET-profile">Tags <small class="text-muted">(Add a tag and press Enter)</small></label>
+            <div id="tagsContainertagsSET-profile">
+            <input type="text" class="form-control" id="tagsSET-profile" placeholder="(e.g., JavaScript, Management)">
+           </div>
+          </div>
+  
+        <div class="mb-3">
+       
+          
+        </div>
+  
+        </div>
+  
+      </form>
+        
+      
+      <div class="d-flex justify-content-between mt-4">
+          <button type="button" class="btn btn-primary" id="saveProfileBtn-profile">Save Changes</button>
+        </div>
+  
+      </div>
+  
+  
+  
+  
+      <div class="tab-pane fade show active" id="personal-profile" role="tabpanel" aria-labelledby="profile-personal-tab">
+        <h3>Personal Information</h3>
+        <p>Update your personal details here.</p>
+    <!-- Personal Tab -->
+      <form id="personalForm-profile">
+        <div class="mb-3">
+          <label for="usernameSET-profile" class="form-label">Username</label>
+          <input type="name" class="form-control" id="usernameSET-profile" placeholder="Your desired username">
+        </div>
+        <div class="mb-3">
+          <label for="emailSET-profile" class="form-label">Email</label>
+          <input type="email" class="form-control" id="emailSET-profile" disabled>
+        </div>
+        <div class="mb-3">
+          <label for="profilePictureSET-profile" class="form-label">Profile Picture</label>
+          <input type="file" class="form-control" id="profilePictureSET-profile">
+        </div>
+        <div class="mb-3">
+          <label for="nameSET-profile" class="form-label">Name</label>
+          <input type="name" class="form-control" id="nameSET-profile" placeholder="Your full name">
+        </div>
+  
+        <div class="mb-3">
+          <label for="phoneSET-profile" class="form-label">Phone</label>
+          <input type="tel" class="form-control" id="phoneSET-profile">
+        </div>
+  
+        <div class="mb-3" hidden>
+          <label for="dobSET-profile" class="form-label">DOB</label>
+          <input type="date" class="form-control" id="dobSET-profile">
+        </div>
+  
+        <div class="mb-3">
+          <label for="bioSET-profile" class="form-label">Bio</label>
+          <textarea class="form-control" id="bioSET-profile" rows="3" placeholder="Tell us about yourself"></textarea>
+        </div>
+        <div class="mb-3">
+          <label for="locationSET-profile" class="form-label">Location</label>
+          <input type="text" class="form-control" id="locationSET-profile" placeholder="Enter your city or state">
+        </div>
+   
+        <div class="mb-3">
+          <label for="positionSET-profile" class="form-label">Current Position</label>
+          <input type="text" class="form-control" id="positionSET-profile" placeholder="Your job title or current role">
+        </div>
+  
+      </form>
+    </div>
+  
+  
+  
+    
+      <div class="tab-pane fade" id="social-profile" role="tabpanel" aria-labelledby="profile-social-tab">
+        <h3>Social Profiles</h3>
+        <p>Manage your social media links here.</p>
+   <!-- Social Tab -->
+      <form id="socialForm-profile">
+        <div class="mb-3">
+          <label for="linkedinSET-profile" class="form-label">LinkedIn Profile</label>
+          <input type="url" class="form-control" id="linkedinSET-profile" placeholder="https://www.linkedin.com/in/yourprofile">
+        </div>
+        <div class="mb-3">
+          <label for="portfolioSET-profile" class="form-label">Portfolio</label>
+          <input type="url" class="form-control" id="portfolioSET-profile" placeholder="https://portfolio.com/yourprofile">
+        </div>
+        <div class="mb-3">
+          <label for="githubSET-profile" class="form-label">GitHub Profile</label>
+          <input type="url" class="form-control" id="githubSET-profile" placeholder="https://github.com/yourprofile">
+        </div>
+        <div class="mb-3">
+          <label for="otherSET-profile" class="form-label">Other Website</label>
+          <input type="url" class="form-control" id="otherSET-profile" placeholder="https://otherwebsite.com/yourprofile">
+        </div>
+      </form>
+    </div>
+  
+  
+      
+      <div class="tab-pane fade" id="membership-profile" role="tabpanel" aria-labelledby="profile-membership-tab">
+        <h3>Membership Details</h3>
+        <p>Check your membership information here.</p>
+  
+   <!-- Membership Tab -->
+      <form id="membershipForm-profile">
+        <div class="mb-3">
+          <label for="membershipTypeSET-profile" class="form-label">Membership Type</label>
+          <select class="form-select" id="membershipTypeSET-profile">
+            <option value="free">Free</option>
+            <option value="basic">Basic</option>
+            <option value="pro">Pro</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label for="membershipStatus-profile" class="form-label">Membership Status</label>
+          <input type="text" class="form-control" id="membershipStatus-profile" value="Active" disabled>
+        </div>
+        <div class="mb-3">
+          <label for="renewalDateSET-profile" class="form-label">Renewal Date</label>
+          <input type="time" class="form-control" id="renewalDateSET-profile" disabled>
+        </div>
+  
+        <div class="mb-3">
+          <label for="lastLogin-profile" class="form-label">lastLogin</label>
+          <input type="datetime" class="form-control" id="lastLogin-profile">
+        </div>
+        <div class="mb-3">
+          <label for="userID-profile" class="form-label">userID</label>
+          <input type="text" class="form-control" id="userID-profile" disabled>
+        </div>
+  
+      </form>
+  
+      
+      <div class="d-flex justify-content-between mt-4">
+          <button type="button" class="btn btn-danger" id="deactivateAccountBtn-profile">Deactivate Account</button>
+        </div>
+  
+      </div>
+  
+  
+  
+      
+    
+  
+  
+  </div>
+  
+                  
+                   
                 
-                  <script>document.addEventListener("DOMContentLoaded", () => {
-                    const tabs = document.querySelectorAll(".nav-link");
-                    const tabContents = document.querySelectorAll(".tab-pane");
                   
-                    tabs.forEach((tab) => {
-                      tab.addEventListener("click", (e) => {
-                        // Remove active class from all tabs
-                        tabs.forEach((t) => t.classList.remove("active"));
-                  
-                        // Hide all tab contents
-                        tabContents.forEach((content) => content.classList.remove("active", "show"));
-                  
-                        // Add active class to the clicked tab
-                        e.target.classList.add("active");
-                  
-                        // Show the corresponding tab content
-                        const target = document.querySelector(e.target.dataset.bsTarget);
-                        if (target) {
-                          target.classList.add("active", "show");
-                        }
+                    <script>document.addEventListener("DOMContentLoaded", () => {
+                      const tabs = document.querySelectorAll(".nav-link");
+                      const tabContents = document.querySelectorAll(".tab-pane");
+                    
+                      tabs.forEach((tab) => {
+                        tab.addEventListener("click", (e) => {
+                          // Remove active class from all tabs
+                          tabs.forEach((t) => t.classList.remove("active"));
+                    
+                          // Hide all tab contents
+                          tabContents.forEach((content) => content.classList.remove("active", "show"));
+                    
+                          // Add active class to the clicked tab
+                          e.target.classList.add("active");
+                    
+                          // Show the corresponding tab content
+                          const target = document.querySelector(e.target.dataset.bsTarget);
+                          if (target) {
+                            target.classList.add("active", "show");
+                          }
+                        });
                       });
                     });
-                  });
+                    
+  
+                    </script>
+               
                   
-
-                  </script>
-             
-                
-
-
-
-
-
-                <!-- Open Jobs Section -->
-                <div class="card mt-3">
-                    <div class="card-body">
-                        <h5>Open Jobs</h5>
-                        <ul id="open-jobs-list">
-                            <!-- Open jobs will be dynamically listed here -->
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- Blogs Section -->
-                <div class="card mt-3">
-                    <div class="card-body">
-                        <h5>Blogs</h5>
-                        <ul id="blogs-list">
-                            <!-- Blogs will be dynamically listed here -->
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- Companies Section -->
-                <div class="card mt-3">
-                    <div class="card-body">
-                        <h5>Companies</h5>
-                        <ul id="companies-list">
-                            <!-- Companies will be dynamically listed here -->
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-
-
-        </div>
-    </div>
-       
-
-<!-- Send Message Modal -->
-<div class="modal fade hide" id="sendMessageModal" tabindex="-1" aria-labelledby="sendMessageModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="sendMessageModalLabel">Send Message</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form id="sendMessageForm">
-                    <div class="form-group">
-                        <label for="message-content">Message</label>
-                        <textarea class="form-control" id="message-content" rows="4" required></textarea>
-                    </div>
-                    <input type="hidden" id="recipient-id" value="">
-                    <div class="form-group">
-                        <label for="message-attachments">Attachments</label>
-                        <input type="file" class="form-control-file" id="message-attachments">
-                    </div>
-                    <button type="submit" class="btn btn-primary">Send</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-</main>
+  
+  
+  
+  
+  
+                  <!-- Open Jobs Section -->
+                  <div class="card mt-3">
+                      <div class="card-body">
+                          <h5>Open Jobs</h5>
+                          <ul id="open-jobs-list">
+                              <!-- Open jobs will be dynamically listed here -->
+                          </ul>
+                      </div>
+                  </div>
+  
+                  <!-- Blogs Section -->
+                  <div class="card mt-3">
+                      <div class="card-body">
+                          <h5>Blogs</h5>
+                          <ul id="blogs-list">
+                              <!-- Blogs will be dynamically listed here -->
+                          </ul>
+                      </div>
+                  </div>
+  
+                  <!-- Companies Section -->
+                  <div class="card mt-3">
+                      <div class="card-body">
+                          <h5>Companies</h5>
+                          <ul id="companies-list">
+                              <!-- Companies will be dynamically listed here -->
+                          </ul>
+                      </div>
+                  </div>
+              </div>
+  
+  
+  
+          </div>
+      </div>
+         
+  
+  <!-- Send Message Modal -->
+  <div class="modal fade hide" id="sendMessageModal" tabindex="-1" aria-labelledby="sendMessageModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title" id="sendMessageModalLabel">Send Message</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                  </button>
+              </div>
+              <div class="modal-body">
+                  <form id="sendMessageForm">
+                      <div class="form-group">
+                          <label for="message-content">Message</label>
+                          <textarea class="form-control" id="message-content" rows="4" required></textarea>
+                      </div>
+                      <input type="hidden" id="recipient-id" value="">
+                      <div class="form-group">
+                          <label for="message-attachments">Attachments</label>
+                          <input type="file" class="form-control-file" id="message-attachments">
+                      </div>
+                      <button type="submit" class="btn btn-primary">Send</button>
+                  </form>
+              </div>
+          </div>
+      </div>
+  </div>
+  
+  </main>
 
 <div id="currentUserId" hidden></div>
 <div id="userPageId" hidden></div>
