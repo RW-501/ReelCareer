@@ -202,8 +202,8 @@ return encodedData;
 window.setUserData = setUserData;
 
 function getUserData(){
- // const encodedData = JSON.parse(localStorage.getItem('userData')) || [];
-  const encodedData = localStorage.getItem('userData') || [];
+  const encodedData = JSON.parse(localStorage.getItem('userData')) || [];
+ // const encodedData = localStorage.getItem('userData') || [];
   
   
   let decodedData;
