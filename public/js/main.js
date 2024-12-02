@@ -22,19 +22,17 @@ const saveUserLoginState = async (user) => {
 let jobArray = [], tagArray = [];
 
 const userDataSaved = JSON.parse(localStorage.getItem('userData')) || [];
-const userIP = JSON.parse(localStorage.getItem('userIP')) || [];
-   
+const userIP = sessionStorage.getItem('userIP') || "";
+
     let userTagInterest = JSON.parse(localStorage.getItem('userTagInterest')) || [];
 
     let userJobInterest = JSON.parse(localStorage.getItem('userJobInterest')) || [];
-    console.log(" User userTagInterest: ", userTagInterest);
-    console.log(" User userJobInterest: ", userJobInterest);
+    console.log(" User userIP: ", userIP);
 
+    
     const profilePic = document.getElementById('nav-bar-profilePic').src;
 
  
-    console.log(" User locationData.state: ", locationData.state);
-    console.log(" User locationData.city: ", locationData.city);
 
     if(userTagInterest.length == 0){
       userTagInterest = [
@@ -84,6 +82,9 @@ const userIP = JSON.parse(localStorage.getItem('userIP')) || [];
   console.log(" User tagArray: ", tagArray);
   console.log(" User jobArray: ", jobArray);
 
+  console.log(" userTagInterest: ", userTagInterest);
+  console.log(" userTagInterest: ", userTagInterest);
+
     const userData = {
       email: user.email || "Unknown",
       lastLogin: serverTimestamp(),
@@ -93,7 +94,6 @@ const userIP = JSON.parse(localStorage.getItem('userIP')) || [];
       phoneNumber: user.phoneNumber || '',
       profilePicture: user.photoURL || profilePic,
       membershipType: userDataSaved.membershipType || "free",
-      verified: user.membershipType || "Not Verified",
       membershipExpiry: userDataSaved.membershipExpiry || new Date(new Date().setDate(new Date().getDate() + 30)), // 30-day deadline
 
       membershipType: userDataSaved.membershipType || "Basic",
@@ -117,8 +117,11 @@ const userIP = JSON.parse(localStorage.getItem('userIP')) || [];
 
     const userDocRef = doc(db, "Users", user.uid);
     await setDoc(userDocRef, userData, { merge: true });
-    localStorage.setItem("userTagInterest", userTagInterest);
-    localStorage.setItem("userJobInterest", userJobInterest);
+    localStorage.setItem("userTagInterest1", userTagInterest);
+    localStorage.setItem("userJobInterest1", userJobInterest);
+
+    localStorage.setItem('userJobInterest', JSON.stringify(userJobInterest));
+    localStorage.setItem('userJobInterest', JSON.stringify(userJobInterest));
 
     localStorage.setItem("userData", userData);
     localStorage.setItem("userLoggedIn", "true");
