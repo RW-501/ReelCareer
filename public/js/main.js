@@ -13,23 +13,26 @@ import {
 // Function to encode user data
 const encodeUserData = (userData, secretKey = '') => {
   try {
-    let base64String;
     // Serialize user data to a JSON string
     const jsonString = JSON.stringify(userData);
-    if(jsonString) {
+    if (jsonString) {
       // Apply a Base64 encoding
-      base64String = btoa(jsonString);
+      let base64String = btoa(jsonString);
+      
+      // Optionally append a secret key for obfuscation
+      if (secretKey) {
+        base64String = btoa(base64String + secretKey);
+      }
+
+      return base64String;
     } else {
       return null;
     }
-    // Optionally append a secret key for basic obfuscation
-    return secretKey ? btoa(base64String + secretKey) : base64String;
   } catch (error) {
     console.error("Error encoding user data:", error);
     return null;
   }
 };
-
 window.encodeUserData = encodeUserData;
 
 // Function to decode user data
@@ -61,8 +64,7 @@ const decodeUserData = (encodedData, secretKey = '') => {
     console.log("Decoded Base64 after removing secret key: ", decodedBase64);
 
     // Parse the JSON string back into an object
-    const jsonString = decodedBase64;
-    const parsedData = JSON.parse(jsonString);
+    const parsedData = JSON.parse(decodedBase64);
 
     console.log("Parsed User Data: ", parsedData);
     return parsedData;
@@ -73,8 +75,15 @@ const decodeUserData = (encodedData, secretKey = '') => {
   }
 };
 
-
 window.decodeUserData = decodeUserData;
+
+
+
+
+
+
+
+
 
 // Function to update or create user information in Firestore
 const saveUserLoginState = async (user) => {
@@ -208,9 +217,19 @@ const userIP = sessionStorage.getItem('userIP') || "";
 
 };
 
+
+// Add padding to Base64 string if necessary
+const addBase64Padding = (base64String) => {
+  return base64String.length % 4 === 0 ? base64String : base64String + '='.repeat(4 - (base64String.length % 4));
+};
+
+
 function setUserData(userData){
 // Encode user data
-const encodedData = encodeUserData(userData, "WeThaBest");
+let encodedData = encodeUserData(userData, "WeThaBest");
+
+encodedData = addBase64Padding(encodedData);
+
 console.log("Encoded Data:", encodedData);
 
 return encodedData;
@@ -221,13 +240,26 @@ window.setUserData = setUserData;
 
 function getUserData(){
   //const encodedData = JSON.parse(localStorage.getItem('userData')) || [];
-  const encodedData = localStorage.getItem('userData') || [];
+  let encodedData = localStorage.getItem('userData') || [];
   
   
   let decodedData;
 if(encodedData){
+
+  encodedData = addBase64Padding(encodedData);
+
 // Decode user data
-const decodedData = decodeUserData(encodedData, "WeThaBest");
+let decodedBase64 = decodeUserData(encodedData, "WeThaBest");
+
+try {
+  decodedData = JSON.parse(decodedBase64);
+
+} catch (error) {
+  console.error("Error parsing JSON:", error);
+  return null;
+}
+
+
 console.log("Decoded Data:", decodedData);
 }else{
 
