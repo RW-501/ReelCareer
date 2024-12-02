@@ -502,7 +502,7 @@ function handleAuthStateChanged(user) {
     const userDataSaved = getUserData() || [];
 
 
-    console.log("profilePic:?  ", userDataSaved.profilePicture);
+    console.log("profilePic:?  ", userDataSaved);
 
     // If logged in, show profile info and logout button
     const userName = userDataSaved.displayName || "User";
