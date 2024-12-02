@@ -448,74 +448,61 @@ setTimeout(() => {
     container.appendChild(jobCard);
 }
 
-  // Function to show toast notifications
-// Function to show toast notifications
-function showToast(message, type) {
+ // Toast Notification Function
+function showToast(message, type = 'info', duration = 3000) {
+   
+  // Create a div for the toast
   const toast = document.createElement('div');
-  toast.className = `toast ${type} noCopy`; // Add classes for styling
-  toast.setAttribute('role', 'alert'); // Accessibility
-  toast.innerText = message;
-
-  // Add styles to the toast
+  
+  // Set inline styles for the toast
   toast.style.position = 'fixed';
-  toast.style.bottom = '20px';
-  toast.style.right = '20px';
-  toast.style.padding = '15px 20px';
-  toast.style.margin = '10px';
-  toast.style.borderRadius = '5px';
-  toast.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.2)';
-  toast.style.color = '#fff';
-  toast.style.zIndex = '9999999999999999';
-  toast.style.transition = 'opacity 0.5s ease-in-out';
-  toast.style.opacity = '1';
-
-  // Set background color based on the type of toast
+  toast.style.bottom = '20px'; // Position from the bottom
+  toast.style.left = '50%'; // Center horizontally
+  toast.style.transform = 'translateX(-50%)'; // Centering
+  toast.style.padding = '15px 20px'; // Padding for the toast
+  toast.style.borderRadius = '5px'; // Rounded corners
+  toast.style.color = 'white'; // Text color
+  toast.style.fontSize = '16px'; // Font size
+  toast.style.zIndex = '9999'; // Ensure it appears above other elements
+  toast.style.transition = 'opacity 0.5s ease'; // Fade transition
+  
+  // Set background color based on toast type
   switch (type) {
       case 'success':
-          toast.style.backgroundColor = '#28a745'; // Green
+          toast.style.backgroundColor = '#4CAF50'; // Green for success
           break;
       case 'error':
-          toast.style.backgroundColor = '#dc3545'; // Red
+          toast.style.backgroundColor = '#F44336'; // Red for error
           break;
       case 'info':
-          toast.style.backgroundColor = '#17a2b8'; // Blue
+          toast.style.backgroundColor = '#2196F3'; // Blue for info
           break;
       case 'warning':
-          toast.style.backgroundColor = '#ffc107'; // Yellow
+          toast.style.backgroundColor = '#FF9800'; // Orange for warning
           break;
       default:
-          toast.style.backgroundColor = '#6c757d'; // Default gray
+          toast.style.backgroundColor = '#2196F3'; // Default to info
   }
 
+ 
+
+  toast.className = `toast toast-${type}`; // Add classes for styling
+  toast.innerText = message; // Set the message text
+
+  // Append the toast to the body
   document.body.appendChild(toast);
 
-  // Fade out effect before removal
+  // Set a timer to remove the toast after the specified duration
   setTimeout(() => {
-      toast.style.opacity = '0'; // Start fade-out
-      setTimeout(() => toast.remove(), 500); // Remove after fade-out
-  }, 3000);
+      toast.classList.add('fade-out'); // Add fade-out effect
+      setTimeout(() => {
+          document.body.removeChild(toast); // Remove toast from DOM
+      }, 500); // Time to wait for fade-out animation
+  }, duration);
 }
 
-
-
-  function getUserDisplayName() {
-    // Retrieve user data from local storage
-    const storedUserData = localStorage.getItem("userData");
-  
-    if (storedUserData) {
-      // Parse the stored data
-      const userData =  getUserData();
-  
-      // Return the displayName if it exists
-      return userData.displayName || "No display name available"; // Fallback if displayName is not set
-    } else {
-      console.log("No user data found in local storage");
-      return "No user data available"; // Fallback if no user data exists
-    }
-  }
-
-
-  // Example usage
-  const userDisplayName = getUserDisplayName();
-  console.log("User Display Name:", userDisplayName);
-  
+// Example usage: Replace alerts with showToast
+// showToast('This is a success message!', 'success');
+// showToast('This is an error message!', 'error');
+// showToast('This is an info message!', 'info');
+// showToast('This is a warning message!', 'warning');

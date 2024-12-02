@@ -2047,3 +2047,24 @@ rollInAnimations({
 
 
 
+
+function getUserDisplayName() {
+  // Retrieve user data from local storage
+  const storedUserData = localStorage.getItem("userData");
+
+  if (storedUserData) {
+    // Parse the stored data
+    const userData =  getUserData();
+
+    // Return the displayName if it exists
+    return userData.displayName || "No display name available"; // Fallback if displayName is not set
+  } else {
+    console.log("No user data found in local storage");
+    return "No user data available"; // Fallback if no user data exists
+  }
+}
+
+
+// Example usage
+const userDisplayName = getUserDisplayName();
+console.log("User Display Name:", userDisplayName);
