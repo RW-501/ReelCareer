@@ -28,11 +28,14 @@ window.encodeUserData = encodeUserData;
 
 // Function to decode user data
 const decodeUserData = (encodedData, secretKey = '') => {
+  console.log(" User encodedData: ", encodedData);
+
   try {
       // Decode from Base64
       const decodedBase64 = atob(encodedData);
       // Remove the secret key if provided
       const jsonString = secretKey ? atob(decodedBase64).replace(secretKey, '') : decodedBase64;
+      console.log(" User jsonString: ", jsonString);
       // Parse the JSON string back into an object
       return JSON.parse(jsonString);
   } catch (error) {
@@ -185,7 +188,8 @@ return encodedData;
 window.setUserData = setUserData;
 
 function getUserData(){
-const encodedData = JSON.parse(localStorage.getItem('userData')) || [];
+ // const encodedData = JSON.parse(localStorage.getItem('userData')) || [];
+  const encodedData = localStorage.getItem('userData') || [];
 
 if(encodedData){
 // Decode user data
