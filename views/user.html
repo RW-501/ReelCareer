@@ -176,6 +176,8 @@
   <p class="text-muted">Keep your profile up to date to improve your visibility and networking opportunities.</p>
 
   <ul class="nav profile-nav-item" id="profileTab" role="tablist">
+
+
     <li class="nav-item" role="presentation">
       <button class="nav-link active" id="profile-personal-tab" data-bs-toggle="tab" data-bs-target="#personal-profile" type="button" role="tab" aria-controls="personal" aria-selected="true">
         Personal
@@ -186,6 +188,13 @@
         Social
       </button>
     </li>
+    
+    <li class="nav-item" role="presentation">
+      <button class="nav-link active" id="profile-settings-tab" data-bs-toggle="tab" data-bs-target="#settings-profile" type="button" role="tab" aria-controls="personal" aria-selected="true">
+        Settings
+      </button>
+    </li>
+
     <li class="profile-nav-item" role="presentation">
       <button class="nav-link" id="profile-membership-tab" data-bs-toggle="tab" data-bs-target="#membership-profile" type="button" role="tab" aria-controls="membership" aria-selected="false">
         Membership
@@ -194,6 +203,45 @@
   </ul>
 
   <div class="tab-content mt-4">
+    <div class="tab-pane fade" id="settings-profile" role="tabpanel" aria-labelledby="profile-settings-tab">
+      <h3>Settings</h3>
+      <p>Update your Settings here.</p>
+
+ <!-- Settings Tab -->
+    <form id="settings-profile">
+      <div class="mb-3">
+
+        <div class="form-check mb-3">
+          <input type="checkbox" class="form-check-input" id="publicProfileSET-profile">
+          <label class="form-check-label" for="publicProfileSET-profile">Public Profile</label>
+        </div>
+        
+        <div class="mb-3">
+          <label for="tagsSET-profile">Tags <small class="text-muted">(Add a tag and press Enter)</small></label>
+          <div id="tagsContainertagsSET-profile">
+          <input type="text" class="form-control" id="tagsSET-profile" placeholder="(e.g., JavaScript, Management)">
+         </div>
+        </div>
+
+      <div class="mb-3">
+     
+        
+      </div>
+
+      
+
+    </form>
+
+    
+    <div class="d-flex justify-content-between mt-4">
+        <button type="button" class="btn btn-primary" id="saveProfileBtn-profile">Save Changes</button>
+      </div>
+
+    </div>
+
+
+
+
     <div class="tab-pane fade show active" id="personal-profile" role="tabpanel" aria-labelledby="profile-personal-tab">
       <h3>Personal Information</h3>
       <p>Update your personal details here.</p>
@@ -234,21 +282,12 @@
         <label for="locationSET-profile" class="form-label">Location</label>
         <input type="text" class="form-control" id="locationSET-profile" placeholder="Enter your city or state">
       </div>
-      <div class="mb-3">
-        <label for="tagsSET-profile">Tags <small class="text-muted">(Add a tag and press Enter)</small></label>
-        <div id="tagsContainertagsSET-profile">
-        <input type="text" class="form-control" id="tagsSET-profile" placeholder="(e.g., JavaScript, Management)">
-       </div>
-       
-      </div>
+ 
       <div class="mb-3">
         <label for="positionSET-profile" class="form-label">Current Position</label>
         <input type="text" class="form-control" id="positionSET-profile" placeholder="Your job title or current role">
       </div>
-      <div class="form-check mb-3">
-        <input type="checkbox" class="form-check-input" id="publicProfileSET-profile">
-        <label class="form-check-label" for="publicProfileSET-profile">Public Profile</label>
-      </div>
+
     </form>
 
 
@@ -318,10 +357,12 @@
     
     <div class="d-flex justify-content-between mt-4">
         <button type="button" class="btn btn-danger" id="deactivateAccountBtn-profile">Deactivate Account</button>
-        <button type="button" class="btn btn-primary" id="saveProfileBtn-profile">Save Changes</button>
       </div>
 
     </div>
+
+
+
   </div>
   
 
