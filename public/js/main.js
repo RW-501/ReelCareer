@@ -83,7 +83,7 @@ const userIP = sessionStorage.getItem('userIP') || "";
   console.log(" User jobArray: ", jobArray);
 
   console.log(" userTagInterest: ", userTagInterest);
-  console.log(" userTagInterest: ", userTagInterest);
+  console.log(" userJobInterest: ", userJobInterest);
 
     const userData = {
       email: user.email || "Unknown",
