@@ -37,14 +37,15 @@
 
 
     <style>
-      .badge-info {
+    #verified-badge {
     color: #fff;
-    background-color: #17a2b8 !important;
-}
+    background-color:transparent;
 
-.badge-success {
+  }
+
+#membership-badge {
     color: #fff;
-    background-color: #28a745 !important;
+    background-color:transparent;
 }
 
 #profile-settings-header {
@@ -392,6 +393,7 @@ let unsavedChanges = false;
 const setUnsavedChanges = (isChanged) => {
     unsavedChanges = isChanged;
     document.getElementById('saveProfileBtn-profile').innerText= "Save Changes";
+    document.getElementById('saveProfileBtn-profile').style.display = "block";
 
 };
 
@@ -959,12 +961,16 @@ const generalTags = createTagInputSystem({
 
 // Trigger file input when `profilePic` is clicked
 document.getElementById('profilePic').addEventListener('click', () => {
+  console.log("profilePic clicked.");
+
   const userId = getUserId();
 
 const userPageId = document.getElementById('userPageId').innerText;
 
+console.log("userId   ",userId);
+console.log("userPageId   ",userPageId);
 
-  if (userId == userPageId) {
+  if (userId && !userPageId) {
     document.getElementById('profilePictureSET-profile').click();
   }else{
     showToast("View Profile picture");
@@ -1046,7 +1052,9 @@ document.getElementById('saveProfileBtn-profile').addEventListener('click', asyn
         setUserData(userData); // Optional: If you maintain state locally
         console.log("User data saved successfully!");
 
-        document.getElementById('saveProfileBtn-profile').innerText = "Saved";
+        
+        showMessageAndFadeBtn('saveProfileBtn-profile', "Saved");
+
         showToast("Your profile has been updated successfully.");
     } catch (error) {
         console.error("Error saving user data:", error.message);

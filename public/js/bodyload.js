@@ -506,3 +506,35 @@ function showToast(message, type = 'info', duration = 3000) {
 // showToast('This is an error message!', 'error');
 // showToast('This is an info message!', 'info');
 // showToast('This is a warning message!', 'warning');
+
+
+/**
+ * Function to show a "Saved" message and fade the button out after a specified delay
+ * @param {string} buttonId - The ID of the button element to update and hide
+ * @param {string} message - The message to display on the button
+ * @param {number} [delay=1000] - The delay (in milliseconds) before the fade effect starts (default is 1000ms)
+ */
+function showMessageAndFadeBtn(buttonId, message, delay = 1000) {
+  const btn = document.getElementById(buttonId);
+
+  if (!btn) {
+    console.error("Button with the specified ID not found.");
+    return;
+  }
+
+  // Set the text of the button to the provided message
+  btn.innerText = message;
+
+  // Apply delay before starting the fade-out effect
+  setTimeout(function() {
+    btn.style.transition = "opacity 1s"; // Apply smooth fade transition
+    btn.style.opacity = 0; // Fade the button out
+
+    // After the fade-out, hide the button completely
+    setTimeout(function() {
+      btn.style.display = "none";
+    }, 1000); // Wait for the fade-out effect to complete before hiding the button
+  }, delay); // Delay before starting the fade effect
+}
+
+window.showMessageAndFadeBtn = showMessageAndFadeBtn;
