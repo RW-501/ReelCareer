@@ -957,74 +957,105 @@ const generalTags = createTagInputSystem({
 
 
 
-
-document.getElementById('saveProfileBtn-profile').addEventListener('click', async () => {
     
 
-    // Create an array of website info
-const websitesSetup = [
-  { name: "LinkedIn", url: document.getElementById('linkedinSET-profile').value.trim() },
-  { name: "Other", url: document.getElementById('otherSET-profile').value.trim() },
-  { name: "GitHub", url: document.getElementById('githubSET-profile').value.trim() },
-  { name: "Portfolio", url: document.getElementById('portfolioSET-profile').value.trim() }
-];
+// Trigger file input when `profilePic` is clicked
+document.getElementById('profilePic').addEventListener('click', () => {
+  const userId = getUserId();
 
-// Optionally, you can filter out empty entries like this:
-const websites = websitesSetup.filter(site => site.url !== "");
-//let tag = element.value.split(",").map((tags) => tags.trim());
+const userPageId = document.getElementById('userPageId').innerText;
 
 
+  if (userId == userPageId) {
+    document.getElementById('profilePictureSET-profile').click();
+  }else{
+    showToast("View Profile picture");
+
+  }
+
+});
+
+// File handling logic
+document.getElementById('profilePictureSET-profile').addEventListener('change', async (event) => {
+    const file = event.target.files[0];
+
+    if (!file) {
+        console.log("No file selected.");
+        return;
+    }
+
+    try {
+        // Get user ID
+        const userId = getUserId();
+
+        // Firebase storage reference
+        const storage = getStorage();
+        const storageRef = ref(storage, `profilePictures/${userId}/${file.name}`);
+
+        // Upload file
+        const snapshot = await uploadBytes(storageRef, file);
+       // console.log("File uploaded successfully:", snapshot);
+
+        // Get the file's download URL
+        const fileUrl = await getDownloadURL(snapshot.ref);
+        console.log("File available at:", fileUrl);
+
+        // Save the file URL to Firestore
+        const userDocRef = doc(db, "Users", userId);
+        await setDoc(userDocRef, { profilePicture: fileUrl }, { merge: true });
+
+        showToast("Profile picture updated successfully!");
+    } catch (error) {
+        console.error("Error uploading file:", error.message);
+        showToast("There was an error updating your profile picture. Please try again later.");
+    }
+});
+
+// Save profile details with the "Save" button
+document.getElementById('saveProfileBtn-profile').addEventListener('click', async () => {
+    // Gather form data
+    const websitesSetup = [
+        { name: "LinkedIn", url: document.getElementById('linkedinSET-profile').value.trim() },
+        { name: "Other", url: document.getElementById('otherSET-profile').value.trim() },
+        { name: "GitHub", url: document.getElementById('githubSET-profile').value.trim() },
+        { name: "Portfolio", url: document.getElementById('portfolioSET-profile').value.trim() }
+    ];
+    const websites = websitesSetup.filter(site => site.url !== "");
 
     const userData = {
-      // Personal Information tab
-      displayName: document.getElementById('usernameSET-profile').value.trim(),
-
-      phone: document.getElementById('phoneSET-profile').value.trim(),
-      dob: document.getElementById('dobSET-profile').value.trim(),
-      name: document.getElementById('nameSET-profile').value.trim(),
-      bio: document.getElementById('bioSET-profile').value.trim(),
-      location: document.getElementById('locationSET-profile').value.trim(),
-      position: document.getElementById('positionSET-profile').value.trim(),
-      publicProfile: document.getElementById('publicProfileSET-profile').checked,
-
-
-      tags: document.getElementById('tagsList').textContent.trim().split(",").map((item) => item.toLowerCase().trim()),
-
-      // Social Profiles tab
-      linkedin: document.getElementById('linkedinSET-profile').value.trim(),
-      other: document.getElementById('otherSET-profile').value.trim(),
-      github: document.getElementById('githubSET-profile').value.trim(),
-      portfolio: document.getElementById('portfolioSET-profile').value.trim(),
-      websites: websites,
-
-
-// Membership Details tab
-      membershipType: document.getElementById('membershipTypeSET-profile').value.trim(),
-      membershipExpiry: document.getElementById('renewalDateSET-profile').value.trim(),
+        displayName: document.getElementById('usernameSET-profile').value.trim(),
+        phone: document.getElementById('phoneSET-profile').value.trim(),
+        dob: document.getElementById('dobSET-profile').value.trim(),
+        name: document.getElementById('nameSET-profile').value.trim(),
+        bio: document.getElementById('bioSET-profile').value.trim(),
+        location: document.getElementById('locationSET-profile').value.trim(),
+        position: document.getElementById('positionSET-profile').value.trim(),
+        publicProfile: document.getElementById('publicProfileSET-profile').checked,
+        tags: document.getElementById('tagsList').textContent.trim().split(",").map(item => item.toLowerCase().trim()),
+        linkedin: document.getElementById('linkedinSET-profile').value.trim(),
+        other: document.getElementById('otherSET-profile').value.trim(),
+        github: document.getElementById('githubSET-profile').value.trim(),
+        portfolio: document.getElementById('portfolioSET-profile').value.trim(),
+        websites: websites,
+        membershipType: document.getElementById('membershipTypeSET-profile').value.trim(),
+        membershipExpiry: document.getElementById('renewalDateSET-profile').value.trim(),
     };
 
     try {
+        const userDocRef = doc(db, "Users", getUserId());
+        await setDoc(userDocRef, userData, { merge: true });
 
-        
- // Create a reference to the user's document
- const userDocRef = doc(db, "Users", getUserId());
+        setUserData(userData); // Optional: If you maintain state locally
+        console.log("User data saved successfully!");
 
-// Update the user's document with merge: true
-await setDoc(userDocRef, userData, { merge: true });
+        document.getElementById('saveProfileBtn-profile').innerText = "Saved";
+        showToast("Your profile has been updated successfully.");
+    } catch (error) {
+        console.error("Error saving user data:", error.message);
+        showToast("There was an error updating your profile. Please try again later.");
+    }
+});
 
-setUserData(userData);
-
-console.log("User data saved successfully!");
-
-document.getElementById('saveProfileBtn-profile').innerText= "Saved";
-
-showToast("Your profile has been updated successfully.");
-} catch (error) {
-console.error("Error saving user data:", error.message);
-showToast("There was an error updating your profile. Please try again later.");
-}            
-                    });
-                
 
 
                     document.getElementById('deactivateAccountBtn-profile').addEventListener('click', async () => {
@@ -1193,7 +1224,7 @@ if (!profileData.tags || profileData.tags.length === 0) {
     // Directly use the tags array since it contains strings
     const tags = profileData.tags; // No need to map since they're already strings
     
-    console.log("tags: ", tags);
+   // console.log("tags: ", tags);
     document.getElementById('tagsSET-profile').value = profileData.tags || "";
 
 const tagsContainer = document.getElementById('tagsList');
@@ -1395,48 +1426,114 @@ profileData.tags.forEach(tag => {
 
 
 
-
         document.getElementById('connect-btn').addEventListener('click', async () => {
-          const userId = getUserId();
+    const userId = getUserId();
+    const urlParams = new URLSearchParams(window.location.search);
+    const userIdFromURL = urlParams.get('u');
+    const userDataSaved = getUserData() || {};
+    const profilePic = document.getElementById('profilePic')?.src;
 
-          const urlParams = new URLSearchParams(window.location.search);
-        const userIdFromURL = urlParams.get('u');
+    if (!userId || !userIdFromURL) {
+        showToast('User information is incomplete.');
+        return;
+    }
 
+    if (userId === userIdFromURL) {
+        showToast('You cannot connect with yourself.');
+        return;
+    }
 
-        const userDataSaved = getUserData() || [];
-        const profilePic = document.getElementById('profilePic').src;
+    const docId = userId < userIdFromURL 
+        ? `${userId}_${userIdFromURL}`
+        : `${userIdFromURL}_${userId}`;
+    const connectionRef = doc(db, 'Connections', docId);
 
+    const connectBtn = document.getElementById('connect-btn');
+    connectBtn.disabled = true;
+    connectBtn.innerText = 'Sending...';
 
-            if (userId !== userIdFromURL) {
-                const connectionRef = collection(db, 'Connections');
-                await addDoc(connectionRef, {
-                    from: userId,
-                    to: userIdFromURL,
-                    status: 'pending', // or 'accepted' based on your logic
-                    createdAt: new Date(),
-                    fromGroup: 'new',
-                    fromNote: '',
-                    fromName: userDataSaved.displayName,
-                    fromProfilePicture:  userDataSaved.profilePicture || profilePic,
-                    fromProfileURL: `https://reelcareer.co/views/user?u=${userId}`,
-                
-                
-                
-                  });
-                showToast('Connection request sent!');
-            } else {
-                showToast('You cannot connect with yourself.');
-            }
+    try {
+    
+
+        await setDoc(connectionRef, {
+            from: userId,
+            to: userIdFromURL,
+            status: 'pending',
+            createdAt: new Date(),
+            fromGroup: 'new',
+            fromNote: '',
+            fromName: userDataSaved.displayName,
+            fromProfilePicture: userDataSaved.profilePicture || profilePic,
+            fromProfileURL: `https://reelcareer.co/views/user?u=${userId}`
         });
+
+        connectBtn.innerText = 'Pending';
+        showToast('Connection request sent!');
+    } catch (error) {
+        console.error('Error sending connection request:', error);
+        connectBtn.innerText = 'Connect';
+        showToast('Error sending connection request. Please try again.');
+    } finally {
+        connectBtn.disabled = false;
+    }
+});
+
+document.addEventListener('DOMContentLoaded', async () => {
+    const userId = getUserId();
+    const urlParams = new URLSearchParams(window.location.search);
+    const userIdFromURL = urlParams.get('u');
+
+    if (!userId || !userIdFromURL || userId === userIdFromURL) {
+        return; // No need to check if the IDs are invalid or the user views their own profile
+    }
+
+    const docId = userId < userIdFromURL
+        ? `${userId}_${userIdFromURL}`
+        : `${userIdFromURL}_${userId}`;
+    const connectionRef = doc(db, 'Connections', docId);
+    const connectBtn = document.getElementById('connect-btn');
+
+    try {
+        const connectionDoc = await getDoc(connectionRef);
+        if (connectionDoc.exists()) {
+            const connectionData = connectionDoc.data();
+            if (connectionData.status === 'pending') {
+                connectBtn.innerText = 'Pending';
+                connectBtn.disabled = true; // Prevent further clicks
+            } else if (connectionData.status === 'connected') {
+                connectBtn.innerText = 'Connected';
+                connectBtn.disabled = true;
+            } else {
+                connectBtn.innerText = 'Connect';
+            }
+        } else {
+            connectBtn.innerText = 'Connect'; // Default state if no connection exists
+        }
+    } catch (error) {
+        console.error('Error fetching connection status:', error);
+        showToast('Failed to load connection status.');
+    }
+});
 
 
         document.getElementById('send-message-btn').addEventListener('click', function() {
           const urlParams = new URLSearchParams(window.location.search);
         const userIdFromURL = urlParams.get('u');
 
+        const userId = getUserId();
+
+        if (userId !== userIdFromURL) {
+
     // Set recipient ID from the profile data
     document.getElementById('recipient-id').value = userIdFromURL; // Assuming userIdFromURL is the recipient ID.
     $('#sendMessageModal').modal('show'); // Show the modal
+
+
+  } else {
+                showToast('You cannot Send send msg to yourself.');
+            }
+
+
 });
 
 
