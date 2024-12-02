@@ -18,6 +18,8 @@ const saveUserLoginState = async (user) => {
   try {
     console.log(" User info: ", user);
 
+    const userlocationData = sessionStorage.getItem('userLocation');
+    const locationArray = prepareLocationForFirebase(userlocationData);
 
     const userDataSaved = JSON.parse(localStorage.getItem('userData')) || [];
    
@@ -29,17 +31,19 @@ const saveUserLoginState = async (user) => {
 
     const profilePic = document.getElementById('nav-bar-profilePic').src;
 
-    const [ip, location] = await Promise.all([getUserIP(), getUserLocationByIP(await getUserIP())]);
-    console.log(" User location: ", location);
+    console.log(" User userlocationData: ", userlocationData);
+    console.log(" User locationArray: ", locationArray);
+    console.log(" User userlocationData.city: ", userlocationData.city);
+    console.log(" User locationArray.city: ", locationArray.city);
 
     if(tagArray.length == 0){
       userTagInterest = [
    {
-    tag: location.city,
+    tag: userlocationData.city,
     rank: 1
     }, {
       isLast: true,
-      tag: location.state,
+      tag: userlocationData.state,
       rank: 1
       }, {
         isLast: true,
@@ -56,11 +60,11 @@ const saveUserLoginState = async (user) => {
   if(jobArray.length == 0){
     userJobInterest =  [  {
       isLast: true,
-      job: location.city,
+      job: userlocationData.city,
       rank: 1
       }, {
         isLast: true,
-        job: location.state,
+        job: userlocationData.state,
         rank: 1
         }, {
           isLast: true,
@@ -87,7 +91,7 @@ const saveUserLoginState = async (user) => {
       userID: user.uid || "",
       verified: user.emailVerified || false,
       phoneNumber: user.phoneNumber || '',
-      profilePicture: user.profilePicture || profilePic,
+      profilePicture: user.photoURL || profilePic,
       membershipType: userDataSaved.membershipType || "free",
       verified: user.membershipType || "Not Verified",
       membershipExpiry: userDataSaved.membershipExpiry || new Date(new Date().setDate(new Date().getDate() + 30)), // 30-day deadline
@@ -109,7 +113,7 @@ const saveUserLoginState = async (user) => {
 
     console.log(" User userData: ", userData);
 
-    return;
+ 
 
     const userDocRef = doc(db, "Users", user.uid);
     await setDoc(userDocRef, userData, { merge: true });
@@ -1382,7 +1386,6 @@ window.userLocationService = function() {
         getUserIPAndLocation
     };
 }();
-
 
 
 // Function to set the last internal page
