@@ -419,9 +419,7 @@ const trackAllFormsWithExitWarning = () => {
     });
 };
 
-document.addEventListener('DOMContentLoaded', () => {
-    trackAllForms();
-});
+
 
 
 document.addEventListener('DOMContentLoaded', trackAllFormsWithExitWarning);
@@ -471,7 +469,7 @@ document.addEventListener('DOMContentLoaded', trackAllFormsWithExitWarning);
                   </div>
   
                   <!-- Blogs Section -->
-                  <div class="card mt-3">
+                  <div class="card mt-3" hidden>
                       <div class="card-body">
                           <h5>Blogs</h5>
                           <ul id="blogs-list">
@@ -481,7 +479,7 @@ document.addEventListener('DOMContentLoaded', trackAllFormsWithExitWarning);
                   </div>
   
                   <!-- Companies Section -->
-                  <div class="card mt-3">
+                  <div class="card mt-3" hidden>
                       <div class="card-body">
                           <h5>Companies</h5>
                           <ul id="companies-list">
@@ -794,8 +792,8 @@ document.getElementById('view-messages-btn').style.display = 'none';
                     } else {
                         await loadUserData(userData); // Load user data if public
                         await loadUserJobs(userData);
-                        await loadUserBlogs(userIdFromURL);
-                        await loadUserCompanies(userIdFromURL);
+                      //  await loadUserBlogs(userIdFromURL);
+                       // await loadUserCompanies(userIdFromURL);
                         await loadUserVideoResumes(userData);
                         await loadSocialMedia(userData);
                     }

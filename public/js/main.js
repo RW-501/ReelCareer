@@ -14,49 +14,65 @@ import {
 const encodeUserData = (userData, secretKey = '') => {
   try {
     let base64String;
-      // Serialize user data to a JSON string
-      const jsonString = JSON.stringify(userData);
-      if(jsonString){
+    // Serialize user data to a JSON string
+    const jsonString = JSON.stringify(userData);
+    if(jsonString) {
       // Apply a Base64 encoding
-       base64String = btoa(jsonString);
-      }else{
-        return null;
-      }
-      // Optionally append a secret key for basic obfuscation
-      return secretKey ? btoa(base64String + secretKey) : base64String;
-  } catch (error) {
-      console.error("Error encoding user data:", error);
+      base64String = btoa(jsonString);
+    } else {
       return null;
+    }
+    // Optionally append a secret key for basic obfuscation
+    return secretKey ? btoa(base64String + secretKey) : base64String;
+  } catch (error) {
+    console.error("Error encoding user data:", error);
+    return null;
   }
 };
+
 window.encodeUserData = encodeUserData;
 
 // Function to decode user data
 const decodeUserData = (encodedData, secretKey = '') => {
-  console.log(" User encodedData: ", encodedData);
+  console.log("User encodedData: ", encodedData);
 
   try {
-
-    let decodedBase64;
-
-    if(encodedData){
-    // Decode from Base64
-     decodedBase64 = atob(encodedData);
-      }else{
-        return null;
-      }
-  
-      // Remove the secret key if provided
-      const jsonString = secretKey ? atob(decodedBase64).replace(secretKey, '') : decodedBase64;
-      console.log(" User jsonString: ", jsonString);
-      
-      // Parse the JSON string back into an object
-      return JSON.parse(jsonString);
-  } catch (error) {
-      console.error("Error decoding user data:", error);
+    if (!encodedData) {
+      console.error("Error: No encoded data provided");
       return null;
+    }
+
+    // Ensure the data is Base64 valid before attempting to decode
+    const base64Regex = /^[A-Za-z0-9+/=]+$/;
+    if (!base64Regex.test(encodedData)) {
+      console.error("Error: Encoded data is not valid Base64");
+      return null;
+    }
+
+    // Decode from Base64
+    let decodedBase64 = atob(encodedData);
+    console.log("Decoded Base64: ", decodedBase64);
+
+    // Remove the secret key if provided (only if the secret key is found)
+    if (secretKey && decodedBase64.endsWith(secretKey)) {
+      decodedBase64 = decodedBase64.slice(0, -secretKey.length);
+    }
+
+    console.log("Decoded Base64 after removing secret key: ", decodedBase64);
+
+    // Parse the JSON string back into an object
+    const jsonString = decodedBase64;
+    const parsedData = JSON.parse(jsonString);
+
+    console.log("Parsed User Data: ", parsedData);
+    return parsedData;
+
+  } catch (error) {
+    console.error("Error decoding user data:", error);
+    return null;
   }
 };
+
 
 window.decodeUserData = decodeUserData;
 
