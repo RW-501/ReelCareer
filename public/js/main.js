@@ -13,15 +13,20 @@ import {
 // Function to encode user data
 const encodeUserData = (userData, secretKey = '') => {
   try {
+    console.log("secretKey: ", secretKey);
+
     // Serialize user data to a JSON string
     const jsonString = JSON.stringify(userData);
     if (!jsonString) {
       console.error("Error: User data is empty or invalid");
       return null;
     }
+    console.log("userData User Data: ", userData);
+    console.log("jsonString Data: ", jsonString);
 
     // Base64 encode the JSON string
     let base64String = btoa(jsonString);
+    console.log("base64String Data: ", base64String);
 
     // Optionally append a secret key for obfuscation
     if (secretKey) {
@@ -41,6 +46,9 @@ window.encodeUserData = encodeUserData;
 // Function to decode user data
 function decodeUserData(encodedData) {
   try {
+
+    console.log("encodedData: ", encodedData);
+
       // Decode Base64
       const base64Decoded = atob(encodedData);
       console.log("Decoded Base64: ", base64Decoded);
