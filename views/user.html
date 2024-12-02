@@ -1117,7 +1117,7 @@ if (profileData) {
 }
 
 
-            document.getElementById('profilePic').src = userData.profilePicture ? profileData.profilePic : '/images/sq_logo_n_BG_sm.png';
+            document.getElementById('profilePic').src = profileData.profilePicture ? profileData.profilePic : '/images/sq_logo_n_BG_sm.png';
             document.getElementById('user-name').innerText = profileData.displayName || 'User Name';
             document.getElementById('user-bio').innerText = profileData.bio || 'This is a short bio about the user...';
             document.getElementById('location-text').innerText = profileData.location || ` ${userDataSaved.city},  ${userDataSaved.state}`;
