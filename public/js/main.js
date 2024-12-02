@@ -471,7 +471,7 @@ const applySmoothTransitions = () => {
   const styles = document.createElement('style');
   styles.innerHTML = `
     #login-popup {
-      animation: fadeIn 0.3s ease-in-out;
+      animation: fadeIn 1s ease-in-out;
     }
     @keyframes fadeIn {
       from { opacity: 0; }
@@ -496,10 +496,10 @@ window.addEventListener('load', () => {
 // Helper function to handle authentication state changes
 function handleAuthStateChanged(user) {
   const authSection = document.getElementById("authSection");
-  const jobSeekerNavItem = document.getElementById("jobSeekerNavItem");
-  const recruiterNavItem = document.getElementById("recruiterNavItem");
 
   if (user) {
+    console.log("profilePic:?  ", user);
+
     // If logged in, show profile info and logout button
     const userName = user.displayName || "User";
     const userPhoto = user.profilePic ? 
@@ -523,13 +523,11 @@ function handleAuthStateChanged(user) {
       </div>`;
     
       // Display Job Seeker and Recruiter links
-    jobSeekerNavItem.style.display = "block";
-    recruiterNavItem.style.display = "block";
+
     document.getElementById("logoutButton").onclick = logoutUser;
   } else {
     // If not logged in, show login button
-    jobSeekerNavItem.style.display = "none";
-    recruiterNavItem.style.display = "none";
+
     authSection.innerHTML = `<button class="btn btn-primary" id="loginButton">Login / Create Account</button>`;
 
     document.getElementById("loginButton").onclick = () => {
