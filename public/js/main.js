@@ -21,7 +21,8 @@ const saveUserLoginState = async (user) => {
  
 let jobArray = [], tagArray = [];
 
-    const userDataSaved = JSON.parse(localStorage.getItem('userData')) || [];
+const userDataSaved = JSON.parse(localStorage.getItem('userData')) || [];
+const userIP = JSON.parse(localStorage.getItem('userIP')) || [];
    
     let userTagInterest = JSON.parse(localStorage.getItem('userTagInterest')) || [];
 
@@ -86,7 +87,7 @@ let jobArray = [], tagArray = [];
     const userData = {
       email: user.email || "Unknown",
       lastLogin: serverTimestamp(),
-      ipAddress: ip || "",
+      ipAddress: userIP || "",
       userID: user.uid || "",
       verified: user.emailVerified || false,
       phoneNumber: user.phoneNumber || '',
