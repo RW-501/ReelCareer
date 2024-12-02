@@ -1079,11 +1079,12 @@ document.getElementById('profilePic').addEventListener('click', async () => {
   try {
     const userId = await getUserId(); // Await if getUserId is asynchronous
     const userPageId = document.getElementById('userPageId').innerText;
+    const userDataSaved = getUserData() || [];
 
-    console.log("userId:", userId);
+    console.log("userId:", userDataSaved.userID);
     console.log("userPageId:", userPageId);
 
-    if (userId && !userPageId) {
+    if (userDataSaved.userID && !userPageId) {
       document.getElementById('profilePictureSET-profile').click();
     } else {
       showToast("View Profile Picture");
@@ -1107,10 +1108,11 @@ document.getElementById('profilePictureSET-profile').addEventListener('change', 
     try {
         // Get user ID
         const userId = await getUserId(); // Await if getUserId is asynchronous
+        const userDataSaved = getUserData() || [];
 
         // Firebase storage reference
         const storage = getStorage();
-        const storageRef = ref(storage, `profilePictures/${userId}/${file.name}`);
+        const storageRef = ref(storage, `profilePictures/${userDataSaved.userID}/${file.name}`);
 
         // Upload file
         const snapshot = await uploadBytes(storageRef, file);
@@ -1119,9 +1121,9 @@ document.getElementById('profilePictureSET-profile').addEventListener('change', 
         // Get the file's download URL
         const fileUrl = await getDownloadURL(snapshot.ref);
         console.log("File available at:", fileUrl);
-
+        document.getElementById('profilePic').src = fileUrl;
         // Save the file URL to Firestore
-        const userDocRef = doc(db, "Users", userId);
+        const userDocRef = doc(db, "Users",  userDataSaved.userID);
         await setDoc(userDocRef, { profilePicture: fileUrl }, { merge: true });
 
         showToast("Profile picture updated successfully!");
@@ -1167,7 +1169,10 @@ const tags = tagsText ? tagsText.split(",").map(item => item.toLowerCase().trim(
     console.log("User Data:", userData);
 
     try {
-        const userDocRef = doc(db, "Users", getUserId());
+
+      const userDataSaved = getUserData() || [];
+
+        const userDocRef = doc(db, "Users", userDataSaved.userID);
         await setDoc(userDocRef, userData, { merge: true });
 
         setUserData(userData); // Optional: If you maintain state locally
@@ -1186,7 +1191,9 @@ const tags = tagsText ? tagsText.split(",").map(item => item.toLowerCase().trim(
 
 
                     document.getElementById('deactivateAccountBtn-profile').addEventListener('click', async () => {
-  const userDocRef = doc(db, 'Users', getUserId());
+                      const userDataSaved = getUserData() || [];
+
+  const userDocRef = doc(db, 'Users', userDataSaved.userID);
 
   try {
     // Check if user ID is valid
@@ -1674,50 +1681,6 @@ function updateButtonState(button, text, disable = false) {
     button.disabled = disable;
 }
 
-
-document.getElementById('connect-btn').addEventListener('click', async () => {
-    try {
-        const userId = await getUserId();  // Await the promise to get the actual userId
-        const urlParams = new URLSearchParams(window.location.search);
-        const userIdFromURL = urlParams.get('u');
-
-        if (!userId || !userIdFromURL || userId === userIdFromURL) {
-            showToast('Invalid operation.');
-            return;
-        }
-
-        const docId = userId < userIdFromURL
-            ? `${userId}_${userIdFromURL}`
-            : `${userIdFromURL}_${userId}`;
-
-        const connectionRef = doc(db, 'Connections', docId);
-
-        const connectBtn = document.getElementById('connect-btn');
-        connectBtn.disabled = true;
-        connectBtn.innerText = 'Sending...';
-
-        await setDoc(connectionRef, {
-            from: userId,
-            to: userIdFromURL,
-            status: 'pending',
-            createdAt: new Date(),
-            fromGroup: 'new',
-            fromNote: '',
-            fromName: getUserData()?.displayName,
-            fromProfilePicture: document.getElementById('profilePic')?.src || '',
-            fromProfileURL: `https://reelcareer.co/views/user?u=${userId}`
-        });
-
-        connectBtn.innerText = 'Pending';
-        showToast('Connection request sent!');
-    } catch (error) {
-        console.error('Error sending connection request:', error);
-        connectBtn.innerText = 'Connect';
-        showToast('Failed to send connection request.');
-    } finally {
-        connectBtn.disabled = false;
-    }
-});
 
 
 // Send Message Button Handler
