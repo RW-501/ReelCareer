@@ -58,16 +58,23 @@ const decodeUserData = (encodedData, secretKey = '') => {
     let jsonString = atob(base64String);
     console.log("Decoded Base64 String: ", jsonString);
 
-    // Parse the JSON string back into an object
-    const userData = JSON.parse(jsonString);
-    console.log("Decoded User Data: ", userData);
+    // Check if the decoded string is valid JSON
+    try {
+      const userData = JSON.parse(jsonString);
+      console.log("Decoded User Data: ", userData);
+      return userData;
+    } catch (jsonError) {
+      console.error("Error parsing JSON:", jsonError);
+      console.log("Decoded Base64 String is not valid JSON:", jsonString);
+      return null;
+    }
 
-    return userData;
   } catch (error) {
     console.error("Error decoding user data:", error);
     return null;
   }
 };
+
 
 window.decodeUserData = decodeUserData;
 
@@ -239,31 +246,37 @@ function setUserData(userData) {
 window.setUserData = setUserData;
 
 function getUserData() {
-  // Retrieve encoded data from localStorage
-  let encodedData = localStorage.getItem(LOCAL_STORAGE_KEY);
-  if (!encodedData) {
-    console.warn("No data found in localStorage.");
-    return null;
-  }
-
-  encodedData = addBase64Padding(encodedData);
-
-  // Decode user data
   try {
-    const decodedBase64 = decodeUserData(encodedData, "WeThaBest");
-    console.log("decodedBase64:", decodedBase64);
+    const encodedData = localStorage.getItem(LOCAL_STORAGE_KEY);
+    if (!encodedData) {
+      console.error("No data found in localStorage");
+      return null;
+    }
 
-    const decodedData = JSON.parse(decodedBase64);
+    // Remove the secret key if it's appended (you need to know how the secret key was appended)
+    const secretKey = "WeThaBest"; // Your secret key used during encoding
+    const decodedString = atob(encodedData); // Decode base64 first
 
-    console.log("Decoded Data:", decodedData);
-    return decodedData;
+    // Remove the secret key part (if it was added during encoding)
+    const base64WithoutSecretKey = decodedString.replace(secretKey, "");
+    console.log("Decoded Base64 String without Secret Key:", base64WithoutSecretKey);
+
+    // Now decode the base64 string without the secret key
+    const jsonString = atob(base64WithoutSecretKey);
+
+    // Parse the JSON string
+    const userData = JSON.parse(jsonString);
+    console.log("Decoded User Data:", userData);
+    return userData;
   } catch (error) {
-    console.error("Error decoding or parsing user data:", error);
+    console.error("Error decoding user data:", error);
     return null;
   }
 }
 
 window.getUserData = getUserData;
+
+
 
 
 
