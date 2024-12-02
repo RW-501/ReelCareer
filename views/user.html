@@ -557,20 +557,20 @@ let mainContainer = document.getElementById('main-content');
 
     // Add a title to the card
     const title = document.createElement('h3');
-    title.textContent = 'User Data Not Found';
+    title.textContent = 'User Not Found Create A Profile';
     title.style.marginBottom = '15px';
     card.appendChild(title);
 
     // Add a message inside the card
     const message = document.createElement('p');
-    message.textContent = 'The requested user data could not be found.';
+    message.textContent = 'The requested user could not be found.';
     message.style.marginBottom = '20px';
     card.appendChild(message);
 
     // Create a "Go Back" button
     const goBackButton = document.createElement('button');
     goBackButton.textContent = 'Go Back';
-    goBackButton.className = 'btn btn-primary'; // Assuming Bootstrap classes, if used
+    goBackButton.className = 'btn btn-primary ml-1'; // Assuming Bootstrap classes, if used
     goBackButton.style.padding = '10px 20px';
     
     // Add an event listener to navigate back
@@ -583,7 +583,7 @@ let mainContainer = document.getElementById('main-content');
     // Create a "Login" button
     const loginButton = document.createElement('button');
     loginButton.textContent = 'Go to Login Page';
-    loginButton.className = 'btn btn-primary'; // Assuming Bootstrap classes, if used
+    loginButton.className = 'btn btn-primary mr-1'; // Assuming Bootstrap classes, if used
     loginButton.style.padding = '10px 20px';
 
     // Add an event listener to redirect to the login page
