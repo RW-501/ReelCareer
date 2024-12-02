@@ -386,6 +386,29 @@
                 
                   
                     <script>
+const trackFormChanges = (formId, onChangeCallback) => {
+    const formElement = document.getElementById(formId);
+    if (!formElement) {
+        console.error(`Form with ID "${formId}" not found.`);
+        return;
+    }
+
+    // Initial state of the form
+    const initialState = Array.from(new FormData(formElement).entries());
+
+    // Event listener for inputs
+    const handleChange = () => {
+        const currentState = Array.from(new FormData(formElement).entries());
+        const isChanged = JSON.stringify(initialState) !== JSON.stringify(currentState);
+        onChangeCallback(isChanged, formId);
+    };
+
+    // Attach listeners to all input, textarea, and select elements
+    formElement.querySelectorAll('input, textarea, select').forEach((input) => {
+        input.addEventListener('input', handleChange);
+        input.addEventListener('change', handleChange);
+    });
+};
 
                     
 let unsavedChanges = false;
