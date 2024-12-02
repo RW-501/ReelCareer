@@ -43,7 +43,7 @@ function decodeUserData(encodedData) {
   try {
       // Decode Base64
       const base64Decoded = atob(encodedData);
-      console.log("Decoded Base64: ", decodedBase64);
+      console.log("Decoded Base64: ", base64Decoded);
 
       // Remove secret key or any appended string (adjust logic as needed)
       const jsonString = base64Decoded.replace('WeThaBest', '');
