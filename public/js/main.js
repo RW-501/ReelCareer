@@ -19,7 +19,7 @@ const saveUserLoginState = async (user) => {
     console.log(" User info: ", user);
 
  
-let jobArray, tagArray;
+let jobArray = [], tagArray = [];
 
     const userDataSaved = JSON.parse(localStorage.getItem('userData')) || [];
    
@@ -35,7 +35,7 @@ let jobArray, tagArray;
     console.log(" User locationData.state: ", locationData.state);
     console.log(" User locationData.city: ", locationData.city);
 
-    if(tagArray.length == 0){
+    if(userTagInterest.length == 0){
       userTagInterest = [
    {
     tag: locationData.city,
@@ -56,7 +56,7 @@ let jobArray, tagArray;
   ];
   }
 
-  if(jobArray.length == 0){
+  if(userJobInterest.length == 0){
     userJobInterest =  [  {
       isLast: true,
       job: locationData.city,
