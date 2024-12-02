@@ -210,7 +210,7 @@ const userIP = sessionStorage.getItem('userIP') || "";
 
 function setUserData(userData){
 // Encode user data
-const encodedData = encodeUserData(userData, "WeTheBest");
+const encodedData = encodeUserData(userData, "WeThaBest");
 console.log("Encoded Data:", encodedData);
 
 return encodedData;
@@ -220,14 +220,14 @@ window.setUserData = setUserData;
 
 
 function getUserData(){
-  const encodedData = JSON.parse(localStorage.getItem('userData')) || [];
- // const encodedData = localStorage.getItem('userData') || [];
+  //const encodedData = JSON.parse(localStorage.getItem('userData')) || [];
+  const encodedData = localStorage.getItem('userData') || [];
   
   
   let decodedData;
 if(encodedData){
 // Decode user data
-const decodedData = decodeUserData(encodedData, "WeTheBest");
+const decodedData = decodeUserData(encodedData, "WeThaBest");
 console.log("Decoded Data:", decodedData);
 }else{
 
