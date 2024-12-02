@@ -1081,7 +1081,8 @@ if (profileData) {
             const membership = profileData.membershipType || "free";
             console.log("membership: ", membership);
             console.log("verified: ", verified);
-
+            loadMembershipBadge(membership);
+            loadVerifiedBadge(verified);
 
 // Check if the tags array is defined and has elements
 if (!profileData.tags || profileData.tags.length === 0) {
