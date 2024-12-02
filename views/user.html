@@ -1035,7 +1035,7 @@ if (profileData) {
       
   const userlocationData = sessionStorage.getItem('userLocation');
 
-const userDataSaved = JSON.parse(localStorage.getItem('userData')) || [];
+  const userDataSaved = JSON.parse(localStorage.getItem('userData')) || [];
 
   // Populate the Personal Information tab
   document.getElementById('usernameSET-profile').value = userData.displayName || "";

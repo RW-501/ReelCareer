@@ -118,7 +118,7 @@ const userIP = sessionStorage.getItem('userIP') || "";
     await setDoc(userDocRef, userData, { merge: true });
 
     
-    localStorage.setItem('userTagInterest', JSON.stringify(userData));
+    localStorage.setItem('userData', JSON.stringify(userData));
 
     localStorage.setItem('userJobInterest', JSON.stringify(userJobInterest));
     localStorage.setItem('userTagInterest', JSON.stringify(userTagInterest));
