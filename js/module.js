@@ -119,7 +119,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
       userId = null;
 
-      updateNavVisibility(null);
   
       localStorage.setItem('userLoggedIn', false);
 

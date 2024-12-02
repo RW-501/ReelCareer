@@ -1933,25 +1933,8 @@ function initializeAutoLogout() {
 window.initializeAutoLogout = initializeAutoLogout;
 
 
-  // Function to update navigation visibility based on user role
-  function updateNavVisibility(user) {
-    const jobSeekerNavItem = document.getElementById("jobSeekerNavItem");
-    const recruiterNavItem = document.getElementById("recruiterNavItem");
+ 
 
-    if (user) {
-      // Display items based on user roles
-      jobSeekerNavItem.style.display =
-        user.role === "jobSeeker" ? "block" : "none";
-      recruiterNavItem.style.display =
-        user.role === "recruiter" ? "block" : "none";
-    } else {
-      // Hide both items if not logged in
-      jobSeekerNavItem.style.display = "none";
-      recruiterNavItem.style.display = "none";
-    }
-  }
-
-  window.updateNavVisibility = updateNavVisibility;
 // Initialization
 document.addEventListener('DOMContentLoaded', () => {
  
