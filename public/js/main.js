@@ -201,7 +201,8 @@ const userIP = sessionStorage.getItem('userIP') || "";
 
  userData = setUserData(userData);
 
-    localStorage.setItem('userData', JSON.stringify(userData));
+ localStorage.setItem('userData', userData);
+//  localStorage.setItem('userData', JSON.stringify(userData));
 
     localStorage.setItem('userJobInterest', JSON.stringify(userJobInterest));
     localStorage.setItem('userTagInterest', JSON.stringify(userTagInterest));
