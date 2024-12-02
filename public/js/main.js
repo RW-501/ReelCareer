@@ -132,7 +132,7 @@ const userIP = sessionStorage.getItem('userIP') || "";
  // console.log(" userTagInterest: ", userTagInterest);
  // console.log(" userJobInterest: ", userJobInterest);
 
-    const userData = {
+    let userData = {
       email: user.email || "Unknown",
       lastLogin: serverTimestamp(),
       ipAddress: userIP || "",
