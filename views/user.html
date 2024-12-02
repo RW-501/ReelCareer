@@ -35,6 +35,25 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="https://reelcareer.co/public/css/styles.css">
 
+
+    <style>
+      .badge-info {
+    color: #fff;
+    background-color: #17a2b8 !important;
+}
+
+.badge-success {
+    color: #fff;
+    background-color: #28a745 !important;
+}
+
+#profile-settings-header {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: space-between;
+}
+    </style>
 </head>
 
 
@@ -140,7 +159,7 @@
                           <ul id="video-resume-list">
                               <!-- Video resume files will be dynamically listed here -->
                           </ul>
-                          <button class="btn btn-primary btn-block" onclick="location.href='dashboard.html'">Edit Video Resumes</button>
+                          <button class="btn btn-primary btn-block" onclick="location.href='https://reelcareer.co/views/user?.html'">Edit Video Resumes</button>
                       </div>
                   </div>               
               </div>       
@@ -157,7 +176,12 @@
   
   
   <div id="profileSettingsMain"  class="container">
+
+    <div id="profile-settings-header">
     <h1 class="mb-4">Profile Settings</h1>
+    <button type="button" class="btn btn-primary" id="saveProfileBtn-profile">Save Changes</button>
+  </div>
+
     <p class="text-muted">Keep your profile up to date to improve your visibility and networking opportunities.</p>
   
     <ul class="nav profile-nav-item" id="profileTab" role="tablist">
@@ -192,12 +216,12 @@
   
   
     <div class="tab-content mt-4">
-      <div class="tab-pane fade" id="settings-profile-tab" role="tabpanel" aria-labelledby="profile-settings-tab">
+      <div class="tab-pane fade" id="settings-profile" role="tabpanel" aria-labelledby="profile-settings-tab">
         <h3>Settings</h3>
         <p>Update your Settings here.</p>
   
    <!-- Settings Tab -->
-      <form id="settings-profile">
+      <form id="personalForm-profile">
         <div class="mb-3">
   
           <div class="form-check mb-3">
