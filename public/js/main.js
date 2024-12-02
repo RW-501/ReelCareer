@@ -187,9 +187,14 @@ window.setUserData = setUserData;
 function getUserData(){
 const encodedData = JSON.parse(localStorage.getItem('userData')) || [];
 
+if(encodedData){
 // Decode user data
 const decodedData = decodeUserData(encodedData, "WeTheBest");
 console.log("Decoded Data:", decodedData);
+}else{
+
+  return null;
+}
 
 return decodedData;
 }
