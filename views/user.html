@@ -881,7 +881,7 @@ let tag = element.value.split(",").map((tags) => tags.trim());
     const userData = {
       // Personal Information tab
       displayName: document.getElementById('usernameSET-profile').value.trim(),
-     // email: document.getElementById('emailSET-profile').value.trim(),
+
       phone: document.getElementById('phoneSET-profile').value.trim(),
       dob: document.getElementById('dobSET-profile').value.trim(),
       name: document.getElementById('nameSET-profile').value.trim(),
@@ -914,6 +914,9 @@ let tag = element.value.split(",").map((tags) => tags.trim());
 
 // Update the user's document with merge: true
 await setDoc(userDocRef, userData, { merge: true });
+
+setUserData(userData);
+
 console.log("User data saved successfully!");
 showToast("Your profile has been updated successfully.");
 } catch (error) {
