@@ -263,25 +263,21 @@ window.showLoginPopup = showLoginPopup;
 
 
 
-// Function to logout the user
 async function logoutUser() {
   try {
-    await firebase.auth().signOut();
+    await signOut(auth);
 
+    // Clear auto logout timer and localStorage
+    clearTimeout(autoLogoutTimer);
+    localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem('autoLogoutTime');
+    showToast('You have been logged out.');
 
-  clearTimeout(autoLogoutTimer);
-  localStorage.removeItem('isLoggedIn');
-  localStorage.removeItem('autoLogoutTime');
-  showToast('You have been logged out.');
-  // Redirect to login or home page
-  window.location.href = 'https://reelcareer.co/';
-
-} catch (error) {
-  console.error("Logout error:", error);
-}
-
-
-
+    // Redirect to login or home page
+    window.location.href = 'https://reelcareer.co/';
+  } catch (error) {
+    console.error("Logout error:", error);
+  }
 }
 
 
@@ -451,8 +447,7 @@ function createNavbar() {
           <ul class="navbar-nav ml-auto">
             <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/views/job-listings">Job Listings</a></li>
             <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/views/about">About Us</a></li>
-            <li class="nav-item" id="jobSeekerNavItem"><a class="nav-link" href="https://reelcareer.co/views/job-seeker">Job Seeker</a></li>
-            <li class="nav-item" id="recruiterNavItem"><a class="nav-link" href="https://reelcareer.co/views/recruiter-dashboard">Recruiter Dashboard</a></li>
+
             <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/views/blogs">Blogs</a></li>
             <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/views/membership">Membership</a></li>
             <li class="nav-item"><div id="authSection" class="d-flex align-items-center"></div></li>
@@ -518,13 +513,16 @@ function handleAuthStateChanged(user) {
         </button>
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="profileDropdown">
           <a class="dropdown-item" href="https://reelcareer.co/views/user">Profile</a>
+          <a class="dropdown-item" href="https://reelcareer.co/views/job-seeker">Job Seeker</a>
+          <a class="dropdown-item" href="https://reelcareer.co/views/recruiter-dashboard">Recruiter Dashboard</a>
+         
           <a class="dropdown-item" href="https://reelcareer.co/views/messaging">Messaging</a>
-          <button class="dropdown-item" id="settingsBtn">Account Settings</button>
+
           <button class="dropdown-item" id="logoutButton">Logout</button>
         </div>
       </div>`;
-
-    // Display Job Seeker and Recruiter links
+    
+      // Display Job Seeker and Recruiter links
     jobSeekerNavItem.style.display = "block";
     recruiterNavItem.style.display = "block";
     document.getElementById("logoutButton").onclick = logoutUser;
