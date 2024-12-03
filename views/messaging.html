@@ -477,6 +477,9 @@ if(connection.from == userId){
     connectionId = connection.from ; // Use a unique identifier (from sender or receiver ID)
 
 }
+
+connectionId = connection.from ; // Use a unique identifier (from sender or receiver ID)
+
 console.log("userDataSaved.userID: ", userDataSaved.userID);
 console.log("userId: ", userId);
 console.log("connectionId: ", connectionId);
@@ -595,6 +598,12 @@ messageBox.innerHTML = '';
 async function removeConnection(fromID, toID) {
   try {
     // Update the status of the connection to 'accepted'
+/*
+    const docId = userId < userIdFromURL 
+      ? `${userId}_${userIdFromURL}`
+      : `${userIdFromURL}_${userId}`;
+    const connectionRef = doc(db, 'Connections', docId);
+*/
     const connectionRef = doc(db, 'Connections', `${fromID}_${toID}`);
     await updateDoc(connectionRef, {
       status: 'denied'
@@ -609,7 +618,7 @@ async function removeConnection(fromID, toID) {
     showToast('Failed to accept connection.');
   }
 }
-window.acceptConnection  = acceptConnection ;
+window.removeConnection  = removeConnection ;
 
 
 // Function to accept a connection
