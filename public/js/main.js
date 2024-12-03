@@ -1497,7 +1497,7 @@ function getViewedByField() {
          // console.log("TrackingListeners  last");
          const pageTitle = document.title;
 
-         updateViewData(ipAddress, "visibilitychange", "N/A", pageTitle, "N/A"  );
+        // updateViewData(ipAddress, "visibilitychange", "N/A", pageTitle, "N/A"  );
         }
     });
 
