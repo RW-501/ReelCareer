@@ -482,9 +482,9 @@ function appendConnection(connection, type) {
 
   }else{
 
-  if (connection.status == "pending") {
+  if (connection.status === "pending") {
 
-                if (data.from == userID) {
+                if (connection.from === userID) {
                     const connectionInfo = `
     <div>
       <img src="${connection.toProfilePicture}" alt="Profile" width="40" height="40">
