@@ -422,6 +422,8 @@ const lastBreadcrumb_last = document.getElementById("lastBreadcrumb_last");
 
 
 
+    console.log("userDataSaved: ", userDataSaved);
+
 
 
 
@@ -435,10 +437,8 @@ const connectionsList = document.getElementById('connectionsList');
 async function fetchConnections() {
   try {
     // Assuming `connections` collection is stored in Firebase Firestore
-    const userDataSaved = await getUserData() || {};
-  let userID =  userDataSaved.userId;
-    
- 
+
+
 let connectionssRef = collection(db, 'Connections');
 const querySnapshot = query(connectionssRef, where('from', '==', userID));
 
