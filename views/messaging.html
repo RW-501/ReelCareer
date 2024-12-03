@@ -941,6 +941,7 @@ document.getElementById('sendMessageButton').onclick = async () => {
     const conversationID = document.getElementById('conversationTitle').getAttribute('data-conversation-id');
     const message = messageInput.value;
     const attachmentInput = document.getElementById('attachmentInput').files[0];
+    console.log("Message input value at click:", document.getElementById('messageInput')?.value);
 
     
     if (!message && !attachmentInput) {
