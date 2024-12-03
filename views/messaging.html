@@ -753,7 +753,10 @@ function loadContacts(userID) {
                 `;
             }
 
-            listItem.addEventListener('click', () => appendConnection(data), openSlidePanelBtn.click());
+            listItem.addEventListener('click', () => {
+    appendConnection(data); // Call your function to append connection
+    openSlidePanelBtn.click(); // Trigger the click event to open the slide panel
+});
 
             if (data.status === "pending") {
                 if (data.from === userID) {
