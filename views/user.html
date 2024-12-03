@@ -1626,6 +1626,8 @@ document.getElementById('connect-btn').addEventListener('click', async () => {
     const urlParams = new URLSearchParams(window.location.search);
     const userIdFromURL = urlParams.get('u');
     const userDataSaved = await getUserData() || {};
+    const toName = document.getElementById('user-name').innerText;
+    const toProfilePicture = document.getElementById('profilePic').src;
 
     // Validate inputs
     if (!userId || !userIdFromURL) {
@@ -1653,6 +1655,9 @@ document.getElementById('connect-btn').addEventListener('click', async () => {
     const connectionData = {
     from: userId,
     to: userIdFromURL,
+    toProfilePicture: userDataSaved.profilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_tie_reel.png',
+    toName: userDataSaved.displayName,
+
     participants: [userId, userIdFromURL], // Add this array
     status: 'pending',
     createdAt: new Date(),
