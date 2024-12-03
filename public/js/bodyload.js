@@ -453,18 +453,21 @@ function showToast(message, type = 'info', duration = 3000) {
    
   // Create a div for the toast
   const toast = document.createElement('div');
-  
+
+  toast.setAttribute('role', 'alert'); // Accessibility
+
   // Set inline styles for the toast
   toast.style.position = 'fixed';
-  toast.style.bottom = '20px'; // Position from the bottom
-  toast.style.left = '50%'; // Center horizontally
-  toast.style.transform = 'translateX(-50%)'; // Centering
-  toast.style.padding = '15px 20px'; // Padding for the toast
-  toast.style.borderRadius = '5px'; // Rounded corners
-  toast.style.color = 'white'; // Text color
-  toast.style.fontSize = '16px'; // Font size
-  toast.style.zIndex = '9999'; // Ensure it appears above other elements
-  toast.style.transition = 'opacity 0.5s ease'; // Fade transition
+  toast.style.bottom = '20px';
+  toast.style.right = '20px';
+  toast.style.padding = '15px 20px';
+  toast.style.margin = '10px';
+  toast.style.borderRadius = '5px';
+  toast.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.2)';
+  toast.style.color = '#fff';
+  toast.style.zIndex = '9999999999999999';
+  toast.style.transition = 'opacity 0.5s ease-in-out';
+  toast.style.opacity = '1';
   
   // Set background color based on toast type
   switch (type) {
@@ -489,18 +492,20 @@ function showToast(message, type = 'info', duration = 3000) {
   toast.className = `toast toast-${type}`; // Add classes for styling
   toast.innerText = message; // Set the message text
 
-
+   // Append the toast to the body
+   document.body.appendChild(toast);
 
   // Append the toast to the body
-  document.getElementById('main-content').appendChild(toast);
+ // document.getElementById('main-content').appendChild(toast);
 
-  // Set a timer to remove the toast after the specified duration
-  setTimeout(() => {
-      toast.classList.add('fade-out'); // Add fade-out effect
-      setTimeout(() => {
-          document.body.removeChild(toast); // Remove toast from DOM
-      }, 500); // Time to wait for fade-out animation
-  }, duration);
+    // Set a timer to remove the toast after the specified duration
+    setTimeout(() => {
+      toast.style.opacity = '0'; // Start fade-out
+        toast.classList.add('fade-out'); // Add fade-out effect
+        setTimeout(() => {
+            document.body.removeChild(toast); // Remove toast from DOM
+        }, 500); // Time to wait for fade-out animation
+    }, duration);
 }
 
 // Example usage: Replace alerts with showToast
