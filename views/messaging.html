@@ -218,20 +218,7 @@ main .row {
   background-color: #45a049;
 }
 
-#interaction-panel {
-    position: relative;
 
-}
-#main-message-panel {
-    position: relative;
-
-}
-
-#mainConnections-panel {
-    position: relative;
-
-
-}
  
 .preview-video,
 .preview-image {
@@ -246,7 +233,32 @@ main .row {
     justify-items: end;
 }
 
+#interaction-panel {
+    position: relative;
+    min-height: 500px;
+    height: auto;
+    display: flex;
+}
 
+#mainConnections-panel {
+    position: relative;
+
+
+}
+
+#main-contact-panel {
+    position: relative;
+    height: 100%;
+}
+
+#main-message-panel {
+    position: relative;
+    height: 100%;
+}
+
+#closeSlidePanelBtn {
+    color: color-mix(in lch longer hue, #45a049 45%, #f0f8ff 20%);
+}
     </style>
 
 </head>
@@ -258,88 +270,110 @@ main .row {
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li id="lastBreadcrumb_home" class="breadcrumb-item"><a href="https://reelcareer.co/">Home</a></li>
-            <li id="lastBreadcrumb_last" class="breadcrumb-item"><a id="lastBreadcrumb_a" href="https://reelcareer.co/views/user">View Profile</a></li>
+            <li id="lastBreadcrumb_1" class="breadcrumb-item"><a id="lastBreadcrumb_1_a" href="https://reelcareer.co/views/user">View Profile</a></li>
 
-            <li class="breadcrumb-item active" aria-current="page">Messaging</li>
+            <li id="lastBreadcrumb_last" class="breadcrumb-item">Connections</li>
+
+            <li id="breadcrumb-active-title" class="breadcrumb-item active" aria-current="page">Messaging</li>
         </ol>
       </nav>
-
-
+  
+  
 
       <main id="main-content">
 
-            <div class="row">
-                <div class="col-md-4">
-                    <h4>Contacts</h4>
-                    <!-- Button to open the sliding panel -->
-<button id="openSlidePanelBtn" class="btn btn-primary">View Connections</button>
+        <div class="row">
+          <div class="col-md-4">
+            <h4>Contacts</h4>
+            <!-- Button to open the sliding panel -->
+            <button id="openSlidePanelBtn" class="btn btn-primary">View Connections</button>
+      
+            <ul class="list-group" id="contactList">
+              <!-- Contacts will be populated here -->
+            </ul>
+            <button class="btn btn-primary mt-2" id="composeButton">Compose Message</button>
+          </div>
+          <div class="col-md-8">
+            <div id="interaction-panel">
+      
+              <div id="mainConnections-panel">
+                <!-- Sliding Panel -->
+                <div id="connectionsSlidePanel" class="slide-panel">
+                  <div class="panel-header">
+                    <h3 id="slidePanel-header-text">Connections</h3>
+                    <button id="closeSlidePanelBtn" class="close-btn">X</button>
+                  </div>
+                  <!-- >inside panel -->
+      
 
-                    <ul class="list-group" id="contactList">
-                        <!-- Contacts will be populated here -->
-                    </ul>
-                    <button class="btn btn-primary mt-2" id="composeButton">Compose Message</button>
-                </div>
-                <div class="col-md-8">
-                    <div id="interaction-panel">
 
-                        <div id="main-message-panel">
 
+
+
+
+
+
+                  <div id="main-contact-panel">
+      
+                    <div id="connectionsList" class="connections-list">
+                      <!-- Connection items will be dynamically appended here -->
+                    </div>
+                  </div>
+      
+
+
+
+
+
+
+                  <div id="main-message-panel">
+      
                     <h4 id="conversationTitle">Select a Conversation</h4>
                     <div class="contact-info" id="contactInfo">
-                        <!-- Contact info will be displayed here -->
+                      <!-- Contact info will be displayed here -->
                     </div>
                     <div class="message-box" id="messageBox">
-                        <!-- Messages will be displayed here -->
+                      <!-- Messages will be displayed here -->
                     </div>
-
-
-
-  <div class="message-panel">
-    <div class="message-input-area">
-        <textarea class="form-control" id="messageInput" placeholder="Type a message..." rows="3"></textarea>
-    </div>
-
-    <!-- Attachment Button and Preview -->
-    <div class="attachment-area mt-2">
-        <button class="btn btn-outline-primary" id="chooseFileButton">Choose File</button>
-        <input type="file" id="attachmentInput" class="d-none">
-        <div id="attachmentPreview" class="mt-2 d-none">
-            <div class="preview-container">
-                <span id="removePreview" class="remove-preview">&times;</span>
-                <img id="attachmentImage" class="preview-image" src="" alt="Attachment Preview">
-                <video id="attachmentVideo" class="preview-video" controls src=""></video>
-            </div>
-        </div>
-    </div>
-
-    <!-- Send Button -->
-    <div class="mt-3">
-        <button class="btn btn-success" id="sendMessageButton">Send</button>
-    </div>
-    
-</div>
-</div>
-
-<div id="mainConnections-panel" >
-<!-- Sliding Panel -->
-<div id="connectionsSlidePanel" class="slide-panel">
-  <div class="panel-header">
-    <h3>Connections</h3>
-    <button id="closeSlidePanelBtn" class="close-btn">X</button>
-  </div>
-  
-  <div id="connectionsList" class="connections-list">
-    <!-- Connection items will be dynamically appended here -->
-  </div>
-</div>
-
-</div>
-
-</div>
+      
+                    <div class="message-panel">
+                      <div class="message-input-area">
+                        <textarea class="form-control" id="messageInput" placeholder="Type a message..." rows="3"></textarea>
+                      </div>
+      
+                      <!-- Attachment Button and Preview -->
+                      <div class="attachment-area mt-2">
+                        <button class="btn btn-outline-primary" id="chooseFileButton">Choose File</button>
+                        <input type="file" id="attachmentInput" class="d-none">
+                        <div id="attachmentPreview" class="mt-2 d-none">
+                          <div class="preview-container">
+                            <span id="removePreview" class="remove-preview">&times;</span>
+                            <img id="attachmentImage" class="preview-image" src="" alt="Attachment Preview">
+                            <video id="attachmentVideo" class="preview-video" controls src=""></video>
+                          </div>
+                        </div>
+                      </div>
+      
+                      <!-- Send Button -->
+                      <div class="mt-3">
+                        <button class="btn btn-success" id="sendMessageButton">Send</button>
+                      </div>
+      
+                    </div>
+                  </div>
+      
                 </div>
+      
+              </div>
+      
             </div>
-
-        </main>
+      
+            <!-- >panel end -->
+      
+          </div>
+        </div>
+      
+      </main>
   
     <!-- >Footer -->
     <footer id="dynamic-footer"></footer>
@@ -379,11 +413,11 @@ main .row {
 });
 const userDataSaved = getUserData() || [];
 
-const lastBreadcrumb_a = document.getElementById("lastBreadcrumb_a");
-  
+const lastBreadcrumb_1_a = document.getElementById("lastBreadcrumb_1_a");
+lastBreadcrumb_1_a.innerText = userDataSaved.displayName;
+const breadcrumbActiveTitle = document.getElementById("breadcrumb-active-title");
 
-  lastBreadcrumb_a.innerText = userDataSaved.displayName;
-
+const lastBreadcrumb_last = document.getElementById("lastBreadcrumb_last");
 
 
 
