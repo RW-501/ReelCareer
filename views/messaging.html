@@ -483,6 +483,17 @@ function appendConnection(connection, type) {
   }else{
 
   if (connection.status === "pending") {
+
+                if (data.from == userID) {
+                    const connectionInfo = `
+    <div>
+      <img src="${connection.fromProfilePicture}" alt="Profile" width="40" height="40">
+      <a href="${connection.fromProfileURL}" target="_blank">${connection.fromName}</a>
+    </div>
+    <button onclick="removeConnection('${connection.from}', '${connection.to}')">Remove</button>
+  `;
+  div.innerHTML = connectionInfo;
+                }else{
   // Display Connection Information
   const connectionInfo = `
     <div>
@@ -492,7 +503,7 @@ function appendConnection(connection, type) {
     <button onclick="acceptConnection('${connection.from}', '${connection.to}')">Accept</button>
   `;
   div.innerHTML = connectionInfo;
-
+                }
 } else {
   // Display Connection Information
   const connectionInfo = `
@@ -541,6 +552,28 @@ messageBox.innerHTML = '';
 }
 
 
+
+
+
+// Function to accept a connection
+async function removeConnection(fromID, toID) {
+  try {
+    // Update the status of the connection to 'accepted'
+    const connectionRef = doc(db, 'Connections', `${fromID}_${toID}`);
+    await updateDoc(connectionRef, {
+      status: 'denied'
+    });
+    
+    showToast('Connection removed!');
+    // Refresh the list of connections
+    connectionsList.innerHTML = '';
+    fetchConnections();
+  } catch (error) {
+    console.error('Error accepting connection:', error);
+    showToast('Failed to accept connection.');
+  }
+}
+window.acceptConnection  = acceptConnection ;
 
 
 // Function to accept a connection
