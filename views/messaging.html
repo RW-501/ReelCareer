@@ -939,11 +939,12 @@ document.addEventListener('DOMContentLoaded', () => {
 document.getElementById('sendMessageButton').onclick = async () => {
     const messageInput = document.getElementById('messageInput');
     const conversationID = document.getElementById('conversationTitle').getAttribute('data-conversation-id');
-    const message = messageInput.value;
+    let message = messageInput.value;
     const attachmentInput = document.getElementById('attachmentInput').files[0];
     console.log("Message input value at click:", document.getElementById('messageInput')?.value);
 
     console.log("Message input value:", messageInput.value);
+     message = messageInput.value.trim(); // Trim to avoid sending blank spaces
 
     if (!message && !attachmentInput) {
         showToast("Please enter a message or attach a file.", 'warning');
