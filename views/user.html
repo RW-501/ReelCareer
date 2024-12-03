@@ -1208,6 +1208,9 @@ document.getElementById('saveProfileBtn-profile').addEventListener('click', asyn
         const userDocRef = doc(db, "Users", userDataSaved.userID);
         await setDoc(userDocRef, userData, { merge: true });
 
+
+
+        
         const userDataEcode = setUserData(userData);
 
         localStorage.setItem('userData', userDataEcode);

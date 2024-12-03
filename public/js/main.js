@@ -232,14 +232,27 @@ const addBase64Padding = (base64String) => {
 const LOCAL_STORAGE_KEY = 'userData';
 
 function setUserData(userData) {
+
+
+      // Retrieve the current object from localStorage
+      let currentData = getUserData() || {};
+  
+      // Merge the updates into the current data
+      const updatedData = { ...currentData, ...userData };
+      
+ 
+      console.log("updatedData Data:", updatedData);
+
+
   // Encode user data
-  let encodedData = encodeUserData(userData, "WeThaBest");
+  let encodedData = encodeUserData(updatedData, "WeThaBest");
   encodedData = addBase64Padding(encodedData);
 
   //console.log("Encoded Data:", encodedData);
 
   // Store in localStorage
   localStorage.setItem(LOCAL_STORAGE_KEY, encodedData);
+    
   return encodedData;
 }
 
@@ -280,6 +293,29 @@ window.getUserData = getUserData;
 
 
 
+// Function to update a specific value in localStorage
+function updateLocalStorage(key, updates) {
+  // Retrieve the current object from localStorage
+  let currentData = JSON.parse(localStorage.getItem(key)) || {};
+  
+  // Merge the updates into the current data
+  const updatedData = { ...currentData, ...updates };
+  
+  // Save the updated object back to localStorage
+  localStorage.setItem(key, JSON.stringify(updatedData));
+}
+
+window.updateLocalStorage = updateLocalStorage;
+
+
+
+
+
+
+let userDataSaved = await getUserData() || {};
+
+// To verify
+console.log("userDataSaved   ", userDataSaved);
 
 
 
