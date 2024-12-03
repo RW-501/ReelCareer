@@ -606,6 +606,12 @@ window.acceptConnection  = acceptConnection ;
 const breadcrumbActiveTitle = document.getElementById("breadcrumb-active-title");
 openSlidePanelBtn.addEventListener('click', (e) => {
 
+    console.log("event...: ", e);
+
+    if(e == "open"){
+
+        return;
+    }
 // Open or close the sliding panel on button click
     // Check if the class 'open' is present in the connectionsSlidePanel
     if (!connectionsSlidePanel.classList.contains('open')) {
@@ -755,7 +761,7 @@ function loadContacts(userID) {
 
             listItem.addEventListener('click', () => {
     appendConnection(data); // Call your function to append connection
-    openSlidePanelBtn.click(); // Trigger the click event to open the slide panel
+    openSlidePanelBtn.click("open"); // Trigger the click event to open the slide panel
 });
 
             if (data.status === "pending") {
