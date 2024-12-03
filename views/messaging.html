@@ -574,11 +574,15 @@ openSlidePanelBtn.addEventListener('click', (e) => {
         // If not open, open the sliding panel and modify the contact list area
         connectionsSlidePanel.classList.add('open');
         controlsContactListArea.classList.replace('controls-narrow', 'controls-wide');
+        // Set the new title
+document.title = `ReelCareer.co | ${userName} - Connections`;
     } else {
         // If already open, toggle the classes
         connectionsSlidePanel.classList.remove('open');
         controlsContactListArea.classList.remove('controls-wide');
         controlsContactListArea.classList.add('controls-narrow');
+        // Set the new title
+document.title = `ReelCareer.co | ${userName} - Messaging`;
     }
 
     // Toggle the text based on the panel state
