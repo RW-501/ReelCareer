@@ -524,12 +524,14 @@ document.addEventListener('DOMContentLoaded', trackAllFormsWithExitWarning);
           </div>
       </div>
          
-  <!-- Send Message Modal -->
+ <!-- Send Message Modal -->
 <div class="modal fade hide" id="sendMessageModal" tabindex="-1" aria-labelledby="sendMessageModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
       <div class="modal-content">
           <div class="modal-header border-0">
-              <h5 class="modal-title" id="sendMessageModalLabel">Send Message</h5>
+              <h5 class="modal-title" id="sendMessageModalLabel">
+                <span id="recipient-name">Send Message</span>
+              </h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
               </button>
@@ -554,6 +556,7 @@ document.addEventListener('DOMContentLoaded', trackAllFormsWithExitWarning);
                   <div id="attachment-preview" class="mt-2 d-none">
                       <span id="attachment-name"></span>
                       <img id="attachment-thumbnail" class="d-none" src="" alt="Attachment preview" width="100">
+                      <button type="button" id="remove-attachment" class="btn btn-sm btn-danger">X</button>
                   </div>
 
                   <button type="submit" class="btn btn-primary mt-3">Send</button>
@@ -562,6 +565,11 @@ document.addEventListener('DOMContentLoaded', trackAllFormsWithExitWarning);
       </div>
   </div>
 </div>
+
+
+
+
+
 
 <!-- Include Font Awesome for the paperclip icon -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
@@ -1697,15 +1705,25 @@ document.getElementById('send-message-btn').addEventListener('click', () => {
     }
 });
 
+
+
+
 document.getElementById('attachment-btn').addEventListener('click', () => {
     document.getElementById('message-attachments').click(); // Trigger file input on button click
 });
 
+// Show recipient's name at the top of the modal
+function setRecipientName(recipientName) {
+    document.getElementById('recipient-name').textContent = `Message to: ${recipientName}`;
+}
+
+// Handle attachment preview
 document.getElementById('message-attachments').addEventListener('change', function(e) {
     const file = e.target.files[0];
     const previewContainer = document.getElementById('attachment-preview');
     const fileName = document.getElementById('attachment-name');
     const fileThumbnail = document.getElementById('attachment-thumbnail');
+    const removeButton = document.getElementById('remove-attachment');
 
     if (file) {
         // Show attachment name
@@ -1728,8 +1746,11 @@ document.getElementById('message-attachments').addEventListener('change', functi
     }
 });
 
-// Message sending function
-
+// Remove attachment functionality
+document.getElementById('remove-attachment').addEventListener('click', () => {
+    document.getElementById('message-attachments').value = ''; // Clear the file input
+    document.getElementById('attachment-preview').classList.add('d-none'); // Hide the preview section
+});
 
 // Your form submission logic
 document.getElementById('sendMessageForm').addEventListener('submit', async function(e) {
@@ -1755,8 +1776,8 @@ document.getElementById('sendMessageForm').addEventListener('submit', async func
         senderName: userDataSaved.displayName,
         senderProfilePicture: userDataSaved.profilePicture || profilePic,
         senderProfileURL: `https://reelcareer.co/views/user?u=${senderID}`,
-        timestamp: serverTimestamp(),  // Use the imported serverTimestamp function
-        contentType: 'text', // or 'video', 'picture', 'resume', 'link'
+        timestamp: serverTimestamp(),
+        contentType: 'text',
         status: 'unread',
         attachments: attachments ? attachments.name : '',
         isDeleted: false
@@ -1773,13 +1794,6 @@ document.getElementById('sendMessageForm').addEventListener('submit', async func
         showToast('Failed to send message. Please try again.');
     }
 });
-
-
-
-
-
-
-
 
 
 
