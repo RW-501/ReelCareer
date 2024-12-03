@@ -1701,6 +1701,9 @@ document.getElementById('send-message-btn').addEventListener('click', () => {
     const urlParams = new URLSearchParams(window.location.search);
     const userIdFromURL = urlParams.get('u'); // Profile user
 
+let recipientName = document.getElementById('user-name').innerText;
+
+    setRecipientName(recipientName);
     if (userId !== userIdFromURL) {
         document.getElementById('recipient-id').value = userIdFromURL; // Set recipient ID
         $('#sendMessageModal').modal('show'); // Show modal
