@@ -205,6 +205,43 @@
             auth, analytics, deleteDoc, getDownloadURL
         } from 'https://reelcareer.co/js/module.js';
 
+        function setCityMetaTags(cityData) {
+    // Update the document title
+    document.title = `ReelCareer.co | Jobs in ${cityData.name}`;
+
+    // Helper function to create or update a meta tag
+    function updateMetaTag(name, content, property = false) {
+        let meta = document.querySelector(property ? `meta[property="${name}"]` : `meta[name="${name}"]`);
+        if (!meta) {
+            meta = document.createElement('meta');
+            if (property) {
+                meta.setAttribute('property', name);
+            } else {
+                meta.setAttribute('name', name);
+            }
+            document.head.appendChild(meta);
+        }
+        meta.setAttribute('content', content);
+    }
+
+    // Meta tags for SEO
+    updateMetaTag('description', cityData.description || `Explore the best job opportunities in ${cityData.name} on ReelCareer.co!`);
+    updateMetaTag('keywords', cityData.keywords || `jobs in ${cityData.name}, ${cityData.name} careers, ${cityData.name} employment, ReelCareer`);
+    updateMetaTag('author', cityData.author || 'ReelCareer Team');
+
+    // Open Graph (OG) meta tags for social media sharing
+    updateMetaTag('og:title', `ReelCareer.co | Jobs in ${cityData.name}`, true);
+    updateMetaTag('og:description', cityData.description || `Find your dream job in ${cityData.name} with ReelCareer.co!`, true);
+    updateMetaTag('og:image', cityData.image || 'https://www.reelcareer.co/images/sq_logo_n_BG_tie_reelx.png', true);
+    updateMetaTag('og:url', cityData.url || window.location.href, true);
+    updateMetaTag('og:type', 'website', true);
+
+    // Twitter card meta tags
+    updateMetaTag('twitter:card', 'summary_large_image');
+    updateMetaTag('twitter:title', `ReelCareer.co | Jobs in ${cityData.name}`);
+    updateMetaTag('twitter:description', cityData.description || `Discover top job opportunities in ${cityData.name} on ReelCareer!`);
+    updateMetaTag('twitter:image', cityData.image || 'https://www.reelcareer.co/images/sq_logo_n_BG_tie_reelx.png');
+}
 
         async function displayCityList(jobsContainer) {
   try {
@@ -419,6 +456,19 @@ function getHashFromURL() {
 // Set the new title
 document.title = `ReelCareer.co | Search for Jobs in the City of ${segments} `;
 
+
+// Example city data
+const cityData = {
+    name: `${segments}`,
+    description: `Find your next career opportunity in ${segments}, the tech hub of Texas, with jobs across industries!`,
+    keywords: `${segments} jobs, careers in ${segments}, tech jobs in ${segments}, ${segments} employment`,
+    author: 'ReelCareer Team',
+    image: 'https://www.reelcareer.co/images/sq_logo_n_BG_tie_reelx.png',
+    url: `https://reelcareer.co/jobs/city/#${segments}`
+};
+
+// Call the function with the city data
+setCityMetaTags(cityData);
 
   return segments;
 }
