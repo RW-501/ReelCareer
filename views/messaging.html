@@ -704,17 +704,17 @@ function loadContacts(userID) {
     contactList.appendChild(connectionsSection);
 
     const titlePending = document.createElement('div');
-    titlePending.classList.add('title');
+    titlePending.classList.add('Pending-title');
     titlePending.innerHTML = "<small>Pending</small>";
     connectionsSection.appendChild(titlePending);
 
     const titleSent = document.createElement('div');
-    titleSent.classList.add('title');
+    titleSent.classList.add('Sent-title');
     titleSent.innerHTML = "<small>Sent</small>";
     connectionsSection.appendChild(titleSent);
 
     const titleAccepted = document.createElement('div');
-    titleAccepted.classList.add('title');
+    titleAccepted.classList.add('Connected-title');
     titleAccepted.innerHTML = "<small>Connected</small>";
     connectionsSection.appendChild(titleAccepted);
 
