@@ -454,7 +454,7 @@ const querySnapshot = query(connectionssRef, where('participants', 'array-contai
 
     querySnapshot.forEach(doc => {
       const connectionData = doc.data();
-      if (connectionData.status == 'pending' || connectionData.status === 'accepted') { // Only show pending connections
+      if (connectionData.status == 'pending' || connectionData.status == 'accepted') { // Only show pending connections
         appendConnection(connectionData);
       }
     });
