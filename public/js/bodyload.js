@@ -489,8 +489,10 @@ function showToast(message, type = 'info', duration = 3000) {
   toast.className = `toast toast-${type}`; // Add classes for styling
   toast.innerText = message; // Set the message text
 
+
+
   // Append the toast to the body
-  document.body.appendChild(toast);
+  document.getElementById('main-content').appendChild(toast);
 
   // Set a timer to remove the toast after the specified duration
   setTimeout(() => {
