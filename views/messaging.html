@@ -508,8 +508,9 @@ let connectionssRef = collection(db, 'Connections');
                 const listItem = document.createElement('li');
                 listItem.className = 'list-group-item';
                 listItem.innerHTML = `
-    <img src="${data.senderProfilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_tie_reel.png'}" alt="Avatar" class="avatar">
-    <span>${data.to}</span>
+      <a href="https://reelcareer.co/views/user/?u=${data.from}" style="text-decoration: none;color: inherit;">
+        <img src="${data.fromProfilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_tie_reel.png'}" alt="Avatar" class="avatar"></a>
+    <span>${data.fromName}</span>
 `;
                 listItem.onclick = () => loadMessages(data.conversationID, data);
                 contactList.appendChild(listItem);
