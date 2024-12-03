@@ -353,7 +353,7 @@ main .row {
     import {
         getUserId, db, doc, getDoc, query, updateDoc,
         setDoc, ref, signInWithPopup, orderBy,onSnapshot ,serverTimestamp ,
-         
+        storageRef,
   uploadBytes, OAuthProvider, arrayUnion, getStorage,
         signOut, addDoc, increment, onAuthStateChanged,
         createUserWithEmailAndPassword, signInWithEmailAndPassword,
@@ -728,14 +728,7 @@ async function uploadAttachment(conversationID, file) {
     const fileRef = storageRef(storage, `messages/${conversationID}/${file.name}`);
     
     
-    const storage = getStorage();  // This should be defined once globally.
-
-    // Create a storage reference and upload the file with progress tracking
-    const storageRef = ref(storage, `users/${userId}/files/${file.name}`);
-    const uploadTask = uploadBytesResumable(storageRef, file);
-
-    
-    
+  
     const snapshot = await uploadBytes(fileRef, file);
     return getDownloadURL(snapshot.ref);
 }
