@@ -729,12 +729,7 @@ const connectionsQuery = query(connectionsRef, where('participants', 'array-cont
             const listItem = document.createElement('li');
             listItem.className = 'list-group-item conn-list-i';
 
-            const commonHTML = `
-                <a href="${data.fromProfileURL}" style="text-decoration: none;color: inherit;">
-                    <img src="${data.fromProfilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_tie_reel.png'}" alt="Avatar" class="avatar">
-                </a>
-                <span>${data.fromName}</span>
-            `;
+    
             if (data.status == "pending" && data.from == userID) {
             const sentHTML = `
                 <a href="${data.toProfileURL}" style="text-decoration: none;color: inherit;">
@@ -742,11 +737,23 @@ const connectionsQuery = query(connectionsRef, where('participants', 'array-cont
                 </a>
                 <span>${data.toName}</span>
             `;
+
+            listItem.innerHTML = sentHTML;
+
+            }else{
+                const commonHTML = `
+                <a href="${data.fromProfileURL}" style="text-decoration: none;color: inherit;">
+                    <img src="${data.fromProfilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_tie_reel.png'}" alt="Avatar" class="avatar">
+                </a>
+                <span>${data.fromName}</span>
+            `;
+
+            listItem.innerHTML = commonHTML;
+
             }
 
 
 
-            listItem.innerHTML = commonHTML;
             listItem.addEventListener('click', () => appendConnection(data));
 
             // Based on status, append to appropriate section
