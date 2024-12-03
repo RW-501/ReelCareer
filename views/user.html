@@ -1655,8 +1655,8 @@ document.getElementById('connect-btn').addEventListener('click', async () => {
     const connectionData = {
     from: userId,
     to: userIdFromURL,
-    toProfilePicture: userDataSaved.profilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_tie_reel.png',
-    toName: userDataSaved.displayName,
+    toProfilePicture: toProfilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_tie_reel.png',
+    toName: toName,
 
     participants: [userId, userIdFromURL], // Add this array
     status: 'pending',
