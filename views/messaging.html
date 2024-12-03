@@ -516,7 +516,18 @@ function appendConnection(connection, type) {
                 div.innerHTML = connectionInfo;
             }
         } else {
-            const connectionInfo = `
+
+            if (connection.from === userDataSaved.userID) {
+                const connectionInfo = `
+                <div>
+                  <img src="${connection.toProfilePicture}" alt="Profile" width="40" height="40">
+                  <a href="${connection.toProfileURL}" target="_blank">${connection.toName}</a>
+                </div>
+                <button onclick="removeConnection('${connection.from}', '${connection.to}')">Remove</button>
+                `;
+                div.innerHTML = connectionInfo;
+            } else {
+                const connectionInfo = `
             <div>
               <img src="${connection.fromProfilePicture}" alt="Profile" width="40" height="40">
               <a href="${connection.fromProfileURL}" target="_blank">${connection.fromName}</a>
@@ -524,6 +535,13 @@ function appendConnection(connection, type) {
             <button onclick="composeMessages('${connection.from}', '${connection}')">Send Message</button>
             `;
             div.innerHTML = connectionInfo;
+            }
+
+
+
+
+
+            
         }
     }
 
