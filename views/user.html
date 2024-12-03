@@ -1308,7 +1308,7 @@ const tags = tagsText ? tagsText.split(",").map(item => item.toLowerCase().trim(
 
 
           const userDataSaved = getUserData() || [];
-          const userlocationData = sessionStorage.getItem('userLocation');
+          const userlocationData = JSON.parse(sessionStorage.getItem('userLocation'));
 
           console.log("userlocationData   ",userlocationData);
           console.log("profileData   ",profileData);
