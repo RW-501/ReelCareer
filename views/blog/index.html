@@ -231,6 +231,44 @@ let currentPage = 1;
 let totalPosts = 0; // Track total number of posts
 
 
+function setBlogMetaTags(blogData) {
+    // Update the document title
+    document.title = `ReelCareer.co | Blog: ${blogData.title}`;
+
+    // Helper function to create or update a meta tag
+    function updateMetaTag(name, content, property = false) {
+        let meta = document.querySelector(property ? `meta[property="${name}"]` : `meta[name="${name}"]`);
+        if (!meta) {
+            meta = document.createElement('meta');
+            if (property) {
+                meta.setAttribute('property', name);
+            } else {
+                meta.setAttribute('name', name);
+            }
+            document.head.appendChild(meta);
+        }
+        meta.setAttribute('content', content);
+    }
+
+    // Meta tags for SEO
+    updateMetaTag('description', blogData.description || 'Read this insightful blog on ReelCareer.co!');
+    updateMetaTag('keywords', blogData.keywords || 'ReelCareer, blog, career, jobs');
+    updateMetaTag('author', blogData.author || 'ReelCareer Team');
+
+    // Open Graph (OG) meta tags for social media sharing
+    updateMetaTag('og:title', `ReelCareer.co | Blog: ${blogData.title}`, true);
+    updateMetaTag('og:description', blogData.description || 'Discover this blog post on ReelCareer.co!', true);
+    updateMetaTag('og:image', blogData.image || 'https://reelcareer.co/images/default-blog-thumbnail.png', true);
+    updateMetaTag('og:url', blogData.url || window.location.href, true);
+    updateMetaTag('og:type', 'article', true);
+
+    // Twitter card meta tags
+    updateMetaTag('twitter:card', 'summary_large_image');
+    updateMetaTag('twitter:title', `ReelCareer.co | Blog: ${blogData.title}`);
+    updateMetaTag('twitter:description', blogData.description || 'Check out this blog post on ReelCareer!');
+    updateMetaTag('twitter:image', blogData.image || 'https://reelcareer.co/images/default-blog-thumbnail.png');
+}
+
 
 
 
@@ -290,7 +328,18 @@ scriptTag.type = "application/ld+json";
 scriptTag.innerHTML = blogSchema;
 document.head.appendChild(scriptTag);
 
-document.title = `ReelCareer.co | Blog: ${blogData.title}`;
+// Example blog data
+const blogDataMETA = {
+    title: blogData.title,
+    description: blogData.content,
+    keywords: blogData.title,
+    author: blogData.postedBy,
+    image: imageUrl,
+    url: `https://reelcareer.co/views/blog/?b=${doc.id}`
+};
+
+// Call the function with the blog data
+setBlogMetaTags(blogDataMETA);
 
 document.getElementById("lastBreadcrumb").innerHTML = `${blogData.title}`;
 
