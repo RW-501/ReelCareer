@@ -159,10 +159,10 @@ main .row {
 
 /* Initial style for the sliding panel */
 .slide-panel {
-  position: fixed;
+  position: relative;
   top: 0;
-  right: -350px; /* Initially hidden */
-  width: 350px;
+  right: -100%; /* Initially hidden */
+  width: 100%;
   height: 100%;
   background-color: #fff;
   box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
@@ -237,23 +237,24 @@ main .row {
     position: relative;
     min-height: 500px;
     height: auto;
-    display: flex;
+    width: 100%;
 }
 
 #mainConnections-panel {
     position: relative;
+    height: 100%;
 
 
 }
 
 #main-contact-panel {
     position: relative;
-    height: 100%;
+    min-height: 300px;
 }
 
 #main-message-panel {
     position: relative;
-    height: 100%;
+    min-height: 300px;
 }
 
 #closeSlidePanelBtn {

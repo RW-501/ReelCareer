@@ -1,27 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+    <html lang="en">
 
-<head>
-  <meta charset="UTF-8">
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Find jobs by state on ReelCareer. Explore career opportunities in your region and connect with top employers.">
-  <meta name="keywords" content="jobs by state, careers, employment opportunities, state-specific jobs">
-  <meta name="author" content="ReelCareer">
-  <title>Jobs in State | ReelCareer</title>
-  <meta name="robots" content="index, follow">
-  <meta name="language" content="en">
-  <meta name="geo.region" content="US-TX">
-  <meta name="geo.placename" content="Dallas, Texas">
-
-  <!-- Title optimized for About Page -->
-  <title>About ReelCareer | Your Job Search and Career Advancement Platform</title>
-
-  <!-- Open Graph Meta Tags -->
-  <meta property="og:title" content="About ReelCareer | Connecting Job Seekers with Employers">
-  <meta property="og:description" content="Discover how ReelCareer helps job seekers find their ideal job and advance their careers. Learn more about our platform, mission, and values.">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://www.reelcareer.co/jobs/state">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="description" content="Explore jobs by industry on ReelCareer. Find career opportunities in your desired field and connect with top employers.">
+      <meta name="keywords" content="jobs by industry, careers, employment opportunities, industry-specific jobs">
+      <meta name="author" content="ReelCareer">
+      <title>Jobs by Industry | ReelCareer</title>
+      
+      <!-- Open Graph and Twitter Meta Tags -->
+      <meta property="og:title" content="Jobs by Industry | ReelCareer">
+      <meta property="og:description" content="Find the best jobs in various industries. From tech to healthcare, discover opportunities tailored to your expertise.">
+      <meta property="og:type" content="website">
+      <meta property="og:url" content="https://www.reelcareer.co/jobs/industry">
   <meta property="og:image" content="https://www.reelcareer.co/images/sq_logo_n_BG_tie_reelx.png"> <!-- Update image path accordingly -->
   <meta property="og:site_name" content="ReelCareer">
   <meta property="og:locale" content="en_US">
@@ -34,7 +26,7 @@
   <meta name="twitter:image" content="https://www.reelcareer.co/images/sq_logo_n_BG_tie_reelx.png"> <!-- Update image path accordingly -->
 
   <!-- Canonical Tag for SEO -->
-  <link rel="canonical" href="https://www.reelcareer.co/jobs/state">
+  <link rel="canonical" href="https://www.reelcareer.co/jobs/industry">
 
   <!-- Standard Favicon -->
   <link rel="icon" type="image/x-icon" href="https://www.ReelCareer.co/images/favicons/favicon.ico">
@@ -124,38 +116,38 @@
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li id="lastBreadcrumb_home" class="breadcrumb-item"><a href="https://reelcareer.co/">Home</a></li>
-                <li id="lastBreadcrumb_1" class="breadcrumb-item"><a href="https://reelcareer.co/jobs/locations">Locations</a></li>
+                <li id="lastBreadcrumb_1" class="breadcrumb-item"><a href="https://reelcareer.co/jobs/">Jobs</a></li>
                 <li id="breadcrumb-active-title" class="breadcrumb-item active"  aria-current="page">State</li>
             </ol>
           </nav>
 
           <main id="main-content">
     
-            <div class="page-header" id="state-header">
-              <h1>Find Jobs in [State Name]</h1>
+            <div class="page-header" id="industry-header">
+              <h1>Find Jobs in [Industry]</h1>
               <p class="intro-text">
-                Searching for job opportunities across [State Name]? Explore the latest job openings in cities like [City Name], and more. Whether you're seeking a career change or new employment, ReelCareer helps you connect with the best employers in [State Name].
+                <p>Explore exciting opportunities in the [Industry] sector. Whether you're looking to advance your career or start fresh, discover roles that match your skills and aspirations in [Industry].</p>
               </p>
             
               <div class="call-to-action">
-                <p>
-                  Looking for a job in [State Name]? Browse through full-time, part-time, and remote positions in various sectors, from tech to education. Our state-specific job listings make finding your next career easy!
-                </p>
-                <button onclick="window.location.href='#stateListContainer'">Explore Jobs in [State Name]</button>
+                <p>Looking for a job in [Industry]? Browse full-time, part-time, and remote opportunities tailored to your field. Discover your next career move with roles across [Industry] that match your skills and ambitions!</p>
+
+                <button onclick="window.location.href='#stateListContainer'">Explore Jobs in the [Industry] Industry</button>
               </div>
             </div>
             
         <section class="mt-4">
 
-        <input type="text" id="job-search" placeholder="Search jobs...">
-        
+   <!-- Industry Search -->
+   <input type="text" id="industry-search" placeholder="Search industries..." class="form-control mb-3" oninput="filterIndustries(this.value)">
+              
       </section>
 
         <section class="mt-4">
             <div class="container">
-                <h1><span id="state-name">Jobs in State</span></h1>
-                <div id="stateListContainer" class="listContainer"></div>
-              </div>
+                <h1><span id="industry-name">Jobs in the [Industry] industry</span></h1>
+    <!-- Industry List -->
+    <div id="industryListContainer" class="listContainer"></div>              </div>
             
             </section>
      <!-- Similar Jobs Section -->
@@ -211,6 +203,61 @@
             auth, analytics, deleteDoc, getDownloadURL
         } from 'https://reelcareer.co/js/module.js';
 
+        /*
+
+          let allIndustries = [];
+
+    // Function to fetch and display industries
+    async function displayIndustryList() {
+      try {
+        const industriesRef = collection(db, "Jobs");
+        const snapshot = await getDocs(industriesRef);
+
+        // Extract unique industries
+        allIndustries = [...new Set(snapshot.docs.map(doc => doc.data().industry))].sort();
+
+        const industryListContainer = document.getElementById('industryListContainer');
+        industryListContainer.innerHTML = allIndustries
+          .map(industry => `
+            <div class="industry-card">
+              <a href="https://reelcareer.co/jobs/industry#${industry}">
+                <i class="fas fa-briefcase"></i>
+                <h4>${industry}</h4>
+              </a>
+            </div>
+          `)
+          .join('');
+      } catch (error) {
+        console.error("Error fetching industries:", error);
+        document.getElementById('industryListContainer').innerHTML = '<p>Failed to load industry list.</p>';
+      }
+    }
+
+    // Filter industries based on search
+    function filterIndustries(query) {
+      const filteredIndustries = allIndustries.filter(industry =>
+        industry.toLowerCase().includes(query.toLowerCase())
+      );
+
+      const industryListContainer = document.getElementById('industryListContainer');
+      industryListContainer.innerHTML = filteredIndustries.length > 0
+        ? filteredIndustries
+          .map(industry => `
+            <div class="industry-card">
+              <a href="https://reelcareer.co/jobs/industry#${industry}">
+                <i class="fas fa-briefcase"></i>
+                <h4>${industry}</h4>
+              </a>
+            </div>
+          `)
+          .join('')
+        : '<p>No industries found matching your search.</p>';
+    }
+
+    // Initialize industry list on page load
+    window.onload = displayIndustryList;
+
+    */
 
     // Function to filter and display states
 function filterStates(searchQuery, container) {
