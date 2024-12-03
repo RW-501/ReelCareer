@@ -869,19 +869,44 @@ function loadContacts(userID) {
                 messageDiv.textContent = data.content;
 
                 if (data.contentType !== 'text') {
-                    const mediaDiv = document.createElement('div');
-                    mediaDiv.className = 'media-attachment';
-                    if (data.contentType === 'image') {
-                        const img = document.createElement('img');
-                        img.src = data.attachmentUrl;
-                        img.alt = 'Image Attachment';
-                        mediaDiv.appendChild(img);
-                    } else if (data.contentType === 'video') {
-                        const video = document.createElement('video');
-                        video.src = data.attachmentUrl;
-                        video.controls = true;
-                        mediaDiv.appendChild(video);
-                    }
+    const mediaDiv = document.createElement('div');
+    mediaDiv.className = 'media-attachment';
+
+    if (data.contentType === 'image') {
+        const img = document.createElement('img');
+        img.src = data.attachmentUrl;
+        img.alt = 'Image Attachment';
+        mediaDiv.appendChild(img);
+    } else if (data.contentType === 'video') {
+        const video = document.createElement('video');
+        video.src = data.attachmentUrl;
+        video.controls = true;
+        mediaDiv.appendChild(video);
+    } else if (data.contentType === 'audio') {
+        const audio = document.createElement('audio');
+        audio.src = data.attachmentUrl;
+        audio.controls = true;
+        mediaDiv.appendChild(audio);
+    } else if (data.contentType === 'document' || data.contentType === 'office-document') {
+        const docLink = document.createElement('a');
+        docLink.href = data.attachmentUrl;
+        docLink.target = '_blank';
+        docLink.textContent = 'View Document';
+        mediaDiv.appendChild(docLink);
+    } else if (data.contentType === 'archive') {
+        const archiveLink = document.createElement('a');
+        archiveLink.href = data.attachmentUrl;
+        archiveLink.target = '_blank';
+        archiveLink.textContent = 'Download Archive';
+        mediaDiv.appendChild(archiveLink);
+    } else {
+        const unsupportedMessage = document.createElement('p');
+        unsupportedMessage.textContent = 'Unsupported content type.';
+        mediaDiv.appendChild(unsupportedMessage);
+    }
+
+   
+
                     messageDiv.appendChild(mediaDiv);
                 }
                 const timestampDiv = document.createElement('div');
@@ -972,15 +997,50 @@ document.getElementById('sendMessageButton').onclick = async () => {
 });
 
 
-function sendMessage(conversationID, message, attachmentUrl = '') {
+function sendMessage(conversationID, message, attachmentUrl = '') { 
+    const determineContentType = (url) => {
+        const fileExtension = url.split('.').pop().toLowerCase(); // Get file extension
+        switch (fileExtension) {
+            case 'jpg':
+            case 'jpeg':
+            case 'png':
+            case 'gif':
+                return 'image';
+            case 'mp4':
+            case 'mov':
+            case 'avi':
+            case 'mkv':
+                return 'video';
+            case 'mp3':
+            case 'wav':
+            case 'aac':
+                return 'audio';
+            case 'pdf':
+                return 'document';
+            case 'doc':
+            case 'docx':
+            case 'xls':
+            case 'xlsx':
+            case 'ppt':
+            case 'pptx':
+                return 'office-document';
+            case 'zip':
+            case 'rar':
+                return 'archive';
+            default:
+                return 'unknown';
+        }
+    };
+
+    const contentType = attachmentUrl ? determineContentType(attachmentUrl) : 'text';
+
     addDoc(collection(db, 'Messages'), {
         senderID: auth.currentUser.uid,
         recipientID: conversationID,
         conversationID: conversationID,
         profilePicture: userDataSaved.profilePicture,
-        content: messageValue.trim() // Trim to avoid sending blank spaces
-        ,
-        contentType: attachmentUrl ? (attachmentUrl.match(/\.(jpg|png)$/) ? 'image' : 'video') : 'text',
+        content: message.trim(), // Trim to avoid sending blank spaces
+        contentType: contentType,
         attachments: attachmentUrl,
         messageType: 'contact',
         group: 'main',
@@ -995,6 +1055,7 @@ function sendMessage(conversationID, message, attachmentUrl = '') {
         showToast("Error sending message: " + error.message, 'error');
     });
 }
+
 
 async function uploadAttachment(conversationID, file) {
     const fileRef = storageRef(storage, `messages/${conversationID}/${file.name}`);

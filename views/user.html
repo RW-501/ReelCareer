@@ -1818,26 +1818,46 @@ document.getElementById('message-attachments').addEventListener('change', functi
 // Your form submission logic
 document.getElementById('sendMessageForm').addEventListener('submit', async function(e) {
     e.preventDefault();
-    const profilePic = document.getElementById('profilePic').src;
 
+    const profilePic = document.getElementById('profilePic').src;
     const senderID = auth.currentUser.uid;
     const recipientID = document.getElementById('recipient-id').value;
-    const content = document.getElementById('message-content').value;
-    const attachments = document.getElementById('message-attachments').files[0] || '';
+    const content = document.getElementById('message-content').value.trim();
+    const attachmentFile = document.getElementById('message-attachments').files[0];
     const userDataSaved = getUserData() || [];
 
     const connectBtn = document.getElementById('connect-btn');
     console.log("userIdconnectBtn ", connectBtn.innerText);
 
-let connectedBool = false;
+    let connectedBool = false;
 
-    if(connectBtn.innerText == "Connect"){
-      connectedBool = false;
-    }else if(connectBtn.innerText == "Pending"){
-      connectedBool = false;
-    }else if(connectBtn.innerText == "Connected"){
-      connectedBool = true;
+    if (connectBtn.innerText === "Connect") {
+        connectedBool = false;
+    } else if (connectBtn.innerText === "Pending") {
+        connectedBool = false;
+    } else if (connectBtn.innerText === "Connected") {
+        connectedBool = true;
     }
+
+    // Determine contentType based on the file type or fallback to 'text'
+    let contentType = 'text'; // Default to text
+    if (attachmentFile) {
+        const fileExtension = attachmentFile.name.split('.').pop().toLowerCase();
+        if (['jpg', 'jpeg', 'png', 'gif', 'bmp', 'svg', 'webp'].includes(fileExtension)) {
+            contentType = 'image';
+        } else if (['mp4', 'avi', 'mov', 'mkv', 'webm'].includes(fileExtension)) {
+            contentType = 'video';
+        } else if (['mp3', 'wav', 'aac', 'ogg', 'flac'].includes(fileExtension)) {
+            contentType = 'audio';
+        } else if (['pdf', 'doc', 'docx', 'ppt', 'pptx', 'xls', 'xlsx'].includes(fileExtension)) {
+            contentType = 'document';
+        } else if (['zip', 'rar', '7z', 'tar', 'gz'].includes(fileExtension)) {
+            contentType = 'archive';
+        } else {
+            contentType = 'unknown'; // Catch-all for unsupported types
+        }
+    }
+
     const messageData = {
         recipientID: recipientID,
         senderID: senderID || userDataSaved.userID,
@@ -1853,16 +1873,16 @@ let connectedBool = false;
         senderProfilePicture: userDataSaved.profilePicture || profilePic,
         senderProfileURL: `https://reelcareer.co/views/user?u=${senderID}`,
         timestamp: serverTimestamp(),
-        contentType: 'text',
+        contentType: contentType,
         status: 'unread',
-        attachments: attachments ? attachments.name : '',
+        attachments: attachmentFile ? attachmentFile.name : '',
         isDeleted: false
     };
 
     try {
         const messagesCollection = collection(db, 'Messages');
         await addDoc(messagesCollection, messageData);
-        
+
         showToast('Message sent successfully!');
         $('#sendMessageModal').modal('hide'); // Hide the modal after sending the message
     } catch (error) {
