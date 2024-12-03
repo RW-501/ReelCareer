@@ -474,6 +474,10 @@ closeSlidePanelBtn.addEventListener('click', () => {
 const titleDiv = document.createElement('div');
 titleDiv.classList.add('title');
 titleDiv.innerText = 'Messages'; // Set the title text
+contactList.appendChild(titleDiv);
+
+
+
 
 // Create the div for the contact list
 const contactListDiv = document.createElement('div');
@@ -501,9 +505,15 @@ contactList.appendChild(listItem);
         });
 
 // Create the div for the title
-const titleConnections = document.createElement('div');
-titleConnections.classList.add('title');
-titleConnections.innerText = 'Connections'; // Set the title text
+const titleDiv2 = document.createElement('div');
+titleDiv2.classList.add('title');
+titleDiv2.innerText = 'Connections'; // Set the title text
+contactList.appendChild(titleDiv2);
+
+
+
+
+
 
 // Create the div for the contact list
 const ConnectionstDiv = document.createElement('div');
