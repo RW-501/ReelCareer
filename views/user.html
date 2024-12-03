@@ -473,7 +473,7 @@ document.addEventListener('DOMContentLoaded', trackAllFormsWithExitWarning);
 
 
                             const settingsHeaderText = document.getElementById("settings-header-text");
-                            settingsHeaderText.innerText = target.data-bs-name;
+                            settingsHeaderText.innerText = target.getAttribute('data-bs-name');
   
 
 
