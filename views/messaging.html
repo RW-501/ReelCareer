@@ -260,12 +260,12 @@ main .row {
         console.error("Error fetching user ID:", error);
     }
 });
+const userDataSaved = getUserData() || [];
 
 const lastBreadcrumb_a = document.getElementById("lastBreadcrumb_a").innerText;
   
-  const userName = document.getElementById("nav-user-name").innerText;
 
-  lastBreadcrumb_a = userName;
+  lastBreadcrumb_a = userDataSaved.displayName;
 
     function loadContacts(userID) {
         console.log("userID: ", userID);
