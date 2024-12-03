@@ -383,7 +383,8 @@ const connectionsList = document.getElementById('connectionsList');
 async function fetchConnections() {
   try {
     // Assuming `connections` collection is stored in Firebase Firestore
-
+    const userDataSaved = await getUserData() || {};
+  let userID =  userDataSaved.userId;
     
  
 let connectionssRef = collection(db, 'Connections');
