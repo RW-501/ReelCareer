@@ -1197,7 +1197,7 @@ if (!hasComma) {
         membershipType: document.getElementById('membershipTypeSET-profile').value.trim(),
        // membershipExpiry: document.getElementById('renewalDateSET-profile').value.trim(),
     };
-    console.log("User Data:", userData);
+   // console.log("User Data:", userData);
 
     try {
       const userDataSaved = getUserData() || [];
@@ -1416,7 +1416,7 @@ profileData.tags.forEach(tag => {
             async function loadMembershipBadge(membership) {
             const badge = document.getElementById('membership-badge');
             if (membership) {
-                badge.innerHTML = `<span class="badge">Membership Level: ${membership}</span>`;
+                badge.innerHTML = `<span class="badge">Membership: ${membership}</span>`;
             }
         }
 
