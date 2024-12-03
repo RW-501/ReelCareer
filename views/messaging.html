@@ -564,7 +564,7 @@ contactListDiv.classList.add('contact-list');
             snapshot.forEach(doc => {
                 const data = doc.data();
                 const listItem = document.createElement('li');
-                listItem.className = 'list-group-item';
+                listItem.className = 'list-group-item msg-list-i';
                 listItem.innerHTML = `
       <a href="https://reelcareer.co/views/user/u=${data.senderID}" style="text-decoration: none;color: inherit;">
         <img src="${data.senderProfilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_tie_reel.png'}" alt="Avatar" class="avatar"></a>
@@ -579,7 +579,7 @@ contactList.appendChild(listItem);
 const titleDiv2 = document.createElement('div');
 titleDiv2.classList.add('title');
 titleDiv2.innerText = 'Connections'; // Set the title text
-contactListDiv.appendChild(titleDiv2);
+contactList.appendChild(titleDiv2);
 
 
 
@@ -601,7 +601,7 @@ let connectionssRef = collection(db, 'Connections');
 
         // Create a list item for the contact
         const listItem = document.createElement('li');
-        listItem.className = 'list-group-item';
+        listItem.className = 'list-group-item conn-list-i';
 
         // Add contact info with the "View Contact" button
         listItem.innerHTML = `
