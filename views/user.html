@@ -1689,18 +1689,20 @@ await setDoc(connectionRef, connectionData);
 
 
 document.addEventListener('DOMContentLoaded', async () => {
-    const userId = getUserId(); // Get logged-in user ID
-    const urlParams = new URLSearchParams(window.location.search);
+
+  const urlParams = new URLSearchParams(window.location.search);
     const userIdFromURL = urlParams.get('u'); // Get profile user ID
+    
+    const userDataSaved = getUserData() || [];
 
-    console.log("userId??????????????: ", userId);
+    console.log("userId??????????????: ", userDataSaved.userId);
 
-    if (!userId || !userIdFromURL || userId === userIdFromURL) {
+    if (!userDataSaved.userId || !userIdFromURL || userDataSaved.userId === userIdFromURL) {
         return; // Exit if IDs are invalid or user is viewing their own profile
     }
 
     const connectionsRef = collection(db, 'Connections');
-    const querySnapshot = query(connectionsRef, where('participants', 'array-contains', userId));
+    const querySnapshot = query(connectionsRef, where('participants', 'array-contains',userDataSaved.userId));
     const connectBtn = document.getElementById('connect-btn');
 
     try {
