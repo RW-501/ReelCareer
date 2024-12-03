@@ -286,7 +286,6 @@ main .row {
             <li id="lastBreadcrumb_home" class="breadcrumb-item"><a href="https://reelcareer.co/">Home</a></li>
             <li id="lastBreadcrumb_1" class="breadcrumb-item"><a id="lastBreadcrumb_1_a" href="https://reelcareer.co/views/user">View Profile</a></li>
 
-            <li id="lastBreadcrumb_last" class="breadcrumb-item">Connections</li>
 
             <li id="breadcrumb-active-title" class="breadcrumb-item active" aria-current="page">Messaging</li>
         </ol>
@@ -429,9 +428,6 @@ const userDataSaved = getUserData() || [];
 
 const lastBreadcrumb_1_a = document.getElementById("lastBreadcrumb_1_a");
 lastBreadcrumb_1_a.innerText = userDataSaved.displayName;
-const breadcrumbActiveTitle = document.getElementById("breadcrumb-active-title");
-
-const lastBreadcrumb_last = document.getElementById("lastBreadcrumb_last");
 
 
 
@@ -506,11 +502,27 @@ async function acceptConnection(fromID, toID) {
 window.acceptConnection  = acceptConnection ;
 
 
+
+const breadcrumbActiveTitle = document.getElementById("breadcrumb-active-title");
+
 // Open or close the sliding panel on button click
 openSlidePanelBtn.addEventListener('click', () => {
-    
+    // Toggle classes for sliding panel and contact list area
     controlsContactListArea.classList.toggle('controls-wide');
     connectionsSlidePanel.classList.toggle('open');
+    
+    // Toggle the text based on the panel state
+    breadcrumbActiveTitle.innerText = connectionsSlidePanel.classList.contains('open') ? "Messaging" : "Connections";
+});
+
+
+// Add an additional event listener to breadcrumbActiveTitle
+breadcrumbActiveTitle.addEventListener('click', () => {
+    // You can handle what happens when the breadcrumbActiveTitle is clicked here
+    // For example, you could toggle the panel or perform any other action
+    console.log('Breadcrumb clicked!');
+    // If you want to trigger the openSlidePanelBtn's functionality again
+    openSlidePanelBtn.click(); // This will trigger the same functionality as the button click
 });
 
 
@@ -518,7 +530,7 @@ openSlidePanelBtn.addEventListener('click', () => {
 closeSlidePanelBtn.addEventListener('click', () => {
   connectionsSlidePanel.classList.remove('open');
   controlsContactListArea.classList.remove('controls-wide');
-
+  breadcrumbActiveTitle.innerText =  "Connections";
 });
 
 
