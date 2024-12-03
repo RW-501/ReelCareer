@@ -1720,14 +1720,9 @@ async function checkConnection(){
                     updateButtonState(connectBtn, 'Pending', true);
                 } else 
                 
-                if (connectionData.status === 'connected') {
+                if (connectionData.status === 'accepted') {
                     updateButtonState(connectBtn, 'Connected', true);
-                } else 
-                 if (connectionData.status === 'sent') {
-                    updateButtonState(connectBtn, 'Sent', true);
-                } else {
-                    updateButtonState(connectBtn, 'Connect');
-                }
+                } 
             }
         });
 
