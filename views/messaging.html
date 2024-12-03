@@ -595,7 +595,7 @@ messageBox.innerHTML = '';
 
 
 // Function to accept a connection
-async function removeConnection(toID, fromID) {
+async function removeConnection(fromID, toID) {
   try {
     // Update the status of the connection to 'accepted'
 /*
@@ -622,7 +622,7 @@ window.removeConnection  = removeConnection ;
 
 
 // Function to accept a connection
-async function acceptConnection(toID, fromID) {
+async function acceptConnection(fromID, toID) {
   try {
     // Update the status of the connection to 'accepted'
     const connectionRef = doc(db, 'Connections', `${fromID}_${toID}`);
