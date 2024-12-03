@@ -1717,8 +1717,13 @@ document.addEventListener('DOMContentLoaded', async () => {
                 connectionFound = true;
                 if (connectionData.status === 'pending') {
                     updateButtonState(connectBtn, 'Pending', true);
-                } else if (connectionData.status === 'connected') {
+                } else 
+                
+                if (connectionData.status === 'connected') {
                     updateButtonState(connectBtn, 'Connected', true);
+                } else 
+                 if (connectionData.status === 'sent') {
+                    updateButtonState(connectBtn, 'Sent', true);
                 } else {
                     updateButtonState(connectBtn, 'Connect');
                 }
