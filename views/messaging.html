@@ -705,12 +705,12 @@ const connectionsQuery = query(connectionsRef, where('participants', 'array-cont
             listItem.addEventListener('click', () => appendConnection(data));
 
             // Based on status, append to appropriate section
-            if (data.status === "pending") {
-                if (data.from === userID) {
+            if (data.status == "pending") {
+                if (data.from == userID) {
+                    titleSent.appendChild(listItem);
 
-                titlePending.appendChild(listItem);
                 }else{
-            titlePending.appendChild(titleSent);
+            titlePending.appendChild(listItem);
 
 
                 }
