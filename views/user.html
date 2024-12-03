@@ -184,7 +184,7 @@
   <div id="profileSettingsMain"  class="container">
 
     <div id="profile-settings-header">
-    <h1 class="mb-4">Profile Settings</h1>
+    <h1 id="settings-header-text" class="mb-4">Profile Settings</h1>
     <button type="button" class="btn btn-primary" id="saveProfileBtn-profile">Save Changes</button>
   </div>
 
@@ -221,8 +221,7 @@
   
   
     <div class="tab-content mt-4">
-      <div class="tab-pane fade" id="settings-profile" role="tabpanel" aria-labelledby="profile-settings-tab">
-        <h3>Settings</h3>
+      <div class="tab-pane fade" id="settings-profile" data-bs-name="Settings" role="tabpanel" aria-labelledby="profile-settings-tab">
         <p>Update your Settings here.</p>
   
    <!-- Settings Tab -->
@@ -258,8 +257,7 @@
   
   
   
-      <div class="tab-pane fade show active" id="personal-profile" role="tabpanel" aria-labelledby="profile-personal-tab">
-        <h3>Personal Information</h3>
+      <div class="tab-pane fade show active" id="personal-profile" data-bs-name="Personal Information" role="tabpanel" aria-labelledby="profile-personal-tab">
         <p>Update your personal details here.</p>
     <!-- Personal Tab -->
       <form id="personalForm-profile">
@@ -310,8 +308,7 @@
   
   
     
-      <div class="tab-pane fade" id="social-profile" role="tabpanel" aria-labelledby="profile-social-tab">
-        <h3>Social Profiles</h3>
+      <div class="tab-pane fade" id="social-profile" data-bs-name="Social Profiles" role="tabpanel" aria-labelledby="profile-social-tab">
         <p>Manage your social media links here.</p>
    <!-- Social Tab -->
       <form id="socialForm-profile">
@@ -336,8 +333,7 @@
   
   
       
-      <div class="tab-pane fade" id="membership-profile" role="tabpanel" aria-labelledby="profile-membership-tab">
-        <h3>Membership Details</h3>
+      <div class="tab-pane fade" id="membership-profile" data-bs-name="Membership Details" role="tabpanel" aria-labelledby="profile-membership-tab">
         <p>Check your membership information here.</p>
   
    <!-- Membership Tab -->
@@ -473,6 +469,14 @@ document.addEventListener('DOMContentLoaded', trackAllFormsWithExitWarning);
                           // Show the corresponding tab content
                           const target = document.querySelector(e.target.dataset.bsTarget);
                           if (target) {
+
+
+
+                            const settingsHeaderText = document.getElementById("settings-header-text");
+                            settingsHeaderText.innerText = target.data-bs-name;
+  
+
+
                             target.classList.add("active", "show");
                           }
                         });
@@ -917,8 +921,7 @@ window.onload = async function () {
   
   const userName = document.getElementById("user-name").innerText;
 */
-
-
+  
 
 function setUpUI(){
 
@@ -1049,6 +1052,10 @@ document.getElementById('recruiter-btn').style.display = 'block';
 document.getElementById('view-profile-btn').style.display = 'block';
 document.getElementById('view-messages-btn').style.display = 'block';
 
+const userName = document.getElementById("user-name").innerText;
+const breadcrumbjobTitleActive = document.getElementById("breadcrumb-active-title");
+
+breadcrumbjobTitleActive.innerText = `${userName} - Settings`;
 
 }else{
     // Call this function when the user data is not found
