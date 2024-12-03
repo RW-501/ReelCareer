@@ -651,19 +651,16 @@ closeSlidePanelBtn.addEventListener('click', () => {
 
 
 
-
-
-function loadContacts(userID) {
+function loadContacts(userID) { 
     console.log("userID:", userID);
 
     const contactList = document.getElementById('contactList');
     contactList.innerHTML = '';  // Clear the existing content
 
-    // Helper function to create sections with title and append to container
     const createSection = (sectionTitle) => {
         const sectionDiv = document.createElement('div');
         sectionDiv.classList.add('contact-list');
-        
+
         const titleDiv = document.createElement('div');
         titleDiv.classList.add('title');
         titleDiv.innerText = sectionTitle;
@@ -672,15 +669,21 @@ function loadContacts(userID) {
         return sectionDiv;
     };
 
-    // Creating the 'Messages' section
     const messageSection = createSection('Messages');
     contactList.appendChild(messageSection);
 
     let contactsRef = collection(db, 'Messages');
     let messagesQuery = query(contactsRef, where('recipientID', '==', userID));
+    
+    // Map to track displayed messages
+    const displayedMessages = new Set();
 
     onSnapshot(messagesQuery, snapshot => {
         snapshot.forEach(doc => {
+            const docID = doc.id;
+            if (displayedMessages.has(docID)) return; // Skip if already displayed
+            
+            displayedMessages.add(docID); // Mark as displayed
             const data = doc.data();
             const listItem = document.createElement('li');
             listItem.className = 'list-group-item msg-list-i';
@@ -697,7 +700,6 @@ function loadContacts(userID) {
         });
     });
 
-    // Creating the 'Connections' section
     const connectionsSection = createSection('Connections');
     contactList.appendChild(connectionsSection);
 
@@ -706,9 +708,6 @@ function loadContacts(userID) {
     titlePending.innerHTML = "<small>Pending</small>";
     connectionsSection.appendChild(titlePending);
 
-
-
-    
     const titleSent = document.createElement('div');
     titleSent.classList.add('title');
     titleSent.innerHTML = "<small>Sent</small>";
@@ -719,57 +718,50 @@ function loadContacts(userID) {
     titleAccepted.innerHTML = "<small>Connected</small>";
     connectionsSection.appendChild(titleAccepted);
 
+    const connectionsRef = collection(db, 'Connections');
+    const connectionsQuery = query(connectionsRef, where('participants', 'array-contains', userID));
 
-const connectionsRef = collection(db, 'Connections');
-const connectionsQuery = query(connectionsRef, where('participants', 'array-contains', userID));
+    // Map to track displayed connections
+    const displayedConnections = new Set();
 
     onSnapshot(connectionsQuery, snapshotConnections => {
         snapshotConnections.forEach(doc => {
+            const docID = doc.id;
+            if (displayedConnections.has(docID)) return; // Skip if already displayed
+
+            displayedConnections.add(docID); // Mark as displayed
             const data = doc.data();
             const listItem = document.createElement('li');
             listItem.className = 'list-group-item conn-list-i';
 
-    
-            if (data.status == "pending" && data.from == userID) {
-            const sentHTML = `
-                <a href="${data.toProfileURL}" style="text-decoration: none;color: inherit;">
-                    <img src="${data.toProfilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_tie_reel.png'}" alt="Avatar" class="avatar">
-                </a>
-                <span>${data.toName}</span>
-            `;
-
-            listItem.innerHTML = sentHTML;
-
-            }else{
-                const commonHTML = `
-                <a href="${data.fromProfileURL}" style="text-decoration: none;color: inherit;">
-                    <img src="${data.fromProfilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_tie_reel.png'}" alt="Avatar" class="avatar">
-                </a>
-                <span>${data.fromName}</span>
-            `;
-
-            listItem.innerHTML = commonHTML;
-
+            if (data.status === "pending" && data.from === userID) {
+                listItem.innerHTML = `
+                    <a href="${data.toProfileURL}" style="text-decoration: none;color: inherit;">
+                        <img src="${data.toProfilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_tie_reel.png'}" alt="Avatar" class="avatar">
+                    </a>
+                    <span>${data.toName}</span>
+                `;
+            } else {
+                listItem.innerHTML = `
+                    <a href="${data.fromProfileURL}" style="text-decoration: none;color: inherit;">
+                        <img src="${data.fromProfilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_tie_reel.png'}" alt="Avatar" class="avatar">
+                    </a>
+                    <span>${data.fromName}</span>
+                `;
             }
-
-
 
             listItem.addEventListener('click', () => appendConnection(data));
 
-            // Based on status, append to appropriate section
-            if (data.status == "pending") {
-                if (data.from == userID) {
+            if (data.status === "pending") {
+                if (data.from === userID) {
                     titleSent.appendChild(listItem);
-
-                }else{
-            titlePending.appendChild(listItem);
-
-
+                } else {
+                    titlePending.appendChild(listItem);
                 }
-
             } else {
                 titleAccepted.appendChild(listItem);
             }
+
             openSlidePanelBtn.click(); 
         });
     });
