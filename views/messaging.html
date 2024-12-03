@@ -940,8 +940,8 @@ document.getElementById('sendMessageButton').onclick = async () => {
     const conversationID = document.getElementById('conversationTitle').getAttribute('data-conversation-id');
     const message = messageInput.value;
     const attachmentInput = document.getElementById('attachmentInput').files[0];
-    const profilePic = document.getElementById('nav-bar-profilePic').src;
 
+    
     if (!message && !attachmentInput) {
         showToast("Please enter a message or attach a file.", 'warning');
         return;
@@ -967,7 +967,7 @@ function sendMessage(conversationID, message, attachmentUrl = '') {
         senderID: auth.currentUser.uid,
         recipientID: conversationID,
         conversationID: conversationID,
-        profilePicture: profilePic,
+        profilePicture: userDataSaved.profilePicture,
         content: message,
         contentType: attachmentUrl ? (attachmentUrl.match(/\.(jpg|png)$/) ? 'image' : 'video') : 'text',
         attachments: attachmentUrl,
