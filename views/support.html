@@ -159,7 +159,7 @@
    
    import {
     getUserId, db, doc, getDoc, query, updateDoc,
-        setDoc, ref, signInWithPopup, orderBy,
+        setDoc, ref, signInWithPopup, orderBy, serverTimestamp ,
         arrayRemove, arrayUnion , uploadBytesResumable, 
         uploadBytes, OAuthProvider, getStorage,
         signOut, addDoc, increment, onAuthStateChanged,
@@ -216,18 +216,102 @@ window.onload = async function () {
   
     }, 300);
 };
+import { db, collection, getDocs } from 'https://reelcareer.co/js/module.js';
 
+// Fetch Troubleshooting Guides
+async function fetchTroubleshootingGuides() {
+    const troubleshootingRef = collection(db, "Troubleshooting");
+    const snapshot = await getDocs(troubleshootingRef);
+    let guides = [];
+    snapshot.forEach((doc) => {
+        guides.push(doc.data());
+    });
+    return guides;
+}
+
+// Fetch Help Center Articles
+async function fetchHelpCenterArticles() {
+    const helpCenterRef = collection(db, "HelpDesk");
+    const snapshot = await getDocs(helpCenterRef);
+    let articles = [];
+    snapshot.forEach((doc) => {
+        articles.push(doc.data());
+    });
+    return articles;
+}
+
+// Populate Troubleshooting Guides
+async function populateTroubleshooting() {
+    const guides = await fetchTroubleshootingGuides();
+    const troubleshootingList = document.getElementById('troubleshooting-list');
+    troubleshootingList.innerHTML = '';
+    guides.forEach(guide => {
+        const listItem = document.createElement('a');
+        listItem.className = 'list-group-item list-group-item-action';
+        listItem.href = '#'; // Link to detailed guide
+        listItem.textContent = guide.title;
+        troubleshootingList.appendChild(listItem);
+    });
+}
+
+// Populate Help Center Articles
+async function populateHelpCenter() {
+    const articles = await fetchHelpCenterArticles();
+    const helpCenterAccordion = document.getElementById('helpCenterAccordion');
+    helpCenterAccordion.innerHTML = '';
+    articles.forEach((article, index) => {
+        const accordionItem = `
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="heading${index}">
+                    <button class="accordion-button ${index === 0 ? '' : 'collapsed'}" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${index}" aria-expanded="${index === 0}" aria-controls="collapse${index}">
+                        ${article.title}
+                    </button>
+                </h2>
+                <div id="collapse${index}" class="accordion-collapse collapse ${index === 0 ? 'show' : ''}" aria-labelledby="heading${index}" data-bs-parent="#helpCenterAccordion">
+                    <div class="accordion-body">${article.content}</div>
+                </div>
+            </div>
+        `;
+        helpCenterAccordion.innerHTML += accordionItem;
+    });
+}
+
+// Initialize Content
+document.addEventListener('DOMContentLoaded', async () => {
+    await populateTroubleshooting();
+    await populateHelpCenter();
+});
 
   // Placeholder for interactive tip
-  function showInteractiveTip(message) {
-            const tipElement = document.getElementById('interactive-tip');
-            tipElement.textContent = message;
-            tipElement.style.display = 'block';
-        }
+  function showInteractiveTooltip(condition, message) {
+    if (condition) {
+        const tooltip = document.createElement('div');
+        tooltip.className = 'tooltip';
+        tooltip.textContent = message;
+        document.body.appendChild(tooltip);
 
-        // Example usage
-        // showInteractiveTip("Ensure your resume is in PDF format and below 5MB.");
+        // Remove tooltip after 5 seconds
+        setTimeout(() => {
+            tooltip.remove();
+        }, 5000);
+    }
+}
 
+// Example Trigger: When a user is editing their profile
+const isEditingProfile = true; // Replace with actual condition
+if (isEditingProfile) {
+    showInteractiveTooltip(isEditingProfile, 'Need help updating your profile? Check our troubleshooting guide!');
+}
+
+// Placeholder Chatbot Interaction Logger
+function logChatbotInteraction(userId, query) {
+    const interactionRef = collection(db, "ChatbotInteractions");
+    addDoc(interactionRef, {
+        userId: userId,
+        query: query,
+        timestamp: new Date()
+    });
+}
 
     </script>
 
