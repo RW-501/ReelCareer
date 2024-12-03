@@ -1657,6 +1657,7 @@ document.getElementById('connect-btn').addEventListener('click', async () => {
     to: userIdFromURL,
     toProfilePicture: toProfilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_tie_reel.png',
     toName: toName,
+    toProfileURL: `https://reelcareer.co/views/user?u=${userIdFromURL}`,
 
     participants: [userId, userIdFromURL], // Add this array
     status: 'pending',
