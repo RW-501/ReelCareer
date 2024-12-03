@@ -671,13 +671,22 @@ function loadContacts(userID) {
     titlePending.innerHTML = "<small>Pending</small>";
     connectionsSection.appendChild(titlePending);
 
+
+
+    
+    const titleSent = document.createElement('div');
+    titleSent.classList.add('title');
+    titleSent.innerHTML = "<small>Sent</small>";
+    connectionsSection.appendChild(titleSent);
+
     const titleAccepted = document.createElement('div');
     titleAccepted.classList.add('title');
-    titleAccepted.innerHTML = "<small>Accepted</small>";
+    titleAccepted.innerHTML = "<small>Connected</small>";
     connectionsSection.appendChild(titleAccepted);
 
-    let connectionsRef = collection(db, 'Connections');
-    let connectionsQuery = query(connectionsRef, where('to', '==', userID));
+
+const connectionsRef = collection(db, 'Connections');
+const connectionsQuery = query(connectionsRef, where('participants', 'array-contains', userID));
 
     onSnapshot(connectionsQuery, snapshotConnections => {
         snapshotConnections.forEach(doc => {
@@ -697,7 +706,15 @@ function loadContacts(userID) {
 
             // Based on status, append to appropriate section
             if (data.status === "pending") {
+                if (data.from === userID) {
+
                 titlePending.appendChild(listItem);
+                }else{
+            titlePending.appendChild(titleSent);
+
+
+                }
+
             } else {
                 titleAccepted.appendChild(listItem);
             }

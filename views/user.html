@@ -1651,18 +1651,20 @@ document.getElementById('connect-btn').addEventListener('click', async () => {
 
     // Prepare and save connection data
     const connectionData = {
-      from: userId,
-      to: userIdFromURL,
-      status: 'pending',
-      createdAt: new Date(),
-      fromGroup: 'new',
-      fromNote: '',
-      fromName: userDataSaved.displayName,
-      fromProfilePicture: userDataSaved.profilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_tie_reel.png',
-      fromProfileURL: `https://reelcareer.co/views/user?u=${userId}`
-    };
+    from: userId,
+    to: userIdFromURL,
+    participants: [userId, userIdFromURL], // Add this array
+    status: 'pending',
+    createdAt: new Date(),
+    fromGroup: 'new',
+    fromNote: '',
+    fromName: userDataSaved.displayName,
+    fromProfilePicture: userDataSaved.profilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_tie_reel.png',
+    fromProfileURL: `https://reelcareer.co/views/user?u=${userId}`
+};
 
-    await setDoc(connectionRef, connectionData);
+await setDoc(connectionRef, connectionData);
+
 
     // Update button and notify user
     connectBtn.innerText = 'Pending';
