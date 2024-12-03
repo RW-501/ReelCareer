@@ -27,7 +27,7 @@ import {
 } from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-auth.js';
 
 // Storage import
-import { getDownloadURL,storageRef, uploadBytes, uploadBytesResumable, ref, getStorage, deleteObject } from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-storage.js';
+import { getDownloadURL, uploadBytes, uploadBytesResumable, ref, getStorage, deleteObject } from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-storage.js';
 
 // Analytics import
 import { initializeAnalytics } from 'https://www.gstatic.com/firebasejs/9.17.2/firebase-analytics.js';
@@ -146,7 +146,7 @@ export {
   OAuthProvider, signOut, deleteDoc, getFirestore, serverTimestamp,
   createUserWithEmailAndPassword, signInWithEmailAndPassword, deleteObject,
   where, getDocs, storage, getAuth, collection, auth, analytics,
-  googleProvider,onSnapshot ,storageRef,
+  googleProvider,onSnapshot ,
   facebookProvider,
   getUserId // Export the function
 };
