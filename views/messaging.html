@@ -450,7 +450,7 @@ async function fetchConnections() {
 
 
 let connectionssRef = collection(db, 'Connections');
-const querySnapshot = query(connectionssRef, where('from', '==', userID));
+const querySnapshot = query(connectionssRef, where('participants', 'array-contains', userID));
 
     querySnapshot.forEach(doc => {
       const connectionData = doc.data();
@@ -484,7 +484,7 @@ function appendConnection(connection, type) {
 
   if (connection.status == "pending") {
 
-                if (data.to == userID) {
+                if (data.from == userID) {
                     const connectionInfo = `
     <div>
       <img src="${connection.toProfilePicture}" alt="Profile" width="40" height="40">
