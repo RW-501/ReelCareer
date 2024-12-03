@@ -530,7 +530,8 @@ console.log("connectionId: ", connectionId);
                 `;
                 div.innerHTML = connectionInfo;
             }
-        } else {
+        } else   if (connection.status === "accepted") {
+
 
             if (connection.from === userDataSaved.userID) {
                 const connectionInfo = `
@@ -538,7 +539,7 @@ console.log("connectionId: ", connectionId);
                   <img src="${connection.toProfilePicture}" alt="Profile" width="40" height="40">
                   <a href="${connection.toProfileURL}" target="_blank">${connection.toName}</a>
                 </div>
-                <button onclick="removeConnection('${connection.from}', '${connection.to}')">Remove</button>
+            <button onclick="composeMessages('${connection.from}', '${connection}')">Send Message</button>
                 `;
                 div.innerHTML = connectionInfo;
             } else {
