@@ -940,14 +940,13 @@ document.addEventListener('DOMContentLoaded', () => {
 document.getElementById('sendMessageButton').onclick = async () => {
     const messageInput = document.getElementById('messageInput');
     const conversationID = document.getElementById('conversationTitle').getAttribute('data-conversation-id');
-    let message = messageInput.value;
+    let messageValue = messageInput.value;
     const attachmentInput = document.getElementById('attachmentInput').files[0];
-    console.log("Message input value at click:", document.getElementById('messageInput')?.value);
 
+    
     console.log("Message input value:", messageInput.value);
-     message = messageInput.value.trim(); // Trim to avoid sending blank spaces
 
-    if (!message && !attachmentInput) {
+    if (!messageValue && !attachmentInput) {
         showToast("Please enter a message or attach a file.", 'warning');
        // return;
     }
@@ -962,7 +961,7 @@ document.getElementById('sendMessageButton').onclick = async () => {
             attachmentUrl = await uploadAttachment(conversationID, attachmentInput);
         }
         await sendMessage(conversationID, message, attachmentUrl);
-        messageInput.value = ''; // Clear input
+        messageValue = ''; // Clear input
         document.getElementById('attachmentInput').value = ''; // Clear attachment
         document.getElementById('attachmentPreview').classList.add('d-none'); // Hide preview after send
     } catch (error) {
@@ -979,7 +978,8 @@ function sendMessage(conversationID, message, attachmentUrl = '') {
         recipientID: conversationID,
         conversationID: conversationID,
         profilePicture: userDataSaved.profilePicture,
-        content: message,
+        content: messageValue.trim() // Trim to avoid sending blank spaces
+        ,
         contentType: attachmentUrl ? (attachmentUrl.match(/\.(jpg|png)$/) ? 'image' : 'video') : 'text',
         attachments: attachmentUrl,
         messageType: 'contact',
