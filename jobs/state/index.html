@@ -384,6 +384,8 @@ function getHashFromURL() {
   let segments = hash ? decodeURIComponent(hash.substring(1)).replace(/[^\w\s-]/g, '') : null;
 
   segments = segments ? segments.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' '): null;
+  // Set the new title
+document.title = `ReelCareer.co | Search for Jobs in the State of ${segments} `;
 
   return segments;
 }

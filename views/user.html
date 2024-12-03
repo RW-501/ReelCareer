@@ -941,6 +941,8 @@ lastBreadcrumb_a.href = `https://reelcareer.co/views/user?u=${userId}`;
 const userName = document.getElementById("user-name").innerText;
 
 breadcrumbjobTitleActive.innerText = userName;
+// Set the new title
+document.title = `ReelCareer.co | ${userName} Profile`;
 
 breadcrumbjobTitleActive.style.display = "block";
       // Ensure userIdFromURL is not null or undefined
@@ -1065,7 +1067,8 @@ const userName = document.getElementById("user-name").innerText;
 const breadcrumbjobTitleActive = document.getElementById("breadcrumb-active-title");
 
 breadcrumbjobTitleActive.innerText = `${userName} - Settings`;
-
+// Set the new title
+document.title = `ReelCareer.co | ${userName} - Settings`;
 }else{
     // Call this function when the user data is not found
     showUserDataNotFoundMessage();
@@ -1210,7 +1213,7 @@ document.getElementById('saveProfileBtn-profile').addEventListener('click', asyn
 
 
 
-        
+
         const userDataEcode = setUserData(userData);
 
         localStorage.setItem('userData', userDataEcode);

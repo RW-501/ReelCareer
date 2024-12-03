@@ -290,6 +290,7 @@ scriptTag.type = "application/ld+json";
 scriptTag.innerHTML = blogSchema;
 document.head.appendChild(scriptTag);
 
+document.title = `ReelCareer.co | Blog: ${blogData.title}`;
 
 document.getElementById("lastBreadcrumb").innerHTML = `${blogData.title}`;
 
