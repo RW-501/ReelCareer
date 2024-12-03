@@ -468,7 +468,16 @@ const querySnapshot = query(connectionssRef, where('participants', 'array-contai
 
 // Appending a single connection to the list
 function appendConnection(connection, type) {
-    const connectionId = connection.from ; // Use a unique identifier (from sender or receiver ID)
+
+    let connectionId = '';
+if(connection.from == userDataSaved.userID){
+    connectionId = connection.to ; // Use a unique identifier (from sender or receiver ID)
+
+}else{
+    connectionId = connection.from ; // Use a unique identifier (from sender or receiver ID)
+
+}
+
     const existingConnection = document.querySelector(`[data-connection-id="${connectionId}"]`);
 
     // Check if the connection is already in the list
