@@ -1161,56 +1161,58 @@ document.getElementById('profilePictureSET-profile').addEventListener('change', 
 document.getElementById('saveProfileBtn-profile').addEventListener('click', async () => {
     // Gather form data
     const websitesSetup = [
-        { name: "LinkedIn", url: document.getElementById('linkedinSET-profile').value.trim() },
-        { name: "Other", url: document.getElementById('otherSET-profile').value.trim() },
-        { name: "GitHub", url: document.getElementById('githubSET-profile').value.trim() },
-        { name: "Portfolio", url: document.getElementById('portfolioSET-profile').value.trim() }
+        { name: "LinkedIn", url: document.getElementById('linkedinSET-profile').value.trim() || '' },
+        { name: "Other", url: document.getElementById('otherSET-profile').value.trim() || '' },
+        { name: "GitHub", url: document.getElementById('githubSET-profile').value.trim() || '' },
+        { name: "Portfolio", url: document.getElementById('portfolioSET-profile').value.trim() || '' }
     ];
+
+    // Filter out empty URLs
     const websites = websitesSetup.filter(site => site.url !== "");
 
-// Make sure tagsList is not empty or null
-const tagsInput = document.getElementById('tagsSET-profile').value; // Get the input value as a string
-const tags = tagsInput ? tagsInput.split(",").map(item => item.toLowerCase().trim()) : [];
+    // Ensure tagsList is not empty or null
+    const tagsInput = document.getElementById('tagsSET-profile').value.trim();
+    const tags = tagsInput ? tagsInput.split(",").map(item => item.toLowerCase().trim()) : [];
 
-// Check if there's at least one comma
-const hasComma = tagsInput.trim().includes(',');
-if (!hasComma) {
-  showToast("Please add at least one tag.");
-}
+    // Check if there's at least one comma
+    const hasComma = tagsInput.includes(',');
+    if (!hasComma) {
+        showToast("Please add at least one tag.");
+        return;  // Prevent form submission if validation fails
+    }
 
-
+    // Gather other user data
     const userData = {
-        displayName: document.getElementById('usernameSET-profile').value.trim(),
-        phone: document.getElementById('phoneSET-profile').value.trim(),
-//        dob: document.getElementById('dobSET-profile').value.trim(),
-        name: document.getElementById('nameSET-profile').value.trim(),
-        bio: document.getElementById('bioSET-profile').value.trim(),
-        location: document.getElementById('locationSET-profile').value.trim(),
-        position: document.getElementById('positionSET-profile').value.trim(),
-        publicProfile: document.getElementById('publicProfileSET-profile').checked,
+        displayName: document.getElementById('usernameSET-profile').value.trim() || '',
+        phone: document.getElementById('phoneSET-profile').value.trim() || '',
+        name: document.getElementById('nameSET-profile').value.trim() || '',
+        bio: document.getElementById('bioSET-profile').value.trim() || '',
+        location: document.getElementById('locationSET-profile').value.trim() || '',
+        position: document.getElementById('positionSET-profile').value.trim() || '',
+        publicProfile: document.getElementById('publicProfileSET-profile').checked || false,
         tags: tags,
-        linkedin: document.getElementById('linkedinSET-profile').value.trim(),
-        other: document.getElementById('otherSET-profile').value.trim(),
-        github: document.getElementById('githubSET-profile').value.trim(),
-        portfolio: document.getElementById('portfolioSET-profile').value.trim(),
+        linkedin: document.getElementById('linkedinSET-profile').value.trim() || '',
+        other: document.getElementById('otherSET-profile').value.trim() || '',
+        github: document.getElementById('githubSET-profile').value.trim() || '',
+        portfolio: document.getElementById('portfolioSET-profile').value.trim() || '',
         websites: websites,
-        membershipType: document.getElementById('membershipTypeSET-profile').value.trim(),
-       // membershipExpiry: document.getElementById('renewalDateSET-profile').value.trim(),
+        membershipType: document.getElementById('membershipTypeSET-profile').value.trim() || '',
+        // membershipExpiry: document.getElementById('renewalDateSET-profile').value.trim() || ''
     };
-   console.log("User Data:", userData);
+
+    console.log("User Data:", userData);
 
     try {
-      const userDataSaved = await getUserData() || {};
+        const userDataSaved = await getUserData() || {};
 
         const userDocRef = doc(db, "Users", userDataSaved.userID);
         await setDoc(userDocRef, userData, { merge: true });
 
-      let  userDataEcode = setUserData(userData);
-// console.log("userData   ",userData);
+        const userDataEcode = setUserData(userData);
 
- localStorage.setItem('userData', userDataEcode);
- 
- console.log("User data saved successfully!");
+        localStorage.setItem('userData', userDataEcode);
+
+        console.log("User data saved successfully!");
 
         loadUserData(userData);
 
@@ -1222,8 +1224,6 @@ if (!hasComma) {
         showToast("There was an error updating your profile. Please try again later.");
     }
 });
-
-
 
                     document.getElementById('deactivateAccountBtn-profile').addEventListener('click', async () => {
                       const userDataSaved = getUserData() || [];
