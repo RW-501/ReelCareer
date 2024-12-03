@@ -1200,7 +1200,7 @@ if (!hasComma) {
    console.log("User Data:", userData);
 
     try {
-      const userDataSaved = getUserData() || [];
+      const userDataSaved = await getUserData() || {};
 
         const userDocRef = doc(db, "Users", userDataSaved.userID);
         await setDoc(userDocRef, userData, { merge: true });
