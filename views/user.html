@@ -1690,8 +1690,7 @@ await setDoc(connectionRef, connectionData);
 
 document.addEventListener('DOMContentLoaded', async () => {
 
-    try {
-
+    
       const userID = document.getElementById('currentUserId').innerText;
 
   const urlParams = new URLSearchParams(window.location.search);
@@ -1703,6 +1702,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (!userID || !userIdFromURL || userID === userIdFromURL) {
         return; // Exit if IDs are invalid or user is viewing their own profile
     }
+    try {
 
     const connectionsRef = collection(db, 'Connections');
     const querySnapshot = query(connectionsRef, where('participants', 'array-contains',userID));
