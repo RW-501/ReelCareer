@@ -154,6 +154,73 @@ main .row {
     display: flex;
     grid-column-gap: unset;
 }
+
+
+
+/* Initial style for the sliding panel */
+.slide-panel {
+  position: fixed;
+  top: 0;
+  right: -350px; /* Initially hidden */
+  width: 350px;
+  height: 100%;
+  background-color: #fff;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+  transition: right 0.3s ease;
+  z-index: 1000;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.slide-panel.open {
+  right: 0; /* When open, it slides in */
+}
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.close-btn {
+  background-color: transparent;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.connections-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.connection-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #ddd;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.connection-item button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.connection-item button:hover {
+  background-color: #45a049;
+}
+
+
+
+
     </style>
 
 </head>
@@ -219,6 +286,20 @@ main .row {
 </div>
 
 
+<!-- Button to open the sliding panel -->
+<button id="openSlidePanelBtn" class="btn btn-primary">View Connections</button>
+
+<!-- Sliding Panel -->
+<div id="connectionsSlidePanel" class="slide-panel">
+  <div class="panel-header">
+    <h3>Connections</h3>
+    <button id="closeSlidePanelBtn" class="close-btn">X</button>
+  </div>
+  
+  <div id="connectionsList" class="connections-list">
+    <!-- Connection items will be dynamically appended here -->
+  </div>
+</div>
 
 
                 </div>
@@ -267,6 +348,109 @@ const lastBreadcrumb_a = document.getElementById("lastBreadcrumb_a");
 
   lastBreadcrumb_a.innerText = userDataSaved.displayName;
 
+
+
+
+
+
+
+// Elements
+const openSlidePanelBtn = document.getElementById('openSlidePanelBtn');
+const closeSlidePanelBtn = document.getElementById('closeSlidePanelBtn');
+const connectionsSlidePanel = document.getElementById('connectionsSlidePanel');
+const connectionsList = document.getElementById('connectionsList');
+
+// Fetching Connections from the database (assuming you are using Firebase)
+async function fetchConnections() {
+  try {
+    // Assuming `connections` collection is stored in Firebase Firestore
+
+    
+ 
+let connectionssRef = collection(db, 'Connections');
+const querySnapshot = query(connectionssRef, where('to', '==', userID));
+
+    querySnapshot.forEach(doc => {
+      const connectionData = doc.data();
+      if (connectionData.status === 'pending') { // Only show pending connections
+        appendConnection(connectionData);
+      }
+    });
+  } catch (error) {
+    console.error('Error fetching connections:', error);
+  }
+}
+
+// Appending a single connection to the list
+function appendConnection(connection) {
+  const div = document.createElement('div');
+  div.classList.add('connection-item');
+  
+  // Display Connection Information
+  const connectionInfo = `
+    <div>
+      <img src="${connection.fromProfilePicture}" alt="Profile" width="40" height="40">
+      <a href="${connection.fromProfileURL}" target="_blank">${connection.fromName}</a>
+    </div>
+    <button onclick="acceptConnection('${connection.from}', '${connection.to}')">Accept</button>
+  `;
+  div.innerHTML = connectionInfo;
+  
+  connectionsList.appendChild(div);
+}
+
+// Function to accept a connection
+async function acceptConnection(fromID, toID) {
+  try {
+    // Update the status of the connection to 'accepted'
+    const connectionRef = doc(db, 'Connections', `${fromID}_${toID}`);
+    await updateDoc(connectionRef, {
+      status: 'accepted'
+    });
+    
+    showToast('Connection accepted!');
+    // Refresh the list of connections
+    connectionsList.innerHTML = '';
+    fetchConnections();
+  } catch (error) {
+    console.error('Error accepting connection:', error);
+    showToast('Failed to accept connection.');
+  }
+}
+
+// Show toast notifications
+function showToast(message) {
+  const toast = document.createElement('div');
+  toast.classList.add('toast');
+  toast.innerText = message;
+  document.body.appendChild(toast);
+  setTimeout(() => toast.remove(), 3000);
+}
+
+// Open the sliding panel
+openSlidePanelBtn.addEventListener('click', () => {
+  connectionsSlidePanel.classList.add('open');
+  fetchConnections(); // Load connections when opening the panel
+});
+
+// Close the sliding panel
+closeSlidePanelBtn.addEventListener('click', () => {
+  connectionsSlidePanel.classList.remove('open');
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     function loadContacts(userID) {
         console.log("userID: ", userID);
 
@@ -312,8 +496,10 @@ titleConnections.innerText = 'Connections'; // Set the title text
 const ConnectionstDiv = document.createElement('div');
 ConnectionstDiv.classList.add('contact-list');
 
-         contactsRef = collection(db, 'Connections');
-         q = query(contactsRef, where('recipientID', '==', userID));
+
+
+let connectionssRef = collection(db, 'Connections');
+         q = query(connectionssRef, where('to', '==', userID));
 
         onSnapshot(q, snapshot => {
 
