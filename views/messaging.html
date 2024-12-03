@@ -470,7 +470,7 @@ const querySnapshot = query(connectionssRef, where('participants', 'array-contai
 function appendConnection(connection, type) {
 
     let connectionId = '';
-if(connection.from == userDataSaved.userID){
+if(connection.from == userId){
     connectionId = connection.to ; // Use a unique identifier (from sender or receiver ID)
 
 }else{
