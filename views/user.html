@@ -1710,6 +1710,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         const snapshot = await getDocs(querySnapshot);
         let connectionFound = false;
+        console.log("userIdconnectBtn ", connectBtn.innerText);
 
         snapshot.forEach(doc => {
             const connectionData = doc.data();
