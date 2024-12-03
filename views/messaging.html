@@ -797,6 +797,13 @@ function loadContacts(userID) {
                     </a>
                     <span>${data.fromName}</span>
                 `;
+            }else  if (data.status === "pending" || data.status === "accepted" && data.from != userID) {
+                listItem.innerHTML = `
+                    <a href="${data.fromProfileURL}" style="text-decoration: none;color: inherit;">
+                        <img src="${data.fromProfilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_tie_reel.png'}" alt="Avatar" class="avatar">
+                    </a>
+                    <span>${data.fromName}</span>
+                `;
             }
 
             listItem.addEventListener('click', () => {
