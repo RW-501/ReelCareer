@@ -698,7 +698,7 @@ function loadContacts(userID) {
                 <span>${data.senderName}</span>
             `;
 
-            listItem.onclick = () => appendConnection(data, "message"), loadMessages(data.conversationID, data);
+            listItem.onclick = () => appendConnection(data, "message"), loadMessages(data.conversationID, data), openSlidePanelBtn.click();
             messageSection.appendChild(listItem);
         });
     });
@@ -753,7 +753,7 @@ function loadContacts(userID) {
                 `;
             }
 
-            listItem.addEventListener('click', () => appendConnection(data));
+            listItem.addEventListener('click', () => appendConnection(data), openSlidePanelBtn.click());
 
             if (data.status === "pending") {
                 if (data.from === userID) {
