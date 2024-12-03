@@ -737,7 +737,7 @@ const connectionsQuery = query(connectionsRef, where('participants', 'array-cont
             `;
             if (data.status == "pending" && data.from == userID) {
             const sentHTML = `
-                <a href="${toProfileURL}" style="text-decoration: none;color: inherit;">
+                <a href="${data.toProfileURL}" style="text-decoration: none;color: inherit;">
                     <img src="${data.toProfilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_tie_reel.png'}" alt="Avatar" class="avatar">
                 </a>
                 <span>${data.toName}</span>
