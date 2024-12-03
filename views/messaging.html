@@ -933,6 +933,7 @@ document.getElementById('removePreview').onclick = () => {
     document.getElementById('attachmentImage').classList.add('d-none');
     document.getElementById('attachmentVideo').classList.add('d-none');
 };
+document.addEventListener('DOMContentLoaded', () => {
 
 // Send message function with attachment
 document.getElementById('sendMessageButton').onclick = async () => {
@@ -965,6 +966,8 @@ document.getElementById('sendMessageButton').onclick = async () => {
         showToast("Failed to send message. Please try again.", 'error');
     }
 };
+});
+
 
 function sendMessage(conversationID, message, attachmentUrl = '') {
     addDoc(collection(db, 'Messages'), {
