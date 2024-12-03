@@ -1177,7 +1177,7 @@ document.getElementById('saveProfileBtn-profile').addEventListener('click', asyn
     // Check if there's at least one comma
     const hasComma = tagsInput.includes(',');
     if (!hasComma) {
-        showToast("Please add at least one tag.");
+        showToast("Please add at least Two (2) tags.");
         return;  // Prevent form submission if validation fails
     }
 
@@ -1195,7 +1195,7 @@ document.getElementById('saveProfileBtn-profile').addEventListener('click', asyn
         other: document.getElementById('otherSET-profile').value.trim() || '',
         github: document.getElementById('githubSET-profile').value.trim() || '',
         portfolio: document.getElementById('portfolioSET-profile').value.trim() || '',
-        websites: websites,
+        websites: websites || [],
         membershipType: document.getElementById('membershipTypeSET-profile').value.trim() || '',
         // membershipExpiry: document.getElementById('renewalDateSET-profile').value.trim() || ''
     };
