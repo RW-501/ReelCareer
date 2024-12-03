@@ -1690,6 +1690,10 @@ await setDoc(connectionRef, connectionData);
 
 document.addEventListener('DOMContentLoaded', async () => {
 
+    try {
+
+
+      
   const urlParams = new URLSearchParams(window.location.search);
     const userIdFromURL = urlParams.get('u'); // Get profile user ID
     
@@ -1705,7 +1709,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     const querySnapshot = query(connectionsRef, where('participants', 'array-contains',userDataSaved.userID));
     const connectBtn = document.getElementById('connect-btn');
 
-    try {
         const snapshot = await getDocs(querySnapshot);
         let connectionFound = false;
 
