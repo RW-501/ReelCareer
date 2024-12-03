@@ -1694,24 +1694,29 @@ document.addEventListener('DOMContentLoaded', async () => {
         return; // Exit if IDs are invalid or user is viewing their own profile
     }
 
-    const docId = userId < userIdFromURL
-        ? `${userId}_${userIdFromURL}`
-        : `${userIdFromURL}_${userId}`;
-    const connectionRef = doc(db, 'Connections', docId);
+    const connectionsRef = collection(db, 'Connections');
+    const querySnapshot = query(connectionsRef, where('participants', 'array-contains', userId));
     const connectBtn = document.getElementById('connect-btn');
 
     try {
-        const connectionDoc = await getDoc(connectionRef);
-        if (connectionDoc.exists()) {
-            const connectionData = connectionDoc.data();
-            if (connectionData.status === 'pending') {
-                updateButtonState(connectBtn, 'Pending', true);
-            } else if (connectionData.status === 'connected') {
-                updateButtonState(connectBtn, 'Connected', true);
-            } else {
-                updateButtonState(connectBtn, 'Connect');
+        const snapshot = await getDocs(querySnapshot);
+        let connectionFound = false;
+
+        snapshot.forEach(doc => {
+            const connectionData = doc.data();
+            if (connectionData.participants.includes(userIdFromURL)) {
+                connectionFound = true;
+                if (connectionData.status === 'pending') {
+                    updateButtonState(connectBtn, 'Pending', true);
+                } else if (connectionData.status === 'connected') {
+                    updateButtonState(connectBtn, 'Connected', true);
+                } else {
+                    updateButtonState(connectBtn, 'Connect');
+                }
             }
-        } else {
+        });
+
+        if (!connectionFound) {
             updateButtonState(connectBtn, 'Connect'); // Default state
         }
     } catch (error) {
@@ -1720,7 +1725,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         updateButtonState(connectBtn, 'Connect', false); // Reset to default
     }
 });
-
 
 // Utility Function: Update Button State
 function updateButtonState(button, text, disable = false) {
