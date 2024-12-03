@@ -946,6 +946,10 @@ document.getElementById('sendMessageButton').onclick = async () => {
         showToast("Please enter a message or attach a file.", 'warning');
        // return;
     }
+    if(!conversationID){
+        showToast("Something is not right", 'warning');
+
+    }
 
     try {
         let attachmentUrl = '';
