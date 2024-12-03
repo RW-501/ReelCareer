@@ -468,66 +468,65 @@ const querySnapshot = query(connectionssRef, where('participants', 'array-contai
 
 // Appending a single connection to the list
 function appendConnection(connection, type) {
-  const div = document.createElement('div');
-  div.classList.add('connection-item');
-  
-  if (type == "message") {
+    const connectionId = connection.from || connection.senderID; // Use a unique identifier (from sender or receiver ID)
+    const existingConnection = document.querySelector(`[data-connection-id="${connectionId}"]`);
 
-    const connectionInfo = `
-    <div>
-      <img src="${connection.senderProfilePicture}" alt="Profile" width="40" height="40">
-      <a href="https://reelcareer.co/views/user?u=${data.senderID}" target="_blank">${connection.senderName}</a>
-    </div>
-    <button onclick="acceptConnection('${connection.senderID}', '${connection.to}')">Accept</button>
-  `;
-  div.innerHTML = connectionInfo;
+    // Check if the connection is already in the list
+    if (existingConnection) {
+        console.log(`Connection with ID ${connectionId} already exists.`);
+        return; // Exit if the connection already exists
+    }
 
+    // Create a new connection item
+    const div = document.createElement('div');
+    div.classList.add('connection-item');
+    div.setAttribute('data-connection-id', connectionId); // Add a unique attribute
 
-  }else{
-    console.log("connection: ", connection);
-    console.log("connection: ", userDataSaved.userID);
+    if (type === "message") {
+        const connectionInfo = `
+        <div>
+          <img src="${connection.senderProfilePicture}" alt="Profile" width="40" height="40">
+          <a href="https://reelcareer.co/views/user?u=${connection.senderID}" target="_blank">${connection.senderName}</a>
+        </div>
+        <button onclick="acceptConnection('${connection.senderID}', '${connection.to}')">Accept</button>
+        `;
+        div.innerHTML = connectionInfo;
 
-  if (connection.status == "pending") {
-
-                if (connection.from == userDataSaved.userID) {
-                    const connectionInfo = `
-    <div>
-      <img src="${connection.toProfilePicture}" alt="Profile" width="40" height="40">
-      <a href="${connection.toProfileURL}" target="_blank">${connection.toName}</a>
-    </div>
-    <button onclick="removeConnection('${connection.from}', '${connection.to}')">Remove</button>
-  `;
-  div.innerHTML = connectionInfo;
-                }else{
-  // Display Connection Information
-  const connectionInfo = `
-    <div>
-      <img src="${connection.fromProfilePicture}" alt="Profile" width="40" height="40">
-      <a href="${connection.fromProfileURL}" target="_blank">${connection.fromName}</a>
-    </div>
-    <button onclick="acceptConnection('${connection.from}', '${connection.to}')">Accept</button>
-  `;
-  div.innerHTML = connectionInfo;
-                }
-} else {
-  // Display Connection Information
-  const connectionInfo = `
-    <div>
-      <img src="${connection.fromProfilePicture}" alt="Profile" width="40" height="40">
-      <a href="${connection.fromProfileURL}" target="_blank">${connection.fromName}</a>
-    </div>
-    <button onclick="composeMessages('${connection.from}', '${connection}')">Send Message</button>
-  `;
-  div.innerHTML = connectionInfo;
-
-
+    } else {
+        if (connection.status === "pending") {
+            if (connection.from === userDataSaved.userID) {
+                const connectionInfo = `
+                <div>
+                  <img src="${connection.toProfilePicture}" alt="Profile" width="40" height="40">
+                  <a href="${connection.toProfileURL}" target="_blank">${connection.toName}</a>
+                </div>
+                <button onclick="removeConnection('${connection.from}', '${connection.to}')">Remove</button>
+                `;
+                div.innerHTML = connectionInfo;
+            } else {
+                const connectionInfo = `
+                <div>
+                  <img src="${connection.fromProfilePicture}" alt="Profile" width="40" height="40">
+                  <a href="${connection.fromProfileURL}" target="_blank">${connection.fromName}</a>
+                </div>
+                <button onclick="acceptConnection('${connection.from}', '${connection.to}')">Accept</button>
+                `;
+                div.innerHTML = connectionInfo;
             }
-
+        } else {
+            const connectionInfo = `
+            <div>
+              <img src="${connection.fromProfilePicture}" alt="Profile" width="40" height="40">
+              <a href="${connection.fromProfileURL}" target="_blank">${connection.fromName}</a>
+            </div>
+            <button onclick="composeMessages('${connection.from}', '${connection}')">Send Message</button>
+            `;
+            div.innerHTML = connectionInfo;
         }
+    }
 
-
-  
-  connectionsList.appendChild(div);
+    // Append the new connection to the list
+    connectionsList.appendChild(div);
 }
 
 function composeMessages(conversationID, data) {
