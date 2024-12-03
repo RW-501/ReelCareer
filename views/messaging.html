@@ -510,7 +510,7 @@ contactListDiv.classList.add('contact-list');
                 const listItem = document.createElement('li');
                 listItem.className = 'list-group-item';
                 listItem.innerHTML = `
-      <a href="https://reelcareer.co/views/user/?u=${data.senderID}" style="text-decoration: none;color: inherit;">
+      <a href="https://reelcareer.co/views/user/u=${data.senderID}" style="text-decoration: none;color: inherit;">
         <img src="${data.senderProfilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_tie_reel.png'}" alt="Avatar" class="avatar"></a>
     <span>${data.senderName}</span>
 `;
@@ -549,7 +549,7 @@ let connectionssRef = collection(db, 'Connections');
 
         // Add contact info with the "View Contact" button
         listItem.innerHTML = `
-            <a href="https://reelcareer.co/views/user/?u=${data.from}" style="text-decoration: none;color: inherit;">
+            <a href="https://reelcareer.co/views/user?u=${data.from}" style="text-decoration: none;color: inherit;">
                 <img src="${data.fromProfilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_tie_reel.png'}" alt="Avatar" class="avatar">
             </a>
             <span>${data.fromName}</span>
@@ -582,7 +582,7 @@ let connectionssRef = collection(db, 'Connections');
 
         
         conversationTitle.innerHTML = `
-        <a href="https://reelcareer.co/views/user/?u=${data.senderID}" style="text-decoration: none; color: inherit;">
+        <a href="https://reelcareer.co/views/user?u=${data.senderID}" style="text-decoration: none; color: inherit;">
             <img src="${data.senderProfilePicture || 'default-image-url'}" alt="Avatar" class="avatar">
         </a>
         <span>${data.senderName || 'Unknown Sender'}</span>

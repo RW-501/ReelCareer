@@ -1744,6 +1744,11 @@ document.getElementById('attachment-btn').addEventListener('click', () => {
 function setRecipientName(recipientName) {
     document.getElementById('recipient-name').textContent = `Message to: ${recipientName}`;
 }
+// Remove attachment functionality
+document.getElementById('remove-attachment').addEventListener('click', () => {
+    document.getElementById('message-attachments').value = ''; // Clear the file input
+    document.getElementById('attachment-preview').classList.add('d-none'); // Hide the preview section
+});
 
 // Handle attachment preview
 document.getElementById('message-attachments').addEventListener('change', function(e) {
@@ -1774,11 +1779,6 @@ document.getElementById('message-attachments').addEventListener('change', functi
     }
 });
 
-// Remove attachment functionality
-document.getElementById('remove-attachment').addEventListener('click', () => {
-    document.getElementById('message-attachments').value = ''; // Clear the file input
-    document.getElementById('attachment-preview').classList.add('d-none'); // Hide the preview section
-});
 
 // Your form submission logic
 document.getElementById('sendMessageForm').addEventListener('submit', async function(e) {
