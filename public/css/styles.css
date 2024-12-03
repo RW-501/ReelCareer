@@ -132,7 +132,7 @@ h1, h2, h3, h4, h5, h6, li, p {
     font-size: 2.75rem !important;
 }
 
-.job-title-link, .badge, .btn, .btn-primary, .btn-secondary, .breadcrumb-item, .cap  {
+.job-title-link, label, .badge, .btn, .btn-primary, .btn-secondary, .breadcrumb-item, .cap  {
     text-transform: capitalize !important;
     font-family: ui-rounded;
 }
