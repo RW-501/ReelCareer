@@ -508,8 +508,8 @@ ConnectionstDiv.classList.add('contact-list');
 let connectionssRef = collection(db, 'Connections');
          q = query(connectionssRef, where('to', '==', userID));
 
-         onSnapshot(q, snapshot => {
-    snapshot.forEach(doc => {
+         onSnapshot(q, snapshotConnections => {
+            snapshotConnections.forEach(doc => {
         const data = doc.data();
 
         // Create a list item for the contact
