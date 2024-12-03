@@ -299,7 +299,7 @@ main .row {
           <div id='controls-contactList-area' class="col-md-4">
             <h4>Contacts</h4>
             <!-- Button to open the sliding panel -->
-            <button id="openSlidePanelBtn" class="btn btn-primary">View Connections</button>
+            <button id="openSlidePanelBtn" class="btn btn-primary" hidden>View Connections</button>
       
             <ul class="list-group" id="contactList">
               <!-- Contacts will be populated here -->
@@ -504,12 +504,20 @@ window.acceptConnection  = acceptConnection ;
 
 
 const breadcrumbActiveTitle = document.getElementById("breadcrumb-active-title");
+openSlidePanelBtn.addEventListener('click', (e) => {
 
 // Open or close the sliding panel on button click
-openSlidePanelBtn.addEventListener('click', () => {
-    // Toggle classes for sliding panel and contact list area
-    connectionsSlidePanel.classList.toggle('open');
-    controlsContactListArea.classList.toggle('controls-wide');
+    // Check if the class 'open' is present in the connectionsSlidePanel
+    if (!connectionsSlidePanel.classList.contains('open')) {
+        // If not open, open the sliding panel and modify the contact list area
+        connectionsSlidePanel.classList.add('open');
+        controlsContactListArea.classList.replace('controls-narrow', 'controls-wide');
+    } else {
+        // If already open, toggle the classes
+        connectionsSlidePanel.classList.remove('open');
+        controlsContactListArea.classList.remove('controls-wide');
+        controlsContactListArea.classList.add('controls-narrow');
+    }
 
     // Toggle the text based on the panel state
     breadcrumbActiveTitle.innerText = connectionsSlidePanel.classList.contains('open') ? "Messaging" : "Connections";
@@ -585,7 +593,7 @@ function loadContacts(userID) {
                 <span>${data.senderName}</span>
             `;
 
-            listItem.onclick = () => loadMessages(data.conversationID, data);
+            listItem.onclick = () => loadMessages(data.conversationID, data), openSlidePanelBtn.click("open");
             messageSection.appendChild(listItem);
         });
     });
