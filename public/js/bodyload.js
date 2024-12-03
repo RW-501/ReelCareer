@@ -466,7 +466,7 @@ function showToast(message, type = 'info', duration = 3000) {
   toast.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.2)';
   toast.style.color = '#fff';
   toast.style.zIndex = '9999999999999999';
-  toast.style.transition = 'opacity 0.5s ease-in-out';
+  toast.style.transition = 'opacity 1s ease-in-out';
   toast.style.opacity = '1';
   
   // Set background color based on toast type
