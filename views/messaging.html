@@ -454,7 +454,7 @@ const querySnapshot = query(connectionssRef, where('participants', 'array-contai
 
     querySnapshot.forEach(doc => {
       const connectionData = doc.data();
-      if (connectionData.status === 'pending' || connectionData.status === 'accepted') { // Only show pending connections
+      if (connectionData.status == 'pending' || connectionData.status === 'accepted') { // Only show pending connections
         appendConnection(connectionData);
       }
     });
@@ -468,7 +468,7 @@ function appendConnection(connection, type) {
   const div = document.createElement('div');
   div.classList.add('connection-item');
   
-  if (type === "message") {
+  if (type == "message") {
 
     const connectionInfo = `
     <div>
@@ -481,10 +481,12 @@ function appendConnection(connection, type) {
 
 
   }else{
+    console.log("connection: ", connection);
+    console.log("connection: ", userID);
 
-  if (connection.status === "pending") {
+  if (connection.status == "pending") {
 
-                if (connection.from === userID) {
+                if (connection.from == userID) {
                     const connectionInfo = `
     <div>
       <img src="${connection.toProfilePicture}" alt="Profile" width="40" height="40">
