@@ -266,7 +266,7 @@ main .row {
     display: block;  
 }
 
-.controls-wide {
+#controls-contactList-area.controls-wide {
     -ms-flex: none;
         flex: none;
         max-width: none; 
@@ -508,9 +508,9 @@ const breadcrumbActiveTitle = document.getElementById("breadcrumb-active-title")
 // Open or close the sliding panel on button click
 openSlidePanelBtn.addEventListener('click', () => {
     // Toggle classes for sliding panel and contact list area
-    controlsContactListArea.classList.toggle('controls-wide');
     connectionsSlidePanel.classList.toggle('open');
-    
+    controlsContactListArea.classList.toggle('controls-wide');
+
     // Toggle the text based on the panel state
     breadcrumbActiveTitle.innerText = connectionsSlidePanel.classList.contains('open') ? "Messaging" : "Connections";
 });
@@ -546,99 +546,92 @@ fetchConnections(); // Load connections when opening the panel
 
 
 
+function loadContacts(userID) {
+    console.log("userID:", userID);
 
-    function loadContacts(userID) {
-        console.log("userID: ", userID);
+    const contactList = document.getElementById('contactList');
+    contactList.innerHTML = '';  // Clear the existing content
 
-        const contactList = document.getElementById('contactList');
-        contactList.innerHTML = '';
+    // Helper function to create sections with title and append to container
+    const createSection = (sectionTitle) => {
+        const sectionDiv = document.createElement('div');
+        sectionDiv.classList.add('contact-list');
+        
+        const titleDiv = document.createElement('div');
+        titleDiv.classList.add('title');
+        titleDiv.innerText = sectionTitle;
 
-        // Create the div for the title
-const titleDiv = document.createElement('div');
-titleDiv.classList.add('title');
-titleDiv.innerText = 'Messages'; // Set the title text
-contactList.appendChild(titleDiv);
+        sectionDiv.appendChild(titleDiv);
+        return sectionDiv;
+    };
 
+    // Creating the 'Messages' section
+    const messageSection = createSection('Messages');
+    contactList.appendChild(messageSection);
 
+    let contactsRef = collection(db, 'Messages');
+    let messagesQuery = query(contactsRef, where('recipientID', '==', userID));
 
+    onSnapshot(messagesQuery, snapshot => {
+        snapshot.forEach(doc => {
+            const data = doc.data();
+            const listItem = document.createElement('li');
+            listItem.className = 'list-group-item msg-list-i';
 
-// Create the div for the contact list
-const contactListDiv = document.createElement('div');
-contactListDiv.classList.add('contact-list');
+            listItem.innerHTML = `
+                <a href="https://reelcareer.co/views/user/u=${data.senderID}" style="text-decoration: none;color: inherit;">
+                    <img src="${data.senderProfilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_tie_reel.png'}" alt="Avatar" class="avatar">
+                </a>
+                <span>${data.senderName}</span>
+            `;
 
-
-        let contactsRef = collection(db, 'Messages');
-        let q = query(contactsRef, where('recipientID', '==', userID));
-
-
-        onSnapshot(q, snapshot => {
-
-            snapshot.forEach(doc => {
-                const data = doc.data();
-                const listItem = document.createElement('li');
-                listItem.className = 'list-group-item msg-list-i';
-                listItem.innerHTML = `
-      <a href="https://reelcareer.co/views/user/u=${data.senderID}" style="text-decoration: none;color: inherit;">
-        <img src="${data.senderProfilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_tie_reel.png'}" alt="Avatar" class="avatar"></a>
-    <span>${data.senderName}</span>
-`;
-listItem.onclick = () => loadMessages(data.conversationID, data);
-contactList.appendChild(listItem);
-            });
+            listItem.onclick = () => loadMessages(data.conversationID, data);
+            messageSection.appendChild(listItem);
         });
+    });
 
-// Create the div for the title
-const titleDiv2 = document.createElement('div');
-titleDiv2.classList.add('title');
-titleDiv2.innerText = 'Connections'; // Set the title text
-contactList.appendChild(titleDiv2);
+    // Creating the 'Connections' section
+    const connectionsSection = createSection('Connections');
+    contactList.appendChild(connectionsSection);
 
+    const titlePending = document.createElement('div');
+    titlePending.classList.add('title');
+    titlePending.innerHTML = "<small>Pending</small>";
+    connectionsSection.appendChild(titlePending);
 
+    const titleAccepted = document.createElement('div');
+    titleAccepted.classList.add('title');
+    titleAccepted.innerHTML = "<small>Accepted</small>";
+    connectionsSection.appendChild(titleAccepted);
 
+    let connectionsRef = collection(db, 'Connections');
+    let connectionsQuery = query(connectionsRef, where('to', '==', userID));
 
+    onSnapshot(connectionsQuery, snapshotConnections => {
+        snapshotConnections.forEach(doc => {
+            const data = doc.data();
+            const listItem = document.createElement('li');
+            listItem.className = 'list-group-item conn-list-i';
 
+            const commonHTML = `
+                <a href="https://reelcareer.co/views/user?u=${data.from}" style="text-decoration: none;color: inherit;">
+                    <img src="${data.fromProfilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_tie_reel.png'}" alt="Avatar" class="avatar">
+                </a>
+                <span>${data.fromName}</span>
+            `;
 
-// Create the div for the contact list
-const ConnectionstDiv = document.createElement('div');
-ConnectionstDiv.classList.add('contact-list');
+            listItem.innerHTML = commonHTML;
+            listItem.addEventListener('click', () => appendConnection(data));
 
-
-
-let connectionssRef = collection(db, 'Connections');
-         q = query(connectionssRef, where('to', '==', userID));
-
-         onSnapshot(q, snapshotConnections => {
-            snapshotConnections.forEach(doc => {
-        const data = doc.data();
-
-        // Create a list item for the contact
-        const listItem = document.createElement('li');
-        listItem.className = 'list-group-item conn-list-i';
-
-        // Add contact info with the "View Contact" button
-        listItem.innerHTML = `
-            <a href="https://reelcareer.co/views/user?u=${data.from}" style="text-decoration: none;color: inherit;">
-                <img src="${data.fromProfilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_tie_reel.png'}" alt="Avatar" class="avatar">
-            </a>
-            <span>${data.fromName}</span>
-            <button class="btn btn-secondary btn-sm view-contact-btn">View Contact</button>
-        `;
-
-        // Add the onclick listener to the "View Contact" button
-        const viewContactBtn = listItem.querySelector('.view-contact-btn');
-        viewContactBtn.addEventListener('click', () => {
-            appendConnection(data); // Call your appendConnection function with the contact data
+            // Based on status, append to appropriate section
+            if (data.status === "pending") {
+                titlePending.appendChild(listItem);
+            } else {
+                titleAccepted.appendChild(listItem);
+            }
         });
-
-
-   
-               // listItem.onclick = () => loadMessages(data.conversationID, data);
-                contactList.appendChild(listItem);
-            });
-        });
-
-
-    }
+    });
+}
 
     function loadMessages(conversationID, data) {
 
