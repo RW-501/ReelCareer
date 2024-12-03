@@ -1695,14 +1695,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     const userDataSaved = getUserData() || [];
 
-    console.log("userId??????????????: ", userDataSaved.userId);
+    console.log("userId??????????????: ", userDataSaved.userID);
 
-    if (!userDataSaved.userId || !userIdFromURL || userDataSaved.userId === userIdFromURL) {
+    if (!userDataSaved.userID || !userIdFromURL || userDataSaved.userID === userIdFromURL) {
         return; // Exit if IDs are invalid or user is viewing their own profile
     }
 
     const connectionsRef = collection(db, 'Connections');
-    const querySnapshot = query(connectionsRef, where('participants', 'array-contains',userDataSaved.userId));
+    const querySnapshot = query(connectionsRef, where('participants', 'array-contains',userDataSaved.userID));
     const connectBtn = document.getElementById('connect-btn');
 
     try {
