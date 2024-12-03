@@ -273,8 +273,19 @@ const lastBreadcrumb_a = document.getElementById("lastBreadcrumb_a");
         const contactList = document.getElementById('contactList');
         contactList.innerHTML = '';
 
+        // Create the div for the title
+const titleDiv = document.createElement('div');
+titleDiv.classList.add('title');
+titleDiv.innerText = 'Messages'; // Set the title text
+
+// Create the div for the contact list
+const contactListDiv = document.createElement('div');
+contactListDiv.classList.add('contact-list');
+
+
         let contactsRef = collection(db, 'Messages');
         let q = query(contactsRef, where('recipientID', '==', userID));
+
 
         onSnapshot(q, snapshot => {
 
@@ -291,6 +302,15 @@ listItem.onclick = () => loadMessages(data.conversationID, data);
 contactList.appendChild(listItem);
             });
         });
+
+// Create the div for the title
+const titleConnections = document.createElement('div');
+titleConnections.classList.add('title');
+titleConnections.innerText = 'Connections'; // Set the title text
+
+// Create the div for the contact list
+const ConnectionstDiv = document.createElement('div');
+ConnectionstDiv.classList.add('contact-list');
 
          contactsRef = collection(db, 'Connections');
          q = query(contactsRef, where('recipientID', '==', userID));
