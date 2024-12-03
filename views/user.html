@@ -1177,16 +1177,20 @@ const tags = tagsText ? tagsText.split(",").map(item => item.toLowerCase().trim(
     console.log("User Data:", userData);
 
     try {
-
       const userDataSaved = getUserData() || [];
 
         const userDocRef = doc(db, "Users", userDataSaved.userID);
         await setDoc(userDocRef, userData, { merge: true });
 
-        setUserData(userData); // Optional: If you maintain state locally
-        console.log("User data saved successfully!");
+      let  userDataEcode = setUserData(userData);
+// console.log("userData   ",userData);
 
-        
+ localStorage.setItem('userData', userDataEcode);
+ 
+ console.log("User data saved successfully!");
+
+        loadUserData(userData);
+
         showMessageAndFadeBtn('saveProfileBtn-profile', "Saved");
 
         showToast("Your profile has been updated successfully.");
