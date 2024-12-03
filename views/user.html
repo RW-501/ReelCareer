@@ -1621,7 +1621,6 @@ document.getElementById('connect-btn').addEventListener('click', async () => {
     const urlParams = new URLSearchParams(window.location.search);
     const userIdFromURL = urlParams.get('u');
     const userDataSaved = await getUserData() || {};
-    const profilePic = document.getElementById('profilePic')?.src;
 
     // Validate inputs
     if (!userId || !userIdFromURL) {
@@ -1654,7 +1653,7 @@ document.getElementById('connect-btn').addEventListener('click', async () => {
       fromGroup: 'new',
       fromNote: '',
       fromName: userDataSaved.displayName,
-      fromProfilePicture: userDataSaved.profilePicture || profilePic,
+      fromProfilePicture: userDataSaved.profilePicture,
       fromProfileURL: `https://reelcareer.co/views/user?u=${userId}`
     };
 
