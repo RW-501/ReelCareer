@@ -477,6 +477,9 @@ if(connection.from == userDataSaved.userID){
     connectionId = connection.from ; // Use a unique identifier (from sender or receiver ID)
 
 }
+console.log("userDataSaved.userID: ", userDataSaved.userID);
+console.log("userId: ", userId);
+console.log("connectionId: ", connectionId);
 
     const existingConnection = document.querySelector(`[data-connection-id="${connectionId}"]`);
 
