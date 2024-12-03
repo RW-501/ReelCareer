@@ -260,6 +260,19 @@ main .row {
 #closeSlidePanelBtn {
     color: color-mix(in lch longer hue, #45a049 45%, #f0f8ff 20%);
 }
+
+#controls-contactList-area {
+    width: 100% !important;
+    display: block;  
+}
+
+.controls-wide {
+    -ms-flex: none;
+        flex: none;
+        max-width: none; 
+}
+
+
     </style>
 
 </head>
@@ -284,7 +297,7 @@ main .row {
       <main id="main-content">
 
         <div class="row">
-          <div class="col-md-4">
+          <div id='controls-contactList-area' class="col-md-4">
             <h4>Contacts</h4>
             <!-- Button to open the sliding panel -->
             <button id="openSlidePanelBtn" class="btn btn-primary">View Connections</button>
@@ -429,6 +442,7 @@ const lastBreadcrumb_last = document.getElementById("lastBreadcrumb_last");
 
 // Elements
 const openSlidePanelBtn = document.getElementById('openSlidePanelBtn');
+const controlsContactListArea = document.getElementById('controls-contactList-area');
 const closeSlidePanelBtn = document.getElementById('closeSlidePanelBtn');
 const connectionsSlidePanel = document.getElementById('connectionsSlidePanel');
 const connectionsList = document.getElementById('connectionsList');
@@ -492,15 +506,19 @@ async function acceptConnection(fromID, toID) {
 window.acceptConnection  = acceptConnection ;
 
 
-// Open the sliding panel
+// Open or close the sliding panel on button click
 openSlidePanelBtn.addEventListener('click', () => {
-  connectionsSlidePanel.classList.add('open');
-  fetchConnections(); // Load connections when opening the panel
+    
+    controlsContactListArea.classList.toggle('controls-wide');
+    connectionsSlidePanel.classList.toggle('open');
 });
+
 
 // Close the sliding panel
 closeSlidePanelBtn.addEventListener('click', () => {
   connectionsSlidePanel.classList.remove('open');
+  controlsContactListArea.classList.remove('controls-wide');
+
 });
 
 
@@ -508,6 +526,7 @@ closeSlidePanelBtn.addEventListener('click', () => {
 
 
 
+fetchConnections(); // Load connections when opening the panel
 
 
 
