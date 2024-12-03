@@ -262,10 +262,10 @@ main .row {
 });
 const userDataSaved = getUserData() || [];
 
-const lastBreadcrumb_a = document.getElementById("lastBreadcrumb_a").innerText;
+const lastBreadcrumb_a = document.getElementById("lastBreadcrumb_a");
   
 
-  lastBreadcrumb_a = userDataSaved.displayName;
+  lastBreadcrumb_a.innerText = userDataSaved.displayName;
 
     function loadContacts(userID) {
         console.log("userID: ", userID);
