@@ -1693,6 +1693,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     const urlParams = new URLSearchParams(window.location.search);
     const userIdFromURL = urlParams.get('u'); // Get profile user ID
 
+    console.log("userId??????????????: ", userId);
+
     if (!userId || !userIdFromURL || userId === userIdFromURL) {
         return; // Exit if IDs are invalid or user is viewing their own profile
     }
