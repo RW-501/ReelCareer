@@ -783,7 +783,7 @@ function loadContacts(userID) {
             const listItem = document.createElement('li');
             listItem.className = 'list-group-item conn-list-i';
 
-            if (data.status === "pending" || data.status === "accepted" && data.from === userID) {
+            if (data.status === "pending" || data.status === "accepted" && data.to === userID) {
                 listItem.innerHTML = `
                     <a href="${data.toProfileURL}" style="text-decoration: none;color: inherit;">
                         <img src="${data.toProfilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_tie_reel.png'}" alt="Avatar" class="avatar">
