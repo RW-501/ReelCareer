@@ -1150,6 +1150,15 @@ document.getElementById('profilePictureSET-profile').addEventListener('change', 
         console.log("File available at:", fileUrl);
         document.getElementById('profilePic').src = fileUrl;
         // Save the file URL to Firestore
+        const userData = {
+          profilePicture: fileUrl || ''
+        };
+        
+        const userDataEcode = setUserData(userData);
+
+        localStorage.setItem('userData', userDataEcode);
+
+
         const userDocRef = doc(db, "Users",  userDataSaved.userID);
         await setDoc(userDocRef, { profilePicture: fileUrl }, { merge: true });
 
@@ -1697,7 +1706,6 @@ async function checkConnection(){
     const userIdFromURL = urlParams.get('u'); // Get profile user ID
     
 
-    console.log("userId??????????????: ", userID);
 
     if (!userID || !userIdFromURL || userID === userIdFromURL) {
         return; // Exit if IDs are invalid or user is viewing their own profile
@@ -1710,7 +1718,6 @@ async function checkConnection(){
 
         const snapshot = await getDocs(querySnapshot);
         let connectionFound = false;
-        console.log("userIdconnectBtn ", connectBtn.innerText);
 
         snapshot.forEach(doc => {
             const connectionData = doc.data();
@@ -1819,12 +1826,25 @@ document.getElementById('sendMessageForm').addEventListener('submit', async func
     const attachments = document.getElementById('message-attachments').files[0] || '';
     const userDataSaved = getUserData() || [];
 
+    const connectBtn = document.getElementById('connect-btn');
+    console.log("userIdconnectBtn ", connectBtn.innerText);
+
+let connectedBool = false;
+
+    if(connectBtn.innerText == "Connect"){
+      connectedBool = false;
+    }else if(connectBtn.innerText == "Pending"){
+      connectedBool = false;
+    }else if(connectBtn.innerText == "Connected"){
+      connectedBool = true;
+    }
     const messageData = {
         recipientID: recipientID,
         senderID: senderID || userDataSaved.userID,
         conversationID: recipientID,
         type: 'message',
         content: content,
+        connectedBool: connectedBool,
         createdAt: new Date(),
         recipientRead: false,
         recipientGroup: 'main',
