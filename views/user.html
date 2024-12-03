@@ -416,10 +416,19 @@ let unsavedChanges = false;
 
 const setUnsavedChanges = (isChanged) => {
     unsavedChanges = isChanged;
-    document.getElementById('saveProfileBtn-profile').innerText= "Save Changes";
-    document.getElementById('saveProfileBtn-profile').style.display = "block";
 
+    const saveButton = document.getElementById('saveProfileBtn-profile');
+
+    // Update button text
+    saveButton.innerText = "Save Changes";
+
+    // Ensure the button is displayed
+    saveButton.style.display = "block";
+
+    // Set opacity
+    saveButton.style.opacity = "1";
 };
+
 
 const trackAllFormsWithExitWarning = () => {
     const forms = [
@@ -1160,8 +1169,15 @@ document.getElementById('saveProfileBtn-profile').addEventListener('click', asyn
     const websites = websitesSetup.filter(site => site.url !== "");
 
 // Make sure tagsList is not empty or null
-const tagsText = document.getElementById('tagsSET-profile') ? document.getElementById('tagsList').textContent.trim() : '';
-const tags = tagsText ? tagsText.split(",").map(item => item.toLowerCase().trim()) : [];
+const tagsInput = document.getElementById('tagsSET-profile').value; // Get the input value as a string
+const tags = tagsInput ? tagsInput.split(",").map(item => item.toLowerCase().trim()) : [];
+
+// Check if there's at least one comma
+const hasComma = tagsInput.trim().includes(',');
+if (!hasComma) {
+  showToast("Please add at least one tag.");
+}
+
 
     const userData = {
         displayName: document.getElementById('usernameSET-profile').value.trim(),
