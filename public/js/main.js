@@ -286,8 +286,12 @@ window.getUserData = getUserData;
 
 
 
-// Convert Firestore timestamp to Date
 const convertFirestoreTimestamp = (timestamp) => {
+  if (!timestamp || !timestamp.seconds) {
+    console.error('Invalid timestamp:', timestamp);
+    return 'Invalid Timestamp'; // Or you can return null or any default value you prefer
+  }
+
   // Create a new Date object from the timestamp (seconds value)
   const date = new Date(timestamp.seconds * 1000); // Multiply by 1000 to convert to milliseconds
   return date.toLocaleString(); // Or you can use any formatting method you prefer
