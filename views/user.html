@@ -1197,7 +1197,7 @@ if (!hasComma) {
         membershipType: document.getElementById('membershipTypeSET-profile').value.trim(),
        // membershipExpiry: document.getElementById('renewalDateSET-profile').value.trim(),
     };
-   // console.log("User Data:", userData);
+   console.log("User Data:", userData);
 
     try {
       const userDataSaved = getUserData() || [];
@@ -1333,9 +1333,8 @@ if (!hasComma) {
           const userDataSaved = getUserData() || [];
           const userlocationData = JSON.parse(sessionStorage.getItem('userLocation'));
 
-          console.log("userlocationData   ",userlocationData);
-          console.log("profileData   ",profileData);
-          console.log("userDataSaved   ",userDataSaved);
+
+          
 
 if (profileData) {
   const userData = profileData;
