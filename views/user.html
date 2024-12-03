@@ -1692,21 +1692,20 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     try {
 
+      const userID = document.getElementById('currentUserId').innerText;
 
-      
   const urlParams = new URLSearchParams(window.location.search);
     const userIdFromURL = urlParams.get('u'); // Get profile user ID
     
-    const userDataSaved = getUserData() || [];
 
-    console.log("userId??????????????: ", userDataSaved.userID);
+    console.log("userId??????????????: ", userID);
 
-    if (!userDataSaved.userID || !userIdFromURL || userDataSaved.userID === userIdFromURL) {
+    if (!userID || !userIdFromURL || userID === userIdFromURL) {
         return; // Exit if IDs are invalid or user is viewing their own profile
     }
 
     const connectionsRef = collection(db, 'Connections');
-    const querySnapshot = query(connectionsRef, where('participants', 'array-contains',userDataSaved.userID));
+    const querySnapshot = query(connectionsRef, where('participants', 'array-contains',userID));
     const connectBtn = document.getElementById('connect-btn');
 
         const snapshot = await getDocs(querySnapshot);
