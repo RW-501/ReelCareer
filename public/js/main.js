@@ -2089,7 +2089,7 @@ document.addEventListener('DOMContentLoaded', function () {
       hiddenClass = 'hidden', // Class to hide body
     } = config;
 
-    console.log('rollInAnimations config:', config);
+ //   console.log('rollInAnimations config:', config);
 
     // Inject CSS Styles
     const loadingStyle = document.createElement('style');
@@ -2121,7 +2121,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Check if elements exist
     if (!mainDivs.length) {
-      console.warn('No child divs found in .main container for animations.');
+   //   console.warn('No child divs found in .main container for animations.');
       return;
     }
 
@@ -2133,7 +2133,7 @@ document.addEventListener('DOMContentLoaded', function () {
     setTimeout(() => {
       mainContainer.classList.remove('hidden');
       mainContainer.removeAttribute('aria-hidden');
-      console.log('Main container revealed, starting roll-in animations...');
+    //  console.log('Main container revealed, starting roll-in animations...');
 
       // Sequentially add the "roll-in" class to each div with a delay
       mainDivs.forEach((div, index) => {
@@ -2147,9 +2147,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Example usage
   rollInAnimations({
-    delayBetweenDivs: 500,
+    delayBetweenDivs: 1000,
     initialBodyDelay: 1500,
-    animationDuration: 1500,
+    animationDuration: 2000,
     animationTimingFunction: 'cubic-bezier(0.68, -0.55, 0.27, 1.55)' // Easing function for bounce effect
   });
 
