@@ -645,150 +645,166 @@ border-radius: 12px;
           auth, analytics, deleteDoc, getDownloadURL
       } from 'https://reelcareer.co/js/module.js';
   
-    let lastVisible = null; // To store the last document loaded
-    let userInterests = [];
-    let excludedIds = []; // Replace with your actual IDs
-    // Assuming userInterest1, userInterest2, userInterest3 are defined elsewhere
-    let userInterest1, userInterest2, userInterest3;
-    userInterests = [userInterest1, userInterest2, userInterest3].filter(Boolean); // Filter out any undefined values
-    // Function to fetch job listings from Firestore
-    async function fetchJobListings() {
-      // Create the base query for Jobs
-      let jobsQuery = query(collection(db, 'Jobs'));
-      // Adding dynamic filters based on userINFO
-      if (userINFO.city) {
-        //  jobsQuery = query(jobsQuery, where('city', '==', userINFO.city));
-      }
-      if (userINFO.state) {
-        //     jobsQuery = query(jobsQuery, where('state', '==', userINFO.state));
-      }
-      if (userInterests.length > 0) {
-        //    jobsQuery = query(jobsQuery, where('tags', 'array-contains-any', userInterests));
-      }
-      // Exclude specified IDs if any
-      if (excludedIds.length > 0) {
-        //      jobsQuery = query(jobsQuery, where('id', 'not-in', excludedIds));
-      }
-      // Common conditions
-      jobsQuery = query(jobsQuery, where('status', '==', 'active'));
-      jobsQuery = query(jobsQuery, orderBy('createdAt', 'desc'));
-      jobsQuery = query(jobsQuery, limit(20)); // Limit the results
-      // Base query for Sponsors
-      let sponsorsQuery = query(collection(db, 'Jobs'));
-      // Adding dynamic filters based on userINFO for sponsors
-      if (userINFO.state) {
-        //  sponsorsQuery = query(sponsorsQuery, where('state', '==', userINFO.state));
-      }
-      if (userINFO.country) {
-        //  sponsorsQuery = query(sponsorsQuery, where('country', '==', userINFO.country));
-      }
-      if (userInterests.length > 0) {
-        // sponsorsQuery = query(sponsorsQuery, where('tags', 'array-contains-any', userInterests));
-      }
-      // Exclude specified IDs for sponsors if necessary
-      if (excludedIds.length > 0) {
-        //    sponsorsQuery = query(sponsorsQuery, where('id', 'not-in', excludedIds));
-      }
-      // Common conditions for sponsors
-      sponsorsQuery = query(sponsorsQuery, where('status', '==', 'active'), where('boosted', 'in', ['Yes', 'Active']));
-      sponsorsQuery = query(sponsorsQuery, orderBy('createdAt', 'desc'));
-      sponsorsQuery = query(sponsorsQuery, limit(20)); // Limit the results
-      try {
-        // Fetch job listings and sponsors
-        const jobListingsSnapshot = await getDocs(jobsQuery);
-        const sponsorsSnapshot = await getDocs(sponsorsQuery);
-        // Extract jobs from the snapshot
-        const jobs = jobListingsSnapshot.docs.map(doc => ({
-          id: doc.id, // Get the document ID
-          ...doc.data() // Spread the rest of the document data
-        }));
-        // Create a new array to store unique jobs
-        const jobListings = [];
-        // Use a Set to track job titles we've already seen
-        const seenTitles = new Set();
-        // Filter the jobs to ensure no duplicate titles
-        jobs.forEach(job => {
-          if (!seenTitles.has(job.title)) {
-            jobListings.push({
-    id: job.id, // Job document ID
-    title: job.title,
-    description: job.description,
-    datePosted: job.createdAt,
-    company: job.company,
-    location: job.location,
-    city: job.city,
-    state: job.state,
-    country: job.country,
-    county: job.county,
-    type: job.type,
-    industry: job.industry,
-    salary: job.salary,
-    salaryMin: job.salaryMin,
-    salaryMax: job.salaryMax,
-    salaryPayTime: job.salaryPayTime,
-    validThrough: job.boostExpiresAt,
-    status: job.status,
-    applicationAvailableBool: job.applicationAvailableBool,
-    applicantsViewed: job.applicantsViewed,
-    applicationWebsite: job.applicationWebsite,
-    benefits: job.benefits || [], // Default to empty array if undefined
-    boostExpiration: job.boostExpiration,
-    boostExpiresAt: job.boostExpiresAt,
-    boosted: job.boosted,
-    boostedByID: job.boostedByID,
-    contractToHire: job.contractToHire,
-    immediateHire: job.immediateHire,
-    savedForLater: job.savedForLater,
-    searchableRequirements: job.searchableRequirements || '', // Default to empty string if undefined
-    submittedBy: job.submittedBy,
-    tags: job.tags || [] // Default to empty array if undefined
-});
+      let lastVisible = null; // To store the last document loaded 
 
-            seenTitles.add(job.title); // Mark title as seen
-          }
+const userlocationData = sessionStorage.getItem('userLocation');
+const userJobInterest = getUserJobInterest();
+
+// Function to fetch job listings from Firestore
+async function fetchJobListings() {
+  // Create the base query for Jobs
+  let jobsQuery = query(collection(db, 'Jobs'));
+
+  let locationSource = ''; // Variable to track the location-based source
+
+  if (userlocationData.city) {
+    jobsQuery = query(jobsQuery, where('city', '==', userlocationData.city));
+    locationSource = 'City Location Query';
+  }
+  if (userlocationData.state) {
+    jobsQuery = query(jobsQuery, where('state', '==', userlocationData.state));
+    locationSource = locationSource ? 'City & State Location Query' : 'State Location Query';
+  }
+  if (userJobInterest.length > 0) {
+    jobsQuery = query(jobsQuery, where('tags', 'array-contains-any', userJobInterest));
+  }
+
+  // Common conditions
+  jobsQuery = query(jobsQuery, where('status', '==', 'active'));
+  jobsQuery = query(jobsQuery, orderBy('createdAt', 'desc'));
+  jobsQuery = query(jobsQuery, limit(20)); // Limit the results
+
+  // Base query for Sponsors
+  let sponsorsQuery = query(collection(db, 'Jobs'));
+  
+  let sponsorLocationSource = ''; // Variable to track the sponsor's location-based source
+
+  // Adding dynamic filters based on userINFO for sponsors
+  if (userlocationData.city) {
+    sponsorsQuery = query(sponsorsQuery, where('city', '==', userlocationData.city));
+    sponsorLocationSource = 'City Location Query';
+  }
+  if (userlocationData.state) {
+    sponsorsQuery = query(sponsorsQuery, where('state', '==', userlocationData.state));
+    sponsorLocationSource = sponsorLocationSource ? 'City & State Location Query' : 'State Location Query';
+  }
+  if (userJobInterest.length > 0) {
+    sponsorsQuery = query(sponsorsQuery, where('tags', 'array-contains-any', userJobInterest));
+  }
+
+  // Common conditions for sponsors
+  sponsorsQuery = query(sponsorsQuery, where('status', '==', 'active'), where('boosted', 'in', ['Yes', 'Active']));
+  sponsorsQuery = query(sponsorsQuery, orderBy('createdAt', 'desc'));
+  sponsorsQuery = query(sponsorsQuery, limit(20)); // Limit the results
+
+  try {
+    // Fetch job listings and sponsors
+    const jobListingsSnapshot = await getDocs(jobsQuery);
+    const sponsorsSnapshot = await getDocs(sponsorsQuery);
+
+    // Extract jobs from the snapshot
+    const jobs = jobListingsSnapshot.docs.map(doc => ({
+      id: doc.id, // Get the document ID
+      ...doc.data(), // Spread the rest of the document data
+      source: locationSource || 'General Query' // Add source based on location query or default to 'General Query'
+    }));
+
+    // Create a new array to store unique jobs
+    const jobListings = [];
+    // Use a Set to track job titles we've already seen
+    const seenTitles = new Set();
+
+    // Filter the jobs to ensure no duplicate titles
+    jobs.forEach(job => {
+      if (!seenTitles.has(job.title)) {
+        jobListings.push({
+          id: job.id, // Job document ID
+          title: job.title,
+          description: job.description,
+          datePosted: job.createdAt,
+          company: job.company,
+          location: job.location,
+          city: job.city,
+          state: job.state,
+          country: job.country,
+          county: job.county,
+          type: job.type,
+          industry: job.industry,
+          salary: job.salary,
+          salaryMin: job.salaryMin,
+          salaryMax: job.salaryMax,
+          salaryPayTime: job.salaryPayTime,
+          validThrough: job.boostExpiresAt,
+          status: job.status,
+          applicationAvailableBool: job.applicationAvailableBool,
+          applicantsViewed: job.applicantsViewed,
+          applicationWebsite: job.applicationWebsite,
+          benefits: job.benefits || [], // Default to empty array if undefined
+          boostExpiration: job.boostExpiration,
+          boostExpiresAt: job.boostExpiresAt,
+          boosted: job.boosted,
+          boostedByID: job.boostedByID,
+          contractToHire: job.contractToHire,
+          immediateHire: job.immediateHire,
+          savedForLater: job.savedForLater,
+          searchableRequirements: job.searchableRequirements || '', // Default to empty string if undefined
+          submittedBy: job.submittedBy,
+          tags: job.tags || [], // Default to empty array if undefined
+          source: job.source // Include the source from the general query
         });
-        // Display sponsored jobs if any
-        const featuredJobContainer = document.getElementById('featuredJobListings');
-        featuredJobContainer.innerHTML = ''; // Clear existing featured jobs
-        // Check if we have any results
-        if (!jobListingsSnapshot.empty) {
-          // Update the last visible document for pagination
-          lastVisible = jobListingsSnapshot.docs[jobListingsSnapshot.docs.length - 1];
-          // Handle unique job listings and render them
-          jobListings.forEach(job => createJobCard(job, featuredJobContainer));
-          console.log("Filtered Job Listings:", jobListings);
-        } else {
-          console.log("No jobs found or no more jobs to load.");
-        }
-        const sponsoredJobs = [];
-        // Process sponsored jobs
-        sponsorsSnapshot.forEach(doc => {
-          const data = doc.data();
-          sponsoredJobs.push({
-            id: data.id,
-            title: data.title,
-            description: data.description,
-            datePosted: data.createdAt,
-            organization: data.company,
-            location: data.location,
-            employmentType: data.type,
-            baseSalary: data.salary,
-            validThrough: data.boostExpiresAt,
-            url: data.id
-          });
-        });
-        return {
-          jobListings,
-          sponsoredJobs
-        }; // Return both job listings and sponsored jobs
-      } catch (error) {
-        console.error("Error fetching job listings: ", error);
-        return {
-          jobListings: [],
-          sponsoredJobs: []
-        }; // Return empty arrays in case of an error
+
+        seenTitles.add(job.title); // Mark title as seen
       }
+    });
+
+    // Display sponsored jobs if any
+    const featuredJobContainer = document.getElementById('featuredJobListings');
+    featuredJobContainer.innerHTML = ''; // Clear existing featured jobs
+
+    // Check if we have any results
+    if (!jobListingsSnapshot.empty) {
+      // Update the last visible document for pagination
+      lastVisible = jobListingsSnapshot.docs[jobListingsSnapshot.docs.length - 1];
+
+      // Handle unique job listings and render them
+      jobListings.forEach(job => createJobCard(job, featuredJobContainer));
+      console.log("Filtered Job Listings:", jobListings);
+    } else {
+      console.log("No jobs found or no more jobs to load.");
     }
+
+    // Process sponsored jobs
+    const sponsoredJobs = [];
+    sponsorsSnapshot.forEach(doc => {
+      const data = doc.data();
+      sponsoredJobs.push({
+        id: data.id,
+        title: data.title,
+        description: data.description,
+        datePosted: data.createdAt,
+        organization: data.company,
+        location: data.location,
+        employmentType: data.type,
+        baseSalary: data.salary,
+        validThrough: data.boostExpiresAt,
+        url: data.id,
+        source: sponsorLocationSource || 'Sponsored Query' // Add source field for sponsored jobs
+      });
+    });
+
+    return {
+      jobListings,
+      sponsoredJobs
+    }; // Return both job listings and sponsored jobs
+  } catch (error) {
+    console.error("Error fetching job listings: ", error);
+    return {
+      jobListings: [],
+      sponsoredJobs: []
+    }; // Return empty arrays in case of an error
+  }
+}
+
 
     // Function to display job listings and sponsors
     function displayJobListings({
