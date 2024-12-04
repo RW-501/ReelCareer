@@ -536,7 +536,21 @@ main .btn-info:hover {
         column-gap: .5rem !important;
         -webkit-text-stroke: thin;
   
+
+
     }
+
+
+
+
+
+/* Media query for mobile devices */
+@media (max-width: 768px) {
+  .JOB_CARD {
+      width: 90% !important;  /* Set width to 90% for mobile devices */
+  }
+}
+
     .card-bottom {
         text-transform: capitalize;
         background-color: rgba(99, 154, 212, 0.1);
