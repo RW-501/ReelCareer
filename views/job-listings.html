@@ -665,18 +665,20 @@ async function fetchJobListings() {
 
   if (userlocationData.city) {
     jobsQuery = query(jobsQuery, where('city', '==', userlocationData.city));
-    locationSource = 'City Location Query';
+    locationSource += ' City Location, ';
   }
   if (userlocationData.state) {
     jobsQuery = query(jobsQuery, where('state', '==', userlocationData.state));
-    locationSource = locationSource ? 'State Location Query' : 'State Location Query';
+    locationSource  += ' State Location, ';
   }
   if (userlocationData.state) {
     jobsQuery = query(jobsQuery, where('state', 'array-contains-any', userlocationData));
-    locationSource = locationSource ? 'City & State Location Query' : 'State Location Query';
+    locationSource +=' City & State Location, ';
   }
   if (userJobInterest.length > 0) {
-    jobsQuery = query(jobsQuery, where('tags', 'array-contains-any', userJobInterest));
+    jobsQuery = query(jobsQuery, where('searchableTitle', 'array-contains-any', userJobInterest));
+    locationSource +=' JobInterest, ';
+
   }
 
   console.log("userlocationData:state ", userlocationData.state);
@@ -696,14 +698,16 @@ async function fetchJobListings() {
   // Adding dynamic filters based on userINFO for sponsors
   if (userlocationData.city) {
     sponsorsQuery = query(sponsorsQuery, where('city', '==', userlocationData.city));
-    sponsorLocationSource = 'City Location Query';
+    sponsorLocationSource += 'City Location, ';
   }
   if (userlocationData.state) {
     sponsorsQuery = query(sponsorsQuery, where('state', '==', userlocationData.state));
-    sponsorLocationSource = sponsorLocationSource ? 'City & State Location Query' : 'State Location Query';
+    sponsorLocationSource += ' State Location, ';
   }
   if (userJobInterest.length > 0) {
     sponsorsQuery = query(sponsorsQuery, where('searchableTitle', 'array-contains-any', userJobInterest));
+    locationSource +=' JobInterest, ';
+
   }
 
   // Common conditions for sponsors
