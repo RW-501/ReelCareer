@@ -219,7 +219,7 @@ function renderContacts(contacts) {
 
 // Example of how to fetch contacts and call renderContacts
 async function fetchAndRenderContacts() {
-    const contactsCollection = collection(db, "ContactMessages");
+    const contactsCollection = collection(db, "Contacts");
 
     try {
         const snapshot = await getDocs(contactsCollection);
