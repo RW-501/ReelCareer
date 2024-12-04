@@ -572,6 +572,195 @@ border-radius: 12px;
       </nav>
     </div>
   
+    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#jobPostPopup">Quick Post Job</button>
+
+
+
+    <div id="jobPostPopup" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="jobPostPopupLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content shadow-lg">
+          <div class="modal-header border-0">
+            <h5 class="modal-title fw-bold" id="jobPostPopupLabel">Quick Job Post</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <form id="jobForm" onsubmit="handleJobPostSubmission(event)">
+            <div class="modal-body">
+              <!-- Job Title and Company -->
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <div class="form-floating">
+                    <input type="text" id="jobTitle" class="form-control" placeholder="Enter Job Title" required />
+                    <label for="jobTitle">Job Title</label>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-floating">
+                    <input type="text" id="company" class="form-control" placeholder="Enter Company Name" required />
+                    <label for="company">Company Name</label>
+                  </div>
+                </div>
+              </div>
+              <!-- Location Details -->
+              <div class="row g-3 mt-3">
+                <div class="col-md-4">
+                  <div class="form-floating">
+                    <input type="text" id="city" class="form-control" placeholder="Enter City" required />
+                    <label for="city">City</label>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-floating">
+                    <input type="text" id="state" class="form-control" placeholder="Enter State" required />
+                    <label for="state">State</label>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-floating">
+                    <input type="text" id="zip" class="form-control" placeholder="Enter Zip Code" required />
+                    <label for="zip">Zip Code</label>
+                  </div>
+                </div>
+              </div>
+              <!-- Job Type and Category -->
+              <div class="row g-3 mt-3">
+                <div class="col-md-6">
+                  <div class="form-floating">
+                    <select id="jobType" class="form-select" required>
+                      <option value="" disabled selected>Select Job Type</option>
+                      <option value="Full-Time">Full-Time</option>
+                      <option value="Part-Time">Part-Time</option>
+                      <option value="Contract">Contract</option>
+                      <option value="Temporary">Temporary</option>
+                      <option value="Internship">Internship</option>
+                      <option value="Freelance">Freelance</option>
+                    </select>
+                    <label for="jobType">Job Type</label>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-floating">
+                    <select id="jobCategory" class="form-select" required>
+                      <option value="" disabled selected>Select Category</option>
+                      <option value="IT & Software">IT & Software</option>
+                      <option value="Healthcare">Healthcare</option>
+                      <option value="Education">Education</option>
+                      <option value="Finance">Finance</option>
+                      <option value="Construction">Construction</option>
+                      <option value="Retail">Retail</option>
+                      <option value="Other">Other</option>
+                    </select>
+                    <label for="jobCategory">Job Category</label>
+                  </div>
+                </div>
+              </div>
+              <!-- Job Description and Tags -->
+              <div class="row g-3 mt-3">
+                <div class="col-md-12">
+                  <div class="form-floating">
+                    <textarea id="jobDescription" class="form-control" placeholder="Enter Job Description" style="height: 100px;" required></textarea>
+                    <label for="jobDescription">Job Description</label>
+                  </div>
+                </div>
+                <div class="col-md-12 mt-3">
+                  <div class="form-floating">
+                    <input type="text" id="tagInput" class="form-control" placeholder="Enter tags (comma-separated)" />
+                    <label for="tagInput">Tags</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Modal Footer -->
+            <div class="modal-footer border-0 flex-column align-items-start">
+              <div class="mb-2">
+                <button type="button" class="btn btn-outline-secondary me-2" onclick="previewJobPost()">Preview</button>
+                <button type="submit" class="btn btn-primary">Submit Job</button>
+              </div>
+              <small class="text-muted">
+                By submitting this post, you agree that this is a legitimate job post and you adhere to our 
+                <a href="/terms" target="_blank" class="text-primary">terms and conditions</a>.
+              </small>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    
+
+
+    <style>
+      .modal-content {
+        border-radius: 12px;
+        overflow: hidden;
+        background: #ffffff;
+      }
+    
+      .modal-header, .modal-footer {
+        background-color: #f8f9fa;
+      }
+    
+      .btn-close {
+        outline: none;
+        box-shadow: none;
+      }
+    
+      .form-floating .form-control {
+        border-radius: 8px;
+      }
+    
+      .form-floating label {
+        color: #6c757d;
+      }
+    
+      .form-floating .form-control:focus,
+      .form-floating .form-select:focus {
+        border-color: #0d6efd;
+        box-shadow: 0 0 5px rgba(13, 110, 253, 0.5);
+      }
+    
+      .btn-primary {
+        background: #0d6efd;
+        border: none;
+        transition: background 0.3s ease;
+      }
+    
+      .btn-primary:hover {
+        background: #004b9d;
+      }
+    
+      .btn-light {
+        color: #212529;
+        background-color: #e9ecef;
+        border: none;
+      }
+    
+      .btn-light:hover {
+        background-color: #d6d8db;
+      }
+    
+      .modal-dialog {
+        animation: fadeIn 0.3s ease;
+      }
+    
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: scale(0.95);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+    </style>
+    
+    
+
+
+
+
+
+
+
 
 
   <div class="container mt-5"> 
@@ -654,6 +843,92 @@ const userlocationData = prepareLocationForFirebase();
 
 console.log("userlocationData.city: ", userlocationData.city);
 console.log("userJobInterest: ", userJobInterest);
+
+const searchableTitle = [
+    ...getInputValue("jobTitle").split(",").map((item) => item.toLowerCase().trim()),
+    ...getInputValue("tagInput").split(",").map((item) => item.toLowerCase().trim()),
+    ...getInputValue("company").split(",").map((item) => item.toLowerCase().trim())
+  ];
+
+async function handleJobPostSubmission(event) {
+  event.preventDefault(); // Prevent form refresh
+
+  const jobDetails = collectJobDetails(); // Collect form data
+
+  try {
+    // Add to Applications collection
+    const applicationsRef = collection(db, "Applications");
+    const jobDocRef = await addDoc(applicationsRef, {
+      ...jobDetails,
+      createdAt: new Date(),
+      recruiterID: auth.currentUser?.uid || "Anonymous",
+    });
+    const jobId = jobDocRef.id;
+
+    // If the user is logged in, add to their Users collection
+    if (auth.currentUser) {
+      const userRef = doc(db, "Users", auth.currentUser.uid);
+      await updateDoc(userRef, {
+        jobPosts: arrayUnion({
+          jobTitle: jobDetails.title || "Untitled Job",
+          status: jobDetails.status || "draft",
+          createdAt: new Date(),
+          location: jobDetails.location || "Unknown Location",
+          boosted: jobDetails.boosted || false,
+          boostDuration: jobDetails.boostDuration || new Date(new Date().setDate(new Date().getDate() + 30)), // Default 30 days
+          companyName: jobDetails.company || "Unknown Company",
+          companyId: jobDetails.companyId || "No Company ID",
+          salary: jobDetails.salary || 0,
+          applicationDeadline: jobDetails.applicationDeadline || new Date(new Date().setDate(new Date().getDate() + 30)) // Default 30 days
+        }),
+      });
+    }
+
+    showSuccessModal(jobId, jobDetails); // Display success message
+    resetForm(); // Clear the form
+  } catch (error) {
+    console.error("Error posting job:", error);
+    showToast("Error posting job. Please try again.", "error");
+  }
+}
+
+
+
+function collectJobDetails() {
+  return {
+    title: getInputValue("jobTitle"),
+    company: getInputValue("company"),
+    description: getInputValue("jobDescription"),
+    searchableTitle: [...new Set(searchableTitle.map(title => title.toLowerCase()))].join(","),
+    location: `${getInputValue("city")}, ${getInputValue("state")} ${getInputValue("zip")}`,
+    city: getInputValue("city"),
+    state: getInputValue("state"),
+    zipCode: getInputValue("zip"),
+    type: getInputValue("jobType"),
+    jobCategory: getInputValue("jobCategory"),
+    industry: getInputValue("industry"),
+    salary: getInputValue("jobSalary"),
+    salaryPayTime: getInputValue("salaryPayTime"),
+    tags: getInputValue("tagInput").split(",").map(tag => tag.trim()),
+    boostDuration: new Date(new Date().setDate(new Date().getDate() + 30)), // 30-day boost duration
+    applicationDeadline: new Date(new Date().setDate(new Date().getDate() + 30)), // 30-day deadline
+    benefits: [], // Add benefits collection logic here if needed
+    customQuestions: [], // Add custom questions logic here if needed
+    createdAt: new Date(),
+    boosted: false, // Default boost status
+    status: "draft", // Default status
+    complianceCheck: document.getElementById("complianceCheck")?.checked || false,
+  };
+}
+
+function getInputValue(id) {
+  return document.getElementById(id)?.value || "";
+}
+
+
+
+window.handleJobPostSubmission = handleJobPostSubmission;
+
 
 
 // Function to fetch job listings from Firestore
