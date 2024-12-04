@@ -174,7 +174,7 @@
         <div class="preview" id="previewPane">Sitemap preview will appear here.</div>
         
         <h2>Error Log</h2>
-        <div class="error-log" id="errorLog"></div>
+        <textarea class="error-log" id="errorLog" rows="10" readonly></textarea>
 
         
         </main>
@@ -289,8 +289,8 @@ let pendingUrls = []; // Queue of URLs to fetch
 
   } catch (error) {
     errors.push(error.message);
-    updateErrorLog();
-  } finally {
+    handleError(error, url);
+} finally {
     updateProgress();
   }
 };
@@ -419,9 +419,20 @@ const sortTable = (columnIndex) => {
         };
         
         // Update error log
-        const updateErrorLog = () => {
-          errorLog.innerHTML = errors.map(error => `<p>${error}</p>`).join('');
-        };
+     
+// When an error occurs, include the URL in the error message
+const handleError = (error, url) => {
+  const errorMessage = `Error on ${url}: ${error.message}`;
+  errors.push(errorMessage);
+  updateErrorLog(); // Update the error log after pushing the error
+};
+
+// Update the error log with the error messages and URLs
+const updateErrorLog = () => {
+  const errorLog = document.getElementById('errorLog');
+  errorLog.value = errors.join(' \n'); // Combine errors with a space and newline for better readability
+};
+
         
         // Event listeners for filters
         filterUnique.addEventListener('change', () => {
