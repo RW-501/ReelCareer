@@ -390,7 +390,6 @@ async function fetchJobListings() {
       locationSnapshot = await getDocs(locationQuery);
       console.log('Location query returned results:', hasResults(locationSnapshot));
     }
-    console.log("userlocationData: ", userlocationData);
     console.log("userJobInterest: ", userJobInterest);
     // Combine results based on the priority: title > location > fallback
     let jobDocs = [];
