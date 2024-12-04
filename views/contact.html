@@ -130,11 +130,7 @@
         <p>If you have any questions or need further information, feel free to reach out to us!</p>
 
             <div class="col-md-6">
-                <h2>Contact Information</h2>
-                <p><strong>Email:</strong> <a href="mailto:support@reelcareer.com">support@reelcareer.com</a></p>
-                <p><strong>Phone:</strong> +1 (123) 456-7890</p>
-                <p><strong>Address:</strong> 123 Career Lane, Dallas, TX 75001</p>
-            </div>
+                   </div>
 
             <section id="contact-page">
                 <!-- Contact Form Section -->
@@ -172,9 +168,11 @@
                             <label for="messageType">Message Type:</label>
                             <select id="messageType" name="messageType" aria-label="Type of your message">
                                 <option value="general">General Inquiry</option>
-                                <option value="purchase">Photo Purchase Inquiry</option>
-                                <option value="book">Event Booking</option>
+                                <option value="jobApplication">Job Application Inquiry</option>
+                                <option value="resumeHelp">Resume Help</option>
+                                <option value="recruiterQuery">Recruiter Query</option>
                                 <option value="feedback">Feedback</option>
+                                <option value="technicalSupport">Technical Support</option>
                             </select>
                         </div>
             
@@ -226,54 +224,8 @@
     } from 'https://reelcareer.co/js/module.js';
 
 
-// Handle the change event for the message type dropdown
-document.getElementById("messageType").addEventListener("change", function () {
-    const form = document.getElementById("main-contact-form");
 
-    // Add/remove fields based on selected message type
-    if (this.value === "book") {
-        // Add Budget field if not already present
-        if (!document.getElementById("budget")) {
-            const budgetField = document.createElement("div");
-            budgetField.className = "form-group";
-            budgetField.innerHTML = `
-                <label for="budget">Budget:</label>
-                <input type="text" id="budget" name="budget" aria-label="Estimated budget for the event" placeholder="$500" onkeydown="restrictKeys(event)" oninput="updateCurrency(this)">
-            `;
-            form.insertBefore(budgetField, document.getElementById("subject").parentNode);
-        }
-
-        // Add Calendar field if not already present
-        if (!document.getElementById("eventDate")) {
-            const calendarField = document.createElement("div");
-            calendarField.className = "form-group";
-            calendarField.innerHTML = `
-                <label for="eventDate">Event Date:</label>
-                <input type="date" id="eventDate" name="eventDate" aria-label="Select the date for your event">
-            `;
-            form.insertBefore(calendarField, document.getElementById("subject").parentNode);
-        }
-    } else {
-        // Remove Budget and Calendar fields if they exist
-        const budgetField = document.getElementById("budget");
-        if (budgetField) budgetField.parentNode.remove();
-
-        const calendarField = document.getElementById("eventDate");
-        if (calendarField) calendarField.parentNode.remove();
-    }
-});
-
-// Pre-select "book" in messageType dropdown if URL contains '#book'
-document.addEventListener("DOMContentLoaded", () => {
-    if (window.checkUrl("#book")) {
-        const messageTypeSelect = document.getElementById("messageType");
-        messageTypeSelect.value = "book";
-
-        // Trigger the change event manually
-        const changeEvent = new Event('change', { bubbles: true, cancelable: true });
-        messageTypeSelect.dispatchEvent(changeEvent);
-    }
-});
+    
 
 // Form submission handler
 document.getElementById('main-contact-form').addEventListener('submit', function(event) {
@@ -321,28 +273,8 @@ document.getElementById('main-contact-form').addEventListener('submit', function
         return;
     }
 
-    // Additional fields for "Event Booking"
-    let budget = null;
-    let eventDate = null;
-    if (messageType === "book") {
-        budget = sanitizeInput(document.getElementById('budget')?.value);
-        eventDate = sanitizeInput(document.getElementById('eventDate')?.value);
 
-        // Validation for Budget and Event Date
-        if (!budget  || budget < 0) {
-            showToast('Please provide a valid budget.', "error");
-            submitButton.disabled = false;
-            submitButton.innerHTML = "Send Message";
-            return;
-        }
-
-        if (!eventDate) {
-            showToast('Please select a valid event date.', "error");
-            submitButton.disabled = false;
-            submitButton.innerHTML = "Send Message";
-            return;
-        }
-    }
+    
 
     // Input validation (sanitize all fields)
     if (!isSafeInput(name) || !isSafeInput(email) || !isSafeInput(phone) || !isSafeInput(subject) || !isSafeInput(message)) {
@@ -367,8 +299,6 @@ document.getElementById('main-contact-form').addEventListener('submit', function
             message,
             messageType,
             status: "unread",
-            budget: messageType === "book" ? budget : null,
-            eventDate: messageType === "book" ? eventDate : null,
             ipAddress: ipAddress, // Should be fetched properly
             city: locationData.city,
             zipCode: locationData.zip,
@@ -409,40 +339,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
-// Google Map Embed (this is an example; customize with your location)
-function initMap() {
-        const location = { lat: 34.7465, lng: -92.2896 }; // Little Rock, Arkansas
-
-        // Create a new map centered at the given location
-        const map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 8,
-          center: location,
-        });
-
-        // Create a new advanced marker element
-        const marker = new google.maps.marker.AdvancedMarkerElement({
-          position: location,
-          map: map,
-          content: '<div style="color: red;">📍</div>',  // You can replace this with your own custom HTML or image
-        });
-      }
-
-      // Initialize the map when the API is loaded
-   //   window.initMap = initMap;
 
 
-// Execute the function on DOMContentLoaded
-document.addEventListener("DOMContentLoaded", () => {
-    // Fetch Gallery and Site Info from HomePage collection
-    const galleryImagesContainer = document.getElementById("gallery-images");
-const mainTextArea = document.getElementById("text-area");
 
-  if (mainTextArea && galleryImagesContainer) {
-    fetchGalleryAndSiteInfo(mainTextArea, galleryImagesContainer, "ContactPage");
-  } else {
-    console.error("Required elements are missing in the DOM.");
-  }
-});
 
 
 
