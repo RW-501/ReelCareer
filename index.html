@@ -420,11 +420,11 @@ async function fetchJobListings() {
         if (isValidValue(job.title) && isValidValue(job.description)) {
           // Add source to each job object based on the query it came from
           if (titleSnapshot?.docs.includes(doc)) {
-            job.source = 'Title Query';
+            job.source += ' Interest, ';
           } else if (locationSnapshot?.docs.includes(doc)) {
-            job.source = 'Location Query';
+            job.source += ' Location, ';
           } else {
-            job.source = 'Fallback Query';
+            job.source += ' Fallback, ';
           }
 
           jobListingsCache.push(job);
