@@ -408,10 +408,8 @@ crawledPagesDiv.innerText = crawledPages.size;
   scheduleCrawling.addEventListener('change', (e) => {
     console.log(`Scheduled crawling set to: ${e.target.value}`);
   });
-        // Event listener to exclude subdomains
-        document.getElementById('excludeSubdomains').addEventListener('change', (e) => {
-          subdomainsExcluded = e.target.checked;
-        });
+  
+  
         // Function to dynamically create checkboxes for subdomains
 const createSubdomainCheckbox = (subdomain) => {
   // Check if the checkbox already exists
