@@ -124,7 +124,9 @@
           <option value="daily">Daily</option>
           <option value="weekly">Weekly</option>
         </select>
-        
+
+        <div id="excludeSubdomainsDiv"></div>
+
         <div id="progressBarContainer">
             <div id="progressBar" style="width: 0%; background-color: green; color: white; text-align: center;">
               0%
@@ -180,8 +182,9 @@
         let errors = [];
         let crawling = false;
         let totalLinks = 0;
-        let subdomainsExcluded = false;
-                
+        const subdomainsExcluded = new Set();
+const excludeSubdomainsDiv = document.getElementById('excludeSubdomainsDiv');
+   
 let crawledPages = new Set(); // To track already crawled pages
 let pendingUrls = []; // Queue of URLs to fetch
 
@@ -236,6 +239,12 @@ crawledPagesDiv.innerText = crawledPages.size;
                 // For paths like ".../path", handle them as relative paths, appending to base domain
                 href = new URL(href.replace('.../', '/'), baseDomain).href;
             }
+  // Extract subdomain from URL
+  const urlObj = new URL(href);
+      const subdomain = urlObj.hostname.split('.')[0];  // Assuming subdomains are first part of hostname
+
+      // Create a checkbox for the subdomain if not already created
+      createSubdomainCheckbox(subdomain);
 
             // Check if the URL starts with the base domain and handle subdomains
             if (href.startsWith(baseDomain) && (!subdomainsExcluded || href.indexOf(baseDomain) === href.lastIndexOf(baseDomain))) {
@@ -403,7 +412,49 @@ crawledPagesDiv.innerText = crawledPages.size;
         document.getElementById('excludeSubdomains').addEventListener('change', (e) => {
           subdomainsExcluded = e.target.checked;
         });
-        
+        // Function to dynamically create checkboxes for subdomains
+const createSubdomainCheckbox = (subdomain) => {
+  // Check if the checkbox already exists
+  if (!document.getElementById(`subdomain-${subdomain}`)) {
+    const checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    checkbox.id = `subdomain-${subdomain}`;
+    checkbox.value = subdomain;
+    checkbox.addEventListener('change', (e) => {
+      toggleSubdomainExclusion(e.target);
+    });
+
+    const label = document.createElement('label');
+    label.htmlFor = checkbox.id;
+    label.innerText = subdomain;
+
+    const container = document.createElement('div');
+    container.appendChild(checkbox);
+    container.appendChild(label);
+    excludeSubdomainsDiv.appendChild(container);
+
+    // Load subdomains from localStorage
+    const excludedSubdomains = JSON.parse(localStorage.getItem('excludedSubdomains')) || [];
+    if (excludedSubdomains.includes(subdomain)) {
+      checkbox.checked = true;
+      subdomainsExcluded.add(subdomain);
+    }
+  }
+};
+
+// Function to handle the toggling of subdomain exclusion
+const toggleSubdomainExclusion = (checkbox) => {
+  const subdomain = checkbox.value;
+  if (checkbox.checked) {
+    subdomainsExcluded.add(subdomain);
+  } else {
+    subdomainsExcluded.delete(subdomain);
+  }
+  // Save the subdomains excluded to localStorage
+  localStorage.setItem('excludedSubdomains', JSON.stringify([...subdomainsExcluded]));
+};
+
+
         // Start and stop crawling
         document.getElementById('startBtn').addEventListener('click', async () => {
           crawling = true;
@@ -413,7 +464,18 @@ crawledPagesDiv.innerText = crawledPages.size;
           await fetchLinks(baseDomain);
           updatePreview();
         });
-        
+        // Load the excluded subdomains from localStorage on page load
+document.addEventListener('DOMContentLoaded', () => {
+  const excludedSubdomains = JSON.parse(localStorage.getItem('excludedSubdomains')) || [];
+  excludedSubdomains.forEach(subdomain => {
+    const checkbox = document.getElementById(`subdomain-${subdomain}`);
+    if (checkbox) {
+      checkbox.checked = true;
+      subdomainsExcluded.add(subdomain);
+    }
+  });
+});
+
         </script>
              
 
