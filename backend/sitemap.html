@@ -196,24 +196,36 @@
             const doc = parser.parseFromString(text, 'text/html');
             const anchors = doc.querySelectorAll('a[href]');
             
+            console.log("url   ",url);
+            console.log("anchors   ",anchors);
+      
+            
+
+
+
             let processedLinks = 0;
             anchors.forEach(anchor => {
               let href = anchor.href;
               
               // If the href is a relative URL, convert it to an absolute URL
-              if (href.startsWith('/')) {
-                href = new URL(href, baseDomain).href; // Make it absolute by combining with baseDomain
-              }
-              
-              // Check if the URL starts with the base domain and handle subdomains
-              if (href.startsWith(baseDomain) && (!subdomainsExcluded || href.indexOf(baseDomain) === href.lastIndexOf(baseDomain))) {
-                if (!links.has(href)) {
-                  links.add(href);
-                  addLinkToTable(href);
-                } else if (filterDuplicates.checked) {
-                  highlightDuplicate(href);
-                }
-              }
+// Ensure that the href starts with "/" or ".../", and treat it accordingly.
+if (href.startsWith('/')) {
+    href = new URL(href, baseDomain).href; // Make it absolute by combining with baseDomain
+} else if (href.startsWith('.../')) {
+    // For paths like ".../path", handle them as relative paths, appending to base domain
+    href = new URL(href.replace('.../', '/'), baseDomain).href;
+}
+
+// Check if the URL starts with the base domain and handle subdomains
+if (href.startsWith(baseDomain) && (!subdomainsExcluded || href.indexOf(baseDomain) === href.lastIndexOf(baseDomain))) {
+    if (!links.has(href)) {
+        links.add(href);
+        addLinkToTable(href);
+    } else if (filterDuplicates.checked) {
+        highlightDuplicate(href);
+    }
+}
+
         
               processedLinks++;
               updateProgress(processedLinks, anchors.length);
