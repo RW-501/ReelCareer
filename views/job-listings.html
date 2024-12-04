@@ -647,8 +647,15 @@ border-radius: 12px;
   
       let lastVisible = null; // To store the last document loaded 
 
-const userlocationData = sessionStorage.getItem('userLocation');
+const userlocationDataMain = sessionStorage.getItem('userLocation');
 const userJobInterest = getUserJobInterest();
+const userlocationData = prepareLocationForFirebase(userlocationDataMain);
+
+
+
+console.log("userlocationData: ", userlocationData);
+console.log("userJobInterest: ", userJobInterest);
+
 
 // Function to fetch job listings from Firestore
 async function fetchJobListings() {
@@ -669,6 +676,10 @@ async function fetchJobListings() {
     jobsQuery = query(jobsQuery, where('tags', 'array-contains-any', userJobInterest));
   }
 
+  console.log("userlocationData:state ", userlocationData.state);
+  console.log("userlocationData:city ", userlocationData.city);
+
+  
   // Common conditions
   jobsQuery = query(jobsQuery, where('status', '==', 'active'));
   jobsQuery = query(jobsQuery, orderBy('createdAt', 'desc'));
