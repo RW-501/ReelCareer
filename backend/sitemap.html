@@ -203,8 +203,9 @@ let pendingUrls = []; // Queue of URLs to fetch
         const errorLog = document.getElementById('errorLog');
         const crawledPagesDiv = document.getElementById('crawledPages');
         const pendingUrlsDiv = document.getElementById('pendingUrls');
+        const sitemapOutput = document.getElementById('sitemapOutput');
 
-
+        
 
 
   // Fetch links via iframe
@@ -222,7 +223,9 @@ let pendingUrls = []; // Queue of URLs to fetch
   return new Promise((resolve, reject) => {
     const timeout = setTimeout(() => {
       document.body.removeChild(iframe);
-      reject(new Error(`Timeout while fetching ${url}`));
+      const timeoutError = new Error(`Timeout while fetching ${url}`);
+      handleError(timeoutError, url); // Log the timeout error
+      reject(timeoutError); // Reject the promise with the timeout error
     }, 5000); // 5 seconds timeout
 
     iframe.onload = () => {
@@ -249,7 +252,9 @@ let pendingUrls = []; // Queue of URLs to fetch
     iframe.onerror = () => {
       clearTimeout(timeout);
       document.body.removeChild(iframe);
-      reject(new Error(`Failed to load ${url}`));
+      const loadError = new Error(`Failed to load ${url}`);
+      handleError(loadError, url); // Log the load error
+      reject(loadError); // Reject the promise with the loading error
     };
   });
 };
@@ -436,6 +441,8 @@ const sortTable = (columnIndex) => {
           });
         };
         
+ 
+        
 
         
         // Update error log
@@ -487,10 +494,10 @@ const handleError = (error, url) => {
             }
         
             // Filter by .html links
-            if (filterHTML.checked && !url.endsWith('.html')) {
-              showRow = false;
-            }
-        
+            if (filterHTML.checked && !/\.(gif|png|mp4|doc|jpg|pdf|txt|xlsx|zip|csv)$/i.test(url)) {
+  showRow = false;
+}
+
             // Show or hide row based on filters
             if (showRow) {
               row.style.display = '';
@@ -600,26 +607,94 @@ document.getElementById('selectAllBtn').addEventListener('click', () => {
   });
 });
 
+document.getElementById('downloadBtn').addEventListener('click', () => {
 
+  // Call the generateSitemap function when the button is clicked
+  generateSitemap();
+});
 
+// Function to generate sitemap and populate the textarea
+const generateSitemap = async () => {
+  const rows = document.querySelectorAll('#linkTable tbody tr');
+  const sitemapUrls = [];
 
+  // Loop through each row in the table to extract link data
+  rows.forEach(row => {
+    const columns = row.querySelectorAll('td');
+    
+    // Extract the URL, priority, schedule, date, and ready status from each row
+    const linkData = {
+      url: columns[0].textContent.trim(),
+      priority: columns[1].textContent.trim(),
+      schedule: columns[2].textContent.trim(),
+      date: columns[3].textContent.trim(),
+      ready: columns[5].querySelectorAll('input').checked,
+    };
+
+    // Only add ready URLs to the sitemap
+    if (linkData.ready) {
+      // Format the data in the sitemap XML format
+      const urlEntry = `<url>
+        <loc>${linkData.url}</loc>
+        <lastmod>${linkData.date}</lastmod>
+        <changefreq>${linkData.schedule}</changefreq>
+        <priority>${linkData.priority}</priority>
+      </url>`;
+      sitemapUrls.push(urlEntry);
+    }
+  });
+
+  // Also fetch additional links if needed
+  const urls = ['https://reelcareer.co'];  // Add the initial site URL or any other URLs you want to include
+  for (const url of urls) {
+    try {
+      const links = await fetchLinksUsingIframe(url);  // Assuming this function gets more URLs dynamically
+      links.forEach(link => {
+        sitemapUrls.push(`<url><loc>${link}</loc></url>`);
+      });
+    } catch (error) {
+      console.error(`Failed to fetch links for ${url}:`, error);
+    }
+  }
+
+  // Wrap the URLs in <urlset> tags as per sitemap structure
+  const sitemapContent = `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${sitemapUrls.join('\n')}\n</urlset>`;
+
+  // Populate the sitemapOutput textarea with the generated sitemap content
+  const sitemapOutput = document.getElementById('sitemapOutput');
+  if (sitemapOutput) {
+    sitemapOutput.value = sitemapContent;
+  } else {
+    console.error('sitemapOutput textarea not found!');
+  }
+};
 
 // Export as CSV
 document.getElementById('exportCSV').addEventListener('click', () => {
   const rows = document.querySelectorAll('#linkTable tbody tr');
   const csvData = [];
 
+  // Add header row
+  csvData.push('URL,Priority,ChangeFreq,LastMod');
+
+  // Loop through table rows and extract data
   rows.forEach(row => {
     const columns = row.querySelectorAll('td');
-    const rowData = Array.from(columns).map(col => col.textContent);
-    csvData.push(rowData.join(','));
+    const url = columns[0].textContent.trim();
+    const priority = columns[1].textContent.trim();
+    const changeFreq = columns[2].textContent.trim();
+    const lastMod = columns[3].textContent.trim();
+
+    // Add row data in the correct format
+    csvData.push(`"${url}","${priority}","${changeFreq}","${lastMod}"`);
   });
 
+  // Create CSV Blob and download
   const csvBlob = new Blob([csvData.join('\n')], { type: 'text/csv' });
   const csvUrl = URL.createObjectURL(csvBlob);
   const csvLink = document.createElement('a');
   csvLink.href = csvUrl;
-  csvLink.download = 'links.csv';
+  csvLink.download = 'sitemap_links.csv';
   csvLink.click();
 });
 
@@ -628,23 +703,24 @@ document.getElementById('exportJSON').addEventListener('click', () => {
   const rows = document.querySelectorAll('#linkTable tbody tr');
   const jsonData = [];
 
+  // Loop through table rows and extract data
   rows.forEach(row => {
     const columns = row.querySelectorAll('td');
     const linkData = {
-      url: columns[0].textContent,
-      priority: columns[1].textContent,
-      schedule: columns[2].textContent,
-      date: columns[3].textContent,
-      status: columns[4].textContent,
+      url: columns[0].textContent.trim(),
+      priority: columns[1].textContent.trim(),
+      schedule: columns[2].textContent.trim(),
+      date: columns[3].textContent.trim(),
     };
     jsonData.push(linkData);
   });
 
+  // Create JSON Blob and download
   const jsonBlob = new Blob([JSON.stringify(jsonData, null, 2)], { type: 'application/json' });
   const jsonUrl = URL.createObjectURL(jsonBlob);
   const jsonLink = document.createElement('a');
   jsonLink.href = jsonUrl;
-  jsonLink.download = 'links.json';
+  jsonLink.download = 'sitemap_links.json';
   jsonLink.click();
 });
 
@@ -653,111 +729,6 @@ document.getElementById('exportJSON').addEventListener('click', () => {
 
 
 
-
-
-
-
-
-   /*
-
-
-        const fetchLinks = async (url) => {
-  try {
- 
-    // If the page has already been crawled, skip it
-    if (crawledPages.has(url)) {
-      console.log(`Skipping already crawled page: ${url}`);
-      return;
-    }
-
-    // Preprocess the URL before making the fetch request
-    let fixedUrl = url;
-
-    // If the URL contains '/backend', remove that part
-    fixedUrl = fixedUrl.replace(/\/backend/g, '');  // Remove all '/backend' segments in the URL
-
-    // If the URL contains relative paths like '../', resolve them correctly
-    fixedUrl = fixedUrl.replace(/(?:\.\.\/)+/g, '/');  // Replace all '../' with the root (or current folder)
-
-    // Make sure the fixed URL is an absolute URL
-    if (!fixedUrl.startsWith('https')) {
-      fixedUrl = new URL(fixedUrl, baseDomain).href;
-    }
-
-    // Perform the fetch request with the fixed URL
-    const response = await fetch(fixedUrl);
-    if (!response.ok) {
-      throw new Error(`Failed to fetch ${fixedUrl}: ${response.status}`);
-    }
-
-    // Mark the page as crawled
-    crawledPages.add(fixedUrl);
-    // Update the display with the count of crawled pages
-    crawledPagesDiv.innerText = crawledPages.size;
-
-    const text = await response.text();
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(text, 'text/html');
-    const anchors = doc.querySelectorAll('a[href]');
-    
-    
-    
-    console.log("Fetched URL: ", url);
-
-    console.log("fixedUrl: ", fixedUrl);
-    console.log("Found anchors: ", anchors);
-*/
- 
-
-/*
-    let processedLinks = 0;
-
-    // Process anchors and remove '/backend' if present in the href
-    const fixedAnchors = Array.from(anchors).map(anchor => {
-      let href = anchor.href;
-      // Remove '/backend' if it's part of the href
-      if (href.includes('/backend')) {
-        href = href.replace(/\/backend/g, '');  // Remove all '/backend' segments in the URL
-        anchor.href = href;  // Update the anchor's href with the fixed URL
-      }
-      console.log("Fixed anchors: ", fixedAnchors);
-
-      const urlObj = new URL(href);
-      const subdomain = urlObj.hostname.split('.')[0];  // Assuming subdomains are first part of hostname
-
-      createSubdomainCheckbox(subdomain);
-
-      if (href.startsWith(baseDomain) && (!subdomainsExcluded || href.indexOf(baseDomain) === href.lastIndexOf(baseDomain))) {
-        if (!links.has(href) && !crawledPages.has(href)) {
-          links.add(href);
-          addLinkToTable(href, fixedUrl); // Pass the base URL (where anchor was found)
-          pendingUrls.push(href);
-          pendingUrlsDiv.innerText = pendingUrls.length;
-        } else if (filterDuplicates.checked) {
-          highlightDuplicate(href);
-        }
-      }
-
-      processedLinks++;
-      updateProgress(processedLinks, anchors.length);
-    });
-
-    if (pendingUrls.length > 0) {
-      const nextUrl = pendingUrls.shift();
-      fetchLinks(nextUrl);
-    }
-
-  } catch (error) {
-    errors.push(error.message);
-    handleError(error, url);
-} finally {
-    updateProgress();
-    updatePreview();
-
-  }
-   
-};
-        */
 
         </script>
              
