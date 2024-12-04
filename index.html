@@ -341,8 +341,7 @@ const limits = 25;
 let showCount = 0;
 let jobListingsCache = [];
 const seenIDs = new Set();
-
-async function fetchJobListings() {
+async function fetchJobListings() { 
   jobListingsCache = []; // Clear cache before fetching
   const userlocationData = sessionStorage.getItem('userLocation');
   const jobListingsContainer = document.getElementById('jobListings');
@@ -357,9 +356,11 @@ async function fetchJobListings() {
     const jobsQuery = collection(db, 'Jobs');
 
     const hasResults = (snapshot) => snapshot && snapshot.docs.length > 0;
-    let locationSnapshot = null;
-    let titleSnapshot = null;
 
+    let titleSnapshot = null;
+    let locationSnapshot = null;
+
+    // Fetch jobs by tags first (User's job interest)
     if (userJobInterest.length > 0) {
       const titleQuery = query(
         jobsQuery,
@@ -371,8 +372,10 @@ async function fetchJobListings() {
       titleSnapshot = await getDocs(titleQuery);
       console.log('Title query returned results:', hasResults(titleSnapshot));
     }
+ 
 
-    if (userlocationData.length > 0) {
+    // If no results found for tags, fetch by location
+    if (!hasResults(titleSnapshot) && userlocationData.length > 0) {
       const locationArray = prepareLocationForFirebase(userlocationData);
       const locationQuery = query(
         jobsQuery,
@@ -384,13 +387,17 @@ async function fetchJobListings() {
       locationSnapshot = await getDocs(locationQuery);
       console.log('Location query returned results:', hasResults(locationSnapshot));
     }
+    console.log("locationArray: ", locationArray);
+    console.log("userJobInterest: ", userJobInterest);
+    // Combine results based on the priority: title > location > fallback
+    let jobDocs = [];
 
-    let jobDocs = [
-      ...(locationSnapshot?.docs || []),
-      ...(titleSnapshot?.docs || [])
-    ];
-
-    if (jobDocs.length == 0) {
+    if (hasResults(titleSnapshot)) {
+      jobDocs = titleSnapshot.docs; // Use jobs found by tags first
+    } else if (hasResults(locationSnapshot)) {
+      jobDocs = locationSnapshot.docs; // Use jobs found by location if no tag match
+    } else {
+      // Fallback to all active jobs if no results from tags or location
       const fallbackQuery = query(
         jobsQuery,
         where('status', '==', 'active'),
@@ -399,20 +406,21 @@ async function fetchJobListings() {
       );
       const fallbackSnapshot = await getDocs(fallbackQuery);
       console.log('Fallback query returned results:', hasResults(fallbackSnapshot));
-      jobDocs = [...(fallbackSnapshot?.docs || [])];
+      jobDocs = fallbackSnapshot.docs; // Fallback query if no tags or location match
     }
 
+    // Shuffle and process the jobDocs (remove duplicates, etc.)
     const randomizedJobDocs = shuffleArray(jobDocs);
 
     randomizedJobDocs.forEach((doc) => {
       const job = { id: doc.id, ...doc.data() };
       if (!seenIDs.has(doc.id)) {
         if (isValidValue(job.title) && isValidValue(job.description)) {
-          // Add source to each job object
-          if (locationSnapshot?.docs.includes(doc)) {
-            job.source = 'Location Query';
-          } else if (titleSnapshot?.docs.includes(doc)) {
+          // Add source to each job object based on the query it came from
+          if (titleSnapshot?.docs.includes(doc)) {
             job.source = 'Title Query';
+          } else if (locationSnapshot?.docs.includes(doc)) {
+            job.source = 'Location Query';
           } else {
             job.source = 'Fallback Query';
           }
