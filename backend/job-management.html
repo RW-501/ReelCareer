@@ -182,56 +182,70 @@
 
 
 
-        // Load jobs
-        function loadJobs() {
-            db.collection('Jobs').get().then((querySnapshot) => {
-                const jobTableBody = document.getElementById('jobTableBody');
-                jobTableBody.innerHTML = ''; // Clear existing rows
-                querySnapshot.forEach((doc) => {
-                    const job = doc.data();
-                    const row = `
-                        <tr>
-                            <td><input type="checkbox" class="jobCheckbox" value="${doc.id}"></td>
-                            <td>${doc.id}</td>
-                            <td>${job.title}</td>
-                            <td>${job.description}</td>
-                            <td>${job.category}</td>
-                            <td>
-                                <button class="btn btn-warning btn-sm" onclick="editJob('${doc.id}', '${job.title}', '${job.description}', '${job.category}')">Edit</button>
-                                <button class="btn btn-danger btn-sm" onclick="deleteJob('${doc.id}')">Delete</button>
-                            </td>
-                        </tr>
-                    `;
-                    jobTableBody.insertAdjacentHTML('beforeend', row);
-                });
-            });
-        }
+     
+// Load jobs function
+async function loadJobs() {
+  try {
+    const querySnapshot = await getDocs(collection(db, 'Jobs'));
+    const jobTableBody = document.getElementById('jobTableBody');
+    jobTableBody.innerHTML = ''; // Clear existing rows
 
-        // Load job categories
-        function loadCategories() {
-            db.collection('Categories').get().then((querySnapshot) => {
-                const categorySelect = document.getElementById('jobCategory');
-                const categoryTableBody = document.getElementById('categoryTableBody');
-                categorySelect.innerHTML = ''; // Clear existing options
-                categoryTableBody.innerHTML = ''; // Clear existing rows
+    querySnapshot.forEach((doc) => {
+      const job = doc.data();
+      const row = `
+        <tr>
+            <td><input type="checkbox" class="jobCheckbox" value="${doc.id}"></td>
+            <td>${doc.id}</td>
+            <td>${job.title}</td>
+            <td>${job.description}</td>
+            <td>${job.category}</td>
+            <td>
+                <button class="btn btn-warning btn-sm" onclick="editJob('${doc.id}', '${job.title}', '${job.description}', '${job.category}')">Edit</button>
+                <button class="btn btn-danger btn-sm" onclick="deleteJob('${doc.id}')">Delete</button>
+            </td>
+        </tr>
+      `;
+      jobTableBody.insertAdjacentHTML('beforeend', row);
+    });
+  } catch (error) {
+    console.error('Error loading jobs:', error);
+  }
+}
 
-                querySnapshot.forEach((doc) => {
-                    const category = doc.data().name;
-                    const option = `<option value="${category}">${category}</option>`;
-                    categorySelect.insertAdjacentHTML('beforeend', option);
+// Load job categories function
+async function loadCategories() {
+  try {
+    const querySnapshot = await getDocs(collection(db, 'Categories'));
+    const categorySelect = document.getElementById('jobCategory');
+    const categoryTableBody = document.getElementById('categoryTableBody');
+    categorySelect.innerHTML = ''; // Clear existing options
+    categoryTableBody.innerHTML = ''; // Clear existing rows
 
-                    const row = `
-                        <tr>
-                            <td>${category}</td>
-                            <td>
-                                <button class="btn btn-danger btn-sm" onclick="deleteCategory('${doc.id}')">Delete</button>
-                            </td>
-                        </tr>
-                    `;
-                    categoryTableBody.insertAdjacentHTML('beforeend', row);
-                });
-            });
-        }
+    querySnapshot.forEach((doc) => {
+      const category = doc.data().name;
+      const option = `<option value="${category}">${category}</option>`;
+      categorySelect.insertAdjacentHTML('beforeend', option);
+
+      const row = `
+        <tr>
+            <td>${category}</td>
+            <td>
+                <button class="btn btn-danger btn-sm" onclick="deleteCategory('${doc.id}')">Delete</button>
+            </td>
+        </tr>
+      `;
+      categoryTableBody.insertAdjacentHTML('beforeend', row);
+    });
+  } catch (error) {
+    console.error('Error loading categories:', error);
+  }
+}
+
+// Initialize the functions when the page loads
+document.addEventListener('DOMContentLoaded', () => {
+  loadJobs();
+  //loadCategories();
+});
 
         // Toggle all checkboxes
         function toggleAll(source) {
