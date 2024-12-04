@@ -670,6 +670,10 @@ async function fetchJobListings() {
   }
   if (userlocationData.state) {
     jobsQuery = query(jobsQuery, where('state', '==', userlocationData.state));
+    locationSource = locationSource ? 'State Location Query' : 'State Location Query';
+  }
+  if (userlocationData.state) {
+    jobsQuery = query(jobsQuery, where('state', 'array-contains-any', userlocationData));
     locationSource = locationSource ? 'City & State Location Query' : 'State Location Query';
   }
   if (userJobInterest.length > 0) {
