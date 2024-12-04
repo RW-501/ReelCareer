@@ -415,23 +415,28 @@ async function fetchJobListings() {
     const randomizedJobDocs = shuffleArray(jobDocs);
 
     randomizedJobDocs.forEach((doc) => {
-      const job = { id: doc.id, ...doc.data() };
-      if (!seenIDs.has(doc.id)) {
-        if (isValidValue(job.title) && isValidValue(job.description)) {
-          // Add source to each job object based on the query it came from
-          if (titleSnapshot?.docs.includes(doc)) {
-            job.source += ' Interest, ';
-          } else if (locationSnapshot?.docs.includes(doc)) {
-            job.source += ' Location, ';
-          } else {
-            job.source += ' Fallback, ';
-          }
+    const job = { id: doc.id, ...doc.data() };
 
-          jobListingsCache.push(job);
-          seenIDs.add(doc.id);
+    if (!seenIDs.has(doc.id)) {
+        if (isValidValue(job.title) && isValidValue(job.description)) {
+            // Initialize the source as an empty string if not already set
+            job.source = job.source || ''; 
+
+            // Add source to each job object based on the query it came from
+            if (titleSnapshot?.docs.includes(doc)) {
+                job.source += 'Interest, ';
+            } else if (locationSnapshot?.docs.includes(doc)) {
+                job.source += 'Location, ';
+            } else {
+                job.source += 'Fallback, ';
+            }
+
+            jobListingsCache.push(job);
+            seenIDs.add(doc.id);
         }
-      }
-    });
+    }
+});
+
 
     if (jobListingsCache.length > 0) {
       renderJobs();
