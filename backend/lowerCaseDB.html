@@ -89,20 +89,14 @@
         <h1 class="mb-4">LowerCase locations</h1>
         
         <div style="text-align: center; margin-top: 50px;">
-            <h1>Process Unique States from Jobs</h1>
-            <button id="processStates" style="padding: 10px 20px; font-size: 16px;">Process States</button>
-          </div>
+            <div id="outputContainer" style="max-height: 300px; overflow-y: auto; padding: 10px; background-color: #f0f0f0; border: 1px solid #ccc; margin-top: 20px;">
+                <!-- Output messages will appear here -->
+              </div>
+              <button id="lowercaseLocations">Start Lowercasing Locations</button>
 
 
 
-
-
-
-
-          <div style="text-align: center; margin-top: 50px;">
-            <h1>Process Unique Cities from Jobs</h1>
-            <button id="processCities" style="padding: 10px 20px; font-size: 16px;">Process Cities</button>
-          </div>
+            </div>
 
 
 
@@ -135,130 +129,65 @@
             auth, analytics, deleteDoc, getDownloadURL
         } from 'https://reelcareer.co/js/module.js';
 
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
+import { getFirestore, collection, query, getDocs, doc, updateDoc } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
 
 
 
-        async function fetchUniqueStatesAndSave() {
-      try {
-        // Query the Jobs collection
-        const jobsQuery = query(collection(db, "Jobs"));
-        const querySnapshot = await getDocs(jobsQuery);
+// Function to update the job locations
+async function lowercaseLocationsInJobs() {
+  try {
+    // Show starting message
+    appendToOutput("Starting the lowercase operation...");
 
-        const uniqueStates = new Set(); // Use Set to collect unique states
+    // Query all the job listings
+    const jobsQuery = query(collection(db, "Jobs"));
+    const querySnapshot = await getDocs(jobsQuery);
+    
+    let totalJobs = querySnapshot.docs.length;
+    let processedJobs = 0;
 
-        // Loop through the documents to extract states
-        querySnapshot.forEach(doc => {
-          const job = doc.data();
-          if (job.location && Array.isArray(job.location)) {
-            const state = job.location[1]?.trim(); // Assuming index 1 is the state
-            if (state) {
-              uniqueStates.add(state.toLowerCase()); // Normalize to lowercase
-            }
-          }
-        });
+    // Loop through each job document
+    for (const jobDoc of querySnapshot.docs) {
+      const job = jobDoc.data();
 
-        // Convert Set to Array
-        const statesArray = Array.from(uniqueStates);
-        console.log("Unique States:", statesArray);
+      // If the job document has a location field and it's an array
+      if (job.location && Array.isArray(job.location)) {
+        // Lowercase each location and remove extra spaces
+        const updatedLocations = job.location.map(loc => loc.toLowerCase().trim());
 
-        // Save unique states to Firestore
-        await saveStatesToFirestore(statesArray);
+        // Update the job document with the lowercase locations
+        await updateDoc(doc(db, "Jobs", jobDoc.id), { location: updatedLocations });
 
-        // Notify completion
-        alert("Unique states have been saved to Firestore!");
-      } catch (error) {
-        console.error("Error fetching or saving states:", error);
+        // Update the progress
+        processedJobs++;
+        appendToOutput(`Updated job ${jobDoc.id} with lowercase locations. Progress: ${processedJobs} of ${totalJobs}`);
       }
     }
 
-    async function saveStatesToFirestore(states) {
-      const locationsRef = collection(db, "Locations");
+    // Notify the user that the operation is complete
+    appendToOutput("All locations in Jobs collection have been converted to lowercase.");
+    alert("All locations in Jobs collection have been converted to lowercase.");
+  } catch (error) {
+    console.error("Error updating locations:", error);
+    appendToOutput(`Error updating locations: ${error.message}`);
+  }
+}
 
-      for (const state of states) {
-        try {
-          const docRef = doc(locationsRef, `state-${state}`); // Create a document for each state
-          await setDoc(docRef, { state: state });
-          console.log(`State saved: ${state}`);
-        } catch (error) {
-          console.error(`Error saving state ${state}:`, error);
-        }
-      }
-    }
+// Function to append messages to the output container
+function appendToOutput(message) {
+  const outputContainer = document.getElementById("outputContainer");
+  const messageElement = document.createElement("p");
+  messageElement.textContent = message;
+  outputContainer.appendChild(messageElement);
+  outputContainer.scrollTop = outputContainer.scrollHeight; // Scroll to the bottom
+}
 
-    // Event listener for button click
-    document.addEventListener("DOMContentLoaded", () => {
-      const processButton = document.getElementById("processStates");
-      processButton.addEventListener("click", fetchUniqueStatesAndSave);
-    });
- 
- 
-
-
-
-
-
-
-
-
-
-
-
-
-
-    async function fetchUniqueCitiesAndSave() {
-      try {
-        // Query the Jobs collection
-        const jobsQuery = query(collection(db, "Jobs"));
-        const querySnapshot = await getDocs(jobsQuery);
-
-        const uniqueCities = new Set(); // Use Set to collect unique cities
-
-        // Loop through the documents to extract cities
-        querySnapshot.forEach(doc => {
-          const job = doc.data();
-          if (job.location && Array.isArray(job.location)) {
-            const city = job.location[2]?.trim(); // Assuming index 2 is the city
-            if (city) {
-              uniqueCities.add(city.toLowerCase()); // Normalize to lowercase
-            }
-          }
-        });
-
-        // Convert Set to Array
-        const citiesArray = Array.from(uniqueCities);
-        console.log("Unique Cities:", citiesArray);
-
-        // Save unique cities to Firestore
-        await saveCitiesToFirestore(citiesArray);
-
-        // Notify completion
-        alert("Unique cities have been saved to Firestore!");
-      } catch (error) {
-        console.error("Error fetching or saving cities:", error);
-      }
-    }
-
-    async function saveCitiesToFirestore(cities) {
-      const citiesRef = collection(db, "Cities");
-
-      for (const city of cities) {
-        try {
-          const docRef = doc(citiesRef, `city-${city}`); // Create a document for each city
-          await setDoc(docRef, { city: city });
-          console.log(`City saved: ${city}`);
-        } catch (error) {
-          console.error(`Error saving city ${city}:`, error);
-        }
-      }
-    }
-
-    // Event listener for button click
-    document.addEventListener("DOMContentLoaded", () => {
-      const processButton = document.getElementById("processCities");
-      processButton.addEventListener("click", fetchUniqueCitiesAndSave);
-    });
-
-
+// Attach the function to a button to trigger it when clicked
+document.addEventListener("DOMContentLoaded", () => {
+  const processButton = document.getElementById("lowercaseLocations");
+  processButton.addEventListener("click", lowercaseLocationsInJobs);
+});
 
 
 
