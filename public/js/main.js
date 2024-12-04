@@ -1818,12 +1818,19 @@ function handleJobInput(jobInput, action = "visit") {
 window.handleJobInput = handleJobInput;
 
 // Function to retrieve and log jobs as a simple array
-function getUserJobInterest() { 
+function getUserJobInterest() {
   const userJobInterest = JSON.parse(localStorage.getItem('userJobInterest')) || [];
-  const jobArray = userJobInterest.map(item => item.job.toLowerCase()); // Convert to lowercase
-  console.log('User Job Interests (lowercase):', jobArray);
-  return jobArray;
+
+  // Filter out invalid terms and limit to 10 items
+  const filteredJobInterest = userJobInterest
+    .map((item) => item.job.toLowerCase()) // Convert to lowercase
+    .filter((term) => term.length > 2 && isNaN(term)) // Ensure valid terms
+    .slice(0, 10); // Limit to 10 elements
+
+  console.log('Filtered User Job Interests (lowercase):', filteredJobInterest);
+  return filteredJobInterest;
 }
+
 
 /*
 const jobInterest = getUserJobInterest();
@@ -1916,9 +1923,15 @@ window.handleTagInput = handleTagInput;
 // Function to retrieve and log tags as a simple array
 function getUserTagInterest() {
   const userTagInterest = JSON.parse(localStorage.getItem('userTagInterest')) || [];
-  const tagArray = userTagInterest.map(item => item.tag.toLowerCase()); // Convert to lowercase
-  console.log('User Tag Interests (lowercase):', tagArray);
-  return tagArray;
+ 
+  const filteredJTagInterest = userTagInterest
+    .map((item) => item.tag.toLowerCase()) // Convert to lowercase
+    .filter((term) => term.length > 2 && isNaN(term)) // Ensure valid terms
+    .slice(0, 10); // Limit to 10 elements
+ 
+ 
+  console.log('User Tag Interests (lowercase):', filteredJTagInterest);
+  return filteredJTagInterest;
 }
 
 
