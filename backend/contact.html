@@ -177,64 +177,63 @@
 
 
         // Fetch and render contacts
-       
-// Fetch and render contacts
+  // Function to render contact messages in the admin panel
+function renderContacts(contacts) {
+    const container = document.getElementById('contacts-container');
+    if (!container) return;
+
+    container.innerHTML = "";
+    let unReadMsg = 0;
+
+    // Loop through all contact messages
+    contacts.forEach(contact => {
+        const card = document.createElement('div');
+        card.className = 'contact-card';
+        card.innerHTML = `
+            <h3>${contact.name || "No Name Provided"}</h3>
+            <p><strong>Status:</strong> ${contact.status || "No Status"}</p>
+            <p><strong>Message Type:</strong> ${contact.messageType || "No Message Type"}</p>
+            <p><strong>Subject:</strong> ${contact.subject || "No Subject"}</p>
+            <p><strong>Message:</strong> ${contact.message || "No Message"}</p>
+            <p><strong>Location:</strong> ${contact.city || "No City"}${contact.state ? ", " + contact.state : ""}</p>
+            <p><strong>Timestamp:</strong> ${contact.timestamp ? new Date(contact.timestamp).toLocaleString() : "No Timestamp"}</p>
+            <button class="view-btn" onclick="goToAdminContact('${contact.id}')">View Details</button>
+        `;
+
+        // Count unread messages
+        if (contact.status === "unread") unReadMsg++;
+
+        // Append the card to the container
+        container.appendChild(card);
+    });
+
+    // Update the message count display
+    const msgCountDisplay = document.getElementById('msgCountDisplay');
+    if (msgCountDisplay) {
+        msgCountDisplay.innerHTML = `
+            <h3>Total Messages: ${contacts.length}</h3>
+            <p>Unread Messages: ${unReadMsg}</p>
+        `;
+    }
+}
+
+// Example of how to fetch contacts and call renderContacts
 async function fetchAndRenderContacts() {
-    const contactsCollection = collection(db, "ContactMessages"); // Reference to the collection
+    const contactsCollection = collection(db, "ContactMessages");
 
     try {
-        // Fetch documents from the collection
         const snapshot = await getDocs(contactsCollection);
-        
-        // Map through the snapshot docs and prepare the data
         const contacts = snapshot.docs.map(doc => ({
             id: doc.id,
             ...doc.data()
         }));
 
-        // Render the contacts using your renderContacts function
         renderContacts(contacts);
     } catch (error) {
         console.error("Error fetching contacts:", error);
-        
-        // Display an error message in case of failure
         document.getElementById('contacts-container').innerHTML = '<p class="error-message">Failed to load contacts. Please try again later.</p>';
     }
 }
-
-
-        function renderContacts(contacts) {
-            const container = document.getElementById('contacts-container');
-            if (!container) return;
-
-            container.innerHTML = "";
-            let unReadMsg = 0;
-
-            contacts.forEach(contact => {
-                const card = document.createElement('div');
-                card.className = 'contact-card';
-                card.innerHTML = `
-                    <h3>${contact.name || "No Name Provided"}</h3>
-                    <p><strong>Status:</strong> ${contact.status || "No Status"}</p>
-                    <p><strong>Subject:</strong> ${contact.subject || "No Subject"}</p>
-                    <p><strong>Messages:</strong> ${contact.messages || 0}</p>
-                    <p><strong>Timestamp:</strong> ${contact.timestamp ? new Date(contact.timestamp).toLocaleString() : "No Timestamp"}</p>
-                    <button class="view-btn" onclick="goToAdminContact('${contact.id}')">View Details</button>
-                `;
-
-                if (contact.status === "unread") unReadMsg++;
-
-                container.appendChild(card);
-            });
-
-            const msgCountDisplay = document.getElementById('msgCountDisplay');
-            if (msgCountDisplay) {
-                msgCountDisplay.innerHTML = `
-                    <h3>Total Messages: ${contacts.length}</h3>
-                    <p>Unread Messages: ${unReadMsg}</p>
-                `;
-            }
-        }
 
         function goToAdminContact(docId) {
             window.location.href = `#${docId}`;
