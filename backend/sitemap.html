@@ -198,8 +198,7 @@ let pendingUrls = []; // Queue of URLs to fetch
         const pendingUrlsDiv = document.getElementById('pendingUrls');
 
         
-
-const fetchLinks = async (url) => {
+        const fetchLinks = async (url) => {
     try {
         // If the page has already been crawled, skip it
         if (crawledPages.has(url)) {
@@ -214,37 +213,39 @@ const fetchLinks = async (url) => {
 
         // Mark the page as crawled
         crawledPages.add(url);
-
-// Update the display with the count of crawled pages
-crawledPagesDiv.innerText = crawledPages.size;
-
-
+        // Update the display with the count of crawled pages
+        crawledPagesDiv.innerText = crawledPages.size;
 
         const text = await response.text();
         const parser = new DOMParser();
         const doc = parser.parseFromString(text, 'text/html');
         const anchors = doc.querySelectorAll('a[href]');
-        
+
         console.log("Fetched URL: ", url);
         console.log("Found anchors: ", anchors);
 
         let processedLinks = 0;
         anchors.forEach(anchor => {
             let href = anchor.href;
-            
+
             // If the href is a relative URL, convert it to an absolute URL
             if (href.startsWith('/')) {
+                // Normalize the path if it starts with /backend
+                if (href.startsWith('/backend')) {
+                    href = href.replace('/backend', '');  // Remove '/backend' from the URL path
+                }
                 href = new URL(href, baseDomain).href; // Make it absolute by combining with baseDomain
             } else if (href.startsWith('.../')) {
                 // For paths like ".../path", handle them as relative paths, appending to base domain
                 href = new URL(href.replace('.../', '/'), baseDomain).href;
             }
-  // Extract subdomain from URL
-  const urlObj = new URL(href);
-      const subdomain = urlObj.hostname.split('.')[0];  // Assuming subdomains are first part of hostname
 
-      // Create a checkbox for the subdomain if not already created
-      createSubdomainCheckbox(subdomain);
+            // Extract subdomain from URL
+            const urlObj = new URL(href);
+            const subdomain = urlObj.hostname.split('.')[0];  // Assuming subdomains are first part of hostname
+
+            // Create a checkbox for the subdomain if not already created
+            createSubdomainCheckbox(subdomain);
 
             // Check if the URL starts with the base domain and handle subdomains
             if (href.startsWith(baseDomain) && (!subdomainsExcluded || href.indexOf(baseDomain) === href.lastIndexOf(baseDomain))) {
@@ -252,9 +253,7 @@ crawledPagesDiv.innerText = crawledPages.size;
                     links.add(href);
                     addLinkToTable(href);
                     pendingUrls.push(href); // Add the link to pending URLs for later fetching
-               
                     pendingUrlsDiv.innerText = pendingUrls.length;
-
                 } else if (filterDuplicates.checked) {
                     highlightDuplicate(href);
                 }
@@ -277,7 +276,6 @@ crawledPagesDiv.innerText = crawledPages.size;
         updateProgress();
     }
 };
-
 
         // Function to add link to table with dynamic priority and scheduling
         const addLinkToTable = (url) => {
