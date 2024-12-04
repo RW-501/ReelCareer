@@ -2105,8 +2105,9 @@ function rollInAnimations(config = {}) {
 
   // Main roll-in logic
   document.addEventListener('DOMContentLoaded', function () {
-      const mainDivs = document.querySelectorAll('.main > div');
+      const mainDivs = document.querySelectorAll('main > div');
 
+      
       // Check if elements exist
       if (!mainDivs.length) {
           console.warn('No child divs found in .main container for animations.');
