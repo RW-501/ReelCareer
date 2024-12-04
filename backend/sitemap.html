@@ -168,32 +168,42 @@
           const filterDuplicates = document.getElementById('filterDuplicates');
       
           const fetchLinks = async (url) => {
-            try {
-              const response = await fetch(url);
-              if (!response.ok) throw new Error(`Failed to fetch ${url}: ${response.status}`);
-              const text = await response.text();
-              const parser = new DOMParser();
-              const doc = parser.parseFromString(text, 'text/html');
-              const anchors = doc.querySelectorAll('a[href]');
-      
-              anchors.forEach(anchor => {
-                const href = new URL(anchor.href, baseDomain).href;
-                if (href.startsWith(baseDomain)) {
-                  if (!links.has(href)) {
-                    links.add(href);
-                    addLinkToTable(href);
-                  } else if (filterDuplicates.checked) {
-                    highlightDuplicate(href);
-                  }
-                }
-              });
-            } catch (error) {
-              errors.push(error.message);
-              updateErrorLog();
-            } finally {
-              updateProgress();
-            }
-          };
+  try {
+    const response = await fetch(url);
+    if (!response.ok) throw new Error(`Failed to fetch ${url}: ${response.status}`);
+    const text = await response.text();
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(text, 'text/html');
+    const anchors = doc.querySelectorAll('a[href]');
+
+    anchors.forEach(anchor => {
+      let href = anchor.href;
+
+      // If the href is a relative URL, convert it to an absolute URL
+      if (href.startsWith('/')) {
+        href = new URL(href, baseDomain).href; // Make it absolute by combining with baseDomain
+      }
+
+      // Check if the URL starts with the base domain
+      if (href.startsWith(baseDomain)) {
+        // If the link is unique, add it
+        if (!links.has(href)) {
+          links.add(href);
+          addLinkToTable(href);
+        } else if (filterDuplicates.checked) {
+          // Highlight duplicates if the filter is checked
+          highlightDuplicate(href);
+        }
+      }
+    });
+  } catch (error) {
+    errors.push(error.message);
+    updateErrorLog();
+  } finally {
+    updateProgress();
+  }
+};
+
       
           const addLinkToTable = (url) => {
             const tableBody = document.querySelector('#linkTable tbody');
@@ -241,15 +251,50 @@
             });
           };
       
-          // Add event listeners for filters
-          filterUnique.addEventListener('change', () => {
-            // Logic to filter only unique links
-          });
-      
-          filterHTML.addEventListener('change', () => {
-            // Logic to filter only .html links
-          });
-      
+
+          
+// Add event listeners for filters
+filterUnique.addEventListener('change', () => {
+  filterLinks();
+});
+
+filterHTML.addEventListener('change', () => {
+  filterLinks();
+});
+
+// Function to filter and display links based on selected filters
+const filterLinks = () => {
+  const tableRows = document.querySelectorAll('#linkTable tbody tr');
+  tableRows.forEach(row => {
+    const urlCell = row.querySelector('td:first-child');
+    const url = urlCell.textContent;
+
+    let showRow = true;
+
+    // Filter by unique links
+    if (filterUnique.checked) {
+      const uniqueLinks = new Set();
+      if (uniqueLinks.has(url)) {
+        showRow = false;
+      } else {
+        uniqueLinks.add(url);
+      }
+    }
+
+    // Filter by .html links
+    if (filterHTML.checked && !url.endsWith('.html')) {
+      showRow = false;
+    }
+
+    // Show or hide row based on filters
+    if (showRow) {
+      row.style.display = '';
+    } else {
+      row.style.display = 'none';
+    }
+  });
+};
+
           // Scheduled Crawling Placeholder
           const scheduleCrawling = document.getElementById('crawlSchedule');
           scheduleCrawling.addEventListener('change', (e) => {
