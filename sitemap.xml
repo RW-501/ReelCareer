@@ -12,8 +12,8 @@
     <url>
         <loc>https://reelcareer.co/views/job-listings</loc>
         <lastmod>2024-11-21</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
+        <changefreq>daily</changefreq>
+        <priority>0.9</priority>
     </url>
 
     <!-- About Us -->
@@ -46,6 +46,13 @@
         <lastmod>2024-11-21</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>
+    </url>
+    <!-- Blog -->
+    <url>
+        <loc>https://reelcareer.co/views/blogs</loc>
+        <lastmod>2024-11-21</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.9</priority>
     </url>
 
     <!-- Membership -->
