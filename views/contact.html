@@ -308,13 +308,13 @@ document.getElementById('main-contact-form').addEventListener('submit', function
             timestamp: new Date(),
         };
 
-        // Save the contact data to Firestore
-        db.collection('Contacts').add(contactData)
+        // Add contact data to Firestore
+        addDoc(collection(db, 'Contacts'), contactData)
             .then(() => {
                 showToast('Message sent successfully!', "success");
                 document.getElementById('main-contact-form').reset(); // Reset the form after successful submission
                 submitButton.innerHTML = "Sent"; // Show "Sent" state
-                messageHistory.push(now);
+                messageHistory.push(new Date());
                 localStorage.setItem('messageHistory', JSON.stringify(messageHistory));
             })
             .catch((error) => {
@@ -327,7 +327,6 @@ document.getElementById('main-contact-form').addEventListener('submit', function
         submitButton.innerHTML = "Send Message";
     }
 });
-
 // Check if the user is blocked on page load
 document.addEventListener("DOMContentLoaded", function () {
     const messageHistory = JSON.parse(localStorage.getItem('messageHistory')) || [];
