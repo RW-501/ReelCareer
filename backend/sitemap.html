@@ -113,6 +113,10 @@
           <button id="stopBtn">Stop</button>
           <button id="exportCSV">Export CSV</button>
           <button id="exportJSON">Export JSON</button>
+</div>
+
+          <div class="controls">
+
           <span>Total Links: <span id="linkCount">0</span></span>
           <span>Crawled Pages: <span id="crawledPages">0</span></span>
           <span>Pending Urls: <span id="pendingUrls">0</span></span>
@@ -500,6 +504,29 @@ const toggleSubdomainExclusion = (checkbox) => {
           await fetchLinks(baseDomain);
           updatePreview();
         });
+
+        const updatePreview = () => {
+  const previewContainer = document.getElementById('previewContainer');
+  const linksTable = document.querySelector('#linkTable tbody');
+  
+  // Clear previous preview content
+  previewContainer.innerHTML = '';
+  
+  // Update the preview of fetched links
+  links.forEach(link => {
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td>${link}</td>
+      <td><span class="status">Pending</span></td>
+    `;
+    linksTable.appendChild(row);
+  });
+
+  // Update the crawled pages display
+  crawledPagesDiv.innerText = `Crawled Pages: ${crawledPages.size}`;
+};
+
+
         // Load the excluded subdomains from localStorage on page load
 document.addEventListener('DOMContentLoaded', () => {
   const excludedSubdomains = JSON.parse(localStorage.getItem('excludedSubdomains')) || [];
@@ -511,6 +538,74 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
+
+
+document.getElementById('selectAllBtn').addEventListener('click', () => {
+  const checkboxes = document.querySelectorAll('#linkTable input[type="checkbox"]');
+  const allChecked = Array.from(checkboxes).every(checkbox => checkbox.checked);
+  
+  // Toggle the selection of all checkboxes
+  checkboxes.forEach(checkbox => {
+    checkbox.checked = !allChecked;
+  });
+});
+
+
+
+
+
+// Export as CSV
+document.getElementById('exportCSV').addEventListener('click', () => {
+  const rows = document.querySelectorAll('#linkTable tbody tr');
+  const csvData = [];
+
+  rows.forEach(row => {
+    const columns = row.querySelectorAll('td');
+    const rowData = Array.from(columns).map(col => col.textContent);
+    csvData.push(rowData.join(','));
+  });
+
+  const csvBlob = new Blob([csvData.join('\n')], { type: 'text/csv' });
+  const csvUrl = URL.createObjectURL(csvBlob);
+  const csvLink = document.createElement('a');
+  csvLink.href = csvUrl;
+  csvLink.download = 'links.csv';
+  csvLink.click();
+});
+
+// Export as JSON
+document.getElementById('exportJSON').addEventListener('click', () => {
+  const rows = document.querySelectorAll('#linkTable tbody tr');
+  const jsonData = [];
+
+  rows.forEach(row => {
+    const columns = row.querySelectorAll('td');
+    const linkData = {
+      url: columns[0].textContent,
+      priority: columns[1].textContent,
+      schedule: columns[2].textContent,
+      date: columns[3].textContent,
+      status: columns[4].textContent,
+    };
+    jsonData.push(linkData);
+  });
+
+  const jsonBlob = new Blob([JSON.stringify(jsonData, null, 2)], { type: 'application/json' });
+  const jsonUrl = URL.createObjectURL(jsonBlob);
+  const jsonLink = document.createElement('a');
+  jsonLink.href = jsonUrl;
+  jsonLink.download = 'links.json';
+  jsonLink.click();
+});
+
+
+
+
+
+
+
+
+
 
         </script>
              

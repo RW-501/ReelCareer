@@ -2067,6 +2067,44 @@ if (window.checkUrl("/backend/") || window.checkUrl("/backend")) {
 
 
 
+
+function rollInAnimations(config = {}) {
+  // Default configuration
+  const {
+      delayBetweenDivs = 300, // Delay between div animations (ms)
+      initialBodyDelay = 1000, // Delay before showing body (ms)
+      animationDuration = 600, // Animation duration (ms)
+      animationTimingFunction = 'ease', // CSS timing function
+      hiddenClass = 'hidden', // Class to hide body
+  } = config;
+
+  // Inject CSS Styles
+  const loadingStyle = document.createElement('style');
+  loadingStyle.innerHTML = `
+      /* Hide body initially */
+      body.${hiddenClass} { 
+          opacity: 0; 
+          overflow: hidden;
+      }
+  
+      /* Hidden state for .main child divs */
+      .main > div {
+          opacity: 0;
+          transform: translateX(-100%);
+          transition: opacity ${animationDuration}ms ${animationTimingFunction}, 
+                      transform ${animationDuration}ms ${animationTimingFunction};
+      }
+  
+      /* Roll-in effect */
+      .main > div.roll-in {
+          opacity: 1;
+          transform: translateX(0);
+      }
+  `;
+  document.head.appendChild(loadingStyle);
+};
+
+  
 document.addEventListener('DOMContentLoaded', function () {
   const mainDivs = document.querySelectorAll('main > div');
   const mainContainer = document.querySelector('main');
@@ -2104,9 +2142,6 @@ initialBodyDelay: 1500,
 animationDuration: 1500,
 animationTimingFunction: 'cubic-bezier(0.68, -0.55, 0.27, 1.55)' // Easing function for bounce effect
 });
-
-
-
 
 
 
