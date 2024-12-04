@@ -276,6 +276,31 @@ main {
 .slide-panel.open {
   right: 0; /* When open, it slides in */
 }
+
+
+.preview-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    position: relative;
+}
+
+.preview-image, .preview-video {
+    max-width: 100%;
+    max-height: 150px;
+}
+
+.unsupported-file {
+    padding: 10px;
+    background: #f8f9fa;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+
     </style>
 
 </head>
@@ -376,8 +401,17 @@ main {
                       </div>
       
                     </div>
+
+
+
+
                   </div>
       
+
+
+
+
+
                 </div>
       
               </div>
@@ -925,60 +959,72 @@ messageDiv.appendChild(timestampDiv);
     }
 );
     }
-    document.getElementById('chooseFileButton').onclick = () => {
-    document.getElementById('attachmentInput').click(); // Trigger file input dialog
-};
+ document.getElementById('chooseFileButton').addEventListener('click', () => {
+    document.getElementById('attachmentInput').click();
+});
 
-// Handle file input change event to show the preview
 document.getElementById('attachmentInput').addEventListener('change', (e) => {
     const file = e.target.files[0];
+    const fileUrl = file ? URL.createObjectURL(file) : null;
+
+    const attachmentPreview = document.getElementById('attachmentPreview');
+    const imagePreview = document.getElementById('attachmentImage');
+    const videoPreview = document.getElementById('attachmentVideo');
+    const unsupportedFile = document.getElementById('unsupportedFile');
+    const fileName = document.getElementById('fileName');
+
     if (file) {
-        const fileUrl = URL.createObjectURL(file);
-        const attachmentPreview = document.getElementById('attachmentPreview');
-        const imagePreview = document.getElementById('attachmentImage');
-        const videoPreview = document.getElementById('attachmentVideo');
-        
-        // Show the preview area and set the file type (image or video)
         attachmentPreview.classList.remove('d-none');
         
         if (file.type.startsWith('image/')) {
             imagePreview.src = fileUrl;
             imagePreview.classList.remove('d-none');
             videoPreview.classList.add('d-none');
+            unsupportedFile.classList.add('d-none');
         } else if (file.type.startsWith('video/')) {
             videoPreview.src = fileUrl;
             videoPreview.classList.remove('d-none');
             imagePreview.classList.add('d-none');
+            unsupportedFile.classList.add('d-none');
+        } else {
+            fileName.textContent = file.name;
+            unsupportedFile.classList.remove('d-none');
+            imagePreview.classList.add('d-none');
+            videoPreview.classList.add('d-none');
         }
     }
 });
 
-// Remove the attachment preview
-document.getElementById('removePreview').onclick = () => {
-    document.getElementById('attachmentInput').value = ''; // Reset the file input
-    document.getElementById('attachmentPreview').classList.add('d-none'); // Hide preview
-    document.getElementById('attachmentImage').classList.add('d-none');
-    document.getElementById('attachmentVideo').classList.add('d-none');
-};
+document.getElementById('removePreview').addEventListener('click', () => {
+    const attachmentInput = document.getElementById('attachmentInput');
+    const attachmentPreview = document.getElementById('attachmentPreview');
+    const imagePreview = document.getElementById('attachmentImage');
+    const videoPreview = document.getElementById('attachmentVideo');
+    const unsupportedFile = document.getElementById('unsupportedFile');
+
+    attachmentInput.value = ''; // Clear input value
+    attachmentPreview.classList.add('d-none'); // Hide preview area
+    imagePreview.classList.add('d-none');
+    videoPreview.classList.add('d-none');
+    unsupportedFile.classList.add('d-none');
+});
+
 document.addEventListener('DOMContentLoaded', () => {
 
-// Send message function with attachment
-document.getElementById('sendMessageButton').onclick = async () => {
+    document.getElementById('sendMessageButton').addEventListener('click', async () => {
     const messageInput = document.getElementById('messageInput');
-    const conversationID = document.getElementById('conversationTitle').getAttribute('data-conversation-id');
-    let messageValue = messageInput.value;
     const attachmentInput = document.getElementById('attachmentInput').files[0];
+    const conversationID = document.getElementById('conversationTitle')?.getAttribute('data-conversation-id');
+    const message = messageInput.value.trim();
 
-    
-    console.log("Message input value:", messageInput.value);
-
-    if (!messageValue && !attachmentInput) {
+    if (!message && !attachmentInput) {
         showToast("Please enter a message or attach a file.", 'warning');
-       // return;
+        return;
     }
-    if(!conversationID){
-        showToast("Something is not right", 'warning');
 
+    if (!conversationID) {
+        showToast("Something is not right. Please refresh the page.", 'warning');
+        return;
     }
 
     try {
@@ -986,16 +1032,36 @@ document.getElementById('sendMessageButton').onclick = async () => {
         if (attachmentInput) {
             attachmentUrl = await uploadAttachment(conversationID, attachmentInput);
         }
+
         await sendMessage(conversationID, message, attachmentUrl);
-        messageValue = ''; // Clear input
-        document.getElementById('attachmentInput').value = ''; // Clear attachment
-        document.getElementById('attachmentPreview').classList.add('d-none'); // Hide preview after send
+        
+        // Reset inputs after successful send
+        messageInput.value = '';
+        document.getElementById('removePreview').click();
+        showToast("Message sent successfully!", 'success');
     } catch (error) {
         console.error("Error sending message:", error.message);
         showToast("Failed to send message. Please try again.", 'error');
     }
-};
 });
+
+});
+
+async function uploadAttachment(conversationID, file) {
+    try {
+        // Create a storage reference dynamically based on conversationID and file name
+        const fileRef = storageRef(storage, `messages/${conversationID}/${file.name}`);
+
+        // Upload the file to Firebase Storage
+        const snapshot = await uploadBytes(fileRef, file);
+
+        // Get the download URL for the uploaded file
+        return await getDownloadURL(snapshot.ref);
+    } catch (error) {
+        console.error("Error uploading attachment:", error);
+        throw new Error('Failed to upload attachment.'); // Handle this in calling function
+    }
+}
 
 
 function sendMessage(conversationID, message, attachmentUrl = '') { 
@@ -1058,22 +1124,6 @@ function sendMessage(conversationID, message, attachmentUrl = '') {
 }
 
 
-
-async function uploadAttachment(conversationID, file) {
-    try {
-        // Create a storage reference dynamically based on conversationID and file name
-        const fileRef = storageRef(storage, `messages/${conversationID}/${file.name}`);
-
-        // Upload the file to Firebase Storage
-        const snapshot = await uploadBytes(fileRef, file);
-
-        // Get the download URL for the uploaded file
-        return await getDownloadURL(snapshot.ref);
-    } catch (error) {
-        console.error("Error uploading attachment:", error);
-        throw new Error('Failed to upload attachment.'); // Handle this in calling function
-    }
-}
 
    </script>
 
