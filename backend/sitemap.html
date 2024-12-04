@@ -252,7 +252,12 @@
           // Perform reachability check
           checkReachability(url, row);
         };
+
         
+
+
+        
+
         // Function to dynamically calculate priority based on URL depth and importance
         const calculatePriority = (url) => {
           const depth = url.split('/').length;
@@ -345,7 +350,11 @@
             }
           });
         };
-        
+         // Scheduled Crawling Placeholder
+  const scheduleCrawling = document.getElementById('crawlSchedule');
+  scheduleCrawling.addEventListener('change', (e) => {
+    console.log(`Scheduled crawling set to: ${e.target.value}`);
+  });
         // Event listener to exclude subdomains
         document.getElementById('excludeSubdomains').addEventListener('change', (e) => {
           subdomainsExcluded = e.target.checked;
