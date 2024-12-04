@@ -5,18 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://reelcareer.co/backend/css/styles.css">
-    <title>Admin Dashboard</title>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.6.0/chart.min.js"></script>
+    <title>Sitemap Generator</title>
     <style>
-        .card {
-            margin-bottom: 20px;
-        }
-        .chart-container {
-            position: relative;
-            margin: auto;
-            height: 40vh;
-            width: 80vw;
-        }
+      body { font-family: Arial, sans-serif; margin: 20px; }
+      .controls { margin-bottom: 20px; }
+      .controls button { margin-right: 10px; }
+      .table-container { height: 300px; overflow-y: auto; margin-bottom: 20px; }
+      table { width: 100%; border-collapse: collapse; }
+      th, td { padding: 8px; border: 1px solid #ccc; text-align: left; }
+      th { cursor: pointer; }
+      textarea { width: 100%; height: 150px; margin-top: 10px; }
     </style>
 </head>
 
@@ -86,49 +86,150 @@
 </nav>
 
     <div class="container mt-4">
-        <h1 class="mb-4">Admin Dashboard</h1>
+        <h1>Sitemap Generator</h1>
+  
+        <div class="controls">
+          <button id="selectAllBtn">Select All</button>
+          <button id="startBtn">Start</button>
+          <button id="stopBtn">Stop</button>
+          <span>Total Links: <span id="linkCount">0</span></span>
+        </div>
         
-        <!-- Statistics Overview -->
-        <div class="row">
-            <div class="col-lg-3 col-md-6">
-                <div class="card text-white bg-primary">
-                    <div class="card-body">
-                        <h5 class="card-title">Total Users</h5>
-                        <p class="card-text">1500</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <div class="card text-white bg-success">
-                    <div class="card-body">
-                        <h5 class="card-title">Active Job Postings</h5>
-                        <p class="card-text">320</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <div class="card text-white bg-warning">
-                    <div class="card-body">
-                        <h5 class="card-title">Applications Received</h5>
-                        <p class="card-text">2450</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <div class="card text-white bg-danger">
-                    <div class="card-body">
-                        <h5 class="card-title">Pending Applications</h5>
-                        <p class="card-text">120</p>
-                    </div>
-                </div>
-            </div>
+        <div class="table-container">
+          <table id="linkTable">
+            <thead>
+              <tr>
+                <th onclick="sortTable(0)">URL</th>
+                <th>Priority</th>
+                <th>Changefreq</th>
+                <th>Last Modified</th>
+                <th>Select</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
         </div>
+      
+        <button id="downloadBtn">Download Sitemap</button>
+        <textarea id="sitemapOutput" readonly></textarea>
+        <button id="copyBtn">Copy to Clipboard</button>
+      
+        <script>
+          const baseDomain = 'https://reelcareer.co';
+          let links = new Set();
+          let crawling = false;
+      
+          const fetchLinks = async (url) => {
+            try {
+              const response = await fetch(url);
+              const text = await response.text();
+              const parser = new DOMParser();
+              const doc = parser.parseFromString(text, 'text/html');
+              const anchors = doc.querySelectorAll('a[href]');
+              
+              anchors.forEach(anchor => {
+                const href = new URL(anchor.href, baseDomain).href;
+                if (href.startsWith(baseDomain) && !links.has(href)) {
+                  links.add(href);
+                  addLinkToTable(href);
+                }
+              });
+            } catch (error) {
+              console.error('Error fetching links:', error);
+            }
+          };
+      
+          const addLinkToTable = (url) => {
+            const tableBody = document.querySelector('#linkTable tbody');
+            const row = document.createElement('tr');
+            row.innerHTML = `
+              <td>${url}</td>
+              <td><input type="text" value="0.5" class="priority"></td>
+              <td>
+                <select>
+                  <option value="daily">Daily</option>
+                  <option value="weekly">Weekly</option>
+                  <option value="monthly">Monthly</option>
+                </select>
+              </td>
+              <td>${new Date().toISOString().split('T')[0]}</td>
+              <td><input type="checkbox"></td>
+            `;
+            tableBody.appendChild(row);
+            document.getElementById('linkCount').textContent = links.size;
+          };
+      
+          const startCrawling = async () => {
+            crawling = true;
+            await fetchLinks(baseDomain);
+          };
+      
+          const stopCrawling = () => {
+            crawling = false;
+          };
+      
+          const generateSitemap = () => {
+            let sitemap = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
+            document.querySelectorAll('#linkTable tbody tr').forEach(row => {
+              const url = row.cells[0].textContent;
+              const priority = row.querySelector('.priority').value;
+              const changefreq = row.querySelector('select').value;
+              const lastmod = row.cells[3].textContent;
+              sitemap += `  <url>\n    <loc>${url}</loc>\n    <priority>${priority}</priority>\n    <changefreq>${changefreq}</changefreq>\n    <lastmod>${lastmod}</lastmod>\n  </url>\n`;
+            });
+            sitemap += '</urlset>';
+            document.getElementById('sitemapOutput').value = sitemap;
+          };
+      
+          const downloadSitemap = () => {
+            const blob = new Blob([document.getElementById('sitemapOutput').value], { type: 'application/xml' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'sitemap.xml';
+            link.click();
+          };
+      
+          const copyToClipboard = () => {
+            const textarea = document.getElementById('sitemapOutput');
+            textarea.select();
+            document.execCommand('copy');
+          };
+      
+          document.getElementById('selectAllBtn').addEventListener('click', () => {
+            document.querySelectorAll('#linkTable tbody input[type="checkbox"]').forEach(checkbox => checkbox.checked = true);
+          });
+      
+          document.getElementById('startBtn').addEventListener('click', startCrawling);
+          document.getElementById('stopBtn').addEventListener('click', stopCrawling);
+          document.getElementById('downloadBtn').addEventListener('click', downloadSitemap);
+          document.getElementById('copyBtn').addEventListener('click', copyToClipboard);
+        </script>
+              
 
-        <!-- Job Postings Chart -->
-        <div class="chart-container mt-4">
-            <canvas id="jobPostingsChart"></canvas>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         </div>
-    </div>
 
     <!-- Footer -->
     <footer id="dynamic-footer"></footer>
@@ -153,42 +254,7 @@
 
 
 
-
-        const ctx = document.getElementById('jobPostingsChart').getContext('2d');
-        const jobPostingsChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: ['January', 'February', 'March', 'April', 'May', 'June'],
-                datasets: [{
-                    label: 'Job Postings',
-                    data: [50, 70, 90, 120, 140, 180],
-                    borderColor: 'rgba(75, 192, 192, 1)',
-                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                    borderWidth: 2,
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        display: true,
-                        position: 'top',
-                    },
-                    tooltip: {
-                        mode: 'index',
-                        intersect: false,
-                    },
-                },
-                scales: {
-                    x: {
-                        beginAtZero: true,
-                    },
-                    y: {
-                        beginAtZero: true,
-                    }
-                }
-            }
-        });
+        
     </script>
     
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
