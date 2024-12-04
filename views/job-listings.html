@@ -938,16 +938,13 @@ async function fetchJobListings() {
   let locationSource = ''; // Variable to track the location-based source
 
   if (userlocationData.city) {
-    jobsQuery = query(jobsQuery, where('city', '==', userlocationData.city));
+    jobsQuery = query(jobsQuery, where('Location', 'array-contains-any', userlocationData.city));
     locationSource += ' City Location, ';
   }
+
   if (userlocationData.state) {
-    jobsQuery = query(jobsQuery, where('state', '==', userlocationData.state));
-    locationSource  += ' State Location, ';
-  }
-  if (userlocationData) {
-    jobsQuery = query(jobsQuery, where('state', 'array-contains-any', userlocationData));
-    locationSource +=' City & State Location, ';
+    jobsQuery = query(jobsQuery, where('Location', 'array-contains-any', userlocationData.state));
+    locationSource +=' State Location, ';
   }
   if (userJobInterest.length > 0) {
     jobsQuery = query(jobsQuery, where('searchableTitle', 'array-contains-any', userJobInterest));
@@ -971,11 +968,11 @@ async function fetchJobListings() {
 
   // Adding dynamic filters based on userINFO for sponsors
   if (userlocationData.city) {
-    sponsorsQuery = query(sponsorsQuery, where('city', '==', userlocationData.city));
+    sponsorsQuery = query(sponsorsQuery, where('Location', 'array-contains-any', userlocationData.city));
     sponsorLocationSource += 'City Location, ';
   }
   if (userlocationData.state) {
-    sponsorsQuery = query(sponsorsQuery, where('state', '==', userlocationData.state));
+    sponsorsQuery = query(sponsorsQuery, where('Location', 'array-contains-any', userlocationData.state));
     sponsorLocationSource += ' State Location, ';
   }
   if (userJobInterest.length > 0) {
