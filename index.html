@@ -342,9 +342,7 @@ let showCount = 0;
 let jobListingsCache = [];
 const seenIDs = new Set();
 
-
 async function fetchJobListings() {
-
   jobListingsCache = []; // Clear cache before fetching
   const userlocationData = sessionStorage.getItem('userLocation');
   const jobListingsContainer = document.getElementById('jobListings');
@@ -410,6 +408,15 @@ async function fetchJobListings() {
       const job = { id: doc.id, ...doc.data() };
       if (!seenIDs.has(doc.id)) {
         if (isValidValue(job.title) && isValidValue(job.description)) {
+          // Add source to each job object
+          if (locationSnapshot?.docs.includes(doc)) {
+            job.source = 'Location Query';
+          } else if (titleSnapshot?.docs.includes(doc)) {
+            job.source = 'Title Query';
+          } else {
+            job.source = 'Fallback Query';
+          }
+
           jobListingsCache.push(job);
           seenIDs.add(doc.id);
         }
@@ -438,9 +445,13 @@ function renderJobs() {
 
   const jobListingsContainer = document.getElementById('jobListings');
   const jobsToRender = jobListingsCache.slice(showCount, showCount + 30);
-let backTopTopCount = 0;
+  let backTopTopCount = 0;
 
-  jobsToRender.forEach((job) => createJobCard(job, jobListingsContainer));
+  jobsToRender.forEach((job) => {
+    createJobCard(job, jobListingsContainer);
+    console.log('Job fetched from:', job.source); // You can display the source here
+  });
+
   showCount += jobsToRender.length;
 
   if (showCount < jobListingsCache.length) {
@@ -449,22 +460,21 @@ let backTopTopCount = 0;
   } else {
     backTopTopCount += 1;
     if(backTopTopCount == 1){
-    const backToTopDiv = `
-      <h3 id="backToTopBtn" style="cursor: pointer;"
-        class="font-weight-bold" btn btn-primary w-100 mt-4>Back to Top
-      </h3>
-    `;
-    const tempDiv = document.createElement('button');
-    tempDiv.innerHTML = backToTopDiv;
-    tempDiv.style.transition = 'opacity 0.5s ease';
-    tempDiv.style.fontWeight = '800';
-    tempDiv.style.margin = '5px';
-    tempDiv.style.padding = '1rem';
-    tempDiv.addEventListener('click', backToTop);
-    jobListingsContainer.appendChild(tempDiv);
+      const backToTopDiv = `
+        <h3 id="backToTopBtn" style="cursor: pointer;" class="font-weight-bold" btn btn-primary w-100 mt-4>Back to Top</h3>
+      `;
+      const tempDiv = document.createElement('button');
+      tempDiv.innerHTML = backToTopDiv;
+      tempDiv.style.transition = 'opacity 0.5s ease';
+      tempDiv.style.fontWeight = '800';
+      tempDiv.style.margin = '5px';
+      tempDiv.style.padding = '1rem';
+      tempDiv.addEventListener('click', backToTop);
+      jobListingsContainer.appendChild(tempDiv);
+    }
   }
 }
-}
+
 function backToTop(){
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
