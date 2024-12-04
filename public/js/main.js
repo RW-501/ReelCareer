@@ -2139,7 +2139,7 @@ document.addEventListener('DOMContentLoaded', function () {
       mainDivs.forEach((div, index) => {
         setTimeout(() => {
           div.classList.add('roll-in');
-          console.log(`Div #${index + 1} roll-in animation triggered.`);
+         // console.log(`Div #${index + 1} roll-in animation triggered.`);
         }, index * delayBetweenDivs);
       });
     }, initialBodyDelay);
