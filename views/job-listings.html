@@ -677,7 +677,7 @@ async function fetchJobListings() {
   }
   if (userJobInterest.length > 0) {
     jobsQuery = query(jobsQuery, where('searchableTitle', 'array-contains-any', userJobInterest));
-    locationSource +=' JobInterest, ';
+    locationSource +=' Job Interest, ';
 
   }
 
@@ -688,7 +688,7 @@ async function fetchJobListings() {
   // Common conditions
   jobsQuery = query(jobsQuery, where('status', '==', 'active'));
   jobsQuery = query(jobsQuery, orderBy('createdAt', 'desc'));
-  jobsQuery = query(jobsQuery, limit(20)); // Limit the results
+  jobsQuery = query(jobsQuery, limit(50)); // Limit the results
 
   // Base query for Sponsors
   let sponsorsQuery = query(collection(db, 'Jobs'));
@@ -706,14 +706,14 @@ async function fetchJobListings() {
   }
   if (userJobInterest.length > 0) {
     sponsorsQuery = query(sponsorsQuery, where('searchableTitle', 'array-contains-any', userJobInterest));
-    locationSource +=' JobInterest, ';
+    locationSource +=' Job Interest, ';
 
   }
 
   // Common conditions for sponsors
   sponsorsQuery = query(sponsorsQuery, where('status', '==', 'active'), where('boosted', 'in', ['Yes', 'Active']));
   sponsorsQuery = query(sponsorsQuery, orderBy('createdAt', 'desc'));
-  sponsorsQuery = query(sponsorsQuery, limit(20)); // Limit the results
+  sponsorsQuery = query(sponsorsQuery, limit(50)); // Limit the results
 
   try {
     // Fetch job listings and sponsors
