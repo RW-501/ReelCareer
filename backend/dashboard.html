@@ -154,7 +154,52 @@
 
 
 
+// Function to retrieve and display total counts for Users, Jobs, Applications, and Analytics
+function fetchTotalCounts() {
+  const userCountElement = document.getElementById('userCount');
+  const jobCountElement = document.getElementById('jobCount');
+  const applicationCountElement = document.getElementById('applicationCount');
+  const analyticsCountElement = document.getElementById('analyticsCount');
 
+  const usersCollection = collection(db, 'Users');
+  const jobsCollection = collection(db, 'Jobs');
+  const applicationsCollection = collection(db, 'Applications');
+  const analyticsCollection = collection(db, 'Analytics');
+
+  // Listener for Users collection
+  onSnapshot(usersCollection, (snapshot) => {
+    const totalUsers = snapshot.size;
+    console.log('Total Users:', totalUsers);
+    userCountElement.textContent = `Total Users: ${totalUsers}`;
+  });
+
+  // Listener for Jobs collection
+  onSnapshot(jobsCollection, (snapshot) => {
+    const totalJobs = snapshot.size;
+    console.log('Total Jobs:', totalJobs);
+    jobCountElement.textContent = `Total Jobs: ${totalJobs}`;
+  });
+
+  // Listener for Applications collection
+  onSnapshot(applicationsCollection, (snapshot) => {
+    const totalApplications = snapshot.size;
+    console.log('Total Applications:', totalApplications);
+    applicationCountElement.textContent = `Total Applications: ${totalApplications}`;
+  });
+
+  // Listener for Analytics collection
+  onSnapshot(analyticsCollection, (snapshot) => {
+    const totalAnalytics = snapshot.size;
+    console.log('Total Analytics:', totalAnalytics);
+    analyticsCountElement.textContent = `Total Analytics: ${totalAnalytics}`;
+  });
+}
+
+
+// Call fetchTotalCounts on page load
+document.addEventListener('DOMContentLoaded', function () {
+  fetchTotalCounts();
+});
         const ctx = document.getElementById('jobPostingsChart').getContext('2d');
         const jobPostingsChart = new Chart(ctx, {
             type: 'line',
