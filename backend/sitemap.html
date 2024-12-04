@@ -220,7 +220,7 @@ let pendingUrls = []; // Queue of URLs to fetch
     fixedUrl = fixedUrl.replace(/(?:\.\.\/)+/g, '/');  // Replace all '../' with the root (or current folder)
 
     // Make sure the fixed URL is an absolute URL
-    if (!fixedUrl.startsWith('http')) {
+    if (!fixedUrl.startsWith('https')) {
       fixedUrl = new URL(fixedUrl, baseDomain).href;
     }
 
@@ -247,21 +247,18 @@ let pendingUrls = []; // Queue of URLs to fetch
     console.log("fixedUrl: ", fixedUrl);
     console.log("Found anchors: ", anchors);
 
-    let processedLinks = 0;
-    anchors.forEach(anchor => {
-      let href = anchor.href;
+ 
 
-      // If the href is a relative URL, resolve it based on the current URL
-      if (href.startsWith('/')) {
-        // Remove '/backend' from the URL path if it's in the context of your /backend folder
-        if (href.startsWith('/backend')) {
-          href = href.replace('/backend', '');  // Remove '/backend' from the URL path
-        }
-        href = new URL(href, baseDomain).href; // Make it absolute by combining with baseDomain
-      } else if (href.startsWith('../')) {
-        // If it's a relative URL with `../`, resolve it from the current page's path
-        const currentUrl = new URL(fixedUrl);
-        href = new URL(href, currentUrl.origin).href; // Resolve relative URL from the current URL
+
+    let processedLinks = 0;
+
+    // Process anchors and remove '/backend' if present in the href
+    const fixedAnchors = Array.from(anchors).map(anchor => {
+      let href = anchor.href;
+      // Remove '/backend' if it's part of the href
+      if (href.includes('/backend')) {
+        href = href.replace(/\/backend/g, '');  // Remove all '/backend' segments in the URL
+        anchor.href = href;  // Update the anchor's href with the fixed URL
       }
 
       const urlObj = new URL(href);
@@ -283,6 +280,7 @@ let pendingUrls = []; // Queue of URLs to fetch
       processedLinks++;
       updateProgress(processedLinks, anchors.length);
     });
+    console.log("Fixed anchors: ", fixedAnchors);
 
     if (pendingUrls.length > 0) {
       const nextUrl = pendingUrls.shift();
