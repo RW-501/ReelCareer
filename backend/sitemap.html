@@ -204,8 +204,227 @@ let pendingUrls = []; // Queue of URLs to fetch
         const crawledPagesDiv = document.getElementById('crawledPages');
         const pendingUrlsDiv = document.getElementById('pendingUrls');
 
+
+
+
+  // Fetch links via iframe
+  const fetchLinksUsingIframe = async (url) => {
+    
+      // If the page has already been crawled, skip it
+      if (crawledPages.has(url)) {
+      console.log(`Skipping already crawled page: ${url}`);
+      return;
+    }
+
+    // Preprocess the URL before making the fetch request
+    let fixedUrl = url;
+
+    // If the URL contains '/backend', remove that part
+    fixedUrl = fixedUrl.replace(/\/backend/g, '');  // Remove all '/backend' segments in the URL
+
+    // If the URL contains relative paths like '../', resolve them correctly
+    fixedUrl = fixedUrl.replace(/(?:\.\.\/)+/g, '/');  // Replace all '../' with the root (or current folder)
+
+    // Make sure the fixed URL is an absolute URL
+    if (!fixedUrl.startsWith('https')) {
+      fixedUrl = new URL(fixedUrl, baseDomain).href;
+    }
+
+    // Perform the fetch request with the fixed URL
+    const response = await fetch(fixedUrl);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch ${fixedUrl}: ${response.status}`);
+    }
+
+    // Mark the page as crawled
+    crawledPages.add(fixedUrl);
+    // Update the display with the count of crawled pages
+    crawledPagesDiv.innerText = crawledPages.size;
+
+    const text = await response.text();
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(text, 'text/html');
+
+  
+          // Attempt to access links if within the same origin
+          const anchors = iframe.contentDocument.querySelectorAll('a[href]');
+          document.body.removeChild(iframe);
+        
+          console.log("Fetched URL: ", url);
+
+console.log("fixedUrl: ", fixedUrl);
+console.log("Found anchors: ", anchors);
+
+
+        
+        
+
+
+
+
+
+    return new Promise((resolve, reject) => {
+
+
+
+
+
+
+
+
+      const iframe = document.createElement('iframe');
+      iframe.src = url;
+      iframe.style.display = 'none'; // Hide iframe
+      document.body.appendChild(iframe);
+
+      const timeout = setTimeout(() => {
+        document.body.removeChild(iframe);
+        reject(new Error(`Timeout while fetching ${url}`));
+      }, 5000); // 5 seconds timeout
+
+
+         
+
+      iframe.onload = () => {
+        clearTimeout(timeout);
+        try {
+
+
+            let processedLinks = 0;
+
+// Process anchors and remove '/backend' if present in the href
+const linksArray = Array.from(anchors).map(anchor => {
+  let href = anchor.href;
+  // Remove '/backend' if it's part of the href
+  if (href.includes('/backend')) {
+    href = href.replace(/\/backend/g, '');  // Remove all '/backend' segments in the URL
+    anchor.href = href;  // Update the anchor's href with the fixed URL
+  }
+  console.log("Fixed anchors: ", linksArray);
+
+  const urlObj = new URL(href);
+  const subdomain = urlObj.hostname.split('.')[0];  // Assuming subdomains are first part of hostname
+
+  createSubdomainCheckbox(subdomain);
+
+  if (href.startsWith(baseDomain) && (!subdomainsExcluded || href.indexOf(baseDomain) === href.lastIndexOf(baseDomain))) {
+    if (!links.has(href) && !crawledPages.has(href)) {
+      links.add(href);
+      addLinkToTable(href, fixedUrl); // Pass the base URL (where anchor was found)
+      pendingUrls.push(href);
+      pendingUrlsDiv.innerText = pendingUrls.length;
+    } else if (filterDuplicates.checked) {
+      highlightDuplicate(href);
+    }
+  }
+
+  processedLinks++;
+  updateProgress(processedLinks, anchors.length);
+});
+        
+        
+        
+        
+
+        //  const linksArray = Array.from(anchors).map(a => a.href);
+          resolve(linksArray);
+        } catch (error) {
+          // Cross-origin restriction
+          document.body.removeChild(iframe);
+          resolve([]); // Return empty array since we can't access links
+        }
+      };
+
+      iframe.onerror = () => {
+        clearTimeout(timeout);
+        document.body.removeChild(iframe);
+        reject(new Error(`Failed to load ${url}`));
+      };
+
+
+
+
+
+    });
+  };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  // Crawl links recursively
+  const crawlLinks = async (url) => {
+    if (crawledPages.has(url)) {
+      console.log(`Skipping already crawled page: ${url}`);
+      return;
+    }
+
+    try {
+      const linksFromPage = await fetchLinksUsingIframe(url);
+      crawledPages.add(url);
+      linksFromPage.forEach(link => {
+        if (!links.has(link) && link.startsWith(baseDomain)) {
+          links.add(link);
+          pendingUrls.push(link);
+        }
+      });
+
+      // Update progress
+      totalLinks++;
+      updateProgress(crawledPages.size, totalLinks);
+
+      if (pendingUrls.length > 0) {
+        const nextUrl = pendingUrls.shift();
+        await crawlLinks(nextUrl);
+      }
+    } catch (error) {
+        errors.push(error.message);
+        handleError(error, url);
+
+} finally {
+    updatePreview();
+
+  };
+
+  }
+
+  // Start the crawling process
+  const startCrawling = async () => {
+    crawling = true;
+    links.clear();
+    errors = [];
+    totalLinks = 0;
+    await crawlLinks(baseDomain);
+    crawling = false;
+  };
+
+  // Update progress bar
+  const updateProgress = (processedLinks, totalLinks, progressBar) => {
+  const progress = totalLinks > 0 ? (processedLinks / totalLinks) * 100 : 0;
+  progressBar.style.width = `${progress}%`;
+  progressBar.textContent = `${Math.round(progress)}%`;
+};
+
+
+
+
+   /*
+
+
         const fetchLinks = async (url) => {
   try {
+ 
     // If the page has already been crawled, skip it
     if (crawledPages.has(url)) {
       console.log(`Skipping already crawled page: ${url}`);
@@ -248,10 +467,10 @@ let pendingUrls = []; // Queue of URLs to fetch
 
     console.log("fixedUrl: ", fixedUrl);
     console.log("Found anchors: ", anchors);
-
+*/
  
 
-
+/*
     let processedLinks = 0;
 
     // Process anchors and remove '/backend' if present in the href
@@ -297,7 +516,9 @@ let pendingUrls = []; // Queue of URLs to fetch
     updatePreview();
 
   }
+   
 };
+        */
 
 // Function to add link to table with dynamic priority and scheduling
 const addLinkToTable = (url, sourceUrl) => {
@@ -428,12 +649,7 @@ const sortTable = (columnIndex) => {
           });
         };
         
-        // Update progress function
-        const updateProgress = (processedLinks = 0, totalLinks = 0) => {
-          const progress = totalLinks > 0 ? (processedLinks / totalLinks) * 100 : 0;
-          progressBar.style.width = `${progress}%`;
-          progressBar.textContent = `${Math.round(progress)}%`;
-        };
+
         
         // Update error log
      
@@ -444,10 +660,14 @@ const handleError = (error, url) => {
   updateErrorLog(); // Update the error log after pushing the error
 };
 
-// Update the error log with the error messages and URLs
-const updateErrorLog = () => {
+
+const updateErrorLog = (errors) => {
   const errorLog = document.getElementById('errorLog');
-  errorLog.value = errors.join(' \n'); // Combine errors with a space and newline for better readability
+  if (errorLog) {
+    errorLog.value = errors.join('\n');
+  } else {
+    console.error('Error log element not found!');
+  }
 };
 
         
@@ -544,12 +764,8 @@ const toggleSubdomainExclusion = (checkbox) => {
 
         // Start and stop crawling
         document.getElementById('startBtn').addEventListener('click', async () => {
-          crawling = true;
-          totalLinks = 0;
-          links.clear();
-          errors = [];
-          await fetchLinks(baseDomain);
-          updatePreview();
+            startCrawling();
+
         });
 
         const updatePreview = () => {
