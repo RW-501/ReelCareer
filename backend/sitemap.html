@@ -638,7 +638,7 @@ document.getElementById('downloadBtn').addEventListener('click', () => {
 });
 
 // Function to generate sitemap and populate the textarea
-const generateSitemap = async () => {
+const generateSitemap = async () => { 
   const rows = document.querySelectorAll('#linkTable tbody tr');
   const sitemapUrls = [];
 
@@ -646,40 +646,30 @@ const generateSitemap = async () => {
   rows.forEach(row => {
     const columns = row.querySelectorAll('td');
     
-    // Extract the URL, priority, schedule, date, and ready status from each row
-    const linkData = {
-      url: columns[0].textContent.trim(),
-      priority: columns[1].textContent.trim(),
-      schedule: columns[2].textContent.trim(),
-      date: columns[3].textContent.trim(),
-      ready: columns[5].querySelectorAll('input').checked,
-    };
+    // Ensure there are enough columns to prevent errors
+    if (columns.length >= 6) {
+      // Extract the URL, priority, schedule, date, and ready status from each row
+      const linkData = {
+        url: columns[0].textContent.trim(),
+        priority: columns[1].textContent.trim(),
+        schedule: columns[2].querySelector('select').value.trim(), // Get schedule value from dropdown
+        date: columns[3].textContent.trim(),
+        ready: columns[5].querySelector('input').checked, // Get checkbox status
+      };
 
-    // Only add ready URLs to the sitemap
-    if (linkData.ready) {
-      // Format the data in the sitemap XML format
-      const urlEntry = `<url>
-        <loc>${linkData.url}</loc>
-        <lastmod>${linkData.date}</lastmod>
-        <changefreq>${linkData.schedule}</changefreq>
-        <priority>${linkData.priority}</priority>
-      </url>`;
-      sitemapUrls.push(urlEntry);
+      // Only add ready URLs to the sitemap
+      if (linkData.ready) {
+        // Format the data in the sitemap XML format
+        const urlEntry = `<url>
+          <loc>${linkData.url}</loc>
+          <lastmod>${linkData.date}</lastmod>
+          <changefreq>${linkData.schedule}</changefreq>
+          <priority>${linkData.priority}</priority>
+        </url>`;
+        sitemapUrls.push(urlEntry);
+      }
     }
   });
-
-  // Also fetch additional links if needed
-  const urls = ['https://reelcareer.co'];  // Add the initial site URL or any other URLs you want to include
-  for (const url of urls) {
-    try {
-      const links = await fetchLinksUsingIframe(url);  // Assuming this function gets more URLs dynamically
-      links.forEach(link => {
-        sitemapUrls.push(`<url><loc>${link}</loc></url>`);
-      });
-    } catch (error) {
-      console.error(`Failed to fetch links for ${url}:`, error);
-    }
-  }
 
   // Wrap the URLs in <urlset> tags as per sitemap structure
   const sitemapContent = `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${sitemapUrls.join('\n')}\n</urlset>`;
@@ -692,6 +682,7 @@ const generateSitemap = async () => {
     console.error('sitemapOutput textarea not found!');
   }
 };
+
 
 // Export as CSV
 document.getElementById('exportCSV').addEventListener('click', () => {
