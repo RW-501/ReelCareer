@@ -20,6 +20,8 @@
         th { cursor: pointer; }
         textarea { width: 100%; height: 150px; margin-top: 10px; }
         .error-log { margin-top: 20px; }
+        .preview { margin-top: 20px; border: 1px solid #ccc; padding: 10px; }
+        .filters { margin-top: 10px; }
       </style>
 </head>
 
@@ -91,18 +93,42 @@
     <div class="container mt-4">
         <h1>Sitemap Generator</h1>
   
+        <h1>Sitemap Generator</h1>
+
         <div class="controls">
           <button id="selectAllBtn">Select All</button>
           <button id="startBtn">Start</button>
           <button id="stopBtn">Stop</button>
+          <button id="exportCSV">Export CSV</button>
+          <button id="exportJSON">Export JSON</button>
           <span>Total Links: <span id="linkCount">0</span></span>
         </div>
       
-        <!-- Progress bar for crawling progress -->
+        <!-- Added a dropdown for scheduled crawling -->
+        <label for="crawlSchedule">Schedule Crawling:</label>
+        <select id="crawlSchedule">
+          <option value="none">None</option>
+          <option value="daily">Daily</option>
+          <option value="weekly">Weekly</option>
+        </select>
+      
         <div class="progress-bar">
           <div id="progress" class="progress"></div>
         </div>
-        
+      
+        <!-- Filters for duplicate detection and file type filtering -->
+        <div class="filters">
+          <label>
+            <input type="checkbox" id="filterUnique"> Show only unique links
+          </label>
+          <label>
+            <input type="checkbox" id="filterHTML"> Show only .html links
+          </label>
+          <label>
+            <input type="checkbox" id="filterDuplicates"> Highlight duplicate links
+          </label>
+        </div>
+      
         <div class="table-container">
           <table id="linkTable">
             <thead>
@@ -111,6 +137,7 @@
                 <th>Priority</th>
                 <th>Changefreq</th>
                 <th>Last Modified</th>
+                <th>Reachability</th>
                 <th>Select</th>
               </tr>
             </thead>
@@ -122,6 +149,9 @@
         <textarea id="sitemapOutput" readonly></textarea>
         <button id="copyBtn">Copy to Clipboard</button>
       
+        <h2>Preview</h2>
+        <div class="preview" id="previewPane">Sitemap preview will appear here.</div>
+      
         <h2>Error Log</h2>
         <div class="error-log" id="errorLog"></div>
       
@@ -132,6 +162,11 @@
           let crawling = false;
           let totalLinks = 0;
       
+          // Advanced Sorting and Filtering
+          const filterUnique = document.getElementById('filterUnique');
+          const filterHTML = document.getElementById('filterHTML');
+          const filterDuplicates = document.getElementById('filterDuplicates');
+      
           const fetchLinks = async (url) => {
             try {
               const response = await fetch(url);
@@ -140,12 +175,16 @@
               const parser = new DOMParser();
               const doc = parser.parseFromString(text, 'text/html');
               const anchors = doc.querySelectorAll('a[href]');
-              
+      
               anchors.forEach(anchor => {
                 const href = new URL(anchor.href, baseDomain).href;
-                if (href.startsWith(baseDomain) && !links.has(href)) {
-                  links.add(href);
-                  addLinkToTable(href);
+                if (href.startsWith(baseDomain)) {
+                  if (!links.has(href)) {
+                    links.add(href);
+                    addLinkToTable(href);
+                  } else if (filterDuplicates.checked) {
+                    highlightDuplicate(href);
+                  }
                 }
               });
             } catch (error) {
@@ -170,73 +209,63 @@
                 </select>
               </td>
               <td>${new Date().toISOString().split('T')[0]}</td>
+              <td><span class="status">Pending</span></td>
               <td><input type="checkbox"></td>
             `;
             tableBody.appendChild(row);
             totalLinks++;
             document.getElementById('linkCount').textContent = totalLinks;
+      
+            // Perform reachability check
+            checkReachability(url, row);
           };
       
-          const updateProgress = () => {
-            const progress = document.getElementById('progress');
-            progress.style.width = `${(links.size / totalLinks) * 100}%`;
+          const checkReachability = async (url, row) => {
+            try {
+              const response = await fetch(url);
+              const statusCell = row.querySelector('.status');
+              statusCell.textContent = response.ok ? 'Reachable' : 'Unreachable';
+              statusCell.style.color = response.ok ? 'green' : 'red';
+            } catch {
+              row.querySelector('.status').textContent = 'Error';
+              row.querySelector('.status').style.color = 'red';
+            }
           };
       
-          const updateErrorLog = () => {
-            const errorLog = document.getElementById('errorLog');
-            errorLog.innerHTML = errors.map(err => `<p>${err}</p>`).join('');
+          const highlightDuplicate = (url) => {
+            const rows = document.querySelectorAll('#linkTable tbody tr');
+            rows.forEach(row => {
+              if (row.firstChild.textContent === url) {
+                row.style.backgroundColor = '#ffcccc';
+              }
+            });
           };
       
-          const startCrawling = async () => {
+          // Add event listeners for filters
+          filterUnique.addEventListener('change', () => {
+            // Logic to filter only unique links
+          });
+      
+          filterHTML.addEventListener('change', () => {
+            // Logic to filter only .html links
+          });
+      
+          // Scheduled Crawling Placeholder
+          const scheduleCrawling = document.getElementById('crawlSchedule');
+          scheduleCrawling.addEventListener('change', (e) => {
+            console.log(`Scheduled crawling set to: ${e.target.value}`);
+          });
+      
+          document.getElementById('startBtn').addEventListener('click', async () => {
             crawling = true;
             totalLinks = 0;
             links.clear();
             errors = [];
             await fetchLinks(baseDomain);
-          };
-      
-          const stopCrawling = () => {
-            crawling = false;
-          };
-      
-          const generateSitemap = () => {
-            let sitemap = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
-            document.querySelectorAll('#linkTable tbody tr').forEach(row => {
-              const url = row.cells[0].textContent;
-              const priority = row.querySelector('.priority').value;
-              const changefreq = row.querySelector('select').value;
-              const lastmod = row.cells[3].textContent;
-              sitemap += `  <url>\n    <loc>${url}</loc>\n    <priority>${priority}</priority>\n    <changefreq>${changefreq}</changefreq>\n    <lastmod>${lastmod}</lastmod>\n  </url>\n`;
-            });
-            sitemap += '</urlset>';
-            document.getElementById('sitemapOutput').value = sitemap;
-          };
-      
-          const downloadSitemap = () => {
-            const blob = new Blob([document.getElementById('sitemapOutput').value], { type: 'application/xml' });
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = 'sitemap.xml';
-            link.click();
-          };
-      
-          const copyToClipboard = () => {
-            const textarea = document.getElementById('sitemapOutput');
-            textarea.select();
-            document.execCommand('copy');
-          };
-      
-          document.getElementById('selectAllBtn').addEventListener('click', () => {
-            document.querySelectorAll('#linkTable tbody input[type="checkbox"]').forEach(checkbox => checkbox.checked = true);
+            updatePreview();
           });
-      
-          document.getElementById('startBtn').addEventListener('click', startCrawling);
-          document.getElementById('stopBtn').addEventListener('click', stopCrawling);
-          document.getElementById('downloadBtn').addEventListener('click', downloadSitemap);
-          document.getElementById('copyBtn').addEventListener('click', copyToClipboard);
         </script>
-      
-      
+
 
 
 
