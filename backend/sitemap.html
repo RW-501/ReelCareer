@@ -209,9 +209,8 @@ let pendingUrls = []; // Queue of URLs to fetch
 
         
 
-
-  // Fetch links via iframe
-  const fetchLinksUsingIframe = async (url) => {
+// Fetch links via iframe
+const fetchLinksUsingIframe = async (url) => {
   if (crawledPages.has(url)) {
     console.log(`Skipping already crawled page: ${url}`);
     return [];
@@ -233,6 +232,16 @@ let pendingUrls = []; // Queue of URLs to fetch
     iframe.onload = () => {
       clearTimeout(timeout);
       try {
+        const status = iframe.contentWindow.document.readyState;
+        
+        // Check for 404 or page load errors
+        if (status === "complete" && iframe.contentDocument.title === "Not Found") {
+          const notFoundError = new Error(`404 Not Found for ${url}`);
+          handleError(notFoundError, url); // Log 404 error
+          reject(notFoundError); // Reject with 404 error
+          return;
+        }
+
         const anchors = iframe.contentDocument.querySelectorAll('a[href]');
         document.body.removeChild(iframe);
 
@@ -247,7 +256,9 @@ let pendingUrls = []; // Queue of URLs to fetch
         resolve(linksArray);
       } catch (error) {
         document.body.removeChild(iframe);
-        resolve([]); // Return an empty array for cross-origin restrictions
+        const iframeError = new Error(`Error loading content from iframe: ${url}`);
+        handleError(iframeError, url); // Log iframe error
+        resolve([]); // Return an empty array for cross-origin restrictions or other issues
       }
     };
 
@@ -276,8 +287,8 @@ let pendingUrls = []; // Queue of URLs to fetch
 
 
 
-  // Crawl links recursively
-  const crawlLinks = async (url) => {
+// Crawl links recursively
+const crawlLinks = async (url) => {
   if (crawledPages.has(url)) {
     console.log(`Skipping already crawled page: ${url}`);
     return;
@@ -289,9 +300,14 @@ let pendingUrls = []; // Queue of URLs to fetch
 
     linksFromPage.forEach(link => {
       if (!links.has(link) && link.startsWith(baseDomain)) {
+        // Ensure the link is valid before adding it
+        if (!isValidLink(link)) {
+          console.log(`Skipping invalid link: ${link}`);
+          return;
+        }
 
         addLinkToTable(link, url);
-         highlightDuplicate(link); 
+        highlightDuplicate(link); 
 
         links.add(link);
         pendingUrls.push(link);
@@ -311,6 +327,12 @@ let pendingUrls = []; // Queue of URLs to fetch
   } finally {
     updatePreview();
   }
+};
+
+// Helper function to validate the link
+const isValidLink = (link) => {
+  // Logic to check if the link is valid, could be as simple as ensuring it doesn't return a 404
+  return !link.includes("404") && link.includes(baseDomain);
 };
 
   // Start the crawling process
