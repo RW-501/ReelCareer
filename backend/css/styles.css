@@ -3,8 +3,8 @@ body {
     font-family: 'Arial', sans-serif;
     background-color: #f8f9fa; /* Light background for better readability */
     color: #343a40; /* Dark text color for contrast */
-    margin: 0;
-    padding: 0;
+    margin: 0 !important;
+    padding: 0 !important;
 }
 
 
