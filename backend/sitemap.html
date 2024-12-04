@@ -9,15 +9,18 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.6.0/chart.min.js"></script>
     <title>Sitemap Generator</title>
     <style>
-      body { font-family: Arial, sans-serif; margin: 20px; }
-      .controls { margin-bottom: 20px; }
-      .controls button { margin-right: 10px; }
-      .table-container { height: 300px; overflow-y: auto; margin-bottom: 20px; }
-      table { width: 100%; border-collapse: collapse; }
-      th, td { padding: 8px; border: 1px solid #ccc; text-align: left; }
-      th { cursor: pointer; }
-      textarea { width: 100%; height: 150px; margin-top: 10px; }
-    </style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .controls { margin-bottom: 20px; }
+        .controls button { margin-right: 10px; }
+        .progress-bar { width: 100%; background-color: #f3f3f3; border: 1px solid #ccc; height: 20px; margin: 10px 0; position: relative; }
+        .progress { height: 100%; width: 0%; background-color: #4caf50; transition: width 0.3s; }
+        .table-container { height: 300px; overflow-y: auto; margin-bottom: 20px; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 8px; border: 1px solid #ccc; text-align: left; }
+        th { cursor: pointer; }
+        textarea { width: 100%; height: 150px; margin-top: 10px; }
+        .error-log { margin-top: 20px; }
+      </style>
 </head>
 
 <body>
@@ -94,6 +97,11 @@
           <button id="stopBtn">Stop</button>
           <span>Total Links: <span id="linkCount">0</span></span>
         </div>
+      
+        <!-- Progress bar for crawling progress -->
+        <div class="progress-bar">
+          <div id="progress" class="progress"></div>
+        </div>
         
         <div class="table-container">
           <table id="linkTable">
@@ -114,14 +122,20 @@
         <textarea id="sitemapOutput" readonly></textarea>
         <button id="copyBtn">Copy to Clipboard</button>
       
+        <h2>Error Log</h2>
+        <div class="error-log" id="errorLog"></div>
+      
         <script>
           const baseDomain = 'https://reelcareer.co';
           let links = new Set();
+          let errors = [];
           let crawling = false;
+          let totalLinks = 0;
       
           const fetchLinks = async (url) => {
             try {
               const response = await fetch(url);
+              if (!response.ok) throw new Error(`Failed to fetch ${url}: ${response.status}`);
               const text = await response.text();
               const parser = new DOMParser();
               const doc = parser.parseFromString(text, 'text/html');
@@ -135,7 +149,10 @@
                 }
               });
             } catch (error) {
-              console.error('Error fetching links:', error);
+              errors.push(error.message);
+              updateErrorLog();
+            } finally {
+              updateProgress();
             }
           };
       
@@ -144,7 +161,7 @@
             const row = document.createElement('tr');
             row.innerHTML = `
               <td>${url}</td>
-              <td><input type="text" value="0.5" class="priority"></td>
+              <td><input type="number" value="0.5" class="priority" step="0.1" min="0.0" max="1.0"></td>
               <td>
                 <select>
                   <option value="daily">Daily</option>
@@ -156,11 +173,25 @@
               <td><input type="checkbox"></td>
             `;
             tableBody.appendChild(row);
-            document.getElementById('linkCount').textContent = links.size;
+            totalLinks++;
+            document.getElementById('linkCount').textContent = totalLinks;
+          };
+      
+          const updateProgress = () => {
+            const progress = document.getElementById('progress');
+            progress.style.width = `${(links.size / totalLinks) * 100}%`;
+          };
+      
+          const updateErrorLog = () => {
+            const errorLog = document.getElementById('errorLog');
+            errorLog.innerHTML = errors.map(err => `<p>${err}</p>`).join('');
           };
       
           const startCrawling = async () => {
             crawling = true;
+            totalLinks = 0;
+            links.clear();
+            errors = [];
             await fetchLinks(baseDomain);
           };
       
@@ -204,28 +235,8 @@
           document.getElementById('downloadBtn').addEventListener('click', downloadSitemap);
           document.getElementById('copyBtn').addEventListener('click', copyToClipboard);
         </script>
-              
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+      
+      
 
 
 
