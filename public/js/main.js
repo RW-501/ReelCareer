@@ -732,7 +732,7 @@ window.checkImageURL = checkImageURL;
 
 // Improved: Preparing location data for Firebase with validation and defaults
 function prepareLocationForFirebase() {
-  const userLocationData = sessionStorage.getItem('userLocation');
+  let userLocationData = sessionStorage.getItem('userLocation');
 
   if (typeof userLocationData === 'string') {
       try {
