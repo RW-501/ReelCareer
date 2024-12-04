@@ -1502,3 +1502,12 @@ main .jobCard:hover {
     100% { transform: rotate(360deg); }
   }
   
+
+  #MAIN-LOGO-Reel-Career {
+    color: #639ad4;
+    font-size: 1.5rem;
+    font-weight: 700;
+    -webkit-text-stroke: thin;
+    font-size: xx-large;
+    font-variant: small-caps;
+}

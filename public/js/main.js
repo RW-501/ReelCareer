@@ -550,7 +550,7 @@ function createNavbar() {
   return `
     <nav id="Main-Nav_bar" class="navbar navbar-expand-lg ${navbarClass} shadow-sm sticky-top" role="navigation">
       <div class="container">
-        <a class="navbar-brand embossed" href="https://reelcareer.co/">
+        <a class="navbar-brand embossed " id="MAIN-LOGO-Reel-Career" href="https://reelcareer.co/">
           ReelCareer
         </a>
         <button class="navbar-toggler ${toggleClass}" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
