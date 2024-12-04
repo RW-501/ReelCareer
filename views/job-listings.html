@@ -803,6 +803,22 @@ border-radius: 12px;
   </style>
 
   <script>
+// Function to open the modal
+function openJobPostModal() {
+  // Get the modal element
+  var modal = new bootstrap.Modal(document.getElementById('jobPostPopup'));
+  
+  // Show the modal
+  modal.show();
+}
+
+// Add an event listener to the "Quick Post Job" button
+document.getElementById('quickPostJobButton').addEventListener('click', openJobPostModal);
+
+
+
+
+
     // Function to redirect user to the job details page with job ID in the URL
     function showJobDetailsFunc(jobId) {
       // Construct the URL with the job ID as a query parameter
