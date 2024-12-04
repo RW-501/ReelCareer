@@ -767,8 +767,7 @@ async function loadRelatedBlogs() {
       const blogsRef = collection(db, 'Blogs');
       const uTagInterestNorm = getUserTagInterest();
       const uJobInterestNorm = getUserJobInterest();
-      const userLocationData = sessionStorage.getItem('userLocation');
-      const locationArray = prepareLocationForFirebase(userLocationData);
+      const locationArray = prepareLocationForFirebase();
 
       let queryConfig = null;
       if (uTagInterestNorm.length > 0) {
@@ -844,8 +843,7 @@ async function getSimilarJobs() {
 
   try {
       const jobInterestNorm = getUserJobInterest();
-      const userLocationData = sessionStorage.getItem('userLocation');
-      const locationArray = prepareLocationForFirebase(userLocationData);
+      const locationArray = prepareLocationForFirebase();
       const jobsRef = collection(db, 'Jobs');
 
       let queryConfig;
