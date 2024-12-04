@@ -454,6 +454,8 @@ function collectJobDetails(newCompanyId) {
     state: getInputValue("jobState"),
     zipCode: getInputValue("jobZipCode"),
     type: getInputValue("jobType"),
+    jobCategory: getInputValue("jobCategory"),
+   
     salary: getInputValue("jobSalary"),
     salaryPayTime: getInputValue("salaryPayTime"),
     boostDuration: new Date(new Date().setDate(new Date().getDate() + 30)), // 30-day boost duration
@@ -463,7 +465,7 @@ function collectJobDetails(newCompanyId) {
     applicationLink: getInputValue("applicationLink"),
 
     // Create final searchable title with deduplication
-    searchableTitle: [...new Set(searchableTitle)].join(","),
+    searchableTitle: [...new Set(searchableTitle.map(title => title.toLowerCase()))].join(","),
 
     requestLetter: document.getElementById("requestLetter")?.checked || false,
     coverLetter: document.getElementById("coverLetter")?.checked || false,

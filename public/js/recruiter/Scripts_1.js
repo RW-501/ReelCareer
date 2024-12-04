@@ -535,6 +535,7 @@ function saveFormValues() {
         jobDescription: document.getElementById('jobDescription').value,
         jobRequirements: document.getElementById('jobRequirements').value,
         industry: document.getElementById('industry').value,
+        jobCategory: document.getElementById('jobCategory').value,
         jobFunction: document.getElementById('jobFunction').value,
         contractToHire: document.getElementById('contractToHire').value,
         immediateHire: document.getElementById('immediateHire').value,
@@ -571,6 +572,7 @@ function loadFormValues() {
         document.getElementById('jobDescription').value = formValues.jobDescription || '';
         document.getElementById('jobRequirements').value = formValues.jobRequirements || '';
         document.getElementById('industry').value = formValues.industry || '';
+        document.getElementById('jobCategory').value = formValues.jobCategory || '';
         document.getElementById('jobFunction').value = formValues.jobFunction || '';
         document.getElementById('contractToHire').value = formValues.contractToHire || '';
         document.getElementById('immediateHire').value = formValues.immediateHire || '';
