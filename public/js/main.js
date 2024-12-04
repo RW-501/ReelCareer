@@ -2154,8 +2154,14 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
 });
+    // Function to sanitize user input
+    function sanitizeInput(input) {
+      return input.trim().replace(/<[^>]*>/g, '');
+      return input;
+    }
 
-
+    window.sanitizeInput = sanitizeInput;
+    
 function getUserDisplayName() {
   // Retrieve user data from local storage
   const storedUserData = localStorage.getItem("userData");
