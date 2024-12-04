@@ -163,9 +163,9 @@ async function loadApplications() {
                 <tr>
                     <td>${doc.id}</td>
                     <td>${application.jobTitle}</td>
-                    <td>${application.applicantName}</td>
+                    <td>${application.firstName,   application.lastName}</td>
                     <td>${application.email}</td>
-                    <td>${application.status}</td>
+                    <td>${application.status[0]}</td>
                     <td>
                         <button class="btn btn-info btn-sm" onclick="openMessageModal('${doc.id}', '${application.email}')">Message</button>
                     </td>
