@@ -703,7 +703,7 @@ async function fetchJobListings() {
     sponsorLocationSource = sponsorLocationSource ? 'City & State Location Query' : 'State Location Query';
   }
   if (userJobInterest.length > 0) {
-    sponsorsQuery = query(sponsorsQuery, where('tags', 'array-contains-any', userJobInterest));
+    sponsorsQuery = query(sponsorsQuery, where('searchableTitle', 'array-contains-any', userJobInterest));
   }
 
   // Common conditions for sponsors
