@@ -95,7 +95,7 @@
                 <div class="card text-white bg-primary">
                     <div class="card-body">
                         <h5 class="card-title">Total Users</h5>
-                        <p class="card-text" id="total-users">1500</p>
+                        <p class="card-text" id="userCount">1500</p>
                     </div>
                 </div>
             </div>
@@ -103,7 +103,7 @@
                 <div class="card text-white bg-success">
                     <div class="card-body">
                         <h5 class="card-title">Active Job Postings</h5>
-                        <p class="card-text" id="total-jobs">320</p>
+                        <p class="card-text" id="jobCount">320</p>
                     </div>
                 </div>
             </div>
@@ -111,7 +111,7 @@
                 <div class="card text-white bg-warning">
                     <div class="card-body">
                         <h5 class="card-title">Applications Received</h5>
-                        <p class="card-text"id='total-apps'>2450</p>
+                        <p class="card-text"id='applicationCount'>2450</p>
                     </div>
                 </div>
             </div>
@@ -119,7 +119,7 @@
                 <div class="card text-white bg-danger">
                     <div class="card-body">
                         <h5 class="card-title">Total Guest</h5>
-                        <p class="card-text" id="total-guest">120</p>
+                        <p class="card-text" id="analyticsCount">120</p>
                     </div>
                 </div>
             </div>
@@ -170,28 +170,28 @@ function fetchTotalCounts() {
   onSnapshot(usersCollection, (snapshot) => {
     const totalUsers = snapshot.size;
     console.log('Total Users:', totalUsers);
-    userCountElement.textContent = `Total Users: ${totalUsers}`;
+    userCountElement.textContent = `${totalUsers}`;
   });
 
   // Listener for Jobs collection
   onSnapshot(jobsCollection, (snapshot) => {
     const totalJobs = snapshot.size;
     console.log('Total Jobs:', totalJobs);
-    jobCountElement.textContent = `Total Jobs: ${totalJobs}`;
+    jobCountElement.textContent = `${totalJobs}`;
   });
 
   // Listener for Applications collection
   onSnapshot(applicationsCollection, (snapshot) => {
     const totalApplications = snapshot.size;
     console.log('Total Applications:', totalApplications);
-    applicationCountElement.textContent = `Total Applications: ${totalApplications}`;
+    applicationCountElement.textContent = `${totalApplications}`;
   });
 
   // Listener for Analytics collection
   onSnapshot(analyticsCollection, (snapshot) => {
     const totalAnalytics = snapshot.size;
     console.log('Total Analytics:', totalAnalytics);
-    analyticsCountElement.textContent = `Total Analytics: ${totalAnalytics}`;
+    analyticsCountElement.textContent = `${totalAnalytics}`;
   });
 }
 

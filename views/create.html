@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Explore video resumes from job seekers. Browse candidates' video profiles and interact with them.">
+  
+  <meta name="keywords" content="career blog, job search tips, career advice, job market insights, employment tips, career growth, resume tips, interview advice, professional development, job seekers">
+  <meta name="author" content="ReelCareer">
+  <meta name="robots" content="index, follow">
+  <meta name="language" content="en">
+  <meta name="geo.region" content="US-TX">
+  <meta name="geo.placename" content="Dallas, Texas">
+
+  <!-- Title optimized for Video Reel page -->
+  <title>Create Video Reel | ReelCareer</title>
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Video Reel - Job Board | ReelCareer">
+  <meta property="og:description" content="Browse job seekers' video resumes, interact with candidates, and find the right fit for your company.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.reelcareer.co/reels">
+  <meta property="og:image" content="https://www.reelcareer.co/images/sq_logo_n_BG_tie_reelx.png">
+  <meta property="og:site_name" content="ReelCareer">
+  <meta property="og:locale" content="en_US">
+
+  <!-- Twitter Cards -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@ReelCareer">
+  <meta name="twitter:title" content="Video Reel - Job Board | ReelCareer">
+  <meta name="twitter:description" content="Explore video resumes from job seekers and find the perfect candidate for your role on ReelCareer.">
+  <meta name="twitter:image" content="https://www.reelcareer.co/images/sq_logo_n_BG_tie_reelx.png">
+
+  <!-- Canonical Tag for SEO -->
+  <link rel="canonical" href="https://www.reelcareer.co/reels">
+
+  <!-- Standard Favicon -->
+  <link rel="icon" type="image/x-icon" href="https://www.ReelCareer.co/images/favicons/favicon.ico">
+
+  <!-- 32x32 Favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="https://www.ReelCareer.co/images/favicons/favicon-32x32.png">
+
+  <!-- 16x16 Favicon -->
+  <link rel="icon" type="image/png" sizes="16x16" href="https://www.ReelCareer.co/images/favicons/favicon-16x16.png">
+
+  <!-- Apple Touch Icon -->
+  <link rel="apple-touch-icon" sizes="180x180" href="https://www.ReelCareer.co/images/favicons/apple-touch-icon.png">
+
+  <!-- Android Favicon (192x192) -->
+  <link rel="icon" type="image/png" sizes="192x192" href="https://www.ReelCareer.co/images/favicons/android-chrome-192x192.png">
+
+  <!-- Chrome Favicon (512x512) -->
+  <link rel="icon" type="image/png" sizes="512x512" href="https://www.ReelCareer.co/images/favicons/android-chrome-512x512.png">
+
+   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<!--
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+-->
+  
+   <!-- Bootstrap CSS -->
+   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    
+    <script src="https://reelcareer.co/public/js/scripts.js"></script>
+    <script src="https://reelcareer.co/public/js/loadScripts.js"></script>
+   
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+
+   
+    <link rel="stylesheet" href="https://reelcareer.co/public/css/styles.css">
+   
+   
+   
+   <style>
+    body {
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  height: 100vh;
+}
+
+.container {
+  text-align: center;
+}
+
+#videoContainer {
+  margin-top: 20px;
+}
+
+#timelineContainer {
+  position: relative;
+  width: 640px;
+  height: 100px;
+  margin-top: 20px;
+}
+
+#timelineCanvas {
+  width: 100%;
+  height: 100%;
+}
+
+#draggableDivider {
+  position: absolute;
+  width: 2px;
+  background-color: red;
+  cursor: pointer;
+  height: 100%;
+}
+
+#videoSlider {
+  width: 100%;
+  margin-top: 10px;
+}
+
+#previewContainer {
+  margin-top: 20px;
+}
+
+button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+#draggableDivider {
+  transition: left 0.2s ease;
+}
+
+
+
+
+#videoContainer {
+  position: relative;
+  width: 640px;
+  margin: 20px auto;
+}
+
+#overlayButton {
+  margin-top: 10px;
+}
+
+#draggableDivider {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 5px;
+  height: 100%;
+  background-color: red;
+  cursor: ew-resize;
+  z-index: 10;
+}
+
+#timelineContainer {
+  position: relative;
+  width: 640px;
+  height: 50px;
+  overflow-x: auto;
+  margin: 10px auto;
+}
+
+#timelineCanvas {
+  width: 100%;
+  height: 100%;
+}
+
+.overlay {
+  position: absolute;
+  resize: both;
+  overflow: auto;
+  cursor: pointer;
+  z-index: 20;
+}
+
+#previewContainer {
+  margin-top: 20px;
+}
+
+
+
+
+
+
+
+        </style>
+</head>
+
+
+<body>
+    <script src="https://reelcareer.co/public/js/bodyload.js"></script>
+    <nav></nav>
+
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li id="lastBreadcrumb_home" class="breadcrumb-item"><a href="https://reelcareer.co/">Home</a></li>
+          <li id="lastBreadcrumb_last" class="breadcrumb-item"><a id="lastBreadcrumb_a" href="https://reelcareer.co/views/blogs">Blogs</a></li>
+          <li id="lastBreadcrumb" class="breadcrumb-item active" aria-current="page">Blog</li>
+        </ol>
+      </nav>
+
+      <main id="main-content">
+      
+
+ 
+
+        <div class="container">
+            <h1>Video Upload & Editor</h1>
+          
+       
+     
+            
+
+            <button id="addAudioButton">Add Audio</button>
+            <button id="previewButton">Preview Media</button>
+      
+            <div class="container">
+                <h1>Video Upload & Editor</h1>
+                <input type="file" id="videoInput" accept="video/mp4,video/webm,video/ogg" />
+                <button id="uploadButton">Upload Video</button>
+              
+                <div id="videoContainer">
+                  <video id="videoPlayer" width="640" controls></video>
+                </div>
+              
+          
+                <div id="controlPanel">
+                  <h3>Overlay Control</h3>
+                  <button id="fontSizeButton">Font Size</button>
+                  <button id="colorButton">Text Color</button>
+                  <button id="imageButton">Add Image</button>
+                  <button id="overlayButton">Add Overlay</button>
+                </div>
+              
+                <div id="timelineContainer">
+                  <canvas id="timelineCanvas"></canvas>
+                  <div id="draggableDivider" class="draggable"></div>
+                  <input type="range" id="videoSlider" style="display: none;" />
+                </div>
+            
+                <button id="zoomOut" aria-label="Zoom in">-</button>
+                <button id="zoomIn" aria-label="Zoom in">+</button>
+              
+                <input type="range" id="audioVolume" min="0" max="1" step="0.1" value="0.5">
+              
+                <input type="file" id="audioInput" accept="audio/*" style="display: none;" />
+                <video id="previewVideo" controls></video>
+                <input type="range" id="speedControl" min="0.5" max="2" step="0.1" value="1" />
+              
+                <div id="previewContainer">
+                  <h3>Preview</h3>
+                  <video id="previewVideo" width="640" controls></video>
+                </div>
+              </div>
+              
+       
+          
+<script>
+
+document.getElementById('uploadButton').addEventListener('click', handleFileUpload);
+document.getElementById('overlayButton').addEventListener('click', addOverlay);
+
+
+let videoElement = document.getElementById('videoPlayer');
+let previewVideoElement = document.getElementById('previewVideo');
+let timelineCanvas = document.getElementById('timelineCanvas');
+let draggableDivider = document.getElementById('draggableDivider');
+let videoSlider = document.getElementById('videoSlider');
+let videoFile = null;
+
+let videoDuration = 0; // Store the duration of the video
+let sceneImages = [];  // Store generated scene images for the timeline
+
+// Handle file upload
+function handleFileUpload() {
+  let input = document.getElementById('videoInput');
+  let file = input.files[0];
+  if (!file) {
+    showToast('Please upload a video file.');
+    return;
+  }
+
+  if (file.type.includes('video') && file.size < 50 * 1024 * 1024) { // Limit to 50MB for video
+    videoFile = file;
+    loadVideo();
+  } else {
+    showToast('Invalid video file. Please upload a valid video file no larger than 50MB.');
+  }
+}
+
+function loadVideo() {
+  const videoURL = URL.createObjectURL(videoFile);
+  videoElement.src = videoURL;
+  videoElement.load();
+
+  // Setup for preview
+  previewVideoElement.src = videoURL;
+  previewVideoElement.load();
+
+  // Get video duration
+  videoElement.addEventListener('loadedmetadata', () => {
+    videoDuration = videoElement.duration;
+    videoSlider.max = videoDuration;
+
+    // Generate scene images for the timeline
+    generateTimelineImages();
+  });
+}
+
+
+
+document.getElementById('audioVolume').addEventListener('input', (event) => {
+  audio.volume = event.target.value;
+});
+
+
+
+
+
+
+
+let overlayText = '';
+let overlayFontSize = '20px';
+let overlayColor = 'red';
+let overlayImageURL = '';
+
+// Handle video file upload
+document.getElementById('uploadButton').addEventListener('click', handleFileUpload);
+
+// Control buttons
+document.getElementById('fontSizeButton').addEventListener('click', changeFontSize);
+document.getElementById('colorButton').addEventListener('click', changeTextColor);
+document.getElementById('imageButton').addEventListener('click', addImage);
+document.getElementById('overlayButton').addEventListener('click', addOverlay);
+
+
+
+// Change font size
+function changeFontSize() {
+  const fontSize = prompt('Enter font size (e.g., 20px):', overlayFontSize);
+  if (fontSize) {
+    overlayFontSize = fontSize;
+  }
+}
+
+// Change text color
+function changeTextColor() {
+  const color = prompt('Enter text color (e.g., red):', overlayColor);
+  if (color) {
+    overlayColor = color;
+  }
+}
+
+// Add image URL
+function addImage() {
+  const imgURL = prompt('Enter image URL for overlay:', overlayImageURL);
+  if (imgURL) {
+    overlayImageURL = imgURL;
+  }
+}
+
+// Add overlay to video
+function addOverlay() {
+  const text = prompt('Enter text for overlay:');
+  if (!text) return; // Validate text input
+
+  const overlay = document.createElement('div');
+  overlay.classList.add('overlay');
+  overlay.style.fontSize = overlayFontSize;
+  overlay.style.color = overlayColor;
+  overlay.textContent = text;
+  overlay.setAttribute('aria-label', text);  // Improve accessibility
+
+  // Allow resizing or repositioning
+  overlay.style.resize = 'both';
+  overlay.style.overflow = 'auto';
+
+  if (overlayImageURL) {
+    const image = new Image();
+    image.src = overlayImageURL;
+    overlay.appendChild(image);
+  }
+
+  // Append overlay to video container
+  document.getElementById('videoContainer').appendChild(overlay);
+}
+
+// Get the elements for adding audio
+const addAudioButton = document.getElementById('addAudioButton');
+const audioInput = document.getElementById('audioInput');
+const previewVideo = document.getElementById('previewVideo');
+const speedControl = document.getElementById('speedControl');
+
+// Trigger the file input when the Add Audio button is clicked
+addAudioButton.addEventListener('click', () => {
+  audioInput.click(); // Open file input dialog
+});
+
+// Handle the file selection and add the audio
+audioInput.addEventListener('change', (event) => {
+  const file = event.target.files[0];
+  if (file && file.type.includes('audio')) {
+    const audioPreview = new Audio(URL.createObjectURL(file)); // Use the selected audio file
+    previewVideo.src = videoElement.src; // Set the video source to the uploaded video
+    previewVideo.load();
+
+    previewVideo.addEventListener('timeupdate', () => {
+  if (audioPreview) {
+    audioPreview.currentTime = previewVideo.currentTime;
+  }
+});
+
+
+    // Adjust playback speed
+    let playbackSpeed = 1; // Default speed
+    speedControl.addEventListener('change', (event) => {
+      playbackSpeed = event.target.value;
+      previewVideo.playbackRate = playbackSpeed;
+    });
+  } else {
+    showToast('Please select a valid audio file.');
+  }
+});
+
+// Media Preview function that syncs audio and video playback
+function previewMedia() {
+  previewVideo.src = videoElement.src; // Set the video source to the uploaded video
+  previewVideo.load();
+
+  // Default to no audio initially
+  const audioPreview = new Audio();
+  previewVideo.addEventListener('play', () => {
+    audioPreview.play();
+  });
+
+  // Add playback speed adjustment
+  let playbackSpeed = 1; // Default speed
+  speedControl.addEventListener('change', (event) => {
+    playbackSpeed = event.target.value;
+    previewVideo.playbackRate = playbackSpeed;
+  });
+}
+
+// Improved generateTimelineImages function to capture higher-quality thumbnails
+function generateTimelineImages() {
+  const numImages = 10;
+  sceneImages = [];
+  const imageWidth = 64;
+  const imageHeight = 36;
+  const canvasContext = timelineCanvas.getContext('2d');
+  const video = document.createElement('video');
+  video.src = videoElement.src;
+  video.load();
+
+  for (let i = 0; i < numImages; i++) {
+    const time = (videoDuration / numImages) * i;
+    video.currentTime = time;
+    video.addEventListener('seeked', () => {
+      canvasContext.drawImage(video, 0, 0, imageWidth, imageHeight);
+      sceneImages.push(timelineCanvas.toDataURL());
+      if (i === numImages - 1) {
+        drawTimeline(); // Draw the final timeline
+      }
+    });
+  }
+}
+function drawTimeline() {
+  const context = timelineCanvas.getContext('2d');
+  let index = 0;
+  function drawImage() {
+    if (index < sceneImages.length) {
+      const img = new Image();
+      img.src = sceneImages[index];
+      img.onload = () => {
+        context.drawImage(img, index * 64, 0, 64, 36);
+        index++;
+        requestAnimationFrame(drawImage);
+      };
+    }
+  }
+  requestAnimationFrame(drawImage);
+}
+
+// Zoom functionality for the timeline
+let zoomLevel = 1; // Default zoom level
+const zoomInButton = document.getElementById('zoomIn');
+const zoomOutButton = document.getElementById('zoomOut');
+
+zoomInButton.addEventListener('click', () => {
+  zoomLevel *= 1.2;
+  drawTimeline();
+});
+
+zoomOutButton.addEventListener('click', () => {
+  zoomLevel /= 1.2;
+  drawTimeline();
+});
+
+// Draggable divider functionality with zoom adjustment
+draggableDivider.addEventListener('mousedown', (event) => {
+  document.body.style.cursor = 'col-resize';  // Change cursor to resize
+  let offsetX = event.clientX - draggableDivider.offsetLeft;
+
+  function mouseMoveHandler(e) {
+    let left = e.clientX - offsetX;
+    left = Math.max(0, Math.min(timelineCanvas.width - draggableDivider.offsetWidth, left));
+    draggableDivider.style.left = left + 'px';
+    
+    let adjustedTime = (left / (timelineCanvas.width / zoomLevel)) * videoDuration;
+    videoSlider.value = adjustedTime;
+    videoElement.currentTime = adjustedTime;
+  }
+
+  function mouseUpHandler() {
+    document.removeEventListener('mousemove', mouseMoveHandler);
+    document.removeEventListener('mouseup', mouseUpHandler);
+    document.body.style.cursor = 'default';  // Reset cursor
+  }
+
+  document.addEventListener('mousemove', mouseMoveHandler);
+  document.addEventListener('mouseup', mouseUpHandler);
+});
+
+
+
+// Handle slider time control
+videoSlider.addEventListener('input', (event) => {
+  videoElement.currentTime = event.target.value;
+});
+
+
+videoElement.addEventListener('seeked', () => {
+  audio.currentTime = videoElement.currentTime;
+});
+document.getElementById('volumeSlider').addEventListener('input', (event) => {
+  previewVideo.volume = event.target.value;
+});
+
+
+
+let debounceTimer;
+videoSlider.addEventListener('input', (event) => {
+  clearTimeout(debounceTimer);
+  debounceTimer = setTimeout(() => {
+    videoElement.currentTime = event.target.value;
+  }, 100); // 100ms delay
+});
+
+
+
+</script>
+
+
+        
+    </main>
+
+    <!-- Footer -->
+    <footer id="dynamic-footer"></footer>
+    
+    <!-- Firebase configuration/ Login& Out -->
+    <script type="module" src="https://reelcareer.co/public/js/main.js"></script> 
+
+   
+    
+
+    <!-- Firebase JS SDK and Custom Scripts -->
+
+    <script type="module">
+        import {
+            db, doc, getDoc, query, updateDoc,
+            setDoc, ref, signInWithPopup, orderBy, limit,startAfter ,
+             
+            uploadBytes, OAuthProvider, arrayUnion, getStorage,
+            signOut, addDoc, increment, onAuthStateChanged,
+            createUserWithEmailAndPassword, signInWithEmailAndPassword,
+            where, getDocs, storage, collection, deleteObject, 
+            auth, analytics, deleteDoc, getDownloadURL
+        } from 'https://reelcareer.co/js/module.js';
+
+
+
+
+
+        function getQueryParam(param) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(param);
+    }  
+    
+
+   
+
+function setBlogMetaTags(blogData) {
+    // Update the document title
+    document.title = `ReelCareer.co | Blog: ${blogData.title}`;
+
+    // Helper function to create or update a meta tag
+    function updateMetaTag(name, content, property = false) {
+        let meta = document.querySelector(property ? `meta[property="${name}"]` : `meta[name="${name}"]`);
+        if (!meta) {
+            meta = document.createElement('meta');
+            if (property) {
+                meta.setAttribute('property', name);
+            } else {
+                meta.setAttribute('name', name);
+            }
+            document.head.appendChild(meta);
+        }
+        meta.setAttribute('content', content);
+    }
+
+    // Meta tags for SEO
+    updateMetaTag('description', blogData.description || 'Read this insightful blog on ReelCareer.co!');
+    updateMetaTag('keywords', blogData.keywords || 'ReelCareer, blog, career, jobs');
+    updateMetaTag('author', blogData.author || 'ReelCareer Team');
+
+    // Open Graph (OG) meta tags for social media sharing
+    updateMetaTag('og:title', `ReelCareer.co | Blog: ${blogData.title}`, true);
+    updateMetaTag('og:description', blogData.description || 'Discover this blog post on ReelCareer.co!', true);
+    updateMetaTag('og:image', blogData.image || 'https://reelcareer.co/images/default-blog-thumbnail.png', true);
+    updateMetaTag('og:url', blogData.url || window.location.href, true);
+    updateMetaTag('og:type', 'article', true);
+
+    // Twitter card meta tags
+    updateMetaTag('twitter:card', 'summary_large_image');
+    updateMetaTag('twitter:title', `ReelCareer.co | Blog: ${blogData.title}`);
+    updateMetaTag('twitter:description', blogData.description || 'Check out this blog post on ReelCareer!');
+    updateMetaTag('twitter:image', blogData.image || 'https://reelcareer.co/images/default-blog-thumbnail.png');
+}
+
+
+
+
+
+
+
+// Initial call to fetch total posts and blogs for the first page
+window.onload = async function () {
+    try {
+
+    } catch (error) {
+        console.error("Error during initialization:", error);
+    }
+};
+
+
+
+    </script>
+
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
