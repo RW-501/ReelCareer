@@ -210,13 +210,28 @@ let pendingUrls = []; // Queue of URLs to fetch
       return;
     }
 
-    const response = await fetch(url);
+    // Preprocess the URL before making the fetch request
+    let fixedUrl = url;
+
+    // If the URL contains '/backend', remove that part
+    fixedUrl = fixedUrl.replace(/\/backend/g, '');  // Remove all '/backend' segments in the URL
+
+    // If the URL contains relative paths like '../', resolve them correctly
+    fixedUrl = fixedUrl.replace(/(?:\.\.\/)+/g, '/');  // Replace all '../' with the root (or current folder)
+
+    // Make sure the fixed URL is an absolute URL
+    if (!fixedUrl.startsWith('http')) {
+      fixedUrl = new URL(fixedUrl, baseDomain).href;
+    }
+
+    // Perform the fetch request with the fixed URL
+    const response = await fetch(fixedUrl);
     if (!response.ok) {
-      throw new Error(`Failed to fetch ${url}: ${response.status}`);
+      throw new Error(`Failed to fetch ${fixedUrl}: ${response.status}`);
     }
 
     // Mark the page as crawled
-    crawledPages.add(url);
+    crawledPages.add(fixedUrl);
     // Update the display with the count of crawled pages
     crawledPagesDiv.innerText = crawledPages.size;
 
@@ -224,8 +239,12 @@ let pendingUrls = []; // Queue of URLs to fetch
     const parser = new DOMParser();
     const doc = parser.parseFromString(text, 'text/html');
     const anchors = doc.querySelectorAll('a[href]');
-
+    
+    
+    
     console.log("Fetched URL: ", url);
+
+    console.log("fixedUrl: ", fixedUrl);
     console.log("Found anchors: ", anchors);
 
     let processedLinks = 0;
@@ -241,7 +260,7 @@ let pendingUrls = []; // Queue of URLs to fetch
         href = new URL(href, baseDomain).href; // Make it absolute by combining with baseDomain
       } else if (href.startsWith('../')) {
         // If it's a relative URL with `../`, resolve it from the current page's path
-        const currentUrl = new URL(url);
+        const currentUrl = new URL(fixedUrl);
         href = new URL(href, currentUrl.origin).href; // Resolve relative URL from the current URL
       }
 
@@ -253,7 +272,7 @@ let pendingUrls = []; // Queue of URLs to fetch
       if (href.startsWith(baseDomain) && (!subdomainsExcluded || href.indexOf(baseDomain) === href.lastIndexOf(baseDomain))) {
         if (!links.has(href) && !crawledPages.has(href)) {
           links.add(href);
-          addLinkToTable(href, url); // Pass the base URL (where anchor was found)
+          addLinkToTable(href, fixedUrl); // Pass the base URL (where anchor was found)
           pendingUrls.push(href);
           pendingUrlsDiv.innerText = pendingUrls.length;
         } else if (filterDuplicates.checked) {
@@ -277,7 +296,6 @@ let pendingUrls = []; // Queue of URLs to fetch
     updateProgress();
   }
 };
-
 
 // Function to add link to table with dynamic priority and scheduling
 const addLinkToTable = (url, sourceUrl) => {
