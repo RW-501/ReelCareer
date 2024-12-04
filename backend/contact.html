@@ -177,21 +177,31 @@
 
 
         // Fetch and render contacts
-        async function fetchAndRenderContacts() {
-            const contactsCollection = collection(db, "ContactMessages");
-            try {
-                const snapshot = await getDocs(contactsCollection);
-                const contacts = snapshot.docs.map(doc => ({
-                    id: doc.id,
-                    ...doc.data()
-                }));
+       
+// Fetch and render contacts
+async function fetchAndRenderContacts() {
+    const contactsCollection = collection(db, "ContactMessages"); // Reference to the collection
 
-                renderContacts(contacts);
-            } catch (error) {
-                console.error("Error fetching contacts:", error);
-                document.getElementById('contacts-container').innerHTML = '<p class="error-message">Failed to load contacts. Please try again later.</p>';
-            }
-        }
+    try {
+        // Fetch documents from the collection
+        const snapshot = await getDocs(contactsCollection);
+        
+        // Map through the snapshot docs and prepare the data
+        const contacts = snapshot.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data()
+        }));
+
+        // Render the contacts using your renderContacts function
+        renderContacts(contacts);
+    } catch (error) {
+        console.error("Error fetching contacts:", error);
+        
+        // Display an error message in case of failure
+        document.getElementById('contacts-container').innerHTML = '<p class="error-message">Failed to load contacts. Please try again later.</p>';
+    }
+}
+
 
         function renderContacts(contacts) {
             const container = document.getElementById('contacts-container');

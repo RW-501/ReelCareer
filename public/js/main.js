@@ -2161,7 +2161,13 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     window.sanitizeInput = sanitizeInput;
-    
+          // Function to check if input contains potential script injection characters
+          window.isSafeInput = function(input) {
+            const dangerousPatterns = /(<|>|"|;|&|\$|\(|\)|\*|\\|\/|script|SELECT|UPDATE|DELETE|INSERT|DROP|TABLE|ALTER)/i;
+            return !dangerousPatterns.test(input);
+        }
+
+        
 function getUserDisplayName() {
   // Retrieve user data from local storage
   const storedUserData = localStorage.getItem("userData");
