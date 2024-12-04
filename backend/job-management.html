@@ -87,21 +87,31 @@
         <button class="btn btn-success mb-3" onclick="openJobModal()">Add Job</button>
 
         <!-- Job Table -->
-        <table class="table table-bordered table-striped" id="jobTable">
-            <thead>
-                <tr>
-                    <th><input type="checkbox" id="selectAll" onclick="toggleAll(this)"></th>
-                    <th>ID</th>
-                    <th>Title</th>
-                    <th>Description</th>
-                    <th>Category</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody id="jobTableBody">
-                <!-- Job rows will be dynamically populated here -->
-            </tbody>
-        </table>
+<!-- Add a search bar and total count display -->
+<div>
+    <input type="text" id="jobSearch" placeholder="Search jobs" onkeyup="searchJobs()">
+    <span id="totalCount"></span>
+</div>
+
+<table class="table table-bordered table-striped" id="jobTable">
+    <thead>
+        <tr>
+            <th><input type="checkbox" id="selectAll" onclick="toggleAll(this)"></th>
+            <th onclick="sortTable(1)">ID</th>
+            <th onclick="sortTable(2)">Title</th>
+            <th onclick="sortTable(3)">Description</th>
+            <th onclick="sortTable(4)">Category</th>
+            <th onclick="sortTable(5)">Industry</th>
+            <th onclick="sortTable(6)">Created At</th>
+            <th onclick="sortTable(7)">Submitted By</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody id="jobTableBody">
+        <!-- Job rows will be dynamically populated here -->
+    </tbody>
+</table>
+
 
         <!-- Job Modal -->
         <div class="modal fade hide" id="jobModal" tabindex="-1" aria-labelledby="jobModalLabel" aria-hidden="true">
@@ -184,33 +194,89 @@
 
      
 // Load jobs function
+// Function to load jobs from Firestore and populate the table
 async function loadJobs() {
-  try {
-    const querySnapshot = await getDocs(collection(db, 'Jobs'));
-    const jobTableBody = document.getElementById('jobTableBody');
-    jobTableBody.innerHTML = ''; // Clear existing rows
+    try {
+        const querySnapshot = await getDocs(collection(db, 'Jobs'));
+        const jobTableBody = document.getElementById('jobTableBody');
+        jobTableBody.innerHTML = ''; // Clear existing rows
 
-    querySnapshot.forEach((doc) => {
-      const job = doc.data();
-      const row = `
-        <tr>
-            <td><input type="checkbox" class="jobCheckbox" value="${doc.id}"></td>
-            <td>${doc.id}</td>
-            <td>${job.title}</td>
-            <td>${job.description}</td>
-            <td>${job.category}</td>
-            <td>
-                <button class="btn btn-warning btn-sm" onclick="editJob('${doc.id}', '${job.title}', '${job.description}', '${job.category}')">Edit</button>
-                <button class="btn btn-danger btn-sm" onclick="deleteJob('${doc.id}')">Delete</button>
-            </td>
-        </tr>
-      `;
-      jobTableBody.insertAdjacentHTML('beforeend', row);
-    });
-  } catch (error) {
-    console.error('Error loading jobs:', error);
-  }
+        let totalCount = 0;
+
+        querySnapshot.forEach((doc) => {
+            const job = doc.data();
+            const truncatedDescription = job.description.length > 50 ? job.description.substring(0, 50) + '...' : job.description;
+
+            const row = `
+                <tr>
+                    <td><input type="checkbox" class="jobCheckbox" value="${doc.id}"></td>
+                    <td>${doc.id}</td>
+                    <td>${job.title}</td>
+                    <td>${truncatedDescription}</td>
+                    <td>${job.category}</td>
+                    <td>${job.industry}</td>
+                    <td>${job.createdAt.toDate().toLocaleString()}</td>
+                    <td>${job.submittedBy}</td>
+                    <td>
+                        <button class="btn btn-warning btn-sm" onclick="editJob('${doc.id}', '${job.title}', '${job.description}', '${job.category}')">Edit</button>
+                        <button class="btn btn-danger btn-sm" onclick="deleteJob('${doc.id}')">Delete</button>
+                    </td>
+                </tr>
+            `;
+            jobTableBody.insertAdjacentHTML('beforeend', row);
+            totalCount++;
+        });
+
+        // Update the total count display
+        document.getElementById('totalCount').textContent = `Total Jobs: ${totalCount}`;
+    } catch (error) {
+        console.error('Error loading jobs:', error);
+    }
 }
+
+// Function to search jobs by title or description
+function searchJobs() {
+    const query = document.getElementById('jobSearch').value.toLowerCase();
+    const rows = document.querySelectorAll('#jobTableBody tr');
+    rows.forEach(row => {
+        const title = row.cells[2].textContent.toLowerCase();
+        const description = row.cells[3].textContent.toLowerCase();
+        if (title.includes(query) || description.includes(query)) {
+            row.style.display = '';
+        } else {
+            row.style.display = 'none';
+        }
+    });
+}
+
+// Function to sort table columns
+let sortOrder = true; // true for ascending, false for descending
+
+function sortTable(columnIndex) {
+    const rows = Array.from(document.querySelectorAll('#jobTableBody tr'));
+    const sortedRows = rows.sort((a, b) => {
+        const cellA = a.cells[columnIndex].textContent.toLowerCase();
+        const cellB = b.cells[columnIndex].textContent.toLowerCase();
+
+        if (cellA < cellB) return sortOrder ? -1 : 1;
+        if (cellA > cellB) return sortOrder ? 1 : -1;
+        return 0;
+    });
+
+    // Clear table and append sorted rows
+    const jobTableBody = document.getElementById('jobTableBody');
+    jobTableBody.innerHTML = '';
+    sortedRows.forEach(row => jobTableBody.appendChild(row));
+
+    // Toggle sort order
+    sortOrder = !sortOrder;
+}
+
+// Call loadJobs when the page is loaded
+document.addEventListener("DOMContentLoaded", () => {
+    loadJobs();
+});
+
 
 // Load job categories function
 async function loadCategories() {
