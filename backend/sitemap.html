@@ -202,7 +202,6 @@ let pendingUrls = []; // Queue of URLs to fetch
         const crawledPagesDiv = document.getElementById('crawledPages');
         const pendingUrlsDiv = document.getElementById('pendingUrls');
 
-        
         const fetchLinks = async (url) => {
   try {
     // If the page has already been crawled, skip it
@@ -233,14 +232,17 @@ let pendingUrls = []; // Queue of URLs to fetch
     anchors.forEach(anchor => {
       let href = anchor.href;
 
-      // If the href is a relative URL, convert it to an absolute URL
+      // If the href is a relative URL, resolve it based on the current URL
       if (href.startsWith('/')) {
+        // Remove '/backend' from the URL path if it's in the context of your /backend folder
         if (href.startsWith('/backend')) {
           href = href.replace('/backend', '');  // Remove '/backend' from the URL path
         }
         href = new URL(href, baseDomain).href; // Make it absolute by combining with baseDomain
-      } else if (href.startsWith('.../')) {
-        href = new URL(href.replace('.../', '/'), baseDomain).href;
+      } else if (href.startsWith('../')) {
+        // If it's a relative URL with `../`, resolve it from the current page's path
+        const currentUrl = new URL(url);
+        href = new URL(href, currentUrl.origin).href; // Resolve relative URL from the current URL
       }
 
       const urlObj = new URL(href);
@@ -275,6 +277,7 @@ let pendingUrls = []; // Queue of URLs to fetch
     updateProgress();
   }
 };
+
 
 // Function to add link to table with dynamic priority and scheduling
 const addLinkToTable = (url, sourceUrl) => {
