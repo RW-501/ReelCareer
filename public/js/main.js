@@ -687,11 +687,12 @@ document.addEventListener('touchstart', handleOutsideClick);
 function handleOutsideClick(event) {
   const navBar = document.getElementById('Main-Nav_bar');
   const navCollapse = document.getElementById('navbarNav');
-
+if(navBar && navCollapse ){
   // Check if the click/touch is outside the navbar and the collapse menu
   if (!navBar.contains(event.target) && navCollapse.classList.contains('show')) {
     navCollapse.classList.remove('show'); // Collapse the navbar if it's open
   }
+}
 }
 
 
