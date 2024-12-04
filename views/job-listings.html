@@ -652,7 +652,7 @@ const userlocationData = prepareLocationForFirebase();
 
 
 
-console.log("userlocationData: ", userlocationData);
+console.log("userlocationData.city: ", userlocationData.city);
 console.log("userJobInterest: ", userJobInterest);
 
 
@@ -671,7 +671,7 @@ async function fetchJobListings() {
     jobsQuery = query(jobsQuery, where('state', '==', userlocationData.state));
     locationSource  += ' State Location, ';
   }
-  if (userlocationData.state) {
+  if (userlocationData) {
     jobsQuery = query(jobsQuery, where('state', 'array-contains-any', userlocationData));
     locationSource +=' City & State Location, ';
   }
@@ -856,9 +856,11 @@ document.querySelector('#main-search-btn').addEventListener('click', function() 
 
     function searchJobs() {
 
-      console.log("kkkkkkkkk");
 
       const requirements = collectJobRequirements();
+
+      const  keyword = document.getElementById('keywordInput').value.toLowerCase();
+
       const location = document.getElementById("jobLocation").value;
       const city = document.getElementById("jobCity").value;
       const state = document.getElementById("jobState").value;
@@ -872,6 +874,7 @@ document.querySelector('#main-search-btn').addEventListener('click', function() 
       // You can now use these values to filter job listings
       console.log({
         requirements,
+        keyword,
         location,
         city,
         state,
@@ -885,6 +888,7 @@ document.querySelector('#main-search-btn').addEventListener('click', function() 
       });
       async function fetchFilteredJobListings({
         requirements,
+        keyword,
         location,
         city,
         state,
@@ -900,9 +904,20 @@ document.querySelector('#main-search-btn').addEventListener('click', function() 
           const jobListingsRef = firestore.collection('Jobs'); // Replace with your collection name
           let query = jobListingsRef;
           // Check if each field has a value and build the query accordingly
+          
+          if (keyword) {
+
+          query = query.where('searchableTitle', 'array-contains-any', keyword);
+          }else{
+            showToast("We Need a Search Term")
+
+            return;
+          }
+          
           if (requirements) {
             query = query.where('requirements', 'array-contains', requirements);
           }
+          
           if (location) {
             query = query.where('location', '==', location);
           }
