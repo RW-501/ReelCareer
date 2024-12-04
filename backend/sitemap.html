@@ -109,6 +109,8 @@
 
         <div class="controls">
           <button id="selectAllBtn">Select All</button>
+          <button id="selectReachableBtn">Select Reachable</button>
+
           <button id="startBtn">Start</button>
           <button id="stopBtn">Stop</button>
           <button id="exportCSV">Export CSV</button>
@@ -361,30 +363,43 @@ const checkReachability = async (url, row, sourceUrl) => {
   }
 };
    
-        
+document.getElementById('selectReachableBtn').addEventListener('click', () => {
+  const rows = document.querySelectorAll('#linkTable tbody tr');
+
+  rows.forEach(row => {
+    const reachabilityCell = row.querySelector('.status');
+    const checkbox = row.querySelector('input[type="checkbox"]');
+
+    // Select checkbox only if reachability is "Reachable"
+    if (reachabilityCell && reachabilityCell.textContent.trim() === 'Reachable') {
+      checkbox.checked = true;
+    }
+  });
+});
+
 // Sorting function for the table
 const sortTable = (columnIndex) => {
   const table = document.getElementById('linkTable');
-  const rows = Array.from(table.rows).slice(1);  // Skip the header row
+  const rows = Array.from(table.querySelectorAll('tbody tr')); // Get all rows in tbody
 
   rows.sort((rowA, rowB) => {
     const cellA = rowA.cells[columnIndex].textContent.trim();
     const cellB = rowB.cells[columnIndex].textContent.trim();
 
-    // Sorting logic for Reachability column (index 4)
-    if (columnIndex === 4) {
-      // Define custom sorting for 'Reachability' column (Pending > Accessible > Not Accessible)
-      const reachabilityOrder = { 'Reachable': 0, 'Unreachable': 1};
-      return reachabilityOrder[cellA] - reachabilityOrder[cellB];
+    if (columnIndex === 4) { // Custom logic for 'Reachability' column
+      const reachabilityOrder = { 'Reachable': 0, 'Unreachable': 1, 'Pending': 2 };
+      return (reachabilityOrder[cellA] || 3) - (reachabilityOrder[cellB] || 3); // Default to 3 for unknown values
     }
 
-    // Default sorting logic for other columns (lexicographical or numerical)
-    return cellA.localeCompare(cellB);
+    // Default sorting logic (for other columns)
+    return cellA.localeCompare(cellB, undefined, { numeric: true });
   });
 
   // Append the sorted rows back to the table
-  rows.forEach(row => table.appendChild(row));
+  const tbody = table.querySelector('tbody');
+  rows.forEach(row => tbody.appendChild(row));
 };
+
 
         // Function to dynamically calculate priority based on URL depth and importance
         const calculatePriority = (url) => {
@@ -395,7 +410,7 @@ const sortTable = (columnIndex) => {
           if (depth > 3) {
             priority = 0.5;
           }
-          if (url.includes('homepage') || url.includes('index')) {
+          if (url.includes('/jobs') || url.includes('index')) {
             priority = 1.0;  // Homepages get higher priority
           }
         
@@ -551,7 +566,7 @@ const toggleSubdomainExclusion = (checkbox) => {
       <td>${link}</td>
       <td><span class="status">Reachable</span></td>
     `;
-    linksTable.appendChild(row);
+    previewContainer.appendChild(row);
   });
 
   // Update the crawled pages display
