@@ -544,12 +544,7 @@ main .btn-info:hover {
 
 
 
-/* Media query for mobile devices */
-@media (max-width: 768px) {
-  .JOB_CARD {
-      width: 90% !important;  /* Set width to 90% for mobile devices */
-  }
-}
+
 
     .card-bottom {
         text-transform: capitalize;
@@ -682,6 +677,16 @@ main .btn-info:hover {
 
 }
 
+
+
+
+/* Media query for mobile devices */
+@media (max-width: 768px) {
+  .JOB_CARD {
+      width: 90% !important;
+      
+  }
+}
 .footerMediaArea {
     display: flex;
     flex-wrap: nowrap;
