@@ -341,9 +341,11 @@ const limits = 25;
 let showCount = 0;
 let jobListingsCache = [];
 const seenIDs = new Set();
+
+
+
 async function fetchJobListings() { 
   jobListingsCache = []; // Clear cache before fetching
-  const userlocationData = sessionStorage.getItem('userLocation');
   const jobListingsContainer = document.getElementById('jobListings');
   const loadingIndicator = document.getElementById('loadingIndicator');
   const errorIndicator = document.getElementById('errorIndicator');
@@ -376,7 +378,7 @@ async function fetchJobListings() {
 
     // If no results found for tags, fetch by location
     if (!hasResults(titleSnapshot) && userlocationData.length > 0) {
-      const locationArray = prepareLocationForFirebase(userlocationData);
+      const locationArray = prepareLocationForFirebase();
       const locationQuery = query(
         jobsQuery,
         where('status', '==', 'active'),
