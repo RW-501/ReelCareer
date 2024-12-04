@@ -146,29 +146,41 @@
 
 
 
-        // Load applications
-        function loadApplications() {
-            db.collection('Applications').get().then((querySnapshot) => {
-                const applicationTableBody = document.getElementById('applicationTableBody');
-                applicationTableBody.innerHTML = ''; // Clear existing rows
-                querySnapshot.forEach((doc) => {
-                    const application = doc.data();
-                    const row = `
-                        <tr>
-                            <td>${doc.id}</td>
-                            <td>${application.jobTitle}</td>
-                            <td>${application.applicantName}</td>
-                            <td>${application.email}</td>
-                            <td>${application.status}</td>
-                            <td>
-                                <button class="btn btn-info btn-sm" onclick="openMessageModal('${doc.id}', '${application.email}')">Message</button>
-                            </td>
-                        </tr>
-                    `;
-                    applicationTableBody.insertAdjacentHTML('beforeend', row);
-                });
-            });
-        }
+        
+async function loadApplications() {
+    try {
+        // Query the Applications collection
+        const querySnapshot = await getDocs(collection(db, 'Applications'));
+
+        // Get the table body where application data will be displayed
+        const applicationTableBody = document.getElementById('applicationTableBody');
+        applicationTableBody.innerHTML = ''; // Clear existing rows
+
+        // Iterate over each document in the snapshot
+        querySnapshot.forEach((doc) => {
+            const application = doc.data(); // Get the data from the document
+            const row = `
+                <tr>
+                    <td>${doc.id}</td>
+                    <td>${application.jobTitle}</td>
+                    <td>${application.applicantName}</td>
+                    <td>${application.email}</td>
+                    <td>${application.status}</td>
+                    <td>
+                        <button class="btn btn-info btn-sm" onclick="openMessageModal('${doc.id}', '${application.email}')">Message</button>
+                    </td>
+                </tr>
+            `;
+            applicationTableBody.insertAdjacentHTML('beforeend', row);
+        });
+    } catch (error) {
+        console.error('Error loading applications:', error);  // Handle any errors
+    }
+}
+
+// Call loadApplications when necessary (e.g., on page load or when a button is clicked)
+document.addEventListener('DOMContentLoaded', loadApplications);
+
 
         // Open messaging modal
         function openMessageModal(applicationId, email) {
