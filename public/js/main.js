@@ -2065,18 +2065,19 @@ if (window.checkUrl("/backend/") || window.checkUrl("/backend")) {
 
 
 
+document.addEventListener('DOMContentLoaded', function () {
 
-
+  let {
+    delayBetweenDivs = 300, // Delay between div animations (ms)
+    initialBodyDelay = 1000, // Delay before showing body (ms)
+    animationDuration = 600, // Animation duration (ms)
+    animationTimingFunction = 'ease', // CSS timing function
+    hiddenClass = 'hidden', // Class to hide body
+} = config;
 
 function rollInAnimations(config = {}) {
   // Default configuration
-  const {
-      delayBetweenDivs = 300, // Delay between div animations (ms)
-      initialBodyDelay = 1000, // Delay before showing body (ms)
-      animationDuration = 600, // Animation duration (ms)
-      animationTimingFunction = 'ease', // CSS timing function
-      hiddenClass = 'hidden', // Class to hide body
-  } = config;
+
 
   // Inject CSS Styles
   const loadingStyle = document.createElement('style');
@@ -2105,7 +2106,6 @@ function rollInAnimations(config = {}) {
 };
 
   
-document.addEventListener('DOMContentLoaded', function () {
   const mainDivs = document.querySelectorAll('main > div');
   const mainContainer = document.querySelector('main');
 
@@ -2133,15 +2133,19 @@ document.addEventListener('DOMContentLoaded', function () {
           }, index * delayBetweenDivs);
       });
   }, initialBodyDelay);
+  // Example usage
+rollInAnimations({
+  delayBetweenDivs: 500,
+  initialBodyDelay: 1500,
+  animationDuration: 1500,
+  animationTimingFunction: 'cubic-bezier(0.68, -0.55, 0.27, 1.55)' // Easing function for bounce effect
+  });
+
+
+
 });
 
-// Example usage
-rollInAnimations({
-delayBetweenDivs: 500,
-initialBodyDelay: 1500,
-animationDuration: 1500,
-animationTimingFunction: 'cubic-bezier(0.68, -0.55, 0.27, 1.55)' // Easing function for bounce effect
-});
+
 
 
 
