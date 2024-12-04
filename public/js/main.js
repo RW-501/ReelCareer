@@ -2067,6 +2067,9 @@ if (window.checkUrl("/backend/") || window.checkUrl("/backend")) {
 
 document.addEventListener('DOMContentLoaded', function () {
 
+
+function rollInAnimations(config = {}) {
+  // Default configuration
   let {
     delayBetweenDivs = 300, // Delay between div animations (ms)
     initialBodyDelay = 1000, // Delay before showing body (ms)
@@ -2074,9 +2077,6 @@ document.addEventListener('DOMContentLoaded', function () {
     animationTimingFunction = 'ease', // CSS timing function
     hiddenClass = 'hidden', // Class to hide body
 } = config;
-
-function rollInAnimations(config = {}) {
-  // Default configuration
 
 
   // Inject CSS Styles
