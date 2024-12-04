@@ -209,144 +209,50 @@ let pendingUrls = []; // Queue of URLs to fetch
 
   // Fetch links via iframe
   const fetchLinksUsingIframe = async (url) => {
-    
-      // If the page has already been crawled, skip it
-      if (crawledPages.has(url)) {
-      console.log(`Skipping already crawled page: ${url}`);
-      return;
-    }
-
-    // Preprocess the URL before making the fetch request
-    let fixedUrl = url;
-
-    // If the URL contains '/backend', remove that part
-    fixedUrl = fixedUrl.replace(/\/backend/g, '');  // Remove all '/backend' segments in the URL
-
-    // If the URL contains relative paths like '../', resolve them correctly
-    fixedUrl = fixedUrl.replace(/(?:\.\.\/)+/g, '/');  // Replace all '../' with the root (or current folder)
-
-    // Make sure the fixed URL is an absolute URL
-    if (!fixedUrl.startsWith('https')) {
-      fixedUrl = new URL(fixedUrl, baseDomain).href;
-    }
-
-    // Perform the fetch request with the fixed URL
-    const response = await fetch(fixedUrl);
-    if (!response.ok) {
-      throw new Error(`Failed to fetch ${fixedUrl}: ${response.status}`);
-    }
-
-    // Mark the page as crawled
-    crawledPages.add(fixedUrl);
-    // Update the display with the count of crawled pages
-    crawledPagesDiv.innerText = crawledPages.size;
-
-    const text = await response.text();
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(text, 'text/html');
-
-  
-          // Attempt to access links if within the same origin
-          const anchors = iframe.contentDocument.querySelectorAll('a[href]');
-          document.body.removeChild(iframe);
-        
-          console.log("Fetched URL: ", url);
-
-console.log("fixedUrl: ", fixedUrl);
-console.log("Found anchors: ", anchors);
-
-
-        
-        
-
-
-
-
-
-    return new Promise((resolve, reject) => {
-
-
-
-
-
-
-
-
-      const iframe = document.createElement('iframe');
-      iframe.src = url;
-      iframe.style.display = 'none'; // Hide iframe
-      document.body.appendChild(iframe);
-
-      const timeout = setTimeout(() => {
-        document.body.removeChild(iframe);
-        reject(new Error(`Timeout while fetching ${url}`));
-      }, 5000); // 5 seconds timeout
-
-
-         
-
-      iframe.onload = () => {
-        clearTimeout(timeout);
-        try {
-
-
-            let processedLinks = 0;
-
-// Process anchors and remove '/backend' if present in the href
-const linksArray = Array.from(anchors).map(anchor => {
-  let href = anchor.href;
-  // Remove '/backend' if it's part of the href
-  if (href.includes('/backend')) {
-    href = href.replace(/\/backend/g, '');  // Remove all '/backend' segments in the URL
-    anchor.href = href;  // Update the anchor's href with the fixed URL
-  }
-  console.log("Fixed anchors: ", linksArray);
-
-  const urlObj = new URL(href);
-  const subdomain = urlObj.hostname.split('.')[0];  // Assuming subdomains are first part of hostname
-
-  createSubdomainCheckbox(subdomain);
-
-  if (href.startsWith(baseDomain) && (!subdomainsExcluded || href.indexOf(baseDomain) === href.lastIndexOf(baseDomain))) {
-    if (!links.has(href) && !crawledPages.has(href)) {
-      links.add(href);
-      addLinkToTable(href, fixedUrl); // Pass the base URL (where anchor was found)
-      pendingUrls.push(href);
-      pendingUrlsDiv.innerText = pendingUrls.length;
-    } else if (filterDuplicates.checked) {
-      highlightDuplicate(href);
-    }
+  if (crawledPages.has(url)) {
+    console.log(`Skipping already crawled page: ${url}`);
+    return [];
   }
 
-  processedLinks++;
-  updateProgress(processedLinks, anchors.length);
-});
-        
-        
-        
-        
+  const iframe = document.createElement('iframe');
+  iframe.src = url;
+  iframe.style.display = 'none'; // Hide the iframe
+  document.body.appendChild(iframe);
 
-        //  const linksArray = Array.from(anchors).map(a => a.href);
-          resolve(linksArray);
-        } catch (error) {
-          // Cross-origin restriction
-          document.body.removeChild(iframe);
-          resolve([]); // Return empty array since we can't access links
-        }
-      };
+  return new Promise((resolve, reject) => {
+    const timeout = setTimeout(() => {
+      document.body.removeChild(iframe);
+      reject(new Error(`Timeout while fetching ${url}`));
+    }, 5000); // 5 seconds timeout
 
-      iframe.onerror = () => {
-        clearTimeout(timeout);
+    iframe.onload = () => {
+      clearTimeout(timeout);
+      try {
+        const anchors = iframe.contentDocument.querySelectorAll('a[href]');
         document.body.removeChild(iframe);
-        reject(new Error(`Failed to load ${url}`));
-      };
 
+        const linksArray = Array.from(anchors).map(anchor => {
+          let href = anchor.href.replace(/\/backend/g, '').replace(/(?:\.\.\/)+/g, '/');
+          if (!href.startsWith('https')) {
+            href = new URL(href, baseDomain).href;
+          }
+          return href;
+        });
 
+        resolve(linksArray);
+      } catch (error) {
+        document.body.removeChild(iframe);
+        resolve([]); // Return an empty array for cross-origin restrictions
+      }
+    };
 
-
-
-    });
-  };
+    iframe.onerror = () => {
+      clearTimeout(timeout);
+      document.body.removeChild(iframe);
+      reject(new Error(`Failed to load ${url}`));
+    };
+  });
+};
 
 
 
@@ -365,39 +271,40 @@ const linksArray = Array.from(anchors).map(anchor => {
 
   // Crawl links recursively
   const crawlLinks = async (url) => {
-    if (crawledPages.has(url)) {
-      console.log(`Skipping already crawled page: ${url}`);
-      return;
-    }
-
-    try {
-      const linksFromPage = await fetchLinksUsingIframe(url);
-      crawledPages.add(url);
-      linksFromPage.forEach(link => {
-        if (!links.has(link) && link.startsWith(baseDomain)) {
-          links.add(link);
-          pendingUrls.push(link);
-        }
-      });
-
-      // Update progress
-      totalLinks++;
-      updateProgress(crawledPages.size, totalLinks);
-
-      if (pendingUrls.length > 0) {
-        const nextUrl = pendingUrls.shift();
-        await crawlLinks(nextUrl);
-      }
-    } catch (error) {
-        errors.push(error.message);
-        handleError(error, url);
-
-} finally {
-    updatePreview();
-
-  };
-
+  if (crawledPages.has(url)) {
+    console.log(`Skipping already crawled page: ${url}`);
+    return;
   }
+
+  try {
+    const linksFromPage = await fetchLinksUsingIframe(url);
+    crawledPages.add(url);
+
+    linksFromPage.forEach(link => {
+      if (!links.has(link) && link.startsWith(baseDomain)) {
+
+        addLinkToTable(link, url);
+         highlightDuplicate(link); 
+
+        links.add(link);
+        pendingUrls.push(link);
+      }
+    });
+
+    // Update progress
+    totalLinks++;
+    updateProgress(crawledPages.size, totalLinks, progressBar);
+
+    if (pendingUrls.length > 0) {
+      const nextUrl = pendingUrls.shift();
+      await crawlLinks(nextUrl);
+    }
+  } catch (error) {
+    handleError(error, url);
+  } finally {
+    updatePreview();
+  }
+};
 
   // Start the crawling process
   const startCrawling = async () => {
@@ -418,113 +325,12 @@ const linksArray = Array.from(anchors).map(anchor => {
 
 
 
-
-   /*
-
-
-        const fetchLinks = async (url) => {
-  try {
- 
-    // If the page has already been crawled, skip it
-    if (crawledPages.has(url)) {
-      console.log(`Skipping already crawled page: ${url}`);
-      return;
-    }
-
-    // Preprocess the URL before making the fetch request
-    let fixedUrl = url;
-
-    // If the URL contains '/backend', remove that part
-    fixedUrl = fixedUrl.replace(/\/backend/g, '');  // Remove all '/backend' segments in the URL
-
-    // If the URL contains relative paths like '../', resolve them correctly
-    fixedUrl = fixedUrl.replace(/(?:\.\.\/)+/g, '/');  // Replace all '../' with the root (or current folder)
-
-    // Make sure the fixed URL is an absolute URL
-    if (!fixedUrl.startsWith('https')) {
-      fixedUrl = new URL(fixedUrl, baseDomain).href;
-    }
-
-    // Perform the fetch request with the fixed URL
-    const response = await fetch(fixedUrl);
-    if (!response.ok) {
-      throw new Error(`Failed to fetch ${fixedUrl}: ${response.status}`);
-    }
-
-    // Mark the page as crawled
-    crawledPages.add(fixedUrl);
-    // Update the display with the count of crawled pages
-    crawledPagesDiv.innerText = crawledPages.size;
-
-    const text = await response.text();
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(text, 'text/html');
-    const anchors = doc.querySelectorAll('a[href]');
-    
-    
-    
-    console.log("Fetched URL: ", url);
-
-    console.log("fixedUrl: ", fixedUrl);
-    console.log("Found anchors: ", anchors);
-*/
- 
-
-/*
-    let processedLinks = 0;
-
-    // Process anchors and remove '/backend' if present in the href
-    const fixedAnchors = Array.from(anchors).map(anchor => {
-      let href = anchor.href;
-      // Remove '/backend' if it's part of the href
-      if (href.includes('/backend')) {
-        href = href.replace(/\/backend/g, '');  // Remove all '/backend' segments in the URL
-        anchor.href = href;  // Update the anchor's href with the fixed URL
-      }
-      console.log("Fixed anchors: ", fixedAnchors);
-
-      const urlObj = new URL(href);
-      const subdomain = urlObj.hostname.split('.')[0];  // Assuming subdomains are first part of hostname
-
-      createSubdomainCheckbox(subdomain);
-
-      if (href.startsWith(baseDomain) && (!subdomainsExcluded || href.indexOf(baseDomain) === href.lastIndexOf(baseDomain))) {
-        if (!links.has(href) && !crawledPages.has(href)) {
-          links.add(href);
-          addLinkToTable(href, fixedUrl); // Pass the base URL (where anchor was found)
-          pendingUrls.push(href);
-          pendingUrlsDiv.innerText = pendingUrls.length;
-        } else if (filterDuplicates.checked) {
-          highlightDuplicate(href);
-        }
-      }
-
-      processedLinks++;
-      updateProgress(processedLinks, anchors.length);
-    });
-
-    if (pendingUrls.length > 0) {
-      const nextUrl = pendingUrls.shift();
-      fetchLinks(nextUrl);
-    }
-
-  } catch (error) {
-    errors.push(error.message);
-    handleError(error, url);
-} finally {
-    updateProgress();
-    updatePreview();
-
-  }
-   
-};
-        */
-
 // Function to add link to table with dynamic priority and scheduling
 const addLinkToTable = (url, sourceUrl) => {
   const tableBody = document.querySelector('#linkTable tbody');
   const row = document.createElement('tr');
   const priority = calculatePriority(url);
+
   row.innerHTML = `
     <td>${url}</td>
     <td><input type="number" value="${priority}" class="priority" step="0.1" min="0.0" max="1.0"></td>
@@ -539,15 +345,14 @@ const addLinkToTable = (url, sourceUrl) => {
     <td><span class="status">Pending</span></td>
     <td><input type="checkbox"></td>
   `;
+
   tableBody.appendChild(row);
   totalLinks++;
   document.getElementById('linkCount').textContent = totalLinks;
 
-  // Perform reachability check
   checkReachability(url, row, sourceUrl);
 };
 
-// Function to check the reachability of the link
 const checkReachability = async (url, row, sourceUrl) => {
   try {
     const response = await fetch(url);
@@ -560,43 +365,25 @@ const checkReachability = async (url, row, sourceUrl) => {
     } else {
       statusCell.textContent = 'Unreachable';
       statusCell.style.color = 'red';
-      // Make the URL clickable, linking back to the source page where the anchor was found
-      const clickableLink = document.createElement('a');
-      clickableLink.href = sourceUrl;
-      clickableLink.textContent = url;
-      clickableLink.target = "_blank"; // Open in new tab
-      urlCell.innerHTML = '';  // Clear the current URL text
-      urlCell.appendChild(clickableLink); // Append the clickable link
+      makeClickableLink(urlCell, sourceUrl, url);
     }
   } catch {
     const statusCell = row.querySelector('.status');
     const urlCell = row.querySelector('td:first-child');
     statusCell.textContent = 'Error';
     statusCell.style.color = 'red';
-
-    // Make the URL clickable if unreachable
-    const clickableLink = document.createElement('a');
-    clickableLink.href = sourceUrl;
-    clickableLink.textContent = url;
-    clickableLink.target = "_blank"; // Open in new tab
-    urlCell.innerHTML = '';  // Clear the current URL text
-    urlCell.appendChild(clickableLink); // Append the clickable link
+    makeClickableLink(urlCell, sourceUrl, url);
   }
 };
-   
-document.getElementById('selectReachableBtn').addEventListener('click', () => {
-  const rows = document.querySelectorAll('#linkTable tbody tr');
 
-  rows.forEach(row => {
-    const reachabilityCell = row.querySelector('.status');
-    const checkbox = row.querySelector('input[type="checkbox"]');
-
-    // Select checkbox only if reachability is "Reachable"
-    if (reachabilityCell && reachabilityCell.textContent.trim() === 'Reachable') {
-      checkbox.checked = true;
-    }
-  });
-});
+const makeClickableLink = (urlCell, sourceUrl, url) => {
+  const clickableLink = document.createElement('a');
+  clickableLink.href = sourceUrl;
+  clickableLink.textContent = url;
+  clickableLink.target = '_blank';
+  urlCell.innerHTML = '';
+  urlCell.appendChild(clickableLink);
+};
 
 // Sorting function for the table
 const sortTable = (columnIndex) => {
@@ -654,13 +441,6 @@ const sortTable = (columnIndex) => {
         // Update error log
      
 // When an error occurs, include the URL in the error message
-const handleError = (error, url) => {
-  const errorMessage = `Error on ${url}: ${error.message}`;
-  errors.push(errorMessage);
-  updateErrorLog(); // Update the error log after pushing the error
-};
-
-
 const updateErrorLog = (errors) => {
   const errorLog = document.getElementById('errorLog');
   if (errorLog) {
@@ -669,6 +449,13 @@ const updateErrorLog = (errors) => {
     console.error('Error log element not found!');
   }
 };
+
+const handleError = (error, url) => {
+  const errorMessage = `Error on ${url}: ${error.message}`;
+  errors.push(errorMessage);
+  updateErrorLog(errors); // Pass the errors array to keep logs updated
+};
+
 
         
         // Event listeners for filters
@@ -869,6 +656,108 @@ document.getElementById('exportJSON').addEventListener('click', () => {
 
 
 
+
+
+   /*
+
+
+        const fetchLinks = async (url) => {
+  try {
+ 
+    // If the page has already been crawled, skip it
+    if (crawledPages.has(url)) {
+      console.log(`Skipping already crawled page: ${url}`);
+      return;
+    }
+
+    // Preprocess the URL before making the fetch request
+    let fixedUrl = url;
+
+    // If the URL contains '/backend', remove that part
+    fixedUrl = fixedUrl.replace(/\/backend/g, '');  // Remove all '/backend' segments in the URL
+
+    // If the URL contains relative paths like '../', resolve them correctly
+    fixedUrl = fixedUrl.replace(/(?:\.\.\/)+/g, '/');  // Replace all '../' with the root (or current folder)
+
+    // Make sure the fixed URL is an absolute URL
+    if (!fixedUrl.startsWith('https')) {
+      fixedUrl = new URL(fixedUrl, baseDomain).href;
+    }
+
+    // Perform the fetch request with the fixed URL
+    const response = await fetch(fixedUrl);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch ${fixedUrl}: ${response.status}`);
+    }
+
+    // Mark the page as crawled
+    crawledPages.add(fixedUrl);
+    // Update the display with the count of crawled pages
+    crawledPagesDiv.innerText = crawledPages.size;
+
+    const text = await response.text();
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(text, 'text/html');
+    const anchors = doc.querySelectorAll('a[href]');
+    
+    
+    
+    console.log("Fetched URL: ", url);
+
+    console.log("fixedUrl: ", fixedUrl);
+    console.log("Found anchors: ", anchors);
+*/
+ 
+
+/*
+    let processedLinks = 0;
+
+    // Process anchors and remove '/backend' if present in the href
+    const fixedAnchors = Array.from(anchors).map(anchor => {
+      let href = anchor.href;
+      // Remove '/backend' if it's part of the href
+      if (href.includes('/backend')) {
+        href = href.replace(/\/backend/g, '');  // Remove all '/backend' segments in the URL
+        anchor.href = href;  // Update the anchor's href with the fixed URL
+      }
+      console.log("Fixed anchors: ", fixedAnchors);
+
+      const urlObj = new URL(href);
+      const subdomain = urlObj.hostname.split('.')[0];  // Assuming subdomains are first part of hostname
+
+      createSubdomainCheckbox(subdomain);
+
+      if (href.startsWith(baseDomain) && (!subdomainsExcluded || href.indexOf(baseDomain) === href.lastIndexOf(baseDomain))) {
+        if (!links.has(href) && !crawledPages.has(href)) {
+          links.add(href);
+          addLinkToTable(href, fixedUrl); // Pass the base URL (where anchor was found)
+          pendingUrls.push(href);
+          pendingUrlsDiv.innerText = pendingUrls.length;
+        } else if (filterDuplicates.checked) {
+          highlightDuplicate(href);
+        }
+      }
+
+      processedLinks++;
+      updateProgress(processedLinks, anchors.length);
+    });
+
+    if (pendingUrls.length > 0) {
+      const nextUrl = pendingUrls.shift();
+      fetchLinks(nextUrl);
+    }
+
+  } catch (error) {
+    errors.push(error.message);
+    handleError(error, url);
+} finally {
+    updateProgress();
+    updatePreview();
+
+  }
+   
+};
+        */
 
         </script>
              
