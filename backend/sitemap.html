@@ -91,7 +91,6 @@
 </nav>
 
     <div class="container mt-4">
-        <h1>Sitemap Generator</h1>
   
         <h1>Sitemap Generator</h1>
 
@@ -103,20 +102,20 @@
           <button id="exportJSON">Export JSON</button>
           <span>Total Links: <span id="linkCount">0</span></span>
         </div>
-      
-        <!-- Added a dropdown for scheduled crawling -->
+        
         <label for="crawlSchedule">Schedule Crawling:</label>
         <select id="crawlSchedule">
           <option value="none">None</option>
           <option value="daily">Daily</option>
           <option value="weekly">Weekly</option>
         </select>
-      
-        <div class="progress-bar">
-          <div id="progress" class="progress"></div>
+        
+        <div id="progressBarContainer">
+            <div id="progressBar" style="width: 0%; background-color: green; color: white; text-align: center;">
+              0%
+            </div>
         </div>
-      
-        <!-- Filters for duplicate detection and file type filtering -->
+        
         <div class="filters">
           <label>
             <input type="checkbox" id="filterUnique"> Show only unique links
@@ -128,13 +127,13 @@
             <input type="checkbox" id="filterDuplicates"> Highlight duplicate links
           </label>
         </div>
-      
+        
         <div class="table-container">
           <table id="linkTable">
             <thead>
               <tr>
                 <th onclick="sortTable(0)">URL</th>
-                <th>Priority</th>
+                <th onclick="sortTable(1)">Priority</th>
                 <th>Changefreq</th>
                 <th>Last Modified</th>
                 <th>Reachability</th>
@@ -144,174 +143,208 @@
             <tbody></tbody>
           </table>
         </div>
-      
+        
         <button id="downloadBtn">Download Sitemap</button>
         <textarea id="sitemapOutput" readonly></textarea>
         <button id="copyBtn">Copy to Clipboard</button>
-      
+        
         <h2>Preview</h2>
         <div class="preview" id="previewPane">Sitemap preview will appear here.</div>
-      
+        
         <h2>Error Log</h2>
         <div class="error-log" id="errorLog"></div>
-      
+        
         <script>
-          const baseDomain = 'https://reelcareer.co';
-          let links = new Set();
-          let errors = [];
-          let crawling = false;
-          let totalLinks = 0;
-      
-          // Advanced Sorting and Filtering
-          const filterUnique = document.getElementById('filterUnique');
-          const filterHTML = document.getElementById('filterHTML');
-          const filterDuplicates = document.getElementById('filterDuplicates');
-      
-          const fetchLinks = async (url) => {
-  try {
-    const response = await fetch(url);
-    if (!response.ok) throw new Error(`Failed to fetch ${url}: ${response.status}`);
-    const text = await response.text();
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(text, 'text/html');
-    const anchors = doc.querySelectorAll('a[href]');
-
-    anchors.forEach(anchor => {
-      let href = anchor.href;
-
-      // If the href is a relative URL, convert it to an absolute URL
-      if (href.startsWith('/')) {
-        href = new URL(href, baseDomain).href; // Make it absolute by combining with baseDomain
-      }
-
-      // Check if the URL starts with the base domain
-      if (href.startsWith(baseDomain)) {
-        // If the link is unique, add it
-        if (!links.has(href)) {
-          links.add(href);
-          addLinkToTable(href);
-        } else if (filterDuplicates.checked) {
-          // Highlight duplicates if the filter is checked
-          highlightDuplicate(href);
-        }
-      }
-    });
-  } catch (error) {
-    errors.push(error.message);
-    updateErrorLog();
-  } finally {
-    updateProgress();
-  }
-};
-
-      
-          const addLinkToTable = (url) => {
-            const tableBody = document.querySelector('#linkTable tbody');
-            const row = document.createElement('tr');
-            row.innerHTML = `
-              <td>${url}</td>
-              <td><input type="number" value="0.5" class="priority" step="0.1" min="0.0" max="1.0"></td>
-              <td>
-                <select>
-                  <option value="daily">Daily</option>
-                  <option value="weekly">Weekly</option>
-                  <option value="monthly">Monthly</option>
-                </select>
-              </td>
-              <td>${new Date().toISOString().split('T')[0]}</td>
-              <td><span class="status">Pending</span></td>
-              <td><input type="checkbox"></td>
-            `;
-            tableBody.appendChild(row);
-            totalLinks++;
-            document.getElementById('linkCount').textContent = totalLinks;
-      
-            // Perform reachability check
-            checkReachability(url, row);
-          };
-      
-          const checkReachability = async (url, row) => {
-            try {
-              const response = await fetch(url);
-              const statusCell = row.querySelector('.status');
-              statusCell.textContent = response.ok ? 'Reachable' : 'Unreachable';
-              statusCell.style.color = response.ok ? 'green' : 'red';
-            } catch {
-              row.querySelector('.status').textContent = 'Error';
-              row.querySelector('.status').style.color = 'red';
-            }
-          };
-      
-          const highlightDuplicate = (url) => {
-            const rows = document.querySelectorAll('#linkTable tbody tr');
-            rows.forEach(row => {
-              if (row.firstChild.textContent === url) {
-                row.style.backgroundColor = '#ffcccc';
+        const baseDomain = 'https://reelcareer.co';
+        let links = new Set();
+        let errors = [];
+        let crawling = false;
+        let totalLinks = 0;
+        let subdomainsExcluded = false;
+        
+        // Advanced Sorting and Filtering
+        const filterUnique = document.getElementById('filterUnique');
+        const filterHTML = document.getElementById('filterHTML');
+        const filterDuplicates = document.getElementById('filterDuplicates');
+        const progressBar = document.getElementById('progressBar');
+        const errorLog = document.getElementById('errorLog');
+        
+        const fetchLinks = async (url) => {
+          try {
+            const response = await fetch(url);
+            if (!response.ok) throw new Error(`Failed to fetch ${url}: ${response.status}`);
+            const text = await response.text();
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(text, 'text/html');
+            const anchors = doc.querySelectorAll('a[href]');
+            
+            let processedLinks = 0;
+            anchors.forEach(anchor => {
+              let href = anchor.href;
+              
+              // If the href is a relative URL, convert it to an absolute URL
+              if (href.startsWith('/')) {
+                href = new URL(href, baseDomain).href; // Make it absolute by combining with baseDomain
               }
+              
+              // Check if the URL starts with the base domain and handle subdomains
+              if (href.startsWith(baseDomain) && (!subdomainsExcluded || href.indexOf(baseDomain) === href.lastIndexOf(baseDomain))) {
+                if (!links.has(href)) {
+                  links.add(href);
+                  addLinkToTable(href);
+                } else if (filterDuplicates.checked) {
+                  highlightDuplicate(href);
+                }
+              }
+        
+              processedLinks++;
+              updateProgress(processedLinks, anchors.length);
             });
-          };
-      
-
-          
-// Add event listeners for filters
-filterUnique.addEventListener('change', () => {
-  filterLinks();
-});
-
-filterHTML.addEventListener('change', () => {
-  filterLinks();
-});
-
-// Function to filter and display links based on selected filters
-const filterLinks = () => {
-  const tableRows = document.querySelectorAll('#linkTable tbody tr');
-  tableRows.forEach(row => {
-    const urlCell = row.querySelector('td:first-child');
-    const url = urlCell.textContent;
-
-    let showRow = true;
-
-    // Filter by unique links
-    if (filterUnique.checked) {
-      const uniqueLinks = new Set();
-      if (uniqueLinks.has(url)) {
-        showRow = false;
-      } else {
-        uniqueLinks.add(url);
-      }
-    }
-
-    // Filter by .html links
-    if (filterHTML.checked && !url.endsWith('.html')) {
-      showRow = false;
-    }
-
-    // Show or hide row based on filters
-    if (showRow) {
-      row.style.display = '';
-    } else {
-      row.style.display = 'none';
-    }
-  });
-};
-
-          // Scheduled Crawling Placeholder
-          const scheduleCrawling = document.getElementById('crawlSchedule');
-          scheduleCrawling.addEventListener('change', (e) => {
-            console.log(`Scheduled crawling set to: ${e.target.value}`);
+          } catch (error) {
+            errors.push(error.message);
+            updateErrorLog();
+          } finally {
+            updateProgress();
+          }
+        };
+        
+        // Function to add link to table with dynamic priority and scheduling
+        const addLinkToTable = (url) => {
+          const tableBody = document.querySelector('#linkTable tbody');
+          const row = document.createElement('tr');
+          const priority = calculatePriority(url);
+          row.innerHTML = `
+            <td>${url}</td>
+            <td><input type="number" value="${priority}" class="priority" step="0.1" min="0.0" max="1.0"></td>
+            <td>
+              <select>
+                <option value="daily">Daily</option>
+                <option value="weekly">Weekly</option>
+                <option value="monthly">Monthly</option>
+              </select>
+            </td>
+            <td>${new Date().toISOString().split('T')[0]}</td>
+            <td><span class="status">Pending</span></td>
+            <td><input type="checkbox"></td>
+          `;
+          tableBody.appendChild(row);
+          totalLinks++;
+          document.getElementById('linkCount').textContent = totalLinks;
+        
+          // Perform reachability check
+          checkReachability(url, row);
+        };
+        
+        // Function to dynamically calculate priority based on URL depth and importance
+        const calculatePriority = (url) => {
+          const depth = url.split('/').length;
+          let priority = 1.0;
+        
+          // Set priority based on depth, homepage gets the highest priority
+          if (depth > 3) {
+            priority = 0.5;
+          }
+          if (url.includes('homepage') || url.includes('index')) {
+            priority = 1.0;  // Homepages get higher priority
+          }
+        
+          return priority;
+        };
+        
+        // Function to check the reachability of the link
+        const checkReachability = async (url, row) => {
+          try {
+            const response = await fetch(url);
+            const statusCell = row.querySelector('.status');
+            statusCell.textContent = response.ok ? 'Reachable' : 'Unreachable';
+            statusCell.style.color = response.ok ? 'green' : 'red';
+          } catch {
+            row.querySelector('.status').textContent = 'Error';
+            row.querySelector('.status').style.color = 'red';
+          }
+        };
+        
+        // Function to highlight duplicate links
+        const highlightDuplicate = (url) => {
+          const rows = document.querySelectorAll('#linkTable tbody tr');
+          rows.forEach(row => {
+            if (row.firstChild.textContent === url) {
+              row.style.backgroundColor = '#ffcccc';
+            }
           });
-      
-          document.getElementById('startBtn').addEventListener('click', async () => {
-            crawling = true;
-            totalLinks = 0;
-            links.clear();
-            errors = [];
-            await fetchLinks(baseDomain);
-            updatePreview();
+        };
+        
+        // Update progress function
+        const updateProgress = (processedLinks = 0, totalLinks = 0) => {
+          const progress = totalLinks > 0 ? (processedLinks / totalLinks) * 100 : 0;
+          progressBar.style.width = `${progress}%`;
+          progressBar.textContent = `${Math.round(progress)}%`;
+        };
+        
+        // Update error log
+        const updateErrorLog = () => {
+          errorLog.innerHTML = errors.map(error => `<p>${error}</p>`).join('');
+        };
+        
+        // Event listeners for filters
+        filterUnique.addEventListener('change', () => {
+          filterLinks();
+        });
+        
+        filterHTML.addEventListener('change', () => {
+          filterLinks();
+        });
+        
+        // Function to filter and display links based on selected filters
+        const filterLinks = () => {
+          const tableRows = document.querySelectorAll('#linkTable tbody tr');
+          tableRows.forEach(row => {
+            const urlCell = row.querySelector('td:first-child');
+            const url = urlCell.textContent;
+        
+            let showRow = true;
+        
+            // Filter by unique links
+            if (filterUnique.checked) {
+              const uniqueLinks = new Set();
+              if (uniqueLinks.has(url)) {
+                showRow = false;
+              } else {
+                uniqueLinks.add(url);
+              }
+            }
+        
+            // Filter by .html links
+            if (filterHTML.checked && !url.endsWith('.html')) {
+              showRow = false;
+            }
+        
+            // Show or hide row based on filters
+            if (showRow) {
+              row.style.display = '';
+            } else {
+              row.style.display = 'none';
+            }
           });
+        };
+        
+        // Event listener to exclude subdomains
+        document.getElementById('excludeSubdomains').addEventListener('change', (e) => {
+          subdomainsExcluded = e.target.checked;
+        });
+        
+        // Start and stop crawling
+        document.getElementById('startBtn').addEventListener('click', async () => {
+          crawling = true;
+          totalLinks = 0;
+          links.clear();
+          errors = [];
+          await fetchLinks(baseDomain);
+          updatePreview();
+        });
+        
         </script>
-
-
+             
 
 
         </div>
