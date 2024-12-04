@@ -262,6 +262,7 @@ let pendingUrls = []; // Queue of URLs to fetch
         href = href.replace(/\/backend/g, '');  // Remove all '/backend' segments in the URL
         anchor.href = href;  // Update the anchor's href with the fixed URL
       }
+      console.log("Fixed anchors: ", fixedAnchors);
 
       const urlObj = new URL(href);
       const subdomain = urlObj.hostname.split('.')[0];  // Assuming subdomains are first part of hostname
@@ -282,7 +283,6 @@ let pendingUrls = []; // Queue of URLs to fetch
       processedLinks++;
       updateProgress(processedLinks, anchors.length);
     });
-    console.log("Fixed anchors: ", fixedAnchors);
 
     if (pendingUrls.length > 0) {
       const nextUrl = pendingUrls.shift();
