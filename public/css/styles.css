@@ -548,6 +548,14 @@ main .btn-info:hover {
         width: 100%;
         font-size: x-large;
         font-family: system-ui;
+
+
+     
+          border-bottom-right-radius: 20%;
+          border-bottom-left-radius: 20%;
+          border-top-left-radius: 20px;
+          border-top-right-radius: 20px;
+      
     }
 
 .source-text-area {
