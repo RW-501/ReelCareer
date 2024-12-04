@@ -146,20 +146,21 @@
         </div>
         
         <div class="table-container">
-          <table id="linkTable">
-            <thead>
-              <tr>
-                <th onclick="sortTable(0)">URL</th>
-                <th onclick="sortTable(1)">Priority</th>
-                <th>Changefreq</th>
-                <th>Last Modified</th>
-                <th>Reachability</th>
-                <th>Select</th>
-              </tr>
-            </thead>
-            <tbody></tbody>
-          </table>
-        </div>
+            <table id="linkTable">
+              <thead>
+                <tr>
+                  <th onclick="sortTable(0)">URL</th>
+                  <th onclick="sortTable(1)">Priority</th>
+                  <th>Changefreq</th>
+                  <th>Last Modified</th>
+                  <th onclick="sortTable(4)">Reachability</th> <!-- Added sort click event on Reachability -->
+                  <th>Select</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+          
         
         <button id="downloadBtn">Download Sitemap</button>
         <textarea id="sitemapOutput" readonly></textarea>
@@ -199,115 +200,166 @@ let pendingUrls = []; // Queue of URLs to fetch
 
         
         const fetchLinks = async (url) => {
-    try {
-        // If the page has already been crawled, skip it
-        if (crawledPages.has(url)) {
-            console.log(`Skipping already crawled page: ${url}`);
-            return;
-        }
-
-        const response = await fetch(url);
-        if (!response.ok) {
-            throw new Error(`Failed to fetch ${url}: ${response.status}`);
-        }
-
-        // Mark the page as crawled
-        crawledPages.add(url);
-        // Update the display with the count of crawled pages
-        crawledPagesDiv.innerText = crawledPages.size;
-
-        const text = await response.text();
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(text, 'text/html');
-        const anchors = doc.querySelectorAll('a[href]');
-
-        console.log("Fetched URL: ", url);
-        console.log("Found anchors: ", anchors);
-
-        let processedLinks = 0;
-        anchors.forEach(anchor => {
-            let href = anchor.href;
-
-            // If the href is a relative URL, convert it to an absolute URL
-            if (href.startsWith('/')) {
-                // Normalize the path if it starts with /backend
-                if (href.startsWith('/backend')) {
-                    href = href.replace('/backend', '');  // Remove '/backend' from the URL path
-                }
-                href = new URL(href, baseDomain).href; // Make it absolute by combining with baseDomain
-            } else if (href.startsWith('.../')) {
-                // For paths like ".../path", handle them as relative paths, appending to base domain
-                href = new URL(href.replace('.../', '/'), baseDomain).href;
-            }
-
-            // Extract subdomain from URL
-            const urlObj = new URL(href);
-            const subdomain = urlObj.hostname.split('.')[0];  // Assuming subdomains are first part of hostname
-
-            // Create a checkbox for the subdomain if not already created
-            createSubdomainCheckbox(subdomain);
-
-            // Check if the URL starts with the base domain and handle subdomains
-            if (href.startsWith(baseDomain) && (!subdomainsExcluded || href.indexOf(baseDomain) === href.lastIndexOf(baseDomain))) {
-                if (!links.has(href) && !crawledPages.has(href)) {
-                    links.add(href);
-                    addLinkToTable(href);
-                    pendingUrls.push(href); // Add the link to pending URLs for later fetching
-                    pendingUrlsDiv.innerText = pendingUrls.length;
-                } else if (filterDuplicates.checked) {
-                    highlightDuplicate(href);
-                }
-            }
-
-            processedLinks++;
-            updateProgress(processedLinks, anchors.length);
-        });
-
-        // Fetch the next URL from the pending queue
-        if (pendingUrls.length > 0) {
-            const nextUrl = pendingUrls.shift(); // Get the next URL to crawl
-            fetchLinks(nextUrl); // Fetch that URL
-        }
-
-    } catch (error) {
-        errors.push(error.message);
-        updateErrorLog();
-    } finally {
-        updateProgress();
+  try {
+    // If the page has already been crawled, skip it
+    if (crawledPages.has(url)) {
+      console.log(`Skipping already crawled page: ${url}`);
+      return;
     }
+
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch ${url}: ${response.status}`);
+    }
+
+    // Mark the page as crawled
+    crawledPages.add(url);
+    // Update the display with the count of crawled pages
+    crawledPagesDiv.innerText = crawledPages.size;
+
+    const text = await response.text();
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(text, 'text/html');
+    const anchors = doc.querySelectorAll('a[href]');
+
+    console.log("Fetched URL: ", url);
+    console.log("Found anchors: ", anchors);
+
+    let processedLinks = 0;
+    anchors.forEach(anchor => {
+      let href = anchor.href;
+
+      // If the href is a relative URL, convert it to an absolute URL
+      if (href.startsWith('/')) {
+        if (href.startsWith('/backend')) {
+          href = href.replace('/backend', '');  // Remove '/backend' from the URL path
+        }
+        href = new URL(href, baseDomain).href; // Make it absolute by combining with baseDomain
+      } else if (href.startsWith('.../')) {
+        href = new URL(href.replace('.../', '/'), baseDomain).href;
+      }
+
+      const urlObj = new URL(href);
+      const subdomain = urlObj.hostname.split('.')[0];  // Assuming subdomains are first part of hostname
+
+      createSubdomainCheckbox(subdomain);
+
+      if (href.startsWith(baseDomain) && (!subdomainsExcluded || href.indexOf(baseDomain) === href.lastIndexOf(baseDomain))) {
+        if (!links.has(href) && !crawledPages.has(href)) {
+          links.add(href);
+          addLinkToTable(href, url); // Pass the base URL (where anchor was found)
+          pendingUrls.push(href);
+          pendingUrlsDiv.innerText = pendingUrls.length;
+        } else if (filterDuplicates.checked) {
+          highlightDuplicate(href);
+        }
+      }
+
+      processedLinks++;
+      updateProgress(processedLinks, anchors.length);
+    });
+
+    if (pendingUrls.length > 0) {
+      const nextUrl = pendingUrls.shift();
+      fetchLinks(nextUrl);
+    }
+
+  } catch (error) {
+    errors.push(error.message);
+    updateErrorLog();
+  } finally {
+    updateProgress();
+  }
 };
 
-        // Function to add link to table with dynamic priority and scheduling
-        const addLinkToTable = (url) => {
-          const tableBody = document.querySelector('#linkTable tbody');
-          const row = document.createElement('tr');
-          const priority = calculatePriority(url);
-          row.innerHTML = `
-            <td>${url}</td>
-            <td><input type="number" value="${priority}" class="priority" step="0.1" min="0.0" max="1.0"></td>
-            <td>
-              <select>
-                <option value="daily">Daily</option>
-                <option value="weekly">Weekly</option>
-                <option value="monthly">Monthly</option>
-              </select>
-            </td>
-            <td>${new Date().toISOString().split('T')[0]}</td>
-            <td><span class="status">Pending</span></td>
-            <td><input type="checkbox"></td>
-          `;
-          tableBody.appendChild(row);
-          totalLinks++;
-          document.getElementById('linkCount').textContent = totalLinks;
-        
-          // Perform reachability check
-          checkReachability(url, row);
-        };
+// Function to add link to table with dynamic priority and scheduling
+const addLinkToTable = (url, sourceUrl) => {
+  const tableBody = document.querySelector('#linkTable tbody');
+  const row = document.createElement('tr');
+  const priority = calculatePriority(url);
+  row.innerHTML = `
+    <td>${url}</td>
+    <td><input type="number" value="${priority}" class="priority" step="0.1" min="0.0" max="1.0"></td>
+    <td>
+      <select>
+        <option value="daily">Daily</option>
+        <option value="weekly">Weekly</option>
+        <option value="monthly">Monthly</option>
+      </select>
+    </td>
+    <td>${new Date().toISOString().split('T')[0]}</td>
+    <td><span class="status">Pending</span></td>
+    <td><input type="checkbox"></td>
+  `;
+  tableBody.appendChild(row);
+  totalLinks++;
+  document.getElementById('linkCount').textContent = totalLinks;
 
-        
+  // Perform reachability check
+  checkReachability(url, row, sourceUrl);
+};
 
+// Function to check the reachability of the link
+const checkReachability = async (url, row, sourceUrl) => {
+  try {
+    const response = await fetch(url);
+    const statusCell = row.querySelector('.status');
+    const urlCell = row.querySelector('td:first-child');
 
+    if (response.ok) {
+      statusCell.textContent = 'Reachable';
+      statusCell.style.color = 'green';
+    } else {
+      statusCell.textContent = 'Unreachable';
+      statusCell.style.color = 'red';
+      // Make the URL clickable, linking back to the source page where the anchor was found
+      const clickableLink = document.createElement('a');
+      clickableLink.href = sourceUrl;
+      clickableLink.textContent = url;
+      clickableLink.target = "_blank"; // Open in new tab
+      urlCell.innerHTML = '';  // Clear the current URL text
+      urlCell.appendChild(clickableLink); // Append the clickable link
+    }
+  } catch {
+    const statusCell = row.querySelector('.status');
+    const urlCell = row.querySelector('td:first-child');
+    statusCell.textContent = 'Error';
+    statusCell.style.color = 'red';
+
+    // Make the URL clickable if unreachable
+    const clickableLink = document.createElement('a');
+    clickableLink.href = sourceUrl;
+    clickableLink.textContent = url;
+    clickableLink.target = "_blank"; // Open in new tab
+    urlCell.innerHTML = '';  // Clear the current URL text
+    urlCell.appendChild(clickableLink); // Append the clickable link
+  }
+};
+   
         
+// Sorting function for the table
+const sortTable = (columnIndex) => {
+  const table = document.getElementById('linkTable');
+  const rows = Array.from(table.rows).slice(1);  // Skip the header row
+
+  rows.sort((rowA, rowB) => {
+    const cellA = rowA.cells[columnIndex].textContent.trim();
+    const cellB = rowB.cells[columnIndex].textContent.trim();
+
+    // Sorting logic for Reachability column (index 4)
+    if (columnIndex === 4) {
+      // Define custom sorting for 'Reachability' column (Pending > Accessible > Not Accessible)
+      const reachabilityOrder = { 'Pending': 0, 'Accessible': 1, 'Not Accessible': 2 };
+      return reachabilityOrder[cellA] - reachabilityOrder[cellB];
+    }
+
+    // Default sorting logic for other columns (lexicographical or numerical)
+    return cellA.localeCompare(cellB);
+  });
+
+  // Append the sorted rows back to the table
+  rows.forEach(row => table.appendChild(row));
+};
 
         // Function to dynamically calculate priority based on URL depth and importance
         const calculatePriority = (url) => {
@@ -325,19 +377,7 @@ let pendingUrls = []; // Queue of URLs to fetch
           return priority;
         };
         
-        // Function to check the reachability of the link
-        const checkReachability = async (url, row) => {
-          try {
-            const response = await fetch(url);
-            const statusCell = row.querySelector('.status');
-            statusCell.textContent = response.ok ? 'Reachable' : 'Unreachable';
-            statusCell.style.color = response.ok ? 'green' : 'red';
-          } catch {
-            row.querySelector('.status').textContent = 'Error';
-            row.querySelector('.status').style.color = 'red';
-          }
-        };
-        
+
         // Function to highlight duplicate links
         const highlightDuplicate = (url) => {
           const rows = document.querySelectorAll('#linkTable tbody tr');
