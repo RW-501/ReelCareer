@@ -167,7 +167,7 @@
         import {
             db, doc, getDoc, query, updateDoc,
             setDoc, ref, signInWithPopup, orderBy,
-             
+
             uploadBytes, OAuthProvider, arrayUnion, getStorage,
             signOut, addDoc, increment, onAuthStateChanged,
             createUserWithEmailAndPassword, signInWithEmailAndPassword,
@@ -175,8 +175,7 @@
             auth, analytics, deleteDoc, getDownloadURL
         } from 'https://reelcareer.co/js/module.js';
 
-
-        // Fetch and render contacts
+      // Fetch and render contacts
   // Function to render contact messages in the admin panel
 function renderContacts(contacts) {
     const container = document.getElementById('contacts-container');
@@ -217,9 +216,9 @@ function renderContacts(contacts) {
     }
 }
 
-// Example of how to fetch contacts and call renderContacts
+
 async function fetchAndRenderContacts() {
-    const contactsCollection = collection(db, "Contacts");
+    const contactsCollection = collection(db, "Contacts"); // Pass `db` as the first argument to `collection`
 
     try {
         const snapshot = await getDocs(contactsCollection);
@@ -235,12 +234,15 @@ async function fetchAndRenderContacts() {
     }
 }
 
+
         function goToAdminContact(docId) {
             window.location.href = `#${docId}`;
         }
+        window.onload = () => {
+    // Initialize the fetching process after the window has loaded
+    fetchAndRenderContacts();
+};
 
-        // Initialize the fetching process
-        fetchAndRenderContacts();
     </script>
 
 </body>
