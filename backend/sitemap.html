@@ -22,6 +22,16 @@
         .error-log { margin-top: 20px; }
         .preview { margin-top: 20px; border: 1px solid #ccc; padding: 10px; }
         .filters { margin-top: 10px; }
+
+        main {
+    width: 100%;
+    margin: 2rem auto;
+    padding: 2rem;
+    overflow: hidden;
+    height: 100%;
+    display: grid;
+    font-family: 'Roboto', sans-serif;
+}
       </style>
 </head>
 
@@ -90,8 +100,11 @@
     </div>
 </nav>
 
-    <div class="container mt-4">
-  
+
+<main id="main-content">
+
+
+<div class="container mt-4">
         <h1>Sitemap Generator</h1>
 
         <div class="controls">
@@ -153,7 +166,12 @@
         
         <h2>Error Log</h2>
         <div class="error-log" id="errorLog"></div>
+
         
+        </main>
+
+
+
         <script>
         const baseDomain = 'https://reelcareer.co';
         let links = new Set();
