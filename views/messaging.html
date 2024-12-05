@@ -505,7 +505,7 @@ async function fetchConnections() {
 
 
 let connectionssRef = collection(db, 'Connections');
-const querySnapshot = query(connectionssRef, where('participants', 'array-contains', userID));
+const querySnapshot = query(connectionssRef, where('participants', 'in', userID));
 
     querySnapshot.forEach(doc => {
       const connectionData = doc.data();
