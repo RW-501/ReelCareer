@@ -2214,13 +2214,12 @@ document.addEventListener('DOMContentLoaded', function () {
     }, initialBodyDelay);
   }
 
-  // Example usage
-  rollInAnimations();
 
 
 
 
 
+  
   const handleLazyLoad = (entries, observer) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -2314,10 +2313,10 @@ document.addEventListener('DOMContentLoaded', function () {
     enableSkeletonRemoval: true,
   };
   
-  initializeLazyLoading(lazyLoadSettings);
-  
 
   
+
+
   function scrollToDivOnLoad(divId = null) {
     // Ensure the page loads at the top by default
     window.scrollTo({ top: 0, behavior: "auto" });
@@ -2337,9 +2336,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
   
-  // Usage example:
-  // Default load at the top
-  scrollToDivOnLoad();
+ 
   
   /*
   // Extract `divId` from URL if available
@@ -2354,7 +2351,24 @@ document.addEventListener('DOMContentLoaded', function () {
   //scrollToDivOnLoad("targetDivId");
         
 
-
+  const waitForElements = (selector, callback) => {
+    const elements = document.querySelectorAll(selector);
+    if (elements.length > 0) {
+      callback(elements);
+    } else {
+      requestAnimationFrame(() => waitForElements(selector, callback));
+    }
+  };
+  
+  waitForElements("main .lazy-load", () => {
+      // Example usage
+  rollInAnimations();
+ // Usage example:
+  // Default load at the top
+  scrollToDivOnLoad();
+    initializeLazyLoading(lazyLoadSettings);
+  });
+  
 
 
 
