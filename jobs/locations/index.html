@@ -267,9 +267,9 @@
       const stateListHTML = states
   .filter(state => state && state.trim() !== "") // Filter out null, empty, or whitespace-only states
   .map(state => `
-    <div class="state-city-card ">
-      <a href="https://reelcareer.co/jobs/state#${state}"><i class="fas fa-city"></i></a>
-      <h4><a href="https://reelcareer.co/jobs/state#${state}">${state}</a></h4>
+   <a href="https://reelcareer.co/jobs/state#${state}"> <div class="state-city-card ">
+      <i class="fas fa-city"></i>
+      <h4>${state}</h4></a>
     </div>`)
   .join("");
 
@@ -322,9 +322,9 @@
 
             <div class="city-list">
               ${cityList.map(city => `
-              <div class="state-city-card" data-job-location="${city}">
-                  <a href="https://reelcareer.co/jobs/city#${city}"><i class="fas fa-city"></i></a>
-                  <h4><a href="https://reelcareer.co/jobs/city#${city}">${city}</a></h4>
+              <a href="https://reelcareer.co/jobs/city#${city}"><div class="state-city-card" data-job-location="${city}">
+                  <i class="fas fa-city"></i>
+                  <h4>${city}</h4></a>
                 </div>
               `).join("")}
             </div>
