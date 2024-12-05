@@ -2218,9 +2218,6 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 */
 
-});
-
-
 
 
 
@@ -2367,6 +2364,20 @@ document.addEventListener('DOMContentLoaded', function () {
   // Scroll to a specific div if ID is provided, for example "targetDivId"
   //scrollToDivOnLoad("targetDivId");
         
+
+
+
+
+
+});
+
+
+
+
+
+
+
+
 let USERDATA = '';
 
 
