@@ -532,9 +532,8 @@ if(connection.from == userId){
 
 connectionId = connection.from ; // Use a unique identifier (from sender or receiver ID)
 
-console.log("userDataSaved.userID: ", userDataSaved.userID);
-console.log("userId: ", userId);
-console.log("connectionId: ", connectionId);
+
+
 
     const existingConnection = document.querySelector(`[data-connection-id="${connectionId}"]`);
 
@@ -574,6 +573,10 @@ console.log("connectionId: ", connectionId);
         div.innerHTML = connectionInfo;
 
     } else {
+
+        const noteDiv = document.createElement('div');
+        noteDiv.classList.add('connection-note');
+
         if (connection.status === "pending") {
             if (connection.from === userDataSaved.userID) {
                 const connectionInfo = `
@@ -584,6 +587,12 @@ console.log("connectionId: ", connectionId);
                 <button onclick="acceptConnection('${connection.to}', '${connection.from}')">Accept</button>
                 `;
                 div.innerHTML = connectionInfo;
+                noteDiv.innerHTML = connection.fromNote;
+                div.appendChild(noteDiv);
+
+
+                composeMessages(connection.from, connection);
+
             } else if (connection.to === userDataSaved.userID) {
                 const connectionInfo = `
                 <div>
@@ -593,6 +602,10 @@ console.log("connectionId: ", connectionId);
                 <button onclick="removeConnection('${connection.from}', '${connection.to}')">Remove</button>
                 `;
                 div.innerHTML = connectionInfo;
+
+
+                composeMessages(connection.to, connection);
+
             }
    
 
@@ -605,6 +618,9 @@ console.log("connectionId: ", connectionId);
                 contactInfoDiv.innerHTML = contactInfo;
 
         } else   if (connection.status === "accepted") {
+
+            const groupDiv = document.createElement('div');
+            groupDiv.classList.add('connection-group');
 
             console.log("userDataSaved.userID: ", userDataSaved.userID);
             console.log("connection.from: ", connection.from);
@@ -621,6 +637,8 @@ console.log("connectionId: ", connectionId);
                 `;
                 div.innerHTML = connectionInfo;
 
+                groupDiv.innerHTML = `<button onclick="changeGroup('${connection.from},${connection.fromGroup}, "fromGroup" ')">${connection.fromGroup}</button>`;
+                div.appendChild(groupDiv);
             composeMessages(connection.from, connection);
 
             } else if (connection.to == userDataSaved.userID) {
@@ -634,6 +652,8 @@ console.log("connectionId: ", connectionId);
             `;
             div.innerHTML = connectionInfo;
    
+            groupDiv.innerHTML = `<button onclick="changeGroup('${connection.to},${connection.toGroup}, "toGroup" ')">${connection.toGroup}</button>`;
+            div.appendChild(groupDiv);
 
                 composeMessages(connection.to, connection);
             }
@@ -650,6 +670,20 @@ console.log("connectionId: ", connectionId);
     openSlidePanelBtn.dispatchEvent(openEvent);
 
 }
+
+
+// Function to update the group in the "Connection" collection
+async function changeGroup(contactId, newGroup, Group) {
+  try {
+    // Example using Firestore
+    const connectionRef = doc(firestore, "Connections", contactId);
+    await updateDoc(connectionRef, { Group: newGroup });
+    console.log(`Group updated to "${newGroup}" for contact "${contactId}"`);
+  } catch (error) {
+    console.error("Error updating group:", error);
+  }
+}
+window.changeGroup = changeGroup;
 
 function viewProfile(userId){
     if (userId) {
