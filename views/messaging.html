@@ -684,7 +684,7 @@ document.getElementById("connectionsList").innerHTML = '';
 async function changeGroup(contactId, newGroup, Group) { 
   try {
     // Example using Firestore
-    const connectionRef = doc(firestore, "Connections", contactId);
+    const connectionRef = doc(db, "Connections", contactId);
     await updateDoc(connectionRef, { Group: newGroup });
     console.log(`Group updated to "${newGroup}" for contact "${contactId}"`);
   } catch (error) {
