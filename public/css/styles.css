@@ -1531,7 +1531,7 @@ main .jobCard:hover {
     font-variant: small-caps;
 }
 
-.lazy-load, .card {
+.lazy-load {
   height: 200px;
   margin: 20px;
   background-color: #ccc;
