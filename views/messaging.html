@@ -891,7 +891,7 @@ function loadContacts(userID) {
     contactList.appendChild(messageSection);
 
     let contactsRef = collection(db, 'Messages');
-    let messagesQuery = query(contactsRef, where('participants', 'in', userID));
+    let messagesQuery = query(contactsRef, where('participants', 'array-containsin', userID));
     
     // Map to track displayed messages
     const displayedMessages = new Set();
@@ -1039,7 +1039,7 @@ contactInfo.innerHTML = `<p>Contact: ${data.toName}</p>
 
         
         messageBox.innerHTML = '';
-        const messagesRef = collection(db, 'Messages');
+        const messagesRef = collection(db, 'Messages'); //array-contains
         const q = query(messagesRef, where('participants', 'array-contains-any', participants), orderBy('createdAt'));
    
         
