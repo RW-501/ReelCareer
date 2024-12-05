@@ -1543,8 +1543,8 @@ main .jobCard:hover {
   color: #555;
 }
 .loaded {
-  background-color: #4caf50;
-  color: white;
+  opacity: 1;
+
 }
 .fade-in {
   transition: opacity 0.5s ease-in-out;
