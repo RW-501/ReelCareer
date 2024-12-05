@@ -210,7 +210,7 @@
     document.title = `ReelCareer.co | Jobs in ${cityData.name}`;
 
     // Helper function to create or update a meta tag
-    function updateMetaOrLinkTag(name, content, isProperty = false, isCanonical = false) {
+    function updateMetaTag(name, content, isProperty = false, isCanonical = false) {
     let element;
 
     if (isCanonical) {
@@ -236,7 +236,7 @@
         }
         element.setAttribute('content', content);
     }
-}
+
 
 
     // Meta tags for SEO
@@ -259,7 +259,7 @@
 
     // Canonical link
     updateMetaTag(null, cityData.url || window.location.href, false, true);
-
+  }
 
 
 }
