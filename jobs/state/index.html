@@ -216,38 +216,57 @@
     document.title = `ReelCareer.co | Jobs in ${stateData.name}`;
 
     // Helper function to create or update a meta tag
-    function updateMetaTag(name, content, property = false) {
-        let meta = document.querySelector(property ? `meta[property="${name}"]` : `meta[name="${name}"]`);
-        if (!meta) {
-            meta = document.createElement('meta');
-            if (property) {
-                meta.setAttribute('property', name);
-            } else {
-                meta.setAttribute('name', name);
-            }
-            document.head.appendChild(meta);
+    function updateMetaOrLinkTag(name, content, isProperty = false, isCanonical = false) {
+    let element;
+
+    if (isCanonical) {
+        // Handle canonical links
+        element = document.querySelector('link[rel="canonical"]');
+        if (!element) {
+            element = document.createElement('link');
+            element.setAttribute('rel', 'canonical');
+            document.head.appendChild(element);
         }
-        meta.setAttribute('content', content);
+        element.setAttribute('href', content);
+    } else {
+        // Handle meta tags
+        element = document.querySelector(isProperty ? `meta[property="${name}"]` : `meta[name="${name}"]`);
+        if (!element) {
+            element = document.createElement('meta');
+            if (isProperty) {
+                element.setAttribute('property', name);
+            } else {
+                element.setAttribute('name', name);
+            }
+            document.head.appendChild(element);
+        }
+        element.setAttribute('content', content);
     }
-
-    // Meta tags for SEO
-    updateMetaTag('description', stateData.description || `Explore the best job opportunities in ${stateData.name} on ReelCareer.co!`);
-    updateMetaTag('keywords', stateData.keywords || `jobs in ${stateData.name}, ${stateData.name} careers, ${stateData.name} employment, ReelCareer`);
-    updateMetaTag('author', stateData.author || 'ReelCareer Team');
-
-    // Open Graph (OG) meta tags for social media sharing
-    updateMetaTag('og:title', `ReelCareer.co | Jobs in ${stateData.name}`, true);
-    updateMetaTag('og:description', stateData.description || `Find your dream job in ${stateData.name} with ReelCareer.co!`, true);
-    updateMetaTag('og:image', stateData.image || 'https://www.reelcareer.co/images/sq_logo_n_BG_tie_reelx.png', true);
-    updateMetaTag('og:url', stateData.url || window.location.href, true);
-    updateMetaTag('og:type', 'website', true);
-
-    // Twitter card meta tags
-    updateMetaTag('twitter:card', 'summary_large_image');
-    updateMetaTag('twitter:title', `ReelCareer.co | Jobs in ${stateData.name}`);
-    updateMetaTag('twitter:description', stateData.description || `Discover top job opportunities in ${stateData.name} on ReelCareer!`);
-    updateMetaTag('twitter:image', stateData.image || 'https://www.reelcareer.co/images/sq_logo_n_BG_tie_reelx.png');
 }
+
+       
+// Meta tags for SEO
+updateMetaOrLinkTag('description', stateData.description || `Explore the best job opportunities in ${stateData.name} on ReelCareer.co!`);
+updateMetaOrLinkTag('keywords', stateData.keywords || `jobs in ${stateData.name}, ${stateData.name} careers, ${stateData.name} employment, ReelCareer`);
+updateMetaOrLinkTag('author', stateData.author || 'ReelCareer Team');
+
+// Open Graph (OG) meta tags for social media sharing
+updateMetaOrLinkTag('og:title', `ReelCareer.co | Jobs in ${stateData.name}`, true);
+updateMetaOrLinkTag('og:description', stateData.description || `Find your dream job in ${stateData.name} with ReelCareer.co!`, true);
+updateMetaOrLinkTag('og:image', stateData.image || 'https://www.reelcareer.co/images/sq_logo_n_BG_tie_reelx.png', true);
+updateMetaOrLinkTag('og:url', stateData.url || window.location.href, true);
+updateMetaOrLinkTag('og:type', 'website', true);
+
+// Twitter card meta tags
+updateMetaOrLinkTag('twitter:card', 'summary_large_image');
+updateMetaOrLinkTag('twitter:title', `ReelCareer.co | Jobs in ${stateData.name}`);
+updateMetaOrLinkTag('twitter:description', stateData.description || `Discover top job opportunities in ${stateData.name} on ReelCareer!`);
+updateMetaOrLinkTag('twitter:image', stateData.image || 'https://www.reelcareer.co/images/sq_logo_n_BG_tie_reelx.png');
+
+// Canonical link
+updateMetaOrLinkTag(null, stateData.url || window.location.href, false, true);
+ }
+
 
 
 

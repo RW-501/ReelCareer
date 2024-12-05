@@ -210,19 +210,34 @@
     document.title = `ReelCareer.co | Jobs in ${cityData.name}`;
 
     // Helper function to create or update a meta tag
-    function updateMetaTag(name, content, property = false) {
-        let meta = document.querySelector(property ? `meta[property="${name}"]` : `meta[name="${name}"]`);
-        if (!meta) {
-            meta = document.createElement('meta');
-            if (property) {
-                meta.setAttribute('property', name);
-            } else {
-                meta.setAttribute('name', name);
-            }
-            document.head.appendChild(meta);
+    function updateMetaOrLinkTag(name, content, isProperty = false, isCanonical = false) {
+    let element;
+
+    if (isCanonical) {
+        // Handle canonical links
+        element = document.querySelector('link[rel="canonical"]');
+        if (!element) {
+            element = document.createElement('link');
+            element.setAttribute('rel', 'canonical');
+            document.head.appendChild(element);
         }
-        meta.setAttribute('content', content);
+        element.setAttribute('href', content);
+    } else {
+        // Handle meta tags
+        element = document.querySelector(isProperty ? `meta[property="${name}"]` : `meta[name="${name}"]`);
+        if (!element) {
+            element = document.createElement('meta');
+            if (isProperty) {
+                element.setAttribute('property', name);
+            } else {
+                element.setAttribute('name', name);
+            }
+            document.head.appendChild(element);
+        }
+        element.setAttribute('content', content);
     }
+}
+
 
     // Meta tags for SEO
     updateMetaTag('description', cityData.description || `Explore the best job opportunities in ${cityData.name} on ReelCareer.co!`);
@@ -241,6 +256,12 @@
     updateMetaTag('twitter:title', `ReelCareer.co | Jobs in ${cityData.name}`);
     updateMetaTag('twitter:description', cityData.description || `Discover top job opportunities in ${cityData.name} on ReelCareer!`);
     updateMetaTag('twitter:image', cityData.image || 'https://www.reelcareer.co/images/sq_logo_n_BG_tie_reelx.png');
+
+    // Canonical link
+    updateMetaTag(null, cityData.url || window.location.href, false, true);
+
+
+
 }
 
         async function displayCityList(jobsContainer) {
