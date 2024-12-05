@@ -913,7 +913,7 @@ function loadContacts(userID) {
                 <span>${data.senderName}</span>
             `;
 
-            listItem.onclick = () => appendConnection(data, "message"), loadMessages(data.participants, data),
+            listItem.onclick = () => appendConnection(data, "message"), composeMessages(data.participants, data),
             messageSection.appendChild(listItem);
         });
     });
