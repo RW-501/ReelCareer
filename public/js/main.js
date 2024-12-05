@@ -2145,9 +2145,9 @@ document.addEventListener('DOMContentLoaded', function () {
   function rollInAnimations(config = {}) {
     // Default configuration
     let {
-      delayBetweenDivs = 300, // Delay between div animations (ms)
-      initialBodyDelay = 1000, // Delay before showing body (ms)
-      animationDuration = 600, // Animation duration (ms)
+      delayBetweenDivs = 500, // Delay between div animations (ms)
+      initialBodyDelay = 1500, // Delay before showing body (ms)
+      animationDuration = 1000, // Animation duration (ms)
       animationTimingFunction = 'ease', // CSS timing function
       hiddenClass = 'hidden', // Class to hide body
     } = config;
@@ -2207,7 +2207,7 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     }, initialBodyDelay);
   }
-/*
+
   // Example usage
   rollInAnimations({
     delayBetweenDivs: 1000,
@@ -2216,7 +2216,7 @@ document.addEventListener('DOMContentLoaded', function () {
     animationTimingFunction: 'cubic-bezier(0.68, -0.55, 0.27, 1.55)', // Easing function for bounce effect
     hiddenClass: 'hidden' // Class to hide body
   });
-*/
+
 
 
 

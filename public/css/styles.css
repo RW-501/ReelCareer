@@ -14,7 +14,7 @@ body {
 
  animation: backgroundFade 3s ease forwards;
 
-    transition: background-color 0.3s, color 0.3s;
+    transition: background-color 2s, color 0.3s;
   }
   body.dark-mode {
     background-color: #121212;
@@ -827,14 +827,6 @@ main .jobCard:hover {
 .job-image-container {
     min-height: 150px; /* Adjust height based on your design */
     background-color: #f2f2f2; /* Placeholder background color */
-}
-
-.hide {
-    display: none !important;
-}
-
-.show {
-    display: block !important;
 }
 
 
