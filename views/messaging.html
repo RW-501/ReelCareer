@@ -757,7 +757,7 @@ contactInfo.innerHTML = `<p>Contact: ${data.fromName}</p>
 // Create the select input element
 const selectInput = document.createElement('select');
 selectInput.id = `groupSelect${group.groupName}`;
-groupDiv.classList.add('groupSelect');
+selectInput.classList.add('groupSelect');
 
 selectInput.onchange = function () {
     const selectedOption = this.options[this.selectedIndex];
@@ -808,7 +808,7 @@ contactInfo.innerHTML = `<p>Contact: ${data.toName}</p>
 // Create the select input element
 const selectInput = document.createElement('select');
 selectInput.id = `groupSelect${userDataSaved.userID}`;
-groupDiv.classList.add('groupSelect');
+selectInput.classList.add('groupSelect');
 
 selectInput.onchange = function () {
     const selectedOption = this.options[this.selectedIndex];
