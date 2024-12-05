@@ -1079,7 +1079,6 @@ main .jobCard:hover {
 
 
 
-
               /* State and City List Styling */
               #stateListContainer, #cityListContainer {
                 display: grid;
@@ -1114,70 +1113,10 @@ main .jobCard:hover {
     margin: auto;
 
 }
-              .state-city-card i {
-                font-size: 30px;
-                margin-bottom: 10px;
-                color: #007bff;
-              }
-            
-              .state-city-card p {
-                font-size: 1rem;
-                font-weight: bold;
-                color: #333;
-              }
-            
-              /* Button Styling */
-              .explore-btn {
-                background-color: #007bff;
-                color: white;
-                border: none;
-                padding: 10px 20px;
-                border-radius: 4px;
-                cursor: pointer;
-                text-transform: uppercase;
-                font-weight: bold;
-                margin-top: 10px;
-              }
-            
-              .explore-btn:hover {
-                background-color: #0056b3;
-              }
 
-              .state-city-body {
-                display: grid;
-                width: 100%;
-                gap: 1rem;
-                justify-content: space-around;
-                align-content: stretch;
-                align-items: start;
-                justify-items: stretch;
-              }
-              .city-group {
-                width: 100%;
-                display: grid;
-                align-content: stretch;
-                justify-content: space-between;
-                align-items: start;
-                justify-items: stretch;
-              }
 
-              .city-letter {
-                display: block;
-
-              }
-              .state-list, 
-              .city-list {
-
-                display: flex;
-                flex-direction: row;
-                gap: 10px;
-                justify-content: space-around;
-                align-items: flex-start;
-                flex-wrap: wrap;
-            
-              }
-
-              
+         
+     
               .apply-link {
                 display: inline-block;
                 margin-top: 10px;
@@ -1260,8 +1199,11 @@ main .jobCard:hover {
   .state-city-card a {
     text-decoration: none;
     color: inherit;
-    margin: auto;
-  }
+    color: #565a5f;
+    text-decoration: none !important;
+    font-weight: 800;
+    padding: 20px;
+    margin: auto;  }
   
   .state-city-card i {
     font-size: 1.5rem;
