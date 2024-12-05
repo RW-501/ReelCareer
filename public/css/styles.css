@@ -1608,13 +1608,8 @@ main .jobCard:hover {
   100% { background-position: -200% 0; }
 }
 
-img {
-  max-width: 100%;
-  height: auto;
-  border-radius: 8px;
-  opacity: 0; /* Initially hidden for fade-in effect */
-  transition: opacity 0.5s ease;
-}
+
+
 
 
 .profile-nav-item {
