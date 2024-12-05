@@ -267,7 +267,7 @@
       const stateListHTML = states
   .filter(state => state && state.trim() !== "") // Filter out null, empty, or whitespace-only states
   .map(state => `
-    <div class="state-city-card">
+    <div class="state-city-card lazy-load">
       <a href="https://reelcareer.co/jobs/state#${state}"><i class="fas fa-city"></i></a>
       <h4><a href="https://reelcareer.co/jobs/state#${state}">${state}</a></h4>
     </div>`)
@@ -280,7 +280,7 @@
       document.getElementById("stateListContainer").innerHTML = `
         <h2>Available States</h2>
                 <hr>
-          <div class="state-list">
+          <div class="state-list lazy-load">
 ${stateListHTML}
 </div>
       `;
@@ -315,7 +315,7 @@ ${stateListHTML}
       .map(([letter, cityList]) => {
         totalJobs += cityList.length; // Add to total count
         return `
-          <div id="${letter}" class="city-group">
+          <div id="${letter}" class="city-group lazy-load">
 <div class="city-letter">
   <h3 class="city-letter-title">${letter} <span class="city-count">(${cityList.length})</span></h3>
   <hr class="city-divider">
@@ -337,7 +337,7 @@ ${stateListHTML}
 
     // Inject HTML into the container
     document.getElementById("cityListContainer").innerHTML = `
-  <div class="jobs-header">
+  <div class="jobs-header lazy-load">
     <h2 class="header-title">Available Cities</h2>
     <h4 class="header-subtitle">Total Cities: <span class="job-count">${totalJobs}</span></h4>
     <hr class="header-divider">
