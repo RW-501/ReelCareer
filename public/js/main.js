@@ -2219,81 +2219,103 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
-    // Function to load content into divs
-    const lazyLoad = (entries, observer) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const div = entry.target;
-          div.textContent = div.getAttribute('data-content'); // Add content
-          div.classList.add('loaded'); // Apply styles
-          observer.unobserve(div); // Stop observing this element
-        }
-      });
-    };
 
-    // Set up the Intersection Observer
-    const observer = new IntersectionObserver(lazyLoad, {
-      root: null, // Viewport
-      rootMargin: '0px',
+
+
+
+    // Lazy Load Settings
+    const lazyLoadSettings = {
       threshold: 0.1, // Trigger when 10% of the element is visible
-    });
-
-    // Attach observer to each lazy-load div
-    document.querySelectorAll('.lazy-load').forEach(div => {
-      observer.observe(div);
-    });
-  // Lazy Load for Images using Intersection Observer
-  document.addEventListener("DOMContentLoaded", function () {
-    const lazyImages = document.querySelectorAll(".lazy-load");
-    const cards = document.querySelectorAll(".card");
-  
-    const observerOptions = {
-      threshold: 0.1 // Trigger lazy loading when 10% of the element is visible
+      rootMargin: '0px', // Margin around the root
+      enableImageFadeIn: true, // Add fade-in effect for images
+      enableSkeletonRemoval: true, // Remove skeleton effect on load
     };
-  
 
+    // Initialize Lazy Loading
+    const initializeLazyLoading = (settings) => {
+      // Load content into divs
+      const lazyLoadDivs = (entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const div = entry.target;
+            div.textContent = div.getAttribute('data-content'); // Add content
+            div.classList.add('loaded'); // Apply styles
+            observer.unobserve(div); // Stop observing this element
+          }
+        });
+      };
 
+      // Load images
+      const lazyLoadImages = (entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const img = entry.target;
+            img.src = img.dataset.src; // Set the image source
+            if (settings.enableImageFadeIn) {
+              img.onload = () => img.classList.add('fade-in'); // Add fade-in effect
+            }
+            img.removeAttribute('data-src'); // Remove data-src
+            observer.unobserve(img); // Stop observing
+          }
+        });
+      };
 
-    // Image lazy load observer
-    const imageObserver = new IntersectionObserver((entries, observer) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          const img = entry.target;
-          img.src = img.dataset.src; // Set the image source
-          img.onload = () => img.classList.add("fade-in"); // Add a fade-in effect once loaded
-          img.removeAttribute("data-src"); // Remove data-src after loading
-          observer.unobserve(img); // Stop observing after it's loaded
+      // Load cards
+      const lazyLoadCards = (entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const card = entry.target;
+            if (settings.enableSkeletonRemoval) {
+              card.classList.remove('skeleton'); // Remove skeleton effect
+            }
+            observer.unobserve(card); // Stop observing
+          }
+        });
+      };
+
+      // Intersection Observer options
+      const observerOptions = {
+        root: null, // Viewport
+        rootMargin: settings.rootMargin,
+        threshold: settings.threshold,
+      };
+
+      // Create Observers
+      const divObserver = new IntersectionObserver(lazyLoadDivs, observerOptions);
+      const imageObserver = new IntersectionObserver(lazyLoadImages, observerOptions);
+      const cardObserver = new IntersectionObserver(lazyLoadCards, observerOptions);
+
+      // Attach observers to elements
+      document.querySelectorAll('.lazy-load').forEach(el => {
+        if (el.tagName === 'IMG') {
+          imageObserver.observe(el);
+        } else {
+          divObserver.observe(el);
         }
       });
-    }, observerOptions);
-  
-    lazyImages.forEach((image) => {
-      imageObserver.observe(image);
-    });
-  
-    // Card lazy load observer (removes skeleton once loaded)
-    const cardObserver = new IntersectionObserver((entries, observer) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          const card = entry.target;
-          card.classList.remove("skeleton"); // Remove skeleton loading effect
-          observer.unobserve(card); // Stop observing after it's loaded
-        }
-      });
-    }, observerOptions);
-  
-    cards.forEach((card) => {
-      cardObserver.observe(card);
-    });
-  
-    // Fallback for browsers that do not support Intersection Observer
-    if (!("IntersectionObserver" in window)) {
-      lazyImages.forEach((img) => {
-        img.src = img.dataset.src; // Load images immediately
-      });
-    }
-  });
 
+      document.querySelectorAll('.card').forEach(card => cardObserver.observe(card));
+
+      // Fallback for unsupported browsers
+      if (!('IntersectionObserver' in window)) {
+        document.querySelectorAll('.lazy-load').forEach(el => {
+          if (el.tagName === 'IMG') {
+            el.src = el.dataset.src; // Load images immediately
+          } else {
+            el.textContent = el.getAttribute('data-content'); // Load div content immediately
+          }
+        });
+      }
+    };
+
+    // Initialize with default settings
+    initializeLazyLoading(lazyLoadSettings);
+
+
+
+
+
+  
   function scrollToDivOnLoad(divId = null) {
     // Ensure the page loads at the top by default
     window.scrollTo({ top: 0, behavior: "auto" });
@@ -2307,7 +2329,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 // Smooth scroll to the target element
                 targetDiv.scrollIntoView({ behavior: "smooth", block: "start" });
             } else {
-                console.warn(`Element with ID "${divId}" not found.`);
+              //  console.warn(`Element with ID "${divId}" not found.`);
             }
         });
     }
