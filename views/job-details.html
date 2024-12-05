@@ -643,6 +643,72 @@ text-align: left;
         auth, analytics, deleteDoc, getDownloadURL
     } from 'https://reelcareer.co/js/module.js';
 
+
+
+
+
+
+
+
+    function setJobDescriptionMetaTags(jobData) {
+    // Update the document title
+    document.title = `${jobData.title} | ${jobData.companyName} | ReelCareer.co`;
+
+    // Helper function to create or update a meta or link tag
+    function updateMetaOrLinkTag(name, content, isProperty = false, isCanonical = false) {
+        let element;
+
+        if (isCanonical) {
+            // Handle canonical links
+            element = document.querySelector('link[rel="canonical"]');
+            if (!element) {
+                element = document.createElement('link');
+                element.setAttribute('rel', 'canonical');
+                document.head.appendChild(element);
+            }
+            element.setAttribute('href', content);
+        } else {
+            // Handle meta tags
+            element = document.querySelector(isProperty ? `meta[property="${name}"]` : `meta[name="${name}"]`);
+            if (!element) {
+                element = document.createElement('meta');
+                if (isProperty) {
+                    element.setAttribute('property', name);
+                } else {
+                    element.setAttribute('name', name);
+                }
+                document.head.appendChild(element);
+            }
+            element.setAttribute('content', content);
+        }
+    }
+
+    // Meta tags for SEO
+    updateMetaOrLinkTag('description', jobData.description || `Apply for ${jobData.title} at ${jobData.companyName} on ReelCareer.co!`);
+    updateMetaOrLinkTag('keywords', jobData.keywords || `${jobData.title}, ${jobData.companyName}, ${jobData.location}, jobs on ReelCareer`);
+    updateMetaOrLinkTag('author', jobData.author || 'ReelCareer Team');
+
+    // Open Graph (OG) meta tags for social media sharing
+    updateMetaOrLinkTag('og:title', `${jobData.title} | ${jobData.companyName}`, true);
+    updateMetaOrLinkTag('og:description', jobData.description || `Apply now for ${jobData.title} at ${jobData.companyName}!`, true);
+    updateMetaOrLinkTag('og:image', jobData.image || 'https://www.reelcareer.co/images/sq_logo_n_BG_tie_reelx.png', true);
+    updateMetaOrLinkTag('og:url', jobData.url || window.location.href, true);
+    updateMetaOrLinkTag('og:type', 'article', true);
+
+    // Twitter card meta tags
+    updateMetaOrLinkTag('twitter:card', 'summary_large_image');
+    updateMetaOrLinkTag('twitter:title', `${jobData.title} | ${jobData.companyName}`);
+    updateMetaOrLinkTag('twitter:description', jobData.description || `Discover and apply for ${jobData.title} at ${jobData.companyName} on ReelCareer.co!`);
+    updateMetaOrLinkTag('twitter:image', jobData.image || 'https://www.reelcareer.co/images/sq_logo_n_BG_tie_reelx.png');
+
+    // Canonical link
+    updateMetaOrLinkTag(null, jobData.url || window.location.href, false, true);
+}
+
+
+
+
+
     let jobID = "";
 
 
@@ -757,6 +823,7 @@ text-align: left;
   if (jobDoc.exists()) {
      jobData = jobDoc.data();
     jobData.id = jobDoc.id; // Attach the document ID to the data
+    setJobDescriptionMetaTags(jobData) ;
     loadJobDetails(jobData); // Call loadJobDetails with jobData, now containing the ID
   } else {
           // Insert "Job not found" HTML into the error-message div
