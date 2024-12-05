@@ -293,7 +293,7 @@ createLoader("ReelCareer");
     jobCard.dataset.submittedBy = job.submittedBy ? job.submittedBy.toLowerCase() : '';
     
     jobCard.innerHTML = `
-    <div class="card jobCard gridBody h-100 shadow-sm lazy-load" >
+    <div class="card jobCard gridBody h-100 shadow-sm " >
       
       <!-- Job Title and Company -->
       <div class="card-top" >
