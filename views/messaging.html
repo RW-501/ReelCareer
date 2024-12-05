@@ -579,23 +579,23 @@ console.log("connectionId: ", connectionId);
             if (connection.from === userDataSaved.userID) {
                 const connectionInfo = `
                 <div>
-                  <img src="${connection.fromProfilePicture}" alt="Profile" width="40" height="40">
-                  <a href="${connection.fromProfileURL}" target="_blank">${connection.fromName}</a>
-                </div>
-                <button onclick="removeConnection('${connection.from}', '${connection.to}')">Remove</button>
-                `;
-                div.innerHTML = connectionInfo;
-            } else if (connection.to === userDataSaved.userID) {
-                const connectionInfo = `
-                <div>
                   <img src="${connection.toProfilePicture}" alt="Profile" width="40" height="40">
                   <a href="${connection.toProfileURL}" target="_blank">${connection.toName}</a>
                 </div>
                 <button onclick="acceptConnection('${connection.to}', '${connection.from}')">Accept</button>
                 `;
                 div.innerHTML = connectionInfo;
+            } else if (connection.to === userDataSaved.userID) {
+                const connectionInfo = `
+                <div>
+                  <img src="${connection.fromProfilePicture}" alt="Profile" width="40" height="40">
+                  <a href="${connection.fromProfileURL}" target="_blank">${connection.fromName}</a>
+                </div>
+                <button onclick="removeConnection('${connection.from}', '${connection.to}')">Remove</button>
+                `;
+                div.innerHTML = connectionInfo;
             }
-
+   
 
             
  const contactInfoDiv = document.createElement('div');
