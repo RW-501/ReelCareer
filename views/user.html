@@ -1831,6 +1831,17 @@ document.getElementById('send-message-btn').addEventListener('click', () => {
     console.log("userIdFromURL: ", userIdFromURL);
     console.log("userPageId: ", userPageId);
 
+
+    const userDataSaved = getUserData() || [];
+    const senderID = auth.currentUser.uid;
+
+    console.log("USERDATA: ", USERDATA);
+    console.log("UserData: ", UserData);
+    console.log("UserID: ", UserID);
+    console.log("UserId: ", UserId);
+    console.log("senderID: ", senderID);
+    console.log("userDataSaved: ", userDataSaved);
+
     if (userId !== userIdFromURL) {
         document.getElementById('recipient-id').value = userIdFromURL; // Set recipient ID
         $('#sendMessageModal').modal('show'); // Show modal
