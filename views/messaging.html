@@ -601,7 +601,9 @@ console.log("connectionId: ", connectionId);
     // Append the new connection to the list
     connectionsList.appendChild(div);
 
-    openSlidePanelBtn.click("open"); 
+    const openEvent = new CustomEvent("click", { detail: "open" });
+    openSlidePanelBtn.dispatchEvent(openEvent);
+
 }
 
 function composeMessages(conversationID, data) {
@@ -688,13 +690,17 @@ openSlidePanelBtn.addEventListener('click', (e) => {
 
     console.log("event...: ", e);
 
-    if(e == "open"){
+    if (e.detail === "open") {
+    console.log("Open action triggered.");
+    
+    
 
-        return;
     }
+
+
 // Open or close the sliding panel on button click
     // Check if the class 'open' is present in the connectionsSlidePanel
-    if (!connectionsSlidePanel.classList.contains('open')) {
+    if (!connectionsSlidePanel.classList.contains('open') || e.detail === "open") {
         // If not open, open the sliding panel and modify the contact list area
         connectionsSlidePanel.classList.add('open');
         controlsContactListArea.classList.replace('controls-narrow', 'controls-wide');
@@ -852,7 +858,6 @@ function loadContacts(userID) {
 
             listItem.addEventListener('click', () => {
     appendConnection(data); // Call your function to append connection
-    openSlidePanelBtn.click("open"); // Trigger the click event to open the slide panel
 });
 
             if (data.status === "pending") {
@@ -864,8 +869,8 @@ function loadContacts(userID) {
             } else if (data.status === "accepted") {
                 titleAccepted.appendChild(listItem);
             }
-
-            openSlidePanelBtn.click(); 
+            const openEvent = new CustomEvent("click", { detail: "open" });
+            openSlidePanelBtn.dispatchEvent(openEvent);
         });
     });
 }
