@@ -130,7 +130,7 @@ box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2); /* Slightly deeper shadow once loade
 /* Base style for the loading state */
 .loaded {
   background-color: initial;       /* Use the background color from the parent or default */
-  display: block;                  /* Ensure it stays in the document flow */
+  display: initial;                  /* Ensure it stays in the document flow */
   opacity: 1;                      /* Fully visible */
   transform: scale(1);             /* Ensure it's at normal size */
   transition: opacity 0.3s ease-out, transform 0.3s ease-out, background-color 0.3s ease-out; /* Smooth transitions */
