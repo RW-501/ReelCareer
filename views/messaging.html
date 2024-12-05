@@ -645,8 +645,10 @@ document.getElementById("connectionsList").innerHTML = '';
                 `;
                 div.innerHTML = connectionInfo;
 
-                groupDiv.innerHTML = `<button onclick="changeGroup('${connection.from},${connection.fromGroup}, "fromGroup" ')">${connection.fromGroup}</button>`;
-                div.appendChild(groupDiv);
+
+
+
+           
             composeMessages(connection.from, connection);
 
             } else if (connection.to == userDataSaved.userID) {
@@ -660,8 +662,7 @@ document.getElementById("connectionsList").innerHTML = '';
             `;
             div.innerHTML = connectionInfo;
    
-            groupDiv.innerHTML = `<button onclick="changeGroup('${connection.to},${connection.toGroup}, "toGroup" ')">${connection.toGroup}</button>`;
-            div.appendChild(groupDiv);
+           
 
                 composeMessages(connection.to, connection);
             }
@@ -680,8 +681,8 @@ document.getElementById("connectionsList").innerHTML = '';
 }
 
 
-// Function to update the group in the "Connection" collection
-async function changeGroup(contactId, newGroup, Group) {
+// Asynchronous changeGroup function
+async function changeGroup(contactId, newGroup, Group) { 
   try {
     // Example using Firestore
     const connectionRef = doc(firestore, "Connections", contactId);
@@ -691,6 +692,8 @@ async function changeGroup(contactId, newGroup, Group) {
     console.error("Error updating group:", error);
   }
 }
+
+// Set the changeGroup function globally
 window.changeGroup = changeGroup;
 
 
@@ -739,6 +742,43 @@ contactInfo.setAttribute("data-conversation-picture",data.fromProfilePicture);
 contactInfo.innerHTML = `<p>Contact: ${data.fromName}</p>
 <p>Connection: <small>${data.status}</small></p>`; 
 
+
+// Create the select input element
+const selectInput = document.createElement('select');
+selectInput.id = 'groupSelect';
+selectInput.onchange = function () {
+    const selectedOption = this.options[this.selectedIndex];
+    changeGroup(userDataSaved.userID, selectedOption.value, "toGroup");
+};
+
+// Example groups (single user)
+const groups = [
+    { groupName: "Co-workers" },
+    { groupName: "Recruiters" },
+    { groupName: "Networking" },
+    { groupName: "Friends" },
+    { groupName: "Blocked" }
+];
+
+// Populate the select input with groups
+groups.forEach(group => {
+    const option = document.createElement('option');
+    option.value = group.groupName; // The group name will be the value
+    option.textContent = `Group: (${group.groupName})`; // Display the group name
+    selectInput.appendChild(option);
+});
+
+// Add the select input to the DOM (replace 'groupDiv' with your target container)
+const groupDiv = document.getElementById('groupDiv');
+groupDiv.innerHTML = ''; // Clear existing content
+groupDiv.appendChild(selectInput);
+
+// Assuming conversationTitle is defined elsewhere
+conversationTitle.appendChild(groupDiv);
+
+
+
+
 } else if (data.from === userDataSaved.userID) {
     conversationTitle.innerHTML = `
 <a href="https://reelcareer.co/views/user?u=${data.to}" style="text-decoration: none; color: inherit;">
@@ -751,6 +791,39 @@ contactInfo.setAttribute("data-conversation-name",data.toName);
 contactInfo.setAttribute("data-conversation-picture",data.toProfilePicture);
 contactInfo.innerHTML = `<p>Contact: ${data.toName}</p>
 <p>Connection: <small>${data.status}</small></p>`;  
+
+// Create the select input element
+const selectInput = document.createElement('select');
+selectInput.id = 'groupSelect';
+selectInput.onchange = function () {
+    const selectedOption = this.options[this.selectedIndex];
+    changeGroup(userDataSaved.userID, selectedOption.value, "fromGroup");
+};
+
+// Example groups (single user)
+const groups = [
+    { groupName: "Co-workers" },
+    { groupName: "Recruiters" },
+    { groupName: "Networking" },
+    { groupName: "Friends" },
+    { groupName: "Blocked" }
+];
+
+// Populate the select input with groups
+groups.forEach(group => {
+    const option = document.createElement('option');
+    option.value = group.groupName; // The group name will be the value
+    option.textContent = `Group: (${group.groupName})`; // Display the group name
+    selectInput.appendChild(option);
+});
+
+// Add the select input to the DOM (replace 'groupDiv' with your target container)
+const groupDiv = document.getElementById('groupDiv');
+groupDiv.innerHTML = ''; // Clear existing content
+groupDiv.appendChild(selectInput);
+
+// Assuming conversationTitle is defined elsewhere
+conversationTitle.appendChild(groupDiv);
 
 }
 
