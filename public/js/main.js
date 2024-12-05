@@ -2216,10 +2216,10 @@ document.addEventListener('DOMContentLoaded', function () {
     animationTimingFunction: 'cubic-bezier(0.68, -0.55, 0.27, 1.55)', // Easing function for bounce effect
     hiddenClass: 'hidden' // Class to hide body
   });
-
+*/
 });
 
-*/
+
 
 
 
