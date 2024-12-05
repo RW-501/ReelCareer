@@ -394,6 +394,22 @@
                 
                   
                     <script>
+
+
+document.getElementById("message-content-editable").addEventListener("keydown", (event) => {
+  // Check if Enter key is pressed
+  if (event.key === "Enter") {
+    event.preventDefault(); // Prevent default Enter behavior (e.g., line break)
+    const sendMessageButton = document.getElementById("send-message-btn");
+
+    // Focus on the Send Message button
+    sendMessageButton.focus();
+
+    // Optionally, trigger a click if you want to send the message immediately
+    // sendMessageButton.click();
+  }
+});
+
 const trackFormChanges = (formId, onChangeCallback) => {
     const formElement = document.getElementById(formId);
     if (!formElement) {
@@ -1836,7 +1852,6 @@ document.getElementById('send-message-btn').addEventListener('click', () => {
     const userDataSaved = getUserData() || [];
     const senderID = auth.currentUser.uid;
 
-    console.log("USERDATA: ", USERDATA);
     console.log("UserData: ", UserData);
     console.log("UserID: ", UserID);
     console.log("UserId: ", UserId);
