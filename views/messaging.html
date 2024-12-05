@@ -681,7 +681,7 @@ document.getElementById("connectionsList").innerHTML = '';
 
 
 // Asynchronous changeGroup function
-async function changeGroup(contactId, newGroup, Group) { 
+async function changeGroup(contactId, newGroup, Group, name) { 
   try {
     // Reference to the document in the "Connections" collection
     const connectionRef = doc(db, "Connections", contactId);
@@ -689,7 +689,7 @@ async function changeGroup(contactId, newGroup, Group) {
     // Dynamically update the field specified by 'Group'
     await updateDoc(connectionRef, { [Group]: newGroup });
 
-    console.log(`Group updated to "${newGroup}" for contact "${contactId}"`);
+    showToast(`Updated ${name} to "${newGroup}" "`);
   } catch (error) {
     console.error("Error updating group:", error);
   }
@@ -750,7 +750,7 @@ const selectInput = document.createElement('select');
 selectInput.id = `groupSelect${group.groupName}`;
 selectInput.onchange = function () {
     const selectedOption = this.options[this.selectedIndex];
-    changeGroup(`${userDataSaved.userID}_${data.from}`, selectedOption.value, "toGroup");
+    changeGroup(`${userDataSaved.userID}_${data.from}`, selectedOption.value, "toGroup", `${data.fromName}`);
 };
 
 // Example groups (single user)
@@ -799,7 +799,7 @@ const selectInput = document.createElement('select');
 selectInput.id = `groupSelect${userDataSaved.userID}`;
 selectInput.onchange = function () {
     const selectedOption = this.options[this.selectedIndex];
-    changeGroup(`${data.to}_${userDataSaved.userID}`, selectedOption.value, "toGroup");
+    changeGroup(`${data.to}_${userDataSaved.userID}`, selectedOption.value, "toGroup", `${data.fromName}`);
 };
 
 // Example groups (single user)
