@@ -2144,14 +2144,14 @@ document.addEventListener('DOMContentLoaded', function () {
   
   function rollInAnimations(config = {}) {
     // Default configuration
-  /*  let {
+    let {
       delayBetweenDivs = 300, // Delay between div animations (ms)
       initialBodyDelay = 1000, // Delay before showing body (ms)
       animationDuration = 600, // Animation duration (ms)
       animationTimingFunction = 'ease', // CSS timing function
       hiddenClass = 'hidden', // Class to hide body
     } = config;
-*/
+
  //   console.log('rollInAnimations config:', config);
 
     // Inject CSS Styles
@@ -2217,6 +2217,7 @@ document.addEventListener('DOMContentLoaded', function () {
     hiddenClass: 'hidden' // Class to hide body
   });
 */
+
 });
 
 
