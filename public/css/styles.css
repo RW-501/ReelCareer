@@ -533,6 +533,14 @@ main button {
 
 }
 
+main button:focus {
+  color: #495057;
+  background-color: #fff;
+  border-color: #80bdff;
+  outline: 0;
+  box-shadow: 0 0 0 .2rem rgba(0, 123, 255, .25);
+}
+
 main button:hover {
   color: #639ad4;
   text-decoration: none !important;
@@ -1626,6 +1634,7 @@ main .jobCard:hover {
 
 .message-input-area {
   display: block;
+  width: 100%;
 
 }
 .attachment-container {
@@ -1659,4 +1668,13 @@ main .jobCard:hover {
   width: 100%;
 
   resize: none;
+}
+
+
+.message-content-area:focus {
+  color: #495057;
+  background-color: #fff;
+  border-color: #80bdff;
+  outline: 0;
+  box-shadow: 0 0 0 .2rem rgba(0, 123, 255, .25);
 }
