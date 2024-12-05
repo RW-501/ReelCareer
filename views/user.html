@@ -1821,9 +1821,16 @@ document.getElementById('send-message-btn').addEventListener('click', () => {
     const urlParams = new URLSearchParams(window.location.search);
     const userIdFromURL = urlParams.get('u'); // Profile user
 
-let recipientName = document.getElementById('user-name').innerText;
+    let recipientName = document.getElementById('user-name').innerText;
+    let currentUserId = document.getElementById('currentUserId').innerText;
+    let userPageId = document.getElementById('userPageId').innerText;
 
     setRecipientName(recipientName);
+    console.log("userId: ", userId);
+    console.log("currentUserId: ", currentUserId);
+    console.log("userIdFromURL: ", userIdFromURL);
+    console.log("userPageId: ", userPageId);
+
     if (userId !== userIdFromURL) {
         document.getElementById('recipient-id').value = userIdFromURL; // Set recipient ID
         $('#sendMessageModal').modal('show'); // Show modal
