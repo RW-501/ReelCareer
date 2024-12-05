@@ -2307,7 +2307,7 @@ document.addEventListener('DOMContentLoaded', function () {
       );
 
       // Observe all lazy elements
-      document.querySelectorAll(".lazy-load, .card").forEach(el => observer.observe(el));
+      document.querySelectorAll(".lazy-load").forEach(el => observer.observe(el));
 
       // Fallback for unsupported browsers
       if (!("IntersectionObserver" in window)) {
