@@ -289,7 +289,7 @@ function filterStates(searchQuery, container) {
   // Generate and inject filtered state list
   const stateListHTML = filteredStates
     .map(state => `
-      <div class="state-city-card lazy-load" data-job-location="${state}">
+      <div class="state-city-card " data-job-location="${state}">
         <a href="https://reelcareer.co/jobs/state#${state}"><i class="fas fa-city"></i></a>
         <h4><a href="https://reelcareer.co/jobs/state#${state}">${state}</a></h4>
       </div>
@@ -408,7 +408,7 @@ async function fetchJobsByState(state) {
 
       
       const jobCard = `
-              <div class="location-job-card lazy-load" data-job-title="${job.title}" data-job-company="${job.company}" data-job-location="${job.city}, ${job.state}">
+              <div class="location-job-card " data-job-title="${job.title}" data-job-company="${job.company}" data-job-location="${job.city}, ${job.state}">
           <h2>${job.title}</h2>
           <p><strong>Company:</strong> ${job.company}</p>
           <p><strong>Industry:</strong> ${job.industry}</p>
@@ -468,7 +468,7 @@ setStatesMetaTags(stateData);
 
   }
 
-  
+
   return segments;
 }
 
