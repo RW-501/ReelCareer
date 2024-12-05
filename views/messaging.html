@@ -378,9 +378,12 @@ main {
                     </div>
       
                     <div class="message-panel">
-                      <div class="message-input-area">
-                        <textarea class="form-control" id="messageInput" placeholder="Type a message..." rows="3"></textarea>
+                        <div class="message-input-area">
+                          <textarea class="form-control" id="messageInput" placeholder="Type a message..." rows="3" style="display:none;"></textarea>
+                          <div id="editableDiv" contenteditable="true" class="form-control" placeholder="Type a message..."></div>
+                        </div>
                       </div>
+                      
       
                       <!-- Attachment Button and Preview -->
                       <div class="attachment-area mt-2">
@@ -1010,11 +1013,20 @@ document.getElementById('removePreview').addEventListener('click', () => {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
+    const editableDiv = document.getElementById('editableDiv');
+  const messageInput = document.getElementById('messageInput');
+
+  // Synchronize text from editableDiv to textarea on keyup
+  editableDiv.addEventListener('keyup', () => {
+    messageInput.value = editableDiv.innerHTML.trim(); // Keep the value synced
+  });
+
 
     document.getElementById('sendMessageButton').addEventListener('click', async () => {
-    const messageInput = document.getElementById('messageInput');
     const attachmentInput = document.getElementById('attachmentInput').files[0];
     const conversationID = document.getElementById('conversationTitle')?.getAttribute('data-conversation-id');
+   
+
     const message = messageInput.value.trim();
 
     if (!message && !attachmentInput) {
@@ -1035,8 +1047,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         await sendMessage(conversationID, message, attachmentUrl);
         
-        // Reset inputs after successful send
-        messageInput.value = '';
+     // Reset inputs after successful send
+     editableDiv.innerHTML = ''; // Clear the editable div
+      messageInput.value = ''; // Clear hidden textarea
         document.getElementById('removePreview').click();
         showToast("Message sent successfully!", 'success');
     } catch (error) {
@@ -1116,6 +1129,7 @@ function sendMessage(conversationID, message, attachmentUrl = '') {
         status: "unread",
         isDeleted: false
     }).then(() => {
+        document.getElementById('editableDiv').innerHTML = ''; // Clear input
         document.getElementById('messageInput').value = ''; // Clear input
         document.getElementById('attachmentInput').value = ''; // Clear attachment
     }).catch(error => {
