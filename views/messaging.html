@@ -1006,36 +1006,7 @@ function loadContacts(userID) {
         const conversationTitle = document.getElementById('conversationTitle');
         const contactInfo = document.getElementById('contactInfo');
 
-        
-        if (data.to === userDataSaved.userID) {
-
-conversationTitle.innerHTML = `
-<a href="https://reelcareer.co/views/user?u=${data.from}" style="text-decoration: none; color: inherit;">
-    <img src="${data.fromProfilePicture || 'default-image-url'}" alt="Avatar" class="avatar">
-</a>
-<span>${data.fromName || 'Unknown Sender'}</span>
-`;  
-contactInfo.setAttribute("data-conversation-id",conversationID);
-contactInfo.setAttribute("data-conversation-name",data.fromName);
-contactInfo.setAttribute("data-conversation-picture",data.fromProfilePicture);
-contactInfo.innerHTML = `<p>Contact: ${data.fromName}</p>
-<p>Connection: <small>${data.status}</small></p>`;  
-
-} else if (data.from === userDataSaved.userID) {
-    conversationTitle.innerHTML = `
-<a href="https://reelcareer.co/views/user?u=${data.to}" style="text-decoration: none; color: inherit;">
-    <img src="${data.toProfilePicture || 'default-image-url'}" alt="Avatar" class="avatar">
-</a>
-<span>${data.toName || 'Unknown Sender'}</span>
-`;  
-contactInfo.setAttribute("data-conversation-id",conversationID);
-contactInfo.setAttribute("data-conversation-name",data.toName);
-contactInfo.setAttribute("data-conversation-picture",data.toProfilePicture);
-contactInfo.innerHTML = `<p>Contact: ${data.toName}</p>
-<p>Connection: <small>${data.status}</small></p>`;  
-
-}
- 
+     
 
         
         messageBox.innerHTML = '';
