@@ -627,8 +627,7 @@ document.getElementById("connectionsList").innerHTML = '';
 
         } else   if (connection.status === "accepted") {
 
-            const groupDiv = document.createElement('div');
-            groupDiv.classList.add('connection-group');
+
 
             console.log("userDataSaved.userID: ", userDataSaved.userID);
             console.log("connection.from: ", connection.from);
@@ -745,7 +744,7 @@ contactInfo.innerHTML = `<p>Contact: ${data.fromName}</p>
 
 // Create the select input element
 const selectInput = document.createElement('select');
-selectInput.id = 'groupSelect';
+selectInput.id = `groupSelect${group.groupName}`;
 selectInput.onchange = function () {
     const selectedOption = this.options[this.selectedIndex];
     changeGroup(userDataSaved.userID, selectedOption.value, "toGroup");
@@ -768,9 +767,9 @@ groups.forEach(group => {
     selectInput.appendChild(option);
 });
 
-// Add the select input to the DOM (replace 'groupDiv' with your target container)
-const groupDiv = document.getElementById('groupDiv');
-groupDiv.innerHTML = ''; // Clear existing content
+
+const groupDiv = document.createElement('div');
+groupDiv.classList.add('connection-group');
 groupDiv.appendChild(selectInput);
 
 // Assuming conversationTitle is defined elsewhere
@@ -794,7 +793,7 @@ contactInfo.innerHTML = `<p>Contact: ${data.toName}</p>
 
 // Create the select input element
 const selectInput = document.createElement('select');
-selectInput.id = 'groupSelect';
+selectInput.id = `groupSelect${group.groupName}`;
 selectInput.onchange = function () {
     const selectedOption = this.options[this.selectedIndex];
     changeGroup(userDataSaved.userID, selectedOption.value, "fromGroup");
@@ -817,9 +816,8 @@ groups.forEach(group => {
     selectInput.appendChild(option);
 });
 
-// Add the select input to the DOM (replace 'groupDiv' with your target container)
-const groupDiv = document.getElementById('groupDiv');
-groupDiv.innerHTML = ''; // Clear existing content
+const groupDiv = document.createElement('div');
+groupDiv.classList.add('connection-group');
 groupDiv.appendChild(selectInput);
 
 // Assuming conversationTitle is defined elsewhere
