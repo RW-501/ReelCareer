@@ -1843,6 +1843,7 @@ document.getElementById('send-message-btn').addEventListener('click', () => {
     let userPageId = document.getElementById('userPageId').innerText;
 
     setRecipientName(recipientName);
+   // console.log("USERID: ", USERID);
     console.log("userId: ", userId);
     console.log("currentUserId: ", currentUserId);
     console.log("userIdFromURL: ", userIdFromURL);
@@ -1852,7 +1853,7 @@ document.getElementById('send-message-btn').addEventListener('click', () => {
     const userDataSaved = getUserData() || [];
     const senderID = auth.currentUser.uid;
 
-    console.log("UserData: ", UserData);
+   // console.log("UserData: ", UserData);
     console.log("UserID: ", UserID);
     console.log("UserId: ", UserId);
     console.log("senderID: ", senderID);
