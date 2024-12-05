@@ -473,9 +473,11 @@ function getHashFromURL() {
   let segments = hash ? decodeURIComponent(hash.substring(1)).replace(/[^\w\s-]/g, '') : null;
 
   segments = segments ? segments.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' '): null;
-// Set the new title
-document.title = `ReelCareer.co | Search for Jobs in the City of ${segments} `;
 
+if(segments){
+
+  // Set the new title
+document.title = `ReelCareer.co | Search for Jobs in the City of ${segments} `;
 
 // Example city data
 const cityData = {
@@ -489,7 +491,7 @@ const cityData = {
 
 // Call the function with the city data
 setCityMetaTags(cityData);
-
+}
   return segments;
 }
 
