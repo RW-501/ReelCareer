@@ -592,30 +592,46 @@ console.log("connectionId: ", connectionId);
                 `;
                 div.innerHTML = connectionInfo;
             }
+
+
+            
+ const contactInfoDiv = document.createElement('div');
+ contactInfoDiv.classList.add('connection-item');
+ const contactInfo = `
+                ${connection}"
+                `;
+                contactInfoDiv.innerHTML = contactInfo;
+
         } else   if (connection.status === "accepted") {
 
 
             if (connection.from === userDataSaved.userID) {
-                const connectionInfo = `
-                <div>
-                  <img src="${connection.toProfilePicture}" alt="Profile" width="40" height="40">
-                  <a href="${connection.toProfileURL}" target="_blank">${connection.toName}</a>
-                </div>
-            <button onclick="composeMessages('${connection.from}', '${connection}')">Send Message</button>
-                `;
-                div.innerHTML = connectionInfo;
-            } else {
+             
                 const connectionInfo = `
             <div>
               <img src="${connection.fromProfilePicture}" alt="Profile" width="40" height="40">
               <a href="${connection.fromProfileURL}" target="_blank">${connection.fromName}</a>
             </div>
-            <button onclick="composeMessages('${connection.from}', '${connection}')">Send Message</button>
+            <button onclick="viewProfile('${connection.from}')">to View Profile</button>
             `;
             div.innerHTML = connectionInfo;
+
+            composeMessages(connection.to, connection);
+
+            } else {
+
+
+            const connectionInfo = `
+                <div>
+                  <img src="${connection.toProfilePicture}" alt="Profile" width="40" height="40">
+                  <a href="${connection.toProfileURL}" target="_blank">${connection.toName}</a>
+                </div>
+            <button onclick="viewProfile('${connection.to}')">from View Profile</button>
+                `;
+                div.innerHTML = connectionInfo;
+
+                composeMessages(connection.to, connection);
             }
-
-
 
 
 
