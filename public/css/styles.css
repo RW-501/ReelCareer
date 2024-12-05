@@ -1547,6 +1547,8 @@ main .jobCard:hover {
 }
 
 .loaded {
+  background-color: initial;
+  display: initial;
 
   opacity: 1;
   transform: scale(1.05); /* Slightly enlarged for focus effect */
