@@ -1260,6 +1260,7 @@ main .jobCard:hover {
   .state-city-card a {
     text-decoration: none;
     color: inherit;
+    margin: auto;
   }
   
   .state-city-card i {
