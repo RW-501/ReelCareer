@@ -2193,100 +2193,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
   
-  const handleLazyLoad = (entries, observer) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const el = entry.target;
-        const lazyType = el.dataset.lazyType;
-  
-        try {
-          switch (lazyType) {
-            case "image":
-              el.src = el.dataset.src;
-              el.onerror = () => {
-                el.src = "https://reelcareer.co/images/sk.png";
-                console.error(`Failed to load image: ${el.dataset.src}`);
-              };
-              if (lazyLoadSettings.enableImageFadeIn) {
-                el.onload = () => {
-                  el.classList.add("loaded");
-                };
-              }
-              el.removeAttribute("data-src");
-              break;
-  
-            case "text":
-              if (el.dataset.content) {
-                el.textContent = el.dataset.content;
-                el.classList.add("loaded");
-              } else {
-                console.warn("No content available for lazy text element.");
-              }
-              break;
-  
-            case "card":
-              if (lazyLoadSettings.enableSkeletonRemoval) {
-                el.classList.remove("skeleton");
-              }
-              el.classList.add("loaded");
-              break;
-  
-            default:
-              console.warn(`Unsupported lazy type: ${lazyType}`);
-          }
-        } catch (error) {
-          console.error("Error during lazy loading:", error);
-        }
-  
-        observer.unobserve(el);
-      }
-    });
-  };
-  
-  const initializeLazyLoading = (settings) => {
-    const observer = new IntersectionObserver(
-      (entries, observer) => handleLazyLoad(entries, observer),
-      {
-        root: document.querySelector(settings.rootSelector) || null,
-        rootMargin: settings.rootMargin,
-        threshold: settings.threshold,
-      }
-    );
-  
-    // Observe only main content lazy elements
-    document.querySelectorAll("main .lazy-load").forEach(el => observer.observe(el));
-  
-    // Fallback for unsupported browsers
-    if (!("IntersectionObserver" in window)) {
-      console.warn("IntersectionObserver not supported. Falling back to immediate loading.");
-      document.querySelectorAll("main .lazy-load").forEach(el => {
-        const lazyType = el.dataset.lazyType;
-        switch (lazyType) {
-          case "image":
-            el.src = el.dataset.src || el.src;
-            break;
-          case "text":
-            el.textContent = el.dataset.content;
-            break;
-          case "card":
-            el.classList.remove("skeleton");
-            break;
-        }
-        el.classList.add("loaded");
-      });
-    }
-  };
-  
-  // Initialize with settings
-  const lazyLoadSettings = {
-    rootSelector: "main", // Only observe within the main content
-    rootMargin: "0px 0px 50px 0px",
-    threshold: 0.1,
-    enableImageFadeIn: true,
-    enableSkeletonRemoval: true,
-  };
-  
-
   
 
 
@@ -2333,7 +2239,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   };
   
-  waitForElements("main .lazy-load", () => {
+  waitForElements("main", () => {
       // Example usage
   rollInAnimations();
  // Usage example:
