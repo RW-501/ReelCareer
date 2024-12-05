@@ -139,6 +139,7 @@
           <button class="btn btn-primary btn-block" id="view-profile-btn">View Profile</button>
         
           <button class="btn btn-primary btn-block" id="view-messages-btn">Messages</button>
+          <button class="btn btn-primary btn-block" id="view-create-reel-btn">Create Reel</button>
   
           <button class="btn btn-primary btn-block" id="jobSeeker-btn">Job Seeker Dashboard</button>
           <button class="btn btn-primary btn-block" id="recruiter-btn">Recruiter Dashboard</button>
@@ -849,6 +850,7 @@ breadcrumbjobTitleActive.style.display = "none";
 
 document.getElementById('profileSettingsMain').style.display = 'none';
 document.getElementById('view-messages-btn').style.display = 'none';
+document.getElementById('view-create-reel-btn').style.display = 'none';
 
 
 
@@ -1042,22 +1044,24 @@ if (userIdFromURL) {
           if(userId){
             document.getElementById('currentUserId').innerText = userId;
 
-          document.getElementById('send-message-btn').style.display = 'block';
-          document.getElementById('connect-btn').style.display = 'block';
+            document.getElementById('send-message-btn').style.display = 'block';
+            document.getElementById('connect-btn').style.display = 'block';
           if (userId == userIdFromURL) {
             lastBreadcrumb_1.style.display = "block";
 
           }
-
+          
           }else{
             document.getElementById('send-message-btn').style.display = 'none';
             document.getElementById('connect-btn').style.display = 'none';
+            document.getElementById('view-create-reel-btn').style.display = 'block';
 
           }
 
           document.getElementById('jobSeeker-btn').style.display = 'none';
           document.getElementById('recruiter-btn').style.display = 'none';
           document.getElementById('view-profile-btn').style.display = 'none';
+          document.getElementById('view-create-reel-btn').style.display = 'none';
 
           document.getElementById('profileSettingsMain').style.display = 'none';
     
@@ -1065,6 +1069,7 @@ if (userIdFromURL) {
          // checkUser(userId);
           document.getElementById('send-message-btn').style.display = 'none';
           document.getElementById('connect-btn').style.display = 'none';
+          document.getElementById('view-create-reel-btn').style.display = 'none';
 
 document.getElementById('profileSettingsMain').style.display = 'none';
 document.getElementById('jobSeeker-btn').style.display = 'none';
@@ -1080,6 +1085,7 @@ document.getElementById('jobSeeker-btn').style.display = 'block';
 document.getElementById('recruiter-btn').style.display = 'block';
 document.getElementById('view-profile-btn').style.display = 'block';
 document.getElementById('view-messages-btn').style.display = 'block';
+document.getElementById('view-create-reel-btn').style.display = 'block';
 
 const userName = document.getElementById("user-name").innerText;
 const breadcrumbjobTitleActive = document.getElementById("breadcrumb-active-title");

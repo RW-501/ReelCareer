@@ -2123,9 +2123,9 @@ document.addEventListener('DOMContentLoaded', function () {
   function rollInAnimations(config = {}) {
     // Default configuration
     let {
-      delayBetweenDivs = 500, // Delay between div animations (ms)
+      delayBetweenDivs = 1000, // Delay between div animations (ms)
       initialBodyDelay = 1500, // Delay before showing body (ms)
-      animationDuration = 1000, // Animation duration (ms)
+      animationDuration = 4000, // Animation duration (ms)
       animationTimingFunction = 'cubic-bezier(0.68, -0.55, 0.27, 1.55)', // Easing function for bounce effect
       hiddenClass = 'hide', // Class to hide body
       showClass = 'show',
@@ -2143,7 +2143,7 @@ document.addEventListener('DOMContentLoaded', function () {
       }
   
       /* Hidden state for .main child divs */
-      .main > div {
+      main > div {
           opacity: 0;
           transform: translateX(-100%);
           transition: opacity ${animationDuration}ms ${animationTimingFunction}, 
@@ -2151,7 +2151,7 @@ document.addEventListener('DOMContentLoaded', function () {
       }
   
       /* Roll-in effect */
-      .main > div.${showClass} {
+      main > div.${showClass} {
           opacity: 1;
           transform: translateX(0);
       }
@@ -2339,7 +2339,7 @@ document.addEventListener('DOMContentLoaded', function () {
  // Usage example:
   // Default load at the top
   scrollToDivOnLoad();
-    initializeLazyLoading(lazyLoadSettings);
+   // initializeLazyLoading(lazyLoadSettings);
   });
   
 
