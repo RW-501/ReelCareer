@@ -505,7 +505,7 @@ async function fetchConnections() {
 
 
 let connectionssRef = collection(db, 'Connections');
-const querySnapshot = query(connectionssRef, where('participants', 'in', userID));
+const querySnapshot = query(connectionssRef, where('participants', 'array-contains', userID));
 
     querySnapshot.forEach(doc => {
       const connectionData = doc.data();
@@ -1283,6 +1283,7 @@ function sendMessage( message, attachmentUrl = '') {
         recipientRead: false,
 
    
+        participants: [userDataSaved.userID, conversationID], // Add this array
 
   
         senderID: userDataSaved.userID || auth.currentUser.uid || senderID,
