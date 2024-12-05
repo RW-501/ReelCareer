@@ -678,7 +678,8 @@ conversationTitle.innerHTML = `
 contactInfo.setAttribute("data-conversation-id",conversationID);
 contactInfo.setAttribute("data-conversation-name",data.fromName);
 contactInfo.setAttribute("data-conversation-picture",data.fromProfilePicture);
-contactInfo.innerHTML = `<p>Contact: ${data.fromName}</p hidden><p>Status: Online</p>`; // Display contact info dynamically
+contactInfo.innerHTML = `<p>Contact: ${data.fromName}</p>
+<p>Connection: <small>${data.status}</small></p>`; 
 
 } else if (data.from === userDataSaved.userID) {
     conversationTitle.innerHTML = `
@@ -690,11 +691,12 @@ contactInfo.innerHTML = `<p>Contact: ${data.fromName}</p hidden><p>Status: Onlin
 contactInfo.setAttribute("data-conversation-id",conversationID);
 contactInfo.setAttribute("data-conversation-name",data.toName);
 contactInfo.setAttribute("data-conversation-picture",data.toProfilePicture);
-contactInfo.innerHTML = `<p>Contact: ${data.toName}</p hidden><p>Status: Online</p>`; // Display contact info dynamically
-
+contactInfo.innerHTML = `<p>Contact: ${data.toName}</p>
+<p>Connection: <small>${data.status}</small></p>`;  
 
 }
 
+loadMessages(data.participants);
 
 console.log("conversationID: ", conversationID);
 
@@ -839,7 +841,7 @@ function loadContacts(userID) {
     contactList.appendChild(messageSection);
 
     let contactsRef = collection(db, 'Messages');
-    let messagesQuery = query(contactsRef, where('recipientID', '==', userID));
+    let messagesQuery = query(contactsRef, where('participants', 'in', userID));
     
     // Map to track displayed messages
     const displayedMessages = new Set();
@@ -861,7 +863,7 @@ function loadContacts(userID) {
                 <span>${data.senderName}</span>
             `;
 
-            listItem.onclick = () => appendConnection(data, "message"), loadMessages(data.conversationID, data),
+            listItem.onclick = () => appendConnection(data, "message"), loadMessages(data.participants, data),
             messageSection.appendChild(listItem);
         });
     });
@@ -946,7 +948,7 @@ function loadContacts(userID) {
     });
 }
 
-    function loadMessages(conversationID, data) {
+    function loadMessages(participants, data) {
 
         console.log("data: ", data);
 
@@ -955,26 +957,42 @@ function loadContacts(userID) {
         const contactInfo = document.getElementById('contactInfo');
 
         
-        conversationTitle.innerHTML = `
-        <a href="https://reelcareer.co/views/user?u=${data.senderID}" style="text-decoration: none; color: inherit;">
-            <img src="${data.senderProfilePicture || 'default-image-url'}" alt="Avatar" class="avatar">
-        </a>
-        <span>${data.senderName || 'Unknown Sender'}</span>
-    `;  
-    contactInfo.setAttribute("data-conversation-id",conversationID);
-    contactInfo.setAttribute("data-conversation-id",conversationID);
-    contactInfo.setAttribute("data-conversation-id",conversationID);
-    contactInfo.setAttribute("data-conversation-id",conversationID);
+        if (data.to === userDataSaved.userID) {
 
+conversationTitle.innerHTML = `
+<a href="https://reelcareer.co/views/user?u=${data.from}" style="text-decoration: none; color: inherit;">
+    <img src="${data.fromProfilePicture || 'default-image-url'}" alt="Avatar" class="avatar">
+</a>
+<span>${data.fromName || 'Unknown Sender'}</span>
+`;  
+contactInfo.setAttribute("data-conversation-id",conversationID);
+contactInfo.setAttribute("data-conversation-name",data.fromName);
+contactInfo.setAttribute("data-conversation-picture",data.fromProfilePicture);
+contactInfo.innerHTML = `<p>Contact: ${data.fromName}</p>
+<p>Connection: <small>${data.status}</small></p>`;  
 
-        contactInfo.innerHTML = `<p>Contact: ${data.senderName}</p><p>Status: Online</p>`; // Display contact info dynamically
-        console.log("conversationID: ", conversationID);
+} else if (data.from === userDataSaved.userID) {
+    conversationTitle.innerHTML = `
+<a href="https://reelcareer.co/views/user?u=${data.to}" style="text-decoration: none; color: inherit;">
+    <img src="${data.toProfilePicture || 'default-image-url'}" alt="Avatar" class="avatar">
+</a>
+<span>${data.toName || 'Unknown Sender'}</span>
+`;  
+contactInfo.setAttribute("data-conversation-id",conversationID);
+contactInfo.setAttribute("data-conversation-name",data.toName);
+contactInfo.setAttribute("data-conversation-picture",data.toProfilePicture);
+contactInfo.innerHTML = `<p>Contact: ${data.toName}</p>
+<p>Connection: <small>${data.status}</small></p>`;  
+
+}
+ 
 
         
         messageBox.innerHTML = '';
         const messagesRef = collection(db, 'Messages');
-        const q = query(messagesRef, where('conversationID', '==', conversationID), orderBy('createdAt'));
-
+        const q = query(messagesRef, where('participants', 'array-contains-any', participants), orderBy('createdAt'));
+   
+        
         onSnapshot(q, snapshot => {
             messageBox.innerHTML = ''; // Clear previous messages
             snapshot.forEach(doc => {
