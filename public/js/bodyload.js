@@ -24,40 +24,7 @@
 // Function to add styles for loader and content
 // Function to add styles for loader and content
 
-function scrollToDivOnLoad(divId = null) {
-  // Ensure the page loads at the top by default
-  window.scrollTo({ top: 0, behavior: "auto" });
 
-  // If divId parameter is provided, scroll to that element
-  if (divId) {
-      // Wait for the document to load completely
-      document.addEventListener("DOMContentLoaded", function () {
-          const targetDiv = document.getElementById(divId);
-          if (targetDiv) {
-              // Smooth scroll to the target element
-              targetDiv.scrollIntoView({ behavior: "smooth", block: "start" });
-          } else {
-              console.warn(`Element with ID "${divId}" not found.`);
-          }
-      });
-  }
-}
-
-// Usage example:
-// Default load at the top
-scrollToDivOnLoad();
-
-/*
-// Extract `divId` from URL if available
-const urlParams = new URLSearchParams(window.location.search);
-const divId = urlParams.get("scrollTo");
-
-// Pass the extracted divId to the function
-scrollToDivOnLoad(divId);
-*/
-
-// Scroll to a specific div if ID is provided, for example "targetDivId"
-//scrollToDivOnLoad("targetDivId");
 
 // Function to create and inject loader with text logo and animation
 function createLoader(message = "ReelCareer") {
@@ -192,6 +159,10 @@ createLoader("ReelCareer");
 
 
 
+
+
+
+
   
 
   function addStyles2() {
@@ -227,15 +198,15 @@ createLoader("ReelCareer");
       100% { background-position: -200% 0; }
   }
   
-
-
-
-.gridBody{
+  
+  
+  
+  .gridBody{
    grid-gap: .05rem !important;
          display: grid  !important;
-
-}
-
+  
+  }
+  
   /* Flexbox Layout Spacing */
   .card-top, .card-bottom {
       display: grid  !important;
@@ -246,7 +217,7 @@ createLoader("ReelCareer");
     grid-area: auto;
     grid-gap: .05rem !important;
   }
-
+  
   /* Job Details Section Background and Shadow */
   .card-bottom {
       background: linear-gradient(145deg, var(--highlight-bg), #ffffff);
@@ -256,77 +227,23 @@ createLoader("ReelCareer");
       border-style: solid;
       border-color: var(--highlight-bg);
   }
-
-
-
-
-
-
-
-
-
+  
+  
+  
+  
+  
+  
+  
+  
+  
       `;
     document.head.appendChild(style);
   }
   
   addStyles2();
   
-  // Lazy Load for Images using Intersection Observer
-  document.addEventListener("DOMContentLoaded", function () {
-    const lazyImages = document.querySelectorAll(".lazy-load");
-    const cards = document.querySelectorAll(".card");
   
-    const observerOptions = {
-      threshold: 0.1 // Trigger lazy loading when 10% of the element is visible
-    };
   
-    // Image lazy load observer
-    const imageObserver = new IntersectionObserver((entries, observer) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          const img = entry.target;
-          img.src = img.dataset.src; // Set the image source
-          img.onload = () => img.classList.add("fade-in"); // Add a fade-in effect once loaded
-          img.removeAttribute("data-src"); // Remove data-src after loading
-          observer.unobserve(img); // Stop observing after it's loaded
-        }
-      });
-    }, observerOptions);
-  
-    lazyImages.forEach((image) => {
-      imageObserver.observe(image);
-    });
-  
-    // Card lazy load observer (removes skeleton once loaded)
-    const cardObserver = new IntersectionObserver((entries, observer) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          const card = entry.target;
-          card.classList.remove("skeleton"); // Remove skeleton loading effect
-          observer.unobserve(card); // Stop observing after it's loaded
-        }
-      });
-    }, observerOptions);
-  
-    cards.forEach((card) => {
-      cardObserver.observe(card);
-    });
-  
-    // Fallback for browsers that do not support Intersection Observer
-    if (!("IntersectionObserver" in window)) {
-      lazyImages.forEach((img) => {
-        img.src = img.dataset.src; // Load images immediately
-      });
-    }
-  });
-  
-
-
-
-
-
-
-
 
 
 
@@ -376,7 +293,7 @@ createLoader("ReelCareer");
     jobCard.dataset.submittedBy = job.submittedBy ? job.submittedBy.toLowerCase() : '';
     
     jobCard.innerHTML = `
-    <div class="card jobCard gridBody h-100 shadow-sm" >
+    <div class="card jobCard gridBody h-100 shadow-sm lazy-load" >
       
       <!-- Job Title and Company -->
       <div class="card-top" >
@@ -561,3 +478,8 @@ window.showMessageAndFadeBtn = showMessageAndFadeBtn;
             const dangerousPatterns = /(<|>|"|;|&|\$|\(|\)|\*|\\|\/|script|SELECT|UPDATE|DELETE|INSERT|DROP|TABLE|ALTER)/i;
             return !dangerousPatterns.test(input);
         }
+
+
+
+
+

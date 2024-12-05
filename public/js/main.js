@@ -2077,18 +2077,81 @@ if (window.checkUrl("/backend/") || window.checkUrl("/backend")) {
 });
 
 
+
+// General function to listen to Firestore events and show toast notifications
+function listenForFirestoreEvents(collectionName, eventType) {
+  const collectionRef = collection(db, collectionName); // Reference to the collection
+
+  // Listener for collection changes
+  onSnapshot(collectionRef, (snapshot) => {
+    snapshot.docChanges().forEach((change) => {
+      if (change.type === 'added' && eventType === 'new') {
+        // New item added, trigger toast
+        if (collectionName === 'Jobs') {
+          showToast(`New job posted: ${change.doc.data().title}`);
+        } else if (collectionName === 'Users') {
+          showToast(`New member joined: ${change.doc.data().username}`);
+        }
+        // Add more collection-specific logic as needed
+
+      } else if (change.type === 'modified' && eventType === 'update') {
+        // Item updated, trigger toast
+        if (collectionName === 'Jobs') {
+          showToast(`Job updated: ${change.doc.data().title}`);
+        } else if (collectionName === 'Users') {
+          showToast(`Member updated: ${change.doc.data().username}`);
+        }
+        // Add more collection-specific logic as needed
+
+      } else if (change.type === 'removed' && eventType === 'remove') {
+        // Item removed, trigger toast
+        if (collectionName === 'Jobs') {
+          showToast(`Job removed: ${change.doc.data().title}`);
+        } else if (collectionName === 'Users') {
+          showToast(`Member removed: ${change.doc.data().username}`);
+        }
+        // Add more collection-specific logic as needed
+      }
+    });
+  });
+}
+/*
+// Example usage:
+listenForFirestoreEvents('Jobs', 'new'); // For new job posts
+listenForFirestoreEvents('Users', 'new'); // For new members
+listenForFirestoreEvents('Jobs', 'update'); // For job updates
+listenForFirestoreEvents('Users', 'update'); // For member updates
+listenForFirestoreEvents('Jobs', 'remove'); // For job removals
+*/
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
 document.addEventListener('DOMContentLoaded', function () {
   
   function rollInAnimations(config = {}) {
     // Default configuration
-    let {
+  /*  let {
       delayBetweenDivs = 300, // Delay between div animations (ms)
       initialBodyDelay = 1000, // Delay before showing body (ms)
       animationDuration = 600, // Animation duration (ms)
       animationTimingFunction = 'ease', // CSS timing function
       hiddenClass = 'hidden', // Class to hide body
     } = config;
-
+*/
  //   console.log('rollInAnimations config:', config);
 
     // Inject CSS Styles
@@ -2155,65 +2218,132 @@ document.addEventListener('DOMContentLoaded', function () {
 
 });
 
-// General function to listen to Firestore events and show toast notifications
-function listenForFirestoreEvents(collectionName, eventType) {
-  const collectionRef = collection(db, collectionName); // Reference to the collection
 
-  // Listener for collection changes
-  onSnapshot(collectionRef, (snapshot) => {
-    snapshot.docChanges().forEach((change) => {
-      if (change.type === 'added' && eventType === 'new') {
-        // New item added, trigger toast
-        if (collectionName === 'Jobs') {
-          showToast(`New job posted: ${change.doc.data().title}`);
-        } else if (collectionName === 'Users') {
-          showToast(`New member joined: ${change.doc.data().username}`);
+    // Function to load content into divs
+    const lazyLoad = (entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const div = entry.target;
+          div.textContent = div.getAttribute('data-content'); // Add content
+          div.classList.add('loaded'); // Apply styles
+          observer.unobserve(div); // Stop observing this element
         }
-        // Add more collection-specific logic as needed
+      });
+    };
 
-      } else if (change.type === 'modified' && eventType === 'update') {
-        // Item updated, trigger toast
-        if (collectionName === 'Jobs') {
-          showToast(`Job updated: ${change.doc.data().title}`);
-        } else if (collectionName === 'Users') {
-          showToast(`Member updated: ${change.doc.data().username}`);
-        }
-        // Add more collection-specific logic as needed
-
-      } else if (change.type === 'removed' && eventType === 'remove') {
-        // Item removed, trigger toast
-        if (collectionName === 'Jobs') {
-          showToast(`Job removed: ${change.doc.data().title}`);
-        } else if (collectionName === 'Users') {
-          showToast(`Member removed: ${change.doc.data().username}`);
-        }
-        // Add more collection-specific logic as needed
-      }
+    // Set up the Intersection Observer
+    const observer = new IntersectionObserver(lazyLoad, {
+      root: null, // Viewport
+      rootMargin: '0px',
+      threshold: 0.1, // Trigger when 10% of the element is visible
     });
-  });
-}
-/*
-// Example usage:
-listenForFirestoreEvents('Jobs', 'new'); // For new job posts
-listenForFirestoreEvents('Users', 'new'); // For new members
-listenForFirestoreEvents('Jobs', 'update'); // For job updates
-listenForFirestoreEvents('Users', 'update'); // For member updates
-listenForFirestoreEvents('Jobs', 'remove'); // For job removals
-*/
 
+    // Attach observer to each lazy-load div
+    document.querySelectorAll('.lazy-load').forEach(div => {
+      observer.observe(div);
+    });
+  // Lazy Load for Images using Intersection Observer
+  document.addEventListener("DOMContentLoaded", function () {
+    const lazyImages = document.querySelectorAll(".lazy-load");
+    const cards = document.querySelectorAll(".card");
+  
+    const observerOptions = {
+      threshold: 0.1 // Trigger lazy loading when 10% of the element is visible
+    };
+  
+
+
+
+    // Image lazy load observer
+    const imageObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const img = entry.target;
+          img.src = img.dataset.src; // Set the image source
+          img.onload = () => img.classList.add("fade-in"); // Add a fade-in effect once loaded
+          img.removeAttribute("data-src"); // Remove data-src after loading
+          observer.unobserve(img); // Stop observing after it's loaded
+        }
+      });
+    }, observerOptions);
+  
+    lazyImages.forEach((image) => {
+      imageObserver.observe(image);
+    });
+  
+    // Card lazy load observer (removes skeleton once loaded)
+    const cardObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const card = entry.target;
+          card.classList.remove("skeleton"); // Remove skeleton loading effect
+          observer.unobserve(card); // Stop observing after it's loaded
+        }
+      });
+    }, observerOptions);
+  
+    cards.forEach((card) => {
+      cardObserver.observe(card);
+    });
+  
+    // Fallback for browsers that do not support Intersection Observer
+    if (!("IntersectionObserver" in window)) {
+      lazyImages.forEach((img) => {
+        img.src = img.dataset.src; // Load images immediately
+      });
+    }
+  });
+
+  function scrollToDivOnLoad(divId = null) {
+    // Ensure the page loads at the top by default
+    window.scrollTo({ top: 0, behavior: "auto" });
+  
+    // If divId parameter is provided, scroll to that element
+    if (divId) {
+        // Wait for the document to load completely
+        document.addEventListener("DOMContentLoaded", function () {
+            const targetDiv = document.getElementById(divId);
+            if (targetDiv) {
+                // Smooth scroll to the target element
+                targetDiv.scrollIntoView({ behavior: "smooth", block: "start" });
+            } else {
+                console.warn(`Element with ID "${divId}" not found.`);
+            }
+        });
+    }
+  }
+  
+  // Usage example:
+  // Default load at the top
+  scrollToDivOnLoad();
+  
+  /*
+  // Extract `divId` from URL if available
+  const urlParams = new URLSearchParams(window.location.search);
+  const divId = urlParams.get("scrollTo");
+  
+  // Pass the extracted divId to the function
+  scrollToDivOnLoad(divId);
+  */
+  
+  // Scroll to a specific div if ID is provided, for example "targetDivId"
+  //scrollToDivOnLoad("targetDivId");
         
+let USERDATA = '';
+
+
 function getUserDisplayName() {
   // Retrieve user data from local storage
   const storedUserData = localStorage.getItem("userData");
 
   if (storedUserData) {
     // Parse the stored data
-    const userData =  getUserData();
+     USERDATA =  getUserData();
 
     // Return the displayName if it exists
-    return userData.displayName || "No display name available"; // Fallback if displayName is not set
+    return USERDATA.displayName || "No name available"; // Fallback if displayName is not set
   } else {
-    console.log("No user data found in local storage");
+    //console.log("No user data found in local storage");
     return "No user data available"; // Fallback if no user data exists
   }
 }
@@ -2221,4 +2351,4 @@ function getUserDisplayName() {
 
 // Example usage
 const userDisplayName = getUserDisplayName();
-console.log("User Display Name:", userDisplayName);
+console.log("Welcome: ", userDisplayName);
