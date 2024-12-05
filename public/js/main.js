@@ -2325,7 +2325,7 @@ document.addEventListener('DOMContentLoaded', function () {
     };
 
     // Initialize with settings
-    initializeLazyLoading(lazyLoadSettings);
+    //initializeLazyLoading(lazyLoadSettings);
 
 
 
