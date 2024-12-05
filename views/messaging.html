@@ -598,9 +598,10 @@ console.log("connectionId: ", connectionId);
             
         }
     }
-
     // Append the new connection to the list
     connectionsList.appendChild(div);
+
+    openSlidePanelBtn.click("open"); 
 }
 
 function composeMessages(conversationID, data) {
@@ -783,7 +784,7 @@ function loadContacts(userID) {
                 <span>${data.senderName}</span>
             `;
 
-            listItem.onclick = () => appendConnection(data, "message"), loadMessages(data.conversationID, data), openSlidePanelBtn.click();
+            listItem.onclick = () => appendConnection(data, "message"), loadMessages(data.conversationID, data),
             messageSection.appendChild(listItem);
         });
     });
