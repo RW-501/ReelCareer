@@ -1101,6 +1101,7 @@ main .jobCard:hover {
                 text-align: center;
                 cursor: pointer;
                 transition: all 0.3s ease;
+                margin: auto;
               }
             
               .state-city-card:hover {
