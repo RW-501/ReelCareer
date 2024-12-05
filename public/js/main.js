@@ -559,12 +559,14 @@ function createNavbar() {
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/views/job-listings">Job Listings</a></li>
-            <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/views/about">About Us</a></li>
+            <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/reels">Reel</a></li>
+            <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/views/membership">Membership</a></li>
 
             <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/views/blogs">Blogs</a></li>
-            <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/views/membership">Membership</a></li>
+            <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/views/about">About Us</a></li>
+
             <li class="nav-item"><div id="authSection" class="d-flex align-items-center"></div></li>
-            <li class="nav-item"><button id="darkModeToggle" class="btn btn-outline-secondary ml-3">Dark Mode</button></li>
+            <li class="nav-item"><button id="darkModeToggle" class="btn btn-outline-secondary m-3">Dark Mode</button></li>
           </ul>
         </div>
       </div>
@@ -630,10 +632,13 @@ function handleAuthStateChanged(user) {
         </button>
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="profileDropdown">
           <a class="dropdown-item" href="https://reelcareer.co/views/user">Profile</a>
+          <a class="dropdown-item" href="https://reelcareer.co/views/create">Create</a>
+          <a class="dropdown-item" href="https://reelcareer.co/views/messaging">Messaging</a>
+
           <a class="dropdown-item" href="https://reelcareer.co/views/job-seeker">Job Seeker</a>
           <a class="dropdown-item" href="https://reelcareer.co/views/recruiter-dashboard">Recruiter Dashboard</a>
-         
-          <a class="dropdown-item" href="https://reelcareer.co/views/messaging">Messaging</a>
+
+
 
           <button class="dropdown-item" id="logoutButton">Logout</button>
         </div>
