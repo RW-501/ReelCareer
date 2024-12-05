@@ -1040,7 +1040,7 @@ contactInfo.innerHTML = `<p>Contact: ${data.toName}</p>
         
         messageBox.innerHTML = '';
         const messagesRef = collection(db, 'Messages'); //array-contains
-        const q = query(messagesRef, where('participants', 'array-contains-any', participants), orderBy('createdAt'));
+        const q = query(messagesRef, where('participants', 'array-contains', participants), orderBy('createdAt'));
    
         
         onSnapshot(q, snapshot => {
