@@ -151,7 +151,7 @@
                   <div class="card mt-3">
                       <div class="card-body">
                           <h5>Digital Resume</h5>
-                          <a href="#" id="digital-resume-link" class="btn btn-primary">View Resume</a>
+                          <a href="#" id="digital-resume-link" class="btn btn-primary">Edit Resume</a>
                       </div>
                   </div>
   
@@ -172,7 +172,7 @@
                           <ul id="video-resume-list">
                               <!-- Video resume files will be dynamically listed here -->
                           </ul>
-                          <button class="btn btn-primary btn-block" id="profile-view-video-resume-btn">Edit Video Resumes</button>
+                          <button class="btn btn-primary btn-block" id="view-create-create-video-btn">Create Video Resumes</button>
                       </div>
                   </div>               
               </div>       
@@ -851,6 +851,7 @@ breadcrumbjobTitleActive.style.display = "none";
 document.getElementById('profileSettingsMain').style.display = 'none';
 document.getElementById('view-messages-btn').style.display = 'none';
 document.getElementById('view-create-reel-btn').style.display = 'none';
+document.getElementById('saveProfileBtn-profile').style.display = 'none';
 
 
 
@@ -1615,8 +1616,16 @@ document.getElementById('share-profile-btn').addEventListener('click', async () 
         });
         
 
-        document.getElementById('profile-view-video-resume-btn').addEventListener('click', async () => {
-          window.location.href = 'https://reelcareer.co/views/videoResume';
+        document.getElementById('view-create-create-video-btn').addEventListener('click', async () => {
+          window.location.href = 'https://reelcareer.co/views/create';
+
+        });
+
+        
+
+
+        document.getElementById('digital-resume-link').addEventListener('click', async () => {
+          window.location.href = 'https://reelcareer.co/views/job-seeker';
 
         });
 
@@ -1633,6 +1642,10 @@ document.getElementById('share-profile-btn').addEventListener('click', async () 
 
         });
 
+        document.getElementById('view-create-reel-btn').addEventListener('click', async () => {
+          window.location.href = 'https://reelcareer.co/views/create';
+
+        });
 
         document.getElementById('view-profile-btn').addEventListener('click', async () => {
   try {
