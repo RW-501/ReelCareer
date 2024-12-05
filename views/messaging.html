@@ -619,7 +619,7 @@ console.log("connectionId: ", connectionId);
             `;
             div.innerHTML = connectionInfo;
 
-            composeMessages(connection.to, connection);
+            composeMessages(connection.from, connection);
 
             } else if (connection.to === userDataSaved.userID) {
 
