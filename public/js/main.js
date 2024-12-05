@@ -2329,7 +2329,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (elements.length > 0) {
       callback(elements);
     } else {
-      requestAnimationFrame(() => waitForElements(selector, callback));
+     // requestAnimationFrame(() => waitForElements(selector, callback));
     }
   };
   
