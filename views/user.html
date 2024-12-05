@@ -1879,15 +1879,25 @@ function toggleSendButton(content) {
 document.getElementById('sendMessageForm').addEventListener('submit', async function(e) {
     e.preventDefault();
 
-    const profilePic = document.getElementById('profilePic').src;
-    const senderID = auth.currentUser.uid;
+    const recipientProfilePicture = document.getElementById('profilePic').src;
+    const recipientName = document.getElementById('user-name').innerText;
     const recipientID = document.getElementById('recipient-id').value;
+
+    const userDataSaved = getUserData() || [];
+    const senderID = auth.currentUser.uid;
+
+    console.log("USERDATA: ", USERDATA);
+    console.log("UserData: ", UserData);
+    console.log("UserID: ", UserID);
+    console.log("UserId: ", UserId);
+    console.log("senderID: ", senderID);
+    console.log("userDataSaved: ", userDataSaved);
+
+
     const content = document.getElementById('message-content').value.trim();
     const attachmentFile = document.getElementById('message-attachments').files[0];
-    const userDataSaved = getUserData() || [];
 
     const connectBtn = document.getElementById('connect-btn');
-    console.log("userIdconnectBtn ", connectBtn.innerText);
 
     let connectedBool = false;
 
@@ -1920,18 +1930,26 @@ document.getElementById('sendMessageForm').addEventListener('submit', async func
 
     const messageData = {
         recipientID: recipientID,
-        senderID: senderID || userDataSaved.userID,
-        conversationID: recipientID,
+        recipientName: recipientName,
+        recipientProfileURL: `https://reelcareer.co/views/user?u=${recipientID}`,
+        recipientProfilePicture:  recipientProfilePicture,
+        recipientRead: false,
+
+ 
+
+        senderID: userDataSaved.userID || senderID,
+        senderName: userDataSaved.displayName,
+        senderProfilePicture: userDataSaved.profilePicture,
+        senderProfileURL: `https://reelcareer.co/views/user?u=${userDataSaved.userID}`,
+
+        group: 'main',
+        messageType: 'contact',
         type: 'message',
+
+        conversationID: recipientID,
         content: content,
         connectedBool: connectedBool,
         createdAt: new Date(),
-        recipientRead: false,
-        recipientGroup: 'main',
-        messageType: 'contact',
-        senderName: userDataSaved.displayName,
-        senderProfilePicture: userDataSaved.profilePicture || profilePic,
-        senderProfileURL: `https://reelcareer.co/views/user?u=${senderID}`,
         timestamp: serverTimestamp(),
         contentType: contentType,
         status: 'unread',

@@ -549,13 +549,26 @@ console.log("connectionId: ", connectionId);
     console.log("connection: ", connection);
 
     if (type === "message") {
+        if (connection.senderID === userDataSaved.userID) {
+
         const connectionInfo = `
         <div>
           <img src="${connection.senderProfilePicture}" alt="Profile" width="40" height="40">
           <a href="https://reelcareer.co/views/user?u=${connection.senderID}" target="_blank">${connection.senderName}</a>
         </div>
-        <button onclick="acceptConnection('${connection.senderID}', '${connection.to}')">Accept</button>
+        <button onclick="acceptConnection('${connection.senderID}', '${connection.recipientID}')">Accept</button>
         `;
+    }else{
+        const connectionInfo = `
+        <div>
+          <img src="${connection.profilePicture}" alt="Profile" width="40" height="40">
+          <a href="https://reelcareer.co/views/user?u=${connection.recipientID}" target="_blank">${connection.recipientName}</a>
+        </div>
+        <button onclick="acceptConnection('${connection.recipientID}', '${connection.senderID}')">Accept</button>
+        `;
+
+
+    }
         div.innerHTML = connectionInfo;
 
     } else {
@@ -1131,19 +1144,43 @@ function sendMessage(conversationID, message, attachmentUrl = '') {
 
     const contentType = attachmentUrl ? determineContentType(attachmentUrl) : 'text';
 
+     const userDataSaved = getUserData() || [];
+    const senderID = auth.currentUser.uid;
+
+    console.log("USERDATA: ", USERDATA);
+    console.log("UserData: ", UserData);
+    console.log("UserID: ", UserID);
+    console.log("UserId: ", UserId);
+    console.log("senderID: ", senderID);
+    console.log("userDataSaved: ", userDataSaved);
+
     addDoc(collection(db, 'Messages'), {
         senderID: auth.currentUser.uid,
         recipientID: conversationID,
-        conversationID: conversationID,
         profilePicture: userDataSaved.profilePicture,
-        content: message.trim(), // Trim to avoid sending blank spaces
-        contentType: contentType,
-        attachments: attachmentUrl,
-        messageType: 'contact',
+
+        
+
+   
+
+  
+        senderID: userDataSaved.userID || senderID,
+        senderName: userDataSaved.displayName,
+        senderProfilePicture: userDataSaved.profilePicture,
+        senderProfileURL: `https://reelcareer.co/views/user?u=${userDataSaved.userID}`,
+
         group: 'main',
-        createdAt: serverTimestamp(),
-        read: false,
-        status: "unread",
+        messageType: 'chat',
+        type: 'message',
+
+        conversationID: conversationID,
+        content: message.trim(), // Trim to avoid sending blank spaces
+        connectedBool: connectedBool,
+        createdAt: new Date(),
+        timestamp: serverTimestamp(),
+        contentType: contentType,
+        status: 'unread',
+        attachments: attachmentUrl,
         isDeleted: false
     }).then(() => {
         document.getElementById('editableDiv').innerHTML = ''; // Clear input
