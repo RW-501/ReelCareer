@@ -1096,12 +1096,10 @@ main .jobCard:hover {
               .state-city-card {
                 background-color: #f8f9fa;
                 border-radius: 8px;
-                padding: 20px;
                 width: 200px;
                 text-align: center;
                 cursor: pointer;
                 transition: all 0.3s ease;
-                margin: auto;
               }
             
               .state-city-card:hover {
@@ -1112,6 +1110,9 @@ main .jobCard:hover {
     color: #565a5f;
     text-decoration: none !important;
     font-weight: 800;
+    padding: 20px;
+    margin: auto;
+
 }
               .state-city-card i {
                 font-size: 30px;
@@ -1269,7 +1270,7 @@ main .jobCard:hover {
   .state-city-card h4 {
     font-size: 1rem;
     color: #555;
-    margin: 0;
+    margin: 10px;
   }
   
 
