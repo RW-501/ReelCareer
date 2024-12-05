@@ -1639,7 +1639,11 @@ main .jobCard:hover {
 }
 .attachment-container {
   margin-top: 1rem !important;
+  margin-top: 1rem !important;
+  display: flex;
+  justify-content: space-between;
 }
+
 
 .message-content-area {
   display: block;

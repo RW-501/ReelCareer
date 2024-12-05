@@ -568,32 +568,40 @@ document.addEventListener('DOMContentLoaded', trackAllFormsWithExitWarning);
                     contenteditable="true"
                     placeholder="Type your message here..."
                   ></div>
+
+
            <!-- Attachment Preview -->
            <div id="attachment-preview" class="mt-3 d-none">
             <div class="d-flex align-items-center">
-
               <img id="attachment-thumbnail" class="d-none" src="" alt="Attachment preview" width="50" class="mr-2">
               <button type="button" id="remove-attachment" class="btn btn-sm btn-danger">X</button>
-            </div>
+          </div>
           </div>
 
                   </div>
 
             <!-- Attachment Section -->
             <div class="attachment-container">
+              <div class="mt-3">
               <button type="button" id="attachment-btn" class="btn btn-outline-primary">
                 <i class="fas fa-paperclip"></i> Choose File
               </button>
             </div>
 
+           <!-- Submit Button -->
+           <div class="mt-3">
+            <button type="submit" class="btn btn-primary mt-3">Send</button>
+          </div>
 
-                <!-- Submit Button -->
-                <div class="mt-3">
 
-                <button type="submit" class="btn btn-primary mt-3">Send</button>
-</div>
-
+            </div>
                 </div>
+
+
+
+
+
+
                 <span id="attachment-name" class="mr-2" hidden></span>
 
                 <input type="hidden" id="recipient-id" value="">
