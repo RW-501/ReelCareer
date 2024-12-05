@@ -2148,8 +2148,9 @@ document.addEventListener('DOMContentLoaded', function () {
       delayBetweenDivs = 500, // Delay between div animations (ms)
       initialBodyDelay = 1500, // Delay before showing body (ms)
       animationDuration = 1000, // Animation duration (ms)
-      animationTimingFunction = 'ease', // CSS timing function
-      hiddenClass = 'hidden', // Class to hide body
+      animationTimingFunction = 'cubic-bezier(0.68, -0.55, 0.27, 1.55)', // Easing function for bounce effect
+      hiddenClass = 'hide', // Class to hide body
+      showClass = 'show',
     } = config;
 
  //   console.log('rollInAnimations config:', config);
@@ -2172,7 +2173,7 @@ document.addEventListener('DOMContentLoaded', function () {
       }
   
       /* Roll-in effect */
-      .main > div.roll-in {
+      .main > div.${showClass} {
           opacity: 1;
           transform: translateX(0);
       }
@@ -2189,19 +2190,19 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Hide main container initially
-    mainContainer.classList.add('hidden');
+    mainContainer.classList.add(hiddenClass);
     mainContainer.setAttribute('aria-hidden', 'true');
 
     // Reveal main container and trigger roll-in animations
     setTimeout(() => {
-      mainContainer.classList.remove('hidden');
+      mainContainer.classList.remove(hiddenClass);
       mainContainer.removeAttribute('aria-hidden');
     //  console.log('Main container revealed, starting roll-in animations...');
 
       // Sequentially add the "roll-in" class to each div with a delay
       mainDivs.forEach((div, index) => {
         setTimeout(() => {
-          div.classList.add('roll-in');
+          div.classList.add(showClass);
          // console.log(`Div #${index + 1} roll-in animation triggered.`);
         }, index * delayBetweenDivs);
       });
@@ -2209,13 +2210,7 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   // Example usage
-  rollInAnimations({
-    delayBetweenDivs: 1000,
-    initialBodyDelay: 1500,
-    animationDuration: 2000,
-    animationTimingFunction: 'cubic-bezier(0.68, -0.55, 0.27, 1.55)', // Easing function for bounce effect
-    hiddenClass: 'hidden' // Class to hide body
-  });
+  rollInAnimations();
 
 
 
@@ -2226,7 +2221,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const lazyLoadSettings = {
       threshold: 0.1, // Trigger when 10% of the element is visible
       rootMargin: '0px', // Margin around the root
-      enableImageFadeIn: true, // Add fade-in effect for images
+      enableImageFadeIn: false, // Add fade-in effect for images
       enableSkeletonRemoval: true, // Remove skeleton effect on load
       debounceDelay: 100, // Debounce delay in milliseconds
     };

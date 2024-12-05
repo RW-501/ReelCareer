@@ -80,6 +80,80 @@ h1, h2, h3, h4, h5, h6, li, p {
     font-family: cursive;
 
 }
+
+/* Base style for the loading state */
+.loaded {
+  background-color: initial;       /* Use the background color from the parent or default */
+  display: block;                  /* Ensure it stays in the document flow */
+  opacity: 1;                      /* Fully visible */
+  transform: scale(1);             /* Ensure it's at normal size */
+  transition: opacity 0.3s ease-out, transform 0.3s ease-out, background-color 0.3s ease-out; /* Smooth transitions */
+}
+
+/* Animation when the element is in the loading state */
+.loading {
+  background-color: rgba(0, 0, 0, 0.1); /* Light background for loading */
+  opacity: 0.5;                       /* Reduce opacity */
+  transform: scale(0.95);             /* Slightly shrink the element */
+  pointer-events: none;               /* Prevent interaction during loading */
+  transition: opacity 0.5s ease, transform 0.3s ease, background-color 0.3s ease; /* Smooth fading and scaling */
+}
+
+/* Optional: Add a "pulse" effect for loading */
+@keyframes pulse {
+  0% {
+      transform: scale(1);
+      opacity: 0.7;
+  }
+  50% {
+      transform: scale(1.05);
+      opacity: 1;
+  }
+  100% {
+      transform: scale(1);
+      opacity: 0.7;
+  }
+}
+
+/* Apply pulse animation */
+.loading {
+  animation: pulse 1.5s infinite; /* Pulsing effect for loading */
+}
+
+
+/* Initial state - hidden */
+.hide {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none; /* Prevent interaction when hidden */
+  transform: scale(0.95) rotate(2deg); /* Subtle scaling and rotation for smooth transition */
+  transition: opacity 0.6s cubic-bezier(0.25, 0.8, 0.25, 1), visibility 0s 0.6s, transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1); /* Fluid fade-out with a slight rotation */
+  will-change: opacity, transform; /* Hint the browser to optimize for transitions */
+}
+
+/* Final state - visible */
+.show {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto; /* Enable interaction when visible */
+  transform: scale(1) rotate(0deg); /* Reset rotation and scale */
+  transition: opacity 0.6s cubic-bezier(0.25, 0.8, 0.25, 1), visibility 0s 0s, transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1); /* Fluid fade-in with reset scale and rotation */
+  will-change: opacity, transform; /* Optimizing for performance */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 .rounded-circle {
     color: white;
     border: white solid .1rem;
@@ -1534,13 +1608,7 @@ main .jobCard:hover {
   transition: opacity 0.6s ease-in-out, transform 0.3s ease;
 }
 
-.loaded {
-  background-color: initial;
-  display: initial;
 
-  opacity: 1;
-  transform: initial;
-}
 
 .skeleton {
   background: linear-gradient(90deg, #eee 25%, #ddd 50%, #eee 75%);
