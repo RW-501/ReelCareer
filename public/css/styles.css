@@ -1637,11 +1637,15 @@ main .jobCard:hover {
   width: 100%;
 
 }
+.message-input-attachment-btn-wrap {
+  width: 100%;
+  display: grid;
+}
 .attachment-container {
-  margin-top: 1rem !important;
   margin-top: 1rem !important;
   display: flex;
   justify-content: space-between;
+  width: 100%;
 }
 
 
