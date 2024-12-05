@@ -561,7 +561,7 @@ console.log("connectionId: ", connectionId);
         </div>
         <button onclick="acceptConnection('${connection.senderID}', '${connection.recipientID}')">Accept</button>
         `;
-    }else{
+    }else   if (connection.recipientID === userDataSaved.userID){
         const connectionInfo = `
         <div>
           <img src="${connection.profilePicture}" alt="Profile" width="40" height="40">
@@ -585,7 +585,7 @@ console.log("connectionId: ", connectionId);
                 <button onclick="removeConnection('${connection.from}', '${connection.to}')">Remove</button>
                 `;
                 div.innerHTML = connectionInfo;
-            } else {
+            } else if (connection.to === userDataSaved.userID) {
                 const connectionInfo = `
                 <div>
                   <img src="${connection.fromProfilePicture}" alt="Profile" width="40" height="40">
@@ -621,7 +621,7 @@ console.log("connectionId: ", connectionId);
 
             composeMessages(connection.to, connection);
 
-            } else {
+            } else if (connection.to === userDataSaved.userID) {
 
 
             const connectionInfo = `
@@ -648,6 +648,14 @@ console.log("connectionId: ", connectionId);
     openSlidePanelBtn.dispatchEvent(openEvent);
 
 }
+
+function viewProfile(userId){
+    if (userId) {
+      window.location.href = `https://reelcareer.co/views/user?u=${userId}`;
+    }
+}
+
+window.viewProfile = viewProfile;
 
 function composeMessages(conversationID, data) {
 
