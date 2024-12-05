@@ -1694,3 +1694,17 @@ main .jobCard:hover {
   position: absolute;
   pointer-events: none;
 }
+
+#conversationTitle {
+  margin-bottom: 10px;
+  background-color: #f9f9f9;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+.groupSelect {
+  border: #b7d1eb solid;
+    border-radius: 20px;
+    padding: 3px;
+}
