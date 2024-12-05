@@ -763,7 +763,7 @@ const groups = [
 groups.forEach(group => {
     const option = document.createElement('option');
     option.value = group.groupName; // The group name will be the value
-    option.textContent = `Group: (${group.groupName})`; // Display the group name
+    option.textContent = `Group: (${userDataSaved.userID})`; // Display the group name
     selectInput.appendChild(option);
 });
 
@@ -793,7 +793,7 @@ contactInfo.innerHTML = `<p>Contact: ${data.toName}</p>
 
 // Create the select input element
 const selectInput = document.createElement('select');
-selectInput.id = `groupSelect${group.groupName}`;
+selectInput.id = `groupSelect${userDataSaved.userID}`;
 selectInput.onchange = function () {
     const selectedOption = this.options[this.selectedIndex];
     changeGroup(userDataSaved.userID, selectedOption.value, "fromGroup");
