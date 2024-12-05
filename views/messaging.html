@@ -611,20 +611,6 @@ console.log("connectionId: ", connectionId);
             if (connection.from === userDataSaved.userID) {
              
                 const connectionInfo = `
-            <div>
-              <img src="${connection.fromProfilePicture}" alt="Profile" width="40" height="40">
-              <a href="${connection.fromProfileURL}" target="_blank">${connection.fromName}</a>
-            </div>
-            <button onclick="viewProfile('${connection.from}')">to View Profile</button>
-            `;
-            div.innerHTML = connectionInfo;
-
-            composeMessages(connection.from, connection);
-
-            } else if (connection.to === userDataSaved.userID) {
-
-
-            const connectionInfo = `
                 <div>
                   <img src="${connection.toProfilePicture}" alt="Profile" width="40" height="40">
                   <a href="${connection.toProfileURL}" target="_blank">${connection.toName}</a>
@@ -632,6 +618,20 @@ console.log("connectionId: ", connectionId);
             <button onclick="viewProfile('${connection.to}')">from View Profile</button>
                 `;
                 div.innerHTML = connectionInfo;
+
+            composeMessages(connection.from, connection);
+
+            } else if (connection.to === userDataSaved.userID) {
+
+                const connectionInfo = `
+            <div>
+              <img src="${connection.fromProfilePicture}" alt="Profile" width="40" height="40">
+              <a href="${connection.fromProfileURL}" target="_blank">${connection.fromName}</a>
+            </div>
+            <button onclick="viewProfile('${connection.from}')">to View Profile</button>
+            `;
+            div.innerHTML = connectionInfo;
+   
 
                 composeMessages(connection.to, connection);
             }
@@ -665,6 +665,7 @@ const messageBox = document.getElementById('messageBox');
 const conversationTitle = document.getElementById('conversationTitle');
 const contactInfo = document.getElementById('contactInfo');
 
+ if (connection.to === userDataSaved.userID) {
 
 conversationTitle.innerHTML = `
 <a href="https://reelcareer.co/views/user?u=${data.from}" style="text-decoration: none; color: inherit;">
@@ -673,13 +674,30 @@ conversationTitle.innerHTML = `
 <span>${data.fromName || 'Unknown Sender'}</span>
 `;  
 contactInfo.setAttribute("data-conversation-id",conversationID);
+contactInfo.setAttribute("data-conversation-name",data.fromName);
+contactInfo.setAttribute("data-conversation-picture",data.fromProfilePicture);
+contactInfo.innerHTML = `<p>Contact: ${data.fromName}</p hidden><p>Status: Online</p>`; // Display contact info dynamically
+
+} else if (connection.from === userDataSaved.userID) {
+    conversationTitle.innerHTML = `
+<a href="https://reelcareer.co/views/user?u=${data.to}" style="text-decoration: none; color: inherit;">
+    <img src="${data.toProfilePicture || 'default-image-url'}" alt="Avatar" class="avatar">
+</a>
+<span>${data.toName || 'Unknown Sender'}</span>
+`;  
+contactInfo.setAttribute("data-conversation-id",conversationID);
+contactInfo.setAttribute("data-conversation-name",data.toName);
+contactInfo.setAttribute("data-conversation-picture",data.toProfilePicture);
+contactInfo.innerHTML = `<p>Contact: ${data.to}</p hidden><p>Status: Online</p>`; // Display contact info dynamically
 
 
-contactInfo.innerHTML = `<p>Contact: ${data.fromName}</p><p>Status: Online</p>`; // Display contact info dynamically
+}
+
+
 console.log("conversationID: ", conversationID);
 
 
-messageBox.innerHTML = '';
+//messageBox.innerHTML = '';
 
 }
 window.composeMessages  = composeMessages ;
@@ -1102,7 +1120,7 @@ document.addEventListener('DOMContentLoaded', () => {
             attachmentUrl = await uploadAttachment(conversationID, attachmentInput);
         }
 
-        await sendMessage(conversationID, message, attachmentUrl);
+        await sendMessage(message, attachmentUrl);
         
      // Reset inputs after successful send
      editableDiv.innerHTML = ''; // Clear the editable div
@@ -1134,7 +1152,7 @@ async function uploadAttachment(conversationID, file) {
 }
 
 
-function sendMessage(conversationID, message, attachmentUrl = '') { 
+function sendMessage( message, attachmentUrl = '') { 
     const determineContentType = (url) => {
         const fileExtension = url.split('.').pop().toLowerCase(); // Get file extension
         switch (fileExtension) {
@@ -1181,17 +1199,23 @@ function sendMessage(conversationID, message, attachmentUrl = '') {
     console.log("senderID: ", senderID);
     console.log("userDataSaved: ", userDataSaved);
 
-    addDoc(collection(db, 'Messages'), {
-        senderID: auth.currentUser.uid,
-        recipientID: conversationID,
-        profilePicture: userDataSaved.profilePicture,
+    const conversationID = document.getElementById('conversationTitle')?.getAttribute('data-conversation-id');
+    const conversationtName = document.getElementById('conversationTitle')?.getAttribute('data-conversation-name');
+    const conversationPicture = document.getElementById('conversationTitle')?.getAttribute('data-conversation-picture');
 
-        
+    addDoc(collection(db, 'Messages'), {
+
+
+        recipientID: conversationID,
+        recipientName: conversationtName,
+        recipientProfileURL: `https://reelcareer.co/views/user?u=${recipientID}`,
+        recipientProfilePicture:  conversationPicture,
+        recipientRead: false,
 
    
 
   
-        senderID: userDataSaved.userID || senderID,
+        senderID: userDataSaved.userID || auth.currentUser.uid || senderID,
         senderName: userDataSaved.displayName,
         senderProfilePicture: userDataSaved.profilePicture,
         senderProfileURL: `https://reelcareer.co/views/user?u=${userDataSaved.userID}`,
