@@ -2216,112 +2216,101 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-
-    // Lazy Load Settings
-    const lazyLoadSettings = {
-      threshold: 0.1, // Trigger when 10% of the element is visible
-      rootMargin: '0px', // Margin around the root
-      enableImageFadeIn: false, // Add fade-in effect for images
-      enableSkeletonRemoval: true, // Remove skeleton effect on load
-      debounceDelay: 100, // Debounce delay in milliseconds
-    };
-
-    // Lazy Load Handler
-    const handleLazyLoad = (entries, observer) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const el = entry.target;
-          const lazyType = el.dataset.lazyType;
-
-          try {
-            switch (lazyType) {
-              case "image":
-                el.src = el.dataset.src;
-                el.onerror = () => {
-                  el.src = "https://reelcareer.co/images/sk.png";
-                  console.error(`Failed to load image: ${el.dataset.src}`);
-                };
-                if (lazyLoadSettings.enableImageFadeIn) {
-                  el.onload = () => {
-                    el.classList.add("loaded");
-                    el.style.opacity = 1; // Ensure opacity transition
-                  };
-                }
-                el.removeAttribute("data-src");
-                break;
-
-              case "text":
-                if (el.dataset.content) {
-                  el.textContent = el.dataset.content;
+  const handleLazyLoad = (entries, observer) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const el = entry.target;
+        const lazyType = el.dataset.lazyType;
+  
+        try {
+          switch (lazyType) {
+            case "image":
+              el.src = el.dataset.src;
+              el.onerror = () => {
+                el.src = "https://reelcareer.co/images/sk.png";
+                console.error(`Failed to load image: ${el.dataset.src}`);
+              };
+              if (lazyLoadSettings.enableImageFadeIn) {
+                el.onload = () => {
                   el.classList.add("loaded");
-                } else {
-                  console.warn("No content available for lazy text element.");
-                }
-                break;
-
-              case "card":
-                if (lazyLoadSettings.enableSkeletonRemoval) {
-                  el.classList.remove("skeleton");
-                }
+                };
+              }
+              el.removeAttribute("data-src");
+              break;
+  
+            case "text":
+              if (el.dataset.content) {
+                el.textContent = el.dataset.content;
                 el.classList.add("loaded");
-                break;
-
-              default:
-                console.warn(`Unsupported lazy type: ${lazyType}`);
-            }
-          } catch (error) {
-            console.error("Error during lazy loading:", error);
+              } else {
+                console.warn("No content available for lazy text element.");
+              }
+              break;
+  
+            case "card":
+              if (lazyLoadSettings.enableSkeletonRemoval) {
+                el.classList.remove("skeleton");
+              }
+              el.classList.add("loaded");
+              break;
+  
+            default:
+              console.warn(`Unsupported lazy type: ${lazyType}`);
           }
-
-          observer.unobserve(el);
+        } catch (error) {
+          console.error("Error during lazy loading:", error);
         }
-      });
-    };
-
-    // Initialize Lazy Loading
-    const initializeLazyLoading = (settings) => {
-      // Debounce IntersectionObserver callback
-      const debounce = (fn, delay) => {
-        let timeout;
-        return (...args) => {
-          clearTimeout(timeout);
-          timeout = setTimeout(() => fn(...args), delay);
-        };
-      };
-
-      const observer = new IntersectionObserver(
-        debounce(handleLazyLoad, settings.debounceDelay),
-        {
-          root: null,
-          rootMargin: settings.rootMargin,
-          threshold: settings.threshold,
-        }
-      );
-
-      // Observe all lazy elements
-      document.querySelectorAll(".lazy-load").forEach(el => observer.observe(el));
-
-      // Fallback for unsupported browsers
-      if (!("IntersectionObserver" in window)) {
-        console.warn("IntersectionObserver not supported. Falling back to immediate loading.");
-        document.querySelectorAll(".lazy-load").forEach(el => {
-          const lazyType = el.dataset.lazyType;
-          if (lazyType === "image") {
-            el.src = el.dataset.src || el.src;
-          } else if (lazyType === "text") {
-            el.textContent = el.dataset.content;
-          } else if (lazyType === "card") {
-            el.classList.remove("skeleton");
-          }
-        });
+  
+        observer.unobserve(el);
       }
-    };
-
-    // Initialize with settings
-    initializeLazyLoading(lazyLoadSettings);
-
-
-
+    });
+  };
+  
+  const initializeLazyLoading = (settings) => {
+    const observer = new IntersectionObserver(
+      (entries, observer) => handleLazyLoad(entries, observer),
+      {
+        root: document.querySelector(settings.rootSelector) || null,
+        rootMargin: settings.rootMargin,
+        threshold: settings.threshold,
+      }
+    );
+  
+    // Observe only main content lazy elements
+    document.querySelectorAll("main .lazy-load").forEach(el => observer.observe(el));
+  
+    // Fallback for unsupported browsers
+    if (!("IntersectionObserver" in window)) {
+      console.warn("IntersectionObserver not supported. Falling back to immediate loading.");
+      document.querySelectorAll("main .lazy-load").forEach(el => {
+        const lazyType = el.dataset.lazyType;
+        switch (lazyType) {
+          case "image":
+            el.src = el.dataset.src || el.src;
+            break;
+          case "text":
+            el.textContent = el.dataset.content;
+            break;
+          case "card":
+            el.classList.remove("skeleton");
+            break;
+        }
+        el.classList.add("loaded");
+      });
+    }
+  };
+  
+  // Initialize with settings
+  const lazyLoadSettings = {
+    rootSelector: "main", // Only observe within the main content
+    rootMargin: "0px 0px 50px 0px",
+    threshold: 0.1,
+    enableImageFadeIn: true,
+    enableSkeletonRemoval: true,
+  };
+  
+  initializeLazyLoading(lazyLoadSettings);
+  
 
   
   function scrollToDivOnLoad(divId = null) {
