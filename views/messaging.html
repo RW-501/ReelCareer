@@ -548,8 +548,7 @@ console.log("connectionId: ", connectionId);
     const div = document.createElement('div');
     div.classList.add('connection-item');
     div.setAttribute('data-connection-id', connectionId); // Add a unique attribute
-    console.log("connectionId: ", connectionId);
-    console.log("connection: ", connection);
+   
 
     if (type === "message") {
         if (connection.senderID === userDataSaved.userID) {
@@ -668,7 +667,7 @@ const messageBox = document.getElementById('messageBox');
 const conversationTitle = document.getElementById('conversationTitle');
 const contactInfo = document.getElementById('contactInfo');
 
- if (connection.to === userDataSaved.userID) {
+ if (data.to === userDataSaved.userID) {
 
 conversationTitle.innerHTML = `
 <a href="https://reelcareer.co/views/user?u=${data.from}" style="text-decoration: none; color: inherit;">
@@ -681,7 +680,7 @@ contactInfo.setAttribute("data-conversation-name",data.fromName);
 contactInfo.setAttribute("data-conversation-picture",data.fromProfilePicture);
 contactInfo.innerHTML = `<p>Contact: ${data.fromName}</p hidden><p>Status: Online</p>`; // Display contact info dynamically
 
-} else if (connection.from === userDataSaved.userID) {
+} else if (data.from === userDataSaved.userID) {
     conversationTitle.innerHTML = `
 <a href="https://reelcareer.co/views/user?u=${data.to}" style="text-decoration: none; color: inherit;">
     <img src="${data.toProfilePicture || 'default-image-url'}" alt="Avatar" class="avatar">
