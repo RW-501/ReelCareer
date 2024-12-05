@@ -71,10 +71,13 @@ function addStyles() {
 
     /* Fading Text Logo */
     .text-logo {
-        font-family: 'Arial', sans-serif;
-        font-size: 2.5rem;
+    color: #639ad4;
+    font-weight: 700;
+    -webkit-text-stroke: thin;
+    font-size: xx-large;
+    font-variant: small-caps;
+            font-size: 2.5rem;
         font-weight: bold;
-        color: #007bff;
         text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         animation: fadeLogo 2s infinite alternate;
     }
@@ -86,7 +89,7 @@ function addStyles() {
     }
 
     /* Fade out Loader */
-    .loader.hidden {
+    .loader.hide {
         opacity: 0;
         visibility: hidden;
         transition: visibility 0s 0.5s, opacity 0.5s;
@@ -126,7 +129,7 @@ createLoader("ReelCareer");
      // console.log("pauseTime   ", pauseTime);
       if (pauseTime === false) {
         const loader = document.getElementById("loaderX");
-        loader.classList.add("hidden");
+        loader.classList.add("hide");
         loader.remove();
        // console.log(" loader.remove();   ");
 
