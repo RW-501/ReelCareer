@@ -1244,6 +1244,16 @@ main .jobCard:hover {
     margin-top: 5px; /* Space between title and divider */
   }
   
+  .state-list,
+  .city-list {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-content: space-between;
+    justify-content: space-around;
+    align-items: baseline;
+
+  }
 
   #backToTopBtn {
     display: block;

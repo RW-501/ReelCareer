@@ -343,34 +343,7 @@ document.addEventListener('click', (e) => {
   }
 });
 
-// Show login popup with better styling
-const showLoginPopup = () => {
-  const loginPopup = document.createElement("div");
-  loginPopup.id = "login-popup";
-  loginPopup.classList.add("login-popup");
-  
-  loginPopup.innerHTML = `
-    <div class="popup-content">
-      <h2>Login</h2>
-      <button class="btn-login" id="google-login">Login with Google</button><br><br>
-      <button class="btn-login" id="facebook-login">Login with Facebook</button><br><br>
-      <button class="btn-login" id="apple-login">Login with Apple</button><br><br>
-      <form id="email-login-form">
-        <input type="email" id="login-email" placeholder="Email" required><br><br>
-        <input type="password" id="login-password" placeholder="Password" required><br><br>
-        <button type="submit">Login with Email</button>
-      </form>
-      <p class="form-link">Don't have an account? <a href="/views/auth">Create an account</a></p>
-    </div>
-    <div class="popup-overlay"></div>
-  `;
-  
-  document.body.appendChild(loginPopup);
-  document.getElementById('login-email').focus();
-  document.querySelector('.popup-overlay').addEventListener('click', closeLoginPopup);
-};
 
-window.showLoginPopup = showLoginPopup;
 
 
 
