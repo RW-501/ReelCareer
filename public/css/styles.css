@@ -1613,6 +1613,6 @@ main .jobCard:hover {
 
 
 .profile-nav-item {
-
+  margin-bottom: .5rem;
     justify-content: space-evenly;
 }
