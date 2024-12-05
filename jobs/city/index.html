@@ -307,7 +307,7 @@
     // Generate HTML for each group
     const groupedCityHTML = Object.entries(groupedCities)
       .map(([letter, cityList]) => `  
-        <div id="${letter}" class="city-group lazy-load">
+        <div id="${letter}" class="city-group ">
           <div class="city-letter">
             <h3 class="city-letter-title">${letter} <span class="city-count">(${cityList.length})</span></h3>
             <hr class="city-divider">
@@ -325,7 +325,7 @@
 
     // Inject HTML into the container
     jobsContainer.innerHTML = `
-      <div class="jobs-header lazy-load">
+      <div class="jobs-header ">
         <h2 class="header-title">Available Cities</h2>
         <h4 class="header-subtitle">Total Cities: ${cities.length}</h4>
         <hr class="header-divider">
@@ -377,7 +377,6 @@ function searchCities(containerId) {
     `).join("");
 
   jobsContainer.innerHTML = `
-    <div class="jobs-header lazy-load">
       <h2 class="header-title">Filtered Jobs</h2>
       <hr class="header-divider">
     </div>
@@ -408,7 +407,7 @@ function searchCities(containerId) {
       const cityHeader = document.getElementById("city-header");
 
       cityHeader.innerHTML = `
-    <div class="search-container lazy-load">
+    <div class="search-container ">
       <h1>Search Jobs by Location</h1>
       <p class="intro-text">
         Search or select from our list of locations below to find exciting job opportunities near you.

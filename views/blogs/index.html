@@ -322,7 +322,7 @@ async function fetchBlogs(page) {
                 if(blogData.title){
                 // Build the inner HTML with just the image and title, wrapped with a clickable link
                 blogCard.innerHTML = `
-    <div class="blog-card lazy-load" style="box-shadow: 0 8px 16px rgba(0,0,0,0.1); padding: 20px; border-radius: 10px; background-color: #ffffff; margin-bottom: 30px; overflow: hidden; display: flex; align-items: flex-start; gap: 20px; transition: transform 0.3s ease;">
+    <div class="blog-card " style="box-shadow: 0 8px 16px rgba(0,0,0,0.1); padding: 20px; border-radius: 10px; background-color: #ffffff; margin-bottom: 30px; overflow: hidden; display: flex; align-items: flex-start; gap: 20px; transition: transform 0.3s ease;">
         <a href="https://reelcareer.co/views/blog/?b=${doc.id}" style="text-decoration: none;color: inherit;display: flex;gap: 20px;width: 100%;margin: auto;flex-direction: row;flex-wrap: wrap;align-content: space-around;justify-content: space-around;align-items: flex-start;">
             ${imageUrl ? `<img src="${imageUrl}" alt="${blogData.imageCaption || 'Blog Image'}" style="width: 200px; height: auto; border-radius: 8px; object-fit: cover; flex-shrink: 0;"/>` : ""}
             <div class="blog-content" style="flex-grow: 1;">

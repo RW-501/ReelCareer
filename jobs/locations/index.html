@@ -280,7 +280,6 @@
       document.getElementById("stateListContainer").innerHTML = `
         <h2>Available States</h2>
                 <hr>
-          <div class="state-list lazy-load">
 ${stateListHTML}
 </div>
       `;
@@ -315,7 +314,7 @@ ${stateListHTML}
       .map(([letter, cityList]) => {
         totalJobs += cityList.length; // Add to total count
         return `
-          <div id="${letter}" class="city-group lazy-load">
+          <div id="${letter}" class="city-group ">
 <div class="city-letter">
   <h3 class="city-letter-title">${letter} <span class="city-count">(${cityList.length})</span></h3>
   <hr class="city-divider">

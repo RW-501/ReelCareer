@@ -324,7 +324,7 @@ async function displayStateListWithSearch(jobsContainer) {
       <h2>Available States</h2>
 
       <hr>
-      <div id="state-list-container" class="state-list lazy-load">
+      <div id="state-list-container" class="state-list ">
         ${states
           .map(state => `
             <div class="state-city-card" data-job-location="${state}">
@@ -368,7 +368,7 @@ async function fetchJobsByState(state) {
       const stateHeader = document.getElementById("state-header");
 
       stateHeader.innerHTML = `
-    <div class="search-container lazy-load">
+    <div class="search-container ">
       <h1>Search Jobs by Location</h1>
       <p class="intro-text">
         Search or select from our list of locations below to find exciting job opportunities near you.
