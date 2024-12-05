@@ -1193,7 +1193,11 @@ main .jobCard:hover {
   .state-city-card {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 20px;
+    margin: 20px;
+    flex-direction: row;
+    align-content: space-between;
+    justify-content: space-around;
   }
   
   .state-city-card a {
