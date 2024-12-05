@@ -240,7 +240,7 @@ createLoader("ReelCareer");
     document.head.appendChild(style);
   }
   
-  addStyles2();
+  //addStyles2();
   
   
   
