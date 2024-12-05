@@ -747,7 +747,7 @@ const selectInput = document.createElement('select');
 selectInput.id = `groupSelect${group.groupName}`;
 selectInput.onchange = function () {
     const selectedOption = this.options[this.selectedIndex];
-    changeGroup(userDataSaved.userID, selectedOption.value, "toGroup");
+    changeGroup(`${userDataSaved.userID}_${data.from}`, selectedOption.value, "toGroup");
 };
 
 // Example groups (single user)
@@ -796,7 +796,7 @@ const selectInput = document.createElement('select');
 selectInput.id = `groupSelect${userDataSaved.userID}`;
 selectInput.onchange = function () {
     const selectedOption = this.options[this.selectedIndex];
-    changeGroup(userDataSaved.userID, selectedOption.value, "fromGroup");
+    changeGroup(`${data.to}_${userDataSaved.userID}`, selectedOption.value, "toGroup");
 };
 
 // Example groups (single user)
