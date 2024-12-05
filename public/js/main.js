@@ -2213,7 +2213,8 @@ document.addEventListener('DOMContentLoaded', function () {
     delayBetweenDivs: 1000,
     initialBodyDelay: 1500,
     animationDuration: 2000,
-    animationTimingFunction: 'cubic-bezier(0.68, -0.55, 0.27, 1.55)' // Easing function for bounce effect
+    animationTimingFunction: 'cubic-bezier(0.68, -0.55, 0.27, 1.55)', // Easing function for bounce effect
+    hiddenClass: 'hidden' // Class to hide body
   });
 
 });
