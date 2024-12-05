@@ -2312,7 +2312,7 @@ document.addEventListener('DOMContentLoaded', function () {
       // Fallback for unsupported browsers
       if (!("IntersectionObserver" in window)) {
         console.warn("IntersectionObserver not supported. Falling back to immediate loading.");
-        document.querySelectorAll(".lazy-load, .card").forEach(el => {
+        document.querySelectorAll(".lazy-load").forEach(el => {
           const lazyType = el.dataset.lazyType;
           if (lazyType === "image") {
             el.src = el.dataset.src || el.src;
