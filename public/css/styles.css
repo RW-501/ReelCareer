@@ -1617,3 +1617,7 @@ img {
 }
 
 
+.profile-nav-item {
+
+    justify-content: space-evenly;
+}
