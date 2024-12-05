@@ -554,7 +554,7 @@ document.getElementById("connectionsList").innerHTML = '';
     // Create a new connection item
     const div = document.createElement('div');
     div.classList.add('connection-item');
-    div.setAttribute('data-connection-id', connectionId); // Add a unique attribute
+    div.setAttribute('data-connection-id', connectionId); // ${userDataSaved.userID}_${data.from}
    
 
     if (type === "message") {
@@ -683,9 +683,12 @@ document.getElementById("connectionsList").innerHTML = '';
 // Asynchronous changeGroup function
 async function changeGroup(contactId, newGroup, Group) { 
   try {
-    // Example using Firestore
+    // Reference to the document in the "Connections" collection
     const connectionRef = doc(db, "Connections", contactId);
-    await updateDoc(connectionRef, { Group: newGroup });
+
+    // Dynamically update the field specified by 'Group'
+    await updateDoc(connectionRef, { [Group]: newGroup });
+
     console.log(`Group updated to "${newGroup}" for contact "${contactId}"`);
   } catch (error) {
     console.error("Error updating group:", error);
