@@ -185,8 +185,8 @@ main .row {
 .connection-item {
     
     display: flex;
-    justify-content: space-between;
-    align-items: stretch;
+    justify-content: space-around;
+    align-items: flex-end;
     border: 1px solid #ddd;
     padding: 10px;
     border-radius: 5px;
@@ -194,9 +194,11 @@ main .row {
     width: 100%;
     flex-direction: row;
     flex-wrap: wrap;
-    align-content: stretch;
-    gap: 30%;
+    align-content: space-between;
+    gap: 10%; /* 30% */
+
 }
+
 
 .connection-item button {
   background-color: #4CAF50;
