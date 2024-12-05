@@ -2207,7 +2207,7 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     }, initialBodyDelay);
   }
-
+/*
   // Example usage
   rollInAnimations({
     delayBetweenDivs: 1000,
@@ -2219,7 +2219,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 });
 
-
+*/
 
 
 
