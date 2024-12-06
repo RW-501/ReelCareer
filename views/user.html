@@ -1859,7 +1859,7 @@ document.getElementById('send-message-btn').addEventListener('click', () => {
     console.log("senderID: ", senderID);
     console.log("userDataSaved: ", userDataSaved);
 
-    if (userId !== userIdFromURL) {
+    if (senderID !== userIdFromURL) {
         document.getElementById('recipient-id').value = userIdFromURL; // Set recipient ID
         $('#sendMessageModal').modal('show'); // Show modal
     } else {
