@@ -1724,7 +1724,7 @@ document.getElementById('connect-btn').addEventListener('click', async () => {
     }
 
     // Construct document ID
-    const docId = `${userId}_${userIdFromURL}`;
+    const docId = `${userIdFromURL}_${userId}`;
     const connectionRef = doc(db, 'Connections', docId);
 
     // Update button state
