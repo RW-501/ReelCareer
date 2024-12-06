@@ -1732,9 +1732,13 @@ main .jobCard:hover {
 }
 
 .remove-attachment {
+  width: 25px;
   color: #fff;
-    background-color: #dc3545;
-    border-color: #dc3545;
+  background-color: #dc3545;
+  border-color: #dc3545;
+  height: 25px;
+  text-align: center;
+  border-radius: 25px;
 }
 
 .remove-attachment:focus {
@@ -1751,4 +1755,14 @@ main .jobCard:hover {
   flex-direction: row;
   align-content: space-between;
   justify-content: space-evenly;
+}
+
+#attachmentPreview {
+  display: flex;
+  align-content: space-between;
+  justify-content: space-evenly;
+  justify-items: stretch;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
 }

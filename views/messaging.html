@@ -224,12 +224,7 @@ main .row {
     width: 200px;  
 }
 
-#attachmentPreview {
-    display: grid;
-    align-content: stretch;
-    justify-content: space-evenly;
-    justify-items: end;
-}
+
 
 #interaction-panel {
     position: relative;
@@ -761,9 +756,9 @@ conversationTitle.setAttribute("data-conversation-id",`${userDataSaved.userID}_$
 conversationTitle.setAttribute("data-conversation-name",data.fromName);
 conversationTitle.setAttribute("data-conversation-picture",data.fromProfilePicture);
 conversationTitle.setAttribute("data-conversation-recipientID",data.from);
-conversationTitle.innerHTML = `<p>Contact: ${data.fromName}</p>
-<p>Connection: <small>${data.status}</small></p>
-<p>Group: <small>${data.fromGroup}</small></p>`; 
+conversationTitle.innerHTML = `<div class="flex"><div>Contact: ${data.fromName}</div>
+ <div>Connection: <small>${data.status}</small></div></div>
+<p>Group: <small>${data.fromGroup}</small></p>`
 
 
 // Create the select input element
@@ -839,8 +834,8 @@ conversationTitle.setAttribute("data-conversation-name",data.toName);
 conversationTitle.setAttribute("data-conversation-picture",data.toProfilePicture);
 conversationTitle.setAttribute("data-conversation-recipientID",data.to);
 
-conversationTitle.innerHTML = `<p>Contact: ${data.toName}</p>
-<p>Connection: <small>${data.status}</small></p>
+conversationTitle.innerHTML = `<div class="flex"><div>Contact: ${data.toName}</div>
+ <div>Connection: <small>${data.status}</small></div></div>
 <p>Group: <small>${data.toGroup}</small></p>`
 
 
