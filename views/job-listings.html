@@ -1329,14 +1329,14 @@ async function fetchFilteredJobListings({
     if (keyword || locationInput) {
   const searchTerms = [];
   if (keyword) searchTerms.push(keyword);
-  if (locationInput) searchTerms.push(locationInput);
+  if (locationInput && locationInput == '') searchTerms.push(locationInput);
   console.log("run keyword  ",keyword);
   console.log("run locationInput  ",locationInput);
 
   queryRef = query(queryRef, where('searchableKeywords', 'array-contains-any', searchTerms));
 }
 
-    if (jobTypeInput) {
+    if (jobTypeInput && jobTypeInput == '') {
       console.log("run jobTypeInput  ",jobTypeInput);
 
       const jobType = normalizeJobType(jobTypeInput);
