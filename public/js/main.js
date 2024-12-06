@@ -792,15 +792,15 @@ async function displayBlogs(blogs, container) {
     blogCard.innerHTML = `
         <div class="card blog-card shadow-sm">
             <div data-bs-toggle="modal" data-bs-target="#blogModal" class="blog-card-trigger" data-blog-id="${blog.id}">
-                <a title="${blog.title}" href="https://reelcareer.co/views/blog?b=${blog.id}">
-                   <div class="blog-image-area"> <img src="${imageUrl}" alt="${blog.title}" class="blog-card-img-top" loading="lazy" />
-              </div>  </a>
+                 
+                   <div class="blog-image-area"> <img src="${imageUrl}" alt="${blog.title}" class="blog-card-img-top lazy-image" loading="lazy" />
+              </div> 
                 <div class="card-body">
                     <a href="https://reelcareer.co/views/blog?b=${blog.id}">
                         <h5 class="card-title text-primary">${blog.title}</h5>
                     </a>
                     <div class="blog-card-text text-muted">
-                        <div>${truncateText(blog.content, 80, `https://reelcareer.co/views/blog?b=${blog.id}`)}</div>
+                       <a  title="${blog.title}" href="https://reelcareer.co/views/blog?b=${blog.id}"> <div>${truncateText(blog.content, 80, `https://reelcareer.co/views/blog?b=${blog.id}`)}</div></a>
                     </div>
                 
                     

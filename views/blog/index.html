@@ -382,13 +382,13 @@ document.getElementById("lastBreadcrumb").innerHTML = `${blogData.title}`;
 
      ${
                         imageUrl 
-                        ? ` <a title="${blogData.title}" href="${imageUrl}"><img src="${imageUrl}" alt="${blogData.imageCaption || 'Blog Image'}" style="
+                        ? ` <img src="${imageUrl}" class="lazy-image" alt="${blogData.imageCaption || 'Blog Image'}" style="
                             width: 100%;  
               height: auto; 
               border-radius: 8px;
               margin: auto; 
               margin-bottom: 20px; 
-              object-fit: cover;"/></a>`
+              object-fit: cover;"/>`
           : ""
       }
 
