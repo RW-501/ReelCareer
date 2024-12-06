@@ -1018,8 +1018,8 @@ async function fetchJobListings() {
 
   }
 
-  console.log("userlocationData:state ", userlocationData.state);
-  console.log("userlocationData:city ", userlocationData.city);
+ // console.log("userlocationData:state ", userlocationData.state);
+  //console.log("userlocationData:city ", userlocationData.city);
 
   
   // Common conditions
@@ -1189,10 +1189,18 @@ document.getElementById('main-search-btn').addEventListener('click', searchJobs)
 
     function searchJobs() {
 
+ console.log("searchJobs");
 
+ 
       const requirements = collectJobRequirements();
 
       const keyword = document.getElementById('keywordInput').value.trim().toLowerCase() || null;
+      const locationInput = document.getElementById('locationInput').value.trim().toLowerCase() || null;
+      const jobTypeInput = document.getElementById('jobTypeInput').value.trim().toLowerCase() || null;
+      const salaryInput = parseInt(document.getElementById("salaryInput").value) || 0; 
+      
+
+
 const location = document.getElementById("jobLocation").value || null;
 const city = document.getElementById("jobCity").value || null;
 const state = document.getElementById("jobState").value || null;
@@ -1208,6 +1216,10 @@ const contractToHire = document.getElementById("contractToHire").checked || null
       console.log({
         requirements,
         keyword,
+        locationInput,
+        jobTypeInput,
+        salaryInput,
+
         location,
         city,
         state,
@@ -1223,6 +1235,10 @@ const contractToHire = document.getElementById("contractToHire").checked || null
         requirements,
         keyword,
         location,
+        locationInput,
+        jobTypeInput,
+        salaryInput,
+
         city,
         state,
         zipCode,
@@ -1242,7 +1258,7 @@ const contractToHire = document.getElementById("contractToHire").checked || null
 
           query = query.where('searchableTitle', 'array-contains-any', keyword);
           }else{
-            if (!keyword && !location && !city && !state && !zipCode && !contractType && !industry) {
+            if (!keyword && !locationInput && !city && !state && !salaryInput && !jobTypeInput && !industry) {
   showToast("Please provide at least one search term.");
   return;
 }
@@ -1255,8 +1271,17 @@ if (keyword) {
   query = query.where('searchableTitle', 'array-contains-any', [keyword]); // Ensure this matches your schema
 }
 
+if (locationInput) {
+  query = query.where('location', 'array-contains-any', locationInput);
+}
+if (jobTypeInput) {
+  query = query.where('type', '==', jobTypeInput);
+}
+if (salaryInput) {
+  query = query.where('salary', '==', salaryInput);
+}
 if (location) {
-  query = query.where('location', '==', location);
+  query = query.where('location', 'array-contains-any', location);
 }
 if (city) {
   query = query.where('city', '==', city);
@@ -1325,8 +1350,10 @@ query = query.where('salary', '>=', salaryMin).where('salary', '<=', salaryMax);
           throw error; // Rethrow the error to handle it later
         }
       }
-      // Implement your job search logic here, e.g., fetching from an API
     }
+
+    window.searchJobs = searchJobs;
+
     // Function to get URL parameters
     function getUrlParameters() {
   const params = new URLSearchParams(window.location.search);
