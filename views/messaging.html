@@ -734,13 +734,16 @@ window.viewProfile = viewProfile;
 
 function composeMessages(conversationID, data) {
 
-console.log("data: ", data);
 
 const messageBox = document.getElementById('messageBox');
 const conversationTitle = document.getElementById('conversationTitle');
 const contactInfo = document.getElementById('contactInfo');
 
  if (data.to === userDataSaved.userID) {
+    console.log("data: ", data);
+    console.log("data.to: ", data.to);
+    console.log("data.from === userDataSaved.userID: ");
+    console.log("data.to: ", data.fromName);
 
 conversationTitle.innerHTML = `
 <a href="https://reelcareer.co/views/user?u=${data.from}" style="text-decoration: none; color: inherit;">
@@ -794,6 +797,12 @@ conversationTitle.appendChild(groupDiv);
 
 
 } else if (data.from === userDataSaved.userID) {
+
+    console.log("data: ", data);
+    console.log("data.to: ", data.from);
+    console.log("data.from === userDataSaved.userID: ");
+    console.log("data.to: ", data.toName);
+
     conversationTitle.innerHTML = `
 <a href="https://reelcareer.co/views/user?u=${data.to}" style="text-decoration: none; color: inherit;">
     <img src="${data.toProfilePicture || 'default-image-url'}" alt="Avatar" class="avatar">
