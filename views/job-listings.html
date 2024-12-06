@@ -1184,14 +1184,13 @@ async function fetchJobListings() {
 
     
 
-document.getElementById('main-search-btn').addEventListener('click', searchJobs);
 
 
     function searchJobs() {
 
  console.log("searchJobs");
 
- 
+
       const requirements = collectJobRequirements();
 
       const keyword = document.getElementById('keywordInput').value.trim().toLowerCase() || null;
@@ -1432,6 +1431,7 @@ query = query.where('salary', '>=', salaryMin).where('salary', '<=', salaryMax);
 
 document.addEventListener("DOMContentLoaded", () => {
   setTimeout(() => {
+    document.getElementById('main-search-btn').addEventListener('click', searchJobs);
 
 loadRelatedBlogs();
 
