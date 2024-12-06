@@ -578,104 +578,120 @@ border-radius: 12px;
     <div id="jobPostPopup" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="jobPostPopupLabel" aria-hidden="true">
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content shadow-lg">
-          <div class="modal-header border-0">
-            <h5 class="modal-title fw-bold" id="jobPostPopupLabel">Quick Job Post</h5>
+          <div class="modal-header bg-light border-0">
+            <h5 class="modal-title fw-bold" id="jobPostPopupLabel">
+              <i class="bi bi-briefcase me-2"></i>Quick Job Post
+            </h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <form id="jobForm" onsubmit="handleJobPostSubmission(event)">
             <div class="modal-body">
-              <!-- Job Title and Company -->
-              <div class="row g-3">
-                <div class="col-md-6">
-                  <div class="form-floating">
-                    <input type="text" id="jobTitle" class="form-control" placeholder="Enter Job Title" required />
-                    <label for="jobTitle">Job Title</label>
+              <!-- Job Details Section -->
+              <section class="mb-4">
+                <h6 class="text-secondary">Basic Details</h6>
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <div class="form-floating">
+                      <input type="text" id="jobTitle" class="form-control" placeholder="Enter Job Title" required />
+                      <label for="jobTitle">Job Title</label>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-floating">
+                      <input type="text" id="company" class="form-control" placeholder="Enter Company Name" required />
+                      <label for="company">Company Name</label>
+                    </div>
                   </div>
                 </div>
-                <div class="col-md-6">
-                  <div class="form-floating">
-                    <input type="text" id="company" class="form-control" placeholder="Enter Company Name" required />
-                    <label for="company">Company Name</label>
+              </section>
+    
+              <!-- Location Details Section -->
+              <section class="mb-4">
+                <h6 class="text-secondary">Location</h6>
+                <div class="row g-3">
+                  <div class="col-md-4">
+                    <div class="form-floating">
+                      <input type="text" id="city" class="form-control" placeholder="Enter City" required />
+                      <label for="city">City</label>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-floating">
+                      <input type="text" id="state" class="form-control" placeholder="Enter State" required />
+                      <label for="state">State</label>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-floating">
+                      <input type="text" id="zip" class="form-control" placeholder="Enter Zip Code" required />
+                      <label for="zip">Zip Code</label>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <!-- Location Details -->
-              <div class="row g-3 mt-3">
-                <div class="col-md-4">
-                  <div class="form-floating">
-                    <input type="text" id="city" class="form-control" placeholder="Enter City" required />
-                    <label for="city">City</label>
+              </section>
+    
+              <!-- Job Type and Category Section -->
+              <section class="mb-4">
+                <h6 class="text-secondary">Job Preferences</h6>
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <div class="form-floating">
+                      <select id="jobType" class="form-select" required>
+                        <option value="" disabled selected>Select Job Type</option>
+                        <option value="Full-Time">Full-Time</option>
+                        <option value="Part-Time">Part-Time</option>
+                        <option value="Contract">Contract</option>
+                        <option value="Temporary">Temporary</option>
+                        <option value="Internship">Internship</option>
+                        <option value="Freelance">Freelance</option>
+                      </select>
+                      <label for="jobType">Job Type</label>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-floating">
+                      <select id="jobCategory" class="form-select" required>
+                        <option value="" disabled selected>Select Category</option>
+                        <option value="IT & Software">IT & Software</option>
+                        <option value="Healthcare">Healthcare</option>
+                        <option value="Education">Education</option>
+                        <option value="Finance">Finance</option>
+                        <option value="Construction">Construction</option>
+                        <option value="Retail">Retail</option>
+                        <option value="Other">Other</option>
+                      </select>
+                      <label for="jobCategory">Job Category</label>
+                    </div>
                   </div>
                 </div>
-                <div class="col-md-4">
-                  <div class="form-floating">
-                    <input type="text" id="state" class="form-control" placeholder="Enter State" required />
-                    <label for="state">State</label>
+              </section>
+    
+              <!-- Description and Tags -->
+              <section class="mb-4">
+                <h6 class="text-secondary">Additional Information</h6>
+                <div class="row g-3">
+                  <div class="col-12">
+                    <div class="form-floating">
+                      <textarea id="jobDescription" class="form-control" placeholder="Enter Job Description" style="height: 150px;" required></textarea>
+                      <label for="jobDescription">Job Description</label>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="form-floating">
+                      <input type="text" id="tagInput" class="form-control" placeholder="Enter tags (comma-separated)" />
+                      <label for="tagInput">Tags</label>
+                    </div>
                   </div>
                 </div>
-                <div class="col-md-4">
-                  <div class="form-floating">
-                    <input type="text" id="zip" class="form-control" placeholder="Enter Zip Code" required />
-                    <label for="zip">Zip Code</label>
-                  </div>
-                </div>
-              </div>
-              <!-- Job Type and Category -->
-              <div class="row g-3 mt-3">
-                <div class="col-md-6">
-                  <div class="form-floating">
-                    <select id="jobType" class="form-select" required>
-                      <option value="" disabled selected>Select Job Type</option>
-                      <option value="Full-Time">Full-Time</option>
-                      <option value="Part-Time">Part-Time</option>
-                      <option value="Contract">Contract</option>
-                      <option value="Temporary">Temporary</option>
-                      <option value="Internship">Internship</option>
-                      <option value="Freelance">Freelance</option>
-                    </select>
-                    <label for="jobType">Job Type</label>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="form-floating">
-                    <select id="jobCategory" class="form-select" required>
-                      <option value="" disabled selected>Select Category</option>
-                      <option value="IT & Software">IT & Software</option>
-                      <option value="Healthcare">Healthcare</option>
-                      <option value="Education">Education</option>
-                      <option value="Finance">Finance</option>
-                      <option value="Construction">Construction</option>
-                      <option value="Retail">Retail</option>
-                      <option value="Other">Other</option>
-                    </select>
-                    <label for="jobCategory">Job Category</label>
-                  </div>
-                </div>
-              </div>
-              <!-- Job Description and Tags -->
-              <div class="row g-3 mt-3">
-                <div class="col-md-12">
-                  <div class="form-floating">
-                    <textarea id="jobDescription" class="form-control" placeholder="Enter Job Description" style="height: 100px;" required></textarea>
-                    <label for="jobDescription">Job Description</label>
-                  </div>
-                </div>
-                <div class="col-md-12 mt-3">
-                  <div class="form-floating">
-                    <input type="text" id="tagInput" class="form-control" placeholder="Enter tags (comma-separated)" />
-                    <label for="tagInput">Tags</label>
-                  </div>
-                </div>
-              </div>
+              </section>
             </div>
-            <!-- Modal Footer -->
-            <div class="modal-footer border-0 flex-column align-items-start">
-              <div class="mb-2">
-                <button type="button" class="btn btn-outline-secondary me-2" onclick="previewJobPost()">Preview</button>
+            <div class="modal-footer border-0 d-flex flex-column align-items-start">
+              <div class="mb-2 w-100 d-flex justify-content-between">
+                <button type="button" class="btn btn-outline-primary me-2" onclick="previewJobPost()">Preview</button>
                 <button type="submit" class="btn btn-primary">Submit Job</button>
               </div>
               <small class="text-muted">
-                By submitting this post, you agree that this is a legitimate job post and you adhere to our 
+                By submitting this post, you agree to our 
                 <a href="/terms" target="_blank" class="text-primary">terms and conditions</a>.
               </small>
             </div>
@@ -683,7 +699,7 @@ border-radius: 12px;
         </div>
       </div>
     </div>
-    
+        
 
 
     <style>
