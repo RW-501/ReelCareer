@@ -582,7 +582,7 @@ border-radius: 12px;
             <h5 class="modal-title fw-bold" id="jobPostPopupLabel">
               <i class="bi bi-briefcase me-2"></i>Quick Job Post
             </h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <button id="jobPostPopupCloseBtn" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <form id="jobForm" onsubmit="handleJobPostSubmission(event)">
             <div class="modal-body">
@@ -827,16 +827,25 @@ border-radius: 12px;
 // Function to open the modal
 function openJobPostModal() {
   // Get the modal element
-  var modal = new bootstrap.Modal(document.getElementById('jobPostPopup'));
+  //var modal = new bootstrap.Modal(document.getElementById('jobPostPopup'));
   
   // Show the modal
-  modal.show();
+  //modal.show();
 
-  //showModal("jobPostPopup");
+showModal("jobPostPopup");
 }
 
 
 
+function closeJobPostModal() {
+  // Get the modal element
+  //var modal = new bootstrap.Modal(document.getElementById('jobPostPopup'));
+  
+  // Show the modal
+  //modal.show();
+
+hideModal("jobPostPopupCloseBtn");
+}
 
 
     // Function to redirect user to the job details page with job ID in the URL
@@ -1454,12 +1463,14 @@ async function fetchFilteredJobListings({
     };
 
 
-
+    
    // Function to fetch similar jobs based on tags
 
 document.addEventListener("DOMContentLoaded", () => {
   setTimeout(() => {
     document.getElementById('main-search-btn').addEventListener('click', searchJobs);
+    document.getElementById('jobPostPopupCloseBtn').addEventListener('click', closeJobPostModal);
+    document.getElementById('quickPostJobButton').addEventListener('click', openJobPostModal);
 
 loadRelatedBlogs();
 
