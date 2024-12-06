@@ -765,14 +765,15 @@ conversationTitle.innerHTML = `<p>Contact: ${data.fromName}</p>
 
 
 // Create the select input element
+// Create the select input
 const selectInput = document.createElement('select');
 selectInput.id = `groupSelect${userDataSaved.userID}`;
 selectInput.classList.add('groupSelect');
-selectInput.value = data.toGroup;
 
+// Attach an event listener for the onchange event
 selectInput.onchange = function () {
     const selectedOption = this.options[this.selectedIndex];
-    changeGroup(`${userDataSaved.userID}_${data.from}`, selectedOption.value, "toGroup", `${data.fromName}`);
+    changeGroup(`${userDataSaved.userID}_${data.from}`, selectedOption.value, "toGroup", `${data.toName}`);
 };
 
 // Example groups (single user)
@@ -784,7 +785,7 @@ const groups = [
     { groupName: "Blocked", class: "optionBlock" } // Example with a custom class
 ];
 
-// Populate the select input with groups
+// Populate the select input with options
 groups.forEach(group => {
     const option = document.createElement('option');
     option.value = group.groupName; // The group name will be the value
@@ -797,6 +798,18 @@ groups.forEach(group => {
 
     selectInput.appendChild(option);
 });
+
+// Set the value of the select element
+const targetValue = data.fromGroup; // Value to set, e.g., "Recruiters"
+if (groups.some(group => group.groupName === targetValue)) {
+    selectInput.value = targetValue; // Programmatically set the value
+} else {
+    console.warn(`Value "${targetValue}" not found in options. Falling back to default.`);
+    selectInput.value = groups[0].groupName; // Fallback to the first option
+}
+
+// Append the select element to the DOM (example)
+document.body.appendChild(selectInput);
 
 
 
@@ -830,11 +843,12 @@ conversationTitle.innerHTML = `<p>Contact: ${data.toName}</p>
 
 
 // Create the select input element
+// Create the select input
 const selectInput = document.createElement('select');
 selectInput.id = `groupSelect${userDataSaved.userID}`;
 selectInput.classList.add('groupSelect');
-selectInput.value = data.toGroup;
 
+// Attach an event listener for the onchange event
 selectInput.onchange = function () {
     const selectedOption = this.options[this.selectedIndex];
     changeGroup(`${userDataSaved.userID}_${data.to}`, selectedOption.value, "toGroup", `${data.toName}`);
@@ -849,7 +863,7 @@ const groups = [
     { groupName: "Blocked", class: "optionBlock" } // Example with a custom class
 ];
 
-// Populate the select input with groups
+// Populate the select input with options
 groups.forEach(group => {
     const option = document.createElement('option');
     option.value = group.groupName; // The group name will be the value
@@ -862,6 +876,18 @@ groups.forEach(group => {
 
     selectInput.appendChild(option);
 });
+
+// Set the value of the select element
+const targetValue = data.toGroup; // Value to set, e.g., "Recruiters"
+if (groups.some(group => group.groupName === targetValue)) {
+    selectInput.value = targetValue; // Programmatically set the value
+} else {
+    console.warn(`Value "${targetValue}" not found in options. Falling back to default.`);
+    selectInput.value = groups[0].groupName; // Fallback to the first option
+}
+
+// Append the select element to the DOM (example)
+document.body.appendChild(selectInput);
 
 
 const groupDiv = document.createElement('div');

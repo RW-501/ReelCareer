@@ -1701,13 +1701,12 @@ main .jobCard:hover {
   padding: 10px;
   border-radius: 8px;
   border: 1px solid #ddd;
-
   display: flex;
+  flex-direction: column;
   flex-wrap: nowrap;
-  flex-direction: row;
-  align-content: space-between;
-  justify-content: space-around;
-  align-items: baseline;
+  align-content: space-around;
+  justify-content: space-evenly;
+  align-items: stretch;
 }
 #conversationTitle img {
   border: #f9f9f9 solid;
