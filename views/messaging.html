@@ -576,23 +576,7 @@ const existingMessager = document.querySelector(`[data-message-id="${connectionI
 
     if (type === "message") {
         if (connection.senderID === userDataSaved.userID) {
-
             const connectionInfo = `
-        <div>
-          <img src="${connection.senderProfilePicture}" alt="Profile" width="40" height="40">
-          <a href="${connection.senderProfileURL}" target="_blank">${connection.senderName}</a>
-        </div>
-        <button onclick="composeMessages('${connection.recipientID}'_'${connection.senderID}',${connection}, "message" )">sender Message</button>
-        `;
-        div.innerHTML = connectionInfo;
-        div.setAttribute('data-message-id', connectionId); 
-    }else   if (connection.recipientID === userDataSaved.userID){
-   
-
- 
-
-
-        const connectionInfo = `
         <div>
           <img src="${connection.recipientProfilePicture}" alt="Profile" width="40" height="40">
           <a href="${connection.recipientProfileURL}" target="_blank">${connection.recipientName}</a>
@@ -600,6 +584,22 @@ const existingMessager = document.querySelector(`[data-message-id="${connectionI
         <button onclick="composeMessages('${connection.recipientID}'_'${connection.senderID}',${connection}, "message" )">rec Message</button>
         `;
         div.innerHTML = connectionInfo;
+
+        div.setAttribute('data-message-id', connectionId); 
+    }else   if (connection.recipientID === userDataSaved.userID){
+   
+
+        const connectionInfo = `
+        <div>
+          <img src="${connection.senderProfilePicture}" alt="Profile" width="40" height="40">
+          <a href="${connection.senderProfileURL}" target="_blank">${connection.senderName}</a>
+        </div>
+        <button onclick="composeMessages('${connection.recipientID}'_'${connection.senderID}',${connection}, "message" )">sender Message</button>
+        `;
+        div.innerHTML = connectionInfo;
+
+
+  
         div.setAttribute('data-message-id', connectionId); 
     }
   //return;
