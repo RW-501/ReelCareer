@@ -1705,7 +1705,9 @@ document.getElementById('share-profile-btn').addEventListener('click', async () 
 document.getElementById('connect-btn').addEventListener('click', async () => {
   try {
     // Fetch required data
-    const userId = getUserId(); // Logged-in user
+    const userID = auth.currentUser.uid;
+
+  //  const userId = getUserId(); // Logged-in user
     const urlParams = new URLSearchParams(window.location.search);
     const userIdFromURL = urlParams.get('u');
     const userDataSaved = await getUserData() || {};
@@ -1718,7 +1720,7 @@ document.getElementById('connect-btn').addEventListener('click', async () => {
       return;
     }
 
-    if (userId === userIdFromURL) {
+    if (userID === userIdFromURL) {
       showToast('You cannot connect with yourself.');
       return;
     }
