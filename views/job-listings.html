@@ -1326,15 +1326,30 @@ async function fetchFilteredJobListings({
     let queryRef = query(jobsCollection);  // Initialize the query with the collection
 
     // Apply filters to the query dynamically
-    if (keyword || locationInput) {
-  const searchTerms = [];
-  if (keyword) searchTerms.push(keyword);
-  if (locationInput && locationInput == '') searchTerms.push(locationInput);
-  console.log("run keyword  ",keyword);
-  console.log("run locationInput  ",locationInput);
+    if (keyword || locationInput) { 
+  const searchTerms = []; // Initialize an empty array for search terms
 
-  queryRef = query(queryRef, where('searchableTitle', 'array-contains-any', searchTerms));
+  // Add trimmed keyword to search terms if it exists
+  if (keyword && keyword.trim() !== '') {
+    searchTerms.push(keyword.trim());
+  }
+
+  // Add trimmed locationInput to search terms if it exists
+  if (locationInput && locationInput.trim() !== '') {
+    searchTerms.push(locationInput.trim());
+  }
+
+  // Check if searchTerms array is not empty
+  if (searchTerms.length > 0) {
+    console.log("Search Terms Array:", searchTerms);
+
+    // Apply the query with array-contains-any
+    queryRef = query(queryRef, where('searchableTitle', 'array-contains-any', searchTerms));
+  } else {
+    console.log("No valid search terms provided.");
+  }
 }
+
 
     if (jobTypeInput && jobTypeInput == '') {
       console.log("run jobTypeInput  ",jobTypeInput);
