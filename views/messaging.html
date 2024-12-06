@@ -311,14 +311,8 @@ main {
 }
 
 
-#conversationTitle {
-    display: flex;
-    flex-wrap: nowrap;
-    flex-direction: row;
-    align-content: space-between;
-    justify-content: space-around;
-    align-items: stretch;
-}
+
+
 
     </style>
 
@@ -760,7 +754,8 @@ conversationTitle.setAttribute("data-conversation-id",`${userDataSaved.userID}_$
 conversationTitle.setAttribute("data-conversation-name",data.fromName);
 conversationTitle.setAttribute("data-conversation-picture",data.fromProfilePicture);
 conversationTitle.innerHTML = `<p>Contact: ${data.fromName}</p>
-<p>Connection: <small>${data.status}</small></p>`; 
+<p>Connection: <small>${data.status}</small></p>
+<p>Group: <small>${data.fromGroup}</small></p>`; 
 
 
 // Create the select input element
@@ -780,16 +775,23 @@ const groups = [
     { groupName: "Recruiters" },
     { groupName: "Networking" },
     { groupName: "Friends" },
-    { groupName: "Blocked" }
+    { groupName: "Blocked", class: "optionBlock" } // Example with a custom class
 ];
 
 // Populate the select input with groups
 groups.forEach(group => {
     const option = document.createElement('option');
     option.value = group.groupName; // The group name will be the value
-    option.textContent = `Group: (${userDataSaved.userID})`; // Display the group name
+    option.textContent = `Group: (${group.groupName})`; // Display the group name
+
+    // Assign a class if provided in the group object
+    if (group.class) {
+        option.classList.add(group.class);
+    }
+
     selectInput.appendChild(option);
 });
+
 
 
 const groupDiv = document.createElement('div');
@@ -815,13 +817,15 @@ conversationTitle.setAttribute("data-conversation-id",`${userDataSaved.userID}_$
 conversationTitle.setAttribute("data-conversation-name",data.toName);
 conversationTitle.setAttribute("data-conversation-picture",data.toProfilePicture);
 conversationTitle.innerHTML = `<p>Contact: ${data.toName}</p>
-<p>Connection: <small>${data.status}</small></p>`;  
+<p>Connection: <small>${data.status}</small></p>
+<p>Group: <small>${data.toGroup}</small></p>`
+
 
 // Create the select input element
 const selectInput = document.createElement('select');
 selectInput.id = `groupSelect${userDataSaved.userID}`;
 selectInput.classList.add('groupSelect');
-selectInput.value = data.fromGroup;
+selectInput.value = data.toGroup;
 
 selectInput.onchange = function () {
     const selectedOption = this.options[this.selectedIndex];
@@ -834,7 +838,7 @@ const groups = [
     { groupName: "Recruiters" },
     { groupName: "Networking" },
     { groupName: "Friends" },
-    { groupName: "Blocked" }
+    { groupName: "Blocked", class: "optionBlock" } // Example with a custom class
 ];
 
 // Populate the select input with groups
@@ -842,8 +846,15 @@ groups.forEach(group => {
     const option = document.createElement('option');
     option.value = group.groupName; // The group name will be the value
     option.textContent = `Group: (${group.groupName})`; // Display the group name
+
+    // Assign a class if provided in the group object
+    if (group.class) {
+        option.classList.add(group.class);
+    }
+
     selectInput.appendChild(option);
 });
+
 
 const groupDiv = document.createElement('div');
 groupDiv.classList.add('connection-group');

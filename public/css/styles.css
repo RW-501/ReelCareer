@@ -1697,14 +1697,30 @@ main .jobCard:hover {
 
 #conversationTitle {
   margin-bottom: 10px;
-  background-color: #f9f9f9;
+  background-color: #b7d1eb;
   padding: 10px;
   border-radius: 8px;
   border: 1px solid #ddd;
-}
 
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  align-content: space-between;
+  justify-content: space-around;
+  align-items: baseline;
+}
+#conversationTitle img {
+  border: #f9f9f9 solid;
+  border-radius: 25px;
+}
 .groupSelect {
   border: #b7d1eb solid;
-    border-radius: 20px;
-    padding: 3px;
+  border-radius: 20px;
+  padding: 3px;
+  color: #8cbfdb;
+
+}
+
+.groupSelect .optionBlock {
+  color: #bb1a1a;
 }
