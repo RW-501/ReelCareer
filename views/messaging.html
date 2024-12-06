@@ -532,20 +532,25 @@ const querySnapshot = query(connectionssRef, where('participants', 'array-contai
 function appendConnection(connection, type) {
 
     let connectionId = '';
+
+    if(type == "contect"){
+
 if(connection.from == userId){
     connectionId = connection.to ; // Use a unique identifier (from sender or receiver ID)
 
 }else if(connection.to == userId){
     connectionId = connection.from ; // Use a unique identifier (from sender or receiver ID)
 
-}else if(connection.recipientID == userId){
+}
+    }else{
+if(connection.recipientID == userId){
     connectionId = connection.senderID ; // Use a unique identifier (from sender or receiver ID)
 
 }else if(connection.senderID == userId){
     connectionId = connection.recipientID ; // Use a unique identifier (from sender or receiver ID)
 
 }
-
+    }
 
 
 
