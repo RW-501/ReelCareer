@@ -1842,7 +1842,7 @@ animation: fadeInImage 2s ease-in;
   animation: fadeIn 1s forwards;
 }
 
-.popup-image {
+.fullscreen-popup  .popup-image {
   max-width: 90%;
   max-height: 80%;
   object-fit: contain;
@@ -1851,10 +1851,10 @@ animation: fadeInImage 2s ease-in;
   animation: fadeIn 2s ease;
 }
 
-.close-button {
+.fullscreen-popup .close-button {
   position: absolute;
-  top: 20px;
-  right: 20px;
+  top: 20%;
+  right: 5%;
   background: none;
   color: white;
   font-size: 24px;
@@ -1864,11 +1864,11 @@ animation: fadeInImage 2s ease-in;
   z-index: 1100;
 }
 
-.close-button:hover {
+.fullscreen-popup  .close-button:hover {
   color: red;
 }
 
-.more-images-button {
+.fullscreen-popup  .more-images-button {
   position: absolute;
   bottom: 30px;
   background-color: #007bff;
@@ -1882,12 +1882,12 @@ animation: fadeInImage 2s ease-in;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
-.more-images-button:hover {
+.fullscreen-popup  .more-images-button:hover {
   background-color: #0056b3;
 }
 
 
-.mt-2 a {
+.fullscreen-popup  .mt-2 a {
   color: white;
   font-weight: 300;
 }
