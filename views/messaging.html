@@ -583,6 +583,7 @@ document.getElementById("connectionsList").innerHTML = '';
         `;
         div.innerHTML = connectionInfo;
     }
+  
 
     } else {
 
@@ -1181,7 +1182,6 @@ function loadContacts(userID) {
         const contactInfo = document.getElementById('contactInfo');
 
      
-
         
         messageBox.innerHTML = '';
         const messagesRef = collection(db, 'Messages'); //array-contains
@@ -1195,6 +1195,8 @@ function loadContacts(userID) {
                 const messageDiv = document.createElement('div');
                 messageDiv.className = `message ${data.senderID === auth.currentUser.uid ? 'sent' : 'received'}`;
                 messageDiv.textContent = data.content;
+
+               // appendConnection(`${data.recipientID}_${data.senderID}`, "message",data.senderID); 
 
                 if (data.contentType !== 'text') {
     const mediaDiv = document.createElement('div');
