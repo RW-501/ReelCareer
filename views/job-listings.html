@@ -1292,6 +1292,15 @@ const contractToHire = document.getElementById("contractToHire").checked || null
   };
 }
 
+function normalizeJobType2(input) {
+  const normalizedInput = input.trim().toLowerCase(); // Standardize input
+  for (const [key, variations] of Object.entries(jobTypeMap)) {
+    if (variations.includes(normalizedInput)) {
+      return key; // Return standardized key (e.g., "full_time" or "part_time")
+    }
+  }
+  return null; // Return null if no match is found
+}
 
 
 async function fetchFilteredJobListings({
@@ -1326,7 +1335,10 @@ async function fetchFilteredJobListings({
 }
 
     if (jobTypeInput) {
-      queryRef = query(queryRef, where('type', '==', jobTypeInput));
+
+      const jobType = normalizeJobType(jobTypeInput);
+
+      queryRef = query(queryRef, where('type', '==', jobType));
     }
 
     if (salaryInput) {
@@ -1371,6 +1383,9 @@ async function fetchFilteredJobListings({
     queryRef = query(queryRef, where('salary', '>=', salaryMin), where('salary', '<=', salaryMax));
 */
     // Execute the query to fetch job listings
+
+    console.log("queryRef:", queryRef);
+
     const jobListingsSnapshot = await getDocs(queryRef);  // Use getDocs to fetch data
 
     console.log("jobListingsSnapshot:", jobListingsSnapshot);
