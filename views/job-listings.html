@@ -1321,14 +1321,16 @@ async function fetchFilteredJobListings({
   contractToHire,
 }) {
   try {
+    let jobsQuery ;
+    const searchTerms = []; // Initialize an empty array for search terms
+
     // Reference the 'Jobs' collection
     const jobsCollection = collection(db, 'Jobs');  // Reference to the 'Jobs' collection
     let queryRef = query(jobsCollection);  // Initialize the query with the collection
 
     // Apply filters to the query dynamically
     if (keyword || locationInput) { 
-  const searchTerms = []; // Initialize an empty array for search terms
-
+  
   // Add trimmed keyword to search terms if it exists
   if (keyword && keyword.trim() !== '') {
     searchTerms.push(keyword.trim());
@@ -1344,7 +1346,7 @@ async function fetchFilteredJobListings({
     console.log("Search Terms Array:", searchTerms);
 
     // Apply the query with array-contains-any
-    queryRef = query(queryRef, where('searchableTitle', 'array-contains-any', searchTerms));
+ //   jobsQuery = query(queryRef, where('searchableTitle', 'array-contains-any', searchTerms));
   } else {
     console.log("No valid search terms provided.");
   }
@@ -1366,50 +1368,23 @@ async function fetchFilteredJobListings({
     }
 
 
-    /*
-    if (location && !locationInput) {
-    //  queryRef = query(queryRef, where('location', 'array-contains-any', [location]));
-    }
-
-    if (city) {
-      queryRef = query(queryRef, where('city', '==', city));
-    }
-
-    if (state) {
-      queryRef = query(queryRef, where('state', '==', state));
-    }
-
-    if (zipCode) {
-      queryRef = query(queryRef, where('zipCode', '==', zipCode));
-    }
-
-    if (contractType) {
-      queryRef = query(queryRef, where('type', '==', contractType));
-    }
-
-    if (industry) {
-      queryRef = query(queryRef, where('industry', '==', industry));
-    }
-
-    if (immediateHire !== null) {
-      queryRef = query(queryRef, where('immediateHire', '==', immediateHire));
-    }
-
-    if (contractToHire !== null) {
-      queryRef = query(queryRef, where('contractToHire', '==', contractToHire));
-    }
-
-    queryRef = query(queryRef, where('salary', '>=', salaryMin), where('salary', '<=', salaryMax));
-*/
+    const titleQuery = query(
+        jobsQuery,
+        where('status', '==', 'active'),
+        where('searchableTitle', 'array-contains-any', searchTerms),
+        orderBy('createdAt', 'desc'),
+        limit(20)
+      );
+   let   titleSnapshot = await getDocs(titleQuery);
     // Execute the query to fetch job listings
 
-    console.log("queryRef:", queryRef);
+    console.log("titleQuery:", titleQuery);
 
     const jobListingsSnapshot = await getDocs(queryRef);  // Use getDocs to fetch data
 
-    console.log("jobListingsSnapshot:", jobListingsSnapshot);
+    console.log("titleSnapshot:", titleSnapshot);
 
-    const jobListings = jobListingsSnapshot.docs.map(doc => ({
+    const jobListings = titleSnapshot.docs.map(doc => ({
       id: doc.id,
       title: doc.data().title,
       description: doc.data().description,
