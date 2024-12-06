@@ -564,22 +564,25 @@ document.getElementById("connectionsList").innerHTML = '';
 
             const connectionInfo = `
         <div>
-          <img src="${connection.profilePicture}" alt="Profile" width="40" height="40">
-          <a href="https://reelcareer.co/views/user?u=${connection.recipientID}" target="_blank">${connection.recipientName}</a>
+          <img src="${connection.senderProfilePicture}" alt="Profile" width="40" height="40">
+          <a href="https://reelcareer.co/views/user?u=${connection.senderID}" target="_blank">${connection.senderName}</a>
         </div>
-        <button onclick="acceptConnection('${connection.recipientID}', '${connection.senderID}')">Accept</button>
+        <button onclick="acceptConnection('${connection.senderID}', '${connection.recipientID}')">Accept</button>
         `;
         div.innerHTML = connectionInfo;
 
     }else   if (connection.recipientID === userDataSaved.userID){
    
 
+ 
+
+
         const connectionInfo = `
         <div>
-          <img src="${connection.senderProfilePicture}" alt="Profile" width="40" height="40">
-          <a href="https://reelcareer.co/views/user?u=${connection.senderID}" target="_blank">${connection.senderName}</a>
+          <img src="${connection.profilePicture}" alt="Profile" width="40" height="40">
+          <a href="https://reelcareer.co/views/user?u=${connection.recipientID}" target="_blank">${connection.recipientName}</a>
         </div>
-        <button onclick="acceptConnection('${connection.senderID}', '${connection.recipientID}')">Accept</button>
+        <button onclick="acceptConnection('${connection.recipientID}', '${connection.senderID}')">Accept</button>
         `;
         div.innerHTML = connectionInfo;
     }
