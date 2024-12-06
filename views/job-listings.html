@@ -1324,9 +1324,6 @@ async function fetchFilteredJobListings({
     let jobsQuery ;
     const searchTerms = []; // Initialize an empty array for search terms
 
-    // Reference the 'Jobs' collection
-    const jobsCollection = collection(db, 'Jobs');  // Reference to the 'Jobs' collection
-    let queryRef = query(jobsCollection);  // Initialize the query with the collection
 
     // Apply filters to the query dynamically
     if (keyword || locationInput) { 
@@ -1367,6 +1364,7 @@ async function fetchFilteredJobListings({
       queryRef = query(queryRef, where('salary', '>=', adjustedSalaries.lowerSalary), where('salary', '<=', adjustedSalaries.higherSalary));
     }
 
+    console.log("jobsQuery:", jobsQuery);
 
     const titleQuery = query(
         jobsQuery,
