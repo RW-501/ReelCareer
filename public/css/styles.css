@@ -1724,3 +1724,32 @@ main .jobCard:hover {
 .groupSelect .optionBlock {
   color: #bb1a1a;
 }
+
+.attachment-thumbnail {
+  height: 100px;
+  width: 100px;
+  object-fit: contain;
+
+}
+
+.remove-attachment {
+  color: #fff;
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+.remove-attachment:focus {
+  color: #fff;
+  background-color: #c82333;
+  border-color: #bd2130;
+  box-shadow: 0 0 0 .2rem rgba(225, 83, 97, .5);
+}
+
+.attachment-area {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  flex-direction: row;
+  align-content: space-between;
+  justify-content: space-evenly;
+}
