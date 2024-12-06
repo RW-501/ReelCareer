@@ -191,11 +191,11 @@ document.addEventListener("DOMContentLoaded", () => {
         const overlay = document.createElement("div");
         overlay.classList.add("fullscreen-popup");
   
-        // Set the inner HTML of the overlay
+        // Set the inner HTML of the overlay             <button class="more-images-button">View Profile</button>
+
         overlay.innerHTML = `
             <img src="${imageSrc}" class="popup-image" alt="Full-size image">
             <button class="close-button">&times;</button>
-            <button class="more-images-button">View Events</button>
         `;
   
         // Append the overlay to the body
@@ -208,7 +208,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // Add functionality to the "More Videos" button
         const moreVideosButton = overlay.querySelector(".more-images-button");
         moreVideosButton.addEventListener("click", () => {
-          window.location.href = "/events"
+          window.location.href = `/views/user?u=${mediaId}`;
          //   alert("Redirect to videos or perform another action here.");
         });
     };

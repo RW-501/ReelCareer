@@ -1809,7 +1809,7 @@ animation: fadeInImage 2s ease-in;
 
 /* Placeholder Gradient for Unloaded Images */
 .lazy-image:not(.imgLoaded) {
-  background-color: #6a1b9a;
+  background-color: #416bd6;
   background-size: 200% 100%;
   animation: fadeInImage 2s ease-in;
 
