@@ -1654,6 +1654,14 @@ if(connectedBool){
 
 }
 
+if(!recipientID){
+    showToast("recipientID: undefined !!!!!!!!!!!!!!!!1111 ");
+
+    console.log("recipientID: undefined !!!!!!!!!!!!!!!!1111 ");
+
+return;
+}
+
     addDoc(collection(db, 'Messages'), {
 
 
