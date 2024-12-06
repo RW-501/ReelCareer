@@ -1335,7 +1335,7 @@ async function fetchFilteredJobListings({
     }
 
     if (location && !locationInput) {
-      queryRef = query(queryRef, where('location', 'array-contains-any', [location]));
+    //  queryRef = query(queryRef, where('location', 'array-contains-any', [location]));
     }
 
     if (city) {
