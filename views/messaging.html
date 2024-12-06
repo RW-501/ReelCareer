@@ -1330,14 +1330,14 @@ function loadContacts(userID) {
             
             displayedMessages.add(docID); // Mark as displayed
             const data = doc.data();
-            const listItem = document.createElement('li');
-            listItem.className = 'list-group-item msg-list-i';
+            const messagesListItem = document.createElement('li');
+            messagesListItem.className = 'list-group-item msg-list-i';
 
           let  conversationRecipientID = '';
         let  conversationRecipientName = '';
             if (data.recipientID === userDataSaved.userID){
    
-            listItem.innerHTML = `
+                messagesListItem.innerHTML = `
                 <a href="https://reelcareer.co/views/user?u=${data.senderID}" style="text-decoration: none;color: inherit;">
                     <img src="${data.senderProfilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_tie_reel.png'}" alt="Avatar" class="avatar">
                 </a>
@@ -1345,12 +1345,12 @@ function loadContacts(userID) {
             `;
             conversationRecipientID = data.senderID;
             conversationRecipientName = data.senderName;
-            listItem.setAttribute("data-conversation-id",conversationRecipientID);
+            messagesListItem.setAttribute("data-conversation-id",conversationRecipientID);
 
             }
 
             if (data.senderID === userDataSaved.userID) {
-                listItem.innerHTML = `
+                messagesListItem.innerHTML = `
                 <a href="https://reelcareer.co/views/user?u=${data.recipientID}" style="text-decoration: none;color: inherit;">
                     <img src="${data.recipientProfilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_tie_reel.png'}" alt="Avatar" class="avatar">
                 </a>
@@ -1359,7 +1359,7 @@ function loadContacts(userID) {
             conversationRecipientID = data.recipientID;
             conversationRecipientName = data.senderName;
 
-            listItem.setAttribute("data-conversation-id",conversationRecipientID);
+            messagesListItem.setAttribute("data-conversation-id",conversationRecipientID);
 
             }
 
@@ -1374,10 +1374,10 @@ if (existingMessager) {
     return; // Exit if the connection already exists
 }
 
-            listItem.onclick = () => appendConnection(data, "message"),
+messagesListItem.onclick = () => appendConnection(data, "message"),
             composeMessages(data.participants, data, "message",conversationRecipientID),
 
-            messageSection.appendChild(listItem);
+            messageSection.appendChild(messagesListItem);
 
             console.log("conversationRecipientName: ", conversationRecipientName);
 
