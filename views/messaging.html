@@ -1352,8 +1352,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function uploadAttachment(conversationID, file) {
     try {
+        // Ensure 'storage' is properly initialized
+        const storageInstance = getStorage(); // Use Firebase's getStorage method
+
         // Create a storage reference dynamically based on conversationID and file name
-        const fileRef = storageRef(storage, `messages/${conversationID}/${file.name}`);
+        const fileRef = ref(storageInstance, `messages/${conversationID}/${file.name}`);
 
         // Upload the file to Firebase Storage
         const snapshot = await uploadBytes(fileRef, file);
@@ -1365,6 +1368,7 @@ async function uploadAttachment(conversationID, file) {
         throw new Error('Failed to upload attachment.'); // Handle this in calling function
     }
 }
+
 
 
 function sendMessage( message, attachmentUrl = '') { 
