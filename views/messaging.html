@@ -1467,86 +1467,93 @@ if (existingMessager) {
         });
     });
 }
-
-function loadMessages(participants, userID, senderID) {
-
-    console.log("loadMessages???????????????????????????: ");
-    console.log("participants: ", participants);
-  //  console.log("userID: ", userID);
-   // console.log("senderID: ", senderID);
+function loadMessages(participants, recipientID, senderID) {
+    console.log("Loading Messages...");
+    console.log("Participants: ", participants);
 
     const messageBox = document.getElementById('messageBox');
-    const conversationTitle = document.getElementById('conversationTitle');
-    const contactInfo = document.getElementById('contactInfo');
-
-    messageBox.innerHTML = '';
     const messagesRef = collection(db, 'Messages');
-    const q = query(messagesRef, where('participants', 'array-contains-any', [userID]), orderBy('createdAt'));
+
+    // Query messages where both recipient and sender are part of the conversation
+    const q = query(messagesRef, where('participants', 'array-contains', recipientID), orderBy('createdAt'));
 
     onSnapshot(q, snapshot => {
         messageBox.innerHTML = ''; // Clear previous messages
-        const senderMessages = snapshot.docs.filter(doc => doc.data().senderID === senderID); // Filter by senderID
 
-        senderMessages.forEach(doc => {
+        snapshot.docs.forEach(doc => {
             const data = doc.data();
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `message ${data.senderID === auth.currentUser.uid ? 'sent' : 'received'}`;
-            messageDiv.textContent = data.content;
 
-            // Add media content if present
-            if (data.contentType !== 'text') {
-                const mediaDiv = document.createElement('div');
-                mediaDiv.className = 'media-attachment';
+            // Check if the sender is either the recipient or the sender
+            if (data.participants.includes(senderID)) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${data.senderID === auth.currentUser.uid ? 'sent' : 'received'}`;
+                messageDiv.textContent = data.content;
 
-                if (data.contentType === 'image') {
-                    const img = document.createElement('img');
-                    img.src = data.attachmentUrl;
-                    img.alt = 'Image Attachment';
-                    mediaDiv.appendChild(img);
-                } else if (data.contentType === 'video') {
-                    const video = document.createElement('video');
-                    video.src = data.attachmentUrl;
-                    video.controls = true;
-                    mediaDiv.appendChild(video);
-                } else if (data.contentType === 'audio') {
-                    const audio = document.createElement('audio');
-                    audio.src = data.attachmentUrl;
-                    audio.controls = true;
-                    mediaDiv.appendChild(audio);
-                } else if (data.contentType === 'document' || data.contentType === 'office-document') {
-                    const docLink = document.createElement('a');
-                    docLink.href = data.attachmentUrl;
-                    docLink.target = '_blank';
-                    docLink.textContent = 'View Document';
-                    mediaDiv.appendChild(docLink);
-                } else if (data.contentType === 'archive') {
-                    const archiveLink = document.createElement('a');
-                    archiveLink.href = data.attachmentUrl;
-                    archiveLink.target = '_blank';
-                    archiveLink.textContent = 'Download Archive';
-                    mediaDiv.appendChild(archiveLink);
-                } else {
-                    const unsupportedMessage = document.createElement('p');
-                    unsupportedMessage.textContent = 'Unsupported content type.';
-                    mediaDiv.appendChild(unsupportedMessage);
+                // Add media content if present
+                if (data.contentType !== 'text') {
+                    const mediaDiv = document.createElement('div');
+                    mediaDiv.className = 'media-attachment';
+
+                    switch (data.contentType) {
+                        case 'image':
+                            const img = document.createElement('img');
+                            img.src = data.attachmentUrl;
+                            img.alt = 'Image Attachment';
+                            mediaDiv.appendChild(img);
+                            break;
+                        case 'video':
+                            const video = document.createElement('video');
+                            video.src = data.attachmentUrl;
+                            video.controls = true;
+                            mediaDiv.appendChild(video);
+                            break;
+                        case 'audio':
+                            const audio = document.createElement('audio');
+                            audio.src = data.attachmentUrl;
+                            audio.controls = true;
+                            mediaDiv.appendChild(audio);
+                            break;
+                        case 'document':
+                        case 'office-document':
+                            const docLink = document.createElement('a');
+                            docLink.href = data.attachmentUrl;
+                            docLink.target = '_blank';
+                            docLink.textContent = 'View Document';
+                            mediaDiv.appendChild(docLink);
+                            break;
+                        case 'archive':
+                            const archiveLink = document.createElement('a');
+                            archiveLink.href = data.attachmentUrl;
+                            archiveLink.target = '_blank';
+                            archiveLink.textContent = 'Download Archive';
+                            mediaDiv.appendChild(archiveLink);
+                            break;
+                        default:
+                            const unsupportedMessage = document.createElement('p');
+                            unsupportedMessage.textContent = 'Unsupported content type.';
+                            mediaDiv.appendChild(unsupportedMessage);
+                            break;
+                    }
+                    messageDiv.appendChild(mediaDiv);
                 }
-                messageDiv.appendChild(mediaDiv);
+
+                // Add timestamp
+                const timestampDiv = document.createElement('div');
+                timestampDiv.className = 'timestamp';
+                timestampDiv.textContent = new Date(data.createdAt.seconds * 1000).toLocaleString();
+                messageDiv.appendChild(timestampDiv);
+
+                messageBox.appendChild(messageDiv);
             }
-
-            // Add timestamp
-            const timestampDiv = document.createElement('div');
-            timestampDiv.className = 'timestamp';
-            timestampDiv.textContent = new Date(data.createdAt.seconds * 1000).toLocaleString();
-            messageDiv.appendChild(timestampDiv);
-
-            messageBox.appendChild(messageDiv);
         });
+
         messageBox.scrollTop = messageBox.scrollHeight; // Auto-scroll to the bottom
     }, error => {
         console.error("Error fetching messages:", error.message);
         showToast("Unable to load messages. Please try again.", 'error');
     });
 }
+
 
  document.getElementById('chooseFileButton').addEventListener('click', () => {
     document.getElementById('attachmentInput').click();
