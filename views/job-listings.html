@@ -1249,8 +1249,17 @@ const contractToHire = document.getElementById("contractToHire").checked || null
 
     window.searchJobs = searchJobs;
 
+    function adjustSalary(salaryInput) {
+  const lowerSalary = salaryInput * 0.95; // 5% lower
+  const higherSalary = salaryInput * 1.05; // 5% higher
+  
+  return {
+    lowerSalary: lowerSalary,
+    higherSalary: higherSalary
+  };
+}
 
-    
+
     async function fetchFilteredJobListings({
         requirements,
         keyword,
@@ -1299,7 +1308,14 @@ if (jobTypeInput) {
   query = query.where('type', '==', jobTypeInput);
 }
 if (salaryInput) {
-  query = query.where('salary', '==', salaryInput);
+
+  
+
+  
+const adjustedSalaries = adjustSalary(salaryInput);
+
+  query = query.where('salary', '>=', adjustedSalaries.lowerSalary).where('salary', '<=', adjustedSalaries.higherSalary);
+
 }
 if (location) {
   query = query.where('location', 'array-contains-any', location);
