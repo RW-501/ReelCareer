@@ -738,44 +738,73 @@ const conversationTitle = document.getElementById('conversationTitle');
 const contactInfo = document.getElementById('contactInfo');
 
 
-    console.log("composeMessages ????????????????????????  ");
+    console.log(`composeMessages ???????????????????????????????????????????????????????????????????
+    ????????????????????????????????????????????????????????????????????????  `);
 
+    console.log("type: ", type);
+    console.log("userDataSaved.userID: ", userDataSaved.userID);
+    console.log("userDataSaved.displayName: ", userDataSaved.displayName);
+    
+    if(type === "contact"){
     console.log("data: ", data);
     console.log("data.toName: ", data.toName);
     console.log("data.fromName: ", data.fromName);
 
-    console.log("composeMessages MESSAGE   ????????????????????????  ");
-    console.log("data: ", data);
+    if(userDataSaved.userID == data.from ){
 
-    console.log("type: ", type);
+console.log("YOU ARE THE SENDER CONTACT  ????????????????????????  ");
+conversationTitle.setAttribute("data-conversation-recipientID",data.to);
+conversationTitle.setAttribute("data-conversation-name",data.toName);
+conversationTitle.setAttribute("data-conversation-picture",data.toProfilePicture);
+
+} else if(userDataSaved.userID == data.to ){
+console.log("YOU ARE THE RECIPIRNT CONTACT   ????????????????????????  ");
+conversationTitle.setAttribute("data-conversation-recipientID",data.from);
+conversationTitle.setAttribute("data-conversation-name",data.fromName);
+conversationTitle.setAttribute("data-conversation-picture",data.fromProfilePicture);
+
+}
+    console.log("composeMessages MESSAGE   ????????????????????????  ");
+    console.log("CONTACT DATA: ", data);
+    }
+
+
+    if(type === "message"){
 
     console.log("data.recipientName: ", data.recipientName);
     console.log("data.senderName: ", data.senderName);
+    if(userDataSaved.userID == data.recipientID ){
 
-    console.log("conversationRecipientID: ", conversationRecipientID);
-    console.log("userDataSaved.userID: ", userDataSaved.userID);
+console.log("YOU ARE THE SENDER MESSAGE  ????????????????????????  ");
+conversationTitle.setAttribute("data-conversation-recipientID",data.senderID);
+conversationTitle.setAttribute("data-conversation-name",data.senderName);
+conversationTitle.setAttribute("data-conversation-picture",data.senderProfilePicture);
 
-    console.log("END  composeMessages ????????????????????????  ");
-
-    if(userDataSaved.userID == data.fromName ){
-
-console.log("YOU ARE THE SENDER CONTACT  ????????????????????????  ");
-
-} else if(userDataSaved.userID == data.toName ){
-console.log("YOU ARE THE RECIPIRNT CONTACT   ????????????????????????  ");
-
-}else
-
-
-
-if(conversationRecipientID == data.recipientName ){
-
-    console.log("YOU ARE THE SENDER MESSAGE  ????????????????????????  ");
-
-} else if(conversationRecipientID == data.senderName ){
-    console.log("YOU ARE THE RECIPIRNT MESSAGE   ????????????????????????  ");
-
+} else if(userDataSaved.userID == data.senderID ){
+console.log("YOU ARE THE RECIPIRNT MESSAGE   ????????????????????????  ");
+conversationTitle.setAttribute("data-conversation-recipientID",data.recipientID);
+conversationTitle.setAttribute("data-conversation-name",data.recipientName);
+conversationTitle.setAttribute("data-conversation-picture",data.recipientProfilePicture);
 }
+
+    console.log("MESSAGE DATA: ", data);
+
+    }
+
+
+    const recipientName = document.getElementById('conversationTitle')?.getAttribute('data-conversation-name');
+    const recipientID = document.getElementById('conversationTitle')?.getAttribute('data-conversation-recipientID');
+    console.log("recipientName: ", recipientName);
+    console.log("recipientID: ", recipientID);
+
+    console.log(`END  composeMessages ???????????????????????? 
+    ???????????????????????????????????///????????????????????????????????????/ `);
+
+
+
+
+
+
     
 if(type === "contact"){
  if (data.to === userDataSaved.userID) {
@@ -790,9 +819,7 @@ conversationTitle.innerHTML = `
 <span>${data.fromName || 'Unknown Sender'}</span>
 `;  
 conversationTitle.setAttribute("data-conversation-id",`${userDataSaved.userID}_${data.from}`);
-conversationTitle.setAttribute("data-conversation-name",data.fromName);
-conversationTitle.setAttribute("data-conversation-picture",data.fromProfilePicture);
-conversationTitle.setAttribute("data-conversation-recipientID",data.from);
+
 conversationTitle.innerHTML = `<div class="flex"><div>Contact: ${data.fromName}</div>
  <div>Connection: <small>${data.status}</small></div></div>
 ${data.acceptDate ? "<p>Connected Since: <small>${data.acceptDate}</small></p>" : ''}`
@@ -869,9 +896,8 @@ conversationTitle.appendChild(groupDiv);
 <span>${data.toName || 'Unknown Sender'}</span>
 `;  
 conversationTitle.setAttribute("data-conversation-id",`${userDataSaved.userID}_${data.to}`);
-conversationTitle.setAttribute("data-conversation-name",data.toName);
-conversationTitle.setAttribute("data-conversation-picture",data.toProfilePicture);
-conversationTitle.setAttribute("data-conversation-recipientID",data.to);
+
+
 
 conversationTitle.innerHTML = `<div class="flex"><div>Contact: ${data.toName}</div>
  <div>Connection: <small>${data.status}</small></div></div>
@@ -961,9 +987,8 @@ conversationTitle.innerHTML = `
 <span>${data.senderName || 'Unknown Sender'}</span>
 `;  
 conversationTitle.setAttribute("data-conversation-id",`${userDataSaved.userID}_${data.senderID}`);
-conversationTitle.setAttribute("data-conversation-name",data.senderName);
-conversationTitle.setAttribute("data-conversation-picture",data.senderProfilePicture);
-conversationTitle.setAttribute("data-conversation-recipientID",data.from);
+
+
 conversationTitle.innerHTML = `<div class="flex"><div>Contact: ${data.senderName}</div>
  <div>Connection: <small>${data.connectedBool}</small></div></div>
 ${data.connectedBool ? "<p>Connected Since: <small>${data.acceptDate}</small></p>" : ''}`
@@ -1035,9 +1060,8 @@ conversationTitle.appendChild(groupDiv);
 <span>${data.recipientName || 'Unknown Sender'}</span>
 `;  
 conversationTitle.setAttribute("data-conversation-id",`${userDataSaved.userID}_${data.senderID}`);
-conversationTitle.setAttribute("data-conversation-name",data.recipientName);
-conversationTitle.setAttribute("data-conversation-picture",data.recipientProfilePicture);
-conversationTitle.setAttribute("data-conversation-recipientID",data.from);
+
+
 conversationTitle.innerHTML = `<div class="flex"><div>Contact: ${data.recipientName}</div>
  <div>Connection: <small>${data.connectedBool}</small></div></div>
 ${data.connectedBool ? "<p>Connected Since: <small>${data.acceptDate}</small></p>" : ''}`
