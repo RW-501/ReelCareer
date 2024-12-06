@@ -366,12 +366,9 @@ setTimeout(() => {
     container.appendChild(jobCard);
 }
 
- // Toast Notification Function
-function showToast(message, type = 'info', duration = 3000) {
-   
+function showToast(message, type = 'info', duration = 3000, link = null) {
   // Create a div for the toast
   const toast = document.createElement('div');
-
   toast.setAttribute('role', 'alert'); // Accessibility
 
   // Set inline styles for the toast
@@ -386,44 +383,45 @@ function showToast(message, type = 'info', duration = 3000) {
   toast.style.zIndex = '9999999999999999';
   toast.style.transition = 'opacity 1s ease-in-out';
   toast.style.opacity = '1';
-  
+
   // Set background color based on toast type
   switch (type) {
-      case 'success':
-          toast.style.backgroundColor = '#4CAF50'; // Green for success
-          break;
-      case 'error':
-          toast.style.backgroundColor = '#F44336'; // Red for error
-          break;
-      case 'info':
-          toast.style.backgroundColor = '#2196F3'; // Blue for info
-          break;
-      case 'warning':
-          toast.style.backgroundColor = '#FF9800'; // Orange for warning
-          break;
-      default:
-          toast.style.backgroundColor = '#2196F3'; // Default to info
+    case 'success':
+      toast.style.backgroundColor = '#4CAF50'; // Green for success
+      break;
+    case 'error':
+      toast.style.backgroundColor = '#F44336'; // Red for error
+      break;
+    case 'info':
+      toast.style.backgroundColor = '#2196F3'; // Blue for info
+      break;
+    case 'warning':
+      toast.style.backgroundColor = '#FF9800'; // Orange for warning
+      break;
+    default:
+      toast.style.backgroundColor = '#2196F3'; // Default to info
   }
 
- 
+  // Parse the message for placeholders like @[title]
+  const formattedMessage = message.replace(
+    /@\[(.+?)\]/g,
+    `<a href="${link}" target="_blank" style="color: #fff; text-decoration: underline;">$1</a>`
+  );
 
-  toast.className = `toast toast-${type}`; // Add classes for styling
-  toast.innerText = message; // Set the message text
-
-   // Append the toast to the body
-   document.body.appendChild(toast);
+  // Set the message as inner HTML
+  toast.innerHTML = formattedMessage;
 
   // Append the toast to the body
- // document.getElementById('main-content').appendChild(toast);
+  document.body.appendChild(toast);
 
-    // Set a timer to remove the toast after the specified duration
+  // Set a timer to remove the toast after the specified duration
+  setTimeout(() => {
+    toast.style.opacity = '0'; // Start fade-out
+    toast.classList.add('fade-out'); // Add fade-out effect
     setTimeout(() => {
-      toast.style.opacity = '0'; // Start fade-out
-        toast.classList.add('fade-out'); // Add fade-out effect
-        setTimeout(() => {
-            document.body.removeChild(toast); // Remove toast from DOM
-        }, 500); // Time to wait for fade-out animation
-    }, duration);
+      document.body.removeChild(toast); // Remove toast from DOM
+    }, 500); // Time to wait for fade-out animation
+  }, duration);
 }
 
 // Example usage: Replace alerts with showToast

@@ -894,6 +894,12 @@ async function handleJobPostSubmission(event) {
   const jobDetails = collectJobDetails(); // Collect form data
 
   try {
+    // Check if the user is authenticated
+    if (!auth.currentUser) {
+      // Log in anonymously if the user is not authenticated
+      await signInAnonymously(auth);
+      console.log("User signed in anonymously");
+    }
     // Add to Applications collection
     const applicationsRef = collection(db, "Applications");
     const jobDocRef = await addDoc(applicationsRef, {
@@ -904,9 +910,12 @@ async function handleJobPostSubmission(event) {
     const jobId = jobDocRef.id;
 
     // If the user is logged in, add to their Users collection
-    if (auth.currentUser) {
+    if (auth.currentUser && !auth.currentUser.isAnonymous) {
       const userRef = doc(db, "Users", auth.currentUser.uid);
       await updateDoc(userRef, {
+        recruiterID: auth.currentUser.uid,
+        timestamp: new Date(),
+
         jobPosts: arrayUnion({
           jobTitle: jobDetails.title || "Untitled Job",
           status: jobDetails.status || "draft",
@@ -922,7 +931,25 @@ async function handleJobPostSubmission(event) {
       });
     }
 
-    showSuccessModal(jobId, jobDetails); // Display success message
+   // showSuccessModal(jobId, jobDetails); // Display success message
+    if (auth.currentUser.isAnonymous) {
+      showToast(
+  "You're posting this job anonymously. @[Sign up to manage your job posts] more effectively!",
+  "info",
+  10000,
+  "https://reelcareer.co/views/auth"
+);
+
+}else{
+  showToast(
+  "Your job is under review, manage your job post on you @[Recruiter Dashboard]",
+  "success",
+  10000,
+  "https://reelcareer.co/views/recruiter-dashboard"
+);
+
+}
+
     resetForm(); // Clear the form
   } catch (error) {
     console.error("Error posting job:", error);
@@ -934,6 +961,7 @@ async function handleJobPostSubmission(event) {
 
 function collectJobDetails() {
   return {
+    recruiterID: auth.currentUser.uid,
     title: getInputValue("jobTitle"),
     company: getInputValue("company"),
     description: getInputValue("jobDescription"),
@@ -966,7 +994,6 @@ function getInputValue(id) {
 
 
 window.handleJobPostSubmission = handleJobPostSubmission;
-
 
 
 // Function to fetch job listings from Firestore
