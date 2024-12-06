@@ -1230,7 +1230,31 @@ const contractToHire = document.getElementById("contractToHire").checked || null
         immediateHire,
         contractToHire
       });
-      async function fetchFilteredJobListings({
+      fetchFilteredJobListings({
+        requirements,
+        keyword,
+        location,
+        locationInput,
+        jobTypeInput,
+        salaryInput,
+
+        city,
+        state,
+        zipCode,
+        salaryMin,
+        salaryMax,
+        contractType,
+        industry,
+        immediateHire,
+        contractToHire,
+      });
+    }
+
+    window.searchJobs = searchJobs;
+
+
+    
+    async function fetchFilteredJobListings({
         requirements,
         keyword,
         location,
@@ -1349,9 +1373,7 @@ query = query.where('salary', '>=', salaryMin).where('salary', '<=', salaryMax);
           throw error; // Rethrow the error to handle it later
         }
       }
-    }
 
-    window.searchJobs = searchJobs;
 
     // Function to get URL parameters
     function getUrlParameters() {
