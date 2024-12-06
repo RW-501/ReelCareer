@@ -1363,12 +1363,8 @@ function loadContacts(userID) {
 
             }
 
-/*
-conversationTitle.setAttribute("data-conversation-id",`${userDataSaved.userID}_${data.from}`);
-conversationTitle.setAttribute("data-conversation-name",data.fromName);
-conversationTitle.setAttribute("data-conversation-picture",data.fromProfilePicture);
-conversationTitle.setAttribute("data-conversation-recipientID",data.from);
-*/
+
+            
 
 const existingMessager = messageSection.querySelector(`[data-conversation-id="${conversationRecipientID}"]`);
 
@@ -1391,6 +1387,10 @@ console.log("data: ", data);
 
         });
     });
+
+
+
+
 
     const connectionsSection = createSection('Connections');
     contactList.appendChild(connectionsSection);
