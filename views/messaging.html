@@ -1265,7 +1265,7 @@ conversationTitle.setAttribute("data-conversation-picture",data.fromProfilePictu
 conversationTitle.setAttribute("data-conversation-recipientID",data.from);
 */
             listItem.onclick = () => appendConnection(data, "message"),
-//             composeMessages(data.participants, data, "message",data.recipientID),
+            composeMessages(data.participants, data, "message",data.recipientID),
             messageSection.appendChild(listItem);
         });
     });
