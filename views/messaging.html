@@ -1344,6 +1344,8 @@ function loadContacts(userID) {
                 <span>${data.senderName}</span>
             `;
             conversationRecipientID = data.senderID;
+            listItem.setAttribute("data-conversation-id",conversationRecipientID);
+
             }
 
             if (data.senderID === userDataSaved.userID) {
@@ -1354,8 +1356,9 @@ function loadContacts(userID) {
                 <span>${data.recipientName}</span>
             `;
             conversationRecipientID = data.recipientID;
+            listItem.setAttribute("data-conversation-id",conversationRecipientID);
+
             }
-            messageSection.setAttribute("data-conversation-id",conversationRecipientID);
 
 /*
 conversationTitle.setAttribute("data-conversation-id",`${userDataSaved.userID}_${data.from}`);
