@@ -1334,7 +1334,7 @@ function loadContacts(userID) {
             listItem.className = 'list-group-item msg-list-i';
 
           let  conversationRecipientID = '';
-
+        let  conversationRecipientName = '';
             if (data.recipientID === userDataSaved.userID){
    
             listItem.innerHTML = `
@@ -1344,6 +1344,7 @@ function loadContacts(userID) {
                 <span>${data.senderName}</span>
             `;
             conversationRecipientID = data.senderID;
+            conversationRecipientName = data.senderName;
             listItem.setAttribute("data-conversation-id",conversationRecipientID);
 
             }
@@ -1356,6 +1357,8 @@ function loadContacts(userID) {
                 <span>${data.recipientName}</span>
             `;
             conversationRecipientID = data.recipientID;
+            conversationRecipientName = data.senderName;
+
             listItem.setAttribute("data-conversation-id",conversationRecipientID);
 
             }
@@ -1380,7 +1383,9 @@ if (existingMessager) {
 
             messageSection.appendChild(listItem);
 
+            console.log("conversationRecipientName: ", conversationRecipientName);
 
+console.log("data: ", data);
            // composeMessages('${connection.recipientID}'_'${connection.senderID}','${connection}', "message" )
 
 
