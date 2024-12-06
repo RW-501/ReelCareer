@@ -749,17 +749,17 @@ const contactInfo = document.getElementById('contactInfo');
     console.log("data.from === userDataSaved.userID: ");
     console.log("data.to: ", data.toName);
 
-
+    
 conversationTitle.innerHTML = `
 <a href="https://reelcareer.co/views/user?u=${data.from}" style="text-decoration: none; color: inherit;">
     <img src="${data.fromProfilePicture || 'default-image-url'}" alt="Avatar" class="avatar">
 </a>
 <span>${data.fromName || 'Unknown Sender'}</span>
 `;  
-contactInfo.setAttribute("data-conversation-id",conversationID);
-contactInfo.setAttribute("data-conversation-name",data.fromName);
-contactInfo.setAttribute("data-conversation-picture",data.fromProfilePicture);
-contactInfo.innerHTML = `<p>Contact: ${data.fromName}</p>
+conversationTitle.setAttribute("data-conversation-id",`${userDataSaved.userID}_${data.from}`);
+conversationTitle.setAttribute("data-conversation-name",data.fromName);
+conversationTitle.setAttribute("data-conversation-picture",data.fromProfilePicture);
+conversationTitle.innerHTML = `<p>Contact: ${data.fromName}</p>
 <p>Connection: <small>${data.status}</small></p>`; 
 
 
@@ -811,10 +811,10 @@ conversationTitle.appendChild(groupDiv);
 </a>
 <span>${data.toName || 'Unknown Sender'}</span>
 `;  
-contactInfo.setAttribute("data-conversation-id",conversationID);
-contactInfo.setAttribute("data-conversation-name",data.toName);
-contactInfo.setAttribute("data-conversation-picture",data.toProfilePicture);
-contactInfo.innerHTML = `<p>Contact: ${data.toName}</p>
+conversationTitle.setAttribute("data-conversation-id",`${userDataSaved.userID}_${data.to}`);
+conversationTitle.setAttribute("data-conversation-name",data.toName);
+conversationTitle.setAttribute("data-conversation-picture",data.toProfilePicture);
+conversationTitle.innerHTML = `<p>Contact: ${data.toName}</p>
 <p>Connection: <small>${data.status}</small></p>`;  
 
 // Create the select input element
