@@ -1156,12 +1156,8 @@ async function fetchJobListings() {
     }
 
     
-document.querySelector('#main-search-btn').addEventListener('click', function() {  
-      console.log("#main-search-btn");
 
-
-  searchJobs();
-});
+document.getElementById('main-search-btn').addEventListener('click', searchJobs);
 
 
     function searchJobs() {
