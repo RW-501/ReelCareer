@@ -1407,16 +1407,10 @@ async function fetchFilteredJobListings({
 
     console.log("Final Query Conditions:", {
       keyword,
-      location,
-      city,
-      state,
-      zipCode,
-      salaryMin,
-      salaryMax,
-      contractType,
-      industry,
-      immediateHire,
-      contractToHire,
+      salaryInput,
+      jobTypeInput,
+      locationInput,
+     
     });
 
     displayJobListings(jobListings);
