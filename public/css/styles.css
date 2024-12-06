@@ -106,6 +106,7 @@ transition: opacity 0.6s ease-in-out, transform 0.4s ease, box-shadow 0.4s ease;
 }
 
 .lazy-load.loaded {
+  display: initial;
 opacity: 1; /* Fade in */
 transform: scale(1); /* Zoom-in to normal size */
 box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2); /* Slightly deeper shadow once loaded */
@@ -185,6 +186,7 @@ box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2); /* Slightly deeper shadow once loade
   transform: scale(1) rotate(0deg); /* Reset rotation and scale */
   transition: opacity 0.6s cubic-bezier(0.25, 0.8, 0.25, 1), visibility 0s 0s, transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1); /* Fluid fade-in with reset scale and rotation */
   will-change: opacity, transform; /* Optimizing for performance */
+  display: initial;
 }
 
 
