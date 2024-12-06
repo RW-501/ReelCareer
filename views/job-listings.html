@@ -1285,7 +1285,8 @@ const contractToHire = document.getElementById("contractToHire").checked || null
 
           }
           
-          let query = firestore.collection('Jobs');
+// Reference the 'Jobs' collection
+const jobsCollection = collection(db, 'Jobs');
 
 if (keyword) {
   query = query.where('searchableTitle', 'array-contains-any', [keyword]); // Ensure this matches your schema
