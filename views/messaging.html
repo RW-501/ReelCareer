@@ -754,6 +754,7 @@ conversationTitle.innerHTML = `
 conversationTitle.setAttribute("data-conversation-id",`${userDataSaved.userID}_${data.from}`);
 conversationTitle.setAttribute("data-conversation-name",data.fromName);
 conversationTitle.setAttribute("data-conversation-picture",data.fromProfilePicture);
+conversationTitle.setAttribute("data-conversation-recipientID",data.from);
 conversationTitle.innerHTML = `<p>Contact: ${data.fromName}</p>
 <p>Connection: <small>${data.status}</small></p>
 <p>Group: <small>${data.fromGroup}</small></p>`; 
@@ -817,6 +818,8 @@ conversationTitle.appendChild(groupDiv);
 conversationTitle.setAttribute("data-conversation-id",`${userDataSaved.userID}_${data.to}`);
 conversationTitle.setAttribute("data-conversation-name",data.toName);
 conversationTitle.setAttribute("data-conversation-picture",data.toProfilePicture);
+conversationTitle.setAttribute("data-conversation-recipientID",data.to);
+
 conversationTitle.innerHTML = `<p>Contact: ${data.toName}</p>
 <p>Connection: <small>${data.status}</small></p>
 <p>Group: <small>${data.toGroup}</small></p>`
@@ -1353,28 +1356,29 @@ function sendMessage( message, attachmentUrl = '') {
      const userDataSaved = getUserData() || [];
     const senderID = auth.currentUser.uid;
 
-    console.log("USERDATA: ", USERDATA);
-    console.log("UserData: ", UserData);
+    //console.log("USERDATA: ", USERDATA);
+   // console.log("UserData: ", UserData);
     console.log("UserID: ", UserID);
     console.log("UserId: ", UserId);
     console.log("senderID: ", senderID);
     console.log("userDataSaved: ", userDataSaved);
 
     const conversationID = document.getElementById('conversationTitle')?.getAttribute('data-conversation-id');
-    const conversationtName = document.getElementById('conversationTitle')?.getAttribute('data-conversation-name');
-    const conversationPicture = document.getElementById('conversationTitle')?.getAttribute('data-conversation-picture');
+    const recipientName = document.getElementById('conversationTitle')?.getAttribute('data-conversation-name');
+    const recipientPicture = document.getElementById('conversationTitle')?.getAttribute('data-conversation-picture');
+    const recipientID = document.getElementById('conversationTitle')?.getAttribute('data-conversation-recipientID');
 
     addDoc(collection(db, 'Messages'), {
 
 
-        recipientID: conversationID,
-        recipientName: conversationtName,
-        recipientProfileURL: `https://reelcareer.co/views/user?u=${conversationID}`,
-        recipientProfilePicture:  conversationPicture,
+        recipientID: recipientID,
+        recipientName: recipientName,
+        recipientProfileURL: `https://reelcareer.co/views/user?u=${recipientID}`,
+        recipientProfilePicture:  recipientPicture,
         recipientRead: false,
 
    
-        participants: [userDataSaved.userID, conversationID], // Add this array
+        participants: [userDataSaved.userID, recipientID], // Add this array
 
   
         senderID: userDataSaved.userID || auth.currentUser.uid || senderID,
