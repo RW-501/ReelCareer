@@ -576,6 +576,8 @@ document.getElementById("connectionsList").innerHTML = '';
         </div>
         <button onclick="acceptConnection('${connection.senderID}', '${connection.recipientID}')">Accept</button>
         `;
+        div.innerHTML = connectionInfo;
+
     }else   if (connection.recipientID === userDataSaved.userID){
         const connectionInfo = `
         <div>
@@ -584,10 +586,10 @@ document.getElementById("connectionsList").innerHTML = '';
         </div>
         <button onclick="acceptConnection('${connection.recipientID}', '${connection.senderID}')">Accept</button>
         `;
+        div.innerHTML = connectionInfo;
 
 
     }
-        div.innerHTML = connectionInfo;
 
     } else {
 
