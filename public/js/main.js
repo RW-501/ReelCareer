@@ -1412,7 +1412,7 @@ function getViewedByField() {
   // Append 'ViewedBy' for the field name
   const fieldName = `${page}ViewedBy`;
 
-  console.log(fieldName); // Log for debugging
+ // console.log(fieldName); // Log for debugging
 
   return fieldName || 'defaultViewedBy'; // Fallback value if the field name is somehow invalid
 }
@@ -1425,9 +1425,9 @@ function getViewedByField() {
     const durationOfTheView = (viewEndTime - viewStartTime) / 1000;
     const viewedByField = getViewedByField();
 
-    console.log(`${durationOfTheView} durationOfTheView ???????? .`);
+  //  console.log(`${durationOfTheView} durationOfTheView ???????? .`);
 
-    
+    return;
     // Retrieve user data from local storage
     const storedUserData = localStorage.getItem("userData");
 
@@ -1436,7 +1436,7 @@ function getViewedByField() {
     if (storedUserData) {
       // Parse the stored data
        userData = getUserData();
-       console.log(`${userData} userData ???????? .`);
+      // console.log(`${userData} userData ???????? .`);
 
   } 
 
@@ -1493,7 +1493,7 @@ function getViewedByField() {
 
     try {
         await setDoc(doc(db, 'Analytics', ipAddress || userData.ipAddress), viewData, { merge: true });
-        console.log(`${viewedByField} data updated successfully.`);
+      //  console.log(`${viewedByField} data updated successfully.`);
     } catch (error) {
         console.error(`Error updating ${viewedByField} data:`, error);
     }
