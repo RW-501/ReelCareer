@@ -827,16 +827,13 @@ border-radius: 12px;
 // Function to open the modal
 function openJobPostModal() {
   // Get the modal element
-  //var modal = new bootstrap.Modal(document.getElementById('jobPostPopup'));
+  var modal = new bootstrap.Modal(document.getElementById('jobPostPopup'));
   
   // Show the modal
-  //modal.show();
+  modal.show();
 
-  showModal("jobPostPopup");
+  //showModal("jobPostPopup");
 }
-
-// Add an event listener to the "Quick Post Job" button
-document.getElementById('quickPostJobButton').addEventListener('click', openJobPostModal);
 
 
 
