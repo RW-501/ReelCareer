@@ -1322,7 +1322,7 @@ async function fetchFilteredJobListings({
     }
 
     if (locationInput) {
-      queryRef = query(queryRef, where('location', 'array-contains-any', locationInput));
+      queryRef = query(queryRef, where('location', 'array-contains-any', [locationInput]));
     }
 
     if (jobTypeInput) {
@@ -1335,7 +1335,7 @@ async function fetchFilteredJobListings({
     }
 
     if (location) {
-      queryRef = query(queryRef, where('location', 'array-contains-any', location));
+      queryRef = query(queryRef, where('location', 'array-contains-any', [location]));
     }
 
     if (city) {
