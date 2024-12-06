@@ -1604,6 +1604,9 @@ function sendMessage( message, attachmentUrl = '') {
     const recipientPicture = document.getElementById('conversationTitle')?.getAttribute('data-conversation-picture');
     const recipientID = document.getElementById('conversationTitle')?.getAttribute('data-conversation-recipientID');
 
+
+    const connectedBool = document.querySelector(`[data-connection-id="${recipientID}"]`);
+
     addDoc(collection(db, 'Messages'), {
 
 
