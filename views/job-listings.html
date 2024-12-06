@@ -1333,7 +1333,7 @@ async function fetchFilteredJobListings({
   console.log("run keyword  ",keyword);
   console.log("run locationInput  ",locationInput);
 
-  queryRef = query(queryRef, where('searchableKeywords', 'array-contains-any', searchTerms));
+  queryRef = query(queryRef, where('searchableTitle', 'array-contains-any', searchTerms));
 }
 
     if (jobTypeInput && jobTypeInput == '') {
