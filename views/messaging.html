@@ -803,9 +803,8 @@ if (groups.some(group => group.groupName === targetValue)) {
     selectInput.value = groups[0].groupName; // Fallback to the first option
 }
 
-// Append the select element to the DOM (example)
-document.body.appendChild(selectInput);
-
+// Apply the class for the initially selected option
+updateSelectClass(selectInput, selectInput.options[selectInput.selectedIndex]);
 
 
 const groupDiv = document.createElement('div');
@@ -814,6 +813,8 @@ groupDiv.appendChild(selectInput);
 
 // Assuming conversationTitle is defined elsewhere
 conversationTitle.appendChild(groupDiv);
+
+
 
 
 
@@ -876,13 +877,14 @@ groups.forEach(group => {
 const targetValue = data.toGroup; // Value to set, e.g., "Recruiters"
 if (groups.some(group => group.groupName === targetValue)) {
     selectInput.value = targetValue; // Programmatically set the value
+
 } else {
     console.warn(`Value "${targetValue}" not found in options. Falling back to default.`);
     selectInput.value = groups[0].groupName; // Fallback to the first option
 }
 
-// Append the select element to the DOM (example)
-document.body.appendChild(selectInput);
+// Apply the class for the initially selected option
+updateSelectClass(selectInput, selectInput.options[selectInput.selectedIndex]);
 
 
 const groupDiv = document.createElement('div');
@@ -893,6 +895,14 @@ groupDiv.appendChild(selectInput);
 conversationTitle.appendChild(groupDiv);
 
 }
+
+
+
+
+
+
+
+
 
 loadMessages(data.participants, userDataSaved.userID);
 
@@ -906,6 +916,21 @@ window.composeMessages  = composeMessages ;
 
 
 
+/**
+ * Updates the select element's class based on the selected option's class
+ */
+ function updateSelectClass(selectElement, selectedOption) {
+    // Remove all classes from the select element except the base class
+    const baseClass = 'groupSelect';
+    selectElement.className = baseClass;
+
+    // Add the selected option's class to the select element if it exists
+    Array.from(selectedOption.classList).forEach(cls => {
+        if (cls !== baseClass) {
+            selectElement.classList.add(cls);
+        }
+    });
+}
 
 // Function to accept a connection
 async function removeConnection(fromID, toID) {
