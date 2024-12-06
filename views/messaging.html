@@ -749,7 +749,7 @@ const contactInfo = document.getElementById('contactInfo');
     console.log("data.from === userDataSaved.userID: ");
     console.log("data.to: ", data.toName);
 
-    
+
 conversationTitle.innerHTML = `
 <a href="https://reelcareer.co/views/user?u=${data.from}" style="text-decoration: none; color: inherit;">
     <img src="${data.fromProfilePicture || 'default-image-url'}" alt="Avatar" class="avatar">
@@ -802,7 +802,6 @@ conversationTitle.appendChild(groupDiv);
 
 
 } else if (data.from === userDataSaved.userID) {
-/// correct !
 
 
     conversationTitle.innerHTML = `
