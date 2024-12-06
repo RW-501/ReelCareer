@@ -1203,13 +1203,13 @@ async function fetchJobListings() {
         jobContainer.innerHTML += jobCard; // Append job card to container
       });
       //sponsoredJobs.forEach(sponsoredJob => {
-        const featuredJobCard = createSponsoredJobCard(sponsoredJob, featuredJobContainer);
+       // const featuredJobCard = createSponsoredJobCard(sponsoredJob, featuredJobContainer);
         // featuredJobContainer.innerHTML += featuredJobCard; // Append sponsored job card to featured jobs
     //  });
     }
 
 
-    
+
     // Function to collect job requirements
     function collectJobRequirements() {
       return document.getElementById("jobRequirements").value.split(',').map(req => req.trim());
