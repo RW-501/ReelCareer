@@ -1216,7 +1216,7 @@ closeSlidePanelBtn.addEventListener('click', () => {
 
 
 function loadContacts(userID) { 
-    console.log("userID?????????????????????:", userID);
+    console.log("userID:", userID);
 
     const contactList = document.getElementById('contactList');
     contactList.innerHTML = '';  // Clear the existing content
@@ -1237,7 +1237,7 @@ function loadContacts(userID) {
     contactList.appendChild(messageSection);
 
     let contactsRef = collection(db, 'Messages');
-    let messagesQuery = query(contactsRef, where('participants', 'array-contains', userID));
+    let messagesQuery = query(contactsRef, where('participants', 'array-contains-any',  [userID]));
     
     // Map to track displayed messages
     const displayedMessages = new Set();
@@ -1363,7 +1363,7 @@ conversationTitle.setAttribute("data-conversation-recipientID",data.from);
         
         messageBox.innerHTML = '';
         const messagesRef = collection(db, 'Messages'); //array-contains
-        const q = query(messagesRef, where('participants', 'array-contains-any', userID), orderBy('createdAt'));
+        const q = query(messagesRef, where('participants', 'array-contains-any', participants), orderBy('createdAt'));
    
         
         onSnapshot(q, snapshot => {
