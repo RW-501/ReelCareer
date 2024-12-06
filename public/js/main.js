@@ -315,7 +315,7 @@ window.updateLocalStorage = updateLocalStorage;
 let userDataSaved = await getUserData() || {};
 
 // To verify
-console.log("userDataSaved   ", userDataSaved);
+//console.log("userDataSaved   ", userDataSaved);
 
 
 

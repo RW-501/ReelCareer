@@ -1197,14 +1197,14 @@ openSlidePanelBtn.addEventListener('click', (e) => {
         connectionsSlidePanel.classList.add('open');
         controlsContactListArea.classList.replace('controls-narrow', 'controls-wide');
         // Set the new title
-document.title = `ReelCareer.co | ${userDataSaved.profilePicture} - Connections`;
+document.title = `ReelCareer.co | ${userDataSaved.displayName} - Connections`;
     } else {
         // If already open, toggle the classes
         connectionsSlidePanel.classList.remove('open');
         controlsContactListArea.classList.remove('controls-wide');
         controlsContactListArea.classList.add('controls-narrow');
         // Set the new title
-document.title = `ReelCareer.co | ${userDataSaved.profilePicture} - Messaging`;
+document.title = `ReelCareer.co | ${userDataSaved.displayName} - Messaging`;
     }
 
     // Toggle the text based on the panel state
