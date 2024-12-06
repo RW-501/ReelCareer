@@ -1279,13 +1279,13 @@ const contractToHire = document.getElementById("contractToHire").checked || null
         contractToHire,
       }) {
         try {
-          const jobListingsRef = firestore.collection('Jobs'); // Replace with your collection name
-       //   let query = jobListingsRef;
-          // Check if each field has a value and build the query accordingly
-          
+// Reference the 'Jobs' collection
+const jobsCollection = collection(db, 'Jobs');  // Reference to the 'Jobs' collection
+let queryRef = jobsCollection;  // Set queryRef initially to the jobsCollection
+
           if (keyword) {
 
-          query = query.where('searchableTitle', 'array-contains-any', keyword);
+            queryRef = query.where('searchableTitle', 'array-contains-any', keyword);
           }else{
             if (!keyword && !locationInput && !city && !state && !salaryInput && !jobTypeInput && !industry) {
   showToast("Please provide at least one search term.");
@@ -1294,18 +1294,17 @@ const contractToHire = document.getElementById("contractToHire").checked || null
 
           }
           
-// Reference the 'Jobs' collection
-const jobsCollection = collection(db, 'Jobs');
+
 
 if (keyword) {
-  query = query.where('searchableTitle', 'array-contains-any', [keyword]); // Ensure this matches your schema
+  queryRef = query.where('searchableTitle', 'array-contains-any', [keyword]); // Ensure this matches your schema
 }
 
 if (locationInput) {
-  query = query.where('location', 'array-contains-any', locationInput);
+  queryRef = query.where('location', 'array-contains-any', locationInput);
 }
 if (jobTypeInput) {
-  query = query.where('type', '==', jobTypeInput);
+  queryRef = query.where('type', '==', jobTypeInput);
 }
 if (salaryInput) {
 
@@ -1314,36 +1313,36 @@ if (salaryInput) {
   
 const adjustedSalaries = adjustSalary(salaryInput);
 
-  query = query.where('salary', '>=', adjustedSalaries.lowerSalary).where('salary', '<=', adjustedSalaries.higherSalary);
+queryRef = query.where('salary', '>=', adjustedSalaries.lowerSalary).where('salary', '<=', adjustedSalaries.higherSalary);
 
 }
 if (location) {
-  query = query.where('location', 'array-contains-any', location);
+  queryRef = query.where('location', 'array-contains-any', location);
 }
 if (city) {
-  query = query.where('city', '==', city);
+  queryRef = query.where('city', '==', city);
 }
 if (state) {
-  query = query.where('state', '==', state);
+  queryRef = query.where('state', '==', state);
 }
 if (zipCode) {
-  query = query.where('zipCode', '==', zipCode);
+  queryRef = query.where('zipCode', '==', zipCode);
 }
 if (contractType) {
-  query = query.where('type', '==', contractType);
+  queryRef = query.where('type', '==', contractType);
 }
 if (industry) {
-  query = query.where('industry', '==', industry);
+  queryRef = query.where('industry', '==', industry);
 }
 if (immediateHire !== null) {
-  query = query.where('immediateHire', '==', immediateHire);
+  queryRef = query.where('immediateHire', '==', immediateHire);
 }
 if (contractToHire !== null) {
-  query = query.where('contractToHire', '==', contractToHire);
+  queryRef = query.where('contractToHire', '==', contractToHire);
 }
-query = query.where('salary', '>=', salaryMin).where('salary', '<=', salaryMax);
+queryRef = query.where('salary', '>=', salaryMin).where('salary', '<=', salaryMax);
           // Execute the query
-          const jobListingsSnapshot = await query.get();
+          const jobListingsSnapshot = await queryRef.get();
 
           console.log("jobListingsSnapshot:", jobListingsSnapshot);
 
