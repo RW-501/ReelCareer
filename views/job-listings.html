@@ -582,13 +582,13 @@ border-radius: 12px;
             <h5 class="modal-title fw-bold" id="jobPostPopupLabel">
               <i class="bi bi-briefcase me-2"></i>Quick Job Post
             </h5>
-            <button id="jobPostPopupCloseBtn" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <button id="jobPostPopupCloseBtn" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">X</button>
           </div>
           <form id="jobForm" onsubmit="handleJobPostSubmission(event)">
             <div class="modal-body">
               <!-- Job Details Section -->
               <section class="mb-4">
-                <h6 class="text-secondary">Basic Details</h6>
+                <h6 class="text-secondary">Basic Details</h6><hr>
                 <div class="row g-3">
                   <div class="col-md-6">
                     <div class="form-floating">
@@ -606,7 +606,7 @@ border-radius: 12px;
               </section>
     
               <!-- Location Details Section -->
-              <section class="mb-4">
+              <section class="mb-4"><hr>
                 <h6 class="text-secondary">Location</h6>
                 <div class="row g-3">
                   <div class="col-md-4">
@@ -631,7 +631,7 @@ border-radius: 12px;
               </section>
     
               <!-- Job Type and Category Section -->
-              <section class="mb-4">
+              <section class="mb-4"><hr>
                 <h6 class="text-secondary">Job Preferences</h6>
                 <div class="row g-3">
                   <div class="col-md-6">
@@ -667,7 +667,7 @@ border-radius: 12px;
               </section>
     
               <!-- Description and Tags -->
-              <section class="mb-4">
+              <section class="mb-4"><hr>
                 <h6 class="text-secondary">Additional Information</h6>
                 <div class="row g-3">
                   <div class="col-12">
@@ -692,7 +692,7 @@ border-radius: 12px;
               </div>
               <small class="text-muted">
                 By submitting this post, you agree to our 
-                <a href="/terms" target="_blank" class="text-primary">terms and conditions</a>.
+                <a href="https://reelcareer.co/views/terms" target="_blank" class="text-primary">terms and conditions</a>.
               </small>
             </div>
           </form>
@@ -715,9 +715,33 @@ border-radius: 12px;
     
       .btn-close {
         outline: none;
-        box-shadow: none;
+    box-shadow: none;
+    width: 50px;
+    height: 50px;
+    color: white;
       }
-    
+      .modal-body {
+    position: relative;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    padding: 1rem;
+    overflow-y: scroll;
+    padding-bottom: 500px;
+    height: 600px;
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1050;
+    display: none;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    outline: 0;
+    background-color: #f0f8ffc2;
+}
       .form-floating .form-control {
         border-radius: 8px;
       }
