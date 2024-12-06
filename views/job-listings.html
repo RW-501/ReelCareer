@@ -1223,14 +1223,14 @@ async function fetchJobListings() {
 
       const requirements = collectJobRequirements();
 
-      const keyword = document.getElementById('keywordInput').value.trim().toLowerCase() || null;
-      const locationInput = document.getElementById('locationInput').value.trim().toLowerCase() || null;
-      const jobTypeInput = document.getElementById('jobTypeInput').value.trim().toLowerCase() || null;
+      const keyword = document.getElementById('keywordInput').value.trim().toLowerCase() || '';
+      const locationInput = document.getElementById('locationInput').value.trim().toLowerCase() || '';
+      const jobTypeInput = document.getElementById('jobTypeInput').value.trim().toLowerCase() || '';
       const salaryInput = parseInt(document.getElementById("salaryInput").value) || 0; 
       
 
 
-const location = document.getElementById("jobLocation").value || null;
+const location = document.getElementById("jobLocation").value || '';
 const city = document.getElementById("jobCity").value || null;
 const state = document.getElementById("jobState").value || null;
 const zipCode = document.getElementById("jobZip").value || null;
