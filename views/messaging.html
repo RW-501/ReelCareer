@@ -694,9 +694,8 @@ const existingMessager = document.querySelector(`[data-message-id="${connectionI
 
             
         }
+        
     }
-    // Append the new connection to the list
-    connectionsList.appendChild(div);
 
     const openEvent = new CustomEvent("click", { detail: "open" });
     openSlidePanelBtn.dispatchEvent(openEvent);
@@ -992,6 +991,7 @@ if (type === "message") {
     console.log("data.from === userDataSaved.userID: ");
     console.log("data.to: ", data.toName);
 */
+console.log("MESSAGE !!!!!!!!!!!!!!!!!!!!!!1: ");
 
     if (data.recipientID === userDataSaved.userID) {
         messageSenderID = data.senderID;
@@ -1363,9 +1363,24 @@ conversationTitle.setAttribute("data-conversation-name",data.fromName);
 conversationTitle.setAttribute("data-conversation-picture",data.fromProfilePicture);
 conversationTitle.setAttribute("data-conversation-recipientID",data.from);
 */
+
+const existingMessager = document.querySelector(`[data-conversation-id="${conversationRecipientID}"]`);
+
+// Check if the connection is already in the list
+if (existingMessager) {
+    console.log(`Messages with ID ${conversationRecipientID} already exists.`);
+    return; // Exit if the connection already exists
+}
+
             listItem.onclick = () => appendConnection(data, "message"),
             composeMessages(data.participants, data, "message",conversationRecipientID),
+
             messageSection.appendChild(listItem);
+
+
+
+
+
         });
     });
 
@@ -1386,6 +1401,9 @@ conversationTitle.setAttribute("data-conversation-recipientID",data.from);
     titleAccepted.classList.add('Connected-title');
     titleAccepted.innerHTML = "<small>Connected</small>";
     connectionsSection.appendChild(titleAccepted);
+
+
+
 
     const connectionsRef = collection(db, 'Connections');
     const connectionsQuery = query(connectionsRef, where('participants', 'array-contains', userID));
@@ -1451,10 +1469,11 @@ conversationTitle.setAttribute("data-conversation-recipientID",data.from);
 }
 
 function loadMessages(participants, userID, senderID) {
+
     console.log("loadMessages???????????????????????????: ");
     console.log("participants: ", participants);
-    console.log("userID: ", userID);
-    console.log("senderID: ", senderID);
+  //  console.log("userID: ", userID);
+   // console.log("senderID: ", senderID);
 
     const messageBox = document.getElementById('messageBox');
     const conversationTitle = document.getElementById('conversationTitle');
