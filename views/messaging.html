@@ -1363,7 +1363,7 @@ conversationTitle.setAttribute("data-conversation-recipientID",data.from);
         
         messageBox.innerHTML = '';
         const messagesRef = collection(db, 'Messages'); //array-contains
-        const q = query(messagesRef, where('participants', 'array-contains-any', participants), orderBy('createdAt'));
+        const q = query(messagesRef, where('participants', 'array-contains-any', [userID]), orderBy('createdAt'));
    
         
         onSnapshot(q, snapshot => {
