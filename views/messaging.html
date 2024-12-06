@@ -535,17 +535,27 @@ function appendConnection(connection, type) {
 if(connection.from == userId){
     connectionId = connection.to ; // Use a unique identifier (from sender or receiver ID)
 
-}else{
+}else if(connection.to == userId){
     connectionId = connection.from ; // Use a unique identifier (from sender or receiver ID)
 
+}else if(connection.recipientID == userId){
+    connectionId = connection.senderID ; // Use a unique identifier (from sender or receiver ID)
+
+}else if(connection.senderID == userId){
+    connectionId = connection.recipientID ; // Use a unique identifier (from sender or receiver ID)
+
 }
+
+
+
 
 document.getElementById("connectionsList").innerHTML = '';
 
 
 
 
-    const existingConnection = document.querySelector(`[data-connection-id="${connectionId}"]`);
+const existingConnection = document.querySelector(`[data-connection-id="${connectionId}"]`);
+const existingMessager = document.querySelector(`[data-message-id="${connectionId}"]`);
 
     // Check if the connection is already in the list
     if (existingConnection) {
@@ -553,10 +563,15 @@ document.getElementById("connectionsList").innerHTML = '';
         return; // Exit if the connection already exists
     }
 
+    if (existingMessager) {
+        console.log(`Connection with ID ${connectionId} already exists.`);
+        return; // Exit if the connection already exists
+    }
+
     // Create a new connection item
     const div = document.createElement('div');
     div.classList.add('connection-item');
-    div.setAttribute('data-connection-id', connectionId); // ${userDataSaved.userID}_${data.from}
+   // ${userDataSaved.userID}_${data.from}
    
 
     if (type === "message") {
@@ -570,7 +585,7 @@ document.getElementById("connectionsList").innerHTML = '';
         <button onclick="composeMessages('${connection.recipientID}'_'${connection.senderID}',${connection}, "message" )">sender Message</button>
         `;
         div.innerHTML = connectionInfo;
-
+        div.setAttribute('data-message-id', connectionId); 
     }else   if (connection.recipientID === userDataSaved.userID){
    
 
@@ -585,6 +600,7 @@ document.getElementById("connectionsList").innerHTML = '';
         <button onclick="composeMessages('${connection.recipientID}'_'${connection.senderID}',${connection}, "message" )">rec Message</button>
         `;
         div.innerHTML = connectionInfo;
+        div.setAttribute('data-message-id', connectionId); 
     }
   //return;
 
@@ -606,7 +622,7 @@ document.getElementById("connectionsList").innerHTML = '';
                 noteDiv.innerHTML = connection.fromNote;
                 div.appendChild(noteDiv);
 
-
+                div.setAttribute('data-connection-id', connectionId); 
                 composeMessages(connection.from, connection, "contact",connection.from );
 
             } else if (connection.to === userDataSaved.userID) {
@@ -619,7 +635,7 @@ document.getElementById("connectionsList").innerHTML = '';
                 `;
                 div.innerHTML = connectionInfo;
 
-
+                div.setAttribute('data-connection-id', connectionId); 
                 composeMessages(connection.to, connection, "contact",connection.to );
 
             }
@@ -655,7 +671,7 @@ document.getElementById("connectionsList").innerHTML = '';
 
 
 
-           
+                div.setAttribute('data-connection-id', connectionId); 
             composeMessages(connection.from, connection, "contact",connection.from );
 
             } else if (connection.to == userDataSaved.userID) {
@@ -670,7 +686,7 @@ document.getElementById("connectionsList").innerHTML = '';
             div.innerHTML = connectionInfo;
    
            
-
+            div.setAttribute('data-connection-id', connectionId); 
                 composeMessages(connection.to, connection, "contact",connection.to );
             }
 
