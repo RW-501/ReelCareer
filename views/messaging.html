@@ -734,6 +734,32 @@ window.viewProfile = viewProfile;
 function composeMessages(conversationID, data, type, conversationRecipientID ) {
 
 
+    console.log("composeMessages ????????????????????????  ");
+
+    console.log("data: ", data);
+    console.log("data.toName: ", data.toName);
+    console.log("data.fromName: ", data.fromName);
+
+    console.log("composeMessages MESSAGE   ????????????????????????  ");
+    console.log("data: ", data);
+
+    console.log("type: ", type);
+
+    console.log("data.recipientName: ", data.recipientName);
+    console.log("data.senderName: ", data.senderName);
+
+    console.log("conversationRecipientID: ", conversationRecipientID);
+if(conversationRecipientID == data.recipientName ){
+
+    console.log("YOU ARE THE SENDER   ????????????????????????  ");
+
+}else if(conversationRecipientID == data.senderName ){
+    console.log("YOU ARE THE RECIPIRNT MESSAGE   ????????????????????????  ");
+
+}
+    
+    console.log("END  composeMessages ????????????????????????  ");
+
 const messageBox = document.getElementById('messageBox');
 const conversationTitle = document.getElementById('conversationTitle');
 const contactInfo = document.getElementById('contactInfo');
@@ -741,14 +767,6 @@ const contactInfo = document.getElementById('contactInfo');
  if (data.to === userDataSaved.userID) {
     messageSenderID = data.from;
 
-    console.log("data: ", data);
-    console.log("data.to: ", data.to);
-    console.log("data.from === userDataSaved.userID: ");
-    console.log("data.to: ", data.fromName);
-    console.log("data: ", data);
-    console.log("data.to: ", data.from);
-    console.log("data.from === userDataSaved.userID: ");
-    console.log("data.to: ", data.toName);
 
     
 conversationTitle.innerHTML = `
