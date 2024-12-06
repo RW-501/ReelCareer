@@ -744,7 +744,12 @@ const contactInfo = document.getElementById('contactInfo');
     console.log("data.to: ", data.to);
     console.log("data.from === userDataSaved.userID: ");
     console.log("data.to: ", data.fromName);
+    console.log("data: ", data);
+    console.log("data.to: ", data.from);
+    console.log("data.from === userDataSaved.userID: ");
+    console.log("data.to: ", data.toName);
 
+    
 conversationTitle.innerHTML = `
 <a href="https://reelcareer.co/views/user?u=${data.from}" style="text-decoration: none; color: inherit;">
     <img src="${data.fromProfilePicture || 'default-image-url'}" alt="Avatar" class="avatar">
@@ -797,11 +802,8 @@ conversationTitle.appendChild(groupDiv);
 
 
 } else if (data.from === userDataSaved.userID) {
+/// correct !
 
-    console.log("data: ", data);
-    console.log("data.to: ", data.from);
-    console.log("data.from === userDataSaved.userID: ");
-    console.log("data.to: ", data.toName);
 
     conversationTitle.innerHTML = `
 <a href="https://reelcareer.co/views/user?u=${data.to}" style="text-decoration: none; color: inherit;">
@@ -851,7 +853,7 @@ conversationTitle.appendChild(groupDiv);
 
 }
 
-loadMessages(data.participants);
+loadMessages(data.participants, userDataSaved.userID);
 
 console.log("conversationID: ", conversationID);
 
@@ -1103,9 +1105,9 @@ function loadContacts(userID) {
     });
 }
 
-    function loadMessages(participants, data) {
+    function loadMessages(participants, userID) {
 
-        console.log("data: ", data);
+        console.log("userID: ", userID);
 
         const messageBox = document.getElementById('messageBox');
         const conversationTitle = document.getElementById('conversationTitle');
