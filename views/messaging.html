@@ -767,6 +767,7 @@ contactInfo.innerHTML = `<p>Contact: ${data.fromName}</p>
 const selectInput = document.createElement('select');
 selectInput.id = `groupSelect${userDataSaved.userID}`;
 selectInput.classList.add('groupSelect');
+selectInput.value = data.toGroup;
 
 selectInput.onchange = function () {
     const selectedOption = this.options[this.selectedIndex];
@@ -820,6 +821,7 @@ contactInfo.innerHTML = `<p>Contact: ${data.toName}</p>
 const selectInput = document.createElement('select');
 selectInput.id = `groupSelect${userDataSaved.userID}`;
 selectInput.classList.add('groupSelect');
+selectInput.value = data.fromGroup;
 
 selectInput.onchange = function () {
     const selectedOption = this.options[this.selectedIndex];
