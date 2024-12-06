@@ -1705,7 +1705,7 @@ document.getElementById('share-profile-btn').addEventListener('click', async () 
 document.getElementById('connect-btn').addEventListener('click', async () => {
   try {
     // Fetch required data
-    const userId = await getUserId(); // Ensure getUserId handles asynchronous behavior
+    const userId = getUserId(); // Logged-in user
     const urlParams = new URLSearchParams(window.location.search);
     const userIdFromURL = urlParams.get('u');
     const userDataSaved = await getUserData() || {};
