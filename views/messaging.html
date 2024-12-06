@@ -1357,7 +1357,10 @@ conversationTitle.setAttribute("data-conversation-recipientID",data.from);
 }
 
 function loadMessages(participants, userID, senderID) {
+    console.log("loadMessages???????????????????????????: ");
+    console.log("participants: ", participants);
     console.log("userID: ", userID);
+    console.log("senderID: ", senderID);
 
     const messageBox = document.getElementById('messageBox');
     const conversationTitle = document.getElementById('conversationTitle');
