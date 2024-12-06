@@ -607,7 +607,7 @@ document.getElementById("connectionsList").innerHTML = '';
                 div.appendChild(noteDiv);
 
 
-                composeMessages(connection.from, connection);
+                composeMessages(connection.from, connection, "contact",connection.from );
 
             } else if (connection.to === userDataSaved.userID) {
                 const connectionInfo = `
@@ -620,7 +620,7 @@ document.getElementById("connectionsList").innerHTML = '';
                 div.innerHTML = connectionInfo;
 
 
-                composeMessages(connection.to, connection);
+                composeMessages(connection.to, connection, "contact",connection.to );
 
             }
    
@@ -656,7 +656,7 @@ document.getElementById("connectionsList").innerHTML = '';
 
 
            
-            composeMessages(connection.from, connection);
+            composeMessages(connection.from, connection, "contact",connection.from );
 
             } else if (connection.to == userDataSaved.userID) {
 
@@ -671,7 +671,7 @@ document.getElementById("connectionsList").innerHTML = '';
    
            
 
-                composeMessages(connection.to, connection);
+                composeMessages(connection.to, connection, "contact",connection.to );
             }
 
 
@@ -777,7 +777,7 @@ if(conversationRecipientID == data.recipientName ){
 
 }
     
-
+if(type === "contact"){
  if (data.to === userDataSaved.userID) {
     messageSenderID = data.from;
 
@@ -934,7 +934,11 @@ groupDiv.appendChild(selectInput);
 // Assuming conversationTitle is defined elsewhere
 conversationTitle.appendChild(groupDiv);
 
-} else if (type === "message") {
+} 
+
+}
+
+if (type === "message") {
     // message
 
 
