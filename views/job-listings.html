@@ -1330,11 +1330,14 @@ async function fetchFilteredJobListings({
   const searchTerms = [];
   if (keyword) searchTerms.push(keyword);
   if (locationInput) searchTerms.push(locationInput);
+  console.log("run keyword  ",keyword);
+  console.log("run locationInput  ",locationInput);
 
   queryRef = query(queryRef, where('searchableKeywords', 'array-contains-any', searchTerms));
 }
 
     if (jobTypeInput) {
+      console.log("run jobTypeInput  ",jobTypeInput);
 
       const jobType = normalizeJobType(jobTypeInput);
 
@@ -1342,6 +1345,7 @@ async function fetchFilteredJobListings({
     }
 
     if (salaryInput && salaryInput > 0) {
+      console.log("run salaryInput  ",salaryInput);
       const adjustedSalaries = adjustSalary(salaryInput);
       queryRef = query(queryRef, where('salary', '>=', adjustedSalaries.lowerSalary), where('salary', '<=', adjustedSalaries.higherSalary));
     }
