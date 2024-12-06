@@ -1192,21 +1192,18 @@ async function fetchJobListings() {
 
 
     // Function to display job listings and sponsors
-    function displayJobListings({
-      jobListings,
-      sponsoredJobs
-    }) {
-      const jobContainer = document.getElementById('jobListings');
-      jobContainer.innerHTML = ''; // Clear existing listings
-      jobListings.forEach(job => {
-        const jobCard = createJobCard(job, jobContainer);
-        jobContainer.innerHTML += jobCard; // Append job card to container
-      });
-      //sponsoredJobs.forEach(sponsoredJob => {
-       // const featuredJobCard = createSponsoredJobCard(sponsoredJob, featuredJobContainer);
-        // featuredJobContainer.innerHTML += featuredJobCard; // Append sponsored job card to featured jobs
-    //  });
-    }
+    function displayJobListings({ 
+  jobListings,
+  sponsoredJobs
+}) {
+  const jobContainer = document.getElementById('jobListings');
+  jobContainer.innerHTML = ''; // Clear existing listings
+
+  jobListings.forEach(job => { // Error occurs here
+    const jobCard = createJobCard(job, jobContainer);
+    jobContainer.innerHTML += jobCard; // Append job card to container
+  });
+}
 
 
 
