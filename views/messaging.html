@@ -731,7 +731,7 @@ function viewProfile(userId){
 
 window.viewProfile = viewProfile;
 
-function composeMessages(conversationID, data, type ) {
+function composeMessages(conversationID, data, type, conversationRecipientID ) {
 
 
 const messageBox = document.getElementById('messageBox');
@@ -986,10 +986,10 @@ groupDiv.classList.add('connection-group');
 groupDiv.appendChild(selectInput);
 
 // Assuming conversationTitle is defined elsewhere
-//conversationTitle.appendChild(groupDiv);
+conversationTitle.appendChild(groupDiv);
 
-    }else{
-
+    }else 
+    if (data.senderID === userDataSaved.userID) {
         messageSenderID = data.recipientID;
 
         conversationTitle.innerHTML = `
@@ -1060,7 +1060,7 @@ groupDiv.classList.add('connection-group');
 groupDiv.appendChild(selectInput);
 
 // Assuming conversationTitle is defined elsewhere
-//conversationTitle.appendChild(groupDiv);
+conversationTitle.appendChild(groupDiv);
 
 
 
@@ -1257,12 +1257,29 @@ function loadContacts(userID) {
             const listItem = document.createElement('li');
             listItem.className = 'list-group-item msg-list-i';
 
+
+            if (data.recipientID === userDataSaved.userID){
+   
             listItem.innerHTML = `
                 <a href="https://reelcareer.co/views/user?u=${data.senderID}" style="text-decoration: none;color: inherit;">
                     <img src="${data.senderProfilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_tie_reel.png'}" alt="Avatar" class="avatar">
                 </a>
                 <span>${data.senderName}</span>
             `;
+            conversationRecipientID = data.senderID;
+            }
+
+            if (data.senderID === userDataSaved.userID) {
+                listItem.innerHTML = `
+                <a href="https://reelcareer.co/views/user?u=${data.recipientID}" style="text-decoration: none;color: inherit;">
+                    <img src="${data.recipientProfilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_tie_reel.png'}" alt="Avatar" class="avatar">
+                </a>
+                <span>${data.recipientName}</span>
+            `;
+            conversationRecipientID = data.recipientID;
+            }
+            conversationTitle.setAttribute("data-conversation-id",conversationRecipientID);
+
 /*
 conversationTitle.setAttribute("data-conversation-id",`${userDataSaved.userID}_${data.from}`);
 conversationTitle.setAttribute("data-conversation-name",data.fromName);
@@ -1270,7 +1287,7 @@ conversationTitle.setAttribute("data-conversation-picture",data.fromProfilePictu
 conversationTitle.setAttribute("data-conversation-recipientID",data.from);
 */
             listItem.onclick = () => appendConnection(data, "message"),
-            composeMessages(data.participants, data, "message",data.recipientID),
+            composeMessages(data.participants, data, "message",conversationRecipientID),
             messageSection.appendChild(listItem);
         });
     });
