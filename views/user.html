@@ -1106,6 +1106,9 @@ if (userIdFromURL) {
 
           document.getElementById('profileSettingsMain').style.display = 'none';
     
+          let profileImage = document.getElementById('profilePic').src;
+          profileImage.className = 'lazy-image';
+
       } else {
          // checkUser(userId);
           document.getElementById('send-message-btn').style.display = 'none';
@@ -1848,11 +1851,13 @@ document.getElementById('send-message-btn').addEventListener('click', () => {
 
     setRecipientName(recipientName);
    // console.log("USERID: ", USERID);
+
+   /*
     console.log("userId: ", userId);
     console.log("currentUserId: ", currentUserId);
     console.log("userIdFromURL: ", userIdFromURL);
     console.log("userPageId: ", userPageId);
-
+*/
 
     const userDataSaved = getUserData() || [];
     const senderID = auth.currentUser.uid;
@@ -1908,6 +1913,8 @@ document.getElementById('message-attachments').addEventListener('change', functi
     if (file.type.startsWith('image/')) {
       preview.src = URL.createObjectURL(file);
       preview.classList.remove('d-none');
+      preview.className = 'lazy-image';
+
     } else {
       preview.classList.add('d-none');
     }
