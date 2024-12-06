@@ -765,7 +765,7 @@ contactInfo.innerHTML = `<p>Contact: ${data.fromName}</p>
 
 // Create the select input element
 const selectInput = document.createElement('select');
-selectInput.id = `groupSelect${group.groupName}`;
+selectInput.id = `groupSelect${userDataSaved.userID}`;
 selectInput.classList.add('groupSelect');
 
 selectInput.onchange = function () {
