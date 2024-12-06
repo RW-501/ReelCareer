@@ -891,17 +891,17 @@ hideModal("jobPostPopupCloseBtn");
     <!-- Firebase JS SDK and Custom Scripts -->
 
     <script type="module">
-      import {
-          db, doc, getDoc, query, updateDoc,limit ,
-          setDoc, ref, signInWithPopup, orderBy,
-           
-          uploadBytes, OAuthProvider, arrayUnion, getStorage,
-          signOut, addDoc, increment, onAuthStateChanged,
-          createUserWithEmailAndPassword, signInWithEmailAndPassword,
-          where, getDocs, storage, collection, deleteObject, 
-          auth, analytics, deleteDoc, getDownloadURL
-      } from 'https://reelcareer.co/js/module.js';
-  
+  import {
+      db, doc, getDoc, query, updateDoc,
+      setDoc, ref, signInWithPopup, orderBy,limit, 
+      uploadBytes, OAuthProvider, arrayUnion, getStorage,
+      signOut, addDoc, increment, onAuthStateChanged,
+      createUserWithEmailAndPassword, signInWithEmailAndPassword,
+      where, getDocs, storage, collection, deleteObject, 
+      auth, analytics, deleteDoc, getDownloadURL
+  } from 'https://reelcareer.co/js/module.js';
+
+
       let lastVisible = null; // To store the last document loaded 
 
 const userJobInterest = getUserJobInterest();
@@ -1301,88 +1301,60 @@ function normalizeJobType2(input) {
   }
   return null; // Return null if no match is found
 }
-
-
-async function fetchFilteredJobListings({
-  requirements,
-  keyword,
-  location,
-  locationInput,
-  jobTypeInput,
-  salaryInput,
-  city,
-  state,
-  zipCode,
-  salaryMin,
-  salaryMax,
-  contractType,
-  industry,
-  immediateHire,
-  contractToHire,
+async function fetchFilteredJobListings({ 
+  requirements, keyword, location, locationInput, jobTypeInput, salaryInput,
+  city, state, zipCode, salaryMin, salaryMax, contractType, industry,
+  immediateHire, contractToHire
 }) {
   try {
-    let jobsQuery ;
-    const searchTerms = []; // Initialize an empty array for search terms
+    let jobsQuery;
+    const searchTerms = [];
 
+    if (keyword || locationInput) {
+      // Add trimmed keyword and locationInput to search terms
+      if (keyword && keyword.trim() !== '') {
+        searchTerms.push(keyword.trim());
+      }
+      if (locationInput && locationInput.trim() !== '') {
+        searchTerms.push(locationInput.trim());
+      }
 
-    // Apply filters to the query dynamically
-    if (keyword || locationInput) { 
-  
-  // Add trimmed keyword to search terms if it exists
-  if (keyword && keyword.trim() !== '') {
-    searchTerms.push(keyword.trim());
-  }
+      if (searchTerms.length > 0) {
+        console.log("Search Terms Array:", searchTerms);
+      } else {
+        console.log("No valid search terms provided.");
+      }
+    }
 
-  // Add trimmed locationInput to search terms if it exists
-  if (locationInput && locationInput.trim() !== '') {
-    searchTerms.push(locationInput.trim());
-  }
-
-  // Check if searchTerms array is not empty
-  if (searchTerms.length > 0) {
-    console.log("Search Terms Array:", searchTerms);
-
-    // Apply the query with array-contains-any
- //   jobsQuery = query(queryRef, where('searchableTitle', 'array-contains-any', searchTerms));
-  } else {
-    console.log("No valid search terms provided.");
-  }
-}
-
-
-    if (jobTypeInput && jobTypeInput == '') {
-      console.log("run jobTypeInput  ",jobTypeInput);
-
-      const jobType = normalizeJobType(jobTypeInput);
-
-      queryRef = query(queryRef, where('type', '==', jobType));
+    // Build the query dynamically based on filters
+    if (jobTypeInput && jobTypeInput !== '') {
+      const jobType = normalizeJobType(jobTypeInput); // Normalize jobType
+      jobsQuery = query(collection(db, "jobListings"), where('type', '==', jobType));
     }
 
     if (salaryInput && salaryInput > 0) {
-      console.log("run salaryInput  ",salaryInput);
       const adjustedSalaries = adjustSalary(salaryInput);
-      queryRef = query(queryRef, where('salary', '>=', adjustedSalaries.lowerSalary), where('salary', '<=', adjustedSalaries.higherSalary));
+      if (!jobsQuery) {
+        jobsQuery = query(collection(db, "jobListings"));
+      }
+      jobsQuery = query(jobsQuery, 
+        where('salary', '>=', adjustedSalaries.lowerSalary),
+        where('salary', '<=', adjustedSalaries.higherSalary)
+      );
     }
 
-    console.log("jobsQuery:", jobsQuery);
+    // If there are search terms, filter using `array-contains-any`
+    if (searchTerms.length > 0) {
+      jobsQuery = query(jobsQuery, where('searchableTitle', 'array-contains-any', searchTerms));
+    }
 
-    const titleQuery = query(
-        jobsQuery,
-        where('status', '==', 'active'),
-        where('searchableTitle', 'array-contains-any', searchTerms),
-        orderBy('createdAt', 'desc'),
-        limit(20)
-      );
-   let   titleSnapshot = await getDocs(titleQuery);
-    // Execute the query to fetch job listings
+    // Add other filters as needed
+    jobsQuery = query(jobsQuery, where('status', '==', 'active'), orderBy('createdAt', 'desc'), limit(20));
 
-    console.log("titleQuery:", titleQuery);
+    // Fetch data from Firestore
+    const jobListingsSnapshot = await getDocs(jobsQuery);
 
-    const jobListingsSnapshot = await getDocs(queryRef);  // Use getDocs to fetch data
-
-    console.log("titleSnapshot:", titleSnapshot);
-
-    const jobListings = titleSnapshot.docs.map(doc => ({
+    const jobListings = jobListingsSnapshot.docs.map(doc => ({
       id: doc.id,
       title: doc.data().title,
       description: doc.data().description,
@@ -1397,16 +1369,8 @@ async function fetchFilteredJobListings({
 
     console.log("jobListings:", jobListings);
 
-    console.log("Final Query Conditions:", {
-      keyword,
-      salaryInput,
-      jobTypeInput,
-      locationInput,
-     
-    });
-
     displayJobListings(jobListings);
-    
+
     if (jobListings.length === 0) {
       showToast("No jobs found for your criteria. Try adjusting your filters.");
     }
@@ -1416,7 +1380,6 @@ async function fetchFilteredJobListings({
     throw error; // Rethrow the error to handle it later
   }
 }
-
     // Function to get URL parameters
     function getUrlParameters() {
   const params = new URLSearchParams(window.location.search);
