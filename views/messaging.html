@@ -686,6 +686,7 @@ document.getElementById("connectionsList").innerHTML = '';
     openSlidePanelBtn.dispatchEvent(openEvent);
 
 }
+let messageSenderID;
 
 
 // Asynchronous changeGroup function
@@ -738,6 +739,8 @@ const conversationTitle = document.getElementById('conversationTitle');
 const contactInfo = document.getElementById('contactInfo');
 
  if (data.to === userDataSaved.userID) {
+    messageSenderID = data.from;
+
     console.log("data: ", data);
     console.log("data.to: ", data.to);
     console.log("data.from === userDataSaved.userID: ");
@@ -824,6 +827,7 @@ conversationTitle.appendChild(groupDiv);
 
 
 } else if (data.from === userDataSaved.userID) {
+    messageSenderID = data.to;
 
 
     conversationTitle.innerHTML = `
@@ -912,7 +916,8 @@ conversationTitle.appendChild(groupDiv);
 
 
     if (data.recipientID === userDataSaved.userID) {
-    
+        messageSenderID = data.senderID;
+
 conversationTitle.innerHTML = `
 <a href="${data.recipientProfileURL}" style="text-decoration: none; color: inherit;">
     <img src="${data.recipientProfilePicture || 'default-image-url'}" alt="Avatar" class="avatar">
@@ -985,7 +990,8 @@ groupDiv.appendChild(selectInput);
 
     }else{
 
-  
+        messageSenderID = data.recipientID;
+
         conversationTitle.innerHTML = `
 <a href="${data.recipientProfileURL}" style="text-decoration: none; color: inherit;">
     <img src="${data.recipientProfilePicture || 'default-image-url'}" alt="Avatar" class="avatar">
@@ -1075,8 +1081,7 @@ groupDiv.appendChild(selectInput);
 
 
 
-
-loadMessages(data.participants, userDataSaved.userID);
+loadMessages(data.participants, userDataSaved.userID, messageSenderID);
 
 console.log("conversationID: ", conversationID);
 
@@ -1351,87 +1356,82 @@ conversationTitle.setAttribute("data-conversation-recipientID",data.from);
     });
 }
 
-    function loadMessages(participants, userID) {
+function loadMessages(participants, userID, senderID) {
+    console.log("userID: ", userID);
 
-        console.log("userID: ", userID);
+    const messageBox = document.getElementById('messageBox');
+    const conversationTitle = document.getElementById('conversationTitle');
+    const contactInfo = document.getElementById('contactInfo');
 
-        const messageBox = document.getElementById('messageBox');
-        const conversationTitle = document.getElementById('conversationTitle');
-        const contactInfo = document.getElementById('contactInfo');
+    messageBox.innerHTML = '';
+    const messagesRef = collection(db, 'Messages');
+    const q = query(messagesRef, where('participants', 'array-contains-any', [userID]), orderBy('createdAt'));
 
-     
-        
-        messageBox.innerHTML = '';
-        const messagesRef = collection(db, 'Messages'); //array-contains
-        const q = query(messagesRef, where('participants', 'array-contains-any', [userID]), orderBy('createdAt'));
-   
-        
-        onSnapshot(q, snapshot => {
-            messageBox.innerHTML = ''; // Clear previous messages
-            snapshot.forEach(doc => {
-                const data = doc.data();
-                const messageDiv = document.createElement('div');
-                messageDiv.className = `message ${data.senderID === auth.currentUser.uid ? 'sent' : 'received'}`;
-                messageDiv.textContent = data.content;
+    onSnapshot(q, snapshot => {
+        messageBox.innerHTML = ''; // Clear previous messages
+        const senderMessages = snapshot.docs.filter(doc => doc.data().senderID === senderID); // Filter by senderID
 
-               // appendConnection(`${data.recipientID}_${data.senderID}`, "message",data.senderID); 
+        senderMessages.forEach(doc => {
+            const data = doc.data();
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${data.senderID === auth.currentUser.uid ? 'sent' : 'received'}`;
+            messageDiv.textContent = data.content;
 
-                if (data.contentType !== 'text') {
-    const mediaDiv = document.createElement('div');
-    mediaDiv.className = 'media-attachment';
+            // Add media content if present
+            if (data.contentType !== 'text') {
+                const mediaDiv = document.createElement('div');
+                mediaDiv.className = 'media-attachment';
 
-    if (data.contentType === 'image') {
-        const img = document.createElement('img');
-        img.src = data.attachmentUrl;
-        img.alt = 'Image Attachment';
-        mediaDiv.appendChild(img);
-    } else if (data.contentType === 'video') {
-        const video = document.createElement('video');
-        video.src = data.attachmentUrl;
-        video.controls = true;
-        mediaDiv.appendChild(video);
-    } else if (data.contentType === 'audio') {
-        const audio = document.createElement('audio');
-        audio.src = data.attachmentUrl;
-        audio.controls = true;
-        mediaDiv.appendChild(audio);
-    } else if (data.contentType === 'document' || data.contentType === 'office-document') {
-        const docLink = document.createElement('a');
-        docLink.href = data.attachmentUrl;
-        docLink.target = '_blank';
-        docLink.textContent = 'View Document';
-        mediaDiv.appendChild(docLink);
-    } else if (data.contentType === 'archive') {
-        const archiveLink = document.createElement('a');
-        archiveLink.href = data.attachmentUrl;
-        archiveLink.target = '_blank';
-        archiveLink.textContent = 'Download Archive';
-        mediaDiv.appendChild(archiveLink);
-    } else {
-        const unsupportedMessage = document.createElement('p');
-        unsupportedMessage.textContent = 'Unsupported content type.';
-        mediaDiv.appendChild(unsupportedMessage);
-    }
-
-   
-
-                    messageDiv.appendChild(mediaDiv);
+                if (data.contentType === 'image') {
+                    const img = document.createElement('img');
+                    img.src = data.attachmentUrl;
+                    img.alt = 'Image Attachment';
+                    mediaDiv.appendChild(img);
+                } else if (data.contentType === 'video') {
+                    const video = document.createElement('video');
+                    video.src = data.attachmentUrl;
+                    video.controls = true;
+                    mediaDiv.appendChild(video);
+                } else if (data.contentType === 'audio') {
+                    const audio = document.createElement('audio');
+                    audio.src = data.attachmentUrl;
+                    audio.controls = true;
+                    mediaDiv.appendChild(audio);
+                } else if (data.contentType === 'document' || data.contentType === 'office-document') {
+                    const docLink = document.createElement('a');
+                    docLink.href = data.attachmentUrl;
+                    docLink.target = '_blank';
+                    docLink.textContent = 'View Document';
+                    mediaDiv.appendChild(docLink);
+                } else if (data.contentType === 'archive') {
+                    const archiveLink = document.createElement('a');
+                    archiveLink.href = data.attachmentUrl;
+                    archiveLink.target = '_blank';
+                    archiveLink.textContent = 'Download Archive';
+                    mediaDiv.appendChild(archiveLink);
+                } else {
+                    const unsupportedMessage = document.createElement('p');
+                    unsupportedMessage.textContent = 'Unsupported content type.';
+                    mediaDiv.appendChild(unsupportedMessage);
                 }
-                const timestampDiv = document.createElement('div');
-timestampDiv.className = 'timestamp';
-timestampDiv.textContent = new Date(data.createdAt.seconds * 1000).toLocaleString();
-messageDiv.appendChild(timestampDiv);
+                messageDiv.appendChild(mediaDiv);
+            }
 
-                messageBox.appendChild(messageDiv);
-            });
-            messageBox.scrollTop = messageBox.scrollHeight;
-        }, 
-    error => {
+            // Add timestamp
+            const timestampDiv = document.createElement('div');
+            timestampDiv.className = 'timestamp';
+            timestampDiv.textContent = new Date(data.createdAt.seconds * 1000).toLocaleString();
+            messageDiv.appendChild(timestampDiv);
+
+            messageBox.appendChild(messageDiv);
+        });
+        messageBox.scrollTop = messageBox.scrollHeight; // Auto-scroll to the bottom
+    }, error => {
         console.error("Error fetching messages:", error.message);
         showToast("Unable to load messages. Please try again.", 'error');
-    }
-);
-    }
+    });
+}
+
  document.getElementById('chooseFileButton').addEventListener('click', () => {
     document.getElementById('attachmentInput').click();
 });
