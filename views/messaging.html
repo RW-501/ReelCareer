@@ -756,7 +756,7 @@ conversationTitle.setAttribute("data-conversation-picture",data.fromProfilePictu
 conversationTitle.setAttribute("data-conversation-recipientID",data.from);
 conversationTitle.innerHTML = `<div class="flex"><div>Contact: ${data.fromName}</div>
  <div>Connection: <small>${data.status}</small></div></div>
-<p>Group: <small>${data.fromGroup}</small></p>`
+${data.acceptDate ? "<p>Connected Since: <small>${data.acceptDate}</small></p>" : ''}`
 
 
 // Create the select input element
@@ -834,7 +834,7 @@ conversationTitle.setAttribute("data-conversation-recipientID",data.to);
 
 conversationTitle.innerHTML = `<div class="flex"><div>Contact: ${data.toName}</div>
  <div>Connection: <small>${data.status}</small></div></div>
-<p>Group: <small>${data.toGroup}</small></p>`
+${data.acceptDate ? "<p>Connected Since: <small>${data.acceptDate}</small></p>" : ''}`
 
 
 // Create the select input element
@@ -940,7 +940,8 @@ async function acceptConnection(fromID, toID) {
     // Update the status of the connection to 'accepted'
     const connectionRef = doc(db, 'Connections', `${fromID}_${toID}`);
     await updateDoc(connectionRef, {
-      status: 'accepted'
+      status: 'accepted',
+      acceptDate:  new Date(),
     });
     
     showToast('Connection accepted!');

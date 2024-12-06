@@ -1742,12 +1742,13 @@ document.getElementById('connect-btn').addEventListener('click', async () => {
     toProfilePicture: toProfilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_tie_reel.png',
     toName: toName,
     toProfileURL: `https://reelcareer.co/views/user?u=${userIdFromURL}`,
-    toGroup: 'new',
+    toGroup: 'Networking',
 
+    acceptDate: '',
     participants: [userId, userIdFromURL], // Add this array
     status: 'pending',
     createdAt: new Date(),
-    fromGroup: 'new',
+    fromGroup: 'Networking',
     fromNote: '',
     fromName: userDataSaved.displayName,
     fromProfilePicture: userDataSaved.profilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_tie_reel.png',
