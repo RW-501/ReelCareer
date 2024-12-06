@@ -1355,7 +1355,7 @@ function loadContacts(userID) {
             `;
             conversationRecipientID = data.recipientID;
             }
-            conversationTitle.setAttribute("data-conversation-id",conversationRecipientID);
+            messageSection.setAttribute("data-conversation-id",conversationRecipientID);
 
 /*
 conversationTitle.setAttribute("data-conversation-id",`${userDataSaved.userID}_${data.from}`);
@@ -1364,7 +1364,7 @@ conversationTitle.setAttribute("data-conversation-picture",data.fromProfilePictu
 conversationTitle.setAttribute("data-conversation-recipientID",data.from);
 */
 
-const existingMessager = document.querySelector(`[data-conversation-id="${conversationRecipientID}"]`);
+const existingMessager = messageSection.querySelector(`[data-conversation-id="${conversationRecipientID}"]`);
 
 // Check if the connection is already in the list
 if (existingMessager) {
@@ -1378,7 +1378,7 @@ if (existingMessager) {
             messageSection.appendChild(listItem);
 
 
-
+           // composeMessages('${connection.recipientID}'_'${connection.senderID}','${connection}', "message" )
 
 
         });
