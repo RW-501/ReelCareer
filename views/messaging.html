@@ -581,7 +581,7 @@ const existingMessager = document.querySelector(`[data-message-id="${connectionI
           <img src="${connection.recipientProfilePicture}" alt="Profile" width="40" height="40">
           <a href="${connection.recipientProfileURL}" target="_blank">${connection.recipientName}</a>
         </div>
-        <button onclick="composeMessages('${connection.recipientID}'_'${connection.senderID}',${connection}, "message" )">rec Message</button>
+        <button onclick="composeMessages('${connection.recipientID}'_'${connection.senderID}','${connection}', "message" )">rec Message</button>
         `;
         div.innerHTML = connectionInfo;
 
@@ -594,7 +594,7 @@ const existingMessager = document.querySelector(`[data-message-id="${connectionI
           <img src="${connection.senderProfilePicture}" alt="Profile" width="40" height="40">
           <a href="${connection.senderProfileURL}" target="_blank">${connection.senderName}</a>
         </div>
-        <button onclick="composeMessages('${connection.recipientID}'_'${connection.senderID}',${connection}, "message" )">sender Message</button>
+        <button onclick="composeMessages('${connection.recipientID}'_'${connection.senderID}','${connection}', "message" )">sender Message</button>
         `;
         div.innerHTML = connectionInfo;
 
