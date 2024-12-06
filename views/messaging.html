@@ -562,17 +562,7 @@ document.getElementById("connectionsList").innerHTML = '';
     if (type === "message") {
         if (connection.senderID === userDataSaved.userID) {
 
-        const connectionInfo = `
-        <div>
-          <img src="${connection.senderProfilePicture}" alt="Profile" width="40" height="40">
-          <a href="https://reelcareer.co/views/user?u=${connection.senderID}" target="_blank">${connection.senderName}</a>
-        </div>
-        <button onclick="acceptConnection('${connection.senderID}', '${connection.recipientID}')">Accept</button>
-        `;
-        div.innerHTML = connectionInfo;
-
-    }else   if (connection.recipientID === userDataSaved.userID){
-        const connectionInfo = `
+            const connectionInfo = `
         <div>
           <img src="${connection.profilePicture}" alt="Profile" width="40" height="40">
           <a href="https://reelcareer.co/views/user?u=${connection.recipientID}" target="_blank">${connection.recipientName}</a>
@@ -581,7 +571,17 @@ document.getElementById("connectionsList").innerHTML = '';
         `;
         div.innerHTML = connectionInfo;
 
+    }else   if (connection.recipientID === userDataSaved.userID){
+   
 
+        const connectionInfo = `
+        <div>
+          <img src="${connection.senderProfilePicture}" alt="Profile" width="40" height="40">
+          <a href="https://reelcareer.co/views/user?u=${connection.senderID}" target="_blank">${connection.senderName}</a>
+        </div>
+        <button onclick="acceptConnection('${connection.senderID}', '${connection.recipientID}')">Accept</button>
+        `;
+        div.innerHTML = connectionInfo;
     }
 
     } else {
@@ -1316,6 +1316,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const attachmentInput = document.getElementById('attachmentInput').files[0];
     const conversationID = document.getElementById('conversationTitle')?.getAttribute('data-conversation-id');
    
+   console.log("conversationID: ", conversationID);
 
     const message = messageInput.value.trim();
 
@@ -1325,7 +1326,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (!conversationID) {
-        showToast("Something is not right. Please refresh the page.", 'warning');
+        showToast("conversationID 1329 Something is not right. Please refresh the page.", 'warning');
         return;
     }
 
