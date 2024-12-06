@@ -524,6 +524,7 @@ function autoSuggest(input, suggestionsArray) {
     //const modal = new bootstrap.Modal(modalElement);
     //modal.removeAttribute('inert');
     modalElement.classList.add("show"); // Add bootstrap's 'show' class
+    modalElement.style.display = "initial";
     modalElement.setAttribute("aria-hidden", "false");
     modalElement.removeAttribute("hide");
   }
