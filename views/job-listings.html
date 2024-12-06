@@ -1317,13 +1317,13 @@ async function fetchFilteredJobListings({
     let queryRef = query(jobsCollection);  // Initialize the query with the collection
 
     // Apply filters to the query dynamically
-    if (keyword) {
-      queryRef = query(queryRef, where('searchableTitle', 'array-contains-any', [keyword]));
-    }
+    if (keyword || locationInput) {
+  const searchTerms = [];
+  if (keyword) searchTerms.push(keyword);
+  if (locationInput) searchTerms.push(locationInput);
 
-    if (locationInput) {
-      queryRef = query(queryRef, where('location', 'array-contains-any', [locationInput]));
-    }
+  queryRef = query(queryRef, where('searchableKeywords', 'array-contains-any', searchTerms));
+}
 
     if (jobTypeInput) {
       queryRef = query(queryRef, where('type', '==', jobTypeInput));
@@ -1334,7 +1334,7 @@ async function fetchFilteredJobListings({
       queryRef = query(queryRef, where('salary', '>=', adjustedSalaries.lowerSalary), where('salary', '<=', adjustedSalaries.higherSalary));
     }
 
-    if (location) {
+    if (location && !locationInput) {
       queryRef = query(queryRef, where('location', 'array-contains-any', [location]));
     }
 
