@@ -1341,7 +1341,7 @@ async function fetchFilteredJobListings({
       queryRef = query(queryRef, where('type', '==', jobType));
     }
 
-    if (salaryInput) {
+    if (salaryInput && salaryInput > 0) {
       const adjustedSalaries = adjustSalary(salaryInput);
       queryRef = query(queryRef, where('salary', '>=', adjustedSalaries.lowerSalary), where('salary', '<=', adjustedSalaries.higherSalary));
     }
