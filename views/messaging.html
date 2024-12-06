@@ -1320,29 +1320,29 @@ function loadContacts(userID) {
     };
 
     const messageSection = createSection('Messages');
-    contactList.appendChild(messageSection);
+contactList.appendChild(messageSection);
 
-    let contactsRef = collection(db, 'Messages');
-    let messagesQuery = query(contactsRef, where('participants', 'array-contains-any',  [userID]));
-    
-    // Map to track displayed messages
-    const displayedMessages = new Set();
+let contactsRef = collection(db, 'Messages');
+let messagesQuery = query(contactsRef, where('participants', 'array-contains-any', [userID]));
 
-    onSnapshot(messagesQuery, snapshot => {
-        snapshot.forEach(doc => {
-            const docID = doc.id;
-            if (displayedMessages.has(docID)) return; // Skip if already displayed
-            
-            displayedMessages.add(docID); // Mark as displayed
-            const data = doc.data();
-            const messagesListItem = document.createElement('li');
-            messagesListItem.className = 'list-group-item msg-list-i';
+// Map to track displayed messages
+const displayedMessages = new Set();
 
-          let  conversationRecipientID = '';
-        let  conversationRecipientName = '';
-            if (data.recipientID === userDataSaved.userID){
-   
-                messagesListItem.innerHTML = `
+onSnapshot(messagesQuery, snapshot => {
+    snapshot.forEach(doc => {
+        const docID = doc.id;
+        if (displayedMessages.has(docID)) return; // Skip if already displayed
+        
+        displayedMessages.add(docID); // Mark as displayed
+        const data = doc.data();
+        const messagesListItem = document.createElement('li');
+        messagesListItem.className = 'list-group-item msg-list-i';
+
+        let conversationRecipientID = '';
+        let conversationRecipientName = '';
+
+        if (data.recipientID === userDataSaved.userID) {
+            messagesListItem.innerHTML = `
                 <a href="https://reelcareer.co/views/user?u=${data.senderID}" style="text-decoration: none;color: inherit;">
                     <img src="${data.senderProfilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_tie_reel.png'}" alt="Avatar" class="avatar">
                 </a>
@@ -1350,50 +1350,41 @@ function loadContacts(userID) {
             `;
             conversationRecipientID = data.senderID;
             conversationRecipientName = data.senderName;
-            messagesListItem.setAttribute("data-conversation-id",conversationRecipientID);
+            messagesListItem.setAttribute("data-conversation-id", conversationRecipientID);
+        }
 
-            }
-
-            if (data.senderID === userDataSaved.userID) {
-                messagesListItem.innerHTML = `
+        if (data.senderID === userDataSaved.userID) {
+            messagesListItem.innerHTML = `
                 <a href="https://reelcareer.co/views/user?u=${data.recipientID}" style="text-decoration: none;color: inherit;">
                     <img src="${data.recipientProfilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_tie_reel.png'}" alt="Avatar" class="avatar">
                 </a>
                 <span>${data.recipientName}</span>
             `;
             conversationRecipientID = data.recipientID;
-            conversationRecipientName = data.senderName;
+            conversationRecipientName = data.recipientName;
+            messagesListItem.setAttribute("data-conversation-id", conversationRecipientID);
+        }
 
-            messagesListItem.setAttribute("data-conversation-id",conversationRecipientID);
+        const existingMessager = messageSection.querySelector(`[data-conversation-id="${conversationRecipientID}"]`);
 
-            }
+        // Check if the connection is already in the list
+        if (existingMessager) {
+            console.log(`Messages with ID ${conversationRecipientID} already exist.`);
+            return; // Exit if the connection already exists
+        }
 
+        // Properly define the click handler
+        messagesListItem.onclick = () => {
+            appendConnection(data, "message");
+            composeMessages(data.participants, data, "message", conversationRecipientID);
+        };
 
-            
+        messageSection.appendChild(messagesListItem);
 
-const existingMessager = messageSection.querySelector(`[data-conversation-id="${conversationRecipientID}"]`);
-
-// Check if the connection is already in the list
-if (existingMessager) {
-    console.log(`Messages with ID ${conversationRecipientID} already exists.`);
-    return; // Exit if the connection already exists
-}
-
-messagesListItem.onclick = () => appendConnection(data, "message"),
-            composeMessages(data.participants, data, "message",conversationRecipientID),
-
-            messageSection.appendChild(messagesListItem);
-
-            console.log("conversationRecipientName: ", conversationRecipientName);
-
-console.log("data: ", data);
-           // composeMessages('${connection.recipientID}'_'${connection.senderID}','${connection}', "message" )
-
-
-        });
+        console.log("conversationRecipientName: ", conversationRecipientName);
+        console.log("data: ", data);
     });
-
-
+});
 
 
 
