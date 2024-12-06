@@ -537,7 +537,8 @@ function autoSuggest(input, suggestionsArray) {
     modal.classList.remove("show"); // Remove bootstrap's 'show' class
     modal.setAttribute("aria-hidden", "true");
     modal.classList.add("hide"); // Add a 'hide' class if needed
-  
+    modalElement.style.display = "none";
+
     const modalBackdrop = document.querySelector(".modal-backdrop");
     // Check if the modal backdrop exists
     if (modalBackdrop) {
