@@ -515,14 +515,14 @@ const coverButton = document.getElementById("coverButton");
 
 // Default video settings on load
 window.addEventListener("load", () => {
-  setVideoSize(345, 500); // Set default container size
+  setVideoSize("inherit", 500); // Set default container size
   videoPlayer.style.objectFit = "contain"; // Default to 'fit'
 });
 
 // Function to set video container and player size
 function setVideoSize(width, height) {
   const videoContainer = document.getElementById("videoContainer");
-  videoContainer.style.width = `${width}px`;
+  videoContainer.style.width = `${width}`;
   videoContainer.style.height = `${height}px`;
 }
 
