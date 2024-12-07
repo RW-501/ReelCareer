@@ -70,127 +70,6 @@
    
    
    
-   <style>
-    body {
-  font-family: Arial, sans-serif;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin: 0;
-  height: 100vh;
-}
-
-.container {
-  text-align: center;
-}
-
-#videoContainer {
-  margin-top: 20px;
-}
-
-#timelineContainer {
-  position: relative;
-  width: 640px;
-  height: 100px;
-  margin-top: 20px;
-}
-
-#timelineCanvas {
-  width: 100%;
-  height: 100%;
-}
-
-#draggableDivider {
-  position: absolute;
-  width: 2px;
-  background-color: red;
-  cursor: pointer;
-  height: 100%;
-}
-
-#videoSlider {
-  width: 100%;
-  margin-top: 10px;
-}
-
-#previewContainer {
-  margin-top: 20px;
-}
-
-button {
-  margin-top: 10px;
-  padding: 10px 20px;
-  background-color: #007BFF;
-  color: white;
-  border: none;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #0056b3;
-}
-
-#draggableDivider {
-  transition: left 0.2s ease;
-}
-
-
-
-
-#videoContainer {
-  position: relative;
-  width: 640px;
-  margin: 20px auto;
-}
-
-#overlayButton {
-  margin-top: 10px;
-}
-
-#draggableDivider {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  width: 5px;
-  height: 100%;
-  background-color: red;
-  cursor: ew-resize;
-  z-index: 10;
-}
-
-#timelineContainer {
-  position: relative;
-  width: 640px;
-  height: 50px;
-  overflow-x: auto;
-  margin: 10px auto;
-}
-
-#timelineCanvas {
-  width: 100%;
-  height: 100%;
-}
-
-.overlay {
-  position: absolute;
-  resize: both;
-  overflow: auto;
-  cursor: pointer;
-  z-index: 20;
-}
-
-#previewContainer {
-  margin-top: 20px;
-}
-
-
-
-
-
-
-
-        </style>
 </head>
 
 
@@ -208,274 +87,637 @@ button:hover {
         </ol>
     </nav>
 
-     
-        <main id="main-content">
-          <div class="container">
-            <h1>Video Upload & Editor</h1>
-            
+    <style>
+      body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f4f4f4;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin: 0;
+        height: 100vh;
+      }
+    
+      .container {
+        text-align: center;
+        max-width: 800px;
+        width: 100%;
+        margin: 0 auto;
+      }
+    
+      h1 {
+        font-size: 2rem;
+        color: #333;
+        margin-bottom: 20px;
+      }
+    
+      button {
+        padding: 10px 20px;
+        margin: 10px;
+        background-color: #007bff;
+        border: none;
+        color: #fff;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+    
+      button:hover {
+        background-color: #0056b3;
+        transform: scale(1.05);
+      }
+    
+      #videoContainer {
+        width: 100%;
+        max-width: 640px;
+        margin: 20px auto;
+        position: relative;
+        border: 2px solid #ddd;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        background-color: #000;
+      }
+    
+      #videoPlayer {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+    
+      #timelineContainer {
+        position: relative;
+        width: 100%;
+        max-width: 640px;
+        height: 50px;
+        overflow-x: auto;
+        margin: 20px auto;
+        border-radius: 10px;
+        background-color: #333;
+      }
+    
+      #timelineCanvas {
+        width: 100%;
+        height: 100%;
+        border-radius: 10px;
+      }
+    
+      .draggable {
+        position: absolute;
+        top: 0;
+        width: 8px;
+        height: 100%;
+        background-color: #ff5252;
+        cursor: ew-resize;
+        z-index: 10;
+        border-radius: 4px;
+        transition: background-color 0.3s ease;
+      }
+    
+      .draggable:hover {
+        background-color: #ff1744;
+      }
+    
+      #previewContainer {
+        margin-top: 20px;
+      }
+    
+      .control-panel {
+        margin-top: 20px;
+        background-color: #fff;
+        padding: 15px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        display: inline-block;
+      }
+    
+      .control-panel button {
+        margin: 5px;
+        padding: 8px 15px;
+        background-color: #28a745;
+        color: white;
+        border: none;
+        border-radius: 5px;
+      }
+    
+      .control-panel button:hover {
+        background-color: #218838;
+      }
+    
+      input[type="range"] {
+        width: 100%;
+        margin: 10px 0;
+        border-radius: 5px;
+        background-color: #e9ecef;
+      }
+    
+      .preview-video {
+        max-width: 640px;
+        margin: 20px auto;
+        display: block;
+        border-radius: 10px;
+      }
+    
+      .slider-control {
+        margin-top: 15px;
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+      }
+    
+      .slider-control button {
+        width: 50px;
+        height: 50px;
+        font-size: 1.5rem;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+      }
+    
+      .slider-control button:hover {
+        background-color: #0056b3;
+      }
+    
+      .overlay {
+        position: absolute;
+        top: 20%;
+        left: 20%;
+        font-size: 24px;
+        color: #fff;
+        background-color: rgba(0, 0, 0, 0.6);
+        padding: 10px;
+        border-radius: 8px;
+        z-index: 20;
+        cursor: pointer;
+      }
+    
+      .overlay img {
+        max-width: 100%;
+        height: auto;
+      }
+
+
+
+
+
+/* Popup overlay background */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+/* Popup container */
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+  border-radius: 8px;
+  min-width: 300px;
+}
+
+/* Popup content */
+.popup-content {
+  position: relative;
+}
+
+/* Popup close button */
+.close-button {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: #ff4d4f;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+  text-align: center;
+  line-height: 25px;
+}
+
+/* Overlay style for added elements */
+.overlay {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  color: #000;
+  background: rgba(255, 255, 255, 0.7);
+  padding: 5px;
+  border-radius: 5px;
+  pointer-events: none;
+}
+
+
+
+    </style>
+    <main id="main-content">
+      <div class="container">
+        <h1>Video Upload & Editor</h1>
+        
+        <!-- File Upload and Audio Control -->
+        <div class="upload-controls">
+          <div>
+            <input type="file" id="videoInput" accept="video/mp4,video/webm,video/ogg" />
+            <button id="uploadButton">Upload Video</button>
+          </div>
+          <div>
             <button id="addAudioButton">Add Audio</button>
             <button id="previewButton">Preview Media</button>
-        
-            <div class="container">
-              <h1>Video Upload & Editor</h1>
-              <input type="file" id="videoInput" accept="video/mp4,video/webm,video/ogg" />
-              <button id="uploadButton">Upload Video</button>
-            
-              <div id="videoContainer">
-                <video id="videoPlayer" width="640" controls></video>
-              </div>
-            
-              <div id="controlPanel">
-                <h3>Overlay Control</h3>
-                <button id="fontSizeButton">Font Size</button>
-                <button id="colorButton">Text Color</button>
-                <button id="imageButton">Add Image</button>
-                <button id="overlayButton">Add Overlay</button>
-              </div>
-            
-              <div id="timelineContainer">
-                <canvas id="timelineCanvas"></canvas>
-                <div id="draggableDivider" class="draggable"></div>
-                <input type="range" id="videoSlider" style="display: none;" />
-              </div>
-            
-              <button id="zoomOut" aria-label="Zoom out">-</button>
-              <button id="zoomIn" aria-label="Zoom in">+</button>
-            
-              <input type="range" id="audioVolume" min="0" max="1" step="0.1" value="0.5">
-            
-              <input type="file" id="audioInput" accept="audio/*" style="display: none;" />
-              <video id="previewVideo" controls></video>
-              <input type="range" id="speedControl" min="0.5" max="2" step="0.1" value="1" />
-            
-              <div id="previewContainer">
-                <h3>Preview</h3>
-                <video id="previewVideo" width="640" controls></video>
-              </div>
-            </div>
           </div>
-        
-        <script>
-        // Event listeners and functions
-        
-        // Video and audio element references
-        let videoElement = document.getElementById('videoPlayer');
-        let previewVideoElement = document.getElementById('previewVideo');
-        let timelineCanvas = document.getElementById('timelineCanvas');
-        let draggableDivider = document.getElementById('draggableDivider');
-        let videoSlider = document.getElementById('videoSlider');
-        let videoFile = null;
-        let videoDuration = 0;
-        let sceneImages = [];
-        
-        // Audio controls
-        let audioPreview = null;  // Will be initialized when audio is selected
-        let audioElement = null;  // If you use a separate audio element for audio
-        
-        // Handle file upload
-        function handleFileUpload() {
-          let input = document.getElementById('videoInput');
-          let file = input.files[0];
-          if (!file) {
-            showToast('Please upload a video file.');
-            return;
-          }
-        
-          if (file.type.includes('video') && file.size < 50 * 1024 * 1024) {
-            videoFile = file;
-            loadVideo();
-          } else {
-            showToast('Invalid video file. Please upload a valid video file no larger than 50MB.');
-          }
+        </div>
+    
+        <!-- Video Player -->
+        <div id="videoContainer">
+          <video id="videoPlayer" width="640" controls></video>
+          <button id="playButton">Play</button>
+        </div>
+    
+        <!-- Control Panel for Overlays -->
+        <div class="control-panel">
+          <h3>Overlay Control</h3>
+          <button id="fontSizeButton">Font Size</button>
+          <button id="colorButton">Text Color</button>
+          <button id="imageButton">Add Image</button>
+          <button id="overlayButton">Add Overlay</button>
+        </div>
+    
+        <!-- Timeline and Slider Controls -->
+        <div id="timelineContainer">
+          <canvas id="timelineCanvas"></canvas>
+          <div id="draggableDivider" class="draggable"></div>
+          <input type="range" id="videoSlider" style="display: none;" />
+        </div>
+    
+        <!-- Zoom Controls -->
+        <div class="slider-control">
+          <button id="zoomOut" aria-label="Zoom out">-</button>
+          <button id="zoomIn" aria-label="Zoom in">+</button>
+        </div>
+    
+        <!-- Audio Volume Control -->
+        <input type="range" id="audioVolume" min="0" max="1" step="0.1" value="0.5" />
+    
+        <!-- Preview Section -->
+        <div id="previewContainer">
+          <h3>Preview</h3>
+          <video id="previewVideo" class="preview-video" controls></video>
+        </div>
+      </div>
+    </main>
+    
+    <script>
+      // Event listeners and functions
+      
+      // Video and audio element references
+      let videoElement = document.getElementById('videoPlayer');
+      let previewVideoElement = document.getElementById('previewVideo');
+      let timelineCanvas = document.getElementById('timelineCanvas');
+      let draggableDivider = document.getElementById('draggableDivider');
+      let videoSlider = document.getElementById('videoSlider');
+      let videoFile = null;
+      let videoDuration = 0;
+      let sceneImages = [];
+      
+      // Audio controls
+      let audioPreview = null;  // Will be initialized when audio is selected
+      let audioElement = null;  // If you use a separate audio element for audio
+      
+      // Handle file upload
+      function handleFileUpload() {
+        let input = document.getElementById('videoInput');
+        let file = input.files[0];
+        if (!file) {
+          showToast('Please upload a video file.');
+          return;
         }
-        
-        // Load the video
-        function loadVideo() {
-          const videoURL = URL.createObjectURL(videoFile);
-          videoElement.src = videoURL;
-          videoElement.load();
-          previewVideoElement.src = videoURL;
-          previewVideoElement.load();
-        
-          videoElement.addEventListener('loadedmetadata', () => {
-            videoDuration = videoElement.duration;
-            videoSlider.max = videoDuration;
-            generateTimelineImages();
-          });
+    
+        if (file.type.includes('video') && file.size < 50 * 1024 * 1024) {
+          videoFile = file;
+          loadVideo();
+        } else {
+          showToast('Invalid video file. Please upload a valid video file no larger than 50MB.');
         }
-        
-        // Event listener for audio volume control
-        document.getElementById('audioVolume').addEventListener('input', (event) => {
-          previewVideoElement.volume = event.target.value;
+      }
+    
+      // Load the video
+      function loadVideo() {
+        const videoURL = URL.createObjectURL(videoFile);
+        videoElement.src = videoURL;
+        videoElement.load();
+        previewVideoElement.src = videoURL;
+        previewVideoElement.load();
+    
+        videoElement.addEventListener('loadedmetadata', () => {
+          videoDuration = videoElement.duration;
+          videoSlider.max = videoDuration;
+          generateTimelineImages();
         });
-        
-        // Overlay and control buttons
-        document.getElementById('fontSizeButton').addEventListener('click', changeFontSize);
-        document.getElementById('colorButton').addEventListener('click', changeTextColor);
-        document.getElementById('imageButton').addEventListener('click', addImage);
-        document.getElementById('overlayButton').addEventListener('click', addOverlay);
-        
-        // Audio upload handling
-        addAudioButton.addEventListener('click', () => {
-          document.getElementById('audioInput').click();
-        });
-        
-        document.getElementById('audioInput').addEventListener('change', (event) => {
-          const file = event.target.files[0];
-          if (file && file.type.includes('audio')) {
-            audioPreview = new Audio(URL.createObjectURL(file));
-            previewVideoElement.src = videoElement.src;
-            previewVideoElement.load();
-            audioPreview.addEventListener('timeupdate', () => {
-              if (audioPreview) {
-                audioPreview.currentTime = previewVideoElement.currentTime;
-              }
-            });
-          } else {
-            showToast('Please select a valid audio file.');
-          }
-        });
-        
-        // Change font size for overlay text
-        function changeFontSize() {
-          const fontSize = prompt('Enter font size (e.g., 20px):', '20px');
-          if (fontSize) {
-            overlayFontSize = fontSize;
-          }
-        }
-        
-        // Change overlay text color
-        function changeTextColor() {
-          const color = prompt('Enter text color (e.g., red):', 'red');
-          if (color) {
-            overlayColor = color;
-          }
-        }
-        
-        // Add overlay image
-        function addImage() {
-          const imgURL = prompt('Enter image URL for overlay:', '');
-          if (imgURL) {
-            overlayImageURL = imgURL;
-          }
-        }
-        
-        // Add text or image overlay to video
-        function addOverlay() {
-          const text = prompt('Enter text for overlay:');
-          if (!text) return;
-        
-          const overlay = document.createElement('div');
-          overlay.classList.add('overlay');
-          overlay.style.fontSize = overlayFontSize;
-          overlay.style.color = overlayColor;
-          overlay.textContent = text;
-        
-          if (overlayImageURL) {
-            const image = new Image();
-            image.src = overlayImageURL;
-            overlay.appendChild(image);
-          }
-        
-          document.getElementById('videoContainer').appendChild(overlay);
-        }
-        
-        // Preview media
-        function previewMedia() {
+      }
+    
+      // Event listener for audio volume control
+      document.getElementById('audioVolume').addEventListener('input', (event) => {
+        previewVideoElement.volume = event.target.value;
+      });
+    
+      // Overlay and control buttons
+      document.getElementById('fontSizeButton').addEventListener('click', changeFontSize);
+      document.getElementById('colorButton').addEventListener('click', changeTextColor);
+      document.getElementById('imageButton').addEventListener('click', addImage);
+      document.getElementById('overlayButton').addEventListener('click', addOverlay);
+    
+      // Audio upload handling
+      document.getElementById('addAudioButton').addEventListener('click', () => {
+        document.getElementById('audioInput').click();
+      });
+    
+      document.getElementById('audioInput').addEventListener('change', (event) => {
+        const file = event.target.files[0];
+        if (file && file.type.includes('audio')) {
+          audioPreview = new Audio(URL.createObjectURL(file));
           previewVideoElement.src = videoElement.src;
           previewVideoElement.load();
-          audioPreview = new Audio();
-          previewVideoElement.addEventListener('play', () => {
-            audioPreview.play();
+          audioPreview.addEventListener('timeupdate', () => {
+            if (audioPreview) {
+              audioPreview.currentTime = previewVideoElement.currentTime;
+            }
+          });
+        } else {
+          alert('Please select a valid audio file.');
+        }
+      });
+    
+    // Variables for overlay properties
+let overlayFontSize = "20px";
+let overlayColor = "#000000";
+let overlayImageURL = "";
+
+// Function to create pop-ups dynamically
+function createPopup(title, contentCallback) {
+  // Create popup container
+  const popup = document.createElement("div");
+  popup.classList.add("popup");
+
+  // Add overlay background
+  const overlay = document.createElement("div");
+  overlay.classList.add("popup-overlay");
+
+  // Popup content
+  const popupContent = document.createElement("div");
+  popupContent.classList.add("popup-content");
+
+  // Popup header
+  const popupHeader = document.createElement("h3");
+  popupHeader.textContent = title;
+
+  // Close button
+  const closeButton = document.createElement("button");
+  closeButton.textContent = "X";
+  closeButton.classList.add("close-button");
+  closeButton.addEventListener("click", () => {
+    document.body.removeChild(overlay);
+    document.body.removeChild(popup);
+  });
+
+  // Append header and close button
+  popupContent.appendChild(popupHeader);
+  popupContent.appendChild(closeButton);
+
+  // Append dynamic content
+  contentCallback(popupContent);
+
+  // Append popup content to popup and add to body
+  popup.appendChild(popupContent);
+  document.body.appendChild(overlay);
+  document.body.appendChild(popup);
+}
+
+// Function to create font size popup
+function changeFontSize() {
+  createPopup("Change Font Size", (container) => {
+    const fontSizeLabel = document.createElement("label");
+    fontSizeLabel.textContent = "Font Size: ";
+
+    const fontSizeSlider = document.createElement("input");
+    fontSizeSlider.type = "range";
+    fontSizeSlider.min = "10";
+    fontSizeSlider.max = "100";
+    fontSizeSlider.value = parseInt(overlayFontSize);
+
+    const fontSizeValue = document.createElement("span");
+    fontSizeValue.textContent = `${fontSizeSlider.value}px`;
+
+    fontSizeSlider.addEventListener("input", () => {
+      fontSizeValue.textContent = `${fontSizeSlider.value}px`;
+      overlayFontSize = `${fontSizeSlider.value}px`;
+    });
+
+    container.appendChild(fontSizeLabel);
+    container.appendChild(fontSizeSlider);
+    container.appendChild(fontSizeValue);
+  });
+}
+
+// Function to create text color picker popup
+function changeTextColor() {
+  createPopup("Change Text Color", (container) => {
+    const colorLabel = document.createElement("label");
+    colorLabel.textContent = "Text Color: ";
+
+    const colorPicker = document.createElement("input");
+    colorPicker.type = "color";
+    colorPicker.value = overlayColor;
+
+    colorPicker.addEventListener("input", () => {
+      overlayColor = colorPicker.value;
+    });
+
+    container.appendChild(colorLabel);
+    container.appendChild(colorPicker);
+  });
+}
+
+// Function to create image input popup
+function addImage() {
+  createPopup("Add Image Overlay", (container) => {
+    const fileLabel = document.createElement("label");
+    fileLabel.textContent = "Upload Image: ";
+
+    const fileInput = document.createElement("input");
+    fileInput.type = "file";
+    fileInput.accept = "image/*";
+
+    fileInput.addEventListener("change", (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        overlayImageURL = URL.createObjectURL(file);
+      }
+    });
+
+    container.appendChild(fileLabel);
+    container.appendChild(fileInput);
+  });
+}
+
+// Function to add text or image overlay
+function addOverlay() {
+  createPopup("Add Overlay", (container) => {
+    const textLabel = document.createElement("label");
+    textLabel.textContent = "Overlay Text: ";
+
+    const textInput = document.createElement("input");
+    textInput.type = "text";
+
+    const addButton = document.createElement("button");
+    addButton.textContent = "Add Overlay";
+
+    addButton.addEventListener("click", () => {
+      const overlay = document.createElement("div");
+      overlay.classList.add("overlay");
+      overlay.style.fontSize = overlayFontSize;
+      overlay.style.color = overlayColor;
+      overlay.textContent = textInput.value;
+
+      if (overlayImageURL) {
+        const image = new Image();
+        image.src = overlayImageURL;
+        image.style.maxWidth = "100px";
+        overlay.appendChild(image);
+      }
+
+      document.getElementById("videoContainer").appendChild(overlay);
+    });
+
+    container.appendChild(textLabel);
+    container.appendChild(textInput);
+    container.appendChild(addButton);
+  });
+}
+
+// Event listeners
+document.getElementById("fontSizeButton").addEventListener("click", changeFontSize);
+document.getElementById("colorButton").addEventListener("click", changeTextColor);
+document.getElementById("imageButton").addEventListener("click", addImage);
+document.getElementById("overlayButton").addEventListener("click", addOverlay);
+    
+      // Preview media
+      function previewMedia() {
+        previewVideoElement.src = videoElement.src;
+        previewVideoElement.load();
+        audioPreview = new Audio();
+        previewVideoElement.addEventListener('play', () => {
+          audioPreview.play();
+        });
+      }
+    
+      // Generate timeline images
+      function generateTimelineImages() {
+        const numImages = 10;
+        sceneImages = [];
+        const imageWidth = 64;
+        const imageHeight = 36;
+        const canvasContext = timelineCanvas.getContext('2d');
+        const video = document.createElement('video');
+        video.src = videoElement.src;
+        video.load();
+    
+        for (let i = 0; i < numImages; i++) {
+          const time = (videoDuration / numImages) * i;
+          video.currentTime = time;
+          video.addEventListener('seeked', () => {
+            canvasContext.drawImage(video, 0, 0, imageWidth, imageHeight);
+            sceneImages.push(timelineCanvas.toDataURL());
+            if (i === numImages - 1) {
+              drawTimeline();
+            }
           });
         }
-        
-        // Generate timeline images
-        function generateTimelineImages() {
-          const numImages = 10;
-          sceneImages = [];
-          const imageWidth = 64;
-          const imageHeight = 36;
-          const canvasContext = timelineCanvas.getContext('2d');
-          const video = document.createElement('video');
-          video.src = videoElement.src;
-          video.load();
-        
-          for (let i = 0; i < numImages; i++) {
-            const time = (videoDuration / numImages) * i;
-            video.currentTime = time;
-            video.addEventListener('seeked', () => {
-              canvasContext.drawImage(video, 0, 0, imageWidth, imageHeight);
-              sceneImages.push(timelineCanvas.toDataURL());
-              if (i === numImages - 1) {
-                drawTimeline();
-              }
-            });
+      }
+    
+      function drawTimeline() {
+        const context = timelineCanvas.getContext('2d');
+        let index = 0;
+        function drawImage() {
+          if (index < sceneImages.length) {
+            const img = new Image();
+            img.src = sceneImages[index];
+            img.onload = () => {
+              context.drawImage(img, index * 64, 0, 64, 36);
+              index++;
+              requestAnimationFrame(drawImage);
+            };
           }
         }
-        
-        function drawTimeline() {
-          const context = timelineCanvas.getContext('2d');
-          let index = 0;
-          function drawImage() {
-            if (index < sceneImages.length) {
-              const img = new Image();
-              img.src = sceneImages[index];
-              img.onload = () => {
-                context.drawImage(img, index * 64, 0, 64, 36);
-                index++;
-                requestAnimationFrame(drawImage);
-              };
-            }
-          }
-          requestAnimationFrame(drawImage);
+        requestAnimationFrame(drawImage);
+      }
+    
+      // Zoom functionality
+      let zoomLevel = 1;
+      document.getElementById('zoomIn').addEventListener('click', () => {
+        zoomLevel *= 1.2;
+        drawTimeline();
+      });
+    
+      document.getElementById('zoomOut').addEventListener('click', () => {
+        zoomLevel /= 1.2;
+        drawTimeline();
+      });
+    
+      // Draggable divider logic
+      draggableDivider.addEventListener('mousedown', (event) => {
+        document.body.style.cursor = 'col-resize';
+        let offsetX = event.clientX - draggableDivider.offsetLeft;
+    
+        function mouseMoveHandler(e) {
+          let left = e.clientX - offsetX;
+          left = Math.max(0, Math.min(timelineCanvas.width - draggableDivider.offsetWidth, left));
+          draggableDivider.style.left = left + 'px';
+    
+          let adjustedTime = (left / (timelineCanvas.width / zoomLevel)) * videoDuration;
+          videoSlider.value = adjustedTime;
+          videoElement.currentTime = adjustedTime;
         }
-        
-        // Zoom functionality
-        let zoomLevel = 1;
-        document.getElementById('zoomIn').addEventListener('click', () => {
-          zoomLevel *= 1.2;
-          drawTimeline();
-        });
-        
-        document.getElementById('zoomOut').addEventListener('click', () => {
-          zoomLevel /= 1.2;
-          drawTimeline();
-        });
-        
-        // Draggable divider logic
-        draggableDivider.addEventListener('mousedown', (event) => {
-          document.body.style.cursor = 'col-resize';
-          let offsetX = event.clientX - draggableDivider.offsetLeft;
-        
-          function mouseMoveHandler(e) {
-            let left = e.clientX - offsetX;
-            left = Math.max(0, Math.min(timelineCanvas.width - draggableDivider.offsetWidth, left));
-            draggableDivider.style.left = left + 'px';
-        
-            let adjustedTime = (left / (timelineCanvas.width / zoomLevel)) * videoDuration;
-            videoSlider.value = adjustedTime;
-            videoElement.currentTime = adjustedTime;
-          }
-        
-          function mouseUpHandler() {
-            document.removeEventListener('mousemove', mouseMoveHandler);
-            document.removeEventListener('mouseup', mouseUpHandler);
-            document.body.style.cursor = 'default';
-          }
-        
-          document.addEventListener('mousemove', mouseMoveHandler);
-          document.addEventListener('mouseup', mouseUpHandler);
-        });
-        
-        // Slider time control
-        videoSlider.addEventListener('input', (event) => {
-          videoElement.currentTime = event.target.value;
-        });
-        
-        </script>
-        </main>
-        
+    
+        function mouseUpHandler() {
+          document.removeEventListener('mousemove', mouseMoveHandler);
+          document.removeEventListener('mouseup', mouseUpHandler);
+          document.body.style.cursor = 'default';
+        }
+    
+        document.addEventListener('mousemove', mouseMoveHandler);
+        document.addEventListener('mouseup', mouseUpHandler);
+      });
+    
+      // Slider time control
+      videoSlider.addEventListener('input', (event) => {
+        videoElement.currentTime = event.target.value;
+      });
+    
+      // Play button functionality
+      document.getElementById('playButton').addEventListener('click', () => {
+        if (videoElement.paused) {
+          videoElement.play();
+          document.getElementById('playButton').textContent = 'Pause';
+        } else {
+          videoElement.pause();
+          document.getElementById('playButton').textContent = 'Play';
+        }
+      });
+    </script>
+           
     <!-- Footer -->
     <footer id="dynamic-footer"></footer>
     
