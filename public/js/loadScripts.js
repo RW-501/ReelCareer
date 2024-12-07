@@ -140,18 +140,20 @@ console.log(formatDateString(1732032108000));                           // Expec
   */
   
   function formatJobType(jobType) {
-    // Remove hyphens and underscores
-    jobType = jobType.replace(/[-_]/g, " ");
+    // Handle invalid or missing jobType values
+    if (typeof jobType !== "string" || !jobType.trim()) {
+    //  console.warn("Warning: jobType is invalid or empty.");
+      return ; // Fallback value
+    }
   
-    // Capitalize each word
-    jobType = jobType
-      .split(" ")
-      .map((word) => {
-        return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
-      })
-      .join(" ");
-  
-    return jobType;
+    // Normalize spacing, remove hyphens and underscores, and capitalize each word
+    return jobType
+      .replace(/[-_]/g, " ")              // Replace hyphens and underscores with spaces
+      .split(/\s+/)                      // Split into words (handle multiple spaces)
+      .map(word => 
+        word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+      )                                  // Capitalize first letter of each word
+      .join(" ");                        // Join back into a single string
   }
   
   function formatTags(tags) {
