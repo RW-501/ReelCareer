@@ -1237,7 +1237,7 @@ async function fetchFilteredJobListings({
     const jobListingsSnapshot = await getDocs(jobsQuery);
 
     // Map and display results
-    const jobListings = jobListingsSnapshot.docs.map(doc => ({
+    const jobListings = jobListingsSnapshot.docs.map(job => ({
       id: job.id, // Job document ID
           title: job.title,
           description: job.description,
