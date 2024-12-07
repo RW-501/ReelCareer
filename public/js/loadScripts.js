@@ -389,7 +389,7 @@ function createSuggestionDropdown(input, suggestions) {
 function autoSuggest(input, suggestionsArray) {
   // Validate the input element and its value
   if (!input || !input.value || typeof input.value !== "string") {
-    console.error("Invalid input element or value is undefined");
+   // console.error("Invalid input element or value is undefined");
     return;
   }
 
