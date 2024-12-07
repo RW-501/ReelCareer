@@ -275,6 +275,43 @@ main #overlayControls {
 
 
 
+/* Improved active overlay state */
+.active {
+  border: 2px solid #4CAF50;
+  box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+  transition: all 0.3s ease-in-out;
+}
+
+/* Modal animations */
+.modal {
+  display: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.modal.show {
+  display: block;
+  opacity: 1;
+}
+
+/* Responsive Modal for smaller screens */
+@media (max-width: 600px) {
+  .modal-content {
+    width: 90%;
+    padding: 15px;
+  }
+}
+
+/* Close button on the overlay */
+.overlay-close-btn {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  cursor: pointer;
+  background-color: #fff;
+  border: none;
+  font-size: 18px;
+}
 
 
 
@@ -287,103 +324,101 @@ main #overlayControls {
   }
 </style>
 
-
 <main id="main-content">
   <!-- Video Container -->
-  <div id="videoContainer">
-    <video id="videoPlayer" controls autoplay></video>
-    <canvas id="videoCanvas" style="display: none;"></canvas>
+  <div id="videoContainer" aria-labelledby="videoPlayer">
+    <video id="videoPlayer" controls autoplay aria-label="Video player"></video>
+    <canvas id="videoCanvas" style="display: none;" aria-hidden="true"></canvas>
   </div>
 
   <!-- Audio Input -->
-
-  <input type="file" id="videoInput" accept="video/*" title="Select a video to upload" />
-  <input type="file" id="audioInput" accept="audio/*" class="hidden" title="Select an audio file to add" />
-  <input type="file" id="videoSliceInput" accept="video/*" title="Select a video slice to append" />
+  <input type="file" id="videoInput" accept="video/*" title="Select a video to upload" aria-label="Select a video to upload" />
+  <input type="file" id="audioInput" accept="audio/*" class="hidden" title="Select an audio file to add" aria-label="Select an audio file to add" />
+  <input type="file" id="videoSliceInput" accept="video/*" title="Select a video slice to append" aria-label="Select a video slice to append" />
   
   <!-- Add Trash Can Icon -->
-<i id="trashIcon" class="hidden" style="position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); font-size: 40px; color: red;">🗑️</i>
-
+  <i id="trashIcon" class="hidden" style="position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); font-size: 40px; color: red;" 
+     aria-label="Delete overlay" title="Delete Overlay">🗑️</i>
 
   <!-- Overlay Controls -->
-  <div id="overlayControls">
-      <!-- Video Slice & Append -->
-    <button id="addAudioButton">Add Audio</button>
-    <button id="sliceVideoButton">Slice Video</button>
-    <button id="appendVideoButton">Append Video/Image</button>
+  <div id="overlayControls" role="group" aria-labelledby="overlayControlsHeading">
+    <h2 id="overlayControlsHeading" class="sr-only">Overlay Controls</h2>
+    <!-- Video Slice & Append -->
+    <button id="addAudioButton" aria-label="Add audio to video">Add Audio</button>
+    <button id="sliceVideoButton" aria-label="Slice the video">Slice Video</button>
+    <button id="appendVideoButton" aria-label="Append video or image to the video">Append Video/Image</button>
 
     <button id="undoButton" aria-label="Undo last action" title="Undo">Undo</button>
     <button id="redoButton" aria-label="Redo last action" title="Redo">Redo</button>
     
-    <button id="downloadButton" disabled>Render & Download</button>
+    <button id="downloadButton" disabled aria-disabled="true" aria-label="Render and download the edited video" title="Render & Download">Render & Download</button>
     
     <!-- Add Image or Text Overlays -->
-    <button id="textOverlayButton">Add Text Overlay</button>
-    <button id="imageButton">Add Image Overlay</button>
+    <button id="textOverlayButton" aria-label="Add a text overlay to the video">Add Text Overlay</button>
+    <button id="imageButton" aria-label="Add an image overlay to the video">Add Image Overlay</button>
   </div>
 
   <div id="beforeAfterContainer">
     <div>
       <h3>Before</h3>
-      <video id="beforeVideo" controls></video>
+      <video id="beforeVideo" controls aria-label="Before video comparison"></video>
     </div>
     <div>
       <h3>After</h3>
-      <video id="afterVideo" controls></video>
+      <video id="afterVideo" controls aria-label="After video comparison"></video>
     </div>
   </div>
-  
 </main>
-<div id="sliceModal" style="display:none;">
-  <label>Start Time (seconds):</label>
-  <input type="number" id="startTimeInput" />
-  <label>End Time (seconds):</label>
-  <input type="number" id="endTimeInput" />
-  <button id="confirmSlice">Slice Video</button>
+
+<!-- Slice Modal -->
+<div id="sliceModal" style="display:none;" role="dialog" aria-labelledby="sliceModalLabel">
+  <h3 id="sliceModalLabel" class="sr-only">Video Slice Settings</h3>
+  <label for="startTimeInput">Start Time (seconds):</label>
+  <input type="number" id="startTimeInput" aria-label="Start time for the video slice" />
+  <label for="endTimeInput">End Time (seconds):</label>
+  <input type="number" id="endTimeInput" aria-label="End time for the video slice" />
+  <button id="confirmSlice" aria-label="Confirm the video slice">Slice Video</button>
 </div>
 
 <!-- Text Overlay Modal -->
-<div id="textOverlayModal" class="modal">
+<div id="textOverlayModal" class="modal" role="dialog" aria-labelledby="textOverlayModalLabel">
   <div class="modal-content">
-    <h3>Add Text Overlay</h3>
-    <input type="text" id="overlayTextInput" placeholder="Enter text" required />
-    <input type="color" id="textColorInput" value="#ffffff" />
-    <input type="number" id="fontSizeInput" value="20" min="10" max="100" required />
-    <select id="fontTypeInput">
+    <h3 id="textOverlayModalLabel">Add Text Overlay</h3>
+    <input type="text" id="overlayTextInput" placeholder="Enter text" required aria-label="Enter text for overlay" />
+    <input type="color" id="textColorInput" value="#ffffff" aria-label="Choose text color" />
+    <input type="number" id="fontSizeInput" value="20" min="10" max="100" required aria-label="Choose font size" />
+    <select id="fontTypeInput" aria-label="Choose font type">
       <option value="Arial">Arial</option>
       <option value="Verdana">Verdana</option>
       <option value="Tahoma">Tahoma</option>
     </select>
-    <button id="saveTextOverlay">Save</button>
+    <button id="saveTextOverlay" aria-label="Save text overlay">Save</button>
   </div>
 </div>
 
-
-
 <!-- Image Overlay Modal -->
-<div id="imageModal" class="modal">
+<div id="imageModal" class="modal" role="dialog" aria-labelledby="imageModalLabel">
   <div class="modal-content">
-    <h3>Add Image Overlay</h3>
-    <input type="url" id="imageURLInput" placeholder="Enter image URL" />
-    <button id="saveImageOverlay">Save</button>
+    <h3 id="imageModalLabel">Add Image Overlay</h3>
+    <input type="url" id="imageURLInput" placeholder="Enter image URL" aria-label="Enter image URL for overlay" />
+    <button id="saveImageOverlay" aria-label="Save image overlay">Save</button>
   </div>
 </div>
 
 <!-- Edit Modal -->
-<div id="editOverlayModal" class="modal">
+<div id="editOverlayModal" class="modal" role="dialog" aria-labelledby="editOverlayModalLabel">
   <div class="modal-content">
+    <h3 id="editOverlayModalLabel" class="sr-only">Edit Text Overlay</h3>
     <label for="editTextInput">Text:</label>
-    <input type="text" id="editTextInput">
+    <input type="text" id="editTextInput" aria-label="Edit text for overlay">
     <label for="editColorInput">Color:</label>
-    <input type="color" id="editColorInput">
+    <input type="color" id="editColorInput" aria-label="Edit color for overlay">
     <label for="editFontSizeInput">Font Size:</label>
-    <input type="number" id="editFontSizeInput">
-    <button id="saveEdit">Save Changes</button>
-    <button id="closeEditModal">Cancel</button>
+    <input type="number" id="editFontSizeInput" aria-label="Edit font size for overlay">
+    <button id="saveEdit" aria-label="Save changes to overlay">Save Changes</button>
+    <button id="closeEditModal" aria-label="Close the edit modal">Cancel</button>
   </div>
 </div>
-
-
 
 <script>
 // Core Elements
@@ -691,19 +726,21 @@ function makeDraggable(overlay) {
 }
 
 // Open the Edit Modal and populate it with current overlay data
+// Open the edit modal with real-time updates
 function openEditModal(overlay) {
   if (overlay.dataset.type === "text") {
     document.getElementById("editTextInput").value = overlay.dataset.content;
     document.getElementById("editColorInput").value = overlay.style.color;
     document.getElementById("editFontSizeInput").value = parseInt(overlay.style.fontSize);
-  } else if (overlay.dataset.type === "image") {
-    // Handle image overlay edits if necessary
   }
 
-  editModal.style.display = "block"; // Show the modal
+  editModal.classList.add('show'); // Show the modal with animation
+
+  // Set focus to the first input field when modal is opened
+  document.getElementById("editTextInput").focus();
 }
 
-// Save edited overlay
+// Save the edited overlay with real-time feedback
 saveEditButton.addEventListener("click", () => {
   if (activeOverlay) {
     const text = document.getElementById("editTextInput").value;
@@ -717,9 +754,10 @@ saveEditButton.addEventListener("click", () => {
       activeOverlay.dataset.content = text;
     }
 
-    editModal.style.display = "none"; // Hide modal after saving
+    editModal.classList.remove('show'); // Hide modal with animation
   }
 });
+
 
 // Close edit modal without saving
 closeEditButton.addEventListener("click", () => {
