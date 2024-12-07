@@ -1159,13 +1159,14 @@ overlay.style.left = "10%";
   function updateStartDiv() {
     const timelineWidth = document.getElementById('timelineDiv').offsetWidth;
     startDiv.style.left = `${(startTime / videoPlayer.duration) * timelineWidth}px`;
-    startDiv.innerText = startTime;
+    startDiv.innerText = (Math.round(startTime * 1000) / 1000).toFixed(3);
+
   }
 
   function updateStopDiv() {
     const timelineWidth = document.getElementById('timelineDiv').offsetWidth;
     stopDiv.style.left = `${(stopTime / videoPlayer.duration) * timelineWidth}px`;
-    stopDiv.innerText = stopTime;
+    stopDiv.innerText = (Math.round(stopTime * 1000) / 1000).toFixed(3);
   }
   // Function to update synced time at the center of the div
   function updateSyncedTime(div, time) {
