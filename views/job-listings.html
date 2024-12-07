@@ -1241,7 +1241,7 @@ async function fetchFilteredJobListings({
 
     // Map and display results
     const jobListings = jobListingsSnapshot.docs.map(job => ({
-      id: job.id, // Job document ID
+          id: job.id, // Job document ID
           title: job.title,
           description: job.description,
           datePosted: job.createdAt,
@@ -1273,7 +1273,8 @@ async function fetchFilteredJobListings({
           searchableRequirements: job.searchableRequirements || '', // Default to empty string if undefined
           submittedBy: job.submittedBy,
           tags: job.tags || [], // Default to empty array if undefined
-          source: "Search" // Include the source from the general query
+          source: job.source // Include the source from the general query
+        
         
     }));
 
