@@ -682,24 +682,35 @@ document.getElementById("overlayButton").addEventListener("click", addOverlay);
     
       // Generate timeline images
       function generateTimelineImages() {
-    const canvas = document.getElementById("timelineCanvas");
-    const ctx = canvas.getContext("2d");
-    const video = document.getElementById("videoPlayer");
+  const canvas = document.getElementById("timelineCanvas");
+  const ctx = canvas.getContext("2d");
+  const video = document.getElementById("videoPlayer");
 
-    video.addEventListener("loadeddata", () => {
-        const duration = video.duration;
-        const canvasWidth = canvas.width;
-        const segments = 10;
+  // Ensure the video is loaded
+  video.addEventListener("loadedmetadata", () => {
+    const duration = video.duration;
+    const segments = 10;
+    const canvasWidth = canvas.width;
 
-        for (let i = 0; i < segments; i++) {
-            video.currentTime = (i / segments) * duration;
+    // Loop through the segments and draw images
+    for (let i = 0; i < segments; i++) {
+      const currentTime = (i / segments) * duration;
+      video.currentTime = currentTime;
 
-            video.addEventListener("seeked", () => {
-                ctx.drawImage(video, (i / segments) * canvasWidth, 0, canvasWidth / segments, canvas.height);
-            });
-        }
-    });
+      // Wait for the video to seek to the required time before drawing
+      video.addEventListener("seeked", () => {
+        ctx.drawImage(
+          video,
+          (i / segments) * canvasWidth,
+          0,
+          canvasWidth / segments,
+          canvas.height
+        );
+      }, { once: true });
+    }
+  });
 }
+
 
     
       function drawTimeline() {
