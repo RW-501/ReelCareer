@@ -1175,7 +1175,8 @@ function displayJobListings( jobListings ) {
   const jobContainer = document.getElementById('jobListings');
   jobContainer.innerHTML = ''; // Clear existing listings
   
-  
+  console.log("displayJobListingss:", jobListings);
+
   // Check if jobListings is an array
   if (!Array.isArray(jobListings)) {
     console.error('Error: jobListings is not defined or not an array:', jobListings);
@@ -1238,48 +1239,49 @@ async function fetchFilteredJobListings({
 
     // Execute the query
     const jobListingsSnapshot = await getDocs(jobsQuery);
+    console.log(jobListingsSnapshot.docs); 
 
     // Map and display results
-    const jobListings = jobListingsSnapshot.docs.map(job => ({
-          id: job.id, // Job document ID
-          title: job.title,
-          description: job.description,
-          datePosted: job.createdAt,
-          company: job.company,
-          location: job.location,
-          city: job.city,
-          state: job.state,
-          country: job.country,
-          county: job.county,
-          type: job.type,
-          industry: job.industry,
-          salary: job.salary,
-          salaryMin: job.salaryMin,
-          salaryMax: job.salaryMax,
-          salaryPayTime: job.salaryPayTime,
-          validThrough: job.boostExpiresAt,
-          status: job.status,
-          applicationAvailableBool: job.applicationAvailableBool,
-          applicantsViewed: job.applicantsViewed,
-          applicationWebsite: job.applicationWebsite,
-          benefits: job.benefits || [], // Default to empty array if undefined
-          boostExpiration: job.boostExpiration,
-          boostExpiresAt: job.boostExpiresAt,
-          boosted: job.boosted,
-          boostedByID: job.boostedByID,
-          contractToHire: job.contractToHire,
-          immediateHire: job.immediateHire,
-          savedForLater: job.savedForLater,
-          searchableRequirements: job.searchableRequirements || '', // Default to empty string if undefined
-          submittedBy: job.submittedBy,
-          tags: job.tags || [], // Default to empty array if undefined
-          source: job.source // Include the source from the general query
-        
-        
-    }));
-
-    console.log("Fetched Job Listings:", jobListings);
-    displayJobListings(jobListings);
+    const jobListings = jobListingsSnapshot.docs.map(job => {
+    const data = job.data(); // Access document data
+    return {
+        id: job.id, // Job document ID
+        title: data.title,
+        description: data.description,
+        datePosted: data.createdAt,
+        company: data.company,
+        location: data.location,
+        city: data.city,
+        state: data.state,
+        country: data.country,
+        county: data.county,
+        type: data.type,
+        industry: data.industry,
+        salary: data.salary,
+        salaryMin: data.salaryMin,
+        salaryMax: data.salaryMax,
+        salaryPayTime: data.salaryPayTime,
+        validThrough: data.boostExpiresAt,
+        status: data.status,
+        applicationAvailableBool: data.applicationAvailableBool,
+        applicantsViewed: data.applicantsViewed,
+        applicationWebsite: data.applicationWebsite,
+        benefits: data.benefits || [], // Default to empty array if undefined
+        boostExpiration: data.boostExpiration,
+        boostExpiresAt: data.boostExpiresAt,
+        boosted: data.boosted,
+        boostedByID: data.boostedByID,
+        contractToHire: data.contractToHire,
+        immediateHire: data.immediateHire,
+        savedForLater: data.savedForLater,
+        searchableRequirements: data.searchableRequirements || '', // Default to empty string if undefined
+        submittedBy: data.submittedBy,
+        tags: data.tags || [], // Default to empty array if undefined
+        source: data.source, // Include the source from the general query
+    };
+});
+   console.log("Fetched Job Listings:", jobListings);
+    displayJobListings([jobListings]);
 
     if (jobListings.length === 0) {
       showToast("No jobs found matching your criteria. Try adjusting filters.");
