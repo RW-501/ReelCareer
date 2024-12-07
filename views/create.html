@@ -330,7 +330,11 @@ main #overlayControls {
     <video id="videoPlayer" controls autoplay aria-label="Video player"></video>
     <canvas id="videoCanvas" style="display: none;" aria-hidden="true"></canvas>
   </div>
-
+  <div id="timelineDiv" style="position: relative; width: 100%; height: 50px; background: #ddd;">
+    <div id="startDiv" style="position: absolute; height: 100%; width: 5%; background: black;"></div>
+    <div id="stopDiv" style="position: absolute; height: 100%; width: 5%; background: red;"></div>
+  </div>
+  
   <!-- Audio Input -->
   <input type="file" id="videoInput" accept="video/*" title="Select a video to upload" aria-label="Select a video to upload" />
   <input type="file" id="audioInput" accept="audio/*" class="hidden" title="Select an audio file to add" aria-label="Select an audio file to add" />
@@ -345,7 +349,6 @@ main #overlayControls {
     <h2 id="overlayControlsHeading" class="sr-only">Overlay Controls</h2>
     <!-- Video Slice & Append -->
     <button id="addAudioButton" aria-label="Add audio to video">Add Audio</button>
-    <button id="sliceVideoButton" aria-label="Slice the video">Slice Video</button>
     <button id="appendVideoButton" aria-label="Append video or image to the video">Append Video/Image</button>
 
     <button id="undoButton" aria-label="Undo last action" title="Undo">Undo</button>
@@ -370,15 +373,7 @@ main #overlayControls {
   </div>
 </main>
 
-<!-- Slice Modal -->
-<div id="sliceModal" style="display:none;" role="dialog" aria-labelledby="sliceModalLabel">
-  <h3 id="sliceModalLabel" class="sr-only">Video Slice Settings</h3>
-  <label for="startTimeInput">Start Time (seconds):</label>
-  <input type="number" id="startTimeInput" aria-label="Start time for the video slice" />
-  <label for="endTimeInput">End Time (seconds):</label>
-  <input type="number" id="endTimeInput" aria-label="End time for the video slice" />
-  <button id="confirmSlice" aria-label="Confirm the video slice">Slice Video</button>
-</div>
+
 
 <!-- Text Overlay Modal -->
 <div id="textOverlayModal" class="modal" role="dialog" aria-labelledby="textOverlayModalLabel">
@@ -427,7 +422,6 @@ const videoInput = document.getElementById("videoInput");
 const downloadButton = document.getElementById("downloadButton");
 const addAudioButton = document.getElementById("addAudioButton");
 const audioInput = document.getElementById("audioInput");
-const sliceButton = document.getElementById("sliceVideoButton");
 const appendButton = document.getElementById("appendVideoButton");
 const undoButton = document.getElementById("undoButton");
 const redoButton = document.getElementById("redoButton");
@@ -455,7 +449,14 @@ let audioURL = null;
 let editedVideoBlob = null;
 let videoURL = null;
     let currentAction = null;
- 
+    let startTime = 0; // in seconds
+let stopTime = 5; // in seconds
+
+
+// Timeline div elements
+const startDiv = document.getElementById('startDiv');
+const stopDiv = document.getElementById('stopDiv');
+
 
 
     let videoStream = null;
@@ -970,30 +971,6 @@ async function mergeAudioWithVideo(audioSrc) {
 }
 
 
-// Slice Video
-sliceButton.addEventListener("click", () => {
-  const startTime = parseFloat(prompt("Enter start time (seconds):"));
-  const endTime = parseFloat(prompt("Enter end time (seconds):"));
-
-  if (startTime < endTime) {
-    const prevVideoSrc = videoPlayer.src;
-    const stream = videoPlayer.captureStream();
-    const mediaRecorder = new MediaRecorder(stream);
-    const chunks = [];
-
-    videoPlayer.currentTime = startTime;
-    mediaRecorder.ondataavailable = (e) => chunks.push(e.data);
-    mediaRecorder.onstop = () => {
-      const blob = new Blob(chunks, { type: "video/webm" });
-      const slicedURL = URL.createObjectURL(blob);
-      videoPlayer.src = slicedURL;
-      saveActionState("sliceVideo", { prevVideoSrc, newVideoSrc: slicedURL });
-    };
-
-    mediaRecorder.start();
-    setTimeout(() => mediaRecorder.stop(), (endTime - startTime) * 1000);
-  }
-});
 
 
     function sliceVideo(startTime, endTime) {
@@ -1041,20 +1018,93 @@ sliceButton.addEventListener("click", () => {
     }
 
 
-    sliceButton.addEventListener("click", () => {
-  document.getElementById("sliceModal").style.display = "block";
+ 
+
+// Event listener for start time
+startDiv.addEventListener("mousedown", (e) => {
+  const onMouseMove = (e) => {
+    const timelineWidth = document.getElementById('timelineDiv').offsetWidth;
+    startTime = Math.min((e.clientX / timelineWidth) * videoPlayer.duration, stopTime);
+    updateStartDiv();
+  };
+
+  const onMouseUp = () => {
+    document.removeEventListener("mousemove", onMouseMove);
+    document.removeEventListener("mouseup", onMouseUp);
+  };
+
+  document.addEventListener("mousemove", onMouseMove);
+  document.addEventListener("mouseup", onMouseUp);
 });
 
-document.getElementById("confirmSlice").addEventListener("click", () => {
-  const startTime = parseFloat(document.getElementById("startTimeInput").value);
-  const endTime = parseFloat(document.getElementById("endTimeInput").value);
-  if (startTime < endTime) {
-    const prevVideoSrc = videoPlayer.src;
-    sliceVideo(startTime, endTime, prevVideoSrc);
-    document.getElementById("sliceModal").style.display = "none";
+// Event listener for stop time
+stopDiv.addEventListener("mousedown", (e) => {
+  const onMouseMove = (e) => {
+    const timelineWidth = document.getElementById('timelineDiv').offsetWidth;
+    stopTime = Math.max((e.clientX / timelineWidth) * videoPlayer.duration, startTime + 1);
+    updateStopDiv();
+  };
+
+  const onMouseUp = () => {
+    document.removeEventListener("mousemove", onMouseMove);
+    document.removeEventListener("mouseup", onMouseUp);
+  };
+
+  document.addEventListener("mousemove", onMouseMove);
+  document.addEventListener("mouseup", onMouseUp);
+});
+
+// Update the timeline divs for start and stop times
+function updateStartDiv() {
+  const timelineWidth = document.getElementById('timelineDiv').offsetWidth;
+  startDiv.style.left = `${(startTime / videoPlayer.duration) * timelineWidth}px`;
+}
+
+function updateStopDiv() {
+  const timelineWidth = document.getElementById('timelineDiv').offsetWidth;
+  stopDiv.style.left = `${(stopTime / videoPlayer.duration) * timelineWidth}px`;
+}
+
+// Function to slice the video and create a blob
+function sliceVideo() {
+  const videoSource = videoPlayer.src;
+  
+  // Slice the video between startTime and stopTime
+  const videoBlob = new Blob([videoSource.slice(startTime, stopTime)], { type: "video/webm" });
+  
+  // Create a URL for the sliced video blob
+  editedVideoBlob = URL.createObjectURL(videoBlob);
+  
+  // Set the canvas source to the new sliced video
+  videoPlayer.src = editedVideoBlob;
+  videoPlayer.load();
+}
+
+// Function to capture a frame from the video and render it on the canvas
+function renderVideoFrame() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.drawImage(videoPlayer, 0, 0, canvas.width, canvas.height);
+
+  if (videoPlayer.paused || videoPlayer.ended) return;  // Stop if video is paused or ended
+  requestAnimationFrame(renderVideoFrame);
+}
+
+// Add Event Listener to the slice button to trigger video slicing
+document.getElementById("sliceVideoButton").addEventListener("click", sliceVideo);
+
+// Render the frame when video is playing
+videoPlayer.addEventListener("play", () => {
+  renderVideoFrame();
+});
+
+// Update start and stop times with the timeline on play
+videoPlayer.addEventListener("timeupdate", () => {
+  if (videoPlayer.currentTime >= startTime && videoPlayer.currentTime <= stopTime) {
+    // Sync video current time with the timeline divs
+    updateStartDiv();
+    updateStopDiv();
   }
 });
-
 
 
 
