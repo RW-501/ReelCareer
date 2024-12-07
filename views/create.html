@@ -208,361 +208,274 @@ button:hover {
         </ol>
     </nav>
 
-      <main id="main-content">
-      
-
- 
-
-        <div class="container">
-            <h1>Video Upload & Editor</h1>
-          
-       
      
+        <main id="main-content">
+          <div class="container">
+            <h1>Video Upload & Editor</h1>
             
-
             <button id="addAudioButton">Add Audio</button>
             <button id="previewButton">Preview Media</button>
-      
-            <div class="container">
-                <h1>Video Upload & Editor</h1>
-                <input type="file" id="videoInput" accept="video/mp4,video/webm,video/ogg" />
-                <button id="uploadButton">Upload Video</button>
-              
-                <div id="videoContainer">
-                  <video id="videoPlayer" width="640" controls></video>
-                </div>
-              
-          
-                <div id="controlPanel">
-                  <h3>Overlay Control</h3>
-                  <button id="fontSizeButton">Font Size</button>
-                  <button id="colorButton">Text Color</button>
-                  <button id="imageButton">Add Image</button>
-                  <button id="overlayButton">Add Overlay</button>
-                </div>
-              
-                <div id="timelineContainer">
-                  <canvas id="timelineCanvas"></canvas>
-                  <div id="draggableDivider" class="draggable"></div>
-                  <input type="range" id="videoSlider" style="display: none;" />
-                </div>
-            
-                <button id="zoomOut" aria-label="Zoom in">-</button>
-                <button id="zoomIn" aria-label="Zoom in">+</button>
-              
-                <input type="range" id="audioVolume" min="0" max="1" step="0.1" value="0.5">
-              
-                <input type="file" id="audioInput" accept="audio/*" style="display: none;" />
-                <video id="previewVideo" controls></video>
-                <input type="range" id="speedControl" min="0.5" max="2" step="0.1" value="1" />
-              
-                <div id="previewContainer">
-                  <h3>Preview</h3>
-                  <video id="previewVideo" width="640" controls></video>
-                </div>
-              </div>
-              
-       
-          
-<script>
-
-document.getElementById('uploadButton').addEventListener('click', handleFileUpload);
-document.getElementById('overlayButton').addEventListener('click', addOverlay);
-
-
-let videoElement = document.getElementById('videoPlayer');
-let previewVideoElement = document.getElementById('previewVideo');
-let timelineCanvas = document.getElementById('timelineCanvas');
-let draggableDivider = document.getElementById('draggableDivider');
-let videoSlider = document.getElementById('videoSlider');
-let videoFile = null;
-
-let videoDuration = 0; // Store the duration of the video
-let sceneImages = [];  // Store generated scene images for the timeline
-
-// Handle file upload
-function handleFileUpload() {
-  let input = document.getElementById('videoInput');
-  let file = input.files[0];
-  if (!file) {
-    showToast('Please upload a video file.');
-    return;
-  }
-
-  if (file.type.includes('video') && file.size < 50 * 1024 * 1024) { // Limit to 50MB for video
-    videoFile = file;
-    loadVideo();
-  } else {
-    showToast('Invalid video file. Please upload a valid video file no larger than 50MB.');
-  }
-}
-
-function loadVideo() {
-  const videoURL = URL.createObjectURL(videoFile);
-  videoElement.src = videoURL;
-  videoElement.load();
-
-  // Setup for preview
-  previewVideoElement.src = videoURL;
-  previewVideoElement.load();
-
-  // Get video duration
-  videoElement.addEventListener('loadedmetadata', () => {
-    videoDuration = videoElement.duration;
-    videoSlider.max = videoDuration;
-
-    // Generate scene images for the timeline
-    generateTimelineImages();
-  });
-}
-
-
-
-document.getElementById('audioVolume').addEventListener('input', (event) => {
-  audio.volume = event.target.value;
-});
-
-
-
-
-
-
-
-let overlayText = '';
-let overlayFontSize = '20px';
-let overlayColor = 'red';
-let overlayImageURL = '';
-
-// Handle video file upload
-document.getElementById('uploadButton').addEventListener('click', handleFileUpload);
-
-// Control buttons
-document.getElementById('fontSizeButton').addEventListener('click', changeFontSize);
-document.getElementById('colorButton').addEventListener('click', changeTextColor);
-document.getElementById('imageButton').addEventListener('click', addImage);
-document.getElementById('overlayButton').addEventListener('click', addOverlay);
-
-
-
-// Change font size
-function changeFontSize() {
-  const fontSize = prompt('Enter font size (e.g., 20px):', overlayFontSize);
-  if (fontSize) {
-    overlayFontSize = fontSize;
-  }
-}
-
-// Change text color
-function changeTextColor() {
-  const color = prompt('Enter text color (e.g., red):', overlayColor);
-  if (color) {
-    overlayColor = color;
-  }
-}
-
-// Add image URL
-function addImage() {
-  const imgURL = prompt('Enter image URL for overlay:', overlayImageURL);
-  if (imgURL) {
-    overlayImageURL = imgURL;
-  }
-}
-
-// Add overlay to video
-function addOverlay() {
-  const text = prompt('Enter text for overlay:');
-  if (!text) return; // Validate text input
-
-  const overlay = document.createElement('div');
-  overlay.classList.add('overlay');
-  overlay.style.fontSize = overlayFontSize;
-  overlay.style.color = overlayColor;
-  overlay.textContent = text;
-  overlay.setAttribute('aria-label', text);  // Improve accessibility
-
-  // Allow resizing or repositioning
-  overlay.style.resize = 'both';
-  overlay.style.overflow = 'auto';
-
-  if (overlayImageURL) {
-    const image = new Image();
-    image.src = overlayImageURL;
-    overlay.appendChild(image);
-  }
-
-  // Append overlay to video container
-  document.getElementById('videoContainer').appendChild(overlay);
-}
-
-// Get the elements for adding audio
-const addAudioButton = document.getElementById('addAudioButton');
-const audioInput = document.getElementById('audioInput');
-const previewVideo = document.getElementById('previewVideo');
-const speedControl = document.getElementById('speedControl');
-
-// Trigger the file input when the Add Audio button is clicked
-addAudioButton.addEventListener('click', () => {
-  audioInput.click(); // Open file input dialog
-});
-
-// Handle the file selection and add the audio
-audioInput.addEventListener('change', (event) => {
-  const file = event.target.files[0];
-  if (file && file.type.includes('audio')) {
-    const audioPreview = new Audio(URL.createObjectURL(file)); // Use the selected audio file
-    previewVideo.src = videoElement.src; // Set the video source to the uploaded video
-    previewVideo.load();
-
-    previewVideo.addEventListener('timeupdate', () => {
-  if (audioPreview) {
-    audioPreview.currentTime = previewVideo.currentTime;
-  }
-});
-
-
-    // Adjust playback speed
-    let playbackSpeed = 1; // Default speed
-    speedControl.addEventListener('change', (event) => {
-      playbackSpeed = event.target.value;
-      previewVideo.playbackRate = playbackSpeed;
-    });
-  } else {
-    showToast('Please select a valid audio file.');
-  }
-});
-
-// Media Preview function that syncs audio and video playback
-function previewMedia() {
-  previewVideo.src = videoElement.src; // Set the video source to the uploaded video
-  previewVideo.load();
-
-  // Default to no audio initially
-  const audioPreview = new Audio();
-  previewVideo.addEventListener('play', () => {
-    audioPreview.play();
-  });
-
-  // Add playback speed adjustment
-  let playbackSpeed = 1; // Default speed
-  speedControl.addEventListener('change', (event) => {
-    playbackSpeed = event.target.value;
-    previewVideo.playbackRate = playbackSpeed;
-  });
-}
-
-// Improved generateTimelineImages function to capture higher-quality thumbnails
-function generateTimelineImages() {
-  const numImages = 10;
-  sceneImages = [];
-  const imageWidth = 64;
-  const imageHeight = 36;
-  const canvasContext = timelineCanvas.getContext('2d');
-  const video = document.createElement('video');
-  video.src = videoElement.src;
-  video.load();
-
-  for (let i = 0; i < numImages; i++) {
-    const time = (videoDuration / numImages) * i;
-    video.currentTime = time;
-    video.addEventListener('seeked', () => {
-      canvasContext.drawImage(video, 0, 0, imageWidth, imageHeight);
-      sceneImages.push(timelineCanvas.toDataURL());
-      if (i === numImages - 1) {
-        drawTimeline(); // Draw the final timeline
-      }
-    });
-  }
-}
-function drawTimeline() {
-  const context = timelineCanvas.getContext('2d');
-  let index = 0;
-  function drawImage() {
-    if (index < sceneImages.length) {
-      const img = new Image();
-      img.src = sceneImages[index];
-      img.onload = () => {
-        context.drawImage(img, index * 64, 0, 64, 36);
-        index++;
-        requestAnimationFrame(drawImage);
-      };
-    }
-  }
-  requestAnimationFrame(drawImage);
-}
-
-// Zoom functionality for the timeline
-let zoomLevel = 1; // Default zoom level
-const zoomInButton = document.getElementById('zoomIn');
-const zoomOutButton = document.getElementById('zoomOut');
-
-zoomInButton.addEventListener('click', () => {
-  zoomLevel *= 1.2;
-  drawTimeline();
-});
-
-zoomOutButton.addEventListener('click', () => {
-  zoomLevel /= 1.2;
-  drawTimeline();
-});
-
-// Draggable divider functionality with zoom adjustment
-draggableDivider.addEventListener('mousedown', (event) => {
-  document.body.style.cursor = 'col-resize';  // Change cursor to resize
-  let offsetX = event.clientX - draggableDivider.offsetLeft;
-
-  function mouseMoveHandler(e) {
-    let left = e.clientX - offsetX;
-    left = Math.max(0, Math.min(timelineCanvas.width - draggableDivider.offsetWidth, left));
-    draggableDivider.style.left = left + 'px';
-    
-    let adjustedTime = (left / (timelineCanvas.width / zoomLevel)) * videoDuration;
-    videoSlider.value = adjustedTime;
-    videoElement.currentTime = adjustedTime;
-  }
-
-  function mouseUpHandler() {
-    document.removeEventListener('mousemove', mouseMoveHandler);
-    document.removeEventListener('mouseup', mouseUpHandler);
-    document.body.style.cursor = 'default';  // Reset cursor
-  }
-
-  document.addEventListener('mousemove', mouseMoveHandler);
-  document.addEventListener('mouseup', mouseUpHandler);
-});
-
-
-
-// Handle slider time control
-videoSlider.addEventListener('input', (event) => {
-  videoElement.currentTime = event.target.value;
-});
-
-
-videoElement.addEventListener('seeked', () => {
-  audio.currentTime = videoElement.currentTime;
-});
-document.getElementById('volumeSlider').addEventListener('input', (event) => {
-  previewVideo.volume = event.target.value;
-});
-
-
-
-let debounceTimer;
-videoSlider.addEventListener('input', (event) => {
-  clearTimeout(debounceTimer);
-  debounceTimer = setTimeout(() => {
-    videoElement.currentTime = event.target.value;
-  }, 100); // 100ms delay
-});
-
-
-
-</script>
-
-
         
-    </main>
-
+            <div class="container">
+              <h1>Video Upload & Editor</h1>
+              <input type="file" id="videoInput" accept="video/mp4,video/webm,video/ogg" />
+              <button id="uploadButton">Upload Video</button>
+            
+              <div id="videoContainer">
+                <video id="videoPlayer" width="640" controls></video>
+              </div>
+            
+              <div id="controlPanel">
+                <h3>Overlay Control</h3>
+                <button id="fontSizeButton">Font Size</button>
+                <button id="colorButton">Text Color</button>
+                <button id="imageButton">Add Image</button>
+                <button id="overlayButton">Add Overlay</button>
+              </div>
+            
+              <div id="timelineContainer">
+                <canvas id="timelineCanvas"></canvas>
+                <div id="draggableDivider" class="draggable"></div>
+                <input type="range" id="videoSlider" style="display: none;" />
+              </div>
+            
+              <button id="zoomOut" aria-label="Zoom out">-</button>
+              <button id="zoomIn" aria-label="Zoom in">+</button>
+            
+              <input type="range" id="audioVolume" min="0" max="1" step="0.1" value="0.5">
+            
+              <input type="file" id="audioInput" accept="audio/*" style="display: none;" />
+              <video id="previewVideo" controls></video>
+              <input type="range" id="speedControl" min="0.5" max="2" step="0.1" value="1" />
+            
+              <div id="previewContainer">
+                <h3>Preview</h3>
+                <video id="previewVideo" width="640" controls></video>
+              </div>
+            </div>
+          </div>
+        
+        <script>
+        // Event listeners and functions
+        
+        // Video and audio element references
+        let videoElement = document.getElementById('videoPlayer');
+        let previewVideoElement = document.getElementById('previewVideo');
+        let timelineCanvas = document.getElementById('timelineCanvas');
+        let draggableDivider = document.getElementById('draggableDivider');
+        let videoSlider = document.getElementById('videoSlider');
+        let videoFile = null;
+        let videoDuration = 0;
+        let sceneImages = [];
+        
+        // Audio controls
+        let audioPreview = null;  // Will be initialized when audio is selected
+        let audioElement = null;  // If you use a separate audio element for audio
+        
+        // Handle file upload
+        function handleFileUpload() {
+          let input = document.getElementById('videoInput');
+          let file = input.files[0];
+          if (!file) {
+            showToast('Please upload a video file.');
+            return;
+          }
+        
+          if (file.type.includes('video') && file.size < 50 * 1024 * 1024) {
+            videoFile = file;
+            loadVideo();
+          } else {
+            showToast('Invalid video file. Please upload a valid video file no larger than 50MB.');
+          }
+        }
+        
+        // Load the video
+        function loadVideo() {
+          const videoURL = URL.createObjectURL(videoFile);
+          videoElement.src = videoURL;
+          videoElement.load();
+          previewVideoElement.src = videoURL;
+          previewVideoElement.load();
+        
+          videoElement.addEventListener('loadedmetadata', () => {
+            videoDuration = videoElement.duration;
+            videoSlider.max = videoDuration;
+            generateTimelineImages();
+          });
+        }
+        
+        // Event listener for audio volume control
+        document.getElementById('audioVolume').addEventListener('input', (event) => {
+          previewVideoElement.volume = event.target.value;
+        });
+        
+        // Overlay and control buttons
+        document.getElementById('fontSizeButton').addEventListener('click', changeFontSize);
+        document.getElementById('colorButton').addEventListener('click', changeTextColor);
+        document.getElementById('imageButton').addEventListener('click', addImage);
+        document.getElementById('overlayButton').addEventListener('click', addOverlay);
+        
+        // Audio upload handling
+        addAudioButton.addEventListener('click', () => {
+          document.getElementById('audioInput').click();
+        });
+        
+        document.getElementById('audioInput').addEventListener('change', (event) => {
+          const file = event.target.files[0];
+          if (file && file.type.includes('audio')) {
+            audioPreview = new Audio(URL.createObjectURL(file));
+            previewVideoElement.src = videoElement.src;
+            previewVideoElement.load();
+            audioPreview.addEventListener('timeupdate', () => {
+              if (audioPreview) {
+                audioPreview.currentTime = previewVideoElement.currentTime;
+              }
+            });
+          } else {
+            showToast('Please select a valid audio file.');
+          }
+        });
+        
+        // Change font size for overlay text
+        function changeFontSize() {
+          const fontSize = prompt('Enter font size (e.g., 20px):', '20px');
+          if (fontSize) {
+            overlayFontSize = fontSize;
+          }
+        }
+        
+        // Change overlay text color
+        function changeTextColor() {
+          const color = prompt('Enter text color (e.g., red):', 'red');
+          if (color) {
+            overlayColor = color;
+          }
+        }
+        
+        // Add overlay image
+        function addImage() {
+          const imgURL = prompt('Enter image URL for overlay:', '');
+          if (imgURL) {
+            overlayImageURL = imgURL;
+          }
+        }
+        
+        // Add text or image overlay to video
+        function addOverlay() {
+          const text = prompt('Enter text for overlay:');
+          if (!text) return;
+        
+          const overlay = document.createElement('div');
+          overlay.classList.add('overlay');
+          overlay.style.fontSize = overlayFontSize;
+          overlay.style.color = overlayColor;
+          overlay.textContent = text;
+        
+          if (overlayImageURL) {
+            const image = new Image();
+            image.src = overlayImageURL;
+            overlay.appendChild(image);
+          }
+        
+          document.getElementById('videoContainer').appendChild(overlay);
+        }
+        
+        // Preview media
+        function previewMedia() {
+          previewVideoElement.src = videoElement.src;
+          previewVideoElement.load();
+          audioPreview = new Audio();
+          previewVideoElement.addEventListener('play', () => {
+            audioPreview.play();
+          });
+        }
+        
+        // Generate timeline images
+        function generateTimelineImages() {
+          const numImages = 10;
+          sceneImages = [];
+          const imageWidth = 64;
+          const imageHeight = 36;
+          const canvasContext = timelineCanvas.getContext('2d');
+          const video = document.createElement('video');
+          video.src = videoElement.src;
+          video.load();
+        
+          for (let i = 0; i < numImages; i++) {
+            const time = (videoDuration / numImages) * i;
+            video.currentTime = time;
+            video.addEventListener('seeked', () => {
+              canvasContext.drawImage(video, 0, 0, imageWidth, imageHeight);
+              sceneImages.push(timelineCanvas.toDataURL());
+              if (i === numImages - 1) {
+                drawTimeline();
+              }
+            });
+          }
+        }
+        
+        function drawTimeline() {
+          const context = timelineCanvas.getContext('2d');
+          let index = 0;
+          function drawImage() {
+            if (index < sceneImages.length) {
+              const img = new Image();
+              img.src = sceneImages[index];
+              img.onload = () => {
+                context.drawImage(img, index * 64, 0, 64, 36);
+                index++;
+                requestAnimationFrame(drawImage);
+              };
+            }
+          }
+          requestAnimationFrame(drawImage);
+        }
+        
+        // Zoom functionality
+        let zoomLevel = 1;
+        document.getElementById('zoomIn').addEventListener('click', () => {
+          zoomLevel *= 1.2;
+          drawTimeline();
+        });
+        
+        document.getElementById('zoomOut').addEventListener('click', () => {
+          zoomLevel /= 1.2;
+          drawTimeline();
+        });
+        
+        // Draggable divider logic
+        draggableDivider.addEventListener('mousedown', (event) => {
+          document.body.style.cursor = 'col-resize';
+          let offsetX = event.clientX - draggableDivider.offsetLeft;
+        
+          function mouseMoveHandler(e) {
+            let left = e.clientX - offsetX;
+            left = Math.max(0, Math.min(timelineCanvas.width - draggableDivider.offsetWidth, left));
+            draggableDivider.style.left = left + 'px';
+        
+            let adjustedTime = (left / (timelineCanvas.width / zoomLevel)) * videoDuration;
+            videoSlider.value = adjustedTime;
+            videoElement.currentTime = adjustedTime;
+          }
+        
+          function mouseUpHandler() {
+            document.removeEventListener('mousemove', mouseMoveHandler);
+            document.removeEventListener('mouseup', mouseUpHandler);
+            document.body.style.cursor = 'default';
+          }
+        
+          document.addEventListener('mousemove', mouseMoveHandler);
+          document.addEventListener('mouseup', mouseUpHandler);
+        });
+        
+        // Slider time control
+        videoSlider.addEventListener('input', (event) => {
+          videoElement.currentTime = event.target.value;
+        });
+        
+        </script>
+        </main>
+        
     <!-- Footer -->
     <footer id="dynamic-footer"></footer>
     
