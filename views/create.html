@@ -325,6 +325,54 @@ main #overlayControls {
     width: 80%; max-width: 400px;
     text-align: center;
   }
+
+
+  main .syncedTime {
+    color: white;
+    text-align: center;
+    overflow: hidden;
+}
+
+#mainVideoHolder {
+  position: relative;
+  width: 300px; /* Example size */
+  height: 500px;
+  background-color: black;
+  overflow: hidden;
+  margin: auto;
+  right: 0;
+  left: 0;
+  top: 0;
+  bottom: 0;
+}
+
+#videoContainer {
+  position: relative;
+  width: 100%; /* Example size */
+  height: 500px;
+  overflow: hidden;
+  background-color: rgba(0, 0, 0, 0.16);
+
+}
+
+#videoPlayer,
+#videoCanvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%; /* Match videoContainer width */
+  height: 100%; /* Match videoContainer height */
+  object-fit: contain; /* Default to 'fit' mode */
+margin: auto;
+}
+
+
+
+
+
+
 </style>
 
 <main id="main-content">
@@ -342,7 +390,8 @@ main #overlayControls {
   <input type="file" id="videoInput" accept="video/*" title="Select a video to upload" aria-label="Select a video to upload" />
   <input type="file" id="audioInput" accept="audio/*" class="hidden" title="Select an audio file to add" aria-label="Select an audio file to add" />
   <input type="file" id="videoSliceInput" accept="video/*" title="Select a video slice to append" aria-label="Select a video slice to append" />
-  
+  <button id="fitButton">Fit</button>
+  <button id="coverButton">Cover</button>
   <!-- Add Trash Can Icon -->
   <i id="trashIcon" class="hidden" style="position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); font-size: 40px; color: red;" 
      aria-label="Delete overlay" title="Delete Overlay">🗑️</i>
@@ -419,132 +468,153 @@ main #overlayControls {
     <button id="closeEditModal" aria-label="Close the edit modal">Cancel</button>
   </div>
 </div>
-
 <script>
-// Core Elements
-const videoPlayer = document.getElementById("videoPlayer");
-const videoInput = document.getElementById("videoInput");
-const downloadButton = document.getElementById("downloadButton");
-const addAudioButton = document.getElementById("addAudioButton");
-const audioInput = document.getElementById("audioInput");
-const appendButton = document.getElementById("appendVideoButton");
-const undoButton = document.getElementById("undoButton");
-const redoButton = document.getElementById("redoButton");
+  // Core Elements
+  const videoInput = document.getElementById("videoInput");
+  const downloadButton = document.getElementById("downloadButton");
+  const addAudioButton = document.getElementById("addAudioButton");
+  const audioInput = document.getElementById("audioInput");
+  const appendButton = document.getElementById("appendVideoButton");
+  const undoButton = document.getElementById("undoButton");
+  const redoButton = document.getElementById("redoButton");
+  const videoContainer = document.getElementById("videoContainer");
 
+  const videoCanvas = document.getElementById("videoCanvas");
+  const ctx = videoCanvas.getContext("2d");
 
-const videoContainer = document.getElementById("videoContainer");
+  const videoPlayer = document.getElementById("videoPlayer");
+const fitButton = document.getElementById("fitButton");
+const coverButton = document.getElementById("coverButton");
 
-const videoCanvas = document.getElementById("videoCanvas");
+// Default video settings on load
+window.addEventListener("load", () => {
+  setVideoSize(300, 500); // Set default container size
+  videoPlayer.style.objectFit = "contain"; // Default to 'fit'
+});
 
-  const canvas = document.getElementById("videoCanvas");
-  const ctx = canvas.getContext("2d");
+// Function to set video container and player size
+function setVideoSize(width, height) {
+  const videoContainer = document.getElementById("videoContainer");
+  videoContainer.style.width = `${width}px`;
+  videoContainer.style.height = `${height}px`;
+}
+
+// Event listeners for scaling buttons
+fitButton.addEventListener("click", () => {
+  videoPlayer.style.objectFit = "contain"; // Fit mode
+});
+
+coverButton.addEventListener("click", () => {
+  videoPlayer.style.objectFit = "cover"; // Cover mode
+});
+ 
+
+  // Function to set canvas size to match container
+function setCanvasSize() {
+  videoCanvas.width = videoContainer.offsetWidth;
+  videoCanvas.height = videoContainer.offsetHeight;
+}
+
+// Set canvas size on load and resize
+window.addEventListener("load", setCanvasSize);
+window.addEventListener("resize", setCanvasSize);
 
   let mediaRecorder;
   let recordedChunks = [];
   let textOverlays = [];
   let imageOverlays = [];
-  
-    // State and Stacks
-    let undoStack = [];
-let redoStack = [];
-let overlays = [];
-let audioURL = null;
-
-
-let editedVideoBlob = null;
-let videoURL = null;
-    let currentAction = null;
-    let startTime = 0; // in seconds
-let stopTime = 5; // in seconds
-
-
-// Timeline div elements
-const startDiv = document.getElementById('startDiv');
-const stopDiv = document.getElementById('stopDiv');
-
-
-
-    let videoStream = null;
-let offsetX, offsetY; // Offset for drag positioning
-
+  // State and Stacks
+  let undoStack = [];
+  let redoStack = [];
+  let overlays = [];
+  let audioURL = null;
+  let editedVideoBlob = null;
+  let videoURL = null;
+  let currentAction = null;
+  let startTime = 0; // in seconds
+  let stopTime = 5; // in seconds
+  // Timeline div elements
+  const startDiv = document.getElementById('startDiv');
+  const stopDiv = document.getElementById('stopDiv');
+  let videoStream = null;
+  let offsetX, offsetY; // Offset for drag positioning
   videoInput.addEventListener("change", (e) => {
     const file = e.target.files[0];
     if (file) {
       const url = URL.createObjectURL(file);
-videoPlayer.src = url;
-videoPlayer.load();  // Ensures the video metadata is loaded properly
-
-      canvas.width = videoPlayer.videoWidth || 640;
-      canvas.height = videoPlayer.videoHeight || 360;
+      videoPlayer.src = url;
+      videoPlayer.load(); // Ensures the video metadata is loaded properly
+      videoCanvas.width = videoPlayer.videoWidth || 640;
+      videoCanvas.height = videoPlayer.videoHeight || 360;
       downloadButton.disabled = false;
     }
   });
 
   function renderVideoFrame() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.drawImage(videoPlayer, 0, 0, canvas.width, canvas.height);
-
+    ctx.clearRect(0, 0, videoCanvas.width, videoCanvas.height);
+    ctx.drawImage(videoPlayer, 0, 0, videoCanvas.width, videoCanvas.height);
     // Render text overlays
-    textOverlays.forEach(({ text, x, y, color, fontSize, fontFamily }) => {
+    textOverlays.forEach(({
+      text,
+      x,
+      y,
+      color,
+      fontSize,
+      fontFamily
+    }) => {
       ctx.fillStyle = color;
       ctx.font = `${fontSize}px ${fontFamily}`;
       ctx.fillText(text, x, y);
     });
-
     // Render image overlays
-    imageOverlays.forEach(({ image, x, y, width, height }) => {
+    imageOverlays.forEach(({
+      image,
+      x,
+      y,
+      width,
+      height
+    }) => {
       ctx.drawImage(image, x, y, width, height);
     });
-
-    if (videoPlayer.paused || videoPlayer.ended) return;  // Stop if video is paused or ended
-requestAnimationFrame(renderVideoFrame);
+    if (videoPlayer.paused || videoPlayer.ended) return; // Stop if video is paused or ended
+    requestAnimationFrame(renderVideoFrame);
   }
-
-
-
   downloadButton.addEventListener("click", () => {
     recordedChunks = [];
-    mediaRecorder = new MediaRecorder(canvas.captureStream());
+    mediaRecorder = new MediaRecorder(videoCanvas.captureStream());
     mediaRecorder.ondataavailable = (e) => recordedChunks.push(e.data);
     mediaRecorder.onstop = () => {
-  const blob = new Blob(recordedChunks, { type: "video/webm" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = `edited-video-${new Date().toISOString()}.webm`;
-  a.click();
-};
+      const blob = new Blob(recordedChunks, {
+        type: "video/webm"
+      });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `edited-video-${new Date().toISOString()}.webm`;
+      a.click();
+    };
     mediaRecorder.start();
     videoPlayer.play();
-
     setTimeout(() => {
       mediaRecorder.stop();
     }, videoPlayer.duration * 1000);
   });
-
   videoPlayer.addEventListener("play", () => renderVideoFrame());
+  // Load Video
+  // Add Text Overlay
+  document.getElementById("textOverlayButton").addEventListener("click", () => {
+    showModal("textOverlayModal");
+  });
 
-
-// Load Video
-
-
-
-
-// Add Text Overlay
-document.getElementById("textOverlayButton").addEventListener("click", () => {
-  showModal("textOverlayModal");
-});
-
-function addOverlay(type) {
-  if (type === "text") {
-    const text = document.getElementById("overlayTextInput").value;
-    const color = document.getElementById("textColorInput").value;
-    const fontSize = document.getElementById("fontSizeInput").value + "px";
-    const fontFamily = document.getElementById("fontTypeInput").value;
-
-    const overlay = document.createElement("div");
-    overlay.textContent = text;
-    overlay.style.cssText = `
+  function addOverlay(type) {
+    if (type === "text") {
+      const text = document.getElementById("overlayTextInput").value;
+      const color = document.getElementById("textColorInput").value;
+      const fontSize = document.getElementById("fontSizeInput").value + "px";
+      const fontFamily = document.getElementById("fontTypeInput").value;
+      const overlay = document.createElement("div");
+      overlay.textContent = text;
+      overlay.style.cssText = `
 overlay.style.position = "absolute";
 overlay.style.color = color;
 overlay.style.fontSize = fontSize;
@@ -553,26 +623,27 @@ overlay.style.top = "10%";
 overlay.style.left = "10%";
 
     `;
-    makeDraggable(overlay);
-    videoContainer.appendChild(overlay);
-    overlays.push(overlay);
-    saveActionState("addOverlay", { element: overlay });
-    hideModal("textOverlayModal");
+      makeDraggable(overlay);
+      videoContainer.appendChild(overlay);
+      overlays.push(overlay);
+      saveActionState("addOverlay", {
+        element: overlay
+      });
+      hideModal("textOverlayModal");
+    }
   }
-}
-function previewOverlay(type) {
-  const previewContainer = document.getElementById("previewOverlayContainer");
-  previewContainer.innerHTML = ''; // Clear previous preview
 
-  if (type === "text") {
-    const text = document.getElementById("overlayTextInput").value;
-    const color = document.getElementById("textColorInput").value;
-    const fontSize = document.getElementById("fontSizeInput").value + "px";
-    const fontFamily = document.getElementById("fontTypeInput").value;
-    
-    const preview = document.createElement("div");
-    preview.textContent = text;
-    preview.style.cssText = `
+  function previewOverlay(type) {
+    const previewContainer = document.getElementById("previewOverlayContainer");
+    previewContainer.innerHTML = ''; // Clear previous preview
+    if (type === "text") {
+      const text = document.getElementById("overlayTextInput").value;
+      const color = document.getElementById("textColorInput").value;
+      const fontSize = document.getElementById("fontSizeInput").value + "px";
+      const fontFamily = document.getElementById("fontTypeInput").value;
+      const preview = document.createElement("div");
+      preview.textContent = text;
+      preview.style.cssText = `
       position: absolute;
       color: ${color};
       font-size: ${fontSize};
@@ -580,634 +651,531 @@ function previewOverlay(type) {
       top: 10%;
       left: 10%;
     `;
-    previewContainer.appendChild(preview);
+      previewContainer.appendChild(preview);
+    }
   }
-}
-
-// Add event listeners for live preview
-document.querySelectorAll("#overlayTextInput, #textColorInput, #fontSizeInput, #fontTypeInput")
-  .forEach((el) => {
-    el.addEventListener("input", () => previewOverlay("text"));
+  // Add event listeners for live preview
+  document.querySelectorAll("#overlayTextInput, #textColorInput, #fontSizeInput, #fontTypeInput")
+    .forEach((el) => {
+      el.addEventListener("input", () => previewOverlay("text"));
+    });
+  // Add event listener
+  document.getElementById("saveTextOverlay").addEventListener("click", () => addOverlay("text"));
+  // Add Image Overlay
+  document.getElementById("imageButton").addEventListener("click", () => {
+    showModal("imageModal");
   });
-
-// Add event listener
-document.getElementById("saveTextOverlay").addEventListener("click", () => addOverlay("text"));
-
-
-// Add Image Overlay
-document.getElementById("imageButton").addEventListener("click", () => {
-  showModal("imageModal");
-});
-
-// Add Text Overlay
-// Show and hide edit modal
-const editModal = document.getElementById('editOverlayModal');
-const saveEditButton = document.getElementById('saveEdit');
-const closeEditButton = document.getElementById('closeEditModal');
-
-// Track the active overlay
-let activeOverlay = null;
-
-// Add Text Overlay
-document.getElementById("saveTextOverlay").addEventListener("click", () => {
-  const text = document.getElementById("overlayTextInput").value;
-  const color = document.getElementById("textColorInput").value;
-  const fontSize = document.getElementById("fontSizeInput").value;
-
-  const overlay = document.createElement("div");
-  overlay.textContent = text;
-  overlay.style.position = "absolute";
-  overlay.style.color = color;
-  overlay.style.fontSize = `${fontSize}px`;
-  overlay.style.top = "10%";
-  overlay.style.left = "10%";
-
-  // Add a unique ID and dataset for easy identification
-  overlay.id = `overlay-${Date.now()}`; // Unique ID based on current timestamp
-  overlay.dataset.type = 'text';
-  overlay.dataset.content = text;
-
-  makeDraggable(overlay);
-  videoContainer.appendChild(overlay);
-  overlays.push(overlay);
-  saveActionState("addOverlay", { element: overlay });
-});
-
-// Add Image Overlay
-document.getElementById("saveImageOverlay").addEventListener("click", () => {
-  const imageURL = document.getElementById("imageURLInput").value;
-  const img = document.createElement("img");
-  img.src = imageURL;
-  img.style.position = "absolute";
-  img.style.width = "100px";
-  img.style.top = "10%";
-  img.style.left = "10%";
-
-  // Add a unique ID and dataset for easy identification
-  img.id = `overlay-${Date.now()}`; // Unique ID based on current timestamp
-  img.dataset.type = 'image';
-  img.dataset.src = imageURL;
-
-  makeDraggable(img);
-
-  videoContainer.appendChild(img);
-  overlays.push(img);
-  saveToUndo("addOverlay", img);
-  hideModal("imageModal");
-});
-
-// Handle editing of overlays
-function makeDraggable(overlay) {
-  overlay.classList.add("draggable");
-  overlay.setAttribute("draggable", true);
-
-  overlay.addEventListener("dragstart", (e) => {
-    draggedOverlay = overlay;
-    setTimeout(() => {
-      overlay.style.opacity = "0.5"; // Fade the overlay when dragging starts
-    }, 0);
-
-    const offsetX = e.clientX - overlay.getBoundingClientRect().left;
-    const offsetY = e.clientY - overlay.getBoundingClientRect().top;
-    overlay.dataset.offsetX = offsetX;
-    overlay.dataset.offsetY = offsetY;
+  // Add Text Overlay
+  // Show and hide edit modal
+  const editModal = document.getElementById('editOverlayModal');
+  const saveEditButton = document.getElementById('saveEdit');
+  const closeEditButton = document.getElementById('closeEditModal');
+  // Track the active overlay
+  let activeOverlay = null;
+  // Add Text Overlay
+  document.getElementById("saveTextOverlay").addEventListener("click", () => {
+    const text = document.getElementById("overlayTextInput").value;
+    const color = document.getElementById("textColorInput").value;
+    const fontSize = document.getElementById("fontSizeInput").value;
+    const overlay = document.createElement("div");
+    overlay.textContent = text;
+    overlay.style.position = "absolute";
+    overlay.style.color = color;
+    overlay.style.fontSize = `${fontSize}px`;
+    overlay.style.top = "10%";
+    overlay.style.left = "10%";
+    // Add a unique ID and dataset for easy identification
+    overlay.id = `overlay-${Date.now()}`; // Unique ID based on current timestamp
+    overlay.dataset.type = 'text';
+    overlay.dataset.content = text;
+    makeDraggable(overlay);
+    videoContainer.appendChild(overlay);
+    overlays.push(overlay);
+    saveActionState("addOverlay", {
+      element: overlay
+    });
   });
-
-  overlay.addEventListener("dragend", () => {
-    setTimeout(() => {
-      draggedOverlay.style.opacity = "1";
-      draggedOverlay = null;
-    }, 0);
+  // Add Image Overlay
+  document.getElementById("saveImageOverlay").addEventListener("click", () => {
+    const imageURL = document.getElementById("imageURLInput").value;
+    const img = document.createElement("img");
+    img.src = imageURL;
+    img.style.position = "absolute";
+    img.style.width = "100px";
+    img.style.top = "10%";
+    img.style.left = "10%";
+    // Add a unique ID and dataset for easy identification
+    img.id = `overlay-${Date.now()}`; // Unique ID based on current timestamp
+    img.dataset.type = 'image';
+    img.dataset.src = imageURL;
+    makeDraggable(img);
+    videoContainer.appendChild(img);
+    overlays.push(img);
+    saveToUndo("addOverlay", img);
+    hideModal("imageModal");
   });
-
-  overlay.addEventListener("drag", (e) => {
-    if (draggedOverlay) {
-      const offsetX = parseFloat(draggedOverlay.dataset.offsetX);
-      const offsetY = parseFloat(draggedOverlay.dataset.offsetY);
-
-      const x = e.clientX - videoContainer.offsetLeft - offsetX;
-      const y = e.clientY - videoContainer.offsetTop - offsetY;
-
-      draggedOverlay.style.left = `${x}px`;
-      draggedOverlay.style.top = `${y}px`;
-
-      if (y + draggedOverlay.offsetHeight > videoContainer.offsetHeight - 50) {
-        trashIcon.classList.remove("hidden");
-      } else {
+  // Handle editing of overlays
+  function makeDraggable(overlay) {
+    overlay.classList.add("draggable");
+    overlay.setAttribute("draggable", true);
+    overlay.addEventListener("dragstart", (e) => {
+      draggedOverlay = overlay;
+      setTimeout(() => {
+        overlay.style.opacity = "0.5"; // Fade the overlay when dragging starts
+      }, 0);
+      const offsetX = e.clientX - overlay.getBoundingClientRect().left;
+      const offsetY = e.clientY - overlay.getBoundingClientRect().top;
+      overlay.dataset.offsetX = offsetX;
+      overlay.dataset.offsetY = offsetY;
+    });
+    overlay.addEventListener("dragend", () => {
+      setTimeout(() => {
+        draggedOverlay.style.opacity = "1";
+        draggedOverlay = null;
+      }, 0);
+    });
+    overlay.addEventListener("drag", (e) => {
+      if (draggedOverlay) {
+        const offsetX = parseFloat(draggedOverlay.dataset.offsetX);
+        const offsetY = parseFloat(draggedOverlay.dataset.offsetY);
+        const x = e.clientX - videoContainer.offsetLeft - offsetX;
+        const y = e.clientY - videoContainer.offsetTop - offsetY;
+        draggedOverlay.style.left = `${x}px`;
+        draggedOverlay.style.top = `${y}px`;
+        if (y + draggedOverlay.offsetHeight > videoContainer.offsetHeight - 50) {
+          trashIcon.classList.remove("hidden");
+        } else {
+          trashIcon.classList.add("hidden");
+        }
+      }
+    });
+    overlay.addEventListener("dragover", (e) => {
+      e.preventDefault(); // Enable drop
+    });
+    overlay.addEventListener("drop", (e) => {
+      if (draggedOverlay) {
+        const overlayRect = draggedOverlay.getBoundingClientRect();
+        const trashRect = trashIcon.getBoundingClientRect();
+        if (overlayRect.bottom >= trashRect.top && overlayRect.top <= trashRect.bottom) {
+          videoContainer.removeChild(draggedOverlay); // Remove the overlay
+        }
         trashIcon.classList.add("hidden");
       }
-    }
-  });
-
-  overlay.addEventListener("dragover", (e) => {
-    e.preventDefault(); // Enable drop
-  });
-
-  overlay.addEventListener("drop", (e) => {
-    if (draggedOverlay) {
-      const overlayRect = draggedOverlay.getBoundingClientRect();
-      const trashRect = trashIcon.getBoundingClientRect();
-
-      if (overlayRect.bottom >= trashRect.top && overlayRect.top <= trashRect.bottom) {
-        videoContainer.removeChild(draggedOverlay); // Remove the overlay
+    });
+    // Add click listener to mark the overlay as active and open the edit modal
+    overlay.addEventListener("click", (e) => {
+      e.stopPropagation(); // Prevent the parent click event from triggering
+      // Set overlay as active
+      if (activeOverlay) {
+        activeOverlay.classList.remove('active'); // Remove previous active state
       }
-      trashIcon.classList.add("hidden");
+      overlay.classList.add('active');
+      activeOverlay = overlay;
+      // Open the edit modal
+      openEditModal(overlay);
+    });
+  }
+  // Open the Edit Modal and populate it with current overlay data
+  // Open the edit modal with real-time updates
+  function openEditModal(overlay) {
+    if (overlay.dataset.type === "text") {
+      document.getElementById("editTextInput").value = overlay.dataset.content;
+      document.getElementById("editColorInput").value = overlay.style.color;
+      document.getElementById("editFontSizeInput").value = parseInt(overlay.style.fontSize);
+    }
+    editModal.classList.add('show'); // Show the modal with animation
+    // Set focus to the first input field when modal is opened
+    document.getElementById("editTextInput").focus();
+  }
+  // Save the edited overlay with real-time feedback
+  saveEditButton.addEventListener("click", () => {
+    if (activeOverlay) {
+      const text = document.getElementById("editTextInput").value;
+      const color = document.getElementById("editColorInput").value;
+      const fontSize = document.getElementById("editFontSizeInput").value;
+      if (activeOverlay.dataset.type === "text") {
+        activeOverlay.textContent = text;
+        activeOverlay.style.color = color;
+        activeOverlay.style.fontSize = `${fontSize}px`;
+        activeOverlay.dataset.content = text;
+      }
+      editModal.classList.remove('show'); // Hide modal with animation
     }
   });
-
-  // Add click listener to mark the overlay as active and open the edit modal
-  overlay.addEventListener("click", (e) => {
-    e.stopPropagation(); // Prevent the parent click event from triggering
-
-    // Set overlay as active
+  // Close edit modal without saving
+  closeEditButton.addEventListener("click", () => {
+    editModal.style.display = "none"; // Hide modal
     if (activeOverlay) {
-      activeOverlay.classList.remove('active'); // Remove previous active state
+      activeOverlay.classList.remove('active'); // Remove active state
     }
-    overlay.classList.add('active');
-    activeOverlay = overlay;
-
-    // Open the edit modal
-    openEditModal(overlay);
   });
-}
-
-// Open the Edit Modal and populate it with current overlay data
-// Open the edit modal with real-time updates
-function openEditModal(overlay) {
-  if (overlay.dataset.type === "text") {
-    document.getElementById("editTextInput").value = overlay.dataset.content;
-    document.getElementById("editColorInput").value = overlay.style.color;
-    document.getElementById("editFontSizeInput").value = parseInt(overlay.style.fontSize);
-  }
-
-  editModal.classList.add('show'); // Show the modal with animation
-
-  // Set focus to the first input field when modal is opened
-  document.getElementById("editTextInput").focus();
-}
-
-// Save the edited overlay with real-time feedback
-saveEditButton.addEventListener("click", () => {
-  if (activeOverlay) {
-    const text = document.getElementById("editTextInput").value;
-    const color = document.getElementById("editColorInput").value;
-    const fontSize = document.getElementById("editFontSizeInput").value;
-
-    if (activeOverlay.dataset.type === "text") {
-      activeOverlay.textContent = text;
-      activeOverlay.style.color = color;
-      activeOverlay.style.fontSize = `${fontSize}px`;
-      activeOverlay.dataset.content = text;
+  // Close the modal if clicked outside of it
+  window.addEventListener('click', (e) => {
+    if (e.target === editModal) {
+      editModal.style.display = "none";
+      if (activeOverlay) {
+        activeOverlay.classList.remove('active');
+      }
     }
-
-    editModal.classList.remove('show'); // Hide modal with animation
-  }
-});
-
-
-// Close edit modal without saving
-closeEditButton.addEventListener("click", () => {
-  editModal.style.display = "none"; // Hide modal
-  if (activeOverlay) {
-    activeOverlay.classList.remove('active'); // Remove active state
-  }
-});
-
-// Close the modal if clicked outside of it
-window.addEventListener('click', (e) => {
-  if (e.target === editModal) {
-    editModal.style.display = "none";
-    if (activeOverlay) {
-      activeOverlay.classList.remove('active');
+  });
+  // Undo/Redo Functionality
+  function saveToUndo(action, data) {
+    undoStack.push({
+      action,
+      data
+    });
+    redoStack = []; // Clear redo stack on new action
+    // Limit the undo stack size to 50 actions
+    if (undoStack.length > 50) {
+      undoStack.shift(); // Remove the oldest action to maintain a fixed size
     }
   }
-});
 
-
-// Undo/Redo Functionality
-function saveToUndo(action, data) {
-  undoStack.push({ action, data });
-  redoStack = [];  // Clear redo stack on new action
-
-  // Limit the undo stack size to 50 actions
-  if (undoStack.length > 50) {
-    undoStack.shift();  // Remove the oldest action to maintain a fixed size
+  function showBeforeAfter(prevSrc, newSrc) {
+    const beforeVideo = document.getElementById("beforeVideo");
+    const afterVideo = document.getElementById("afterVideo");
+    beforeVideo.src = prevSrc;
+    afterVideo.src = newSrc;
   }
-}
-
-
-
-function showBeforeAfter(prevSrc, newSrc) {
-  const beforeVideo = document.getElementById("beforeVideo");
-  const afterVideo = document.getElementById("afterVideo");
-
-  beforeVideo.src = prevSrc;
-  afterVideo.src = newSrc;
-}
-
-// Update Undo/Redo to call comparison
-function saveActionState(actionType, actionData) {
-  const state = { action: actionType, data: actionData };
-  
-  undoStack.push(state);
-  redoStack = [];  // Clear redo stack on new action
-  
-  toggleUndoRedo();  // Update button states
-  
-  // Update before/after view if needed
-  if (actionData.prevVideoSrc && actionData.newVideoSrc) {
-    showBeforeAfter(actionData.prevVideoSrc, actionData.newVideoSrc);
-  }
-}
-
-// Helper Function: Toggle Undo/Redo Buttons
-function toggleUndoRedo() {
-  undoButton.disabled = undoStack.length === 0;
-  redoButton.disabled = redoStack.length === 0;
-
-  undoButton.title = undoStack.length ? "Undo Last Action" : "Nothing to Undo";
-  redoButton.title = redoStack.length ? "Redo Last Action" : "Nothing to Redo";
-}
-
-
-
-// Function: Undo Action
-function undoAction() {
-  if (undoStack.length > 0) {
-    const { action, data } = undoStack.pop();
-
-    switch (action) {
-      case "addOverlay":
-        data.element.remove();
-        overlays = overlays.filter((el) => el !== data.element);
-        break;
-
-      case "moveOverlay":
-        data.element.style.left = data.prevX;
-        data.element.style.top = data.prevY;
-        break;
-
-      case "addAudio":
-        videoPlayer.src = data.prevVideoSrc; // Revert to previous video
-        break;
-
-      case "sliceVideo":
-      case "appendMedia":
-        videoPlayer.src = data.prevVideoSrc; // Revert video modification
-        break;
+  // Update Undo/Redo to call comparison
+  function saveActionState(actionType, actionData) {
+    const state = {
+      action: actionType,
+      data: actionData
+    };
+    undoStack.push(state);
+    redoStack = []; // Clear redo stack on new action
+    toggleUndoRedo(); // Update button states
+    // Update before/after view if needed
+    if (actionData.prevVideoSrc && actionData.newVideoSrc) {
+      showBeforeAfter(actionData.prevVideoSrc, actionData.newVideoSrc);
     }
-
-    redoStack.push({ action, data });
-    toggleUndoRedo();
   }
-}
-
-// Function: Redo Action
-function redoAction() {
-  if (redoStack.length > 0) {
-    const { action, data } = redoStack.pop();
-
-    switch (action) {
-      case "addOverlay":
-        videoContainer.appendChild(data.element);
-        overlays.push(data.element);
-        break;
-
-      case "moveOverlay":
-        data.element.style.left = data.newX;
-        data.element.style.top = data.newY;
-        break;
-
-      case "addAudio":
-        mergeAudioWithVideo(data.audioSrc);
-        break;
-
-      case "sliceVideo":
-      case "appendMedia":
-        videoPlayer.src = data.newVideoSrc; // Re-apply video modification
-        break;
+  // Helper Function: Toggle Undo/Redo Buttons
+  function toggleUndoRedo() {
+    undoButton.disabled = undoStack.length === 0;
+    redoButton.disabled = redoStack.length === 0;
+    undoButton.title = undoStack.length ? "Undo Last Action" : "Nothing to Undo";
+    redoButton.title = redoStack.length ? "Redo Last Action" : "Nothing to Redo";
+  }
+  // Function: Undo Action
+  function undoAction() {
+    if (undoStack.length > 0) {
+      const {
+        action,
+        data
+      } = undoStack.pop();
+      switch (action) {
+        case "addOverlay":
+          data.element.remove();
+          overlays = overlays.filter((el) => el !== data.element);
+          break;
+        case "moveOverlay":
+          data.element.style.left = data.prevX;
+          data.element.style.top = data.prevY;
+          break;
+        case "addAudio":
+          videoPlayer.src = data.prevVideoSrc; // Revert to previous video
+          break;
+        case "sliceVideo":
+        case "appendMedia":
+          videoPlayer.src = data.prevVideoSrc; // Revert video modification
+          break;
+      }
+      redoStack.push({
+        action,
+        data
+      });
+      toggleUndoRedo();
     }
-
-    undoStack.push({ action, data });
-    toggleUndoRedo();
   }
-}
+  // Function: Redo Action
+  function redoAction() {
+    if (redoStack.length > 0) {
+      const {
+        action,
+        data
+      } = redoStack.pop();
+      switch (action) {
+        case "addOverlay":
+          videoContainer.appendChild(data.element);
+          overlays.push(data.element);
+          break;
+        case "moveOverlay":
+          data.element.style.left = data.newX;
+          data.element.style.top = data.newY;
+          break;
+        case "addAudio":
+          mergeAudioWithVideo(data.audioSrc);
+          break;
+        case "sliceVideo":
+        case "appendMedia":
+          videoPlayer.src = data.newVideoSrc; // Re-apply video modification
+          break;
+      }
+      undoStack.push({
+        action,
+        data
+      });
+      toggleUndoRedo();
+    }
+  }
+  // Event Listeners
+  undoButton.addEventListener("click", undoAction);
+  redoButton.addEventListener("click", redoAction);
+  // Modal Helpers
+  function showModal(modalId) {
+    const modal = document.getElementById(modalId);
+    modal.classList.add("show");
+    modal.setAttribute("aria-hidden", "false");
+    modal.querySelector("input, button").focus(); // Focus first input/button for accessibility
+  }
 
-   // Event Listeners
-undoButton.addEventListener("click", undoAction);
-redoButton.addEventListener("click", redoAction); 
-
-
-
-
-// Modal Helpers
-function showModal(modalId) {
-  const modal = document.getElementById(modalId);
-  modal.classList.add("show");
-  modal.setAttribute("aria-hidden", "false");
-  modal.querySelector("input, button").focus();  // Focus first input/button for accessibility
-}
-
-function hideModal(modalId) {
-  const modal = document.getElementById(modalId);
-  modal.classList.remove("show");
-  modal.setAttribute("aria-hidden", "true");
-}
-
-
+  function hideModal(modalId) {
+    const modal = document.getElementById(modalId);
+    modal.classList.remove("show");
+    modal.setAttribute("aria-hidden", "true");
+  }
 </script>
-
-
-
-
-
 
 <script>
-
-    // Add Audio to Video
-
-// Add Audio to Video
-addAudioButton.addEventListener("click", () => {
-  audioInput.click();
-});
-
-audioInput.addEventListener("change", (e) => {
-  const audioFile = e.target.files[0];
-  if (audioFile) {
-    const audioURL = URL.createObjectURL(audioFile);
-    const audioPreview = new Audio(audioURL);
-    
-    // Display audio preview controls
-    const audioPreviewContainer = document.getElementById("audioPreviewContainer");
-    audioPreviewContainer.innerHTML = `<audio controls><source src="${audioURL}" type="audio/mp3"></audio>`;
-    
-    // Optional: Automatically merge audio with video if the user confirms.
-    audioPreview.oncanplaythrough = () => {
-      mergeAudioWithVideo(audioURL);
-      saveActionState("addAudio", { audioSrc: audioURL });
-    };
-  }
-});
-
-
-async function mergeAudioWithVideo(audioSrc) {
-  const audio = new Audio(audioSrc);
-  const stream = videoPlayer.captureStream();
-  const audioStream = audio.captureStream();
-
-  await audio.play(); // Ensure audio starts playing before recording
-
-  const combinedStream = new MediaStream([...stream.getTracks(), ...audioStream.getAudioTracks()]);
-  const mediaRecorder = new MediaRecorder(combinedStream);
-  const chunks = [];
-
-  return new Promise((resolve) => {
-    mediaRecorder.ondataavailable = (e) => chunks.push(e.data);
-    mediaRecorder.onstop = () => {
-      const blob = new Blob(chunks, { type: "video/webm" });
-      const mergedURL = URL.createObjectURL(blob);
-      videoPlayer.src = mergedURL;
-      resolve(mergedURL);
-    };
-
-    mediaRecorder.start();
-    setTimeout(() => mediaRecorder.stop(), videoPlayer.duration * 1000);
+  // Add Audio to Video
+  // Add Audio to Video
+  addAudioButton.addEventListener("click", () => {
+    audioInput.click();
   });
-}
-
-
-
-
-    function sliceVideo(startTime, endTime) {
-      videoPlayer.currentTime = startTime;
-
-      const stream = videoPlayer.captureStream();
-      const mediaRecorder = new MediaRecorder(stream);
-      const chunks = [];
-
+  audioInput.addEventListener("change", (e) => {
+    const audioFile = e.target.files[0];
+    if (audioFile) {
+      const audioURL = URL.createObjectURL(audioFile);
+      const audioPreview = new Audio(audioURL);
+      // Display audio preview controls
+      const audioPreviewContainer = document.getElementById("audioPreviewContainer");
+      audioPreviewContainer.innerHTML = `<audio controls><source src="${audioURL}" type="audio/mp3"></audio>`;
+      // Optional: Automatically merge audio with video if the user confirms.
+      audioPreview.oncanplaythrough = () => {
+        mergeAudioWithVideo(audioURL);
+        saveActionState("addAudio", {
+          audioSrc: audioURL
+        });
+      };
+    }
+  });
+  async function mergeAudioWithVideo(audioSrc) {
+    const audio = new Audio(audioSrc);
+    const stream = videoPlayer.captureStream();
+    const audioStream = audio.captureStream();
+    await audio.play(); // Ensure audio starts playing before recording
+    const combinedStream = new MediaStream([...stream.getTracks(), ...audioStream.getAudioTracks()]);
+    const mediaRecorder = new MediaRecorder(combinedStream);
+    const chunks = [];
+    return new Promise((resolve) => {
       mediaRecorder.ondataavailable = (e) => chunks.push(e.data);
       mediaRecorder.onstop = () => {
-        const blob = new Blob(chunks, { type: "video/webm" });
-        const slicedURL = URL.createObjectURL(blob);
-        videoPlayer.src = slicedURL;
-        videoPlayer.play();
-      };
-
-      mediaRecorder.start();
-      setTimeout(() => {
-        mediaRecorder.stop();
-      }, (endTime - startTime) * 1000);
-    }
-
-    // Append Video or Image
-    appendButton.addEventListener("click", () => {
-      const fileInput = document.createElement("input");
-      fileInput.type = "file";
-      fileInput.accept = "video/*,image/*";
-      fileInput.onchange = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-          appendMedia(URL.createObjectURL(file), file.type.startsWith("video"));
-          saveActionState("appendMedia");
-        }
-      };
-      fileInput.click();
-    });
-
-    function appendMedia(mediaSrc, isVideo) {
-      const media = document.createElement(isVideo ? "video" : "img");
-      media.src = mediaSrc;
-      media.style.width = "100%";
-      media.style.marginTop = "10px";
-      document.getElementById("videoContainer").appendChild(media);
-    }
-
-// Event listener for start time
-startDiv.addEventListener("mousedown", (e) => {
-  const timeline = document.getElementById('timelineDiv');
-  const timelineWidth = timeline.offsetWidth;
-  const startDivWidth = startDiv.offsetWidth;
-  
-  // Calculate the offset of the center of the div
-  const offsetX = e.clientX - startDiv.offsetLeft - startDivWidth / 2;
-  
-  // Position the startDiv by its center initially
-  startDiv.style.position = 'absolute';
-  
-  const onMouseMove = (e) => {
-    // Calculate the new left position of the startDiv, ensuring it moves within the bounds of the timeline
-    let newLeft = e.clientX - offsetX;
-    newLeft = Math.max(0, Math.min(newLeft, timelineWidth - startDivWidth));
-
-    // Update startTime based on mouse position
-    startTime = Math.min((newLeft / timelineWidth) * videoPlayer.duration, stopTime);
-    updateStartDiv();
-    updateSyncedTime(startDiv, startTime); // Update synced time on the start div
-  };
-
-  const onMouseUp = () => {
-    document.removeEventListener("mousemove", onMouseMove);
-    document.removeEventListener("mouseup", onMouseUp);
-  };
-
-  document.addEventListener("mousemove", onMouseMove);
-  document.addEventListener("mouseup", onMouseUp);
-});
-
-// Event listener for stop time
-stopDiv.addEventListener("mousedown", (e) => {
-  const timeline = document.getElementById('timelineDiv');
-  const timelineWidth = timeline.offsetWidth;
-  const stopDivWidth = stopDiv.offsetWidth;
-  
-  // Calculate the offset of the center of the div
-  const offsetX = e.clientX - stopDiv.offsetLeft - stopDivWidth / 2;
-  
-  // Position the stopDiv by its center initially
-  stopDiv.style.position = 'absolute';
-
-  const onMouseMove = (e) => {
-    // Calculate the new left position of the stopDiv, ensuring it moves within the bounds of the timeline
-    let newLeft = e.clientX - offsetX;
-    newLeft = Math.max(0, Math.min(newLeft, timelineWidth - stopDivWidth));
-
-    // Update stopTime based on mouse position
-    stopTime = Math.max((newLeft / timelineWidth) * videoPlayer.duration, startTime + 1);
-    updateStopDiv();
-    updateSyncedTime(stopDiv, stopTime); // Update synced time on the stop div
-  };
-
-  const onMouseUp = () => {
-    document.removeEventListener("mousemove", onMouseMove);
-    document.removeEventListener("mouseup", onMouseUp);
-  };
-
-  document.addEventListener("mousemove", onMouseMove);
-  document.addEventListener("mouseup", onMouseUp);
-});
-
-// Update the timeline divs for start and stop times
-function updateStartDiv() {
-  const timelineWidth = document.getElementById('timelineDiv').offsetWidth;
-  startDiv.style.left = `${(startTime / videoPlayer.duration) * timelineWidth}px`;
-}
-
-function updateStopDiv() {
-  const timelineWidth = document.getElementById('timelineDiv').offsetWidth;
-  stopDiv.style.left = `${(stopTime / videoPlayer.duration) * timelineWidth}px`;
-}
-
-// Function to update synced time at the center of the div
-function updateSyncedTime(div, time) {
-  const syncedTimeDisplay = div.querySelector('.syncedTime');
-  if (syncedTimeDisplay) {
-    syncedTimeDisplay.textContent = formatTime(time); // Display formatted time at the center
-  }
-}
-
-// Helper function to format time (in seconds)
-function formatTime(timeInSeconds) {
-  const minutes = Math.floor(timeInSeconds / 60);
-  const seconds = Math.floor(timeInSeconds % 60);
-  return `${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
-}
-
-// Function to slice the video and create a blob
-function sliceVideo() {
-  const videoFile = videoPlayer.src; // Your video URL
-  const mediaSource = new MediaSource();
-  
-  // Attach the MediaSource to the video player
-  videoPlayer.src = URL.createObjectURL(mediaSource);
-  
-  mediaSource.addEventListener('sourceopen', function () {
-    const sourceBuffer = mediaSource.addSourceBuffer('video/webm; codecs="vp8"');
-    
-    // Fetch the video data as an ArrayBuffer (for slicing purposes)
-    fetch(videoFile)
-      .then(response => response.arrayBuffer())
-      .then(buffer => {
-        const videoData = new Uint8Array(buffer);
-
-        // Calculate start and stop byte positions based on video duration
-        const startByte = Math.floor((startTime / videoPlayer.duration) * videoData.length);
-        const stopByte = Math.floor((stopTime / videoPlayer.duration) * videoData.length);
-
-        // Slice the video data between startByte and stopByte
-        const slicedData = videoData.slice(startByte, stopByte);
-
-        // Append the sliced data to the source buffer
-        sourceBuffer.appendBuffer(slicedData);
-
-        // Once the buffer is appended, signal the video to play the sliced segment
-        sourceBuffer.addEventListener('updateend', () => {
-          mediaSource.endOfStream(); // End the stream
-          videoPlayer.play(); // Start playing the sliced video
+        const blob = new Blob(chunks, {
+          type: "video/webm"
         });
-      })
-      .catch(error => {
-        console.error('Error fetching video data:', error);
-      });
-  });
-}
-function previewVideoSegment() {
-  const video = videoPlayer;
-  const canvas = document.createElement('canvas');
-  const ctx = canvas.getContext('2d');
-  
-  // Set canvas size to match the video resolution
-  canvas.width = video.videoWidth;
-  canvas.height = video.videoHeight;
-  
-  // Seek to the start time of the segment
-  video.currentTime = startTime;
-  
-  video.addEventListener('seeked', function () {
-    // Capture the frame when the video reaches the start time
-    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-    
-    // Optionally display this frame in an image element
-    const image = new Image();
-    image.src = canvas.toDataURL();  // Convert the canvas content to an image URL
-    document.body.appendChild(image);  // Show the captured frame on the page
-    
-    // Continue playing video and update canvas to show frames
-    video.play();
-  });
-}
-
-
-// Function to capture a frame from the video and render it on the canvas
-function renderVideoFrame() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  ctx.drawImage(videoPlayer, 0, 0, canvas.width, canvas.height);
-
-  if (videoPlayer.paused || videoPlayer.ended) return;  // Stop if video is paused or ended
-  requestAnimationFrame(renderVideoFrame);
-}
-
-// Add Event Listener to the slice button to trigger video slicing
-document.getElementById("sliceVideoButton").addEventListener("click", sliceVideo);
-document.getElementById("previewVideoSegment").addEventListener("click", previewVideoSegment);
-
-// Render the frame when video is playing
-videoPlayer.addEventListener("play", () => {
-  renderVideoFrame();
-});
-
-// Update start and stop times with the timeline on play
-videoPlayer.addEventListener("timeupdate", () => {
-  if (videoPlayer.currentTime >= startTime && videoPlayer.currentTime <= stopTime) {
-    // Sync video current time with the timeline divs
-    updateStartDiv();
-    updateStopDiv();
+        const mergedURL = URL.createObjectURL(blob);
+        videoPlayer.src = mergedURL;
+        resolve(mergedURL);
+      };
+      mediaRecorder.start();
+      setTimeout(() => mediaRecorder.stop(), videoPlayer.duration * 1000);
+    });
   }
-});
 
-    toggleUndoRedo();
+  function sliceVideo(startTime, endTime) {
+    videoPlayer.currentTime = startTime;
+    const stream = videoPlayer.captureStream();
+    const mediaRecorder = new MediaRecorder(stream);
+    const chunks = [];
+    mediaRecorder.ondataavailable = (e) => chunks.push(e.data);
+    mediaRecorder.onstop = () => {
+      const blob = new Blob(chunks, {
+        type: "video/webm"
+      });
+      const slicedURL = URL.createObjectURL(blob);
+      videoPlayer.src = slicedURL;
+      videoPlayer.play();
+    };
+    mediaRecorder.start();
+    setTimeout(() => {
+      mediaRecorder.stop();
+    }, (endTime - startTime) * 1000);
+  }
+  // Append Video or Image
+  appendButton.addEventListener("click", () => {
+    const fileInput = document.createElement("input");
+    fileInput.type = "file";
+    fileInput.accept = "video/*,image/*";
+    fileInput.onchange = (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        appendMedia(URL.createObjectURL(file), file.type.startsWith("video"));
+        saveActionState("appendMedia");
+      }
+    };
+    fileInput.click();
+  });
+
+  function appendMedia(mediaSrc, isVideo) {
+    const media = document.createElement(isVideo ? "video" : "img");
+    media.src = mediaSrc;
+    media.style.width = "100%";
+    media.style.marginTop = "10px";
+    document.getElementById("videoContainer").appendChild(media);
+  }
+  // Event listener for start time
+  startDiv.addEventListener("mousedown", (e) => {
+    const timeline = document.getElementById('timelineDiv');
+    const timelineWidth = timeline.offsetWidth;
+    const startDivWidth = startDiv.offsetWidth;
+    // Calculate the offset of the center of the div
+    const offsetX = e.clientX - startDiv.offsetLeft - startDivWidth / 2;
+    // Position the startDiv by its center initially
+    startDiv.style.position = 'absolute';
+    const onMouseMove = (e) => {
+      // Calculate the new left position of the startDiv, ensuring it moves within the bounds of the timeline
+      let newLeft = e.clientX - offsetX;
+      newLeft = Math.max(0, Math.min(newLeft, timelineWidth - startDivWidth));
+      // Update startTime based on mouse position
+      startTime = Math.min((newLeft / timelineWidth) * videoPlayer.duration, stopTime);
+      updateStartDiv();
+      updateSyncedTime(startDiv, startTime); // Update synced time on the start div
+    };
+    const onMouseUp = () => {
+      document.removeEventListener("mousemove", onMouseMove);
+      document.removeEventListener("mouseup", onMouseUp);
+    };
+    document.addEventListener("mousemove", onMouseMove);
+    document.addEventListener("mouseup", onMouseUp);
+  });
+  // Event listener for stop time
+  stopDiv.addEventListener("mousedown", (e) => {
+    const timeline = document.getElementById('timelineDiv');
+    const timelineWidth = timeline.offsetWidth;
+    const stopDivWidth = stopDiv.offsetWidth;
+    // Calculate the offset of the center of the div
+    const offsetX = e.clientX - stopDiv.offsetLeft - stopDivWidth / 2;
+    // Position the stopDiv by its center initially
+    stopDiv.style.position = 'absolute';
+    const onMouseMove = (e) => {
+      // Calculate the new left position of the stopDiv, ensuring it moves within the bounds of the timeline
+      let newLeft = e.clientX - offsetX;
+      newLeft = Math.max(0, Math.min(newLeft, timelineWidth - stopDivWidth));
+      // Update stopTime based on mouse position
+      stopTime = Math.max((newLeft / timelineWidth) * videoPlayer.duration, startTime + 1);
+      updateStopDiv();
+      updateSyncedTime(stopDiv, stopTime); // Update synced time on the stop div
+    };
+    const onMouseUp = () => {
+      document.removeEventListener("mousemove", onMouseMove);
+      document.removeEventListener("mouseup", onMouseUp);
+    };
+    document.addEventListener("mousemove", onMouseMove);
+    document.addEventListener("mouseup", onMouseUp);
+  });
+  // Update the timeline divs for start and stop times
+  function updateStartDiv() {
+    const timelineWidth = document.getElementById('timelineDiv').offsetWidth;
+    startDiv.style.left = `${(startTime / videoPlayer.duration) * timelineWidth}px`;
+    startDiv.innerText = startTime;
+  }
+
+  function updateStopDiv() {
+    const timelineWidth = document.getElementById('timelineDiv').offsetWidth;
+    stopDiv.style.left = `${(stopTime / videoPlayer.duration) * timelineWidth}px`;
+    stopDiv.innerText = stopTime;
+  }
+  // Function to update synced time at the center of the div
+  function updateSyncedTime(div, time) {
+    const syncedTimeDisplay = div.querySelector('.syncedTime');
+    if (syncedTimeDisplay) {
+      syncedTimeDisplay.textContent = formatTime(time); // Display formatted time at the center
+    }
+  }
+  // Helper function to format time (in seconds)
+  function formatTime(timeInSeconds) {
+    const minutes = Math.floor(timeInSeconds / 60);
+    const seconds = Math.floor(timeInSeconds % 60);
+    return `${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
+  }
+  // Function to slice the video and create a blob
+  function sliceVideo() {
+    const videoFile = videoPlayer.src; // Your video URL
+    const mediaSource = new MediaSource();
+    // Attach the MediaSource to the video player
+    videoPlayer.src = URL.createObjectURL(mediaSource);
+    mediaSource.addEventListener('sourceopen', function() {
+      const sourceBuffer = mediaSource.addSourceBuffer('video/webm; codecs="vp8"');
+      // Fetch the video data as an ArrayBuffer (for slicing purposes)
+      fetch(videoFile)
+        .then(response => response.arrayBuffer())
+        .then(buffer => {
+          const videoData = new Uint8Array(buffer);
+          // Calculate start and stop byte positions based on video duration
+          const startByte = Math.floor((startTime / videoPlayer.duration) * videoData.length);
+          const stopByte = Math.floor((stopTime / videoPlayer.duration) * videoData.length);
+          // Slice the video data between startByte and stopByte
+          const slicedData = videoData.slice(startByte, stopByte);
+          // Append the sliced data to the source buffer
+          sourceBuffer.appendBuffer(slicedData);
+          // Once the buffer is appended, signal the video to play the sliced segment
+          sourceBuffer.addEventListener('updateend', () => {
+            mediaSource.endOfStream(); // End the stream
+            videoPlayer.play(); // Start playing the sliced video
+          });
+        })
+        .catch(error => {
+          console.error('Error fetching video data:', error);
+        });
+    });
+  }
+
+  function previewVideoSegment() {
+    const video = videoPlayer;
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    // Set canvas size to match the video resolution
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    // Seek to the start time of the segment
+    video.currentTime = startTime;
+    video.addEventListener('seeked', function() {
+      // Capture the frame when the video reaches the start time
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      // Optionally display this frame in an image element
+      const image = new Image();
+      image.src = canvas.toDataURL(); // Convert the canvas content to an image URL
+      document.body.appendChild(image); // Show the captured frame on the page
+      // Continue playing video and update canvas to show frames
+      video.play();
+    });
+  }
+  // Function to capture a frame from the video and render it on the canvas
+  function renderVideoFrame() {
+    ctx.clearRect(0, 0, videoCanvas.width, videoCanvas.height);
+    ctx.drawImage(videoPlayer, 0, 0, videoCanvas.width, videoCanvas.height);
+    if (videoPlayer.paused || videoPlayer.ended) return; // Stop if video is paused or ended
+    requestAnimationFrame(renderVideoFrame);
+  }
+  // Add Event Listener to the slice button to trigger video slicing
+  document.getElementById("sliceVideoButton").addEventListener("click", sliceVideo);
+  document.getElementById("previewVideoSegment").addEventListener("click", previewVideoSegment);
+  // Render the frame when video is playing
+  videoPlayer.addEventListener("play", () => {
+    renderVideoFrame();
+  });
+  // Update start and stop times with the timeline on play
+  videoPlayer.addEventListener("timeupdate", () => {
+    if (videoPlayer.currentTime >= startTime && videoPlayer.currentTime <= stopTime) {
+      // Sync video current time with the timeline divs
+      updateStartDiv();
+      updateStopDiv();
+    }
+  });
+  toggleUndoRedo();
 </script>
-
-
 
 
 
