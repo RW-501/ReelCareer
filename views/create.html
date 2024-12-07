@@ -95,9 +95,7 @@
           /* General Styles */
           body {
             font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            background-color: #f8f9fa;
-            color: #333;
+
           }
         
           h1,
@@ -105,7 +103,7 @@
             color: #444;
           }
         
-          .container {
+         main .container {
             max-width: 800px;
             margin: 20px auto;
             padding: 20px;
@@ -115,7 +113,7 @@
           }
         
           /* Section Styles */
-          .section {
+          main    .section {
             margin-bottom: 20px;
             border: 1px solid #ddd;
             border-radius: 8px;
@@ -123,7 +121,7 @@
             overflow: hidden;
           }
         
-          .section-header {
+          main    .section-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -133,16 +131,16 @@
             cursor: pointer;
           }
         
-          .section-content {
+          main    .section-content {
             padding: 15px;
             display: none; /* Initially hidden */
           }
         
-          .section.active .section-content {
+          main    .section.active .section-content {
             display: block;
           }
         
-          .section-header i {
+          main    .section-header i {
             transition: transform 0.3s ease;
           }
         
@@ -156,7 +154,7 @@
             margin-bottom: 10px;
           }
         
-          button {
+          main    button {
             padding: 8px 15px;
             margin: 5px;
             background-color: #007bff;
@@ -168,53 +166,53 @@
             font-size: 1rem;
           }
         
-          button i {
+          main     button i {
             margin-right: 5px;
           }
         
-          button:hover {
+          main     button:hover {
             background-color: #0056b3;
             transform: scale(1.05);
           }
         
-          input[type="file"] {
+          main    input[type="file"] {
             margin: 10px 0;
           }
         
-          input[type="range"] {
+          main   input[type="range"] {
             width: 100%;
             margin: 10px 0;
           }
         
-          video {
+          main    video {
             width: 100%;
             border-radius: 8px;
           }
           .section-header:hover {
     background-color: #0056b3;
 }
-.popup {
+main .popup {
     opacity: 0;
     transform: scale(0.8);
     transition: all 0.3s ease;
 }
 
-.popup.show {
+main .popup.show {
     opacity: 1;
     transform: scale(1);
 }
 @media (max-width: 768px) {
-    .container {
+  main   .container {
         padding: 10px;
         margin: 10px;
     }
 
-    button {
+    main  button {
         font-size: 0.9rem;
         padding: 6px 10px;
     }
 }
-input[type="range"] {
+main input[type="range"] {
     -webkit-appearance: none;
     appearance: none;
     width: 100%;
@@ -224,7 +222,7 @@ input[type="range"] {
     border-radius: 5px;
 }
 
-input[type="range"]::-webkit-slider-thumb {
+main input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
     height: 16px;
     width: 16px;
@@ -234,7 +232,7 @@ input[type="range"]::-webkit-slider-thumb {
     transition: background 0.3s;
 }
 
-input[type="range"]::-webkit-slider-thumb:hover {
+main input[type="range"]::-webkit-slider-thumb:hover {
     background: #0056b3;
 }
 
