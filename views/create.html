@@ -239,11 +239,34 @@ main input[type="range"]::-webkit-slider-thumb:hover {
         </style>
         
         <main id="main-content">
-          <h1>Video Upload & Editor</h1>
         
           <!-- File Upload & Media Controls -->
           <div class="container" role="main">
-          
+            <!-- Preview Area -->
+            <div class="section" id="previewSection" role="region" aria-labelledby="previewHeader">
+              <div class="section-header" id="previewHeader" role="heading" aria-level="2">
+                <h2>Preview</h2>
+                <i class="fas fa-chevron-down" role="button" aria-expanded="false" aria-controls="previewContent"></i>
+              </div>
+              <div class="section-content" id="previewContent">
+                <p class="instructions" role="note">
+                  Use this area to preview your edited video. Adjust the volume with the slider and play the video to see your changes.
+                </p>
+                <video id="videoPlayer" controls aria-labelledby="videoPlayerDesc">
+                  <track kind="captions" src="captions_en.vtt" srclang="en" label="English">
+                </video>
+                <input
+                  type="range"
+                  id="audioVolume"
+                  min="0"
+                  max="1"
+                  step="0.1"
+                  value="0.5"
+                  aria-label="Adjust audio volume"
+                />
+              </div>
+            </div>
+
             <!-- File Upload & Media Controls -->
             <div class="section" role="region" aria-labelledby="fileUploadHeader">
               <div class="section-header" id="fileUploadHeader" role="heading" aria-level="2">
@@ -325,30 +348,8 @@ main input[type="range"]::-webkit-slider-thumb:hover {
               </div>
             </div>
           
-            <!-- Preview Area -->
-            <div class="section" id="previewSection" role="region" aria-labelledby="previewHeader">
-              <div class="section-header" id="previewHeader" role="heading" aria-level="2">
-                <h2>Preview</h2>
-                <i class="fas fa-chevron-down" role="button" aria-expanded="false" aria-controls="previewContent"></i>
-              </div>
-              <div class="section-content" id="previewContent">
-                <p class="instructions" role="note">
-                  Use this area to preview your edited video. Adjust the volume with the slider and play the video to see your changes.
-                </p>
-                <video id="videoPlayer" controls aria-labelledby="videoPlayerDesc">
-                  <track kind="captions" src="captions_en.vtt" srclang="en" label="English">
-                </video>
-                <input
-                  type="range"
-                  id="audioVolume"
-                  min="0"
-                  max="1"
-                  step="0.1"
-                  value="0.5"
-                  aria-label="Adjust audio volume"
-                />
-              </div>
-            </div>
+          
+<input type="file" id="audioVolume" hidden>
           </div>
         </main>
         <script>
@@ -552,7 +553,7 @@ function createPopup(title, contentCallback) {
 
 // Function to create font size popup
 function changeFontSize() {
-  recordStateForUndo(); // Record state before change
+  //recordStateForUndo(); // Record state before change
 
   createPopup("Change Font Size", (container) => {
     const fontSizeLabel = document.createElement("label");
@@ -580,7 +581,7 @@ function changeFontSize() {
 
 // Function to create text color picker popup
 function changeTextColor() {
-  recordStateForUndo(); // Record state before change
+ // recordStateForUndo(); // Record state before change
 
   createPopup("Change Text Color", (container) => {
     const colorLabel = document.createElement("label");
@@ -601,7 +602,7 @@ function changeTextColor() {
 
 // Function to create image input popup
 function addImage() {
-  recordStateForUndo(); // Record state before change
+ // recordStateForUndo(); // Record state before change
 
   createPopup("Add Image Overlay", (container) => {
     const fileLabel = document.createElement("label");
@@ -625,7 +626,7 @@ function addImage() {
 
 // Function to add text or image overlay
 function addOverlay() {
-  recordStateForUndo(); // Record state before change
+//  recordStateForUndo(); // Record state before change
 
   createPopup("Add Overlay", (container) => {
     const textLabel = document.createElement("label");
