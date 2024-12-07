@@ -183,106 +183,260 @@
         </style>
         
         <main id="main-content">
-          <main id="main-content">
-            <!-- Video player that handles playback, preview, and edits -->
-            <div id="videoContainer">
-              <video id="videoPlayer" controls autoplay></video>
-              <input type="file" id="videoInput" accept="video/*" />
-              <button id="downloadButton" disabled>Download Video</button>
+          <!-- Video player that handles playback, preview, and edits -->
+          <div id="videoContainer">
+            <video id="videoPlayer" controls autoplay></video>
+            <input type="file" id="videoInput" accept="video/*" />
+            <button id="downloadButton" disabled>Download Video</button>
+          </div>
+        
+          <!-- Timeline and controls -->
+          <div id="timelineContainer">
+            <input type="range" id="videoSlider" min="0" max="100" step="0.1" />
+            <div id="overlayControls">
+              <button id="fontSizeButton">Change Font Size</button>
+              <button id="colorButton">Change Text Color</button>
+              <button id="imageButton">Add Image Overlay</button>
+              <button id="overlayButton">Add Overlay</button>
             </div>
-          
-            <!-- Timeline and controls -->
-            <div id="timelineContainer">
-              <input type="range" id="videoSlider" min="0" max="100" step="0.1" />
-              <div id="overlayControls">
-                <button id="fontSizeButton">Change Font Size</button>
-                <button id="colorButton">Change Text Color</button>
-                <button id="imageButton">Add Image Overlay</button>
-                <button id="overlayButton">Add Overlay</button>
-              </div>
-            </div>
-          
-            <!-- Audio controls -->
-            <input type="file" id="audioInput" accept="audio/*" />
-            <button id="addAudioButton">Add Audio</button>
-          </main>
-          
+          </div>
+        
+          <!-- Audio controls -->
+          <input type="file" id="audioInput" accept="audio/*" />
+          <button id="addAudioButton">Add Audio</button>
+        
+          <!-- Hidden buttons for undo/redo functionality -->
+          <button id="undoButton" style="display:none;">Undo</button>
+          <button id="redoButton" style="display:none;">Redo</button>
         </main>
-        <script> 
-let videoElement = document.getElementById('videoPlayer');
-let videoSlider = document.getElementById('videoSlider');
-let downloadButton = document.getElementById('downloadButton');
-let undoStack = [];
-let redoStack = [];
-let overlayFontSize = "20px";
-let overlayColor = "#000000";
-let overlayImageURL = "";
+        <!-- Modal for Font Size -->
+<div id="fontSizeModal" class="modal">
+  <div class="modal-content">
+    <h3>Choose Font Size</h3>
+    <input type="number" id="fontSizeInput" value="20" min="10" max="100" step="2" />
+    <button id="fontSizeSaveButton">Save</button>
+    <button id="fontSizeCancelButton">Cancel</button>
+  </div>
+</div>
 
-// Handle video upload
-document.getElementById('videoInput').addEventListener('change', (event) => {
-  const file = event.target.files[0];
-  if (file) {
-    const videoURL = URL.createObjectURL(file);
-    videoElement.src = videoURL;
-    videoElement.load();
-    downloadButton.disabled = false;
+<!-- Modal for Text Color -->
+<div id="colorModal" class="modal">
+  <div class="modal-content">
+    <h3>Choose Text Color</h3>
+    <input type="color" id="colorInput" value="#000000" />
+    <button id="colorSaveButton">Save</button>
+    <button id="colorCancelButton">Cancel</button>
+  </div>
+</div>
+
+<!-- Modal for Image Overlay -->
+<div id="imageModal" class="modal">
+  <div class="modal-content">
+    <h3>Enter Image URL</h3>
+    <input type="url" id="imageURLInput" placeholder="Enter image URL" />
+    <button id="imageSaveButton">Save</button>
+    <button id="imageCancelButton">Cancel</button>
+  </div>
+</div>
+
+<!-- Modal styles -->
+<style>
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
   }
-});
+  .modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 400px;
+  }
+</style>
 
-// Timeline slider and video playback sync
-videoSlider.addEventListener('input', () => {
-  videoElement.currentTime = videoSlider.value;
-});
+        <script>
+          let videoElement = document.getElementById('videoPlayer');
+          let videoSlider = document.getElementById('videoSlider');
+          let downloadButton = document.getElementById('downloadButton');
+          let undoStack = [];
+          let redoStack = [];
+          let overlayFontSize = "20px";
+          let overlayColor = "#000000";
+          let overlayImageURL = "";
+          let overlays = [];
+        
+          // Handle video upload
+          document.getElementById('videoInput').addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file) {
+              const videoURL = URL.createObjectURL(file);
+              videoElement.src = videoURL;
+              videoElement.load();
+              downloadButton.disabled = false;
+            }
+          });
+        
+          // Timeline slider and video playback sync
+          videoSlider.addEventListener('input', () => {
+            videoElement.currentTime = videoSlider.value;
+          });
+        
+          // Overlay effects - Font size, color, image handling
+          document.getElementById('fontSizeButton').addEventListener('click', changeFontSize);
+          document.getElementById('colorButton').addEventListener('click', changeTextColor);
+          document.getElementById('imageButton').addEventListener('click', addImage);
+          document.getElementById('overlayButton').addEventListener('click', addOverlay);
+        
+          // Add audio functionality
+          document.getElementById('addAudioButton').addEventListener('click', addAudio);
+        
+          // Download button functionality
+          downloadButton.addEventListener('click', () => {
+            const videoURL = videoElement.src;
+            const link = document.createElement('a');
+            link.href = videoURL;
+            link.download = 'edited-video.mp4';
+            link.click();
+          });
+        
+          // Undo and Redo buttons functionality
+          document.getElementById('undoButton').addEventListener('click', undoAction);
+          document.getElementById('redoButton').addEventListener('click', redoAction);
+        
+       // Function to show the modal
+function showModal(modalId) {
+  document.getElementById(modalId).style.display = "block";
+}
 
-// Overlay effects - Font size, color, image handling
-document.getElementById('fontSizeButton').addEventListener('click', changeFontSize);
-document.getElementById('colorButton').addEventListener('click', changeTextColor);
-document.getElementById('imageButton').addEventListener('click', addImage);
-document.getElementById('overlayButton').addEventListener('click', addOverlay);
+// Function to hide the modal
+function hideModal(modalId) {
+  document.getElementById(modalId).style.display = "none";
+}
 
-// Download button functionality
-downloadButton.addEventListener('click', () => {
-  const videoURL = videoElement.src;
-  const link = document.createElement('a');
-  link.href = videoURL;
-  link.download = 'edited-video.mp4';
-  link.click();
-});
-
+// Change Font Size function with pop-up modal
 function changeFontSize() {
-  // Logic for changing font size
-  overlayFontSize = "30px"; // Example change
-  updateOverlay();
+  showModal('fontSizeModal');
 }
 
+// Change Text Color function with pop-up modal
 function changeTextColor() {
-  // Logic for changing text color
-  overlayColor = "#ff0000"; // Example change
-  updateOverlay();
+  showModal('colorModal');
 }
 
+// Add Image Overlay function with pop-up modal
 function addImage() {
-  // Logic for adding an image overlay
-  overlayImageURL = "path/to/image.jpg"; // Example image URL
+  showModal('imageModal');
+}
+
+// Save Font Size from modal
+document.getElementById('fontSizeSaveButton').addEventListener('click', () => {
+  overlayFontSize = document.getElementById('fontSizeInput').value + "px";
   updateOverlay();
-}
+  hideModal('fontSizeModal');
+});
 
-function updateOverlay() {
-  // Apply the overlay dynamically
-  const overlayElement = document.createElement('div');
-  overlayElement.style.fontSize = overlayFontSize;
-  overlayElement.style.color = overlayColor;
-  overlayElement.textContent = "Sample Overlay Text";
+// Save Text Color from modal
+document.getElementById('colorSaveButton').addEventListener('click', () => {
+  overlayColor = document.getElementById('colorInput').value;
+  updateOverlay();
+  hideModal('colorModal');
+});
 
-  if (overlayImageURL) {
-    const img = document.createElement('img');
-    img.src = overlayImageURL;
-    overlayElement.appendChild(img);
-  }
+// Save Image URL from modal
+document.getElementById('imageSaveButton').addEventListener('click', () => {
+  overlayImageURL = document.getElementById('imageURLInput').value;
+  updateOverlay();
+  hideModal('imageModal');
+});
 
-  videoElement.appendChild(overlayElement);
-}
+// Cancel Button actions for all modals
+document.getElementById('fontSizeCancelButton').addEventListener('click', () => {
+  hideModal('fontSizeModal');
+});
+document.getElementById('colorCancelButton').addEventListener('click', () => {
+  hideModal('colorModal');
+});
+document.getElementById('imageCancelButton').addEventListener('click', () => {
+  hideModal('imageModal');
+});
 
+
+          // Update Overlay Text/Image on Video
+          function updateOverlay() {
+            const overlayElement = document.createElement('div');
+            overlayElement.style.fontSize = overlayFontSize;
+            overlayElement.style.color = overlayColor;
+            overlayElement.textContent = "Sample Overlay Text";
+        
+            if (overlayImageURL) {
+              const img = document.createElement('img');
+              img.src = overlayImageURL;
+              overlayElement.appendChild(img);
+            }
+        
+            // Save the overlay for undo/redo functionality
+            overlays.push(overlayElement);
+            videoElement.appendChild(overlayElement);
+        
+            // Save the state to undo stack and clear redo stack
+            undoStack.push({ action: 'addOverlay', overlay: overlayElement });
+            redoStack = [];
+            toggleUndoRedoButtons();
+          }
+        
+          // Add Audio to Video
+          function addAudio() {
+            const audioFile = document.getElementById('audioInput').files[0];
+            if (audioFile) {
+              const audioURL = URL.createObjectURL(audioFile);
+              const audioElement = document.createElement('audio');
+              audioElement.src = audioURL;
+              audioElement.autoplay = true;
+              videoElement.appendChild(audioElement);
+            }
+          }
+        
+          // Undo the last action
+          function undoAction() {
+            if (undoStack.length > 0) {
+              const lastAction = undoStack.pop();
+              if (lastAction.action === 'addOverlay') {
+                const overlayElement = lastAction.overlay;
+                videoElement.removeChild(overlayElement);
+                redoStack.push(lastAction);
+              }
+              toggleUndoRedoButtons();
+            }
+          }
+        
+          // Redo the last undone action
+          function redoAction() {
+            if (redoStack.length > 0) {
+              const lastAction = redoStack.pop();
+              if (lastAction.action === 'addOverlay') {
+                const overlayElement = lastAction.overlay;
+                videoElement.appendChild(overlayElement);
+                undoStack.push(lastAction);
+              }
+              toggleUndoRedoButtons();
+            }
+          }
+        
+          // Toggle undo/redo button visibility based on available actions
+          function toggleUndoRedoButtons() {
+            document.getElementById('undoButton').style.display = undoStack.length > 0 ? 'block' : 'none';
+            document.getElementById('redoButton').style.display = redoStack.length > 0 ? 'block' : 'none';
+          }
+        </script>
+        
 
         </script>
         
