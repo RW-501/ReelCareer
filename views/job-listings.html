@@ -682,19 +682,25 @@ border-radius: 12px;
                       <label for="tagInput">Tags</label>
                     </div>
                   </div>
+                  <div class="modal-footer border-0 d-flex flex-column align-items-start">
+                    <div class="mb-2 w-100 d-flex justify-content-between">
+                      <button type="button" class="btn btn-outline-primary me-2" onclick="previewJobPost()">Preview</button>
+                      <button type="submit" class="btn btn-primary">Submit Job</button>
+                    </div>
+                  </div>
+                  <div class="col-12">
+
+                    <small class="text-muted">
+                      By submitting this post, you agree to our 
+                      <a href="https://reelcareer.co/views/terms" target="_blank" class="text-primary">terms and conditions</a>.
+                    </small>
+                </div>
+
+
                 </div>
               </section>
             </div>
-            <div class="modal-footer border-0 d-flex flex-column align-items-start">
-              <div class="mb-2 w-100 d-flex justify-content-between">
-                <button type="button" class="btn btn-outline-primary me-2" onclick="previewJobPost()">Preview</button>
-                <button type="submit" class="btn btn-primary">Submit Job</button>
-              </div>
-              <small class="text-muted">
-                By submitting this post, you agree to our 
-                <a href="https://reelcareer.co/views/terms" target="_blank" class="text-primary">terms and conditions</a>.
-              </small>
-            </div>
+      
           </form>
         </div>
       </div>
@@ -868,7 +874,7 @@ function closeJobPostModal() {
   // Show the modal
   //modal.show();
 
-hideModal("jobPostPopupCloseBtn");
+hideModal("jobPostPopup");
 }
 
 
