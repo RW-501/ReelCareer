@@ -362,7 +362,7 @@ main input[type="range"]::-webkit-slider-thumb:hover {
             const input = document.getElementById("videoInput");
             const file = input.files[0];
             if (!file) {
-              alert("Please select a video file to upload.");
+              showToast("Please select a video file to upload.");
               return;
             }
     
@@ -370,7 +370,41 @@ main input[type="range"]::-webkit-slider-thumb:hover {
             document.getElementById("videoPlayer").src = videoURL;
           }
    
-   
+   // Handle video upload and display
+document.getElementById('videoInput').addEventListener('change', handleFileUpload);
+
+function handleFileUpload(event) {
+  const file = event.target.files[0];
+  if (!file) {
+    showToast('Please select a video file to upload.');
+    return;
+  }
+
+  const videoURL = URL.createObjectURL(file);
+  const videoPlayer = document.getElementById('videoPlayer');
+  videoPlayer.src = videoURL;
+  videoPlayer.load();
+  
+  // Enable the download button after file is uploaded
+  const downloadButton = document.getElementById('downloadButton');
+  downloadButton.disabled = false;  // Enable button when video is loaded
+}
+
+// Handle video download
+document.getElementById('downloadButton').addEventListener('click', () => {
+  const videoPlayer = document.getElementById('videoPlayer');
+  const videoURL = videoPlayer.src;
+
+  if (videoURL) {
+    const link = document.createElement('a');
+    link.href = videoURL;
+    link.download = 'video.mp4';  // Name the file for download
+    link.click();
+  } else {
+    showToast('No video is loaded to download.');
+  }
+});
+
       // Event listeners and functions
       
       // Video and audio element references
@@ -460,7 +494,7 @@ let redoStack = [];
             }
           });
         } else {
-          alert('Please select a valid audio file.');
+          showToast('Please select a valid audio file.');
         }
       });
     
