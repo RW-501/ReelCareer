@@ -1238,16 +1238,40 @@ async function fetchFilteredJobListings({
 
     // Map and display results
     const jobListings = jobListingsSnapshot.docs.map(doc => ({
-      id: doc.id,
-      title: doc.data().title,
-      description: doc.data().description,
-      datePosted: doc.data().createdAt,
-      organization: doc.data().company,
-      location: doc.data().location,
-      employmentType: doc.data().type,
-      baseSalary: doc.data().salary,
-      validThrough: doc.data().boostExpiresAt,
-      url: doc.id
+      id: job.id, // Job document ID
+          title: job.title,
+          description: job.description,
+          datePosted: job.createdAt,
+          company: job.company,
+          location: job.location,
+          city: job.city,
+          state: job.state,
+          country: job.country,
+          county: job.county,
+          type: job.type,
+          industry: job.industry,
+          salary: job.salary,
+          salaryMin: job.salaryMin,
+          salaryMax: job.salaryMax,
+          salaryPayTime: job.salaryPayTime,
+          validThrough: job.boostExpiresAt,
+          status: job.status,
+          applicationAvailableBool: job.applicationAvailableBool,
+          applicantsViewed: job.applicantsViewed,
+          applicationWebsite: job.applicationWebsite,
+          benefits: job.benefits || [], // Default to empty array if undefined
+          boostExpiration: job.boostExpiration,
+          boostExpiresAt: job.boostExpiresAt,
+          boosted: job.boosted,
+          boostedByID: job.boostedByID,
+          contractToHire: job.contractToHire,
+          immediateHire: job.immediateHire,
+          savedForLater: job.savedForLater,
+          searchableRequirements: job.searchableRequirements || '', // Default to empty string if undefined
+          submittedBy: job.submittedBy,
+          tags: job.tags || [], // Default to empty array if undefined
+          source: "Search" // Include the source from the general query
+        
     }));
 
     console.log("Fetched Job Listings:", jobListings);
