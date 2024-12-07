@@ -1343,9 +1343,22 @@ async function fetchFilteredJobListings({
       );
     }
 
+    let test = [
+    "job",
+    "locum",
+    "certified",
+    "registered",
+    "nurse",
+    "anesthetist",
+    "crna",
+    "terre",
+    "haute",
+    "make"
+];
+
     // If there are search terms, filter using `array-contains-any`
     if (searchTerms.length > 0) {
-      jobsQuery = query(jobsQuery, where('searchableTitle', 'array-contains-any', searchTerms));
+      jobsQuery = query(jobsQuery, where('searchableTitle', 'array-contains-any', test));
     }
 
     // Add other filters as needed
