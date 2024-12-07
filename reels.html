@@ -260,9 +260,97 @@ a {
     padding: 10px;
   }
 }
+/*
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+
+*/
     
+.video-reel-container {
+    width: 100%;
+    max-width: 640px;
+    margin: 0 auto;
+    background-color: #000;
+    color: #fff;
+    padding: 10px;
+    border-radius: 10px;
+}
 
+.video-player-container {
+    width: 100%;
+    height: 360px;
+    margin-bottom: 10px;
+    background-color: #333;
+    border-radius: 10px;
+}
+
+.video-player {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+}
+
+.controls-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.actions {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.action-btn {
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.action-btn:hover {
+    color: #1d72b8;
+}
+
+.video-details {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.video-details p {
+    margin: 0;
+    font-size: 14px;
+}
+
+.video-upload-section {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 10px;
+}
+
+#uploadButton {
+    background-color: #1d72b8;
+    color: white;
+    border: none;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#uploadButton:hover {
+    background-color: #155a8a;
+}
+
+        </style>
+        
         </style>
 </head>
 
@@ -321,6 +409,43 @@ a {
               </div>
             </div>
             <!-- Repeat similar structure for other video cards -->
+
+
+
+
+
+            <div class="video-reel-container">
+              <div class="video-player-container">
+                  <video id="videoPlayer" class="video-player" controls></video>
+              </div>
+          
+              <div class="controls-container">
+                  <div class="actions">
+                      <button class="action-btn" id="likeButton"><i class="fa fa-thumbs-up"></i></button>
+                      <button class="action-btn" id="commentButton"><i class="fa fa-comment"></i></button>
+                      <button class="action-btn" id="shareButton"><i class="fa fa-share-alt"></i></button>
+                      <button class="action-btn" id="downloadButton" disabled><i class="fa fa-download"></i></button>
+                  </div>
+          
+                  <div class="video-details">
+                      <p class="views-count"><i class="fa fa-eye"></i> 5000 views</p>
+                      <p class="video-duration"><i class="fa fa-clock"></i> 3:20</p>
+                  </div>
+          
+                  <div class="video-upload-section">
+                      <input type="file" id="videoInput" accept="video/*" style="display:none;">
+                      <button id="uploadButton"><i class="fa fa-upload"></i> Upload</button>
+                  </div>
+              </div>
+          </div>
+
+
+
+
+
+
+
+
           </main>
         
       

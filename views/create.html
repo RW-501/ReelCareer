@@ -183,390 +183,107 @@
         </style>
         
         <main id="main-content">
-        
-          <div class="video-reel-container">
-            <div class="video-player-container">
-                <video id="videoPlayer" class="video-player" controls></video>
+          <main id="main-content">
+            <!-- Video player that handles playback, preview, and edits -->
+            <div id="videoContainer">
+              <video id="videoPlayer" controls autoplay></video>
+              <input type="file" id="videoInput" accept="video/*" />
+              <button id="downloadButton" disabled>Download Video</button>
             </div>
-        
-            <div class="controls-container">
-                <div class="actions">
-                    <button class="action-btn" id="likeButton"><i class="fa fa-thumbs-up"></i></button>
-                    <button class="action-btn" id="commentButton"><i class="fa fa-comment"></i></button>
-                    <button class="action-btn" id="shareButton"><i class="fa fa-share-alt"></i></button>
-                    <button class="action-btn" id="downloadButton" disabled><i class="fa fa-download"></i></button>
-                </div>
-        
-                <div class="video-details">
-                    <p class="views-count"><i class="fa fa-eye"></i> 5000 views</p>
-                    <p class="video-duration"><i class="fa fa-clock"></i> 3:20</p>
-                </div>
-        
-                <div class="video-upload-section">
-                    <input type="file" id="videoInput" accept="video/*" style="display:none;">
-                    <button id="uploadButton"><i class="fa fa-upload"></i> Upload</button>
-                </div>
+          
+            <!-- Timeline and controls -->
+            <div id="timelineContainer">
+              <input type="range" id="videoSlider" min="0" max="100" step="0.1" />
+              <div id="overlayControls">
+                <button id="fontSizeButton">Change Font Size</button>
+                <button id="colorButton">Change Text Color</button>
+                <button id="imageButton">Add Image Overlay</button>
+                <button id="overlayButton">Add Overlay</button>
+              </div>
             </div>
-        </div>
-        
+          
+            <!-- Audio controls -->
+            <input type="file" id="audioInput" accept="audio/*" />
+            <button id="addAudioButton">Add Audio</button>
+          </main>
+          
         </main>
         <script> 
+let videoElement = document.getElementById('videoPlayer');
+let videoSlider = document.getElementById('videoSlider');
+let downloadButton = document.getElementById('downloadButton');
+let undoStack = [];
+let redoStack = [];
+let overlayFontSize = "20px";
+let overlayColor = "#000000";
+let overlayImageURL = "";
 
-        /*
-          // Section Collapse Logic
-          document.querySelectorAll(".section-header").forEach((header) => {
-            header.addEventListener("click", () => {
-              const parent = header.parentElement;
-              parent.classList.toggle("active");
-            });
-          });
-        
-          // Handle File Upload Logic
-          document.getElementById("uploadButton").addEventListener("click", handleFileUpload);
-        
-          function handleFileUpload() {
-            const input = document.getElementById("videoInput");
-            const file = input.files[0];
-            if (!file) {
-              showToast("Please select a video file to upload.");
-              return;
-            }
-        
-            const videoURL = URL.createObjectURL(file);
-            document.getElementById("videoPlayer").src = videoURL;
-          }
-        
-          // Handle video upload and display
-          document.getElementById('videoInput').addEventListener('change', handleFileUpload);
-        
-          function handleFileUpload(event) {
-            const file = event.target.files[0];
-            if (!file) {
-              showToast('Please select a video file to upload.');
-              return;
-            }
-        
-            const videoURL = URL.createObjectURL(file);
-            const videoPlayer = document.getElementById('videoPlayer');
-            videoPlayer.src = videoURL;
-            videoPlayer.load();
-            
-            // Enable the download button after file is uploaded
-            const downloadButton = document.getElementById('downloadButton');
-            downloadButton.disabled = false;  // Enable button when video is loaded
-          }
-        
-          // Handle video download
-          document.getElementById('downloadButton').addEventListener('click', () => {
-            const videoPlayer = document.getElementById('videoPlayer');
-            const videoURL = videoPlayer.src;
-        
-            if (videoURL) {
-              const link = document.createElement('a');
-              link.href = videoURL;
-              link.download = 'video.mp4';  // Name the file for download
-              link.click();
-            } else {
-              showToast('No video is loaded to download.');
-            }
-          });
-        
-*/
-
-
-
-
-
-
-
-
-
-
-
-
-          // Handle File Upload Logic
-document.getElementById("uploadButton").addEventListener("click", () => {
-    document.getElementById("videoInput").click();
+// Handle video upload
+document.getElementById('videoInput').addEventListener('change', (event) => {
+  const file = event.target.files[0];
+  if (file) {
+    const videoURL = URL.createObjectURL(file);
+    videoElement.src = videoURL;
+    videoElement.load();
+    downloadButton.disabled = false;
+  }
 });
 
-// Handle Video Upload and Display
-document.getElementById("videoInput").addEventListener("change", handleFileUpload);
+// Timeline slider and video playback sync
+videoSlider.addEventListener('input', () => {
+  videoElement.currentTime = videoSlider.value;
+});
 
-function handleFileUpload(event) {
-    const file = event.target.files[0];
-    if (!file) {
-        alert("Please select a video file to upload.");
-        return;
-    }
+// Overlay effects - Font size, color, image handling
+document.getElementById('fontSizeButton').addEventListener('click', changeFontSize);
+document.getElementById('colorButton').addEventListener('click', changeTextColor);
+document.getElementById('imageButton').addEventListener('click', addImage);
+document.getElementById('overlayButton').addEventListener('click', addOverlay);
 
-    const videoURL = URL.createObjectURL(file);
-    const videoPlayer = document.getElementById("videoPlayer");
-    videoPlayer.src = videoURL;
+// Download button functionality
+downloadButton.addEventListener('click', () => {
+  const videoURL = videoElement.src;
+  const link = document.createElement('a');
+  link.href = videoURL;
+  link.download = 'edited-video.mp4';
+  link.click();
+});
 
-    // Enable the download button once the video is loaded
-    const downloadButton = document.getElementById("downloadButton");
-    downloadButton.disabled = false;
+function changeFontSize() {
+  // Logic for changing font size
+  overlayFontSize = "30px"; // Example change
+  updateOverlay();
 }
 
-// Handle Video Download
-document.getElementById("downloadButton").addEventListener("click", () => {
-    const videoPlayer = document.getElementById("videoPlayer");
-    const videoURL = videoPlayer.src;
+function changeTextColor() {
+  // Logic for changing text color
+  overlayColor = "#ff0000"; // Example change
+  updateOverlay();
+}
 
-    if (videoURL) {
-        const link = document.createElement('a');
-        link.href = videoURL;
-        link.download = 'video.mp4';  // Name for downloaded file
-        link.click();
-    } else {
-        alert('No video is loaded to download.');
-    }
-});
+function addImage() {
+  // Logic for adding an image overlay
+  overlayImageURL = "path/to/image.jpg"; // Example image URL
+  updateOverlay();
+}
 
-          // Event listeners and functions
-          // Video and audio element references
-          let videoElement = document.getElementById('videoPlayer');
-          let previewVideoElement = document.getElementById('previewVideo');
-          let timelineCanvas = document.getElementById('timelineCanvas');
-          let draggableDivider = document.getElementById('draggableDivider');
-          let videoSlider = document.getElementById('videoSlider');
-          let videoFile = null;
-          let videoDuration = 0;
-          let sceneImages = [];
-          let undoStack = [];
-          let redoStack = [];
-        
-          // Audio controls
-          let audioPreview = null;  // Will be initialized when audio is selected
-          let audioElement = null;  // If you use a separate audio element for audio
-        
-          // Handle file upload
-          function handleFileUpload() {
-            const input = document.getElementById("videoInput");
-            const file = input.files[0];
-        
-            if (!file) {
-              showToast("Please select a video file to upload.");
-              return;
-            }
-        
-            if (!file.type.includes("video")) {
-              showToast("Invalid file type. Please upload a video file.");
-              return;
-            }
-        
-            if (file.size > 50 * 1024 * 1024) {
-              showToast("File too large. Please upload a video under 50MB.");
-              return;
-            }
-        
-            // Proceed to load video if file is valid
-            if (file.type.includes('video') && file.size < 50 * 1024 * 1024) {
-              videoFile = file;
-              loadVideo();
-            } else {
-              showToast('Invalid video file. Please upload a valid video file no larger than 50MB.');
-            }
-          }
-        
-          // Load the video
-          function loadVideo() {
-            const videoElement = document.getElementById("videoElement");
-            const previewVideoElement = document.getElementById("previewVideoElement");
-        
-            if (!videoElement || !previewVideoElement) {
-              showToast("Error: Video elements not found.");
-              return;
-            }
-        
-            const videoURL = URL.createObjectURL(videoFile);
-        
-            // Set the video source and load
-            videoElement.src = videoURL;
-            videoElement.load();
-        
-            previewVideoElement.src = videoURL;
-            previewVideoElement.load();
-        
-            videoElement.addEventListener('loadedmetadata', () => {
-              videoDuration = videoElement.duration;
-              videoSlider.max = videoDuration;
-              generateTimelineImages();
-            });
-          }
-        
-          // Event listener for audio volume control
-          document.getElementById('audioVolume').addEventListener('input', (event) => {
-            previewVideoElement.volume = event.target.value;
-          });
-        
-          // Overlay and control buttons
-          document.getElementById('fontSizeButton').addEventListener('click', changeFontSize);
-          document.getElementById('colorButton').addEventListener('click', changeTextColor);
-          document.getElementById('imageButton').addEventListener('click', addImage);
-          document.getElementById('overlayButton').addEventListener('click', addOverlay);
-        
-          // Audio upload handling
-          document.getElementById('addAudioButton').addEventListener('click', () => {
-            document.getElementById('audioInput').click();
-          });
-        
-          document.getElementById('audioInput').addEventListener('change', (event) => {
-            const file = event.target.files[0];
-            if (file && file.type.includes('audio')) {
-              audioPreview = new Audio(URL.createObjectURL(file));
-              previewVideoElement.src = videoElement.src;
-              previewVideoElement.load();
-              audioPreview.addEventListener('timeupdate', () => {
-                if (audioPreview) {
-                  audioPreview.currentTime = previewVideoElement.currentTime;
-                }
-              });
-            } else {
-              showToast('Please select a valid audio file.');
-            }
-          });
-        
-          // Variables for overlay properties
-          let overlayFontSize = "20px";
-          let overlayColor = "#000000";
-          let overlayImageURL = "";
-        
-          // Function to create pop-ups dynamically
-          function createPopup(title, contentCallback) {
-            const popup = document.createElement("div");
-            popup.classList.add("popup");
-        
-            const overlay = document.createElement("div");
-            overlay.classList.add("popup-overlay");
-        
-            const popupContent = document.createElement("div");
-            popupContent.classList.add("popup-content");
-        
-            const popupHeader = document.createElement("h3");
-            popupHeader.textContent = title;
-        
-            const closeButton = document.createElement("button");
-            closeButton.textContent = "X";
-            closeButton.classList.add("close-button");
-            closeButton.addEventListener("click", () => {
-              document.body.removeChild(overlay);
-              document.body.removeChild(popup);
-            });
-        
-            popupContent.appendChild(popupHeader);
-            popupContent.appendChild(closeButton);
-        
-            contentCallback(popupContent);
-        
-            popup.appendChild(popupContent);
-            let videoPlayer = document.getElementById('videoPlayer');
-            videoPlayer.appendChild(overlay);
-            videoPlayer.appendChild(popup);
-          }
-        
-          // Function to create font size popup
-          function changeFontSize() {
-            createPopup("Change Font Size", (container) => {
-              const fontSizeLabel = document.createElement("label");
-              fontSizeLabel.textContent = "Font Size: ";
-        
-              const fontSizeSlider = document.createElement("input");
-              fontSizeSlider.type = "range";
-              fontSizeSlider.min = "10";
-              fontSizeSlider.max = "100";
-              fontSizeSlider.value = parseInt(overlayFontSize);
-        
-              const fontSizeValue = document.createElement("span");
-              fontSizeValue.textContent = `${fontSizeSlider.value}px`;
-        
-              fontSizeSlider.addEventListener("input", () => {
-                fontSizeValue.textContent = `${fontSizeSlider.value}px`;
-                overlayFontSize = `${fontSizeSlider.value}px`;
-              });
-        
-              container.appendChild(fontSizeLabel);
-              container.appendChild(fontSizeSlider);
-              container.appendChild(fontSizeValue);
-            });
-          }
-        
-          // Function to create text color picker popup
-          function changeTextColor() {
-            createPopup("Change Text Color", (container) => {
-              const colorLabel = document.createElement("label");
-              colorLabel.textContent = "Text Color: ";
-        
-              const colorPicker = document.createElement("input");
-              colorPicker.type = "color";
-              colorPicker.value = overlayColor;
-        
-              colorPicker.addEventListener("input", () => {
-                overlayColor = colorPicker.value;
-              });
-        
-              container.appendChild(colorLabel);
-              container.appendChild(colorPicker);
-            });
-          }
-        
-          // Function to create image input popup
-          function addImage() {
-            createPopup("Add Image Overlay", (container) => {
-              const fileLabel = document.createElement("label");
-              fileLabel.textContent = "Upload Image: ";
-        
-              const fileInput = document.createElement("input");
-              fileInput.type = "file";
-              fileInput.accept = "image/*";
-        
-              fileInput.addEventListener("change", (event) => {
-                const file = event.target.files[0];
-                if (file) {
-                  overlayImageURL = URL.createObjectURL(file);
-                }
-              });
-        
-              container.appendChild(fileLabel);
-              container.appendChild(fileInput);
-            });
-          }
-        
-          // Function to add text or image overlay
-          function addOverlay() {
-            createPopup("Add Overlay", (container) => {
-              const textLabel = document.createElement("label");
-              textLabel.textContent = "Overlay Text: ";
-        
-              const textInput = document.createElement("input");
-              textInput.type = "text";
-        
-              const addButton = document.createElement("button");
-              addButton.textContent = "Add Overlay";
-        
-              addButton.addEventListener("click", () => {
-                const overlay = document.createElement("div");
-                overlay.classList.add("overlay");
-        
-                overlay.style.fontSize = overlayFontSize;
-                overlay.style.color = overlayColor;
-        
-                if (overlayImageURL) {
-                  const image = document.createElement("img");
-                  image.src = overlayImageURL;
-                  overlay.appendChild(image);
-                }
-        
-                overlay.textContent = textInput.value;
-        
-                previewVideoElement.appendChild(overlay);
-              });
-        
-              container.appendChild(textLabel);
-              container.appendChild(textInput);
-              container.appendChild(addButton);
-            });
-          }
+function updateOverlay() {
+  // Apply the overlay dynamically
+  const overlayElement = document.createElement('div');
+  overlayElement.style.fontSize = overlayFontSize;
+  overlayElement.style.color = overlayColor;
+  overlayElement.textContent = "Sample Overlay Text";
+
+  if (overlayImageURL) {
+    const img = document.createElement('img');
+    img.src = overlayImageURL;
+    overlayElement.appendChild(img);
+  }
+
+  videoElement.appendChild(overlayElement);
+}
+
+
         </script>
         
     <!-- Footer -->
