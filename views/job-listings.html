@@ -1187,7 +1187,9 @@ function displayJobListings( jobListings ) {
     console.log("display searchjob:  ", job);
 
     const jobCard = createJobCard(job, jobContainer);
-    jobContainer.innerHTML += jobCard; // Append job card to container
+    //jobContainer.innerHTML += jobCard; // Append job card to container
+    jobContainer.appendChild(jobCard); // Append job card as a DOM node
+
   });
 
   
