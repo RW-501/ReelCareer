@@ -256,6 +256,9 @@ main #timelineCanvas {
                 <p class="instructions" role="note">
                   Use this area to preview your edited video. Adjust the volume with the slider and play the video to see your changes.
                 </p>
+                <video id="videoElement" controls></video>
+<video id="previewVideoElement" controls></video>
+
                 <video id="videoPlayer" controls aria-labelledby="videoPlayerDesc">
                   <track kind="captions" src="captions_en.vtt" srclang="en" label="English">
                 </video>
@@ -377,6 +380,7 @@ main #timelineCanvas {
                 </p>
                 <div id="timelineContainer" role="group" aria-labelledby="timelineSlider">
                   <canvas id="timelineCanvas" aria-label="Video timeline canvas" role="img"></canvas>
+               <div id="draggableDivider"></div>
                   <input type="range" id="videoSlider" aria-labelledby="timelineSlider" />
                 </div>
                 <button id="zoomOut" aria-label="Zoom out to adjust video view">
@@ -474,45 +478,61 @@ let redoStack = [];
       
       // Handle file upload
       function handleFileUpload() {
-    const input = document.getElementById("videoInput");
-    const file = input.files[0];
-    if (!file) {
-      showToast("Please select a video file to upload.");
-        return;
-    }
+  const input = document.getElementById("videoInput");
+  const file = input.files[0];
 
-    if (!file.type.includes("video")) {
-      showToast("Invalid file type. Please upload a video file.");
-        return;
-    }
-    if (file.size > 50 * 1024 * 1024) {
-      showToast("File too large. Please upload a video under 50MB.");
-        return;
-    }
+  if (!file) {
+    showToast("Please select a video file to upload.");
+    return;
+  }
 
-    
-        if (file.type.includes('video') && file.size < 50 * 1024 * 1024) {
-          videoFile = file;
-          loadVideo();
-        } else {
-          showToast('Invalid video file. Please upload a valid video file no larger than 50MB.');
-        }
-      }
-    
-      // Load the video
-      function loadVideo() {
-        const videoURL = URL.createObjectURL(videoFile);
-        videoElement.src = videoURL;
-        videoElement.load();
-        previewVideoElement.src = videoURL;
-        previewVideoElement.load();
-    
-        videoElement.addEventListener('loadedmetadata', () => {
-          videoDuration = videoElement.duration;
-          videoSlider.max = videoDuration;
-          generateTimelineImages();
-        });
-      }
+  if (!file.type.includes("video")) {
+    showToast("Invalid file type. Please upload a video file.");
+    return;
+  }
+
+  if (file.size > 50 * 1024 * 1024) {
+    showToast("File too large. Please upload a video under 50MB.");
+    return;
+  }
+
+  // Proceed to load video if file is valid
+  if (file.type.includes('video') && file.size < 50 * 1024 * 1024) {
+    videoFile = file;
+    loadVideo();
+  } else {
+    showToast('Invalid video file. Please upload a valid video file no larger than 50MB.');
+  }
+}
+
+// Load the video
+function loadVideo() {
+  // Ensure videoElement and previewVideoElement exist
+  const videoElement = document.getElementById("videoElement");
+  const previewVideoElement = document.getElementById("previewVideoElement");
+
+  // Check if videoElement and previewVideoElement are found
+  if (!videoElement || !previewVideoElement) {
+    showToast("Error: Video elements not found.");
+    return;
+  }
+
+  const videoURL = URL.createObjectURL(videoFile);
+
+  // Set the video source and load
+  videoElement.src = videoURL;
+  videoElement.load();
+
+  previewVideoElement.src = videoURL;
+  previewVideoElement.load();
+
+  videoElement.addEventListener('loadedmetadata', () => {
+    videoDuration = videoElement.duration;
+    videoSlider.max = videoDuration;
+    generateTimelineImages();
+  });
+}
+
     
       // Event listener for audio volume control
       document.getElementById('audioVolume').addEventListener('input', (event) => {
