@@ -255,15 +255,22 @@ main #overlayControls {
     display: block;
 }
 
+/* CSS for showing and hiding modals */
 .modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 1000;
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 9999;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal.show {
+  display: flex;
 }
 
 
@@ -290,11 +297,10 @@ main #overlayControls {
 
   <!-- Audio Input -->
 
-  <input type="file" id="videoInput" accept="video/*" />
-  <input type="file" id="audioInput" accept="audio/*" class="hidden" />
-
-  <input type="file" id="videoSliceInput" accept="video/*" />
-
+  <input type="file" id="videoInput" accept="video/*" title="Select a video to upload" />
+  <input type="file" id="audioInput" accept="audio/*" class="hidden" title="Select an audio file to add" />
+  <input type="file" id="videoSliceInput" accept="video/*" title="Select a video slice to append" />
+  
   
 
   <!-- Overlay Controls -->
@@ -304,8 +310,9 @@ main #overlayControls {
     <button id="sliceVideoButton">Slice Video</button>
     <button id="appendVideoButton">Append Video/Image</button>
 
-    <button id="undoButton">Undo</button>
-    <button id="redoButton">Redo</button>
+    <button id="undoButton" aria-label="Undo last action" title="Undo">Undo</button>
+    <button id="redoButton" aria-label="Redo last action" title="Redo">Redo</button>
+    
     <button id="downloadButton" disabled>Render & Download</button>
     
     <!-- Add Image or Text Overlays -->
@@ -337,9 +344,9 @@ main #overlayControls {
 <div id="textOverlayModal" class="modal">
   <div class="modal-content">
     <h3>Add Text Overlay</h3>
-    <input type="text" id="overlayTextInput" placeholder="Enter text" />
+    <input type="text" id="overlayTextInput" placeholder="Enter text" required />
     <input type="color" id="textColorInput" value="#ffffff" />
-    <input type="number" id="fontSizeInput" value="20" min="10" />
+    <input type="number" id="fontSizeInput" value="20" min="10" max="100" required />
     <select id="fontTypeInput">
       <option value="Arial">Arial</option>
       <option value="Verdana">Verdana</option>
@@ -348,6 +355,8 @@ main #overlayControls {
     <button id="saveTextOverlay">Save</button>
   </div>
 </div>
+
+
 
 <!-- Image Overlay Modal -->
 <div id="imageModal" class="modal">
@@ -407,7 +416,9 @@ let offsetX, offsetY; // Offset for drag positioning
     const file = e.target.files[0];
     if (file) {
       const url = URL.createObjectURL(file);
-      videoPlayer.src = url;
+videoPlayer.src = url;
+videoPlayer.load();  // Ensures the video metadata is loaded properly
+
       canvas.width = videoPlayer.videoWidth || 640;
       canvas.height = videoPlayer.videoHeight || 360;
       downloadButton.disabled = false;
@@ -441,13 +452,13 @@ requestAnimationFrame(renderVideoFrame);
     mediaRecorder = new MediaRecorder(canvas.captureStream());
     mediaRecorder.ondataavailable = (e) => recordedChunks.push(e.data);
     mediaRecorder.onstop = () => {
-      const blob = new Blob(recordedChunks, { type: "video/webm" });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "edited-video.webm";
-      a.click();
-    };
+  const blob = new Blob(recordedChunks, { type: "video/webm" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `edited-video-${new Date().toISOString()}.webm`;
+  a.click();
+};
     mediaRecorder.start();
     videoPlayer.play();
 
@@ -479,12 +490,13 @@ function addOverlay(type) {
     const overlay = document.createElement("div");
     overlay.textContent = text;
     overlay.style.cssText = `
-      position: absolute;
-      color: ${color};
-      font-size: ${fontSize};
-      font-family: ${fontFamily};
-      top: 10%;
-      left: 10%;
+overlay.style.position = "absolute";
+overlay.style.color = color;
+overlay.style.fontSize = fontSize;
+overlay.style.fontFamily = fontFamily;
+overlay.style.top = "10%";
+overlay.style.left = "10%";
+
     `;
     makeDraggable(overlay);
     videoContainer.appendChild(overlay);
@@ -493,6 +505,35 @@ function addOverlay(type) {
     hideModal("textOverlayModal");
   }
 }
+function previewOverlay(type) {
+  const previewContainer = document.getElementById("previewOverlayContainer");
+  previewContainer.innerHTML = ''; // Clear previous preview
+
+  if (type === "text") {
+    const text = document.getElementById("overlayTextInput").value;
+    const color = document.getElementById("textColorInput").value;
+    const fontSize = document.getElementById("fontSizeInput").value + "px";
+    const fontFamily = document.getElementById("fontTypeInput").value;
+    
+    const preview = document.createElement("div");
+    preview.textContent = text;
+    preview.style.cssText = `
+      position: absolute;
+      color: ${color};
+      font-size: ${fontSize};
+      font-family: ${fontFamily};
+      top: 10%;
+      left: 10%;
+    `;
+    previewContainer.appendChild(preview);
+  }
+}
+
+// Add event listeners for live preview
+document.querySelectorAll("#overlayTextInput, #textColorInput, #fontSizeInput, #fontTypeInput")
+  .forEach((el) => {
+    el.addEventListener("input", () => previewOverlay("text"));
+  });
 
 // Add event listener
 document.getElementById("saveTextOverlay").addEventListener("click", () => addOverlay("text"));
@@ -571,6 +612,11 @@ function makeDraggable(element) {
 function saveToUndo(action, data) {
   undoStack.push({ action, data });
   redoStack = [];  // Clear redo stack on new action
+
+  // Limit the undo stack size to 50 actions
+  if (undoStack.length > 50) {
+    undoStack.shift();  // Remove the oldest action to maintain a fixed size
+  }
 }
 
 
@@ -584,16 +630,19 @@ function showBeforeAfter(prevSrc, newSrc) {
 }
 
 // Update Undo/Redo to call comparison
-function saveState(action, data) {
-  undoStack.push({ action, data });
-  redoStack = [];
-  toggleUndoRedo();
-
-  if (data.prevVideoSrc && data.newVideoSrc) {
-    showBeforeAfter(data.prevVideoSrc, data.newVideoSrc);
+function saveActionState(actionType, actionData) {
+  const state = { action: actionType, data: actionData };
+  
+  undoStack.push(state);
+  redoStack = [];  // Clear redo stack on new action
+  
+  toggleUndoRedo();  // Update button states
+  
+  // Update before/after view if needed
+  if (actionData.prevVideoSrc && actionData.newVideoSrc) {
+    showBeforeAfter(actionData.prevVideoSrc, actionData.newVideoSrc);
   }
 }
-
 
 // Helper Function: Toggle Undo/Redo Buttons
 function toggleUndoRedo() {
@@ -677,11 +726,16 @@ redoButton.addEventListener("click", redoAction);
 
 // Modal Helpers
 function showModal(modalId) {
-  document.getElementById(modalId).style.display = "block";
+  const modal = document.getElementById(modalId);
+  modal.classList.add("show");
+  modal.setAttribute("aria-hidden", "false");
+  modal.querySelector("input, button").focus();  // Focus first input/button for accessibility
 }
 
 function hideModal(modalId) {
-  document.getElementById(modalId).style.display = "none";
+  const modal = document.getElementById(modalId);
+  modal.classList.remove("show");
+  modal.setAttribute("aria-hidden", "true");
 }
 
 
@@ -704,12 +758,21 @@ addAudioButton.addEventListener("click", () => {
 audioInput.addEventListener("change", (e) => {
   const audioFile = e.target.files[0];
   if (audioFile) {
-    const prevVideoSrc = videoPlayer.src;
-    audioURL = URL.createObjectURL(audioFile);
-    mergeAudioWithVideo(audioURL);
-    saveState("addAudio", { audioSrc: audioURL, prevVideoSrc });
+    const audioURL = URL.createObjectURL(audioFile);
+    const audioPreview = new Audio(audioURL);
+    
+    // Display audio preview controls
+    const audioPreviewContainer = document.getElementById("audioPreviewContainer");
+    audioPreviewContainer.innerHTML = `<audio controls><source src="${audioURL}" type="audio/mp3"></audio>`;
+    
+    // Optional: Automatically merge audio with video if the user confirms.
+    audioPreview.oncanplaythrough = () => {
+      mergeAudioWithVideo(audioURL);
+      saveState("addAudio", { audioSrc: audioURL });
+    };
   }
 });
+
 
 async function mergeAudioWithVideo(audioSrc) {
   const audio = new Audio(audioSrc);
