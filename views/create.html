@@ -308,7 +308,7 @@ main #timelineCanvas {
                 <p class="instructions" role="note">
                   Customize your video with text, images, and overlays. Use the buttons below to apply effects like font size, colors, and layers.
                 </p>
-                <button id="fontSizeButton" aria-label="Adjust font size for overlays">
+                <button id="fontSizeButton" aria-label="Adjust font size for overlays"> 
                   <i class="fas fa-text-height" aria-hidden="true"></i> Font Size
                 </button>
                 <button id="colorButton" aria-label="Change text color for overlays">
@@ -320,6 +320,42 @@ main #timelineCanvas {
                 <button id="overlayButton" aria-label="Add overlay to video">
                   <i class="fas fa-layer-group" aria-hidden="true"></i> Add Overlay
                 </button>
+                
+                <script>
+                // Function to enable or disable buttons based on element availability
+                function toggleButtonAvailability() {
+                  const fontSizeElement = document.querySelector("#fontSizeElement"); // Replace with actual element ID or class
+                  const colorElement = document.querySelector("#colorElement"); // Replace with actual element ID or class
+                  const imageElement = document.querySelector("#imageElement"); // Replace with actual element ID or class
+                  const overlayElement = document.querySelector("#overlayElement"); // Replace with actual element ID or class
+                
+                  // Font Size Button
+                  const fontSizeButton = document.getElementById("fontSizeButton");
+                  fontSizeButton.disabled = !fontSizeElement;
+                
+                  // Color Button
+                  const colorButton = document.getElementById("colorButton");
+                  colorButton.disabled = !colorElement;
+                
+                  // Image Button
+                  const imageButton = document.getElementById("imageButton");
+                  imageButton.disabled = !imageElement;
+                
+                  // Overlay Button
+                  const overlayButton = document.getElementById("overlayButton");
+                  overlayButton.disabled = !overlayElement;
+                }
+                
+                // Call the function to check the availability of elements
+                toggleButtonAvailability();
+                
+                // If your elements dynamically load or change, you can set up a mutation observer to call this function when changes occur
+                const observer = new MutationObserver(toggleButtonAvailability);
+                
+                // Observe changes in the document body (you can be more specific if necessary)
+                observer.observe(document.body, { childList: true, subtree: true });
+                </script>
+                
                 <button id="undoButton" aria-label="Undo last action">
                   <i class="fas fa-undo" aria-hidden="true"></i> Undo
                 </button>
