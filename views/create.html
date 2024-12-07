@@ -190,102 +190,163 @@
             width: 100%;
             border-radius: 8px;
           }
+          .section-header:hover {
+    background-color: #0056b3;
+}
+.popup {
+    opacity: 0;
+    transform: scale(0.8);
+    transition: all 0.3s ease;
+}
+
+.popup.show {
+    opacity: 1;
+    transform: scale(1);
+}
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+        margin: 10px;
+    }
+
+    button {
+        font-size: 0.9rem;
+        padding: 6px 10px;
+    }
+}
+input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 8px;
+    background: #ddd;
+    outline: none;
+    border-radius: 5px;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 16px;
+    width: 16px;
+    background: #007bff;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+    background: #0056b3;
+}
+
         </style>
         
         <div class="container">
           <h1>Video Upload & Editor</h1>
         
           <!-- File Upload & Media Controls -->
-          <div class="section" id="fileUploadSection">
-            <div class="section-header">
-              <h2>File Upload & Media Controls</h2>
-              <i class="fas fa-chevron-down"></i>
-            </div>
-            <div class="section-content">
-              <p class="instructions">
-                Use this section to upload your video and add audio tracks. Click "Upload Video" to start, and "Add Audio" to overlay sound.
-              </p>
-              <input type="file" id="videoInput" accept="video/*" />
-              <button id="uploadButton">
-                <i class="fas fa-upload"></i> Upload Video
-              </button>
-              <button id="addAudioButton">
-                <i class="fas fa-music"></i> Add Audio
-              </button>
-            </div>
-          </div>
-        
-          <!-- Overlays & Effects Controls -->
-          <div class="section" id="overlaysSection">
-            <div class="section-header">
-              <h2>Overlays & Effects Controls</h2>
-              <i class="fas fa-chevron-down"></i>
-            </div>
-            <div class="section-content">
-              <p class="instructions">
-                Customize your video with text, images, and overlays. Use the buttons below to apply effects like font size, colors, and layers.
-              </p>
-              <button id="fontSizeButton">
-                <i class="fas fa-text-height"></i> Font Size
-              </button>
-              <button id="colorButton">
-                <i class="fas fa-palette"></i> Text Color
-              </button>
-              <button id="imageButton">
-                <i class="fas fa-image"></i> Add Image
-              </button>
-              <button id="overlayButton">
-                <i class="fas fa-layer-group"></i> Add Overlay
-              </button>
-            </div>
-          </div>
-        
-          <!-- Timeline & Zoom Controls -->
-          <div class="section" id="timelineSection">
-            <div class="section-header">
-              <h2>Timeline & Zoom Controls</h2>
-              <i class="fas fa-chevron-down"></i>
-            </div>
-            <div class="section-content">
-              <p class="instructions">
-                Adjust the video timeline and zoom level for precise editing. Drag the slider to move through the video or zoom in and out for detailed adjustments.
-              </p>
-              <div id="timelineContainer">
-                <canvas id="timelineCanvas"></canvas>
-                <input type="range" id="videoSlider" />
+          <div class="container" role="main">
+            <h1>Video Upload & Editor</h1>
+          
+            <!-- File Upload & Media Controls -->
+            <div class="section" role="region" aria-labelledby="fileUploadHeader">
+              <div class="section-header" id="fileUploadHeader" role="heading" aria-level="2">
+                <h2>File Upload & Media Controls</h2>
+                <i class="fas fa-chevron-down" role="button" aria-expanded="false" aria-controls="fileUploadContent"></i>
               </div>
-              <button id="zoomOut">
-                <i class="fas fa-search-minus"></i> Zoom Out
-              </button>
-              <button id="zoomIn">
-                <i class="fas fa-search-plus"></i> Zoom In
-              </button>
+              <div class="section-content" id="fileUploadContent">
+                <p class="instructions" role="note">
+                  Use this section to upload your video and add audio tracks. Click "Upload Video" to start, and "Add Audio" to overlay sound.
+                </p>
+                <input type="file" id="videoInput" accept="video/*" aria-label="Upload video file" />
+                <button id="uploadButton" title="Upload a video file to start editing" aria-label="Upload Video">
+                  <i class="fas fa-upload" aria-hidden="true"></i> Upload Video
+                </button>
+                <button id="addAudioButton" aria-label="Add audio to video">
+                  <i class="fas fa-music" aria-hidden="true"></i> Add Audio
+                </button>
+              </div>
+            </div>
+          
+            <!-- Overlays & Effects Controls -->
+            <div class="section" id="overlaysSection" role="region" aria-labelledby="overlaysHeader">
+              <div class="section-header" id="overlaysHeader" role="heading" aria-level="2">
+                <h2>Overlays & Effects Controls</h2>
+                <i class="fas fa-chevron-down" role="button" aria-expanded="false" aria-controls="overlaysContent"></i>
+              </div>
+              <div class="section-content" id="overlaysContent">
+                <p class="instructions" role="note">
+                  Customize your video with text, images, and overlays. Use the buttons below to apply effects like font size, colors, and layers.
+                </p>
+                <button id="fontSizeButton" aria-label="Adjust font size for overlays">
+                  <i class="fas fa-text-height" aria-hidden="true"></i> Font Size
+                </button>
+                <button id="colorButton" aria-label="Change text color for overlays">
+                  <i class="fas fa-palette" aria-hidden="true"></i> Text Color
+                </button>
+                <button id="imageButton" aria-label="Add image to overlay">
+                  <i class="fas fa-image" aria-hidden="true"></i> Add Image
+                </button>
+                <button id="overlayButton" aria-label="Add overlay to video">
+                  <i class="fas fa-layer-group" aria-hidden="true"></i> Add Overlay
+                </button>
+                <button id="undoButton" aria-label="Undo last action">
+                  <i class="fas fa-undo" aria-hidden="true"></i> Undo
+                </button>
+                <button id="redoButton" aria-label="Redo last action">
+                  <i class="fas fa-redo" aria-hidden="true"></i> Redo
+                </button>
+              </div>
+            </div>
+          
+            <!-- Timeline & Zoom Controls -->
+            <div class="section" id="timelineSection" role="region" aria-labelledby="timelineHeader">
+              <div class="section-header" id="timelineHeader" role="heading" aria-level="2">
+                <h2>Timeline & Zoom Controls</h2>
+                <i class="fas fa-chevron-down" role="button" aria-expanded="false" aria-controls="timelineContent"></i>
+              </div>
+              <div class="section-content" id="timelineContent">
+                <p class="instructions" role="note">
+                  Adjust the video timeline and zoom level for precise editing. Drag the slider to move through the video or zoom in and out for detailed adjustments.
+                </p>
+                <div id="timelineContainer" role="group" aria-labelledby="timelineSlider">
+                  <canvas id="timelineCanvas" aria-label="Video timeline canvas" role="img"></canvas>
+                  <input type="range" id="videoSlider" aria-labelledby="timelineSlider" />
+                </div>
+                <button id="zoomOut" aria-label="Zoom out to adjust video view">
+                  <i class="fas fa-search-minus" aria-hidden="true"></i> Zoom Out
+                </button>
+                <button id="zoomIn" aria-label="Zoom in to adjust video view">
+                  <i class="fas fa-search-plus" aria-hidden="true"></i> Zoom In
+                </button>
+              </div>
+            </div>
+          
+            <!-- Preview Area -->
+            <div class="section" id="previewSection" role="region" aria-labelledby="previewHeader">
+              <div class="section-header" id="previewHeader" role="heading" aria-level="2">
+                <h2>Preview</h2>
+                <i class="fas fa-chevron-down" role="button" aria-expanded="false" aria-controls="previewContent"></i>
+              </div>
+              <div class="section-content" id="previewContent">
+                <p class="instructions" role="note">
+                  Use this area to preview your edited video. Adjust the volume with the slider and play the video to see your changes.
+                </p>
+                <video id="videoPlayer" controls aria-labelledby="videoPlayerDesc">
+                  <track kind="captions" src="captions_en.vtt" srclang="en" label="English">
+                </video>
+                <input
+                  type="range"
+                  id="audioVolume"
+                  min="0"
+                  max="1"
+                  step="0.1"
+                  value="0.5"
+                  aria-label="Adjust audio volume"
+                />
+              </div>
             </div>
           </div>
-        
-          <!-- Preview Area -->
-          <div class="section" id="previewSection">
-            <div class="section-header">
-              <h2>Preview</h2>
-              <i class="fas fa-chevron-down"></i>
-            </div>
-            <div class="section-content">
-              <p class="instructions">
-                Use this area to preview your edited video. Adjust the volume with the slider and play the video to see your changes.
-              </p>
-              <video id="videoPlayer" controls></video>
-              <input
-                type="range"
-                id="audioVolume"
-                min="0"
-                max="1"
-                step="0.1"
-                value="0.5"
-              />
-            </div>
-          </div>
-        </div>
-        
+                  
         <script>
           // Section Collapse Logic
           document.querySelectorAll(".section-header").forEach((header) => {
@@ -324,6 +385,9 @@
       let videoFile = null;
       let videoDuration = 0;
       let sceneImages = [];
+      let undoStack = [];
+let redoStack = [];
+
       
       // Audio controls
       let audioPreview = null;  // Will be initialized when audio is selected
@@ -331,12 +395,22 @@
       
       // Handle file upload
       function handleFileUpload() {
-        let input = document.getElementById('videoInput');
-        let file = input.files[0];
-        if (!file) {
-          showToast('Please upload a video file.');
-          return;
-        }
+    const input = document.getElementById("videoInput");
+    const file = input.files[0];
+    if (!file) {
+      showToast("Please select a video file to upload.");
+        return;
+    }
+
+    if (!file.type.includes("video")) {
+      showToast("Invalid file type. Please upload a video file.");
+        return;
+    }
+    if (file.size > 50 * 1024 * 1024) {
+      showToast("File too large. Please upload a video under 50MB.");
+        return;
+    }
+
     
         if (file.type.includes('video') && file.size < 50 * 1024 * 1024) {
           videoFile = file;
@@ -440,6 +514,8 @@ function createPopup(title, contentCallback) {
 
 // Function to create font size popup
 function changeFontSize() {
+  recordStateForUndo(); // Record state before change
+
   createPopup("Change Font Size", (container) => {
     const fontSizeLabel = document.createElement("label");
     fontSizeLabel.textContent = "Font Size: ";
@@ -466,6 +542,8 @@ function changeFontSize() {
 
 // Function to create text color picker popup
 function changeTextColor() {
+  recordStateForUndo(); // Record state before change
+
   createPopup("Change Text Color", (container) => {
     const colorLabel = document.createElement("label");
     colorLabel.textContent = "Text Color: ";
@@ -485,6 +563,8 @@ function changeTextColor() {
 
 // Function to create image input popup
 function addImage() {
+  recordStateForUndo(); // Record state before change
+
   createPopup("Add Image Overlay", (container) => {
     const fileLabel = document.createElement("label");
     fileLabel.textContent = "Upload Image: ";
@@ -507,6 +587,8 @@ function addImage() {
 
 // Function to add text or image overlay
 function addOverlay() {
+  recordStateForUndo(); // Record state before change
+
   createPopup("Add Overlay", (container) => {
     const textLabel = document.createElement("label");
     textLabel.textContent = "Overlay Text: ";
@@ -558,27 +640,25 @@ document.getElementById("overlayButton").addEventListener("click", addOverlay);
     
       // Generate timeline images
       function generateTimelineImages() {
-        const numImages = 10;
-        sceneImages = [];
-        const imageWidth = 64;
-        const imageHeight = 36;
-        const canvasContext = timelineCanvas.getContext('2d');
-        const video = document.createElement('video');
-        video.src = videoElement.src;
-        video.load();
-    
-        for (let i = 0; i < numImages; i++) {
-          const time = (videoDuration / numImages) * i;
-          video.currentTime = time;
-          video.addEventListener('seeked', () => {
-            canvasContext.drawImage(video, 0, 0, imageWidth, imageHeight);
-            sceneImages.push(timelineCanvas.toDataURL());
-            if (i === numImages - 1) {
-              drawTimeline();
-            }
-          });
+    const canvas = document.getElementById("timelineCanvas");
+    const ctx = canvas.getContext("2d");
+    const video = document.getElementById("videoPlayer");
+
+    video.addEventListener("loadeddata", () => {
+        const duration = video.duration;
+        const canvasWidth = canvas.width;
+        const segments = 10;
+
+        for (let i = 0; i < segments; i++) {
+            video.currentTime = (i / segments) * duration;
+
+            video.addEventListener("seeked", () => {
+                ctx.drawImage(video, (i / segments) * canvasWidth, 0, canvasWidth / segments, canvas.height);
+            });
         }
-      }
+    });
+}
+
     
       function drawTimeline() {
         const context = timelineCanvas.getContext('2d');
@@ -649,6 +729,92 @@ document.getElementById("overlayButton").addEventListener("click", addOverlay);
           document.getElementById('playButton').textContent = 'Play';
         }
       });
+
+
+      function recordStateForUndo() {
+    const currentState = {
+        fontSize: overlayFontSize,
+        color: overlayColor,
+        imageURL: overlayImageURL
+    };
+
+    undoStack.push(currentState);
+    if (undoStack.length > 10) { // Limit history size for performance
+        undoStack.shift();
+    }
+
+    // Clear the redo stack after a new action
+    redoStack = [];
+}
+function undo() {
+    if (undoStack.length > 0) {
+        const previousState = undoStack.pop();
+        redoStack.push({
+            fontSize: overlayFontSize,
+            color: overlayColor,
+            imageURL: overlayImageURL
+        });
+
+        // Restore previous state
+        overlayFontSize = previousState.fontSize;
+        overlayColor = previousState.color;
+        overlayImageURL = previousState.imageURL;
+
+        // Apply the changes to the UI elements
+        updateOverlayUI();
+    }
+}
+function redo() {
+    if (redoStack.length > 0) {
+        const nextState = redoStack.pop();
+        undoStack.push({
+            fontSize: overlayFontSize,
+            color: overlayColor,
+            imageURL: overlayImageURL
+        });
+
+        // Restore next state
+        overlayFontSize = nextState.fontSize;
+        overlayColor = nextState.color;
+        overlayImageURL = nextState.imageURL;
+
+        // Apply the changes to the UI elements
+        updateOverlayUI();
+    }
+}
+function updateOverlayUI() {
+    const overlay = document.querySelector(".overlay");
+    if (overlay) {
+        overlay.style.fontSize = overlayFontSize;
+        overlay.style.color = overlayColor;
+    }
+
+    const overlayImage = document.querySelector(".overlay img");
+    if (overlayImage && overlayImageURL) {
+        overlayImage.src = overlayImageURL;
+    }
+}
+addButton.addEventListener("click", () => {
+    recordStateForUndo(); // Record state before action
+
+    const overlay = document.createElement("div");
+    overlay.classList.add("overlay");
+    overlay.style.fontSize = overlayFontSize;
+    overlay.style.color = overlayColor;
+    overlay.textContent = textInput.value;
+
+    if (overlayImageURL) {
+        const image = new Image();
+        image.src = overlayImageURL;
+        image.style.maxWidth = "100px";
+        overlay.appendChild(image);
+    }
+
+    document.getElementById("videoContainer").appendChild(overlay);
+});
+document.getElementById('undoButton').addEventListener('click', undo);
+document.getElementById('redoButton').addEventListener('click', redo);
+
     </script>
            
     <!-- Footer -->
