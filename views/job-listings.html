@@ -1182,13 +1182,15 @@ function displayJobListings( jobListings ) {
     console.error('Error: jobListings is not defined or not an array:', jobListings);
     return;
   }
+  jobListings.forEach(job => createJobCard(job, jobContainer));
+ return;
 
   jobListings.forEach(job => {
     console.log("display searchjob:  ", job);
 
     const jobCard = createJobCard(job, jobContainer);
-    //jobContainer.innerHTML += jobCard; // Append job card to container
-    jobContainer.appendChild(jobCard); // Append job card as a DOM node
+    jobContainer.innerHTML += jobCard; // Append job card to container
+    //jobContainer.appendChild(jobCard); // Append job card as a DOM node
 
   });
 
