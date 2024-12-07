@@ -378,10 +378,74 @@ margin: auto;
 <main id="main-content">
   <!-- Video Container -->
   <div id="mainVideoHolder" aria-labelledby="mainVideoHolder">
+
+        <!-- left Controls Container -->
+    <div class="controls" role="group" aria-labelledby="controls">
+
+      <div class="controlsGroup" role="group" aria-labelledby="controlsGroup">
+          <!-- Trigger Button -->
+  <button id="uploadButton" aria-label="Upload a video">Upload Video</button>
+
+      <button id="fitButton">Fit</button>
+      <button id="coverButton">Cover</button>
+      </div>
+
+      <div class="controlsGroup" role="group" aria-labelledby="Video Slice & Append">
+    <!-- Video Slice & Append -->
+    <button id="addAudioButton" aria-label="Add audio to video">Add Audio</button>
+    <button id="appendVideoButton" aria-label="Append video or image to the video">Append Video/Image</button>
+      <button id="sliceVideoButton" aria-label="Slice the video">Slice Video</button>
+</div>
+
+      </div>
+
     <div id="videoContainer" aria-labelledby="videoContainer">
       <video id="videoPlayer" controls autoplay aria-label="Video player"></video>
     <canvas id="videoCanvas" style="display: none;" aria-hidden="true"></canvas>
+      <!-- Add Trash Can Icon -->
+      <i
+      id="trashIcon"
+      class="fas fa-trash hidden"
+      style="
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 40px;
+        color: red;
+      "
+      aria-label="Delete overlay"
+      title="Delete Overlay"
+    ></i>
+    
   </div>
+
+    <!-- right Controls Container -->
+  <div class="controls" role="group" aria-labelledby="controls">
+    <div class="controlsGroup" role="group" aria-labelledby="controlsGroup">
+    <button id="undoButton" aria-label="Undo last action" title="Undo">Undo</button>
+    <button id="redoButton" aria-label="Redo last action" title="Redo">Redo</button>
+    </div>
+
+    <div class="controlsGroup" role="group" aria-labelledby="controlsGroup">
+  <!-- Overlay Controls -->
+  <div id="overlayControls" role="group" aria-labelledby="overlayControlsHeading">
+    <h2 id="overlayControlsHeading" class="sr-only">Overlay Controls</h2>
+    <!-- Add Image or Text Overlays -->
+    <button id="textOverlayButton" aria-label="Add a text overlay to the video">Add Text Overlay</button>
+    <button id="imageButton" aria-label="Add an image overlay to the video">Add Image Overlay</button>
+  </div>
+  </div>
+
+  <div class="controlsGroup" role="group" aria-labelledby="controlsGroup">
+    <button id="downloadButton" disabled aria-disabled="true" aria-label="Render and download the edited video" title="Render & Download">Render & Download</button>
+    <button id="previewVideoSegment" aria-label="Redo last action" title="Redo">Preview</button>
+</div>
+
+  </div>
+
+
+  
 </div>
 <div id="timelineDiv" style="position: relative; width: 100%; height: 50px; background: #ddd;">
     <div id="startDiv" class="syncedTime" style="position: absolute; height: 100%; width: 5%; background: black;"></div>
@@ -389,33 +453,12 @@ margin: auto;
   </div>
   
   <!-- Audio Input -->
-  <input type="file" id="videoInput" accept="video/*" title="Select a video to upload" aria-label="Select a video to upload" />
+  <!-- Hidden Video Input -->
+  <input type="file" id="videoInput" accept="video/*" class="hidden" aria-label="Select a video to upload" />
   <input type="file" id="audioInput" accept="audio/*" class="hidden" title="Select an audio file to add" aria-label="Select an audio file to add" />
-  <input type="file" id="videoSliceInput" accept="video/*" title="Select a video slice to append" aria-label="Select a video slice to append" />
-  <button id="fitButton">Fit</button>
-  <button id="coverButton">Cover</button>
-  <!-- Add Trash Can Icon -->
-  <i id="trashIcon" class="hidden" style="position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); font-size: 40px; color: red;" 
-     aria-label="Delete overlay" title="Delete Overlay">🗑️</i>
 
-  <!-- Overlay Controls -->
-  <div id="overlayControls" role="group" aria-labelledby="overlayControlsHeading">
-    <h2 id="overlayControlsHeading" class="sr-only">Overlay Controls</h2>
-    <!-- Video Slice & Append -->
-    <button id="addAudioButton" aria-label="Add audio to video">Add Audio</button>
-    <button id="sliceVideoButton" aria-label="Slice the video">Slice Video</button>
-    <button id="appendVideoButton" aria-label="Append video or image to the video">Append Video/Image</button>
 
-    <button id="undoButton" aria-label="Undo last action" title="Undo">Undo</button>
-    <button id="redoButton" aria-label="Redo last action" title="Redo">Redo</button>
-    
-    <button id="downloadButton" disabled aria-disabled="true" aria-label="Render and download the edited video" title="Render & Download">Render & Download</button>
-    
-    <!-- Add Image or Text Overlays -->
-    <button id="textOverlayButton" aria-label="Add a text overlay to the video">Add Text Overlay</button>
-    <button id="imageButton" aria-label="Add an image overlay to the video">Add Image Overlay</button>
-  </div>
-  <button id="previewVideoSegment" aria-label="Redo last action" title="Redo">Preview</button>
+
 
   <div id="beforeAfterContainer">
     <div>
@@ -471,7 +514,9 @@ margin: auto;
   </div>
 </div>
 <script>
-  // Core Elements
+
+   // Reference the button and input
+   const uploadButton = document.getElementById("uploadButton");
   const videoInput = document.getElementById("videoInput");
   const downloadButton = document.getElementById("downloadButton");
   const addAudioButton = document.getElementById("addAudioButton");
@@ -1177,6 +1222,25 @@ overlay.style.left = "10%";
     }
   });
   toggleUndoRedo();
+
+
+
+
+
+
+
+    // When the button is clicked, trigger the file input
+    uploadButton.addEventListener("click", () => {
+      videoInput.click();
+    });
+
+    // Log the selected file (optional: for debugging)
+    videoInput.addEventListener("change", (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        console.log("Selected video file:", file.name);
+      }
+    });
 </script>
 
 
