@@ -1159,42 +1159,21 @@ async function fetchJobListings() {
     }
 
     // Process sponsored jobs
-    const sponsoredJobs = [];
-    sponsorsSnapshot.forEach(doc => {
-      const data = doc.data();
-      sponsoredJobs.push({
-        id: data.id,
-        title: data.title,
-        description: data.description,
-        datePosted: data.createdAt,
-        organization: data.company,
-        location: data.location,
-        employmentType: data.type,
-        baseSalary: data.salary,
-        validThrough: data.boostExpiresAt,
-        url: data.id,
-        source: sponsorLocationSource || 'Sponsored Query' // Add source field for sponsored jobs
-      });
-    });
+ 
 
     return {
-      jobListings,
-      sponsoredJobs
-    }; // Return both job listings and sponsored jobs
+      jobListings    }; // Return both job listings and sponsored jobs
   } catch (error) {
     console.error("Error fetching job listings: ", error);
     return {
-      jobListings: [],
-      sponsoredJobs: []
-    }; // Return empty arrays in case of an error
+      jobListings: []    }; // Return empty arrays in case of an error
   }
 }
 
 
     // Function to display job listings and sponsors
     function displayJobListings({ 
-  jobListings,
-  sponsoredJobs
+  jobListings
 }) {
   const jobContainer = document.getElementById('jobListings');
   jobContainer.innerHTML = ''; // Clear existing listings
@@ -1247,36 +1226,14 @@ const contractToHire = document.getElementById("contractToHire").checked || null
         keyword,
         locationInput,
         jobTypeInput,
-        salaryInput,
-
-        location,
-        city,
-        state,
-        zipCode,
-        salaryMin,
-        salaryMax,
-        contractType,
-        industry,
-        immediateHire,
-        contractToHire
+        salaryInput
       });
       fetchFilteredJobListings({
         requirements,
         keyword,
-        location,
         locationInput,
         jobTypeInput,
-        salaryInput,
-
-        city,
-        state,
-        zipCode,
-        salaryMin,
-        salaryMax,
-        contractType,
-        industry,
-        immediateHire,
-        contractToHire,
+        salaryInput
       });
     }
 
@@ -1302,9 +1259,7 @@ function normalizeJobType2(input) {
   return null; // Return null if no match is found
 }
 async function fetchFilteredJobListings({ 
-  requirements, keyword, location, locationInput, jobTypeInput, salaryInput,
-  city, state, zipCode, salaryMin, salaryMax, contractType, industry,
-  immediateHire, contractToHire
+  requirements, keyword, locationInput, jobTypeInput, salaryInput, salaryMin, salaryMax
 }) {
   try {
     let jobsQuery;
