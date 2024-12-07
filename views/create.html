@@ -1044,6 +1044,28 @@ overlay.style.left = "10%";
       };
     }
   });
+    // Append Video or Image
+    appendButton.addEventListener("click", () => {
+    const fileInput = document.createElement("input");
+    fileInput.type = "file";
+    fileInput.accept = "video/*,image/*";
+    fileInput.onchange = (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        appendMedia(URL.createObjectURL(file), file.type.startsWith("video"));
+        saveActionState("appendMedia");
+      }
+    };
+    fileInput.click();
+  });
+
+  function appendMedia(mediaSrc, isVideo) {
+    const media = document.createElement(isVideo ? "video" : "img");
+    media.src = mediaSrc;
+    media.style.width = "100%";
+    media.style.marginTop = "10px";
+    document.getElementById("videoContainer").appendChild(media);
+  }
   async function mergeAudioWithVideo(audioSrc) {
     const audio = new Audio(audioSrc);
     const stream = videoPlayer.captureStream();
@@ -1067,47 +1089,43 @@ overlay.style.left = "10%";
     });
   }
 
-  function sliceVideo(startTime, endTime) {
-    videoPlayer.currentTime = startTime;
-    const stream = videoPlayer.captureStream();
-    const mediaRecorder = new MediaRecorder(stream);
-    const chunks = [];
-    mediaRecorder.ondataavailable = (e) => chunks.push(e.data);
-    mediaRecorder.onstop = () => {
-      const blob = new Blob(chunks, {
-        type: "video/webm"
-      });
-      const slicedURL = URL.createObjectURL(blob);
-      videoPlayer.src = slicedURL;
-      videoPlayer.play();
-    };
-    mediaRecorder.start();
-    setTimeout(() => {
-      mediaRecorder.stop();
-    }, (endTime - startTime) * 1000);
-  }
-  // Append Video or Image
-  appendButton.addEventListener("click", () => {
-    const fileInput = document.createElement("input");
-    fileInput.type = "file";
-    fileInput.accept = "video/*,image/*";
-    fileInput.onchange = (e) => {
-      const file = e.target.files[0];
-      if (file) {
-        appendMedia(URL.createObjectURL(file), file.type.startsWith("video"));
-        saveActionState("appendMedia");
-      }
-    };
-    fileInput.click();
-  });
 
-  function appendMedia(mediaSrc, isVideo) {
-    const media = document.createElement(isVideo ? "video" : "img");
-    media.src = mediaSrc;
-    media.style.width = "100%";
-    media.style.marginTop = "10px";
-    document.getElementById("videoContainer").appendChild(media);
-  }
+
+
+function sliceVideo(startTime, endTime) { 
+  const videoPlayer = document.getElementById('videoPlayer');
+  
+  // Set the video to start at startTime
+  videoPlayer.currentTime = startTime;
+  
+  // Capture the stream
+  const stream = videoPlayer.captureStream();
+  const mediaRecorder = new MediaRecorder(stream);
+  const chunks = [];
+  
+  // Collect the chunks as data becomes available
+  mediaRecorder.ondataavailable = (e) => chunks.push(e.data);
+  
+  // When the recording stops, combine the chunks into a Blob
+  mediaRecorder.onstop = () => {
+    const blob = new Blob(chunks, { type: 'video/webm' });
+    const slicedURL = URL.createObjectURL(blob);
+
+    // Set the sliced video URL to the player
+    videoPlayer.src = slicedURL;
+    videoPlayer.play();
+  };
+  
+  // Start the media recording
+  mediaRecorder.start();
+  
+  // Stop the media recording after the endTime
+  setTimeout(() => {
+    mediaRecorder.stop();
+  }, (endTime - startTime) * 1000);
+}
+
+
   // Event listener for start time
   startDiv.addEventListener("mousedown", (e) => {
     const timeline = document.getElementById('timelineDiv');
