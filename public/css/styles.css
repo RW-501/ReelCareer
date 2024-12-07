@@ -1891,3 +1891,7 @@ animation: fadeInImage 2s ease-in;
   color: white;
   font-weight: 300;
 }
+
+address {
+  text-transform: capitalize;
+}
