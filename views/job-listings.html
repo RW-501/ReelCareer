@@ -1184,6 +1184,8 @@ function displayJobListings( jobListings ) {
   }
 
   jobListings.forEach(job => {
+    console.log("display searchjob:  ", job);
+
     const jobCard = createJobCard(job, jobContainer);
     jobContainer.innerHTML += jobCard; // Append job card to container
   });
@@ -1280,8 +1282,8 @@ async function fetchFilteredJobListings({
         source: data.source, // Include the source from the general query
     };
 });
-   console.log("Fetched Job Listings:", jobListings);
-    displayJobListings([jobListings]);
+   console.log("search Fetched Job Listings:", jobListings);
+    displayJobListings(jobListings);
 
     if (jobListings.length === 0) {
       showToast("No jobs found matching your criteria. Try adjusting filters.");
