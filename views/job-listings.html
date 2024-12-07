@@ -682,6 +682,27 @@ border-radius: 12px;
                       <label for="tagInput">Tags</label>
                     </div>
                   </div>
+
+    <!-- Job Preview Section (hidden initially) -->
+    <div id="previewSection" style="display: none;">
+      <h5>Preview Your Job Post</h5>
+      <hr>
+      <p><strong>Title:</strong> <span id="previewTitle"></span></p>
+      <p><strong>Company:</strong> <span id="previewCompany"></span></p>
+      <p><strong>Location:</strong> <span id="previewLocation"></span></p>
+      <p><strong>Job Type:</strong> <span id="previewJobType"></span></p>
+      <p><strong>Salary:</strong> <span id="previewSalary"></span></p>
+      <p><strong>Description:</strong> <span id="previewDescription"></span></p>
+      <p><strong>Tags:</strong> <span id="previewTags"></span></p>
+
+      <div class="mb-2 w-100 d-flex justify-content-between">
+        <button type="button" class="btn btn-outline-secondary" onclick="goBackToForm()">Back to Edit</button>
+        <button type="submit" class="btn btn-primary">Submit Job</button>
+      </div>
+    </div>
+
+
+
                   <div class="modal-footer border-0 d-flex flex-column align-items-start">
                     <div class="mb-2 w-100 d-flex justify-content-between">
                       <button type="button" class="btn btn-outline-primary me-2" onclick="previewJobPost()">Preview</button>
@@ -850,6 +871,39 @@ border-radius: 12px;
 
   <script>
 
+function previewJobPost() {
+  // Hide the form section
+  document.getElementById("formSection").style.display = "none";
+  // Show the preview section
+  document.getElementById("previewSection").style.display = "block";
+
+  // Get values from the form
+  const title = document.getElementById('jobTitle').value;
+  const company = document.getElementById('company').value;
+  const city = document.getElementById('city').value;
+  const state = document.getElementById('state').value;
+  const zip = document.getElementById('zip').value;
+  const jobType = document.getElementById('jobType').value;
+  const salary = document.getElementById('jobSalary').value;
+  const description = document.getElementById('jobDescription').value;
+  const tags = document.getElementById('tagInput').value;
+
+  // Set preview content
+  document.getElementById('previewTitle').textContent = title;
+  document.getElementById('previewCompany').textContent = company;
+  document.getElementById('previewLocation').textContent = `${city}, ${state} ${zip}`;
+  document.getElementById('previewJobType').textContent = jobType;
+  document.getElementById('previewSalary').textContent = salary;
+  document.getElementById('previewDescription').textContent = description;
+  document.getElementById('previewTags').textContent = tags;
+}
+
+function goBackToForm() {
+  // Show the form section again
+  document.getElementById("formSection").style.display = "block";
+  // Hide the preview section
+  document.getElementById("previewSection").style.display = "none";
+}
 
 
 

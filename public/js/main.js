@@ -432,8 +432,9 @@ document
   // Improved login form submission
 document.getElementById("login-form")?.addEventListener("submit", async (e) => {
   e.preventDefault();
-  const email = document.getElementById("login-email").value;
-  const password = document.getElementById("login-password").value;
+// Get values from the login form
+const email = sanitizeInput(document.getElementById("login-email").value);
+const password = sanitizeInput(document.getElementById("login-password").value);
 
   showLoading();
   try {
@@ -1427,7 +1428,7 @@ function getViewedByField() {
 
   //  console.log(`${durationOfTheView} durationOfTheView ???????? .`);
 
-    return;
+    
     // Retrieve user data from local storage
     const storedUserData = localStorage.getItem("userData");
 
