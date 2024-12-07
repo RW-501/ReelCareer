@@ -1018,20 +1018,25 @@ async function mergeAudioWithVideo(audioSrc) {
       document.getElementById("videoContainer").appendChild(media);
     }
 
-
- // Event listener for start time
+// Event listener for start time
 startDiv.addEventListener("mousedown", (e) => {
   const timeline = document.getElementById('timelineDiv');
   const timelineWidth = timeline.offsetWidth;
   const startDivWidth = startDiv.offsetWidth;
   
-  // Position the startDiv at the center of the timeline
+  // Calculate the offset of the center of the div
+  const offsetX = e.clientX - startDiv.offsetLeft - startDivWidth / 2;
+  
+  // Position the startDiv by its center initially
   startDiv.style.position = 'absolute';
-  startDiv.style.left = `${(timelineWidth - startDivWidth) / 2}px`;
-
+  
   const onMouseMove = (e) => {
-    // Update the start time based on mouse movement
-    startTime = Math.min((e.clientX / timelineWidth) * videoPlayer.duration, stopTime);
+    // Calculate the new left position of the startDiv, ensuring it moves within the bounds of the timeline
+    let newLeft = e.clientX - offsetX;
+    newLeft = Math.max(0, Math.min(newLeft, timelineWidth - startDivWidth));
+
+    // Update startTime based on mouse position
+    startTime = Math.min((newLeft / timelineWidth) * videoPlayer.duration, stopTime);
     updateStartDiv();
     updateSyncedTime(startDiv, startTime); // Update synced time on the start div
   };
@@ -1051,13 +1056,19 @@ stopDiv.addEventListener("mousedown", (e) => {
   const timelineWidth = timeline.offsetWidth;
   const stopDivWidth = stopDiv.offsetWidth;
   
-  // Position the stopDiv at the center of the timeline
+  // Calculate the offset of the center of the div
+  const offsetX = e.clientX - stopDiv.offsetLeft - stopDivWidth / 2;
+  
+  // Position the stopDiv by its center initially
   stopDiv.style.position = 'absolute';
-  stopDiv.style.left = `${(timelineWidth - stopDivWidth) / 2}px`;
 
   const onMouseMove = (e) => {
-    // Update the stop time based on mouse movement
-    stopTime = Math.max((e.clientX / timelineWidth) * videoPlayer.duration, startTime + 1);
+    // Calculate the new left position of the stopDiv, ensuring it moves within the bounds of the timeline
+    let newLeft = e.clientX - offsetX;
+    newLeft = Math.max(0, Math.min(newLeft, timelineWidth - stopDivWidth));
+
+    // Update stopTime based on mouse position
+    stopTime = Math.max((newLeft / timelineWidth) * videoPlayer.duration, startTime + 1);
     updateStopDiv();
     updateSyncedTime(stopDiv, stopTime); // Update synced time on the stop div
   };
