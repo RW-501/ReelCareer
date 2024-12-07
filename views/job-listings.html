@@ -1171,18 +1171,22 @@ async function fetchJobListings() {
 }
 
 
-    // Function to display job listings and sponsors
-    function displayJobListings({ 
-  jobListings
-}) {
+function displayJobListings({ jobListings }) {
   const jobContainer = document.getElementById('jobListings');
   jobContainer.innerHTML = ''; // Clear existing listings
 
-  jobListings.forEach(job => { // Error occurs here
+  // Check if jobListings is an array
+  if (!Array.isArray(jobListings)) {
+    console.error('Error: jobListings is not defined or not an array:', jobListings);
+    return;
+  }
+
+  jobListings.forEach(job => {
     const jobCard = createJobCard(job, jobContainer);
     jobContainer.innerHTML += jobCard; // Append job card to container
   });
 }
+
 
 
 
