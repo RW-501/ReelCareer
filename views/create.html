@@ -331,8 +331,8 @@ main #overlayControls {
     <canvas id="videoCanvas" style="display: none;" aria-hidden="true"></canvas>
   </div>
   <div id="timelineDiv" style="position: relative; width: 100%; height: 50px; background: #ddd;">
-    <div id="startDiv" style="position: absolute; height: 100%; width: 5%; background: black;"></div>
-    <div id="stopDiv" style="position: absolute; height: 100%; width: 5%; background: red;"></div>
+    <div id="startDiv" class="syncedTime" style="position: absolute; height: 100%; width: 5%; background: black;"></div>
+    <div id="stopDiv" class="syncedTime" style="position: absolute; height: 100%; width: 5%; background: red;"></div>
   </div>
   
   <!-- Audio Input -->
@@ -1019,14 +1019,21 @@ async function mergeAudioWithVideo(audioSrc) {
     }
 
 
- 
-
-// Event listener for start time
+ // Event listener for start time
 startDiv.addEventListener("mousedown", (e) => {
+  const timeline = document.getElementById('timelineDiv');
+  const timelineWidth = timeline.offsetWidth;
+  const startDivWidth = startDiv.offsetWidth;
+  
+  // Position the startDiv at the center of the timeline
+  startDiv.style.position = 'absolute';
+  startDiv.style.left = `${(timelineWidth - startDivWidth) / 2}px`;
+
   const onMouseMove = (e) => {
-    const timelineWidth = document.getElementById('timelineDiv').offsetWidth;
+    // Update the start time based on mouse movement
     startTime = Math.min((e.clientX / timelineWidth) * videoPlayer.duration, stopTime);
     updateStartDiv();
+    updateSyncedTime(startDiv, startTime); // Update synced time on the start div
   };
 
   const onMouseUp = () => {
@@ -1040,10 +1047,19 @@ startDiv.addEventListener("mousedown", (e) => {
 
 // Event listener for stop time
 stopDiv.addEventListener("mousedown", (e) => {
+  const timeline = document.getElementById('timelineDiv');
+  const timelineWidth = timeline.offsetWidth;
+  const stopDivWidth = stopDiv.offsetWidth;
+  
+  // Position the stopDiv at the center of the timeline
+  stopDiv.style.position = 'absolute';
+  stopDiv.style.left = `${(timelineWidth - stopDivWidth) / 2}px`;
+
   const onMouseMove = (e) => {
-    const timelineWidth = document.getElementById('timelineDiv').offsetWidth;
+    // Update the stop time based on mouse movement
     stopTime = Math.max((e.clientX / timelineWidth) * videoPlayer.duration, startTime + 1);
     updateStopDiv();
+    updateSyncedTime(stopDiv, stopTime); // Update synced time on the stop div
   };
 
   const onMouseUp = () => {
@@ -1064,6 +1080,21 @@ function updateStartDiv() {
 function updateStopDiv() {
   const timelineWidth = document.getElementById('timelineDiv').offsetWidth;
   stopDiv.style.left = `${(stopTime / videoPlayer.duration) * timelineWidth}px`;
+}
+
+// Function to update synced time at the center of the div
+function updateSyncedTime(div, time) {
+  const syncedTimeDisplay = div.querySelector('.syncedTime');
+  if (syncedTimeDisplay) {
+    syncedTimeDisplay.textContent = formatTime(time); // Display formatted time at the center
+  }
+}
+
+// Helper function to format time (in seconds)
+function formatTime(timeInSeconds) {
+  const minutes = Math.floor(timeInSeconds / 60);
+  const seconds = Math.floor(timeInSeconds % 60);
+  return `${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
 }
 
 // Function to slice the video and create a blob
@@ -1106,8 +1137,6 @@ videoPlayer.addEventListener("timeupdate", () => {
     updateStopDiv();
   }
 });
-
-
 
     toggleUndoRedo();
 </script>
