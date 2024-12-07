@@ -100,77 +100,31 @@
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 
           }
-          .video-reel-container {
-    width: 100%;
-    max-width: 640px;
-    margin: 0 auto;
-    background-color: #000;
-    color: #fff;
-    box-sizing: border-box;
-padding: 10px;
-    border-radius: 10px;
-}
 
-.video-player-container {
-    width: 100%;
-    height: 360px;
-    margin-bottom: 10px;
-    background-color: #333;
-    border-radius: 10px;
-}
 
-.video-player {
-    width: 100%;
-    height: 100%;
-    border-radius: 10px;
-}
 
-.controls-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 10px;
-}
 
-.actions {
-    display: flex;
-    justify-content: space-around;
-    width: 100%;
-    margin-bottom: 10px;
-}
 
-.action-btn {
-    background: transparent;
-    border: none;
-    color: white;
-    font-size: 24px;
-    cursor: pointer;
-}
-
-.action-btn:hover {
-    color: #1d72b8;
-}
-
-.video-details {
+#mainVideoHolder .video-details {
     display: flex;
     justify-content: space-between;
     width: 100%;
     margin-bottom: 10px;
 }
 
-.video-details p {
+#mainVideoHolder .video-details p {
     margin: 0;
     font-size: 14px;
 }
 
-.video-upload-section {
+#mainVideoHolder .video-upload-section {
     display: flex;
     justify-content: center;
     width: 100%;
     margin-top: 10px;
 }
 
-#uploadButton {
+#mainVideoHolder #uploadButton {
     background-color: #1d72b8;
     color: white;
     border: none;
@@ -180,27 +134,27 @@ padding: 10px;
     cursor: pointer;
 }
 
-#uploadButton:hover {
+#mainVideoHolder #uploadButton:hover {
     background-color: #155a8a;
 }
-#videoContainer {
+#mainVideoHolder {
       position: relative;
       width: 640px;
       height: 360px;
       margin: 20px auto;
       border: 1px solid #ccc;
     }
-    video {
+    #mainVideoHolder  video {
       width: 100%;
       height: 100%;
     }
-    canvas {
+    #mainVideoHolder  canvas {
       display: none;
     }
-    .draggable {
+    #mainVideoHolder  .draggable {
       cursor: grab;
     }
-    .hidden {
+  main  .hidden {
       display: none;
     }
         </style>
@@ -233,7 +187,7 @@ padding: 10px;
 
 }
 
-main #videoPlayer {
+#mainVideoHolder #videoPlayer {
   width: 100%;
   display: block;
 
@@ -241,7 +195,7 @@ main #videoPlayer {
 }
 
 
-  button:disabled {
+#mainVideoHolder button:disabled {
     opacity: 0.5;
     cursor: not-allowed;
   }
@@ -279,7 +233,7 @@ main #overlayControls {
 
 
 /* Improved active overlay state */
-.active {
+#mainVideoHolder .active {
   border: 2px solid #4CAF50;
   box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
   transition: all 0.3s ease-in-out;
@@ -368,7 +322,24 @@ main #overlayControls {
 margin: auto;
 }
 
+#mainVideoHolder .actions {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    margin-bottom: 10px;
+}
 
+#mainVideoHolder .action-btn {
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+#mainVideoHolder .action-btn:hover {
+    color: #1d72b8;
+}
 
 .controls {
   width: 100%;
