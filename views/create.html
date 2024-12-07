@@ -301,7 +301,9 @@ main #overlayControls {
   <input type="file" id="audioInput" accept="audio/*" class="hidden" title="Select an audio file to add" />
   <input type="file" id="videoSliceInput" accept="video/*" title="Select a video slice to append" />
   
-  
+  <!-- Add Trash Can Icon -->
+<i id="trashIcon" class="hidden" style="position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); font-size: 40px; color: red;">🗑️</i>
+
 
   <!-- Overlay Controls -->
   <div id="overlayControls">
@@ -409,7 +411,6 @@ let videoURL = null;
 
 
     let videoStream = null;
-let draggedOverlay = null; // Currently dragged element
 let offsetX, offsetY; // Offset for drag positioning
 
   videoInput.addEventListener("change", (e) => {
@@ -586,28 +587,80 @@ document.getElementById("saveImageOverlay").addEventListener("click", () => {
 });
 
 // Make Overlays Draggable
-function makeDraggable(element) {
-  element.addEventListener("mousedown", (e) => {
-    const prevX = element.style.left;
-    const prevY = element.style.top;
-    let offsetX = e.clientX - element.getBoundingClientRect().left;
-    let offsetY = e.clientY - element.getBoundingClientRect().top;
+let draggedOverlay = null; // Currently dragged element
+let trashIcon = document.getElementById("trashIcon");
 
-    function drag(e) {
-      element.style.left = `${e.clientX - offsetX}px`;
-      element.style.top = `${e.clientY - offsetY}px`;
+
+// Make elements draggable
+function makeDraggable(overlay) { 
+  overlay.classList.add("draggable");
+  overlay.setAttribute("draggable", true);
+
+  overlay.addEventListener("dragstart", (e) => {
+    draggedOverlay = overlay;
+    setTimeout(() => {
+      overlay.style.opacity = "0.5"; // Fade the overlay when dragging starts
+    }, 0);
+
+    // Calculate the offset from the center of the overlay
+    const offsetX = e.clientX - overlay.getBoundingClientRect().left;
+    const offsetY = e.clientY - overlay.getBoundingClientRect().top;
+
+    // Store the offset to use when dragging
+    overlay.dataset.offsetX = offsetX;
+    overlay.dataset.offsetY = offsetY;
+  });
+
+  overlay.addEventListener("dragend", () => {
+    setTimeout(() => {
+      draggedOverlay.style.opacity = "1"; // Restore opacity after drag ends
+      draggedOverlay = null;
+    }, 0);
+  });
+
+  overlay.addEventListener("drag", (e) => {
+    if (draggedOverlay) {
+      const offsetX = parseFloat(draggedOverlay.dataset.offsetX);
+      const offsetY = parseFloat(draggedOverlay.dataset.offsetY);
+
+      // Update position of the dragged element based on center offset
+      const x = e.clientX - videoContainer.offsetLeft - offsetX;
+      const y = e.clientY - videoContainer.offsetTop - offsetY;
+      
+      draggedOverlay.style.left = `${x}px`;
+      draggedOverlay.style.top = `${y}px`;
+
+      // Show trash can when the overlay is near the bottom
+      if (y + draggedOverlay.offsetHeight > videoContainer.offsetHeight - 50) {
+        trashIcon.classList.remove("hidden");
+      } else {
+        trashIcon.classList.add("hidden");
+      }
     }
+  });
 
-    function stopDrag() {
-      saveState("moveOverlay", { element, prevX, prevY, newX: element.style.left, newY: element.style.top });
-      document.removeEventListener("mousemove", drag);
-      document.removeEventListener("mouseup", stopDrag);
+  overlay.addEventListener("dragover", (e) => {
+    e.preventDefault(); // Enable drop
+  });
+
+  overlay.addEventListener("drop", (e) => {
+    if (draggedOverlay) {
+      // If the trash icon is visible (near the bottom), remove the overlay
+      const overlayRect = draggedOverlay.getBoundingClientRect();
+      const trashRect = trashIcon.getBoundingClientRect();
+
+      if (overlayRect.bottom >= trashRect.top && overlayRect.top <= trashRect.bottom) {
+        videoContainer.removeChild(draggedOverlay); // Remove the overlay
+      }
+
+      trashIcon.classList.add("hidden"); // Hide the trash can icon
     }
-
-    document.addEventListener("mousemove", drag);
-    document.addEventListener("mouseup", stopDrag);
   });
 }
+
+
+
+
 // Undo/Redo Functionality
 function saveToUndo(action, data) {
   undoStack.push({ action, data });
