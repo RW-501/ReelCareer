@@ -893,7 +893,7 @@ hideModal("jobPostPopupCloseBtn");
     <script type="module">
   import {
       db, doc, getDoc, query, updateDoc,
-      setDoc, ref, signInWithPopup, orderBy,limit, 
+      setDoc, ref, signInWithPopup, orderBy, limit, 
       uploadBytes, OAuthProvider, arrayUnion, getStorage,
       signOut, addDoc, increment, onAuthStateChanged,
       createUserWithEmailAndPassword, signInWithEmailAndPassword,
@@ -901,7 +901,7 @@ hideModal("jobPostPopupCloseBtn");
       auth, analytics, deleteDoc, getDownloadURL
   } from 'https://reelcareer.co/js/module.js';
 
-
+  
       let lastVisible = null; // To store the last document loaded 
 
 const userJobInterest = getUserJobInterest();
@@ -1194,134 +1194,45 @@ async function fetchJobListings() {
     
 
 
-
-    function searchJobs() {
-
- console.log("searchJobs");
-
-
-      const requirements = collectJobRequirements();
-
-      const keyword = document.getElementById('keywordInput').value.trim().toLowerCase() || '';
-      const locationInput = document.getElementById('locationInput').value.trim().toLowerCase() || '';
-      const jobTypeInput = document.getElementById('jobTypeInput').value.trim().toLowerCase() || '';
-      const salaryInput = parseInt(document.getElementById("salaryInput").value) || 0; 
-      
-/*
-
-const location = document.getElementById("jobLocation").value || '';
-const city = document.getElementById("jobCity").value || null;
-const state = document.getElementById("jobState").value || null;
-const zipCode = document.getElementById("jobZip").value || null;
-const salaryMin = parseInt(document.getElementById("salaryMin").value) || 0;
-const salaryMax = parseInt(document.getElementById("salaryMax").value) || Number.MAX_SAFE_INTEGER;
-const contractType = document.getElementById("contractType").value || null;
-const industry = document.getElementById("industry").value || null;
-const immediateHire = document.getElementById("immediateHire").checked || null;
-const contractToHire = document.getElementById("contractToHire").checked || null;
-*/
-      // You can now use these values to filter job listings
-      console.log({
-        requirements,
-        keyword,
-        locationInput,
-        jobTypeInput,
-        salaryInput
-      });
-      fetchFilteredJobListings({
-        requirements,
-        keyword,
-        locationInput,
-        jobTypeInput,
-        salaryInput
-      });
-    }
-
-    window.searchJobs = searchJobs;
-
-    function adjustSalary(salaryInput) {
-  const lowerSalary = salaryInput * 0.95; // 5% lower
-  const higherSalary = salaryInput * 1.05; // 5% higher
-  
-  return {
-    lowerSalary: lowerSalary,
-    higherSalary: higherSalary
-  };
-}
-
-function normalizeJobType2(input) {
-  const normalizedInput = input.trim().toLowerCase(); // Standardize input
-  for (const [key, variations] of Object.entries(jobTypeMap)) {
-    if (variations.includes(normalizedInput)) {
-      return key; // Return standardized key (e.g., "full_time" or "part_time")
-    }
-  }
-  return null; // Return null if no match is found
-}
+ 
+// Function to search for jobs
 async function fetchFilteredJobListings({ 
-  requirements, keyword, locationInput, jobTypeInput, salaryInput, salaryMin, salaryMax
+  requirements, keyword, locationInput, jobTypeInput, salaryInput 
 }) {
   try {
-    let jobsQuery;
+    // Ensure the Firestore DB instance is defined
+    if (!db) {
+      console.error("Firestore is not initialized. 'db' is undefined.");
+      showToast("Error: Database is unavailable. Please try again later.", "error");
+      return;
+    }
+
+    let jobsQuery = collection(db, "jobListings"); // Default query starts with the collection
+
+    // Prepare search terms if keyword or location is provided
     const searchTerms = [];
+    if (keyword) searchTerms.push(keyword.trim().toLowerCase());
+    if (locationInput) searchTerms.push(locationInput.trim().toLowerCase());
 
-    if (keyword || locationInput) {
-      // Add trimmed keyword and locationInput to search terms
-      if (keyword && keyword.trim() !== '') {
-        searchTerms.push(keyword.trim());
-      }
-      if (locationInput && locationInput.trim() !== '') {
-        searchTerms.push(locationInput.trim());
-      }
-
-      if (searchTerms.length > 0) {
-        console.log("Search Terms Array:", searchTerms);
-      } else {
-        console.log("No valid search terms provided.");
-      }
-    }
-
-    // Build the query dynamically based on filters
-    if (jobTypeInput && jobTypeInput !== '') {
-      const jobType = normalizeJobType(jobTypeInput); // Normalize jobType
-      jobsQuery = query(collection(db, "jobListings"), where('type', '==', jobType));
-    }
-
+    // Build dynamic query filters
+    const filters = [];
+    if (jobTypeInput) filters.push(where('type', '==', jobTypeInput.trim().toLowerCase()));
     if (salaryInput && salaryInput > 0) {
-      const adjustedSalaries = adjustSalary(salaryInput);
-      if (!jobsQuery) {
-        jobsQuery = query(collection(db, "jobListings"));
-      }
-      jobsQuery = query(jobsQuery, 
-        where('salary', '>=', adjustedSalaries.lowerSalary),
-        where('salary', '<=', adjustedSalaries.higherSalary)
-      );
+      const { lowerSalary, higherSalary } = adjustSalary(salaryInput);
+      filters.push(where('salary', '>=', lowerSalary), where('salary', '<=', higherSalary));
     }
-
-    let test = [
-    "job",
-    "locum",
-    "certified",
-    "registered",
-    "nurse",
-    "anesthetist",
-    "crna",
-    "terre",
-    "haute",
-    "make"
-];
-
-    // If there are search terms, filter using `array-contains-any`
     if (searchTerms.length > 0) {
-      jobsQuery = query(jobsQuery, where('searchableTitle', 'array-contains-any', test));
+      filters.push(where('searchableTitle', 'array-contains-any', searchTerms));
     }
+    filters.push(where('status', '==', 'active'));
 
-    // Add other filters as needed
-    jobsQuery = query(jobsQuery, where('status', '==', 'active'), orderBy('createdAt', 'desc'), limit(20));
+    // Apply filters to the query
+    jobsQuery = query(jobsQuery, ...filters, orderBy('createdAt', 'desc'), limit(20));
 
-    // Fetch data from Firestore
+    // Execute the query
     const jobListingsSnapshot = await getDocs(jobsQuery);
 
+    // Map and display results
     const jobListings = jobListingsSnapshot.docs.map(doc => ({
       id: doc.id,
       title: doc.data().title,
@@ -1335,19 +1246,52 @@ async function fetchFilteredJobListings({
       url: doc.id
     }));
 
-    console.log("jobListings:", jobListings);
-
+    console.log("Fetched Job Listings:", jobListings);
     displayJobListings(jobListings);
 
     if (jobListings.length === 0) {
-      showToast("No jobs found for your criteria. Try adjusting your filters.");
+      showToast("No jobs found matching your criteria. Try adjusting filters.");
     }
   } catch (error) {
-    console.error("Error fetching filtered job listings: ", error);
-    showToast("Error fetching job listings. Please try again later.", "error");
-    throw error; // Rethrow the error to handle it later
+    console.error("Error fetching job listings:", error.message, error.stack);
+    showToast("An error occurred while fetching jobs. Please try again later.", "error");
   }
 }
+
+// Utility function to adjust salary range
+function adjustSalary(salaryInput) {
+  return {
+    lowerSalary: salaryInput * 0.95, // 5% lower
+    higherSalary: salaryInput * 1.05 // 5% higher
+  };
+}
+
+// Call the search function
+function searchJobs() {
+  const requirements = collectJobRequirements();
+  const keyword = document.getElementById('keywordInput').value.trim();
+  const locationInput = document.getElementById('locationInput').value.trim();
+  const jobTypeInput = document.getElementById('jobTypeInput').value.trim();
+  const salaryInput = parseInt(document.getElementById("salaryInput").value) || 0;
+
+  fetchFilteredJobListings({
+    requirements,
+    keyword,
+    locationInput,
+    jobTypeInput,
+    salaryInput
+  });
+}
+
+window.searchJobs = searchJobs;
+
+// Helper function to collect job requirements
+function collectJobRequirements() {
+  return document.getElementById("jobRequirements").value
+    .split(',')
+    .map(req => req.trim());
+}
+
     // Function to get URL parameters
     function getUrlParameters() {
   const params = new URLSearchParams(window.location.search);
