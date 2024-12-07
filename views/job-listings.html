@@ -1207,7 +1207,7 @@ async function fetchFilteredJobListings({
       return;
     }
 
-    let jobsQuery = collection(db, "jobListings"); // Default query starts with the collection
+    let jobsQuery = collection(db, "Jobs"); // Default query starts with the collection
 
     // Prepare search terms if keyword or location is provided
     const searchTerms = [];
