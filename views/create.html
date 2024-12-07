@@ -349,7 +349,7 @@ main input[type="range"]::-webkit-slider-thumb:hover {
             </div>
           
           
-<input type="file" id="audioVolume" hidden>
+<input type="file" id="audioInput" hidden>
           </div>
         </main>
         <script>
@@ -547,9 +547,12 @@ function createPopup(title, contentCallback) {
 
   // Append popup content to popup and add to body
   popup.appendChild(popupContent);
-  document.body.appendChild(overlay);
-  document.body.appendChild(popup);
+
+  let videoPlayer = document.getElementById('videoPlayer');
+  videoPlayer.appendChild(overlay);
+  videoPlayer.appendChild(popup);
 }
+//   let mainContent = document.getElementById('main-content');
 
 // Function to create font size popup
 function changeFontSize() {
