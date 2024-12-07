@@ -912,11 +912,12 @@ const userlocationData = prepareLocationForFirebase();
 console.log("userlocationData.city: ", userlocationData.city);
 console.log("userJobInterest: ", userJobInterest);
 
+// Get values and split into arrays while sanitizing them
 const searchableTitle = [
-    ...getInputValue("jobTitle").split(",").map((item) => item.toLowerCase().trim()),
-    ...getInputValue("tagInput").split(",").map((item) => item.toLowerCase().trim()),
-    ...getInputValue("company").split(",").map((item) => item.toLowerCase().trim())
-  ];
+  ...sanitizeInput(getInputValue("jobTitle")).split(",").map((item) => item.toLowerCase().trim()),
+  ...sanitizeInput(getInputValue("tagInput")).split(",").map((item) => item.toLowerCase().trim()),
+  ...sanitizeInput(getInputValue("company")).split(",").map((item) => item.toLowerCase().trim())
+];
 
 async function handleJobPostSubmission(event) {
   event.preventDefault(); // Prevent form refresh
@@ -993,20 +994,28 @@ function collectJobDetails() {
   return {
     recruiterID: auth.currentUser.uid,
     title: getInputValue("jobTitle"),
-    company: getInputValue("company"),
-    description: getInputValue("jobDescription"),
-    searchableTitle: [...new Set(searchableTitle.map(title => title.toLowerCase()))].join(","),
-    location: `${getInputValue("city")}, ${getInputValue("state")} ${getInputValue("zip")}`,
-    city: getInputValue("city"),
-    state: getInputValue("state"),
-    zipCode: getInputValue("zip"),
-    type: getInputValue("jobType"),
-    jobCategory: getInputValue("jobCategory"),
-    industry: getInputValue("industry"),
-    salary: getInputValue("jobSalary"),
-    salaryPayTime: getInputValue("salaryPayTime"),
-    tags: getInputValue("tagInput").split(",").map(tag => tag.trim()),
-    boostDuration: new Date(new Date().setDate(new Date().getDate() + 30)), // 30-day boost duration
+  company: getInputValue("company"),
+  description: getInputValue("jobDescription"),
+  searchableTitle: [
+    ...new Set(
+      sanitizeInput(getInputValue("jobTitle"))
+        .split(",")
+        .map(title => title.toLowerCase().trim())
+    )
+  ].join(","),
+  location: `${sanitizeInput(getInputValue("city"))}, ${sanitizeInput(getInputValue("state"))} ${sanitizeInput(getInputValue("zip"))}`,
+  city: sanitizeInput(getInputValue("city")),
+  state: sanitizeInput(getInputValue("state")),
+  zipCode: sanitizeInput(getInputValue("zip")),
+  type: getInputValue("jobType"),
+  jobCategory: getInputValue("jobCategory"),
+  industry: getInputValue("industry"),
+  salary: getInputValue("jobSalary"),
+  salaryPayTime: getInputValue("salaryPayTime"),
+  tags: sanitizeInput(getInputValue("tagInput"))
+    .split(",")
+    .map(tag => tag.trim()),
+      boostDuration: new Date(new Date().setDate(new Date().getDate() + 30)), // 30-day boost duration
     applicationDeadline: new Date(new Date().setDate(new Date().getDate() + 30)), // 30-day deadline
     benefits: [], // Add benefits collection logic here if needed
     customQuestions: [], // Add custom questions logic here if needed
@@ -1309,10 +1318,11 @@ function adjustSalary(salaryInput) {
 // Call the search function
 function searchJobs() {
   const requirements = collectJobRequirements();
-  const keyword = document.getElementById('keywordInput').value.trim();
-  const locationInput = document.getElementById('locationInput').value.trim();
-  const jobTypeInput = document.getElementById('jobTypeInput').value.trim();
-  const salaryInput = parseInt(document.getElementById("salaryInput").value) || 0;
+// Get values from the inputs and sanitize them
+const keyword = sanitizeInput(document.getElementById('keywordInput').value);
+const locationInput = sanitizeInput(document.getElementById('locationInput').value);
+const jobTypeInput = sanitizeInput(document.getElementById('jobTypeInput').value);
+const salaryInput = parseInt(document.getElementById("salaryInput").value) || 0;  // Converts salary input to an integer
 
   fetchFilteredJobListings({
     requirements,
@@ -1332,10 +1342,11 @@ window.searchJobs = searchJobs;
 
   // Try to fetch multiple parameters, and if they are not available, fallback to an alternative logic
   try {
-    const keywords = params.get('keywords');
-    const location = params.get('location');
-    const jobType = params.get('jobType');
-    const salaryRange = params.get('salaryRange');
+// Get and sanitize values
+const keywords = sanitizeInput(params.get('keywords'));
+const location = sanitizeInput(params.get('location'));
+const jobType = sanitizeInput(params.get('jobType'));
+const salaryRange = sanitizeInput(params.get('salaryRange'));
 
     // If 'keywords' or other parameters are present, return the full object
     if (keywords || location || jobType || salaryRange) {
@@ -1440,26 +1451,34 @@ function normalizeJobType(jobType) {
 // Main function to retrieve and filter job cards based on input values
 function filterJobCards() {
     // Retrieve all filter input values once
-    const values = {
-        keyword: document.getElementById('keywordInput').value.toLowerCase(),
-        location: document.getElementById('locationInput').value.toLowerCase(),
-        jobType: document.getElementById('jobTypeInput').value.toLowerCase(),
-        salary: document.getElementById('salaryInput').value,
-        jobLocation: document.getElementById('jobLocation').value.toLowerCase(),
-        city: document.getElementById('jobCity').value.toLowerCase(),
-        state: document.getElementById('jobState').value.toLowerCase(),
-        zipCode: document.getElementById('jobZip').value,
-        salaryMin: parseInt(document.getElementById('salaryMin').value) || 0,
-        salaryMax: parseInt(document.getElementById('salaryMax').value) || Infinity,
-        contractType: document.getElementById('contractType').value.toLowerCase(),
-        industry: document.getElementById('industry').value.toLowerCase(),
-        immediateHire: document.getElementById('immediateHire').checked,
-        contractToHire: document.getElementById('contractToHire').checked,
-        postingDate: document.getElementById('postingDate').value,
-        education: document.getElementById('education').value.toLowerCase(),
-        experience: parseInt(document.getElementById('experience').value) || 0,
-        requirements: document.getElementById('jobRequirements').value.toLowerCase().split(',').map(item => item.trim())
-    };
+
+    
+// Function to retrieve and sanitize input values from form fields
+const values = {
+  keyword: sanitizeInput(document.getElementById('keywordInput').value.toLowerCase()),
+  location: sanitizeInput(document.getElementById('locationInput').value.toLowerCase()),
+  jobType: sanitizeInput(document.getElementById('jobTypeInput').value.toLowerCase()),
+  salary: sanitizeInput(document.getElementById('salaryInput').value),
+  jobLocation: sanitizeInput(document.getElementById('jobLocation').value.toLowerCase()),
+  city: sanitizeInput(document.getElementById('jobCity').value.toLowerCase()),
+  state: sanitizeInput(document.getElementById('jobState').value.toLowerCase()),
+  zipCode: sanitizeInput(document.getElementById('jobZip').value),
+  salaryMin: parseInt(document.getElementById('salaryMin').value) || 0,
+  salaryMax: parseInt(document.getElementById('salaryMax').value) || Infinity,
+  contractType: sanitizeInput(document.getElementById('contractType').value.toLowerCase()),
+  industry: sanitizeInput(document.getElementById('industry').value.toLowerCase()),
+  immediateHire: document.getElementById('immediateHire').checked,
+  contractToHire: document.getElementById('contractToHire').checked,
+  postingDate: sanitizeInput(document.getElementById('postingDate').value),
+  education: sanitizeInput(document.getElementById('education').value.toLowerCase()),
+  experience: parseInt(document.getElementById('experience').value) || 0,
+  requirements: document.getElementById('jobRequirements')
+    .value.toLowerCase()
+    .split(',')
+    .map(item => sanitizeInput(item))
+};
+
+
 
     // Select all job cards
     const jobCards = document.querySelectorAll('.JOB_CARD');
