@@ -341,6 +341,15 @@ margin: auto;
 #mainVideoHolder .action-btn:hover {
     color: #1d72b8;
 }
+#videoBody {
+  height: 100%;
+  width: 100%;
+}
+
+#trashIcon {
+margin: auto;
+
+}
 
 .controls {
     width: 100%;
@@ -359,6 +368,8 @@ margin: auto;
     align-items: stretch;
     justify-items: stretch;
     gap: 1.5rem;
+    -webkit-text-stroke: thin;
+    font: icon;
 }
 #mainVideoHolder .flex {
     display: flex;
@@ -381,80 +392,103 @@ margin: auto;
   <!-- Video Container -->
   <div id="mainVideoHolder" aria-labelledby="mainVideoHolder">
 
-        <!-- left Controls Container -->
+    <!-- left Controls Container -->
     <div class="controls" role="group" aria-labelledby="controls">
 
-      <div class="controlsGroup" role="group" aria-labelledby="controlsGroup">
-          <!-- Trigger Button -->
-  <button id="uploadButton" aria-label="Upload a video">Upload Video</button>
-</div>
+        <div class="controlsGroup" role="group" aria-labelledby="controlsGroup">
+            <!-- Trigger Button -->
+            <button id="uploadButton" aria-label="Upload a video">
+                <i class="fas fa-upload" aria-hidden="true"></i> Upload Video
+            </button>
+        </div>
 
-  <div class="controlsGroup flex" role="group" aria-labelledby="controlsGroup">
-    <button id="fitButton">Fit</button>
-      <button id="coverButton">Cover</button>
-      </div>
+        <div class="controlsGroup flex" role="group" aria-labelledby="controlsGroup">
+            <button id="fitButton" aria-label="Fit video to screen">
+                <i class="fas fa-expand-arrows-alt" aria-hidden="true"></i> Fit
+            </button>
+            <button id="coverButton" aria-label="Cover video to screen">
+                <i class="fas fa-arrows-alt" aria-hidden="true"></i> Cover
+            </button>
+        </div>
 
-      <div class="controlsGroup" role="group" aria-labelledby="Video Slice & Append">
-    <!-- Video Slice & Append -->
-    <button id="addAudioButton" aria-label="Add audio to video">Add Audio</button>
-    <button id="appendVideoButton" aria-label="Append video or image to the video">Append Video/Image</button>
-      <button id="sliceVideoButton" aria-label="Slice the video">Slice Video</button>
-</div>
+        <div class="controlsGroup" role="group" aria-labelledby="Video Slice & Append">
+            <!-- Video Slice & Append -->
+            <button id="addAudioButton" aria-label="Add audio to video">
+                <i class="fas fa-volume-up" aria-hidden="true"></i> Add Audio
+            </button>
+            <button id="appendVideoButton" aria-label="Append video or image to the video">
+                <i class="fas fa-plus-circle" aria-hidden="true"></i> Append Video/Image
+            </button>
+            <button id="sliceVideoButton" aria-label="Slice the video">
+                <i class="fas fa-cut" aria-hidden="true"></i> Slice Video
+            </button>
+        </div>
 
-      </div>
-
-    <div id="videoContainer" aria-labelledby="videoContainer">
-      <video id="videoPlayer" controls autoplay aria-label="Video player"></video>
-    <canvas id="videoCanvas" style="display: none;" aria-hidden="true"></canvas>
-      <!-- Add Trash Can Icon -->
-      <i
-      id="trashIcon"
-      class="fas fa-trash hidden"
-      style="
-        position: absolute;
-        bottom: 20px;
-        left: 50%;
-        transform: translateX(-50%);
-        font-size: 40px;
-        color: red;
-      "
-      aria-label="Delete overlay"
-      title="Delete Overlay"
-    ></i>
-    
-  </div>
-
-    <!-- right Controls Container -->
-  <div class="controls" role="group" aria-labelledby="controls">
-    <div class="controlsGroup flex" role="group" aria-labelledby="controlsGroup">
-    <button id="undoButton" aria-label="Undo last action" title="Undo">Undo</button>
-    <button id="redoButton" aria-label="Redo last action" title="Redo">Redo</button>
     </div>
 
-    <div class="controlsGroup" role="group" aria-labelledby="controlsGroup">
-  <!-- Overlay Controls -->
-  <div id="overlayControls" role="group" aria-labelledby="overlayControlsHeading">
-    <h2 id="overlayControlsHeading" class="sr-only">Overlay Controls</h2>
-    <!-- Add Image or Text Overlays -->
-    <button id="textOverlayButton" aria-label="Add a text overlay to the video">Add Text Overlay</button>
-    <button id="imageButton" aria-label="Add an image overlay to the video">Add Image Overlay</button>
-  </div>
-  </div>
+    <div id="videoContainer" aria-labelledby="videoContainer">
+      <div id="videoBody">
+        
+        <video id="videoPlayer" controls autoplay aria-label="Video player"></video>
+        <canvas id="videoCanvas" style="display: none;" aria-hidden="true"></canvas>
+</div>
+        <!-- Add Trash Can Icon -->
+        <i
+            id="trashIcon"
+            class="fas fa-trash hidden"
+            style="
+                position: absolute;
+                bottom: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                font-size: 40px;
+                color: red;
+            "
+            aria-label="Delete overlay"
+            title="Delete Overlay"
+        ></i>
+    </div>
 
-  <div class="controlsGroup" role="group" aria-labelledby="controlsGroup">
-    <button id="downloadButton" disabled aria-disabled="true" aria-label="Render and download the edited video" title="Render & Download">Render & Download</button>
-    <button id="previewVideoSegment" aria-label="Redo last action" title="Redo">Preview</button>
+    <!-- right Controls Container -->
+    <div class="controls" role="group" aria-labelledby="controls">
+        <div class="controlsGroup flex" role="group" aria-labelledby="controlsGroup">
+            <button id="undoButton" aria-label="Undo last action" title="Undo">
+                <i class="fas fa-undo" aria-hidden="true"></i> Undo
+            </button>
+            <button id="redoButton" aria-label="Redo last action" title="Redo">
+                <i class="fas fa-redo" aria-hidden="true"></i> Redo
+            </button>
+        </div>
+
+        <div class="controlsGroup" role="group" aria-labelledby="controlsGroup">
+            <!-- Overlay Controls -->
+            <!-- Add Image or Text Overlays -->
+            <button id="textOverlayButton" aria-label="Add a text overlay to the video">
+                <i class="fas fa-font" aria-hidden="true"></i> Add Text Overlay
+            </button>
+            <button id="imageButton" aria-label="Add an image overlay to the video">
+                <i class="fas fa-image" aria-hidden="true"></i> Add Image Overlay
+            </button>
+        </div>
+
+        <div class="controlsGroup" role="group" aria-labelledby="controlsGroup">
+            <button id="downloadButton" disabled aria-disabled="true" aria-label="Render and download the edited video" title="Render & Download">
+                <i class="fas fa-download" aria-hidden="true"></i> Render & Download
+            </button>
+            <button id="previewVideoSegment" aria-label="Preview the video segment" title="Preview">
+                <i class="fas fa-eye" aria-hidden="true"></i> Preview
+            </button>
+        </div>
+
+    </div>
+
 </div>
 
-  </div>
-
-
-  
-</div>
 <div id="timelineDiv" style="position: relative; width: 100%; height: 50px; background: #ddd;">
     <div id="startDiv" class="syncedTime" style="position: absolute; height: 100%; width: 5%; background: black;"></div>
     <div id="stopDiv" class="syncedTime" style="position: absolute; height: 100%; width: 5%; background: red;"></div>
-  </div>
+</div>
+
   
   <!-- Audio Input -->
   <!-- Hidden Video Input -->
