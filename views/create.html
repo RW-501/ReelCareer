@@ -187,13 +187,6 @@
 
 }
 
-#mainVideoHolder #videoPlayer {
-  width: 100%;
-  display: block;
-
-
-}
-
 
 #mainVideoHolder button:disabled {
     opacity: 0.5;
@@ -306,6 +299,7 @@ main #overlayControls {
     align-content: space-between;
     justify-content: space-around;
     align-items: stretch;
+    padding: 2rem;
 }
 #videoContainer {
   position: relative;
@@ -349,14 +343,22 @@ margin: auto;
 }
 
 .controls {
-  width: 100%;
-  display: grid;
+    width: 100%;
+    display: grid;
+    align-content: stretch;
+    justify-content: space-evenly;
+    align-items: stretch;
+    justify-items: center;
 }
 
 .controlsGroup {
-  width: 100%;
-
-
+    width: 100%;
+    display: grid;
+    align-content: stretch;
+    justify-content: space-around;
+    align-items: stretch;
+    justify-items: stretch;
+    gap: 2.5rem;
 }
 
 </style>
@@ -371,8 +373,10 @@ margin: auto;
       <div class="controlsGroup" role="group" aria-labelledby="controlsGroup">
           <!-- Trigger Button -->
   <button id="uploadButton" aria-label="Upload a video">Upload Video</button>
+</div>
 
-      <button id="fitButton">Fit</button>
+  <div class="controlsGroup flex" role="group" aria-labelledby="controlsGroup">
+    <button id="fitButton">Fit</button>
       <button id="coverButton">Cover</button>
       </div>
 
@@ -408,7 +412,7 @@ margin: auto;
 
     <!-- right Controls Container -->
   <div class="controls" role="group" aria-labelledby="controls">
-    <div class="controlsGroup" role="group" aria-labelledby="controlsGroup">
+    <div class="controlsGroup flex" role="group" aria-labelledby="controlsGroup">
     <button id="undoButton" aria-label="Undo last action" title="Undo">Undo</button>
     <button id="redoButton" aria-label="Redo last action" title="Redo">Redo</button>
     </div>
@@ -511,7 +515,7 @@ const coverButton = document.getElementById("coverButton");
 
 // Default video settings on load
 window.addEventListener("load", () => {
-  setVideoSize(300, 500); // Set default container size
+  setVideoSize(345, 500); // Set default container size
   videoPlayer.style.objectFit = "contain"; // Default to 'fit'
 });
 
