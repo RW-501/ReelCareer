@@ -1174,17 +1174,22 @@ async function fetchJobListings() {
 function displayJobListings( jobListings ) {
   const jobContainer = document.getElementById('jobListings');
   jobContainer.innerHTML = ''; // Clear existing listings
+  const featuredJobContainer = document.getElementById('featuredJobListings');
+    featuredJobContainer.innerHTML = ''; // Clear existing featured jobs
 
   // Check if jobListings is an array
   if (!Array.isArray(jobListings)) {
     console.error('Error: jobListings is not defined or not an array:', jobListings);
     return;
   }
-
+  jobListings.forEach(job => createJobCard(job, featuredJobContainer));
+/*
   jobListings.forEach(job => {
     const jobCard = createJobCard(job, jobContainer);
     jobContainer.innerHTML += jobCard; // Append job card to container
   });
+
+  */
 }
 
 
