@@ -70,6 +70,9 @@
     rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
   />
+
+  <script src="https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.10.2/ffmpeg.min.js"></script>
+
     <link rel="stylesheet" href="https://reelcareer.co/public/css/styles.css">
    
    
@@ -361,6 +364,7 @@ main #overlayControls {
     <button id="textOverlayButton" aria-label="Add a text overlay to the video">Add Text Overlay</button>
     <button id="imageButton" aria-label="Add an image overlay to the video">Add Image Overlay</button>
   </div>
+  <button id="previewVideoSegment" aria-label="Redo last action" title="Redo">Preview</button>
 
   <div id="beforeAfterContainer">
     <div>
@@ -1110,18 +1114,68 @@ function formatTime(timeInSeconds) {
 
 // Function to slice the video and create a blob
 function sliceVideo() {
-  const videoSource = videoPlayer.src;
+  const videoFile = videoPlayer.src; // Your video URL
+  const mediaSource = new MediaSource();
   
-  // Slice the video between startTime and stopTime
-  const videoBlob = new Blob([videoSource.slice(startTime, stopTime)], { type: "video/webm" });
+  // Attach the MediaSource to the video player
+  videoPlayer.src = URL.createObjectURL(mediaSource);
   
-  // Create a URL for the sliced video blob
-  editedVideoBlob = URL.createObjectURL(videoBlob);
-  
-  // Set the canvas source to the new sliced video
-  videoPlayer.src = editedVideoBlob;
-  videoPlayer.load();
+  mediaSource.addEventListener('sourceopen', function () {
+    const sourceBuffer = mediaSource.addSourceBuffer('video/webm; codecs="vp8"');
+    
+    // Fetch the video data as an ArrayBuffer (for slicing purposes)
+    fetch(videoFile)
+      .then(response => response.arrayBuffer())
+      .then(buffer => {
+        const videoData = new Uint8Array(buffer);
+
+        // Calculate start and stop byte positions based on video duration
+        const startByte = Math.floor((startTime / videoPlayer.duration) * videoData.length);
+        const stopByte = Math.floor((stopTime / videoPlayer.duration) * videoData.length);
+
+        // Slice the video data between startByte and stopByte
+        const slicedData = videoData.slice(startByte, stopByte);
+
+        // Append the sliced data to the source buffer
+        sourceBuffer.appendBuffer(slicedData);
+
+        // Once the buffer is appended, signal the video to play the sliced segment
+        sourceBuffer.addEventListener('updateend', () => {
+          mediaSource.endOfStream(); // End the stream
+          videoPlayer.play(); // Start playing the sliced video
+        });
+      })
+      .catch(error => {
+        console.error('Error fetching video data:', error);
+      });
+  });
 }
+function previewVideoSegment() {
+  const video = videoPlayer;
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+  
+  // Set canvas size to match the video resolution
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+  
+  // Seek to the start time of the segment
+  video.currentTime = startTime;
+  
+  video.addEventListener('seeked', function () {
+    // Capture the frame when the video reaches the start time
+    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+    
+    // Optionally display this frame in an image element
+    const image = new Image();
+    image.src = canvas.toDataURL();  // Convert the canvas content to an image URL
+    document.body.appendChild(image);  // Show the captured frame on the page
+    
+    // Continue playing video and update canvas to show frames
+    video.play();
+  });
+}
+
 
 // Function to capture a frame from the video and render it on the canvas
 function renderVideoFrame() {
@@ -1134,6 +1188,7 @@ function renderVideoFrame() {
 
 // Add Event Listener to the slice button to trigger video slicing
 document.getElementById("sliceVideoButton").addEventListener("click", sliceVideo);
+document.getElementById("previewVideoSegment").addEventListener("click", previewVideoSegment);
 
 // Render the frame when video is playing
 videoPlayer.addEventListener("play", () => {
