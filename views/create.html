@@ -369,6 +369,19 @@ main #overlayControls {
   </div>
 </div>
 
+<!-- Edit Modal -->
+<div id="editOverlayModal" class="modal">
+  <div class="modal-content">
+    <label for="editTextInput">Text:</label>
+    <input type="text" id="editTextInput">
+    <label for="editColorInput">Color:</label>
+    <input type="color" id="editColorInput">
+    <label for="editFontSizeInput">Font Size:</label>
+    <input type="number" id="editFontSizeInput">
+    <button id="saveEdit">Save Changes</button>
+    <button id="closeEditModal">Cancel</button>
+  </div>
+</div>
 
 
 
@@ -502,7 +515,7 @@ overlay.style.left = "10%";
     makeDraggable(overlay);
     videoContainer.appendChild(overlay);
     overlays.push(overlay);
-    saveState("addOverlay", { element: overlay });
+    saveActionState("addOverlay", { element: overlay });
     hideModal("textOverlayModal");
   }
 }
@@ -546,6 +559,14 @@ document.getElementById("imageButton").addEventListener("click", () => {
 });
 
 // Add Text Overlay
+// Show and hide edit modal
+const editModal = document.getElementById('editOverlayModal');
+const saveEditButton = document.getElementById('saveEdit');
+const closeEditButton = document.getElementById('closeEditModal');
+
+// Track the active overlay
+let activeOverlay = null;
+
 // Add Text Overlay
 document.getElementById("saveTextOverlay").addEventListener("click", () => {
   const text = document.getElementById("overlayTextInput").value;
@@ -560,10 +581,15 @@ document.getElementById("saveTextOverlay").addEventListener("click", () => {
   overlay.style.top = "10%";
   overlay.style.left = "10%";
 
+  // Add a unique ID and dataset for easy identification
+  overlay.id = `overlay-${Date.now()}`; // Unique ID based on current timestamp
+  overlay.dataset.type = 'text';
+  overlay.dataset.content = text;
+
   makeDraggable(overlay);
   videoContainer.appendChild(overlay);
   overlays.push(overlay);
-  saveState("addOverlay", { element: overlay });
+  saveActionState("addOverlay", { element: overlay });
 });
 
 // Add Image Overlay
@@ -575,9 +601,12 @@ document.getElementById("saveImageOverlay").addEventListener("click", () => {
   img.style.width = "100px";
   img.style.top = "10%";
   img.style.left = "10%";
-  img.classList.add("draggable");
 
-  // Add event listeners for dragging
+  // Add a unique ID and dataset for easy identification
+  img.id = `overlay-${Date.now()}`; // Unique ID based on current timestamp
+  img.dataset.type = 'image';
+  img.dataset.src = imageURL;
+
   makeDraggable(img);
 
   videoContainer.appendChild(img);
@@ -586,13 +615,8 @@ document.getElementById("saveImageOverlay").addEventListener("click", () => {
   hideModal("imageModal");
 });
 
-// Make Overlays Draggable
-let draggedOverlay = null; // Currently dragged element
-let trashIcon = document.getElementById("trashIcon");
-
-
-// Make elements draggable
-function makeDraggable(overlay) { 
+// Handle editing of overlays
+function makeDraggable(overlay) {
   overlay.classList.add("draggable");
   overlay.setAttribute("draggable", true);
 
@@ -602,18 +626,15 @@ function makeDraggable(overlay) {
       overlay.style.opacity = "0.5"; // Fade the overlay when dragging starts
     }, 0);
 
-    // Calculate the offset from the center of the overlay
     const offsetX = e.clientX - overlay.getBoundingClientRect().left;
     const offsetY = e.clientY - overlay.getBoundingClientRect().top;
-
-    // Store the offset to use when dragging
     overlay.dataset.offsetX = offsetX;
     overlay.dataset.offsetY = offsetY;
   });
 
   overlay.addEventListener("dragend", () => {
     setTimeout(() => {
-      draggedOverlay.style.opacity = "1"; // Restore opacity after drag ends
+      draggedOverlay.style.opacity = "1";
       draggedOverlay = null;
     }, 0);
   });
@@ -623,14 +644,12 @@ function makeDraggable(overlay) {
       const offsetX = parseFloat(draggedOverlay.dataset.offsetX);
       const offsetY = parseFloat(draggedOverlay.dataset.offsetY);
 
-      // Update position of the dragged element based on center offset
       const x = e.clientX - videoContainer.offsetLeft - offsetX;
       const y = e.clientY - videoContainer.offsetTop - offsetY;
-      
+
       draggedOverlay.style.left = `${x}px`;
       draggedOverlay.style.top = `${y}px`;
 
-      // Show trash can when the overlay is near the bottom
       if (y + draggedOverlay.offsetHeight > videoContainer.offsetHeight - 50) {
         trashIcon.classList.remove("hidden");
       } else {
@@ -645,20 +664,80 @@ function makeDraggable(overlay) {
 
   overlay.addEventListener("drop", (e) => {
     if (draggedOverlay) {
-      // If the trash icon is visible (near the bottom), remove the overlay
       const overlayRect = draggedOverlay.getBoundingClientRect();
       const trashRect = trashIcon.getBoundingClientRect();
 
       if (overlayRect.bottom >= trashRect.top && overlayRect.top <= trashRect.bottom) {
         videoContainer.removeChild(draggedOverlay); // Remove the overlay
       }
-
-      trashIcon.classList.add("hidden"); // Hide the trash can icon
+      trashIcon.classList.add("hidden");
     }
+  });
+
+  // Add click listener to mark the overlay as active and open the edit modal
+  overlay.addEventListener("click", (e) => {
+    e.stopPropagation(); // Prevent the parent click event from triggering
+
+    // Set overlay as active
+    if (activeOverlay) {
+      activeOverlay.classList.remove('active'); // Remove previous active state
+    }
+    overlay.classList.add('active');
+    activeOverlay = overlay;
+
+    // Open the edit modal
+    openEditModal(overlay);
   });
 }
 
+// Open the Edit Modal and populate it with current overlay data
+function openEditModal(overlay) {
+  if (overlay.dataset.type === "text") {
+    document.getElementById("editTextInput").value = overlay.dataset.content;
+    document.getElementById("editColorInput").value = overlay.style.color;
+    document.getElementById("editFontSizeInput").value = parseInt(overlay.style.fontSize);
+  } else if (overlay.dataset.type === "image") {
+    // Handle image overlay edits if necessary
+  }
 
+  editModal.style.display = "block"; // Show the modal
+}
+
+// Save edited overlay
+saveEditButton.addEventListener("click", () => {
+  if (activeOverlay) {
+    const text = document.getElementById("editTextInput").value;
+    const color = document.getElementById("editColorInput").value;
+    const fontSize = document.getElementById("editFontSizeInput").value;
+
+    if (activeOverlay.dataset.type === "text") {
+      activeOverlay.textContent = text;
+      activeOverlay.style.color = color;
+      activeOverlay.style.fontSize = `${fontSize}px`;
+      activeOverlay.dataset.content = text;
+    }
+
+    editModal.style.display = "none"; // Hide modal after saving
+  }
+});
+
+// Close edit modal without saving
+closeEditButton.addEventListener("click", () => {
+  editModal.style.display = "none"; // Hide modal
+  if (activeOverlay) {
+    activeOverlay.classList.remove('active'); // Remove active state
+  }
+});
+
+// Close the modal if clicked outside of it
+window.addEventListener('click', (e) => {
+  if (e.target === editModal) {
+    editModal.style.display = "none";
+    if (activeOverlay) {
+      activeOverlay.classList.remove('active');
+    }
+  }
+});
 
 
 // Undo/Redo Functionality
@@ -821,7 +900,7 @@ audioInput.addEventListener("change", (e) => {
     // Optional: Automatically merge audio with video if the user confirms.
     audioPreview.oncanplaythrough = () => {
       mergeAudioWithVideo(audioURL);
-      saveState("addAudio", { audioSrc: audioURL });
+      saveActionState("addAudio", { audioSrc: audioURL });
     };
   }
 });
@@ -870,7 +949,7 @@ sliceButton.addEventListener("click", () => {
       const blob = new Blob(chunks, { type: "video/webm" });
       const slicedURL = URL.createObjectURL(blob);
       videoPlayer.src = slicedURL;
-      saveState("sliceVideo", { prevVideoSrc, newVideoSrc: slicedURL });
+      saveActionState("sliceVideo", { prevVideoSrc, newVideoSrc: slicedURL });
     };
 
     mediaRecorder.start();
@@ -909,7 +988,7 @@ sliceButton.addEventListener("click", () => {
         const file = e.target.files[0];
         if (file) {
           appendMedia(URL.createObjectURL(file), file.type.startsWith("video"));
-          saveState("appendMedia");
+          saveActionState("appendMedia");
         }
       };
       fileInput.click();
