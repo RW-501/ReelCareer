@@ -278,6 +278,12 @@ main #overlayControls {
     color: white;
     text-align: center;
     overflow: hidden;
+    font-variant: full-width;
+    display: grid;
+    align-content: stretch;
+    justify-content: space-around;
+    align-items: center;
+    justify-items: stretch;
 }
 
 #mainVideoHolder {
@@ -387,9 +393,10 @@ position: absolute;
     width: 100%;
 }
 .controlsGroup button {
-  width: auto;
-  padding: 1rem;
-  height: 50px;
+    width: auto;
+    padding: 1rem;
+    height: 50px;
+    min-width: 100px;
 }
 </style>
 
