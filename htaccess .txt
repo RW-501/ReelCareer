@@ -1,7 +1,7 @@
 # Enable Rewrite Engine
 RewriteEngine On
 
-# Redirect /views/job-listings to /job-listings
+# Redirect /job-listings to /job-listings
 RewriteRule ^views/job-listings$ /job-listings [L,R=301]
 
 # Redirect /privacy to /public/privacy

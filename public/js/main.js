@@ -532,7 +532,7 @@ function createNavbar() {
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ml-auto">
-            <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/views/job-listings">Job Listings</a></li>
+            <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/job-listings">Job Listings</a></li>
             <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/reels">Reel</a></li>
             <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/views/membership">Membership</a></li>
 
@@ -866,7 +866,7 @@ function createJobCard(jobId, jobData) {
           <p class="card-text"><strong>Salary:</strong> ${formatCurrency(jobData.salary, { decimals: 0 })}</p>
           <div class="job-tags mt-2">
               ${jobData.tags.map(tag => `
-                  <a href="https://reelcareer.co/views/job-listings?tag=${encodeURIComponent(tag)}" class="btn btn-primary badge" style="margin: 0.2rem;">${tag}</a>
+                  <a href="https://reelcareer.co/job-listings?tag=${encodeURIComponent(tag)}" class="btn btn-primary badge" style="margin: 0.2rem;">${tag}</a>
               `).join('')}
           </div>
           <a href="https://reelcareer.co/jobs/job-details?id=${jobId}" class="view-job-btn">View Job</a>
@@ -1068,7 +1068,7 @@ function updateFooter() {
       "order": 13
     },
     {
-      "url": "/views/job-listings",
+      "url": "/job-listings",
       "name": "Job Listings",
       "title": "Job Listings - Search and Apply for Job Openings",
       "category": "General",
