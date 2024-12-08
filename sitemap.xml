@@ -26,7 +26,7 @@
 
     <!-- Job Seeker -->
     <url>
-        <loc>https://reelcareer.co/views/job-seeker</loc>
+        <loc>https://reelcareer.co/u/job-seeker</loc>
         <lastmod>2024-11-21</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>
@@ -34,7 +34,7 @@
 
     <!-- Recruiter Dashboard -->
     <url>
-        <loc>https://reelcareer.co/views/recruiter-dashboard</loc>
+        <loc>https://reelcareer.co/u/recuiter/</loc>
         <lastmod>2024-11-21</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>

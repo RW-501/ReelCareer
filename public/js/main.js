@@ -609,8 +609,8 @@ function handleAuthStateChanged(user) {
           <a class="dropdown-item" href="https://reelcareer.co/u/create">Create</a>
           <a class="dropdown-item" href="https://reelcareer.co/u/messaging">Messaging</a>
 
-          <a class="dropdown-item" href="https://reelcareer.co/views/job-seeker">Job Seeker</a>
-          <a class="dropdown-item" href="https://reelcareer.co/views/recruiter-dashboard">Recruiter Dashboard</a>
+          <a class="dropdown-item" href="https://reelcareer.co/u/job-seeker">Job Seeker</a>
+          <a class="dropdown-item" href="https://reelcareer.co/u/recuiter/">Recruiter Dashboard</a>
 
 
 
