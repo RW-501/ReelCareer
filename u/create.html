@@ -403,51 +403,90 @@ position: absolute;
 <main id="main-content">
 
 
-  <!-- Direction Box -->
-<div id="directionBox" style="
 
-width: auto; 
-padding: 15px; 
-background: #f9f9f9; 
-border: 1px solid #ddd; 
-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
-border-radius: 5px; 
-font-family: Arial, sans-serif;
-">
-<h4 style="margin-top: 0;">How to Use the Video Editor</h4>
-<ul style="list-style-type: square; padding-left: 20px; font-size: 14px;">
-    <li><strong>Upload Video</strong>: Click the <em>Upload Video</em> button to load a video file.</li>
-    <li><strong>Fit or Cover Mode</strong>:
-        <ul>
-            <li><em>Fit</em>: Adjusts the video to fit the screen while maintaining aspect ratio.</li>
-            <li><em>Cover</em>: Scales the video to cover the screen entirely.</li>
-        </ul>
-    </li>
-    <li><strong>Audio Options</strong>: 
-        <ul>
-            <li>Use <em>Add Audio</em> to overlay audio on your video.</li>
-        </ul>
-    </li>
-    <li><strong>Edit Video</strong>:
-        <ul>
-            <li><em>Slice</em>: Trim parts of the video.</li>
-            <li><em>Append</em>: Add other videos or images.</li>
-        </ul>
-    </li>
-    <li><strong>Overlay Features</strong>:
-        <ul>
-            <li><em>Text Overlay</em>: Add custom text with options for color and size.</li>
-            <li><em>Image Overlay</em>: Add images over the video using a URL.</li>
-        </ul>
-    </li>
-    <li><strong>Undo/Redo</strong>: Use the <em>Undo</em> and <em>Redo</em> buttons to revert or redo your edits.</li>
-    <li><strong>Render and Download</strong>: Once edits are complete, click <em>Render & Download</em> to save the video.</li>
-</ul>
-<p style="font-size: 13px; margin-top: 15px;">
-    Need help? <a href="https://reelcareer.co/views/contact" style="color: blue; text-decoration: underline;">Contact Support</a>
-</p>
-</div>
+  
+      <style>
+          /* Style for the button */
+          #toggleButton {
+              margin: 10px 0;
+              padding: 10px 20px;
+              background-color: #4CAF50;
+              color: white;
+              border: none;
+              border-radius: 5px;
+              cursor: pointer;
+              font-family: Arial, sans-serif;
+          }
+          #toggleButton:hover {
+              background-color: #45a049;
+          }
+          /* Style for the Direction Box */
+          #directionBox {
+              display: none; /* Hidden on load */
+              width: auto; 
+              padding: 15px; 
+              background: #f9f9f9; 
+              border: 1px solid #ddd; 
+              box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+              border-radius: 5px; 
+              font-family: Arial, sans-serif;
+          }
+      </style>
 
+      <!-- Toggle Button -->
+      <button id="toggleButton">Show Directions</button>
+  
+      <!-- Direction Box -->
+      <div id="directionBox">
+          <h4 style="margin-top: 0;">How to Use the Video Editor</h4>
+          <ul style="list-style-type: square; padding-left: 20px; font-size: 14px;">
+              <li><strong>Upload Video</strong>: Click the <em>Upload Video</em> button to load a video file.</li>
+              <li><strong>Fit or Cover Mode</strong>:
+                  <ul>
+                      <li><em>Fit</em>: Adjusts the video to fit the screen while maintaining aspect ratio.</li>
+                      <li><em>Cover</em>: Scales the video to cover the screen entirely.</li>
+                  </ul>
+              </li>
+              <li><strong>Audio Options</strong>: 
+                  <ul>
+                      <li>Use <em>Add Audio</em> to overlay audio on your video.</li>
+                  </ul>
+              </li>
+              <li><strong>Edit Video</strong>:
+                  <ul>
+                      <li><em>Slice</em>: Trim parts of the video.</li>
+                      <li><em>Append</em>: Add other videos or images.</li>
+                  </ul>
+              </li>
+              <li><strong>Overlay Features</strong>:
+                  <ul>
+                      <li><em>Text Overlay</em>: Add custom text with options for color and size.</li>
+                      <li><em>Image Overlay</em>: Add images over the video using a URL.</li>
+                  </ul>
+              </li>
+              <li><strong>Undo/Redo</strong>: Use the <em>Undo</em> and <em>Redo</em> buttons to revert or redo your edits.</li>
+              <li><strong>Render and Download</strong>: Once edits are complete, click <em>Render & Download</em> to save the video.</li>
+          </ul>
+          <p style="font-size: 13px; margin-top: 15px;">
+              Need help? <a href="https://reelcareer.co/views/contact" style="color: blue; text-decoration: underline;">Contact Support</a>
+          </p>
+      </div>
+  
+      <script>
+          // Function to show/hide the direction box
+          document.getElementById("toggleButton").addEventListener("click", function () {
+              const directionBox = document.getElementById("directionBox");
+              if (directionBox.style.display === "none" || directionBox.style.display === "") {
+                  directionBox.style.display = "block"; // Show the box
+                  this.textContent = "Hide Directions"; // Change button text
+              } else {
+                  directionBox.style.display = "none"; // Hide the box
+                  this.textContent = "Show Directions"; // Change button text
+              }
+          });
+      </script>
+
+  
   <!-- Video Container -->
   <div id="mainVideoHolder" aria-labelledby="mainVideoHolder">
 
