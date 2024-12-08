@@ -1516,62 +1516,34 @@ overlay.style.left = "10%";
   toggleUndoRedo();
 
 
-    function checkMobileView() {
-  // Get the window width
+  function checkMobileView() {
   const windowWidth = window.innerWidth;
   const mainVideoHolder = document.getElementById("mainVideoHolder");
-
-  const controlsGroup = document.querySelectorAll('.controlsGroup');
-
-  // Select all buttons inside the div with the id 'mainVideoHolder'
+  const controlsGroups = document.querySelectorAll('.controlsGroup');
   const buttons = document.querySelectorAll('.controlsGroup button');
 
-  console.log("buttons? ",buttons.length);
-  console.log("buttons? ",buttons);
-  // Loop through each button
+  // Check for mobile view threshold
+  const isMobileView = windowWidth <= 768;
 
+  // Apply styles to mainVideoHolder
+  mainVideoHolder.style.flexDirection = isMobileView ? "column" : "row";
 
-    if (windowWidth <= 768) { // Mobile view threshold (you can change this)
-      mainVideoHolder.style.flexDirection = "column";
-      
-      controlsGroup.forEach(cg => {
-        cg.style.display = "flex";
-
-      });
-
-
-      buttons.forEach(button => {
-
-
-        const text = button.querySelectorAll(':not(i)');
-      text.forEach(el => el.style.display = 'none');
-      console.log("text? ",text);
-    });
-
-    } else {
-      mainVideoHolder.style.flexDirection = "row";
-
-      controlsGroup.forEach(cg => {
-        cg.style.display = "grid";
-
-      });
-
-
-
-      buttons.forEach(button => {
-
-      // If not in mobile view, show the text again
-      const text = button.querySelectorAll(':not(i)');
-      text.forEach(el => el.style.display = 'block');
+  // Update controlsGroup display
+  controlsGroups.forEach(group => {
+    group.style.display = isMobileView ? "flex" : "grid";
   });
-    }
 
- 
+  // Show or hide button text based on mobile view
+  buttons.forEach(button => {
+    const textElements = button.querySelectorAll(':not(i)'); // Exclude <i> tags
+    textElements.forEach(el => {
+      el.style.display = isMobileView ? 'none' : 'block';
+    });
+  });
 }
 
-// Call the function when the window is resized or loaded
-window.addEventListener('resize', checkMobileView);
-window.addEventListener('load', checkMobileView);
+// Optimize event listeners
+['resize', 'load'].forEach(event => window.addEventListener(event, checkMobileView));
 
 </script>
 
