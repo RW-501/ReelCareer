@@ -674,6 +674,10 @@ position: absolute;
 
   
 function showUserDataNotFoundMessage() {
+
+
+
+
   breadcrumbTitleActive.style.display = "none";
 
 lastBreadcrumb_last.style.display = "block";
@@ -1609,16 +1613,21 @@ window.onload = async function () {
             return;
         }else{
 
+          const lastBreadcrumb_last = document.getElementById("lastBreadcrumb_last");
+const lastBreadcrumb_a = document.getElementById("lastBreadcrumb_a");
+
+const breadcrumbTitleActive = document.getElementById("breadcrumb-active-title");
+
 
 lastBreadcrumb_last.style.display = "none";
 lastBreadcrumb_a.href = `https://reelcareer.co/u/?u=${userDataSaved.displayName}`;
 
 
-breadcrumbjobTitleActive.innerText = userName;
+breadcrumbTitleActive.innerText = userName;
 // Set the new title
-document.title = `ReelCareer.co | ${userName} Profile`;
+document.title = `ReelCareer.co | ${userName} Create Reel`;
 
-breadcrumbjobTitleActive.style.display = "block";
+breadcrumbTitleActive.style.display = "block";
         }
 
   
