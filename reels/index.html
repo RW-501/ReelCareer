@@ -407,7 +407,7 @@ a {
                 <p class="views-count"><i class="fa fa-eye"></i> 5000 views</p>
                 <p class="video-duration"><i class="fa fa-clock"></i> 3:20</p>
             </div>
-            
+
               <div class="caption-container">
                 <p class="video-caption">Experienced software engineer with a passion for building innovative applications. #JavaScript #React #SoftwareEngineer</p>
               </div>
@@ -496,6 +496,12 @@ a {
 
 
 
+        let page = 1;
+let postsPerPage = 10; // Define your posts per page
+let currentPage = 1;
+let totalPosts = 0; // Track total number of posts
+let lastVisibleDoc = null; // For pagination tracking (Firestore pagination)
+let firstVisibleDoc = null; // For backward navigation
 
 
 
@@ -516,22 +522,21 @@ async function fetchBlogs(page) {
 
     
         let querySnapshot;
-
+        let blogsQuery;
         if (blogContainer){
             // General blogs fetching logic
-            const blogsRef = collection(db, "Blogs");
-            let blogsQuery = query(blogsRef, where("activate", "==", true), limit(postsPerPage));
+            const blogsRef = collection(db, "VideoResumes");
 
             // Handle pagination using Firestore's `startAfter`
             if (page > 1 && lastVisibleDoc) {
                 blogsQuery = query(
                     blogsRef,
-                    where("activate", "==", true),
+                    where("status", "==", "posted"),
                     startAfter(lastVisibleDoc),
                     limit(postsPerPage)
                 );
             } else {
-                blogsQuery = query(blogsRef, where("activate", "==", true), limit(postsPerPage));
+               blogsQuery = query(blogsRef, where("status", "==", "posted"), limit(postsPerPage));
             }
 
             const querySnap = await getDocs(blogsQuery);
@@ -615,12 +620,8 @@ async function fetchBlogs(page) {
     }  
     
 
-    let page = 1;
-let postsPerPage = 1; // Define your posts per page
-let currentPage = 1;
-let totalPosts = 0; // Track total number of posts
 
-
+    
 function setBlogMetaTags(blogData) {
     // Update the document title
     document.title = `ReelCareer.co | Blog: ${blogData.title}`;

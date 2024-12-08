@@ -266,11 +266,11 @@ async function fetchBlogs(page) {
 
     
         let querySnapshot;
+        let blogsQuery;
 
         if (blogContainer){
             // General blogs fetching logic
             const blogsRef = collection(db, "Blogs");
-            let blogsQuery = query(blogsRef, where("activate", "==", true), limit(postsPerPage));
 
             // Handle pagination using Firestore's `startAfter`
             if (page > 1 && lastVisibleDoc) {
