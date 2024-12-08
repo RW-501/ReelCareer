@@ -1745,6 +1745,11 @@ async function postReelFunction() {
         return; // Stop further processing if upload fails
     }
 
+    if(!videoResumeURL){
+      console.error('Error during video capture or upload:', error);
+        showToast('Failed to upload video resume. Please try again.', "error");
+        return; // Stop further processing if upload fails
+    }
     // Construct video resume data
     const videoResumeData = {
         userID: userDataSaved.userId || '',
