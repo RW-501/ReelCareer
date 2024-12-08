@@ -1613,19 +1613,16 @@ window.onload = async function () {
             return;
         }else{
 
-          const lastBreadcrumb_last = document.getElementById("lastBreadcrumb_last");
-const lastBreadcrumb_a = document.getElementById("lastBreadcrumb_a");
 
+          
 const breadcrumbTitleActive = document.getElementById("breadcrumb-active-title");
 
 
-lastBreadcrumb_last.style.display = "none";
-lastBreadcrumb_a.href = `https://reelcareer.co/u/?u=${userDataSaved.displayName}`;
 
 
-breadcrumbTitleActive.innerText = userName;
+breadcrumbTitleActive.innerText = userDataSaved.displayName;
 // Set the new title
-document.title = `ReelCareer.co | ${userName} Create Reel`;
+document.title = `ReelCareer.co | ${userDataSaved.displayName} Create Reel`;
 
 breadcrumbTitleActive.style.display = "block";
         }
