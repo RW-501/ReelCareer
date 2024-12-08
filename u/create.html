@@ -485,19 +485,7 @@ position: absolute;
           </p>
       </div>
   
-      <script>
-          // Function to show/hide the direction box
-          document.getElementById("toggleDirectionsBtn").addEventListener("click", function () {
-              const directionBox = document.getElementById("directionBox");
-              if (directionBox.style.display === "none" || directionBox.style.display === "") {
-                  directionBox.style.display = "block"; // Show the box
-                  this.textContent = "Hide Directions"; // Change button text
-              } else {
-                  directionBox.style.display = "none"; // Hide the box
-                  this.textContent = "Show Directions"; // ChangBtne button text
-              }
-          });
-      </script>
+
 
   
   <!-- Video Container -->
@@ -674,6 +662,18 @@ position: absolute;
   </div>
 </div>
 <script>
+  // Function to show/hide the direction box
+  document.getElementById("toggleDirectionsBtn").addEventListener("click", function () {
+      const directionBox = document.getElementById("directionBox");
+      if (directionBox.style.display === "none" || directionBox.style.display === "") {
+          directionBox.style.display = "block"; // Show the box
+          this.textContent = "Hide Directions"; // Change button text
+      } else {
+          directionBox.style.display = "none"; // Hide the box
+          this.textContent = "Show Directions"; // ChangBtne button text
+      }
+  });
+
 
   
 function showUserDataNotFoundMessage() {
@@ -1531,6 +1531,8 @@ overlay.style.left = "10%";
       // Hide the text inside the button, but keep the <i> tags
       const text = button.querySelectorAll(':not(i)');
       text.forEach(el => el.style.display = 'none');
+      console.log("text? ",text);
+
     } else {
       // If not in mobile view, show the text again
       const text = button.querySelectorAll(':not(i)');
