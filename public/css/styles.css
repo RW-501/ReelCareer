@@ -371,10 +371,10 @@ color: #0056b3;
 }
 
 .footerNavItems a {
-text-align: left;
-font-size: 1rem;
-font-family: system-ui;
-
+  text-align: left;
+  font-size: 1rem;
+  font-family: system-ui;
+  color: #768b97 !important;
 }
 
 #companyMedia .container {
