@@ -1895,3 +1895,48 @@ animation: fadeInImage 2s ease-in;
 address {
   text-transform: capitalize;
 }
+
+
+
+
+#tagsList .tag {
+  background-color: rgb(183 209 235);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+  width: max-content;
+  padding: .2rem;
+  font-size: small;
+}
+
+#tagsList {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-content: center;
+  gap: .5rem;
+}
+#tagsList .tag:hover {
+  background-color: #155a8a;
+}
+
+#tagsList .tag button {
+color: red;
+font-size: small;
+background-color: transparent;
+
+}
+
+ .clearTagsButton {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
