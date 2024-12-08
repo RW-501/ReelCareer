@@ -1630,6 +1630,26 @@ document.title = `ReelCareer.co | ${userName} Create Reel`;
 breadcrumbTitleActive.style.display = "block";
         }
 
+
+
+        // Check if the tags array is defined and has elements
+if (!userDataSaved.tags || userDataSaved.tags.length === 0) {
+    // If there are no tags, display a message
+} else {
+    // Directly use the tags array since it contains strings
+    const tags = userDataSaved.tags; // No need to map since they're already strings
+    
+
+const tagsContainer = document.getElementById('tagsList');
+userDataSaved.tags.forEach(tag => {
+              const tagElement = document.createElement('div');
+              tagElement.className = 'tag';
+              tagElement.innerHTML = `<span class="tag badge tag-primary mr-1">
+                ${tag}<button class="ml-1 btn btn-sm tag"> x</button></span>`;
+              tagsContainer.appendChild(tagElement);
+          });
+}
+
   
     }, 300);
 };
