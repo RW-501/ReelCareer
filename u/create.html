@@ -384,6 +384,7 @@ position: absolute;
     gap: 1.5rem;
     -webkit-text-stroke: thin;
     font: icon;
+    margin-bottom: 1.5rem;
 }
 #mainVideoHolder .flex {
     display: flex;
@@ -394,7 +395,6 @@ position: absolute;
     align-items: center;
     gap: 2rem;
     width: 100%;
-    margin: 1.5rem 0;
 }
 .controlsGroup button {
     width: auto;
@@ -1520,29 +1520,53 @@ overlay.style.left = "10%";
   // Get the window width
   const windowWidth = window.innerWidth;
   const mainVideoHolder = document.getElementById("mainVideoHolder");
+
+  const controlsGroup = document.querySelectorAll('.controlsGroup');
+
   // Select all buttons inside the div with the id 'mainVideoHolder'
   const buttons = document.querySelectorAll('.controlsGroup button');
 
   console.log("buttons? ",buttons.length);
   console.log("buttons? ",buttons);
   // Loop through each button
-  buttons.forEach(button => {
-    // Check if the window is in mobile view (you can adjust the width threshold as needed)
+
+
     if (windowWidth <= 768) { // Mobile view threshold (you can change this)
-      // Hide the text inside the button, but keep the <i> tags
-      const text = button.querySelectorAll(':not(i)');
+      mainVideoHolder.style.flexDirection = "column";
+      
+      controlsGroup.forEach(cg => {
+        cg.style.display = "flex";
+
+      });
+
+
+      buttons.forEach(button => {
+
+
+        const text = button.querySelectorAll(':not(i)');
       text.forEach(el => el.style.display = 'none');
       console.log("text? ",text);
-      mainVideoHolder.style.flexDirection = "column";
+    });
 
     } else {
       mainVideoHolder.style.flexDirection = "row";
 
+      controlsGroup.forEach(cg => {
+        cg.style.display = "grid";
+
+      });
+
+
+
+      buttons.forEach(button => {
+
       // If not in mobile view, show the text again
       const text = button.querySelectorAll(':not(i)');
-      text.forEach(el => el.style.display = '');
-    }
+      text.forEach(el => el.style.display = 'block');
   });
+    }
+
+ 
 }
 
 // Call the function when the window is resized or loaded
