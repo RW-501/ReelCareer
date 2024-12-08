@@ -360,12 +360,14 @@
 
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
-          <li id="lastBreadcrumb_profile" class="breadcrumb-item"><a href="https://reelcareer.co/u/">Profile</a></li>
+          <li id="lastBreadcrumb_profile" class="breadcrumb-item"><a id="homeBreadcrumb_a" href="https://reelcareer.co">Home</a></li>
           <li id="lastBreadcrumb_messages" class="breadcrumb-item"><a href="https://reelcareer.co/u/messaging">Messages</a></li>
           <li id="lastBreadcrumb_last" class="breadcrumb-item"><a id="lastBreadcrumb_a" href="https://reelcareer.co/u/create">Create Reel</a></li>
           <li id="breadcrumb-active-title" class="breadcrumb-item active" aria-current="page">User</li>
         </ol>
     </nav>
+
+
 
       <main id="main-content">
       
@@ -722,6 +724,60 @@ function generateVideoSchema(videoData, docId) {
     
 
 
+    let userId;
+
+// Retrieve and populate form inputs for tabs
+window.onload = async function () {
+  userId = await getUserId(); // Await here to properly set userId
+    const userDataSaved = getUserData() || [];
+
+
+    setTimeout(() => {
+
+
+        console.log("Module User We outside:", userId);
+        console.log("userDataSaved We outside:", userDataSaved);
+
+        // Ensure userIdFromURL is not null or undefined
+    if (!userId) {
+      // Call this function when the user data is not found
+            console.log("No user session.");
+
+            return;
+        }else{
+
+
+   
+          const lastBreadcrumb_last = document.getElementById("lastBreadcrumb_last");
+const lastBreadcrumb_a = document.getElementById("lastBreadcrumb_a");
+const homeBreadcrumb_a = document.getElementById("homeBreadcrumb_a");
+
+const breadcrumbTitleActive = document.getElementById("breadcrumb-active-title");
+const lastBreadcrumb_messages = document.getElementById("lastBreadcrumb_messages");
+
+
+lastBreadcrumb_last.style.display = "block";
+lastBreadcrumb_messages.style.display = "block";
+
+
+homeBreadcrumb_a.href = `https://reelcareer.co/u/`;
+lastBreadcrumb_a.innerText = "Profile";
+
+
+
+
+breadcrumbTitleActive.innerText = userDataSaved.displayName;
+// Set the new title
+document.title = `ReelCareer.co | Welcome ${userDataSaved.displayName}`;
+
+breadcrumbTitleActive.style.display = "block";
+        }
+
+      }, 300);
+};
+
+
+      
     
 function setBlogMetaTags(blogData) {
     // Update the document title
