@@ -343,7 +343,7 @@ async function fetchJobsByState(state) {
         salary: job.salary,
         description: job.description,
         industry: job.industry,
-                 url: `https://reelcareer.co/views/job-details?id=${doc.id}`
+                 url: `https://reelcareer.co/jobs/job-details?id=${doc.id}`
       });
 
       const jobCard = `
@@ -354,7 +354,7 @@ async function fetchJobsByState(state) {
         <p><strong>Location:</strong> <div class="cities">${job.city}</div>, ${job.state}</p>
           <p><strong>Salary:</strong> $${job.salary.toLocaleString()}</p>
           <p><strong>Description:</strong> ${job.description}</p>
-          <a href="https://reelcareer.co/views/job-details?id=${doc.id}" target="_blank" class="apply-link">Apply Now</a>
+          <a href="https://reelcareer.co/jobs/job-details?id=${doc.id}" target="_blank" class="apply-link">Apply Now</a>
         </div>
       `;
       jobsContainer.innerHTML += jobCard;

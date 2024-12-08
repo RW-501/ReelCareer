@@ -860,7 +860,7 @@ function createJobCard(jobId, jobData) {
   jobCard.classList.add('col-md-6', 'col-lg-4', 'mb-3');
   jobCard.innerHTML = `
       <div class="similar-job-card">
-          <h5><a href="https://reelcareer.co/views/job-details?id=${jobId}" class="job-title-link">${jobData.title}</a></h5>
+          <h5><a href="https://reelcareer.co/jobs/job-details?id=${jobId}" class="job-title-link">${jobData.title}</a></h5>
           <p><strong>${jobData.company}</strong> - ${formatLocation(jobData.location)}</p>
           <p class="card-text"><strong>Type:</strong> ${formatJobType(jobData.type)}</p>
           <p class="card-text"><strong>Salary:</strong> ${formatCurrency(jobData.salary, { decimals: 0 })}</p>
@@ -869,7 +869,7 @@ function createJobCard(jobId, jobData) {
                   <a href="https://reelcareer.co/views/job-listings?tag=${encodeURIComponent(tag)}" class="btn btn-primary badge" style="margin: 0.2rem;">${tag}</a>
               `).join('')}
           </div>
-          <a href="https://reelcareer.co/views/job-details?id=${jobId}" class="view-job-btn">View Job</a>
+          <a href="https://reelcareer.co/jobs/job-details?id=${jobId}" class="view-job-btn">View Job</a>
       </div>
   `;
   return jobCard;
@@ -918,10 +918,10 @@ function setBreadcrumb(){
   const appyJobTitle = document.getElementById("appyJobTitle");
   
   if (id && lastBreadcrumb){
-      lastBreadcrumb.href = `https://reelcareer.com/views/job-details?id=${id}`;
+      lastBreadcrumb.href = `https://reelcareer.com/jobs/job-details?id=${id}`;
   } 
   if (jobId && lastBreadcrumb){
-    lastBreadcrumb.href = `https://reelcareer.com/views/job-details?id=${jobId}`;
+    lastBreadcrumb.href = `https://reelcareer.com/jobs/job-details?id=${jobId}`;
 } 
 
   if (breadcrumbjobTitleActive && appyJobTitle){

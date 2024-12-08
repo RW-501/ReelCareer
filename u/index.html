@@ -1545,7 +1545,7 @@ profileData.tags.forEach(tag => {
             userData.jobPosts.forEach(jobData => {
               if(jobData.jobID){ 
                 const listItem = document.createElement('li');
-                listItem.innerHTML =  `<a href="https://reelcareer.co/views/job-details?id=${jobData.jobID}" title="${jobData.jobTitle}">${jobData.jobTitle}</a>`   || '' ;
+                listItem.innerHTML =  `<a href="https://reelcareer.co/jobs/job-details?id=${jobData.jobID}" title="${jobData.jobTitle}">${jobData.jobTitle}</a>`   || '' ;
                 jobsList.appendChild(listItem);
               }
                 

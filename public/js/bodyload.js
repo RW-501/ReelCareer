@@ -301,7 +301,7 @@ createLoader("ReelCareer");
       
       <!-- Job Title and Company -->
       <div class="card-top" >
-        <a href="https://reelcareer.co/views/job-details?id=${job.id}"
+        <a href="https://reelcareer.co/jobs/job-details?id=${job.id}"
            class="job-title-link" 
           >
           ${job.title}
@@ -350,7 +350,7 @@ createLoader("ReelCareer");
       </div>
   
       <!-- View Details Button -->
-      <a href="https://reelcareer.co/views/job-details?id=${job.id}" 
+      <a href="https://reelcareer.co/jobs/job-details?id=${job.id}" 
          class="card-CTA-Btn" 
          aria-label="View job details for ${job.title}">
         View Details
