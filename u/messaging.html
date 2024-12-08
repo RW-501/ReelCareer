@@ -322,7 +322,7 @@ main {
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li id="lastBreadcrumb_home" class="breadcrumb-item"><a href="https://reelcareer.co/">Home</a></li>
-            <li id="lastBreadcrumb_1" class="breadcrumb-item"><a id="lastBreadcrumb_1_a" href="https://reelcareer.co/views/user">View Profile</a></li>
+            <li id="lastBreadcrumb_1" class="breadcrumb-item"><a id="lastBreadcrumb_1_a" href="https://reelcareer.co/u/">View Profile</a></li>
 
 
             <li id="breadcrumb-active-title" class="breadcrumb-item active" aria-current="page">Messaging</li>
@@ -751,7 +751,7 @@ document.getElementById("editableDiv").addEventListener("keydown", (event) => {
 
 function viewProfile(userId){
     if (userId) {
-      window.location.href = `https://reelcareer.co/views/user?u=${userId}`;
+      window.location.href = `https://reelcareer.co/u/?u=${userId}`;
     }
 }
 
@@ -842,7 +842,7 @@ if(type === "contact"){
 
     
 conversationTitle.innerHTML = `
-<a href="https://reelcareer.co/views/user?u=${data.from}" style="text-decoration: none; color: inherit;">
+<a href="https://reelcareer.co/u/?u=${data.from}" style="text-decoration: none; color: inherit;">
     <img src="${data.fromProfilePicture || 'default-image-url'}" alt="Avatar" class="avatar lazy-image">
 </a>
 <span>${data.fromName || 'Unknown Sender'}</span>
@@ -923,7 +923,7 @@ conversationTitle.appendChild(groupDiv);
 
 
     conversationTitle.innerHTML = `
-<a href="https://reelcareer.co/views/user?u=${data.to}" style="text-decoration: none; color: inherit;">
+<a href="https://reelcareer.co/u/?u=${data.to}" style="text-decoration: none; color: inherit;">
     <img src="${data.toProfilePicture || 'default-image-url'}" alt="Avatar" class="avatar lazy-image">
 </a>
 <span>${data.toName || 'Unknown Sender'}</span>
@@ -1361,7 +1361,7 @@ onSnapshot(messagesQuery, snapshot => {
 
         if (data.recipientID === userDataSaved.userID) {
             messagesListItem.innerHTML = `
-                <a href="https://reelcareer.co/views/user?u=${data.senderID}" style="text-decoration: none;color: inherit;">
+                <a href="https://reelcareer.co/u/?u=${data.senderID}" style="text-decoration: none;color: inherit;">
                     <img src="${data.senderProfilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_tie_reel.png'}" alt="Avatar" class="avatar lazy-image">
                 </a>
                 <span>${data.senderName}</span>
@@ -1373,7 +1373,7 @@ onSnapshot(messagesQuery, snapshot => {
 
         if (data.senderID === userDataSaved.userID) {
             messagesListItem.innerHTML = `
-                <a href="https://reelcareer.co/views/user?u=${data.recipientID}" style="text-decoration: none;color: inherit;">
+                <a href="https://reelcareer.co/u/?u=${data.recipientID}" style="text-decoration: none;color: inherit;">
                     <img src="${data.recipientProfilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_tie_reel.png'}" alt="Avatar" class="avatar lazy-image lazy-image">
                 </a>
                 <span>${data.recipientName}</span>
@@ -1777,7 +1777,7 @@ return;
 
         recipientID: recipientID,
         recipientName: recipientName,
-        recipientProfileURL: `https://reelcareer.co/views/user?u=${recipientID}`,
+        recipientProfileURL: `https://reelcareer.co/u/?u=${recipientID}`,
         recipientProfilePicture:  recipientPicture,
         recipientRead: false,
 
@@ -1788,7 +1788,7 @@ return;
         senderID: userDataSaved.userID || auth.currentUser.uid || senderID,
         senderName: userDataSaved.displayName,
         senderProfilePicture: userDataSaved.profilePicture,
-        senderProfileURL: `https://reelcareer.co/views/user?u=${userDataSaved.userID}`,
+        senderProfileURL: `https://reelcareer.co/u/?u=${userDataSaved.userID}`,
 
         group: 'main',
         messageType: 'chat',

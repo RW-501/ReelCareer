@@ -101,11 +101,11 @@
 
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
-          <li id="lastBreadcrumb_profile" class="breadcrumb-item"><a href="https://reelcareer.co/views/user">Profile</a></li>
-          <li id="lastBreadcrumb_messages" class="breadcrumb-item"><a href="https://reelcareer.co/views/messaging">Messages</a></li>
+          <li id="lastBreadcrumb_profile" class="breadcrumb-item"><a href="https://reelcareer.co/u">Profile</a></li>
+          <li id="lastBreadcrumb_messages" class="breadcrumb-item"><a href="https://reelcareer.co/u/messaging">Messages</a></li>
 
-          <li id="lastBreadcrumb_1" class="breadcrumb-item"><a href="https://reelcareer.co/views/user">Edit Profile</a></li>
-          <li id="lastBreadcrumb_last" class="breadcrumb-item"><a id="lastBreadcrumb_a" href="https://reelcareer.co/views/user">View Profile</a></li>
+          <li id="lastBreadcrumb_1" class="breadcrumb-item"><a href="https://reelcareer.co/u">Edit Profile</a></li>
+          <li id="lastBreadcrumb_last" class="breadcrumb-item"><a id="lastBreadcrumb_a" href="https://reelcareer.co/u">View Profile</a></li>
           <li id="breadcrumb-active-title" class="breadcrumb-item active" aria-current="page">User</li>
         </ol>
     </nav>
@@ -998,7 +998,7 @@ function setUpUI(){
 lastBreadcrumb_1.style.display = "none";
 
 lastBreadcrumb_last.style.display = "none";
-lastBreadcrumb_a.href = `https://reelcareer.co/views/user?u=${userId}`;
+lastBreadcrumb_a.href = `https://reelcareer.co/u?u=${userId}`;
 const userName = document.getElementById("user-name").innerText;
 
 breadcrumbjobTitleActive.innerText = userName;
@@ -1644,7 +1644,7 @@ document.getElementById('share-profile-btn').addEventListener('click', async () 
         const userId = await getUserId(); // Await the result of the asynchronous function
 
         // Construct the share URL with the resolved userId
-        const shareUrl = `https://reelcareer.co/views/user?u=${userId}`; 
+        const shareUrl = `https://reelcareer.co/u?u=${userId}`; 
 
         // Copy the share URL to the clipboard
         await navigator.clipboard.writeText(shareUrl);
@@ -1660,13 +1660,13 @@ document.getElementById('share-profile-btn').addEventListener('click', async () 
   
 
         document.getElementById('view-messages-btn').addEventListener('click', async () => {
-          window.location.href = 'https://reelcareer.co/views/messaging';
+          window.location.href = 'https://reelcareer.co/u/messaging';
 
         });
         
 
         document.getElementById('view-create-create-video-btn').addEventListener('click', async () => {
-          window.location.href = 'https://reelcareer.co/views/create';
+          window.location.href = 'https://reelcareer.co/u/create';
 
         });
 
@@ -1692,7 +1692,7 @@ document.getElementById('share-profile-btn').addEventListener('click', async () 
         });
 
         document.getElementById('view-create-reel-btn').addEventListener('click', async () => {
-          window.location.href = 'https://reelcareer.co/views/create';
+          window.location.href = 'https://reelcareer.co/u/create';
 
         });
 
@@ -1701,7 +1701,7 @@ document.getElementById('share-profile-btn').addEventListener('click', async () 
     const userId = await getUserId(); // Await the userId if getUserId is asynchronous
 
     if (userId) {
-      window.location.href = `https://reelcareer.co/views/user?u=${userId}`;
+      window.location.href = `https://reelcareer.co/u?u=${userId}`;
     } else {
       showToast('User ID could not be retrieved. Please try again.');
     }
@@ -1752,7 +1752,7 @@ document.getElementById('connect-btn').addEventListener('click', async () => {
     to: userIdFromURL,
     toProfilePicture: toProfilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_tie_reel.png',
     toName: toName,
-    toProfileURL: `https://reelcareer.co/views/user?u=${userIdFromURL}`,
+    toProfileURL: `https://reelcareer.co/u?u=${userIdFromURL}`,
     toGroup: 'Networking',
 
     acceptDate: '',
@@ -1763,7 +1763,7 @@ document.getElementById('connect-btn').addEventListener('click', async () => {
     fromNote: '',
     fromName: userDataSaved.displayName,
     fromProfilePicture: userDataSaved.profilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_tie_reel.png',
-    fromProfileURL: `https://reelcareer.co/views/user?u=${userId}`
+    fromProfileURL: `https://reelcareer.co/u?u=${userId}`
 };
 
 await setDoc(connectionRef, connectionData);
@@ -2007,11 +2007,11 @@ document.getElementById('sendMessageForm').addEventListener('submit', async func
         recipientID,
         recipientName,
         recipientProfilePicture,
-        recipientProfileURL: `https://reelcareer.co/views/user?u=${recipientID}`,
+        recipientProfileURL: `https://reelcareer.co/u?u=${recipientID}`,
         senderID: userDataSaved.userID || senderID,
         senderName: userDataSaved.displayName,
         senderProfilePicture: userDataSaved.profilePicture,
-        senderProfileURL: `https://reelcareer.co/views/user?u=${userDataSaved.userID}`,
+        senderProfileURL: `https://reelcareer.co/u?u=${userDataSaved.userID}`,
         group: 'main',
         messageType: 'contact',
         contactLocation: 'Profile',
