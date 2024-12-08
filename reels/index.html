@@ -381,7 +381,11 @@ a {
             </nav>
           </header>
         
-          <main class="video-reel-container">
+
+
+          <section id="video-reel-container" class="video-reel-container">
+            <!-- Repeat similar structure for other video cards -->
+
             <div class="video-card" id="video1">
               <div class="user-info">
                 <img src="user1.jpg" alt="User 1" class="profile-img">
@@ -399,6 +403,11 @@ a {
                 <button class="mute-toggle">Mute</button>
               </div>
         
+              <div class="video-details">
+                <p class="views-count"><i class="fa fa-eye"></i> 5000 views</p>
+                <p class="video-duration"><i class="fa fa-clock"></i> 3:20</p>
+            </div>
+            
               <div class="caption-container">
                 <p class="video-caption">Experienced software engineer with a passion for building innovative applications. #JavaScript #React #SoftwareEngineer</p>
               </div>
@@ -407,14 +416,22 @@ a {
                 <button class="message-button">Message</button>
                 <button class="add-user-button">Add to Shortlist</button>
               </div>
+              <div class="controls-container">
+                <div class="actions">
+                    <button class="action-btn" id="likeButton"><i class="fa fa-thumbs-up"></i></button>
+                    <button class="action-btn" id="commentButton"><i class="fa fa-comment"></i></button>
+                    <button class="action-btn" id="shareButton"><i class="fa fa-share-alt"></i></button>
+                    <button class="action-btn" id="downloadButton" disabled><i class="fa fa-download"></i></button>
+                </div>
+                </div>
+
             </div>
-            <!-- Repeat similar structure for other video cards -->
+
+          </section>
 
 
 
-
-
-            <div class="video-reel-container">
+            <div  class="video-reel-container" hidden>
               <div class="video-player-container">
                   <video id="videoPlayer" class="video-player" controls></video>
               </div>
@@ -446,8 +463,6 @@ a {
 
 
 
-          </main>
-        
       
         
     </main>
@@ -485,7 +500,108 @@ a {
 
 
 
+        async function fetchTotalPosts() {
+    const blogsRef = collection(db, "Blogs");
+    const totalQuery = query(blogsRef, where("activate", "==", true));
+    const totalSnapshot = await getDocs(totalQuery);
+    totalPosts = totalSnapshot.size; // Get the total number of posts
+    return totalPosts;
+}
 
+// Fetch blogs from Firestore
+async function fetchBlogs(page) {
+    try {
+        const blogContainer = document.getElementById("blog-container");
+        blogContainer.innerHTML = ""; // Clear existing blogs
+
+    
+        let querySnapshot;
+
+        if (blogContainer){
+            // General blogs fetching logic
+            const blogsRef = collection(db, "Blogs");
+            let blogsQuery = query(blogsRef, where("activate", "==", true), limit(postsPerPage));
+
+            // Handle pagination using Firestore's `startAfter`
+            if (page > 1 && lastVisibleDoc) {
+                blogsQuery = query(
+                    blogsRef,
+                    where("activate", "==", true),
+                    startAfter(lastVisibleDoc),
+                    limit(postsPerPage)
+                );
+            } else {
+                blogsQuery = query(blogsRef, where("activate", "==", true), limit(postsPerPage));
+            }
+
+            const querySnap = await getDocs(blogsQuery);
+
+            if (querySnap.empty) {
+                blogContainer.innerHTML = "<p>No blogs available.</p>";
+                return;
+            }
+
+            querySnapshot = querySnap.docs; // Assign docs array to querySnapshot
+        }
+
+        // Iterate and create blog posts
+        if (querySnapshot && querySnapshot.length > 0) {
+            firstVisibleDoc = querySnapshot[0];
+
+            // Store the last visible document for pagination
+            lastVisibleDoc = querySnapshot[querySnapshot.length - 1];
+
+            querySnapshot.forEach(async (doc) => { // Added 'async' here for async operations inside the loop
+                const blogData = doc.data();
+                // Use await to resolve the image URL before using it
+                const imageUrl = await checkImageURL(blogData.imageUrl);
+
+                const blogSchema = generateBlogSchema(blogData, doc.id);
+
+                const script = document.createElement('script');
+    script.type = 'application/ld+json';
+    script.textContent = JSON.stringify(blogSchema);
+    document.body.appendChild(script); // Attach it to the body
+
+//console.log( `https://reelcareer.co/views/blog/?b=${doc.id}`);
+
+                // Create blog card or element here based on your design
+                const blogCard = document.createElement("div");
+                blogCard.className = "blog-post"; // Add your CSS classes
+
+                if(blogData.title){
+                // Build the inner HTML with just the image and title, wrapped with a clickable link
+                blogCard.innerHTML = `
+    <div class="blog-card " style="box-shadow: 0 8px 16px rgba(0,0,0,0.1); padding: 20px; border-radius: 10px; background-color: #ffffff; margin-bottom: 30px; overflow: hidden; display: flex; align-items: flex-start; gap: 20px; transition: transform 0.3s ease;">
+        <a href="https://reelcareer.co/views/blog/?b=${doc.id}" style="text-decoration: none;color: inherit;display: flex;gap: 20px;width: 100%;margin: auto;flex-direction: row;flex-wrap: wrap;align-content: space-around;justify-content: space-around;align-items: flex-start;">
+            ${imageUrl ? `<img src="${imageUrl}" alt="${blogData.imageCaption || 'Blog Image'}" style="width: 200px; height: auto; border-radius: 8px; object-fit: cover; flex-shrink: 0;"/>` : ""}
+            <div class="blog-content" style="flex-grow: 1;">
+                <h3 style="font-size: 24px; color: #333; font-weight: 700; margin-bottom: 15px;">${blogData.title}</h3>
+                <div class="blog-card-text text-muted" style="font-size: 14px; line-height: 1.6; color: #666;">
+                    ${truncateText(blogData.content, 500, `https://reelcareer.co/views/blog?b=${doc.id}`)}
+                </div>
+            </div>
+        </a>
+    </div>
+`;
+
+                }
+
+
+                // Append the blog card to the container
+                blogContainer.appendChild(blogCard);
+            });
+            // Update pagination controls
+            updatePagination();
+        } else {
+            blogContainer.innerHTML = "<p>No blogs available.</p>";
+        }
+
+    } catch (error) {
+        console.error("Error fetching blogs: ", error);
+        document.getElementById("blog-container").innerHTML = "<p>Error fetching blogs. Please try again later.</p>";
+    }
+}
 
 
 

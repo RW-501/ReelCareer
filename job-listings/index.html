@@ -455,7 +455,7 @@
 
       });
       // Load saved filters on page load
-      window.onload = function() {
+       function loadSavedFilers() {
         const savedFilters = JSON.parse(localStorage.getItem('jobSearchFilters'));
         if (savedFilters) {
           document.getElementById('jobRequirements').value = savedFilters.jobRequirements || '';
@@ -1466,6 +1466,7 @@ const salaryRange = sanitizeInput(params.get('salaryRange'));
       } else {
         const jobListings = await fetchJobListings(); // Fetch the job listings
         displayJobListings(jobListings); // Display job listings
+        loadSavedFilers();
       }
     };
 
