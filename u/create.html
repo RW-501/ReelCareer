@@ -1518,7 +1518,7 @@ overlay.style.left = "10%";
     function checkMobileView() {
   // Get the window width
   const windowWidth = window.innerWidth;
-
+  const mainVideoHolder = document.getElementById("mainVideoHolder");
   // Select all buttons inside the div with the id 'mainVideoHolder'
   const buttons = document.querySelectorAll('.controlsGroup button');
 
@@ -1532,8 +1532,11 @@ overlay.style.left = "10%";
       const text = button.querySelectorAll(':not(i)');
       text.forEach(el => el.style.display = 'none');
       console.log("text? ",text);
+      mainVideoHolder.style.flexDirection = "column";
 
     } else {
+      mainVideoHolder.style.flexDirection = "row";
+
       // If not in mobile view, show the text again
       const text = button.querySelectorAll(':not(i)');
       text.forEach(el => el.style.display = '');
