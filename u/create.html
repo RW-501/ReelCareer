@@ -1498,6 +1498,7 @@ window.onload = async function () {
 
 
         console.log("Module User We outside:", userId);
+        console.log("userDataSaved We outside:", userDataSaved);
 
         // Ensure userIdFromURL is not null or undefined
     if (!userId) {
@@ -1511,7 +1512,7 @@ window.onload = async function () {
 
 lastBreadcrumb_last.style.display = "none";
 lastBreadcrumb_a.href = `https://reelcareer.co/u/?u=${userId}`;
-const userName = document.getElementById("user-name").innerText;
+
 
 breadcrumbjobTitleActive.innerText = userName;
 // Set the new title
