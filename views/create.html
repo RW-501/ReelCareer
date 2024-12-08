@@ -483,7 +483,7 @@ position: absolute;
             <button id="previewVideoSegment" aria-label="Preview the video segment" title="Preview">
                 <i class="fas fa-eye" aria-hidden="true"></i> Preview
             </button>
-            <button id="uploadButton" disabled aria-disabled="true" aria-label="Upload the edited video" title="Upload">
+            <button id="postReelButton" disabled aria-disabled="true" aria-label="Upload the edited video" title="Upload">
               <i class="fas fa-upload" aria-hidden="true"></i> Upload
           </button>
         </div>
@@ -497,7 +497,28 @@ position: absolute;
     <div id="stopDiv" class="syncedTime" style="position: absolute; height: 100%; width: 5%; background: red;"></div>
 </div>
 
+  <!-- Video Resume Input -->
+
+<div class="controlsGroup" role="group" aria-labelledby="Video Resume Info">
+
+  <div class="mb-3">
+    <label for="videoResumeCaption">Video Reel Title </label>
+    <input type="text" class="form-control" id="videoResumeCaption" placeholder="My Video Resume Reel, Made with ReelCareer ">
+
+  </div>
+
+<div class="mb-3">
+  <label for="tagsSET-resumeTags">Video Tags <small class="text-muted">(Add a tag and press Enter)</small></label>
+  <div id="tagsContainertagsSET-resumeTags">
+  <input type="text" class="form-control" id="tagsSET-resumeTags" placeholder="(e.g., JavaScript, Management)">
+ </div>
+</div>
   
+
+</div>
+
+
+
   <!-- Audio Input -->
   <!-- Hidden Video Input -->
   <input type="file" id="videoInput" accept="video/*" class="hidden" aria-label="Select a video to upload" />
@@ -551,6 +572,108 @@ position: absolute;
 </div>
 <script>
 
+  
+function showUserDataNotFoundMessage() {
+  breadcrumbTitleActive.style.display = "none";
+
+lastBreadcrumb_last.style.display = "block";
+lastBreadcrumb_a.innerText = "Create a Profile";
+lastBreadcrumb_a.href = `https://reelcareer.co/views/auth`;
+
+let mainContainer = document.getElementById('main-content');
+
+
+  mainContainer.innerHTML = '';
+
+    // Create a container div
+    const container = document.createElement('div');
+    container.className = 'user-data-not-found-container';
+    container.style.cssText = `
+        display: flex; 
+        justify-content: center; 
+        align-items: center; 
+        height: 100vh; 
+    `;
+
+    // Create the card div
+    const card = document.createElement('div');
+    card.className = 'user-data-not-found-card';
+    card.style.cssText = `
+        background-color: white; 
+        padding: 20px; 
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+        border-radius: 8px; 
+        text-align: center;
+    `;
+
+    // Add a title to the card
+    const title = document.createElement('h3');
+    title.textContent = 'User Not Found Create A Profile';
+    title.style.marginBottom = '15px';
+    card.appendChild(title);
+
+    // Add a message inside the card
+    const message = document.createElement('p');
+    message.textContent = 'The requested user could not be found.';
+    message.style.marginBottom = '20px';
+    card.appendChild(message);
+
+    // Create a "Go Back" button
+    const goBackButton = document.createElement('button');
+    goBackButton.textContent = 'Go Back';
+    goBackButton.className = 'btn btn-primary m-1'; // Assuming Bootstrap classes, if used
+    goBackButton.style.padding = '10px 20px';
+    
+    // Add an event listener to navigate back
+    goBackButton.addEventListener('click', () => {
+        window.history.back(); // This takes the user to the previous page
+    });
+
+    card.appendChild(goBackButton);
+
+    // Create a "Login" button
+    const loginButton = document.createElement('button');
+    loginButton.textContent = 'Go to Login Page';
+    loginButton.className = 'btn btn-primary m-1'; // Assuming Bootstrap classes, if used
+    loginButton.style.padding = '10px 20px';
+
+    // Add an event listener to redirect to the login page
+    loginButton.addEventListener('click', () => {
+        window.location.href = 'https://reelcareer.co/views/auth'; // Change '/login' to your actual login page URL
+    });
+
+    card.appendChild(loginButton);
+
+    // Append the card to the container
+    container.appendChild(card);
+
+    // Append the container to the body (or a specific element on your page)
+    mainContainer.appendChild(container);
+}
+window.showUserDataNotFoundMessage = showUserDataNotFoundMessage;
+
+
+      
+
+const lastBreadcrumb_last = document.getElementById("lastBreadcrumb_last");
+const lastBreadcrumb_a = document.getElementById("lastBreadcrumb_a");
+
+const breadcrumbTitleActive = document.getElementById("breadcrumb-active-title");
+
+
+lastBreadcrumb_last.style.display = "none";
+breadcrumbTitleActive.style.display = "none";
+lastBreadcrumb_a.innerText = "Join Us";
+lastBreadcrumb_a.href = `https://reelcareer.co/views/auth`;
+
+
+
+
+
+
+</script>
+<script>
+
    // Reference the button and input
    const uploadButton = document.getElementById("uploadButton");
   const videoInput = document.getElementById("videoInput");
@@ -568,6 +691,14 @@ position: absolute;
   const videoPlayer = document.getElementById("videoPlayer");
 const fitButton = document.getElementById("fitButton");
 const coverButton = document.getElementById("coverButton");
+const postReelButton = document.getElementById("postReelButton");
+
+
+
+    // When the button is clicked, trigger the file input
+    uploadButton.addEventListener("click", () => {
+      videoInput.click();
+    });
 
 // Default video settings on load
 window.addEventListener("load", () => {
@@ -689,6 +820,12 @@ window.addEventListener("resize", setCanvasSize);
     showModal("textOverlayModal");
   });
 
+  const generalTags = createTagInputSystem({
+        tagsContainerId: "tagsContainertagsSET-resumeTags",
+        badgeClass: "tag-primary" // Custom badge class for general tags
+    });
+
+    
   function addOverlay(type) {
     if (type === "text") {
       const text = document.getElementById("overlayTextInput").value;
@@ -1092,21 +1229,6 @@ overlay.style.left = "10%";
 
 
 
-  const sliceVideo = async (startTime, endTime, videoFilePath) => {
-  const videoSliceFunction = firebase.functions().httpsCallable('sliceVideo');
-
-  try {
-    const result = await videoSliceFunction({ startTime, endTime, videoFilePath });
-    const slicedVideoUrl = result.data.videoUrl;
-
-    // Update the video player with the sliced video
-    const videoPlayer = document.getElementById('videoPlayer');
-    videoPlayer.src = slicedVideoUrl;
-    videoPlayer.play();
-  } catch (error) {
-    console.error("Error slicing video: ", error);
-  }
-};
 
 
 
@@ -1252,6 +1374,29 @@ overlay.style.left = "10%";
   videoPlayer.addEventListener("play", () => {
     renderVideoFrame();
   });
+
+
+
+
+
+
+
+ 
+    // Log the selected file (optional: for debugging)
+    videoInput.addEventListener("change", (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        console.log("Selected video file:", file.name);
+      }
+    });
+
+
+
+
+
+
+
+
   // Update start and stop times with the timeline on play
   videoPlayer.addEventListener("timeupdate", () => {
     if (videoPlayer.currentTime >= startTime && videoPlayer.currentTime <= stopTime) {
@@ -1263,23 +1408,32 @@ overlay.style.left = "10%";
   toggleUndoRedo();
 
 
+    function checkMobileView() {
+  // Get the window width
+  const windowWidth = window.innerWidth;
 
+  // Select all buttons inside the div with the id 'mainVideoHolder'
+  const buttons = document.querySelectorAll('#mainVideoHolder button');
 
+  // Loop through each button
+  buttons.forEach(button => {
+    // Check if the window is in mobile view (you can adjust the width threshold as needed)
+    if (windowWidth <= 768) { // Mobile view threshold (you can change this)
+      // Hide the text inside the button, but keep the <i> tags
+      const text = button.querySelectorAll(':not(i)');
+      text.forEach(el => el.style.display = 'none');
+    } else {
+      // If not in mobile view, show the text again
+      const text = button.querySelectorAll(':not(i)');
+      text.forEach(el => el.style.display = '');
+    }
+  });
+}
 
+// Call the function when the window is resized or loaded
+window.addEventListener('resize', checkMobileView);
+window.addEventListener('load', checkMobileView);
 
-
-    // When the button is clicked, trigger the file input
-    uploadButton.addEventListener("click", () => {
-      videoInput.click();
-    });
-
-    // Log the selected file (optional: for debugging)
-    videoInput.addEventListener("change", (event) => {
-      const file = event.target.files[0];
-      if (file) {
-        console.log("Selected video file:", file.name);
-      }
-    });
 </script>
 
 
@@ -1316,26 +1470,246 @@ overlay.style.left = "10%";
     <!-- Firebase JS SDK and Custom Scripts -->
 
     <script type="module">
-        import {
-            db, doc, getDoc, query, updateDoc,
-            setDoc, ref, signInWithPopup, orderBy, limit,startAfter ,
-             
-            uploadBytes, OAuthProvider, arrayUnion, getStorage,
-            signOut, addDoc, increment, onAuthStateChanged,
-            createUserWithEmailAndPassword, signInWithEmailAndPassword,
-            where, getDocs, storage, collection, deleteObject, 
-            auth, analytics, deleteDoc, getDownloadURL
-        } from 'https://reelcareer.co/js/module.js';
+      import {
+        db, getStorage, ref, uploadBytes, getDownloadURL, limit,
+  doc, arrayUnion, RecaptchaVerifier, increment, getDoc, arrayRemove, signInWithPhoneNumber,
+  query, updateDoc, setDoc, addDoc, signInAnonymously, orderBy, onAuthStateChanged,
+  uploadBytesResumable, signInWithPopup, FacebookAuthProvider, GoogleAuthProvider, startAfter,
+  OAuthProvider, signOut, deleteDoc, getFirestore, serverTimestamp,
+  createUserWithEmailAndPassword, signInWithEmailAndPassword, deleteObject,
+  where, getDocs, storage, getAuth, collection, auth, analytics,
+  googleProvider,onSnapshot ,
+  facebookProvider,
+  getUserId // Export the function
+    } from 'https://reelcareer.co/js/module.js';
 
 
-/*
 
 
-        function getQueryParam(param) {
-        const urlParams = new URLSearchParams(window.location.search);
-        return urlParams.get(param);
-    }  
-    
+    let userId;
+
+// Retrieve and populate form inputs for tabs
+window.onload = async function () {
+  userId = await getUserId(); // Await here to properly set userId
+    const userDataSaved = getUserData() || [];
+
+
+    setTimeout(() => {
+
+
+        console.log("Module User We outside:", userId);
+
+        // Ensure userIdFromURL is not null or undefined
+    if (!userId) {
+      // Call this function when the user data is not found
+      showUserDataNotFoundMessage();
+            console.log("No user session.");
+
+            return;
+        }else{
+
+          lastBreadcrumb_1.style.display = "none";
+
+lastBreadcrumb_last.style.display = "none";
+lastBreadcrumb_a.href = `https://reelcareer.co/views/user?u=${userId}`;
+const userName = document.getElementById("user-name").innerText;
+
+breadcrumbjobTitleActive.innerText = userName;
+// Set the new title
+document.title = `ReelCareer.co | ${userName} Profile`;
+
+breadcrumbjobTitleActive.style.display = "block";
+        }
+
+  
+    }, 300);
+};
+
+
+
+
+    async function uploadVideoResume(userID, videoData) {
+    try {
+        // Ensure 'storage' is properly initialized
+        const storageInstance = getStorage(); // Use Firebase's getStorage method
+
+        
+        // Create a storage reference dynamically based on conversationID and file name
+        const fileRef = ref(storageInstance, `videoResumes/${userID}/${videoData.name}`);
+
+        // Upload the file to Firebase Storage
+        const snapshot = await uploadBytes(fileRef, videoData.file);
+
+        // Get the download URL for the uploaded file
+        return await getDownloadURL(snapshot.ref);
+    } catch (error) {
+        console.error("Error uploading video resume:", error);
+        throw new Error('Failed to upload video resume.'); // Handle this in calling function
+    }
+}
+
+window.uploadVideoResume = uploadVideoResume;
+
+
+
+async function postReelFunction() {
+    let videoResumeURL = '';
+      // Fetch required data
+      const userID = auth.currentUser.uid;
+
+    const userDataSaved = getUserData() || [];
+
+    console.log("userID: ", userID);
+    console.log("userDataSaved: ", userDataSaved);
+
+    if (!userIdFromURL && !userID) {
+      showToast('No User Info');
+
+      return;
+    } 
+ 
+
+
+
+    return;
+    const videoResumeCaptions = document.getElementById('videoResumeCaption').value.trim();
+    // Ensure tagsList is not empty or null
+    const tagsInput = document.getElementById('tagsSET-resumeTags').value.trim();
+    const tags = tagsInput ? tagsInput.split(",").map(item => item.toLowerCase().trim()) : [];
+
+    // Check if there's at least one comma
+    const hasComma = tagsInput.includes(',');
+    if (!hasComma) {
+        showToast("Please add at least Two (2) tags.");
+        return;  // Prevent form submission if validation fails
+    }
+
+
+    try {
+
+      mediaRecorder = new MediaRecorder(videoCanvas.captureStream());
+    mediaRecorder.ondataavailable = (e) => recordedChunks.push(e.data);
+    mediaRecorder.onstop = () => {
+      const blob = new Blob(recordedChunks, {
+        type: "video/webm"
+      });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `edited-video-${new Date().toISOString()}.webm`;
+    };
+
+
+  const videoData = {
+    duration: videoPlayer.duration,
+    name: `${userID}-${new Date().toISOString()}-reel.${fileType}`,
+    file: url,
+    fileType: "",
+  
+      };
+
+      
+
+
+            // Upload the attachment and get its URL
+            videoResumeURL = await uploadVideoResume(userID, videoResumeFile);
+        } catch (error) {
+            console.error('Attachment upload failed:', error);
+            showToast('Failed to upload video resume. Please try again.',"error");
+            return; // Stop form submission on failure
+        }
+        
+
+    // Gather videoResumeData
+    const videoResumeData = {
+        userID: userDataSaved.userId || '',
+
+        displayName: userDataSaved.displayName || '',
+        publicProfile: userDataSaved.publicProfile  || true,
+        profilePicture: userDataSaved.profilePicture || '',
+        profileURL: `https://reelcareer.co/views/user?u=${userId}`,
+        membershipType: userDataSaved.membershipType || 'free',
+
+        
+        position:  userDataSaved.position || '',
+        tags: tags,
+        videoResumeCaptions,
+
+        videoResumeFileName: videoResumeFile ? videoResumeFile.name : '',
+        videoResumeURL,
+
+        name:  videoData.name || '',
+        duration:  videoData.duration || '',
+        fileType:  videoData.fileType || '',
+
+        createdAt: new Date(),
+        timestamp: serverTimestamp(),
+
+        views: 0,
+        shares: 0,
+        likes: 0,
+        loves: 0,
+
+        status: 'posted',
+        isDeleted: false,
+
+
+
+      };
+
+    console.log("User Data:", userData);
+
+    try {
+        const userDataSaved = await getUserData() || {};
+
+        const reelDocRef = doc(db, "VideoResumes");
+        await addDoc(reelDocRef, videoResumeData);
+
+        let reelID =  docID;
+
+        const vidResumeData = {
+        reelID: reelID,
+        videoResumeURL,
+        createdAt: new Date(),
+        status: 'posted',
+      };
+
+      const userDocRef = doc(db, "Users",  userDataSaved.userID);
+        await setDoc(userDocRef, { vidResumeData: vidResumeData }, { merge: true });
+
+        const userDataEcode = setUserData(vidResumeData);
+
+        localStorage.setItem('userData', userDataEcode);
+
+        console.log("Your Resume Reel have been posted successfully!");
+
+        loadUserData(userData);
+
+        showMessageAndFadeBtn('postReelButton', "Posted");
+
+        showToast("Your Resume Reel have been posted successfully.","success");
+
+        showToast(
+  "Your Resume Reel have been posted successfully. @[Video Resume]",
+  "success",
+  10000,
+  `https://reelcareer.co/reels#${reelID}`
+);
+    } catch (error) {
+        console.error("Error saving user data:", error.message);
+        showToast("There was an error posting you resume reel. Please try again later.");
+    }
+
+
+
+  }
+window.postReelFunction = postReelFunction;
+
+  postReelButton.addEventListener("click", postReelFunction);
+
+
+
+
 
    
 
@@ -1392,7 +1766,7 @@ window.onload = async function () {
     }
 };
 
-*/
+
 
     </script>
 
