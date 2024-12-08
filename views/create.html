@@ -1092,38 +1092,22 @@ overlay.style.left = "10%";
 
 
 
-function sliceVideo(startTime, endTime) { 
-  const videoPlayer = document.getElementById('videoPlayer');
-  
-  // Set the video to start at startTime
-  videoPlayer.currentTime = startTime;
-  
-  // Capture the stream
-  const stream = videoPlayer.captureStream();
-  const mediaRecorder = new MediaRecorder(stream);
-  const chunks = [];
-  
-  // Collect the chunks as data becomes available
-  mediaRecorder.ondataavailable = (e) => chunks.push(e.data);
-  
-  // When the recording stops, combine the chunks into a Blob
-  mediaRecorder.onstop = () => {
-    const blob = new Blob(chunks, { type: 'video/webm' });
-    const slicedURL = URL.createObjectURL(blob);
+  const sliceVideo = async (startTime, endTime, videoFilePath) => {
+  const videoSliceFunction = firebase.functions().httpsCallable('sliceVideo');
 
-    // Set the sliced video URL to the player
-    videoPlayer.src = slicedURL;
+  try {
+    const result = await videoSliceFunction({ startTime, endTime, videoFilePath });
+    const slicedVideoUrl = result.data.videoUrl;
+
+    // Update the video player with the sliced video
+    const videoPlayer = document.getElementById('videoPlayer');
+    videoPlayer.src = slicedVideoUrl;
     videoPlayer.play();
-  };
-  
-  // Start the media recording
-  mediaRecorder.start();
-  
-  // Stop the media recording after the endTime
-  setTimeout(() => {
-    mediaRecorder.stop();
-  }, (endTime - startTime) * 1000);
-}
+  } catch (error) {
+    console.error("Error slicing video: ", error);
+  }
+};
+
 
 
   // Event listener for start time
