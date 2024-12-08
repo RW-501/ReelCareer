@@ -487,14 +487,14 @@ position: absolute;
   
       <script>
           // Function to show/hide the direction box
-          document.getElementById("toggleButton").addEventListener("click", function () {
+          document.getElementById("toggleDirectionsBtn").addEventListener("click", function () {
               const directionBox = document.getElementById("directionBox");
               if (directionBox.style.display === "none" || directionBox.style.display === "") {
                   directionBox.style.display = "block"; // Show the box
                   this.textContent = "Hide Directions"; // Change button text
               } else {
                   directionBox.style.display = "none"; // Hide the box
-                  this.textContent = "Show Directions"; // Change button text
+                  this.textContent = "Show Directions"; // ChangBtne button text
               }
           });
       </script>
@@ -508,7 +508,7 @@ position: absolute;
 
         <div class="controlsGroup" role="group" aria-labelledby="controlsGroup">
               <!-- Toggle Button -->
-      <button id="toggleButton" aria-label="Toggle Directions">
+      <button id="toggleDirectionsBtn" aria-label="Toggle Directions">
         <i class="fas fa-info-circle" aria-hidden="true"></i>Show Directions</button>
 
             <!-- Trigger Button -->
