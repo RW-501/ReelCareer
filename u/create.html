@@ -1684,7 +1684,7 @@ async function uploadVideoResume(userID, videoData) {
         throw new Error('Failed to upload video resume.'); // Handle this in the calling function
     }
 }
-const videoData = [];
+let videoData = [];
 // Post the video resume data
 async function postReelFunction() {
     let videoResumeURL = '';
