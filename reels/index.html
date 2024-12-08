@@ -120,11 +120,12 @@
 
 /* Video Card Styles */
 .video-card {
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  transition: transform 0.3s ease;
+    background-color: #e3ebf0;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease;
+    /* padding: 0.5rem; */
 }
 
 .video-card:hover {
@@ -318,8 +319,9 @@
     justify-content: space-between;
     width: 100%;
     margin-bottom: 10px;
+    padding: .5rem;
+    color: #84bbd9;
 }
-
 .video-details p {
     margin: 0;
     font-size: 14px;
@@ -502,148 +504,216 @@ let firstVisibleDoc = null; // For backward navigation
 
 
 
-
-        async function fetchTotalPosts() {
-    const blogsRef = collection(db, "Blogs");
-    const totalQuery = query(blogsRef, where("activate", "==", true));
-    const totalSnapshot = await getDocs(totalQuery);
-    totalPosts = totalSnapshot.size; // Get the total number of posts
-    return totalPosts;
-}
-
-// Fetch blogs from Firestore
-async function fetchBlogs(page) {
+// Fetch Video Resumes from Firestore
+async function fetchVideoResumes(page) {
     try {
-        const blogContainer = document.getElementById("blog-container");
-        blogContainer.innerHTML = ""; // Clear existing blogs
+        const videoContainer = document.getElementById("blog-container");
+        videoContainer.innerHTML = ""; // Clear existing posts
 
-    
-        let querySnapshot;
-        let blogsQuery;
-        if (blogContainer){
-            // General blogs fetching logic
-            const blogsRef = collection(db, "VideoResumes");
+        let videosQuery;
+        const videosRef = collection(db, "VideoResumes");
 
-            // Handle pagination using Firestore's `startAfter`
-            if (page > 1 && lastVisibleDoc) {
-                blogsQuery = query(
-                    blogsRef,
-                    where("status", "==", "posted"),
-                    startAfter(lastVisibleDoc),
-                    limit(postsPerPage)
-                );
-            } else {
-               blogsQuery = query(blogsRef, where("status", "==", "posted"), limit(postsPerPage));
-            }
-
-            const querySnap = await getDocs(blogsQuery);
-
-            if (querySnap.empty) {
-                blogContainer.innerHTML = "<p>No blogs available.</p>";
-                return;
-            }
-
-            querySnapshot = querySnap.docs; // Assign docs array to querySnapshot
-        }
-
-        // Iterate and create blog posts
-        if (querySnapshot && querySnapshot.length > 0) {
-            firstVisibleDoc = querySnapshot[0];
-
-            // Store the last visible document for pagination
-            lastVisibleDoc = querySnapshot[querySnapshot.length - 1];
-
-            querySnapshot.forEach(async (doc) => { // Added 'async' here for async operations inside the loop
-                const blogData = doc.data();
-                // Use await to resolve the image URL before using it
-                const imageUrl = await checkImageURL(blogData.imageUrl);
-
-                const blogSchema = generateBlogSchema(blogData, doc.id);
-
-                const script = document.createElement('script');
-    script.type = 'application/ld+json';
-    script.textContent = JSON.stringify(blogSchema);
-    document.body.appendChild(script); // Attach it to the body
-
-//console.log( `https://reelcareer.co/views/blog/?b=${doc.id}`);
-
-                // Create blog card or element here based on your design
-                const blogCard = document.createElement("div");
-                blogCard.className = "video-post"; // Add your CSS classes
-
-                if(blogData.title){
-                // Build the inner HTML with just the image and title, wrapped with a clickable link
-                blogCard.innerHTML = `
-
-
-        <div class="video-card" id="video1">
-              <div class="user-info">
-                <img src="user1.jpg" alt="User 1" class="profile-img lazy-load-image">
-                <div class="user-details">
-                  <h3 class="user-name">John Doe</h3>
-                  <p class="job-title">Software Engineer</p>
-                </div>
-              </div>
-        
-              <div class="video-container">
-                <video controls class="video-element" poster="video-thumbnail1.jpg">
-                  <source src="video1.mp4" type="video/mp4">
-                  Your browser does not support the video tag.
-                </video>
-                <button class="mute-toggle">Mute</button>
-              </div>
-        
-              <div class="video-details">
-                <p class="views-count"><i class="fa fa-eye"></i> 5000 views</p>
-                <p class="video-duration"><i class="fa fa-clock"></i> 3:20</p>
-            </div>
-
-              <div class="caption-container">
-                <p class="video-caption">Experienced software engineer with a passion for building innovative applications. #JavaScript #React #SoftwareEngineer</p>
-              </div>
-        
-              <div class="interaction-buttons">
-                <button class="message-button">Message</button>
-                <button class="add-user-button">Add to Shortlist</button>
-              </div>
-              <div class="controls-container">
-                <div class="actions">
-                    <button class="action-btn" id="likeButton"><i class="fa fa-thumbs-up"></i></button>
-                    <button class="action-btn" id="commentButton"><i class="fa fa-comment"></i></button>
-                    <button class="action-btn" id="shareButton"><i class="fa fa-share-alt"></i></button>
-                    <button class="action-btn" id="downloadButton" disabled><i class="fa fa-download"></i></button>
-                </div>
-                </div>
-
-            </div>
-
-
-                
-`;
-
-                }
-
-
-                // Append the blog card to the container
-                blogContainer.appendChild(blogCard);
-            });
-            // Update pagination controls
-            updatePagination();
+        // Handle Firestore pagination
+        if (page > 1 && lastVisibleDoc) {
+            videosQuery = query(
+                videosRef,
+                where("status", "==", "posted"),
+                startAfter(lastVisibleDoc),
+                limit(postsPerPage)
+            );
         } else {
-            blogContainer.innerHTML = "<p>No blogs available.</p>";
+            videosQuery = query(videosRef, where("status", "==", "posted"), limit(postsPerPage));
         }
+
+        const querySnap = await getDocs(videosQuery);
+        if (querySnap.empty) {
+            videoContainer.innerHTML = "<p>No video resumes available.</p>";
+            return;
+        }
+
+        const querySnapshot = querySnap.docs;
+        firstVisibleDoc = querySnapshot[0];
+        lastVisibleDoc = querySnapshot[querySnapshot.length - 1];
+
+        querySnapshot.forEach((doc) => {
+            const videoData = doc.data();
+            const docId = doc.id; // Firestore Document ID
+
+            // Build the video card dynamically with real data
+            const videoCard = document.createElement("div");
+            videoCard.className = "video-post";
+            videoCard.dataset.docId = docId; // Add dataset attribute
+            videoCard.dataset.tags = videoData.tags || ''; // For search functionality
+            videoCard.dataset.displayName = videoData.displayName || '';
+            videoCard.dataset.position = videoData.position || '';
+            videoCard.dataset.location = videoData.location || '';
+            videoCard.dataset.verified = videoData.verified || '';
+            
+            videoCard.innerHTML = `
+                <div id="videoCard_${docId}" class="video-card">
+                    <div class="user-info">
+                        <img src="${videoData.profilePicture || 'default-user.png'}" 
+                             alt="${videoData.displayName}" 
+                             class="profile-img lazy-load-image">
+                        <div class="user-details">
+                            <h3 class="user-name">${videoData.displayName || 'Anonymous'} 
+                              <small class="badge">${videoData.verified}</small </h3>
+                            <p class="job-title">${videoData.position || 'Not Specified'}</p>
+                        </div>
+                    </div>
+
+                    <div class="video-container">
+                        <video controls class="video-element" poster="${videoData.thumbnailURL || ''}">
+                            <source src="${videoData.videoResumeURL}" type="${videoData.fileType || 'video/mp4'}">
+                            Your browser does not support the video tag.
+                        </video>
+                        <button class="mute-toggle" data-doc-id="${docId}">Mute</button>
+                    </div>
+
+                    <div class="video-details">
+                        <p class="views-count"><i class="fa fa-eye"></i> ${videoData.views || 0} views</p>
+                        <p class="video-duration"><i class="fa fa-clock"></i> ${videoData.duration || '--:--'}</p>
+                    </div>
+
+                    <div class="caption-container">
+                        <p class="video-caption">${videoData.videoResumeCaptions || ''}</p>
+                    </div>
+
+                    <div class="interaction-buttons">
+                        <button class="message-button" data-doc-id="${docId}">Message</button>
+                        <button class="add-user-button" data-doc-id="${docId}">Add to Shortlist</button>
+                    </div>
+
+                    <div class="controls-container">
+                        <div class="actions">
+                            <button class="action-btn like-btn" data-doc-id="${docId}">
+                                <i class="fa fa-thumbs-up"></i> ${videoData.likes || 0}
+                            </button>
+                            <button class="action-btn comment-btn" data-doc-id="${docId}">
+                                <i class="fa fa-comment"></i> Comment
+                            </button>
+                            <button class="action-btn share-btn" data-doc-id="${docId}">
+                                <i class="fa fa-share-alt"></i> Share
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Add event listeners for buttons
+            const muteButton = videoCard.querySelector(".mute-toggle");
+            const messageButton = videoCard.querySelector(".message-button");
+            const addUserButton = videoCard.querySelector(".add-user-button");
+            const likeButton = videoCard.querySelector(".like-btn");
+
+            // Mute toggle functionality
+            muteButton.addEventListener("click", () => toggleMute(docId));
+
+            // Other button actions
+            messageButton.addEventListener("click", () => sendMessage(docId));
+            addUserButton.addEventListener("click", () => addToShortlist(docId));
+            likeButton.addEventListener("click", () => handleLike(docId, likeButton));
+
+            videoContainer.appendChild(videoCard);
+        });
+
+        // Update pagination controls
+        updatePagination();
 
     } catch (error) {
-        console.error("Error fetching blogs: ", error);
-        document.getElementById("blog-container").innerHTML = "<p>Error fetching blogs. Please try again later.</p>";
+        console.error("Error fetching video resumes: ", error);
+        document.getElementById("blog-container").innerHTML = "<p>Error fetching video resumes. Please try again later.</p>";
     }
 }
 
+// Functions for button actions
+function toggleMute(docId) {
+    const videoElement = document.querySelector(`#videoCard_${docId} .video-element`);
+    if (videoElement) {
+        videoElement.muted = !videoElement.muted;
+    }
+}
+
+function sendMessage(docId) {
+    alert(`Sending a message for post ID: ${docId}`);
+    // Add further functionality as needed
+}
+
+function addToShortlist(docId) {
+    alert(`Added to shortlist for post ID: ${docId}`);
+    // Add further functionality as needed
+}
+
+function handleLike(docId, likeButton) {
+    alert(`Liked post ID: ${docId}`);
+    // Example: Increment likes count visually
+    let likesCount = parseInt(likeButton.textContent) || 0;
+    likesCount++;
+    likeButton.innerHTML = `<i class="fa fa-thumbs-up"></i> ${likesCount}`;
+}
 
 
 
 
-        
+function updatePagination() {
+    document.getElementById("pagination-info").innerText = 
+        `Page ${currentPage} of ${Math.ceil(totalPosts / postsPerPage)}`;
+}
+
+document.getElementById("next-page").addEventListener("click", () => {
+    currentPage++;
+    fetchVideoResumes(currentPage);
+});
+
+document.getElementById("prev-page").addEventListener("click", () => {
+    if (currentPage > 1) {
+        currentPage--;
+        fetchVideoResumes(currentPage);
+    }
+});
+
+
+
+
+
+
+
+
+
+
+function generateVideoSchema(videoData, docId) {
+    return {
+        "@context": "https://schema.org",
+        "@type": "VideoObject",
+        "name": videoData.name || "Video Resume",
+        "description": videoData.videoResumeCaptions || "",
+        "thumbnailUrl": videoData.thumbnailURL || "",
+        "contentUrl": videoData.videoResumeURL,
+        "uploadDate": videoData.createdAt.toISOString(),
+        "duration": videoData.duration || "",
+        "interactionStatistic": {
+            "@type": "InteractionCounter",
+            "interactionType": { "@type": "http://schema.org/WatchAction" },
+            "userInteractionCount": videoData.views || 0
+        }
+    };
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         function getQueryParam(param) {
         const urlParams = new URLSearchParams(window.location.search);

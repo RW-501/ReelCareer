@@ -403,6 +403,41 @@ position: absolute;
     min-width: 100px;
     box-sizing: content-box;
 }
+
+
+
+
+.tag  {
+    background-color: rgb(183 209 235);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+
+.tag:hover {
+    background-color: #155a8a;
+}
+
+.tag button {
+  color: red;
+
+}
+
+.clearTagsButton {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+
+
 </style>
 
 <main id="main-content">
@@ -870,6 +905,7 @@ window.addEventListener("resize", setCanvasSize);
       videoCanvas.width = videoPlayer.videoWidth || 640;
       videoCanvas.height = videoPlayer.videoHeight || 360;
       downloadButton.disabled = false;
+      postReelButton.disabled = false;
     }
   });
 
@@ -1660,15 +1696,13 @@ userDataSaved.tags.forEach(tag => {
 };
 
 
-
-
-    async function uploadVideoResume(userID, videoData) {
+// Upload Video Resume to Firebase Storage
+async function uploadVideoResume(userID, videoData) {
     try {
         // Ensure 'storage' is properly initialized
         const storageInstance = getStorage(); // Use Firebase's getStorage method
 
-        
-        // Create a storage reference dynamically based on conversationID and file name
+        // Create a storage reference dynamically based on userID and file name
         const fileRef = ref(storageInstance, `videoResumes/${userID}/${videoData.name}`);
 
         // Upload the file to Firebase Storage
@@ -1678,165 +1712,126 @@ userDataSaved.tags.forEach(tag => {
         return await getDownloadURL(snapshot.ref);
     } catch (error) {
         console.error("Error uploading video resume:", error);
-        throw new Error('Failed to upload video resume.'); // Handle this in calling function
+        throw new Error('Failed to upload video resume.'); // Handle this in the calling function
     }
 }
 
-window.uploadVideoResume = uploadVideoResume;
-
-
-
+// Post the video resume data
 async function postReelFunction() {
     let videoResumeURL = '';
-      // Fetch required data
-      const userID = auth.currentUser.uid;
+    // Fetch required data
+    const userID = auth.currentUser.uid;
+    const userlocationData = JSON.parse(sessionStorage.getItem('userLocation')) || {};
 
-    const userDataSaved = getUserData() || [];
-
+    const userDataSaved = getUserData() || {};
     console.log("userID: ", userID);
     console.log("userDataSaved: ", userDataSaved);
+    console.log("userlocationData: ", userlocationData);
 
-    if (!userIdFromURL && !userID) {
-      showToast('No User Info');
+    if (!userID) {
+        showToast('No User Info');
+        return;
+    }
 
-      return;
-    } 
- 
-
-
-
-    return;
     const videoResumeCaptions = document.getElementById('videoResumeCaption').value.trim();
-    // Ensure tagsList is not empty or null
     const tagsInput = document.getElementById('tagsSET-resumeTags').value.trim();
     const tags = tagsInput ? tagsInput.split(",").map(item => item.toLowerCase().trim()) : [];
 
-    // Check if there's at least one comma
-    const hasComma = tagsInput.includes(',');
-    if (!hasComma) {
-        showToast("Please add at least Two (2) tags.");
-        return;  // Prevent form submission if validation fails
+    // Validate tags
+    if (!tagsInput.includes(',')) {
+        showToast("Please add at least two tags.");
+        return; // Prevent form submission if validation fails
     }
 
-
     try {
+        // Capture video from canvas using MediaRecorder
+        const mediaRecorder = new MediaRecorder(videoCanvas.captureStream());
+        const recordedChunks = [];
 
-      mediaRecorder = new MediaRecorder(videoCanvas.captureStream());
-    mediaRecorder.ondataavailable = (e) => recordedChunks.push(e.data);
-    mediaRecorder.onstop = () => {
-      const blob = new Blob(recordedChunks, {
-        type: "video/webm"
-      });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = `edited-video-${new Date().toISOString()}.webm`;
-    };
+        mediaRecorder.ondataavailable = (e) => recordedChunks.push(e.data);
+        mediaRecorder.onstop = () => {
+            const blob = new Blob(recordedChunks, { type: "video/webm" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = `edited-video-${new Date().toISOString()}.webm`;
+            a.click(); // Automatically download the video
+        };
 
+        // Start recording (optional, depending on your needs)
+        mediaRecorder.start();
 
-  const videoData = {
-    duration: videoPlayer.duration,
-    name: `${userID}-${new Date().toISOString()}-reel.${fileType}`,
-    file: url,
-    fileType: "",
-  
-      };
+        const videoData = {
+            duration: videoPlayer.duration, // Ensure videoPlayer is initialized
+            name: `${userID}-${new Date().toISOString()}-reel.webm`, // Use .webm or .mp4 as appropriate
+            file: recordedChunks, // The video data itself
+            fileType: "video/webm", // Ensure this matches the file type
+        };
 
-      
+        // Upload the video file and get the download URL
+        videoResumeURL = await uploadVideoResume(userID, videoData);
+    } catch (error) {
+        console.error('Error during video capture or upload:', error);
+        showToast('Failed to upload video resume. Please try again.', "error");
+        return; // Stop further processing if upload fails
+    }
 
-
-            // Upload the attachment and get its URL
-            videoResumeURL = await uploadVideoResume(userID, videoResumeFile);
-        } catch (error) {
-            console.error('Attachment upload failed:', error);
-            showToast('Failed to upload video resume. Please try again.',"error");
-            return; // Stop form submission on failure
-        }
-        
-
-    // Gather videoResumeData
+    // Construct video resume data
     const videoResumeData = {
         userID: userDataSaved.userId || '',
-
         displayName: userDataSaved.displayName || '',
-        publicProfile: userDataSaved.publicProfile  || true,
+        publicProfile: userDataSaved.publicProfile || true,
         profilePicture: userDataSaved.profilePicture || '',
-        profileURL: `https://reelcareer.co/u/?u=${userId}`,
+        profileURL: `https://reelcareer.co/u/?u=${userID}`,
         membershipType: userDataSaved.membershipType || 'free',
-
-        
-        position:  userDataSaved.position || '',
+        location: `${userlocationData.city || ''}, ${userlocationData.state || ''}`,
+        verified: userDataSaved.verified || '',
+        position: userDataSaved.position || '',
         tags: tags,
         videoResumeCaptions,
-
         videoResumeFileName: videoResumeFile ? videoResumeFile.name : '',
         videoResumeURL,
-
-        name:  videoData.name || '',
-        duration:  videoData.duration || '',
-        fileType:  videoData.fileType || '',
-
+        name: videoData.name || '',
+        duration: videoData.duration || '',
+        fileType: videoData.fileType || '',
         createdAt: new Date(),
         timestamp: serverTimestamp(),
-
         views: 0,
         shares: 0,
         likes: 0,
         loves: 0,
-
         status: 'posted',
         isDeleted: false,
+    };
 
-
-
-      };
-
-    console.log("User Data:", userData);
+    console.log("Video Resume Data:", videoResumeData);
 
     try {
-        const userDataSaved = await getUserData() || {};
+        // Add video resume document to Firestore
+        const reelDocRef = await addDoc(collection(db, "VideoResumes"), videoResumeData);
+        const reelID = reelDocRef.id; // Get the document ID
 
-        const reelDocRef = doc(db, "VideoResumes");
-        await addDoc(reelDocRef, videoResumeData);
+        // Update the user's document with the new video resume data
+        const userDocRef = doc(db, "Users", userID);
+        await updateDoc(userDocRef, {
+            videoResumeData: { reelID, videoResumeURL, createdAt: new Date(), status: 'posted' },
+        });
 
-        let reelID =  docID;
+        // Optionally update localStorage with the new data
+        const updatedUserData = { ...userDataSaved, videoResumeData: { reelID, videoResumeURL } };
+        localStorage.setItem('userData', JSON.stringify(updatedUserData));
 
-        const vidResumeData = {
-        reelID: reelID,
-        videoResumeURL,
-        createdAt: new Date(),
-        status: 'posted',
-      };
+        console.log("Your Resume Reel has been posted successfully!");
 
-      const userDocRef = doc(db, "Users",  userDataSaved.userID);
-        await setDoc(userDocRef, { vidResumeData: vidResumeData }, { merge: true });
-
-        const userDataEcode = setUserData(vidResumeData);
-
-        localStorage.setItem('userData', userDataEcode);
-
-        console.log("Your Resume Reel have been posted successfully!");
-
-        loadUserData(userData);
-
-        showMessageAndFadeBtn('postReelButton', "Posted");
-
-        showToast("Your Resume Reel have been posted successfully.","success");
-
-        showToast(
-  "Your Resume Reel have been posted successfully. @[Video Resume]",
-  "success",
-  10000,
-  `https://reelcareer.co/reels#${reelID}`
-);
+        // Show success message
+        showToast("Your Resume Reel has been posted successfully.", "success");
+        showToast(`Your Resume Reel is live. [Video Resume]`, "success", 10000, `https://reelcareer.co/reels#${reelID}`);
     } catch (error) {
-        console.error("Error saving user data:", error.message);
-        showToast("There was an error posting you resume reel. Please try again later.");
+        console.error("Error saving user data:", error);
+        showToast("There was an error posting your resume reel. Please try again later.");
     }
+}
 
-
-
-  }
 window.postReelFunction = postReelFunction;
 
   postReelButton.addEventListener("click", postReelFunction);
