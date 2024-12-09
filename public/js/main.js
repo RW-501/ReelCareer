@@ -2811,3 +2811,8 @@ function sendMessage(message) {
         return "Sorry, I couldn't find an answer for that. Please contact us via our [Contact Us](https://reelcareer.com/contact) page.";
     }
 }
+
+setTimeout(() => {
+  loadChatbot();
+}, 5000); // 5000 milliseconds = 5 seconds
+
