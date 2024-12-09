@@ -301,17 +301,17 @@ function createTicketRow(ticket, ticketId) {
             <p><strong>User Profile:</strong> <a href="https://reelcareer.co/u?=${ticket.submittedByUserID}" target="_blank">${ticket.submittedByUserName || 'N/A'}</a></p>
             <p><strong>Message:</strong> ${ticket.message || 'No message provided'}</p>
             <p><strong>Reasons:</strong> ${reasons}</p>
-            <p><strong>pageTitle:</strong> ${ticket.pageTitle || 'NA'}</p>
-            <p><strong>jobTitle:</strong> ${ticket.jobTitle || 'NA'}</p>
-            <p><strong>jobId:</strong> ${ticket.jobId || 'NA'}</p>
-            <p><strong>videoID:</strong> ${ticket.videoID || 'NA'}</p>
-            <p><strong>timestamp:</strong> ${ticket.timestamp || 'NA'}</p>
+            <p><strong>Page Title:</strong> ${ticket.pageTitle || 'NA'}</p>
+            <p><strong>Job Title:</strong> ${ticket.jobTitle || 'NA'}</p>
+            <p><strong>Job Id:</strong> ${ticket.jobId || 'NA'}</p>
+            <p><strong>Video ID:</strong> ${ticket.videoID || 'NA'}</p>
+            <p><strong>Timestamp:</strong> ${ticket.timestamp || 'NA'}</p>
             <p><strong>URL:</strong> <a href="${ticket.URL || '#'}" target="_blank">${ticket.URL || 'No URL provided'}</a></p>
 
             <div style="margin-top: 10px;">
                 <button class="follow-up-btn" onclick="sendFollowUp('${ticketId}', ${JSON.stringify(ticket)})">Send Follow-Up</button>
-                <button class="faq-btn" onclick="addToFAQ('${ticketId}', '${ticket.message}')">Add to FAQ</button>
-                <button class="chatbot-btn" onclick="addToChatbot('${ticketId}', '${ticket.message}')">Add to Chat Bot</button>
+                <button class="faq-btn" onclick="addToFAQ('${JSON.stringify(ticket)}', '${ticket.message}')">Add to FAQ</button>
+                <button class="chatbot-btn" onclick="addToChatbot('${JSON.stringify(ticket)}', '${ticket.message}')">Add to Chat Bot</button>
             </div>
         </td>
     `;
@@ -333,15 +333,78 @@ function toggleDetails(ticketId) {
 }
 
 // Add Message to FAQ
-function addToFAQ(ticketId, message) {
-    console.log(`Adding message from ticket ${ticketId} to FAQ: ${message}`);
-    alert("Message has been added to the FAQ!");
+// Add Message to FAQ
+async function addToFAQ(ticket, ticketId) {
+    console.log(`Adding message from ticket ${ticketId} to FAQ: ${ticket.message}`);
+    const reasons = Array.isArray(ticket.reasons) ? ticket.reasons.join(", ") : "No reasons provided";
+
+    const faqData = {
+        activate: false,
+        answer: "", // Placeholder for admin to fill later
+        category: ticket.type || "General", // Ticket type as the FAQ category
+        helpful: 0,
+        question: ticket.message || "No message provided", // Question based on the ticket message
+        views: 0,
+        tags: reasons, // Tags to help organize FAQs
+        supportURL: "", // Can be a link to additional resources
+
+        createdAt: new Date(), // Local timestamp
+        timestamp: serverTimestamp(), // Firestore server-side timestamp
+        status: "review", // Initial status for admin review
+    };
+
+    try {
+        // Send FAQ data to the "FAQs" collection in Firestore
+        await addDoc(collection(db, "FAQs"), faqData);
+        showToast("Message has been added to the FAQ!");
+    } catch (error) {
+        console.error("Error adding message to FAQ: ", error);
+        showToast("Failed to add message to the FAQ.");
+    }
 }
 
 // Add Message to Chatbot
-function addToChatbot(ticketId, message) {
-    console.log(`Adding message from ticket ${ticketId} to Chat Bot: ${message}`);
-    alert("Message has been added to the Chat Bot!");
+async function addToChatbot(ticket, ticketId) {
+    console.log(`Adding message from ticket ${ticketId} to Chatbot: ${ticket.message}`);
+    const reasons = Array.isArray(ticket.reasons) ? ticket.reasons.join(", ") : "No reasons provided";
+
+    const chatBotData = {
+    // Activation and Review Fields
+    activate: false, // Indicates if this interaction is ready for use in production
+    status: "review", // Status: 'review', 'processed', 'approved', etc.
+
+    // Core Interaction Data
+    question: ticket?.message?.trim() || "No message provided", // User's input or ticket message
+    answer: "", // Placeholder for chatbot's response, to be filled later
+    category: ticket?.type?.trim() || "General", // General category or topic extracted from ticket
+    topics: ticket?.type?.trim() || "General", // Ensures consistent topic categorization
+    tags: Array.isArray(reasons) ? reasons.map(tag => tag.trim()) : [], // Sanitized tags for search/filtering
+
+    // Additional Support Metadata
+    supportURL: "", // Optional: URL linking to FAQ or help resources
+    relatedTicketId: ticket?.id || null, // Links back to the original ticket for traceability
+    confidenceScore: null, // Placeholder for NLP confidence score if intent detection is added
+
+    // Tracking and Analytics
+    helpfulCount: 0, // Number of times marked as helpful
+    views: 0, // View count for tracking how often this interaction is accessed
+    feedback: [], // Array to collect user feedback as objects: { userId, helpful: true/false, comment }
+
+    // Timestamps
+    createdAt: new Date(), // Local timestamp for initial creation
+    timestamp: serverTimestamp(), // Firestore server-side timestamp for consistency
+    lastUpdated: null, // Placeholder for the timestamp of the most recent update
+};
+
+
+    try {
+        // Send chatbot data to the "ChatbotInteractions" collection in Firestore
+        await addDoc(collection(db, "ChatbotInteractions"), chatBotData);
+        showToast("Message has been added to the Chat Bot!");
+    } catch (error) {
+        console.error("Error adding message to Chatbot: ", error);
+        showToast("Failed to add message to the Chat Bot.");
+    }
 }
 
 
