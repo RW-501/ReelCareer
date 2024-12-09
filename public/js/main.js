@@ -2286,6 +2286,21 @@ const userDisplayName = getUserDisplayName();
 console.log("Welcome: ", userDisplayName);
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // Function to escape special characters for use in regular expressions
 function escapeRegExp(str) {
   return str.replace(/[.*+?^=!:${}()|\[\]\/\\]/g, '\\$&');
@@ -2299,7 +2314,7 @@ function compileVulgarWordRegex(vulgarWordsArray) {
   }));
 }
 
-// Function to replace vulgar words while preserving HTML structure
+// Function to replace vulgar words and log contextual information
 function scanAndReplaceVulgarWords(vulgarWordsArray, logging = false) {
   const mainContainer = document.getElementById('main-content');
 
@@ -2331,8 +2346,20 @@ function scanAndReplaceVulgarWords(vulgarWordsArray, logging = false) {
     let text = currentNode.nodeValue;
     let originalText = text;
 
-    // Replace all vulgar words in the current text node
-    vulgarWordPatterns.forEach(({ regex }) => {
+    // Check for vulgar words and replace them
+    vulgarWordPatterns.forEach(({ regex, word }) => {
+      if (regex.test(text)) {
+        // Log page URL, title, and closest parent JOB_CARD id
+        const parentJobCard = currentNode.parentElement.closest('.JOB_CARD');
+        const jobCardId = parentJobCard ? parentJobCard.id : 'No JOB_CARD found';
+
+        console.log(`Vulgar word detected: "${word}"`);
+        console.log(`Page Title: ${document.title}`);
+        console.log(`Page URL: ${window.location.href}`);
+        console.log(`Closest JOB_CARD ID: ${jobCardId}`);
+      }
+
+      // Replace the vulgar word
       text = text.replace(regex, censorWord);
     });
 
@@ -2345,7 +2372,6 @@ function scanAndReplaceVulgarWords(vulgarWordsArray, logging = false) {
 
   if (logging) console.log("Vulgar words have been replaced.");
 }
-
 
 window.scanAndReplaceVulgarWords = scanAndReplaceVulgarWords;
 
