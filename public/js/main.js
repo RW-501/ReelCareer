@@ -2392,7 +2392,9 @@ function scanAndReplaceVulgarWords(vulgarWordsArray, logging = false) {
 
 // Function to send data to the SupportTickets collection (e.g., Firebase Firestore)
 async function sendToSupportTickets(tickets) {
-  const supportTicketsRef = db.collection('SupportTickets');
+  const supportTicketsRef  = collection(db, 'SupportTickets');
+
+ // const supportTicketsRef = db.collection('SupportTickets');
   const batch = db.batch();
 
   for (const ticket of tickets) {
