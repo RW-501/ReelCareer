@@ -249,19 +249,17 @@ let tickets = [];
 // Helper function to create a table row from a ticket
 function createTicketRow(ticket, ticketId) {
     const row = document.createElement("tr");
-    
-    // Check if ticket.submittedAt exists and has a valid timestamp
-    let submittedAt = "";
-    if (ticket.submittedAt && ticket.submittedAt.seconds) {
-        submittedAt = new Date(ticket.submittedAt.seconds * 1000).toLocaleString();
-    } else {
-        submittedAt = "Date not available"; // Fallback if timestamp is invalid
-    }
+
+    // Check if submittedAt exists and is a valid timestamp
+    const submittedAt = ticket.submittedAt;
+    const submittedAtFormatted = submittedAt && submittedAt.seconds 
+        ? new Date(submittedAt.seconds * 1000).toLocaleString()
+        : "N/A"; // Default to "N/A" if submittedAt is undefined or malformed
 
     row.innerHTML = `
         <td>${ticket.type}</td>
         <td>${ticket.submittedBy}</td>
-        <td>${submittedAt}</td>
+        <td>${submittedAtFormatted}</td>
         <td>
             <select class="status-dropdown" onchange="updateStatus('${ticketId}')">
                 <option value="submitted" ${ticket.status === 'submitted' ? 'selected' : ''}>Submitted</option>
