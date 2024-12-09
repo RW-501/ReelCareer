@@ -1,12 +1,16 @@
 import {
-  db, doc, getDoc, query, updateDoc,getAuth,
-  setDoc, ref, signInWithPopup, orderBy, limit,
-  uploadBytes, OAuthProvider, arrayUnion, getStorage,
-  signOut, addDoc, increment, onAuthStateChanged,
-  createUserWithEmailAndPassword, signInWithEmailAndPassword,
-  where, getDocs, storage, collection, serverTimestamp ,
-  auth, analytics, googleProvider,facebookProvider,  getDownloadURL
+  db, getStorage, ref, uploadBytes, getDownloadURL, limit,
+doc, arrayUnion, RecaptchaVerifier, increment, getDoc, arrayRemove, signInWithPhoneNumber,
+query, updateDoc, setDoc, addDoc, signInAnonymously, orderBy, onAuthStateChanged,
+uploadBytesResumable, signInWithPopup, FacebookAuthProvider, GoogleAuthProvider, startAfter,
+OAuthProvider, signOut, deleteDoc, getFirestore, serverTimestamp,
+createUserWithEmailAndPassword, signInWithEmailAndPassword, deleteObject,
+where, getDocs, storage, getAuth, collection, auth, analytics,
+googleProvider,onSnapshot ,
+facebookProvider,
+getUserId // Export the function
 } from 'https://reelcareer.co/js/module.js';
+
 
 
 
