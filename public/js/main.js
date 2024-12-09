@@ -5,7 +5,7 @@ query, updateDoc, setDoc, addDoc, signInAnonymously, orderBy, onAuthStateChanged
 uploadBytesResumable, signInWithPopup, FacebookAuthProvider, GoogleAuthProvider, startAfter,
 OAuthProvider, signOut, deleteDoc, getFirestore, serverTimestamp,
 createUserWithEmailAndPassword, signInWithEmailAndPassword, deleteObject,
-where, getDocs, storage, getAuth, collection, auth, analytics, batch,
+where, getDocs, storage, getAuth, collection, auth, analytics, 
 googleProvider,onSnapshot ,
 facebookProvider,
 getUserId // Export the function
