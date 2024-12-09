@@ -256,8 +256,9 @@ window.onload = function () {
 };
 
 // Updated createTicketRow function to handle ISO timestamps
-function createTicketRow(ticket, ticketId) {
+function createTicketRow(ticket, ticketId) { 
     const row = document.createElement("tr");
+    row.classList.add("ticket-row");
 
     // Parse submittedAt as ISO 8601 string
     let submittedAt = "Date not available"; // Default fallback
@@ -273,7 +274,7 @@ function createTicketRow(ticket, ticketId) {
     // Safely format reasons (check if it’s an array)
     const reasons = Array.isArray(ticket.reasons) ? ticket.reasons.join(", ") : "No reasons provided";
 
-    // Create row content
+    // Create the row content
     row.innerHTML = `
         <td>${ticket.type || 'N/A'}</td>
         <td>${ticket.submittedBy || 'N/A'}</td>
@@ -287,25 +288,60 @@ function createTicketRow(ticket, ticketId) {
         </td>
         <td>
             <button class="expand-btn" onclick="toggleDetails('${ticketId}')">Details</button>
-            <div class="collapsible" id="details-${ticketId}">
-                <p><strong>UserName:</strong> ${ticket.submittedByUserName || 'N/A'}</p>
-                <p><strong>Message:</strong> ${ticket.message || 'No message provided'}</p>
-                <p><strong>Reasons:</strong> ${reasons}</p>
-                <p><strong>URL:</strong> <a href="${ticket.URL || '#'}" target="_blank">${ticket.URL || 'No URL provided'}</a></p>
-                ${ticket.submittedBy === 'user' ? `<button class="follow-up-btn">Send Follow-Up</button>` : ''}
+        </td>
+    `;
+
+    // Collapsible row for details
+    const detailsRow = document.createElement("tr");
+    detailsRow.classList.add("details-row");
+    detailsRow.innerHTML = `
+        <td colspan="5" style="padding: 15px; background-color: #f9f9f9; display: none;" id="details-${ticketId}">
+            <p><strong>UserName:</strong> ${ticket.submittedByUserName || 'N/A'}</p>
+            <p><strong>Submitted By UserID:</strong> ${ticket.submittedByUserID || 'NA'}</p>
+            <p><strong>User Profile:</strong> <a href="https://reelcareer.co/u?=${ticket.submittedByUserID}" target="_blank">${ticket.submittedByUserName || 'N/A'}</a></p>
+            <p><strong>Message:</strong> ${ticket.message || 'No message provided'}</p>
+            <p><strong>Reasons:</strong> ${reasons}</p>
+            <p><strong>pageTitle:</strong> ${ticket.pageTitle || 'NA'}</p>
+            <p><strong>jobTitle:</strong> ${ticket.jobTitle || 'NA'}</p>
+            <p><strong>jobId:</strong> ${ticket.jobId || 'NA'}</p>
+            <p><strong>videoID:</strong> ${ticket.videoID || 'NA'}</p>
+            <p><strong>timestamp:</strong> ${ticket.timestamp || 'NA'}</p>
+            <p><strong>URL:</strong> <a href="${ticket.URL || '#'}" target="_blank">${ticket.URL || 'No URL provided'}</a></p>
+
+            <div style="margin-top: 10px;">
+                <button class="follow-up-btn" onclick="sendFollowUp('${ticketId}', ${JSON.stringify(ticket)})">Send Follow-Up</button>
+                <button class="faq-btn" onclick="addToFAQ('${ticketId}', '${ticket.message}')">Add to FAQ</button>
+                <button class="chatbot-btn" onclick="addToChatbot('${ticketId}', '${ticket.message}')">Add to Chat Bot</button>
             </div>
         </td>
     `;
 
-    // Add event listener to the follow-up button if it exists
-    const followUpBtn = row.querySelector('.follow-up-btn');
-    if (followUpBtn) {
-        followUpBtn.addEventListener('click', () => {
-            sendFollowUp(ticketId, ticket);
-        });
-    }
+    // Append both rows to the table
+    const fragment = document.createDocumentFragment();
+    fragment.appendChild(row);
+    fragment.appendChild(detailsRow);
 
-    return row;
+    return fragment;
+}
+
+// Toggle Details Function
+function toggleDetails(ticketId) {
+    const detailsRow = document.getElementById(`details-${ticketId}`);
+    if (detailsRow) {
+        detailsRow.style.display = detailsRow.style.display === 'none' ? 'table-cell' : 'none';
+    }
+}
+
+// Add Message to FAQ
+function addToFAQ(ticketId, message) {
+    console.log(`Adding message from ticket ${ticketId} to FAQ: ${message}`);
+    alert("Message has been added to the FAQ!");
+}
+
+// Add Message to Chatbot
+function addToChatbot(ticketId, message) {
+    console.log(`Adding message from ticket ${ticketId} to Chat Bot: ${message}`);
+    alert("Message has been added to the Chat Bot!");
 }
 
 
