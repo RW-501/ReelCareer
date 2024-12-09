@@ -2371,7 +2371,7 @@ document.addEventListener("DOMContentLoaded", () => {
 // Run the scanner and replacer function after DOM is loaded
   setTimeout(() => {
     scanAndReplaceVulgarWords(vulgarWords);
-  }, 1000); // Delay of 2 seconds (2000 milliseconds)
+  }, 2000); // Delay of 2 seconds (2000 milliseconds)
 
 
 });
