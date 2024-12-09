@@ -1607,7 +1607,7 @@ overlay.style.left = "10%";
     let userId;
 
 // Retrieve and populate form inputs for tabs
-window.onload = async function () {
+document.addEventListener('DOMContentLoaded', async () => {
   userId = await getUserId() || ""; // Await here to properly set userId
     const userDataSaved = getUserData() || [];
 
@@ -1663,7 +1663,7 @@ userDataSaved.tags.forEach(tag => {
 
   
     }, 300);
-};
+});
 
 
 // Upload Video Resume to Firebase Storage
