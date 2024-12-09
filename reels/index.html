@@ -719,9 +719,9 @@ window.onload = async function () {
         // Ensure userIdFromURL is not null or undefined
     if (!userId) {
       // Call this function when the user data is not found
-            console.log("No user session.");
+            console.log("No user.");
+            fetchVideoResumes();
 
-            return;
         }else{
 
 
@@ -749,6 +749,9 @@ breadcrumbTitleActive.innerText = userDataSaved.displayName;
 document.title = `ReelCareer.co | Welcome ${userDataSaved.displayName}`;
 
 breadcrumbTitleActive.style.display = "block";
+
+fetchVideoResumes(userId);
+
         }
 
       }, 300);
@@ -799,16 +802,6 @@ function setBlogMetaTags(blogData) {
 
 
 
-
-
-// Initial call to fetch total posts and blogs for the first page
-window.onload = async function () {
-    try {
-
-    } catch (error) {
-        console.error("Error during initialization:", error);
-    }
-};
 
 
 
