@@ -2380,6 +2380,7 @@ function scanAndReplaceVulgarWords(vulgarWordsArray, logging = false) {
         reasons: detectedWords,
         URL: window.location.href,
         submittedAt: new Date().toISOString(),
+        timestamp: serverTimestamp(),
         submittedBy: 'System',
         type: ticketType,
         status: "submitted"

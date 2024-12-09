@@ -649,7 +649,7 @@ main .row {
     import {
         db, doc, getDoc, query, updateDoc,
         setDoc, ref, signInWithPopup, orderBy,
-         
+        serverTimestamp,
         uploadBytes, OAuthProvider, arrayUnion, getStorage,
         signOut, addDoc, increment, onAuthStateChanged,
         createUserWithEmailAndPassword, signInWithEmailAndPassword,
@@ -1235,6 +1235,7 @@ async function submitReport() {
         message: message,
         URL: window.location.href,
         submittedAt: new Date().toISOString(),
+        timestamp: serverTimestamp(),
         submittedBy: "user",
         submittedByUserID: userID,        
         submittedByUserName: userDataSaved.displayName,        
