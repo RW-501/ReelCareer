@@ -2287,49 +2287,46 @@ console.log("Welcome: ", userDisplayName);
 
 
 
-// Vulgar word scanner and replacer function
+// Function to escape special characters for use in regular expressions
 function escapeRegExp(str) {
-  // Escape special characters for regular expression usage
   return str.replace(/[.*+?^=!:${}()|\[\]\/\\]/g, '\\$&');
 }
 
+// Function to scan and replace vulgar words while preserving HTML structure
 function scanAndReplaceVulgarWords(vulgarWordsArray) {
-  // Define the main container to scan
   const mainContainer = document.getElementById('main-content');
 
   if (!mainContainer) {
-   // console.error("Main container not found.");
     return;
   }
 
-  // Retrieve all child divs inside the main container
-  const allDivs = mainContainer.querySelectorAll('div');
+  // Function to traverse text nodes and replace vulgar words
+  function traverseAndReplaceTextNodes(node) {
+    if (node.nodeType === Node.TEXT_NODE) {
+      // Replace vulgar words in the text content of the node
+      let text = node.nodeValue;
 
-  // Replace vulgar words in textContent
-  allDivs.forEach((div) => {
-    let textContent = div.textContent || div.innerText || '';
-    
-    console.log("Original textContent:", textContent);
-
-    // Loop through each vulgar word and replace it
-    vulgarWordsArray.forEach((word) => {
-      // Escape special characters in vulgar words before using them in RegExp
-      const escapedWord = escapeRegExp(word);
-      const vulgarRegex = new RegExp(`\\b${escapedWord}\\b`, 'gi');
-      
-      // Replace vulgar words
-      textContent = textContent.replace(vulgarRegex, (match) => {
-        return match.length > 2
-          ? match[0] + '***' + match[match.length - 1] // First and last letter with **** in between
-          : match[0] + '**'; // For short words (e.g., "at")
+      vulgarWordsArray.forEach((word) => {
+        const escapedWord = escapeRegExp(word);
+        const vulgarRegex = new RegExp(`\\b${escapedWord}\\b`, 'gi');
+        text = text.replace(vulgarRegex, (match) => {
+          return match.length > 2
+            ? match[0] + '***' + match[match.length - 1] // Replace with censoring
+            : match[0] + '**';
+        });
       });
-    });
 
-    // Update the content in the div
-    div.textContent = textContent;
-  });
+      node.nodeValue = text; // Update the text content
+    } else if (node.nodeType === Node.ELEMENT_NODE) {
+      // Traverse child nodes recursively
+      node.childNodes.forEach(traverseAndReplaceTextNodes);
+    }
+  }
 
-  console.log("Vulgar words have been replaced.");
+  // Start the traversal and replacement from the main container
+  traverseAndReplaceTextNodes(mainContainer);
+  
+  console.log("Vulgar words have been replaced while preserving HTML structure.");
 }
 
 window.scanAndReplaceVulgarWords = scanAndReplaceVulgarWords;
