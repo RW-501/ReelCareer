@@ -1,0 +1,240 @@
+<style> 
+    body { font-family: Arial, sans-serif; margin: 0; padding: 20px; }
+    h1 { text-align: center; }
+    #jobTableContainer { margin-top: 20px; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 10px; border: 1px solid #ccc; text-align: left; }
+    th { cursor: pointer; background-color: #f4f4f4; }
+    .selected { background-color: #dff0d8; }
+    #messageArea { display: none; margin-top: 10px; padding: 10px; background: lightgray; }
+    .error { background: lightcoral; color: white; }
+    #loading { display: none; text-align: center; margin-top: 20px; }
+    #autoAddProgress { height: 20px; background: blue; color: white; text-align: center; width: 0%; transition: width 0.5s; }
+    #stopAutoAddButton.hidden { display: none; }
+</style>
+
+<body>
+    <h1>Job Fetcher and Uploader</h1>
+    <input type="text" id="query" placeholder="Enter job query" value="software developer" />
+    <input type="number" id="perPage" placeholder="Results per page" value="5" />
+    <button onclick="fetchJobs()">Fetch Jobs</button>
+    <button id="addJobButton">Add Selected Job</button>
+    <button id="autoAddButton">Auto Add Jobs</button>
+    <button id="stopAutoAddButton" class="hidden">Stop Auto Add</button>
+    
+    <div id="loading">Loading...</div>
+    <div id="autoAddProgress"></div>
+    <div id="messageArea"><span id="messageAreaText"></span></div>
+
+    <div id="jobTableContainer">
+        <table id="jobTable">
+            <thead>
+                <tr>
+                    <th><input type="checkbox" id="selectAll" onclick="toggleSelectAll()"></th>
+                    <th>Job Title</th>
+                    <th>Company</th>
+                    <th>City</th>
+                    <th>State</th>
+                    <th>Salary</th>
+                    <th>Category</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="jobApplications"></tbody>
+        </table>
+    </div>
+
+    <div id="errorDisplay" style="color: red; margin-top: 10px;"></div>
+
+    <!-- Firebase and Job Fetcher Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script type="module">
+
+import { getFirestore, collection, addDoc, writeBatch } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+
+        import {
+                db, doc, getDoc, query, updateDoc,
+                setDoc, ref, signInWithPopup, orderBy,
+                 
+                uploadBytes, OAuthProvider, arrayUnion, getStorage,
+                signOut, addDoc, increment, onAuthStateChanged,
+                createUserWithEmailAndPassword, signInWithEmailAndPassword,
+                where, getDocs, storage, collection, deleteObject, 
+                auth, analytics, deleteDoc, getDownloadURL
+            } from 'https://reelcareer.co/js/module.js';
+    
+    
+
+            function parseCityFromLocation(location) {
+            const parts = location.split(',');
+            return parts.length > 0 ? parts[0].trim() : '';
+        }
+
+        function parseStateFromLocation(location) {
+            const parts = location.split(',');
+            return parts.length > 1 ? parts[1].trim() : '';
+        }
+
+        function parseCityFromLocationNew(locationString) {
+            if (locationString && locationString.includes(',')) {
+                return locationString.split(',')[0].trim();
+            }
+            return '';
+        }
+
+
+
+        
+        let autoAdd = false;
+        let autoAddTimeout;
+
+        // Fetch Jobs
+        async function fetchJobs() {
+            const query = document.getElementById("query").value;
+            const perPage = document.getElementById("perPage").value;
+
+            // API request
+            try {
+                toggleLoading(true);
+                const response = await axios.get(`https://api.adzuna.com/v1/api/jobs/us/search/1?app_id=3ea9a2f1&app_key=e74d84b00c37bbfabe11710ebafcd138&results_per_page=${perPage}&what=${query}`);
+                displayJobs(response.data.results);
+            } catch (error) {
+                console.error("Error fetching jobs:", error);
+                showMessage("Error fetching jobs. Please try again.", true);
+            } finally {
+                toggleLoading(false);
+            }
+        }
+window.fetchJobs = fetchJobs;
+        // Display Jobs in Table
+        function displayJobs(jobs) {
+            const container = document.getElementById("jobApplications");
+            container.innerHTML = "";
+            jobs.forEach(job => {
+                const row = document.createElement("tr");
+                row.className = "job-item";
+                row.innerHTML = `
+                    <td><input type="checkbox" class="job-checkbox" onclick="toggleRowSelection(this)"></td>
+                    <td>${job.title}</td>
+                    <td>${job.company.display_name || "N/A"}</td>
+                    <td>${parseCityFromLocationNew(job.location.display_name) || "N/A"}</td>
+                    <td>${job.location.area[1] || "N/A"}</td>
+                    <td>${ (parseFloat(job.salary_min) + parseFloat(job.salary_max)) / 2 || 0}</td>
+                    <td>${job.category.tag || ''}</td>
+                    <td><button onclick="addJob(${job.id})">Add</button></td>
+                `;
+                container.appendChild(row);
+            });
+        }
+
+        // Toggle Row Selection
+        function toggleRowSelection(checkbox) {
+            const row = checkbox.closest('tr');
+            row.classList.toggle('selected', checkbox.checked);
+        }
+
+        // Select All Jobs
+        function toggleSelectAll() {
+            const selectAllCheckbox = document.getElementById("selectAll");
+            const checkboxes = document.querySelectorAll(".job-checkbox");
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = selectAllCheckbox.checked;
+                toggleRowSelection(checkbox);
+            });
+        }
+
+        // Add Selected Jobs
+        async function addSelectedJobs() {
+            const selectedJobs = document.querySelectorAll(".job-item.selected");
+            if (selectedJobs.length === 0) {
+                showMessage("No jobs selected.", true);
+                return;
+            }
+
+            const batch = writeBatch(db);
+            let count = 0;
+
+            selectedJobs.forEach((jobRow) => {
+                const job = JSON.parse(jobRow.querySelector('input[type="hidden"]').value);
+                const jobRef = collection(db, "Jobs");
+                let job_location = job['location']['area'] || [];
+
+const searchableTitle = job.title
+.toLowerCase()
+.replace(/[^a-z0-9\s]/g, "") // Remove special characters
+.split(" ") // Split into words
+.filter(Boolean)  // Remove empty strings
+.join(" "); // Join back into a single string
+
+let tags = job.category && job.category.tag ? job.category.tag.split('-').map(word => word.trim()) : [];
+const searchableTags = tags
+.toLowerCase()
+.replace(/[^a-z0-9\s]/g, "") // Remove special characters
+.split(" ") // Split into words
+.filter(Boolean)  // Remove empty strings
+.join(" "); // Join back into a single string
+
+batch.set(docRef, { 
+title: (job.title || '').toLowerCase(),
+searchableTitle: searchableTitle,  // Store as lowercase string for Firebase search
+jobId: '',
+
+company: job.company.display_name,
+description: job.description || '', 
+location: (job.location || '').toLowerCase(),
+city: parseCityFromLocationNew(job.location.display_name) || '', 
+county: parseStateFromLocation(job.location.display_name) || '', 
+state: job.location.area[1] || '', 
+country: job.location.area[0] || 'US', 
+type: job.contract_time || 'Full-time', 
+salaryMin: parseFloat(job.salary_min) || 0, 
+salaryMax: parseFloat(job.salary_max) || 0,   
+salary: (parseFloat(job.salary_min) + parseFloat(job.salary_max)) / 2 || 0,
+contractToHire: 'No', 
+immediateHire: 'No', 
+industry: job.category.label || '', 
+category: job.category.tag || '',
+benefits: [], 
+tags: searchableTags || '',
+boosted: "None", 
+boostExpiration: "None", 
+boostExpiresAt: "None", 
+boostedByID: "None", 
+status: "active", 
+createdAt: new Date(job.created), 
+applicantsViewed: 0, 
+savedForLater: 0, 
+applicationWebsite: job.redirect_url || '', 
+applicationAvailableBool: false, 
+submittedBy: "Adzuna", 
+searchableRequirements: ''
+
+                });
+                count++;
+            });
+
+            await batch.commit();
+            showMessage(`${count} jobs added successfully.`);
+        }
+
+        // Show Message
+        function showMessage(message, isError = false) {
+            const messageArea = document.getElementById("messageArea");
+            const messageText = document.getElementById("messageAreaText");
+            messageArea.classList.toggle("error", isError);
+            messageText.textContent = message;
+            messageArea.style.display = "block";
+            setTimeout(() => messageArea.style.display = "none", 3000);
+        }
+
+        // Loading State
+        function toggleLoading(state) {
+            document.getElementById("loading").style.display = state ? "block" : "none";
+        }
+
+        // Add Job (simplified)
+        function addJob(jobId) {
+            console.log(`Job ID: ${jobId} has been added.`);
+        }
+    </script>
+</body>

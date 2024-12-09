@@ -2298,7 +2298,7 @@ function scanAndReplaceVulgarWords(vulgarWordsArray) {
   const mainContainer = document.getElementById('main-content');
 
   if (!mainContainer) {
-    console.error("Main container not found.");
+   // console.error("Main container not found.");
     return;
   }
 
