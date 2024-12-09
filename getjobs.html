@@ -318,7 +318,7 @@
     <div id="loading">Loading...</div>
     <div id="autoAddProgress"></div>
     <div id="messageArea"><span id="messageAreaText"></span></div>
-
+ 
     <div id="jobTableContainer">
         <table id="jobTable">
             <thead>
@@ -335,7 +335,7 @@
                     <th>Action</th>
                 </tr>
             </thead>
-            <tbody id="jobApplications"></tbody>
+            <tbody id="jobApplications" onclick="handleTableClick(event)"></tbody>
         </table>
     </div>
     
@@ -356,21 +356,29 @@
 
     <script>
 
-        // Toggle Row Selection
-// Toggle Row Selection
 function toggleRowSelection(checkbox) {
-    if (!checkbox) return; // Guard clause to ensure checkbox is valid
-    const row = checkbox.closest('tr');
+    console.log("Checkbox:", checkbox); // Debug to see what checkbox is
+    if (!(checkbox instanceof HTMLElement)) {
+        console.error("Not a valid DOM element:", checkbox);
+        return; // Exit if invalid
+    }
+
+    const row = checkbox.closest('tr'); // Find the closest row
     if (row) {
-        row.classList.toggle('selected', checkbox.checked);  // Add/remove selected class
+        row.classList.toggle('selected', checkbox.checked);
     }
 }
 
         window.toggleRowSelection = toggleRowSelection;
 
-    
+        function handleTableClick(event) {
+    if (event.target && event.target.classList.contains('job-checkbox')) {
+        toggleRowSelection(event.target); // Pass the actual checkbox
+    }
+}
+
         
-//window.toggleSelectAll = toggleSelectAll ;
+window.handleTableClick = handleTableClick ;
 
 // Select All Jobs
 function toggleSelectAll() {
@@ -400,6 +408,13 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 document.addEventListener("DOMContentLoaded", () => {
+
+
+    document.addEventListener("DOMContentLoaded", () => {
+    window.toggleRowSelection = toggleRowSelection;
+    window.toggleSelectAll = toggleSelectAll;
+});
+
     const sortColumns = [
         "sortJobTitle",
         "sortCompany",
