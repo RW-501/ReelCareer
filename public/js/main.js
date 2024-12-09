@@ -2660,14 +2660,14 @@ function loadChatbot() {
       bottom: 20px;
       right: 20px;
       width: 350px;
-      height: 500px;
+      height: 400px;
       background-color: white;
       border: 1px solid #ddd;
       border-radius: 8px;
       box-shadow: 0 4px 8px rgba(0,0,0,0.2);
       display: none; /* Hidden initially */
       flex-direction: column;
-      z-index: 999;
+      z-index: 9999;
   `;
   chatPanel.innerHTML = `
       <div style="background-color: #007BFF; color: white; padding: 10px; text-align: center;">
