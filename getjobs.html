@@ -385,6 +385,41 @@ import { getFirestore, collection, writeBatch } from "https://www.gstatic.com/fi
             return '';
         }
 
+        let sortDirection = [true, true, true, true, true, true, true, true]; // Store the sort direction for each column (true for ascending, false for descending)
+
+// Move sortTable outside of the event listener
+function sortTable(columnIndex) {
+    const table = document.getElementById("jobTable");
+    const rows = Array.from(table.rows).slice(1); // Get all rows except the header
+    const isAscending = sortDirection[columnIndex];
+    sortDirection[columnIndex] = !isAscending; // Toggle sort direction
+
+    const sortedRows = rows.sort((rowA, rowB) => {
+        const cellA = rowA.cells[columnIndex].innerText.trim();
+        const cellB = rowB.cells[columnIndex].innerText.trim();
+
+        // Handle sorting based on column type (numeric or text)
+        if (columnIndex === 5) { // Salary column
+            const salaryA = parseFloat(cellA) || 0;
+            const salaryB = parseFloat(cellB) || 0;
+            return isAscending ? salaryA - salaryB : salaryB - salaryA;
+        } else if (columnIndex === 6) { // Date column
+            const dateA = new Date(cellA);
+            const dateB = new Date(cellB);
+            return isAscending ? dateA - dateB : dateB - dateA;
+        } else { // For text columns (e.g., Job Title, Company, etc.)
+            return isAscending ? cellA.localeCompare(cellB) : cellB.localeCompare(cellA);
+        }
+    });
+
+    // Append sorted rows to the table
+    const tbody = document.getElementById("jobApplications");
+    tbody.innerHTML = ""; // Clear existing rows
+    sortedRows.forEach(row => tbody.appendChild(row));
+}
+
+
+window.sortTable = sortTable;
 
 
         
@@ -428,8 +463,7 @@ window.fetchJobs = fetchJobs;
 
 });
 
-        // Display Jobs in Table
-        let sortDirection = [true, true, true, true, true, true, true, true]; // Store the sort direction for each column (true for ascending, false for descending)
+    
 
 function displayJobs(jobs) {
     const container = document.getElementById("jobApplications");
@@ -461,38 +495,7 @@ function displayJobs(jobs) {
 document.addEventListener("DOMContentLoaded", () => {
 
 
-
-function sortTable(columnIndex) {
-    const table = document.getElementById("jobTable");
-    const rows = Array.from(table.rows).slice(1); // Get all rows except the header
-    const isAscending = sortDirection[columnIndex];
-    sortDirection[columnIndex] = !isAscending; // Toggle sort direction
-
-    const sortedRows = rows.sort((rowA, rowB) => {
-        const cellA = rowA.cells[columnIndex].innerText.trim();
-        const cellB = rowB.cells[columnIndex].innerText.trim();
-
-        // Handle sorting based on column type (numeric or text)
-        if (columnIndex === 5) { // Salary column
-            const salaryA = parseFloat(cellA) || 0;
-            const salaryB = parseFloat(cellB) || 0;
-            return isAscending ? salaryA - salaryB : salaryB - salaryA;
-        } else if (columnIndex === 6) { // Date column
-            const dateA = new Date(cellA);
-            const dateB = new Date(cellB);
-            return isAscending ? dateA - dateB : dateB - dateA;
-        } else { // For text columns (e.g., Job Title, Company, etc.)
-            return isAscending ? cellA.localeCompare(cellB) : cellB.localeCompare(cellA);
-        }
-    });
-window.sortTable = sortTable;
-
-    // Append sorted rows to the table
-    const tbody = document.getElementById("jobApplications");
-    tbody.innerHTML = ""; // Clear existing rows
-    sortedRows.forEach(row => tbody.appendChild(row));
-}
-
+    
 
 
 
