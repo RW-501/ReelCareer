@@ -5,12 +5,11 @@ query, updateDoc, setDoc, addDoc, signInAnonymously, orderBy, onAuthStateChanged
 uploadBytesResumable, signInWithPopup, FacebookAuthProvider, GoogleAuthProvider, startAfter,
 OAuthProvider, signOut, deleteDoc, getFirestore, serverTimestamp,
 createUserWithEmailAndPassword, signInWithEmailAndPassword, deleteObject,
-where, getDocs, storage, getAuth, collection, auth, analytics,
+where, getDocs, storage, getAuth, collection, auth, analytics, batch,
 googleProvider,onSnapshot ,
 facebookProvider,
 getUserId // Export the function
 } from 'https://reelcareer.co/js/module.js';
-
 
 
 
