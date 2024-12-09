@@ -2395,7 +2395,7 @@ async function sendToSupportTickets(tickets) {
   const supportTicketsRef  = collection(db, 'SupportTickets');
 
  // const supportTicketsRef = db.collection('SupportTickets');
-  const batch = db.batch();
+ const batch = writeBatch(db);
 
   for (const ticket of tickets) {
     const { jobID, videoID } = ticket;
