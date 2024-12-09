@@ -452,6 +452,10 @@ function displayJobs(jobs) {
     });
 }
 
+ // Loading State
+ function toggleLoading(state) {
+            document.getElementById("loading").style.display = state ? "block" : "none";
+        }
 
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -506,7 +510,7 @@ window.sortTable = sortTable;
             const row = checkbox.closest('tr');
             row.classList.toggle('selected', checkbox.checked);
         }
-        window.toggleRowSelection = toggleRowSelection;
+        //window.toggleRowSelection = toggleRowSelection;
 
         // Select All Jobs
         function toggleSelectAll() {
@@ -518,6 +522,9 @@ window.sortTable = sortTable;
             });
         }
 window.toggleSelectAll = toggleSelectAll ;
+
+
+
         // Add Selected Jobs
         async function addSelectedJobs() {
             const selectedJobs = document.querySelectorAll(".job-item.selected");
@@ -621,11 +628,7 @@ searchableRequirements: ''
     });
 
 
-     // Loading State
-     function toggleLoading(state) {
-            document.getElementById("loading").style.display = state ? "block" : "none";
-        }
-
+    
 
     </script>
 </body>
