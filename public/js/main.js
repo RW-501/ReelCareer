@@ -2707,17 +2707,22 @@ const allQuestions = [
 // Load only general questions on chatbot open
 function loadGeneralQuestions() {
   const messageArea = document.getElementById("chatbot-messages");
-  messageArea.innerHTML = "<p><strong>Choose a topic to get started:</strong></p>";
-  
-  // Filter and display only onload questions (general questions)
-  allQuestions.filter(q => q.onload).forEach(q => {
-      const button = document.createElement("button");
-      button.innerText = q.question;
-      button.style.cssText = "margin: 5px; padding: 5px 10px; cursor: pointer;";
-      button.addEventListener("click", () => handleUserInput(q.question));
-      messageArea.appendChild(button);
-  });
+  if (messageArea) {
+    messageArea.innerHTML = "<p><strong>Choose a topic to get started:</strong></p>";
+    
+    // Filter and display only onload questions (general questions)
+    allQuestions.filter(q => q.onload).forEach(q => {
+        const button = document.createElement("button");
+        button.innerText = q.question;
+        button.style.cssText = "margin: 5px; padding: 5px 10px; cursor: pointer;";
+        button.addEventListener("click", () => handleUserInput(q.question));
+        messageArea.appendChild(button);
+    });
+  } else {
+    console.error("Chatbot message area not found.");
+  }
 }
+
 
 // Wrap loadGeneralQuestions in a 5-second timeout (if needed)
 setTimeout(() => {
