@@ -2284,3 +2284,91 @@ function getUserDisplayName() {
 // Example usage
 const userDisplayName = getUserDisplayName();
 console.log("Welcome: ", userDisplayName);
+
+
+
+// Vulgar word scanner and replacer function
+function scanAndReplaceVulgarWords(vulgarWordsArray) {
+  // Define the main container to scan
+  const mainContainer = document.querySelector('main');
+  
+  if (!mainContainer) {
+      console.error("Main container not found.");
+      return;
+  }
+
+  // Retrieve all child divs inside the main container
+  const allDivs = mainContainer.querySelectorAll('div');
+
+  // Replace vulgar words in textContent
+  allDivs.forEach((div) => {
+      let textContent = div.textContent || div.innerText || '';
+
+      // Loop through each vulgar word and replace it
+      vulgarWordsArray.forEach((word) => {
+          const vulgarRegex = new RegExp(`\\b${word}\\b`, 'gi');
+          textContent = textContent.replace(vulgarRegex, (match) => {
+              return match.length > 2
+                  ? match[0] + '****' + match[match.length - 1] // First and last letter with **** in between
+                  : match[0] + '****'; // For short words (e.g., "at")
+          });
+      });
+
+      // Update the content in the div
+      div.textContent = textContent;
+  });
+
+  console.log("Vulgar words have been replaced.");
+}
+
+
+
+window.scanAndReplaceVulgarWords = scanAndReplaceVulgarWords;
+
+
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  // Example list of vulgar words
+  const vulgarWords = [
+    // Variations of "badword"
+    "stupid", "shit", "ass", "fuck", "pussy", "dick", "azz", "fucked", "fucking", "bitch", "bitches", "bitching", "bitch*",
+    
+    // Variations of "curseword"
+    "shited", "shits", "bstard", "biatch", "damned", "damnit", "damn it", "damn", "hell", 
+     "fuc*king", "f*king", "f***ed", "s*ux", "sh1t", "j*erk", "a55", "b1tch", "f8ck", "f1ck", "h4te", "l0ser",
+  
+  
+    // Variations of "dummy"
+    "d*ummy", "du*mmy", "dum*my", "dumm*y", "du*mmy", "dum*m*y", "dumm*my",
+  
+    // More general words - add misspellings as needed
+    "s*tupid", "sh*it", "a*ss", "f*uck", "fu*ck", "fuc*k", "b*itch", "bi*tch", "bit*ch", "bitch*",
+    "f***", "fuc*king", "f*king", "f***ed", "s*ux", "sh1t", "j*erk", "a55", "b1tch", "f8ck", "f1ck", "h4te", "l0ser",
+    
+    // Numbers or special character combinations
+    "f***", "b1tch", "sh1t", "d4mn", "h3ll", "f8ck", "c*rse", "i*d10t", "j*erk", "l0s3r", "m*therf*cker", "f*k",
+    
+    // Substitutions
+    "f*uck", "fu*k", "f**k", "fuc*k", "fuc**k", "sh*it", "sh*t", "b**ch", "b*itch", "b*tch", "b1tch", "s3x", "j**k",
+    
+    // Additional patterns and mixed-up character replacements
+    "f*u**k", "s*hit", "sh1t", "m*therf*cker", "sh*tshow", "sh*tstain", "l33t", "b**tch", "b!tch", "a*s*hole",
+    
+    // Keyboard substitutions
+     "k!ll", "g0d", "tw*tch", "w*nky", "pr*ck", "pr1ck", "p*ss", "ass", "d*ck", "b**w", "c**t", "s*ck"
+  ];
+  
+  // Run the scanner and replacer function after DOM is loaded
+  scanAndReplaceVulgarWords(vulgarWords);
+});
+
+
+/*
+const detectedWords = scanForVulgarWords(vulgarWords);
+
+if (detectedWords.length > 0) {
+  alert("Warning: Vulgar content detected in the page.");
+}
+
+*/
