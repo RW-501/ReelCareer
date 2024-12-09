@@ -383,6 +383,9 @@ function handleError(message, error) {
     document.getElementById("error-message").innerText = message;
     document.getElementById("error-message").style.display = "block";
 }
+document.getElementById("phoneLogin").addEventListener("click", () => {
+    phoneLogin();
+  });
 
 // Phone Login Function
 function phoneLogin() {

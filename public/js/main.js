@@ -2368,8 +2368,12 @@ document.addEventListener("DOMContentLoaded", () => {
      "k!ll", "g0d", "tw*tch", "w*nky", "pr*ck", "pr1ck", "p*ss", "ass", "d*ck", "b**w", "c**t", "s*ck"
   ];
   
-  // Run the scanner and replacer function after DOM is loaded
-  scanAndReplaceVulgarWords(vulgarWords);
+// Run the scanner and replacer function after DOM is loaded
+  setTimeout(() => {
+    scanAndReplaceVulgarWords(vulgarWords);
+  }, 1000); // Delay of 2 seconds (2000 milliseconds)
+
+
 });
 
 
