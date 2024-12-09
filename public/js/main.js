@@ -2381,7 +2381,8 @@ function scanAndReplaceVulgarWords(vulgarWordsArray, logging = false) {
         URL: window.location.href,
         submittedAt: new Date().toISOString(),
         submittedBy: 'System',
-        type: ticketType  // Add the 'type' field
+        type: ticketType,
+        status: "submitted"
       };
 
       supportTickets.push(ticket);

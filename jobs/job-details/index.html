@@ -1226,15 +1226,20 @@ async function submitReport() {
         return;
     }
     const jobID = document.getElementById('jobID').innerText;
-    const jobTitle = document.getElementById('jobTitle').innerText;
     const userID = document.getElementById('userID').innerText;
     const reportData = {
         jobId: jobID,
-        jobTitle: jobTitle,
+        jobTitle: document.title,
         reasons: selectedReasons,
         message: message,
-        submittedAt: new Date(),
-        userID: userID,
+        URL: window.location.href,
+        submittedAt: new Date().toISOString(),
+        submittedBy: "user",
+        submittedByUserID: userID,        
+        type: "User Report",
+        pageTitle: document.title,
+        status: "submitted"
+
     };
 
     // Send the report to Firebase
