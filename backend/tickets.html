@@ -244,15 +244,21 @@
     } from 'https://reelcareer.co/js/module.js';
 
    // Array to hold tickets 
-let tickets = []; 
-
-// Helper function to create a table row from a ticket
-function createTicketRow(ticket, ticketId) {
+   function createTicketRow(ticket, ticketId) {
     const row = document.createElement("tr");
+    
+    // Check if ticket.submittedAt exists and has a valid timestamp
+    let submittedAt = "";
+    if (ticket.submittedAt && ticket.submittedAt.seconds) {
+        submittedAt = new Date(ticket.submittedAt.seconds * 1000).toLocaleString();
+    } else {
+        submittedAt = "Date not available"; // Fallback if timestamp is invalid
+    }
+
     row.innerHTML = `
         <td>${ticket.type}</td>
         <td>${ticket.submittedBy}</td>
-        <td>${new Date(ticket.submittedAt.seconds * 1000).toLocaleString()}</td>
+        <td>${submittedAt}</td>
         <td>
             <select class="status-dropdown" onchange="updateStatus('${ticketId}')">
                 <option value="submitted" ${ticket.status === 'submitted' ? 'selected' : ''}>Submitted</option>
@@ -274,28 +280,6 @@ function createTicketRow(ticket, ticketId) {
     return row;
 }
 
-// Function to fetch tickets from Firestore and render them
-async function fetchTickets() {
-    const ticketsList = document.getElementById("ticketsList");
-    ticketsList.innerHTML = ""; // Clear previous rows
-
-    try {
-        // Fetch tickets from Firestore SupportTickets collection
-        const querySnapshot = await getDocs(collection(db, 'SupportTickets'));
-
-        // Loop through the documents and create rows
-        tickets = []; // Reset tickets array
-        querySnapshot.forEach((doc) => {
-            const ticket = doc.data();
-            tickets.push(ticket); // Add ticket data to tickets array
-
-            const row = createTicketRow(ticket, doc.id); // Create row using helper function
-            ticketsList.appendChild(row); // Append row to the table
-        });
-    } catch (error) {
-        console.error("Error fetching tickets: ", error);
-    }
-}
 
 // Function to toggle ticket details visibility
 function toggleDetails(ticketId) {
@@ -314,7 +298,7 @@ async function updateStatus(ticketId) {
         await updateDoc(doc(db, 'SupportTickets', ticketId), {
             status: status
         });
-        console.log(`Updated status for ticket ${ticketId} to ${status}`);
+        showToast(`Updated status for ticket ${ticketId} to ${status}`);
     } catch (error) {
         console.error("Error updating status: ", error);
     }
