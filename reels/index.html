@@ -624,6 +624,10 @@ async function fetchVideoResumes(page, user) {
             console.log("docId   ",docId);
             console.log("videoData   ",videoData);
 
+            let reelUserID = videoData.userID || '';
+            let profilePicture = videoData.profilePicture || '';
+            let displayName = videoData.displayName || '';
+
             // Build the video card dynamically with real data
             const videoCard = document.createElement("div");
             videoCard.className = "video-post";
@@ -636,6 +640,7 @@ async function fetchVideoResumes(page, user) {
             videoCard.dataset.reelUserID = videoData.userID || '';
             videoCard.dataset.profilePicture = videoData.profilePicture || '';
             generateVideoSchema(videoData, docId);
+
 
             videoCard.innerHTML = `
                 <div id="videoCard_${docId}" class="video-card">
@@ -710,10 +715,7 @@ async function fetchVideoResumes(page, user) {
             addUserButton.addEventListener("click", () => addToShortlist(docId));
             likeButton.addEventListener("click", () => handleLike(docId, likeButton));
 
-            let reelUserID = videoData.userID || '';
-            let profilePicture = videoData.profilePicture || '';
-            let displayName = videoData.displayName || '';
-
+  
             connectButton.addEventListener("click", () => handleConnect(docId, connectButton, profilePicture,reelUserID ,displayName));
             messageButton.addEventListener("click", () => sendMessage(docId , profilePicture,reelUserID, displayName));
 
@@ -859,47 +861,6 @@ fetchVideoResumes(1, userId);
 
       
     
-function setBlogMetaTags(blogData) {
-    // Update the document title
-    document.title = `ReelCareer.co | Blog: ${blogData.title}`;
-
-    // Helper function to create or update a meta tag
-    function updateMetaTag(name, content, property = false) {
-        let meta = document.querySelector(property ? `meta[property="${name}"]` : `meta[name="${name}"]`);
-        if (!meta) {
-            meta = document.createElement('meta');
-            if (property) {
-                meta.setAttribute('property', name);
-            } else {
-                meta.setAttribute('name', name);
-            }
-            document.head.appendChild(meta);
-        }
-        meta.setAttribute('content', content);
-    }
-
-    // Meta tags for SEO
-    updateMetaTag('description', blogData.description || 'Read this insightful blog on ReelCareer.co!');
-    updateMetaTag('keywords', blogData.keywords || 'ReelCareer, blog, career, jobs');
-    updateMetaTag('author', blogData.author || 'ReelCareer Team');
-
-    // Open Graph (OG) meta tags for social media sharing
-    updateMetaTag('og:title', `ReelCareer.co | Blog: ${blogData.title}`, true);
-    updateMetaTag('og:description', blogData.description || 'Discover this blog post on ReelCareer.co!', true);
-    updateMetaTag('og:image', blogData.image || 'https://reelcareer.co/images/default-blog-thumbnail.png', true);
-    updateMetaTag('og:url', blogData.url || window.location.href, true);
-    updateMetaTag('og:type', 'article', true);
-
-    // Twitter card meta tags
-    updateMetaTag('twitter:card', 'summary_large_image');
-    updateMetaTag('twitter:title', `ReelCareer.co | Blog: ${blogData.title}`);
-    updateMetaTag('twitter:description', blogData.description || 'Check out this blog post on ReelCareer!');
-    updateMetaTag('twitter:image', blogData.image || 'https://reelcareer.co/images/default-blog-thumbnail.png');
-}
-
-
-
-
 
 async function handleConnect(docId, connectButton , viewProfilePicture, viewUserID, viewDisplayName) {
     alert(`connectButton post ID: ${docId}`);
