@@ -7,7 +7,7 @@ OAuthProvider, signOut, deleteDoc, getFirestore, serverTimestamp,
 createUserWithEmailAndPassword, signInWithEmailAndPassword, deleteObject,
 where, getDocs, storage, getAuth, collection, auth, analytics, 
 googleProvider,onSnapshot ,
-facebookProvider,
+facebookProvider,writeBatch ,
 getUserId // Export the function
 } from 'https://reelcareer.co/js/module.js';
 

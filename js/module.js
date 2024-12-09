@@ -7,7 +7,7 @@ import {
   query, startAfter,
   updateDoc, orderBy,
   setDoc, limit, 
-  addDoc, deleteDoc,
+  addDoc, deleteDoc,writeBatch ,
   getDocs, increment,
   where, arrayUnion,onSnapshot ,
   collection
@@ -146,7 +146,7 @@ export {
   OAuthProvider, signOut, deleteDoc, getFirestore, serverTimestamp,
   createUserWithEmailAndPassword, signInWithEmailAndPassword, deleteObject,
   where, getDocs, storage, getAuth, collection, auth, analytics,
-  googleProvider,onSnapshot ,
+  googleProvider,onSnapshot ,writeBatch ,
   facebookProvider,
   getUserId // Export the function
 };
