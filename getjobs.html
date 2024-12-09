@@ -36,6 +36,7 @@
                     <th>City</th>
                     <th>State</th>
                     <th>Salary</th>
+                    <th>Date</th>
                     <th>Category</th>
                     <th>Action</th>
                 </tr>
@@ -120,6 +121,7 @@ window.fetchJobs = fetchJobs;
                     <td>${parseCityFromLocationNew(job.location.display_name) || "N/A"}</td>
                     <td>${job.location.area[1] || "N/A"}</td>
                     <td>${ (parseFloat(job.salary_min) + parseFloat(job.salary_max)) / 2 || 0}</td>
+                    <td>${new Date(job.created) || ''}</td>
                     <td>${job.category.tag || ''}</td>
                     <td><button onclick="addJob(${job.id})">Add</button></td>
                 `;
