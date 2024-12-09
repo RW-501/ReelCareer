@@ -100,7 +100,7 @@
                     <a class="nav-link" href="messaging">Messages</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link btn btn-danger" href="logout">Logout</a>
+                    <a class="nav-link btn btn-danger" href="/views/auth">Logout</a>
                 </li>
             </ul>
         </div>
@@ -703,6 +703,7 @@ let mainContainer = document.getElementById('main-content');
     mainContainer.appendChild(container);
 }
 
+window.showUserDataNotFoundMessage = showUserDataNotFoundMessage;
 
 function showUserSignedOutMessage() {
     // Create a container div

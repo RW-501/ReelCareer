@@ -467,6 +467,91 @@ main {
     <!-- Firebase configuration/ Login& Out -->
     <script type="module" src="https://reelcareer.co/public/js/main.js"></script> 
 
+
+
+    <script >
+
+
+function showUserDataNotFoundMessage() {
+  breadcrumbjobTitleActive.style.display = "none";
+
+lastBreadcrumb_last.style.display = "block";
+lastBreadcrumb_a.innerText = "Create a Profile";
+lastBreadcrumb_a.href = `https://reelcareer.co/views/auth`;
+
+let mainContainer = document.getElementById('main-content');
+
+
+  mainContainer.innerHTML = '';
+
+    // Create a container div
+    const container = document.createElement('div');
+    container.className = 'user-data-not-found-container';
+    container.style.cssText = `
+        display: flex; 
+        justify-content: center; 
+        align-items: center; 
+        height: 100vh; 
+    `;
+
+    // Create the card div
+    const card = document.createElement('div');
+    card.className = 'user-data-not-found-card';
+    card.style.cssText = `
+        background-color: white; 
+        padding: 20px; 
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+        border-radius: 8px; 
+        text-align: center;
+    `;
+
+    // Add a title to the card
+    const title = document.createElement('h3');
+    title.textContent = 'User Not Found Create A Profile';
+    title.style.marginBottom = '15px';
+    card.appendChild(title);
+
+    // Add a message inside the card
+    const message = document.createElement('p');
+    message.textContent = 'The requested user could not be found.';
+    message.style.marginBottom = '20px';
+    card.appendChild(message);
+
+    // Create a "Go Back" button
+    const goBackButton = document.createElement('button');
+    goBackButton.textContent = 'Go Back';
+    goBackButton.className = 'btn btn-primary m-1'; // Assuming Bootstrap classes, if used
+    goBackButton.style.padding = '10px 20px';
+    
+    // Add an event listener to navigate back
+    goBackButton.addEventListener('click', () => {
+        window.history.back(); // This takes the user to the previous page
+    });
+
+    card.appendChild(goBackButton);
+
+    // Create a "Login" button
+    const loginButton = document.createElement('button');
+    loginButton.textContent = 'Go to Login Page';
+    loginButton.className = 'btn btn-primary m-1'; // Assuming Bootstrap classes, if used
+    loginButton.style.padding = '10px 20px';
+
+    // Add an event listener to redirect to the login page
+    loginButton.addEventListener('click', () => {
+        window.location.href = 'https://reelcareer.co/views/auth'; // Change '/login' to your actual login page URL
+    });
+
+    card.appendChild(loginButton);
+
+    // Append the card to the container
+    container.appendChild(card);
+
+    // Append the container to the body (or a specific element on your page)
+    mainContainer.appendChild(container);
+}
+
+window.showUserDataNotFoundMessage = showUserDataNotFoundMessage;
+    </script>
   <!-- Firebase JS SDK and Custom Scripts -->
 
 <script type="module">
@@ -490,7 +575,10 @@ main {
         userId = await getUserId(); // Await here to properly set userId
         console.log("User ID fetched during DOMContentLoaded:", userId);
         if (!userId) {
-            window.location.href = 'https://reelcareer.co/views/auth'
+
+
+            showUserDataNotFoundMessage();
+            
             return;
 
         } else {
