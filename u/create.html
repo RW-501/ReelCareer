@@ -686,8 +686,6 @@ function showUserDataNotFoundMessage() {
 
 
 
-  breadcrumbTitleActive.style.display = "none";
-
 lastBreadcrumb_last.style.display = "block";
 lastBreadcrumb_a.innerText = "Create a Profile";
 lastBreadcrumb_a.href = `https://reelcareer.co/views/auth`;
@@ -1610,7 +1608,7 @@ overlay.style.left = "10%";
 
 // Retrieve and populate form inputs for tabs
 window.onload = async function () {
-  userId = await getUserId(); // Await here to properly set userId
+  userId = await getUserId() || ""; // Await here to properly set userId
     const userDataSaved = getUserData() || [];
 
 
