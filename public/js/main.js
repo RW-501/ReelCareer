@@ -2734,22 +2734,10 @@ async function handleUserInput(userMessage) {
   if (matchedQuestion) {
       displayMessage("bot", matchedQuestion.answer);
   } else {
-      // If not, search Firestore collection
-      const querySnapshot = await getDocs(collection(db, "ChatbotResponses"));
-      let foundAnswer = false;
-
-      querySnapshot.forEach((doc) => {
-          const data = doc.data();
-          if (data.tags && data.tags.some(tag => userMessage.toLowerCase().includes(tag))) {
-              displayMessage("bot", data.answer);
-              foundAnswer = true;
-          }
-      });
-
-      if (!foundAnswer) {
-          displayMessage("bot", "I'm sorry, I don't have an answer for that yet. We'll get back to you soon.");
+    
+          displayMessage("bot", "Sorry, I couldn't find an answer for that. Please contact us via our [Contact Us](https://reelcareer.com/contact) page.");
           logUnansweredQuestion(userMessage);
-      }
+      
   }
 }
 
@@ -2841,7 +2829,7 @@ function sendMessage(message) {
     } else {
         // Log unanswered question and ask the user to contact support
         logUnansweredQuestion(trimmedMessage);
-        return "Sorry, I couldn't find an answer for that. Please contact us via our [Contact Us](https://reelcareer.com/contact) page.";
+        return;
     }
 }
 

@@ -24,6 +24,43 @@
         .form-group:hover .tooltip {
             display: block;
         }
+
+
+
+        body {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+}
+
+h1 {
+  font-size: 2em;
+}
+
+h2, h3 {
+  margin-top: 20px;
+}
+
+#general-questions-list, #predefined-questions-list {
+  list-style-type: none;
+}
+
+button {
+  margin-top: 10px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+textarea {
+  width: 100%;
+}
+
+form input, form textarea, form select {
+  display: block;
+  margin: 10px 0;
+  padding: 5px;
+  width: 100%;
+}
+
     </style>
 </head>
 
@@ -96,28 +133,48 @@
 
         <!-- Chatbot Configuration Section -->
         <div class="card mb-4">
-            <div class="card-body">
-                <h4>Configure Chatbot Responses</h4>
-                <form id="chatbotForm">
-                    <div class="form-group">
-                        <label for="intent">Intent <span class="tooltip">(e.g., job_search)</span></label>
-                        <input type="text" class="form-control" id="intent" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="response">Response <span class="tooltip">(What the bot should say)</span></label>
-                        <textarea class="form-control" id="response" rows="3" required></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="suggestions">Suggestions <span class="tooltip">(Comma-separated suggestions)</span></label>
-                        <textarea class="form-control" id="suggestions" rows="3" placeholder="e.g., Job Search, Resume Tips"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="context">Page Context <span class="tooltip">(Specify where this response is relevant)</span></label>
-                        <input type="text" class="form-control" id="context" placeholder="e.g., job listing page, application page" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Save Response</button>
+            <div>
+                <h2>Manage Questions</h2>
+            
+                <div id="general-questions">
+                  <h3>General Questions</h3>
+                  <ul id="general-questions-list">
+                    <!-- List of general questions -->
+                  </ul>
+                </div>
+            
+                <div id="predefined-questions">
+                  <h3>Predefined Questions</h3>
+                  <ul id="predefined-questions-list">
+                    <!-- List of predefined questions -->
+                  </ul>
+                </div>
+            
+                <h3>Add New Question</h3>
+                <form id="new-question-form">
+                  <label for="question">Question</label>
+                  <input type="text" id="question" required>
+            
+                  <label for="answer">Answer</label>
+                  <textarea id="answer" required></textarea>
+            
+                  <label for="category">Category</label>
+                  <select id="category">
+                    <option value="General">General</option>
+                    <option value="Predefined">Predefined</option>
+                  </select>
+            
+                  <label for="link">Add Link (Optional)</label>
+                  <input type="text" id="link">
+            
+                  <button type="submit">Add Question</button>
                 </form>
-                <div id="responseOutput" class="mt-3"></div>
+            
+                <h3>Export Questions to JSON</h3>
+                <textarea id="json-output" rows="10" cols="50" readonly></textarea>
+                <button id="copy-json-btn">Copy JSON</button>
+              </div>
+            
             </div>
         </div>
 
@@ -220,7 +277,7 @@
                         const row = `
                             <tr>
                                 <td>${new Date(data.timestamp).toLocaleString()}</td>
-                                <td>${data.userInput}</td>
+                                <td>${data.question}</td>
                                 <td>${data.botResponse}</td>
                             </tr>
                         `;
@@ -317,6 +374,122 @@
         // Initial data loading
         loadInteractionLogs();
         loadFeedback();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        const generalQuestions = [
+  { question: "How do I reset my password?", answer: "To reset your password, go to the 'Forgot Password' section on the login page.", category: "Account Management" },
+  { question: "Where can I find my job applications?", answer: "You can view your job applications in the 'Applications' section of your dashboard.", category: "Dashboard" },
+  // Add more sample data
+];
+
+const predefinedQuestions = [
+  { question: "How do I contact support?", answer: "You can contact support through our 'Contact Us' page. Here's the link: [Contact Us](https://reelcareer.com/contact).", category: "Support" },
+  { question: "How do I update my profile?", answer: "To update your profile, visit the 'Profile' section in your account settings.", category: "Account Management" },
+  // Add more sample data
+];
+
+// Fetch /chat_bot.json on page load (for real data)
+async function fetchChatbotData() {
+  try {
+    const response = await fetch('/chat_bot.json');
+    const data = await response.json();
+    generalQuestions.push(...data.generalQuestions);
+    predefinedQuestions.push(...data.predefinedQuestions);
+    renderQuestions();
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+}
+
+function renderQuestions() {
+  const generalList = document.getElementById("general-questions-list");
+  const predefinedList = document.getElementById("predefined-questions-list");
+
+  generalList.innerHTML = '';
+  predefinedList.innerHTML = '';
+
+  generalQuestions.forEach(q => {
+    const li = document.createElement("li");
+    li.textContent = `${q.question} - ${q.category}`;
+    generalList.appendChild(li);
+  });
+
+  predefinedQuestions.forEach(q => {
+    const li = document.createElement("li");
+    li.textContent = `${q.question} - ${q.category}`;
+    predefinedList.appendChild(li);
+  });
+}
+
+// Handle adding a new question
+document.getElementById("new-question-form").addEventListener("submit", function(event) {
+  event.preventDefault();
+
+  const question = document.getElementById("question").value;
+  const answer = document.getElementById("answer").value;
+  const category = document.getElementById("category").value;
+  const link = document.getElementById("link").value;
+
+  const newQuestion = {
+    question,
+    answer: link ? `${answer} Here's the link: [${link}](${link})` : answer,
+    category
+  };
+
+  if (category === "General") {
+    generalQuestions.push(newQuestion);
+  } else {
+    predefinedQuestions.push(newQuestion);
+  }
+
+  renderQuestions();
+  document.getElementById("new-question-form").reset();
+});
+
+// Export questions to JSON
+document.getElementById("copy-json-btn").addEventListener("click", function() {
+  const jsonOutput = {
+    generalQuestions,
+    predefinedQuestions
+  };
+
+  const jsonText = JSON.stringify(jsonOutput, null, 2);
+  document.getElementById("json-output").value = jsonText;
+  copyToClipboard(jsonText);
+});
+
+function copyToClipboard(text) {
+  const textarea = document.createElement('textarea');
+  textarea.value = text;
+  document.body.appendChild(textarea);
+  textarea.select();
+  document.execCommand('copy');
+  document.body.removeChild(textarea);
+}
+
+// Initial fetch and render on page load
+fetchChatbotData();
+
     </script>
 </body>
 </html>
