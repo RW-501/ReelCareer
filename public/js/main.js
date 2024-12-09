@@ -2298,10 +2298,7 @@ console.log("Welcome: ", userDisplayName);
 
 
 
-
-
-
-// Function to escape special characters for use in regular expressions
+// Function to escape special characters for use in regular expressions 
 function escapeRegExp(str) {
   return str.replace(/[.*+?^=!:${}()|\[\]\/\\]/g, '\\$&');
 }
@@ -2312,6 +2309,13 @@ function compileVulgarWordRegex(vulgarWordsArray) {
     word,
     regex: new RegExp(`\\b${escapeRegExp(word)}\\b`, 'gi'),
   }));
+}
+
+// Function to censor vulgar words
+function censorWord(match) {
+  return match.length > 2
+    ? match[0] + '***' + match[match.length - 1] // First and last letter with ***
+    : match[0] + '**'; // For short words
 }
 
 // Function to replace vulgar words and log contextual information
@@ -2383,7 +2387,6 @@ function scanAndReplaceVulgarWords(vulgarWordsArray, logging = false) {
   }
 }
 
-
 // Function to send data to the SupportTickets collection (e.g., Firebase Firestore)
 async function sendToSupportTickets(tickets) {
   const supportTicketsRef = db.collection('SupportTickets');
@@ -2419,8 +2422,6 @@ async function sendToSupportTickets(tickets) {
     console.error("Error submitting support tickets:", error);
   }
 }
-
-
 
 
 
