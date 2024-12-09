@@ -2317,7 +2317,7 @@ function compileVulgarWordRegex(vulgarWordsArray) {
 // Function to replace vulgar words and log contextual information
 function scanAndReplaceVulgarWords(vulgarWordsArray, logging = false) {
   const mainContainer = document.getElementById('main-content');
-
+  
   if (!mainContainer) {
     console.error("Main container not found.");
     return;
@@ -2332,6 +2332,9 @@ function scanAndReplaceVulgarWords(vulgarWordsArray, logging = false) {
       ? match[0] + '***' + match[match.length - 1] // First and last letter with ***
       : match[0] + '**'; // For short words
   }
+
+  // Array to hold the support ticket data
+  const supportTickets = [];
 
   // Traverse text nodes efficiently using TreeWalker
   const treeWalker = document.createTreeWalker(
@@ -2349,16 +2352,58 @@ function scanAndReplaceVulgarWords(vulgarWordsArray, logging = false) {
     // Check for vulgar words and replace them
     vulgarWordPatterns.forEach(({ regex, word }) => {
       if (regex.test(text)) {
-        // Log page URL, title, and closest parent JOB_CARD id
+        // Find closest parent with class 'JOB_CARD' and get its ID
         const parentJobCard = currentNode.parentElement.closest('.JOB_CARD');
-        const jobCardId = parentJobCard ? parentJobCard.id : 'No JOB_CARD found';
+        const hasJobCard = !!parentJobCard; // Check if a JOB_CARD exists
+        const jobCardId = hasJobCard
+          ? parentJobCard.id.replace(/^job_card_/i, '') // Remove 'job_card_' prefix (case-insensitive)
+          : null;
 
+        // Find closest parent with class 'video-card'
+        const parentVideoCard = currentNode.parentElement.closest('.video-card');
+        const hasVideoCard = !!parentVideoCard; // Check if a video-card exists
+        const videoCardId = hasVideoCard
+          ? parentVideoCard.id.replace(/^videoCard_/i, '') // Remove 'videoCard_' prefix (case-insensitive)
+          : null;
+
+        // Extract Job ID and check if it's a Job Detail page
+        const url = new URL(window.location.href);
+        const jobId = url.searchParams.get('id'); // Get 'id' query parameter
+        const isJobDetailPage = url.pathname.includes('/jobs/job-details/'); // Check if URL matches Job Detail page
+
+        // Prepare the support ticket data
+        const ticket = {
+          jobID: jobId,
+          jobTitle: document.title,
+          videoID: videoCardId,
+          jobCardID: jobCardId,
+          message: `Vulgar word detected: "${word}"`,
+          pageTitle: document.title,
+          reasons: [word],
+          URL: window.location.href,
+          submittedAt: new Date().toISOString(),
+          submittedBy: 'System'
+        };
+
+        // Add ticket to the array
+        supportTickets.push(ticket);
+
+        // Logging
         console.log(`Vulgar word detected: "${word}"`);
         console.log(`Page Title: ${document.title}`);
         console.log(`Page URL: ${window.location.href}`);
-        console.log(`Closest JOB_CARD ID: ${jobCardId}`);
+        if (hasJobCard) {
+          console.log(`Closest JOB_CARD ID: ${jobCardId}`);
+        }
+        if (hasVideoCard) {
+          console.log(`Closest VIDEO_CARD ID: ${videoCardId}`);
+        }
+        if (isJobDetailPage && jobId) {
+          console.log(`Page Type: Job Detail`);
+          console.log(`Job ID: ${jobId}`);
+        }
       }
-
+      
       // Replace the vulgar word
       text = text.replace(regex, censorWord);
     });
@@ -2371,6 +2416,33 @@ function scanAndReplaceVulgarWords(vulgarWordsArray, logging = false) {
   }
 
   if (logging) console.log("Vulgar words have been replaced.");
+
+  // Batch send all support tickets to the database (e.g., Firebase Firestore)
+  if (supportTickets.length > 0) {
+    sendToSupportTickets(supportTickets);
+  }
+}
+
+// Function to send data to the SupportTickets collection (e.g., Firebase Firestore)
+function sendToSupportTickets(tickets) {
+  // Assuming you're using Firebase Firestore:
+  const supportTicketsRef = db.collection('SupportTickets');
+  
+  // Batch write to Firestore
+  const batch = db.batch();
+  tickets.forEach((ticket) => {
+    const ticketRef = supportTicketsRef.doc(); // Create a new document
+    batch.set(ticketRef, ticket);
+  });
+
+  // Commit the batch
+  batch.commit()
+    .then(() => {
+      console.log("Support tickets successfully submitted.");
+    })
+    .catch((error) => {
+      console.error("Error submitting support tickets: ", error);
+    });
 }
 
 window.scanAndReplaceVulgarWords = scanAndReplaceVulgarWords;
