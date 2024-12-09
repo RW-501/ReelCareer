@@ -497,7 +497,7 @@ let mainContainer = document.getElementById('main-content');
     container.style.transition = 'none';
     container.style.opacity = '1';
     container.style.display = 'block';
-    
+
     // Create the card div
     const card = document.createElement('div');
     card.className = 'user-data-not-found-card';
@@ -578,6 +578,8 @@ window.showUserDataNotFoundMessage = showUserDataNotFoundMessage;
     try {
         userId = await getUserId(); // Await here to properly set userId
         console.log("User ID fetched during DOMContentLoaded:", userId);
+
+
         if (!userId) {
 
 
@@ -590,7 +592,11 @@ window.showUserDataNotFoundMessage = showUserDataNotFoundMessage;
 
         }
     } catch (error) {
+        showUserDataNotFoundMessage();
+
         console.error("Error fetching user ID:", error);
+        return;
+
     }
 });
 const userDataSaved = getUserData() || [];
