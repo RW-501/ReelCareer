@@ -135,67 +135,31 @@
       </style>
    
 
-
-<main id="main-content">
-
-
+   <main id="main-content">
     <title>Admin Ticket Page</title>
 
-
-
     <section id="analytics-cards">
-   
-       
-        
-          <!-- Search Bar -->
-          <input type="text" id="searchBox" class="search-box" placeholder="Search tickets..." onkeyup="searchTickets()" />
-        
-          <!-- Table for Tickets -->
-          <table id="ticketsTable">
+        <!-- Search Bar -->
+        <input type="text" id="searchBox" class="search-box" placeholder="Search tickets..." onkeyup="searchTickets()" />
+
+        <!-- Table for Tickets -->
+        <table id="ticketsTable">
             <thead>
                 <tr>
-                  <th id="typeHeader">Type</th>
-                  <th id="submittedByHeader">Submitted By</th>
-                  <th id="dateHeader">Date</th>
-                  <th>Status</th>
-                  <th>Details</th>
+                    <th id="typeHeader">Type</th>
+                    <th id="submittedByHeader">Submitted By</th>
+                    <th id="dateHeader">Date</th>
+                    <th>Status</th>
+                    <th>Details</th>
                 </tr>
-              </thead>
+            </thead>
             <tbody id="ticketsList">
-              <!-- Dynamic ticket rows will go here -->
+                <!-- Dynamic ticket rows will go here -->
             </tbody>
-          </table>
-        
-      
-        
-        </section>
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-        
-    
-    
-    
-    
-    
+        </table>
+    </section>
+</main>
 
-    </main>
     
     
         <!-- Footer -->
@@ -206,127 +170,154 @@
     
         <!-- Firebase JS SDK and Custom Scripts -->
     
-        <script type="module">
-            import {
-                db, doc, getDoc, query, updateDoc,
-                setDoc, ref, signInWithPopup, orderBy,
-                 
-                uploadBytes, OAuthProvider, arrayUnion, getStorage,
-                signOut, addDoc, increment, onAuthStateChanged,
-                createUserWithEmailAndPassword, signInWithEmailAndPassword,
-                where, getDocs, storage, collection, deleteObject, 
-                auth, analytics, deleteDoc, getDownloadURL
-            } from 'https://reelcareer.co/js/module.js';
-    
-    
-    
-    
-         
-            // Sample tickets data (you'll fetch this from Firebase or backend)
-// Function to fetch tickets from Firestore and render them
-async function fetchTickets() {
-      const ticketsList = document.getElementById("ticketsList");
-      ticketsList.innerHTML = ""; // Clear previous rows
+<script type="module">
+    import {
+        db, doc, getDoc, query, updateDoc, setDoc, ref, signInWithPopup, orderBy,
+        uploadBytes, OAuthProvider, arrayUnion, getStorage, signOut, addDoc, increment,
+        onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword,
+        where, getDocs, storage, collection, deleteObject, auth, analytics, deleteDoc, getDownloadURL
+    } from 'https://reelcareer.co/js/module.js';
 
-      try {
-        // Fetch tickets from Firestore SupportTickets collection
-        const querySnapshot = await db.collection('SupportTickets').get();
+    let tickets = []; // Array to hold tickets
+
+    // Function to fetch tickets from Firestore and render them
+    async function fetchTickets() {
+        const ticketsList = document.getElementById("ticketsList");
+        ticketsList.innerHTML = ""; // Clear previous rows
+
+        try {
+            // Fetch tickets from Firestore SupportTickets collection
+            const querySnapshot = await getDocs(collection(db, 'SupportTickets'));
+
+            // Loop through the documents and create rows
+            tickets = []; // Reset tickets array
+            querySnapshot.forEach((doc) => {
+                const ticket = doc.data();
+                tickets.push(ticket); // Add ticket data to tickets array
+
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${ticket.type}</td>
+                    <td>${ticket.submittedBy}</td>
+                    <td>${new Date(ticket.submittedAt.seconds * 1000).toLocaleString()}</td>
+                    <td>
+                        <select class="status-dropdown" onchange="updateStatus('${doc.id}')">
+                            <option value="submitted" ${ticket.status === 'submitted' ? 'selected' : ''}>Submitted</option>
+                            <option value="pending" ${ticket.status === 'pending' ? 'selected' : ''}>Pending</option>
+                            <option value="complete" ${ticket.status === 'complete' ? 'selected' : ''}>Complete</option>
+                        </select>
+                    </td>
+                    <td>
+                        <button class="expand-btn" onclick="toggleDetails('${doc.id}')">Details</button>
+                        <div class="collapsible" id="details-${doc.id}">
+                            <p><strong>Message:</strong> ${ticket.message}</p>
+                            <p><strong>Reasons:</strong> ${ticket.reasons.join(", ")}</p>
+                            <p><strong>URL:</strong> <a href="${ticket.URL}" target="_blank">${ticket.URL}</a></p>
+                            ${ticket.submittedBy === 'user' ? `<button class="follow-up-btn" onclick="sendFollowUp('${doc.id}')">Send Follow-Up</button>` : ''}
+                        </div>
+                    </td>
+                `;
+                ticketsList.appendChild(row);
+            });
+        } catch (error) {
+            console.error("Error fetching tickets: ", error);
+        }
+    }
+
+    // Function to toggle ticket details visibility
+    function toggleDetails(ticketId) {
+        const details = document.getElementById(`details-${ticketId}`);
+        details.style.display = details.style.display === "none" ? "block" : "none";
+    }
+
+    // Function to update ticket status in Firestore
+    async function updateStatus(ticketId) {
+        const status = document.querySelector(`#${ticketId} .status-dropdown`).value;
+
+        try {
+            // Update the status in Firestore
+            await updateDoc(doc(db, 'SupportTickets', ticketId), {
+                status: status
+            });
+            console.log(`Updated status for ticket ${ticketId} to ${status}`);
+        } catch (error) {
+            console.error("Error updating status: ", error);
+        }
+    }
+
+    // Function to send a follow-up message to the "Messages" collection
+    async function sendFollowUp(ticketId) {
+        const ticket = tickets.find(t => t.id === ticketId);
+        const message = `Follow-up on ticket related to ${ticket.jobTitle}`;
         
-        // Loop through the documents and create rows
-        querySnapshot.forEach((doc, index) => {
-          const ticket = doc.data();
-          const row = document.createElement("tr");
-          row.innerHTML = `
-            <td>${ticket.type}</td>
-            <td>${ticket.submittedBy}</td>
-            <td>${new Date(ticket.submittedAt.seconds * 1000).toLocaleString()}</td>
-            <td>
-              <select class="status-dropdown" onchange="updateStatus(${index}, '${doc.id}')">
-                <option value="submitted" ${ticket.status === 'submitted' ? 'selected' : ''}>Submitted</option>
-                <option value="pending" ${ticket.status === 'pending' ? 'selected' : ''}>Pending</option>
-                <option value="complete" ${ticket.status === 'complete' ? 'selected' : ''}>Complete</option>
-              </select>
-            </td>
-            <td>
-              <button class="expand-btn" onclick="toggleDetails(${index})">Details</button>
-              <div class="collapsible" id="details-${index}">
-                <p><strong>Message:</strong> ${ticket.message}</p>
-                <p><strong>Reasons:</strong> ${ticket.reasons.join(", ")}</p>
-                <p><strong>URL:</strong> <a href="${ticket.URL}" target="_blank">${ticket.URL}</a></p>
-                ${ticket.submittedBy === 'user' ? `<button class="follow-up-btn" onclick="sendFollowUp(${index}, '${doc.id}')">Send Follow-Up</button>` : ''}
-              </div>
-            </td>
-          `;
-          ticketsList.appendChild(row);
-        });
-      } catch (error) {
-        console.error("Error fetching tickets: ", error);
-      }
-    }
-window.fetchTickets = fetchTickets;
-
-    // Toggle ticket details visibility
-    function toggleDetails(index) {
-      const details = document.getElementById(`details-${index}`);
-      details.style.display = details.style.display === "none" ? "block" : "none";
+        try {
+            // Send message to the "Messages" collection
+            await addDoc(collection(db, 'Messages'), {
+                ticketId: ticketId,
+                message: message,
+                submittedAt: new Date().toISOString(),
+                submittedBy: 'admin'
+            });
+            console.log(`Follow-up message sent for ticket ${ticketId}: ${message}`);
+        } catch (error) {
+            console.error("Error sending follow-up message: ", error);
+        }
     }
 
-    // Update ticket status in Firestore
-    async function updateStatus(index, ticketId) {
-      const status = document.querySelector(`#ticketsList tr:nth-child(${index + 1}) .status-dropdown`).value;
-
-      try {
-        // Update the status in Firestore
-        await db.collection('SupportTickets').doc(ticketId).update({
-          status: status
-        });
-        console.log(`Updated status for ticket ${ticketId} to ${status}`);
-      } catch (error) {
-        console.error("Error updating status: ", error);
-      }
-    }
-
-    // Send follow-up message to "Messages" collection
-    async function sendFollowUp(index, ticketId) {
-      const ticket = tickets[index];
-      const message = `Follow-up on ticket related to ${ticket.jobTitle}`;
-      
-      try {
-        // Send message to the "Messages" collection
-        await db.collection('Messages').add({
-          ticketId: ticketId,
-          message: message,
-          submittedAt: new Date().toISOString(),
-          submittedBy: 'admin'
-        });
-        console.log(`Follow-up message sent for ticket ${ticketId}: ${message}`);
-      } catch (error) {
-        console.error("Error sending follow-up message: ", error);
-      }
-    }
-
-    // Function to search through tickets
+    // Function to search through tickets based on user input
     function searchTickets() {
-      const searchValue = document.getElementById("searchBox").value.toLowerCase();
-      const filteredTickets = tickets.filter(ticket => {
-        return ticket.jobTitle.toLowerCase().includes(searchValue) ||
-               ticket.message.toLowerCase().includes(searchValue) ||
-               ticket.submittedBy.toLowerCase().includes(searchValue);
-      });
-      renderTickets(filteredTickets);
+        const searchValue = document.getElementById("searchBox").value.toLowerCase();
+        const filteredTickets = tickets.filter(ticket => {
+            return ticket.jobTitle.toLowerCase().includes(searchValue) ||
+                   ticket.message.toLowerCase().includes(searchValue) ||
+                   ticket.submittedBy.toLowerCase().includes(searchValue);
+        });
+        renderTickets(filteredTickets); // Render filtered tickets
+    }
+
+    // Function to render tickets dynamically
+    function renderTickets(filteredTickets) {
+        const ticketsList = document.getElementById("ticketsList");
+        ticketsList.innerHTML = ""; // Clear previous rows
+
+        filteredTickets.forEach(ticket => {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                <td>${ticket.type}</td>
+                <td>${ticket.submittedBy}</td>
+                <td>${new Date(ticket.submittedAt.seconds * 1000).toLocaleString()}</td>
+                <td>
+                    <select class="status-dropdown" onchange="updateStatus('${ticket.id}')">
+                        <option value="submitted" ${ticket.status === 'submitted' ? 'selected' : ''}>Submitted</option>
+                        <option value="pending" ${ticket.status === 'pending' ? 'selected' : ''}>Pending</option>
+                        <option value="complete" ${ticket.status === 'complete' ? 'selected' : ''}>Complete</option>
+                    </select>
+                </td>
+                <td>
+                    <button class="expand-btn" onclick="toggleDetails('${ticket.id}')">Details</button>
+                    <div class="collapsible" id="details-${ticket.id}">
+                        <p><strong>Message:</strong> ${ticket.message}</p>
+                        <p><strong>Reasons:</strong> ${ticket.reasons.join(", ")}</p>
+                        <p><strong>URL:</strong> <a href="${ticket.URL}" target="_blank">${ticket.URL}</a></p>
+                        ${ticket.submittedBy === 'user' ? `<button class="follow-up-btn" onclick="sendFollowUp('${ticket.id}')">Send Follow-Up</button>` : ''}
+                    </div>
+                </td>
+            `;
+            ticketsList.appendChild(row);
+        });
     }
 
     // Sorting tickets table by column
     function sortTable(columnIndex) {
-      const rows = Array.from(document.querySelector("#ticketsList").rows);
-      const sortedRows = rows.sort((a, b) => {
-        const aText = a.cells[columnIndex].textContent.trim().toLowerCase();
-        const bText = b.cells[columnIndex].textContent.trim().toLowerCase();
-        return aText.localeCompare(bText);
-      });
-      const ticketsList = document.getElementById("ticketsList");
-      ticketsList.innerHTML = "";
-      sortedRows.forEach(row => ticketsList.appendChild(row));
+        const rows = Array.from(document.querySelector("#ticketsList").rows);
+        const sortedRows = rows.sort((a, b) => {
+            const aText = a.cells[columnIndex].textContent.trim().toLowerCase();
+            const bText = b.cells[columnIndex].textContent.trim().toLowerCase();
+            return aText.localeCompare(bText);
+        });
+        const ticketsList = document.getElementById("ticketsList");
+        ticketsList.innerHTML = "";
+        sortedRows.forEach(row => ticketsList.appendChild(row));
     }
 
     // Add event listeners to table headers for sorting
@@ -334,20 +325,9 @@ window.fetchTickets = fetchTickets;
     document.getElementById("submittedByHeader").addEventListener("click", () => sortTable(1));
     document.getElementById("dateHeader").addEventListener("click", () => sortTable(2));
 
-          
-    
-        
-    
     window.onload = function () {
-               
-             // Initial render
-             fetchTickets();
-               
-    
-            };
-        
-    
-    
+        fetchTickets(); // Fetch and render tickets on load
+    };
     
     
     

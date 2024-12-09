@@ -1211,6 +1211,7 @@ async function submitReport() {
     document.querySelectorAll('#reportJobForm input[type="checkbox"]:checked').forEach((checkbox) => {
       selectedReasons.push(checkbox.value);
     });
+    const userDataSaved = getUserData() || [];
 
     const message = document.getElementById('reportMessage').value;
     const statusMessage = document.getElementById('reportStatusMessage');
@@ -1236,6 +1237,7 @@ async function submitReport() {
         submittedAt: new Date().toISOString(),
         submittedBy: "user",
         submittedByUserID: userID,        
+        submittedByUserName: userDataSaved.displayName,        
         type: "User Report",
         pageTitle: document.title,
         status: "submitted"
