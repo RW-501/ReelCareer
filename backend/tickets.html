@@ -1,13 +1,12 @@
-     <!DOCTYPE html>
+<!DOCTYPE html>
     <html lang="en">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Analytics - Admin</title>
+        <title>Admin Ticket Page</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://reelcareer.co/backend/css/styles.css">
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    
 
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     </head>
@@ -76,40 +75,98 @@
           </div>
       </nav>    
     
+       
+      <style>
+        /* Basic Styles for Table */
+        table {
+          width: 100%;
+          border-collapse: collapse;
+        }
+    
+        th, td {
+          padding: 12px;
+          text-align: left;
+          border: 1px solid #ddd;
+        }
+    
+        th {
+          background-color: #f2f2f2;
+        }
+    
+        tr:nth-child(even) {
+          background-color: #f9f9f9;
+        }
+    
+        .collapsible {
+          display: none;
+          background-color: #f9f9f9;
+          padding: 10px;
+        }
+    
+        .expand-btn {
+          cursor: pointer;
+          background-color: #007BFF;
+          color: white;
+          border: none;
+          padding: 5px 10px;
+          margin-top: 10px;
+        }
+    
+        .status-dropdown {
+          margin: 10px 0;
+          padding: 5px;
+        }
+    
+        .follow-up-btn {
+          margin-top: 10px;
+          padding: 5px 10px;
+          background-color: #28a745;
+          color: white;
+          border: none;
+          cursor: pointer;
+        }
+    
+        .search-box {
+          margin: 20px 0;
+          padding: 10px;
+          width: 100%;
+          border: 1px solid #ddd;
+        }
+      </style>
    
-    <style>
-    
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    </style>
 
 
 <main id="main-content">
 
-      <h1>New Page</h1>
 
+    <title>Admin Ticket Page</title>
 
 
 
     <section id="analytics-cards">
-    
-      
-
+   
+       
         
+          <!-- Search Bar -->
+          <input type="text" id="searchBox" class="search-box" placeholder="Search tickets..." onkeyup="searchTickets()" />
+        
+          <!-- Table for Tickets -->
+          <table id="ticketsTable">
+            <thead>
+                <tr>
+                  <th id="typeHeader">Type</th>
+                  <th id="submittedByHeader">Submitted By</th>
+                  <th id="dateHeader">Date</th>
+                  <th>Status</th>
+                  <th>Details</th>
+                </tr>
+              </thead>
+            <tbody id="ticketsList">
+              <!-- Dynamic ticket rows will go here -->
+            </tbody>
+          </table>
+        
+      
         
         </section>
     
@@ -136,9 +193,9 @@
     
     
     
-      </main>
     
-    
+
+    </main>
     
     
         <!-- Footer -->
@@ -164,12 +221,126 @@
     
     
     
+         
+            // Sample tickets data (you'll fetch this from Firebase or backend)
+// Function to fetch tickets from Firestore and render them
+async function fetchTickets() {
+      const ticketsList = document.getElementById("ticketsList");
+      ticketsList.innerHTML = ""; // Clear previous rows
+
+      try {
+        // Fetch tickets from Firestore SupportTickets collection
+        const querySnapshot = await db.collection('SupportTickets').get();
+        
+        // Loop through the documents and create rows
+        querySnapshot.forEach((doc, index) => {
+          const ticket = doc.data();
+          const row = document.createElement("tr");
+          row.innerHTML = `
+            <td>${ticket.type}</td>
+            <td>${ticket.submittedBy}</td>
+            <td>${new Date(ticket.submittedAt.seconds * 1000).toLocaleString()}</td>
+            <td>
+              <select class="status-dropdown" onchange="updateStatus(${index}, '${doc.id}')">
+                <option value="submitted" ${ticket.status === 'submitted' ? 'selected' : ''}>Submitted</option>
+                <option value="pending" ${ticket.status === 'pending' ? 'selected' : ''}>Pending</option>
+                <option value="complete" ${ticket.status === 'complete' ? 'selected' : ''}>Complete</option>
+              </select>
+            </td>
+            <td>
+              <button class="expand-btn" onclick="toggleDetails(${index})">Details</button>
+              <div class="collapsible" id="details-${index}">
+                <p><strong>Message:</strong> ${ticket.message}</p>
+                <p><strong>Reasons:</strong> ${ticket.reasons.join(", ")}</p>
+                <p><strong>URL:</strong> <a href="${ticket.URL}" target="_blank">${ticket.URL}</a></p>
+                ${ticket.submittedBy === 'user' ? `<button class="follow-up-btn" onclick="sendFollowUp(${index}, '${doc.id}')">Send Follow-Up</button>` : ''}
+              </div>
+            </td>
+          `;
+          ticketsList.appendChild(row);
+        });
+      } catch (error) {
+        console.error("Error fetching tickets: ", error);
+      }
+    }
+
+    // Toggle ticket details visibility
+    function toggleDetails(index) {
+      const details = document.getElementById(`details-${index}`);
+      details.style.display = details.style.display === "none" ? "block" : "none";
+    }
+
+    // Update ticket status in Firestore
+    async function updateStatus(index, ticketId) {
+      const status = document.querySelector(`#ticketsList tr:nth-child(${index + 1}) .status-dropdown`).value;
+
+      try {
+        // Update the status in Firestore
+        await db.collection('SupportTickets').doc(ticketId).update({
+          status: status
+        });
+        console.log(`Updated status for ticket ${ticketId} to ${status}`);
+      } catch (error) {
+        console.error("Error updating status: ", error);
+      }
+    }
+
+    // Send follow-up message to "Messages" collection
+    async function sendFollowUp(index, ticketId) {
+      const ticket = tickets[index];
+      const message = `Follow-up on ticket related to ${ticket.jobTitle}`;
+      
+      try {
+        // Send message to the "Messages" collection
+        await db.collection('Messages').add({
+          ticketId: ticketId,
+          message: message,
+          submittedAt: new Date().toISOString(),
+          submittedBy: 'admin'
+        });
+        console.log(`Follow-up message sent for ticket ${ticketId}: ${message}`);
+      } catch (error) {
+        console.error("Error sending follow-up message: ", error);
+      }
+    }
+
+    // Function to search through tickets
+    function searchTickets() {
+      const searchValue = document.getElementById("searchBox").value.toLowerCase();
+      const filteredTickets = tickets.filter(ticket => {
+        return ticket.jobTitle.toLowerCase().includes(searchValue) ||
+               ticket.message.toLowerCase().includes(searchValue) ||
+               ticket.submittedBy.toLowerCase().includes(searchValue);
+      });
+      renderTickets(filteredTickets);
+    }
+
+    // Sorting tickets table by column
+    function sortTable(columnIndex) {
+      const rows = Array.from(document.querySelector("#ticketsList").rows);
+      const sortedRows = rows.sort((a, b) => {
+        const aText = a.cells[columnIndex].textContent.trim().toLowerCase();
+        const bText = b.cells[columnIndex].textContent.trim().toLowerCase();
+        return aText.localeCompare(bText);
+      });
+      const ticketsList = document.getElementById("ticketsList");
+      ticketsList.innerHTML = "";
+      sortedRows.forEach(row => ticketsList.appendChild(row));
+    }
+
+    // Add event listeners to table headers for sorting
+    document.getElementById("typeHeader").addEventListener("click", () => sortTable(0));
+    document.getElementById("submittedByHeader").addEventListener("click", () => sortTable(1));
+    document.getElementById("dateHeader").addEventListener("click", () => sortTable(2));
+
+          
     
-            
+        
     
     window.onload = function () {
                
-        
+             // Initial render
+             renderTickets();
                
     
             };
