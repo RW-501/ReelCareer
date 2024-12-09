@@ -621,6 +621,9 @@ async function fetchVideoResumes(page, user) {
             const videoData = doc.data();
             const docId = doc.id; // Firestore Document ID
 
+            console.log("docId   ",docId);
+            console.log("videoData   ",videoData);
+
             // Build the video card dynamically with real data
             const videoCard = document.createElement("div");
             videoCard.className = "video-post";
