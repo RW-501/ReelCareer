@@ -2505,71 +2505,6 @@ if (detectedWords.length > 0) {
 
 
 
-function loadChatbot() {
-  // Create Chatbot Button
-  const chatButton = document.createElement("button");
-  chatButton.id = "chatbot-button";
-  chatButton.innerText = "Chat with us";
-  chatButton.style.cssText = `
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      padding: 10px 15px;
-      background-color: #007BFF;
-      color: white;
-      border: none;
-      border-radius: 50px;
-      cursor: pointer;
-      font-size: 16px;
-      z-index: 1000;
-  `;
-
-  // Create Chatbot Panel
-  const chatPanel = document.createElement("div");
-  chatPanel.id = "chatbot-panel";
-  chatPanel.style.cssText = `
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      width: 350px;
-      height: 500px;
-      background-color: white;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-      display: none; /* Hidden initially */
-      flex-direction: column;
-      z-index: 999;
-  `;
-  chatPanel.innerHTML = `
-      <div style="background-color: #007BFF; color: white; padding: 10px; text-align: center;">
-          <strong>Chatbot</strong>
-          <button id="close-chat" style="float: right; background: none; border: none; color: white; font-size: 18px; cursor: pointer;">&times;</button>
-      </div>
-      <div id="chatbot-messages" style="flex: 1; padding: 10px; overflow-y: auto; font-size: 14px;"></div>
-      <div style="padding: 10px; border-top: 1px solid #ddd;">
-          <div id="chat-input" contenteditable="true" style="border: 1px solid #ccc; padding: 8px; border-radius: 4px; min-height: 40px;"></div>
-          <button id="send-chat" style="margin-top: 10px; width: 100%; background-color: #007BFF; color: white; border: none; padding: 8px; border-radius: 4px; cursor: pointer;">Send</button>
-      </div>
-  `;
-
-  // Append to Body
-  document.body.appendChild(chatButton);
-  document.body.appendChild(chatPanel);
-
-  // Event Listeners
-  chatButton.addEventListener("click", () => {
-      chatPanel.style.display = "flex";
-      loadGeneralQuestions();
-  });
-  document.getElementById("close-chat").addEventListener("click", () => {
-      chatPanel.style.display = "none";
-  });
-  document.getElementById("send-chat").addEventListener("click", sendMessage);
-}
-
-
-
 
 const generalQuestions = [
   { 
@@ -2698,13 +2633,76 @@ const predefinedQuestions = [
 
 
 
+function loadChatbot() {
+  // Create Chatbot Button
+  const chatButton = document.createElement("button");
+  chatButton.id = "chatbot-button";
+  chatButton.innerText = "Chat with us";
+  chatButton.style.cssText = `
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      padding: 10px 15px;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      font-size: 16px;
+      z-index: 1000;
+  `;
+
+  // Create Chatbot Panel
+  const chatPanel = document.createElement("div");
+  chatPanel.id = "chatbot-panel";
+  chatPanel.style.cssText = `
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 350px;
+      height: 500px;
+      background-color: white;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      display: none; /* Hidden initially */
+      flex-direction: column;
+      z-index: 999;
+  `;
+  chatPanel.innerHTML = `
+      <div style="background-color: #007BFF; color: white; padding: 10px; text-align: center;">
+          <strong>Chatbot</strong>
+          <button id="close-chat" style="float: right; background: none; border: none; color: white; font-size: 18px; cursor: pointer;">&times;</button>
+      </div>
+      <div id="chatbot-messages" style="flex: 1; padding: 10px; overflow-y: auto; font-size: 14px;"></div>
+      <div style="padding: 10px; border-top: 1px solid #ddd;">
+          <div id="chat-input" contenteditable="true" style="border: 1px solid #ccc; padding: 8px; border-radius: 4px; min-height: 40px;"></div>
+          <button id="send-chat" style="margin-top: 10px; width: 100%; background-color: #007BFF; color: white; border: none; padding: 8px; border-radius: 4px; cursor: pointer;">Send</button>
+      </div>
+  `;
+
+  // Append to Body
+  document.body.appendChild(chatButton);
+  document.body.appendChild(chatPanel);
+
+  // Event Listeners
+  chatButton.addEventListener("click", () => {
+      chatPanel.style.display = "flex";
+      loadGeneralQuestions(); // Only load questions when panel is open
+  });
+  document.getElementById("close-chat").addEventListener("click", () => {
+      chatPanel.style.display = "none";
+  });
+  document.getElementById("send-chat").addEventListener("click", sendMessage);
+}
+
 // Combined general and predefined questions
 const allQuestions = [
   ...generalQuestions.map(q => ({ ...q, onload: true })),  // Mark general questions for onload
   ...predefinedQuestions.map(q => ({ ...q, onload: false }))  // Mark predefined questions for later
 ];
 
-// Load only general questions on chatbot open
+// Load only general questions when chatbot is opened
 function loadGeneralQuestions() {
   const messageArea = document.getElementById("chatbot-messages");
   if (messageArea) {
@@ -2722,12 +2720,6 @@ function loadGeneralQuestions() {
     console.error("Chatbot message area not found.");
   }
 }
-
-
-// Wrap loadGeneralQuestions in a 5-second timeout (if needed)
-setTimeout(() => {
-  loadGeneralQuestions();
-}, 5000); // 5000 milliseconds = 5 seconds
 
 // Handle user input
 async function handleUserInput(userMessage) {
@@ -2819,5 +2811,3 @@ function sendMessage(message) {
         return "Sorry, I couldn't find an answer for that. Please contact us via our [Contact Us](https://reelcareer.com/contact) page.";
     }
 }
-
-
