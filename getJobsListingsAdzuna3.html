@@ -672,6 +672,7 @@ async function addSelectedJobs(autoAdd = false) {
                     title: job.title || '', 
                     description: job.description || '', 
                     location: job.location.area || '', 
+                    searchableTitle: kkk,
                     city: parseCityFromLocationNew(job.location.display_name) || '', 
                     county: parseStateFromLocation(job.location.display_name) || '', 
                     state: job.location.area[1] || '', 
