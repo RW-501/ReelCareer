@@ -351,41 +351,13 @@
 
     <!-- Firebase and Job Fetcher Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script type="module">
 
-import { getFirestore, collection, writeBatch } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 
-        import {
-                db, doc, getDoc, query, updateDoc,
-                setDoc, ref, signInWithPopup, orderBy,
-                 
-                uploadBytes, OAuthProvider, arrayUnion, getStorage,
-                signOut, addDoc, increment, onAuthStateChanged,
-                createUserWithEmailAndPassword, signInWithEmailAndPassword,
-                where, getDocs, storage, deleteObject, 
-                auth, analytics, deleteDoc, getDownloadURL
-            } from 'https://reelcareer.co/js/module.js';
-    
-    
+    <script>
 
-            function parseCityFromLocation(location) {
-            const parts = location.split(',');
-            return parts.length > 0 ? parts[0].trim() : '';
-        }
 
-        function parseStateFromLocation(location) {
-            const parts = location.split(',');
-            return parts.length > 1 ? parts[1].trim() : '';
-        }
 
-        function parseCityFromLocationNew(locationString) {
-            if (locationString && locationString.includes(',')) {
-                return locationString.split(',')[0].trim();
-            }
-            return '';
-        }
-
-        let sortDirection = [true, true, true, true, true, true, true, true]; // Store the sort direction for each column (true for ascending, false for descending)
+let sortDirection = [true, true, true, true, true, true, true, true]; // Store the sort direction for each column (true for ascending, false for descending)
 
 // Move sortTable outside of the event listener
 function sortTable(columnIndex) {
@@ -419,10 +391,45 @@ function sortTable(columnIndex) {
 }
 
 
-window.sortTable = sortTable;
+//window.sortTable = sortTable;
 
 
-        
+      
+    </script>
+    <script type="module">
+
+import { getFirestore, collection, writeBatch } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+
+        import {
+                db, doc, getDoc, query, updateDoc,
+                setDoc, ref, signInWithPopup, orderBy,
+                 
+                uploadBytes, OAuthProvider, arrayUnion, getStorage,
+                signOut, addDoc, increment, onAuthStateChanged,
+                createUserWithEmailAndPassword, signInWithEmailAndPassword,
+                where, getDocs, storage, deleteObject, 
+                auth, analytics, deleteDoc, getDownloadURL
+            } from 'https://reelcareer.co/js/module.js';
+    
+    
+
+            function parseCityFromLocation(location) {
+            const parts = location.split(',');
+            return parts.length > 0 ? parts[0].trim() : '';
+        }
+
+        function parseStateFromLocation(location) {
+            const parts = location.split(',');
+            return parts.length > 1 ? parts[1].trim() : '';
+        }
+
+        function parseCityFromLocationNew(locationString) {
+            if (locationString && locationString.includes(',')) {
+                return locationString.split(',')[0].trim();
+            }
+            return '';
+        }
+  
         let autoAdd = false;
         let autoAddTimeout;
         document.addEventListener("DOMContentLoaded", () => {
@@ -524,7 +531,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 toggleRowSelection(checkbox);
             });
         }
-window.toggleSelectAll = toggleSelectAll ;
+//window.toggleSelectAll = toggleSelectAll ;
 
 
 
