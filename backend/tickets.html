@@ -246,7 +246,6 @@
    // Array to hold tickets 
 let tickets = []; 
 
-// Helper function to create a table row from a ticket
 window.onload = function () {
     fetchTickets();
 
@@ -256,16 +255,19 @@ window.onload = function () {
     document.getElementById("dateHeader").addEventListener("click", () => sortTable(2));
 };
 
-// Updated createTicketRow function to add event listeners dynamically
+// Updated createTicketRow function to handle ISO timestamps
 function createTicketRow(ticket, ticketId) {
     const row = document.createElement("tr");
-    
-    // Safely format submittedAt
-    let submittedAt = "";
-    if (ticket.submittedAt && ticket.submittedAt.seconds) {
-        submittedAt = new Date(ticket.submittedAt.seconds * 1000).toLocaleString();
-    } else {
-        submittedAt = "Date not available";
+
+    // Parse submittedAt as ISO 8601 string
+    let submittedAt = "Date not available"; // Default fallback
+    if (ticket.submittedAt) {
+        try {
+            const date = new Date(ticket.submittedAt);
+            submittedAt = date.toLocaleString(); // Convert to human-readable format
+        } catch (error) {
+            console.error("Invalid submittedAt format:", ticket.submittedAt, error);
+        }
     }
 
     // Safely format reasons (check if it’s an array)
@@ -305,6 +307,7 @@ function createTicketRow(ticket, ticketId) {
 
     return row;
 }
+
 
 
 
