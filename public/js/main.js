@@ -2288,14 +2288,18 @@ console.log("Welcome: ", userDisplayName);
 
 
 // Vulgar word scanner and replacer function
+function escapeRegExp(str) {
+  // Escape special characters for regular expression usage
+  return str.replace(/[.*+?^=!:${}()|\[\]\/\\]/g, '\\$&');
+}
+
 function scanAndReplaceVulgarWords(vulgarWordsArray) {
   // Define the main container to scan
   const mainContainer = document.getElementById('main-content');
 
-
   if (!mainContainer) {
-      console.error("Main container not found.");
-      return;
+    console.error("Main container not found.");
+    return;
   }
 
   // Retrieve all child divs inside the main container
@@ -2303,29 +2307,30 @@ function scanAndReplaceVulgarWords(vulgarWordsArray) {
 
   // Replace vulgar words in textContent
   allDivs.forEach((div) => {
-      let textContent = div.textContent || div.innerText || '';
-      
-      
-      console.log("textContent    ", textContent);
+    let textContent = div.textContent || div.innerText || '';
+    
+    console.log("Original textContent:", textContent);
 
-      // Loop through each vulgar word and replace it
-      vulgarWordsArray.forEach((word) => {
-          const vulgarRegex = new RegExp(`\\b${word}\\b`, 'gi');
-          textContent = textContent.replace(vulgarRegex, (match) => {
-              return match.length > 2
-                  ? match[0] + '***' + match[match.length - 1] // First and last letter with **** in between
-                  : match[0] + '**'; // For short words (e.g., "at")
-          });
+    // Loop through each vulgar word and replace it
+    vulgarWordsArray.forEach((word) => {
+      // Escape special characters in vulgar words before using them in RegExp
+      const escapedWord = escapeRegExp(word);
+      const vulgarRegex = new RegExp(`\\b${escapedWord}\\b`, 'gi');
+      
+      // Replace vulgar words
+      textContent = textContent.replace(vulgarRegex, (match) => {
+        return match.length > 2
+          ? match[0] + '***' + match[match.length - 1] // First and last letter with **** in between
+          : match[0] + '**'; // For short words (e.g., "at")
       });
+    });
 
-      // Update the content in the div
-      div.textContent = textContent;
+    // Update the content in the div
+    div.textContent = textContent;
   });
 
   console.log("Vulgar words have been replaced.");
 }
-
-
 
 window.scanAndReplaceVulgarWords = scanAndReplaceVulgarWords;
 
