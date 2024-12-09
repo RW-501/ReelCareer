@@ -2631,6 +2631,32 @@ const predefinedQuestions = [
   // Add more predefined questions and responses here
 ];
 
+// Fetch the structured JSON from the /chat_bot.json file
+// Fetch the structured JSON from the /chat_bot.json file
+async function fetchChatbotData() {
+  try {
+    const response = await fetch('/chat_bot.json');
+    const data = await response.json();
+
+    // Combine the general questions and predefined questions
+    const allQuestions = [
+      ...data.generalQuestions.map(q => ({ ...q, onload: true })),  // Mark general questions for onload
+      ...data.predefinedQuestions.map(q => ({ ...q, onload: false }))  // Mark predefined questions for later
+    ];
+
+    console.log(allQuestions);  // Output the combined questions
+
+    // Further processing can be done here...
+
+  } catch (error) {
+    console.error('Error fetching chatbot data:', error);
+  }
+}
+
+// Call the function to fetch data and combine questions
+fetchChatbotData();
+
+
 
 
 function loadChatbot() {
@@ -2696,11 +2722,7 @@ function loadChatbot() {
   document.getElementById("send-chat").addEventListener("click", sendMessage);
 }
 
-// Combined general and predefined questions
-const allQuestions = [
-  ...generalQuestions.map(q => ({ ...q, onload: true })),  // Mark general questions for onload
-  ...predefinedQuestions.map(q => ({ ...q, onload: false }))  // Mark predefined questions for later
-];
+
 
 // Load only general questions when chatbot is opened
 function loadGeneralQuestions() {
@@ -2834,6 +2856,7 @@ function sendMessage(message) {
 }
 
 setTimeout(() => {
+  fetchChatbotData();
   loadChatbot();
 }, 5000); // 5000 milliseconds = 5 seconds
 
