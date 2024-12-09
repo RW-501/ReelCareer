@@ -576,8 +576,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-
-
         // Add Selected Jobs  window.addSelectedJobs = addSelectedJobs;
 
         async function addSelectedJobs() {
@@ -617,7 +615,7 @@ batch.set(docRef, {
 title: (job.title || '').toLowerCase(),
 searchableTitle: searchableTitle,  // Store as lowercase string for Firebase search
 jobId: '',
-
+recrecruiterID: '',
 company: job.company.display_name,
 description: job.description || '', 
 location: (job.location || '').toLowerCase(),
@@ -667,6 +665,11 @@ searchableRequirements: ''
         }
 
    
+
+        const addJobButton = document.getElementById("addJobButton");
+    addJobButton.addEventListener("click", () => {
+        addSelectedJobs()
+    });
 
 
     });
