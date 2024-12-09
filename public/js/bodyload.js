@@ -369,25 +369,30 @@ setTimeout(() => {
     container.appendChild(jobCard);
 }
 
-function showToast(message, type = 'info', duration = 3500, link = null) {
-  // Create a div for the toast
+function showToast(message, type = 'info', duration = 3500, link = null, confirm = false) {
   const toast = document.createElement('div');
   
-  /*
-  // Set inline styles for the toast
+  // Accessibility (Screen Readers)
+  toast.setAttribute('role', 'alert');
+  toast.setAttribute('aria-live', 'assertive');
+
+  // Styling for the toast
   toast.style.position = 'fixed';
   toast.style.bottom = '20px';
   toast.style.right = '20px';
-  toast.style.padding = '15px 20px';
-  toast.style.margin = '10px';
-  toast.style.borderRadius = '5px';
-  toast.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.2)';
+  toast.style.padding = '12px 18px';
+  toast.style.borderRadius = '8px';
+  toast.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.2)';
   toast.style.color = '#fff';
-  toast.style.zIndex = '9999999999999999';
-  toast.style.transition = 'opacity 1s ease-in-out';
-  toast.style.opacity = '1';
+  toast.style.zIndex = '9999';
+  toast.style.fontFamily = 'Arial, sans-serif';
+  toast.style.transition = 'transform 0.3s ease, opacity 0.3s ease, bottom 0.3s ease';
+  
+  // Fade-in effect
+  toast.style.transform = 'translateY(20px)';
+  toast.style.opacity = '0';
 
-  // Set background color based on toast type
+  // Add dynamic styling for toast types
   switch (type) {
     case 'success':
       toast.style.backgroundColor = '#4CAF50'; // Green for success
@@ -404,105 +409,33 @@ function showToast(message, type = 'info', duration = 3500, link = null) {
     default:
       toast.style.backgroundColor = '#2196F3'; // Default to info
   }
-*/
 
+  // Structure toast message and buttons
+  toast.innerHTML = `
+    <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px;">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <span class="material-icons" style="color: white; font-size: 28px;">${type === 'error' ? 'error' : type === 'success' ? 'check_circle' : 'info'}</span>
+        <span style="color: white; font-size: 16px; font-weight: 500;">${message}</span>
+      </div>
+      ${confirm ? `
+        <button onclick="dismissToast(this)" style="background: transparent; border: none; color: white; font-size: 18px; cursor: pointer;">Confirm</button>
+      ` : `
+        <button onclick="dismissToast(this)" style="background: transparent; border: none; color: white; font-size: 18px; cursor: pointer;">&times;</button>
+      `}
+    </div>
+  `;
 
-// Accessibility (Screen Readers)
-toast.setAttribute('role', 'alert');
-toast.setAttribute('aria-live', 'assertive');
-
-// Styling for the toast
-toast.style.position = 'fixed';
-toast.style.bottom = '20px';
-toast.style.right = '20px';
-toast.style.padding = '12px 18px';
-toast.style.borderRadius = '8px';
-toast.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.2)';
-toast.style.color = '#fff';
-toast.style.zIndex = '9999';
-toast.style.fontFamily = 'Arial, sans-serif';
-toast.style.transition = 'transform 0.3s ease, opacity 0.3s ease, bottom 0.3s ease';
-
-// Fade-in effect
-toast.style.transform = 'translateY(20px)';
-toast.style.opacity = '0';
-
-// Add dynamic styling for toast types
-switch (type) {
-  case 'success':
-    toast.style.backgroundColor = '#4CAF50'; // Green for success
-    toast.innerHTML = `
-      <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px;">
-        <div style="display: flex; align-items: center; gap: 12px;">
-          <span class="material-icons" style="color: white; font-size: 28px;">check_circle</span>
-          <span style="color: white; font-size: 16px; font-weight: 500;">${message}</span>
-        </div>
-        <button onclick="dismissToast(this)" style="background: transparent; border: none; color: white; font-size: 18px; cursor: pointer;">&times;</button>
-      </div>
-    `;
-    break;
-  case 'error':
-    toast.style.backgroundColor = '#F44336'; // Red for error
-    toast.innerHTML = `
-      <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px;">
-        <div style="display: flex; align-items: center; gap: 12px;">
-          <span class="material-icons" style="color: white; font-size: 28px;">error</span>
-          <span style="color: white; font-size: 16px; font-weight: 500;">${message}</span>
-        </div>
-        <button onclick="dismissToast(this)" style="background: transparent; border: none; color: white; font-size: 18px; cursor: pointer;">&times;</button>
-      </div>
-    `;
-    break;
-  case 'info':
-    toast.style.backgroundColor = '#2196F3'; // Blue for info
-    toast.innerHTML = `
-      <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px;">
-        <div style="display: flex; align-items: center; gap: 12px;">
-          <span class="material-icons" style="color: white; font-size: 28px;">info</span>
-          <span style="color: white; font-size: 16px; font-weight: 500;">${message}</span>
-        </div>
-        <button onclick="dismissToast(this)" style="background: transparent; border: none; color: white; font-size: 18px; cursor: pointer;">&times;</button>
-      </div>
-    `;
-    break;
-  case 'warning':
-    toast.style.backgroundColor = '#FF9800'; // Orange for warning
-    toast.innerHTML = `
-      <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px;">
-        <div style="display: flex; align-items: center; gap: 12px;">
-          <span class="material-icons" style="color: white; font-size: 28px;">warning</span>
-          <span style="color: white; font-size: 16px; font-weight: 500;">${message}</span>
-        </div>
-        <button onclick="dismissToast(this)" style="background: transparent; border: none; color: white; font-size: 18px; cursor: pointer;">&times;</button>
-      </div>
-    `;
-    break;
-  default:
-    toast.style.backgroundColor = '#2196F3'; // Default to info
-    toast.innerHTML = `
-      <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px;">
-        <div style="display: flex; align-items: center; gap: 12px;">
-          <span class="material-icons" style="color: white; font-size: 28px;">info</span>
-          <span style="color: white; font-size: 16px; font-weight: 500;">${message}</span>
-        </div>
-        <button onclick="dismissToast(this)" style="background: transparent; border: none; color: white; font-size: 18px; cursor: pointer;">&times;</button>
-      </div>
-    `;
-}
-  // Parse the message for placeholders like @[title]
+  // Format message with link if applicable
   const formattedMessage = message.replace(
     /@\[(.+?)\]/g,
     `<a href="${link}" target="_blank" style="color: #fff; text-decoration: underline;">$1</a>`
   );
-
-  // Set the message as inner HTML
   toast.innerHTML = formattedMessage;
 
   // Append the toast to the body
   document.body.appendChild(toast);
 
- 
-  
+  // Fade-in effect
   setTimeout(() => {
     toast.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
     toast.style.transform = 'translateY(0)';
@@ -510,21 +443,23 @@ switch (type) {
     toast.style.bottom = '20px';
   }, 10);
 
-// Fade-out effect after a few seconds
-setTimeout(() => {
-  toast.style.opacity = '0';
-  toast.style.transform = 'translateY(20px)';
-  toast.classList.add('fade-out'); // Add fade-out effect
-  toast.style.bottom = '-50px'; // Toast goes out of view
+  // Automatically fade-out and remove the toast if not a confirmation toast
+  if (!confirm) {
+    setTimeout(() => {
+      toast.style.opacity = '0';
+      toast.style.transform = 'translateY(20px)';
+      toast.classList.add('fade-out'); // Add fade-out effect
+      toast.style.bottom = '-50px'; // Toast goes out of view
+    }, duration); // Toast disappears after specified duration
 
-}, 3000); // Toast disappears after 3 seconds
-
-// Remove toast from DOM after animation
-setTimeout(() => {
-  if (toast.parentNode) {
-    toast.parentNode.removeChild(toast);
+    // Remove toast from DOM after animation
+    setTimeout(() => {
+      if (toast.parentNode) {
+        toast.parentNode.removeChild(toast);
+      }
+    }, duration + 300); // Allow 0.3s for fade-out animation
   }
-}, duration); // Allow 0.5s for the fade-out animation
+}
 
 // Function to dismiss toast manually
 function dismissToast(button) {
@@ -538,42 +473,6 @@ function dismissToast(button) {
   }
 }
 
-}
-// Example usage: Replace alerts with showToast
-// showToast('This is a success message!', 'success');
-// showToast('This is an error message!', 'error');
-// showToast('This is an info message!', 'info');
-// showToast('This is a warning message!', 'warning');
-
-
-/**
- * Function to show a "Saved" message and fade the button out after a specified delay
- * @param {string} buttonId - The ID of the button element to update and hide
- * @param {string} message - The message to display on the button
- * @param {number} [delay=1000] - The delay (in milliseconds) before the fade effect starts (default is 1000ms)
- */
-function showMessageAndFadeBtn(buttonId, message, delay = 1000) {
-  const btn = document.getElementById(buttonId);
-
-  if (!btn) {
-    console.error("Button with the specified ID not found.");
-    return;
-  }
-
-  // Set the text of the button to the provided message
-  btn.innerText = message;
-
-  // Apply delay before starting the fade-out effect
-  setTimeout(function() {
-    btn.style.transition = "opacity 1s"; // Apply smooth fade transition
-    btn.style.opacity = 0; // Fade the button out
-
-    // After the fade-out, hide the button completely
-    setTimeout(function() {
-      btn.style.display = "none";
-    }, 1000); // Wait for the fade-out effect to complete before hiding the button
-  }, delay); // Delay before starting the fade effect
-}
 
 window.showMessageAndFadeBtn = showMessageAndFadeBtn;
 

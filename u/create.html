@@ -1803,7 +1803,7 @@ async function postReelFunction() {
         console.log("Your Resume Reel has been posted successfully!");
 
         // Show success message
-        showToast("Your Resume Reel is live. @[Video Resume] ", "success", 10000, `https://reelcareer.co/reels#${reelID}`);
+        showToast("Your Resume Reel is live. @[Video Resume] ", "success", 100000, `https://reelcareer.co/reels#${reelID}`, true);
     } catch (error) {
         console.error("Error saving user data:", error);
         showToast("There was an error posting your resume reel. Please try again later.");
