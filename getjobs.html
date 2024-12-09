@@ -357,14 +357,16 @@
     <script>
 
         // Toggle Row Selection
+// Toggle Row Selection
 function toggleRowSelection(checkbox) {
+    if (!checkbox) return; // Guard clause to ensure checkbox is valid
     const row = checkbox.closest('tr');
-    row.classList.toggle('selected', checkbox.checked);  // Add/remove selected class
+    if (row) {
+        row.classList.toggle('selected', checkbox.checked);  // Add/remove selected class
+    }
 }
 
- 
-
-        //window.toggleRowSelection = toggleRowSelection;
+        window.toggleRowSelection = toggleRowSelection;
 
     
         
