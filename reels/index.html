@@ -660,32 +660,6 @@ function handleLike(docId, likeButton) {
 
 
 
-function updatePagination() {
-    document.getElementById("pagination-info").innerText = 
-        `Page ${currentPage} of ${Math.ceil(totalPosts / postsPerPage)}`;
-}
-
-document.getElementById("next-page").addEventListener("click", () => {
-    currentPage++;
-    fetchVideoResumes(currentPage);
-});
-
-document.getElementById("prev-page").addEventListener("click", () => {
-    if (currentPage > 1) {
-        currentPage--;
-        fetchVideoResumes(currentPage);
-    }
-});
-
-
-
-
-
-
-
-
-
-
 function generateVideoSchema(videoData, docId) {
     return {
         "@context": "https://schema.org",
