@@ -249,17 +249,22 @@ let tickets = [];
 // Helper function to create a table row from a ticket
 function createTicketRow(ticket, ticketId) {
     const row = document.createElement("tr");
+    
+    // Safely format submittedAt
+    let submittedAt = "";
+    if (ticket.submittedAt && ticket.submittedAt.seconds) {
+        submittedAt = new Date(ticket.submittedAt.seconds * 1000).toLocaleString();
+    } else {
+        submittedAt = "Date not available";
+    }
 
-    // Check if submittedAt exists and is a valid timestamp
-    const submittedAt = ticket.submittedAt;
-    const submittedAtFormatted = submittedAt && submittedAt.seconds 
-        ? new Date(submittedAt.seconds * 1000).toLocaleString()
-        : "N/A"; // Default to "N/A" if submittedAt is undefined or malformed
+    // Safely format reasons (check if it’s an array)
+    const reasons = Array.isArray(ticket.reasons) ? ticket.reasons.join(", ") : "No reasons provided";
 
     row.innerHTML = `
-        <td>${ticket.type}</td>
-        <td>${ticket.submittedBy}</td>
-        <td>${submittedAtFormatted}</td>
+        <td>${ticket.type || 'N/A'}</td>
+        <td>${ticket.submittedBy || 'N/A'}</td>
+        <td>${submittedAt}</td>
         <td>
             <select class="status-dropdown" onchange="updateStatus('${ticketId}')">
                 <option value="submitted" ${ticket.status === 'submitted' ? 'selected' : ''}>Submitted</option>
@@ -270,16 +275,17 @@ function createTicketRow(ticket, ticketId) {
         <td>
             <button class="expand-btn" onclick="toggleDetails('${ticketId}')">Details</button>
             <div class="collapsible" id="details-${ticketId}">
-                <p><strong>UserName:</strong> ${ticket.submittedByUserName || ''}</p>
-                <p><strong>Message:</strong> ${ticket.message}</p>
-                <p><strong>Reasons:</strong> ${ticket.reasons.join(", ")}</p>
-                <p><strong>URL:</strong> <a href="${ticket.URL}" target="_blank">${ticket.URL}</a></p>
+                <p><strong>UserName:</strong> ${ticket.submittedByUserName || 'N/A'}</p>
+                <p><strong>Message:</strong> ${ticket.message || 'No message provided'}</p>
+                <p><strong>Reasons:</strong> ${reasons}</p>
+                <p><strong>URL:</strong> <a href="${ticket.URL || '#'}" target="_blank">${ticket.URL || 'No URL provided'}</a></p>
                 ${ticket.submittedBy === 'user' ? `<button class="follow-up-btn" onclick="sendFollowUp('${ticketId}', ${JSON.stringify(ticket)})">Send Follow-Up</button>` : ''}
             </div>
         </td>
     `;
     return row;
 }
+
 
 
 // Function to fetch tickets from Firestore and render them
