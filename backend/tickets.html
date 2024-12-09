@@ -247,6 +247,16 @@
 let tickets = []; 
 
 // Helper function to create a table row from a ticket
+window.onload = function () {
+    fetchTickets();
+
+    // Add event listeners to table headers for sorting
+    document.getElementById("typeHeader").addEventListener("click", () => sortTable(0));
+    document.getElementById("submittedByHeader").addEventListener("click", () => sortTable(1));
+    document.getElementById("dateHeader").addEventListener("click", () => sortTable(2));
+};
+
+// Updated createTicketRow function to add event listeners dynamically
 function createTicketRow(ticket, ticketId) {
     const row = document.createElement("tr");
     
@@ -261,6 +271,7 @@ function createTicketRow(ticket, ticketId) {
     // Safely format reasons (check if it’s an array)
     const reasons = Array.isArray(ticket.reasons) ? ticket.reasons.join(", ") : "No reasons provided";
 
+    // Create row content
     row.innerHTML = `
         <td>${ticket.type || 'N/A'}</td>
         <td>${ticket.submittedBy || 'N/A'}</td>
@@ -279,10 +290,19 @@ function createTicketRow(ticket, ticketId) {
                 <p><strong>Message:</strong> ${ticket.message || 'No message provided'}</p>
                 <p><strong>Reasons:</strong> ${reasons}</p>
                 <p><strong>URL:</strong> <a href="${ticket.URL || '#'}" target="_blank">${ticket.URL || 'No URL provided'}</a></p>
-                ${ticket.submittedBy === 'user' ? `<button class="follow-up-btn" onclick="sendFollowUp('${ticketId}', ${JSON.stringify(ticket)})">Send Follow-Up</button>` : ''}
+                ${ticket.submittedBy === 'user' ? `<button class="follow-up-btn">Send Follow-Up</button>` : ''}
             </div>
         </td>
     `;
+
+    // Add event listener to the follow-up button if it exists
+    const followUpBtn = row.querySelector('.follow-up-btn');
+    if (followUpBtn) {
+        followUpBtn.addEventListener('click', () => {
+            sendFollowUp(ticketId, ticket);
+        });
+    }
+
     return row;
 }
 
@@ -476,22 +496,8 @@ function sortTable(columnIndex) {
 }
 
 
-// Fetch and render tickets on load
-window.onload = function () {
-    fetchTickets();
 
-    // Add event listener to follow-up button (in your existing ticket row)
-document.querySelector('.follow-up-btn').addEventListener('click', () => {
-    openTicketModal(ticketId, ticketData); // Call the modal function with ticket data
-});
 
-// Add event listeners to table headers for sorting
-document.getElementById("typeHeader").addEventListener("click", () => sortTable(0));
-document.getElementById("submittedByHeader").addEventListener("click", () => sortTable(1));
-document.getElementById("dateHeader").addEventListener("click", () => sortTable(2));
-
-};
-    
     
     
     
