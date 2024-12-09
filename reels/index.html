@@ -636,7 +636,7 @@ async function fetchVideoResumes(page, user) {
             videoCard.dataset.reelUserID = videoData.userID || '';
             videoCard.dataset.profilePicture = videoData.profilePicture || '';
             generateVideoSchema(videoData, docId);
-            
+
             videoCard.innerHTML = `
                 <div id="videoCard_${docId}" class="video-card">
                     <div class="user-info">
@@ -759,7 +759,6 @@ function handleLike(docId, likeButton) {
 
 
 
-
 function generateVideoSchema(videoData, docId) {
     return {
         "@context": "https://schema.org",
@@ -768,7 +767,7 @@ function generateVideoSchema(videoData, docId) {
         "description": videoData.videoResumeCaptions || "",
         "thumbnailUrl": videoData.thumbnailURL || "",
         "contentUrl": videoData.videoResumeURL,
-        "uploadDate": videoData.createdAt.toISOString(),
+        "uploadDate": videoData.createdAt ? new Date(videoData.createdAt).toISOString() : new Date().toISOString(),
         "duration": videoData.duration || "",
         "interactionStatistic": {
             "@type": "InteractionCounter",
@@ -777,6 +776,7 @@ function generateVideoSchema(videoData, docId) {
         }
     };
 }
+
 
 
 
