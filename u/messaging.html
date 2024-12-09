@@ -583,7 +583,7 @@ window.showUserDataNotFoundMessage = showUserDataNotFoundMessage;
         console.log("User ID fetched during DOMContentLoaded:", userId);
 
 
-        if (!userId) {
+        if (!userId || userId.trim() === "") {
 
 
             showUserDataNotFoundMessage();
