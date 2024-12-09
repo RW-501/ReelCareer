@@ -263,6 +263,7 @@ async function fetchTickets() {
         console.error("Error fetching tickets: ", error);
       }
     }
+window.fetchTickets = fetchTickets;
 
     // Toggle ticket details visibility
     function toggleDetails(index) {
@@ -340,7 +341,7 @@ async function fetchTickets() {
     window.onload = function () {
                
              // Initial render
-             renderTickets();
+             fetchTickets();
                
     
             };
