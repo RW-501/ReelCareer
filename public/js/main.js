@@ -2290,8 +2290,9 @@ console.log("Welcome: ", userDisplayName);
 // Vulgar word scanner and replacer function
 function scanAndReplaceVulgarWords(vulgarWordsArray) {
   // Define the main container to scan
-  const mainContainer = document.querySelector('main');
-  
+  const mainContainer = document.getElementById('main-content');
+
+
   if (!mainContainer) {
       console.error("Main container not found.");
       return;
@@ -2303,14 +2304,17 @@ function scanAndReplaceVulgarWords(vulgarWordsArray) {
   // Replace vulgar words in textContent
   allDivs.forEach((div) => {
       let textContent = div.textContent || div.innerText || '';
+      
+      
+      console.log("textContent    ", textContent);
 
       // Loop through each vulgar word and replace it
       vulgarWordsArray.forEach((word) => {
           const vulgarRegex = new RegExp(`\\b${word}\\b`, 'gi');
           textContent = textContent.replace(vulgarRegex, (match) => {
               return match.length > 2
-                  ? match[0] + '****' + match[match.length - 1] // First and last letter with **** in between
-                  : match[0] + '****'; // For short words (e.g., "at")
+                  ? match[0] + '***' + match[match.length - 1] // First and last letter with **** in between
+                  : match[0] + '**'; // For short words (e.g., "at")
           });
       });
 

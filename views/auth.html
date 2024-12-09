@@ -342,10 +342,11 @@ min-width: 500px;
         <!-- Social Login -->
         <div class="social-login">
             <button id="google-login">Google</button>
+            <button id="phoneLogin">Phone Login</button>
             <button id="facebook-login">Facebook</button>
             <button id="apple-login">Apple</button>
         </div>
-
+        
     </div>
     <div id="logo-area">
             <!-- ReelCareer Logo -->
@@ -399,7 +400,7 @@ function phoneLogin() {
             signInWithPhoneNumber(auth, phoneNumber, appVerifier)
                 .then((result) => {
                     confirmationResult = result; // Store result for verification
-                    console.log("Code sent successfully.");
+                    showToast("Code sent successfully.");
                     document.getElementById("verificationCodeGroup").style.display = "block";
                     document.getElementById("sendVerificationCode").style.display = "none";
                 })
