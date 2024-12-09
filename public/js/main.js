@@ -2759,10 +2759,33 @@ function displayMessage(sender, message) {
   const messageArea = document.getElementById("chatbot-messages");
   const messageDiv = document.createElement("div");
   messageDiv.style.margin = "5px 0";
-  messageDiv.innerHTML = `<strong>${sender === "bot" ? "Chatbot" : "You"}:</strong> ${message}`;
+  
+  // Display the sender name
+  messageDiv.innerHTML = `<strong>${sender === "bot" ? "Chatbot" : "You"}:</strong> `;
+
   messageArea.appendChild(messageDiv);
   messageArea.scrollTop = messageArea.scrollHeight;
+
+  if (sender === "bot") {
+    let index = 0;
+    const typingSpeed = 50; // Delay between each character (in milliseconds)
+
+    // Clear existing message and apply typing effect
+    const typingEffect = setInterval(() => {
+      messageDiv.innerHTML = `<strong>Chatbot:</strong> ${message.substring(0, index + 1)}`;
+      messageArea.scrollTop = messageArea.scrollHeight;
+      index++;
+
+      if (index === message.length) {
+        clearInterval(typingEffect); // Stop typing effect once message is fully displayed
+      }
+    }, typingSpeed);
+  } else {
+    // Display user message immediately
+    messageDiv.innerHTML += message;
+  }
 }
+
 
 // Log unanswered questions
 async function logUnansweredQuestion(message) {
