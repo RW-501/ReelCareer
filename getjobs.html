@@ -604,10 +604,7 @@ searchableRequirements: ''
             setTimeout(() => messageArea.style.display = "none", 3000);
         }
 
-        // Loading State
-        function toggleLoading(state) {
-            document.getElementById("loading").style.display = state ? "block" : "none";
-        }
+   
 
         // Add Job (simplified)
         function addJob(jobId) {
@@ -624,7 +621,10 @@ searchableRequirements: ''
     });
 
 
-
+     // Loading State
+     function toggleLoading(state) {
+            document.getElementById("loading").style.display = state ? "block" : "none";
+        }
 
 
     </script>
