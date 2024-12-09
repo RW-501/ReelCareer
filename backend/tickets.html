@@ -244,7 +244,10 @@
     } from 'https://reelcareer.co/js/module.js';
 
    // Array to hold tickets 
-   function createTicketRow(ticket, ticketId) {
+let tickets = []; 
+
+// Helper function to create a table row from a ticket
+function createTicketRow(ticket, ticketId) {
     const row = document.createElement("tr");
     
     // Check if ticket.submittedAt exists and has a valid timestamp
@@ -280,6 +283,29 @@
     return row;
 }
 
+
+// Function to fetch tickets from Firestore and render them
+async function fetchTickets() {
+    const ticketsList = document.getElementById("ticketsList");
+    ticketsList.innerHTML = ""; // Clear previous rows
+
+    try {
+        // Fetch tickets from Firestore SupportTickets collection
+        const querySnapshot = await getDocs(collection(db, 'SupportTickets'));
+
+        // Loop through the documents and create rows
+        tickets = []; // Reset tickets array
+        querySnapshot.forEach((doc) => {
+            const ticket = doc.data();
+            tickets.push(ticket); // Add ticket data to tickets array
+
+            const row = createTicketRow(ticket, doc.id); // Create row using helper function
+            ticketsList.appendChild(row); // Append row to the table
+        });
+    } catch (error) {
+        console.error("Error fetching tickets: ", error);
+    }
+}
 
 // Function to toggle ticket details visibility
 function toggleDetails(ticketId) {
