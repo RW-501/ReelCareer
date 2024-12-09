@@ -362,6 +362,14 @@ function toggleRowSelection(checkbox) {
     row.classList.toggle('selected', checkbox.checked);  // Add/remove selected class
 }
 
+ 
+
+        //window.toggleRowSelection = toggleRowSelection;
+
+    
+        
+//window.toggleSelectAll = toggleSelectAll ;
+
 // Select All Jobs
 function toggleSelectAll() {
     const selectAllCheckbox = document.getElementById("selectAll");
@@ -376,7 +384,9 @@ function toggleSelectAll() {
 // Optionally, you can add event listener for each individual checkbox to ensure the "Select All" box updates accordingly
 document.addEventListener("DOMContentLoaded", () => {
     const selectAllCheckbox = document.getElementById("selectAll");
-
+    selectAllCheckbox.addEventListener("click", () => {
+        toggleSelectAll()
+    });
     // Update the "Select All" checkbox when individual checkboxes are toggled
     const checkboxes = document.querySelectorAll(".job-checkbox");
     checkboxes.forEach(checkbox => {
@@ -441,7 +451,6 @@ function sortTable(columnIndex) {
 
 
 //window.sortTable = sortTable;
-
 
 
 
