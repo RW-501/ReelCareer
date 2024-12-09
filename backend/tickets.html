@@ -217,7 +217,10 @@
             <option value="message1">Follow-up on Ticket</option>
             <option value="message2">Urgent: Need More Information</option>
             <option value="message3">Ticket Status Update</option>
+            <option value="message4">Ticket Review in Progress</option>
+            <option value="message5">Thank You for Your Submission</option>
         </select>
+        
         
         <button id="sendMessageBtn">Send Message</button>
     </div>
@@ -347,16 +350,44 @@ async function sendFollowUp(ticketId, ticketData) {
     
     // Use ticketData to replace placeholders in the message
     if (selectedMessage === "message1") {
-        message = `Follow-up on ticket related to ${ticketData.jobTitle}. We are still working on resolving your issue.`;
+        message = `Hello ${ticketData.submittedByUserName},\n\n` +
+                  `We are following up regarding your ticket related to the job position: ${ticketData.jobTitle}. ` +
+                  `Our team is currently working diligently to resolve your concern regarding "${ticketData.reasons}". ` +
+                  `We will update you as soon as there is a resolution.\n\n` +
+                  `Thank you for your patience.\n\n` +
+                  `Best regards,\nReelCareer Support`;
     } else if (selectedMessage === "message2") {
-        message = `Urgent: We need more information regarding your ticket related to ${ticketData.jobTitle}. Please provide additional details.`;
+        message = `Hello ${ticketData.submittedByUserName},\n\n` +
+                  `We urgently need more details regarding your ticket about the job position: ${ticketData.jobTitle}. ` +
+                  `You mentioned the following reason: "${ticketData.reasons}", but we require additional information to proceed. ` +
+                  `Could you kindly provide more context?\n\n` +
+                  `Looking forward to your response.\n\n` +
+                  `Best regards,\nReelCareer Support`;
     } else if (selectedMessage === "message3") {
-        message = `Ticket Status Update: Your ticket related to ${ticketData.jobTitle} has been updated. Please check for more details.`;
+        message = `Hello ${ticketData.submittedByUserName},\n\n` +
+                  `This is a status update regarding your ticket for the job position: ${ticketData.jobTitle}. ` +
+                  `We are actively addressing your concern and the team is working on resolving it. ` +
+                  `Please review the updates on your ticket.\n\n` +
+                  `If you need further assistance, feel free to reach out.\n\n` +
+                  `Best regards,\nReelCareer Support`;
+    } else if (selectedMessage === "message4") {
+        message = `Hello ${ticketData.submittedByUserName},\n\n` +
+                  `We wanted to inform you that your ticket regarding the job position: ${ticketData.jobTitle} is being reviewed. ` +
+                  `The reason you submitted was: "${ticketData.reasons}", and we are looking into it to ensure everything is properly addressed.\n\n` +
+                  `Our team will keep you updated as we progress.\n\n` +
+                  `Best regards,\nReelCareer Support`;
+    } else if (selectedMessage === "message5") {
+        message = `Hello ${ticketData.submittedByUserName},\n\n` +
+                  `Thank you for submitting your ticket regarding the position: ${ticketData.jobTitle}. ` +
+                  `We are currently evaluating your issue, which was described as: "${ticketData.reasons}". ` +
+                  `Our support team will reach out with any updates or when we need further clarification.\n\n` +
+                  `Thanks for your cooperation.\n\n` +
+                  `Best regards,\nReelCareer Support`;
     }
 
     // Prepare message data
     const messageData = {
-        recipientID: "00000",
+        recipientID: "000000",
         recipientName: ticketData.submittedByUserName,
         recipientProfileURL: `https://reelcareer.co/u/?u=${ticketData.submittedByUserID}`,
         recipientProfilePicture: "",
