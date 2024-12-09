@@ -533,7 +533,7 @@ function createNavbar() {
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/job-listings">Job Listings</a></li>
-            <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/reels">Reel</a></li>
+            <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/reels">Reels</a></li>
             <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/views/membership">Membership</a></li>
 
             <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/views/blogs">Blogs</a></li>
