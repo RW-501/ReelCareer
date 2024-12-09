@@ -2318,14 +2318,14 @@ function compileVulgarWordRegex(vulgarWordsArray) {
 function censorWord(match) {
   return match.length > 2
     ? match[0] + '***' + match[match.length - 1] // First and last letter with ***
-    : match[0] + '**'; // For short words
+    : match[0] + '*'; // For short words
 }
 
 // Function to replace vulgar words and log contextual information
 function scanAndReplaceVulgarWords(vulgarWordsArray, logging = false) {
   const mainContainer = document.getElementById('main-content');
   if (!mainContainer) {
-    console.error("Main container not found.");
+  //  console.error("Main container not found.");
     return;
   }
 
@@ -2373,14 +2373,14 @@ function scanAndReplaceVulgarWords(vulgarWordsArray, logging = false) {
 
       supportTickets.push(ticket);
       if (logging) {
-        console.log(`Vulgar words detected: ${detectedWords.join(', ')}`);
+       // console.log(`Vulgar words detected: ${detectedWords.join(', ')}`);
       }
     }
 
     // Only update the text node if changes were made
     if (text !== originalText) {
       currentNode.nodeValue = text;
-      if (logging) console.log(`Replaced in node: ${originalText} -> ${text}`);
+     // if (logging) console.log(`Replaced in node: ${originalText} -> ${text}`);
     }
   }
 
@@ -2413,12 +2413,12 @@ async function sendToSupportTickets(tickets) {
         // No existing ticket found, create a new one
         const ticketRef = doc(supportTicketsRef);  // Create a reference for a new document
         batch.set(ticketRef, ticket);  // Add the 'set' operation to the batch
-        console.log(`New ticket created for jobID: ${jobID} and videoID: ${videoID}`);
+       // console.log(`New ticket created for jobID: ${jobID} and videoID: ${videoID}`);
       } else {
-        console.log(`Duplicate ticket found for jobID: ${jobID} and videoID: ${videoID}. Ticket not submitted.`);
+      //  console.log(`Duplicate ticket found for jobID: ${jobID} and videoID: ${videoID}. Ticket not submitted.`);
       }
     } catch (error) {
-      console.error("Error checking for existing ticket:", error);
+     // console.error("Error checking for existing ticket:", error);
     }
   }
 
@@ -2442,7 +2442,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Example list of vulgar words
   const vulgarWords = [
     // Variations of "badword"
-    "County","Ffull Time","Job", "Part","epic","nurse","stupid", "shit", "ass", "fuck", "pussy", "dick", "azz", "fucked", "fucking", "bitch", "bitches", "bitching", "bitch*",
+    "stupid", "shit", "ass", "fuck", "pussy", "dick", "azz", "fucked", "fucking", "bitch", "bitches", "bitching", "bitch*",
     
     // Variations of "curseword"
     "shited", "shits", "bstard", "biatch", "damned", "damnit", "damn it", "damn", "hell", 
