@@ -493,7 +493,11 @@ let mainContainer = document.getElementById('main-content');
         align-items: center; 
         height: 100vh; 
     `;
-
+    container.style.transform = 'none';
+    container.style.transition = 'none';
+    container.style.opacity = '1';
+    container.style.display = 'block';
+    
     // Create the card div
     const card = document.createElement('div');
     card.className = 'user-data-not-found-card';

@@ -707,6 +707,10 @@ let mainContainer = document.getElementById('main-content');
         align-items: center; 
         height: 100vh; 
     `;
+    container.style.transform = 'none';
+    container.style.transition = 'none';
+    container.style.opacity = '1';
+    container.style.display = 'block';
 
     // Create the card div
     const card = document.createElement('div');
@@ -718,7 +722,7 @@ let mainContainer = document.getElementById('main-content');
         border-radius: 8px; 
         text-align: center;
     `;
-
+    
     // Add a title to the card
     const title = document.createElement('h3');
     title.textContent = 'User Not Found Create A Profile';
