@@ -1605,7 +1605,15 @@ overlay.style.left = "10%";
 
 
     document.addEventListener('DOMContentLoaded', async () => {
-    userId = await getUserId();
+    let userId;
+    try {
+        userId = await getUserId(); // Fetch user ID
+    } catch (error) {
+        console.error("Error fetching user ID:", error);
+        showUserDataNotFoundMessage();
+        return;
+    }
+
     const userDataSaved = getUserData() || [];
 
     setTimeout(() => {
@@ -1621,9 +1629,11 @@ overlay.style.left = "10%";
 
         // Rest of your code when userId is valid
         const breadcrumbTitleActive = document.getElementById("breadcrumb-active-title");
-        breadcrumbTitleActive.innerText = userDataSaved.displayName;
-        document.title = `ReelCareer.co | ${userDataSaved.displayName} Create Reel`;
-        breadcrumbTitleActive.style.display = "block";
+        if (breadcrumbTitleActive) {
+            breadcrumbTitleActive.innerText = userDataSaved.displayName || "User";
+            document.title = `ReelCareer.co | ${userDataSaved.displayName || "User"} Create Reel`;
+            breadcrumbTitleActive.style.display = "block";
+        }
 
         // Tags rendering logic
         if (userDataSaved.tags && userDataSaved.tags.length > 0) {
@@ -1638,6 +1648,7 @@ overlay.style.left = "10%";
         }
     }, 300);
 });
+
 
 
 // Upload Video Resume to Firebase Storage
