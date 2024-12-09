@@ -553,6 +553,7 @@ async function fetchVideoResumes(page) {
             videoCard.dataset.position = videoData.position || '';
             videoCard.dataset.location = videoData.location || '';
             videoCard.dataset.verified = videoData.verified || '';
+            videoCard.dataset.reelUserID = videoData.userID || '';
             
             videoCard.innerHTML = `
                 <div id="videoCard_${docId}" class="video-card">
