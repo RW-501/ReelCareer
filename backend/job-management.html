@@ -271,9 +271,12 @@ function sortTable(columnIndex) {
     // Toggle sort order
     sortOrder = !sortOrder;
 }
-
+window.sortTable = sortTable;
 // Call loadJobs when the page is loaded
 document.addEventListener("DOMContentLoaded", () => {
+
+
+    
     loadJobs();
 });
 
