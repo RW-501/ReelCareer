@@ -576,7 +576,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-        // Add Selected Jobs
+        // Add Selected Jobs  window.addSelectedJobs = addSelectedJobs;
+
         async function addSelectedJobs() {
             const selectedJobs = document.querySelectorAll(".job-item.selected");
             if (selectedJobs.length === 0) {
@@ -585,6 +586,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
     
+          
 
             const batch = writeBatch(db);
             let count = 0;
@@ -663,8 +665,6 @@ searchableRequirements: ''
         }
 
    
-
-        window.addSelectedJobs = addSelectedJobs;
 
 
     });
