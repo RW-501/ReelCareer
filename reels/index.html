@@ -635,6 +635,7 @@ async function fetchVideoResumes(page, user) {
             videoCard.dataset.verified = videoData.verified || '';
             videoCard.dataset.reelUserID = videoData.userID || '';
             videoCard.dataset.profilePicture = videoData.profilePicture || '';
+            generateVideoSchema(videoData, docId);
             
             videoCard.innerHTML = `
                 <div id="videoCard_${docId}" class="video-card">
@@ -724,7 +725,7 @@ async function fetchVideoResumes(page, user) {
 
     } catch (error) {
         console.error("Error fetching video resumes: ", error);
-        document.getElementById("blog-container").innerHTML = "<p>Error fetching video resumes. Please try again later.</p>";
+        document.getElementById("video-reel-container").innerHTML = "<p>Error fetching video resumes. Please try again later.</p>";
     }
 }
 
