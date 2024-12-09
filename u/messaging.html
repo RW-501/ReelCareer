@@ -473,11 +473,14 @@ main {
 
 
 function showUserDataNotFoundMessage() {
-  breadcrumbjobTitleActive.style.display = "none";
 
-lastBreadcrumb_last.style.display = "block";
-lastBreadcrumb_a.innerText = "Create a Profile";
-lastBreadcrumb_a.href = `https://reelcareer.co/views/auth`;
+    const lastBreadcrumb_1_a = document.getElementById("lastBreadcrumb_1_a");
+
+    
+
+lastBreadcrumb_1_a.style.display = "block";
+lastBreadcrumb_1_a.innerText = "Create a Profile";
+lastBreadcrumb_1_a.href = `https://reelcareer.co/views/auth`;
 
 let mainContainer = document.getElementById('main-content');
 
