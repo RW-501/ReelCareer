@@ -1604,64 +1604,38 @@ overlay.style.left = "10%";
 
 
 
-    let userId;
-
-// Retrieve and populate form inputs for tabs
-document.addEventListener('DOMContentLoaded', async () => {
-  userId = await getUserId() || ""; // Await here to properly set userId
+    document.addEventListener('DOMContentLoaded', async () => {
+    userId = await getUserId();
     const userDataSaved = getUserData() || [];
 
-
     setTimeout(() => {
-
-
         console.log("Module User We outside:", userId);
         console.log("userDataSaved We outside:", userDataSaved);
 
-        // Ensure userIdFromURL is not null or undefined
-    if (!userId) {
-      // Call this function when the user data is not found
-      showUserDataNotFoundMessage();
+        // Strict validation for userId
+        if (!userId || userId.trim() === "") {
+            showUserDataNotFoundMessage();
             console.log("No user session.");
-
             return;
-        }else{
-
-
-          
-const breadcrumbTitleActive = document.getElementById("breadcrumb-active-title");
-
-
-
-
-breadcrumbTitleActive.innerText = userDataSaved.displayName;
-// Set the new title
-document.title = `ReelCareer.co | ${userDataSaved.displayName} Create Reel`;
-
-breadcrumbTitleActive.style.display = "block";
         }
 
+        // Rest of your code when userId is valid
+        const breadcrumbTitleActive = document.getElementById("breadcrumb-active-title");
+        breadcrumbTitleActive.innerText = userDataSaved.displayName;
+        document.title = `ReelCareer.co | ${userDataSaved.displayName} Create Reel`;
+        breadcrumbTitleActive.style.display = "block";
 
-
-        // Check if the tags array is defined and has elements
-if (!userDataSaved.tags || userDataSaved.tags.length === 0) {
-    // If there are no tags, display a message
-} else {
-    // Directly use the tags array since it contains strings
-    const tags = userDataSaved.tags; // No need to map since they're already strings
-    
-
-const tagsContainer = document.getElementById('tagsList');
-userDataSaved.tags.forEach(tag => {
-              const tagElement = document.createElement('div');
-              tagElement.className = 'tag';
-              tagElement.innerHTML = `<span class="tag badge tag-primary mr-1">
-                ${tag}<button class="ml-1 btn btn-sm tag"> x</button></span>`;
-              tagsContainer.appendChild(tagElement);
-          });
-}
-
-  
+        // Tags rendering logic
+        if (userDataSaved.tags && userDataSaved.tags.length > 0) {
+            const tagsContainer = document.getElementById('tagsList');
+            userDataSaved.tags.forEach(tag => {
+                const tagElement = document.createElement('div');
+                tagElement.className = 'tag';
+                tagElement.innerHTML = `<span class="tag badge tag-primary mr-1">
+                    ${tag}<button class="ml-1 btn btn-sm tag">x</button></span>`;
+                tagsContainer.appendChild(tagElement);
+            });
+        }
     }, 300);
 });
 
