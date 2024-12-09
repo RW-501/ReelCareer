@@ -303,6 +303,8 @@ function toggleDetails(ticketId) {
     details.style.display = details.style.display === "none" ? "block" : "none";
 }
 
+window.toggleDetails = toggleDetails;
+
 // Function to update ticket status in Firestore
 async function updateStatus(ticketId) {
     const status = document.querySelector(`#${ticketId} .status-dropdown`).value;
