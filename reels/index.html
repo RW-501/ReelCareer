@@ -760,8 +760,12 @@ function handleLike(docId, likeButton) {
 }
 
 
-
 function generateVideoSchema(videoData, docId) {
+    // Convert Firebase Timestamp to JavaScript Date
+    const uploadDate = videoData.createdAt 
+        ? new Date(videoData.createdAt.seconds * 1000) // Convert seconds to milliseconds
+        : new Date(); // Fallback to current date if createdAt is missing
+
     return {
         "@context": "https://schema.org",
         "@type": "VideoObject",
@@ -769,7 +773,7 @@ function generateVideoSchema(videoData, docId) {
         "description": videoData.videoResumeCaptions || "",
         "thumbnailUrl": videoData.thumbnailURL || "",
         "contentUrl": videoData.videoResumeURL,
-        "uploadDate": videoData.createdAt ? new Date(videoData.createdAt).toISOString() : new Date().toISOString(),
+        "uploadDate": uploadDate.toISOString(), // Call toISOString on a valid Date object
         "duration": videoData.duration || "",
         "interactionStatistic": {
             "@type": "InteractionCounter",
