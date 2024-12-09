@@ -2325,7 +2325,7 @@ function censorWord(match) {
 function scanAndReplaceVulgarWords(vulgarWordsArray, logging = false) {
   const mainContainer = document.getElementById('main-content');
   if (!mainContainer) {
-  //  console.error("Main container not found.");
+    // console.error("Main container not found.");
     return;
   }
 
@@ -2358,6 +2358,18 @@ function scanAndReplaceVulgarWords(vulgarWordsArray, logging = false) {
       const parentVideoCard = currentNode.parentElement.closest('.video-card');
       const videoCardId = parentVideoCard ? parentVideoCard.id.replace(/^videoCard_/i, '') : null;
 
+      const isJobPage = window.location.href.includes('job-page'); // Modify based on the URL structure of job pages
+
+      // Determine the type based on the parent element or page
+      let ticketType = 'Unknown';  // Default to 'Unknown'
+      if (parentJobCard) {
+        ticketType = 'Job Card';
+      } else if (parentVideoCard) {
+        ticketType = 'Video Card';
+      } else if (isJobPage) {
+        ticketType = 'Job Page';
+      }
+
       const ticket = {
         jobID: new URL(window.location.href).searchParams.get('id'),
         jobTitle: document.title,
@@ -2368,19 +2380,20 @@ function scanAndReplaceVulgarWords(vulgarWordsArray, logging = false) {
         reasons: detectedWords,
         URL: window.location.href,
         submittedAt: new Date().toISOString(),
-        submittedBy: 'System'
+        submittedBy: 'System',
+        type: ticketType  // Add the 'type' field
       };
 
       supportTickets.push(ticket);
       if (logging) {
-       // console.log(`Vulgar words detected: ${detectedWords.join(', ')}`);
+        // console.log(`Vulgar words detected: ${detectedWords.join(', ')}`);
       }
     }
 
     // Only update the text node if changes were made
     if (text !== originalText) {
       currentNode.nodeValue = text;
-     // if (logging) console.log(`Replaced in node: ${originalText} -> ${text}`);
+      // if (logging) console.log(`Replaced in node: ${originalText} -> ${text}`);
     }
   }
 
@@ -2389,6 +2402,7 @@ function scanAndReplaceVulgarWords(vulgarWordsArray, logging = false) {
     sendToSupportTickets(supportTickets);
   }
 }
+
 
 
 
