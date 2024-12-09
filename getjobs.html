@@ -271,20 +271,20 @@
             <thead>
                 <tr>
                     <th><input type="checkbox" id="selectAll" onclick="toggleSelectAll()"></th>
-                    <th>Job Title</th>
-                    <th>Company</th>
-                    <th>City</th>
-                    <th>State</th>
-                    <th>Salary</th>
-                    <th>Date</th>
-                    <th>Category</th>
+                    <th onclick="sortTable(1)">Job Title</th>
+                    <th onclick="sortTable(2)">Company</th>
+                    <th onclick="sortTable(3)">City</th>
+                    <th onclick="sortTable(4)">State</th>
+                    <th onclick="sortTable(5)">Salary</th>
+                    <th onclick="sortTable(6)">Date</th>
+                    <th onclick="sortTable(7)">Category</th>
                     <th>Action</th>
                 </tr>
             </thead>
             <tbody id="jobApplications"></tbody>
         </table>
     </div>
-
+    
     <div id="errorDisplay" style="color: red; margin-top: 10px;"></div>
 
 
@@ -368,26 +368,71 @@ window.fetchJobs = fetchJobs;
 });
 
         // Display Jobs in Table
-        function displayJobs(jobs) {
-            const container = document.getElementById("jobApplications");
-            container.innerHTML = "";
-            jobs.forEach(job => {
-                const row = document.createElement("tr");
-                row.className = "job-item";
-                row.innerHTML = `
-                    <td><input type="checkbox" class="job-checkbox" onclick="toggleRowSelection(this)"></td>
-                    <td>${job.title}</td>
-                    <td>${job.company.display_name || "N/A"}</td>
-                    <td>${parseCityFromLocationNew(job.location.display_name) || "N/A"}</td>
-                    <td>${job.location.area[1] || "N/A"}</td>
-                    <td>${ (parseFloat(job.salary_min) + parseFloat(job.salary_max)) / 2 || 0}</td>
-                    <td>${new Date(job.created) || ''}</td>
-                    <td>${job.category.tag || ''}</td>
-                    <td><button onclick="addJob(${job.id})">Add</button></td>
-                `;
-                container.appendChild(row);
-            });
+        let sortDirection = [true, true, true, true, true, true, true, true]; // Store the sort direction for each column (true for ascending, false for descending)
+
+function displayJobs(jobs) {
+    const container = document.getElementById("jobApplications");
+    container.innerHTML = "";
+    jobs.forEach(job => {
+        const row = document.createElement("tr");
+        row.className = "job-item";
+        row.innerHTML = `
+            <td><input type="checkbox" class="job-checkbox" onclick="toggleRowSelection(this)"></td>
+            <td>${job.title}</td>
+            <td>${job.company.display_name || "N/A"}</td>
+            <td>${parseCityFromLocationNew(job.location.display_name) || "N/A"}</td>
+            <td>${job.location.area[1] || "N/A"}</td>
+            <td>${ (parseFloat(job.salary_min) + parseFloat(job.salary_max)) / 2 || 0}</td>
+            <td>${new Date(job.created) || ''}</td>
+            <td>${job.category.tag || ''}</td>
+            <td><button onclick="addJob(${job.id})">Add</button></td>
+        `;
+        container.appendChild(row);
+    });
+}
+
+function sortTable(columnIndex) {
+    const table = document.getElementById("jobTable");
+    const rows = Array.from(table.rows).slice(1); // Get all rows except the header
+    const isAscending = sortDirection[columnIndex];
+    sortDirection[columnIndex] = !isAscending; // Toggle sort direction
+
+    const sortedRows = rows.sort((rowA, rowB) => {
+        const cellA = rowA.cells[columnIndex].innerText.trim();
+        const cellB = rowB.cells[columnIndex].innerText.trim();
+
+        // Handle sorting based on column type (numeric or text)
+        if (columnIndex === 5) { // Salary column
+            const salaryA = parseFloat(cellA) || 0;
+            const salaryB = parseFloat(cellB) || 0;
+            return isAscending ? salaryA - salaryB : salaryB - salaryA;
+        } else if (columnIndex === 6) { // Date column
+            const dateA = new Date(cellA);
+            const dateB = new Date(cellB);
+            return isAscending ? dateA - dateB : dateB - dateA;
+        } else { // For text columns (e.g., Job Title, Company, etc.)
+            return isAscending ? cellA.localeCompare(cellB) : cellB.localeCompare(cellA);
         }
+    });
+window.sortTable = sortTable;
+
+    // Append sorted rows to the table
+    const tbody = document.getElementById("jobApplications");
+    tbody.innerHTML = ""; // Clear existing rows
+    sortedRows.forEach(row => tbody.appendChild(row));
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
         // Toggle Row Selection
         function toggleRowSelection(checkbox) {
