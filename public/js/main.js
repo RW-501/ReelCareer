@@ -2286,48 +2286,66 @@ const userDisplayName = getUserDisplayName();
 console.log("Welcome: ", userDisplayName);
 
 
-
 // Function to escape special characters for use in regular expressions
 function escapeRegExp(str) {
   return str.replace(/[.*+?^=!:${}()|\[\]\/\\]/g, '\\$&');
 }
 
-// Function to scan and replace vulgar words while preserving HTML structure
-function scanAndReplaceVulgarWords(vulgarWordsArray) {
+// Function to create precompiled regular expressions for vulgar words
+function compileVulgarWordRegex(vulgarWordsArray) {
+  return vulgarWordsArray.map((word) => ({
+    word,
+    regex: new RegExp(`\\b${escapeRegExp(word)}\\b`, 'gi'),
+  }));
+}
+
+// Function to replace vulgar words while preserving HTML structure
+function scanAndReplaceVulgarWords(vulgarWordsArray, logging = false) {
   const mainContainer = document.getElementById('main-content');
 
   if (!mainContainer) {
+    console.error("Main container not found.");
     return;
   }
 
-  // Function to traverse text nodes and replace vulgar words
-  function traverseAndReplaceTextNodes(node) {
-    if (node.nodeType === Node.TEXT_NODE) {
-      // Replace vulgar words in the text content of the node
-      let text = node.nodeValue;
+  // Precompile all vulgar word regex patterns
+  const vulgarWordPatterns = compileVulgarWordRegex(vulgarWordsArray);
 
-      vulgarWordsArray.forEach((word) => {
-        const escapedWord = escapeRegExp(word);
-        const vulgarRegex = new RegExp(`\\b${escapedWord}\\b`, 'gi');
-        text = text.replace(vulgarRegex, (match) => {
-          return match.length > 2
-            ? match[0] + '***' + match[match.length - 1] // Replace with censoring
-            : match[0] + '**';
-        });
-      });
+  // Function to censor a word
+  function censorWord(match) {
+    return match.length > 2
+      ? match[0] + '***' + match[match.length - 1] // First and last letter with ***
+      : match[0] + '**'; // For short words
+  }
 
-      node.nodeValue = text; // Update the text content
-    } else if (node.nodeType === Node.ELEMENT_NODE) {
-      // Traverse child nodes recursively
-      node.childNodes.forEach(traverseAndReplaceTextNodes);
+  // Traverse text nodes efficiently using TreeWalker
+  const treeWalker = document.createTreeWalker(
+    mainContainer,
+    NodeFilter.SHOW_TEXT,
+    null,
+    false
+  );
+
+  let currentNode;
+  while ((currentNode = treeWalker.nextNode())) {
+    let text = currentNode.nodeValue;
+    let originalText = text;
+
+    // Replace all vulgar words in the current text node
+    vulgarWordPatterns.forEach(({ regex }) => {
+      text = text.replace(regex, censorWord);
+    });
+
+    // Update the text node only if changes were made
+    if (text !== originalText) {
+      currentNode.nodeValue = text;
+      if (logging) console.log(`Replaced in node: ${originalText} -> ${text}`);
     }
   }
 
-  // Start the traversal and replacement from the main container
-  traverseAndReplaceTextNodes(mainContainer);
-  
-  console.log("Vulgar words have been replaced while preserving HTML structure.");
+  if (logging) console.log("Vulgar words have been replaced.");
 }
+
 
 window.scanAndReplaceVulgarWords = scanAndReplaceVulgarWords;
 
