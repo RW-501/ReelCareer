@@ -706,18 +706,22 @@ async function fetchVideoResumes(page, user) {
             const joinUsButton = videoCard.querySelector(".join-us-button");
             const addUserButton = videoCard.querySelector(".add-user-button");
             const likeButton = videoCard.querySelector(".like-btn");
-
+if(user){
             // Mute toggle functionality
             muteButton.addEventListener("click", () => toggleMute(docId));
 
             // Other button actions
-            joinUsButton.addEventListener("click", () => handleJoinUsBtn(docId));
             addUserButton.addEventListener("click", () => addToShortlist(docId));
             likeButton.addEventListener("click", () => handleLike(docId, likeButton));
 
   
             connectButton.addEventListener("click", () => handleConnect(docId, connectButton, profilePicture,reelUserID ,displayName));
             messageButton.addEventListener("click", () => sendMessage(docId , profilePicture,reelUserID, displayName));
+}else{
+  joinUsButton.addEventListener("click", () => handleJoinUsBtn(docId));
+
+
+}
 
             videoContainer.appendChild(videoCard);
         });
