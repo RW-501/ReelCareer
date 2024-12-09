@@ -2125,8 +2125,8 @@ document.addEventListener('DOMContentLoaded', function () {
     // Default configuration
     let {
       delayBetweenDivs = 1000, // Delay between div animations (ms)
-      initialBodyDelay = 1500, // Delay before showing body (ms)
-      animationDuration = 4000, // Animation duration (ms)
+      initialBodyDelay = 1000, // Delay before showing body (ms)
+      animationDuration = 1000, // Animation duration (ms)
       animationTimingFunction = 'cubic-bezier(0.68, -0.55, 0.27, 1.55)', // Easing function for bounce effect
       hiddenClass = 'hide', // Class to hide body
       showClass = 'show',
