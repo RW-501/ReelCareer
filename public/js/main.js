@@ -2502,3 +2502,237 @@ if (detectedWords.length > 0) {
 }
 
 */
+
+
+
+function loadChatbot() {
+  // Create Chatbot Button
+  const chatButton = document.createElement("button");
+  chatButton.id = "chatbot-button";
+  chatButton.innerText = "Chat with us";
+  chatButton.style.cssText = `
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      padding: 10px 15px;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      font-size: 16px;
+      z-index: 1000;
+  `;
+
+  // Create Chatbot Panel
+  const chatPanel = document.createElement("div");
+  chatPanel.id = "chatbot-panel";
+  chatPanel.style.cssText = `
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 350px;
+      height: 500px;
+      background-color: white;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      display: none; /* Hidden initially */
+      flex-direction: column;
+      z-index: 999;
+  `;
+  chatPanel.innerHTML = `
+      <div style="background-color: #007BFF; color: white; padding: 10px; text-align: center;">
+          <strong>Chatbot</strong>
+          <button id="close-chat" style="float: right; background: none; border: none; color: white; font-size: 18px; cursor: pointer;">&times;</button>
+      </div>
+      <div id="chatbot-messages" style="flex: 1; padding: 10px; overflow-y: auto; font-size: 14px;"></div>
+      <div style="padding: 10px; border-top: 1px solid #ddd;">
+          <div id="chat-input" contenteditable="true" style="border: 1px solid #ccc; padding: 8px; border-radius: 4px; min-height: 40px;"></div>
+          <button id="send-chat" style="margin-top: 10px; width: 100%; background-color: #007BFF; color: white; border: none; padding: 8px; border-radius: 4px; cursor: pointer;">Send</button>
+      </div>
+  `;
+
+  // Append to Body
+  document.body.appendChild(chatButton);
+  document.body.appendChild(chatPanel);
+
+  // Event Listeners
+  chatButton.addEventListener("click", () => {
+      chatPanel.style.display = "flex";
+      loadGeneralQuestions();
+  });
+  document.getElementById("close-chat").addEventListener("click", () => {
+      chatPanel.style.display = "none";
+  });
+  document.getElementById("send-chat").addEventListener("click", sendMessage);
+}
+
+
+
+
+const generalQuestions = [
+  { 
+    question: "How do I reset my password?", 
+    tags: ["password", "reset", "account"], 
+    category: "Account Management"
+  },
+  { 
+    question: "Where can I find my job applications?", 
+    tags: ["job", "applications", "dashboard"], 
+    category: "Dashboard"
+  },
+  { 
+    question: "How do I contact support?", 
+    tags: ["contact", "support", "help"], 
+    category: "Support"
+  },
+  { 
+    question: "How do I update my profile information?", 
+    tags: ["profile", "update", "settings"], 
+    category: "Account Management"
+  },
+  { 
+    question: "How do I apply for a job?", 
+    tags: ["apply", "job", "application"], 
+    category: "Job Application"
+  },
+  { 
+    question: "What happens after I apply for a job?", 
+    tags: ["application", "status", "process"], 
+    category: "Job Application"
+  },
+  { 
+    question: "How do I change my job preferences?", 
+    tags: ["preferences", "settings", "job"], 
+    category: "Dashboard"
+  },
+  { 
+    question: "How do I post a job?", 
+    tags: ["post", "job", "recruiter"], 
+    category: "Job Posting"
+  },
+  { 
+    question: "What is the process to upgrade my membership?", 
+    tags: ["membership", "upgrade", "account"], 
+    category: "Membership"
+  },
+  { 
+    question: "How do I cancel my account?", 
+    tags: ["cancel", "account", "delete"], 
+    category: "Account Management"
+  },
+  { 
+    question: "What is the privacy policy of ReelCareer?", 
+    tags: ["privacy", "policy", "terms"], 
+    category: "Legal"
+  },
+  { 
+    question: "How do I track my job application status?", 
+    tags: ["track", "application", "status"], 
+    category: "Job Application"
+  },
+  { 
+    question: "How do I manage my notifications?", 
+    tags: ["notifications", "settings", "preferences"], 
+    category: "Account Management"
+  },
+  { 
+    question: "What types of jobs are available on ReelCareer?", 
+    tags: ["jobs", "types", "category"], 
+    category: "Job Listings"
+  },
+  { 
+    question: "How do I save jobs to my profile?", 
+    tags: ["save", "jobs", "profile"], 
+    category: "Dashboard"
+  },
+  { 
+    question: "Can I share job postings with others?", 
+    tags: ["share", "jobs", "posting"], 
+    category: "Job Application"
+  },
+  { 
+    question: "How do I get job recommendations?", 
+    tags: ["recommendations", "jobs", "suggestions"], 
+    category: "Job Listings"
+  },
+  { 
+    question: "How do I view applicants for my job postings?", 
+    tags: ["view", "applicants", "recruiter"], 
+    category: "Recruiter Dashboard"
+  },
+  { 
+    question: "How do I give feedback on applicants?", 
+    tags: ["feedback", "applicants", "job"], 
+    category: "Recruiter Dashboard"
+  }
+];
+
+// Load general questions on chatbot open
+function loadGeneralQuestions() {
+  const messageArea = document.getElementById("chatbot-messages");
+  messageArea.innerHTML = "<p><strong>Choose a topic to get started:</strong></p>";
+  generalQuestions.forEach(q => {
+      const button = document.createElement("button");
+      button.innerText = q.question;
+      button.style.cssText = "margin: 5px; padding: 5px 10px; cursor: pointer;";
+      button.addEventListener("click", () => handleUserInput(q.question));
+      messageArea.appendChild(button);
+  });
+}
+
+// Wrap loadChatbot in a 5-second timeout
+setTimeout(() => {
+  loadChatbot();
+}, 5000); // 5000 milliseconds = 5 seconds
+
+
+
+async function handleUserInput(userMessage) {
+  const messageArea = document.getElementById("chatbot-messages");
+  displayMessage("user", userMessage);
+
+  // Search Firestore collection
+  const querySnapshot = await getDocs(collection(db, "ChatbotResponses"));
+  let foundAnswer = false;
+
+  querySnapshot.forEach((doc) => {
+      const data = doc.data();
+      if (data.tags && data.tags.some(tag => userMessage.toLowerCase().includes(tag))) {
+          displayMessage("bot", data.answer);
+          foundAnswer = true;
+      }
+  });
+
+  if (!foundAnswer) {
+      displayMessage("bot", "I'm sorry, I don't have an answer for that yet. We'll get back to you soon.");
+      logUnansweredQuestion(userMessage);
+  }
+}
+
+// Display messages in the chat panel
+function displayMessage(sender, message) {
+  const messageArea = document.getElementById("chatbot-messages");
+  const messageDiv = document.createElement("div");
+  messageDiv.style.margin = "5px 0";
+  messageDiv.innerHTML = `<strong>${sender === "bot" ? "Chatbot" : "You"}:</strong> ${message}`;
+  messageArea.appendChild(messageDiv);
+  messageArea.scrollTop = messageArea.scrollHeight;
+}
+
+// Log unanswered questions
+async function logUnansweredQuestion(message) {
+  const chatBotData = {
+      activate: false,
+      status: "review",
+      question: message,
+      answer: "",
+      category: "General",
+      tags: [],
+      views: 0,
+      createdAt: new Date(),
+      timestamp: serverTimestamp()
+  };
+  await addDoc(collection(db, "ChatbotInteractions"), chatBotData);
+}
