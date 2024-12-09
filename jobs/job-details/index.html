@@ -1202,17 +1202,18 @@ document.getElementById('tag-list').textContent = jobTags.join(', ');
 
   //  console.log("jobTags ??document???????/!   ",jobTags);
 
-// Make the function globally accessible by attaching it to the `window` object
-window.saveJob = saveJob;
-window.submitReport = submitReport; // Expose submitReport globally
 
-async function submitReport() {
+
+
+
+
+  async function submitReport() {
     const selectedReasons = [];
     document.querySelectorAll('#reportJobForm input[type="checkbox"]:checked').forEach((checkbox) => {
-      selectedReasons.push(checkbox.value);
+        selectedReasons.push(checkbox.value);
     });
-    const userDataSaved = getUserData() || [];
 
+    const userDataSaved = getUserData() || [];
     const message = document.getElementById('reportMessage').value;
     const statusMessage = document.getElementById('reportStatusMessage');
     const closeButton = document.getElementById('closeReportModalButton');
@@ -1223,11 +1224,14 @@ async function submitReport() {
 
     if (selectedReasons.length === 0 && !message) {
         statusMessage.innerHTML = 'Please select a reason or enter a message before submitting.';
-        statusMessage.className = 'text-danger'; // Add error class for styling
+        statusMessage.className = 'text-danger';
         return;
     }
+
     const jobID = document.getElementById('jobID').innerText;
     const userID = document.getElementById('userID').innerText;
+
+    // Report Data to Firebase
     const reportData = {
         jobId: jobID,
         jobTitle: document.title,
@@ -1237,34 +1241,85 @@ async function submitReport() {
         submittedAt: new Date().toISOString(),
         timestamp: serverTimestamp(),
         submittedBy: "user",
-        submittedByUserID: userID,        
-        submittedByUserName: userDataSaved.displayName,        
+        submittedByUserID: userID,
+        submittedByUserName: userDataSaved.displayName || "User",
         type: "User Report",
         pageTitle: document.title,
         status: "submitted"
-
     };
 
-    // Send the report to Firebase
-   
+    // Create content for the follow-up message
+    const reasonsContent = selectedReasons.length > 0 ? `Reasons: ${selectedReasons.join(', ')}` : '';
+    const followUpMessageContent = `
+        Thank you for reporting this issue. Our support team will follow up shortly. 
+
+        ${reasonsContent}
+
+        From ReelCareer
+    `;
+
+    // Follow-up Message Data
+    const followUpMessage = {
+        recipientID: userID,
+        recipientName: userDataSaved.displayName || "User",
+        recipientProfileURL: `https://reelcareer.co/u/?u=${userID}`,
+        recipientProfilePicture: "",
+        recipientRead: false,
+        participants: ["000000", userID],
+        senderID: "000000", // Support account ID
+        senderName: "Support",
+        senderProfilePicture: "https://reelcareer.co/Images/logo.png",
+        senderProfileURL: "https://reelcareer.co/support",
+        group: "main",
+        messageType: "support",
+        contactLocation: "platform",
+        conversationID: `conversation_${jobID}_${userID}`,
+        content: followUpMessageContent.trim(),
+        connectedBool: true,
+        createdAt: new Date(),
+        timestamp: serverTimestamp(),
+        contentType: "notification",
+        status: "unread",
+        attachments: ""
+    };
+
     try {
-        // Add the report data to the SupportTickets collection
-        await addDoc(collection(db, 'SupportTickets'), reportData);
+        toggleLoading(true);
 
-        // Display success message and show close button
+        // Submit the report
+        const reportRef = await addDoc(collection(db, 'SupportTickets'), reportData);
+        console.log(`Report submitted with ID: ${reportRef.id}`);
+
+        // Send the follow-up message
+        await addDoc(collection(db, "Messages"), followUpMessage);
+        console.log("Follow-up message sent successfully!");
+
+        // Show success message to user
         statusMessage.innerHTML = 'Your report has been submitted. Thank you for your feedback.';
-        statusMessage.className = 'text-success'; // Add success class for styling
-        closeButton.style.display = 'block'; // Show close button
+        statusMessage.className = 'text-success';
+        closeButton.style.display = 'block';
 
-        // Optionally disable the submit button after success
+        // Disable submit button after success
         document.querySelector('#reportJobForm button[type="button"]').disabled = true;
+
     } catch (error) {
-        console.error("Error submitting report: ", error);
-        // Display error message
+        console.error("Error submitting report or follow-up message:", error);
+
         statusMessage.innerHTML = 'There was an error submitting your report. Please try again later.';
-        statusMessage.className = 'text-danger'; // Add error class for styling
+        statusMessage.className = 'text-danger';
+    } finally {
+        toggleLoading(false);
     }
 }
+
+
+
+
+
+
+// Make the function globally accessible by attaching it to the `window` object
+window.saveJob = saveJob;
+window.submitReport = submitReport; // Expose submitReport globally
 
 
     // Open the modal
