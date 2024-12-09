@@ -323,14 +323,15 @@
         <table id="jobTable">
             <thead>
                 <tr>
-                    <th><input type="checkbox" id="selectAll" onclick="toggleSelectAll()"></th>
-                    <th onclick="sortTable(1)">Job Title</th>
-                    <th onclick="sortTable(2)">Company</th>
-                    <th onclick="sortTable(3)">City</th>
-                    <th onclick="sortTable(4)">State</th>
-                    <th onclick="sortTable(5)">Salary</th>
-                    <th onclick="sortTable(6)">Date</th>
-                    <th onclick="sortTable(7)">Category</th>
+                    <th><input type="checkbox" id="selectAll" ></th>
+                    <th id="sortJobTitle">Job Title</th>
+                    <th id="sortCompany">Company</th>
+                    <th id="sortCity">City</th>
+                    <th id="sortState">State</th>
+                    <th id="sortSalary">Salary</th>
+                    <th id="sortDate">Date</th>
+                    <th id="sortCategory">Category</th>
+                    
                     <th>Action</th>
                 </tr>
             </thead>
@@ -354,6 +355,54 @@
 
 
     <script>
+
+        // Toggle Row Selection
+function toggleRowSelection(checkbox) {
+    const row = checkbox.closest('tr');
+    row.classList.toggle('selected', checkbox.checked);  // Add/remove selected class
+}
+
+// Select All Jobs
+function toggleSelectAll() {
+    const selectAllCheckbox = document.getElementById("selectAll");
+    const checkboxes = document.querySelectorAll(".job-checkbox");  // Get all individual checkboxes
+
+    checkboxes.forEach(checkbox => {
+        checkbox.checked = selectAllCheckbox.checked;  // Set all checkboxes based on selectAll
+        toggleRowSelection(checkbox);  // Update row selection (class)
+    });
+}
+
+// Optionally, you can add event listener for each individual checkbox to ensure the "Select All" box updates accordingly
+document.addEventListener("DOMContentLoaded", () => {
+    const selectAllCheckbox = document.getElementById("selectAll");
+
+    // Update the "Select All" checkbox when individual checkboxes are toggled
+    const checkboxes = document.querySelectorAll(".job-checkbox");
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener("change", () => {
+            const allChecked = [...checkboxes].every(cb => cb.checked);  // Check if all checkboxes are selected
+            selectAllCheckbox.checked = allChecked;  // Update the "Select All" checkbox
+        });
+    });
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+    const sortColumns = [
+        "sortJobTitle",
+        "sortCompany",
+        "sortCity",
+        "sortState",
+        "sortSalary",
+        "sortDate",
+        "sortCategory"
+    ];
+
+    sortColumns.forEach((columnId, index) => {
+        const column = document.getElementById(columnId);
+        column.addEventListener("click", () => sortTable(index + 1)); // Adjust column index
+    });
+});
 
 
 
