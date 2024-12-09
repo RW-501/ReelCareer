@@ -2706,8 +2706,9 @@ const allQuestions = [
 function loadGeneralQuestions() {
   const messageArea = document.getElementById("chatbot-messages");
   if (messageArea) {
+    console.log("Loading general questions...");
     messageArea.innerHTML = "<p><strong>Choose a topic to get started:</strong></p>";
-    
+
     // Filter and display only onload questions (general questions)
     allQuestions.filter(q => q.onload).forEach(q => {
         const button = document.createElement("button");
@@ -2721,28 +2722,37 @@ function loadGeneralQuestions() {
   }
 }
 
+
 // Handle user input
 async function handleUserInput(userMessage) {
   const messageArea = document.getElementById("chatbot-messages");
   displayMessage("user", userMessage);
 
-  // Search Firestore collection
-  const querySnapshot = await getDocs(collection(db, "ChatbotResponses"));
-  let foundAnswer = false;
+  // Check if the user message matches any of the general questions
+  const matchedQuestion = allQuestions.find(q => q.question.toLowerCase() === userMessage.toLowerCase());
+  
+  if (matchedQuestion) {
+      displayMessage("bot", matchedQuestion.answer);
+  } else {
+      // If not, search Firestore collection
+      const querySnapshot = await getDocs(collection(db, "ChatbotResponses"));
+      let foundAnswer = false;
 
-  querySnapshot.forEach((doc) => {
-      const data = doc.data();
-      if (data.tags && data.tags.some(tag => userMessage.toLowerCase().includes(tag))) {
-          displayMessage("bot", data.answer);
-          foundAnswer = true;
+      querySnapshot.forEach((doc) => {
+          const data = doc.data();
+          if (data.tags && data.tags.some(tag => userMessage.toLowerCase().includes(tag))) {
+              displayMessage("bot", data.answer);
+              foundAnswer = true;
+          }
+      });
+
+      if (!foundAnswer) {
+          displayMessage("bot", "I'm sorry, I don't have an answer for that yet. We'll get back to you soon.");
+          logUnansweredQuestion(userMessage);
       }
-  });
-
-  if (!foundAnswer) {
-      displayMessage("bot", "I'm sorry, I don't have an answer for that yet. We'll get back to you soon.");
-      logUnansweredQuestion(userMessage);
   }
 }
+
 
 // Display messages in the chat panel
 function displayMessage(sender, message) {
