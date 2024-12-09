@@ -442,23 +442,6 @@ function sortTable(columnIndex) {
 
 //window.sortTable = sortTable;
 
-        // Toggle Row Selection
-        function toggleRowSelection(checkbox) {
-            const row = checkbox.closest('tr');
-            row.classList.toggle('selected', checkbox.checked);
-        }
-        //window.toggleRowSelection = toggleRowSelection;
-
-        // Select All Jobs
-        function toggleSelectAll() {
-            const selectAllCheckbox = document.getElementById("selectAll");
-            const checkboxes = document.querySelectorAll(".job-checkbox");
-            checkboxes.forEach(checkbox => {
-                checkbox.checked = selectAllCheckbox.checked;
-                toggleRowSelection(checkbox);
-            });
-        }
-//window.toggleSelectAll = toggleSelectAll ;
 
 
 
