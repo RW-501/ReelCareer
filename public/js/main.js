@@ -2390,26 +2390,29 @@ function scanAndReplaceVulgarWords(vulgarWordsArray, logging = false) {
   }
 }
 
-// Function to send data to the SupportTickets collection (e.g., Firebase Firestore)
-async function sendToSupportTickets(tickets) {
-  const supportTicketsRef  = collection(db, 'SupportTickets');
 
- // const supportTicketsRef = db.collection('SupportTickets');
- const batch = writeBatch(db);
+
+async function sendToSupportTickets(tickets) {
+  const supportTicketsRef = collection(db, 'SupportTickets');
+  const batch = writeBatch(db);
 
   for (const ticket of tickets) {
     const { jobID, videoID } = ticket;
 
-    // Query Firestore to check if a ticket already exists for the same jobId and videoId
-    const existingTicketQuery = supportTicketsRef
-      .where("jobID", "==", jobID)
-      .where("videoID", "==", videoID);
+    // Create a query to check if a ticket already exists for the same jobID and videoID
+    const existingTicketQuery = query(
+      supportTicketsRef,
+      where("jobID", "==", jobID),
+      where("videoID", "==", videoID)
+    );
 
     try {
-      const querySnapshot = await existingTicketQuery.get();
+      // Execute the query to check for existing tickets
+      const querySnapshot = await getDocs(existingTicketQuery);
       if (querySnapshot.empty) {
-        const ticketRef = supportTicketsRef.doc();
-        batch.set(ticketRef, ticket);
+        // No existing ticket found, create a new one
+        const ticketRef = doc(supportTicketsRef);  // Create a reference for a new document
+        batch.set(ticketRef, ticket);  // Add the 'set' operation to the batch
         console.log(`New ticket created for jobID: ${jobID} and videoID: ${videoID}`);
       } else {
         console.log(`Duplicate ticket found for jobID: ${jobID} and videoID: ${videoID}. Ticket not submitted.`);
@@ -2419,7 +2422,7 @@ async function sendToSupportTickets(tickets) {
     }
   }
 
-  // Commit the batch if there are tickets to add
+  // Commit the batch to Firestore
   try {
     await batch.commit();
     console.log("Support tickets successfully submitted.");
