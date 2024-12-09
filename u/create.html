@@ -1793,7 +1793,12 @@ async function postReelFunction() {
 
         // Optionally update localStorage with the new data
         const updatedUserData = { ...userDataSaved, videoResumeData: { reelID, videoResumeURL } };
-        localStorage.setItem('userData', JSON.stringify(updatedUserData));
+
+
+        const userDataEcode = setUserData(updatedUserData);
+
+        localStorage.setItem('userData', userDataEcode);
+
 
         console.log("Your Resume Reel has been posted successfully!");
 
