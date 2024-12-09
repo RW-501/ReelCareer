@@ -403,128 +403,6 @@
                 
                   
                     <script>
-
-
-document.getElementById("message-content-editable").addEventListener("keydown", (event) => {
-  // Check if Enter key is pressed
-  if (event.key === "Enter") {
-    event.preventDefault(); // Prevent default Enter behavior (e.g., line break)
-    const sendMessageButton = document.getElementById("send-message-btn");
-
-    // Focus on the Send Message button
-    sendMessageButton.focus();
-
-    // Optionally, trigger a click if you want to send the message immediately
-    // sendMessageButton.click();
-  }
-});
-
-const trackFormChanges = (formId, onChangeCallback) => {
-    const formElement = document.getElementById(formId);
-    if (!formElement) {
-        console.error(`Form with ID "${formId}" not found.`);
-        return;
-    }
-
-    // Initial state of the form
-    const initialState = Array.from(new FormData(formElement).entries());
-
-    // Event listener for inputs
-    const handleChange = () => {
-        const currentState = Array.from(new FormData(formElement).entries());
-        const isChanged = JSON.stringify(initialState) !== JSON.stringify(currentState);
-        onChangeCallback(isChanged, formId);
-    };
-
-    // Attach listeners to all input, textarea, and select elements
-    formElement.querySelectorAll('input, textarea, select').forEach((input) => {
-        input.addEventListener('input', handleChange);
-        input.addEventListener('change', handleChange);
-    });
-};
-
-                    
-let unsavedChanges = false;
-
-const setUnsavedChanges = (isChanged) => {
-    unsavedChanges = isChanged;
-
-    const saveButton = document.getElementById('saveProfileBtn-profile');
-
-    // Update button text
-    saveButton.innerText = "Save Changes";
-
-    // Ensure the button is displayed
-    saveButton.style.display = "block";
-
-    // Set opacity
-    saveButton.style.opacity = "1";
-};
-
-
-const trackAllFormsWithExitWarning = () => {
-    const forms = [
-        'membershipForm-profile',
-        'socialForm-profile',
-        'settingsForm-profile',
-        'personalForm-profile'
-    ];
-
-    forms.forEach((formId) =>
-        trackFormChanges(formId, (isChanged) => {
-            setUnsavedChanges(isChanged);
-        })
-    );
-
-    window.addEventListener('beforeunload', (event) => {
-        if (unsavedChanges) {
-            event.preventDefault();
-            event.returnValue = ''; // Standard for most browsers
-            showToast("Don't Forget to Save your Changes");
-
-        }
-    });
-};
-
-
-
-
-document.addEventListener('DOMContentLoaded', trackAllFormsWithExitWarning);
-
-                    
-                    document.addEventListener("DOMContentLoaded", () => {
-                      const tabs = document.querySelectorAll(".nav-link");
-                      const tabContents = document.querySelectorAll(".tab-pane");
-                    
-                      tabs.forEach((tab) => {
-                        tab.addEventListener("click", (e) => {
-                          // Remove active class from all tabs
-                          tabs.forEach((t) => t.classList.remove("active"));
-                    
-                          // Hide all tab contents
-                          tabContents.forEach((content) => content.classList.remove("active", "show"));
-                    
-                          // Add active class to the clicked tab
-                          e.target.classList.add("active");
-                    
-                          // Show the corresponding tab content
-                          const target = document.querySelector(e.target.dataset.bsTarget);
-                          if (target) {
-
-
-
-                            const settingsHeaderText = document.getElementById("settings-header-text");
-                            settingsHeaderText.innerText = target.getAttribute('data-bs-name');
-  
-
-
-                            target.classList.add("active", "show");
-                          }
-                        });
-                      });
-                    });
-                    
-  
                     </script>
                
                   
@@ -2050,6 +1928,128 @@ document.getElementById('sendMessageForm').addEventListener('submit', async func
 });
 
 
+
+
+document.getElementById("message-content-editable").addEventListener("keydown", (event) => {
+  // Check if Enter key is pressed
+  if (event.key === "Enter") {
+    event.preventDefault(); // Prevent default Enter behavior (e.g., line break)
+    const sendMessageButton = document.getElementById("send-message-btn");
+
+    // Focus on the Send Message button
+    sendMessageButton.focus();
+
+    // Optionally, trigger a click if you want to send the message immediately
+    // sendMessageButton.click();
+  }
+});
+
+const trackFormChanges = (formId, onChangeCallback) => {
+    const formElement = document.getElementById(formId);
+    if (!formElement) {
+        console.error(`Form with ID "${formId}" not found.`);
+        return;
+    }
+
+    // Initial state of the form
+    const initialState = Array.from(new FormData(formElement).entries());
+
+    // Event listener for inputs
+    const handleChange = () => {
+        const currentState = Array.from(new FormData(formElement).entries());
+        const isChanged = JSON.stringify(initialState) !== JSON.stringify(currentState);
+        onChangeCallback(isChanged, formId);
+    };
+
+    // Attach listeners to all input, textarea, and select elements
+    formElement.querySelectorAll('input, textarea, select').forEach((input) => {
+        input.addEventListener('input', handleChange);
+        input.addEventListener('change', handleChange);
+    });
+};
+
+                    
+let unsavedChanges = false;
+
+const setUnsavedChanges = (isChanged) => {
+    unsavedChanges = isChanged;
+
+    const saveButton = document.getElementById('saveProfileBtn-profile');
+
+    // Update button text
+    saveButton.innerText = "Save Changes";
+
+    // Ensure the button is displayed
+    saveButton.style.display = "block";
+
+    // Set opacity
+    saveButton.style.opacity = "1";
+};
+
+
+const trackAllFormsWithExitWarning = () => {
+    const forms = [
+        'membershipForm-profile',
+        'socialForm-profile',
+        'settingsForm-profile',
+        'personalForm-profile'
+    ];
+
+    forms.forEach((formId) =>
+        trackFormChanges(formId, (isChanged) => {
+            setUnsavedChanges(isChanged);
+        })
+    );
+
+    window.addEventListener('beforeunload', (event) => {
+        if (unsavedChanges) {
+            event.preventDefault();
+            event.returnValue = ''; // Standard for most browsers
+            showToast("Don't Forget to Save your Changes");
+
+        }
+    });
+};
+
+
+
+
+document.addEventListener('DOMContentLoaded', trackAllFormsWithExitWarning);
+
+                    
+                    document.addEventListener("DOMContentLoaded", () => {
+                      const tabs = document.querySelectorAll(".nav-link");
+                      const tabContents = document.querySelectorAll(".tab-pane");
+                    
+                      tabs.forEach((tab) => {
+                        tab.addEventListener("click", (e) => {
+                          // Remove active class from all tabs
+                          tabs.forEach((t) => t.classList.remove("active"));
+                    
+                          // Hide all tab contents
+                          tabContents.forEach((content) => content.classList.remove("active", "show"));
+                    
+                          // Add active class to the clicked tab
+                          e.target.classList.add("active");
+                    
+                          // Show the corresponding tab content
+                          const target = document.querySelector(e.target.dataset.bsTarget);
+                          if (target) {
+
+
+
+                            const settingsHeaderText = document.getElementById("settings-header-text");
+                            settingsHeaderText.innerText = target.getAttribute('data-bs-name');
+  
+
+
+                            target.classList.add("active", "show");
+                          }
+                        });
+                      });
+                    });
+                    
+  
 
     </script>
 

@@ -489,10 +489,13 @@ main {
     try {
         userId = await getUserId(); // Await here to properly set userId
         console.log("User ID fetched during DOMContentLoaded:", userId);
-        if (userId) {
-            loadContacts(userId); // Load contacts if user is authenticated
+        if (!userId) {
+            window.location.href = 'https://reelcareer.co/views/auth'
+            return;
+
         } else {
-            window.location.href = 'https://reelcareer.co/login';
+            loadContacts(userId); // Load contacts if user is authenticated
+
         }
     } catch (error) {
         console.error("Error fetching user ID:", error);
@@ -1754,8 +1757,10 @@ function sendMessage( message, attachmentUrl = '') {
    // console.log("UserData: ", UserData);
    // console.log("UserID: ", UserID);
    // console.log("UserId: ", UserId);
-    console.log("senderID: ", senderID);
-    console.log("userDataSaved: ", userDataSaved);
+
+   //works
+  //  console.log("senderID: ", senderID);
+   // console.log("userDataSaved: ", userDataSaved);
 
     const conversationID = document.getElementById('conversationTitle')?.getAttribute('data-conversation-id');
     const recipientName = document.getElementById('conversationTitle')?.getAttribute('data-conversation-name');
@@ -1774,9 +1779,9 @@ if(connectedBool){
 }
 
 if(!recipientID){
-    showToast("recipientID: undefined !!!!!!!!!!!!!!!!1111 ");
+    showToast("recipientID: undefined");
 
-    console.log("recipientID: undefined !!!!!!!!!!!!!!!!1111 ");
+   // console.log("recipientID: undefined !!!!!!!!!!!!!!!!1111 ");
 
 return;
 }
