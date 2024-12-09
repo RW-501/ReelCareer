@@ -806,62 +806,54 @@ function generateVideoSchema(videoData, docId) {
     }  
     
 
-
     let userId;
 
 // Retrieve and populate form inputs for tabs
 window.onload = async function () {
-  userId = await getUserId(); // Await here to properly set userId
+    try {
+        userId = await getUserId(); // Attempt to fetch user ID
+        if (!userId) {
+            throw new Error("User ID is null or undefined.");
+        }
+    } catch (error) {
+        console.error("Error fetching user ID:", error.message);
+        userId = null; // Explicitly set userId to null if it fails
+    }
+
     const userDataSaved = getUserData() || [];
 
-
     setTimeout(() => {
-
-
         console.log("Module User We outside:", userId);
         console.log("userDataSaved We outside:", userDataSaved);
 
-        // Ensure userIdFromURL is not null or undefined
-    if (!userId) {
-      // Call this function when the user data is not found
+        if (!userId) {
             console.log("No user.");
-            fetchVideoResumes(1, '');
-
-        }else{
-
-
-   
-          const lastBreadcrumb_last = document.getElementById("lastBreadcrumb_last");
-const lastBreadcrumb_a = document.getElementById("lastBreadcrumb_a");
-const homeBreadcrumb_a = document.getElementById("homeBreadcrumb_a");
-
-const breadcrumbTitleActive = document.getElementById("breadcrumb-active-title");
-const lastBreadcrumb_messages = document.getElementById("lastBreadcrumb_messages");
-
-
-lastBreadcrumb_last.style.display = "block";
-lastBreadcrumb_messages.style.display = "block";
-
-
-homeBreadcrumb_a.href = `https://reelcareer.co/u/`;
-lastBreadcrumb_a.innerText = "Profile";
-
-
-
-
-breadcrumbTitleActive.innerText = userDataSaved.displayName;
-// Set the new title
-document.title = `ReelCareer.co | Welcome ${userDataSaved.displayName}`;
-
-breadcrumbTitleActive.style.display = "block";
-
-fetchVideoResumes(1, userId);
-
+            fetchVideoResumes(1, ''); // Call with empty userId
+            return;
         }
 
-      }, 300);
-};
+        // DOM elements
+        const lastBreadcrumb_last = document.getElementById("lastBreadcrumb_last");
+        const lastBreadcrumb_a = document.getElementById("lastBreadcrumb_a");
+        const homeBreadcrumb_a = document.getElementById("homeBreadcrumb_a");
+        const breadcrumbTitleActive = document.getElementById("breadcrumb-active-title");
+        const lastBreadcrumb_messages = document.getElementById("lastBreadcrumb_messages");
 
+        // Breadcrumb visibility
+        lastBreadcrumb_last.style.display = "block";
+        lastBreadcrumb_messages.style.display = "block";
+
+        // Update breadcrumb links and titles
+        homeBreadcrumb_a.href = `https://reelcareer.co/u/`;
+        lastBreadcrumb_a.innerText = "Profile";
+        breadcrumbTitleActive.innerText = userDataSaved.displayName || "User";
+        document.title = `ReelCareer.co | Welcome ${userDataSaved.displayName || "User"}`;
+        breadcrumbTitleActive.style.display = "block";
+
+        // Fetch video resumes for valid userId
+        fetchVideoResumes(1, userId);
+    }, 300);
+};
 
       
     
