@@ -421,10 +421,7 @@ async function sendFollowUp(ticketId, ticketData) {
         console.error("Error sending follow-up message: ", error);
     }
 }
-// Add event listener to follow-up button (in your existing ticket row)
-document.querySelector('.follow-up-btn').addEventListener('click', () => {
-    openTicketModal(ticketId, ticketData); // Call the modal function with ticket data
-});
+
 
 // Function to search through tickets based on user input
 function searchTickets() {
@@ -462,14 +459,21 @@ function sortTable(columnIndex) {
     sortedRows.forEach(row => ticketsList.appendChild(row));
 }
 
+
+// Fetch and render tickets on load
+window.onload = function () {
+    fetchTickets();
+
+    // Add event listener to follow-up button (in your existing ticket row)
+document.querySelector('.follow-up-btn').addEventListener('click', () => {
+    openTicketModal(ticketId, ticketData); // Call the modal function with ticket data
+});
+
 // Add event listeners to table headers for sorting
 document.getElementById("typeHeader").addEventListener("click", () => sortTable(0));
 document.getElementById("submittedByHeader").addEventListener("click", () => sortTable(1));
 document.getElementById("dateHeader").addEventListener("click", () => sortTable(2));
 
-// Fetch and render tickets on load
-window.onload = function () {
-    fetchTickets();
 };
     
     
