@@ -324,13 +324,7 @@ function createTicketRow(ticket, ticketId) {
     return fragment;
 }
 
-// Toggle Details Function
-function toggleDetails(ticketId) {
-    const detailsRow = document.getElementById(`details-${ticketId}`);
-    if (detailsRow) {
-        detailsRow.style.display = detailsRow.style.display === 'none' ? 'table-cell' : 'none';
-    }
-}
+
 
 // Add Message to FAQ
 // Add Message to FAQ
@@ -432,12 +426,14 @@ async function fetchTickets() {
         console.error("Error fetching tickets: ", error);
     }
 }
-
-// Function to toggle ticket details visibility
+// Toggle Details Function
 function toggleDetails(ticketId) {
-    const details = document.getElementById(`details-${ticketId}`);
-    details.style.display = details.style.display === "none" ? "block" : "none";
+    const detailsRow = document.getElementById(`details-${ticketId}`);
+    if (detailsRow) {
+        detailsRow.style.display = detailsRow.style.display === 'none' ? 'table-cell' : 'none';
+    }
 }
+
 
 window.toggleDetails = toggleDetails;
 
