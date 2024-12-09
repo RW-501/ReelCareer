@@ -2736,3 +2736,58 @@ async function logUnansweredQuestion(message) {
   };
   await addDoc(collection(db, "ChatbotInteractions"), chatBotData);
 }
+
+
+// Predefined data for chatbot (can be loaded from the database)
+const predefinedQuestions = [
+  { question: "How do I reset my password?", tags: ["password", "reset", "account"], category: "Account Management", answer: "To reset your password, go to the 'Forgot Password' section on the login page.", score: 0 },
+  { question: "Where can I find my job applications?", tags: ["job", "applications", "dashboard"], category: "Dashboard", answer: "You can view your job applications in the 'Applications' section of your dashboard.", score: 0 },
+  { question: "How do I contact support?", tags: ["contact", "support", "help"], category: "Support", answer: "You can contact support through our 'Contact Us' page. Here's the link: [Contact Us](https://reelcareer.com/contact).", score: 0 },
+  { question: "How do I update my profile?", tags: ["profile", "update", "settings"], category: "Account Management", answer: "To update your profile, visit the 'Profile' section in your account settings.", score: 0 },
+  // Add more predefined questions and responses here
+];
+
+// Function to trim the message and map it to predefined questions
+function sendMessage(message) {
+    // Trim the user message
+    const trimmedMessage = message.trim().toLowerCase();
+    
+    // Initialize score variables
+    let bestMatch = null;
+    let highestScore = 0;
+
+    // Map words in the message to potential questions, topics, categories, etc.
+    predefinedQuestions.forEach(questionObj => {
+        let score = 0;
+
+        // Score based on the number of matching tags
+        questionObj.tags.forEach(tag => {
+            if (trimmedMessage.includes(tag.toLowerCase())) {
+                score++;
+            }
+        });
+
+        // Score based on matching question text
+        if (trimmedMessage.includes(questionObj.question.toLowerCase())) {
+            score++;
+        }
+
+        // Update best match if score is higher
+        if (score > highestScore) {
+            highestScore = score;
+            bestMatch = questionObj;
+        }
+    });
+
+    // If a best match is found, return the answer
+    if (bestMatch && highestScore > 0) {
+        return bestMatch.answer;
+    } else {
+        // Log unanswered question and ask the user to contact support
+        logUnansweredQuestion(trimmedMessage);
+        return "Sorry, I couldn't find an answer for that. Please contact us via our [Contact Us](https://reelcareer.com/contact) page.";
+    }
+}
+
+
+
