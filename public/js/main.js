@@ -2647,6 +2647,19 @@ document.body.appendChild(chatPanel);
   document.body.appendChild(chatButton);
   document.body.appendChild(chatPanel);
 
+   
+  // Event Listeners
+  chatButton.addEventListener("click", () => {
+      chatPanel.style.display = "flex";
+      loadGeneralQuestions(); // Only load questions when panel is open
+  });
+  document.getElementById("close-chat").addEventListener("click", () => {
+      chatPanel.style.display = "none";
+  });
+  document.getElementById("send-chat").addEventListener("click", sendMessage);
+
+
+  
   function replaceMainContentWithBot() {
     const currentUrl = window.location.href;
     console.log("currentUrl   ",currentUrl);
@@ -2687,16 +2700,6 @@ document.body.appendChild(chatPanel);
   resizeChatPanel(); // Call initially on load
   replaceMainContentWithBot(); // Replace content if on /bot page
 
-   
-  // Event Listeners
-  chatButton.addEventListener("click", () => {
-      chatPanel.style.display = "flex";
-      loadGeneralQuestions(); // Only load questions when panel is open
-  });
-  document.getElementById("close-chat").addEventListener("click", () => {
-      chatPanel.style.display = "none";
-  });
-  document.getElementById("send-chat").addEventListener("click", sendMessage);
 }
 
 async function fetchChatbotData() {
