@@ -2504,6 +2504,7 @@ if (detectedWords.length > 0) {
 */
 
 
+let allQuestions = [];
 
 // Fetch the structured JSON from the /chat_bot.json file
 // Fetch the structured JSON from the /chat_bot.json file
@@ -2513,22 +2514,20 @@ async function fetchChatbotData() {
     const data = await response.json();
 
     // Combine the general questions and predefined questions
-    const allQuestions = [
+     allQuestions = [
       ...data.generalQuestions.map(q => ({ ...q, onload: true })),  // Mark general questions for onload
       ...data.predefinedQuestions.map(q => ({ ...q, onload: false }))  // Mark predefined questions for later
     ];
 
-    console.log(allQuestions);  // Output the combined questions
+//    console.log(allQuestions);  // Output the combined questions
 
     // Further processing can be done here...
-
+    loadChatbot();
+    
   } catch (error) {
     console.error('Error fetching chatbot data:', error);
   }
 }
-
-// Call the function to fetch data and combine questions
-fetchChatbotData();
 
 
 
@@ -2680,7 +2679,9 @@ async function logUnansweredQuestion(message) {
       answer: "",
       category: "General",
       tags: [],
-      views: 0,
+      supportURL: "", 
+      helpful: 0, 
+      views: 0,      
       createdAt: new Date(),
       timestamp: serverTimestamp()
   };
@@ -2688,46 +2689,58 @@ async function logUnansweredQuestion(message) {
 }
 
 // Send message and match it to predefined questions
-function sendMessage(message) {
-    // Trim the user message
-    const trimmedMessage = message.trim().toLowerCase();
-    
-    // Initialize score variables
-    let bestMatch = null;
-    let highestScore = 0;
+function sendMessage(message) { 
+  // Trim and normalize the user message
+  const trimmedMessage = message.trim().toLowerCase();
+  
+  // Initialize score variables
+  let bestMatch = null;
+  let highestScore = 0;
 
-    // Map words in the message to potential questions, topics, categories, etc.
-    allQuestions.forEach(questionObj => {
-        let score = 0;
+  // Define weights for tags and categories
+  const tagWeight = 2;
+  const categoryWeight = 1;
 
-        // Score based on the number of matching tags
-        questionObj.tags.forEach(tag => {
-            if (trimmedMessage.includes(tag.toLowerCase())) {
-                score++;
-            }
-        });
+  // Combine all questions (general and predefined)
+  const allQuestions = [...generalQuestions, ...predefinedQuestions];
 
-        // Score based on matching question text
-        if (trimmedMessage.includes(questionObj.question.toLowerCase())) {
-            score++;
-        }
+  // Iterate over all questions to find the best match
+  allQuestions.forEach(questionObj => {
+      let score = 0;
 
-        // Update best match if score is higher
-        if (score > highestScore) {
-            highestScore = score;
-            bestMatch = questionObj;
-        }
-    });
+      // Score based on the number of matching tags
+      questionObj.tags.forEach(tag => {
+          if (trimmedMessage.includes(tag.toLowerCase())) {
+              score += tagWeight; // Increase score by tagWeight
+          }
+      });
 
-    // If a best match is found, return the answer
-    if (bestMatch && highestScore > 0) {
-        return bestMatch.answer;
-    } else {
-        // Log unanswered question and ask the user to contact support
-        logUnansweredQuestion(trimmedMessage);
-        return;
-    }
+      // Score based on matching question text
+      if (trimmedMessage.includes(questionObj.question.toLowerCase())) {
+          score += categoryWeight; // Increase score by categoryWeight
+      }
+
+      // Score based on matching category
+      if (trimmedMessage.includes(questionObj.category.toLowerCase())) {
+          score += categoryWeight; // Increase score by categoryWeight
+      }
+
+      // Update best match if the score is higher
+      if (score > highestScore) {
+          highestScore = score;
+          bestMatch = questionObj;
+      }
+  });
+
+  // Return answer if a best match is found
+  if (bestMatch && highestScore > 0) {
+      return bestMatch.answer;
+  } else {
+      // Log unanswered question and suggest contacting support
+      logUnansweredQuestion(trimmedMessage);
+  }
 }
+
 
 setTimeout(() => {
   fetchChatbotData();
