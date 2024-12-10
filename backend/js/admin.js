@@ -82,7 +82,7 @@ const navData = {
       
       // If the old nav exists, remove it
       if (oldNav) {
-          oldNav.remove();
+          oldNav.innerHTML = '';
       }
   
       // Create the new nav element
