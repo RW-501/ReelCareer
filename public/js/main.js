@@ -2970,13 +2970,13 @@ function sendMessage(messageRaw) {
   // Check if message is a string
   console.log("messageRaw  ",messageRaw);
 
-  let messageSan = sanitizeInput(messageRaw);
+  let message = sanitizeInput(messageRaw);
 
- let  message = isSafeInput(messageSan);
+ let  messageIsSafe = isSafeInput(message);
 
 
   console.log("message  ",message);
-  if (typeof message !== 'string') {
+  if (typeof message !== 'string' && !messageIsSafe) {
     return;  // Exit the function if it's not a string
   }
 
