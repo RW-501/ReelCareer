@@ -80,6 +80,11 @@ h1, h2, h3, h4, h5, h6, li, p {
     font-family: cursive;
 
 }
+#Main-Nav_bar > .nav-link {
+font-size: 1rem;
+
+}
+
 
 #MAIN-LOGO-Reel-Career {
   color: #639ad4;
