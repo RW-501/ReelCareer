@@ -2793,7 +2793,7 @@ function addHelpfulButtons(questionId) {
   });
   yesButton.addEventListener("click", async () => {
     await updateHelpfulCount(questionId, true);
-    alert("Thank you for your feedback!");
+    showToast("Thank you for your feedback!");
   });
 
   // No button
@@ -2816,7 +2816,7 @@ function addHelpfulButtons(questionId) {
   });
   noButton.addEventListener("click", async () => {
     await updateHelpfulCount(questionId, false);
-    alert("Thank you for your feedback!");
+    showToast("Thank you for your feedback!");
   });
 
   // Append elements to the container
