@@ -100,13 +100,12 @@ font-size: 1rem;
   }
 }
 
-/* Show text on larger screens */
 @media (min-width: 992px) {
-
   #Main-Nav_bar #navbarNav {
-    display: none; /* Hide text on mobile */
+    display: none !important; /* Force it to hide */
+  }
 }
-}
+
 
 /* Style the navbar toggle button */
 #Main-Nav_bar  .navbar-toggler {
