@@ -329,7 +329,7 @@ async function loadInteractionLogs() {
 
     try {
         // Reference the 'ChatbotInteractions' collection and order it by timestamp
-        const q = query(collection(db, 'ChatbotInteractions'), orderBy('timestamp', 'desc'), limit(10));
+        const q = query(collection(db, 'ChatbotInteractions'), orderBy('timestamp', 'desc'));
         const querySnapshot = await getDocs(q);
 
         interactionBody.innerHTML = ''; // Clear loading message
