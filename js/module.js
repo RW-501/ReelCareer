@@ -38,6 +38,7 @@ let db;
 let storage;
 let analytics;
 let userId;
+let batch;
 
 function initializeFirebase() {
   const firebaseConfig = {
@@ -56,6 +57,8 @@ function initializeFirebase() {
     db = getFirestore(app);
     storage = getStorage(app);
     analytics = initializeAnalytics(app);
+     batch = writeBatch(db); // db is the Firestore database reference
+
  //   console.log("Firebase initialized successfully");
   } catch (error) {
     console.error("Error, TRY RELOADING:", error);
@@ -146,7 +149,7 @@ export {
   OAuthProvider, signOut, deleteDoc, getFirestore, serverTimestamp,
   createUserWithEmailAndPassword, signInWithEmailAndPassword, deleteObject,
   where, getDocs, storage, getAuth, collection, auth, analytics,
-  googleProvider,onSnapshot ,writeBatch ,
+  googleProvider,onSnapshot ,writeBatch ,batch,
   facebookProvider,
   getUserId // Export the function
 };
