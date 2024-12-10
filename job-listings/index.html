@@ -678,8 +678,12 @@ border-radius: 12px;
                   </div>
                   <div class="col-12">
                     <div class="form-floating">
-                      <input type="text" id="tagInput" class="form-control" placeholder="Enter tags (comma-separated)" />
-                      <label for="tagInput">Tags</label>
+                      <label for="tagsSET-tag">Tags</label>
+                      <div id="tagsContainertagsSET-tag">
+                        <input type="text" class="form-control" id="tagsSET-tag" placeholder="(e.g., JavaScript, Management)">
+                       </div>
+
+
                     </div>
                   </div>
 
@@ -1048,7 +1052,10 @@ async function handleJobPostSubmission(event) {
   }
 }
 
-
+const generalTags = createTagInputSystem({
+        tagsContainerId: "tagsContainertagsSET-tag",
+        badgeClass: "tag-primary" // Custom badge class for general tags
+    });
 
 function collectJobDetails() {
   return {
@@ -1072,7 +1079,7 @@ function collectJobDetails() {
   industry: getInputValue("industry"),
   salary: getInputValue("jobSalary"),
   salaryPayTime: getInputValue("salaryPayTime"),
-  tags: sanitizeInput(getInputValue("tagInput"))
+  tags: sanitizeInput(getInputValue("tagsSET-tag"))
     .split(",")
     .map(tag => tag.trim()),
       boostDuration: new Date(new Date().setDate(new Date().getDate() + 30)), // 30-day boost duration
