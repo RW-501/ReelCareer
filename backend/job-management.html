@@ -109,12 +109,11 @@
             <th onclick="sortTable(3)">State</th>
             <th onclick="sortTable(4)">City</th>
             
-            <th onclick="sortTable(5)">Description</th>
+       
 
             <th onclick="sortTable(6)">Category</th>
             <th onclick="sortTable(7)">Industry</th>
         
-            <th onclick="sortTable(8)">Submitted By</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -223,33 +222,29 @@ async function loadJobs() {
             const truncatedDescription = job.description.length > 50 ? job.description.substring(0, 50) + '...' : job.description;
 
             const row = `
-                <tr>
+                <tr data-bs-toggle="collapse" data-bs-target="#collapse-${doc.id}" aria-expanded="false" aria-controls="collapse-${doc.id}">
                     <td><input type="checkbox" class="jobCheckbox" value="${doc.id}"></td>
                     <td><a href="https://reelcareer.co/jobs/job-details/?id=${doc.id}">${job.title}</a></td>
                     <td>${job.createdAt.toDate().toLocaleString()}</td>
                     <td>${job.state}</td>
                     <td>${job.city}</td>
-                    <td>
-                        ${truncatedDescription} 
-                        <button class="btn btn-link btn-sm p-0" data-bs-toggle="collapse" data-bs-target="#collapse-${doc.id}" aria-expanded="false" aria-controls="collapse-${doc.id}">
-                            More
-                        </button>
-                    </td>
                     <td>${job.category}</td>
                     <td>${job.industry}</td>
-                    <td>${job.submittedBy}</td>
                     <td>
                         <button class="btn btn-warning btn-sm" onclick="editJob('${doc.id}', '${job.title}', '${job.description}', '${job.category}')">Edit</button>
+                        </td>
+                     
+                        <td>
                         <button class="btn btn-danger btn-sm" onclick="deleteJob('${doc.id}')">Delete</button>
                     </td>
                 </tr>
                 <!-- Collapsible Row -->
                 <tr class="collapse" id="collapse-${doc.id}">
                     <td colspan="10">
-                        <strong>Full Description:</strong> ${job.description}
+                        <strong>Description:</strong> ${truncatedDescription} 
                         <ul class="mt-2">
-                            <li><strong>Industry:</strong> ${job.industry}</li>
-                            <li><strong>Category:</strong> ${job.category}</li>
+                            <li><strong>Salary:</strong> ${job.salary}</li>
+                            <li><strong>Type:</strong> ${job.type}</li>
                             <li><strong>Submitted By:</strong> ${job.submittedBy}</li>
                             <!-- Add other dynamic details here -->
                         </ul>
