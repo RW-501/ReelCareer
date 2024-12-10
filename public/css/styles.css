@@ -85,6 +85,65 @@ font-size: 1rem;
 
 }
 
+/* Hide text on mobile view and show icon */
+#Main-Nav_bar .nav-text {
+  display: inline;
+}
+
+@media (max-width: 768px) {
+  #Main-Nav_bar .nav-text {
+      display: none; /* Hide text on mobile */
+  }
+  #Main-Nav_bar .nav-item i {
+      margin-right: 8px; /* Add some space between icon and the hidden text */
+  }
+}
+
+/* Show text on larger screens */
+@media (min-width: 769px) {
+  #Main-Nav_bar .nav-item i {
+      display: inline-block; /* Show icon */
+      margin-right: 8px; /* Space between icon and text */
+  }
+}
+
+/* Style the navbar toggle button */
+#Main-Nav_bar  .navbar-toggler {
+  background: transparent;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+#Main-Nav_bar  .navbar-toggler:hover,
+#Main-Nav_bar  .navbar-toggler:focus {
+  background-color: rgba(0, 0, 0, 0.1); /* Add a subtle hover effect */
+  transform: scale(1.1); /* Slightly enlarge the button on hover */
+}
+
+/* Add custom icon styles for better appearance */
+#Main-Nav_bar .navbar-toggler-icon {
+  font-size: 24px;
+  color: #333; /* Dark color for the icon */
+   transition: color 0.3s ease; /* Smooth transition for color */
+}
+
+/* On hover, change the icon color */
+#Main-Nav_bar .navbar-toggler:hover .navbar-toggler-icon {
+  color: #007bff; /* Change the icon color on hover */
+}
+ 
+@media (max-width: 768px) {
+  #Main-Nav_bar  .navbar-toggler {
+    /* Optionally, adjust button size for smaller screens */
+    padding: 8px;
+  }
+
+  #Main-Nav_bar .navbar-toggler-icon {
+    font-size: 28px; /* Larger icon size on mobile */
+  }
+}
 
 #MAIN-LOGO-Reel-Career {
   color: #639ad4;

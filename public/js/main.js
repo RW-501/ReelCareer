@@ -376,13 +376,8 @@ window.logoutUser = logoutUser;
 // Event listener to handle login forms, popups, and more...
 document.getElementById("logout-button")?.addEventListener("click", logoutUser);
 
-// Close login popup
-const closeLoginPopup = () => {
-  const loginPopup = document.getElementById("login-popup");
-  if (loginPopup) {
-    loginPopup.remove();
-  }
-};
+
+
 // Show loading spinner
 const showLoading = () => {
   const loader = document.createElement("div");
@@ -530,17 +525,46 @@ function createNavbar() {
         <a class="navbar-brand embossed " id="MAIN-LOGO-Reel-Career" href="https://reelcareer.co/">
           ReelCareer
         </a>
-        <button class="navbar-toggler ${toggleClass}" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon">☰</span>
-        </button>
+<button class="navbar-toggler ${toggleClass}" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+  <span class="navbar-toggler-icon">
+    <i class="fas fa-bars"></i> <!-- Using Font Awesome bars icon -->
+  </span>
+</button>
+
+
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ml-auto">
-            <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/job-listings">Job Listings</a></li>
-            <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/reels">Reels</a></li>
-            <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/views/membership">Membership</a></li>
 
-            <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/views/blogs">Blogs</a></li>
-            <li class="nav-item"><a class="nav-link" href="https://reelcareer.co/views/about">About Us</a></li>
+         <li class="nav-item">
+    <a class="nav-link" href="https://reelcareer.co/job-listings">
+        <i class="fa fa-briefcase"></i> <!-- Icon for job listings -->
+        <span class="nav-text">Job Listings</span>
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="https://reelcareer.co/reels">
+        <i class="fa fa-video"></i> <!-- Icon for reels -->
+        <span class="nav-text">Reels</span>
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="https://reelcareer.co/views/membership">
+        <i class="fa fa-user"></i> <!-- Icon for membership -->
+        <span class="nav-text">Membership</span>
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="https://reelcareer.co/views/blogs">
+        <i class="fa fa-pencil-alt"></i> <!-- Icon for blogs -->
+        <span class="nav-text">Blogs</span>
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="https://reelcareer.co/views/about">
+        <i class="fa fa-info-circle"></i> <!-- Icon for about us -->
+        <span class="nav-text">About Us</span>
+    </a>
+</li>
 
             <li class="nav-item"><div id="authSection" class="d-flex align-items-center"></div></li>
             <li class="nav-item"><button id="darkModeToggle" class="btn btn-outline-secondary m-3">Dark Mode</button></li>
