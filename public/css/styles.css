@@ -112,7 +112,6 @@ font-size: 1rem;
   border: none;
   padding: 10px;
   cursor: pointer;
-  transition: transform 0.3s ease, background-color 0.3s ease;
 }
 #Main-Nav_bar  .navbar-toggler-icon, 
 #Main-Nav_bar  .navbar-toggler:hover,
