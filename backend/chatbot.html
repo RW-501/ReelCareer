@@ -513,7 +513,6 @@ function renderQuestions() {
     // Render Predefined Questions
     predefinedQuestions.forEach((q, index) => {
         const li = createQuestionElement(q, "Predefined", index);
-        li.textContent = q.question;
         li.setAttribute("draggable", "true");
         li.setAttribute("data-index", index);
         li.setAttribute("data-category", "Predefined");
