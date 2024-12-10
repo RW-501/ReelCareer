@@ -2655,24 +2655,22 @@ document.body.appendChild(chatPanel);
       const mainContent = document.getElementById("main-content");
 
       if (mainContent) {
-        chatButton.remove;
+        chatButton.style.display = "none";
         chatPanel.style.cssText = `
- width: 100%;
+    width: 100%;
     min-height: 600px;
     background-color: white;
     border: 1px solid rgb(221, 221, 221);
     border-radius: 8px;
     box-shadow: none;
-    display: grid
-;
     opacity: 1;
     transition: none;
     transform: none;
     height: 100%;
-    align-content: space-between;
-    justify-content: space-between;
-    align-items: stretch;
-    justify-items: stretch;`;
+    place-content: space-between;
+    place-items: stretch;
+    display: flex;`
+
         // Replace main-content with chatbot
         mainContent.appendChild(chatPanel);
       }
@@ -2707,7 +2705,7 @@ async function fetchChatbotData() {
       ...data.predefinedQuestions.map(q => ({ ...q, onload: false }))  // Mark predefined questions for later
     ];
 
-   console.log(allQuestions);  // Output the combined questions
+   //console.log(allQuestions);  // Output the combined questions
 
     // Further processing can be done here...
     loadChatbot();
@@ -3058,5 +3056,13 @@ function sendMessage(messageRaw) {
 
 setTimeout(() => {
   fetchChatbotData();
+
+  const currentUrl = window.location.href;
+
+  if (currentUrl === "https://reelcareer.co/bot/" || currentUrl === "https://reelcareer.co/bot") {
+    loadChatbot();
+  }
+
+
 }, 5000); // 5000 milliseconds = 5 seconds
 
