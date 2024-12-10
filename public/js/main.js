@@ -2653,8 +2653,25 @@ document.body.appendChild(chatPanel);
 
     if (currentUrl === "https://reelcareer.co/bot/" || currentUrl === "https://reelcareer.co/bot") {
       const mainContent = document.getElementById("main-content");
-  console.log("true main-content");
+
       if (mainContent) {
+        chatPanel.style.cssText = `
+ width: 100%;
+    min-height: 600px;
+    background-color: white;
+    border: 1px solid rgb(221, 221, 221);
+    border-radius: 8px;
+    box-shadow: none;
+    display: grid
+;
+    opacity: 1;
+    transition: none;
+    transform: none;
+    height: 100%;
+    align-content: space-between;
+    justify-content: space-between;
+    align-items: stretch;
+    justify-items: stretch;`;
         // Replace main-content with chatbot
         mainContent.appendChild(chatPanel);
       }
