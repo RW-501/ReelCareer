@@ -2872,10 +2872,11 @@ function displayMessage(sender, message) {
   messageDiv.style.borderRadius = "10px";
   messageDiv.style.maxWidth = "80%";
   messageDiv.style.wordWrap = "break-word";
+  messageDiv.style.textAlign ="left";
 
   // Style based on sender
   if (sender === "bot") {
-    messageDiv.style.backgroundColor = "#e6f7ff"; // Light blue for bot messages
+    messageDiv.style.backgroundColor = "#b7d0ec"; // Light blue for bot messages
     messageDiv.style.color = "#333333"; // Darker text
     messageDiv.style.alignSelf = "flex-start";
     messageDiv.style.fontFamily = "Arial, sans-serif";
@@ -2900,7 +2901,10 @@ function displayMessage(sender, message) {
   );
 
   // Add the sender label and message
-  const senderLabel = sender === "bot" ? "<strong>Chatbot:</strong> " : "<strong>You:</strong> ";
+  const senderLabel = sender === "bot" 
+  ? '<strong style="color: #007bff;">Chatbot:</strong> ' 
+  : '<strong style="color: #28a745;">You:</strong> ';
+
   messageDiv.innerHTML = senderLabel + messageWithLinks;
 
   // Typing effect for bot messages
