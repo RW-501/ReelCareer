@@ -69,6 +69,14 @@ main {
 ;
     font-family: 'Roboto', sans-serif;
 }
+
+
+.dragging {
+        background-color: #f0f8ff;
+    }
+    .highlight {
+        border: 2px dashed #007bff;
+    }
     </style>
 </head>
 
@@ -388,6 +396,7 @@ function renderQuestions() {
         li.setAttribute("data-index", index);
         li.setAttribute("data-category", "General");
         li.addEventListener("dragstart", dragStart);
+        li.addEventListener("dragend", dragEnd);
         generalList.appendChild(li);
     });
 
@@ -398,26 +407,40 @@ function renderQuestions() {
         li.setAttribute("data-index", index);
         li.setAttribute("data-category", "Predefined");
         li.addEventListener("dragstart", dragStart);
+        li.addEventListener("dragend", dragEnd);
         predefinedList.appendChild(li);
     });
 }
 
 // Drag start event handler
 function dragStart(e) {
+    e.target.classList.add("dragging"); // Add dragging class to highlight the item being dragged
     e.dataTransfer.setData("text/plain", JSON.stringify({
         index: e.target.getAttribute("data-index"),
         category: e.target.getAttribute("data-category")
     }));
 }
 
+// Drag end event handler
+function dragEnd(e) {
+    e.target.classList.remove("dragging"); // Remove dragging class after drag ends
+    const listItems = document.querySelectorAll("li");
+    listItems.forEach(item => item.classList.remove("highlight")); // Remove highlight from all items
+}
+
 // Allow drop event handler
 function allowDrop(e) {
     e.preventDefault();
+    e.target.classList.add("highlight"); // Add highlight to the list being hovered over
 }
 
 // Drop event handler
 function drop(e) {
     e.preventDefault();
+    e.target.classList.remove("highlight"); // Remove highlight from the list after the drop
+
+    // Prevent drop on non-list elements
+    if (!e.target.tagName.toLowerCase() === "ul") return;
 
     const data = e.dataTransfer.getData("text/plain");
     const { index, category } = JSON.parse(data);
@@ -442,6 +465,10 @@ function drop(e) {
 
     // Re-render the lists
     renderQuestions();
+
+    // Log the updated arrays
+    console.log("General Questions:", generalQuestions);
+    console.log("Predefined Questions:", predefinedQuestions);
 }
 
 // Export questions as JSON
@@ -489,7 +516,6 @@ document.getElementById("upload-json-btn").addEventListener("change", function (
     };
     reader.readAsText(file);
 });
-
 
 
 
