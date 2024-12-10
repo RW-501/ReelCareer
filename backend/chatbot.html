@@ -323,33 +323,7 @@ form input, form textarea, form select {
                 });
         }
 
-        // Submit chatbot form
-        document.getElementById('chatbotForm').addEventListener('submit', (event) => {
-            event.preventDefault();
-
-            const intent = document.getElementById('intent').value;
-            const response = document.getElementById('response').value;
-            const suggestions = document.getElementById('suggestions').value.split(',').map(s => s.trim());
-            const context = document.getElementById('context').value;
-
-            // Save to Firestore
-            db.collection('ChatbotResponses').add({
-                intent,
-                response,
-                suggestions,
-                context,
-                timestamp: firebase.firestore.FieldValue.serverTimestamp()
-            }).then(() => {
-                document.getElementById('responseOutput').innerText = 'Response saved successfully!';
-                loadInteractionLogs(); // Reload logs after saving
-                loadFeedback(); // Reload feedback after saving
-                document.getElementById('chatbotForm').reset();
-            }).catch((error) => {
-                console.error("Error saving response: ", error);
-                document.getElementById('responseOutput').innerText = 'Error saving response.';
-            });
-        });
-
+      
         // Filter interaction logs based on user input
         function filterLogs() {
             const input = document.getElementById('searchInput').value.toLowerCase();
