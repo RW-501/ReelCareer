@@ -320,9 +320,12 @@ const formattedDate = date.toLocaleString(); // Adjust format as needed (e.g., t
             <p><strong>URL:</strong> <a href="${ticket.URL || '#'}" target="_blank">${ticket.URL || 'No URL provided'}</a></p>
 
    <div style="margin-top: 10px;">
-  ${ticket.submittedByUserID ? '' : 
+  ${ticket.submittedByUserID ? 
+    '' : 
     `<button class="follow-up-btn" onclick="sendFollowUp('${ticketId}', ${JSON.stringify(ticket)})">Send Follow-Up</button>`}
-  
+
+  ${ticket.submittedByUserID ? 'N/A' : ''}
+
   <button class="faq-btn" onclick="addToFAQ('${JSON.stringify(ticket)}', '${ticket.message}')">Add to FAQ</button>
   <button class="chatbot-btn" onclick="addToChatbot('${JSON.stringify(ticket)}', '${ticket.message}')">Add to Chat Bot</button>
 </div>
