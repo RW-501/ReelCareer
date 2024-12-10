@@ -2752,7 +2752,7 @@ document.body.appendChild(chatPanel);
 </a>
 
 
-          <button id="close-chat" style="background: none;border: none;color: #ffffff;cursor: pointer;font-size: x-large;padding: 0;margin: 0;">×</button>
+          <button id="close-chat" style=" font-family: sans-serif; background: none;border: none;color: #ffffff;cursor: pointer;font-size: x-large;padding: 0;margin: 0;">×</button>
       </div>
       <div id="chatbot-messages" style="flex: 1; padding: 10px; overflow-y: auto; font-size: 14px;"></div>
       <div style="padding: 10px; border-top: 1px solid #ddd;">
@@ -2791,8 +2791,7 @@ document.body.appendChild(chatPanel);
     width: 100%;
     min-height: 600px;
         background: linear-gradient(45deg, #8fc0dc, #b2d1e3);
-        font-family: sans-serif;
-        border: 1px solid rgb(221, 221, 221);
+      background-color: white;
     border-radius: 8px;
     box-shadow: none;
     opacity: 1;
