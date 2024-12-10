@@ -2661,12 +2661,11 @@ document.body.appendChild(chatPanel);
     }
   }
   
-  // Attach resize event listener
-  window.addEventListener("resize", resizeChatPanel);
-  window.addEventListener("DOMContentLoaded", () => {
+
+    // Attach resize event listener
+    window.addEventListener("resize", resizeChatPanel);
     resizeChatPanel(); // Call initially on load
     replaceMainContentWithBot(); // Replace content if on /bot page
-  });
   
   // Event Listeners
   chatButton.addEventListener("click", () => {
