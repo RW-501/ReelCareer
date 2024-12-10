@@ -2713,7 +2713,7 @@ async function handleUserInput(userMessage) {
 
   // Call sendMessage to get the answer and question id
   const result = sendMessage(userMessage);
-  
+
   if (result && result.answer) {
     // Display the answer returned by sendMessage
     displayMessage("bot", result.answer);
@@ -2722,34 +2722,15 @@ async function handleUserInput(userMessage) {
     if (result.id) {
       console.log("Question ID:", result.id); // You can use this ID for tracking or logging purposes
 
-      // Create "Was this helpful?" buttons
-      const helpfulDiv = document.createElement("div");
-      helpfulDiv.style.marginTop = "10px";
-
-      const helpfulMessage = document.createElement("p");
-      helpfulMessage.innerHTML = "Was this helpful?";
-      helpfulDiv.appendChild(helpfulMessage);
-
-      const yesButton = document.createElement("button");
-      yesButton.innerText = "Yes";
-      yesButton.style.cssText = "margin: 5px; padding: 5px 10px; cursor: pointer;";
-      yesButton.addEventListener("click", () => updateHelpfulCount(result.id, true));
-
-      const noButton = document.createElement("button");
-      noButton.innerText = "No";
-      noButton.style.cssText = "margin: 5px; padding: 5px 10px; cursor: pointer;";
-      noButton.addEventListener("click", () => updateHelpfulCount(result.id, false));
-
-      helpfulDiv.appendChild(yesButton);
-      helpfulDiv.appendChild(noButton);
-
-      messageArea.appendChild(helpfulDiv);
+      // Call the addHelpfulButtons function with the question ID
+      addHelpfulButtons(result.id);
     }
   } else {
     displayMessage("bot", "Sorry, I couldn't find an answer for that. Please contact us via our [Contact Us](https://reelcareer.com/contact) page.");
     logUnansweredQuestion(userMessage);
   }
 }
+
 
 
 // Function to create and append "Was this helpful?" buttons
@@ -2828,6 +2809,40 @@ function addHelpfulButtons(questionId) {
 
   // Append the helpful area to the message area
   messageArea.appendChild(helpfulContainer);
+}
+
+async function updateHelpfulCount(questionId, isHelpful) {
+  try {
+    const chatbotDocRef = doc(db, "ChatbotInteractions", questionId);
+
+    // Fetch the current document data
+    const docSnapshot = await getDoc(chatbotDocRef);
+    if (docSnapshot.exists()) {
+      const data = docSnapshot.data();
+
+      // Update the helpful count and view count
+      const updatedHelpfulCount = isHelpful ? data.helpful + 1 : data.helpful;
+      const updatedViewCount = data.views + 1;  // Increment views count
+
+      // Update the document with the new counts
+      await updateDoc(chatbotDocRef, {
+        helpful: updatedHelpfulCount,
+        views: updatedViewCount
+      });
+
+      // Determine the response message based on the feedback
+      const responseMessage = isHelpful
+        ? "Thank you for your feedback! We're glad we could help."
+        : "Is there anything else we can assist you with?";
+
+      // Display the appropriate response message
+      displayMessage("bot", responseMessage);
+    } else {
+      console.error("Document does not exist.");
+    }
+  } catch (error) {
+    console.error("Error updating helpful or view count:", error);
+  }
 }
 
 
