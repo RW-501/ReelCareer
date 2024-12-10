@@ -2440,7 +2440,7 @@ function scanAndReplaceVulgarWords(vulgarWordsArray, logging = false) {
 
 async function sendToSupportTickets(tickets) {
   const supportTicketsRef = collection(db, 'SupportTickets');
- // const batch = writeBatch(db);
+  const batch = writeBatch(db);
 
   for (const ticket of tickets) {
     const { jobID, videoID } = ticket;
