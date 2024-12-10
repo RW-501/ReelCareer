@@ -2390,6 +2390,10 @@ function scanAndReplaceVulgarWords(vulgarWordsArray, logging = false) {
 
       const isJobPage = window.location.href.includes('job-page'); // Modify based on the URL structure of job pages
 
+      const jobTitleElement = parentJobCard.querySelector('.job-title-link');
+
+// Get the inner text of the job-title-link
+const jobTitle = jobTitleElement ? jobTitleElement.innerText : null;
       // Determine the type based on the parent element or page
       let ticketType = 'Unknown';  // Default to 'Unknown'
       if (parentJobCard) {
@@ -2402,7 +2406,7 @@ function scanAndReplaceVulgarWords(vulgarWordsArray, logging = false) {
 
       const ticket = {
         jobID: new URL(window.location.href).searchParams.get('id'),
-        jobTitle: document.title,
+        jobTitle: jobTitle,
         videoID: videoCardId,
         jobCardID: jobCardId,
         message: `Vulgar words detected: ${detectedWords.join(', ')}`,
