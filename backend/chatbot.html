@@ -60,7 +60,15 @@ form input, form textarea, form select {
   padding: 5px;
   width: 100%;
 }
-
+main {
+    width: 90%;
+    margin: .5rem auto;
+    padding: 2rem;
+    height: 100%;
+    display: grid
+;
+    font-family: 'Roboto', sans-serif;
+}
     </style>
 </head>
 
@@ -133,49 +141,49 @@ form input, form textarea, form select {
 
         <!-- Chatbot Configuration Section -->
         <div class="card mb-4">
-            <div>
-                <h2>Manage Questions</h2>
+            <h3>Add New Question</h3>
+            <form id="new-question-form">
+                <label for="question">Question</label>
+                <input type="text" id="question" required>
             
-                <div id="general-questions">
-                  <h3>General Questions</h3>
-                  <ul id="general-questions-list">
-                    <!-- List of general questions -->
-                  </ul>
-                </div>
+                <label for="answer">Answer</label>
+                <textarea id="answer" required></textarea>
             
-                <div id="predefined-questions">
-                  <h3>Predefined Questions</h3>
-                  <ul id="predefined-questions-list">
-                    <!-- List of predefined questions -->
-                  </ul>
-                </div>
-            
-                <h3>Add New Question</h3>
-                <form id="new-question-form">
-                  <label for="question">Question</label>
-                  <input type="text" id="question" required>
-            
-                  <label for="answer">Answer</label>
-                  <textarea id="answer" required></textarea>
-            
-                  <label for="category">Category</label>
-                  <select id="category">
+                <label for="category">Category</label>
+                <select id="category">
                     <option value="General">General</option>
                     <option value="Predefined">Predefined</option>
-                  </select>
+                </select>
             
-                  <label for="link">Add Link (Optional)</label>
-                  <input type="text" id="link">
+                <label for="tags">Tags (comma-separated)</label>
+                <input type="text" id="tags" placeholder="e.g., support, contact, help">
             
-                  <button type="submit">Add Question</button>
-                </form>
+                <label for="link">Add Link (Optional)</label>
+                <input type="text" id="link" placeholder="https://example.com">
             
-                <h3>Export Questions to JSON</h3>
-                <textarea id="json-output" rows="10" cols="50" readonly></textarea>
-                <button id="copy-json-btn">Copy JSON</button>
-              </div>
+                <label for="supportURL">Support URL (Optional)</label>
+                <input type="text" id="supportURL" placeholder="https://reelcareer.com/support">
             
+                <button type="submit">Add Question</button>
+            </form>
+            
+            <!-- Buttons for Export and Upload -->
+            <div style="margin-top: 20px;">
+                <button id="copy-json-btn">Copy Questions as JSON</button>
+                <input type="file" id="upload-json-btn" accept=".json">
             </div>
+            
+            <!-- JSON Output Area -->
+            <h4>JSON Output</h4>
+            <textarea id="json-output" rows="10" cols="50" readonly></textarea>
+            
+            <!-- Question Lists -->
+            <h4>General Questions</h4>
+            <ul id="general-questions"></ul>
+            
+            <h4>Predefined Questions</h4>
+            <ul id="predefined-questions"></ul>
+            
         </div>
 
         <!-- Search Bar for Interaction Logs -->
@@ -324,7 +332,10 @@ async function loadInteractionLogs() {
 
 
 
-        
+        // Initialize arrays for questions
+let generalQuestions = [];
+let predefinedQuestions = [];
+
 
 // Fetch /chat_bot.json on page load (for real data)
 async function fetchChatbotData() {
@@ -339,71 +350,112 @@ async function fetchChatbotData() {
   }
 }
 
+// Add new question form submission
+document.getElementById("new-question-form").addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    // Get form values
+    const question = document.getElementById("question").value.trim();
+    const answer = document.getElementById("answer").value.trim();
+    const category = document.getElementById("category").value;
+    const tagsInput = document.getElementById("tags").value.trim();
+    const link = document.getElementById("link").value.trim();
+    const supportURL = document.getElementById("supportURL").value.trim();
+
+    // Process tags
+    const tags = tagsInput ? tagsInput.split(",").map(tag => tag.trim()) : [];
+
+    // New question object
+    const newQuestion = {
+        question: question,
+        answer: link ? `${answer} Here's the link: [${link}](${link})` : answer,
+        category: category,
+        tags: tags,
+        supportURL: supportURL || null,
+        helpful: 0,
+        views: 0,
+        createdAt: new Date().toISOString()
+    };
+
+    // Add to respective category
+    if (category === "General") {
+        generalQuestions.push(newQuestion);
+    } else {
+        predefinedQuestions.push(newQuestion);
+    }
+
+    // Re-render the questions and reset form
+    renderQuestions();
+    document.getElementById("new-question-form").reset();
+});
+
+// Render questions
 function renderQuestions() {
-  const generalList = document.getElementById("general-questions-list");
-  const predefinedList = document.getElementById("predefined-questions-list");
+    const generalList = document.getElementById("general-questions");
+    const predefinedList = document.getElementById("predefined-questions");
 
-  generalList.innerHTML = '';
-  predefinedList.innerHTML = '';
+    generalList.innerHTML = "";
+    predefinedList.innerHTML = "";
 
-  generalQuestions.forEach(q => {
-    const li = document.createElement("li");
-    li.textContent = `${q.question} - ${q.category}`;
-    generalList.appendChild(li);
-  });
+    generalQuestions.forEach(q => {
+        const li = document.createElement("li");
+        li.textContent = q.question;
+        generalList.appendChild(li);
+    });
 
-  predefinedQuestions.forEach(q => {
-    const li = document.createElement("li");
-    li.textContent = `${q.question} - ${q.category}`;
-    predefinedList.appendChild(li);
-  });
+    predefinedQuestions.forEach(q => {
+        const li = document.createElement("li");
+        li.textContent = q.question;
+        predefinedList.appendChild(li);
+    });
 }
 
-// Handle adding a new question
-document.getElementById("new-question-form").addEventListener("submit", function(event) {
-  event.preventDefault();
+// Export questions as JSON
+document.getElementById("copy-json-btn").addEventListener("click", function () {
+    const jsonOutput = {
+        generalQuestions,
+        predefinedQuestions
+    };
 
-  const question = document.getElementById("question").value;
-  const answer = document.getElementById("answer").value;
-  const category = document.getElementById("category").value;
-  const link = document.getElementById("link").value;
-
-  const newQuestion = {
-    question,
-    answer: link ? `${answer} Here's the link: [${link}](${link})` : answer,
-    category
-  };
-
-  if (category === "General") {
-    generalQuestions.push(newQuestion);
-  } else {
-    predefinedQuestions.push(newQuestion);
-  }
-
-  renderQuestions();
-  document.getElementById("new-question-form").reset();
+    const jsonText = JSON.stringify(jsonOutput, null, 2);
+    document.getElementById("json-output").value = jsonText;
+    copyToClipboard(jsonText);
 });
 
-// Export questions to JSON
-document.getElementById("copy-json-btn").addEventListener("click", function() {
-  const jsonOutput = {
-    generalQuestions,
-    predefinedQuestions
-  };
-
-  const jsonText = JSON.stringify(jsonOutput, null, 2);
-  document.getElementById("json-output").value = jsonText;
-  copyToClipboard(jsonText);
-});
-
+// Copy to clipboard
 function copyToClipboard(text) {
-  const textarea = document.createElement('textarea');
-  textarea.value = text;
-  document.body.appendChild(textarea);
-  textarea.select();
-  document.execCommand('copy');
-  document.body.removeChild(textarea);
+    navigator.clipboard.writeText(text).then(() => {
+        alert("JSON copied to clipboard!");
+    }).catch(err => {
+        console.error("Error copying to clipboard", err);
+    });
 }
+
+// Upload JSON file and populate fields
+document.getElementById("upload-json-btn").addEventListener("change", function (event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function (e) {
+        try {
+            const data = JSON.parse(e.target.result);
+
+            // Populate the arrays
+            generalQuestions = data.generalQuestions || [];
+            predefinedQuestions = data.predefinedQuestions || [];
+
+            // Re-render the lists
+            renderQuestions();
+            alert("Questions loaded successfully!");
+        } catch (error) {
+            alert("Invalid JSON file.");
+            console.error("Error parsing JSON:", error);
+        }
+    };
+    reader.readAsText(file);
+});
+
 // Initial data loading
 loadInteractionLogs();
 
