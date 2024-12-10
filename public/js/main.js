@@ -2635,7 +2635,7 @@ function replaceMainContentWithBot() {
 
     if (mainContent) {
       // Replace main-content with chatbot
-      mainContent.replaceWith(chatPanel);
+      mainContent.appendChild(chatPanel);
     }
   }
 }
