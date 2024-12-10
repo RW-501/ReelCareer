@@ -2879,6 +2879,8 @@ function displayMessage(sender, message) {
     messageDiv.style.color = "#333333"; // Darker text
     messageDiv.style.alignSelf = "flex-start";
     messageDiv.style.fontFamily = "Arial, sans-serif";
+    messageDiv.style.marginLeft = "0";
+    messageDiv.style.marginRight = "auto";
   } else {
     messageDiv.style.backgroundColor = "#d4edda"; // Light green for user messages
     messageDiv.style.color = "#155724"; // Darker green text
@@ -2886,6 +2888,9 @@ function displayMessage(sender, message) {
     messageDiv.style.textAlign = "right";
     messageDiv.style.fontFamily = "Arial, sans-serif";
     messageDiv.style.fontWeight = "500";
+    messageDiv.style.marginLeft = "auto";
+    messageDiv.style.marginRight = "0";
+
   }
 
   // Replace URLs with <a> tags if they exist in the message
