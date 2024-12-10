@@ -672,32 +672,74 @@ function handleAuthStateChanged(user) {
     const userDataSaved = getUserData() || [];
 
 
-    console.log("profilePic:?  ", userDataSaved);
+    const dropdownMenuItems = [
+      {
+        title: "Profile",
+        href: "https://reelcareer.co/u/",
+        icon: "fa fa-user",
+        ariaLabel: "Go to Profile"
+      },
+      {
+        title: "Create",
+        href: "https://reelcareer.co/u/create",
+        icon: "fa fa-plus-circle",
+        ariaLabel: "Create Content"
+      },
+      {
+        title: "Messaging",
+        href: "https://reelcareer.co/u/messaging",
+        icon: "fa fa-envelope",
+        ariaLabel: "View Messages"
+      },
+      {
+        title: "Job Seeker",
+        href: "https://reelcareer.co/u/seeker/",
+        icon: "fa fa-briefcase",
+        ariaLabel: "Go to Job Seeker Dashboard"
+      },
+      {
+        title: "Recruiter Dashboard",
+        href: "https://reelcareer.co/u/recuiter/",
+        icon: "fa fa-tachometer-alt",
+        ariaLabel: "Go to Recruiter Dashboard"
+      },
+    ];
+    
 
     // If logged in, show profile info and logout button
     const userName = userDataSaved.displayName || "User";
-    const userPhoto = userDataSaved.profilePicture ? 
-      `<img id="nav-bar-profilePic" src="${userDataSaved.profilePicture}" alt="Profile Picture" class="rounded-circle" style="width: 40px; height: 40px; margin-right: 10px;">` :
-      `<img id="nav-bar-profilePic" src="https://reelcareer.co/images/sq_logo_n_BG_sm.png" alt="Profile Picture" class="rounded-circle" style="width: 40px; height: 40px; margin-right: 10px;">`;
-
+    const userPhoto = userDataSaved.profilePicture
+      ? `<img id="nav-bar-profilePic" src="${userDataSaved.profilePicture}" alt="Profile Picture" class="rounded-circle" style="width: 40px; height: 40px; margin-right: 10px;">`
+      : `<img id="nav-bar-profilePic" src="https://reelcareer.co/images/sq_logo_n_BG_sm.png" alt="Profile Picture" class="rounded-circle" style="width: 40px; height: 40px; margin-right: 10px;">`;
+    
+    // Function to generate dropdown items
+    const generateDropdownItems = (items) => {
+      return items
+        .map(
+          (item) => `
+          <a class="dropdown-item" href="${item.href}" aria-label="${item.ariaLabel}">
+            <i class="${item.icon}" style="margin-right: 8px;"></i> ${item.title}
+          </a>
+        `
+        )
+        .join("");
+    };
+    
+    // Add the dropdown menu dynamically
     authSection.innerHTML = `
       <div class="dropdown">
         <button class="btn btn-outline-primary dropdown-toggle" type="button" id="profileDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          ${userPhoto} Welcome, <name id='nav-user-name'>${userName}</name>
+          ${userPhoto} Welcome, <name id="nav-user-name">${userName}</name>
         </button>
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="profileDropdown">
-          <a class="dropdown-item" href="https://reelcareer.co/u/">Profile</a>
-          <a class="dropdown-item" href="https://reelcareer.co/u/create">Create</a>
-          <a class="dropdown-item" href="https://reelcareer.co/u/messaging">Messaging</a>
-
-          <a class="dropdown-item" href="https://reelcareer.co/u/seeker/">Job Seeker</a>
-          <a class="dropdown-item" href="https://reelcareer.co/u/recuiter/">Recruiter Dashboard</a>
-
-
-
-          <button class="dropdown-item" id="logoutButton">Logout</button>
+          ${generateDropdownItems(dropdownMenuItems)}
+          <hr>
+          <button class="dropdown-item" id="logoutButton">
+            <i class="fa fa-sign-out-alt" style="margin-right: 8px;"></i> Logout
+          </button>
         </div>
       </div>`;
+    
     
       // Display Job Seeker and Recruiter links
 
