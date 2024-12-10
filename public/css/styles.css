@@ -615,7 +615,9 @@ overflow: hidden;
   margin: 0;
   padding: 0;
 }
-
+#jobForm .modal-footer {
+  width: 100%;
+}
 
 /* Headings */
 h1 {
