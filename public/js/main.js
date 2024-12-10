@@ -2772,8 +2772,6 @@ function sendMessage(message) {
   const tagWeight = 2;
   const categoryWeight = 1;
 
-  // Combine all questions (general and predefined)
-   allQuestions = [...generalQuestions, ...predefinedQuestions];
 
   // Iterate over all questions to find the best match
   allQuestions.forEach(questionObj => {
