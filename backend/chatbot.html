@@ -262,11 +262,6 @@ main {
 
 
 
-        // Load interaction logs from Firestore
-        import { getFirestore, collection, query, orderBy, limit, getDocs } from "firebase/firestore";
-
-const db = getFirestore(); // Initialize Firestore
-
 async function loadInteractionLogs() {
     const interactionBody = document.getElementById('interactionBody');
     interactionBody.innerHTML = '<tr><td colspan="3">Loading...</td></tr>'; // Loading state
