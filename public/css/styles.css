@@ -120,6 +120,8 @@ font-size: 1rem;
   background-color: none; /* Add a subtle hover effect */
   transform: scale(1.1); /* Slightly enlarge the button on hover */
   color: #007bff; /* Change the icon color on hover */
+  background: transparent;
+
 }
 
 /* Add custom icon styles for better appearance */
