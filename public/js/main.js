@@ -2631,12 +2631,15 @@ function loadGeneralQuestions() {
   if (messageArea) {
     console.log("Loading general questions...");
     messageArea.innerHTML = "<p><strong>Choose a topic to get started:</strong></p>";
+    messageArea.style.cssText = " text-align: center;   margin: auto; display: block; font-family: sans-serif;
+";
+
 
     // Filter and display only onload questions (general questions)
     allQuestions.filter(q => q.onload).forEach(q => {
         const button = document.createElement("button");
         button.innerText = q.question;
-        button.style.cssText = "margin: 5px; padding: 5px 10px; cursor: pointer;";
+        button.style.cssText = "margin: 5px;padding: 5px 10px;cursor: pointer;border: #dde3ed solid;border-radius: 25px;background-color: aliceblue;";
         button.addEventListener("click", () => handleUserInput(q.question));
         messageArea.appendChild(button);
     });
