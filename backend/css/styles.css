@@ -155,9 +155,6 @@ body {
     transition: transform 0.3s; /* Smooth transform for hover effect */
 }
 
-.card:hover {
-    transform: scale(1.05); /* Scale effect on hover */
-}
 
 /* Chart Container Styles */
 .chart-container {

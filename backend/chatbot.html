@@ -128,8 +128,8 @@ form input, form textarea, form select {
     </div>
 </nav>
 
-    <div class="container mt-4">
-        <h1>Chatbot Management</h1>
+<main id="main-content">
+    <h1>Chatbot Management</h1>
 
         <!-- Chatbot Configuration Section -->
         <div class="card mb-4">
@@ -225,19 +225,9 @@ form input, form textarea, form select {
             </div>
         </div>
 
-        <!-- Help Section -->
-        <div class="card mb-4">
-            <div class="card-body">
-                <h4>User Education</h4>
-                <p>This section provides guidance on how to effectively manage chatbot responses.</p>
-                <ul>
-                    <li>Use clear and concise intents for better understanding.</li>
-                    <li>Provide multiple suggestions to enhance user experience.</li>
-                    <li>Regularly review interaction logs to identify common queries.</li>
-                </ul>
-            </div>
-        </div>
-    </div>
+ 
+        
+</main>
 
 
     <!-- Footer -->
@@ -334,16 +324,7 @@ form input, form textarea, form select {
             });
         }
 
-        // Rate user feedback
-        function rateFeedback(docId, rating) {
-            db.collection('suggestionFeedback').doc(docId).update({
-                rating: rating
-            }).then(() => {
-                console.log("Feedback rated successfully!");
-            }).catch((error) => {
-                console.error("Error updating feedback rating: ", error);
-            });
-        }
+    
 
         // Initial data loading
         loadInteractionLogs();
