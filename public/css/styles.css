@@ -116,33 +116,33 @@ font-size: 1rem;
   cursor: pointer;
   transition: transform 0.3s ease, background-color 0.3s ease;
 }
-
+#Main-Nav_bar  .navbar-toggler-icon, 
 #Main-Nav_bar  .navbar-toggler:hover,
 #Main-Nav_bar  .navbar-toggler:focus {
   background-color: none; /* Add a subtle hover effect */
   transform: scale(1.1); /* Slightly enlarge the button on hover */
-  color: #363cd8;
+  color: #007bff; /* Change the icon color on hover */
 }
 
 /* Add custom icon styles for better appearance */
 #Main-Nav_bar .navbar-toggler-icon {
-  font-size: 24px;
   color: #333; /* Dark color for the icon */
    transition: color 0.3s ease; /* Smooth transition for color */
 }
 
-/* On hover, change the icon color */
-#Main-Nav_bar .navbar-toggler:hover .navbar-toggler-icon {
-  color: #007bff; /* Change the icon color on hover */
-}
+
 @media (max-width: 768px) {
   #Main-Nav_bar  .navbar-toggler {
     /* Optionally, adjust button size for smaller screens */
     padding: 8px;
   }
 
+  #Main-Nav_bar .nav-link i {
+    margin-right: .5rem;
+
+  }
   #Main-Nav_bar .navbar-toggler-icon {
-    font-size: 28px; /* Larger icon size on mobile */
+    font-size: 2rem; /* Larger icon size on mobile */
   }
 }
 
