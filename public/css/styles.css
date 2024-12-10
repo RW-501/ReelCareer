@@ -107,9 +107,7 @@ font-size: 1rem;
       margin-right: 8px; /* Space between icon and text */ 
   }
 
-  #Main-Nav_bar .nav-text {
-    display: none; /* Hide text on mobile */
-}
+ 
 }
 
 /* Style the navbar toggle button */

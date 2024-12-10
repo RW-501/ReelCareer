@@ -73,8 +73,8 @@ body {
 #Main_Nav .nav-links a:hover {
     color: var(--link-hover-color) !important;
     transform: translateY(-3px);
-    text-shadow: 1px 1px 8px rgba(255, 255, 255, 0.6);
-    background: rgba(255, 255, 255, 0.1);
+    text-shadow: none;
+    background: none;
 }
 
 .nav-links li {
