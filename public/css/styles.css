@@ -115,6 +115,9 @@ font-size: 1rem;
   padding: 10px;
   cursor: pointer;
 }
+
+#Main-Nav_bar  .navbar-toggler-icon:focus,
+#Main-Nav_bar   i:focus,
 #Main-Nav_bar  .navbar-toggler-icon, 
 #Main-Nav_bar  .navbar-toggler:active, 
 #Main-Nav_bar  .navbar-toggler:hover,
