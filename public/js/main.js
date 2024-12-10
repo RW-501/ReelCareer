@@ -2907,11 +2907,41 @@ function displayMessage(sender, message) {
     messageDiv.style.borderRadius = "10px";
     messageDiv.style.maxWidth = "80%";
     messageDiv.style.wordWrap = "break-word";
+    messageDiv.style.textAlign ="left";
 
     // Style based on sender
-    messageDiv.style.cssText = sender === "bot"
-      ? "background-color: #e6f7ff; color: #333333; align-self: flex-start; font-family: Arial, sans-serif;"
-      : "background-color: #d4edda; color: #155724; align-self: flex-end; font-family: Arial, sans-serif;";
+    // Style based on sender
+  messageDiv.style.cssText = sender === "bot"
+  ? `    margin: 8px 0px;
+    padding: 8px 12px;
+    border-radius: 10px;
+    max-width: 70%;
+    overflow-wrap: break-word;
+    background-color: #e6f7ff;
+    color: #333333;
+    font-family: Arial, sans-serif;
+    display: grid
+;
+    justify-content: start;
+    justify-items: start;
+    text-align: left;`
+
+  :   `  
+    padding: 8px 12px;
+    border-radius: 10px;
+    max-width: 70%;
+    overflow-wrap: break-word;
+    background-color: rgb(212, 237, 218);
+    color: rgb(21, 87, 36);
+    font-family: Arial, sans-serif;
+    display: grid;
+    place-content: stretch end;
+    justify-items: stretch;
+    text-align: left;
+    width: 100%;
+    margin: auto 0px auto auto;
+    justify-content: start;
+`;
 
     // Replace URLs with <a> tags if they exist in the message
     const messageWithLinks = message.replace(
