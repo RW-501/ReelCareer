@@ -2560,22 +2560,49 @@ chatButton.addEventListener("mouseup", () => {
 
 
   // Create Chatbot Panel
-  const chatPanel = document.createElement("div");
-  chatPanel.id = "chatbot-panel";
-  chatPanel.style.cssText = `
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      width: 350px;
-      height: 400px;
-      background-color: white;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-      display: none; /* Hidden initially */
-      flex-direction: column;
-      z-index: 9999;
-  `;
+// Create the chat panel
+const chatPanel = document.createElement("div");
+chatPanel.id = "chatbot-panel";
+chatPanel.style.cssText = `
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 350px;
+    height: 400px;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    display: none; /* Hidden initially */
+    flex-direction: column;
+    z-index: 9999;
+    transition: all 0.3s ease; /* Smooth transition for resizing */
+`;
+
+// Function to resize panel based on screen width
+function resizeChatPanel() {
+  if (window.innerWidth <= 768) { // For mobile screens
+    chatPanel.style.width = "90vw"; // 90% of viewport width
+    chatPanel.style.height = "50vh"; // 50% of viewport height
+    chatPanel.style.bottom = "10px"; // Adjust positioning
+    chatPanel.style.right = "10px";
+    chatPanel.style.borderRadius = "5px";
+  } else { // For larger screens
+    chatPanel.style.width = "350px";
+    chatPanel.style.height = "400px";
+    chatPanel.style.bottom = "20px";
+    chatPanel.style.right = "20px";
+    chatPanel.style.borderRadius = "8px";
+  }
+}
+
+// Attach resize event listener
+window.addEventListener("resize", resizeChatPanel);
+window.addEventListener("DOMContentLoaded", resizeChatPanel); // Call initially on load
+
+// Append the chat panel to the body
+document.body.appendChild(chatPanel);
+
   chatPanel.innerHTML = `
  <div style="background-color: #84adea;color: white;padding: 10px;text-align: center;height: 3rem;display: flex;flex-direction: row;flex-wrap: wrap;align-content: flex-start;justify-content: space-between;align-items: center;">
           <strong>ReelCareer Chatbot</strong>
