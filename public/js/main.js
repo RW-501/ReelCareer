@@ -517,7 +517,6 @@ window.checkUserProfile = checkUserProfile;
 
 
 
-
 function createNavbar() {
   const currentPage = window.location.pathname;
   const isHomePage =
@@ -531,32 +530,37 @@ function createNavbar() {
     ? "dropdown-toggle-light"
     : "dropdown-toggle-dark";
 
-  // JSON Data for Nav Items
+  // JSON Data for Nav Items with aria-label
   const navItems = [
     {
       href: "https://reelcareer.co/job-listings",
       icon: "fa fa-briefcase",
       text: "Job Listings",
+      ariaLabel: "Go to job listings page",
     },
     {
       href: "https://reelcareer.co/reels",
       icon: "fa fa-video",
       text: "Reels",
+      ariaLabel: "Go to reels page",
     },
     {
       href: "https://reelcareer.co/views/membership",
       icon: "fa fa-user",
       text: "Membership",
+      ariaLabel: "Go to membership page",
     },
     {
       href: "https://reelcareer.co/views/blogs",
       icon: "fa fa-pencil-alt",
       text: "Blogs",
+      ariaLabel: "Go to blogs page",
     },
     {
       href: "https://reelcareer.co/views/about",
       icon: "fa fa-info-circle",
       text: "About Us",
+      ariaLabel: "Go to about us page",
     },
   ];
 
@@ -566,7 +570,7 @@ function createNavbar() {
       .map(
         (item) => `
         <li class="nav-item mx-2">
-          <a class="nav-link" href="${item.href}">
+          <a class="nav-link" href="${item.href}" aria-label="${item.ariaLabel}">
             <i class="${item.icon}"></i>
           </a>
         </li>`
@@ -579,7 +583,7 @@ function createNavbar() {
       .map(
         (item) => `
         <li class="nav-item">
-          <a class="nav-link" href="${item.href}">
+          <a class="nav-link" href="${item.href}" aria-label="${item.ariaLabel}">
             <i class="${item.icon}"></i>
             <span>${item.text}</span>
           </a>
@@ -591,7 +595,7 @@ function createNavbar() {
     <nav id="Main-Nav_bar" class="navbar navbar-expand-lg ${navbarClass} shadow-sm sticky-top" role="navigation">
       <div class="container d-flex align-items-center justify-content-between">
         <!-- Logo -->
-        <a class="navbar-brand embossed" id="MAIN-LOGO-Reel-Career" href="https://reelcareer.co/">
+        <a class="navbar-brand embossed" id="MAIN-LOGO-Reel-Career" href="https://reelcareer.co/" aria-label="Go to home page">
           ReelCareer
         </a>
 
@@ -602,28 +606,13 @@ function createNavbar() {
 
         <!-- Auth Section -->
         <div id="authSection" class="d-flex align-items-center">
-          <button id="darkModeToggle" class="btn btn-outline-secondary">Dark Mode</button>
+          <button id="darkModeToggle" class="btn btn-outline-secondary" aria-label="Toggle dark mode">Dark Mode</button>
         </div>
-
-        <!-- Collapse Toggle Button 
-        <button class="navbar-toggler ${toggleClass}" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon">
-            <i class="fas fa-bars"></i>
-          </span>
-        </button>
--->
-        <!-- Collapsible Area 
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav ml-auto">
-            ${generateCollapsibleLinks(navItems)}
-          </ul>
-        </div>
-
-        -->
       </div>
     </nav>
   `;
 }
+
 
 
 
