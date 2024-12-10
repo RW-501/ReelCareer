@@ -104,8 +104,12 @@ font-size: 1rem;
 @media (max-width: 992px) {
   #Main-Nav_bar .nav-item i {
       display: inline-block; /* Show icon */
-      margin-right: 8px; /* Space between icon and text */
+      margin-right: 8px; /* Space between icon and text */ 
   }
+
+  #Main-Nav_bar .nav-text {
+    display: none; /* Hide text on mobile */
+}
 }
 
 /* Style the navbar toggle button */
