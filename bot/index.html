@@ -190,6 +190,43 @@
     </main>
 
   
+
+
+
+    <div class="container mt-5"> <!-- Use a container for consistent padding -->
+      <!-- Similar Jobs Section -->
+      <div class="similar-jobs mb-5">
+          <h3 class="font-weight-bold">Similar Jobs</h3>
+          <hr class="my-2" />
+          <div id="similarJobsContainer" class="similarJobsContainer">
+              <!-- Dynamically insert similar jobs here -->
+              <div class="col-md-4 mb-3"> <!-- Example job item -->
+                  <div class="card shadow-sm border-light">
+                      <div class="card-body">
+                          <h5 class="card-title">Job Title 1</h5>
+                          <p class="card-text">Short description of the job goes here.</p>
+                          <a href="#" class="btn btn-primary">View Job</a>
+                      </div>
+                  </div>
+              </div>
+              <!-- Repeat for more job items -->
+          </div>
+      </div>
+  
+    
+    <!-- Related Articles Section -->
+    <div class="related-blogs">
+      <h3 class="font-weight-bold">Related Articles</h3>
+      <hr class="my-2" />
+      <div id="blogContainer" class="blog-cards">
+          <!-- Blog links will be dynamically inserted here -->
+      </div>
+  </div>
+  
+
+  </div>
+
+
   <!-- Footer -->
   <footer id="dynamic-footer"></footer>
 
@@ -212,16 +249,17 @@
 
 
 
-  
+  document.addEventListener("DOMContentLoaded", () => {
+});
+
 window.onload = async function () {
   setTimeout(() => {
-// Call the function to load topics when the page loads
 
 loadRelatedBlogs();
 
+getSimilarJobs();
 }, 1000);
 };
-
 
 
 
