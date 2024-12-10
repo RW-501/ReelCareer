@@ -255,65 +255,42 @@ form input, form textarea, form select {
 
 
         // Load interaction logs from Firestore
-        function loadInteractionLogs() {
-            const interactionBody = document.getElementById('interactionBody');
-            interactionBody.innerHTML = '<tr><td colspan="3">Loading...</td></tr>'; // Loading state
+        import { getFirestore, collection, query, orderBy, limit, getDocs } from "firebase/firestore";
 
-            db.collection('ChatbotInteractions').orderBy('timestamp', 'desc').limit(10)
-                .get().then((querySnapshot) => {
-                    interactionBody.innerHTML = ''; // Clear loading message
-                    querySnapshot.forEach((doc) => {
-                        const data = doc.data();
-                        const row = `
-                            <tr>
-                                <td>${new Date(data.timestamp).toLocaleString()}</td>
-                                <td>${data.question}</td>
-                                <td>${data.botResponse}</td>
-                            </tr>
-                        `;
-                        interactionBody.innerHTML += row;
-                    });
-                }).catch((error) => {
-                    console.error("Error loading interactions: ", error);
-                    interactionBody.innerHTML = '<tr><td colspan="3">Error loading data.</td></tr>';
-                });
+const db = getFirestore(); // Initialize Firestore
+
+async function loadInteractionLogs() {
+    const interactionBody = document.getElementById('interactionBody');
+    interactionBody.innerHTML = '<tr><td colspan="3">Loading...</td></tr>'; // Loading state
+
+    try {
+        // Reference the 'ChatbotInteractions' collection and order it
+        const q = query(collection(db, 'ChatbotInteractions'), orderBy('timestamp', 'desc'), limit(10));
+        const querySnapshot = await getDocs(q);
+
+        interactionBody.innerHTML = ''; // Clear loading message
+
+        querySnapshot.forEach((doc) => {
+            const data = doc.data();
+            const row = `
+                <tr>
+                    <td>${new Date(data.timestamp).toLocaleString()}</td>
+                    <td>${data.question}</td>
+                    <td>${data.botResponse}</td>
+                </tr>
+            `;
+            interactionBody.innerHTML += row;
+        });
+
+        if (querySnapshot.empty) {
+            interactionBody.innerHTML = '<tr><td colspan="3">No data available.</td></tr>';
         }
-
-        // Load feedback on suggestions from Firestore
-        function loadFeedback() {
-            const feedbackBody = document.getElementById('feedbackBody');
-            feedbackBody.innerHTML = '<tr><td colspan="3">Loading...</td></tr>'; // Loading state
-
-            db.collection('suggestionFeedback').get()
-                .then((querySnapshot) => {
-                    feedbackBody.innerHTML = ''; // Clear loading message
-                    querySnapshot.forEach((doc) => {
-                        const data = doc.data();
-                        const row = `
-                            <tr>
-                                <td>${data.suggestion}</td>
-                                <td>${data.feedback}</td>
-                                <td>
-                                    <select class="form-control" onchange="rateFeedback('${doc.id}', this.value)">
-                                        <option value="">Rate</option>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                    </select>
-                                </td>
-                            </tr>
-                        `;
-                        feedbackBody.innerHTML += row;
-                    });
-                }).catch((error) => {
-                    console.error("Error loading feedback: ", error);
-                    feedbackBody.innerHTML = '<tr><td colspan="3">Error loading data.</td></tr>';
-                });
-        }
-
-      
+    } catch (error) {
+        console.error("Error loading interactions: ", error);
+        interactionBody.innerHTML = '<tr><td colspan="3">Error loading data.</td></tr>';
+    }
+}
+    
         // Filter interaction logs based on user input
         function filterLogs() {
             const input = document.getElementById('searchInput').value.toLowerCase();
@@ -326,9 +303,7 @@ form input, form textarea, form select {
 
     
 
-        // Initial data loading
-        loadInteractionLogs();
-        loadFeedback();
+        
 
 
 
@@ -349,24 +324,12 @@ form input, form textarea, form select {
 
 
 
-
-
-        const generalQuestions = [
-  { question: "How do I reset my password?", answer: "To reset your password, go to the 'Forgot Password' section on the login page.", category: "Account Management" },
-  { question: "Where can I find my job applications?", answer: "You can view your job applications in the 'Applications' section of your dashboard.", category: "Dashboard" },
-  // Add more sample data
-];
-
-const predefinedQuestions = [
-  { question: "How do I contact support?", answer: "You can contact support through our 'Contact Us' page. Here's the link: [Contact Us](https://reelcareer.com/contact).", category: "Support" },
-  { question: "How do I update my profile?", answer: "To update your profile, visit the 'Profile' section in your account settings.", category: "Account Management" },
-  // Add more sample data
-];
+        
 
 // Fetch /chat_bot.json on page load (for real data)
 async function fetchChatbotData() {
   try {
-    const response = await fetch('/chat_bot.json');
+    const response = await fetch('https://reelcareer.co/bot/chat_bot.json');
     const data = await response.json();
     generalQuestions.push(...data.generalQuestions);
     predefinedQuestions.push(...data.predefinedQuestions);
@@ -441,6 +404,9 @@ function copyToClipboard(text) {
   document.execCommand('copy');
   document.body.removeChild(textarea);
 }
+// Initial data loading
+loadInteractionLogs();
+
 
 // Initial fetch and render on page load
 fetchChatbotData();
