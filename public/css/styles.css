@@ -539,6 +539,10 @@ align-items: flex-start;
   color: #83bad9 !important;
 }
 
+.similar-jobs i ,
+.related-blogs i {
+  color: #83bad9 !important;
+}
 
 
 
