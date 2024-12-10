@@ -1,6 +1,7 @@
 
 
 
+document.addEventListener('DOMContentLoaded', function() {
 
 // Define your JSON data for navigation
 const navData = {
@@ -132,7 +133,6 @@ const navData = {
   
   // Call the function to replace the navigation
   
-  document.addEventListener('DOMContentLoaded', function() {
     replaceNav();
 });
 
