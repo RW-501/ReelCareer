@@ -148,7 +148,15 @@ createLoader("ReelCareer");
   });
 
 
- 
+ // Create a link element
+const link = document.createElement("link");
+
+// Set the attributes for the link element
+link.rel = "stylesheet";
+link.href = "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css";
+
+// Append the link element to the <head> section
+document.head.appendChild(link);
 
 
 
@@ -164,85 +172,6 @@ createLoader("ReelCareer");
 
 
 
-  
-
-  function addStyles2() {
-    const style = document.createElement("style");
-    style.type = "text/css";
-    style.innerHTML = `
-          /* Page Loader Styles */
-  /* Loader Styles for Lazy Images */
-  .lazy-load {
-      display: block; /* Make sure the images are block elements */
-      width: 100%; /* Make images responsive */
-      height: auto; /* Maintain aspect ratio */
-      opacity: 0; /* Start invisible for fade-in effect */
-      transition: opacity 0.5s ease-in-out; /* Smooth transition for fade-in */
-  }
-  
-  /* Fade-in effect after image loads */
-  .lazy-load.fade-in {
-      opacity: 1; /* Fade in when loaded */
-  }
-  
-  /* Skeleton Loading Styles for Cards */
-  .card.skeleton {
-      background: linear-gradient(90deg, rgba(255, 255, 255, 0.1) 25%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0.1) 75%);
-      background-size: 200% 100%;
-      animation: loading 1.5s infinite; /* Skeleton animation */
-      border-radius: 4px; /* Rounded corners */
-      height: 200px; /* Placeholder height */
-  }
-  
-  @keyframes loading {
-      0% { background-position: 200% 0; }
-      100% { background-position: -200% 0; }
-  }
-  
-  
-  
-  
-  .gridBody{
-   grid-gap: .05rem !important;
-         display: grid  !important;
-  
-  }
-  
-  /* Flexbox Layout Spacing */
-  .card-top, .card-bottom {
-      display: grid  !important;
-    width: auto;
-    column-gap: .5rem !important;
-    -webkit-text-stroke: thin;
-    grid-row: auto;
-    grid-area: auto;
-    grid-gap: .05rem !important;
-  }
-  
-  /* Job Details Section Background and Shadow */
-  .card-bottom {
-      background: linear-gradient(145deg, var(--highlight-bg), #ffffff);
-      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
-      padding: 10px 25px;
-      border-radius: 5px;
-      border-style: solid;
-      border-color: var(--highlight-bg);
-  }
-  
-  
-  
-  
-  
-  
-  
-  
-  
-      `;
-    document.head.appendChild(style);
-  }
-  
-  //addStyles2();
-  
   
   
 
