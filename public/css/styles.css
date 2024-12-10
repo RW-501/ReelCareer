@@ -90,7 +90,8 @@ font-size: 1rem;
   display: inline;
 }
 
-@media (max-width: 768px) {
+
+@media (min-width: 992px) {
   #Main-Nav_bar .nav-text {
       display: none; /* Hide text on mobile */
   }
@@ -100,7 +101,7 @@ font-size: 1rem;
 }
 
 /* Show text on larger screens */
-@media (min-width: 769px) {
+@media (min-width: 992px) {
   #Main-Nav_bar .nav-item i {
       display: inline-block; /* Show icon */
       margin-right: 8px; /* Space between icon and text */
@@ -133,7 +134,6 @@ font-size: 1rem;
 #Main-Nav_bar .navbar-toggler:hover .navbar-toggler-icon {
   color: #007bff; /* Change the icon color on hover */
 }
- 
 @media (max-width: 768px) {
   #Main-Nav_bar  .navbar-toggler {
     /* Optionally, adjust button size for smaller screens */
