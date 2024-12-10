@@ -128,9 +128,10 @@ const navData = {
   }
   
   // Call the function to replace the navigation
-  replaceNav();
   
-
+  document.addEventListener('DOMContentLoaded', function() {
+    replaceNav();
+});
 
 
 
