@@ -2744,6 +2744,5 @@ function sendMessage(message) {
 
 setTimeout(() => {
   fetchChatbotData();
-  loadChatbot();
 }, 5000); // 5000 milliseconds = 5 seconds
 
