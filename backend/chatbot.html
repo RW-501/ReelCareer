@@ -88,6 +88,43 @@ li.dragging {
     background-color: #f9f9f9;
     cursor: grabbing;
 }
+.question-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+    border: 1px solid #ddd;
+    margin: 5px 0;
+    border-radius: 5px;
+}
+
+.button-container {
+    display: flex;
+    gap: 5px;
+}
+
+.edit-button,
+.remove-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    padding: 5px 8px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.remove-button {
+    background-color: #dc3545;
+}
+
+.edit-button:hover {
+    background-color: #0056b3;
+}
+
+.remove-button:hover {
+    background-color: #c82333;
+}
 
     </style>
 </head>
@@ -355,7 +392,9 @@ async function fetchChatbotData() {
 
 
 
-// Add new question form submission
+let editIndex = null; // To store the index of the question being edited
+let editCategory = null; // To store the category of the question being edited
+
 document.getElementById("new-question-form").addEventListener("submit", function (e) {
     e.preventDefault();
 
@@ -370,8 +409,7 @@ document.getElementById("new-question-form").addEventListener("submit", function
     // Process tags
     const tags = tagsInput ? tagsInput.split(",").map(tag => tag.trim()) : [];
 
-    // New question object
-    const newQuestion = {
+    const updatedQuestion = {
         question: question,
         answer: link ? `${answer} Here's the link: [${link}](${link})` : answer,
         category: category,
@@ -382,11 +420,22 @@ document.getElementById("new-question-form").addEventListener("submit", function
         createdAt: new Date().toISOString()
     };
 
-    // Add to respective category
-    if (category === "General") {
-        generalQuestions.push(newQuestion);
+    // If editing, update the question instead of adding
+    if (editIndex !== null && editCategory !== null) {
+        if (editCategory === "General") {
+            generalQuestions[editIndex] = updatedQuestion;
+        } else {
+            predefinedQuestions[editIndex] = updatedQuestion;
+        }
+        editIndex = null; // Reset edit state
+        editCategory = null;
     } else {
-        predefinedQuestions.push(newQuestion);
+        // Add to respective category
+        if (category === "General") {
+            generalQuestions.push(updatedQuestion);
+        } else {
+            predefinedQuestions.push(updatedQuestion);
+        }
     }
 
     // Re-render the questions and reset form
@@ -394,8 +443,6 @@ document.getElementById("new-question-form").addEventListener("submit", function
     document.getElementById("new-question-form").reset();
 });
 
-// Render questions
-// Function to render the questions
 function renderQuestions() {
     const generalList = document.getElementById("general-questions");
     const predefinedList = document.getElementById("predefined-questions");
@@ -405,27 +452,79 @@ function renderQuestions() {
 
     // Render General Questions
     generalQuestions.forEach((q, index) => {
-        const li = document.createElement("li");
-        li.textContent = q.question;
-        li.setAttribute("draggable", "true");
-        li.setAttribute("data-index", index);
-        li.setAttribute("data-category", "General");
-        li.addEventListener("dragstart", dragStart);
-        li.addEventListener("dragend", dragEnd);
+        const li = createQuestionElement(q, "General", index);
         generalList.appendChild(li);
     });
 
     // Render Predefined Questions
     predefinedQuestions.forEach((q, index) => {
-        const li = document.createElement("li");
-        li.textContent = q.question;
-        li.setAttribute("draggable", "true");
-        li.setAttribute("data-index", index);
-        li.setAttribute("data-category", "Predefined");
-        li.addEventListener("dragstart", dragStart);
-        li.addEventListener("dragend", dragEnd);
+        const li = createQuestionElement(q, "Predefined", index);
         predefinedList.appendChild(li);
     });
+}
+
+function createQuestionElement(question, category, index) {
+    const li = document.createElement("li");
+    li.className = "question-item";
+    li.textContent = question.question;
+
+    // Edit Button
+    const editButton = document.createElement("button");
+    editButton.textContent = "Edit";
+    editButton.className = "edit-button";
+    editButton.addEventListener("click", (e) => {
+        e.stopPropagation();
+        populateForm(question, category, index);
+    });
+
+    // Remove Button
+    const removeButton = document.createElement("button");
+    removeButton.textContent = "Remove";
+    removeButton.className = "remove-button";
+    removeButton.addEventListener("click", (e) => {
+        e.stopPropagation();
+        removeQuestion(category, index);
+    });
+
+    // Append buttons to the li
+    const buttonContainer = document.createElement("div");
+    buttonContainer.className = "button-container";
+    buttonContainer.appendChild(editButton);
+    buttonContainer.appendChild(removeButton);
+
+    li.appendChild(buttonContainer);
+    return li;
+}
+
+function populateForm(questionData, category, index) {
+    document.getElementById("question").value = questionData.question || "";
+    document.getElementById("answer").value = questionData.answer ? questionData.answer.split(" Here's the link:")[0] : "";
+    document.getElementById("link").value = extractLink(questionData.answer) || "";
+    document.getElementById("category").value = category;
+    document.getElementById("tags").value = questionData.tags ? questionData.tags.join(", ") : "";
+    document.getElementById("supportURL").value = questionData.supportURL || "";
+
+    // Set edit state
+    editIndex = index;
+    editCategory = category;
+}
+
+function removeQuestion(category, index) {
+    if (category === "General") {
+        generalQuestions.splice(index, 1);
+    } else {
+        predefinedQuestions.splice(index, 1);
+    }
+    renderQuestions();
+}
+
+function extractLink(answer) {
+    if (answer && answer.includes("Here's the link:")) {
+        const regex = /\[.*?\]\((.*?)\)/; // Regex to match the link inside markdown format
+        const match = answer.match(regex);
+        return match ? match[1] : "";
+    }
+    return "";
 }
 
 // Drag start event handler
