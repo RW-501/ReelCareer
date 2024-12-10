@@ -2586,7 +2586,7 @@ async function fetchChatbotData() {
       ...data.predefinedQuestions.map(q => ({ ...q, onload: false }))  // Mark predefined questions for later
     ];
 
-//    console.log(allQuestions);  // Output the combined questions
+   console.log(allQuestions);  // Output the combined questions
 
     // Further processing can be done here...
     loadChatbot();
