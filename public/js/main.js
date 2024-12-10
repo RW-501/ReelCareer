@@ -2949,10 +2949,18 @@ async function logUnansweredQuestion(message) {
 }
 
 // Send message and match it to predefined questions
-function sendMessage(message) { 
+function sendMessage(messageRaw) { 
   // Check if message is a string
+  console.log("messageRaw  ",messageRaw);
+
+  let messageSan = sanitizeInput(messageRaw);
+
+ let  message = isSafeInput(messageSan);
+
+
+  console.log("message  ",message);
   if (typeof message !== 'string') {
-    return;  // Exit the function if it's not a string
+   // return;  // Exit the function if it's not a string
   }
 
   // Trim and normalize the user message
