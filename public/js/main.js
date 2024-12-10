@@ -2489,7 +2489,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const vulgarWords = [
     // Variations of "badword"
     "stupid", "shit", "ass", "fuck", "pussy", "dick", "azz", "fucked", "fucking", "bitch", "bitches", "bitching", "bitch*",
-    
+    "nurse",
     // Variations of "curseword"
     "shited", "shits", "bstard", "biatch", "damned", "damnit", "damn it", "damn", "hell", 
      "fuc*king", "f*king", "f***ed", "s*ux", "sh1t", "j*erk", "a55", "b1tch", "f8ck", "f1ck", "h4te", "l0ser",
