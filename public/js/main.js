@@ -2796,8 +2796,8 @@ document.body.appendChild(chatPanel);
         chatPanel.style.cssText = `
     width: 100%;
     min-height: 600px;
-    background-color: white;
-    border: 1px solid rgb(221, 221, 221);
+        background: linear-gradient(45deg, #8fc0dc, #b2d1e3);
+        border: 1px solid rgb(221, 221, 221);
     border-radius: 8px;
     box-shadow: none;
     opacity: 1;
