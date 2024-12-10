@@ -221,17 +221,20 @@ async function loadJobs() {
         querySnapshot.forEach((doc) => {
             const job = doc.data();
             const truncatedDescription = job.description.length > 50 ? job.description.substring(0, 50) + '...' : job.description;
-       
-            
+
             const row = `
                 <tr>
                     <td><input type="checkbox" class="jobCheckbox" value="${doc.id}"></td>
                     <td><a href="https://reelcareer.co/jobs/job-details/?id=${doc.id}">${job.title}</a></td>
                     <td>${job.createdAt.toDate().toLocaleString()}</td>
-
                     <td>${job.state}</td>
                     <td>${job.city}</td>
-                 <td>${truncatedDescription}</td>
+                    <td>
+                        ${truncatedDescription} 
+                        <button class="btn btn-link btn-sm p-0" data-bs-toggle="collapse" data-bs-target="#collapse-${doc.id}" aria-expanded="false" aria-controls="collapse-${doc.id}">
+                            More
+                        </button>
+                    </td>
                     <td>${job.category}</td>
                     <td>${job.industry}</td>
                     <td>${job.submittedBy}</td>
@@ -240,7 +243,20 @@ async function loadJobs() {
                         <button class="btn btn-danger btn-sm" onclick="deleteJob('${doc.id}')">Delete</button>
                     </td>
                 </tr>
+                <!-- Collapsible Row -->
+                <tr class="collapse" id="collapse-${doc.id}">
+                    <td colspan="10">
+                        <strong>Full Description:</strong> ${job.description}
+                        <ul class="mt-2">
+                            <li><strong>Industry:</strong> ${job.industry}</li>
+                            <li><strong>Category:</strong> ${job.category}</li>
+                            <li><strong>Submitted By:</strong> ${job.submittedBy}</li>
+                            <!-- Add other dynamic details here -->
+                        </ul>
+                    </td>
+                </tr>
             `;
+
             jobTableBody.insertAdjacentHTML('beforeend', row);
             totalCount++;
         });
@@ -251,6 +267,7 @@ async function loadJobs() {
         console.error('Error loading jobs:', error);
     }
 }
+
 
 // Function to search jobs by title or description
 function searchJobs() {
