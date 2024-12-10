@@ -441,6 +441,7 @@ function dragEnd(e) {
     e.target.classList.remove("dragging"); // Remove dragging highlight
     document.querySelectorAll(".drop-zone").forEach(zone => zone.classList.remove("highlight")); // Remove zone highlight
 }
+window.dragEnd = dragEnd;
 
 // Allow drop event handler
 function allowDrop(e) {
@@ -449,7 +450,7 @@ function allowDrop(e) {
         e.target.classList.add("highlight");
     }
 }
-window.
+window.allowDrop = allowDrop;
 
 // Drop event handler
 function drop(e) {
@@ -483,6 +484,7 @@ function drop(e) {
     console.log("General Questions:", generalQuestions);
     console.log("Predefined Questions:", predefinedQuestions);
 }
+window.drop = drop;
 
 // Export questions as JSON
 document.getElementById("copy-json-btn").addEventListener("click", function () {
