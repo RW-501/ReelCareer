@@ -1,218 +1,296 @@
 {
-    "generalQuestions": [
-      {
-        "id": 11,
-        "question": "How do I view my saved jobs?",
-        "tags": ["saved jobs", "dashboard", "job seeker"],
-        "category": "Dashboard",
-        "answer": "Go to the 'Saved Jobs' section in your dashboard to view jobs you have saved.",
-        "supportURL": "https://reelcareer.com/help/saved-jobs",
-        "helpful": 0,
-        "views": 0
-      },
-      {
-        "id": 12,
-        "question": "How can I change my password?",
-        "tags": ["password", "change", "security"],
-        "category": "Account Management",
-        "answer": "To change your password, go to 'Account Settings', select 'Change Password', and follow the prompts.",
-        "supportURL": "https://reelcareer.com/help/change-password",
-        "helpful": 0,
-        "views": 0
-      },
-      {
-        "id": 13,
-        "question": "What are the payment methods available?",
-        "tags": ["payment", "methods", "billing"],
-        "category": "Payments",
-        "answer": "We accept credit cards, debit cards, and PayPal for payments.",
-        "supportURL": "https://reelcareer.com/help/payment-methods",
-        "helpful": 0,
-        "views": 0
-      },
-      {
-        "id": 14,
-        "question": "How do I report a job listing?",
-        "tags": ["report", "job listing", "flag"],
-        "category": "Support",
-        "answer": "To report a job listing, click the 'Report' button on the job page and provide a brief reason.",
-        "supportURL": "https://reelcareer.com/help/report-job",
-        "helpful": 0,
-        "views": 0
-      },
-      {
-        "id": 15,
-        "question": "How do I set up job alerts?",
-        "tags": ["job alerts", "notifications", "preferences"],
-        "category": "Notifications",
-        "answer": "Set up job alerts in the 'Job Preferences' section of your dashboard.",
-        "supportURL": "https://reelcareer.com/help/job-alerts",
-        "helpful": 0,
-        "views": 0
-      },
-      {
-        "id": 16,
-        "question": "Can I edit my job application after submission?",
-        "tags": ["edit application", "job seeker", "update"],
-        "category": "Job Application",
-        "answer": "No, you cannot edit an application after submission. Please review carefully before applying.",
-        "supportURL": "https://reelcareer.com/help/edit-application",
-        "helpful": 0,
-        "views": 0
-      },
-      {
-        "id": 17,
-        "question": "How do I view my resume analytics?",
-        "tags": ["resume analytics", "dashboard", "recruiter"],
-        "category": "Dashboard",
-        "answer": "Go to 'Resume Analytics' in your dashboard to view insights about your resume views.",
-        "supportURL": "https://reelcareer.com/help/resume-analytics",
-        "helpful": 0,
-        "views": 0
-      },
-      {
-        "id": 18,
-        "question": "How do recruiters view my profile?",
-        "tags": ["profile visibility", "recruiters", "settings"],
-        "category": "Privacy",
-        "answer": "Recruiters can view your profile if it is set to 'Public' in your account privacy settings.",
-        "supportURL": "https://reelcareer.com/help/profile-visibility",
-        "helpful": 0,
-        "views": 0
-      },
-      {
-        "id": 19,
-        "question": "What is a featured job posting?",
-        "tags": ["featured job", "recruiter", "posting"],
-        "category": "Job Posting",
-        "answer": "A featured job posting highlights your job listing, increasing its visibility to job seekers.",
-        "supportURL": "https://reelcareer.com/help/featured-job",
-        "helpful": 0,
-        "views": 0
-      },
-      {
-        "id": 20,
-        "question": "How can I boost my job application?",
-        "tags": ["boost application", "job seeker", "premium"],
-        "category": "Job Application",
-        "answer": "You can boost your application by selecting 'Boost Application' during the application process.",
-        "supportURL": "https://reelcareer.com/help/boost-application",
-        "helpful": 0,
-        "views": 0
-      }
-    ],
-"predefinedQuestions": [
-  {
-    "id": 9,
-    "question": "How do I track my job posting's performance?",
-    "tags": ["job analytics", "performance", "recruiter"],
-    "category": "Analytics",
-    "answer": "You can track your job posting's performance from the 'Job Analytics' section, where you’ll see views, applications, and other metrics.",
-    "score": 0,
-    "supportURL": "https://reelcareer.com/help/job-analytics",
-    "helpful": 0,
-    "views": 0
-  },
-  {
-    "id": 10,
-    "question": "Can I edit a submitted job application?",
-    "tags": ["edit application", "job seeker", "update"],
-    "category": "Job Application",
-    "answer": "Once submitted, applications cannot be edited. You can, however, contact the recruiter directly for updates.",
-    "score": 0,
-    "supportURL": "https://reelcareer.com/help/edit-application",
-    "helpful": 0,
-    "views": 0
-  },
-  {
-    "id": 11,
-    "question": "How do I boost my resume visibility?",
-    "tags": ["resume boost", "visibility", "job seeker"],
-    "category": "Resume Management",
-    "answer": "You can boost your resume visibility by enabling the 'Featured Resume' option under your profile settings.",
-    "score": 0,
-    "supportURL": "https://reelcareer.com/help/resume-boost",
-    "helpful": 0,
-    "views": 0
-  },
-  {
-    "id": 12,
-    "question": "What types of membership plans do you offer?",
-    "tags": ["membership", "plans", "pricing"],
-    "category": "Membership",
-    "answer": "We offer multiple membership plans for both job seekers and recruiters. Check our pricing page for more details.",
-    "score": 0,
-    "supportURL": "https://reelcareer.com/help/membership-plans",
-    "helpful": 0,
-    "views": 0
-  },
-  {
-    "id": 13,
-    "question": "How do I withdraw my account balance?",
-    "tags": ["withdraw funds", "balance", "payments"],
-    "category": "Payments",
-    "answer": "To withdraw your account balance, go to the 'Wallet' section and follow the instructions for withdrawals.",
-    "score": 0,
-    "supportURL": "https://reelcareer.com/help/withdraw-balance",
-    "helpful": 0,
-    "views": 0
-  },
-  {
-    "id": 14,
-    "question": "How do I receive notifications for new job posts?",
-    "tags": ["job alerts", "notifications", "job seeker"],
-    "category": "Notifications",
-    "answer": "Enable 'Job Alerts' under your profile settings to receive notifications for new jobs matching your preferences.",
-    "score": 0,
-    "supportURL": "https://reelcareer.com/help/job-notifications",
-    "helpful": 0,
-    "views": 0
-  },
-  {
-    "id": 15,
-    "question": "What is the 'Featured Resume' option?",
-    "tags": ["featured resume", "job seeker", "visibility"],
-    "category": "Resume Management",
-    "answer": "The 'Featured Resume' option highlights your profile to recruiters, increasing your visibility for job opportunities.",
-    "score": 0,
-    "supportURL": "https://reelcareer.com/help/featured-resume",
-    "helpful": 0,
-    "views": 0
-  },
-  {
-    "id": 16,
-    "question": "How do I update my billing information?",
-    "tags": ["billing", "payments", "account"],
-    "category": "Payments",
-    "answer": "Update your billing information in the 'Payment Settings' section of your account dashboard.",
-    "score": 0,
-    "supportURL": "https://reelcareer.com/help/billing-update",
-    "helpful": 0,
-    "views": 0
-  },
-  {
-    "id": 17,
-    "question": "How do I submit a video resume?",
-    "tags": ["video resume", "job seeker", "upload"],
-    "category": "Resume Management",
-    "answer": "You can submit a video resume by uploading a link or video file in the 'Resume' section of your profile.",
-    "score": 0,
-    "supportURL": "https://reelcareer.com/help/video-resume",
-    "helpful": 0,
-    "views": 0
-  },
-  {
-    "id": 18,
-    "question": "How do I enable two-factor authentication (2FA)?",
-    "tags": ["2FA", "security", "account"],
-    "category": "Account Security",
-    "answer": "To enable 2FA, go to the 'Security Settings' section and follow the steps to set up two-factor authentication for your account.",
-    "score": 0,
-    "supportURL": "https://reelcareer.com/help/2fa-setup",
-    "helpful": 0,
-    "views": 0
-  }
-]
-
-  }
-  
+  "generalQuestions": [
+    {
+      "id": 11,
+      "question": "How do I view my saved jobs?",
+      "tags": [
+        "saved jobs",
+        "dashboard",
+        "job seeker"
+      ],
+      "category": "Dashboard",
+      "answer": "Go to the 'Saved Jobs' section in your dashboard to view jobs you have saved.",
+      "supportURL": "https://reelcareer.com/help/saved-jobs",
+      "helpful": 0,
+      "views": 0
+    },
+    {
+      "id": 12,
+      "question": "How can I change my password?",
+      "tags": [
+        "password",
+        "change",
+        "security"
+      ],
+      "category": "Account Management",
+      "answer": "To change your password, go to 'Account Settings', select 'Change Password', and follow the prompts.",
+      "supportURL": "https://reelcareer.com/help/change-password",
+      "helpful": 0,
+      "views": 0
+    },
+    {
+      "id": 14,
+      "question": "How do I report a job listing?",
+      "tags": [
+        "report",
+        "job listing",
+        "flag"
+      ],
+      "category": "Support",
+      "answer": "To report a job listing, click the 'Report' button on the job page and provide a brief reason.",
+      "supportURL": "https://reelcareer.com/help/report-job",
+      "helpful": 0,
+      "views": 0
+    },
+    {
+      "id": 17,
+      "question": "How do I view my resume analytics?",
+      "tags": [
+        "resume analytics",
+        "dashboard",
+        "recruiter"
+      ],
+      "category": "Dashboard",
+      "answer": "Go to 'Resume Analytics' in your dashboard to view insights about your resume views.",
+      "supportURL": "https://reelcareer.com/help/resume-analytics",
+      "helpful": 0,
+      "views": 0
+    },
+    {
+      "id": 18,
+      "question": "How do recruiters view my profile?",
+      "tags": [
+        "profile visibility",
+        "recruiters",
+        "settings"
+      ],
+      "category": "Privacy",
+      "answer": "Recruiters can view your profile if it is set to 'Public' in your account privacy settings.",
+      "supportURL": "https://reelcareer.com/help/profile-visibility",
+      "helpful": 0,
+      "views": 0
+    },
+    {
+      "id": 17,
+      "question": "How do I submit a video resume?",
+      "tags": [
+        "video resume",
+        "job seeker",
+        "upload"
+      ],
+      "category": "Resume Management",
+      "answer": "You can submit a video resume by uploading a link or video file in the 'Resume' section of your profile.",
+      "score": 0,
+      "supportURL": "https://reelcareer.com/help/video-resume",
+      "helpful": 0,
+      "views": 0
+    }
+  ],
+  "predefinedQuestions": [
+    {
+      "id": 9,
+      "question": "How do I track my job posting's performance?",
+      "tags": [
+        "job analytics",
+        "performance",
+        "recruiter"
+      ],
+      "category": "Analytics",
+      "answer": "You can track your job posting's performance from the 'Job Analytics' section, where you’ll see views, applications, and other metrics.",
+      "score": 0,
+      "supportURL": "https://reelcareer.com/help/job-analytics",
+      "helpful": 0,
+      "views": 0
+    },
+    {
+      "id": 10,
+      "question": "Can I edit a submitted job application?",
+      "tags": [
+        "edit application",
+        "job seeker",
+        "update"
+      ],
+      "category": "Job Application",
+      "answer": "Once submitted, applications cannot be edited. You can, however, contact the recruiter directly for updates.",
+      "score": 0,
+      "supportURL": "https://reelcareer.com/help/edit-application",
+      "helpful": 0,
+      "views": 0
+    },
+    {
+      "id": 11,
+      "question": "How do I boost my resume visibility?",
+      "tags": [
+        "resume boost",
+        "visibility",
+        "job seeker"
+      ],
+      "category": "Resume Management",
+      "answer": "You can boost your resume visibility by enabling the 'Featured Resume' option under your profile settings.",
+      "score": 0,
+      "supportURL": "https://reelcareer.com/help/resume-boost",
+      "helpful": 0,
+      "views": 0
+    },
+    {
+      "id": 12,
+      "question": "What types of membership plans do you offer?",
+      "tags": [
+        "membership",
+        "plans",
+        "pricing"
+      ],
+      "category": "Membership",
+      "answer": "We offer multiple membership plans for both job seekers and recruiters. Check our pricing page for more details.",
+      "score": 0,
+      "supportURL": "https://reelcareer.com/help/membership-plans",
+      "helpful": 0,
+      "views": 0
+    },
+    {
+      "id": 13,
+      "question": "How do I withdraw my account balance?",
+      "tags": [
+        "withdraw funds",
+        "balance",
+        "payments"
+      ],
+      "category": "Payments",
+      "answer": "To withdraw your account balance, go to the 'Wallet' section and follow the instructions for withdrawals.",
+      "score": 0,
+      "supportURL": "https://reelcareer.com/help/withdraw-balance",
+      "helpful": 0,
+      "views": 0
+    },
+    {
+      "id": 14,
+      "question": "How do I receive notifications for new job posts?",
+      "tags": [
+        "job alerts",
+        "notifications",
+        "job seeker"
+      ],
+      "category": "Notifications",
+      "answer": "Enable 'Job Alerts' under your profile settings to receive notifications for new jobs matching your preferences.",
+      "score": 0,
+      "supportURL": "https://reelcareer.com/help/job-notifications",
+      "helpful": 0,
+      "views": 0
+    },
+    {
+      "id": 15,
+      "question": "What is the 'Featured Resume' option?",
+      "tags": [
+        "featured resume",
+        "job seeker",
+        "visibility"
+      ],
+      "category": "Resume Management",
+      "answer": "The 'Featured Resume' option highlights your profile to recruiters, increasing your visibility for job opportunities.",
+      "score": 0,
+      "supportURL": "https://reelcareer.com/help/featured-resume",
+      "helpful": 0,
+      "views": 0
+    },
+    {
+      "id": 16,
+      "question": "How do I update my billing information?",
+      "tags": [
+        "billing",
+        "payments",
+        "account"
+      ],
+      "category": "Payments",
+      "answer": "Update your billing information in the 'Payment Settings' section of your account dashboard.",
+      "score": 0,
+      "supportURL": "https://reelcareer.com/help/billing-update",
+      "helpful": 0,
+      "views": 0
+    },
+    {
+      "id": 18,
+      "question": "How do I enable two-factor authentication (2FA)?",
+      "tags": [
+        "2FA",
+        "security",
+        "account"
+      ],
+      "category": "Account Security",
+      "answer": "To enable 2FA, go to the 'Security Settings' section and follow the steps to set up two-factor authentication for your account.",
+      "score": 0,
+      "supportURL": "https://reelcareer.com/help/2fa-setup",
+      "helpful": 0,
+      "views": 0
+    },
+    {
+      "id": 20,
+      "question": "How can I boost my job application?",
+      "tags": [
+        "boost application",
+        "job seeker",
+        "premium"
+      ],
+      "category": "Job Application",
+      "answer": "You can boost your application by selecting 'Boost Application' during the application process.",
+      "supportURL": "https://reelcareer.com/help/boost-application",
+      "helpful": 0,
+      "views": 0
+    },
+    {
+      "id": 19,
+      "question": "What is a featured job posting?",
+      "tags": [
+        "featured job",
+        "recruiter",
+        "posting"
+      ],
+      "category": "Job Posting",
+      "answer": "A featured job posting highlights your job listing, increasing its visibility to job seekers.",
+      "supportURL": "https://reelcareer.com/help/featured-job",
+      "helpful": 0,
+      "views": 0
+    },
+    {
+      "id": 16,
+      "question": "Can I edit my job application after submission?",
+      "tags": [
+        "edit application",
+        "job seeker",
+        "update"
+      ],
+      "category": "Job Application",
+      "answer": "No, you cannot edit an application after submission. Please review carefully before applying.",
+      "supportURL": "https://reelcareer.com/help/edit-application",
+      "helpful": 0,
+      "views": 0
+    },
+    {
+      "id": 15,
+      "question": "How do I set up job alerts?",
+      "tags": [
+        "job alerts",
+        "notifications",
+        "preferences"
+      ],
+      "category": "Notifications",
+      "answer": "Set up job alerts in the 'Job Preferences' section of your dashboard.",
+      "supportURL": "https://reelcareer.com/help/job-alerts",
+      "helpful": 0,
+      "views": 0
+    },
+    {
+      "id": 13,
+      "question": "What are the payment methods available?",
+      "tags": [
+        "payment",
+        "methods",
+        "billing"
+      ],
+      "category": "Payments",
+      "answer": "We accept credit cards, debit cards, and PayPal for payments.",
+      "supportURL": "https://reelcareer.com/help/payment-methods",
+      "helpful": 0,
+      "views": 0
+    }
+  ]
+}
