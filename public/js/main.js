@@ -2689,10 +2689,16 @@ async function logUnansweredQuestion(message) {
 }
 
 // Send message and match it to predefined questions
-function sendMessage(message) { 
+function sendMessage(message) {
+  // Check if message is a string
+  if (typeof message !== 'string') {
+      console.error('Expected message to be a string but got:', typeof message);
+      return;  // Exit the function if it's not a string
+  }
+
   // Trim and normalize the user message
   const trimmedMessage = message.trim().toLowerCase();
-  
+
   // Initialize score variables
   let bestMatch = null;
   let highestScore = 0;
@@ -2738,6 +2744,7 @@ function sendMessage(message) {
   } else {
       // Log unanswered question and suggest contacting support
       logUnansweredQuestion(trimmedMessage);
+      return "Sorry, I couldn't find an answer to your question. Please contact support for assistance.";
   }
 }
 
