@@ -76,60 +76,133 @@ const navData = {
       // Add other groups as needed
     ]
   };
-  function replaceNav() {
-    // Get or create the Main_Nav element
-    let oldNav = document.getElementById('Main_Nav');
-
-    if (!oldNav) {
+ 
+  // Load from localStorage if it exists
+    const storedNav = JSON.parse(localStorage.getItem('navData'));
+    if (storedNav) navData.navGroups = storedNav.navGroups;
+  
+    function replaceNav() {
+      let oldNav = document.getElementById('Main_Nav');
+  
+      if (!oldNav) {
         oldNav = document.createElement('nav');
         oldNav.id = 'Main_Nav';
-        document.body.prepend(oldNav); // Add the nav to the top of the body
-    }
-
-    // Build the new navigation HTML
-    let navHTML = `
-        <div class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="https://reelcareer.co">ReelCareer.co</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-    `;
-
-    // Loop through navGroups and their links
-    navData.navGroups.forEach(group => {
-        navHTML += `<li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="${group.title.replace(/\s/g, '-')}" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            ${group.title}
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="${group.title.replace(/\s/g, '-')}">
-        `;
-
-        group.links.forEach(link => {
-            navHTML += `<a class="dropdown-item" href="${link.href}">${link.text}</a>`;
+        document.body.prepend(oldNav);
+      }
+  
+      let navHTML = `
+        <div class="container mt-3">
+          <ul class="list-group mb-3" id="link-list">`;
+  
+      // Generate the list
+      navData.navGroups.forEach((group) => {
+        group.links.forEach((link, index) => {
+          navHTML += `
+            <li class="list-group-item" draggable="true" data-index="${index}" data-title="${group.title}">
+              <a href="${link.href}" class="text-decoration-none">${link.text}</a>
+            </li>
+          `;
         });
-
-        navHTML += `</div></li>`;
-    });
-
-    navHTML += `
-                </ul>
-            </div>
-        </div>
-    `;
-
-    // Replace the oldNav content with the new HTML
-    oldNav.innerHTML = navHTML;
-}
-
-// Call the function to replace the navigation
-replaceNav();
-});
-
-
-
-
+      });
+  
+      navHTML += `
+          </ul>
+          <div>
+            <input type="text" id="newLinkText" placeholder="Link Text" class="form-control mb-2" />
+            <input type="text" id="newLinkHref" placeholder="Link URL" class="form-control mb-2" />
+            <button id="addLinkBtn" class="btn btn-primary">Add Link</button>
+          </div>
+        </div>`;
+  
+      oldNav.innerHTML = navHTML;
+      addDragAndDrop();
+      setupAddLink();
+    }
+  
+    function addDragAndDrop() {
+      const listItems = document.querySelectorAll('#link-list .list-group-item');
+      let draggedItem = null;
+  
+      listItems.forEach((item) => {
+        item.addEventListener('dragstart', (e) => {
+          draggedItem = item;
+          setTimeout(() => (item.style.display = 'none'), 0);
+        });
+  
+        item.addEventListener('dragover', (e) => {
+          e.preventDefault();
+          const dropZone = e.currentTarget;
+          dropZone.classList.add('bg-light');
+        });
+  
+        item.addEventListener('dragleave', () => {
+          const dropZone = event.currentTarget;
+          dropZone.classList.remove('bg-light');
+        });
+  
+        item.addEventListener('drop', (e) => {
+          e.preventDefault();
+          const dropZone = e.currentTarget;
+          dropZone.classList.remove('bg-light');
+          if (draggedItem !== dropZone) {
+            const list = document.getElementById('link-list');
+            const draggedIndex = draggedItem.dataset.index;
+            const dropIndex = dropZone.dataset.index;
+  
+            list.insertBefore(draggedItem, dropZone.nextSibling);
+  
+            // Update data order
+            updateNavDataOrder(draggedIndex, dropIndex);
+          }
+        });
+  
+        item.addEventListener('dragend', () => {
+          draggedItem.style.display = 'block';
+          draggedItem = null;
+        });
+      });
+    }
+  
+    function updateNavDataOrder(fromIndex, toIndex) {
+      const group = navData.navGroups[0]; // Handle the first group for simplicity
+      const movedLink = group.links.splice(fromIndex, 1)[0];
+      group.links.splice(toIndex, 0, movedLink);
+  
+      // Save to localStorage
+      localStorage.setItem('navData', JSON.stringify(navData));
+  
+      // Re-render to update indices
+      replaceNav();
+    }
+  
+    function setupAddLink() {
+      const addLinkBtn = document.getElementById('addLinkBtn');
+      addLinkBtn.addEventListener('click', () => {
+        const newLinkText = document.getElementById('newLinkText').value.trim();
+        const newLinkHref = document.getElementById('newLinkHref').value.trim();
+  
+        if (newLinkText && newLinkHref) {
+          // Add new link to the first group
+          navData.navGroups[0].links.push({ text: newLinkText, href: newLinkHref });
+  
+          // Save to localStorage
+          localStorage.setItem('navData', JSON.stringify(navData));
+  
+          // Clear input fields
+          document.getElementById('newLinkText').value = '';
+          document.getElementById('newLinkHref').value = '';
+  
+          // Re-render navigation
+          replaceNav();
+        } else {
+          alert('Please enter both Link Text and Link URL.');
+        }
+      });
+    }
+  
+    replaceNav();
+  });
+  
 
 
 
