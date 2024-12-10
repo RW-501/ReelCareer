@@ -322,13 +322,13 @@ li.dragging {
 
 
 
-
+        
 async function loadInteractionLogs() {
     const interactionBody = document.getElementById('interactionBody');
-    interactionBody.innerHTML = '<tr><td colspan="3">Loading...</td></tr>'; // Loading state
+    interactionBody.innerHTML = '<tr><td colspan="5">Loading...</td></tr>'; // Loading state
 
     try {
-        // Reference the 'ChatbotInteractions' collection and order it
+        // Reference the 'ChatbotInteractions' collection and order it by timestamp
         const q = query(collection(db, 'ChatbotInteractions'), orderBy('timestamp', 'desc'), limit(10));
         const querySnapshot = await getDocs(q);
 
@@ -338,7 +338,7 @@ async function loadInteractionLogs() {
             const data = doc.data();
             const row = `
                 <tr>
-                    <td>${new Date(data.timestamp).toLocaleString()}</td>
+                    <td>${new Date(data.timestamp.seconds * 1000).toLocaleString()}</td>
                     <td>${data.question}</td>
                     <td>${data.answer}</td>
                     <td>${data.helpful}</td>
@@ -349,23 +349,29 @@ async function loadInteractionLogs() {
         });
 
         if (querySnapshot.empty) {
-            interactionBody.innerHTML = '<tr><td colspan="3">No data available.</td></tr>';
+            interactionBody.innerHTML = '<tr><td colspan="5">No data available.</td></tr>';
         }
     } catch (error) {
         console.error("Error loading interactions: ", error);
-        interactionBody.innerHTML = '<tr><td colspan="3">Error loading data.</td></tr>';
+        interactionBody.innerHTML = '<tr><td colspan="5">Error loading data.</td></tr>';
     }
 }
-    
-        // Filter interaction logs based on user input
-        function filterLogs() {
-            const input = document.getElementById('searchInput').value.toLowerCase();
-            const rows = document.querySelectorAll('#interactionBody tr');
-            rows.forEach(row => {
-                const text = row.textContent.toLowerCase();
-                row.style.display = text.includes(input) ? '' : 'none';
-            });
-        }
+
+// Filter interaction logs based on user input
+function filterLogs() {
+    const input = document.getElementById('searchInput').value.toLowerCase();
+    const rows = document.querySelectorAll('#interactionBody tr');
+    rows.forEach(row => {
+        const text = row.textContent.toLowerCase();
+        row.style.display = text.includes(input) ? '' : 'none';
+    });
+}
+
+// Initialize search filter
+document.getElementById('searchInput').addEventListener('input', filterLogs);
+
+// Load the logs when the page is ready
+window.onload = loadInteractionLogs;
 
     
 
