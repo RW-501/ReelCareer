@@ -200,7 +200,9 @@ main {
                         <tr>
                             <th>Timestamp</th>
                             <th>User Input</th>
-                            <th>Bot Response</th>
+                            <th>Answer</th>
+                            <th>Helpful </th>
+                            <th>Views</th>
                         </tr>
                     </thead>
                     <tbody id="interactionBody">
@@ -212,26 +214,7 @@ main {
             </div>
         </div>
 
-        <!-- User Feedback on Suggestions Section -->
-        <div class="card mb-4">
-            <div class="card-body">
-                <h4>User Feedback on Suggestions</h4>
-                <table class="table table-bordered" id="feedbackTable">
-                    <thead>
-                        <tr>
-                            <th>Suggestion</th>
-                            <th>Feedback</th>
-                            <th>Rating</th>
-                        </tr>
-                    </thead>
-                    <tbody id="feedbackBody">
-                        <tr>
-                            <td colspan="3">Loading...</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+        
 
  
         
@@ -279,7 +262,9 @@ async function loadInteractionLogs() {
                 <tr>
                     <td>${new Date(data.timestamp).toLocaleString()}</td>
                     <td>${data.question}</td>
-                    <td>${data.botResponse}</td>
+                    <td>${data.answer}</td>
+                    <td>${data.helpful}</td>
+                    <td>${data.views}</td>
                 </tr>
             `;
             interactionBody.innerHTML += row;
