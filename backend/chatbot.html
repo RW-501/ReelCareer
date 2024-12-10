@@ -501,14 +501,25 @@ function renderQuestions() {
     // Render General Questions
     generalQuestions.forEach((q, index) => {
         const li = createQuestionElement(q, "General", index);
+        li.setAttribute("draggable", "true");
+        li.setAttribute("data-index", index);
+        li.setAttribute("data-category", "General");
+        li.addEventListener("dragstart", dragStart);
+        li.addEventListener("dragend", dragEnd);
         generalList.appendChild(li);
     });
 
     // Render Predefined Questions
     predefinedQuestions.forEach((q, index) => {
         const li = createQuestionElement(q, "Predefined", index);
+        li.textContent = q.question;
+        li.setAttribute("draggable", "true");
+        li.setAttribute("data-index", index);
+        li.setAttribute("data-category", "Predefined");
+        li.addEventListener("dragstart", dragStart);
+        li.addEventListener("dragend", dragEnd);
         predefinedList.appendChild(li);
-    });
+        });
 }
 
 function createQuestionElement(question, category, index) {
