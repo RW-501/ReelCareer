@@ -2886,7 +2886,6 @@ function displayMessage(sender, message) {
     messageDiv.style.backgroundColor = "#d4edda"; // Light green for user messages
     messageDiv.style.color = "#155724"; // Darker green text
     messageDiv.style.alignSelf = "flex-end";
-    messageDiv.style.textAlign = "right";
     messageDiv.style.fontFamily = "Arial, sans-serif";
     messageDiv.style.fontWeight = "500";
     messageDiv.style.marginLeft = "auto";
