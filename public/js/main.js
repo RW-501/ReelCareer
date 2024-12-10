@@ -605,19 +605,21 @@ function createNavbar() {
           <button id="darkModeToggle" class="btn btn-outline-secondary">Dark Mode</button>
         </div>
 
-        <!-- Collapse Toggle Button -->
+        <!-- Collapse Toggle Button 
         <button class="navbar-toggler ${toggleClass}" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon">
             <i class="fas fa-bars"></i>
           </span>
         </button>
-
-        <!-- Collapsible Area -->
+-->
+        <!-- Collapsible Area 
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ml-auto">
             ${generateCollapsibleLinks(navItems)}
           </ul>
         </div>
+
+        -->
       </div>
     </nav>
   `;
