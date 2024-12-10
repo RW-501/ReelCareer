@@ -389,6 +389,50 @@ async function fetchChatbotData() {
 }
 
 
+// Firestore Batch Upload Function
+function batchUpdateChatbotInteractions() {
+    const batch = db.batch(); // Initialize Firestore batch
+    const collectionRef = db.collection("ChatbotInteractions");
+
+    function processQuestions(questions, category) {
+        questions.forEach((question) => {
+            const docID = question.id || generateRandom6DigitNumber(); // Ensure unique ID
+            const docRef = collectionRef.doc(docID.toString());
+
+            const updatedQuestion = {
+                id: docID,
+                question: question.question,
+                answer: question.answer,
+                category: category,
+                tags: question.tags || [],
+                supportURL: question.supportURL || null,
+                helpful: question.helpful || 0,
+                views: question.views || 0,
+                createdAt: question.createdAt || new Date().toISOString()
+            };
+
+            batch.set(docRef, updatedQuestion, { merge: true });
+        });
+    }
+
+    // Access jsonOutput directly
+    processQuestions(jsonOutput.generalQuestions, "General");
+    processQuestions(jsonOutput.predefinedQuestions, "Predefined");
+
+    // Commit the batch
+    batch.commit()
+        .then(() => {
+            console.log("Data successfully uploaded to Firestore!");
+        })
+        .catch((error) => {
+            console.error("Error uploading data: ", error);
+        });
+}
+
+// Helper Function: Generate Random 6-Digit Number
+function generateRandom6DigitNumber() {
+    return Math.floor(100000 + Math.random() * 900000);
+}
 
 
 
@@ -399,6 +443,7 @@ document.getElementById("new-question-form").addEventListener("submit", function
     e.preventDefault();
 
     // Get form values
+    const questionID = document.getElementById("questionID").value.trim();
     const question = document.getElementById("question").value.trim();
     const answer = document.getElementById("answer").value.trim();
     const category = document.getElementById("category").value;
@@ -410,6 +455,7 @@ document.getElementById("new-question-form").addEventListener("submit", function
     const tags = tagsInput ? tagsInput.split(",").map(tag => tag.trim()) : [];
 
     const updatedQuestion = {
+        id: questionID || generateRandom6DigitNumber(),
         question: question,
         answer: link ? `${answer} Here's the link: [${link}](${link})` : answer,
         category: category,
@@ -497,6 +543,7 @@ function createQuestionElement(question, category, index) {
 }
 
 function populateForm(questionData, category, index) {
+    document.getElementById("questionID").value = questionData.id || "";
     document.getElementById("question").value = questionData.question || "";
     document.getElementById("answer").value = questionData.answer ? questionData.answer.split(" Here's the link:")[0] : "";
     document.getElementById("link").value = extractLink(questionData.answer) || "";
@@ -588,7 +635,7 @@ window.drop = drop;
 
 // Export questions as JSON
 document.getElementById("copy-json-btn").addEventListener("click", function () {
-    const jsonOutput = {
+     jsonOutput = {
         generalQuestions,
         predefinedQuestions
     };
