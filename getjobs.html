@@ -476,16 +476,15 @@ function sortTable(columnIndex) {
     </script>
     <script type="module">
 
-import { getFirestore, collection, writeBatch } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 
         import {
                 db, doc, getDoc, query, updateDoc,
                 setDoc, ref, signInWithPopup, orderBy,
-                 
+                collection, getFirestore,
                 uploadBytes, OAuthProvider, arrayUnion, getStorage,
                 signOut, addDoc, increment, onAuthStateChanged,
                 createUserWithEmailAndPassword, signInWithEmailAndPassword,
-                where, getDocs, storage, deleteObject, 
+                where, getDocs, storage, deleteObject, batch,
                 auth, analytics, deleteDoc, getDownloadURL
             } from 'https://reelcareer.co/js/module.js';
     
@@ -604,7 +603,7 @@ document.addEventListener("DOMContentLoaded", () => {
     
           
 
-            const batch = writeBatch(db);
+          //  const batch = writeBatch(db);
             let count = 0;
 
             selectedJobs.forEach((jobRow) => {

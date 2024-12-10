@@ -6,7 +6,7 @@ uploadBytesResumable, signInWithPopup, FacebookAuthProvider, GoogleAuthProvider,
 OAuthProvider, signOut, deleteDoc, getFirestore, serverTimestamp,
 createUserWithEmailAndPassword, signInWithEmailAndPassword, deleteObject,
 where, getDocs, storage, getAuth, collection, auth, analytics, 
-googleProvider,onSnapshot ,
+googleProvider,onSnapshot ,  batch,
 facebookProvider,writeBatch ,
 getUserId // Export the function
 } from 'https://reelcareer.co/js/module.js';
@@ -2440,7 +2440,7 @@ function scanAndReplaceVulgarWords(vulgarWordsArray, logging = false) {
 
 async function sendToSupportTickets(tickets) {
   const supportTicketsRef = collection(db, 'SupportTickets');
-  const batch = writeBatch(db);
+ // const batch = writeBatch(db);
 
   for (const ticket of tickets) {
     const { jobID, videoID } = ticket;

@@ -36,23 +36,17 @@
     <!-- Firebase and Job Fetcher Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
-        import { getFirestore, collection, addDoc, writeBatch } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
-
-        // Firebase configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyDiwC3Dmd88-t3N9iRV5cZ3snVkEXinclg",
-            authDomain: "reelcareer-cb4b0.firebaseapp.com",
-            projectId: "reelcareer-cb4b0",
-            storageBucket: "reelcareer-cb4b0.appspot.com",
-            messagingSenderId: "365163764840",
-            appId: "1:365163764840:web:21c44f8625c9b6831e6fdd",
-            measurementId: "G-LBTK319K2X"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-
+      
+      import {
+                db, doc, getDoc, query, updateDoc,
+                setDoc, ref, signInWithPopup, orderBy,
+                collection, getFirestore,
+                uploadBytes, OAuthProvider, arrayUnion, getStorage,
+                signOut, addDoc, increment, onAuthStateChanged,
+                createUserWithEmailAndPassword, signInWithEmailAndPassword,
+                where, getDocs, storage, deleteObject, batch,
+                auth, analytics, deleteDoc, getDownloadURL
+            } from 'https://reelcareer.co/js/module.js';
         let autoAdd = false;
         let autoAddTimeout;
 
@@ -95,7 +89,7 @@
         // Add Selected Jobs
         async function addSelectedJobs() {
             const selected = document.querySelectorAll(".job-item.selected input");
-            const batch = writeBatch(db);
+          //  const batch = writeBatch(db);
             let count = 0;
 
             selected.forEach((input, index) => {
