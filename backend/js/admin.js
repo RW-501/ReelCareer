@@ -78,11 +78,14 @@ const navData = {
   
   function replaceNav() {
       // Get the current Main_Nav element
-      const oldNav = document.getElementById('Main_Nav');
+      let oldNav = document.getElementById('Main_Nav');
       
       // If the old nav exists, remove it
       if (oldNav) {
           oldNav.innerHTML = '';
+      }else{
+        oldNav = document.createElement('nav');
+
       }
   
       // Create the new nav element
