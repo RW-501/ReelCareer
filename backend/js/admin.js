@@ -141,9 +141,9 @@ const navData = {
 
 
 
-
-
-
+  document.addEventListener('DOMContentLoaded', function() {
+    addStylesheetToHeader();
+});
 
 function addStylesheetToHeader() {
     // Create a new <link> element
@@ -156,6 +156,3 @@ function addStylesheetToHeader() {
     // Append the <link> element to the <head> section of the document
     document.head.appendChild(link);
 }
-
-// Call the function to add the stylesheet to the header
-addStylesheetToHeader();
