@@ -587,6 +587,14 @@ function dragStart(e) {
 function dragEnd(e) {
     e.target.classList.remove("dragging"); // Remove dragging highlight
     document.querySelectorAll(".drop-zone").forEach(zone => zone.classList.remove("highlight")); // Remove zone highlight
+    jsonOutput = {
+        generalQuestions,
+        predefinedQuestions
+    };
+
+    const jsonText = JSON.stringify(jsonOutput, null, 2);
+    document.getElementById("json-output").value = jsonText;
+
 }
 window.dragEnd = dragEnd;
 
