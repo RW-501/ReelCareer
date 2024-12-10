@@ -2738,7 +2738,7 @@ function loadGeneralQuestions() {
     allQuestions.filter(q => q.onload).forEach(q => {
         const button = document.createElement("button");
         button.innerText = q.question;
-        button.style.cssText = "margin: 5px;padding: 5px 10px;cursor: pointer;border: #dde3ed solid;border-radius: 25px;background-color: aliceblue;";
+        button.style.cssText = "color: #30343f; margin: 5px;padding: 5px 10px;cursor: pointer;border: #dde3ed solid;border-radius: 25px;background-color: aliceblue;";
         button.addEventListener("click", () => handleUserInput(q.question));
         messageArea.appendChild(button);
     });
