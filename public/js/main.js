@@ -626,6 +626,7 @@ function createNavbar() {
 
 
 
+
 // Dark mode toggle functionality
 function toggleDarkMode() {
   document.body.classList.toggle("dark-mode");
