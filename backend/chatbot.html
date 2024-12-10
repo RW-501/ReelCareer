@@ -466,6 +466,7 @@ function batchUpdateChatbotInteractions() {
             console.error("Error uploading data: ", error);
         });
 }
+document.getElementById("upload-to-db").addEventListener(batchUpdateChatbotInteractions); 
 
 // Helper Function: Generate Random 6-Digit Number
 function generateRandom6DigitNumber() {
