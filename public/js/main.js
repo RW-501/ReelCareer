@@ -2613,7 +2613,7 @@ chatPanel.style.cssText = `
 function resizeChatPanel() {
   if (window.innerWidth <= 768) { // For mobile screens
     chatPanel.style.width = "90vw"; // 90% of viewport width
-    chatPanel.style.height = "50vh"; // 50% of viewport height
+    chatPanel.style.height = "80vh"; // 50% of viewport height
     chatPanel.style.bottom = "10px"; // Adjust positioning
     chatPanel.style.right = "10px";
     chatPanel.style.borderRadius = "5px";
