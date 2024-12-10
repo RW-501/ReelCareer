@@ -2509,7 +2509,7 @@ if (detectedWords.length > 0) {
 // Fetch the structured JSON from the /chat_bot.json file
 async function fetchChatbotData() {
   try {
-    const response = await fetch('/chat_bot.json');
+    const response = await fetch('https://reelcareer.co/bot/chat_bot.json');
     const data = await response.json();
 
     // Combine the general questions and predefined questions
