@@ -435,7 +435,7 @@ let  jsonOutput = {
                 
 // Firestore Batch Upload Function
 async function batchUpdateChatbotInteractions() {
-    //const batch = writeBatch(db); // Get the batch reference
+    const batch = writeBatch(db); // Get the batch reference
     const collectionRef = collection(db, "ChatbotInteractions"); // Reference to the "ChatbotInteractions" collection
 
     // Function to process each question in the given category
