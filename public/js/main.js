@@ -2578,7 +2578,7 @@ chatButton.addEventListener("mouseup", () => {
   `;
   chatPanel.innerHTML = `
  <div style="background-color: #84adea;color: white;padding: 10px;text-align: center;height: 3rem;display: flex;flex-direction: row;flex-wrap: wrap;align-content: flex-start;justify-content: space-between;align-items: center;">
-          <strong>Chatbot</strong>
+          <strong>ReelCareer Chatbot</strong>
           <button id="close-chat" style="background: none;border: none;color: #ffffff;cursor: pointer;font-size: x-large;padding: 0;margin: 0;">×</button>
       </div>
       <div id="chatbot-messages" style="flex: 1; padding: 10px; overflow-y: auto; font-size: 14px;"></div>
@@ -2629,9 +2629,9 @@ async function fetchChatbotData() {
 function loadGeneralQuestions() {
   const messageArea = document.getElementById("chatbot-messages");
   if (messageArea) {
-    console.log("Loading general questions...");
+    //console.log("Loading general questions...");
     messageArea.innerHTML = "<p><strong>Choose a topic to get started:</strong></p>";
-    messageArea.style.cssText = " text-align: center;   margin: auto; display: block; font-family: sans-serif;";
+    messageArea.style.cssText = " text-align: center;     overflow-y: scroll;  margin: auto; display: block; font-family: sans-serif;";
 
 
 
