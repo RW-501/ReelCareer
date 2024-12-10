@@ -76,67 +76,56 @@ const navData = {
       // Add other groups as needed
     ]
   };
-  
   function replaceNav() {
-      // Get the current Main_Nav element
-      let oldNav = document.getElementById('Main_Nav');
-      
-      // If the old nav exists, remove it
-      if (oldNav) {
-          oldNav.innerHTML = '';
-      }else{
+    // Get or create the Main_Nav element
+    let oldNav = document.getElementById('Main_Nav');
+
+    if (!oldNav) {
         oldNav = document.createElement('nav');
+        oldNav.id = 'Main_Nav';
+        document.body.prepend(oldNav); // Add the nav to the top of the body
+    }
 
-      }
-  
-      // Create the new nav element
-      const newNav = document.createElement('nav');
-      newNav.id = 'Main_Nav';
-      newNav.classList.add('navbar', 'navbar-expand-lg', 'navbar-light', 'bg-light');
-      newNav.setAttribute('role', 'navigation');
-      newNav.setAttribute('aria-label', 'Main Navigation');
-      
-      // Start building the nav HTML
-      let navHTML = `
-          <a class="navbar-brand" href="https://reelcareer.co">ReelCareer.co</a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNav">
-              <ul class="navbar-nav">
-      `;
-  
-      // Loop through the navGroups and add their links
-      navData.navGroups.forEach(group => {
-          navHTML += `
-              <div class="navGroup" title="${group.title}">
-          `;
-          group.links.forEach(link => {
-              navHTML += `
-                  <li class="nav-item"><a class="nav-link" href="${link.href}">${link.text}</a></li>
-              `;
-          });
-          navHTML += `</div>`;
-      });
-  
-      navHTML += `
-              </ul>
-          </div>
-      `;
-  
-      // Insert the HTML into the new nav element
-      newNav.innerHTML = navHTML;
-  
-      // Append the new nav to the DOM (to replace the old one)
-      oldNav.appendChild(newNav);  // You can append it to any other section as needed
-  }
-  
-  // Call the function to replace the navigation
-  
-    replaceNav();
+    // Build the new navigation HTML
+    let navHTML = `
+        <div class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="https://reelcareer.co">ReelCareer.co</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+    `;
+
+    // Loop through navGroups and their links
+    navData.navGroups.forEach(group => {
+        navHTML += `<li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="${group.title.replace(/\s/g, '-')}" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            ${group.title}
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="${group.title.replace(/\s/g, '-')}">
+        `;
+
+        group.links.forEach(link => {
+            navHTML += `<a class="dropdown-item" href="${link.href}">${link.text}</a>`;
+        });
+
+        navHTML += `</div></li>`;
+    });
+
+    navHTML += `
+                </ul>
+            </div>
+        </div>
+    `;
+
+    // Replace the oldNav content with the new HTML
+    oldNav.innerHTML = navHTML;
+}
+
+// Call the function to replace the navigation
+replaceNav();
 });
-
-
 
 
 
