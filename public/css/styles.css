@@ -119,8 +119,9 @@ font-size: 1rem;
 
 #Main-Nav_bar  .navbar-toggler:hover,
 #Main-Nav_bar  .navbar-toggler:focus {
-  background-color: rgba(0, 0, 0, 0.1); /* Add a subtle hover effect */
+  background-color: none; /* Add a subtle hover effect */
   transform: scale(1.1); /* Slightly enlarge the button on hover */
+  color: #363cd8;
 }
 
 /* Add custom icon styles for better appearance */
