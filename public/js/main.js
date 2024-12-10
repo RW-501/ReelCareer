@@ -2682,7 +2682,7 @@ document.body.appendChild(chatPanel);
     height: 100%;
     place-content: space-between;
     place-items: stretch;
-    display: flex;`
+    display: grid;`
 
         // Replace main-content with chatbot
         mainContent.appendChild(chatPanel);
