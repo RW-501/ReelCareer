@@ -112,16 +112,20 @@
   </script>
 
 
-  <!-- Custom CSS -->
-  <link rel="stylesheet" href="https://reelcareer.co/public/css/styles.css">
-
+ 
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
+ 
   <script src="https://reelcareer.co/public/js/scripts.js"></script>
   <script src="https://reelcareer.co/public/js/loadScripts.js"></script>
+
+
+  
+  <link rel="stylesheet" href="https://reelcareer.co/public/css/styles.css">
+
 
   <style>
     .custom-load-more-btn {
@@ -255,9 +259,9 @@
 
 
 
-
+  
 // Submit the form and save the inquiry to Firestore
-document.getElementById('supportForm').addEventListener('submit', function(e) {
+document.getElementById('supportForm').addEventListener('submit', async function(e) {
     e.preventDefault();
 
     const userName = document.getElementById('userName').value;
@@ -267,25 +271,30 @@ document.getElementById('supportForm').addEventListener('submit', function(e) {
     // Get the selected support topics (from the dropdown)
     const supportTopics = Array.from(document.getElementById('supportTopics').selectedOptions)
                                 .map(option => option.value);
+                                 
+    const userDataSaved = getUserData() || {};
 
-    // Save the inquiry to Firebase Firestore
-    db.collection('SupportTickets').add({
-        submittedByUserID: "12345",  // You can replace this with dynamic user ID
-        submittedByUserName: userName,
-        message: userIssue,
-        reasons: supportTopics,  // Add the selected topics to the reasons array
-        email: userEmail,
-        submittedBy: "user",
-        type: "Support Page",
-        status: "submitted",
-        submittedAt: new Date().toISOString(),
-        timestamp: serverTimestamp()
-    }).then(() => {
+    try {
+        // Adding the document to the Firestore collection
+        await addDoc(collection(db, "SupportTickets"), {
+            submittedByUserID: userDataSaved.userID || '',  // You can replace this with dynamic user ID
+            submittedByUserName: userName,
+            message: userIssue,
+            reasons: supportTopics,  // Add the selected topics to the reasons array
+            email: userEmail,
+            submittedBy: "user",
+            type: "Support Page",
+            status: "submitted",
+            submittedAt: new Date().toISOString(),
+            timestamp: serverTimestamp(), // Firestore server timestamp
+        });
+
+        // Show success message
         document.getElementById('successMessage').style.display = 'block';
         document.getElementById('supportForm').reset();
-    }).catch((error) => {
+    } catch (error) {
         console.error("Error submitting inquiry: ", error);
-    });
+    }
 });
 
   
