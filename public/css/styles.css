@@ -544,6 +544,9 @@ align-items: flex-start;
   color: #83bad9 !important;
 }
 
+#previewSection {
+  width: 100%;
+}
 
 
 
