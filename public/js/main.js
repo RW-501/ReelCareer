@@ -2907,7 +2907,7 @@ function displayMessage(sender, message) {
   ? `    margin: 8px 0px;
     padding: 8px 12px;
     border-radius: 10px;
-    max-width: 80%;
+    max-width: 70%;
     overflow-wrap: break-word;
     background-color: #e6f7ff;
     color: #333333;
@@ -2918,21 +2918,22 @@ function displayMessage(sender, message) {
     justify-items: start;
     text-align: left;`
 
-  :   `  padding: 8px 12px;
+  :   `  
+    padding: 8px 12px;
     border-radius: 10px;
-    max-width: 80%;
+    max-width: 70%;
     overflow-wrap: break-word;
-    background-color: #d4edda;
-    color: #155724;
+    background-color: rgb(212, 237, 218);
+    color: rgb(21, 87, 36);
     font-family: Arial, sans-serif;
-    display: grid
-;
-    justify-content: end;
+    display: grid;
+    place-content: stretch end;
     justify-items: stretch;
     text-align: left;
-    align-content: stretch;
     width: 100%;
-    margin: auto 0 auto auto;`;
+    margin: auto 0px auto auto;
+    justify-content: start;
+`;
 
 
   // Replace URLs with <a> tags if they exist in the message
