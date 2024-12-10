@@ -98,13 +98,17 @@
     <thead>
         <tr>
             <th><input type="checkbox" id="selectAll" onclick="toggleAll(this)"></th>
-            <th onclick="sortTable(1)">ID</th>
-            <th onclick="sortTable(2)">Title</th>
-            <th onclick="sortTable(3)">Description</th>
-            <th onclick="sortTable(4)">Category</th>
-            <th onclick="sortTable(5)">Industry</th>
-            <th onclick="sortTable(6)">Created At</th>
-            <th onclick="sortTable(7)">Submitted By</th>
+            <th onclick="sortTable(1)">Title</th>
+            <th onclick="sortTable(2)">Created At</th>
+            <th onclick="sortTable(3)">State</th>
+            <th onclick="sortTable(4)">City</th>
+            
+            <th onclick="sortTable(5)">Description</th>
+
+            <th onclick="sortTable(6)">Category</th>
+            <th onclick="sortTable(7)">Industry</th>
+        
+            <th onclick="sortTable(8)">Submitted By</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -207,16 +211,19 @@ async function loadJobs() {
         querySnapshot.forEach((doc) => {
             const job = doc.data();
             const truncatedDescription = job.description.length > 50 ? job.description.substring(0, 50) + '...' : job.description;
-
+       
+            
             const row = `
                 <tr>
                     <td><input type="checkbox" class="jobCheckbox" value="${doc.id}"></td>
-                    <td>${doc.id}</td>
-                    <td>${job.title}</td>
-                    <td>${truncatedDescription}</td>
+                    <td><a href="https://reelcareer.co/jobs/job-details/?id=${doc.id}">${job.title}</a></td>
+                    <td>${job.createdAt.toDate().toLocaleString()}</td>
+
+                    <td>${job.state}</td>
+                    <td>${job.city}</td>
+                 <td>${truncatedDescription}</td>
                     <td>${job.category}</td>
                     <td>${job.industry}</td>
-                    <td>${job.createdAt.toDate().toLocaleString()}</td>
                     <td>${job.submittedBy}</td>
                     <td>
                         <button class="btn btn-warning btn-sm" onclick="editJob('${doc.id}', '${job.title}', '${job.description}', '${job.category}')">Edit</button>
