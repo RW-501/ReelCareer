@@ -2754,24 +2754,27 @@ async function handleUserInput(userMessage) {
   displayMessage("user", userMessage);
 
   // Call sendMessage to get the answer and question id
-  const result = sendMessage(userMessage);
+  const result = await sendMessage(userMessage);
 
   if (result && result.answer) {
-    // Display the answer returned by sendMessage
-    displayMessage("bot", result.answer);
+    // Wait for displayMessage to complete typing before proceeding
+    await displayMessage("bot", result.answer);
 
     // If an ID is returned, display the helpful questionnaire
     if (result.id) {
-      console.log("Question ID:", result.id); // You can use this ID for tracking or logging purposes
-
-      // Call the addHelpfulButtons function with the question ID
+      console.log("Question ID:", result.id);
       addHelpfulButtons(result.id);
     }
   } else {
-    displayMessage("bot", "Sorry, I couldn't find an answer for that. Please contact us via our [Contact Us](https://reelcareer.com/contact) page.");
+    await displayMessage(
+      "bot",
+      "Sorry, I couldn't find an answer for that. Please contact us via our [Contact Us](https://reelcareer.com/contact) page."
+    );
     logUnansweredQuestion(userMessage);
   }
 }
+
+
 
 
 
@@ -2896,84 +2899,56 @@ async function updateHelpfulCount(questionId, isHelpful) {
 
 // Display messages in the chat panel
 function displayMessage(sender, message) {
-  const messageArea = document.getElementById("chatbot-messages");
-  const messageDiv = document.createElement("div");
-  messageDiv.style.margin = "8px 0";
-  messageDiv.style.padding = "8px 12px";
-  messageDiv.style.borderRadius = "10px";
-  messageDiv.style.maxWidth = "80%";
-  messageDiv.style.wordWrap = "break-word";
-  messageDiv.style.textAlign ="left";
+  return new Promise((resolve) => {
+    const messageArea = document.getElementById("chatbot-messages");
+    const messageDiv = document.createElement("div");
+    messageDiv.style.margin = "8px 0";
+    messageDiv.style.padding = "8px 12px";
+    messageDiv.style.borderRadius = "10px";
+    messageDiv.style.maxWidth = "80%";
+    messageDiv.style.wordWrap = "break-word";
 
-  // Style based on sender
-  messageDiv.style.cssText = sender === "bot"
-  ? `    margin: 8px 0px;
-    padding: 8px 12px;
-    border-radius: 10px;
-    max-width: 70%;
-    overflow-wrap: break-word;
-    background-color: #e6f7ff;
-    color: #333333;
-    font-family: Arial, sans-serif;
-    display: grid
-;
-    justify-content: start;
-    justify-items: start;
-    text-align: left;`
+    // Style based on sender
+    messageDiv.style.cssText = sender === "bot"
+      ? "background-color: #e6f7ff; color: #333333; align-self: flex-start; font-family: Arial, sans-serif;"
+      : "background-color: #d4edda; color: #155724; align-self: flex-end; font-family: Arial, sans-serif;";
 
-  :   `  
-    padding: 8px 12px;
-    border-radius: 10px;
-    max-width: 70%;
-    overflow-wrap: break-word;
-    background-color: rgb(212, 237, 218);
-    color: rgb(21, 87, 36);
-    font-family: Arial, sans-serif;
-    display: grid;
-    place-content: stretch end;
-    justify-items: stretch;
-    text-align: left;
-    width: 100%;
-    margin: auto 0px auto auto;
-    justify-content: start;
-`;
+    // Replace URLs with <a> tags if they exist in the message
+    const messageWithLinks = message.replace(
+      /https?:\/\/[^\s]+/g,
+      (url) => `<a href="${url}" target="_blank" style="color: #007bff; text-decoration: underline;">${url}</a>`
+    );
 
+    const senderLabel = sender === "bot"
+      ? '<strong style="color: #007bff;">Chatbot:</strong> '
+      : '<strong style="color: #28a745;">You:</strong> ';
 
-  // Replace URLs with <a> tags if they exist in the message
-  const messageWithLinks = message.replace(
-    /https?:\/\/[^\s]+/g, // Regex to match URLs
-    (url) => `<a href="${url}" target="_blank" style="color: #007bff; text-decoration: underline;">${url}</a>`
-  );
+    // Typing effect for bot messages
+    if (sender === "bot") {
+      let index = 0;
+      const typingSpeed = 70;
 
-  // Add the sender label and message
-  const senderLabel = sender === "bot" 
-  ? '<strong style="color: #007bff;">Chatbot:</strong> ' 
-  : '<strong style="color: #28a745;">You:</strong> ';
+      messageDiv.innerHTML = `${senderLabel}`; // Start empty with sender label
+      const typingEffect = setInterval(() => {
+        messageDiv.innerHTML = `${senderLabel}${messageWithLinks.substring(0, index + 1)}`;
+        messageArea.scrollTop = messageArea.scrollHeight;
+        index++;
 
-  messageDiv.innerHTML = senderLabel + messageWithLinks;
+        if (index === messageWithLinks.length) {
+          clearInterval(typingEffect);
+          resolve(); // Resolve the promise when typing completes
+        }
+      }, typingSpeed);
+    } else {
+      messageDiv.innerHTML = senderLabel + messageWithLinks;
+      resolve(); // Immediately resolve for user messages
+    }
 
-  // Typing effect for bot messages
-  if (sender === "bot") {
-    let index = 0;
-    const typingSpeed = 70; // Delay between each character
-
-    // Clear existing message and apply typing effect
-    messageDiv.innerHTML = `${senderLabel}`; // Initial empty message
-    const typingEffect = setInterval(() => {
-      messageDiv.innerHTML = `${senderLabel}${messageWithLinks.substring(0, index + 1)}`;
-      messageArea.scrollTop = messageArea.scrollHeight; // Keep the latest message visible
-      index++;
-
-      if (index === messageWithLinks.length) {
-        clearInterval(typingEffect); // Stop typing effect
-      }
-    }, typingSpeed);
-  }
-
-  // Append the message to the message area
-  messageArea.appendChild(messageDiv);
-  messageArea.scrollTop = messageArea.scrollHeight; // Auto-scroll to the bottom
+    messageArea.appendChild(messageDiv);
+    messageArea.scrollTop = messageArea.scrollHeight; // Auto-scroll to bottom
+  });
 }
+
 
 // Log unanswered questions
 async function logUnansweredQuestion(message) {
