@@ -124,7 +124,7 @@ const navData = {
       newNav.innerHTML = navHTML;
   
       // Append the new nav to the DOM (to replace the old one)
-      document.body.appendChild(newNav);  // You can append it to any other section as needed
+      oldNav.appendChild(newNav);  // You can append it to any other section as needed
   }
   
   // Call the function to replace the navigation
