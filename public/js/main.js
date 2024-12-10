@@ -2788,7 +2788,6 @@ document.body.appendChild(chatPanel);
       if (mainContent) {
         chatButton.style.display = "none";
         chatPanel.style.cssText = `
-element.style {
     width: 100%;
     min-height: 600px;
     background-color: white;
@@ -2807,7 +2806,7 @@ element.style {
     right: 10px;
     margin: auto;
     max-height: 100%;
-}`
+`
 
         // Replace main-content with chatbot
         mainContent.appendChild(chatPanel);
