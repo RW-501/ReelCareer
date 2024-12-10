@@ -2655,6 +2655,7 @@ document.body.appendChild(chatPanel);
       const mainContent = document.getElementById("main-content");
 
       if (mainContent) {
+        chatButton.remove;
         chatPanel.style.cssText = `
  width: 100%;
     min-height: 600px;
