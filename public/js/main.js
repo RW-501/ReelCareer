@@ -2627,25 +2627,6 @@ function resizeChatPanel() {
 }
 
 // Function to replace main content with chatbot if the page is /bot
-function replaceMainContentWithBot() {
-  const currentUrl = window.location.href;
-
-  if (currentUrl === "https://reelcareer.co/bot/" || currentUrl === "https://reelcareer.co/bot") {
-    const mainContent = document.getElementById("main-content");
-
-    if (mainContent) {
-      // Replace main-content with chatbot
-      mainContent.appendChild(chatPanel);
-    }
-  }
-}
-
-// Attach resize event listener
-window.addEventListener("resize", resizeChatPanel);
-window.addEventListener("DOMContentLoaded", () => {
-  resizeChatPanel(); // Call initially on load
-  replaceMainContentWithBot(); // Replace content if on /bot page
-});
 
 // Append the chat panel to the body
 document.body.appendChild(chatPanel);
@@ -2666,6 +2647,27 @@ document.body.appendChild(chatPanel);
   document.body.appendChild(chatButton);
   document.body.appendChild(chatPanel);
 
+  function replaceMainContentWithBot() {
+    const currentUrl = window.location.href;
+    console.log("currentUrl   ",currentUrl);
+
+    if (currentUrl === "https://reelcareer.co/bot/" || currentUrl === "https://reelcareer.co/bot") {
+      const mainContent = document.getElementById("main-content");
+  console.log("true main-content");
+      if (mainContent) {
+        // Replace main-content with chatbot
+        mainContent.appendChild(chatPanel);
+      }
+    }
+  }
+  
+  // Attach resize event listener
+  window.addEventListener("resize", resizeChatPanel);
+  window.addEventListener("DOMContentLoaded", () => {
+    resizeChatPanel(); // Call initially on load
+    replaceMainContentWithBot(); // Replace content if on /bot page
+  });
+  
   // Event Listeners
   chatButton.addEventListener("click", () => {
       chatPanel.style.display = "flex";
