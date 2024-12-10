@@ -2816,13 +2816,16 @@ element.style {
           
         
       }
+    }else{
+
+  // Attach resize event listener
+  window.addEventListener("resize", resizeChatPanel);
+  resizeChatPanel(); // Call initially on load
     }
    
   }
   
-  // Attach resize event listener
-  window.addEventListener("resize", resizeChatPanel);
-  resizeChatPanel(); // Call initially on load
+
   replaceMainContentWithBot(); // Replace content if on /bot page
 
 }
