@@ -546,6 +546,8 @@ align-items: flex-start;
 
 #previewSection {
   width: 100%;
+  padding: .5rem;
+  margin: auto;
 }
 
 
