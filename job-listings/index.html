@@ -486,7 +486,7 @@
 
 
     <!-- Featured Jobs Section -->
-    <div class="container mt-5">
+    <div id="featuredJobsTop"  class="container mt-5">
       <h2 class="text-center font-weight-bold">Featured Jobs</h2>
       <p class="text-center text-muted">Handpicked job opportunities from top companies</p>
 
@@ -1276,8 +1276,22 @@ function displayJobListings( jobListings ) {
 
     
 
+// Function to handle keyup events on the inputs and toggle the featured jobs
+function handleInputChange() {
+    const noResultsMessage = document.getElementById('featuredJobsTop'); // Element to toggle visibility
 
- 
+    // Check if the featured jobs section is hidden
+    if (noResultsMessage.style.display === "none") {
+        noResultsMessage.style.display = "block";  // Show the featured jobs top section
+    }
+}
+
+// Attach event listeners to the input fields for keyup event
+document.getElementById('keywordInput').addEventListener('keyup', handleInputChange);
+document.getElementById('locationInput').addEventListener('keyup', handleInputChange);
+document.getElementById('jobTypeInput').addEventListener('keyup', handleInputChange);
+document.getElementById('salaryInput').addEventListener('keyup', handleInputChange);
+
 // Function to search for jobs
 async function fetchFilteredJobListings({ 
   requirements, keyword, locationInput, jobTypeInput, salaryInput 
@@ -1377,6 +1391,10 @@ function adjustSalary(salaryInput) {
 
 // Call the search function
 function searchJobs() {
+  const noResultsMessage = document.getElementById('featuredJobsTop');
+  featuredJobsTop.style.display = "none";
+
+  
   const requirements = collectJobRequirements();
 // Get values from the inputs and sanitize them
 const keyword = sanitizeInput(document.getElementById('keywordInput').value);
