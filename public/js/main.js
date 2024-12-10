@@ -2860,6 +2860,9 @@ function addHelpfulButtons(questionId) {
 
   // Append the helpful area to the message area
   messageArea.appendChild(helpfulContainer);
+  messageArea.scrollTop = messageArea.scrollHeight;
+
+
 }
 
 async function updateHelpfulCount(questionId, isHelpful) {
