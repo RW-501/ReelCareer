@@ -2757,19 +2757,22 @@ function addHelpfulButtons(questionId) {
   // Container for the helpful area
   const helpfulContainer = document.createElement("div");
   helpfulContainer.style.cssText = `
-    display: flex;
-    align-items: center;
+    display: grid;
+    align-items: stretch;
     gap: 10px;
     margin-top: 10px;
-    padding: 5px 0;
+    padding: 5px 0px;
     font-family: Arial, sans-serif;
-  `;
+    align-content: stretch;
+    justify-content: space-around;
+    justify-items: stretch;
+    margin-bottom: 10px;  `;
 
   // Text
   const helpfulText = document.createElement("span");
   helpfulText.textContent = "Was this helpful?";
   helpfulText.style.cssText = `
-    font-size: 14px;
+    font-size: 1.5rem;
     color: #555;
   `;
 
@@ -2875,23 +2878,37 @@ function displayMessage(sender, message) {
   messageDiv.style.textAlign ="left";
 
   // Style based on sender
-  if (sender === "bot") {
-    messageDiv.style.backgroundColor = "#b7d0ec"; // Light blue for bot messages
-    messageDiv.style.color = "#333333"; // Darker text
-    messageDiv.style.alignSelf = "flex-start";
-    messageDiv.style.fontFamily = "Arial, sans-serif";
-    messageDiv.style.marginLeft = "0";
-    messageDiv.style.marginRight = "auto";
-  } else {
-    messageDiv.style.backgroundColor = "#d4edda"; // Light green for user messages
-    messageDiv.style.color = "#155724"; // Darker green text
-    messageDiv.style.alignSelf = "flex-end";
-    messageDiv.style.fontFamily = "Arial, sans-serif";
-    messageDiv.style.fontWeight = "500";
-    messageDiv.style.marginLeft = "auto";
-    messageDiv.style.marginRight = "0";
+  messageDiv.style.cssText = sender === "bot"
+  ? `    margin: 8px 0px;
+    padding: 8px 12px;
+    border-radius: 10px;
+    max-width: 80%;
+    overflow-wrap: break-word;
+    background-color: #e6f7ff;
+    color: #333333;
+    font-family: Arial, sans-serif;
+    display: grid
+;
+    justify-content: start;
+    justify-items: start;
+    text-align: left;`
 
-  }
+  :   `  padding: 8px 12px;
+    border-radius: 10px;
+    max-width: 80%;
+    overflow-wrap: break-word;
+    background-color: #d4edda;
+    color: #155724;
+    font-family: Arial, sans-serif;
+    display: grid
+;
+    justify-content: end;
+    justify-items: stretch;
+    text-align: left;
+    align-content: stretch;
+    width: 100%;
+    margin: auto 0 auto auto;`;
+
 
   // Replace URLs with <a> tags if they exist in the message
   const messageWithLinks = message.replace(
