@@ -2758,9 +2758,10 @@ document.body.appendChild(chatPanel);
 
   chatPanel.innerHTML = `
  <div style="background-color: #84adea;color: white;padding: 10px;text-align: center;height: 3rem;display: flex;flex-direction: row;flex-wrap: wrap;align-content: flex-start;justify-content: space-between;align-items: center;">
-          <a href="https://reelcareer.co/bot" aria-label="ReelCareer Chatbot">
+<a href="https://reelcareer.co/bot" aria-label="ReelCareer Chatbot" style="color: white; text-decoration: none;">
   <strong>ReelCareer Chatbot</strong>
 </a>
+
 
           <button id="close-chat" style="background: none;border: none;color: #ffffff;cursor: pointer;font-size: x-large;padding: 0;margin: 0;">×</button>
       </div>
