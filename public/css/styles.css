@@ -101,7 +101,7 @@ font-size: 1rem;
 }
 
 /* Show text on larger screens */
-@media (max-width: 992px) {
+@media (min-width: 992px) {
 
   #Main-Nav_bar #navbarNav {
     display: none; /* Hide text on mobile */
