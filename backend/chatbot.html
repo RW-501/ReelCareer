@@ -432,16 +432,17 @@ let  jsonOutput = {
 
 
 
-
+                
 // Firestore Batch Upload Function
-function batchUpdateChatbotInteractions() {
-  //  const batch = writeBatch(db); // db is the Firestore database reference
-    const collectionRef = db.collection("ChatbotInteractions");
+async function batchUpdateChatbotInteractions() {
+    //const batch = writeBatch(db); // Get the batch reference
+    const collectionRef = collection(db, "ChatbotInteractions"); // Reference to the "ChatbotInteractions" collection
 
+    // Function to process each question in the given category
     function processQuestions(questions, category) {
         questions.forEach((question) => {
             const docID = question.id || generateRandom6DigitNumber(); // Ensure unique ID
-            const docRef = collectionRef.doc(docID.toString());
+            const docRef = doc(collectionRef, docID.toString()); // Reference to document in Firestore
 
             const updatedQuestion = {
                 id: docID,
@@ -455,23 +456,23 @@ function batchUpdateChatbotInteractions() {
                 createdAt: question.createdAt || new Date().toISOString()
             };
 
-            batch.set(docRef, updatedQuestion, { merge: true });
+            batch.set(docRef, updatedQuestion, { merge: true }); // Set the document data
         });
     }
 
-    // Access jsonOutput directly
+    // Access jsonOutput directly (make sure jsonOutput is defined elsewhere)
     processQuestions(jsonOutput.generalQuestions, "General");
     processQuestions(jsonOutput.predefinedQuestions, "Predefined");
 
     // Commit the batch
-    batch.commit()
-        .then(() => {
-            console.log("Data successfully uploaded to Firestore!");
-        })
-        .catch((error) => {
-            console.error("Error uploading data: ", error);
-        });
+    try {
+        await batch.commit(); // Await for the commit to finish
+        console.log("Data successfully uploaded to Firestore!");
+    } catch (error) {
+        console.error("Error uploading data: ", error);
+    }
 }
+
 
 document.getElementById("upload-to-db").addEventListener("click", batchUpdateChatbotInteractions);
 
