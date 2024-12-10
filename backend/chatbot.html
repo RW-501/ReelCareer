@@ -214,8 +214,15 @@ li.dragging {
                 </select>
             
                 <label for="tags">Tags (comma-separated)</label>
-                <input type="text" id="tags" placeholder="e.g., support, contact, help">
-            
+                <div id="tagsContainertagsSET-tags">
+                    <input type="text" class="form-control" id="tagsSET-tags" placeholder="e.g., support, contact, help">
+                   </div>
+
+
+
+
+
+
                 <label for="link">Add Link (Optional)</label>
                 <input type="text" id="link" placeholder="https://example.com">
             
@@ -365,7 +372,6 @@ async function loadInteractionLogs() {
 
 
 
-
         // Initialize arrays for questions
 let generalQuestions = [];
 let predefinedQuestions = [];
@@ -389,6 +395,22 @@ let  jsonOutput = {
         generalQuestions,
         predefinedQuestions
     };
+
+
+
+
+
+
+    const generalTags = createTagInputSystem({
+                    tagsContainerId: "tagsContainertagsSET-tags",
+                    badgeClass: "tag-primary" // Custom badge class for general tags
+                });
+
+
+
+
+         
+
 
 
 
@@ -450,13 +472,16 @@ document.getElementById("new-question-form").addEventListener("submit", function
     const question = document.getElementById("question").value.trim();
     const answer = document.getElementById("answer").value.trim();
     const category = document.getElementById("category").value;
-    const tagsInput = document.getElementById("tags").value.trim();
+
     const link = document.getElementById("link").value.trim();
     const supportURL = document.getElementById("supportURL").value.trim();
 
-    // Process tags
-    const tags = tagsInput ? tagsInput.split(",").map(tag => tag.trim()) : [];
 
+    const tagsInput = document.getElementById('tagsSET-tags').value.trim();
+     const tags = tagsInput ? tagsInput.split(",").map(item => item.toLowerCase().trim()) : [];
+            
+
+    
     const updatedQuestion = {
         id: questionID || generateRandom6DigitNumber(),
         question: question,
@@ -561,8 +586,21 @@ function populateForm(questionData, category, index) {
     document.getElementById("answer").value = questionData.answer ? questionData.answer.split(" Here's the link:")[0] : "";
     document.getElementById("link").value = extractLink(questionData.answer) || "";
     document.getElementById("category").value = category;
-    document.getElementById("tags").value = questionData.tags ? questionData.tags.join(", ") : "";
+
     document.getElementById("supportURL").value = questionData.supportURL || "";
+
+    
+    document.getElementById('tagsSET-tags').value = questionData.tags ? questionData.tags.join(", ") : "";
+
+const tagsContainer = document.getElementById('tagsList');
+questionData.tags.forEach(tag => {
+const tagElement = document.createElement('div');
+tagElement.className = 'tag';
+tagElement.innerHTML = `<span class="tag badge tag-primary mr-1">
+${tag}<button class="ml-1 btn btn-sm tag"> x</button></span>`;
+tagsContainer.appendChild(tagElement);
+});
+
 
     // Set edit state
     editIndex = index;
