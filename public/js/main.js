@@ -2508,26 +2508,6 @@ let allQuestions = [];
 
 // Fetch the structured JSON from the /chat_bot.json file
 // Fetch the structured JSON from the /chat_bot.json file
-async function fetchChatbotData() {
-  try {
-    const response = await fetch('https://reelcareer.co/bot/chat_bot.json');
-    const data = await response.json();
-
-    // Combine the general questions and predefined questions
-     allQuestions = [
-      ...data.generalQuestions.map(q => ({ ...q, onload: true })),  // Mark general questions for onload
-      ...data.predefinedQuestions.map(q => ({ ...q, onload: false }))  // Mark predefined questions for later
-    ];
-
-//    console.log(allQuestions);  // Output the combined questions
-
-    // Further processing can be done here...
-    loadChatbot();
-    
-  } catch (error) {
-    console.error('Error fetching chatbot data:', error);
-  }
-}
 
 
 
@@ -2595,6 +2575,26 @@ function loadChatbot() {
   document.getElementById("send-chat").addEventListener("click", sendMessage);
 }
 
+async function fetchChatbotData() {
+  try {
+    const response = await fetch('https://reelcareer.co/bot/chat_bot.json');
+    const data = await response.json();
+
+    // Combine the general questions and predefined questions
+     allQuestions = [
+      ...data.generalQuestions.map(q => ({ ...q, onload: true })),  // Mark general questions for onload
+      ...data.predefinedQuestions.map(q => ({ ...q, onload: false }))  // Mark predefined questions for later
+    ];
+
+//    console.log(allQuestions);  // Output the combined questions
+
+    // Further processing can be done here...
+    loadChatbot();
+    
+  } catch (error) {
+    console.error('Error fetching chatbot data:', error);
+  }
+}
 
 
 // Load only general questions when chatbot is opened
