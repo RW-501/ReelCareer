@@ -1003,9 +1003,9 @@ async function handleJobPostSubmission(event) {
       console.log("User signed in anonymously");
     }
     // Add to Applications collection
-    const applicationsRef = collection(db, "Applications");
-    console.log("Sending to Applications collection...");
+    const applicationsRef = collection(db, "Jobs");
 
+    
     const jobDocRef = await addDoc(applicationsRef, {
       ...jobDetails,
       createdAt: new Date(),
