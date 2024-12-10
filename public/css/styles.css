@@ -148,6 +148,46 @@ font-size: 1rem;
    transition: color 0.3s ease; /* Smooth transition for color */
 }
 
+#Main-Nav_bar .nav-item  {
+  background-color: #e9ecef69;
+  border-radius: 25px;
+  text-align: center;
+  margin: 0;
+  display: grid;
+  align-content: space-between;
+  justify-content: space-around;
+  align-items: center;
+  justify-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
+#Main-Nav_bar .navbar-nav {
+    width: 100%;
+    text-align: center;
+    display: block;
+    justify-items: center;
+    font-size: 1.2rem;
+    margin: auto 0px 8px 8px;
+}
+.navbar-nav {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  padding-left: 0;
+  margin-bottom: 0;
+  list-style: none;
+  align-content: flex-end;
+  justify-content: space-around;
+  align-items: baseline;
+}
+
+.nav-link {
+  font-size: 1.2rem;
+  color: #335274;
+  padding: .5rem 1rem;
+}
 
 @media (max-width: 768px) {
   #Main-Nav_bar  .navbar-toggler {
@@ -338,7 +378,7 @@ box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2); /* Slightly deeper shadow once loade
     font-size: 2.75rem !important;
 }
 
-.job-title-link, label, .badge, .btn, .btn-primary, .btn-secondary, .breadcrumb-item, .cap  {
+.job-title-link, label, .badge, small, address, abbr, article, button, .btn, .btn-primary, .btn-secondary, .breadcrumb-item, .cap  {
     text-transform: capitalize !important;
     font-family: ui-rounded;
 }
@@ -639,24 +679,6 @@ main .btn-primary:hover {
     border-width: 5px !important;
     transition: background-color 0.3s ease;
 
-}
-.navbar-nav {
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-direction: column;
-    flex-direction: column;
-    padding-left: 0;
-    margin-bottom: 0;
-    list-style: none;
-    align-content: flex-end;
-    justify-content: space-around;
-    align-items: baseline;
-}
-
-.nav-link {
-    font-size: 1.2rem;
-    color: #335274;
-    padding: .5rem 1rem;
 }
 
 main .btn-primary {
