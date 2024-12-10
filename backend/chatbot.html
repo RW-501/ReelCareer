@@ -227,7 +227,6 @@ li.dragging {
             <!-- Buttons for Export and Upload -->
             <div style="margin-top: 20px;">
                 <button id="copy-json-btn">Copy Questions as JSON</button>
-                <input type="file" id="upload-json-btn" accept=".json">
             </div>
             
             <!-- JSON Output Area -->
@@ -661,37 +660,6 @@ function copyToClipboard(text) {
         console.error("Error copying to clipboard", err);
     });
 }
-
-// Upload JSON file and populate fields
-document.getElementById("upload-json-btn").addEventListener("change", function (event) {
-    const file = event.target.files[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = function (e) {
-        try {
-            const data = JSON.parse(e.target.result);
-
-            // Populate the arrays
-            generalQuestions = data.generalQuestions || [];
-            predefinedQuestions = data.predefinedQuestions || [];
-
-            // Re-render the lists
-            renderQuestions();
-            alert("Questions loaded successfully!");
-        } catch (error) {
-            alert("Invalid JSON file.");
-            console.error("Error parsing JSON:", error);
-        }
-    };
-    reader.readAsText(file);
-});
-
-
-
-
-
-
 
 
 
