@@ -2594,26 +2594,26 @@ chatButton.addEventListener("mouseup", () => {
 const chatPanel = document.createElement("div");
 chatPanel.id = "chatbot-panel";
 chatPanel.style.cssText = `
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    width: 350px;
-    height: 400px;
-    background-color: white;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    display: none; /* Hidden initially */
-    flex-direction: column;
-    z-index: 9999;
-    transition: all 0.3s ease; /* Smooth transition for resizing */
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 350px;
+  height: 400px;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  display: none; /* Hidden initially */
+  flex-direction: column;
+  z-index: 9999;
+  transition: all 0.3s ease; /* Smooth transition for resizing */
 `;
 
 // Function to resize panel based on screen width
 function resizeChatPanel() {
   if (window.innerWidth <= 768) { // For mobile screens
     chatPanel.style.width = "90vw"; // 90% of viewport width
-    chatPanel.style.height = "80vh"; // 50% of viewport height
+    chatPanel.style.height = "80vh"; // 80% of viewport height
     chatPanel.style.bottom = "10px"; // Adjust positioning
     chatPanel.style.right = "10px";
     chatPanel.style.borderRadius = "5px";
@@ -2626,9 +2626,26 @@ function resizeChatPanel() {
   }
 }
 
+// Function to replace main content with chatbot if the page is /bot
+function replaceMainContentWithBot() {
+  const currentUrl = window.location.href;
+
+  if (currentUrl === "https://reelcareer.co/bot/" || currentUrl === "https://reelcareer.co/bot") {
+    const mainContent = document.getElementById("main-content");
+
+    if (mainContent) {
+      // Replace main-content with chatbot
+      mainContent.replaceWith(chatPanel);
+    }
+  }
+}
+
 // Attach resize event listener
 window.addEventListener("resize", resizeChatPanel);
-window.addEventListener("DOMContentLoaded", resizeChatPanel); // Call initially on load
+window.addEventListener("DOMContentLoaded", () => {
+  resizeChatPanel(); // Call initially on load
+  replaceMainContentWithBot(); // Replace content if on /bot page
+});
 
 // Append the chat panel to the body
 document.body.appendChild(chatPanel);
