@@ -2754,7 +2754,7 @@ document.body.appendChild(chatPanel);
 
           <button id="close-chat" style=" font-family: sans-serif; background: none;border: none;color: #ffffff;cursor: pointer;font-size: x-large;padding: 0;margin: 0;">×</button>
       </div>
-      <div id="chatbot-messages" style="flex: 1; padding: 10px; overflow-y: auto; font-size: 14px;"></div>
+      <div id="chatbot-messages" style="padding: 0 .5rem; flex: 1; padding: 10px; overflow-y: auto; font-size: 14px;"></div>
       <div style="padding: 10px; border-top: 1px solid #ddd;">
           <div id="chat-input" contenteditable="true" style="border: 1px solid #ccc; padding: 8px; border-radius: 4px; min-height: 40px;"></div>
           <button id="send-chat" style="margin-top: 10px; width: 100%; background-color: #84adea; color: white; border: none; padding: 8px; border-radius: 4px; cursor: pointer;">Send</button>
@@ -2798,6 +2798,8 @@ document.body.appendChild(chatPanel);
     transition: none;
     transform: none;
     height: 100%;
+        max-height: 100%;
+
     place-content: space-between;
     place-items: stretch;
     display: grid;`
@@ -2912,7 +2914,8 @@ function addHelpfulButtons(questionId) {
     align-content: stretch;
     justify-content: space-around;
     justify-items: stretch;
-    margin-bottom: 10px;  `;
+        margin-bottom: 2rem;
+    padding-bottom: 2rem;  `;
 
   // Text
   const helpfulText = document.createElement("span");
