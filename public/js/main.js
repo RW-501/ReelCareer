@@ -2977,7 +2977,7 @@ function sendMessage(messageRaw) {
 
   console.log("message  ",message);
   if (typeof message !== 'string') {
-   // return;  // Exit the function if it's not a string
+    return;  // Exit the function if it's not a string
   }
 
   // Trim and normalize the user message
