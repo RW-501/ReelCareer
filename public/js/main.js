@@ -1076,7 +1076,37 @@ function updateFooter() {
       "title": "Job Listings - Search and Apply for Job Openings",
       "category": "General",
       "order": 14
-    }
+    },
+        {
+          "url": "/bot",
+          "name": "Chat Bot",
+          "title": "Chat Bot - Get Instant Assistance with Your Job Search",
+          "category": "Support",
+          "order": 15
+        },
+        {
+          "url": "/reels",
+          "name": "Video Reels",
+          "title": "Video Reels - Showcase Your Resume with a Personal Touch",
+          "category": "Content",
+          "order": 16
+        },
+        {
+          "url": "/support",
+          "name": "Support",
+          "title": "Support - Get Help with Your Job Search and Account",
+          "category": "Support",
+          "order": 17
+        },
+        {
+          "url": "/membership",
+          "name": "Membership",
+          "title": "Membership - Unlock Premium Features and Job Opportunities",
+          "category": "General",
+          "order": 18
+        }
+      
+      
   ];
   
   // Sort the links based on their order
