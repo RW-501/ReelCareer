@@ -350,6 +350,10 @@ async function fetchChatbotData() {
   }
 }
 
+
+
+
+
 // Add new question form submission
 document.getElementById("new-question-form").addEventListener("submit", function (e) {
     e.preventDefault();
@@ -397,17 +401,67 @@ function renderQuestions() {
     generalList.innerHTML = "";
     predefinedList.innerHTML = "";
 
-    generalQuestions.forEach(q => {
+    generalQuestions.forEach((q, index) => {
         const li = document.createElement("li");
         li.textContent = q.question;
+        li.setAttribute("draggable", "true");
+        li.setAttribute("data-index", index);
+        li.setAttribute("data-category", "General");
+        li.addEventListener("dragstart", dragStart);
         generalList.appendChild(li);
     });
 
-    predefinedQuestions.forEach(q => {
+    predefinedQuestions.forEach((q, index) => {
         const li = document.createElement("li");
         li.textContent = q.question;
+        li.setAttribute("draggable", "true");
+        li.setAttribute("data-index", index);
+        li.setAttribute("data-category", "Predefined");
+        li.addEventListener("dragstart", dragStart);
         predefinedList.appendChild(li);
     });
+}
+
+// Drag start event handler
+function dragStart(e) {
+    e.dataTransfer.setData("text/plain", JSON.stringify({
+        index: e.target.getAttribute("data-index"),
+        category: e.target.getAttribute("data-category")
+    }));
+}
+
+// Allow drop event handler
+function allowDrop(e) {
+    e.preventDefault();
+}
+
+// Drop event handler
+function drop(e) {
+    e.preventDefault();
+
+    const data = e.dataTransfer.getData("text/plain");
+    const { index, category } = JSON.parse(data);
+
+    let questionToMove;
+    let sourceArray;
+    let targetArray;
+
+    // Find the question to move based on the category
+    if (category === "General") {
+        sourceArray = generalQuestions;
+        targetArray = predefinedQuestions;
+    } else {
+        sourceArray = predefinedQuestions;
+        targetArray = generalQuestions;
+    }
+
+    questionToMove = sourceArray.splice(index, 1)[0]; // Remove the question from the source array
+
+    // Add it to the target array
+    targetArray.push(questionToMove);
+
+    // Re-render the lists
+    renderQuestions();
 }
 
 // Export questions as JSON
@@ -455,6 +509,16 @@ document.getElementById("upload-json-btn").addEventListener("change", function (
     };
     reader.readAsText(file);
 });
+
+
+
+
+
+
+
+
+
+
 
 // Initial data loading
 loadInteractionLogs();
