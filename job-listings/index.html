@@ -1024,6 +1024,29 @@ const userJobInterest = getUserJobInterest();
 const userlocationData = prepareLocationForFirebase();
 
 
+function resetForm() {
+  // Get all input elements within the form
+  const form = document.getElementById("jobPostForm"); // Replace with your form ID
+  if (form) {
+    form.reset(); // This clears all input values in the form
+  }
+
+  // Optionally, clear custom fields that are not part of standard form inputs
+  clearCustomFields();
+
+  // Close the job post modal
+  closeJobPostModal();
+}
+
+// Helper function to clear custom fields, such as dynamic tag inputs
+function clearCustomFields() {
+  const tagInput = document.querySelector("#tagsSET-tag"); // Adjust selector as needed
+  if (tagInput) tagInput.value = "";
+
+  // If you have dynamically generated fields or a tag container
+  const tagContainer = document.querySelector(".tags-container"); // Adjust selector
+  if (tagContainer) tagContainer.innerHTML = ""; // Clear tag list
+}
 
 // Get values and split into arrays while sanitizing them
 const searchableTitle = [
