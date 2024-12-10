@@ -249,6 +249,7 @@ function searchJobs() {
         }
     });
 }
+window.searchJobs = searchJobs;
 
 // Function to sort table columns
 let sortOrder = true; // true for ascending, false for descending
@@ -273,43 +274,8 @@ function sortTable(columnIndex) {
     sortOrder = !sortOrder;
 }
 window.sortTable = sortTable;
-// Call loadJobs when the page is loaded
-document.addEventListener("DOMContentLoaded", () => {
 
 
-    
-    loadJobs();
-});
-
-
-// Load job categories function
-async function loadCategories() {
-  try {
-    const querySnapshot = await getDocs(collection(db, 'Categories'));
-    const categorySelect = document.getElementById('jobCategory');
-    const categoryTableBody = document.getElementById('categoryTableBody');
-    categorySelect.innerHTML = ''; // Clear existing options
-    categoryTableBody.innerHTML = ''; // Clear existing rows
-
-    querySnapshot.forEach((doc) => {
-      const category = doc.data().name;
-      const option = `<option value="${category}">${category}</option>`;
-      categorySelect.insertAdjacentHTML('beforeend', option);
-
-      const row = `
-        <tr>
-            <td>${category}</td>
-            <td>
-                <button class="btn btn-danger btn-sm" onclick="deleteCategory('${doc.id}')">Delete</button>
-            </td>
-        </tr>
-      `;
-      categoryTableBody.insertAdjacentHTML('beforeend', row);
-    });
-  } catch (error) {
-    console.error('Error loading categories:', error);
-  }
-}
 
 // Initialize the functions when the page loads
 document.addEventListener('DOMContentLoaded', () => {
@@ -343,6 +309,7 @@ function deleteSelectedJobs() {
         alert("Please select at least one job to delete.");
     }
 }
+window.deleteSelectedJobs = deleteSelectedJobs;
 
 // Open job modal for adding a job
 function openJobModal() {
@@ -350,6 +317,7 @@ function openJobModal() {
     document.getElementById('jobId').value = '';
     $('#jobModal').modal('show');
 }
+window.openJobModal = openJobModal;
 
 // Edit job
 function editJob(id, title, description, category) {
@@ -359,6 +327,7 @@ function editJob(id, title, description, category) {
     document.getElementById('jobId').value = id;
     $('#jobModal').modal('show');
 }
+window.editJob = editJob;
 
 // Save job
 document.getElementById('jobForm').onsubmit = async function(e) {
@@ -424,9 +393,8 @@ async function deleteCategory(id) {
     }
 }
 
-    // Initial load
-        loadJobs();
-     //   loadCategories();
+
+    
     </script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>

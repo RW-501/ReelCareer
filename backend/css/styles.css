@@ -23,7 +23,7 @@ body {
 }
 
 #Main_Nav {
-    background: linear-gradient(to right, var(--secondary-color), var(--primary-color)); /* Gradient */
+    background: linear-gradient(to right, #655f9f, var(--primary-color));
     color: var(--accent-color);
     font-weight: bold;
     box-shadow: 0 4px 20px var(--shadow-color);
@@ -140,6 +140,29 @@ body {
         display: block;
     }
 }
+
+
+
+
+
+
+#main-content {
+    width: 90%;
+    margin: 2rem auto;
+    padding: 2rem;
+    height: 100%;
+    display: grid;
+    font-family: 'Roboto', sans-serif;
+}
+
+
+
+
+
+
+
+
+
 
 
 /* Container Styles */
