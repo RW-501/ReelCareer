@@ -2722,32 +2722,82 @@ async function handleUserInput(userMessage) {
 }
 
 
-async function updateHelpfulCount(questionId, isHelpful) {
-  try {
-    const chatbotDocRef = doc(db, "ChatbotInteractions", questionId);
+// Function to create and append "Was this helpful?" buttons
+function addHelpfulButtons(questionId) {
+  const messageArea = document.getElementById("chatbot-messages");
 
-    // Fetch the current document data
-    const docSnapshot = await getDoc(chatbotDocRef);
-    if (docSnapshot.exists()) {
-      const data = docSnapshot.data();
+  // Container for the helpful area
+  const helpfulContainer = document.createElement("div");
+  helpfulContainer.style.cssText = `
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+    padding: 5px 0;
+    font-family: Arial, sans-serif;
+  `;
 
-      // Update the helpful count and view count
-      const updatedHelpfulCount = isHelpful ? data.helpful + 1 : data.helpful;
-      const updatedViewCount = data.views + 1;  // Increment views count
+  // Text
+  const helpfulText = document.createElement("span");
+  helpfulText.textContent = "Was this helpful?";
+  helpfulText.style.cssText = `
+    font-size: 14px;
+    color: #555;
+  `;
 
-      // Update the document with the new counts
-      await updateDoc(chatbotDocRef, {
-        helpful: updatedHelpfulCount,
-        views: updatedViewCount
-      });
+  // Yes button
+  const yesButton = document.createElement("button");
+  yesButton.textContent = "Yes";
+  yesButton.style.cssText = `
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #28a745;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  `;
+  yesButton.addEventListener("mouseenter", () => {
+    yesButton.style.backgroundColor = "#218838";
+  });
+  yesButton.addEventListener("mouseleave", () => {
+    yesButton.style.backgroundColor = "#28a745";
+  });
+  yesButton.addEventListener("click", async () => {
+    await updateHelpfulCount(questionId, true);
+    alert("Thank you for your feedback!");
+  });
 
-      console.log("Successfully updated helpful and views count.");
-    } else {
-      console.error("Document does not exist.");
-    }
-  } catch (error) {
-    console.error("Error updating helpful or view count:", error);
-  }
+  // No button
+  const noButton = document.createElement("button");
+  noButton.textContent = "No";
+  noButton.style.cssText = `
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #dc3545;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  `;
+  noButton.addEventListener("mouseenter", () => {
+    noButton.style.backgroundColor = "#c82333";
+  });
+  noButton.addEventListener("mouseleave", () => {
+    noButton.style.backgroundColor = "#dc3545";
+  });
+  noButton.addEventListener("click", async () => {
+    await updateHelpfulCount(questionId, false);
+    alert("Thank you for your feedback!");
+  });
+
+  // Append elements to the container
+  helpfulContainer.appendChild(helpfulText);
+  helpfulContainer.appendChild(yesButton);
+  helpfulContainer.appendChild(noButton);
+
+  // Append the helpful area to the message area
+  messageArea.appendChild(helpfulContainer);
 }
 
 
@@ -2755,43 +2805,59 @@ async function updateHelpfulCount(questionId, isHelpful) {
 function displayMessage(sender, message) {
   const messageArea = document.getElementById("chatbot-messages");
   const messageDiv = document.createElement("div");
-  messageDiv.style.margin = "5px 0";
+  messageDiv.style.margin = "8px 0";
+  messageDiv.style.padding = "8px 12px";
+  messageDiv.style.borderRadius = "10px";
+  messageDiv.style.maxWidth = "80%";
+  messageDiv.style.wordWrap = "break-word";
 
-  // Display the sender name
-  messageDiv.innerHTML = `<strong>${sender === "bot" ? "Chatbot" : "You"}:</strong> `;
+  // Style based on sender
+  if (sender === "bot") {
+    messageDiv.style.backgroundColor = "#e6f7ff"; // Light blue for bot messages
+    messageDiv.style.color = "#333333"; // Darker text
+    messageDiv.style.alignSelf = "flex-start";
+    messageDiv.style.fontFamily = "Arial, sans-serif";
+  } else {
+    messageDiv.style.backgroundColor = "#d4edda"; // Light green for user messages
+    messageDiv.style.color = "#155724"; // Darker green text
+    messageDiv.style.alignSelf = "flex-end";
+    messageDiv.style.textAlign = "right";
+    messageDiv.style.fontFamily = "Arial, sans-serif";
+    messageDiv.style.fontWeight = "500";
+  }
 
   // Replace URLs with <a> tags if they exist in the message
   const messageWithLinks = message.replace(
     /https?:\/\/[^\s]+/g, // Regex to match URLs
-    (url) => `<a href="${url}" target="_blank">${url}</a>`
+    (url) => `<a href="${url}" target="_blank" style="color: #007bff; text-decoration: underline;">${url}</a>`
   );
 
-  // Append the message with links to the message div
-  messageDiv.innerHTML += messageWithLinks;
+  // Add the sender label and message
+  const senderLabel = sender === "bot" ? "<strong>Chatbot:</strong> " : "<strong>You:</strong> ";
+  messageDiv.innerHTML = senderLabel + messageWithLinks;
 
-  messageArea.appendChild(messageDiv);
-  messageArea.scrollTop = messageArea.scrollHeight;
-
+  // Typing effect for bot messages
   if (sender === "bot") {
     let index = 0;
-    const typingSpeed = 70; // Delay between each character (in milliseconds)
+    const typingSpeed = 70; // Delay between each character
 
     // Clear existing message and apply typing effect
+    messageDiv.innerHTML = `${senderLabel}`; // Initial empty message
     const typingEffect = setInterval(() => {
-      messageDiv.innerHTML = `<strong>Chatbot:</strong> ${messageWithLinks.substring(0, index + 1)}`;
-      messageArea.scrollTop = messageArea.scrollHeight;
+      messageDiv.innerHTML = `${senderLabel}${messageWithLinks.substring(0, index + 1)}`;
+      messageArea.scrollTop = messageArea.scrollHeight; // Keep the latest message visible
       index++;
 
       if (index === messageWithLinks.length) {
-        clearInterval(typingEffect); // Stop typing effect once message is fully displayed
+        clearInterval(typingEffect); // Stop typing effect
       }
     }, typingSpeed);
-  } else {
-    // Display user message immediately
-    messageDiv.innerHTML += messageWithLinks;
   }
-}
 
+  // Append the message to the message area
+  messageArea.appendChild(messageDiv);
+  messageArea.scrollTop = messageArea.scrollHeight; // Auto-scroll to the bottom
+}
 
 // Log unanswered questions
 async function logUnansweredQuestion(message) {
