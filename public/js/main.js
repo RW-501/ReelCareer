@@ -3060,7 +3060,8 @@ setTimeout(() => {
   const currentUrl = window.location.href;
 
   if (currentUrl === "https://reelcareer.co/bot/" || currentUrl === "https://reelcareer.co/bot") {
-    loadChatbot();
+    loadGeneralQuestions(); // Only load questions when panel is open
+    
   }
 
 
