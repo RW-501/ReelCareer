@@ -532,7 +532,7 @@ align-items: flex-start;
   margin-top: 2rem;
 }
 
-
+#jobPostPopup hr,
 .similar-jobs hr,
 .related-blogs hr{
   height: .2rem;
