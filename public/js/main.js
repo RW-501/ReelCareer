@@ -2673,16 +2673,21 @@ document.body.appendChild(chatPanel);
 
         // Replace main-content with chatbot
         mainContent.appendChild(chatPanel);
+
+             loadGeneralQuestions(); // Only load questions when panel is open
+          
+        
       }
     }
+     // Attach resize event listener
+     window.addEventListener("resize", resizeChatPanel);
+     resizeChatPanel(); // Call initially on load
+     replaceMainContentWithBot(); // Replace content if on /bot page
+   
   }
   
 
-    // Attach resize event listener
-    window.addEventListener("resize", resizeChatPanel);
-    resizeChatPanel(); // Call initially on load
-    replaceMainContentWithBot(); // Replace content if on /bot page
-  
+   
   // Event Listeners
   chatButton.addEventListener("click", () => {
       chatPanel.style.display = "flex";
@@ -3057,12 +3062,7 @@ function sendMessage(messageRaw) {
 setTimeout(() => {
   fetchChatbotData();
 
-  const currentUrl = window.location.href;
-
-  if (currentUrl === "https://reelcareer.co/bot/" || currentUrl === "https://reelcareer.co/bot") {
-    loadGeneralQuestions(); // Only load questions when panel is open
-    
-  }
+ 
 
 
 }, 5000); // 5000 milliseconds = 5 seconds
