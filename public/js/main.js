@@ -560,33 +560,50 @@ function createNavbar() {
     },
   ];
 
-  // Function to Generate Nav Links
-  const generateNavLinks = (items, showText = false) => {
-    return items
+  // Generate Icons for Always-Visible Bar
+  const generateIcons = (items) =>
+    items
+      .map(
+        (item) => `
+        <li class="nav-item mx-2">
+          <a class="nav-link" href="${item.href}">
+            <i class="${item.icon}"></i>
+          </a>
+        </li>`
+      )
+      .join("");
+
+  // Generate Collapsible Links
+  const generateCollapsibleLinks = (items) =>
+    items
       .map(
         (item) => `
         <li class="nav-item">
           <a class="nav-link" href="${item.href}">
             <i class="${item.icon}"></i>
-            ${showText ? `<span class="nav-text">${item.text}</span>` : ""}
+            <span>${item.text}</span>
           </a>
         </li>`
       )
       .join("");
-  };
 
   return `
     <nav id="Main-Nav_bar" class="navbar navbar-expand-lg ${navbarClass} shadow-sm sticky-top" role="navigation">
-      <div class="container">
+      <div class="container d-flex align-items-center justify-content-between">
         <!-- Logo -->
         <a class="navbar-brand embossed" id="MAIN-LOGO-Reel-Career" href="https://reelcareer.co/">
           ReelCareer
         </a>
 
         <!-- Always-visible Icons -->
-        <ul class="navbar-nav d-flex flex-row ml-auto ml-lg-0 order-lg-1" id="iconBar">
-          ${generateNavLinks(navItems)}
+        <ul class="navbar-nav d-flex flex-row justify-content-center flex-grow-1" id="iconBar">
+          ${generateIcons(navItems)}
         </ul>
+
+        <!-- Auth Section -->
+        <div id="authSection" class="d-flex align-items-center">
+          <button id="darkModeToggle" class="btn btn-outline-secondary">Dark Mode</button>
+        </div>
 
         <!-- Collapse Toggle Button -->
         <button class="navbar-toggler ${toggleClass}" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -598,19 +615,14 @@ function createNavbar() {
         <!-- Collapsible Area -->
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ml-auto">
-            ${generateNavLinks(navItems, true)}
-            <li class="nav-item">
-              <div id="authSection" class="d-flex align-items-center"></div>
-            </li>
-            <li class="nav-item">
-              <button id="darkModeToggle" class="btn btn-outline-secondary m-3">Dark Mode</button>
-            </li>
+            ${generateCollapsibleLinks(navItems)}
           </ul>
         </div>
       </div>
     </nav>
   `;
 }
+
 
 
 
