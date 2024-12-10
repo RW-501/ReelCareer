@@ -102,10 +102,6 @@ font-size: 1rem;
 
 /* Show text on larger screens */
 @media (max-width: 992px) {
-  #Main-Nav_bar .nav-item i {
-      display: inline-block; /* Show icon */
-      margin-right: 8px; /* Space between icon and text */ 
-  }
 
  
 }
@@ -143,6 +139,8 @@ font-size: 1rem;
     margin-right: .5rem;
 
   }
+
+
   #Main-Nav_bar .navbar-toggler-icon {
     font-size: 2rem; /* Larger icon size on mobile */
   }
