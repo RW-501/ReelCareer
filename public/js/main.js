@@ -2631,8 +2631,8 @@ function loadGeneralQuestions() {
   if (messageArea) {
     console.log("Loading general questions...");
     messageArea.innerHTML = "<p><strong>Choose a topic to get started:</strong></p>";
-    messageArea.style.cssText = " text-align: center;   margin: auto; display: block; font-family: sans-serif;
-";
+    messageArea.style.cssText = " text-align: center;   margin: auto; display: block; font-family: sans-serif;";
+
 
 
     // Filter and display only onload questions (general questions)
