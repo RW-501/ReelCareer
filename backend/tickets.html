@@ -372,6 +372,9 @@ async function addToFAQ(ticket, ticketId) {
         showToast("Failed to add message to the FAQ.");
     }
 }
+window.addToFAQ = addToFAQ;
+
+
 
 // Add Message to Chatbot
 async function addToChatbot(ticket, ticketId) {
@@ -416,6 +419,9 @@ async function addToChatbot(ticket, ticketId) {
         showToast("Failed to add message to the Chat Bot.");
     }
 }
+
+window.addToChatbot = addToChatbot;
+
 
 
 
