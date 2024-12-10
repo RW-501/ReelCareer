@@ -531,6 +531,50 @@ function createNavbar() {
     ? "dropdown-toggle-light"
     : "dropdown-toggle-dark";
 
+  // JSON Data for Nav Items
+  const navItems = [
+    {
+      href: "https://reelcareer.co/job-listings",
+      icon: "fa fa-briefcase",
+      text: "Job Listings",
+    },
+    {
+      href: "https://reelcareer.co/reels",
+      icon: "fa fa-video",
+      text: "Reels",
+    },
+    {
+      href: "https://reelcareer.co/views/membership",
+      icon: "fa fa-user",
+      text: "Membership",
+    },
+    {
+      href: "https://reelcareer.co/views/blogs",
+      icon: "fa fa-pencil-alt",
+      text: "Blogs",
+    },
+    {
+      href: "https://reelcareer.co/views/about",
+      icon: "fa fa-info-circle",
+      text: "About Us",
+    },
+  ];
+
+  // Function to Generate Nav Links
+  const generateNavLinks = (items, showText = false) => {
+    return items
+      .map(
+        (item) => `
+        <li class="nav-item">
+          <a class="nav-link" href="${item.href}">
+            <i class="${item.icon}"></i>
+            ${showText ? `<span class="nav-text">${item.text}</span>` : ""}
+          </a>
+        </li>`
+      )
+      .join("");
+  };
+
   return `
     <nav id="Main-Nav_bar" class="navbar navbar-expand-lg ${navbarClass} shadow-sm sticky-top" role="navigation">
       <div class="container">
@@ -541,31 +585,7 @@ function createNavbar() {
 
         <!-- Always-visible Icons -->
         <ul class="navbar-nav d-flex flex-row ml-auto ml-lg-0 order-lg-1" id="iconBar">
-          <li class="nav-item d-lg-inline-block d-none">
-            <a class="nav-link px-2" href="https://reelcareer.co/job-listings">
-              <i class="fa fa-briefcase"></i>
-            </a>
-          </li>
-          <li class="nav-item d-lg-inline-block d-none">
-            <a class="nav-link px-2" href="https://reelcareer.co/reels">
-              <i class="fa fa-video"></i>
-            </a>
-          </li>
-          <li class="nav-item d-lg-inline-block d-none">
-            <a class="nav-link px-2" href="https://reelcareer.co/views/membership">
-              <i class="fa fa-user"></i>
-            </a>
-          </li>
-          <li class="nav-item d-lg-inline-block d-none">
-            <a class="nav-link px-2" href="https://reelcareer.co/views/blogs">
-              <i class="fa fa-pencil-alt"></i>
-            </a>
-          </li>
-          <li class="nav-item d-lg-inline-block d-none">
-            <a class="nav-link px-2" href="https://reelcareer.co/views/about">
-              <i class="fa fa-info-circle"></i>
-            </a>
-          </li>
+          ${generateNavLinks(navItems)}
         </ul>
 
         <!-- Collapse Toggle Button -->
@@ -578,36 +598,7 @@ function createNavbar() {
         <!-- Collapsible Area -->
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="https://reelcareer.co/job-listings">
-                <i class="fa fa-briefcase"></i>
-                <span class="nav-text">Job Listings</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="https://reelcareer.co/reels">
-                <i class="fa fa-video"></i>
-                <span class="nav-text">Reels</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="https://reelcareer.co/views/membership">
-                <i class="fa fa-user"></i>
-                <span class="nav-text">Membership</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="https://reelcareer.co/views/blogs">
-                <i class="fa fa-pencil-alt"></i>
-                <span class="nav-text">Blogs</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="https://reelcareer.co/views/about">
-                <i class="fa fa-info-circle"></i>
-                <span class="nav-text">About Us</span>
-              </a>
-            </li>
+            ${generateNavLinks(navItems, true)}
             <li class="nav-item">
               <div id="authSection" class="d-flex align-items-center"></div>
             </li>
@@ -620,6 +611,7 @@ function createNavbar() {
     </nav>
   `;
 }
+
 
 
 // Dark mode toggle functionality
