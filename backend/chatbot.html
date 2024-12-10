@@ -70,13 +70,24 @@ main {
     font-family: 'Roboto', sans-serif;
 }
 
+.drop-zone {
+    min-height: 50px;
+    padding: 10px;
+    border: 2px dashed #ccc;
+    border-radius: 8px;
+}
 
-.dragging {
-        background-color: #f0f8ff;
-    }
-    .highlight {
-        border: 2px dashed #007bff;
-    }
+.drop-zone.highlight {
+    border-color: #4CAF50;
+    background-color: #f0fff0;
+}
+
+li.dragging {
+    opacity: 0.5;
+    background-color: #f9f9f9;
+    cursor: grabbing;
+}
+
     </style>
 </head>
 
@@ -185,12 +196,13 @@ main {
             <h4>JSON Output</h4>
             <textarea id="json-output" rows="10" cols="50" readonly></textarea>
             
-            <!-- Question Lists -->
-            <h4>General Questions</h4>
-            <ul id="general-questions"></ul>
+            <h3>General Questions</h3>
+            <ul id="general-questions" class="drop-zone" ondragover="allowDrop(event)" ondrop="drop(event)">
+            </ul>
             
-            <h4>Predefined Questions</h4>
-            <ul id="predefined-questions"></ul>
+            <h3>Predefined Questions</h3>
+            <ul id="predefined-questions" class="drop-zone" ondragover="allowDrop(event)" ondrop="drop(event)">
+            </ul>
             
         </div>
 
@@ -382,6 +394,7 @@ document.getElementById("new-question-form").addEventListener("submit", function
 });
 
 // Render questions
+// Function to render the questions
 function renderQuestions() {
     const generalList = document.getElementById("general-questions");
     const predefinedList = document.getElementById("predefined-questions");
@@ -389,6 +402,7 @@ function renderQuestions() {
     generalList.innerHTML = "";
     predefinedList.innerHTML = "";
 
+    // Render General Questions
     generalQuestions.forEach((q, index) => {
         const li = document.createElement("li");
         li.textContent = q.question;
@@ -400,6 +414,7 @@ function renderQuestions() {
         generalList.appendChild(li);
     });
 
+    // Render Predefined Questions
     predefinedQuestions.forEach((q, index) => {
         const li = document.createElement("li");
         li.textContent = q.question;
@@ -414,7 +429,7 @@ function renderQuestions() {
 
 // Drag start event handler
 function dragStart(e) {
-    e.target.classList.add("dragging"); // Add dragging class to highlight the item being dragged
+    e.target.classList.add("dragging"); // Highlight the dragged item
     e.dataTransfer.setData("text/plain", JSON.stringify({
         index: e.target.getAttribute("data-index"),
         category: e.target.getAttribute("data-category")
@@ -423,24 +438,22 @@ function dragStart(e) {
 
 // Drag end event handler
 function dragEnd(e) {
-    e.target.classList.remove("dragging"); // Remove dragging class after drag ends
-    const listItems = document.querySelectorAll("li");
-    listItems.forEach(item => item.classList.remove("highlight")); // Remove highlight from all items
+    e.target.classList.remove("dragging"); // Remove dragging highlight
+    document.querySelectorAll(".drop-zone").forEach(zone => zone.classList.remove("highlight")); // Remove zone highlight
 }
 
 // Allow drop event handler
 function allowDrop(e) {
     e.preventDefault();
-    e.target.classList.add("highlight"); // Add highlight to the list being hovered over
+    if (e.target.classList.contains("drop-zone")) {
+        e.target.classList.add("highlight");
+    }
 }
 
 // Drop event handler
 function drop(e) {
     e.preventDefault();
-    e.target.classList.remove("highlight"); // Remove highlight from the list after the drop
-
-    // Prevent drop on non-list elements
-    if (!e.target.tagName.toLowerCase() === "ul") return;
+    e.target.classList.remove("highlight");
 
     const data = e.dataTransfer.getData("text/plain");
     const { index, category } = JSON.parse(data);
@@ -449,7 +462,7 @@ function drop(e) {
     let sourceArray;
     let targetArray;
 
-    // Find the question to move based on the category
+    // Identify the source and target arrays
     if (category === "General") {
         sourceArray = generalQuestions;
         targetArray = predefinedQuestions;
@@ -458,15 +471,14 @@ function drop(e) {
         targetArray = generalQuestions;
     }
 
-    questionToMove = sourceArray.splice(index, 1)[0]; // Remove the question from the source array
-
-    // Add it to the target array
+    // Move the question
+    questionToMove = sourceArray.splice(index, 1)[0];
     targetArray.push(questionToMove);
 
-    // Re-render the lists
+    // Re-render the updated lists
     renderQuestions();
 
-    // Log the updated arrays
+    // Log updated arrays
     console.log("General Questions:", generalQuestions);
     console.log("Predefined Questions:", predefinedQuestions);
 }
