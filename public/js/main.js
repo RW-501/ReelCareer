@@ -514,9 +514,7 @@ window.checkUserProfile = checkUserProfile;
 // Function to create the dynamic, responsive navbar
 function createNavbar() { 
   const currentPage = window.location.pathname;
-
   const isHomePage = currentPage === "/index.html" || currentPage === "/index" || currentPage === "" || currentPage === "/";
-  const isCouplesArea = currentPage === "/couples-area" || currentPage.includes("couples");
 
   const navbarClass = isHomePage ? "main-navbar-light" : "main-navbar-dark";
   const toggleClass = isHomePage ? "dropdown-toggle-light" : "dropdown-toggle-dark";
@@ -524,48 +522,53 @@ function createNavbar() {
   return `
     <nav id="Main-Nav_bar" class="navbar navbar-expand-lg ${navbarClass} shadow-sm sticky-top" role="navigation">
       <div class="container">
+        <!-- Brand Logo -->
         <a class="navbar-brand embossed" id="MAIN-LOGO-Reel-Career" href="https://reelcareer.co/">
           ReelCareer
         </a>
+        
+        <!-- Navbar Toggle Button -->
         <button class="navbar-toggler ${toggleClass}" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon">
             <i class="fas fa-bars"></i> <!-- Font Awesome bars icon -->
           </span>
         </button>
 
+        <!-- Navbar Items -->
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
               <a class="nav-link" href="https://reelcareer.co/job-listings">
-                <i class="fa fa-briefcase"></i> <!-- Icon for job listings -->
-                ${isCouplesArea ? '<span class="nav-text">Job Listings</span>' : ''}
+                <i class="fa fa-briefcase"></i>
+                <span class="nav-text d-lg-inline d-none">Job Listings</span>
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="https://reelcareer.co/reels">
-                <i class="fa fa-video"></i> <!-- Icon for reels -->
-                ${isCouplesArea ? '<span class="nav-text">Reels</span>' : ''}
+                <i class="fa fa-video"></i>
+                <span class="nav-text d-lg-inline d-none">Reels</span>
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="https://reelcareer.co/views/membership">
-                <i class="fa fa-user"></i> <!-- Icon for membership -->
-                ${isCouplesArea ? '<span class="nav-text">Membership</span>' : ''}
+                <i class="fa fa-user"></i>
+                <span class="nav-text d-lg-inline d-none">Membership</span>
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="https://reelcareer.co/views/blogs">
-                <i class="fa fa-pencil-alt"></i> <!-- Icon for blogs -->
-                ${isCouplesArea ? '<span class="nav-text">Blogs</span>' : ''}
+                <i class="fa fa-pencil-alt"></i>
+                <span class="nav-text d-lg-inline d-none">Blogs</span>
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="https://reelcareer.co/views/about">
-                <i class="fa fa-info-circle"></i> <!-- Icon for about us -->
-                ${isCouplesArea ? '<span class="nav-text">About Us</span>' : ''}
+                <i class="fa fa-info-circle"></i>
+                <span class="nav-text d-lg-inline d-none">About Us</span>
               </a>
             </li>
-
+            
+            <!-- Additional Sections -->
             <li class="nav-item">
               <div id="authSection" class="d-flex align-items-center"></div>
             </li>
@@ -578,6 +581,7 @@ function createNavbar() {
     </nav>
   `;
 }
+
 
 // Dark mode toggle functionality
 function toggleDarkMode() {
