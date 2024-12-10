@@ -2514,22 +2514,50 @@ let allQuestions = [];
 
 function loadChatbot() {
   // Create Chatbot Button
-  const chatButton = document.createElement("button");
-  chatButton.id = "chatbot-button";
-  chatButton.innerText = "Chat with us";
-  chatButton.style.cssText = `
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      padding: 10px 15px;
-      background-color: #007BFF;
-      color: white;
-      border: none;
-      border-radius: 50px;
-      cursor: pointer;
-      font-size: 16px;
-      z-index: 1000;
-  `;
+// Create the chatbot button
+const chatButton = document.createElement("button");
+chatButton.id = "chatbot-button";
+chatButton.innerText = "Chat with us";
+
+// Initial button styles
+chatButton.style.cssText = `
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 10px 15px;
+    background-color: #84adea;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s ease; /* Smooth transition for hover effects */
+    z-index: 1000;
+`;
+
+// Add hover effects
+chatButton.addEventListener("mouseover", () => {
+  chatButton.style.backgroundColor = "#6e97db"; // Darker blue for hover
+  chatButton.style.transform = "scale(1.05)"; // Slightly scale up
+});
+
+chatButton.addEventListener("mouseout", () => {
+  chatButton.style.backgroundColor = "#84adea"; // Original color
+  chatButton.style.transform = "scale(1)"; // Reset scale
+});
+
+// Add active effects (when button is clicked)
+chatButton.addEventListener("mousedown", () => {
+  chatButton.style.backgroundColor = "#5a82c2"; // Even darker blue for click
+  chatButton.style.transform = "scale(0.95)"; // Slightly shrink button
+});
+
+chatButton.addEventListener("mouseup", () => {
+  chatButton.style.backgroundColor = "#6e97db"; // Back to hover state
+  chatButton.style.transform = "scale(1.05)";
+});
+
+
 
   // Create Chatbot Panel
   const chatPanel = document.createElement("div");
@@ -2549,14 +2577,14 @@ function loadChatbot() {
       z-index: 9999;
   `;
   chatPanel.innerHTML = `
-      <div style="background-color: #007BFF; color: white; padding: 10px; text-align: center;">
+ <div style="background-color: #84adea;color: white;padding: 10px;text-align: center;height: 3rem;display: flex;flex-direction: row;flex-wrap: wrap;align-content: flex-start;justify-content: space-between;align-items: center;">
           <strong>Chatbot</strong>
-          <button id="close-chat" style="float: right; background: none; border: none; color: white; font-size: 18px; cursor: pointer;">&times;</button>
+          <button id="close-chat" style="background: none;border: none;color: #ffffff;cursor: pointer;font-size: x-large;padding: 0;margin: 0;">×</button>
       </div>
       <div id="chatbot-messages" style="flex: 1; padding: 10px; overflow-y: auto; font-size: 14px;"></div>
       <div style="padding: 10px; border-top: 1px solid #ddd;">
           <div id="chat-input" contenteditable="true" style="border: 1px solid #ccc; padding: 8px; border-radius: 4px; min-height: 40px;"></div>
-          <button id="send-chat" style="margin-top: 10px; width: 100%; background-color: #007BFF; color: white; border: none; padding: 8px; border-radius: 4px; cursor: pointer;">Send</button>
+          <button id="send-chat" style="margin-top: 10px; width: 100%; background-color: #84adea; color: white; border: none; padding: 8px; border-radius: 4px; cursor: pointer;">Send</button>
       </div>
   `;
 
