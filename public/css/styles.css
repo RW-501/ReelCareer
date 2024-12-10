@@ -535,8 +535,8 @@ align-items: flex-start;
 
 .similar-jobs hr,
 .related-blogs hr{
-  margin-top: .5rem;
-  color: #83bad9 !important;
+  height: .2rem;
+  background-color: #83bad9 !important;
 }
 
 .similar-jobs i ,
