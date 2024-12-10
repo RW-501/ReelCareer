@@ -634,12 +634,38 @@ border-radius: 12px;
               <section class="mb-4"><hr>
                 <h6 class="text-secondary">Job Preferences</h6>
 
+                <div class="row g-3">
                 <div class="col-md-4">
                   <div class="form-floating">
                     <input type="text" id="jobSalary" class="form-control" placeholder="$56,000" required />
                     <label for="jobSalary">Salary</label>
                   </div>
                 </div>
+                <div class="col-md-6">
+                  <div class="form-floating">
+                    <select id="jobIndustry" class="form-select" required>
+                      <option value="" disabled selected>Select Industry</option>
+                      <option value="Information Technology">Information Technology</option>
+                      <option value="Healthcare">Healthcare</option>
+                      <option value="Education">Education</option>
+                      <option value="Finance">Finance</option>
+                      <option value="Construction">Construction</option>
+                      <option value="Manufacturing">Manufacturing</option>
+                      <option value="Transportation & Logistics">Transportation & Logistics</option>
+                      <option value="Hospitality">Hospitality</option>
+                      <option value="Retail">Retail</option>
+                      <option value="Real Estate">Real Estate</option>
+                      <option value="Energy & Utilities">Energy & Utilities</option>
+                      <option value="Entertainment & Media">Entertainment & Media</option>
+                      <option value="Telecommunications">Telecommunications</option>
+                      <option value="Consulting">Consulting</option>
+                      <option value="Other">Other</option>
+                    </select>
+                    <label for="industry">Industry</label>
+                  </div>
+                </div>
+              </div>
+
 
                 <div class="row g-3">
                   <div class="col-md-6">
@@ -671,6 +697,10 @@ border-radius: 12px;
                       <label for="jobCategory">Job Category</label>
                     </div>
                   </div>
+
+
+
+
                 </div>
               </section>
     
@@ -726,6 +756,8 @@ border-radius: 12px;
       <p><strong>Title:</strong> <span id="previewTitle"></span></p>
       <p><strong>Company:</strong> <span id="previewCompany"></span></p>
       <p><strong>Location:</strong> <span id="previewLocation"></span></p>
+      <p><strong>Industry:</strong> <span id="previewJobIndustry"></span></p>
+      <p><strong>Category:</strong> <span id="previewjobCategory"></span></p>
       <p><strong>Job Type:</strong> <span id="previewJobType"></span></p>
       <p><strong>Salary:</strong> <span id="previewSalary"></span></p>
       <p><strong>Description:</strong> <span id="previewDescription"></span></p>
@@ -904,6 +936,8 @@ function previewJobPost() {
   const city = document.getElementById('city').value;
   const state = document.getElementById('state').value;
   const zip = document.getElementById('zip').value;
+  const jobIndustry = document.getElementById('jobIndustry').value;
+  const jobCategory = document.getElementById('jobCategory').value;
   const jobType = document.getElementById('jobType').value;
   const salary = document.getElementById('jobSalary').value;
   const description = document.getElementById('jobDescription').value;
@@ -914,6 +948,8 @@ function previewJobPost() {
   document.getElementById('previewCompany').textContent = company;
   document.getElementById('previewLocation').textContent = `${city}, ${state} ${zip}`;
   document.getElementById('previewJobType').textContent = jobType;
+  document.getElementById('previewJobIndustry').textContent = jobIndustry;
+  document.getElementById('previewJobCategory').textContent = jobCategory;
   document.getElementById('previewSalary').textContent = salary;
   document.getElementById('previewDescription').textContent = description;
   document.getElementById('previewTags').textContent = tags;
@@ -1114,7 +1150,7 @@ function collectJobDetails() {
   zipCode: sanitizeInput(getInputValue("zip")),
   type: getInputValue("jobType"),
   jobCategory: getInputValue("jobCategory"),
-  industry: getInputValue("industry"),
+  industry: getInputValue("jobIndustry"),
   salary: getInputValue("jobSalary"),
   salaryPayTime: getInputValue("salaryPayTime"),
   tags: sanitizeInput(getInputValue("tagsSET-tag"))
