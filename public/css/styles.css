@@ -525,6 +525,24 @@ align-content: flex-start;
 align-items: flex-start;
 }
 
+
+
+.similar-jobs ,
+.related-blogs {
+  margin-top: 2rem;
+}
+
+
+.similar-jobs hr,
+.related-blogs hr{
+  margin-top: .5rem;
+  color: #83bad9 !important;
+}
+
+
+
+
+
 /* Flexbox for equal height */
 .blog-container {
     display: flex;
@@ -618,6 +636,15 @@ overflow: hidden;
 #jobForm .modal-footer {
   width: 100%;
 }
+
+
+
+
+
+
+
+
+
 
 /* Headings */
 h1 {
@@ -1506,9 +1533,6 @@ main .jobCard:hover {
 
 
 
-  .similar-jobs {
-    margin-top: 30px;
-  }
   
   .similar-job-card {
     border: 1px solid #ddd;
