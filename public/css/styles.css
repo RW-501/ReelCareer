@@ -114,6 +114,7 @@ font-size: 1rem;
   cursor: pointer;
 }
 #Main-Nav_bar  .navbar-toggler-icon, 
+#Main-Nav_bar  .navbar-toggler:active, 
 #Main-Nav_bar  .navbar-toggler:hover,
 #Main-Nav_bar  .navbar-toggler:focus {
   background-color: none; /* Add a subtle hover effect */
