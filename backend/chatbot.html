@@ -365,13 +365,6 @@ async function loadInteractionLogs() {
 
 
 
-      let  jsonOutput = {
-        generalQuestions,
-        predefinedQuestions
-    };
-
-
-
         // Initialize arrays for questions
 let generalQuestions = [];
 let predefinedQuestions = [];
@@ -389,6 +382,13 @@ async function fetchChatbotData() {
     console.error("Error fetching data:", error);
   }
 }
+
+
+let  jsonOutput = {
+        generalQuestions,
+        predefinedQuestions
+    };
+
 
 
 // Firestore Batch Upload Function
