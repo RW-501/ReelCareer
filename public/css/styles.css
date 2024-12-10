@@ -604,6 +604,19 @@ overflow: hidden;
 .noCopy {
     user-select: none !important;
 }
+
+#jobForm .row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  row-gap: 1rem;
+  grid-column-gap: initial;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+
 /* Headings */
 h1 {
     color: #5b6369;
