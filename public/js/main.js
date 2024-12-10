@@ -2623,16 +2623,72 @@ async function handleUserInput(userMessage) {
   const messageArea = document.getElementById("chatbot-messages");
   displayMessage("user", userMessage);
 
-  // Check if the user message matches any of the general questions
-  const matchedQuestion = allQuestions.find(q => q.question.toLowerCase() === userMessage.toLowerCase());
+  // Call sendMessage to get the answer and question id
+  const result = sendMessage(userMessage);
   
-  if (matchedQuestion) {
-      displayMessage("bot", matchedQuestion.answer);
+  if (result && result.answer) {
+    // Display the answer returned by sendMessage
+    displayMessage("bot", result.answer);
+
+    // If an ID is returned, display the helpful questionnaire
+    if (result.id) {
+      console.log("Question ID:", result.id); // You can use this ID for tracking or logging purposes
+
+      // Create "Was this helpful?" buttons
+      const helpfulDiv = document.createElement("div");
+      helpfulDiv.style.marginTop = "10px";
+
+      const helpfulMessage = document.createElement("p");
+      helpfulMessage.innerHTML = "Was this helpful?";
+      helpfulDiv.appendChild(helpfulMessage);
+
+      const yesButton = document.createElement("button");
+      yesButton.innerText = "Yes";
+      yesButton.style.cssText = "margin: 5px; padding: 5px 10px; cursor: pointer;";
+      yesButton.addEventListener("click", () => updateHelpfulCount(result.id, true));
+
+      const noButton = document.createElement("button");
+      noButton.innerText = "No";
+      noButton.style.cssText = "margin: 5px; padding: 5px 10px; cursor: pointer;";
+      noButton.addEventListener("click", () => updateHelpfulCount(result.id, false));
+
+      helpfulDiv.appendChild(yesButton);
+      helpfulDiv.appendChild(noButton);
+
+      messageArea.appendChild(helpfulDiv);
+    }
   } else {
-    
-          displayMessage("bot", "Sorry, I couldn't find an answer for that. Please contact us via our [Contact Us](https://reelcareer.com/contact) page.");
-          logUnansweredQuestion(userMessage);
-      
+    displayMessage("bot", "Sorry, I couldn't find an answer for that. Please contact us via our [Contact Us](https://reelcareer.com/contact) page.");
+    logUnansweredQuestion(userMessage);
+  }
+}
+
+
+async function updateHelpfulCount(questionId, isHelpful) {
+  try {
+    const chatbotDocRef = doc(db, "ChatbotInteractions", questionId);
+
+    // Fetch the current document data
+    const docSnapshot = await getDoc(chatbotDocRef);
+    if (docSnapshot.exists()) {
+      const data = docSnapshot.data();
+
+      // Update the helpful count and view count
+      const updatedHelpfulCount = isHelpful ? data.helpful + 1 : data.helpful;
+      const updatedViewCount = data.views + 1;  // Increment views count
+
+      // Update the document with the new counts
+      await updateDoc(chatbotDocRef, {
+        helpful: updatedHelpfulCount,
+        views: updatedViewCount
+      });
+
+      console.log("Successfully updated helpful and views count.");
+    } else {
+      console.error("Document does not exist.");
+    }
+  } catch (error) {
+    console.error("Error updating helpful or view count:", error);
   }
 }
 
@@ -2642,30 +2698,39 @@ function displayMessage(sender, message) {
   const messageArea = document.getElementById("chatbot-messages");
   const messageDiv = document.createElement("div");
   messageDiv.style.margin = "5px 0";
-  
+
   // Display the sender name
   messageDiv.innerHTML = `<strong>${sender === "bot" ? "Chatbot" : "You"}:</strong> `;
+
+  // Replace URLs with <a> tags if they exist in the message
+  const messageWithLinks = message.replace(
+    /https?:\/\/[^\s]+/g, // Regex to match URLs
+    (url) => `<a href="${url}" target="_blank">${url}</a>`
+  );
+
+  // Append the message with links to the message div
+  messageDiv.innerHTML += messageWithLinks;
 
   messageArea.appendChild(messageDiv);
   messageArea.scrollTop = messageArea.scrollHeight;
 
   if (sender === "bot") {
     let index = 0;
-    const typingSpeed = 50; // Delay between each character (in milliseconds)
+    const typingSpeed = 70; // Delay between each character (in milliseconds)
 
     // Clear existing message and apply typing effect
     const typingEffect = setInterval(() => {
-      messageDiv.innerHTML = `<strong>Chatbot:</strong> ${message.substring(0, index + 1)}`;
+      messageDiv.innerHTML = `<strong>Chatbot:</strong> ${messageWithLinks.substring(0, index + 1)}`;
       messageArea.scrollTop = messageArea.scrollHeight;
       index++;
 
-      if (index === message.length) {
+      if (index === messageWithLinks.length) {
         clearInterval(typingEffect); // Stop typing effect once message is fully displayed
       }
     }, typingSpeed);
   } else {
     // Display user message immediately
-    messageDiv.innerHTML += message;
+    messageDiv.innerHTML += messageWithLinks;
   }
 }
 
@@ -2675,6 +2740,7 @@ async function logUnansweredQuestion(message) {
   const chatBotData = {
       activate: false,
       status: "review",
+      id: '',
       question: message,
       answer: "",
       category: "General",
@@ -2689,11 +2755,10 @@ async function logUnansweredQuestion(message) {
 }
 
 // Send message and match it to predefined questions
-function sendMessage(message) {
+function sendMessage(message) { 
   // Check if message is a string
   if (typeof message !== 'string') {
-      console.error('Expected message to be a string but got:', typeof message);
-      return;  // Exit the function if it's not a string
+    return;  // Exit the function if it's not a string
   }
 
   // Trim and normalize the user message
@@ -2738,13 +2803,19 @@ function sendMessage(message) {
       }
   });
 
-  // Return answer if a best match is found
+  // Return answer and question id if a best match is found
   if (bestMatch && highestScore > 0) {
-      return bestMatch.answer;
+      return {
+          answer: bestMatch.answer,
+          id: bestMatch.id  // Include the ID of the best match
+      };
   } else {
       // Log unanswered question and suggest contacting support
       logUnansweredQuestion(trimmedMessage);
-      return "Sorry, I couldn't find an answer to your question. Please contact support for assistance.";
+      return {
+          answer: "Sorry, I couldn't find an answer to your question. Please contact support for assistance.",
+          id: null  // If no match, return null for id
+      };
   }
 }
 
