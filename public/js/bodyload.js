@@ -183,7 +183,7 @@ document.head.appendChild(link);
   function createJobCard(job, container) {
     // Create the job card
 
-    console.log("Job Data:", job);
+    //console.log("Job Data:", job);
 
     const jobCard = document.createElement("div");
     jobCard.id = `job_Card_${job.id}`;
