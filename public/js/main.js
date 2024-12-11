@@ -3262,15 +3262,15 @@ allQuestions.forEach((questionObj, index) => {
 // Return answer and question id if a best match is found
 if (bestMatch && highestScore > 0) {
    // console.log("Returning best match:", bestMatch.answer);
-    displayMessage("bot", bestMatch.answer);
+   // displayMessage("bot", bestMatch.answer);
     return {
         answer: bestMatch.answer,
         id: bestMatch.id  // Include the ID of the best match
     };
 } else {
     // Log unanswered question and suggest contacting support
-    let returnOutput = processMessage(trimmedMessage);
-    displayMessage("bot", returnOutput);
+    let brainOutput = processMessage(trimmedMessage);
+    displayMessage("bot", brainOutput);
 
      //  logUnansweredQuestion(trimmedMessage);
     console.log("No match found, suggesting contact with support.");
