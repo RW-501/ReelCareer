@@ -803,13 +803,33 @@ function categorizeTokens(tokens, categories) {
     return categorizedTokens;
 }
 
+function prioritizeCategories(categorizedTokens, inputType, userPreferences = {}) { 
+    console.log("categorizedTokens, ", categorizedTokens, "inputType, ", inputType, "userPreferences,", userPreferences); 
 
-function prioritizeCategories(categorizedTokens, inputType, userPreferences = {}) {
-
-
-    console.log("categorizedTokens, ",categorizedTokens, "inputType, ", inputType, "userPreferences,", userPreferences); 
     // Default priorities for categories
-    const priorities = {
+    const priorities = getDefaultPriorities();
+
+    // Adjust priorities based on user preferences (e.g., favorite categories)
+    adjustPrioritiesForUserPreferences(priorities, userPreferences);
+
+    // Adjust priorities based on the input type (e.g., question, request, or statement)
+    adjustPrioritiesForInputType(categorizedTokens, inputType, priorities);
+
+    // Handle emotion-based prioritization if the input contains sentiment/emotion words
+    handleEmotionPrioritization(categorizedTokens, priorities);
+
+    // Adjust priorities if the query involves an action
+    prioritizeActionTokens(categorizedTokens, inputType, priorities);
+
+    // Sort tokens based on the adjusted priorities
+    const sortedTokens = sortTokensByPriority(categorizedTokens, priorities);
+
+    return sortedTokens[0]; // Return the highest-priority match
+}
+
+// Get default priorities for categories
+function getDefaultPriorities() {
+    return {
         math: 1,
         salary: 2,
         jobSearch: 3,
@@ -830,17 +850,22 @@ function prioritizeCategories(categorizedTokens, inputType, userPreferences = {}
         preferences: 18,
         relationships: 19,
         payments: 20,
-        feedback: 21
+        feedback: 21,
+        action: 0  // Assign the highest priority to action by default
     };
+}
 
-    // Adjust priorities based on user preferences (e.g., favorite categories)
+// Adjust priorities based on user preferences (e.g., favorite categories)
+function adjustPrioritiesForUserPreferences(priorities, userPreferences) {
     if (userPreferences && userPreferences.favoriteCategories) {
         userPreferences.favoriteCategories.forEach(category => {
             priorities[category] = 1; // Give priority to favorite categories
         });
     }
+}
 
-    // Adjust priorities based on the type of query (e.g., question, request, or statement)
+// Adjust priorities dynamically based on the input type (e.g., question, request, or statement)
+function adjustPrioritiesForInputType(categorizedTokens, inputType, priorities) {
     const inputTypeWeights = {
         question: ['jobSearch', 'salary', 'location', 'events'],
         request: ['websiteSupport', 'payments', 'task', 'jobRelated'],
@@ -848,27 +873,57 @@ function prioritizeCategories(categorizedTokens, inputType, userPreferences = {}
         emotion: ['emotions'] // Focus on emotion-based categories like excitement or frustration
     };
 
-    // Adjust priorities dynamically based on the input type (e.g., question or request)
-    const adjustedPriorities = categorizedTokens.map(token => {
-        if (inputTypeWeights[inputType]?.includes(token.category)) {
-            token.weight = (token.weight || 1) * 0.8; // Boost weight for categories matching input type
-        }
-        return token;
-    });
-
-    // Add emotion-based priority if the input contains sentiment/emotion words
     categorizedTokens.forEach(token => {
-        if (['excitement', 'frustration', 'hope', 'regret'].includes(token.category)) {
+        if (inputTypeWeights[inputType]?.includes(token.category)) {
+            // Adjust weight based on input type (make it more dynamic)
+            const adjustmentFactor = getWeightAdjustmentFactor(inputType);
+            token.weight = (token.weight || 1) * adjustmentFactor;
+        }
+    });
+}
+
+// Return a dynamic weight adjustment factor based on the input type
+function getWeightAdjustmentFactor(inputType) {
+    const factors = {
+        question: 0.8,
+        request: 1.2,  // Requests could have slightly higher priority (e.g., 'task' and 'payments')
+        statement: 1.0,
+        emotion: 0.9  // Emotion-related inputs could be weighted slightly lower
+    };
+
+    return factors[inputType] || 1;  // Default to 1 if inputType is not found
+}
+
+// Handle emotion-based prioritization if the input contains sentiment/emotion words
+function handleEmotionPrioritization(categorizedTokens, priorities) {
+    const emotionCategories = ['excitement', 'frustration', 'hope', 'regret'];
+    categorizedTokens.forEach(token => {
+        if (emotionCategories.includes(token.category)) {
             priorities.emotions = 1; // High priority if emotions are involved
         }
     });
+}
 
-    // Sort tokens based on the adjusted priorities
-    adjustedPriorities.sort((a, b) => {
+// Adjust priorities if the query involves an action
+function prioritizeActionTokens(categorizedTokens, inputType, priorities) {
+    const actionToken = categorizedTokens.find(token => token.category === 'action');
+    if (actionToken) {
+        priorities.action = 0; // Override with highest priority if action is involved
+    }
+
+    // Prioritize action over other categories like technology, unless it's a question involving technology
+    categorizedTokens.forEach(token => {
+        if (actionToken && token.category === 'technology' && inputType === 'question') {
+            priorities.technology = 2; // Reduce priority for technology in questions unless it's a direct match
+        }
+    });
+}
+
+// Sort tokens based on the adjusted priorities
+function sortTokensByPriority(categorizedTokens, priorities) {
+    return categorizedTokens.sort((a, b) => {
         return (priorities[a.category] || 99) - (priorities[b.category] || 99);
     });
-
-    return adjustedPriorities[0]; // Return the highest-priority match
 }
 
 function detectSalaryRange(tokens) {
@@ -930,7 +985,8 @@ function processMessage(message) {
 function handleComplexQuery(tokens) {
     // Identify multiple topics (job, salary, location, etc.)
     const matchedCategories = [];
-
+    console.log("tokens ",tokens);
+    console.log("handleComplexQuery =================");
     // Iterate over the categories object using Object.keys or Object.entries
     Object.keys(categories).forEach(categoryKey => {
         const category = categories[categoryKey];
@@ -1092,6 +1148,11 @@ function adjustPrioritiesByInputType(categorizedTokens, inputType) {
         if (inputTypeWeights[inputType]?.includes(token.category)) {
             token.weight = (token.weight || 1) * 0.5; // Boost weight for matching categories
         }
+
+         userPreferences = {
+            favoriteCategories: [favoriteCategories]
+        };
+
         return token; //userPreferences.favoriteCategories
     });
 }
