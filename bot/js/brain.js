@@ -916,10 +916,13 @@ function handleComplexQuery(tokens) {
     // Identify multiple topics (job, salary, location, etc.)
     const matchedCategories = [];
 
-    // Iterate through categories and match tokens
-    categories.forEach(category => {
-        if (tokens.some(token => token.includes(category))) {
-            matchedCategories.push(category);
+    // Iterate over the categories object using Object.keys or Object.entries
+    Object.keys(categories).forEach(categoryKey => {
+        const category = categories[categoryKey];
+
+        // Check if any token matches a word in the category array
+        if (tokens.some(token => category.some(catItem => token.includes(catItem)))) {
+            matchedCategories.push(categoryKey);
         }
     });
 
