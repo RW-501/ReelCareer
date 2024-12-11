@@ -939,8 +939,10 @@ function handleComplexQuery(tokens) {
 function handleJobQuery(query, tokens) {
     const bestMatch = prioritizeCategories(tokens);
 
+    console.log(bestMatch);  // Debugging line
+
     // Handle job-related queries (e.g., "jobs in [location]")
-    if (bestMatch.category === 'jobSearch') {
+    if (bestMatch && bestMatch.category === 'jobSearch') {
         if (query.includes('available') || query.includes('jobs in')) {
             const location = tokens.find(token => categories.states[token] || categories[token.toUpperCase()]);
             const jobType = tokens.find(token => categories.jobCategories.includes(token));
