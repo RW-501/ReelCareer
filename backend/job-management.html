@@ -99,7 +99,10 @@
 <div>
     <input type="text" id="jobSearch" placeholder="Search jobs" onkeyup="searchJobs()">
     <span id="totalCount"></span>
+    <span id="categoryFixCount"></span>
+    <span id="stateFixCount"></span>
 </div>
+
 
 <table class="table table-bordered table-striped" id="jobTable">
     <thead>
@@ -254,11 +257,11 @@ const stateAbbreviations = {
     "VIR": "Virginia", "WAS": "Washington", "WVA": "West Virginia", 
     "WIS": "Wisconsin", "WYO": "Wyoming",
 };
-// Array to store doc IDs and full state names of jobs with state abbreviations
+let categoryFixCount = 0;
+let stateFixCount = 0;
 const stateAbbreviationDocIds = [];
-
-// Array to store doc IDs of jobs with invalid states (non-state values)
 const invalidStateDocIds = [];
+const categoryFixes = [];
 
 async function loadJobs() {
     try {
@@ -272,17 +275,24 @@ async function loadJobs() {
             const job = doc.data();
             const truncatedDescription = job.description.length > 50 ? job.description.substring(0, 50) + '...' : job.description;
 
+            // Check if the job doesn't have a category
+            if (!job.category) {
+                categoryFixCount++;
+                const jobCategory = categorizeJob(job.title, job.description);
+                categoryFixes.push({ docId: doc.id, jobCategory });
+            }
+
             // Check if the state is an abbreviation and fix it
             const stateAbbreviation = job.state.toUpperCase();
             let fullStateName = stateAbbreviations[stateAbbreviation];
             let rowClass = '';
 
-            // If state abbreviation is found, highlight the row and potentially fix the state
             if (fullStateName) {
                 rowClass = 'highlight-row'; // Highlight the row
                 if (job.state !== fullStateName) {
                     // If needed, update the state to the correct full name
                     job.state = fullStateName;
+                    stateFixCount++;
                 }
 
                 // Store the document ID and the full state name of the job with state abbreviation
@@ -305,7 +315,7 @@ async function loadJobs() {
                     <td>${job.category}</td>
                     <td>${job.industry}</td>
                     <td>
-                        <button class="btn btn-warning btn-sm" onclick="editJob('${doc.id}', '${job}', '${job.description}', '${job.category}')">Edit</button>
+                        <button class="btn btn-warning btn-sm" onclick="editJob('${doc.id}', '${job.title}', '${job.description}', '${job.category}')">Edit</button>
                     </td>
                     <td>
                         <button class="btn btn-danger btn-sm" onclick="deleteJob('${doc.id}')">Delete</button>
@@ -330,13 +340,50 @@ async function loadJobs() {
 
         // Update the total count display
         document.getElementById('totalCount').textContent = `Total Jobs: ${totalCount}`;
+        document.getElementById('categoryFixCount').textContent = `Category Fix Count: ${categoryFixCount}`;
+        document.getElementById('stateFixCount').textContent = `State Fix Count: ${stateFixCount}`;
 
         // Log the document IDs and full state names
         console.log('Document IDs with state abbreviations and full state names:', stateAbbreviationDocIds);
+
+        // Now, batch upload the changes (category fixes and state fixes)
+        await batchUpdateCategoriesAndStates();
+
     } catch (error) {
         console.error('Error loading jobs:', error);
     }
 }
+
+// Function to batch update categories and states
+async function batchUpdateCategoriesAndStates() {
+    try {
+        const batch = writeBatch(db);
+
+        // Update categories in batch
+        categoryFixes.forEach(({ docId, jobCategory }) => {
+            const jobRef = doc(db, 'Jobs', docId);
+            batch.update(jobRef, { category: jobCategory }); // Add the category update to the batch
+            console.log(`Job ID: ${docId}, category updated to: ${jobCategory}`);
+        });
+
+        // Update states in batch
+        stateAbbreviationDocIds.forEach(({ docId, fullStateName }) => {
+            const jobRef = doc(db, 'Jobs', docId);
+            batch.update(jobRef, { state: fullStateName }); // Add the state update to the batch
+            console.log(`Job ID: ${docId}, state updated to: ${fullStateName}`);
+        });
+
+        // Commit the batch update
+        await batch.commit();
+
+        // Show success message
+        alert('All categories and states have been fixed!');
+
+    } catch (error) {
+        console.error('Error in batch updating categories and states:', error);
+    }
+}
+
 
 // Function to get the document IDs of jobs with invalid states
 function getJobsWithInvalidStates() {
@@ -353,24 +400,6 @@ style.innerHTML = `
     }
 `;
 document.head.appendChild(style);
-
-
-// Function to fix states in the Jobs collection
-async function fixStatesInJobs() {
-    try {
-        // Loop through each document ID stored in the array
-        for (const { docId, fullStateName } of stateAbbreviationDocIds) {
-            const jobRef = doc(db, 'Jobs', docId);
-            await updateDoc(jobRef, { state: fullStateName }); // Update the state to the full name
-            console.log(`Fixed state for job ID: ${docId}, updated to ${fullStateName}`);
-        }
-        alert('All state abbreviations have been fixed!');
-    } catch (error) {
-        console.error('Error fixing states:', error);
-    }
-}
-
-window.fixStatesInJobs = fixStatesInJobs;
 
 
 
@@ -510,6 +539,54 @@ async function deleteJob(id) {
         }
     }
 }
+
+
+
+// Define job categories with associated keywords
+const jobCategories = {
+    'Accounting': ['accounting', 'finance', 'bookkeeping', 'audit', 'tax', 'ledger'],
+    'Administration': ['admin', 'administrative', 'office', 'secretary', 'assistant', 'clerical'],
+    'Advertising': ['advertising', 'marketing', 'ad', 'campaign', 'promotion', 'media'],
+    'Healthcare': ['healthcare', 'medical', 'doctor', 'nurse', 'hospital', 'patient care', 'medicine'],
+    'Engineering': ['engineer', 'engineering', 'mechanical', 'civil', 'electrical', 'design', 'construction', 'project'],
+    'Sales': ['sales', 'representative', 'business development', 'account manager', 'customer', 'salesperson', 'quota'],
+    'Human Resources': ['HR', 'recruiter', 'talent', 'staffing', 'human resources', 'benefits', 'employee relations'],
+    'Technology': ['developer', 'engineer', 'IT', 'software', 'programming', 'coder', 'technology', 'systems', 'web'],
+    'Education': ['teacher', 'education', 'tutor', 'trainer', 'school', 'curriculum', 'lecture'],
+    'Finance': ['investment', 'banking', 'financial', 'analyst', 'portfolio', 'broker', 'credit'],
+    'Legal': ['law', 'attorney', 'lawyer', 'legal', 'litigation', 'contract', 'court'],
+    'Creative': ['designer', 'graphic design', 'illustrator', 'creative', 'artist', 'visual'],
+    'Customer Support': ['support', 'customer service', 'helpdesk', 'assistant', 'call center', 'service'],
+    'Retail': ['retail', 'store', 'cashier', 'shop', 'sales associate', 'merchandise', 'customer'],
+    'Logistics': ['logistics', 'supply chain', 'delivery', 'warehouse', 'shipping', 'inventory'],
+    'Manufacturing': ['production', 'manufacturing', 'assembly', 'factory', 'machinist', 'materials'],
+    'Construction': ['construction', 'builder', 'contractor', 'construction manager', 'site supervisor', 'engineering'],
+    'Hospitality': ['hotel', 'restaurant', 'hospitality', 'waiter', 'chef', 'barista', 'concierge'],
+    'Real Estate': ['real estate', 'agent', 'broker', 'property', 'sales', 'listing', 'agent'],
+    'Transportation': ['driver', 'transportation', 'logistics', 'truck', 'vehicle', 'shipping', 'route'],
+    'Art & Entertainment': ['artist', 'entertainment', 'music', 'performer', 'actor', 'production', 'media']
+};
+
+
+// Function to match job title/description to a category
+function categorizeJob(title, description) {
+    title = title.toLowerCase();
+    description = description.toLowerCase();
+    
+    // Loop through job categories
+    for (const [category, keywords] of Object.entries(jobCategories)) {
+        // Check if any keyword matches the title or description
+        for (const keyword of keywords) {
+            if (title.includes(keyword) || description.includes(keyword)) {
+                return category; // Return the matched category
+            }
+        }
+    }
+    return 'Other'; // Default category if no match found
+}
+
+
+
 
 // Add category
 async function addCategory() {
