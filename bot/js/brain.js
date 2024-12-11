@@ -719,28 +719,71 @@ function categorizeTokens(tokens, categories) {
     return mappedWords;
 }
 
-// Generate suggestions based on categorized tokens
 function generateSuggestions(categorizedTokens) {
     const suggestions = [];
     categorizedTokens.forEach(({ category, word }) => {
         switch (category) {
+            // Job Categories
             case 'job':
-                suggestions.push(`Looking for a job in the category of "${word}"?`);
+                suggestions.push(`Are you looking for a job related to "${word}"? You can start your search in our [Job Listings](#).`);
                 break;
+            case 'jobSearch':
+                suggestions.push(`You can search for jobs by keyword, location, or company on our [Job Search Page](#).`);
+                break;
+            case 'jobType':
+                suggestions.push(`Looking for full-time, part-time, or freelance opportunities? Check out the available options [here](#).`);
+                break;
+            case 'experience':
+                suggestions.push(`Need tips to highlight your experience on resumes? Visit our [Career Resources](#).`);
+                break;
+            case 'company':
+                suggestions.push(`Explore company profiles to find your best fit [here](#).`);
+                break;
+
+            // Math & Salary
+            case 'math':
+                suggestions.push(`I can help with math calculations like salary, payments, or more. Try asking: "What’s 45 * 12?"`);
+                break;
+            case 'salary':
+                suggestions.push(`If you'd like to calculate monthly pay, just type "What is $60,000 annually in monthly pay?".`);
+                break;
+
+            // Support
             case 'websiteSupport':
-                suggestions.push(`For assistance with your account or site issues, check out our [Help Center](#).`);
+                suggestions.push(`For website issues, visit our [Support Center](#).`);
                 break;
-            case 'payment':
-                suggestions.push(`Need help with a payment? Visit our [Payment Support](#).`);
+            case 'userAccount':
+                suggestions.push(`Need help with your account? You can [reset your password](#) or update your details.`);
                 break;
-            case 'account':
-                suggestions.push(`Having trouble with your account? [Reset your password](#) or contact support.`);
+            case 'payments':
+                suggestions.push(`Having trouble with payments? Check out our [Payment Support Page](#).`);
                 break;
-            case 'feedback':
-                suggestions.push(`We'd love to hear your thoughts! Leave a review or feedback on our [Feedback Page](#).`);
+            case 'security':
+                suggestions.push(`Keeping your data secure is our priority. Visit our [Security Guide](#).`);
                 break;
+
+            // Emotions
+            case 'excitement':
+                suggestions.push(`You sound excited! That’s great! Let me know how I can help you further.`);
+                break;
+            case 'frustration':
+                suggestions.push(`I'm sorry you're feeling frustrated. Can I assist you with something specific?`);
+                break;
+            case 'loneliness':
+                suggestions.push(`I'm here to help. Let’s work through this together—what would you like to do?`);
+                break;
+            case 'positive':
+                suggestions.push(`That’s great to hear! How else can I assist you?`);
+                break;
+
+            // General Inquiry
+            case 'generalInquiry':
+                suggestions.push(`Could you clarify your question so I can assist you better?`);
+                break;
+
+            // Default
             default:
-                suggestions.push(`For more information on "${word}", please explore our site.`);
+                suggestions.push(`Looking for more details on "${word}"? Let me know how I can help!`);
                 break;
         }
     });
@@ -748,35 +791,46 @@ function generateSuggestions(categorizedTokens) {
 }
 
 
-// Main function to process user input
 function processMessage(message, categories) {
     const userInput = message.toLowerCase();
     let tokens = tokenize(userInput);
 
-    // 1. Handle explicit math expressions with symbols
+    // 1. Handle math expressions
     const mathResponse = detectAndEvaluateMath(tokens);
     if (mathResponse) {
         return mathResponse;
     }
 
-    // 2. Detect if the user is asking about salary and perform salary calculations
+    // 2. Handle salary queries
     const { salary, keyword } = detectSalaryQuery(tokens);
     if (salary && keyword) {
-        if (keyword === 'salary' || keyword === 'pay' || keyword === 'annual') {
-            const monthlySalary = calculateMonthlySalary(salary);
-            return `Your monthly pay would be $${monthlySalary.toFixed(2)} if you make $${salary} a year.`;
-        }
+        const monthlySalary = calculateMonthlySalary(salary);
+        return `Your monthly salary would be $${monthlySalary.toFixed(2)} if your annual pay is $${salary}.`;
     }
 
-    // 3. Proceed with usual token processing
-    tokens = normalizeLocations(tokens, categories);  // Normalize locations
-    tokens = expandSynonyms(tokens, 'job', categories);  // Expand job-related synonyms
-    tokens = expandSynonyms(tokens, 'events', categories);  // Expand event-related synonyms
+    // 3. Categorize tokens
+    tokens = normalizeLocations(tokens, categories);
+    let categorizedTokens = categorizeTokens(tokens, categories);
 
-    let categorizedTokens = categorizeTokens(tokens, categories);  // Categorize based on categories
-    let suggestions = generateSuggestions(categorizedTokens);  // Generate suggestions
+    // 4. Generate suggestions
+    let suggestions = generateSuggestions(categorizedTokens);
 
-    const response = `Mapped Tokens: ${JSON.stringify(categorizedTokens)}. Suggestions: ${suggestions.join(' ')}`;
-    return response;
+    // 5. Response based on detected type
+    const inputType = determineInputType(tokens, categories);
+    let response = '';
+    switch (inputType) {
+        case 'question':
+            response = "That’s a great question! Let me see how I can assist.";
+            break;
+        case 'request':
+            response = "It seems like you’re asking for help. Here’s what I suggest:";
+            break;
+        case 'statement':
+            response = "Thanks for sharing that. Here’s something you might find helpful:";
+            break;
+        default:
+            response = "I’m here to help, but I didn’t quite catch that.";
+    }
+
+    return `${response} ${suggestions.join(' ')}`;
 }
-
