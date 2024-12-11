@@ -3028,6 +3028,31 @@ async function updateHelpfulCount(questionId, isHelpful) {
 }
 
 
+// Function to simulate smooth scrolling
+function smoothScrollToBottom() {
+  const start = messageArea.scrollTop;
+  const end = messageArea.scrollHeight;
+  const duration = 300; // Duration of the scroll animation in milliseconds
+  let startTime = null;
+
+  function step(timestamp) {
+    if (!startTime) startTime = timestamp;
+    const progress = Math.min((timestamp - startTime) / duration, 1);
+    messageArea.scrollTop = start + (end - start) * easeInOutQuad(progress);
+
+    if (progress < 1) {
+      requestAnimationFrame(step);
+    }
+  }
+
+  requestAnimationFrame(step);
+}
+
+// Easing function for smooth animation
+function easeInOutQuad(t) {
+  return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+}
+
 // Display messages in the chat panel
 function displayMessage(sender, message) {
   return new Promise((resolve) => {
@@ -3090,6 +3115,8 @@ function displayMessage(sender, message) {
       const typingSpeed = 70;
 
       messageDiv.innerHTML = `${senderLabel}`; // Start empty with sender label
+      smoothScrollToBottom();
+
       const typingEffect = setInterval(() => {
         messageDiv.innerHTML = `${senderLabel}${messageWithLinks.substring(0, index + 1)}`;
         messageArea.scrollTop = messageArea.scrollHeight;
@@ -3097,16 +3124,20 @@ function displayMessage(sender, message) {
 
         if (index === messageWithLinks.length) {
           clearInterval(typingEffect);
+          smoothScrollToBottom();
+
           resolve(); // Resolve the promise when typing completes
         }
       }, typingSpeed);
     } else {
-      messageDiv.innerHTML = senderLabel + messageWithLinks;
-      resolve(); // Immediately resolve for user messages
+       // Immediate display for user messages with a slight delay
+       setTimeout(() => {
+        messageDiv.innerHTML = senderLabel + messageWithLinks;
+        messageArea.appendChild(messageDiv);
+        smoothScrollToBottom();
+        resolve();
+      }, 200);
     }
-
-    messageArea.appendChild(messageDiv);
-    messageArea.scrollTop = messageArea.scrollHeight; // Auto-scroll to bottom
   });
 }
 
