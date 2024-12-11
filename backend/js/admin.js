@@ -77,13 +77,12 @@ const navData = {
     ]
   };
  
-  // Load from localStorage if it exists
+  
     const storedNav = JSON.parse(localStorage.getItem('navData'));
     if (storedNav) navData.navGroups = storedNav.navGroups;
   
     function replaceNav() {
       let oldNav = document.getElementById('Main_Nav');
-  
       if (!oldNav) {
         oldNav = document.createElement('nav');
         oldNav.id = 'Main_Nav';
@@ -94,15 +93,16 @@ const navData = {
         <div class="container mt-3">
           <ul class="list-group mb-3" id="link-list">`;
   
-      // Generate the list
       navData.navGroups.forEach((group) => {
         group.links.forEach((link, index) => {
           navHTML += `
-            <li class="list-group-item" draggable="true" data-index="${index}" data-title="${group.title}">
+            <div class="dropzone" data-drop-index="${index}"></div>
+            <li class="list-group-item" draggable="true" data-index="${index}">
               <a href="${link.href}" class="text-decoration-none">${link.text}</a>
-            </li>
-          `;
+            </li>`;
         });
+        // Final dropzone at the end
+        navHTML += `<div class="dropzone" data-drop-index="${group.links.length}"></div>`;
       });
   
       navHTML += `
@@ -115,63 +115,59 @@ const navData = {
         </div>`;
   
       oldNav.innerHTML = navHTML;
+  
       addDragAndDrop();
       setupAddLink();
     }
   
     function addDragAndDrop() {
       const listItems = document.querySelectorAll('#link-list .list-group-item');
+      const dropZones = document.querySelectorAll('.dropzone');
       let draggedItem = null;
   
       listItems.forEach((item) => {
-        item.addEventListener('dragstart', (e) => {
+        item.addEventListener('dragstart', () => {
           draggedItem = item;
           setTimeout(() => (item.style.display = 'none'), 0);
         });
   
-        item.addEventListener('dragover', (e) => {
-          e.preventDefault();
-          const dropZone = e.currentTarget;
-          dropZone.classList.add('bg-light');
-        });
-  
-        item.addEventListener('dragleave', () => {
-          const dropZone = event.currentTarget;
-          dropZone.classList.remove('bg-light');
-        });
-  
-        item.addEventListener('drop', (e) => {
-          e.preventDefault();
-          const dropZone = e.currentTarget;
-          dropZone.classList.remove('bg-light');
-          if (draggedItem !== dropZone) {
-            const list = document.getElementById('link-list');
-            const draggedIndex = draggedItem.dataset.index;
-            const dropIndex = dropZone.dataset.index;
-  
-            list.insertBefore(draggedItem, dropZone.nextSibling);
-  
-            // Update data order
-            updateNavDataOrder(draggedIndex, dropIndex);
-          }
-        });
-  
         item.addEventListener('dragend', () => {
-          draggedItem.style.display = 'block';
+          item.style.display = 'block';
           draggedItem = null;
+        });
+      });
+  
+      dropZones.forEach((zone) => {
+        zone.addEventListener('dragover', (e) => {
+          e.preventDefault();
+          zone.classList.add('bg-light');
+        });
+  
+        zone.addEventListener('dragleave', () => {
+          zone.classList.remove('bg-light');
+        });
+  
+        zone.addEventListener('drop', (e) => {
+          e.preventDefault();
+          zone.classList.remove('bg-light');
+  
+          const dropIndex = parseInt(zone.dataset.dropIndex);
+          if (draggedItem) {
+            const fromIndex = parseInt(draggedItem.dataset.index);
+            if (fromIndex !== dropIndex) {
+              updateNavDataOrder(fromIndex, dropIndex);
+            }
+          }
         });
       });
     }
   
     function updateNavDataOrder(fromIndex, toIndex) {
-      const group = navData.navGroups[0]; // Handle the first group for simplicity
+      const group = navData.navGroups[0];
       const movedLink = group.links.splice(fromIndex, 1)[0];
       group.links.splice(toIndex, 0, movedLink);
   
-      // Save to localStorage
       localStorage.setItem('navData', JSON.stringify(navData));
-  
-      // Re-render to update indices
       replaceNav();
     }
   
@@ -182,17 +178,10 @@ const navData = {
         const newLinkHref = document.getElementById('newLinkHref').value.trim();
   
         if (newLinkText && newLinkHref) {
-          // Add new link to the first group
           navData.navGroups[0].links.push({ text: newLinkText, href: newLinkHref });
-  
-          // Save to localStorage
           localStorage.setItem('navData', JSON.stringify(navData));
-  
-          // Clear input fields
           document.getElementById('newLinkText').value = '';
           document.getElementById('newLinkHref').value = '';
-  
-          // Re-render navigation
           replaceNav();
         } else {
           alert('Please enter both Link Text and Link URL.');
@@ -203,7 +192,6 @@ const navData = {
     replaceNav();
   });
   
-
 
 
 
