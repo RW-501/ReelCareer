@@ -692,9 +692,11 @@ function determineInputType(tokens, categories) {
 
 
 // Implement basic fuzzy matching using Levenshtein distance
-function fuzzyMatch(query, categoryWords, threshold = 0.8) {
+function fuzzyMatch(query, categoryWords,tokens, threshold = 0.8) {
     // Tokenize the query into words
-    const queryTokens = query.toLowerCase().split(' ');
+    const queryTokens = tokens.toLowerCase().split(' ');
+
+    console.log("tokens ",tokens);
     console.log("query ",query);
     console.log("queryTokens ",queryTokens);
     // Generate multi-word token pairs (bigrams)
@@ -771,7 +773,7 @@ function expandSynonyms(tokens, category, categories) {
 
     return tokens.map(token => {
         if (categories[category]) {
-            const matches = fuzzyMatch(token, categories[category]);
+            const matches = fuzzyMatch(token, categories[category],tokens);
             if (matches.length > 0) {
                 return matches[0]; // Return the first match
             }
@@ -793,7 +795,8 @@ function categorizeTokens(tokens, categories) {
         // Check each category
         for (let category in categories) {
             if (Array.isArray(categories[category])) {
-                const match = fuzzyMatch(token, categories[category]);
+                // fuzzy loop thru the catagories also, so it will return match"es"
+                const match = fuzzyMatch(token, categories[category],tokens);
                 if (match.length > 0) {
                     matchedCategory = category;
                     break;
