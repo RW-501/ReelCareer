@@ -264,18 +264,20 @@ document.head.appendChild(link);
           <strong>Industry:</strong>
            <h9>${job.industry}</h9>
         </p>
+    <hr>
 
         <p class="category-text-area c-text">
           <strong>Category:</strong>
            <h9>${job.category}</h9>
         </p>
+    <hr>
 
 
         <p class="job-type-text-area c-text">
           <strong>Type:</strong>
           <h9>${formatJobType(job.type)}</h9>
         </p>
-         </hr>
+        
         <p class="salary-text-area c-text">
           <strong>Salary:</strong>
          <h8> ${formatCurrency(job.salary, { decimals: 0 })}</h8>
