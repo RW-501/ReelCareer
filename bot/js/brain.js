@@ -29,61 +29,58 @@
         };
 
         // Tokenize input and map to categories
-        function processMessage(message) {
-            const userInput = message.toLowerCase();
-            let tokens = tokenize(userInput);
-            tokens = stemTokens(tokens);  // Apply basic stemming
-            let categorizedTokens = categorizeTokens(tokens);
+     // Function to process the input message
+function processMessage(message) { 
+    const userInput = message.toLowerCase();
+    let tokens = tokenize(userInput);
+    tokens = stemTokens(tokens);  // Apply basic stemming
+    let categorizedTokens = categorizeTokens(tokens);
 
-            return `Mapped: ${JSON.stringify(categorizedTokens)}`;
+    return `Mapped: ${JSON.stringify(categorizedTokens)}`;
+}
+
+// Tokenize the input by splitting on spaces and punctuation
+function tokenize(input) {
+    const regex = /[\w'-]+/g;
+    return input.match(regex) || [];
+}
+
+// Apply basic stemming by removing common endings
+function stemTokens(tokens) {
+    return tokens.map(token => {
+        if (token.endsWith('in')) {
+            return token.slice(0, -2);  // Handle "washin" -> "wash"
         }
-
-        // Tokenize the input by splitting on spaces and punctuation
-        function tokenize(input) {
-            const regex = /[\w'-]+/g;
-            return input.match(regex) || [];
+        if (token.endsWith('ing')) {
+            return token.slice(0, -3);  // Handle "washing" -> "wash"
         }
+        if (token.endsWith('es')) {
+            return token.slice(0, -2);  // Handle "cars" -> "car"
+        }
+        if (token.endsWith('ed')) {
+            return token.slice(0, -2);  // Handle "worked" -> "work"
+        }
+        return token;
+    });
+}
 
-        // Apply basic stemming by removing common endings
-        function stemTokens(tokens) {
-            return tokens.map(token => {
-                if (token.endsWith('in')) {
-                    return token.slice(0, -2);  // Handle "washin" -> "wash"
+// Categorize tokens into predefined categories and return both category and word
+function categorizeTokens(tokens) {
+    const mappedWords = [];
+
+    // Remove stop words and match remaining tokens to categories
+    tokens.forEach(token => {
+        if (!stopWords.includes(token)) {
+            // Match against each category
+            Object.keys(categories).forEach(category => {
+                // Check if the token matches a category using a regex for locations (e.g., 'TX', 'New York')
+                const regexLocation = new RegExp('\\b(' + categories.location.join('|') + ')\\b', 'i');
+                if (categories[category].includes(token) || (category === 'location' && regexLocation.test(token))) {
+                    mappedWords.push({ category: category, word: token });
                 }
-                if (token.endsWith('ing')) {
-                    return token.slice(0, -3);  // Handle "washing" -> "wash"
-                }
-                if (token.endsWith('es')) {
-                    return token.slice(0, -2);  // Handle "cars" -> "car"
-                }
-                if (token.endsWith('ed')) {
-                    return token.slice(0, -2);  // Handle "worked" -> "work"
-                }
-                return token;
             });
         }
+    });
 
-        // Categorize tokens into predefined categories
-        function categorizeTokens(tokens) {
-            const mappedWords = [];
-
-            // Remove stop words and match remaining tokens to categories
-            tokens.forEach(token => {
-                if (!stopWords.includes(token)) {
-                    // Match against each category
-                    Object.keys(categories).forEach(category => {
-                        // Check if the token matches a category using a regex for locations (e.g., 'TX', 'New York')
-                        const regexLocation = new RegExp('\\b(' + categories.location.join('|') + ')\\b', 'i');
-                        if (categories[category].includes(token) || (category === 'location' && regexLocation.test(token))) {
-                            mappedWords.push(`[${category}]`);
-                        }
-                    });
-                }
-            });
-
-            return mappedWords;
-        }
-
-
-
-      
+    return mappedWords;
+}

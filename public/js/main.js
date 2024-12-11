@@ -3264,7 +3264,8 @@ if (bestMatch && highestScore > 0) {
     };
 } else {
     // Log unanswered question and suggest contacting support
-    processMessage(trimmedMessage);
+    let returnOutput = processMessage(trimmedMessage);
+    displayMessage("bot", returnOutput);
 
      //  logUnansweredQuestion(trimmedMessage);
     console.log("No match found, suggesting contact with support.");
