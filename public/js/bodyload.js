@@ -257,28 +257,28 @@ document.head.appendChild(link);
         
         <p class="location-text-area c-text">
           <i class="fas fa-map-marker-alt" style="color: #007bff;"></i> 
-          ${formatLocation(job.location)}
+          <h9>${formatLocation(job.location)}</h6>
         </p>
     
         <p class="industry-text-area c-text">
           <strong>Industry:</strong>
-           ${job.industry}
+           <h9>${job.industry}</h9>
         </p>
 
         <p class="category-text-area c-text">
           <strong>Category:</strong>
-           ${job.category}
+           <h9>${job.category}</h9>
         </p>
 
 
         <p class="job-type-text-area c-text">
           <strong>Type:</strong>
-           ${formatJobType(job.type)}
+          <h9>${formatJobType(job.type)}</h9>
         </p>
         
         <p class="salary-text-area c-text">
           <strong>Salary:</strong>
-          ${formatCurrency(job.salary, { decimals: 0 })}
+         <h9> ${formatCurrency(job.salary, { decimals: 0 })}</h9>
           <span class="salary-text">${job.salaryPayTime || ""}</span>
         </p>
 
