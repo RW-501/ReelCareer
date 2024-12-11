@@ -728,15 +728,30 @@ function categorizeTokens(tokens, categories) {
     tokens.forEach(token => {
         // Match against each category
         Object.keys(categories).forEach(category => {
-            const regexLocation = new RegExp('\\b(' + categories.location.join('|') + ')\\b', 'i');
-            if (categories[category].includes(token) || (category === 'location' && regexLocation.test(token))) {
-                mappedWords.push({ category: category, word: token });
+            const categoryValues = categories[category];
+
+            // Check if the category is an array (e.g., 'grief') or object (e.g., 'states')
+            if (Array.isArray(categoryValues)) {
+                // Handle categories that are arrays
+                if (categoryValues.includes(token)) {
+                    mappedWords.push({ category: category, word: token });
+                }
+            } else if (category === 'states') {
+                // Special handling for 'states' category (object)
+                const stateAbbreviations = Object.keys(categoryValues);
+                const stateNames = Object.values(categoryValues);
+
+                if (stateAbbreviations.includes(token.toUpperCase()) || 
+                    stateNames.some(name => name.toLowerCase() === token.toLowerCase())) {
+                    mappedWords.push({ category: 'states', word: token });
+                }
             }
         });
     });
 
     return mappedWords;
 }
+
 function generateSuggestions(categorizedTokens) {
     const suggestions = [];
     const dynamicPhrases = {
