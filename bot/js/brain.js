@@ -700,7 +700,7 @@ function fuzzyMatch(query, categoryWords, threshold = 0.8) {
     const queryBigrams = generateBigrams(queryTokens);
 
     console.log("queryBigrams ",queryBigrams);
-    console.log("query ",query);
+    console.log("queryTokens ",queryTokens);
     console.log("fuzzyMatch =================");
     // Initialize an array to hold all possible matches
     const matches = [];
