@@ -259,12 +259,12 @@ document.head.appendChild(link);
           <i class="fas fa-map-marker-alt" style="color: #007bff;"></i> 
           <h6>${formatLocation(job.location)}</h6>
         </p>
-    <hr>
+    
         <p class="industry-text-area c-text">
           <strong>Industry:</strong>
            <h9>${job.industry}</h9>
         </p>
-    <hr>
+    
 
         <p class="category-text-area c-text">
           <strong>Category:</strong>
