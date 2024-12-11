@@ -2897,7 +2897,7 @@ async function handleUserInput(userMessage) {
       "bot",
       "Sorry, I couldn't find an answer for that. Please contact us via our [Contact Us](https://reelcareer.com/contact) page."
     );
-    logUnansweredQuestion(userMessage);
+ //   logUnansweredQuestion(userMessage);
   }
 }
 
@@ -3203,18 +3203,16 @@ async function sendMessage(userMessage) {
      return; // Exit if the message fails sanitization or validation
    }
  
-   console.log("Final Message:", sanitizedMessage);
-   // 3. Continue with processing (example: send the message to the chat system)
-  
+
  // Trim and normalize the user message
 const trimmedMessage = sanitizedMessage.trim().toLowerCase();
-console.log("Trimmed and Normalized Message:", trimmedMessage);
+
 
 // Initialize score variables
 let bestMatch = null;
 let highestScore = 0;
-console.log("Initial Best Match:", bestMatch);
-console.log("Initial Highest Score:", highestScore);
+//console.log("Initial Best Match:", bestMatch);
+//console.log("Initial Highest Score:", highestScore);
 
 // Define weights for tags and categories
 const tagWeight = 2;
@@ -3224,28 +3222,27 @@ console.log("Tag Weight:", tagWeight, "Category Weight:", categoryWeight);
 // Iterate over all questions to find the best match
 allQuestions.forEach((questionObj, index) => {
     let score = 0;
-    console.log(`Evaluating Question #${index + 1}:`, questionObj);
+  //  console.log(`Evaluating Question #${index + 1}:`, questionObj);
 
     // Score based on the number of matching tags
     questionObj.tags.forEach(tag => {
         if (trimmedMessage.includes(tag.toLowerCase())) {
             score += tagWeight; // Increase score by tagWeight
-            console.log(`Matched tag: ${tag}. Current score: ${score}`);
+          //  console.log(`Matched tag: ${tag}. Current score: ${score}`);
         }
     });
 
     // Score based on matching question text
     if (trimmedMessage.includes(questionObj.question.toLowerCase())) {
         score += categoryWeight; // Increase score by categoryWeight
-        console.log(`Matched question: "${questionObj.question}". Current score: ${score}`);
+       // console.log(`Matched question: "${questionObj.question}". Current score: ${score}`);
     }
 
     // Score based on matching category
     if (trimmedMessage.includes(questionObj.category.toLowerCase())) {
         score += categoryWeight; // Increase score by categoryWeight
-        console.log(`Matched category: "${questionObj.category}". Current score: ${score}`);
+       // console.log(`Matched category: "${questionObj.category}". Current score: ${score}`);
     }
-
     // Update best match if the score is higher
     if (score > highestScore) {
         highestScore = score;
@@ -3254,19 +3251,22 @@ allQuestions.forEach((questionObj, index) => {
     }
 });
 
-console.log("Final Best Match:", bestMatch);
-console.log("Final Highest Score:", highestScore);
+//console.log("Final Best Match:", bestMatch);
+//console.log("Final Highest Score:", highestScore);
 
 // Return answer and question id if a best match is found
 if (bestMatch && highestScore > 0) {
-    console.log("Returning best match:", bestMatch.answer);
+   // console.log("Returning best match:", bestMatch.answer);
+    displayMessage("bot", bestMatch.answer);
     return {
         answer: bestMatch.answer,
         id: bestMatch.id  // Include the ID of the best match
     };
 } else {
     // Log unanswered question and suggest contacting support
-    logUnansweredQuestion(trimmedMessage);
+    processMessage(trimmedMessage);
+
+     //  logUnansweredQuestion(trimmedMessage);
     console.log("No match found, suggesting contact with support.");
     return {
         answer: "Sorry, I couldn't find an answer to your question. Please contact support for assistance.",
@@ -3308,7 +3308,7 @@ setTimeout(() => {
 
   fetchChatbotData();
 
-  processMessage('Hello, Brain!');
+  //processMessage('Hello, Brain!');
 
 
 }, 5000); // 5000 milliseconds = 5 seconds
