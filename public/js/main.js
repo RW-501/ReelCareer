@@ -3277,15 +3277,6 @@ if (bestMatch && highestScore > 0) {
 }
 
 
-setTimeout(() => {
-
-  callProcessMessage('Hello, Brain!');
-  fetchChatbotData();
-
- 
-
-
-}, 5000); // 5000 milliseconds = 5 seconds
 
 // Variable to hold the loaded script
 let brainScriptLoaded = false;
@@ -3319,11 +3310,20 @@ function callProcessMessage(message) {
     console.log('brain.js is not loaded yet. Please wait.');
   }
 }
-
+window.callProcessMessage = callProcessMessage;
 // Example function to trigger loading of brain.js and later calling the function
 function loadBrainAndCallFunction() {
   loadScript('https://reelcareer.co/bot/js/brain.js', function() {
     console.log('brain.js loaded successfully');
   });
 }
+window.loadBrainAndCallFunction = loadBrainAndCallFunction;
+setTimeout(() => {
 
+  callProcessMessage('Hello, Brain!');
+  fetchChatbotData();
+
+ 
+
+
+}, 5000); // 5000 milliseconds = 5 seconds

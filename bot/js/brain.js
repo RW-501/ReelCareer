@@ -4,3 +4,4 @@ function processMessage(message) {
     return "Message processed: " + message;
   }
   
+  window.processMessage = processMessage;
