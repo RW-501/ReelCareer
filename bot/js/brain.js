@@ -718,78 +718,68 @@ function categorizeTokens(tokens, categories) {
 
     return mappedWords;
 }
-
 function generateSuggestions(categorizedTokens) {
     const suggestions = [];
+    const dynamicPhrases = {
+        excitement: [
+            "You sound thrilled! How can I assist you further?",
+            "That's awesome to hear! What would you like to explore today?",
+            "I love the excitement! Need any help?"
+        ],
+        frustration: [
+            "I'm sorry to hear that. How can I make things easier for you?",
+            "It seems you're frustrated. Let’s fix this together. What's the issue?",
+            "I’m here to help—let me know what’s going on."
+        ],
+        math: [
+            "Math question? I’ve got you! Ask me something like 'What's 45 times 12?'.",
+            "Need calculations? Just type something like 'Calculate 5000/12'.",
+        ],
+        salary: [
+            "To calculate monthly pay, just say something like 'What’s $60,000 annually per month?'.",
+            "Curious about your pay? I can break down annual salaries for you!"
+        ]
+    };
+
     categorizedTokens.forEach(({ category, word }) => {
         switch (category) {
-            // Job Categories
             case 'job':
-                suggestions.push(`Are you looking for a job related to "${word}"? You can start your search in our [Job Listings](#).`);
+                suggestions.push(`Looking for jobs related to "${word}"? Start browsing on our [Job Listings Page](#).`);
                 break;
             case 'jobSearch':
-                suggestions.push(`You can search for jobs by keyword, location, or company on our [Job Search Page](#).`);
+                suggestions.push(`Want to search by keyword, location, or company? Head to our [Job Search Page](#).`);
                 break;
             case 'jobType':
-                suggestions.push(`Looking for full-time, part-time, or freelance opportunities? Check out the available options [here](#).`);
-                break;
-            case 'experience':
-                suggestions.push(`Need tips to highlight your experience on resumes? Visit our [Career Resources](#).`);
-                break;
-            case 'company':
-                suggestions.push(`Explore company profiles to find your best fit [here](#).`);
-                break;
-
-            // Math & Salary
-            case 'math':
-                suggestions.push(`I can help with math calculations like salary, payments, or more. Try asking: "What’s 45 * 12?"`);
+                suggestions.push(`Whether it's full-time, freelance, or remote work—explore your options [here](#).`);
                 break;
             case 'salary':
-                suggestions.push(`If you'd like to calculate monthly pay, just type "What is $60,000 annually in monthly pay?".`);
+                suggestions.push(randomChoice(dynamicPhrases.salary));
                 break;
-
-            // Support
+            case 'math':
+                suggestions.push(randomChoice(dynamicPhrases.math));
+                break;
             case 'websiteSupport':
-                suggestions.push(`For website issues, visit our [Support Center](#).`);
+                suggestions.push(`For technical help, check out our [Support Center](#) or contact us.`);
                 break;
-            case 'userAccount':
-                suggestions.push(`Need help with your account? You can [reset your password](#) or update your details.`);
-                break;
-            case 'payments':
-                suggestions.push(`Having trouble with payments? Check out our [Payment Support Page](#).`);
-                break;
-            case 'security':
-                suggestions.push(`Keeping your data secure is our priority. Visit our [Security Guide](#).`);
-                break;
-
-            // Emotions
             case 'excitement':
-                suggestions.push(`You sound excited! That’s great! Let me know how I can help you further.`);
+                suggestions.push(randomChoice(dynamicPhrases.excitement));
                 break;
             case 'frustration':
-                suggestions.push(`I'm sorry you're feeling frustrated. Can I assist you with something specific?`);
+                suggestions.push(randomChoice(dynamicPhrases.frustration));
                 break;
-            case 'loneliness':
-                suggestions.push(`I'm here to help. Let’s work through this together—what would you like to do?`);
-                break;
-            case 'positive':
-                suggestions.push(`That’s great to hear! How else can I assist you?`);
-                break;
-
-            // General Inquiry
-            case 'generalInquiry':
-                suggestions.push(`Could you clarify your question so I can assist you better?`);
-                break;
-
-            // Default
             default:
-                suggestions.push(`Looking for more details on "${word}"? Let me know how I can help!`);
+                suggestions.push(`Looking for more details about "${word}"? Let me know how I can assist.`);
                 break;
         }
     });
+
     return suggestions;
 }
 
+// Utility function to randomize similar responses
+function randomChoice(options) {
+    return options[Math.floor(Math.random() * options.length)];
+}
 
 function processMessage(message, categories) {
     const userInput = message.toLowerCase();
@@ -798,39 +788,41 @@ function processMessage(message, categories) {
     // 1. Handle math expressions
     const mathResponse = detectAndEvaluateMath(tokens);
     if (mathResponse) {
-        return mathResponse;
+        return `Here's your result: ${mathResponse}`;
     }
 
     // 2. Handle salary queries
     const { salary, keyword } = detectSalaryQuery(tokens);
     if (salary && keyword) {
         const monthlySalary = calculateMonthlySalary(salary);
-        return `Your monthly salary would be $${monthlySalary.toFixed(2)} if your annual pay is $${salary}.`;
+        return `Your monthly salary is approximately **$${monthlySalary.toFixed(2)}** if you earn **$${salary} annually**.`;
     }
 
     // 3. Categorize tokens
     tokens = normalizeLocations(tokens, categories);
-    let categorizedTokens = categorizeTokens(tokens, categories);
+    const categorizedTokens = categorizeTokens(tokens, categories);
 
-    // 4. Generate suggestions
-    let suggestions = generateSuggestions(categorizedTokens);
+    // 4. Generate and prioritize suggestions
+    const suggestions = generateSuggestions(categorizedTokens);
 
-    // 5. Response based on detected type
+    // 5. Dynamic response based on context
     const inputType = determineInputType(tokens, categories);
     let response = '';
+
     switch (inputType) {
         case 'question':
-            response = "That’s a great question! Let me see how I can assist.";
+            response = "Great question! Here's what I found:";
             break;
         case 'request':
-            response = "It seems like you’re asking for help. Here’s what I suggest:";
+            response = "Let’s get that sorted for you! Here's what I suggest:";
             break;
         case 'statement':
-            response = "Thanks for sharing that. Here’s something you might find helpful:";
+            response = "Got it! Here's something that might help:";
             break;
         default:
-            response = "I’m here to help, but I didn’t quite catch that.";
+            response = "I’m here to assist you. Here's what I found:";
     }
 
-    return `${response} ${suggestions.join(' ')}`;
+    // Return the main response and suggestions
+    return `${response}\n\n${suggestions.join('\n')}`;
 }
