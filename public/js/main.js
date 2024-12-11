@@ -3012,19 +3012,20 @@ async function updateHelpfulCount(questionId, isHelpful) {
         views: updatedViewCount
       });
 
-      // Determine the response message based on the feedback
-      const responseMessage = isHelpful
-        ? "Thank you for your feedback! We're glad we could help."
-        : "Is there anything else we can assist you with?";
 
-      // Display the appropriate response message
-      displayMessage("bot", responseMessage);
     } else {
       console.error("Document does not exist.");
     }
   } catch (error) {
     console.error("Error updating helpful or view count:", error);
   }
+        // Determine the response message based on the feedback
+        const responseMessage = isHelpful
+        ? "Thank you for your feedback! We're glad we could help."
+        : "Is there anything else we can assist you with?";
+
+      // Display the appropriate response message
+      displayMessage("bot", responseMessage);
 }
 
 
