@@ -458,7 +458,6 @@
         };
         
         
-        // Location abbreviations and full names
         
         
 
@@ -527,16 +526,10 @@
         }
         
                
-        // Dynamically add location names and abbreviations to categories
-        categories.location = [
-            ...categories.location,
-            ...Object.keys(location),  // Add 2-letter abbreviations
-            ...Object.values(location).map(name => name.toLowerCase()) // Add full state names
-        ];
+  
         
-        // List of stop words to exclude from tokenization
-        const stopWords = ['i', 'need', 'to', 'in', 'the', 'and', 'n', 'a', 'of', 'on', 'for', 'with', 'is', 'at', 'by', 'as'];
         
+
         // Tokenize the input by splitting on spaces and punctuation
         function tokenize(input) {
             const regex = /[\w'-]+/g;
@@ -563,26 +556,25 @@
             });
         }
         
-        // Categorize tokens into predefined categories and return both category and word
-        function categorizeTokens(tokens) {
-            const mappedWords = [];
-        
-            // Remove stop words and match remaining tokens to categories
-            tokens.forEach(token => {
-                if (!stopWords.includes(token)) {
-                    // Match against each category
-                    Object.keys(categories).forEach(category => {
-                        // Check if the token matches a category using a regex for locations (e.g., 'TX', 'New York')
-                        const regexLocation = new RegExp('\\b(' + categories.location.join('|') + ')\\b', 'i');
-                        if (categories[category].includes(token) || (category === 'location' && regexLocation.test(token))) {
-                            mappedWords.push({ category: category, word: token });
-                        }
-                    });
-                }
-            });
-        
-            return mappedWords;
-        }
+// Categorize tokens into predefined categories and return both category and word
+function categorizeTokens(tokens) {
+    const mappedWords = [];
+
+    // Match all tokens to categories
+    tokens.forEach(token => {
+        // Match against each category
+        Object.keys(categories).forEach(category => {
+            // Check if the token matches a category using a regex for locations (e.g., 'TX', 'New York')
+            const regexLocation = new RegExp('\\b(' + categories.location.join('|') + ')\\b', 'i');
+            // Add category if the token is in the category list
+            if (categories[category].includes(token) || (category === 'location' && regexLocation.test(token))) {
+                mappedWords.push({ category: category, word: token });
+            }
+        });
+    });
+
+    return mappedWords;
+}
         
       
 // Generate suggestions based on categorized tokens
