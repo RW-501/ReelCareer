@@ -943,7 +943,11 @@ main .btn-info:hover {
   text-align: center;
 
 }
+.JOB_CARD hr {
+  height: .1rem;
+  background-color: #83bad9 !important;
 
+}
 .JOB_CARD .location-text-area i,
 .JOB_CARD .job-type-text-area strong {
     margin-right: .2rem;
