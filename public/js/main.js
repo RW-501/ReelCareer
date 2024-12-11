@@ -3030,6 +3030,8 @@ async function updateHelpfulCount(questionId, isHelpful) {
 
 // Function to simulate smooth scrolling
 function smoothScrollToBottom() {
+  const messageArea = document.getElementById("chatbot-messages");
+
   const start = messageArea.scrollTop;
   const end = messageArea.scrollHeight;
   const duration = 300; // Duration of the scroll animation in milliseconds
