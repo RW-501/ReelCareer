@@ -3075,12 +3075,12 @@ function displayMessage(sender, message) {
     padding: 8px 12px;
     border-radius: 10px;
     max-width: 70%;
-    overflow-wrap: break-word;
+    overflow-wrap: anywhere;
     background-color: #e6f7ff;
     color: #333333;
     font-family: Arial, sans-serif;
-    display: grid
-;
+    display: grid;
+    word-wrap: break-word;
     justify-content: start;
     justify-items: start;
     text-align: left;`
@@ -3089,11 +3089,12 @@ function displayMessage(sender, message) {
     padding: 8px 12px;
     border-radius: 10px;
     max-width: 70%;
-    overflow-wrap: break-word;
+    overflow-wrap: anywhere;
     background-color: rgb(212, 237, 218);
     color: rgb(21, 87, 36);
     font-family: Arial, sans-serif;
     display: grid;
+        word-wrap: break-word;
     place-content: stretch end;
     justify-items: stretch;
     text-align: left;
@@ -3129,9 +3130,14 @@ function displayMessage(sender, message) {
         }
       }, typingSpeed);
     } else {
-      messageDiv.innerHTML = senderLabel + messageWithLinks;
+      setTimeout(() => {
+        messageDiv.innerHTML = senderLabel + messageWithLinks;
+      }, 200);
+
       resolve(); // Immediately resolve for user messages
     }
+
+
     setTimeout(() => {
       messageArea.appendChild(messageDiv);
     }, 200);

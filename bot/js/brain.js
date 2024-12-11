@@ -2,6 +2,59 @@
 
   
   
+function stemTokens(tokens) {
+    return tokens.map(token => {
+        // Handle common verb endings
+        if (token.endsWith('in')) {
+            return token.slice(0, -2);  // Handle "washin" -> "wash"
+        }
+        if (token.endsWith('ing')) {
+            return token.slice(0, -3);  // Handle "washing" -> "wash"
+        }
+        if (token.endsWith('ed')) {
+            return token.slice(0, -2);  // Handle "worked" -> "work"
+        }
+        
+        // Handle plural noun endings
+        if (token.endsWith('es')) {
+            return token.slice(0, -2);  // Handle "cars" -> "car"
+        }
+
+        // Handle common adjective/adverb endings
+        if (token.endsWith('ly')) {
+            return token.slice(0, -2);  // Handle "quickly" -> "quick"
+        }
+
+        // Handle comparative and superlative adjectives
+        if (token.endsWith('er')) {
+            return token.slice(0, -2);  // Handle "bigger" -> "big"
+        }
+        if (token.endsWith('est')) {
+            return token.slice(0, -3);  // Handle "fastest" -> "fast"
+        }
+
+        // Handle noun endings
+        if (token.endsWith('ness')) {
+            return token.slice(0, -4);  // Handle "happiness" -> "happi"
+        }
+        if (token.endsWith('ity')) {
+            return token.slice(0, -3);  // Handle "activity" -> "activ"
+        }
+
+        // Handle suffixes like 'ment' for nouns
+        if (token.endsWith('ment')) {
+            return token.slice(0, -4);  // Handle "government" -> "govern"
+        }
+        
+        // Handle other common suffixes like 'tion', 'sion'
+        if (token.endsWith('tion') || token.endsWith('sion')) {
+            return token.slice(0, -4);  // Handle "action" -> "act"
+        }
+
+        // Return token if no changes
+        return token;
+    });
+}
 
 
 
@@ -28,16 +81,6 @@
             task: ['task', 'job', 'work', 'project', 'assignment', 'duty', 'responsibility']
         };
 
-        // Tokenize input and map to categories
-     // Function to process the input message
-function processMessage(message) { 
-    const userInput = message.toLowerCase();
-    let tokens = tokenize(userInput);
-    tokens = stemTokens(tokens);  // Apply basic stemming
-    let categorizedTokens = categorizeTokens(tokens);
-
-    return `Mapped: ${JSON.stringify(categorizedTokens)}`;
-}
 
 // Tokenize the input by splitting on spaces and punctuation
 function tokenize(input) {
@@ -45,24 +88,7 @@ function tokenize(input) {
     return input.match(regex) || [];
 }
 
-// Apply basic stemming by removing common endings
-function stemTokens(tokens) {
-    return tokens.map(token => {
-        if (token.endsWith('in')) {
-            return token.slice(0, -2);  // Handle "washin" -> "wash"
-        }
-        if (token.endsWith('ing')) {
-            return token.slice(0, -3);  // Handle "washing" -> "wash"
-        }
-        if (token.endsWith('es')) {
-            return token.slice(0, -2);  // Handle "cars" -> "car"
-        }
-        if (token.endsWith('ed')) {
-            return token.slice(0, -2);  // Handle "worked" -> "work"
-        }
-        return token;
-    });
-}
+
 
 // Categorize tokens into predefined categories and return both category and word
 function categorizeTokens(tokens) {
@@ -84,3 +110,19 @@ function categorizeTokens(tokens) {
 
     return mappedWords;
 }
+
+
+
+
+
+        // Tokenize input and map to categories
+     // Function to process the input message
+     function processMessage(message) { 
+        const userInput = message.toLowerCase();
+        let tokens = tokenize(userInput);
+        tokens = stemTokens(tokens);  // Apply basic stemming
+        let categorizedTokens = categorizeTokens(tokens);
+    
+        return `Mapped: ${JSON.stringify(categorizedTokens)}`;
+    }
+    
