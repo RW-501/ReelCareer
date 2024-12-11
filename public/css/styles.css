@@ -936,6 +936,9 @@ main .btn-info:hover {
     flex-flow: wrap;
 }
 
+.JOB_CARD h9 {
+  
+}
 
 .JOB_CARD .location-text-area i,
 .JOB_CARD .job-type-text-area strong {
