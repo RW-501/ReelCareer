@@ -654,7 +654,7 @@ function normalizeLocations(tokens, categories) {
     return tokens.map(token => {
         console.log("tokens:", tokens);
         // Check if the token matches a state abbreviation
-        const normalizedToken = categories[token.toUpperCase()];
+        const normalizedToken = categories.state[token.toUpperCase()];
         if (normalizedToken) {
             return normalizedToken.toLowerCase(); // Normalize state names to lowercase
         }
