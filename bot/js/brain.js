@@ -750,10 +750,11 @@ function processMessage(message) {
     const userInput = message.toLowerCase();
     let tokens = tokenize(userInput);
     
-    // Optional: Add a spell checker function here (like spellcheck.js or an API)
-    tokens = spellCheck(tokens);  // Fix common spelling errors if possible
-
+    
+    
     tokens = normalizeLocations(tokens);  // Normalize locations
+
+    
     tokens = expandSynonyms(tokens, 'job');  // Expand job-related synonyms
     tokens = expandSynonyms(tokens, 'events');  // Expand event-related synonyms
 
