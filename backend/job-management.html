@@ -92,6 +92,7 @@
 
         <!-- Add Job Button -->
         <button class="btn btn-success mb-3" onclick="openJobModal()">Add Job</button>
+        <button class="btn btn-success" onclick="fixStatesInJobs()">Fix State Abbreviations</button>
 
         <!-- Job Table -->
 <!-- Add a search bar and total count display -->
@@ -128,39 +129,51 @@
 </div>
 </main>
 
-        <!-- Job Modal -->
-        <div class="modal fade hide" id="jobModal" tabindex="-1" aria-labelledby="jobModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="jobModalLabel">Add/Edit Job</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+ <!-- Job Modal -->
+<div class="modal fade hide" id="jobModal" tabindex="-1" aria-labelledby="jobModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="jobModalLabel">Add/Edit Job</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="jobForm">
+                    <div class="form-group">
+                        <label for="jobTitle">Job Title</label>
+                        <input type="text" class="form-control" id="jobTitle" required>
                     </div>
-                    <div class="modal-body">
-                        <form id="jobForm">
-                            <div class="form-group">
-                                <label for="jobTitle">Job Title</label>
-                                <input type="text" class="form-control" id="jobTitle" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="jobDescription">Job Description</label>
-                                <textarea class="form-control" id="jobDescription" rows="3" required></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label for="jobCategory">Category</label>
-                                <select class="form-control" id="jobCategory" required>
-                                    <!-- Categories will be populated here -->
-                                </select>
-                            </div>
-                            <input type="hidden" id="jobId">
-                            <button type="submit" class="btn btn-primary">Save</button>
-                        </form>
+                    <div class="form-group">
+                        <label for="jobDescription">Job Description</label>
+                        <textarea class="form-control" id="jobDescription" rows="3" required></textarea>
                     </div>
-                </div>
+                    <div class="form-group">
+                        <label for="jobCategory">Category</label>
+                        <select class="form-control" id="jobCategory" required>
+                            <!-- Categories will be populated here -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="jobState">State</label>
+                        <input type="text" class="form-control" id="jobState" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="jobCity">City</label>
+                        <input type="text" class="form-control" id="jobCity" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="jobIndustry">Industry</label>
+                        <input type="text" class="form-control" id="jobIndustry" required>
+                    </div>
+                    <input type="hidden" id="jobId">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </form>
             </div>
         </div>
+    </div>
+</div>
 
         <!-- Category Management -->
         <h2 class="mt-5">Manage Job Categories</h2>
@@ -241,9 +254,11 @@ const stateAbbreviations = {
     "VIR": "Virginia", "WAS": "Washington", "WVA": "West Virginia", 
     "WIS": "Wisconsin", "WYO": "Wyoming",
 };
-
-// Array to store doc IDs of jobs with state abbreviations
+// Array to store doc IDs and full state names of jobs with state abbreviations
 const stateAbbreviationDocIds = [];
+
+// Array to store doc IDs of jobs with invalid states (non-state values)
+const invalidStateDocIds = [];
 
 async function loadJobs() {
     try {
@@ -270,8 +285,14 @@ async function loadJobs() {
                     job.state = fullStateName;
                 }
 
-                // Store the document ID of the job with state abbreviation
-                stateAbbreviationDocIds.push(doc.id);
+                // Store the document ID and the full state name of the job with state abbreviation
+                stateAbbreviationDocIds.push({
+                    docId: doc.id,
+                    fullStateName: fullStateName
+                });
+            } else {
+                // If state is invalid (not found in the abbreviations list), add to the invalid list
+                invalidStateDocIds.push(doc.id);
             }
 
             const row = `
@@ -284,7 +305,7 @@ async function loadJobs() {
                     <td>${job.category}</td>
                     <td>${job.industry}</td>
                     <td>
-                        <button class="btn btn-warning btn-sm" onclick="editJob('${doc.id}', '${job.title}', '${job.description}', '${job.category}')">Edit</button>
+                        <button class="btn btn-warning btn-sm" onclick="editJob('${doc.id}', '${job}', '${job.description}', '${job.category}')">Edit</button>
                     </td>
                     <td>
                         <button class="btn btn-danger btn-sm" onclick="deleteJob('${doc.id}')">Delete</button>
@@ -310,11 +331,17 @@ async function loadJobs() {
         // Update the total count display
         document.getElementById('totalCount').textContent = `Total Jobs: ${totalCount}`;
 
-        // Log the document IDs of jobs with state abbreviations
-        console.log('Document IDs with state abbreviations:', stateAbbreviationDocIds);
+        // Log the document IDs and full state names
+        console.log('Document IDs with state abbreviations and full state names:', stateAbbreviationDocIds);
     } catch (error) {
         console.error('Error loading jobs:', error);
     }
+}
+
+// Function to get the document IDs of jobs with invalid states
+function getJobsWithInvalidStates() {
+    console.log('Jobs with invalid states:', invalidStateDocIds);
+    alert(`Found ${invalidStateDocIds.length} jobs with invalid states. Check the console for details.`);
 }
 
 // Example CSS for row highlighting
@@ -326,6 +353,27 @@ style.innerHTML = `
     }
 `;
 document.head.appendChild(style);
+
+
+// Function to fix states in the Jobs collection
+async function fixStatesInJobs() {
+    try {
+        // Loop through each document ID stored in the array
+        for (const { docId, fullStateName } of stateAbbreviationDocIds) {
+            const jobRef = doc(db, 'Jobs', docId);
+            await updateDoc(jobRef, { state: fullStateName }); // Update the state to the full name
+            console.log(`Fixed state for job ID: ${docId}, updated to ${fullStateName}`);
+        }
+        alert('All state abbreviations have been fixed!');
+    } catch (error) {
+        console.error('Error fixing states:', error);
+    }
+}
+
+window.fixStatesInJobs = fixStatesInJobs;
+
+
+
 
 
 // Function to search jobs by title or description
@@ -414,30 +462,35 @@ function openJobModal() {
 window.openJobModal = openJobModal;
 
 // Edit job
-function editJob(id, title, description, category) {
-    document.getElementById('jobTitle').value = title;
-    document.getElementById('jobDescription').value = description;
-    document.getElementById('jobCategory').value = category;
+function editJob(id, job) {
+    document.getElementById('jobTitle').value = job.title;
+    document.getElementById('jobDescription').value = job.description;
+    document.getElementById('jobCategory').value = job.category;
+    document.getElementById('jobState').value = job.state || '';  // Add state
+    document.getElementById('jobCity').value = job.city || '';    // Add city
+    document.getElementById('jobIndustry').value = job.industry || '';  // Add industry
     document.getElementById('jobId').value = id;
     $('#jobModal').modal('show');
 }
-window.editJob = editJob;
 
-// Save job
 document.getElementById('jobForm').onsubmit = async function(e) {
     e.preventDefault();
+    
     const title = document.getElementById('jobTitle').value;
     const description = document.getElementById('jobDescription').value;
     const category = document.getElementById('jobCategory').value;
+    const state = document.getElementById('jobState').value;    // Get state value
+    const city = document.getElementById('jobCity').value;      // Get city value
+    const industry = document.getElementById('jobIndustry').value;  // Get industry value
     const id = document.getElementById('jobId').value;
 
     try {
         if (id) {
             // Update existing job
-            await updateDoc(doc(db, 'Jobs', id), { title, description, category });
+            await updateDoc(doc(db, 'Jobs', id), { title, description, category, state, city, industry });
         } else {
             // Add new job
-            await addDoc(collection(db, 'Jobs'), { title, description, category });
+            await addDoc(collection(db, 'Jobs'), { title, description, category, state, city, industry });
         }
         loadJobs();
         $('#jobModal').modal('hide');
