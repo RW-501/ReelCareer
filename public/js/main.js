@@ -3119,7 +3119,7 @@ function displayMessage(sender, message) {
       messageDiv.innerHTML = `${senderLabel}`; // Start empty with sender label
       const typingEffect = setInterval(() => {
         messageDiv.innerHTML = `${senderLabel}${messageWithLinks.substring(0, index + 1)}`;
-        messageArea.scrollTop = messageArea.scrollHeight;
+        smoothScrollToBottom();
         index++;
 
         if (index === messageWithLinks.length) {
@@ -3131,9 +3131,11 @@ function displayMessage(sender, message) {
       messageDiv.innerHTML = senderLabel + messageWithLinks;
       resolve(); // Immediately resolve for user messages
     }
+    setTimeout(() => {
+      messageArea.appendChild(messageDiv);
+    }, 200);
+    smoothScrollToBottom();
 
-    messageArea.appendChild(messageDiv);
-    messageArea.scrollTop = messageArea.scrollHeight; // Auto-scroll to bottom
   });
 }
 
