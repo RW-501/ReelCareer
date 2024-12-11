@@ -3189,7 +3189,7 @@ function sanitizeAndValidateInput(input) {
 async function sendMessage(userMessage) {
   // 1. Fetch raw input if no argument is passed
   if (!userMessage || typeof userMessage !== "string") {
-    userMessage = document.getElementById("chat-input").value;
+    userMessage = document.getElementById("chat-input").innerText;
     if (!userMessage || userMessage.trim() === "") {
       console.warn("Message is empty.");
       return; // Exit if the input is empty
