@@ -34,9 +34,7 @@
                 'workforce development', 'corporate job', 'labor market', 'job specification', 
                 'training program', 'job description post', 'position title', 'headhunting'
             ],
-            
-            math: ['salary', 'pay', 'annual', 'monthly', 'sum', 'add', 'subtract', 'multiply', 'divide', '+', '-', '*', '/'],
-  
+        
             vehicle: [
                 'car', 'truck', 'vehicle', 'automobile', 'bike', 'motorcycle', 'suv', 'van', 
                 'sedan', 'coupe', 'hatchback', 'convertible', 'wagon', 'pickup', 'jeep', 
@@ -57,29 +55,7 @@
                 'recreational car', 'golf cart', 'electric golf cart', 'streetcar', 'light rail', 
                 'trolley', 'hovercraft', 'autonomous vehicle', 'self-driving car', 'futuristic vehicle'
             ],
-
-            action: [
-                'find', 'search', 'wash', 'apply', 'look', 'locate', 'searching', 
-                'submit', 'interview', 'complete', 'start', 'create', 'build', 
-                'check', 'review', 'post', 'update', 'edit', 'delete', 'organize', 
-                'manage', 'plan', 'prepare', 'schedule', 'track', 'verify', 'explore', 
-                'read', 'write', 'type', 'develop', 'run', 'fix', 'install', 'remove', 
-                'solve', 'handle', 'support', 'deliver', 'connect', 'contact', 'send', 
-                'receive', 'share', 'move', 'navigate', 'select', 'choose', 'pick', 
-                'upload', 'download', 'save', 'process', 'apply for', 'hire', 'recruit', 
-                'train', 'test', 'evaluate', 'calculate', 'measure', 'examine', 'gather', 
-                'execute', 'improve', 'enhance', 'launch', 'implement', 'monitor', 
-                'oversee', 'collaborate', 'follow', 'lead', 'respond', 'click', 'scroll', 
-                'buy', 'sell', 'search for', 'clean', 'design', 'research', 'submit for', 
-                'approve', 'decline', 'accept', 'report', 'assist', 'present', 'attend', 
-                'join', 'register', 'apply to', 'log in', 'sign up', 'sign in', 'reset', 
-                'activate', 'customize', 'update profile', 'post job', 'take', 'give', 
-                'focus', 'skip', 'cancel', 'analyze', 'compare', 'rank', 'sort', 'filter',
-                'optimize', 'rearrange', 'evaluate', 'write down', 'fill in', 'fill out',
-                'ask', 'answer', 'teach', 'learn', 'coach', 'request', 'download file',
-                'approve request', 'add', 'add to', 'remove from', 'clear', 'backup',
-                'replace', 'pause', 'resume', 'stop', 'start over', 'retry', 'sync'
-            ],
+  
             location: [
                 'state', 'my state', 'local', 'near me', 'nearby', 'close to me', 'by me', 
                 'city', 'town', 'area', 'region', 'neighborhood', 'metro', 'downtown', 
@@ -219,10 +195,7 @@
                 'opening', 'closing', 'event venue', 'venue', 'sponsor', 'exhibition', 'congrats', 'ticket sale', 'event marketing'
             ],
             
-            question: ['who', 'what', 'where', 'when', 'why', 'how', '?'],
-            request: ['please', 'can you', 'could you', 'i need', 'would you', 'help', 'show me', 'tell me'],
-            statement: ['is', 'am', 'are', 'was', 'were', 'will', 'it', 'this', 'that', '.', 'I'],
-          
+
             
             education: [
                 'degree', 'education', 'school', 'university', 'college', 'certificate', 
@@ -578,7 +551,43 @@
                 "SC": "South Carolina", "SD": "South Dakota", "TN": "Tennessee", "TX": "Texas", 
                 "UT": "Utah", "VT": "Vermont", "VA": "Virginia", "WA": "Washington", 
                 "WV": "West Virginia", "WI": "Wisconsin", "WY": "Wyoming"
-            }
+            },
+            money: ['money', 'income', 'wage', 'earnings', 'cost', 'revenue', 'expenses', 'budget', 'finance', 'financial'],
+
+            compare: ['like', 'same','better', 'worse', 'higher', 'lower', 'greater', 'less', 'equal', 'more', 'fewer', 'increase', 'decrease'],
+
+            question: ['who', 'what', 'where', 'when', 'why', 'how', '?'],
+            request: ['please', 'can you', 'could you', 'i need', 'would you', 'help', 'show me', 'tell me'],
+            statement: ['is', 'am', 'are', 'was', 'were', 'will', 'it', 'this', 'that', '.', 'I'],
+        
+            math: ['salary', 'pay', 'annual', 'monthly', 'sum', 'add', 'subtract', 'multiply', 'divide', '+', '-', '*', '/'],
+            quantity: ['much', 'many', 'few', 'several', 'lot', 'amount', 'count', 'number', 'how much', 'how many', 'volume'],
+            verbs: ['is', 'are', 'was', 'were', 'be', 'being', 'been'], // Words serving as linking verbs or auxiliary verbs
+            determiners: ['this', 'that', 'these', 'those', 'a', 'an', 'the', 'any', 'some'], // Words that specify nouns
+            pronouns: ['it', 'he', 'she', 'they', 'we', 'you', 'I', 'me', 'us', 'them', 'him', 'her'],
+        
+            action: [
+                'find', 'search', 'wash','make', 'create', 'build', 'develop', 'work', 'apply', 'find', 'search', 'submit', 'look', 'locate', 'searching', 
+                'submit', 'interview', 'complete', 'start', 'create', 'build', 
+                'check', 'review', 'post', 'update', 'edit', 'delete', 'organize', 
+                'manage', 'plan', 'prepare', 'schedule', 'track', 'verify', 'explore', 
+                'read', 'write', 'type', 'develop', 'run', 'fix', 'install', 'remove', 
+                'solve', 'handle', 'support', 'deliver', 'connect', 'contact', 'send', 
+                'receive', 'share', 'move', 'navigate', 'select', 'choose', 'pick', 
+                'upload', 'download', 'save', 'process', 'apply for', 'hire', 'recruit', 
+                'train', 'test', 'evaluate', 'calculate', 'measure', 'examine', 'gather', 
+                'execute', 'improve', 'enhance', 'launch', 'implement', 'monitor', 
+                'oversee', 'collaborate', 'follow', 'lead', 'respond', 'click', 'scroll', 
+                'buy', 'sell', 'search for', 'clean', 'design', 'research', 'submit for', 
+                'approve', 'decline', 'accept', 'report', 'assist', 'present', 'attend', 
+                'join', 'register', 'apply to', 'log in', 'sign up', 'sign in', 'reset', 
+                'activate', 'customize', 'update profile', 'post job', 'take', 'give', 
+                'focus', 'skip', 'cancel', 'analyze', 'compare', 'rank', 'sort', 'filter',
+                'optimize', 'rearrange', 'evaluate', 'write down', 'fill in', 'fill out',
+                'ask', 'answer', 'teach', 'learn', 'coach', 'request', 'download file',
+                'approve request', 'add', 'add to', 'remove from', 'clear', 'backup',
+                'replace', 'pause', 'resume', 'stop', 'start over', 'retry', 'sync'
+            ]
         };
         
         
@@ -651,6 +660,10 @@ function determineInputType(tokens, categories) {
     const questionWords = ['what', 'how', 'why', 'when', 'where', 'who', 'which'];
     const requestVerbs = ['calculate', 'show', 'help', 'find', 'get', 'give'];
 
+    // Pronouns for self and others
+    const selfPronouns = ['i', 'me', 'my', 'mine', 'myself'];
+    const otherPronouns = ['you', 'your', 'yours', 'he', 'she', 'they', 'them', 'their', 'theirs', 'him', 'her'];
+
     // Check for a question
     if (tokens.some(token => questionWords.includes(token)) || tokens.join(' ').endsWith('?')) {
         return 'question';
@@ -661,9 +674,20 @@ function determineInputType(tokens, categories) {
         return 'request';
     }
 
+    // Check for self-references
+    if (tokens.some(token => selfPronouns.includes(token.toLowerCase()))) {
+        return 'self-reference';
+    }
+
+    // Check for references to others
+    if (tokens.some(token => otherPronouns.includes(token.toLowerCase()))) {
+        return 'other-reference';
+    }
+
     // Default to statement
     return 'statement';
 }
+
 
 
 // Normalize locations by matching location abbreviations and full names
@@ -688,11 +712,8 @@ function normalizeLocations(tokens, categories) {
         return token;
     });
 }
-console.log("States:", categories.states);
 
-const tokens = ["CA", "TX", "hello"];
-const result = normalizeLocations(tokens, categories);
-console.log(result);
+
 
 // Implement basic fuzzy matching using Levenshtein distance
 function fuzzyMatch(word, categoryWords, threshold = 0.8) {
@@ -832,6 +853,9 @@ function randomChoice(options) {
     return options[Math.floor(Math.random() * options.length)];
 }
 
+
+
+
 function processMessage(message) {
     const userInput = message.toLowerCase();
     let tokens = tokenize(userInput);
@@ -859,6 +883,21 @@ function processMessage(message) {
     // 5. Dynamic response based on context
     const inputType = determineInputType(tokens, categories);
     let response = '';
+
+/*
+return 'question';
+
+    return 'request';
+
+    
+    return 'self-reference';
+
+    
+    return 'other-reference';
+
+return 'statement';
+*/
+
 
     switch (inputType) {
         case 'question':
