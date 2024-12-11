@@ -699,6 +699,9 @@ function fuzzyMatch(query, categoryWords, threshold = 0.8) {
     // Generate multi-word token pairs (bigrams)
     const queryBigrams = generateBigrams(queryTokens);
 
+    console.log("queryBigrams ",queryBigrams);
+    console.log("query ",query);
+    console.log("fuzzyMatch =================");
     // Initialize an array to hold all possible matches
     const matches = [];
 
@@ -708,6 +711,8 @@ function fuzzyMatch(query, categoryWords, threshold = 0.8) {
         if (bestMatch) {
             matches.push(bestMatch);
         }
+        console.log("bestMatch ",bestMatch);
+        console.log("matches ",matches);
     });
 
     // Return the best matches based on the context
@@ -760,9 +765,7 @@ function calculateLevenshteinDistance(a, b) {
 
 // Expand synonyms by using fuzzy matching
 function expandSynonyms(tokens, category, categories) {
-    console.log("categories ",categories);
     console.log("category ",category);
-    console.log("tokens ",tokens);
     console.log("expandSynonyms =================");
 
     return tokens.map(token => {
@@ -958,7 +961,13 @@ function processMessage(message) {
     console.log("determineInputType =================");
     
     // Step 2: Expand synonyms and categorize tokens
-    const normalizedTokens = expandSynonyms(tokens, 'generalInquiry', categories);
+    const normalizedTokens = expandSynonyms(tokens, inputType, categories);
+    console.log("normalizedTokens ",normalizedTokens);
+    console.log("expandSynonyms =================");
+
+
+
+
     const categorizedTokens = categorizeTokens(normalizedTokens, categories);
     console.log("categorizedTokens ",categorizedTokens);
 
