@@ -652,6 +652,8 @@ function detectSalaryQuery(tokens) {
 // Normalize locations by matching location abbreviations and full names
 function normalizeLocations(tokens, categories) {
     return tokens.map(token => {
+        console.log("States:", categories);
+        console.log("tokens:", tokens);
         // Check if the token matches a state abbreviation
         const normalizedToken = categories.states[token.toUpperCase()];
         if (normalizedToken) {
