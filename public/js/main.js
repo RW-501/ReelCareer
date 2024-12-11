@@ -3278,10 +3278,52 @@ if (bestMatch && highestScore > 0) {
 
 
 setTimeout(() => {
+
+  callProcessMessage('Hello, Brain!');
   fetchChatbotData();
 
  
 
 
 }, 5000); // 5000 milliseconds = 5 seconds
+
+// Variable to hold the loaded script
+let brainScriptLoaded = false;
+
+// Function to dynamically load the external JavaScript file (brain.js)
+function loadScript(src, callback) {
+  const script = document.createElement('script');
+  script.src = src;
+  script.type = 'text/javascript';
+  script.onload = function() {
+    brainScriptLoaded = true;  // Set flag when the script is loaded
+    callback();  // Call the callback after the script is loaded
+  };
+  script.onerror = function() {
+    console.error('Error loading script: ' + src);
+  };
+  document.head.appendChild(script);  // Append the script tag to the head
+}
+
+// Function to call processMessage when brain.js is loaded
+function callProcessMessage(message) {
+  if (brainScriptLoaded) {
+    // Call processMessage after brain.js is loaded
+    if (typeof processMessage === 'function') {
+      const result = processMessage(message);  // Call the function from brain.js
+      console.log(result);  // Log the result
+    } else {
+      console.error('processMessage function is not defined.');
+    }
+  } else {
+    console.log('brain.js is not loaded yet. Please wait.');
+  }
+}
+
+// Example function to trigger loading of brain.js and later calling the function
+function loadBrainAndCallFunction() {
+  loadScript('https://reelcareer.co/bot/js/brain.js', function() {
+    console.log('brain.js loaded successfully');
+  });
+}
 
