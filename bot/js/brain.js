@@ -695,9 +695,7 @@ function determineInputType(tokens, categories) {
 function fuzzyMatch(query, categoryWords,tokens, threshold = 0.8) {
     // Tokenize the query into words
 
-    console.log("tokens ",tokens);
     console.log("query ",query);
-    console.log("categoryWords ",categoryWords);
     const queryTokens = typeof query === 'string' ? query.toLowerCase().split(' ') : [];
    
     console.log("queryTokens ",queryTokens);
@@ -735,8 +733,12 @@ function generateBigrams(tokens) {
 
 // Find the best match for a bigram from the category words using Levenshtein distance
 function findBestMatch(bigram, categoryWords, threshold) {
+    console.log("bigram ",bigram);
+    console.log("categoryWords ",categoryWords);
     const matches = categoryWords.filter(categoryWord => {
         const similarity = calculateLevenshteinDistance(bigram, categoryWord);
+        console.log("similarity ",similarity);
+
         const maxLength = Math.max(bigram.length, categoryWord.length);
         return (similarity / maxLength) >= threshold; // Return matches that meet the threshold
     });
