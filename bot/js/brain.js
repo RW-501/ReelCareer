@@ -652,7 +652,6 @@ function detectSalaryQuery(tokens) {
 // Normalize locations by matching location abbreviations and full names
 function normalizeLocations(tokens, categories) {
     return tokens.map(token => {
-        console.log("States:", categories);
         console.log("tokens:", tokens);
         // Check if the token matches a state abbreviation
         const normalizedToken = categories[token.toUpperCase()];
@@ -801,7 +800,7 @@ function randomChoice(options) {
     return options[Math.floor(Math.random() * options.length)];
 }
 
-function processMessage(message, categories) {
+function processMessage(message) {
     const userInput = message.toLowerCase();
     let tokens = tokenize(userInput);
 
