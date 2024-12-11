@@ -665,15 +665,36 @@
             });
         }
         
-        // Expand synonyms for a specific category (e.g., job-related synonyms)
-        function expandSynonyms(tokens, category) {
-            return tokens.map(token => {
-                if (categories[category] && categories[category].includes(token)) {
-                    return token;
-                }
-                return token;
-            });
+
+        // Example of a basic fuzzy matching function (using fuzzyset.js or another library)
+function fuzzyMatch(word, categoryWords) {
+    const threshold = 0.8;  // Minimum similarity threshold for fuzzy match
+    return categoryWords.filter(categoryWord => {
+        // Adjust fuzzy matching logic according to the library used
+        return fuzzySet.get(word)[0][0] >= threshold;
+    });
+}
+
+// Improved expandSynonyms with fuzzy matching
+function expandSynonyms(tokens, category) {
+    return tokens.map(token => {
+        if (categories[category]) {
+            const matches = fuzzyMatch(token, categories[category]);
+            if (matches.length > 0) {
+                return matches[0]; // Return matched synonym or original token
+            }
         }
+        return token; // Return token as-is if no match
+    });
+}
+
+
+// Fuzzy matching example (based on fuzzyset.js library)
+function fuzzyMatch(word, categoryWords) {
+    const fuzzySet = FuzzySet(categoryWords);
+    return fuzzySet.get(word);
+}
+
         
 // Categorize tokens into predefined categories and return both category and word
 function categorizeTokens(tokens) {
@@ -724,15 +745,17 @@ function generateSuggestions(categorizedTokens) {
     return suggestions;
 }
 
-// Function to process the input message
+// Process user input with fuzzy matching for job categories and spelling correction
 function processMessage(message) {
     const userInput = message.toLowerCase();
     let tokens = tokenize(userInput);
+    
+    // Optional: Add a spell checker function here (like spellcheck.js or an API)
+    tokens = spellCheck(tokens);  // Fix common spelling errors if possible
+
     tokens = normalizeLocations(tokens);  // Normalize locations
     tokens = expandSynonyms(tokens, 'job');  // Expand job-related synonyms
-
-
-
+    tokens = expandSynonyms(tokens, 'events');  // Expand event-related synonyms
 
     let categorizedTokens = categorizeTokens(tokens);  // Categorize based on categories
     let suggestions = generateSuggestions(categorizedTokens);  // Generate suggestions
