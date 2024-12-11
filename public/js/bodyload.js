@@ -275,7 +275,7 @@ document.head.appendChild(link);
           <strong>Type:</strong>
           <h9>${formatJobType(job.type)}</h9>
         </p>
-        
+         </hr>
         <p class="salary-text-area c-text">
           <strong>Salary:</strong>
          <h8> ${formatCurrency(job.salary, { decimals: 0 })}</h8>
