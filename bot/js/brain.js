@@ -760,6 +760,11 @@ function calculateLevenshteinDistance(a, b) {
 
 // Expand synonyms by using fuzzy matching
 function expandSynonyms(tokens, category, categories) {
+    console.log("categories ",categories);
+    console.log("category ",category);
+    console.log("tokens ",tokens);
+    console.log("expandSynonyms =================");
+
     return tokens.map(token => {
         if (categories[category]) {
             const matches = fuzzyMatch(token, categories[category]);
@@ -774,6 +779,10 @@ function expandSynonyms(tokens, category, categories) {
 // Categorize tokens into predefined categories and return both category and word
 function categorizeTokens(tokens, categories) {
     const categorizedTokens = [];
+    console.log("categories ",categories);
+    console.log("tokens ",tokens);
+    console.log("categorizeTokens =================");
+
     tokens.forEach(token => {
         let matchedCategory = null;
 
@@ -890,10 +899,13 @@ function processMessage(message) {
 
     // Step 1: Determine input type
     const inputType = determineInputType(tokens, categories);
-
+    console.log("inputType ",inputType);
+    console.log("determineInputType =================");
+    
     // Step 2: Expand synonyms and categorize tokens
     const normalizedTokens = expandSynonyms(tokens, 'generalInquiry', categories);
     const categorizedTokens = categorizeTokens(normalizedTokens, categories);
+    console.log("categorizedTokens ",categorizedTokens);
 
     // Step 3: Adjust priorities based on input type
     const adjustedTokens = adjustPrioritiesByInputType(categorizedTokens, inputType);
@@ -1067,7 +1079,7 @@ function adjustPrioritiesByInputType(categorizedTokens, inputType) {
 
     console.log("categorizedTokens ",categorizedTokens);
     console.log("inputType ",inputType);
-    
+
     const inputTypeWeights = {
         question: ['jobSearch', 'math', 'generalInquiry'],
         request: ['task', 'websiteSupport', 'payments'],
