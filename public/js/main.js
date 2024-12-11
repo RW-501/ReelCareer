@@ -3296,36 +3296,19 @@ function loadScript(src, callback) {
   document.head.appendChild(script);  // Append the script tag to the head
 }
 
-// Function to call processMessage when brain.js is loaded
-function callProcessMessage(message) {
-  if (brainScriptLoaded) {
-    // Call processMessage after brain.js is loaded
-    if (typeof processMessage === 'function') {
-      const result = processMessage(message);  // Call the function from brain.js
-      console.log(result);  // Log the result
-    } else {
-      console.error('processMessage function is not defined.');
-    }
-  } else {
-    console.log('brain.js is not loaded yet. Please wait.');
-  }
-}
-
 
 
 
 function loadBrainAndCallFunction() {
   loadScript('https://reelcareer.co/bot/js/brain.js', function() {
-    console.log('brain.js loaded successfully');
   });
 }
 
 setTimeout(() => {
 
-  callProcessMessage('Hello, Brain!');
   fetchChatbotData();
 
-  processMessage("is this loaded?"); 
+  processMessage('Hello, Brain!');
 
 
 }, 5000); // 5000 milliseconds = 5 seconds
