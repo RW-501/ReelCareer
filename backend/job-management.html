@@ -241,7 +241,10 @@ const stateAbbreviations = {
     "WIS": "Wisconsin", "WYO": "Wyoming",
 };
 
-async function loadJobs() { 
+// Array to store doc IDs of jobs with state abbreviations
+const stateAbbreviationDocIds = [];
+
+async function loadJobs() {
     try {
         const querySnapshot = await getDocs(collection(db, 'Jobs'));
         const jobTableBody = document.getElementById('jobTableBody');
@@ -260,11 +263,14 @@ async function loadJobs() {
 
             // If state abbreviation is found, highlight the row and potentially fix the state
             if (fullStateName) {
-                rowClass = 'highlight-row'; // You can create a CSS class to highlight the row
+                rowClass = 'highlight-row'; // Highlight the row
                 if (job.state !== fullStateName) {
                     // If needed, update the state to the correct full name
                     job.state = fullStateName;
                 }
+
+                // Store the document ID of the job with state abbreviation
+                stateAbbreviationDocIds.push(doc.id);
             }
 
             const row = `
@@ -302,6 +308,9 @@ async function loadJobs() {
 
         // Update the total count display
         document.getElementById('totalCount').textContent = `Total Jobs: ${totalCount}`;
+
+        // Log the document IDs of jobs with state abbreviations
+        console.log('Document IDs with state abbreviations:', stateAbbreviationDocIds);
     } catch (error) {
         console.error('Error loading jobs:', error);
     }
@@ -316,6 +325,7 @@ style.innerHTML = `
     }
 `;
 document.head.appendChild(style);
+
 
 // Function to search jobs by title or description
 function searchJobs() {
