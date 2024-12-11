@@ -547,24 +547,28 @@ function createLoadMoreButton(loadMoreFunc) {
         // Add any other specific fields you want to include...
       }));
     }
-  
     document.getElementById('jobSearchForm').addEventListener('submit', function(event) {
-      event.preventDefault(); // Prevent the default form submission
-      // Get the values from the input fields
-      const keywords = document.getElementById('keywordInput').value.trim();
-      const location = document.getElementById('locationInput').value.trim();
-      const jobType = document.getElementById('jobTypeInput').value;
-      const salaryRange = document.getElementById('salaryInput').value.trim();
-      // Construct the query parameters
-      const queryParams = new URLSearchParams({
-        keywords: keywords,
-        location: location,
-        jobType: jobType,
-        salaryRange: salaryRange
-      }).toString();
-      // Navigate to the job listings page with the search parameters
-      window.location.href = `https://reelcareer.co/job-listings?${queryParams}`;
-    });
+  event.preventDefault(); // Prevent the default form submission
+
+  // Get the values from the input fields
+  const keywords = document.getElementById('keywordInput').value.trim();
+  const location = document.getElementById('locationInput').value.trim();
+  const jobType = document.getElementById('jobTypeInput').value.trim();
+  const salaryRange = document.getElementById('salaryInput').value.trim();
+
+  // Create an object to hold the parameters
+  const searchParams = {};
+  if (keywords) searchParams.keywords = keywords;
+  if (location) searchParams.location = location;
+  if (jobType) searchParams.jobType = jobType;
+  if (salaryRange) searchParams.salaryRange = salaryRange;
+
+  // Construct the query parameters only with non-empty values
+  const queryParams = new URLSearchParams(searchParams).toString();
+
+  // Navigate to the job listings page with the search parameters
+  window.location.href = `https://reelcareer.co/job-listings?${queryParams}`;
+});
 
 
 
