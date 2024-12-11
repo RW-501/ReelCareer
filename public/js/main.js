@@ -3160,6 +3160,19 @@ async function logUnansweredQuestion(message) {
   };
   await addDoc(collection(db, "ChatbotInteractions"), chatBotData);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
 // Unified sanitization and validation function
 function sanitizeAndValidateInput(input) {
   // Sanitize: Remove HTML tags and potentially unsafe characters
@@ -3172,6 +3185,8 @@ function sanitizeAndValidateInput(input) {
 
   return sanitized.toLowerCase(); // Normalize to lowercase and return
 }
+
+
 // Send message and match it to predefined questions
 async function sendMessage(userMessage) {
   // 1. Fetch raw input if no argument is passed
@@ -3191,12 +3206,10 @@ async function sendMessage(userMessage) {
  
    console.log("Final Message:", sanitizedMessage);
    // 3. Continue with processing (example: send the message to the chat system)
-   const result = await processMessage(sanitizedMessage);
-   console.log("Result:", result);
- 
- 
+  
+   
   // Trim and normalize the user message
-  const trimmedMessage = result.trim().toLowerCase();
+  const trimmedMessage = sanitizedMessage.trim().toLowerCase();
 
   // Initialize score variables
   let bestMatch = null;
