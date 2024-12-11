@@ -692,16 +692,49 @@ function determineInputType(tokens, categories) {
 
 
 // Implement basic fuzzy matching using Levenshtein distance
-function fuzzyMatch(word, categoryWords, threshold = 0.8) {
-    const matches = categoryWords.filter(categoryWord => {
-        const similarity = calculateLevenshteinDistance(word, categoryWord);
-        const maxLength = Math.max(word.length, categoryWord.length);
-        return (similarity / maxLength) >= threshold;  // Return words that are at least 80% similar
+function fuzzyMatch(query, categoryWords, threshold = 0.8) {
+    // Tokenize the query into words
+    const queryTokens = query.toLowerCase().split(' ');
+
+    // Generate multi-word token pairs (bigrams)
+    const queryBigrams = generateBigrams(queryTokens);
+
+    // Initialize an array to hold all possible matches
+    const matches = [];
+
+    // Check each bigram in the query against the category words
+    queryBigrams.forEach(bigram => {
+        const bestMatch = findBestMatch(bigram, categoryWords, threshold);
+        if (bestMatch) {
+            matches.push(bestMatch);
+        }
     });
+
+    // Return the best matches based on the context
     return matches;
 }
 
-// Function to calculate Levenshtein distance between two words
+// Generate bigrams (pairs of consecutive words) from a list of tokens
+function generateBigrams(tokens) {
+    const bigrams = [];
+    for (let i = 0; i < tokens.length - 1; i++) {
+        bigrams.push(`${tokens[i]} ${tokens[i + 1]}`);
+    }
+    return bigrams;
+}
+
+// Find the best match for a bigram from the category words using Levenshtein distance
+function findBestMatch(bigram, categoryWords, threshold) {
+    const matches = categoryWords.filter(categoryWord => {
+        const similarity = calculateLevenshteinDistance(bigram, categoryWord);
+        const maxLength = Math.max(bigram.length, categoryWord.length);
+        return (similarity / maxLength) >= threshold; // Return matches that meet the threshold
+    });
+
+    return matches.length > 0 ? matches : null;
+}
+
+// Function to calculate Levenshtein distance between two strings
 function calculateLevenshteinDistance(a, b) {
     const tmp = [];
     for (let i = 0; i <= b.length; i++) {
@@ -721,6 +754,9 @@ function calculateLevenshteinDistance(a, b) {
     }
     return tmp[b.length][a.length];
 }
+
+
+
 
 // Expand synonyms by using fuzzy matching
 function expandSynonyms(tokens, category, categories) {
@@ -756,7 +792,10 @@ function categorizeTokens(tokens, categories) {
         }
     });
     return categorizedTokens;
-}function prioritizeCategories(categorizedTokens, inputType, userPreferences = {}) {
+}
+
+
+function prioritizeCategories(categorizedTokens, inputType, userPreferences = {}) {
     // Default priorities for categories
     const priorities = {
         math: 1,
