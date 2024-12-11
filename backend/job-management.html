@@ -377,7 +377,7 @@ async function batchUpdateCategoriesAndStates() {
         await batch.commit();
 
         // Show success message
-        alert('All categories and states have been fixed!');
+        showToast('All categories and states have been fixed!');
 
     } catch (error) {
         console.error('Error in batch updating categories and states:', error);
@@ -388,7 +388,7 @@ async function batchUpdateCategoriesAndStates() {
 // Function to get the document IDs of jobs with invalid states
 function getJobsWithInvalidStates() {
     console.log('Jobs with invalid states:', invalidStateDocIds);
-    alert(`Found ${invalidStateDocIds.length} jobs with invalid states. Check the console for details.`);
+    showToast(`Found ${invalidStateDocIds.length} jobs with invalid states. Check the console for details.`);
 }
 
 // Example CSS for row highlighting
