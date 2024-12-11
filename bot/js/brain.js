@@ -634,10 +634,8 @@ function detectAndEvaluateMath(tokens) {
     return null; // No math-related input detected
 }
 
-// Function to calculate monthly salary
-function calculateMonthlySalary(annualSalary) {
-    return annualSalary / 12;
-}
+
+
 
 // Detect salary queries
 function detectSalaryQuery(tokens) {
@@ -761,34 +759,98 @@ function expandSynonyms(tokens, category, categories) {
 
 // Categorize tokens into predefined categories and return both category and word
 function categorizeTokens(tokens, categories) {
-    const mappedWords = [];
-
+    const categorizedTokens = [];
     tokens.forEach(token => {
-        // Match against each category
-        Object.keys(categories).forEach(category => {
-            const categoryValues = categories[category];
+        let matchedCategory = null;
 
-            // Check if the category is an array (e.g., 'grief') or object (e.g., 'states')
-            if (Array.isArray(categoryValues)) {
-                // Handle categories that are arrays
-                if (categoryValues.includes(token)) {
-                    mappedWords.push({ category: category, word: token });
-                }
-            } else if (category === 'states') {
-                // Special handling for 'states' category (object)
-                const stateAbbreviations = Object.keys(categoryValues);
-                const stateNames = Object.values(categoryValues);
-
-                if (stateAbbreviations.includes(token.toUpperCase()) || 
-                    stateNames.some(name => name.toLowerCase() === token.toLowerCase())) {
-                    mappedWords.push({ category: 'states', word: token });
+        // Check each category
+        for (let category in categories) {
+            if (Array.isArray(categories[category])) {
+                const match = fuzzyMatch(token, categories[category]);
+                if (match.length > 0) {
+                    matchedCategory = category;
+                    break;
                 }
             }
-        });
+        }
+        if (matchedCategory) {
+            categorizedTokens.push({ category: matchedCategory, word: token });
+        }
+    });
+    return categorizedTokens;
+}
+function prioritizeCategories(categorizedTokens) {
+    const priorities = {
+        math: 1,
+        salary: 1,
+        jobSearch: 2,
+        websiteSupport: 3,
+        generalInquiry: 4
+    };
+
+    categorizedTokens.sort((a, b) => {
+        return (priorities[a.category] || 5) - (priorities[b.category] || 5);
     });
 
-    return mappedWords;
+    return categorizedTokens[0]; // Return the highest-priority match
 }
+
+
+
+
+function processMessage(message) {
+    const tokens = tokenize(message.toLowerCase());
+
+    // Step 1: Determine input type
+    const inputType = determineInputType(tokens, categories);
+
+    // Step 2: Expand synonyms and categorize
+    const normalizedTokens = expandSynonyms(tokens, 'generalInquiry', categories);
+    const categorizedTokens = categorizeTokens(normalizedTokens, categories);
+
+    // Step 3: Adjust priorities based on input type
+    const adjustedTokens = adjustPrioritiesByInputType(categorizedTokens, inputType);
+
+    // Step 4: Prioritize categories
+    const bestMatch = prioritizeCategories(adjustedTokens);
+
+    // Step 5: Handle responses based on best match
+    switch (bestMatch.category) {
+        case 'math':
+            return detectAndEvaluateMath(tokens) || "I couldn't process that math query.";
+        case 'salary':
+            const salaryData = detectSalaryQuery(tokens);
+            return salaryData.salary 
+                ? `Your monthly salary is approximately $${calculateMonthlySalary(salaryData.salary)}.` 
+                : "I couldn't identify the salary input.";
+        case 'jobSearch':
+            return "You can search for jobs here: [Job Search Page](#)";
+        case 'websiteSupport':
+            return "Need technical support? Visit our [Support Center](#).";
+        default:
+            return `I found something related to "${bestMatch.word}" in the "${bestMatch.category}" category. How can I assist further?`;
+    }
+}
+
+// Adjust category priorities based on input type
+function adjustPrioritiesByInputType(categorizedTokens, inputType) {
+    const inputTypeWeights = {
+        question: ['jobSearch', 'math', 'generalInquiry'],
+        request: ['task', 'websiteSupport', 'payments'],
+        'self-reference': ['userAccount', 'preferences'],
+        'other-reference': ['generalInquiry', 'websiteSupport'],
+        statement: ['generalInquiry', 'feedback']
+    };
+
+    return categorizedTokens.map(token => {
+        if (inputTypeWeights[inputType]?.includes(token.category)) {
+            token.weight = (token.weight || 1) * 0.5; // Boost weight for matching categories
+        }
+        return token;
+    });
+}
+
+
 
 function generateSuggestions(categorizedTokens) {
     const suggestions = [];
@@ -851,68 +913,4 @@ function generateSuggestions(categorizedTokens) {
 // Utility function to randomize similar responses
 function randomChoice(options) {
     return options[Math.floor(Math.random() * options.length)];
-}
-
-
-
-
-function processMessage(message) {
-    const userInput = message.toLowerCase();
-    let tokens = tokenize(userInput);
-
-    // 1. Handle math expressions
-    const mathResponse = detectAndEvaluateMath(tokens);
-    if (mathResponse) {
-        return `Here's your result: ${mathResponse}`;
-    }
-
-    // 2. Handle salary queries
-    const { salary, keyword } = detectSalaryQuery(tokens);
-    if (salary && keyword) {
-        const monthlySalary = calculateMonthlySalary(salary);
-        return `Your monthly salary is approximately **$${monthlySalary.toFixed(2)}** if you earn **$${salary} annually**.`;
-    }
-
-    // 3. Categorize tokens
-    //tokens = normalizeLocations(tokens, categories);
-    const categorizedTokens = categorizeTokens(tokens, categories);
-
-    // 4. Generate and prioritize suggestions
-    const suggestions = generateSuggestions(categorizedTokens);
-
-    // 5. Dynamic response based on context
-    const inputType = determineInputType(tokens, categories);
-    let response = '';
-
-/*
-return 'question';
-
-    return 'request';
-
-    
-    return 'self-reference';
-
-    
-    return 'other-reference';
-
-return 'statement';
-*/
-
-
-    switch (inputType) {
-        case 'question':
-            response = "Great question! Here's what I found:";
-            break;
-        case 'request':
-            response = "Let’s get that sorted for you! Here's what I suggest:";
-            break;
-        case 'statement':
-            response = "Got it! Here's something that might help:";
-            break;
-        default:
-            response = "I’m here to assist you. Here's what I found:";
-    }
-
-    // Return the main response and suggestions
-    return `${response}\n\n${suggestions.join('\n')}`;
 }
