@@ -113,7 +113,126 @@
                 "UT": "Utah", "VT": "Vermont", "VA": "Virginia", "WA": "Washington", 
                 "WV": "West Virginia", "WI": "Wisconsin", "WY": "Wyoming"
             },
-
+            jobCategories: [
+                'developer', 'designer', 'engineer', 'manager', 'director', 'analyst', 'sales', 'marketing', 'HR', 'consultant', 'administrator', 'architect', 'specialist', 'assistant', 'technician', 'leader', 'executive',
+                // Tech and IT
+                'software engineer', 'frontend developer', 'backend developer', 'full-stack developer', 'data scientist', 'data analyst', 'web developer', 'mobile developer', 'app developer', 'cloud engineer', 'network administrator', 'systems architect', 'devops engineer', 'QA engineer', 'UI/UX designer', 'database administrator',
+                
+                // Business and Management
+                'business analyst', 'project manager', 'product manager', 'operations manager', 'business consultant', 'supply chain manager', 'strategic planner', 'account manager', 'brand manager', 'team lead', 'program manager', 'sales manager', 'customer success manager',
+                
+                // Marketing and Sales
+                'marketing manager', 'digital marketing strategist', 'SEO specialist', 'content marketer', 'sales representative', 'sales associate', 'inside sales', 'account executive', 'business development manager', 'social media manager', 'marketing director', 'growth hacker', 'advertising manager', 'media planner',
+                
+                // Finance and Accounting
+                'financial analyst', 'accountant', 'financial advisor', 'tax consultant', 'auditor', 'controller', 'treasury manager', 'investment banker', 'credit analyst', 'portfolio manager', 'financial planner', 'risk manager', 'compliance officer',
+                
+                // Healthcare
+                'nurse', 'doctor', 'surgeon', 'therapist', 'dentist', 'healthcare administrator', 'pharmacist', 'medical assistant', 'radiologist', 'physician assistant', 'nurse practitioner', 'health insurance agent',
+                
+                // Legal
+                'lawyer', 'attorney', 'paralegal', 'legal consultant', 'judge', 'legal assistant', 'corporate lawyer', 'litigation attorney', 'contract manager', 'compliance officer', 'legal advisor',
+                
+                // Education
+                'teacher', 'professor', 'education coordinator', 'principal', 'academic advisor', 'special education teacher', 'teaching assistant', 'school administrator', 'counselor', 'tutor',
+                
+                // Creative Arts
+                'graphic designer', 'photographer', 'videographer', 'content creator', 'illustrator', 'animator', 'art director', 'fashion designer', 'music producer', 'editor', 'screenwriter', 'copywriter', 'web designer', '3D artist',
+                
+                // Customer Service
+                'customer service representative', 'call center agent', 'support specialist', 'customer care agent', 'help desk technician', 'account coordinator', 'service manager', 'technical support specialist',
+                
+                // Human Resources
+                'HR manager', 'recruiter', 'talent acquisition specialist', 'HR assistant', 'HR coordinator', 'HR business partner', 'compensation and benefits specialist', 'employee relations manager', 'HR director', 'training manager',
+                
+                // Manufacturing and Engineering
+                'production manager', 'manufacturing engineer', 'quality control manager', 'plant manager', 'assembly line worker', 'machinist', 'mechanical engineer', 'electrical engineer', 'civil engineer', 'process engineer',
+                
+                // Retail and Hospitality
+                'store manager', 'cashier', 'sales associate', 'barista', 'chef', 'waiter', 'hotel manager', 'housekeeper', 'concierge', 'event planner', 'bartender', 'restaurant manager', 'retail assistant',
+                
+                // Science and Research
+                'research scientist', 'biologist', 'chemist', 'physicist', 'lab technician', 'medical researcher', 'clinical trial manager', 'environmental scientist', 'data scientist', 'geologist', 'statistician',
+                
+                // Logistics and Transportation
+                'logistics coordinator', 'supply chain analyst', 'truck driver', 'forklift operator', 'shipping coordinator', 'warehouse manager', 'delivery driver', 'logistics manager', 'transportation planner', 'inventory manager',
+                
+                // Real Estate
+                'real estate agent', 'real estate broker', 'property manager', 'real estate consultant', 'leasing agent', 'mortgage broker', 'real estate analyst', 'real estate developer', 'construction manager',
+                
+                // IT Support
+                'IT support specialist', 'help desk technician', 'network support', 'technical support engineer', 'systems administrator', 'IT coordinator', 'IT manager', 'IT consultant',
+                
+                // Other Miscellaneous
+                'event coordinator', 'security officer', 'facility manager', 'driver', 'chef', 'personal assistant', 'delivery manager', 'receptionist', 'janitor', 'event planner', 'office manager', 'project coordinator'
+            ],
+            jobSearch: [
+                'job', 'vacancy', 'position', 'career', 'opportunity', 'listing', 'search', 'apply', 'offer', 
+                'opening', 'employment', 'recruitment', 'work', 'hiring', 'placement', 'job opening', 
+                'job offer', 'career opportunity', 'job posting', 'application', 'job search', 
+                'recruitment', 'seek', 'searching', 'apply for', 'available position', 'employment opportunity', 
+                'job vacancy', 'looking for', 'job hunt', 'recruit', 'employment listing', 'talent search'
+            ],
+            jobType: [
+                'full-time', 'part-time', 'contract', 'temporary', 'remote', 'on-site', 'freelance', 'internship', 
+                'permanent', 'fixed-term', 'consultant', 'part-time', 'seasonal', 'work from home', 'hybrid', 
+                'flexible hours', 'remote work', 'shift work', 'independent contractor', 'consulting', 
+                'short-term', 'long-term', 'job-sharing', 'telecommute', 'work-from-anywhere'
+            ],
+            videoReel: [
+                'video', 'reel', 'video resume', 'showreel', 'portfolio', 'video application', 'video introduction', 
+                'demo reel', 'video submission', 'personal video', 'video CV', 'digital resume', 'resume video', 
+                'video portfolio', 'self-introduction video', 'professional reel', 'video interview', 'video clip', 
+                'video profile', 'presentation video', 'introduction reel', 'applicant reel', 'career reel', 
+                'demo video', 'self-presentation video', 'video showcase', 'job reel', 'candidate reel', 'reel submission'
+            ],            
+            food: [
+                'food', 'meal', 'recipe', 'cooking', 'ingredient', 'dish', 'snack', 'breakfast', 'lunch', 'dinner', 
+                'cuisine', 'restaurant', 'menu', 'gourmet', 'tasting', 'chef', 'baking', 'grilling', 'vegetarian', 
+                'vegan', 'fast food', 'organic', 'healthy eating', 'nutrition', 'diet', 'takeout', 'delivery', 
+                'foodie', 'coffee', 'tea', 'dessert', 'appetizer', 'entree', 'salad', 'soup', 'smoothie'
+            ],
+            business: [
+                'business', 'company', 'corporation', 'startup', 'entrepreneur', 'CEO', 'founder', 'manager', 
+                'employee', 'team', 'leadership', 'strategy', 'marketing', 'finance', 'investment', 'sales', 'growth', 
+                'revenue', 'profit', 'startup', 'MVP', 'pitch', 'partnership', 'expansion', 'business plan', 'market research', 
+                'corporate', 'negotiation', 'lead generation', 'consulting', 'business development', 'corporate culture', 
+                'brand', 'branding', 'e-commerce', 'B2B', 'B2C', 'SMB', 'industry', 'commercial', 'franchise'
+            ],
+            travel: [
+                'travel', 'vacation', 'trip', 'tour', 'destination', 'hotel', 'flight', 'passport', 'visa', 'tourism', 
+                'tourist', 'holiday', 'adventure', 'exploration', 'backpacking', 'cruise', 'resort', 'holiday package', 
+                'explore', 'journey', 'excursion', 'itinerary', 'trip planning', 'travel guide', 'airline', 'road trip', 
+                'sightseeing', 'cultural exchange', 'backpacker', 'tour operator', 'travel agent', 'traveller', 'staycation', 
+                'foreign travel', 'local tourism', 'globetrotter', 'wanderlust', 'roadtrip', 'travel blog'
+            ],
+            health: [
+                'health', 'fitness', 'wellness', 'diet', 'exercise', 'nutrition', 'mental health', 'workout', 
+                'meditation', 'yoga', 'medication', 'therapy', 'doctor', 'healthcare', 'hospital', 'treatment', 
+                'doctor’s appointment', 'vaccine', 'chronic', 'disease', 'condition', 'health insurance', 'mental wellness', 
+                'physical therapy', 'well-being', 'stress management', 'rehabilitation', 'counseling', 'health risks', 
+                'immune system', 'preventative care', 'healthy lifestyle', 'sleep', 'hydration', 'weight loss', 
+                'cardio', 'strength training', 'flexibility', 'personal trainer', 'health tips'
+            ],
+            technology: [
+                'technology', 'tech', 'innovation', 'software', 'hardware', 'AI', 'artificial intelligence', 'machine learning', 
+                'blockchain', 'cloud computing', 'data', 'big data', 'internet of things', 'IoT', 'cybersecurity', 
+                'cybersecurity', 'virtual reality', 'VR', 'augmented reality', 'AR', 'mobile', 'app', 'application', 
+                'programming', 'coding', 'developer', 'engineer', 'website', 'web development', 'tech support', 'gadget', 
+                'smartphone', 'laptop', 'tablet', 'electronics', 'startups', 'tech news', 'tech industry', 'cloud', 
+                'data science', 'digital transformation', 'automation', '5G', 'smart devices', 'robots', 'wearables'
+            ],
+            events: [
+                'event', 'conference', 'seminar', 'workshop', 'webinar', 'summit', 'gathering', 'meetup', 'expo', 
+                'convention', 'festival', 'party', 'celebration', 'launch', 'show', 'presentation', 'trade show', 
+                'training', 'symposium', 'networking', 'discussion', 'forum', 'panel', 'ceremony', 'concert', 'performance', 
+                'broadcast', 'award ceremony', 'anniversary', 'holiday', 'tour', 'event planning', 'event coordination', 
+                'schedule', 'calendar', 'RSVP', 'invite', 'attendance', 'ticket', 'live stream', 'event registration', 
+                'opening', 'closing', 'event venue', 'venue', 'sponsor', 'exhibition', 'congrats', 'ticket sale', 'event marketing'
+            ],
+            
+            
+            
             education: [
                 'degree', 'education', 'school', 'university', 'college', 'certificate', 
                 'diploma', 'studies', 'graduate', 'postgraduate', 'undergraduate', 
@@ -611,6 +730,10 @@ function processMessage(message) {
     let tokens = tokenize(userInput);
     tokens = normalizeLocations(tokens);  // Normalize locations
     tokens = expandSynonyms(tokens, 'job');  // Expand job-related synonyms
+
+
+
+
     let categorizedTokens = categorizeTokens(tokens);  // Categorize based on categories
     let suggestions = generateSuggestions(categorizedTokens);  // Generate suggestions
 
