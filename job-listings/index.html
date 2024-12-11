@@ -1518,80 +1518,71 @@ const salaryInput = parseInt(document.getElementById("salaryInput").value) || 0;
 
 window.searchJobs = searchJobs;
 
-
-    // Function to get URL parameters
-    function getUrlParameters() {
-  const params = new URLSearchParams(window.location.search);
-
-  // Try to fetch multiple parameters, and if they are not available, fallback to an alternative logic
-  try {
-// Get and sanitize values
-const keywords = sanitizeInput(params.get('keywords'));
-const location = sanitizeInput(params.get('location'));
-const jobType = sanitizeInput(params.get('jobType'));
-const salaryRange = sanitizeInput(params.get('salaryRange'));
-
-    // If 'keywords' or other parameters are present, return the full object
-    if (keywords || location || jobType || salaryRange) {
-      return {
-        keywords: keywords || '',
-        location: location || '',
-        jobType: jobType || '',
-        salaryRange: salaryRange || ''
-      };
-    }
-
-    // Fallback case when none of the main parameters are available
-    return {
-      keywords: params.get('tag') || '',
-    };
-  } catch (error) {
-    console.error('Error parsing URL parameters:', error);
-
-    // Return a default object in case of any parsing errors
-    return {
-      keywords: '',
-      location: '',
-      jobType: '',
-      salaryRange: ''
-    };
-  }
+// Function to sanitize input to prevent issues (basic implementation)
+function sanitizeInput(input) {
+  return input ? input.replace(/[<>]/g, '') : '';
 }
 
-    // Populate the search bar with URL parameters
-    function populateSearchBar() {
-      const {
-        keywords,
-        location,
-        jobType,
-        salaryRange
-      } = getUrlParameters();
-      if (keywords) {
-        document.getElementById('keywordInput').value = keywords;
-      }
-      if (location) {
-        document.getElementById('locationInput').value = location;
-      }
-      if (salaryRange) {
-        document.getElementById('salaryInput').value = salaryRange;
-      }
-      if (jobType) {
-        document.getElementById('jobTypeInput').value = jobType;
-      }
-      // Check if at least one parameter is filled
-      return keywords || location || jobType || salaryRange;
+// Function to get URL parameters
+function getUrlParameters() {
+  const params = new URLSearchParams(window.location.search);
+
+  // Extract and sanitize values
+  const keywords = sanitizeInput(params.get('keywords'));
+  const location = sanitizeInput(params.get('location'));
+  const jobType = sanitizeInput(params.get('jobType'));
+  const salaryRange = sanitizeInput(params.get('salaryRange'));
+
+  return {
+    keywords: keywords || '',
+    location: location || '',
+    jobType: jobType || '',
+    salaryRange: salaryRange || ''
+  };
+}
+
+// Populate the search bar with URL parameters
+function populateSearchBar() {
+  const { keywords, location, jobType, salaryRange } = getUrlParameters();
+
+  // Set values only if they exist
+  if (keywords) document.getElementById('keywordInput').value = keywords;
+  if (location) document.getElementById('locationInput').value = location;
+  if (jobType) document.getElementById('jobTypeInput').value = jobType;
+  if (salaryRange) document.getElementById('salaryInput').value = salaryRange;
+
+  // Return true if at least one value is populated
+  return keywords || location || jobType || salaryRange;
+}
+
+// On window load, populate search bar and fetch job listings
+window.onload = async function () {
+  const hasSearchParams = populateSearchBar();
+
+  if (hasSearchParams) {
+    // If there are search parameters, fetch based on them
+    if (typeof searchJobs === 'function') {
+      await searchJobs(); // Assumes this function exists
+    } else {
+      console.warn('searchJobs function not defined.');
     }
-    window.onload = async function() {
-      populateSearchBar();
-      // Determine if search parameters exist
-      if (populateSearchBar()) {
-        await searchJobs(); // Assuming this function fetches and displays results based on search criteria
-      } else {
-        const jobListings = await fetchJobListings(); // Fetch the job listings
-        displayJobListings(jobListings); // Display job listings
-        loadSavedFilers();
-      }
-    };
+  } else {
+    // No search params, fetch general listings
+    if (typeof fetchJobListings === 'function' && typeof displayJobListings === 'function') {
+      const jobListings = await fetchJobListings();
+      displayJobListings(jobListings);
+    } else {
+      console.warn('fetchJobListings or displayJobListings function not defined.');
+    }
+  }
+
+  // Optionally load saved filters
+  if (typeof loadSavedFilers === 'function') {
+    loadSavedFilers();
+  } else {
+    console.warn('loadSavedFilers function not defined.');
+  }
+};
 
 
     
