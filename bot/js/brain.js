@@ -688,28 +688,6 @@ function determineInputType(tokens, categories) {
 
 
 
-// Normalize locations by matching location abbreviations and full names
-function normalizeLocations(tokens, categories) {
-    return tokens.map(token => {
-        console.log("tokens:", tokens);
-        // Check if the token matches a state abbreviation
-        const normalizedToken = categories[token.toUpperCase()];
-        if (normalizedToken) {
-            return normalizedToken.toLowerCase(); // Normalize state names to lowercase
-        }
-
-        // Check if the token matches a state name
-        const foundState = Object.values(categories.states).find(state => 
-            state.toLowerCase() === token.toLowerCase()
-        );
-        if (foundState) {
-            return foundState.toLowerCase(); // Normalize full state names to lowercase
-        }
-
-        // Return the token unchanged if not a state
-        return token;
-    });
-}
 
 
 
@@ -778,24 +756,91 @@ function categorizeTokens(tokens, categories) {
         }
     });
     return categorizedTokens;
-}
-function prioritizeCategories(categorizedTokens) {
+}function prioritizeCategories(categorizedTokens, inputType, userPreferences = {}) {
+    // Default priorities for categories
     const priorities = {
         math: 1,
-        salary: 1,
-        jobSearch: 2,
-        websiteSupport: 3,
-        generalInquiry: 4
+        salary: 2,
+        jobSearch: 3,
+        websiteSupport: 4,
+        generalInquiry: 5,
+        jobRelated: 6,
+        vehicle: 7,
+        location: 8,
+        jobCategories: 9,
+        events: 10,
+        technology: 11,
+        health: 12,
+        emotions: 13,
+        time: 14,
+        experience: 15,
+        benefit: 16,
+        company: 17,
+        preferences: 18,
+        relationships: 19,
+        payments: 20,
+        feedback: 21
     };
 
-    categorizedTokens.sort((a, b) => {
-        return (priorities[a.category] || 5) - (priorities[b.category] || 5);
+    // Adjust priorities based on user preferences (e.g., favorite categories)
+    if (userPreferences && userPreferences.favoriteCategories) {
+        userPreferences.favoriteCategories.forEach(category => {
+            priorities[category] = 1; // Give priority to favorite categories
+        });
+    }
+
+    // Adjust priorities based on the type of query (e.g., question, request, or statement)
+    const inputTypeWeights = {
+        question: ['jobSearch', 'salary', 'location', 'events'],
+        request: ['websiteSupport', 'payments', 'task', 'jobRelated'],
+        statement: ['feedback', 'generalInquiry'],
+        emotion: ['emotions'] // Focus on emotion-based categories like excitement or frustration
+    };
+
+    // Adjust priorities dynamically based on the input type (e.g., question or request)
+    const adjustedPriorities = categorizedTokens.map(token => {
+        if (inputTypeWeights[inputType]?.includes(token.category)) {
+            token.weight = (token.weight || 1) * 0.8; // Boost weight for categories matching input type
+        }
+        return token;
     });
 
-    return categorizedTokens[0]; // Return the highest-priority match
+    // Add emotion-based priority if the input contains sentiment/emotion words
+    categorizedTokens.forEach(token => {
+        if (['excitement', 'frustration', 'hope', 'regret'].includes(token.category)) {
+            priorities.emotions = 1; // High priority if emotions are involved
+        }
+    });
+
+    // Sort tokens based on the adjusted priorities
+    adjustedPriorities.sort((a, b) => {
+        return (priorities[a.category] || 99) - (priorities[b.category] || 99);
+    });
+
+    return adjustedPriorities[0]; // Return the highest-priority match
 }
 
+function detectSalaryRange(tokens) {
+    let minSalary = null;
+    let maxSalary = null;
 
+    tokens.forEach(token => {
+        const match = token.match(/\$?(\d{1,3}(?:,\d{3})*(?:\.\d+)?)/);
+        if (match) {
+            const salary = parseFloat(match[1].replace(/[^0-9.-]+/g, ""));
+            if (minSalary === null) {
+                minSalary = salary;
+            } else if (maxSalary === null) {
+                maxSalary = salary;
+            }
+        }
+    });
+
+    if (minSalary && maxSalary) {
+        return { minSalary, maxSalary };
+    }
+    return null;
+}
 
 
 function processMessage(message) {
@@ -804,33 +849,171 @@ function processMessage(message) {
     // Step 1: Determine input type
     const inputType = determineInputType(tokens, categories);
 
-    // Step 2: Expand synonyms and categorize
+    // Step 2: Expand synonyms and categorize tokens
     const normalizedTokens = expandSynonyms(tokens, 'generalInquiry', categories);
     const categorizedTokens = categorizeTokens(normalizedTokens, categories);
 
     // Step 3: Adjust priorities based on input type
     const adjustedTokens = adjustPrioritiesByInputType(categorizedTokens, inputType);
 
-    // Step 4: Prioritize categories
-    const bestMatch = prioritizeCategories(adjustedTokens);
+    // Step 4: Handle complex queries and job-related queries
+    const complexQueryCategory = handleComplexQuery(adjustedTokens);
+    const jobQueryResponse = handleJobQuery(message, adjustedTokens);
 
-    // Step 5: Handle responses based on best match
-    switch (bestMatch.category) {
-        case 'math':
-            return detectAndEvaluateMath(tokens) || "I couldn't process that math query.";
-        case 'salary':
-            const salaryData = detectSalaryQuery(tokens);
-            return salaryData.salary 
-                ? `Your monthly salary is approximately $${calculateMonthlySalary(salaryData.salary)}.` 
-                : "I couldn't identify the salary input.";
-        case 'jobSearch':
-            return "You can search for jobs here: [Job Search Page](#)";
-        case 'websiteSupport':
-            return "Need technical support? Visit our [Support Center](#).";
-        default:
-            return `I found something related to "${bestMatch.word}" in the "${bestMatch.category}" category. How can I assist further?`;
+    // Step 5: Combine results from complex query or job-related query
+    if (complexQueryCategory) {
+        return `I found a query related to "${complexQueryCategory}". What else can I assist with?`;
     }
+
+    if (jobQueryResponse) {
+        return jobQueryResponse;
+    }
+
+    return "I'm sorry, I couldn't quite understand that. Could you clarify?";
 }
+
+// **Handle Complex Query Logic:**
+function handleComplexQuery(tokens) {
+    // Identify multiple topics (job, salary, location, etc.)
+    const matchedCategories = [];
+
+    // Iterate through categories and match tokens
+    categories.forEach(category => {
+        if (tokens.some(token => token.includes(category))) {
+            matchedCategories.push(category);
+        }
+    });
+
+    // Sort matched categories by priority
+    matchedCategories.sort((a, b) => {
+        return (priorities[a] || 99) - (priorities[b] || 99);
+    });
+
+    // Return the highest priority matched category
+    return matchedCategories[0];
+}
+
+// **Handle Job Search Query Logic:**
+function handleJobQuery(query, tokens) {
+    const bestMatch = prioritizeCategories(tokens);
+
+    // Handle job-related queries (e.g., "jobs in [location]")
+    if (bestMatch.category === 'jobSearch') {
+        if (query.includes('available') || query.includes('jobs in')) {
+            const location = tokens.find(token => categories.states[token] || categories[token.toUpperCase()]);
+            const jobType = tokens.find(token => categories.jobCategories.includes(token));
+
+            return fetchJobData({ location, jobType });
+        }
+    }
+
+    // Handle salary-related queries (e.g., "jobs that pay over $50,000")
+    if (bestMatch.category === 'salary') {
+        const salary = detectSalaryQuery(tokens);
+        return filterJobsBySalary(salary);
+    }
+
+    // Handle location-based searches (e.g., "jobs in New York")
+    if (bestMatch.category === 'location') {
+        const location = normalizeLocations(tokens, categories);
+        return fetchJobsByLocation(location);
+    }
+
+    return "Sorry, I couldn't find any specific results. Could you clarify your question?";
+}
+
+// **Helper Functions for Fetching Job Data:**
+
+function fetchJobData({ location, jobType }) {
+    const jobQuery = firebase.firestore().collection('Jobs');
+
+    // If a location is provided, search using 'array-contains' to match any location within the array.
+    if (location) {
+        jobQuery.where('location', 'array-contains', location);
+    }
+
+    // If a jobType is provided, filter by category (e.g., job type).
+    if (jobType) {
+        jobQuery.where('category', '==', jobType);
+    }
+
+    // Fetch data from Firestore
+    return jobQuery.get().then(snapshot => {
+        const jobs = snapshot.docs.map(doc => doc.data());
+        if (jobs.length > 0) {
+            return `Found ${jobs.length} job(s) matching your criteria.`;
+        } else {
+            return "No jobs found for your search criteria.";
+        }
+    }).catch(error => {
+        console.error("Error fetching job data:", error);
+        return "Sorry, there was an error fetching job data.";
+    });
+}
+
+
+// **Helper Function for Filtering Jobs by Salary:**
+
+function filterJobsBySalary(salaryData) {
+    const salaryThreshold = salaryData.salary;
+
+    // Check if salaryThreshold is a valid number
+    if (typeof salaryThreshold !== 'number' || isNaN(salaryThreshold)) {
+        return "Invalid salary value provided. Please provide a valid number.";
+    }
+
+    // Query Firestore for jobs with salary >= salaryThreshold
+    const jobQuery = firebase.firestore().collection('Jobs')
+        .where('salary', '>=', salaryThreshold);
+
+    // Fetch data from Firestore
+    return jobQuery.get().then(snapshot => {
+        const jobs = snapshot.docs.map(doc => doc.data());
+
+        // If jobs are found
+        if (jobs.length > 0) {
+            return `Found ${jobs.length} job(s) that pay over $${salaryThreshold}.`;
+        } else {
+            return "No jobs found that match your salary criteria.";
+        }
+    }).catch(error => {
+        // Log error for debugging
+        console.error("Error fetching job data:", error);
+        return "Sorry, there was an error filtering jobs by salary.";
+    });
+}
+
+
+// **Helper Function to Normalize Locations:**
+/*
+function normalizeLocations(tokens, categories) {
+    const locationTokens = tokens.filter(token => categories.states[token] || categories[token.toUpperCase()]);
+    return locationTokens.length > 0 ? locationTokens[0] : null;
+}
+    */
+// Normalize locations by matching location abbreviations and full names
+function normalizeLocations(tokens, categories) {
+    return tokens.map(token => {
+        console.log("tokens:", tokens);
+        // Check if the token matches a state abbreviation
+        const normalizedToken = categories[token.toUpperCase()];
+        if (normalizedToken) {
+            return normalizedToken.toLowerCase(); // Normalize state names to lowercase
+        }
+
+        // Check if the token matches a state name
+        const foundState = Object.values(categories.states).find(state => 
+            state.toLowerCase() === token.toLowerCase()
+        );
+        if (foundState) {
+            return foundState.toLowerCase(); // Normalize full state names to lowercase
+        }
+
+        // Return the token unchanged if not a state
+        return token;
+    });
+}
+
 
 // Adjust category priorities based on input type
 function adjustPrioritiesByInputType(categorizedTokens, inputType) {
