@@ -3117,8 +3117,6 @@ function displayMessage(sender, message) {
       const typingSpeed = 70;
 
       messageDiv.innerHTML = `${senderLabel}`; // Start empty with sender label
-      smoothScrollToBottom();
-
       const typingEffect = setInterval(() => {
         messageDiv.innerHTML = `${senderLabel}${messageWithLinks.substring(0, index + 1)}`;
         messageArea.scrollTop = messageArea.scrollHeight;
@@ -3126,20 +3124,16 @@ function displayMessage(sender, message) {
 
         if (index === messageWithLinks.length) {
           clearInterval(typingEffect);
-          smoothScrollToBottom();
-
           resolve(); // Resolve the promise when typing completes
         }
       }, typingSpeed);
     } else {
-       // Immediate display for user messages with a slight delay
-       setTimeout(() => {
-        messageDiv.innerHTML = senderLabel + messageWithLinks;
-        messageArea.appendChild(messageDiv);
-        smoothScrollToBottom();
-        resolve();
-      }, 200);
+      messageDiv.innerHTML = senderLabel + messageWithLinks;
+      resolve(); // Immediately resolve for user messages
     }
+
+    messageArea.appendChild(messageDiv);
+    messageArea.scrollTop = messageArea.scrollHeight; // Auto-scroll to bottom
   });
 }
 
