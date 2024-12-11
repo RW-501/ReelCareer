@@ -257,7 +257,7 @@ document.head.appendChild(link);
         
         <p class="location-text-area c-text">
           <i class="fas fa-map-marker-alt" style="color: #007bff;"></i> 
-          <h9>${formatLocation(job.location)}</h6>
+          <h6>${formatLocation(job.location)}</h6>
         </p>
     
         <p class="industry-text-area c-text">
