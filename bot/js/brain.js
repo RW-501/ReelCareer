@@ -647,6 +647,23 @@ function detectSalaryQuery(tokens) {
     return { salary, keyword };
 }
 
+function determineInputType(tokens, categories) {
+    const questionWords = ['what', 'how', 'why', 'when', 'where', 'who', 'which'];
+    const requestVerbs = ['calculate', 'show', 'help', 'find', 'get', 'give'];
+
+    // Check for a question
+    if (tokens.some(token => questionWords.includes(token)) || tokens.join(' ').endsWith('?')) {
+        return 'question';
+    }
+
+    // Check for a request
+    if (tokens.some(token => requestVerbs.includes(token))) {
+        return 'request';
+    }
+
+    // Default to statement
+    return 'statement';
+}
 
 
 // Normalize locations by matching location abbreviations and full names
