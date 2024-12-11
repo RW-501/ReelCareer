@@ -35,7 +35,8 @@
                 'training program', 'job description post', 'position title', 'headhunting'
             ],
             
-                        
+            math: ['salary', 'pay', 'annual', 'monthly', 'sum', 'add', 'subtract', 'multiply', 'divide', '+', '-', '*', '/'],
+  
             vehicle: [
                 'car', 'truck', 'vehicle', 'automobile', 'bike', 'motorcycle', 'suv', 'van', 
                 'sedan', 'coupe', 'hatchback', 'convertible', 'wagon', 'pickup', 'jeep', 
@@ -231,7 +232,10 @@
                 'opening', 'closing', 'event venue', 'venue', 'sponsor', 'exhibition', 'congrats', 'ticket sale', 'event marketing'
             ],
             
-            
+            question: ['who', 'what', 'where', 'when', 'why', 'how', '?'],
+            request: ['please', 'can you', 'could you', 'i need', 'would you', 'help', 'show me', 'tell me'],
+            statement: ['is', 'am', 'are', 'was', 'were', 'will', 'it', 'this', 'that', '.', 'I'],
+          
             
             education: [
                 'degree', 'education', 'school', 'university', 'college', 'certificate', 
@@ -587,11 +591,62 @@
         console.log(categoryKeys);
         
 
-// Tokenize the input by splitting on spaces and punctuation
+
+// Tokenize the input, including math symbols and numbers
 function tokenize(input) {
-    const regex = /[\w'-]+/g;
+    const regex = /[\w'-]+|[+\-*/()]|[\d,.]+/g; // Match words, numbers, and math symbols
     return input.match(regex) || [];
 }
+
+
+// Detect and evaluate math-related queries
+function detectAndEvaluateMath(tokens) {
+    const mathTokens = [];
+    let containsMathSymbol = false;
+
+    tokens.forEach(token => {
+        if (categories.math.includes(token) || token.match(/[+\-*/]/)) {
+            containsMathSymbol = true; // Math-related symbol detected
+        }
+        mathTokens.push(token); // Add to potential math expression
+    });
+
+    // If math symbols or terms are detected, evaluate the math expression
+    if (containsMathSymbol) {
+        try {
+            const mathExpression = mathTokens.join(' ').replace(/,/g, ''); // Join tokens into a valid expression
+            const result = eval(mathExpression); // Safely evaluate the expression
+            return `The result of your calculation (${mathExpression}) is ${result.toFixed(2)}.`;
+        } catch (error) {
+            return "I couldn't evaluate that expression. Please check your input.";
+        }
+    }
+    return null; // No math-related input detected
+}
+
+// Function to calculate monthly salary
+function calculateMonthlySalary(annualSalary) {
+    return annualSalary / 12;
+}
+
+// Detect salary queries
+function detectSalaryQuery(tokens) {
+    let salary = null;
+    let keyword = null;
+
+    tokens.forEach(token => {
+        if (token.match(/^\$?\d{1,3}(?:,\d{3})*(?:\.\d+)?$/)) { // Detect currency values
+            salary = parseFloat(token.replace(/[^0-9.-]+/g, "")); // Clean and convert to number
+        }
+        if (categories.math.includes(token)) {
+            keyword = token;
+        }
+    });
+
+    return { salary, keyword };
+}
+
+
 
 // Normalize locations by matching location abbreviations and full names
 function normalizeLocations(tokens, categories) {
@@ -692,11 +747,28 @@ function generateSuggestions(categorizedTokens) {
     return suggestions;
 }
 
-// Process user input with fuzzy matching for job categories and spelling correction
+
+// Main function to process user input
 function processMessage(message, categories) {
     const userInput = message.toLowerCase();
     let tokens = tokenize(userInput);
 
+    // 1. Handle explicit math expressions with symbols
+    const mathResponse = detectAndEvaluateMath(tokens);
+    if (mathResponse) {
+        return mathResponse;
+    }
+
+    // 2. Detect if the user is asking about salary and perform salary calculations
+    const { salary, keyword } = detectSalaryQuery(tokens);
+    if (salary && keyword) {
+        if (keyword === 'salary' || keyword === 'pay' || keyword === 'annual') {
+            const monthlySalary = calculateMonthlySalary(salary);
+            return `Your monthly pay would be $${monthlySalary.toFixed(2)} if you make $${salary} a year.`;
+        }
+    }
+
+    // 3. Proceed with usual token processing
     tokens = normalizeLocations(tokens, categories);  // Normalize locations
     tokens = expandSynonyms(tokens, 'job', categories);  // Expand job-related synonyms
     tokens = expandSynonyms(tokens, 'events', categories);  // Expand event-related synonyms
@@ -708,17 +780,3 @@ function processMessage(message, categories) {
     return response;
 }
 
-// Example categories (you can expand this object)
-const categories = {
-    location: ['new york', 'tx', 'california'],
-    job: ['developer', 'designer', 'engineer', 'manager', 'sales'],
-    events: ['conference', 'webinar', 'workshop'],
-    websiteSupport: ['account', 'support'],
-    payment: ['paypal', 'credit card'],
-    feedback: ['review', 'survey']
-};
-
-// Test the processMessage function
-const message = "I'm looking for a developer job in Texas";
-const response = processMessage(message, categories);
-console.log(response);
