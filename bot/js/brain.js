@@ -695,12 +695,13 @@ function determineInputType(tokens, categories) {
 function fuzzyMatch(query, categoryWords, threshold = 0.8) {
     // Tokenize the query into words
     const queryTokens = query.toLowerCase().split(' ');
-
+    console.log("query ",query);
+    console.log("queryTokens ",queryTokens);
     // Generate multi-word token pairs (bigrams)
     const queryBigrams = generateBigrams(queryTokens);
 
     console.log("queryBigrams ",queryBigrams);
-    console.log("queryTokens ",queryTokens);
+  
     console.log("fuzzyMatch =================");
     // Initialize an array to hold all possible matches
     const matches = [];
