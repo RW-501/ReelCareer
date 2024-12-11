@@ -332,9 +332,10 @@ function searchJobs() {
     const query = document.getElementById('jobSearch').value.toLowerCase();
     const rows = document.querySelectorAll('#jobTableBody tr');
     rows.forEach(row => {
-        const title = row.cells[2].textContent.toLowerCase();
-        const description = row.cells[3].textContent.toLowerCase();
-        if (title.includes(query) || description.includes(query)) {
+        const title = row.cells[1].textContent.toLowerCase();
+        const city = row.cells[3].textContent.toLowerCase();
+        const state = row.cells[4].textContent.toLowerCase();
+        if (title.includes(query) || city.includes(query)|| state.includes(query)) {
             row.style.display = '';
         } else {
             row.style.display = 'none';
