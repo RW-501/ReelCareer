@@ -818,7 +818,7 @@ function processMessage(message) {
     }
 
     // 3. Categorize tokens
-    tokens = normalizeLocations(tokens, categories);
+    //tokens = normalizeLocations(tokens, categories);
     const categorizedTokens = categorizeTokens(tokens, categories);
 
     // 4. Generate and prioritize suggestions
