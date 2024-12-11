@@ -670,7 +670,11 @@ function normalizeLocations(tokens, categories) {
         return token;
     });
 }
+console.log("States:", categories.states);
 
+const tokens = ["CA", "TX", "hello"];
+const result = normalizeLocations(tokens, categories);
+console.log(result);
 
 // Implement basic fuzzy matching using Levenshtein distance
 function fuzzyMatch(word, categoryWords, threshold = 0.8) {
