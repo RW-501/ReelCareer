@@ -937,7 +937,11 @@ main .btn-info:hover {
 }
 
 .JOB_CARD h9 {
-  
+  font-family: sans-serif;
+  background-color: #e9ecef69;
+  border-radius: 25px;
+  text-align: center;
+
 }
 
 .JOB_CARD .location-text-area i,
