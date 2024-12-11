@@ -694,7 +694,7 @@ function determineInputType(tokens, categories) {
 // Implement basic fuzzy matching using Levenshtein distance
 function fuzzyMatch(query, categoryWords,tokens, threshold = 0.8) {
     // Tokenize the query into words
-    const queryTokens = tokens.toLowerCase().split(' ');
+    const queryTokens = query.toLowerCase().split(' ');
 
     console.log("tokens ",tokens);
     console.log("query ",query);
