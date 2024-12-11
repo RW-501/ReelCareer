@@ -2878,7 +2878,6 @@ function loadGeneralQuestions() {
 // Handle user input
 async function handleUserInput(userMessage) {
   const messageArea = document.getElementById("chatbot-messages");
-  displayMessage("user", userMessage);
 
   // Call sendMessage to get the answer and question id
   const result = await sendMessage(userMessage);
@@ -3213,7 +3212,7 @@ async function sendMessage(userMessage) {
  // Trim and normalize the user message
 const trimmedMessage = sanitizedMessage.trim().toLowerCase();
 
-displayMessage("you", trimmedMessage) 
+displayMessage("user", trimmedMessage) 
 // Initialize score variables
 let bestMatch = null;
 let highestScore = 0;
