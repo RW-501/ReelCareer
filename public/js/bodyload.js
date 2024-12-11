@@ -200,6 +200,7 @@ document.head.appendChild(link);
     jobCard.dataset.state = job.state ? job.state.toLowerCase() : '';
     jobCard.dataset.zipCode = job.zipCode ? job.zipCode.toString() : '';
     jobCard.dataset.industry = job.industry ? job.industry.toLowerCase() : '';
+    jobCard.dataset.category = job.category ? job.category.toLowerCase() : '';
     jobCard.dataset.immediateHire = job.immediateHire !== undefined ? job.immediateHire.toString() : '';
     jobCard.dataset.contractToHire = job.contractToHire !== undefined ? job.contractToHire.toString() : '';
     jobCard.dataset.country = job.country ? job.country.toLowerCase() : '';
@@ -258,7 +259,18 @@ document.head.appendChild(link);
           <i class="fas fa-map-marker-alt" style="color: #007bff;"></i> 
           ${formatLocation(job.location)}
         </p>
-        
+    
+        <p class="industry-text-area c-text">
+          <strong>Industry:</strong>
+           ${job.industry}
+        </p>
+
+        <p class="category-text-area c-text">
+          <strong>Category:</strong>
+           ${job.category}
+        </p>
+
+
         <p class="job-type-text-area c-text">
           <strong>Type:</strong>
            ${formatJobType(job.type)}

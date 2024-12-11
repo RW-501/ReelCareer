@@ -420,6 +420,7 @@ main .row {
             <p><strong>Company:</strong> <company id="companyName"></company></p>
             <p><address id="jobLocation"></address></p>
             <p><strong>Industry:</strong> <industry id="industry"></industry></p>
+            <p><strong>Category:</strong> <category id="category"></category></p>
             <p><strong>Employment Type:</strong> <employmenttype id="employmentType"></employmenttype></p>
             <p><strong>Salary:</strong> <salary id="salary"></salary> <span id="salaryPayTime"></span></p>
             <p><strong>Posted On:</strong> <date id="createdAt" class="font-italic"></date></p>
@@ -880,6 +881,7 @@ jobID = jobData.id;
       });
       document.getElementById('submittedBy').textContent = jobData.submittedBy;
       document.getElementById('industry').textContent = jobData.industry;
+      document.getElementById('category').textContent = jobData.category;
       document.getElementById('createdAt').textContent = createdAt instanceof Date ? createdAt.toLocaleDateString() : createdAt;
       
 
