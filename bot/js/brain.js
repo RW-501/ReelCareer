@@ -769,6 +769,7 @@ function calculateLevenshteinDistance(a, b) {
 // Expand synonyms by using fuzzy matching
 function expandSynonyms(tokens, category, categories) {
     console.log("category ",category);
+    console.log("tokens ",tokens);
     console.log("expandSynonyms =================");
 
     return tokens.map(token => {
