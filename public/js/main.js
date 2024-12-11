@@ -3160,32 +3160,43 @@ async function logUnansweredQuestion(message) {
   };
   await addDoc(collection(db, "ChatbotInteractions"), chatBotData);
 }
+// Unified sanitization and validation function
+function sanitizeAndValidateInput(input) {
+  // Sanitize: Remove HTML tags and potentially unsafe characters
+  const sanitized = input.replace(/<[^>]*>/g, "").trim();
 
+  // Validate: Check for dangerous patterns or invalid content
+  if (!isSafeInput(sanitized)) {
+    return null; // Return null if unsafe content is found
+  }
+
+  return sanitized.toLowerCase(); // Normalize to lowercase and return
+}
 // Send message and match it to predefined questions
-function sendMessage(messageRaw) { 
-
-  if (typeof message !== 'string' ) {
-    messageRaw = document.getElementById("chat-input").value;
-    if (!messageRaw) {
-      return;
+async function sendMessage(userMessage) {
+  // 1. Fetch raw input if no argument is passed
+  if (!userMessage || typeof userMessage !== "string") {
+    userMessage = document.getElementById("chat-input").value;
+    if (!userMessage || userMessage.trim() === "") {
+      console.warn("Message is empty.");
+      return; // Exit if the input is empty
     }
   }
-
-  // Check if message is a string
-  console.log("messageRaw  ",messageRaw);
-
-  let message = sanitizeInput(messageRaw);
-
- let  messageIsSafe = isSafeInput(message);
-
-
-  console.log("message  ",message);
-  if (typeof message !== 'string' && !messageIsSafe) {
-    return;  // Exit the function if it's not a string
-  }
-
+   // 2. Sanitize and normalize the input
+   const sanitizedMessage = sanitizeAndValidateInput(userMessage);
+   if (!sanitizedMessage) {
+     console.warn("Invalid or unsafe input.");
+     return; // Exit if the message fails sanitization or validation
+   }
+ 
+   console.log("Final Message:", sanitizedMessage);
+   // 3. Continue with processing (example: send the message to the chat system)
+   const result = await processMessage(sanitizedMessage);
+   console.log("Result:", result);
+ 
+ 
   // Trim and normalize the user message
-  const trimmedMessage = message.trim().toLowerCase();
+  const trimmedMessage = result.trim().toLowerCase();
 
   // Initialize score variables
   let bestMatch = null;
