@@ -564,7 +564,7 @@
             quantity: ['much', 'many', 'few', 'several', 'lot', 'amount', 'count', 'number', 'how much', 'how many', 'volume'],
             verbs: ['is', 'are', 'was', 'were', 'be', 'being', 'been'], // Words serving as linking verbs or auxiliary verbs
             determiners: ['this', 'that', 'these', 'those', 'a', 'an', 'the', 'any', 'some'], // Words that specify nouns
-            pronouns: ['it', 'he', 'she', 'they', 'we', 'you', 'I', 'me', 'us', 'them', 'him', 'her'],
+            pronouns: ['it', 'he', 'she', 'they', 'we', 'you','i', 'I', 'me', 'us', 'them', 'him', 'her'],
         
             action: [
                 'find', 'search', 'wash','make', 'create', 'build', 'develop', 'work', 'apply', 'find', 'search', 'submit', 'look', 'locate', 'searching', 
