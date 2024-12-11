@@ -796,6 +796,9 @@ function categorizeTokens(tokens, categories) {
 
 
 function prioritizeCategories(categorizedTokens, inputType, userPreferences = {}) {
+
+
+    console.log("categorizedTokens, ",categorizedTokens, "inputType, ", inputType, "userPreferences,", userPreferences); 
     // Default priorities for categories
     const priorities = {
         math: 1,
@@ -939,7 +942,7 @@ function handleComplexQuery(tokens) {
 function handleJobQuery(query, tokens) {
     const bestMatch = prioritizeCategories(tokens);
 
-    console.log(bestMatch);  // Debugging line
+    console.log("bestMatch ",bestMatch);  // Debugging line
 
     // Handle job-related queries (e.g., "jobs in [location]")
     if (bestMatch && bestMatch.category === 'jobSearch') {
