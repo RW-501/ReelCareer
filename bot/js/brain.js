@@ -900,7 +900,7 @@ function processMessage(message) {
 
     // Step 4: Handle complex queries and job-related queries
     const complexQueryCategory = handleComplexQuery(adjustedTokens);
-    const jobQueryResponse = handleJobQuery(message, adjustedTokens);
+    const jobQueryResponse = handleJobQuery(message, adjustedTokens, userPreferences);
 
     // Step 5: Combine results from complex query or job-related query
     if (complexQueryCategory) {
@@ -939,8 +939,8 @@ function handleComplexQuery(tokens) {
 }
 
 // **Handle Job Search Query Logic:**
-function handleJobQuery(query, tokens) {
-    const bestMatch = prioritizeCategories(tokens);
+function handleJobQuery(query, tokens, userPreferences) {
+    const bestMatch = prioritizeCategories(tokens,  query, userPreferences );
 
     console.log("bestMatch ",bestMatch);  // Debugging line
 
@@ -1061,9 +1061,13 @@ function normalizeLocations(tokens, categories) {
     });
 }
 
-
+const userPreferences = [];
 // Adjust category priorities based on input type
 function adjustPrioritiesByInputType(categorizedTokens, inputType) {
+
+    console.log("categorizedTokens ",categorizedTokens);
+    console.log("inputType ",inputType);
+    
     const inputTypeWeights = {
         question: ['jobSearch', 'math', 'generalInquiry'],
         request: ['task', 'websiteSupport', 'payments'],
@@ -1076,7 +1080,7 @@ function adjustPrioritiesByInputType(categorizedTokens, inputType) {
         if (inputTypeWeights[inputType]?.includes(token.category)) {
             token.weight = (token.weight || 1) * 0.5; // Boost weight for matching categories
         }
-        return token;
+        return token; //userPreferences.favoriteCategories
     });
 }
 
