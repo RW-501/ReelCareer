@@ -408,73 +408,99 @@ document.head.appendChild(style);
 // Function to search jobs by title or description
 function searchJobs() {
     const query = document.getElementById('jobSearch').value.toLowerCase();
-    const rows = document.querySelectorAll('#jobTableBody tr');
+    const rows = document.querySelectorAll('#jobTableBody tr:not(.collapse)');
+
     rows.forEach(row => {
-        const title = row.cells[1].textContent.toLowerCase();
-        const city = row.cells[3].textContent.toLowerCase();
-        const state = row.cells[4].textContent.toLowerCase();
-        if (title.includes(query) || city.includes(query)|| state.includes(query)) {
-            row.style.display = '';
-        } else {
-            row.style.display = 'none';
-        }
+        const title = row.cells[1]?.textContent.toLowerCase() || '';
+        const city = row.cells[4]?.textContent.toLowerCase() || '';
+        const state = row.cells[3]?.textContent.toLowerCase() || '';
+
+        const match = title.includes(query) || city.includes(query) || state.includes(query);
+
+        row.style.display = match ? '' : 'none';
+
+        // Show/hide collapsible row
+        const collapseId = row.getAttribute('data-bs-target');
+        const collapseRow = document.querySelector(collapseId);
+        if (collapseRow) collapseRow.style.display = match ? '' : 'none';
     });
 }
+
 window.searchJobs = searchJobs;
 
 // Function to sort table columns
 let sortOrder = true; // true for ascending, false for descending
 
 function sortTable(columnIndex) {
-    const rows = Array.from(document.querySelectorAll('#jobTableBody tr'));
-    const sortedRows = rows.sort((a, b) => {
-        const cellA = a.cells[columnIndex].textContent.toLowerCase();
-        const cellB = b.cells[columnIndex].textContent.toLowerCase();
+    const jobRows = Array.from(document.querySelectorAll('#jobTableBody tr'))
+        .filter(row => !row.classList.contains('collapse')); // Exclude collapsible rows
+
+    const sortedRows = jobRows.sort((a, b) => {
+        const cellA = a.cells[columnIndex]?.textContent.trim().toLowerCase() || '';
+        const cellB = b.cells[columnIndex]?.textContent.trim().toLowerCase() || '';
 
         if (cellA < cellB) return sortOrder ? -1 : 1;
         if (cellA > cellB) return sortOrder ? 1 : -1;
         return 0;
     });
 
-    // Clear table and append sorted rows
+    // Clear and re-render rows
     const jobTableBody = document.getElementById('jobTableBody');
     jobTableBody.innerHTML = '';
-    sortedRows.forEach(row => jobTableBody.appendChild(row));
+    sortedRows.forEach(row => {
+        jobTableBody.appendChild(row);
 
-    // Toggle sort order
-    sortOrder = !sortOrder;
+        // Append related collapsible rows
+        const collapseId = row.getAttribute('data-bs-target');
+        const collapseRow = document.querySelector(collapseId);
+        if (collapseRow) jobTableBody.appendChild(collapseRow);
+    });
+
+    sortOrder = !sortOrder; // Toggle sort order
 }
+
 window.sortTable = sortTable;
 
 
 
 
-        // Toggle all checkboxes
-        function toggleAll(source) {
-            const checkboxes = document.querySelectorAll('.jobCheckbox');
-            checkboxes.forEach(checkbox => {
-                checkbox.checked = source.checked;
-            });
-        }
+function toggleAll(source) {
+    const checkboxes = document.querySelectorAll('.jobCheckbox');
+    checkboxes.forEach(checkbox => {
+        checkbox.checked = source.checked;
+    });
+}
+
+// Update "Select All" when individual checkboxes are clicked
+document.addEventListener('change', (e) => {
+    if (e.target.classList.contains('jobCheckbox')) {
+        const checkboxes = document.querySelectorAll('.jobCheckbox');
+        const selectAllCheckbox = document.getElementById('selectAllCheckbox');
+        selectAllCheckbox.checked = Array.from(checkboxes).every(checkbox => checkbox.checked);
+    }
+});
 
         // Delete selected jobs
   
 // Function to delete selected jobs
-function deleteSelectedJobs() {
+async function deleteSelectedJobs() {
     const selectedJobs = [...document.querySelectorAll('.jobCheckbox:checked')].map(checkbox => checkbox.value);
+
     if (selectedJobs.length > 0) {
-        selectedJobs.forEach(async (id) => {
-            try {
-                await deleteDoc(doc(db, 'Jobs', id)); // Deleting the job document
-            } catch (error) {
-                console.error("Error removing job: ", error);
-            }
-        });
-        loadJobs(); // Reload jobs after deletion
+        try {
+            const deletePromises = selectedJobs.map(id => deleteDoc(doc(db, 'Jobs', id)));
+            await Promise.all(deletePromises); // Wait for all deletions to finish
+            showToast("Selected jobs deleted successfully!");
+            loadJobs(); // Reload jobs after deletion
+        } catch (error) {
+            console.error("Error removing jobs:", error);
+            alert("An error occurred while deleting jobs.");
+        }
     } else {
         alert("Please select at least one job to delete.");
     }
 }
+
 window.deleteSelectedJobs = deleteSelectedJobs;
 
 // Open job modal for adding a job
