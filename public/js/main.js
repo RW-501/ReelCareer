@@ -3163,6 +3163,14 @@ async function logUnansweredQuestion(message) {
 
 // Send message and match it to predefined questions
 function sendMessage(messageRaw) { 
+
+  if (typeof message !== 'string' ) {
+    messageRaw = document.getElementById("chat-input").value;
+    if (!messageRaw) {
+      return;
+    }
+  }
+
   // Check if message is a string
   console.log("messageRaw  ",messageRaw);
 
