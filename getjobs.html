@@ -356,30 +356,7 @@
 
     <script>
 
-function toggleRowSelection(checkbox) {
-    checkbox.checked ;
-    console.log("Checkbox:", checkbox); // Debug to see what checkbox is
-    if (!(checkbox instanceof HTMLElement)) {
-        console.error("Not a valid DOM element:", checkbox);
-        return; // Exit if invalid
-    }
 
-    const row = checkbox.closest('tr'); // Find the closest row
-    if (row) {
-        row.classList.toggle('selected', checkbox.checked);
-    }
-}
-
-        window.toggleRowSelection = toggleRowSelection;
-
-        function handleTableClick(event) {
-    if (event.target && event.target.classList.contains('job-checkbox')) {
-        toggleRowSelection(event.target); // Pass the actual checkbox
-    }
-}
-
-        
-window.handleTableClick = handleTableClick ;
 
 // Select All Jobs
 function toggleSelectAll() {
@@ -429,6 +406,37 @@ document.addEventListener("DOMContentLoaded", () => {
         const column = document.getElementById(columnId);
         column.addEventListener("click", () => sortTable(index + 1)); // Adjust column index
     });
+
+
+
+
+
+
+
+    function toggleRowSelection(checkbox) {
+    checkbox.checked ;
+    console.log("Checkbox:", checkbox); // Debug to see what checkbox is
+    if (!(checkbox instanceof HTMLElement)) {
+        console.error("Not a valid DOM element:", checkbox);
+        return; // Exit if invalid
+    }
+
+    const row = checkbox.closest('tr'); // Find the closest row
+    if (row) {
+        row.classList.toggle('selected', checkbox.checked);
+    }
+}
+
+        window.toggleRowSelection = toggleRowSelection;
+
+        function handleTableClick(event) {
+    if (event.target && event.target.classList.contains('job-checkbox')) {
+        toggleRowSelection(event.target); // Pass the actual checkbox
+    }
+}
+
+        
+window.handleTableClick = handleTableClick ;
 });
 
 
