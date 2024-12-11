@@ -587,126 +587,74 @@
         console.log(categoryKeys);
         
 
+// Tokenize the input by splitting on spaces and punctuation
+function tokenize(input) {
+    const regex = /[\w'-]+/g;
+    return input.match(regex) || [];
+}
 
-
-  
-        function stemTokens(tokens) {
-            return tokens.map(token => {
-                // Handle common verb endings
-                if (token.endsWith('in')) {
-                    return token.slice(0, -2);  // Handle "washin" -> "wash"
-                }
-                if (token.endsWith('ing')) {
-                    return token.slice(0, -3);  // Handle "washing" -> "wash"
-                }
-                if (token.endsWith('ed')) {
-                    return token.slice(0, -2);  // Handle "worked" -> "work"
-                }
-                
-                // Handle plural noun endings
-                if (token.endsWith('es')) {
-                    return token.slice(0, -2);  // Handle "cars" -> "car"
-                }
-        
-                // Handle common adjective/adverb endings
-                if (token.endsWith('ly')) {
-                    return token.slice(0, -2);  // Handle "quickly" -> "quick"
-                }
-        
-                // Handle comparative and superlative adjectives
-                if (token.endsWith('er')) {
-                    return token.slice(0, -2);  // Handle "bigger" -> "big"
-                }
-                if (token.endsWith('est')) {
-                    return token.slice(0, -3);  // Handle "fastest" -> "fast"
-                }
-        
-                // Handle noun endings
-                if (token.endsWith('ness')) {
-                    return token.slice(0, -4);  // Handle "happiness" -> "happi"
-                }
-                if (token.endsWith('ity')) {
-                    return token.slice(0, -3);  // Handle "activity" -> "activ"
-                }
-        
-                // Handle suffixes like 'ment' for nouns
-                if (token.endsWith('ment')) {
-                    return token.slice(0, -4);  // Handle "government" -> "govern"
-                }
-                
-                // Handle other common suffixes like 'tion', 'sion'
-                if (token.endsWith('tion') || token.endsWith('sion')) {
-                    return token.slice(0, -4);  // Handle "action" -> "act"
-                }
-        
-                // Return token if no changes
-                return token;
-            });
+// Normalize locations by matching location abbreviations and full names
+function normalizeLocations(tokens, categories) {
+    return tokens.map(token => {
+        if (categories.location.includes(token)) {
+            return token.toLowerCase();
         }
-        
-               
-  
-        
-        
-
-        // Tokenize the input by splitting on spaces and punctuation
-        function tokenize(input) {
-            const regex = /[\w'-]+/g;
-            return input.match(regex) || [];
-        }
-        
-        // Normalize locations by matching location abbreviations and full names
-        function normalizeLocations(tokens) {
-            return tokens.map(token => {
-                if (categories.location.includes(token)) {
-                    return token.toLowerCase();
-                }
-                return token;
-            });
-        }
-        
-
-        // Example of a basic fuzzy matching function (using fuzzyset.js or another library)
-function fuzzyMatch(word, categoryWords) {
-    const threshold = 0.8;  // Minimum similarity threshold for fuzzy match
-    return categoryWords.filter(categoryWord => {
-        // Adjust fuzzy matching logic according to the library used
-        return fuzzySet.get(word)[0][0] >= threshold;
+        return token;
     });
 }
 
-// Improved expandSynonyms with fuzzy matching
-function expandSynonyms(tokens, category) {
+// Implement basic fuzzy matching using Levenshtein distance
+function fuzzyMatch(word, categoryWords, threshold = 0.8) {
+    const matches = categoryWords.filter(categoryWord => {
+        const similarity = calculateLevenshteinDistance(word, categoryWord);
+        const maxLength = Math.max(word.length, categoryWord.length);
+        return (similarity / maxLength) >= threshold;  // Return words that are at least 80% similar
+    });
+    return matches;
+}
+
+// Function to calculate Levenshtein distance between two words
+function calculateLevenshteinDistance(a, b) {
+    const tmp = [];
+    for (let i = 0; i <= b.length; i++) {
+        tmp[i] = [i];
+    }
+    for (let i = 0; i <= a.length; i++) {
+        tmp[0][i] = i;
+    }
+    for (let i = 1; i <= a.length; i++) {
+        for (let j = 1; j <= b.length; j++) {
+            tmp[j][i] = Math.min(
+                tmp[j - 1][i] + 1,
+                tmp[j][i - 1] + 1,
+                tmp[j - 1][i - 1] + (a[i - 1] === b[j - 1] ? 0 : 1)
+            );
+        }
+    }
+    return tmp[b.length][a.length];
+}
+
+// Expand synonyms by using fuzzy matching
+function expandSynonyms(tokens, category, categories) {
     return tokens.map(token => {
         if (categories[category]) {
             const matches = fuzzyMatch(token, categories[category]);
             if (matches.length > 0) {
-                return matches[0]; // Return matched synonym or original token
+                return matches[0]; // Return the first match
             }
         }
-        return token; // Return token as-is if no match
+        return token;  // Return token as-is if no match found
     });
 }
 
-
-// Fuzzy matching example (based on fuzzyset.js library)
-function fuzzyMatch(word, categoryWords) {
-    const fuzzySet = FuzzySet(categoryWords);
-    return fuzzySet.get(word);
-}
-
-        
 // Categorize tokens into predefined categories and return both category and word
-function categorizeTokens(tokens) {
+function categorizeTokens(tokens, categories) {
     const mappedWords = [];
 
-    // Match all tokens to categories
     tokens.forEach(token => {
         // Match against each category
         Object.keys(categories).forEach(category => {
-            // Check if the token matches a category using a regex for locations (e.g., 'TX', 'New York')
             const regexLocation = new RegExp('\\b(' + categories.location.join('|') + ')\\b', 'i');
-            // Add category if the token is in the category list
             if (categories[category].includes(token) || (category === 'location' && regexLocation.test(token))) {
                 mappedWords.push({ category: category, word: token });
             }
@@ -715,8 +663,7 @@ function categorizeTokens(tokens) {
 
     return mappedWords;
 }
-        
-      
+
 // Generate suggestions based on categorized tokens
 function generateSuggestions(categorizedTokens) {
     const suggestions = [];
@@ -746,21 +693,32 @@ function generateSuggestions(categorizedTokens) {
 }
 
 // Process user input with fuzzy matching for job categories and spelling correction
-function processMessage(message) {
+function processMessage(message, categories) {
     const userInput = message.toLowerCase();
     let tokens = tokenize(userInput);
-    
-    
-    
-    tokens = normalizeLocations(tokens);  // Normalize locations
 
-    
-    tokens = expandSynonyms(tokens, 'job');  // Expand job-related synonyms
-    tokens = expandSynonyms(tokens, 'events');  // Expand event-related synonyms
+    tokens = normalizeLocations(tokens, categories);  // Normalize locations
+    tokens = expandSynonyms(tokens, 'job', categories);  // Expand job-related synonyms
+    tokens = expandSynonyms(tokens, 'events', categories);  // Expand event-related synonyms
 
-    let categorizedTokens = categorizeTokens(tokens);  // Categorize based on categories
+    let categorizedTokens = categorizeTokens(tokens, categories);  // Categorize based on categories
     let suggestions = generateSuggestions(categorizedTokens);  // Generate suggestions
 
     const response = `Mapped Tokens: ${JSON.stringify(categorizedTokens)}. Suggestions: ${suggestions.join(' ')}`;
     return response;
 }
+
+// Example categories (you can expand this object)
+const categories = {
+    location: ['new york', 'tx', 'california'],
+    job: ['developer', 'designer', 'engineer', 'manager', 'sales'],
+    events: ['conference', 'webinar', 'workshop'],
+    websiteSupport: ['account', 'support'],
+    payment: ['paypal', 'credit card'],
+    feedback: ['review', 'survey']
+};
+
+// Test the processMessage function
+const message = "I'm looking for a developer job in Texas";
+const response = processMessage(message, categories);
+console.log(response);
