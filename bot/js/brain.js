@@ -694,13 +694,16 @@ function determineInputType(tokens, categories) {
 // Implement basic fuzzy matching using Levenshtein distance
 function fuzzyMatch(query, categoryWords,tokens, threshold = 0.8) {
     // Tokenize the query into words
-    const queryTokens = query.toLowerCase().split(' ');
 
     console.log("tokens ",tokens);
     console.log("query ",query);
+    console.log("categoryWords ",categoryWords);
+    const queryTokens = query.toLowerCase().split(' ');
+
+   
     console.log("queryTokens ",queryTokens);
     // Generate multi-word token pairs (bigrams)
-    const queryBigrams = generateBigrams(queryTokens);
+    const queryBigrams = generateBigrams(tokens);
 
     console.log("queryBigrams ",queryBigrams);
   
