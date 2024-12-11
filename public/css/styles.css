@@ -884,7 +884,7 @@ main .btn-info:hover {
         text-transform: capitalize;
         text-decoration: none;
     }
-    .JOB_CARD   .industry-text-area {
+    .JOB_CARD .industry-text-area {
       font-size: 1rem;
       color: #666;
       margin-bottom: 5px;
@@ -897,7 +897,7 @@ main .btn-info:hover {
       align-content: flex-start;
       align-items: flex-start;
   }
-  .JOB_CARD   .category-text-area {
+  .JOB_CARD .category-text-area {
     font-size: 1rem;
     color: #666;
     margin-bottom: 5px;
