@@ -698,8 +698,7 @@ function fuzzyMatch(query, categoryWords,tokens, threshold = 0.8) {
     console.log("tokens ",tokens);
     console.log("query ",query);
     console.log("categoryWords ",categoryWords);
-    const queryTokens = query.toLowerCase().split(' ');
-
+    const queryTokens = typeof query === 'string' ? query.toLowerCase().split(' ') : [];
    
     console.log("queryTokens ",queryTokens);
     // Generate multi-word token pairs (bigrams)
