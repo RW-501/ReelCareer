@@ -3213,7 +3213,7 @@ async function sendMessage(userMessage) {
  // Trim and normalize the user message
 const trimmedMessage = sanitizedMessage.trim().toLowerCase();
 
-
+displayMessage("you", trimmedMessage) 
 // Initialize score variables
 let bestMatch = null;
 let highestScore = 0;
