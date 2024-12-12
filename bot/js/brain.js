@@ -654,35 +654,13 @@ function detectSalaryQuery(tokens) {
     return { salary, keyword };
 }
 
-function determineInputType(tokens, categories) {
-    const questionWords = ['what', 'how', 'why', 'when', 'where', 'who', 'which'];
-    const requestVerbs = ['calculate', 'show', 'help', 'find', 'get', 'give'];
+function determineInputType(tokens) {
+    const questionWords = ['what', 'how', 'why', 'when', 'where', 'who'];
+    const requestVerbs = ['calculate', 'show', 'help', 'find', 'get'];
 
-    // Pronouns for self and others
-    const selfPronouns = ['i', 'me', 'my', 'mine', 'myself'];
-    const otherPronouns = ['you', 'your', 'yours', 'he', 'she', 'they', 'them', 'their', 'theirs', 'him', 'her'];
+    if (tokens.some(token => questionWords.includes(token)) || tokens.includes('?')) return 'question';
+    if (tokens.some(token => requestVerbs.includes(token))) return 'request';
 
-    // Check for a question
-    if (tokens.some(token => questionWords.includes(token)) || tokens.join(' ').endsWith('?')) {
-        return 'question';
-    }
-
-    // Check for a request
-    if (tokens.some(token => requestVerbs.includes(token))) {
-        return 'request';
-    }
-
-    // Check for self-references
-    if (tokens.some(token => selfPronouns.includes(token.toLowerCase()))) {
-        return 'self-reference';
-    }
-
-    // Check for references to others
-    if (tokens.some(token => otherPronouns.includes(token.toLowerCase()))) {
-        return 'other-reference';
-    }
-
-    // Default to statement
     return 'statement';
 }
 
@@ -691,38 +669,34 @@ function determineInputType(tokens, categories) {
 
 
 
-// Implement basic fuzzy matching using Levenshtein distance
-function fuzzyMatch(query, categoryWords,tokens, threshold = 0.8) {
+
+function fuzzyMatch(query, categoryWords, threshold = 0.8) {
+    console.log("Query:", query);
+    
     // Tokenize the query into words
-
-    console.log("query ",query);
     const queryTokens = typeof query === 'string' ? query.toLowerCase().split(' ') : [];
-   
-    console.log("queryTokens ",queryTokens);
-    // Generate multi-word token pairs (bigrams)
-    const queryBigrams = generateBigrams(tokens);
+    console.log("Query Tokens:", queryTokens);
 
-    console.log("queryBigrams ",queryBigrams);
-  
-    console.log("fuzzyMatch =================");
-    // Initialize an array to hold all possible matches
+    // Generate bigrams from query tokens
+    const queryBigrams = generateBigrams(queryTokens);
+    console.log("Query Bigrams:", queryBigrams);
+
     const matches = [];
 
-    // Check each bigram in the query against the category words
     queryBigrams.forEach(bigram => {
-        const bestMatch = findBestMatch(bigram, categoryWords, threshold);
-        if (bestMatch) {
-            matches.push(bestMatch);
+        const bestMatches = categoryWords.filter(categoryWord => {
+            const similarity = calculateStringSimilarity(bigram, categoryWord);
+            return similarity >= threshold;
+        });
+
+        if (bestMatches.length > 0) {
+            matches.push(...bestMatches);
         }
-        console.log("bestMatch ",bestMatch);
-        console.log("matches ",matches);
     });
 
-    // Return the best matches based on the context
-    return matches;
+    return matches.length > 0 ? [...new Set(matches)] : null;
 }
 
-// Generate bigrams (pairs of consecutive words) from a list of tokens
 function generateBigrams(tokens) {
     const bigrams = [];
     for (let i = 0; i < tokens.length - 1; i++) {
@@ -730,6 +704,30 @@ function generateBigrams(tokens) {
     }
     return bigrams;
 }
+
+// Improved similarity calculation using Levenshtein distance
+function calculateStringSimilarity(a, b) {
+    const distance = calculateLevenshteinDistance(a, b);
+    const maxLength = Math.max(a.length, b.length);
+    return 1 - distance / maxLength;
+}
+
+function calculateLevenshteinDistance(a, b) {
+    const dp = Array.from({ length: a.length + 1 }, () => Array(b.length + 1).fill(0));
+
+    for (let i = 0; i <= a.length; i++) dp[i][0] = i;
+    for (let j = 0; j <= b.length; j++) dp[0][j] = j;
+
+    for (let i = 1; i <= a.length; i++) {
+        for (let j = 1; j <= b.length; j++) {
+            const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+            dp[i][j] = Math.min(dp[i - 1][j] + 1, dp[i][j - 1] + 1, dp[i - 1][j - 1] + cost);
+        }
+    }
+
+    return dp[a.length][b.length];
+}
+
 
 // Find the best match for a bigram from the category words using Levenshtein distance
 function findBestMatch(bigram, categoryWords, threshold) {
@@ -746,74 +744,51 @@ function findBestMatch(bigram, categoryWords, threshold) {
     return matches.length > 0 ? matches : null;
 }
 
-// Function to calculate Levenshtein distance between two strings
-function calculateLevenshteinDistance(a, b) {
-    const tmp = [];
-    for (let i = 0; i <= b.length; i++) {
-        tmp[i] = [i];
-    }
-    for (let i = 0; i <= a.length; i++) {
-        tmp[0][i] = i;
-    }
-    for (let i = 1; i <= a.length; i++) {
-        for (let j = 1; j <= b.length; j++) {
-            tmp[j][i] = Math.min(
-                tmp[j - 1][i] + 1,
-                tmp[j][i - 1] + 1,
-                tmp[j - 1][i - 1] + (a[i - 1] === b[j - 1] ? 0 : 1)
-            );
-        }
-    }
-    return tmp[b.length][a.length];
-}
 
 
 
 
 // Expand synonyms by using fuzzy matching
 function expandSynonyms(tokens, category, categories) {
-    console.log("category ",category);
-    console.log("tokens ",tokens);
-    console.log("expandSynonyms =================");
-    //const myJSON = JSON.stringify(tokens);
+    console.log("Category:", category);
+    console.log("Tokens:", tokens);
+
     return tokens.map(token => {
         if (categories[category]) {
-            const matches = fuzzyMatch(token, categories[category],tokens);
-            if (matches.length > 0) {
-                return matches[0]; // Return the first match
-            }
+            const matches = fuzzyMatch(token, categories[category]);
+            return matches ? matches[0] : token; // Use the best match, fallback to original token
         }
-        return token;  // Return token as-is if no match found
+        return token;
     });
 }
+
 
 // Categorize tokens into predefined categories and return both category and word
 function categorizeTokens(tokens, categories) {
     const categorizedTokens = [];
-    console.log("categories ",categories);
-    console.log("tokens ",tokens);
-    console.log("categorizeTokens =================");
 
     tokens.forEach(token => {
         let matchedCategory = null;
 
-        // Check each category
         for (let category in categories) {
             if (Array.isArray(categories[category])) {
-                // fuzzy loop thru the catagories also, so it will return match"es"
-                const match = fuzzyMatch(token, categories[category],tokens);
-                if (match.length > 0) {
+                const matches = fuzzyMatch(token, categories[category]);
+                if (matches) {
                     matchedCategory = category;
                     break;
                 }
             }
         }
+
         if (matchedCategory) {
             categorizedTokens.push({ category: matchedCategory, word: token });
         }
     });
+
+    console.log("Categorized Tokens:", categorizedTokens);
     return categorizedTokens;
 }
+
 
 function prioritizeCategories(categorizedTokens, inputType, userPreferences = {}) { 
     console.log("categorizedTokens, ", categorizedTokens, "inputType, ", inputType, "userPreferences,", userPreferences); 
@@ -877,21 +852,28 @@ function adjustPrioritiesForUserPreferences(priorities, userPreferences) {
 }
 
 // Adjust priorities dynamically based on the input type (e.g., question, request, or statement)
-function adjustPrioritiesForInputType(categorizedTokens, inputType, priorities) {
-    const inputTypeWeights = {
-        question: ['jobSearch', 'salary', 'location', 'events'],
-        request: ['websiteSupport', 'payments', 'task', 'jobRelated'],
-        statement: ['feedback', 'generalInquiry'],
-        emotion: ['emotions'] // Focus on emotion-based categories like excitement or frustration
-    };
+let userPreferences = {};
 
-    categorizedTokens.forEach(token => {
-        if (inputTypeWeights[inputType]?.includes(token.category)) {
-            // Adjust weight based on input type (make it more dynamic)
-            const adjustmentFactor = getWeightAdjustmentFactor(inputType);
-            token.weight = (token.weight || 1) * adjustmentFactor;
-        }
+function adjustPrioritiesByInputType(categorizedTokens, inputType) {
+    console.log("Input Type:", inputType);
+
+    const categoryWeights = {};
+
+    categorizedTokens.forEach(({ category }) => {
+        categoryWeights[category] = (categoryWeights[category] || 1) * 1.5;
     });
+
+    const favoriteCategories = Object.entries(categoryWeights)
+        .sort(([, weightA], [, weightB]) => weightB - weightA)
+        .map(([category]) => category);
+
+    userPreferences = { favoriteCategories };
+
+    console.log("Updated User Preferences:", userPreferences);
+    return categorizedTokens.map(token => ({
+        ...token,
+        weight: categoryWeights[token.category] || 1
+    }));
 }
 
 // Return a dynamic weight adjustment factor based on the input type
@@ -962,42 +944,28 @@ function detectSalaryRange(tokens) {
 
 
 function processMessage(message) {
-    const tokens = tokenize(message.toLowerCase());
-
+    const tokens = message.toLowerCase().split(' ');
+    console.log("Tokens:", tokens);
 
     // Step 1: Determine input type
     const inputType = determineInputType(tokens, categories);
-    console.log("inputType ",inputType);
-    console.log("determineInputType =================");
-    
-    // Step 2: Expand synonyms and categorize tokens
+
+    // Step 2: Expand synonyms
     const normalizedTokens = expandSynonyms(tokens, inputType, categories);
-    console.log("normalizedTokens ",normalizedTokens);
-    console.log("expandSynonyms =================");
 
-
-
-
+    // Step 3: Categorize tokens
     const categorizedTokens = categorizeTokens(normalizedTokens, categories);
-    console.log("categorizedTokens ",categorizedTokens);
 
-    // Step 3: Adjust priorities based on input type
+    // Step 4: Adjust category priorities
     const adjustedTokens = adjustPrioritiesByInputType(categorizedTokens, inputType);
 
-    // Step 4: Handle complex queries and job-related queries
+    // Handle complex queries or job-specific queries
     const complexQueryCategory = handleComplexQuery(adjustedTokens);
-    const jobQueryResponse = handleJobQuery(message, adjustedTokens, userPreferences);
-
-    // Step 5: Combine results from complex query or job-related query
     if (complexQueryCategory) {
-        return `I found a query related to "${complexQueryCategory}". What else can I assist with?`;
+        return `Query related to "${complexQueryCategory}". What else can I assist with?`;
     }
 
-    if (jobQueryResponse) {
-        return jobQueryResponse;
-    }
-
-    return "I'm sorry, I couldn't quite understand that. Could you clarify?";
+    return "Sorry, I couldn't understand your request. Could you clarify?";
 }
 
 // **Handle Complex Query Logic:**
@@ -1147,7 +1115,7 @@ function normalizeLocations(tokens, categories) {
         return token;
     });
 }
-let userPreferences = {};
+
 
 // Adjust category priorities based on input type
 function adjustPrioritiesByInputType(categorizedTokens, inputType) {
