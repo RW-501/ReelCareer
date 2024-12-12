@@ -7,7 +7,7 @@
         // Categories and keywords
         const categories = {
             job: [
-                'job', 'work', 'employment', 'career', 'position', 'role', 
+                'job','jobs', 'work', 'employment', 'career', 'position', 'role', 
                 'hire', 'recruit', 'vacancy', 'occupation', 'profession', 
                 'trade', 'gig', 'opportunity', 'opening', 'posting', 'listing', 
                 'internship', 'contract', 'freelance', 'staffing', 'assignment', 
