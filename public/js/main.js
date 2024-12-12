@@ -3144,7 +3144,7 @@ function displayMessage(sender, message) {
 
   });
 }
-
+window.displayMessage = displayMessage;
 
 // Log unanswered questions
 async function logUnansweredQuestion(message) {
