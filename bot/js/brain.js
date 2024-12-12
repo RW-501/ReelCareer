@@ -1180,6 +1180,7 @@ let favoriteCategoriesWeight = 0;
          userPreferences = {
             favoriteCategories: [favoriteCategories]
         };
+        console.log("userPreferences ",userPreferences);
 
         return token; //userPreferences.favoriteCategories
     });
