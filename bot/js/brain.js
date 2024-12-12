@@ -1178,12 +1178,12 @@ let newToken = entries.map(token => {
     console.log("token[0] ",token[0]);
     console.log("token[1] ",token[1]);
     console.log("entries[inputType] ",entries[inputType]);
-        if (token[1]?.includes(categorizedTokens.word)) {
+        if (categorizedTokens.word[0]?.includes(token[1])) {
            
 
             token.weight = (token.weight || 1) * 0.5; // Boost weight for matching categories
         if(favoriteCategoriesWeight < token.weight){
-            favoriteCategories = token[0];
+            favoriteCategories.push(token[0]);
             return favoriteCategories;
         }
         
