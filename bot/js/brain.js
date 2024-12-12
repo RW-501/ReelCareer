@@ -1174,6 +1174,8 @@ const entries = Object.entries(categories);
 
 let newToken = entries.map(token => {
         if (entries[inputType]?.includes(token.category)) {
+            console.log("token ",token);
+
             token.weight = (token.weight || 1) * 0.5; // Boost weight for matching categories
         if(favoriteCategoriesWeight < token.weight){
             favoriteCategories = token;
