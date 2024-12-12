@@ -860,9 +860,11 @@ const { salary, keyword } = detectSalaryQuery(tokens);
 // 3. Categorize tokens
 //tokens = normalizeLocations(tokens, categories);
 const categorizedTokens = categorizeTokens(tokens, categories);
+console.log("categorizedTokens:", categorizedTokens);
 
 // 4. Generate and prioritize suggestions
 const suggestions = generateSuggestions(categorizedTokens);
+console.log("suggestions:", suggestions);
 
 // 5. Dynamic response based on context
 const inputType = determineInputType(tokens, categories);
