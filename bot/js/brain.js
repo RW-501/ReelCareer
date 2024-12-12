@@ -856,6 +856,7 @@ return `Here's your result: ${mathResponse}`;
 const { salary, keyword } = detectSalaryQuery(tokens);
 
 
+console.log("tokens:", tokens);
 
 // 3. Categorize tokens
 //tokens = normalizeLocations(tokens, categories);
