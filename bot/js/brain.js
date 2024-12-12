@@ -1148,7 +1148,7 @@ function normalizeLocations(tokens, categories) {
     });
 }
 
-const userPreferences = [];
+let userPreferences = [];
 // Adjust category priorities based on input type
 function adjustPrioritiesByInputType(categorizedTokens, inputType) {
 
