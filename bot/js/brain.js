@@ -1168,8 +1168,8 @@ function adjustPrioritiesByInputType(categorizedTokens, inputType) {
 let favoriteCategories;
 let favoriteCategoriesWeight = 0;
 //  categories
-    return inputTypeWeights.map(token => {
-        if (inputTypeWeights[inputType]?.includes(token.category)) {
+     categories.map(token => {
+        if (categories[inputType]?.includes(token.category)) {
             token.weight = (token.weight || 1) * 0.5; // Boost weight for matching categories
         if(favoriteCategoriesWeight < token.weight){
             favoriteCategories = token;
