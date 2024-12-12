@@ -1330,18 +1330,24 @@ const inputType = determineInputType(tokens, categories);
 
 console.log("userPreferences:", inputType);
 
-let JobQuery = handleJobQuery(tokens, categorizedTokens, userPreferences = inputType);
+async function fetchJobQueryAndDisplay() {
+    try {
+        // Wait for handleJobQuery to resolve
+        let JobQuery = await handleJobQuery(tokens, categorizedTokens, userPreferences = inputType);
 
-JobQuery.then(result => {
-    console.log("JobQuery Result:", result);
+        console.log("JobQuery Result:", JobQuery); // Log the result
 
-    // Ensure result is valid before calling further functions
-    if (result) {
-        return result; // Pass the resolved result
+        // Call displayMessage or process the result safely
+        if (JobQuery) {
+            displayMessage(JobQuery); // Pass the JobQuery result
+        }
+    } catch (error) {
+        console.error("Error in JobQuery:", error);
     }
-}).catch(error => {
-    console.error("Error in JobQuery:", error);
-});
+}
+
+// Trigger the function
+fetchJobQueryAndDisplay();
 
 
 // 4. Generate and prioritize suggestions
