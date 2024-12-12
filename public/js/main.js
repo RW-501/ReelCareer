@@ -3271,11 +3271,11 @@ if (bestMatch && highestScore > 0) {
     };
 } else {
     // Log unanswered question and suggest contacting support
-    if(message){
+    if(trimmedMessage){
     let brainOutput = processMessage(trimmedMessage);
     displayMessage("bot", brainOutput);
     }
-    if(!message){
+    if(!trimmedMessage){
 
      //  logUnansweredQuestion(trimmedMessage);
     console.log("No match found, suggesting contact with support.");
