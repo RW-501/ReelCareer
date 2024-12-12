@@ -1169,8 +1169,11 @@ let favoriteCategories;
 let favoriteCategoriesWeight = 0;
 //  categories
 
-let newToken = categories.map(token => {
-        if (categories[inputType]?.includes(token.category)) {
+// Convert the JSON object to an array of key-value pairs
+const entries = Object.entries(categories);
+
+let newToken = entries.map(token => {
+        if (entries[inputType]?.includes(token.category)) {
             token.weight = (token.weight || 1) * 0.5; // Boost weight for matching categories
         if(favoriteCategoriesWeight < token.weight){
             favoriteCategories = token;
