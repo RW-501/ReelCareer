@@ -1185,11 +1185,14 @@ let newToken = entries.map(token => {
          userPreferences = {
             favoriteCategories: [favoriteCategories]
         };
-        console.log("newToken ",newToken);
         console.log("userPreferences ",userPreferences);
 
         return token; //userPreferences.favoriteCategories
     });
+
+    console.log("newToken ",newToken);
+
+
 }
 
 
