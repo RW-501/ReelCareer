@@ -1308,7 +1308,7 @@ console.log("JobQuery:", JobQuery);
 
 
 // 4. Generate and prioritize suggestions
-const suggestions = generateSuggestions(categorizedTokens);
+// const suggestions = generateSuggestions(categorizedTokens);
 //console.log("suggestions:", suggestions);
 
 
@@ -1331,5 +1331,5 @@ default:
 }
 
 // Return the main response and suggestions
-return `${response}\n\n${suggestions.join('\n')}`;
+return `${response}\n\n${JobQuery.join('\n')}`;
 }
