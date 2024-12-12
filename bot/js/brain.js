@@ -754,6 +754,241 @@ function categorizeTokens(tokens, categories) {
 
 
 
+
+
+function prioritizeCategories(categorizedTokens, inputType, userPreferences = {}) { 
+    console.log("categorizedTokens, ", categorizedTokens, "inputType, ", inputType, "userPreferences,", userPreferences); 
+
+    // Default priorities for categories
+    const priorities = getDefaultPriorities();
+
+    // Adjust priorities based on user preferences (e.g., favorite categories)
+    adjustPrioritiesForUserPreferences(priorities, userPreferences);
+
+    // Adjust priorities based on the input type (e.g., question, request, or statement)
+    adjustPrioritiesForInputType(categorizedTokens, inputType, priorities);
+
+    // Handle emotion-based prioritization if the input contains sentiment/emotion words
+    handleEmotionPrioritization(categorizedTokens, priorities);
+
+    // Adjust priorities if the query involves an action
+    prioritizeActionTokens(categorizedTokens, inputType, priorities);
+
+    // Sort tokens based on the adjusted priorities
+    const sortedTokens = sortTokensByPriority(categorizedTokens, priorities);
+
+    return sortedTokens[0]; // Return the highest-priority match
+}
+
+// Get default priorities for categories
+function getDefaultPriorities() {
+    return {
+        math: 1,
+        salary: 2,
+        jobSearch: 3,
+        websiteSupport: 4,
+        generalInquiry: 5,
+        jobRelated: 6,
+        vehicle: 7,
+        location: 8,
+        jobCategories: 9,
+        events: 10,
+        technology: 11,
+        health: 12,
+        emotions: 13,
+        time: 14,
+        experience: 15,
+        benefit: 16,
+        company: 17,
+        preferences: 18,
+        relationships: 19,
+        payments: 20,
+        feedback: 21,
+        action: 0  // Assign the highest priority to action by default
+    };
+}
+
+// Adjust priorities based on user preferences (e.g., favorite categories)
+function adjustPrioritiesForUserPreferences(priorities, userPreferences) {
+    if (userPreferences && userPreferences.favoriteCategories) {
+        userPreferences.favoriteCategories.forEach(category => {
+            priorities[category] = 1; // Give priority to favorite categories
+        });
+    }
+}
+
+// Adjust priorities dynamically based on the input type (e.g., question, request, or statement)
+let userPreferences = {};
+
+function adjustPrioritiesByInputType(categorizedTokens, inputType) {
+    console.log("Input Type:", inputType);
+
+    const categoryWeights = {};
+
+    categorizedTokens.forEach(({ category }) => {
+        categoryWeights[category] = (categoryWeights[category] || 1) * 1.5;
+    });
+
+    const favoriteCategories = Object.entries(categoryWeights)
+        .sort(([, weightA], [, weightB]) => weightB - weightA)
+        .map(([category]) => category);
+
+    userPreferences = { favoriteCategories };
+
+    console.log("Updated User Preferences:", userPreferences);
+    return categorizedTokens.map(token => ({
+        ...token,
+        weight: categoryWeights[token.category] || 1
+    }));
+}
+
+// Return a dynamic weight adjustment factor based on the input type
+function getWeightAdjustmentFactor(inputType) {
+    const factors = {
+        question: 0.8,
+        request: 1.2,  // Requests could have slightly higher priority (e.g., 'task' and 'payments')
+        statement: 1.0,
+        emotion: 0.9  // Emotion-related inputs could be weighted slightly lower
+    };
+
+    return factors[inputType] || 1;  // Default to 1 if inputType is not found
+}
+
+// Handle emotion-based prioritization if the input contains sentiment/emotion words
+function handleEmotionPrioritization(categorizedTokens, priorities) {
+    const emotionCategories = ['excitement', 'frustration', 'hope', 'regret'];
+    categorizedTokens.forEach(token => {
+        if (emotionCategories.includes(token.category)) {
+            priorities.emotions = 1; // High priority if emotions are involved
+        }
+    });
+}
+
+// Adjust priorities if the query involves an action
+function prioritizeActionTokens(categorizedTokens, inputType, priorities) {
+    const actionToken = categorizedTokens.find(token => token.category === 'action');
+    if (actionToken) {
+        priorities.action = 0; // Override with highest priority if action is involved
+    }
+
+    // Prioritize action over other categories like technology, unless it's a question involving technology
+    categorizedTokens.forEach(token => {
+        if (actionToken && token.category === 'technology' && inputType === 'question') {
+            priorities.technology = 2; // Reduce priority for technology in questions unless it's a direct match
+        }
+    });
+}
+
+// Sort tokens based on the adjusted priorities
+function sortTokensByPriority(categorizedTokens, priorities) {
+    return categorizedTokens.sort((a, b) => {
+        return (priorities[a.category] || 99) - (priorities[b.category] || 99);
+    });
+}
+
+
+
+// **Handle Job Search Query Logic:**
+function handleJobQuery(query, tokens, userPreferences) {
+    const bestMatch = prioritizeCategories(tokens,  query, userPreferences );
+
+    console.log("bestMatch ",bestMatch);  // Debugging line
+
+    // Handle job-related queries (e.g., "jobs in [location]")
+    if (bestMatch && bestMatch.category === 'jobSearch') {
+        if (query.includes('available') || query.includes('jobs in')) {
+            const location = tokens.find(token => categories.states[token] || categories[token.toUpperCase()]);
+            const jobType = tokens.find(token => categories.jobCategories.includes(token));
+
+            return fetchJobData({ location, jobType });
+        }
+    }
+
+    // Handle salary-related queries (e.g., "jobs that pay over $50,000")
+    if (bestMatch.category === 'salary') {
+        const salary = detectSalaryQuery(tokens);
+        return filterJobsBySalary(salary);
+    }
+
+    // Handle location-based searches (e.g., "jobs in New York")
+    if (bestMatch.category === 'location') {
+        const location = normalizeLocations(tokens, categories);
+        return fetchJobsByLocation(location);
+    }
+
+    return "Sorry, I couldn't find any specific results. Could you clarify your question?";
+}
+
+// **Helper Functions for Fetching Job Data:**
+
+function fetchJobData({ location, jobType }) {
+    const jobQuery = firebase.firestore().collection('Jobs');
+
+    // If a location is provided, search using 'array-contains' to match any location within the array.
+    if (location) {
+        jobQuery.where('location', 'array-contains', location);
+    }
+
+    // If a jobType is provided, filter by category (e.g., job type).
+    if (jobType) {
+        jobQuery.where('category', '==', jobType);
+    }
+
+    // Fetch data from Firestore
+    return jobQuery.get().then(snapshot => {
+        const jobs = snapshot.docs.map(doc => doc.data());
+        if (jobs.length > 0) {
+            return `Found ${jobs.length} job(s) matching your criteria.`;
+        } else {
+            return "No jobs found for your search criteria.";
+        }
+    }).catch(error => {
+        console.error("Error fetching job data:", error);
+        return "Sorry, there was an error fetching job data.";
+    });
+}
+
+
+// **Helper Function for Filtering Jobs by Salary:**
+
+function filterJobsBySalary(salaryData) {
+    const salaryThreshold = salaryData.salary;
+
+    // Check if salaryThreshold is a valid number
+    if (typeof salaryThreshold !== 'number' || isNaN(salaryThreshold)) {
+        return "Invalid salary value provided. Please provide a valid number.";
+    }
+
+    // Query Firestore for jobs with salary >= salaryThreshold
+    const jobQuery = firebase.firestore().collection('Jobs')
+        .where('salary', '>=', salaryThreshold);
+
+    // Fetch data from Firestore
+    return jobQuery.get().then(snapshot => {
+        const jobs = snapshot.docs.map(doc => doc.data());
+
+        // If jobs are found
+        if (jobs.length > 0) {
+            return `Found ${jobs.length} job(s) that pay over $${salaryThreshold}.`;
+        } else {
+            return "No jobs found that match your salary criteria.";
+        }
+    }).catch(error => {
+        // Log error for debugging
+        console.error("Error fetching job data:", error);
+        return "Sorry, there was an error filtering jobs by salary.";
+    });
+}
+
+
+
+
+
+
+
+
+
+
 function determineInputType(tokens, categories) {
     const questionWords = ['what', 'how', 'why', 'when', 'where', 'who', 'which'];
     const requestVerbs = ['calculate', 'show', 'help', 'find', 'get', 'give'];
@@ -869,12 +1104,33 @@ console.log("tokens:", tokens);
 const categorizedTokens = categorizeTokens(tokens, categories);
 console.log("categorizedTokens:", categorizedTokens);
 
+
+
+
+
+
+
+
 // 4. Generate and prioritize suggestions
 const suggestions = generateSuggestions(categorizedTokens);
-console.log("suggestions:", suggestions);
+//console.log("suggestions:", suggestions);
+
+
+
+
+
 
 // 5. Dynamic response based on context
 const inputType = determineInputType(tokens, categories);
+
+console.log("inputType:", inputType);
+
+
+let JobQuery = handleJobQuery(query, tokens, userPreferences);
+console.log("JobQuery:", JobQuery);
+
+
+
 let response = '';
 
 switch (inputType) {
