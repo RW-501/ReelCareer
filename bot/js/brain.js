@@ -1152,7 +1152,6 @@ let userPreferences = [];
 // Adjust category priorities based on input type
 function adjustPrioritiesByInputType(categorizedTokens, inputType) {
 
-    console.log("categorizedTokens ",categorizedTokens);
     console.log("inputType ",inputType);
 
     
@@ -1178,7 +1177,10 @@ let newToken = entries.map(token => {
     console.log("token[0] ",token[0]);
     console.log("token[1] ",token[1]);
     console.log("entries[inputType] ",entries[inputType]);
-        if (categorizedTokens.word[0]?.includes(token[1])) {
+    console.log("categorizedTokens ",categorizedTokens);
+    console.log("categorizedTokens.word ",categorizedTokens.word);
+
+        if (categorizedTokens.word?.includes(token[1])) {
            
 
             token.weight = (token.weight || 1) * 0.5; // Boost weight for matching categories
