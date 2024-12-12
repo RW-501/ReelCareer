@@ -757,7 +757,10 @@ function categorizeTokens(tokens, categories) {
 
 
 function prioritizeCategories(tokens, categorizedTokens, userPreferences = {}) { 
-    console.log("categorizedTokens, ", categorizedTokens, "tokens, ", tokens, "userPreferences,", userPreferences); 
+    console.log("prioritizeCategories=====================================, "); 
+    console.log("categorizedTokens, ", categorizedTokens); 
+    console.log( "userPreferences,", userPreferences); 
+    console.log("tokens, ", tokens); 
 
     // Default priorities for categories
     const priorities = getDefaultPriorities();
@@ -904,32 +907,16 @@ async function handleJobQuery( tokens,categorizedTokens, userPreferences) {
 
         const bestMatch = prioritizeCategories(tokens,categorizedTokens, userPreferences );
 
-        console.log("bestMatch ",bestMatch);  // Debugging line
+        console.log("bestMatch ",bestMatch); 
+        
+
     //"question" | "request" | "self-reference" | "other-reference" | "statement"
     
     
-        // Handle job-related queries (e.g., "jobs in [location]")
-        if (bestMatch && bestMatch.category === 'jobSearch') {
-        
-            const location = lowerTokens.filter(token => 
-                categories.location.includes(token) || 
-                Object.values(categories.states).includes(token)
-            ).join(' ') || 'all locations';
-        
-            const jobType = lowerTokens.filter(token => 
-                categories.jobCategories.some(job => job.includes(token))
-            ).join(' ') || 'all jobs';
-        
-            console.log('Location:', location, 'Job Type:', jobType);
-            return fetchJobData({ location, jobType });
-        }
+
         
     
-        // Handle salary-related queries (e.g., "jobs that pay over $50,000")
-        if (bestMatch.category === 'salary') {
-            const salary = detectSalaryQuery(tokens);
-            return filterJobsBySalary(salary);
-        }
+      
     
         // Handle location-based searches (e.g., "jobs in New York")
         if (bestMatch.category === 'location' || bestMatch.category === 'states') {
@@ -985,6 +972,30 @@ async function handleJobQuery( tokens,categorizedTokens, userPreferences) {
             const salary = detectSalaryFromTokens(lowerTokens);
             return filterJobsBySalary(salary);
         }
+ 
+        // Handle salary-related queries (e.g., "jobs that pay over $50,000")
+  if (bestMatch.category === 'salary') {
+    const salary = detectSalaryQuery(tokens);
+    return filterJobsBySalary(salary);
+}
+
+        // Handle job-related queries (e.g., "jobs in [location]")
+        if (bestMatch && bestMatch.category === 'jobSearch') {
+        
+            const location = lowerTokens.filter(token => 
+                categories.location.includes(token) || 
+                Object.values(categories.states).includes(token)
+            ).join(' ') || 'all locations';
+        
+            const jobType = lowerTokens.filter(token => 
+                categories.jobCategories.some(job => job.includes(token))
+            ).join(' ') || 'all jobs';
+        
+            console.log('Location:', location, 'Job Type:', jobType);
+            return fetchJobData({ location, jobType });
+        }
+
+
 
         // Default: No Match
         return "No matching query criteria were found.";
@@ -1317,7 +1328,7 @@ const categorizedTokens = categorizeTokens(tokens, categories);
 // 5. Dynamic response based on context
 const inputType = determineInputType(tokens, categories);
 
-//console.log("inputType:", inputType);
+console.log("userPreferences:", inputType);
 
 
 let JobQuery = handleJobQuery( tokens,categorizedTokens, userPreferences = inputType);
