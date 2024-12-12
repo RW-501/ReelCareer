@@ -1359,7 +1359,10 @@ default:
 }
 
 // Return the main response and suggestions
-return `${response}\n\n${JobQuery.join('\n')}`;
+ //return `${response}\n\n${suggestions.join('\n')}`;
+
+
+ return JobQuery;
 }
 
 window.processMessage  = processMessage ;
