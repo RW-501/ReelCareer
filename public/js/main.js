@@ -3285,30 +3285,45 @@ if (bestMatch && highestScore > 0) {
 
 
 // Variable to hold the loaded script
-let brainScriptLoaded = false;
 
-// Function to dynamically load the external JavaScript file (brain.js)
-function loadScript(src, callback) {
-  const script = document.createElement('script');
-  script.src = src;
-  script.type = 'text/javascript';
-  script.onload = function() {
-    brainScriptLoaded = true;  // Set flag when the script is loaded
-    callback();  // Call the callback after the script is loaded
-  };
-  script.onerror = function() {
-    console.error('Error loading script: ' + src);
-  };
-  document.head.appendChild(script);  // Append the script tag to the head
+// scriptLoader.js
+
+let brainScriptLoaded = false; // Track whether the script has been loaded
+
+// Function to dynamically load an external JavaScript file
+export function loadScript(src, callback) {
+    const script = document.createElement('script');
+    script.src = src;
+    script.type = 'text/javascript';
+
+    // Event: When script is successfully loaded
+    script.onload = function () {
+        brainScriptLoaded = true; // Set flag when the script is loaded
+        if (callback && typeof callback === 'function') {
+            callback(); // Call the callback after loading
+        }
+    };
+
+    // Event: If an error occurs while loading the script
+    script.onerror = function () {
+        console.error('Error loading script: ' + src);
+    };
+
+    // Append the script tag to the document head
+    document.head.appendChild(script);
 }
 
-
-
-
-function loadBrainAndCallFunction() {
-  loadScript('https://reelcareer.co/bot/js/brain.js', function() {
-  });
+// Function to load brain.js and optionally execute a callback
+export function loadBrainAndCallFunction(callback = null) {
+    const brainJsUrl = 'https://reelcareer.co/bot/js/brain.js';
+    loadScript(brainJsUrl, () => {
+        console.log('brain.js loaded successfully');
+        if (callback && typeof callback === 'function') {
+            callback(); // Call any function passed as a callback
+        }
+    });
 }
+
 
 setTimeout(() => {
 
@@ -3317,5 +3332,11 @@ setTimeout(() => {
   //processMessage('Hello, Brain!');
 
 
-}, 5000); // 5000 milliseconds = 5 seconds
-loadBrainAndCallFunction();
+}, 2000); // 5000 milliseconds = 5 seconds
+
+
+// Load brain.js and execute a function after loading
+loadBrainAndCallFunction(() => {
+  console.log('Callback executed after brain.js is loaded!');
+  // Call other functions or perform tasks here
+});
