@@ -989,7 +989,7 @@ function filterJobsBySalary(salaryData) {
 
 
 
-function determineInputType(tokens, categories) {
+function determineInputType(tokens) { 
     const questionWords = ['what', 'how', 'why', 'when', 'where', 'who', 'which'];
     const requestVerbs = ['calculate', 'show', 'help', 'find', 'get', 'give'];
 
@@ -997,29 +997,38 @@ function determineInputType(tokens, categories) {
     const selfPronouns = ['i', 'me', 'my', 'mine', 'myself'];
     const otherPronouns = ['you', 'your', 'yours', 'he', 'she', 'they', 'them', 'their', 'theirs', 'him', 'her'];
 
+    const lowerTokens = tokens.map(token => token.toLowerCase());
+
     // Check for a question
-    if (tokens.some(token => questionWords.includes(token)) || tokens.join(' ').endsWith('?')) {
+    if (lowerTokens.some(token => questionWords.includes(token)) || tokens.join(' ').trim().endsWith('?')) {
         return 'question';
     }
 
     // Check for a request
-    if (tokens.some(token => requestVerbs.includes(token))) {
+    if (lowerTokens.some(token => requestVerbs.includes(token))) {
         return 'request';
     }
 
     // Check for self-references
-    if (tokens.some(token => selfPronouns.includes(token.toLowerCase()))) {
+    if (lowerTokens.some(token => selfPronouns.includes(token))) {
         return 'self-reference';
     }
 
     // Check for references to others
-    if (tokens.some(token => otherPronouns.includes(token.toLowerCase()))) {
+    if (lowerTokens.some(token => otherPronouns.includes(token))) {
         return 'other-reference';
     }
 
     // Default to statement
     return 'statement';
 }
+
+
+
+
+
+
+
 function generateSuggestions(categorizedTokens) {
 const suggestions = [];
 const dynamicPhrases = {
