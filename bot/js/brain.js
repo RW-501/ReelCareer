@@ -36,7 +36,7 @@
             ],
         
             vehicle: [
-                'car', 'truck', 'vehicle', 'automobile', 'bike', 'motorcycle', 'suv', 'van', 
+                'car', 'truck', 'vehicle', 'automobile','company car', 'company vehicle', 'bike', 'motorcycle', 'suv', 'van', 
                 'sedan', 'coupe', 'hatchback', 'convertible', 'wagon', 'pickup', 'jeep', 
                 'minivan', 'camper', 'bus', 'lorry', 'limousine', 'sports car', 'electric car', 
                 'hybrid', 'electric vehicle', 'ev', 'diesel', 'compact car', 'luxury car', 
@@ -890,96 +890,269 @@ function sortTokensByPriority(categorizedTokens, priorities) {
 
 
 // **Handle Job Search Query Logic:**
-function handleJobQuery(tokens,categorizedTokens, userPreferences) {
-    const bestMatch = prioritizeCategories(tokens,categorizedTokens, userPreferences );
 
-    console.log("bestMatch ",bestMatch);  // Debugging line
 
-    // Handle job-related queries (e.g., "jobs in [location]")
-    if (bestMatch && bestMatch.category === 'jobSearch') {
-        if (tokens.includes('available') || tokens.includes('jobs in')) {
-            const location = tokens.find(token => categories.states[token] || categories[token.toUpperCase()]);
-            const jobType = tokens.find(token => categories.jobCategories.includes(token));
+async function handleJobQuery( tokens,categorizedTokens, userPreferences) {
+    try {
 
+        const lowerTokens = tokens
+    .map(t => t.trim().toLowerCase())
+    .slice(0, 10); // Limit the array to the first 10 tokens
+
+        // Common Filters
+       // const lowerTokens = tokens.map(t => t.trim().toLowerCase());
+
+        const bestMatch = prioritizeCategories(tokens,categorizedTokens, userPreferences );
+
+        console.log("bestMatch ",bestMatch);  // Debugging line
+    //"question" | "request" | "self-reference" | "other-reference" | "statement"
+    
+    
+        // Handle job-related queries (e.g., "jobs in [location]")
+        if (bestMatch && bestMatch.category === 'jobSearch') {
+        
+            const location = lowerTokens.filter(token => 
+                categories.location.includes(token) || 
+                Object.values(categories.states).includes(token)
+            ).join(' ') || 'all locations';
+        
+            const jobType = lowerTokens.filter(token => 
+                categories.jobCategories.some(job => job.includes(token))
+            ).join(' ') || 'all jobs';
+        
+            console.log('Location:', location, 'Job Type:', jobType);
             return fetchJobData({ location, jobType });
         }
-    }
+        
+    
+        // Handle salary-related queries (e.g., "jobs that pay over $50,000")
+        if (bestMatch.category === 'salary') {
+            const salary = detectSalaryQuery(tokens);
+            return filterJobsBySalary(salary);
+        }
+    
+        // Handle location-based searches (e.g., "jobs in New York")
+        if (bestMatch.category === 'location' || bestMatch.category === 'states') {
+            const location = normalizeLocations(tokens, categories);
+            return fetchJobData(location);
+        }
+    
+    
+        // Category: Job Categories
+        if (bestMatch.category === 'jobCategories') {
+            const jobCategory = bestMatch.word;
+            return fetchJobsByCategory(jobCategory);
+        }
 
-    // Handle salary-related queries (e.g., "jobs that pay over $50,000")
-    if (bestMatch.category === 'salary') {
-        const salary = detectSalaryQuery(tokens);
-        return filterJobsBySalary(salary);
-    }
+        // Category: Benefits
+        if (['benefit', 'travel', 'health', 'vehicle', 'technology', 'education'].includes(bestMatch.category) &&
+            ['job', 'company', 'food', 'hotel', 'travel', 'benefit', 'training', 'insurance', 'health'].includes(bestMatch.word)) {
+            return fetchJobsByBenefits(lowerTokens);
+        }
 
-    // Handle location-based searches (e.g., "jobs in New York")
-    if (bestMatch.category === 'location') {
-        const location = normalizeLocations(tokens, categories);
-        return fetchJobsByLocation(location);
-    }
+        // Category: Date/Time (New Jobs)
+        if (['jobSearch', 'jobRelated', 'jobCategories'].includes(bestMatch.category) &&
+            ['new', 'current', 'today', 'this week', 'this month'].includes(bestMatch.word)) {
+            return fetchJobsByDate(bestMatch.word);
+        }
 
-    return "Sorry, I couldn't find any specific results. Could you clarify your question?";
+        // Category: Industry
+        if (bestMatch.category === 'industry') {
+            const industry = bestMatch.word;
+            return fetchJobsByIndustry(industry);
+        }
+
+        // Category: Requirements (Education, Experience, Skills)
+        if (['education', 'experience', 'task'].includes(bestMatch.category) &&
+            ['college', 'certificate', 'training', 'course', 'assessment', 'years', 'experience', 'project', 'duties', 'skills', 'talents', 'task', 'plan'].includes(bestMatch.word)) {
+            return fetchJobsByRequirements(lowerTokens);
+        }
+
+        // Category: Title/Position
+        if (['jobSearch', 'jobRelated', 'jobCategories'].includes(bestMatch.category) &&
+            ['job', 'role', 'position', 'title', 'career', 'opportunity', 'employment'].includes(bestMatch.word)) {
+            return fetchJobsByTitle(lowerTokens);
+        }
+
+        // Category: Job Count/Location
+        if (['state', 'location'].includes(bestMatch.category) &&
+            ['count', 'total', 'job count', 'job total', 'how', 'many'].includes(bestMatch.word)) {
+            return fetchJobCountByLocation(lowerTokens);
+        }
+
+        // Category: Salary
+        if (bestMatch.category === 'salary') {
+            const salary = detectSalaryFromTokens(lowerTokens);
+            return filterJobsBySalary(salary);
+        }
+
+        // Default: No Match
+        return "No matching query criteria were found.";
+
+    } catch (error) {
+        console.error("Error handling job query:", error);
+        return "An error occurred while processing the query.";
+    }
 }
+
+
+
 
 // **Helper Functions for Fetching Job Data:**
 
-function fetchJobData({ location, jobType }) {
-    const jobQuery = firebase.firestore().collection('Jobs');
+async function fetchJobData({ location, jobType }) {
+    try {
+        // Create a base query on the 'Jobs' collection
+        let jobQuery = collection(db, 'Jobs'); 
+        
+        // Array to hold query constraints
+        let constraints = [];
 
-    // If a location is provided, search using 'array-contains' to match any location within the array.
-    if (location) {
-        jobQuery.where('location', 'array-contains', location);
-    }
+        // Add query constraints based on input parameters
+        if (location) {
+            constraints.push(where('location', 'array-contains-any', location));
+        }
 
-    // If a jobType is provided, filter by category (e.g., job type).
-    if (jobType) {
-        jobQuery.where('category', '==', jobType);
-    }
+        if (jobType) {
+            constraints.push(where('category', '==', jobType));
+        }
 
-    // Fetch data from Firestore
-    return jobQuery.get().then(snapshot => {
+        // Combine query constraints
+        const finalQuery = query(jobQuery, ...constraints);
+
+        // Fetch data
+        const snapshot = await getDocs(finalQuery);
         const jobs = snapshot.docs.map(doc => doc.data());
+
+        // Return the result message
         if (jobs.length > 0) {
             return `Found ${jobs.length} job(s) matching your criteria.`;
         } else {
             return "No jobs found for your search criteria.";
         }
-    }).catch(error => {
+
+    } catch (error) {
         console.error("Error fetching job data:", error);
         return "Sorry, there was an error fetching job data.";
-    });
+    }
 }
 
 
-// **Helper Function for Filtering Jobs by Salary:**
 
-function filterJobsBySalary(salaryData) {
+/*
+async function filterJobsBySalary(salaryData) {
     const salaryThreshold = salaryData.salary;
 
-    // Check if salaryThreshold is a valid number
+    // Check if salaryThreshold is valid
     if (typeof salaryThreshold !== 'number' || isNaN(salaryThreshold)) {
         return "Invalid salary value provided. Please provide a valid number.";
     }
 
-    // Query Firestore for jobs with salary >= salaryThreshold
-    const jobQuery = firebase.firestore().collection('Jobs')
-        .where('salary', '>=', salaryThreshold);
+    try {
+        // Create query to fetch jobs with salary >= salaryThreshold
+        const jobQuery = query(
+            collection(db, 'Jobs'),
+            where('salary', '>=', salaryThreshold)
+        );
 
-    // Fetch data from Firestore
-    return jobQuery.get().then(snapshot => {
+        // Fetch data
+        const snapshot = await getDocs(jobQuery);
         const jobs = snapshot.docs.map(doc => doc.data());
 
-        // If jobs are found
+        // Return result
         if (jobs.length > 0) {
             return `Found ${jobs.length} job(s) that pay over $${salaryThreshold}.`;
         } else {
             return "No jobs found that match your salary criteria.";
         }
-    }).catch(error => {
-        // Log error for debugging
+    } catch (error) {
         console.error("Error fetching job data:", error);
         return "Sorry, there was an error filtering jobs by salary.";
-    });
+    }
 }
+*/
+async function fetchJobsByCategory(category) {
+    const jobQuery = query(collection(db, 'Jobs'), where('category', '==', category));
+    return executeQuery(jobQuery, `Jobs in category: ${category}`);
+}
+
+
+async function fetchJobsByBenefits(tokens) {
+    const jobQuery = query(collection(db, 'Jobs'), where('benefits', 'array-contains-any', tokens));
+    return executeQuery(jobQuery, `Jobs with benefits matching: ${tokens.join(', ')}`);
+}
+
+
+async function fetchJobsByDate(dateFilter) {
+    const currentTime = new Date();
+    let startDate;
+
+    if (dateFilter === 'today') {
+        startDate = new Date(currentTime.setHours(0, 0, 0, 0));
+    } else if (dateFilter === 'this week') {
+        startDate = new Date();
+        startDate.setDate(currentTime.getDate() - 7);
+    } else if (dateFilter === 'this month') {
+        startDate = new Date(currentTime.getFullYear(), currentTime.getMonth(), 1);
+    }
+
+    const jobQuery = query(collection(db, 'Jobs'), where('createdAt', '>=', startDate));
+    return executeQuery(jobQuery, `Jobs posted since ${dateFilter}`);
+}
+
+async function fetchJobsByIndustry(industry) {
+    const jobQuery = query(collection(db, 'Jobs'), where('industry', '==', industry));
+    return executeQuery(jobQuery, `Jobs in the industry: ${industry}`);
+}
+
+
+async function fetchJobsByRequirements(tokens) {
+    const jobQuery = query(collection(db, 'Jobs'), where('searchableRequirements', 'array-contains-any', tokens));
+    return executeQuery(jobQuery, `Jobs matching requirements: ${tokens.join(', ')}`);
+}
+
+
+async function fetchJobsByTitle(tokens) {
+    const jobQuery = query(collection(db, 'Jobs'), where('searchableTitle', 'array-contains-any', tokens));
+    return executeQuery(jobQuery, `Jobs matching titles: ${tokens.join(', ')}`);
+}
+
+async function fetchJobCountByLocation(tokens) {
+    const jobQuery = query(collection(db, 'Jobs'), where('location', 'array-contains-any', tokens));
+    const snapshot = await getDocs(jobQuery);
+    return `Found ${snapshot.size} jobs in location(s): ${tokens.join(', ')}`;
+}
+
+async function filterJobsBySalary(salary) {
+    const jobQuery = query(collection(db, 'Jobs'), where('salary', '>=', salary));
+    return executeQuery(jobQuery, `Jobs paying over $${salary}`);
+}
+
+function detectSalaryFromTokens(tokens) {
+    const salary = tokens.find(token => /^\d+$/.test(token)); // Extract numeric token
+    return salary ? parseInt(salary, 10) : null;
+}
+
+async function executeQuery(jobQuery, message) {
+    try {
+        const snapshot = await getDocs(jobQuery);
+        const jobs = snapshot.docs.map(doc => doc.data());
+
+        if (jobs.length > 0) {
+            return `${message}: Found ${jobs.length} job(s).`;
+        } else {
+            return `${message}: No jobs found.`;
+        }
+    } catch (error) {
+        console.error("Error executing query:", error);
+        return "An error occurred while fetching job data.";
+    }
+}
+
+
+
+
+
 
 
 
@@ -1121,12 +1294,6 @@ const categorizedTokens = categorizeTokens(tokens, categories);
 
 
 
-// 4. Generate and prioritize suggestions
-const suggestions = generateSuggestions(categorizedTokens);
-//console.log("suggestions:", suggestions);
-
-
-
 
 
 
@@ -1138,6 +1305,12 @@ const inputType = determineInputType(tokens, categories);
 
 let JobQuery = handleJobQuery( tokens,categorizedTokens, userPreferences = inputType);
 console.log("JobQuery:", JobQuery);
+
+
+// 4. Generate and prioritize suggestions
+const suggestions = generateSuggestions(categorizedTokens);
+//console.log("suggestions:", suggestions);
+
 
 
 

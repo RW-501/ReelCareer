@@ -36,7 +36,7 @@
             ],
         
             vehicle: [
-                'car', 'truck', 'vehicle', 'automobile', 'bike', 'motorcycle', 'suv', 'van', 
+                'car', 'truck', 'vehicle', 'company car', 'company vehicle', 'automobile', 'bike', 'motorcycle', 'suv', 'van', 
                 'sedan', 'coupe', 'hatchback', 'convertible', 'wagon', 'pickup', 'jeep', 
                 'minivan', 'camper', 'bus', 'lorry', 'limousine', 'sports car', 'electric car', 
                 'hybrid', 'electric vehicle', 'ev', 'diesel', 'compact car', 'luxury car', 
