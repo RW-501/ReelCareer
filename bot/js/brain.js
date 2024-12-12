@@ -1330,6 +1330,10 @@ const inputType = determineInputType(tokens, categories);
 
 console.log("userPreferences:", inputType);
 
+
+
+
+
 async function fetchJobQueryAndDisplay() {
     try {
         // Wait for handleJobQuery to resolve
