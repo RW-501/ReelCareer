@@ -637,10 +637,8 @@ try {
 return null; // No math-related input detected
 }
 
-// Function to calculate monthly salary
-function calculateMonthlySalary(annualSalary) {
-return annualSalary / 12;
-}
+
+
 
 // Detect salary queries
 function detectSalaryQuery(tokens) {
