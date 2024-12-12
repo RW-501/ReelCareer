@@ -3271,8 +3271,11 @@ if (bestMatch && highestScore > 0) {
     };
 } else {
     // Log unanswered question and suggest contacting support
+    if(message){
     let brainOutput = processMessage(trimmedMessage);
     displayMessage("bot", brainOutput);
+    }
+    if(!message){
 
      //  logUnansweredQuestion(trimmedMessage);
     console.log("No match found, suggesting contact with support.");
@@ -3280,6 +3283,7 @@ if (bestMatch && highestScore > 0) {
         answer: "Sorry, I couldn't find an answer to your question. Please contact support for assistance.",
         id: null  // If no match, return null for id
     };
+  }
 }
 
 }
