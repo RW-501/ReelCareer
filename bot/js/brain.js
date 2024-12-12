@@ -1330,9 +1330,14 @@ const inputType = determineInputType(tokens, categories);
 
 console.log("userPreferences:", inputType);
 
+let JobQuery = handleJobQuery(tokens, categorizedTokens, userPreferences = inputType);
 
-let JobQuery = handleJobQuery( tokens,categorizedTokens, userPreferences = inputType);
-console.log("JobQuery:", JobQuery);
+JobQuery.then(result => {
+    console.log("JobQuery Result:", result); // Log the resolved result
+    return result; // Return the final result if needed
+}).catch(error => {
+    console.error("Error in JobQuery:", error); // Handle errors
+});
 
 
 // 4. Generate and prioritize suggestions
@@ -1362,7 +1367,6 @@ default:
  //return `${response}\n\n${suggestions.join('\n')}`;
 
 
- return JobQuery;
 }
 
 window.processMessage  = processMessage ;
