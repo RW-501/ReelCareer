@@ -1333,10 +1333,14 @@ console.log("userPreferences:", inputType);
 let JobQuery = handleJobQuery(tokens, categorizedTokens, userPreferences = inputType);
 
 JobQuery.then(result => {
-    console.log("JobQuery Result:", result); // Log the resolved result
-    return result; // Return the final result if needed
+    console.log("JobQuery Result:", result);
+
+    // Ensure result is valid before calling further functions
+    if (result) {
+        return result; // Pass the resolved result
+    }
 }).catch(error => {
-    console.error("Error in JobQuery:", error); // Handle errors
+    console.error("Error in JobQuery:", error);
 });
 
 
