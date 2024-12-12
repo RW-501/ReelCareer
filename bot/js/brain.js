@@ -980,7 +980,7 @@ function handleComplexQuery(tokens) {
     Object.keys(categories).forEach(categoryKey => {
         const category = categories[categoryKey];
     
-        // Ensure category is an array before using `some()`
+        // Check if the category is an array
         if (Array.isArray(category)) {
             if (tokens.some(token => {
                 if (typeof token.categoryName === 'string') {
@@ -990,10 +990,22 @@ function handleComplexQuery(tokens) {
             })) {
                 matchedCategories.push(categoryKey);
             }
-        } else {
-            console.warn(`Category '${categoryKey}' is not an array, skipping.`);
+        } 
+        // Check if the category is an object (but not an array)
+        else if (typeof category === 'object' && category !== null) {
+            const categoryItems = Object.values(category); // Extract values from the object
+            if (tokens.some(token => {
+                return categoryItems.some(catItem => token.categoryName.includes(catItem));
+            })) {
+                matchedCategories.push(categoryKey);
+            }
+        } 
+        // Warn if the category is neither an array nor an object
+        else {
+            console.warn(`Category '${categoryKey}' is not an array or object, skipping.`);
         }
     });
+    
     
 
     // Sort matched categories by priority
