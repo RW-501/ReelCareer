@@ -1169,11 +1169,12 @@ let favoriteCategories;
 let favoriteCategoriesWeight = 0;
 //  categories
 
-token =  categories.map(token => {
+let newToken = categories.map(token => {
         if (categories[inputType]?.includes(token.category)) {
             token.weight = (token.weight || 1) * 0.5; // Boost weight for matching categories
         if(favoriteCategoriesWeight < token.weight){
             favoriteCategories = token;
+            return favoriteCategories;
         }
         
         }
@@ -1181,6 +1182,7 @@ token =  categories.map(token => {
          userPreferences = {
             favoriteCategories: [favoriteCategories]
         };
+        console.log("newToken ",newToken);
         console.log("userPreferences ",userPreferences);
 
         return token; //userPreferences.favoriteCategories
