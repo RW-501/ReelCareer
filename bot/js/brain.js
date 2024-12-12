@@ -766,11 +766,12 @@ function prioritizeCategories(tokens, categorizedTokens, userPreferences = {}) {
     adjustPrioritiesForUserPreferences(priorities, userPreferences);
 
     // Adjust priorities based on the input type (e.g., question, request, or statement)
-    adjustPrioritiesForInputType(categorizedTokens, tokens, priorities);
+    adjustPrioritiesByInputType(categorizedTokens, tokens, priorities);
 
     // Handle emotion-based prioritization if the input contains sentiment/emotion words
     handleEmotionPrioritization(categorizedTokens, priorities);
 
+    getWeightAdjustmentFactor(tokens);
     // Adjust priorities if the query involves an action
     prioritizeActionTokens(categorizedTokens, tokens, priorities);
 
@@ -820,8 +821,8 @@ function adjustPrioritiesForUserPreferences(priorities, userPreferences) {
 // Adjust priorities dynamically based on the input type (e.g., question, request, or statement)
 let userPreferences = {};
 
-function adjustPrioritiesByInputType(categorizedTokens, inputType) {
-    console.log("Input Type:", inputType);
+function adjustPrioritiesByInputType(categorizedTokens, tokens) {
+    console.log("tokens:", tokens);
 
     const categoryWeights = {};
 
