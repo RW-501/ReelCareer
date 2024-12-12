@@ -58,7 +58,7 @@
   
             location: [
                 'state', 'my state', 'local', 'near me', 'nearby', 'close to me', 'by me', 
-                'city', 'town', 'area', 'region', 'neighborhood', 'metro', 'downtown', 
+                'city', 'town', 'area', 'in', 'by', 'around', 'close', 'region', 'neighborhood', 'metro', 'downtown', 
                 'uptown', 'suburb', 'urban', 'rural', 'in my area', 'around me', 
                 'dallas', 'los angeles', 'chicago', 'miami', 'houston', 'new york', 
                 'nyc', 'boston', 'seattle', 'atlanta', 'san francisco', 'san diego', 
@@ -732,27 +732,28 @@ return token;  // Return token as-is if no match found
 
 // Categorize tokens into predefined categories and return both category and word
 function categorizeTokens(tokens, categories) {
-const mappedWords = [];
+    const mappedWords = [];
 
-tokens.forEach(token => {
-    // Match against each category
-    Object.keys(categories).forEach(category => {
-      //  console.log("Checking category:", category, "Type:", typeof categories[category], categories[category]);
-        
-        const regexLocation = new RegExp('\\b(' + (categories.states || []).join('|') + ')\\b', 'i');
-
-        if (
-            Array.isArray(categories[category]) && categories[category].includes(token) ||
-            (category === 'states' && regexLocation.test(token))
-        ) {
-            mappedWords.push({ category: category, word: token });
-        }
+    tokens.forEach(token => {
+        // Match against each category
+        Object.keys(categories).forEach(category => {
+            const categoryValues = categories[category];
+            
+            if (category === 'states') {
+                // Check if token matches any state abbreviation or full name
+                const regexState = new RegExp('\\b(' + Object.keys(categoryValues).join('|') + ')\\b', 'i');
+                if (regexState.test(token) || Object.values(categoryValues).map(state => state.toLowerCase()).includes(token.toLowerCase())) {
+                    mappedWords.push({ category: category, word: token });
+                }
+            } else if (Array.isArray(categoryValues) && categoryValues.includes(token)) {
+                mappedWords.push({ category: category, word: token });
+            }
+        });
     });
-});
 
-
-return mappedWords;
+    return mappedWords;
 }
+
 
 
 function determineInputType(tokens, categories) {
