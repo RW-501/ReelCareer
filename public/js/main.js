@@ -3334,6 +3334,7 @@ setTimeout(() => {
 
 }, 2000); // 5000 milliseconds = 5 seconds
 
+import { loadBrainAndCallFunction } from 'https://reelcareer.co/bot/js/brain.js';
 
 // Load brain.js and execute a function after loading
 loadBrainAndCallFunction(() => {
