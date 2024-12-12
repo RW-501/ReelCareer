@@ -59,9 +59,9 @@
             location: [
 'state', 'my state', 'local', 'near me', 'nearby', 'close to me', 
 'by me', 'city', 'town', 'area', 'in', 'by', 'around', 'close', 
-'region', 'neighborhood', 'metro', 'downtown', 'uptown', 'suburb', 
+'region', 'neighborhood', 'metro', 'jobs in', 'job in', 'downtown', 'uptown', 'suburb', 
 'urban', 'rural', 'in my area', 'around me', 'my location', 
-'current location', 'within city', 'within town', 'travel nearby',
+'current location', 'within city','find jobs', 'within town', 'travel nearby',
 
 "Austin", "Atlanta", "Albuquerque", "Arlington", "Anaheim", "Anchorage", "Augusta", "Alexandria", "Amarillo", "Anchorage",
   "Asheville", "Akron", "Allentown", "Aurora", "Athens", "Arvada", "Abilene", "Ann Arbor", "Avondale", "Appleton",
