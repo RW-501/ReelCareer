@@ -3336,8 +3336,12 @@ setTimeout(() => {
 
 import { loadBrainAndCallFunction } from 'https://reelcareer.co/bot/js/brain.js';
 
+
+/*
 // Load brain.js and execute a function after loading
 loadBrainAndCallFunction(() => {
   console.log('Callback executed after brain.js is loaded!');
   // Call other functions or perform tasks here
 });
+
+*/
