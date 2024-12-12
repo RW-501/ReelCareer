@@ -1147,64 +1147,49 @@ function normalizeLocations(tokens, categories) {
         return token;
     });
 }
+let userPreferences = {};
 
-let userPreferences = [];
 // Adjust category priorities based on input type
 function adjustPrioritiesByInputType(categorizedTokens, inputType) {
+    console.log("inputType ", inputType);
 
-    console.log("inputType ",inputType);
+    let favoriteCategories = [];
+    let favoriteCategoriesWeight = 0;
 
-    
-    const inputTypeWeights = {
-        question: ['jobSearch', 'math', 'generalInquiry'],
-        request: ['task', 'websiteSupport', 'payments'],
-        'self-reference': ['userAccount', 'preferences'],
-        'other-reference': ['generalInquiry', 'websiteSupport'],
-        statement: ['generalInquiry', 'feedback']
-    };
+    // Convert categories JSON to an array of key-value pairs
+    const entries = Object.entries(categories);
+    console.log("entries ", entries);
 
+    let newTokens = entries.map(([categoryName, categoryValue]) => {
+        console.log("Category Name: ", categoryName);
+        console.log("Category Value: ", categoryValue);
+        console.log("Categorized Tokens: ", categorizedTokens);
 
-let favoriteCategories;
-let favoriteCategoriesWeight = 0;
-//  categories
+        // Check if any categorizedTokens match this category value
+        categorizedTokens.forEach(token => {
+            if (token.word?.includes(categoryValue)) {
+                // Boost weight for matching categories
+                token.weight = (token.weight || 1) * 0.5;
 
-// Convert the JSON object to an array of key-value pairs
-const entries = Object.entries(categories);
-console.log("entries ",entries);
+                // Update favoriteCategories based on weight
+                if (token.weight > favoriteCategoriesWeight) {
+                    favoriteCategoriesWeight = token.weight;
+                    favoriteCategories = [categoryName];
+                }
+            }
+        });
 
-let newToken = entries.map(token => {
-    console.log("token ",token);
-    console.log("token[0] ",token[0]);
-    console.log("token[1] ",token[1]);
-    console.log("inputType ",inputType);
-    console.log("categorizedTokens ",categorizedTokens);
-    console.log("categorizedTokens.word ",categorizedTokens.word);
-
-        if (categorizedTokens.word?.includes(token[1])) {
-           
-
-            token.weight = (token.weight || 1) * 0.5; // Boost weight for matching categories
-        if(favoriteCategoriesWeight < token.weight){
-            favoriteCategories.push(token[0]);
-            return favoriteCategories;
-        }
-        
-        }
-
-         userPreferences = {
-            favoriteCategories: [favoriteCategories]
-        };
-        console.log("userPreferences ",userPreferences);
-
-        return token; //userPreferences.favoriteCategories
+        return { categoryName, categoryValue, weight: favoriteCategoriesWeight };
     });
 
-    console.log("newToken ",newToken);
+    // Update userPreferences with favoriteCategories
+    userPreferences = {
+        favoriteCategories: favoriteCategories
+    };
+    console.log("User Preferences: ", userPreferences);
 
-
+    return newTokens;
 }
-
-
 
 function generateSuggestions(categorizedTokens) {
     const suggestions = [];
