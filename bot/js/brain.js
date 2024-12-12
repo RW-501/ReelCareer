@@ -1155,6 +1155,7 @@ function adjustPrioritiesByInputType(categorizedTokens, inputType) {
     console.log("categorizedTokens ",categorizedTokens);
     console.log("inputType ",inputType);
 
+    /*
     const inputTypeWeights = {
         question: ['jobSearch', 'math', 'generalInquiry'],
         request: ['task', 'websiteSupport', 'payments'],
@@ -1162,10 +1163,18 @@ function adjustPrioritiesByInputType(categorizedTokens, inputType) {
         'other-reference': ['generalInquiry', 'websiteSupport'],
         statement: ['generalInquiry', 'feedback']
     };
+*/
 
-    return categorizedTokens.map(token => {
-        if (inputTypeWeights[inputType]?.includes(token.category)) {
+let favoriteCategories;
+let favoriteCategoriesWeight = 0;
+
+    return categories.map(token => {
+        if (categories[inputType]?.includes(token.category)) {
             token.weight = (token.weight || 1) * 0.5; // Boost weight for matching categories
+        if(favoriteCategoriesWeight < token.weight){
+            favoriteCategories = token;
+        }
+        
         }
 
          userPreferences = {
