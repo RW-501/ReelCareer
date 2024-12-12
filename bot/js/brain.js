@@ -1176,7 +1176,7 @@ let newToken = entries.map(token => {
     console.log("token ",token);
     console.log("token[0] ",token[0]);
     console.log("token[1] ",token[1]);
-    console.log("entries[inputType] ",entries[inputType]);
+    console.log("inputType ",inputType);
     console.log("categorizedTokens ",categorizedTokens);
     console.log("categorizedTokens.word ",categorizedTokens.word);
 
