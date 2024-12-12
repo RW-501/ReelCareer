@@ -979,17 +979,22 @@ function handleComplexQuery(tokens) {
     // Iterate over the categories object using Object.keys or Object.entries
     Object.keys(categories).forEach(categoryKey => {
         const category = categories[categoryKey];
-
-        // Check if any token's `categoryName` matches a word in the category array
-        if (tokens.some(token => {
-            if (typeof token.categoryName === 'string') {
-                return category.some(catItem => token.categoryName.includes(catItem));
+    
+        // Ensure category is an array before using `some()`
+        if (Array.isArray(category)) {
+            if (tokens.some(token => {
+                if (typeof token.categoryName === 'string') {
+                    return category.some(catItem => token.categoryName.includes(catItem));
+                }
+                return false;
+            })) {
+                matchedCategories.push(categoryKey);
             }
-            return false;
-        })) {
-            matchedCategories.push(categoryKey);
+        } else {
+            console.warn(`Category '${categoryKey}' is not an array, skipping.`);
         }
     });
+    
 
     // Sort matched categories by priority
     matchedCategories.sort((a, b) => {
