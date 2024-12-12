@@ -1361,3 +1361,5 @@ default:
 // Return the main response and suggestions
 return `${response}\n\n${JobQuery.join('\n')}`;
 }
+
+window.processMessage  = processMessage ;
