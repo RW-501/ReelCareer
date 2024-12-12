@@ -973,14 +973,20 @@ function processMessage(message) {
 function handleComplexQuery(tokens) {
     // Identify multiple topics (job, salary, location, etc.)
     const matchedCategories = [];
-    console.log("tokens ",tokens);
+    console.log("tokens ", tokens);
     console.log("handleComplexQuery =================");
+
     // Iterate over the categories object using Object.keys or Object.entries
     Object.keys(categories).forEach(categoryKey => {
         const category = categories[categoryKey];
 
-        // Check if any token matches a word in the category array
-        if (tokens.some(token => category.some(catItem => token.includes(catItem)))) {
+        // Check if any token's `categoryName` matches a word in the category array
+        if (tokens.some(token => {
+            if (typeof token.categoryName === 'string') {
+                return category.some(catItem => token.categoryName.includes(catItem));
+            }
+            return false;
+        })) {
             matchedCategories.push(categoryKey);
         }
     });
@@ -993,6 +999,7 @@ function handleComplexQuery(tokens) {
     // Return the highest priority matched category
     return matchedCategories[0];
 }
+
 
 // **Handle Job Search Query Logic:**
 function handleJobQuery(query, tokens, userPreferences) {
