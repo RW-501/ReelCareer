@@ -739,11 +739,11 @@ tokens.forEach(token => {
     Object.keys(categories).forEach(category => {
         console.log("Checking category:", category, "Type:", typeof categories[category], categories[category]);
         
-        const regexLocation = new RegExp('\\b(' + (categories.location || []).join('|') + ')\\b', 'i');
+        const regexLocation = new RegExp('\\b(' + (categories.states || []).join('|') + ')\\b', 'i');
 
         if (
             Array.isArray(categories[category]) && categories[category].includes(token) ||
-            (category === 'location' && regexLocation.test(token))
+            (category === 'states' && regexLocation.test(token))
         ) {
             mappedWords.push({ category: category, word: token });
         }
