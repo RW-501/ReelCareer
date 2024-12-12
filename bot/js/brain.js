@@ -756,8 +756,8 @@ function categorizeTokens(tokens, categories) {
 
 
 
-function prioritizeCategories(categorizedTokens, inputType, userPreferences = {}) { 
-    console.log("categorizedTokens, ", categorizedTokens, "inputType, ", inputType, "userPreferences,", userPreferences); 
+function prioritizeCategories(tokens, categorizedTokens, userPreferences = {}) { 
+    console.log("categorizedTokens, ", categorizedTokens, "tokens, ", tokens, "userPreferences,", userPreferences); 
 
     // Default priorities for categories
     const priorities = getDefaultPriorities();
@@ -766,13 +766,13 @@ function prioritizeCategories(categorizedTokens, inputType, userPreferences = {}
     adjustPrioritiesForUserPreferences(priorities, userPreferences);
 
     // Adjust priorities based on the input type (e.g., question, request, or statement)
-    adjustPrioritiesForInputType(categorizedTokens, inputType, priorities);
+    adjustPrioritiesForInputType(categorizedTokens, tokens, priorities);
 
     // Handle emotion-based prioritization if the input contains sentiment/emotion words
     handleEmotionPrioritization(categorizedTokens, priorities);
 
     // Adjust priorities if the query involves an action
-    prioritizeActionTokens(categorizedTokens, inputType, priorities);
+    prioritizeActionTokens(categorizedTokens, tokens, priorities);
 
     // Sort tokens based on the adjusted priorities
     const sortedTokens = sortTokensByPriority(categorizedTokens, priorities);
@@ -889,14 +889,14 @@ function sortTokensByPriority(categorizedTokens, priorities) {
 
 
 // **Handle Job Search Query Logic:**
-function handleJobQuery(query, tokens, userPreferences) {
-    const bestMatch = prioritizeCategories(tokens,  query, userPreferences );
+function handleJobQuery(tokens,categorizedTokens, userPreferences) {
+    const bestMatch = prioritizeCategories(tokens,categorizedTokens, userPreferences );
 
     console.log("bestMatch ",bestMatch);  // Debugging line
 
     // Handle job-related queries (e.g., "jobs in [location]")
     if (bestMatch && bestMatch.category === 'jobSearch') {
-        if (query.includes('available') || query.includes('jobs in')) {
+        if (tokens.includes('available') || tokens.includes('jobs in')) {
             const location = tokens.find(token => categories.states[token] || categories[token.toUpperCase()]);
             const jobType = tokens.find(token => categories.jobCategories.includes(token));
 
@@ -1135,7 +1135,7 @@ const inputType = determineInputType(tokens, categories);
 console.log("inputType:", inputType);
 
 
-let JobQuery = handleJobQuery(query, tokens, userPreferences);
+let JobQuery = handleJobQuery( tokens,categorizedTokens, userPreferences = inputType);
 console.log("JobQuery:", JobQuery);
 
 
