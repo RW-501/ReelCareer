@@ -1107,12 +1107,12 @@ return `Here's your result: ${mathResponse}`;
 const { salary, keyword } = detectSalaryQuery(tokens);
 
 
-console.log("tokens:", tokens);
+//console.log("tokens:", tokens);
 
 // 3. Categorize tokens
 //tokens = normalizeLocations(tokens, categories);
 const categorizedTokens = categorizeTokens(tokens, categories);
-console.log("categorizedTokens:", categorizedTokens);
+//console.log("categorizedTokens:", categorizedTokens);
 
 
 
@@ -1133,7 +1133,7 @@ const suggestions = generateSuggestions(categorizedTokens);
 // 5. Dynamic response based on context
 const inputType = determineInputType(tokens, categories);
 
-console.log("inputType:", inputType);
+//console.log("inputType:", inputType);
 
 
 let JobQuery = handleJobQuery( tokens,categorizedTokens, userPreferences = inputType);
