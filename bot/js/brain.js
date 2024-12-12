@@ -683,11 +683,8 @@ if (foundState) {
 return token;
 });
 }
-console.log("States:", categories.states);
 
-const tokens = ["CA", "TX", "hello"];
-const result = normalizeLocations(tokens, categories);
-console.log(result);
+
 
 // Implement basic fuzzy matching using Levenshtein distance
 function fuzzyMatch(word, categoryWords, threshold = 0.8) {
@@ -748,6 +745,39 @@ Object.keys(categories).forEach(category => {
 });
 
 return mappedWords;
+}
+
+
+function determineInputType(tokens, categories) {
+    const questionWords = ['what', 'how', 'why', 'when', 'where', 'who', 'which'];
+    const requestVerbs = ['calculate', 'show', 'help', 'find', 'get', 'give'];
+
+    // Pronouns for self and others
+    const selfPronouns = ['i', 'me', 'my', 'mine', 'myself'];
+    const otherPronouns = ['you', 'your', 'yours', 'he', 'she', 'they', 'them', 'their', 'theirs', 'him', 'her'];
+
+    // Check for a question
+    if (tokens.some(token => questionWords.includes(token)) || tokens.join(' ').endsWith('?')) {
+        return 'question';
+    }
+
+    // Check for a request
+    if (tokens.some(token => requestVerbs.includes(token))) {
+        return 'request';
+    }
+
+    // Check for self-references
+    if (tokens.some(token => selfPronouns.includes(token.toLowerCase()))) {
+        return 'self-reference';
+    }
+
+    // Check for references to others
+    if (tokens.some(token => otherPronouns.includes(token.toLowerCase()))) {
+        return 'other-reference';
+    }
+
+    // Default to statement
+    return 'statement';
 }
 function generateSuggestions(categorizedTokens) {
 const suggestions = [];
@@ -824,10 +854,8 @@ return `Here's your result: ${mathResponse}`;
 
 // 2. Handle salary queries
 const { salary, keyword } = detectSalaryQuery(tokens);
-if (salary && keyword) {
-const monthlySalary = calculateMonthlySalary(salary);
-return `Your monthly salary is approximately **$${monthlySalary.toFixed(2)}** if you earn **$${salary} annually**.`;
-}
+
+
 
 // 3. Categorize tokens
 tokens = normalizeLocations(tokens, categories);
