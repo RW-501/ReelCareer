@@ -3285,52 +3285,42 @@ if (bestMatch && highestScore > 0) {
 
 
 // Variable to hold the loaded script
+let brainScriptLoaded = false;
 
-// scriptLoader.js
-
-let brainScriptLoaded = false; // Track whether the script has been loaded
-
-// Function to dynamically load an external JavaScript file
-export function loadScript(src, callback) {
-    const script = document.createElement('script');
-    script.src = src;
-    script.type = 'text/javascript';
-
-    // Event: When script is successfully loaded
-    script.onload = function () {
-        brainScriptLoaded = true; // Set flag when the script is loaded
-        if (callback && typeof callback === 'function') {
-            callback(); // Call the callback after loading
-        }
-    };
-
-    // Event: If an error occurs while loading the script
-    script.onerror = function () {
-        console.error('Error loading script: ' + src);
-    };
-
-    // Append the script tag to the document head
-    document.head.appendChild(script);
+// Function to dynamically load the external JavaScript file (brain.js)
+// Function to dynamically load an external JavaScript file as a module
+function loadScript(src, callback) {
+  const script = document.createElement('script');
+  script.src = src;
+  script.type = 'module'; // Set as ES Module
+  script.onload = function() {
+    brainScriptLoaded = true;  // Set flag when the script is loaded
+    if (callback) callback();  // Call the callback after the script is loaded
+  };
+  script.onerror = function() {
+    console.error('Error loading script: ' + src);
+  };
+  document.head.appendChild(script);  // Append the script tag to the head
 }
 
 
+
+function loadBrainAndCallFunction() {
+  loadScript('https://reelcareer.co/bot/js/brain.js', function() {
+  });
+}
 
 setTimeout(() => {
 
   fetchChatbotData();
 
-  //processMessage('Hello, Brain!');
-
-
 }, 2000); // 5000 milliseconds = 5 seconds
 
-import { loadBrainAndCallFunction } from 'https://reelcareer.co/bot/js/brain.js';
 
 
-
-// Load brain.js and execute a function after loading
-loadBrainAndCallFunction(() => {
-  console.log('Callback executed after brain.js is loaded!');
-  // Call other functions or perform tasks here
-});
-
+// Function to load brain.js and execute functionality after it is loaded
+function loadBrainAndCallFunction() {
+  loadScript('https://reelcareer.co/bot/js/brain.js', function() {
+    console.log('Brain module loaded successfully.');
+  });
+}

@@ -1006,16 +1006,6 @@ async function handleJobQuery( tokens,categorizedTokens, userPreferences) {
     }
 }
 
-// Function to load brain.js and optionally execute a callback
-export function loadBrainAndCallFunction(callback = null) {
-    const brainJsUrl = 'https://reelcareer.co/bot/js/brain.js';
-    loadScript(brainJsUrl, () => {
-        console.log('brain.js loaded successfully');
-        if (callback && typeof callback === 'function') {
-            callback(); // Call any function passed as a callback
-        }
-    });
-}
 
 
 
