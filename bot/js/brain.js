@@ -700,7 +700,7 @@ function fuzzyMatch(query, categoryWords,tokens, threshold = 0.8) {
    
     console.log("queryTokens ",queryTokens);
     // Generate multi-word token pairs (bigrams)
-    const queryBigrams = generateBigrams(queryTokens);
+    const queryBigrams = generateBigrams(tokens);
 
     console.log("queryBigrams ",queryBigrams);
   
@@ -775,7 +775,7 @@ function expandSynonyms(tokens, category, categories) {
     console.log("category ",category);
     console.log("tokens ",tokens);
     console.log("expandSynonyms =================");
-
+    //const myJSON = JSON.stringify(tokens);
     return tokens.map(token => {
         if (categories[category]) {
             const matches = fuzzyMatch(token, categories[category],tokens);
