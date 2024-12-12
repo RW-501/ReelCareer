@@ -839,9 +839,39 @@ function getDefaultPriorities() {
         relationships: 19,
         payments: 20,
         feedback: 21,
-        action: 0  // Assign the highest priority to action by default
+        action: 0  // Assign the highest priority to 'action'
     };
 }
+
+// Full category list
+const allCategories = [
+    'job', 'vehicle', 'location', 'jobCategories', 'jobSearch', 'jobType', 'videoReel', 
+    'food', 'business', 'travel', 'health', 'technology', 'events', 'education', 
+    'salary', 'demographics', 'time', 'experience', 'benefit', 'company', 
+    'preferences', 'relationship', 'interest', 'task', 'websiteSupport', 
+    'payments', 'userAccount', 'security', 'jobRelated', 'feedback', 'generalInquiry', 
+    'technical', 'positive', 'negative', 'neutral', 'excitement', 'frustration', 
+    'loneliness', 'hope', 'surprise', 'peace', 'skepticism', 'regret', 'disgust', 
+    'grief', 'states', 'money', 'compare', 'question', 'request', 'statement', 
+    'math', 'quantity', 'verbs', 'determiners', 'pronouns', 'action'
+];
+
+// Merge priorities with default fallback (99)
+function initializePriorities() {
+    const defaultPriorities = getDefaultPriorities();
+    const priorities = {};
+
+    allCategories.forEach(category => {
+        priorities[category] = defaultPriorities[category] ?? 99; // Assign default 99 if missing
+    });
+
+    return priorities;
+}
+
+// Usage
+const priorities = initializePriorities();
+console.log("Final Priorities:", priorities);
+
 
 // Adjust priorities based on user preferences (e.g., favorite categories)
 function adjustPrioritiesForUserPreferences(priorities, userPreferences) {
