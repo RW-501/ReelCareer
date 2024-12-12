@@ -737,7 +737,7 @@ const mappedWords = [];
 tokens.forEach(token => {
     // Match against each category
     Object.keys(categories).forEach(category => {
-        console.log("Checking category:", category, "Type:", typeof categories[category], categories[category]);
+      //  console.log("Checking category:", category, "Type:", typeof categories[category], categories[category]);
         
         const regexLocation = new RegExp('\\b(' + (categories.states || []).join('|') + ')\\b', 'i');
 
