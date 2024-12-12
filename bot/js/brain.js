@@ -1338,13 +1338,13 @@ async function fetchJobQueryAndDisplay() {
         // Wait for handleJobQuery to resolve
         let JobQuery = await handleJobQuery(tokens, categorizedTokens, userPreferences = inputType);
 
-        console.log("JobQuery Result:", JobQuery); // Log the result
+      //  console.log("JobQuery Result:", JobQuery); // Log the result
 
         // Add a 3-second delay before calling displayMessage
         if (JobQuery) {
             setTimeout(async () => {
                 await displayMessage("bot", JobQuery); // Call displayMessage with 'bot' as sender
-                console.log("JobQuery Result Sent:", JobQuery); // Log the sent message
+             //   console.log("JobQuery Result Sent:", JobQuery); // Log the sent message
             }, 3000); // 3-second delay
         }
     } catch (error) {

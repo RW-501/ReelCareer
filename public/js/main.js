@@ -3101,12 +3101,14 @@ function displayMessage(sender, message) {
     margin: auto 0px auto auto;
     justify-content: start;
 `;
-
+let messageWithLinks = '';
     // Replace URLs with <a> tags if they exist in the message
-    const messageWithLinks = message.replace(
+    if(message){
+     messageWithLinks = message.replace(
       /https?:\/\/[^\s]+/g,
       (url) => `<a href="${url}" target="_blank" style="color: #007bff; text-decoration: underline;">${url}</a>`
     );
+  }
 
     const senderLabel = sender === "bot"
       ? '<strong style="color: #007bff;">Chatbot:</strong> '
