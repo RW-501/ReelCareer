@@ -700,7 +700,7 @@ function fuzzyMatch(query, categoryWords,tokens, threshold = 0.8) {
    
     console.log("queryTokens ",queryTokens);
     // Generate multi-word token pairs (bigrams)
-    const queryBigrams = generateBigrams(tokens);
+    const queryBigrams = generateBigrams(queryTokens);
 
     console.log("queryBigrams ",queryBigrams);
   
@@ -963,6 +963,7 @@ function detectSalaryRange(tokens) {
 
 function processMessage(message) {
     const tokens = tokenize(message.toLowerCase());
+
 
     // Step 1: Determine input type
     const inputType = determineInputType(tokens, categories);
