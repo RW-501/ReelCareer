@@ -611,7 +611,18 @@
             verbs: ['is', 'are', 'was', 'were', 'be', 'being', 'been'], // Words serving as linking verbs or auxiliary verbs
             determiners: ['this', 'that', 'these', 'those', 'a', 'an', 'the', 'any', 'some'], // Words that specify nouns
             pronouns: ['it', 'he', 'she', 'they', 'we', 'you','i', 'I', 'me', 'us', 'them', 'him', 'her'],
-        
+            title: [
+                'title', 'name', 'called', 'label',, 'heading', 
+                'caption', 'nickname', 'alias', 'doc name', 
+                 'reference name', 'identifier'
+            ],
+            tag: [
+                 'tags',
+            ],
+            
+            description: [
+                'description',
+           ],
             action: [
                 'find', 'search', 'wash','make', 'create', 'build', 'develop', 'work', 'apply', 'find', 'search', 'submit', 'look', 'locate', 'searching', 
                 'submit', 'interview', 'complete', 'start', 'create', 'build', 
@@ -875,12 +886,16 @@ function getDefaultPriorities() {
 
         generalInquiry: prioritiesCount++,
         question: prioritiesCount++,
-
+    
+        
         dataBaseTerms: prioritiesCount++,
 
         jobSearch: prioritiesCount++,
         jobRelated: prioritiesCount++,
 
+        title: prioritiesCount++,
+        tag: prioritiesCount++,
+        description: prioritiesCount++,
         math: prioritiesCount++,
 
         location: prioritiesCount++,
@@ -1499,6 +1514,12 @@ async function handleLearningModelRequest(bestMatch, matchedActions, tokens, cat
 
         if (matchedActions.length > 0) {
             console.log(`Adding a new document to '${learningModel_DB}' collection`);
+
+            const directionsArray = [
+                { key: bestMatch.word, value: bestMatch.word },
+                { key: matchedActions, value: matchedActions }
+            ];
+
 
             const newDocumentData = {
                 directions: tokens.join(' '),
