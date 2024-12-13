@@ -2856,12 +2856,7 @@ document.body.appendChild(chatPanel);
 <div class="closeArea" style="
     margin-right: 1.5rem;
 ">
-  <!-- Fullscreen Toggle Button -->
-    <button id="toggleFullscreenBtn" aria-label="Toggle Chatbot Fullscreen" aria-pressed="true" style="background-color: #84adea;color: white;border: none;/* padding: 8px; */border-radius: 4px;cursor: pointer;margin-right: .5rem;">
-        <i id="fullscreenIcon" class="fas fa-compress"></i>
-    </button>
-          <button id="close-chat" style=" font-family: sans-serif; background: none;border: none;color: #ffffff;cursor: pointer;font-size: x-large;padding: 0;margin: 0;">×</button>
-      </div>
+
   <!-- Fullscreen Toggle Button -->
     <button id="toggleFullscreenBtn" 
             aria-label="Toggle Chatbot Fullscreen" 
