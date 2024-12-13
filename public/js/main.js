@@ -460,10 +460,7 @@ function formatPhoneNumber(phoneNumber) {
     return cleanedNumber;
 }
 
-// Show/Hide loading spinner
-function showLoading(show) {
-    document.getElementById("loading-indicator").style.display = show ? "block" : "none";
-}
+
 
 // Handle errors
 function handleError(message, error) {
@@ -483,8 +480,8 @@ function phoneLogin() {
     try {
         const phoneNumber = formatPhoneNumber(phoneNumberInput);
         phoneNumberError.style.display = "none";
-        showLoading(true);
 
+        
         // Initialize reCAPTCHA
         const appVerifier = new RecaptchaVerifier("recaptcha-container", { size: "invisible" }, auth);
         appVerifier.render().then(() => {
@@ -501,9 +498,10 @@ function phoneLogin() {
         phoneNumberError.textContent = error.message;
         phoneNumberError.style.display = "block";
     } finally {
-        showLoading(false);
+
     }
 }
+window.phoneLogin = phoneLogin;
 
 // Verify Code Function
 function verifyCode() {
@@ -525,7 +523,7 @@ function verifyCode() {
         .finally(() => showLoading(false));
 }
 
-
+window.verifyCode = verifyCode;
 
 // Google Login Function
 document.getElementById("google-login")?.addEventListener("click", async () => {
