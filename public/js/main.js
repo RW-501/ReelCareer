@@ -2853,12 +2853,20 @@ document.body.appendChild(chatPanel);
   <strong>ReelCareer Chatbot</strong>
 </a>
 
-<div class="closeArea">
+<div class="closeArea" style="
+    margin-right: 1.5rem;
+">
+  <!-- Fullscreen Toggle Button -->
+    <button id="toggleFullscreenBtn" aria-label="Toggle Chatbot Fullscreen" aria-pressed="true" style="background-color: #84adea;color: white;border: none;/* padding: 8px; */border-radius: 4px;cursor: pointer;margin-right: .5rem;">
+        <i id="fullscreenIcon" class="fas fa-compress"></i>
+    </button>
+          <button id="close-chat" style=" font-family: sans-serif; background: none;border: none;color: #ffffff;cursor: pointer;font-size: x-large;padding: 0;margin: 0;">×</button>
+      </div>
   <!-- Fullscreen Toggle Button -->
     <button id="toggleFullscreenBtn" 
             aria-label="Toggle Chatbot Fullscreen" 
             aria-pressed="false" 
-            style="background-color: #84adea; color: white; border: none; padding: 8px; border-radius: 4px; cursor: pointer;">
+            style="background-color: #84adea; color: white; border: none; margin-right: .5rem; border-radius: 4px; cursor: pointer;">
         <i id="fullscreenIcon" class="fas fa-expand"></i>
     </button>
           <button id="close-chat" style=" font-family: sans-serif; background: none;border: none;color: #ffffff;cursor: pointer;font-size: x-large;padding: 0;margin: 0;">×</button>
@@ -2934,6 +2942,7 @@ function toggleChatbotFullscreen() {
     chatbotPanel.style.height = '100vh'; // Fullscreen height
     chatbotPanel.style.width = '100vw'; // Fullscreen width
     chatbotPanel.style.zIndex = 9999;
+    chatbotPanel.style.padding = '1rem 0'
 
     toggleFullscreenBtn.setAttribute('aria-pressed', 'true'); // Update ARIA attribute
     document.getElementById('fullscreenIcon').classList.replace('fa-expand', 'fa-compress'); // Change icon to indicate fullscreen mode
