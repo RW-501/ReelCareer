@@ -868,7 +868,7 @@ function correctHomophones(sentence) {
 
 
 
-function prioritizeCategories(tokens, categorizedTokens, userPreferences = {}) { 
+function prioritizeCategories(tokens, userPreferences = {}) { 
    /*
    
     console.log("prioritizeCategories=====================================, "); 
@@ -1032,7 +1032,7 @@ function sortTokensByPriority(categorizedTokens, priorities) {
 // **Handle Job Search Query Logic:**
 
 
-async function handleJobQuery( tokens, categorizedTokens, userPreferences) {
+async function handleJobQuery( tokens, userPreferences) {
     try {
         console.log(`categorizedTokens ${categorizedTokens} `);
 
@@ -1040,7 +1040,7 @@ async function handleJobQuery( tokens, categorizedTokens, userPreferences) {
     .map(t => t.trim().toLowerCase())
     .slice(0, 10); // Limit the array to the first 10 tokens
 
-        const bestMatch = prioritizeCategories(tokens,categorizedTokens, userPreferences );
+        const bestMatch = prioritizeCategories(tokens, userPreferences );
 
         console.log("bestMatch ",bestMatch); 
         
@@ -1457,10 +1457,13 @@ return `Here's your result: ${mathResponse}`;
 async function fetchJobQueryAndDisplay() {
     try {
         // Wait for handleJobQuery to resolve
-        let JobQuery = await handleJobQuery(tokens, categorizedTokens, userPreferences = inputType);
+        let JobQuery = await handleJobQuery(tokens, userPreferences = inputType);
 
 
-        
+        console.log("tokens:", tokens);
+        console.log("userPreferences:", userPreferences);
+        console.log("inputType:", inputType);
+
         // Add a 3-second delay before calling displayMessage
         if (JobQuery) {
             setTimeout(async () => {
