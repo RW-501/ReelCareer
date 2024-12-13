@@ -1577,7 +1577,7 @@ console.log("Adding a new document...");
 }
     const newDocumentData = {
         directions: tokens.join(' '),
-        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+        timestamp: new Date(), // Firestore timestamp or current time
     };
 
     try {
@@ -1624,7 +1624,7 @@ if(!results){
 }
     const updatedData = {
         updatedDirections: tokens.join(' '),
-        lastModified: firebase.firestore.FieldValue.serverTimestamp()
+        timestamp: new Date(), // Firestore timestamp or current time
     };
 
     try {
@@ -1646,59 +1646,45 @@ if(!results){
 
 
 
-
-async function setDoc(docId, learningModel_DB ) {
-
+async function setDoc(docId, learningModel_DB) {
+    // Define action words (can be used for matching or other purposes)
     const actionWords = [
         'set', 'setDoc', 'set document', 'overwrite', 'create new', 'update completely', 
         'save document', 'write document', 'initialize', 'write data', 'add new data',
         'document creation', 'replace document'
     ];
 
-    
-        console.log(`Setting a new document in '${learningModel_DB}' collection`);
+    // Logging the action
+    console.log(`Setting a new document in '${learningModel_DB}' collection`);
 
-       
+    // Define learning action data
+    const learning_action = {
+        searchableDirections: ["create", "build", "edit"],
+        category: "action",
+        description: "Learning actions related to creating, building, and editing documents.",
+        keywords: ["can you", "help", "create", "build", "edit"],
+        relatedTopics: ["content creation", "document editing"],
+        timestamp: new Date(), // Firestore timestamp or current time
+    };
 
-       let learning_action = {
-            "searchableDirections": [
-                "create", 
-                "build", 
-                "edit"
-            ],
-            "category": "action",
-            "description": "Learning actions related to creating, building, and editing documents.",
-            "keywords": [
-                "can you", 
-                "help", 
-                "create", 
-                "build", 
-                "edit"
-            ],
-            "relatedTopics": [
-                "content creation", 
-                "document editing"
-            ],
-            "timestamp": timestamp,
-    }
- 
-   
     try {
+        // Reference to the document in Firestore
         const docRef = db.collection(learningModel_DB).doc(docId);
 
-        // Use arrayUnion to append the array into a field or replace entirely
-       // await docRef.set(
+        // Set the document with the provided data, merging with any existing data
+       /* await docRef.set(
             {
                 learning_action: learning_action
             },
-            { merge: true } // Merge with existing data
+            { merge: true } // Merge data with existing document, if any
         );
-
-        console.log(`Array added/updated successfully in document '${docId}'.`);
+*/
+        console.log(`Document with ID '${docId}' added/updated successfully.`);
     } catch (error) {
-        console.error('Error adding/updating array: ', error);
+        console.error('Error adding/updating document: ', error);
     }
 }
+
 
 
 async function handleLearningModelRequest(bestMatch, matchedActions, tokens, categorizedTokens, constraints, learningModel_DB) {
