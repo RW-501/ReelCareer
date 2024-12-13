@@ -60,7 +60,7 @@
 
     <!-- Footer -->
     <footer id="dynamic-footer" class="text-center p-4 bg-dark text-white">
-        <p>&copy; 2024 Your Website Name</p>
+        <p>&copy; 2024 ReelCareer</p>
     </footer>
 
     <!-- Firebase configuration/ Login& Out -->
@@ -89,34 +89,99 @@
         }
 
 
-async function displayArticle() {
-    const articleId = getArticleId();
-    const articleRef = doc(db, 'News', articleId); // Use Firestore doc reference
-
-    try {
-        const snapshot = await getDoc(articleRef);
-        if (snapshot.exists()) {
-            const article = snapshot.data();
-            const articleElement = `
-                <h2>${article.title}</h2>
-                <img src="${article.imageUrl}" class="img-fluid" alt="${article.title}">
-                <p>${article.content}</p>
-                <p><strong>Tags:</strong> ${article.tags.join(', ')}</p>
-                <p><strong>Category:</strong> ${article.category}</p>
-                <p><strong>Posted by:</strong> ${article.postedBy}</p>
-                <p><strong>Post Date:</strong> ${new Date(article.postDate).toLocaleDateString()}</p>
-            `;
-            document.getElementById('article-content').innerHTML = articleElement;
-        } else {
-            document.getElementById('article-content').innerHTML = `<p>Article not found.</p>`;
-        }
-    } catch (error) {
-        console.error("Error fetching article: ", error);
-        document.getElementById('article-content').innerHTML = `<p>Error fetching article.</p>`;
+    // Get Article ID from URL or any logic
+    function getArticleId() {
+        const params = new URLSearchParams(window.location.search);
+        return params.get('id'); // Example: ?id=doc123
     }
-}
 
-        window.onload = displayArticle;
+    // Function to display the article
+    async function displayArticle() {
+        const articleId = getArticleId();
+        const articleRef = doc(db, 'News', articleId); // Firestore doc reference
+
+        try {
+            const snapshot = await getDoc(articleRef);
+            if (snapshot.exists()) {
+                const article = snapshot.data();
+                document.getElementById('article-content').innerHTML = `
+                    <h2>${article.title}</h2>
+                    <img src="${article.imageUrl}" class="img-fluid" alt="${article.title}">
+                    <p>${article.content}</p>
+                    <p><strong>Tags:</strong> ${article.tags.join(', ')}</p>
+                    <p><strong>Category:</strong> ${article.category}</p>
+                    <p><strong>Posted by:</strong> ${article.postedBy}</p>
+                    <p><strong>Post Date:</strong> ${new Date(article.postDate).toLocaleDateString()}</p>
+                `;
+                // Set initial like count
+                document.getElementById('like-count').innerText = article.likes || 0;
+            } else {
+                document.getElementById('article-content').innerHTML = `<p>Article not found.</p>`;
+            }
+        } catch (error) {
+            console.error("Error fetching article: ", error);
+            document.getElementById('article-content').innerHTML = `<p>Error fetching article.</p>`;
+        }
+    }
+
+    // Function to handle Likes
+    async function handleLike() {
+        const articleId = getArticleId();
+        const articleRef = doc(db, 'News', articleId);
+
+        try {
+            // Increment the like count in Firestore
+            await updateDoc(articleRef, {
+                likes: increment(1)
+            });
+
+            // Update UI after successful Firestore update
+            const likeCountElement = document.getElementById('like-count');
+            likeCountElement.innerText = parseInt(likeCountElement.innerText) + 1;
+        } catch (error) {
+            console.error("Error updating likes: ", error);
+        }
+    }
+
+    // Function to handle Share
+    async function handleShare() {
+        const articleId = getArticleId();
+        const articleUrl = `${window.location.origin}/article?id=${articleId}`;
+        
+        if (navigator.share) {
+            try {
+                await navigator.share({
+                    title: document.title,
+                    text: "Check out this article!",
+                    url: articleUrl
+                });
+                console.log("Article shared successfully!");
+            } catch (error) {
+                console.error("Error sharing article: ", error);
+            }
+        } else {
+            alert("Sharing not supported on this browser.");
+        }
+    }
+
+    // Event Listeners
+    document.getElementById('like-btn').addEventListener('click', handleLike);
+    document.getElementById('share-btn').addEventListener('click', handleShare);
+
+    // Display article on page load
+    window.onload = displayArticle;
+
+    
+        document.addEventListener('DOMContentLoaded', (event) => {
+            window.handleLike = handleLike;
+            window.handleShare = handleShare;
+
+        // Event Listeners
+        document.getElementById('like-btn').addEventListener('click', handleLike);
+    document.getElementById('share-btn').addEventListener('click', handleShare);
+
+    // Display article
+});
     </script>
 </body>
 </html>
