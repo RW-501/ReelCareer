@@ -2648,14 +2648,12 @@ if (detectedWords.length > 0) {
 
 
 
+// Initialize the toggle states based on local storage values or default
+let isTextToVoiceOn = JSON.parse(localStorage.getItem("isTextToVoiceOn")) || false;
+let isVoiceToTextOn = JSON.parse(localStorage.getItem("isVoiceToTextOn")) || false;
 
-let isTextToVoiceOn = false; // Toggle state for Text-to-Voice
-let isVoiceToTextOn = true; // Toggle state for Voice-to-Text
 let recognition; // SpeechRecognition instance
-    // Start speaking
-    const speechSynthesis = window.speechSynthesis;
-         
-
+const speechSynthesis = window.speechSynthesis;
 let utterance;
 
 // TEXT TO VOICE TOGGLE FUNCTION
@@ -2663,25 +2661,25 @@ function toggleTextToVoice() {
     const button = document.getElementById("textToVoiceBtn");
 
     if (!isTextToVoiceOn) {
-         
-      
-
-    
+        // Set the utterance and speak the text (this is an example)
+        utterance = new SpeechSynthesisUtterance("Hello, this is a test.");
         speechSynthesis.speak(utterance);
 
         button.innerHTML = '<i id="textVoiceIcon" class="fas fa-volume-mute"></i>';
         isTextToVoiceOn = true;
         button.style.color = "#003366"; // Dark Blue
+        button.setAttribute("aria-pressed", "true");
 
         // Event: Update button after speaking ends
         utterance.onend = () => {
             isTextToVoiceOn = false;
-            button.innerHTML = '<i id="textVoiceIcon" class="fas fa-volume-up"></i> ';
+            button.innerHTML = '<i id="textVoiceIcon" class="fas fa-volume-up"></i>';
             button.setAttribute("aria-pressed", "false");
             button.style.color = "#FFFFFF"; // White color
-    
-      
-          };
+        };
+
+        // Save the state to local storage
+        localStorage.setItem("isTextToVoiceOn", JSON.stringify(isTextToVoiceOn));
     } else {
         // Stop speaking
         window.speechSynthesis.cancel();
@@ -2690,13 +2688,11 @@ function toggleTextToVoice() {
         button.setAttribute("aria-pressed", "false");
         button.style.color = "#FFFFFF"; // White color
 
-   
-      }
+        // Save the state to local storage
+        localStorage.setItem("isTextToVoiceOn", JSON.stringify(isTextToVoiceOn));
+    }
 }
 
-
-
- let transcript;
 // VOICE TO TEXT TOGGLE FUNCTION
 function toggleVoiceToText() {
     const button = document.getElementById("voiceToTextBtn");
@@ -2704,7 +2700,7 @@ function toggleVoiceToText() {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
     if (!SpeechRecognition) {
-      showToast("Sorry, your browser does not support Speech Recognition.");
+        showToast("Sorry, your browser does not support Speech Recognition.");
         return;
     }
 
@@ -2716,12 +2712,10 @@ function toggleVoiceToText() {
         recognition.continuous = true;
 
         recognition.onresult = (event) => {
-          const transcript = Array.from(event.results)
-              .map(result => result[0].transcript)
-              .join('');
-           document.getElementById("chat-input").innerText = transcript;
-
-             // handleUserInput(transcript);
+            const transcript = Array.from(event.results)
+                .map(result => result[0].transcript)
+                .join('');
+            document.getElementById("chat-input").innerText = transcript;
         };
 
         recognition.onerror = (event) => {
@@ -2734,6 +2728,9 @@ function toggleVoiceToText() {
         button.setAttribute("aria-pressed", "true");
         button.style.color = "#003366"; // Dark Blue
 
+        // Save the state to local storage
+        localStorage.setItem("isVoiceToTextOn", JSON.stringify(isVoiceToTextOn));
+
         console.log("Voice recognition started...");
     } else {
         // Stop listening
@@ -2744,6 +2741,9 @@ function toggleVoiceToText() {
         isVoiceToTextOn = false;
         button.setAttribute("aria-pressed", "false");
         button.style.color = "#FFFFFF"; // White color
+
+        // Save the state to local storage
+        localStorage.setItem("isVoiceToTextOn", JSON.stringify(isVoiceToTextOn));
 
         console.log("Voice recognition stopped.");
     }
@@ -2867,7 +2867,7 @@ document.body.appendChild(chatPanel);
           <button id="close-chat" style=" font-family: sans-serif; background: none;border: none;color: #ffffff;cursor: pointer;font-size: x-large;padding: 0;margin: 0;">×</button>
       </div>
       </div>
-      
+
       <div id="chatbot-messages" style="height: 90%; padding: 0 .5rem; flex: 1; padding: 10px; overflow-y: auto; font-size: 14px;"></div>
       <div style="padding: 10px; border-top: 1px solid #ddd;">
           <div id="chat-input" contenteditable="true" style="border: 1px solid #ccc; padding: 8px; border-radius: 4px; min-height: 40px;"></div>
