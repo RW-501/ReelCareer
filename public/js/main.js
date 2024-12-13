@@ -2671,14 +2671,14 @@ function toggleTextToVoice() {
 
         button.innerHTML = '<i id="textVoiceIcon" class="fas fa-volume-mute"></i>';
         isTextToVoiceOn = true;
-        button.style.backgroundColor = "#003366"; // Dark Blue
+        button.style.color = "#003366"; // Dark Blue
 
         // Event: Update button after speaking ends
         utterance.onend = () => {
             isTextToVoiceOn = false;
             button.innerHTML = '<i id="textVoiceIcon" class="fas fa-volume-up"></i> ';
             button.setAttribute("aria-pressed", "false");
-            button.style.backgroundColor = "#FFFFFF"; // White color
+            button.style.color = "#FFFFFF"; // White color
     
       
           };
@@ -2688,7 +2688,7 @@ function toggleTextToVoice() {
         isTextToVoiceOn = false;
         button.innerHTML = '<i id="textVoiceIcon" class="fas fa-volume-up"></i>';
         button.setAttribute("aria-pressed", "false");
-        button.style.backgroundColor = "#FFFFFF"; // White color
+        button.style.color = "#FFFFFF"; // White color
 
    
       }
@@ -2717,6 +2717,7 @@ function toggleVoiceToText() {
               .map(result => result[0].transcript)
               .join('');
            let userMessage = document.getElementById("chat-input").innerText;
+           
            userMessage = transcript;
 
              // handleUserInput(transcript);
@@ -2730,7 +2731,7 @@ function toggleVoiceToText() {
         button.innerHTML = '<i id="voiceTextIcon" class="fas fa-microphone-slash"></i> ';
         isVoiceToTextOn = true;
         button.setAttribute("aria-pressed", "true");
-        button.style.backgroundColor = "#003366"; // Dark Blue
+        button.style.color = "#003366"; // Dark Blue
 
         console.log("Voice recognition started...");
     } else {
@@ -2741,7 +2742,7 @@ function toggleVoiceToText() {
         button.innerHTML = '<i id="voiceTextIcon" class="fas fa-microphone"></i> ';
         isVoiceToTextOn = false;
         button.setAttribute("aria-pressed", "false");
-        button.style.backgroundColor = "#FFFFFF"; // White color
+        button.style.color = "#FFFFFF"; // White color
 
         console.log("Voice recognition stopped.");
     }
