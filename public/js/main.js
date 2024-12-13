@@ -3067,8 +3067,11 @@ function toggleChatbotFullscreen() {
 
     if (currentUrl === "https://reelcareer.co/bot/" || currentUrl === "https://reelcareer.co/bot") {
       const mainContent = document.getElementById("main-content");
+      const closeChatBtn = document.getElementById("close-chat");
 
       if (mainContent) {
+        
+        closeChatBtn.style.display = "none";
         chatButton.style.display = "none";
         chatPanel.style.cssText = `
     width: 100%;
