@@ -546,6 +546,44 @@
         
     </main>
 
+
+    <div id="reportJobModal" class="modal " role="dialog" aria-labelledby="reportJobTitle" >
+      <div class="modal-content">
+        <span class="close" aria-label="Close" onclick="closeReportModal()">&times;</span>
+        <form id="reportForm">
+          <h2 id="reportTitle">Report Job</h2>
+          <p>Please select the reason(s) for reporting this job:</p>
+  
+          <div class="checkbox-group">
+            <input type="checkbox" id="spam" name="reason" value="Spam">
+            <label for="spam">Spam</label><br>
+  
+            <input type="checkbox" id="incorrectInfo" name="reason" value="Incorrect Information">
+            <label for="incorrectInfo">Incorrect Information</label><br>
+  
+            <input type="checkbox" id="scam" name="reason" value="Scam">
+            <label for="scam">Potential Scam</label><br>
+  
+            <input type="checkbox" id="other" name="reason" value="Other">
+            <label for="other">Other</label><br>
+          </div>
+  
+          <textarea id="reportMessage" class="form-control mt-3" rows="4" placeholder="Additional details..."></textarea>
+  
+          <button type="button" class="btn btn-primary mt-3" onclick="submitReport()">Submit Report</button>
+        </form>
+  
+        <!-- Success/Error message placeholder -->
+        <div id="reportStatusMessage" class="mt-3"></div>
+  
+        <!-- Close button, initially hidden -->
+        <button id="closeReportModalButton" type="button" class="btn btn-secondary mt-3" style="display: none;" onclick="closeReportJobModal()">Close</button>
+      </div>
+    </div>
+
+
+
+
     <!-- Footer -->
     <footer id="dynamic-footer"></footer>
     
@@ -574,26 +612,6 @@
 
 
 
-    async function reportVideo(docId) {
-    const selectedReasons = [];
-    document.querySelectorAll('#reportJobForm input[type="checkbox"]:checked').forEach((checkbox) => {
-        selectedReasons.push(checkbox.value);
-    });
-
-    const userDataSaved = getUserData() || [];
-    const message = document.getElementById('reportMessage').value;
-    const statusMessage = document.getElementById('reportStatusMessage');
-    const closeButton = document.getElementById('closeReportModalButton');
-
-    // Clear any previous messages
-    statusMessage.innerHTML = '';
-    statusMessage.className = '';
-
-    if (selectedReasons.length === 0 && !message) {
-        statusMessage.innerHTML = 'Please select a reason or enter a message before submitting.';
-        statusMessage.className = 'text-danger';
-        return;
-    }
 
     let userId = '';
 
@@ -621,9 +639,32 @@
     initializeUserId(); // Call the function to initialize user ID
 
   });
+
+
+  
+  async function reportVideo(docId) {
+    const selectedReasons = [];
+    document.querySelectorAll('#reportJobForm input[type="checkbox"]:checked').forEach((checkbox) => {
+        selectedReasons.push(checkbox.value);
+    });
+
+    const userDataSaved = getUserData() || [];
+    const message = document.getElementById('reportMessage').value;
+    const statusMessage = document.getElementById('reportStatusMessage');
+    const closeButton = document.getElementById('closeReportModalButton');
+
+    // Clear any previous messages
+    statusMessage.innerHTML = '';
+    statusMessage.className = '';
+
+    if (selectedReasons.length === 0 && !message) {
+        statusMessage.innerHTML = 'Please select a reason or enter a message before submitting.';
+        statusMessage.className = 'text-danger';
+        return;
+    }
     // Report Data to Firebase
     const reportData = {
-        videoId: jobID,
+        videoId: docId,
         jobTitle: document.title,
         reasons: selectedReasons,
         message: message,
@@ -702,7 +743,9 @@
     }
 }
 
+window.closeReportModal = closeReportModal;
 
+window.submitReport = submitReport;
 
 
 
@@ -958,7 +1001,9 @@ function generateVideoSchema(videoData, docId) {
     }  
     
 
-    let userId;
+    
+
+    
 
 // Retrieve and populate form inputs for tabs
 window.onload = async function () {
