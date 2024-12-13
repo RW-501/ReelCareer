@@ -947,9 +947,6 @@ async function handleJobQuery( tokens,categorizedTokens, userPreferences) {
     .map(t => t.trim().toLowerCase())
     .slice(0, 10); // Limit the array to the first 10 tokens
 
-        // Common Filters
-       // const lowerTokens = tokens.map(t => t.trim().toLowerCase());
-
         const bestMatch = prioritizeCategories(tokens,categorizedTokens, userPreferences );
 
         console.log("bestMatch ",bestMatch); 
@@ -959,9 +956,329 @@ async function handleJobQuery( tokens,categorizedTokens, userPreferences) {
     
     
 
+
+
+
+        let constraints = []; // Holds query constraints
+        
+        // 1. Handle Requests/Actions with Specific Words
+        if (bestMatch.category === 'request' || bestMatch.category === 'action') {
+            const actionWords = ['please', 'can', 'can you', 'i need', 'would you', 'help', 
+                                 'show me', 'create', 'build', 'edit', 'review', 'check',
+                                 'fix', 'save', 'add', 'remember', 'enhance', 'improve'];
+            
+            // Check if tokens match any of the action words
+            const matchedActions = tokens.filter(word => actionWords.includes(word.toLowerCase()));
+
+            console.log(`categorizedTokens ${categorizedTokens} `);
+            console.log(`categorizedTokens.category ${categorizedTokens.category} `);
+            console.log(`categorizedTokens.word ${categorizedTokens.word} `);
+            console.log(`bestMatch.word ${bestMatch.word} `);
+            console.log(`tokens for creating ${tokens} `);
+            console.log(`matchedActions for creating ${matchedActions} `);
+
+            const  learningModel_DB =  'z_LearningModel';
+
+            if (bestMatch.word ==='add' ){
+            
+                
+                
+                    }
+
+
+            return `I will ${bestMatch.word}  ${learningModel_DB}`
+        }
+
+
+
+        if (bestMatch.category === 'question') {
+            const actionWords = ['who', 'what', 'where', 'when', 'why', 'how', '?'];
+            
+            // Check if tokens match any of the action words
+            const matchedActions = tokens.filter(word => actionWords.includes(word.toLowerCase()));
+
+            console.log(`categorizedTokens ${categorizedTokens} `);
+            console.log(`categorizedTokens.category ${categorizedTokens.category} `);
+            console.log(`categorizedTokens.word ${categorizedTokens.word} `);
+            console.log(`bestMatch.word ${bestMatch.word} `);
+            console.log(`tokens for creating ${tokens} `);
+            console.log(`matchedActions for creating ${matchedActions} `);
+
+            const  learningModel_DB =  'z_LearningModel';
+
+   
+
+            return `I will search for ${tokens} in ${learningModel_DB}`
+        }
+
+
+
+
+        if (bestMatch.category === 'generalInquiry') {
+            const actionWords = ['question', 'how', 'why', 'where', 'what', 'when', 'which', 'can', 'could', 'would', 'do', 'did', 
+                'is', 'are', 'am', 'will', 'should', 'where can', 'what is', 'who', 'any', 'anyone', 'anybody', 
+                'tell me', 'explain', 'information', 'inquire', 'ask', 'help', 'clarify', 'describe', 'details', 
+                'understand', 'learn', 'suggest', 'recommend', 'advice', 'guide', 'directions', 'steps', 'assistance', 
+                'know', 'need', 'looking for', 'looking to', 'interested in', 'how to', 'where to', 'is it possible', 
+                'help me', 'can you explain', 'what do you mean', 'can you tell me'];
+            
+            // Check if tokens match any of the action words
+            const matchedActions = tokens.filter(word => actionWords.includes(word.toLowerCase()));
+
+            console.log(`categorizedTokens ${categorizedTokens} `);
+            console.log(`categorizedTokens.category ${categorizedTokens.category} `);
+            console.log(`categorizedTokens.word ${categorizedTokens.word} `);
+            console.log(`bestMatch.word ${bestMatch.word} `);
+            console.log(`tokens for creating ${tokens} `);
+            console.log(`matchedActions for creating ${matchedActions} `);
+
+            const  learningModel_DB =  'z_LearningModel';
+
+   
+
+            return `I will Inquiry for ${tokens} in ${learningModel_DB}`
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+                //handleLearningModelQuery(bestMatch, tokens, constraints learningModel_DB);
+        
+
+// Function to handle LearnModel queries
+async function  handleLearningModelQuery(bestMatch, tokens, constraints, learningModel_DB) {
+    try {
+
+
+        // Base reference to the 'LearnModel' collection
+        const learnModelRef = collection(db, learningModel_DB); 
+
+        const finalQuery = query(learnModelRef, ...constraints);
+
+        // Fetch the results
+        const snapshot = await getDocs(finalQuery);
+        const results = snapshot.docs.map(doc => doc.data());
+
+
+        // 2. Combine the query with constraints
+        if (constraints.length > 0) {
+  
+            // Return the results
+            if (results.length > 0) {
+   
+
+                return results;
+            } else {
+
+                console.log(`Found ${results.length} matching directions:`);
+
+          
+
+
+                handleLearningModelRequest(bestMatch, tokens, learningModel_DB); 
+
+                return "No matching records found in LearnModel.";
+            }
+
+        } else {
+            return "No valid query parameters provided.";
+        }
+
+
+    } catch (error) {
+        console.error("Error querying LearnModel:", error);
+        return "Sorry, there was an error processing your request.";
+    }
+}
+
+
         
     
-      
+//readLearningModel('searchableDirections', learningModel_DB);
+
+
+
+
+
+
+
+// Function to handle LearnModel queries
+async function handleLearningModelRequest(bestMatch, tokens, learningModel_DB) {
+    try {
+   
+        
+     
+  
+            
+            if (results.length > 0) {
+
+
+            
+                return results;
+            } else {
+
+                if (bestMatch.category === 'request' || bestMatch.category === 'action') {
+                    const actionWords = ['please', 'can', 'can you', 'i need', 'would you', 'help', 
+                                         'show me', 'create', 'build', 'edit', 'review', 'check',
+                                         'fix', 'save', 'add', 'remember', 'enhance', 'improve'];
+                    
+                    // Check if tokens match any of the action words
+                    const matchedActions = tokens.filter(word => actionWords.includes(word.toLowerCase()));
+                    console.log(`tokens for creating ${tokens} `);
+                    console.log(`matchedActions for creating ${matchedActions} `);
+
+                    if (matchedActions.length > 0) {
+                    
+                   
+                        if (bestMatch.category === 'request' || bestMatch.category === 'action' &&
+                             bestMatch.word ==='add' ) {
+                         
+                                console.log(` ${bestMatch.word}  to ${searchableDirections} `);
+
+                               // dataToLearningModel(bestMatch.word, tokens, learningModel_DB);
+                                
+                               const directionsArray = [
+                                { key: bestMatch.word , value: bestMatch.word },   // Add a key-value pair for bestMatch
+                                { key: matchedActions, value: matchedActions } // Add a key-value pair for matchedActions
+                              ];
+                              dataToLearningModel('searchableDirections', learningModel_DB, directionsArray);
+
+                             }
+
+
+
+                        
+                    }
+                }
+
+
+                
+                return "No matching records found in LearnModel.";
+            }
+
+        
+
+
+    } catch (error) {
+        console.error("Error querying LearnModel:", error);
+        return "Sorry, there was an error processing your request.";
+    }
+}
+
+
+
+
+
+
+
+
+async function dataToLearningModel(docId, learningModel_DB, directionsArray) {
+    try {
+        // Reference to the document in Firestore
+        const docRef = db.collection(learningModel_DB).doc(docId);
+
+        // Use arrayUnion to append the array into a field, or replace entirely
+        await docRef.set(
+            {
+                directions: firebase.firestore.FieldValue.arrayUnion(...directionsArray)
+            },
+            { merge: true } // Merge with existing data
+        );
+
+        console.log(`Array added/updated successfully in document '${docId}'.`);
+    } catch (error) {
+        console.error('Error adding/updating array: ', error);
+    }
+}
+
+  
+  /**
+ * Reads the 'directions' array from a Firestore document.
+ *
+ * @param {string} docId - The ID of the document to read.
+ * @param {string} learningModel_DB - The name of the collection.
+ */
+async function readLearningModel(docId, learningModel_DB) {
+    try {
+        // Reference to the document in the collection
+        const docRef = db.collection(learningModel_DB).doc(docId);
+
+        // Get the document snapshot
+        const docSnapshot = await docRef.get();
+
+        if (docSnapshot.exists) {
+            // Retrieve the 'directions' array
+            const data = docSnapshot.data();
+            const directionsArray = data.directions || []; // Default to an empty array if 'directions' doesn't exist
+
+            console.log("Directions Array:", directionsArray);
+
+            // Optional: Loop through the array to display key-value pairs
+            directionsArray.forEach((item, index) => {
+                console.log(`Item ${index + 1}: Key = ${item.key}, Value = ${item.value}`);
+            });
+
+            return directionsArray;
+        } else {
+            console.log(`No document found with ID '${docId}'.`);
+            return [];
+        }
+    } catch (error) {
+        console.error("Error reading document: ", error);
+        return [];
+    }
+}
+
+
+
+
+
+/*
+
+else                      
+                              if (bestMatch.category === 'request' || bestMatch.category === 'action' &&
+                                bestMatch.word ==='save' ) {
+                            
+                                   console.log(` ${bestMatch.word} to ${learningModel_DB} `);
+                                   
+                                   const directionsArray = [bestMatch.word, matchedActions];
+                                   dataToLearningModel('searchableDirections', learningModel_DB, directionsArray);
+                                }else                       
+                                if (bestMatch.category === 'request' || bestMatch.category === 'action' &&
+                                    bestMatch.word ==='edit' ) {
+                                
+                                       console.log(` ${bestMatch.word}  ${learningModel_DB} `);
+       
+                                    }else                      
+                                    if (bestMatch.category === 'request' || bestMatch.category === 'action' &&
+                                      bestMatch.word ==='create' ) {
+                                  
+                                         console.log(` ${bestMatch.word}  ${learningModel_DB} `);
+         
+                                      }else                       
+                                      if (bestMatch.category === 'request' || bestMatch.category === 'action' &&
+                                          bestMatch.word ==='fix' ) {
+                                      
+                                             console.log(` ${bestMatch.word}  ${learningModel_DB} `);
+             
+                                          }
+
+
+
+*/
+
+
+
+
+
     
         // Handle location-based searches (e.g., "jobs in New York")
         if (bestMatch.category === 'location' || bestMatch.category === 'states') {
@@ -1276,68 +1593,6 @@ function determineInputType(tokens) {
 
 
 
-function generateSuggestions(categorizedTokens) {
-const suggestions = [];
-const dynamicPhrases = {
-excitement: [
-    "You sound thrilled! How can I assist you further?",
-    "That's awesome to hear! What would you like to explore today?",
-    "I love the excitement! Need any help?"
-],
-frustration: [
-    "I'm sorry to hear that. How can I make things easier for you?",
-    "It seems you're frustrated. Let’s fix this together. What's the issue?",
-    "I’m here to help—let me know what’s going on."
-],
-math: [
-    "Math question? I’ve got you! Ask me something like 'What's 45 times 12?'.",
-    "Need calculations? Just type something like 'Calculate 5000/12'.",
-],
-salary: [
-    "To calculate monthly pay, just say something like 'What’s $60,000 annually per month?'.",
-    "Curious about your pay? I can break down annual salaries for you!"
-]
-};
-
-categorizedTokens.forEach(({ category, word }) => {
-switch (category) {
-    case 'job':
-        suggestions.push(`Looking for jobs related to "${word}"? Start browsing on our [Job Listings Page](#).`);
-        break;
-    case 'jobSearch':
-        suggestions.push(`Want to search by keyword, location, or company? Head to our [Job Search Page](#).`);
-        break;
-    case 'jobType':
-        suggestions.push(`Whether it's full-time, freelance, or remote work—explore your options [here](#).`);
-        break;
-    case 'salary':
-        suggestions.push(randomChoice(dynamicPhrases.salary));
-        break;
-    case 'math':
-        suggestions.push(randomChoice(dynamicPhrases.math));
-        break;
-    case 'websiteSupport':
-        suggestions.push(`For technical help, check out our [Support Center](#) or contact us.`);
-        break;
-    case 'excitement':
-        suggestions.push(randomChoice(dynamicPhrases.excitement));
-        break;
-    case 'frustration':
-        suggestions.push(randomChoice(dynamicPhrases.frustration));
-        break;
-    default:
-        suggestions.push(`Looking for more details about "${word}"? Let me know how I can assist.`);
-        break;
-}
-});
-
-return suggestions;
-}
-
-// Utility function to randomize similar responses
-function randomChoice(options) {
-return options[Math.floor(Math.random() * options.length)];
-}
 
 function processMessage(message) {
 const userInput = message.toLowerCase();
@@ -1400,32 +1655,6 @@ async function fetchJobQueryAndDisplay() {
 // Trigger the function
 fetchJobQueryAndDisplay();
 
-
-// 4. Generate and prioritize suggestions
-// const suggestions = generateSuggestions(categorizedTokens);
-//console.log("suggestions:", suggestions);
-
-
-
-
-let response = '';
-
-switch (inputType) {
-case 'question':
-    response = "Great question! Here's what I found:";
-    break;
-case 'request':
-    response = "Let’s get that sorted for you! Here's what I suggest:";
-    break;
-case 'statement':
-    response = "Got it! Here's something that might help:";
-    break;
-default:
-    response = "I’m here to assist you. Here's what I found:";
-}
-
-// Return the main response and suggestions
- //return `${response}\n\n${suggestions.join('\n')}`;
 
 
 }

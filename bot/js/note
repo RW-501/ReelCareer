@@ -1,13 +1,9 @@
-// Function in brain.js that you want to call later
-
-  
-
 
    
         // Categories and keywords
         const categories = {
             job: [
-                'job', 'work', 'employment', 'career', 'position', 'role', 
+                'job','jobs', 'work', 'employment', 'career', 'position', 'role', 
                 'hire', 'recruit', 'vacancy', 'occupation', 'profession', 
                 'trade', 'gig', 'opportunity', 'opening', 'posting', 'listing', 
                 'internship', 'contract', 'freelance', 'staffing', 'assignment', 
@@ -36,7 +32,7 @@
             ],
         
             vehicle: [
-                'car', 'truck', 'vehicle', 'company car', 'company vehicle', 'automobile', 'bike', 'motorcycle', 'suv', 'van', 
+                'car', 'truck', 'vehicle', 'automobile','company car', 'company vehicle', 'bike', 'motorcycle', 'suv', 'van', 
                 'sedan', 'coupe', 'hatchback', 'convertible', 'wagon', 'pickup', 'jeep', 
                 'minivan', 'camper', 'bus', 'lorry', 'limousine', 'sports car', 'electric car', 
                 'hybrid', 'electric vehicle', 'ev', 'diesel', 'compact car', 'luxury car', 
@@ -57,24 +53,59 @@
             ],
   
             location: [
-                'state', 'my state', 'local', 'near me', 'nearby', 'close to me', 'by me', 
-                'city', 'town', 'area', 'region', 'neighborhood', 'metro', 'downtown', 
-                'uptown', 'suburb', 'urban', 'rural', 'in my area', 'around me', 
-                'dallas', 'los angeles', 'chicago', 'miami', 'houston', 'new york', 
-                'nyc', 'boston', 'seattle', 'atlanta', 'san francisco', 'san diego', 
-                'las vegas', 'phoenix', 'philadelphia', 'denver', 'washington', 'dc', 
-                'austin', 'orlando', 'san antonio', 'detroit', 'minneapolis', 'tampa', 
-                'charlotte', 'nashville', 'portland', 'st louis', 'pittsburgh', 
-                'new orleans', 'sacramento', 'oakland', 'long beach', 'raleigh', 
-                'cleveland', 'salt lake city', 'baltimore', 'kansas city', 'columbus', 
-                'indianapolis', 'memphis', 'oklahoma city', 'milwaukee', 'albuquerque', 
-                'fresno', 'tucson', 'colorado springs', 'san jose', 'el paso', 
-                'fort worth', 'jacksonville', 'louisville', 'richmond', 'hartford',
-                'buffalo', 'birmingham', 'mesa', 'omaha', 'anchorage', 'stockton', 
-                'virginia beach', 'honolulu', 'bakersfield', 'newark', 'toledo', 
-                'chandler', 'rochester', 'madison', 'greensboro', 'durham', 'lincoln', 
-                'plano', 'henderson', 'orleans', 'wilmington', 'dayton', 'springfield', 
-                'my location', 'current location', 'within city', 'within town', 'travel nearby'
+'state', 'my state', 'local', 'near me', 'nearby', 'close to me', 
+'by me', 'city', 'town', 'area', 'in', 'by', 'around', 'close', 
+'region', 'neighborhood', 'metro', 'jobs in', 'job in', 'downtown', 'uptown', 'suburb', 
+'urban', 'rural', 'in my area', 'around me', 'my location', 
+'current location', 'within city','find jobs', 'within town', 'travel nearby',
+
+
+    "austin", "atlanta", "albuquerque", "arlington", "anaheim", "anchorage", "augusta", "alexandria", "amarillo", "anchorage",
+    "asheville", "akron", "allentown", "aurora", "athens", "arvada", "abilene", "ann arbor", "avondale", "appleton",
+    "birmingham", "baltimore", "buffalo", "boston", "boise", "bakersfield", "bridgeport", "brownsville", "bellevue", "bend",
+    "boulder", "bismarck", "burlington", "bay area", "bridgeport", "blacksburg", "boca raton", "bentonville", "beaverton", "burlington",
+    "columbus", "chicago", "charlotte", "cincinnati", "cleveland", "colorado springs", "corpus christi", "chattanooga", "chesapeake", "columbia",
+    "cary", "charleston", "champaign", "culver city", "clinton", "clearwater", "charlottesville", "cedar rapids", "corona", "cleveland heights",
+    "dallas", "denver", "detroit", "durham", "doral", "des moines", "denton", "dothan", "dayton", "draper",
+    "el paso", "eugene", "evansville", "evanston", "erie", "escondido", "elgin", "encinitas", "evanston", "east lansing",
+    "fort worth", "fresno", "fort lauderdale", "fayetteville", "frisco", "fullerton", "flint", "fort collins", "fargo", "fishers",
+    "greensboro", "grand rapids", "glendale", "gloucester", "gainesville", "greenville", "grand prairie", "gilbert", "goodyear", "garden grove",
+    "houston", "henderson", "honolulu", "hartford", "hollywood", "highland", "hialeah", "hickory", "huntington", "huntsville",
+    "indianapolis", "irvine", "irving", "indianapolis", "jacksonville", "jersey city", "joliet", "joplin", "jackson", "juneau",
+    "kansas city", "killeen", "knoxville", "kalamazoo", "kent", "kenner", "kirkland", "kingston", "katy", "kalamazoo",
+    "lubbock", "louisville", "los angeles", "long beach", "lincoln", "lansing", "louisville", "laredo", "lafayette", "lakewood",
+    "memphis", "miami", "milwaukee", "minneapolis", "madison", "mesa", "montgomery", "mobile", "madison", "mesa",
+    "macon", "moreno valley", "missoula", "medford", "merced", "modesto", "myrtle beach", "montpelier", "manchester", "missouri city",
+    "macon", "morristown", "marion", "montrose", "mountain view", "mountain brook", "mckinney", "mcallen", "middletown", "murrieta",
+    "minot", "manteca", "marietta", "macon", "moline", "mount pleasant", "mississippi", "mission viejo", "monroe", "myrtle beach",
+    "melbourne", "murfreesboro", "meridian", "madison", "milford", "menifee", "marietta", "minneapolis", "murrieta", "muncie",
+    "mesa", "mobile", "moreno valley", "madison", "mckinney", "murphy", "mchenry", "montgomery", "mountain view", "mcallen",
+    "nashville", "new york", "new orleans", "newark", "norfolk", "naperville", "novi", "north las vegas", "newport news", "nampa",
+    "omaha", "orlando", "oakland", "overland park", "oxnard", "odessa", "ontario", "oceanside", "orangetown", "o'fallon",
+    "philadelphia", "phoenix", "pittsburgh", "plano", "portland", "pomona", "peoria", "pasadena", "providence", "pueblo",
+    "plano", "portland", "pittsburgh", "provo", "plano", "palmdale", "pompano beach", "poughkeepsie", "peoria", "parsons",
+    "queens", "quincy", "quakertown", "queen creek", "quincy", "quartzsite", "quincy", "quantico", "quakertown", "quinton",
+    "raleigh", "riverside", "richmond", "rochester", "reno", "rochester", "round rock", "riverside", "rancho cucamonga", "rockford",
+    "san antonio", "seattle", "san diego", "san francisco", "sacramento", "st. louis", "san jose", "st. paul", "st. petersburg", "syracuse",
+    "salt lake city", "st. louis", "springfield", "saginaw", "santa clarita", "sparks", "sherman", "shreveport", "springfield", "sarasota",
+    "sioux falls", "san mateo", "st. cloud", "south bend", "sun city", "salem", "santa barbara", "salinas", "south gate", "san marcos",
+    "quincy", "queen creek", "quakertown", "quantico", "quinton", "queens", "quick city", "quincy", "quaker hill", "quitman",
+    "raleigh", "riverside", "richmond", "rochester", "reno", "rockford", "round rock", "rancho cucamonga", "rochester", "rock hill",
+    "st. louis", "san antonio", "san diego", "san francisco", "sacramento", "st. paul", "seattle", "san jose", "st. petersburg", "syracuse",
+    "salt lake city", "st. louis", "springfield", "saginaw", "santa clarita", "sparks", "shreveport", "south bend", "salem", "santa barbara",
+    "sioux falls", "san mateo", "st. cloud", "south gate", "santa rosa", "salinas", "south carolina", "san marcos", "sun valley", "simi valley",
+    "tucson", "tampa", "toledo", "tulsa", "tallahassee", "tempe", "torrance", "tacoma", "thornton", "tustin",
+    "texas city", "tallahassee", "the woodlands", "thousand oaks", "trenton", "toms river", "temecula", "topeka", "tucson", "tampa",
+    "utica", "upland", "university city", "union city", "urbana", "upstate", "vallejo", "vancouver", "visalia", "virginia beach",
+    "vero beach", "victorville", "valdosta", "vicksburg", "vail", "vacaville", "venice", "vancouver", "van nuys", "vicksburg",
+    "wilmington", "washington", "worcester", "wichita", "west palm beach", "west covina", "wilmington", "waco", "waterloo", "westlake",
+    "west hollywood", "woodbridge", "waukesha", "westland", "wayne", "wilmington", "wellington", "woodland", "woodbury", "westfield",
+    "yonkers", "yuba city", "yorba linda", "yakima", "ypsilanti", "yuma", "youngstown", "zanesville", "zion", "zebulon",
+    "zion", "zephyrhills", "zachary", "zanesville", "zavalla", "zebulon", "zion", "zionsville", "zapato", "zanesville",
+    "zion", "zamora", "zia", "zuni", "zia", "zigler", "zachary", "zaragoza", "zedekiah", "zebulon"
+  
+  
+
             ],
       
             jobCategories: [
@@ -553,20 +584,44 @@
                 "WV": "west virginia", "WI": "wisconsin", "WY": "wyoming"
             },
             
-            money: ['money', 'income', 'wage', 'earnings', 'cost', 'revenue', 'expenses', 'budget', 'finance', 'financial'],
-
-            compare: ['like', 'same','better', 'worse', 'higher', 'lower', 'greater', 'less', 'equal', 'more', 'fewer', 'increase', 'decrease'],
-
-            question: ['who', 'what', 'where', 'when', 'why', 'how', '?'],
-            request: ['please', 'can you', 'could you', 'i need', 'would you', 'help', 'show me', 'tell me'],
-            statement: ['is', 'am', 'are', 'was', 'were', 'will', 'it', 'this', 'that', '.', 'I'],
-        
-            math: ['salary', 'pay', 'annual', 'monthly', 'sum', 'add', 'subtract', 'multiply', 'divide', '+', '-', '*', '/'],
+            sports: ["sport", "game", "team", "player", "match", "competition", "athlete", "league", "coach", "training", "goal", "score", "winning", "losing", "tournament", "championship", "referee", "fan", "stadium", "arena", "football", "basketball", "soccer", "baseball", "hockey", "tennis", "running", "swimming", "boxing", "wrestling", "volleyball", "rugby", "cycling", "gymnastics", "track", "field", "exercise", "workout"],
+            shopping: ["buy", "purchase", "store", "shop", "sale", "discount", "coupon", "offer", "price", "expensive", "cheap", "cost", "market", "mall", "checkout", "cart", "product", "goods", "clothes", "shoes", "electronics", "accessories", "fashion", "shopping", "retail", "online", "shopper", "customer", "storefront", "brand", "deal", "bargain", "item", "order", "transaction"],
+            people: ["person", "individual", "human", "people", "family", "friend", "relative", "acquaintance", "colleague", "neighbor", "stranger", "group", "crowd", "team", "community", "society", "audience", "member", "citizen", "resident", "tourist", "employee", "employer", "leader", "follower", "adult", "child", "teenager", "elder", "man", "woman", "boy", "girl", "couple", "parent", "sibling", "partner"],
+            occupation: ["job", "career", "work", "profession", "employee", "employer", "occupation", "role", "position", "job title", "workplace", "office", "salary", "pay", "hourly", "freelance", "contract", "full-time", "part-time", "intern", "manager", "director", "supervisor", "staff", "worker", "entrepreneur", "business owner", "contractor", "consultant", "technician", "specialist", "designer", "developer", "engineer", "teacher", "nurse", "doctor", "lawyer", "developer", "writer"],
+            holidays: ["holiday", "vacation", "break", "trip", "celebration", "season", "festivity", "celebrate", "party", "holiday season", "christmas", "new year", "thanksgiving", "easter", "summer vacation", "winter holiday", "spring break", "fall break", "public holiday", "national holiday", "long weekend", "tourism", "getaway", "journey", "trip", "travel", "destination", "holiday resort", "traveling", "staycation", "holiday destination", "festival"],
+            testing: ["test", "exam", "quiz", "assessment", "evaluation", "check", "trial", "experiment", "survey", "analysis", "questionnaire", "test case", "testing", "assessment", "feedback", "score", "results", "marks", "pass", "fail", "rating", "grade", "measure", "verify", "review", "validate", "analysis", "study", "experimentation", "result", "sample", "sample size", "benchmark"],
+            resume: ["resume", "CV", "curriculum vitae", "job application", "cover letter", "qualification", "experience", "education", "skills", "references", "professional", "career", "job history", "work experience", "profile", "career summary", "objective", "accomplishments", "certification", "portfolio", "application", "job seeker", "candidate", "job candidate", "summary", "employment history", "contact information", "personal details", "interests", "achievements", "skills"],
+            interview: ["interview", "question", "answer", "panel", "hiring", "recruitment", "candidate", "applicant", "job interview", "selection", "screening", "interviewee", "interviewer", "interview questions", "resume", "behavioral interview", "technical interview", "phone interview", "video interview", "group interview", "one-on-one", "follow-up", "evaluation", "feedback", "offer", "discussion", "negotiation", "job offer", "rejection", "acceptance", "hire"],
+            jobPosting: ["job posting", "job ad", "advertisement", "hiring", "career opening", "vacancy", "position", "job opportunity", "career opportunity", "employment", "work", "job description", "listing", "recruitment", "job opening", "staffing", "company", "recruitment ad", "job listing", "career announcement", "career page", "job vacancy", "new hire", "application", "job search", "post a job", "job board", "company career", "job seekers", "search for jobs"],          
+           
             quantity: ['much', 'many', 'few', 'several', 'lot', 'amount', 'count', 'number', 'how much', 'how many', 'volume'],
             verbs: ['is', 'are', 'was', 'were', 'be', 'being', 'been'], // Words serving as linking verbs or auxiliary verbs
             determiners: ['this', 'that', 'these', 'those', 'a', 'an', 'the', 'any', 'some'], // Words that specify nouns
             pronouns: ['it', 'he', 'she', 'they', 'we', 'you','i', 'I', 'me', 'us', 'them', 'him', 'her'],
         
+
+
+
+
+
+
+
+
+            money: ['money', 'income', 'wage', 'earnings', 'cost', 'revenue', 'expenses', 'budget', 'finance', 'financial'],
+            numbers: ["number", "digit", "quantity", "count", "figure", "value", "total", "sum", "amount", "statistic", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"],
+
+            compare: ['like', 'same','better', 'worse', 'higher', 'lower', 'greater', 'less', 'equal', 'more', 'fewer', 'increase', 'decrease'],
+            math: ['salary', 'pay', 'annual', 'monthly', 'sum', 'add', 'subtract', 'multiply', 'divide', '+', '-', '*', '/'],
+
+
+
+            conversation: ["talk", "chat", "speak", "discuss", "converse", "dialogue", "exchange", "communication", "interaction", "discussion", "conversing", "message", "question", "answer", "reply", "respond", "gather", "meeting", "meeting up", "speak up", "talking", "conversation"],
+ question: ['who', 'what', 'where', 'when', 'why', 'how', '?'],
+            statement: ['is', 'am', 'are', 'was', 'were', 'will', 'it', 'this', 'that', '.', 'I'],
+        
+
+            request: ['please', 'can you', 'could you', 'i need', 'would you', 'help'],
+
             action: [
                 'find', 'search', 'wash','make', 'create', 'build', 'develop', 'work', 'apply', 'find', 'search', 'submit', 'look', 'locate', 'searching', 
                 'submit', 'interview', 'complete', 'start', 'create', 'build', 
@@ -574,7 +629,7 @@
                 'manage', 'plan', 'prepare', 'schedule', 'track', 'verify', 'explore', 
                 'read', 'write', 'type', 'develop', 'run', 'fix', 'install', 'remove', 
                 'solve', 'handle', 'support', 'deliver', 'connect', 'contact', 'send', 
-                'receive', 'share', 'move', 'navigate', 'select', 'choose', 'pick', 
+                'receive', 'share', 'move', 'navigate', 'select', 'choose', 'pick' , 'remember',
                 'upload', 'download', 'save', 'process', 'apply for', 'hire', 'recruit', 
                 'train', 'test', 'evaluate', 'calculate', 'measure', 'examine', 'gather', 
                 'execute', 'improve', 'enhance', 'launch', 'implement', 'monitor', 
@@ -591,20 +646,3 @@
             ]
         };
         
-        
-        
-    
-
-
-
-        const categoryKeys = Object.keys(categories);
-
-        console.log(categoryKeys);
-        
-
-
-// Tokenize the input, including math symbols and numbers
-function tokenize(input) {
-    const regex = /[\w'-]+|[+\-*/()]|[\d,.]+/g; // Match words, numbers, and math symbols
-    return input.match(regex) || [];
-}

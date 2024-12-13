@@ -92,6 +92,124 @@ where status = "active"
 
 
 
+
+
+
+        if (bestMatch.category === 'request' || bestMatch.category === 'action' && 
+    bestMatch.word === 'please' || bestMatch.word === 'can' ||
+    bestMatch.word === 'can you' || bestMatch.word === 'i need' || 
+    bestMatch.word === 'would you' || bestMatch.word === 'help' ||
+     bestMatch.word === 'show me' || bestMatch.word === 'create' ||
+    bestMatch.word === 'build' || bestMatch.word === 'edit' || 
+    bestMatch.word === 'review' || bestMatch.word === 'check' ||
+     bestMatch.word === 'fix' || bestMatch.word === 'save' ||
+    bestMatch.word === 'add' || bestMatch.word === 'remember' || 
+    bestMatch.word === 'enhance' || bestMatch.word === 'improve' 
+    ) {
+    tokens
+searchableTitle Array,
+}
+
+
+
+
+
+AI
+
+
+make if statments and query functions for each quary type...  LearnModel collection... 
+
+        if (bestMatch.category === 'request' || bestMatch.category === 'action' && 
+    bestMatch.word === 'please' || bestMatch.word === 'can' ||
+    bestMatch.word === 'can you' || bestMatch.word === 'i need' || 
+    bestMatch.word === 'would you' || bestMatch.word === 'help' ||
+     bestMatch.word === 'show me' || bestMatch.word === 'create' ||
+    bestMatch.word === 'build' || bestMatch.word === 'edit' || 
+    bestMatch.word === 'review' || bestMatch.word === 'check' ||
+     bestMatch.word === 'fix' || bestMatch.word === 'save' ||
+    bestMatch.word === 'add' || bestMatch.word === 'remember' || 
+    bestMatch.word === 'enhance' || bestMatch.word === 'improve' 
+    ) {
+    tokens
+
+searchableDirections Array,
+}
+
+
+
+
+
+import { getFirestore, collection, query, where, getDocs } from "firebase/firestore";
+
+const db = getFirestore();
+
+async function handleJobQuery(bestMatch, tokens) {
+    try {
+        // Common Filters
+        const lowerTokens = tokens.map(t => t.trim().toLowerCase());
+
+        // Category: Job Categories
+        if (bestMatch.category === 'jobCategories') {
+            const jobCategory = bestMatch.word;
+            return fetchJobsByCategory(jobCategory);
+        }
+
+        // Category: Benefits
+        if (['benefit', 'travel', 'health', 'vehicle', 'technology', 'education'].includes(bestMatch.category) &&
+            ['job', 'company', 'food', 'hotel', 'travel', 'benefit', 'training', 'insurance', 'health'].includes(bestMatch.word)) {
+            return fetchJobsByBenefits(lowerTokens);
+        }
+
+   
+
+        // Default: No Match
+        return "No matching query criteria were found.";
+
+    } catch (error) {
+        console.error("Error handling job query:", error);
+        return "An error occurred while processing the query.";
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 Blogs collection...
 category =, postDate string "2024-12-04", tags Array, 
 where activate = true
