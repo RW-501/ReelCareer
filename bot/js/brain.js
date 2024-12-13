@@ -863,29 +863,46 @@ function prioritizeCategories(tokens, categorizedTokens, userPreferences = {}) {
 
 // Get default priorities for categories
 function getDefaultPriorities() {
+    let prioritiesCount = 0;
+
     return {
-        math: 1,
-        salary: 2,
-        jobSearch: 3,
-        websiteSupport: 4,
-        generalInquiry: 5,
-        jobRelated: 6,
-        vehicle: 7,
-        location: 8,
-        jobCategories: 9,
-        events: 10,
-        technology: 11,
-        health: 12,
-        emotions: 13,
-        time: 14,
-        experience: 15,
-        benefit: 16,
-        company: 17,
-        preferences: 18,
-        relationships: 19,
-        payments: 20,
-        feedback: 21,
-        action: 0  // Assign the highest priority to action by default
+        // Auto-incremented priorities
+        action: prioritiesCount, // Assign the highest priority to action by default
+
+        setDocument: prioritiesCount++,
+        addDocument: prioritiesCount++,
+        updateDocument: prioritiesCount++,
+
+        generalInquiry: prioritiesCount++,
+        question: prioritiesCount++,
+
+        dataBaseTerms: prioritiesCount++,
+
+        jobSearch: prioritiesCount++,
+        jobRelated: prioritiesCount++,
+
+        math: prioritiesCount++,
+
+        location: prioritiesCount++,
+        time: prioritiesCount++,
+        salary: prioritiesCount++,
+
+        websiteSupport: prioritiesCount++,
+        conversation: prioritiesCount++,
+
+        vehicle: prioritiesCount++,
+        jobCategories: prioritiesCount++,
+        events: prioritiesCount++,
+        technology: prioritiesCount++,
+        health: prioritiesCount++,
+        emotions: prioritiesCount++,
+        experience: prioritiesCount++,
+        benefit: prioritiesCount++,
+        company: prioritiesCount++,
+        preferences: prioritiesCount++,
+        relationships: prioritiesCount++,
+        payments: prioritiesCount++,
+        feedback: prioritiesCount++,
     };
 }
 
