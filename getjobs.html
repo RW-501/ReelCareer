@@ -563,12 +563,12 @@ function getSelectedJobs() {
     console.log("Selected Jobs:", jobs);
     return jobs;
 }
-
 function displayJobs(jobs) {
     const container = document.getElementById("jobApplications");
     container.innerHTML = "";
 
     jobs.forEach(job => {
+        const jobData = JSON.stringify(job); // Serialize job object
         const row = document.createElement("tr");
         row.className = "job-item";
         row.innerHTML = `
@@ -581,6 +581,7 @@ function displayJobs(jobs) {
             <td>${new Date(job.created).toLocaleDateString() || ''}</td>
             <td>${job.category.tag || ''}</td>
             <td><button onclick="addJob('${job.id}')">Add</button></td>
+            <input type="hidden" value='${jobData}'> <!-- Hidden input -->
         `;
         container.appendChild(row);
 
