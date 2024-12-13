@@ -749,28 +749,8 @@ return { salary, keyword };
 
 
 
-// Normalize locations by matching location abbreviations and full names
-function normalizeLocations(tokens, categories) {
-return tokens.map(token => {
-console.log("tokens:", tokens);
-// Check if the token matches a state abbreviation
-const normalizedToken = categories[token.toUpperCase()];
-if (normalizedToken) {
-    return normalizedToken.toLowerCase(); // Normalize state names to lowercase
-}
 
-// Check if the token matches a state name
-const foundState = Object.values(categories.states).find(state => 
-    state.toLowerCase() === token.toLowerCase()
-);
-if (foundState) {
-    return foundState.toLowerCase(); // Normalize full state names to lowercase
-}
 
-// Return the token unchanged if not a state
-return token;
-});
-}
 
 
 
@@ -1430,21 +1410,14 @@ function processMessage(message) {
 const userInput = message.toLowerCase();
 let tokens = tokenize(userInput);
 
-// 1. Handle math expressions
-const mathResponse = detectAndEvaluateMath(tokens);
-if (mathResponse) {
-return `Here's your result: ${mathResponse}`;
-}
 
 
 
+console.log("tokens:", tokens);
 
-//console.log("tokens:", tokens);
 
-// 3. Categorize tokens
-//tokens = normalizeLocations(tokens, categories);
 const categorizedTokens = categorizeTokens(tokens, categories);
-//console.log("categorizedTokens:", categorizedTokens);
+console.log("categorizedTokens:", categorizedTokens);
 
 
 
@@ -1461,6 +1434,12 @@ const inputType = determineInputType(tokens, categories);
 
 console.log("userPreferences:", inputType);
 
+
+// 1. Handle math expressions
+const mathResponse = detectAndEvaluateMath(tokens);
+if (mathResponse) {
+return `Here's your result: ${mathResponse}`;
+}
 
 
 
