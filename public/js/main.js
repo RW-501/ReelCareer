@@ -3271,6 +3271,8 @@ let messageWithLinks = '';
         if(messageWithLinks.length > 0){
 
         messageDiv.innerHTML = `${senderLabel}${messageWithLinks.substring(0, index + 1)}`;
+         }else{
+          return;
          }
         index++;
 
