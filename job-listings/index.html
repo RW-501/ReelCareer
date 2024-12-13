@@ -1058,9 +1058,7 @@ const searchableTitle = [
 async function handleJobPostSubmission(event) {
   event.preventDefault(); // Prevent form refresh
 
-  const jobDetails = collectJobDetails(); // Collect form data
-
-
+  
 
 
   const complianceCheck = document.getElementById("complianceCheck");
@@ -1087,6 +1085,10 @@ if (!complianceCheck || !complianceCheck.checked) {
       await signInAnonymously(auth);
       console.log("User signed in anonymously");
     }
+
+    const jobDetails = collectJobDetails(auth.currentUser.uid); // Collect form data
+
+
     // Add to Applications collection
     const applicationsRef = collection(db, "Jobs");
 
@@ -1154,9 +1156,9 @@ const generalTags = createTagInputSystem({
         badgeClass: "tag-primary" // Custom badge class for general tags
     });
 
-function collectJobDetails() {
+function collectJobDetails(uid) {
   return {
-    recruiterID: auth.currentUser.uid,
+    recruiterID: uid,
     title: getInputValue("jobTitle"),
   company: getInputValue("company"),
   description: getInputValue("jobDescription"),
