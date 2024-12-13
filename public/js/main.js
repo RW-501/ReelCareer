@@ -486,12 +486,13 @@ document.getElementById("phoneLogin")?.addEventListener("click", async () => {
         // Initialize reCAPTCHA
         const appVerifier = new RecaptchaVerifier("recaptcha-container", { size: "invisible" }, auth);
         await appVerifier.render();
-
+        
         // Send SMS code
         confirmationResult = await signInWithPhoneNumber(auth, phoneNumber, appVerifier);
         showToast("Code sent successfully.");
         
         // Show verification code input
+        document.getElementById("verifyCodeButton").style.display = "block";
         document.getElementById("verificationCodeGroup").style.display = "block";
         document.getElementById("sendVerificationCode").style.display = "none";
 
