@@ -2939,8 +2939,8 @@ function toggleChatbotFullscreen() {
   }
 }
 
-// Add event listener to the button
-toggleFullscreenBtn.addEventListener('click', toggleChatbotFullscreen);
+
+
 
   // Event Listeners
   chatButton.addEventListener("click", () => {

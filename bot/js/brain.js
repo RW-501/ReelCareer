@@ -677,6 +677,7 @@
         'alter document', 'update information', 'update record', 'patch document', 
         'document modification', 'change record', 'revise document', 'update details'
     ]
+    
         };
         
         
@@ -841,6 +842,38 @@ function categorizeTokens(tokens, categories) {
     return mappedWords;
 }
 
+const homophones = {
+    "there": "their",
+    "they're": "their",
+    "to": "too",
+    "too": "to",
+    "your": "you're",
+    "its": "it's",
+    "than": "then",
+    "weather": "whether",
+    "hear": "here",
+    "peace": "piece",
+    "right": "write"
+    // Add more homophones as necessary
+};
+
+
+
+function tokenize(sentence) {
+    // A simple tokenizer that splits sentence by spaces. 
+    // You can make it more sophisticated if needed.
+    return sentence.split(' ');
+}
+
+function correctHomophones(sentence) {
+    const tokens = tokenize(sentence);  // Tokenize the input sentence
+    let correctedSentence = tokens.map(token => {
+        // If the token is a homophone, replace it
+        return homophones[token.toLowerCase()] || token;
+    }).join(' ');
+    
+    return correctedSentence;
+}
 
 
 
