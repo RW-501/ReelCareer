@@ -343,13 +343,18 @@ min-width: 500px;
         <input type="text" id="phoneNumber" placeholder="Phone Number (e.g., +1xxxxxxxxxx)" required>
         <div id="phoneNumberError" style="color: #ff3860; display: none;"></div>
     </div>
+    <div class="auth-btns">
+    <a href="#" id="show-login-p">Log In</a>
+    <p>New user? <a href="#" id="show-signup-p">Sign Up</a>
+    </div>
+
     <div id="recaptcha-container"></div> <!-- For reCAPTCHA -->
-    <button type="button" id="sendVerificationCode" onclick="phoneLogin()">Send Code</button>
+    <button type="button" id="sendVerificationCode" >Send Code</button>
 
     <!-- Code Verification Section -->
     <div id="verificationCodeGroup" style="display: none; margin-top: 10px;">
         <input type="text" id="verificationCode" placeholder="Enter Verification Code" required>
-        <button type="button" id="verifyCodeButton" onclick="verifyCode()">Verify Code</button>
+        <button type="button" id="verifyCodeButton" >Verify Code</button>
     </div>
 </form>
 
@@ -449,7 +454,19 @@ document.addEventListener('DOMContentLoaded', toggleForms);
             document.getElementById('signup-form').style.display = 'block';
             document.getElementById('phone-login-form').style.display = 'none';
         });
+        document.getElementById('show-login-p').addEventListener('click', function(event) {
+            event.preventDefault();
+            document.getElementById('signup-form').style.display = 'none';
+            document.getElementById('login-form').style.display = 'block';
+            document.getElementById('phone-login-form').style.display = 'none';
+        });
 
+        document.getElementById('show-signup-p').addEventListener('click', function(event) {
+            event.preventDefault();
+            document.getElementById('login-form').style.display = 'none';
+            document.getElementById('signup-form').style.display = 'block';
+            document.getElementById('phone-login-form').style.display = 'none';
+        });
         document.getElementById('phoneLogin').addEventListener('click', function(event) {
             event.preventDefault();
             document.getElementById('login-form').style.display = 'none';
