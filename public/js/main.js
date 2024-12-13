@@ -2661,10 +2661,8 @@ function toggleTextToVoice() {
     const button = document.getElementById("textToVoiceBtn");
 
     if (!isTextToVoiceOn) {
-        if (textInput.trim() === "") {
-            showToast("Please enter text to speak.");
-            return;
-        }
+         
+      
 
         // Start speaking
         const speechSynthesis = window.speechSynthesis;
