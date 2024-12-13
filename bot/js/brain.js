@@ -1013,7 +1013,10 @@ async function handleJobQuery( tokens,categorizedTokens, userPreferences) {
         let constraints = []; // Holds query constraints
         
         // 1. Handle Requests/Actions with Specific Words
-        if (bestMatch.category === 'request' || bestMatch.category === 'action') {
+        if (bestMatch.category === 'dataBaseTerms' || bestMatch.category === 'setDocument' || 
+            bestMatch.category === 'addDocument' || bestMatch.category === 'updateDocument' || 
+
+            bestMatch.category === 'request' || bestMatch.category === 'action') {
             const actionWords = ['please', 'can', 'can you', 'i need', 'would you', 'help', 
                                  'show me', 'create', 'build', 'edit', 'review', 'check',
                                  'fix', 'save', 'add', 'remember', 'enhance', 'improve'];
@@ -1233,39 +1236,6 @@ async function fetchJobData({ location, jobType }) {
 }
 
 
-
-/*
-async function filterJobsBySalary(salaryData) {
-    const salaryThreshold = salaryData.salary;
-
-    // Check if salaryThreshold is valid
-    if (typeof salaryThreshold !== 'number' || isNaN(salaryThreshold)) {
-        return "Invalid salary value provided. Please provide a valid number.";
-    }
-
-    try {
-        // Create query to fetch jobs with salary >= salaryThreshold
-        const jobQuery = query(
-            collection(db, 'Jobs'),
-            where('salary', '>=', salaryThreshold)
-        );
-
-        // Fetch data
-        const snapshot = await getDocs(jobQuery);
-        const jobs = snapshot.docs.map(doc => doc.data());
-
-        // Return result
-        if (jobs.length > 0) {
-            return `Found ${jobs.length} job(s) that pay over $${salaryThreshold}.`;
-        } else {
-            return "No jobs found that match your salary criteria.";
-        }
-    } catch (error) {
-        console.error("Error fetching job data:", error);
-        return "Sorry, there was an error filtering jobs by salary.";
-    }
-}
-*/
 async function fetchJobsByCategory(category) {
     const jobQuery = query(collection(db, 'Jobs'), where('category', '==', category));
     return executeQuery(jobQuery, `Jobs in category: ${category}`);
