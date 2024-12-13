@@ -2716,9 +2716,7 @@ function toggleVoiceToText() {
           const transcript = Array.from(event.results)
               .map(result => result[0].transcript)
               .join('');
-           let userMessage = document.getElementById("chat-input").innerText;
-
-           userMessage = transcript;
+           document.getElementById("chat-input").innerText = transcript;
 
              // handleUserInput(transcript);
         };
