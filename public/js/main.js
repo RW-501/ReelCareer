@@ -3472,16 +3472,25 @@ async function logUnansweredQuestion(message) {
 
 // Unified sanitization and validation function
 function sanitizeAndValidateInput(input) {
-  // Sanitize: Remove HTML tags and potentially unsafe characters
+  // Step 1: Remove any HTML tags
   const sanitized = input.replace(/<[^>]*>/g, "").trim();
 
-  // Validate: Check for dangerous patterns or invalid content
-  if (!isSafeInput(sanitized)) {
-    return null; // Return null if unsafe content is found
+  // Step 2: Allow common special characters while blocking dangerous patterns
+  if (!isSafeInputChat(sanitized)) {
+      return null; // Return null if unsafe content is found
   }
 
-  return sanitized.toLowerCase(); // Normalize to lowercase and return
+  return sanitized; // Return the clean input without forcing lowercase
 }
+
+// Updated safety check
+window.isSafeInputChat = function (input) {
+  // Allow safe special characters: $,.!@#()&%/* and numbers, letters, spaces
+  // Block harmful patterns like scripts, SQL keywords, and backslashes
+  const dangerousPatterns = /(script|SELECT|UPDATE|DELETE|INSERT|DROP|TABLE|ALTER|--|\\)/i;
+
+  return !dangerousPatterns.test(input);
+};
 
 
 // Send message and match it to predefined questions
@@ -3497,7 +3506,7 @@ async function sendMessage(userMessage) {
    // 2. Sanitize and normalize the input
    const sanitizedMessage = sanitizeAndValidateInput(userMessage);
    if (!sanitizedMessage) {
-     console.warn("Invalid or unsafe input.");
+     showToast("Invalid or unsafe input.");
      return; // Exit if the message fails sanitization or validation
    }
  
