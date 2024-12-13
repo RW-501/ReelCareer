@@ -2662,7 +2662,6 @@ function toggleTextToVoice() {
 
     if (!isTextToVoiceOn) {
         // Set the utterance and speak the text (this is an example)
-        utterance = new SpeechSynthesisUtterance("Hello, this is a test.");
         speechSynthesis.speak(utterance);
 
         button.innerHTML = '<i id="textVoiceIcon" class="fas fa-volume-mute"></i>';
