@@ -2853,8 +2853,16 @@ document.body.appendChild(chatPanel);
   <strong>ReelCareer Chatbot</strong>
 </a>
 
-
+<div class="closeArea">
+  <!-- Fullscreen Toggle Button -->
+    <button id="toggleFullscreenBtn" 
+            aria-label="Toggle Chatbot Fullscreen" 
+            aria-pressed="false" 
+            style="background-color: #84adea; color: white; border: none; padding: 8px; border-radius: 4px; cursor: pointer;">
+        <i id="fullscreenIcon" class="fas fa-expand"></i>
+    </button>
           <button id="close-chat" style=" font-family: sans-serif; background: none;border: none;color: #ffffff;cursor: pointer;font-size: x-large;padding: 0;margin: 0;">×</button>
+      </div>
       </div>
       <div id="chatbot-messages" style="padding: 0 .5rem; flex: 1; padding: 10px; overflow-y: auto; font-size: 14px;"></div>
       <div style="padding: 10px; border-top: 1px solid #ddd;">
@@ -2892,7 +2900,48 @@ document.body.appendChild(chatPanel);
   document.body.appendChild(chatButton);
   document.body.appendChild(chatPanel);
 
-   
+ // Function to toggle fullscreen state of the chatbot panel
+function toggleChatbotFullscreen() {
+  const chatbotPanel = document.getElementById('chatbot-panel');
+  const toggleFullscreenBtn = document.getElementById('toggleFullscreenBtn');
+  
+  // Check if the panel is already in fullscreen mode
+  const isFullscreen = chatbotPanel.style.height === '100vh'; // Fullscreen height
+
+  if (isFullscreen) {
+    // If it's fullscreen, set it back to normal size
+    chatbotPanel.style.position = "initial"; // Reset position (e.g., relative or initial)
+    chatbotPanel.style.top = 'initial';
+    chatbotPanel.style.bottom = 'initial';
+    chatbotPanel.style.right = 'initial';
+    chatbotPanel.style.left = 'initial';
+    chatbotPanel.style.height = 'initial'; // Reset to original height
+    chatbotPanel.style.width = 'initial'; // Reset to original width
+    
+    // Optionally, reset other properties like margin, padding, etc.
+    // chatbotPanel.style.margin = "initial";
+    // chatbotPanel.style.padding = "initial";
+
+    toggleFullscreenBtn.setAttribute('aria-pressed', 'false'); // Update ARIA attribute
+    document.getElementById('fullscreenIcon').classList.replace('fa-compress', 'fa-expand'); // Change icon back
+  } else {
+    // If it's not fullscreen, make it fullscreen
+    chatbotPanel.style.position = "absolute"; // Position it absolutely
+    chatbotPanel.style.top = 0;
+    chatbotPanel.style.bottom = 0;
+    chatbotPanel.style.right = 0;
+    chatbotPanel.style.left = 0;
+    chatbotPanel.style.height = '100vh'; // Fullscreen height
+    chatbotPanel.style.width = '100vw'; // Fullscreen width
+
+    toggleFullscreenBtn.setAttribute('aria-pressed', 'true'); // Update ARIA attribute
+    document.getElementById('fullscreenIcon').classList.replace('fa-expand', 'fa-compress'); // Change icon to indicate fullscreen mode
+  }
+}
+
+// Add event listener to the button
+toggleFullscreenBtn.addEventListener('click', toggleChatbotFullscreen);
+
   // Event Listeners
   chatButton.addEventListener("click", () => {
       chatPanel.style.display = "flex";
@@ -2908,6 +2957,10 @@ document.body.appendChild(chatPanel);
 
     textToVoiceButton.addEventListener("click", toggleTextToVoice);
     voiceToTextButton.addEventListener("click", toggleVoiceToText);
+  // Get the button and the chatbot panel elements
+  const toggleFullscreenBtn = document.getElementById('toggleFullscreenBtn');
+
+  toggleFullscreenBtn.addEventListener("click", toggleChatbotFullscreen);
 
   
   function replaceMainContentWithBot() {
