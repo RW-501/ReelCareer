@@ -574,6 +574,113 @@
 
 
 
+    async function submitReport() {
+    const selectedReasons = [];
+    document.querySelectorAll('#reportJobForm input[type="checkbox"]:checked').forEach((checkbox) => {
+        selectedReasons.push(checkbox.value);
+    });
+
+    const userDataSaved = getUserData() || [];
+    const message = document.getElementById('reportMessage').value;
+    const statusMessage = document.getElementById('reportStatusMessage');
+    const closeButton = document.getElementById('closeReportModalButton');
+
+    // Clear any previous messages
+    statusMessage.innerHTML = '';
+    statusMessage.className = '';
+
+    if (selectedReasons.length === 0 && !message) {
+        statusMessage.innerHTML = 'Please select a reason or enter a message before submitting.';
+        statusMessage.className = 'text-danger';
+        return;
+    }
+
+  
+    // Report Data to Firebase
+    const reportData = {
+        videoId: jobID,
+        jobTitle: document.title,
+        reasons: selectedReasons,
+        message: message,
+        URL: window.location.href,
+        submittedAt: new Date().toISOString(),
+        timestamp: serverTimestamp(),
+        submittedBy: "user",
+        submittedByUserID: userID,
+        submittedByUserName: userDataSaved.displayName || "User",
+        type: "User Report",
+        pageTitle: document.title,
+        status: "submitted"
+    };
+
+    // Create content for the follow-up message
+    const reasonsContent = selectedReasons.length > 0 ? `Reasons: ${selectedReasons.join(', ')}` : '';
+    const followUpMessageContent = `
+        Thank you for reporting this issue. Our support team will follow up shortly. 
+
+        ${reasonsContent}
+
+        From ReelCareer
+    `;
+
+    // Follow-up Message Data
+    const followUpMessage = {
+        recipientID: userID,
+        recipientName: userDataSaved.displayName || "User",
+        recipientProfileURL: `https://reelcareer.co/u/?u=${userID}`,
+        recipientProfilePicture: "",
+        recipientRead: false,
+        participants: ["000000", userID],
+        senderID: "000000", // Support account ID
+        senderName: "Support",
+        senderProfilePicture: "https://reelcareer.co/Images/logo.png",
+        senderProfileURL: "https://reelcareer.co/support",
+        group: "main",
+        messageType: "support",
+        contactLocation: "platform",
+        conversationID: `conversation_${jobID}_${userID}`,
+        content: followUpMessageContent.trim(),
+        connectedBool: true,
+        createdAt: new Date(),
+        timestamp: serverTimestamp(),
+        contentType: "notification",
+        status: "unread",
+        attachments: ""
+    };
+
+    try {
+
+      
+        // Submit the report
+        const reportRef = await addDoc(collection(db, 'SupportTickets'), reportData);
+        console.log(`Report submitted with ID: ${reportRef.id}`);
+
+        // Send the follow-up message
+        await addDoc(collection(db, "Messages"), followUpMessage);
+        console.log("Follow-up message sent successfully!");
+
+        // Show success message to user
+        statusMessage.innerHTML = 'Your report has been submitted. Thank you for your feedback.';
+        statusMessage.className = 'text-success';
+        closeButton.style.display = 'block';
+
+        // Disable submit button after success
+        document.querySelector('#reportJobForm button[type="button"]').disabled = true;
+
+    } catch (error) {
+        console.error("Error submitting report or follow-up message:", error);
+
+        statusMessage.innerHTML = 'There was an error submitting your report. Please try again later.';
+        statusMessage.className = 'text-danger';
+    } finally {
+
+    }
+}
+
+
+
+
+
 
 
 
@@ -652,6 +759,7 @@ async function fetchVideoResumes(page, user) {
             videoCard.innerHTML = `
                 <div id="videoCard_${docId}" class="video-card">
                     <div class="user-info">
+                      <div class="user-info-left">
                         <img src="${videoData.profilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_sm.png'}"
                              alt="${videoData.displayName}" 
                              class="profile-img lazy-load-image">
@@ -660,7 +768,12 @@ async function fetchVideoResumes(page, user) {
                               <small class="badge">${videoData.verified}</small </h3>
                             <p class="job-title">${videoData.position || 'Not Specified'}</p>
                         </div>
-                    </div>
+                        </div>
+                      <div class="user-info-right">
+
+
+                        </div>
+                        </div>
 
                     <div class="video-container">
                         <video controls class="video-element" poster="${videoData.thumbnailURL || ''}">
