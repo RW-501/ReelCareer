@@ -600,12 +600,18 @@ async function fetchVideoResumes(page, user) {
             videosQuery = query(
                 videosRef,
                 where("status", "==", "posted"),
+        orderBy("timestamp", "desc"), // Order by most recent timestamp
                 startAfter(lastVisibleDoc),
                 limit(postsPerPage)
             );
         } else {
-            videosQuery = query(videosRef, where("status", "==", "posted"), limit(postsPerPage));
-        }
+          videosQuery = query(
+        videosRef,
+        where("status", "==", "posted"),
+        orderBy("timestamp", "desc"), // Order by most recent timestamp
+        limit(postsPerPage)
+    );
+          }
 
         const querySnap = await getDocs(videosQuery);
         if (querySnap.empty) {
@@ -632,6 +638,7 @@ async function fetchVideoResumes(page, user) {
             const videoCard = document.createElement("div");
             videoCard.className = "video-post";
             videoCard.dataset.docId = docId; // Add dataset attribute
+            videoCard.dataset.timestamp = videoData.timestamp;
             videoCard.dataset.tags = videoData.tags || ''; // For search functionality
             videoCard.dataset.displayName = videoData.displayName || '';
             videoCard.dataset.position = videoData.position || '';
