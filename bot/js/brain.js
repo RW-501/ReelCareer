@@ -1474,7 +1474,7 @@ function validateTokenCategorization(tokens, categorizedTokens) {
     return missingWords.length > 0 ? missingWords : "READY";
 }
 
-async function createButtons(type, termsArray, containerId, type) {
+async function createButtons(type, termsArray, containerId, btnType) {
     // Get the container where buttons will be added
     const container = document.getElementById(containerId);
 
@@ -1493,7 +1493,7 @@ async function createButtons(type, termsArray, containerId, type) {
 
         // Add event listener to the button
         button.addEventListener('click', async (e) => { // Mark this function as async to use await
-            if(type === "FromTerms"){
+            if(btnType === "FromTerms"){
 
                 // Handle the setDocs action
                 if ("setDocument" === type) {
