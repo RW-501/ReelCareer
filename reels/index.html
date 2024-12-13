@@ -574,7 +574,7 @@
 
 
 
-    async function submitReport() {
+    async function reportVideo(docId) {
     const selectedReasons = [];
     document.querySelectorAll('#reportJobForm input[type="checkbox"]:checked').forEach((checkbox) => {
         selectedReasons.push(checkbox.value);
@@ -795,6 +795,7 @@ async function fetchVideoResumes(page, user) {
                         </div>
                         </div>
                       <div class="user-info-right">
+          <button class="reportVideoBtn" class="btn btn-warning w-100" data-doc-id="${docId}">Report Video</button>
 
 
                         </div>
@@ -851,8 +852,10 @@ async function fetchVideoResumes(page, user) {
             const joinUsButton = videoCard.querySelector(".join-us-button");
             const addUserButton = videoCard.querySelector(".add-user-button");
             const likeButton = videoCard.querySelector(".like-btn");
+            const reportVideoBtn = videoCard.querySelector(".reportVideoBtn");
 if(user){
             // Mute toggle functionality
+            reportVideoBtn.addEventListener("click", () => reportVideo(docId));
             muteButton.addEventListener("click", () => toggleMute(docId));
 
             // Other button actions
