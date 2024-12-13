@@ -473,6 +473,10 @@ document.getElementById("phoneLogin")?.addEventListener("click", async () => {
     const phoneNumberInput = document.getElementById("phoneNumber").value.trim();
     const phoneNumberError = document.getElementById("phoneNumberError");
 
+
+    if(!phoneNumberInput){
+      return;
+    }
     showLoading(); // Show loading spinner
     try {
         // Format and validate phone number
