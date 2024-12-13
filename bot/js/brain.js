@@ -1500,7 +1500,7 @@ async function createButtons(type, termsArray, containerId, btnType) {
                     const docId = e.target.dataset.term;
                     console.log("Setting a new document...");
                     // Await the setDoc function call and handle the result
-                    const result = await setDoc(learningModel_DB, docId);
+                    const result = await setDocFunc(learningModel_DB, docId);
                     console.log(result); // Optionally log the result
                 }
             
@@ -1509,7 +1509,7 @@ async function createButtons(type, termsArray, containerId, btnType) {
                     const docId = e.target.dataset.term;
                     console.log("Updating an existing document...");
                     // Await the updateDoc function call and handle the result
-                    const result = await updateDoc(learningModel_DB, docId);
+                    const result = await updateDocFunc(learningModel_DB, docId);
                     console.log(result); // Optionally log the result
                 }
                 if ("addDocument" === type) {
@@ -1601,7 +1601,7 @@ console.log("Adding a new document...");
 
 
 
-async function updateDoc(learningModel_DB, docId, tokens) {
+async function updateDocFunc(learningModel_DB, docId, tokens) {
 
     const actionWords = [
         'update', 'updateDoc', 'modify', 'change document', 'edit document', 'update fields', 
@@ -1647,7 +1647,7 @@ if(!results){
 
 
 
-async function setDoc(docId, learningModel_DB, tokens) {
+async function setDocFunc(docId, learningModel_DB, tokens) {
     // Define action words (can be used for matching or other purposes)
     const actionWords = [
         'set', 'setDoc', 'set document', 'overwrite', 'create new', 'update completely', 
