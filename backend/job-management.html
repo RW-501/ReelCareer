@@ -426,7 +426,6 @@ function searchJobs() {
     });
 }
 
-window.searchJobs = searchJobs;
 
 // Function to sort table columns
 let sortOrder = true; // true for ascending, false for descending
@@ -459,7 +458,6 @@ function sortTable(columnIndex) {
     sortOrder = !sortOrder; // Toggle sort order
 }
 
-window.sortTable = sortTable;
 
 
 
@@ -501,7 +499,6 @@ async function deleteSelectedJobs() {
     }
 }
 
-window.deleteSelectedJobs = deleteSelectedJobs;
 
 // Open job modal for adding a job
 function openJobModal() {
@@ -509,7 +506,6 @@ function openJobModal() {
     document.getElementById('jobId').value = '';
     $('#jobModal').modal('show');
 }
-window.openJobModal = openJobModal;
 
 // Edit job
 function editJob(id, job) {
@@ -522,6 +518,17 @@ function editJob(id, job) {
     document.getElementById('jobId').value = id;
     $('#jobModal').modal('show');
 }
+
+document.addEventListener('DOMContentLoaded', (event) => {
+    window.editJob = editJob;
+    window.openJobModal = openJobModal;
+    window.deleteJob = deleteJob;
+window.categorizeJob = categorizeJob;
+window.deleteSelectedJobs = deleteSelectedJobs;
+window.searchJobs = searchJobs;
+window.sortTable = sortTable;
+
+});
 
 document.getElementById('jobForm').onsubmit = async function(e) {
     e.preventDefault();
@@ -606,7 +613,6 @@ function categorizeJob(title, description) {
     return 'Other'; // Default category if no match found
 }
 
-window.categorizeJob = categorizeJob;
 
 
 // Add category
