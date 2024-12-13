@@ -845,11 +845,13 @@ function categorizeTokens(tokens, categories) {
 
 
 function prioritizeCategories(tokens, categorizedTokens, userPreferences = {}) { 
+   /*
+   
     console.log("prioritizeCategories=====================================, "); 
     console.log("categorizedTokens, ", categorizedTokens); 
     console.log( "userPreferences,", userPreferences); 
     console.log("tokens, ", tokens); 
-
+*/
     // Default priorities for categories
     const priorities = getDefaultPriorities();
 
@@ -1428,8 +1430,8 @@ async function fetchJobQueryAndDisplay() {
         // Wait for handleJobQuery to resolve
         let JobQuery = await handleJobQuery(tokens, categorizedTokens, userPreferences = inputType);
 
-      //  console.log("JobQuery Result:", JobQuery); // Log the result
 
+        
         // Add a 3-second delay before calling displayMessage
         if (JobQuery) {
             setTimeout(async () => {
@@ -1455,6 +1457,55 @@ window.processMessage  = processMessage ;
 
 
 
+
+function validateTokenCategorization(tokens, categorizedTokens) {
+    // Extract unique words from categorizedTokens
+    const categorizedWords = [...new Set(categorizedTokens.map(item => item.word))];
+
+    // If lengths match, return "ready"
+    if (tokens.length === categorizedTokens.length) {
+        return "READY";
+    }
+
+    // Compare categorized words with tokens to find missing words
+    const missingWords = tokens.filter(token => !categorizedWords.includes(token));
+
+    // Return the missing words array directly
+    return missingWords.length > 0 ? missingWords : "READY";
+}
+
+
+function createButtonsFromTerms(termsArray, containerId) {
+    // Get the container where buttons will be added
+    const container = document.getElementById(containerId);
+
+    // Clear the container to avoid duplicates
+    container.innerHTML = '';
+
+    // Loop through each term in the array
+    termsArray.forEach(term => {
+        // Create a button element
+        const button = document.createElement('button');
+
+        // Set button text and attributes
+        button.innerText = term;
+        button.className = 'dynamic-button'; // Optional: Add a class for styling
+        button.dataset.term = term; // Store term for reference
+
+        // Add event listener to the button
+        button.addEventListener('click', (e) => {
+            console.log(`Button clicked: ${e.target.dataset.term}`);
+            alert(`You clicked on: ${e.target.dataset.term}`);
+
+            
+        });
+
+        // Append the button to the container
+        container.appendChild(button);
+
+        return container;
+    });
+}
 
 
 
@@ -1512,30 +1563,56 @@ async function handleLearningModelRequest(bestMatch, matchedActions, tokens, cat
         console.log(`Tokens for adding: ${tokens}`);
         console.log(`Matched actions for adding: ${matchedActions}`);
 
-        if (matchedActions.length > 0) {
-            console.log(`Adding a new document to '${learningModel_DB}' collection`);
-
-            const directionsArray = [
-                { key: bestMatch.word, value: bestMatch.word },
-                { key: matchedActions, value: matchedActions }
-            ];
 
 
-            const newDocumentData = {
-                directions: tokens.join(' '),
-                timestamp: firebase.firestore.FieldValue.serverTimestamp()
-            };
 
-            try {
-                const docRef = await db.collection(learningModel_DB).add(newDocumentData);
-                console.log(`New document added with ID: ${docRef.id}`);
 
-                return `I have successfully added a new document with ID ${docRef.id}.`;
-            } catch (error) {
-                console.error('Error adding document:', error);
-                return 'Failed to add a new document.';
-            }
+
+const result = validateTokenCategorization(tokens, categorizedTokens);
+console.log(result);
+
+if(result != "READY"){
+
+createButtonsFromTerms(result, `btnContainer${bestMatch.word}`); // 'buttonContainer' is the ID of a div
+
+
+}else{
+
+
+    if (matchedActions.length > 0) {
+        console.log(`Adding a new document to '${learningModel_DB}' collection`);
+
+        const directionsArray = [
+            { key: bestMatch.word, value: bestMatch.word },
+            { key: matchedActions, value: matchedActions }
+        ];
+
+
+        const newDocumentData = {
+            directions: tokens.join(' '),
+            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+        };
+
+        try {
+            const docRef = await db.collection(learningModel_DB).add(newDocumentData);
+            console.log(`New document added with ID: ${docRef.id}`);
+
+            return `I have successfully added a new document with ID ${docRef.id}.`;
+        } catch (error) {
+            console.error('Error adding document:', error);
+            return 'Failed to add a new document.';
         }
+    }
+
+
+    
+}
+
+
+
+
+
+
     }
 
     // Actions for 'updateDoc' (update an existing document)

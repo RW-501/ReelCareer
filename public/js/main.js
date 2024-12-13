@@ -3119,10 +3119,16 @@ let messageWithLinks = '';
       let index = 0;
       const typingSpeed = 70;
 
+
       messageDiv.innerHTML = `${senderLabel}`; // Start empty with sender label
       const typingEffect = setInterval(() => {
-        messageDiv.innerHTML = `${senderLabel}${messageWithLinks.substring(0, index + 1)}`;
+
         smoothScrollToBottom();
+
+        if(messageWithLinks.length > 0){
+
+        messageDiv.innerHTML = `${senderLabel}${messageWithLinks.substring(0, index + 1)}`;
+         }
         index++;
 
         if (index === messageWithLinks.length) {
