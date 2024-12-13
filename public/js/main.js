@@ -2671,18 +2671,27 @@ function toggleTextToVoice() {
 
         button.innerHTML = '<i id="textVoiceIcon" class="fas fa-volume-mute"></i>';
         isTextToVoiceOn = true;
+        button.style.backgroundColor = "#003366"; // Dark Blue
 
         // Event: Update button after speaking ends
         utterance.onend = () => {
             isTextToVoiceOn = false;
             button.innerHTML = '<i id="textVoiceIcon" class="fas fa-volume-up"></i> ';
-        };
+            button.setAttribute("aria-pressed", "false");
+            button.style.backgroundColor = "#FFFFFF"; // White color
+    
+      
+          };
     } else {
         // Stop speaking
         window.speechSynthesis.cancel();
         isTextToVoiceOn = false;
         button.innerHTML = '<i id="textVoiceIcon" class="fas fa-volume-up"></i>';
-    }
+        button.setAttribute("aria-pressed", "false");
+        button.style.backgroundColor = "#FFFFFF"; // White color
+
+   
+      }
 }
  let transcript;
 // VOICE TO TEXT TOGGLE FUNCTION
@@ -2720,6 +2729,8 @@ function toggleVoiceToText() {
         recognition.start();
         button.innerHTML = '<i id="voiceTextIcon" class="fas fa-microphone-slash"></i> ';
         isVoiceToTextOn = true;
+        button.setAttribute("aria-pressed", "true");
+        button.style.backgroundColor = "#003366"; // Dark Blue
 
         console.log("Voice recognition started...");
     } else {
@@ -2729,6 +2740,8 @@ function toggleVoiceToText() {
         }
         button.innerHTML = '<i id="voiceTextIcon" class="fas fa-microphone"></i> ';
         isVoiceToTextOn = false;
+        button.setAttribute("aria-pressed", "false");
+        button.style.backgroundColor = "#FFFFFF"; // White color
 
         console.log("Voice recognition stopped.");
     }
