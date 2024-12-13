@@ -633,7 +633,39 @@
                 'ask', 'answer', 'teach', 'learn', 'coach', 'request', 'download file',
                 'approve request', 'add', 'add to', 'remove from', 'clear', 'backup',
                 'replace', 'pause', 'resume', 'stop', 'start over', 'retry', 'sync'
-            ]
+            ],
+            dataBaseTerms: [
+                'firebase', 'firestore', 'database', 
+                'document', 'collection', 'field', 'snapshot', 'query', 'set', 'get', 
+                'update', 'delete', 'add', 'push', 'doc', 'collection group', 'reference', 
+                'where', 'orderBy', 'limit', 'orderByChild', 'orderByKey', 'orderByValue', 
+                'transaction', 'batch', 
+                'fieldValue', 'serverTimestamp', 'arrayUnion', 'arrayRemove', 'increment', 
+                 'setDoc', 'getDoc', 'updateDoc', 'deleteDoc', 'writeBatch', 
+                
+            ],
+                // Set document (overwrite a document completely or create a new one)
+    setDocument: [
+        'set', 'setDoc', 'set document', 'overwrite', 'create new', 'update completely', 
+        'save document', 'write document', 'initialize', 'write data', 'add new data',
+        'document creation', 'replace document'
+    ],
+
+    // Add document (add a new document to a collection)
+    addDocument: [
+        'add', 'addDoc', 'add document', 'create', 'insert', 'insert document', 
+        'push document', 'add new record', 'append document', 'new entry', 'new document',
+        'document addition', 'add record', 'submit new doc', 'create new record', 
+        'push data', 'create entry'
+    ],
+
+    // Update document (modify an existing document)
+    updateDocument: [
+        'update', 'updateDoc', 'modify', 'change document', 'edit document', 'update fields', 
+        'change fields', 'update data', 'document edit', 'edit record', 'modify data', 
+        'alter document', 'update information', 'update record', 'patch document', 
+        'document modification', 'change record', 'revise document', 'update details'
+    ]
         };
         
         
@@ -937,6 +969,8 @@ function sortTokensByPriority(categorizedTokens, priorities) {
 
 
 
+
+
 // **Handle Job Search Query Logic:**
 
 
@@ -971,51 +1005,30 @@ async function handleJobQuery( tokens,categorizedTokens, userPreferences) {
             const matchedActions = tokens.filter(word => actionWords.includes(word.toLowerCase()));
 
             console.log(`categorizedTokens ${categorizedTokens} `);
-            console.log(`categorizedTokens.category ${categorizedTokens.category} `);
-            console.log(`categorizedTokens.word ${categorizedTokens.word} `);
+       
+            
             console.log(`bestMatch.word ${bestMatch.word} `);
             console.log(`tokens for creating ${tokens} `);
             console.log(`matchedActions for creating ${matchedActions} `);
 
             const  learningModel_DB =  'z_LearningModel';
 
-            if (bestMatch.word ==='add' ){
+        
             
-                
-                
-                    }
+                handleLearningModelRequest(bestMatch, matchedActions, tokens, 
+                    categorizedTokens, constraints, learningModel_DB);
 
 
-            return `I will ${bestMatch.word}  ${learningModel_DB}`
+                    
         }
 
 
 
-        if (bestMatch.category === 'question') {
-            const actionWords = ['who', 'what', 'where', 'when', 'why', 'how', '?'];
+        if (bestMatch.category === 'question' || bestMatch.category === 'generalInquiry') {
+            const questionWords = ['who', 'what', 'where', 'when', 'why', 'how', '?'];
             
-            // Check if tokens match any of the action words
-            const matchedActions = tokens.filter(word => actionWords.includes(word.toLowerCase()));
-
-            console.log(`categorizedTokens ${categorizedTokens} `);
-            console.log(`categorizedTokens.category ${categorizedTokens.category} `);
-            console.log(`categorizedTokens.word ${categorizedTokens.word} `);
-            console.log(`bestMatch.word ${bestMatch.word} `);
-            console.log(`tokens for creating ${tokens} `);
-            console.log(`matchedActions for creating ${matchedActions} `);
-
-            const  learningModel_DB =  'z_LearningModel';
-
-   
-
-            return `I will search for ${tokens} in ${learningModel_DB}`
-        }
-
-
-
-
-        if (bestMatch.category === 'generalInquiry') {
-            const actionWords = ['question', 'how', 'why', 'where', 'what', 'when', 'which', 'can', 'could', 'would', 'do', 'did', 
+                        
+            const inquiryWords = ['question', 'how', 'why', 'where', 'what', 'when', 'which', 'can', 'could', 'would', 'do', 'did', 
                 'is', 'are', 'am', 'will', 'should', 'where can', 'what is', 'who', 'any', 'anyone', 'anybody', 
                 'tell me', 'explain', 'information', 'inquire', 'ask', 'help', 'clarify', 'describe', 'details', 
                 'understand', 'learn', 'suggest', 'recommend', 'advice', 'guide', 'directions', 'steps', 'assistance', 
@@ -1023,259 +1036,34 @@ async function handleJobQuery( tokens,categorizedTokens, userPreferences) {
                 'help me', 'can you explain', 'what do you mean', 'can you tell me'];
             
             // Check if tokens match any of the action words
-            const matchedActions = tokens.filter(word => actionWords.includes(word.toLowerCase()));
+            const matchedQuestion = tokens.filter(word => questionWords.includes(word.toLowerCase()));
+            const matchedInquiry = tokens.filter(word => inquiryWords.includes(word.toLowerCase()));
 
             console.log(`categorizedTokens ${categorizedTokens} `);
-            console.log(`categorizedTokens.category ${categorizedTokens.category} `);
-            console.log(`categorizedTokens.word ${categorizedTokens.word} `);
             console.log(`bestMatch.word ${bestMatch.word} `);
             console.log(`tokens for creating ${tokens} `);
-            console.log(`matchedActions for creating ${matchedActions} `);
+            console.log(`matchedQuestion for creating ${matchedQuestion} `);
+            console.log(`matchedInquiry for creating ${matchedInquiry} `);
 
             const  learningModel_DB =  'z_LearningModel';
 
-   
-
-            return `I will Inquiry for ${tokens} in ${learningModel_DB}`
-        }
-
-
-
-
-
-
-
-
-
-
-
-
-                //handleLearningModelQuery(bestMatch, tokens, constraints learningModel_DB);
-        
-
-// Function to handle LearnModel queries
-async function  handleLearningModelQuery(bestMatch, tokens, constraints, learningModel_DB) {
-    try {
-
-
-        // Base reference to the 'LearnModel' collection
-        const learnModelRef = collection(db, learningModel_DB); 
-
-        const finalQuery = query(learnModelRef, ...constraints);
-
-        // Fetch the results
-        const snapshot = await getDocs(finalQuery);
-        const results = snapshot.docs.map(doc => doc.data());
-
-
-        // 2. Combine the query with constraints
-        if (constraints.length > 0) {
   
-            // Return the results
-            if (results.length > 0) {
-   
 
-                return results;
-            } else {
+            handleLearningModelQuery(bestMatch, matchedQuestion,matchedInquiry  , tokens, 
+                categorizedTokens, constraints, learningModel_DB);
 
-                console.log(`Found ${results.length} matching directions:`);
-
-          
-
-
-                handleLearningModelRequest(bestMatch, tokens, learningModel_DB); 
-
-                return "No matching records found in LearnModel.";
-            }
-
-        } else {
-            return "No valid query parameters provided.";
-        }
-
-
-    } catch (error) {
-        console.error("Error querying LearnModel:", error);
-        return "Sorry, there was an error processing your request.";
-    }
-}
-
-
-        
-    
-//readLearningModel('searchableDirections', learningModel_DB);
-
-
-
-
-
-
-
-// Function to handle LearnModel queries
-async function handleLearningModelRequest(bestMatch, tokens, learningModel_DB) {
-    try {
-   
-        
-     
-  
-            
-            if (results.length > 0) {
-
-
-            
-                return results;
-            } else {
-
-                if (bestMatch.category === 'request' || bestMatch.category === 'action') {
-                    const actionWords = ['please', 'can', 'can you', 'i need', 'would you', 'help', 
-                                         'show me', 'create', 'build', 'edit', 'review', 'check',
-                                         'fix', 'save', 'add', 'remember', 'enhance', 'improve'];
-                    
-                    // Check if tokens match any of the action words
-                    const matchedActions = tokens.filter(word => actionWords.includes(word.toLowerCase()));
-                    console.log(`tokens for creating ${tokens} `);
-                    console.log(`matchedActions for creating ${matchedActions} `);
-
-                    if (matchedActions.length > 0) {
-                    
-                   
-                        if (bestMatch.category === 'request' || bestMatch.category === 'action' &&
-                             bestMatch.word ==='add' ) {
-                         
-                                console.log(` ${bestMatch.word}  to ${searchableDirections} `);
-
-                               // dataToLearningModel(bestMatch.word, tokens, learningModel_DB);
-                                
-                               const directionsArray = [
-                                { key: bestMatch.word , value: bestMatch.word },   // Add a key-value pair for bestMatch
-                                { key: matchedActions, value: matchedActions } // Add a key-value pair for matchedActions
-                              ];
-                              dataToLearningModel('searchableDirections', learningModel_DB, directionsArray);
-
-                             }
-
-
-
-                        
-                    }
-                }
-
-
-                
-                return "No matching records found in LearnModel.";
-            }
-
-        
-
-
-    } catch (error) {
-        console.error("Error querying LearnModel:", error);
-        return "Sorry, there was an error processing your request.";
-    }
-}
-
-
-
-
-
-
-
-
-async function dataToLearningModel(docId, learningModel_DB, directionsArray) {
-    try {
-        // Reference to the document in Firestore
-        const docRef = db.collection(learningModel_DB).doc(docId);
-
-        // Use arrayUnion to append the array into a field, or replace entirely
-        await docRef.set(
-            {
-                directions: firebase.firestore.FieldValue.arrayUnion(...directionsArray)
-            },
-            { merge: true } // Merge with existing data
-        );
-
-        console.log(`Array added/updated successfully in document '${docId}'.`);
-    } catch (error) {
-        console.error('Error adding/updating array: ', error);
-    }
-}
-
-  
-  /**
- * Reads the 'directions' array from a Firestore document.
- *
- * @param {string} docId - The ID of the document to read.
- * @param {string} learningModel_DB - The name of the collection.
- */
-async function readLearningModel(docId, learningModel_DB) {
-    try {
-        // Reference to the document in the collection
-        const docRef = db.collection(learningModel_DB).doc(docId);
-
-        // Get the document snapshot
-        const docSnapshot = await docRef.get();
-
-        if (docSnapshot.exists) {
-            // Retrieve the 'directions' array
-            const data = docSnapshot.data();
-            const directionsArray = data.directions || []; // Default to an empty array if 'directions' doesn't exist
-
-            console.log("Directions Array:", directionsArray);
-
-            // Optional: Loop through the array to display key-value pairs
-            directionsArray.forEach((item, index) => {
-                console.log(`Item ${index + 1}: Key = ${item.key}, Value = ${item.value}`);
-            });
-
-            return directionsArray;
-        } else {
-            console.log(`No document found with ID '${docId}'.`);
-            return [];
-        }
-    } catch (error) {
-        console.error("Error reading document: ", error);
-        return [];
-    }
-}
-
-
-
-
-
-/*
-
-else                      
-                              if (bestMatch.category === 'request' || bestMatch.category === 'action' &&
-                                bestMatch.word ==='save' ) {
-                            
-                                   console.log(` ${bestMatch.word} to ${learningModel_DB} `);
-                                   
-                                   const directionsArray = [bestMatch.word, matchedActions];
-                                   dataToLearningModel('searchableDirections', learningModel_DB, directionsArray);
-                                }else                       
-                                if (bestMatch.category === 'request' || bestMatch.category === 'action' &&
-                                    bestMatch.word ==='edit' ) {
-                                
-                                       console.log(` ${bestMatch.word}  ${learningModel_DB} `);
-       
-                                    }else                      
-                                    if (bestMatch.category === 'request' || bestMatch.category === 'action' &&
-                                      bestMatch.word ==='create' ) {
-                                  
-                                         console.log(` ${bestMatch.word}  ${learningModel_DB} `);
          
-                                      }else                       
-                                      if (bestMatch.category === 'request' || bestMatch.category === 'action' &&
-                                          bestMatch.word ==='fix' ) {
-                                      
-                                             console.log(` ${bestMatch.word}  ${learningModel_DB} `);
-             
-                                          }
+
+            return `I cee you have a  ${bestMatch.category} about ${tokens}, i will check in ${learningModel_DB}`
+        }
 
 
+ 
+        
 
-*/
-
-
+            
+      
+        
 
 
 
@@ -1660,3 +1448,189 @@ fetchJobQueryAndDisplay();
 }
 
 window.processMessage  = processMessage ;
+
+
+
+
+
+
+
+
+
+
+
+
+async function handleLearningModelRequest(bestMatch, matchedActions, tokens, categorizedTokens, constraints, learningModel_DB) {
+    // Extract categories for database terms
+    const dataBaseTerms = categorizedTokens.filter(token => token.category === 'dataBaseTerms')[0]?.word;
+    const setDocument = categorizedTokens.filter(token => token.category === 'setDocument')[0]?.word;
+
+    console.log(`Detected database term: ${dataBaseTerms}`);
+    console.log(`Matched setDocument word: ${setDocument}`);
+
+    // Actions for 'setDoc' (replace or set the document completely)
+    if (dataBaseTerms === 'set') {
+        const actionWords = [
+            'set', 'setDoc', 'set document', 'overwrite', 'create new', 'update completely', 
+            'save document', 'write document', 'initialize', 'write data', 'add new data',
+            'document creation', 'replace document'
+        ];
+
+        // Check if tokens match any of the action words
+        const matchedActions = tokens.filter(word => actionWords.includes(word.toLowerCase()));
+        console.log(`Tokens for creating: ${tokens}`);
+        console.log(`Matched actions for creating: ${matchedActions}`);
+
+        if (matchedActions.length > 0) {
+            console.log(`Setting a new document in '${learningModel_DB}' collection`);
+
+            const directionsArray = [
+                { key: bestMatch.word, value: bestMatch.word },
+                { key: matchedActions, value: matchedActions }
+            ];
+
+            await dataToLearningModel('searchableDirections', learningModel_DB, directionsArray);
+
+            return `I have successfully set the document in ${learningModel_DB}.`;
+        }
+    }
+
+    // Actions for 'addDoc' (add a new document to the Firestore collection)
+    if (dataBaseTerms === 'add') {
+        const actionWords = [
+            'add', 'addDoc', 'add document', 'create', 'insert', 'insert document', 
+            'push document', 'new entry', 'new document', 'submit new doc', 'create entry'
+        ];
+
+        const matchedActions = tokens.filter(word => actionWords.includes(word.toLowerCase()));
+        console.log(`Tokens for adding: ${tokens}`);
+        console.log(`Matched actions for adding: ${matchedActions}`);
+
+        if (matchedActions.length > 0) {
+            console.log(`Adding a new document to '${learningModel_DB}' collection`);
+
+            const newDocumentData = {
+                directions: tokens.join(' '),
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            };
+
+            try {
+                const docRef = await db.collection(learningModel_DB).add(newDocumentData);
+                console.log(`New document added with ID: ${docRef.id}`);
+
+                return `I have successfully added a new document with ID ${docRef.id}.`;
+            } catch (error) {
+                console.error('Error adding document:', error);
+                return 'Failed to add a new document.';
+            }
+        }
+    }
+
+    // Actions for 'updateDoc' (update an existing document)
+    if (dataBaseTerms === 'update') {
+        const actionWords = [
+            'update', 'updateDoc', 'modify', 'change document', 'edit document', 'update fields', 
+            'change fields', 'update data', 'document edit', 'edit record', 'modify data'
+        ];
+
+        const matchedActions = tokens.filter(word => actionWords.includes(word.toLowerCase()));
+        console.log(`Tokens for updating: ${tokens}`);
+        console.log(`Matched actions for updating: ${matchedActions}`);
+
+        if (matchedActions.length > 0) {
+            console.log(`Updating an existing document in '${learningModel_DB}' collection`);
+
+            const updatedData = {
+                updatedDirections: tokens.join(' '),
+                lastModified: firebase.firestore.FieldValue.serverTimestamp()
+            };
+
+            try {
+                // Example: Update a specific document by ID (replace 'docId' with your dynamic logic)
+                const docId = constraints?.docId || 'default_doc_id'; 
+                const docRef = db.collection(learningModel_DB).doc(docId);
+
+                await docRef.update(updatedData);
+                console.log(`Document with ID '${docId}' updated successfully.`);
+
+                return `I have successfully updated the document with ID ${docId}.`;
+            } catch (error) {
+                console.error('Error updating document:', error);
+                return 'Failed to update the document.';
+            }
+        }
+    }
+
+    // Fallback if no condition is met
+    console.log('No matching database operation found.');
+    return 'Sorry, I could not determine the requested database action.';
+}
+
+// Function to append or set data to Firestore
+async function dataToLearningModel(docId, learningModel_DB, directionsArray) {
+    try {
+        // Reference to the document in Firestore
+        const docRef = db.collection(learningModel_DB).doc(docId);
+
+        // Use arrayUnion to append the array into a field, or replace entirely
+        await docRef.set(
+            {
+                directions: firebase.firestore.FieldValue.arrayUnion(...directionsArray)
+            },
+            { merge: true } // Merge with existing data
+        );
+
+        console.log(`Array added/updated successfully in document '${docId}'.`);
+    } catch (error) {
+        console.error('Error adding/updating array: ', error);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+async function handleLearningModelQuery(bestMatch, matchedQuestion,matchedInquiry  , tokens, 
+    categorizedTokens, constraints, learningModel_DB){
+        try {
+        // Reference to the document in the collection
+        const docRef = db.collection(learningModel_DB).doc(docId);
+
+        // Get the document snapshot
+        const docSnapshot = await docRef.get();
+
+        if (docSnapshot.exists) {
+            // Retrieve the 'directions' array
+            const data = docSnapshot.data();
+            const directionsArray = data.directions || []; // Default to an empty array if 'directions' doesn't exist
+
+            console.log("Directions Array:", directionsArray);
+
+            // Optional: Loop through the array to display key-value pairs
+            directionsArray.forEach((item, index) => {
+                console.log(`Item ${index + 1}: Key = ${item.key}, Value = ${item.value}`);
+            });
+
+            return directionsArray;
+        } else {
+            console.log(`No document found with ID '${docId}'.`);
+            return [];
+        }
+    } catch (error) {
+        console.error("Error reading document: ", error);
+        return [];
+    }
+}
+
+
+
+

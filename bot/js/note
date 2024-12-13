@@ -645,4 +645,37 @@
                 'replace', 'pause', 'resume', 'stop', 'start over', 'retry', 'sync'
             ]
         };
-        
+        dataBaseTerms: [
+    'firebase', 'firestore', 'database', 
+    'document', 'collection', 'field', 'snapshot', 'query', 'set', 'get', 
+    'update', 'delete', 'add', 'push', 'doc', 'collection group', 'reference', 
+    'where', 'orderBy', 'limit', 'orderByChild', 'orderByKey', 'orderByValue', 
+    'transaction', 'batch', 
+    'fieldValue', 'serverTimestamp', 'arrayUnion', 'arrayRemove', 'increment', 
+     'setDoc', 'getDoc', 'updateDoc', 'deleteDoc', 'writeBatch', 
+    
+]
+const firebaseOperations = {
+    // Set document (overwrite a document completely or create a new one)
+    setDocument: [
+        'set', 'setDoc', 'set document', 'overwrite', 'create new', 'update completely', 
+        'save document', 'write document', 'initialize', 'write data', 'add new data',
+        'document creation', 'replace document'
+    ],
+
+    // Add document (add a new document to a collection)
+    addDocument: [
+        'add', 'addDoc', 'add document', 'create', 'insert', 'insert document', 
+        'push document', 'add new record', 'append document', 'new entry', 'new document',
+        'document addition', 'add record', 'submit new doc', 'create new record', 
+        'push data', 'create entry'
+    ],
+
+    // Update document (modify an existing document)
+    updateDocument: [
+        'update', 'updateDoc', 'modify', 'change document', 'edit document', 'update fields', 
+        'change fields', 'update data', 'document edit', 'edit record', 'modify data', 
+        'alter document', 'update information', 'update record', 'patch document', 
+        'document modification', 'change record', 'revise document', 'update details'
+    ]
+};
