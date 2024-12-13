@@ -50,8 +50,8 @@
     <input type="text" id="query" placeholder="Enter job query" value="software developer" />
 
     <select id="query2">
-        <option value="software developer" selected>Software Developer</option>
-        <option value="data scientist">Data Scientist</option>
+        <option value="remote " selected>remote </option>
+        <option value="full time">full time</option>
         <option value="part time">part time</option>
         <option value="manager">Manager</option>
         <option value="assistant"> Assistant</option>
@@ -60,7 +60,7 @@
         <option value="greeter">Greeter</option>
         <option value="worker"> Worker</option>
         <option value="handler">Handler</option>
-        <option value="room service attendant">Room Service Attendant</option>
+        <option value="crs">crs</option>
         <option value="parking lot attendant">Parking Lot Attendant</option>
         <option value="fast food cashier">Fast Food Cashier</option>
         <option value="bellhop">Bellhop</option>
@@ -569,6 +569,8 @@ function displayJobs(jobs) {
 
     jobs.forEach(job => {
         const jobData = JSON.stringify(job); // Serialize job object
+
+        // Main Row (Summary)
         const row = document.createElement("tr");
         row.className = "job-item";
         row.innerHTML = `
@@ -580,15 +582,45 @@ function displayJobs(jobs) {
             <td>${(parseFloat(job.salary_min) + parseFloat(job.salary_max)) / 2 || 0}</td>
             <td>${new Date(job.created).toLocaleDateString() || ''}</td>
             <td>${job.category.tag || ''}</td>
-            <td><button onclick="addJob('${job.id}')">Add</button></td>
+            <td>
+                <button onclick="toggleDetails(this)">Details</button>
+                <button onclick="addJob('${job.id}')">Add</button>
+            </td>
             <input type="hidden" value='${jobData}'> <!-- Hidden input -->
         `;
+
+        // Collapsible Row (Details)
+        const detailsRow = document.createElement("tr");
+        detailsRow.className = "job-details hidden"; // Initially hidden
+        detailsRow.innerHTML = `
+            <td colspan="9">
+                <div class="job-details-content">
+                    <p><strong>Company:</strong> ${job.company.display_name}</p>
+                    <p><strong>Description:</strong> ${job.description || "No description available"}</p>
+                    <p><strong>Contract Type:</strong> ${job.contract_time || "Full-time"}</p>
+                    <p><strong>Location:</strong> ${job.location.display_name || "N/A"}</p>
+                    <p><strong>Salary Range:</strong> ${job.salary_min || 0} - ${job.salary_max || 0}</p>
+                    <p><strong>Tags:</strong> ${job.category.tag || "None"}</p>
+                </div>
+            </td>
+        `;
+
         container.appendChild(row);
+        container.appendChild(detailsRow);
 
         // Attach event listener to the checkbox
         const checkbox = row.querySelector(".job-checkbox");
         checkbox.addEventListener("click", () => toggleRowSelection(checkbox));
     });
+}
+
+// Toggle function for showing/hiding details
+function toggleDetails(button) {
+    const currentRow = button.closest("tr");
+    const detailsRow = currentRow.nextElementSibling; // Find the collapsible row
+    if (detailsRow && detailsRow.classList.contains("job-details")) {
+        detailsRow.classList.toggle("hidden");
+    }
 }
 
 
