@@ -1675,10 +1675,11 @@ let videoData = [];
 async function postReelFunction() {
     let videoResumeURL = '';
     // Fetch required data
-    const userID = auth.currentUser.uid;
+   
     const userlocationData = JSON.parse(sessionStorage.getItem('userLocation')) || {};
 
     const userDataSaved = getUserData() || {};
+    const userID = auth.currentUser.uid || userDataSaved.userID;
   //  console.log("userID: ", userID);
   //  console.log("userDataSaved: ", userDataSaved);
   //  console.log("userlocationData: ", userlocationData);
@@ -1700,26 +1701,17 @@ async function postReelFunction() {
 
     try {
         // Capture video from canvas using MediaRecorder
-        const mediaRecorder = new MediaRecorder(videoCanvas.captureStream());
-        const recordedChunks = [];
+  
 
-        mediaRecorder.ondataavailable = (e) => recordedChunks.push(e.data);
-        mediaRecorder.onstop = () => {
-            const blob = new Blob(recordedChunks, { type: "video/webm" });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement("a");
-            a.href = url;
-            a.download = `edited-video-${new Date().toISOString()}.webm`;
-            a.click(); // Automatically download the video
-        };
-
-        // Start recording (optional, depending on your needs)
-        mediaRecorder.start();
+      downloadButton.disabled = true;
+      postReelButton.disabled = true;
+  
+      
 
          videoData = {
             duration: videoPlayer.duration, // Ensure videoPlayer is initialized
-            name: `${userID}-${new Date().toISOString()}-reel.webm`, // Use .webm or .mp4 as appropriate
-            file: recordedChunks, // The video data itself
+            name: `${userID}-${new Date().toISOString()}-reel.mp4`, // Use .webm or .mp4 as appropriate
+            file: videoPlayer.src, // The video data itself
             fileType: "video/webm", // Ensure this matches the file type
         };
 
