@@ -414,18 +414,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     function toggleRowSelection(checkbox) {
-    checkbox.checked ;
-    console.log("Checkbox:", checkbox); // Debug to see what checkbox is
-    if (!(checkbox instanceof HTMLElement)) {
-        console.error("Not a valid DOM element:", checkbox);
-        return; // Exit if invalid
-    }
-
-    const row = checkbox.closest('tr'); // Find the closest row
-    if (row) {
-        row.classList.toggle('selected', checkbox.checked);
+    const row = checkbox.closest("tr"); // Get the parent <tr> of the checkbox
+    if (checkbox.checked) {
+        row.classList.add("selected"); // Add the selected class
+    } else {
+        row.classList.remove("selected"); // Remove the selected class
     }
 }
+
 
         window.toggleRowSelection = toggleRowSelection;
 
@@ -554,28 +550,46 @@ window.fetchJobs = fetchJobs;
 
 });
 
-    
+function getSelectedJobs() {
+    const selectedRows = document.querySelectorAll(".job-item.selected");
+    const jobs = [];
+    selectedRows.forEach(row => {
+        const job = {
+            title: row.children[1].textContent,
+            company: row.children[2].textContent
+        };
+        jobs.push(job);
+    });
+    console.log("Selected Jobs:", jobs);
+    return jobs;
+}
 
 function displayJobs(jobs) {
     const container = document.getElementById("jobApplications");
     container.innerHTML = "";
+
     jobs.forEach(job => {
         const row = document.createElement("tr");
         row.className = "job-item";
         row.innerHTML = `
-            <td><input type="checkbox" class="job-checkbox" onclick="toggleRowSelection(this)"></td>
+            <td><input type="checkbox" class="job-checkbox"></td>
             <td>${job.title}</td>
             <td>${job.company.display_name || "N/A"}</td>
             <td>${parseCityFromLocationNew(job.location.display_name) || "N/A"}</td>
             <td>${job.location.area[1] || "N/A"}</td>
-            <td>${ (parseFloat(job.salary_min) + parseFloat(job.salary_max)) / 2 || 0}</td>
-            <td>${new Date(job.created) || ''}</td>
+            <td>${(parseFloat(job.salary_min) + parseFloat(job.salary_max)) / 2 || 0}</td>
+            <td>${new Date(job.created).toLocaleDateString() || ''}</td>
             <td>${job.category.tag || ''}</td>
-            <td><button onclick="addJob(${job.id})">Add</button></td>
+            <td><button onclick="addJob('${job.id}')">Add</button></td>
         `;
         container.appendChild(row);
+
+        // Attach event listener to the checkbox
+        const checkbox = row.querySelector(".job-checkbox");
+        checkbox.addEventListener("click", () => toggleRowSelection(checkbox));
     });
 }
+
 
  // Loading State
  function toggleLoading(state) {
