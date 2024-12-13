@@ -1412,16 +1412,41 @@ function determineInputType(tokens) {
     return 'statement';
 }
 
+async function predictCategory(tokens) {
+    // Convert tokens to tensor format for prediction (example with TensorFlow.js)
+    const tensorInput = tf.tensor([tokens]); // Wrap in an array for batch processing
+    const predictions = await model.predict(tensorInput); // Get model predictions
+    
+    // Convert predictions to categories
+    const prediction = predictions.dataSync(); // Get raw prediction values
+    const predictedCategoryIndex = prediction.indexOf(Math.max(...prediction)); // Get index of max value
+    return predictedCategoryIndex; // Return the predicted category index
+}
+
+
+function tensorflowTokenize(sentence) {
+    const words = sentence.toLowerCase().split(" ");
+    return words.map((word) => (wordDictionary[word] || 0));
+}
 
 
 
 let categorizedTokens;
 
 function processMessage(message) {
+
+ 
+ let words =   tensorflowTokenize(sentence)
+
+ console.log("words:", words);
+
+
+
 const userInput = message.toLowerCase();
 let tokens = tokenize(userInput);
 
-
+let tensorTokens =   predictCategory(tokens);
+console.log("tensorTokens:", tensorTokens);
 
 
 console.log("tokens:", tokens);
