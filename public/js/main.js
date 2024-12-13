@@ -2872,7 +2872,7 @@ document.body.appendChild(chatPanel);
           <button id="close-chat" style=" font-family: sans-serif; background: none;border: none;color: #ffffff;cursor: pointer;font-size: x-large;padding: 0;margin: 0;">×</button>
       </div>
       </div>
-      <div id="chatbot-messages" style="padding: 0 .5rem; flex: 1; padding: 10px; overflow-y: auto; font-size: 14px;"></div>
+      <div id="chatbot-messages" style="height: 90%; padding: 0 .5rem; flex: 1; padding: 10px; overflow-y: auto; font-size: 14px;"></div>
       <div style="padding: 10px; border-top: 1px solid #ddd;">
           <div id="chat-input" contenteditable="true" style="border: 1px solid #ccc; padding: 8px; border-radius: 4px; min-height: 40px;"></div>
          
