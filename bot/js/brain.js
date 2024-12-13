@@ -1030,7 +1030,7 @@ async function handleJobQuery( tokens,categorizedTokens, userPreferences) {
         let constraints = []; // Holds query constraints
         
         // 1. Handle Requests/Actions with Specific Words
-        if (bestMatch.category === 'dataBaseTerms' || bestMatch.category === 'setDocument' || 
+        if (bestMatch.word === 'create' || bestMatch.category === 'dataBaseTerms' || bestMatch.category === 'setDocument' || 
             bestMatch.category === 'addDocument' || bestMatch.category === 'updateDocument' || 
 
             bestMatch.category === 'request' || bestMatch.category === 'action') {
@@ -1697,11 +1697,34 @@ async function handleLearningModelRequest(bestMatch, matchedActions, tokens, cat
     const addDocument = categorizedTokens.filter(token => token.category === 'addDocument')[0]?.word;
     const updateDocument = categorizedTokens.filter(token => token.category === 'updateDocument')[0]?.word;
 
-    console.log(`Detected database term: ${dataBaseTerms}`);
-    console.log(`Matched setDocument word: ${setDocument}`);
+    // Log detected terms
+    if (dataBaseTerms) {
+        console.log(`Detected database term: ${dataBaseTerms}`);
+    } 
+
+    if (setDocument) {
+        console.log(`Matched setDocument word: ${setDocument}`);
+    }
+
+    if (addDocument) {
+        console.log(`Matched addDocument word: ${addDocument}`);
+    } 
+
+    if (updateDocument) {
+        console.log(`Matched updateDocument word: ${updateDocument}`);
+    } 
+
+    // Check for actions in the tokens
+    const matchedActions = tokens.filter(word => actionWords.includes(word.toLowerCase()));
+
+    console.log(`Tokens for processing: ${tokens}`);
+    if (matchedActions.length > 0) {
+        console.log(`Matched actions: ${matchedActions}`);
+    }
 
 
 
+    
     // Actions for 'setDoc' (replace or set the document completely)
     if (setDocument === 'set') {
        
