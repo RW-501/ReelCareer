@@ -1475,7 +1475,7 @@ function validateTokenCategorization(tokens, categorizedTokens) {
 }
 
 
-function createButtonsFromTerms(termsArray, containerId) {
+function createButtons(termsArray, containerId, type) {
     // Get the container where buttons will be added
     const container = document.getElementById(containerId);
 
@@ -1494,10 +1494,17 @@ function createButtonsFromTerms(termsArray, containerId) {
 
         // Add event listener to the button
         button.addEventListener('click', (e) => {
-            console.log(`Button clicked: ${e.target.dataset.term}`);
-            alert(`You clicked on: ${e.target.dataset.term}`);
+        
 
-            
+if(type === "FromTerms"){
+    console.log(`FromTerms Button clicked: ${e.target.dataset.term}`);
+
+}
+
+
+
+showToast(`You clicked on: ${e.target.dataset.term}`);
+
         });
 
         // Append the button to the container
@@ -1573,8 +1580,9 @@ console.log(result);
 
 if(result != "READY"){
 
-createButtonsFromTerms(result, `btnContainer${bestMatch.word}`); // 'buttonContainer' is the ID of a div
-
+setTimeout(() => {
+    createButtons(result, `btnContainer${bestMatch.word}`,"FromTerms"); // 'buttonContainer' is the ID of a div
+}, 200);
 
 }else{
 
