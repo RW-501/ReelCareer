@@ -2652,7 +2652,9 @@ if (detectedWords.length > 0) {
 let isTextToVoiceOn = false; // Toggle state for Text-to-Voice
 let isVoiceToTextOn = true; // Toggle state for Voice-to-Text
 let recognition; // SpeechRecognition instance
-
+    // Start speaking
+    const speechSynthesis = window.speechSynthesis;
+         
 
 let utterance;
 
@@ -2664,9 +2666,7 @@ function toggleTextToVoice() {
          
       
 
-        // Start speaking
-        const speechSynthesis = window.speechSynthesis;
-         
+    
         speechSynthesis.speak(utterance);
 
         button.innerHTML = '<i id="textVoiceIcon" class="fas fa-volume-mute"></i>';
@@ -2693,6 +2693,9 @@ function toggleTextToVoice() {
    
       }
 }
+
+
+
  let transcript;
 // VOICE TO TEXT TOGGLE FUNCTION
 function toggleVoiceToText() {
