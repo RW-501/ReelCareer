@@ -595,7 +595,32 @@
         return;
     }
 
-  
+    let userId = '';
+
+    document.addEventListener('DOMContentLoaded', () => {
+
+    async function initializeUserId() {
+        try {
+            // Wait for the Firebase Auth state to initialize
+            await auth.onAuthStateChanged((user) => {
+                if (user) {
+                     userId = user.uid; // Access the user ID
+                    console.log("User ID:", userId);
+                    document.getElementById('userID').innerText = userId;
+                    // You can call your functions that require userId here
+                } else {
+                    console.error("No user is signed in.");
+                    // Handle the case where the user is not signed in
+                }
+            });
+        } catch (error) {
+            console.error("Error initializing user ID:", error);
+        }
+    }
+
+    initializeUserId(); // Call the function to initialize user ID
+
+  });
     // Report Data to Firebase
     const reportData = {
         videoId: jobID,
