@@ -858,13 +858,13 @@ const homophones = {
 };
 
 
-
+/*
 function tokenize(sentence) {
     // A simple tokenizer that splits sentence by spaces. 
     // You can make it more sophisticated if needed.
     return sentence.split(' ');
 }
-
+*/
 function correctHomophones(sentence) {
     const tokens = tokenize(sentence);  // Tokenize the input sentence
     let correctedSentence = tokens.map(token => {
