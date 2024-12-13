@@ -657,14 +657,14 @@
             ],
                 // Set document (overwrite a document completely or create a new one)
     setDocument: [
-        'set', 'setDoc', 'set document', 'overwrite', 'create new', 'update completely', 
+        'set', 'setDoc','setDocs', 'set document', 'overwrite', 'create new', 'update completely', 
         'save document', 'write document', 'initialize', 'write data', 'add new data',
         'document creation', 'replace document'
     ],
 
     // Add document (add a new document to a collection)
     addDocument: [
-        'add', 'addDoc', 'add document', 'create', 'insert', 'insert document', 
+        'add', 'addDoc', 'addDocs', 'add document', 'create', 'insert', 'insert document', 
         'push document', 'add new record', 'append document', 'new entry', 'new document',
         'document addition', 'add record', 'submit new doc', 'create new record', 
         'push data', 'create entry'
@@ -672,7 +672,7 @@
 
     // Update document (modify an existing document)
     updateDocument: [
-        'update', 'updateDoc', 'modify', 'change document', 'edit document', 'update fields', 
+        'update', 'updateDoc', 'updateDocs', 'modify', 'change document', 'edit document', 'update fields', 
         'change fields', 'update data', 'document edit', 'edit record', 'modify data', 
         'alter document', 'update information', 'update record', 'patch document', 
         'document modification', 'change record', 'revise document', 'update details'
@@ -1474,8 +1474,7 @@ function validateTokenCategorization(tokens, categorizedTokens) {
     return missingWords.length > 0 ? missingWords : "READY";
 }
 
-
-function createButtons(termsArray, containerId, type) {
+async function createButtons(type, termsArray, containerId, type) {
     // Get the container where buttons will be added
     const container = document.getElementById(containerId);
 
@@ -1493,31 +1492,213 @@ function createButtons(termsArray, containerId, type) {
         button.dataset.term = term; // Store term for reference
 
         // Add event listener to the button
-        button.addEventListener('click', (e) => {
-        
+        button.addEventListener('click', async (e) => { // Mark this function as async to use await
+            if(type === "FromTerms"){
 
-if(type === "FromTerms"){
-    console.log(`FromTerms Button clicked: ${e.target.dataset.term}`);
+                // Handle the setDocs action
+                if ("setDocument" === type) {
+                    const docId = e.target.dataset.term;
+                    console.log("Setting a new document...");
+                    // Await the setDoc function call and handle the result
+                    const result = await setDoc(learningModel_DB, docId);
+                    console.log(result); // Optionally log the result
+                }
+            
+                // Handle the updateDocs action
+                if ("updateDocument" === type) {
+                    const docId = e.target.dataset.term;
+                    console.log("Updating an existing document...");
+                    // Await the updateDoc function call and handle the result
+                    const result = await updateDoc(learningModel_DB, docId);
+                    console.log(result); // Optionally log the result
+                }
+                if ("addDocument" === type) {
+                    const docId = e.target.dataset.term;
+                    console.log("Add new document...");
+                    // Await the setDoc function call and handle the result
+                    const result = await addDoc(learningModel_DB, docId);
+                    console.log(result); // Optionally log the result
+                }
+                console.log(`FromTerms Button clicked: ${e.target.dataset.term}`);
+            }
 
-}
-
-
-
-showToast(`You clicked on: ${e.target.dataset.term}`);
-
+            // Show toast with the clicked term
+            showToast(`You clicked on: ${e.target.dataset.term}`);
         });
 
         // Append the button to the container
         container.appendChild(button);
-
-        return container;
     });
 }
 
 
 
+async function checkIfDocumentExists(docId, collectionName) {
+    try {
+        // Reference to the Firestore document
+        const docRef = db.collection(collectionName).doc(docId);
+
+        // Get the document snapshot
+        const docSnapshot = await docRef.get();
+
+        // Check if the document exists
+        if (docSnapshot.exists) {
+            console.log(`Document with ID '${docId}' exists.`);
+            return true;
+        } else {
+            console.log(`Document with ID '${docId}' does not exist.`);
+            return false;
+        }
+    } catch (error) {
+        console.error("Error checking document existence: ", error);
+        return false;
+    }
+}
 
 
+
+async function addDoc(learningModel_DB, docId, tokens) {
+    const actionWords = [
+        'add', 'addDoc', 'add document', 'create', 'insert', 'insert document', 
+        'push document', 'new entry', 'new document', 'submit new doc', 'create entry'
+    ];
+
+    const matchedActions = tokens.filter(word => actionWords.includes(word.toLowerCase()));
+    console.log(`Tokens for adding: ${tokens}`);
+    console.log(`Matched actions for adding: ${matchedActions}`);
+
+if (matchedActions.length > 0) {
+    console.log(`Adding a new document to '${learningModel_DB}' collection`);
+
+
+console.log("Adding a new document...");
+
+
+}
+    const newDocumentData = {
+        directions: tokens.join(' '),
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+    };
+
+    try {
+        const docRef = db.collection(learningModel_DB).doc(docId);
+       // await docRef.set(newDocumentData);
+
+        console.log(`New document added with ID: ${docRef.id}`);
+        return `Document added successfully with ID: ${docRef.id}.`;
+    } catch (error) {
+        console.error('Error adding document:', error);
+        return 'Failed to add the document.';
+    }
+}
+
+
+
+
+
+
+
+
+
+
+async function updateDoc(learningModel_DB, docId, tokens) {
+
+    const actionWords = [
+        'update', 'updateDoc', 'modify', 'change document', 'edit document', 'update fields', 
+        'change fields', 'update data', 'document edit', 'edit record', 'modify data'
+    ];
+
+    const matchedActions = tokens.filter(word => actionWords.includes(word.toLowerCase()));
+    console.log(`Tokens for updating: ${tokens}`);
+    console.log(`Matched actions for updating: ${matchedActions}`);
+
+   
+
+
+const results = checkIfDocumentExists(docId, learningModel_DB);
+
+if(!results){
+
+    addDoc(learningModel_DB, docId, tokens)
+   // return " No Doc to Update";
+}
+    const updatedData = {
+        updatedDirections: tokens.join(' '),
+        lastModified: firebase.firestore.FieldValue.serverTimestamp()
+    };
+
+    try {
+        const docRef = db.collection(learningModel_DB).doc(docId);
+      //  await docRef.update(updatedData);
+        console.log(`Document with ID '${docId}' updated successfully.`);
+        return `Document updated successfully with ID: ${docId}.`;
+    } catch (error) {
+        console.error('Error updating document:', error);
+        return 'Failed to update the document.';
+    }
+}
+
+
+
+
+
+
+
+
+
+
+async function setDoc(docId, learningModel_DB ) {
+
+    const actionWords = [
+        'set', 'setDoc', 'set document', 'overwrite', 'create new', 'update completely', 
+        'save document', 'write document', 'initialize', 'write data', 'add new data',
+        'document creation', 'replace document'
+    ];
+
+    
+        console.log(`Setting a new document in '${learningModel_DB}' collection`);
+
+       
+
+       let learning_action = {
+            "searchableDirections": [
+                "create", 
+                "build", 
+                "edit"
+            ],
+            "category": "action",
+            "description": "Learning actions related to creating, building, and editing documents.",
+            "keywords": [
+                "can you", 
+                "help", 
+                "create", 
+                "build", 
+                "edit"
+            ],
+            "relatedTopics": [
+                "content creation", 
+                "document editing"
+            ],
+            "timestamp": timestamp,
+    }
+ 
+   
+    try {
+        const docRef = db.collection(learningModel_DB).doc(docId);
+
+        // Use arrayUnion to append the array into a field or replace entirely
+       // await docRef.set(
+            {
+                learning_action: learning_action
+            },
+            { merge: true } // Merge with existing data
+        );
+
+        console.log(`Array added/updated successfully in document '${docId}'.`);
+    } catch (error) {
+        console.error('Error adding/updating array: ', error);
+    }
+}
 
 
 async function handleLearningModelRequest(bestMatch, matchedActions, tokens, categorizedTokens, constraints, learningModel_DB) {
@@ -1531,49 +1712,12 @@ async function handleLearningModelRequest(bestMatch, matchedActions, tokens, cat
     console.log(`Detected database term: ${dataBaseTerms}`);
     console.log(`Matched setDocument word: ${setDocument}`);
 
+
+
     // Actions for 'setDoc' (replace or set the document completely)
     if (setDocument === 'set') {
-        const actionWords = [
-            'set', 'setDoc', 'set document', 'overwrite', 'create new', 'update completely', 
-            'save document', 'write document', 'initialize', 'write data', 'add new data',
-            'document creation', 'replace document'
-        ];
-
-        // Check if tokens match any of the action words
-        const matchedActions = tokens.filter(word => actionWords.includes(word.toLowerCase()));
-        console.log(`Tokens for creating: ${tokens}`);
-        console.log(`Matched actions for creating: ${matchedActions}`);
-
-        if (matchedActions.length > 0) {
-            console.log(`Setting a new document in '${learningModel_DB}' collection`);
-
-            const directionsArray = [
-                { key: bestMatch.word, value: bestMatch.word },
-                { key: matchedActions, value: matchedActions }
-            ];
-
-            await dataToLearningModel('searchableDirections', learningModel_DB, directionsArray);
-
-            return `I have successfully set the document in ${learningModel_DB}.`;
-        }
-    }
-
-    // Actions for 'addDoc' (add a new document to the Firestore collection)
-    if (addDocument === 'add' 
-    ) {
-        const actionWords = [
-            'add', 'addDoc', 'add document', 'create', 'insert', 'insert document', 
-            'push document', 'new entry', 'new document', 'submit new doc', 'create entry'
-        ];
-
-        const matchedActions = tokens.filter(word => actionWords.includes(word.toLowerCase()));
-        console.log(`Tokens for adding: ${tokens}`);
-        console.log(`Matched actions for adding: ${matchedActions}`);
-
-
-
-
-
+       
+        
 
 const result = validateTokenCategorization(tokens, categorizedTokens);
 console.log(result);
@@ -1581,107 +1725,63 @@ console.log(result);
 if(result != "READY"){
 
 setTimeout(() => {
-    createButtons(result, `btnContainer${bestMatch.word}`,"FromTerms"); // 'buttonContainer' is the ID of a div
+    createButtons("setDocument", result, `btnContainer${bestMatch.word}`,"FromTerms",tokens);
 }, 200);
-
 }else{
 
-
-    if (matchedActions.length > 0) {
-        console.log(`Adding a new document to '${learningModel_DB}' collection`);
-
-        const directionsArray = [
-            { key: bestMatch.word, value: bestMatch.word },
-            { key: matchedActions, value: matchedActions }
-        ];
-
-
-        const newDocumentData = {
-            directions: tokens.join(' '),
-            timestamp: firebase.firestore.FieldValue.serverTimestamp()
-        };
-
-        try {
-            const docRef = await db.collection(learningModel_DB).add(newDocumentData);
-            console.log(`New document added with ID: ${docRef.id}`);
-
-            return `I have successfully added a new document with ID ${docRef.id}.`;
-        } catch (error) {
-            console.error('Error adding document:', error);
-            return 'Failed to add a new document.';
-        }
-    }
-
-
-    
+    // create doc
 }
 
+    }else  
+    // Actions for 'addDoc' (add a new document to the Firestore collection)
+    if (addDocument === 'add' 
+    ) {
+  
 
-
-
-
-
+    const result = validateTokenCategorization(tokens, categorizedTokens);
+    console.log(result);
+    
+    if(result != "READY"){
+    
+    setTimeout(() => {
+        createButtons("addDocument", result, `btnContainer${bestMatch.word}`,"FromTerms",tokens);
+    }, 200);
+    }else{
+    
+        // update doc
     }
 
+
+
+    }else
+    
     // Actions for 'updateDoc' (update an existing document)
     if (updateDocument === 'update') {
-        const actionWords = [
-            'update', 'updateDoc', 'modify', 'change document', 'edit document', 'update fields', 
-            'change fields', 'update data', 'document edit', 'edit record', 'modify data'
-        ];
 
-        const matchedActions = tokens.filter(word => actionWords.includes(word.toLowerCase()));
-        console.log(`Tokens for updating: ${tokens}`);
-        console.log(`Matched actions for updating: ${matchedActions}`);
-
-        if (matchedActions.length > 0) {
-            console.log(`Updating an existing document in '${learningModel_DB}' collection`);
-
-            const updatedData = {
-                updatedDirections: tokens.join(' '),
-                lastModified: firebase.firestore.FieldValue.serverTimestamp()
-            };
-
-            try {
-                // Example: Update a specific document by ID (replace 'docId' with your dynamic logic)
-                const docId = constraints?.docId || 'default_doc_id'; 
-                const docRef = db.collection(learningModel_DB).doc(docId);
-
-                await docRef.update(updatedData);
-                console.log(`Document with ID '${docId}' updated successfully.`);
-
-                return `I have successfully updated the document with ID ${docId}.`;
-            } catch (error) {
-                console.error('Error updating document:', error);
-                return 'Failed to update the document.';
-            }
+        const result = validateTokenCategorization(tokens, categorizedTokens);
+        console.log(result);
+        
+        if(result != "READY"){
+        
+        setTimeout(() => {
+            createButtons("updateDocument", result, `btnContainer${bestMatch.word}`,"FromTerms",tokens);
+        }, 200);
+        }else{
+        
+            // update doc
         }
+    }else {
+
+  // Fallback if no condition is met
+  console.log('No matching database operation found.');
+  return 'Sorry, I could not determine the requested database action.';
+
+
     }
+  }
 
-    // Fallback if no condition is met
-    console.log('No matching database operation found.');
-    return 'Sorry, I could not determine the requested database action.';
-}
 
-// Function to append or set data to Firestore
-async function dataToLearningModel(docId, learningModel_DB, directionsArray) {
-    try {
-        // Reference to the document in Firestore
-        const docRef = db.collection(learningModel_DB).doc(docId);
-
-        // Use arrayUnion to append the array into a field, or replace entirely
-        await docRef.set(
-            {
-                directions: firebase.firestore.FieldValue.arrayUnion(...directionsArray)
-            },
-            { merge: true } // Merge with existing data
-        );
-
-        console.log(`Array added/updated successfully in document '${docId}'.`);
-    } catch (error) {
-        console.error('Error adding/updating array: ', error);
-    }
-}
+  
 
 
 
