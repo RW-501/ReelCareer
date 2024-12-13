@@ -1724,9 +1724,9 @@ async function handleLearningModelRequest(bestMatch, matchedActions, tokens, cat
 
 
 
-    
+
     // Actions for 'setDoc' (replace or set the document completely)
-    if (setDocument === 'set') {
+    if (setDocument === 'set'|| bestMatch.word === "set") {
        
         
 
@@ -1745,7 +1745,7 @@ setTimeout(() => {
 
     }else  
     // Actions for 'addDoc' (add a new document to the Firestore collection)
-    if (addDocument === 'add' 
+    if (addDocument === 'add' || bestMatch.word === "create"
     ) {
   
 
@@ -1767,7 +1767,7 @@ setTimeout(() => {
     }else
     
     // Actions for 'updateDoc' (update an existing document)
-    if (updateDocument === 'update') {
+    if (updateDocument === 'update' || bestMatch.word === 'update') {
 
         const result = validateTokenCategorization(tokens, categorizedTokens);
         console.log(result);
