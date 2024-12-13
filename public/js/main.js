@@ -648,12 +648,15 @@ function createNavbar() {
       text: "Blogs",
       ariaLabel: "Go to blogs page",
     },
+    /*
     {
       href: "https://reelcareer.co/views/about",
       icon: "fa fa-info-circle",
       text: "About Us",
       ariaLabel: "Go to about us page",
     },
+
+    */
   ];
 
   // Generate Icons for Always-Visible Bar
@@ -669,19 +672,8 @@ function createNavbar() {
       )
       .join("");
 
-  // Generate Collapsible Links
-  const generateCollapsibleLinks = (items) =>
-    items
-      .map(
-        (item) => `
-        <li class="nav-item">
-          <a class="nav-link" href="${item.href}" aria-label="${item.ariaLabel}">
-            <i class="${item.icon}"></i>
-            <span>${item.text}</span>
-          </a>
-        </li>`
-      )
-      .join("");
+
+      
 
   return `
     <nav id="Main-Nav_bar" class="navbar navbar-expand-lg ${navbarClass} shadow-sm sticky-top" role="navigation">
