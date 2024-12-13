@@ -341,8 +341,11 @@ min-width: 500px;
 
         <!-- Social Login -->
         <div class="social-login">
+
             <button id="google-login">Google</button>
             <button id="phoneLogin">Phone Login</button>
+
+
             <button id="facebook-login">Facebook</button>
             <button id="apple-login">Apple</button>
         </div>
@@ -482,15 +485,18 @@ function toggleForms() {
     const action = getUrlParameter('x'); // Get the 'x' parameter from the URL
     
     if (action === 'login') {
+        document.getElementById('phone-login-form').style.display = 'none';
         document.getElementById('signup-form').style.display = 'none';
         document.getElementById('login-form').style.display = 'block';
     } else if (action === 'create') {
+        document.getElementById('phone-login-form').style.display = 'none';
         document.getElementById('login-form').style.display = 'none';
         document.getElementById('signup-form').style.display = 'block';
     } else {
         // Optionally set a default behavior, like showing the login form if no 'x' parameter is provided
+        document.getElementById('login-form').style.display = 'none';
         document.getElementById('signup-form').style.display = 'none';
-        document.getElementById('login-form').style.display = 'block'; // default to login
+        document.getElementById('phone-login-form').style.display = 'block'; // default to login
     }
 }
 
@@ -502,14 +508,22 @@ document.addEventListener('DOMContentLoaded', toggleForms);
             event.preventDefault();
             document.getElementById('signup-form').style.display = 'none';
             document.getElementById('login-form').style.display = 'block';
+            document.getElementById('phone-login-form').style.display = 'none';
         });
 
         document.getElementById('show-signup').addEventListener('click', function(event) {
             event.preventDefault();
             document.getElementById('login-form').style.display = 'none';
             document.getElementById('signup-form').style.display = 'block';
+            document.getElementById('phone-login-form').style.display = 'none';
         });
 
+        document.getElementById('phoneLogin').addEventListener('click', function(event) {
+            event.preventDefault();
+            document.getElementById('login-form').style.display = 'none';
+            document.getElementById('signup-form').style.display = 'none';
+            document.getElementById('phone-login-form').style.display = 'block';
+        });
         // Toggle password visibility
         document.getElementById('toggle-signup-password').addEventListener('click', function() {
             togglePasswordVisibility(document.getElementById('signup-password'), this);
@@ -518,6 +532,8 @@ document.addEventListener('DOMContentLoaded', toggleForms);
         document.getElementById('toggle-login-password').addEventListener('click', function() {
             togglePasswordVisibility(document.getElementById('login-password'), this);
         });
+
+        
     </script>
 
     <!-- Footer -->
