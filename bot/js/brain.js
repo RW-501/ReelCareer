@@ -1516,7 +1516,7 @@ async function createButtons(type, termsArray, containerId, btnType) {
                     const docId = e.target.dataset.term;
                     console.log("Add new document...");
                     // Await the setDoc function call and handle the result
-                    const result = await addDoc(learningModel_DB, docId);
+                    const result = await addDocFunc(learningModel_DB, docId);
                     console.log(result); // Optionally log the result
                 }
                 console.log(`FromTerms Button clicked: ${e.target.dataset.term}`);
@@ -1557,7 +1557,7 @@ async function checkIfDocumentExists(docId, collectionName) {
 
 
 
-async function addDoc(learningModel_DB, docId, tokens) {
+async function addDocFunc(learningModel_DB, docId, tokens) {
     const actionWords = [
         'add', 'addDoc', 'add document', 'create', 'insert', 'insert document', 
         'push document', 'new entry', 'new document', 'submit new doc', 'create entry'
@@ -1619,7 +1619,7 @@ const results = checkIfDocumentExists(docId, learningModel_DB);
 
 if(!results){
     setTimeout(() => {
-        addDoc(learningModel_DB, docId, tokens)
+        addDocFunc(learningModel_DB, docId, tokens);
     }, 200);
     return " No Doc to Update";
 }
