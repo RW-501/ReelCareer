@@ -315,7 +315,7 @@ async function loadJobs() {
                     <td>${job.category}</td>
                     <td>${job.industry}</td>
                     <td>
-                        <button class="btn btn-warning btn-sm" onclick="editJob('${doc.id}', '${job.title}', '${job.description}', '${job.category}')">Edit</button>
+                        <button class="btn btn-warning btn-sm" onclick="editJob('${doc.id}', '${job}', '${job.description}', '${job.category}')">Edit</button>
                     </td>
                     <td>
                         <button class="btn btn-danger btn-sm" onclick="deleteJob('${doc.id}')">Delete</button>
