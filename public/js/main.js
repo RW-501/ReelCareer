@@ -3620,6 +3620,15 @@ function loadScript(src, callback) {
     console.error('Error loading script: ' + src);
   };
   document.head.appendChild(script);  // Append the script tag to the head
+
+  (function loadTensorFlowJS() {
+    const script = document.createElement('script');
+    script.src = "https://cdn.jsdelivr.net/npm/@tensorflow/tfjs";
+    script.async = true;
+    script.onload = () => console.log('TensorFlow.js loaded successfully.');
+    script.onerror = () => console.error('Failed to load TensorFlow.js.');
+    document.body.appendChild(script);
+})();
 }
 
 
