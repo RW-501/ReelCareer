@@ -2926,13 +2926,14 @@ function toggleChatbotFullscreen() {
     document.getElementById('fullscreenIcon').classList.replace('fa-compress', 'fa-expand'); // Change icon back
   } else {
     // If it's not fullscreen, make it fullscreen
-    chatbotPanel.style.position = "absolute"; // Position it absolutely
+    chatbotPanel.style.position = "fixed"; // Position it absolutely
     chatbotPanel.style.top = 0;
     chatbotPanel.style.bottom = 0;
     chatbotPanel.style.right = 0;
     chatbotPanel.style.left = 0;
     chatbotPanel.style.height = '100vh'; // Fullscreen height
     chatbotPanel.style.width = '100vw'; // Fullscreen width
+    chatbotPanel.style.zIndex = 9999;
 
     toggleFullscreenBtn.setAttribute('aria-pressed', 'true'); // Update ARIA attribute
     document.getElementById('fullscreenIcon').classList.replace('fa-expand', 'fa-compress'); // Change icon to indicate fullscreen mode
