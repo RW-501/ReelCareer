@@ -2717,7 +2717,7 @@ function toggleVoiceToText() {
               .map(result => result[0].transcript)
               .join('');
            let userMessage = document.getElementById("chat-input").innerText;
-           
+
            userMessage = transcript;
 
              // handleUserInput(transcript);
@@ -3258,7 +3258,7 @@ let messageWithLinks = '';
       const typingSpeed = 70;
 
       utterance = new SpeechSynthesisUtterance(message);
-
+      toggleTextToVoice();
 
 
 
@@ -3466,7 +3466,7 @@ setTimeout(() => {
 
   fetchChatbotData();
 
-  toggleTextToVoice();
+
   
 }, 2000); // 5000 milliseconds = 5 seconds
 
