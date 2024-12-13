@@ -447,83 +447,75 @@ const password = sanitizeInput(document.getElementById("login-password").value);
 
 
 // Global Variables
-let confirmationResult;
-
-// Phone number formatting
-function formatPhoneNumber(phoneNumber) {
-    let cleanedNumber = phoneNumber.replace(/[^+\d]/g, "");
-    if (!cleanedNumber.startsWith("+1")) {
-        cleanedNumber = cleanedNumber.startsWith("1") ? `+${cleanedNumber}` : `+1${cleanedNumber}`;
-    }
-    const phoneRegex = /^\+1\d{10}$/;
-    if (!phoneRegex.test(cleanedNumber)) throw new Error("Invalid phone number format.");
-    return cleanedNumber;
-}
-
-
-
-// Handle errors
-function handleError(message, error) {
-    console.error(message, error);
-    document.getElementById("error-message").innerText = message;
-    document.getElementById("error-message").style.display = "block";
-}
-document.getElementById("phoneLogin").addEventListener("click", () => {
-    phoneLogin();
-  });
+// Global Variables
+let confirmationResult; // Used to store the result of signInWithPhoneNumber
 
 // Phone Login Function
-function phoneLogin() {
+document.getElementById("phoneLogin")?.addEventListener("click", async () => {
     const phoneNumberInput = document.getElementById("phoneNumber").value.trim();
     const phoneNumberError = document.getElementById("phoneNumberError");
 
+    showLoading(); // Show loading spinner
     try {
+        // Format and validate phone number
         const phoneNumber = formatPhoneNumber(phoneNumberInput);
         phoneNumberError.style.display = "none";
 
-        
         // Initialize reCAPTCHA
         const appVerifier = new RecaptchaVerifier("recaptcha-container", { size: "invisible" }, auth);
-        appVerifier.render().then(() => {
-            signInWithPhoneNumber(auth, phoneNumber, appVerifier)
-                .then((result) => {
-                    confirmationResult = result; // Store result for verification
-                    showToast("Code sent successfully.");
-                    document.getElementById("verificationCodeGroup").style.display = "block";
-                    document.getElementById("sendVerificationCode").style.display = "none";
-                })
-                .catch((error) => handleError("Error sending code. Try again.", error));
-        });
+        await appVerifier.render();
+
+        // Send SMS code
+        confirmationResult = await signInWithPhoneNumber(auth, phoneNumber, appVerifier);
+        showToast("Code sent successfully.");
+        
+        // Show verification code input
+        document.getElementById("verificationCodeGroup").style.display = "block";
+        document.getElementById("sendVerificationCode").style.display = "none";
+
     } catch (error) {
         phoneNumberError.textContent = error.message;
         phoneNumberError.style.display = "block";
+        showToast("Error sending code. Try again.", "error");
     } finally {
-
+        hideLoading(); // Hide loading spinner
     }
-}
-window.phoneLogin = phoneLogin;
+});
 
 // Verify Code Function
-function verifyCode() {
+document.getElementById("verifyCode")?.addEventListener("click", async () => {
     const verificationCode = document.getElementById("verificationCode").value.trim();
-    if (!verificationCode) return alert("Please enter the verification code.");
 
-    showLoading(true);
+    if (!verificationCode) {
+        showToast("Please enter the verification code.", "error");
+        return;
+    }
 
-    confirmationResult.confirm(verificationCode)
-        .then((result) => {
-            const user = result.user;
-            console.log("User verified:", user);
-            document.getElementById("success-message").innerText = "Login successful!";
-            document.getElementById("success-message").style.display = "block";
-            // Redirect or proceed to dashboard
-            showDashboard();
-        })
-        .catch((error) => handleError("Invalid code. Please try again.", error))
-        .finally(() => showLoading(false));
-}
+    showLoading(); // Show loading spinner
+    try {
+        // Confirm verification code
+        const result = await confirmationResult.confirm(verificationCode);
+        const user = result.user;
 
-window.verifyCode = verifyCode;
+        console.log("User verified:", user);
+        await saveUserLoginState(user, true); // Save user state
+
+        showToast("Login successful!", "success");
+        document.getElementById("success-message").innerText = "Login successful!";
+        document.getElementById("success-message").style.display = "block";
+
+        // Redirect or show dashboard
+        showDashboard();
+
+    } catch (error) {
+        handleError("Invalid verification code. Please try again.", error);
+        showToast("Invalid verification code. Try again.", "error");
+    } finally {
+        hideLoading(); // Hide loading spinner
+    }
+});
+
+
 
 // Google Login Function
 document.getElementById("google-login")?.addEventListener("click", async () => {
