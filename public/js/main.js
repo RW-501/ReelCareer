@@ -2647,6 +2647,95 @@ if (detectedWords.length > 0) {
 */
 
 
+
+
+let isTextToVoiceOn = false; // Toggle state for Text-to-Voice
+let isVoiceToTextOn = false; // Toggle state for Voice-to-Text
+let recognition; // SpeechRecognition instance
+
+
+let utterance;
+
+// TEXT TO VOICE TOGGLE FUNCTION
+function toggleTextToVoice() {
+    const button = document.getElementById("textToVoiceBtn");
+
+    if (!isTextToVoiceOn) {
+        if (textInput.trim() === "") {
+            showToast("Please enter text to speak.");
+            return;
+        }
+
+        // Start speaking
+        const speechSynthesis = window.speechSynthesis;
+         
+        speechSynthesis.speak(utterance);
+
+        button.innerHTML = '<i id="textVoiceIcon" class="fas fa-volume-mute"></i>';
+        isTextToVoiceOn = true;
+
+        // Event: Update button after speaking ends
+        utterance.onend = () => {
+            isTextToVoiceOn = false;
+            button.innerHTML = '<i id="textVoiceIcon" class="fas fa-volume-up"></i> ';
+        };
+    } else {
+        // Stop speaking
+        window.speechSynthesis.cancel();
+        isTextToVoiceOn = false;
+        button.innerHTML = '<i id="textVoiceIcon" class="fas fa-volume-up"></i>';
+    }
+}
+ let transcript;
+// VOICE TO TEXT TOGGLE FUNCTION
+function toggleVoiceToText() {
+    const button = document.getElementById("voiceToTextBtn");
+
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+    if (!SpeechRecognition) {
+      showToast("Sorry, your browser does not support Speech Recognition.");
+        return;
+    }
+
+    if (!isVoiceToTextOn) {
+        // Start listening
+        recognition = new SpeechRecognition();
+        recognition.lang = 'en-US';
+        recognition.interimResults = true;
+        recognition.continuous = true;
+
+        recognition.onresult = (event) => {
+          const transcript = Array.from(event.results)
+              .map(result => result[0].transcript)
+              .join('');
+           let userMessage = document.getElementById("chat-input").innerText;
+           userMessage = transcript;
+
+             // handleUserInput(transcript);
+        };
+
+        recognition.onerror = (event) => {
+            console.error("Speech recognition error:", event.error);
+        };
+
+        recognition.start();
+        button.innerHTML = '<i id="voiceTextIcon" class="fas fa-microphone-slash"></i> ';
+        isVoiceToTextOn = true;
+
+        console.log("Voice recognition started...");
+    } else {
+        // Stop listening
+        if (recognition) {
+            recognition.stop();
+        }
+        button.innerHTML = '<i id="voiceTextIcon" class="fas fa-microphone"></i> ';
+        isVoiceToTextOn = false;
+
+        console.log("Voice recognition stopped.");
+    }
+}
+
 let allQuestions = [];
 
 // Fetch the structured JSON from the /chat_bot.json file
@@ -2757,8 +2846,18 @@ document.body.appendChild(chatPanel);
       <div id="chatbot-messages" style="padding: 0 .5rem; flex: 1; padding: 10px; overflow-y: auto; font-size: 14px;"></div>
       <div style="padding: 10px; border-top: 1px solid #ddd;">
           <div id="chat-input" contenteditable="true" style="border: 1px solid #ccc; padding: 8px; border-radius: 4px; min-height: 40px;"></div>
+         
+         <div class="chatControls">
+
+          <button id="voiceToTextBtn">
+            <i id="voiceTextIcon" class="fas fa-microphone"></i> 
+        </button>
+        <button id="textToVoiceBtn">
+            <i id="textVoiceIcon" class="fas fa-volume-up"></i>
+        </button>
           <button id="send-chat" style="margin-top: 10px; width: 100%; background-color: #84adea; color: white; border: none; padding: 8px; border-radius: 4px; cursor: pointer;">Send</button>
-      </div>
+     </div>
+          </div>
   `;
 
   // Append to Body
@@ -2875,9 +2974,16 @@ function loadGeneralQuestions() {
 }
 
 
+
+
+
+
 // Handle user input
 async function handleUserInput(userMessage) {
   const messageArea = document.getElementById("chatbot-messages");
+
+
+
 
   // Call sendMessage to get the answer and question id
   const result = await sendMessage(userMessage);
@@ -3119,6 +3225,10 @@ let messageWithLinks = '';
       let index = 0;
       const typingSpeed = 70;
 
+      utterance = new SpeechSynthesisUtterance(message);
+
+
+
 
       messageDiv.innerHTML = `${senderLabel}`; // Start empty with sender label
       const typingEffect = setInterval(() => {
@@ -3321,6 +3431,15 @@ function loadScript(src, callback) {
 setTimeout(() => {
 
   fetchChatbotData();
+
+  const textToVoiceButton = document.getElementById("textToVoiceBtn");
+    const voiceToTextButton = document.getElementById("voiceToTextBtn");
+
+    textToVoiceButton.addEventListener("click", toggleTextToVoice);
+    voiceToTextButton.addEventListener("click", toggleVoiceToText);
+
+    console.log("Listeners added to buttons.");
+
 
 }, 2000); // 5000 milliseconds = 5 seconds
 
