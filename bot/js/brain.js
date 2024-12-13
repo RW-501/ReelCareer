@@ -1714,13 +1714,11 @@ async function handleLearningModelRequest(bestMatch, matchedActions, tokens, cat
         console.log(`Matched updateDocument word: ${updateDocument}`);
     } 
 
-    // Check for actions in the tokens
-    const matchedActions = tokens.filter(word => actionWords.includes(word.toLowerCase()));
 
-    console.log(`Tokens for processing: ${tokens}`);
     if (matchedActions.length > 0) {
         console.log(`Matched actions: ${matchedActions}`);
     }
+    console.log(`Tokens for processing: ${tokens}`);
 
 
 
