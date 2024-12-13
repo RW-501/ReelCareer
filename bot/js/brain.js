@@ -1618,9 +1618,10 @@ async function updateDoc(learningModel_DB, docId, tokens) {
 const results = checkIfDocumentExists(docId, learningModel_DB);
 
 if(!results){
-
-    addDoc(learningModel_DB, docId, tokens)
-   // return " No Doc to Update";
+    setTimeout(() => {
+        addDoc(learningModel_DB, docId, tokens)
+    }, 200);
+    return " No Doc to Update";
 }
     const updatedData = {
         updatedDirections: tokens.join(' '),
@@ -1734,7 +1735,7 @@ setTimeout(() => {
     }, 200);
     }else{
     
-        // update doc
+        // add doc
     }
 
 
