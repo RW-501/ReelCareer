@@ -2847,16 +2847,31 @@ document.body.appendChild(chatPanel);
       <div style="padding: 10px; border-top: 1px solid #ddd;">
           <div id="chat-input" contenteditable="true" style="border: 1px solid #ccc; padding: 8px; border-radius: 4px; min-height: 40px;"></div>
          
-         <div class="chatControls">
+<div class="chatControls" style="display: flex; gap: 10px; margin-top: 10px;">
+    <!-- Voice-to-Text Button -->
+    <button id="voiceToTextBtn" 
+            aria-label="Activate Voice-to-Text" 
+            aria-pressed="false" 
+            style="background-color: #84adea; color: white; border: none; padding: 8px; border-radius: 4px; cursor: pointer;">
+        <i id="voiceTextIcon" class="fas fa-microphone"></i>
+    </button>
 
-          <button id="voiceToTextBtn">
-            <i id="voiceTextIcon" class="fas fa-microphone"></i> 
-        </button>
-        <button id="textToVoiceBtn">
-            <i id="textVoiceIcon" class="fas fa-volume-up"></i>
-        </button>
-          <button id="send-chat" style="margin-top: 10px; width: 100%; background-color: #84adea; color: white; border: none; padding: 8px; border-radius: 4px; cursor: pointer;">Send</button>
-     </div>
+    <!-- Text-to-Voice Button -->
+    <button id="textToVoiceBtn" 
+            aria-label="Activate Text-to-Voice" 
+            aria-pressed="false" 
+            style="background-color: #84adea; color: white; border: none; padding: 8px; border-radius: 4px; cursor: pointer;">
+        <i id="textVoiceIcon" class="fas fa-volume-up"></i>
+    </button>
+
+    <!-- Send Button -->
+    <button id="send-chat" 
+            aria-label="Send Message" 
+            style="margin-top: 0; width: 100%; background-color: #84adea; color: white; border: none; padding: 8px; border-radius: 4px; cursor: pointer;">
+        Send
+    </button>
+</div>
+
           </div>
   `;
 
@@ -3246,6 +3261,8 @@ let messageWithLinks = '';
           resolve(); // Resolve the promise when typing completes
         }
       }, typingSpeed);
+
+      
     } else {
       setTimeout(() => {
         messageDiv.innerHTML = senderLabel + messageWithLinks;
