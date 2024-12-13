@@ -3368,6 +3368,7 @@ async function sendMessage(userMessage) {
 const trimmedMessage = sanitizedMessage.trim().toLowerCase();
 
 displayMessage("user", trimmedMessage) 
+userMessage = '';
 // Initialize score variables
 let bestMatch = null;
 let highestScore = 0;
