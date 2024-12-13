@@ -867,18 +867,31 @@ window.addEventListener("resize", setCanvasSize);
   const stopDiv = document.getElementById('stopDiv');
   let videoStream = null;
   let offsetX, offsetY; // Offset for drag positioning
-  videoInput.addEventListener("change", (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const url = URL.createObjectURL(file);
-      videoPlayer.src = url;
-      videoPlayer.load(); // Ensures the video metadata is loaded properly
-      videoCanvas.width = videoPlayer.videoWidth || 640;
-      videoCanvas.height = videoPlayer.videoHeight || 360;
-      downloadButton.disabled = false;
-      postReelButton.disabled = false;
-    }
-  });
+  let uploadedFile; // To store the file globally
+
+videoInput.addEventListener("change", (e) => {
+  uploadedFile = e.target.files[0]; // Store the file
+  if (uploadedFile) {
+    const url = URL.createObjectURL(uploadedFile);
+    videoPlayer.src = url;
+    videoPlayer.load(); // Ensures the video metadata is loaded properly
+    videoCanvas.width = videoPlayer.videoWidth || 640;
+    videoCanvas.height = videoPlayer.videoHeight || 360;
+    downloadButton.disabled = false;
+    postReelButton.disabled = false;
+  }
+});
+
+// Example: Use the file later
+function uploadFile() {
+  if (uploadedFile) {
+    console.log("Uploading File:", uploadedFile);
+    // Perform an upload or another action with 'uploadedFile'
+  } else {
+    console.log("No file uploaded yet.");
+  }
+}
+
 
   function renderVideoFrame() {
     ctx.clearRect(0, 0, videoCanvas.width, videoCanvas.height);
@@ -1712,8 +1725,8 @@ async function postReelFunction() {
          videoData = {
             duration: videoPlayer.duration, // Ensure videoPlayer is initialized
             name: `${userID}-${new Date().toISOString()}-reel.mp4`, // Use .webm or .mp4 as appropriate
-            file: videoPlayer.src, // The video data itself
-            fileType: "video/webm", // Ensure this matches the file type
+            file: uploadedFile, // The video data itself
+            fileType: "video/mp4", // Ensure this matches the file type
         };
 
         // Upload the video file and get the download URL
