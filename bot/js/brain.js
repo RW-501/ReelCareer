@@ -1450,13 +1450,16 @@ window.processMessage  = processMessage ;
 async function handleLearningModelRequest(bestMatch, matchedActions, tokens, categorizedTokens, constraints, learningModel_DB) {
     // Extract categories for database terms
     const dataBaseTerms = categorizedTokens.filter(token => token.category === 'dataBaseTerms')[0]?.word;
+  
     const setDocument = categorizedTokens.filter(token => token.category === 'setDocument')[0]?.word;
+    const addDocument = categorizedTokens.filter(token => token.category === 'addDocument')[0]?.word;
+    const updateDocument = categorizedTokens.filter(token => token.category === 'updateDocument')[0]?.word;
 
     console.log(`Detected database term: ${dataBaseTerms}`);
     console.log(`Matched setDocument word: ${setDocument}`);
 
     // Actions for 'setDoc' (replace or set the document completely)
-    if (dataBaseTerms === 'set') {
+    if (setDocument === 'set') {
         const actionWords = [
             'set', 'setDoc', 'set document', 'overwrite', 'create new', 'update completely', 
             'save document', 'write document', 'initialize', 'write data', 'add new data',
@@ -1483,7 +1486,8 @@ async function handleLearningModelRequest(bestMatch, matchedActions, tokens, cat
     }
 
     // Actions for 'addDoc' (add a new document to the Firestore collection)
-    if (dataBaseTerms === 'add') {
+    if (addDocument === 'add' 
+    ) {
         const actionWords = [
             'add', 'addDoc', 'add document', 'create', 'insert', 'insert document', 
             'push document', 'new entry', 'new document', 'submit new doc', 'create entry'
@@ -1514,7 +1518,7 @@ async function handleLearningModelRequest(bestMatch, matchedActions, tokens, cat
     }
 
     // Actions for 'updateDoc' (update an existing document)
-    if (dataBaseTerms === 'update') {
+    if (updateDocument === 'update') {
         const actionWords = [
             'update', 'updateDoc', 'modify', 'change document', 'edit document', 'update fields', 
             'change fields', 'update data', 'document edit', 'edit record', 'modify data'
