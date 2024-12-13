@@ -742,10 +742,41 @@
 
     }
 }
+function openReportModal() {
+    document.getElementById('reportModal').style.display = 'block'; // No need for !important
+}
 
+// Close the report job modal
+function closeReportModal() {
+    document.getElementById('reportModal').style.display = 'none'; // No need for !important
+}
+
+// Attach the modal open/close functions to the global window object
+window.openReportModal = openReportModal;
 window.closeReportModal = closeReportModal;
 
-window.submitReport = submitReport;
+
+// Get elements for modal interactions
+const closeModal = document.querySelector('.close');
+const cancelBtn = document.getElementById('cancelBtn');
+const modal = document.getElementById('applicationModal');
+
+// Close modal on clicking the close button (X)
+if (closeModal) {
+    closeModal.addEventListener('click', function() {
+        modal.style.display = 'none'; // No need for !important
+    });
+}
+
+// Close modal on clicking the cancel button
+if (cancelBtn) {
+    cancelBtn.addEventListener('click', function() {
+        modal.style.display = 'none'; // No need for !important
+    });
+}
+window.closeReportModal = closeReportModal;
+
+window.reportVideo = reportVideo;
 
 
 
