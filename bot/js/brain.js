@@ -1032,8 +1032,9 @@ function sortTokensByPriority(categorizedTokens, priorities) {
 // **Handle Job Search Query Logic:**
 
 
-async function handleJobQuery( tokens,categorizedTokens, userPreferences) {
+async function handleJobQuery( tokens, categorizedTokens, userPreferences) {
     try {
+        console.log(`categorizedTokens ${categorizedTokens} `);
 
         const lowerTokens = tokens
     .map(t => t.trim().toLowerCase())
@@ -1414,7 +1415,7 @@ function determineInputType(tokens) {
 
 
 
-
+let categorizedTokens;
 
 function processMessage(message) {
 const userInput = message.toLowerCase();
@@ -1426,7 +1427,7 @@ let tokens = tokenize(userInput);
 console.log("tokens:", tokens);
 
 
-const categorizedTokens = categorizeTokens(tokens, categories);
+ categorizedTokens = categorizeTokens(tokens, categories);
 console.log("categorizedTokens:", categorizedTokens);
 
 
