@@ -1436,7 +1436,7 @@ let categorizedTokens;
 function processMessage(message) {
 
  
- let words =   tensorflowTokenize(sentence)
+ let words =   tensorflowTokenize(message);
 
  console.log("words:", words);
 
