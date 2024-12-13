@@ -1624,7 +1624,7 @@ if(!results){
     return " No Doc to Update";
 }
     const updatedData = {
-        updatedDirections: tokens.join(' '),
+        directions: tokens.join(' '),
         timestamp: new Date(), // Firestore timestamp or current time
     };
 
@@ -1647,7 +1647,7 @@ if(!results){
 
 
 
-async function setDoc(docId, learningModel_DB) {
+async function setDoc(docId, learningModel_DB, tokens) {
     // Define action words (can be used for matching or other purposes)
     const actionWords = [
         'set', 'setDoc', 'set document', 'overwrite', 'create new', 'update completely', 
@@ -1661,6 +1661,7 @@ async function setDoc(docId, learningModel_DB) {
     // Define learning action data
     const learning_action = {
         searchableDirections: ["create", "build", "edit"],
+        directions: tokens.join(' '),
         category: "action",
         description: "Learning actions related to creating, building, and editing documents.",
         keywords: ["can you", "help", "create", "build", "edit"],
