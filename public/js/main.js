@@ -2838,6 +2838,7 @@ function resizeChatPanel() {
     chatPanel.style.bottom = "20px";
     chatPanel.style.right = "20px";
     chatPanel.style.borderRadius = "8px";
+    chatPanel.style.height = "80vh";
   }
 }
 
