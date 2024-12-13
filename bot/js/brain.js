@@ -693,9 +693,10 @@
 
 // Tokenize the input, including math symbols and numbers
 function tokenize(input) {
-    const regex = /[\w'-]+|[+\-*/()]|[\d,.]+/g; // Match words, numbers, and math symbols
+    const regex = /[\w'-?]+|[+\-*/()]|[\d,.]+/g; // Match words, numbers, math symbols, and '?'
     return input.match(regex) || [];
 }
+
 
 
 
@@ -1344,42 +1345,48 @@ async function executeQuery(jobQuery, message) {
 
 
 
+// Predefined sets for faster lookups
+const questionWords = new Set(['what', 'how', 'why', 'when', 'where', 'who', 'which']);
+const requestVerbs = new Set(['calculate', 'show', 'help', 'find', 'get', 'give']);
 
+const selfPronouns = new Set(['i', 'me', 'my', 'mine', 'myself']);
+const otherPronouns = new Set(['you', 'your', 'yours', 'he', 'she', 'they', 'them', 'their', 'theirs', 'him', 'her']);
+
+/**
+ * Function to determine the input type based on tokens.
+ * @param {string[]} tokens - Array of input words.
+ * @returns {string} - Type of input: 'question', 'request', 'self-reference', 'other-reference', or 'statement'.
+ */
 function determineInputType(tokens) { 
-    const questionWords = ['what', 'how', 'why', 'when', 'where', 'who', 'which'];
-    const requestVerbs = ['calculate', 'show', 'help', 'find', 'get', 'give'];
+    // Validate input
+    if (!Array.isArray(tokens) || tokens.length === 0) return 'statement';
 
-    // Pronouns for self and others
-    const selfPronouns = ['i', 'me', 'my', 'mine', 'myself'];
-    const otherPronouns = ['you', 'your', 'yours', 'he', 'she', 'they', 'them', 'their', 'theirs', 'him', 'her'];
-
+    // Normalize tokens to lowercase
     const lowerTokens = tokens.map(token => token.toLowerCase());
 
     // Check for a question
-    if (lowerTokens.some(token => questionWords.includes(token)) || tokens.join(' ').trim().endsWith('?')) {
+    if (lowerTokens.some(token => questionWords.has(token)) || tokens.join(' ').trim().endsWith('?')) {
         return 'question';
     }
 
     // Check for a request
-    if (lowerTokens.some(token => requestVerbs.includes(token))) {
+    if (lowerTokens.some(token => requestVerbs.has(token))) {
         return 'request';
     }
 
     // Check for self-references
-    if (lowerTokens.some(token => selfPronouns.includes(token))) {
+    if (lowerTokens.some(token => selfPronouns.has(token))) {
         return 'self-reference';
     }
 
     // Check for references to others
-    if (lowerTokens.some(token => otherPronouns.includes(token))) {
+    if (lowerTokens.some(token => otherPronouns.has(token))) {
         return 'other-reference';
     }
 
     // Default to statement
     return 'statement';
 }
-
-
 
 
 
@@ -1396,8 +1403,7 @@ if (mathResponse) {
 return `Here's your result: ${mathResponse}`;
 }
 
-// 2. Handle salary queries
-const { salary, keyword } = detectSalaryQuery(tokens);
+
 
 
 //console.log("tokens:", tokens);
@@ -1582,7 +1588,7 @@ console.log("Adding a new document...");
 
     try {
         const docRef = db.collection(learningModel_DB).doc(docId);
-       // await docRef.set(newDocumentData);
+        await docRef.set(newDocumentData);
 
         console.log(`New document added with ID: ${docRef.id}`);
         return `Document added successfully with ID: ${docRef.id}.`;
@@ -1630,7 +1636,7 @@ if(!results){
 
     try {
         const docRef = db.collection(learningModel_DB).doc(docId);
-      //  await docRef.update(updatedData);
+        await docRef.update(updatedData);
         console.log(`Document with ID '${docId}' updated successfully.`);
         return `Document updated successfully with ID: ${docId}.`;
     } catch (error) {
@@ -1674,13 +1680,13 @@ async function setDocFunc(docId, learningModel_DB, tokens) {
         const docRef = db.collection(learningModel_DB).doc(docId);
 
         // Set the document with the provided data, merging with any existing data
-       /* await docRef.set(
+        await docRef.set(
             {
                 learning_action: learning_action
             },
             { merge: true } // Merge data with existing document, if any
         );
-*/
+
         console.log(`Document with ID '${docId}' added/updated successfully.`);
     } catch (error) {
         console.error('Error adding/updating document: ', error);
