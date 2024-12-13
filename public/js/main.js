@@ -2890,6 +2890,11 @@ document.body.appendChild(chatPanel);
   });
   document.getElementById("send-chat").addEventListener("click", sendMessage);
 
+  const textToVoiceButton = document.getElementById("textToVoiceBtn");
+    const voiceToTextButton = document.getElementById("voiceToTextBtn");
+
+    textToVoiceButton.addEventListener("click", toggleTextToVoice);
+    voiceToTextButton.addEventListener("click", toggleVoiceToText);
 
   
   function replaceMainContentWithBot() {
@@ -3449,15 +3454,8 @@ setTimeout(() => {
 
   fetchChatbotData();
 
-  const textToVoiceButton = document.getElementById("textToVoiceBtn");
-    const voiceToTextButton = document.getElementById("voiceToTextBtn");
 
-    textToVoiceButton.addEventListener("click", toggleTextToVoice);
-    voiceToTextButton.addEventListener("click", toggleVoiceToText);
-
-    console.log("Listeners added to buttons.");
-
-
+  
 }, 2000); // 5000 milliseconds = 5 seconds
 
 
