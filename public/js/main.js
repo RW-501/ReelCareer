@@ -446,7 +446,25 @@ const password = sanitizeInput(document.getElementById("login-password").value);
 });
 
 
-// Global Variables
+function formatPhoneNumber(phoneNumber) {
+  // Remove all non-numeric characters except '+'
+  let cleanedNumber = phoneNumber.replace(/[^+\d]/g, "");
+
+  // Add +1 if it's missing
+  if (!cleanedNumber.startsWith("+")) {
+      cleanedNumber = `+1${cleanedNumber}`;
+  } else if (!cleanedNumber.startsWith("+1")) {
+      cleanedNumber = `+1${cleanedNumber.slice(1)}`; // Replace other country codes with +1
+  }
+
+  // Validate that the final format matches +1 followed by 10 digits
+  const phoneRegex = /^\+1\d{10}$/;
+  if (!phoneRegex.test(cleanedNumber)) {
+      throw new Error("Invalid phone number format. Use a 10-digit US number.");
+  }
+
+  return cleanedNumber; // Return formatted phone number
+}
 // Global Variables
 let confirmationResult; // Used to store the result of signInWithPhoneNumber
 
