@@ -703,9 +703,19 @@ function tokenize(input) {
 
 
 // Detect and evaluate math-related queries
-function detectAndEvaluateMath(tokens) {
+function detectAndEvaluateMath(tokens, categorizedTokens, inputType) {
 const mathTokens = [];
 let containsMathSymbol = false;
+
+
+const dataBaseTerms = categorizedTokens.filter(token => token.category === 'dataBaseTerms')[0]?.word;
+  
+const setDocument = categorizedTokens.filter(token => token.category === 'setDocument')[0]?.word;
+const addDocument = categorizedTokens.filter(token => token.category === 'addDocument')[0]?.word;
+const updateDocument = categorizedTokens.filter(token => token.category === 'updateDocument')[0]?.word;
+
+
+
 
 tokens.forEach(token => {
 if (categories.math.includes(token) || token.match(/[+\-*/]/)) {
@@ -1436,7 +1446,7 @@ console.log("userPreferences:", inputType);
 
 
 // 1. Handle math expressions
-const mathResponse = detectAndEvaluateMath(tokens);
+const mathResponse = detectAndEvaluateMath(tokens, categorizedTokens, inputType);
 if (mathResponse) {
 return `Here's your result: ${mathResponse}`;
 }
