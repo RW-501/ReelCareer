@@ -2649,7 +2649,7 @@ if (detectedWords.length > 0) {
 
 
 
-let isTextToVoiceOn = false; // Toggle state for Text-to-Voice
+let isTextToVoiceOn = true; // Toggle state for Text-to-Voice
 let isVoiceToTextOn = false; // Toggle state for Voice-to-Text
 let recognition; // SpeechRecognition instance
 
