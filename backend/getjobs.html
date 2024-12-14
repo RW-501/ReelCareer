@@ -723,6 +723,8 @@ function cleanCategory(category) {
   // Remove the trailing "-jobs" if present
   if (result.endsWith('-jobs')) {
     result = result.slice(0, -5); // Remove last 5 characters (-jobs)
+  }else if (result.endsWith('jobs')) {
+    result = result.slice(0, -4); // Remove last 5 characters (-jobs)
   }
 
   return result;
@@ -773,7 +775,7 @@ console.log(firstWord); // Output: "healthcare"
         immediateHire: 'No', 
 
 
-        industry:  cleanCategory(job.category.label) ||  '',
+        industry:   '',
     category:  cleanCategory(job.category.label) || '',
 
 
