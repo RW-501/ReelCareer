@@ -415,21 +415,31 @@ window.onload = loadInteractionLogs;
 
 
  
-// Fetch /chat_bot.json on page load (for real data)
+
+
 async function fetchChatbotData() {
   try {
     const response = await fetch('https://reelcareer.co/bot/chat_bot.json');
     const data = await response.json();
-    console.log("fetchChatbotData  ",data)
 
-    generalQuestions.push(...data.generalQuestions);
-    predefinedQuestions.push(...data.predefinedQuestions);
-    newQuestions.push(...data.newQuestions);
-    renderQuestions();
+    console.log("Fetched Chatbot Data:", data);
+
+    // Check and fallback to empty arrays if properties are missing
+    const safeGeneralQuestions = Array.isArray(data.generalQuestions) ? data.generalQuestions : [];
+    const safePredefinedQuestions = Array.isArray(data.predefinedQuestions) ? data.predefinedQuestions : [];
+    const safeNewQuestions = Array.isArray(data.newQuestions) ? data.newQuestions : [];
+
+    // Push data into arrays
+    generalQuestions.push(...safeGeneralQuestions);
+    predefinedQuestions.push(...safePredefinedQuestions);
+    newQuestions.push(...safeNewQuestions);
+
+    renderQuestions(); // Render the questions if data is valid
   } catch (error) {
-    console.error("Error fetching data:", error);
+    console.error("Error fetching data:", error.message);
   }
 }
+
 
 
 let  jsonOutput = {
