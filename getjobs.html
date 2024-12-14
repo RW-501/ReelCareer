@@ -480,20 +480,18 @@ function sortTable(columnIndex) {
     <script type="module">
 
 
-import { db , getStorage, ref, uploadBytes, getDownloadURL, limit,
-  doc, arrayUnion, RecaptchaVerifier, increment, getDoc, arrayRemove, signInWithPhoneNumber,
-  query, updateDoc, setDoc, addDoc, signInAnonymously, orderBy, onAuthStateChanged,
-  uploadBytesResumable, signInWithPopup, FacebookAuthProvider, GoogleAuthProvider, startAfter,
-  OAuthProvider, signOut, deleteDoc, getFirestore, serverTimestamp,
-  createUserWithEmailAndPassword, signInWithEmailAndPassword, deleteObject,
-  where, getDocs, storage, getAuth, collection, auth, analytics,
-  googleProvider,onSnapshot ,writeBatch ,batch, } from 'https://reelcareer.co/js/module.js';
-
-const batch = writeBatch(db);  // Initialize batch operation
-let count = 0;
-
-
-
+        import {
+                db, doc, getDoc, query, updateDoc,
+                setDoc, ref, signInWithPopup, orderBy,
+                collection, getFirestore,writeBatch,
+                uploadBytes, OAuthProvider, arrayUnion, getStorage,
+                signOut, addDoc, increment, onAuthStateChanged,
+                createUserWithEmailAndPassword, signInWithEmailAndPassword,
+                where, getDocs, storage, deleteObject, batch,
+                auth, analytics, deleteDoc, getDownloadURL
+            } from 'https://reelcareer.co/js/module.js';
+    
+    
 
             function parseCityFromLocation(location) {
             const parts = location.split(',');
@@ -514,7 +512,51 @@ let count = 0;
   
         let autoAdd = false;
         let autoAddTimeout;
-       
+        document.addEventListener("DOMContentLoaded", () => {
+            
+ // Loading State
+ function toggleLoading(state) {
+            document.getElementById("loading").style.display = state ? "block" : "none";
+        }
+
+
+
+        // Fetch Jobs
+        async function fetchJobs() {
+    let query = document.getElementById("query").value;
+    let query2 = document.getElementById("query2").value;
+    const perPage = document.getElementById("perPage").value;
+    const stateSelect = document.getElementById("stateSelect");
+    const selectedState = stateSelect.value;
+
+    if(query == '') {
+        query = query2;
+    }
+
+    // Build the URL based on whether a state is selected
+    let url = `https://api.adzuna.com/v1/api/jobs/us/search/1?app_id=3ea9a2f1&app_key=e74d84b00c37bbfabe11710ebafcd138&results_per_page=${perPage}&what=${query}`;
+    if (selectedState) {
+        url += `&where=${selectedState}`;
+    }
+
+    // API request
+    try {
+        toggleLoading(true);
+        const response = await axios.get(url);
+        displayJobs(response.data.results);
+    } catch (error) {
+        console.error("Error fetching jobs:", error);
+        showMessage("Error fetching jobs. Please try again.", true);
+    } finally {
+        toggleLoading(false);
+    }
+}
+
+window.fetchJobs = fetchJobs;
+
+
+});
+
 function getSelectedJobs() {
     const selectedRows = document.querySelectorAll(".job-item.selected");
     const jobs = [];
@@ -613,46 +655,14 @@ function toggleDetails(button) {
                 return;
             }
 
-        }
-            
-
-       
-        
-
-   
-
     
+          
 
-        // Show Message
-        function showMessage(message, isError = false) {
-            const messageArea = document.getElementById("messageArea");
-            const messageText = document.getElementById("messageAreaText");
-            messageArea.classList.toggle("error", isError);
-            messageText.textContent = message;
-            messageArea.style.display = "block";
-            setTimeout(() => messageArea.style.display = "none", 3000);
-        }
+  
+const batch = writeBatch(db);  // Initialize batch operation
+let count = 0;
 
-   
-
-        const addJobButton = document.getElementById("addJobButton");
-    addJobButton.addEventListener("click", () => {
-        addSelectedJobs()
-    });
-
-
-    });
-
-
-
-    
-        // Add Job (simplified)
-        function addJob(jobId) {
-            console.log(`Job ID: ${jobId} has been added.`);
-        }
-
-
-        selectedJobs.forEach((jobRow) => {
+selectedJobs.forEach((jobRow) => {
     const job = JSON.parse(jobRow.querySelector('input[type="hidden"]').value); // Retrieve job data
     const jobRef = collection(db, "Jobs");  // Reference to the Jobs collection
     const job_location = job['location']['area'] || []; // Location area
@@ -675,7 +685,7 @@ function toggleDetails(button) {
     console.log(searchableTags);  // Log the final searchable string for debugging
 
     // Adding job data to batch
-    const docRef = doc(db, 'Jobs', job.jobId || '');  // Ensure jobId is valid, use a fallback if not
+    const docRef = doc(db, 'jobs', job.jobId || '');  // Ensure jobId is valid, use a fallback if not
 
     batch.set(docRef, { 
         title: (job.title || '').toLowerCase(),
@@ -716,68 +726,45 @@ function toggleDetails(button) {
     count++;  // Increment the count for successful jobs processed
 });
 
-try {
-    await batch.commit();
-    showMessage(`${count} jobs added successfully.`);
-} catch (error) {
-    console.error("Error adding jobs:", error);
-    showMessage("Failed to add jobs. Please try again.");
-}
+// Commit the batch operation after processing all jobs
+await batch.commit();
+showMessage(`${count} jobs added successfully.`);
+
+
+
+        }
+
+        // Show Message
+        function showMessage(message, isError = false) {
+            const messageArea = document.getElementById("messageArea");
+            const messageText = document.getElementById("messageAreaText");
+            messageArea.classList.toggle("error", isError);
+            messageText.textContent = message;
+            messageArea.style.display = "block";
+            setTimeout(() => messageArea.style.display = "none", 3000);
+        }
+
+   
+
+        const addJobButton = document.getElementById("addJobButton");
+    addJobButton.addEventListener("click", () => {
+        addSelectedJobs()
+    });
+
+
+    });
+
+
+
+    
+        // Add Job (simplified)
+        function addJob(jobId) {
+            console.log(`Job ID: ${jobId} has been added.`);
+        }
 
 
 
 
-
-
-
-
-
-
-
-
-// Loading State
-function toggleLoading(state) {
-           document.getElementById("loading").style.display = state ? "block" : "none";
-       }
-
-
-
-       // Fetch Jobs
-       async function fetchJobs() {
-   let query = document.getElementById("query").value;
-   let query2 = document.getElementById("query2").value;
-   const perPage = document.getElementById("perPage").value;
-   const stateSelect = document.getElementById("stateSelect");
-   const selectedState = stateSelect.value;
-
-   if(query == '') {
-       query = query2;
-   }
-
-   // Build the URL based on whether a state is selected
-   let url = `https://api.adzuna.com/v1/api/jobs/us/search/1?app_id=3ea9a2f1&app_key=e74d84b00c37bbfabe11710ebafcd138&results_per_page=${perPage}&what=${query}`;
-   if (selectedState) {
-       url += `&where=${selectedState}`;
-   }
-
-   // API request
-   try {
-       toggleLoading(true);
-       const response = await axios.get(url);
-       displayJobs(response.data.results);
-   } catch (error) {
-       console.error("Error fetching jobs:", error);
-       showMessage("Error fetching jobs. Please try again.", true);
-   } finally {
-       toggleLoading(false);
-   }
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-window.fetchJobs = fetchJobs;
-
-
-});
 
     </script>
 </body>
