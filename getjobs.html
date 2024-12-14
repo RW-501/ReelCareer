@@ -576,8 +576,8 @@ function displayJobs(jobs) {
 
     jobs.forEach(job => {
         const jobData = JSON.stringify(job); // Serialize job object
-        console.log('job  ',job);
-        console.log('jobData  ',jobData);
+   //     console.log('job  ',job);
+   //     console.log('jobData  ',jobData);
 
         // Main Row (Summary)
         const row = document.createElement("tr");
@@ -710,7 +710,9 @@ console.log(searchableTags);
                     salary: (parseFloat(job.salary_min) + parseFloat(job.salary_max)) / 2 || 0,
                         contractToHire: 'No', 
         immediateHire: 'No', 
-        industry: job.category.label || '', 
+        industry:  job.category && job.category.label
+    ? job.category.label.replace(/[^a-z0-9\s]/gi, '').trim() // Remove special characters
+    : '',
         category: job.category.tag || '',
         benefits: [],  // Add benefits if needed
         tags: searchableTags || '',  // Store tags as a single string
