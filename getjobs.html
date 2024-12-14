@@ -514,52 +514,7 @@ let count = 0;
   
         let autoAdd = false;
         let autoAddTimeout;
-        document.addEventListener("DOMContentLoaded", () => {
-
-
- // Loading State
- function toggleLoading(state) {
-            document.getElementById("loading").style.display = state ? "block" : "none";
-        }
-
-
-
-        // Fetch Jobs
-        async function fetchJobs() {
-    let query = document.getElementById("query").value;
-    let query2 = document.getElementById("query2").value;
-    const perPage = document.getElementById("perPage").value;
-    const stateSelect = document.getElementById("stateSelect");
-    const selectedState = stateSelect.value;
-
-    if(query == '') {
-        query = query2;
-    }
-
-    // Build the URL based on whether a state is selected
-    let url = `https://api.adzuna.com/v1/api/jobs/us/search/1?app_id=3ea9a2f1&app_key=e74d84b00c37bbfabe11710ebafcd138&results_per_page=${perPage}&what=${query}`;
-    if (selectedState) {
-        url += `&where=${selectedState}`;
-    }
-
-    // API request
-    try {
-        toggleLoading(true);
-        const response = await axios.get(url);
-        displayJobs(response.data.results);
-    } catch (error) {
-        console.error("Error fetching jobs:", error);
-        showMessage("Error fetching jobs. Please try again.", true);
-    } finally {
-        toggleLoading(false);
-    }
-}
-
-window.fetchJobs = fetchJobs;
-
-
-});
-
+       
 function getSelectedJobs() {
     const selectedRows = document.querySelectorAll(".job-item.selected");
     const jobs = [];
@@ -720,7 +675,7 @@ function toggleDetails(button) {
     console.log(searchableTags);  // Log the final searchable string for debugging
 
     // Adding job data to batch
-    const docRef = doc(db, 'jobs', job.jobId || '');  // Ensure jobId is valid, use a fallback if not
+    const docRef = doc(db, 'Jobs', job.jobId || '');  // Ensure jobId is valid, use a fallback if not
 
     batch.set(docRef, { 
         title: (job.title || '').toLowerCase(),
@@ -768,6 +723,61 @@ try {
     console.error("Error adding jobs:", error);
     showMessage("Failed to add jobs. Please try again.");
 }
+
+
+
+
+
+
+
+
+
+
+document.addEventListener("DOMContentLoaded", () => {
+
+
+// Loading State
+function toggleLoading(state) {
+           document.getElementById("loading").style.display = state ? "block" : "none";
+       }
+
+
+
+       // Fetch Jobs
+       async function fetchJobs() {
+   let query = document.getElementById("query").value;
+   let query2 = document.getElementById("query2").value;
+   const perPage = document.getElementById("perPage").value;
+   const stateSelect = document.getElementById("stateSelect");
+   const selectedState = stateSelect.value;
+
+   if(query == '') {
+       query = query2;
+   }
+
+   // Build the URL based on whether a state is selected
+   let url = `https://api.adzuna.com/v1/api/jobs/us/search/1?app_id=3ea9a2f1&app_key=e74d84b00c37bbfabe11710ebafcd138&results_per_page=${perPage}&what=${query}`;
+   if (selectedState) {
+       url += `&where=${selectedState}`;
+   }
+
+   // API request
+   try {
+       toggleLoading(true);
+       const response = await axios.get(url);
+       displayJobs(response.data.results);
+   } catch (error) {
+       console.error("Error fetching jobs:", error);
+       showMessage("Error fetching jobs. Please try again.", true);
+   } finally {
+       toggleLoading(false);
+   }
+}
+
+window.fetchJobs = fetchJobs;
+
+
+});
 
     </script>
 </body>
