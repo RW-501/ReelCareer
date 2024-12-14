@@ -1527,7 +1527,7 @@ async function predictCategory(tokens) {
 
 function tensorflowTokenize(sentence) {
     const words = sentence.toLowerCase().split(" ");
-    return words.map((word) => (wordDictionary[word] || 0));
+    return words.map((word) => (categories[word] || 0));
 }
 
 
