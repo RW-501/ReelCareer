@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Adzuna API Data Fetcher</title>
+
+
+
+
     <script>
         const app_id = '3ea9a2f1'; // Replace with your Adzuna App ID
         const app_key = 'e74d84b00c37bbfabe11710ebafcd138'; // Replace with your Adzuna App Key
@@ -68,8 +72,22 @@
             background-color: #0056b3;
         }
     </style>
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    
+        <!-- Bootstrap CSS -->
+        <script src="https://reelcareer.co/public/js/scripts.js"></script>
+        <script src="https://reelcareer.co/public/js/loadScripts.js"></script>
+        
+        <!-- Custom CSS -->
+        <link rel="stylesheet" href="https://reelcareer.co/public/css/styles.css">
 </head>
 <body>
+    <script src="https://reelcareer.co/public/js/bodyload.js"></script>
+    <script defer src="https://reelcareer.co/backend/js/admin.js"></script>
+
+
     <h1>Adzuna API Data Fetcher</h1>
 
     <label for="query">Search Query (Job Role/Keyword):</label>
@@ -86,5 +104,48 @@
 
     <h2>Output:</h2>
     <textarea id="output" readonly>Results will appear here...</textarea>
+
+
+
+
+
+
+
+    <!-- Footer -->
+    <footer id="dynamic-footer"></footer>
+    
+    <!-- Firebase configuration/ Login& Out -->
+    <script type="module" src="https://reelcareer.co/public/js/main.js"></script> 
+
+    <!-- Firebase JS SDK and Custom Scripts -->
+
+    <!-- Firebase and Job Fetcher Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+
+
+
+
+
+    <script type="module">
+
+
+        import {
+                db, doc, getDoc, query, updateDoc,
+                setDoc, ref, signInWithPopup, orderBy,
+                collection, getFirestore,writeBatch,
+                uploadBytes, OAuthProvider, arrayUnion, getStorage,
+                signOut, addDoc, increment, onAuthStateChanged,
+                createUserWithEmailAndPassword, signInWithEmailAndPassword,
+                where, getDocs, storage, deleteObject, batch,
+                auth, analytics, deleteDoc, getDownloadURL
+            } from 'https://reelcareer.co/js/module.js';
+    
+    
+
+            </script>
+
+
+
 </body>
 </html>

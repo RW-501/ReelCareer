@@ -85,10 +85,10 @@ const navData = {
           document.getElementById('newLinkHref').value = '';
           replaceNav();
         } else {
-          alert('No navigation group exists to add the link.');
+          showToast('No navigation group exists to add the link.');
         }
       } else {
-        alert('Please enter both Link Text and Link URL.');
+        showToast('Please enter both Link Text and Link URL.');
       }
     });
   }
@@ -110,9 +110,9 @@ const navData = {
   if (storedNav && storedNav.navGroups) {
     navData.navGroups = storedNav.navGroups;
   }
-  console.log('Stored Nav:', storedNav);
+  /*console.log('Stored Nav:', storedNav);
   console.log('Nav Data:', navData);
-  
+  */
   function replaceNav() {
     let oldNav = document.getElementById('Main_Nav');
     if (!oldNav) {
