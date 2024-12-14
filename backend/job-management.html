@@ -258,11 +258,51 @@ const stateAbbreviations = {
     "WIS": "Wisconsin", "WYO": "Wyoming",
 };
 let categoryFixCount = 0;
+let industryFixCount = 0;
 let stateFixCount = 0;
+
 const stateAbbreviationDocIds = [];
 const invalidStateDocIds = [];
 const categoryFixes = [];
+const industryFixes = [];
 
+// Define job industries with associated keywords
+const jobIndustries = {
+    'Healthcare': ['health', 'medical', 'nurse', 'doctor', 'hospital', 'medicine', 'patient'],
+    'Finance': ['finance', 'bank', 'accounting', 'investment', 'tax', 'wealth'],
+    'Technology': ['tech', 'software', 'developer', 'it', 'web', 'engineering', 'systems'],
+    'Education': ['education', 'teacher', 'school', 'tutor', 'trainer', 'curriculum'],
+    'Construction': ['construction', 'builder', 'contractor', 'site', 'civil', 'project'],
+    'Manufacturing': ['manufacturing', 'factory', 'production', 'assembly', 'machinery'],
+    'Retail': ['retail', 'store', 'sales', 'merchandise', 'shop', 'cashier'],
+    'Transportation': ['transport', 'driver', 'logistics', 'truck', 'vehicle', 'shipping'],
+    'Hospitality': ['hotel', 'restaurant', 'hospitality', 'chef', 'waiter', 'concierge'],
+    'Art & Entertainment': ['entertainment', 'music', 'artist', 'performer', 'actor', 'media']
+};
+
+// Function to assign an industry based on category or description
+function assignIndustry(category, description) {
+    description = description.toLowerCase();
+    category = category ? category.toLowerCase() : '';
+
+    // Match category to industry first
+    for (const [industry, keywords] of Object.entries(jobIndustries)) {
+        if (keywords.some((keyword) => category.includes(keyword))) {
+            return industry;
+        }
+    }
+
+    // If no industry found from category, match description
+    for (const [industry, keywords] of Object.entries(jobIndustries)) {
+        if (keywords.some((keyword) => description.includes(keyword))) {
+            return industry;
+        }
+    }
+
+    return 'Other'; // Default industry if no match is found
+}
+
+// Load jobs from Firestore
 async function loadJobs() {
     try {
         const querySnapshot = await getDocs(collection(db, 'Jobs'));
@@ -273,16 +313,24 @@ async function loadJobs() {
 
         querySnapshot.forEach((doc) => {
             const job = doc.data();
-            const truncatedDescription = job.description.length > 50 ? job.description.substring(0, 50) + '...' : job.description;
+            const truncatedDescription =
+                job.description.length > 50 ? job.description.substring(0, 50) + '...' : job.description;
 
-            // Check if the job doesn't have a category
+            // Fix category if missing
             if (!job.category) {
                 categoryFixCount++;
                 const jobCategory = categorizeJob(job.title, job.description);
                 categoryFixes.push({ docId: doc.id, jobCategory });
             }
 
-            // Check if the state is an abbreviation and fix it
+            // Fix industry if missing
+            if (!job.industry) {
+                industryFixCount++;
+                const jobIndustry = assignIndustry(job.category, job.description);
+                industryFixes.push({ docId: doc.id, jobIndustry });
+            }
+
+            // Fix state abbreviations
             const stateAbbreviation = job.state.toUpperCase();
             let fullStateName = stateAbbreviations[stateAbbreviation];
             let rowClass = '';
@@ -290,23 +338,17 @@ async function loadJobs() {
             if (fullStateName) {
                 rowClass = 'highlight-row'; // Highlight the row
                 if (job.state !== fullStateName) {
-                    // If needed, update the state to the correct full name
                     job.state = fullStateName;
                     stateFixCount++;
                 }
-
-                // Store the document ID and the full state name of the job with state abbreviation
-                stateAbbreviationDocIds.push({
-                    docId: doc.id,
-                    fullStateName: fullStateName
-                });
-            } else {
-                // If state is invalid (not found in the abbreviations list), add to the invalid list
+                stateAbbreviationDocIds.push({ docId: doc.id, fullStateName });
+            } else if (!stateAbbreviations[stateAbbreviation]) {
                 invalidStateDocIds.push(doc.id);
             }
 
+            // Table row rendering
             const row = `
-                <tr class="${rowClass}" data-bs-toggle="collapse" data-bs-target="#collapse-${doc.id}" aria-expanded="false" aria-controls="collapse-${doc.id}">
+                <tr class="${rowClass}">
                     <td><input type="checkbox" class="jobCheckbox" value="${doc.id}"></td>
                     <td><a href="https://reelcareer.co/jobs/job-details/?id=${doc.id}">${job.title}</a></td>
                     <td>${job.createdAt.toDate().toLocaleString()}</td>
@@ -315,30 +357,18 @@ async function loadJobs() {
                     <td>${job.category}</td>
                     <td>${job.industry}</td>
                     <td>
-<button class="btn btn-warning btn-sm" 
-    data-id="${doc.id}" 
-    data-title="${job.title}" 
-    data-description="${job.description}" 
-    data-category="${job.category}" 
-    data-state="${job.state || ''}" 
-    data-city="${job.city || ''}" 
-    data-industry="${job.industry || ''}"
-    onclick="editJob(this)">Edit</button>
-
-                        </td>
+                        <button class="btn btn-warning btn-sm" 
+                            data-id="${doc.id}" 
+                            data-title="${job.title}" 
+                            data-description="${job.description}" 
+                            data-category="${job.category || ''}" 
+                            data-state="${job.state || ''}" 
+                            data-city="${job.city || ''}" 
+                            data-industry="${job.industry || ''}"
+                            onclick="editJob(this)">Edit</button>
+                    </td>
                     <td>
                         <button class="btn btn-danger btn-sm" onclick="deleteJob('${doc.id}')">Delete</button>
-                    </td>
-                </tr>
-                <!-- Collapsible Row -->
-                <tr class="collapse" id="collapse-${doc.id}">
-                    <td colspan="10">
-                        <strong>Description:</strong> ${truncatedDescription} 
-                        <ul class="mt-2">
-                            <li><strong>Salary:</strong> ${job.salary}</li>
-                            <li><strong>Type:</strong> ${job.type}</li>
-                            <li><strong>Submitted By:</strong> ${job.submittedBy}</li>
-                        </ul>
                     </td>
                 </tr>
             `;
@@ -347,49 +377,49 @@ async function loadJobs() {
             totalCount++;
         });
 
-        // Update the total count display
+        // Update counts in the UI
         document.getElementById('totalCount').textContent = `Total Jobs: ${totalCount}`;
         document.getElementById('categoryFixCount').textContent = `Category Fix Count: ${categoryFixCount}`;
+        document.getElementById('industryFixCount').textContent = `Industry Fix Count: ${industryFixCount}`;
         document.getElementById('stateFixCount').textContent = `State Fix Count: ${stateFixCount}`;
 
-        // Log the document IDs and full state names
-        console.log('Document IDs with state abbreviations and full state names:', stateAbbreviationDocIds);
-
-        // Now, batch upload the changes (category fixes and state fixes)
-        await batchUpdateCategoriesAndStates();
+        await batchUpdateFixes();
 
     } catch (error) {
         console.error('Error loading jobs:', error);
     }
 }
 
-// Function to batch update categories and states
-async function batchUpdateCategoriesAndStates() {
+// Batch update categories, industries, and states
+async function batchUpdateFixes() {
     try {
         const batch = writeBatch(db);
 
-        // Update categories in batch
+        // Update categories
         categoryFixes.forEach(({ docId, jobCategory }) => {
             const jobRef = doc(db, 'Jobs', docId);
-            batch.update(jobRef, { category: jobCategory }); // Add the category update to the batch
+            batch.update(jobRef, { category: jobCategory });
             console.log(`Job ID: ${docId}, category updated to: ${jobCategory}`);
         });
 
-        // Update states in batch
+        // Update industries
+        industryFixes.forEach(({ docId, jobIndustry }) => {
+            const jobRef = doc(db, 'Jobs', docId);
+            batch.update(jobRef, { industry: jobIndustry });
+            console.log(`Job ID: ${docId}, industry updated to: ${jobIndustry}`);
+        });
+
+        // Update states
         stateAbbreviationDocIds.forEach(({ docId, fullStateName }) => {
             const jobRef = doc(db, 'Jobs', docId);
-            batch.update(jobRef, { state: fullStateName }); // Add the state update to the batch
+            batch.update(jobRef, { state: fullStateName });
             console.log(`Job ID: ${docId}, state updated to: ${fullStateName}`);
         });
 
-        // Commit the batch update
         await batch.commit();
-
-        // Show success message
-        showToast('All categories and states have been fixed!');
-
+        showToast('All categories, industries, and states have been fixed!');
     } catch (error) {
-        console.error('Error in batch updating categories and states:', error);
+        console.error('Error updating fixes:', error);
     }
 }
 
