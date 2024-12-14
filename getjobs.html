@@ -685,7 +685,7 @@ selectedJobs.forEach((jobRow) => {
     console.log(searchableTags);  // Log the final searchable string for debugging
 
     // Adding job data to batch
-    const docRef = doc(db, 'jobs', job.jobId || '');  // Ensure jobId is valid, use a fallback if not
+    const docRef = doc(db, 'Jobs');  // Ensure jobId is valid, use a fallback if not
 
     batch.set(docRef, { 
         title: (job.title || '').toLowerCase(),
