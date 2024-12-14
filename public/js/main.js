@@ -2110,44 +2110,46 @@ window.getUserTagInterest = getUserTagInterest;
 
 
 // Check if user is logged in and handle admin area access
+// Helper functions
+function redirectToLogin() {
+  showToast('You need to log in to access the Admin area.');
+  window.location.href = 'https://reelcareer.co/views/auth';
+}
+
+function redirectToDashboard() {
+  window.location.href = 'https://reelcareer.co/backend/dashboard/';
+}
+
+function showAdminContent() {
+  const firebaseLogin = document.getElementById("firebaseLogin");
+  const dashboardContent = document.getElementById("dashboardContent");
+
+  if (firebaseLogin) firebaseLogin.style.display = "none";
+  if (dashboardContent) dashboardContent.style.display = "block";
+}
+
 function checkLogin(user) {
   const isLoggedIn = localStorage.getItem('userLoggedIn') === 'true';
+  const path = window.location.pathname;
 
-  // Redirect to home if user is not logged in and is in the admin area
-  if (window.location.pathname.includes('/backend') || window.location.pathname.includes('/backend/') ) {
-      if (!isLoggedIn) {
-          if (window.location.pathname.includes('/backend')) {
-              showToast('You need to log in to access the Admin area.');
-              window.location.href = 'https://reelcareer.co/views/auth';
-          } else {
-              // Redirect to login page or main admin page
-              window.location.href = 'https://reelcareer.co/backend/dashboard/';
-          }
-      } else if (window.location.pathname.includes('/backend') || window.location.pathname.includes('/backend/index') || window.location.pathname.includes('/backend/')) {
-        let firebaseLogin = document.getElementById("firebaseLogin");
-        let dashboardContent = document.getElementById("dashboardContent");
-    
-        if(user.email == "1988lrp@gmail.com"){
-        showToast('Admin Logged In, Welcome ',user.displayName);
+  // Check if user is trying to access the backend/admin area
+  const isBackendArea = path.includes('/backend') || path.includes('/backend/');
+  if (!isBackendArea) return; // No further action needed for non-admin areas
 
-          if(firebaseLogin){
-              firebaseLogin = firebaseLogin.style.display = "none";
-              dashboardContent = dashboardContent.style.display = "block";
+  // If not logged in, redirect to login page
+  if (!isLoggedIn) {
+      redirectToLogin();
+      return;
+  }
 
-          }
-      
-        }else{
-          window.location.href = 'https://reelcareer.co/views/auth';
-
-          showToast('You are not a admin');
-
-          if(firebaseLogin){
-            firebaseLogin = firebaseLogin.style.display = "none";
-            dashboardContent = dashboardContent.style.display = "block";
-
-        }
-        }
-
+  // Backend page handling
+  if (path.includes('/backend') || path.includes('/backend/index')) {
+      if (user.email === "1988lrp@gmail.com") { 
+          showToast(`Admin Logged In, Welcome ${user.displayName}`);
+          showAdminContent();
+      } else {
+          showToast('You are not an admin');
+          redirectToLogin();
       }
   }
 }
