@@ -692,7 +692,9 @@ selectedJobs.forEach((jobRow) => {
         recrecruiterID: '',  // You can update this if needed
         company: job.company.display_name,
         description: job.description || '', 
-        location: (job.location || '').toLowerCase(),
+        location: Array.isArray(job.location) 
+    ? job.location.join(', ').toLowerCase() 
+    : (job.location || '').toLowerCase(),
         city: parseCityFromLocationNew(job.location.display_name) || '', 
         county: parseStateFromLocation(job.location.display_name) || '', 
         state: job.location.area[1] || '', 
