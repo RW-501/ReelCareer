@@ -29,10 +29,7 @@
 <body>
     <script src="https://reelcareer.co/public/js/bodyload.js"></script>
     
-    <header class="bg-dark text-white text-center p-4">
-        <h1>Article Detail</h1>
-    </header>
-
+ 
 
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
@@ -41,7 +38,10 @@
               <li class="breadcrumb-item active" aria-current="page">Article</li>
             </ol>
           </nav>
-
+          <header class="bg-dark text-white text-center p-4" hidden>
+            <h1>Article Detail</h1>
+        </header>
+    
 
           <main id="main-content">
 
@@ -146,6 +146,7 @@ async function displayArticle() {
                 <p><strong>Post Date:</strong> ${new Date(article.postDate).toLocaleDateString()}</p>
             `;   // Set initial like count
                 document.getElementById('like-count').innerText = article.likes || 0;
+                document.getElementById('article-content').innerHTML = articleElement;
             } else {
                 document.getElementById('article-content').innerHTML = `<p>Article not found.</p>`;
             }
