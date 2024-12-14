@@ -315,7 +315,8 @@ async function loadJobs() {
                     <td>${job.category}</td>
                     <td>${job.industry}</td>
                     <td>
-                        <button class="btn btn-warning btn-sm" onclick="editJob( '${job}','${doc.id}', '${job.description}', '${job.category}')">Edit</button>
+<button class="btn btn-warning btn-sm" 
+    onclick="editJob('${JSON.stringify(job)}', '${doc.id}')">Edit</button>
                     </td>
                     <td>
                         <button class="btn btn-danger btn-sm" onclick="deleteJob('${doc.id}')">Delete</button>
@@ -508,18 +509,22 @@ function openJobModal() {
 }
 
 // Edit job
-function editJob(job, id) {
-    console.log("job   ",job)
-    document.getElementById('jobTitle').value = job.title;
-    document.getElementById('jobDescription').value = job.description;
-    document.getElementById('jobCategory').value = job.category;
-    document.getElementById('jobState').value = job.state || '';  // Add state
-    document.getElementById('jobCity').value = job.city || '';    // Add city
-    document.getElementById('jobIndustry').value = job.industry || '';  // Add industry
+function editJob(jobString, id) {
+    const job = JSON.parse(jobString); // Convert JSON string back to object
+    console.log("job:", job);
+
+    // Populate form fields
+    document.getElementById('jobTitle').value = job.title || '';
+    document.getElementById('jobDescription').value = job.description || '';
+    document.getElementById('jobCategory').value = job.category || '';
+    document.getElementById('jobState').value = job.state || '';  
+    document.getElementById('jobCity').value = job.city || '';    
+    document.getElementById('jobIndustry').value = job.industry || '';  
     document.getElementById('jobId').value = id;
+
+    // Show modal
     $('#jobModal').modal('show');
 }
-
 
 document.getElementById('jobForm').onsubmit = async function(e) {
     e.preventDefault();
