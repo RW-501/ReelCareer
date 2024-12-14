@@ -667,7 +667,7 @@ main .row {
 
     function setJobDescriptionMetaTags(jobData) {
     // Update the document title
-    document.title = `${jobData.title} | ${jobData.companyName} | ReelCareer.co`;
+    document.title = `${jobData.title} | ${jobData.companyName || ""}  ReelCareer.co`;
 
     // Helper function to create or update a meta or link tag
     function updateMetaOrLinkTag(name, content, isProperty = false, isCanonical = false) {
@@ -700,7 +700,7 @@ main .row {
 
     // Meta tags for SEO
     updateMetaOrLinkTag('description', jobData.description || `Apply for ${jobData.title} at ${jobData.companyName} on ReelCareer.co!`);
-    updateMetaOrLinkTag('keywords', jobData.keywords || `${jobData.title}, ${jobData.companyName}, ${jobData.location}, jobs on ReelCareer`);
+    updateMetaOrLinkTag('keywords', jobData.keywords || `${jobData.title}, ${jobData.companyName || ""}, ${jobData.location}, jobs on ReelCareer`);
     updateMetaOrLinkTag('author', jobData.author || 'ReelCareer Team');
 
     // Open Graph (OG) meta tags for social media sharing
