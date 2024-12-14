@@ -2968,13 +2968,13 @@ function toggleChatbotFullscreen() {
 
   if (isFullscreen) {
     // If it's fullscreen, set it back to normal size
-    chatbotPanel.style.position = "initial"; // Reset position (e.g., relative or initial)
+    chatbotPanel.style.position = "fixed"; // Reset position (e.g., relative or initial)
     chatbotPanel.style.top = 'initial';
-    chatbotPanel.style.bottom = 'initial';
-    chatbotPanel.style.right = 'initial';
+    chatbotPanel.style.bottom = '20px';
+    chatbotPanel.style.right = '20px';
     chatbotPanel.style.left = 'initial';
-    chatbotPanel.style.height = 'initial'; // Reset to original height
-    chatbotPanel.style.width = 'initial'; // Reset to original width
+    chatbotPanel.style.height = '80vh'; // Reset to original height
+    chatbotPanel.style.width = '350px'; // Reset to original width
     
     // Optionally, reset other properties like margin, padding, etc.
     // chatbotPanel.style.margin = "initial";
