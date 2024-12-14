@@ -363,6 +363,7 @@ let newQuestions = [];
             // Add click event to trigger createQuestionElement
             row.addEventListener('click', () => {
                 createQuestionElement(data, "New", newQuestions + 1);
+                console.log("clickecd createQuestionElement  ",data.question)
             });
 
             // Append row to the table body
@@ -419,6 +420,8 @@ async function fetchChatbotData() {
   try {
     const response = await fetch('https://reelcareer.co/bot/chat_bot.json');
     const data = await response.json();
+    console.log("fetchChatbotData  ",data)
+
     generalQuestions.push(...data.generalQuestions);
     predefinedQuestions.push(...data.predefinedQuestions);
     newQuestions.push(...data.newQuestions);
@@ -666,6 +669,9 @@ function createQuestionElement(question, category, index) {
 }
 
 function populateForm(questionData, category, index) {
+
+    console.log("populateForm  ",questionData)
+
     // Populate form fields
     document.getElementById("questionID").value = questionData.id || "";
     document.getElementById("question").value = questionData.question || "";
