@@ -7,81 +7,66 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 // Define your JSON data for navigation
-const navData = {
-    "navGroups": [
-      {
-        "title": "Dashboard and Analytics",
-        "links": [
-          { "text": "Get Jobs", "href": "https://reelcareer.co/backend/getjobs" },
-          { "text": "Get Data", "href": "https://reelcareer.co/backend/getDataAdzuna" },
-          { "text": "Tickets", "href": "https://reelcareer.co/backend/tickets" },
-          { "text": "Notes", "href": "https://reelcareer.co/backend/notes" },
-          { "text": "Title Fix", "href": "https://reelcareer.co/backend/titles-fix" },
-          { "text": "Sitemap Builder", "href": "https://reelcareer.co/backend/sitemap" },
-          { "text": "Lower Case DB", "href": "https://reelcareer.co/backend/lowerCaseDB" }
-        ]
-      },{
-        "navGroups": [
-          {
-            "title": "Dashboard and Analytics",
-            "links": [
-              { "text": "Tickets", "href": "https://reelcareer.co/backend/tickets" },
-              { "text": "Notes", "href": "https://reelcareer.co/backend/notes" },
-              { "text": "Title Fix", "href": "https://reelcareer.co/backend/titles-fix" },
-              { "text": "Sitemap Builder", "href": "https://reelcareer.co/backend/sitemap" },
-              { "text": "Lower Case DB", "href": "https://reelcareer.co/backend/lowerCaseDB" }
-            ]
-          },
-          {
-            "title": "Management Tools",
-            "links": [
-              { "text": "Content Management", "href": "https://reelcareer.co/backend/content-management" },
-              { "text": "User Management", "href": "https://reelcareer.co/backend/user-management" },
-              { "text": "Job Management", "href": "https://reelcareer.co/backend/job-management" },
-              { "text": "Application Management", "href": "https://reelcareer.co/backend/application-management" }
-            ]
-          },
-          {
-            "title": "General Settings and Utilities",
-            "links": [
-              { "text": "Contact", "href": "https://reelcareer.co/backend/contact" },
-              { "text": "Settings", "href": "https://reelcareer.co/backend/settings" },
-              { "text": "Support", "href": "https://reelcareer.co/backend/support" },
-              { "text": "Chatbot", "href": "https://reelcareer.co/backend/chatbot" },
-              { "text": "Notifications Management", "href": "https://reelcareer.co/backend/notifications-management" },
-              { "text": "System Logs", "href": "https://reelcareer.co/backend/system-logs" }
-            ]
-          },
-          {
-            "title": "Finance and Monetization",
-            "links": [
-              { "text": "Transactions", "href": "https://reelcareer.co/backend/transactions" },
-              { "text": "Integration Management", "href": "https://reelcareer.co/backend/integration-management" },
-              { "text": "Payments", "href": "https://reelcareer.co/backend/payments" },
-              { "text": "Monetization", "href": "https://reelcareer.co/backend/monetization" }
-            ]
-          },
-          {
-            "title": "SEO and Cleanup",
-            "links": [
-              { "text": "Delete Dup", "href": "https://reelcareer.co/backend/delete-dup" },
-              { "text": "SEO Helper", "href": "https://reelcareer.co/backend/seo-helper" }
-            ]
-          },
-          {
-            "title": "Role and Personality Management",
-            "links": [
-              { "text": "Role Management", "href": "https://reelcareer.co/backend/role-management" },
-              { "text": "Trait Personality Management", "href": "https://reelcareer.co/backend/trait-personality-management" }
-            ]
-          }
-        ]
-      }
-      
-      // Add other groups as needed
-    ]
-  };
- 
+const navData = { 
+  "navGroups": [
+    {
+      "title": "Dashboard and Analytics",
+      "links": [
+        { "text": "Get Jobs", "href": "https://reelcareer.co/backend/getjobs" },
+        { "text": "Get Data", "href": "https://reelcareer.co/backend/getDataAdzuna" },
+        { "text": "Tickets", "href": "https://reelcareer.co/backend/tickets" },
+        { "text": "Notes", "href": "https://reelcareer.co/backend/notes" },
+        { "text": "Title Fix", "href": "https://reelcareer.co/backend/titles-fix" },
+        { "text": "Sitemap Builder", "href": "https://reelcareer.co/backend/sitemap" },
+        { "text": "Lower Case DB", "href": "https://reelcareer.co/backend/lowerCaseDB" }
+      ]
+    },
+    {
+      "title": "Management Tools",
+      "links": [
+        { "text": "Content Management", "href": "https://reelcareer.co/backend/content-management" },
+        { "text": "User Management", "href": "https://reelcareer.co/backend/user-management" },
+        { "text": "Job Management", "href": "https://reelcareer.co/backend/job-management" },
+        { "text": "Application Management", "href": "https://reelcareer.co/backend/application-management" }
+      ]
+    },
+    {
+      "title": "General Settings and Utilities",
+      "links": [
+        { "text": "Contact", "href": "https://reelcareer.co/backend/contact" },
+        { "text": "Settings", "href": "https://reelcareer.co/backend/settings" },
+        { "text": "Support", "href": "https://reelcareer.co/backend/support" },
+        { "text": "Chatbot", "href": "https://reelcareer.co/backend/chatbot" },
+        { "text": "Notifications Management", "href": "https://reelcareer.co/backend/notifications-management" },
+        { "text": "System Logs", "href": "https://reelcareer.co/backend/system-logs" }
+      ]
+    },
+    {
+      "title": "Finance and Monetization",
+      "links": [
+        { "text": "Transactions", "href": "https://reelcareer.co/backend/transactions" },
+        { "text": "Integration Management", "href": "https://reelcareer.co/backend/integration-management" },
+        { "text": "Payments", "href": "https://reelcareer.co/backend/payments" },
+        { "text": "Monetization", "href": "https://reelcareer.co/backend/monetization" }
+      ]
+    },
+    {
+      "title": "SEO and Cleanup",
+      "links": [
+        { "text": "Delete Dup", "href": "https://reelcareer.co/backend/delete-dup" },
+        { "text": "SEO Helper", "href": "https://reelcareer.co/backend/seo-helper" }
+      ]
+    },
+    {
+      "title": "Role and Personality Management",
+      "links": [
+        { "text": "Role Management", "href": "https://reelcareer.co/backend/role-management" },
+        { "text": "Trait Personality Management", "href": "https://reelcareer.co/backend/trait-personality-management" }
+      ]
+    }
+  ]
+};
+
   
 
   function setupAddLink() {
