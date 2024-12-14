@@ -684,7 +684,7 @@ selectedJobs.forEach((jobRow) => {
     console.log(searchableTags);  // Log the final searchable string for debugging
 
     // Adding job data to batch with auto-generated document ID
-    const newJobRef = doc(collection(db, 'jobs'));  // Firestore will generate the doc ID
+    const newJobRef = doc(collection(db, 'Jobs'));  // Firestore will generate the doc ID
 
     batch.set(newJobRef, { 
         title: (job.title || '').toLowerCase(),
