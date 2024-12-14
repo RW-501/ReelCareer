@@ -492,73 +492,8 @@ import { db , getStorage, ref, uploadBytes, getDownloadURL, limit,
 const batch = writeBatch(db);  // Initialize batch operation
 let count = 0;
 
-selectedJobs.forEach((jobRow) => {
-    const job = JSON.parse(jobRow.querySelector('input[type="hidden"]').value); // Retrieve job data
-    const jobRef = collection(db, "Jobs");  // Reference to the Jobs collection
-    const job_location = job['location']['area'] || []; // Location area
 
-    // Searchable Title
-    const searchableTitle = job.title
-        .toLowerCase()
-        .replace(/[^a-z0-9\s]/g, "")  // Remove special characters
-        .split(" ")  // Split into words
-        .filter(Boolean)  // Remove empty strings
-        .join(" ");  // Join back into a single string
 
-    // Process Tags
-    let tags = job.category && job.category.tag ? job.category.tag.split('-').map(word => word.trim()) : [];
-    const searchableTags = tags
-        .map(tag => tag.toLowerCase())  // Convert each tag to lowercase
-        .map(tag => tag.replace(/[^a-z0-9\s]/g, ""))  // Remove special characters
-        .join(" ");  // Join back into a single string
-
-    console.log(searchableTags);  // Log the final searchable string for debugging
-
-    // Adding job data to batch
-    const docRef = doc(db, 'jobs', job.jobId || '');  // Ensure jobId is valid, use a fallback if not
-
-    batch.set(docRef, { 
-        title: (job.title || '').toLowerCase(),
-        searchableTitle: searchableTitle,  
-        jobId: job.jobId || '',  // Ensure jobId is present
-        recrecruiterID: '',  // You can update this if needed
-        company: job.company.display_name,
-        description: job.description || '', 
-        location: (job.location || '').toLowerCase(),
-        city: parseCityFromLocationNew(job.location.display_name) || '', 
-        county: parseStateFromLocation(job.location.display_name) || '', 
-        state: job.location.area[1] || '', 
-        country: job.location.area[0] || 'US', 
-        type: job.contract_time || 'Full-time', 
-        salaryMin: parseFloat(job.salary_min) || 0, 
-        salaryMax: parseFloat(job.salary_max) || 0,   
-        salary: (parseFloat(job.salary_min) + parseFloat(job.salary_max)) / 2 || 0,
-        contractToHire: 'No', 
-        immediateHire: 'No', 
-        industry: job.category.label || '', 
-        category: job.category.tag || '',
-        benefits: [],  // Add benefits if needed
-        tags: searchableTags || '',  // Store tags as a single string
-        boosted: "None", 
-        boostExpiration: "None", 
-        boostExpiresAt: "None", 
-        boostedByID: "None", 
-        status: "active", 
-        createdAt: new Date(job.created), 
-        applicantsViewed: 0, 
-        savedForLater: 0, 
-        applicationWebsite: job.redirect_url || '', 
-        applicationAvailableBool: false, 
-        submittedBy: "Adzuna", 
-        searchableRequirements: ''
-    });
-
-    count++;  // Increment the count for successful jobs processed
-});
-
-// Commit the batch operation after processing all jobs
-await batch.commit();
-showMessage(`${count} jobs added successfully.`);
 
             function parseCityFromLocation(location) {
             const parts = location.split(',');
@@ -726,7 +661,13 @@ function toggleDetails(button) {
         }
             
 
+       
+        
+
    
+
+    
+
         // Show Message
         function showMessage(message, isError = false) {
             const messageArea = document.getElementById("messageArea");
@@ -756,8 +697,77 @@ function toggleDetails(button) {
         }
 
 
+        selectedJobs.forEach((jobRow) => {
+    const job = JSON.parse(jobRow.querySelector('input[type="hidden"]').value); // Retrieve job data
+    const jobRef = collection(db, "Jobs");  // Reference to the Jobs collection
+    const job_location = job['location']['area'] || []; // Location area
 
+    // Searchable Title
+    const searchableTitle = job.title
+        .toLowerCase()
+        .replace(/[^a-z0-9\s]/g, "")  // Remove special characters
+        .split(" ")  // Split into words
+        .filter(Boolean)  // Remove empty strings
+        .join(" ");  // Join back into a single string
 
+    // Process Tags
+    let tags = job.category && job.category.tag ? job.category.tag.split('-').map(word => word.trim()) : [];
+    const searchableTags = tags
+        .map(tag => tag.toLowerCase())  // Convert each tag to lowercase
+        .map(tag => tag.replace(/[^a-z0-9\s]/g, ""))  // Remove special characters
+        .join(" ");  // Join back into a single string
+
+    console.log(searchableTags);  // Log the final searchable string for debugging
+
+    // Adding job data to batch
+    const docRef = doc(db, 'jobs', job.jobId || '');  // Ensure jobId is valid, use a fallback if not
+
+    batch.set(docRef, { 
+        title: (job.title || '').toLowerCase(),
+        searchableTitle: searchableTitle,  
+        jobId: job.jobId || '',  // Ensure jobId is present
+        recrecruiterID: '',  // You can update this if needed
+        company: job.company.display_name,
+        description: job.description || '', 
+        location: (job.location || '').toLowerCase(),
+        city: parseCityFromLocationNew(job.location.display_name) || '', 
+        county: parseStateFromLocation(job.location.display_name) || '', 
+        state: job.location.area[1] || '', 
+        country: job.location.area[0] || 'US', 
+        type: job.contract_time || 'Full-time', 
+        salaryMin: parseFloat(job.salary_min) || 0, 
+        salaryMax: parseFloat(job.salary_max) || 0,   
+        salary: (parseFloat(job.salary_min) + parseFloat(job.salary_max)) / 2 || 0,
+        contractToHire: 'No', 
+        immediateHire: 'No', 
+        industry: job.category.label || '', 
+        category: job.category.tag || '',
+        benefits: [],  // Add benefits if needed
+        tags: searchableTags || '',  // Store tags as a single string
+        boosted: "None", 
+        boostExpiration: "None", 
+        boostExpiresAt: "None", 
+        boostedByID: "None", 
+        status: "active", 
+        createdAt: new Date(job.created), 
+        applicantsViewed: 0, 
+        savedForLater: 0, 
+        applicationWebsite: job.redirect_url || '', 
+        applicationAvailableBool: false, 
+        submittedBy: "Adzuna", 
+        searchableRequirements: ''
+    });
+
+    count++;  // Increment the count for successful jobs processed
+});
+
+try {
+    await batch.commit();
+    showMessage(`${count} jobs added successfully.`);
+} catch (error) {
+    console.error("Error adding jobs:", error);
+    showMessage("Failed to add jobs. Please try again.");
+}
 
     </script>
 </body>
