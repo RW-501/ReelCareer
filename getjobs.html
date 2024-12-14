@@ -665,7 +665,6 @@ let count = 0;
 selectedJobs.forEach((jobRow) => {
     const job = JSON.parse(jobRow.querySelector('input[type="hidden"]').value); // Retrieve job data
     const jobRef = collection(db, "Jobs");  // Reference to the Jobs collection
-    const job_location = job['location']['area'] || []; // Location area
 
     // Searchable Title
     const searchableTitle = job.title
@@ -684,13 +683,12 @@ selectedJobs.forEach((jobRow) => {
 
     console.log(searchableTags);  // Log the final searchable string for debugging
 
-    // Adding job data to batch
-    const docRef = doc(db, 'Jobs');  // Ensure jobId is valid, use a fallback if not
+    // Adding job data to batch with auto-generated document ID
+    const newJobRef = doc(collection(db, 'jobs'));  // Firestore will generate the doc ID
 
-    batch.set(docRef, { 
+    batch.set(newJobRef, { 
         title: (job.title || '').toLowerCase(),
         searchableTitle: searchableTitle,  
-        jobId: job.jobId || '',  // Ensure jobId is present
         recrecruiterID: '',  // You can update this if needed
         company: job.company.display_name,
         description: job.description || '', 
@@ -729,9 +727,6 @@ selectedJobs.forEach((jobRow) => {
 // Commit the batch operation after processing all jobs
 await batch.commit();
 showMessage(`${count} jobs added successfully.`);
-
-
-
         }
 
         // Show Message
