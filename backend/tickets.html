@@ -326,7 +326,6 @@ function createTicketRow(ticket, ticketId) {
   ${ticket.submittedByUserID ? 'N/A' : ''}
   
   <!-- Use JSON.stringify(ticket) and escape any single quotes inside JSON -->
-  <button class="faq-btn" onclick="addToFAQ('${encodeURIComponent(JSON.stringify(ticket))}', '${ticket.message}')">Add to FAQ</button>
   <button class="chatbot-btn" onclick="addToChatbot('${encodeURIComponent(JSON.stringify(ticket))}', '${ticket.message}')">Add to Chat Bot</button>
 </div>
 

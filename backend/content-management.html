@@ -641,7 +641,7 @@
             event.preventDefault();
             try {
                 // Get a reference to the 'FAQs' collection
-                const faqsCollection = collection(db, 'FAQs');
+                const faqsCollection = collection(db, 'ChatbotInteractions');
 
                 // Add a new document to the 'FAQs' collection
                 await addDoc(faqsCollection, {
@@ -767,7 +767,7 @@ async function loadContent() {
         // Fetch and Render News, Blogs, and FAQs
         await loadAndRenderContent('News', 'News');
         await loadAndRenderContent('Blogs', 'Blog');
-        await loadAndRenderContent('FAQs', 'FAQ');
+        await loadAndRenderContent('ChatbotInteractions', 'FAQ');
 
     } catch (error) {
         console.error("Error loading content: ", error);

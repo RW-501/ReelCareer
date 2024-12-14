@@ -277,7 +277,7 @@
 
         // Fetch FAQs from Firestore
         const faqs = [];
-        const faqQuery = collection(db, "FAQs");
+        const faqQuery = collection(db, "ChatbotInteractions");
         const querySnapshot = await getDocs(faqQuery);
 
         querySnapshot.forEach((doc) => {
