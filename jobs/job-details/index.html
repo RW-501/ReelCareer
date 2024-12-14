@@ -704,7 +704,7 @@ main .row {
     updateMetaOrLinkTag('author', jobData.author || 'ReelCareer Team');
 
     // Open Graph (OG) meta tags for social media sharing
-    updateMetaOrLinkTag('og:title', `${jobData.title} | ${jobData.companyName}`, true);
+    updateMetaOrLinkTag('og:title', `${jobData.title} | ${jobData.companyName || ""}`, true);
     updateMetaOrLinkTag('og:description', jobData.description || `Apply now for ${jobData.title} at ${jobData.companyName}!`, true);
     updateMetaOrLinkTag('og:image', jobData.image || 'https://www.reelcareer.co/images/sq_logo_n_BG_tie_reelx.png', true);
     updateMetaOrLinkTag('og:url', jobData.url || window.location.href, true);
