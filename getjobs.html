@@ -576,6 +576,8 @@ function displayJobs(jobs) {
 
     jobs.forEach(job => {
         const jobData = JSON.stringify(job); // Serialize job object
+        console.log('job  ',job);
+        console.log('jobData  ',jobData);
 
         // Main Row (Summary)
         const row = document.createElement("tr");
