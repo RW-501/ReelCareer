@@ -933,7 +933,7 @@ async function fetchVideoResumes(page, user) {
             `;
 
 
-            
+            fetchComments(docId);
             // Add event listeners for buttons
             const muteButton = videoCard.querySelector(".mute-toggle");
             const messageButton = videoCard.querySelector(".message-button");
@@ -949,7 +949,6 @@ if(user){
 
             // Other button actions
             addUserButton.addEventListener("click", () => addToShortlist(docId));
-            likeButton.addEventListener("click", () => handleLike(docId, likeButton));
 
   
             connectButton.addEventListener("click", () => handleConnect(docId, connectButton, profilePicture,reelUserID ,displayName));
