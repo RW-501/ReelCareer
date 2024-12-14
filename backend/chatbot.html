@@ -679,6 +679,76 @@ function createQuestionElement(question, category, index) {
     document.getElementById("new-questions").appendChild(li);
     return li;
 }
+
+
+
+
+
+
+
+
+
+
+
+function populateForm(questionData, category, index) {
+
+console.log("populateForm  ",questionData)
+
+// Populate form fields
+document.getElementById("questionID").value = questionData.id || "";
+document.getElementById("question").value = questionData.question || "";
+document.getElementById("answer").value = questionData.answer
+    ? questionData.answer.split(" Here's the link:")[0]
+    : "";
+document.getElementById("link").value = extractLink(questionData.answer) || "";
+document.getElementById("category").value = category;
+document.getElementById("supportURL").value = questionData.supportURL || "";
+
+// Check if tags are empty
+if (!questionData.tags || questionData.tags.length === 0) {
+    // Extract words from the question title
+    questionData.tags = questionData.question
+        ? questionData.question
+              .toLowerCase() // Convert to lowercase
+              .replace(/[^a-z0-9\s]/g, "") // Remove special characters
+              .split(" ") // Split into an array of words
+              .filter(Boolean) // Remove empty strings
+        : [];
+}
+
+// Populate tags field
+document.getElementById('tagsSET-tags').value = questionData.tags.join(", ");
+
+// Populate tags list dynamically
+const tagsContainer = document.getElementById('tagsList');
+tagsContainer.innerHTML = ""; // Clear any existing tags
+
+questionData.tags.forEach(tag => {
+    const tagElement = document.createElement('div');
+    tagElement.className = 'tag';
+    tagElement.innerHTML = `
+        <span class="tag badge tag-primary mr-1">
+            ${tag}
+            <button class="ml-1 btn btn-sm tag" onclick="removeTag(this)">x</button>
+        </span>
+    `;
+    tagsContainer.appendChild(tagElement);
+});
+
+// Set edit state
+editIndex = index;
+editCategory = category;
+}
+
+
+
+
+
+
+
+
+
+
 function removeQuestion(category, index) {
     if (category === "General") {
         generalQuestions.splice(index, 1);
