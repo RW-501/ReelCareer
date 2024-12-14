@@ -693,7 +693,6 @@ selectedJobs.forEach((jobRow) => {
         company: job.company.display_name,
         description: job.description || '', 
         location: job.location.area || '', 
-                    searchableTitle: kkk,
                     city: parseCityFromLocationNew(job.location.display_name) || '', 
                     county: parseStateFromLocation(job.location.display_name) || '', 
                     state: job.location.area[1] || '', 
