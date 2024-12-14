@@ -675,13 +675,18 @@ selectedJobs.forEach((jobRow) => {
 
 
     // Process Tags
-    let tags = job.category && job.category.tag ? job.category.tag.split('-').map(word => word.trim()) : [];
-    const searchableTags = tags
-        .map(tag => tag.toLowerCase())  // Convert each tag to lowercase
-        .map(tag => tag.replace(/[^a-z0-9\s]/g, ""))  // Remove special characters
-        .join(" ");  // Join back into a single string
+    let tags = job.category && job.category.tag
+    ? job.category.tag.split('-').map(word => word.trim()) 
+    : [];
 
-    console.log(searchableTags);  // Log the final searchable string for debugging
+const searchableTags = tags
+    .map(tag => tag.toLowerCase())           // Convert each tag to lowercase
+    .map(tag => tag.replace(/[^a-z0-9\s]/g, "")) // Remove special characters
+    .filter(Boolean);  // Ensure no empty strings in the array
+
+console.log(searchableTags);
+
+
 
     // Adding job data to batch with auto-generated document ID
     const newJobRef = doc(collection(db, 'Jobs'));  // Firestore will generate the doc ID
