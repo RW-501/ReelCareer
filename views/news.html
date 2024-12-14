@@ -255,7 +255,7 @@
   </div>
 
 
-  
+
 </main>
 
  <!-- Bootstrap JS and dependencies -->
@@ -453,10 +453,7 @@ function updateNewsFeed(articles) {
     });
 }
 
-// Call the function to display articles when the page loads
-window.onload = () => {
-    displayArticles();
-};
+
 
 function previewArticleFunc() {
         console.log("Preview Article Function Called");
@@ -478,10 +475,10 @@ function previewArticleFunc() {
     
 
 
-
-
     window.onload = async function () {
   setTimeout(() => {
+    displayArticles();
+
 
 loadRelatedBlogs();
 

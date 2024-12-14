@@ -201,10 +201,7 @@ async function displayArticle() {
     document.getElementById('like-btn').addEventListener('click', handleLike);
     document.getElementById('share-btn').addEventListener('click', handleShare);
 
-    // Display article on page load
-    window.onload = displayArticle;
-
-    
+ 
         document.addEventListener('DOMContentLoaded', (event) => {
             window.handleLike = handleLike;
             window.handleShare = handleShare;
@@ -219,7 +216,10 @@ async function displayArticle() {
 
 window.onload = async function () {
   setTimeout(() => {
+   // Display article on page load
+   displayArticle();
 
+    
 loadRelatedBlogs();
 
 getSimilarJobs();
