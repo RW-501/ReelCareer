@@ -317,7 +317,7 @@ async function loadJobs() {
                     <td>
 <button class="btn btn-warning btn-sm" 
     onclick="editJob('${JSON.stringify(job)}', '${doc.id}')">Edit</button>
-                    </td>
+                        </td>
                     <td>
                         <button class="btn btn-danger btn-sm" onclick="deleteJob('${doc.id}')">Delete</button>
                     </td>
@@ -512,6 +512,7 @@ function openJobModal() {
 function editJob(jobString, id) {
     const job = JSON.parse(jobString); // Convert JSON string back to object
     console.log("job:", job);
+    console.log("jobString:", jobString);
 
     // Populate form fields
     document.getElementById('jobTitle').value = job.title || '';
