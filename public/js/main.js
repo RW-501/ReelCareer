@@ -3000,29 +3000,41 @@ function toggleChatbotFullscreen() {
 }
 
 
+// DOM Elements
+//const chatButton = document.getElementById("chatButton");
+//const chatPanel = document.getElementById("chatPanel");
+const closeChatButton = document.getElementById("close-chat");
+const sendChatButton = document.getElementById("send-chat");
+const chatInput = document.getElementById("chat-input");
+const textToVoiceButton = document.getElementById("textToVoiceBtn");
+const voiceToTextButton = document.getElementById("voiceToTextBtn");
+const toggleFullscreenBtn = document.getElementById('toggleFullscreenBtn');
 
+// Event Listeners
+chatButton.addEventListener("click", () => {
+    chatPanel.style.display = "flex";
+    loadGeneralQuestions(); // Only load questions when panel is open
+});
 
-  // Event Listeners
-  chatButton.addEventListener("click", () => {
-      chatPanel.style.display = "flex";
-      loadGeneralQuestions(); // Only load questions when panel is open
-  });
-  document.getElementById("close-chat").addEventListener("click", () => {
-      chatPanel.style.display = "none";
-  });
-  document.getElementById("send-chat").addEventListener("click", sendMessage);
+closeChatButton.addEventListener("click", () => {
+    chatPanel.style.display = "none";
+});
 
-  const textToVoiceButton = document.getElementById("textToVoiceBtn");
-    const voiceToTextButton = document.getElementById("voiceToTextBtn");
+sendChatButton.addEventListener("click", sendMessage);
 
-    textToVoiceButton.addEventListener("click", toggleTextToVoice);
-    voiceToTextButton.addEventListener("click", toggleVoiceToText);
-  // Get the button and the chatbot panel elements
-  const toggleFullscreenBtn = document.getElementById('toggleFullscreenBtn');
+textToVoiceButton.addEventListener("click", toggleTextToVoice);
+voiceToTextButton.addEventListener("click", toggleVoiceToText);
 
-  toggleFullscreenBtn.addEventListener("click", toggleChatbotFullscreen);
+toggleFullscreenBtn.addEventListener("click", toggleChatbotFullscreen);
 
-  
+// Chat input - 'Enter' or 'Return' key press simulation
+chatInput.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter') {
+        event.preventDefault();  // Prevent form submission or other default behavior
+        sendChatButton.click();  // Simulate a click on the send button
+    }
+});
+
   function replaceMainContentWithBot() {
     const currentUrl = window.location.href;
     console.log("currentUrl   ",currentUrl);
@@ -3594,6 +3606,14 @@ function loadScript(src, callback) {
     script.onerror = () => console.error('Failed to load TensorFlow.js.');
     document.body.appendChild(script);
 })();
+
+
+
+
+
+
+
+
 }
 
 
