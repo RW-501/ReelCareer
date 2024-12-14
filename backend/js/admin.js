@@ -12,6 +12,7 @@ const navData = {
     {
       "title": "Dashboard and Analytics",
       "links": [
+        { "text": "Dashboard", "href": "https://reelcareer.co/backend/dashboard" },
         { "text": "Get Jobs", "href": "https://reelcareer.co/backend/getjobs" },
         { "text": "Get Data", "href": "https://reelcareer.co/backend/getDataAdzuna" },
         { "text": "Tickets", "href": "https://reelcareer.co/backend/tickets" },
