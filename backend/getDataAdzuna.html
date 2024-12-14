@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adzuna API Data Fetcher</title>
+    <script>
+        const app_id = '3ea9a2f1'; // Replace with your Adzuna App ID
+        const app_key = 'e74d84b00c37bbfabe11710ebafcd138'; // Replace with your Adzuna App Key
+
+        async function fetchAdzunaData(endpoint) {
+            const perPage = document.getElementById('perPage').value || 10;
+            const query = document.getElementById('query').value || 'developer';
+
+            let url = '';
+
+            // Choose the URL based on the endpoint
+            if (endpoint === 'job-search') {
+                url = `https://api.adzuna.com/v1/api/jobs/us/search/1?app_id=${app_id}&app_key=${app_key}&results_per_page=${perPage}&what=${query}`;
+            } else if (endpoint === 'labor-market') {
+                url = `https://api.adzuna.com/v1/api/jobs/us/categories?app_id=${app_id}&app_key=${app_key}`;
+            } else if (endpoint === 'job-stats') {
+                url = `https://api.adzuna.com/v1/api/jobs/us/history?app_id=${app_id}&app_key=${app_key}&results_per_page=${perPage}`;
+            }
+
+            try {
+                // Fetch data from the API
+                document.getElementById('output').innerText = "Fetching data...";
+                const response = await fetch(url);
+                const data = await response.json();
+
+                // Display data
+                document.getElementById('output').innerText = JSON.stringify(data, null, 2);
+            } catch (error) {
+                console.error("Error fetching data:", error);
+                document.getElementById('output').innerText = "An error occurred. Check the console for details.";
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f9;
+        }
+        h1 {
+            color: #333;
+        }
+        label, button {
+            margin-top: 10px;
+        }
+        textarea {
+            width: 100%;
+            height: 400px;
+            margin-top: 10px;
+            font-family: monospace;
+        }
+        .btn-group button {
+            margin: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        .btn-group button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Adzuna API Data Fetcher</h1>
+
+    <label for="query">Search Query (Job Role/Keyword):</label>
+    <input type="text" id="query" placeholder="e.g., developer, designer" />
+
+    <label for="perPage">Results Per Page:</label>
+    <input type="number" id="perPage" value="10" min="1" />
+
+    <div class="btn-group">
+        <button onclick="fetchAdzunaData('job-search')">Fetch Job Search</button>
+        <button onclick="fetchAdzunaData('labor-market')">Fetch Labor Market Data</button>
+        <button onclick="fetchAdzunaData('job-stats')">Fetch Job Analysis</button>
+    </div>
+
+    <h2>Output:</h2>
+    <textarea id="output" readonly>Results will appear here...</textarea>
+</body>
+</html>

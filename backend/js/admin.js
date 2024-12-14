@@ -12,7 +12,8 @@ const navData = {
       {
         "title": "Dashboard and Analytics",
         "links": [
-          { "text": "Get Jobs", "href": "https://reelcareer.co/getjobs" },
+          { "text": "Get Jobs", "href": "https://reelcareer.co/backend/getjobs" },
+          { "text": "Get Data", "href": "https://reelcareer.co/backend/getDataAdzuna" },
           { "text": "Tickets", "href": "https://reelcareer.co/backend/tickets" },
           { "text": "Notes", "href": "https://reelcareer.co/backend/notes" },
           { "text": "Title Fix", "href": "https://reelcareer.co/backend/titles-fix" },
@@ -82,8 +83,13 @@ const navData = {
   };
  
   
-    const storedNav = JSON.parse(localStorage.getItem('navData'));
-    if (storedNav) navData.navGroups = storedNav.navGroups;
+  
+  
+  
+  const storedNav = JSON.parse(localStorage.getItem('navData'));
+  if (storedNav && storedNav.navGroups) {
+    navData.navGroups = storedNav.navGroups;
+  }
   
     function replaceNav() {
       let oldNav = document.getElementById('Main_Nav');
@@ -97,17 +103,24 @@ const navData = {
         <div class="container mt-3">
           <ul class="list-group mb-3" id="link-list">`;
   
-      navData.navGroups.forEach((group) => {
-        group.links.forEach((link, index) => {
-          navHTML += `
-            <div class="dropzone" data-drop-index="${index}"></div>
-            <li class="list-group-item" draggable="true" data-index="${index}">
-              <a href="${link.href}" class="text-decoration-none">${link.text}</a>
-            </li>`;
-        });
-        // Final dropzone at the end
-        navHTML += `<div class="dropzone" data-drop-index="${group.links.length}"></div>`;
-      });
+          if (navData.navGroups && navData.navGroups.length > 0) {
+            navData.navGroups.forEach((group) => {
+              if (group.links && group.links.length > 0) {
+                group.links.forEach((link, index) => {
+                  navHTML += `
+                    <div class="dropzone" data-drop-index="${index}"></div>
+                    <li class="list-group-item" draggable="true" data-index="${index}">
+                      <a href="${link.href}" class="text-decoration-none">${link.text}</a>
+                    </li>`;
+                });
+              }
+              // Final dropzone at the end
+              navHTML += `<div class="dropzone" data-drop-index="${group.links.length}"></div>`;
+            });
+          }
+          console.log('Stored Nav:', storedNav);
+console.log('Nav Data:', navData);
+
   
       navHTML += `
           </ul>
