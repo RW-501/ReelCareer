@@ -84,6 +84,41 @@ const navData = {
  
   
 
+  function setupAddLink() {
+    const addLinkBtn = document.getElementById('addLinkBtn');
+    addLinkBtn.addEventListener('click', () => {
+      const newLinkText = document.getElementById('newLinkText').value.trim();
+      const newLinkHref = document.getElementById('newLinkHref').value.trim();
+  
+      if (newLinkText && newLinkHref) {
+        // Add to the first group if multiple exist
+        if (navData.navGroups.length > 0) {
+          navData.navGroups[0].links = navData.navGroups[0].links || []; // Ensure links exist
+          navData.navGroups[0].links.push({ text: newLinkText, href: newLinkHref });
+          localStorage.setItem('navData', JSON.stringify(navData));
+          document.getElementById('newLinkText').value = '';
+          document.getElementById('newLinkHref').value = '';
+          replaceNav();
+        } else {
+          alert('No navigation group exists to add the link.');
+        }
+      } else {
+        alert('Please enter both Link Text and Link URL.');
+      }
+    });
+  }
+  function updateNavDataOrder(fromIndex, toIndex) {
+    const group = navData.navGroups[0]; // Modify to allow dynamic group selection
+    if (group && group.links) {
+      const movedLink = group.links.splice(fromIndex, 1)[0];
+      group.links.splice(toIndex, 0, movedLink);
+  
+      localStorage.setItem('navData', JSON.stringify(navData));
+      replaceNav();
+    } else {
+      console.error('Group or links are undefined.');
+    }
+  }
   
   
   const storedNav = JSON.parse(localStorage.getItem('navData'));
@@ -93,50 +128,51 @@ const navData = {
   console.log('Stored Nav:', storedNav);
   console.log('Nav Data:', navData);
   
-    
-    function replaceNav() {
-      let oldNav = document.getElementById('Main_Nav');
-      if (!oldNav) {
-        oldNav = document.createElement('nav');
-        oldNav.id = 'Main_Nav';
-        document.body.prepend(oldNav);
-      }
-  
-      let navHTML = `
-        <div class="container mt-3">
-          <ul class="list-group mb-3" id="link-list">`;
-  
-          if (navData.navGroups && navData.navGroups.length > 0) {
-            navData.navGroups.forEach((group) => {
-              if (group.links && group.links.length > 0) {
-                group.links.forEach((link, index) => {
-                  navHTML += `
-                    <div class="dropzone" data-drop-index="${index}"></div>
-                    <li class="list-group-item" draggable="true" data-index="${index}">
-                      <a href="${link.href}" class="text-decoration-none">${link.text}</a>
-                    </li>`;
-                });
-              }
-              // Final dropzone at the end
-              navHTML += `<div class="dropzone" data-drop-index="${group.links.length}"></div>`;
-            });
-          }
-
-      navHTML += `
-          </ul>
-          <div>
-            <input type="text" id="newLinkText" placeholder="Link Text" class="form-control mb-2" />
-            <input type="text" id="newLinkHref" placeholder="Link URL" class="form-control mb-2" />
-            <button id="addLinkBtn" class="btn btn-primary">Add Link</button>
-          </div>
-        </div>`;
-  
-      oldNav.innerHTML = navHTML;
-  
-      addDragAndDrop();
-      setupAddLink();
+  function replaceNav() {
+    let oldNav = document.getElementById('Main_Nav');
+    if (!oldNav) {
+      oldNav = document.createElement('nav');
+      oldNav.id = 'Main_Nav';
+      document.body.prepend(oldNav);
     }
   
+    let navHTML = `
+      <div class="container mt-3">
+        <ul class="list-group mb-3" id="link-list">`;
+  
+    // Loop through all navGroups
+    if (navData.navGroups && navData.navGroups.length > 0) {
+      navData.navGroups.forEach((group, groupIndex) => {
+        navHTML += `<h5>${group.title || 'Group ' + (groupIndex + 1)}</h5>`;
+        if (group.links && group.links.length > 0) {
+          group.links.forEach((link, index) => {
+            navHTML += `
+              <div class="dropzone" data-drop-index="${index}"></div>
+              <li class="list-group-item" draggable="true" data-index="${index}" data-group-index="${groupIndex}">
+                <a href="${link.href}" class="text-decoration-none">${link.text}</a>
+              </li>`;
+          });
+        }
+        // Final dropzone at the end of the group
+        navHTML += `<div class="dropzone" data-drop-index="${group.links ? group.links.length : 0}"></div>`;
+      });
+    }
+  
+    navHTML += `
+        </ul>
+        <div>
+          <input type="text" id="newLinkText" placeholder="Link Text" class="form-control mb-2" />
+          <input type="text" id="newLinkHref" placeholder="Link URL" class="form-control mb-2" />
+          <button id="addLinkBtn" class="btn btn-primary">Add Link</button>
+        </div>
+      </div>`;
+  
+    oldNav.innerHTML = navHTML;
+  
+    addDragAndDrop();
+    setupAddLink();
+  }
+    
     function addDragAndDrop() {
       const listItems = document.querySelectorAll('#link-list .list-group-item');
       const dropZones = document.querySelectorAll('.dropzone');
