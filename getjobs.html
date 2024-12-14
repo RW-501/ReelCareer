@@ -514,6 +514,14 @@ function sortTable(columnIndex) {
         let autoAddTimeout;
         document.addEventListener("DOMContentLoaded", () => {
 
+            
+ // Loading State
+ function toggleLoading(state) {
+            document.getElementById("loading").style.display = state ? "block" : "none";
+        }
+
+
+
         // Fetch Jobs
         async function fetchJobs() {
     let query = document.getElementById("query").value;
@@ -626,12 +634,6 @@ function toggleDetails(button) {
         detailsRow.classList.toggle("hidden");
     }
 }
-
-
- // Loading State
- function toggleLoading(state) {
-            document.getElementById("loading").style.display = state ? "block" : "none";
-        }
 
 
 
