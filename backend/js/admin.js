@@ -124,7 +124,7 @@ const navData = {
     // Start of the navigation HTML structure
     let navHTML = `
       <div class="container mt-3">
-        <ul class="nav flex-column mb-3" id="link-list">`; // Use 'nav flex-column' for vertical nav
+        <ul class="nav flex-row mb-3" id="link-list">`; // Use 'nav flex-column' for vertical nav
   
     // Loop through all navGroups
     if (navData.navGroups && navData.navGroups.length > 0) {
