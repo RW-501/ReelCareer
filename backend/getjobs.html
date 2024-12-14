@@ -669,143 +669,102 @@ function toggleDetails(button) {
 
 
         // Add Selected Jobs  window.addSelectedJobs = addSelectedJobs;
-
         async function addSelectedJobs() {
-            const selectedJobs = document.querySelectorAll(".job-item.selected");
-            if (selectedJobs.length === 0) {
-                showToast("No jobs selected.", true);
-                return;
-            }
+    const selectedJobs = document.querySelectorAll(".job-item.selected");
+    if (selectedJobs.length === 0) {
+        showToast("No jobs selected.", true);
+        return;
+    }
 
-    
-          
+    const batch = writeBatch(db);  // Initialize batch operation
+    let count = 0;
 
-  
-const batch = writeBatch(db);  // Initialize batch operation
-let count = 0;
+    selectedJobs.forEach((jobRow) => {
+        let job = null;
 
-selectedJobs.forEach((jobRow) => {
-    const job = JSON.parse(decodeURIComponent(jobRow.querySelector('input[type="hidden"]').value));
-    const jobRef = collection(db, "Jobs");  // Reference to the Jobs collection
-
-    // Searchable Title
-    const searchableTitle = job.title
-    .toLowerCase()
-    .replace(/[^a-z0-9\s]/g, "")  // Remove special characters
-    .split(" ")  // Split into words
-    .filter(Boolean);  // Remove empty strings
-
-
-    // Process Tags
-    let tags = job.category && job.category.tag
-    ? job.category.tag.split('-').map(word => word.trim()) 
-    : [];
-
-const searchableTags = tags
-    .map(tag => tag.toLowerCase())           // Convert each tag to lowercase
-    .map(tag => tag.replace(/[^a-z0-9\s]/g, "")) // Remove special characters
-    .filter(Boolean);  // Ensure no empty strings in the array
-
-console.log(searchableTags);
-function cleanCategory(category) {
-  // Check if input is valid
-  if (!category) return '';
-
-  // Split the string by "-"
-  let parts = category.split('-');
-
-  // Remove the first part (before the first "-")
-  //parts.shift();
-
-  // Join the remaining parts back with "-"
-  let result = parts.join('-');
-
-  // Remove the trailing "-jobs" if present
-  if (result.endsWith('-jobs')) {
-    result = result.slice(0, -5); // Remove last 5 characters (-jobs)
-  }else if (result.endsWith('jobs')) {
-    result = result.slice(0, -4); // Remove last 5 characters (-jobs)
-  }
-
-  return result;
-}
-Window.cleanCategory = cleanCategory;
-/*
-// Example usage
-let category = 'healthcare-nursing-jobs';
-let cleanedCategory = cleanCategory(category);
-console.log(cleanedCategory); // Output: "nursing"
-
-*/
-function getFirstWord(industry) {
-  // Check if input is valid
-  if (!industry) return '';
-
-  // Split the string by "-"
-  let parts = industry.split('-');
-
-  // Return the first part
-  return parts[0];
-}
-/*
-// Example usage
-let industry = 'healthcare-nursing-jobs';
-let firstWord = getFirstWord(industry);
-console.log(firstWord); // Output: "healthcare"
-*/
-    // Adding job data to batch with auto-generated document ID
-    const newJobRef = doc(collection(db, 'Jobs'));  // Firestore will generate the doc ID
-
-    batch.set(newJobRef, { 
-        title: (job.title || '').toLowerCase(),
-        searchableTitle: searchableTitle,  
-        recrecruiterID: '',  // You can update this if needed
-        company: job.company.display_name,
-        description: job.description || '', 
-        location: job.location.area || '', 
-                    city: parseCityFromLocationNew(job.location.display_name) || '', 
-                    county: parseStateFromLocation(job.location.display_name) || '', 
-                    state: job.location.area[1] || '', 
-                    country: job.location.area[0] || 'US', 
-                    type: job.contract_time || 'Full-time', 
-                    salaryMin: parseFloat(job.salary_min) || 0, 
-                    salaryMax: parseFloat(job.salary_max) || 0,   
-                    salary: (parseFloat(job.salary_min) + parseFloat(job.salary_max)) / 2 || 0,
-                        contractToHire: 'No', 
-        immediateHire: 'No', 
-
-
-        industry: '',
-    category:  cleanCategory(job.category.label) || '',
-
-
-        benefits: [],  // Add benefits if needed
-        tags: searchableTags || '',  // Store tags as a single string
-        boosted: "None", 
-        boostExpiration: "None", 
-        boostExpiresAt: "None", 
-        boostedByID: "None", 
-        status: "active", 
-        createdAt: new Date(job.created), 
-        applicantsViewed: 0, 
-        savedForLater: 0, 
-        applicationWebsite: job.redirect_url || '', 
-        applicationAvailableBool: false, 
-        submittedBy: "Adzuna", 
-        searchableRequirements: ''
-    });
-
-    count++;  // Increment the count for successful jobs processed
-});
-
-// Commit the batch operation after processing all jobs
-await batch.commit();
-showToast(`${count} jobs added successfully.`);
+        // Safely parse JSON and skip on error
+        try {
+            const jobData = jobRow.querySelector('input[type="hidden"]').value;
+            job = JSON.parse(decodeURIComponent(jobData));
+        } catch (error) {
+            console.error("Invalid job data, skipping:", error);
+            return; // Skip this job and continue to the next
         }
 
-  
-        
-   
+        const jobRef = collection(db, "Jobs");  // Reference to the Jobs collection
+
+        // Searchable Title
+        const searchableTitle = job.title
+            .toLowerCase()
+            .replace(/[^a-z0-9\s]/g, "")  // Remove special characters
+            .split(" ")  // Split into words
+            .filter(Boolean);  // Remove empty strings
+
+        // Process Tags
+        let tags = job.category && job.category.tag
+            ? job.category.tag.split('-').map(word => word.trim())
+            : [];
+
+        const searchableTags = tags
+            .map(tag => tag.toLowerCase())           // Convert each tag to lowercase
+            .map(tag => tag.replace(/[^a-z0-9\s]/g, "")) // Remove special characters
+            .filter(Boolean);  // Ensure no empty strings in the array
+
+        function cleanCategory(category) {
+            if (!category) return '';
+            let parts = category.split('-');
+            let result = parts.join('-');
+            if (result.endsWith('-jobs')) result = result.slice(0, -5);
+            else if (result.endsWith('jobs')) result = result.slice(0, -4);
+            return result;
+        }
+
+        // Adding job data to batch with auto-generated document ID
+        const newJobRef = doc(collection(db, 'Jobs'));  // Firestore will generate the doc ID
+
+        batch.set(newJobRef, {
+            title: (job.title || '').toLowerCase(),
+            searchableTitle: searchableTitle,
+            recrecruiterID: '',
+            company: job.company.display_name || "N/A",
+            description: job.description || '',
+            location: job.location.area || '',
+            city: parseCityFromLocationNew(job.location.display_name) || '',
+            county: parseStateFromLocation(job.location.display_name) || '',
+            state: job.location.area[1] || '',
+            country: job.location.area[0] || 'US',
+            type: job.contract_time || 'Full-time',
+            salaryMin: parseFloat(job.salary_min) || 0,
+            salaryMax: parseFloat(job.salary_max) || 0,
+            salary: (parseFloat(job.salary_min) + parseFloat(job.salary_max)) / 2 || 0,
+            contractToHire: 'No',
+            immediateHire: 'No',
+            industry: '',
+            category: cleanCategory(job.category.label) || '',
+            benefits: [],
+            tags: searchableTags || '',
+            boosted: "None",
+            boostExpiration: "None",
+            boostExpiresAt: "None",
+            boostedByID: "None",
+            status: "active",
+            createdAt: new Date(job.created),
+            applicantsViewed: 0,
+            savedForLater: 0,
+            applicationWebsite: job.redirect_url || '',
+            applicationAvailableBool: false,
+            submittedBy: "Adzuna",
+            searchableRequirements: ''
+        });
+
+        count++;  // Increment the count for successful jobs processed
+    });
+
+    // Commit the batch operation after processing all jobs
+    await batch.commit();
+    showToast(`${count} jobs added successfully.`);
+}
+
 
         const addJobButton = document.getElementById("addJobButton");
     addJobButton.addEventListener("click", () => {
