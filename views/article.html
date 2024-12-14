@@ -35,7 +35,7 @@
             <ol class="breadcrumb">
                 <li id="lastBreadcrumb_home" class="breadcrumb-item"><a href="https://reelcareer.co/">Home</a></li>
               <li id="lastBreadcrumb_last" class="breadcrumb-item"><a id="lastBreadcrumb_a" href="https://reelcareer.co/views/news">News</a></li>
-              <li class="breadcrumb-item active" aria-current="page">Article</li>
+              <li id="breadcrumbTitleActive" class="breadcrumb-item active" aria-current="page">Article</li>
             </ol>
           </nav>
           <header class="bg-dark text-white text-center p-4" hidden>
@@ -154,7 +154,14 @@ async function displayArticle() {
             console.error("Error fetching article: ", error);
             document.getElementById('article-content').innerHTML = `<p>Error fetching article.</p>`;
         }
+        const breadcrumbTitleActive = document.getElementById("breadcrumbTitleActive");
+
+breadcrumbTitleActive.innerText = article.title;
+document.title = `ReelCareer.co | News Article: ${article.title}`;
+
     }
+
+  
 
     // Function to handle Likes
     async function handleLike() {
