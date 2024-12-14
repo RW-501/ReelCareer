@@ -1345,6 +1345,81 @@ async function executeQuery(jobQuery, message) {
         const snapshot = await getDocs(jobQuery);
         const jobs = snapshot.docs.map(doc => doc.data());
 
+        const botQueryId = "botQuery";
+        let botQueryDiv = document.getElementById(botQueryId);
+
+        // If the hidden div doesn't exist, create it
+        if (!botQueryDiv) {
+            botQueryDiv = document.createElement("div");
+            botQueryDiv.id = botQueryId;
+            botQueryDiv.style.cssText = `
+                display: none; /* Initially hidden */
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                z-index: 500;
+                background-color: rgba(255, 255, 255, 0.95);
+                overflow-y: auto;
+                padding: 20px;
+            `;
+            
+            // Add a close button
+            const closeButton = document.createElement("button");
+            closeButton.textContent = "Close";
+            closeButton.style.cssText = `
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                padding: 10px 15px;
+                cursor: pointer;
+            `;
+            closeButton.addEventListener("click", () => {
+                botQueryDiv.style.display = "none"; // Hide div on close
+            });
+
+            // Append the close button to the div
+            botQueryDiv.appendChild(closeButton);
+
+            // Add a content area for the job cards
+            const contentArea = document.createElement("div");
+            contentArea.id = "jobContentArea";
+            botQueryDiv.appendChild(contentArea);
+
+            // Append the hidden div to the body
+            document.body.appendChild(botQueryDiv);
+        }
+
+        // Clear any existing content in the job content area
+        const jobContentArea = document.getElementById("jobContentArea");
+        jobContentArea.innerHTML = "";
+
+        // Create and append job cards
+        jobs.forEach(job => createJobCard(job, jobContentArea));
+
+        // Create a button that will unhide the botQuery div
+        const botButton = document.createElement("button");
+        botButton.className = "botJobs";
+        botButton.textContent = `We found ${jobs.length} job(s). Tap here to see them.`;
+        botButton.style.cssText = `
+            margin: 10px;
+            padding: 10px 20px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        `;
+
+        // Event listener to show the hidden div when clicked
+        botButton.addEventListener("click", () => {
+            botQueryDiv.style.display = "block";
+        });
+
+        // Append the button to the body
+        document.body.appendChild(botButton);
+
         if (jobs.length > 0) {
             return `${message}: Found ${jobs.length} job(s).`;
         } else {
@@ -1355,6 +1430,32 @@ async function executeQuery(jobQuery, message) {
         return "An error occurred while fetching job data.";
     }
 }
+
+// Helper function to create job cards
+function createJobCard(job, container) {
+    const jobCard = document.createElement("div");
+    jobCard.className = "job-card";
+    jobCard.style.cssText = `
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin: 10px 0;
+        padding: 15px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        background-color: white;
+    `;
+
+    jobCard.innerHTML = `
+        <h3>${job.title || "Untitled Job"}</h3>
+        <p><strong>Company:</strong> ${job.company?.display_name || "N/A"}</p>
+        <p><strong>Location:</strong> ${job.location?.display_name || "N/A"}</p>
+        <p><strong>Category:</strong> ${job.category?.tag || "N/A"}</p>
+        <p><strong>Salary:</strong> ${job.salary_min || "N/A"} - ${job.salary_max || "N/A"}</p>
+        <p><strong>Description:</strong> ${job.description || "No description available"}</p>
+    `;
+
+    container.appendChild(jobCard);
+}
+
 
 
 
