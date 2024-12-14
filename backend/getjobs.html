@@ -615,7 +615,7 @@ function displayJobs(jobs) {
                 <button onclick="toggleDetails(this)">Details</button>
                 <button onclick="addJob('${job.id}')">Add</button>
             </td>
-            <input type="hidden" value='${jobData}'> <!-- Hidden input -->
+<input type="hidden" value='${encodeURIComponent(jobData)}'> <!-- Hidden input -->
         `;
 
         // Collapsible Row (Details)
@@ -685,7 +685,7 @@ const batch = writeBatch(db);  // Initialize batch operation
 let count = 0;
 
 selectedJobs.forEach((jobRow) => {
-    const job = JSON.parse(jobRow.querySelector('input[type="hidden"]').value); // Retrieve job data
+    const job = JSON.parse(decodeURIComponent(jobRow.querySelector('input[type="hidden"]').value));
     const jobRef = collection(db, "Jobs");  // Reference to the Jobs collection
 
     // Searchable Title
