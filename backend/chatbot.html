@@ -329,43 +329,55 @@ li.dragging {
         } from 'https://reelcareer.co/js/module.js';
 
 
+       // Initialize arrays for questions
+       let generalQuestions = [];
+let predefinedQuestions = [];
+let newQuestions = [];
 
 
-        
-async function loadInteractionLogs() {
+        async function loadInteractionLogs() {
     const interactionBody = document.getElementById('interactionBody');
-    interactionBody.innerHTML = '<tr><td colspan="5">Loading...</td></tr>'; // Loading state
+    interactionBody.innerHTML = '<tr><td colspan="6">Loading...</td></tr>'; // Loading state
 
     try {
-        // Reference the 'ChatbotInteractions' collection and order it by timestamp
+        // Reference 'ChatbotInteractions' collection and order by timestamp
         const q = query(collection(db, 'ChatbotInteractions'), orderBy('timestamp', 'desc'));
         const querySnapshot = await getDocs(q);
 
         interactionBody.innerHTML = ''; // Clear loading message
 
-        querySnapshot.forEach((doc) => {
+        querySnapshot.forEach((doc, index) => {
             const data = doc.data();
-            const row = `
-                <tr>
-                    <td>${new Date(data.timestamp.seconds * 1000).toLocaleString()}</td>
-                    <td>${data.question}</td>
-                    <td>${data.answer}</td>
-                    <td>${data.helpful}</td>
-                    <td>${data.views}</td>
-                    <td>${data.status}</td>
-                </tr>
+
+            // Create a row dynamically
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${new Date(data.timestamp.seconds * 1000).toLocaleString()}</td>
+                <td>${data.question}</td>
+                <td>${data.answer}</td>
+                <td>${data.helpful}</td>
+                <td>${data.views}</td>
+                <td>${data.status}</td>
             `;
-            interactionBody.innerHTML += row;
+
+            // Add click event to trigger createQuestionElement
+            row.addEventListener('click', () => {
+                createQuestionElement(data, "New", newQuestions + 1);
+            });
+
+            // Append row to the table body
+            interactionBody.appendChild(row);
         });
 
         if (querySnapshot.empty) {
-            interactionBody.innerHTML = '<tr><td colspan="5">No data available.</td></tr>';
+            interactionBody.innerHTML = '<tr><td colspan="6">No data available.</td></tr>';
         }
     } catch (error) {
         console.error("Error loading interactions: ", error);
-        interactionBody.innerHTML = '<tr><td colspan="5">Error loading data.</td></tr>';
+        interactionBody.innerHTML = '<tr><td colspan="6">Error loading data.</td></tr>';
     }
 }
+
 
 // Filter interaction logs based on user input
 function filterLogs() {
@@ -401,11 +413,7 @@ window.onload = loadInteractionLogs;
 
 
 
-        // Initialize arrays for questions
-let generalQuestions = [];
-let predefinedQuestions = [];
-let newQuestions = [];
-
+ 
 // Fetch /chat_bot.json on page load (for real data)
 async function fetchChatbotData() {
   try {
@@ -620,6 +628,8 @@ function renderQuestions() {
         });
 }
 
+
+
 function createQuestionElement(question, category, index) {
     const li = document.createElement("li");
     li.className = "question-item";
@@ -632,6 +642,8 @@ function createQuestionElement(question, category, index) {
     editButton.addEventListener("click", (e) => {
         e.stopPropagation();
         populateForm(question, category, index);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+
     });
 
     // Remove Button
