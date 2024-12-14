@@ -145,6 +145,10 @@ async function displayArticle() {
                 <p><strong>Posted by:</strong> ${article.postedBy}</p>
                 <p><strong>Post Date:</strong> ${new Date(article.postDate).toLocaleDateString()}</p>
             `;   // Set initial like count
+            const breadcrumbTitleActive = document.getElementById("breadcrumbTitleActive");
+
+breadcrumbTitleActive.innerText = article.title;
+document.title = `ReelCareer.co | News Article: ${article.title}`;
                 document.getElementById('like-count').innerText = article.likes || 0;
                 document.getElementById('article-content').innerHTML = articleElement;
             } else {
@@ -154,10 +158,7 @@ async function displayArticle() {
             console.error("Error fetching article: ", error);
             document.getElementById('article-content').innerHTML = `<p>Error fetching article.</p>`;
         }
-        const breadcrumbTitleActive = document.getElementById("breadcrumbTitleActive");
 
-breadcrumbTitleActive.innerText = article.title;
-document.title = `ReelCareer.co | News Article: ${article.title}`;
 
     }
 
