@@ -316,7 +316,15 @@ async function loadJobs() {
                     <td>${job.industry}</td>
                     <td>
 <button class="btn btn-warning btn-sm" 
-    onclick="editJob('${JSON.stringify(job)}', '${doc.id}')">Edit</button>
+    data-id="${doc.id}" 
+    data-title="${job.title}" 
+    data-description="${job.description}" 
+    data-category="${job.category}" 
+    data-state="${job.state || ''}" 
+    data-city="${job.city || ''}" 
+    data-industry="${job.industry || ''}"
+    onclick="editJob(this)">Edit</button>
+
                         </td>
                     <td>
                         <button class="btn btn-danger btn-sm" onclick="deleteJob('${doc.id}')">Delete</button>
@@ -509,23 +517,30 @@ function openJobModal() {
 }
 
 // Edit job
-function editJob(jobString, id) {
-    const job = JSON.parse(jobString); // Convert JSON string back to object
-    console.log("job:", job);
-    console.log("jobString:", jobString);
+function editJob(button) {
+    console.log("Editing job...");
+    // Access data attributes from the button
+    const id = button.getAttribute('data-id');
+    const title = button.getAttribute('data-title');
+    const description = button.getAttribute('data-description');
+    const category = button.getAttribute('data-category');
+    const state = button.getAttribute('data-state');
+    const city = button.getAttribute('data-city');
+    const industry = button.getAttribute('data-industry');
 
     // Populate form fields
-    document.getElementById('jobTitle').value = job.title || '';
-    document.getElementById('jobDescription').value = job.description || '';
-    document.getElementById('jobCategory').value = job.category || '';
-    document.getElementById('jobState').value = job.state || '';  
-    document.getElementById('jobCity').value = job.city || '';    
-    document.getElementById('jobIndustry').value = job.industry || '';  
+    document.getElementById('jobTitle').value = title;
+    document.getElementById('jobDescription').value = description;
+    document.getElementById('jobCategory').value = category;
+    document.getElementById('jobState').value = state;
+    document.getElementById('jobCity').value = city;
+    document.getElementById('jobIndustry').value = industry;
     document.getElementById('jobId').value = id;
 
     // Show modal
     $('#jobModal').modal('show');
 }
+
 
 document.getElementById('jobForm').onsubmit = async function(e) {
     e.preventDefault();
