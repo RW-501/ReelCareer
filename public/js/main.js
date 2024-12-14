@@ -2915,14 +2915,14 @@ document.body.appendChild(chatPanel);
     <button id="toggleFullscreenBtn" 
             aria-label="Toggle Chatbot Fullscreen" 
             aria-pressed="false" 
-            style="background-color: #84adea; color: white; border: none; margin-right: .5rem; border-radius: 4px; cursor: pointer;">
+            style="background-color: transparent; margin-bottom: .5rem; color: white; border: none; margin-right: .5rem; border-radius: 4px; cursor: pointer;">
         <i id="fullscreenIcon" class="fas fa-expand"></i>
     </button>
           <button id="close-chat" style=" font-family: sans-serif; background: none;border: none;color: #ffffff;cursor: pointer;font-size: x-large;padding: 0;margin: 0;">×</button>
       </div>
       </div>
 
-      <div id="chatbot-messages" style="height: 90%; padding: 0 .5rem; flex: 1; padding: 10px; overflow-y: auto; font-size: 14px;"></div>
+      <div id="chatbot-messages" style="text-align: center;overflow-y: scroll;margin: auto;display: block;font-family: sans-serif;height: 80vh;"></div>
       <div style="padding: 10px; border-top: 1px solid #ddd;">
           <div id="chat-input" contenteditable="true" style="border: 1px solid #ccc; padding: 8px; border-radius: 4px; min-height: 40px;"></div>
          
