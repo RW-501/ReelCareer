@@ -673,7 +673,7 @@ function toggleDetails(button) {
         async function addSelectedJobs() {
             const selectedJobs = document.querySelectorAll(".job-item.selected");
             if (selectedJobs.length === 0) {
-                showMessage("No jobs selected.", true);
+                showToast("No jobs selected.", true);
                 return;
             }
 
@@ -800,19 +800,11 @@ console.log(firstWord); // Output: "healthcare"
 
 // Commit the batch operation after processing all jobs
 await batch.commit();
-showMessage(`${count} jobs added successfully.`);
+showToast(`${count} jobs added successfully.`);
         }
 
-        // Show Message
-        function showMessage(message, isError = false) {
-            const messageArea = document.getElementById("messageArea");
-            const messageText = document.getElementById("messageAreaText");
-            messageArea.classList.toggle("error", isError);
-            messageText.textContent = message;
-            messageArea.style.display = "block";
-            setTimeout(() => messageArea.style.display = "none", 3000);
-        }
-
+  
+        
    
 
         const addJobButton = document.getElementById("addJobButton");
