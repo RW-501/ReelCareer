@@ -442,11 +442,17 @@ let sortDirection = [true, true, true, true, true, true, true, true]; // Store t
 // Move sortTable outside of the event listener
 function sortTable(columnIndex) {
     const table = document.getElementById("jobTable");
-    const rows = Array.from(table.rows).slice(1); // Get all rows except the header
+    const rows = Array.from(table.rows)
+        .slice(1) // Exclude the header row
+        .filter(row => !row.classList.contains("job-details")); // Exclude collapsible rows
+
     const isAscending = sortDirection[columnIndex];
     sortDirection[columnIndex] = !isAscending; // Toggle sort direction
 
     const sortedRows = rows.sort((rowA, rowB) => {
+        // Skip rows without expected cells
+        if (rowA.cells.length <= columnIndex || rowB.cells.length <= columnIndex) return 0;
+
         const cellA = rowA.cells[columnIndex].innerText.trim();
         const cellB = rowB.cells[columnIndex].innerText.trim();
 
@@ -469,6 +475,7 @@ function sortTable(columnIndex) {
     tbody.innerHTML = ""; // Clear existing rows
     sortedRows.forEach(row => tbody.appendChild(row));
 }
+
 
 
 //window.sortTable = sortTable;
