@@ -519,16 +519,6 @@ function editJob(id, job) {
     $('#jobModal').modal('show');
 }
 
-document.addEventListener('DOMContentLoaded', (event) => {
-    window.editJob = editJob;
-    window.openJobModal = openJobModal;
-    window.deleteJob = deleteJob;
-window.categorizeJob = categorizeJob;
-window.deleteSelectedJobs = deleteSelectedJobs;
-window.searchJobs = searchJobs;
-window.sortTable = sortTable;
-
-});
 
 document.getElementById('jobForm').onsubmit = async function(e) {
     e.preventDefault();
@@ -652,9 +642,18 @@ document.addEventListener('DOMContentLoaded', () => {
   loadJobs();
   //loadCategories();
 
-  window.fixStatesInJobs  = fixStatesInJobs ;
 });
-    
+document.addEventListener('DOMContentLoaded', (event) => {
+    window.editJob = editJob;
+    window.openJobModal = openJobModal;
+    window.deleteJob = deleteJob;
+window.categorizeJob = categorizeJob;
+window.deleteSelectedJobs = deleteSelectedJobs;
+window.searchJobs = searchJobs;
+window.sortTable = sortTable;
+
+});
+
     </script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
