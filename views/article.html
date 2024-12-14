@@ -60,7 +60,7 @@
 
     <!-- Footer -->
     <footer id="dynamic-footer" class="text-center p-4 bg-dark text-white">
-        <p>&copy; 2024 ReelCareer</p>
+        <p>&copy; 2024 Your Website Name</p>
     </footer>
 
     <!-- Firebase configuration/ Login& Out -->
@@ -89,31 +89,23 @@
         }
 
 
-    // Get Article ID from URL or any logic
-    function getArticleId() {
-        const params = new URLSearchParams(window.location.search);
-        return params.get('id'); // Example: ?id=doc123
-    }
+async function displayArticle() {
+    const articleId = getArticleId();
+    const articleRef = doc(db, 'News', articleId); // Use Firestore doc reference
 
-    // Function to display the article
-    async function displayArticle() {
-        const articleId = getArticleId();
-        const articleRef = doc(db, 'News', articleId); // Firestore doc reference
-
-        try {
-            const snapshot = await getDoc(articleRef);
-            if (snapshot.exists()) {
-                const article = snapshot.data();
-                document.getElementById('article-content').innerHTML = `
-                    <h2>${article.title}</h2>
-                    <img src="${article.imageUrl}" class="img-fluid" alt="${article.title}">
-                    <p>${article.content}</p>
-                    <p><strong>Tags:</strong> ${article.tags.join(', ')}</p>
-                    <p><strong>Category:</strong> ${article.category}</p>
-                    <p><strong>Posted by:</strong> ${article.postedBy}</p>
-                    <p><strong>Post Date:</strong> ${new Date(article.postDate).toLocaleDateString()}</p>
-                `;
-                // Set initial like count
+    try {
+        const snapshot = await getDoc(articleRef);
+        if (snapshot.exists()) {
+            const article = snapshot.data();
+            const articleElement = `
+                <h2>${article.title}</h2>
+                <img src="${article.imageUrl}" class="img-fluid" alt="${article.title}">
+                <p>${article.content}</p>
+                <p><strong>Tags:</strong> ${article.tags.join(', ')}</p>
+                <p><strong>Category:</strong> ${article.category}</p>
+                <p><strong>Posted by:</strong> ${article.postedBy}</p>
+                <p><strong>Post Date:</strong> ${new Date(article.postDate).toLocaleDateString()}</p>
+            `;   // Set initial like count
                 document.getElementById('like-count').innerText = article.likes || 0;
             } else {
                 document.getElementById('article-content').innerHTML = `<p>Article not found.</p>`;
@@ -164,7 +156,10 @@
         }
     }
 
-    // Event Listeners
+
+        window.onload = displayArticle;
+
+           // Event Listeners
     document.getElementById('like-btn').addEventListener('click', handleLike);
     document.getElementById('share-btn').addEventListener('click', handleShare);
 
