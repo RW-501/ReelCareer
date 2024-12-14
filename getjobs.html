@@ -668,11 +668,11 @@ selectedJobs.forEach((jobRow) => {
 
     // Searchable Title
     const searchableTitle = job.title
-        .toLowerCase()
-        .replace(/[^a-z0-9\s]/g, "")  // Remove special characters
-        .split(" ")  // Split into words
-        .filter(Boolean)  // Remove empty strings
-        .join(" ");  // Join back into a single string
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/g, "")  // Remove special characters
+    .split(" ")  // Split into words
+    .filter(Boolean);  // Remove empty strings
+
 
     // Process Tags
     let tags = job.category && job.category.tag ? job.category.tag.split('-').map(word => word.trim()) : [];
