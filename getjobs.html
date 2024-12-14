@@ -591,6 +591,13 @@ function displayJobs(jobs) {
         // Main Row (Summary)
         const row = document.createElement("tr");
         row.className = "job-item";
+        let tags = job.category && job.category.tag
+    ? job.category.tag.split('-').map(word => word.trim()) 
+    : "";
+
+    let type = job.category && job.category.tag
+    ? job.category.tag.split('_').map(word => word.trim()) 
+    : "";
         row.innerHTML = `
             <td><input type="checkbox" class="job-checkbox"></td>
             <td>${job.title}</td>
@@ -599,7 +606,7 @@ function displayJobs(jobs) {
             <td>${job.location.area[1] || "N/A"}</td>
             <td>${(parseFloat(job.salary_min) + parseFloat(job.salary_max)) / 2 || 0}</td>
             <td>${new Date(job.created).toLocaleDateString() || ''}</td>
-            <td>${job.category.tag || ''}</td>
+            <td>${cleanCategory(job.category.tag) || ''}</td>
             <td>
                 <button onclick="toggleDetails(this)">Details</button>
                 <button onclick="addJob('${job.id}')">Add</button>
@@ -615,10 +622,10 @@ function displayJobs(jobs) {
                 <div class="job-details-content">
                     <p><strong>Company:</strong> ${job.company.display_name}</p>
                     <p><strong>Description:</strong> ${job.description || "No description available"}</p>
-                    <p><strong>Contract Type:</strong> ${job.contract_time || "Full-time"}</p>
+                    <p><strong>Contract Type:</strong> ${type || "Full-time"}</p>
                     <p><strong>Location:</strong> ${job.location.display_name || "N/A"}</p>
                     <p><strong>Salary Range:</strong> ${job.salary_min || 0} - ${job.salary_max || 0}</p>
-                    <p><strong>Tags:</strong> ${job.category.tag || "None"}</p>
+                    <p><strong>Tags:</strong> ${tags || "None"}</p>
                 </div>
             </td>
         `;
@@ -704,7 +711,7 @@ function cleanCategory(category) {
   let parts = category.split('-');
 
   // Remove the first part (before the first "-")
-  parts.shift();
+  //parts.shift();
 
   // Join the remaining parts back with "-"
   let result = parts.join('-');
@@ -761,7 +768,7 @@ console.log(firstWord); // Output: "healthcare"
         immediateHire: 'No', 
 
 
-        industry:  getFirstWord(job.category.label) ||  '',
+        industry:  cleanCategory(job.category.label) ||  '',
     category:  cleanCategory(job.category.label) || '',
 
 
