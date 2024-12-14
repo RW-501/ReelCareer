@@ -230,7 +230,11 @@ li.dragging {
                     <input type="text" class="form-control" id="tagsSET-tags" placeholder="e.g., support, contact, help">
                    </div>
 
-
+                   <label for="status">Status</label>
+                   <select id="status">
+                       <option value="review">Review</option>
+                       <option value="active">Active</option>
+                   </select>
 
 
 
@@ -262,7 +266,10 @@ li.dragging {
             <h3>Predefined Questions</h3>
             <ul id="predefined-questions" class="drop-zone" ondragover="allowDrop(event)" ondrop="drop(event)">
             </ul>
-            
+            <h3>New Questions</h3>
+            <ul id="new-questions" class="drop-zone" ondragover="allowDrop(event)" ondrop="drop(event)">
+            </ul>
+
         </div>
 
         <!-- Search Bar for Interaction Logs -->
