@@ -2,6 +2,9 @@
 
 
 document.addEventListener('DOMContentLoaded', function() {
+// https://reelcareer.co/getjobs
+
+
 
 // Define your JSON data for navigation
 const navData = {
@@ -9,6 +12,7 @@ const navData = {
       {
         "title": "Dashboard and Analytics",
         "links": [
+          { "text": "Get Jobs", "href": "https://reelcareer.co/getjobs" },
           { "text": "Tickets", "href": "https://reelcareer.co/backend/tickets" },
           { "text": "Notes", "href": "https://reelcareer.co/backend/notes" },
           { "text": "Title Fix", "href": "https://reelcareer.co/backend/titles-fix" },
