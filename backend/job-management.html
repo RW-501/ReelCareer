@@ -315,7 +315,7 @@ async function loadJobs() {
                     <td>${job.category}</td>
                     <td>${job.industry}</td>
                     <td>
-                        <button class="btn btn-warning btn-sm" onclick="editJob('${doc.id}', '${job}', '${job.description}', '${job.category}')">Edit</button>
+                        <button class="btn btn-warning btn-sm" onclick="editJob( '${job}','${doc.id}', '${job.description}', '${job.category}')">Edit</button>
                     </td>
                     <td>
                         <button class="btn btn-danger btn-sm" onclick="deleteJob('${doc.id}')">Delete</button>
@@ -508,7 +508,8 @@ function openJobModal() {
 }
 
 // Edit job
-function editJob(id, job) {
+function editJob(job, id) {
+    console.log("job   ",job)
     document.getElementById('jobTitle').value = job.title;
     document.getElementById('jobDescription').value = job.description;
     document.getElementById('jobCategory').value = job.category;
