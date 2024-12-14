@@ -47,10 +47,11 @@
 
 
     <h1>Job Fetcher and Uploader</h1>
-    <input type="text" id="query" placeholder="Enter job query" value="software developer" />
+    <input type="text" id="query" placeholder="Enter job query" />
 
     <select id="query2">
-        <option value="remote " selected>remote </option>
+        <option value="" selected> </option>
+        <option value="remote " >remote </option>
         <option value="full time">full time</option>
         <option value="part time">part time</option>
         <option value="manager">Manager</option>
@@ -225,7 +226,8 @@
         <option value="truck driver">Truck Driver</option>
         <option value="logistics manager">Logistics Manager</option>
         <option value="fleet manager">Fleet Manager</option>
-        <option value="dispatcher">Dispatcher</option>        <option value="marketing manager">Marketing Manager</option>
+        <option value="dispatcher">Dispatcher</option>       
+         <option value="marketing manager">Marketing Manager</option>
         <option value="consultant">Consultant</option>
         <option value="bank teller">Bank Teller</option>
         <option value="loan officer">Loan Officer</option>
@@ -694,9 +696,49 @@ const searchableTags = tags
     .filter(Boolean);  // Ensure no empty strings in the array
 
 console.log(searchableTags);
+function cleanCategory(category) {
+  // Check if input is valid
+  if (!category) return '';
 
+  // Split the string by "-"
+  let parts = category.split('-');
 
+  // Remove the first part (before the first "-")
+  parts.shift();
 
+  // Join the remaining parts back with "-"
+  let result = parts.join('-');
+
+  // Remove the trailing "-jobs" if present
+  if (result.endsWith('-jobs')) {
+    result = result.slice(0, -5); // Remove last 5 characters (-jobs)
+  }
+
+  return result;
+}
+/*
+// Example usage
+let category = 'healthcare-nursing-jobs';
+let cleanedCategory = cleanCategory(category);
+console.log(cleanedCategory); // Output: "nursing"
+
+*/
+function getFirstWord(industry) {
+  // Check if input is valid
+  if (!industry) return '';
+
+  // Split the string by "-"
+  let parts = industry.split('-');
+
+  // Return the first part
+  return parts[0];
+}
+/*
+// Example usage
+let industry = 'healthcare-nursing-jobs';
+let firstWord = getFirstWord(industry);
+console.log(firstWord); // Output: "healthcare"
+*/
     // Adding job data to batch with auto-generated document ID
     const newJobRef = doc(collection(db, 'Jobs'));  // Firestore will generate the doc ID
 
@@ -717,10 +759,12 @@ console.log(searchableTags);
                     salary: (parseFloat(job.salary_min) + parseFloat(job.salary_max)) / 2 || 0,
                         contractToHire: 'No', 
         immediateHire: 'No', 
-        industry:  job.category && job.category.label
-    ? job.category.label.replace(/[^a-z0-9\s]/gi, '').trim() // Remove special characters
-    : '',
-        category: job.category.tag || '',
+
+
+        industry:  getFirstWord(job.category.tag) ||  '',
+    category:  cleanCategory(job.category.tag) || '',
+
+
         benefits: [],  // Add benefits if needed
         tags: searchableTags || '',  // Store tags as a single string
         boosted: "None", 
