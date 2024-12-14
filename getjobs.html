@@ -514,7 +514,7 @@ function sortTable(columnIndex) {
         let autoAddTimeout;
         document.addEventListener("DOMContentLoaded", () => {
 
-            
+
  // Loading State
  function toggleLoading(state) {
             document.getElementById("loading").style.display = state ? "block" : "none";
@@ -682,6 +682,7 @@ const searchableTags = tags
     .join(" ");                             // Join back into a single string
 
 console.log(searchableTags);  // This will log the final searchable string
+const docRef = db.collection('Jobs').doc(); // Replace 'jobs' with your collection name
 
 
 batch.set(docRef, { 
