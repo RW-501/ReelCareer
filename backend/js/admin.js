@@ -121,14 +121,16 @@ const navData = {
       document.body.prepend(oldNav);
     }
   
+    // Start of the navigation HTML structure
     let navHTML = `
       <div class="container mt-3">
-        <ul class="list-group mb-3" id="link-list">`;
+        <ul class="nav flex-column mb-3" id="link-list">`; // Use 'nav flex-column' for vertical nav
   
     // Loop through all navGroups
     if (navData.navGroups && navData.navGroups.length > 0) {
       navData.navGroups.forEach((group, groupIndex) => {
-        navHTML += `<h5>${group.title || 'Group ' + (groupIndex + 1)}</h5>`;
+        navHTML += `<h5 class="mt-4">${group.title || 'Group ' + (groupIndex + 1)}</h5>`; // Add a margin for spacing
+  
         if (group.links && group.links.length > 0) {
           group.links.forEach((link, index) => {
             navHTML += `
@@ -143,21 +145,24 @@ const navData = {
       });
     }
   
+    // Close the unordered list
     navHTML += `
         </ul>
-        <div>
+        <div class="add-link-form mt-3">
           <input type="text" id="newLinkText" placeholder="Link Text" class="form-control mb-2" />
           <input type="text" id="newLinkHref" placeholder="Link URL" class="form-control mb-2" />
           <button id="addLinkBtn" class="btn btn-primary">Add Link</button>
         </div>
-      </div>`;
+      </div>`; // Close container
   
+    // Update the navigation bar's HTML
     oldNav.innerHTML = navHTML;
   
+    // Initialize drag and drop functionality
     addDragAndDrop();
     setupAddLink();
   }
-    
+  
     function addDragAndDrop() {
       const listItems = document.querySelectorAll('#link-list .list-group-item');
       const dropZones = document.querySelectorAll('.dropzone');
