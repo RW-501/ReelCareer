@@ -351,6 +351,15 @@
     background-color: #155a8a;
 }
 
+.user-info {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.5rem;
+}
         </style>
         
         </style>
@@ -903,21 +912,27 @@ async function fetchVideoResumes(page, user) {
                     </div>
                     
                     `}
-                    <div class="controls-container">
-                        <div class="actions">
-                            <button class="action-btn like-btn" data-doc-id="${docId}">
-                                <i class="fa fa-thumbs-up"></i> ${videoData.likes || 0}
-                            </button>
-                            <button class="action-btn comment-btn" data-doc-id="${docId}">
-                                <i class="fa fa-comment"></i> Comment
-                            </button>
-                            <button class="action-btn share-btn" data-doc-id="${docId}">
-                                <i class="fa fa-share-alt"></i> Share
-                            </button>
-                        </div>
-                    </div>
-                </div>
+             <div class="controls-container">
+    <div class="actions">
+        <button class="action-btn like-btn" data-doc-id="${docId}">
+            <i class="fa fa-thumbs-up"></i> ${videoData.likes || 0}
+        </button>
+        <button class="action-btn share-btn" data-doc-id="${docId}">
+            <i class="fa fa-share-alt"></i> Share
+        </button>
+    </div>
+</div>
+
+<!-- Comment Section -->
+<div class="comment-section">
+    <input type="text" id="comment-input-${docId}" placeholder="Add a comment..." />
+    <button class="btn btn-secondary add-comment-btn" data-doc-id="${docId}">Post</button>
+    <div id="comments-container-${docId}" class="comments-container"></div>
+</div>
+
             `;
+
+
             
             // Add event listeners for buttons
             const muteButton = videoCard.querySelector(".mute-toggle");
@@ -944,6 +959,20 @@ if(user){
 
 
 }
+
+
+// After appending videoCard to container
+const shareButton = videoCard.querySelector(".share-btn");
+const commentButton = videoCard.querySelector(".add-comment-btn");
+
+// Event Listeners
+likeButton.addEventListener("click", () => handleLike(docId, likeButton));
+shareButton.addEventListener("click", () => handleShare(docId, videoData.videoResumeURL));
+commentButton.addEventListener("click", () => addComment(docId));
+
+// Increment view count when video is played
+const videoElement = videoCard.querySelector(".video-element");
+videoElement.addEventListener("play", () => incrementViewCount(docId));
 
             videoContainer.appendChild(videoCard);
         });
@@ -977,12 +1006,107 @@ function addToShortlist(docId) {
     // Add further functionality as needed
 }
 
-function handleLike(docId, likeButton) {
-    alert(`Liked post ID: ${docId}`);
-    // Example: Increment likes count visually
-    let likesCount = parseInt(likeButton.textContent) || 0;
-    likesCount++;
-    likeButton.innerHTML = `<i class="fa fa-thumbs-up"></i> ${likesCount}`;
+
+// Function to increment view count
+async function incrementViewCount(docId) {
+    const videoRef = doc(db, "VideoResumes", docId);
+
+    try {
+        await updateDoc(videoRef, {
+            views: increment(1) // Firestore increment
+        });
+        console.log("View count incremented");
+    } catch (error) {
+        console.error("Error updating view count: ", error);
+    }
+}
+
+// Function to handle likes
+async function handleLike(docId, likeButton) {
+    const videoRef = doc(db, "VideoResumes", docId);
+
+    try {
+        await updateDoc(videoRef, {
+            likes: increment(1) // Firestore increment
+        });
+
+        // Update UI instantly
+        let likesCount = parseInt(likeButton.textContent) || 0;
+        likesCount++;
+        likeButton.innerHTML = `<i class="fa fa-thumbs-up"></i> ${likesCount}`;
+    } catch (error) {
+        console.error("Error updating like count: ", error);
+    }
+}
+
+// Function to format video duration to HH:MM:SS
+function formatDuration(duration) {
+    const seconds = Math.floor(duration % 60);
+    const minutes = Math.floor((duration / 60) % 60);
+    const hours = Math.floor(duration / 3600);
+
+    return [
+        hours > 0 ? hours.toString().padStart(2, "0") : null,
+        minutes.toString().padStart(2, "0"),
+        seconds.toString().padStart(2, "0")
+    ]
+        .filter(Boolean)
+        .join(":");
+}
+
+// Native Share Function
+function handleShare(docId, videoUrl) {
+    if (navigator.share) {
+        navigator
+            .share({
+                title: "Check out this video resume!",
+                text: "Watch this professional video resume on ReelCareer.",
+                url: videoUrl
+            })
+            .then(() => console.log("Video shared successfully"))
+            .catch((error) => console.error("Error sharing video: ", error));
+    } else {
+        alert("Sharing not supported on this device.");
+    }
+}
+
+// Add Comment Functionality
+async function addComment(docId) {
+    const commentInput = document.getElementById(`comment-input-${docId}`);
+    const commentText = commentInput.value.trim();
+
+    if (commentText) {
+        const commentRef = collection(db, "VideoResumes", docId, "comments");
+
+        try {
+            await addDoc(commentRef, {
+                text: commentText,
+                timestamp: serverTimestamp()
+            });
+
+            // Clear input and fetch comments again
+            commentInput.value = "";
+            fetchComments(docId);
+        } catch (error) {
+            console.error("Error adding comment: ", error);
+        }
+    }
+}
+
+// Fetch and Display Comments
+async function fetchComments(docId) {
+    const commentsRef = collection(db, "VideoResumes", docId, "comments");
+    const querySnap = await getDocs(query(commentsRef, orderBy("timestamp", "asc")));
+
+    const commentsContainer = document.getElementById(`comments-container-${docId}`);
+    commentsContainer.innerHTML = "";
+
+    querySnap.forEach((commentDoc) => {
+        const comment = commentDoc.data();
+        const commentElement = document.createElement("p");
+        commentElement.textContent = comment.text;
+        commentsContainer.appendChild(commentElement);
+    });
 }
 
 
