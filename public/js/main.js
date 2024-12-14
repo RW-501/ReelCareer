@@ -3274,7 +3274,7 @@ async function updateHelpfulCount(questionId, isHelpful) {
 
       // Update the document with the new counts
       await updateDoc(chatbotDocRef, {
-        helpful: updatedHelpfulCount,
+        helpfulCount: updatedHelpfulCount,
         views: updatedViewCount
       });
 

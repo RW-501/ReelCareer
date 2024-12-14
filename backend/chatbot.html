@@ -282,6 +282,7 @@ li.dragging {
                             <th>Answer</th>
                             <th>Helpful </th>
                             <th>Views</th>
+                            <th>Status</th>
                         </tr>
                     </thead>
                     <tbody id="interactionBody">
@@ -344,6 +345,7 @@ async function loadInteractionLogs() {
                     <td>${data.answer}</td>
                     <td>${data.helpful}</td>
                     <td>${data.views}</td>
+                    <td>${data.status}</td>
                 </tr>
             `;
             interactionBody.innerHTML += row;
@@ -395,7 +397,7 @@ window.onload = loadInteractionLogs;
         // Initialize arrays for questions
 let generalQuestions = [];
 let predefinedQuestions = [];
-
+let newQuestions = [];
 
 // Fetch /chat_bot.json on page load (for real data)
 async function fetchChatbotData() {
@@ -404,6 +406,7 @@ async function fetchChatbotData() {
     const data = await response.json();
     generalQuestions.push(...data.generalQuestions);
     predefinedQuestions.push(...data.predefinedQuestions);
+    newQuestions.push(...data.newQuestions);
     renderQuestions();
   } catch (error) {
     console.error("Error fetching data:", error);
@@ -413,7 +416,8 @@ async function fetchChatbotData() {
 
 let  jsonOutput = {
         generalQuestions,
-        predefinedQuestions
+        predefinedQuestions,
+        newQuestions
     };
 
 
@@ -452,9 +456,21 @@ async function batchUpdateChatbotInteractions() {
                 category: category,
                 tags: question.tags || [],
                 supportURL: question.supportURL || null,
-                helpful: question.helpful || 0,
+                helpfulCount: question.helpfulCount || 0,
                 views: question.views || 0,
-                createdAt: question.createdAt || new Date().toISOString()
+                confidenceScore: question.confidenceScore || 0,
+
+                    
+                    activate: true,
+                    status: "review",
+
+
+                    feedback: "",
+                    topics: '',
+
+    timestamp: serverTimestamp(), // Firestore server-side timestamp for consistency
+    lastUpdated: serverTimestamp(),
+                createdAt: question.createdAt || new Date()
             };
 
             batch.set(docRef, updatedQuestion, { merge: true }); // Set the document data
@@ -464,6 +480,7 @@ async function batchUpdateChatbotInteractions() {
     // Access jsonOutput directly (make sure jsonOutput is defined elsewhere)
     processQuestions(jsonOutput.generalQuestions, "General");
     processQuestions(jsonOutput.predefinedQuestions, "Predefined");
+    processQuestions(jsonOutput.newQuestions, "New");
 
     // Commit the batch
     try {
@@ -495,6 +512,7 @@ document.getElementById("new-question-form").addEventListener("submit", function
     const question = document.getElementById("question").value.trim();
     const answer = document.getElementById("answer").value.trim();
     const category = document.getElementById("category").value;
+    const status = document.getElementById("status").value;
 
     const link = document.getElementById("link").value.trim();
     const supportURL = document.getElementById("supportURL").value.trim();
@@ -512,17 +530,26 @@ document.getElementById("new-question-form").addEventListener("submit", function
         category: category,
         tags: tags,
         supportURL: supportURL || null,
-        helpful: 0,
+        status: status,
+                    feedback: "",
+                    confidenceScore:  0,
+        helpfulCount: 0,
         views: 0,
-        createdAt: new Date().toISOString()
-    };
+        createdAt: new Date(), // Local timestamp for initial creation
+    timestamp: serverTimestamp(), // Firestore server-side timestamp for consistency
+    lastUpdated: new Date() // Placeholder for the timestamp of the most recent update
+        };
 
     // If editing, update the question instead of adding
     if (editIndex !== null && editCategory !== null) {
         if (editCategory === "General") {
             generalQuestions[editIndex] = updatedQuestion;
-        } else {
+        } else if (editCategory === "Predefined") {
             predefinedQuestions[editIndex] = updatedQuestion;
+        }else{
+            newQuestions[editIndex] = updatedQuestion;
+
+
         }
         editIndex = null; // Reset edit state
         editCategory = null;
@@ -530,8 +557,11 @@ document.getElementById("new-question-form").addEventListener("submit", function
         // Add to respective category
         if (category === "General") {
             generalQuestions.push(updatedQuestion);
-        } else {
+        } else if (category === "Predefined") {
             predefinedQuestions.push(updatedQuestion);
+        }else{
+            newQuestions.push(updatedQuestion);
+
         }
     }
 
@@ -543,9 +573,11 @@ document.getElementById("new-question-form").addEventListener("submit", function
 function renderQuestions() {
     const generalList = document.getElementById("general-questions");
     const predefinedList = document.getElementById("predefined-questions");
+    const newList = document.getElementById("new-questions");
 
     generalList.innerHTML = "";
     predefinedList.innerHTML = "";
+    newList.innerHTML = "";
 
     // Render General Questions
     generalQuestions.forEach((q, index) => {
@@ -567,6 +599,17 @@ function renderQuestions() {
         li.addEventListener("dragstart", dragStart);
         li.addEventListener("dragend", dragEnd);
         predefinedList.appendChild(li);
+        });
+
+            // Render newQuestions Questions
+            newQuestions.forEach((q, index) => {
+        const li = createQuestionElement(q, "New", index);
+        li.setAttribute("draggable", "true");
+        li.setAttribute("data-index", index);
+        li.setAttribute("data-category", "New");
+        li.addEventListener("dragstart", dragStart);
+        li.addEventListener("dragend", dragEnd);
+        newList.appendChild(li);
         });
 }
 
@@ -633,8 +676,11 @@ tagsContainer.appendChild(tagElement);
 function removeQuestion(category, index) {
     if (category === "General") {
         generalQuestions.splice(index, 1);
-    } else {
+    } else if (category === "Predefined") {
         predefinedQuestions.splice(index, 1);
+    }else {
+        newQuestions.splice(index, 1);
+
     }
     renderQuestions();
 }
@@ -663,7 +709,8 @@ function dragEnd(e) {
     document.querySelectorAll(".drop-zone").forEach(zone => zone.classList.remove("highlight")); // Remove zone highlight
     jsonOutput = {
         generalQuestions,
-        predefinedQuestions
+        predefinedQuestions,
+        newQuestions
     };
 
     const jsonText = JSON.stringify(jsonOutput, null, 2);
@@ -697,9 +744,12 @@ function drop(e) {
     if (category === "General") {
         sourceArray = generalQuestions;
         targetArray = predefinedQuestions;
-    } else {
+    } else if (category === "Predefined") {
         sourceArray = predefinedQuestions;
         targetArray = generalQuestions;
+    }else{
+        sourceArray = newQuestions;
+        targetArray = predefinedQuestions;
     }
 
     // Move the question
@@ -712,6 +762,7 @@ function drop(e) {
     // Log updated arrays
     console.log("General Questions:", generalQuestions);
     console.log("Predefined Questions:", predefinedQuestions);
+    console.log("new  Questions:", newQuestions);
 }
 window.drop = drop;
 
@@ -719,7 +770,8 @@ window.drop = drop;
 document.getElementById("copy-json-btn").addEventListener("click", function () {
      jsonOutput = {
         generalQuestions,
-        predefinedQuestions
+        predefinedQuestions,
+        newQuestions
     };
 
     const jsonText = JSON.stringify(jsonOutput, null, 2);
