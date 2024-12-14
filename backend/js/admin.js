@@ -83,14 +83,17 @@ const navData = {
   };
  
   
-  
+
   
   
   const storedNav = JSON.parse(localStorage.getItem('navData'));
   if (storedNav && storedNav.navGroups) {
     navData.navGroups = storedNav.navGroups;
   }
+  console.log('Stored Nav:', storedNav);
+  console.log('Nav Data:', navData);
   
+    
     function replaceNav() {
       let oldNav = document.getElementById('Main_Nav');
       if (!oldNav) {
@@ -118,10 +121,7 @@ const navData = {
               navHTML += `<div class="dropzone" data-drop-index="${group.links.length}"></div>`;
             });
           }
-          console.log('Stored Nav:', storedNav);
-console.log('Nav Data:', navData);
 
-  
       navHTML += `
           </ul>
           <div>
