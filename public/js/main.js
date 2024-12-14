@@ -1101,41 +1101,6 @@ function displayEmptyState(container, message, iconClass = 'fas fa-search') {
 
 
 
-function setBreadcrumb(){
-
-  // Get the ID from the URL
-  const urlParams = new URLSearchParams(window.location.search);
-  const id = urlParams.get("id"); // Assuming the ID is passed as a query parameter 'id'
-  const jobId = urlParams.get("jobId");
-  
-  // Select the last breadcrumb anchor
-  const lastBreadcrumb = document.getElementById("lastBreadcrumb_a");
-  const breadcrumbjobTitleActive = document.getElementById("breadcrumb-active-title");
-  const appyJobTitle = document.getElementById("appyJobTitle");
-  
-  if (id && lastBreadcrumb){
-      lastBreadcrumb.href = `https://reelcareer.com/jobs/job-details?id=${id}`;
-  } 
-  if (jobId && lastBreadcrumb){
-    lastBreadcrumb.href = `https://reelcareer.com/jobs/job-details?id=${jobId}`;
-} 
-
-  if (breadcrumbjobTitleActive && appyJobTitle){
-    breadcrumbjobTitleActive.innerText = appyJobTitle.innerText;
-  }
- // console.log("setBreadcrumb  ??????????/   ",id, "xxxx   ",jobTitle.innerText);
-
-}
- 
-window.setBreadcrumb = setBreadcrumb;
-
- document.addEventListener("DOMContentLoaded", () => {
-  setTimeout(() => {
-    setBreadcrumb();
-  }, 1500); // 2000 milliseconds = 2 seconds
-  });
-
-
 
 
 
