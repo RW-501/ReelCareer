@@ -556,7 +556,7 @@ function sortTable(columnIndex) {
         displayJobs(response.data.results);
     } catch (error) {
         console.error("Error fetching jobs:", error);
-        showMessage("Error fetching jobs. Please try again.", true);
+        showToast("Error fetching jobs. Please try again.", true);
     } finally {
         toggleLoading(false);
     }
@@ -607,7 +607,7 @@ function displayJobs(jobs) {
             <td>${job.location.area[1] || "N/A"}</td>
             <td>${(parseFloat(job.salary_min) + parseFloat(job.salary_max)) / 2 || 0}</td>
             <td>${new Date(job.created).toLocaleDateString() || ''}</td>
-            <td>${cleanCategory(job.category.tag) || ''}</td>
+            <td>${job.category.tag || ''}</td>
             <td>
                 <button onclick="toggleDetails(this)">Details</button>
                 <button onclick="addJob('${job.id}')">Add</button>
