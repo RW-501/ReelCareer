@@ -648,9 +648,21 @@
                     question: document.getElementById('faqQuestion').value,
                     answer: document.getElementById('faqAnswer').value,
                     category: document.getElementById('faqCategory').value,
-                    helpful: 0,
+                    helpfulCount: 0,
                     activate: true,
-                    tags: document.getElementById('faqTags').value.split(',').map(tag => tag.trim()) // Process tags as an array
+                    activate: "true",
+                    status: "review",
+
+                    tags: document.getElementById('faqTags').value.split(',').map(tag => tag.trim()), // Process tags as an array
+                    supportURL: "",
+                    confidenceScore: null,
+                    views: 0,
+                    feedback: "",
+                    topics: document.getElementById('faqCategory').value,
+                    createdAt: new Date(), // Local timestamp for initial creation
+    timestamp: serverTimestamp(), // Firestore server-side timestamp for consistency
+    lastUpdated: null // Placeholder for the timestamp of the most recent update
+
                 });
 
                 alert('FAQ saved successfully!');
