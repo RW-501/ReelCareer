@@ -2140,17 +2140,16 @@ background-color: transparent;
 
 /* Container for the loading spinner */
 .loading-container {
-
-  
-  width: 100%;
+  width: 90vw;
   height: 100%;
-  background: rgba(255, 255, 255, 0.7); /* Semi-transparent background */
-  display: flex;
+  background: rgba(255, 255, 255, 0.7);
+  display: grid;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
-margin: auto;
+  margin: auto;
   transition: visibility 0.3s, opacity 0.3s;
+  align-content: stretch;
+  justify-items: stretch;
 }
 
 /* Spinner styling */
