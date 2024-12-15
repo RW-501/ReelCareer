@@ -230,6 +230,34 @@ let postsPerPage = 1; // Define your posts per page
 let currentPage = 1;
 let totalPosts = 0; // Track total number of posts
 
+function updateMetaTag(name, content, isProperty = false, isCanonical = false) {
+    let element;
+
+    if (isCanonical) {
+        // Handle canonical links
+        element = document.querySelector('link[rel="canonical"]');
+        if (!element) {
+            element = document.createElement('link');
+            element.setAttribute('rel', 'canonical');
+            document.head.appendChild(element);
+        }
+        element.setAttribute('href', content);
+    } else {
+        // Handle meta tags
+        element = document.querySelector(isProperty ? `meta[property="${name}"]` : `meta[name="${name}"]`);
+        if (!element) {
+            element = document.createElement('meta');
+            if (isProperty) {
+                element.setAttribute('property', name);
+            } else {
+                element.setAttribute('name', name);
+            }
+            document.head.appendChild(element);
+        }
+        element.setAttribute('content', content);
+    }
+}
+
 
 function setBlogMetaTags(blogData) {
     // Update the document title
