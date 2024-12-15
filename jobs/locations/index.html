@@ -287,8 +287,13 @@
 
     console.log("States:", states);
 
+    // Define the initial number of states to show
+    const initialStatesCount = 20;
+    let displayedStates = 0;
+
     // Generate HTML for the state list
-    const stateListHTML = states
+    let stateListHTML = states
+      .slice(0, initialStatesCount)  // Show only the first 'initialStatesCount' states initially
       .map(state => `
         <a href="https://reelcareer.co/jobs/state#${state}">
           <div class="state-city-card">
@@ -305,9 +310,51 @@
       <hr>
       <div class="state-list">${stateListHTML}</div>
     `;
+
+    // Add a "Show More" button if there are more states to show
+    if (states.length > initialStatesCount) {
+      const showMoreButton = `
+        <div class="show-more-container">
+          <button id="showMoreButton" class="btn-show-more">Show More</button>
+        </div>
+      `;
+      document.getElementById("stateListContainer").innerHTML += showMoreButton;
+
+      // Attach event listener to "Show More" button
+      document.getElementById("showMoreButton").addEventListener("click", () => {
+        showMoreStates(states, initialStatesCount);
+      });
+    }
   } catch (error) {
     console.error("Error fetching states:", error);
     document.getElementById("stateListContainer").innerHTML = `<p>Failed to load state list.</p>`;
+  }
+}
+
+// Function to handle showing more states when "Show More" button is clicked
+function showMoreStates(states, initialStatesCount) {
+  let displayedStates = initialStatesCount;
+  let stateListHTML = "";
+
+  // Loop over the states and add more until all are shown
+  states.slice(initialStatesCount).forEach(state => {
+    displayedStates++;
+    stateListHTML += `
+      <a href="https://reelcareer.co/jobs/state#${state}">
+        <div class="state-city-card">
+          <i class="fas fa-city"></i>
+          <h4>${state}</h4>
+        </div>
+      </a>
+    `;
+  });
+
+  // Append the new states to the container
+  document.querySelector(".state-list").innerHTML += stateListHTML;
+
+  // Hide the "Show More" button if no more states are left to show
+  if (displayedStates >= states.length) {
+    document.getElementById("showMoreButton").style.display = "none";
   }
 }
 
@@ -317,7 +364,8 @@
 
 
 
-  async function displayCityList() {
+
+async function displayCityList() {
   try {
     const citiesRef = collection(db, "Cities");  // Reference to the Cities collection
     const snapshot = await getDocs(citiesRef);
@@ -338,29 +386,38 @@
     // Initialize a total counter
     let totalCities = 0;
 
+    // Calculate the number of cities to display initially
+    const initialCitiesCount = 20;
+    let displayedCities = 0;
+
     // Generate HTML for each group
-    const groupedCityHTML = Object.entries(groupedCities)
+    let groupedCityHTML = Object.entries(groupedCities)
       .map(([letter, cityList]) => {
         totalCities += cityList.length;  // Add to total count
-        return `
+        let cityHTML = `
           <div id="${letter}" class="city-group">
             <div class="city-letter">
               <h3 class="city-letter-title">${letter} <span class="city-count">(${cityList.length})</span></h3>
               <hr class="city-divider">
             </div>
-
             <div class="city-list">
-              ${cityList.map(city => `
-                <a href="https://reelcareer.co/jobs/city#${city}">
-                  <div class="state-city-card" data-job-location="${city}">
-                    <i class="fas fa-city"></i>
-                    <h4>${city}</h4>
-                  </div>
-                </a>
-              `).join("")}
-            </div>
-          </div>
         `;
+
+        // Add cities until the initial count limit
+        cityList.slice(0, initialCitiesCount).forEach(city => {
+          displayedCities++;
+          cityHTML += `
+            <a href="https://reelcareer.co/jobs/city#${city}">
+              <div class="state-city-card" data-job-location="${city}">
+                <i class="fas fa-city"></i>
+                <h4>${city}</h4>
+              </div>
+            </a>
+          `;
+        });
+
+        cityHTML += `</div></div>`;
+        return cityHTML;
       })
       .join("");
 
@@ -374,7 +431,23 @@
       </div>
       <div class="state-city-body">${groupedCityHTML}</div>
     `;
-    // Call the function to populate the div
+
+    // Add a "Show More" button if there are more cities to display
+    if (totalCities > displayedCities) {
+      const showMoreButton = `
+        <div class="show-more-container">
+          <button id="showMoreButton" class="btn-show-more">Show More</button>
+        </div>
+      `;
+      document.getElementById("cityListContainer").innerHTML += showMoreButton;
+
+      // Attach event listener to "Show More" button
+      document.getElementById("showMoreButton").addEventListener("click", () => {
+        showMoreCities(groupedCities, initialCitiesCount);
+      });
+    }
+
+    // Call the function to populate the div for letters if needed
     populateCityLetters();
   } catch (error) {
     console.error("Error fetching cities:", error);
@@ -382,6 +455,45 @@
   }
 }
 
+// Function to handle showing more cities when "Show More" button is clicked
+function showMoreCities(groupedCities, initialCitiesCount) {
+  let groupedCityHTML = "";
+  let displayedCities = initialCitiesCount;
+
+  // Loop over the grouped cities and add more until all are shown
+  Object.entries(groupedCities).forEach(([letter, cityList]) => {
+    groupedCityHTML += `
+      <div id="${letter}" class="city-group">
+        <div class="city-letter">
+          <h3 class="city-letter-title">${letter} <span class="city-count">(${cityList.length})</span></h3>
+          <hr class="city-divider">
+        </div>
+        <div class="city-list">
+    `;
+
+    cityList.slice(initialCitiesCount).forEach(city => {
+      displayedCities++;
+      groupedCityHTML += `
+        <a href="https://reelcareer.co/jobs/city#${city}">
+          <div class="state-city-card" data-job-location="${city}">
+            <i class="fas fa-city"></i>
+            <h4>${city}</h4>
+          </div>
+        </a>
+      `;
+    });
+
+    groupedCityHTML += `</div></div>`;
+  });
+
+  // Append the new cities to the container
+  document.querySelector(".state-city-body").innerHTML += groupedCityHTML;
+
+  // Hide the "Show More" button if no more cities are left to show
+  if (displayedCities >= Object.values(groupedCities).flat().length) {
+    document.getElementById("showMoreButton").style.display = "none";
+  }
+}
 
 // Initialize page
 document.addEventListener('DOMContentLoaded', () => {
