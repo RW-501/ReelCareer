@@ -1360,12 +1360,11 @@ main .jobCard:hover {
               }
 
 
-.jobs-header {
-    text-align: center;
-    margin-bottom: 20px;
-    width: 100%;
-    
-    }  
+              .jobs-header {
+                text-align: center;
+                margin-bottom: 20px;
+                width: 75vw;
+            }
   .header-title {
     font-size: 2rem;
     color: #333;
