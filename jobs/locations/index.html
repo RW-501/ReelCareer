@@ -86,6 +86,24 @@
     <link rel="stylesheet" href="https://reelcareer.co/public/css/styles.css">
     <style>
 
+.scroll-up-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  display: none;  /* Initially hidden */
+  padding: 10px 15px;
+  background-color: #007bff;
+  color: white;
+  font-size: 20px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.scroll-up-button:hover {
+  background-color: #0056b3;
+}
 
 
 </style>
@@ -306,7 +324,24 @@
       document.getElementById("stateListContainer").innerHTML = `<p>Failed to load state list.</p>`;
     }
   }
-  async function displayCityList() {
+ // Function to scroll to the top of the cityLetters container
+function scrollToTop() {
+  document.getElementById("cityLetters").scrollIntoView({ behavior: "smooth" });
+}
+
+// Show the button when the user scrolls down
+window.onscroll = function() {
+  const button = document.getElementById("scrollUpButton");
+  // Show the button after scrolling 100px down
+  if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+    button.style.display = "block";
+  } else {
+    button.style.display = "none";
+  }
+};
+
+// Your existing displayCityList function with scroll-up button
+async function displayCityList() {
   try {
     const jobsRef = collection(db, "Jobs");
     const snapshot = await getDocs(jobsRef);
@@ -332,19 +367,20 @@
       .map(([letter, cityList]) => {
         totalJobs += cityList.length; // Add to total count
         return `
-          <div id="${letter}" class="city-group ">
-<div class="city-letter">
-  <h3 class="city-letter-title">${letter} <span class="city-count">(${cityList.length})</span></h3>
-  <hr class="city-divider">
-</div>
-
+          <div id="${letter}" class="city-group">
+            <div class="city-letter">
+              <h3 class="city-letter-title">${letter} <span class="city-count">(${cityList.length})</span></h3>
+              <hr class="city-divider">
+            </div>
 
             <div class="city-list">
               ${cityList.map(city => `
-              <a href="https://reelcareer.co/jobs/city#${city}"><div class="state-city-card" data-job-location="${city}">
-                  <i class="fas fa-city"></i>
-                  <h4>${city}</h4></a>
-                </div>
+                <a href="https://reelcareer.co/jobs/city#${city}">
+                  <div class="state-city-card" data-job-location="${city}">
+                    <i class="fas fa-city"></i>
+                    <h4>${city}</h4>
+                  </div>
+                </a>
               `).join("")}
             </div>
           </div>
@@ -354,19 +390,17 @@
 
     // Inject HTML into the container
     document.getElementById("cityListContainer").innerHTML = `
-  <div class="jobs-header ">
-    <h2 class="header-title">Available Cities</h2>
-    <h4 class="header-subtitle">Total Cities: <span class="job-count">${totalJobs}</span></h4>
-    <div id="cityLetters"></div>
-    <hr class="header-divider">
-  </div>
-  <div class="state-city-body">${groupedCityHTML}</div>
-`;
+      <div class="jobs-header">
+        <h2 class="header-title">Available Cities</h2>
+        <h4 class="header-subtitle">Total Cities: <span class="job-count">${totalJobs}</span></h4>
+        <div id="cityLetters"></div>
+        <hr class="header-divider">
+      </div>
+      <div class="state-city-body">${groupedCityHTML}</div>
+    `;
 
     // Call the function to populate the div
     populateCityLetters();
-    // Display the total number of jobs
-  //  document.getElementById("totalJobs").innerText = `Total Jobs: ${totalJobs}`;
   } catch (error) {
     console.error("Error fetching city:", error);
     document.getElementById("cityListContainer").innerHTML = `<p>Failed to load city list.</p>`;
