@@ -1347,31 +1347,28 @@ async function fetchJobListings() {
 }
 
 
-function displayJobListings( jobListings ) {
+function displayJobListings(jobListings) {
   const jobContainer = document.getElementById('jobListings');
   jobContainer.innerHTML = ''; // Clear existing listings
   
-  console.log("displayJobListingss:", jobListings);
+  console.log("displayJobListings:", jobListings);
 
-  // Check if jobListings is an array
+  // Ensure jobListings is an array
   if (!Array.isArray(jobListings)) {
     console.error('Error: jobListings is not defined or not an array:', jobListings);
     return;
   }
-  jobListings.forEach(job => createJobCard(job, jobContainer));
- return;
 
+  // Iterate over jobListings and create a card for each
   jobListings.forEach(job => {
-    console.log("display searchjob:  ", job);
-
-    const jobCard = createJobCard(job, jobContainer);
+    console.log("Displaying job:", job);
+    const jobCard = createJobCard(job); // Assuming createJobCard returns an HTML element or string
     jobContainer.innerHTML += jobCard; // Append job card to container
-    //jobContainer.appendChild(jobCard); // Append job card as a DOM node
-
   });
+}
+
 
   
-}
 
 
 
