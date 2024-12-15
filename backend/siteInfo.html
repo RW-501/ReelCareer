@@ -170,6 +170,22 @@ ${JSON.stringify(categoryData, null, 2)}
             await setDoc(reelCareerInfoRef, jobSummary);
             showToast('Totals successfully sent to ReelCareerInfo collection!');
         }
+
+
+
+
+
+  // Make sure functions are accessible globally (for the button clicks)
+
+  window.uploadToFirestore = uploadToFirestore;
+  window.sendTotalsToReelCareerInfo = sendTotalsToReelCareerInfo;
+
+       
+
+
+
+
+
     </script>
 </body>
 </html>
