@@ -863,7 +863,7 @@ async function fetchVideoResumes(page, user) {
             videoCard.dataset.profilePicture = videoData.profilePicture || '';
             generateVideoSchema(videoData, docId);
 
-
+let videoDuration = parseFloat(videoData.duration.toFixed(2));
             videoCard.innerHTML = `
                 <div id="videoCard_${docId}" class="video-card">
                     <div class="user-info">
@@ -894,7 +894,7 @@ async function fetchVideoResumes(page, user) {
 
                     <div class="video-details">
                         <p class="views-count"><i class="fa fa-eye"></i> ${videoData.views || 0} views</p>
-                        <p class="video-duration"><i class="fa fa-clock"></i> ${videoData.duration || '--:--'}</p>
+                        <p class="video-duration"><i class="fa fa-clock"></i> ${videoDuration || '--:--'}</p>
                     </div>
 
                     <div class="caption-container">
