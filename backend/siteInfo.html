@@ -4,31 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Job Scanner</title>
- 
-  
-  
-  
-  
-  
-  
-  
-  
     <link rel="stylesheet" href="https://reelcareer.co/backend/css/styles.css">
-
-  <style>
+    <style>
         body { font-family: Arial, sans-serif; margin: 20px; }
         h1, h2 { color: #333; }
         button { margin: 10px 0; padding: 10px; cursor: pointer; background: #4CAF50; color: #fff; border: none; border-radius: 5px; }
         button:hover { background: #45a049; }
         pre { background: #f4f4f4; padding: 10px; border-radius: 5px; overflow-x: auto; }
     </style>
-
-    
- 
- 
-    </style>
 </head>
-
 <body>
     <script src="https://reelcareer.co/public/js/bodyload.js"></script>
     <script defer src="https://reelcareer.co/backend/js/admin.js"></script>
@@ -43,27 +27,23 @@
     <h2>Job Scan Results</h2>
     <pre id="output">Click "Run Job Scan" to see results here...</pre>
 
-   <!-- Footer -->
-   <footer id="dynamic-footer"></footer>
+    <!-- Footer -->
+    <footer id="dynamic-footer"></footer>
     
-   <!-- Firebase configuration/ Login& Out -->
-   <script type="module" src="https://reelcareer.co/public/js/main.js"></script> 
+    <!-- Firebase configuration/ Login& Out -->
+    <script type="module" src="https://reelcareer.co/public/js/main.js"></script> 
 
-   <!-- Firebase JS SDK and Custom Scripts -->
-
-   <script type="module">
-       import {
-           db, doc, getDoc, query, updateDoc,
-           setDoc, ref, signInWithPopup, orderBy,
-           onSnapshot ,
-           uploadBytes, OAuthProvider, arrayUnion, getStorage,
-           signOut, addDoc, increment, onAuthStateChanged,
-           createUserWithEmailAndPassword, signInWithEmailAndPassword,
-           where, getDocs, storage, collection, deleteObject, 
-           auth, analytics, deleteDoc, getDownloadURL
-       } from 'https://reelcareer.co/js/module.js';
-
-
+    <!-- Firebase JS SDK and Custom Scripts -->
+    <script type="module">
+        import {
+            db, doc, getDoc, query, updateDoc,
+            setDoc, ref, signInWithPopup, orderBy,
+            onSnapshot, uploadBytes, OAuthProvider, arrayUnion, getStorage,
+            signOut, addDoc, increment, onAuthStateChanged,
+            createUserWithEmailAndPassword, signInWithEmailAndPassword,
+            where, getDocs, storage, collection, deleteObject, 
+            auth, analytics, deleteDoc, getDownloadURL
+        } from 'https://reelcareer.co/js/module.js';
 
         // Data storage arrays
         let stateData = {};
@@ -71,6 +51,9 @@
         let industryData = {};
         let categoryData = {};
         let totalJobs = 0;
+        let totalUsers = 0;
+        let totalApplications = 0;
+        let totalAnalytics = 0;
 
         async function runJobScan() {
             const output = document.getElementById('output');
@@ -151,8 +134,28 @@ ${JSON.stringify(categoryData, null, 2)}
         async function sendTotalsToReelCareerInfo() {
             const reelCareerInfoRef = doc(db, 'ReelCareerInfo', 'JobTotals');
 
+            // Get totals for Users, Applications, and Analytics
+            const usersRef = collection(db, 'Users');
+            const applicationsRef = collection(db, 'Applications');
+            const analyticsRef = collection(db, 'Analytics');
+
+            // Fetch User, Application, and Analytics counts
+            const [userSnapshot, applicationSnapshot, analyticsSnapshot] = await Promise.all([
+                getDocs(usersRef),
+                getDocs(applicationsRef),
+                getDocs(analyticsRef)
+            ]);
+
+            totalUsers = userSnapshot.size;
+            totalApplications = applicationSnapshot.size;
+            totalAnalytics = analyticsSnapshot.size;
+
+            // Create job summary object
             const jobSummary = {
                 totalJobs: totalJobs,
+                totalUsers: totalUsers,
+                totalApplications: totalApplications,
+                totalAnalytics: totalAnalytics,
                 totalStates: Object.keys(stateData).length,
                 totalCities: Object.keys(cityData).length,
                 totalIndustries: Object.keys(industryData).length,
@@ -163,11 +166,10 @@ ${JSON.stringify(categoryData, null, 2)}
                 categories: categoryData
             };
 
+            // Save summary to ReelCareerInfo collection
             await setDoc(reelCareerInfoRef, jobSummary);
             showToast('Totals successfully sent to ReelCareerInfo collection!');
         }
     </script>
-
-   
 </body>
 </html>

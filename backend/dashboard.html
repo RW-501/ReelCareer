@@ -151,47 +151,38 @@
 
 
 
+    function fetchTotalCounts() {
+        const userCountElement = document.getElementById('userCount');
+        const jobCountElement = document.getElementById('jobCount');
+        const applicationCountElement = document.getElementById('applicationCount');
+        const analyticsCountElement = document.getElementById('analyticsCount');
 
-// Function to retrieve and display total counts for Users, Jobs, Applications, and Analytics
-function fetchTotalCounts() {
-  const userCountElement = document.getElementById('userCount');
-  const jobCountElement = document.getElementById('jobCount');
-  const applicationCountElement = document.getElementById('applicationCount');
-  const analyticsCountElement = document.getElementById('analyticsCount');
+        const reelCareerInfoRef = doc(db, 'ReelCareerInfo', 'SiteInfo');  // Reference to the SiteInfo document
 
-  const usersCollection = collection(db, 'Users');
-  const jobsCollection = collection(db, 'Jobs');
-  const applicationsCollection = collection(db, 'Applications');
-  const analyticsCollection = collection(db, 'Analytics');
+        // Get the document with the totals
+        getDoc(reelCareerInfoRef).then((docSnap) => {
+            if (docSnap.exists()) {
+                const data = docSnap.data();
 
-  // Listener for Users collection
-  onSnapshot(usersCollection, (snapshot) => {
-    const totalUsers = snapshot.size;
-    console.log('Total Users:', totalUsers);
-    userCountElement.textContent = `${totalUsers}`;
-  });
+                // Set the totals to the corresponding elements
+                userCountElement.textContent = data.totalUsers || '0';
+                jobCountElement.textContent = data.totalJobs || '0';
+                applicationCountElement.textContent = data.totalApplications || '0';
+                analyticsCountElement.textContent = data.totalAnalytics || '0';
 
-  // Listener for Jobs collection
-  onSnapshot(jobsCollection, (snapshot) => {
-    const totalJobs = snapshot.size;
-    console.log('Total Jobs:', totalJobs);
-    jobCountElement.textContent = `${totalJobs}`;
-  });
+                console.log('Fetched Totals from SiteInfo:');
+                console.log('Total Users:', data.totalUsers);
+                console.log('Total Jobs:', data.totalJobs);
+                console.log('Total Applications:', data.totalApplications);
+                console.log('Total Analytics:', data.totalAnalytics);
+            } else {
+                console.log('No totals document found!');
+            }
+        }).catch((error) => {
+            console.log('Error fetching totals:', error);
+        });
+    }
 
-  // Listener for Applications collection
-  onSnapshot(applicationsCollection, (snapshot) => {
-    const totalApplications = snapshot.size;
-    console.log('Total Applications:', totalApplications);
-    applicationCountElement.textContent = `${totalApplications}`;
-  });
-
-  // Listener for Analytics collection
-  onSnapshot(analyticsCollection, (snapshot) => {
-    const totalAnalytics = snapshot.size;
-    console.log('Total Analytics:', totalAnalytics);
-    analyticsCountElement.textContent = `${totalAnalytics}`;
-  });
-}
 
 
 // Call fetchTotalCounts on page load
