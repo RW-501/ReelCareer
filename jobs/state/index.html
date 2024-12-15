@@ -446,20 +446,40 @@ async function fetchJobsByState(state) {
       return;
     }
 
-    // Display jobs
-    const jobsList = querySnapshot.docs.map(doc => {
-      // Process the data for each job, e.g., job title, description, etc.
-      const jobData = doc.data();
-      return `
-        <div class="job-item">
-          <h3>${jobData.title}</h3>
-          <p>${jobData.description}</p>
-          <!-- More job info here -->
+
+    let jobs = [];
+
+    // Create HTML for job cards
+    querySnapshot.forEach((doc) => {
+      const job = doc.data();
+      jobs.push({
+        id: doc.id,
+        title: job.title,
+        company: job.company,
+        city: job.city,
+        state: job.state,
+        salary: job.salary,
+        description: job.description,
+        industry: job.industry,
+        url: `https://reelcareer.co/jobs/job-details?id=${doc.id}`
+      });
+
+      const jobCard = `
+        <div class="location-job-card" data-job-title="${job.title}" data-job-company="${job.company}" data-job-location="${job.city}, ${job.state}">
+          <h2>${job.title}</h2>
+          <p><strong>Company:</strong> ${job.company}</p>
+          <p><strong>Industry:</strong> ${job.industry}</p>
+          <p><strong>Location:</strong> ${job.city}, ${job.state}</p>
+          <p><strong>Salary:</strong> $${job.salary.toLocaleString()}</p>
+          <p><strong>Description:</strong> ${job.description}</p>
+          <a href="${job.url}" class="apply-link">View Job</a>
         </div>
       `;
+      jobsContainer.innerHTML += jobCard;
     });
 
-    jobsContainer.innerHTML = jobsList.join('');
+    // Store the jobs data in the container's dataset for future searches
+    jobsContainer.dataset.jobs = JSON.stringify(jobs);
 
     // Set last visible document for pagination
     lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
@@ -546,7 +566,6 @@ document.addEventListener('DOMContentLoaded', () => {
       h2Header.textContent = `Jobs In ${state}`; // Update header text
       h2Header.style.display = "block"; // Ensure the header is visible
     }
-    fetchJobsByState(state);
 
   } else {
     // Hide the header when no specific state is selected
@@ -559,6 +578,7 @@ document.addEventListener('DOMContentLoaded', () => {
   stateHeader.innerHTML = stateHeader.innerHTML.replaceAll("[State Name]", state);
     }
   }
+  fetchJobsByState(state);
 
   // If a state is selected, set meta tags for SEO
   if (state) {
