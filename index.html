@@ -373,7 +373,8 @@ async function fetchJobListings() {
       titleSnapshot = await getDocs(titleQuery);
       console.log('Title query returned results:', hasResults(titleSnapshot));
     }
-    
+    let userLocationData = sessionStorage.getItem('userLocation');
+
     // If no results found for tags, fetch by location
     if (!hasResults(titleSnapshot) && userlocationData.length > 0) {
       const locationArray = prepareLocationForFirebase();

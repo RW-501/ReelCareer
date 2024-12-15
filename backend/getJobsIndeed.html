@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indeed Job Search</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://reelcareer.co/backend/css/styles.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+}
+
+h1, h2 {
+    color: #333;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+th {
+    background-color: #f4f4f4;
+}
+
+button {
+    padding: 10px 15px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+input[type="checkbox"] {
+    cursor: pointer;
+}
+
+    </style>
+</head>
+
+<body>
+    <script src="https://reelcareer.co/public/js/bodyload.js"></script>
+    <script defer src="https://reelcareer.co/backend/js/admin.js"></script>
+
+    <h1>Job Search from Indeed</h1>
+    <form id="jobSearchForm">
+        <label for="query">Search Query:</label>
+        <input type="text" id="query" name="query" placeholder="e.g. Developer">
+        
+        <label for="location">Location:</label>
+        <input type="text" id="location" name="location" placeholder="e.g. Dallas, TX">
+        
+        <button type="submit">Search Jobs</button>
+    </form>
+
+    <h2>Job Listings</h2>
+    <div id="output"></div>
+
+    <h3>Job Table</h3>
+    <table id="jobsTable">
+        <thead>
+            <tr>
+                <th><input type="checkbox" id="selectAll" /></th>
+                <th>Job Title</th>
+                <th>Company</th>
+                <th>Location</th>
+                <th>Salary</th>
+                <th>Description</th>
+                <th>Add to Jobs Collection</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Job data will be populated here -->
+        </tbody>
+    </table>
+
+    <script >
+
+
+document.getElementById('jobSearchForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    
+    const query = document.getElementById('query').value;
+    const location = document.getElementById('location').value;
+    
+    fetchJobs(query, location);
+});
+
+async function fetchJobs(query, location) {
+    const apiKey = 'YOUR_INDEED_API_KEY';
+    const url = `https://api.indeed.com/ads/apisearch?publisher=${apiKey}&q=${query}&l=${location}&format=json`;
+
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+        
+        displayJobs(data.results);
+    } catch (error) {
+        console.error('Error fetching job data:', error);
+    }
+}
+
+function displayJobs(jobs) {
+    const tableBody = document.querySelector('#jobsTable tbody');
+    tableBody.innerHTML = '';  // Clear any existing rows
+
+    jobs.forEach(job => {
+        const row = document.createElement('tr');
+        
+        row.innerHTML = `
+            <td><input type="checkbox" class="selectJob" data-id="${job.jobkey}" /></td>
+            <td>${job.jobtitle}</td>
+            <td>${job.company}</td>
+            <td>${job.city}, ${job.state}</td>
+            <td>${job.salary}</td>
+            <td>${job.snippet}</td>
+            <td><button onclick="addToJobsCollection('${job.jobkey}')">Add</button></td>
+        `;
+        
+        tableBody.appendChild(row);
+    });
+    
+    enableSearchAndSort();
+}
+
+function enableSearchAndSort() {
+    const searchInput = document.createElement('input');
+    searchInput.setAttribute('placeholder', 'Search job titles...');
+    searchInput.addEventListener('input', filterJobsByTitle);
+    document.getElementById('output').appendChild(searchInput);
+    
+    // Sorting functionality can be added later
+}
+
+function filterJobsByTitle(event) {
+    const query = event.target.value.toLowerCase();
+    const rows = document.querySelectorAll('#jobsTable tbody tr');
+    
+    rows.forEach(row => {
+        const titleCell = row.cells[1];
+        if (titleCell && titleCell.textContent.toLowerCase().includes(query)) {
+            row.style.display = '';
+        } else {
+            row.style.display = 'none';
+        }
+    });
+}
+
+function addToJobsCollection(jobId) {
+    console.log(`Adding job with ID: ${jobId} to Jobs collection...`);
+    // Here you would add the job to your database, e.g., Firebase or other
+}
+
+document.getElementById('selectAll').addEventListener('change', function(event) {
+    const isChecked = event.target.checked;
+    const checkboxes = document.querySelectorAll('.selectJob');
+    checkboxes.forEach(checkbox => {
+        checkbox.checked = isChecked;
+    });
+});
+
+    </script>
+
+<script type="module">
+
+
+    import {
+            db, doc, getDoc, query, updateDoc,
+            setDoc, ref, signInWithPopup, orderBy,
+            collection, getFirestore,writeBatch,
+            uploadBytes, OAuthProvider, arrayUnion, getStorage,
+            signOut, addDoc, increment, onAuthStateChanged,
+            createUserWithEmailAndPassword, signInWithEmailAndPassword,
+            where, getDocs, storage, deleteObject, batch,
+            auth, analytics, deleteDoc, getDownloadURL
+        } from 'https://reelcareer.co/js/module.js';
+
+
+
+        </script>
+
+
+
+</body>
+</html>

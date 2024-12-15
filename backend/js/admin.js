@@ -14,6 +14,7 @@ const navData = {
       "links": [
         { "text": "Dashboard", "href": "https://reelcareer.co/backend/dashboard" },
         { "text": "Get Jobs", "href": "https://reelcareer.co/backend/getjobs" },
+        { "text": "Jobs Indeed", "href": "https://reelcareer.co/backend/getJobsIndeed" },
         { "text": "Get Data", "href": "https://reelcareer.co/backend/getDataAdzuna" },
         { "text": "State Labour Market", "href": "https://reelcareer.co/backend/state-labour-market" },
         { "text": "Tickets", "href": "https://reelcareer.co/backend/tickets" },
