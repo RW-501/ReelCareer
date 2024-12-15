@@ -14,43 +14,12 @@
     
     <!-- Bootstrap CSS -->
        <script src="https://reelcareer.co/public/js/scripts.js"></script>
-       <script src="https://reelcareer.co/public/js/loadScripts.js"></script>
-     
+       </head>
+       <body>
 
-    <script>
-        const app_id = '3ea9a2f1'; // Replace with your Adzuna App ID
-        const app_key = 'e74d84b00c37bbfabe11710ebafcd138'; // Replace with your Adzuna App Key
-    
-        async function fetchAdzunaData(endpoint) {
-            const perPage = document.getElementById('perPage').value || 10;
-            const query = document.getElementById('query').value || 'developer';
-            const state = document.getElementById('state').value || 'California'; // Default to 'California'
-    
-            let url = '';
-    
-            // Choose the URL based on the endpoint
-            if (endpoint === 'job-search') {
-                url = `https://api.adzuna.com/v1/api/jobs/us/search/1?app_id=${app_id}&app_key=${app_key}&results_per_page=${perPage}&what=${query}&location=${state}`;
-            } else if (endpoint === 'labor-market') {
-                url = `https://api.adzuna.com/v1/api/jobs/us/categories?app_id=${app_id}&app_key=${app_key}`;
-            } else if (endpoint === 'job-stats') {
-                url = `https://api.adzuna.com/v1/api/jobs/us/history?app_id=${app_id}&app_key=${app_key}&results_per_page=${perPage}`;
-            }
-    
-            try {
-                // Fetch data from the API
-                document.getElementById('output').innerText = "Fetching data...";
-                const response = await fetch(url);
-                const data = await response.json();
-    
-                // Display data
-                document.getElementById('output').innerText = JSON.stringify(data, null, 2);
-            } catch (error) {
-                console.error("Error fetching data:", error);
-                document.getElementById('output').innerText = "An error occurred. Check the console for details.";
-            }
-        }
-    </script>
+        
+       <script src="https://reelcareer.co/public/js/loadScripts.js"></script>
+   
     
     <style>
         body {
@@ -125,7 +94,42 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 
+     
 
+    <script>
+        const app_id = '3ea9a2f1'; // Replace with your Adzuna App ID
+        const app_key = 'e74d84b00c37bbfabe11710ebafcd138'; // Replace with your Adzuna App Key
+    
+        async function fetchAdzunaData(endpoint) {
+            const perPage = document.getElementById('perPage').value || 10;
+            const query = document.getElementById('query').value || 'developer';
+            const state = document.getElementById('state').value || 'California'; // Default to 'California'
+    
+            let url = '';
+    
+            // Choose the URL based on the endpoint
+            if (endpoint === 'job-search') {
+                url = `https://api.adzuna.com/v1/api/jobs/us/search/1?app_id=${app_id}&app_key=${app_key}&results_per_page=${perPage}&what=${query}&location=${state}`;
+            } else if (endpoint === 'labor-market') {
+                url = `https://api.adzuna.com/v1/api/jobs/us/categories?app_id=${app_id}&app_key=${app_key}`;
+            } else if (endpoint === 'job-stats') {
+                url = `https://api.adzuna.com/v1/api/jobs/us/history?app_id=${app_id}&app_key=${app_key}&results_per_page=${perPage}`;
+            }
+    
+            try {
+                // Fetch data from the API
+                document.getElementById('output').innerText = "Fetching data...";
+                const response = await fetch(url);
+                const data = await response.json();
+    
+                // Display data
+                document.getElementById('output').innerText = JSON.stringify(data, null, 2);
+            } catch (error) {
+                console.error("Error fetching data:", error);
+                document.getElementById('output').innerText = "An error occurred. Check the console for details.";
+            }
+        }
+    </script>
 
 
 
