@@ -15,6 +15,7 @@ const navData = {
         { "text": "Dashboard", "href": "https://reelcareer.co/backend/dashboard" },
         { "text": "Get Jobs", "href": "https://reelcareer.co/backend/getjobs" },
         { "text": "Get Data", "href": "https://reelcareer.co/backend/getDataAdzuna" },
+        { "text": "State Labour Market", "href": "https://reelcareer.co/backend/state-labour-market" },
         { "text": "Tickets", "href": "https://reelcareer.co/backend/tickets" },
         { "text": "Notes", "href": "https://reelcareer.co/backend/notes" },
         { "text": "Title Fix", "href": "https://reelcareer.co/backend/titles-fix" },
