@@ -311,8 +311,8 @@ function filterStates(searchQuery, container) {
   const stateListHTML = filteredStates
     .map(state => `
       <div class="state-city-card " data-job-location="${state}">
-        <a href="https://reelcareer.co/jobs/state/${state}"><i class="fas fa-city"></i></a>
-        <h4><a href="https://reelcareer.co/jobs/state/${state}">${state}</a></h4>
+        <a href="https://reelcareer.co/jobs/state/?s=${state}"><i class="fas fa-city"></i></a>
+        <h4><a href="https://reelcareer.co/jobs/state/?s=${state}">${state}</a></h4>
       </div>
     `)
     .join("");
@@ -344,8 +344,8 @@ async function displayStateListWithSearch(jobsContainer) {
         ${states
           .map(state => `
             <div class="state-city-card" data-job-location="${state}">
-              <a href="https://reelcareer.co/jobs/state/${state}"><i class="fas fa-city"></i></a>
-              <h4><a href="https://reelcareer.co/jobs/state/${state}">${state}</a></h4>
+              <a href="https://reelcareer.co/jobs/state/?s=${state}"><i class="fas fa-city"></i></a>
+              <h4><a href="https://reelcareer.co/jobs/state/?s=${state}">${state}</a></h4>
             </div>
           `)
           .join("")}
@@ -369,8 +369,8 @@ async function displayStateListWithSearch(jobsContainer) {
       const filteredStateHTML = filteredStates
         .map(state => `
           <div class="state-city-card" data-job-location="${state}">
-            <a href="https://reelcareer.co/jobs/state/${state}"><i class="fas fa-city"></i></a>
-            <h4><a href="https://reelcareer.co/jobs/state/${state}">${state}</a></h4>
+            <a href="https://reelcareer.co/jobs/state/?s=${state}"><i class="fas fa-city"></i></a>
+            <h4><a href="https://reelcareer.co/jobs/state/?s=${state}">${state}</a></h4>
           </div>
         `)
         .join("");

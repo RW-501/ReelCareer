@@ -326,7 +326,7 @@
     // Generate HTML for the state list
     const stateListHTML = states
       .map(state => `
-        <a href="https://reelcareer.co/jobs/state/${state}">
+        <a href="https://reelcareer.co/jobs/state/?s=${state}">
           <div class="state-city-card">
             <i class="fas fa-city"></i>
             <h4>${state}</h4>
@@ -404,7 +404,7 @@ async function displayCityList() {
 
             <div class="city-list">
               ${cityList.map(city => `
-                <a href="https://reelcareer.co/jobs/city/${city}">
+                <a href="https://reelcareer.co/jobs/city/?c=${city}">
                   <div class="state-city-card" data-job-location="${city}">
                     <i class="fas fa-city"></i>
                     <h4>${city}</h4>

@@ -3668,6 +3668,6 @@ async function loadJsonData(url) {
   
 }
 
-loadJsonData('https://reelcareer.co/scripts/json/main.js');
+//loadJsonData('https://reelcareer.co/scripts/json/main.js');
 
 

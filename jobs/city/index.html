@@ -328,8 +328,8 @@ async function displayCityList(jobsContainer) {
             <div class="city-list">
               ${cityList.slice(startAfterIndex, startAfterIndex + citiesPerPage).map(city => `
                 <div class="state-city-card" data-job-location="${city}">
-                  <a href="https://reelcareer.co/jobs/city/${city}"><i class="fas fa-city"></i></a>
-                  <h4><a href="https://reelcareer.co/jobs/city/${city}">${city}</a></h4>
+                  <a href="https://reelcareer.co/jobs/city/?c=${city}"><i class="fas fa-city"></i></a>
+                  <h4><a href="https://reelcareer.co/jobs/city/?c=${city}">${city}</a></h4>
                 </div>
               `).join('')}
             </div>
@@ -560,7 +560,7 @@ const cityData = {
     keywords: `${cityName} jobs, careers in ${cityName}, tech jobs in ${cityName}, ${cityName} employment`,
     author: 'ReelCareer Team',
     image: 'https://www.reelcareer.co/images/sq_logo_n_BG_tie_reelx.png',
-    url: `https://reelcareer.co/jobs/city/${cityName}`
+    url: `https://reelcareer.co/jobs/city/?c=${cityName}`
 };
 
 // Call the function with the city data
