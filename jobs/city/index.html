@@ -309,7 +309,7 @@ window.onscroll = function() {
   }
 };
 
-        async function displayCityList(jobsContainer) {
+async function displayCityList(jobsContainer) {
   try {
     const jobsRef = collection(db, "Jobs");
     const snapshot = await getDocs(jobsRef);
@@ -335,7 +335,6 @@ window.onscroll = function() {
     });
 
     // Get the jobs container element
-
     if (!jobsContainer) throw new Error("Jobs container element not found");
 
     // Save jobs data as JSON for filtering
@@ -349,47 +348,51 @@ window.onscroll = function() {
       return acc;
     }, {});
 
-    // Generate HTML for each group
-    const groupedCityHTML = Object.entries(groupedCities)
-  .map(([letter, cityList]) => `  
-    <div id="${letter}" class="city-group ">
-      <div class="city-letter">
-        <h3 class="city-letter-title">${letter} <span class="city-count">(${cityList.length})</span></h3>
-        <hr class="city-divider">
-      </div>
-      <div class="city-list">
-        ${cityList.map(city => `
-          <div class="state-city-card" data-job-location="${city}">
-            <a href="https://reelcareer.co/jobs/city/${city}"><i class="fas fa-city"></i></a>
-            <h4><a href="https://reelcareer.co/jobs/city/${city}">${city}</a></h4>
+    // Set initial page state
+    let startAfterIndex = 0;
+    const citiesPerPage = 25;
+
+    // Function to render cities for the current page
+    function renderCities() {
+      const citiesToDisplay = cities.slice(startAfterIndex, startAfterIndex + citiesPerPage);
+      const groupedCityHTML = Object.entries(groupedCities)
+        .map(([letter, cityList]) => `
+          <div id="${letter}" class="city-group">
+            <div class="city-letter">
+              <h3 class="city-letter-title">${letter} <span class="city-count">(${cityList.length})</span></h3>
+              <hr class="city-divider">
+            </div>
+            <div class="city-list">
+              ${cityList.slice(startAfterIndex, startAfterIndex + citiesPerPage).map(city => `
+                <div class="state-city-card" data-job-location="${city}">
+                  <a href="https://reelcareer.co/jobs/city/${city}"><i class="fas fa-city"></i></a>
+                  <h4><a href="https://reelcareer.co/jobs/city/${city}">${city}</a></h4>
+                </div>
+              `).join('')}
+            </div>
           </div>
-        `).join("")}
-      </div>
-    </div>
-  `).join("");
+        `).join("");
 
-// Inject the HTML into the container
-document.getElementById("cityLetters").innerHTML = groupedCityHTML;
+      jobsContainer.innerHTML = `
+        <div class="jobs-header">
+          <h2 class="header-title">Available Cities</h2>
+          <h4 class="header-subtitle">Total Cities: ${cities.length}</h4>
+          <div id="cityLetters">${groupedCityHTML}</div>
+          <hr class="header-divider">
+        </div>
+        <div id="state-city-body-Container" class="state-city-body">${groupedCityHTML}</div>
+        <button id="seeMoreButton" class="see-more-button" onclick="loadMoreCities()">See More</button>
+      `;
+    }
 
-// Add the scroll-up button HTML to the page
-document.body.innerHTML += `
-  <button id="scrollUpButton" class="scroll-up-button" onclick="scrollToTop()">↑</button>
-`;
+    // Function to load more cities when "See More" is clicked
+    function loadMoreCities() {
+      startAfterIndex += citiesPerPage;
+      renderCities();
+    }
 
-
-    // Inject HTML into the container
-    jobsContainer.innerHTML = `
-      <div class="jobs-header ">
-        <h2 class="header-title">Available Cities</h2>
-        <h4 class="header-subtitle">Total Cities: ${cities.length}
-          </h4>  <div id="cityLetters"></div>
-        <hr class="header-divider">
-      </div>
-      <div id="state-city-body-Container" class="state-city-body">${groupedCityHTML}</div>
-    `;
-     // Call the function to populate the div
-     populateCityLetters();
-
+    // Initial render of the cities
+    renderCities();
 
   } catch (error) {
     console.error("Error fetching city:", error);
@@ -442,52 +445,55 @@ function searchCities(containerId) {
     <div id="state-city-body-Container" class="state-city-body">${jobHTML}</div>
   `;
 }
-      async function fetchJobsByCity(cityName, container) {
-          const jobsContainer = document.getElementById(container);
+let lastVisible = null; // To keep track of the last visible document
 
-          try {
-      const jobsRef = collection(db, "Jobs");
-      const snapshot = await getDocs(jobsRef);
+async function fetchJobsByCity(cityName, container) {
+  const jobsContainer = document.getElementById(container);
 
-
-
+  try {
     console.log("city name ", cityName);
 
-    
-    // Create the query
-    const jobsQuery = query(jobsRef, where("city", "==", cityName));
+    const jobsRef = collection(db, "Jobs");
+
+    // Create the query with limit 25 and startAfter for pagination
+    let jobsQuery = query(jobsRef, where("city", "==", cityName), limit(25));
+
+    if (lastVisible) {
+      jobsQuery = query(jobsRef, where("city", "==", cityName), limit(25), startAfter(lastVisible));
+    }
 
     // Execute the query
     const querySnapshot = await getDocs(jobsQuery);
+
     if (querySnapshot.empty) {
       let h2Header = document.getElementById('city-name');
-      h2Header.style.display= "none"; 
+      h2Header.style.display = "none"; 
 
       const cityHeader = document.getElementById("city-header");
 
       cityHeader.innerHTML = `
-    <div class="search-container ">
-      <h1>Search Jobs by Location</h1>
-      <p class="intro-text">
-        Search or select from our list of locations below to find exciting job opportunities near you.
-      </p>
-      <div class="call-to-action">
-        <p>
-          Start your journey by exploring jobs in various locations. Check out our 
-          <a href="https://reelcareer.co/jobs/locations" class="link">Available Location Page</a>
-          for a complete list of opportunities across industries.
-        </p>
-      </div>
-    </div>
-  `;
+        <div class="search-container">
+          <h1>Search Jobs by Location</h1>
+          <p class="intro-text">
+            Search or select from our list of locations below to find exciting job opportunities near you.
+          </p>
+          <div class="call-to-action">
+            <p>
+              Start your journey by exploring jobs in various locations. Check out our 
+              <a href="https://reelcareer.co/jobs/locations" class="link">Available Location Page</a>
+              for a complete list of opportunities across industries.
+            </p>
+          </div>
+        </div>
+      `;
 
-  displayCityList(jobsContainer);
-  return;
-}
-
+      displayCityList(jobsContainer);
+      return;
+    }
 
     let jobs = [];
 
+    // Create HTML for job cards
     querySnapshot.forEach((doc) => {
       const job = doc.data();
       jobs.push({
@@ -499,31 +505,41 @@ function searchCities(containerId) {
         salary: job.salary,
         description: job.description,
         industry: job.industry,
-         url: `https://reelcareer.co/jobs/job-details?id=${doc.id}`
+        url: `https://reelcareer.co/jobs/job-details?id=${doc.id}`
       });
 
       const jobCard = `
-        <div class="location-job-card " data-job-title="${job.title}" data-job-company="${job.company}" data-job-location="${job.city}, ${job.state}">
+        <div class="location-job-card" data-job-title="${job.title}" data-job-company="${job.company}" data-job-location="${job.city}, ${job.state}">
           <h2>${job.title}</h2>
           <p><strong>Company:</strong> ${job.company}</p>
           <p><strong>Industry:</strong> ${job.industry}</p>
-             <p><strong>Location:</strong> ${job.city}, ${job.state}</p>
+          <p><strong>Location:</strong> ${job.city}, ${job.state}</p>
           <p><strong>Salary:</strong> $${job.salary.toLocaleString()}</p>
           <p><strong>Description:</strong> ${job.description}</p>
           <a href="${job.url}" class="apply-link">View Job</a>
         </div>
       `;
-      document.getElementById('cityListContainer').innerHTML += jobCard;
+      jobsContainer.innerHTML += jobCard;
     });
 
     // Store the jobs data in the container's dataset for future searches
-    document.getElementById('cityListContainer').dataset.jobs = JSON.stringify(jobs);
+    jobsContainer.dataset.jobs = JSON.stringify(jobs);
+
+    // Set the last visible document for pagination
+    lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
+
+    // Create "See More" button if more jobs are available
+    const seeMoreButton = document.createElement('button');
+    seeMoreButton.textContent = 'See More';
+    seeMoreButton.className = 'see-more-button';
+    seeMoreButton.onclick = () => fetchJobsByCity(cityName, container); // Trigger fetching the next batch
+    jobsContainer.appendChild(seeMoreButton);
+
   } catch (error) {
     console.error('Error fetching jobs:', error);
-    document.getElementById('cityListContainer').innerHTML = '<p>Error loading jobs. Please try again later.</p>';
+    jobsContainer.innerHTML = '<p>Error loading jobs. Please try again later.</p>';
   }
 }
-
     document.addEventListener('DOMContentLoaded', async () => {
 
 
