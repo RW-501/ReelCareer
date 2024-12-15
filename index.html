@@ -376,7 +376,7 @@ async function fetchJobListings() {
     let userLocationData = sessionStorage.getItem('userLocation');
 
     // If no results found for tags, fetch by location
-    if (!hasResults(titleSnapshot) && userlocationData.length > 0) {
+    if (!hasResults(titleSnapshot) && userLocationData.length > 0) {
       const locationArray = prepareLocationForFirebase();
       const locationQuery = query(
         jobsQuery,
