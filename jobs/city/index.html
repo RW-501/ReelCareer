@@ -338,21 +338,7 @@ async function displayCityList(jobsContainer) {
   <button id="scrollUpButton" class="scroll-up-button" onclick="scrollToTop()">⬆ Scroll to Top</button>
           </div>
         `).join("");
-// Function to handle scrolling up
-function scrollToTop() {
-  document.getElementById("cityLetters").scrollIntoView({ behavior: "smooth" });
-}
 
-// Function to show or hide the scroll button
-window.onscroll = function() {
-  const button = document.getElementById("scrollUpButton");
-  // Show button when scrolled 100px down
-  if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
-    button.style.display = "block";
-  } else {
-    button.style.display = "none";
-  }
-};
       jobsContainer.innerHTML = `
         <div class="jobs-header">
           <h2 class="header-title">Available Cities</h2>
@@ -514,6 +500,9 @@ async function fetchJobsByCity(cityName, container) {
     jobsContainer.innerHTML = '<p>Error loading jobs. Please try again later.</p>';
   }
 }
+
+
+
     document.addEventListener('DOMContentLoaded', async () => {
 
 
@@ -566,7 +555,21 @@ const cityData = {
 // Call the function with the city data
 setCityMetaTags(cityData);
 
+// Function to handle scrolling up
+function scrollToTop() {
+  document.getElementById("cityLetters").scrollIntoView({ behavior: "smooth" });
+}
 
+// Function to show or hide the scroll button
+window.onscroll = function() {
+  const button = document.getElementById("scrollUpButton");
+  // Show button when scrolled 100px down
+  if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+    button.style.display = "block";
+  } else {
+    button.style.display = "none";
+  }
+};
 
   // Attach search event
   document.getElementById('job-search').addEventListener('input', () => searchCities(container));
