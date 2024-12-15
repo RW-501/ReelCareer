@@ -323,23 +323,22 @@ function filterStates(searchQuery, container) {
 // Function to display state list with a search bar
 async function displayStateListWithSearch(jobsContainer) {
   try {
-    const statesRef = collection(db, "States");  // Reference to the States collection
-    const snapshot = await getDocs(statesRef);
+    // Fetch states from the external JSON file
+    const response = await fetch('https://reelcareer.co/scripts/json/states.json');
+    const statesData = await response.json();
+    const states = statesData.states // Assuming JSON structure: { "states": ["State1", "State2", ...] }
 
-    // Extract and sort unique state names from the States collection
-    const states = [...new Set(snapshot.docs.map(doc => doc.data().name?.trim()))]
-      .filter(state => state && state.length > 0)  // Filter out empty or undefined states
-      .sort();
+      .filter(state => state && state.trim().length > 0) // Remove empty or undefined states
+      .sort(); // Sort states alphabetically
 
-    allJobs = []; // Reset the allJobs array before adding new data
+    let allJobs = []; // Array to hold all job data
 
-    // Fetch jobs related to these states
+    // Fetch job data from the Jobs collection in Firebase
     const jobsRef = collection(db, "Jobs");
     const jobsSnapshot = await getDocs(jobsRef);
-    
+
     jobsSnapshot.forEach(doc => {
       const job = doc.data();
-      // Push the job data only if the state matches any state from the States collection
       if (states.includes(job.state)) {
         allJobs.push({
           city: job.city,
@@ -349,10 +348,13 @@ async function displayStateListWithSearch(jobsContainer) {
       }
     });
 
-    // Inject the search bar and initial state list
+    // Inject the initial state list and search bar
     jobsContainer.innerHTML = `
       <h2>Available States</h2>
       <hr>
+      <div class="search-bar-container">
+        <input type="text" id="searchBar" placeholder="Search by City or State..." />
+      </div>
       <div id="state-list-container" class="state-list">
         ${states
           .map(state => `
@@ -365,24 +367,20 @@ async function displayStateListWithSearch(jobsContainer) {
       </div>
     `;
 
-    // Optionally, inject a search bar for filtering jobs by city or state
-    // Example of injecting a search bar for filtering jobs
-    jobsContainer.innerHTML += `
-      <div class="search-bar-container">
-        <input type="text" id="searchBar" placeholder="Search by City or State..." />
-      </div>
-    `;
-
     // Add event listener for search bar filtering
     const searchBar = document.getElementById("searchBar");
-    searchBar.addEventListener("input", function() {
+    searchBar.addEventListener("input", () => {
       const query = searchBar.value.toLowerCase();
-      const filteredJobs = allJobs.filter(job => 
+
+      // Filter jobs based on the search query
+      const filteredJobs = allJobs.filter(job =>
         job.city.toLowerCase().includes(query) || job.state.toLowerCase().includes(query)
       );
-      
-      // Update the jobs display based on search results
+
+      // Get unique states from filtered jobs
       const filteredStates = [...new Set(filteredJobs.map(job => job.state))].sort();
+
+      // Update the state list display
       const filteredStateHTML = filteredStates
         .map(state => `
           <div class="state-city-card" data-job-location="${state}">
@@ -391,13 +389,13 @@ async function displayStateListWithSearch(jobsContainer) {
           </div>
         `)
         .join("");
-        
+
       document.getElementById("state-list-container").innerHTML = filteredStateHTML;
     });
 
   } catch (error) {
-    console.error("Error fetching states:", error);
-    jobsContainer.innerHTML = `<p>Failed to load State list.</p>`;
+    console.error("Error fetching states or jobs:", error);
+    jobsContainer.innerHTML = `<p>Failed to load state list.</p>`;
   }
 }
 
