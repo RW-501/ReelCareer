@@ -299,6 +299,7 @@ async function displayCityList(jobsContainer) {
   try {
     const response = await fetch('https://reelcareer.co/scripts/json/cities.json');
     const data = await response.json();
+    console.log("data  ",data);
 
     const cities = [...new Set(data.cities)]
       .filter(city => city?.length > 0) // Remove empty or undefined strings
