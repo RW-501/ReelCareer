@@ -877,6 +877,27 @@ if(navBar && navCollapse ){
 
 
 
+// Function to extract the state name from the URL (e.g., /jobs/state/ohio)
+function getKeyFromURL(key) {
+  // Get the full URL
+  const urlParams = new URLSearchParams(window.location.search);
+
+  // Get the value of the 's' parameter
+  let segment = urlParams.get(key);
+
+  if (!segment) return null;  // Return null if no state is found
+
+  // Format the state name (capitalize the first letter of each word)
+  segment = segment
+    .split('-')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(' ');
+
+  return segment;
+}
+
+window.getKeyFromURL = getKeyFromURL;
+  
 
 
 

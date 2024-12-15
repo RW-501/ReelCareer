@@ -209,25 +209,7 @@
 <script>
 
   
-// Function to extract the state name from the URL (e.g., /jobs/state/ohio)
-function getPathFromURL () {
-  const path = window.location.pathname;
 
-  // Extract the part of the path after /state/ and decode it
-  let segment = path.split('/').pop(); // Get the last part of the URL
-  if (!segment) return null;
-
-  // Format the state name (capitalize the first letter of each word)
-  segment = segment
-    .split('-')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-    .join(' ');
-
-  return segment;
-}
-window.getPathFromURL  = getPathFromURL ;
-
-getPathFromURL();
 
 </script>
     <!-- Footer -->
@@ -519,15 +501,13 @@ async function fetchJobsByState(state) {
 
 
 
-  
-
 
 // Initialize page
 document.addEventListener('DOMContentLoaded', () => {
   let container = "stateListContainer";
 
   // Get the state value from the URL
-  const state = getPathFromURL();
+  const state = getKeyFromURL("s");
   if(state){
 
 // Set the new title

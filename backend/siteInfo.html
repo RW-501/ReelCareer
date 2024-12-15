@@ -312,16 +312,16 @@ ${JSON.stringify(categoryData, null, 2)}
 
         switch (type) {
           case "cities":
-            urlPath = `https://reelcareer.co/jobs/city/${value}`;
+            urlPath = `https://reelcareer.co/jobs/city/?c=${value}`;
             break;
           case "states":
-            urlPath = `https://reelcareer.co/jobs/state/${value}`;
+            urlPath = `https://reelcareer.co/jobs/state/?s=${value}`;
             break;
           case "industries":
-            urlPath = `https://reelcareer.co/jobs/industry/${value}`;
+            urlPath = `https://reelcareer.co/jobs/industry/?i=${value}`;
             break;
           case "categories":
-            urlPath = `https://reelcareer.co/jobs/categories/${value}`;
+            urlPath = `https://reelcareer.co/jobs/categories/?c=${value}`;
             break;
         }
 
