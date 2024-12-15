@@ -95,7 +95,6 @@
 
 
      
-
     <script>
         const app_id = '3ea9a2f1'; // Replace with your Adzuna App ID
         const app_key = 'e74d84b00c37bbfabe11710ebafcd138'; // Replace with your Adzuna App Key
@@ -113,6 +112,7 @@
             } else if (endpoint === 'labor-market') {
                 url = `https://api.adzuna.com/v1/api/jobs/us/categories?app_id=${app_id}&app_key=${app_key}`;
             } else if (endpoint === 'job-stats') {
+                // Assume job stats data (you can replace this with a more specific Adzuna endpoint if available)
                 url = `https://api.adzuna.com/v1/api/jobs/us/history?app_id=${app_id}&app_key=${app_key}&results_per_page=${perPage}`;
             }
     
@@ -124,6 +124,39 @@
     
                 // Display data
                 document.getElementById('output').innerText = JSON.stringify(data, null, 2);
+                
+                // If you're looking for specific metrics like age breakdown, unemployment rate, etc.
+                // You would need to retrieve that data from another API source or filter within the data.
+                // For example, assuming the data contains these metrics in some format:
+                const marketData = {
+                    ageBreakdown: data.ageBreakdown || "Not Available",
+                    genderBreakdown: data.genderBreakdown || "Not Available",
+                    educationBreakdown: data.educationBreakdown || "Not Available",
+                    employmentStatus: data.employmentStatus || "Not Available",
+                    unemploymentRate: data.unemploymentRate || "Not Available",
+                    jobCreationTrends: data.jobCreationTrends || "Not Available",
+                    seasonalIndustryImpact: data.seasonalIndustryImpact || "Not Available",
+                    stateEconomicGrowth: data.stateEconomicGrowth || "Not Available",
+                    localTrainingPrograms: data.localTrainingPrograms || "Not Available",
+                    skillsInDemand: data.skillsInDemand || "Not Available",
+                    topInstitutions: data.topInstitutions || "Not Available",
+                    remoteJobOpportunities: data.remoteJobOpportunities || "Not Available",
+                    hybridWorkRates: data.hybridWorkRates || "Not Available",
+                    remoteWorkImpact: data.remoteWorkImpact || "Not Available",
+                    minimumWage: data.minimumWage || "Not Available",
+                    employmentIncentives: data.employmentIncentives || "Not Available",
+                    unionActivity: data.unionActivity || "Not Available",
+                    mostSearchedTitles: data.mostSearchedTitles || "Not Available",
+                    averageTimeToHire: data.averageTimeToHire || "Not Available",
+                    jobSeekerPreferences: data.jobSeekerPreferences || "Not Available",
+                    topHiringCompanies: data.topHiringCompanies || "Not Available",
+                    industriesWithTurnover: data.industriesWithTurnover || "Not Available",
+                    emergingIndustries: data.emergingIndustries || "Not Available",
+                };
+    
+                // Output specific breakdown data if available
+                document.getElementById('output').innerText = JSON.stringify(marketData, null, 2);
+    
             } catch (error) {
                 console.error("Error fetching data:", error);
                 document.getElementById('output').innerText = "An error occurred. Check the console for details.";
