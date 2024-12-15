@@ -205,6 +205,38 @@
             auth, analytics, deleteDoc, getDownloadURL
         } from 'https://reelcareer.co/js/module.js';
 
+
+
+
+  // Function to populate div with A-Z anchor tags
+  function populateCityLetters() {
+      const container = document.getElementById('cityLetters');
+      container.innerHTML = ''; // Clear the container
+      
+      const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'; // Letters A-Z
+      
+      // Loop through the alphabet and create <a> tags
+      for (let letter of alphabet) {
+        const anchor = document.createElement('a'); // Create <a> element
+        anchor.href = `#${letter}`; // Set the href attribute
+        anchor.textContent = letter; // Set the text content
+        anchor.style.margin = '5px'; // Add spacing between letters
+        anchor.style.textDecoration = 'none'; // Optional: remove underline
+        anchor.style.color = 'blue'; // Optional: set color
+        
+        container.appendChild(anchor); // Append <a> to the container
+      }
+    }
+    
+    // Call the function to populate the div
+    populateCityLetters();
+
+
+
+
+
+
+
         function setCityMetaTags(cityData) {
     // Update the document title
     document.title = `ReelCareer.co | Jobs in ${cityData.name}`;
@@ -327,7 +359,8 @@
     jobsContainer.innerHTML = `
       <div class="jobs-header ">
         <h2 class="header-title">Available Cities</h2>
-        <h4 class="header-subtitle">Total Cities: ${cities.length}</h4>
+        <h4 class="header-subtitle">Total Cities: ${cities.length}
+          </h4>  <div id="cityLetters"></div>
         <hr class="header-divider">
       </div>
       <div id="state-city-body-Container" class="state-city-body">${groupedCityHTML}</div>
