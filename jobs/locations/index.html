@@ -324,7 +324,7 @@
       const stateListHTML = states
   .filter(state => state && state.trim() !== "") // Filter out null, empty, or whitespace-only states
   .map(state => `
-   <a href="https://reelcareer.co/jobs/state#${state}"> <div class="state-city-card ">
+   <a href="https://reelcareer.co/jobs/state/${state}"> <div class="state-city-card ">
       <i class="fas fa-city"></i>
       <h4>${state}</h4></a>
     </div>`)
@@ -395,7 +395,7 @@ async function displayCityList() {
 
             <div class="city-list">
               ${cityList.map(city => `
-                <a href="https://reelcareer.co/jobs/city#${city}">
+                <a href="https://reelcareer.co/jobs/city/${city}">
                   <div class="state-city-card" data-job-location="${city}">
                     <i class="fas fa-city"></i>
                     <h4>${city}</h4>
@@ -489,7 +489,7 @@ getSimilarJobs();
       "description": "Discover top jobs in [State Name] with ReelCareer. Connect with employers near you.",
       "mainEntity": {
         "@type": "SearchAction",
-        "target": "https://www.reelcareer.co/jobs/state#{search_term_string}",
+        "target": "https://www.reelcareer.co/jobs/state/{search_term_string}",
         "query-input": "required name=search_term_string"
       }
     }

@@ -11,6 +11,35 @@
         button { margin: 10px 0; padding: 10px; cursor: pointer; background: #4CAF50; color: #fff; border: none; border-radius: 5px; }
         button:hover { background: #45a049; }
         pre { background: #f4f4f4; padding: 10px; border-radius: 5px; overflow-x: auto; }
+    
+        h1 {
+      color: #333;
+    }
+    button {
+      margin: 5px;
+      padding: 10px 15px;
+      cursor: pointer;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 5px;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    textarea {
+      width: 100%;
+      height: 250px;
+      margin-top: 10px;
+      font-size: 14px;
+      line-height: 1.5;
+      padding: 10px;
+    }
+    .container {
+      margin-bottom: 20px;
+    }
+    
+    
     </style>
 </head>
 <body>
@@ -18,14 +47,55 @@
     <script defer src="https://reelcareer.co/backend/js/admin.js"></script>
 
     <h1>Admin Job Scanner</h1>
-    <button onclick="runJobScan()">Run Job Scan</button>
-    <button onclick="uploadToFirestore('States')">Upload States</button>
-    <button onclick="uploadToFirestore('Cities')">Upload Cities</button>
-    <button onclick="uploadToFirestore('Industries')">Upload Industries</button>
-    <button onclick="uploadToFirestore('Categories')">Upload Categories</button>
-    <button onclick="sendTotalsToReelCareerInfo()">Send Totals to ReelCareerInfo</button>
+
+<hr>
+
+<main id="main-content">
+
+    <h3>Generate Site Maps</h3>
+
+    <div class="container">
+        <button onclick="generateSitemap('cities')">Generate Cities Sitemap</button>
+        <button onclick="generateSitemap('states')">Generate States Sitemap</button>
+        <button onclick="generateSitemap('industries')">Generate Industries Sitemap</button>
+        <button onclick="generateSitemap('categories')">Generate Categories Sitemap</button>
+      </div>
+    <h3>Export Database</h3>
+
+    <div class="container">
+        <button onclick="exportCollectionData('Cities')">Export Cities</button>
+        <button onclick="exportCollectionData('States')">Export States</button>
+        <button onclick="exportCollectionData('Industries')">Export Industries</button>
+        <button onclick="exportCollectionData('Categories')">Export Categories</button>
+      
+    </div>
+    <h3>Scan Database</h3>
+
+    <div class="container">
+        <button onclick="runJobScan()">Run Job Scan</button>
+        <button onclick="uploadToFirestore('States')">Upload States</button>
+        <button onclick="uploadToFirestore('Cities')">Upload Cities</button>
+        <button onclick="uploadToFirestore('Industries')">Upload Industries</button>
+        <button onclick="uploadToFirestore('Categories')">Upload Categories</button>
+        <button onclick="sendTotalsToReelCareerInfo()">Send Totals to ReelCareerInfo</button>
+
+    </div>
+
     <h2>Job Scan Results</h2>
     <pre id="output">Click "Run Job Scan" to see results here...</pre>
+
+    <div class="container">
+
+  <!-- Textarea to display the sitemap -->
+  <textarea id="sitemapOutput" placeholder="Generated Sitemap XML will appear here..."></textarea>
+  
+  <button onclick="copyToClipboard()">Copy to Clipboard</button>
+
+ </div>
+
+</main>
+
+
 
     <!-- Footer -->
     <footer id="dynamic-footer"></footer>
@@ -171,15 +241,126 @@ ${JSON.stringify(categoryData, null, 2)}
             showToast('Totals successfully sent to ReelCareerInfo collection!');
         }
 
+        async function exportCollectionData(collectionName) {
+  try {
+    const collectionRef = collection(db, collectionName);
+    const snapshot = await getDocs(collectionRef);
+
+    // Structure the data as an array of objects
+    const data = snapshot.docs.map(doc => ({
+      name: doc.id, // The doc ID
+      totalJobs: doc.data().totalJobs || 0 // Default to 0 if totalJobs doesn't exist
+    }));
+
+    // Convert to JSON format
+    const jsonData = JSON.stringify(data, null, 2);
+
+    console.log(`Data from ${collectionName} collection:`, jsonData);
+
+    const outputTextarea = document.getElementById("sitemapOutput");
+    outputTextarea.value = jsonData;
+
+
+    return data; // Return the data if needed for further processing
+  } catch (error) {
+    console.error(`Error fetching data from ${collectionName} collection:`, error);
+  }
+}
+
+// Fetch and log data for States, Industries, and Categories
+(async () => {
+    await exportCollectionData("Cities");
+    await exportCollectionData("States");
+    await exportCollectionData("Industries");
+  await exportCollectionData("Categories");
+})();
 
 
 
+
+    // Function to fetch JSON data
+    async function fetchData() {
+      try {
+        const response = await fetch("https://reelcareer.co/scripts/json/main.json");
+        if (!response.ok) throw new Error("Failed to fetch JSON data.");
+        return await response.json();
+      } catch (error) {
+        console.error("Error fetching JSON:", error);
+        return null;
+      }
+    }
+
+    // Get the current date in YYYY-MM-DD format
+    function getCurrentDate() {
+      const today = new Date();
+      return today.toISOString().split('T')[0];
+    }
+
+    // Generate Sitemap XML based on type
+    async function generateSitemap(type) {
+      const jsonData = await fetchData();
+      const outputTextarea = document.getElementById("sitemapOutput");
+
+      if (!jsonData || !jsonData[type]) {
+        outputTextarea.value = `Error: Failed to load ${type} data from JSON.`;
+        return;
+      }
+
+      const urls = jsonData[type].map(item => {
+        const value = encodeURIComponent(item.name || item); // Handle arrays of strings or objects with 'name'
+        let urlPath = "";
+
+        switch (type) {
+          case "cities":
+            urlPath = `https://reelcareer.co/jobs/city/${value}`;
+            break;
+          case "states":
+            urlPath = `https://reelcareer.co/jobs/state/${value}`;
+            break;
+          case "industries":
+            urlPath = `https://reelcareer.co/jobs/industry/${value}`;
+            break;
+          case "categories":
+            urlPath = `https://reelcareer.co/jobs/categories/${value}`;
+            break;
+        }
+
+        return `
+<url>
+  <loc>${urlPath}</loc>
+  <lastmod>${getCurrentDate()}</lastmod>
+  <changefreq>weekly</changefreq>
+  <priority>0.8</priority>
+</url>`;
+      });
+
+      // Generate full XML content
+      const sitemapXML = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.join("\n")}\n</urlset>`;
+
+      // Display the output
+      outputTextarea.value = sitemapXML;
+    }
+ 
+    // Function to copy text from textarea to clipboard
+    function copyToClipboard() {
+      const textarea = document.getElementById("sitemapOutput");
+      textarea.select();
+      document.execCommand("copy");
+      showToast("Sitemap copied to clipboard!");
+    }
 
   // Make sure functions are accessible globally (for the button clicks)
 window.runJobScan = runJobScan;
   window.uploadToFirestore = uploadToFirestore;
   window.sendTotalsToReelCareerInfo = sendTotalsToReelCareerInfo;
+  window.exportCollectionData = exportCollectionData;
 
+
+  window.generateSitemap = generateSitemap;
+  window.copyToClipboard = copyToClipboard;
+  window.generateSitemap = generateSitemap;
+
+  
        
 
 

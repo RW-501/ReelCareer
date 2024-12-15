@@ -360,8 +360,8 @@ window.onscroll = function() {
       <div class="city-list">
         ${cityList.map(city => `
           <div class="state-city-card" data-job-location="${city}">
-            <a href="https://reelcareer.co/jobs/city#${city}"><i class="fas fa-city"></i></a>
-            <h4><a href="https://reelcareer.co/jobs/city#${city}">${city}</a></h4>
+            <a href="https://reelcareer.co/jobs/city/${city}"><i class="fas fa-city"></i></a>
+            <h4><a href="https://reelcareer.co/jobs/city/${city}">${city}</a></h4>
           </div>
         `).join("")}
       </div>
@@ -525,13 +525,22 @@ function searchCities(containerId) {
 }
 
 
-function getHashFromURL() {
-  const hash = window.location.hash;
+function getPathFromURL() {
+// Get the URL path
+const path = window.location.pathname;
 
-  // Remove the '#' symbol, decode the URL, and clean up unwanted characters
-  let segments = hash ? decodeURIComponent(hash.substring(1)).replace(/[^\w\s-]/g, '') : null;
+// Extract the last part after the last '/' and decode it
+let segment = path ? decodeURIComponent(path.split('/').filter(Boolean).pop()).replace(/[^\w\s-]/g, '') : null;
 
-  segments = segments ? segments.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' '): null;
+// Format the extracted value (capitalize each word)
+segment = segment
+  ? segment
+      .split(' ')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(' ')
+  : null;
+
+console.log(segment); // Outputs the formatted value
 
 if(segments){
 
@@ -545,7 +554,7 @@ const cityData = {
     keywords: `${segments} jobs, careers in ${segments}, tech jobs in ${segments}, ${segments} employment`,
     author: 'ReelCareer Team',
     image: 'https://www.reelcareer.co/images/sq_logo_n_BG_tie_reelx.png',
-    url: `https://reelcareer.co/jobs/city/#${segments}`
+    url: `https://reelcareer.co/jobs/city/${segments}`
 };
 
 // Call the function with the city data
@@ -560,7 +569,7 @@ setCityMetaTags(cityData);
 
       let container = "cityListContainer";
 
-const cityName = getHashFromURL() || "City";
+const cityName = getPathFromURL() || "City";
 if (cityName !== "City") {
 //  container = "state-city-body-Container";
 
@@ -620,7 +629,7 @@ document.addEventListener("DOMContentLoaded", () => {
           "description": "Discover top jobs in [City Name] with ReelCareer. Connect with employers near you.",
           "mainEntity": {
             "@type": "SearchAction",
-            "target": "https://www.reelcareer.co/jobs/city#{search_term_string}",
+            "target": "https://www.reelcareer.co/jobs/city/{search_term_string}",
             "query-input": "required name=search_term_string"
           }
         }

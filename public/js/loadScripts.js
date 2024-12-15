@@ -13,14 +13,14 @@ function formatLocation(location, options = {}) {
     }
     if (part === "state") {
       const state = location[1] || "Unknown State";
-      return `<a class="loc-link" href="https://reelcareer.co/jobs/state#${encodeURIComponent(state.toLowerCase().trim())}">${state}</a>`;
+      return `<a class="loc-link" href="https://reelcareer.co/jobs/state/${encodeURIComponent(state.toLowerCase().trim())}">${state}</a>`;
     }
     if (part === "county") {
       return location[2] || "Unknown County";
     }
     if (part === "city") {
       const city = location[location.length - 1] || "Unknown City";
-      return `<a class="loc-link" href="https://reelcareer.co/jobs/city#${encodeURIComponent(city.toLowerCase().trim())}">${city}</a>`;
+      return `<a class="loc-link" href="https://reelcareer.co/jobs/city/${encodeURIComponent(city.toLowerCase().trim())}">${city}</a>`;
     }
 
     // Default: Create links for each relevant part
@@ -28,10 +28,10 @@ function formatLocation(location, options = {}) {
       .map((part, index) => {
         if (index === 1) {
           // State link
-          return `<a class="loc-link" href="https://reelcareer.co/jobs/state#${encodeURIComponent(part.toLowerCase().trim())}">${part}</a>`;
+          return `<a class="loc-link" href="https://reelcareer.co/jobs/state/${encodeURIComponent(part.toLowerCase().trim())}">${part}</a>`;
         } else if (index === location.length - 1) {
           // City link
-          return `<a class="loc-link" href="https://reelcareer.co/jobs/city#${encodeURIComponent(part.toLowerCase().trim())}">${part}</a>`;
+          return `<a class="loc-link" href="https://reelcareer.co/jobs/city/${encodeURIComponent(part.toLowerCase().trim())}">${part}</a>`;
         } else {
           // Regular text
           return part;
@@ -43,7 +43,7 @@ function formatLocation(location, options = {}) {
       return "Not specified";
     }
     // Directly format string
-    return `<a class="loc-link" href="https://reelcareer.co/jobs/location#${encodeURIComponent(location.toLowerCase().trim())}">${location}</a>`;
+    return `<a class="loc-link" href="https://reelcareer.co/jobs/location/${encodeURIComponent(location.toLowerCase().trim())}">${location}</a>`;
   }
 
   return "Not specified";

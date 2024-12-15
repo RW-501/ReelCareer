@@ -378,12 +378,22 @@ async function fetchJobsByState(state) {
 }
 
 // Helper function to get the state name from URL
-function getHashFromURL() {
-  const hash = window.location.hash;
-  // Remove the '#' symbol, decode the URL, and clean up unwanted characters
-  let segments = hash ? decodeURIComponent(hash.substring(1)).replace(/[^\w\s-]/g, '') : null;
+function getPathFromURL() {
+// Get the URL path
+const path = window.location.pathname;
 
-  segments = segments ? segments.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' '): null;
+// Extract the last part after the last '/' and decode it
+let segment = path ? decodeURIComponent(path.split('/').filter(Boolean).pop()).replace(/[^\w\s-]/g, '') : null;
+
+// Format the extracted value (capitalize each word)
+segment = segment
+  ? segment
+      .split(' ')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(' ')
+  : null;
+
+console.log(segment); // Outputs the formatted value
 
   return segments;
 }
@@ -395,7 +405,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let container = "stateListContainer";
 
-const state = getHashFromURL() || "State";
+const state = getPathFromURL() || "State";
 if (state !== "State") {
   container = "state-list-Container";
 
