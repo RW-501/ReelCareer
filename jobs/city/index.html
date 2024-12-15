@@ -524,28 +524,6 @@ function searchCities(containerId) {
   }
 }
 
-let segments = getKeyFromURL("c");
-
-if(segments){
-
-  // Set the new title
-document.title = `ReelCareer.co | Search for Jobs in the City of ${segments} `;
-
-// Example city data
-const cityData = {
-    name: `${segments}`,
-    description: `Find your next career opportunity in ${segments}, the tech hub of Texas, with jobs across industries!`,
-    keywords: `${segments} jobs, careers in ${segments}, tech jobs in ${segments}, ${segments} employment`,
-    author: 'ReelCareer Team',
-    image: 'https://www.reelcareer.co/images/sq_logo_n_BG_tie_reelx.png',
-    url: `https://reelcareer.co/jobs/city/${segments}`
-};
-
-// Call the function with the city data
-setCityMetaTags(cityData);
-
-
-}
     document.addEventListener('DOMContentLoaded', async () => {
 
 
@@ -581,6 +559,24 @@ cityHeader.innerHTML = cityHeader.innerHTML.replaceAll("[City Name]", cityName);
 fetchJobsByCity(cityName,container );
 
       
+
+  // Set the new title
+document.title = `ReelCareer.co | Search for Jobs in the City of ${cityName} `;
+
+// Example city data
+const cityData = {
+    name: `${cityName}`,
+    description: `Find your next career opportunity in ${cityName}, the tech hub of Texas, with jobs across industries!`,
+    keywords: `${cityName} jobs, careers in ${cityName}, tech jobs in ${cityName}, ${cityName} employment`,
+    author: 'ReelCareer Team',
+    image: 'https://www.reelcareer.co/images/sq_logo_n_BG_tie_reelx.png',
+    url: `https://reelcareer.co/jobs/city/${cityName}`
+};
+
+// Call the function with the city data
+setCityMetaTags(cityData);
+
+
 
   // Attach search event
   document.getElementById('job-search').addEventListener('input', () => searchCities(container));
