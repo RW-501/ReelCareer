@@ -206,7 +206,38 @@
 
     </main>
 
+<script>
 
+  
+// Helper function to get the state name from URL
+function getPathFromURL() {
+  // Get the URL path
+  const path = window.location.pathname;
+
+  // Extract the last part after the last '/' and decode it
+  let segment = path ? decodeURIComponent(path.split('/').filter(Boolean).pop()).replace(/[^\w\s-]/g, '') : null;
+
+  // If there is no state in the URL, return null
+  if (!segment) {
+    return null;
+  }
+
+  // Format the extracted value (capitalize the first letter of each word)
+  segment = segment
+    ? segment
+        .split(' ')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+        .join(' ')
+    : null;
+
+  console.log(segment); // Outputs the formatted value
+
+  return segment;
+}
+
+getPathFromURL();
+
+</script>
     <!-- Footer -->
     <footer id="dynamic-footer"></footer>
     
@@ -494,55 +525,6 @@ async function fetchJobsByState(state) {
   }
 }
 
-// Helper function to get the state name from URL
-function getPathFromURL() {
-  // Get the URL path
-  const path = window.location.pathname;
-
-  // Extract the last part after the last '/' and decode it
-  let segment = path ? decodeURIComponent(path.split('/').filter(Boolean).pop()).replace(/[^\w\s-]/g, '') : null;
-
-  // If there is no state in the URL, return null
-  if (!segment) {
-    return null;
-  }
-
-  // Format the extracted value (capitalize the first letter of each word)
-  segment = segment
-    ? segment
-        .split(' ')
-        .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-        .join(' ')
-    : null;
-
-  console.log(segment); // Outputs the formatted value
-
-  return segment;
-}
-
-
-let segments = getPathFromURL();
-
-  if(segments){
-
-  // Set the new title
-document.title = `ReelCareer.co | Search for Jobs in the State of ${segments} `;
-
-// Example state data
-const stateData = {
-    name: `${segments}`,
-    description: `Discover thousands of job openings across industries in ${segments}. From tech to healthcare, find your next career move here!`,
-    keywords: `${segments} jobs, careers in ${segments}, tech jobs in ${segments}, ${segments} employment`,
-    author: `ReelCareer Team`,
-    image: `https://www.reelcareer.co/images/sq_logo_n_BG_tie_reelx.png`,
-    url: `https://reelcareer.co/jobs/state/${segments}`
-};
-
-// Call the function with the state data
-setStatesMetaTags(stateData);
-
-
-  }
 
 
   
@@ -554,7 +536,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Get the state value from the URL
   const state = getPathFromURL();
+  if(state){
 
+// Set the new title
+document.title = `ReelCareer.co | Search for Jobs in the State of ${state} `;
+
+// Example state data
+const stateData = {
+  name: `${state}`,
+  description: `Discover thousands of job openings across industries in ${state}. From tech to healthcare, find your next career move here!`,
+  keywords: `${state} jobs, careers in ${state}, tech jobs in ${state}, ${state} employment`,
+  author: `ReelCareer Team`,
+  image: `https://www.reelcareer.co/images/sq_logo_n_BG_tie_reelx.png`,
+  url: `https://reelcareer.co/jobs/state/${state}`
+};
+
+// Call the function with the state data
+setStatesMetaTags(stateData);
+
+
+}
   // If the state is not "State" or null, update the container and header
   if (state && state !== "State") {
     container = "state-list-Container";
