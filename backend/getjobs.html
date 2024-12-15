@@ -52,6 +52,14 @@
 
     <h1>Job Fetcher and Uploader</h1>
     <h2 id="TotalJobsAdded" class="mt-4 mb-4"></h2>
+<div class="controls">
+
+    <!-- Buttons to Start and Stop the process -->
+<button id="startButton">Start</button>
+<button id="stopButton" disabled>Stop</button>
+</div>
+
+<div class="container">
     <input type="text" id="query" placeholder="Enter job query" />
 
     <select id="query2">
@@ -321,7 +329,9 @@
     <button id="addJobButton">Add Selected Job</button>
     <button id="autoAddButton">Auto Add Jobs</button>
     <button id="stopAutoAddButton" class="hidden">Stop Auto Add</button>
-    
+</div>
+
+
     <div id="loading">Loading...</div>
     <div id="autoAddProgress"></div>
     <div id="messageArea"><span id="messageAreaText"></span></div>
@@ -658,8 +668,65 @@ function toggleDetails(button) {
 }
 
 
+const values = ["New York", "Los Angeles", "Software Developer", "Texas", "Miami"]; // Array of states, cities, or occupations
 
 
+// Global variable to track whether the process is running
+let isProcessing = false;
+let processTimeout;
+
+// Function to automate querying and clicking "selectAll"
+function queryAndClick(valuesArray) {
+    let index = 0;
+
+    function processNext() {
+        if (!isProcessing) {
+            showToast("Process stopped.");
+            return; // Exit if process is stopped
+        }
+
+        if (index >= valuesArray.length) {
+            showToast("All values processed.");
+            return; // Exit if we've processed all values
+        }
+
+        const queryInput = document.getElementById("query"); // Target query input field
+        const selectAllButton = document.getElementById("selectAll"); // Target button to click
+
+        if (queryInput && selectAllButton) {
+            queryInput.value = valuesArray[index]; // Set input field value
+            showToast(`Processing: ${valuesArray[index]}`);
+
+            selectAllButton.click(); // Click the "selectAll" button
+
+            // Move to the next value after 5 seconds
+            processTimeout = setTimeout(() => {
+                index++;
+                processNext();
+            }, 5000);
+        } else {
+            showToast("Required elements not found: Check 'query' input and 'selectAll' button IDs.");
+        }
+    }
+
+    processNext(); // Start processing
+}
+
+// Start button handler
+document.getElementById("startButton").addEventListener("click", () => {
+    if (isProcessing) return; // Prevent starting if already processing
+    isProcessing = true;
+    document.getElementById("stopButton").disabled = false; // Enable stop button
+    queryAndClick(values);
+});
+
+// Stop button handler
+document.getElementById("stopButton").addEventListener("click", () => {
+    isProcessing = false;
+    document.getElementById("stopButton").disabled = true; // Disable stop button after stopping
+    clearTimeout(processTimeout); // Clear the timeout to stop the process
+    showToast("Process stopped manually.");
+});
 
 
 
