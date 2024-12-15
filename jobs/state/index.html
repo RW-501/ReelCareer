@@ -550,46 +550,46 @@ setStatesMetaTags(stateData);
 
 // Initialize page
 document.addEventListener('DOMContentLoaded', () => {
-
-
   let container = "stateListContainer";
 
-const state = getPathFromURL() || "State";
-if (state !== "State") {
-  container = "state-list-Container";
+  // Get the state value from the URL
+  const state = getPathFromURL();
 
-  // Update the header to show "Jobs In [State Name]"
-  const h2Header = document.getElementById('state-name');
-  if (h2Header) {
-    h2Header.textContent = `Jobs In ${state}`; // Update header text
-    h2Header.style.display = "block"; // Ensure the header is visible
+  // If the state is not "State" or null, update the container and header
+  if (state && state !== "State") {
+    container = "state-list-Container";
+
+    // Update the header to show "Jobs In [State Name]"
+    const h2Header = document.getElementById('state-name');
+    if (h2Header) {
+      h2Header.textContent = `Jobs In ${state}`; // Update header text
+      h2Header.style.display = "block"; // Ensure the header is visible
+    }
+  } else {
+    // Hide the header when no specific state is selected
+    const h2Header = document.getElementById('state-name');
+    if (h2Header) {
+      h2Header.style.display = "none";
+    }
   }
-} else {
-  // Hide the header when no specific state is selected
-  const h2Header = document.getElementById('state-name');
-  if (h2Header) {
-    h2Header.style.display = "none";
+
+  // If a state is selected, set meta tags for SEO
+  if (state) {
+    document.title = `ReelCareer.co | Search for Jobs in the State of ${state}`;
+
+    // Set the meta tags for the state
+    const stateData = {
+      name: state,
+      description: `Discover thousands of job openings across industries in ${state}. From tech to healthcare, find your next career move here!`,
+      keywords: `${state} jobs, careers in ${state}, tech jobs in ${state}, ${state} employment`,
+      author: `ReelCareer Team`,
+      image: `https://www.reelcareer.co/images/sq_logo_n_BG_tie_reelx.png`,
+      url: `https://reelcareer.co/jobs/state/${state}`
+    };
+
+    // Set the state meta tags
+    setStatesMetaTags(stateData);
   }
-}
-
-
-  document.getElementById("breadcrumb-active-title").textContent = state;
-
-
-  const stateHeader = document.getElementById("state-header");
-  stateHeader.innerHTML = stateHeader.innerHTML.replaceAll("[State Name]", state);
-
-
-
-
-  fetchJobsByState(state);
-
-  // Add search functionality
-  const searchInput = document.getElementById('job-search');
-  searchInput.addEventListener('input', (e) => {
-    const searchQuery = e.target.value;
-    filterStates(searchQuery, container);
-  });
 });
 
 async function generateJobSchemas(querySnapshot) {
