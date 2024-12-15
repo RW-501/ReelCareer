@@ -157,7 +157,7 @@
         const applicationCountElement = document.getElementById('applicationCount');
         const analyticsCountElement = document.getElementById('analyticsCount');
 
-        const reelCareerInfoRef = doc(db, 'ReelCareerInfo', 'SiteInfo');  // Reference to the SiteInfo document
+        const reelCareerInfoRef = doc(db, 'ReelCareerInfo', 'JobTotals');  // Reference to the SiteInfo document
 
         // Get the document with the totals
         getDoc(reelCareerInfoRef).then((docSnap) => {
@@ -170,7 +170,7 @@
                 applicationCountElement.textContent = data.totalApplications || '0';
                 analyticsCountElement.textContent = data.totalAnalytics || '0';
 
-                console.log('Fetched Totals from SiteInfo:');
+                console.log('Fetched Totals from JobTotals:');
                 console.log('Total Users:', data.totalUsers);
                 console.log('Total Jobs:', data.totalJobs);
                 console.log('Total Applications:', data.totalApplications);
