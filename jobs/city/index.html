@@ -338,7 +338,6 @@ async function displayCityList(jobsContainer) {
   <button id="scrollUpButton" class="scroll-up-button" onclick="scrollToTop()">⬆ Scroll to Top</button>
           </div>
         `).join("");
-        populateCityLetters();
 
       jobsContainer.innerHTML = `
         <div class="jobs-header">
@@ -352,6 +351,7 @@ async function displayCityList(jobsContainer) {
     }
     // Render the first set of cities
     renderCities();
+    populateCityLetters();
 
 // Function to handle scrolling up
 function scrollToTop() {
