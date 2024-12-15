@@ -1329,7 +1329,7 @@ async function fetchJobListings() {
 
       // Handle unique job listings and render them
       jobListings.forEach(job => createJobCard(job, featuredJobContainer));
-      console.log("Filtered Job Listings:", jobListings);
+      //console.log("Filtered Job Listings:", jobListings);
     } else {
       console.log("No jobs found or no more jobs to load.");
     }
@@ -1351,11 +1351,11 @@ function displayJobListings(jobListings) {
   const jobContainer = document.getElementById('jobListings');
   jobContainer.innerHTML = ''; // Clear existing listings
   
-  console.log("displayJobListings:", jobListings);
+ // console.log("displayJobListings:", jobListings);
 
   // Ensure jobListings is an array
   if (!Array.isArray(jobListings)) {
-    console.error('Error: jobListings is not defined or not an array:', jobListings);
+   // console.error('Error: jobListings is not defined or not an array:', jobListings);
     return;
   }
 
