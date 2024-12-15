@@ -11,28 +11,29 @@
     <script>
         const app_id = '3ea9a2f1'; // Replace with your Adzuna App ID
         const app_key = 'e74d84b00c37bbfabe11710ebafcd138'; // Replace with your Adzuna App Key
-
+    
         async function fetchAdzunaData(endpoint) {
             const perPage = document.getElementById('perPage').value || 10;
             const query = document.getElementById('query').value || 'developer';
-
+            const state = document.getElementById('state').value || 'California'; // Default to 'California'
+    
             let url = '';
-
+    
             // Choose the URL based on the endpoint
             if (endpoint === 'job-search') {
-                url = `https://api.adzuna.com/v1/api/jobs/us/search/1?app_id=${app_id}&app_key=${app_key}&results_per_page=${perPage}&what=${query}`;
+                url = `https://api.adzuna.com/v1/api/jobs/us/search/1?app_id=${app_id}&app_key=${app_key}&results_per_page=${perPage}&what=${query}&location=${state}`;
             } else if (endpoint === 'labor-market') {
                 url = `https://api.adzuna.com/v1/api/jobs/us/categories?app_id=${app_id}&app_key=${app_key}`;
             } else if (endpoint === 'job-stats') {
                 url = `https://api.adzuna.com/v1/api/jobs/us/history?app_id=${app_id}&app_key=${app_key}&results_per_page=${perPage}`;
             }
-
+    
             try {
                 // Fetch data from the API
                 document.getElementById('output').innerText = "Fetching data...";
                 const response = await fetch(url);
                 const data = await response.json();
-
+    
                 // Display data
                 document.getElementById('output').innerText = JSON.stringify(data, null, 2);
             } catch (error) {
@@ -41,6 +42,7 @@
             }
         }
     </script>
+    
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -72,39 +74,30 @@
             background-color: #0056b3;
         }
     </style>
-
-        <!-- Bootstrap CSS -->
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     
-        <!-- Bootstrap CSS -->
-        <script src="https://reelcareer.co/public/js/scripts.js"></script>
-        <script src="https://reelcareer.co/public/js/loadScripts.js"></script>
-        
-        <!-- Custom CSS -->
-        <link rel="stylesheet" href="https://reelcareer.co/public/css/styles.css">
-</head>
-<body>
-    <script src="https://reelcareer.co/public/js/bodyload.js"></script>
-    <script defer src="https://reelcareer.co/backend/js/admin.js"></script>
-
-
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    
     <h1>Adzuna API Data Fetcher</h1>
-
+    
     <label for="query">Search Query (Job Role/Keyword):</label>
     <input type="text" id="query" placeholder="e.g., developer, designer" />
-
+    
+    <label for="state">State (e.g., California, Texas):</label>
+    <input type="text" id="state" placeholder="e.g., California" />
+    
     <label for="perPage">Results Per Page:</label>
     <input type="number" id="perPage" value="10" min="1" />
-
+    
     <div class="btn-group">
         <button onclick="fetchAdzunaData('job-search')">Fetch Job Search</button>
         <button onclick="fetchAdzunaData('labor-market')">Fetch Labor Market Data</button>
         <button onclick="fetchAdzunaData('job-stats')">Fetch Job Analysis</button>
     </div>
-
+    
     <h2>Output:</h2>
     <textarea id="output" readonly>Results will appear here...</textarea>
-
+    
 
 
 
