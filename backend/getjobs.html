@@ -51,6 +51,7 @@
 
 
     <h1>Job Fetcher and Uploader</h1>
+    <h2 id="TotalJobsAdded" class="mt-4 mb-4"></h2>
     <input type="text" id="query" placeholder="Enter job query" />
 
     <select id="query2">
@@ -662,6 +663,7 @@ function toggleDetails(button) {
 
 
 
+let TotalJobsAdded = 0;
 
 
 
@@ -763,6 +765,10 @@ function toggleDetails(button) {
     // Commit the batch operation after processing all jobs
     await batch.commit();
     showToast(`${count} jobs added successfully.`);
+
+    TotalJobsAdded += count;
+   document.getElementById("TotalJobsAdded").innerText = `Total Jobs Added: ${TotalJobsAdded}`;
+
 }
 
 
