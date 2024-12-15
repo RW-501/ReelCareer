@@ -311,36 +311,14 @@ window.onscroll = function() {
 
 async function displayCityList(jobsContainer) {
   try {
-    const jobsRef = collection(db, "Jobs");
-    const snapshot = await getDocs(jobsRef);
+    const response = await fetch('https://reelcareer.co/scripts/json/cities.json');
+    const data = await response.json();
 
-    // Extract, trim, and sort unique city names
-    const cities = [...new Set(snapshot.docs.map(doc => doc.data().city?.trim()))]
+    const cities = [...new Set(data.cities)]
       .filter(city => city?.length > 0) // Remove empty or undefined strings
       .sort(); // Sort alphabetically
 
-    let jobs = [];
-    snapshot.forEach((doc) => {
-      const job = doc.data();
-      jobs.push({
-        id: doc.id,
-        title: job.title,
-        company: job.company,
-        city: job.city,
-        state: job.state,
-        description: job.description,
-        salary: job.salary,
-        url: `https://reelcareer.co/jobs/job-details?id=${doc.id}`
-      });
-    });
-
-    // Get the jobs container element
-    if (!jobsContainer) throw new Error("Jobs container element not found");
-
-    // Save jobs data as JSON for filtering
-    jobsContainer.dataset.jobs = JSON.stringify(jobs);
-
-    // Group cities by their first letter
+    // Group cities by first letter
     const groupedCities = cities.reduce((acc, city) => {
       const firstLetter = city[0].toUpperCase();
       if (!acc[firstLetter]) acc[firstLetter] = [];
@@ -348,7 +326,6 @@ async function displayCityList(jobsContainer) {
       return acc;
     }, {});
 
-    // Set initial page state
     let startAfterIndex = 0;
     const citiesPerPage = 25;
 
@@ -380,22 +357,21 @@ async function displayCityList(jobsContainer) {
           <div id="cityLetters">${groupedCityHTML}</div>
           <hr class="header-divider">
         </div>
-        <div id="state-city-body-Container" class="state-city-body">${groupedCityHTML}</div>
-        <button id="seeMoreButton" class="see-more-button" onclick="loadMoreCities()">See More</button>
+        <button id="seeMoreButton" class="see-more-button">See More</button>
       `;
     }
 
-    // Function to load more cities when "See More" is clicked
-    function loadMoreCities() {
-      startAfterIndex += citiesPerPage;
-      renderCities();
-    }
-
-    // Initial render of the cities
+    // Render the first set of cities
     renderCities();
 
+    // Load more cities on button click
+    document.getElementById("seeMoreButton").addEventListener("click", () => {
+      startAfterIndex += citiesPerPage;
+      renderCities();
+    });
+
   } catch (error) {
-    console.error("Error fetching city:", error);
+    console.error("Error fetching city list:", error);
     jobsContainer.innerHTML = `<p>Failed to load city list.</p>`;
   }
 }

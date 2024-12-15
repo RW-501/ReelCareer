@@ -246,34 +246,40 @@ ${JSON.stringify(categoryData, null, 2)}
     const collectionRef = collection(db, collectionName);
     const snapshot = await getDocs(collectionRef);
 
-    // Structure the data as an array of objects
-    const data = snapshot.docs.map(doc => ({
-      name: doc.id, // The doc ID
-      totalJobs: doc.data().totalJobs || 0 // Default to 0 if totalJobs doesn't exist
-    }));
+    // Extract a flat list of city names (or other collection data)
+    const cities = snapshot.docs
+      .map(doc => doc.id.trim()) // Use the document ID
+      .filter(city => city?.length > 0) // Remove empty or undefined strings
+      .sort(); // Sort the cities alphabetically
+
+    // Structure the data as desired
+    const formattedData = {
+      [collectionName.toLowerCase()]: cities // Dynamic key based on collection name
+    };
 
     // Convert to JSON format
-    const jsonData = JSON.stringify(data, null, 2);
+    const jsonData = JSON.stringify(formattedData, null, 2);
 
     console.log(`Data from ${collectionName} collection:`, jsonData);
 
+    // Output the JSON to a textarea for further use
     const outputTextarea = document.getElementById("sitemapOutput");
-    outputTextarea.value = jsonData;
+    if (outputTextarea) outputTextarea.value = jsonData;
 
-
-    return data; // Return the data if needed for further processing
+    return formattedData; // Return the structured data
   } catch (error) {
     console.error(`Error fetching data from ${collectionName} collection:`, error);
   }
 }
 
-// Fetch and log data for States, Industries, and Categories
+// Fetch and export data for Cities, States, Industries, and Categories
 (async () => {
-    await exportCollectionData("Cities");
-    await exportCollectionData("States");
-    await exportCollectionData("Industries");
+  await exportCollectionData("Cities");
+  await exportCollectionData("States");
+  await exportCollectionData("Industries");
   await exportCollectionData("Categories");
 })();
+
 
 
 
