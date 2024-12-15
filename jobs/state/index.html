@@ -406,6 +406,8 @@ async function displayStateListWithSearch(jobsContainer) {
  let allJobs = []; // This will store all the jobs fetched for the state
 
 // Function to fetch jobs by state and store them in the data set (allJobs)
+let lastVisible = null; // To keep track of the last visible document
+
 async function fetchJobsByState(state) { 
   try {
     console.log("state name ", state);
@@ -416,8 +418,12 @@ async function fetchJobsByState(state) {
     // Reference the 'Jobs' collection
     const jobsRef = collection(db, "Jobs");
     
-    // Create the query
-    const jobsQuery = query(jobsRef, where("state", "==", state));
+    // Create the query with limit 25
+    let jobsQuery = query(jobsRef, where("state", "==", state), limit(25));
+
+    if (lastVisible) {
+      jobsQuery = query(jobsRef, where("state", "==", state), limit(25), startAfter(lastVisible));
+    }
 
     // Execute the query
     const querySnapshot = await getDocs(jobsQuery);
@@ -425,28 +431,56 @@ async function fetchJobsByState(state) {
 
     if (querySnapshot.empty) {
       let h2Header = document.getElementById('state-name');
-      h2Header.style.display= "none"; 
+      h2Header.style.display = "none"; 
       const stateHeader = document.getElementById("state-header");
 
       stateHeader.innerHTML = `
-    <div class="search-container ">
-      <h1>Search Jobs by Location</h1>
-      <p class="intro-text">
-        Search or select from our list of locations below to find exciting job opportunities near you.
-      </p>
-      <div class="call-to-action">
-        <p>
-          Start your journey by exploring jobs in various locations. Check out our 
-          <a href="https://reelcareer.co/jobs/locations" class="link">Available Location Page</a>
-          for a complete list of opportunities across industries.
-        </p>
-      </div>
-    </div>
-  `;
+        <div class="search-container">
+          <h1>Search Jobs by Location</h1>
+          <p class="intro-text">
+            Search or select from our list of locations below to find exciting job opportunities near you.
+          </p>
+          <div class="call-to-action">
+            <p>
+              Start your journey by exploring jobs in various locations. Check out our 
+              <a href="https://reelcareer.co/jobs/locations" class="link">Available Location Page</a>
+              for a complete list of opportunities across industries.
+            </p>
+          </div>
+        </div>
+      `;
 
-  displayStateListWithSearch(jobsContainer);
-  return;
-}
+      displayStateListWithSearch(jobsContainer);
+      return;
+    }
+
+    // Display jobs
+    const jobsList = querySnapshot.docs.map(doc => {
+      // Process the data for each job, e.g., job title, description, etc.
+      const jobData = doc.data();
+      return `
+        <div class="job-item">
+          <h3>${jobData.title}</h3>
+          <p>${jobData.description}</p>
+          <!-- More job info here -->
+        </div>
+      `;
+    });
+
+    jobsContainer.innerHTML = jobsList.join('');
+
+    // Set last visible document for pagination
+    lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
+
+    // Create the "See More" button if more jobs are available
+    const seeMoreButton = document.createElement('button');
+    seeMoreButton.textContent = 'See More';
+    seeMoreButton.onclick = () => fetchJobsByState(state); // Fetch next batch of jobs
+    jobsContainer.appendChild(seeMoreButton);
+
+ 
+    
+
 
     jobsContainer.innerHTML = ''; // Clear the loading text
     allJobs = []; // Reset the allJobs array before adding new data
@@ -521,12 +555,16 @@ document.addEventListener('DOMContentLoaded', () => {
       h2Header.style.display = "block"; // Ensure the header is visible
     }
     fetchJobsByState(state);
-    
+
   } else {
     // Hide the header when no specific state is selected
     const h2Header = document.getElementById('state-name');
     if (h2Header) {
       h2Header.style.display = "none";
+    }else{
+      const stateHeader = document.getElementById("state-header");
+
+  stateHeader.innerHTML = stateHeader.innerHTML.replaceAll("[State Name]", state);
     }
   }
 
