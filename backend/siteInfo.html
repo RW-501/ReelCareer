@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Job Scanner</title>
+ 
+  
+  
+  
+  
+  
+  
+  
+  
+    <link rel="stylesheet" href="https://reelcareer.co/backend/css/styles.css">
+
+  <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h1, h2 { color: #333; }
+        button { margin: 10px 0; padding: 10px; cursor: pointer; background: #4CAF50; color: #fff; border: none; border-radius: 5px; }
+        button:hover { background: #45a049; }
+        pre { background: #f4f4f4; padding: 10px; border-radius: 5px; overflow-x: auto; }
+    </style>
+
+    
+ 
+ 
+    </style>
+</head>
+
+<body>
+    <script src="https://reelcareer.co/public/js/bodyload.js"></script>
+    <script defer src="https://reelcareer.co/backend/js/admin.js"></script>
+
+    <h1>Admin Job Scanner</h1>
+    <button onclick="runJobScan()">Run Job Scan</button>
+    <button onclick="uploadToFirestore('States')">Upload States</button>
+    <button onclick="uploadToFirestore('Cities')">Upload Cities</button>
+    <button onclick="uploadToFirestore('Industries')">Upload Industries</button>
+    <button onclick="uploadToFirestore('Categories')">Upload Categories</button>
+    <button onclick="sendTotalsToReelCareerInfo()">Send Totals to ReelCareerInfo</button>
+    <h2>Job Scan Results</h2>
+    <pre id="output">Click "Run Job Scan" to see results here...</pre>
+
+   <!-- Footer -->
+   <footer id="dynamic-footer"></footer>
+    
+   <!-- Firebase configuration/ Login& Out -->
+   <script type="module" src="https://reelcareer.co/public/js/main.js"></script> 
+
+   <!-- Firebase JS SDK and Custom Scripts -->
+
+   <script type="module">
+       import {
+           db, doc, getDoc, query, updateDoc,
+           setDoc, ref, signInWithPopup, orderBy,
+           onSnapshot ,
+           uploadBytes, OAuthProvider, arrayUnion, getStorage,
+           signOut, addDoc, increment, onAuthStateChanged,
+           createUserWithEmailAndPassword, signInWithEmailAndPassword,
+           where, getDocs, storage, collection, deleteObject, 
+           auth, analytics, deleteDoc, getDownloadURL
+       } from 'https://reelcareer.co/js/module.js';
+
+
+
+        // Data storage arrays
+        let stateData = {};
+        let cityData = {};
+        let industryData = {};
+        let categoryData = {};
+        let totalJobs = 0;
+
+        async function runJobScan() {
+            const output = document.getElementById('output');
+            output.textContent = 'Running job scan, please wait...';
+
+            const jobsRef = collection(db, 'Jobs');
+            const jobSnapshot = await getDocs(jobsRef);
+
+            // Reset data
+            stateData = {};
+            cityData = {};
+            industryData = {};
+            categoryData = {};
+            totalJobs = 0;
+
+            jobSnapshot.forEach((docSnap) => {
+                const job = docSnap.data();
+                totalJobs++;
+
+                // Aggregate state data
+                const state = job.state || 'Unknown';
+                stateData[state] = (stateData[state] || 0) + 1;
+
+                // Aggregate city data
+                const city = job.city || 'Unknown';
+                cityData[city] = (cityData[city] || 0) + 1;
+
+                // Aggregate industry data
+                const industry = job.industry || 'Unknown';
+                industryData[industry] = (industryData[industry] || 0) + 1;
+
+                // Aggregate category data
+                const category = job.category || 'Unknown';
+                categoryData[category] = (categoryData[category] || 0) + 1;
+            });
+
+            // Display results
+            output.textContent = `
+Total Jobs: ${totalJobs}
+
+States:
+${JSON.stringify(stateData, null, 2)}
+
+Cities:
+${JSON.stringify(cityData, null, 2)}
+
+Industries:
+${JSON.stringify(industryData, null, 2)}
+
+Categories:
+${JSON.stringify(categoryData, null, 2)}
+            `;
+        }
+
+        async function uploadToFirestore(collectionName) {
+            const dataMap = {
+                'States': stateData,
+                'Cities': cityData,
+                'Industries': industryData,
+                'Categories': categoryData
+            };
+
+            const data = dataMap[collectionName];
+            if (!data) {
+                alert(`No data to upload for ${collectionName}`);
+                return;
+            }
+
+            const uploadPromises = Object.keys(data).map(async (key) => {
+                const docRef = doc(db, collectionName, key); // Doc ID is the key (state/city name)
+                await setDoc(docRef, { totalJobs: data[key] });
+            });
+
+            await Promise.all(uploadPromises);
+            alert(`${collectionName} data uploaded successfully!`);
+        }
+
+        async function sendTotalsToReelCareerInfo() {
+            const reelCareerInfoRef = doc(db, 'ReelCareerInfo', 'JobTotals');
+
+            const jobSummary = {
+                totalJobs: totalJobs,
+                totalStates: Object.keys(stateData).length,
+                totalCities: Object.keys(cityData).length,
+                totalIndustries: Object.keys(industryData).length,
+                totalCategories: Object.keys(categoryData).length,
+                states: stateData,
+                cities: cityData,
+                industries: industryData,
+                categories: categoryData
+            };
+
+            await setDoc(reelCareerInfoRef, jobSummary);
+            showToast('Totals successfully sent to ReelCareerInfo collection!');
+        }
+    </script>
+
+   
+</body>
+</html>

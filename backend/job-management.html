@@ -406,64 +406,75 @@
         }
 
         // Load jobs from Firestore
-        async function loadJobs() {
-            try {
-                const querySnapshot = await getDocs(collection(db, 'Jobs'));
-                const jobTableBody = document.getElementById('jobTableBody');
-                jobTableBody.innerHTML = ''; // Clear existing rows
 
-                let totalCount = 0;
 
-                querySnapshot.forEach((doc) => {
-                    const job = doc.data();
-                    const truncatedDescription =
-                        job.description.length > 50 ? job.description.substring(0, 50) + '...' : job.description;
+async function loadJobs() {
+    try {
+        const q = query(collection(db, 'Jobs'), limit(50));
+        const querySnapshot = await getDocs(q);
 
-                    // Fix category if missing
-                    if (!job.category) {
-                        categoryFixCount++;
-                        const jobCategory = categorizeJob(job.title, job.description);
-                        categoryFixes.push({ docId: doc.id, jobCategory });
-                    }
+        const jobTableBody = document.getElementById('jobTableBody');
+        jobTableBody.innerHTML = ''; // Clear existing rows
 
-                    // Fix industry if missing
-                    if (!job.industry) {
-                        industryFixCount++;
-                        const jobIndustry = assignIndustry(job.category, job.description);
-                        industryFixes.push({ docId: doc.id, jobIndustry });
-                    }
+        let totalCount = 0;
 
-                    // Fix state abbreviations
-                    const stateAbbreviation = job.state.toUpperCase();
-                    let fullStateName = stateAbbreviations[stateAbbreviation];
-                    let rowClass = '';
+        querySnapshot.forEach((doc) => {
+            const job = doc.data();
+            const truncatedDescription =
+                job.description && job.description.length > 50
+                    ? job.description.substring(0, 50) + '...'
+                    : job.description || 'No Description';
 
-                    if (fullStateName) {
-                        rowClass = 'highlight-row'; // Highlight the row
-                        if (job.state !== fullStateName) {
-                            job.state = fullStateName;
-                            stateFixCount++;
-                        }
-                        stateAbbreviationDocIds.push({ docId: doc.id, fullStateName });
-                    } else if (!stateAbbreviations[stateAbbreviation]) {
-                        invalidStateDocIds.push(doc.id);
-                    }
+            // Fix category if missing
+            if (!job.category) {
+                categoryFixCount++;
+                const jobCategory = categorizeJob(job.title, job.description);
+                categoryFixes.push({ docId: doc.id, jobCategory });
+            }
 
-                    // Table row rendering
-                    const row = `
+            // Fix industry if missing
+            if (!job.industry) {
+                industryFixCount++;
+                const jobIndustry = assignIndustry(job.category, job.description);
+                industryFixes.push({ docId: doc.id, jobIndustry });
+            }
+
+            // Fix state abbreviations
+            const stateAbbreviation = job.state ? job.state.toUpperCase() : 'N/A';
+            let fullStateName = stateAbbreviations[stateAbbreviation];
+            let rowClass = '';
+
+            if (fullStateName) {
+                rowClass = 'highlight-row'; // Highlight the row
+                if (job.state !== fullStateName) {
+                    job.state = fullStateName;
+                    stateFixCount++;
+                }
+                stateAbbreviationDocIds.push({ docId: doc.id, fullStateName });
+            } else if (!stateAbbreviations[stateAbbreviation]) {
+                invalidStateDocIds.push(doc.id);
+            }
+
+            // Safe handling of createdAt timestamp
+            const createdAt = job.createdAt
+                ? job.createdAt.toDate().toLocaleString()
+                : 'N/A';
+
+            // Table row rendering
+            const row = `
                 <tr class="${rowClass}">
                     <td><input type="checkbox" class="jobCheckbox" value="${doc.id}"></td>
                     <td><a href="https://reelcareer.co/jobs/job-details/?id=${doc.id}">${job.title}</a></td>
-                    <td>${job.createdAt.toDate().toLocaleString()}</td>
-                    <td>${job.state}</td>
-                    <td>${job.city}</td>
-                    <td>${job.category}</td>
-                    <td>${job.industry}</td>
+                    <td>${createdAt}</td>
+                    <td>${job.state || 'N/A'}</td>
+                    <td>${job.city || 'N/A'}</td>
+                    <td>${job.category || 'N/A'}</td>
+                    <td>${job.industry || 'N/A'}</td>
                     <td>
                         <button class="btn btn-warning btn-sm" 
                             data-id="${doc.id}" 
-                            data-title="${job.title}" 
-                            data-description="${job.description}" 
+                            data-title="${job.title || ''}" 
+                            data-description="${job.description || ''}" 
                             data-category="${job.category || ''}" 
                             data-state="${job.state || ''}" 
                             data-city="${job.city || ''}" 
@@ -476,22 +487,23 @@
                 </tr>
             `;
 
-                    jobTableBody.insertAdjacentHTML('beforeend', row);
-                    totalCount++;
-                });
+            jobTableBody.insertAdjacentHTML('beforeend', row);
+            totalCount++;
+        });
 
-                // Update counts in the UI
-                document.getElementById('totalCount').textContent = `Total Jobs: ${totalCount}`;
-                document.getElementById('categoryFixCount').textContent = `Category Fix Count: ${categoryFixCount}`;
-                document.getElementById('industryFixCount').textContent = `Industry Fix Count: ${industryFixCount}`;
-                document.getElementById('stateFixCount').textContent = `State Fix Count: ${stateFixCount}`;
+        // Update counts in the UI
+        document.getElementById('totalCount').textContent = `Total Jobs: ${totalCount}`;
+        document.getElementById('categoryFixCount').textContent = `Category Fix Count: ${categoryFixCount}`;
+        document.getElementById('industryFixCount').textContent = `Industry Fix Count: ${industryFixCount}`;
+        document.getElementById('stateFixCount').textContent = `State Fix Count: ${stateFixCount}`;
 
-                await batchUpdateFixes();
+        // Perform batch updates
+        await batchUpdateFixes();
 
-            } catch (error) {
-                console.error('Error loading jobs:', error);
-            }
-        }
+    } catch (error) {
+        console.error('Error loading jobs:', error);
+    }
+}
 
         // Batch update categories, industries, and states
         async function batchUpdateFixes() {

@@ -2,8 +2,8 @@
 
 
 document.addEventListener('DOMContentLoaded', function() {
-// https://reelcareer.co/getjobs
 
+  
 
 
 // Define your JSON data for navigation
@@ -13,6 +13,7 @@ const navData = {
       "title": "Dashboard and Analytics",
       "links": [
         { "text": "Dashboard", "href": "https://reelcareer.co/backend/dashboard" },
+        { "text": "Site Info", "href": "https://reelcareer.co/backend/siteInfo" },
         { "text": "Get Jobs", "href": "https://reelcareer.co/backend/getjobs" },
         { "text": "Jobs Indeed", "href": "https://reelcareer.co/backend/getJobsIndeed" },
         { "text": "Get Data", "href": "https://reelcareer.co/backend/getDataAdzuna" },
