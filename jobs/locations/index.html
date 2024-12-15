@@ -409,7 +409,7 @@ async function displayCityList() {
       .join("");
 
     // Inject HTML into the container
-    document.getElementById("cityListContainer").innerHTML = `
+  /*  document.getElementById("cityListContainer").innerHTML = `
       <div class="jobs-header">
         <h2 class="header-title">Available Cities</h2>
         <h4 class="header-subtitle">Total Cities: <span class="job-count">${totalJobs}</span></h4>
@@ -420,7 +420,7 @@ async function displayCityList() {
     `;
 
     // Call the function to populate the div
-    populateCityLetters();
+    populateCityLetters();*/
   } catch (error) {
     console.error("Error fetching city:", error);
     document.getElementById("cityListContainer").innerHTML = `<p>Failed to load city list.</p>`;

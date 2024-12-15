@@ -262,13 +262,21 @@ border-radius: 12px;
 
       <div class="row check-cap" id="jobListings">
         <!-- Job cards will be dynamically inserted here -->
-         
+                     <!-- Dynamically insert here -->
+                     <div class="loading-container">
+                      <div class="spinner"></div>
+                      <p>Loading, please wait...</p>
+                    </div>
       </div>
 
     
       <div id="loadingIndicator" class="text-center mt-4" style="display:none;">
-        <p>Loading job listings...</p>
-      </div>
+            <!-- Dynamically insert here -->
+            <div class="loading-container">
+              <div class="spinner"></div>
+              <p>Loading, please wait...</p>
+            </div>
+                </div>
       <div id="errorIndicator" class="text-center mt-4" style="display:none;">
         <p>Error fetching job listings. Please try again later.</p>
       </div>
@@ -289,7 +297,13 @@ border-radius: 12px;
       <h3 class="font-weight-bold">Related Articles</h3>
       <hr class="my-2" />
       <div id="blogContainer" class="row p-4 noCopy">
-          <!-- Blog links will be dynamically inserted here -->
+          <!-- Blog links will be dynamically inserted here -->   
+                    <!-- Dynamically insert here -->
+               <div class="loading-container">
+                <div class="spinner"></div>
+                <p>Loading, please wait...</p>
+              </div>
+
       </div>
   </div>
 
