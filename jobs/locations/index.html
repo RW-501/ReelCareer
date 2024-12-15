@@ -275,48 +275,58 @@
     populateCityLetters();
  // Function to fetch unique states from the Jobs collection and render them
  async function displayStateList() {
-    try {
-      const jobsRef = collection(db, "Jobs");
-      const snapshot = await getDocs(jobsRef);
-      
-      console.log("State snapshot:?    ",snapshot)
-      // Extract and sort unique state names
-      const states = [...new Set(snapshot.docs.map(doc => doc.data().state))].sort();
-      console.log("State :?    ",states)
+  try {
+    const statesRef = collection(db, "States");  // Reference to the States collection
+    const snapshot = await getDocs(statesRef);
 
-      // Generate HTML for the state list
-      const stateListHTML = states
-  .filter(state => state && state.trim() !== "") // Filter out null, empty, or whitespace-only states
-  .map(state => `
-   <a href="https://reelcareer.co/jobs/state#${state}"> <div class="state-city-card ">
-      <i class="fas fa-city"></i>
-      <h4>${state}</h4></a>
-    </div>`)
-  .join("");
+    console.log("State snapshot:", snapshot);
 
+    // Extract and sort unique state names
+    const states = [...new Set(snapshot.docs.map(doc => doc.data().name?.trim()))]
+      .filter(state => state && state.length > 0)  // Remove empty or undefined states
+      .sort();  // Sort alphabetically
 
-      
+    console.log("States:", states);
 
-      // Inject HTML into the container
-      document.getElementById("stateListContainer").innerHTML = `
-        <h2>Available States</h2>
-                <hr>
-                  <div class="state-list">${stateListHTML}</div>
-      `;
-    } catch (error) {
-      console.error("Error fetching states:", error);
-      document.getElementById("stateListContainer").innerHTML = `<p>Failed to load state list.</p>`;
-    }
+    // Generate HTML for the state list
+    const stateListHTML = states
+      .map(state => `
+        <a href="https://reelcareer.co/jobs/state#${state}">
+          <div class="state-city-card">
+            <i class="fas fa-city"></i>
+            <h4>${state}</h4>
+          </div>
+        </a>
+      `)
+      .join("");
+
+    // Inject HTML into the container
+    document.getElementById("stateListContainer").innerHTML = `
+      <h2>Available States</h2>
+      <hr>
+      <div class="state-list">${stateListHTML}</div>
+    `;
+  } catch (error) {
+    console.error("Error fetching states:", error);
+    document.getElementById("stateListContainer").innerHTML = `<p>Failed to load state list.</p>`;
   }
+}
+
+
+
+
+
+
+
   async function displayCityList() {
   try {
-    const jobsRef = collection(db, "Jobs");
-    const snapshot = await getDocs(jobsRef);
+    const citiesRef = collection(db, "Cities");  // Reference to the Cities collection
+    const snapshot = await getDocs(citiesRef);
 
-    // Extract, trim, and sort unique city names
-    const cities = [...new Set(snapshot.docs.map(doc => doc.data().city?.trim()))]
-      .filter(city => city?.length > 0) // Remove empty or undefined strings
-      .sort(); // Sort alphabetically
+    // Extract city names, trim, and remove empty or undefined values
+    const cities = [...new Set(snapshot.docs.map(doc => doc.data().name?.trim()))]
+      .filter(city => city?.length > 0)  // Remove empty or undefined city names
+      .sort();  // Sort alphabetically
 
     // Group cities by their first letter
     const groupedCities = cities.reduce((acc, city) => {
@@ -327,26 +337,27 @@
     }, {});
 
     // Initialize a total counter
-    let totalJobs = 0;
+    let totalCities = 0;
 
     // Generate HTML for each group
     const groupedCityHTML = Object.entries(groupedCities)
       .map(([letter, cityList]) => {
-        totalJobs += cityList.length; // Add to total count
+        totalCities += cityList.length;  // Add to total count
         return `
-          <div id="${letter}" class="city-group ">
-<div class="city-letter">
-  <h3 class="city-letter-title">${letter} <span class="city-count">(${cityList.length})</span></h3>
-  <hr class="city-divider">
-</div>
-
+          <div id="${letter}" class="city-group">
+            <div class="city-letter">
+              <h3 class="city-letter-title">${letter} <span class="city-count">(${cityList.length})</span></h3>
+              <hr class="city-divider">
+            </div>
 
             <div class="city-list">
               ${cityList.map(city => `
-              <a href="https://reelcareer.co/jobs/city#${city}"><div class="state-city-card" data-job-location="${city}">
-                  <i class="fas fa-city"></i>
-                  <h4>${city}</h4></a>
-                </div>
+                <a href="https://reelcareer.co/jobs/city#${city}">
+                  <div class="state-city-card" data-job-location="${city}">
+                    <i class="fas fa-city"></i>
+                    <h4>${city}</h4>
+                  </div>
+                </a>
               `).join("")}
             </div>
           </div>
@@ -356,22 +367,21 @@
 
     // Inject HTML into the container
     document.getElementById("cityListContainer").innerHTML = `
-  <div class="jobs-header ">
-    <h2 class="header-title">Available Cities</h2>
-    <h4 class="header-subtitle">Total Cities: <span class="job-count">${totalJobs}</span></h4>
-    <div id="cityLetters"></div>
-    <hr class="header-divider">
-  </div>
-  <div class="state-city-body">${groupedCityHTML}</div>
-`;
+      <div class="jobs-header">
+        <h2 class="header-title">Available Cities</h2>
+        <h4 class="header-subtitle">Total Cities: <span class="job-count">${totalCities}</span></h4>
+        <div id="cityLetters"></div>
+        <hr class="header-divider">
+      </div>
+      <div class="state-city-body">${groupedCityHTML}</div>
+    `;
 
-    // Display the total number of jobs
-  //  document.getElementById("totalJobs").innerText = `Total Jobs: ${totalJobs}`;
   } catch (error) {
-    console.error("Error fetching city:", error);
+    console.error("Error fetching cities:", error);
     document.getElementById("cityListContainer").innerHTML = `<p>Failed to load city list.</p>`;
   }
 }
+
 
 // Initialize page
 document.addEventListener('DOMContentLoaded', () => {
