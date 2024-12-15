@@ -787,34 +787,44 @@ function queryAndClick(valuesArray) {
         }
 
         const queryInput = document.getElementById("query"); // Target query input field
-        const selectAllButton = document.getElementById("selectAll"); // Target button to click
-        const addJobButton = document.getElementById("addJobButton"); // Target button to click for adding jobs
+const selectAllButton = document.getElementById("selectAll"); // Target button to click
+const addJobButton = document.getElementById("addJobButton"); // Target button to click for adding jobs
 
-        if (queryInput && selectAllButton && addJobButton) {
-            const queryValue = valuesArray[index];
+if (queryInput && selectAllButton && addJobButton) {
+    const queryValue = valuesArray[index];
 
-            // Set query input value to one of the elements from the array (state, city, or occupation)
-            queryInput.value = queryValue;
-            showToast(`Processing: ${queryValue}`);
+    // Set query input value to one of the elements from the array (state, city, or occupation)
+    queryInput.value = queryValue;
+    showToast(`Processing: ${queryValue}`);
 
-            // Run fetchJobs() to retrieve the jobs (assuming this function is defined elsewhere)
-            await fetchJobs(queryValue); // Assuming fetchJobs takes the query value and processes it
+    // Run fetchJobs() to retrieve the jobs (assuming this function is defined elsewhere)
+    await fetchJobs(queryValue); // Assuming fetchJobs takes the query value and processes it
 
-            // Wait for 5 seconds before clicking selectAll button
+    // Wait for 5 seconds before clicking selectAll button
+    setTimeout(() => {
+        // If the selectAll button is already checked, click it twice
+        if (selectAllButton.checked) {
+            selectAllButton.click(); // Click once
             setTimeout(() => {
-                selectAllButton.click(); // Click the "selectAll" button to select all jobs
+                selectAllButton.click(); // Click again after a short delay
+            }, 500); // Delay before clicking again
+        } else {
+            selectAllButton.click(); // Click the "selectAll" button if it's not already checked
+        }
 
-                // Wait for another 5 seconds before clicking the addJobButton
-                setTimeout(() => {
-                    addJobButton.click(); // Click the "addJobButton" to add the jobs
-                    index++; // Increment index for the next value in the array
+        // Wait for another 5 seconds before clicking the addJobButton
+        setTimeout(() => {
+            addJobButton.click(); // Click the "addJobButton" to add the jobs
+            index++; // Increment index for the next value in the array
 
-                    // Process the next value after a 5-second delay
-                    setTimeout(() => {
-                        processNext();
-                    }, 5000);
-                }, 5000);
+            // Process the next value after a 5-second delay
+            setTimeout(() => {
+                processNext();
             }, 5000);
+        }, 5000);
+    }, 5000);
+
+
         } else {
             showToast("Required elements not found: Check 'query' input, 'selectAll' button, and 'addJobButton' IDs.");
         }
