@@ -326,6 +326,8 @@ async function displayStateListWithSearch(jobsContainer) {
     // Fetch states from the external JSON file
     const response = await fetch('https://reelcareer.co/scripts/json/states.json');
     const statesData = await response.json();
+
+    console.log("statesData  ",statesData);
     /*
     const states = statesData.states // Assuming JSON structure: { "states": ["State1", "State2", ...] }
 
