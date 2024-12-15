@@ -338,21 +338,6 @@ async function displayCityList(jobsContainer) {
   <button id="scrollUpButton" class="scroll-up-button" onclick="scrollToTop()">⬆ Scroll to Top</button>
           </div>
         `).join("");
-
-      jobsContainer.innerHTML = `
-        <div class="jobs-header">
-          <h2 class="header-title">Available Cities</h2>
-          <h4 class="header-subtitle">Total Cities: ${cities.length}</h4>
-          <div id="cityLetters">${groupedCityHTML}</div>
-          <hr class="header-divider">
-        </div>
-      
-      `;
-    }
-    // Render the first set of cities
-    renderCities();
-    populateCityLetters();
-
 // Function to handle scrolling up
 function scrollToTop() {
   document.getElementById("cityLetters").scrollIntoView({ behavior: "smooth" });
@@ -368,6 +353,21 @@ window.onscroll = function() {
     button.style.display = "none";
   }
 };
+      jobsContainer.innerHTML = `
+        <div class="jobs-header">
+          <h2 class="header-title">Available Cities</h2>
+          <h4 class="header-subtitle">Total Cities: ${cities.length}</h4>
+          <div id="cityLetters">${groupedCityHTML}</div>
+          <hr class="header-divider">
+        </div>
+      
+      `;
+    }
+    // Render the first set of cities
+    renderCities();
+    populateCityLetters();
+
+
   } catch (error) {
     console.error("Error fetching city list:", error);
     jobsContainer.innerHTML = `<p>Failed to load city list.</p>`;
