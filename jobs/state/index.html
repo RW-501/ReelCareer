@@ -507,27 +507,9 @@ document.addEventListener('DOMContentLoaded', () => {
   let container = "stateListContainer";
 
   // Get the state value from the URL
-  const state = getKeyFromURL("s");
-  if(state){
+  const state = getKeyFromURL("s") || "State";
 
-// Set the new title
-document.title = `ReelCareer.co | Search for Jobs in the State of ${state} `;
-
-// Example state data
-const stateData = {
-  name: `${state}`,
-  description: `Discover thousands of job openings across industries in ${state}. From tech to healthcare, find your next career move here!`,
-  keywords: `${state} jobs, careers in ${state}, tech jobs in ${state}, ${state} employment`,
-  author: `ReelCareer Team`,
-  image: `https://www.reelcareer.co/images/sq_logo_n_BG_tie_reelx.png`,
-  url: `https://reelcareer.co/jobs/state/${state}`
-};
-
-// Call the function with the state data
-setStatesMetaTags(stateData);
-
-
-}
+  
   // If the state is not "State" or null, update the container and header
   if (state && state !== "State") {
     container = "state-list-Container";
@@ -538,6 +520,8 @@ setStatesMetaTags(stateData);
       h2Header.textContent = `Jobs In ${state}`; // Update header text
       h2Header.style.display = "block"; // Ensure the header is visible
     }
+    fetchJobsByState(state);
+    
   } else {
     // Hide the header when no specific state is selected
     const h2Header = document.getElementById('state-name');
