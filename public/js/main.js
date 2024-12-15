@@ -3660,3 +3660,14 @@ function loadBrainAndCallFunction() {
 }
 
 loadBrainAndCallFunction();
+
+async function loadJsonData(url) {
+  loadScript(url, function() {
+    console.log('JSON loaded successfully.');
+  });
+  
+}
+
+loadJsonData('https://reelcareer.co/scripts/json/main.js');
+
+
