@@ -333,21 +333,6 @@ async function displayStateListWithSearch(jobsContainer) {
 
     let allJobs = []; // Array to hold all job data
 
-    // Fetch job data from the Jobs collection in Firebase
-    const jobsRef = collection(db, "Jobs");
-    const jobsSnapshot = await getDocs(jobsRef);
-
-    jobsSnapshot.forEach(doc => {
-      const job = doc.data();
-      if (states.includes(job.state)) {
-        allJobs.push({
-          city: job.city,
-          state: job.state,
-          salary: job.salary,
-        });
-      }
-    });
-
     // Inject the initial state list and search bar
     jobsContainer.innerHTML = `
       <h2>Available States</h2>
