@@ -118,7 +118,7 @@ ${JSON.stringify(categoryData, null, 2)}
 
             const data = dataMap[collectionName];
             if (!data) {
-                alert(`No data to upload for ${collectionName}`);
+                showToast(`No data to upload for ${collectionName}`);
                 return;
             }
 
@@ -128,7 +128,7 @@ ${JSON.stringify(categoryData, null, 2)}
             });
 
             await Promise.all(uploadPromises);
-            alert(`${collectionName} data uploaded successfully!`);
+            showToast(`${collectionName} data uploaded successfully!`);
         }
 
         async function sendTotalsToReelCareerInfo() {
