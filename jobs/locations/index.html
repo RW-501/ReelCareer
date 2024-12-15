@@ -311,48 +311,51 @@
     
  // Function to fetch unique states from the Jobs collection and render them
  async function displayStateList() {
-    try {
-      const jobsRef = collection(db, "Jobs");
-      const snapshot = await getDocs(jobsRef);
-      
-      console.log("State snapshot:?    ",snapshot)
-      // Extract and sort unique state names
-      const states = [...new Set(snapshot.docs.map(doc => doc.data().state))].sort();
-      console.log("State :?    ",states)
+  try {
+    // Fetch states from the external JSON file
+    const response = await fetch('https://reelcareer.co/scripts/json/states.json');
+    const data = await response.json();
 
-      // Generate HTML for the state list
-      const stateListHTML = states
-  .filter(state => state && state.trim() !== "") // Filter out null, empty, or whitespace-only states
-  .map(state => `
-   <a href="https://reelcareer.co/jobs/state/${state}"> <div class="state-city-card ">
-      <i class="fas fa-city"></i>
-      <h4>${state}</h4></a>
-    </div>`)
-  .join("");
+    // Extract and sort unique states
+    const states = [...new Set(data.states.map(state => state.trim()))]
+      .filter(state => state.length > 0) // Remove empty or whitespace-only entries
+      .sort();
 
+    console.log("States: ", states);
 
-      
+    // Generate HTML for the state list
+    const stateListHTML = states
+      .map(state => `
+        <a href="https://reelcareer.co/jobs/state/${state}">
+          <div class="state-city-card">
+            <i class="fas fa-city"></i>
+            <h4>${state}</h4>
+          </div>
+        </a>
+      `)
+      .join("");
 
-      // Inject HTML into the container
-      document.getElementById("stateListContainer").innerHTML = `
-        <h2>Available States</h2>
-                <hr>
-                  <div class="state-list">${stateListHTML}</div>
-      `;
-    } catch (error) {
-      console.error("Error fetching states:", error);
-      document.getElementById("stateListContainer").innerHTML = `<p>Failed to load state list.</p>`;
-    }
+    // Inject HTML into the container
+    document.getElementById("stateListContainer").innerHTML = `
+      <h2>Available States</h2>
+      <hr>
+      <div class="state-list">${stateListHTML}</div>
+    `;
+
+  } catch (error) {
+    console.error("Error fetching states:", error);
+    document.getElementById("stateListContainer").innerHTML = `<p>Failed to load state list.</p>`;
   }
- // Function to scroll to the top of the cityLetters container
+}
+
+// Function to scroll to the top of the cityLetters container
 function scrollToTop() {
-  document.getElementById("cityLetters").scrollIntoView({ behavior: "smooth" });
+  document.getElementById("stateListContainer").scrollIntoView({ behavior: "smooth" });
 }
 
 // Show the button when the user scrolls down
-window.onscroll = function() {
+window.onscroll = function () {
   const button = document.getElementById("scrollUpButton");
-  // Show the button after scrolling 100px down
   if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
     button.style.display = "block";
   } else {
@@ -360,15 +363,21 @@ window.onscroll = function() {
   }
 };
 
-// Your existing displayCityList function with scroll-up button
-async function displayCityList() {
-  try {
-    const jobsRef = collection(db, "Jobs");
-    const snapshot = await getDocs(jobsRef);
+// Initialize the function when the page loads
+document.addEventListener("DOMContentLoaded", () => {
+  displayStateList();
+});
 
-    // Extract, trim, and sort unique city names
-    const cities = [...new Set(snapshot.docs.map(doc => doc.data().city?.trim()))]
-      .filter(city => city?.length > 0) // Remove empty or undefined strings
+// Your existing displayCityList function with scroll-up button
+async function displayCityList() { 
+  try {
+    // Fetch cities from the external JSON file
+    const response = await fetch('https://reelcareer.co/scripts/json/cities.json');
+    const data = await response.json();
+
+    // Ensure cities are unique, trimmed, and sorted
+    const cities = [...new Set(data.cities.map(city => city.trim()))]
+      .filter(city => city.length > 0) // Remove empty or undefined strings
       .sort(); // Sort alphabetically
 
     // Group cities by their first letter
@@ -409,32 +418,48 @@ async function displayCityList() {
       .join("");
 
     // Inject HTML into the container
-   document.getElementById("cityListContainer").innerHTML = `
-      <div class="jobs-header">
-        <h2 class="header-title">Available Cities</h2>
-        <h4 class="header-subtitle">Total Cities: <span class="job-count">${totalJobs}</span></h4>
-        <div id="cityLetters"></div>
-        <hr class="header-divider">
-      </div>
-      <div class="state-city-body">${groupedCityHTML}</div>
-    `;
+// Inject HTML into the container
+document.getElementById("cityListContainer").innerHTML = `
+  <div class="jobs-header">
+    <h2 class="header-title">Available Cities</h2>
+    <h4 class="header-subtitle">Total Cities: <span class="job-count">${totalJobs}</span></h4>
+    <div id="cityLetters"></div>
+    <hr class="header-divider">
+  </div>
+  <div class="state-city-body">${groupedCityHTML}</div>
 
-    // Call the function to populate the div
+  <!-- Scroll Up Button -->
+  <button id="scrollUpButton" class="scroll-up-button" onclick="scrollToTop()">⬆ Scroll to Top</button>
+`;
+
+
+    // Populate alphabet letters for navigation (optional function)
     populateCityLetters();
+
   } catch (error) {
-    console.error("Error fetching city:", error);
+    console.error("Error fetching city list:", error);
     document.getElementById("cityListContainer").innerHTML = `<p>Failed to load city list.</p>`;
   }
 }
+// Scroll smoothly to the top of the cityLetters container
+function scrollToTop() {
+  document.getElementById("cityLetters").scrollIntoView({ behavior: "smooth" });
+}
+
+// Show/Hide the scroll-up button when the user scrolls down
+window.onscroll = function () {
+  const button = document.getElementById("scrollUpButton");
+  if (document.documentElement.scrollTop > 100 || document.body.scrollTop > 100) {
+    button.style.display = "block";
+  } else {
+    button.style.display = "none";
+  }
+};
 
 // Initialize page
 document.addEventListener('DOMContentLoaded', () => {
-  // Call the function on page load
-
-  displayStateList();
   displayCityList();
 });
-    
 
 // Function to fetch similar jobs based on tags
 
