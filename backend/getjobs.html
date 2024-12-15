@@ -668,8 +668,102 @@ function toggleDetails(button) {
 }
 
 
-const values = ["New York", "Los Angeles", "Software Developer", "Texas", "Miami"]; // Array of states, cities, or occupations
+const values = [ "austin", "atlanta", "albuquerque", "arlington", "anaheim", "anchorage", "augusta", "alexandria", "amarillo", "anchorage",
+    "asheville", "akron", "allentown", "aurora", "athens", "arvada", "abilene", "ann arbor", "avondale", "appleton",
+    "birmingham", "baltimore", "buffalo", "boston", "boise", "bakersfield", "bridgeport", "brownsville", "bellevue", "bend",
+    "boulder", "bismarck", "burlington", "bay area", "bridgeport", "blacksburg", "boca raton", "bentonville", "beaverton", "burlington",
+    "columbus", "chicago", "charlotte", "cincinnati", "cleveland", "colorado springs", "corpus christi", "chattanooga", "chesapeake", "columbia",
+    "cary", "charleston", "champaign", "culver city", "clinton", "clearwater", "charlottesville", "cedar rapids", "corona", "cleveland heights",
+    "dallas", "denver", "detroit", "durham", "doral", "des moines", "denton", "dothan", "dayton", "draper",
+    "el paso", "eugene", "evansville", "evanston", "erie", "escondido", "elgin", "encinitas", "evanston", "east lansing",
+    "fort worth", "fresno", "fort lauderdale", "fayetteville", "frisco", "fullerton", "flint", "fort collins", "fargo", "fishers",
+    "greensboro", "grand rapids", "glendale", "gloucester", "gainesville", "greenville", "grand prairie", "gilbert", "goodyear", "garden grove",
+    "houston", "henderson", "honolulu", "hartford", "hollywood", "highland", "hialeah", "hickory", "huntington", "huntsville",
+    "indianapolis", "irvine", "irving", "indianapolis", "jacksonville", "jersey city", "joliet", "joplin", "jackson", "juneau",
+    "kansas city", "killeen", "knoxville", "kalamazoo", "kent", "kenner", "kirkland", "kingston", "katy", "kalamazoo",
+    "lubbock", "louisville", "los angeles", "long beach", "lincoln", "lansing", "louisville", "laredo", "lafayette", "lakewood",
+    "memphis", "miami", "milwaukee", "minneapolis", "madison", "mesa", "montgomery", "mobile", "madison", "mesa",
+    "macon", "moreno valley", "missoula", "medford", "merced", "modesto", "myrtle beach", "montpelier", "manchester", "missouri city",
+    "macon", "morristown", "marion", "montrose", "mountain view", "mountain brook", "mckinney", "mcallen", "middletown", "murrieta",
+    "minot", "manteca", "marietta", "macon", "moline", "mount pleasant", "mississippi", "mission viejo", "monroe", "myrtle beach",
+    "melbourne", "murfreesboro", "meridian", "madison", "milford", "menifee", "marietta", "minneapolis", "murrieta", "muncie",
+    "mesa", "mobile", "moreno valley", "madison", "mckinney", "murphy", "mchenry", "montgomery", "mountain view", "mcallen",
+    "nashville", "new york", "new orleans", "newark", "norfolk", "naperville", "novi", "north las vegas", "newport news", "nampa",
+    "omaha", "orlando", "oakland", "overland park", "oxnard", "odessa", "ontario", "oceanside", "orangetown", "o'fallon",
+    "philadelphia", "phoenix", "pittsburgh", "plano", "portland", "pomona", "peoria", "pasadena", "providence", "pueblo",
+    "plano", "portland", "pittsburgh", "provo", "plano", "palmdale", "pompano beach", "poughkeepsie", "peoria", "parsons",
+    "queens", "quincy", "quakertown", "queen creek", "quincy", "quartzsite", "quincy", "quantico", "quakertown", "quinton",
+    "raleigh", "riverside", "richmond", "rochester", "reno", "rochester", "round rock", "riverside", "rancho cucamonga", "rockford",
+    "san antonio", "seattle", "san diego", "san francisco", "sacramento", "st. louis", "san jose", "st. paul", "st. petersburg", "syracuse",
+    "salt lake city", "st. louis", "springfield", "saginaw", "santa clarita", "sparks", "sherman", "shreveport", "springfield", "sarasota",
+    "sioux falls", "san mateo", "st. cloud", "south bend", "sun city", "salem", "santa barbara", "salinas", "south gate", "san marcos",
+    "quincy", "queen creek", "quakertown", "quantico", "quinton", "queens", "quick city", "quincy", "quaker hill", "quitman",
+    "raleigh", "riverside", "richmond", "rochester", "reno", "rockford", "round rock", "rancho cucamonga", "rochester", "rock hill",
+    "st. louis", "san antonio", "san diego", "san francisco", "sacramento", "st. paul", "seattle", "san jose", "st. petersburg", "syracuse",
+    "salt lake city", "st. louis", "springfield", "saginaw", "santa clarita", "sparks", "shreveport", "south bend", "salem", "santa barbara",
+    "sioux falls", "san mateo", "st. cloud", "south gate", "santa rosa", "salinas", "south carolina", "san marcos", "sun valley", "simi valley",
+    "tucson", "tampa", "toledo", "tulsa", "tallahassee", "tempe", "torrance", "tacoma", "thornton", "tustin",
+    "texas city", "tallahassee", "the woodlands", "thousand oaks", "trenton", "toms river", "temecula", "topeka", "tucson", "tampa",
+    "utica", "upland", "university city", "union city", "urbana", "upstate", "vallejo", "vancouver", "visalia", "virginia beach",
+    "vero beach", "victorville", "valdosta", "vicksburg", "vail", "vacaville", "venice", "vancouver", "van nuys", "vicksburg",
+    "wilmington", "washington", "worcester", "wichita", "west palm beach", "west covina", "wilmington", "waco", "waterloo", "westlake",
+    "west hollywood", "woodbridge", "waukesha", "westland", "wayne", "wilmington", "wellington", "woodland", "woodbury", "westfield",
+    "yonkers", "yuba city", "yorba linda", "yakima", "ypsilanti", "yuma", "youngstown", "zanesville", "zion", "zebulon",
+    "zion", "zephyrhills", "zachary", "zanesville", "zavalla", "zebulon", "zion", "zionsville", "zapato", "zanesville",
+    "zion", "zamora", "zia", "zuni", "zia", "zigler", "zachary", "zaragoza", "zedekiah", "zebulon"
 
+                ,'developer', 'designer', 'engineer', 'manager', 'director', 'analyst', 'sales', 'marketing', 'HR', 'consultant', 'administrator', 'architect', 'specialist', 'assistant', 'technician', 'leader', 'executive',
+                // Tech and IT
+                'software engineer', 'frontend developer', 'backend developer', 'full-stack developer', 'data scientist', 'data analyst', 'web developer', 'mobile developer', 'app developer', 'cloud engineer', 'network administrator', 'systems architect', 'devops engineer', 'QA engineer', 'UI/UX designer', 'database administrator',
+                
+                // Business and Management
+                'business analyst', 'project manager', 'product manager', 'operations manager', 'business consultant', 'supply chain manager', 'strategic planner', 'account manager', 'brand manager', 'team lead', 'program manager', 'sales manager', 'customer success manager',
+                
+                // Marketing and Sales
+                'marketing manager', 'digital marketing strategist', 'SEO specialist', 'content marketer', 'sales representative', 'sales associate', 'inside sales', 'account executive', 'business development manager', 'social media manager', 'marketing director', 'growth hacker', 'advertising manager', 'media planner',
+                
+                // Finance and Accounting
+                'financial analyst', 'accountant', 'financial advisor', 'tax consultant', 'auditor', 'controller', 'treasury manager', 'investment banker', 'credit analyst', 'portfolio manager', 'financial planner', 'risk manager', 'compliance officer',
+                
+                // Healthcare
+                'nurse', 'doctor', 'surgeon', 'therapist', 'dentist', 'healthcare administrator', 'pharmacist', 'medical assistant', 'radiologist', 'physician assistant', 'nurse practitioner', 'health insurance agent',
+                
+                // Legal
+                'lawyer', 'attorney', 'paralegal', 'legal consultant', 'judge', 'legal assistant', 'corporate lawyer', 'litigation attorney', 'contract manager', 'compliance officer', 'legal advisor',
+                
+                // Education
+                'teacher', 'professor', 'education coordinator', 'principal', 'academic advisor', 'special education teacher', 'teaching assistant', 'school administrator', 'counselor', 'tutor',
+                
+                // Creative Arts
+                'graphic designer', 'photographer', 'videographer', 'content creator', 'illustrator', 'animator', 'art director', 'fashion designer', 'music producer', 'editor', 'screenwriter', 'copywriter', 'web designer', '3D artist',
+                
+                // Customer Service
+                'customer service representative', 'call center agent', 'support specialist', 'customer care agent', 'help desk technician', 'account coordinator', 'service manager', 'technical support specialist',
+                
+                // Human Resources
+                'HR manager', 'recruiter', 'talent acquisition specialist', 'HR assistant', 'HR coordinator', 'HR business partner', 'compensation and benefits specialist', 'employee relations manager', 'HR director', 'training manager',
+                
+                // Manufacturing and Engineering
+                'production manager', 'manufacturing engineer', 'quality control manager', 'plant manager', 'assembly line worker', 'machinist', 'mechanical engineer', 'electrical engineer', 'civil engineer', 'process engineer',
+                
+                // Retail and Hospitality
+                'store manager', 'cashier', 'sales associate', 'barista', 'chef', 'waiter', 'hotel manager', 'housekeeper', 'concierge', 'event planner', 'bartender', 'restaurant manager', 'retail assistant',
+                
+                // Science and Research
+                'research scientist', 'biologist', 'chemist', 'physicist', 'lab technician', 'medical researcher', 'clinical trial manager', 'environmental scientist', 'data scientist', 'geologist', 'statistician',
+                
+                // Logistics and Transportation
+                'logistics coordinator', 'supply chain analyst', 'truck driver', 'forklift operator', 'shipping coordinator', 'warehouse manager', 'delivery driver', 'logistics manager', 'transportation planner', 'inventory manager',
+                
+                // Real Estate
+                'real estate agent', 'real estate broker', 'property manager', 'real estate consultant', 'leasing agent', 'mortgage broker', 'real estate analyst', 'real estate developer', 'construction manager',
+                
+                // IT Support
+                'IT support specialist', 'help desk technician', 'network support', 'technical support engineer', 'systems administrator', 'IT coordinator', 'IT manager', 'IT consultant',
+                
+                // Other Miscellaneous
+                'event coordinator', 'security officer', 'facility manager', 'driver', 'chef', 'personal assistant', 'delivery manager', 'receptionist', 'janitor', 'event planner', 'office manager', 'project coordinator'
+            ];
 
 // Global variable to track whether the process is running
 let isProcessing = false;
