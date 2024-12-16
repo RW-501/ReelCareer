@@ -341,14 +341,14 @@ function renderCities(cities, jobsContainer) {
   console.log("groupedCities ", groupedCities);
 
   const groupedCityHTML = Object.entries(groupedCities)
-    .map(([letter, cities]) => `
+    .map(([letter, citiesList]) => `
       <div id="${letter}" class="city-group">
         <div class="city-letter">
-          <h3 class="city-letter-title">${letter} <span class="city-count">(${cities.length})</span></h3>
+          <h3 class="city-letter-title">${letter} <span class="city-count">(${citiesList.length})</span></h3>
           <hr class="city-divider">
         </div>
         <div class="city-list">
-          ${cities.map(city => `
+          ${citiesList.map(city => `
             <div class="state-city-card" data-job-location="${city}">
               <a href="https://reelcareer.co/jobs/city/?c=${encodeURIComponent(city)}">
                 <i class="fas fa-city"></i>
