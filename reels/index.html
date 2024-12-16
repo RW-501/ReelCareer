@@ -170,14 +170,17 @@
 
 
 .user-info-right {
-display: block;
-
+    display: block;
+    width: 50%;
 }
 
 
-.reportVideoBtn  {
-display: block;
-
+.reportVideoBtn {
+    display: block;
+    margin: .2rem;
+    background-color: #497687;
+    border: none;
+    color: #ad1b33;
 }
 
 
@@ -270,11 +273,15 @@ display: block;
     justify-content: flex-start;
     align-items: baseline;
     margin: .2rem;
+    align-content: flex-end;
+    gap: .2rem;
 }
 
 .interaction-buttons {
-display: block;
-
+    display: flex;
+    justify-content: space-between;
+    gap: .2rem;
+    padding: .2rem;
 }
 
 
@@ -290,28 +297,36 @@ display: block;
 
 .controls-container {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
     margin-top: 10px;
+    bottom: 0;
+    position: absolute;
+    left: 0;
+    right: 0;
+    width: 100%;
+    flex-wrap: nowrap;
+    justify-content: space-evenly;
 }
 
 .actions {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     width: 100%;
-    margin-bottom: 10px;
+    padding: 10px;
 }
 
 .action-btn {
-    background: transparent;
     border: none;
     color: white;
     font-size: 24px;
     cursor: pointer;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
 }
 
 .action-btn:hover {
-    color: #1d72b8;
+  color: #84bbd9;
 }
 
 .video-details {
@@ -380,6 +395,10 @@ display: block;
     bottom: 0;
     margin: auto;
 }
+.play-overlay:hover {
+  color: #84bbd9;
+}
+
 
 /* Mute & Full-Screen Buttons */
 .mute-toggle, .fullscreen-toggle {
@@ -440,8 +459,8 @@ display: block;
 
 
 .comment-section {
-    margin-top: 20px;
     font-family: Arial, sans-serif;
+    margin: .5rem;
 }
 
 .comment-input-container,
@@ -459,19 +478,21 @@ display: block;
     border-radius: 5px;
 }
 
-.comment-input-container button,
-.reply-input-container button {
-    background-color: #007bff;
+.comment-input-container button, .reply-input-container button {
     color: #fff;
     border: none;
     border-radius: 5px;
-    padding: 8px 12px;
     cursor: pointer;
     display: flex;
     align-items: center;
     gap: 5px;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: center;
+    height: max-content;
+    margin: auto;
 }
-
 .comment-container .comment-item {
     display: flex;
     gap: 10px;
@@ -1033,7 +1054,7 @@ videoCard.innerHTML = `
       </div>
     `}
         <button class="reportVideoBtn btn btn-warning w-100" data-doc-id="${docId}" aria-label="Report Video">
-          <i class="fa fa-flag"></i> Report
+          <i class="fa fa-flag"></i> 
         </button>
       </div>
     </div>
@@ -1127,6 +1148,9 @@ console.log("Rendering video doc:", doc.data());
         }
             // Add event listeners for buttons
             const muteButton = videoCard.querySelector(".mute-toggle");
+            const fullscreenButton = videoCard.querySelector(".fullscreen-toggle");
+            const playButton = videoCard.querySelector(".play-overlay");
+
             const messageButton = videoCard.querySelector(".message-button");
             const connectButton = videoCard.querySelector(".connect-button");
             const joinUsButton = videoCard.querySelector(".join-us-button");
@@ -1136,7 +1160,6 @@ console.log("Rendering video doc:", doc.data());
 if(userId){
             // Mute toggle functionality
             reportVideoBtn.addEventListener("click", () => openReportModal(docId));
-            muteButton.addEventListener("click", () => toggleMute(docId));
 
             // Other button actions
             addUserButton.addEventListener("click", () => addToShortlist(docId));
@@ -1164,7 +1187,11 @@ commentButton.addEventListener("click", () => addComment(docId));
 const videoElement = videoCard.querySelector(".video-element");
 videoElement.addEventListener("play", () => incrementViewCount(docId));
 
-      
+
+
+
+
+
 
       
         
@@ -1204,13 +1231,80 @@ showToast(`Tag ${tag} was clicked`);
       }
 window.renderTags = renderTags;
 
-// Functions for button actions
-function toggleMute(docId) {
-    const videoElement = document.querySelector(`#videoCard_${docId} .video-element`);
-    if (videoElement) {
-        videoElement.muted = !videoElement.muted;
-    }
+// Function to handle Play/Pause with overlay
+function togglePlay(video, playOverlay) {
+  if (video.paused) {
+    video.play();
+    playOverlay.style.display = "none";
+  } else {
+    video.pause();
+    playOverlay.style.display = "flex";
+  }
 }
+
+// Function to toggle Mute/Unmute
+function toggleMute(video, muteButton) {
+  video.muted = !video.muted;
+  muteButton.innerHTML = video.muted
+    ? '<i class="fa fa-volume-mute"></i>'
+    : '<i class="fa fa-volume-up"></i>';
+}
+
+// Function to handle Fullscreen
+function toggleFullscreen(video) {
+  if (video.requestFullscreen) {
+    video.requestFullscreen();
+  } else if (video.webkitRequestFullscreen) {
+    video.webkitRequestFullscreen();
+  } else if (video.msRequestFullscreen) {
+    video.msRequestFullscreen();
+  }
+}
+
+// Function to set up event listeners for a single video
+function setupVideoControls(video) {
+  const container = video.parentElement;
+  const muteButton = container.querySelector(".mute-toggle");
+  const fullscreenButton = container.querySelector(".fullscreen-toggle");
+  const playOverlay = container.querySelector(".play-overlay");
+
+  // Click on container to toggle play/pause
+  container.addEventListener("click", () => togglePlay(video, playOverlay));
+
+  // Mute/Unmute button
+  muteButton.addEventListener("click", (e) => {
+    e.stopPropagation();
+    toggleMute(video, muteButton);
+  });
+
+  // Fullscreen button
+  fullscreenButton.addEventListener("click", (e) => {
+    e.stopPropagation();
+    toggleFullscreen(video);
+  });
+}
+
+// Initialize all videos on DOMContentLoaded
+document.addEventListener("DOMContentLoaded", () => {
+  const videos = document.querySelectorAll(".video-element");
+
+  videos.forEach((video) => {
+    setupVideoControls(video);
+  });
+});
+
+// Example of additional like handler functions
+function handleLike(docId, button) {
+  console.log(`Like triggered for docId: ${docId} by button: ${button.className}`);
+}
+
+
+
+
+
+
+
+
 function handleJoinUsBtn(docId) {
     // Add further functionality as needed
 
@@ -1408,49 +1502,6 @@ function showReplyInput(commentId) {
 }
 
 
-
-document.addEventListener("DOMContentLoaded", () => {
-  const videos = document.querySelectorAll(".video-element");
-
-  videos.forEach((video) => {
-    const container = video.parentElement;
-    const muteButton = container.querySelector(".mute-toggle");
-    const fullscreenButton = container.querySelector(".fullscreen-toggle");
-    const playOverlay = container.querySelector(".play-overlay");
-
-    // Play on overlay click
-    container.addEventListener("click", () => {
-      if (video.paused) {
-        video.play();
-        playOverlay.style.display = "none";
-      } else {
-        video.pause();
-        playOverlay.style.display = "flex";
-      }
-    });
-
-    // Mute/Unmute
-    muteButton.addEventListener("click", (e) => {
-      e.stopPropagation();
-      video.muted = !video.muted;
-      muteButton.innerHTML = video.muted
-        ? '<i class="fa fa-volume-mute"></i>'
-        : '<i class="fa fa-volume-up"></i>';
-    });
-
-    // Full-Screen Toggle
-    fullscreenButton.addEventListener("click", (e) => {
-      e.stopPropagation();
-      if (video.requestFullscreen) {
-        video.requestFullscreen();
-      } else if (video.webkitRequestFullscreen) {
-        video.webkitRequestFullscreen();
-      } else if (video.msRequestFullscreen) {
-        video.msRequestFullscreen();
-      }
-    });
-  });
-});
 
   
   async function submitReport() {

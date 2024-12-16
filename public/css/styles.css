@@ -1990,7 +1990,9 @@ animation: fadeInImage 2s ease-in;
 
 }
 
-
+.lazy-image {
+  cursor: pointer;
+}
 
 .lazy-image.error {
   filter: grayscale(100%);
@@ -2022,6 +2024,7 @@ animation: fadeInImage 2s ease-in;
   box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
   border-radius: 10px;
   animation: fadeIn 2s ease;
+  width: 50%;
 }
 
 .fullscreen-popup .close-button {
