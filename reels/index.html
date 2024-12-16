@@ -82,308 +82,167 @@
 
 
 
-.sticky-header {
-  position: sticky;
-  top: 0;
-  background-color: #ffffff;
-  padding: 1rem;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.sticky-header nav ul {
-  display: flex;
-  justify-content: space-around;
-  list-style: none;
-}
-
-.sticky-header nav ul li a {
-  font-size: 1.2rem;
-  font-weight: 500;
-}
-
-.sticky-footer {
-  background-color: #222;
-  color: white;
-  text-align: center;
-  padding: 1rem;
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-}
-
-.video-reel-container {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  padding: 20px;
-}
-
-/* Video Card Styles */
-.video-card {
-    background-color: #e3ebf0;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    transition: transform 0.3s ease;
-    /* padding: 0.5rem; */
-    border: aliceblue solid;
-}
-
-
-
-.video-card:hover {
-  transform: scale(1.02);
-}
-
-.user-info {
-  display: flex;
-  padding: 10px;
-  gap: 10px;
-  align-items: center;
-}
-
-.profile-img {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-.user-details {
-  display: flex;
-  flex-direction: column;
-}
-
-.user-name {
-  font-size: 1.1rem;
-  font-weight: 700;
-}
-
-.job-title {
-  font-size: 0.9rem;
-  color: #555;
-}
-
 .video-container {
   position: relative;
+  width: 100%;
+  max-height: 400px;
+  background-color: #000;
+  overflow: hidden;
+  border-radius: 10px;
 }
 
 .video-element {
-    width: 100%;
-    height: 700px;
-    max-height: 400px;
-    background-color: #000;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+/* Play Overlay */
+.play-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 80px;
+  height: 80px;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 50%;
+  color: #fff;
+  font-size: 2rem;
+  cursor: pointer;
+  transition: opacity 0.3s;
+}
+
+/* Mute & Full-Screen Buttons */
+.mute-toggle, .fullscreen-toggle {
+  position: absolute;
+  top: 10px;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  cursor: pointer;
 }
 
 .mute-toggle {
-  position: absolute;
-  top: 10px;
+  left: 10px;
+}
+
+.fullscreen-toggle {
   right: 10px;
-  background-color: rgba(0, 0, 0, 0.5);
-  color: white;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 5px;
-  cursor: pointer;
 }
 
-.mute-toggle:hover {
-  background-color: rgba(0, 0, 0, 0.7);
+.mute-toggle:hover, .fullscreen-toggle:hover {
+  background-color: rgba(0, 0, 0, 0.8);
 }
 
-.caption-container {
-  padding: 10px;
-  font-size: 1rem;
-  color: #333;
-}
-
-.video-caption {
-  margin: 0;
-}
-
-.interaction-buttons {
-    display: flex;
-    gap: 15px;
-    justify-content: space-between;
-    padding: 20px;
-}
-
-.message-button, .add-user-button {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 10px 15px;
-  font-size: 1rem;
-  cursor: pointer;
-  border-radius: 5px;
-  transition: background-color 0.3s;
-}
-
-.message-button:hover, .add-user-button:hover {
-  background-color: #0056b3;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .video-reel-container {
-    padding: 10px;
-  }
-
-  .video-card {
-    width: 100%;
-  }
-
-  .user-info {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .user-name {
-    font-size: 1.3rem;
-  }
-
-  .job-title {
-    font-size: 1rem;
-  }
-
-  .message-button, .add-user-button {
-    font-size: 0.9rem;
-    padding: 8px 12px;
-  }
-
-  .video-container {
-    max-height: 300px;
-  }
-}
-
-@media (max-width: 480px) {
-  .video-card {
-    padding: 10px;
-  }
-}
-/*
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-
-*/
-    
-.video-reel-container {
-    width: 100%;
-    max-width: 640px;
-    margin: 0 auto;
-    background-color: transparent;
- 
-    padding: 10px;
-    border-radius: 10px;
-}
-
-.video-player-container {
-    width: 100%;
-    height: 360px;
-    margin-bottom: 10px;
-    background-color: #333;
-    border-radius: 10px;
-}
-
-.video-player {
-    width: 100%;
-    height: 100%;
-    border-radius: 10px;
-}
-
-.controls-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 10px;
-}
-
-.actions {
-    display: flex;
-    justify-content: space-around;
-    width: 100%;
-    margin-bottom: 10px;
-}
-
-.action-btn {
-    background: transparent;
-    border: none;
-    color: white;
-    font-size: 24px;
-    cursor: pointer;
-}
-
-.action-btn:hover {
-    color: #1d72b8;
-}
-
+/* Views Icon */
 .video-details {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    margin-bottom: 10px;
-    padding: .5rem;
-    color: #84bbd9;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background-color: #f8f9fa;
+  font-size: 0.9rem;
 }
+
 .video-details p {
-    margin: 0;
-    font-size: 14px;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 
-.video-upload-section {
+.fa-play-circle, .fa-clock {
+  color: #007bff;
+}
+
+
+#Main-Nav_bar {
+  display: none;
+  visibility: hidden;
+}
+
+
+
+.comment-section {
+    margin-top: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.comment-input-container,
+.reply-input-container {
     display: flex;
-    justify-content: center;
-    width: 100%;
-    margin-top: 10px;
+    gap: 10px;
+    margin-bottom: 10px;
 }
 
-#uploadButton {
-    background-color: #1d72b8;
-    color: white;
-    border: none;
-    padding: 10px;
-    font-size: 16px;
+.comment-input-container input,
+.reply-input-container input {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
     border-radius: 5px;
+}
+
+.comment-input-container button,
+.reply-input-container button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 12px;
     cursor: pointer;
-}
-
-#uploadButton:hover {
-    background-color: #155a8a;
-}
-
-.user-info {
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-content: flex-start;
     align-items: center;
-    justify-content: space-between;
-    padding: 1rem 1.5rem;
+    gap: 5px;
 }
 
-.comments-container {
-    margin: auto;
-    width: 95%;
-}
-
-.add-comment-btn {
-    margin: auto 5% auto auto;
-    display: block;
-}
-
-.user-info-left {
+.comment-container .comment-item {
     display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    justify-content: space-between;
-    align-items: center;
-    gap: .5rem;
+    gap: 10px;
+    margin-bottom: 15px;
 }
-     
-     
+
+.comment-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.comment-content {
+    flex: 1;
+}
+
+.comment-name {
+    font-weight: bold;
+    text-decoration: none;
+    color: #333;
+}
+
+.reply-btn {
+    background: none;
+    border: none;
+    color: #007bff;
+    cursor: pointer;
+    font-size: 0.9em;
+    margin-top: 5px;
+}
+
+</style>
 
 
-        </style>
+
 </head>
 
 
@@ -684,7 +543,460 @@
     initializeUserId(); // Call the function to initialize user ID
 
   });
+     let page = 1;
+let postsPerPage = 10; // Define your posts per page
+let currentPage = 1;
+let totalPosts = 0; // Track total number of posts
+let lastVisibleDoc = null; // For pagination tracking (Firestore pagination)
+let firstVisibleDoc = null; // For backward navigation
 
+
+
+// Fetch Video Resumes from Firestore
+async function fetchVideoResumes(page, user) {
+    try {
+        const videoContainer = document.getElementById("video-reel-container");
+        videoContainer.innerHTML = ""; // Clear existing posts
+
+        let videosQuery;
+        const videosRef = collection(db, "VideoResumes");
+
+        // Handle Firestore pagination
+        if (page > 1 && lastVisibleDoc) {
+            videosQuery = query(
+                videosRef,
+                where("status", "==", "posted"),
+        orderBy("timestamp", "desc"), // Order by most recent timestamp
+                startAfter(lastVisibleDoc),
+                limit(postsPerPage)
+            );
+        } else {
+          videosQuery = query(
+        videosRef,
+        where("status", "==", "posted"),
+        orderBy("timestamp", "desc"), // Order by most recent timestamp
+        limit(postsPerPage)
+    );
+          }
+
+        const querySnap = await getDocs(videosQuery);
+        if (querySnap.empty) {
+            videoContainer.innerHTML = "<p>No video resumes available.</p>";
+            return;
+        }
+
+        const querySnapshot = querySnap.docs;
+        firstVisibleDoc = querySnapshot[0];
+        lastVisibleDoc = querySnapshot[querySnapshot.length - 1];
+
+        querySnapshot.forEach((doc) => {
+            const videoData = doc.data();
+            const docId = doc.id; // Firestore Document ID
+
+            console.log("docId   ",docId);
+            console.log("videoData   ",videoData);
+
+            let reelUserID = videoData.userID || '';
+            let profilePicture = videoData.profilePicture || '';
+            let displayName = videoData.displayName || '';
+
+            // Build the video card dynamically with real data
+            const videoCard = document.createElement("div");
+            videoCard.className = "video-post";
+            videoCard.dataset.docId = docId; // Add dataset attribute
+            videoCard.dataset.timestamp = videoData.timestamp;
+            videoCard.dataset.tags = videoData.tags || ''; // For search functionality
+            videoCard.dataset.displayName = videoData.displayName || '';
+            videoCard.dataset.position = videoData.position || '';
+            videoCard.dataset.location = videoData.location || '';
+            videoCard.dataset.verified = videoData.verified || '';
+            videoCard.dataset.reelUserID = videoData.userID || '';
+            videoCard.dataset.profilePicture = videoData.profilePicture || '';
+            generateVideoSchema(videoData, docId);
+
+let videoDuration = parseFloat(videoData.duration.toFixed(2));
+videoCard.innerHTML = `
+  <div id="videoCard_${docId}" class="video-card">
+    <div class="user-info">
+      <div class="user-info-left">
+        <img src="${videoData.profilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_sm.png'}"
+             alt="${videoData.displayName}" 
+             class="profile-img lazy-image">
+        <div class="user-details">
+          <a href="https://reelcareer.co/u/?u=${videoData.userID}" aria-label="View ${videoData.displayName}'s profile">
+            <h3 class="user-name">
+              ${videoData.displayName || 'Anonymous'}
+            </h3>
+          </a>
+          <small class="badge">${videoData.verified || ''}</small>
+          <p class="job-title">${videoData.position || 'Not Specified'}</p>
+        </div>
+      </div>
+      <div class="user-info-right">
+        <button class="reportVideoBtn btn btn-warning w-100" data-doc-id="${docId}" aria-label="Report Video">
+          <i class="fa fa-flag"></i> Report
+        </button>
+      </div>
+    </div>
+
+    <div class="video-container">
+      <video class="video-element" poster="${videoData.thumbnailURL || ''}">
+        <source src="${videoData.videoResumeURL}" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+
+      <!-- Custom Controls -->
+      <button class="mute-toggle" data-doc-id="${docId}" aria-label="Mute or Unmute">
+        <i class="fa fa-volume-up"></i>
+      </button>
+      <button class="fullscreen-toggle" aria-label="Enter Full Screen">
+        <i class="fa fa-expand"></i>
+      </button>
+      <div class="play-overlay">
+        <i class="fa fa-play"></i>
+      </div>
+    </div>
+
+    <div class="video-details">
+      <p class="views-count" aria-label="${videoData.views || 0} views">
+        <i class="fa fa-play-circle"></i> ${videoData.views || 0} views
+      </p>
+      <p class="video-duration" aria-label="Video duration ${videoDuration || '--:--'}">
+        <i class="fa fa-clock"></i> ${videoDuration || '--:--'}
+      </p>
+    </div>
+
+    <div class="caption-container">
+      <p class="video-caption">${videoData.videoResumeCaptions || ''}</p>
+    </div>
+
+    ${user ? `
+      <div class="interaction-buttons">
+        <button class="message-button" data-doc-id="${docId}" aria-label="Message User">
+          <i class="fa fa-envelope"></i> Message
+        </button>
+        <button class="connect-button" data-doc-id="${docId}" aria-label="Connect with User">
+          <i class="fa fa-user-plus"></i> Connect
+        </button>
+        <button class="add-user-button" data-doc-id="${docId}" hidden aria-label="Add to Shortlist">
+          <i class="fa fa-plus"></i> Shortlist
+        </button>
+      </div>
+    ` : `
+      <div class="interaction-buttons">
+        <button class="join-us-button" data-doc-id="${docId}" aria-label="Join Us">
+          <i class="fa fa-user"></i> Join Us
+        </button>
+      </div>
+    `}
+
+    <div class="controls-container">
+      <div class="actions">
+        <button class="action-btn like-btn" data-doc-id="${docId}" aria-label="Like Video">
+          <i class="fa fa-thumbs-up"></i> ${videoData.likes || 0}
+        </button>
+        <button class="action-btn share-btn" data-doc-id="${docId}" aria-label="Share Video">
+          <i class="fa fa-share-alt"></i> Share
+        </button>
+      </div>
+    </div>
+
+    <!-- Comment Section -->
+<div class="comment-section">
+    <div class="comment-input-container">
+        <input type="text" id="comment-input-${docId}" placeholder="Add a comment..." aria-label="Add a comment" />
+        <button class="btn btn-primary add-comment-btn" onclick="addComment('${docId}')" aria-label="Post Comment">
+            <i class="fa fa-paper-plane"></i> Post
+        </button>
+    </div>
+    <div id="comments-container-${docId}" class="comments-container"></div>
+</div>
+
+  </div>
+`;
+
+
+
+            fetchComments(docId);
+            // Add event listeners for buttons
+            const muteButton = videoCard.querySelector(".mute-toggle");
+            const messageButton = videoCard.querySelector(".message-button");
+            const connectButton = videoCard.querySelector(".connect-button");
+            const joinUsButton = videoCard.querySelector(".join-us-button");
+            const addUserButton = videoCard.querySelector(".add-user-button");
+            const likeButton = videoCard.querySelector(".like-btn");
+            const reportVideoBtn = videoCard.querySelector(".reportVideoBtn");
+if(user){
+            // Mute toggle functionality
+            reportVideoBtn.addEventListener("click", () => openReportModal(docId));
+            muteButton.addEventListener("click", () => toggleMute(docId));
+
+            // Other button actions
+            addUserButton.addEventListener("click", () => addToShortlist(docId));
+
+  
+            connectButton.addEventListener("click", () => handleConnect(docId, connectButton, profilePicture,reelUserID ,displayName));
+            messageButton.addEventListener("click", () => sendMessage(docId , profilePicture,reelUserID, displayName));
+}else{
+  joinUsButton.addEventListener("click", () => handleJoinUsBtn(docId));
+
+
+}
+
+
+// After appending videoCard to container
+const shareButton = videoCard.querySelector(".share-btn");
+const commentButton = videoCard.querySelector(".add-comment-btn");
+
+// Event Listeners
+likeButton.addEventListener("click", () => handleLike(docId, likeButton));
+shareButton.addEventListener("click", () => handleShare(docId, videoData.videoResumeURL));
+commentButton.addEventListener("click", () => addComment(docId));
+
+// Increment view count when video is played
+const videoElement = videoCard.querySelector(".video-element");
+videoElement.addEventListener("play", () => incrementViewCount(docId));
+
+            videoContainer.appendChild(videoCard);
+        });
+
+   
+        
+
+    } catch (error) {
+        console.error("Error fetching video resumes: ", error);
+        document.getElementById("video-reel-container").innerHTML = "<p>Error fetching video resumes. Please try again later.</p>";
+    }
+}
+
+// Functions for button actions
+function toggleMute(docId) {
+    const videoElement = document.querySelector(`#videoCard_${docId} .video-element`);
+    if (videoElement) {
+        videoElement.muted = !videoElement.muted;
+    }
+}
+function handleJoinUsBtn(docId) {
+    // Add further functionality as needed
+
+    window.location = "https://reelcareer.co/views/auth";
+
+}
+
+
+function addToShortlist(docId) {
+    showToast(`Not Implemented Yet: ${docId}`);
+    // Add further functionality as needed
+}
+
+
+// Function to increment view count
+async function incrementViewCount(docId) {
+    const videoRef = doc(db, "VideoResumes", docId);
+
+    try {
+        await updateDoc(videoRef, {
+            views: increment(1) // Firestore increment
+        });
+        console.log("View count incremented");
+    } catch (error) {
+        console.error("Error updating view count: ", error);
+    }
+}
+
+// Function to handle likes
+async function handleLike(docId, likeButton) {
+    const videoRef = doc(db, "VideoResumes", docId);
+
+    try {
+        await updateDoc(videoRef, {
+            likes: increment(1) // Firestore increment
+        });
+
+        // Update UI instantly
+        let likesCount = parseInt(likeButton.textContent) || 0;
+        likesCount++;
+        likeButton.innerHTML = `<i class="fa fa-thumbs-up"></i> ${likesCount}`;
+    } catch (error) {
+        console.error("Error updating like count: ", error);
+    }
+}
+
+// Function to format video duration to HH:MM:SS
+function formatDuration(duration) {
+    const seconds = Math.floor(duration % 60);
+    const minutes = Math.floor((duration / 60) % 60);
+    const hours = Math.floor(duration / 3600);
+
+    return [
+        hours > 0 ? hours.toString().padStart(2, "0") : null,
+        minutes.toString().padStart(2, "0"),
+        seconds.toString().padStart(1, "0")
+    ]
+        .filter(Boolean)
+        .join(":");
+}
+
+// Native Share Function
+function handleShare(docId, videoUrl) {
+    if (navigator.share) {
+        navigator
+            .share({
+                title: "Check out this video resume!",
+                text: "Watch this professional video resume on ReelCareer.",
+                url: videoUrl
+            })
+            .then(() => console.log("Video shared successfully"))
+            .catch((error) => console.error("Error sharing video: ", error));
+    } else {
+        alert("Sharing not supported on this device.");
+    }
+}
+
+// Add Comment Functionality
+async function addComment(docId, parentCommentId = null) {
+    const inputId = parentCommentId
+        ? `reply-input-${parentCommentId}` 
+        : `comment-input-${docId}`;
+    const commentInput = document.getElementById(inputId);
+    const commentText = commentInput.value.trim();
+    const userDataSaved = getUserData() || [];
+
+    if (commentText) {
+        const commentsRef = collection(db, "VideoResumes", docId, "comments");
+
+        try {
+            await addDoc(commentsRef, {
+                text: commentText,
+                commenterID: userID || userDataSaved.userId,
+                commenterName: userDataSaved.displayName || "User",
+                commenterProfileURL: `https://reelcareer.co/u/?u=${userID}`,
+                commenterProfilePicture: userDataSaved.profilePicture || "https://example.com/default-pic.png",
+                parentCommentId: parentCommentId || null, // Track parent comment
+                timestamp: serverTimestamp()
+            });
+
+            // Clear input and refresh comments
+            commentInput.value = "";
+            fetchComments(docId);
+        } catch (error) {
+            console.error("Error adding comment: ", error);
+        }
+    }
+}
+
+
+// Fetch and Display Comments
+async function fetchComments(docId) {
+    const commentsRef = collection(db, "VideoResumes", docId, "comments");
+    const querySnap = await getDocs(query(commentsRef, orderBy("timestamp", "asc")));
+
+    const commentsContainer = document.getElementById(`comments-container-${docId}`);
+    commentsContainer.innerHTML = ""; // Clear previous comments
+
+    const commentsMap = {}; // For organizing comments by parent
+
+    // Group comments by parentCommentId
+    querySnap.forEach((doc) => {
+        const comment = { id: doc.id, ...doc.data() };
+        if (comment.parentCommentId) {
+            commentsMap[comment.parentCommentId] = commentsMap[comment.parentCommentId] || [];
+            commentsMap[comment.parentCommentId].push(comment);
+        } else {
+            commentsMap[comment.id] = commentsMap[comment.id] || [];
+            commentsMap[comment.id].unshift(comment); // Main comment
+        }
+    });
+
+    // Render comments
+    Object.values(commentsMap).forEach((group) => {
+        group.forEach((comment) => {
+            if (!comment.parentCommentId) renderComment(comment, docId, commentsMap, commentsContainer);
+        });
+    });
+}
+
+function renderComment(comment, docId, commentsMap, container) {
+    const commentElement = document.createElement("div");
+    commentElement.classList.add("comment-item");
+    commentElement.innerHTML = `
+        <div class="comment-main">
+            <img src="${comment.commenterProfilePicture}" alt="${comment.commenterName}" class="comment-avatar">
+            <div class="comment-content">
+                <a href="${comment.commenterProfileURL}" class="comment-name">${comment.commenterName}</a>
+                <p>${comment.text}</p>
+                <button class="reply-btn" onclick="showReplyInput('${comment.id}', '${docId}')">
+                    <i class="fa fa-reply"></i> Reply
+                </button>
+                <div id="replies-container-${comment.id}"></div>
+            </div>
+        </div>
+        <div id="reply-input-container-${comment.id}" class="reply-input-container" style="display:none;">
+            <input type="text" id="reply-input-${comment.id}" placeholder="Write a reply..." />
+            <button onclick="addComment('${docId}', '${comment.id}')" aria-label="Post Reply">
+                <i class="fa fa-paper-plane"></i> Post
+            </button>
+        </div>
+    `;
+
+    container.appendChild(commentElement);
+
+    // Render replies (if any)
+    if (commentsMap[comment.id]) {
+        const repliesContainer = document.getElementById(`replies-container-${comment.id}`);
+        commentsMap[comment.id].forEach((reply) => renderComment(reply, docId, commentsMap, repliesContainer));
+    }
+}
+
+function showReplyInput(commentId) {
+    const inputContainer = document.getElementById(`reply-input-container-${commentId}`);
+    inputContainer.style.display = "flex";
+}
+
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  const videos = document.querySelectorAll(".video-element");
+
+  videos.forEach((video) => {
+    const container = video.parentElement;
+    const muteButton = container.querySelector(".mute-toggle");
+    const fullscreenButton = container.querySelector(".fullscreen-toggle");
+    const playOverlay = container.querySelector(".play-overlay");
+
+    // Play on overlay click
+    container.addEventListener("click", () => {
+      if (video.paused) {
+        video.play();
+        playOverlay.style.display = "none";
+      } else {
+        video.pause();
+        playOverlay.style.display = "flex";
+      }
+    });
+
+    // Mute/Unmute
+    muteButton.addEventListener("click", (e) => {
+      e.stopPropagation();
+      video.muted = !video.muted;
+      muteButton.innerHTML = video.muted
+        ? '<i class="fa fa-volume-mute"></i>'
+        : '<i class="fa fa-volume-up"></i>';
+    });
+
+    // Full-Screen Toggle
+    fullscreenButton.addEventListener("click", (e) => {
+      e.stopPropagation();
+      if (video.requestFullscreen) {
+        video.requestFullscreen();
+      } else if (video.webkitRequestFullscreen) {
+        video.webkitRequestFullscreen();
+      } else if (video.msRequestFullscreen) {
+        video.msRequestFullscreen();
+      }
+    });
+  });
+});
 
   
   async function reportVideo(docId) {
@@ -829,323 +1141,7 @@ window.reportVideo = reportVideo;
 
 
 
-        let page = 1;
-let postsPerPage = 10; // Define your posts per page
-let currentPage = 1;
-let totalPosts = 0; // Track total number of posts
-let lastVisibleDoc = null; // For pagination tracking (Firestore pagination)
-let firstVisibleDoc = null; // For backward navigation
-
-
-
-// Fetch Video Resumes from Firestore
-async function fetchVideoResumes(page, user) {
-    try {
-        const videoContainer = document.getElementById("video-reel-container");
-        videoContainer.innerHTML = ""; // Clear existing posts
-
-        let videosQuery;
-        const videosRef = collection(db, "VideoResumes");
-
-        // Handle Firestore pagination
-        if (page > 1 && lastVisibleDoc) {
-            videosQuery = query(
-                videosRef,
-                where("status", "==", "posted"),
-        orderBy("timestamp", "desc"), // Order by most recent timestamp
-                startAfter(lastVisibleDoc),
-                limit(postsPerPage)
-            );
-        } else {
-          videosQuery = query(
-        videosRef,
-        where("status", "==", "posted"),
-        orderBy("timestamp", "desc"), // Order by most recent timestamp
-        limit(postsPerPage)
-    );
-          }
-
-        const querySnap = await getDocs(videosQuery);
-        if (querySnap.empty) {
-            videoContainer.innerHTML = "<p>No video resumes available.</p>";
-            return;
-        }
-
-        const querySnapshot = querySnap.docs;
-        firstVisibleDoc = querySnapshot[0];
-        lastVisibleDoc = querySnapshot[querySnapshot.length - 1];
-
-        querySnapshot.forEach((doc) => {
-            const videoData = doc.data();
-            const docId = doc.id; // Firestore Document ID
-
-            console.log("docId   ",docId);
-            console.log("videoData   ",videoData);
-
-            let reelUserID = videoData.userID || '';
-            let profilePicture = videoData.profilePicture || '';
-            let displayName = videoData.displayName || '';
-
-            // Build the video card dynamically with real data
-            const videoCard = document.createElement("div");
-            videoCard.className = "video-post";
-            videoCard.dataset.docId = docId; // Add dataset attribute
-            videoCard.dataset.timestamp = videoData.timestamp;
-            videoCard.dataset.tags = videoData.tags || ''; // For search functionality
-            videoCard.dataset.displayName = videoData.displayName || '';
-            videoCard.dataset.position = videoData.position || '';
-            videoCard.dataset.location = videoData.location || '';
-            videoCard.dataset.verified = videoData.verified || '';
-            videoCard.dataset.reelUserID = videoData.userID || '';
-            videoCard.dataset.profilePicture = videoData.profilePicture || '';
-            generateVideoSchema(videoData, docId);
-
-let videoDuration = parseFloat(videoData.duration.toFixed(2));
-            videoCard.innerHTML = `
-                <div id="videoCard_${docId}" class="video-card">
-                    <div class="user-info">
-                      <div class="user-info-left">
-                        <img src="${videoData.profilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_sm.png'}"
-                             alt="${videoData.displayName}" 
-                             class="profile-img lazy-image">
-                        <div class="user-details">
-                        <a href="https://reelcareer.co/u/?u=${videoData.userID}"><h3 class="user-name">${videoData.displayName || 'Anonymous'}</a> 
-                              <small class="badge">${videoData.verified}</small </h3>
-                            <p class="job-title">${videoData.position || 'Not Specified'}</p>
-                        </div>
-                        </div>
-                      <div class="user-info-right">
-          <button class="reportVideoBtn" class="btn btn-warning w-100" data-doc-id="${docId}">Report Video</button>
-
-
-                        </div>
-                        </div>
-
-                    <div class="video-container">
-                        <video controls class="video-element" poster="${videoData.thumbnailURL || ''}">
-                            <source src="${videoData.videoResumeURL}" type="${videoData.fileType || 'video/mp4'}">
-                            Your browser does not support the video tag.
-                        </video>
-                        <button class="mute-toggle" data-doc-id="${docId}">Mute</button>
-                    </div>
-
-                    <div class="video-details">
-                        <p class="views-count"><i class="fa fa-eye"></i> ${videoData.views || 0} views</p>
-                        <p class="video-duration"><i class="fa fa-clock"></i> ${videoDuration || '--:--'}</p>
-                    </div>
-
-                    <div class="caption-container">
-                        <p class="video-caption">${videoData.videoResumeCaptions || ''}</p>
-                    </div>
- ${user ? ` 
-                    <div class="interaction-buttons">
-                      <button class="message-button" data-doc-id="${docId}">Message</button>
-                        <button class="connect-button" data-doc-id="${docId}">Connect</button>
-                        <button class="add-user-button" data-doc-id="${docId}" hidden>Add to Shortlist</button>
-                    </div>
-` : `                  <div class="interaction-buttons">
-                      <button class="join-us-button" data-doc-id="${docId}">Join Us</button>
-
-                    </div>
-                    
-                    `}
-             <div class="controls-container">
-    <div class="actions">
-        <button class="action-btn like-btn" data-doc-id="${docId}">
-            <i class="fa fa-thumbs-up"></i> ${videoData.likes || 0}
-        </button>
-        <button class="action-btn share-btn" data-doc-id="${docId}">
-            <i class="fa fa-share-alt"></i> Share
-        </button>
-    </div>
-</div>
-
-<!-- Comment Section -->
-<div class="comment-section">
-    <input type="text" id="comment-input-${docId}" placeholder="Add a comment..." />
-    <button class="btn btn-secondary add-comment-btn" data-doc-id="${docId}">Post</button>
-    <div id="comments-container-${docId}" class="comments-container"></div>
-</div>
-
-            `;
-
-
-            fetchComments(docId);
-            // Add event listeners for buttons
-            const muteButton = videoCard.querySelector(".mute-toggle");
-            const messageButton = videoCard.querySelector(".message-button");
-            const connectButton = videoCard.querySelector(".connect-button");
-            const joinUsButton = videoCard.querySelector(".join-us-button");
-            const addUserButton = videoCard.querySelector(".add-user-button");
-            const likeButton = videoCard.querySelector(".like-btn");
-            const reportVideoBtn = videoCard.querySelector(".reportVideoBtn");
-if(user){
-            // Mute toggle functionality
-            reportVideoBtn.addEventListener("click", () => openReportModal(docId));
-            muteButton.addEventListener("click", () => toggleMute(docId));
-
-            // Other button actions
-            addUserButton.addEventListener("click", () => addToShortlist(docId));
-
-  
-            connectButton.addEventListener("click", () => handleConnect(docId, connectButton, profilePicture,reelUserID ,displayName));
-            messageButton.addEventListener("click", () => sendMessage(docId , profilePicture,reelUserID, displayName));
-}else{
-  joinUsButton.addEventListener("click", () => handleJoinUsBtn(docId));
-
-
-}
-
-
-// After appending videoCard to container
-const shareButton = videoCard.querySelector(".share-btn");
-const commentButton = videoCard.querySelector(".add-comment-btn");
-
-// Event Listeners
-likeButton.addEventListener("click", () => handleLike(docId, likeButton));
-shareButton.addEventListener("click", () => handleShare(docId, videoData.videoResumeURL));
-commentButton.addEventListener("click", () => addComment(docId));
-
-// Increment view count when video is played
-const videoElement = videoCard.querySelector(".video-element");
-videoElement.addEventListener("play", () => incrementViewCount(docId));
-
-            videoContainer.appendChild(videoCard);
-        });
-
    
-        
-
-    } catch (error) {
-        console.error("Error fetching video resumes: ", error);
-        document.getElementById("video-reel-container").innerHTML = "<p>Error fetching video resumes. Please try again later.</p>";
-    }
-}
-
-// Functions for button actions
-function toggleMute(docId) {
-    const videoElement = document.querySelector(`#videoCard_${docId} .video-element`);
-    if (videoElement) {
-        videoElement.muted = !videoElement.muted;
-    }
-}
-function handleJoinUsBtn(docId) {
-    // Add further functionality as needed
-
-    window.location = "https://reelcareer.co/views/auth";
-
-}
-
-
-function addToShortlist(docId) {
-    showToast(`Not Implemented Yet: ${docId}`);
-    // Add further functionality as needed
-}
-
-
-// Function to increment view count
-async function incrementViewCount(docId) {
-    const videoRef = doc(db, "VideoResumes", docId);
-
-    try {
-        await updateDoc(videoRef, {
-            views: increment(1) // Firestore increment
-        });
-        console.log("View count incremented");
-    } catch (error) {
-        console.error("Error updating view count: ", error);
-    }
-}
-
-// Function to handle likes
-async function handleLike(docId, likeButton) {
-    const videoRef = doc(db, "VideoResumes", docId);
-
-    try {
-        await updateDoc(videoRef, {
-            likes: increment(1) // Firestore increment
-        });
-
-        // Update UI instantly
-        let likesCount = parseInt(likeButton.textContent) || 0;
-        likesCount++;
-        likeButton.innerHTML = `<i class="fa fa-thumbs-up"></i> ${likesCount}`;
-    } catch (error) {
-        console.error("Error updating like count: ", error);
-    }
-}
-
-// Function to format video duration to HH:MM:SS
-function formatDuration(duration) {
-    const seconds = Math.floor(duration % 60);
-    const minutes = Math.floor((duration / 60) % 60);
-    const hours = Math.floor(duration / 3600);
-
-    return [
-        hours > 0 ? hours.toString().padStart(2, "0") : null,
-        minutes.toString().padStart(2, "0"),
-        seconds.toString().padStart(1, "0")
-    ]
-        .filter(Boolean)
-        .join(":");
-}
-
-// Native Share Function
-function handleShare(docId, videoUrl) {
-    if (navigator.share) {
-        navigator
-            .share({
-                title: "Check out this video resume!",
-                text: "Watch this professional video resume on ReelCareer.",
-                url: videoUrl
-            })
-            .then(() => console.log("Video shared successfully"))
-            .catch((error) => console.error("Error sharing video: ", error));
-    } else {
-        alert("Sharing not supported on this device.");
-    }
-}
-
-// Add Comment Functionality
-async function addComment(docId) {
-    const commentInput = document.getElementById(`comment-input-${docId}`);
-    const commentText = commentInput.value.trim();
-
-    if (commentText) {
-        const commentRef = collection(db, "VideoResumes", docId, "comments");
-
-        try {
-            await addDoc(commentRef, {
-                text: commentText,
-                timestamp: serverTimestamp()
-            });
-
-            // Clear input and fetch comments again
-            commentInput.value = "";
-            fetchComments(docId);
-        } catch (error) {
-            console.error("Error adding comment: ", error);
-        }
-    }
-}
-
-// Fetch and Display Comments
-async function fetchComments(docId) {
-    const commentsRef = collection(db, "VideoResumes", docId, "comments");
-    const querySnap = await getDocs(query(commentsRef, orderBy("timestamp", "asc")));
-
-    const commentsContainer = document.getElementById(`comments-container-${docId}`);
-    commentsContainer.innerHTML = "";
-
-    querySnap.forEach((commentDoc) => {
-        const comment = commentDoc.data();
-        const commentElement = document.createElement("p");
-        commentElement.textContent = comment.text;
-        commentsContainer.appendChild(commentElement);
-    });
-}
-
-
 function generateVideoSchema(videoData, docId) {
     // Convert Firebase Timestamp to JavaScript Date
     const uploadDate = videoData.createdAt 
