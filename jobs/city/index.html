@@ -292,6 +292,16 @@ background-color: #0056b3;
 
 }
 
+// Group cities alphabetically
+function groupCitiesByLetter(cities) {
+  const grouped = {};
+  cities.forEach(city => {
+    const letter = city.charAt(0).toUpperCase(); // Get first letter and uppercase it
+    if (!grouped[letter]) grouped[letter] = [];
+    grouped[letter].push(city);
+  });
+  return grouped;
+}
 
 async function displayCityList(jobsContainer) {
   try {
@@ -315,16 +325,6 @@ async function displayCityList(jobsContainer) {
     const citiesPerPage = 25;
 
     // Function to render cities for the current page
-// Group cities alphabetically
-function groupCitiesByLetter(cities) {
-  const grouped = {};
-  cities.forEach(city => {
-    const letter = city.charAt(0).toUpperCase(); // Get first letter and uppercase it
-    if (!grouped[letter]) grouped[letter] = [];
-    grouped[letter].push(city);
-  });
-  return grouped;
-}
 
 // Render Cities
 function renderCities(cities, jobsContainerX) {
@@ -384,6 +384,14 @@ function scrollToTop() {
       */
 
 
+    } catch (error) {
+    console.error("Error fetching city list:", error);
+    jobsContainer.innerHTML = `<p>Failed to load city list.</p>`;
+  }
+}
+
+
+
 // Fetch Cities Data and Initialize Render
 async function fetchAndRenderCities(jobsContainer) {
   try {
@@ -412,14 +420,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
  
-
-  } catch (error) {
-    console.error("Error fetching city list:", error);
-    jobsContainer.innerHTML = `<p>Failed to load city list.</p>`;
-  }
-}
-
-
 // Search functionality for cities
 function searchCities(containerId) {
   const searchTerm = document.getElementById('job-search').value.toLowerCase();
