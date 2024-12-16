@@ -825,7 +825,7 @@ videoCard.innerHTML = `
       <p class="video-tags">${videoData.tags || ''}</p>
     </div>
 
-    ${user ? `
+    ${userId ? `
       <div class="interaction-buttons">
         <button class="message-button" data-doc-id="${docId}" aria-label="Message User">
           <i class="fa fa-envelope"></i> Message
@@ -892,7 +892,7 @@ videoCard.innerHTML = `
             const addUserButton = videoCard.querySelector(".add-user-button");
             const likeButton = videoCard.querySelector(".like-btn");
             const reportVideoBtn = videoCard.querySelector(".reportVideoBtn");
-if(user){
+if(userId){
             // Mute toggle functionality
             reportVideoBtn.addEventListener("click", () => openReportModal(docId));
             muteButton.addEventListener("click", () => toggleMute(docId));
@@ -979,10 +979,10 @@ function handleJoinUsBtn(docId) {
 
 function addToShortlist(docId) {
   // Example: Add the video to the user's shortlist (if they are logged in)
-  if (user) {
-    const shortlistRef = collection(db, "Users",user.uid ,"Shortlists");
+  if (userId) {
+    const shortlistRef = collection(db, "Users",userId,"Shortlists");
     addDoc(shortlistRef, {
-      userID: user.uid,
+      userID: userId,
       videoDocId: docId,
       timestamp: new Date(),
     })
