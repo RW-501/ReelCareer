@@ -783,6 +783,11 @@ function renderVideos(docs, container) {
             videoCard.dataset.verified = videoData.verified || '';
             videoCard.dataset.reelUserID = videoData.userID || '';
             videoCard.dataset.profilePicture = videoData.profilePicture || '';
+            videoCard.dataset.duration = videoData.duration || 0;
+            videoCard.dataset.likes = videoData.likes || 0;
+            videoCard.dataset.loves = videoData.loves || 0;
+            videoCard.dataset.userID = videoData.userID || '';
+            videoCard.dataset.views = videoData.views || '';
             generateVideoSchema(videoData, docId);
 
 let videoDuration = parseFloat(videoData.duration.toFixed(2));
@@ -888,6 +893,11 @@ videoCard.innerHTML = `
 
   </div>
 `;
+
+
+container.appendChild(videoCard);
+
+
 console.log("Rendering video doc:", doc.data());
 
         // Add tags
@@ -948,7 +958,6 @@ videoElement.addEventListener("play", () => incrementViewCount(docId));
       
         
 
-        container.appendChild(videoCard);
     });
 }
 
