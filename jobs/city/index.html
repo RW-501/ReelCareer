@@ -307,7 +307,7 @@ async function displayCityList(jobsContainer) {
   try {
     const response = await fetch('https://reelcareer.co/scripts/json/cities.json');
     const data = await response.json();
-    console.log("jobsContainer  ", jobsContainer);
+   // console.log("jobsContainer  ", jobsContainer);
 
     const cities = [...new Set(data.cities)]
       .filter(city => city?.length > 0) // Remove empty or undefined strings
@@ -368,7 +368,7 @@ function renderCities(cities, jobsContainer) {
     </div>
   `;
   populateCityLetters();
-  
+
   // Handle Scroll Up Button
   const scrollUpButton = document.getElementById("scrollUpButton");
   if(scrollToTop){

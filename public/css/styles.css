@@ -1306,8 +1306,8 @@ main .jobCard:hover {
                 justify-items: start;
                 width: 100%;
                 -webkit-text-stroke: thin;
-
-              }
+                text-align: center;
+            }
             
 
             
