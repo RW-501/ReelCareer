@@ -1559,11 +1559,10 @@ function populateSearchBar() {
   if (jobType) document.getElementById('jobTypeInput').value = jobType;
   if (salaryRange) document.getElementById('salaryInput').value = salaryRange;
 
-  console.log
+  console.log("tag || keywords || location || jobType || salaryRange ",tag || keywords || location || jobType || salaryRange);
   // Return true if at least one value is populated
   return  tag || keywords || location || jobType || salaryRange;
 }
-console.log("tag || keywords || location || jobType || salaryRange ",tag || keywords || location || jobType || salaryRange);
 // On window load, populate search bar and fetch job listings
 window.onload = async function () {
   const hasSearchParams = populateSearchBar();
