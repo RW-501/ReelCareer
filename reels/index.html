@@ -692,32 +692,10 @@ body {
                 ></div>
 
 
-         <!-- Attachment Preview -->
-         <div id="attachment-preview" class="mt-3 d-none">
-          <div class="attachment-area align-items-center">
-            <video id="attachmentVideo" class="d-none attachment-thumbnail" controls src=""></video>
-            <img id="attachment-thumbnail" class="d-none attachment-thumbnail" src="" alt="Attachment preview" width="50" class="mr-2">
-            <button type="button" id="remove-attachment" class="btn btn-sm btn-danger">X</button>
-        </div>
-        </div>
 
                 </div>
 
-          <!-- Attachment Section -->
-          <div class="attachment-container">
-            <div class="mt-3">
-            <button type="button" id="attachment-btn" class="btn btn-outline-primary">
-              <i class="fas fa-paperclip"></i> Choose File
-            </button>
-          </div>
-
-         <!-- Submit Button -->
-         <div class="mt-3">
-          <button type="submit" class="btn btn-primary mt-3">Send</button>
-        </div>
-
-
-          </div>
+    
               </div>
 
 
@@ -725,10 +703,6 @@ body {
 
 
 
-              <span id="attachment-name" class="mr-2" hidden></span>
-
-              <input type="hidden" id="recipient-id" value="">
-              <input type="file" id="message-attachments" class="d-none" />
 
                 <!-- Hidden Textarea to Sync Content -->
                 <textarea id="message-content" class="d-none"></textarea>
@@ -1128,7 +1102,7 @@ if(userId){
 
   
             connectButton.addEventListener("click", () => handleConnect(docId, connectButton, profilePicture,reelUserID ,displayName));
-            messageButton.addEventListener("click", () => sendMessage(docId , profilePicture,reelUserID, displayName));
+            messageButton.addEventListener("click", () => sendMessage(docId , profilePicture,reelUserID, displayName,connectButton));
 }else{
   joinUsButton.addEventListener("click", () => handleJoinUsBtn(docId));
 
@@ -1693,24 +1667,23 @@ async function handleConnect(docId, connectButton , viewProfilePicture, viewUser
     const userID = auth.currentUser.uid;
 
   //  const userId = getUserId(); // Logged-in user
-    const userIdFromURL = viewUserID;
     const userDataSaved = await getUserData() || {};
     const toName = viewDisplayName;
     const toProfilePicture = viewProfilePicture;
 
     // Validate inputs
-    if (!userId || !userIdFromURL) {
+    if (!userID || !viewUserID) {
       showToast('User information is incomplete.');
       return;
     }
 
-    if (userID === userid) {
+    if (userID === viewUserID) {
       showToast('You cannot connect with yourself.');
       return;
     }
 
     // Construct document ID
-    const docId = `${userid}_${userId}`;
+    const docId = `${viewUserID}_${userId}`;
     const connectionRef = doc(db, 'Connections', docId);
 
     // Update button state
@@ -1720,21 +1693,21 @@ async function handleConnect(docId, connectButton , viewProfilePicture, viewUser
     // Prepare and save connection data
     const connectionData = {
     from: userId,
-    to: userId,
+    to: viewUserID,
     toProfilePicture: toProfilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_tie_reel.png',
     toName: toName,
-    toProfileURL: `https://reelcareer.co/u?u=${userIdFromURL}`,
+    toProfileURL: `https://reelcareer.co/u/?u=${viewUserID}`,
     toGroup: 'Networking',
 
     acceptDate: '',
-    participants: [userId, userIdFromURL], // Add this array
+    participants: [userId, viewUserID], // Add this array
     status: 'pending',
     createdAt: new Date(),
     fromGroup: 'Networking',
     fromNote: '',
     fromName: userDataSaved.displayName,
     fromProfilePicture: userDataSaved.profilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_tie_reel.png',
-    fromProfileURL: `https://reelcareer.co/u?u=${userId}`
+    fromProfileURL: `https://reelcareer.co/u/?/u=${userId}`
 };
 
 await setDoc(connectionRef, connectionData);
@@ -1768,7 +1741,7 @@ function updateButtonState(button, text, disable = false) {
 
 
 
-function sendMessage(docId , profilePicture,reelUserID, senderdisplayName) {
+function sendMessage(docId , profilePicture,reelUserID, senderdisplayName,connectBtn) {
 
   
     
@@ -1794,17 +1767,36 @@ function sendMessage(docId , profilePicture,reelUserID, senderdisplayName) {
     const senderID = auth.currentUser.uid;
 
    // console.log("UserData: ", UserData);
-   // console.log("UserID: ", UserID);
-   // console.log("UserId: ", UserId);
+   console.log("userId: ", userId);
+   console.log("recipientName: ", recipientName);
+   console.log("currentUserId: ", currentUserId);
+   console.log("userPageId: ", userPageId);
+
+
     console.log("senderID: ", senderID);
     console.log("userDataSaved: ", userDataSaved);
 
-    if (senderID !== userIdFromURL) {
-        document.getElementById('recipient-id').value = userIdFromURL; // Set recipient ID
+    if (senderID !== userPageId) {
+        document.getElementById('recipient-id').value = userPageId; // Set recipient ID
+
+ 
         $('#sendMessageModal').modal('show'); // Show modal
     } else {
         showToast('You cannot send a message to yourself.');
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
 };
 
 
@@ -1815,44 +1807,16 @@ document.getElementById('message-content-editable').addEventListener('keyup', fu
   toggleSendButton(content);
 });
 
-// Remove attachment
-document.getElementById('remove-attachment').addEventListener('click', function () {
-  document.getElementById('message-attachments').value = '';
-  document.getElementById('attachment-preview').classList.add('d-none');
-  document.getElementById('attachment-thumbnail').classList.add('d-none');
-  document.getElementById('attachment-name').innerText = '';
-  toggleSendButton(document.getElementById('message-content').value.trim());
-});
+
 
 // Show recipient's name
 function setRecipientName(recipientName) {
   document.getElementById('recipient-name').textContent = `Message to: ${recipientName}`;
 }
 
-// Trigger file picker
-document.getElementById('attachment-btn').addEventListener('click', function () {
-  document.getElementById('message-attachments').click();
-});
 
-// Handle attachment preview
-document.getElementById('message-attachments').addEventListener('change', function () {
-  const file = this.files[0];
-  if (file) {
-    document.getElementById('attachment-name').innerText = file.name;
-    const preview = document.getElementById('attachment-thumbnail');
-    
-    if (file.type.startsWith('image/')) {
-      preview.src = URL.createObjectURL(file);
-      preview.classList.remove('d-none');
-      preview.className = 'lazy-image';
 
-    } else {
-      preview.classList.add('d-none');
-    }
-    document.getElementById('attachment-preview').classList.remove('d-none');
-  }
-  toggleSendButton(document.getElementById('message-content').value.trim());
-});
+
 
 // Enable/disable Send button
 function toggleSendButton(content) {
@@ -1860,72 +1824,64 @@ function toggleSendButton(content) {
   const sendButton = document.querySelector('#sendMessageForm button[type="submit"]');
   sendButton.disabled = !(content || attachment);
 }
-async function uploadAttachment(conversationID, file) {
-    try {
-        // Ensure 'storage' is properly initialized
-        const storageInstance = getStorage(); // Use Firebase's getStorage method
 
-        // Create a storage reference dynamically based on conversationID and file name
-        const fileRef = ref(storageInstance, `messages/${conversationID}/${file.name}`);
 
-        // Upload the file to Firebase Storage
-        const snapshot = await uploadBytes(fileRef, file);
-
-        // Get the download URL for the uploaded file
-        return await getDownloadURL(snapshot.ref);
-    } catch (error) {
-        console.error("Error uploading attachment:", error);
-        throw new Error('Failed to upload attachment.'); // Handle this in calling function
-    }
-}
 
 // Your form submission logic
 document.getElementById('sendMessageForm').addEventListener('submit', async function (e) {
     e.preventDefault();
 
     // Gather recipient and sender data
-    const recipientProfilePicture = document.getElementById('profilePic').src;
-    const recipientName = document.getElementById('user-name').innerText;
+
     const recipientID = document.getElementById('recipient-id').value;
+    const currentVideoId = document.getElementById('currentVideoId').innerText;
     const senderID = auth.currentUser.uid;
     const content = document.getElementById('message-content').value.trim();
-    const attachmentFile = document.getElementById('message-attachments').files[0];
     const connectBtn = document.getElementById('connect-btn');
 
     const userDataSaved = getUserData() || {};
     const connectedBool = connectBtn.innerText === "Connected";
 
-    // Determine contentType
-    let contentType = 'text';
-    if (attachmentFile) {
-        const fileExtension = attachmentFile.name.split('.').pop().toLowerCase();
-        const typeMapping = {
-            image: ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'svg', 'webp'],
-            video: ['mp4', 'avi', 'mov', 'mkv', 'webm'],
-            audio: ['mp3', 'wav', 'aac', 'ogg', 'flac'],
-            document: ['pdf', 'doc', 'docx', 'ppt', 'pptx', 'xls', 'xlsx'],
-            archive: ['zip', 'rar', '7z', 'tar', 'gz'],
-        };
+   
+  // Get the video card by its ID
+const videoCard = document.getElementById(`videoCard_${currentVideoId}`);
 
-        for (const [type, extensions] of Object.entries(typeMapping)) {
-            if (extensions.includes(fileExtension)) {
-                contentType = type;
-                break;
-            }
-        }
-    }
+// Access the dataset attributes
+const docId = videoCard.dataset.docId;
+const timestamp = videoCard.dataset.timestamp;
+const tags = videoCard.dataset.tags;
+const displayName = videoCard.dataset.displayName;
+const position = videoCard.dataset.position;
+const location = videoCard.dataset.location;
+const verified = videoCard.dataset.verified;
+const reelUserID = videoCard.dataset.reelUserId; // Note: 'reel-user-i-d' translates to 'reelUserId'
+const profilePicture = videoCard.dataset.profilePicture;
+const duration = videoCard.dataset.duration;
+const likes = videoCard.dataset.likes;
+const loves = videoCard.dataset.loves;
+const userID = videoCard.dataset.userId; // 'user-i-d' becomes 'userId'
+const views = videoCard.dataset.views;
 
-    let attachmentUrl = '';
-    if (attachmentFile) {
-        try {
-            // Upload the attachment and get its URL
-            attachmentUrl = await uploadAttachment(recipientID, attachmentFile);
-        } catch (error) {
-            console.error('Attachment upload failed:', error);
-            showToast('Failed to upload attachment. Please try again.');
-            return; // Stop form submission on failure
-        }
-    }
+// Log the retrieved data
+console.log({
+  docId,
+  timestamp,
+  tags,
+  displayName,
+  position,
+  location,
+  verified,
+  reelUserID,
+  profilePicture,
+  duration,
+  likes,
+  loves,
+  userID,
+  views
+});
+
+
+    console.log("senderID: ", senderID);
 
     // Construct message data
     const messageData = {
@@ -1939,16 +1895,16 @@ document.getElementById('sendMessageForm').addEventListener('submit', async func
         senderProfileURL: `https://reelcareer.co/u?u=${userDataSaved.userID}`,
         group: 'main',
         messageType: 'contact',
-        contactLocation: 'Profile',
+        contactLocation: 'video reel',
         participants: [userDataSaved.userID || senderID, recipientID],
         conversationID: recipientID,
         content,
         connectedBool,
         createdAt: new Date(),
         timestamp: serverTimestamp(),
-        contentType,
+        contentType: "text",
         status: 'unread',
-        attachments: attachmentFile ? attachmentFile.name : '',
+        attachments:  '',
         attachmentUrl,
         isDeleted: false,
     };
