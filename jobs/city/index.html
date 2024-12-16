@@ -344,7 +344,7 @@ async function displayCityList(jobsContainer) {
 
 // Render Cities
 function renderCities(data, jobsContainer) {
-  console.log("cities ", cities);
+  console.log("cities ", data.cities);
 
   const groupedCities = groupCitiesByLetter(data.cities);
   console.log("groupedCities ", groupedCities);
@@ -353,20 +353,21 @@ function renderCities(data, jobsContainer) {
     .map(([letter, cityList]) => `
       <div id="${letter}" class="city-group">
         <div class="city-letter">
-          <h3 class="city-letter-title">${letter} <span class="city-count">(${citiesList.length})</span></h3>
+          <h3 class="city-letter-title">${letter} <span class="city-count">(${cityList.length})</span></h3>
           <hr class="city-divider">
         </div>
-        <div class="city-list">cityList
+        <div class="city-list">
           ${cityList.map(city => `
             <div class="state-city-card" data-job-location="${city}">
               <a href="https://reelcareer.co/jobs/city/?c=${encodeURIComponent(city)}">
                 <i class="fas fa-city"></i>
               </a>
-              <h4><a href="https://reelcareer.co/jobs/city/?c=${encodeURIComponent(city)}">${city}</a></h4>
+              <h4>
+                <a href="https://reelcareer.co/jobs/city/?c=${encodeURIComponent(city)}">${city}</a>
+              </h4>
             </div>
           `).join('')}
         </div>
-
       </div>
     `).join('');
 
@@ -374,16 +375,12 @@ function renderCities(data, jobsContainer) {
     <div class="jobs-header">
       <h2 class="header-title">Available Cities</h2>
       <h4 class="header-subtitle">Total Cities: ${data.cities.length}</h4>
-      <div id="cityLetters">${groupedCityHTML}</div>
     </div>
-     <button id="scrollUpButton" class="scroll-up-button" onclick="scrollToTop()">⬆ Scroll to Top</button>
+    <div id="cityLetters">${groupedCityHTML}</div>
+    <button id="scrollUpButton" class="scroll-up-button" onclick="scrollToTop()">⬆ Scroll to Top</button>
   `;
-  populateCityLetters();
-
-  
-  
- 
 }
+
 
 // Utility: Scroll to Top Function
 function scrollToTop() {
