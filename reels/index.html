@@ -369,11 +369,12 @@ body {
 }
 
 #reportJobModal .modal-content {
-  width: 80%;
-  max-width: 600px;
-  padding: 20px;
-  border-radius: 10px;
-  background: linear-gradient(45deg, rgb(143, 192, 220), rgb(178, 209, 227)) rgb(132, 173, 234);
+    height: 90%;
+    width: 80%;
+    max-width: 600px;
+    padding: 20px;
+    border-radius: 10px;
+    background: linear-gradient(45deg, rgb(143, 192, 220), rgb(178, 209, 227)) rgb(132, 173, 234);
 }
 
 #reportForm .checkbox-group {
@@ -385,11 +386,11 @@ body {
 }
 
 #reportForm textarea {
-  width: 100%;
-  height: 150px;
-  padding: 10px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
+    width: 100%;
+    height: 80px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
 }
 
 #reportForm .btn {
@@ -559,17 +560,11 @@ body {
             <input type="checkbox" id="spam" name="reason" value="Spam">
             <label for="spam">Spam or misleading content</label><br>
     
-            <input type="checkbox" id="incorrectInfo" name="reason" value="Incorrect Information">
-            <label for="incorrectInfo">Incorrect or misleading information</label><br>
-    
             <input type="checkbox" id="scam" name="reason" value="Scam">
             <label for="scam">Fraudulent or scam content</label><br>
     
             <input type="checkbox" id="offensive" name="reason" value="Offensive Content">
             <label for="offensive">Offensive, harmful, or abusive content</label><br>
-    
-            <input type="checkbox" id="copyright" name="reason" value="Copyright Infringement">
-            <label for="copyright">Copyright infringement</label><br>
     
             <input type="checkbox" id="violence" name="reason" value="Violence or Hate Speech">
             <label for="violence">Violence, hate speech, or harassment</label><br>
@@ -1317,12 +1312,12 @@ document.addEventListener("DOMContentLoaded", () => {
 }
 function openReportModal(videoId) {
   document.getElementById('currentVideoId').innerText = videoId;
-    document.getElementById('reportModal').style.display = 'block'; // No need for !important
+    document.getElementById('reportJobModal').style.display = 'block'; // No need for !important
 }
 
 // Close the report job modal
 function closeReportModal() {
-    document.getElementById('reportModal').style.display = 'none'; // No need for !important
+    document.getElementById('reportJobModal').style.display = 'none'; // No need for !important
 }
 
 // Attach the modal open/close functions to the global window object
@@ -1332,7 +1327,7 @@ window.closeReportModal = closeReportModal;
 
 // Get elements for modal interactions
 const closeModal = document.querySelector('.close');
-const cancelBtn = document.getElementById('cancelBtn');
+const cancelBtn = document.getElementById('closeReportModalButton');
 const modal = document.getElementById('applicationModal');
 
 // Close modal on clicking the close button (X)
