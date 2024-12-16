@@ -370,19 +370,25 @@ function renderCities(cities, jobsContainer) {
 
   // Handle Scroll Up Button
   const scrollUpButton = document.getElementById("scrollUpButton");
-  window.onscroll = function () {
+  if(scrollToTop){
+    window.onscroll = function () {
     if (document.documentElement.scrollTop > 100) {
       scrollUpButton.style.display = "block";
     } else {
       scrollUpButton.style.display = "none";
     }
   };
+
+
+  }
+ 
 }
 
 // Utility: Scroll to Top Function
 function scrollToTop() {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
+window.scrollToTop = scrollToTop;
 /*
    // Function to scroll smoothly to the top of the cityLetters container
     function scrollToTop() {
