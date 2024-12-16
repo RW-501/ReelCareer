@@ -1075,9 +1075,7 @@ videoCard.innerHTML = `
         <button class="connect-button" data-doc-id="${docId}" aria-label="Connect with User">
           <i class="fa fa-user-plus"></i> Connect
         </button>
-        <button class="add-user-button" data-doc-id="${docId}" hidden aria-label="Add to Shortlist">
-          <i class="fa fa-plus"></i> Shortlist
-        </button>
+
       </div>
     
 
@@ -1124,6 +1122,10 @@ videoCard.innerHTML = `
       <p class="views-count" aria-label="${videoData.views || 0} views">
         <i class="fa fa-play-circle"></i> ${videoData.views || 0} views
       </p>
+              <button class="add-user-button" data-doc-id="${docId}"  aria-label="Add to Shortlist">
+          <i class="fa fa-plus"></i> Shortlist
+        </button>
+
       <p class="video-duration" aria-label="Video duration ${videoDuration || '--:--'}">
         <i class="fa fa-clock"></i> ${videoDuration || '--:--'}
       </p>
