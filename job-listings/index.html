@@ -1365,7 +1365,7 @@ function displayJobListings(jobListings) {
 
   // Iterate over jobListings and create a card for each
   jobListings.forEach(job => {
-    console.log("Displaying job:", job);
+   // console.log("Displaying job:", job);
     createJobCard(job ,jobContainer); // Assuming createJobCard returns an HTML element or string
    // jobContainer.innerHTML += jobCard; // Append job card to container
   });
@@ -1559,18 +1559,18 @@ function populateSearchBar() {
   if (jobType) document.getElementById('jobTypeInput').value = jobType;
   if (salaryRange) document.getElementById('salaryInput').value = salaryRange;
 
-  console.log("tag || keywords || location || jobType || salaryRange ",tag || keywords || location || jobType || salaryRange);
+
   // Return true if at least one value is populated
   return  tag || keywords || location || jobType || salaryRange ;
 }
 // On window load, populate search bar and fetch job listings
 window.onload = async function () {
   const hasSearchParams = populateSearchBar();
-  console.log("hasSearchParams  ", hasSearchParams);
+ // console.log("hasSearchParams  ", hasSearchParams);
 
   if (hasSearchParams) {
 
-    console.log("hasSearchParams  TRUE");
+   // console.log("hasSearchParams  TRUE");
 
     // If there are search parameters, fetch based on them
     if (typeof searchJobs === 'function') {

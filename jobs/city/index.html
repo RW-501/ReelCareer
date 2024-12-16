@@ -321,6 +321,13 @@ async function displayCityList(jobsContainer) {
       return acc;
     }, {});
 
+  } catch (error) {
+    console.error("Error fetching city list:", error);
+    jobsContainer.innerHTML = `<p>Failed to load city list.</p>`;
+  }
+}
+
+
     let startAfterIndex = 0;
     const citiesPerPage = 25;
 
@@ -381,13 +388,6 @@ function scrollToTop() {
       document.getElementById("cityLetters").scrollIntoView({ behavior: "smooth" });
     }
       */
-
-
-    } catch (error) {
-    console.error("Error fetching city list:", error);
-    jobsContainer.innerHTML = `<p>Failed to load city list.</p>`;
-  }
-}
 
 
 
