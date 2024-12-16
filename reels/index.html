@@ -1211,7 +1211,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
   
-  async function reportVideo(docId) {
+  async function submitReport() {
     const selectedReasons = [];
     document.querySelectorAll('#reportJobForm input[type="checkbox"]:checked').forEach((checkbox) => {
         selectedReasons.push(checkbox.value);
@@ -1346,7 +1346,7 @@ if (cancelBtn) {
 }
 window.closeReportModal = closeReportModal;
 
-window.reportVideo = reportVideo;
+window.submitReport = submitReport;
 
 
 
