@@ -727,13 +727,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Infinite Scroll
     window.addEventListener("scroll", () => {
-        console.log("Window scrolled:", window.innerHeight + window.scrollY);
+       // console.log("Window scrolled:", window.innerHeight + window.scrollY);
         if (
             window.innerHeight + window.scrollY >= document.body.offsetHeight - 500 &&
             !searchingByTag
         ) {
             console.log("Fetching more videos due to scroll");
-            fetchVideoResumes();
+         //   fetchVideoResumes();
         }
     });
 });
