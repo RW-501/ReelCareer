@@ -239,6 +239,189 @@
     margin-top: 5px;
 }
 
+
+/* General Styling */
+body {
+  font-family: Arial, sans-serif;
+  background: linear-gradient(45deg, rgb(143, 192, 220), rgb(178, 209, 227)) rgb(132, 173, 234);
+  color: #333;
+  margin: 0;
+  padding: 0;
+}
+
+#main-content {
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.8); /* Light background for main content */
+  border-radius: 10px;
+}
+
+/* Search Area Styling */
+.search-area {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+#search-input {
+  padding: 10px;
+  width: 100%;
+  max-width: 500px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+
+#search-input:focus {
+  outline: none;
+  border-color: rgb(132, 173, 234);
+}
+
+/* Video Reel Container */
+.video-reel-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.video-reel-container .video-card {
+  width: 200px;
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.video-reel-container .video-card img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.video-reel-container .video-card .video-title {
+  padding: 10px;
+  font-weight: bold;
+  background-color: rgb(143, 192, 220);
+  color: #fff;
+  text-align: center;
+  font-size: 16px;
+}
+
+/* Modal Styling */
+.modal-content {
+  background: linear-gradient(45deg, rgb(143, 192, 220), rgb(178, 209, 227)) rgb(132, 173, 234);
+  border-radius: 10px;
+}
+
+.modal-header {
+  background-color: rgb(132, 173, 234);
+  color: #fff;
+}
+
+.modal-header .close {
+  color: #fff;
+  font-size: 24px;
+}
+
+.modal-body {
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+}
+
+/* Form Styling */
+#sendMessageForm {
+  display: flex;
+  flex-direction: column;
+}
+
+#sendMessageForm .message-input-area {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  min-height: 150px;
+  padding: 10px;
+  font-size: 14px;
+}
+
+#attachment-btn {
+  margin-top: 10px;
+  padding: 8px 15px;
+  background-color: rgb(132, 173, 234);
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#attachment-btn:hover {
+  background-color: rgb(143, 192, 220);
+}
+
+/* Report Modal Styling */
+#reportJobModal {
+  background-color: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#reportJobModal .modal-content {
+  width: 80%;
+  max-width: 600px;
+  padding: 20px;
+  border-radius: 10px;
+  background: linear-gradient(45deg, rgb(143, 192, 220), rgb(178, 209, 227)) rgb(132, 173, 234);
+}
+
+#reportForm .checkbox-group {
+  margin-bottom: 15px;
+}
+
+#reportForm input[type="checkbox"] {
+  margin-right: 10px;
+}
+
+#reportForm textarea {
+  width: 100%;
+  height: 150px;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+#reportForm .btn {
+  margin-top: 10px;
+  padding: 10px;
+  background-color: rgb(132, 173, 234);
+  color: white;
+  border-radius: 5px;
+}
+
+#reportForm .btn:hover {
+  background-color: rgb(143, 192, 220);
+}
+
+#closeReportModalButton {
+  background-color: #777;
+  color: white;
+  padding: 8px 15px;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+#closeReportModalButton:hover {
+  background-color: #555;
+}
+
+/* Modal Success/Failure Message Styling */
+#reportStatusMessage {
+  margin-top: 20px;
+  color: green; /* For success messages */
+}
+
 </style>
 
 
@@ -255,6 +438,7 @@
           <li id="lastBreadcrumb_profile" class="breadcrumb-item"><a id="homeBreadcrumb_a" href="https://reelcareer.co">Home</a></li>
           <li id="lastBreadcrumb_messages" class="breadcrumb-item"><a href="https://reelcareer.co/u/messaging">Messages</a></li>
           <li id="lastBreadcrumb_last" class="breadcrumb-item"><a id="lastBreadcrumb_a" href="https://reelcareer.co/u/create">Create Reel</a></li>
+          <li id="lastBreadcrumb_last_create" class="breadcrumb-item"><a  href="https://reelcareer.co/u/create">Create Reel</a></li>
           <li id="breadcrumb-active-title" class="breadcrumb-item active" aria-current="page">User</li>
         </ol>
     </nav>
@@ -263,90 +447,18 @@
 
       <main id="main-content">
       
-          <header class="sticky-header" >
-            <nav>
-              <ul>
-                <li><a href="https://reelcareer.co/">Home</a></li>
-                <li><a href="https://reelcareer.co/jobs/locations/">Jobs by Locations</a></li>
-                <li><a href="https://reelcareer.co/u/create">Create Video Reel</a></li>
-                <li><a href="https://reelcareer.co/u/">Profile</a></li>
-              </ul>
-            </nav>
-          </header>
+     
         
-
+          <div class="search-area">
+            <input type="text" id="search-input" placeholder="Search videos by tag..." />
+        </div>
+        
 
           <section id="video-reel-container" class="video-reel-container">
             <!-- Repeat similar structure for other video cards -->
 
-            <div class="video-card" id="video1">
-              <div class="user-info">
-                <img src="https://reelcareer.co/images/sq_logo_n_BG_sm.png" alt="User 1" class="profile-img">
-                <div class="user-details">
-                  <h3 class="user-name">John Doe</h3>
-                  <p class="job-title">Software Engineer</p>
-                </div>
-              </div>
-        
-              <div class="video-container">
-                <video controls class="video-element" poster="https://reelcareer.co/images/sq_logo_n_BG_sm.png">
-                  <source src="https://reelcareer.co/images/intro.MP4" type="video/mp4">
-                  Your browser does not support the video tag.
-                </video>
-                <button class="mute-toggle">Mute</button>
-              </div>
-        
-              <div class="video-details">
-                <p class="views-count"><i class="fa fa-eye"></i> 5000 views</p>
-                <p class="video-duration"><i class="fa fa-clock"></i> 3:20</p>
-            </div>
-
-              <div class="caption-container">
-                <p class="video-caption">Experienced software engineer with a passion for building innovative applications. #JavaScript #React #SoftwareEngineer</p>
-              </div>
-        
-              <div class="interaction-buttons">
-                <button class="message-button">Message</button>
-                <button class="add-user-button">Add to Shortlist</button>
-              </div>
-              <div class="controls-container">
-                <div class="actions">
-                    <button class="action-btn" id="likeButton"><i class="fa fa-thumbs-up"></i></button>
-                    <button class="action-btn" id="commentButton"><i class="fa fa-comment"></i></button>
-                    <button class="action-btn" id="shareButton"><i class="fa fa-share-alt"></i></button>
-                    <button class="action-btn" id="downloadButton" disabled><i class="fa fa-download"></i></button>
-                </div>
-                </div>
-
-            </div>
-
-          </section>
-
-
-
-            <div  class="video-reel-container" hidden>
-              <div class="video-player-container">
-                  <video id="videoPlayer" class="video-player" controls></video>
-              </div>
-          
-              <div class="controls-container">
-                  <div class="actions">
-                      <button class="action-btn" id="likeButton"><i class="fa fa-thumbs-up"></i></button>
-                      <button class="action-btn" id="commentButton"><i class="fa fa-comment"></i></button>
-                      <button class="action-btn" id="shareButton"><i class="fa fa-share-alt"></i></button>
-                      <button class="action-btn" id="downloadButton" disabled><i class="fa fa-download"></i></button>
-                  </div>
-          
-                  <div class="video-details">
-                      <p class="views-count"><i class="fa fa-eye"></i> 5000 views</p>
-                      <p class="video-duration"><i class="fa fa-clock"></i> 3:20</p>
-                  </div>
-          
-                  <div class="video-upload-section">
-                      <input type="file" id="videoInput" accept="video/*" style="display:none;">
-                      <button id="uploadButton"><i class="fa fa-upload"></i> Upload</button>
-                  </div>
-              </div>
+     
+            
           </div>
 
 
@@ -543,53 +655,98 @@
     initializeUserId(); // Call the function to initialize user ID
 
   });
+
+
+  let postsPerPage = 10;
+let lastVisibleDoc = null;
+let searchingByTag = false; // Track if search mode is active
+
+document.addEventListener("DOMContentLoaded", () => {
+    fetchVideoResumes();
+
+    // Search videos by tag
+    const searchInput = document.getElementById("search-input");
+    searchInput.addEventListener("input", (e) => {
+        const searchQuery = e.target.value.trim().toLowerCase();
+        if (searchQuery) {
+            searchingByTag = true;
+            fetchVideoResumes(1, searchQuery);
+        } else {
+            searchingByTag = false;
+            fetchVideoResumes();
+        }
+    });
+
+    // Infinite Scroll
+    window.addEventListener("scroll", () => {
+        if (
+            window.innerHeight + window.scrollY >= document.body.offsetHeight - 500 &&
+            !searchingByTag
+        ) {
+            fetchVideoResumes();
+        }
+    });
+});
+
+// Fetch Video Resumes with optional tag filter
+async function fetchVideoResumes(page = 1, tagFilter = "") {
+    const videoContainer = document.getElementById("video-reel-container");
+
+    try {
+        let videosQuery;
+        const videosRef = collection(db, "VideoResumes");
+
+        if (searchingByTag && tagFilter) {
+            videosQuery = query(
+                videosRef,
+                where("tags", "array-contains", tagFilter),
+                orderBy("timestamp", "desc"),
+                limit(postsPerPage)
+            );
+        } else if (lastVisibleDoc) {
+            videosQuery = query(
+                videosRef,
+                where("status", "==", "posted"),
+                orderBy("timestamp", "desc"),
+                startAfter(lastVisibleDoc),
+                limit(postsPerPage)
+            );
+        } else {
+            videosQuery = query(
+                videosRef,
+                where("status", "==", "posted"),
+                orderBy("timestamp", "desc"),
+                limit(postsPerPage)
+            );
+        }
+
+        const querySnap = await getDocs(videosQuery);
+
+        if (!querySnap.empty) {
+            lastVisibleDoc = querySnap.docs[querySnap.docs.length - 1];
+            renderVideos(querySnap.docs, videoContainer);
+        } else if (page === 1) {
+            videoContainer.innerHTML = "<p>No video resumes available.</p>";
+        }
+    } catch (error) {
+        console.error("Error fetching video resumes: ", error);
+        videoContainer.innerHTML = "<p>Error loading videos. Please refresh the page or try again later.</p>";
+      }
+}
+
+
+
      let page = 1;
-let postsPerPage = 10; // Define your posts per page
 let currentPage = 1;
 let totalPosts = 0; // Track total number of posts
-let lastVisibleDoc = null; // For pagination tracking (Firestore pagination)
 let firstVisibleDoc = null; // For backward navigation
 
 
 
 // Fetch Video Resumes from Firestore
-async function fetchVideoResumes(page, user) {
-    try {
-        const videoContainer = document.getElementById("video-reel-container");
-        videoContainer.innerHTML = ""; // Clear existing posts
-
-        let videosQuery;
-        const videosRef = collection(db, "VideoResumes");
-
-        // Handle Firestore pagination
-        if (page > 1 && lastVisibleDoc) {
-            videosQuery = query(
-                videosRef,
-                where("status", "==", "posted"),
-        orderBy("timestamp", "desc"), // Order by most recent timestamp
-                startAfter(lastVisibleDoc),
-                limit(postsPerPage)
-            );
-        } else {
-          videosQuery = query(
-        videosRef,
-        where("status", "==", "posted"),
-        orderBy("timestamp", "desc"), // Order by most recent timestamp
-        limit(postsPerPage)
-    );
-          }
-
-        const querySnap = await getDocs(videosQuery);
-        if (querySnap.empty) {
-            videoContainer.innerHTML = "<p>No video resumes available.</p>";
-            return;
-        }
-
-        const querySnapshot = querySnap.docs;
-        firstVisibleDoc = querySnapshot[0];
-        lastVisibleDoc = querySnapshot[querySnapshot.length - 1];
-
-        querySnapshot.forEach((doc) => {
+// Render Video Posts
+function renderVideos(docs, container) {
+    docs.forEach((doc) => {
             const videoData = doc.data();
             const docId = doc.id; // Firestore Document ID
 
@@ -669,6 +826,9 @@ videoCard.innerHTML = `
     <div class="caption-container">
       <p class="video-caption">${videoData.videoResumeCaptions || ''}</p>
     </div>
+    <div class="tags-container">
+      <p class="video-tags">${videoData.tags || ''}</p>
+    </div>
 
     ${user ? `
       <div class="interaction-buttons">
@@ -715,9 +875,20 @@ videoCard.innerHTML = `
   </div>
 `;
 
+        // Add tags
+        const tagsContainer = videoCard.querySelector(".tags-container");
+        if (videoData.tags && Array.isArray(videoData.tags)) {
+            videoData.tags.forEach((tag) => {
+                const tagButton = document.createElement("button");
+                tagButton.textContent = tag;
+                tagButton.onclick = () => fetchVideoResumes(1, tag);
+                tagsContainer.appendChild(tagButton);
+            });
+        }
 
+//        renderTags(videoData.tags);
 
-            fetchComments(docId);
+          //  fetchComments(docId,tagsContainer);
             // Add event listeners for buttons
             const muteButton = videoCard.querySelector(".mute-toggle");
             const messageButton = videoCard.querySelector(".message-button");
@@ -757,17 +928,44 @@ commentButton.addEventListener("click", () => addComment(docId));
 const videoElement = videoCard.querySelector(".video-element");
 videoElement.addEventListener("play", () => incrementViewCount(docId));
 
-            videoContainer.appendChild(videoCard);
-        });
+      
 
-   
+      
         
 
-    } catch (error) {
-        console.error("Error fetching video resumes: ", error);
-        document.getElementById("video-reel-container").innerHTML = "<p>Error fetching video resumes. Please try again later.</p>";
-    }
+        container.appendChild(videoCard);
+    });
 }
+
+
+function renderTags(tags, videoTags) {
+        videoTags.innerHTML = ''; // Clear previous tags
+        // Check if tags is defined and is an array
+        if (!tags || tags.length === 0) {
+            tags = videoTags;
+        }
+        if (Array.isArray(tags) && tags.length > 0) {
+          tags.forEach(tag => {
+            // Create a button element for each tag
+            const button = document.createElement('button');
+            button.className = 'btn btn-secondary m-1 tags'; // Bootstrap button styling
+            button.textContent = tag;
+            // Add a click event to redirect to job-listings with the selected tag
+            button.onclick = () => {
+showToast(`Tag ${tag} was clicked`);
+            };
+            // Append the button to the jobTags container
+            videoTags.appendChild(button);
+          });
+        } else {
+          // Optionally, display a message if no tags are available
+          const noTagsMessage = document.createElement('span');
+          noTagsMessage.textContent = 'No tags available.';
+          noTagsMessage.className = 'text-muted'; // Optional styling
+          videoTags.appendChild(noTagsMessage);
+        }
+      }
+window.renderTags = renderTags;
 
 // Functions for button actions
 function toggleMute(docId) {
@@ -785,9 +983,26 @@ function handleJoinUsBtn(docId) {
 
 
 function addToShortlist(docId) {
-    showToast(`Not Implemented Yet: ${docId}`);
-    // Add further functionality as needed
+  // Example: Add the video to the user's shortlist (if they are logged in)
+  if (user) {
+    const shortlistRef = collection(db, "Users",user.uid ,"Shortlists");
+    addDoc(shortlistRef, {
+      userID: user.uid,
+      videoDocId: docId,
+      timestamp: new Date(),
+    })
+      .then(() => {
+        showToast("Video added to your shortlist.");
+      })
+      .catch((error) => {
+        console.error("Error adding to shortlist: ", error);
+        showToast("Error adding video to shortlist.");
+      });
+  } else {
+    showToast("Please log in to add to shortlist.");
+  }
 }
+
 
 
 // Function to increment view count
@@ -824,18 +1039,19 @@ async function handleLike(docId, likeButton) {
 
 // Function to format video duration to HH:MM:SS
 function formatDuration(duration) {
-    const seconds = Math.floor(duration % 60);
-    const minutes = Math.floor((duration / 60) % 60);
-    const hours = Math.floor(duration / 3600);
+  const seconds = Math.floor(duration % 60);
+  const minutes = Math.floor((duration / 60) % 60);
+  const hours = Math.floor(duration / 3600);
 
-    return [
-        hours > 0 ? hours.toString().padStart(2, "0") : null,
-        minutes.toString().padStart(2, "0"),
-        seconds.toString().padStart(1, "0")
-    ]
-        .filter(Boolean)
-        .join(":");
+  return [
+    hours > 0 ? hours.toString().padStart(2, "0") : "00",
+    minutes.toString().padStart(2, "0"),
+    seconds.toString().padStart(2, "0"),
+  ]
+    .filter((part) => part !== "00") // Remove leading zeros if hours are zero
+    .join(":");
 }
+
 
 // Native Share Function
 function handleShare(docId, videoUrl) {

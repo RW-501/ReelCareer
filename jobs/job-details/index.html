@@ -1038,34 +1038,28 @@ document.getElementById('tag-list').textContent = jobTags.join(', ');
       document.getElementById('emailShare').href = `mailto:?subject=Check%20out%20this%20job%20opportunity&body=I%20found%20this%20job%20at%20ReelCareer:%20${encodeURIComponent(jobPageURL)}`;
 
 
-      function renderTags(tags) {
-        const jobTags = document.getElementById('jobTags');
-        jobTags.innerHTML = ''; // Clear previous tags
-        // Check if tags is defined and is an array
-        if (!tags || tags.length === 0) {
-            tags = jobTags;
-        }
-        if (Array.isArray(tags) && tags.length > 0) {
-          tags.forEach(tag => {
-            // Create a button element for each tag
-            const button = document.createElement('button');
-            button.className = 'btn btn-secondary m-1 tags'; // Bootstrap button styling
-            button.textContent = tag;
-            // Add a click event to redirect to job-listings with the selected tag
-            button.onclick = () => {
-              window.location.href = `https://reelcareer.co/job-listings?tag=${encodeURIComponent(tag)}`;
-            };
-            // Append the button to the jobTags container
-            jobTags.appendChild(button);
-          });
-        } else {
-          // Optionally, display a message if no tags are available
-          const noTagsMessage = document.createElement('span');
-          noTagsMessage.textContent = 'No tags available.';
-          noTagsMessage.className = 'text-muted'; // Optional styling
-          jobTags.appendChild(noTagsMessage);
-        }
-      }
+      function renderTags(tagsContainer, tags) {
+  tagsContainer.innerHTML = ""; // Clear previous tags
+  // Check if tags is defined and is an array
+  if (Array.isArray(tags) && tags.length > 0) {
+    tags.forEach((tag) => {
+      // Create a button element for each tag
+      const button = document.createElement("button");
+      button.className = "btn btn-secondary m-1 tags"; // Bootstrap button styling
+      button.textContent = tag;
+      // Add a click event to fetch videos with the selected tag
+      button.onclick = () => fetchVideoResumes(1, tag);
+      // Append the button to the tags container
+      tagsContainer.appendChild(button);
+    });
+  } else {
+    // Optionally, display a message if no tags are available
+    const noTagsMessage = document.createElement("span");
+    noTagsMessage.textContent = "No tags available.";
+    noTagsMessage.className = "text-muted"; // Optional styling
+    tagsContainer.appendChild(noTagsMessage);
+  }
+}
 
 
       // Apply button event listener
