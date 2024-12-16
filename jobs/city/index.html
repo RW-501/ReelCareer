@@ -317,55 +317,90 @@ async function displayCityList(jobsContainer) {
     const citiesPerPage = 25;
 
     // Function to render cities for the current page
-    function renderCities() {
-      const citiesToDisplay = cities.slice(startAfterIndex, startAfterIndex + citiesPerPage);
-      const groupedCityHTML = Object.entries(groupedCities)
-        .map(([letter, cityList]) => `
-          <div id="${letter}" class="city-group">
-            <div class="city-letter">
-              <h3 class="city-letter-title">${letter} <span class="city-count">(${cityList.length})</span></h3>
-              <hr class="city-divider">
-            </div>
-            <div class="city-list">
-              ${cityList.slice(startAfterIndex, startAfterIndex + citiesPerPage).map(city => `
-                <div class="state-city-card" data-job-location="${city}">
-                  <a href="https://reelcareer.co/jobs/city/?c=${city}"><i class="fas fa-city"></i></a>
-                  <h4><a href="https://reelcareer.co/jobs/city/?c=${city}">${city}</a></h4>
-                </div>
-              `).join('')}
-            </div>
+// Group cities alphabetically
+function groupCitiesByLetter(cities) {
+  const grouped = {};
+  cities.forEach(city => {
+    const letter = city.charAt(0).toUpperCase(); // Get first letter and uppercase it
+    if (!grouped[letter]) grouped[letter] = [];
+    grouped[letter].push(city);
+  });
+  return grouped;
+}
 
-            <!-- Scroll Up Button -->
-            <button id="scrollUpButton" class="scroll-up-button" onclick="scrollToTop()">⬆ Scroll to Top</button>
-          </div>
-        `).join("");
-
-      jobsContainer.innerHTML = `
-        <div class="jobs-header">
-          <h2 class="header-title">Available Cities</h2>
-          <h4 class="header-subtitle">Total Cities: ${cities.length}</h4>
-          <div id="cityLetters">${groupedCityHTML}</div>
-          <hr class="header-divider">
+// Render Cities
+function renderCities(cities, jobsContainer) {
+  const groupedCities = groupCitiesByLetter(cities);
+  const groupedCityHTML = Object.entries(groupedCities)
+    .map(([letter, cityList]) => `
+      <div id="${letter}" class="city-group">
+        <div class="city-letter">
+          <h3 class="city-letter-title">${letter} <span class="city-count">(${cityList.length})</span></h3>
+          <hr class="city-divider">
         </div>
-      `;
+        <div class="city-list">
+          ${cityList.map(city => `
+            <div class="state-city-card" data-job-location="${city}">
+              <a href="https://reelcareer.co/jobs/city/?c=${encodeURIComponent(city)}">
+                <i class="fas fa-city"></i>
+              </a>
+              <h4><a href="https://reelcareer.co/jobs/city/?c=${encodeURIComponent(city)}">${city}</a></h4>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    `).join('');
 
-      // Ensure the button is present before modifying it
-      const button = document.getElementById("scrollUpButton");
-      if (button) {
-        // Function to handle scrolling up
-        window.onscroll = function () {
-          // Show button when scrolled 100px down
-          if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
-            button.style.display = "block";
-          } else {
-            button.style.display = "none";
-          }
-        };
-      }
+  jobsContainer.innerHTML = `
+    <div class="jobs-header">
+      <h2 class="header-title">Available Cities</h2>
+      <h4 class="header-subtitle">Total Cities: ${cities.length}</h4>
+      <div id="cityLetters">${groupedCityHTML}</div>
+    </div>
+    <button id="scrollUpButton" class="scroll-up-button" onclick="scrollToTop()">⬆ Scroll to Top</button>
+  `;
+
+  // Handle Scroll Up Button
+  const scrollUpButton = document.getElementById("scrollUpButton");
+  window.onscroll = function () {
+    if (document.documentElement.scrollTop > 100) {
+      scrollUpButton.style.display = "block";
+    } else {
+      scrollUpButton.style.display = "none";
+    }
+  };
+}
+
+// Utility: Scroll to Top Function
+function scrollToTop() {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Fetch Cities Data and Initialize Render
+async function fetchAndRenderCities(jobsContainer) {
+  try {
+    const response = await fetch('https://reelcareer.co/scripts/json/cities.json');
+    const citiesData = await response.json();
+
+    if (!citiesData.cities || !Array.isArray(citiesData.cities)) {
+      throw new Error("Invalid cities data format");
     }
 
-    // Render the first set of cities
-    renderCities();
+    renderCities(citiesData.cities, jobsContainer);
+  } catch (error) {
+    console.error("Error loading cities:", error);
+    jobsContainer.innerHTML = `<p>Failed to load cities list.</p>`;
+  }
+}
+
+// Initialization
+document.addEventListener("DOMContentLoaded", () => {
+  const jobsContainer = document.getElementById("jobsContainer"); // Ensure this ID exists
+  fetchAndRenderCities(jobsContainer);
+});
+
+    
+
     populateCityLetters();
 
     // Function to scroll smoothly to the top of the cityLetters container
