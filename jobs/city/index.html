@@ -335,8 +335,11 @@ async function displayCityList(jobsContainer) {
 
 // Render Cities
 function renderCities(cities, jobsContainer) {
+  console.log("cities ", cities);
 
   const groupedCities = groupCitiesByLetter(cities);
+  console.log("groupedCities ", groupedCities);
+
   const groupedCityHTML = Object.entries(groupedCities)
     .map(([letter, cityList]) => `
       <div id="${letter}" class="city-group">
