@@ -1092,6 +1092,9 @@ container.appendChild(videoCard);
 
 console.log("Rendering video doc:", doc.data());
 
+
+
+
         // Add tags
         const tagsContainer = videoCard.querySelector(".tags-container");
         if (videoData.tags && Array.isArray(videoData.tags)) {
@@ -1102,9 +1105,11 @@ console.log("Rendering video doc:", doc.data());
                 tagsContainer.appendChild(tagButton);
             });
         }
-
-        fetchComments(docId);
-          //  fetchComments(docId,tagsContainer);
+        // Add comments
+        if (videoData.comments ) {
+          fetchComments(docId);
+         
+        }
             // Add event listeners for buttons
             const muteButton = videoCard.querySelector(".mute-toggle");
             const messageButton = videoCard.querySelector(".message-button");
@@ -1150,6 +1155,8 @@ videoElement.addEventListener("play", () => incrementViewCount(docId));
         
 
     });
+
+
 }
 
 
@@ -1335,6 +1342,7 @@ async function fetchComments(docId) {
             commentsMap[comment.parentCommentId].push(comment);
         } else {
             commentsMap[comment.id] = commentsMap[comment.id] || [];
+            fetchComments(docId);
             commentsMap[comment.id].unshift(comment); // Main comment
         }
     });
