@@ -353,7 +353,6 @@ function renderCities(cities, jobsContainer) {
               <h4><a href="https://reelcareer.co/jobs/city/?c=${encodeURIComponent(city)}">${city}</a></h4>
             </div>
           `).join('')}
-            <button id="scrollUpButton" class="scroll-up-button" onclick="scrollToTop()">⬆ Scroll to Top</button>
         </div>
 
       </div>
@@ -363,7 +362,9 @@ function renderCities(cities, jobsContainer) {
     <div class="jobs-header">
       <h2 class="header-title">Available Cities</h2>
       <h4 class="header-subtitle">Total Cities: ${cities.length}</h4>
-      <div id="cityLetters">${groupedCityHTML}</div>
+      <div id="cityLetters">${groupedCityHTML}           
+         <button id="scrollUpButton" class="scroll-up-button" onclick="scrollToTop()">⬆ Scroll to Top</button>
+</div>
     </div>
   `;
 
