@@ -1511,6 +1511,7 @@ const locationInput = sanitizeInput(document.getElementById('locationInput').val
 const jobTypeInput = sanitizeInput(document.getElementById('jobTypeInput').value);
 const salaryInput = parseInt(document.getElementById("salaryInput").value) || 0;  // Converts salary input to an integer
 
+
   fetchFilteredJobListings({
     requirements,
     keyword,
@@ -1532,12 +1533,14 @@ function getUrlParameters() {
   const params = new URLSearchParams(window.location.search);
 
   // Extract and sanitize values
+  const tag = sanitizeInput(params.get('tag'));
   const keywords = sanitizeInput(params.get('keywords'));
   const location = sanitizeInput(params.get('location'));
   const jobType = sanitizeInput(params.get('jobType'));
   const salaryRange = sanitizeInput(params.get('salaryRange'));
 
   return {
+    tag: tag || '',
     keywords: keywords || '',
     location: location || '',
     jobType: jobType || '',
@@ -1547,16 +1550,17 @@ function getUrlParameters() {
 
 // Populate the search bar with URL parameters
 function populateSearchBar() {
-  const { keywords, location, jobType, salaryRange } = getUrlParameters();
+  const { tag, keywords, location, jobType, salaryRange } = getUrlParameters();
 
   // Set values only if they exist
+  if (tag) document.getElementById('keywordInput').value = tag;
   if (keywords) document.getElementById('keywordInput').value = keywords;
   if (location) document.getElementById('locationInput').value = location;
   if (jobType) document.getElementById('jobTypeInput').value = jobType;
   if (salaryRange) document.getElementById('salaryInput').value = salaryRange;
 
   // Return true if at least one value is populated
-  return keywords || location || jobType || salaryRange;
+  return  tag || keywords || location || jobType || salaryRange;
 }
 
 // On window load, populate search bar and fetch job listings
