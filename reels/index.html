@@ -195,13 +195,8 @@ display: block;
     gap: 1rem;
 }
 
-.video-player-container {
-    width: 100%;
-    height: 360px;
-    margin-bottom: 10px;
-    background-color: #333;
-    border-radius: 10px;
-}
+
+
 
 .video-player {
     width: 100%;
@@ -251,11 +246,11 @@ display: block;
 .video-container {
     position: relative;
     width: 400px;
-    height: 800px;
+    height: 650px;
 }
 .video-element {
     width: 400px;
-    height: 800px;
+    height: 650px;
     background-color: #000;
     margin: auto;
     position: relative;
@@ -268,12 +263,14 @@ display: block;
 }
 
 
-
-.video-tags {
-display: block;
-
+.tags-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: baseline;
+    margin: .2rem;
 }
-
 
 .interaction-buttons {
 display: block;
@@ -1015,6 +1012,26 @@ videoCard.innerHTML = `
         </div>
       </div>
       <div class="user-info-right">
+
+            ${userId ? `
+      <div class="interaction-buttons">
+        <button class="message-button" data-doc-id="${docId}" aria-label="Message User">
+          <i class="fa fa-envelope"></i> Message
+        </button>
+        <button class="connect-button" data-doc-id="${docId}" aria-label="Connect with User">
+          <i class="fa fa-user-plus"></i> Connect
+        </button>
+        <button class="add-user-button" data-doc-id="${docId}" hidden aria-label="Add to Shortlist">
+          <i class="fa fa-plus"></i> Shortlist
+        </button>
+      </div>
+    ` : `
+      <div class="interaction-buttons">
+        <button class="join-us-button" data-doc-id="${docId}" aria-label="Join Us">
+          <i class="fa fa-user"></i> Join Us
+        </button>
+      </div>
+    `}
         <button class="reportVideoBtn btn btn-warning w-100" data-doc-id="${docId}" aria-label="Report Video">
           <i class="fa fa-flag"></i> Report
         </button>
@@ -1037,6 +1054,18 @@ videoCard.innerHTML = `
       <div class="play-overlay">
         <i class="fa fa-play"></i>
       </div>
+
+          <div class="controls-container">
+      <div class="actions">
+        <button class="action-btn like-btn" data-doc-id="${docId}" aria-label="Like Video">
+          <i class="fa fa-thumbs-up"></i> ${videoData.likes || 0}
+        </button>
+        <button class="action-btn share-btn" data-doc-id="${docId}" aria-label="Share Video">
+          <i class="fa fa-share-alt"></i> Share
+        </button>
+      </div>
+    </div>
+
     </div>
 
     <div class="video-details">
@@ -1052,39 +1081,11 @@ videoCard.innerHTML = `
       <p class="video-caption">${videoData.videoResumeCaptions || ''}</p>
     </div>
     <div class="tags-container">
-      <p class="video-tags">${videoData.tags || ''}</p>
     </div>
 
-    ${userId ? `
-      <div class="interaction-buttons">
-        <button class="message-button" data-doc-id="${docId}" aria-label="Message User">
-          <i class="fa fa-envelope"></i> Message
-        </button>
-        <button class="connect-button" data-doc-id="${docId}" aria-label="Connect with User">
-          <i class="fa fa-user-plus"></i> Connect
-        </button>
-        <button class="add-user-button" data-doc-id="${docId}" hidden aria-label="Add to Shortlist">
-          <i class="fa fa-plus"></i> Shortlist
-        </button>
-      </div>
-    ` : `
-      <div class="interaction-buttons">
-        <button class="join-us-button" data-doc-id="${docId}" aria-label="Join Us">
-          <i class="fa fa-user"></i> Join Us
-        </button>
-      </div>
-    `}
 
-    <div class="controls-container">
-      <div class="actions">
-        <button class="action-btn like-btn" data-doc-id="${docId}" aria-label="Like Video">
-          <i class="fa fa-thumbs-up"></i> ${videoData.likes || 0}
-        </button>
-        <button class="action-btn share-btn" data-doc-id="${docId}" aria-label="Share Video">
-          <i class="fa fa-share-alt"></i> Share
-        </button>
-      </div>
-    </div>
+
+
 
     <!-- Comment Section -->
 <div class="comment-section">
