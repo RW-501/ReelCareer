@@ -78,6 +78,44 @@
    
    <style>
     
+/* Responsive Design */
+@media (max-width: 768px) {
+  .video-reel-container {
+    padding: 10px;
+  }
+
+  .video-card {
+    width: 100%;
+  }
+
+  .user-info {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .user-name {
+    font-size: 1.3rem;
+  }
+
+  .job-title {
+    font-size: 1rem;
+  }
+
+  .message-button, .add-user-button {
+    font-size: 0.9rem;
+    padding: 8px 12px;
+  }
+
+  .video-container {
+    max-height: 300px;
+  }
+}
+
+@media (max-width: 480px) {
+  .video-card {
+    padding: 10px;
+  }
+}
 /* Base styles */
 
 
@@ -277,18 +315,27 @@ body {
 
 /* Video Reel Container */
 .video-reel-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  justify-content: center;
+    width: 100%;
+    max-width: 640px;
+    margin: 0 auto;
+    background-color: transparent;
+ 
+    padding: 10px;
+    border-radius: 10px;
 }
 
-.video-reel-container .video-card {
-  width: 200px;
-  border-radius: 10px;
-  overflow: hidden;
-  background-color: #fff;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+.video-player-container {
+    width: 100%;
+    height: 360px;
+    margin-bottom: 10px;
+    background-color: #333;
+    border-radius: 10px;
+}
+
+.video-player {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
 }
 
 .video-reel-container .video-card img {
@@ -467,89 +514,89 @@ body {
 
 
 
-          <div class="modal fade" id="sendMessageModal" tabindex="-1" aria-labelledby="sendMessageModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-              <div class="modal-content">
-                <div class="modal-header border-0">
-                  <h5 class="modal-title" id="sendMessageModalLabel">
-                    <span id="recipient-name">Send Message</span>
-                  </h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  <form id="sendMessageForm">
-                    <!-- Editable Message Area -->
-                    <div class="message-input-attachment-btn-wrap">
-                      <label for="message-content-editable">Message</label>
-    
-                      <div class="message-input-area">
-                      <div
-                        id="message-content-editable"
-                        class="message-content-area"
-                        contenteditable="true"
-                        data-placeholder="Type your message here..."
-                      ></div>
-    
-    
-               <!-- Attachment Preview -->
-               <div id="attachment-preview" class="mt-3 d-none">
-                <div class="attachment-area align-items-center">
-                  <video id="attachmentVideo" class="d-none attachment-thumbnail" controls src=""></video>
-                  <img id="attachment-thumbnail" class="d-none attachment-thumbnail" src="" alt="Attachment preview" width="50" class="mr-2">
-                  <button type="button" id="remove-attachment" class="btn btn-sm btn-danger">X</button>
-              </div>
-              </div>
-    
-                      </div>
-    
-                <!-- Attachment Section -->
-                <div class="attachment-container">
-                  <div class="mt-3">
-                  <button type="button" id="attachment-btn" class="btn btn-outline-primary">
-                    <i class="fas fa-paperclip"></i> Choose File
-                  </button>
-                </div>
-    
-               <!-- Submit Button -->
-               <div class="mt-3">
-                <button type="submit" class="btn btn-primary mt-3">Send</button>
-              </div>
-    
-    
-                </div>
-                    </div>
-    
-    
-    
-    
-    
-    
-                    <span id="attachment-name" class="mr-2" hidden></span>
-    
-                    <input type="hidden" id="recipient-id" value="">
-                    <input type="file" id="message-attachments" class="d-none" />
-    
-                      <!-- Hidden Textarea to Sync Content -->
-                      <textarea id="message-content" class="d-none"></textarea>
-        
-          
-         
-          
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-
-
       
-        <div id="currentVideoId" hidden></div>
     </main>
 
+    <div id="currentVideoId" hidden></div>
 
+
+
+    <div class="modal fade" id="sendMessageModal" tabindex="-1" aria-labelledby="sendMessageModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header border-0">
+            <h5 class="modal-title" id="sendMessageModalLabel">
+              <span id="recipient-name">Send Message</span>
+            </h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form id="sendMessageForm">
+              <!-- Editable Message Area -->
+              <div class="message-input-attachment-btn-wrap">
+                <label for="message-content-editable">Message</label>
+
+                <div class="message-input-area">
+                <div
+                  id="message-content-editable"
+                  class="message-content-area"
+                  contenteditable="true"
+                  data-placeholder="Type your message here..."
+                ></div>
+
+
+         <!-- Attachment Preview -->
+         <div id="attachment-preview" class="mt-3 d-none">
+          <div class="attachment-area align-items-center">
+            <video id="attachmentVideo" class="d-none attachment-thumbnail" controls src=""></video>
+            <img id="attachment-thumbnail" class="d-none attachment-thumbnail" src="" alt="Attachment preview" width="50" class="mr-2">
+            <button type="button" id="remove-attachment" class="btn btn-sm btn-danger">X</button>
+        </div>
+        </div>
+
+                </div>
+
+          <!-- Attachment Section -->
+          <div class="attachment-container">
+            <div class="mt-3">
+            <button type="button" id="attachment-btn" class="btn btn-outline-primary">
+              <i class="fas fa-paperclip"></i> Choose File
+            </button>
+          </div>
+
+         <!-- Submit Button -->
+         <div class="mt-3">
+          <button type="submit" class="btn btn-primary mt-3">Send</button>
+        </div>
+
+
+          </div>
+              </div>
+
+
+
+
+
+
+              <span id="attachment-name" class="mr-2" hidden></span>
+
+              <input type="hidden" id="recipient-id" value="">
+              <input type="file" id="message-attachments" class="d-none" />
+
+                <!-- Hidden Textarea to Sync Content -->
+                <textarea id="message-content" class="d-none"></textarea>
+  
+    
+   
+    
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    
     <div id="reportJobModal" class="modal" role="dialog" aria-labelledby="reportJobTitle"> 
       <div class="modal-content">
         <span class="close" aria-label="Close" onclick="closeReportModal()">&times;</span>
