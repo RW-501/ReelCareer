@@ -656,29 +656,36 @@ body {
   let postsPerPage = 10;
 let lastVisibleDoc = null;
 let searchingByTag = false; // Track if search mode is active
-
 document.addEventListener("DOMContentLoaded", () => {
+    console.log("DOMContentLoaded event fired");
+
     fetchVideoResumes();
 
     // Search videos by tag
     const searchInput = document.getElementById("search-input");
     searchInput.addEventListener("input", (e) => {
         const searchQuery = e.target.value.trim().toLowerCase();
+        console.log("Search input changed:", searchQuery);
+
         if (searchQuery) {
             searchingByTag = true;
+            console.log("Searching by tag:", searchQuery);
             fetchVideoResumes(1, searchQuery);
         } else {
             searchingByTag = false;
+            console.log("Not searching by tag");
             fetchVideoResumes();
         }
     });
 
     // Infinite Scroll
     window.addEventListener("scroll", () => {
+        console.log("Window scrolled:", window.innerHeight + window.scrollY);
         if (
             window.innerHeight + window.scrollY >= document.body.offsetHeight - 500 &&
             !searchingByTag
         ) {
+            console.log("Fetching more videos due to scroll");
             fetchVideoResumes();
         }
     });
@@ -688,11 +695,14 @@ document.addEventListener("DOMContentLoaded", () => {
 async function fetchVideoResumes(page = 1, tagFilter = "") {
     const videoContainer = document.getElementById("video-reel-container");
 
+    console.log("Fetching video resumes with page:", page, "and tag filter:", tagFilter);
+
     try {
         let videosQuery;
         const videosRef = collection(db, "VideoResumes");
 
         if (searchingByTag && tagFilter) {
+            console.log("Querying by tag:", tagFilter);
             videosQuery = query(
                 videosRef,
                 where("tags", "array-contains", tagFilter),
@@ -700,6 +710,7 @@ async function fetchVideoResumes(page = 1, tagFilter = "") {
                 limit(postsPerPage)
             );
         } else if (lastVisibleDoc) {
+            console.log("Querying after last visible document");
             videosQuery = query(
                 videosRef,
                 where("status", "==", "posted"),
@@ -708,6 +719,7 @@ async function fetchVideoResumes(page = 1, tagFilter = "") {
                 limit(postsPerPage)
             );
         } else {
+            console.log("Querying for first batch of videos");
             videosQuery = query(
                 videosRef,
                 where("status", "==", "posted"),
@@ -719,16 +731,19 @@ async function fetchVideoResumes(page = 1, tagFilter = "") {
         const querySnap = await getDocs(videosQuery);
 
         if (!querySnap.empty) {
+            console.log("Videos found:", querySnap.docs.length);
             lastVisibleDoc = querySnap.docs[querySnap.docs.length - 1];
             renderVideos(querySnap.docs, videoContainer);
         } else if (page === 1) {
+            console.log("No videos available");
             videoContainer.innerHTML = "<p>No video resumes available.</p>";
         }
     } catch (error) {
         console.error("Error fetching video resumes: ", error);
         videoContainer.innerHTML = "<p>Error loading videos. Please refresh the page or try again later.</p>";
-      }
+    }
 }
+
 
 
 
@@ -742,6 +757,9 @@ let firstVisibleDoc = null; // For backward navigation
 // Fetch Video Resumes from Firestore
 // Render Video Posts
 function renderVideos(docs, container) {
+
+  console.log("Rendering videos:", videoDocs.length);
+
     docs.forEach((doc) => {
             const videoData = doc.data();
             const docId = doc.id; // Firestore Document ID
@@ -870,6 +888,7 @@ videoCard.innerHTML = `
 
   </div>
 `;
+console.log("Rendering video doc:", doc.data());
 
         // Add tags
         const tagsContainer = videoCard.querySelector(".tags-container");
