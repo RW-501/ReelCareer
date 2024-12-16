@@ -1566,6 +1566,7 @@ function populateSearchBar() {
 // On window load, populate search bar and fetch job listings
 window.onload = async function () {
   const hasSearchParams = populateSearchBar();
+  console.log("hasSearchParams  ", hasSearchParams);
 
   if (hasSearchParams) {
     // If there are search parameters, fetch based on them
