@@ -443,20 +443,8 @@ document.getElementById("cityListContainer").innerHTML = `
     document.getElementById("cityListContainer").innerHTML = `<p>Failed to load city list.</p>`;
   }
 }
-// Scroll smoothly to the top of the cityLetters container
-function scrollToTop() {
-  document.getElementById("cityLetters").scrollIntoView({ behavior: "smooth" });
-}
 
-// Show/Hide the scroll-up button when the user scrolls down
-window.onscroll = function () {
-  const button = document.getElementById("scrollUpButton");
-  if (document.documentElement.scrollTop > 100 || document.body.scrollTop > 100) {
-    button.style.display = "block";
-  } else {
-    button.style.display = "none";
-  }
-};
+
 
 // Initialize page
 document.addEventListener('DOMContentLoaded', () => {
