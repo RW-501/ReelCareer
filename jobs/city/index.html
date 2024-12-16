@@ -338,7 +338,7 @@ function renderCities(cities, jobsContainer) {
   console.log("cities ", cities);
 
   const groupedCities = groupCitiesByLetter(cities);
-  console.log("jobsContainer ", jobsContainer);
+  console.log("groupedCities ", groupedCities);
 
   const groupedCityHTML = Object.entries(groupedCities)
     .map(([letter, cities]) => `
