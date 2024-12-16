@@ -1561,7 +1561,7 @@ function populateSearchBar() {
 
   console.log("tag || keywords || location || jobType || salaryRange ",tag || keywords || location || jobType || salaryRange);
   // Return true if at least one value is populated
-  return  tag || keywords || location || jobType || salaryRange;
+  return  tag || keywords || location || jobType || salaryRange ;
 }
 // On window load, populate search bar and fetch job listings
 window.onload = async function () {
@@ -1569,6 +1569,9 @@ window.onload = async function () {
   console.log("hasSearchParams  ", hasSearchParams);
 
   if (hasSearchParams) {
+
+    console.log("hasSearchParams  TRUE");
+
     // If there are search parameters, fetch based on them
     if (typeof searchJobs === 'function') {
       await searchJobs(); // Assumes this function exists
