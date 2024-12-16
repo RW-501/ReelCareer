@@ -107,7 +107,7 @@
   }
 
   .video-container {
-    max-height: 300px;
+    display: block;
   }
 }
 
@@ -189,9 +189,10 @@ display: block;
     margin: 0 auto;
     background-color: transparent;
     position: relative;
-
     padding: 10px;
     border-radius: 10px;
+    display: grid;
+    gap: 1rem;
 }
 
 .video-player-container {
@@ -248,15 +249,16 @@ display: block;
 }
 
 .video-container {
-  position: relative;
-  width: 400px;
-  margin: auto;
+    position: relative;
+    width: 400px;
+    height: 800px;
 }
 .video-element {
     width: 400px;
     height: 800px;
     background-color: #000;
     margin: auto;
+    position: relative;
 }
 
 
@@ -363,21 +365,23 @@ display: block;
 
 /* Play Overlay */
 .play-overlay {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 80px;
-  height: 80px;
-  background: rgba(0, 0, 0, 0.5);
-  border-radius: 50%;
-  color: #fff;
-  font-size: 2rem;
-  cursor: pointer;
-  transition: opacity 0.3s;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80px;
+    height: 80px;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    color: #fff;
+    font-size: 2rem;
+    cursor: pointer;
+    transition: opacity 0.3s;
+    right: 0;
+    bottom: 0;
+    margin: auto;
 }
 
 /* Mute & Full-Screen Buttons */
