@@ -1173,10 +1173,13 @@ container.appendChild(videoCard);
             });
         }
         // Add comments
-        if (videoData.comments ) {
-          fetchComments(docId);
-         
-        }
+        if (videoData.comments === true) {
+  console.log(`Fetching comments for video: ${docId}`);
+  fetchComments(docId);
+} else {
+  console.log(`No comments available for video: ${docId}`);
+}
+
             // Add event listeners for buttons
             const muteButton = videoCard.querySelector(".mute-toggle");
             const fullscreenButton = videoCard.querySelector(".fullscreen-toggle");
