@@ -564,17 +564,17 @@ document.addEventListener('DOMContentLoaded', () => {
       h2Header.textContent = `Jobs In ${state}`; // Update header text
       h2Header.style.display = "block"; // Ensure the header is visible
     }
+    const stateHeader = document.getElementById("state-header");
 
+stateHeader.innerHTML = stateHeader.innerHTML.replaceAll("[State Name]", state);
+  
   } else {
     // Hide the header when no specific state is selected
     const h2Header = document.getElementById('state-name');
     if (h2Header) {
       h2Header.style.display = "none";
-    }else{
-      const stateHeader = document.getElementById("state-header");
-
-  stateHeader.innerHTML = stateHeader.innerHTML.replaceAll("[State Name]", state);
     }
+    
   }
   fetchJobsByState(state);
 
