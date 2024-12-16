@@ -144,20 +144,17 @@
   align-items: center;
 }
 .badge {
-  display: inline-flex;
   align-items: center;
-  padding: 4px 8px;
+
   font-size: 0.8rem;
   font-weight: bold;
-  color: #555;
-  border-radius: 12px;
-  background-color: #e0e0e0;
+
   text-transform: uppercase;
 }
 
 .badge-verified {
-  color: #ffffff;
-  background-color: #4CAF50; /* Green color for verified badge */
+  color: #555;
+
 }
 
 .badge-verified i {
@@ -1048,7 +1045,7 @@ videoCard.innerHTML = `
             </h3>
           </a>
 <small class="badge ${videoData.verified ? 'badge-verified' : ''}">
-  ${videoData.verified ? '<i class="fa fa-check-circle"></i> Verified' : ''}
+  ${videoData.verified ? '<i class="fa fa-check-circle"></i>' : ''}
 </small>
           </div>
 
