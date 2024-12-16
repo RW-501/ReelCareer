@@ -524,6 +524,7 @@ async function fetchJobsByCity(cityName, container) {
         salary: job.salary,
         description: job.description,
         industry: job.industry,
+        category: job.category,
         url: `https://reelcareer.co/jobs/job-details?id=${doc.id}`
       });
 
@@ -532,6 +533,7 @@ async function fetchJobsByCity(cityName, container) {
           <h2>${job.title}</h2>
           <p><strong>Company:</strong> ${job.company}</p>
           <p><strong>Industry:</strong> ${job.industry}</p>
+          <p><strong>Category:</strong> ${job.category}</p>
           <p><strong>Location:</strong> ${job.city}, ${job.state}</p>
           <p><strong>Salary:</strong> $${job.salary.toLocaleString()}</p>
           <p><strong>Description:</strong> ${job.description}</p>
