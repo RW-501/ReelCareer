@@ -300,7 +300,7 @@ document.head.appendChild(link);
       </a>
     </div>
   `;
-  
+  console.log("container  ", container);
       
       jobCard.style.opacity = '0';
  

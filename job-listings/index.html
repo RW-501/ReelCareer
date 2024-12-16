@@ -1436,8 +1436,8 @@ async function fetchFilteredJobListings({
 
     // Execute the query
     const jobListingsSnapshot = await getDocs(jobsQuery);
-    console.log(jobListingsSnapshot.docs); 
 
+    
     // Map and display results
     const jobListings = jobListingsSnapshot.docs.map(job => {
     const data = job.data(); // Access document data
