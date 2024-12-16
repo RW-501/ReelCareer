@@ -408,8 +408,9 @@ async function fetchAndRenderCities(jobsContainer) {
     if (!citiesData.cities || !Array.isArray(citiesData.cities)) {
       throw new Error("Invalid cities data format");
     }
+    console.log("citiesData ", citiesData);
 
-    renderCities(citiesData.cities, jobsContainer);
+    renderCities(citiesData, jobsContainer);
   } catch (error) {
     console.error("Error loading cities:", error);
     jobsContainer.innerHTML = `<p>Failed to load cities list.</p>`;
