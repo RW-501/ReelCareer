@@ -367,7 +367,8 @@ function renderCities(cities, jobsContainer) {
 </div>
     </div>
   `;
-
+  populateCityLetters();
+  
   // Handle Scroll Up Button
   const scrollUpButton = document.getElementById("scrollUpButton");
   if(scrollToTop){
@@ -422,7 +423,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const jobsContainer = document.getElementById("cityListContainer"); // Ensure this ID exists
 
   fetchAndRenderCities(jobsContainer);
-  populateCityLetters();
 
 });
 
@@ -433,7 +433,7 @@ document.addEventListener("DOMContentLoaded", () => {
 // Search functionality for cities
 function searchCities(containerId) {
   const searchTerm = document.getElementById('job-search').value.toLowerCase();
-  const jobsContainer = document.getElementById("cityListContainer");
+  const jobsContainer = document.getElementById(containerId);
   
   if (!jobsContainer || !jobsContainer.dataset.jobs) {
     console.error("Jobs container or dataset not found.");
