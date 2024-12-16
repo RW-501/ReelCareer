@@ -1366,10 +1366,10 @@ function displayJobListings(jobListings) {
   // Iterate over jobListings and create a card for each
   jobListings.forEach(job => {
     console.log("Displaying job:", job);
-    const jobCard = createJobCard(job); // Assuming createJobCard returns an HTML element or string
-    jobContainer.innerHTML += jobCard; // Append job card to container
+    const jobCard = createJobCard(job ,jobContainer); // Assuming createJobCard returns an HTML element or string
+   // jobContainer.innerHTML += jobCard; // Append job card to container
   });
-}
+} 
 
 
   
