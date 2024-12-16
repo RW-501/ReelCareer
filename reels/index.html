@@ -1915,6 +1915,7 @@ console.log({
 
         showToast('Message sent successfully!');
         $('#sendMessageModal').modal('hide');
+        document.getElementById('message-content').value = '';
     } catch (error) {
         console.error('Error sending message:', error);
         showToast('Failed to send message. Please try again.');
