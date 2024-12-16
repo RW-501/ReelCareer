@@ -343,10 +343,10 @@ async function displayCityList(jobsContainer) {
     // Function to render cities for the current page
 
 // Render Cities
-function renderCities(cities, jobsContainer) {
+function renderCities(data, jobsContainer) {
   console.log("cities ", cities);
 
-  const groupedCities = groupCitiesByLetter(cities);
+  const groupedCities = groupCitiesByLetter(data.cities);
   console.log("groupedCities ", groupedCities);
 
   const groupedCityHTML = Object.entries(groupedCities)
@@ -373,7 +373,7 @@ function renderCities(cities, jobsContainer) {
   jobsContainer.innerHTML = `
     <div class="jobs-header">
       <h2 class="header-title">Available Cities</h2>
-      <h4 class="header-subtitle">Total Cities: ${cities.length}</h4>
+      <h4 class="header-subtitle">Total Cities: ${data.cities.length}</h4>
       <div id="cityLetters">${groupedCityHTML}</div>
     </div>
      <button id="scrollUpButton" class="scroll-up-button" onclick="scrollToTop()">⬆ Scroll to Top</button>
