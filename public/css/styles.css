@@ -1309,27 +1309,14 @@ main .jobCard:hover {
 
               }
             
-              .state-city-card {
-                background-color: #f8f9fa;
-                border-radius: 8px;
-                width: 200px;
-                text-align: center;
-                cursor: pointer;
-                transition: all 0.3s ease;
-              }
+
             
               .state-city-card:hover {
                 transform: scale(1.05);
                 box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
               }
-              .state-city-card         a {
-    color: #565a5f;
-    text-decoration: none !important;
-    font-weight: 800;
-    padding: 20px;
-    margin: auto;
 
-}
+              
 
 
          
@@ -1414,6 +1401,7 @@ main .jobCard:hover {
     flex-direction: row;
     align-content: space-between;
     justify-content: space-around;
+    padding: 20px;
   }
   
   .state-city-card a {
@@ -1422,7 +1410,7 @@ main .jobCard:hover {
     color: #565a5f;
     text-decoration: none !important;
     font-weight: 800;
-    padding: 20px;
+
     margin: auto;  }
   
   .state-city-card i {
