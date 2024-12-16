@@ -340,7 +340,7 @@ function filterStates(searchQuery, container) {
   // Generate and inject filtered state list
   const stateListHTML = filteredStates
     .map(state => `
-      <div class="state-city-card " data-job-location="${state}">
+      <div class="state-city-card" data-job-location="${state}">
         <a href="https://reelcareer.co/jobs/state/?s=${state}"><i class="fas fa-city"></i></a>
         <h4><a href="https://reelcareer.co/jobs/state/?s=${state}">${state}</a></h4>
       </div>

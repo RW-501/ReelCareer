@@ -350,14 +350,14 @@ function renderCities(cities, jobsContainer) {
   console.log("groupedCities ", groupedCities);
 
   const groupedCityHTML = Object.entries(groupedCities)
-    .map(([letter, citiesList]) => `
+    .map(([letter, cityList]) => `
       <div id="${letter}" class="city-group">
         <div class="city-letter">
           <h3 class="city-letter-title">${letter} <span class="city-count">(${citiesList.length})</span></h3>
           <hr class="city-divider">
         </div>
-        <div class="city-list">
-          ${citiesList.map(city => `
+        <div class="city-list">cityList
+          ${cityList.map(city => `
             <div class="state-city-card" data-job-location="${city}">
               <a href="https://reelcareer.co/jobs/city/?c=${encodeURIComponent(city)}">
                 <i class="fas fa-city"></i>
@@ -373,7 +373,7 @@ function renderCities(cities, jobsContainer) {
   jobsContainer.innerHTML = `
     <div class="jobs-header">
       <h2 class="header-title">Available Cities</h2>
-      <h4 class="header-subtitle">Total Cities: ${citiesList.length}</h4>
+      <h4 class="header-subtitle">Total Cities: ${cities.length}</h4>
       <div id="cityLetters">${groupedCityHTML}</div>
     </div>
      <button id="scrollUpButton" class="scroll-up-button" onclick="scrollToTop()">⬆ Scroll to Top</button>
