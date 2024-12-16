@@ -169,10 +169,10 @@
 }
 
 .video-element {
-  width: 100%;
-  height: auto;
-  max-height: 400px;
-  background-color: #000;
+    width: 100%;
+    height: 700px;
+    max-height: 400px;
+    background-color: #000;
 }
 
 .mute-toggle {
@@ -202,10 +202,10 @@
 }
 
 .interaction-buttons {
-  display: flex;
-  gap: 15px;
-  justify-content: space-between;
-  padding: 10px;
+    display: flex;
+    gap: 15px;
+    justify-content: space-between;
+    padding: 20px;
 }
 
 .message-button, .add-user-button {
@@ -360,8 +360,29 @@
     justify-content: space-between;
     padding: 1rem 1.5rem;
 }
-        </style>
-        
+
+.comments-container {
+    margin: auto;
+    width: 95%;
+}
+
+.add-comment-btn {
+    margin: auto 5% auto auto;
+    display: block;
+}
+
+.user-info-left {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: .5rem;
+}
+     
+     
+
+
         </style>
 </head>
 
@@ -552,44 +573,59 @@
 
 
       
-        
+        <div id="currentVideoId" hidden></div>
     </main>
 
 
-    <div id="reportJobModal" class="modal " role="dialog" aria-labelledby="reportJobTitle" >
+    <div id="reportJobModal" class="modal" role="dialog" aria-labelledby="reportJobTitle"> 
       <div class="modal-content">
         <span class="close" aria-label="Close" onclick="closeReportModal()">&times;</span>
         <form id="reportForm">
-          <h2 id="reportTitle">Report Job</h2>
-          <p>Please select the reason(s) for reporting this job:</p>
-  
+          <h2 id="reportTitle">Report Video</h2>
+          <p>Please select the reason(s) for reporting this video:</p>
+    
           <div class="checkbox-group">
             <input type="checkbox" id="spam" name="reason" value="Spam">
-            <label for="spam">Spam</label><br>
-  
+            <label for="spam">Spam or misleading content</label><br>
+    
             <input type="checkbox" id="incorrectInfo" name="reason" value="Incorrect Information">
-            <label for="incorrectInfo">Incorrect Information</label><br>
-  
+            <label for="incorrectInfo">Incorrect or misleading information</label><br>
+    
             <input type="checkbox" id="scam" name="reason" value="Scam">
-            <label for="scam">Potential Scam</label><br>
-  
+            <label for="scam">Fraudulent or scam content</label><br>
+    
+            <input type="checkbox" id="offensive" name="reason" value="Offensive Content">
+            <label for="offensive">Offensive, harmful, or abusive content</label><br>
+    
+            <input type="checkbox" id="copyright" name="reason" value="Copyright Infringement">
+            <label for="copyright">Copyright infringement</label><br>
+    
+            <input type="checkbox" id="violence" name="reason" value="Violence or Hate Speech">
+            <label for="violence">Violence, hate speech, or harassment</label><br>
+    
+            <input type="checkbox" id="illegal" name="reason" value="Illegal Content">
+            <label for="illegal">Illegal content</label><br>
+    
+            <input type="checkbox" id="nudity" name="reason" value="Explicit Content">
+            <label for="nudity">Explicit or adult content</label><br>
+    
             <input type="checkbox" id="other" name="reason" value="Other">
-            <label for="other">Other</label><br>
+            <label for="other">Other (please specify below)</label><br>
           </div>
-  
+    
           <textarea id="reportMessage" class="form-control mt-3" rows="4" placeholder="Additional details..."></textarea>
-  
+    
           <button type="button" class="btn btn-primary mt-3" onclick="submitReport()">Submit Report</button>
         </form>
-  
+    
         <!-- Success/Error message placeholder -->
         <div id="reportStatusMessage" class="mt-3"></div>
-  
+    
         <!-- Close button, initially hidden -->
         <button id="closeReportModalButton" type="button" class="btn btn-secondary mt-3" style="display: none;" onclick="closeReportJobModal()">Close</button>
       </div>
     </div>
-
+    
 
 
 
@@ -673,7 +709,7 @@
     }
     // Report Data to Firebase
     const reportData = {
-        videoId: docId,
+        videoId: document.getElementById('currentVideoId').innerText,
         jobTitle: document.title,
         reasons: selectedReasons,
         message: message,
@@ -751,7 +787,8 @@
 
     }
 }
-function openReportModal() {
+function openReportModal(videoId) {
+  document.getElementById('currentVideoId').innerText = videoId;
     document.getElementById('reportModal').style.display = 'block'; // No need for !important
 }
 
@@ -870,9 +907,9 @@ let videoDuration = parseFloat(videoData.duration.toFixed(2));
                       <div class="user-info-left">
                         <img src="${videoData.profilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_sm.png'}"
                              alt="${videoData.displayName}" 
-                             class="profile-img lazy-load-image">
+                             class="profile-img lazy-image">
                         <div class="user-details">
-                            <h3 class="user-name">${videoData.displayName || 'Anonymous'} 
+                        <a href="https://reelcareer.co/u/?u=${videoData.userID}"><h3 class="user-name">${videoData.displayName || 'Anonymous'}</a> 
                               <small class="badge">${videoData.verified}</small </h3>
                             <p class="job-title">${videoData.position || 'Not Specified'}</p>
                         </div>
@@ -944,7 +981,7 @@ let videoDuration = parseFloat(videoData.duration.toFixed(2));
             const reportVideoBtn = videoCard.querySelector(".reportVideoBtn");
 if(user){
             // Mute toggle functionality
-            reportVideoBtn.addEventListener("click", () => reportVideo(docId));
+            reportVideoBtn.addEventListener("click", () => openReportModal(docId));
             muteButton.addEventListener("click", () => toggleMute(docId));
 
             // Other button actions
