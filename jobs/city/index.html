@@ -328,7 +328,6 @@ async function displayCityList(jobsContainer) {
 
 // Render Cities
 function renderCities(cities, jobsContainerX) {
-  const jobsContainer = document.getElementById("cityListContainer"); // Ensure this ID exists
 
   const groupedCities = groupCitiesByLetter(cities);
   const groupedCityHTML = Object.entries(groupedCities)
@@ -411,6 +410,10 @@ async function fetchAndRenderCities(jobsContainer) {
 
 // Initialization
 document.addEventListener("DOMContentLoaded", () => {
+  //cityListContainer
+
+  const jobsContainer = document.getElementById("cityListContainer"); // Ensure this ID exists
+
   fetchAndRenderCities(jobsContainer);
   populateCityLetters();
 
