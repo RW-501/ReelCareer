@@ -55,13 +55,14 @@
   
 display: none;  /* Initially hidden */
 padding: 10px 15px;
-background-color: #007bff;
-color: white;
-font-size: 20px;
-border: none;
-border-radius: 25%;
-cursor: pointer;
-transition: opacity 0.3s ease-in-out;
+    background-color: #007bff;
+    color: white;
+    font-size: 20px;
+    border: none;
+    border-radius: 25px;
+    margin: auto;
+    cursor: pointer;
+    transition: opacity 0.3s ease-in-out;
 }
 
 .scroll-up-button:hover {
@@ -346,6 +347,8 @@ function renderCities(cities, jobsContainer) {
             </div>
           `).join('')}
         </div>
+            <button id="scrollUpButton" class="scroll-up-button" onclick="scrollToTop()">⬆ Scroll to Top</button>
+
       </div>
     `).join('');
 
@@ -355,7 +358,6 @@ function renderCities(cities, jobsContainer) {
       <h4 class="header-subtitle">Total Cities: ${cities.length}</h4>
       <div id="cityLetters">${groupedCityHTML}</div>
     </div>
-    <button id="scrollUpButton" class="scroll-up-button" onclick="scrollToTop()">⬆ Scroll to Top</button>
   `;
 
   // Handle Scroll Up Button

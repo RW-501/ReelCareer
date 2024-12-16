@@ -413,6 +413,9 @@ async function displayCityList() {
                 </a>
               `).join("")}
             </div>
+            
+  <!-- Scroll Up Button -->
+  <button id="scrollUpButton" class="scroll-up-button" onclick="scrollToTop()">⬆ Scroll to Top</button>
           </div>
         `;
       })
@@ -429,8 +432,6 @@ document.getElementById("cityListContainer").innerHTML = `
   </div>
   <div class="state-city-body">${groupedCityHTML}</div>
 
-  <!-- Scroll Up Button -->
-  <button id="scrollUpButton" class="scroll-up-button" onclick="scrollToTop()">⬆ Scroll to Top</button>
 `;
 
 
