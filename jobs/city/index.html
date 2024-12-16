@@ -433,7 +433,7 @@ document.addEventListener("DOMContentLoaded", () => {
 // Search functionality for cities
 function searchCities(containerId) {
   const searchTerm = document.getElementById('job-search').value.toLowerCase();
-  const jobsContainer = document.getElementById(containerId);
+  const jobsContainer = document.getElementById("cityListContainer");
   
   if (!jobsContainer || !jobsContainer.dataset.jobs) {
     console.error("Jobs container or dataset not found.");
