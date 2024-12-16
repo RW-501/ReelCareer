@@ -375,7 +375,14 @@ function renderCities(cities, jobsContainer) {
 function scrollToTop() {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
+/*
+   // Function to scroll smoothly to the top of the cityLetters container
+    function scrollToTop() {
+      document.getElementById("cityLetters").scrollIntoView({ behavior: "smooth" });
+    }
+      */
 
+      
 // Fetch Cities Data and Initialize Render
 async function fetchAndRenderCities(jobsContainer) {
   try {
@@ -403,10 +410,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     populateCityLetters();
 
-    // Function to scroll smoothly to the top of the cityLetters container
-    function scrollToTop() {
-      document.getElementById("cityLetters").scrollIntoView({ behavior: "smooth" });
-    }
+ 
 
   } catch (error) {
     console.error("Error fetching city list:", error);
