@@ -1802,43 +1802,29 @@ function updateButtonState(button, text, disable = false) {
 
 
 
-function sendMessage(docId , profilePicture,reelUserID, senderdisplayName,connectBtn) {
+function sendMessage(docId , profilePicture,reelUserID, recipientName,connectBtn) {
 
   
     
 
-    const userId = getUserId(); // Logged-in user
-
+  
     
-    let recipientName = senderdisplayName;
-    let currentUserId = userId;
-    let userPageId = reelUserID;
+  
 
     setRecipientName(recipientName);
-   // console.log("USERID: ", USERID);
 
-   /*
-    console.log("userId: ", userId);
-    console.log("currentUserId: ", currentUserId);
-    console.log("userIdFromURL: ", userIdFromURL);
-    console.log("userPageId: ", userPageId);
-*/
+    
 
-    const userDataSaved = getUserData() || [];
     const senderID = auth.currentUser.uid;
 
-   // console.log("UserData: ", UserData);
-   console.log("userId: ", userId);
    console.log("recipientName: ", recipientName);
-   console.log("currentUserId: ", currentUserId);
-   console.log("userPageId: ", userPageId);
+   console.log("reelUserID: ", reelUserID);
 
 
     console.log("senderID: ", senderID);
-    console.log("userDataSaved: ", userDataSaved);
 
-    if (senderID !== userPageId) {
-        document.getElementById('recipient-id').value = userPageId; // Set recipient ID
+    if (senderID !== reelUserID) {
+        document.getElementById('recipient-id').value = reelUserID; // Set recipient ID
 
  
         $('#sendMessageModal').modal('show'); // Show modal
