@@ -1288,7 +1288,7 @@ document.addEventListener("DOMContentLoaded", () => {
       
         // Submit the report
         const reportRef = await addDoc(collection(db, 'SupportTickets'), reportData);
-        console.log(`Report submitted with ID: ${reportRef.id}`);
+        showToast(`Report submitted with ID: ${reportRef.id}`);
 
         // Send the follow-up message
         await addDoc(collection(db, "Messages"), followUpMessage);
