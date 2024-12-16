@@ -193,14 +193,6 @@
 }
 
 
-.reportVideoBtn {
-    display: block;
-    margin: .2rem;
-    background-color: #497687;
-    border: none;
-    color: #ad1b33;
-}
-
 
 
 /* Video Reel Container */
@@ -416,7 +408,15 @@ display: block;
 .play-overlay:hover {
   color: #84bbd9;
 }
+.reportVideoBtn {
+    display: block;
+    margin: .2rem;
+    border: none;
+}
 
+.reportVideoBtn:hover {
+  color: #ad1b33;
+}
 
 /* Mute & Full-Screen Buttons */
 .mute-toggle, .fullscreen-toggle {
@@ -1073,9 +1073,7 @@ videoCard.innerHTML = `
         </button>
       </div>
     `}
-        <button class="reportVideoBtn btn btn-warning w-100" data-doc-id="${docId}" aria-label="Report Video">
-          <i class="fa fa-flag"></i> 
-        </button>
+ 
       </div>
     </div>
 
@@ -1089,6 +1087,10 @@ videoCard.innerHTML = `
       <button class="mute-toggle" data-doc-id="${docId}" aria-label="Mute or Unmute">
         <i class="fa fa-volume-up"></i>
       </button>
+
+        <button class="reportVideoBtn " data-doc-id="${docId}" aria-label="Report Video">
+          <i class="fa fa-flag"></i> 
+        </button>
       <button class="fullscreen-toggle" aria-label="Enter Full Screen">
         <i class="fa fa-expand"></i>
       </button>
