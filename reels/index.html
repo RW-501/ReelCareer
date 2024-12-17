@@ -1312,7 +1312,7 @@ commentButton.addEventListener("click", () => addComment(docId));
 const videoElement = videoCard.querySelector(".video-element");
 videoElement.addEventListener("play", () => incrementViewCount(docId));
 
-const videos = document.querySelectorAll(".video-element"); 
+const videos = videoCard.querySelectorAll(".video-element"); 
 console.log("videos ",videos);
 
 
