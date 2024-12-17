@@ -233,12 +233,6 @@ main .row {
 
 
 
-#interaction-panel {
-    position: relative;
-    min-height: 500px;
-    height: auto;
-    width: 100%;
-}
 
 #mainConnections-panel {
     position: relative;
@@ -260,21 +254,12 @@ main .row {
 #closeSlidePanelBtn {
     color: color-mix(in lch longer hue, #45a049 45%, #f0f8ff 20%);
 }
-
-#controls-contactList-area {
-    width: 100% !important;
-    display: block;  
-}
-
-#controls-contactList-area.controls-wide {
-    -ms-flex: none;
-        flex: none;
-        max-width: none; 
-}
 main {
     margin-bottom: 20px;
     overflow: hidden;
 }
+
+
 .slide-panel {
   position: relative;
   top: 0;
@@ -318,6 +303,37 @@ main {
 
 
 
+#controls-contactList-area {
+    position: relative;
+    min-height: 500px;
+    height: auto;
+    width: 100% !important; 
+}
+
+#controls-contactList-area.open {
+    display: block;
+}
+#controls-contactList-area.close {
+ display: none;
+}
+
+
+#messaging-area {
+    position: relative;
+    min-height: 500px;
+    height: auto;
+    width: 100% !important;
+}
+
+#messaging-area.open {
+    display: block;
+
+}
+
+#messaging-area.close {
+    display: none;
+
+}
 
 
     </style>
@@ -353,8 +369,13 @@ main {
             </ul>
             <button class="btn btn-primary mt-2" id="composeButton">Compose Message</button>
           </div>
-          <div class="col-md-8">
-            <div id="interaction-panel">
+
+
+
+
+
+
+          <div id="messaging-area">
       
               <div id="mainConnections-panel">
                 <!-- Sliding Panel -->
@@ -452,7 +473,7 @@ main {
       
               </div>
       
-            </div>
+            
       
             <!-- >panel end -->
       
@@ -615,10 +636,12 @@ lastBreadcrumb_1_a.innerText = userDataSaved.displayName;
 
 
 // Elements
-const openSlidePanelBtn = document.getElementById('openSlidePanelBtn');
 const controlsContactListArea = document.getElementById('controls-contactList-area');
+const messagingArea = document.getElementById('messaging-area');
+
+const openSlidePanelBtn = document.getElementById('openSlidePanelBtn');
 const closeSlidePanelBtn = document.getElementById('closeSlidePanelBtn');
-const connectionsSlidePanel = document.getElementById('connectionsSlidePanel');
+
 const connectionsList = document.getElementById('connectionsList');
 
 // Fetching Connections from the database (assuming you are using Firebase)
@@ -1377,7 +1400,7 @@ openSlidePanelBtn.addEventListener('click', (e) => {
  //   console.log("event...: ", e);
 
     if (e.detail === "open") {
-   // console.log("Open action triggered.");
+   console.log("Open action triggered.");
     
     
 
@@ -1386,23 +1409,33 @@ openSlidePanelBtn.addEventListener('click', (e) => {
 
 // Open or close the sliding panel on button click
     // Check if the class 'open' is present in the connectionsSlidePanel
-    if (!connectionsSlidePanel.classList.contains('open') || e.detail === "open") {
+    if (!messagingArea.classList.contains('open') || e.detail === "open") {
         // If not open, open the sliding panel and modify the contact list area
-        connectionsSlidePanel.classList.add('open');
-        controlsContactListArea.classList.replace('controls-narrow', 'controls-wide');
+        messagingArea.classList.add('open');
+      controlsContactListArea.classList.replace('open', 'close');
+
+
+      
+
         // Set the new title
 document.title = `ReelCareer.co | ${userDataSaved.displayName} - Connections`;
     } else {
         // If already open, toggle the classes
-        connectionsSlidePanel.classList.remove('open');
-        controlsContactListArea.classList.remove('controls-wide');
-        controlsContactListArea.classList.add('controls-narrow');
+        messagingArea.classList.remove('open');
+        controlsContactListArea.classList.remove('open');
+        controlsContactListArea.classList.add('close');
+
+
+
+
         // Set the new title
 document.title = `ReelCareer.co | ${userDataSaved.displayName} - Messaging`;
+
+
     }
 
     // Toggle the text based on the panel state
-    breadcrumbActiveTitle.innerText = connectionsSlidePanel.classList.contains('open') ? "Messaging" : "Connections";
+    breadcrumbActiveTitle.innerText = messagingArea.classList.contains('open') ? "Messaging" : "Connections";
 });
 
 
@@ -1418,8 +1451,8 @@ breadcrumbActiveTitle.addEventListener('click', () => {
 
 // Close the sliding panel
 closeSlidePanelBtn.addEventListener('click', () => {
-  connectionsSlidePanel.classList.remove('open');
-  controlsContactListArea.classList.remove('controls-wide');
+    messagingArea.classList.remove('open');
+  controlsContactListArea.classList.remove('close');
   breadcrumbActiveTitle.innerText =  "Connections";
 });
 
