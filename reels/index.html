@@ -1490,7 +1490,13 @@ loadedComments.delete(docId); // To reload comments for a single video
 loadedComments.clear();       // To reload comments for all videos
 */
 
+const renderedComments = new Set(); // To keep track of rendered comments
+
 function renderComment(comment, docId, commentsMap, container) {
+    // Avoid rendering the same comment multiple times
+    if (renderedComments.has(comment.id)) return;
+    renderedComments.add(comment.id);
+
     const commentElement = document.createElement("div");
     commentElement.classList.add("comment-item");
     commentElement.innerHTML = `
@@ -1518,7 +1524,9 @@ function renderComment(comment, docId, commentsMap, container) {
     // Render replies (if any)
     if (commentsMap[comment.id]) {
         const repliesContainer = document.getElementById(`replies-container-${comment.id}`);
-        commentsMap[comment.id].forEach((reply) => renderComment(reply, docId, commentsMap, repliesContainer));
+        commentsMap[comment.id].forEach((reply) => {
+            renderComment(reply, docId, commentsMap, repliesContainer);
+        });
     }
 }
 
