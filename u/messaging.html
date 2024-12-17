@@ -775,7 +775,8 @@ const existingMessager = document.querySelector(`[data-message-id="${connectionI
     const div = document.createElement('div');
     div.classList.add('connection-item');
    // ${userDataSaved.userID}_${data.from}
-   
+   const contactInfo = document.getElementById('contactInfo');
+
 
     if (type === "message") {
         if (connection.senderID === userDataSaved.userID) {
@@ -903,8 +904,12 @@ const existingMessager = document.querySelector(`[data-message-id="${connectionI
 
             
         }
+
+        
         
     }
+    contactInfo.appendChild(div);
+
 
     const openEvent = new CustomEvent("click", { detail: "open" });
     openSlidePanelBtn.dispatchEvent(openEvent);
@@ -1031,27 +1036,28 @@ conversationTitle.setAttribute("data-conversation-picture",data.recipientProfile
     console.log(`END  composeMessages ???????????????????????? 
     ???????????????????????????????????///????????????????????????????????????/ `);
 
+
+*
+const selectInput = document.createElement('div');
+selectInput.id = `groupSelect${userDataSaved.userID}`;
+selectInput.classList.add('groupSelect');
+
+groupDiv.appendChild(selectInput);
 */
 
-
-
-
-    
 if(type === "contact"){
  if (data.to === userDataSaved.userID) {
     messageSenderID = data.from;
 
 
-    
+    conversationTitle.setAttribute("data-conversation-id",`${userDataSaved.userID}_${data.from}`);
+
 conversationTitle.innerHTML = `
 <a href="https://reelcareer.co/u/?u=${data.from}" style="text-decoration: none; color: inherit;">
     <img src="${data.fromProfilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_sm.png'}" alt="Avatar" class="avatar lazy-image">
 </a>
 <span>${data.fromName || 'Unknown Sender'}</span>
-`;  
-conversationTitle.setAttribute("data-conversation-id",`${userDataSaved.userID}_${data.from}`);
 
-contactInfo.innerHTML = `
     <div class="flex">
         <div>Contact: ${data.fromName}</div>
         <div>Connection: <small>${data.status}</small></div>
@@ -1123,18 +1129,14 @@ conversationTitle.appendChild(groupDiv);
 } else if (data.from === userDataSaved.userID) {
     messageSenderID = data.to;
 
+    conversationTitle.setAttribute("data-conversation-id",`${userDataSaved.userID}_${data.to}`);
 
     conversationTitle.innerHTML = `
 <a href="https://reelcareer.co/u/?u=${data.to}" style="text-decoration: none; color: inherit;">
     <img src="${data.toProfilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_sm.png'}" alt="Avatar" class="avatar lazy-image">
 </a>
 <span>${data.toName || 'Unknown Sender'}</span>
-`;  
-conversationTitle.setAttribute("data-conversation-id",`${userDataSaved.userID}_${data.to}`);
 
-
-
-contactInfo.innerHTML = `
     <div class="flex">
         <div>Contact: ${data.toName}</div>
         <div>Connection: <small>${data.status}</small></div>
@@ -1220,17 +1222,15 @@ if (type === "message") {
 
     if (data.recipientID === userDataSaved.userID) {
         messageSenderID = data.senderID;
+        conversationTitle.setAttribute("data-conversation-id",`${userDataSaved.userID}_${data.senderID}`);
 
 conversationTitle.innerHTML = `
 <a href="${data.recipientProfileURL}" style="text-decoration: none; color: inherit;">
     <img src="${data.recipientProfilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_sm.png'}" alt="Avatar" class="avatar lazy-image">
 </a>
 <span>${data.senderName || 'Unknown Sender'}</span>
-`;  
-conversationTitle.setAttribute("data-conversation-id",`${userDataSaved.userID}_${data.senderID}`);
 
-
-contactInfo.innerHTML = `<div class="flex"><div>Contact: ${data.senderName}</div>
+<div class="flex"><div>Contact: ${data.senderName}</div>
  <div>Connection: <small>${data.connectedBool}</small></div></div>
 ${data.connectedBool ? "<p>Connected Since: <small>${data.acceptDate}</small></p>" : ''}`
 
@@ -1293,17 +1293,14 @@ conversationTitle.appendChild(groupDiv);
     }else 
     if (data.senderID === userDataSaved.userID) {
         messageSenderID = data.recipientID;
+        conversationTitle.setAttribute("data-conversation-id",`${userDataSaved.userID}_${data.senderID}`);
 
         conversationTitle.innerHTML = `
 <a href="${data.recipientProfileURL}" style="text-decoration: none; color: inherit;">
     <img src="${data.recipientProfilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_sm.png'}" alt="Avatar" class="avatar lazy-image">
 </a>
 <span>${data.recipientName || 'Unknown Sender'}</span>
-`;  
-conversationTitle.setAttribute("data-conversation-id",`${userDataSaved.userID}_${data.senderID}`);
-
-
-contactInfo.innerHTML = `<div class="flex"><div>Contact: ${data.recipientName}</div>
+<div class="flex"><div>Contact: ${data.recipientName}</div>
  <div>Connection: <small>${data.connectedBool}</small></div></div>
 ${data.connectedBool ? "<p>Connected Since: <small>${data.acceptDate}</small></p>" : ''}`
 
