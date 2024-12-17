@@ -1750,7 +1750,7 @@ async function postReelFunction() {
     }
     // Construct video resume data
     const videoResumeData = {
-        userID: userDataSaved.userId || '',
+      createdByID: userID || '',
         displayName: userDataSaved.displayName || '',
         publicProfile: userDataSaved.publicProfile || true,
         profilePicture: userDataSaved.profilePicture || '',

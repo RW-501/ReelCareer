@@ -1043,13 +1043,14 @@ function renderVideos(docs, container) {
             videoCard.dataset.position = videoData.position || '';
             videoCard.dataset.location = videoData.location || '';
             videoCard.dataset.verified = videoData.verified || '';
-            videoCard.dataset.reelUserID = videoData.userID || '';
+            videoCard.dataset.reelUserID = videoData.createdByID || '';
             videoCard.dataset.profilePicture = videoData.profilePicture || '';
             videoCard.dataset.duration = videoData.duration || 0;
             videoCard.dataset.likes = videoData.likes || 0;
             videoCard.dataset.loves = videoData.loves || 0;
-            videoCard.dataset.userID = videoData.userID || '';
+            videoCard.dataset.createdByID = videoData.createdByID || '';
             videoCard.dataset.views = videoData.views || '';
+            videoCard.dataset.profileURL = videoData.profileURL || '';
             generateVideoSchema(videoData, docId);
 
 let videoDuration = parseFloat(videoData.duration.toFixed(2));
@@ -1062,7 +1063,7 @@ videoCard.innerHTML = `
              class="profile-img lazy-image">
         <div class="user-details">
           <div class="name-badge">
-          <a href="https://reelcareer.co/u/?u=${videoData.userID}" aria-label="View ${videoData.displayName}'s profile">
+          <a href="${videoData.profileURL}" aria-label="View ${videoData.displayName}'s profile">
             <h3 class="user-name">
               ${videoData.displayName || 'Anonymous'}
             </h3>
