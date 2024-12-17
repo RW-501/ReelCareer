@@ -1224,12 +1224,16 @@ const videoElement = videoCard.querySelector(".video-element");
 videoElement.addEventListener("play", () => incrementViewCount(docId));
 
 
+const videos = document.querySelectorAll(".video-element");
 
 
-
-
+muteButton.addEventListener("click", () => toggleMute(videos, muteButton));
+            fullscreenButton.addEventListener("click", () => toggleFullscreen(videos, fullscreenButton));
+            playButton.addEventListener("click", () => togglePlay(videos, playButton));
 
       
+
+   
         
 
     });
@@ -1287,7 +1291,7 @@ function toggleMute(video, muteButton) {
 }
 
 // Function to handle Fullscreen
-function toggleFullscreen(video) {
+function toggleFullscreen(video, fullscreenButton) {
   if (video.requestFullscreen) {
     video.requestFullscreen();
   } else if (video.webkitRequestFullscreen) {
@@ -1328,7 +1332,6 @@ document.addEventListener("DOMContentLoaded", () => {
     setupVideoControls(video);
   });
 });
-
 
 
 
@@ -1965,7 +1968,6 @@ document.getElementById('sendMessageForm').addEventListener('submit', async func
     // Gather recipient and sender data
 
     const recipientID = document.getElementById('recipient-id').value;
-    const currentVideoId = document.getElementById('currentVideoId').innerText;
     const senderID = auth.currentUser.uid;
     const content = document.getElementById('message-content').value.trim();
     const connectBtn = document.getElementById('connect-btn');
@@ -1974,7 +1976,8 @@ document.getElementById('sendMessageForm').addEventListener('submit', async func
     const connectedBool = connectBtn.innerText === "Connected";
 
    
-  // Get the video card by its ID
+  // Get the video card by its ID    
+  const currentVideoId = document.getElementById('currentVideoId').innerText;
 const videoCard = document.getElementById(`videoCard_${currentVideoId}`);
 
 // Access the dataset attributes
