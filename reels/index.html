@@ -1218,8 +1218,9 @@ commentButton.addEventListener("click", () => addComment(docId));
 const videoElement = videoCard.querySelector(".video-element");
 videoElement.addEventListener("play", () => incrementViewCount(docId));
 
+const videos = document.querySelectorAll(".video-element"); 
 
-videoElement.forEach((video) => {
+videos.forEach((video) => {
   const container = video.parentElement;
   const muteButton = container.querySelector(".mute-toggle");
   const fullscreenButton = container.querySelector(".fullscreen-toggle");
