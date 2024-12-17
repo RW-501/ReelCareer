@@ -1484,9 +1484,9 @@ profileData.tags.forEach(tag => {
         }
 
         async function loadUserVideoResumes(userData) {
-          //  const videoResumesRef = collection(db, 'VideoResumes');
-          //  const q = query(videoResumesRef, where("createdByID", "==", userId));
-         //   const videoSnapshot = await getDocs(q);
+           const videoResumesRef = collection(db, 'VideoResumes');
+            const q = query(videoResumesRef, where("createdByID", "==", userId));
+            const videoSnapshot = await getDocs(q);
             const videoResumeList = document.getElementById('video-resume-list');
 
             if (!userData.resumes) {
@@ -1533,10 +1533,11 @@ profileData.tags.forEach(tag => {
 }
 document.getElementById('share-profile-btn').addEventListener('click', async () => { 
     try {
-        const userId = await getUserId(); // Await the result of the asynchronous function
+
+      const userPageId = document.getElementById('userPageId').innerText;
 
         // Construct the share URL with the resolved userId
-        const shareUrl = `https://reelcareer.co/u?u=${userId}`; 
+        const shareUrl = `https://reelcareer.co/u/?u=${userPageId}`; 
 
         // Copy the share URL to the clipboard
         await navigator.clipboard.writeText(shareUrl);
