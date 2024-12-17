@@ -1445,15 +1445,15 @@ function togglePlay(video, controlsTop, controlsPlay, controlsBottom, videoCard)
   if (video.paused) {
     video.play();
     // Animate elements out
-    controlsTop.classList.add("slide-up");
-    controlsBottom.classList.add("slide-down");
-    controlsPlay.classList.add("fade-out");
+    videoCard.controlsTop.classList.add("slide-up");
+    videoCard.controlsBottom.classList.add("slide-down");
+    videoCard.controlsPlay.classList.add("fade-out");
   } else {
     video.pause();
     // Animate elements back in
-    controlsTop.classList.remove("slide-up");
-    controlsBottom.classList.remove("slide-down");
-    controlsPlay.classList.remove("fade-out");
+    videoCard.controlsTop.classList.remove("slide-up");
+    videoCard.controlsBottom.classList.remove("slide-down");
+    videoCard.controlsPlay.classList.remove("fade-out");
   }
 }
 
@@ -1461,9 +1461,9 @@ function togglePlay(video, controlsTop, controlsPlay, controlsBottom, videoCard)
 function addVideoEndListener(video, controlsTop, controlsPlay, controlsBottom, videoCard) {
   video.addEventListener("ended", () => {
     // Bring elements back when video stops
-    controlsTop.classList.remove("slide-up");
-    controlsBottom.classList.remove("slide-down");
-    controlsPlay.classList.remove("fade-out");
+    videoCard.controlsTop.classList.remove("slide-up");
+    videoCard.controlsBottom.classList.remove("slide-down");
+    videoCard.controlsPlay.classList.remove("fade-out");
   });
 }
 
