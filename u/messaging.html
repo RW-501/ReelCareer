@@ -1638,11 +1638,8 @@ contactList.appendChild(messageSection);
 let contactsRef = collection(db, 'Messages');
 let messagesQuery = query(contactsRef, where('participants', 'array-contains-any', [userID]));
 
-// Map to track displayed messages
-const displayedMessages = new Set();
-
 // Audio notification
-const newMessageAudio = new Audio('https://example.com/notification.mp3'); // Replace with your audio file
+const newMessageAudio = new Audio('https://reelcareer.co/media/audio/ding.mp3'); // Replace with your audio file
 
 // Utility: Format Timestamp
 function formatTimestamp(timestamp) {
@@ -1664,55 +1661,50 @@ function sortMessages(a, b) {
 
 // Real-time Snapshot Listener
 onSnapshot(messagesQuery, (snapshot) => {
-    const allMessages = [];
+    const latestMessages = {}; // Store the most recent message per user
 
     snapshot.forEach((doc) => {
         const data = doc.data();
-        data.id = doc.id; // Add document ID for reference
-        allMessages.push(data);
+        const otherUserID = data.recipientID === userID ? data.senderID : data.recipientID;
+
+        // Keep the most recent message for each user
+        if (!latestMessages[otherUserID] || data.timestamp > latestMessages[otherUserID].timestamp) {
+            latestMessages[otherUserID] = { ...data, id: doc.id };
+        }
     });
 
-    // Sort messages
-    allMessages.sort(sortMessages);
+    // Convert latestMessages object to an array and sort
+    const allMessages = Object.values(latestMessages).sort(sortMessages);
 
-    // Clear previous content to avoid duplicates
+    // Clear previous content
     messageSection.innerHTML = '';
 
     allMessages.forEach((data) => {
-        const docID = data.id;
+        const otherUserID = data.recipientID === userID ? data.senderID : data.recipientID;
+        const recipientName = data.recipientName || data.senderName;
+        const profilePicture = data.senderProfilePicture || data.recipientProfilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_tie_reel.png';
+        const truncatedMessage = truncateMessage(data.content || '');
+        const formattedDate = formatTimestamp(data.timestamp);
 
-        if (displayedMessages.has(docID)) return; // Skip if already displayed
-        displayedMessages.add(docID); // Mark as displayed
-
+        // Create list item
         const messagesListItem = document.createElement('li');
         messagesListItem.className = 'list-group-item msg-list-i';
+        messagesListItem.setAttribute("data-conversation-id", otherUserID);
 
-        // Add special class for Support messages
+        // Add unread class and play audio for unread messages
+        if (data.status === 'unread') {
+            messagesListItem.classList.add('unread-message');
+            newMessageAudio.play();
+        }
+
+        // Special class for Support messages
         if (data.senderID === '000000' || data.senderName === 'Support') {
             messagesListItem.classList.add('support-message');
         }
 
-        // Timestamp display
-        const formattedDate = formatTimestamp(data.timestamp);
-
-        // Determine recipient and sender
-        let recipientID, recipientName, profilePicture;
-        if (data.recipientID === userDataSaved.userID) {
-            recipientID = data.senderID;
-            recipientName = data.senderName;
-            profilePicture = data.senderProfilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_tie_reel.png';
-        } else {
-            recipientID = data.recipientID;
-            recipientName = data.recipientName;
-            profilePicture = data.recipientProfilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_tie_reel.png';
-        }
-
-        // Truncate message content
-        const truncatedMessage = truncateMessage(data.message || '');
-
         // Construct HTML
         messagesListItem.innerHTML = `
-            <a href="https://reelcareer.co/u/?u=${recipientID}" style="text-decoration: none; color: inherit;">
+            <a href="https://reelcareer.co/u/?u=${otherUserID}" style="text-decoration: none; color: inherit;">
                 <img src="${profilePicture}" alt="Avatar" class="avatar lazy-image">
             </a>
             <div class="message-info">
@@ -1722,18 +1714,10 @@ onSnapshot(messagesQuery, (snapshot) => {
             </div>
         `;
 
-        messagesListItem.setAttribute("data-conversation-id", recipientID);
-
-        // Play audio notification and add unread class for unread messages
-        if (data.status === 'unread') {
-            messagesListItem.classList.add('unread-message'); // Visual indication
-            newMessageAudio.play();
-        }
-
         // On-click handler
         messagesListItem.onclick = () => {
             appendConnection(data, "message");
-            composeMessages(data.participants, data, "message", recipientID);
+            composeMessages(data.participants, data, "message", otherUserID);
         };
 
         messageSection.appendChild(messagesListItem);
