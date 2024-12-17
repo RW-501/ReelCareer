@@ -358,7 +358,7 @@ main {
 
       <main id="main-content">
 
-          <div id='controls-contactList-area' class="col-md-4">
+          <div id='controls-contactList-area' class="open">
             <h4>Contacts</h4>
             <!-- Button to open the sliding panel -->
             <button id="openSlidePanelBtn" class="btn btn-primary" hidden>View Connections</button>
@@ -374,11 +374,12 @@ main {
 
 
 
-          <div id="messaging-area">
-      
+          <div id="messaging-area" class="close">
+            <h4>Messaging</h4>
+
               <div id="mainConnections-panel">
                 <!-- Sliding Panel -->
-                <div id="connectionsSlidePanel" class="slide-panel">
+                <div id="connectionsSlidePanel" class=" ">
                   <div class="panel-header">
                     <h3 id="slidePanel-header-text" hidden>Connections</h3>
                     <button id="closeSlidePanelBtn" class="close-btn">X</button>
