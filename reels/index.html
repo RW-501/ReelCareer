@@ -1242,7 +1242,7 @@ videoCard.innerHTML = `
         </button>
 
 
-<div class="realCareerVidLogo action-btn "> ReelCareer</div>
+<div class="realCareerVidLogo action-btn ">ReelCareer</div>
       </div>
     </div>
 
@@ -1369,26 +1369,31 @@ console.log("videos ",videos);
 
 
 
-const videoCardM_ID = document.getElementById(`videoCard_${docId}`);
 
 const muteButton = videoCard.querySelector(".mute-toggle");
   const fullscreenButton = videoCard.querySelector(".fullscreen-toggle");
   const playOverlay = videoCard.querySelector(".play-overlay");
 
+  const videoCardM_ID = document.getElementById(`videoCard_${docId}`);
+
+if (videoCardM_ID) {
+  // Scope everything inside the specific card
   const controlsTop = videoCardM_ID.querySelector(".controls-top");
   const controlsPlay = videoCardM_ID.querySelector(".controls-play");
   const controlsBottom = videoCardM_ID.querySelector(".controls-bottom");
 
-  const video = videoCard.querySelector("video");
+  const video = videoCardM_ID.querySelector("video"); // Fix: Scoped to the card itself
 
+  const container = videoCardM_ID; // The card container itself
 
-  
-  
+  // Play Overlay Click - scoped to this card only
+  container.addEventListener("click", () =>
+    togglePlay(video, controlsTop, controlsPlay, controlsBottom, videoCardM_ID)
+  );
 
-
-  // Play Overlay Click
-  container.addEventListener("click", () => togglePlay(video, controlsTop,controlsPlay ,controlsBottom, videoCardM_ID));
   addVideoEndListener(video, controlsTop, controlsPlay, controlsBottom, videoCardM_ID);
+}
+
   // Mute/Unmute
   muteButton.addEventListener("click", () => toggleMute(video, muteButton));
 
