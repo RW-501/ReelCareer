@@ -492,8 +492,42 @@ display: block;
 }
 
 .fa-play-circle, .fa-clock {
-  color: #007bff;
+  color: #639ad4;
 }
+
+
+
+/* Slide Up Animation */
+.slide-up {
+  transform: translateY(-100%);
+  opacity: 0;
+  transition: transform 0.5s ease, opacity 0.5s ease;
+}
+
+/* Slide Down Animation */
+.slide-down {
+  transform: translateY(100%);
+  opacity: 0;
+  transition: transform 0.5s ease, opacity 0.5s ease;
+}
+
+/* Fade Out Animation */
+.fade-out {
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+/* Bring elements back */
+.controls {
+  transform: translateY(0);
+  opacity: 1;
+  transition: transform 0.5s ease, opacity 0.5s ease;
+}
+
+
+
+
+
 
 
 #Main-Nav_bar {
@@ -1182,21 +1216,22 @@ videoCard.innerHTML = `
       </video>
 
       <!-- Custom Controls -->
-      <button class="mute-toggle" data-doc-id="${docId}" aria-label="Mute or Unmute">
-        <i class="fa fa-volume-up"></i>
+      <button class="mute-toggle controls-top" data-doc-id="${docId}" aria-label="Mute or Unmute">
+        <i class="${videoMuted ? 'fa fa-volume-mute' : 'fa fa-volume-up' }"></i>
       </button>
 
-        <button class="reportVideoBtn " data-doc-id="${docId}" aria-label="Report Video">
+
+        <button class="reportVideoBtn controls-top" data-doc-id="${docId}" aria-label="Report Video">
           <i class="fa fa-flag"></i> 
         </button>
-      <button class="fullscreen-toggle" aria-label="Enter Full Screen">
+      <button class="fullscreen-toggle controls-top" aria-label="Enter Full Screen">
         <i class="fa fa-expand"></i>
       </button>
-      <div class="play-overlay">
+      <div class="play-overlay controls-play">
         <i class="fa fa-play"></i>
       </div>
 
-          <div class="controls-container">
+          <div class="controls-container controls-bottom">
       <div class="actions">
         <button class="action-btn like-btn" data-doc-id="${docId}" aria-label="Like Video">
           <i class="fa fa-thumbs-up"></i> ${videoData.likes || 0}
@@ -1330,10 +1365,15 @@ console.log("videos ",videos);
 
 
 
-
+controls-top
   const muteButton = videoCard.querySelector(".mute-toggle");
   const fullscreenButton = videoCard.querySelector(".fullscreen-toggle");
   const playOverlay = videoCard.querySelector(".play-overlay");
+
+  const controlsTop = videoCard.querySelector(".controls-top");
+  const controlsPlay = videoCard.querySelector(".controls-play");
+  const controlsBottom = videoCard.querySelector(".controls-bottom");
+
   const video = videoCard.querySelector("video");
 
   console.log("video ",video);
@@ -1342,8 +1382,8 @@ console.log("videos ",videos);
 
 
   // Play Overlay Click
-  container.addEventListener("click", () => togglePlay(video, playOverlay));
-
+  container.addEventListener("click", () => togglePlay(video, controlsTop,controlsPlay ,controlsBottom));
+  addVideoEndListener(video, controlsTop, controlsPlay, controlsBottom);
   // Mute/Unmute
   muteButton.addEventListener("click", () => toggleMute(video, muteButton));
 
@@ -1396,14 +1436,30 @@ showToast(`Tag ${tag} was clicked`);
 window.renderTags = renderTags;
 
 // Function to handle Play/Pause with overlay
-function togglePlay(video, playOverlay) {
+function togglePlay(video, controlsTop, controlsPlay, controlsBottom) {
   if (video.paused) {
     video.play();
-    playOverlay.style.display = "none";
+    // Animate elements out
+    controlsTop.classList.add("slide-up");
+    controlsBottom.classList.add("slide-down");
+    controlsPlay.classList.add("fade-out");
   } else {
     video.pause();
-    playOverlay.style.display = "flex";
+    // Animate elements back in
+    controlsTop.classList.remove("slide-up");
+    controlsBottom.classList.remove("slide-down");
+    controlsPlay.classList.remove("fade-out");
   }
+}
+
+// Listener for when the video ends
+function addVideoEndListener(video, controlsTop, controlsPlay, controlsBottom) {
+  video.addEventListener("ended", () => {
+    // Bring elements back when video stops
+    controlsTop.classList.remove("slide-up");
+    controlsBottom.classList.remove("slide-down");
+    controlsPlay.classList.remove("fade-out");
+  });
 }
 
 // Function to toggle Mute/Unmute
