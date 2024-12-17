@@ -101,7 +101,7 @@
     font-size: 1rem;
   }
 
-  .message-button, .add-user-button {
+  .message-button, .add-user-button, .connect-button, .share-btn {
     font-size: 0.9rem;
     padding: 8px 12px;
   }
@@ -411,13 +411,14 @@ display: block;
 
 
 .realCareerVidLogo {
-
-  color: #639ad4;
+    color: #639ad4;
     font-size: 1.5rem;
     font-weight: 700;
     -webkit-text-stroke: thin;
     font-size: 1rem;
     font-variant: small-caps;
+    margin: .5rem;
+    opacity: .5;
 }
 
 
@@ -554,7 +555,10 @@ display: block;
     padding: .5rem;
     width: 100%;
     margin: .5rem;
-
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-end;
 }
 
 .reply-text-area {
@@ -1560,11 +1564,10 @@ function renderComment(comment, docId, commentsMap, container) {
                       <div class="reply-commenter-area">
             <img src="${comment.commenterProfilePicture || `https://reelcareer.co/images/sq_logo_n_BG_sm.png` }" alt="${comment.commenterName}" class="comment-avatar lazy-image">
             <a href="${comment.commenterProfileURL}" class="comment-name">${comment.commenterName}</a>
-</div>
+            </div>
 
             <div class="comment-content">
-               
-                <div class="reply-text-area>${comment.text}</div>
+            <div class="reply-text-area">${comment.text}</div>
 
             <div class="reply-btn-area">
                 <button class="reply-btn" onclick="showReplyInput('${comment.id}', '${docId}','${comment.commenterName}')">
