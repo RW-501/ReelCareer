@@ -1019,6 +1019,7 @@ function renderVideos(docs, container) {
             console.log("docId   ",docId);
             console.log("videoData   ",videoData);
 
+            
             let reelUserID = videoData.userID || '';
             let profilePicture = videoData.profilePicture || '';
             let displayName = videoData.displayName || '';
@@ -1174,13 +1175,9 @@ container.appendChild(videoCard);
                 tagsContainer.appendChild(tagButton);
             });
         }
-        // Add comments
-        if (videoData.comments === true) {
-  console.log(`Fetching comments for video: ${docId}`);
-  fetchComments(docId);
-} else {
-  console.log(`No comments available for video: ${docId}`);
-}
+
+
+        
 
             // Add event listeners for buttons
             const muteButton = videoCard.querySelector(".mute-toggle");
@@ -1189,11 +1186,10 @@ container.appendChild(videoCard);
 
             const messageButton = videoCard.querySelector(".message-button");
             const connectButton = videoCard.querySelector(".connect-button");
-            const joinUsButton = videoCard.querySelector(".join-us-button");
+
             const addUserButton = videoCard.querySelector(".add-user-button");
             const likeButton = videoCard.querySelector(".like-btn");
             const reportVideoBtn = videoCard.querySelector(".reportVideoBtn");
-if(userId){
             // Mute toggle functionality
             reportVideoBtn.addEventListener("click", () => openReportModal(docId));
 
@@ -1203,11 +1199,10 @@ if(userId){
   
             connectButton.addEventListener("click", () => handleConnect(docId, connectButton, profilePicture,reelUserID ,displayName));
             messageButton.addEventListener("click", () => sendMessage(docId , profilePicture,reelUserID, displayName,connectButton));
-}else{
-  joinUsButton.addEventListener("click", () => handleJoinUsBtn(docId));
+ 
 
+            
 
-}
 
 
 // After appending videoCard to container
@@ -1224,17 +1219,23 @@ const videoElement = videoCard.querySelector(".video-element");
 videoElement.addEventListener("play", () => incrementViewCount(docId));
 
 
-const videos = document.querySelectorAll(".video-element");
+videos.forEach((video) => {
+  const container = video.parentElement;
+  const muteButton = container.querySelector(".mute-toggle");
+  const fullscreenButton = container.querySelector(".fullscreen-toggle");
+  const playOverlay = container.querySelector(".play-overlay");
 
+  // Play Overlay Click
+  container.addEventListener("click", () => togglePlay(video, playOverlay));
 
-muteButton.addEventListener("click", () => toggleMute(videos, muteButton));
-            fullscreenButton.addEventListener("click", () => toggleFullscreen(videos, fullscreenButton));
-            playButton.addEventListener("click", () => togglePlay(videos, playButton));
+  // Mute/Unmute
+  muteButton.addEventListener("click", () => toggleMute(video, muteButton));
 
-      
+  // Fullscreen Toggle
+  fullscreenButton.addEventListener("click", () => toggleFullscreen(video));
+});
 
-   
-        
+fetchComments(docId);
 
     });
 
@@ -1300,38 +1301,6 @@ function toggleFullscreen(video, fullscreenButton) {
     video.msRequestFullscreen();
   }
 }
-
-// Function to set up event listeners for a single video
-function setupVideoControls(video) {
-  const container = video.parentElement;
-  const muteButton = container.querySelector(".mute-toggle");
-  const fullscreenButton = container.querySelector(".fullscreen-toggle");
-  const playOverlay = container.querySelector(".play-overlay");
-
-  // Click on container to toggle play/pause
-  container.addEventListener("click", () => togglePlay(video, playOverlay));
-
-  // Mute/Unmute button
-  muteButton.addEventListener("click", (e) => {
-    e.stopPropagation();
-    toggleMute(video, muteButton);
-  });
-
-  // Fullscreen button
-  fullscreenButton.addEventListener("click", (e) => {
-    e.stopPropagation();
-    toggleFullscreen(video);
-  });
-}
-
-// Initialize all videos on DOMContentLoaded
-document.addEventListener("DOMContentLoaded", () => {
-  const videos = document.querySelectorAll(".video-element");
-
-  videos.forEach((video) => {
-    setupVideoControls(video);
-  });
-});
 
 
 
@@ -1470,6 +1439,7 @@ async function addComment(docId, parentCommentId = null) {
 
 
 // Fetch and Display Comments
+// Fetch and Display Comments
 async function fetchComments(docId) {
     const commentsRef = collection(db, "VideoResumes", docId, "comments");
     const querySnap = await getDocs(query(commentsRef, orderBy("timestamp", "asc")));
@@ -1487,7 +1457,6 @@ async function fetchComments(docId) {
             commentsMap[comment.parentCommentId].push(comment);
         } else {
             commentsMap[comment.id] = commentsMap[comment.id] || [];
-            fetchComments(docId);
             commentsMap[comment.id].unshift(comment); // Main comment
         }
     });
@@ -1499,6 +1468,7 @@ async function fetchComments(docId) {
         });
     });
 }
+
 
 function renderComment(comment, docId, commentsMap, container) {
     const commentElement = document.createElement("div");
