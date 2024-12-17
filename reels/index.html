@@ -408,6 +408,19 @@ display: block;
 .play-overlay:hover {
   color: #84bbd9;
 }
+
+
+.realCareerVidLogo {
+
+  color: #639ad4;
+    font-size: 1.5rem;
+    font-weight: 700;
+    -webkit-text-stroke: thin;
+    font-size: 1rem;
+    font-variant: small-caps;
+}
+
+
 .reportVideoBtn {
     position: absolute;
     top: 10px;
@@ -1151,9 +1164,9 @@ videoCard.innerHTML = `
         <button class="action-btn like-btn" data-doc-id="${docId}" aria-label="Like Video">
           <i class="fa fa-thumbs-up"></i> ${videoData.likes || 0}
         </button>
-        <button class="action-btn share-btn" data-doc-id="${docId}" aria-label="Share Video">
-          <i class="fa fa-share-alt"></i> Share
-        </button>
+
+
+<div class="realCareerVidLogo action-btn "> ReelCareer</div>
       </div>
     </div>
 
@@ -1163,13 +1176,17 @@ videoCard.innerHTML = `
       <p class="views-count" aria-label="${videoData.views || 0} views">
         <i class="fa fa-play-circle"></i> ${videoData.views || 0} views
       </p>
+            <p class="video-duration" aria-label="Video duration ${videoDuration || '--:--'}">
+        <i class="fa fa-clock"></i> ${videoDuration || '--:--'}
+      </p>
               <button class="add-user-button" data-doc-id="${docId}"  aria-label="Add to Shortlist">
           <i class="fa fa-plus"></i> Shortlist
         </button>
 
-      <p class="video-duration" aria-label="Video duration ${videoDuration || '--:--'}">
-        <i class="fa fa-clock"></i> ${videoDuration || '--:--'}
-      </p>
+        <button class="share-btn" data-doc-id="${docId}" aria-label="Share Video">
+          <i class="fa fa-share-alt"></i> Share
+        </button>
+
     </div>
 
     <div class="caption-container">
