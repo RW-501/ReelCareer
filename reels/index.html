@@ -1444,13 +1444,22 @@ async function addComment(docId, parentCommentId = null) {
 
 
 // Fetch and Display Comments
-// Fetch and Display Comments
+const loadedComments = new Set(); // Keeps track of loaded docIds
+
 async function fetchComments(docId) {
+    // Check if comments for this video have already been loaded
+    if (loadedComments.has(docId)) {
+        console.log(`Comments for ${docId} already loaded`);
+        return; // Stop fetching to prevent duplication
+    }
+
+    loadedComments.add(docId); // Mark this docId as loaded
+
     const commentsRef = collection(db, "VideoResumes", docId, "comments");
     const querySnap = await getDocs(query(commentsRef, orderBy("timestamp", "asc")));
 
     const commentsContainer = document.getElementById(`comments-container-${docId}`);
-    commentsContainer.innerHTML = ""; // Clear previous comments
+    commentsContainer.innerHTML = ""; // Clear previous comments (if any)
 
     const commentsMap = {}; // For organizing comments by parent
 
@@ -1469,11 +1478,17 @@ async function fetchComments(docId) {
     // Render comments
     Object.values(commentsMap).forEach((group) => {
         group.forEach((comment) => {
-            if (!comment.parentCommentId) renderComment(comment, docId, commentsMap, commentsContainer);
+            if (!comment.parentCommentId) {
+                renderComment(comment, docId, commentsMap, commentsContainer);
+            }
         });
     });
 }
 
+/*
+loadedComments.delete(docId); // To reload comments for a single video
+loadedComments.clear();       // To reload comments for all videos
+*/
 
 function renderComment(comment, docId, commentsMap, container) {
     const commentElement = document.createElement("div");
