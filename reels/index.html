@@ -757,7 +757,9 @@ body {
 .hidden {
     display: none;
 }
-
+.show {
+    display: block;
+}
 </style>
 
 
@@ -1325,7 +1327,7 @@ fetchComments(docId);
 function handleComments(docId, commentsBtn){
 
   const inputContainer = document.getElementById(`comments-container-${docId}`);
-  inputContainer.classList.toggle("hidden");
+  inputContainer.classList.toggle("show");
 
 }
 
@@ -1656,7 +1658,7 @@ function showReplyInput(commentId, docID, commenterName ) {
   const replyInputArea = document.getElementById(`reply-input-area-${commentId}`);
  // replyInputArea.style.display = "block";
 
-  replyInputArea.classList.toggle("hidden");
+  replyInputArea.classList.toggle("show");
 
 }
 
