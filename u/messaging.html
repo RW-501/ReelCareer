@@ -1409,8 +1409,8 @@ openSlidePanelBtn.addEventListener('click', (e) => {
     if (!messagingArea.classList.contains('open') || e.detail === "open") {
         // If not open, open the sliding panel and modify the contact list area
         messagingArea.classList.add('open');
-      controlsContactListArea.classList.replace('open', 'close');
 
+        controlsContactListArea.classList.replace('open', 'close');
 
       
 
@@ -1418,9 +1418,11 @@ openSlidePanelBtn.addEventListener('click', (e) => {
 document.title = `ReelCareer.co | ${userDataSaved.displayName} - Connections`;
     } else {
         // If already open, toggle the classes
-        messagingArea.classList.remove('open');
-        controlsContactListArea.classList.remove('open');
-        controlsContactListArea.classList.add('close');
+        messagingArea.classList.replace('open', 'close');
+        controlsContactListArea.classList.replace('close', 'open');
+
+      //  controlsContactListArea.classList.remove('open');
+     //   controlsContactListArea.classList.add('close');
 
 
 
@@ -1448,9 +1450,9 @@ breadcrumbActiveTitle.addEventListener('click', () => {
 
 // Close the sliding panel
 closeSlidePanelBtn.addEventListener('click', () => {
-    messagingArea.classList.remove('open');
-  controlsContactListArea.classList.remove('close');
-  breadcrumbActiveTitle.innerText =  "Connections";
+    messagingArea.classList.replace('open', 'close');
+    controlsContactListArea.classList.replace('close', 'open');
+    breadcrumbActiveTitle.innerText =  "Connections";
 });
 
 
