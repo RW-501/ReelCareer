@@ -72,6 +72,10 @@
   color: #999;
 }
 
+.hidden {
+    display: none;
+}
+
     </style>
 </head>
 
@@ -143,7 +147,10 @@
   
                           
           <button class="btn btn-primary btn-block" id="send-message-btn">Send Message</button>
+          
           <button class="btn btn-primary btn-block"  id="share-profile-btn">Share Profile</button>
+          
+          <button class="btn btn-primary btn-block"  id="settings-profile-btn">Setting</button>
           <button class="btn btn-primary btn-block" id="connect-btn">Connect</button>
           <button class="btn btn-primary btn-block" id="view-profile-btn">View Profile</button>
         
@@ -167,13 +174,7 @@
                   </div>
      
           
-                  <!-- Digital Resume Link -->
-                  <div class="card mt-3">
-                    <div class="card-body">
-                        <h5>Digital Resume</h5>
-                        <a href="#" id="digital-resume-link" class="btn btn-primary">Edit Resume</a>
-                    </div>
-                </div>
+    
 
               </div> 
   
@@ -186,7 +187,7 @@
   
   
   
-  <div id="profileSettingsMain"  class="container">
+  <div id="profileSettingsMain"  class="container hidden">
 
     <div id="profile-settings-header">
     <h1 id="settings-header-text" class="mb-4">Profile Settings</h1>
@@ -408,7 +409,13 @@
                     </div>
                 </div>               
               
-  
+                <!-- Digital Resume Link -->
+                <div class="card mt-3">
+                  <div class="card-body">
+                      <h5>Digital Resume</h5>
+                      <a href="#" id="digital-resume-link" class="btn btn-primary">Edit Resume</a>
+                  </div>
+              </div>
   
   
                   <!-- Open Jobs Section -->
@@ -1550,7 +1557,10 @@ document.getElementById('share-profile-btn').addEventListener('click', async () 
     }
 });
 
-  
+document.getElementById('settings-btn').addEventListener('click', async () => {
+  const container = document.getElementById(`profileSettingsMain`);
+  container.classList.toggle("hidden");
+        });
 
         document.getElementById('view-messages-btn').addEventListener('click', async () => {
           window.location.href = 'https://reelcareer.co/u/messaging';
