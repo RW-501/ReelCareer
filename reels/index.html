@@ -1321,8 +1321,8 @@ fetchComments(docId);
 
 function handleComments(docId, commentsBtn){
 
-  const inputContainer = document.getElementById(`comments-section-${docId}`);
-  inputContainer.style.display = "block";
+  const inputContainer = document.getElementById(`comments-container-${docId}`);
+  inputContainer.classList.toggle("hidden");
 
 }
 
@@ -1651,10 +1651,9 @@ function renderComment(comment, docId, commentsMap, container) {
 
 function showReplyInput(commentId, docID, commenterName ) {
   const replyInputArea = document.getElementById(`reply-input-area-${commentId}`);
-  replyInputArea.style.display = "block";
+ // replyInputArea.style.display = "block";
 
-  const inputContainer = document.getElementById(`reply-input-container-${commentId}`);
-  inputContainer.style.display = "flex";
+  replyInputArea.classList.toggle("hidden");
 
 }
 
