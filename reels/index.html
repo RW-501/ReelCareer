@@ -583,7 +583,9 @@ display: block;
     font-size: 0.9em;
     margin-top: 5px;
 }
-
+.reply-to-container {
+    font: status-bar;
+}
 .reply-commenter-area {
     display: flex;
     flex-direction: row;
@@ -594,7 +596,7 @@ display: block;
 
 
 .reply-input-area {
-  display: grid;
+  display: none;
 }
 .reply-btn-area {
 display: grid;
@@ -1181,6 +1183,14 @@ videoCard.innerHTML = `
 
     </div>
 
+
+
+    <div class="caption-container">
+      <p class="video-caption">${videoData.videoResumeCaptions || ''}</p>
+    </div>
+    <div class="tags-container">
+    </div>
+
     <div class="video-details">
       <p class="views-count" aria-label="${videoData.views || 0} views">
         <i class="fa fa-play-circle"></i> ${videoData.views || 0} views
@@ -1193,23 +1203,18 @@ videoCard.innerHTML = `
         </button>
 
         <button class="share-btn" data-doc-id="${docId}" aria-label="Share Video">
-          <i class="fa fa-share-alt"></i> Share
+          <i class="fa fa-share-alt"></i> 
+        </button>
+        <button class="comments-btn" data-doc-id="${docId}" aria-label="Video Comments">
+          <i class="fas fa-comment"></i> </i> 
         </button>
 
     </div>
 
-    <div class="caption-container">
-      <p class="video-caption">${videoData.videoResumeCaptions || ''}</p>
-    </div>
-    <div class="tags-container">
-    </div>
-
-
-
 
 
     <!-- Comment Section -->
-<div class="comment-section">
+<div id="comment-section-${docId}" class="comment-section">
     <div class="comment-input-container">
         <input type="text" id="comment-input-${docId}" placeholder="Add a comment..." aria-label="Add a comment" />
         <button class="btn btn-primary add-comment-btn" onclick="addComment('${docId}')" aria-label="Post Comment">
@@ -1256,6 +1261,8 @@ container.appendChild(videoCard);
             const addUserButton = videoCard.querySelector(".add-user-button");
             const likeButton = videoCard.querySelector(".like-btn");
             const reportVideoBtn = videoCard.querySelector(".reportVideoBtn");
+
+
             // Mute toggle functionality
             reportVideoBtn.addEventListener("click", () => openReportModal(docId));
 
@@ -1266,7 +1273,6 @@ container.appendChild(videoCard);
             connectButton.addEventListener("click", () => handleConnect(docId, connectButton, profilePicture,reelUserID ,displayName));
             messageButton.addEventListener("click", () => sendMessage(docId , profilePicture,reelUserID, displayName,connectButton));
  
-
             
 
 
@@ -1274,8 +1280,10 @@ container.appendChild(videoCard);
 // After appending videoCard to container
 const shareButton = videoCard.querySelector(".share-btn");
 const commentButton = videoCard.querySelector(".add-comment-btn");
+const commentsBtn = videoCard.querySelector(".comments-btn");
 
 // Event Listeners
+commentsBtn.addEventListener("click", () => handleComments(docId, commentsBtn));
 likeButton.addEventListener("click", () => handleLike(docId, likeButton));
 shareButton.addEventListener("click", () => handleShare(docId, videoData.videoResumeURL));
 commentButton.addEventListener("click", () => addComment(docId));
@@ -1306,6 +1314,13 @@ fetchComments(docId);
 
     });
 
+
+}
+
+function handleComments(docId, commentsBtn){
+
+  const inputContainer = document.getElementById(`comment-section-${docId}`);
+  inputContainer.style.display = "block";
 
 }
 
