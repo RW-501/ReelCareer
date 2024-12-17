@@ -1400,13 +1400,15 @@ function handleJoinUsBtn(docId) {
 }
 
 
-function addToShortlist(docId) {
+function addToShortlist(docId, currentUid) {
+  const userID = auth.currentUser.uid;
+
   // Example: Add the video to the user's shortlist (if they are logged in)
   if (userId) {
     const shortlistRef = collection(db, "Users",userId,"Shortlists");
     addDoc(shortlistRef, {
-      userID: userId,
-      videoDocId: docId,
+      userID: currentUid,
+      videoID: docId,
       timestamp: new Date(),
     })
       .then(() => {
@@ -1454,7 +1456,22 @@ async function handleLike(docId, likeButton) {
         console.error("Error updating like count: ", error);
     }
 }
+async function handleShareCount(docId, shareButton) {
+    const videoRef = doc(db, "VideoResumes", docId);
 
+    try {
+        await updateDoc(videoRef, {
+            share: increment(1) // Firestore increment
+        });
+
+        // Update UI instantly
+        let likesCount = parseInt(shareButton.textContent) || 0;
+        shareButton++;
+        shareButton.innerHTML = `<i class="fa fa-thumbs-up"></i> ${shareButton}`;
+    } catch (error) {
+        console.error("Error updating like count: ", error);
+    }
+}
 // Function to format video duration to HH:MM:SS
 function formatDuration(duration) {
   const seconds = Math.floor(duration % 60);
@@ -1480,7 +1497,7 @@ function handleShare(docId, videoUrl) {
                 text: "Watch this professional video resume on ReelCareer.",
                 url: videoUrl
             })
-            .then(() => console.log("Video shared successfully"))
+            .then(() => showToast("Video shared successfully"), handleShareCount(docId, shareButton))
             .catch((error) => console.error("Error sharing video: ", error));
     } else {
         alert("Sharing not supported on this device.");
@@ -1495,6 +1512,7 @@ async function addComment(docId, parentCommentId = null) {
     const commentInput = document.getElementById(inputId);
     const commentText = commentInput.value.trim();
     const userDataSaved = getUserData() || [];
+    const userID = auth.currentUser.uid;
 
     if (commentText) {
         const commentsRef = collection(db, "VideoResumes", docId, "comments");
