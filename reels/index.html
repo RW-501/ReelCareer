@@ -562,11 +562,11 @@ display: block;
 }
 
 .reply-text-area {
-  border: #abcee2 solid;
     border-radius: 10px;
-    min-height: 50px;
+    min-height: min-content;
     background-color: #ffffff;
     width: 100%;
+    padding: .5rem;
 }
 
 .comment-name {
@@ -601,7 +601,12 @@ display: grid;
 }
 
 .reply-send-area {
-display: flex;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: .5rem;
 }
 /* General Styling */
 body {
@@ -1580,7 +1585,7 @@ function renderComment(comment, docId, commentsMap, container) {
         </div>
 
 
-<div class="reply-input-area">
+<div  id="reply-input-area-${comment.id}" class="reply-input-area">
           <div id="reply-input-container-${comment.id}" class="reply-input-container" style="display:none;">
             <small id="reply-to-container-${comment.id}" class="reply-to-container">Reply to: ${comment.commenterName}</small> 
         </div>
@@ -1610,8 +1615,12 @@ function renderComment(comment, docId, commentsMap, container) {
 
 
 function showReplyInput(commentId, docID, commenterName ) {
-    const inputContainer = document.getElementById(`reply-input-container-${commentId}`);
-    inputContainer.style.display = "flex";
+  const replyInputArea = document.getElementById(`reply-input-area-${commentId}`);
+  replyInputArea.style.display = "block";
+
+  const inputContainer = document.getElementById(`reply-input-container-${commentId}`);
+  inputContainer.style.display = "flex";
+
 }
 
 window.showReplyInput = showReplyInput;
