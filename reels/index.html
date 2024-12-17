@@ -1521,7 +1521,7 @@ function renderComment(comment, docId, commentsMap, container) {
         <div class="comment-main">
 
                       <div class="reply-commenter-area">
-            <img src="${comment.commenterProfilePicture}" alt="${comment.commenterName}" class="comment-avatar lazy-image">
+            <img src="${comment.commenterProfilePicture || `https://reelcareer.co/images/sq_logo_n_BG_sm.png` }" alt="${comment.commenterName}" class="comment-avatar lazy-image">
             <a href="${comment.commenterProfileURL}" class="comment-name">${comment.commenterName}</a>
 </div>
 
