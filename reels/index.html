@@ -593,7 +593,9 @@ display: block;
     justify-content: space-between;
     align-items: center;
 }
-
+.comments-container {
+  display: none;
+}
 
 .reply-input-area {
   display: none;
@@ -1319,7 +1321,7 @@ fetchComments(docId);
 
 function handleComments(docId, commentsBtn){
 
-  const inputContainer = document.getElementById(`comment-section-${docId}`);
+  const inputContainer = document.getElementById(`comments-section-${docId}`);
   inputContainer.style.display = "block";
 
 }
