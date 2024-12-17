@@ -2847,8 +2847,8 @@ chatButton.style.cssText = `
     padding: 10px 15px;
         background: linear-gradient(45deg, #8fc0dc, #b2d1e3);
         font-family: sans-serif;
-            color: white;
-    border: none;
+color: white;
+    border: solid rgb(106 220 238 / 23%);
     border-radius: 50px;
     cursor: pointer;
     font-size: 16px;
