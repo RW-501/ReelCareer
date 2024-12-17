@@ -1378,7 +1378,7 @@ function updateFooter() {
           <h2 class="text-center" style="${titleStyle}">${title}</h2>
           <div class="footerMediaArea text-center">
             <div class="col-md-6 m-auto">
-              <div class="video-container">
+              <div class="footerVideoContainer">
                 <video  class="footerVideo"  loop autoplay muted loading="lazy">
                   <source src="${video.source}" type="${video.type}">
                   Your browser does not support the video tag.
