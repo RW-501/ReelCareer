@@ -1221,14 +1221,14 @@ videoCard.innerHTML = `
 
 
     <!-- Comment Section -->
-<div id="comment-section-${docId}" class="comment-section hidden">
+<div id="comment-section-${docId}" class="comment-section ">
     <div class="comment-input-container">
         <input type="text" id="comment-input-${docId}" placeholder="Add a comment..." aria-label="Add a comment" />
         <button class="btn btn-primary add-comment-btn" onclick="addComment('${docId}')" aria-label="Post Comment">
             <i class="fa fa-paper-plane"></i> 
         </button>
     </div>
-    <div id="comments-container-${docId}" class="comments-container"></div>
+    <div id="comments-container-${docId}" class="comments-container hidden"></div>
 </div>
 
   </div>
