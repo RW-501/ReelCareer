@@ -538,6 +538,18 @@ display: block;
 
 .comment-content {
     flex: 1;
+    padding: .5rem;
+    width: 100%;
+    margin: .5rem;
+
+}
+
+.reply-text-area {
+  border: #abcee2 solid;
+    border-radius: 10px;
+    min-height: 50px;
+    background-color: #ffffff;
+    width: 100%;
 }
 
 .comment-name {
@@ -549,22 +561,30 @@ display: block;
 .reply-btn {
     background: none;
     border: none;
-    color: #007bff;
+    color: #abcee2;
     cursor: pointer;
     font-size: 0.9em;
     margin-top: 5px;
 }
 
 .reply-commenter-area {
-  display: flex;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+}
 
+
+.reply-input-area {
+  display: grid;
 }
 .reply-btn-area {
 display: grid;
 }
 
 .reply-send-area {
-display: grid;
+display: flex;
 }
 /* General Styling */
 body {
@@ -1527,7 +1547,7 @@ function renderComment(comment, docId, commentsMap, container) {
 
             <div class="comment-content">
                
-                <p>${comment.text}</p>
+                <div class="reply-text-area>${comment.text}</div>
 
             <div class="reply-btn-area">
                 <button class="reply-btn" onclick="showReplyInput('${comment.id}', '${docId}','${comment.commenterName}')">
@@ -1538,9 +1558,13 @@ function renderComment(comment, docId, commentsMap, container) {
                 <div id="replies-container-${comment.id}"></div>
             </div>
         </div>
-        <div id="reply-input-container-${comment.id}" class="reply-input-container" style="display:none;">
+
+
+<div class="reply-input-area">
+          <div id="reply-input-container-${comment.id}" class="reply-input-container" style="display:none;">
             <small id="reply-to-container-${comment.id}" class="reply-to-container">Reply to: ${comment.commenterName}</small> 
-        
+        </div>
+
             <div class="reply-send-area">
             <input type="text" id="reply-input-${comment.id}" placeholder="Write a reply..." />
             <button onclick="addComment('${docId}', '${comment.id}')" aria-label="Post Reply">
