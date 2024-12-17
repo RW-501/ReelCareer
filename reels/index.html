@@ -1168,7 +1168,7 @@ videoCard.innerHTML = `
     </div>
 
     <div class="video-container">
-      <video class="video-element" poster="${videoData.thumbnailURL || ''}">
+      <video id="video_${docId} class="video-element" poster="${videoData.thumbnailURL || ''}">
         <source src="${videoData.videoResumeURL}" type="video/mp4">
         Your browser does not support the video tag.
       </video>
@@ -1272,9 +1272,8 @@ container.appendChild(videoCard);
         
 
             // Add event listeners for buttons
-            const muteButton = videoCard.querySelector(".mute-toggle");
-            const fullscreenButton = videoCard.querySelector(".fullscreen-toggle");
-            const playButton = videoCard.querySelector(".play-overlay");
+       
+            
 
             const messageButton = videoCard.querySelector(".message-button");
             const connectButton = videoCard.querySelector(".connect-button");
@@ -1316,15 +1315,22 @@ videoElement.addEventListener("play", () => incrementViewCount(docId));
 const videos = document.querySelectorAll(".video-element"); 
 console.log("videos ",videos);
 
-videos.forEach((video) => {
-  const container = video.parentElement;
-  const muteButton = container.querySelector(".mute-toggle");
-  const fullscreenButton = container.querySelector(".fullscreen-toggle");
-  const playOverlay = container.querySelector(".play-overlay");
+
+
+
+
+
+
+
+
+  const muteButton = videoCard.querySelector(".mute-toggle");
+  const fullscreenButton = videoCard.querySelector(".fullscreen-toggle");
+  const playOverlay = videoCard.querySelector(".play-overlay");
+  const video = videoCard.querySelector("video");
 
   console.log("video ",video);
-  console.log("video.parentElement ",video.parentElement);
-  console.log("container ",container);
+
+  
 
 
   // Play Overlay Click
@@ -1335,7 +1341,7 @@ videos.forEach((video) => {
 
   // Fullscreen Toggle
   fullscreenButton.addEventListener("click", () => toggleFullscreen(video));
-});
+
 
 fetchComments(docId);
 
