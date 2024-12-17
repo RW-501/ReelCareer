@@ -1409,14 +1409,15 @@ openSlidePanelBtn.addEventListener('click', (e) => {
     // Check if the class 'open' is present in the connectionsSlidePanel
     if (!messagingArea.classList.contains('open') || e.detail === "open") {
         // If not open, open the sliding panel and modify the contact list area
-        messagingArea.classList.add('open');
+
+        messagingArea.classList.replace('close', 'open');
 
         controlsContactListArea.classList.replace('open', 'close');
 
       
+        document.title = `ReelCareer.co | ${userDataSaved.displayName} - Messaging`;
 
         // Set the new title
-document.title = `ReelCareer.co | ${userDataSaved.displayName} - Connections`;
     } else {
         // If already open, toggle the classes
         messagingArea.classList.replace('open', 'close');
@@ -1429,7 +1430,7 @@ document.title = `ReelCareer.co | ${userDataSaved.displayName} - Connections`;
 
 
         // Set the new title
-document.title = `ReelCareer.co | ${userDataSaved.displayName} - Messaging`;
+        document.title = `ReelCareer.co | ${userDataSaved.displayName} - Connections`;
 
 
     }
