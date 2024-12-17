@@ -761,6 +761,16 @@ body {
 .show {
     display: block;
 }
+
+#breadcrumb-nav {
+  width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 500;
+
+}
 </style>
 
 
@@ -772,7 +782,7 @@ body {
     <script src="https://reelcareer.co/public/js/bodyload.js"></script>
     <nav></nav>
 
-    <nav aria-label="breadcrumb">
+    <nav id="breadcrumb-nav" aria-label="breadcrumb">
       <ol class="breadcrumb">
           <li id="lastBreadcrumb_home" class="breadcrumb-item"><a id="homeBreadcrumb_a" href="https://reelcareer.co">Home</a></li>
          
@@ -1304,12 +1314,18 @@ const videoElement = videoCard.querySelector(".video-element");
 videoElement.addEventListener("play", () => incrementViewCount(docId));
 
 const videos = document.querySelectorAll(".video-element"); 
+console.log("videos ",videos);
 
 videos.forEach((video) => {
   const container = video.parentElement;
   const muteButton = container.querySelector(".mute-toggle");
   const fullscreenButton = container.querySelector(".fullscreen-toggle");
   const playOverlay = container.querySelector(".play-overlay");
+
+  console.log("video ",video);
+  console.log("video.parentElement ",video.parentElement);
+  console.log("container ",container);
+
 
   // Play Overlay Click
   container.addEventListener("click", () => togglePlay(video, playOverlay));
