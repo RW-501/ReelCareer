@@ -1216,17 +1216,21 @@ videoCard.innerHTML = `
       </video>
 
       <!-- Custom Controls -->
-      <button class="mute-toggle controls-top" data-doc-id="${docId}" aria-label="Mute or Unmute">
+      <div  class="controls-top">
+      <button class="mute-toggle" data-doc-id="${docId}" aria-label="Mute or Unmute">
         <i class="${videoMuted ? 'fa fa-volume-mute' : 'fa fa-volume-up' }"></i>
       </button>
 
 
-        <button class="reportVideoBtn controls-top" data-doc-id="${docId}" aria-label="Report Video">
+        <button class="reportVideoBtn" data-doc-id="${docId}" aria-label="Report Video">
           <i class="fa fa-flag"></i> 
         </button>
-      <button class="fullscreen-toggle controls-top" aria-label="Enter Full Screen">
+      <button class="fullscreen-toggle" aria-label="Enter Full Screen">
         <i class="fa fa-expand"></i>
       </button>
+      
+      </div>
+
       <div class="play-overlay controls-play">
         <i class="fa fa-play"></i>
       </div>
@@ -1365,14 +1369,15 @@ console.log("videos ",videos);
 
 
 
+const videoCardM_ID = document.getElementById(`videoCard_${docId}`);
 
 const muteButton = videoCard.querySelector(".mute-toggle");
   const fullscreenButton = videoCard.querySelector(".fullscreen-toggle");
   const playOverlay = videoCard.querySelector(".play-overlay");
 
-  const controlsTop = videoCard.querySelector(".controls-top");
-  const controlsPlay = videoCard.querySelector(".controls-play");
-  const controlsBottom = videoCard.querySelector(".controls-bottom");
+  const controlsTop = videoCardM_ID.querySelector(".controls-top");
+  const controlsPlay = videoCardM_ID.querySelector(".controls-play");
+  const controlsBottom = videoCardM_ID.querySelector(".controls-bottom");
 
   const video = videoCard.querySelector("video");
 
@@ -1382,8 +1387,8 @@ const muteButton = videoCard.querySelector(".mute-toggle");
 
 
   // Play Overlay Click
-  container.addEventListener("click", () => togglePlay(video, controlsTop,controlsPlay ,controlsBottom));
-  addVideoEndListener(video, controlsTop, controlsPlay, controlsBottom);
+  container.addEventListener("click", () => togglePlay(video, controlsTop,controlsPlay ,controlsBottom, videoCardM_ID));
+  addVideoEndListener(video, controlsTop, controlsPlay, controlsBottom, videoCardM_ID);
   // Mute/Unmute
   muteButton.addEventListener("click", () => toggleMute(video, muteButton));
 
@@ -1436,7 +1441,7 @@ showToast(`Tag ${tag} was clicked`);
 window.renderTags = renderTags;
 
 // Function to handle Play/Pause with overlay
-function togglePlay(video, controlsTop, controlsPlay, controlsBottom) {
+function togglePlay(video, controlsTop, controlsPlay, controlsBottom, videoCard) {
   if (video.paused) {
     video.play();
     // Animate elements out
@@ -1453,7 +1458,7 @@ function togglePlay(video, controlsTop, controlsPlay, controlsBottom) {
 }
 
 // Listener for when the video ends
-function addVideoEndListener(video, controlsTop, controlsPlay, controlsBottom) {
+function addVideoEndListener(video, controlsTop, controlsPlay, controlsBottom, videoCard) {
   video.addEventListener("ended", () => {
     // Bring elements back when video stops
     controlsTop.classList.remove("slide-up");
