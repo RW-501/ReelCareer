@@ -180,206 +180,219 @@
   
               <div class="col-md-8 public">
   
-  
+                <div id="profileSettingsMain" class="container hidden">
+
+                  <div id="profile-settings-header">
+                    <h1 id="settings-header-text" class="mb-4">Profile Settings</h1>
+                    <button type="button" class="btn btn-primary" id="saveProfileBtn-profile">Save Changes</button>
+                  </div>
+                
+                  <p class="text-muted">Keep your profile up to date to improve your visibility and networking opportunities.</p>
+                
+                  <ul class="nav profile-nav-item" id="profileTab" role="tablist">
+                
+                    <li class="nav-item" role="presentation">
+                      <button class="nav-link active" id="profile-personal-tab" data-bs-toggle="tab" data-bs-target="#personal-profile" type="button" role="tab" aria-controls="personal" aria-selected="true">
+                        Personal
+                      </button>
+                    </li>
+                    <li class="profile-nav-item" role="presentation">
+                      <button class="nav-link" id="profile-social-tab" data-bs-toggle="tab" data-bs-target="#social-profile" type="button" role="tab" aria-controls="social" aria-selected="false">
+                        Social
+                      </button>
+                    </li>
+                
+                    <li class="nav-item" role="presentation">
+                      <button class="nav-link active" id="profile-settings-tab" data-bs-toggle="tab" data-bs-target="#settings-profile" type="button" role="tab" aria-controls="personal" aria-selected="true">
+                        Settings
+                      </button>
+                    </li>
+                
+                    <li class="profile-nav-item" role="presentation">
+                      <button class="nav-link" id="profile-membership-tab" data-bs-toggle="tab" data-bs-target="#membership-profile" type="button" role="tab" aria-controls="membership" aria-selected="false">
+                        Membership
+                      </button>
+                    </li>
+                  </ul>
+                
+                  <div class="tab-content mt-4">
+                    <div class="tab-pane fade" id="settings-profile" data-bs-name="Settings" role="tabpanel" aria-labelledby="profile-settings-tab">
+                      <p>Update your Settings here.</p>
+                
+                      <!-- Settings Tab -->
+                      <form id="settingsForm-profile">
+                        <div class="mb-3">
+                          <!-- Public Profile -->
+                          <div class="form-check mb-3">
+                            <input type="checkbox" class="form-check-input" id="publicProfileSET-profile">
+                            <label class="form-check-label" for="publicProfileSET-profile">Public Profile</label>
+                          </div>
+                
+                          <!-- Site Settings -->
+                          <div class="mb-3">
+                            <label class="form-label"><strong>Site Settings</strong></label>
+                            <div class="form-check">
+                              <input type="checkbox" class="form-check-input" id="darkModeSET">
+                              <label class="form-check-label" for="darkModeSET">Dark Mode</label>
+                            </div>
+                          </div>
+                
+                          <!-- Messages Settings -->
+                          <div class="mb-3">
+                            <label class="form-label"><strong>Messages Settings</strong></label>
+                            <div class="form-check">
+                              <input type="checkbox" class="form-check-input" id="audioAlertSET">
+                              <label class="form-check-label" for="audioAlertSET">Message Audio Alert</label>
+                            </div>
+                            <div class="form-check">
+                              <input type="checkbox" class="form-check-input" id="showReadSET">
+                              <label class="form-check-label" for="showReadSET">Show "Read" in Receiver Messages</label>
+                            </div>
+                          </div>
+                
+                          <!-- Chat Bot Settings -->
+                          <div class="mb-3">
+                            <label class="form-label"><strong>Chat Bot Settings</strong></label>
+                            <div class="form-check">
+                              <input type="checkbox" class="form-check-input" id="textToVoiceSET">
+                              <label class="form-check-label" for="textToVoiceSET">Text To Voice On</label>
+                            </div>
+                            <div class="form-check">
+                              <input type="checkbox" class="form-check-input" id="voiceToTextSET">
+                              <label class="form-check-label" for="voiceToTextSET">Voice To Text On</label>
+                            </div>
+                          </div>
+                
+                          <!-- Tags Input -->
+                          <div class="mb-3">
+                            <label for="tagsSET-profile">Tags <small class="text-muted">(Add a tag and press Enter)</small></label>
+                            <div id="tagsContainertagsSET-profile">
+                              <input type="text" class="form-control" id="tagsSET-profile" placeholder="(e.g., JavaScript, Management)">
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                
+                    </div>
+                
+                    <div class="tab-pane fade show active" id="personal-profile" data-bs-name="Personal Information" role="tabpanel" aria-labelledby="profile-personal-tab">
+                      <p>Update your personal details here.</p>
+                      <!-- Personal Tab -->
+                      <form id="personalForm-profile">
+                        <div class="mb-3">
+                          <label for="usernameSET-profile" class="form-label">Username</label>
+                          <input type="name" class="form-control" id="usernameSET-profile" placeholder="Your desired username">
+                        </div>
+                        <div class="mb-3">
+                          <label for="emailSET-profile" class="form-label">Email</label>
+                          <input type="email" class="form-control" id="emailSET-profile" disabled>
+                        </div>
+                        <div class="mb-3" hidden>
+                          <label for="profilePictureSET-profile" class="form-label">Profile Picture</label>
+                          <input type="file" class="form-control" id="profilePictureSET-profile">
+                        </div>
+                        <div class="mb-3">
+                          <label for="nameSET-profile" class="form-label">Name</label>
+                          <input type="name" class="form-control" id="nameSET-profile" placeholder="Your full name">
+                        </div>
+                
+                        <div class="mb-3">
+                          <label for="phoneSET-profile" class="form-label">Phone</label>
+                          <input type="tel" class="form-control" id="phoneSET-profile">
+                        </div>
+                
+                        <div class="mb-3" hidden>
+                          <label for="dobSET-profile" class="form-label">DOB</label>
+                          <input type="date" class="form-control" id="dobSET-profile">
+                        </div>
+                
+                        <div class="mb-3">
+                          <label for="bioSET-profile" class="form-label">Bio</label>
+                          <textarea class="form-control" id="bioSET-profile" rows="3" placeholder="Tell us about yourself"></textarea>
+                        </div>
+                        <div class="mb-3">
+                          <label for="locationSET-profile" class="form-label">Location</label>
+                          <input type="text" class="form-control" id="locationSET-profile" placeholder="Enter your city or state">
+                        </div>
+                
+                        <div class="mb-3">
+                          <label for="positionSET-profile" class="form-label">Current Position</label>
+                          <input type="text" class="form-control" id="positionSET-profile" placeholder="Your job title or current role">
+                        </div>
+                
+                      </form>
+                    </div>
+                
+                    <div class="tab-pane fade" id="social-profile" data-bs-name="Social Profiles" role="tabpanel" aria-labelledby="profile-social-tab">
+                      <p>Manage your social media links here.</p>
+                      <!-- Social Tab -->
+                      <form id="socialForm-profile">
+                        <div class="mb-3">
+                          <label for="linkedinSET-profile" class="form-label">LinkedIn Profile</label>
+                          <input type="url" class="form-control" id="linkedinSET-profile" placeholder="https://www.linkedin.com/in/yourprofile">
+                        </div>
+                        <div class="mb-3">
+                          <label for="portfolioSET-profile" class="form-label">Portfolio</label>
+                          <input type="url" class="form-control" id="portfolioSET-profile" placeholder="https://portfolio.com/yourprofile">
+                        </div>
+                        <div class="mb-3">
+                          <label for="githubSET-profile" class="form-label">GitHub Profile</label>
+                          <input type="url" class="form-control" id="githubSET-profile" placeholder="https://github.com/yourprofile">
+                        </div>
+                        <div class="mb-3">
+                          <label for="otherSET-profile" class="form-label">Other Website</label>
+                          <input type="url" class="form-control" id="otherSET-profile" placeholder="https://otherwebsite.com/yourprofile">
+                        </div>
+                      </form>
+                    </div>
+                
+                    <div class="tab-pane fade" id="membership-profile" data-bs-name="Membership Details" role="tabpanel" aria-labelledby="profile-membership-tab">
+                      <p>Check your membership information here.</p>
+                
+                      <!-- Membership Tab -->
+                      <form id="membershipForm-profile">
+                        <div class="mb-3">
+                          <label for="membershipTypeSET-profile" class="form-label">Membership Type</label>
+                          <select class="form-select" id="membershipTypeSET-profile">
+                            <option value="free">Free</option>
+                            <option value="basic">Basic</option>
+                            <option value="pro">Pro</option>
+                          </select>
+                        </div>
+                        <div class="mb-3">
+                          <label for="membershipStatus-profile" class="form-label">Membership Status</label>
+                          <input type="text" class="form-control" id="membershipStatus-profile" value="Active" disabled>
+                        </div>
+                        <div class="mb-3">
+                          <label for="renewalDateSET-profile" class="form-label">Renewal Date</label>
+                          <input type="datetime" class="form-control" id="renewalDateSET-profile" disabled>
+                        </div>
+                
+                        <div class="mb-3">
+                          <label for="lastLogin-profile" class="form-label">lastLogin</label>
+                          <input type="datetime" class="form-control" id="lastLogin-profile" disabled>
+                        </div>
+                        <div class="mb-3">
+                          <label for="userID-profile" class="form-label">userID</label>
+                          <input type="text" class="form-control" id="userID-profile" disabled>
+                        </div>
+                
+                      </form>
+                
+                      <div class="d-flex justify-content-between mt-4">
+                        <button type="button" class="btn btn-danger" id="deactivateAccountBtn-profile">Deactivate Account</button>
+                      </div>
+                
+                    </div>
+                
+                  </div>
+                </div>
   
               
   
   
-  
-  <div id="profileSettingsMain"  class="container hidden">
 
-    <div id="profile-settings-header">
-    <h1 id="settings-header-text" class="mb-4">Profile Settings</h1>
-    <button type="button" class="btn btn-primary" id="saveProfileBtn-profile">Save Changes</button>
-  </div>
-
-    <p class="text-muted">Keep your profile up to date to improve your visibility and networking opportunities.</p>
-  
-    <ul class="nav profile-nav-item" id="profileTab" role="tablist">
-  
-  
-      <li class="nav-item" role="presentation">
-        <button class="nav-link active" id="profile-personal-tab" data-bs-toggle="tab" data-bs-target="#personal-profile" type="button" role="tab" aria-controls="personal" aria-selected="true">
-          Personal
-        </button>
-      </li>
-      <li class="profile-nav-item" role="presentation">
-        <button class="nav-link" id="profile-social-tab" data-bs-toggle="tab" data-bs-target="#social-profile" type="button" role="tab" aria-controls="social" aria-selected="false">
-          Social
-        </button>
-      </li>
-      
-      <li class="nav-item" role="presentation">
-        <button class="nav-link active" id="profile-settings-tab" data-bs-toggle="tab" data-bs-target="#settings-profile" type="button" role="tab" aria-controls="personal" aria-selected="true">
-          Settings
-        </button>
-      </li>
-  
-      <li class="profile-nav-item" role="presentation">
-        <button class="nav-link" id="profile-membership-tab" data-bs-toggle="tab" data-bs-target="#membership-profile" type="button" role="tab" aria-controls="membership" aria-selected="false">
-          Membership
-        </button>
-      </li>
-    </ul>
-  
-  
-  
-  
-    <div class="tab-content mt-4">
-      <div class="tab-pane fade" id="settings-profile" data-bs-name="Settings" role="tabpanel" aria-labelledby="profile-settings-tab">
-        <p>Update your Settings here.</p>
-  
-   <!-- Settings Tab -->
-      <form id="settingsForm-profile">
-        <div class="mb-3">
-  
-          <div class="form-check mb-3">
-            <input type="checkbox" class="form-check-input" id="publicProfileSET-profile">
-            <label class="form-check-label" for="publicProfileSET-profile">Public Profile</label>
-          </div>
-          
-          <div class="mb-3">
-            <label for="tagsSET-profile">Tags <small class="text-muted">(Add a tag and press Enter)</small></label>
-            <div id="tagsContainertagsSET-profile">
-            <input type="text" class="form-control" id="tagsSET-profile" placeholder="(e.g., JavaScript, Management)">
-           </div>
-          </div>
-  
-        <div class="mb-3">
-       
-          
-        </div>
-  
-        </div>
-  
-      </form>
-        
-      
-  
-  
-      </div>
-  
-  
-  
-  
-      <div class="tab-pane fade show active" id="personal-profile" data-bs-name="Personal Information" role="tabpanel" aria-labelledby="profile-personal-tab">
-        <p>Update your personal details here.</p>
-    <!-- Personal Tab -->
-      <form id="personalForm-profile">
-        <div class="mb-3">
-          <label for="usernameSET-profile" class="form-label">Username</label>
-          <input type="name" class="form-control" id="usernameSET-profile" placeholder="Your desired username">
-        </div>
-        <div class="mb-3">
-          <label for="emailSET-profile" class="form-label">Email</label>
-          <input type="email" class="form-control" id="emailSET-profile" disabled>
-        </div>
-        <div class="mb-3" hidden>
-          <label for="profilePictureSET-profile" class="form-label">Profile Picture</label>
-          <input type="file" class="form-control" id="profilePictureSET-profile">
-        </div>
-        <div class="mb-3">
-          <label for="nameSET-profile" class="form-label">Name</label>
-          <input type="name" class="form-control" id="nameSET-profile" placeholder="Your full name">
-        </div>
-  
-        <div class="mb-3">
-          <label for="phoneSET-profile" class="form-label">Phone</label>
-          <input type="tel" class="form-control" id="phoneSET-profile">
-        </div>
-  
-        <div class="mb-3" hidden>
-          <label for="dobSET-profile" class="form-label">DOB</label>
-          <input type="date" class="form-control" id="dobSET-profile">
-        </div>
-  
-        <div class="mb-3">
-          <label for="bioSET-profile" class="form-label">Bio</label>
-          <textarea class="form-control" id="bioSET-profile" rows="3" placeholder="Tell us about yourself"></textarea>
-        </div>
-        <div class="mb-3">
-          <label for="locationSET-profile" class="form-label">Location</label>
-          <input type="text" class="form-control" id="locationSET-profile" placeholder="Enter your city or state">
-        </div>
-   
-        <div class="mb-3">
-          <label for="positionSET-profile" class="form-label">Current Position</label>
-          <input type="text" class="form-control" id="positionSET-profile" placeholder="Your job title or current role">
-        </div>
-  
-      </form>
-    </div>
-  
-  
-  
-    
-      <div class="tab-pane fade" id="social-profile" data-bs-name="Social Profiles" role="tabpanel" aria-labelledby="profile-social-tab">
-        <p>Manage your social media links here.</p>
-   <!-- Social Tab -->
-      <form id="socialForm-profile">
-        <div class="mb-3">
-          <label for="linkedinSET-profile" class="form-label">LinkedIn Profile</label>
-          <input type="url" class="form-control" id="linkedinSET-profile" placeholder="https://www.linkedin.com/in/yourprofile">
-        </div>
-        <div class="mb-3">
-          <label for="portfolioSET-profile" class="form-label">Portfolio</label>
-          <input type="url" class="form-control" id="portfolioSET-profile" placeholder="https://portfolio.com/yourprofile">
-        </div>
-        <div class="mb-3">
-          <label for="githubSET-profile" class="form-label">GitHub Profile</label>
-          <input type="url" class="form-control" id="githubSET-profile" placeholder="https://github.com/yourprofile">
-        </div>
-        <div class="mb-3">
-          <label for="otherSET-profile" class="form-label">Other Website</label>
-          <input type="url" class="form-control" id="otherSET-profile" placeholder="https://otherwebsite.com/yourprofile">
-        </div>
-      </form>
-    </div>
-  
-  
-      
-      <div class="tab-pane fade" id="membership-profile" data-bs-name="Membership Details" role="tabpanel" aria-labelledby="profile-membership-tab">
-        <p>Check your membership information here.</p>
-  
-   <!-- Membership Tab -->
-      <form id="membershipForm-profile">
-        <div class="mb-3">
-          <label for="membershipTypeSET-profile" class="form-label">Membership Type</label>
-          <select class="form-select" id="membershipTypeSET-profile">
-            <option value="free">Free</option>
-            <option value="basic">Basic</option>
-            <option value="pro">Pro</option>
-          </select>
-        </div>
-        <div class="mb-3">
-          <label for="membershipStatus-profile" class="form-label">Membership Status</label>
-          <input type="text" class="form-control" id="membershipStatus-profile" value="Active" disabled>
-        </div>
-        <div class="mb-3">
-          <label for="renewalDateSET-profile" class="form-label">Renewal Date</label>
-          <input type="datetime" class="form-control" id="renewalDateSET-profile" disabled>
-        </div>
-  
-        <div class="mb-3">
-          <label for="lastLogin-profile" class="form-label">lastLogin</label>
-          <input type="datetime" class="form-control" id="lastLogin-profile" disabled>
-        </div>
-        <div class="mb-3">
-          <label for="userID-profile" class="form-label">userID</label>
-          <input type="text" class="form-control" id="userID-profile" disabled>
-        </div>
-  
-      </form>
-  
-      
-      <div class="d-flex justify-content-between mt-4">
-          <button type="button" class="btn btn-danger" id="deactivateAccountBtn-profile">Deactivate Account</button>
-        </div>
-  
-      </div>
-  
-    </div>
-
+                
   
       
     
@@ -1143,6 +1156,9 @@ document.getElementById('profilePictureSET-profile').addEventListener('change', 
 
 // Save profile details with the "Save" button
 document.getElementById('saveProfileBtn-profile').addEventListener('click', async () => {
+
+
+  
     // Gather form data
     const websitesSetup = [
         { name: "LinkedIn", url: document.getElementById('linkedinSET-profile').value.trim() || '' },
@@ -1173,7 +1189,7 @@ document.getElementById('saveProfileBtn-profile').addEventListener('click', asyn
         bio: document.getElementById('bioSET-profile').value.trim() || '',
         location: document.getElementById('locationSET-profile').value.trim() || '',
         position: document.getElementById('positionSET-profile').value.trim() || '',
-        publicProfile: document.getElementById('publicProfileSET-profile').checked || false,
+        publicProfile: document.getElementById('publicProfileSET-profile').checked || true,
         tags: tags,
         linkedin: document.getElementById('linkedinSET-profile').value.trim() || '',
         other: document.getElementById('otherSET-profile').value.trim() || '',
@@ -1182,6 +1198,12 @@ document.getElementById('saveProfileBtn-profile').addEventListener('click', asyn
         websites: websites || [],
         membershipType: document.getElementById('membershipTypeSET-profile').value.trim() || '',
         // membershipExpiry: document.getElementById('renewalDateSET-profile').value.trim() || ''
+        audioAlert: document.getElementById('audioAlertSET').checked || true,
+        showRead: document.getElementById('showReadSET').checked || true,
+        textToVoice: document.getElementById('textToVoiceSET').checked || false,
+        voiceToText: document.getElementById('voiceToTextSET').checked || false,
+        darkMode: document.getElementById('darkModeSET').checked || false
+
     };
 
     console.log("User Data:", userData);
@@ -1330,8 +1352,6 @@ if (profileData) {
 const lastLoginDate = convertFirestoreTimestamp(userData.lastLogin);
 const membershipExpiryDate = userData.membershipExpiry;
 
-
-
   // Populate the Personal Information tab
   document.getElementById('usernameSET-profile').value = userData.displayName || "";
   document.getElementById('emailSET-profile').value = userData.email || "";
@@ -1345,6 +1365,15 @@ const membershipExpiryDate = userData.membershipExpiry;
             
   document.getElementById('positionSET-profile').value = userData.position || "";
   document.getElementById('publicProfileSET-profile').checked = userData.publicProfile || "";
+
+  document.getElementById('audioAlertSET').checked = userData.audioAlertSET || "";
+  document.getElementById('showReadSET').checked = userData.showReadSET || "";
+  document.getElementById('textToVoiceSET').checked = userData.textToVoiceSET || "";
+  document.getElementById('voiceToTextSET').checked = userData.voiceToTextSET || "";
+  document.getElementById('darkModeSET').checked = userData.darkModeSET || "";
+
+
+ 
 
   // Populate the Social Profiles tab
   document.getElementById('linkedinSET-profile').value = userData.linkedin || "";

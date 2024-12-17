@@ -1641,6 +1641,12 @@ let messagesQuery = query(contactsRef, where('participants', 'array-contains-any
 // Audio notification
 const newMessageAudio = new Audio('https://reelcareer.co/media/audio/ding.mp3'); // Replace with your audio file
 
+// Local storage settings
+const userDataSaved = getUserData() || [];
+
+const showRead = userDataSaved.showRead === 'true'; // Show read status
+const audioAlert = userDataSaved.audioAlert === 'true'; // Play audio alert
+
 // Utility: Format Timestamp
 function formatTimestamp(timestamp) {
     const date = new Date(timestamp);
@@ -1657,6 +1663,14 @@ function sortMessages(a, b) {
     if (a.status === 'unread' && b.status !== 'unread') return -1;
     if (a.status !== 'unread' && b.status === 'unread') return 1;
     return b.timestamp - a.timestamp; // Newest first
+}
+
+// Function to update read status
+async function updateMessageRead(docID) {
+    if (showRead) {
+        const messageRef = doc(db, 'Messages', docID);
+        await updateDoc(messageRef, { status: 'read' });
+    }
 }
 
 // Real-time Snapshot Listener
@@ -1694,7 +1708,9 @@ onSnapshot(messagesQuery, (snapshot) => {
         // Add unread class and play audio for unread messages
         if (data.status === 'unread') {
             messagesListItem.classList.add('unread-message');
-            newMessageAudio.play();
+            if (audioAlert) {
+                newMessageAudio.play();
+            }
         }
 
         // Special class for Support messages
@@ -1718,11 +1734,17 @@ onSnapshot(messagesQuery, (snapshot) => {
         messagesListItem.onclick = () => {
             appendConnection(data, "message");
             composeMessages(data.participants, data, "message", otherUserID);
+
+            // Update read status if enabled
+            if (data.status === 'unread') {
+                updateMessageRead(data.id);
+            }
         };
 
         messageSection.appendChild(messagesListItem);
     });
 });
+
 
 
 

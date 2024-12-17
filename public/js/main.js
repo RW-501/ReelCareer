@@ -705,7 +705,15 @@ function createNavbar() {
 // Dark mode toggle functionality
 function toggleDarkMode() {
   document.body.classList.toggle("dark-mode");
-  localStorage.setItem("darkMode", document.body.classList.contains("dark-mode"));
+
+
+  const userData = {
+
+    darkMode: isVoiceToTextOn
+  
+  };
+  const userDataEcode = setUserData(userData);
+
 }
 
 
@@ -2213,8 +2221,13 @@ function setupEventListeners() {
   const darkModeToggle = document.getElementById("darkModeToggle");
   darkModeToggle?.addEventListener("click", toggleDarkMode);
 
+
+
+
+  const userDataSaved = getUserData() || [];
+
   // Initialize Dark Mode based on previous settings
-  if (localStorage.getItem("darkMode") === "true") {
+  if (userDataSaved.darkMode === "true") {
     document.body.classList.add("dark-mode");
   }
 
@@ -2724,9 +2737,10 @@ if (detectedWords.length > 0) {
 
 
 
+
 // Initialize the toggle states based on local storage values or default
-let isTextToVoiceOn = JSON.parse(localStorage.getItem("isTextToVoiceOn")) || false;
-let isVoiceToTextOn = JSON.parse(localStorage.getItem("isVoiceToTextOn")) || false;
+let isTextToVoiceOn = userDataSaved.textToVoice || false;
+let isVoiceToTextOn = userDataSaved.voiceToText || false;
 
 let recognition; // SpeechRecognition instance
 const speechSynthesis = window.speechSynthesis;
@@ -2753,8 +2767,7 @@ function toggleTextToVoice() {
             button.style.color = "#FFFFFF"; // White color
         };
 
-        // Save the state to local storage
-        localStorage.setItem("isTextToVoiceOn", JSON.stringify(isTextToVoiceOn));
+   
     } else {
         // Stop speaking
         window.speechSynthesis.cancel();
@@ -2763,9 +2776,19 @@ function toggleTextToVoice() {
         button.setAttribute("aria-pressed", "false");
         button.style.color = "#FFFFFF"; // White color
 
-        // Save the state to local storage
-        localStorage.setItem("isTextToVoiceOn", JSON.stringify(isTextToVoiceOn));
+
     }
+
+    const userData = {
+
+      textToVoice: isTextToVoiceOn
+    
+    };
+    const userDataEcode = setUserData(userData);
+
+    localStorage.setItem('userData', userDataEcode);
+
+
 }
 
 // VOICE TO TEXT TOGGLE FUNCTION
@@ -2803,8 +2826,7 @@ function toggleVoiceToText() {
         button.setAttribute("aria-pressed", "true");
         button.style.color = "#003366"; // Dark Blue
 
-        // Save the state to local storage
-        localStorage.setItem("isVoiceToTextOn", JSON.stringify(isVoiceToTextOn));
+       
 
         console.log("Voice recognition started...");
     } else {
@@ -2817,11 +2839,19 @@ function toggleVoiceToText() {
         button.setAttribute("aria-pressed", "false");
         button.style.color = "#FFFFFF"; // White color
 
-        // Save the state to local storage
-        localStorage.setItem("isVoiceToTextOn", JSON.stringify(isVoiceToTextOn));
 
         console.log("Voice recognition stopped.");
     }
+
+    
+    const userData = {
+
+      voiceToText: isVoiceToTextOn
+    
+    };
+    const userDataEcode = setUserData(userData);
+
+    localStorage.setItem('userData', userDataEcode);
 }
 
 let allQuestions = [];
