@@ -994,6 +994,9 @@ async function fetchVideoResumes(page = 1, tagFilter = "") {
         console.error("Error fetching video resumes: ", error);
         videoContainer.innerHTML = "<p>Error loading videos. Please refresh the page or try again later.</p>";
     }
+
+    console.log("fetchVideoResumes called. Page:", page);
+
 }
 
 
@@ -1013,8 +1016,14 @@ function renderVideos(docs, container) {
   console.log("Rendering videos:", docs.length);
 
     docs.forEach((doc) => {
-            const videoData = doc.data();
             const docId = doc.id; // Firestore Document ID
+        // Check if this video is already in the container
+        if (container.querySelector(`[data-doc-id="${docId}"]`)) {
+            console.log(`Video with docId ${docId} already rendered. Skipping.`);
+            return; // Skip rendering this video
+        }
+
+        const videoData = doc.data();
 
             console.log("docId   ",docId);
             console.log("videoData   ",videoData);
