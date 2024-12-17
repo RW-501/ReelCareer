@@ -555,7 +555,17 @@ display: block;
     margin-top: 5px;
 }
 
+.reply-commenter-area {
+  display: flex;
 
+}
+.reply-btn-area {
+display: grid;
+}
+
+.reply-send-area {
+display: grid;
+}
 /* General Styling */
 body {
   font-family: Arial, sans-serif;
@@ -1448,6 +1458,8 @@ async function addComment(docId, parentCommentId = null) {
     }
 }
 
+window.addComment = addComment;
+
 
 // Fetch and Display Comments
 const loadedComments = new Set(); // Keeps track of loaded docIds
@@ -1507,22 +1519,35 @@ function renderComment(comment, docId, commentsMap, container) {
     commentElement.classList.add("comment-item");
     commentElement.innerHTML = `
         <div class="comment-main">
-            <img src="${comment.commenterProfilePicture}" alt="${comment.commenterName}" class="comment-avatar">
+
+                      <div class="reply-commenter-area">
+            <img src="${comment.commenterProfilePicture}" alt="${comment.commenterName}" class="comment-avatar lazy-image">
+            <a href="${comment.commenterProfileURL}" class="comment-name">${comment.commenterName}</a>
+</div>
+
             <div class="comment-content">
-                <a href="${comment.commenterProfileURL}" class="comment-name">${comment.commenterName}</a>
+               
                 <p>${comment.text}</p>
+
+            <div class="reply-btn-area">
                 <button class="reply-btn" onclick="showReplyInput('${comment.id}', '${docId}','${comment.commenterName}')">
                     <i class="fa fa-reply"></i> Reply
                 </button>
+                </div>
+
                 <div id="replies-container-${comment.id}"></div>
             </div>
         </div>
         <div id="reply-input-container-${comment.id}" class="reply-input-container" style="display:none;">
-            <small id="reply-to-container-${comment.id}" class="reply-to-container">user name</small> 
-          <input type="text" id="reply-input-${comment.id}" placeholder="Write a reply..." />
+            <small id="reply-to-container-${comment.id}" class="reply-to-container">Reply to: ${comment.commenterName}</small> 
+        
+            <div class="reply-send-area">
+            <input type="text" id="reply-input-${comment.id}" placeholder="Write a reply..." />
             <button onclick="addComment('${docId}', '${comment.id}')" aria-label="Post Reply">
                 <i class="fa fa-paper-plane"></i>
             </button>
+            </div>
+
         </div>
     `;
 
