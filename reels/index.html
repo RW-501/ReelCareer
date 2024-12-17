@@ -1433,7 +1433,7 @@ async function addComment(docId, parentCommentId = null) {
                 commenterID: userID || userDataSaved.userId,
                 commenterName: userDataSaved.displayName || "User",
                 commenterProfileURL: `https://reelcareer.co/u/?u=${userID}`,
-                commenterProfilePicture: userDataSaved.profilePicture || "https://example.com/default-pic.png",
+                commenterProfilePicture: userDataSaved.profilePicture || "https://reelcareer.co/images/sq_logo_n_BG_sm.png'",
                 parentCommentId: parentCommentId || null, // Track parent comment
                 timestamp: serverTimestamp()
             });
@@ -1510,16 +1510,17 @@ function renderComment(comment, docId, commentsMap, container) {
             <div class="comment-content">
                 <a href="${comment.commenterProfileURL}" class="comment-name">${comment.commenterName}</a>
                 <p>${comment.text}</p>
-                <button class="reply-btn" onclick="showReplyInput('${comment.id}', '${docId}')">
+                <button class="reply-btn" onclick="showReplyInput('${comment.id}', '${docId}','${comment.commenterName}')">
                     <i class="fa fa-reply"></i> Reply
                 </button>
                 <div id="replies-container-${comment.id}"></div>
             </div>
         </div>
         <div id="reply-input-container-${comment.id}" class="reply-input-container" style="display:none;">
-            <input type="text" id="reply-input-${comment.id}" placeholder="Write a reply..." />
+            <small id="reply-to-container-${comment.id}" class="reply-to-container">user name</small> 
+          <input type="text" id="reply-input-${comment.id}" placeholder="Write a reply..." />
             <button onclick="addComment('${docId}', '${comment.id}')" aria-label="Post Reply">
-                <i class="fa fa-paper-plane"></i> Post
+                <i class="fa fa-paper-plane"></i>
             </button>
         </div>
     `;
@@ -1535,12 +1536,15 @@ function renderComment(comment, docId, commentsMap, container) {
     }
 }
 
-function showReplyInput(commentId) {
+
+
+
+function showReplyInput(commentId, docID, commenterName ) {
     const inputContainer = document.getElementById(`reply-input-container-${commentId}`);
     inputContainer.style.display = "flex";
 }
 
-
+window.showReplyInput = showReplyInput;
 
   
   async function submitReport() {
