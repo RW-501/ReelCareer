@@ -234,12 +234,8 @@ main .row {
 
 
 
-#mainConnections-panel {
-    position: relative;
-    height: 100%;
 
 
-}
 
 #main-contact-panel {
     position: relative;
@@ -301,7 +297,78 @@ main {
     font-size: 14px;
 }
 
+#messaging-area {
 
+/* Conversation Title Styling */
+.conversation-title {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Spacing between avatar and name */
+  padding: 10px;
+  border-bottom: 1px solid #e0e0e0;
+  background-color: #f9f9f9;
+}
+
+.conversation-title .profile-link {
+  text-decoration: none;
+}
+
+.conversation-title .avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.conversation-title .sender-name {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #333;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px;
+}
+
+.conversation-title .sender-name:hover {
+  color: #007bff;
+  text-decoration: underline;
+}
+
+/* Contact Info Card */
+.contact-info {
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  margin-top: 10px;
+}
+
+.contact-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.contact-name {
+  font-weight: bold;
+  color: #444;
+}
+
+.connection-status {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.connected-since {
+  font-size: 0.85rem;
+  color: #888;
+  margin-top: 5px;
+}
+
+}
 
 #controls-contactList-area {
     position: relative;
@@ -359,7 +426,7 @@ main {
       <main id="main-content">
 
           <div id='controls-contactList-area' class="open">
-            <h4>Contacts</h4>
+            <h3 class="header-text" >Connections</h3>
             <!-- Button to open the sliding panel -->
             <button id="openSlidePanelBtn" class="btn btn-primary" hidden>View Connections</button>
       
@@ -375,15 +442,13 @@ main {
 
 
           <div id="messaging-area" class="close">
-            <h4>Messaging</h4>
-
-              <div id="mainConnections-panel">
+            <div class="panel-header">
+                <h3 class="header-text" >Messaging</h3>
+                <button id="closeSlidePanelBtn" class="close-btn">X</button>
+              </div>
                 <!-- Sliding Panel -->
                 <div id="connectionsSlidePanel" class=" ">
-                  <div class="panel-header">
-                    <h3 id="slidePanel-header-text" hidden>Connections</h3>
-                    <button id="closeSlidePanelBtn" class="close-btn">X</button>
-                  </div>
+             
                   <!-- >inside panel -->
       
 
@@ -469,7 +534,6 @@ main {
 
 
 
-                </div>
       
               </div>
       
@@ -977,13 +1041,13 @@ if(type === "contact"){
     
 conversationTitle.innerHTML = `
 <a href="https://reelcareer.co/u/?u=${data.from}" style="text-decoration: none; color: inherit;">
-    <img src="${data.fromProfilePicture || 'default-image-url'}" alt="Avatar" class="avatar lazy-image">
+    <img src="${data.fromProfilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_sm.png'}" alt="Avatar" class="avatar lazy-image">
 </a>
 <span>${data.fromName || 'Unknown Sender'}</span>
 `;  
 conversationTitle.setAttribute("data-conversation-id",`${userDataSaved.userID}_${data.from}`);
 
-conversationTitle.innerHTML = `
+contactInfo.innerHTML = `
     <div class="flex">
         <div>Contact: ${data.fromName}</div>
         <div>Connection: <small>${data.status}</small></div>
@@ -1058,7 +1122,7 @@ conversationTitle.appendChild(groupDiv);
 
     conversationTitle.innerHTML = `
 <a href="https://reelcareer.co/u/?u=${data.to}" style="text-decoration: none; color: inherit;">
-    <img src="${data.toProfilePicture || 'default-image-url'}" alt="Avatar" class="avatar lazy-image">
+    <img src="${data.toProfilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_sm.png'}" alt="Avatar" class="avatar lazy-image">
 </a>
 <span>${data.toName || 'Unknown Sender'}</span>
 `;  
@@ -1066,7 +1130,7 @@ conversationTitle.setAttribute("data-conversation-id",`${userDataSaved.userID}_$
 
 
 
-conversationTitle.innerHTML = `
+contactInfo.innerHTML = `
     <div class="flex">
         <div>Contact: ${data.toName}</div>
         <div>Connection: <small>${data.status}</small></div>
@@ -1155,14 +1219,14 @@ if (type === "message") {
 
 conversationTitle.innerHTML = `
 <a href="${data.recipientProfileURL}" style="text-decoration: none; color: inherit;">
-    <img src="${data.recipientProfilePicture || 'default-image-url'}" alt="Avatar" class="avatar lazy-image">
+    <img src="${data.recipientProfilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_sm.png'}" alt="Avatar" class="avatar lazy-image">
 </a>
 <span>${data.senderName || 'Unknown Sender'}</span>
 `;  
 conversationTitle.setAttribute("data-conversation-id",`${userDataSaved.userID}_${data.senderID}`);
 
 
-conversationTitle.innerHTML = `<div class="flex"><div>Contact: ${data.senderName}</div>
+contactInfo.innerHTML = `<div class="flex"><div>Contact: ${data.senderName}</div>
  <div>Connection: <small>${data.connectedBool}</small></div></div>
 ${data.connectedBool ? "<p>Connected Since: <small>${data.acceptDate}</small></p>" : ''}`
 
@@ -1228,14 +1292,14 @@ conversationTitle.appendChild(groupDiv);
 
         conversationTitle.innerHTML = `
 <a href="${data.recipientProfileURL}" style="text-decoration: none; color: inherit;">
-    <img src="${data.recipientProfilePicture || 'default-image-url'}" alt="Avatar" class="avatar lazy-image">
+    <img src="${data.recipientProfilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_sm.png'}" alt="Avatar" class="avatar lazy-image">
 </a>
 <span>${data.recipientName || 'Unknown Sender'}</span>
 `;  
 conversationTitle.setAttribute("data-conversation-id",`${userDataSaved.userID}_${data.senderID}`);
 
 
-conversationTitle.innerHTML = `<div class="flex"><div>Contact: ${data.recipientName}</div>
+contactInfo.innerHTML = `<div class="flex"><div>Contact: ${data.recipientName}</div>
  <div>Connection: <small>${data.connectedBool}</small></div></div>
 ${data.connectedBool ? "<p>Connected Since: <small>${data.acceptDate}</small></p>" : ''}`
 
