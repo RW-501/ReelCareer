@@ -1216,7 +1216,7 @@ videoCard.innerHTML = `
       </video>
 
       <!-- Custom Controls -->
-      <div  class="controls-top">
+      <div  class="controls-top"  data-doc-id="${docId}">
       <button class="mute-toggle" data-doc-id="${docId}" aria-label="Mute or Unmute">
         <i class="${videoMuted ? 'fa fa-volume-mute' : 'fa fa-volume-up' }"></i>
       </button>
@@ -1231,11 +1231,11 @@ videoCard.innerHTML = `
       
       </div>
 
-      <div class="play-overlay controls-play">
+      <div class="play-overlay controls-play"   data-doc-id="${docId}">
         <i class="fa fa-play"></i>
       </div>
 
-          <div class="controls-container controls-bottom">
+          <div class="controls-container controls-bottom"  data-doc-id="${docId}">
       <div class="actions">
         <button class="action-btn like-btn" data-doc-id="${docId}" aria-label="Like Video">
           <i class="fa fa-thumbs-up"></i> ${videoData.likes || 0}
