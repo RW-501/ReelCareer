@@ -1673,17 +1673,20 @@ const membershipExpiryDate = userData.membershipExpiry;
   document.getElementById('darkModeSET').checked = userData.darkMode || "";
 
 
- 
-  document.getElementById('linkedinSET-name').value = userData.websites.name || "";
-  document.getElementById('otherSET-name').value = userData.websites.name || "";
-  document.getElementById('githubSET-name').value = userData.websites.name || "";
-  document.getElementById('portfolioSET-name').value = userData.websites.name || "";
+  if (userData.websites && userData.websites.length > 0) {
+  const website = userData.websites[0]; // Access the first website object
 
-  // Populate the Social Profiles tab
-  document.getElementById('linkedinSET-profile').value = userData.websites.url || "";
-  document.getElementById('otherSET-profile').value = userData.websites.url || "";
-  document.getElementById('githubSET-profile').value = userData.websites.url || "";
-  document.getElementById('portfolioSET-profile').value = userData.websites.url || "";
+  document.getElementById('linkedinSET-name').value = website.name || "";
+  document.getElementById('otherSET-name').value = website.name || "";
+  document.getElementById('githubSET-name').value = website.name || "";
+  document.getElementById('portfolioSET-name').value = website.name || "";
+
+  document.getElementById('linkedinSET-profile').value = website.url || "";
+  document.getElementById('otherSET-profile').value = website.url || "";
+  document.getElementById('githubSET-profile').value = website.url || "";
+  document.getElementById('portfolioSET-profile').value = website.url || "";
+}
+
 
   // Populate the Membership Details tab
   document.getElementById('membershipTypeSET-profile').value = userData.membershipType || "";
