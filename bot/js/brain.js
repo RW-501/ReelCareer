@@ -1047,9 +1047,15 @@ async function handleJobQuery( tokens, userPreferences) {
 
     //"question" | "request" | "self-reference" | "other-reference" | "statement"
     
+
     
 
+/*
 
+
+          const userDataSaved = getUserData() || [];
+          const userlocationData = JSON.parse(sessionStorage.getItem('userLocation'));
+*/
 
 
         let constraints = []; // Holds query constraints
