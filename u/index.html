@@ -474,37 +474,83 @@
                <div id="profileCards" class="col-md-8 container">
                   
   
-  
-                  <!-- Video Resumes -->
-                  <div class="card mt-3">
-                    <div class="card-body">
-                        <h5>Video Resumes</h5>
-                        <ul id="video-resume-list">
-                            <!-- Video resume files will be dynamically listed here -->
-                        </ul>
-                        <button class="btn btn-primary btn-block" id="view-create-create-video-btn">Create Video Resumes</button>
-                    </div>
-                </div>               
-              
-                <!-- Digital Resume Link -->
-                <div class="card mt-3">
-                  <div class="card-body">
-                      <h5>Digital Resume</h5>
-                      <a href="#" id="digital-resume-link" class="btn btn-primary">Edit Resume</a>
-                  </div>
-              </div>
-  
-  
-                  <!-- Open Jobs Section -->
-                  <div class="card mt-3">
-                      <div class="card-body">
-                          <h5>Open Jobs</h5>
-                          <ul id="open-jobs-list">
-                              <!-- Open jobs will be dynamically listed here -->
-                          </ul>
-                      </div>
-                  </div>
-  
+<!-- Tabs Navigation -->
+<ul class="nav nav-tabs" id="profileTabs" role="tablist">
+  <li class="nav-item" role="presentation">
+    <button class="nav-link active" id="video-tab" data-bs-toggle="tab" data-bs-target="#video-section" type="button" role="tab" aria-controls="video-section" aria-selected="true">
+      Video Resumes
+    </button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link" id="digital-tab" data-bs-toggle="tab" data-bs-target="#digital-section" type="button" role="tab" aria-controls="digital-section" aria-selected="false">
+      Digital Resume
+    </button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link" id="jobs-tab" data-bs-toggle="tab" data-bs-target="#jobs-section" type="button" role="tab" aria-controls="jobs-section" aria-selected="false">
+      Open Jobs
+    </button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link" id="companies-tab" data-bs-toggle="tab" data-bs-target="#companies-section" type="button" role="tab" aria-controls="companies-section" aria-selected="false">
+      Companies
+    </button>
+  </li>
+</ul>
+
+<!-- Tabs Content -->
+<div class="tab-content mt-3" id="profileTabsContent">
+  <!-- Video Resumes Section -->
+  <div class="tab-pane fade show active" id="video-section" role="tabpanel" aria-labelledby="video-tab">
+    <div class="card">
+      <div class="card-body">
+        <h5>Video Resumes</h5>
+        <div id="video-resume-list">
+          <!-- Video resume files will be dynamically listed here -->
+        </div>
+        <button class="btn btn-primary btn-block" id="view-create-create-video-btn">Create Video Resumes</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Digital Resume Section -->
+  <div class="tab-pane fade" id="digital-section" role="tabpanel" aria-labelledby="digital-tab">
+    <div class="card">
+      <div class="card-body">
+        <h5>Digital Resume</h5>
+        <a href="#" id="digital-resume-link" class="btn btn-primary">Edit Resume</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Open Jobs Section -->
+  <div class="tab-pane fade" id="jobs-section" role="tabpanel" aria-labelledby="jobs-tab">
+    <div class="card">
+      <div class="card-body">
+        <h5>Open Jobs</h5>
+        <div id="open-jobs-list">
+          <!-- Open jobs will be dynamically listed here -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Companies Section -->
+  <div class="tab-pane fade" id="companies-section" role="tabpanel" aria-labelledby="companies-tab">
+    <div class="card">
+      <div class="card-body">
+        <h5>Companies</h5>
+        <ul id="companies-list">
+          <!-- Companies will be dynamically listed here -->
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
                   <!-- Blogs Section -->
                   <div class="card mt-3" hidden>
                       <div class="card-body">
@@ -515,15 +561,7 @@
                       </div>
                   </div>
   
-                  <!-- Companies Section -->
-                  <div class="card mt-3" hidden>
-                      <div class="card-body">
-                          <h5>Companies</h5>
-                          <ul id="companies-list">
-                              <!-- Companies will be dynamically listed here -->
-                          </ul>
-                      </div>
-                  </div>
+      
               </div>
   
   
@@ -1644,7 +1682,7 @@ if (videoData.status === 'posted') {
 
     // Clear existing content (optional, if you want to refresh the list)
     socialMediaListContainer.innerHTML = ''; 
-    console.log("profileData.websites: ", profileData.websites);
+//    console.log("profileData.websites: ", profileData.websites);
     // Iterate through each social media document
     profileData.websites.forEach(socialData => {
         const listItem = document.createElement('li');
@@ -1701,7 +1739,7 @@ async function loadUserBlogs(userId) {
         }
 
 
-        
+
 document.getElementById('share-profile-btn').addEventListener('click', async () => { 
     try {
 
