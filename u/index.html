@@ -127,7 +127,19 @@ video {
     position: relative;
 }
 
-
+.controls-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 10px;
+    bottom: 0;
+    position: absolute;
+    left: 0;
+    right: 0;
+    width: 100%;
+    flex-wrap: nowrap;
+    justify-content: space-evenly;
+}
 
 
 /* Custom Controls */
@@ -161,15 +173,32 @@ video {
 }
 
 .controls-play {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 40px;
-  color: white;
-  cursor: pointer;
-  z-index: 3;
+
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80px;
+    height: 80px;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    color: #fff;
+    font-size: 2rem;
+    cursor: pointer;
+    transition: opacity 0.3s;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    z-index: 3;
+  }
+
+
+.play-overlay:hover {
+  color: #84bbd9;
 }
+
 
 .controls-play i {
   font-size: 3rem;
@@ -183,17 +212,24 @@ video {
 
 /* Like Button and ReelCareer Logo */
 .actions {
-  display: flex;
-  align-items: center;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 10px;
 }
 
+
 .action-btn {
-  margin-right: 15px;
-  font-size: 18px;
-  color: white;
-  background: transparent;
-  border: none;
-  cursor: pointer;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+}
+
+.action-btn:hover {
+  color: #84bbd9;
 }
 
 .realCareerVidLogo {
