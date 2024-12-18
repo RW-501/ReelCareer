@@ -1155,14 +1155,14 @@ conversationTitle.innerHTML = `
 </div>
 <div class="flex">
 <small>
-    ${data.status == "pending" 
+    ${data.status == "accepted" 
         ? '<i class="fas fa-check-circle" style="color: green;"></i> Connected' 
         : '<i class="fas fa-times-circle" style="color: red;"></i> Not Connected'}
 </small>
 
         
 </div>
-    ${data.connectedBool ? `<p>Connected Since: <small>${data.acceptDate}</small></p>` : ''}
+    ${data.status == "accepted"  ? `<p>Connected Since: <small>${data.acceptDate}</small></p>` : ''}
         `;
 
 
@@ -1243,14 +1243,14 @@ conversationTitle.innerHTML = `
 <div class="flex">
 
 <small>
-    ${data.status == "pending" 
+    ${data.status == "accepted" 
         ? '<i class="fas fa-check-circle" style="color: green;"></i> Connected' 
         : '<i class="fas fa-times-circle" style="color: red;"></i> Not Connected'}
 </small>
 
         
 </div>
-    ${data.connectedBool ? `<p>Connected Since: <small>${data.acceptDate}</small></p>` : ''}
+    ${data.status == "accepted"   ? `<p>Connected Since: <small>${data.acceptDate}</small></p>` : ''}
         `;
 
 
@@ -1344,13 +1344,14 @@ conversationTitle.innerHTML = `
 
 </div>
 <div class="flex">
-    <small>
-    ${data.connectedBool 
+<small>
+    ${data.connectedBool == true 
         ? '<i class="fas fa-check-circle" style="color: green;"></i> Connected' 
         : '<i class="fas fa-times-circle" style="color: red;"></i> Not Connected'}
 </small>
+
 </div>
-    ${data.connectedBool ? `<p>Connected Since: <small>${data.acceptDate}</small></p>` : ''}
+    ${data.connectedBool == true ? `<p>Connected Since: <small>${data.acceptDate}</small></p>` : ''}
         `;
 
 // Create the select input element
@@ -1423,13 +1424,13 @@ if (data.senderID === userDataSaved.userID) {
 <span>${data.recipientName || 'Unknown Sender'}</span>
 </div>
 <div class="flex">
-    <small>
-    ${data.connectedBool 
+<small>
+    ${data.connectedBool == true 
         ? '<i class="fas fa-check-circle" style="color: green;"></i> Connected' 
         : '<i class="fas fa-times-circle" style="color: red;"></i> Not Connected'}
 </small>
     </div>
-    ${data.connectedBool ? `<p>Connected Since: <small>${data.acceptDate}</small></p>` : ''}
+    ${data.connectedBool  == true ? `<p>Connected Since: <small>${data.acceptDate}</small></p>` : ''}
         `;
 
 // Create the select input element
