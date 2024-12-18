@@ -3058,12 +3058,18 @@ const toggleFullscreenBtn = document.getElementById('toggleFullscreenBtn');
 
 // Event Listeners
 chatButton.addEventListener("click", () => {
-    chatPanel.style.display = "flex";
-    loadGeneralQuestions(); // Only load questions when panel is open
+  // Delay chat panel opening by 2 seconds
+  setTimeout(() => {
+      chatPanel.style.display = "flex";
+      loadGeneralQuestions(); // Only load questions when the panel is open
+  }, 1000); // 2 seconds delay
 });
 
 closeChatButton.addEventListener("click", () => {
-    chatPanel.style.display = "none";
+  // Delay chat panel closing by 2 seconds
+  setTimeout(() => {
+      chatPanel.style.display = "none";
+  }, 1000); // 2 seconds delay
 });
 
 sendChatButton.addEventListener("click", sendMessage);

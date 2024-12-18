@@ -627,14 +627,8 @@ display: block;
     justify-content: space-between;
     align-items: center;
 }
-.comments-container {
-  display: initial;
 
-}
 
-.reply-input-area {
-  display: initial;
-}
 .reply-btn-area {
 display: grid;
 }
@@ -1406,19 +1400,27 @@ if (playOverlay) {
   //addVideoEndListener(video, controlsTop, controlsPlay, controlsBottom, videoCardM_ID);
 }
 
-fetchComments(docId);
+   //  fetchComments(docId);
 
     });
 
 
 }
 
-function handleComments(docId, commentsBtn){
-
+function handleComments(docId, commentsBtn) {
   const inputContainer = document.getElementById(`comments-container-${docId}`);
-  inputContainer.classList.toggle("hidden");
 
+  // Check if the comments container is hidden
+  if (inputContainer.classList.contains("hidden")) {
+    fetchComments(docId);
+  }
+
+  // Delay the toggle by 2 seconds (2000 milliseconds)
+  setTimeout(() => {
+    inputContainer.classList.toggle("hidden");
+  }, 1000); // 2 seconds delay
 }
+
 
 
 function renderTags(tags, videoTags) {
@@ -1452,20 +1454,24 @@ window.renderTags = renderTags;
 
 // Function to handle Play/Pause with overlay
 function togglePlay(video, controlsTop, controlsPlay, controlsBottom, videoCard) {
-  if (video.paused) {
-    video.play();
-    // Animate elements out
-    controlsTop.classList.add("slide-up");
-    controlsBottom.classList.add("slide-down");
-    controlsPlay.classList.add("fade-out");
-  } else {
-    video.pause();
-    // Animate elements back in
-    controlsTop.classList.remove("slide-up");
-    controlsBottom.classList.remove("slide-down");
-    controlsPlay.classList.remove("fade-out");
-  }
+  // Add a 2-second timeout before playing/pausing the video and toggling animations
+  setTimeout(() => {
+    if (video.paused) {
+      video.play();
+      // Animate elements out
+      controlsTop.classList.add("slide-up");
+      controlsBottom.classList.add("slide-down");
+      controlsPlay.classList.add("fade-out");
+    } else {
+      video.pause();
+      // Animate elements back in
+      controlsTop.classList.remove("slide-up");
+      controlsBottom.classList.remove("slide-down");
+      controlsPlay.classList.remove("fade-out");
+    }
+  }, 1000); // 2 seconds delay
 }
+
 
 // Listener for when the video ends
 function addVideoEndListener(video, controlsTop, controlsPlay, controlsBottom, videoCard) {
@@ -1765,13 +1771,15 @@ function renderComment(comment, docId, commentsMap, container) {
 
 
 
-function showReplyInput(commentId, docID, commenterName ) {
-  const replyInputArea = document.getElementById(`reply-input-area-${commentId}`);
- // replyInputArea.style.display = "block";
+function showReplyInput(commentId, docID, commenterName) {
+    const replyInputArea = document.getElementById(`reply-input-area-${commentId}`);
 
-  replyInputArea.classList.toggle("hidden");
-
+    // Delay the toggling of the reply input area by 1 second
+    setTimeout(() => {
+        replyInputArea.classList.toggle("hidden");
+    }, 1000); // 1 second delay
 }
+
 
 window.showReplyInput = showReplyInput;
 
