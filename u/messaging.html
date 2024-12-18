@@ -2129,8 +2129,12 @@ async function convertTextToLinks(contentDiv) {
     // Helper function to fetch metadata for a URL
     async function fetchMetadataFromProxy(url) {
     try {
-        console.log("URL :  ",url);
+        console.log("URL :  ", url);
         const response = await fetch(`/fetch-metadata?url=${encodeURIComponent(url)}`);
+        
+        // Log the response status and content type
+        console.log("Response Status: ", response.status);
+        console.log("Response Content-Type: ", response.headers.get("content-type"));
         
         // Check if the response is JSON
         const contentType = response.headers.get("content-type");
