@@ -1742,7 +1742,7 @@ closeSlidePanelBtn.addEventListener('click', () => {
     breadcrumbActiveTitle.innerText =  "Connections";
 });
 
-console.log("userDataSaved: ", userDataSaved);
+
 
 
 
@@ -1751,14 +1751,13 @@ const audioAlert = userDataSaved.audioAlert === true; // Play audio alert
 
 const showRead = userDataSaved.showRead === true; // Show read status
 
-console.log("audioAlert: ", audioAlert);
-console.log("showRead: ", showRead);
+
 
 
 // Function to update read status
 async function updateMessageRead(docID) {
-    console.log("updateMessageRead: ", showRead);
 
+    
     if (showRead) {
         const messageRef = doc(db, 'Messages', docID);
         await updateDoc(messageRef, { status: 'read' });
