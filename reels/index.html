@@ -1372,7 +1372,6 @@ console.log("videos ",videos);
 
 const muteButton = videoCard.querySelector(".mute-toggle");
   const fullscreenButton = videoCard.querySelector(".fullscreen-toggle");
-  const playOverlay = videoCard.querySelector(".play-overlay");
 
   const videoCardM_ID = document.getElementById(`videoCard_${docId}`);
 
@@ -1386,12 +1385,14 @@ if (videoCardM_ID) {
 
   const container = videoCardM_ID; // The card container itself
 
-  // Play Overlay Click - scoped to this card only
-  container.addEventListener("click", () =>
-    togglePlay(video, controlsTop, controlsPlay, controlsBottom, videoCardM_ID)
-  );
+ // Inside the video card loop
+const playOverlay = videoCard.querySelector(".play-overlay");
 
-  addVideoEndListener(video, controlsTop, controlsPlay, controlsBottom, videoCardM_ID);
+if (playOverlay) {
+  // Attach the play event only to the play overlay
+  playOverlay.addEventListener("click", () => {
+    togglePlay(video, controlsTop, controlsPlay, controlsBottom, videoCardM_ID);
+  });
 }
 
   // Mute/Unmute
@@ -1400,6 +1401,10 @@ if (videoCardM_ID) {
   // Fullscreen Toggle
   fullscreenButton.addEventListener("click", () => toggleFullscreen(video));
 
+
+
+  //addVideoEndListener(video, controlsTop, controlsPlay, controlsBottom, videoCardM_ID);
+}
 
 fetchComments(docId);
 
