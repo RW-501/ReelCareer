@@ -2057,7 +2057,7 @@ const newMessageAudio = new Audio('https://reelcareer.co/media/audio/ding.mp3');
 
 // Local storage settings
 const userDataSaved = getUserData() || [];
-const audioAlert = userDataSaved.audioAlert === 'true'; // Play audio alert
+const audioAlert = userDataSaved.audioAlert === true; // Play audio alert
 
 console.log("data: ", data);
 console.log("data.status: ", data.status);
