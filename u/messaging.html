@@ -1051,10 +1051,6 @@ window.viewProfile = viewProfile;
 function composeMessages(conversationID, data, type, conversationRecipientID) {
     const messageBox = document.getElementById('messageBox');
     const conversationTitle = document.getElementById('conversationTitle');
-    const isSender = userDataSaved.userID == data.from || userDataSaved.userID == data.senderID;
-    const isRecipient = userDataSaved.userID == data.to || userDataSaved.userID == data.recipientID;
-    const groupDiv = document.createElement('div');
-    groupDiv.classList.add('connection-group');
 
     // Helper function to set conversation title data
     function setConversationTitle(recipientID, name, profilePicture) {
@@ -1063,120 +1059,91 @@ function composeMessages(conversationID, data, type, conversationRecipientID) {
         conversationTitle.setAttribute("data-conversation-picture", profilePicture);
     }
 
-    // Determine sender and recipient
     if (type === "contact") {
-        const isContact = userDataSaved.userID == data.from || userDataSaved.userID == data.to;
-        if (isContact) {
-            const recipientID = userDataSaved.userID == data.from ? data.to : data.from;
-            const name = userDataSaved.userID == data.from ? data.toName : data.fromName;
-            const profilePicture = userDataSaved.userID == data.from ? data.toProfilePicture : data.fromProfilePicture;
-            setConversationTitle(recipientID, name, profilePicture);
+        if (userDataSaved.userID == data.from) {
+            setConversationTitle(data.to, data.toName, data.toProfilePicture);
+        } else if (userDataSaved.userID == data.to) {
+            setConversationTitle(data.from, data.fromName, data.fromProfilePicture);
         }
-    } else if (type === "message") {
-        if (isRecipient) {
-            const recipientID = userDataSaved.userID == data.recipientID ? data.senderID : data.recipientID;
-            const name = userDataSaved.userID == data.recipientID ? data.senderName : data.recipientName;
-            const profilePicture = userDataSaved.userID == data.recipientID ? data.senderProfilePicture : data.recipientProfilePicture;
-            setConversationTitle(recipientID, name, profilePicture);
-        }
-    }
 
-    // Set up group select input
-    function setupGroupSelect(groupName) {
-    const selectInput = document.createElement('select');
-    selectInput.id = `groupSelect${userDataSaved.userID}`;
-    selectInput.classList.add('groupSelect');
-
-    selectInput.onchange = function () {
-        const selectedOption = this.options[this.selectedIndex];
-        if (selectedOption.classList.contains('optionBlock')) {
-            selectedOption.classList.add('optionBlocked');  // Add 'optionBlocked' when blocked
-        }
-        changeGroup(`${userDataSaved.userID}_${data.from || data.to}`, selectedOption.value, "toGroup", `${data.toName || data.fromName}`);
-    };
-
-    const groups = [
-        { groupName: "Co-workers" },
-        { groupName: "Recruiters" },
-        { groupName: "Networking" },
-        { groupName: "Friends" },
-        { groupName: "Blocked", class: "optionBlock" }
-    ];
-
-    groups.forEach(group => {
-        const option = document.createElement('option');
-        option.value = group.groupName;
-        option.textContent = `Group: (${group.groupName})`;
-        if (group.class) option.classList.add(group.class);
-        selectInput.appendChild(option);
-    });
-
-    // Set the selected group
-    const targetValue = data.fromGroup || data.toGroup;
-    selectInput.value = groups.some(group => group.groupName === targetValue) ? targetValue : groups[0].groupName;
-    updateSelectClass(selectInput, selectInput.options[selectInput.selectedIndex]);
-
-    groupDiv.appendChild(selectInput);
-}
-
-
-    // Handle conversation for contact type
-    if (type === "contact") {
-        const isSender = userDataSaved.userID === data.from;
-        const messageSenderID = isSender ? data.to : data.from;
-
-        conversationTitle.setAttribute("data-conversation-id", `${userDataSaved.userID}_${messageSenderID}`);
-        conversationTitle.innerHTML = `<div class="contactInfo">
-            <a href="https://reelcareer.co/u/?u=${messageSenderID}" style="text-decoration: none; color: inherit;">
-                <img src="${isSender ? data.toProfilePicture : data.fromProfilePicture}" alt="Avatar" class="avatar lazy-image">
-            </a>
-            <span>${isSender ? data.toName : data.fromName || 'Unknown Sender'}</span>
+        conversationTitle.innerHTML = `
+            <div class="contactInfo">
+                <a href="https://reelcareer.co/u/?u=${data.to === userDataSaved.userID ? data.from : data.to}" style="text-decoration: none; color: inherit;">
+                    <img src="${data.to === userDataSaved.userID ? data.fromProfilePicture : data.toProfilePicture}" alt="Avatar" class="avatar lazy-image">
+                </a>
+                <span>${data.to === userDataSaved.userID ? data.fromName : data.toName || 'Unknown Sender'}</span>
             </div>
             <div class="flex">
-   <small>
-    ${data.status 
-        ? '<i class="fas fa-check-circle" style="color: green;"></i> Connected' 
-        : '<i class="fas fa-times-circle" style="color: red;"></i> Not Connected'}
-</small>
-
+                <small>${data.status ? '<i class="fas fa-check-circle" style="color: green;"></i> Connected' : '<i class="fas fa-times-circle" style="color: red;"></i> Not Connected'}</small>
             </div>
             ${data.acceptDate ? `<p>Connected Since: <small>${data.acceptDate}</small></p>` : ''}
         `;
 
-        setupGroupSelect(data.toGroup || data.fromGroup);
-    }
+    } else if (type === "message") {
+        if (userDataSaved.userID == data.recipientID) {
+            setConversationTitle(data.senderID, data.senderName, data.senderProfilePicture);
+        } else if (userDataSaved.userID == data.senderID) {
+            setConversationTitle(data.recipientID, data.recipientName, data.recipientProfilePicture);
+        }
 
-    // Handle message type
-    if (type === "message") {
-        const messageSenderID = userDataSaved.userID === data.senderID ? data.recipientID : data.senderID;
-        conversationTitle.setAttribute("data-conversation-id", `${userDataSaved.userID}_${messageSenderID}`);
-        conversationTitle.innerHTML = `<div class="contactInfo">
-            <a href="${userDataSaved.userID === data.senderID ? data.recipientProfileURL : data.senderProfileURL}" style="text-decoration: none; color: inherit;">
-                <img src="${userDataSaved.userID === data.senderID ? data.recipientProfilePicture : data.senderProfilePicture}" alt="Avatar" class="avatar lazy-image">
-            </a>
-            <span>${userDataSaved.userID === data.senderID ? data.recipientName : data.senderName || 'Unknown Sender'}</span>
-           </div>
+        conversationTitle.innerHTML = `
+            <div class="contactInfo">
+                <a href="${userDataSaved.userID === data.senderID ? data.recipientProfileURL : data.senderProfileURL}" style="text-decoration: none; color: inherit;">
+                    <img src="${userDataSaved.userID === data.senderID ? data.recipientProfilePicture : data.senderProfilePicture}" alt="Avatar" class="avatar lazy-image">
+                </a>
+                <span>${userDataSaved.userID === data.senderID ? data.recipientName : data.senderName || 'Unknown Sender'}</span>
+            </div>
             <div class="flex">
-                    <div> 
-<small>
-    ${data.connectedBool 
-        ? '<i class="fas fa-check-circle" style="color: green;"></i> Connected' 
-        : '<i class="fas fa-times-circle" style="color: red;"></i> Not Connected'}
-</small>
-
-        </div>
+                <small>${data.connectedBool ? '<i class="fas fa-check-circle" style="color: green;"></i> Connected' : '<i class="fas fa-times-circle" style="color: red;"></i> Not Connected'}</small>
             </div>
             ${data.connectedBool ? `<p>Connected Since: <small>${data.acceptDate}</small></p>` : ''}
         `;
-
-        setupGroupSelect(data.fromGroup || data.toGroup);
     }
 
-    // Append the group select to the conversation title
-    conversationTitle.appendChild(groupDiv);
+    // Handle group select input for contact or message type
+    function setupGroupSelect(groupValue) {
+        const selectInput = document.createElement('select');
+        selectInput.id = `groupSelect${userDataSaved.userID}`;
+        selectInput.classList.add('groupSelect');
 
-    // Load messages
-    loadMessages(data.participants, userDataSaved.userID, messageSenderID);
+        selectInput.onchange = function () {
+            const selectedOption = this.options[this.selectedIndex];
+            changeGroup(`${userDataSaved.userID}_${data.from || data.to}`, selectedOption.value, "toGroup", `${data.toName || data.fromName}`);
+        };
+
+        const groups = [
+            { groupName: "Co-workers" },
+            { groupName: "Recruiters" },
+            { groupName: "Networking" },
+            { groupName: "Friends" },
+            { groupName: "Blocked", class: "optionBlock" }
+        ];
+
+        groups.forEach(group => {
+            const option = document.createElement('option');
+            option.value = group.groupName;
+            option.textContent = `Group: (${group.groupName})`;
+            if (group.class) option.classList.add(group.class);
+            selectInput.appendChild(option);
+        });
+
+        selectInput.value = groupValue;
+        updateSelectClass(selectInput, selectInput.options[selectInput.selectedIndex]);
+
+        return selectInput;
+    }
+
+    // Append group select if applicable
+    if (type === "contact" || type === "message") {
+        const groupSelect = setupGroupSelect(data.fromGroup || data.toGroup);
+        const groupDiv = document.createElement('div');
+        groupDiv.classList.add('connection-group');
+        groupDiv.appendChild(groupSelect);
+        conversationTitle.appendChild(groupDiv);
+    }
+
+    // Load messages (assuming message sender ID is determined correctly)
+    loadMessages(data.participants, userDataSaved.userID, conversationRecipientID);
 }
 
 window.composeMessages  = composeMessages ;
