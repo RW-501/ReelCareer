@@ -1155,14 +1155,14 @@ conversationTitle.innerHTML = `
 </div>
 <div class="flex">
 <small>
-    ${data.status == "accepted" 
+    ${data.status === "accepted" 
         ? '<i class="fas fa-check-circle" style="color: green;"></i> Connected' 
         : '<i class="fas fa-times-circle" style="color: red;"></i> Not Connected'}
 </small>
 
         
 </div>
-    ${data.status == "accepted"  ? `<p>Connected Since: <small>${data.acceptDate}</small></p>` : ''}
+    ${data.status === "accepted"  ? `<p>Connected Since: <small>${data.acceptDate}</small></p>` : ''}
         `;
 
 
@@ -1243,14 +1243,14 @@ conversationTitle.innerHTML = `
 <div class="flex">
 
 <small>
-    ${data.status == "accepted" 
+    ${data.status === "accepted" 
         ? '<i class="fas fa-check-circle" style="color: green;"></i> Connected' 
         : '<i class="fas fa-times-circle" style="color: red;"></i> Not Connected'}
 </small>
 
         
 </div>
-    ${data.status == "accepted"   ? `<p>Connected Since: <small>${data.acceptDate}</small></p>` : ''}
+    ${data.status === "accepted"   ? `<p>Connected Since: <small>${data.acceptDate}</small></p>` : ''}
         `;
 
 
@@ -1744,7 +1744,7 @@ onSnapshot(messagesQuery, (snapshot) => {
     const allMessages = Object.values(latestMessages).sort(sortMessages);
 
     // Clear previous content
-    messageSection.innerHTML = '';
+   // messageSection.innerHTML = '';
 
     allMessages.forEach((data) => {
         const otherUserID = data.recipientID === userID ? data.senderID : data.recipientID;
@@ -1753,6 +1753,7 @@ onSnapshot(messagesQuery, (snapshot) => {
         const truncatedMessage = truncateMessage(data.content || '');
         const formattedDate = formatTimestamp(data.timestamp);
 
+        
         // Create list item
         const messagesListItem = document.createElement('li');
         messagesListItem.className = 'list-group-item msg-list-i';
@@ -1770,6 +1771,45 @@ onSnapshot(messagesQuery, (snapshot) => {
         if (data.senderID === '000000' || data.senderName === 'Support') {
             messagesListItem.classList.add('support-message');
         }
+
+
+/*
+
+        const titleCoWorkers = document.createElement('div');
+        titleBlocked.classList.add('Group-title');
+        titleBlocked.innerHTML = "<small>Blocked</small>";
+        messageSection.appendChild(titleBlocked);
+
+
+
+        const titleRecruiters = document.createElement('div');
+        titleBlocked.classList.add('Group-title');
+        titleBlocked.innerHTML = "<small>Blocked</small>";
+        messageSection.appendChild(titleBlocked);
+
+
+
+        const titleNetworking = document.createElement('div');
+        titleBlocked.classList.add('Group-title');
+        titleBlocked.innerHTML = "<small>Blocked</small>";
+        messageSection.appendChild(titleBlocked);
+
+
+
+        const titleFriends = document.createElement('div');
+        titleBlocked.classList.add('Group-title');
+        titleBlocked.innerHTML = "<small>Blocked</small>";
+        messageSection.appendChild(titleBlocked);
+
+
+        const titleBlocked = document.createElement('div');
+        titleBlocked.classList.add('Group-title');
+        titleBlocked.innerHTML = "<small>Blocked</small>";
+        messageSection.appendChild(titleBlocked);
+*/
+
+
+
 
         // Construct HTML
         messagesListItem.innerHTML = `
@@ -1793,7 +1833,8 @@ onSnapshot(messagesQuery, (snapshot) => {
                 updateMessageRead(data.id);
             }
         };
-
+  
+        
         messageSection.appendChild(messagesListItem);
     });
 });
