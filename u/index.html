@@ -707,7 +707,7 @@ video {
 <!-- Tabs Content -->
 <div class="tab-content mt-3" id="profileTabsContent">
   <!-- Video Resumes Section -->
-  <div class="tab-pane fade  active showIt" id="video-section" role="tabpanel" aria-labelledby="video-tab">
+  <div class="profile-pane fade  active showIt" id="video-section" role="tabpanel" aria-labelledby="video-tab">
     <div class="card">
       <div class="card-body">
         <h5>Video Resumes</h5>
@@ -720,7 +720,7 @@ video {
   </div>
 
   <!-- Digital Resume Section -->
-  <div class="tab-pane fade" id="digital-section" role="tabpanel" aria-labelledby="digital-tab">
+  <div class="profile-pane fade" id="digital-section" role="tabpanel" aria-labelledby="digital-tab">
     <div class="card">
       <div class="card-body">
         <h5>Digital Resume</h5>
@@ -730,7 +730,7 @@ video {
   </div>
 
   <!-- Open Jobs Section -->
-  <div class="tab-pane fade" id="jobs-section" role="tabpanel" aria-labelledby="jobs-tab">
+  <div class="profile-pane fade" id="jobs-section" role="tabpanel" aria-labelledby="jobs-tab">
     <div class="card">
       <div class="card-body">
         <h5>Open Jobs</h5>
@@ -742,7 +742,7 @@ video {
   </div>
 
   <!-- Companies Section -->
-  <div class="tab-pane fade" id="companies-section" role="tabpanel" aria-labelledby="companies-tab">
+  <div class="profile-pane fade" id="companies-section" role="tabpanel" aria-labelledby="companies-tab">
     <div class="card">
       <div class="card-body">
         <h5>Companies</h5>
@@ -2569,7 +2569,7 @@ document.addEventListener('DOMContentLoaded', trackAllFormsWithExitWarning);
                  
                     document.addEventListener("DOMContentLoaded", () => {
                       const tabs = document.querySelectorAll(".profile-tabs");
-                      const tabContents = document.querySelectorAll(".tab-pane");
+                      const tabContents = document.querySelectorAll(".profile-pane");
                     
                       tabs.forEach((tab) => {
                         tab.addEventListener("click", (e) => {
