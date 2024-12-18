@@ -2125,21 +2125,29 @@
       });
     });
     document.addEventListener("DOMContentLoaded", () => {
-      const tabs = document.querySelectorAll(".profile-tabs");
-      const tabContents = document.querySelectorAll(".profile-pane");
-      tabs.forEach((tab) => {
-        tab.addEventListener("click", (e) => {
-          // Remove active class from all tabs
-          tabs.forEach((t) => t.classList.remove("active"));
-          // Hide all tab contents
-          tabContents.forEach((content) => content.classList.remove("active", "showIt"));
-          // Add active class to the clicked tab
-          e.target.classList.add("active");
-          // Show the corresponding tab content
+  const tabs = document.querySelectorAll(".profile-tabs"); // Tab buttons
+  const tabContents = document.querySelectorAll(".profile-pane"); // Tab content panes
 
-        });
-      });
+  tabs.forEach((tab) => {
+    tab.addEventListener("click", (e) => {
+      // Remove active class from all tabs
+      tabs.forEach((t) => t.classList.remove("active"));
+      // Hide all tab contents
+      tabContents.forEach((content) => content.classList.remove("active", "showIt"));
+
+      // Add active class to the clicked tab
+      e.currentTarget.classList.add("active");
+
+      // Show the corresponding tab content based on data-bs-target or data attribute
+      const targetPaneId = e.currentTarget.getAttribute("data-bs-target");
+      const targetPane = document.querySelector(targetPaneId);
+      if (targetPane) {
+        targetPane.classList.add("active", "showIt");
+      }
     });
+  });
+});
+
   </script>
 
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
