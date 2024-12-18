@@ -1015,6 +1015,8 @@
         if (profileSnapshot.exists()) {
           const userData = profileSnapshot.data();
           console.log("User data fetched from Firestore:", userData);
+
+          document.getElementById('userPageId').innerText = userData.userID;
           // Check if the profile is public
           if (userData.profilePublic) {
             showPrivateProfileMessage(); // Show private profile message
@@ -1045,6 +1047,8 @@
     document.addEventListener('DOMContentLoaded', async () => {
       try {
         userId = await getUserId(); // Await here to properly set userId
+        document.getElementById('userPageId').innerText = userID;
+
       } catch (error) {
         // console.error("Error fetching user ID:", error);
       }
@@ -1211,10 +1215,13 @@
     document.getElementById('profilePic').addEventListener('click', async () => {
       console.log("profilePic clicked.");
       try {
-        const userId = await getUserId(); // Await if getUserId is asynchronous
-        const userPageId = document.getElementById('userPageId').innerText;
+
         const userDataSaved = getUserData() || [];
         console.log("userId:", userDataSaved.userID);
+
+        const userId = await getUserId(); // Await if getUserId is asynchronous
+        const userPageId = document.getElementById('userPageId').innerText;
+  
         console.log("userPageId:", userPageId);
         if (userDataSaved.userID && !userPageId) {
           document.getElementById('profilePictureSET-profile').click();
