@@ -1947,7 +1947,7 @@ onSnapshot(messagesQuery, (snapshot) => {
 
             listItem.addEventListener('click', () => {
                 document.getElementById("messageBox").innerHTML='';
-    appendConnection(data, "message"); // Call your function to append connection
+    appendConnection(data, 'message'); // Call your function to append connection
 });
 
             if (data.status === "pending") {
