@@ -1511,9 +1511,10 @@ profileData.tags.forEach(tag => {
     jobsList.innerHTML = '<li>No open jobs found.</li>';
     return;
   }
-
+  console.log("userData.jobPosts: ", userData.jobPosts);
   // Loop through the job posts array and create list items
   userData.jobPosts.forEach(jobData => {
+
     // Check if jobData has a jobID and jobTitle before creating the list item
     if (jobData.jobID && jobData.jobTitle) {
       const listItem = document.createElement('li');
@@ -1583,7 +1584,7 @@ profileData.tags.forEach(tag => {
                 return;
             }
 
-   
+            console.log("userData.videoResumeData: ", userData.videoResumeData);
 // Loop and generate video cards
 userData.videoResumeData.forEach(videoData => {
   if (videoData.status === 'posted') {
@@ -1632,10 +1633,8 @@ userData.videoResumeData.forEach(videoData => {
             */
         }
 
-        function playVideo(videoUrl) {
-            // Add logic to play video in a modal or a new page
-            showToast(`Playing video from URL: ${videoUrl}`);
-        }
+   
+        
 
  async function loadSocialMedia(profileData) {
     const socialMediaListContainer = document.getElementById('social-media-list');
@@ -1648,7 +1647,7 @@ userData.videoResumeData.forEach(videoData => {
 
     // Clear existing content (optional, if you want to refresh the list)
     socialMediaListContainer.innerHTML = ''; 
-
+    console.log("profileData.websites: ", profileData.websites);
     // Iterate through each social media document
     profileData.websites.forEach(socialData => {
         const listItem = document.createElement('li');

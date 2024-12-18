@@ -282,7 +282,7 @@ function getUserData() {
 
     // Parse the JSON string
     const userData = JSON.parse(jsonString);
-    console.log("Decoded User Data:", userData);
+   // console.log("Decoded User Data:", userData);
     return userData;
   } catch (error) {
     console.error("Error decoding user data:", error);
