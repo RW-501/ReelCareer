@@ -641,7 +641,7 @@
       <!-- Tabs Content -->
       <div class="tab-content mt-3" id="profileTabsContent">
         <!-- Video Resumes Section -->
-        <div class="profile-pane fade  active showIt" id="video-section" role="tabpanel" aria-labelledby="video-tab">
+        <div class="profile-pane   active showIt" id="video-section" role="tabpanel" aria-labelledby="video-tab">
           <div class="card">
             <div class="card-body">
               <h5>Video Resumes</h5>
@@ -654,7 +654,7 @@
         </div>
 
         <!-- Digital Resume Section -->
-        <div class="profile-pane fade" id="digital-section" role="tabpanel" aria-labelledby="digital-tab">
+        <div class="profile-pane " id="digital-section" role="tabpanel" aria-labelledby="digital-tab">
           <div class="card">
             <div class="card-body">
               <h5>Digital Resume</h5>
@@ -664,7 +664,7 @@
         </div>
 
         <!-- Open Jobs Section -->
-        <div class="profile-pane fade" id="jobs-section" role="tabpanel" aria-labelledby="jobs-tab">
+        <div class="profile-pane " id="jobs-section" role="tabpanel" aria-labelledby="jobs-tab">
           <div class="card">
             <div class="card-body">
               <h5>Open Jobs</h5>
@@ -676,7 +676,7 @@
         </div>
 
         <!-- Companies Section -->
-        <div class="profile-pane fade" id="companies-section" role="tabpanel" aria-labelledby="companies-tab">
+        <div class="profile-pane " id="companies-section" role="tabpanel" aria-labelledby="companies-tab">
           <div class="card">
             <div class="card-body">
               <h5>Companies</h5>
@@ -2136,12 +2136,7 @@
           // Add active class to the clicked tab
           e.target.classList.add("active");
           // Show the corresponding tab content
-          const target = document.querySelector(e.target.dataset.bsTarget);
-          if (target) {
-            const settingsHeaderText = document.getElementById("settings-header-text");
-            settingsHeaderText.innerText = target.getAttribute('data-bs-name');
-            target.classList.add("active", "showIt");
-          }
+
         });
       });
     });
