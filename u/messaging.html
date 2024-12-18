@@ -808,12 +808,12 @@ async function fetchConnections() {
 
 
 let connectionssRef = collection(db, 'Connections');
-const querySnapshot = query(connectionssRef, where('participants', 'array-contains', userDataSaved.userID));
+const querySnapshot = query(connectionssRef, where('participants', 'array-contains-any', userDataSaved.userID));
 
     querySnapshot.forEach(doc => {
       const connectionData = doc.data();
       if (connectionData.status == 'pending' || connectionData.status == 'accepted') { // Only show pending connections
-        appendConnection(connectionData);
+        appendConnection(connectionData, "contact");
       }
     });
   } catch (error) {
@@ -1936,7 +1936,7 @@ onSnapshot(messagesQuery, (snapshot) => {
 
             listItem.addEventListener('click', () => {
                 document.getElementById("messageBox").innerHTML='';
-    appendConnection(data); // Call your function to append connection
+    appendConnection(data, "message"); // Call your function to append connection
 });
 
             if (data.status === "pending") {
