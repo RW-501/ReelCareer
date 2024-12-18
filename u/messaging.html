@@ -2128,21 +2128,28 @@ async function convertTextToLinks(contentDiv) {
 
     // Helper function to fetch metadata for a URL
     async function fetchMetadataFromProxy(url) {
-        try {
-            const response = await fetch(`/fetch-metadata?url=${encodeURIComponent(url)}`);
-            const metadata = await response.json();
-
-            return {
-                title: metadata.title || url,
-                description: metadata.description || "",
-                image: metadata.image || "",
-                url: metadata.url || url,
-            };
-        } catch (error) {
-            console.error("Error fetching metadata:", error);
-            return { title: url, description: "", image: "", url };
+    try {
+        const response = await fetch(`/fetch-metadata?url=${encodeURIComponent(url)}`);
+        
+        // Check if the response is JSON
+        const contentType = response.headers.get("content-type");
+        if (!contentType || !contentType.includes("application/json")) {
+            throw new Error(`Invalid content type: ${contentType}`);
         }
+
+        const metadata = await response.json();
+
+        return {
+            title: metadata.title || url,
+            description: metadata.description || "",
+            image: metadata.image || "",
+            url: metadata.url || url,
+        };
+    } catch (error) {
+        console.error("Error fetching metadata:", error.message);
+        return { title: url, description: "", image: "", url };
     }
+}
 
     // Process the text content of the contentDiv
     const text = contentDiv.textContent;
