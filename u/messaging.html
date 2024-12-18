@@ -1161,8 +1161,8 @@ conversationTitle.innerHTML = `
 </small> 
         
 </div>
-${data.acceptDate ? `<p>Connected Since: <small>${data.acceptDate}</small></p>` : ''}
-`;
+    ${data.connectedBool ? `<p>Connected Since: <small>${data.acceptDate}</small></p>` : ''}
+        `;
 
 
 // Create the select input element
@@ -1248,8 +1248,8 @@ conversationTitle.innerHTML = `
 </small> 
         
 </div>
-${data.acceptDate ? `<p>Connected Since: <small>${data.acceptDate}</small></p>` : ''}
-`;
+    ${data.connectedBool ? `<p>Connected Since: <small>${data.acceptDate}</small></p>` : ''}
+        `;
 
 
 
@@ -1348,8 +1348,8 @@ conversationTitle.innerHTML = `
         : '<i class="fas fa-times-circle" style="color: red;"></i> Not Connected'}
 </small>
 </div>
-${data.connectedBool ? "<p>Connected Since: <small>${data.acceptDate}</small></p>" : ''}`
-
+    ${data.connectedBool ? `<p>Connected Since: <small>${data.acceptDate}</small></p>` : ''}
+        `;
 
 // Create the select input element
 // Create the select input
@@ -1427,8 +1427,8 @@ if (data.senderID === userDataSaved.userID) {
         : '<i class="fas fa-times-circle" style="color: red;"></i> Not Connected'}
 </small>
     </div>
-${data.connectedBool ? "<p>Connected Since: <small>${data.acceptDate}</small></p>" : ''}`
-
+    ${data.connectedBool ? `<p>Connected Since: <small>${data.acceptDate}</small></p>` : ''}
+        `;
 
 // Create the select input element
 // Create the select input
