@@ -1700,7 +1700,7 @@ onSnapshot(messagesQuery, (snapshot) => {
     allMessages.forEach((data) => {
         const otherUserID = data.recipientID === userID ? data.senderID : data.recipientID;
         const recipientName = data.recipientID === userID ?  data.senderName: data.recipientName ;
-        const profilePicture = data.senderProfilePicture || data.recipientProfilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_tie_reel.png';
+        const profilePicture = data.recipientID === userID ? data.senderProfilePicture : data.recipientProfilePicture; // || 'https://reelcareer.co/images/sq_logo_n_BG_tie_reel.png';
         const truncatedMessage = truncateMessage(data.content || '');
         const formattedDate = formatTimestamp(data.timestamp);
 
