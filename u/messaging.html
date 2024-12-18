@@ -1784,16 +1784,20 @@ contactList.appendChild(messageSection);
 let contactsRef = collection(db, 'Messages');
 let messagesQuery = query(contactsRef, where('participants', 'array-contains-any', [userID]));
 
-// Audio notification
-const newMessageAudio = new Audio('https://reelcareer.co/media/audio/ding.mp3'); // Replace with your audio file
+
 
 // Local storage settings
 const userDataSaved = getUserData() || [];
+// Audio notification
+const newMessageAudio = new Audio('https://reelcareer.co/media/audio/ding.mp3'); // Replace with your audio file
 
-const showRead = userDataSaved.showRead === 'true'; // Show read status
+
 const audioAlert = userDataSaved.audioAlert === 'true'; // Play audio alert
 
+const showRead = userDataSaved.showRead === 'true'; // Show read status
 
+console.log("audioAlert: ", audioAlert);
+console.log("showRead: ", showRead);
 
 // Utility: Truncate message to 50 characters
 function truncateMessage(message) {
@@ -2041,6 +2045,26 @@ function loadMessages(participants, recipientID, senderID) {
                 messageDiv.textContent = data.content;
                 convertTextToLinks(messageDiv);
 
+// Audio notification
+const newMessageAudio = new Audio('https://reelcareer.co/media/audio/ding.mp3'); // Replace with your audio file
+
+// Local storage settings
+const userDataSaved = getUserData() || [];
+const audioAlert = userDataSaved.audioAlert === 'true'; // Play audio alert
+
+console.log("data.status: ", data.status);
+
+        // Add unread class and play audio for unread messages
+        if (data.status === 'unread') {
+            messageDiv.classList.add('unread-message');
+            if (audioAlert) {
+                newMessageAudio.play();
+            }
+            console.log("audio????????/: ", audioAlert);
+
+        }
+
+        console.log("audioAlert: ", audioAlert);
 
                 // Add media content if present
                 if (data.contentType !== 'text') {
@@ -2129,7 +2153,6 @@ async function convertTextToLinks(contentDiv) {
     // Helper function to fetch metadata for a URL
     async function fetchMetadataFromProxy(url) {
         try {
-            console.log("URL: ", url);
             
             // Ensure that the URL is HTTPS
             if (url.startsWith('http://')) {
