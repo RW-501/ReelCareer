@@ -825,7 +825,7 @@ const querySnapshot = query(connectionssRef, where('participants', 'array-contai
 function appendConnection(connection, type) {
 
 
-    console.log(`contact?  ${type} `);
+    //console.log(`contact?  ${type} `);
 
 
     let connectionId = '';
@@ -2053,6 +2053,7 @@ function loadMessages(participants, recipientID, senderID) {
                 messageDiv.appendChild(timestampDiv);
 
                 messageBox.appendChild(messageDiv);
+                convertTextToLinks(messageBox);
             }
         });
 
@@ -2062,6 +2063,26 @@ function loadMessages(participants, recipientID, senderID) {
         showToast("Unable to load messages. Please try again.", 'error');
     });
 }
+
+function convertTextToLinks(div) {
+    const urlRegex = /(https?:\/\/[^\s]+|www\.[^\s]+)/g; // Regex to match http, https, www
+   // const divs = document.querySelectorAll('.URL'); // Select all divs with class 'URL'
+
+   // divs.forEach(div => {
+        let text = div.innerText;
+
+        // Replace detected URLs with anchor tags
+        const newHTML = text.replace(urlRegex, match => {
+            let href = match.startsWith("http") ? match : `http://${match}`; // Ensure www gets http://
+            return `<a href="${href}" target="_blank" rel="noopener noreferrer">${match}</a>`;
+        });
+
+        div.innerHTML = newHTML; // Update the div content with the new HTML
+  //  });
+}
+
+
+
 
 
  document.getElementById('chooseFileButton').addEventListener('click', () => {
