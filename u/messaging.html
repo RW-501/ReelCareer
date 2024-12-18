@@ -979,6 +979,9 @@ const openEvent = new CustomEvent("click", { detail: "open" });
                 `;
                 div.innerHTML = connectionInfo;
 
+                contactInfo.innerText = '';
+    contactInfo.appendChild(div);
+
 
 
 
@@ -996,7 +999,11 @@ const openEvent = new CustomEvent("click", { detail: "open" });
             <button onclick="viewProfile('${connection.from}')">to View Profile</button>
             `;
             div.innerHTML = connectionInfo;
-   
+
+            contactInfo.innerText = '';
+    contactInfo.appendChild(div);
+
+
            
             div.setAttribute('data-connection-id', connectionId); 
                 composeMessages(connection.to, connection, "contact",connection.to );
