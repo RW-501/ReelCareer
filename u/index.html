@@ -1472,7 +1472,7 @@ const websitesSetup = [
 const websites = websitesSetup.filter(site => site.url !== "");
 
 // Log results to check
-console.log("Filtered Websites:", websites);
+//console.log("Filtered Websites:", websites);
 
     // Ensure tagsList is not empty or null
     const tagsInput = document.getElementById('tagsSET-profile').value.trim();
@@ -1666,7 +1666,7 @@ const membershipExpiryDate = userData.membershipExpiry;
 
             
   document.getElementById('positionSET-profile').value = userData.position || "";
-  document.getElementById('publicProfileSET-profile').checked = userData.publicProfile || "";
+ // document.getElementById('publicProfileSET-profile').checked = userData.publicProfile || "";
 
   document.getElementById('audioAlertSET').checked = userData.audioAlert || "";
   document.getElementById('showReadSET').checked = userData.showRead || "";
