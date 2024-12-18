@@ -1425,7 +1425,7 @@
       const userlocationData = JSON.parse(sessionStorage.getItem('userLocation'));
       if (profileData) {
         const userData = profileData;
-        console.log("userData: ", userData);
+        //console.log("userData: ", userData);
         // Example usage
         const lastLoginDate = userData.lastLogin;
         const membershipExpiryDate = userData.membershipExpiry;
@@ -1471,8 +1471,8 @@
       document.getElementById('location-text').innerText = profileData.location || ` ${userlocationData.city},  ${userlocationData.state}`;
       const verified = profileData.verified || "Not Verified";
       const membership = profileData.membershipType || "free";
-      console.log("membership: ", membership);
-      console.log("verified: ", verified);
+  //    console.log("membership: ", membership);
+   //   console.log("verified: ", verified);
       loadMembershipBadge(membership);
       loadVerifiedBadge(verified);
       // Check if the tags array is defined and has elements
@@ -1486,7 +1486,7 @@
     });
         // Directly use the tags array since it contains strings
         const tags = profileData.tags; // No need to map since they're already strings
-         console.log("tags: ", tags);
+      //   console.log("tags: ", tags);
         document.getElementById('tagsSET-profile').value = profileData.tags || "";
         const tagsContainer = document.getElementById('tagsList');
         profileData.tags.forEach(tag => {
