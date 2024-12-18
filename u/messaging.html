@@ -482,7 +482,9 @@ main {
     display: none;
 
 }
-
+.contactInfo {
+    display: flex;
+}
 
     </style>
 
@@ -1124,11 +1126,12 @@ function composeMessages(conversationID, data, type, conversationRecipientID) {
         const messageSenderID = isSender ? data.to : data.from;
 
         conversationTitle.setAttribute("data-conversation-id", `${userDataSaved.userID}_${messageSenderID}`);
-        conversationTitle.innerHTML = `
+        conversationTitle.innerHTML = `<div class="contactInfo">
             <a href="https://reelcareer.co/u/?u=${messageSenderID}" style="text-decoration: none; color: inherit;">
                 <img src="${isSender ? data.toProfilePicture : data.fromProfilePicture}" alt="Avatar" class="avatar lazy-image">
             </a>
             <span>${isSender ? data.toName : data.fromName || 'Unknown Sender'}</span>
+            </div>
             <div class="flex">
    <small>
     ${data.status 
@@ -1147,11 +1150,12 @@ function composeMessages(conversationID, data, type, conversationRecipientID) {
     if (type === "message") {
         const messageSenderID = userDataSaved.userID === data.senderID ? data.recipientID : data.senderID;
         conversationTitle.setAttribute("data-conversation-id", `${userDataSaved.userID}_${messageSenderID}`);
-        conversationTitle.innerHTML = `
+        conversationTitle.innerHTML = `<div class="contactInfo">
             <a href="${userDataSaved.userID === data.senderID ? data.recipientProfileURL : data.senderProfileURL}" style="text-decoration: none; color: inherit;">
                 <img src="${userDataSaved.userID === data.senderID ? data.recipientProfilePicture : data.senderProfilePicture}" alt="Avatar" class="avatar lazy-image">
             </a>
             <span>${userDataSaved.userID === data.senderID ? data.recipientName : data.senderName || 'Unknown Sender'}</span>
+           </div>
             <div class="flex">
                     <div> 
 <small>
