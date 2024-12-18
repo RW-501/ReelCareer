@@ -1573,8 +1573,12 @@ async function removeConnection(fromID, toID) {
     
     showToast('Connection removed!');
     // Refresh the list of connections
-    connectionsList.innerHTML = '';
-    fetchConnections();
+    setTimeout(() => {
+
+connectionsList.innerHTML = '';
+fetchConnections();
+}, 500); // 1 second delay
+
   } catch (error) {
     console.error('Error denied connection:', error);
     showToast('Failed to denied connection.');
@@ -1595,8 +1599,13 @@ async function acceptConnection(fromID, toID) {
     
     showToast('Connection accepted!');
     // Refresh the list of connections
+    setTimeout(() => {
+
     connectionsList.innerHTML = '';
     fetchConnections();
+}, 500); // 1 second delay
+
+
   } catch (error) {
     console.error('Error accepting connection:', error);
     showToast('Failed to accept connection.');
