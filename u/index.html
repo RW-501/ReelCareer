@@ -111,12 +111,12 @@ position: relative;
 
 
 .vidioCard {
-  width: 400px;
+    width: 400px;
     height: 650px;
     background-color: #000;
     margin: auto;
     position: relative;
-    gap: .5rem;
+    margin-bottom: 2rem;
 }
 
 
@@ -1870,6 +1870,7 @@ function playVideo(videoId) {
     controlsBottom.style.display = 'flex';
   };
 }
+window.playVideo = playVideo;
 
 function toggleMute(videoId, muteButton) {
   const video = document.getElementById(videoId);
@@ -1878,6 +1879,7 @@ function toggleMute(videoId, muteButton) {
   // Update the button icon
   muteButton.innerHTML = video.muted ? '<i class="fa fa-volume-mute"></i>' : '<i class="fa fa-volume-up"></i>';
 }
+window.toggleMute = toggleMute;
 
 function toggleFullscreen(videoId) {
   const video = document.getElementById(videoId);
@@ -1889,6 +1891,8 @@ function toggleFullscreen(videoId) {
     video.msRequestFullscreen();
   }
 }
+window.toggleFullscreen = toggleFullscreen;
+
 
 async function handleLike(reelID, likeButton) {
   const videoRef = doc(db, "VideoResumes", reelID);
@@ -1906,6 +1910,7 @@ async function handleLike(reelID, likeButton) {
     console.error("Error updating like count: ", error);
   }
 }
+window.handleLike = handleLike;
 
 
 
