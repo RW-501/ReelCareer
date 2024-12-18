@@ -2128,45 +2128,77 @@ async function convertTextToLinks(contentDiv) {
 
     // Helper function to fetch metadata for a URL
     async function fetchMetadataFromProxy(url) {
-    try {
-        console.log("URL: ", url);
-        
-        // Fetch the raw HTML content of the URL
-        const response = await fetch(url);
-        
-        // Log the response status and content type
-        console.log("Response Status: ", response.status);
-        console.log("Response Content-Type: ", response.headers.get("content-type"));
+        try {
+            console.log("URL: ", url);
+            
+            // Ensure that the URL is HTTPS
+            if (url.startsWith('http://')) {
+                throw new Error('Insecure HTTP URL'); // Throw an error if URL is not HTTPS
+            }
 
-        // Check if the response is HTML
-        const contentType = response.headers.get("content-type");
-        if (!contentType || !contentType.includes("text/html")) {
-            throw new Error(`Invalid content type: ${contentType}`);
+            // Fetch the raw HTML content of the URL
+            const response = await fetch(url);
+
+            // Log the response status and content type
+            console.log("Response Status: ", response.status);
+            console.log("Response Content-Type: ", response.headers.get("content-type"));
+
+            // Check if the response is HTML
+            const contentType = response.headers.get("content-type");
+            if (!contentType || !contentType.includes("text/html")) {
+                throw new Error(`Invalid content type: ${contentType}`);
+            }
+
+            // Get the HTML text from the response
+            const htmlText = await response.text();
+
+            // Parse the HTML using DOMParser
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(htmlText, 'text/html');
+
+            // Extract the metadata (title, description, image) from the meta tags
+            const metadata = {
+                title: doc.querySelector('title') ? doc.querySelector('title').textContent : url,
+                description: doc.querySelector('meta[name="description"]') ? doc.querySelector('meta[name="description"]').getAttribute('content') : '',
+                image: getImage(doc),
+                url: url,
+            };
+            console.log("metadata: ", metadata);
+
+            return metadata;
+        } catch (error) {
+            console.error("Error fetching metadata:", error.message);
+            return { title: url, description: "", image: "", url };
+        }
+    }
+
+    // Function to fetch image using different strategies
+    function getImage(doc) {
+        // Try fetching the image from various sources
+
+        // 1. Open Graph (og:image)
+        let image = doc.querySelector('meta[property="og:image"]') ? doc.querySelector('meta[property="og:image"]').getAttribute('content') : '';
+
+        // 2. Twitter Card (twitter:image)
+        if (!image) {
+            image = doc.querySelector('meta[name="twitter:image"]') ? doc.querySelector('meta[name="twitter:image"]').getAttribute('content') : '';
         }
 
-        // Get the HTML text from the response
-        const htmlText = await response.text();
+        // 3. Favicon (link[rel="icon"])
+        if (!image) {
+            image = doc.querySelector('link[rel="icon"]') ? doc.querySelector('link[rel="icon"]').getAttribute('href') : '';
+        }
 
-        // Parse the HTML using DOMParser
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(htmlText, 'text/html');
+        // 4. First image found in the page (img tag)
+        if (!image) {
+            const firstImage = doc.querySelector('img') ? doc.querySelector('img').getAttribute('src') : '';
+            if (firstImage) {
+                image = firstImage.startsWith('http') ? firstImage : new URL(firstImage, doc.baseURI).href;
+            }
+        }
 
-        // Extract the metadata (title, description, image) from the meta tags
-        const metadata = {
-            title: doc.querySelector('title') ? doc.querySelector('title').textContent : url,
-            description: doc.querySelector('meta[name="description"]') ? doc.querySelector('meta[name="description"]').getAttribute('content') : '',
-            image: getImage(doc),
-            url: url,
-        };
-        console.log("metadata: ", metadata);
-
-        return metadata;
-    } catch (error) {
-        console.error("Error fetching metadata:", error.message);
-        return { title: url, description: "", image: "", url };
+        return image || '';  // Return the first valid image found, or an empty string if none is found
     }
-}
-
 
     // Process the text content of the contentDiv
     const text = contentDiv.textContent;
@@ -2176,26 +2208,39 @@ async function convertTextToLinks(contentDiv) {
 
     for (let part of parts) {
         if (urlRegex.test(part)) {
-            const url = part.startsWith("http") ? part : `http://${part}`;
-            const metadata = await fetchMetadataFromProxy(url);
+            let url = part.startsWith("http") ? part : `http://${part}`;
 
-            // Create a container for the preview
-            const previewDiv = document.createElement("div");
-            previewDiv.className = "link-preview";
+            // Check for mixed content and avoid fetching metadata for HTTP links
+            if (url.startsWith('http://')) {
+                // If the URL is HTTP, treat it as a plain link
+                const linkElement = document.createElement('a');
+                linkElement.href = url;
+                linkElement.target = "_blank";
+                linkElement.rel = "noopener noreferrer";
+                linkElement.textContent = url;
 
-            previewDiv.innerHTML = `
-                <a href="${metadata.url}" target="_blank" rel="noopener noreferrer">
-                    <div class="preview-content">
-                        ${metadata.image ? `<img src="${metadata.image}" alt="Link Image" class="preview-image">` : ""}
-                        <div class="preview-text">
-                            <p class="preview-title">${metadata.title}</p>
-                            <p class="preview-description">${metadata.description}</p>
+                fragment.appendChild(linkElement);
+            } else {
+                const metadata = await fetchMetadataFromProxy(url);
+
+                // Create a container for the preview
+                const previewDiv = document.createElement("div");
+                previewDiv.className = "link-preview";
+
+                previewDiv.innerHTML = `
+                    <a href="${metadata.url}" target="_blank" rel="noopener noreferrer">
+                        <div class="preview-content">
+                            ${metadata.image ? `<img src="${metadata.image}" alt="Link Image" class="preview-image">` : ""}
+                            <div class="preview-text">
+                                <div class="preview-title">${metadata.title}</div>
+                                <p class="preview-description">${metadata.description}</p>
+                            </div>
                         </div>
-                    </div>
-                </a>
-            `;
+                    </a>
+                `;
 
-            fragment.appendChild(previewDiv);
+                fragment.appendChild(previewDiv);
+            }
         } else {
             fragment.appendChild(document.createTextNode(part));
         }
@@ -2205,6 +2250,17 @@ async function convertTextToLinks(contentDiv) {
     contentDiv.innerHTML = ""; // Clear the current content
     contentDiv.appendChild(fragment);
 }
+
+
+
+
+
+
+
+
+
+
+
 
 // Select the editableDiv
 const editableDiv = document.getElementById("editableDiv");
@@ -2228,34 +2284,6 @@ async function initializeLinkConversion() {
 editableDiv.addEventListener("paste", debounce(initializeLinkConversion, 500));
 editableDiv.addEventListener("focusout", initializeLinkConversion);
 
-
-// Function to fetch image using different strategies
-function getImage(doc) {
-    // Try fetching the image from various sources
-
-    // 1. Open Graph (og:image)
-    let image = doc.querySelector('meta[property="og:image"]') ? doc.querySelector('meta[property="og:image"]').getAttribute('content') : '';
-
-    // 2. Twitter Card (twitter:image)
-    if (!image) {
-        image = doc.querySelector('meta[name="twitter:image"]') ? doc.querySelector('meta[name="twitter:image"]').getAttribute('content') : '';
-    }
-
-    // 3. Favicon (link[rel="icon"])
-    if (!image) {
-        image = doc.querySelector('link[rel="icon"]') ? doc.querySelector('link[rel="icon"]').getAttribute('href') : '';
-    }
-
-    // 4. First image found in the page (img tag)
-    if (!image) {
-        const firstImage = doc.querySelector('img') ? doc.querySelector('img').getAttribute('src') : '';
-        if (firstImage) {
-            image = firstImage.startsWith('http') ? firstImage : new URL(firstImage, doc.baseURI).href;
-        }
-    }
-
-    return image || '';  // Return the first valid image found, or an empty string if none is found
-}
 
 function timeAgo(timestamp) {
     const now = new Date();
