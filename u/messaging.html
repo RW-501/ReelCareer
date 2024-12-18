@@ -1995,6 +1995,8 @@ function loadMessages(participants, recipientID, senderID) {
                 const messageDiv = document.createElement('div');
                 messageDiv.className = `message ${data.senderID === auth.currentUser.uid ? 'sent' : 'received'}`;
                 messageDiv.textContent = data.content;
+                convertTextToLinks(messageDiv);
+
 
                 // Add media content if present
                 if (data.contentType !== 'text') {
@@ -2046,14 +2048,27 @@ function loadMessages(participants, recipientID, senderID) {
                     messageDiv.appendChild(mediaDiv);
                 }
 
+
+
                 // Add timestamp
                 const timestampDiv = document.createElement('div');
                 timestampDiv.className = 'timestamp';
-                timestampDiv.textContent = new Date(data.createdAt.seconds * 1000).toLocaleString();
+            //    timestampDiv.textContent = new Date(data.createdAt.seconds * 1000).toLocaleString();
+
+// Convert Firebase timestamp to a JS Date object
+const createdAtDate = new Date(data.createdAt.seconds * 1000);
+
+// Call the timeAgo function to format the date
+timestampDiv.textContent = timeAgo(createdAtDate);
+
+
+
+
+
+
                 messageDiv.appendChild(timestampDiv);
 
                 messageBox.appendChild(messageDiv);
-                convertTextToLinks(messageBox);
             }
         });
 
@@ -2079,6 +2094,30 @@ function convertTextToLinks(div) {
 
         div.innerHTML = newHTML; // Update the div content with the new HTML
   //  });
+}
+
+function timeAgo(timestamp) {
+    const now = new Date();
+    const secondsAgo = Math.floor((now - timestamp) / 1000);
+
+    const intervals = [
+        { label: 'year', seconds: 31536000 },
+        { label: 'month', seconds: 2592000 },
+        { label: 'week', seconds: 604800 },
+        { label: 'day', seconds: 86400 },
+        { label: 'hour', seconds: 3600 },
+        { label: 'minute', seconds: 60 },
+        { label: 'second', seconds: 1 }
+    ];
+
+    for (const interval of intervals) {
+        const count = Math.floor(secondsAgo / interval.seconds);
+        if (count >= 1) {
+            return `${count} ${interval.label}${count > 1 ? 's' : ''} ago`;
+        }
+    }
+
+    return 'just now'; // If less than a second
 }
 
 
