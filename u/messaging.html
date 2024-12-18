@@ -1746,9 +1746,6 @@ console.log("userDataSaved: ", userDataSaved);
 
 
 
-// Audio notification
-const newMessageAudio = new Audio('https://reelcareer.co/media/audio/ding.mp3'); // Replace with your audio file
-
 
 const audioAlert = userDataSaved.audioAlert === true; // Play audio alert
 
@@ -1853,6 +1850,10 @@ onSnapshot(messagesQuery, (snapshot) => {
         const messagesListItem = document.createElement('li');
         messagesListItem.className = 'list-group-item msg-list-i';
         messagesListItem.setAttribute("data-conversation-id", otherUserID);
+        
+// Audio notification
+const newMessageAudio = new Audio('https://reelcareer.co/media/audio/ding.mp3'); // Replace with your audio file
+
 
         // Add unread class and play audio for unread messages
         if (data.status === 'unread') {
