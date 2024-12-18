@@ -813,7 +813,7 @@ const querySnapshot = query(connectionssRef, where('participants', 'array-contai
     querySnapshot.forEach(doc => {
       const connectionData = doc.data();
       if (connectionData.status == 'pending' || connectionData.status == 'accepted') { // Only show pending connections
-        appendConnection(connectionData, "contact");
+        appendConnection(connectionData, 'contact');
       }
     });
   } catch (error) {
@@ -1093,6 +1093,7 @@ function composeMessages(conversationID, data, type, conversationRecipientID ) {
 const messageBox = document.getElementById('messageBox');
 const conversationTitle = document.getElementById('conversationTitle');
 
+console.log(`composeMessages  ${type} .  `);
 /*
 console.log(`composeMessages ???????????????????????????????????????????????????????????????????
 ????????????????????????????????????????????????????????????????????????  `);
@@ -1863,7 +1864,7 @@ onSnapshot(messagesQuery, (snapshot) => {
 
         // On-click handler
         messagesListItem.onclick = () => {
-            appendConnection(data, "message");
+            appendConnection(data, 'message');
             composeMessages(data.participants, data, "message", otherUserID);
 
             // Update read status if enabled
@@ -1948,7 +1949,7 @@ onSnapshot(messagesQuery, (snapshot) => {
             listItem.addEventListener('click', () => {
                 document.getElementById("messageBox").innerHTML='';
 
-                console.log(`appendConnectionSend  ${data} .  `);
+             //   console.log(`appendConnectionSend  ${data} .  `);
 
     appendConnection(data, 'message'); // Call your function to append connection
 });
