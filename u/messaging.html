@@ -1147,13 +1147,19 @@ messageSenderID = data.from;
 conversationTitle.setAttribute("data-conversation-id",`${userDataSaved.userID}_${data.from}`);
 
 conversationTitle.innerHTML = `
+<div class="flex">
 <a href="https://reelcareer.co/u/?u=${data.from}" style="text-decoration: none; color: inherit;">
 <img src="${data.fromProfilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_sm.png'}" alt="Avatar" class="avatar lazy-image">
 </a>
 <span>${data.fromName || 'Unknown Sender'}</span>
-
+</div>
 <div class="flex">
-    <div>Connection: <small>${data.status}</small></div>
+      <small>
+    ${data.status 
+        ? '<i class="fas fa-check-circle" style="color: green;"></i> Connected' 
+        : '<i class="fas fa-times-circle" style="color: red;"></i> Not Connected'}
+</small> 
+        
 </div>
 ${data.acceptDate ? `<p>Connected Since: <small>${data.acceptDate}</small></p>` : ''}
 `;
@@ -1164,10 +1170,12 @@ ${data.acceptDate ? `<p>Connected Since: <small>${data.acceptDate}</small></p>` 
 const selectInput = document.createElement('select');
 selectInput.id = `groupSelect${userDataSaved.userID}`;
 selectInput.classList.add('groupSelect');
-
-// Attach an event listener for the onchange event
 selectInput.onchange = function () {
-const selectedOption = this.options[this.selectedIndex];
+        const selectedOption = this.options[this.selectedIndex];
+        if (selectedOption.classList.contains('optionBlock')) {
+            selectedOption.classList.add('optionBlocked');  // Add 'optionBlocked' when blocked
+        }
+    
 changeGroup(`${userDataSaved.userID}_${data.from}`, selectedOption.value, "toGroup", `${data.toName}`);
 };
 
@@ -1225,14 +1233,20 @@ messageSenderID = data.to;
 conversationTitle.setAttribute("data-conversation-id",`${userDataSaved.userID}_${data.to}`);
 
 conversationTitle.innerHTML = `
+<div class="flex">
 <a href="https://reelcareer.co/u/?u=${data.to}" style="text-decoration: none; color: inherit;">
 <img src="${data.toProfilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_sm.png'}" alt="Avatar" class="avatar lazy-image">
 </a>
 <span>${data.toName || 'Unknown Sender'}</span>
-
+</div>
 <div class="flex">
 
-    <div>Connection: <small>${data.status}</small></div>
+       <small>
+    ${data.status 
+        ? '<i class="fas fa-check-circle" style="color: green;"></i> Connected' 
+        : '<i class="fas fa-times-circle" style="color: red;"></i> Not Connected'}
+</small> 
+        
 </div>
 ${data.acceptDate ? `<p>Connected Since: <small>${data.acceptDate}</small></p>` : ''}
 `;
@@ -1244,10 +1258,12 @@ ${data.acceptDate ? `<p>Connected Since: <small>${data.acceptDate}</small></p>` 
 const selectInput = document.createElement('select');
 selectInput.id = `groupSelect${userDataSaved.userID}`;
 selectInput.classList.add('groupSelect');
-
-// Attach an event listener for the onchange event
 selectInput.onchange = function () {
-const selectedOption = this.options[this.selectedIndex];
+        const selectedOption = this.options[this.selectedIndex];
+        if (selectedOption.classList.contains('optionBlock')) {
+            selectedOption.classList.add('optionBlocked');  // Add 'optionBlocked' when blocked
+        }
+    
 changeGroup(`${userDataSaved.userID}_${data.to}`, selectedOption.value, "toGroup", `${data.toName}`);
 };
 
@@ -1318,13 +1334,20 @@ if (data.recipientID === userDataSaved.userID) {
     conversationTitle.setAttribute("data-conversation-id",`${userDataSaved.userID}_${data.senderID}`);
 
 conversationTitle.innerHTML = `
+<div class="flex">
 <a href="${data.senderProfileURL}" style="text-decoration: none; color: inherit;">
 <img src="${data.senderProfilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_sm.png'}" alt="Avatar" class="avatar lazy-image">
 </a>
 <span>${data.senderName || 'Unknown Sender'}</span>
 
+</div>
 <div class="flex">
-<div>Connection: <small>${data.connectedBool}</small></div></div>
+    <small>
+    ${data.connectedBool 
+        ? '<i class="fas fa-check-circle" style="color: green;"></i> Connected' 
+        : '<i class="fas fa-times-circle" style="color: red;"></i> Not Connected'}
+</small>
+</div>
 ${data.connectedBool ? "<p>Connected Since: <small>${data.acceptDate}</small></p>" : ''}`
 
 
@@ -1333,10 +1356,12 @@ ${data.connectedBool ? "<p>Connected Since: <small>${data.acceptDate}</small></p
 const selectInput = document.createElement('select');
 selectInput.id = `groupSelect${userDataSaved.userID}`;
 selectInput.classList.add('groupSelect');
-
-// Attach an event listener for the onchange event
 selectInput.onchange = function () {
-const selectedOption = this.options[this.selectedIndex];
+        const selectedOption = this.options[this.selectedIndex];
+        if (selectedOption.classList.contains('optionBlock')) {
+            selectedOption.classList.add('optionBlocked');  // Add 'optionBlocked' when blocked
+        }
+
 changeGroup(`${userDataSaved.userID}_${data.senderID}`, selectedOption.value, "recipientGroup", `${data.recipientName}`);
 };
 
@@ -1389,13 +1414,19 @@ if (data.senderID === userDataSaved.userID) {
     conversationTitle.setAttribute("data-conversation-id",`${userDataSaved.userID}_${data.senderID}`);
 
     conversationTitle.innerHTML = `
+<div class="flex">
 <a href="${data.recipientProfileURL}" style="text-decoration: none; color: inherit;">
 <img src="${data.recipientProfilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_sm.png'}" alt="Avatar" class="avatar lazy-image">
 </a>
 <span>${data.recipientName || 'Unknown Sender'}</span>
+</div>
 <div class="flex">
-
-<div>Connection: <small>${data.connectedBool}</small></div></div>
+    <small>
+    ${data.connectedBool 
+        ? '<i class="fas fa-check-circle" style="color: green;"></i> Connected' 
+        : '<i class="fas fa-times-circle" style="color: red;"></i> Not Connected'}
+</small>
+    </div>
 ${data.connectedBool ? "<p>Connected Since: <small>${data.acceptDate}</small></p>" : ''}`
 
 
@@ -1404,10 +1435,12 @@ ${data.connectedBool ? "<p>Connected Since: <small>${data.acceptDate}</small></p
 const selectInput = document.createElement('select');
 selectInput.id = `groupSelect${userDataSaved.userID}`;
 selectInput.classList.add('groupSelect');
-
-// Attach an event listener for the onchange event
 selectInput.onchange = function () {
-const selectedOption = this.options[this.selectedIndex];
+        const selectedOption = this.options[this.selectedIndex];
+        if (selectedOption.classList.contains('optionBlock')) {
+            selectedOption.classList.add('optionBlocked');  // Add 'optionBlocked' when blocked
+        }
+
 changeGroup(`${data.recipientID}_${userDataSaved.userID}`, selectedOption.value, "senderGroup", `${data.senderName}`);
 };
 
