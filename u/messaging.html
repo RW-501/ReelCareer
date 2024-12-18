@@ -1744,9 +1744,26 @@ closeSlidePanelBtn.addEventListener('click', () => {
 
 
 
+// Audio notification
+const newMessageAudio = new Audio('https://reelcareer.co/media/audio/ding.mp3'); // Replace with your audio file
+
+
+const audioAlert = userDataSaved.audioAlert === 'true'; // Play audio alert
+
+const showRead = userDataSaved.showRead === 'true'; // Show read status
+
+console.log("audioAlert: ", audioAlert);
+console.log("showRead: ", showRead);
 
 
 
+// Function to update read status
+async function updateMessageRead(docID) {
+    if (showRead) {
+        const messageRef = doc(db, 'Messages', docID);
+        await updateDoc(messageRef, { status: 'read' });
+    }
+}
 
 
 // Utility: Format Timestamp
@@ -1786,18 +1803,6 @@ let messagesQuery = query(contactsRef, where('participants', 'array-contains-any
 
 
 
-// Local storage settings
-const userDataSaved = getUserData() || [];
-// Audio notification
-const newMessageAudio = new Audio('https://reelcareer.co/media/audio/ding.mp3'); // Replace with your audio file
-
-
-const audioAlert = userDataSaved.audioAlert === 'true'; // Play audio alert
-
-const showRead = userDataSaved.showRead === 'true'; // Show read status
-
-console.log("audioAlert: ", audioAlert);
-console.log("showRead: ", showRead);
 
 // Utility: Truncate message to 50 characters
 function truncateMessage(message) {
@@ -1811,13 +1816,6 @@ function sortMessages(a, b) {
     return b.timestamp - a.timestamp; // Newest first
 }
 
-// Function to update read status
-async function updateMessageRead(docID) {
-    if (showRead) {
-        const messageRef = doc(db, 'Messages', docID);
-        await updateDoc(messageRef, { status: 'read' });
-    }
-}
 
 // Real-time Snapshot Listener
 onSnapshot(messagesQuery, (snapshot) => {
@@ -2038,6 +2036,11 @@ function loadMessages(participants, recipientID, senderID) {
         snapshot.docs.forEach(doc => {
             const data = doc.data();
 
+            
+ // Get the document ID
+ const docID = doc.id; 
+
+
             // Check if the sender is either the recipient or the sender
             if (data.participants.includes(senderID)) {
                 const messageDiv = document.createElement('div');
@@ -2052,6 +2055,7 @@ const newMessageAudio = new Audio('https://reelcareer.co/media/audio/ding.mp3');
 const userDataSaved = getUserData() || [];
 const audioAlert = userDataSaved.audioAlert === 'true'; // Play audio alert
 
+console.log("data: ", data);
 console.log("data.status: ", data.status);
 
         // Add unread class and play audio for unread messages
@@ -2062,9 +2066,12 @@ console.log("data.status: ", data.status);
             }
             console.log("audio????????/: ", audioAlert);
 
+            updateMessageRead(docID);
+
         }
 
         console.log("audioAlert: ", audioAlert);
+
 
                 // Add media content if present
                 if (data.contentType !== 'text') {
