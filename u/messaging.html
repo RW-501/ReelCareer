@@ -1306,8 +1306,8 @@ if (type === "message") {
         conversationTitle.setAttribute("data-conversation-id",`${userDataSaved.userID}_${data.senderID}`);
 
 conversationTitle.innerHTML = `
-<a href="${data.recipientProfileURL}" style="text-decoration: none; color: inherit;">
-    <img src="${data.recipientProfilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_sm.png'}" alt="Avatar" class="avatar lazy-image">
+<a href="${data.senderProfileURL}" style="text-decoration: none; color: inherit;">
+    <img src="${data.senderProfilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_sm.png'}" alt="Avatar" class="avatar lazy-image">
 </a>
 <span>${data.senderName || 'Unknown Sender'}</span>
 
