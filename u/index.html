@@ -1676,12 +1676,16 @@ const membershipExpiryDate = userData.membershipExpiry;
 
 
  
+  document.getElementById('linkedinSET-name').value = userData.websites.name || "";
+  document.getElementById('otherSET-name').value = userData.websites.name || "";
+  document.getElementById('githubSET-name').value = userData.websites.name || "";
+  document.getElementById('portfolioSET-name').value = userData.websites.name || "";
 
   // Populate the Social Profiles tab
-  document.getElementById('linkedinSET-profile').value = userData.linkedin || "";
-  document.getElementById('otherSET-profile').value = userData.other || "";
-  document.getElementById('githubSET-profile').value = userData.github || "";
-  document.getElementById('portfolioSET-profile').value = userData.portfolio || "";
+  document.getElementById('linkedinSET-profile').value = userData.websites.url || "";
+  document.getElementById('otherSET-profile').value = userData.websites.url || "";
+  document.getElementById('githubSET-profile').value = userData.websites.url || "";
+  document.getElementById('portfolioSET-profile').value = userData.websites.url || "";
 
   // Populate the Membership Details tab
   document.getElementById('membershipTypeSET-profile').value = userData.membershipType || "";
