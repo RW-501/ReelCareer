@@ -303,6 +303,42 @@ video {
 }
 
 }
+/* Modern Toggle Styles */
+.form-switch .form-check-input {
+  width: 2.5rem;
+  height: 1.4rem;
+  background-color: #ddd;
+  border-radius: 1rem;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-switch .form-check-input:checked {
+  background-color: #4caf50; /* Modern green toggle */
+  box-shadow: 0 0 8px rgba(76, 175, 80, 0.6);
+}
+
+.form-switch .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem rgba(76, 175, 80, 0.25);
+}
+
+.form-switch .form-check-input::before {
+  content: "";
+  position: absolute;
+  width: 1.2rem;
+  height: 1.2rem;
+  background: #fff;
+  border-radius: 50%;
+  top: 50%;
+  left: 2px;
+  transform: translateY(-50%);
+  transition: left 0.3s ease;
+}
+
+.form-switch .form-check-input:checked::before {
+  left: calc(100% - 1.3rem);
+}
 
 
 .showIt {
@@ -457,66 +493,47 @@ video {
                     </li>
                   </ul>
                 
-                  <div class="tab-content">
-                    <div class="tab-pane" id="settings-profile" data-bs-name="Settings" role="tabpanel" aria-labelledby="profile-settings-tab">
-                      <p>Update your Settings here.</p>
-                
-                      <!-- Settings Tab -->
-                      <form id="settingsForm-profile">
-                        <div class="mb-3">
-                          <!-- Public Profile -->
-                          <div class="form-check mb-3">
-                            <input type="checkbox" class="form-check-input" id="publicProfileSET-profile">
-                            <label class="form-check-label" for="publicProfileSET-profile">Public Profile</label>
-                          </div>
-                
-                          <!-- Site Settings -->
-                          <div class="mb-3">
-                            <label class="form-label"><strong>Site Settings</strong></label>
-                            <div class="form-check">
-                              <input type="checkbox" class="form-check-input" id="darkModeSET">
-                              <label class="form-check-label" for="darkModeSET">Dark Mode</label>
-                            </div>
-                          </div>
-                
-                          <!-- Messages Settings -->
-                          <div class="mb-3">
-                            <label class="form-label"><strong>Messages Settings</strong></label>
-                            <div class="form-check">
-                              <input type="checkbox" class="form-check-input" id="audioAlertSET">
-                              <label class="form-check-label" for="audioAlertSET">Message Audio Alert</label>
-                            </div>
-                            <div class="form-check">
-                              <input type="checkbox" class="form-check-input" id="showReadSET">
-                              <label class="form-check-label" for="showReadSET">Show "Read" in Receiver Messages</label>
-                            </div>
-                          </div>
-                
-                          <!-- Chat Bot Settings -->
-                          <div class="mb-3">
-                            <label class="form-label"><strong>Chat Bot Settings</strong></label>
-                            <div class="form-check">
-                              <input type="checkbox" class="form-check-input" id="textToVoiceSET">
-                              <label class="form-check-label" for="textToVoiceSET">Text To Voice On</label>
-                            </div>
-                            <div class="form-check">
-                              <input type="checkbox" class="form-check-input" id="voiceToTextSET">
-                              <label class="form-check-label" for="voiceToTextSET">Voice To Text On</label>
-                            </div>
-                          </div>
-                
-                          <!-- Tags Input -->
-                          <div class="mb-3">
-                            <label for="tagsSET-profile">Tags <small class="text-muted">(Add a tag and press Enter)</small></label>
-                            <div id="tagsContainertagsSET-profile">
-                              <input type="text" class="form-control" id="tagsSET-profile" placeholder="(e.g., JavaScript, Management)">
-                            </div>
-                          </div>
-                        </div>
-                      </form>
-                
-                    </div>
-                
+                 <!-- Public Profile -->
+<div class="form-check form-switch mb-3">
+  <input class="form-check-input" type="checkbox" id="publicProfileSET-profile">
+  <label class="form-check-label" for="publicProfileSET-profile">Public Profile</label>
+</div>
+
+<!-- Site Settings -->
+<div class="mb-3">
+  <label class="form-label"><strong>Site Settings</strong></label>
+  <div class="form-check form-switch">
+    <input class="form-check-input" type="checkbox" id="darkModeSET">
+    <label class="form-check-label" for="darkModeSET">Dark Mode</label>
+  </div>
+</div>
+
+<!-- Messages Settings -->
+<div class="mb-3">
+  <label class="form-label"><strong>Messages Settings</strong></label>
+  <div class="form-check form-switch">
+    <input class="form-check-input" type="checkbox" id="audioAlertSET">
+    <label class="form-check-label" for="audioAlertSET">Message Audio Alert</label>
+  </div>
+  <div class="form-check form-switch">
+    <input class="form-check-input" type="checkbox" id="showReadSET">
+    <label class="form-check-label" for="showReadSET">Show "Read" in Receiver Messages</label>
+  </div>
+</div>
+
+<!-- Chat Bot Settings -->
+<div class="mb-3">
+  <label class="form-label"><strong>Chat Bot Settings</strong></label>
+  <div class="form-check form-switch">
+    <input class="form-check-input" type="checkbox" id="textToVoiceSET">
+    <label class="form-check-label" for="textToVoiceSET">Text To Voice On</label>
+  </div>
+  <div class="form-check form-switch">
+    <input class="form-check-input" type="checkbox" id="voiceToTextSET">
+    <label class="form-check-label" for="voiceToTextSET">Voice To Text On</label>
+  </div>
+</div>
+
                     <div class="tab-pane active showIt" id="personal-profile" data-bs-name="Personal Information" role="tabpanel" aria-labelledby="profile-personal-tab">
                       <p>Update your personal details here.</p>
                       <!-- Personal Tab -->
