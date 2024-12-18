@@ -1579,15 +1579,17 @@ profileData.tags.forEach(tag => {
         async function loadUserVideoResumes(userData) {
 
             const videoResumeList = document.getElementById('video-resume-list');
-
             if (!userData.videoResumeData) {
-                videoResumeList.innerHTML = '<li>No video resumes found.</li>';
-                return;
-            }
+  videoResumeList.innerHTML = '<li>No video resumes found.</li>';
+  return;
+}
 
-            console.log("userData.videoResumeData: ", userData.videoResumeData);
-// Loop and generate video cards
-userData.videoResumeData.forEach(videoData => {
+console.log("userData.videoResumeData: ", userData.videoResumeData);
+
+// If it's an object, loop over its values
+const videoResumeArray = Object.values(userData.videoResumeData);
+
+videoResumeArray.forEach(videoData => {
   if (videoData.status === 'posted') {
     const card = document.createElement('div');
     card.classList.add('col-md-4', 'mb-4', "profileVideoCard");
@@ -1614,6 +1616,8 @@ userData.videoResumeData.forEach(videoData => {
     document.getElementById('videoResumeList').appendChild(card);
   }
 });
+
+
 
 
 
