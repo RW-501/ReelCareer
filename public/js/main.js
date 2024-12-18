@@ -3208,8 +3208,10 @@ async function handleUserInput(userMessage) {
     // If an ID is returned, display the helpful questionnaire
     if (result.id) {
       console.log("Question ID:", result.id);
-      addHelpfulButtons(result.id);
-    }
+      setTimeout(() => {
+        addHelpfulButtons(result.id);
+      }, 500); // 0.5 second delay
+          }
   } else {
     await displayMessage(
       "bot",
@@ -3466,7 +3468,7 @@ let messageWithLinks = '';
     } else {
       setTimeout(() => {
         messageDiv.innerHTML = senderLabel + messageWithLinks;
-      }, 200);
+      }, 500);
 
       resolve(); // Immediately resolve for user messages
     }
@@ -3474,7 +3476,7 @@ let messageWithLinks = '';
 
     setTimeout(() => {
       messageArea.appendChild(messageDiv);
-    }, 200);
+    }, 300);
     smoothScrollToBottom();
 
   });

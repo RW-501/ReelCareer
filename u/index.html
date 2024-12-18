@@ -1835,12 +1835,14 @@ async function loadUserVideoResumes(userData) {
         <div class="controls-container controls-bottom" id="controls-bottom-${videoData.reelID}">
           <div class="actions">
             <button class="action-btn like-btn" onclick="handleLike('${videoData.reelID}', this)">
-              <i class="fa fa-thumbs-up"></i> ${videoData.likes || 0}
+              <i class="fa fa-thumbs-up"></i>
             </button>
             <div class="realCareerVidLogo action-btn">ReelCareer</div>
           </div>
         </div>
       </div>
+
+      <a class="btn btn-primary btn-block" href="https://reelcareer.co/reels/?r=${videoData.reelID}">View More</a>
     `;
 
     // Append the card to the video resume list
@@ -1903,9 +1905,8 @@ async function handleLike(reelID, likeButton) {
     });
 
     // Update UI instantly
-    let likesCount = parseInt(likeButton.textContent) || 0;
-    likesCount++;
-    likeButton.innerHTML = `<i class="fa fa-thumbs-up"></i> ${likesCount}`;
+   
+    likeButton.innerHTML = `<i class="fa fa-thumbs-up"></i>`;
   } catch (error) {
     console.error("Error updating like count: ", error);
   }
@@ -2021,15 +2022,17 @@ document.getElementById('share-profile-btn').addEventListener('click', async () 
         showToast('Failed to copy profile link.');
     }
 });
-
 document.getElementById('settings-profile-btn').addEventListener('click', async () => {
-  const container = document.getElementById(`profileSettingsMain`);
-  container.classList.toggle("hidden");
-  const profileCards = document.getElementById(`profileCards`);
-  profileCards.classList.toggle("hidden");
+  const container = document.getElementById('profileSettingsMain');
+  const profileCards = document.getElementById('profileCards');
 
-  
-        });
+  // Add a 1-second delay before toggling visibility
+  setTimeout(() => {
+    container.classList.toggle("hidden");
+    profileCards.classList.toggle("hidden");
+  }, 1000); // 1 second delay
+});
+
 
         document.getElementById('view-messages-btn').addEventListener('click', async () => {
           window.location.href = 'https://reelcareer.co/u/messaging';
