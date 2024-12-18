@@ -1875,12 +1875,12 @@ main .jobCard:hover {
   padding: 10px;
   border-radius: 8px;
   border: 1px solid #ddd;
-  display: flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
-  align-content: space-around;
-  justify-content: space-evenly;
+  display: grid;
+  align-content: space-evenly;
+  justify-content: start;
   align-items: stretch;
+  justify-items: stretch;
+  gap: .5rem;
 }
 #conversationTitle img {
   border: #f9f9f9 solid;
