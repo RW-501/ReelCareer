@@ -825,8 +825,8 @@ const querySnapshot = query(connectionssRef, where('participants', 'array-contai
 function appendConnection(connection, type) {
 
 
+    console.log(`contact?  ${type} `);
 
-    console.log(`appendConnection  ${type} .  ${connection}`);
 
     let connectionId = '';
 
@@ -840,6 +840,7 @@ if(connection.from == userId){
 
 }
     }else{
+
 if(connection.recipientID == userId){
     connectionId = connection.senderID ; // Use a unique identifier (from sender or receiver ID)
 
@@ -882,6 +883,8 @@ const openEvent = new CustomEvent("click", { detail: "open" });
 
 
     if (type === "message") {
+
+
         if (connection.senderID === userDataSaved.userID) {
             const connectionInfo = `
         <div>
@@ -1951,7 +1954,7 @@ onSnapshot(messagesQuery, (snapshot) => {
 
              //   console.log(`appendConnectionSend  ${data} .  `);
 
-    appendConnection(data, 'message'); // Call your function to append connection
+    appendConnection(data, 'contact'); // Call your function to append connection
 });
 
             if (data.status === "pending") {
