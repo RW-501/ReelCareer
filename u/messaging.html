@@ -2031,7 +2031,7 @@ function loadMessages(participants, recipientID, senderID) {
                 const messageDiv = document.createElement('div');
                 messageDiv.className = `message ${data.senderID === auth.currentUser.uid ? 'sent' : 'received'}`;
                 messageDiv.textContent = data.content;
-                processTextNode(messageDiv);
+                convertTextToLinks(messageDiv);
 
 
                 // Add media content if present
@@ -2119,23 +2119,23 @@ async function convertTextToLinks(div) {
     const urlRegex = /(https?:\/\/[^\s]+|www\.[^\s]+)/g; // Regex to match links
 
     // Helper function to fetch metadata for a URL
-    async function fetchMetadata(url) {
-        try {
-            // Use a third-party API like LinkPreview API, or your own server endpoint
-            const response = await fetch(`https://api.linkpreview.net/?key=YOUR_API_KEY&q=${encodeURIComponent(url)}`);
-            const data = await response.json();
+    async function fetchMetadataFromProxy(url) {
+    try {
+        const response = await fetch(`/fetch-metadata?url=${encodeURIComponent(url)}`);
+        const metadata = await response.json();
 
-            return {
-                title: data.title || url,
-                description: data.description || "",
-                image: data.image || "",
-                url: data.url || url,
-            };
-        } catch (error) {
-            console.error("Error fetching metadata:", error);
-            return { title: url, description: "", image: "", url };
-        }
+        return {
+            title: metadata.title || url,
+            description: metadata.description || "",
+            image: metadata.image || "",
+            url: metadata.url || url,
+        };
+    } catch (error) {
+        console.error("Error fetching metadata:", error);
+        return { title: url, description: "", image: "", url };
     }
+}
+
 
     // Process each text node and replace URLs
     async function processTextNode(node) {
@@ -2147,7 +2147,7 @@ async function convertTextToLinks(div) {
         for (let part of parts) {
             if (urlRegex.test(part)) {
                 const url = part.startsWith("http") ? part : `http://${part}`;
-                const metadata = await fetchMetadata(url);
+                const metadata = await fetchMetadataFromProxy(url);
 
                 // Create a container for the preview
                 const previewDiv = document.createElement("div");
@@ -2188,6 +2188,37 @@ async function convertTextToLinks(div) {
     await traverseNodes(div);
 }
 
+
+
+
+
+// Select the editableDiv
+const editableDiv = document.getElementById("editableDiv");
+
+// Function to observe changes and run convertTextToLinks
+function observeEditableDiv() {
+    // Create a MutationObserver instance
+    const observer = new MutationObserver((mutationsList) => {
+        for (const mutation of mutationsList) {
+            if (mutation.type === "childList" || mutation.type === "characterData") {
+                convertTextToLinks(editableDiv);
+            }
+        }
+    });
+
+    // Configure the observer to watch for changes
+    const observerConfig = {
+        childList: true,      // Observe changes to child nodes
+        subtree: true,        // Observe within all child nodes
+        characterData: true,  // Observe text content changes
+    };
+
+    // Start observing the editableDiv
+    observer.observe(editableDiv, observerConfig);
+}
+
+// Call the observer setup function
+observeEditableDiv();
 
 function timeAgo(timestamp) {
     const now = new Date();
