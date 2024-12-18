@@ -168,10 +168,10 @@
                 </div>
 
           <button class="btn btn-primary btn-block" id="send-message-btn">Send Message</button>
-          
+          <button class="btn btn-primary btn-block"  id="settings-profile-btn">Setting</button>
+
           <button class="btn btn-primary btn-block"  id="share-profile-btn">Share Profile</button>
           
-          <button class="btn btn-primary btn-block"  id="settings-profile-btn">Setting</button>
           <button class="btn btn-primary btn-block" id="connect-btn">Connect</button>
           <button class="btn btn-primary btn-block" id="view-profile-btn">View Profile</button>
         
@@ -1597,6 +1597,10 @@ document.getElementById('share-profile-btn').addEventListener('click', async () 
 document.getElementById('settings-profile-btn').addEventListener('click', async () => {
   const container = document.getElementById(`profileSettingsMain`);
   container.classList.toggle("hidden");
+  const profileCards = document.getElementById(`profileCards`);
+  profileCards.classList.toggle("hidden");
+
+  
         });
 
         document.getElementById('view-messages-btn').addEventListener('click', async () => {
