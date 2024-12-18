@@ -2155,7 +2155,7 @@ async function convertTextToLinks(contentDiv) {
         const metadata = {
             title: doc.querySelector('title') ? doc.querySelector('title').textContent : url,
             description: doc.querySelector('meta[name="description"]') ? doc.querySelector('meta[name="description"]').getAttribute('content') : '',
-            image: doc.querySelector('meta[property="og:image"]') ? doc.querySelector('meta[property="og:image"]').getAttribute('content') : '',
+            image: getImage(doc),
             url: url,
         };
         console.log("metadata: ", metadata);
@@ -2229,6 +2229,33 @@ editableDiv.addEventListener("paste", debounce(initializeLinkConversion, 500));
 editableDiv.addEventListener("focusout", initializeLinkConversion);
 
 
+// Function to fetch image using different strategies
+function getImage(doc) {
+    // Try fetching the image from various sources
+
+    // 1. Open Graph (og:image)
+    let image = doc.querySelector('meta[property="og:image"]') ? doc.querySelector('meta[property="og:image"]').getAttribute('content') : '';
+
+    // 2. Twitter Card (twitter:image)
+    if (!image) {
+        image = doc.querySelector('meta[name="twitter:image"]') ? doc.querySelector('meta[name="twitter:image"]').getAttribute('content') : '';
+    }
+
+    // 3. Favicon (link[rel="icon"])
+    if (!image) {
+        image = doc.querySelector('link[rel="icon"]') ? doc.querySelector('link[rel="icon"]').getAttribute('href') : '';
+    }
+
+    // 4. First image found in the page (img tag)
+    if (!image) {
+        const firstImage = doc.querySelector('img') ? doc.querySelector('img').getAttribute('src') : '';
+        if (firstImage) {
+            image = firstImage.startsWith('http') ? firstImage : new URL(firstImage, doc.baseURI).href;
+        }
+    }
+
+    return image || '';  // Return the first valid image found, or an empty string if none is found
+}
 
 function timeAgo(timestamp) {
     const now = new Date();
