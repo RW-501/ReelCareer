@@ -1668,11 +1668,11 @@ const membershipExpiryDate = userData.membershipExpiry;
   document.getElementById('positionSET-profile').value = userData.position || "";
   document.getElementById('publicProfileSET-profile').checked = userData.publicProfile || "";
 
-  document.getElementById('audioAlertSET').checked = userData.audioAlertSET || "";
-  document.getElementById('showReadSET').checked = userData.showReadSET || "";
-  document.getElementById('textToVoiceSET').checked = userData.textToVoiceSET || "";
-  document.getElementById('voiceToTextSET').checked = userData.voiceToTextSET || "";
-  document.getElementById('darkModeSET').checked = userData.darkModeSET || "";
+  document.getElementById('audioAlertSET').checked = userData.audioAlert || "";
+  document.getElementById('showReadSET').checked = userData.showRead || "";
+  document.getElementById('textToVoiceSET').checked = userData.textToVoice || "";
+  document.getElementById('voiceToTextSET').checked = userData.voiceToText || "";
+  document.getElementById('darkModeSET').checked = userData.darkMode || "";
 
 
  
@@ -1764,7 +1764,7 @@ profileData.tags.forEach(tag => {
     jobsList.innerHTML = '<li>No open jobs found.</li>';
     return;
   }
-  console.log("userData.jobPosts: ", userData.jobPosts);
+  //console.log("userData.jobPosts: ", userData.jobPosts);
   // Loop through the job posts array and create list items
   userData.jobPosts.forEach(jobData => {
   
