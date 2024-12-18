@@ -842,15 +842,19 @@ document.getElementById("connectionsList").innerHTML = '';
 
 const existingConnection = document.querySelector(`[data-connection-id="${connectionId}"]`);
 const existingMessager = document.querySelector(`[data-message-id="${connectionId}"]`);
+const openEvent = new CustomEvent("click", { detail: "open" });
 
     // Check if the connection is already in the list
     if (existingConnection) {
         console.log(`Connection with ID ${connectionId} already exists.`);
+        openSlidePanelBtn.dispatchEvent(openEvent);
+
         return; // Exit if the connection already exists
     }
 
     if (existingMessager) {
         console.log(`Messager with ID ${connectionId} already exists.`);
+          openSlidePanelBtn.dispatchEvent(openEvent);
         return; // Exit if the connection already exists
     }
 
@@ -996,7 +1000,6 @@ const existingMessager = document.querySelector(`[data-message-id="${connectionI
     contactInfo.appendChild(div);
 
 
-    const openEvent = new CustomEvent("click", { detail: "open" });
     openSlidePanelBtn.dispatchEvent(openEvent);
 
 }
