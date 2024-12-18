@@ -1348,13 +1348,13 @@ conversationTitle.innerHTML = `
 </div>
 <div class="flex">
 <small>
-    ${data.connectedBool === true 
+    ${data.connectedBool == true 
         ? '<i class="fas fa-check-circle" style="color: green;"></i> Connected' 
         : '<i class="fas fa-times-circle" style="color: red;"></i> Not Connected'}
 </small>
 
 </div>
-    ${data.connectedBool === true ? `<p>Connected Since: <small>${data.acceptDate}</small></p>` : ''}
+    ${data.connectedBool == true ? `<p>Connected Since: <small>${data.acceptDate}</small></p>` : ''}
         `;
 
 // Create the select input element
@@ -1428,12 +1428,12 @@ if (data.senderID === userDataSaved.userID) {
 </div>
 <div class="flex">
 <small>
-    ${data.connectedBool === true 
+    ${data.connectedBool == true 
         ? '<i class="fas fa-check-circle" style="color: green;"></i> Connected' 
         : '<i class="fas fa-times-circle" style="color: red;"></i> Not Connected'}
 </small>
     </div>
-    ${data.connectedBool  === true ? `<p>Connected Since: <small>${data.acceptDate}</small></p>` : ''}
+    ${data.connectedBool  == true ? `<p>Connected Since: <small>${data.acceptDate}</small></p>` : ''}
         `;
 
 // Create the select input element
