@@ -109,9 +109,19 @@
 
 
 
+.vidioCard {
+    width: 100%;
+    display: grid;
+    gap: .5rem;
+}
 
-
-
+video {
+  width: 400px;
+    height: 650px;
+    background-color: #000;
+    margin: auto;
+    position: relative;
+}
 
 
 
@@ -119,7 +129,57 @@
 
 }
 
+.job-list-item {
 
+  /* General styles for job listing */
+.job-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.company-name {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 4px;
+}
+
+.location {
+  font-size: 0.875rem;
+  color: #888;
+  margin-bottom: 4px;
+}
+
+.salary {
+  font-size: 1rem;
+  color: #333;
+  font-weight: bold;
+}
+
+/* Optional: Add some spacing between elements */
+.job-listing div {
+  margin-bottom: 8px;
+}
+
+/* Style for links */
+.text-decoration-none {
+  text-decoration: none;
+}
+
+.text-dark {
+  color: #343a40;
+}
+
+.text-muted {
+  color: #6c757d;
+}
+
+.fas.fa-map-marker-alt {
+  margin-right: 5px;
+}
+
+}
 
 
 
@@ -491,7 +551,7 @@
       Open Jobs
     </button>
   </li>
-  <li class="nav-item" role="presentation">
+  <li class="nav-item" role="presentation" hidden>
     <button class="nav-link" id="companies-tab" data-bs-toggle="tab" data-bs-target="#companies-section" type="button" role="tab" aria-controls="companies-section" aria-selected="false">
       Companies
     </button>
@@ -1591,13 +1651,14 @@ profileData.tags.forEach(tag => {
     
     // Create the HTML structure for the job data
     listItem.innerHTML = `
-      <a href="https://reelcareer.co/jobs/job-details?id=${jobData.jobID}" title="${jobData.jobTitle}" class="text-decoration-none text-dark">
-        <h5 class="job-title">${jobData.jobTitle}</h5>
-      </a>
-      <p class="company-name">${jobData.companyName || 'No Company Name'}</p>
-      <p class="location text-muted"><i class="fas fa-map-marker-alt"></i> ${jobData.location || 'Location not specified'}</p>
-      <p class="salary">${jobData.salary || 'Salary not specified'}</p>
-    `;
+  <a href="https://reelcareer.co/jobs/job-details?id=${jobData.jobID}" title="${jobData.jobTitle}" class="text-decoration-none text-dark">
+    <h5 class="job-title">${jobData.jobTitle}</h5>
+  </a>
+  <div class="company-name">${jobData.companyName || 'No Company Name'}</div>
+  <div class="location text-muted"><i class="fas fa-map-marker-alt"></i> ${jobData.location || 'Location not specified'}</div>
+  <div class="salary">${jobData.salary || 'Salary not specified'}</div>
+`;
+
 
     // Append the list item to the jobs list
     jobsList.appendChild(listItem);
@@ -1635,8 +1696,8 @@ if (videoData.status === 'posted') {
       ></video>
       <div class="videoSeeMoreBtn">
         <a 
-          href="https://reelcareer.co/reels/${videoData.reelID}" 
-          class="btn btn-primary"
+          href="https://reelcareer.co/reels/?r=${videoData.reelID}" 
+          class="btn btn-primary mb-2"
           target="_blank"
         >
           See Post
