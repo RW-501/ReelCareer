@@ -417,7 +417,7 @@ video {
                       <div class="card-body text-center">
                           <img  id="profilePic" src="/images/sq_logo_n_BG_tie_reel.png" alt="User Profile Picture" class="img-fluid rounded-circle mb-3" style="width: 150px;">
                           <h3 id="user-name">User Name</h3>
-                          <small id="positionSET-profile">Web Developer</small>
+                          <small id="user-position">Web Developer</small>
                           <p id="user-bio">This is a short bio about the user...</p>
                           <span id="membership-badge" class="badge badge-success">Premium Member</span>
                           <span id="verified-badge" class="badge badge-info">Verified</span>
@@ -683,22 +683,22 @@ video {
 <!-- Tabs Navigation -->
 <ul class="nav nav-tabs" id="profileTabs" role="tablist">
   <li class="nav-item" role="presentation">
-    <button class="nav-link active" id="video-tab" data-bs-toggle="tab" data-bs-target="#video-section" type="button" role="tab" aria-controls="video-section" aria-selected="true">
+    <button class="profile-tabs active" id="video-tab" data-bs-toggle="tab" data-bs-target="#video-section" type="button" role="tab" aria-controls="video-section" aria-selected="true">
       Video Resumes
     </button>
   </li>
   <li class="nav-item" role="presentation">
-    <button class="nav-link" id="digital-tab" data-bs-toggle="tab" data-bs-target="#digital-section" type="button" role="tab" aria-controls="digital-section" aria-selected="false">
+    <button class="profile-tabs" id="digital-tab" data-bs-toggle="tab" data-bs-target="#digital-section" type="button" role="tab" aria-controls="digital-section" aria-selected="false">
       Digital Resume
     </button>
   </li>
   <li class="nav-item" role="presentation">
-    <button class="nav-link" id="jobs-tab" data-bs-toggle="tab" data-bs-target="#jobs-section" type="button" role="tab" aria-controls="jobs-section" aria-selected="false">
+    <button class="profile-tabs" id="jobs-tab" data-bs-toggle="tab" data-bs-target="#jobs-section" type="button" role="tab" aria-controls="jobs-section" aria-selected="false">
       Open Jobs
     </button>
   </li>
   <li class="nav-item" role="presentation" hidden>
-    <button class="nav-link" id="companies-tab" data-bs-toggle="tab" data-bs-target="#companies-section" type="button" role="tab" aria-controls="companies-section" aria-selected="false">
+    <button class="profile-tabs" id="companies-tab" data-bs-toggle="tab" data-bs-target="#companies-section" type="button" role="tab" aria-controls="companies-section" aria-selected="false">
       Companies
     </button>
   </li>
@@ -1725,6 +1725,7 @@ const membershipExpiryDate = userData.membershipExpiry;
 
             document.getElementById('profilePic').src = profileData.profilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_sm.png';
             document.getElementById('user-name').innerText = profileData.displayName || 'User Name';
+            document.getElementById('user-position').innerText = profileData.position || 'Web Developer';
             document.getElementById('user-bio').innerText = profileData.bio || 'This is a short bio about the user...';
             document.getElementById('location-text').innerText = profileData.location || ` ${userlocationData.city},  ${userlocationData.state}`;
 
@@ -2565,7 +2566,38 @@ document.addEventListener('DOMContentLoaded', trackAllFormsWithExitWarning);
                       });
                     });
                     
+                 
+                    document.addEventListener("DOMContentLoaded", () => {
+                      const tabs = document.querySelectorAll(".profile-tabs");
+                      const tabContents = document.querySelectorAll(".tab-pane");
+                    
+                      tabs.forEach((tab) => {
+                        tab.addEventListener("click", (e) => {
+                          // Remove active class from all tabs
+                          tabs.forEach((t) => t.classList.remove("active"));
+                    
+                          // Hide all tab contents
+                          tabContents.forEach((content) => content.classList.remove("active", "showIt"));
+                    
+                          // Add active class to the clicked tab
+                          e.target.classList.add("active");
+                    
+                          // Show the corresponding tab content
+                          const target = document.querySelector(e.target.dataset.bsTarget);
+                          if (target) {
+
+
+
+                            const settingsHeaderText = document.getElementById("settings-header-text");
+                            settingsHeaderText.innerText = target.getAttribute('data-bs-name');
   
+
+
+                            target.classList.add("active", "showIt");
+                          }
+                        });
+                      });
+                    });
 
     </script>
 
