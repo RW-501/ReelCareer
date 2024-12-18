@@ -380,23 +380,39 @@
                       <p>Manage your social media links here.</p>
                       <!-- Social Tab -->
                       <form id="socialForm-profile">
+                        <!-- LinkedIn -->
                         <div class="mb-3">
-                          <label for="linkedinSET-profile" class="form-label">LinkedIn Profile</label>
+                          <label for="linkedinSET-name" class="form-label">Name</label>
+                          <input type="text" class="form-control" id="linkedinSET-name" placeholder="LinkedIn" value="LinkedIn">
+                          <label for="linkedinSET-profile" class="form-label mt-2">URL</label>
                           <input type="url" class="form-control" id="linkedinSET-profile" placeholder="https://www.linkedin.com/in/yourprofile">
                         </div>
+                        
+                        <!-- Portfolio -->
                         <div class="mb-3">
-                          <label for="portfolioSET-profile" class="form-label">Portfolio</label>
+                          <label for="portfolioSET-name" class="form-label">Name</label>
+                          <input type="text" class="form-control" id="portfolioSET-name" placeholder="Portfolio" value="Portfolio">
+                          <label for="portfolioSET-profile" class="form-label mt-2">URL</label>
                           <input type="url" class="form-control" id="portfolioSET-profile" placeholder="https://portfolio.com/yourprofile">
                         </div>
+                        
+                        <!-- GitHub -->
                         <div class="mb-3">
-                          <label for="githubSET-profile" class="form-label">GitHub Profile</label>
+                          <label for="githubSET-name" class="form-label">Name</label>
+                          <input type="text" class="form-control" id="githubSET-name" placeholder="GitHub" value="GitHub">
+                          <label for="githubSET-profile" class="form-label mt-2">URL</label>
                           <input type="url" class="form-control" id="githubSET-profile" placeholder="https://github.com/yourprofile">
                         </div>
+                        
+                        <!-- Other Website -->
                         <div class="mb-3">
-                          <label for="otherSET-profile" class="form-label">Other Website</label>
+                          <label for="otherSET-name" class="form-label">Name</label>
+                          <input type="text" class="form-control" id="otherSET-name" placeholder="Other Website" value="Other">
+                          <label for="otherSET-profile" class="form-label mt-2">URL</label>
                           <input type="url" class="form-control" id="otherSET-profile" placeholder="https://otherwebsite.com/yourprofile">
                         </div>
                       </form>
+                      
                     </div>
                 
                     <div class="tab-pane fade" id="membership-profile" data-bs-name="Membership Details" role="tabpanel" aria-labelledby="profile-membership-tab">
@@ -1209,15 +1225,31 @@ document.getElementById('saveProfileBtn-profile').addEventListener('click', asyn
 
   
     // Gather form data
-    const websitesSetup = [
-        { name: "LinkedIn", url: document.getElementById('linkedinSET-profile').value.trim() || '' },
-        { name: "Other", url: document.getElementById('otherSET-profile').value.trim() || '' },
-        { name: "GitHub", url: document.getElementById('githubSET-profile').value.trim() || '' },
-        { name: "Portfolio", url: document.getElementById('portfolioSET-profile').value.trim() || '' }
-    ];
+// Array to gather the name and URL inputs
+const websitesSetup = [
+  { 
+    name: document.getElementById('linkedinSET-name').value.trim() || "LinkedIn", 
+    url: document.getElementById('linkedinSET-profile').value.trim() || '' 
+  },
+  { 
+    name: document.getElementById('portfolioSET-name').value.trim() || "Portfolio", 
+    url: document.getElementById('portfolioSET-profile').value.trim() || '' 
+  },
+  { 
+    name: document.getElementById('githubSET-name').value.trim() || "GitHub", 
+    url: document.getElementById('githubSET-profile').value.trim() || '' 
+  },
+  { 
+    name: document.getElementById('otherSET-name').value.trim() || "Other", 
+    url: document.getElementById('otherSET-profile').value.trim() || '' 
+  }
+];
 
-    // Filter out empty URLs
-    const websites = websitesSetup.filter(site => site.url !== "");
+// Filter out entries with empty URLs
+const websites = websitesSetup.filter(site => site.url !== "");
+
+// Log results to check
+console.log("Filtered Websites:", websites);
 
     // Ensure tagsList is not empty or null
     const tagsInput = document.getElementById('tagsSET-profile').value.trim();
