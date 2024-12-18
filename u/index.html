@@ -1544,46 +1544,38 @@ profileData.tags.forEach(tag => {
                 videoResumeList.innerHTML = '<li>No video resumes found.</li>';
                 return;
             }
+c
+   
+// Loop and generate video cards
+userData.videoResumeData.forEach(videoData => {
+  if (videoData.status === 'posted') {
+    const card = document.createElement('div');
+    card.classList.add('col-md-4', 'mb-4');
 
-            userData.videoResumeData.forEach(videoData => {
-    if (status === 'posted') {
-        // Create video card container
-        const card = document.createElement('div');
-        card.classList.add('col-md-4', 'mb-4', 'd-flex', 'align-items-stretch');
+    card.innerHTML = `
+      <div class="card h-100 shadow-sm">
+        <video 
+          src="${videoData.videoResumeURL}" 
+          class="card-img-top" 
+          controls
+        ></video>
+        <div class="card-body">
+          <a 
+            href="https://reelcareer.co/reels/${videoData.reelID}" 
+            class="btn btn-primary"
+            target="_blank"
+          >
+            See Post
+          </a>
+        </div>
+      </div>
+    `;
 
-        // Card content
-        card.innerHTML = `
-          <div class="card h-100 shadow-sm">
-            <div class="video-container position-relative">
-              <video 
-                src="${videoData.videoResumeURL || ''}" 
-                class="card-img-top" 
-                alt="Video Resume"
-                controls
-                aria-label="Video resume for ${videoData.reelID}"
-              ></video>
-            </div>
-            <div class="card-body d-flex flex-column">
-              <h5 class="card-title">Video Resume</h5>
-              <p class="card-text text-muted">
-                View and share this video resume.
-              </p>
-              <a 
-                href="https://reelcareer.co/reels/${videoData.reelID || ''}" 
-                target="_blank"
-                class="btn btn-primary mt-auto" 
-                aria-label="See post for reel ${videoData.reelID}"
-              >
-                See Post
-              </a>
-            </div>
-          </div>
-        `;
-
-        // Append card to the list
-        document.getElementById('videoResumeList').appendChild(card);
-    }
+    document.getElementById('videoResumeList').appendChild(card);
+  }
 });
+
+
 
 /*
             if (!userData.resumes) {
