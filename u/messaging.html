@@ -2189,37 +2189,29 @@ async function convertTextToLinks(contentDiv) {
     contentDiv.appendChild(fragment);
 }
 
-
-
-
-
 // Select the editableDiv
 const editableDiv = document.getElementById("editableDiv");
 
-// Function to observe changes and run convertTextToLinks
-function observeEditableDiv() {
-    // Create a MutationObserver instance
-    const observer = new MutationObserver((mutationsList) => {
-        for (const mutation of mutationsList) {
-            if (mutation.type === "childList" || mutation.type === "characterData") {
-                convertTextToLinks(editableDiv);
-            }
-        }
-    });
-
-    // Configure the observer to watch for changes
-    const observerConfig = {
-        childList: true,      // Observe changes to child nodes
-        subtree: true,        // Observe within all child nodes
-        characterData: true,  // Observe text content changes
+// Debounce function to optimize event handling
+function debounce(func, delay) {
+    let timer;
+    return function (...args) {
+        clearTimeout(timer);
+        timer = setTimeout(() => func.apply(this, args), delay);
     };
-
-    // Start observing the editableDiv
-    observer.observe(editableDiv, observerConfig);
 }
 
-// Call the observer setup function
-observeEditableDiv();
+// Initialize the convertTextToLinks function
+async function initializeLinkConversion() {
+    await convertTextToLinks(editableDiv);
+}
+
+// Add event listeners for keyup, paste, and focusout
+//editableDiv.addEventListener("keyup", debounce(initializeLinkConversion, 500)); // Delayed to avoid unnecessary calls
+editableDiv.addEventListener("paste", debounce(initializeLinkConversion, 500));
+editableDiv.addEventListener("focusout", initializeLinkConversion);
+
+
 
 function timeAgo(timestamp) {
     const now = new Date();
