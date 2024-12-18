@@ -1046,429 +1046,77 @@ function viewProfile(userId){
 }
 
 window.viewProfile = viewProfile;
-
-function composeMessages(conversationID, data, type, conversationRecipientID ) {
-
-    const messageBox = document.getElementById('messageBox');
-const conversationTitle = document.getElementById('conversationTitle');
-
-/*
-    console.log(`composeMessages ???????????????????????????????????????????????????????????????????
-    ????????????????????????????????????????????????????????????????????????  `);
-
-    console.log("type: ", type);
-    console.log("userDataSaved.userID: ", userDataSaved.userID);
-    console.log("userDataSaved.displayName: ", userDataSaved.displayName);
-    */
-    if(type === "contact"){
-        /*
-    console.log("data: ", data);
-    console.log("data.toName: ", data.toName);
-    console.log("data.fromName: ", data.fromName);
-*/
-    if(userDataSaved.userID == data.from ){
-
-//console.log("YOU ARE THE SENDER CONTACT  ????????????????????????  ");
-conversationTitle.setAttribute("data-conversation-recipientID",data.to);
-conversationTitle.setAttribute("data-conversation-name",data.toName);
-conversationTitle.setAttribute("data-conversation-picture",data.toProfilePicture);
-
-} else if(userDataSaved.userID == data.to ){
-//console.log("YOU ARE THE RECIPIRNT CONTACT   ????????????????????????  ");
-conversationTitle.setAttribute("data-conversation-recipientID",data.from);
-conversationTitle.setAttribute("data-conversation-name",data.fromName);
-conversationTitle.setAttribute("data-conversation-picture",data.fromProfilePicture);
-
-}
-   // console.log("composeMessages MESSAGE   ????????????????????????  ");
-   // console.log("CONTACT DATA: ", data);
-    }
-
-
-    if(type === "message"){
-
-   // console.log("data.recipientName: ", data.recipientName);
-   // console.log("data.senderName: ", data.senderName);
-    if(userDataSaved.userID == data.recipientID ){
-
-//console.log("YOU ARE THE SENDER MESSAGE  ????????????????????????  ");
-conversationTitle.setAttribute("data-conversation-recipientID",data.senderID);
-conversationTitle.setAttribute("data-conversation-name",data.senderName);
-conversationTitle.setAttribute("data-conversation-picture",data.senderProfilePicture);
-
-} else if(userDataSaved.userID == data.senderID ){
-console.log("YOU ARE THE RECIPIRNT MESSAGE   ????????????????????????  ");
-conversationTitle.setAttribute("data-conversation-recipientID",data.recipientID);
-conversationTitle.setAttribute("data-conversation-name",data.recipientName);
-conversationTitle.setAttribute("data-conversation-picture",data.recipientProfilePicture);
-}
-
-  //  console.log("MESSAGE DATA: ", data);
-
-    }
-
-
-    const recipientName = document.getElementById('conversationTitle')?.getAttribute('data-conversation-name');
-    const recipientID = document.getElementById('conversationTitle')?.getAttribute('data-conversation-recipientID');
-   
-  /* 
-    console.log("recipientName: ", recipientName);
-    console.log("recipientID: ", recipientID);
-
-    console.log(`END  composeMessages ???????????????????????? 
-    ???????????????????????????????????///????????????????????????????????????/ `);
-
-
-*
-const selectInput = document.createElement('div');
-selectInput.id = `groupSelect${userDataSaved.userID}`;
-selectInput.classList.add('groupSelect');
-
-groupDiv.appendChild(selectInput);
-*/
-
-if(type === "contact"){
- if (data.to === userDataSaved.userID) {
-    messageSenderID = data.from;
-
-
-    conversationTitle.setAttribute("data-conversation-id",`${userDataSaved.userID}_${data.from}`);
-
-conversationTitle.innerHTML = `
-<a href="https://reelcareer.co/u/?u=${data.from}" style="text-decoration: none; color: inherit;">
-    <img src="${data.fromProfilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_sm.png'}" alt="Avatar" class="avatar lazy-image">
-</a>
-<span>${data.fromName || 'Unknown Sender'}</span>
-
-    <div class="flex">
-        <div>Connection: <small>${data.status}</small></div>
-    </div>
-    ${data.acceptDate ? `<p>Connected Since: <small>${data.acceptDate}</small></p>` : ''}
-`;
-
-
-// Create the select input element
-// Create the select input
-const selectInput = document.createElement('select');
-selectInput.id = `groupSelect${userDataSaved.userID}`;
-selectInput.classList.add('groupSelect');
-
-// Attach an event listener for the onchange event
-selectInput.onchange = function () {
-    const selectedOption = this.options[this.selectedIndex];
-    changeGroup(`${userDataSaved.userID}_${data.from}`, selectedOption.value, "toGroup", `${data.toName}`);
-};
-
-// Example groups (single user)
-const groups = [
-    { groupName: "Co-workers" },
-    { groupName: "Recruiters" },
-    { groupName: "Networking" },
-    { groupName: "Friends" },
-    { groupName: "Blocked", class: "optionBlock" } // Example with a custom class
-];
-
-// Populate the select input with options
-groups.forEach(group => {
-    const option = document.createElement('option');
-    option.value = group.groupName; // The group name will be the value
-    option.textContent = `Group: (${group.groupName})`; // Display the group name
-
-    // Assign a class if provided in the group object
-    if (group.class) {
-        option.classList.add(group.class);
-    }
-
-    selectInput.appendChild(option);
-});
-
-// Set the value of the select element
-const targetValue = data.fromGroup; // Value to set, e.g., "Recruiters"
-if (groups.some(group => group.groupName === targetValue)) {
-    selectInput.value = targetValue; // Programmatically set the value
-} else {
-    console.warn(`Value "${targetValue}" not found in options. Falling back to default.`);
-    selectInput.value = groups[0].groupName; // Fallback to the first option
-}
-
-// Apply the class for the initially selected option
-updateSelectClass(selectInput, selectInput.options[selectInput.selectedIndex]);
-
-
-const groupDiv = document.createElement('div');
-groupDiv.classList.add('connection-group');
-groupDiv.appendChild(selectInput);
-
-// Assuming conversationTitle is defined elsewhere
-conversationTitle.appendChild(groupDiv);
-
-
-
-
-
-
-} else if (data.from === userDataSaved.userID) {
-    messageSenderID = data.to;
-
-    conversationTitle.setAttribute("data-conversation-id",`${userDataSaved.userID}_${data.to}`);
-
-    conversationTitle.innerHTML = `
-<a href="https://reelcareer.co/u/?u=${data.to}" style="text-decoration: none; color: inherit;">
-    <img src="${data.toProfilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_sm.png'}" alt="Avatar" class="avatar lazy-image">
-</a>
-<span>${data.toName || 'Unknown Sender'}</span>
-
-    <div class="flex">
-
-        <div>Connection: <small>${data.status}</small></div>
-    </div>
-    ${data.acceptDate ? `<p>Connected Since: <small>${data.acceptDate}</small></p>` : ''}
-`;
-
-
-
-// Create the select input element
-// Create the select input
-const selectInput = document.createElement('select');
-selectInput.id = `groupSelect${userDataSaved.userID}`;
-selectInput.classList.add('groupSelect');
-
-// Attach an event listener for the onchange event
-selectInput.onchange = function () {
-    const selectedOption = this.options[this.selectedIndex];
-    changeGroup(`${userDataSaved.userID}_${data.to}`, selectedOption.value, "toGroup", `${data.toName}`);
-};
-
-// Example groups (single user)
-const groups = [
-    { groupName: "Co-workers" },
-    { groupName: "Recruiters" },
-    { groupName: "Networking" },
-    { groupName: "Friends" },
-    { groupName: "Blocked", class: "optionBlock" } // Example with a custom class
-];
-
-// Populate the select input with options
-groups.forEach(group => {
-    const option = document.createElement('option');
-    option.value = group.groupName; // The group name will be the value
-    option.textContent = `Group: (${group.groupName})`; // Display the group name
-
-    // Assign a class if provided in the group object
-    if (group.class) {
-        option.classList.add(group.class);
-    }
-
-    selectInput.appendChild(option);
-});
-
-// Set the value of the select element
-const targetValue = data.toGroup; // Value to set, e.g., "Recruiters"
-if (groups.some(group => group.groupName === targetValue)) {
-    selectInput.value = targetValue; // Programmatically set the value
-
-} else {
-    console.warn(`Value "${targetValue}" not found in options. Falling back to default.`);
-    selectInput.value = groups[0].groupName; // Fallback to the first option
-}
-
-// Apply the class for the initially selected option
-updateSelectClass(selectInput, selectInput.options[selectInput.selectedIndex]);
-
-
-const groupDiv = document.createElement('div');
-groupDiv.classList.add('connection-group');
-groupDiv.appendChild(selectInput);
-
-// Assuming conversationTitle is defined elsewhere
-conversationTitle.appendChild(groupDiv);
-
-} 
-
-}
-
-if (type === "message") {
-    // message
-
-/*
-    console.log("data: ", data);
-    console.log("recipientID: ", data.recipientID);
-    console.log("message ");
-    console.log("conversationID: ", conversationID);
-    console.log("data.to: ", data.from);
-    console.log("data.from === userDataSaved.userID: ");
-    console.log("data.to: ", data.toName);
-*/
-//console.log("MESSAGE !!!!!!!!!!!!!!!!!!!!!!1: ");
-
-    if (data.recipientID === userDataSaved.userID) {
-        messageSenderID = data.senderID;
-        conversationTitle.setAttribute("data-conversation-id",`${userDataSaved.userID}_${data.senderID}`);
-
-conversationTitle.innerHTML = `
-<a href="${data.senderProfileURL}" style="text-decoration: none; color: inherit;">
-    <img src="${data.senderProfilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_sm.png'}" alt="Avatar" class="avatar lazy-image">
-</a>
-<span>${data.senderName || 'Unknown Sender'}</span>
-
-<div class="flex">
- <div>Connection: <small>${data.connectedBool}</small></div></div>
-${data.connectedBool ? "<p>Connected Since: <small>${data.acceptDate}</small></p>" : ''}`
-
-
-// Create the select input element
-// Create the select input
-const selectInput = document.createElement('select');
-selectInput.id = `groupSelect${userDataSaved.userID}`;
-selectInput.classList.add('groupSelect');
-
-// Attach an event listener for the onchange event
-selectInput.onchange = function () {
-    const selectedOption = this.options[this.selectedIndex];
-    changeGroup(`${userDataSaved.userID}_${data.recipientID}`, selectedOption.value, "recipientGroup", `${data.recipientName}`);
-};
-
-// Example groups (single user)
-const groups = [
-    { groupName: "Co-workers" },
-    { groupName: "Recruiters" },
-    { groupName: "Networking" },
-    { groupName: "Friends" },
-    { groupName: "Blocked", class: "optionBlock" } // Example with a custom class
-];
-
-// Populate the select input with options
-groups.forEach(group => {
-    const option = document.createElement('option');
-    option.value = group.groupName; // The group name will be the value
-    option.textContent = `Group: (${group.groupName})`; // Display the group name
-
-    // Assign a class if provided in the group object
-    if (group.class) {
-        option.classList.add(group.class);
-    }
-
-    selectInput.appendChild(option);
-});
-
-// Set the value of the select element
-const targetValue = data.fromGroup; // Value to set, e.g., "Recruiters"
-if (groups.some(group => group.groupName === targetValue)) {
-    selectInput.value = targetValue; // Programmatically set the value
-} else {
-    console.warn(`Value "${targetValue}" not found in options. Falling back to default.`);
-    selectInput.value = groups[0].groupName; // Fallback to the first option
-}
-
-// Apply the class for the initially selected option
-updateSelectClass(selectInput, selectInput.options[selectInput.selectedIndex]);
-
-
-const groupDiv = document.createElement('div');
-groupDiv.classList.add('connection-group');
-groupDiv.appendChild(selectInput);
-
-// Assuming conversationTitle is defined elsewhere
-conversationTitle.appendChild(groupDiv);
-
-    }else 
-    if (data.senderID === userDataSaved.userID) {
-        messageSenderID = data.recipientID;
-        conversationTitle.setAttribute("data-conversation-id",`${userDataSaved.userID}_${data.senderID}`);
-
+function composeMessages(conversationID, data, type, conversationRecipientID) {
+    const conversationTitle = document.getElementById('conversationTitle');
+
+    function setConversationAttributes(targetID, targetName, targetPicture, status, acceptDate) {
+        conversationTitle.setAttribute("data-conversation-recipientID", targetID);
+        conversationTitle.setAttribute("data-conversation-name", targetName);
+        conversationTitle.setAttribute("data-conversation-picture", targetPicture);
         conversationTitle.innerHTML = `
-<a href="${data.recipientProfileURL}" style="text-decoration: none; color: inherit;">
-    <img src="${data.recipientProfilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_sm.png'}" alt="Avatar" class="avatar lazy-image">
-</a>
-<span>${data.recipientName || 'Unknown Sender'}</span>
-<div class="flex">
-
-    <div>Connection: <small>${data.connectedBool}</small></div></div>
-${data.connectedBool ? "<p>Connected Since: <small>${data.acceptDate}</small></p>" : ''}`
-
-
-// Create the select input element
-// Create the select input
-const selectInput = document.createElement('select');
-selectInput.id = `groupSelect${userDataSaved.userID}`;
-selectInput.classList.add('groupSelect');
-
-// Attach an event listener for the onchange event
-selectInput.onchange = function () {
-    const selectedOption = this.options[this.selectedIndex];
-    changeGroup(`${userDataSaved.userID}_${data.senderID}`, selectedOption.value, "senderGroup", `${data.senderName}`);
-};
-
-// Example groups (single user)
-const groups = [
-    { groupName: "Co-workers" },
-    { groupName: "Recruiters" },
-    { groupName: "Networking" },
-    { groupName: "Friends" },
-    { groupName: "Blocked", class: "optionBlock" } // Example with a custom class
-];
-
-// Populate the select input with options
-groups.forEach(group => {
-    const option = document.createElement('option');
-    option.value = group.groupName; // The group name will be the value
-    option.textContent = `Group: (${group.groupName})`; // Display the group name
-
-    // Assign a class if provided in the group object
-    if (group.class) {
-        option.classList.add(group.class);
-    }
-
-    selectInput.appendChild(option);
-});
-
-// Set the value of the select element
-const targetValue = data.fromGroup; // Value to set, e.g., "Recruiters"
-if (groups.some(group => group.groupName === targetValue)) {
-    selectInput.value = targetValue; // Programmatically set the value
-} else {
-    console.warn(`Value "${targetValue}" not found in options. Falling back to default.`);
-    selectInput.value = groups[0].groupName; // Fallback to the first option
-}
-
-// Apply the class for the initially selected option
-updateSelectClass(selectInput, selectInput.options[selectInput.selectedIndex]);
-
-
-const groupDiv = document.createElement('div');
-groupDiv.classList.add('connection-group');
-groupDiv.appendChild(selectInput);
-
-// Assuming conversationTitle is defined elsewhere
-conversationTitle.appendChild(groupDiv);
-
-
-
-
+    <a href="https://reelcareer.co/u/?u=${targetID}" style="text-decoration: none; color: inherit;">
+        <img src="${targetPicture || 'https://reelcareer.co/images/sq_logo_n_BG_sm.png'}" alt="Avatar" class="avatar lazy-image">
+    </a>
+    <span>${targetName || 'Unknown Sender'}</span>
+    <div class="flex">
+        <div> 
+            <small>
+                ${status ? '<i class="fas fa-check-circle" style="color: green;"></i> Connected' 
+                        : '<i class="fas fa-times-circle" style="color: red;"></i> Not Connected'}
+            </small>
+        </div>
+    </div>
+    ${acceptDate ? `<p>Connected Since: <small>${acceptDate}</small></p>` : ''}
+`;
 
     }
 
+    function createGroupSelect(targetID, targetName, targetGroup) {
+        const selectInput = document.createElement('select');
+        selectInput.id = `groupSelect${userDataSaved.userID}`;
+        selectInput.classList.add('groupSelect');
 
+        const groups = [
+            { groupName: "Co-workers" },
+            { groupName: "Recruiters" },
+            { groupName: "Networking" },
+            { groupName: "Friends" },
+            { groupName: "Blocked", class: "optionBlock" }
+        ];
 
+        groups.forEach(group => {
+            const option = document.createElement('option');
+            option.value = group.groupName;
+            option.textContent = `Group: (${group.groupName})`;
+            if (group.class) option.classList.add(group.class);
+            selectInput.appendChild(option);
+        });
 
+        selectInput.value = groups.some(g => g.groupName === targetGroup) ? targetGroup : groups[0].groupName;
+        selectInput.onchange = () => {
+            const selectedOption = selectInput.options[selectInput.selectedIndex];
+            changeGroup(`${userDataSaved.userID}_${targetID}`, selectedOption.value, "toGroup", targetName);
+        };
+
+        const groupDiv = document.createElement('div');
+        groupDiv.classList.add('connection-group');
+        groupDiv.appendChild(selectInput);
+        conversationTitle.appendChild(groupDiv);
+    }
+
+    // Main logic for "contact" or "message"
+    const isSender = userDataSaved.userID === data.from;
+    const targetID = isSender ? data.to : data.from;
+    const targetName = isSender ? data.toName : data.fromName;
+    const targetPicture = isSender ? data.toProfilePicture : data.fromProfilePicture;
+    const targetGroup = isSender ? data.toGroup : data.fromGroup;
+
+    if (type === "contact" || type === "message") {
+        setConversationAttributes(targetID, targetName, targetPicture, data.status, data.acceptDate);
+        createGroupSelect(targetID, targetName, targetGroup);
+    }
 }
 
-
-
-
-
-
-
-
-
-loadMessages(data.participants, userDataSaved.userID, messageSenderID);
-
-console.log("conversationID: ", conversationID);
-
-
-//messageBox.innerHTML = '';
-
-}
 window.composeMessages  = composeMessages ;
 
 
