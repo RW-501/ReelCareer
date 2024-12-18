@@ -859,14 +859,14 @@ const openEvent = new CustomEvent("click", { detail: "open" });
     // Check if the connection is already in the list
     if (existingConnection) {
         console.log(`Connection with ID ${connectionId} already exists.`);
-        openSlidePanelBtn.dispatchEvent(openEvent);
+      //  openSlidePanelBtn.dispatchEvent(openEvent);
 
         return; // Exit if the connection already exists
     }
 
     if (existingMessager) {
         console.log(`Messager with ID ${connectionId} already exists.`);
-          openSlidePanelBtn.dispatchEvent(openEvent);
+        //  openSlidePanelBtn.dispatchEvent(openEvent);
         return; // Exit if the connection already exists
     }
 
@@ -961,7 +961,6 @@ const openEvent = new CustomEvent("click", { detail: "open" });
                 contactInfoDiv.innerHTML = contactInfo;
 
         } else   if (connection.status === "accepted") {
-
 
 
             console.log("userDataSaved.userID: ", userDataSaved.userID);
