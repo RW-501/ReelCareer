@@ -1514,26 +1514,27 @@ profileData.tags.forEach(tag => {
   console.log("userData.jobPosts: ", userData.jobPosts);
   // Loop through the job posts array and create list items
   userData.jobPosts.forEach(jobData => {
+  console.log("Processing job: ", jobData); // Add this line to inspect each job post
+  
+  if (jobData.jobID && jobData.jobTitle) {
+    const listItem = document.createElement('li');
+    listItem.classList.add('job-list-item', 'mb-4', 'p-3', 'border', 'rounded', 'shadow-sm');
+    
+    // Create the HTML structure for the job data
+    listItem.innerHTML = `
+      <a href="https://reelcareer.co/jobs/job-details?id=${jobData.jobID}" title="${jobData.jobTitle}" class="text-decoration-none text-dark">
+        <h5 class="job-title">${jobData.jobTitle}</h5>
+      </a>
+      <p class="company-name font-weight-bold">${jobData.companyName || 'No Company Name'}</p>
+      <p class="location text-muted"><i class="fas fa-map-marker-alt"></i> ${jobData.location || 'Location not specified'}</p>
+      <p class="salary font-weight-bold text-primary">${jobData.salary || 'Salary not specified'}</p>
+    `;
 
-    // Check if jobData has a jobID and jobTitle before creating the list item
-    if (jobData.jobID && jobData.jobTitle) {
-      const listItem = document.createElement('li');
-      listItem.classList.add('job-list-item', 'mb-4', 'p-3', 'border', 'rounded', 'shadow-sm');
-      
-      // Create the HTML structure for the job data
-      listItem.innerHTML = `
-        <a href="https://reelcareer.co/jobs/job-details?id=${jobData.jobID}" title="${jobData.jobTitle}" class="text-decoration-none text-dark">
-          <h5 class="job-title">${jobData.jobTitle}</h5>
-        </a>
-        <p class="company-name font-weight-bold">${jobData.companyName || 'No Company Name'}</p>
-        <p class="location text-muted"><i class="fas fa-map-marker-alt"></i> ${jobData.location || 'Location not specified'}</p>
-        <p class="salary font-weight-bold text-primary">${jobData.salary || 'Salary not specified'}</p>
-      `;
+    // Append the list item to the jobs list
+    jobsList.appendChild(listItem);
+  }
+});
 
-      // Append the list item to the jobs list
-      jobsList.appendChild(listItem);
-    }
-  });
 }
 
 
