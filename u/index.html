@@ -1578,46 +1578,45 @@ profileData.tags.forEach(tag => {
 
         async function loadUserVideoResumes(userData) {
 
-            const videoResumeList = document.getElementById('video-resume-list');
-            if (!userData.videoResumeData) {
+          const videoResumeList = document.getElementById('video-resume-list');
+
+// Check if videoResumeData exists and is an object
+if (!userData.videoResumeData || typeof userData.videoResumeData !== 'object') {
   videoResumeList.innerHTML = '<li>No video resumes found.</li>';
   return;
 }
 
 console.log("userData.videoResumeData: ", userData.videoResumeData);
 
-// If it's an object, loop over its values
-const videoResumeArray = Object.values(userData.videoResumeData);
+// Since videoResumeData is a single object, directly check its status
+const videoData = userData.videoResumeData;
 
-videoResumeArray.forEach(videoData => {
-  if (videoData.status === 'posted') {
-    const card = document.createElement('div');
-    card.classList.add('col-md-4', 'mb-4', "profileVideoCard");
+if (videoData.status === 'posted') {
+  const card = document.createElement('div');
+  card.classList.add('col-md-4', 'mb-4', "profileVideoCard");
 
-    card.innerHTML = `
-      <div class="card h-100 shadow-sm">
-        <video 
-          src="${videoData.videoResumeURL}" 
-          class="card-img-top" 
-          controls
-        ></video>
-        <div class="card-body">
-          <a 
-            href="https://reelcareer.co/reels/${videoData.reelID}" 
-            class="btn btn-primary"
-            target="_blank"
-          >
-            See Post
-          </a>
-        </div>
+  card.innerHTML = `
+    <div class="card h-100 shadow-sm">
+      <video 
+        src="${videoData.videoResumeURL}" 
+        class="card-img-top" 
+        controls
+      ></video>
+      <div class="card-body">
+        <a 
+          href="https://reelcareer.co/reels/${videoData.reelID}" 
+          class="btn btn-primary"
+          target="_blank"
+        >
+          See Post
+        </a>
       </div>
-    `;
+    </div>
+  `;
 
-    document.getElementById('video-resume-list').appendChild(card);
-  }
-});
-
-
+  // Append the card to the video resume list
+  videoResumeList.appendChild(card);
+}
 
 
 
