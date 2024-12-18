@@ -1154,11 +1154,12 @@ conversationTitle.innerHTML = `
 <span>${data.fromName || 'Unknown Sender'}</span>
 </div>
 <div class="flex">
-      <small>
-    ${data.status 
+<small>
+    ${data.status == "pending" 
         ? '<i class="fas fa-check-circle" style="color: green;"></i> Connected' 
         : '<i class="fas fa-times-circle" style="color: red;"></i> Not Connected'}
-</small> 
+</small>
+
         
 </div>
     ${data.connectedBool ? `<p>Connected Since: <small>${data.acceptDate}</small></p>` : ''}
@@ -1241,11 +1242,12 @@ conversationTitle.innerHTML = `
 </div>
 <div class="flex">
 
-       <small>
-    ${data.status 
+<small>
+    ${data.status == "pending" 
         ? '<i class="fas fa-check-circle" style="color: green;"></i> Connected' 
         : '<i class="fas fa-times-circle" style="color: red;"></i> Not Connected'}
-</small> 
+</small>
+
         
 </div>
     ${data.connectedBool ? `<p>Connected Since: <small>${data.acceptDate}</small></p>` : ''}
