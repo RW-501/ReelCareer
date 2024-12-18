@@ -456,47 +456,68 @@
           </li>
         </ul>
 
-        <!-- Public Profile -->
-        <div class="form-check form-switch mb-3">
-          <input class="form-check-input" type="checkbox" id="publicProfileSET-profile">
-          <label class="form-check-label" for="publicProfileSET-profile">Public Profile</label>
-        </div>
 
-        <!-- Site Settings -->
-        <div class="mb-3">
-          <label class="form-label"><strong>Site Settings</strong></label>
-          <div class="form-check form-switch">
-            <input class="form-check-input" type="checkbox" id="darkModeSET">
-            <label class="form-check-label" for="darkModeSET">Dark Mode</label>
-          </div>
-        </div>
 
-        <!-- Messages Settings -->
-        <div class="mb-3">
-          <label class="form-label"><strong>Messages Settings</strong></label>
-          <div class="form-check form-switch">
-            <input class="form-check-input" type="checkbox" id="audioAlertSET">
-            <label class="form-check-label" for="audioAlertSET">Message Audio Alert</label>
-          </div>
-          <div class="form-check form-switch">
-            <input class="form-check-input" type="checkbox" id="showReadSET">
-            <label class="form-check-label" for="showReadSET">Show "Read" in Receiver Messages</label>
-          </div>
-        </div>
+        <div class="tab-content">
+          <div class="tab-pane" id="settings-profile" data-bs-name="Settings" role="tabpanel" aria-labelledby="profile-settings-tab">
+            <p>Update your Settings here.</p>
+      
+            <!-- Settings Tab -->
+            <form id="settingsForm-profile">
+              <div class="mb-3">
+               <!-- Public Profile -->
+<div class="form-check form-switch mb-3">
+  <input class="form-check-input" type="checkbox" id="publicProfileSET-profile">
+  <label class="form-check-label" for="publicProfileSET-profile">Public Profile</label>
+</div>
 
-        <!-- Chat Bot Settings -->
-        <div class="mb-3">
-          <label class="form-label"><strong>Chat Bot Settings</strong></label>
-          <div class="form-check form-switch">
-            <input class="form-check-input" type="checkbox" id="textToVoiceSET">
-            <label class="form-check-label" for="textToVoiceSET">Text To Voice On</label>
-          </div>
-          <div class="form-check form-switch">
-            <input class="form-check-input" type="checkbox" id="voiceToTextSET">
-            <label class="form-check-label" for="voiceToTextSET">Voice To Text On</label>
-          </div>
-        </div>
+<!-- Site Settings -->
+<div class="mb-3">
+  <label class="form-label"><strong>Site Settings</strong></label>
+  <div class="form-check form-switch">
+    <input class="form-check-input" type="checkbox" id="darkModeSET">
+    <label class="form-check-label" for="darkModeSET">Dark Mode</label>
+  </div>
+</div>
 
+<!-- Messages Settings -->
+<div class="mb-3">
+  <label class="form-label"><strong>Messages Settings</strong></label>
+  <div class="form-check form-switch">
+    <input class="form-check-input" type="checkbox" id="audioAlertSET">
+    <label class="form-check-label" for="audioAlertSET">Message Audio Alert</label>
+  </div>
+  <div class="form-check form-switch">
+    <input class="form-check-input" type="checkbox" id="showReadSET">
+    <label class="form-check-label" for="showReadSET">Show "Read" in Receiver Messages</label>
+  </div>
+</div>
+
+<!-- Chat Bot Settings -->
+<div class="mb-3">
+  <label class="form-label"><strong>Chat Bot Settings</strong></label>
+  <div class="form-check form-switch">
+    <input class="form-check-input" type="checkbox" id="textToVoiceSET">
+    <label class="form-check-label" for="textToVoiceSET">Text To Voice On</label>
+  </div>
+  <div class="form-check form-switch">
+    <input class="form-check-input" type="checkbox" id="voiceToTextSET">
+    <label class="form-check-label" for="voiceToTextSET">Voice To Text On</label>
+  </div>
+</div>
+
+                <!-- Tags Input -->
+                <div class="mb-3">
+                  <label for="tagsSET-profile">Tags <small class="text-muted">(Add a tag and press Enter)</small></label>
+                  <div id="tagsContainertagsSET-profile">
+                    <input type="text" class="form-control" id="tagsSET-profile" placeholder="(e.g., JavaScript, Management)">
+                  </div>
+                </div>
+              </div>
+            </form>
+      
+          </div>
+      
         <div class="tab-pane active showIt" id="personal-profile" data-bs-name="Personal Information" role="tabpanel" aria-labelledby="profile-personal-tab">
           <p>Update your personal details here.</p>
           <!-- Personal Tab -->
@@ -1212,10 +1233,7 @@
       }
       checkConnection();
     }
-    const generalTags = createTagInputSystem({
-      tagsContainerId: "tagsContainertagsSET-profile",
-      badgeClass: "tag-primary" // Custom badge class for general tags
-    });
+
     // Trigger file input when `profilePic` is clicked
     document.getElementById('profilePic').addEventListener('click', async () => {
       console.log("profilePic clicked.");
@@ -1496,9 +1514,14 @@
       if (!profileData.tags || profileData.tags.length === 0) {
         // If there are no tags, display a message
       } else {
+
+        const generalTags = createTagInputSystem({
+      tagsContainerId: "tagsContainertagsSET-profile",
+      badgeClass: "tag-primary" // Custom badge class for general tags
+    });
         // Directly use the tags array since it contains strings
         const tags = profileData.tags; // No need to map since they're already strings
-        // console.log("tags: ", tags);
+         console.log("tags: ", tags);
         document.getElementById('tagsSET-profile').value = profileData.tags || "";
         const tagsContainer = document.getElementById('tagsList');
         profileData.tags.forEach(tag => {
