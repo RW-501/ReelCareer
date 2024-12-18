@@ -1171,8 +1171,11 @@ selectInput.classList.add('groupSelect');
 
 groupDiv.appendChild(selectInput);
 */
+const acceptDate = formatTimestamp(data.acceptDate);
 
 if(type === "contact"){
+
+
 if (data.to === userDataSaved.userID) {
 messageSenderID = data.from;
 
@@ -1195,7 +1198,7 @@ conversationTitle.innerHTML = `
 
         
 </div>
-    ${data.status === "accepted"  ? `<p>Connected Since: <small>${data.acceptDate}</small></p>` : ''}
+    ${data.status === "accepted"  ? `<p>Connected Since: <small>${acceptDate}</small></p>` : ''}
         `;
 
 
@@ -1283,7 +1286,7 @@ conversationTitle.innerHTML = `
 
         
 </div>
-    ${data.status === "accepted"   ? `<p>Connected Since: <small>${data.acceptDate}</small></p>` : ''}
+    ${data.status === "accepted"   ? `<p>Connected Since: <small>${acceptDate}</small></p>` : ''}
         `;
 
 
@@ -1384,7 +1387,7 @@ conversationTitle.innerHTML = `
 </small>
 
 </div>
-    ${data.connectedBool == true ? `<p>Connected Since: <small>${data.acceptDate}</small></p>` : ''}
+    ${data.connectedBool == true ? `<p>Connected Since: <small>${acceptDate}</small></p>` : ''}
         `;
 
 // Create the select input element
@@ -1463,7 +1466,7 @@ if (data.senderID === userDataSaved.userID) {
         : '<i class="fas fa-times-circle" style="color: red;"></i> Not Connected'}
 </small>
     </div>
-    ${data.connectedBool  == true ? `<p>Connected Since: <small>${data.acceptDate}</small></p>` : ''}
+    ${data.connectedBool  == true ? `<p>Connected Since: <small>${acceptDate}</small></p>` : ''}
         `;
 
 // Create the select input element
@@ -1702,6 +1705,14 @@ closeSlidePanelBtn.addEventListener('click', () => {
 
 
 
+// Utility: Format Timestamp
+function formatTimestamp(timestamp) {
+  // Convert Firebase Timestamp to milliseconds
+  const date = new Date(timestamp.seconds * 1000 + Math.floor(timestamp.nanoseconds / 1e6));
+
+  // Format the date as MM/DD/YYYY
+  return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
+}
 
 
 function loadContacts(userID) { 
@@ -1738,14 +1749,6 @@ const userDataSaved = getUserData() || [];
 const showRead = userDataSaved.showRead === 'true'; // Show read status
 const audioAlert = userDataSaved.audioAlert === 'true'; // Play audio alert
 
-// Utility: Format Timestamp
-function formatTimestamp(timestamp) {
-  // Convert Firebase Timestamp to milliseconds
-  const date = new Date(timestamp.seconds * 1000 + Math.floor(timestamp.nanoseconds / 1e6));
-
-  // Format the date as MM/DD/YYYY
-  return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
-}
 
 
 // Utility: Truncate message to 50 characters
