@@ -2133,77 +2133,63 @@ timestampDiv.textContent = timeAgo(createdAtDate);
     });
 }
 
-async function convertTextToLinks(div) {
-    const urlRegex = /(https?:\/\/[^\s]+|www\.[^\s]+)/g; // Regex to match links
+async function convertTextToLinks(contentDiv) {
+    const urlRegex = /(https?:\/\/[^\s]+|www\.[^\s]+)/g; // Regex to match URLs
 
     // Helper function to fetch metadata for a URL
     async function fetchMetadataFromProxy(url) {
-    try {
-        const response = await fetch(`/fetch-metadata?url=${encodeURIComponent(url)}`);
-        const metadata = await response.json();
+        try {
+            const response = await fetch(`/fetch-metadata?url=${encodeURIComponent(url)}`);
+            const metadata = await response.json();
 
-        return {
-            title: metadata.title || url,
-            description: metadata.description || "",
-            image: metadata.image || "",
-            url: metadata.url || url,
-        };
-    } catch (error) {
-        console.error("Error fetching metadata:", error);
-        return { title: url, description: "", image: "", url };
+            return {
+                title: metadata.title || url,
+                description: metadata.description || "",
+                image: metadata.image || "",
+                url: metadata.url || url,
+            };
+        } catch (error) {
+            console.error("Error fetching metadata:", error);
+            return { title: url, description: "", image: "", url };
+        }
     }
-}
 
+    // Process the text content of the contentDiv
+    const text = contentDiv.textContent;
+    let parts = text.split(urlRegex);
 
-    // Process each text node and replace URLs
-    async function processTextNode(node) {
-        const text = node.textContent;
-        let parts = text.split(urlRegex);
+    const fragment = document.createDocumentFragment();
 
-        const fragment = document.createDocumentFragment();
+    for (let part of parts) {
+        if (urlRegex.test(part)) {
+            const url = part.startsWith("http") ? part : `http://${part}`;
+            const metadata = await fetchMetadataFromProxy(url);
 
-        for (let part of parts) {
-            if (urlRegex.test(part)) {
-                const url = part.startsWith("http") ? part : `http://${part}`;
-                const metadata = await fetchMetadataFromProxy(url);
+            // Create a container for the preview
+            const previewDiv = document.createElement("div");
+            previewDiv.className = "link-preview";
 
-                // Create a container for the preview
-                const previewDiv = document.createElement("div");
-                previewDiv.className = "link-preview";
-
-                previewDiv.innerHTML = `
-                    <a href="${metadata.url}" target="_blank" rel="noopener noreferrer">
-                        <div class="preview-content">
-                            ${metadata.image ? `<img src="${metadata.image}" alt="Link Image" class="preview-image">` : ""}
-                            <div class="preview-text">
-                                <h4 class="preview-title">${metadata.title}</h4>
-                                <p class="preview-description">${metadata.description}</p>
-                            </div>
+            previewDiv.innerHTML = `
+                <a href="${metadata.url}" target="_blank" rel="noopener noreferrer">
+                    <div class="preview-content">
+                        ${metadata.image ? `<img src="${metadata.image}" alt="Link Image" class="preview-image">` : ""}
+                        <div class="preview-text">
+                            <h4 class="preview-title">${metadata.title}</h4>
+                            <p class="preview-description">${metadata.description}</p>
                         </div>
-                    </a>
-                `;
+                    </div>
+                </a>
+            `;
 
-                fragment.appendChild(previewDiv);
-            } else {
-                fragment.appendChild(document.createTextNode(part));
-            }
-        }
-
-        node.replaceWith(fragment);
-    }
-
-    // Traverse nodes and process text
-    async function traverseNodes(node) {
-        if (node.nodeType === Node.TEXT_NODE) {
-            await processTextNode(node);
-        } else if (node.nodeType === Node.ELEMENT_NODE) {
-            for (const child of Array.from(node.childNodes)) {
-                await traverseNodes(child);
-            }
+            fragment.appendChild(previewDiv);
+        } else {
+            fragment.appendChild(document.createTextNode(part));
         }
     }
 
-    await traverseNodes(div);
+    // Replace the content of the div with the new HTML
+    contentDiv.innerHTML = ""; // Clear the current content
+    contentDiv.appendChild(fragment);
 }
 
 
