@@ -1742,6 +1742,8 @@ closeSlidePanelBtn.addEventListener('click', () => {
     breadcrumbActiveTitle.innerText =  "Connections";
 });
 
+console.log("userDataSaved: ", userDataSaved);
+
 
 
 // Audio notification
@@ -1756,13 +1758,15 @@ console.log("audioAlert: ", audioAlert);
 console.log("showRead: ", showRead);
 
 
-
 // Function to update read status
 async function updateMessageRead(docID) {
+    console.log("updateMessageRead: ", showRead);
+
     if (showRead) {
         const messageRef = doc(db, 'Messages', docID);
         await updateDoc(messageRef, { status: 'read' });
     }
+
 }
 
 
@@ -2036,7 +2040,7 @@ function loadMessages(participants, recipientID, senderID) {
         snapshot.docs.forEach(doc => {
             const data = doc.data();
 
-            
+
  // Get the document ID
  const docID = doc.id; 
 
