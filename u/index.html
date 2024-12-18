@@ -305,7 +305,9 @@ video {
 }
 
 
-
+.showIt {
+  display: block;
+}
 
 
 
@@ -2520,7 +2522,7 @@ document.addEventListener('DOMContentLoaded', trackAllFormsWithExitWarning);
                           tabs.forEach((t) => t.classList.remove("active"));
                     
                           // Hide all tab contents
-                          tabContents.forEach((content) => content.classList.remove("active", "show"));
+                          tabContents.forEach((content) => content.classList.remove("active", "showIt"));
                     
                           // Add active class to the clicked tab
                           e.target.classList.add("active");
@@ -2536,7 +2538,7 @@ document.addEventListener('DOMContentLoaded', trackAllFormsWithExitWarning);
   
 
 
-                            target.classList.add("active", "show");
+                            target.classList.add("active", "showIt");
                           }
                         });
                       });
