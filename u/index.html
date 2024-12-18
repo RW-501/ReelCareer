@@ -2,1204 +2,1075 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="User profile page for managing bio, resumes, messaging, and job applications.">
-    <meta name="keywords" content="job applications, resumes, video resumes, job seeking, career management">
-    <meta name="author" content="ReelCareer">
-    <title>User Profile | ReelCareer</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="User profile page for managing bio, resumes, messaging, and job applications.">
+  <meta name="keywords" content="job applications, resumes, video resumes, job seeking, career management">
+  <meta name="author" content="ReelCareer">
+  <title>User Profile | ReelCareer</title>
 
-    <!-- SEO Schema Markup -->
-    <script type="application/ld+json">
-        {
-            "@context": "https://schema.org",
-            "@type": "WebPage",
-            "name": "User Profile",
-            "description": "User profile for managing bio, resumes, and applications.",
-            "publisher": {
-                "@type": "Organization",
-                "name": "ReelCareer"
-            }
-        }
-    </script>
+  <!-- SEO Schema Markup -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "User Profile",
+      "description": "User profile for managing bio, resumes, and applications.",
+      "publisher": {
+        "@type": "Organization",
+        "name": "ReelCareer"
+      }
+    }
+  </script>
 
+  <!-- Bootstrap CSS -->
 
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
-    <!-- Bootstrap CSS -->
+  <!-- Bootstrap CSS -->
+  <script src="https://reelcareer.co/public/js/scripts.js"></script>
+  <script src="https://reelcareer.co/public/js/loadScripts.js"></script>
+  <!-- Custom CSS -->
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
 
-    <!-- Bootstrap CSS -->
-    <script src="https://reelcareer.co/public/js/scripts.js"></script> 
-    <script src="https://reelcareer.co/public/js/loadScripts.js"></script>
-    <!-- Custom CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
 
-       
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://reelcareer.co/public/css/styles.css">
 
-    <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
-  />
-
-    <link rel="stylesheet" href="https://reelcareer.co/public/css/styles.css">
-
-
-    <style>
+  <style>
     #verified-badge {
-    color: #fff;
-    background-color:transparent;
+      color: #fff;
+      background-color: transparent;
+    }
 
-  }
+    #membership-badge {
+      color: #fff;
+      background-color: #382cd9;
+    }
 
-#membership-badge {
-    color: #fff;
-    background-color: #382cd9;
-}
+    #profile-settings-header {
+      display: flex;
+      flex-wrap: wrap;
+      flex-direction: column;
+      justify-content: space-between;
+    }
 
-#profile-settings-header {
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: column;
-  justify-content: space-between;
-}
-#membershipStatus-profile {
-  text-transform: capitalize;
-}
+    #membershipStatus-profile {
+      text-transform: capitalize;
+    }
 
-#message-content-editable:empty:before {
-  content: attr(placeholder);
-  color: #999;
-}
+    #message-content-editable:empty:before {
+      content: attr(placeholder);
+      color: #999;
+    }
 
+    .profileVideoCard {
+      position: relative;
 
+      .card {
+        transition: transform 0.2s ease-in-out;
+      }
 
+      .card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
 
-.profileVideoCard{
-position: relative;
+      .card-body {
+        padding: 1.25rem;
+      }
 
-  .card {
-  transition: transform 0.2s ease-in-out;
-}
+      .btn-primary {
+        width: 100%;
+        text-align: center;
+      }
 
-.card:hover {
-  transform: scale(1.05);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
+      .video-container {
+        position: relative;
+        overflow: hidden;
+        border-radius: 10px;
+      }
 
-.card-body {
-  padding: 1.25rem;
-}
+      .video-container video {
+        width: 100%;
+        height: auto;
+        border-radius: 10px;
+      }
 
-.btn-primary {
-  width: 100%;
-  text-align: center;
-}
+      .vidioCard {
+        width: 400px;
+        height: 650px;
+        background-color: #000;
+        margin: auto;
+        position: relative;
+        margin-bottom: 2rem;
+      }
 
-.video-container {
-  position: relative;
-  overflow: hidden;
-  border-radius: 10px;
-}
+      video {
+        width: 400px;
+        height: 650px;
+        margin: auto;
+        position: relative;
+      }
 
-.video-container video {
-  width: 100%;
-  height: auto;
-  border-radius: 10px;
-}
+      .controls-container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        margin-top: 10px;
+        bottom: 0;
+        position: absolute;
+        left: 0;
+        right: 0;
+        width: 100%;
+        flex-wrap: nowrap;
+        justify-content: space-evenly;
+      }
 
+      /* Custom Controls */
+      .controls-top,
+      .controls-bottom {
+        position: absolute;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        padding: 10px;
+        z-index: 2;
+      }
 
+      .controls-top {
+        top: 10px;
+      }
 
-.vidioCard {
-    width: 400px;
-    height: 650px;
-    background-color: #000;
-    margin: auto;
-    position: relative;
-    margin-bottom: 2rem;
-}
+      .controls-bottom {
+        bottom: 10px;
+      }
 
+      .mute-toggle,
+      .fullscreen-toggle {
+        background: transparent;
+        border: none;
+        color: white;
+        font-size: 20px;
+        cursor: pointer;
+      }
 
-video {
-  width: 400px;
-    height: 650px;
-    margin: auto;
-    position: relative;
-}
+      .controls-play {
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 80px;
+        height: 80px;
+        background: rgba(0, 0, 0, 0.5);
+        border-radius: 50%;
+        color: #fff;
+        font-size: 2rem;
+        cursor: pointer;
+        transition: opacity 0.3s;
+        right: 0;
+        bottom: 0;
+        margin: auto;
+        z-index: 3;
+      }
 
-.controls-container {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    margin-top: 10px;
-    bottom: 0;
-    position: absolute;
-    left: 0;
-    right: 0;
-    width: 100%;
-    flex-wrap: nowrap;
-    justify-content: space-evenly;
-}
+      .play-overlay:hover {
+        color: #84bbd9;
+      }
 
+      .controls-play i {
+        font-size: 3rem;
+      }
 
-/* Custom Controls */
-.controls-top,
-.controls-bottom {
-  position: absolute;
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  padding: 10px;
-  z-index: 2;
-}
+      /* Hide controls when video is playing */
+      .vidioCard video:playing+.controls-top,
+      .vidioCard video:playing+.controls-bottom {
+        display: none;
+      }
 
-.controls-top {
-  top: 10px;
-}
+      /* Like Button and ReelCareer Logo */
+      .actions {
+        display: flex;
+        width: 100%;
+        align-items: center;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: space-between;
+      }
 
-.controls-bottom {
-  bottom: 10px;
-}
+      .action-btn {
+        border: none;
+        color: white;
+        font-size: 24px;
+        cursor: pointer;
+        background: rgba(0, 0, 0, 0.5);
+        border-radius: 10px;
+      }
 
-.mute-toggle,
-.fullscreen-toggle {
-  background: transparent;
-  border: none;
-  color: white;
-  font-size: 20px;
-  cursor: pointer;
-}
+      .action-btn:hover {
+        color: #84bbd9;
+      }
 
-.controls-play {
+      .realCareerVidLogo {
+        color: #639ad4;
+        font-size: 1.5rem;
+        font-weight: 700;
+        -webkit-text-stroke: thin;
+        font-size: 1rem;
+        font-variant: small-caps;
+        margin: .5rem;
+        opacity: .5;
+      }
 
-    position: absolute;
-    top: 0;
-    left: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 80px;
-    height: 80px;
-    background: rgba(0, 0, 0, 0.5);
-    border-radius: 50%;
-    color: #fff;
-    font-size: 2rem;
-    cursor: pointer;
-    transition: opacity 0.3s;
-    right: 0;
-    bottom: 0;
-    margin: auto;
-    z-index: 3;
-  }
+      /* Icon Styling */
+      .fa {
+        font-size: 20px;
+      }
+    }
 
+    .job-list-item {
 
-.play-overlay:hover {
-  color: #84bbd9;
-}
+      /* General styles for job listing */
+      .job-title {
+        font-size: 1.25rem;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 8px;
+      }
 
+      .company-name {
+        font-size: 1rem;
+        color: #555;
+        margin-bottom: 4px;
+      }
 
-.controls-play i {
-  font-size: 3rem;
-}
+      .location {
+        font-size: 0.875rem;
+        color: #888;
+        margin-bottom: 4px;
+      }
 
-/* Hide controls when video is playing */
-.vidioCard video:playing + .controls-top,
-.vidioCard video:playing + .controls-bottom {
-  display: none;
-}
+      .salary {
+        font-size: 1rem;
+        color: #333;
+        font-weight: bold;
+      }
 
-/* Like Button and ReelCareer Logo */
-.actions {
-    display: flex;
-    width: 100%;
-    align-items: center;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    justify-content: space-between;
-}
+      /* Optional: Add some spacing between elements */
+      .job-listing div {
+        margin-bottom: 8px;
+      }
 
+      /* Style for links */
+      .text-decoration-none {
+        text-decoration: none;
+      }
 
-.action-btn {
-    border: none;
-    color: white;
-    font-size: 24px;
-    cursor: pointer;
-    background: rgba(0, 0, 0, 0.5);
-    border-radius: 10px;
-}
+      .text-dark {
+        color: #343a40;
+      }
 
-.action-btn:hover {
-  color: #84bbd9;
-}
+      .text-muted {
+        color: #6c757d;
+      }
 
-.realCareerVidLogo {
-    color: #639ad4;
-    font-size: 1.5rem;
-    font-weight: 700;
-    -webkit-text-stroke: thin;
-    font-size: 1rem;
-    font-variant: small-caps;
-    margin: .5rem;
-    opacity: .5;
-}
+      .fas.fa-map-marker-alt {
+        margin-right: 5px;
+      }
+    }
 
-/* Icon Styling */
-.fa {
-  font-size: 20px;
-}
+    /* Modern Toggle Styles */
+    .form-switch .form-check-input {
+      width: 2.5rem;
+      height: 1.4rem;
+      background-color: #ddd;
+      border-radius: 1rem;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    }
 
+    .form-switch .form-check-input:checked {
+      background-color: #4caf50;
+      /* Modern green toggle */
+      box-shadow: 0 0 8px rgba(76, 175, 80, 0.6);
+    }
 
+    .form-switch .form-check-input:focus {
+      box-shadow: 0 0 0 0.1rem rgba(76, 175, 80, 0.25);
+    }
 
-}
+    .form-switch .form-check-input::before {
+      content: "";
+      position: absolute;
+      width: 1.2rem;
+      height: 1.2rem;
+      background: #fff;
+      border-radius: 50%;
+      top: 50%;
+      left: 2px;
+      transform: translateY(-50%);
+      transition: left 0.3s ease;
+    }
 
-.job-list-item {
+    .form-switch .form-check-input:checked::before {
+      left: calc(100% - 1.3rem);
+    }
 
-  /* General styles for job listing */
-.job-title {
-  font-size: 1.25rem;
-  font-weight: bold;
-  color: #333;
-  margin-bottom: 8px;
-}
+    .showIt {
+      display: block;
+    }
 
-.company-name {
-  font-size: 1rem;
-  color: #555;
-  margin-bottom: 4px;
-}
+    .tab-content>.active {
+      display: block;
+      opacity: 1;
+    }
 
-.location {
-  font-size: 0.875rem;
-  color: #888;
-  margin-bottom: 4px;
-}
-
-.salary {
-  font-size: 1rem;
-  color: #333;
-  font-weight: bold;
-}
-
-/* Optional: Add some spacing between elements */
-.job-listing div {
-  margin-bottom: 8px;
-}
-
-/* Style for links */
-.text-decoration-none {
-  text-decoration: none;
-}
-
-.text-dark {
-  color: #343a40;
-}
-
-.text-muted {
-  color: #6c757d;
-}
-
-.fas.fa-map-marker-alt {
-  margin-right: 5px;
-}
-
-}
-/* Modern Toggle Styles */
-.form-switch .form-check-input {
-  width: 2.5rem;
-  height: 1.4rem;
-  background-color: #ddd;
-  border-radius: 1rem;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.form-switch .form-check-input:checked {
-  background-color: #4caf50; /* Modern green toggle */
-  box-shadow: 0 0 8px rgba(76, 175, 80, 0.6);
-}
-
-.form-switch .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem rgba(76, 175, 80, 0.25);
-}
-
-.form-switch .form-check-input::before {
-  content: "";
-  position: absolute;
-  width: 1.2rem;
-  height: 1.2rem;
-  background: #fff;
-  border-radius: 50%;
-  top: 50%;
-  left: 2px;
-  transform: translateY(-50%);
-  transition: left 0.3s ease;
-}
-
-.form-switch .form-check-input:checked::before {
-  left: calc(100% - 1.3rem);
-}
-
-
-.showIt {
-  display: block;
-}
-
-.tab-content>.active {
-    display: block;
-    opacity: 1;
-}
-
-.hidden {
-    display: none;
-}
-
-    </style>
+    .hidden {
+      display: none;
+    }
+  </style>
 </head>
 
-
 <body>
-    <script src="https://reelcareer.co/public/js/bodyload.js"></script>
-    
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="https://reelcareer.co">ReelCareer</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="news">News</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="jobs">Jobs</a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="user">Profile</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="messaging">Messages</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link btn btn-danger" href="/views/auth">Logout</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
+  <script src="https://reelcareer.co/public/js/bodyload.js"></script>
 
-
-
-    <nav aria-label="breadcrumb">
-      <ol class="breadcrumb">
-          <li id="lastBreadcrumb_profile" class="breadcrumb-item"><a href="https://reelcareer.co/u">Profile</a></li>
-          <li id="lastBreadcrumb_messages" class="breadcrumb-item"><a href="https://reelcareer.co/u/messaging">Messages</a></li>
-
-          <li id="lastBreadcrumb_1" class="breadcrumb-item"><a href="https://reelcareer.co/u">Edit Profile</a></li>
-          <li id="lastBreadcrumb_last" class="breadcrumb-item"><a id="lastBreadcrumb_a" href="https://reelcareer.co/u">View Profile</a></li>
-          <li id="breadcrumb-active-title" class="breadcrumb-item active" aria-current="page">User</li>
-        </ol>
-    </nav>
-
-
-    <main id="main-content">
-
-
-
-      <!-- User Profile Section -->
- 
-          <div class="userProfile">
-
-
-              <div class="col-md-4">
-                  <!-- User Info Section -->
-                  <div class="card">
-                      <div class="card-body text-center">
-                          <img  id="profilePic" src="/images/sq_logo_n_BG_tie_reel.png" alt="User Profile Picture" class="img-fluid rounded-circle mb-3" style="width: 150px;">
-                          <h3 id="user-name">User Name</h3>
-                          <small id="user-position">Web Developer</small>
-                          <p id="user-bio">This is a short bio about the user...</p>
-                          <span id="membership-badge" class="badge badge-success">Premium Member</span>
-                          <span id="verified-badge" class="badge badge-info">Verified</span>
-                          <p id="user-location">Location: <span id="location-text">City, State</span></p>
-                          <div id="tags-container"></div>
-  
-                             <!-- Social Media and Websites -->
-                  <div class="mt-3">
-                        <h5>Links</h5>
-                        <div id="social-media-list">
-                            <!-- Social media links will be dynamically listed here -->
-                        </div>
-                </div>
-
-          <button class="btn btn-primary btn-block" id="send-message-btn">Send Message</button>
-          <button class="btn btn-primary btn-block"  id="settings-profile-btn">Setting</button>
-
-          <button class="btn btn-primary btn-block"  id="share-profile-btn">Share Profile</button>
-          
-          <button class="btn btn-primary btn-block" id="connect-btn">Connect</button>
-          <button class="btn btn-primary btn-block" id="view-profile-btn">View Profile</button>
-        
-          <button class="btn btn-primary btn-block" id="view-messages-btn">Messages</button>
-          <button class="btn btn-primary btn-block" id="view-create-reel-btn">Create Reel</button>
-  
-          <button class="btn btn-primary btn-block" id="jobSeeker-btn">Job Seeker Dashboard</button>
-          <button class="btn btn-primary btn-block" id="recruiter-btn">Recruiter Dashboard</button>
-      </div>
-  </div>
-                      
-  
-               
-     
-          
-    
-
-              </div> 
-  
-  
-  
-                <div id="profileSettingsMain" class="col-md-8 container hidden">
-
-                  <div id="profile-settings-header">
-                    <h1 id="settings-header-text" class="mb-4">Profile Settings</h1>
-                    <button type="button" class="btn btn-primary" id="saveProfileBtn-profile">Save Changes</button>
-                  </div>
-                
-                  <p class="text-muted">Keep your profile up to date to improve your visibility and networking opportunities.</p>
-                
-                  <ul class="nav profile-nav-item" id="profileTab" role="tablist">
-                
-                    <li class="nav-item" role="presentation">
-                      <button class="nav-link active" id="profile-personal-tab" data-bs-toggle="tab" data-bs-target="#personal-profile" type="button" role="tab" aria-controls="personal" aria-selected="true">
-                        Personal
-                      </button>
-                    </li>
-                    <li class="profile-nav-item" role="presentation">
-                      <button class="nav-link" id="profile-social-tab" data-bs-toggle="tab" data-bs-target="#social-profile" type="button" role="tab" aria-controls="social" aria-selected="false">
-                        Social
-                      </button>
-                    </li>
-                
-                    <li class="nav-item" role="presentation">
-                      <button class="nav-link active" id="profile-settings-tab" data-bs-toggle="tab" data-bs-target="#settings-profile" type="button" role="tab" aria-controls="personal" aria-selected="true">
-                        Settings
-                      </button>
-                    </li>
-                
-                    <li class="profile-nav-item" role="presentation">
-                      <button class="nav-link" id="profile-membership-tab" data-bs-toggle="tab" data-bs-target="#membership-profile" type="button" role="tab" aria-controls="membership" aria-selected="false">
-                        Membership
-                      </button>
-                    </li>
-                  </ul>
-                
-                 <!-- Public Profile -->
-<div class="form-check form-switch mb-3">
-  <input class="form-check-input" type="checkbox" id="publicProfileSET-profile">
-  <label class="form-check-label" for="publicProfileSET-profile">Public Profile</label>
-</div>
-
-<!-- Site Settings -->
-<div class="mb-3">
-  <label class="form-label"><strong>Site Settings</strong></label>
-  <div class="form-check form-switch">
-    <input class="form-check-input" type="checkbox" id="darkModeSET">
-    <label class="form-check-label" for="darkModeSET">Dark Mode</label>
-  </div>
-</div>
-
-<!-- Messages Settings -->
-<div class="mb-3">
-  <label class="form-label"><strong>Messages Settings</strong></label>
-  <div class="form-check form-switch">
-    <input class="form-check-input" type="checkbox" id="audioAlertSET">
-    <label class="form-check-label" for="audioAlertSET">Message Audio Alert</label>
-  </div>
-  <div class="form-check form-switch">
-    <input class="form-check-input" type="checkbox" id="showReadSET">
-    <label class="form-check-label" for="showReadSET">Show "Read" in Receiver Messages</label>
-  </div>
-</div>
-
-<!-- Chat Bot Settings -->
-<div class="mb-3">
-  <label class="form-label"><strong>Chat Bot Settings</strong></label>
-  <div class="form-check form-switch">
-    <input class="form-check-input" type="checkbox" id="textToVoiceSET">
-    <label class="form-check-label" for="textToVoiceSET">Text To Voice On</label>
-  </div>
-  <div class="form-check form-switch">
-    <input class="form-check-input" type="checkbox" id="voiceToTextSET">
-    <label class="form-check-label" for="voiceToTextSET">Voice To Text On</label>
-  </div>
-</div>
-
-                    <div class="tab-pane active showIt" id="personal-profile" data-bs-name="Personal Information" role="tabpanel" aria-labelledby="profile-personal-tab">
-                      <p>Update your personal details here.</p>
-                      <!-- Personal Tab -->
-                      <form id="personalForm-profile">
-                        <div class="mb-3">
-                          <label for="usernameSET-profile" class="form-label">Username</label>
-                          <input type="name" class="form-control" id="usernameSET-profile" placeholder="Your desired username">
-                        </div>
-                        <div class="mb-3">
-                          <label for="emailSET-profile" class="form-label">Email</label>
-                          <input type="email" class="form-control" id="emailSET-profile" disabled>
-                        </div>
-                        <div class="mb-3" hidden>
-                          <label for="profilePictureSET-profile" class="form-label">Profile Picture</label>
-                          <input type="file" class="form-control" id="profilePictureSET-profile">
-                        </div>
-                        <div class="mb-3">
-                          <label for="nameSET-profile" class="form-label">Name</label>
-                          <input type="name" class="form-control" id="nameSET-profile" placeholder="Your full name">
-                        </div>
-                
-                        <div class="mb-3">
-                          <label for="phoneSET-profile" class="form-label">Phone</label>
-                          <input type="tel" class="form-control" id="phoneSET-profile">
-                        </div>
-                
-                        <div class="mb-3" hidden>
-                          <label for="dobSET-profile" class="form-label">DOB</label>
-                          <input type="date" class="form-control" id="dobSET-profile">
-                        </div>
-                
-                        <div class="mb-3">
-                          <label for="bioSET-profile" class="form-label">Bio</label>
-                          <textarea class="form-control" id="bioSET-profile" rows="3" placeholder="Tell us about yourself"></textarea>
-                        </div>
-                        <div class="mb-3">
-                          <label for="locationSET-profile" class="form-label">Location</label>
-                          <input type="text" class="form-control" id="locationSET-profile" placeholder="Enter your city or state">
-                        </div>
-                
-                        <div class="mb-3">
-                          <label for="positionSET-profile" class="form-label">Current Position</label>
-                          <input type="text" class="form-control" id="positionSET-profile" placeholder="Your job title or current role">
-                        </div>
-                
-                      </form>
-                    </div>
-                
-                    <div class="tab-pane" id="social-profile" data-bs-name="Social Profiles" role="tabpanel" aria-labelledby="profile-social-tab">
-                      <p>Manage your social media links here.</p>
-                      <!-- Social Tab -->
-                      <form id="socialForm-profile">
-                        <!-- LinkedIn -->
-                        <div class="mb-3">
-                          <label for="linkedinSET-name" class="form-label">Name</label>
-                          <input type="text" class="form-control" id="linkedinSET-name" placeholder="LinkedIn" value="LinkedIn">
-                          <label for="linkedinSET-profile" class="form-label mt-2">URL</label>
-                          <input type="url" class="form-control" id="linkedinSET-profile" placeholder="https://www.linkedin.com/in/yourprofile">
-                        </div>
-                        
-                        <!-- Portfolio -->
-                        <div class="mb-3">
-                          <label for="portfolioSET-name" class="form-label">Name</label>
-                          <input type="text" class="form-control" id="portfolioSET-name" placeholder="Portfolio" value="Portfolio">
-                          <label for="portfolioSET-profile" class="form-label mt-2">URL</label>
-                          <input type="url" class="form-control" id="portfolioSET-profile" placeholder="https://portfolio.com/yourprofile">
-                        </div>
-                        
-                        <!-- GitHub -->
-                        <div class="mb-3">
-                          <label for="githubSET-name" class="form-label">Name</label>
-                          <input type="text" class="form-control" id="githubSET-name" placeholder="GitHub" value="GitHub">
-                          <label for="githubSET-profile" class="form-label mt-2">URL</label>
-                          <input type="url" class="form-control" id="githubSET-profile" placeholder="https://github.com/yourprofile">
-                        </div>
-                        
-                        <!-- Other Website -->
-                        <div class="mb-3">
-                          <label for="otherSET-name" class="form-label">Name</label>
-                          <input type="text" class="form-control" id="otherSET-name" placeholder="Other Website" value="Other">
-                          <label for="otherSET-profile" class="form-label mt-2">URL</label>
-                          <input type="url" class="form-control" id="otherSET-profile" placeholder="https://otherwebsite.com/yourprofile">
-                        </div>
-                      </form>
-                      
-                    </div>
-                
-                    <div class="tab-pane" id="membership-profile" data-bs-name="Membership Details" role="tabpanel" aria-labelledby="profile-membership-tab">
-                      <p>Check your membership information here.</p>
-                
-                      <!-- Membership Tab -->
-                      <form id="membershipForm-profile">
-                        <div class="mb-3">
-                          <label for="membershipTypeSET-profile" class="form-label">Membership Type</label>
-                          <select class="form-select" id="membershipTypeSET-profile">
-                            <option value="free">Free</option>
-                            <option value="basic">Basic</option>
-                            <option value="pro">Pro</option>
-                          </select>
-                        </div>
-                        <div class="mb-3">
-                          <label for="membershipStatus-profile" class="form-label">Membership Status</label>
-                          <input type="text" class="form-control" id="membershipStatus-profile" value="Active" disabled>
-                        </div>
-                        <div class="mb-3">
-                          <label for="renewalDateSET-profile" class="form-label">Renewal Date</label>
-                          <input type="datetime" class="form-control" id="renewalDateSET-profile" disabled>
-                        </div>
-                
-                        <div class="mb-3">
-                          <label for="lastLogin-profile" class="form-label">lastLogin</label>
-                          <input type="datetime" class="form-control" id="lastLogin-profile" disabled>
-                        </div>
-                        <div class="mb-3">
-                          <label for="userID-profile" class="form-label">userID</label>
-                          <input type="text" class="form-control" id="userID-profile" disabled>
-                        </div>
-                
-                      </form>
-                
-                      <div class="d-flex justify-content-between mt-4">
-                        <button type="button" class="btn btn-danger" id="deactivateAccountBtn-profile">Deactivate Account</button>
-                      </div>
-                
-                    </div>
-                
-                  </div>
-                </div>
-  
-              
-  
-  
-
-                
-  
-      
-    
-  
-  
-                
-                   
-                
-  
-               <div id="profileCards" class=" mt-3 col-md-8 container">
-                  
-  
-<!-- Tabs Navigation -->
-<ul class="nav nav-tabs" id="profileTabs" role="tablist">
-  <li class="nav-item" role="presentation">
-    <button class="profile-tabs active" id="video-tab" data-bs-toggle="tab" data-bs-target="#video-section" type="button" role="tab" aria-controls="video-section" aria-selected="true">
-      Video Resumes
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="https://reelcareer.co">ReelCareer</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
     </button>
-  </li>
-  <li class="nav-item" role="presentation">
-    <button class="profile-tabs" id="digital-tab" data-bs-toggle="tab" data-bs-target="#digital-section" type="button" role="tab" aria-controls="digital-section" aria-selected="false">
-      Digital Resume
-    </button>
-  </li>
-  <li class="nav-item" role="presentation">
-    <button class="profile-tabs" id="jobs-tab" data-bs-toggle="tab" data-bs-target="#jobs-section" type="button" role="tab" aria-controls="jobs-section" aria-selected="false">
-      Open Jobs
-    </button>
-  </li>
-  <li class="nav-item" role="presentation" hidden>
-    <button class="profile-tabs" id="companies-tab" data-bs-toggle="tab" data-bs-target="#companies-section" type="button" role="tab" aria-controls="companies-section" aria-selected="false">
-      Companies
-    </button>
-  </li>
-</ul>
-
-<!-- Tabs Content -->
-<div class="tab-content mt-3" id="profileTabsContent">
-  <!-- Video Resumes Section -->
-  <div class="profile-pane fade  active showIt" id="video-section" role="tabpanel" aria-labelledby="video-tab">
-    <div class="card">
-      <div class="card-body">
-        <h5>Video Resumes</h5>
-        <div id="video-resume-list">
-          <!-- Video resume files will be dynamically listed here -->
-        </div>
-        <button class="btn btn-primary btn-block mt-4" id="view-create-create-video-btn">Create Video Resumes</button>
-      </div>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="news">News</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="jobs">Jobs</a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="user">Profile</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="messaging">Messages</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link btn btn-danger" href="/views/auth">Logout</a>
+        </li>
+      </ul>
     </div>
-  </div>
+  </nav>
 
-  <!-- Digital Resume Section -->
-  <div class="profile-pane fade" id="digital-section" role="tabpanel" aria-labelledby="digital-tab">
-    <div class="card">
-      <div class="card-body">
-        <h5>Digital Resume</h5>
-        <a href="#" id="digital-resume-link" class="btn btn-primary">Edit Resume</a>
-      </div>
-    </div>
-  </div>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li id="lastBreadcrumb_profile" class="breadcrumb-item"><a href="https://reelcareer.co/u">Profile</a></li>
+      <li id="lastBreadcrumb_messages" class="breadcrumb-item"><a href="https://reelcareer.co/u/messaging">Messages</a></li>
 
-  <!-- Open Jobs Section -->
-  <div class="profile-pane fade" id="jobs-section" role="tabpanel" aria-labelledby="jobs-tab">
-    <div class="card">
-      <div class="card-body">
-        <h5>Open Jobs</h5>
-        <div id="open-jobs-list">
-          <!-- Open jobs will be dynamically listed here -->
-        </div>
-      </div>
-    </div>
-  </div>
+      <li id="lastBreadcrumb_1" class="breadcrumb-item"><a href="https://reelcareer.co/u">Edit Profile</a></li>
+      <li id="lastBreadcrumb_last" class="breadcrumb-item"><a id="lastBreadcrumb_a" href="https://reelcareer.co/u">View Profile</a></li>
+      <li id="breadcrumb-active-title" class="breadcrumb-item active" aria-current="page">User</li>
+    </ol>
+  </nav>
 
-  <!-- Companies Section -->
-  <div class="profile-pane fade" id="companies-section" role="tabpanel" aria-labelledby="companies-tab">
-    <div class="card">
-      <div class="card-body">
-        <h5>Companies</h5>
-        <ul id="companies-list">
-          <!-- Companies will be dynamically listed here -->
-        </ul>
-      </div>
-    </div>
-  </div>
-</div>
+  <main id="main-content">
 
+    <!-- User Profile Section -->
 
+    <div class="userProfile">
 
+      <div class="col-md-4">
+        <!-- User Info Section -->
+        <div class="card">
+          <div class="card-body text-center">
+            <img id="profilePic" src="/images/sq_logo_n_BG_tie_reel.png" alt="User Profile Picture" class="img-fluid rounded-circle mb-3" style="width: 150px;">
+            <h3 id="user-name">User Name</h3>
+            <small id="user-position">Web Developer</small>
+            <p id="user-bio">This is a short bio about the user...</p>
+            <span id="membership-badge" class="badge badge-success">Premium Member</span>
+            <span id="verified-badge" class="badge badge-info">Verified</span>
+            <p id="user-location">Location: <span id="location-text">City, State</span></p>
+            <div id="tags-container"></div>
 
-                  <!-- Blogs Section -->
-                  <div class="card mt-3" hidden>
-                      <div class="card-body">
-                          <h5>Blogs</h5>
-                          <ul id="blogs-list">
-                              <!-- Blogs will be dynamically listed here -->
-                          </ul>
-                      </div>
-                  </div>
-  
-      
+            <!-- Social Media and Websites -->
+            <div class="mt-3">
+              <h5>Links</h5>
+              <div id="social-media-list">
+                <!-- Social media links will be dynamically listed here -->
               </div>
-  
-  
-  
+            </div>
+
+            <button class="btn btn-primary btn-block" id="send-message-btn">Send Message</button>
+            <button class="btn btn-primary btn-block" id="settings-profile-btn">Setting</button>
+
+            <button class="btn btn-primary btn-block" id="share-profile-btn">Share Profile</button>
+
+            <button class="btn btn-primary btn-block" id="connect-btn">Connect</button>
+            <button class="btn btn-primary btn-block" id="view-profile-btn">View Profile</button>
+
+            <button class="btn btn-primary btn-block" id="view-messages-btn">Messages</button>
+            <button class="btn btn-primary btn-block" id="view-create-reel-btn">Create Reel</button>
+
+            <button class="btn btn-primary btn-block" id="jobSeeker-btn">Job Seeker Dashboard</button>
+            <button class="btn btn-primary btn-block" id="recruiter-btn">Recruiter Dashboard</button>
           </div>
+        </div>
+
       </div>
-         
-      <div class="modal fade" id="sendMessageModal" tabindex="-1" aria-labelledby="sendMessageModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-          <div class="modal-content">
-            <div class="modal-header border-0">
-              <h5 class="modal-title" id="sendMessageModalLabel">
-                <span id="recipient-name">Send Message</span>
-              </h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <form id="sendMessageForm">
-                <!-- Editable Message Area -->
-                <div class="message-input-attachment-btn-wrap">
-                  <label for="message-content-editable">Message</label>
 
-                  <div class="message-input-area">
-                  <div
-                    id="message-content-editable"
-                    class="message-content-area"
-                    contenteditable="true"
-                    data-placeholder="Type your message here..."
-                  ></div>
+      <div id="profileSettingsMain" class="col-md-8 container hidden">
 
+        <div id="profile-settings-header">
+          <h1 id="settings-header-text" class="mb-4">Profile Settings</h1>
+          <button type="button" class="btn btn-primary" id="saveProfileBtn-profile">Save Changes</button>
+        </div>
 
-           <!-- Attachment Preview -->
-           <div id="attachment-preview" class="mt-3 d-none">
-            <div class="attachment-area align-items-center">
-              <video id="attachmentVideo" class="d-none attachment-thumbnail" controls src=""></video>
-              <img id="attachment-thumbnail" class="d-none attachment-thumbnail" src="" alt="Attachment preview" width="50" class="mr-2">
-              <button type="button" id="remove-attachment" class="btn btn-sm btn-danger">X</button>
+        <p class="text-muted">Keep your profile up to date to improve your visibility and networking opportunities.</p>
+
+        <ul class="nav profile-nav-item" id="profileTab" role="tablist">
+
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="profile-personal-tab" data-bs-toggle="tab" data-bs-target="#personal-profile" type="button" role="tab" aria-controls="personal" aria-selected="true">
+              Personal
+            </button>
+          </li>
+          <li class="profile-nav-item" role="presentation">
+            <button class="nav-link" id="profile-social-tab" data-bs-toggle="tab" data-bs-target="#social-profile" type="button" role="tab" aria-controls="social" aria-selected="false">
+              Social
+            </button>
+          </li>
+
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="profile-settings-tab" data-bs-toggle="tab" data-bs-target="#settings-profile" type="button" role="tab" aria-controls="personal" aria-selected="true">
+              Settings
+            </button>
+          </li>
+
+          <li class="profile-nav-item" role="presentation">
+            <button class="nav-link" id="profile-membership-tab" data-bs-toggle="tab" data-bs-target="#membership-profile" type="button" role="tab" aria-controls="membership" aria-selected="false">
+              Membership
+            </button>
+          </li>
+        </ul>
+
+        <!-- Public Profile -->
+        <div class="form-check form-switch mb-3">
+          <input class="form-check-input" type="checkbox" id="publicProfileSET-profile">
+          <label class="form-check-label" for="publicProfileSET-profile">Public Profile</label>
+        </div>
+
+        <!-- Site Settings -->
+        <div class="mb-3">
+          <label class="form-label"><strong>Site Settings</strong></label>
+          <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" id="darkModeSET">
+            <label class="form-check-label" for="darkModeSET">Dark Mode</label>
           </div>
+        </div>
+
+        <!-- Messages Settings -->
+        <div class="mb-3">
+          <label class="form-label"><strong>Messages Settings</strong></label>
+          <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" id="audioAlertSET">
+            <label class="form-check-label" for="audioAlertSET">Message Audio Alert</label>
           </div>
+          <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" id="showReadSET">
+            <label class="form-check-label" for="showReadSET">Show "Read" in Receiver Messages</label>
+          </div>
+        </div>
 
-                  </div>
+        <!-- Chat Bot Settings -->
+        <div class="mb-3">
+          <label class="form-label"><strong>Chat Bot Settings</strong></label>
+          <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" id="textToVoiceSET">
+            <label class="form-check-label" for="textToVoiceSET">Text To Voice On</label>
+          </div>
+          <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" id="voiceToTextSET">
+            <label class="form-check-label" for="voiceToTextSET">Voice To Text On</label>
+          </div>
+        </div>
 
-            <!-- Attachment Section -->
-            <div class="attachment-container">
-              <div class="mt-3">
-              <button type="button" id="attachment-btn" class="btn btn-outline-primary">
-                <i class="fas fa-paperclip"></i> Choose File
-              </button>
+        <div class="tab-pane active showIt" id="personal-profile" data-bs-name="Personal Information" role="tabpanel" aria-labelledby="profile-personal-tab">
+          <p>Update your personal details here.</p>
+          <!-- Personal Tab -->
+          <form id="personalForm-profile">
+            <div class="mb-3">
+              <label for="usernameSET-profile" class="form-label">Username</label>
+              <input type="name" class="form-control" id="usernameSET-profile" placeholder="Your desired username">
+            </div>
+            <div class="mb-3">
+              <label for="emailSET-profile" class="form-label">Email</label>
+              <input type="email" class="form-control" id="emailSET-profile" disabled>
+            </div>
+            <div class="mb-3" hidden>
+              <label for="profilePictureSET-profile" class="form-label">Profile Picture</label>
+              <input type="file" class="form-control" id="profilePictureSET-profile">
+            </div>
+            <div class="mb-3">
+              <label for="nameSET-profile" class="form-label">Name</label>
+              <input type="name" class="form-control" id="nameSET-profile" placeholder="Your full name">
             </div>
 
-           <!-- Submit Button -->
-           <div class="mt-3">
-            <button type="submit" class="btn btn-primary mt-3">Send</button>
+            <div class="mb-3">
+              <label for="phoneSET-profile" class="form-label">Phone</label>
+              <input type="tel" class="form-control" id="phoneSET-profile">
+            </div>
+
+            <div class="mb-3" hidden>
+              <label for="dobSET-profile" class="form-label">DOB</label>
+              <input type="date" class="form-control" id="dobSET-profile">
+            </div>
+
+            <div class="mb-3">
+              <label for="bioSET-profile" class="form-label">Bio</label>
+              <textarea class="form-control" id="bioSET-profile" rows="3" placeholder="Tell us about yourself"></textarea>
+            </div>
+            <div class="mb-3">
+              <label for="locationSET-profile" class="form-label">Location</label>
+              <input type="text" class="form-control" id="locationSET-profile" placeholder="Enter your city or state">
+            </div>
+
+            <div class="mb-3">
+              <label for="positionSET-profile" class="form-label">Current Position</label>
+              <input type="text" class="form-control" id="positionSET-profile" placeholder="Your job title or current role">
+            </div>
+
+          </form>
+        </div>
+
+        <div class="tab-pane" id="social-profile" data-bs-name="Social Profiles" role="tabpanel" aria-labelledby="profile-social-tab">
+          <p>Manage your social media links here.</p>
+          <!-- Social Tab -->
+          <form id="socialForm-profile">
+            <!-- LinkedIn -->
+            <div class="mb-3">
+              <label for="linkedinSET-name" class="form-label">Name</label>
+              <input type="text" class="form-control" id="linkedinSET-name" placeholder="LinkedIn" value="LinkedIn">
+              <label for="linkedinSET-profile" class="form-label mt-2">URL</label>
+              <input type="url" class="form-control" id="linkedinSET-profile" placeholder="https://www.linkedin.com/in/yourprofile">
+            </div>
+
+            <!-- Portfolio -->
+            <div class="mb-3">
+              <label for="portfolioSET-name" class="form-label">Name</label>
+              <input type="text" class="form-control" id="portfolioSET-name" placeholder="Portfolio" value="Portfolio">
+              <label for="portfolioSET-profile" class="form-label mt-2">URL</label>
+              <input type="url" class="form-control" id="portfolioSET-profile" placeholder="https://portfolio.com/yourprofile">
+            </div>
+
+            <!-- GitHub -->
+            <div class="mb-3">
+              <label for="githubSET-name" class="form-label">Name</label>
+              <input type="text" class="form-control" id="githubSET-name" placeholder="GitHub" value="GitHub">
+              <label for="githubSET-profile" class="form-label mt-2">URL</label>
+              <input type="url" class="form-control" id="githubSET-profile" placeholder="https://github.com/yourprofile">
+            </div>
+
+            <!-- Other Website -->
+            <div class="mb-3">
+              <label for="otherSET-name" class="form-label">Name</label>
+              <input type="text" class="form-control" id="otherSET-name" placeholder="Other Website" value="Other">
+              <label for="otherSET-profile" class="form-label mt-2">URL</label>
+              <input type="url" class="form-control" id="otherSET-profile" placeholder="https://otherwebsite.com/yourprofile">
+            </div>
+          </form>
+
+        </div>
+
+        <div class="tab-pane" id="membership-profile" data-bs-name="Membership Details" role="tabpanel" aria-labelledby="profile-membership-tab">
+          <p>Check your membership information here.</p>
+
+          <!-- Membership Tab -->
+          <form id="membershipForm-profile">
+            <div class="mb-3">
+              <label for="membershipTypeSET-profile" class="form-label">Membership Type</label>
+              <select class="form-select" id="membershipTypeSET-profile">
+                <option value="free">Free</option>
+                <option value="basic">Basic</option>
+                <option value="pro">Pro</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="membershipStatus-profile" class="form-label">Membership Status</label>
+              <input type="text" class="form-control" id="membershipStatus-profile" value="Active" disabled>
+            </div>
+            <div class="mb-3">
+              <label for="renewalDateSET-profile" class="form-label">Renewal Date</label>
+              <input type="datetime" class="form-control" id="renewalDateSET-profile" disabled>
+            </div>
+
+            <div class="mb-3">
+              <label for="lastLogin-profile" class="form-label">lastLogin</label>
+              <input type="datetime" class="form-control" id="lastLogin-profile" disabled>
+            </div>
+            <div class="mb-3">
+              <label for="userID-profile" class="form-label">userID</label>
+              <input type="text" class="form-control" id="userID-profile" disabled>
+            </div>
+
+          </form>
+
+          <div class="d-flex justify-content-between mt-4">
+            <button type="button" class="btn btn-danger" id="deactivateAccountBtn-profile">Deactivate Account</button>
           </div>
 
+        </div>
 
-            </div>
-                </div>
+      </div>
+    </div>
 
+    <div id="profileCards" class=" mt-3 col-md-8 container">
 
+      <!-- Tabs Navigation -->
+      <ul class="nav nav-tabs" id="profileTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="profile-tabs active" id="video-tab" data-bs-toggle="tab" data-bs-target="#video-section" type="button" role="tab" aria-controls="video-section" aria-selected="true">
+            Video Resumes
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="profile-tabs" id="digital-tab" data-bs-toggle="tab" data-bs-target="#digital-section" type="button" role="tab" aria-controls="digital-section" aria-selected="false">
+            Digital Resume
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="profile-tabs" id="jobs-tab" data-bs-toggle="tab" data-bs-target="#jobs-section" type="button" role="tab" aria-controls="jobs-section" aria-selected="false">
+            Open Jobs
+          </button>
+        </li>
+        <li class="nav-item" role="presentation" hidden>
+          <button class="profile-tabs" id="companies-tab" data-bs-toggle="tab" data-bs-target="#companies-section" type="button" role="tab" aria-controls="companies-section" aria-selected="false">
+            Companies
+          </button>
+        </li>
+      </ul>
 
-
-
-
-                <span id="attachment-name" class="mr-2" hidden></span>
-
-                <input type="hidden" id="recipient-id" value="">
-                <input type="file" id="message-attachments" class="d-none" />
-
-                  <!-- Hidden Textarea to Sync Content -->
-                  <textarea id="message-content" class="d-none"></textarea>
-    
-      
-     
-      
-              </form>
+      <!-- Tabs Content -->
+      <div class="tab-content mt-3" id="profileTabsContent">
+        <!-- Video Resumes Section -->
+        <div class="profile-pane fade  active showIt" id="video-section" role="tabpanel" aria-labelledby="video-tab">
+          <div class="card">
+            <div class="card-body">
+              <h5>Video Resumes</h5>
+              <div id="video-resume-list">
+                <!-- Video resume files will be dynamically listed here -->
+              </div>
+              <button class="btn btn-primary btn-block mt-4" id="view-create-create-video-btn">Create Video Resumes</button>
             </div>
           </div>
         </div>
 
-        
+        <!-- Digital Resume Section -->
+        <div class="profile-pane fade" id="digital-section" role="tabpanel" aria-labelledby="digital-tab">
+          <div class="card">
+            <div class="card-body">
+              <h5>Digital Resume</h5>
+              <a href="#" id="digital-resume-link" class="btn btn-primary">Edit Resume</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Open Jobs Section -->
+        <div class="profile-pane fade" id="jobs-section" role="tabpanel" aria-labelledby="jobs-tab">
+          <div class="card">
+            <div class="card-body">
+              <h5>Open Jobs</h5>
+              <div id="open-jobs-list">
+                <!-- Open jobs will be dynamically listed here -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Companies Section -->
+        <div class="profile-pane fade" id="companies-section" role="tabpanel" aria-labelledby="companies-tab">
+          <div class="card">
+            <div class="card-body">
+              <h5>Companies</h5>
+              <ul id="companies-list">
+                <!-- Companies will be dynamically listed here -->
+              </ul>
+            </div>
+          </div>
+        </div>
       </div>
 
+      <!-- Blogs Section -->
+      <div class="card mt-3" hidden>
+        <div class="card-body">
+          <h5>Blogs</h5>
+          <ul id="blogs-list">
+            <!-- Blogs will be dynamically listed here -->
+          </ul>
+        </div>
+      </div>
 
+    </div>
 
+    <div class="modal fade" id="sendMessageModal" tabindex="-1" aria-labelledby="sendMessageModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header border-0">
+            <h5 class="modal-title" id="sendMessageModalLabel">
+              <span id="recipient-name">Send Message</span>
+            </h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form id="sendMessageForm">
+              <!-- Editable Message Area -->
+              <div class="message-input-attachment-btn-wrap">
+                <label for="message-content-editable">Message</label>
 
-<!-- Include Font Awesome for the paperclip icon -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+                <div class="message-input-area">
+                  <div id="message-content-editable" class="message-content-area" contenteditable="true" data-placeholder="Type your message here..."></div>
+
+                  <!-- Attachment Preview -->
+                  <div id="attachment-preview" class="mt-3 d-none">
+                    <div class="attachment-area align-items-center">
+                      <video id="attachmentVideo" class="d-none attachment-thumbnail" controls src="https://reelcareer.co/images/defeat.png"></video>
+                      <img id="attachment-thumbnail" class="d-none attachment-thumbnail mr-2" src="https://reelcareer.co/images/defeat.png" alt="Attachment preview" width="50">
+                      <button type="button" id="remove-attachment" class="btn btn-sm btn-danger">X</button>
+                    </div>
+                  </div>
+
+                </div>
+
+                <!-- Attachment Section -->
+                <div class="attachment-container">
+                  <div class="mt-3">
+                    <button type="button" id="attachment-btn" class="btn btn-outline-primary">
+                      <i class="fas fa-paperclip"></i> Choose File
+                    </button>
+                  </div>
+
+                  <!-- Submit Button -->
+                  <div class="mt-3">
+                    <button type="submit" class="btn btn-primary mt-3">Send</button>
+                  </div>
+
+                </div>
+              </div>
+
+              <span id="attachment-name" class="mr-2" hidden></span>
+
+              <input type="hidden" id="recipient-id" value="">
+              <input type="file" id="message-attachments" class="d-none" />
+
+              <!-- Hidden Textarea to Sync Content -->
+              <textarea id="message-content" class="d-none"></textarea>
+
+            </form>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Include Font Awesome for the paperclip icon -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 
   </main>
 
-<div id="currentUserId" hidden></div>
-<div id="userPageId" hidden></div>
+  <div id="currentUserId" hidden></div>
+  <div id="userPageId" hidden></div>
 
-    <!-- Footer -->
-    <footer id="dynamic-footer"></footer>
+  <!-- Footer -->
+  <footer id="dynamic-footer"></footer>
 
-    <!-- Firebase configuration/ Login& Out -->
-    <script type="module" src="https://reelcareer.co/public/js/main.js"></script>
+  <!-- Firebase configuration/ Login& Out -->
+  <script type="module" src="https://reelcareer.co/public/js/main.js"></script>
 
-<!-- Firebase JS SDK and Custom Scripts -->
+  <!-- Firebase JS SDK and Custom Scripts -->
 
-<script type="module">
-   
-   
+  <script type="module">
     import {
-        db, getStorage, ref, uploadBytes, getDownloadURL, limit,
-  doc, arrayUnion, RecaptchaVerifier, increment, getDoc, arrayRemove, signInWithPhoneNumber,
-  query, updateDoc, setDoc, addDoc, signInAnonymously, orderBy, onAuthStateChanged,
-  uploadBytesResumable, signInWithPopup, FacebookAuthProvider, GoogleAuthProvider, startAfter,
-  OAuthProvider, signOut, deleteDoc, getFirestore, serverTimestamp,
-  createUserWithEmailAndPassword, signInWithEmailAndPassword, deleteObject,
-  where, getDocs, storage, getAuth, collection, auth, analytics,
-  googleProvider,onSnapshot ,
-  facebookProvider,
-  getUserId // Export the function
+      db,
+      getStorage,
+      ref,
+      uploadBytes,
+      getDownloadURL,
+      limit,
+      doc,
+      arrayUnion,
+      RecaptchaVerifier,
+      increment,
+      getDoc,
+      arrayRemove,
+      signInWithPhoneNumber,
+      query,
+      updateDoc,
+      setDoc,
+      addDoc,
+      signInAnonymously,
+      orderBy,
+      onAuthStateChanged,
+      uploadBytesResumable,
+      signInWithPopup,
+      FacebookAuthProvider,
+      GoogleAuthProvider,
+      startAfter,
+      OAuthProvider,
+      signOut,
+      deleteDoc,
+      getFirestore,
+      serverTimestamp,
+      createUserWithEmailAndPassword,
+      signInWithEmailAndPassword,
+      deleteObject,
+      where,
+      getDocs,
+      storage,
+      getAuth,
+      collection,
+      auth,
+      analytics,
+      googleProvider,
+      onSnapshot,
+      facebookProvider,
+      getUserId // Export the function
     } from 'https://reelcareer.co/js/module.js';
-
-//         const userId = auth.currentUser.uid;
-
-
-
-
-
-
-
-
-
+    //         const userId = auth.currentUser.uid;
     function showPrivateProfileMessage() {
-    // Create a container div
-    const container = document.createElement('div');
-    container.className = 'private-profile-container';
-    container.style.cssText = `
+      // Create a container div
+      const container = document.createElement('div');
+      container.className = 'private-profile-container';
+      container.style.cssText = `
         display: flex; 
         justify-content: center; 
         align-items: center; 
         height: 100vh; 
         background-color: #f5f5f5;
     `;
-
-    // Create the card div
-    const card = document.createElement('div');
-    card.className = 'private-profile-card';
-    card.style.cssText = `
+      // Create the card div
+      const card = document.createElement('div');
+      card.className = 'private-profile-card';
+      card.style.cssText = `
         background-color: white; 
         padding: 20px; 
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
         border-radius: 8px; 
         text-align: center;
     `;
-
-    // Add a title to the card
-    const title = document.createElement('h3');
-    title.textContent = 'Profile is Private';
-    title.style.marginBottom = '15px';
-    card.appendChild(title);
-
-    // Add a message inside the card
-    const message = document.createElement('p');
-    message.textContent = 'This profile is private and cannot be viewed.';
-    message.style.marginBottom = '20px';
-    card.appendChild(message);
-
-    // Create a "Go Back" button
-    const goBackButton = document.createElement('button');
-    goBackButton.textContent = 'Go Back';
-    goBackButton.className = 'btn btn-primary'; // Assuming Bootstrap classes, if used
-    goBackButton.style.padding = '10px 20px';
-    
-    // Add an event listener to navigate back
-    goBackButton.addEventListener('click', () => {
+      // Add a title to the card
+      const title = document.createElement('h3');
+      title.textContent = 'Profile is Private';
+      title.style.marginBottom = '15px';
+      card.appendChild(title);
+      // Add a message inside the card
+      const message = document.createElement('p');
+      message.textContent = 'This profile is private and cannot be viewed.';
+      message.style.marginBottom = '20px';
+      card.appendChild(message);
+      // Create a "Go Back" button
+      const goBackButton = document.createElement('button');
+      goBackButton.textContent = 'Go Back';
+      goBackButton.className = 'btn btn-primary'; // Assuming Bootstrap classes, if used
+      goBackButton.style.padding = '10px 20px';
+      // Add an event listener to navigate back
+      goBackButton.addEventListener('click', () => {
         window.history.back(); // This takes the user to the previous page
-    });
-
-    card.appendChild(goBackButton);
-
-    // Append the card to the container
-    container.appendChild(card);
-
-    // Append the container to the body (or a specific element on your page)
-    document.body.appendChild(container);
-}
-
-function showUserDataNotFoundMessage() {
-  breadcrumbjobTitleActive.style.display = "none";
-
-lastBreadcrumb_last.style.display = "block";
-lastBreadcrumb_a.innerText = "Create a Profile";
-lastBreadcrumb_a.href = `https://reelcareer.co/views/auth`;
-
-let mainContainer = document.getElementById('main-content');
-
-
-  mainContainer.innerHTML = '';
-
-    // Create a container div
-    const container = document.createElement('div');
-    container.className = 'user-data-not-found-container';
-    container.style.cssText = `
-        display: flex; 
-        justify-content: center; 
-        align-items: center; 
-        height: 100vh; 
-    `;
-    container.style.transform = 'none';
-    container.style.transition = 'none';
-    container.style.opacity = '1';
-    container.style.display = 'block';
-    // Create the card div
-    const card = document.createElement('div');
-    card.className = 'user-data-not-found-card';
-    card.style.cssText = `
-        background-color: white; 
-        padding: 20px; 
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
-        border-radius: 8px; 
-        text-align: center;
-    `;
-
-    // Add a title to the card
-    const title = document.createElement('h3');
-    title.textContent = 'User Not Found Create A Profile';
-    title.style.marginBottom = '15px';
-    card.appendChild(title);
-
-    // Add a message inside the card
-    const message = document.createElement('p');
-    message.textContent = 'The requested user could not be found.';
-    message.style.marginBottom = '20px';
-    card.appendChild(message);
-
-    // Create a "Go Back" button
-    const goBackButton = document.createElement('button');
-    goBackButton.textContent = 'Go Back';
-    goBackButton.className = 'btn btn-primary m-1'; // Assuming Bootstrap classes, if used
-    goBackButton.style.padding = '10px 20px';
-    
-    // Add an event listener to navigate back
-    goBackButton.addEventListener('click', () => {
-        window.history.back(); // This takes the user to the previous page
-    });
-
-    card.appendChild(goBackButton);
-
-    // Create a "Login" button
-    const loginButton = document.createElement('button');
-    loginButton.textContent = 'Go to Login Page';
-    loginButton.className = 'btn btn-primary m-1'; // Assuming Bootstrap classes, if used
-    loginButton.style.padding = '10px 20px';
-
-    // Add an event listener to redirect to the login page
-    loginButton.addEventListener('click', () => {
-        window.location.href = 'https://reelcareer.co/views/auth'; // Change '/login' to your actual login page URL
-    });
-
-    card.appendChild(loginButton);
-
-    // Append the card to the container
-    container.appendChild(card);
-
-    // Append the container to the body (or a specific element on your page)
-    mainContainer.appendChild(container);
-}
-
-window.showUserDataNotFoundMessage = showUserDataNotFoundMessage;
-
-function showUserSignedOutMessage() {
-    // Create a container div
-    const container = document.createElement('div');
-    container.className = 'user-signed-out-container';
-    container.style.cssText = `
-        display: flex; 
-        justify-content: center; 
-        align-items: center; 
-        height: 100vh; 
-        background-color: #f5f5f5;
-    `;
-
-    // Create the card div
-    const card = document.createElement('div');
-    card.className = 'user-signed-out-card';
-    card.style.cssText = `
-        background-color: white; 
-        padding: 20px; 
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
-        border-radius: 8px; 
-        text-align: center;
-    `;
-
-    // Add a title to the card
-    const title = document.createElement('h3');
-    title.textContent = 'Signed Out';
-    title.style.marginBottom = '15px';
-    card.appendChild(title);
-
-    // Add a message inside the card
-    const message = document.createElement('p');
-    message.textContent = 'You have been signed out. Please log in to continue.';
-    message.style.marginBottom = '20px';
-    card.appendChild(message);
-
-    // Create a "Login" button
-    const loginButton = document.createElement('button');
-    loginButton.textContent = 'Go to Login Page';
-    loginButton.className = 'btn btn-primary'; // Assuming Bootstrap classes, if used
-    loginButton.style.padding = '10px 20px';
-
-    // Add an event listener to redirect to the login page
-    loginButton.addEventListener('click', () => {
-        window.location.href = '/auth'; // Change '/login' to your actual login page URL
-    });
-
-    card.appendChild(loginButton);
-
-    // Append the card to the container
-    container.appendChild(card);
-
-    // Append the container to the body (or a specific element on your page)
-    document.body.appendChild(container);
-}
-
-window.showUserSignedOutMessage = showUserSignedOutMessage;
-
-
-      
-const lastBreadcrumb_1 = document.getElementById("lastBreadcrumb_1");
-
-const lastBreadcrumb_last = document.getElementById("lastBreadcrumb_last");
-const lastBreadcrumb_a = document.getElementById("lastBreadcrumb_a");
-
-const breadcrumbjobTitleActive = document.getElementById("breadcrumb-active-title");
-
-
-lastBreadcrumb_1.style.display = "none";
-lastBreadcrumb_last.style.display = "none";
-breadcrumbjobTitleActive.style.display = "none";
-
-document.getElementById('view-messages-btn').style.display = 'none';
-document.getElementById('view-create-reel-btn').style.display = 'none';
-document.getElementById('saveProfileBtn-profile').style.display = 'none';
-document.getElementById('settings-profile-btn').style.display = 'none';
-
-
-
-
-
-
-
-
-        // Async function to check the user profile (userData)
-        async function checkUser(userIdFromURL) {
-            try {
-                // Fetch profile information based on userId in the URL
-                const profileDoc = doc(db, 'Users', userIdFromURL);
-                const profileSnapshot = await getDoc(profileDoc);
-
-                if (profileSnapshot.exists()) {
-                    const userData = profileSnapshot.data();
-                    console.log("User data fetched from Firestore:", userData);
-
-             
-                    // Check if the profile is public
-                    if (userData.profilePublic) {
-                        showPrivateProfileMessage(); // Show private profile message
-                    } else {
-                        await loadUserData(userData); // Load user data if public
-                        await loadUserJobs(userData);
-                      //  await loadUserBlogs(userIdFromURL);
-                       // await loadUserCompanies(userIdFromURL);
-                        await loadUserVideoResumes(userData);
-                        await loadSocialMedia(userData);
-                    }
-
-
-                } else {
-                 // Call this function when the user data is not found
-      showUserDataNotFoundMessage();
-            console.log("No user ID found in URL or session.");
-                  return;
-                }
-                      setTimeout(() => {
-            setUpUI();
-        }, 300);
-
-            } catch (error) {
-                console.error("Error fetching user data:", error);
-            }
-
-      
-          }
-
-
-          let userId;
-
-const urlParams = new URLSearchParams(window.location.search);
-const userIdFromURL = urlParams.get('u');
-
-document.addEventListener('DOMContentLoaded', async () => {
-    try {
-        userId = await getUserId(); // Await here to properly set userId
-    } catch (error) {
-       // console.error("Error fetching user ID:", error);
+      });
+      card.appendChild(goBackButton);
+      // Append the card to the container
+      container.appendChild(card);
+      // Append the container to the body (or a specific element on your page)
+      document.body.appendChild(container);
     }
-});
 
-// Retrieve and populate form inputs for tabs
-window.onload = async function () {
-    setTimeout(() => {
+    function showUserDataNotFoundMessage() {
+      breadcrumbjobTitleActive.style.display = "none";
+      lastBreadcrumb_last.style.display = "block";
+      lastBreadcrumb_a.innerText = "Create a Profile";
+      lastBreadcrumb_a.href = `https://reelcareer.co/views/auth`;
+      let mainContainer = document.getElementById('main-content');
+      mainContainer.innerHTML = '';
+      // Create a container div
+      const container = document.createElement('div');
+      container.className = 'user-data-not-found-container';
+      container.style.cssText = `
+        display: flex; 
+        justify-content: center; 
+        align-items: center; 
+        height: 100vh; 
+    `;
+      container.style.transform = 'none';
+      container.style.transition = 'none';
+      container.style.opacity = '1';
+      container.style.display = 'block';
+      // Create the card div
+      const card = document.createElement('div');
+      card.className = 'user-data-not-found-card';
+      card.style.cssText = `
+        background-color: white; 
+        padding: 20px; 
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+        border-radius: 8px; 
+        text-align: center;
+    `;
+      // Add a title to the card
+      const title = document.createElement('h3');
+      title.textContent = 'User Not Found Create A Profile';
+      title.style.marginBottom = '15px';
+      card.appendChild(title);
+      // Add a message inside the card
+      const message = document.createElement('p');
+      message.textContent = 'The requested user could not be found.';
+      message.style.marginBottom = '20px';
+      card.appendChild(message);
+      // Create a "Go Back" button
+      const goBackButton = document.createElement('button');
+      goBackButton.textContent = 'Go Back';
+      goBackButton.className = 'btn btn-primary m-1'; // Assuming Bootstrap classes, if used
+      goBackButton.style.padding = '10px 20px';
+      // Add an event listener to navigate back
+      goBackButton.addEventListener('click', () => {
+        window.history.back(); // This takes the user to the previous page
+      });
+      card.appendChild(goBackButton);
+      // Create a "Login" button
+      const loginButton = document.createElement('button');
+      loginButton.textContent = 'Go to Login Page';
+      loginButton.className = 'btn btn-primary m-1'; // Assuming Bootstrap classes, if used
+      loginButton.style.padding = '10px 20px';
+      // Add an event listener to redirect to the login page
+      loginButton.addEventListener('click', () => {
+        window.location.href = 'https://reelcareer.co/views/auth'; // Change '/login' to your actual login page URL
+      });
+      card.appendChild(loginButton);
+      // Append the card to the container
+      container.appendChild(card);
+      // Append the container to the body (or a specific element on your page)
+      mainContainer.appendChild(container);
+    }
+    window.showUserDataNotFoundMessage = showUserDataNotFoundMessage;
+
+    function showUserSignedOutMessage() {
+      // Create a container div
+      const container = document.createElement('div');
+      container.className = 'user-signed-out-container';
+      container.style.cssText = `
+        display: flex; 
+        justify-content: center; 
+        align-items: center; 
+        height: 100vh; 
+        background-color: #f5f5f5;
+    `;
+      // Create the card div
+      const card = document.createElement('div');
+      card.className = 'user-signed-out-card';
+      card.style.cssText = `
+        background-color: white; 
+        padding: 20px; 
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+        border-radius: 8px; 
+        text-align: center;
+    `;
+      // Add a title to the card
+      const title = document.createElement('h3');
+      title.textContent = 'Signed Out';
+      title.style.marginBottom = '15px';
+      card.appendChild(title);
+      // Add a message inside the card
+      const message = document.createElement('p');
+      message.textContent = 'You have been signed out. Please log in to continue.';
+      message.style.marginBottom = '20px';
+      card.appendChild(message);
+      // Create a "Login" button
+      const loginButton = document.createElement('button');
+      loginButton.textContent = 'Go to Login Page';
+      loginButton.className = 'btn btn-primary'; // Assuming Bootstrap classes, if used
+      loginButton.style.padding = '10px 20px';
+      // Add an event listener to redirect to the login page
+      loginButton.addEventListener('click', () => {
+        window.location.href = '/auth'; // Change '/login' to your actual login page URL
+      });
+      card.appendChild(loginButton);
+      // Append the card to the container
+      container.appendChild(card);
+      // Append the container to the body (or a specific element on your page)
+      document.body.appendChild(container);
+    }
+    window.showUserSignedOutMessage = showUserSignedOutMessage;
+    const lastBreadcrumb_1 = document.getElementById("lastBreadcrumb_1");
+    const lastBreadcrumb_last = document.getElementById("lastBreadcrumb_last");
+    const lastBreadcrumb_a = document.getElementById("lastBreadcrumb_a");
+    const breadcrumbjobTitleActive = document.getElementById("breadcrumb-active-title");
+    lastBreadcrumb_1.style.display = "none";
+    lastBreadcrumb_last.style.display = "none";
+    breadcrumbjobTitleActive.style.display = "none";
+    document.getElementById('view-messages-btn').style.display = 'none';
+    document.getElementById('view-create-reel-btn').style.display = 'none';
+    document.getElementById('saveProfileBtn-profile').style.display = 'none';
+    document.getElementById('settings-profile-btn').style.display = 'none';
+    // Async function to check the user profile (userData)
+    async function checkUser(userIdFromURL) {
+      try {
+        // Fetch profile information based on userId in the URL
+        const profileDoc = doc(db, 'Users', userIdFromURL);
+        const profileSnapshot = await getDoc(profileDoc);
+        if (profileSnapshot.exists()) {
+          const userData = profileSnapshot.data();
+          console.log("User data fetched from Firestore:", userData);
+          // Check if the profile is public
+          if (userData.profilePublic) {
+            showPrivateProfileMessage(); // Show private profile message
+          } else {
+            await loadUserData(userData); // Load user data if public
+            await loadUserJobs(userData);
+            //  await loadUserBlogs(userIdFromURL);
+            // await loadUserCompanies(userIdFromURL);
+            await loadUserVideoResumes(userData);
+            await loadSocialMedia(userData);
+          }
+        } else {
+          // Call this function when the user data is not found
+          showUserDataNotFoundMessage();
+          console.log("No user ID found in URL or session.");
+          return;
+        }
+        setTimeout(() => {
+          setUpUI();
+        }, 300);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    }
+    let userId;
+    const urlParams = new URLSearchParams(window.location.search);
+    const userIdFromURL = urlParams.get('u');
+    document.addEventListener('DOMContentLoaded', async () => {
+      try {
+        userId = await getUserId(); // Await here to properly set userId
+      } catch (error) {
+        // console.error("Error fetching user ID:", error);
+      }
+    });
+    // Retrieve and populate form inputs for tabs
+    window.onload = async function() {
+      setTimeout(() => {
         console.log("Module User We outside:", userId);
-
         // Ensure userIdFromURL is not null or undefined
         if (userIdFromURL) {
-            checkUser(userIdFromURL);
+          checkUser(userIdFromURL);
         } else if (userId) {
-            checkUser(userId);
+          checkUser(userId);
         } else {
-
- 
-
-
-      // Call this function when the user data is not found
-      showUserDataNotFoundMessage();
-
-            console.log("No user ID found in URL or session.");
+          // Call this function when the user data is not found
+          showUserDataNotFoundMessage();
+          console.log("No user ID found in URL or session.");
         }
-
-  
-    }, 300);
-};
-
+      }, 300);
+    };
     /*
   // Select the last breadcrumb anchor
   const lastBreadcrumb_1 = document.getElementById("lastBreadcrumb_1");
@@ -1211,234 +1082,178 @@ window.onload = async function () {
   
   const userName = document.getElementById("user-name").innerText;
 */
-  
-
-function setUpUI(){
-
-lastBreadcrumb_1.style.display = "none";
-
-lastBreadcrumb_last.style.display = "none";
-lastBreadcrumb_a.href = `https://reelcareer.co/u?u=${userId}`;
-const userName = document.getElementById("user-name").innerText;
-
-breadcrumbjobTitleActive.innerText = userName;
-// Set the new title
-document.title = `ReelCareer.co | ${userName} Profile`;
-
-breadcrumbjobTitleActive.style.display = "block";
+    function setUpUI() {
+      lastBreadcrumb_1.style.display = "none";
+      lastBreadcrumb_last.style.display = "none";
+      lastBreadcrumb_a.href = `https://reelcareer.co/u?u=${userId}`;
+      const userName = document.getElementById("user-name").innerText;
+      breadcrumbjobTitleActive.innerText = userName;
+      // Set the new title
+      document.title = `ReelCareer.co | ${userName} Profile`;
+      breadcrumbjobTitleActive.style.display = "block";
       // Ensure userIdFromURL is not null or undefined
-/*
-// Select all necessary elements once to avoid redundant DOM lookups
-const sendMessageBtn = document.getElementById('send-message-btn');
-const connectBtn = document.getElementById('connect-btn');
-const jobSeekerBtn = document.getElementById('jobSeeker-btn');
-const recruiterBtn = document.getElementById('recruiter-btn');
-const viewProfileBtn = document.getElementById('view-profile-btn');
-const profileSettingsMain = document.getElementById('profileSettingsMain');
-const currentUserId = document.getElementById('currentUserId');
-const lastBreadcrumb_1 = document.getElementById('lastBreadcrumb_1');
-const lastBreadcrumb_last = document.getElementById('lastBreadcrumb_last');
-const viewMessagesBtn = document.getElementById('view-messages-btn');
+      /*
+      // Select all necessary elements once to avoid redundant DOM lookups
+      const sendMessageBtn = document.getElementById('send-message-btn');
+      const connectBtn = document.getElementById('connect-btn');
+      const jobSeekerBtn = document.getElementById('jobSeeker-btn');
+      const recruiterBtn = document.getElementById('recruiter-btn');
+      const viewProfileBtn = document.getElementById('view-profile-btn');
+      const profileSettingsMain = document.getElementById('profileSettingsMain');
+      const currentUserId = document.getElementById('currentUserId');
+      const lastBreadcrumb_1 = document.getElementById('lastBreadcrumb_1');
+      const lastBreadcrumb_last = document.getElementById('lastBreadcrumb_last');
+      const viewMessagesBtn = document.getElementById('view-messages-btn');
 
-// Function to hide all buttons and settings
-function hideAllElements() {
-  sendMessageBtn.style.display = 'none';
-  connectBtn.style.display = 'none';
-  jobSeekerBtn.style.display = 'none';
-  recruiterBtn.style.display = 'none';
-  viewProfileBtn.style.display = 'none';
-  profileSettingsMain.style.display = 'none';
-  viewMessagesBtn.style.display = 'none';
-}
+      // Function to hide all buttons and settings
+      function hideAllElements() {
+        sendMessageBtn.style.display = 'none';
+        connectBtn.style.display = 'none';
+        jobSeekerBtn.style.display = 'none';
+        recruiterBtn.style.display = 'none';
+        viewProfileBtn.style.display = 'none';
+        profileSettingsMain.style.display = 'none';
+        viewMessagesBtn.style.display = 'none';
+      }
 
-// Function to show buttons for logged-in users
-function showLoggedInUserElements() {
-  sendMessageBtn.style.display = 'block';
-  connectBtn.style.display = 'block';
-  viewProfileBtn.style.display = 'block';
-}
+      // Function to show buttons for logged-in users
+      function showLoggedInUserElements() {
+        sendMessageBtn.style.display = 'block';
+        connectBtn.style.display = 'block';
+        viewProfileBtn.style.display = 'block';
+      }
 
-// Function to show profile and job seeker/recruiter buttons
-function showUserProfileElements() {
-  profileSettingsMain.style.display = 'block';
-  jobSeekerBtn.style.display = 'block';
-  recruiterBtn.style.display = 'block';
-  viewProfileBtn.style.display = 'block';
-  viewMessagesBtn.style.display = 'block';
-}
+      // Function to show profile and job seeker/recruiter buttons
+      function showUserProfileElements() {
+        profileSettingsMain.style.display = 'block';
+        jobSeekerBtn.style.display = 'block';
+        recruiterBtn.style.display = 'block';
+        viewProfileBtn.style.display = 'block';
+        viewMessagesBtn.style.display = 'block';
+      }
 
-if (userIdFromURL) {
-  // Display the user ID from the URL
-  document.getElementById('userPageId').innerText = userIdFromURL;
-
-  if (userId) {
-    // User is logged in
-    currentUserId.innerText = userId;
-    showLoggedInUserElements();
-
-    if (userId === userIdFromURL) {
-      lastBreadcrumb_1.style.display = "block";  // Show breadcrumb if it's the user's own profile
-    }
-  } else {
-    hideAllElements(); // If user is not logged in, hide all buttons
-  }
-} else {
-  // No user ID from the URL
-  hideAllElements();
-
-  if (userId) {
-    lastBreadcrumb_last.style.display = "block"; // Show breadcrumb for logged-in users without URL user ID
-    currentUserId.innerText = userId;
-    showUserProfileElements();
-  } else {
-    showUserDataNotFoundMessage(); // Show message if no user data is found
-    console.log("No user ID found in URL or session.");
-  }
-}
-*/
-      
       if (userIdFromURL) {
-          document.getElementById('userPageId').innerText = userIdFromURL;
+        // Display the user ID from the URL
+        document.getElementById('userPageId').innerText = userIdFromURL;
 
-          
+        if (userId) {
+          // User is logged in
+          currentUserId.innerText = userId;
+          showLoggedInUserElements();
 
-          if(userId){
-            document.getElementById('currentUserId').innerText = userId;
+          if (userId === userIdFromURL) {
+            lastBreadcrumb_1.style.display = "block";  // Show breadcrumb if it's the user's own profile
+          }
+        } else {
+          hideAllElements(); // If user is not logged in, hide all buttons
+        }
+      } else {
+        // No user ID from the URL
+        hideAllElements();
 
-            document.getElementById('send-message-btn').style.display = 'block';
-            document.getElementById('connect-btn').style.display = 'block';
+        if (userId) {
+          lastBreadcrumb_last.style.display = "block"; // Show breadcrumb for logged-in users without URL user ID
+          currentUserId.innerText = userId;
+          showUserProfileElements();
+        } else {
+          showUserDataNotFoundMessage(); // Show message if no user data is found
+          console.log("No user ID found in URL or session.");
+        }
+      }
+      */
+      if (userIdFromURL) {
+        document.getElementById('userPageId').innerText = userIdFromURL;
+        if (userId) {
+          document.getElementById('currentUserId').innerText = userId;
+          document.getElementById('send-message-btn').style.display = 'block';
+          document.getElementById('connect-btn').style.display = 'block';
           if (userId == userIdFromURL) {
             lastBreadcrumb_1.style.display = "block";
-
           }
-          
-          }else{
-            document.getElementById('send-message-btn').style.display = 'none';
-            document.getElementById('connect-btn').style.display = 'none';
-            document.getElementById('view-create-reel-btn').style.display = 'block';
-
-          }
-
-          document.getElementById('jobSeeker-btn').style.display = 'none';
-          document.getElementById('recruiter-btn').style.display = 'none';
-          document.getElementById('view-profile-btn').style.display = 'none';
-          document.getElementById('view-create-reel-btn').style.display = 'none';
-
-          document.getElementById('settings-profile-btn').style.display = 'none';
-    
-         
-
-      } else {
-         // checkUser(userId);
+        } else {
           document.getElementById('send-message-btn').style.display = 'none';
           document.getElementById('connect-btn').style.display = 'none';
-          document.getElementById('view-create-reel-btn').style.display = 'none';
-
-document.getElementById('settings-profile-btn').style.display = 'none';
-document.getElementById('jobSeeker-btn').style.display = 'none';
-document.getElementById('recruiter-btn').style.display = 'none';
-document.getElementById('view-profile-btn').style.display = 'none';
-
-if(userId){
-lastBreadcrumb_last.style.display = "block";
-document.getElementById('currentUserId').innerText = userId;
-
-document.getElementById('settings-profile-btn').style.display = 'block';
-document.getElementById('jobSeeker-btn').style.display = 'block';
-document.getElementById('recruiter-btn').style.display = 'block';
-document.getElementById('view-profile-btn').style.display = 'block';
-document.getElementById('view-messages-btn').style.display = 'block';
-document.getElementById('view-create-reel-btn').style.display = 'block';
-
-const userName = document.getElementById("user-name").innerText;
-const breadcrumbjobTitleActive = document.getElementById("breadcrumb-active-title");
-
-breadcrumbjobTitleActive.innerText = `${userName} - Settings`;
-// Set the new title
-document.title = `ReelCareer.co | ${userName} Profile- Settings`;
-}else{
-    // Call this function when the user data is not found
-    showUserDataNotFoundMessage();
-            console.log("No user ID found in URL or session.");
-return;
-}
+          document.getElementById('view-create-reel-btn').style.display = 'block';
+        }
+        document.getElementById('jobSeeker-btn').style.display = 'none';
+        document.getElementById('recruiter-btn').style.display = 'none';
+        document.getElementById('view-profile-btn').style.display = 'none';
+        document.getElementById('view-create-reel-btn').style.display = 'none';
+        document.getElementById('settings-profile-btn').style.display = 'none';
+      } else {
+        // checkUser(userId);
+        document.getElementById('send-message-btn').style.display = 'none';
+        document.getElementById('connect-btn').style.display = 'none';
+        document.getElementById('view-create-reel-btn').style.display = 'none';
+        document.getElementById('settings-profile-btn').style.display = 'none';
+        document.getElementById('jobSeeker-btn').style.display = 'none';
+        document.getElementById('recruiter-btn').style.display = 'none';
+        document.getElementById('view-profile-btn').style.display = 'none';
+        if (userId) {
+          lastBreadcrumb_last.style.display = "block";
+          document.getElementById('currentUserId').innerText = userId;
+          document.getElementById('settings-profile-btn').style.display = 'block';
+          document.getElementById('jobSeeker-btn').style.display = 'block';
+          document.getElementById('recruiter-btn').style.display = 'block';
+          document.getElementById('view-profile-btn').style.display = 'block';
+          document.getElementById('view-messages-btn').style.display = 'block';
+          document.getElementById('view-create-reel-btn').style.display = 'block';
+          const userName = document.getElementById("user-name").innerText;
+          const breadcrumbjobTitleActive = document.getElementById("breadcrumb-active-title");
+          breadcrumbjobTitleActive.innerText = `${userName} - Settings`;
+          // Set the new title
+          document.title = `ReelCareer.co | ${userName} Profile- Settings`;
+        } else {
+          // Call this function when the user data is not found
+          showUserDataNotFoundMessage();
+          console.log("No user ID found in URL or session.");
+          return;
+        }
       }
-   
-
       checkConnection();
-
-}
-
-
-
-
-
-const generalTags = createTagInputSystem({
-        tagsContainerId: "tagsContainertagsSET-profile",
-        badgeClass: "tag-primary" // Custom badge class for general tags
-    });
-
-
-
-
-
-
-
-    
-
-// Trigger file input when `profilePic` is clicked
-document.getElementById('profilePic').addEventListener('click', async () => {
-  console.log("profilePic clicked.");
-
-  try {
-    const userId = await getUserId(); // Await if getUserId is asynchronous
-    const userPageId = document.getElementById('userPageId').innerText;
-    const userDataSaved = getUserData() || [];
-
-    console.log("userId:", userDataSaved.userID);
-    console.log("userPageId:", userPageId);
-
-    if (userDataSaved.userID && !userPageId) {
-      document.getElementById('profilePictureSET-profile').click();
-    } else {
-  //    showToast("View Profile Picture");
-
-
-  
-    let profileImage = document.getElementById('profilePic'); // Select the image element
-profileImage.className = 'lazy-image'; // Assign the class to the element
-
     }
-
-  } catch (err) {
-    console.error("Error fetching userId:", err);
-    showToast("Failed to fetch user details.");
-  }
-});
-
-
-// File handling logic
-document.getElementById('profilePictureSET-profile').addEventListener('change', async (event) => {
-    const file = event.target.files[0];
-
-    if (!file) {
+    const generalTags = createTagInputSystem({
+      tagsContainerId: "tagsContainertagsSET-profile",
+      badgeClass: "tag-primary" // Custom badge class for general tags
+    });
+    // Trigger file input when `profilePic` is clicked
+    document.getElementById('profilePic').addEventListener('click', async () => {
+      console.log("profilePic clicked.");
+      try {
+        const userId = await getUserId(); // Await if getUserId is asynchronous
+        const userPageId = document.getElementById('userPageId').innerText;
+        const userDataSaved = getUserData() || [];
+        console.log("userId:", userDataSaved.userID);
+        console.log("userPageId:", userPageId);
+        if (userDataSaved.userID && !userPageId) {
+          document.getElementById('profilePictureSET-profile').click();
+        } else {
+          //    showToast("View Profile Picture");
+          let profileImage = document.getElementById('profilePic'); // Select the image element
+          profileImage.className = 'lazy-image'; // Assign the class to the element
+        }
+      } catch (err) {
+        console.error("Error fetching userId:", err);
+        showToast("Failed to fetch user details.");
+      }
+    });
+    // File handling logic
+    document.getElementById('profilePictureSET-profile').addEventListener('change', async (event) => {
+      const file = event.target.files[0];
+      if (!file) {
         console.log("No file selected.");
         return;
-    }
-
-    try {
+      }
+      try {
         // Get user ID
         const userId = await getUserId(); // Await if getUserId is asynchronous
         const userDataSaved = getUserData() || [];
-
         // Firebase storage reference
         const storage = getStorage();
         const storageRef = ref(storage, `profilePictures/${userDataSaved.userID}/${file.name}`);
-
         // Upload file
         const snapshot = await uploadBytes(storageRef, file);
-       // console.log("File uploaded successfully:", snapshot);
-
+        // console.log("File uploaded successfully:", snapshot);
         // Get the file's download URL
         const fileUrl = await getDownloadURL(snapshot.ref);
         console.log("File available at:", fileUrl);
@@ -1447,67 +1262,56 @@ document.getElementById('profilePictureSET-profile').addEventListener('change', 
         const userData = {
           profilePicture: fileUrl || ''
         };
-        
         const userDataEcode = setUserData(userData);
-
         localStorage.setItem('userData', userDataEcode);
-
-
-        const userDocRef = doc(db, "Users",  userDataSaved.userID);
-        await setDoc(userDocRef, { profilePicture: fileUrl }, { merge: true });
-
+        const userDocRef = doc(db, "Users", userDataSaved.userID);
+        await setDoc(userDocRef, {
+          profilePicture: fileUrl
+        }, {
+          merge: true
+        });
         showToast("Profile picture updated successfully!");
-    } catch (error) {
+      } catch (error) {
         console.error("Error uploading file:", error.message);
         showToast("There was an error updating your profile picture. Please try again later.");
-    }
-});
-
-// Save profile details with the "Save" button
-document.getElementById('saveProfileBtn-profile').addEventListener('click', async () => {
-
-
-  
-    // Gather form data
-// Array to gather the name and URL inputs
-const websitesSetup = [
-  { 
-    name: document.getElementById('linkedinSET-name').value.trim() || "", 
-    url: document.getElementById('linkedinSET-profile').value.trim() || '' 
-  },
-  { 
-    name: document.getElementById('portfolioSET-name').value.trim() || "", 
-    url: document.getElementById('portfolioSET-profile').value.trim() || '' 
-  },
-  { 
-    name: document.getElementById('githubSET-name').value.trim() || "", 
-    url: document.getElementById('githubSET-profile').value.trim() || '' 
-  },
-  { 
-    name: document.getElementById('otherSET-name').value.trim() || "", 
-    url: document.getElementById('otherSET-profile').value.trim() || '' 
-  }
-];
-
-// Filter out entries with empty URLs
-const websites = websitesSetup.filter(site => site.url !== "");
-
-// Log results to check
-//console.log("Filtered Websites:", websites);
-
-    // Ensure tagsList is not empty or null
-    const tagsInput = document.getElementById('tagsSET-profile').value.trim();
-    const tags = tagsInput ? tagsInput.split(",").map(item => item.toLowerCase().trim()) : [];
-
-    // Check if there's at least one comma
-    const hasComma = tagsInput.includes(',');
-    if (!hasComma) {
+      }
+    });
+    // Save profile details with the "Save" button
+    document.getElementById('saveProfileBtn-profile').addEventListener('click', async () => {
+      // Gather form data
+      // Array to gather the name and URL inputs
+      const websitesSetup = [{
+          name: document.getElementById('linkedinSET-name').value.trim() || "",
+          url: document.getElementById('linkedinSET-profile').value.trim() || ''
+        },
+        {
+          name: document.getElementById('portfolioSET-name').value.trim() || "",
+          url: document.getElementById('portfolioSET-profile').value.trim() || ''
+        },
+        {
+          name: document.getElementById('githubSET-name').value.trim() || "",
+          url: document.getElementById('githubSET-profile').value.trim() || ''
+        },
+        {
+          name: document.getElementById('otherSET-name').value.trim() || "",
+          url: document.getElementById('otherSET-profile').value.trim() || ''
+        }
+      ];
+      // Filter out entries with empty URLs
+      const websites = websitesSetup.filter(site => site.url !== "");
+      // Log results to check
+      //console.log("Filtered Websites:", websites);
+      // Ensure tagsList is not empty or null
+      const tagsInput = document.getElementById('tagsSET-profile').value.trim();
+      const tags = tagsInput ? tagsInput.split(",").map(item => item.toLowerCase().trim()) : [];
+      // Check if there's at least one comma
+      const hasComma = tagsInput.includes(',');
+      if (!hasComma) {
         showToast("Please add at least Two (2) tags.");
-        return;  // Prevent form submission if validation fails
-    }
-
-    // Gather other user data
-    const userData = {
+        return; // Prevent form submission if validation fails
+      }
+      // Gather other user data
+      const userData = {
         displayName: document.getElementById('usernameSET-profile').value.trim() || '',
         phone: document.getElementById('phoneSET-profile').value.trim() || '',
         name: document.getElementById('nameSET-profile').value.trim() || '',
@@ -1516,8 +1320,6 @@ const websites = websitesSetup.filter(site => site.url !== "");
         position: document.getElementById('positionSET-profile').value.trim() || '',
         publicProfile: document.getElementById('publicProfileSET-profile').checked || true,
         tags: tags,
- 
-        
         websites: websites || [],
         membershipType: document.getElementById('membershipTypeSET-profile').value.trim() || '',
         // membershipExpiry: document.getElementById('renewalDateSET-profile').value.trim() || ''
@@ -1526,283 +1328,226 @@ const websites = websitesSetup.filter(site => site.url !== "");
         textToVoice: document.getElementById('textToVoiceSET').checked || false,
         voiceToText: document.getElementById('voiceToTextSET').checked || false,
         darkMode: document.getElementById('darkModeSET').checked || false
-
-    };
-
-    console.log("User Data:", userData);
-
-    try {
+      };
+      console.log("User Data:", userData);
+      try {
         const userDataSaved = await getUserData() || {};
-
         const userDocRef = doc(db, "Users", userDataSaved.userID);
-        await setDoc(userDocRef, userData, { merge: true });
-
-
-
-
+        await setDoc(userDocRef, userData, {
+          merge: true
+        });
         const userDataEcode = setUserData(userData);
-
         localStorage.setItem('userData', userDataEcode);
-
         console.log("User data saved successfully!");
-
         loadUserData(userData);
-
         showMessageAndFadeBtn('saveProfileBtn-profile', "Saved");
-
         showToast("Your profile has been updated successfully.");
-    } catch (error) {
+      } catch (error) {
         console.error("Error saving user data:", error.message);
         showToast("There was an error updating your profile. Please try again later.");
-    }
-});
-
-                    document.getElementById('deactivateAccountBtn-profile').addEventListener('click', async () => {
-                      const userDataSaved = getUserData() || [];
-
-  const userDocRef = doc(db, 'Users', userDataSaved.userID);
-
-  try {
-    // Check if user ID is valid
-    const userId = await getUserId(); // Await if getUserId is asynchronous
-    if (!userId) {
-      alert('Invalid user ID. Please log in again.');
-      return;
-    }
-
-    // Fetch current user status
-    const userDoc = await getDoc(userDocRef);
-    if (!userDoc.exists()) {
-      alert('User not found! Please contact support.');
-      return;
-    }
-
-    const currentStatus = userDoc.data().status;
-    if (!currentStatus) {
-      alert('Unable to retrieve account status. Please try again.');
-      return;
-    }
-
-    const isCurrentlyActive = currentStatus === 'active';
-
-    // Confirmation message based on current status
-    const action = isCurrentlyActive ? 'deactivate' : 'reactivate';
-    const confirmToggle = confirm(`Are you sure you want to ${action} your account?`);
-
-    if (!confirmToggle) {
-      console.log(`${action.charAt(0).toUpperCase() + action.slice(1)} canceled by the user.`);
-      return;
-    }
-
-    // Toggle status
-    const newStatus = isCurrentlyActive ? 'inactive' : 'active';
-
-    // Update user's status
-    await updateDoc(userDocRef, { status: newStatus });
-    console.log(`User account status updated to ${newStatus}`);
-
-    // Update job posts' status
-    try {
-      const jobsQuery = query(
-        collection(db, 'Jobs'),
-        where('createdBy', '==', userId)
-      );
-      const jobDocs = await getDocs(jobsQuery);
-
-      if (!jobDocs.empty) {
-        jobDocs.forEach(async (jobDoc) => {
-          const jobRef = doc(db, 'Jobs', jobDoc.id);
-          await updateDoc(jobRef, { status: newStatus });
-          console.log(`Job post ${jobDoc.id} status updated to ${newStatus}`);
-        });
-      } else {
-        console.log('No job posts found for the user.');
       }
-    } catch (jobError) {
-      console.error('Error updating job posts status:', jobError);
-      alert('An error occurred while updating job posts. Please try again later.');
-    }
-
-    // Update applications' status
-    try {
-      const applicationsQuery = query(
-        collection(db, 'Applications'),
-        where('userId', '==', userId)
-      );
-      const applicationDocs = await getDocs(applicationsQuery);
-
-      if (!applicationDocs.empty) {
-        applicationDocs.forEach(async (appDoc) => {
-          const appRef = doc(db, 'Applications', appDoc.id);
-          await updateDoc(appRef, { status: newStatus });
-          console.log(`Application ${appDoc.id} status updated to ${newStatus}`);
+    });
+    document.getElementById('deactivateAccountBtn-profile').addEventListener('click', async () => {
+      const userDataSaved = getUserData() || [];
+      const userDocRef = doc(db, 'Users', userDataSaved.userID);
+      try {
+        // Check if user ID is valid
+        const userId = await getUserId(); // Await if getUserId is asynchronous
+        if (!userId) {
+          alert('Invalid user ID. Please log in again.');
+          return;
+        }
+        // Fetch current user status
+        const userDoc = await getDoc(userDocRef);
+        if (!userDoc.exists()) {
+          alert('User not found! Please contact support.');
+          return;
+        }
+        const currentStatus = userDoc.data().status;
+        if (!currentStatus) {
+          alert('Unable to retrieve account status. Please try again.');
+          return;
+        }
+        const isCurrentlyActive = currentStatus === 'active';
+        // Confirmation message based on current status
+        const action = isCurrentlyActive ? 'deactivate' : 'reactivate';
+        const confirmToggle = confirm(`Are you sure you want to ${action} your account?`);
+        if (!confirmToggle) {
+          console.log(`${action.charAt(0).toUpperCase() + action.slice(1)} canceled by the user.`);
+          return;
+        }
+        // Toggle status
+        const newStatus = isCurrentlyActive ? 'inactive' : 'active';
+        // Update user's status
+        await updateDoc(userDocRef, {
+          status: newStatus
         });
-      } else {
-        console.log('No applications found for the user.');
+        console.log(`User account status updated to ${newStatus}`);
+        // Update job posts' status
+        try {
+          const jobsQuery = query(
+            collection(db, 'Jobs'),
+            where('createdBy', '==', userId)
+          );
+          const jobDocs = await getDocs(jobsQuery);
+          if (!jobDocs.empty) {
+            jobDocs.forEach(async (jobDoc) => {
+              const jobRef = doc(db, 'Jobs', jobDoc.id);
+              await updateDoc(jobRef, {
+                status: newStatus
+              });
+              console.log(`Job post ${jobDoc.id} status updated to ${newStatus}`);
+            });
+          } else {
+            console.log('No job posts found for the user.');
+          }
+        } catch (jobError) {
+          console.error('Error updating job posts status:', jobError);
+          alert('An error occurred while updating job posts. Please try again later.');
+        }
+        // Update applications' status
+        try {
+          const applicationsQuery = query(
+            collection(db, 'Applications'),
+            where('userId', '==', userId)
+          );
+          const applicationDocs = await getDocs(applicationsQuery);
+          if (!applicationDocs.empty) {
+            applicationDocs.forEach(async (appDoc) => {
+              const appRef = doc(db, 'Applications', appDoc.id);
+              await updateDoc(appRef, {
+                status: newStatus
+              });
+              console.log(`Application ${appDoc.id} status updated to ${newStatus}`);
+            });
+          } else {
+            console.log('No applications found for the user.');
+          }
+        } catch (appError) {
+          console.error('Error updating applications status:', appError);
+          alert('An error occurred while updating applications. Please try again later.');
+        }
+        // Update button text
+        const button = document.getElementById('deactivateAccountBtn-profile');
+        button.textContent = isCurrentlyActive ? 'Reactivate Account' : 'Deactivate Account';
+        // Notify user of successful update
+        alert(`Your account and related data have been successfully ${action}d.`);
+      } catch (error) {
+        console.error('Error during toggle process:', error);
+        alert('An unexpected error occurred. Please try again later.');
       }
-    } catch (appError) {
-      console.error('Error updating applications status:', appError);
-      alert('An error occurred while updating applications. Please try again later.');
-    }
-
-    // Update button text
-    const button = document.getElementById('deactivateAccountBtn-profile');
-    button.textContent = isCurrentlyActive ? 'Reactivate Account' : 'Deactivate Account';
-
-    // Notify user of successful update
-    alert(`Your account and related data have been successfully ${action}d.`);
-  } catch (error) {
-    console.error('Error during toggle process:', error);
-    alert('An unexpected error occurred. Please try again later.');
-  }
-});
-
-
-
-        async function loadUserData(profileData) {
-
-
-          const userDataSaved = getUserData() || [];
-          const userlocationData = JSON.parse(sessionStorage.getItem('userLocation'));
-
-
-          
-
-if (profileData) {
-  const userData = profileData;
-  console.log("userData: ", userData);
-// Example usage
-const lastLoginDate = userData.lastLogin;
-const membershipExpiryDate = userData.membershipExpiry;
-
-  // Populate the Personal Information tab
-  document.getElementById('usernameSET-profile').value = userData.displayName || "";
-  document.getElementById('emailSET-profile').value = userData.email || "";
-  document.getElementById('phoneSET-profile').value = userData.phone || "";
-  document.getElementById('dobSET-profile').value = userData.dob || "";
-  document.getElementById('locationSET-profile').value = userData.location || ` ${userlocationData.city},  ${userlocationData.state}`;
-  document.getElementById('nameSET-profile').value = userData.name || "";
-  document.getElementById('bioSET-profile').value = userData.bio || "";
-  
-
-            
-  document.getElementById('positionSET-profile').value = userData.position || "";
- // document.getElementById('publicProfileSET-profile').checked = userData.publicProfile || "";
-
-  document.getElementById('audioAlertSET').checked = userData.audioAlert || "";
-  document.getElementById('showReadSET').checked = userData.showRead || "";
-  document.getElementById('textToVoiceSET').checked = userData.textToVoice || "";
-  document.getElementById('voiceToTextSET').checked = userData.voiceToText || "";
-  document.getElementById('darkModeSET').checked = userData.darkMode || "";
-
-
-  if (userData.websites && userData.websites.length > 0) {
-  const website = userData.websites[0]; // Access the first website object
-
-  document.getElementById('linkedinSET-name').value = website.name || "";
-  document.getElementById('otherSET-name').value = website.name || "";
-  document.getElementById('githubSET-name').value = website.name || "";
-  document.getElementById('portfolioSET-name').value = website.name || "";
-
-  document.getElementById('linkedinSET-profile').value = website.url || "";
-  document.getElementById('otherSET-profile').value = website.url || "";
-  document.getElementById('githubSET-profile').value = website.url || "";
-  document.getElementById('portfolioSET-profile').value = website.url || "";
-}
-
-
-  // Populate the Membership Details tab
-  document.getElementById('membershipTypeSET-profile').value = userData.membershipType || "";
-  document.getElementById('membershipStatus-profile').value = userData.membershipType || "";
-  document.getElementById('renewalDateSET-profile').value = membershipExpiryDate  || "";
-
-  document.getElementById('lastLogin-profile').value = lastLoginDate  || "";
-  document.getElementById('userID-profile').value = userData.userID || "";
-} else {
-  console.log("No user data found!");
-}
-
-
-            document.getElementById('profilePic').src = profileData.profilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_sm.png';
-            document.getElementById('user-name').innerText = profileData.displayName || 'User Name';
-            document.getElementById('user-position').innerText = profileData.position || 'Web Developer';
-            document.getElementById('user-bio').innerText = profileData.bio || 'This is a short bio about the user...';
-            document.getElementById('location-text').innerText = profileData.location || ` ${userlocationData.city},  ${userlocationData.state}`;
-
-            const verified = profileData.verified || "Not Verified";
-            const membership = profileData.membershipType || "free";
-            console.log("membership: ", membership);
-            console.log("verified: ", verified);
-            loadMembershipBadge(membership);
-            loadVerifiedBadge(verified);
-
-// Check if the tags array is defined and has elements
-if (!profileData.tags || profileData.tags.length === 0) {
-    // If there are no tags, display a message
-} else {
-    // Directly use the tags array since it contains strings
-    const tags = profileData.tags; // No need to map since they're already strings
-    
-   // console.log("tags: ", tags);
-  //  document.getElementById('tagsSET-profile').value = profileData.tags || "";
-
-const tagsContainer = document.getElementById('tagsList');
-profileData.tags.forEach(tag => {
-              const tagElement = document.createElement('div');
-              tagElement.className = 'tag';
-              tagElement.innerHTML = `<span class="tag badge tag-primary mr-1">
+    });
+    async function loadUserData(profileData) {
+      const userDataSaved = getUserData() || [];
+      const userlocationData = JSON.parse(sessionStorage.getItem('userLocation'));
+      if (profileData) {
+        const userData = profileData;
+        console.log("userData: ", userData);
+        // Example usage
+        const lastLoginDate = userData.lastLogin;
+        const membershipExpiryDate = userData.membershipExpiry;
+        // Populate the Personal Information tab
+        document.getElementById('usernameSET-profile').value = userData.displayName || "";
+        document.getElementById('emailSET-profile').value = userData.email || "";
+        document.getElementById('phoneSET-profile').value = userData.phone || "";
+        document.getElementById('dobSET-profile').value = userData.dob || "";
+        document.getElementById('locationSET-profile').value = userData.location || ` ${userlocationData.city},  ${userlocationData.state}`;
+        document.getElementById('nameSET-profile').value = userData.name || "";
+        document.getElementById('bioSET-profile').value = userData.bio || "";
+        document.getElementById('positionSET-profile').value = userData.position || "";
+        // document.getElementById('publicProfileSET-profile').checked = userData.publicProfile || "";
+        document.getElementById('audioAlertSET').checked = userData.audioAlert || "";
+        document.getElementById('showReadSET').checked = userData.showRead || "";
+        document.getElementById('textToVoiceSET').checked = userData.textToVoice || "";
+        document.getElementById('voiceToTextSET').checked = userData.voiceToText || "";
+        document.getElementById('darkModeSET').checked = userData.darkMode || "";
+        if (userData.websites && userData.websites.length > 0) {
+          const website = userData.websites[0]; // Access the first website object
+          document.getElementById('linkedinSET-name').value = website.name || "";
+          document.getElementById('otherSET-name').value = website.name || "";
+          document.getElementById('githubSET-name').value = website.name || "";
+          document.getElementById('portfolioSET-name').value = website.name || "";
+          document.getElementById('linkedinSET-profile').value = website.url || "";
+          document.getElementById('otherSET-profile').value = website.url || "";
+          document.getElementById('githubSET-profile').value = website.url || "";
+          document.getElementById('portfolioSET-profile').value = website.url || "";
+        }
+        // Populate the Membership Details tab
+        document.getElementById('membershipTypeSET-profile').value = userData.membershipType || "";
+        document.getElementById('membershipStatus-profile').value = userData.membershipType || "";
+        document.getElementById('renewalDateSET-profile').value = membershipExpiryDate || "";
+        document.getElementById('lastLogin-profile').value = lastLoginDate || "";
+        document.getElementById('userID-profile').value = userData.userID || "";
+      } else {
+        console.log("No user data found!");
+      }
+      document.getElementById('profilePic').src = profileData.profilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_sm.png';
+      document.getElementById('user-name').innerText = profileData.displayName || 'User Name';
+      document.getElementById('user-position').innerText = profileData.position || 'Web Developer';
+      document.getElementById('user-bio').innerText = profileData.bio || 'This is a short bio about the user...';
+      document.getElementById('location-text').innerText = profileData.location || ` ${userlocationData.city},  ${userlocationData.state}`;
+      const verified = profileData.verified || "Not Verified";
+      const membership = profileData.membershipType || "free";
+      console.log("membership: ", membership);
+      console.log("verified: ", verified);
+      loadMembershipBadge(membership);
+      loadVerifiedBadge(verified);
+      // Check if the tags array is defined and has elements
+      if (!profileData.tags || profileData.tags.length === 0) {
+        // If there are no tags, display a message
+      } else {
+        // Directly use the tags array since it contains strings
+        const tags = profileData.tags; // No need to map since they're already strings
+        // console.log("tags: ", tags);
+        document.getElementById('tagsSET-profile').value = profileData.tags || "";
+        const tagsContainer = document.getElementById('tagsList');
+        profileData.tags.forEach(tag => {
+          const tagElement = document.createElement('div');
+          tagElement.className = 'tag';
+          tagElement.innerHTML = `<span class="tag badge tag-primary mr-1">
                 ${tag}<button class="ml-1 btn btn-sm tag">x</button></span>`;
-              tagsContainer.appendChild(tagElement);
-          });
-}
-
-
-
-            // Membership Badge
-            async function loadMembershipBadge(membership) {
-            const badge = document.getElementById('membership-badge');
-            if (membership) {
-                badge.innerHTML = `<span class="badge">Membership: ${membership}</span>`;
-            }
+          tagsContainer.appendChild(tagElement);
+        });
+      }
+      // Membership Badge
+      async function loadMembershipBadge(membership) {
+        const badge = document.getElementById('membership-badge');
+        if (membership) {
+          badge.innerHTML = `<span class="badge">Membership: ${membership}</span>`;
         }
-
-        async function loadVerifiedBadge(verified) {
-    const badge = document.getElementById('verified-badge');
-    if (badge) {
-        if (verified) {
+      }
+      async function loadVerifiedBadge(verified) {
+        const badge = document.getElementById('verified-badge');
+        if (badge) {
+          if (verified) {
             badge.innerHTML = `<span class="badge badge-success">Verified</span>`;
-        } else {
+          } else {
             badge.innerHTML = `<span class="badge badge-warning">Not Verified</span>`;
+          }
+        } else {
+          console.error('Verified badge element not found');
         }
-    } else {
-        console.error('Verified badge element not found');
+      }
+      // Digital Resume Link
+      const digitalResumeLink = ""
+      // digitalResumeLink.href = profileData.digitalResumeUrl || '#';
+      //  digitalResumeLink.innerText = profileData.digitalResumeUrl ? 'View Resume' : 'No Resume Available';
     }
-}
-
-            // Digital Resume Link
-            const digitalResumeLink = ""
-           // digitalResumeLink.href = profileData.digitalResumeUrl || '#';
-          //  digitalResumeLink.innerText = profileData.digitalResumeUrl ? 'View Resume' : 'No Resume Available';
-        }
-
-        async function loadUserJobs(userData) {
-  const jobsList = document.getElementById('open-jobs-list');
-
-  // If there are no job posts in the userData object, display a message
-  if (!userData.jobPosts || userData.jobPosts.length === 0) {
-    jobsList.innerHTML = '<li>No open jobs found.</li>';
-    return;
-  }
-  //console.log("userData.jobPosts: ", userData.jobPosts);
-  // Loop through the job posts array and create list items
-  userData.jobPosts.forEach(jobData => {
-  
-  if (jobData && jobData.jobTitle) {
-    const listItem = document.createElement('div');
-    listItem.classList.add('job-list-item');
-    
-    // Create the HTML structure for the job data
-    listItem.innerHTML = `
+    async function loadUserJobs(userData) {
+      const jobsList = document.getElementById('open-jobs-list');
+      // If there are no job posts in the userData object, display a message
+      if (!userData.jobPosts || userData.jobPosts.length === 0) {
+        jobsList.innerHTML = '<li>No open jobs found.</li>';
+        return;
+      }
+      //console.log("userData.jobPosts: ", userData.jobPosts);
+      // Loop through the job posts array and create list items
+      userData.jobPosts.forEach(jobData => {
+        if (jobData && jobData.jobTitle) {
+          const listItem = document.createElement('div');
+          listItem.classList.add('job-list-item');
+          // Create the HTML structure for the job data
+          listItem.innerHTML = `
   <a href="https://reelcareer.co/jobs/job-details?id=${jobData.jobID}" title="${jobData.jobTitle}" class="text-decoration-none text-dark">
     <h5 class="job-title">${jobData.jobTitle}</h5>
   </a>
@@ -1810,34 +1555,25 @@ profileData.tags.forEach(tag => {
   <div class="location text-muted"><i class="fas fa-map-marker-alt"></i> ${jobData.location || 'Location not specified'}</div>
   <div class="salary">${jobData.salary || 'Salary not specified'}</div>
 `;
-
-
-    // Append the list item to the jobs list
-    jobsList.appendChild(listItem);
-  }
-});
-
-}
-
-async function loadUserVideoResumes(userData) {
-  const videoResumeList = document.getElementById('video-resume-list');
-
-  // Check if videoResumeData exists and is an object
-  if (!userData.videoResumeData || typeof userData.videoResumeData !== 'object') {
-    videoResumeList.innerHTML = '<li>No video resumes found.</li>';
-    return;
-  }
-
-  console.log("userData.videoResumeData: ", userData.videoResumeData);
-
-  // Since videoResumeData is a single object, directly check its status
-  const videoData = userData.videoResumeData;
-
-  if (videoData.status === 'posted') {
-    const card = document.createElement('div');
-    card.classList.add("profileVideoCard");
-
-    card.innerHTML = `
+          // Append the list item to the jobs list
+          jobsList.appendChild(listItem);
+        }
+      });
+    }
+    async function loadUserVideoResumes(userData) {
+      const videoResumeList = document.getElementById('video-resume-list');
+      // Check if videoResumeData exists and is an object
+      if (!userData.videoResumeData || typeof userData.videoResumeData !== 'object') {
+        videoResumeList.innerHTML = '<li>No video resumes found.</li>';
+        return;
+      }
+      console.log("userData.videoResumeData: ", userData.videoResumeData);
+      // Since videoResumeData is a single object, directly check its status
+      const videoData = userData.videoResumeData;
+      if (videoData.status === 'posted') {
+        const card = document.createElement('div');
+        card.classList.add("profileVideoCard");
+        card.innerHTML = `
       <div class="vidioCard">
         <video 
           src="${videoData.videoResumeURL}" 
@@ -1873,541 +1609,416 @@ async function loadUserVideoResumes(userData) {
 
       <a class="btn btn-primary btn-block" href="https://reelcareer.co/reels/?r=${videoData.reelID}">View More</a>
     `;
+        // Append the card to the video resume list
+        videoResumeList.appendChild(card);
+      }
+    }
 
-    // Append the card to the video resume list
-    videoResumeList.appendChild(card);
-  }
-}
+    function playVideo(videoId) {
+      const video = document.getElementById(videoId);
+      const playOverlay = document.getElementById('play-overlay-' + videoId.split('-')[1]);
+      const controlsTop = document.getElementById('controls-top-' + videoId.split('-')[1]);
+      const controlsBottom = document.getElementById('controls-bottom-' + videoId.split('-')[1]);
+      video.play();
+      playOverlay.style.display = 'none';
+      controlsTop.style.display = 'none';
+      controlsBottom.style.display = 'none';
+      video.onpause = () => {
+        playOverlay.style.display = 'flex';
+        controlsTop.style.display = 'flex';
+        controlsBottom.style.display = 'flex';
+      };
+      video.onended = () => {
+        playOverlay.style.display = 'flex';
+        controlsTop.style.display = 'flex';
+        controlsBottom.style.display = 'flex';
+      };
+    }
+    window.playVideo = playVideo;
 
-function playVideo(videoId) {
-  const video = document.getElementById(videoId);
-  const playOverlay = document.getElementById('play-overlay-' + videoId.split('-')[1]);
-  const controlsTop = document.getElementById('controls-top-' + videoId.split('-')[1]);
-  const controlsBottom = document.getElementById('controls-bottom-' + videoId.split('-')[1]);
+    function toggleMute(videoId, muteButton) {
+      const video = document.getElementById(videoId);
+      video.muted = !video.muted;
+      // Update the button icon
+      muteButton.innerHTML = video.muted ? '<i class="fa fa-volume-mute"></i>' : '<i class="fa fa-volume-up"></i>';
+    }
+    window.toggleMute = toggleMute;
 
-  video.play();
-  playOverlay.style.display = 'none';
-  controlsTop.style.display = 'none';
-  controlsBottom.style.display = 'none';
+    function toggleFullscreen(videoId) {
+      const video = document.getElementById(videoId);
+      if (video.requestFullscreen) {
+        video.requestFullscreen();
+      } else if (video.webkitRequestFullscreen) {
+        video.webkitRequestFullscreen();
+      } else if (video.msRequestFullscreen) {
+        video.msRequestFullscreen();
+      }
+    }
+    window.toggleFullscreen = toggleFullscreen;
+    async function handleLike(reelID, likeButton) {
+      const videoRef = doc(db, "VideoResumes", reelID);
+      try {
+        await updateDoc(videoRef, {
+          likes: increment(1) // Firestore increment
+        });
+        // Update UI instantly
+        likeButton.innerHTML = `<i class="fa fa-thumbs-up"></i>`;
+      } catch (error) {
+        console.error("Error updating like count: ", error);
+      }
+    }
+    window.handleLike = handleLike;
+    /*
+                if (!userData.resumes) {
+                    videoResumeList.innerHTML = '<li>No video resumes found.</li>';
+                    return;
+                }
 
-  video.onpause = () => {
-    playOverlay.style.display = 'flex';
-    controlsTop.style.display = 'flex';
-    controlsBottom.style.display = 'flex';
-  };
-  video.onended = () => {
-    playOverlay.style.display = 'flex';
-    controlsTop.style.display = 'flex';
-    controlsBottom.style.display = 'flex';
-  };
-}
-window.playVideo = playVideo;
+                userData.resumes.forEach(videoData => {
+                    //const videoData = doc.data();
+                    const listItem = document.createElement('li');
+                    listItem.innerText = videoData.fileName || 'Video Resume Title';
+                    listItem.addEventListener('click', () => playVideo(videoData.videoUrl));
+                    videoResumeList.appendChild(listItem);
+                });
 
-function toggleMute(videoId, muteButton) {
-  const video = document.getElementById(videoId);
-  video.muted = !video.muted;
-
-  // Update the button icon
-  muteButton.innerHTML = video.muted ? '<i class="fa fa-volume-mute"></i>' : '<i class="fa fa-volume-up"></i>';
-}
-window.toggleMute = toggleMute;
-
-function toggleFullscreen(videoId) {
-  const video = document.getElementById(videoId);
-  if (video.requestFullscreen) {
-    video.requestFullscreen();
-  } else if (video.webkitRequestFullscreen) {
-    video.webkitRequestFullscreen();
-  } else if (video.msRequestFullscreen) {
-    video.msRequestFullscreen();
-  }
-}
-window.toggleFullscreen = toggleFullscreen;
-
-
-async function handleLike(reelID, likeButton) {
-  const videoRef = doc(db, "VideoResumes", reelID);
-
-  try {
-    await updateDoc(videoRef, {
-      likes: increment(1) // Firestore increment
-    });
-
-    // Update UI instantly
-   
-    likeButton.innerHTML = `<i class="fa fa-thumbs-up"></i>`;
-  } catch (error) {
-    console.error("Error updating like count: ", error);
-  }
-}
-window.handleLike = handleLike;
-
-
-
-/*
-            if (!userData.resumes) {
-                videoResumeList.innerHTML = '<li>No video resumes found.</li>';
-                return;
-            }
-
-            userData.resumes.forEach(videoData => {
-                //const videoData = doc.data();
-                const listItem = document.createElement('li');
-                listItem.innerText = videoData.fileName || 'Video Resume Title';
-                listItem.addEventListener('click', () => playVideo(videoData.videoUrl));
-                videoResumeList.appendChild(listItem);
-            });
-
-            */
-        
-
-   
-        
-
- async function loadSocialMedia(profileData) {
-    const socialMediaListContainer = document.getElementById('social-media-list');
-
-    // Check if socialMediaList exists and has items
-    if (!profileData.websites || profileData.websites.length === 0) {
+                */
+    async function loadSocialMedia(profileData) {
+      const socialMediaListContainer = document.getElementById('social-media-list');
+      // Check if socialMediaList exists and has items
+      if (!profileData.websites || profileData.websites.length === 0) {
         socialMediaListContainer.innerHTML = '<li>No social media links found.</li>';
         return;
-    }
-
-    // Clear existing content (optional, if you want to refresh the list)
-    socialMediaListContainer.innerHTML = ''; 
-  // console.log("profileData.websites: ", profileData.websites);
-    // Iterate through each social media document
-    profileData.websites.forEach(socialData => {
+      }
+      // Clear existing content (optional, if you want to refresh the list)
+      socialMediaListContainer.innerHTML = '';
+      // console.log("profileData.websites: ", profileData.websites);
+      // Iterate through each social media document
+      profileData.websites.forEach(socialData => {
         const listItem = document.createElement('div');
-
         // Use template literals for better readability
         listItem.innerHTML = `<a href="${encodeURI(socialData.url)}" target="_blank" rel="noopener noreferrer">${socialData.name}</a>`;
-        
         socialMediaListContainer.appendChild(listItem);
-    });
-}
-
-
-
-
-
-
-
-async function loadUserBlogs(userId) {
-            const blogsRef = collection(db, 'Blogs');
-            const q = query(blogsRef, where("createdByID", "==", userId));
-            const blogSnapshot = await getDocs(q);
-            const blogsList = document.getElementById('blogs-list');
-
-            if (blogSnapshot.empty) {
-                blogsList.innerHTML = '<li>No blogs found.</li>';
-                return;
-            }
-
-            blogSnapshot.forEach(doc => {
-                const blogData = doc.data();
-                const listItem = document.createElement('li');
-                listItem.innerText = blogData.title || 'Blog Title';
-                blogsList.appendChild(listItem);
-            });
-        }
-
-        async function loadUserCompanies(userId) {
-            const companiesRef = collection(db, 'Companies');
-            const q = query(companiesRef, where("createdByID", "==", userId));
-            const companySnapshot = await getDocs(q);
-            const companiesList = document.getElementById('companies-list');
-
-            if (companySnapshot.empty) {
-                companiesList.innerHTML = '<li>No companies found.</li>';
-                return;
-            }
-
-            companySnapshot.forEach(doc => {
-                const companyData = doc.data();
-                const listItem = document.createElement('li');
-                listItem.innerText = companyData.name || 'Company Name';
-                companiesList.appendChild(listItem);
-            });
-        }
-
-
-
-document.getElementById('share-profile-btn').addEventListener('click', async () => { 
-    try {
-
-      const userPageId = document.getElementById('userPageId').innerText;
-
+      });
+    }
+    async function loadUserBlogs(userId) {
+      const blogsRef = collection(db, 'Blogs');
+      const q = query(blogsRef, where("createdByID", "==", userId));
+      const blogSnapshot = await getDocs(q);
+      const blogsList = document.getElementById('blogs-list');
+      if (blogSnapshot.empty) {
+        blogsList.innerHTML = '<li>No blogs found.</li>';
+        return;
+      }
+      blogSnapshot.forEach(doc => {
+        const blogData = doc.data();
+        const listItem = document.createElement('li');
+        listItem.innerText = blogData.title || 'Blog Title';
+        blogsList.appendChild(listItem);
+      });
+    }
+    async function loadUserCompanies(userId) {
+      const companiesRef = collection(db, 'Companies');
+      const q = query(companiesRef, where("createdByID", "==", userId));
+      const companySnapshot = await getDocs(q);
+      const companiesList = document.getElementById('companies-list');
+      if (companySnapshot.empty) {
+        companiesList.innerHTML = '<li>No companies found.</li>';
+        return;
+      }
+      companySnapshot.forEach(doc => {
+        const companyData = doc.data();
+        const listItem = document.createElement('li');
+        listItem.innerText = companyData.name || 'Company Name';
+        companiesList.appendChild(listItem);
+      });
+    }
+    document.getElementById('share-profile-btn').addEventListener('click', async () => {
+      try {
+        const userPageId = document.getElementById('userPageId').innerText;
         // Construct the share URL with the resolved userId
-        const shareUrl = `https://reelcareer.co/u/?u=${userPageId}`; 
-
+        const shareUrl = `https://reelcareer.co/u/?u=${userPageId}`;
         // Copy the share URL to the clipboard
         await navigator.clipboard.writeText(shareUrl);
-        
         // Show a success message
         showToast('Profile link copied to clipboard!');
-    } catch (err) {
+      } catch (err) {
         console.error('Could not copy text: ', err);
         showToast('Failed to copy profile link.');
-    }
-});
-document.getElementById('settings-profile-btn').addEventListener('click', async () => {
-  const container = document.getElementById('profileSettingsMain');
-  const profileCards = document.getElementById('profileCards');
-
-  // Add a 1-second delay before toggling visibility
-  setTimeout(() => {
-    container.classList.toggle("hidden");
-    profileCards.classList.toggle("hidden");
-  }, 500); // 1 second delay
-});
-
-
-        document.getElementById('view-messages-btn').addEventListener('click', async () => {
-          window.location.href = 'https://reelcareer.co/u/messaging';
-
-        });
-        
-
-        document.getElementById('view-create-create-video-btn').addEventListener('click', async () => {
-          window.location.href = 'https://reelcareer.co/u/create';
-
-        });
-
-        
-
-
-        document.getElementById('digital-resume-link').addEventListener('click', async () => {
-          window.location.href = 'https://reelcareer.co/u//u/seeker/';
-
-        });
-
-
-
-        document.getElementById('jobSeeker-btn').addEventListener('click', async () => {
-          window.location.href = 'https://reelcareer.co/u//u/seeker/';
-
-        });
-
-
-        document.getElementById('recruiter-btn').addEventListener('click', async () => {
-          window.location.href = 'https://reelcareer.co/u/recuiter/';
-
-        });
-
-        document.getElementById('view-create-reel-btn').addEventListener('click', async () => {
-          window.location.href = 'https://reelcareer.co/u/create';
-
-        });
-
-        document.getElementById('view-profile-btn').addEventListener('click', async () => {
-  try {
-    const userId = await getUserId(); // Await the userId if getUserId is asynchronous
-
-    if (userId) {
-      window.location.href = `https://reelcareer.co/u?u=${userId}`;
-    } else {
-      showToast('User ID could not be retrieved. Please try again.');
-    }
-  } catch (error) {
-    console.error('Error fetching userId:', error);
-    showToast('An error occurred while navigating to the profile page.');
-  }
-});
-
-
-
-
-document.getElementById('connect-btn').addEventListener('click', async () => {
-  try {
-    // Fetch required data
-    const userID = auth.currentUser.uid;
-
-  //  const userId = getUserId(); // Logged-in user
-    const urlParams = new URLSearchParams(window.location.search);
-    const userIdFromURL = urlParams.get('u');
-    const userDataSaved = await getUserData() || {};
-    const toName = document.getElementById('user-name').innerText;
-    const toProfilePicture = document.getElementById('profilePic').src;
-
-    // Validate inputs
-    if (!userId || !userIdFromURL) {
-      showToast('User information is incomplete.');
-      return;
-    }
-
-    if (userID === userIdFromURL) {
-      showToast('You cannot connect with yourself.');
-      return;
-    }
-
-    // Construct document ID
-    const docId = `${userIdFromURL}_${userId}`;
-    const connectionRef = doc(db, 'Connections', docId);
-
-    // Update button state
-    const connectBtn = document.getElementById('connect-btn');
-    connectBtn.disabled = true;
-    connectBtn.innerText = 'Sending...';
-
-    // Prepare and save connection data
-    const connectionData = {
-    from: userId,
-    to: userIdFromURL,
-    toProfilePicture: toProfilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_tie_reel.png',
-    toName: toName,
-    toProfileURL: `https://reelcareer.co/u?u=${userIdFromURL}`,
-    toGroup: 'Networking',
-
-    acceptDate: '',
-    participants: [userId, userIdFromURL], // Add this array
-    status: 'pending',
-    createdAt: new Date(),
-    fromGroup: 'Networking',
-    fromNote: '',
-    fromName: userDataSaved.displayName,
-    fromProfilePicture: userDataSaved.profilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_tie_reel.png',
-    fromProfileURL: `https://reelcareer.co/u?u=${userId}`
-};
-
-await setDoc(connectionRef, connectionData);
-
-
-    // Update button and notify user
-    connectBtn.innerText = 'Pending';
-    showToast('Connection request sent!');
-  } catch (error) {
-    console.error('Error sending connection request:', error);
-    const connectBtn = document.getElementById('connect-btn');
-    connectBtn.innerText = 'Connect';
-    showToast('Error sending connection request. Please try again.');
-  } finally {
-    const connectBtn = document.getElementById('connect-btn');
-    connectBtn.disabled = false;
-  }
-});
-
-
-
-async function checkConnection(){
-  const userID = auth.currentUser.uid;
-
-     // const userID = document.getElementById("currentUserId").innerText;
-
-  const urlParams = new URLSearchParams(window.location.search);
-    const userIdFromURL = urlParams.get('u'); // Get profile user ID
-    
-
-
-    if (!userID || !userIdFromURL || userID === userIdFromURL) {
+      }
+    });
+    document.getElementById('settings-profile-btn').addEventListener('click', async () => {
+      const container = document.getElementById('profileSettingsMain');
+      const profileCards = document.getElementById('profileCards');
+      // Add a 1-second delay before toggling visibility
+      setTimeout(() => {
+        container.classList.toggle("hidden");
+        profileCards.classList.toggle("hidden");
+      }, 500); // 1 second delay
+    });
+    document.getElementById('view-messages-btn').addEventListener('click', async () => {
+      window.location.href = 'https://reelcareer.co/u/messaging';
+    });
+    document.getElementById('view-create-create-video-btn').addEventListener('click', async () => {
+      window.location.href = 'https://reelcareer.co/u/create';
+    });
+    document.getElementById('digital-resume-link').addEventListener('click', async () => {
+      window.location.href = 'https://reelcareer.co/u//u/seeker/';
+    });
+    document.getElementById('jobSeeker-btn').addEventListener('click', async () => {
+      window.location.href = 'https://reelcareer.co/u//u/seeker/';
+    });
+    document.getElementById('recruiter-btn').addEventListener('click', async () => {
+      window.location.href = 'https://reelcareer.co/u/recuiter/';
+    });
+    document.getElementById('view-create-reel-btn').addEventListener('click', async () => {
+      window.location.href = 'https://reelcareer.co/u/create';
+    });
+    document.getElementById('view-profile-btn').addEventListener('click', async () => {
+      try {
+        const userId = await getUserId(); // Await the userId if getUserId is asynchronous
+        if (userId) {
+          window.location.href = `https://reelcareer.co/u?u=${userId}`;
+        } else {
+          showToast('User ID could not be retrieved. Please try again.');
+        }
+      } catch (error) {
+        console.error('Error fetching userId:', error);
+        showToast('An error occurred while navigating to the profile page.');
+      }
+    });
+    document.getElementById('connect-btn').addEventListener('click', async () => {
+      try {
+        // Fetch required data
+        const userID = auth.currentUser.uid;
+        //  const userId = getUserId(); // Logged-in user
+        const urlParams = new URLSearchParams(window.location.search);
+        const userIdFromURL = urlParams.get('u');
+        const userDataSaved = await getUserData() || {};
+        const toName = document.getElementById('user-name').innerText;
+        const toProfilePicture = document.getElementById('profilePic').src;
+        // Validate inputs
+        if (!userId || !userIdFromURL) {
+          showToast('User information is incomplete.');
+          return;
+        }
+        if (userID === userIdFromURL) {
+          showToast('You cannot connect with yourself.');
+          return;
+        }
+        // Construct document ID
+        const docId = `${userIdFromURL}_${userId}`;
+        const connectionRef = doc(db, 'Connections', docId);
+        // Update button state
+        const connectBtn = document.getElementById('connect-btn');
+        connectBtn.disabled = true;
+        connectBtn.innerText = 'Sending...';
+        // Prepare and save connection data
+        const connectionData = {
+          from: userId,
+          to: userIdFromURL,
+          toProfilePicture: toProfilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_tie_reel.png',
+          toName: toName,
+          toProfileURL: `https://reelcareer.co/u?u=${userIdFromURL}`,
+          toGroup: 'Networking',
+          acceptDate: '',
+          participants: [userId, userIdFromURL], // Add this array
+          status: 'pending',
+          createdAt: new Date(),
+          fromGroup: 'Networking',
+          fromNote: '',
+          fromName: userDataSaved.displayName,
+          fromProfilePicture: userDataSaved.profilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_tie_reel.png',
+          fromProfileURL: `https://reelcareer.co/u?u=${userId}`
+        };
+        await setDoc(connectionRef, connectionData);
+        // Update button and notify user
+        connectBtn.innerText = 'Pending';
+        showToast('Connection request sent!');
+      } catch (error) {
+        console.error('Error sending connection request:', error);
+        const connectBtn = document.getElementById('connect-btn');
+        connectBtn.innerText = 'Connect';
+        showToast('Error sending connection request. Please try again.');
+      } finally {
+        const connectBtn = document.getElementById('connect-btn');
+        connectBtn.disabled = false;
+      }
+    });
+    async function checkConnection() {
+      const userID = auth.currentUser.uid;
+      // const userID = document.getElementById("currentUserId").innerText;
+      const urlParams = new URLSearchParams(window.location.search);
+      const userIdFromURL = urlParams.get('u'); // Get profile user ID
+      if (!userID || !userIdFromURL || userID === userIdFromURL) {
         return; // Exit if IDs are invalid or user is viewing their own profile
-    }
-    try {
-
-    const connectionsRef = collection(db, 'Connections');
-    const querySnapshot = query(connectionsRef, where('participants', 'array-contains',userID));
-    const connectBtn = document.getElementById('connect-btn');
-
+      }
+      try {
+        const connectionsRef = collection(db, 'Connections');
+        const querySnapshot = query(connectionsRef, where('participants', 'array-contains', userID));
+        const connectBtn = document.getElementById('connect-btn');
         const snapshot = await getDocs(querySnapshot);
         let connectionFound = false;
-
         snapshot.forEach(doc => {
-            const connectionData = doc.data();
-            if (connectionData.participants.includes(userIdFromURL)) {
-                connectionFound = true;
-                if (connectionData.status === 'pending') {
-                    updateButtonState(connectBtn, 'Pending', true);
-                } else 
-                
-                if (connectionData.status === 'accepted') {
-                    updateButtonState(connectBtn, 'Connected', true);
-                } 
+          const connectionData = doc.data();
+          if (connectionData.participants.includes(userIdFromURL)) {
+            connectionFound = true;
+            if (connectionData.status === 'pending') {
+              updateButtonState(connectBtn, 'Pending', true);
+            } else
+            if (connectionData.status === 'accepted') {
+              updateButtonState(connectBtn, 'Connected', true);
             }
+          }
         });
-
         if (!connectionFound) {
-            updateButtonState(connectBtn, 'Connect'); // Default state
+          updateButtonState(connectBtn, 'Connect'); // Default state
         }
-    } catch (error) {
+      } catch (error) {
         console.error('Error fetching connection status:', error);
         showToast('Failed to load connection status.');
         updateButtonState(connectBtn, 'Connect', false); // Reset to default
+      }
+    };
+    // Utility Function: Update Button State
+    function updateButtonState(button, text, disable = false) {
+      button.innerText = text;
+      button.disabled = disable;
     }
-};
-
-// Utility Function: Update Button State
-function updateButtonState(button, text, disable = false) {
-    button.innerText = text;
-    button.disabled = disable;
-}
-
-
-
-
-
-
-
-
-
-// Send Message Button Handler
-document.getElementById('send-message-btn').addEventListener('click', () => {
-    const userId = getUserId(); // Logged-in user
-    const urlParams = new URLSearchParams(window.location.search);
-    const userIdFromURL = urlParams.get('u'); // Profile user
-
-    let recipientName = document.getElementById('user-name').innerText;
-    let currentUserId = document.getElementById('currentUserId').innerText;
-    let userPageId = document.getElementById('userPageId').innerText;
-
-    setRecipientName(recipientName);
-   // console.log("USERID: ", USERID);
-
-   /*
+    // Send Message Button Handler
+    document.getElementById('send-message-btn').addEventListener('click', () => {
+      const userId = getUserId(); // Logged-in user
+      const urlParams = new URLSearchParams(window.location.search);
+      const userIdFromURL = urlParams.get('u'); // Profile user
+      let recipientName = document.getElementById('user-name').innerText;
+      let currentUserId = document.getElementById('currentUserId').innerText;
+      let userPageId = document.getElementById('userPageId').innerText;
+      setRecipientName(recipientName);
+      // console.log("USERID: ", USERID);
+      /*
     console.log("userId: ", userId);
     console.log("currentUserId: ", currentUserId);
     console.log("userIdFromURL: ", userIdFromURL);
     console.log("userPageId: ", userPageId);
 */
-
-    const userDataSaved = getUserData() || [];
-    const senderID = auth.currentUser.uid;
-
-   // console.log("UserData: ", UserData);
-   // console.log("UserID: ", UserID);
-   // console.log("UserId: ", UserId);
-    console.log("senderID: ", senderID);
-    console.log("userDataSaved: ", userDataSaved);
-
-    if (senderID !== userIdFromURL) {
+      const userDataSaved = getUserData() || [];
+      const senderID = auth.currentUser.uid;
+      // console.log("UserData: ", UserData);
+      // console.log("UserID: ", UserID);
+      // console.log("UserId: ", UserId);
+      console.log("senderID: ", senderID);
+      console.log("userDataSaved: ", userDataSaved);
+      if (senderID !== userIdFromURL) {
         document.getElementById('recipient-id').value = userIdFromURL; // Set recipient ID
         $('#sendMessageModal').modal('show'); // Show modal
-    } else {
+      } else {
         showToast('You cannot send a message to yourself.');
+      }
+    });
+    // Sync content from editable div to hidden textarea
+    document.getElementById('message-content-editable').addEventListener('keyup', function() {
+      const content = this.innerText.trim();
+      document.getElementById('message-content').value = content;
+      toggleSendButton(content);
+    });
+    // Remove attachment
+    document.getElementById('remove-attachment').addEventListener('click', function() {
+      document.getElementById('message-attachments').value = '';
+      document.getElementById('attachment-preview').classList.add('d-none');
+      document.getElementById('attachment-thumbnail').classList.add('d-none');
+      document.getElementById('attachment-name').innerText = '';
+      toggleSendButton(document.getElementById('message-content').value.trim());
+    });
+    // Show recipient's name
+    function setRecipientName(recipientName) {
+      document.getElementById('recipient-name').textContent = `Message to: ${recipientName}`;
     }
-});
-
-
-// Sync content from editable div to hidden textarea
-document.getElementById('message-content-editable').addEventListener('keyup', function () {
-  const content = this.innerText.trim();
-  document.getElementById('message-content').value = content;
-  toggleSendButton(content);
-});
-
-// Remove attachment
-document.getElementById('remove-attachment').addEventListener('click', function () {
-  document.getElementById('message-attachments').value = '';
-  document.getElementById('attachment-preview').classList.add('d-none');
-  document.getElementById('attachment-thumbnail').classList.add('d-none');
-  document.getElementById('attachment-name').innerText = '';
-  toggleSendButton(document.getElementById('message-content').value.trim());
-});
-
-// Show recipient's name
-function setRecipientName(recipientName) {
-  document.getElementById('recipient-name').textContent = `Message to: ${recipientName}`;
-}
-
-// Trigger file picker
-document.getElementById('attachment-btn').addEventListener('click', function () {
-  document.getElementById('message-attachments').click();
-});
-
-// Handle attachment preview
-document.getElementById('message-attachments').addEventListener('change', function () {
-  const file = this.files[0];
-  if (file) {
-    document.getElementById('attachment-name').innerText = file.name;
-    const preview = document.getElementById('attachment-thumbnail');
-    
-    if (file.type.startsWith('image/')) {
-      preview.src = URL.createObjectURL(file);
-      preview.classList.remove('d-none');
-      preview.className = 'lazy-image';
-
-    } else {
-      preview.classList.add('d-none');
+    // Trigger file picker
+    document.getElementById('attachment-btn').addEventListener('click', function() {
+      document.getElementById('message-attachments').click();
+    });
+    // Handle attachment preview
+    document.getElementById('message-attachments').addEventListener('change', function() {
+      const file = this.files[0];
+      if (file) {
+        document.getElementById('attachment-name').innerText = file.name;
+        const preview = document.getElementById('attachment-thumbnail');
+        if (file.type.startsWith('image/')) {
+          preview.src = URL.createObjectURL(file);
+          preview.classList.remove('d-none');
+          preview.className = 'lazy-image';
+        } else {
+          preview.classList.add('d-none');
+        }
+        document.getElementById('attachment-preview').classList.remove('d-none');
+      }
+      toggleSendButton(document.getElementById('message-content').value.trim());
+    });
+    // Enable/disable Send button
+    function toggleSendButton(content) {
+      const attachment = document.getElementById('message-attachments').files[0];
+      const sendButton = document.querySelector('#sendMessageForm button[type="submit"]');
+      sendButton.disabled = !(content || attachment);
     }
-    document.getElementById('attachment-preview').classList.remove('d-none');
-  }
-  toggleSendButton(document.getElementById('message-content').value.trim());
-});
-
-// Enable/disable Send button
-function toggleSendButton(content) {
-  const attachment = document.getElementById('message-attachments').files[0];
-  const sendButton = document.querySelector('#sendMessageForm button[type="submit"]');
-  sendButton.disabled = !(content || attachment);
-}
-async function uploadAttachment(conversationID, file) {
-    try {
+    async function uploadAttachment(conversationID, file) {
+      try {
         // Ensure 'storage' is properly initialized
         const storageInstance = getStorage(); // Use Firebase's getStorage method
-
         // Create a storage reference dynamically based on conversationID and file name
         const fileRef = ref(storageInstance, `messages/${conversationID}/${file.name}`);
-
         // Upload the file to Firebase Storage
         const snapshot = await uploadBytes(fileRef, file);
-
         // Get the download URL for the uploaded file
         return await getDownloadURL(snapshot.ref);
-    } catch (error) {
+      } catch (error) {
         console.error("Error uploading attachment:", error);
         throw new Error('Failed to upload attachment.'); // Handle this in calling function
+      }
     }
-}
-
-// Your form submission logic
-document.getElementById('sendMessageForm').addEventListener('submit', async function (e) {
-    e.preventDefault();
-
-    // Gather recipient and sender data
-    const recipientProfilePicture = document.getElementById('profilePic').src;
-    const recipientName = document.getElementById('user-name').innerText;
-    const recipientID = document.getElementById('recipient-id').value;
-    const senderID = auth.currentUser.uid;
-    const content = document.getElementById('message-content').value.trim();
-    const attachmentFile = document.getElementById('message-attachments').files[0];
-    const connectBtn = document.getElementById('connect-btn');
-
-    const userDataSaved = getUserData() || {};
-    const connectedBool = connectBtn.innerText === "Connected";
-
-    // Determine contentType
-    let contentType = 'text';
-    if (attachmentFile) {
+    // Your form submission logic
+    document.getElementById('sendMessageForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      // Gather recipient and sender data
+      const recipientProfilePicture = document.getElementById('profilePic').src;
+      const recipientName = document.getElementById('user-name').innerText;
+      const recipientID = document.getElementById('recipient-id').value;
+      const senderID = auth.currentUser.uid;
+      const content = document.getElementById('message-content').value.trim();
+      const attachmentFile = document.getElementById('message-attachments').files[0];
+      const connectBtn = document.getElementById('connect-btn');
+      const userDataSaved = getUserData() || {};
+      const connectedBool = connectBtn.innerText === "Connected";
+      // Determine contentType
+      let contentType = 'text';
+      if (attachmentFile) {
         const fileExtension = attachmentFile.name.split('.').pop().toLowerCase();
         const typeMapping = {
-            image: ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'svg', 'webp'],
-            video: ['mp4', 'avi', 'mov', 'mkv', 'webm'],
-            audio: ['mp3', 'wav', 'aac', 'ogg', 'flac'],
-            document: ['pdf', 'doc', 'docx', 'ppt', 'pptx', 'xls', 'xlsx'],
-            archive: ['zip', 'rar', '7z', 'tar', 'gz'],
+          image: ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'svg', 'webp'],
+          video: ['mp4', 'avi', 'mov', 'mkv', 'webm'],
+          audio: ['mp3', 'wav', 'aac', 'ogg', 'flac'],
+          document: ['pdf', 'doc', 'docx', 'ppt', 'pptx', 'xls', 'xlsx'],
+          archive: ['zip', 'rar', '7z', 'tar', 'gz'],
         };
-
         for (const [type, extensions] of Object.entries(typeMapping)) {
-            if (extensions.includes(fileExtension)) {
-                contentType = type;
-                break;
-            }
+          if (extensions.includes(fileExtension)) {
+            contentType = type;
+            break;
+          }
         }
-    }
-
-    let attachmentUrl = '';
-    if (attachmentFile) {
+      }
+      let attachmentUrl = '';
+      if (attachmentFile) {
         try {
-            // Upload the attachment and get its URL
-            attachmentUrl = await uploadAttachment(recipientID, attachmentFile);
+          // Upload the attachment and get its URL
+          attachmentUrl = await uploadAttachment(recipientID, attachmentFile);
         } catch (error) {
-            console.error('Attachment upload failed:', error);
-            showToast('Failed to upload attachment. Please try again.');
-            return; // Stop form submission on failure
+          console.error('Attachment upload failed:', error);
+          showToast('Failed to upload attachment. Please try again.');
+          return; // Stop form submission on failure
         }
-    }
-
-    // Construct message data
-    const messageData = {
+      }
+      // Construct message data
+      const messageData = {
         recipientID,
         recipientName,
         recipientProfilePicture,
@@ -2430,179 +2041,127 @@ document.getElementById('sendMessageForm').addEventListener('submit', async func
         attachments: attachmentFile ? attachmentFile.name : '',
         attachmentUrl,
         isDeleted: false,
-    };
-
-    try {
+      };
+      try {
         const messagesCollection = collection(db, 'Messages');
         await addDoc(messagesCollection, messageData);
-
         showToast('Message sent successfully!');
         $('#sendMessageModal').modal('hide');
-    } catch (error) {
+      } catch (error) {
         console.error('Error sending message:', error);
         showToast('Failed to send message. Please try again.');
-    }
-});
-
-
-
-
-document.getElementById("message-content-editable").addEventListener("keydown", (event) => {
-  // Check if Enter key is pressed
-  if (event.key === "Enter") {
-    event.preventDefault(); // Prevent default Enter behavior (e.g., line break)
-    const sendMessageButton = document.getElementById("send-message-btn");
-
-    // Focus on the Send Message button
-    sendMessageButton.focus();
-
-    // Optionally, trigger a click if you want to send the message immediately
-    // sendMessageButton.click();
-  }
-});
-
-const trackFormChanges = (formId, onChangeCallback) => {
-    const formElement = document.getElementById(formId);
-    if (!formElement) {
+      }
+    });
+    document.getElementById("message-content-editable").addEventListener("keydown", (event) => {
+      // Check if Enter key is pressed
+      if (event.key === "Enter") {
+        event.preventDefault(); // Prevent default Enter behavior (e.g., line break)
+        const sendMessageButton = document.getElementById("send-message-btn");
+        // Focus on the Send Message button
+        sendMessageButton.focus();
+        // Optionally, trigger a click if you want to send the message immediately
+        // sendMessageButton.click();
+      }
+    });
+    const trackFormChanges = (formId, onChangeCallback) => {
+      const formElement = document.getElementById(formId);
+      if (!formElement) {
         console.error(`Form with ID "${formId}" not found.`);
         return;
-    }
-
-    // Initial state of the form
-    const initialState = Array.from(new FormData(formElement).entries());
-
-    // Event listener for inputs
-    const handleChange = () => {
+      }
+      // Initial state of the form
+      const initialState = Array.from(new FormData(formElement).entries());
+      // Event listener for inputs
+      const handleChange = () => {
         const currentState = Array.from(new FormData(formElement).entries());
         const isChanged = JSON.stringify(initialState) !== JSON.stringify(currentState);
         onChangeCallback(isChanged, formId);
-    };
-
-    // Attach listeners to all input, textarea, and select elements
-    formElement.querySelectorAll('input, textarea, select').forEach((input) => {
+      };
+      // Attach listeners to all input, textarea, and select elements
+      formElement.querySelectorAll('input, textarea, select').forEach((input) => {
         input.addEventListener('input', handleChange);
         input.addEventListener('change', handleChange);
-    });
-};
-
-                    
-let unsavedChanges = false;
-
-const setUnsavedChanges = (isChanged) => {
-    unsavedChanges = isChanged;
-
-    const saveButton = document.getElementById('saveProfileBtn-profile');
-
-    // Update button text
-    saveButton.innerText = "Save Changes";
-
-    // Ensure the button is displayed
-    saveButton.style.display = "block";
-
-    // Set opacity
-    saveButton.style.opacity = "1";
-};
-
-
-const trackAllFormsWithExitWarning = () => {
-    const forms = [
+      });
+    };
+    let unsavedChanges = false;
+    const setUnsavedChanges = (isChanged) => {
+      unsavedChanges = isChanged;
+      const saveButton = document.getElementById('saveProfileBtn-profile');
+      // Update button text
+      saveButton.innerText = "Save Changes";
+      // Ensure the button is displayed
+      saveButton.style.display = "block";
+      // Set opacity
+      saveButton.style.opacity = "1";
+    };
+    const trackAllFormsWithExitWarning = () => {
+      const forms = [
         'membershipForm-profile',
         'socialForm-profile',
         'settingsForm-profile',
         'personalForm-profile'
-    ];
-
-    forms.forEach((formId) =>
+      ];
+      forms.forEach((formId) =>
         trackFormChanges(formId, (isChanged) => {
-            setUnsavedChanges(isChanged);
+          setUnsavedChanges(isChanged);
         })
-    );
-
-    window.addEventListener('beforeunload', (event) => {
+      );
+      window.addEventListener('beforeunload', (event) => {
         if (unsavedChanges) {
-            event.preventDefault();
-            event.returnValue = ''; // Standard for most browsers
-            showToast("Don't Forget to Save your Changes");
-
+          event.preventDefault();
+          event.returnValue = ''; // Standard for most browsers
+          showToast("Don't Forget to Save your Changes");
         }
+      });
+    };
+    document.addEventListener('DOMContentLoaded', trackAllFormsWithExitWarning);
+    document.addEventListener("DOMContentLoaded", () => {
+      const tabs = document.querySelectorAll(".nav-link");
+      const tabContents = document.querySelectorAll(".tab-pane");
+      tabs.forEach((tab) => {
+        tab.addEventListener("click", (e) => {
+          // Remove active class from all tabs
+          tabs.forEach((t) => t.classList.remove("active"));
+          // Hide all tab contents
+          tabContents.forEach((content) => content.classList.remove("active", "showIt"));
+          // Add active class to the clicked tab
+          e.target.classList.add("active");
+          // Show the corresponding tab content
+          const target = document.querySelector(e.target.dataset.bsTarget);
+          if (target) {
+            const settingsHeaderText = document.getElementById("settings-header-text");
+            settingsHeaderText.innerText = target.getAttribute('data-bs-name');
+            target.classList.add("active", "showIt");
+          }
+        });
+      });
     });
-};
+    document.addEventListener("DOMContentLoaded", () => {
+      const tabs = document.querySelectorAll(".profile-tabs");
+      const tabContents = document.querySelectorAll(".profile-pane");
+      tabs.forEach((tab) => {
+        tab.addEventListener("click", (e) => {
+          // Remove active class from all tabs
+          tabs.forEach((t) => t.classList.remove("active"));
+          // Hide all tab contents
+          tabContents.forEach((content) => content.classList.remove("active", "showIt"));
+          // Add active class to the clicked tab
+          e.target.classList.add("active");
+          // Show the corresponding tab content
+          const target = document.querySelector(e.target.dataset.bsTarget);
+          if (target) {
+            const settingsHeaderText = document.getElementById("settings-header-text");
+            settingsHeaderText.innerText = target.getAttribute('data-bs-name');
+            target.classList.add("active", "showIt");
+          }
+        });
+      });
+    });
+  </script>
 
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 
-
-
-document.addEventListener('DOMContentLoaded', trackAllFormsWithExitWarning);
-
-                    
-                    document.addEventListener("DOMContentLoaded", () => {
-                      const tabs = document.querySelectorAll(".nav-link");
-                      const tabContents = document.querySelectorAll(".tab-pane");
-                    
-                      tabs.forEach((tab) => {
-                        tab.addEventListener("click", (e) => {
-                          // Remove active class from all tabs
-                          tabs.forEach((t) => t.classList.remove("active"));
-                    
-                          // Hide all tab contents
-                          tabContents.forEach((content) => content.classList.remove("active", "showIt"));
-                    
-                          // Add active class to the clicked tab
-                          e.target.classList.add("active");
-                    
-                          // Show the corresponding tab content
-                          const target = document.querySelector(e.target.dataset.bsTarget);
-                          if (target) {
-
-
-
-                            const settingsHeaderText = document.getElementById("settings-header-text");
-                            settingsHeaderText.innerText = target.getAttribute('data-bs-name');
-  
-
-
-                            target.classList.add("active", "showIt");
-                          }
-                        });
-                      });
-                    });
-                    
-                 
-                    document.addEventListener("DOMContentLoaded", () => {
-                      const tabs = document.querySelectorAll(".profile-tabs");
-                      const tabContents = document.querySelectorAll(".profile-pane");
-                    
-                      tabs.forEach((tab) => {
-                        tab.addEventListener("click", (e) => {
-                          // Remove active class from all tabs
-                          tabs.forEach((t) => t.classList.remove("active"));
-                    
-                          // Hide all tab contents
-                          tabContents.forEach((content) => content.classList.remove("active", "showIt"));
-                    
-                          // Add active class to the clicked tab
-                          e.target.classList.add("active");
-                    
-                          // Show the corresponding tab content
-                          const target = document.querySelector(e.target.dataset.bsTarget);
-                          if (target) {
-
-
-
-                            const settingsHeaderText = document.getElementById("settings-header-text");
-                            settingsHeaderText.innerText = target.getAttribute('data-bs-name');
-  
-
-
-                            target.classList.add("active", "showIt");
-                          }
-                        });
-                      });
-                    });
-
-    </script>
-
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
+
 </html>
