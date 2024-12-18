@@ -1649,9 +1649,13 @@ const audioAlert = userDataSaved.audioAlert === 'true'; // Play audio alert
 
 // Utility: Format Timestamp
 function formatTimestamp(timestamp) {
-    const date = new Date(timestamp);
-    return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
+  // Convert Firebase Timestamp to milliseconds
+  const date = new Date(timestamp.seconds * 1000 + Math.floor(timestamp.nanoseconds / 1e6));
+
+  // Format the date as MM/DD/YYYY
+  return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
 }
+
 
 // Utility: Truncate message to 50 characters
 function truncateMessage(message) {
@@ -1695,7 +1699,7 @@ onSnapshot(messagesQuery, (snapshot) => {
 
     allMessages.forEach((data) => {
         const otherUserID = data.recipientID === userID ? data.senderID : data.recipientID;
-        const recipientName = data.recipientName || data.senderName;
+        const recipientName = data.recipientID === userID ?  data.senderName: data.recipientName ;
         const profilePicture = data.senderProfilePicture || data.recipientProfilePicture || 'https://reelcareer.co/images/sq_logo_n_BG_tie_reel.png';
         const truncatedMessage = truncateMessage(data.content || '');
         const formattedDate = formatTimestamp(data.timestamp);
