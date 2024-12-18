@@ -923,7 +923,8 @@ const openEvent = new CustomEvent("click", { detail: "open" });
  class="avatar lazy-image" width="40" height="40">
                   <a  class="max-w" href="${connection.toProfileURL}" target="_blank">${connection.toName}</a>
                 </div>
-                <button onclick="acceptConnection('${connection.to}', '${connection.from}')">Accept</button>
+                                <button onclick="removeConnection('${connection.from}', '${connection.to}')">Remove</button>
+
                 `;
                 div.innerHTML = connectionInfo;
                 noteDiv.innerHTML = connection.fromNote;
@@ -939,7 +940,8 @@ const openEvent = new CustomEvent("click", { detail: "open" });
  class="avatar lazy-image" width="40" height="40">
                  <a  class="max-w"  href="${connection.fromProfileURL}" target="_blank">${connection.fromName}</a>
                 </div>
-                <button onclick="removeConnection('${connection.from}', '${connection.to}')">Remove</button>
+                                <button onclick="acceptConnection('${connection.to}', '${connection.from}')">Accept</button>
+
                 `;
                 div.innerHTML = connectionInfo;
 
