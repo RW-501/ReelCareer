@@ -99,7 +99,10 @@ document.addEventListener('DOMContentLoaded', () => {
   
         handleAuthStateChanged(user); // Call your function to handle authenticated user
         }
-        if (localStorage.getItem("darkMode") === "true") {
+
+        const userDataSaved =  getUserData() || [];
+
+        if (userDataSaved.darkMode === "true") {
             document.body.classList.add("dark-mode");
           }
     

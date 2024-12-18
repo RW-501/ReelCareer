@@ -707,10 +707,9 @@ function toggleDarkMode() {
   document.body.classList.toggle("dark-mode");
 
 
+  // Check if the body has the dark-mode class, and set darkMode to true or false
   const userData = {
-
-    darkMode: isVoiceToTextOn
-  
+    darkMode: document.body.classList.contains("dark-mode") || false
   };
   const userDataEcode = setUserData(userData);
   localStorage.setItem('userData', userDataEcode);
@@ -735,12 +734,6 @@ const applySmoothTransitions = () => {
 
 window.addEventListener('load', () => {
   applySmoothTransitions();
-});
-
-window.addEventListener('load', () => {
-  if (localStorage.getItem("darkMode") === "true") {
-    document.body.classList.add("dark-mode");
-  }
 });
 
 
