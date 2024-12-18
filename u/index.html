@@ -1516,7 +1516,7 @@ profileData.tags.forEach(tag => {
   userData.jobPosts.forEach(jobData => {
   console.log("Processing job: ", jobData); // Add this line to inspect each job post
   
-  if (jobData.jobID && jobData.jobTitle) {
+  if (jobData && jobData.jobTitle) {
     const listItem = document.createElement('li');
     listItem.classList.add('job-list-item', 'mb-4', 'p-3', 'border', 'rounded', 'shadow-sm');
     

@@ -1092,38 +1092,37 @@ if (!complianceCheck || !complianceCheck.checked) {
     // Add to Applications collection
     const applicationsRef = collection(db, "Jobs");
 
+// Add the job to the Jobs collection
+const jobDocRef = await addDoc(applicationsRef, {
+  ...jobDetails,
+  createdAt: new Date(),
+  recruiterID: auth.currentUser?.uid || "Anonymous",
+});
+console.log("Document written with ID:", jobDocRef.id);
 
-    
-    const jobDocRef = await addDoc(applicationsRef, {
-      ...jobDetails,
+const jobId = jobDocRef.id; // Job ID generated from Firestore
+
+// If the user is logged in, add to their Users collection
+if (auth.currentUser && !auth.currentUser.isAnonymous) {
+  const userRef = doc(db, "Users", auth.currentUser.uid);
+  await updateDoc(userRef, {
+    recruiterID: auth.currentUser.uid, // Ensures recruiterID is up-to-date
+    timestamp: new Date(),
+    jobPosts: arrayUnion({
+      jobID: jobId, // Add the generated job ID here
+      jobTitle: jobDetails.title || "Untitled Job",
+      status: jobDetails.status || "draft",
       createdAt: new Date(),
-      recruiterID: auth.currentUser?.uid || "Anonymous",
-    });
-    console.log("Document written with ID:", jobDocRef.id);
-
-    const jobId = jobDocRef.id;
-
-    // If the user is logged in, add to their Users collection
-    if (auth.currentUser && !auth.currentUser.isAnonymous) {
-      const userRef = doc(db, "Users", auth.currentUser.uid);
-      await updateDoc(userRef, {
-        recruiterID: auth.currentUser.uid,
-        timestamp: new Date(),
-
-        jobPosts: arrayUnion({
-          jobTitle: jobDetails.title || "Untitled Job",
-          status: jobDetails.status || "draft",
-          createdAt: new Date(),
-          location: jobDetails.location || "Unknown Location",
-          boosted: jobDetails.boosted || false,
-          boostDuration: jobDetails.boostDuration || new Date(new Date().setDate(new Date().getDate() + 30)), // Default 30 days
-          companyName: jobDetails.company || "Unknown Company",
-          companyId: jobDetails.companyId || "No Company ID",
-          salary: jobDetails.salary || 0,
-          applicationDeadline: jobDetails.applicationDeadline || new Date(new Date().setDate(new Date().getDate() + 30)) // Default 30 days
-        }),
-      });
-    }
+      location: jobDetails.location || "Unknown Location",
+      boosted: jobDetails.boosted || false,
+      boostDuration: jobDetails.boostDuration || new Date(new Date().setDate(new Date().getDate() + 30)), // Default 30 days
+      companyName: jobDetails.company || "Unknown Company",
+      companyId: jobDetails.companyId || "No Company ID",
+      salary: jobDetails.salary || 0,
+      applicationDeadline: jobDetails.applicationDeadline || new Date(new Date().setDate(new Date().getDate() + 30)) // Default 30 days
+    }),
+  });
+}
 
    // showSuccessModal(jobId, jobDetails); // Display success message
     if (auth.currentUser.isAnonymous) {
