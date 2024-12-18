@@ -1546,20 +1546,19 @@ profileData.tags.forEach(tag => {
   console.log("userData.jobPosts: ", userData.jobPosts);
   // Loop through the job posts array and create list items
   userData.jobPosts.forEach(jobData => {
-  console.log("Processing job: ", jobData); // Add this line to inspect each job post
   
   if (jobData && jobData.jobTitle) {
-    const listItem = document.createElement('li');
-    listItem.classList.add('job-list-item', 'mb-4', 'p-3', 'border', 'rounded', 'shadow-sm');
+    const listItem = document.createElement('div');
+    listItem.classList.add('job-list-item');
     
     // Create the HTML structure for the job data
     listItem.innerHTML = `
       <a href="https://reelcareer.co/jobs/job-details?id=${jobData.jobID}" title="${jobData.jobTitle}" class="text-decoration-none text-dark">
         <h5 class="job-title">${jobData.jobTitle}</h5>
       </a>
-      <p class="company-name font-weight-bold">${jobData.companyName || 'No Company Name'}</p>
+      <p class="company-name">${jobData.companyName || 'No Company Name'}</p>
       <p class="location text-muted"><i class="fas fa-map-marker-alt"></i> ${jobData.location || 'Location not specified'}</p>
-      <p class="salary font-weight-bold text-primary">${jobData.salary || 'Salary not specified'}</p>
+      <p class="salary">${jobData.salary || 'Salary not specified'}</p>
     `;
 
     // Append the list item to the jobs list
@@ -1569,44 +1568,6 @@ profileData.tags.forEach(tag => {
 
 }
 
-
-        async function loadUserBlogs(userId) {
-            const blogsRef = collection(db, 'Blogs');
-            const q = query(blogsRef, where("createdByID", "==", userId));
-            const blogSnapshot = await getDocs(q);
-            const blogsList = document.getElementById('blogs-list');
-
-            if (blogSnapshot.empty) {
-                blogsList.innerHTML = '<li>No blogs found.</li>';
-                return;
-            }
-
-            blogSnapshot.forEach(doc => {
-                const blogData = doc.data();
-                const listItem = document.createElement('li');
-                listItem.innerText = blogData.title || 'Blog Title';
-                blogsList.appendChild(listItem);
-            });
-        }
-
-        async function loadUserCompanies(userId) {
-            const companiesRef = collection(db, 'Companies');
-            const q = query(companiesRef, where("createdByID", "==", userId));
-            const companySnapshot = await getDocs(q);
-            const companiesList = document.getElementById('companies-list');
-
-            if (companySnapshot.empty) {
-                companiesList.innerHTML = '<li>No companies found.</li>';
-                return;
-            }
-
-            companySnapshot.forEach(doc => {
-                const companyData = doc.data();
-                const listItem = document.createElement('li');
-                listItem.innerText = companyData.name || 'Company Name';
-                companiesList.appendChild(listItem);
-            });
-        }
 
         async function loadUserVideoResumes(userData) {
 
@@ -1694,6 +1655,53 @@ if (videoData.status === 'posted') {
         socialMediaListContainer.appendChild(listItem);
     });
 }
+
+
+
+
+
+
+
+async function loadUserBlogs(userId) {
+            const blogsRef = collection(db, 'Blogs');
+            const q = query(blogsRef, where("createdByID", "==", userId));
+            const blogSnapshot = await getDocs(q);
+            const blogsList = document.getElementById('blogs-list');
+
+            if (blogSnapshot.empty) {
+                blogsList.innerHTML = '<li>No blogs found.</li>';
+                return;
+            }
+
+            blogSnapshot.forEach(doc => {
+                const blogData = doc.data();
+                const listItem = document.createElement('li');
+                listItem.innerText = blogData.title || 'Blog Title';
+                blogsList.appendChild(listItem);
+            });
+        }
+
+        async function loadUserCompanies(userId) {
+            const companiesRef = collection(db, 'Companies');
+            const q = query(companiesRef, where("createdByID", "==", userId));
+            const companySnapshot = await getDocs(q);
+            const companiesList = document.getElementById('companies-list');
+
+            if (companySnapshot.empty) {
+                companiesList.innerHTML = '<li>No companies found.</li>';
+                return;
+            }
+
+            companySnapshot.forEach(doc => {
+                const companyData = doc.data();
+                const listItem = document.createElement('li');
+                listItem.innerText = companyData.name || 'Company Name';
+                companiesList.appendChild(listItem);
+            });
+        }
+
+
+        
 document.getElementById('share-profile-btn').addEventListener('click', async () => { 
     try {
 
