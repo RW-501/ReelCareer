@@ -124,6 +124,100 @@ video {
 }
 
 
+/* Video Card Styling */
+.profileVideoCard {
+  position: relative;
+  max-width: 100%;
+  margin-bottom: 20px;
+}
+
+.vidioCard video {
+  width: 100%;
+  height: auto;
+  background-color: black;
+}
+
+/* Custom Controls */
+.controls-top,
+.controls-bottom {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  z-index: 2;
+}
+
+.controls-top {
+  top: 10px;
+}
+
+.controls-bottom {
+  bottom: 10px;
+  display: none;
+}
+
+.mute-toggle,
+.fullscreen-toggle {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.controls-play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 40px;
+  color: white;
+  cursor: pointer;
+  z-index: 3;
+}
+
+.controls-play i {
+  font-size: 3rem;
+}
+
+/* Hide controls when video is playing */
+.vidioCard video:playing + .controls-top,
+.vidioCard video:playing + .controls-bottom {
+  display: none;
+}
+
+/* Like Button and ReelCareer Logo */
+.actions {
+  display: flex;
+  align-items: center;
+}
+
+.action-btn {
+  margin-right: 15px;
+  font-size: 18px;
+  color: white;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.realCareerVidLogo {
+    color: #639ad4;
+    font-size: 1.5rem;
+    font-weight: 700;
+    -webkit-text-stroke: thin;
+    font-size: 1rem;
+    font-variant: small-caps;
+    margin: .5rem;
+    opacity: .5;
+}
+
+/* Icon Styling */
+.fa {
+  font-size: 20px;
+}
 
 
 
@@ -1667,47 +1761,121 @@ profileData.tags.forEach(tag => {
 
 }
 
+async function loadUserVideoResumes(userData) {
+  const videoResumeList = document.getElementById('video-resume-list');
 
-        async function loadUserVideoResumes(userData) {
+  // Check if videoResumeData exists and is an object
+  if (!userData.videoResumeData || typeof userData.videoResumeData !== 'object') {
+    videoResumeList.innerHTML = '<li>No video resumes found.</li>';
+    return;
+  }
 
-          const videoResumeList = document.getElementById('video-resume-list');
+  console.log("userData.videoResumeData: ", userData.videoResumeData);
 
-// Check if videoResumeData exists and is an object
-if (!userData.videoResumeData || typeof userData.videoResumeData !== 'object') {
-  videoResumeList.innerHTML = '<li>No video resumes found.</li>';
-  return;
+  // Since videoResumeData is a single object, directly check its status
+  const videoData = userData.videoResumeData;
+
+  if (videoData.status === 'posted') {
+    const card = document.createElement('div');
+    card.classList.add("profileVideoCard");
+
+    card.innerHTML = `
+      <div class="vidioCard">
+        <video 
+          src="${videoData.videoResumeURL}" 
+          class="card-img-top video-player" 
+          id="video-${videoData.reelID}"
+        ></video>
+        
+        <!-- Custom Controls -->
+        <div class="controls-top" id="controls-top-${videoData.reelID}">
+          <button class="mute-toggle" aria-label="Mute or Unmute" onclick="toggleMute('video-${videoData.reelID}', this)">
+            <i class="fa fa-volume-up"></i>
+          </button>
+          <button class="fullscreen-toggle" aria-label="Enter Full Screen" onclick="toggleFullscreen('video-${videoData.reelID}')">
+            <i class="fa fa-expand"></i>
+          </button>
+        </div>
+
+        <!-- Play Button Overlay -->
+        <div class="play-overlay controls-play" id="play-overlay-${videoData.reelID}" onclick="playVideo('video-${videoData.reelID}')">
+          <i class="fa fa-play"></i>
+        </div>
+
+        <!-- Bottom Controls -->
+        <div class="controls-container controls-bottom" id="controls-bottom-${videoData.reelID}">
+          <div class="actions">
+            <button class="action-btn like-btn" onclick="handleLike('${videoData.reelID}', this)">
+              <i class="fa fa-thumbs-up"></i> ${videoData.likes || 0}
+            </button>
+            <div class="realCareerVidLogo action-btn">ReelCareer</div>
+          </div>
+        </div>
+      </div>
+    `;
+
+    // Append the card to the video resume list
+    videoResumeList.appendChild(card);
+  }
 }
 
-console.log("userData.videoResumeData: ", userData.videoResumeData);
+function playVideo(videoId) {
+  const video = document.getElementById(videoId);
+  const playOverlay = document.getElementById('play-overlay-' + videoId.split('-')[1]);
+  const controlsTop = document.getElementById('controls-top-' + videoId.split('-')[1]);
+  const controlsBottom = document.getElementById('controls-bottom-' + videoId.split('-')[1]);
 
-// Since videoResumeData is a single object, directly check its status
-const videoData = userData.videoResumeData;
+  video.play();
+  playOverlay.style.display = 'none';
+  controlsTop.style.display = 'none';
+  controlsBottom.style.display = 'none';
 
-if (videoData.status === 'posted') {
-  const card = document.createElement('div');
-  card.classList.add("profileVideoCard");
+  video.onpause = () => {
+    playOverlay.style.display = 'flex';
+    controlsTop.style.display = 'flex';
+    controlsBottom.style.display = 'flex';
+  };
+  video.onended = () => {
+    playOverlay.style.display = 'flex';
+    controlsTop.style.display = 'flex';
+    controlsBottom.style.display = 'flex';
+  };
+}
 
-  card.innerHTML = `
-    <div class="vidioCard">
-      <video 
-        src="${videoData.videoResumeURL}" 
-        class="card-img-top" 
-        controls
-      ></video>
-      <div class="videoSeeMoreBtn">
-        <a 
-          href="https://reelcareer.co/reels/?r=${videoData.reelID}" 
-          class="btn btn-primary mb-2"
-          target="_blank"
-        >
-          See Post
-        </a>
-      </div>
-    </div>
-  `;
+function toggleMute(videoId, muteButton) {
+  const video = document.getElementById(videoId);
+  video.muted = !video.muted;
 
-  // Append the card to the video resume list
-  videoResumeList.appendChild(card);
+  // Update the button icon
+  muteButton.innerHTML = video.muted ? '<i class="fa fa-volume-mute"></i>' : '<i class="fa fa-volume-up"></i>';
+}
+
+function toggleFullscreen(videoId) {
+  const video = document.getElementById(videoId);
+  if (video.requestFullscreen) {
+    video.requestFullscreen();
+  } else if (video.webkitRequestFullscreen) {
+    video.webkitRequestFullscreen();
+  } else if (video.msRequestFullscreen) {
+    video.msRequestFullscreen();
+  }
+}
+
+async function handleLike(reelID, likeButton) {
+  const videoRef = doc(db, "VideoResumes", reelID);
+
+  try {
+    await updateDoc(videoRef, {
+      likes: increment(1) // Firestore increment
+    });
+
+    // Update UI instantly
+    let likesCount = parseInt(likeButton.textContent) || 0;
+    likesCount++;
+    likeButton.innerHTML = `<i class="fa fa-thumbs-up"></i> ${likesCount}`;
+  } catch (error) {
+    console.error("Error updating like count: ", error);
+  }
 }
 
 
@@ -1727,7 +1895,7 @@ if (videoData.status === 'posted') {
             });
 
             */
-        }
+        
 
    
         
