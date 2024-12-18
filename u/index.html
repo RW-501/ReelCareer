@@ -305,6 +305,30 @@
     .hidden {
       display: none;
     }
+
+
+
+    #sendMessageModal {
+    padding-right: 17px;
+    display: block;
+    z-index: 5000;
+    position: absolute;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: fit-content;
+}
+
+#profileTabs {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    margin-bottom: .5rem;
+}
+
   </style>
 </head>
 
@@ -708,6 +732,10 @@
 
     </div>
 
+  </main>
+
+
+  
     <div class="modal fade" id="sendMessageModal" tabindex="-1" aria-labelledby="sendMessageModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -773,7 +801,6 @@
     <!-- Include Font Awesome for the paperclip icon -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 
-  </main>
 
   <div id="currentUserId" hidden></div>
   <div id="userPageId" hidden></div>
