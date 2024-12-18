@@ -1130,9 +1130,12 @@ function composeMessages(conversationID, data, type, conversationRecipientID) {
             </a>
             <span>${isSender ? data.toName : data.fromName || 'Unknown Sender'}</span>
             <div class="flex">
-                                ${data.status ? '<i class="fas fa-check-circle" style="color: green;"></i> Connected' 
-                        : '<i class="fas fa-times-circle" style="color: red;"></i> Not Connected'}
-           
+   <small>
+    ${data.status 
+        ? '<i class="fas fa-check-circle" style="color: green;"></i> Connected' 
+        : '<i class="fas fa-times-circle" style="color: red;"></i> Not Connected'}
+</small>
+
             </div>
             ${data.acceptDate ? `<p>Connected Since: <small>${data.acceptDate}</small></p>` : ''}
         `;
@@ -1151,10 +1154,12 @@ function composeMessages(conversationID, data, type, conversationRecipientID) {
             <span>${userDataSaved.userID === data.senderID ? data.recipientName : data.senderName || 'Unknown Sender'}</span>
             <div class="flex">
                     <div> 
-            <small>
-                ${data.connectedBool ? '<i class="fas fa-check-circle" style="color: green;"></i> Connected' 
-                        : '<i class="fas fa-times-circle" style="color: red;"></i> Not Connected'}
-            </small>
+<small>
+    ${data.connectedBool 
+        ? '<i class="fas fa-check-circle" style="color: green;"></i> Connected' 
+        : '<i class="fas fa-times-circle" style="color: red;"></i> Not Connected'}
+</small>
+
         </div>
             </div>
             ${data.connectedBool ? `<p>Connected Since: <small>${data.acceptDate}</small></p>` : ''}
