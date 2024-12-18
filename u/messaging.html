@@ -906,7 +906,7 @@ const openEvent = new CustomEvent("click", { detail: "open" });
         if (connection.status === "pending") {
             if (connection.from === userDataSaved.userID) {
                 const connectionInfo = `
-                <div>
+<div class="flex">
                   <img src="${connection.toProfilePicture}" alt="Profile" 
  class="avatar lazy-image" width="40" height="40">
                   <a href="${connection.toProfileURL}" target="_blank">${connection.toName}</a>
@@ -922,7 +922,7 @@ const openEvent = new CustomEvent("click", { detail: "open" });
 
             } else if (connection.to === userDataSaved.userID) {
                 const connectionInfo = `
-                <div>
+<div class="flex">
                   <img src="${connection.fromProfilePicture}" alt="Profile" 
  class="avatar lazy-image" width="40" height="40">
                   <a href="${connection.fromProfileURL}" target="_blank">${connection.fromName}</a>
@@ -956,7 +956,7 @@ const openEvent = new CustomEvent("click", { detail: "open" });
             if (connection.from == userDataSaved.userID) {
              
                 const connectionInfo = `
-                <div>
+<div class="flex">
                   <img src="${connection.toProfilePicture}" alt="Profile" 
  class="avatar lazy-image" width="40" height="40">
                   <a href="${connection.toProfileURL}" target="_blank">${connection.toName}</a>
@@ -974,7 +974,7 @@ const openEvent = new CustomEvent("click", { detail: "open" });
             } else if (connection.to == userDataSaved.userID) {
 
                 const connectionInfo = `
-            <div>
+<div class="flex">
               <img src="${connection.fromProfilePicture}" alt="Profile" 
  class="avatar lazy-image" width="40" height="40">
               <a href="${connection.fromProfileURL}" target="_blank">${connection.fromName}</a>
