@@ -77,15 +77,48 @@
 }
 
 
+.profileVideoCard{
+
+  .card {
+  transition: transform 0.2s ease-in-out;
+}
+
+.card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-body {
+  padding: 1.25rem;
+}
+
+.btn-primary {
+  width: 100%;
+  text-align: center;
+}
 
 .video-container {
-    max-height: 200px;
-    overflow: hidden;
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
 }
 
 .video-container video {
-    width: 100%;
-    height: auto;
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+
+
+
+
+
+
+
+
+
+
 }
 
 
@@ -1473,29 +1506,36 @@ profileData.tags.forEach(tag => {
         }
 
         async function loadUserJobs(userData) {
+  const jobsList = document.getElementById('open-jobs-list');
 
-            const jobsList = document.getElementById('open-jobs-list');
+  // If there are no job posts in the userData object, display a message
+  if (!userData.jobPosts || userData.jobPosts.length === 0) {
+    jobsList.innerHTML = '<li>No open jobs found.</li>';
+    return;
+  }
 
+  // Loop through the job posts array and create list items
+  userData.jobPosts.forEach(jobData => {
+    // Check if jobData has a jobID and jobTitle before creating the list item
+    if (jobData.jobID && jobData.jobTitle) {
+      const listItem = document.createElement('li');
+      listItem.classList.add('job-list-item', 'mb-4', 'p-3', 'border', 'rounded', 'shadow-sm');
+      
+      // Create the HTML structure for the job data
+      listItem.innerHTML = `
+        <a href="https://reelcareer.co/jobs/job-details?id=${jobData.jobID}" title="${jobData.jobTitle}" class="text-decoration-none text-dark">
+          <h5 class="job-title">${jobData.jobTitle}</h5>
+        </a>
+        <p class="company-name font-weight-bold">${jobData.companyName || 'No Company Name'}</p>
+        <p class="location text-muted"><i class="fas fa-map-marker-alt"></i> ${jobData.location || 'Location not specified'}</p>
+        <p class="salary font-weight-bold text-primary">${jobData.salary || 'Salary not specified'}</p>
+      `;
 
-
-            if (!userData.jobPosts) {
-                jobsList.innerHTML = '<li>No open jobs found.</li>';
-                return;
-            }
-
-
-
-
-
-            userData.jobPosts.forEach(jobData => {
-              if(jobData.jobID){ 
-                const listItem = document.createElement('li');
-                listItem.innerHTML =  `<a href="https://reelcareer.co/jobs/job-details?id=${jobData.jobID}" title="${jobData.jobTitle}">${jobData.jobTitle}</a>`   || '' ;
-                jobsList.appendChild(listItem);
-              }
-                
-            });
-        }
+      // Append the list item to the jobs list
+      jobsList.appendChild(listItem);
+    }
+  });
+}
 
 
         async function loadUserBlogs(userId) {
@@ -1550,7 +1590,7 @@ c
 userData.videoResumeData.forEach(videoData => {
   if (videoData.status === 'posted') {
     const card = document.createElement('div');
-    card.classList.add('col-md-4', 'mb-4');
+    card.classList.add('col-md-4', 'mb-4', "profileVideoCard");
 
     card.innerHTML = `
       <div class="card h-100 shadow-sm">
