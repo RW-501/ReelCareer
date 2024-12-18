@@ -824,6 +824,10 @@ const querySnapshot = query(connectionssRef, where('participants', 'array-contai
 // Appending a single connection to the list
 function appendConnection(connection, type) {
 
+
+
+    console.log(`appendConnection${type} .`);
+
     let connectionId = '';
 
     if(type == "contect"){
