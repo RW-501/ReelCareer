@@ -2158,6 +2158,7 @@ async function convertTextToLinks(contentDiv) {
             image: doc.querySelector('meta[property="og:image"]') ? doc.querySelector('meta[property="og:image"]').getAttribute('content') : '',
             url: url,
         };
+        console.log("metadata: ", metadata);
 
         return metadata;
     } catch (error) {
