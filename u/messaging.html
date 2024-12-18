@@ -486,6 +486,17 @@ main {
     display: flex;
 }
 
+
+.flex {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+}
+
+.max-w {
+    width: max-content;
+}
     </style>
 
 </head>
@@ -871,7 +882,7 @@ const openEvent = new CustomEvent("click", { detail: "open" });
         <div>
           <img src="${connection.recipientProfilePicture}" alt="Profile" 
  class="avatar lazy-image" width="40" height="40">
-          <a href="${connection.recipientProfileURL}" target="_blank">${connection.recipientName}</a>
+            <a  class="max-w" href="${connection.recipientProfileURL}" target="_blank">${connection.recipientName}</a>
         </div>
                     <button onclick="viewProfile('${connection.recipientID}')">View Profile</button>
 
@@ -886,7 +897,7 @@ const openEvent = new CustomEvent("click", { detail: "open" });
         <div>
           <img src="${connection.senderProfilePicture}" alt="Profile" 
  class="avatar lazy-image" width="40" height="40">
-          <a href="${connection.senderProfileURL}" target="_blank">${connection.senderName}</a>
+           <a  class="max-w" href="${connection.senderProfileURL}" target="_blank">${connection.senderName}</a>
         </div>
                     <button onclick="viewProfile('${connection.senderID}')">View Profile</button>
         `;
@@ -909,7 +920,7 @@ const openEvent = new CustomEvent("click", { detail: "open" });
 <div class="flex">
                   <img src="${connection.toProfilePicture}" alt="Profile" 
  class="avatar lazy-image" width="40" height="40">
-                  <a href="${connection.toProfileURL}" target="_blank">${connection.toName}</a>
+                  <a  class="max-w" href="${connection.toProfileURL}" target="_blank">${connection.toName}</a>
                 </div>
                 <button onclick="acceptConnection('${connection.to}', '${connection.from}')">Accept</button>
                 `;
@@ -925,7 +936,7 @@ const openEvent = new CustomEvent("click", { detail: "open" });
 <div class="flex">
                   <img src="${connection.fromProfilePicture}" alt="Profile" 
  class="avatar lazy-image" width="40" height="40">
-                  <a href="${connection.fromProfileURL}" target="_blank">${connection.fromName}</a>
+                 <a  class="max-w"  href="${connection.fromProfileURL}" target="_blank">${connection.fromName}</a>
                 </div>
                 <button onclick="removeConnection('${connection.from}', '${connection.to}')">Remove</button>
                 `;
@@ -959,7 +970,7 @@ const openEvent = new CustomEvent("click", { detail: "open" });
 <div class="flex">
                   <img src="${connection.toProfilePicture}" alt="Profile" 
  class="avatar lazy-image" width="40" height="40">
-                  <a href="${connection.toProfileURL}" target="_blank">${connection.toName}</a>
+                  <a  class="max-w"  href="${connection.toProfileURL}" target="_blank">${connection.toName}</a>
                 </div>
             <button onclick="viewProfile('${connection.to}')">from View Profile</button>
                 `;
@@ -977,7 +988,7 @@ const openEvent = new CustomEvent("click", { detail: "open" });
 <div class="flex">
               <img src="${connection.fromProfilePicture}" alt="Profile" 
  class="avatar lazy-image" width="40" height="40">
-              <a href="${connection.fromProfileURL}" target="_blank">${connection.fromName}</a>
+              <a  class="max-w" href="${connection.fromProfileURL}" target="_blank">${connection.fromName}</a>
             </div>
             <button onclick="viewProfile('${connection.from}')">to View Profile</button>
             `;
