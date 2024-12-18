@@ -1601,7 +1601,7 @@ async function fetchJobQueryAndDisplay() {
             setTimeout(async () => {
                 await displayMessage("bot", JobQuery); // Call displayMessage with 'bot' as sender
              //   console.log("JobQuery Result Sent:", JobQuery); // Log the sent message
-            }, 3000); // 3-second delay
+            }, 2000); // 3-second delay
         }
     } catch (error) {
         console.error("Error in JobQuery:", error);

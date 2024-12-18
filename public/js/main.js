@@ -3062,14 +3062,14 @@ chatButton.addEventListener("click", () => {
   setTimeout(() => {
       chatPanel.style.display = "flex";
       loadGeneralQuestions(); // Only load questions when the panel is open
-  }, 1000); // 2 seconds delay
+  }, 500); // 2 seconds delay
 });
 
 closeChatButton.addEventListener("click", () => {
   // Delay chat panel closing by 2 seconds
   setTimeout(() => {
       chatPanel.style.display = "none";
-  }, 1000); // 2 seconds delay
+  }, 500); // 2 seconds delay
 });
 
 sendChatButton.addEventListener("click", sendMessage);
@@ -3680,7 +3680,7 @@ setTimeout(() => {
 
 
   
-}, 2000); // 5000 milliseconds = 5 seconds
+}, 500); // 5000 milliseconds = 5 seconds
 
 
 
