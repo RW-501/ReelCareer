@@ -1213,7 +1213,7 @@ selectInput.onchange = function () {
             selectedOption.classList.add('optionBlocked');  // Add 'optionBlocked' when blocked
         }
     
-changeGroup(`${data.from}_${userDataSaved.userID}`, selectedOption.value, "toGroup", `${data.toName}`);
+changeGroup(`${userDataSaved.userID}_${data.from}`, selectedOption.value, "toGroup", `${data.toName}`);
 };
 
 // Example groups (single user)
@@ -1302,7 +1302,7 @@ selectInput.onchange = function () {
             selectedOption.classList.add('optionBlocked');  // Add 'optionBlocked' when blocked
         }
     
-changeGroup(`${userDataSaved.userID}_${data.to}`, selectedOption.value, "fromGroup", `${data.toName}`);
+changeGroup(`${data.to}_${userDataSaved.userID}`, selectedOption.value, "fromGroup", `${data.toName}`);
 };
 
 // Example groups (single user)
