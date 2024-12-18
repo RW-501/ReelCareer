@@ -1625,16 +1625,16 @@ const videoData = userData.videoResumeData;
 
 if (videoData.status === 'posted') {
   const card = document.createElement('div');
-  card.classList.add('col-md-4', 'mb-4', "profileVideoCard");
+  card.classList.add("profileVideoCard");
 
   card.innerHTML = `
-    <div class="card h-100 shadow-sm">
+    <div class="vidioCard">
       <video 
         src="${videoData.videoResumeURL}" 
         class="card-img-top" 
         controls
       ></video>
-      <div class="card-body">
+      <div class="videoSeeMoreBtn">
         <a 
           href="https://reelcareer.co/reels/${videoData.reelID}" 
           class="btn btn-primary"
