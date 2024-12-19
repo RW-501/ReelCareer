@@ -2039,6 +2039,11 @@ function countSections() {
 // Step 2: Initialize the carousel modal
 // Step 1: General function to display the carousel slides
 function displaySectionContent(parsedData, clickedSection = null) {
+    if (!parsedData || typeof parsedData !== 'object') {
+        console.error("Invalid or empty parsedData provided.");
+        return;
+    }
+
     const modal = document.getElementById('resumeModal');
     const carouselContainer = document.getElementById('carouselContainer');
     carouselContainer.innerHTML = '';
@@ -2060,16 +2065,13 @@ function displaySectionContent(parsedData, clickedSection = null) {
         return;
     }
 
-    // Create slides for all sections
     sections.forEach((section, index) => {
         const slide = document.createElement('div');
         slide.className = 'carousel-slide';
         slide.setAttribute('data-slide', index);
-
-        let sectionContent = parsedData[section];
         slide.innerHTML = `
             <h3>${section}</h3>
-            <p class="sectionContent">${sectionContent}</p>
+            <p class="sectionContent">${parsedData[section]}</p>
         `;
         carouselContainer.appendChild(slide);
 
@@ -2078,7 +2080,6 @@ function displaySectionContent(parsedData, clickedSection = null) {
         }
     });
 
-    // Ensure slides exist before initializing carousel
     const totalSlides = document.querySelectorAll('.carousel-slide').length;
     if (totalSlides === 0) {
         console.error("No slides created!");
@@ -2106,8 +2107,12 @@ function showSlide(index, slides) {
 
     slides.forEach(slide => slide.classList.remove('active'));
     const currentSlide = slides[index];
-    currentSlide.classList.add('active');
-    console.log(`Showing slide ${index + 1} of ${slides.length}`);
+    if (currentSlide) {
+        currentSlide.classList.add('active');
+        console.log(`Showing slide ${index + 1} of ${slides.length}`);
+    } else {
+        console.error(`Slide at index ${index} is undefined.`);
+    }
 }
 
 // Step 3: Add click handlers to clickable sections
@@ -2208,45 +2213,34 @@ function initializeCarousel(totalSlides, currentSection = 0) {
     isCarouselInitialized = true;
     console.log("Initializing carousel with slides:", totalSlides);
 
-    let currentIndex = currentSection;
-
     const slides = document.querySelectorAll('.carousel-slide');
     if (slides.length === 0) {
         console.error("No slides available for initialization!");
         return;
     }
 
+    let currentIndex = currentSection;
     const prevButton = document.getElementById('prevSlide');
     const nextButton = document.getElementById('nextSlide');
 
-    // Show initial slide
-    showSlide(currentIndex, slides); // Pass slides to showSlide
-
-    // Navigation logic
-    let isNavigating = false;
-
-    function navigateCarousel(direction) {
-        if (isNavigating) return;
-        isNavigating = true;
-
-        currentIndex = (currentIndex + direction + totalSlides) % totalSlides;
-        showSlide(currentIndex, slides); // Pass slides here too
-
-        setTimeout(() => isNavigating = false, 300);
-    }
+    // Ensure the current slide index is valid
+    currentIndex = Math.max(0, Math.min(currentIndex, slides.length - 1));
+    showSlide(currentIndex, slides);
 
     prevButton.addEventListener('click', () => navigateCarousel(-1));
     nextButton.addEventListener('click', () => navigateCarousel(1));
 
-    // Close modal button
+    function navigateCarousel(direction) {
+        currentIndex = (currentIndex + direction + totalSlides) % totalSlides;
+        showSlide(currentIndex, slides);
+    }
+
     const closeModalBtn = document.getElementById('closeModal');
     closeModalBtn.addEventListener('click', () => {
         document.getElementById('resumeModal').style.display = 'none';
-        isCarouselInitialized = false; // Reset flag when modal closes
+        isCarouselInitialized = false;
     });
 }
-
-
 
 console.log("extractedData   ",extractedData);
 console.log("fieldMappings:", fieldMappings);
