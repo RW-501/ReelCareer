@@ -2129,6 +2129,7 @@ function handleSectionClick(clickedSection, parsedData) {
     initializeCarousel(sections.length, clickedSection);
 }
 
+
 let isCarouselInitialized = false;
 
 function initializeCarousel(totalSlides, currentSection = 0) {
@@ -2149,58 +2150,41 @@ function initializeCarousel(totalSlides, currentSection = 0) {
     }
 
     // Navigate to the next or previous slide
-    let isNavigating = false;
+    function navigateCarousel(direction) {
+        // Prevent rapid clicks
+        if (isNavigating) return;
+        isNavigating = true;
 
-    
+        // Update the current index based on the direction
+        currentIndex = (currentIndex + direction + totalSlides) % totalSlides;
 
-function navigateCarousel(direction) {
-    if (isNavigating) return; // Prevent multiple triggers
-    isNavigating = true;
+        // Show the slide at the updated index
+        showSlide(currentIndex);
 
-    currentIndex = (currentIndex + direction + totalSlides) % totalSlides;
-    showSlide(currentIndex);
-    console.log("direction:", direction);
-       console.log("currentIndex:", currentIndex);
-       console.log("totalSlides:", totalSlides);
-    // Add a small delay to reset
-    setTimeout(() => {
-        isNavigating = false;
-    }, 300); // 300ms delay to avoid rapid clicks
-}
+        console.log("direction:", direction);
+        console.log("currentIndex:", currentIndex);
+        console.log("totalSlides:", totalSlides);
 
+        // Add a small delay to reset the flag
+        setTimeout(() => {
+            isNavigating = false;
+        }, 300); // 300ms delay to avoid rapid clicks
+    }
 
-// Prevent duplicate event listeners
-prevButton.removeEventListener('click', handlePrev);
-nextButton.removeEventListener('click', handleNext);
-
-// Handlers
-function handlePrev() {
-    navigateCarousel(-1);
-}
-
-function handleNext() {
-    navigateCarousel(1);
-}
-
-// Attach listeners
-prevButton.addEventListener('click', handlePrev);
-nextButton.addEventListener('click', handleNext);
-
+    // Attach event listeners for navigation
+    prevButton.addEventListener('click', () => navigateCarousel(-1)); // Go to the previous slide
+    nextButton.addEventListener('click', () => navigateCarousel(1)); // Go to the next slide
 
     // Show the initial slide
     showSlide(currentIndex);
 
     const closeModalBtn = document.getElementById('closeModal');
+    closeModalBtn.addEventListener('click', () => {
+        const modal = document.getElementById('resumeModal');
+        modal.style.display = 'none'; // Close the modal
+    });
+}
 
-if (closeModalBtn) {
-    closeModalBtn.onclick = () => {
-        console.log("Closing Modal...");
-        document.getElementById('resumeModal').style.display = 'none';
-    };
-} else {
-    console.error("Element with ID 'closeModal' not found!");
-}
-}
 
 
 console.log("extractedData   ",extractedData);
@@ -2213,7 +2197,7 @@ const closeModalBtn = document.getElementById('closeModal');
 
 if (closeModalBtn) {
     closeModalBtn.addEventListener('click', () => {
-        console.log("Closing Modal...");
+
         document.getElementById('resumeModal').style.display = 'none';
     });
 }
