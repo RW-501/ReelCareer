@@ -735,6 +735,8 @@
         <button id="prevSlide" class="carousel-button prev">&lt;</button>
         <button id="nextSlide" class="carousel-button next">&gt;</button>
       </div>
+      <button id="updateSectionButton">Update Section</button>
+
     </div>
   </div>
   
@@ -2035,15 +2037,15 @@ function countSections() {
 }
 
 // Step 2: Initialize the carousel modal
-function displayCarouselModal(parsedData) {
+// Step 1: General function to display the carousel slides
+function displaySectionContent(parsedData, clickedSection = null) {
     const modal = document.getElementById('resumeModal');
     const carouselContainer = document.getElementById('carouselContainer');
     carouselContainer.innerHTML = '';
 
+    // Filter sections with valid data (non-empty strings, arrays, or objects)
     const sections = Object.keys(parsedData).filter(key => {
         const value = parsedData[key];
-
-        // Check for strings, arrays, and objects, and ensure they are non-empty
         if (typeof value === 'string') {
             return value.trim() !== '';
         } else if (Array.isArray(value)) {
@@ -2051,9 +2053,9 @@ function displayCarouselModal(parsedData) {
         } else if (typeof value === 'object' && value !== null) {
             return Object.keys(value).length > 0;
         }
-        return false; // Exclude invalid types like null, undefined, or empty values
+        return false;
     });
-    
+
     if (sections.length === 0) {
         showToast('No valid resume sections found', 'error');
         return;
@@ -2071,10 +2073,21 @@ function displayCarouselModal(parsedData) {
             <p class="sectionContent">${sectionContent}</p>
         `;
         carouselContainer.appendChild(slide);
+
+        // If clicked section matches, highlight it as active
+        if (clickedSection && section === clickedSection) {
+            slide.classList.add('active');
+        }
     });
 
     modal.style.display = 'flex';
-    initializeCarousel(sections.length);
+    initializeCarousel(sections.length, clickedSection);
+}
+
+
+// Step 3: Open modal with all sections (for the initial view)
+function displayCarouselModal(parsedData) {
+    displaySectionContent(parsedData); // Display all sections
 }
 
 // Step 3: Add click handlers to clickable sections
@@ -2096,40 +2109,76 @@ function displayCarouselModal(parsedData) {
 
 //});
 
-// Step 4: Show carousel and highlight clicked section
+// Add the button event listener and update functionality
+document.getElementById('updateSectionButton').addEventListener('click', function() {
+    // Get the currently active slide
+    const activeSlide = document.querySelector('.carousel-slide.active');
+    
+    // Ensure we have the active slide
+    if (!activeSlide) {
+        console.error('No active slide found!');
+        return;
+    }
+
+    // Get section name and content from the active slide
+    const sectionName = activeSlide.querySelector('h3').textContent;
+    const sectionContent = activeSlide.querySelector('.sectionContent').textContent;
+
+    console.log(`Updating section: ${sectionName}`);
+    console.log(`New content: ${sectionContent}`);
+
+    // Replace the section content in the main resume
+    updateResumeSection(sectionName, sectionContent);
+});
+
+// Function to update the content of the section in the main resume
+function updateResumeSection(sectionName, sectionContent) {
+    // Find the section in the resume based on the section name (data-section attribute)
+    const resumeSection = document.querySelector(`#main-resume .clickable-section[data-section="${sectionName}"]`);
+
+    if (resumeSection) {
+        // Replace the content of the section in the resume
+        resumeSection.setAttribute('data-ref', sectionContent);
+        resumeSection.querySelector('.sectionContent').textContent = sectionContent;
+        console.log(`Section "${sectionName}" updated successfully!`);
+    } else {
+        console.error(`Section "${sectionName}" not found in the resume!`);
+    }
+}
+
+// Modify your existing `handleSectionClick` function to include content display in the carousel
 function handleSectionClick(clickedSection, parsedData) {
-
-
     console.log("clickedSection:", clickedSection);
-       console.log("parsedData:", parsedData);
+    console.log("parsedData:", parsedData);
 
     const modal = document.getElementById('resumeModal');
     const carouselContainer = document.getElementById('carouselContainer');
     carouselContainer.innerHTML = '';
-
-
 
     const sections = document.querySelectorAll('#main-resume .clickable-section');
     sections.forEach((item, index) => {
         const section = item.getAttribute('data-section');
         const sectionContent = item.getAttribute('data-ref');
 
-        const slide = document.createElement('div');
-        slide.className = 'carousel-slide';
-        slide.innerHTML = `
-            <h3>${section}</h3>
-            <p class="sectionContent">${sectionContent}</p>
-        `;
-
-        carouselContainer.appendChild(slide);
+  
         if (section === clickedSection) slide.classList.add('active');
     });
+    // Call display function to populate the modal
+    displaySectionContent(parsedData, clickedSection);
 
     modal.style.display = 'flex';
     initializeCarousel(sections.length, clickedSection);
 }
+/*
+// Step 2: Open modal and show content for a clicked section
+function handleSectionClick(clickedSection, parsedData) {
+    console.log("clickedSection:", clickedSection);
+    console.log("parsedData:", parsedData);
 
-
+    // Call display function to populate the modal
+    displaySectionContent(parsedData, clickedSection);
+}
+*/
 let isCarouselInitialized = false;
 
 function initializeCarousel(totalSlides, currentSection = 0) {
@@ -2150,7 +2199,7 @@ function initializeCarousel(totalSlides, currentSection = 0) {
     }
 
     let isNavigating = false;
-    
+
     // Navigate to the next or previous slide
     function navigateCarousel(direction) {
         // Prevent rapid clicks
