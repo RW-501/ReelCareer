@@ -2096,7 +2096,7 @@ function getSectionContent(section, parsedData) {
     if (parsedData[section]) {
         console.log(parsedData);
         
-        return `<strong>${sectionMappings[section] || section}:</strong> <p class="sectionContent">${parsedData[section]}</p>`;
+        return `<strong>${sectionMappings[section] || section}:</strong> <p class="sectionContent">${parsedData}</p>`;
     }
 
     // Default return for missing data
