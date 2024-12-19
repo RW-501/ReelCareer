@@ -1581,26 +1581,46 @@ const storage = getStorage();  // This should be defined once globally.
     }
 }
 
-// Function to parse the uploaded file (ensure this function exists)
+const fileParsers = {
+    'text/plain': parseTxt,
+    'application/pdf': parsePdf,
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document': parseWord,
+};
+
 async function parseFile(file) {
-    // Your existing file parsing logic goes here...
-    // This could include checking the file type, parsing text, PDF, Word, etc.
     const fileType = file.type;
 
-    if (fileType.includes('text/plain')) {
-        parseTxt(file);
-    } else if (fileType.includes('application/pdf')) {
-        await parsePdf(file);
-    } else if (fileType.includes('application/vnd.openxmlformats-officedocument.wordprocessingml.document') || file.name.endsWith('.docx')) {
-        await parseWord(file);
-    } else {
-        showToast('Unsupported file format', "error");
+    showProgressBar();
+    try {
+        if (file.size > 5 * 1024 * 1024) {
+            showToast('File is too large, please upload a file smaller than 5MB', 'error');
+            return;
+        }
+
+        const parser = fileParsers[fileType] || (file.name.endsWith('.docx') ? parseWord : null);
+        if (parser) {
+            await parser(file);
+        } else {
+            showToast('Unsupported file format', 'error');
+        }
+    } catch (error) {
+        showToast('An error occurred while parsing the file', 'error');
+        console.error(error);
+    } finally {
+        setTimeout(hideProgressBar, 500);
     }
 }
-    
 
-// Add the event listener after defining the function
-document.getElementById('resumeInput').addEventListener('change', handleFileUpload);
+    
+function debounce(func, delay) {
+    let timer;
+    return (...args) => {
+        clearTimeout(timer);
+        timer = setTimeout(() => func(...args), delay);
+    };
+}
+
+document.getElementById('resumeInput').addEventListener('change', debounce(handleFileUpload, 300));
 
 // Main function to parse different file types with progress indication
 async function parseFile(file) {
@@ -1648,20 +1668,26 @@ async function parseTxt(file) {
 
 // Function to parse PDF files with a timeout and pdfjsLib
 async function parsePdf(file) {
-    const pdfData = await file.arrayBuffer();
-    const pdf = await pdfjsLib.getDocument({ data: pdfData }).promise;
-    let textContent = '';
+    try {
+        const pdfData = await file.arrayBuffer();
+        const pdf = await pdfjsLib.getDocument({ data: pdfData }).promise;
+        let textContent = '';
 
-    for (let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber++) {
-        const page = await pdf.getPage(pageNumber);
-        const text = await page.getTextContent();
-        const pageText = text.items.map((item) => item.str).join(' ');
-        textContent += pageText + '\n';
+        for (let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber++) {
+            const page = await pdf.getPage(pageNumber);
+            const text = await page.getTextContent();
+            const pageText = text.items.map((item) => item.str).join(' ');
+            textContent += pageText + '\n';
+        }
+
+        displayInEditableDiv(textContent);
+        showToast('PDF parsed successfully', 'success');
+    } catch (error) {
+        showToast('Failed to parse PDF file', 'error');
+        console.error("Error parsing PDF:", error);
     }
-
-    displayInEditableDiv(textContent);
-    showToast('PDF parsed successfully', 'success');
 }
+
 
 // Function to parse Word files (.docx) using the docx library with a timeout
 async function parseWord(file) {
@@ -1686,8 +1712,8 @@ async function parseWord(file) {
 // Function to extract each job entry with roles and bullets
 function extractJobEntries(text) {
     // Regex for job entries with position, company, location, duration, and bullets
-    const positionRegex = /([A-Za-z\s]+)\s*–?\s*([\w\s]+),\s*([\w\s]+)\s*\((\w+\s+\d{4}\s*-\s*(\w+\s+\d{4}|Present))\)\s*((?:•\s+.+?)+)/g;
-    const entries = [];
+    const positionRegex = /(?<position>[A-Za-z\s]+)\s*–?\s*(?<company>[\w\s]+),\s*(?<location>[\w\s]+)\s*\((?<duration>\w+\s+\d{4}\s*-\s*(\w+\s+\d{4}|Present))\)\s*(?<responsibilities>(?:•\s+.+?)+)/g;
+        const entries = [];
     let match;
 
     // Extract each job entry match
@@ -1837,15 +1863,9 @@ const generateFormattedHTML = (data) => {
         socialLinks: "Social Links",
         references: "References"
     };
-
     return Object.entries(fieldLabels)
-        .map(([key, label]) => {
-            if (data[key]) {
-                const value = Array.isArray(data[key]) ? data[key].join(", ") : data[key];
-                return `<strong>${label}:</strong><br>${value}<br><br>`;
-            }
-            return "";
-        })
+        .filter(([key]) => data[key]) // Include only fields with values
+        .map(([key, label]) => `<strong>${label}:</strong><br>${Array.isArray(data[key]) ? data[key].join(", ") : data[key]}<br><br>`)
         .join("");
 };
 
