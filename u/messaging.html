@@ -1780,7 +1780,7 @@ function loadContacts(userID) {
     console.log("userID:", userID);
 
     const contactList = document.getElementById('contactList');
-   // contactList.innerHTML = '';  // Clear the existing content
+   contactList.innerHTML = '';  // Clear the existing content
 
     const createSection = (sectionTitle) => {
         const sectionDiv = document.createElement('div');
