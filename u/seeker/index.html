@@ -2094,6 +2094,21 @@ function displaySectionContent(parsedData, clickedSection = null) {
 function displayCarouselModal(parsedData) {
     displaySectionContent(parsedData); // Display all sections
 }
+function showSlide(index) {
+    if (!slides || slides.length === 0) {
+        console.error("No slides found to display.");
+        return;
+    }
+    if (index < 0 || index >= slides.length) {
+        console.error(`Invalid slide index: ${index}`);
+        return;
+    }
+
+    slides.forEach(slide => slide.classList.remove('active'));
+    const currentSlide = slides[index];
+    currentSlide.classList.add('active');
+    console.log(`Showing slide ${index + 1} of ${slides.length}`);
+}
 
 // Step 3: Add click handlers to clickable sections
 ////document.addEventListener('DOMContentLoaded', () => {
