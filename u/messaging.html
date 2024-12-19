@@ -2060,10 +2060,23 @@ function loadMessages(participants, recipientID, senderID) {
 
             // Check if the sender is either the recipient or the sender
             if (data.participants.includes(senderID)) {
+
+
+  
+
+
                 const messageDiv = document.createElement('div');
                 messageDiv.className = `message ${data.senderID === auth.currentUser.uid ? 'sent' : 'received'}`;
-                messageDiv.textContent = data.content;
-                convertTextToLinks(messageDiv);
+
+                const statusDiv = document.createElement('div');
+                statusDiv.className = `messageStatus`;
+                statusDiv.textContent = data.status;
+
+                const contentDiv = document.createElement('div');
+                contentDiv.className = `messageContent`;
+                contentDiv.textContent = data.content;
+
+                convertTextToLinks(contentDiv);
 
 // Audio notification
 const newMessageAudio = new Audio('https://reelcareer.co/media/audio/ding.mp3'); // Replace with your audio file
@@ -2073,7 +2086,7 @@ const userDataSaved = getUserData() || [];
 const audioAlert = userDataSaved.audioAlert === true; // Play audio alert
 
 console.log("data: ", data);
-console.log("data.status: ", data.status);
+//console.log("data.status: ", data.status);
 
         // Add unread class and play audio for unread messages
         if (data.status === 'unread') {
@@ -2081,13 +2094,12 @@ console.log("data.status: ", data.status);
             if (audioAlert) {
                 newMessageAudio.play();
             }
-            console.log("audio????????/: ", audioAlert);
 
-            updateMessageRead(docID);
+           // updateMessageRead(docID);
 
         }
 
-        console.log("audioAlert: ", audioAlert);
+       // console.log("audioAlert: ", audioAlert);
 
 
                 // Add media content if present
@@ -2137,7 +2149,7 @@ console.log("data.status: ", data.status);
                             mediaDiv.appendChild(unsupportedMessage);
                             break;
                     }
-                    messageDiv.appendChild(mediaDiv);
+                    contentDiv.appendChild(mediaDiv);
                 }
 
 
@@ -2158,7 +2170,10 @@ timestampDiv.textContent = timeAgo(createdAtDate);
 
 
 
-                messageDiv.appendChild(timestampDiv);
+messageDiv.appendChild(timestampDiv);
+messageDiv.appendChild(contentDiv);
+
+messageDiv.appendChild(statusDiv);
 
                 messageBox.appendChild(messageDiv);
             }
@@ -2187,8 +2202,8 @@ async function convertTextToLinks(contentDiv) {
             const response = await fetch(url);
 
             // Log the response status and content type
-            console.log("Response Status: ", response.status);
-            console.log("Response Content-Type: ", response.headers.get("content-type"));
+          //  console.log("Response Status: ", response.status);
+        //    console.log("Response Content-Type: ", response.headers.get("content-type"));
 
             // Check if the response is HTML
             const contentType = response.headers.get("content-type");
