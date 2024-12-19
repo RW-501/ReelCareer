@@ -2046,7 +2046,7 @@ function handleSectionClick(section, parsedData) {
     // Add the section title and content to the slide
     slide.innerHTML = `
         <h3>${section.charAt(0).toUpperCase() + section.slice(1)}</h3>
-        <p id="sectionContent">${displayContent}</p>
+        <p class="sectionContent">${displayContent}</p>
     `;
 
     // Append the slide to the carousel
@@ -2086,7 +2086,7 @@ function getSectionContent(section, parsedData) {
     if (parsedData[section]) {
         console.log(parsedData);
         
-        return `<strong>${sectionMappings[section] || section}:</strong> ${parsedData[section]}`;
+        return `<strong>${sectionMappings[section] || section}:</strong> <p class="sectionContent">${parsedData[section]}</p>`;
     }
 
     // Default return for missing data
