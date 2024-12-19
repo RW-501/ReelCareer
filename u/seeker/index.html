@@ -1729,24 +1729,64 @@ async function parseWord(file) {
 
 // Function to extract each job entry with roles and bullets
 function extractJobEntries(text) {
-    // Regex for job entries with position, company, location, duration, and bullets
-    const positionRegex = /([A-Za-z\s]+)\s*–?\s*([\w\s]+),\s*([\w\s]+)\s*\((\w+\s+\d{4}\s*-\s*(\w+\s+\d{4}|Present))\)\s*((?:•\s+.+?)+)/g;
+    // Map keys to regex match groups for flexibility
+    const fieldMap = new Map([
+        ['position', 1],
+        ['company', 2],
+        ['location', 3],
+        ['duration', 4],
+        ['responsibilities', 5],
+    ]);
+
+    // Regex to match job entries
+    const jobEntryRegex = /([\w\s.,&]+?)\s*–?\s*([\w\s.,&]+?)?,?\s*(?:([\w\s.,]+?))?\s*\(([\w\s.,-]+)\)\s*([\s\S]*?(?=\n\n|\n[A-Z]|$))/g;
+
+    // Process and store job entries
     const entries = [];
     let match;
 
-    // Extract each job entry match
-    while ((match = positionRegex.exec(text)) !== null) {
-        const jobEntry = {
-            position: match[1].trim(),
-            company: match[2].trim(),
-            location: match[3].trim(),
-            duration: match[4].trim(),
-            responsibilities: extractBullets(match[6])  // Pass bullets to the next function
-        };
+    while ((match = jobEntryRegex.exec(text)) !== null) {
+        const jobEntry = {};
+
+        // Use fieldMap to dynamically extract fields
+        fieldMap.forEach((groupIndex, fieldName) => {
+            const rawValue = match[groupIndex] || '';
+            if (fieldName === 'responsibilities') {
+                jobEntry[fieldName] = extractBullets(rawValue);
+            } else {
+                jobEntry[fieldName] = cleanText(rawValue) || getDefault(fieldName);
+            }
+        });
+
         entries.push(jobEntry);
     }
 
     return entries;
+}
+
+// Function to extract bullet points from raw text
+function extractBullets(bulletsText) {
+    return bulletsText
+        .split('\n') // Split text by newlines
+        .map(line => line.trim()) // Trim whitespace
+        .filter(line => /^[-•●]/.test(line)) // Keep lines starting with valid bullet markers
+        .map(bullet => bullet.replace(/^[-•●]\s*/, '')); // Remove bullet markers
+}
+
+// Function to clean up text (trim spaces, normalize whitespace)
+function cleanText(text) {
+    return text.replace(/\s+/g, ' ').trim();
+}
+
+// Default value handler for missing fields
+function getDefault(fieldName) {
+    const defaults = {
+        company: 'Unknown Company',
+        location: 'Unknown Location',
+        position: 'Unknown Position',
+        duration: 'Unknown Duration',
+    };
+    return defaults[fieldName] || '';
 }
 
 // Function to break down each bullet within a job entry
