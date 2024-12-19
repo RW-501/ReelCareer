@@ -2021,6 +2021,7 @@ function handleSectionClick(section, parsedData) {
     // Clear previous content
     carouselContainer.innerHTML = '';
     console.log("section:", section);
+    console.log("parsedData:", parsedData);
 
     // Get the content based on the section
     const content = getSectionContent(section, parsedData); // Pass parsedData here
@@ -2051,7 +2052,7 @@ function handleSectionClick(section, parsedData) {
 
     // Show the modal and initialize the carousel
     modal.style.display = 'flex';
-    initializeCarousel(1); // Only one slide for now
+    initializeCarousel(1);
 }
 
 function getSectionContent(section, parsedData) {
@@ -2094,7 +2095,7 @@ function initializeCarousel(totalSlides) {
     // Navigation function
     function navigateCarousel(direction) {
         currentIndex = (currentIndex + direction + totalSlides) % totalSlides;
-        carouselInner.style.transform = `translateX(-${currentIndex * 100}%)`;
+        carouselInner.style.transform = `translateX(-${currentIndex * 50}%)`;
        // carouselInner.style.transform = `translateX(-${currentIndex * 100}%)`;
     }
 
