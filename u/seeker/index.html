@@ -356,6 +356,9 @@
     text-align: center;
     overflow-y: scroll;
     margin-top: 1pc;
+    height: 20pc;
+    display: block;
+    position: relative;
 }
 
 .carousel-button {
@@ -1936,7 +1939,7 @@ if (referencesMatch) {
         return value && (typeof value === 'string' ? value.trim() : value.length > 0);
     });
 
-    
+
     if (sections.length === 0) {
         showToast('No valid resume sections found', 'error');
         return;
