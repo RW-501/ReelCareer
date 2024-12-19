@@ -1905,7 +1905,9 @@ const socialLinksRegex = /Links[:\-]?\s*([\s\S]*?)(Experience|Education|$)/i;
     const contactMatch = text.match(contactRegex);
     const languagesMatch = text.match(languagesRegex);
     const achievementsMatch = text.match(achievementsRegex);
-    const objectiveMatch = text.match(objectiveRegex);
+  //  const objectiveMatch = text.match(objectiveRegex);
+  const objectiveMatch = text.match(objectiveRegex) ? extractJobEntries(text.match(objectiveRegex).join(' ').trim()) : [];
+
     const missionMatch = text.match(missionRegex);
     const tradeMatch = text.match(tradeRegex);
     const hobbiesMatch = text.match(hobbiesRegex);
