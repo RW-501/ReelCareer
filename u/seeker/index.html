@@ -2094,7 +2094,7 @@ function displaySectionContent(parsedData, clickedSection = null) {
 function displayCarouselModal(parsedData) {
     displaySectionContent(parsedData); // Display all sections
 }
-function showSlide(index) {
+function showSlide(slides, index) {
     if (!slides || slides.length === 0) {
         console.error("No slides found to display.");
         return;
@@ -2210,7 +2210,7 @@ function initializeCarousel(totalSlides, currentSection = 0) {
 
     let currentIndex = currentSection;
 
-    const slides = document.querySelectorAll('.carousel-slide');
+    const slides = document.querySelectorAll('.carousel-slide'); // Declare slides here
     if (slides.length === 0) {
         console.error("No slides available for initialization!");
         return;
@@ -2220,7 +2220,7 @@ function initializeCarousel(totalSlides, currentSection = 0) {
     const nextButton = document.getElementById('nextSlide');
 
     // Show initial slide
-    showSlide(currentIndex);
+    showSlide(slides, currentIndex);
 
     // Navigation logic
     let isNavigating = false;
@@ -2230,7 +2230,7 @@ function initializeCarousel(totalSlides, currentSection = 0) {
         isNavigating = true;
 
         currentIndex = (currentIndex + direction + totalSlides) % totalSlides;
-        showSlide(currentIndex);
+        showSlide(slides, currentIndex);
 
         setTimeout(() => isNavigating = false, 300);
     }
