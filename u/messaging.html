@@ -100,13 +100,11 @@
 }
 
 #main-content .message.sent {
-    background-color: #d1f7c4;
     align-self: flex-end;
     margin-left: auto;
 }
 
 #main-content .message.received {
-    background-color: #f1f0f0;
     align-self: flex-start;
     margin-right: auto;
 }
@@ -126,6 +124,32 @@
 }
 
 
+
+#main-content .messageContent.received {
+    background-color: #f1f0f0;
+
+    margin-bottom: 15px;
+    padding: 10px;
+    border-radius: 8px;
+    max-width: 90%;
+    word-wrap: break-word;
+    position: relative;
+    font-size: 1em;
+
+}
+
+#main-content .messageContent.sent {
+    background-color: #d1f7c4;
+
+    margin-bottom: 15px;
+    padding: 10px;
+    border-radius: 8px;
+    max-width: 90%;
+    word-wrap: break-word;
+    position: relative;
+    font-size: 1em;
+
+}
 
 #main-content .messageContent {
     margin-bottom: 15px;
@@ -2077,7 +2101,7 @@ if (![...Messages_list].some(item => item.getAttribute('data-conversation-id') =
 }
 function loadMessages(participants, recipientID, senderID) {
     console.log("Loading Messages...");
-    console.log("Participants: ", participants);
+    //console.log("Participants: ", participants);
 
     const messageBox = document.getElementById('messageBox');
     const messagesRef = collection(db, 'Messages');
@@ -2111,7 +2135,9 @@ function loadMessages(participants, recipientID, senderID) {
                 statusDiv.textContent = data.status;
 
                 const contentDiv = document.createElement('div');
-                contentDiv.className = `messageContent`;
+                contentDiv.className = `messageContent ${data.senderID === auth.currentUser.uid ? 'sent' : 'received'}`;
+
+                //contentDiv.className = `messageContent`;
                 contentDiv.textContent = data.content;
 
                 convertTextToLinks(contentDiv);
