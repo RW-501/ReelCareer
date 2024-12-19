@@ -2149,6 +2149,8 @@ function initializeCarousel(totalSlides, currentSection = 0) {
         console.log(`Showing slide ${index + 1} of ${totalSlides}`);
     }
 
+    let isNavigating = false;
+    
     // Navigate to the next or previous slide
     function navigateCarousel(direction) {
         // Prevent rapid clicks
