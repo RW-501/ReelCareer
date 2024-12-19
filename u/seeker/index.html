@@ -1923,39 +1923,53 @@ if (referencesMatch) {
     // Inject formatted text into the div
     document.getElementById('main-resume').innerHTML = formattedText;
 
-function displayCarouselModal(parsedData) {
+    function displayCarouselModal(parsedData) {
     const modal = document.getElementById('resumeModal');
     const carouselContainer = document.getElementById('carouselContainer');
 
     // Clear previous content
     carouselContainer.innerHTML = '';
 
-    // Build slides for each valid part
-    const sections = Object.keys(parsedData).filter(key => parsedData[key]); // Only include valid fields
+    // Filter only valid sections (non-empty values)
+    const sections = Object.keys(parsedData).filter(key => parsedData[key] && parsedData[key].trim());
 
     if (sections.length === 0) {
         showToast('No valid resume sections found', 'error');
         return;
     }
 
+    // Create slides for each valid section
     sections.forEach((section, index) => {
         const slide = document.createElement('div');
         slide.className = 'carousel-slide';
+
+        // Prepare content for each section
+        let sectionContent = parsedData[section];
+        
+        // If the section contains an array, join it with a line break
+        if (Array.isArray(sectionContent)) {
+            sectionContent = sectionContent.join('<br>');
+        }
+
+        // Add slide content
         slide.innerHTML = `
             <h3>${section.charAt(0).toUpperCase() + section.slice(1)}</h3>
-            <p>${Array.isArray(parsedData[section]) ? parsedData[section].join('<br>') : parsedData[section]}</p>
+            <p>${sectionContent}</p>
         `;
+        
+        // Append the slide to the carousel
         carouselContainer.appendChild(slide);
     });
 
-    // Initialize the modal
+    // Initialize the modal visibility and carousel
     modal.style.display = 'flex';
     initializeCarousel(sections.length);
 }
+
 console.log("extractedData   ",extractedData);
 console.log("fieldMappings   ",fieldMappings);
 
-displayCarouselModal(extractedData);
+displayCarouselModal(fieldMappings);
 
 
 function initializeCarousel(totalSlides) {
