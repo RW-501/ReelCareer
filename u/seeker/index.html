@@ -2043,7 +2043,6 @@ function displaySectionContent(parsedData, clickedSection = null) {
     const carouselContainer = document.getElementById('carouselContainer');
     carouselContainer.innerHTML = '';
 
-    // Filter sections with valid data (non-empty strings, arrays, or objects)
     const sections = Object.keys(parsedData).filter(key => {
         const value = parsedData[key];
         if (typeof value === 'string') {
@@ -2065,7 +2064,7 @@ function displaySectionContent(parsedData, clickedSection = null) {
     sections.forEach((section, index) => {
         const slide = document.createElement('div');
         slide.className = 'carousel-slide';
-        slide.setAttribute('data-slide', index); // Mark slide index
+        slide.setAttribute('data-slide', index);
 
         let sectionContent = parsedData[section];
         slide.innerHTML = `
@@ -2074,14 +2073,20 @@ function displaySectionContent(parsedData, clickedSection = null) {
         `;
         carouselContainer.appendChild(slide);
 
-        // If clicked section matches, highlight it as active
         if (clickedSection && section === clickedSection) {
             slide.classList.add('active');
         }
     });
 
+    // Ensure slides exist before initializing carousel
+    const totalSlides = document.querySelectorAll('.carousel-slide').length;
+    if (totalSlides === 0) {
+        console.error("No slides created!");
+        return;
+    }
+
     modal.style.display = 'flex';
-    initializeCarousel(sections.length, clickedSection);
+    initializeCarousel(totalSlides, clickedSection);
 }
 
 
@@ -2181,67 +2186,60 @@ function handleSectionClick(clickedSection, parsedData) {
 let isCarouselInitialized = false;
 
 function initializeCarousel(totalSlides, currentSection = 0) {
-    if (isCarouselInitialized) return; // Prevent reinitialization
+    if (isCarouselInitialized) {
+        console.warn("Carousel is already initialized.");
+        return;
+    }
     isCarouselInitialized = true;
+    console.log("Initializing carousel with slides:", totalSlides);
+
     let currentIndex = currentSection;
 
     const slides = document.querySelectorAll('.carousel-slide');
+    if (slides.length === 0) {
+        console.error("No slides available for initialization!");
+        return;
+    }
+
     const prevButton = document.getElementById('prevSlide');
     const nextButton = document.getElementById('nextSlide');
 
-    // Hide all slides and show the current slide
-    function showSlide(index) {
-        slides.forEach(slide => slide.classList.remove('active'));
-        const currentSlide = slides[index];
-        currentSlide.classList.add('active');
-        console.log(`Showing slide ${index + 1} of ${totalSlides}`);
-    }
+    // Show initial slide
+    showSlide(currentIndex);
 
+    // Navigation logic
     let isNavigating = false;
 
-    // Navigate to the next or previous slide
     function navigateCarousel(direction) {
-        // Prevent rapid clicks
         if (isNavigating) return;
         isNavigating = true;
 
-        // Update the current index based on the direction
         currentIndex = (currentIndex + direction + totalSlides) % totalSlides;
-
-        // Show the slide at the updated index
         showSlide(currentIndex);
 
-        console.log("direction:", direction);
-        console.log("currentIndex:", currentIndex);
-        console.log("totalSlides:", totalSlides);
-
-        // Add a small delay to reset the flag
-        setTimeout(() => {
-            isNavigating = false;
-        }, 300); // 300ms delay to avoid rapid clicks
+        setTimeout(() => isNavigating = false, 300);
     }
 
-    // Attach event listeners for navigation
-    prevButton.addEventListener('click', () => navigateCarousel(-1)); // Go to the previous slide
-    nextButton.addEventListener('click', () => navigateCarousel(1)); // Go to the next slide
+    prevButton.addEventListener('click', () => navigateCarousel(-1));
+    nextButton.addEventListener('click', () => navigateCarousel(1));
 
-    // Show the initial slide
-    showSlide(currentIndex);
-
+    // Close modal button
     const closeModalBtn = document.getElementById('closeModal');
     closeModalBtn.addEventListener('click', () => {
-        const modal = document.getElementById('resumeModal');
-        modal.style.display = 'none'; // Close the modal
+        document.getElementById('resumeModal').style.display = 'none';
+        isCarouselInitialized = false; // Reset flag when modal closes
     });
 }
 
 
 
 console.log("extractedData   ",extractedData);
-console.log("fieldMappings   ",fieldMappings);
-
-displayCarouselModal(fieldMappings);
-
+console.log("fieldMappings:", fieldMappings);
+if (!fieldMappings || Object.keys(fieldMappings).length === 0) {
+    console.error("fieldMappings is empty or invalid.");
+} else {
+    displayCarouselModal(fieldMappings);
+}
 
 const closeModalBtn = document.getElementById('closeModal');
 
