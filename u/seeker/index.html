@@ -2082,12 +2082,8 @@ function initializeCarousel(totalSlides, currentSection = 0) {
 
     // Navigate to the next or previous slide
     let isNavigating = false;
-    // Close modal handler
-    document.getElementById('closeModal').onclick = () => {
-        console.log("closeModal:");
 
-        document.getElementById('resumeModal').style.display = 'none';
-    };
+    
 
 function navigateCarousel(direction) {
     if (isNavigating) return; // Prevent multiple triggers
@@ -2125,6 +2121,16 @@ nextButton.addEventListener('click', handleNext);
 
     // Show the initial slide
     showSlide(currentIndex);
+}
+const closeModalBtn = document.getElementById('closeModal');
+
+if (closeModalBtn) {
+    closeModalBtn.onclick = () => {
+        console.log("Closing Modal...");
+        document.getElementById('resumeModal').style.display = 'none';
+    };
+} else {
+    console.error("Element with ID 'closeModal' not found!");
 }
 
 console.log("extractedData   ",extractedData);
