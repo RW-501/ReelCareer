@@ -1878,12 +1878,64 @@ const socialLinksRegex = /Links[:\-]?\s*([\s\S]*?)(Experience|Education|$)/i;
     //   showMissingFieldsPopup(missingFields);
     }
 
+    let formattedText = '';
+
+if (nameMatch) {
+    formattedText += `<a href="#" class="clickable-section" data-section="name"><strong>Name:</strong> ${nameMatch[1]}</a><br><br>`;
+}
+if (contactMatch) {
+    formattedText += `<a href="#" class="clickable-section" data-section="contact"><strong>Contact:</strong> ${contactMatch[1]}</a><br><br>`;
+}
+if (addressMatch) {
+    formattedText += `<a href="#" class="clickable-section" data-section="address"><strong>Address:</strong> ${addressMatch[1]}</a><br><br>`;
+}
+if (summaryMatch) {
+    formattedText += `<a href="#" class="clickable-section" data-section="summary"><strong>Summary:</strong><br>${summaryMatch[1]}</a><br><br>`;
+}
+if (objectiveMatch) {
+    formattedText += `<a href="#" class="clickable-section" data-section="objective"><strong>Objective:</strong><br>${objectiveMatch[1]}</a><br><br>`;
+}
+if (missionMatch) {
+    formattedText += `<a href="#" class="clickable-section" data-section="mission"><strong>Mission:</strong><br>${missionMatch[1]}</a><br><br>`;
+}
+if (tradeMatch) {
+    formattedText += `<a href="#" class="clickable-section" data-section="trade"><strong>Trade:</strong><br>${tradeMatch[1]}</a><br><br>`;
+}
+if (experienceMatch) {
+    formattedText += `<a href="#" class="clickable-section" data-section="experience"><strong>Experience:</strong><br>${experienceMatch[1]}</a><br><br>`;
+}
+if (educationMatch) {
+    formattedText += `<a href="#" class="clickable-section" data-section="education"><strong>Education:</strong><br>${educationMatch[1]}</a><br><br>`;
+}
+if (skillsMatch) {
+    formattedText += `<a href="#" class="clickable-section" data-section="skills"><strong>Skills:</strong><br>${skillsMatch[1]}</a><br><br>`;
+}
+if (certificationsMatch) {
+    formattedText += `<a href="#" class="clickable-section" data-section="certifications"><strong>Certifications:</strong><br>${certificationsMatch[1]}</a><br><br>`;
+}
+if (languagesMatch) {
+    formattedText += `<a href="#" class="clickable-section" data-section="languages"><strong>Languages:</strong><br>${languagesMatch[1]}</a><br><br>`;
+}
+if (achievementsMatch) {
+    formattedText += `<a href="#" class="clickable-section" data-section="achievements"><strong>Achievements:</strong><br>${achievementsMatch[1]}</a><br><br>`;
+}
+if (hobbiesMatch) {
+    formattedText += `<a href="#" class="clickable-section" data-section="hobbies"><strong>Hobbies:</strong><br>${hobbiesMatch[1]}</a><br><br>`;
+}
+if (interestsMatch) {
+    formattedText += `<a href="#" class="clickable-section" data-section="interests"><strong>Interests:</strong><br>${interestsMatch[1]}</a><br><br>`;
+}
+if (socialLinksMatch) {
+    formattedText += `<a href="#" class="clickable-section" data-section="socialLinks"><strong>Social Links:</strong><br>${socialLinksMatch[1]}</a><br><br>`;
+}
+if (referencesMatch) {
+    formattedText += `<a href="#" class="clickable-section" data-section="references"><strong>References:</strong><br>${referencesMatch[1]}</a><br><br>`;
+}
+
+// Inject formatted text into the div
+document.getElementById('main-resume').innerHTML = formattedText;
 
 
-
-
-    // Inject formatted text into the div
-    document.getElementById('main-resume').innerHTML = formattedText;
 
 
     function displayCarouselModal(parsedData) {
