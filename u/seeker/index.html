@@ -2105,10 +2105,13 @@ function initializeCarousel(totalSlides) {
     // Navigation function
     function navigateCarousel(direction) {
         currentIndex = (currentIndex + direction + totalSlides) % totalSlides;
-        carouselInner.style.transform = `translateX(-${currentIndex * 50}%)`;
+        carouselInner.style.transform = `translateX(-${currentIndex * 100}%)`;
        // carouselInner.style.transform = `translateX(-${currentIndex * 100}%)`;
+       console.log("direction:", direction);
+       console.log("currentIndex:", currentIndex);
+       console.log("totalSlides:", totalSlides);
+
     }
-    console.log("currentIndex:", currentIndex);
 
     // Event listeners for navigation buttons
     prevButton.onclick = () => navigateCarousel(-1);
