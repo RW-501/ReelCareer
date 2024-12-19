@@ -345,10 +345,15 @@
 }
 
 .carousel-inner {
-  display: flex;
-  transition: transform 0.5s ease-in-out;
-}
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    opacity: 1;
+    /* display: contents; */    overflow: visible;
 
+}
 .carousel-slide {
     min-width: 100%;
     box-sizing: border-box;
