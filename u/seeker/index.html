@@ -1774,7 +1774,7 @@ function extractBullets(bulletsText) {
 }
 
 // Function to clean up text (trim spaces, normalize whitespace)
-function cleanUpText(text) {
+function cleanText(text) {
     // Step 1: Fix excessive spacing between letters
     const fixSpacedWords = text.replace(/(\w)\s(?=\w)/g, '$1'); 
 
