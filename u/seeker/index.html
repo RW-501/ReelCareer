@@ -1878,11 +1878,11 @@ const socialLinksRegex = /Links[:\-]?\s*([\s\S]*?)(Experience|Education|$)/i;
     if (skillsMatch) {
         extractedData.skills = skillsMatch[1].split('|').map(skill => skill.trim());
     }
-    
+    let  bulletPoints;
     const experienceMatch = text.match(experienceRegex);
     if (experienceMatch) {
 
-       let  bulletPoints =  extractJobEntries( experienceMatch[1].trim());
+         bulletPoints =  extractJobEntries( experienceMatch[1].trim());
         extractedData.experience = bulletPoints;
         console.log("bulletPoints   ",bulletPoints);
 
@@ -1921,7 +1921,8 @@ const socialLinksRegex = /Links[:\-]?\s*([\s\S]*?)(Experience|Education|$)/i;
     const fieldMappings = {
         name: nameMatch ? nameMatch[1] : "",
         contact: contactMatch ? contactMatch[1] : "",
-        experience: experienceMatch ? experienceMatch[1] : "",
+        experience: experienceMatch ? bulletPoints : "",
+       // experience: experienceMatch ? experienceMatch[1] : "",
         education: educationMatch ? educationMatch[1] : "",
         skills: skillsMatch ? skillsMatch[1].split('|') : [],
         certifications: certificationsMatch ? certificationsMatch[1] : "",
