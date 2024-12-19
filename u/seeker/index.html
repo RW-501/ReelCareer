@@ -320,12 +320,13 @@
 
 /* Modal Content */
 .modal-content {
-  background-color: #fff;
-  padding: 20px;
-  width: 80%;
-  max-width: 600px;
-  position: relative;
-  border-radius: 8px;
+    background-color: #fff;
+    padding: 20px;
+    width: 60%;
+    max-width: 600px;
+    position: relative;
+    height: 60%;
+    border-radius: 8px;
 }
 
 /* Close Button */
@@ -733,7 +734,7 @@ function handleFiles() {
         }
 
         // Open the modal for preview
-        openModal(file);
+     //   openModal(file);
     } else {
         fileNameDisplay.textContent = 'Upload Resume (PDF, DOC, DOCX)'; // Reset display
     }
@@ -1504,6 +1505,10 @@ async function handleFileUpload(event) {
 
     // Show upload start message
     showToast("Uploading file...", "info");
+let uploadBool = false;
+if (uploadBool){
+
+
 
 // Initialize Firebase Storage
 const storage = getStorage();  // This should be defined once globally.
@@ -1566,7 +1571,7 @@ const storage = getStorage();  // This should be defined once globally.
         }
     );
 
-
+}
 
 
 
@@ -1855,7 +1860,7 @@ console.log("bulletPoints   ",bulletPoints);
 
     // Dynamically show missing fields pop-up
     if (missingFields.length > 0) {
-        showMissingFieldsPopup(missingFields);
+    //   showMissingFieldsPopup(missingFields);
     }
 
      // Construct formatted text dynamically
