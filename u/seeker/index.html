@@ -302,7 +302,81 @@
     <script src="https://reelcareer.co/public/js/loadScripts.js"></script>
     <!-- Custom CSS -->
     <link rel="stylesheet" href="https://reelcareer.co/public/css/styles.css">
+<style>
 
+    /* Modal Background */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  justify-content: center;
+  align-items: center;
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: #fff;
+  padding: 20px;
+  width: 80%;
+  max-width: 600px;
+  position: relative;
+  border-radius: 8px;
+}
+
+/* Close Button */
+.close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+/* Carousel */
+.carousel {
+  position: relative;
+  overflow: hidden;
+}
+
+.carousel-inner {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+}
+
+.carousel-slide {
+  min-width: 100%;
+  box-sizing: border-box;
+  padding: 20px;
+  text-align: center;
+}
+
+.carousel-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: #333;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 50%;
+  font-size: 18px;
+}
+
+.carousel-button.prev {
+  left: 10px;
+}
+
+.carousel-button.next {
+  right: 10px;
+}
+
+</style>
 </head>
 
 
@@ -608,6 +682,22 @@
         </div>
     </main>
     
+
+    <!-- Modal for Resume Sections -->
+<div id="resumeModal" class="modal">
+    <div class="modal-content">
+      <span id="closeModal" class="close">&times;</span>
+      <div id="carousel" class="carousel">
+        <!-- Slides will be inserted dynamically -->
+        <div id="carouselContainer" class="carousel-inner"></div>
+  
+        <!-- Navigation buttons -->
+        <button id="prevSlide" class="carousel-button prev">&lt;</button>
+        <button id="nextSlide" class="carousel-button next">&gt;</button>
+      </div>
+    </div>
+  </div>
+  
     <script>
 
  
@@ -1507,6 +1597,7 @@ async function parseFile(file) {
         showToast('Unsupported file format', "error");
     }
 }
+    
 
 // Add the event listener after defining the function
 document.getElementById('resumeInput').addEventListener('change', handleFileUpload);
@@ -1824,7 +1915,74 @@ if (referencesMatch) {
 
     // Inject formatted text into the div
     document.getElementById('main-resume').innerHTML = formattedText;
+
+function displayCarouselModal(parsedData) {
+    const modal = document.getElementById('resumeModal');
+    const carouselContainer = document.getElementById('carouselContainer');
+
+    // Clear previous content
+    carouselContainer.innerHTML = '';
+
+    // Build slides for each valid part
+    const sections = Object.keys(parsedData).filter(key => parsedData[key]); // Only include valid fields
+
+    if (sections.length === 0) {
+        showToast('No valid resume sections found', 'error');
+        return;
+    }
+
+    sections.forEach((section, index) => {
+        const slide = document.createElement('div');
+        slide.className = 'carousel-slide';
+        slide.innerHTML = `
+            <h3>${section.charAt(0).toUpperCase() + section.slice(1)}</h3>
+            <p>${Array.isArray(parsedData[section]) ? parsedData[section].join('<br>') : parsedData[section]}</p>
+        `;
+        carouselContainer.appendChild(slide);
+    });
+
+    // Initialize the modal
+    modal.style.display = 'flex';
+    initializeCarousel(sections.length);
 }
+
+displayCarouselModal(fieldMappings);
+
+
+function initializeCarousel(totalSlides) {
+    let currentIndex = 0;
+    const carouselInner = document.getElementById('carouselContainer');
+    const prevButton = document.getElementById('prevSlide');
+    const nextButton = document.getElementById('nextSlide');
+
+    // Navigation function
+    function navigateCarousel(direction) {
+        currentIndex = (currentIndex + direction + totalSlides) % totalSlides;
+        carouselInner.style.transform = `translateX(-${currentIndex * 100}%)`;
+    }
+
+    // Event listeners
+    prevButton.onclick = () => navigateCarousel(-1);
+    nextButton.onclick = () => navigateCarousel(1);
+    document.getElementById('closeModal').onclick = () => {
+        document.getElementById('resumeModal').style.display = 'none';
+    };
+}
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
 
 
 // Progress Bar UI Functions
