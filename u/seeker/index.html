@@ -2097,12 +2097,15 @@ function initializeCarousel(totalSlides) {
     const prevButton = document.getElementById('prevSlide');
     const nextButton = document.getElementById('nextSlide');
 
+    console.log("totalSlides:", totalSlides);
+
     // Navigation function
     function navigateCarousel(direction) {
         currentIndex = (currentIndex + direction + totalSlides) % totalSlides;
         carouselInner.style.transform = `translateX(-${currentIndex * 50}%)`;
        // carouselInner.style.transform = `translateX(-${currentIndex * 100}%)`;
     }
+    console.log("currentIndex:", currentIndex);
 
     // Event listeners for navigation buttons
     prevButton.onclick = () => navigateCarousel(-1);
