@@ -1742,6 +1742,7 @@ const useOldFormat = true; // Change to false if using the new format
 
     // Define regex patterns to capture additional sections
   // Regex patterns for extracting specific resume sections
+// Regex patterns for extracting resume fields
 const patterns = {
     summary: /summary[:\-]?\s*([\s\S]*?)(?=\n*(experience|skills|education|$))/i,
     skills: /skills[:\-]?\s*([\s\S]*?)(?=\n*(experience|education|$))/i,
@@ -1758,121 +1759,110 @@ const patterns = {
     references: /references[:\-]?\s*([\s\S]*)/i,
     address: /address[:\-]?\s*([\s\S]*?)(?=\n*(contact|$))/i,
     socialLinks: /links[:\-]?\s*([\s\S]*?)(?=\n*(experience|education|$))/i,
-    phone: /Phone:\s*(\(\d{3}\)\s*\d{3}-\d{4})/,
-    email: /Email:\s*([\w\.-]+@[\w\.-]+)/,
-    linkedin: /LinkedIn:\s*(https?:\/\/\S+)/,
-    portfolio: /Portfolio:\s*(https?:\/\/\S+)/,
-    name: /Name[:\-]?\s*(.*)/i,
-    contact: /Contact[:\-]?\s*(.*)/i
+    phone: /phone[:\-]?\s*(\(\d{3}\)\s*\d{3}-\d{4})/i,
+    email: /email[:\-]?\s*([\w\.-]+@[\w\.-]+)/i,
+    linkedin: /linkedin[:\-]?\s*(https?:\/\/\S+)/i,
+    portfolio: /portfolio[:\-]?\s*(https?:\/\/\S+)/i,
+    name: /name[:\-]?\s*(.*)/i,
+    contact: /contact[:\-]?\s*(.*)/i
 };
 
-// Function to extract match using regex
+// Helper: Extracts a single regex match
 const extractMatch = (pattern, text, defaultValue = "") => {
     const match = text.match(pattern);
     return match ? match[1].trim() : defaultValue;
 };
 
-// Function to split and clean up a delimited string into an array
+// Helper: Splits text into an array based on a delimiter
 const extractArray = (text, delimiter = "|") => {
     return text ? text.split(delimiter).map(item => item.trim()) : [];
 };
 
-// Initialize object to store extracted data
-const extractedData = {};
+// Function: Extracts all data based on patterns
+const extractResumeData = (text) => {
+    const extractedData = {};
 
-// Extract data using patterns
-for (const [key, pattern] of Object.entries(patterns)) {
-    let result = extractMatch(pattern, text);
+    for (const [key, pattern] of Object.entries(patterns)) {
+        const result = extractMatch(pattern, text);
 
-    // Special handling for skills, interests, or multi-value fields
-    if (["skills", "interests", "hobbies"].includes(key)) {
-        extractedData[key] = extractArray(result);
-    } else if (key === "experience" && result) {
-        extractedData[key] = extractJobEntries(result); // Custom function to process experience details
-    } else {
-        extractedData[key] = result;
+        // Special handling for certain fields
+        if (["skills", "interests", "hobbies"].includes(key)) {
+            extractedData[key] = extractArray(result);
+        } else if (key === "experience" && result) {
+            extractedData[key] = extractJobEntries(result); // Custom experience handler
+        } else {
+            extractedData[key] = result;
+        }
     }
-}
 
-// Retrieve user data from local storage
-const userData = getUserData() || {};
-
-// Combine extracted data with user data, giving precedence to extracted values
-const combinedData = {
-    ...userData,
-    ...extractedData
+    return extractedData;
 };
 
-// Example: Log or use combined data
-console.log("Extracted Data:", combinedData);
-   // Required fields for a complete profile
+// Function: Merge extracted data with existing user data
+const combineUserData = (extractedData, userData) => {
+    return {
+        ...userData,
+        ...extractedData
+    };
+};
+
+// Function: Identify and show missing fields dynamically
+const showMissingFields = (combinedData) => {
     const requiredFields = ["bio", "github", "linkedin", "portfolio", "position", "skills", "interests"];
+    const missingFields = requiredFields.filter(field => !combinedData[field] || combinedData[field].trim() === "");
 
-    // Find missing fields
-    const missingFields = requiredFields.filter(field => !userData[field] || userData[field].trim() === "");
-
-    // Dynamically show missing fields pop-up
     if (missingFields.length > 0) {
         showMissingFieldsPopup(missingFields);
     }
+};
 
-     // Construct formatted text dynamically
-     let formattedText = '';
-     if (nameMatch) {
-    formattedText += `<strong>Name:</strong> ${nameMatch[1]}<br><br>`;
-}
-if (contactMatch) {
-    formattedText += `<strong>Contact:</strong> ${contactMatch[1]}<br><br>`;
-}
-if (addressMatch) {
-    formattedText += `<strong>Address:</strong> ${addressMatch[1]}<br><br>`;
-}
-if (summaryMatch) {
-    formattedText += `<strong>Summary:</strong><br>${summaryMatch[1]}<br><br>`;
-}
-if (objectiveMatch) {
-    formattedText += `<strong>Objective:</strong><br>${objectiveMatch[1]}<br><br>`;
-}
-if (missionMatch) {
-    formattedText += `<strong>Mission:</strong><br>${missionMatch[1]}<br><br>`;
-}
-if (tradeMatch) {
-    formattedText += `<strong>Trade:</strong><br>${tradeMatch[1]}<br><br>`;
-}
-if (experienceMatch) {
-    formattedText += `<strong>Experience:</strong><br>${experienceMatch[1]}<br><br>`;
-}
-if (educationMatch) {
-    formattedText += `<strong>Education:</strong><br>${educationMatch[1]}<br><br>`;
-}
-if (skillsMatch) {
-    formattedText += `<strong>Skills:</strong><br>${skillsMatch[1]}<br><br>`;
-}
-if (certificationsMatch) {
-    formattedText += `<strong>Certifications:</strong><br>${certificationsMatch[1]}<br><br>`;
-}
-if (languagesMatch) {
-    formattedText += `<strong>Languages:</strong><br>${languagesMatch[1]}<br><br>`;
-}
-if (achievementsMatch) {
-    formattedText += `<strong>Achievements:</strong><br>${achievementsMatch[1]}<br><br>`;
-}
-if (hobbiesMatch) {
-    formattedText += `<strong>Hobbies:</strong><br>${hobbiesMatch[1]}<br><br>`;
-}
-if (interestsMatch) {
-    formattedText += `<strong>Interests:</strong><br>${interestsMatch[1]}<br><br>`;
-}
-if (socialLinksMatch) {
-    formattedText += `<strong>Social Links:</strong><br>${socialLinksMatch[1]}<br><br>`;
-}
-if (referencesMatch) {
-    formattedText += `<strong>References:</strong><br>${referencesMatch[1]}<br><br>`;
-}
+// Function: Dynamically generate formatted HTML
+const generateFormattedHTML = (data) => {
+    const fieldLabels = {
+        name: "Name",
+        contact: "Contact",
+        address: "Address",
+        summary: "Summary",
+        objective: "Objective",
+        mission: "Mission",
+        trade: "Trade",
+        experience: "Experience",
+        education: "Education",
+        skills: "Skills",
+        certifications: "Certifications",
+        languages: "Languages",
+        achievements: "Achievements",
+        hobbies: "Hobbies",
+        interests: "Interests",
+        socialLinks: "Social Links",
+        references: "References"
+    };
 
+    return Object.entries(fieldLabels)
+        .map(([key, label]) => {
+            if (data[key]) {
+                const value = Array.isArray(data[key]) ? data[key].join(", ") : data[key];
+                return `<strong>${label}:</strong><br>${value}<br><br>`;
+            }
+            return "";
+        })
+        .join("");
+};
 
-    // Inject formatted text into the div
-    document.getElementById('main-resume').innerHTML = formattedText;
+// Main Execution
+const text = `YOUR RESUME TEXT HERE`; // Replace with actual input text
+const userData = getUserData() || {}; // Retrieve user data from local storage
+
+const extractedData = extractResumeData(text);
+const combinedData = combineUserData(extractedData, userData);
+
+// Show missing fields, if any
+showMissingFields(combinedData);
+
+// Generate and inject formatted HTML into the DOM
+document.getElementById('main-resume').innerHTML = generateFormattedHTML(combinedData);
+
+console.log("Combined Data:", combinedData);
 
 function displayCarouselModal(parsedData) {
     const modal = document.getElementById('resumeModal');
