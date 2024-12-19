@@ -2056,21 +2056,21 @@ function handleSectionClick(section) {
 function getSectionContent(section, parsedData) {
     // Map the section keys to user-friendly titles
     const sectionMappings = {
-        name: 'Full Name',
-        contact: 'Contact',
-        address: 'Address',
-        summary: 'Summary',
-        experience: 'Experience',
-        education: 'Education',
-        skills: 'Skills',
-        certifications: 'Certifications',
-        languages: 'Languages',
-        achievements: 'Achievements',
-        hobbies: 'Hobbies',
-        interests: 'Interests',
-        socialLinks: 'Social Links',
-        references: 'References'
-    };
+    name: ['Full Name', 'full name', 'name', 'first name last name'],
+    contact: ['Contact', 'contact info', 'contact information'],
+    address: ['Address', 'address', 'location', 'residence'],
+    summary: ['Summary', 'summary', 'profile summary'],
+    experience: ['Experience', 'work experience', 'employment history'],
+    education: ['Education', 'academic history', 'qualifications'],
+    skills: ['Skills', 'key skills', 'abilities'],
+    certifications: ['Certifications', 'certificates', 'credentials'],
+    languages: ['Languages', 'spoken languages', 'known languages'],
+    achievements: ['Achievements', 'accomplishments', 'milestones'],
+    hobbies: ['Hobbies', 'interests', 'personal interests'],
+    socialLinks: ['Social Links', 'social media', 'social profiles'],
+    references: ['References', 'referees', 'professional references']
+};
+
 
     // Check if the section exists in parsedData
     if (parsedData[section]) {
