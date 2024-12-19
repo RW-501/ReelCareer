@@ -1789,19 +1789,7 @@ function getDefault(fieldName) {
     return defaults[fieldName] || '';
 }
 
-// Function to break down each bullet within a job entry
-function extractBullets(text) {
-    const bulletRegex = /(?:•|•|\d+\.)\s*(.+?)(?=\n|\r|\r\n|$)/g;
-    const bullets = [];
-    let match;
 
-    // Extract each bullet point
-    while ((match = bulletRegex.exec(text)) !== null) {
-        bullets.push(match[1].trim());
-    }
-
-    return bullets;
-}
 
 
 function extractBulletedList(text) {
