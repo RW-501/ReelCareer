@@ -1921,7 +1921,7 @@ const socialLinksRegex = /Links[:\-]?\s*([\s\S]*?)(Experience|Education|$)/i;
     const fieldMappings = {
         name: nameMatch ? nameMatch[1] : "",
         contact: contactMatch ? contactMatch[1] : "",
-        experience: experienceMatch ? bulletPoints : "",
+        experience: experienceMatch ? bulletPoints[1] : "",
        // experience: experienceMatch ? experienceMatch[1] : "",
         education: educationMatch ? educationMatch[1] : "",
         skills: skillsMatch ? skillsMatch[1].split('|') : [],
@@ -1972,7 +1972,7 @@ if (tradeMatch) {
     formattedText += `<a href="#" class="clickable-section" data-section="trade" data-ref="${tradeMatch[1]}"><strong>Trade:</strong><br>${tradeMatch[1]}</a><br><br>`;
 }
 if (experienceMatch) {
-    formattedText += `<a href="#" class="clickable-section" data-section="experience" data-ref="${bulletPoints}"><strong>Experience:</strong><br>${bulletPoints}</a><br><br>`;
+    formattedText += `<a href="#" class="clickable-section" data-section="experience" data-ref="${experienceMatch[1]}"><strong>Experience:</strong><br>${experienceMatch[1]}</a><br><br>`;
 }
 if (educationMatch) {
     formattedText += `<a href="#" class="clickable-section" data-section="education" data-ref="${educationMatch[1]}"><strong>Education:</strong><br>${educationMatch[1]}</a><br><br>`;
