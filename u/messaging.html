@@ -2152,17 +2152,7 @@ const audioAlert = userDataSaved.audioAlert === true; // Play audio alert
 console.log("data: ", data);
 //console.log("data.status: ", data.status);
 
-        // Add unread class and play audio for unread messages
-        if (data.status === 'unread') {
-            messageDiv.classList.add('unread-message');
-            if (audioAlert) {
-                newMessageAudio.play();
-            }
-
-           // updateMessageRead(docID);
-
-        }
-
+      
        // console.log("audioAlert: ", audioAlert);
 
 
@@ -2231,6 +2221,16 @@ timestampDiv.textContent = timeAgo(createdAtDate);
 
 
 
+  // Add unread class and play audio for unread messages
+  if (data.status === 'unread') {
+    contentDiv.classList.add('unread-message');
+            if (audioAlert) {
+                newMessageAudio.play();
+            }
+
+           // updateMessageRead(docID);
+
+        }
 
 
 
