@@ -374,7 +374,7 @@
 .carousel-button {
   position: absolute;
   top: 50%;
-  transform: translateY(-50%);
+ /* transform: translateY(-50%); */
   background-color: #333;
   color: #fff;
   border: none;
@@ -2091,7 +2091,7 @@ function initializeCarousel(totalSlides) {
     // Navigation function
     function navigateCarousel(direction) {
         currentIndex = (currentIndex + direction + totalSlides) % totalSlides;
-        carouselInner.style.transform = `translateX(-${100}%)`;
+        carouselInner.style.transform = `translateX(-${currentIndex * 100}%)`;
        // carouselInner.style.transform = `translateX(-${currentIndex * 100}%)`;
     }
 
