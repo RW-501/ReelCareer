@@ -2060,7 +2060,7 @@ function displayCarouselModal(parsedData) {
 }
 
 // Step 3: Add click handlers to clickable sections
-document.addEventListener('DOMContentLoaded', () => {
+////document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.clickable-section').forEach(item => {
         
     console.log("clickedSection: item   ", item);
@@ -2075,7 +2075,8 @@ document.addEventListener('DOMContentLoaded', () => {
             handleSectionClick(sectionName, sectionRef);
         });
     });
-});
+
+//});
 
 // Step 4: Show carousel and highlight clicked section
 function handleSectionClick(clickedSection, parsedData) {
