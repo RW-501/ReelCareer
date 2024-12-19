@@ -2149,8 +2149,8 @@ nextButton.addEventListener('click', handleNext);
 
     // Show the initial slide
     showSlide(currentIndex);
-}
-const closeModalBtn = document.getElementById('closeModal');
+
+    const closeModalBtn = document.getElementById('closeModal');
 
 if (closeModalBtn) {
     closeModalBtn.onclick = () => {
@@ -2160,6 +2160,8 @@ if (closeModalBtn) {
 } else {
     console.error("Element with ID 'closeModal' not found!");
 }
+}
+
 
 console.log("extractedData   ",extractedData);
 console.log("fieldMappings   ",fieldMappings);
@@ -2167,6 +2169,14 @@ console.log("fieldMappings   ",fieldMappings);
 displayCarouselModal(fieldMappings);
 
 
+const closeModalBtn = document.getElementById('closeModal');
+
+if (closeModalBtn) {
+    closeModalBtn.addEventListener('click', () => {
+        console.log("Closing Modal...");
+        document.getElementById('resumeModal').style.display = 'none';
+    });
+}
 
 function getSectionContent(section, parsedData) {
 
