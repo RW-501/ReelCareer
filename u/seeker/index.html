@@ -351,7 +351,11 @@
     flex-wrap: nowrap;
     justify-content: flex-start;
     opacity: 1;
-    /* display: contents; */    overflow: visible;
+    /* display: contents; */    
+    overflow: hidden;
+    position: relative;
+    height: 100%;
+    width: 100%;
 
 }
 .carousel-slide {
@@ -359,9 +363,9 @@
     box-sizing: border-box;
     padding: 20px;
     text-align: center;
-    overflow-y: scroll;
+    overflow: hidden;
     margin-top: 1pc;
-    height: 20pc;
+    height: 80%;
     display: block;
     position: relative;
     top: 0;
@@ -369,6 +373,12 @@
     bottom: 0;
     right: 0;
     margin: auto;
+}
+.sectionContent {
+    overflow-y: scroll;
+    display: block;
+    height: 100%;
+
 }
 
 .carousel-button {
