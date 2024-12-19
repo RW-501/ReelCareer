@@ -1879,10 +1879,10 @@ const socialLinksRegex = /Links[:\-]?\s*([\s\S]*?)(Experience|Education|$)/i;
         extractedData.skills = skillsMatch[1].split('|').map(skill => skill.trim());
     }
     let  bulletPoints;
-    const experienceMatch = text.match(experienceRegex);
+    let experienceMatch = text.match(experienceRegex);
     if (experienceMatch) {
 
-         bulletPoints =  extractJobEntries( experienceMatch[1].trim());
+        experienceMatch =  extractJobEntries( experienceMatch[1].trim());
         extractedData.experience = bulletPoints;
         console.log("bulletPoints   ",bulletPoints);
 
@@ -1919,12 +1919,24 @@ const socialLinksRegex = /Links[:\-]?\s*([\s\S]*?)(Experience|Education|$)/i;
     // Retrieve user data from local storage
      userData = getUserData() || {};
 
+     const experienceDisplay = experienceMatch.map(entry => {
+    return `
+        Position: ${entry.position || 'N/A'}
+        Company: ${entry.company || 'N/A'}
+        Location: ${entry.location || 'N/A'}
+        Duration: ${entry.duration || 'N/A'}
+        Responsibilities: ${entry.responsibilities.length > 0 ? entry.responsibilities.join(', ') : 'N/A'}
+    `;
+}).join('\n');  // Join all entries into a single string separated by newlines
+
+console.log(experienceDisplay);
+
     // Define field mappings for regex matches to user profile fields
     const fieldMappings = {
         name: nameMatch ? nameMatch[1] : "",
         contact: contactMatch ? contactMatch[1] : "",
-        experience: experienceMatch ? bulletPoints[1] : "",
-       // experience: experienceMatch ? experienceMatch[1] : "",
+        //experience: experienceMatch ? bulletPoints[1] : "",
+        experience: experienceMatch ? experienceDisplay : "",
         education: educationMatch ? educationMatch[1] : "",
         skills: skillsMatch ? skillsMatch[1].split('|') : [],
         certifications: certificationsMatch ? certificationsMatch[1] : "",
