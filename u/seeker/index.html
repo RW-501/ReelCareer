@@ -1992,7 +1992,7 @@ function displayCarouselModal(parsedData) {
         let sectionContent = parsedData[section];
         slide.innerHTML = `
             <h3>${section}</h3>
-            <p class="sectionContent">${content}</p>
+            <p class="sectionContent">${sectionContent}</p>
         `;
         carouselContainer.appendChild(slide);
     });
@@ -2026,13 +2026,13 @@ function handleSectionClick(clickedSection, parsedData) {
     const sections = document.querySelectorAll('#main-resume .clickable-section');
     sections.forEach((item, index) => {
         const section = item.getAttribute('data-section');
-        const content = item.getAttribute('data-ref');
+        const sectionContent = item.getAttribute('data-ref');
 
         const slide = document.createElement('div');
         slide.className = 'carousel-slide';
         slide.innerHTML = `
             <h3>${section}</h3>
-            <p class="sectionContent">${content}</p>
+            <p class="sectionContent">${sectionContent}</p>
         `;
 
         carouselContainer.appendChild(slide);
