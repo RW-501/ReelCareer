@@ -2020,8 +2020,7 @@ function handleSectionClick(section, parsedData) {
     
     // Clear previous content
     carouselContainer.innerHTML = '';
-    console.log("section:", section);
-    console.log("parsedData:", parsedData);
+ 
 
     // Get the content based on the section
     const content = getSectionContent(section, parsedData); // Pass parsedData here
@@ -2056,6 +2055,12 @@ function handleSectionClick(section, parsedData) {
 }
 
 function getSectionContent(section, parsedData) {
+
+
+    console.log("section:", section);
+    console.log("parsedData:", parsedData);
+
+    
     // Map the section keys to user-friendly titles
     const sectionMappings = {
     name: ['Full Name', 'full name', 'name', 'first name last name'],
