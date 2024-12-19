@@ -1952,120 +1952,110 @@ document.getElementById('main-resume').innerHTML = formattedText;
 
 
 
+// Step 1: Dynamically count data-section in #main-resume
+function countSections() {
+    const sections = document.querySelectorAll('#main-resume .clickable-section');
+    return sections.length;
+}
+
+// Step 2: Initialize the carousel modal
 function displayCarouselModal(parsedData) {
     const modal = document.getElementById('resumeModal');
     const carouselContainer = document.getElementById('carouselContainer');
-
-    // Clear previous content
     carouselContainer.innerHTML = '';
 
-    // Filter only valid sections (non-empty values)
-    const sections = Object.keys(parsedData).filter(key => {
-        const value = parsedData[key];
-
-        // Check for strings, arrays, and objects, and ensure they are non-empty
-        if (typeof value === 'string') {
-            return value.trim() !== '';
-        } else if (Array.isArray(value)) {
-            return value.length > 0;
-        } else if (typeof value === 'object' && value !== null) {
-            return Object.keys(value).length > 0;
-        }
-        return false; // Exclude invalid types like null, undefined, or empty values
-    });
-
+    const sections = Object.keys(parsedData).filter(key => parsedData[key]?.trim());
     if (sections.length === 0) {
         showToast('No valid resume sections found', 'error');
         return;
     }
 
-    // Create slides for each valid section
+    // Create slides for all sections
     sections.forEach((section, index) => {
         const slide = document.createElement('div');
         slide.className = 'carousel-slide';
+        slide.setAttribute('data-slide', index); // Mark slide index
 
-        // Prepare content for each section
         let sectionContent = parsedData[section];
-        
-        // If the section contains an array, join it with a line break
-        if (Array.isArray(sectionContent)) {
-            sectionContent = sectionContent.join('<br>');
-        }
-
-        // Add slide content
         slide.innerHTML = `
-            <h3>${section.charAt(0).toUpperCase() + section.slice(1)}</h3>
-            <p class="sectionContent">${sectionContent}</p>
+            <h3>${capitalize(section)}</h3>
+            <p>${sectionContent}</p>
         `;
-        
-        // Append the slide to the carousel
         carouselContainer.appendChild(slide);
     });
 
-    // Initialize the modal visibility and carousel
     modal.style.display = 'flex';
     initializeCarousel(sections.length);
 }
 
-displayCarouselModal(fieldMappings);
+// Step 3: Add click handlers to clickable sections
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.clickable-section').forEach(item => {
+        item.addEventListener('click', function (e) {
+            e.preventDefault();
+            const sectionName = this.getAttribute('data-section');
+            const sectionRef = this.getAttribute('data-ref');
 
+            console.log("Section Clicked:", sectionName, "Content:", sectionRef);
 
-     // Construct formatted text dynamically
-// Add event listeners to clickable sections
-document.querySelectorAll('.clickable-section').forEach(item => {
-    item.addEventListener('click', function (e) {
-        e.preventDefault();
-        
-        const section = e.target.getAttribute('data-section');
-        const parsedData = e.target.getAttribute('data-ref');
-        // Call the function to handle the section click
-
-        console.log("parsedData:", parsedData);
-
-        handleSectionClick(section, parsedData);
+            // Open modal carousel with the selected section highlighted
+            handleSectionClick(sectionName, sectionRef);
+        });
     });
 });
 
-function handleSectionClick(section, parsedData) {
-    // This modal will be used to show the content in a carousel
+// Step 4: Show carousel and highlight clicked section
+function handleSectionClick(clickedSection, parsedData) {
     const modal = document.getElementById('resumeModal');
     const carouselContainer = document.getElementById('carouselContainer');
-    
-    // Clear previous content
     carouselContainer.innerHTML = '';
- 
 
-    // Get the content based on the section
-    const content = getSectionContent(section, parsedData); // Pass parsedData here
-    
-    if (!content) {
-        showToast('No content available for this section', 'error');
-        return;
-    }
+    const sections = document.querySelectorAll('#main-resume .clickable-section');
+    sections.forEach((item, index) => {
+        const section = item.getAttribute('data-section');
+        const content = item.getAttribute('data-ref');
 
-    // Create a slide for the selected section
-    const slide = document.createElement('div');
-    slide.className = 'carousel-slide';
+        const slide = document.createElement('div');
+        slide.className = 'carousel-slide';
+        slide.innerHTML = `
+            <h3>${capitalize(section)}</h3>
+            <p>${content}</p>
+        `;
 
-    // If the content is an array, join it with a line break
-    let displayContent = content;
-    if (Array.isArray(content)) {
-        displayContent = content.join('<br>');
-    }
+        carouselContainer.appendChild(slide);
+        if (section === clickedSection) slide.classList.add('active');
+    });
 
-    // Add the section title and content to the slide
-    slide.innerHTML = `
-        <h3>${section.charAt(0).toUpperCase() + section.slice(1)}</h3>
-        <p class="sectionContent">${displayContent}</p>
-    `;
-
-    // Append the slide to the carousel
-    carouselContainer.appendChild(slide);
-
-    // Show the modal and initialize the carousel
     modal.style.display = 'flex';
-    initializeCarousel(1);
+    initializeCarousel(sections.length, clickedSection);
 }
+
+// Step 5: Initialize Carousel Navigation
+function initializeCarousel(totalSlides, currentSection = 0) {
+    let currentIndex = currentSection;
+
+    const carouselInner = document.getElementById('carouselContainer');
+    const prevButton = document.getElementById('prevSlide');
+    const nextButton = document.getElementById('nextSlide');
+
+    function navigateCarousel(direction) {
+        currentIndex = (currentIndex + direction + totalSlides) % totalSlides;
+        carouselInner.style.transform = `translateX(-${currentIndex * 100}%)`;
+    }
+
+    prevButton.onclick = () => navigateCarousel(-1);
+    nextButton.onclick = () => navigateCarousel(1);
+
+    document.getElementById('closeModal').onclick = () => {
+        document.getElementById('resumeModal').style.display = 'none';
+    };
+}
+
+// Utility Function: Capitalize Section Title
+function capitalize(text) {
+    return text.charAt(0).toUpperCase() + text.slice(1);
+}
+
 
 function getSectionContent(section, parsedData) {
 
@@ -2104,34 +2094,7 @@ function getSectionContent(section, parsedData) {
 }
 
 
-function initializeCarousel(totalSlides) {
-    let currentIndex = 0;
-    const carouselInner = document.getElementById('carouselContainer');
-    const prevButton = document.getElementById('prevSlide');
-    const nextButton = document.getElementById('nextSlide');
 
-    console.log("totalSlides:", totalSlides);
-
-    // Navigation function
-    function navigateCarousel(direction) {
-        currentIndex = (currentIndex + direction + totalSlides) % totalSlides;
-        carouselInner.style.transform = `translateX(-${currentIndex * 100}%)`;
-       // carouselInner.style.transform = `translateX(-${currentIndex * 100}%)`;
-       console.log("direction:", direction);
-       console.log("currentIndex:", currentIndex);
-       console.log("totalSlides:", totalSlides);
-
-    }
-
-    // Event listeners for navigation buttons
-    prevButton.onclick = () => navigateCarousel(-1);
-    nextButton.onclick = () => navigateCarousel(1);
-
-    // Event listener to close the modal
-    document.getElementById('closeModal').onclick = () => {
-        document.getElementById('resumeModal').style.display = 'none';
-    };
-}
 
 
 console.log("extractedData   ",extractedData);
