@@ -1774,9 +1774,27 @@ function extractBullets(bulletsText) {
 }
 
 // Function to clean up text (trim spaces, normalize whitespace)
-function cleanText(text) {
-    return text.replace(/\s+/g, ' ').trim();
+function cleanUpText(text) {
+    // Step 1: Fix excessive spacing between letters
+    const fixSpacedWords = text.replace(/(\w)\s(?=\w)/g, '$1'); 
+
+    // Step 2: Replace irregular bullet markers and normalize newlines
+    const normalizeBullets = fixSpacedWords
+        .replace(//g, '•') // Replace irregular bullet character with "•"
+        .replace(/\s*-\s*/g, '-') // Fix dash spacing
+        .replace(/•\s+/g, '• ') // Ensure one space after bullet
+        .replace(/\s*[\n\r]+\s*/g, '\n'); // Normalize line breaks
+
+    // Step 3: Remove multiple spaces and normalize single spaces
+    const cleanSpaces = normalizeBullets
+        .replace(/\s{2,}/g, ' ') // Replace multiple spaces with single space
+        .replace(/\s*\.\s*/g, '. ') // Standardize spacing around periods
+        .replace(/\s*,\s*/g, ', ') // Standardize spacing around commas
+        .trim(); // Trim leading/trailing spaces
+
+    return cleanSpaces;
 }
+
 
 // Default value handler for missing fields
 function getDefault(fieldName) {
