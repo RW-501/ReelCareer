@@ -2018,8 +2018,8 @@ function handleSectionClick(clickedSection, parsedData) {
         const slide = document.createElement('div');
         slide.className = 'carousel-slide';
         slide.innerHTML = `
-            <h3>${capitalize(section)}</h3>
-            <p>${content}</p>
+            <h3>${section}</h3>
+            <p class="sectionContent">${content}</p>
         `;
 
         carouselContainer.appendChild(slide);
@@ -2041,6 +2041,12 @@ function initializeCarousel(totalSlides, currentSection = 0) {
     function navigateCarousel(direction) {
         currentIndex = (currentIndex + direction + totalSlides) % totalSlides;
         carouselInner.style.transform = `translateX(-${currentIndex * 100}%)`;
+
+        console.log("direction:", direction);
+       console.log("currentIndex:", currentIndex);
+       console.log("totalSlides:", totalSlides);
+
+
     }
 
     prevButton.onclick = () => navigateCarousel(-1);
@@ -2051,11 +2057,11 @@ function initializeCarousel(totalSlides, currentSection = 0) {
     };
 }
 
-// Utility Function: Capitalize Section Title
-function capitalize(text) {
-    return text.charAt(0).toUpperCase() + text.slice(1);
-}
 
+displayCarouselModal(fieldMappings);
+
+console.log("extractedData   ",extractedData);
+console.log("fieldMappings   ",fieldMappings);
 
 function getSectionContent(section, parsedData) {
 
@@ -2095,10 +2101,6 @@ function getSectionContent(section, parsedData) {
 
 
 
-
-
-console.log("extractedData   ",extractedData);
-console.log("fieldMappings   ",fieldMappings);
 
 
 
