@@ -2055,8 +2055,11 @@ function handleSectionClick(clickedSection, parsedData) {
     initializeCarousel(sections.length, clickedSection);
 }
 
-// Step 5: Initialize Carousel Navigation
+let isCarouselInitialized = false;
+
 function initializeCarousel(totalSlides, currentSection = 0) {
+    if (isCarouselInitialized) return; // Prevent reinitialization
+    isCarouselInitialized = true;
     let currentIndex = currentSection;
 
     const slides = document.querySelectorAll('.carousel-slide');
@@ -2072,17 +2075,40 @@ function initializeCarousel(totalSlides, currentSection = 0) {
     }
 
     // Navigate to the next or previous slide
-    function navigateCarousel(direction) {
-        currentIndex = (currentIndex + direction + totalSlides) % totalSlides;
-        showSlide(currentIndex);
-        console.log("direction:", direction);
+    let isNavigating = false;
+
+function navigateCarousel(direction) {
+    if (isNavigating) return; // Prevent multiple triggers
+    isNavigating = true;
+
+    currentIndex = (currentIndex + direction + totalSlides) % totalSlides;
+    showSlide(currentIndex);
+    console.log("direction:", direction);
        console.log("currentIndex:", currentIndex);
        console.log("totalSlides:", totalSlides);
-    }
+    // Add a small delay to reset
+    setTimeout(() => {
+        isNavigating = false;
+    }, 300); // 300ms delay to avoid rapid clicks
+}
 
-    // Attach navigation button event listeners
-    prevButton.onclick = () => navigateCarousel(-1);
-    nextButton.onclick = () => navigateCarousel(1);
+
+// Prevent duplicate event listeners
+prevButton.removeEventListener('click', handlePrev);
+nextButton.removeEventListener('click', handleNext);
+
+// Handlers
+function handlePrev() {
+    navigateCarousel(-1);
+}
+
+function handleNext() {
+    navigateCarousel(1);
+}
+
+// Attach listeners
+prevButton.addEventListener('click', handlePrev);
+nextButton.addEventListener('click', handleNext);
 
     // Close modal handler
     document.getElementById('closeModal').onclick = () => {
