@@ -1926,56 +1926,69 @@ if (referencesMatch) {
     function displayCarouselModal(parsedData) {
     const modal = document.getElementById('resumeModal');
     const carouselContainer = document.getElementById('carouselContainer');
-    
+
     // Clear previous content
     carouselContainer.innerHTML = '';
-    
+
     // Filter only valid sections (non-empty values)
     const sections = Object.keys(parsedData).filter(key => {
         const value = parsedData[key];
         return value && (typeof value === 'string' ? value.trim() : value.length > 0);
     });
 
+    
     if (sections.length === 0) {
         showToast('No valid resume sections found', 'error');
         return;
     }
-    
-    initializeCarousel(sections.length);
 
-    // Create and display sections in carousel
-    sections.forEach(key => {
-        const sectionContent = parsedData[key];
+    // Create slides for each valid section
+    sections.forEach((section, index) => {
         const slide = document.createElement('div');
-        slide.classList.add('carousel-slide');
+        slide.className = 'carousel-slide';
+
+        // Prepare content for each section
+        let sectionContent = parsedData[section];
         
-        const sectionTitle = document.createElement('h2');
-        sectionTitle.textContent = key.charAt(0).toUpperCase() + key.slice(1);
-        slide.appendChild(sectionTitle);
+        // If the section contains an array, join it with a line break
+        if (Array.isArray(sectionContent)) {
+            sectionContent = sectionContent.join('<br>');
+        }
+
+        // Add slide content
+        slide.innerHTML = `
+            <h3>${section.charAt(0).toUpperCase() + section.slice(1)}</h3>
+            <p>${sectionContent}</p>
+        `;
         
-        const sectionText = document.createElement('p');
-        sectionText.textContent = sectionContent;
-        slide.appendChild(sectionText);
-        
+        // Append the slide to the carousel
         carouselContainer.appendChild(slide);
     });
+
+    // Initialize the modal visibility and carousel
+    modal.style.display = 'flex';
+    initializeCarousel(sections.length);
 }
+
 console.log("extractedData   ",extractedData);
 console.log("fieldMappings   ",fieldMappings);
 
 displayCarouselModal(fieldMappings);
+
 
 function initializeCarousel(totalSlides) {
     let currentIndex = 0;
     const carouselInner = document.getElementById('carouselContainer');
     const prevButton = document.getElementById('prevSlide');
     const nextButton = document.getElementById('nextSlide');
-    
+
+    // Navigation function
     function navigateCarousel(direction) {
         currentIndex = (currentIndex + direction + totalSlides) % totalSlides;
         carouselInner.style.transform = `translateX(-${currentIndex * 100}%)`;
     }
 
+    // Event listeners
     prevButton.onclick = () => navigateCarousel(-1);
     nextButton.onclick = () => navigateCarousel(1);
     document.getElementById('closeModal').onclick = () => {
