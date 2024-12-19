@@ -2075,6 +2075,8 @@ function getSectionContent(section, parsedData) {
 
     // Check if the section exists in parsedData
     if (parsedData[section]) {
+        console.log(parsedData);
+        
         return `<strong>${sectionMappings[section] || section}:</strong> ${parsedData[section]}`;
     }
 
