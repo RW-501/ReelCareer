@@ -321,12 +321,14 @@
 /* Modal Content */
 .modal-content {
     background-color: #fff;
-    padding: 20px;
-    width: 60%;
-    max-width: 600px;
+    padding: 1rem;
+    min-width: 500px;
+    max-width: 700px;
     position: relative;
-    height: 60%;
+    height: 70%;
     border-radius: 8px;
+    overflow: hidden;
+    margin-top:20% ;
 }
 
 /* Close Button */
@@ -351,12 +353,9 @@
     flex-wrap: nowrap;
     justify-content: flex-start;
     opacity: 1;
-    /* display: contents; */    
-    overflow: hidden;
+    overflow: visible;
     position: relative;
     height: 100%;
-    width: 100%;
-
 }
 .carousel-slide {
     min-width: 100%;
@@ -378,7 +377,8 @@
     overflow-y: scroll;
     display: block;
     height: 100%;
-
+    width: 100%;
+    padding: 1rem;
 }
 
 .carousel-button {
