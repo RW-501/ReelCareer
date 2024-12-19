@@ -1878,63 +1878,13 @@ const socialLinksRegex = /Links[:\-]?\s*([\s\S]*?)(Experience|Education|$)/i;
     //   showMissingFieldsPopup(missingFields);
     }
 
-     // Construct formatted text dynamically
-     let formattedText = '';
-     if (nameMatch) {
-    formattedText += `<strong>Name:</strong> ${nameMatch[1]}<br><br>`;
-}
-if (contactMatch) {
-    formattedText += `<strong>Contact:</strong> ${contactMatch[1]}<br><br>`;
-}
-if (addressMatch) {
-    formattedText += `<strong>Address:</strong> ${addressMatch[1]}<br><br>`;
-}
-if (summaryMatch) {
-    formattedText += `<strong>Summary:</strong><br>${summaryMatch[1]}<br><br>`;
-}
-if (objectiveMatch) {
-    formattedText += `<strong>Objective:</strong><br>${objectiveMatch[1]}<br><br>`;
-}
-if (missionMatch) {
-    formattedText += `<strong>Mission:</strong><br>${missionMatch[1]}<br><br>`;
-}
-if (tradeMatch) {
-    formattedText += `<strong>Trade:</strong><br>${tradeMatch[1]}<br><br>`;
-}
-if (experienceMatch) {
-    formattedText += `<strong>Experience:</strong><br>${experienceMatch[1]}<br><br>`;
-}
-if (educationMatch) {
-    formattedText += `<strong>Education:</strong><br>${educationMatch[1]}<br><br>`;
-}
-if (skillsMatch) {
-    formattedText += `<strong>Skills:</strong><br>${skillsMatch[1]}<br><br>`;
-}
-if (certificationsMatch) {
-    formattedText += `<strong>Certifications:</strong><br>${certificationsMatch[1]}<br><br>`;
-}
-if (languagesMatch) {
-    formattedText += `<strong>Languages:</strong><br>${languagesMatch[1]}<br><br>`;
-}
-if (achievementsMatch) {
-    formattedText += `<strong>Achievements:</strong><br>${achievementsMatch[1]}<br><br>`;
-}
-if (hobbiesMatch) {
-    formattedText += `<strong>Hobbies:</strong><br>${hobbiesMatch[1]}<br><br>`;
-}
-if (interestsMatch) {
-    formattedText += `<strong>Interests:</strong><br>${interestsMatch[1]}<br><br>`;
-}
-if (socialLinksMatch) {
-    formattedText += `<strong>Social Links:</strong><br>${socialLinksMatch[1]}<br><br>`;
-}
-if (referencesMatch) {
-    formattedText += `<strong>References:</strong><br>${referencesMatch[1]}<br><br>`;
-}
+
+
 
 
     // Inject formatted text into the div
     document.getElementById('main-resume').innerHTML = formattedText;
+
 
     function displayCarouselModal(parsedData) {
     const modal = document.getElementById('resumeModal');
@@ -1944,11 +1894,7 @@ if (referencesMatch) {
     carouselContainer.innerHTML = '';
 
     // Filter only valid sections (non-empty values)
-    const sections = Object.keys(parsedData).filter(key => {
-        const value = parsedData[key];
-        return value && (typeof value === 'string' ? value.trim() : value.length > 0);
-    });
-
+    const sections = Object.keys(parsedData).filter(key => parsedData[key] && parsedData[key].trim());
 
     if (sections.length === 0) {
         showToast('No valid resume sections found', 'error');
@@ -1969,10 +1915,10 @@ if (referencesMatch) {
         }
 
         // Add slide content
-        slide.innerHTML = `
-            <h3>${section.charAt(0).toUpperCase() + section.slice(1)}</h3>
-            <p>${sectionContent}</p>
-        `;
+        slide.innerHTML = 
+            `<h3>${section.charAt(0).toUpperCase() + section.slice(1)}</h3>
+            <p>${sectionContent}</p>`
+        ;
         
         // Append the slide to the carousel
         carouselContainer.appendChild(slide);
@@ -1982,11 +1928,88 @@ if (referencesMatch) {
     modal.style.display = 'flex';
     initializeCarousel(sections.length);
 }
-
-console.log("extractedData   ",extractedData);
-console.log("fieldMappings   ",fieldMappings);
-
 displayCarouselModal(fieldMappings);
+
+
+     // Construct formatted text dynamically
+// Add event listeners to clickable sections
+document.querySelectorAll('.clickable-section').forEach(item => {
+    item.addEventListener('click', function (e) {
+        e.preventDefault();
+        
+        const section = e.target.getAttribute('data-section');
+        // Call the function to handle the section click
+        handleSectionClick(section);
+    });
+});
+
+function handleSectionClick(section) {
+    // This modal will be used to show the content in a carousel
+    const modal = document.getElementById('resumeModal');
+    const carouselContainer = document.getElementById('carouselContainer');
+    
+    // Clear previous content
+    carouselContainer.innerHTML = '';
+    console.log("section   ",section);
+
+    // Get the content based on the section
+    const content = getSectionContent(section);
+    
+    if (!content) {
+        showToast('No content available for this section', 'error');
+        return;
+    }
+
+    // Create a slide for the selected section
+    const slide = document.createElement('div');
+    slide.className = 'carousel-slide';
+
+    // If the content is an array, join it with a line break
+    if (Array.isArray(content)) {
+        content = content.join('<br>');
+    }
+
+    // Add the section title and content to the slide
+    slide.innerHTML = `
+        <h3>${section.charAt(0).toUpperCase() + section.slice(1)}</h3>
+        <p>${content}</p>
+    `;
+
+    // Append the slide to the carousel
+    carouselContainer.appendChild(slide);
+
+    // Show the modal and initialize the carousel
+    modal.style.display = 'flex';
+    initializeCarousel(1); // Only one slide for now, but can be adjusted if you have more slides
+}
+
+function getSectionContent(section, parsedData) {
+    // Map the section keys to user-friendly titles
+    const sectionMappings = {
+        name: 'Full Name',
+        contact: 'Contact',
+        address: 'Address',
+        summary: 'Summary',
+        experience: 'Experience',
+        education: 'Education',
+        skills: 'Skills',
+        certifications: 'Certifications',
+        languages: 'Languages',
+        achievements: 'Achievements',
+        hobbies: 'Hobbies',
+        interests: 'Interests',
+        socialLinks: 'Social Links',
+        references: 'References'
+    };
+
+    // Check if the section exists in parsedData
+    if (parsedData[section]) {
+        return `<strong>${sectionMappings[section] || section}:</strong> ${parsedData[section]}`;
+    }
+
+    // Default return for missing data
+    return `<strong>${sectionMappings[section] || section}:</strong> No content available.`;
+}
 
 
 function initializeCarousel(totalSlides) {
@@ -2001,21 +2024,40 @@ function initializeCarousel(totalSlides) {
         carouselInner.style.transform = `translateX(-${currentIndex * 100}%)`;
     }
 
-    // Event listeners
+    // Event listeners for navigation buttons
     prevButton.onclick = () => navigateCarousel(-1);
     nextButton.onclick = () => navigateCarousel(1);
+
+    // Event listener to close the modal
     document.getElementById('closeModal').onclick = () => {
-        document.getElementById('resumeModal').style.display = 'none';
+        document.getElementById('carouselModal').style.display = 'none';
     };
 }
 
 
+console.log("extractedData   ",extractedData);
+console.log("fieldMappings   ",fieldMappings);
+
+
+
 
 
 }
 
 
+/*
 
+console.log(getSectionContent('name', parsedData));
+// Output: "<strong>Full Name:</strong> John Doe"
+
+console.log(getSectionContent('skills', parsedData));
+// Output: "<strong>Skills:</strong> JavaScript, React, Node.js"
+
+console.log(getSectionContent('experience', parsedData));
+// Output: "<strong>Experience:</strong> No content available."
+
+
+*/
 
 
 
