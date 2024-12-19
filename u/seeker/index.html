@@ -1801,8 +1801,8 @@ const socialLinksRegex = /Links[:\-]?\s*([\s\S]*?)(Experience|Education|$)/i;
 
        let  bulletPoints =  extractJobEntries( experienceMatch[1].trim());
         extractedData.experience = bulletPoints;
+        console.log("bulletPoints   ",bulletPoints);
 
-console.log("bulletPoints   ",bulletPoints);
 
 
 
@@ -1952,8 +1952,10 @@ function displayCarouselModal(parsedData) {
     modal.style.display = 'flex';
     initializeCarousel(sections.length);
 }
+console.log("extractedData   ",extractedData);
+console.log("fieldMappings   ",fieldMappings);
 
-displayCarouselModal(fieldMappings);
+displayCarouselModal(extractedData);
 
 
 function initializeCarousel(totalSlides) {
