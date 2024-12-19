@@ -1883,8 +1883,8 @@ const socialLinksRegex = /Links[:\-]?\s*([\s\S]*?)(Experience|Education|$)/i;
     if (experienceMatch) {
 
         experienceMatch =  extractJobEntries( experienceMatch[1].trim());
-        extractedData.experience = bulletPoints;
-        console.log("bulletPoints   ",bulletPoints);
+        extractedData.experience = experienceMatch;
+        console.log("experienceMatch   ",experienceMatch);
 
 
 
