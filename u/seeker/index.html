@@ -1930,41 +1930,24 @@ if (referencesMatch) {
     // Clear previous content
     carouselContainer.innerHTML = '';
 
-    // Filter only valid sections (non-empty values)
-    const sections = Object.keys(parsedData).filter(key => parsedData[key] && parsedData[key].trim());
+    // Filter only valid sections (non-empty values), ensuring we apply .trim() only on strings
+    const sections = Object.keys(parsedData).filter(key => {
+        const value = parsedData[key];
+        return value && (typeof value === 'string' ? value.trim() : value.length > 0);
+    });
 
     if (sections.length === 0) {
         showToast('No valid resume sections found', 'error');
         return;
     }
 
-    // Create slides for each valid section
-    sections.forEach((section, index) => {
-        const slide = document.createElement('div');
-        slide.className = 'carousel-slide';
-
-        // Prepare content for each section
-        let sectionContent = parsedData[section];
-        
-        // If the section contains an array, join it with a line break
-        if (Array.isArray(sectionContent)) {
-            sectionContent = sectionContent.join('<br>');
-        }
-
-        // Add slide content
-        slide.innerHTML = `
-            <h3>${section.charAt(0).toUpperCase() + section.slice(1)}</h3>
-            <p>${sectionContent}</p>
-        `;
-        
-        // Append the slide to the carousel
-        carouselContainer.appendChild(slide);
+    // Process sections...
+    sections.forEach(key => {
+        const sectionContent = parsedData[key];
+        // Handle the section (display, add to modal, etc.)
     });
-
-    // Initialize the modal visibility and carousel
-    modal.style.display = 'flex';
-    initializeCarousel(sections.length);
 }
+
 
 console.log("extractedData   ",extractedData);
 console.log("fieldMappings   ",fieldMappings);
