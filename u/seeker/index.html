@@ -2082,6 +2082,10 @@ function initializeCarousel(totalSlides, currentSection = 0) {
 
     // Navigate to the next or previous slide
     let isNavigating = false;
+    // Close modal handler
+    document.getElementById('closeModal').onclick = () => {
+        document.getElementById('resumeModal').style.display = 'none';
+    };
 
 function navigateCarousel(direction) {
     if (isNavigating) return; // Prevent multiple triggers
@@ -2116,10 +2120,6 @@ function handleNext() {
 prevButton.addEventListener('click', handlePrev);
 nextButton.addEventListener('click', handleNext);
 
-    // Close modal handler
-    document.getElementById('closeModal').onclick = () => {
-        document.getElementById('resumeModal').style.display = 'none';
-    };
 
     // Show the initial slide
     showSlide(currentIndex);
