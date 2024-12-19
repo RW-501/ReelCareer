@@ -401,6 +401,14 @@
 .carousel-button.next {
   right: 10px;
 }
+.carousel-slide {
+    display: none; /* Hide slides by default */
+    transition: opacity 0.3s ease-in-out;
+}
+
+.carousel-slide.active {
+    display: block; /* Show only active slide */
+}
 
 
 .clickable-section {
@@ -2051,28 +2059,40 @@ function handleSectionClick(clickedSection, parsedData) {
 function initializeCarousel(totalSlides, currentSection = 0) {
     let currentIndex = currentSection;
 
-    const carouselInner = document.getElementById('carouselContainer');
+    const slides = document.querySelectorAll('.carousel-slide');
     const prevButton = document.getElementById('prevSlide');
     const nextButton = document.getElementById('nextSlide');
 
+    // Hide all slides and show the current slide
+    function showSlide(index) {
+        slides.forEach(slide => slide.classList.remove('active'));
+        const currentSlide = slides[index];
+        currentSlide.classList.add('active');
+        console.log(`Showing slide ${index + 1} of ${totalSlides}`);
+    }
+
+    // Navigate to the next or previous slide
     function navigateCarousel(direction) {
         currentIndex = (currentIndex + direction + totalSlides) % totalSlides;
-        carouselInner.style.transform = `translateX(-${currentIndex * 100}%)`;
-
+        showSlide(currentIndex);
         console.log("direction:", direction);
        console.log("currentIndex:", currentIndex);
        console.log("totalSlides:", totalSlides);
-
-
     }
 
+    // Attach navigation button event listeners
     prevButton.onclick = () => navigateCarousel(-1);
     nextButton.onclick = () => navigateCarousel(1);
 
+    // Close modal handler
     document.getElementById('closeModal').onclick = () => {
         document.getElementById('resumeModal').style.display = 'none';
     };
+
+    // Show the initial slide
+    showSlide(currentIndex);
 }
+
 console.log("extractedData   ",extractedData);
 console.log("fieldMappings   ",fieldMappings);
 
