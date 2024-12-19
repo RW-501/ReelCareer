@@ -1945,6 +1945,8 @@ if (referencesMatch) {
     sections.forEach(key => {
         const sectionContent = parsedData[key];
         // Handle the section (display, add to modal, etc.)
+
+        initializeCarousel(sectionContent);
     });
 }
 
