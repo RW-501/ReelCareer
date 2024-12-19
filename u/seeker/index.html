@@ -1741,113 +1741,71 @@ function displayInEditableDiv(text) {
 const useOldFormat = true; // Change to false if using the new format
 
     // Define regex patterns to capture additional sections
-    const summaryRegex = useOldFormat 
-        ? /SUMMARY\s*([\s\S]*?)(KEY SKILLS|EXPERIENCE|$)/ 
-        : /Summary[:\-]?([\s\S]*?)(Experience|Education|$)/i;
+  // Regex patterns for extracting specific resume sections
+const patterns = {
+    summary: /summary[:\-]?\s*([\s\S]*?)(?=\n*(experience|skills|education|$))/i,
+    skills: /skills[:\-]?\s*([\s\S]*?)(?=\n*(experience|education|$))/i,
+    experience: /experience[:\-]?\s*([\s\S]*?)(?=\n*(education|skills|$))/i,
+    education: /education[:\-]?\s*([\s\S]*?)(?=\n*(certifications|skills|$))/i,
+    certifications: /certifications[:\-]?\s*([\s\S]*?)(?=\n*(languages|achievements|$))/i,
+    languages: /languages[:\-]?\s*([\s\S]*?)(?=\n*(achievements|references|$))/i,
+    achievements: /achievements[:\-]?\s*([\s\S]*?)(?=\n*(references|$))/i,
+    objective: /objective[:\-]?\s*([\s\S]*?)(?=\n*(experience|skills|$))/i,
+    mission: /mission[:\-]?\s*([\s\S]*?)(?=\n*(experience|education|$))/i,
+    trade: /trade[:\-]?\s*([\s\S]*?)(?=\n*(experience|skills|$))/i,
+    hobbies: /hobbies[:\-]?\s*([\s\S]*?)(?=\n*(languages|achievements|$))/i,
+    interests: /interests[:\-]?\s*([\s\S]*?)(?=\n*(skills|certifications|$))/i,
+    references: /references[:\-]?\s*([\s\S]*)/i,
+    address: /address[:\-]?\s*([\s\S]*?)(?=\n*(contact|$))/i,
+    socialLinks: /links[:\-]?\s*([\s\S]*?)(?=\n*(experience|education|$))/i,
+    phone: /Phone:\s*(\(\d{3}\)\s*\d{3}-\d{4})/,
+    email: /Email:\s*([\w\.-]+@[\w\.-]+)/,
+    linkedin: /LinkedIn:\s*(https?:\/\/\S+)/,
+    portfolio: /Portfolio:\s*(https?:\/\/\S+)/,
+    name: /Name[:\-]?\s*(.*)/i,
+    contact: /Contact[:\-]?\s*(.*)/i
+};
 
-    const skillsRegex = useOldFormat 
-        ? /KEY SKILLS\s*([\s\S]*?)(EXPERIENCE|EDUCATION|$)/ 
-        : /Skills[:\-]?([\s\S]*?)(Certifications|Achievements|$)/i;
+// Function to extract match using regex
+const extractMatch = (pattern, text, defaultValue = "") => {
+    const match = text.match(pattern);
+    return match ? match[1].trim() : defaultValue;
+};
 
-    const experienceRegex = useOldFormat 
-        ? /EXPERIENCE\s*([\s\S]*?)(EDUCATION|$)/ 
-        : /Experience[:\-]?([\s\S]*?)(Education|$)/i;
+// Function to split and clean up a delimited string into an array
+const extractArray = (text, delimiter = "|") => {
+    return text ? text.split(delimiter).map(item => item.trim()) : [];
+};
 
-    const educationRegex = useOldFormat 
-        ? /EDUCATION\s*([\s\S]*?)(REFERENCES|$)/ 
-        : /Education[:\-]?([\s\S]*?)(Skills|$)/i;
+// Initialize object to store extracted data
+const extractedData = {};
 
-    const phoneRegex = /Phone:\s*(\(\d{3}\)\s*\d{3}-\d{4})/;
-    const emailRegex = /Email:\s*([\w\.-]+@[\w\.-]+)/;
-    const linkedinRegex = /LinkedIn:\s*(https?:\/\/\S+)/;
-    const portfolioRegex = /Portfolio:\s*(https?:\/\/\S+)/;
-    const nameRegex = /Name[:\-]?\s*(.*)/i;
-    const contactRegex = /Contact[:\-]?\s*(.*)/i;
-    const certificationsRegex = /Certifications[:\-]?([\s\S]*?)(Languages|Achievements|$)/i;
-    const languagesRegex = /Languages[:\-]?([\s\S]*?)(Achievements|References|$)/i;
-    const achievementsRegex = /Achievements[:\-]?([\s\S]*?)(References|$)/i;
-    const objectiveRegex = /Objective[:\-]?\s*[\r\n]*([\•\*\-\•]?[\s\S]*?)(?=\n*Experience|Skills|$)/i;
-    const missionRegex = /Mission[:\-]?([\s\S]*?)(Experience|Education|$)/i;
-    const tradeRegex = /Trade[:\-]?([\s\S]*?)(Experience|Skills|$)/i;
-    const hobbiesRegex = /Hobbies[:\-]?([\s\S]*?)(Languages|Achievements|$)/i;
-    const interestsRegex = /Interests[:\-]?([\s\S]*?)(Skills|Certifications|$)/i;
-    const referencesRegex = /References[:\-]?([\s\S]*)/i;
-    const addressRegex = /Address[:\-]?\s*([\s\S]*?)(Contact|$)/i;
-    const socialLinksRegex = /Links[:\-]?([\s\S]*?)(Experience|Education|$)/i;
+// Extract data using patterns
+for (const [key, pattern] of Object.entries(patterns)) {
+    let result = extractMatch(pattern, text);
 
-    // Initialize an object to hold extracted data
-    const extractedData = {};
-
-    // Use regex patterns to extract specific resume information
-    const summaryMatch = text.match(summaryRegex);
-    if (summaryMatch) {
-        extractedData.summary = summaryMatch[1].trim();
+    // Special handling for skills, interests, or multi-value fields
+    if (["skills", "interests", "hobbies"].includes(key)) {
+        extractedData[key] = extractArray(result);
+    } else if (key === "experience" && result) {
+        extractedData[key] = extractJobEntries(result); // Custom function to process experience details
+    } else {
+        extractedData[key] = result;
     }
+}
 
-    const skillsMatch = text.match(skillsRegex);
-    if (skillsMatch) {
-        extractedData.skills = skillsMatch[1].split('|').map(skill => skill.trim());
-    }
-    
-    const experienceMatch = text.match(experienceRegex);
-    if (experienceMatch) {
+// Retrieve user data from local storage
+const userData = getUserData() || {};
 
-       let  bulletPoints =  extractJobEntries( experienceMatch[1].trim());
-        extractedData.experience = bulletPoints;
+// Combine extracted data with user data, giving precedence to extracted values
+const combinedData = {
+    ...userData,
+    ...extractedData
+};
 
-console.log("bulletPoints   ",bulletPoints);
-
-
-
-    }
-
-    const educationMatch = text.match(educationRegex);
-    if (educationMatch) {
-        extractedData.education = educationMatch[1].trim();
-    }
-
-    const certificationsMatch = certificationsRegex ? text.match(certificationsRegex) : null;
-    if (certificationsMatch) {
-        extractedData.certifications = certificationsMatch[1].trim();
-    }
-
-    const nameMatch = text.match(nameRegex);
-    const contactMatch = text.match(contactRegex);
-    const languagesMatch = text.match(languagesRegex);
-    const achievementsMatch = text.match(achievementsRegex);
-    const objectiveMatch = text.match(objectiveRegex);
-    const missionMatch = text.match(missionRegex);
-    const tradeMatch = text.match(tradeRegex);
-    const hobbiesMatch = text.match(hobbiesRegex);
-    const interestsMatch = text.match(interestsRegex);
-    const referencesMatch = text.match(referencesRegex);
-    const addressMatch = text.match(addressRegex);
-    const socialLinksMatch = text.match(socialLinksRegex);
-
-    // Retrieve user data from local storage
-     userData = getUserData() || {};
-
-    // Define field mappings for regex matches to user profile fields
-    const fieldMappings = {
-        name: nameMatch ? nameMatch[1] : "",
-        contact: contactMatch ? contactMatch[1] : "",
-        experience: experienceMatch ? experienceMatch[1] : "",
-        education: educationMatch ? educationMatch[1] : "",
-        skills: skillsMatch ? skillsMatch[1].split('|') : [],
-        certifications: certificationsMatch ? certificationsMatch[1] : "",
-        languages: languagesMatch ? languagesMatch[1] : "",
-        achievements: achievementsMatch ? achievementsMatch[1] : "",
-        summary: summaryMatch ? summaryMatch[1] : "",
-        objective: objectiveMatch ? objectiveMatch[1] : "",
-        mission: missionMatch ? missionMatch[1] : "",
-        trade: tradeMatch ? tradeMatch[1] : "",
-        interests: [...(hobbiesMatch ? hobbiesMatch[1].split('|') : []), ...(interestsMatch ? interestsMatch[1].split('|') : [])],
-        references: referencesMatch ? referencesMatch[1] : "",
-        address: addressMatch ? addressMatch[1] : "",
-        socialLinks: socialLinksMatch ? socialLinksMatch[1] : ""
-    };
-
-    // Required fields for a complete profile
+// Example: Log or use combined data
+console.log("Extracted Data:", combinedData);
+   // Required fields for a complete profile
     const requiredFields = ["bio", "github", "linkedin", "portfolio", "position", "skills", "interests"];
 
     // Find missing fields
