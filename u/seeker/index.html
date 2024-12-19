@@ -2084,6 +2084,8 @@ function initializeCarousel(totalSlides, currentSection = 0) {
     let isNavigating = false;
     // Close modal handler
     document.getElementById('closeModal').onclick = () => {
+        console.log("closeModal:");
+
         document.getElementById('resumeModal').style.display = 'none';
     };
 
