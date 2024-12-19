@@ -2023,6 +2023,10 @@ function handleSectionClick(clickedSection, parsedData) {
     const carouselContainer = document.getElementById('carouselContainer');
     carouselContainer.innerHTML = '';
 
+    console.log("clickedSection:", clickedSection);
+       console.log("parsedData:", parsedData);
+
+
     const sections = document.querySelectorAll('#main-resume .clickable-section');
     sections.forEach((item, index) => {
         const section = item.getAttribute('data-section');
