@@ -1938,7 +1938,7 @@ document.getElementById('main-resume').innerHTML = formattedText;
 
 
 
-    function displayCarouselModal(parsedData) {
+function displayCarouselModal(parsedData) {
     const modal = document.getElementById('resumeModal');
     const carouselContainer = document.getElementById('carouselContainer');
 
@@ -1946,7 +1946,19 @@ document.getElementById('main-resume').innerHTML = formattedText;
     carouselContainer.innerHTML = '';
 
     // Filter only valid sections (non-empty values)
-    const sections = Object.keys(parsedData).filter(key => parsedData[key] && parsedData[key].trim());
+    const sections = Object.keys(parsedData).filter(key => {
+        const value = parsedData[key];
+
+        // Check for strings, arrays, and objects, and ensure they are non-empty
+        if (typeof value === 'string') {
+            return value.trim() !== '';
+        } else if (Array.isArray(value)) {
+            return value.length > 0;
+        } else if (typeof value === 'object' && value !== null) {
+            return Object.keys(value).length > 0;
+        }
+        return false; // Exclude invalid types like null, undefined, or empty values
+    });
 
     if (sections.length === 0) {
         showToast('No valid resume sections found', 'error');
@@ -1967,10 +1979,10 @@ document.getElementById('main-resume').innerHTML = formattedText;
         }
 
         // Add slide content
-        slide.innerHTML = 
-            `<h3>${section.charAt(0).toUpperCase() + section.slice(1)}</h3>
-            <p>${sectionContent}</p>`
-        ;
+        slide.innerHTML = `
+            <h3>${section.charAt(0).toUpperCase() + section.slice(1)}</h3>
+            <p>${sectionContent}</p>
+        `;
         
         // Append the slide to the carousel
         carouselContainer.appendChild(slide);
@@ -1980,6 +1992,7 @@ document.getElementById('main-resume').innerHTML = formattedText;
     modal.style.display = 'flex';
     initializeCarousel(sections.length);
 }
+
 displayCarouselModal(fieldMappings);
 
 
