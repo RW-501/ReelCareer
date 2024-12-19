@@ -1964,7 +1964,20 @@ function displayCarouselModal(parsedData) {
     const carouselContainer = document.getElementById('carouselContainer');
     carouselContainer.innerHTML = '';
 
-    const sections = Object.keys(parsedData).filter(key => parsedData[key]?.trim());
+    const sections = Object.keys(parsedData).filter(key => {
+        const value = parsedData[key];
+
+        // Check for strings, arrays, and objects, and ensure they are non-empty
+        if (typeof value === 'string') {
+            return value.trim() !== '';
+        } else if (Array.isArray(value)) {
+            return value.length > 0;
+        } else if (typeof value === 'object' && value !== null) {
+            return Object.keys(value).length > 0;
+        }
+        return false; // Exclude invalid types like null, undefined, or empty values
+    });
+    
     if (sections.length === 0) {
         showToast('No valid resume sections found', 'error');
         return;
@@ -1978,8 +1991,8 @@ function displayCarouselModal(parsedData) {
 
         let sectionContent = parsedData[section];
         slide.innerHTML = `
-            <h3>${capitalize(section)}</h3>
-            <p>${sectionContent}</p>
+            <h3>${section}</h3>
+            <p class="sectionContent">${content}</p>
         `;
         carouselContainer.appendChild(slide);
     });
@@ -2056,12 +2069,12 @@ function initializeCarousel(totalSlides, currentSection = 0) {
         document.getElementById('resumeModal').style.display = 'none';
     };
 }
-
+console.log("extractedData   ",extractedData);
+console.log("fieldMappings   ",fieldMappings);
 
 displayCarouselModal(fieldMappings);
 
-console.log("extractedData   ",extractedData);
-console.log("fieldMappings   ",fieldMappings);
+
 
 function getSectionContent(section, parsedData) {
 
