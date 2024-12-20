@@ -1,4 +1,15 @@
 
+
+
+
+// Load Bootstrap CSS
+const link = document.createElement("link");
+link.rel = "stylesheet";
+link.href = "https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css";
+document.head.appendChild(link);
+
+
+
 // Load FontAwesome CSS
 const link = document.createElement("link");
 link.rel = "stylesheet";
@@ -6,7 +17,7 @@ link.href = "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.
 document.head.appendChild(link);
 
 
-// Load FontAwesome CSS
+// Load Main CSS
 const link = document.createElement("link");
 link.rel = "stylesheet";
 link.href = "https://reelcareer.co/scripts/css/main.css";
