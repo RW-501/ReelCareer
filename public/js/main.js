@@ -1617,66 +1617,6 @@ document.addEventListener('DOMContentLoaded', () => {
  
 
 
-// Function to setup event listeners
-function setupEventListeners() {
-  // Dark Mode Toggle functionality
-  const darkModeToggle = document.getElementById("darkModeToggle");
-  darkModeToggle?.addEventListener("click", toggleDarkMode);
-
-
-
-
-  const userDataSaved = getUserData() || [];
-
-  // Initialize Dark Mode based on previous settings
-  if (userDataSaved.darkMode === "true") {
-    document.body.classList.add("dark-mode");
-  }
-
-
-}
-
-// Function to highlight active links in the navbar
-function highlightActiveLink() {
-  const navLinks = document.querySelectorAll(
-    ".navbar-nav .nav-item .nav-link"
-  );
-  navLinks.forEach((link) => {
-    if (link.href === window.location.href) {
-      link.classList.add("active"); // Add the active class to the current page link
-    } else {
-      link.classList.remove("active"); // Remove it from others
-    }
-  });
-}
-
-
-  
-
-const currentPage = window.location.pathname; // Get the current path from the URL
-let excludedPages = ["/backend/", "/admin/", "/settings/"];
-
-// Replace the navbar if not on an excluded page
-if (!excludedPages.some((excluded) => currentPage.startsWith(excluded))) {
-  let existingNavbar = document.querySelector(".navbar");
-
-  // If an existing navbar is found, replace it
-  if (existingNavbar) {
-    existingNavbar.outerHTML = createNavbar();
-  } else {
-// If no existing navbar, append it to the body
-document.body.insertAdjacentHTML("afterbegin", createNavbar());
-
-  }
-
-
-  setupEventListeners(); // Initialize event listeners
-  highlightActiveLink(); // Highlight the active link
-
-}
-
-
-
 if (window.checkUrl("/backend/") || window.checkUrl("/backend")) {
   console.log("Admin View");
   initializeAutoLogout();
