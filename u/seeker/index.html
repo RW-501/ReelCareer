@@ -1926,13 +1926,21 @@ const socialLinksRegex = /Links[:\-]?\s*([\s\S]*?)(Experience|Education|$)/i;
 
      const experienceDisplay = experienceMatch.map(entry => {
     return `
-        Position: ${entry.position || 'N/A'}
-        Company: ${entry.company || 'N/A'}
-        Location: ${entry.location || 'N/A'}
-        Duration: ${entry.duration || 'N/A'}
-        Responsibilities: ${entry.responsibilities ? entry.responsibilities.length > 0 ? entry.responsibilities.join(', ') : 'N/A'}
+        <div class="experience-entry">
+            <h3>${entry.position || 'N/A'}</h3>
+            <p>Company: ${entry.company || 'N/A'}</p>
+            <p>Location: ${entry.location || 'N/A'}</p>
+            <p>Duration: ${entry.duration || 'N/A'}</p>
+            <p>Responsibilities: ${entry.responsibilities ? 
+                (entry.responsibilities.length > 0 ? entry.responsibilities.join(', ') : 'N/A') 
+                : 'N/A'}</p>
+        </div>
     `;
-}).join('\n');  // Join all entries into a single string separated by newlines
+}).join('');
+
+
+
+// Join all entries into a single string separated by newlines
 
 console.log(experienceDisplay);
 
