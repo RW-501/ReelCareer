@@ -1930,7 +1930,7 @@ const socialLinksRegex = /Links[:\-]?\s*([\s\S]*?)(Experience|Education|$)/i;
         Company: ${entry.company || 'N/A'}
         Location: ${entry.location || 'N/A'}
         Duration: ${entry.duration || 'N/A'}
-        Responsibilities: ${entry.responsibilities.length > 0 ? entry.responsibilities.join(', ') : 'N/A'}
+        Responsibilities: ${entry.responsibilities ? entry.responsibilities.length > 0 ? entry.responsibilities.join(', ') : 'N/A'}
     `;
 }).join('\n');  // Join all entries into a single string separated by newlines
 
