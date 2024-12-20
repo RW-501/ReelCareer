@@ -2111,7 +2111,7 @@ function handleSectionClick(clickedSection, parsedData) {
 // Step 3: Initialize the carousel with proper navigation
 let isCarouselInitialized = false;
 
-function initializeCarousel(totalSlides, currentIndex = 0) {
+function initializeCarousel(totalSlides, currentIndex = 0) { 
     const slides = document.querySelectorAll('.carousel-slide');
     let currentSlideIndex = currentIndex;
 
@@ -2121,26 +2121,50 @@ function initializeCarousel(totalSlides, currentIndex = 0) {
     // Show the initial slide
     showSlide(currentSlideIndex, slides);
 
-    // Navigation logic
+    // Navigation logic for the next and previous buttons
     prevButton.onclick = () => navigateCarousel(-1);
     nextButton.onclick = () => navigateCarousel(1);
 
+    // Function to navigate between slides
     function navigateCarousel(direction) {
-        currentSlideIndex = (currentSlideIndex + direction + totalSlides) % totalSlides;
+        // Update the current index with the direction (prev or next)
+        currentSlideIndex += direction;
+
+        // Make sure the index wraps around when going beyond bounds
+        if (currentSlideIndex < 0) {
+            currentSlideIndex = totalSlides - 1;
+        } else if (currentSlideIndex >= totalSlides) {
+            currentSlideIndex = 0;
+        }
+
+        // Show the current slide
         showSlide(currentSlideIndex, slides);
     }
 
+    // Close button functionality (assuming modal is part of the carousel)
     const closeModalBtn = document.getElementById('closeModal');
     closeModalBtn.onclick = () => {
         document.getElementById('resumeModal').style.display = 'none';
-        isCarouselInitialized = false; // Reset initialization flag
+        isCarouselInitialized = false; // Reset initialization flag if needed
     };
 }
 
-function showSlide(index, slides) {
-    slides.forEach(slide => slide.classList.remove('active'));
-    slides[index].classList.add('active');
+// Function to show the correct slide based on the current index
+function showSlide(currentSlideIndex, slides) {
+    slides.forEach((slide, index) => {
+        if (index === currentSlideIndex) {
+            slide.style.display = 'block'; // Show the current slide
+            slides[index].classList.add('active');
+
+        } else {
+            slide.style.display = 'none'; // Hide the others
+            slides.forEach(slide => slide.classList.remove('active'));
+
+        }
+    });
 }
+
+
 
 
 // Step 3: Open modal with all sections (for the initial view)
