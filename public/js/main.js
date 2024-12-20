@@ -12,6 +12,16 @@ getUserId // Export the function
 } from 'https://reelcareer.co/scripts/js/load/module.js';
 
 
+ // Define the  function to check if a specific keyword is in the URL
+ window.checkUrl = function(keyword) {
+  // Get the current URL
+  const currentUrl = window.location.href;
+ // console.log("currentUrl:", currentUrl);
+  //console.log("keyword:", keyword);
+
+  // Return true if the keyword is found in the URL, otherwise false
+  return currentUrl.includes(keyword);
+};
 
 // Function to encode user data
 const encodeUserData = (userData, secretKey = '') => {
