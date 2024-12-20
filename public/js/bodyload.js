@@ -141,7 +141,7 @@
       </a>
     </div>
   `;
-  console.log("container  ", container);
+ // console.log("container  ", container);
       
       jobCard.style.opacity = '0';
  
