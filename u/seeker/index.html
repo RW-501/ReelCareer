@@ -2036,7 +2036,6 @@ function countSections() {
     return sections.length;
 }
 
-// Step 2: Initialize the carousel modal
 // Step 1: General function to display the carousel slides
 function displaySectionContent(parsedData, clickedSection = null) {
     if (!parsedData || typeof parsedData !== 'object') {
@@ -2048,16 +2047,10 @@ function displaySectionContent(parsedData, clickedSection = null) {
     const carouselContainer = document.getElementById('carouselContainer');
     carouselContainer.innerHTML = '';
 
+    // Filter and prepare sections
     const sections = Object.keys(parsedData).filter(key => {
         const value = parsedData[key];
-        if (typeof value === 'string') {
-            return value.trim() !== '';
-        } else if (Array.isArray(value)) {
-            return value.length > 0;
-        } else if (typeof value === 'object' && value !== null) {
-            return Object.keys(value).length > 0;
-        }
-        return false;
+        return typeof value === 'string' ? value.trim() !== '' : Object.keys(value || {}).length > 0;
     });
 
     if (sections.length === 0) {
@@ -2065,6 +2058,9 @@ function displaySectionContent(parsedData, clickedSection = null) {
         return;
     }
 
+    let activeIndex = 0; // Default active slide
+
+    // Generate slides dynamically
     sections.forEach((section, index) => {
         const slide = document.createElement('div');
         slide.className = 'carousel-slide';
@@ -2076,18 +2072,57 @@ function displaySectionContent(parsedData, clickedSection = null) {
         carouselContainer.appendChild(slide);
 
         if (clickedSection && section === clickedSection) {
-            slide.classList.add('active');
+            activeIndex = index; // Set active slide to the clicked section
         }
     });
 
-    const totalSlides = document.querySelectorAll('.carousel-slide').length;
-    if (totalSlides === 0) {
-        console.error("No slides created!");
+    modal.style.display = 'flex';
+    initializeCarousel(sections.length, activeIndex);
+}
+
+// Step 2: Handle section click
+function handleSectionClick(clickedSection, parsedData) {
+    if (!parsedData) {
+        console.error("Parsed data is not available.");
         return;
     }
 
-    modal.style.display = 'flex';
-    initializeCarousel(totalSlides, clickedSection);
+    console.log("Section clicked:", clickedSection);
+    displaySectionContent(parsedData, clickedSection); // Load modal with clicked section highlighted
+}
+
+// Step 3: Initialize the carousel with proper navigation
+let isCarouselInitialized = false;
+
+function initializeCarousel(totalSlides, currentIndex = 0) {
+    const slides = document.querySelectorAll('.carousel-slide');
+    let currentSlideIndex = currentIndex;
+
+    const prevButton = document.getElementById('prevSlide');
+    const nextButton = document.getElementById('nextSlide');
+
+    // Show the initial slide
+    showSlide(currentSlideIndex, slides);
+
+    // Navigation logic
+    prevButton.onclick = () => navigateCarousel(-1);
+    nextButton.onclick = () => navigateCarousel(1);
+
+    function navigateCarousel(direction) {
+        currentSlideIndex = (currentSlideIndex + direction + totalSlides) % totalSlides;
+        showSlide(currentSlideIndex, slides);
+    }
+
+    const closeModalBtn = document.getElementById('closeModal');
+    closeModalBtn.onclick = () => {
+        document.getElementById('resumeModal').style.display = 'none';
+        isCarouselInitialized = false; // Reset initialization flag
+    };
+}
+
+function showSlide(index, slides) {
+    slides.forEach(slide => slide.classList.remove('active'));
+    slides[index].classList.add('active');
 }
 
 
@@ -2169,77 +2204,6 @@ function updateResumeSection(sectionName, sectionContent) {
     } else {
         console.error(`Section "${sectionName}" not found in the resume!`);
     }
-}
-
-// Modify your existing `handleSectionClick` function to include content display in the carousel
-function handleSectionClick(clickedSection, parsedData) {
-    console.log("clickedSection:", clickedSection);
-    console.log("parsedData:", parsedData);
-
-    const modal = document.getElementById('resumeModal');
-    const carouselContainer = document.getElementById('carouselContainer');
-    carouselContainer.innerHTML = '';
-
-    const sections = document.querySelectorAll('#main-resume .clickable-section');
-    sections.forEach((item, index) => {
-        const section = item.getAttribute('data-section');
-        const sectionContent = item.getAttribute('data-ref');
-
-  
-    });
-    // Call display function to populate the modal
-    displaySectionContent(parsedData, clickedSection);
-
-    modal.style.display = 'flex';
-    initializeCarousel(sections.length, clickedSection);
-}
-/*
-// Step 2: Open modal and show content for a clicked section
-function handleSectionClick(clickedSection, parsedData) {
-    console.log("clickedSection:", clickedSection);
-    console.log("parsedData:", parsedData);
-
-    // Call display function to populate the modal
-    displaySectionContent(parsedData, clickedSection);
-}
-*/
-let isCarouselInitialized = false;
-
-function initializeCarousel(totalSlides, currentSection = 0) {
-    if (isCarouselInitialized) {
-        console.warn("Carousel is already initialized.");
-        return;
-    }
-    isCarouselInitialized = true;
-    console.log("Initializing carousel with slides:", totalSlides);
-
-    const slides = document.querySelectorAll('.carousel-slide');
-    if (slides.length === 0) {
-        console.error("No slides available for initialization!");
-        return;
-    }
-
-    let currentIndex = currentSection;
-    const prevButton = document.getElementById('prevSlide');
-    const nextButton = document.getElementById('nextSlide');
-
-    // Ensure the current slide index is valid
-    currentIndex = Math.max(0, Math.min(currentIndex, slides.length - 1));
-    showSlide(currentIndex, slides);
-
-    prevButton.addEventListener('click', () => navigateCarousel(-1));
-    nextButton.addEventListener('click', () => navigateCarousel(1));
-
-    function navigateCarousel(direction) {
-        currentIndex = (currentIndex + direction + totalSlides) % totalSlides;
-        showSlide(currentIndex, slides);
-    }
-
-    const closeModalBtn = document.getElementById('closeModal');
-    closeModalBtn.addEventListener('click', () => {
-        document.getElementById('resumeModal').style.display = 'none';
-        isCarouselInitialized = false;
-    });
 }
 
 console.log("extractedData   ",extractedData);
