@@ -123,6 +123,24 @@ function loadPageScripts() {
 
 
 
+
+     const currentPath = window.location.pathname;
+
+     const isTargetPage = currentPath === "/" || currentPath === "/index.html" ||
+                          currentPath.includes('jobs') || currentPath.includes('reels') || currentPath.includes('views');
+     
+     if (isTargetPage) {
+         loadScript('https://reelcareer.co/scripts/js/load/helpers/interest.js', { async: true }, () => {
+             logExecutionTime('Interest Script', performance.now());
+         });
+     
+         loadScript('https://reelcareer.co/scripts/js/load/helpers/trackers.js', { async: true }, () => {
+             logExecutionTime('Trackers Script', performance.now());
+         });
+     }
+     
+
+
     // Placeholder for additional async/defer scripts
     // Example:
     // loadScript('https://example.com/asyncScript.js', { async: true }, () => {
