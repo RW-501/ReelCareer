@@ -1,6 +1,17 @@
 
 
+import {
+  db, doc, getDoc, query, updateDoc,
+  setDoc, ref, signInWithPopup, orderBy,limit, 
+  uploadBytes, OAuthProvider, arrayUnion, getStorage,
+  signOut, addDoc, increment, onAuthStateChanged,
+  createUserWithEmailAndPassword, signInWithEmailAndPassword,
+  where, getDocs, storage, collection, deleteObject, 
+  auth, analytics, deleteDoc, getDownloadURL, serverTimestamp 
+} from 'https://reelcareer.co/scripts/js/load/module.js';
 
+
+const user = auth.currentUser.uid;
 
 function createNavbar() {
     const currentPage = window.location.pathname;
