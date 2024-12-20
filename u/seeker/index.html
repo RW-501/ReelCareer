@@ -1812,7 +1812,7 @@ function getDefault(fieldName) {
 
 
 function displayInEditableDiv(text) {
-    const extractedData = extractResumeData(text); // Assume extractResumeData is your central function
+    const extractedData = extractResumeData(); // Assume extractResumeData is your central function
 
     // Display dynamic fields like summary, skills, etc.
     const dynamicFieldsDisplay = displayDynamicFields(extractedData);
@@ -1861,9 +1861,11 @@ const referencesRegex = /References[:\-]?\s*([\s\S]*)/i;
 const addressRegex = /Address[:\-]?\s*([\s\S]*?)(Contact|$)/i;
 const socialLinksRegex = /Links[:\-]?\s*([\s\S]*?)(Experience|Education|$)/i;
 
- 
 
-    // Use regex patterns to extract specific resume information
+
+function extractResumeData(text) {
+    const extractedData = {};
+
     const summaryMatch = text.match(summaryRegex);
     if (summaryMatch) {
         extractedData.summary = summaryMatch[1].trim();
@@ -1871,26 +1873,41 @@ const socialLinksRegex = /Links[:\-]?\s*([\s\S]*?)(Experience|Education|$)/i;
 
     const skillsMatch = text.match(skillsRegex);
     if (skillsMatch) {
-        extractedData.skills = Array.isArray(skillsMatch) ? skillsMatch[1].split('|').map(skill => skill.trim()) : [];
+        extractedData.skills = skillsMatch[1].split('|').map(skill => skill.trim());
     }
 
-
-    let  bulletPoints;
     const experienceMatch = text.match(experienceRegex);
-if (experienceMatch && experienceMatch[1]) {
-    extractedData.experience = extractJobEntries(experienceMatch[1]);
-}
-
+    if (experienceMatch) {
+        extractedData.experience = extractJobEntries(experienceMatch[1]);
+    }
 
     const educationMatch = text.match(educationRegex);
     if (educationMatch) {
         extractedData.education = educationMatch[1].trim();
     }
 
+    const objectiveMatch = text.match(objectiveRegex);
+    if (objectiveMatch) {
+        extractedData.objective = objectiveMatch[1].trim();
+    }
+
+    const referencesMatch = text.match(referencesRegex);
+    if (referencesMatch) {
+        extractedData.references = referencesMatch[1].trim();
+    }
+
+    const socialLinksMatch = text.match(socialLinksRegex);
+    if (socialLinksMatch) {
+        extractedData.socialLinks = socialLinksMatch[1].trim();
+    }
     const certificationsMatch = certificationsRegex ? text.match(certificationsRegex) : null;
     if (certificationsMatch) {
         extractedData.certifications = certificationsMatch[1].trim();
     }
+
+    return extractedData;
+}
+
 
     const nameMatch = text.match(nameRegex);
     const contactMatch = text.match(contactRegex);
