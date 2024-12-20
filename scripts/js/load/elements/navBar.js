@@ -329,3 +329,7 @@ document.body.insertAdjacentHTML("afterbegin", createNavbar());
 
 }
 
+if (!window.checkUrl("/backend/") || !window.checkUrl("/backend")) {
+
+  handleAuthStateChanged(user); // Call your function to handle authenticated user
+  }

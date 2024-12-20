@@ -9,7 +9,7 @@ where, getDocs, storage, getAuth, collection, auth, analytics,
 googleProvider,onSnapshot ,  batch,
 facebookProvider,writeBatch ,
 getUserId // Export the function
-} from 'https://reelcareer.co/js/module.js';
+} from 'https://reelcareer.co/scripts/js/load/module.js';
 
 
 

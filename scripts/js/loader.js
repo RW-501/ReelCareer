@@ -73,13 +73,13 @@ loadStylesheet("https://reelcareer.co/scripts/css/main.css");
 // Load scripts dynamically after specific elements are available
 function loadPageScripts() {
     // Logo Script (immediate)
-    loadScript('https://reelcareer.co/scripts/js/load/loadLogo.js', { async: true }, () => {
+    loadScript('https://reelcareer.co/scripts/js/load/elements/loadLogo.js', { async: true }, () => {
         logExecutionTime('Logo', performance.now());
     });
 
     // Load navBar.js after <nav> is available
     waitForElement('nav', () => {
-        loadScript('https://reelcareer.co/scripts/js/load/navBar.js', { defer: true }, () => {
+        loadScript('https://reelcareer.co/scripts/js/load/elements/navBar.js', { defer: true }, () => {
             logExecutionTime('Navigation Bar', performance.now());
         });
     });
@@ -93,7 +93,7 @@ function loadPageScripts() {
 
     // Load Toast Notifications after <main> is available
     waitForElement('main', () => {
-        loadScript('https://reelcareer.co/scripts/js/load/showToast.js', { async: true }, () => {
+        loadScript('https://reelcareer.co/scripts/js/load/elements/showToast.js', { async: true }, () => {
             logExecutionTime('Toast Notifications', performance.now());
         });
     });
@@ -106,12 +106,12 @@ function loadPageScripts() {
 
 
 
+    
+
+    
 
 
-
-
-
-    loadScript('https://reelcareer.co/scripts/js/load//safe.js', { async: true }, () => {
+    loadScript('https://reelcareer.co/scripts/js/load/safe.js', { async: true }, () => {
         logExecutionTime('Safety Script', performance.now());
     });
 

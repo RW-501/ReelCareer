@@ -128,10 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
       localStorage.setItem('userLoggedIn', false);
 
-        if (!window.checkUrl("/backend/") || !window.checkUrl("/backend")) {
-
-      handleAuthStateChanged(user); // Call your function to handle authenticated user
-      }
+ 
     }
     checkLogin(user); // Ensure login is valid on page load
 
