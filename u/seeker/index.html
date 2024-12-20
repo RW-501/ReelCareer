@@ -1731,7 +1731,6 @@ async function parseWord(file) {
 
 // Function to extract each job entry with roles and bullets
 function extractJobEntries(text) {
-    // Map keys to regex match groups for flexibility
     const fieldMap = new Map([
         ['position', 1],
         ['company', 2],
@@ -1740,17 +1739,14 @@ function extractJobEntries(text) {
         ['responsibilities', 5],
     ]);
 
-    // Regex to match job entries
     const jobEntryRegex = /([\w\s.,&]+?)\s*–?\s*([\w\s.,&]+?)?,?\s*(?:([\w\s.,]+?))?\s*\(([\w\s.,-]+)\)\s*([\s\S]*?(?=\n\n|\n[A-Z]|$))/g;
 
-    // Process and store job entries
     const entries = [];
     let match;
 
     while ((match = jobEntryRegex.exec(text)) !== null) {
         const jobEntry = {};
 
-        // Use fieldMap to dynamically extract fields
         fieldMap.forEach((groupIndex, fieldName) => {
             const rawValue = match[groupIndex] || '';
             if (fieldName === 'responsibilities') {
@@ -1766,36 +1762,36 @@ function extractJobEntries(text) {
     return entries;
 }
 
+
 // Function to extract bullet points from raw text
 function extractBullets(bulletsText) {
     return bulletsText
         .split('\n') // Split text by newlines
         .map(line => line.trim()) // Trim whitespace
-        .filter(line => /^[-•●]/.test(line)) // Keep lines starting with valid bullet markers
-        .map(bullet => bullet.replace(/^[-•●]\s*/, '')); // Remove bullet markers
+        .filter(line => /^[-•●\*]\s*/.test(line)) // Include common bullet markers
+        .map(bullet => bullet.replace(/^[•\*-\u2022●]\s*/, '')); // Remove bullet markers
 }
+
 
 // Function to clean up text (trim spaces, normalize whitespace)
 function cleanText(text) {
-    // Step 1: Fix excessive spacing between letters
-    const fixSpacedWords = text.replace(/(\w)\s(?=\w)/g, '$1'); 
+    const fixSpacedWords = text.replace(/(\w)\s(?=\w)/g, '$1'); // Fix spaces between words
 
-    // Step 2: Replace irregular bullet markers and normalize newlines
     const normalizeBullets = fixSpacedWords
-        .replace(//g, '•') // Replace irregular bullet character with "•"
-        .replace(/\s*-\s*/g, '-') // Fix dash spacing
-        .replace(/•\s+/g, '• ') // Ensure one space after bullet
-        .replace(/\s*[\n\r]+\s*/g, '\n'); // Normalize line breaks
+        .replace(//g, '•') // Normalize bullet characters
+        .replace(/\s*-\s*/g, '-') // Normalize dash spacing
+        .replace(/•\s+/g, '• ') // Ensure spacing after bullet points
+        .replace(/\s*[\n\r]+\s*/g, '\n'); // Normalize newlines
 
-    // Step 3: Remove multiple spaces and normalize single spaces
     const cleanSpaces = normalizeBullets
-        .replace(/\s{2,}/g, ' ') // Replace multiple spaces with single space
-        .replace(/\s*\.\s*/g, '. ') // Standardize spacing around periods
-        .replace(/\s*,\s*/g, ', ') // Standardize spacing around commas
+        .replace(/\s{2,}/g, ' ') // Replace multiple spaces with a single space
+        .replace(/\s*\.\s*/g, '. ') // Standardize periods
+        .replace(/\s*,\s*/g, ', ') // Standardize commas
         .trim(); // Trim leading/trailing spaces
 
     return cleanSpaces;
 }
+
 
 
 // Default value handler for missing fields
@@ -1812,23 +1808,21 @@ function getDefault(fieldName) {
 
 
 
-function extractBulletedList(text) {
-    // Define regex to match common bullet points, numbered lists, and indicators
-    const bulletRegex = /(?:[\u2022\u2023\u25AA\u25AB\*\-\•]|(\d+\.)|•)\s*(.+?)(?=\n|\r|\r\n|$)/g;
-    const matches = [];
-    let match;
 
-    // Use regex to find all matches
-    while ((match = bulletRegex.exec(text)) !== null) {
-        // Push the matched content to the array, trimming whitespace
-        matches.push(match[2] ? match[2].trim() : match[0].trim());
-    }
 
-    // Return the cleaned array of matches, excluding empty entries
-    return matches.filter(item => item !== '');
-}
 
 function displayInEditableDiv(text) {
+    const extractedData = extractResumeData(text); // Assume extractResumeData is your central function
+
+    // Display dynamic fields like summary, skills, etc.
+    const dynamicFieldsDisplay = displayDynamicFields(extractedData);
+    let formattedText = dynamicFieldsDisplay;
+
+    // Render experience section
+    if (extractedData.experience && extractedData.experience.length > 0) {
+        const experienceDisplay = displayExperienceEntries(extractedData.experience);
+        formattedText += `<div class="experience-section">${experienceDisplay}</div><br><br>`;
+    }
     // Determine if old format is being used (you can adjust this condition as needed)
 const useOldFormat = true; // Change to false if using the new format
 
@@ -1867,8 +1861,7 @@ const referencesRegex = /References[:\-]?\s*([\s\S]*)/i;
 const addressRegex = /Address[:\-]?\s*([\s\S]*?)(Contact|$)/i;
 const socialLinksRegex = /Links[:\-]?\s*([\s\S]*?)(Experience|Education|$)/i;
 
-    // Initialize an object to hold extracted data
-    const extractedData = {};
+ 
 
     // Use regex patterns to extract specific resume information
     const summaryMatch = text.match(summaryRegex);
@@ -1878,21 +1871,16 @@ const socialLinksRegex = /Links[:\-]?\s*([\s\S]*?)(Experience|Education|$)/i;
 
     const skillsMatch = text.match(skillsRegex);
     if (skillsMatch) {
-        extractedData.skills = skillsMatch[1].split('|').map(skill => skill.trim());
+        extractedData.skills = Array.isArray(skillsMatch) ? skillsMatch[1].split('|').map(skill => skill.trim()) : [];
     }
 
 
     let  bulletPoints;
-    let experienceMatch= text.match(experienceRegex);
-    if (experienceMatch) {
+    const experienceMatch = text.match(experienceRegex);
+if (experienceMatch && experienceMatch[1]) {
+    extractedData.experience = extractJobEntries(experienceMatch[1]);
+}
 
-
-        extractedData.experience = extractJobEntries(experienceMatch) ;
-        console.log("experienceMatch   ",experienceMatch);
-
-
-
-    }
 
     const educationMatch = text.match(educationRegex);
     if (educationMatch) {
@@ -1921,23 +1909,40 @@ const socialLinksRegex = /Links[:\-]?\s*([\s\S]*?)(Experience|Education|$)/i;
     const addressMatch = text.match(addressRegex);
     const socialLinksMatch = text.match(socialLinksRegex);
 
-    // Retrieve user data from local storage
-     userData = getUserData() || {};
+     function displayExperienceEntries(experience) {
+    return experience.map(entry => {
+        const responsibilitiesList = entry.responsibilities.length > 0
+            ? `<ul>${entry.responsibilities.map(res => `<li>${res}</li>`).join('')}</ul>`
+            : 'No responsibilities listed';
 
-     const experienceDisplay = experienceMatch.map(entry => {
-    return `
-        <div class="experience-entry">
-            <h3>${entry.position || 'N/A'}</h3>
-            <p>Company: ${entry.company || 'N/A'}</p>
-            <p>Location: ${entry.location || 'N/A'}</p>
-            <p>Duration: ${entry.duration || 'N/A'}</p>
-            <p>Responsibilities: ${entry.responsibilities ? 
-                (entry.responsibilities.length > 0 ? entry.responsibilities.join(', ') : 'N/A') 
-                : 'N/A'}</p>
-        </div>
-    `;
-}).join('');
+        return `
+            <div class="experience-entry">
+                <h3>${entry.position || 'N/A'}</h3>
+                <p><strong>Company:</strong> ${entry.company || 'N/A'}</p>
+                <p><strong>Location:</strong> ${entry.location || 'N/A'}</p>
+                <p><strong>Duration:</strong> ${entry.duration || 'N/A'}</p>
+                <p><strong>Responsibilities:</strong> ${responsibilitiesList}</p>
+            </div>
+        `;
+    }).join('');
+}
 
+
+
+function displayDynamicFields(extractedData) {
+    const dynamicFields = ['summary', 'skills', 'experience', 'education', 'certifications'];
+
+    return dynamicFields
+    .filter(field => extractedData[field] && (Array.isArray(extractedData[field]) ? extractedData[field].length : true))
+    .map(field => {
+        return `<div class="${field}-section">
+                    <strong>${field.charAt(0).toUpperCase() + field.slice(1)}:</strong>
+                    <p>${Array.isArray(extractedData[field]) ? extractedData[field].join(', ') : extractedData[field]}</p>
+                </div>`;
+    })
+    .join('');
+
+}
 
 
 // Join all entries into a single string separated by newlines
@@ -1969,18 +1974,10 @@ console.log(experienceDisplay);
         socialLinks: socialLinksMatch ? socialLinksMatch[1] : ""
     };
 
-    // Required fields for a complete profile
-    const requiredFields = ["bio", "github", "linkedin", "portfolio", "position", "skills", "interests"];
 
-    // Find missing fields
-    const missingFields = requiredFields.filter(field => !userData[field] || userData[field].trim() === "");
+    
 
-    // Dynamically show missing fields pop-up
-    if (missingFields.length > 0) {
-    //   showMissingFieldsPopup(missingFields);
-    }
-
-    let formattedText = '';
+   // let formattedText = '';
     if (nameMatch) {
     formattedText += `<a href="#" class="clickable-section" data-section="name" data-ref="${nameMatch[1]}"><strong>Name:</strong> ${nameMatch[1]}</a><br><br>`;
 }
@@ -2005,6 +2002,12 @@ if (tradeMatch) {
 if (experienceMatch) {
     formattedText += `<a href="#" class="clickable-section" data-section="experience" data-ref="${experienceMatch[1]}"><strong>Experience:</strong><br>${experienceMatch[1]}</a><br><br>`;
 }
+if (extractedData.experience && extractedData.experience.length > 0) {
+    const experienceDisplay = displayExperienceEntries(extractedData.experience);
+    formattedText += `<a href="#" class="clickable-section experience-section" data-section="experience-section"><strong>Experience:</strong><br>${experienceDisplay}</a><br><br>`;
+}
+
+
 if (educationMatch) {
     formattedText += `<a href="#" class="clickable-section" data-section="education" data-ref="${educationMatch[1]}"><strong>Education:</strong><br>${educationMatch[1]}</a><br><br>`;
 }
@@ -2033,11 +2036,16 @@ if (referencesMatch) {
     formattedText += `<a href="#" class="clickable-section" data-section="references" data-ref="${referencesMatch[1]}"><strong>References:</strong><br>${referencesMatch[1]}</a><br><br>`;
 }
 
+
+
 // Inject formatted text into the div
 document.getElementById('main-resume').innerHTML = formattedText;
 
 
 
+
+    // Retrieve user data from local storage
+    userData = getUserData() || {};
 
 // Step 1: Dynamically count data-section in #main-resume
 function countSections() {
