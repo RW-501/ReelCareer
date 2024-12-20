@@ -3,25 +3,25 @@
 
 
 // Load Bootstrap CSS
-const link = document.createElement("link");
-link.rel = "stylesheet";
-link.href = "https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css";
-document.head.appendChild(link);
+const Bootstrap = document.createElement("link");
+Bootstrap.rel = "stylesheet";
+Bootstrap.href = "https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css";
+document.head.appendChild(Bootstrap);
 
 
 
 // Load FontAwesome CSS
-const link = document.createElement("link");
-link.rel = "stylesheet";
-link.href = "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css";
-document.head.appendChild(link);
+const FontAwesome = document.createElement("link");
+FontAwesome.rel = "stylesheet";
+FontAwesome.href = "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css";
+document.head.appendChild(FontAwesome);
 
 
 // Load Main CSS
-const link = document.createElement("link");
-link.rel = "stylesheet";
-link.href = "https://reelcareer.co/scripts/css/main.css";
-document.head.appendChild(link);
+const MainCSS = document.createElement("link");
+MainCSS.rel = "stylesheet";
+MainCSS.href = "https://reelcareer.co/scripts/css/main.css";
+document.head.appendChild(MainCSS);
 
 // Track loaded scripts to prevent duplicates
 const loadedScripts = new Set();
