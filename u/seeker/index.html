@@ -1881,13 +1881,13 @@ const socialLinksRegex = /Links[:\-]?\s*([\s\S]*?)(Experience|Education|$)/i;
         extractedData.skills = skillsMatch[1].split('|').map(skill => skill.trim());
     }
 
-    
+
     let  bulletPoints;
-    let experienceMatch;
+    let experienceMatch= text.match(experienceRegex);
     if (experienceMatch) {
 
 
-        extractedData.experience = extractJobEntries(text.match(experienceRegex)) ;
+        extractedData.experience = extractJobEntries(experienceMatch) ;
         console.log("experienceMatch   ",experienceMatch);
 
 
