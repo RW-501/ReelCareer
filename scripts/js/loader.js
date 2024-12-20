@@ -11,7 +11,7 @@ function logExecutionTime(scriptName, startTime) {
     }
 }
 
-function loadScript(src, { async = false, defer = false } = {}, callback) {
+function loadScript(src, { async = false, defer = false, type = 'text/javascript' } = {}, callback) {
     if (loadedScripts.has(src)) {
         console.log(`Script already loaded: ${src}`);
         if (callback) callback();
@@ -21,6 +21,7 @@ function loadScript(src, { async = false, defer = false } = {}, callback) {
     const startTime = performance.now();
     const script = document.createElement('script');
     script.src = src;
+    script.type = type;  // Set type to 'module' for ES6 modules
     script.async = async;
     script.defer = defer;
     script.onload = () => {
@@ -77,9 +78,9 @@ function loadPageScripts() {
         logExecutionTime('Logo', performance.now());
     });
 
-    // Load navBar.js after <nav> is available
+    // Load navBar.js as a module after <nav> is available
     waitForElement('nav', () => {
-        loadScript('https://reelcareer.co/scripts/js/load/elements/navBar.js', { defer: true }, () => {
+        loadScript('https://reelcareer.co/scripts/js/load/elements/navBar.js', { async: true, type: 'module' }, () => {
             logExecutionTime('Navigation Bar', performance.now());
         });
     });
@@ -103,43 +104,30 @@ function loadPageScripts() {
         logExecutionTime('Job Card', performance.now());
     });
 
-
-
-
-    
-
-    
-
-
     loadScript('https://reelcareer.co/scripts/js/load/safe.js', { async: true }, () => {
         logExecutionTime('Safety Script', performance.now());
     });
 
+    loadScript('https://reelcareer.co/scripts/js/load/helpers.js', { async: true }, () => {
+        logExecutionTime('Helper Script', performance.now());
+    });
 
+    const currentPath = window.location.pathname;
 
-   loadScript('https://reelcareer.co/scripts/js/load/helpers.js', { async: true }, () => {
-         logExecutionTime('Helper Script', performance.now());
-     });
-
-
-
-
-     const currentPath = window.location.pathname;
-
-     const isTargetPage = currentPath === "/" || currentPath === "/index.html" ||
+    const isTargetPage = currentPath === "/" || currentPath === "/index.html" ||
                           currentPath.includes('jobs') || currentPath.includes('reels') || currentPath.includes('views');
-     
-     if (isTargetPage) {
-         loadScript('https://reelcareer.co/scripts/js/load/helpers/interest.js', { async: true }, () => {
-             logExecutionTime('Interest Script', performance.now());
-         });
-     
-         loadScript('https://reelcareer.co/scripts/js/load/helpers/trackers.js', { async: true }, () => {
-             logExecutionTime('Trackers Script', performance.now());
-         });
-     }
-     
+    
+    if (isTargetPage) {
+        // Load interest.js as a module
+        loadScript('https://reelcareer.co/scripts/js/load/helpers/interest.js', { async: true, type: 'module' }, () => {
+            logExecutionTime('Interest Script', performance.now());
+        });
 
+        // Load trackers.js as a module
+        loadScript('https://reelcareer.co/scripts/js/load/helpers/trackers.js', { async: true, type: 'module' }, () => {
+            logExecutionTime('Trackers Script', performance.now());
+        });
+    }
 
     // Placeholder for additional async/defer scripts
     // Example:
@@ -150,12 +138,6 @@ function loadPageScripts() {
 
 // Initialize page scripts after DOMContentLoaded
 document.addEventListener('DOMContentLoaded', loadPageScripts);
-
-
-
-
-
-
 
 
 
