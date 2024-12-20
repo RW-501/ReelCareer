@@ -86,7 +86,7 @@ function loadPageScripts() {
 
     // Load footer.js after <footer> is available
     waitForElement('footer', () => {
-        loadScript('https://reelcareer.co/scripts/js/load/footer.js', { defer: true }, () => {
+        loadScript('https://reelcareer.co/scripts/js/load/elements/footer.js', { defer: true }, () => {
             logExecutionTime('Footer', performance.now());
         });
     });
