@@ -292,7 +292,7 @@ function getViewedByField() {
   }
 
  // Define the  function to check if a specific keyword is in the URL
- window.checkUrl = function(keyword) {
+ function checkUrl(keyword) {
     // Get the current URL
     const currentUrl = window.location.href;
    // console.log("currentUrl:", currentUrl);
@@ -301,7 +301,8 @@ function getViewedByField() {
     // Return true if the keyword is found in the URL, otherwise false
     return currentUrl.includes(keyword);
   };
-
+  
+  window.checkUrl = checkUrl;
 
 
 document.addEventListener('click', function (event) {
@@ -316,7 +317,7 @@ document.addEventListener('click', function (event) {
     //    console.log("TrackingOn: ", TrackingOn);
        // console.log("interceptTimer: ", interceptTimer);
     
-       if (window.checkUrl("/backend/") || window.checkUrl("/backend")) {
+       if (checkUrl("/backend/") || checkUrl("/backend")) {
         TrackingOn = false;
        }
     
@@ -476,7 +477,7 @@ document.addEventListener('click', function (event) {
     
 
     
-if (window.checkUrl("/backend/") || window.checkUrl("/backend")) {
+if (checkUrl("/backend/") || checkUrl("/backend")) {
     console.log("Admin View");
     initializeAutoLogout();
   } else {
