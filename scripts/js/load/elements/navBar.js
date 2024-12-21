@@ -128,18 +128,7 @@ function createNavbar() {
     if (user) {
   
 
-      document.addEventListener("DOMContentLoaded", () => {
-        if (checkUrl("/auth") && !window.location.href.includes("reelcareer.co/u")) {
-          window.location.href = 'https://reelcareer.co/u';
-        }
-      });
-      
-// Check if the URL includes "/auth"
-if (checkUrl("/auth") && !window.location.href.includes("reelcareer.co/u")) {
-  console.log("handleAuthStateChanged    window.location.href ");
-
-  window.location.href = 'https://reelcareer.co/u';
-}
+ 
       const userDataSaved = getUserData() || [];
   
   

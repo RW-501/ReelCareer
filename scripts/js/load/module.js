@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
           // Redirect to the user page if on the auth page
           if (window.location.pathname === "/views/auth") {
-          //  window.location.href = "/u/";
+            window.location.href = "/u/";
           }
 
           
