@@ -126,7 +126,7 @@ function loadPageScripts() {
     });
 
     
-    loadScript('https://reelcareer.co/scripts/js/load/ecode.js', { async: false }, () => {
+    loadScript('https://reelcareer.co/scripts/js/load/ecode.js', { async: false, defer: false }, () => {
         logExecutionTime('ecode Script', performance.now());
     });
 
