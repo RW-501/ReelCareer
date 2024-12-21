@@ -85,13 +85,13 @@ function loadPageScripts() {
     });
 
     // Load navBar.js as a module after <nav> is available
-        loadScript('https://reelcareer.co/scripts/js/load/elements/navBar.js', { defer: false, type: 'module' }, () => {
+        loadScript('https://reelcareer.co/scripts/js/load/elements/navBar.js', { async: false, type: 'module' }, () => {
             logExecutionTime('Navigation Bar', performance.now());
         });
 
     // Load footer.js after <footer> is available
     waitForElement('footer', () => {
-        loadScript('https://reelcareer.co/scripts/js/load/elements/footer.js', { defer: true }, () => {
+        loadScript('https://reelcareer.co/scripts/js/load/elements/footer.js', { async: true }, () => {
             logExecutionTime('Footer', performance.now());
         });
     });

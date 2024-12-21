@@ -306,8 +306,5 @@ function updateFooter() {
   
   }
   
-  // Call the function to update the footer when the document is loaded
-  document.addEventListener("DOMContentLoaded", updateFooter);
-  
-  
+  updateFooter();
   
