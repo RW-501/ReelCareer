@@ -88,7 +88,7 @@ function createLoader(message = "ReelCareer") {
       /* Fading animation */
       @keyframes fadeLogo {
           0% { opacity: 1; }
-          100% { opacity: 0.5; }
+          100% { opacity: 0.01; }
       }
   
       /* Fade out Loader */
@@ -134,21 +134,23 @@ function createLoader(message = "ReelCareer") {
           const loader = document.getElementById("loaderX");
           loader.classList.add("hidden");
           loader.remove();
-         // console.log(" loader.remove();   ");
-  
+         console.log(" loader.remove();   ");
         }
         }
     }
-    
+
+    // Hide loader when the window fully loads
+    window.addEventListener("load", () => {
+      console.log("loaded  ???????????????????");
+      document.body.classList.add("loaded"); // Then show content
+    setLoaderTimer(500);
+    });
+  
+
+
     function showLoader(timer = 700) {
       pauseTime = false;
       createLoader(); 
       setLoaderTimer(timer);
     }
-  
-    // Hide loader when the window fully loads
-    window.addEventListener("load", () => {
-      document.body.classList.add("loaded"); // Then show content
-    setLoaderTimer(1000);
-    });
-  
+  window.showLoader= showLoader;
