@@ -53,6 +53,7 @@ async function checkImageURL(url) {
   }
   
   window.prepareLocationForFirebase = prepareLocationForFirebase;
+
   // Shuffle array utility function with a cleaner approach
   function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
