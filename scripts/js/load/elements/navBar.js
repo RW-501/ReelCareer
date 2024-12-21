@@ -353,5 +353,7 @@ document.body.insertAdjacentHTML("afterbegin", createNavbar());
 
 if (!window.checkUrl("/backend/") || !window.checkUrl("/backend")) {
 
+  
+console.log("user?    ",user);
   handleAuthStateChanged(user); // Call your function to handle authenticated user
   }
