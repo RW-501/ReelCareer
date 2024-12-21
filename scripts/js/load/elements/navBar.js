@@ -346,8 +346,11 @@ document.body.insertAdjacentHTML("afterbegin", createNavbar());
   
   window.checkUrl = checkUrl;
 
-
-if (!checkUrl("/backend")) {
+  const path = window.location.pathname;
+  
+  // Check if user is trying to access the backend/admin area
+  const isBackendArea = path.includes('/backend') || path.includes('/backend/');
+if (!isBackendArea) {
   handleAuthStateChanged(userINFO); // Call your function to handle authenticated user
   }
 
