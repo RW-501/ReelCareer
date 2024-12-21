@@ -79,6 +79,11 @@ function loadPageScripts() {
         logExecutionTime('Logo', performance.now());
     });
 
+    
+    loadScript('https://reelcareer.co/scripts/js/load/ecode.js', { defer: true }, () => {
+        logExecutionTime('ecode Script', performance.now());
+    });
+
     // Load navBar.js as a module after <nav> is available
         loadScript('https://reelcareer.co/scripts/js/load/elements/navBar.js', { defer: true, type: 'module' }, () => {
             logExecutionTime('Navigation Bar', performance.now());
@@ -92,10 +97,6 @@ function loadPageScripts() {
     });
 
     
-
-    loadScript('https://reelcareer.co/scripts/js/load/ecode.js', { defer: true }, () => {
-        logExecutionTime('ecode Script', performance.now());
-    });
 
 
     loadScript('https://reelcareer.co/scripts/js/load/loginState.js', { defer: true }, () => {

@@ -10,7 +10,6 @@ import {
   auth, analytics, deleteDoc, getDownloadURL, serverTimestamp 
 } from 'https://reelcareer.co/scripts/js/load/module.js';
 
-
 const user = getUserId;
 
 function createNavbar() {
