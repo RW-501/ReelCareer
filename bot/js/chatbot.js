@@ -1,5 +1,6 @@
 
 
+const userDataSaved = getUserData() || [];
 
 // Initialize the toggle states based on local storage values or default
 let isTextToVoiceOn = userDataSaved.textToVoice || false;
