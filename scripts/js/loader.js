@@ -145,7 +145,7 @@ function loadPageScripts() {
     
 
 
-    loadScript('https://reelcareer.co/scripts/js/load/loginState.js', { defer: true }, () => {
+    loadScript('https://reelcareer.co/scripts/js/load/loginState.js', { defer: true , type: 'module'  }, () => {
         logExecutionTime('loginState Script', performance.now());
     });
 
