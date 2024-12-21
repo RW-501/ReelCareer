@@ -359,7 +359,9 @@ document.body.insertAdjacentHTML("afterbegin", createNavbar());
   highlightActiveLink(); // Highlight the active link
 
 }
-
+/*
 if (!checkUrl("/backend/") || !checkUrl("/backend")) {
   handleAuthStateChanged(user); // Call your function to handle authenticated user
   }
+
+  */

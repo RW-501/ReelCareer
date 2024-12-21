@@ -4,7 +4,7 @@
 const saveUserLoginState = async (user) => {
     try {
       //console.log(" User info: ", user);
-  
+      handleAuthStateChanged(user);
    
   let jobArray = [], tagArray = [];
   
