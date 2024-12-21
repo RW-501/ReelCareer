@@ -10,8 +10,17 @@ import {
   auth, analytics, deleteDoc, getDownloadURL, serverTimestamp 
 } from 'https://reelcareer.co/scripts/js/load/module.js';
 
-const user = getUserId || false;
-  
+let user;
+
+
+onAuthStateChanged(auth, (USER) => {
+user = USER;
+console.log("User :", user);
+
+});
+
+
+
 
 
 function createNavbar() {
