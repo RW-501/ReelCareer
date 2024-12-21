@@ -92,7 +92,7 @@ function createLoader(message = "ReelCareer") {
       }
   
       /* Fade out Loader */
-      .loader.hide {
+      #loaderX.hidden {
           opacity: 0;
           visibility: hidden;
           transition: visibility 0s 0.5s, opacity 0.5s;
@@ -132,7 +132,7 @@ function createLoader(message = "ReelCareer") {
        // console.log("pauseTime   ", pauseTime);
         if (pauseTime === false) {
           const loader = document.getElementById("loaderX");
-          loader.classList.add("hide");
+          loader.classList.add("hidden");
           loader.remove();
          // console.log(" loader.remove();   ");
   
