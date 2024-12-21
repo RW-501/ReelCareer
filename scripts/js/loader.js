@@ -74,16 +74,14 @@ loadStylesheet("https://reelcareer.co/scripts/css/main.css");
 // Load scripts dynamically after specific elements are available
 function loadPageScripts() {
     // Logo Script (immediate)
-    loadScript('https://reelcareer.co/scripts/js/load/elements/loadLogo.js', { async: true }, () => {
+    loadScript('https://reelcareer.co/scripts/js/load/elements/loadLogo.js', { async: false }, () => {
         logExecutionTime('Logo', performance.now());
     });
 
     // Load navBar.js as a module after <nav> is available
-    waitForElement('nav', () => {
-        loadScript('https://reelcareer.co/scripts/js/load/elements/navBar.js', { async: true, type: 'module' }, () => {
+        loadScript('https://reelcareer.co/scripts/js/load/elements/navBar.js', { defer: true, type: 'module' }, () => {
             logExecutionTime('Navigation Bar', performance.now());
         });
-    });
 
     // Load footer.js after <footer> is available
     waitForElement('footer', () => {

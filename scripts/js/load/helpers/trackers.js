@@ -474,3 +474,13 @@ document.addEventListener('click', function (event) {
     
     });
     
+
+    
+if (window.checkUrl("/backend/") || window.checkUrl("/backend")) {
+    console.log("Admin View");
+    initializeAutoLogout();
+  } else {
+    console.log("User View");
+    attachTrackingListeners();
+  }
+  

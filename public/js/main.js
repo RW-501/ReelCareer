@@ -952,14 +952,6 @@ document.addEventListener('DOMContentLoaded', () => {
  
 
 
-if (window.checkUrl("/backend/") || window.checkUrl("/backend")) {
-  console.log("Admin View");
-  initializeAutoLogout();
-} else {
-  console.log("User View");
-  attachTrackingListeners();
-}
-
 
 });
 
