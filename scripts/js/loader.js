@@ -2,6 +2,7 @@ const DEBUG = true;
 
 let loadCount = 0;
 const loadedScripts = new Set();
+const currentPath = window.location.pathname;
 
 function logExecutionTime(scriptName, startTime) {
     if (DEBUG) {
@@ -110,7 +111,20 @@ function loadPageScripts() {
         logExecutionTime('Helper Script', performance.now());
     });
 
-    const currentPath = window.location.pathname;
+
+    loadScript('https://reelcareer.co/bot/js/load/chatBot.js', { defer: true }, () => {
+        logExecutionTime('chatBot Script', performance.now());
+    });
+
+
+    if (currentPath.includes('u/')) {
+        waitForElement('main', () => {
+        loadScript('https://reelcareer.co/scripts/js/load/functions/rollIn.js', { defer: true }, () => {
+            logExecutionTime('rollIn Script', performance.now());
+        });
+    });
+    }
+
 
     const isTargetPage = currentPath === "/" || currentPath === "/index.html" ||
                           currentPath.includes('jobs') || currentPath.includes('reels') || currentPath.includes('views');
@@ -125,6 +139,12 @@ function loadPageScripts() {
         loadScript('https://reelcareer.co/scripts/js/load/helpers/trackers.js', { async: true, type: 'module' }, () => {
             logExecutionTime('Trackers Script', performance.now());
         });
+
+        loadScript('https://reelcareer.co/scripts/js/load/helpers/censorWord.js', { defer: true }, () => {
+            logExecutionTime('censorWord Script', performance.now());
+        });
+
+
     }
 
     // Placeholder for additional async/defer scripts
