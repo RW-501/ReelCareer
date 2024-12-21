@@ -21,7 +21,7 @@ function logExecutionTime(scriptName, startTime, fileSize) {
     }
 
     // Log the total page size and time when all scripts are loaded
-    if (loadCount === loadedScripts.size) {
+    if (loadCount === "end") {
         const pageEndTime = performance.now();
         const pageLoadTime = (pageEndTime - pageStartTime) / 1000; // in seconds
         console.log(`Total Page Load Time: ${pageLoadTime.toFixed(2)} seconds.`);
@@ -230,7 +230,7 @@ function loadPageScripts() {
             logExecutionTime('censorWord Script', performance.now());
         });
 
-
+        loadCount = "end";
     }
 
 
