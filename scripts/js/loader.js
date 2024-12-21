@@ -151,7 +151,7 @@ function loadPageScripts() {
 
 
 
-    loadScript('https://reelcareer.co/bot/js/chatBot.js', { defer: true }, () => {
+    loadScript('https://reelcareer.co/bot/js/chatbot.js', { defer: true }, () => {
         logExecutionTime('chatBot Script', performance.now());
     });
 
@@ -202,7 +202,7 @@ function loadPageScripts() {
   */
 
 
-  
+
     // Placeholder for additional async/defer scripts
     // Example:
     // loadScript('https://example.com/asyncScript.js', { async: true }, () => {
