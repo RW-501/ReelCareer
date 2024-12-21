@@ -30,7 +30,7 @@ function addFavicon(type, attributes) {
 
     document.head.appendChild(link);
 }
-let favLocation = 'https://www.ReelCareer.co/images/favicons';
+let favLocation = 'https://reelcareer.co/images/favicons';
 
 // Adding standard favicon
 addFavicon('image/x-icon', { href: `${favLocation}/favicon.ico` });

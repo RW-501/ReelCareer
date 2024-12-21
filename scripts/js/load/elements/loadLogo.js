@@ -52,9 +52,8 @@ function createLoader(message = "ReelCareer") {
     const style = document.createElement("style");
     style.type = "text/css";
     style.innerHTML = `
-    html {
-    background-color: #fff;
-    }
+ 
+    
       /* Loader Container */
       .loader-container {
           display: flex;
