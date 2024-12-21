@@ -97,6 +97,9 @@ function loadStylesheet(href) {
     link.href = href;
     document.head.appendChild(link);
 }
+loadScript('https://reelcareer.co/scripts/js/load/ecode.js', { async: false, defer: false }, () => {
+    logExecutionTime('ecode Script', performance.now());
+});
 
 loadScript('https://reelcareer.co/scripts/js/load/meta/meta.js', { async: false }, () => {
     logExecutionTime('meta', performance.now());
@@ -126,9 +129,6 @@ function loadPageScripts() {
     });
 
     
-    loadScript('https://reelcareer.co/scripts/js/load/ecode.js', { async: false, defer: true }, () => {
-        logExecutionTime('ecode Script', performance.now());
-    });
 
 
     // Load navBar.js as a module after <nav> is available
