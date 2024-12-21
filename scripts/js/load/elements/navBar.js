@@ -222,8 +222,7 @@ function createNavbar() {
       
       
         // Display Job Seeker and Recruiter links
-  
-      document.getElementById("logoutButton").onclick = logoutUser;
+
     } else {
       // If not logged in, show login button
   
