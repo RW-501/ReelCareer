@@ -135,7 +135,7 @@ function loadPageScripts() {
 
 
 
-    loadScript('https://reelcareer.co/scripts/js/load/elements/similar.js', { defer: true }, () => {
+    loadScript('https://reelcareer.co/scripts/js/load/elements/similar.js', { defer: true, type: 'module'  }, () => {
         logExecutionTime('similar Script', performance.now());
     });
 
