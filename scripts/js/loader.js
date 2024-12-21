@@ -142,12 +142,11 @@ function loadPageScripts() {
 
 
 
-    if (currentPath.includes('/auth')) {
         loadScript('https://reelcareer.co/scripts/js/load/auth.js', { defer: true }, () => {
             logExecutionTime('auth Script', performance.now());
         });
     
-    }
+    
 
 
 
