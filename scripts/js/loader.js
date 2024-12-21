@@ -85,6 +85,15 @@ function loadStylesheet(href) {
     document.head.appendChild(link);
 }
 
+loadScript('https://reelcareer.co/scripts/js/load/meta/meta.js', { async: false }, () => {
+    logExecutionTime('Logo', performance.now());
+});
+
+loadScript('https://reelcareer.co/scripts/js/load/meta/schema.js', { async: false }, () => {
+    logExecutionTime('Logo', performance.now());
+});
+
+
 // Load Bootstrap CSS
 loadStylesheet("https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css");
 
@@ -96,6 +105,8 @@ loadStylesheet("https://reelcareer.co/scripts/css/main.css");
 
 // Load scripts dynamically after specific elements are available
 function loadPageScripts() {
+
+
     // Logo Script (immediate)
     loadScript('https://reelcareer.co/scripts/js/load/elements/loadLogo.js', { async: false }, () => {
         logExecutionTime('Logo', performance.now());
