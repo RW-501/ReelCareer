@@ -104,7 +104,9 @@ function createNavbar() {
   
           <!-- Auth Section -->
           <div id="authSection" class="d-flex align-items-center">
-            <button id="darkModeToggle" class="btn btn-outline-secondary" aria-label="Toggle dark mode">Dark Mode</button>
+              <!--
+          <button id="darkModeToggle" class="btn btn-outline-secondary" aria-label="Toggle dark mode">Dark Mode</button>
+         -->
           </div>
         </div>
       </nav>
@@ -116,40 +118,7 @@ function createNavbar() {
   
   
   
-  // Dark mode toggle functionality
-  function toggleDarkMode() {
-    document.body.classList.toggle("dark-mode");
-  
-  
-    // Check if the body has the dark-mode class, and set darkMode to true or false
-    const userData = {
-      darkMode: document.body.classList.contains("dark-mode") || false
-    };
-    const userDataEcode = setUserData(userData);
-    localStorage.setItem('userData', userDataEcode);
-  
-  }
-  
-  
-  // Add smoother transitions for modals and popups
-  const applySmoothTransitions = () => {
-    const styles = document.createElement('style');
-    styles.innerHTML = `
-      #login-popup {
-        animation: fadeIn 1s ease-in-out;
-      }
-      @keyframes fadeIn {
-        from { opacity: 0; }
-        to { opacity: 1; }
-      }
-    `;
-    document.head.appendChild(styles);
-  };
-  
-  window.addEventListener('load', () => {
-    applySmoothTransitions();
-  });
-  
+
   
   
   // Helper function to handle authentication state changes
