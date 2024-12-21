@@ -4,15 +4,18 @@ let loadCount = 0;
 const loadedScripts = new Set();
 const currentPath = window.location.pathname;
 
-function logExecutionTime(scriptName, startTime) {
+function logExecutionTime(scriptName, startTime, fileSize) {
     if (DEBUG) {
         const endTime = performance.now();
         const executionTime = endTime - startTime;
-        console.log(`${scriptName} initialized. Execution Time: ${executionTime.toFixed(2)} ms. Load Count: ${loadCount++}`);
+        console.log(
+            `${scriptName} initialized. Execution Time: ${executionTime.toFixed(2)} ms. File Size: ${fileSize}. Load Count: ${loadCount++}`
+        );
     }
 }
 
-function loadScript(src, { async = false, defer = false, type = 'text/javascript' } = {}, callback) {
+
+async function loadScript(src, { async = false, defer = false, type = 'text/javascript' } = {}, callback) {
     if (loadedScripts.has(src)) {
         console.log(`Script already loaded: ${src}`);
         if (callback) callback();
@@ -20,14 +23,32 @@ function loadScript(src, { async = false, defer = false, type = 'text/javascript
     }
 
     const startTime = performance.now();
+
+    let fileSize = "unknown";
+    try {
+        const response = await fetch(src, { method: 'HEAD' });
+        if (response.ok) {
+            fileSize = response.headers.get('Content-Length');
+            if (fileSize) {
+                fileSize = `${(fileSize / 1024).toFixed(2)} KB`;
+            } else {
+                fileSize = "not available";
+            }
+        } else {
+            console.warn(`Unable to fetch file size for: ${src}`);
+        }
+    } catch (error) {
+        console.error(`Error fetching file size for ${src}:`, error);
+    }
+
     const script = document.createElement('script');
     script.src = src;
-    script.type = type;  // Set type to 'module' for ES6 modules
+    script.type = type; // Set type to 'module' for ES6 modules
     script.async = async;
     script.defer = defer;
     script.onload = () => {
         loadedScripts.add(src);
-        logExecutionTime(src, startTime);
+        logExecutionTime(src, startTime, fileSize);
         if (callback) callback();
     };
     script.onerror = () => {
@@ -36,6 +57,7 @@ function loadScript(src, { async = false, defer = false, type = 'text/javascript
 
     document.head.appendChild(script);
 }
+
 
 // Wait until a specific DOM element exists
 function waitForElement(selector, callback) {
