@@ -106,7 +106,7 @@ function loadPageScripts() {
 
     // Load Toast Notifications after <main> is available
     waitForElement('main', () => {
-        loadScript('https://reelcareer.co/scripts/js/load/elements/showToast.js', { async: true }, () => {
+        loadScript('https://reelcareer.co/scripts/js/load/elements/showToast.js', { defer: true }, () => {
             logExecutionTime('Toast Notifications', performance.now());
         });
     });
