@@ -1,6 +1,8 @@
 const DEBUG = true;
 
 let loadCount = 0;
+let totalFileSize = 0; // To accumulate the file size of scripts
+let pageStartTime = performance.now(); // Start tracking page load time
 const loadedScripts = new Set();
 const currentPath = window.location.pathname;
 
@@ -12,8 +14,20 @@ function logExecutionTime(scriptName, startTime, fileSize) {
             `${scriptName} initialized. Execution Time: ${executionTime.toFixed(2)} ms. File Size: ${fileSize}. Load Count: ${loadCount++}`
         );
     }
-}
 
+    // Add the file size to the total
+    if (fileSize !== "unknown" && fileSize !== "not available") {
+        totalFileSize += parseFloat(fileSize);
+    }
+
+    // Log the total page size and time when all scripts are loaded
+    if (loadCount === loadedScripts.size) {
+        const pageEndTime = performance.now();
+        const pageLoadTime = (pageEndTime - pageStartTime) / 1000; // in seconds
+        console.log(`Total Page Load Time: ${pageLoadTime.toFixed(2)} seconds.`);
+        console.log(`Total Page Size: ${totalFileSize.toFixed(2)} KB.`);
+    }
+}
 
 async function loadScript(src, { async = false, defer = false, type = 'text/javascript' } = {}, callback) {
     if (loadedScripts.has(src)) {
@@ -30,7 +44,7 @@ async function loadScript(src, { async = false, defer = false, type = 'text/java
         if (response.ok) {
             fileSize = response.headers.get('Content-Length');
             if (fileSize) {
-                fileSize = `${(fileSize / 1024).toFixed(2)} KB`;
+                fileSize = `${(fileSize / 1024).toFixed(2)} KB`; // Convert to KB
             } else {
                 fileSize = "not available";
             }
@@ -57,7 +71,6 @@ async function loadScript(src, { async = false, defer = false, type = 'text/java
 
     document.head.appendChild(script);
 }
-
 
 // Wait until a specific DOM element exists
 function waitForElement(selector, callback) {
