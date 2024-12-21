@@ -186,6 +186,23 @@ function loadPageScripts() {
 
     }
 
+
+
+
+
+    /*
+      
+  let userDataSaved = await getUserData() || {};
+  
+  // To verify
+  //console.log("userDataSaved   ", userDataSaved);
+
+
+
+  */
+
+
+  
     // Placeholder for additional async/defer scripts
     // Example:
     // loadScript('https://example.com/asyncScript.js', { async: true }, () => {

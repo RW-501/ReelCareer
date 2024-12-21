@@ -11,6 +11,8 @@ import {
 } from 'https://reelcareer.co/scripts/js/load/module.js';
 
 const user = getUserId;
+  
+
 
 function createNavbar() {
     const currentPage = window.location.pathname;
