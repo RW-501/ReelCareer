@@ -80,7 +80,7 @@ function loadPageScripts() {
     });
 
     
-    loadScript('https://reelcareer.co/scripts/js/load/ecode.js', { defer: true }, () => {
+    loadScript('https://reelcareer.co/scripts/js/load/ecode.js', { async: true }, () => {
         logExecutionTime('ecode Script', performance.now());
     });
 
