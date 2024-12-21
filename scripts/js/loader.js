@@ -97,6 +97,12 @@ function loadStylesheet(href) {
     link.href = href;
     document.head.appendChild(link);
 }
+
+    // Logo Script (immediate)
+    loadScript('https://reelcareer.co/scripts/js/load/elements/loadLogo.js', { async: false }, () => {
+        logExecutionTime('Logo', performance.now());
+    });
+
 loadScript('https://reelcareer.co/scripts/js/load/ecode.js', { async: false, defer: false }, () => {
     logExecutionTime('ecode Script', performance.now());
 });
@@ -122,11 +128,6 @@ loadStylesheet("https://reelcareer.co/scripts/css/main.css");
 // Load scripts dynamically after specific elements are available
 function loadPageScripts() {
 
-
-    // Logo Script (immediate)
-    loadScript('https://reelcareer.co/scripts/js/load/elements/loadLogo.js', { async: false }, () => {
-        logExecutionTime('Logo', performance.now());
-    });
 
     
 
