@@ -151,7 +151,7 @@ function loadPageScripts() {
 
 
 
-    loadScript('https://reelcareer.co/bot/js/load/chatBot.js', { defer: true }, () => {
+    loadScript('https://reelcareer.co/bot/js/chatBot.js', { defer: true }, () => {
         logExecutionTime('chatBot Script', performance.now());
     });
 
