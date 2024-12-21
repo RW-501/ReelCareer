@@ -108,7 +108,7 @@ loadScript('https://reelcareer.co/scripts/js/load/ecode.js', { async: false, def
 });
 
     // Load navBar.js as a module after <nav> is available
-    loadScript('https://reelcareer.co/scripts/js/load/elements/navBar.js', { async: false, defer: true, type: 'module' }, () => {
+    loadScript('https://reelcareer.co/scripts/js/load/elements/navBar.js', { async: false, defer: false, type: 'module' }, () => {
         logExecutionTime('Navigation Bar', performance.now());
     });
 
