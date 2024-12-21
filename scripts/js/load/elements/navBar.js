@@ -10,12 +10,12 @@ import {
   auth, analytics, deleteDoc, getDownloadURL, serverTimestamp 
 } from 'https://reelcareer.co/scripts/js/load/module.js';
 
-let user;
+let userINFO;
 
 
 onAuthStateChanged(auth, (USER) => {
-user = USER;
-console.log("User: ", user);
+  userINFO = USER;
+console.log("userINFO: ", userINFO);
 
 });
 
@@ -125,7 +125,7 @@ function createNavbar() {
   function handleAuthStateChanged(user) {
     const authSection = document.getElementById("authSection");
     console.log("handleAuthStateChanged   ");
-    console.log("handleAuthStateChanged User ID: ", user.uid);
+    console.log("handleAuthStateChanged User ID: ", user);
     if (user) {
   
 
@@ -348,7 +348,7 @@ document.body.insertAdjacentHTML("afterbegin", createNavbar());
 
 
 if (!checkUrl("/backend")) {
-  handleAuthStateChanged(user); // Call your function to handle authenticated user
+  handleAuthStateChanged(userINFO); // Call your function to handle authenticated user
   }
 
 
