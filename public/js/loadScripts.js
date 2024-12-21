@@ -298,7 +298,7 @@ console.log(formatDateString(1732032108000));                           // Expec
   async function fetchSuggestions() {
 
   // Constants for configuration 
-  let Main_SUGGESTIONS_URL = "https://reelcareer.co/public/js/suggestions.json";
+  let Main_SUGGESTIONS_URL = "https://reelcareer.co/scripts/json/suggestions.json";
   
     
     try {
