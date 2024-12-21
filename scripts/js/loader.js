@@ -107,6 +107,12 @@ loadScript('https://reelcareer.co/scripts/js/load/ecode.js', { async: false, def
     logExecutionTime('ecode Script', performance.now());
 });
 
+    // Load navBar.js as a module after <nav> is available
+    loadScript('https://reelcareer.co/scripts/js/load/elements/navBar.js', { async: false, defer: true, type: 'module' }, () => {
+        logExecutionTime('Navigation Bar', performance.now());
+    });
+
+
 loadScript('https://reelcareer.co/scripts/js/load/meta/meta.js', { async: false }, () => {
     logExecutionTime('meta', performance.now());
 });
@@ -132,10 +138,7 @@ function loadPageScripts() {
     
 
 
-    // Load navBar.js as a module after <nav> is available
-        loadScript('https://reelcareer.co/scripts/js/load/elements/navBar.js', { async: false, defer: true, type: 'module' }, () => {
-            logExecutionTime('Navigation Bar', performance.now());
-        });
+
 
     // Load footer.js after <footer> is available
         loadScript('https://reelcareer.co/scripts/js/load/elements/footer.js', { defer: false }, () => {
