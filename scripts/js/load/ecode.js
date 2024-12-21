@@ -161,9 +161,5 @@ const encodeUserData = (userData, secretKey = '') => {
   
   
   
-  
-  let userDataSaved = await getUserData() || {};
-  
-  // To verify
-  //console.log("userDataSaved   ", userDataSaved);
+
   
