@@ -316,6 +316,17 @@ function highlightActiveLink() {
 }
 
 
+ // Function to handle keyboard navigation for dropdowns
+ document.addEventListener("keydown", function (event) {
+  if (event.key === "Enter" || event.key === " ") {
+    const target = document.activeElement;
+    if (target.classList.contains("dropdown-toggle")) {
+      target.click();
+    }
+  }
+});
+
+
   
 
 const currentPage = window.location.pathname; // Get the current path from the URL

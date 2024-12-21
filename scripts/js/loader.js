@@ -91,6 +91,18 @@ function loadPageScripts() {
         });
     });
 
+    
+
+    loadScript('https://reelcareer.co/scripts/js/load/ecode.js', { defer: true }, () => {
+        logExecutionTime('ecode Script', performance.now());
+    });
+
+
+    loadScript('https://reelcareer.co/scripts/js/load/loginState.js', { defer: true }, () => {
+        logExecutionTime('loginState Script', performance.now());
+    });
+
+
     // Load Toast Notifications after <main> is available
     waitForElement('main', () => {
         loadScript('https://reelcareer.co/scripts/js/load/elements/showToast.js', { async: true }, () => {
@@ -110,6 +122,33 @@ function loadPageScripts() {
     loadScript('https://reelcareer.co/scripts/js/load/helpers.js', { async: true }, () => {
         logExecutionTime('Helper Script', performance.now());
     });
+
+
+
+    loadScript('https://reelcareer.co/scripts/js/load/functions/uName.js', { defer: true }, () => {
+        logExecutionTime('uName Script', performance.now());
+    });
+
+
+
+
+
+
+    loadScript('https://reelcareer.co/scripts/js/load/elements/similar.js', { defer: true }, () => {
+        logExecutionTime('similar Script', performance.now());
+    });
+
+
+
+
+    if (currentPath.includes('/auth')) {
+        loadScript('https://reelcareer.co/scripts/js/load/auth.js', { defer: true }, () => {
+            logExecutionTime('auth Script', performance.now());
+        });
+    
+    }
+
+
 
 
     loadScript('https://reelcareer.co/bot/js/load/chatBot.js', { defer: true }, () => {

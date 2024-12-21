@@ -144,3 +144,50 @@ function showToast(message, type = 'info', duration = 3500, link = null, confirm
   window.showMessageAndFadeBtn = showMessageAndFadeBtn;
   
   
+
+
+  // General function to listen to Firestore events and show toast notifications
+function listenForFirestoreEvents(collectionName, eventType) {
+  const collectionRef = collection(db, collectionName); // Reference to the collection
+
+  // Listener for collection changes
+  onSnapshot(collectionRef, (snapshot) => {
+    snapshot.docChanges().forEach((change) => {
+      if (change.type === 'added' && eventType === 'new') {
+        // New item added, trigger toast
+        if (collectionName === 'Jobs') {
+          showToast(`New job posted: ${change.doc.data().title}`);
+        } else if (collectionName === 'Users') {
+          showToast(`New member joined: ${change.doc.data().username}`);
+        }
+        // Add more collection-specific logic as needed
+
+      } else if (change.type === 'modified' && eventType === 'update') {
+        // Item updated, trigger toast
+        if (collectionName === 'Jobs') {
+          showToast(`Job updated: ${change.doc.data().title}`);
+        } else if (collectionName === 'Users') {
+          showToast(`Member updated: ${change.doc.data().username}`);
+        }
+        // Add more collection-specific logic as needed
+
+      } else if (change.type === 'removed' && eventType === 'remove') {
+        // Item removed, trigger toast
+        if (collectionName === 'Jobs') {
+          showToast(`Job removed: ${change.doc.data().title}`);
+        } else if (collectionName === 'Users') {
+          showToast(`Member removed: ${change.doc.data().username}`);
+        }
+        // Add more collection-specific logic as needed
+      }
+    });
+  });
+}
+/*
+// Example usage:
+listenForFirestoreEvents('Jobs', 'new'); // For new job posts
+listenForFirestoreEvents('Users', 'new'); // For new members
+listenForFirestoreEvents('Jobs', 'update'); // For job updates
+listenForFirestoreEvents('Users', 'update'); // For member updates
+listenForFirestoreEvents('Jobs', 'remove'); // For job removals
+*/
