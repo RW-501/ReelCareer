@@ -80,7 +80,7 @@ function loadPageScripts() {
     });
 
     
-    loadScript('https://reelcareer.co/scripts/js/load/ecode.js', { async: true }, () => {
+    loadScript('https://reelcareer.co/scripts/js/load/ecode.js', { async: false }, () => {
         logExecutionTime('ecode Script', performance.now());
     });
 
@@ -90,11 +90,10 @@ function loadPageScripts() {
         });
 
     // Load footer.js after <footer> is available
-    waitForElement('footer', () => {
-        loadScript('https://reelcareer.co/scripts/js/load/elements/footer.js', { async: true }, () => {
+        loadScript('https://reelcareer.co/scripts/js/load/elements/footer.js', { defer: false }, () => {
             logExecutionTime('Footer', performance.now());
         });
-    });
+    
 
     
 
