@@ -142,7 +142,7 @@ function loadPageScripts() {
 
 
 
-        loadScript('https://reelcareer.co/scripts/js/load/auth.js', { async: false }, () => {
+        loadScript('https://reelcareer.co/scripts/js/load/auth.js', { async: false, type: 'module'  }, () => {
             logExecutionTime('auth Script', performance.now());
         });
     
