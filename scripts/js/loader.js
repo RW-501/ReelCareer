@@ -86,11 +86,11 @@ function loadStylesheet(href) {
 }
 
 loadScript('https://reelcareer.co/scripts/js/load/meta/meta.js', { async: false }, () => {
-    logExecutionTime('Logo', performance.now());
+    logExecutionTime('meta', performance.now());
 });
 
 loadScript('https://reelcareer.co/scripts/js/load/meta/schema.js', { async: false }, () => {
-    logExecutionTime('Logo', performance.now());
+    logExecutionTime('schema', performance.now());
 });
 
 
