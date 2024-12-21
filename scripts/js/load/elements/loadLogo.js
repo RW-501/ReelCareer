@@ -52,6 +52,9 @@ function createLoader(message = "ReelCareer") {
     const style = document.createElement("style");
     style.type = "text/css";
     style.innerHTML = `
+    html {
+    background-color: #fff;
+    }
       /* Loader Container */
       .loader-container {
           display: flex;
@@ -98,11 +101,13 @@ function createLoader(message = "ReelCareer") {
       /* Smooth content loading */
       body {
           opacity: 0;
+          visibility: hidden;
           transition: opacity .5s ease-in-out;
       }
   
       body.loaded {
           opacity: 1;
+          visibility: visible;
       }
     `;
     document.head.appendChild(style);
@@ -144,6 +149,6 @@ function createLoader(message = "ReelCareer") {
     // Hide loader when the window fully loads
     window.addEventListener("load", () => {
       document.body.classList.add("loaded"); // Then show content
-    setLoaderTimer(500);
+    setLoaderTimer(1000);
     });
   

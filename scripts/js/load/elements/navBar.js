@@ -15,7 +15,7 @@ let user;
 
 onAuthStateChanged(auth, (USER) => {
 user = USER;
-console.log("User :", user);
+console.log("User: ", user);
 
 });
 
@@ -361,8 +361,5 @@ document.body.insertAdjacentHTML("afterbegin", createNavbar());
 }
 
 if (!window.checkUrl("/backend/") || !window.checkUrl("/backend")) {
-
-
-console.log("user?    ",user);
   handleAuthStateChanged(user); // Call your function to handle authenticated user
   }
