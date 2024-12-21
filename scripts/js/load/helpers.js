@@ -46,15 +46,3 @@ const convertFirestoreTimestamp = (timestamp) => {
   });
 
   
-   // Define the  function to check if a specific keyword is in the URL
-   function checkUrl(keyword) {
-    // Get the current URL
-    const currentUrl = window.location.href;
-   // console.log("currentUrl:", currentUrl);
-    //console.log("keyword:", keyword);
-  
-    // Return true if the keyword is found in the URL, otherwise false
-    return currentUrl.includes(keyword);
-  };
-  
-  window.checkUrl = checkUrl;
