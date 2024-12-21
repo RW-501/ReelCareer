@@ -30,26 +30,26 @@ function addFavicon(type, attributes) {
 
     document.head.appendChild(link);
 }
-let location = 'https://www.ReelCareer.co/images/favicons';
+let favLocation = 'https://www.ReelCareer.co/images/favicons';
 
 // Adding standard favicon
-addFavicon('image/x-icon', { href: `${location}/favicon.ico` });
+addFavicon('image/x-icon', { href: `${favLocation}/favicon.ico` });
 
 // Adding 32x32 favicon
-addFavicon('image/png', { sizes: '32x32', href: `${location}/favicon-32x32.png` });
+addFavicon('image/png', { sizes: '32x32', href: `${favLocation}/favicon-32x32.png` });
 
 // Adding 16x16 favicon
-addFavicon('image/png', { sizes: '16x16', href: `${location}/favicon-16x16.png` });
+addFavicon('image/png', { sizes: '16x16', href: `${favLocation}/favicon-16x16.png` });
 
 // Adding Apple Touch Icon
 const appleTouchIcon = document.createElement('link');
 appleTouchIcon.rel = 'apple-touch-icon';
 appleTouchIcon.sizes = '180x180';
-appleTouchIcon.href = `${location}/apple-touch-icon.png`;
+appleTouchIcon.href = `${favLocation}/apple-touch-icon.png`;
 document.head.appendChild(appleTouchIcon);
 
 // Adding Android Favicon (192x192)
-addFavicon('image/png', { sizes: '192x192', href: `${location}/android-chrome-192x192.png` });
+addFavicon('image/png', { sizes: '192x192', href: `${favLocation}/android-chrome-192x192.png` });
 
 // Adding Chrome Favicon (512x512)
-addFavicon('image/png', { sizes: '512x512', href: `${location}/android-chrome-512x512.png` });
+addFavicon('image/png', { sizes: '512x512', href: `${favLocation}/android-chrome-512x512.png` });
