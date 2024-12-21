@@ -127,6 +127,10 @@ function createNavbar() {
   
     if (user) {
   
+      if (checkUrl("/auth") ) {
+        window.location.href = 'https://reelcareer.co/u';
+
+        }
       const userDataSaved = getUserData() || [];
   
   
@@ -351,7 +355,4 @@ if (!checkUrl("/backend/") || !checkUrl("/backend")) {
 
 
 
-      if (checkUrl("/auth") ) {
-        window.location.href = 'https://reelcareer.co/u';
 
-        }
