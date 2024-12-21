@@ -74,7 +74,7 @@ const saveUserLoginState = async (user) => {
   
       let userData = {
         email: user.email || "Unknown",
-        lastLogin: serverTimestamp(),
+        lastLogin: new Date(),
         ipAddress: userIP || "",
         userID: user.uid || "",
         displayName: userDataSaved.displayName || user.displayName,
