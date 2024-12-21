@@ -130,7 +130,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
  
     }
-    checkLogin(user); // Ensure login is valid on page load
 
 
   });

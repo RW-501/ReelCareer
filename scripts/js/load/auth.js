@@ -321,4 +321,4 @@ function redirectToLogin() {
   }
   window.initializeAutoLogout = initializeAutoLogout;
   
-  
+  checkLogin(user); // Ensure login is valid on page load
