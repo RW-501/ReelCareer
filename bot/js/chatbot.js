@@ -317,7 +317,6 @@ function toggleChatbotFullscreen() {
 
 
 // DOM Elements
-//const chatButton = document.getElementById("chatButton");
 //const chatPanel = document.getElementById("chatPanel");
 const closeChatButton = document.getElementById("close-chat");
 const sendChatButton = document.getElementById("send-chat");
@@ -331,6 +330,26 @@ textToVoiceButton.addEventListener("click", toggleTextToVoice);
 voiceToTextButton.addEventListener("click", toggleVoiceToText);
 
 toggleFullscreenBtn.addEventListener("click", toggleChatbotFullscreen);
+// Event Listeners
+chatButton.addEventListener("click", () => {
+  // Delay chat panel opening by 2 seconds
+  setTimeout(() => {
+      chatPanel.style.display = "flex";
+      loadGeneralQuestions(); // Only load questions when the panel is open
+      
+loadBrainAndCallFunction();
+  }, 500); // 2 seconds delay
+});
+
+closeChatButton.addEventListener("click", () => {
+  // Delay chat panel closing by 2 seconds
+  setTimeout(() => {
+      chatPanel.style.display = "none";
+  }, 500); // 2 seconds delay
+});
+
+sendChatButton.addEventListener("click", sendMessage);
+
 
 // Chat input - 'Enter' or 'Return' key press simulation
 chatInput.addEventListener('keydown', (event) => {
@@ -948,27 +967,7 @@ async function loadJsonData(url) {
 //loadJsonData('https://reelcareer.co/scripts/json/main.js');
 
 
-// Event Listeners
-chatButton.addEventListener("click", () => {
-    // Delay chat panel opening by 2 seconds
-    setTimeout(() => {
-        chatPanel.style.display = "flex";
-        loadGeneralQuestions(); // Only load questions when the panel is open
-        
-  loadBrainAndCallFunction();
-    }, 500); // 2 seconds delay
-  });
-  
-  closeChatButton.addEventListener("click", () => {
-    // Delay chat panel closing by 2 seconds
-    setTimeout(() => {
-        chatPanel.style.display = "none";
-    }, 500); // 2 seconds delay
-  });
-  
-  sendChatButton.addEventListener("click", sendMessage);
 
-  
   setTimeout(() => {
 
     fetchChatbotData();
