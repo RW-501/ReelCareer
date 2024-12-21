@@ -125,6 +125,7 @@ function createNavbar() {
   function handleAuthStateChanged(user) {
     const authSection = document.getElementById("authSection");
     console.log("handleAuthStateChanged   ");
+    console.log("handleAuthStateChanged User ID: ", user.uid);
     if (user) {
   
 
@@ -336,8 +337,8 @@ document.body.insertAdjacentHTML("afterbegin", createNavbar());
    function checkUrl(keyword) {
     // Get the current URL
     const currentUrl = window.location.href;
-    console.log("currentUrl:", currentUrl);
-    console.log("keyword:", keyword);
+   // console.log("currentUrl:", currentUrl);
+   // console.log("keyword:", keyword);
   
     // Return true if the keyword is found in the URL, otherwise false
     return currentUrl.includes(keyword);
