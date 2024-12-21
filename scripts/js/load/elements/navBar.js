@@ -129,6 +129,8 @@ function createNavbar() {
   
 // Check if the URL includes "/auth"
 if (checkUrl("/auth") && !window.location.href.includes("reelcareer.co/u")) {
+  console.log("handleAuthStateChanged    window.location.href ");
+
   window.location.href = 'https://reelcareer.co/u';
 }
       const userDataSaved = getUserData() || [];
