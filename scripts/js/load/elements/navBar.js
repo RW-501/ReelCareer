@@ -6,12 +6,12 @@ import {
   uploadBytes, OAuthProvider, arrayUnion, getStorage,
   signOut, addDoc, increment, onAuthStateChanged,
   createUserWithEmailAndPassword, signInWithEmailAndPassword,
-  where, getDocs, storage, collection, deleteObject, 
+  where, getDocs, storage, collection, deleteObject, getUserId,
   auth, analytics, deleteDoc, getDownloadURL, serverTimestamp 
 } from 'https://reelcareer.co/scripts/js/load/module.js';
 
 
-const user = auth.currentUser.uid;
+const user = getUserId;
 
 function createNavbar() {
     const currentPage = window.location.pathname;
