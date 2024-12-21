@@ -127,10 +127,10 @@ function createNavbar() {
   
     if (user) {
   
-      if (checkUrl("/auth") ) {
-        window.location.href = 'https://reelcareer.co/u';
-
-        }
+// Check if the URL includes "/auth"
+if (checkUrl("/auth") && !window.location.href.includes("reelcareer.co/u")) {
+  window.location.href = 'https://reelcareer.co/u';
+}
       const userDataSaved = getUserData() || [];
   
   
