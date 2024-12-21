@@ -85,7 +85,7 @@ function loadPageScripts() {
     });
 
     // Load navBar.js as a module after <nav> is available
-        loadScript('https://reelcareer.co/scripts/js/load/elements/navBar.js', { defer: true, type: 'module' }, () => {
+        loadScript('https://reelcareer.co/scripts/js/load/elements/navBar.js', { defer: false, type: 'module' }, () => {
             logExecutionTime('Navigation Bar', performance.now());
         });
 
@@ -175,7 +175,7 @@ function loadPageScripts() {
         });
 
         // Load trackers.js as a module
-        loadScript('https://reelcareer.co/scripts/js/load/helpers/trackers.js', { async: true, type: 'module' }, () => {
+        loadScript('https://reelcareer.co/scripts/js/load/helpers/trackers.js', { defer: true, type: 'module' }, () => {
             logExecutionTime('Trackers Script', performance.now());
         });
 
