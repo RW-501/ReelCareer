@@ -230,7 +230,6 @@ function loadPageScripts() {
             logExecutionTime('censorWord Script', performance.now());
         });
 
-        loadCount = "end";
     }
 
 
