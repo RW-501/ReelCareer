@@ -217,15 +217,15 @@
 
   <!-- Tabs -->
   <div class="tab-container">
-    <div class="tab active" data-tab="page-html">Page HTML</div>
-    <div class="tab" data-tab="page-head">Page Head</div>
-    <div class="tab" data-tab="page-main">Page Main</div>
-    <div class="tab" data-tab="page-footer">Page Footer</div>
+    <div class="tab active" data-tab="page-html"  data-type="html"  data-content="html-area-content">Page HTML</div>
+    <div class="tab" data-tab="page-head"  data-type="head" data-content="head-area-content">Page Head</div>
+    <div class="tab" data-tab="page-main"  data-type="main" data-content="main-area-content">Page Main</div>
+    <div class="tab" data-tab="page-footer"  data-type="footer" data-content="footer-area-content">Page Footer</div>
 </div>
 
 <!-- Collapsible Sections -->
 <div id="page-html" class="card">
-    <div class="collapse-toggle">Toggle Content</div>
+    <div class="collapse-toggle" id="html-area-content">Toggle Content</div>
     <div class="card-content">
         <label for="extracted-content-html">Page HTML:</label>
         <textarea id="extracted-content-html" class="htmlOutput"></textarea>
@@ -236,7 +236,7 @@
 </div>
 
 <div id="page-head" class="card collapsed">
-    <div class="collapse-toggle">Toggle Content</div>
+    <div class="collapse-toggle" id="head-area-content">Toggle Content</div>
     <div class="card-content">
         <label for="extracted-content-head">Page Head:</label>
         <textarea id="extracted-content-head" class="htmlOutput"></textarea>
@@ -247,7 +247,7 @@
 </div>
 
 <div id="page-main" class="card collapsed">
-    <div class="collapse-toggle">Toggle Content</div>
+    <div class="collapse-toggle" id="main-area-content">Toggle Content</div>
     <div class="card-content">
         <label for="extracted-content-main">Page Main:</label>
         <textarea id="extracted-content-main" class="htmlOutput"></textarea>
@@ -258,7 +258,7 @@
 </div>
 
 <div id="page-footer" class="card collapsed">
-    <div class="collapse-toggle">Toggle Content</div>
+    <div class="collapse-toggle" id="footer-area-content">Toggle Content</div>
     <div class="card-content">
         <label for="extracted-content-footer">Page Footer:</label>
         <textarea id="extracted-content-footer" class="htmlOutput"></textarea>
@@ -314,6 +314,9 @@
     
 
     <script>
+
+        let html, head, main, footer;
+
         document.getElementById('fetch-content').addEventListener('click', async () => {
             const pageUrl = document.getElementById('page-url').value;
 
@@ -339,7 +342,7 @@
 
 console.log("doc??????????   ",doc)
 
-                const html = doc.querySelector('html')?.outerHTML || 'No <html> found';
+                 html = doc.querySelector('html')?.outerHTML || 'No <html> found';
 
                     console.log("html??????????   ",html)
 
@@ -347,17 +350,9 @@ console.log("doc??????????   ",doc)
                         console.log("body??????????   ",body)
 
                 // Extract desired elements
-                const head = doc.querySelector('head')?.outerHTML || 'No <head> found';
-                    const main = doc.querySelector('main')?.outerHTML || 'No <main> found';
-                        const footer = doc.querySelector('footer')?.outerHTML || 'No <footer> found';
-
-
-
-                    const meta = Array.from(doc.querySelectorAll('mata'));
-
-                const navTags = Array.from(doc.querySelectorAll('nav'));
-                const nav1 = navTags[0]?.outerHTML || 'No <nav> found';
-                const nav2 = navTags[1]?.outerHTML || 'No second <nav> found';
+                 head = doc.querySelector('head')?.outerHTML || 'No <head> found';
+                 main = doc.querySelector('main')?.outerHTML || 'No <main> found';
+                 footer = doc.querySelector('footer')?.outerHTML || 'No <footer> found';
 
 
                 // Combine and output the extracted content
@@ -391,20 +386,126 @@ console.log("doc??????????   ",doc)
 
         // Tab switching logic
         document.querySelectorAll('.switch-tab').forEach(tab => {
-            tab.addEventListener('click', () => {
-                // Remove 'active' class from currently active tab and content
-                const activeTab = document.querySelector('.switch-tab.active');
-                const activeCard = document.querySelector('.container.active');
+    tab.addEventListener('click', () => {
+        // Remove 'active' class from currently active tab and content
+        const activeTab = document.querySelector('.switch-tab.active');
+        const activeCard = document.querySelector('.container.active');
 
-                if (activeTab) activeTab.classList.remove('active');
-                if (activeCard) activeCard.classList.remove('active');
+        if (activeTab) activeTab.classList.remove('active');
+        if (activeCard) activeCard.classList.remove('active');
 
-                // Add 'active' class to the clicked tab and corresponding content
-                tab.classList.add('active');
-                const target = document.getElementById(tab.dataset.target);
-                if (target) target.classList.add('active');
-            });
-        });
+        // Add 'active' class to the clicked tab and corresponding content
+        tab.classList.add('active');
+        const target = document.getElementById(tab.dataset.target);
+        const content = document.getElementById(tab.dataset.content);
+        const type = tab.dataset.type; // Optional type differentiation
+        let extractedContent = '';
+
+        // Determine tags to extract based on type
+        let tagsToExtract = [];
+        let tagType = '';
+
+        if (type === "head") {
+            const metas = Array.from(document.querySelectorAll('meta'));
+            if (metas.length > 0) {
+                tagType = "Meta Content";
+                metas.forEach(meta => {
+                    extractedContent += `
+                        <label for="meta-content">${tagType}: Meta Tag:</label>
+                        <textarea id="meta-content" class="htmlOutput">${meta.outerHTML.trim()}</textarea>
+                        <hr>
+                    `;
+                });
+            }
+
+            const links = Array.from(document.querySelectorAll('link'));
+            if (links.length > 0) {
+                tagType = "Link Content";
+                links.forEach(link => {
+                    extractedContent += `
+                        <label for="link-content">${tagType}: Link Tag:</label>
+                        <textarea id="link-content" class="htmlOutput">${link.outerHTML.trim()}</textarea>
+                        <hr>
+                    `;
+                });
+            }
+
+            const scripts = Array.from(document.querySelectorAll('script'));
+            if (scripts.length > 0) {
+                tagType = "Script Content";
+                scripts.forEach(script => {
+                    extractedContent += `
+                        <label for="script-content">${tagType}: Script Tag:</label>
+                        <textarea id="script-content" class="htmlOutput">${script.outerHTML.trim()}</textarea>
+                        <hr>
+                    `;
+                });
+            }
+
+            const style = Array.from(document.querySelectorAll('style'));
+            if (style.length > 0) {
+                tagType = "Style Content";
+                style.forEach(styling => {
+                    extractedContent += `
+                        <label for="style-content">${tagType}: Style Tag:</label>
+                        <textarea id="style-content" class="htmlOutput">${styling.outerHTML.trim()}</textarea>
+                        <hr>
+                    `;
+                });
+            }
+
+        } else if (type === "nav") {
+            const navTags = Array.from(document.querySelectorAll('nav'));
+            if (navTags.length > 0) {
+                tagType = "Nav1 Content";
+                extractedContent += `
+                    <label for="nav1-content">${tagType}: Nav1 Tag:</label>
+                    <textarea id="nav1-content" class="htmlOutput">${navTags[0]?.outerHTML.trim()}</textarea>
+                    <hr>
+                `;
+            }
+            if (navTags.length > 1) {
+                tagType = "Nav2 Content";
+                extractedContent += `
+                    <label for="nav2-content">${tagType}: Nav2 Tag:</label>
+                    <textarea id="nav2-content" class="htmlOutput">${navTags[1]?.outerHTML.trim()}</textarea>
+                    <hr>
+                `;
+            } else {
+                extractedContent += '<label>No second <nav> found</label><hr>';
+            }
+
+        } else if (type === "main") {
+            const mainTag = document.querySelector('main');
+            if (mainTag) {
+                tagType = "Main Content";
+                extractedContent += `
+                    <label for="main-content">${tagType}: Main Tag:</label>
+                    <textarea id="main-content" class="htmlOutput">${mainTag.outerHTML.trim()}</textarea>
+                    <hr>
+                `;
+            }
+
+        } else if (type === "footer") {
+            const footerTag = document.querySelector('footer');
+            if (footerTag) {
+                tagType = "Footer Content";
+                extractedContent += `
+                    <label for="footer-content">${tagType}: Footer Tag:</label>
+                    <textarea id="footer-content" class="htmlOutput">${footerTag.outerHTML.trim()}</textarea>
+                    <hr>
+                `;
+            }
+        }
+
+        // Inject the extracted content into the target container
+        if (content) content.innerHTML = extractedContent;
+
+        // Activate the target container
+        if (target) target.classList.add('active');
+    });
+});
+
 
 
               // Tab switching logic
