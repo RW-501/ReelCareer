@@ -320,8 +320,8 @@ details[open] summary {
         <div id="extracted-content-head" class="htmlOutput"></div>
         <div id="controls-page-head" class="controls">
             <div class='text'> Controls for Page Head</div>
-            <button data-content="head-area-content"  data-content-type="head" class="update-content" style="margin-top: 10px; padding: 10px;">Update Content</button>
-            <button class="auto-update-content" data-content-type="head">Start Auto Update</button>
+            <button data-content="head-area-content"  data-contentType="head" class="update-content" style="margin-top: 10px; padding: 10px;">Update Content</button>
+            <button class="auto-update-content" data-contentType="head">Start Auto Update</button>
 
         </div>
     </div>
@@ -334,8 +334,8 @@ details[open] summary {
         <div id="extracted-content-main" class="htmlOutput"></div>
         <div id="controls-page-main" class="controls">
             <div class='text'> Controls for Page Main</div>
-            <button data-content="main-area-content"  data-content-type="main" class="update-content" style="margin-top: 10px; padding: 10px;">Update Content</button>
-            <button class="auto-update-content" data-content-type="main">Start Auto Update</button>
+            <button data-content="main-area-content"  data-contentType="main" class="update-content" style="margin-top: 10px; padding: 10px;">Update Content</button>
+            <button class="auto-update-content" data-contentType="main">Start Auto Update</button>
 
         </div>
     </div>
@@ -348,8 +348,8 @@ details[open] summary {
         <div id="extracted-content-nav" class="htmlOutput"></div>
         <div id="controls-page-nav" class="controls">
             <div class='text'></div>Controls for Page Nav</div>
-            <button data-content="nav-area-content"  data-content-type="nav" class="update-content" style="margin-top: 10px; padding: 10px;">Update Content</button>
-            <button class="auto-update-content" data-content-type="nav">Start Auto Update</button>
+            <button data-content="nav-area-content"  data-contentType="nav" class="update-content" style="margin-top: 10px; padding: 10px;">Update Content</button>
+            <button class="auto-update-content" data-contentType="nav">Start Auto Update</button>
 
         </div>
     </div>
@@ -362,8 +362,8 @@ details[open] summary {
         <div id="extracted-content-footer" class="htmlOutput"></div>
         <div id="controls-page-footer" class="controls">
             <div class='text'>Controls for Page Footer</div>
-            <button data-content="footer-area-content"  data-content-type="footer" class="update-content" style="margin-top: 10px; padding: 10px;">Update Content</button>
-            <button class="auto-update-content" data-content-type="footer">Start Auto Update</button>
+            <button data-content="footer-area-content"  data-contentType="footer" class="update-content" style="margin-top: 10px; padding: 10px;">Update Content</button>
+            <button class="auto-update-content" data-contentType="footer">Start Auto Update</button>
 
 
         </div>
@@ -708,7 +708,7 @@ document.getElementById('searchBar').addEventListener('input', (event) => {
         document.querySelectorAll('.update-content').forEach(button => {
     button.addEventListener('click', () => {
         const contentId = button.dataset.content; // Get data-content value
-        const contentType = button.dataset.content-type;
+        const contentType = button.dataset.contentType;
         const target = document.getElementById(contentId);
         const textareas = target.querySelectorAll(`textarea`); // Query all textareas
 
@@ -719,14 +719,14 @@ document.getElementById('searchBar').addEventListener('input', (event) => {
             combinedContent += textarea.value + '\n'; // Add each value with a newline separator
         });
 
-        document.getElementById("updateContent-label").innerText = `Update ${contentId}`;
+        document.getElementById("updateContent-label").innerText = `Update ${contentId}:`;
         document.getElementById("updateContent").innerText = combinedContent;
 
         
 
 
         // Log the combined content
-        console.log(`Content Type: ${contentType}. \n Content ${contentId}:\n${combinedContent}`);
+        console.log(`Content Type: ${contentType}. \n Content ${contentId} \n${combinedContent}`);
 
         const updateHeadTagOnGitHub = (filePath, newHeadContent, token) => {
   // Fetch the current HTML file from GitHub
