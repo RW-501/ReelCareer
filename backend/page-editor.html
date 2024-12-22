@@ -264,7 +264,6 @@ details[open] summary {
                 <option value="https://reelcareer.co/jobs/locations">Jobs by Locations</option>
                 <option value="https://reelcareer.co/views/auth">Auth Page</option>
                 <option value="https://reelcareer.co/views/Forgot-Password">Forgot Password</option>
-                <option value="https://reelcareer.co/views/news#">News Section</option>
                 <option value="https://reelcareer.co/support/getting-started">Support: Getting Started</option>
                 <option value="https://reelcareer.co/support/troubleshooting">Support: Troubleshooting</option>
               </select>
@@ -719,7 +718,7 @@ document.getElementById('searchBar').addEventListener('input', (event) => {
             combinedContent += textarea.value + '\n'; // Add each value with a newline separator
         });
 
-        document.getElementById("updateContent-label").innerText = `Update ${contentId} Content`;
+        document.getElementById("updateContent-label").innerText = `Update ${contentId}`;
         document.getElementById("updateContent").innerText = combinedContent;
 
         
@@ -732,7 +731,10 @@ document.getElementById('searchBar').addEventListener('input', (event) => {
 
 let isStopped = false;
 
-document.querySelector('.auto-update-content').addEventListener('click', async function () {
+document.querySelectorAll('.auto-update-content').forEach(button => {
+    button.addEventListener('click', async function () {
+   
+   
     isStopped = false;
 
     // Get dataset.content-type and save to localStorage
@@ -792,6 +794,9 @@ document.querySelector('.auto-update-content').addEventListener('click', async f
 
     alert("Update Process Completed!");
 });
+
+});
+
 
 // Stop Button Functionality
 document.getElementById('stop-update').addEventListener('click', function () {
