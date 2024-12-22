@@ -359,7 +359,8 @@ details[open] summary {
 
 
 </div>
-
+<label id='updateContent-label' for="updateContent">Update Content:</label>
+<div id="updateContent"></div>
 </div>
 
 
@@ -666,7 +667,19 @@ if (styles.length > 0) {
             });
         });
 
-        // Collapsible toggle logic
+
+
+
+// Search functionality
+document.getElementById('searchBar').addEventListener('input', (event) => {
+    const query = event.target.value.toLowerCase();
+    const labels = document.querySelectorAll('#metaTagsContainer label');
+    labels.forEach(label => {
+        label.parentElement.style.display = label.textContent.toLowerCase().includes(query) ? '' : 'none';
+    });
+});
+
+        // Collapsible toggle logic ????????????????????????????//
         document.querySelectorAll('.collapse-toggle').forEach(toggle => {
             toggle.addEventListener('click', () => {
                 const card = toggle.closest('.pageCard');
@@ -676,6 +689,9 @@ if (styles.length > 0) {
 
 
 
+
+
+        
         document.querySelectorAll('.update-content').forEach(button => {
     button.addEventListener('click', () => {
         const contentId = button.dataset.content; // Get data-content value
@@ -689,6 +705,10 @@ if (styles.length > 0) {
             combinedContent += textarea.value + '\n'; // Add each value with a newline separator
         });
 
+        document.getElementById("updateContent-label").innerText = `Update ${contentId} Content`;
+        document.getElementById("updateContent").innerText = combinedContent;
+
+        
         // Log the combined content
         console.log(`Content from ${contentId}:\n${combinedContent}`);
     });
@@ -697,15 +717,42 @@ if (styles.length > 0) {
 
 
 
-// Search functionality
-document.getElementById('searchBar').addEventListener('input', (event) => {
-    const query = event.target.value.toLowerCase();
-    const labels = document.querySelectorAll('#metaTagsContainer label');
-    labels.forEach(label => {
-        label.parentElement.style.display = label.textContent.toLowerCase().includes(query) ? '' : 'none';
-    });
-});
+function cycleSelectValues(selectId) {
+    const selectElement = document.getElementById(selectId);
+    if (!selectElement) {
+        console.error("Select element not found");
+        return;
+    }
 
+    let currentIndex = 0;
+
+    function updateSelection() {
+        // Set the current index as selected
+        selectElement.selectedIndex = currentIndex;
+        
+        // Get the value of the current option
+        const selectedValue = selectElement.options[currentIndex].value;
+        console.log("Current Value:", selectedValue);
+
+        // Move to the next index
+        currentIndex++;
+
+        // If we reach the end of the options, stop the cycling
+        if (currentIndex >= selectElement.options.length) {
+            console.log("Finished cycling through options.");
+            return;
+        }
+
+        // Call the function again after 3 seconds
+        setTimeout(updateSelection, 3000);
+    }
+
+    // Start the cycle
+    updateSelection();
+}
+
+// Usage
+cycleSelectValues("page-url");
 
 
 
