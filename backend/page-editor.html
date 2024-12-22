@@ -421,10 +421,10 @@ details[open] summary {
     <script>
 
         let html, head, main, footer, nav;
-        let htmlOutputArea;
+        let htmlOutputArea, pageUrl;
 
         document.getElementById('fetch-content').addEventListener('click', async () => {
-            const pageUrl = document.getElementById('page-url').value;
+             pageUrl = document.getElementById('page-url').value;
             htmlOutputArea = document.getElementById('extracted-content-html');
 
 
