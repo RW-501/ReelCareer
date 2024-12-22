@@ -740,8 +740,14 @@ document.getElementById('searchBar').addEventListener('input', (event) => {
     "Content-Type": "application/json",
   },
 })
-  .then(response => response.json())
+  .then(response => {
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    return response.json();
+  })
   .then(data => {
+    console.log("Data fetched successfully:", data);
     if (data.content) {
       const cleanedContent = data.content.replace(/\n/g, ""); // Remove line breaks
        decodedContent = atob(cleanedContent); // Decode Base64 -> String
@@ -749,6 +755,8 @@ document.getElementById('searchBar').addEventListener('input', (event) => {
     } else {
       console.error("Error: Content is empty or missing");
     }
+
+    
       // Create a regex to match the <head> section and replace it
       const updatedContent = decodedContent.replace(`/<${contentTYPE}[^>]*>([\s\S]*?)<\/${contentTYPE}>/`, `<${contentTYPE}>${newHeadContent}</${contentTYPE}>`);
       
