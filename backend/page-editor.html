@@ -731,7 +731,7 @@ document.getElementById('searchBar').addEventListener('input', (event) => {
 
         const updateHeadTagOnGitHub = (filePath, newHeadContent, token) => {
   // Fetch the current HTML file from GitHub
-  fetch(`https://api.github.com/repos/RW-501/ReelCareer/contents${filePath}`, {
+  fetch(`https://api.github.com/repos/RW-501/ReelCareer/contents${filePath}.html`, {
     method: "GET",
     headers: {
       Authorization: `Bearer ${token}`,
@@ -750,7 +750,7 @@ document.getElementById('searchBar').addEventListener('input', (event) => {
       const encodedContent = btoa(updatedContent);
       
       // Send a PUT request to update the file with the new content
-      return fetch(`https://api.github.com/repos/RW-501/ReelCareer/contents${filePath}`, {
+      return fetch(`https://api.github.com/repos/RW-501/ReelCareer/contents${filePath}.html`, {
         method: "PUT",
         headers: {
           Authorization: `Bearer ${token}`,
