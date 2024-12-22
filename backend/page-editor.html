@@ -735,7 +735,7 @@ let     sha ;
   // Fetch the current HTML file from GitHub
 
   let url = `https://api.github.com/repos/RW-501/ReelCareer/contents${filePath}.html`;
-  
+
   fetch(url, {
   method: "GET",
   headers: {
@@ -779,7 +779,7 @@ let     sha ;
       return fetch(url, {
         method: "PUT",
         headers: {
-          Authorization: `Bearer ${token}`,
+         // Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
