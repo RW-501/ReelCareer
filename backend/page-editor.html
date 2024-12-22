@@ -350,10 +350,12 @@
     <script>
 
         let html, head, main, footer;
-        const htmlOutputArea = document.getElementById('extracted-content-html');
+        let htmlOutputArea;
 
         document.getElementById('fetch-content').addEventListener('click', async () => {
             const pageUrl = document.getElementById('page-url').value;
+            htmlOutputArea = document.getElementById('extracted-content-html');
+
 
             const headOutputArea = document.getElementById('extracted-content-head');
             const mainOutputArea = document.getElementById('extracted-content-main');
