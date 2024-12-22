@@ -733,7 +733,10 @@ let     sha ;
         let decodedContent;
         const updateHeadTagOnGitHub = (filePath, newHeadContent, token) => {
   // Fetch the current HTML file from GitHub
-  fetch(`https://api.github.com/repos/RW-501/ReelCareer/contents${filePath}.html`, {
+
+  let url = `https://api.github.com/repos/RW-501/ReelCareer/contents${filePath}.html`;
+  
+  fetch(url, {
   method: "GET",
   headers: {
     "Content-Type": "application/json",
@@ -773,7 +776,7 @@ let     sha ;
       console.log("token Value:", token);
 
       // Send a PUT request to update the file with the new content
-      return fetch(`https://api.github.com/repos/RW-501/ReelCareer/contents${filePath}.html`, {
+      return fetch(url, {
         method: "PUT",
         headers: {
           Authorization: `Bearer ${token}`,
