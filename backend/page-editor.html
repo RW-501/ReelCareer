@@ -679,7 +679,8 @@ if (styles.length > 0) {
         document.querySelectorAll('.update-content').forEach(button => {
     button.addEventListener('click', () => {
         const contentId = button.dataset.content; // Get data-content value
-        const textareas = document.querySelectorAll(`textarea[data-content="${contentId}"]`); // Query all textareas
+        const target = document.getElementById(contentId);
+        const textareas = target.querySelectorAll(`textarea`); // Query all textareas
 
         let combinedContent = '';
 
