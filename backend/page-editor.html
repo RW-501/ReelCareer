@@ -748,6 +748,8 @@ document.getElementById('searchBar').addEventListener('input', (event) => {
   })
   .then(data => {
     console.log("Data fetched successfully:", data);
+    const sha = data.sha; // Extract the sha
+
     if (data.content) {
       const cleanedContent = data.content.replace(/\n/g, ""); // Remove line breaks
        decodedContent = atob(cleanedContent); // Decode Base64 -> String
@@ -767,7 +769,7 @@ document.getElementById('searchBar').addEventListener('input', (event) => {
       return fetch(`https://api.github.com/repos/RW-501/reelcareer/contents${filePath}.html`, {
         method: "PUT",
         headers: {
-          Authorization: `Bearer ${token}`,
+       //   Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
