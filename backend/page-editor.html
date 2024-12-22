@@ -779,7 +779,7 @@ let     sha ;
       return fetch(url, {
         method: "PUT",
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `token ${token}`,
         //  'Content-Type': 'application/json;charset=utf-8'
         },
         body: JSON.stringify({
