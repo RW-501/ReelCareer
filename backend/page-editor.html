@@ -112,6 +112,14 @@
     justify-content: space-around;
     align-items: center;
 }
+
+.pageCard {
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
     
     </style>
     </head>
@@ -248,7 +256,7 @@
 </div>
 
 <!-- Collapsible Sections -->
-<div id="page-html" class="card">
+<div id="page-html" class="pageCard">
     <div class="collapse-toggle" id="html-area-content">Toggle Content</div>
     <div class="card-content">
         <label for="extracted-content-html">Page HTML:</label>
@@ -259,7 +267,7 @@
     </div>
 </div>
 
-<div id="page-head" class="card collapsed">
+<div id="page-head" class="pageCard collapsed">
     <div class="collapse-toggle" id="head-area-content">Toggle Content</div>
     <div class="card-content">
         <label for="extracted-content-head">Page Head:</label>
@@ -270,7 +278,7 @@
     </div>
 </div>
 
-<div id="page-main" class="card collapsed">
+<div id="page-main" class="pageCard collapsed">
     <div class="collapse-toggle" id="main-area-content">Toggle Content</div>
     <div class="card-content">
         <label for="extracted-content-main">Page Main:</label>
@@ -281,7 +289,7 @@
     </div>
 </div>
 
-<div id="page-footer" class="card collapsed">
+<div id="page-footer" class="pageCard collapsed">
     <div class="collapse-toggle" id="footer-area-content">Toggle Content</div>
     <div class="card-content">
         <label for="extracted-content-footer">Page Footer:</label>
@@ -552,7 +560,7 @@ console.log("doc??????????   ",doc)
         // Collapsible toggle logic
         document.querySelectorAll('.collapse-toggle').forEach(toggle => {
             toggle.addEventListener('click', () => {
-                const card = toggle.closest('.card');
+                const card = toggle.closest('.pageCard');
                 if (card) card.classList.toggle('collapsed');
             });
         });
