@@ -132,6 +132,11 @@
     background-color: #f9f9f9;
 }
 
+.contentTag {
+    overflow-y: auto;
+    height: 100px;
+    resize: vertical;
+}
 
     </style>
     </head>
@@ -486,7 +491,7 @@
                 tagType = "Meta Content";
                 metas.forEach(meta => {
                     extractedContent += `
-                        <label for="meta-content">${tagType}: Meta Tag:</label>
+                        <label for="meta-content">${tagType}: ${metas.length} Tag:</label>
                         <textarea id="meta-content-${metas.length}" class="contentTag">${meta.outerHTML.trim()}</textarea>
                         <hr>
                     `;
@@ -499,7 +504,7 @@
                 tagType = "Link Content";
                 links.forEach(link => {
                     extractedContent += `
-                        <label for="link-content">${tagType}: Link Tag:</label>
+                        <label for="link-content">${tagType}: ${links.length} Tag:</label>
                         <textarea id="link-content-${links.length}" class="contentTag">${link.outerHTML.trim()}</textarea>
                         <hr>
                     `;
@@ -511,7 +516,7 @@
                 tagType = "Script Content";
                 scripts.forEach(script => {
                     extractedContent += `
-                        <label for="script-content">${tagType}: Script Tag:</label>
+                        <label for="script-content">${tagType}: ${scripts.length} Tag:</label>
                         <textarea id="script-content-${scripts.length}" class="contentTag">${script.outerHTML.trim()}</textarea>
                         <hr>
                     `;
@@ -523,7 +528,7 @@
                 tagType = "Style Content";
                 style.forEach(styling => {
                     extractedContent += `
-                        <label for="style-content">${tagType}: Style Tag:</label>
+                        <label for="style-content">${tagType}: ${style.length} Tag:</label>
                         <textarea id="style-content-${style.length}" class="contentTag">${styling.outerHTML.trim()}</textarea>
                         <hr>
                     `;
@@ -535,16 +540,16 @@
             if (navTags.length > 0) {
                 tagType = "Nav1 Content";
                 extractedContent += `
-                    <label for="nav1-content">${tagType}: Nav1 Tag:</label>
-                    <textarea id="nav1-content" class="contentTag">${navTags[0]?.outerHTML.trim()}</textarea>
+                    <label for="nav1-content">${tagType}: ${navTags.length} Tag:</label>
+                    <textarea id="nav1-content-${navTags.length}" class="contentTag">${navTags[0]?.outerHTML.trim()}</textarea>
                     <hr>
                 `;
             }
             if (navTags.length > 1) {
                 tagType = "Nav2 Content";
                 extractedContent += `
-                    <label for="nav2-content">${tagType}: Nav2 Tag:</label>
-                    <textarea id="nav2-content" class="contentTag">${navTags[1]?.outerHTML.trim()}</textarea>
+                    <label for="nav2-content">${tagType}: ${navTags.length} Tag:</label>
+                    <textarea id="nav2-content-${navTags.length}" class="contentTag">${navTags[1]?.outerHTML.trim()}</textarea>
                     <hr>
                 `;
             } else {
@@ -568,7 +573,7 @@
                 tagType = "Footer Content";
                 extractedContent += `
                     <label for="footer-content">${tagType}: Footer Tag:</label>
-                    <textarea id="footer-content" class="htmlOutput">${footerTag.outerHTML.trim()}</textarea>
+                    <textarea id="footer-content" class="contentTag">${footerTag.outerHTML.trim()}</textarea>
                     <hr>
                 `;
             }
