@@ -704,7 +704,7 @@ document.getElementById('searchBar').addEventListener('input', (event) => {
 
 
 
-
+        let isStopped = false;
         
         document.querySelectorAll('.update-content').forEach(button => {
     button.addEventListener('click', () => {
@@ -743,6 +743,8 @@ document.getElementById('searchBar').addEventListener('input', (event) => {
   .then(response => {
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
+    }else{
+        isStopped = true;
     }
     return response.json();
   })
@@ -755,6 +757,7 @@ document.getElementById('searchBar').addEventListener('input', (event) => {
        decodedContent = atob(cleanedContent); // Decode Base64 -> String
       console.log("Decoded Content:");
     } else {
+        isStopped = true;
       console.error("Error: Content is empty or missing");
     }
 
@@ -807,7 +810,7 @@ updateHeadTagOnGitHub(filePath, newHeadContent, token);
 
 
 
-let isStopped = false;
+
 
 document.querySelectorAll('.auto-update-content').forEach(button => {
     button.addEventListener('click', async function () {
