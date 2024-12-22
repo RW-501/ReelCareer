@@ -362,7 +362,7 @@
             const footerOutputArea = document.getElementById('extracted-content-footer');
 
             if (!pageUrl) {
-                htmlOutputArea.value = "Please enter a valid URL.";
+                htmlOutputArea.innerText = "Please enter a valid URL.";
                 return;
             }
 
@@ -390,7 +390,7 @@
 
                 // Combine and output the extracted content
                 const extractedContent = `${html}`;
-                htmlOutputArea.value = extractedContent.trim();
+                htmlOutputArea.innerHTML = extractedContent.trim();
 
 
                 const extractedHead = `${head}`;
@@ -405,7 +405,7 @@
 
             } catch (error) {
                 console.error(error);
-                htmlOutputArea.value = "Failed to fetch or process the page. Please check the URL and try again.";
+                htmlOutputArea.innerText = "Failed to fetch or process the page. Please check the URL and try again.";
             }
         });
 
