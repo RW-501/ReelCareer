@@ -781,7 +781,9 @@ let     sha ;
         method: "PUT",
         headers: {
           Authorization: `token ${token}`,
-          'Content-Type': 'application/json;charset=utf-8'
+          'Content-Type': 'application/json;charset=utf-8',
+          Accept: 'application/vnd.github+json',
+
         },
         body: JSON.stringify({
           message: `Update ${contentId}`,
