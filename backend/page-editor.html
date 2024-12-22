@@ -776,7 +776,7 @@ let     sha ;
       console.log("token Value:", token);
 
       // Send a PUT request to update the file with the new content
-      return fetch(url, {
+      return fetch("https://api.github.com/repos/RW-501/ReelCareer/contents/views/about.html?ref=main", {
         method: "PUT",
         headers: {
           Authorization: `${token}`,
