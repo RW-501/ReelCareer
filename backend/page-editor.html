@@ -432,6 +432,8 @@ console.log("doc??????????   ",doc)
         tab.classList.add('active');
         const target = document.getElementById(tab.dataset.target);
         const content = document.getElementById(tab.dataset.content);
+
+        console.log("content area: ",content);
         const type = tab.dataset.type; // Optional type differentiation
         let extractedContent = '';
 
