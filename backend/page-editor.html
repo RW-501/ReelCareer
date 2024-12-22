@@ -266,7 +266,10 @@
         <label for="extracted-content-html">Page HTML:</label>
         <div id="extracted-content-html" class="htmlOutput"></div>
         <div id="controls-page-html" class="controls">
-            Controls for Page HTML
+            <div class='text'> Controls for Page HTML</div>
+            <button data-content="html-area-content" class="update-content" style="margin-top: 10px; padding: 10px;">Update Content</button>
+
+
         </div>
     </div>
 </div>
@@ -277,7 +280,9 @@
         <label for="extracted-content-head">Page Head:</label>
         <div id="extracted-content-head" class="htmlOutput"></div>
         <div id="controls-page-head" class="controls">
-            Controls for Page Head
+            <div class='text'> Controls for Page Head</div>
+            <button data-content="head-area-content" class="update-content" style="margin-top: 10px; padding: 10px;">Update Content</button>
+
         </div>
     </div>
 </div>
@@ -288,7 +293,9 @@
         <label for="extracted-content-main">Page Main:</label>
         <div id="extracted-content-main" class="htmlOutput"></div>
         <div id="controls-page-main" class="controls">
-            Controls for Page Main
+            <div class='text'></div>Controls for Page Main</div>
+            <button data-content="main-area-content" class="update-content" style="margin-top: 10px; padding: 10px;">Update Content</button>
+
         </div>
     </div>
 </div>
@@ -299,7 +306,10 @@
         <label for="extracted-content-footer">Page Footer:</label>
         <div id="extracted-content-footer" class="htmlOutput"></div>
         <div id="controls-page-footer" class="controls">
-            Controls for Page Footer
+            <div class='text'>Controls for Page Footer</div>
+            <button data-content="footer-area-content" class="update-content" style="margin-top: 10px; padding: 10px;">Update Content</button>
+
+
         </div>
     </div>
 </div>
@@ -469,7 +479,7 @@
                 metas.forEach(meta => {
                     extractedContent += `
                         <label for="meta-content">${tagType}: Meta Tag:</label>
-                        <textarea id="meta-content" class="htmlOutput">${meta.outerHTML.trim()}</textarea>
+                        <textarea id="meta-content-${metas.length}" class="contentTag">${meta.outerHTML.trim()}</textarea>
                         <hr>
                     `;
                 });
@@ -482,7 +492,7 @@
                 links.forEach(link => {
                     extractedContent += `
                         <label for="link-content">${tagType}: Link Tag:</label>
-                        <textarea id="link-content" class="htmlOutput">${link.outerHTML.trim()}</textarea>
+                        <textarea id="link-content-${links.length}" class="contentTag">${link.outerHTML.trim()}</textarea>
                         <hr>
                     `;
                 });
@@ -494,7 +504,7 @@
                 scripts.forEach(script => {
                     extractedContent += `
                         <label for="script-content">${tagType}: Script Tag:</label>
-                        <textarea id="script-content" class="htmlOutput">${script.outerHTML.trim()}</textarea>
+                        <textarea id="script-content-${scripts.length}" class="contentTag">${script.outerHTML.trim()}</textarea>
                         <hr>
                     `;
                 });
@@ -506,7 +516,7 @@
                 style.forEach(styling => {
                     extractedContent += `
                         <label for="style-content">${tagType}: Style Tag:</label>
-                        <textarea id="style-content" class="htmlOutput">${styling.outerHTML.trim()}</textarea>
+                        <textarea id="style-content-${style.length}" class="contentTag">${styling.outerHTML.trim()}</textarea>
                         <hr>
                     `;
                 });
@@ -518,7 +528,7 @@
                 tagType = "Nav1 Content";
                 extractedContent += `
                     <label for="nav1-content">${tagType}: Nav1 Tag:</label>
-                    <textarea id="nav1-content" class="htmlOutput">${navTags[0]?.outerHTML.trim()}</textarea>
+                    <textarea id="nav1-content" class="contentTag">${navTags[0]?.outerHTML.trim()}</textarea>
                     <hr>
                 `;
             }
@@ -526,7 +536,7 @@
                 tagType = "Nav2 Content";
                 extractedContent += `
                     <label for="nav2-content">${tagType}: Nav2 Tag:</label>
-                    <textarea id="nav2-content" class="htmlOutput">${navTags[1]?.outerHTML.trim()}</textarea>
+                    <textarea id="nav2-content" class="contentTag">${navTags[1]?.outerHTML.trim()}</textarea>
                     <hr>
                 `;
             } else {
@@ -539,7 +549,7 @@
                 tagType = "Main Content";
                 extractedContent += `
                     <label for="main-content">${tagType}: Main Tag:</label>
-                    <textarea id="main-content" class="htmlOutput">${mainTag.outerHTML.trim()}</textarea>
+                    <textarea id="main-content" class="contentTag">${mainTag.outerHTML.trim()}</textarea>
                     <hr>
                 `;
             }
@@ -573,6 +583,34 @@
                 if (card) card.classList.toggle('collapsed');
             });
         });
+
+
+
+        document.querySelectorAll('.update-content').forEach(button => {
+    button.addEventListener('click', () => {
+        const contentId = button.dataset.content; // Get data-content value
+        const textareas = document.querySelectorAll(`textarea[data-content="${contentId}"]`); // Query all textareas
+
+        let combinedContent = '';
+
+        // Get values from each textarea and combine them
+        textareas.forEach(textarea => {
+            combinedContent += textarea.value + '\n'; // Add each value with a newline separator
+        });
+
+        // Log the combined content
+        console.log(`Content from ${contentId}:\n${combinedContent}`);
+    });
+});
+
+
+
+
+
+
+
+
+
     </script>
 </body>     
 
