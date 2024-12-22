@@ -708,7 +708,7 @@ document.getElementById('searchBar').addEventListener('input', (event) => {
         document.querySelectorAll('.update-content').forEach(button => {
     button.addEventListener('click', () => {
         const contentId = button.dataset.content; // Get data-content value
-        const contentTYPE = button.dataset.contentType;
+        const contentTYPE = button.dataset.contenttype;
         const target = document.getElementById(contentId);
         const textareas = target.querySelectorAll(`textarea`); // Query all textareas
 
@@ -797,7 +797,7 @@ document.querySelectorAll('.auto-update-content').forEach(button => {
     isStopped = false;
 
     // Get dataset.content-type and save to localStorage
-    const contentTYPE = button.dataset.contentType;
+    const contentTYPE = button.dataset.contenttype;
     localStorage.setItem('contentType', contentTYPE);
 
     // Save textarea value to localStorage
