@@ -289,7 +289,11 @@
 </div>
 
 <div id="page-head" class="pageCard collapsed">
+    <input type="text" id="searchBar" placeholder="Search meta tags..." />
+    <div id="metaTagsContainer">
     <div class="collapse-toggle" id="head-area-content">Toggle Content</div>
+    </div>
+    
     <div class="card-content">
         <label for="extracted-content-head">Page Head:</label>
         <div id="extracted-content-head" class="htmlOutput"></div>
@@ -301,14 +305,14 @@
     </div>
 </div>
 
-<div id="page-head" class="pageCard collapsed">
-    <div class="collapse-toggle" id="head-area-content">Toggle Content</div>
+<div id="page-main" class="pageCard collapsed">
+    <div class="collapse-toggle" id="main-area-content">Toggle Content</div>
     <div class="card-content">
-        <label for="extracted-content-head">Page Head:</label>
-        <div id="extracted-content-head" class="htmlOutput"></div>
-        <div id="controls-page-head" class="controls">
-            <div class='text'> Controls for Page Head</div>
-            <button data-content="head-area-content" class="update-content" style="margin-top: 10px; padding: 10px;">Update Content</button>
+        <label for="extracted-content-main">Page Main:</label>
+        <div id="extracted-content-main" class="htmlOutput"></div>
+        <div id="controls-page-main" class="controls">
+            <div class='text'> Controls for Page Main</div>
+            <button data-content="main-area-content" class="update-content" style="margin-top: 10px; padding: 10px;">Update Content</button>
 
         </div>
     </div>
@@ -506,63 +510,95 @@
         if (type === "head") {
 
            
-
-const metas = Array.from(htmlOutputArea.querySelectorAll('meta'));
+            const metas = Array.from(htmlOutputArea.querySelectorAll('meta'));
 if (metas.length > 0) {
     extractedContent += `
+
         <details>
             <summary>Meta Content (${metas.length} Tags)</summary>
-            ${metas.map((meta, index) => `
-                <label for="meta-content-${index}">Meta Tag ${index + 1}:</label>
-                <textarea id="meta-content-${index}" class="contentTag">${meta.outerHTML.trim()}</textarea>
-            `).join('<hr>')}
+            ${metas.map((meta, index) => {
+                // Get the name, property, or content attribute for the label
+                const metaName = meta.getAttribute('name') || meta.getAttribute('property') || 'Unnamed Meta';
+                const metaContent = meta.getAttribute('content') || 'No content';
+                return `
+                    <label for="meta-content-${index}">
+                        Meta Tag ${index + 1}: [${metaName}] - Content: "${metaContent}"
+                    </label>
+                    <textarea id="meta-content-${index}" class="contentTag">
+                        ${meta.outerHTML.trim()}
+                    </textarea>
+                `;
+            }).join('<hr>')}
         </details>
         <hr>
     `;
 }
 
+// Links
 const links = Array.from(htmlOutputArea.querySelectorAll('link'));
 if (links.length > 0) {
     extractedContent += `
         <details>
             <summary>Link Content (${links.length} Tags)</summary>
-            ${links.map((link, index) => `
-                <label for="link-content-${index}">Link Tag ${index + 1}:</label>
-                <textarea id="link-content-${index}" class="contentTag">${link.outerHTML.trim()}</textarea>
-            `).join('<hr>')}
+            ${links.map((link, index) => {
+                const rel = link.getAttribute('rel') || 'No rel';
+                const href = link.getAttribute('href') || 'No href';
+                return `
+                    <label for="link-content-${index}">
+                        Link Tag ${index + 1}: [rel="${rel}"] - href="${href}"
+                    </label>
+                    <textarea id="link-content-${index}" class="contentTag">
+                        ${link.outerHTML.trim()}
+                    </textarea>
+                `;
+            }).join('<hr>')}
         </details>
         <hr>
     `;
 }
 
+// Scripts
 const scripts = Array.from(htmlOutputArea.querySelectorAll('script'));
 if (scripts.length > 0) {
     extractedContent += `
         <details>
             <summary>Script Content (${scripts.length} Tags)</summary>
-            ${scripts.map((script, index) => `
-                <label for="script-content-${index}">Script Tag ${index + 1}:</label>
-                <textarea id="script-content-${index}" class="contentTag">${script.outerHTML.trim()}</textarea>
-            `).join('<hr>')}
+            ${scripts.map((script, index) => {
+                const src = script.getAttribute('src') || 'Inline Script';
+                return `
+                    <label for="script-content-${index}">
+                        Script Tag ${index + 1}: [src="${src}"]
+                    </label>
+                    <textarea id="script-content-${index}" class="contentTag">
+                        ${script.outerHTML.trim()}
+                    </textarea>
+                `;
+            }).join('<hr>')}
         </details>
         <hr>
     `;
 }
 
+// Styles
 const styles = Array.from(htmlOutputArea.querySelectorAll('style'));
 if (styles.length > 0) {
     extractedContent += `
         <details>
             <summary>Style Content (${styles.length} Tags)</summary>
-            ${styles.map((styling, index) => `
-                <label for="style-content-${index}">Style Tag ${index + 1}:</label>
-                <textarea id="style-content-${index}" class="contentTag">${styling.outerHTML.trim()}</textarea>
-            `).join('<hr>')}
+            ${styles.map((styling, index) => {
+                return `
+                    <label for="style-content-${index}">
+                        Style Tag ${index + 1}
+                    </label>
+                    <textarea id="style-content-${index}" class="contentTag">
+                        ${styling.outerHTML.trim()}
+                    </textarea>
+                `;
+            }).join('<hr>')}
         </details>
         <hr>
     `;
 }
-
 
         } else if (type === "nav") {
             const navTags = Array.from(htmlOutputArea.querySelectorAll('nav'));
@@ -648,6 +684,14 @@ if (styles.length > 0) {
 
 
 
+// Search functionality
+document.getElementById('searchBar').addEventListener('input', (event) => {
+    const query = event.target.value.toLowerCase();
+    const labels = document.querySelectorAll('#metaTagsContainer label');
+    labels.forEach(label => {
+        label.parentElement.style.display = label.textContent.toLowerCase().includes(query) ? '' : 'none';
+    });
+});
 
 
 
