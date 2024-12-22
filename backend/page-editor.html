@@ -26,6 +26,22 @@
     width: 100%;
     min-height: 200px;
 }
+.tab-switch-container {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #ccc;
+        }
+        .switch-tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border: 1px solid #ccc;
+            border-bottom: none;
+            background: #f1f1f1;
+        }
+        .switch-tab.active {
+            background: #fff;
+            font-weight: bold;
+        }
 
 .tab-container {
             display: flex;
@@ -277,7 +293,7 @@
         <div id="errorMessage" class="mt-4 text-danger" style="display: none;"></div>
     </div>
 
-    
+
 </main>
 
 
@@ -312,11 +328,14 @@
                 const doc = parser.parseFromString(htmlText, 'text/html');
 
 
+console.log("doc??????????   ",doc)
 
+                const html = doc.querySelector('html')?.outerHTML || 'No <html> found';
 
-                const html = doc.querySelector('html')?.outerHTML || 'No <body> found';
+                    console.log("html??????????   ",html)
 
-
+                    const body = doc.querySelector('body')?.outerHTML || 'No <body> found';
+                        console.log("body??????????   ",body)
 
                 // Extract desired elements
                 const head = doc.querySelector('head')?.outerHTML || 'No <head> found';
