@@ -21,11 +21,13 @@ console.log("userINFO: ", userINFO);
 const path = window.location.pathname;
   
 // Check if user is trying to access the backend/admin area
-const isBackendArea = path.includes('/backend') || path.includes('/backend/');
+const isBackendArea = path.includes('/backend');
 if (!isBackendArea) {
 handleAuthStateChanged(userINFO); // Call your function to handle authenticated user
 }
 
+
+checkLogin(userINFO); // Ensure login is valid on page load
 
 });
 

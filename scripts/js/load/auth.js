@@ -16,8 +16,6 @@ import {
 const user = getUserId;
   
 
-
-
 async function logoutUser() {
     try {
       await signOut(auth);
@@ -324,4 +322,4 @@ function redirectToLogin() {
   }
   window.initializeAutoLogout = initializeAutoLogout;
   
-  checkLogin(user); // Ensure login is valid on page load
+ 
