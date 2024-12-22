@@ -267,6 +267,7 @@
   <!-- Tabs -->
   <div class="tab-container">
     <div class="tab active" data-tab="page-html"  data-type="html"  data-content="html-area-content">Page HTML</div>
+    <div class="tab" data-tab="page-nav"  data-type="nav" data-content="nav-area-content">Page Nav</div>
     <div class="tab" data-tab="page-head"  data-type="head" data-content="head-area-content">Page Head</div>
     <div class="tab" data-tab="page-main"  data-type="main" data-content="main-area-content">Page Main</div>
     <div class="tab" data-tab="page-footer"  data-type="footer" data-content="footer-area-content">Page Footer</div>
@@ -300,14 +301,27 @@
     </div>
 </div>
 
-<div id="page-main" class="pageCard collapsed">
-    <div class="collapse-toggle" id="main-area-content">Toggle Content</div>
+<div id="page-head" class="pageCard collapsed">
+    <div class="collapse-toggle" id="head-area-content">Toggle Content</div>
     <div class="card-content">
-        <label for="extracted-content-main">Page Main:</label>
-        <div id="extracted-content-main" class="htmlOutput"></div>
-        <div id="controls-page-main" class="controls">
-            <div class='text'></div>Controls for Page Main</div>
-            <button data-content="main-area-content" class="update-content" style="margin-top: 10px; padding: 10px;">Update Content</button>
+        <label for="extracted-content-head">Page Head:</label>
+        <div id="extracted-content-head" class="htmlOutput"></div>
+        <div id="controls-page-head" class="controls">
+            <div class='text'> Controls for Page Head</div>
+            <button data-content="head-area-content" class="update-content" style="margin-top: 10px; padding: 10px;">Update Content</button>
+
+        </div>
+    </div>
+</div>
+
+<div id="page-nav" class="pageCard collapsed">
+    <div class="collapse-toggle" id="nav-area-content">Toggle Content</div>
+    <div class="card-content">
+        <label for="extracted-content-nav">Page Nav:</label>
+        <div id="extracted-content-nav" class="htmlOutput"></div>
+        <div id="controls-page-nav" class="controls">
+            <div class='text'></div>Controls for Page Nav</div>
+            <button data-content="nav-area-content" class="update-content" style="margin-top: 10px; padding: 10px;">Update Content</button>
 
         </div>
     </div>
@@ -376,7 +390,7 @@
 
     <script>
 
-        let html, head, main, footer;
+        let html, head, main, footer, nav;
         let htmlOutputArea;
 
         document.getElementById('fetch-content').addEventListener('click', async () => {
@@ -385,6 +399,7 @@
 
 
             const headOutputArea = document.getElementById('extracted-content-head');
+            const navOutputArea = document.getElementById('extracted-content-nav');
             const mainOutputArea = document.getElementById('extracted-content-main');
             const footerOutputArea = document.getElementById('extracted-content-footer');
 
@@ -410,8 +425,9 @@
                     const body = doc.querySelector('body')?.outerHTML || 'No <body> found';
 
                 // Extract desired elements
-                 head = doc.querySelector('head')?.outerHTML || 'No <head> found';
-                 main = doc.querySelector('main')?.outerHTML || 'No <main> found';
+                head = doc.querySelector('head')?.outerHTML || 'No <head> found';
+                    nav = doc.querySelector('nav')?.outerHTML || 'No <nav> found';
+                        main = doc.querySelector('main')?.outerHTML || 'No <main> found';
                  footer = doc.querySelector('footer')?.outerHTML || 'No <footer> found';
 
 
@@ -419,6 +435,9 @@
                 const extractedContent = `${html}`;
                 htmlOutputArea.innerHTML = extractedContent.trim();
 
+
+                const extractedNav = `${nav}`;
+                navOutputArea.innerText = extractedNav.trim();
 
                 const extractedHead = `${head}`;
                 headOutputArea.innerText = extractedHead.trim();
@@ -486,54 +505,64 @@
 
         if (type === "head") {
 
-            const metas = Array.from(htmlOutputArea.querySelectorAll('meta'));
-            if (metas.length > 0) {
-                tagType = "Meta Content";
-                metas.forEach(meta => {
-                    extractedContent += `
-                        <label for="meta-content">${tagType}: ${metas.length} Tag:</label>
-                        <textarea id="meta-content-${metas.length}" class="contentTag">${meta.outerHTML.trim()}</textarea>
-                        <hr>
-                    `;
-                });
-            }
-           // console.log("content area: ",content);
+           
 
-            const links = Array.from(htmlOutputArea.querySelectorAll('link'));
-            if (links.length > 0) {
-                tagType = "Link Content";
-                links.forEach(link => {
-                    extractedContent += `
-                        <label for="link-content">${tagType}: ${links.length} Tag:</label>
-                        <textarea id="link-content-${links.length}" class="contentTag">${link.outerHTML.trim()}</textarea>
-                        <hr>
-                    `;
-                });
-            }
+const metas = Array.from(htmlOutputArea.querySelectorAll('meta'));
+if (metas.length > 0) {
+    extractedContent += `
+        <details>
+            <summary>Meta Content (${metas.length} Tags)</summary>
+            ${metas.map((meta, index) => `
+                <label for="meta-content-${index}">Meta Tag ${index + 1}:</label>
+                <textarea id="meta-content-${index}" class="contentTag">${meta.outerHTML.trim()}</textarea>
+            `).join('<hr>')}
+        </details>
+        <hr>
+    `;
+}
 
-            const scripts = Array.from(htmlOutputArea.querySelectorAll('script'));
-            if (scripts.length > 0) {
-                tagType = "Script Content";
-                scripts.forEach(script => {
-                    extractedContent += `
-                        <label for="script-content">${tagType}: ${scripts.length} Tag:</label>
-                        <textarea id="script-content-${scripts.length}" class="contentTag">${script.outerHTML.trim()}</textarea>
-                        <hr>
-                    `;
-                });
-            }
+const links = Array.from(htmlOutputArea.querySelectorAll('link'));
+if (links.length > 0) {
+    extractedContent += `
+        <details>
+            <summary>Link Content (${links.length} Tags)</summary>
+            ${links.map((link, index) => `
+                <label for="link-content-${index}">Link Tag ${index + 1}:</label>
+                <textarea id="link-content-${index}" class="contentTag">${link.outerHTML.trim()}</textarea>
+            `).join('<hr>')}
+        </details>
+        <hr>
+    `;
+}
 
-            const style = Array.from(htmlOutputArea.querySelectorAll('style'));
-            if (style.length > 0) {
-                tagType = "Style Content";
-                style.forEach(styling => {
-                    extractedContent += `
-                        <label for="style-content">${tagType}: ${style.length} Tag:</label>
-                        <textarea id="style-content-${style.length}" class="contentTag">${styling.outerHTML.trim()}</textarea>
-                        <hr>
-                    `;
-                });
-            }
+const scripts = Array.from(htmlOutputArea.querySelectorAll('script'));
+if (scripts.length > 0) {
+    extractedContent += `
+        <details>
+            <summary>Script Content (${scripts.length} Tags)</summary>
+            ${scripts.map((script, index) => `
+                <label for="script-content-${index}">Script Tag ${index + 1}:</label>
+                <textarea id="script-content-${index}" class="contentTag">${script.outerHTML.trim()}</textarea>
+            `).join('<hr>')}
+        </details>
+        <hr>
+    `;
+}
+
+const styles = Array.from(htmlOutputArea.querySelectorAll('style'));
+if (styles.length > 0) {
+    extractedContent += `
+        <details>
+            <summary>Style Content (${styles.length} Tags)</summary>
+            ${styles.map((styling, index) => `
+                <label for="style-content-${index}">Style Tag ${index + 1}:</label>
+                <textarea id="style-content-${index}" class="contentTag">${styling.outerHTML.trim()}</textarea>
+            `).join('<hr>')}
+        </details>
+        <hr>
+    `;
+}
+
 
         } else if (type === "nav") {
             const navTags = Array.from(htmlOutputArea.querySelectorAll('nav'));
