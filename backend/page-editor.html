@@ -285,6 +285,15 @@ details[open] summary {
     <div class="tab" data-tab="page-footer"  data-type="footer" data-content="footer-area-content">Page Footer</div>
 </div>
 
+<div class="container">
+<button id="stop-update">Stop</button>
+<button id="reset-storage">Reset</button>
+<div id="progress-area">
+    <p>Content Type: <span id="current-content-type">None</span></p>
+    <p>Progress: <span id="progress-tracker">0</span> / <span id="total-count">0</span></p>
+</div>
+</div>
+
 <!-- Collapsible Sections -->
 <div id="page-html" class="pageCard">
     <div class="area-content" id="html-area-content">Toggle Content</div>
@@ -295,6 +304,7 @@ details[open] summary {
             <div class='text'> Controls for Page HTML</div>
             <button data-content="html-area-content" class="update-content" style="margin-top: 10px; padding: 10px;">Update Content</button>
 
+            
 
         </div>
     </div>
@@ -312,6 +322,7 @@ details[open] summary {
         <div id="controls-page-head" class="controls">
             <div class='text'> Controls for Page Head</div>
             <button data-content="head-area-content" class="update-content" style="margin-top: 10px; padding: 10px;">Update Content</button>
+            <button class="auto-update-content" data-content-type="head">Start Auto Update</button>
 
         </div>
     </div>
@@ -325,6 +336,7 @@ details[open] summary {
         <div id="controls-page-main" class="controls">
             <div class='text'> Controls for Page Main</div>
             <button data-content="main-area-content" class="update-content" style="margin-top: 10px; padding: 10px;">Update Content</button>
+            <button class="auto-update-content" data-content-type="main">Start Auto Update</button>
 
         </div>
     </div>
@@ -338,6 +350,7 @@ details[open] summary {
         <div id="controls-page-nav" class="controls">
             <div class='text'></div>Controls for Page Nav</div>
             <button data-content="nav-area-content" class="update-content" style="margin-top: 10px; padding: 10px;">Update Content</button>
+            <button class="auto-update-content" data-content-type="nav">Start Auto Update</button>
 
         </div>
     </div>
@@ -351,6 +364,7 @@ details[open] summary {
         <div id="controls-page-footer" class="controls">
             <div class='text'>Controls for Page Footer</div>
             <button data-content="footer-area-content" class="update-content" style="margin-top: 10px; padding: 10px;">Update Content</button>
+            <button class="auto-update-content" data-content-type="footer">Start Auto Update</button>
 
 
         </div>
@@ -716,46 +730,81 @@ document.getElementById('searchBar').addEventListener('input', (event) => {
 
 
 
+let isStopped = false;
 
-function cycleSelectValues(selectId) {
-    const selectElement = document.getElementById(selectId);
-    if (!selectElement) {
-        console.error("Select element not found");
-        return;
-    }
+document.querySelector('.auto-update-content').addEventListener('click', async function () {
+    isStopped = false;
 
-    let currentIndex = 0;
+    // Get dataset.content-type and save to localStorage
+    const contentType = this.dataset.contentType;
+    localStorage.setItem('contentType', contentType);
 
-    function updateSelection() {
-        // Set the current index as selected
-        selectElement.selectedIndex = currentIndex;
+    // Save textarea value to localStorage
+    const updateContentValue = document.getElementById('updateContent').value;
+    localStorage.setItem('updateContent', updateContentValue);
+
+    // Get selected page URL and save to localStorage
+    const pageUrlSelect = document.getElementById('page-url');
+    const pageOptions = Array.from(pageUrlSelect.options);
+    const totalCount = pageOptions.length;
+    let completedCount = 0;
+
+    document.getElementById('total-count').textContent = totalCount;
+
+    for (let i = 0; i < pageOptions.length; i++) {
+        if (isStopped) break;
+
+        // Update progress
+        pageUrlSelect.selectedIndex = i;
+        localStorage.setItem('pageUrl', pageUrlSelect.value);
+
+        document.getElementById('progress-tracker').textContent = completedCount + 1;
+        document.getElementById('current-content-type').textContent = contentType;
+
+        // Simulate fetch-content button clicks
+        document.getElementById('fetch-content').click();
+        document.getElementById('fetch-content').click();
+
+        await new Promise(resolve => setTimeout(resolve, 2000));
+
+        // Get localStorage values and perform actions
+        const storedContentType = localStorage.getItem('contentType');
+        const storedContent = localStorage.getItem('updateContent');
         
-        // Get the value of the current option
-        const selectedValue = selectElement.options[currentIndex].value;
-        console.log("Current Value:", selectedValue);
+        // Perform actions based on storedContentType
+        const pageButton = document.getElementById(`page-${storedContentType}`);
+        if (pageButton) pageButton.click();
 
-        // Move to the next index
-        currentIndex++;
-
-        // If we reach the end of the options, stop the cycling
-        if (currentIndex >= selectElement.options.length) {
-            console.log("Finished cycling through options.");
-            return;
+        const contentArea = document.getElementById(`content-${storedContentType}`);
+        if (contentArea) {
+            contentArea.value = storedContent;
         }
 
-        // Call the function again after 3 seconds
-        setTimeout(updateSelection, 3000);
+        const updateContentButton = document.querySelector(`.update-content[data-content="${storedContentType}-area-content"]`);
+        if (updateContentButton) {
+            updateContentButton.click();
+        }
+
+        await new Promise(resolve => setTimeout(resolve, 2000));
+
+        completedCount++;
     }
 
-    // Start the cycle
-    updateSelection();
-}
+    alert("Update Process Completed!");
+});
 
-// Usage
-cycleSelectValues("page-url");
+// Stop Button Functionality
+document.getElementById('stop-update').addEventListener('click', function () {
+    isStopped = true;
+});
 
-
-
+// Reset Button Functionality
+document.getElementById('reset-storage').addEventListener('click', function () {
+    localStorage.clear();
+    document.getElementById('progress-tracker').textContent = '0';
+    document.getElementById('current-content-type').textContent = 'None';
+    alert("Local storage has been reset.");
+});
 
     </script>
 </body>     
