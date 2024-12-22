@@ -772,7 +772,7 @@ document.getElementById('searchBar').addEventListener('input', (event) => {
       return fetch(`https://api.github.com/repos/RW-501/ReelCareer/contents${filePath}.html`, {
         method: "PUT",
         headers: {
-       //   Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
