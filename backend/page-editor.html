@@ -779,7 +779,7 @@ let     sha ;
       return fetch(url, {
         method: "PUT",
         headers: {
-         // Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
@@ -790,6 +790,7 @@ let     sha ;
       });
     })
     .then(response => response.json())
+    
     .then(updatedData => {
       console.log("File updated successfully");
     })
@@ -806,8 +807,8 @@ const filePath = urlObj.pathname;
 console.log("path: ",filePath);  // Output: "/path/to/file.html"
 
 const newHeadContent = combinedContent;  // Your new <head> content
-const token = "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";  // Your GitHub Personal Access Token
-
+//const token = "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";  // Your GitHub Personal Access Token
+const token = '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';
 updateHeadTagOnGitHub(filePath, newHeadContent, token);
 
 
