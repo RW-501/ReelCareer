@@ -424,10 +424,26 @@
 
         if (activeTab) activeTab.classList.remove('active');
         if (activeCard) activeCard.classList.remove('active');
-
-        // Add 'active' class to the clicked tab and corresponding content
-        tab.classList.add('active');
         const target = document.getElementById(tab.dataset.target);
+
+      
+        // Activate the target container
+        if (target) target.classList.add('active');
+    });
+});
+
+
+
+              // Tab switching logic
+              document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                const activeTab = document.querySelector('.tab.active');
+                const activeCard = document.querySelector('.pageCard:not(.collapsed)');
+                
+                if (activeTab) activeTab.classList.remove('active');
+                if (activeCard) activeCard.classList.add('collapsed');
+                  // Add 'active' class to the clicked tab and corresponding content
+        tab.classList.add('active');
         const content = document.getElementById(tab.dataset.content);
 
         console.log("content area: ",content);
@@ -535,22 +551,6 @@ console.log("type: ",type);
         // Inject the extracted content into the target container
         if (content) content.innerHTML = extractedContent;
 
-        // Activate the target container
-        if (target) target.classList.add('active');
-    });
-});
-
-
-
-              // Tab switching logic
-              document.querySelectorAll('.tab').forEach(tab => {
-            tab.addEventListener('click', () => {
-                const activeTab = document.querySelector('.tab.active');
-                const activeCard = document.querySelector('.pageCard:not(.collapsed)');
-                
-                if (activeTab) activeTab.classList.remove('active');
-                if (activeCard) activeCard.classList.add('collapsed');
-                
                 tab.classList.add('active');
                 const target = document.getElementById(tab.dataset.tab);
                 if (target) target.classList.remove('collapsed');
