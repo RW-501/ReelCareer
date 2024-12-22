@@ -776,7 +776,7 @@ let     sha ;
       //const token = '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';
 
       // Send a PUT request to update the file with the new content
-      return fetch(url, {
+      return fetch('https://api.github.com/repos/RW-501/ReelCareer/contents/views/about.html', {
         method: "PUT",
         headers: {
          // Authorization: `Bearer ${token}`,
