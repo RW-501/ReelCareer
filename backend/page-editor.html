@@ -120,7 +120,11 @@
     border-radius: 5px;
     background-color: #f9f9f9;
 }
-    
+.card-content {
+    width: 400px;
+    height: 300px;
+    overflow-y: scroll;
+}
     </style>
     </head>
 
@@ -442,25 +446,22 @@
                 const activeTab = document.querySelector('.tab.active');
                 const activeCard = document.querySelector('.pageCard:not(.collapsed)');
                
-                console.log("?????????????????: ");
 
+                
                 if (activeTab) activeTab.classList.remove('active');
                 if (activeCard) activeCard.classList.add('collapsed');
                   // Add 'active' class to the clicked tab and corresponding content
      //   tab.classList.add('active');
         const content = document.getElementById(activeTab.dataset.content);
 
-        console.log("content area: ",content);
         const type = tab.dataset.type; // Optional type differentiation
         let extractedContent = '';
 
         // Determine tags to extract based on type
         let tagsToExtract = [];
         let tagType = '';
-        console.log("htmlOutputArea: ",htmlOutputArea.innerHTML);
 
         if (type === "head") {
-            console.log("????? Head  ????: ");
 
             const metas = Array.from(htmlOutputArea.querySelectorAll('meta'));
             if (metas.length > 0) {
@@ -473,6 +474,7 @@
                     `;
                 });
             }
+           // console.log("content area: ",content);
 
             const links = Array.from(htmlOutputArea.querySelectorAll('link'));
             if (links.length > 0) {
@@ -553,8 +555,8 @@
                 `;
             }
         }
-console.log("type: ",type);
-        console.log("content.innerHTML ",content.innerHTML);
+
+
         // Inject the extracted content into the target container
         if (content) content.innerHTML = extractedContent;
 
