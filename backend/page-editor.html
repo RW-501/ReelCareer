@@ -320,7 +320,7 @@ details[open] summary {
         <div id="extracted-content-head" class="htmlOutput"></div>
         <div id="controls-page-head" class="controls">
             <div class='text'> Controls for Page Head</div>
-            <button data-content="head-area-content" class="update-content" style="margin-top: 10px; padding: 10px;">Update Content</button>
+            <button data-content="head-area-content"  data-content-type="head" class="update-content" style="margin-top: 10px; padding: 10px;">Update Content</button>
             <button class="auto-update-content" data-content-type="head">Start Auto Update</button>
 
         </div>
@@ -334,7 +334,7 @@ details[open] summary {
         <div id="extracted-content-main" class="htmlOutput"></div>
         <div id="controls-page-main" class="controls">
             <div class='text'> Controls for Page Main</div>
-            <button data-content="main-area-content" class="update-content" style="margin-top: 10px; padding: 10px;">Update Content</button>
+            <button data-content="main-area-content"  data-content-type="main" class="update-content" style="margin-top: 10px; padding: 10px;">Update Content</button>
             <button class="auto-update-content" data-content-type="main">Start Auto Update</button>
 
         </div>
@@ -348,7 +348,7 @@ details[open] summary {
         <div id="extracted-content-nav" class="htmlOutput"></div>
         <div id="controls-page-nav" class="controls">
             <div class='text'></div>Controls for Page Nav</div>
-            <button data-content="nav-area-content" class="update-content" style="margin-top: 10px; padding: 10px;">Update Content</button>
+            <button data-content="nav-area-content"  data-content-type="nav" class="update-content" style="margin-top: 10px; padding: 10px;">Update Content</button>
             <button class="auto-update-content" data-content-type="nav">Start Auto Update</button>
 
         </div>
@@ -362,7 +362,7 @@ details[open] summary {
         <div id="extracted-content-footer" class="htmlOutput"></div>
         <div id="controls-page-footer" class="controls">
             <div class='text'>Controls for Page Footer</div>
-            <button data-content="footer-area-content" class="update-content" style="margin-top: 10px; padding: 10px;">Update Content</button>
+            <button data-content="footer-area-content"  data-content-type="footer" class="update-content" style="margin-top: 10px; padding: 10px;">Update Content</button>
             <button class="auto-update-content" data-content-type="footer">Start Auto Update</button>
 
 
@@ -708,6 +708,7 @@ document.getElementById('searchBar').addEventListener('input', (event) => {
         document.querySelectorAll('.update-content').forEach(button => {
     button.addEventListener('click', () => {
         const contentId = button.dataset.content; // Get data-content value
+        const contentType = button.dataset.content.type;
         const target = document.getElementById(contentId);
         const textareas = target.querySelectorAll(`textarea`); // Query all textareas
 
@@ -722,8 +723,66 @@ document.getElementById('searchBar').addEventListener('input', (event) => {
         document.getElementById("updateContent").innerText = combinedContent;
 
         
+
+
         // Log the combined content
-        console.log(`Content from ${contentId}:\n${combinedContent}`);
+        console.log(`Content Type: ${contentType}. \n Content ${contentId}:\n${combinedContent}`);
+
+        const updateHeadTagOnGitHub = (filePath, newHeadContent, token) => {
+  // Fetch the current HTML file from GitHub
+  fetch(`https://api.github.com/repos/RW-501/ReelCareer/contents/${filePath}`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+  })
+    .then(response => response.json())
+    .then(data => {
+      const sha = data.sha;  // Get the sha of the current file
+      const content = atob(data.content);  // Decode the file content (Base64 -> String)
+      
+      // Create a regex to match the <head> section and replace it
+      const updatedContent = content.replace(`/<${contentType}[^>]*>([\s\S]*?)<\/${contentType}>/`, `<${contentType}>${newHeadContent}</${contentType}>`);
+      
+      // Base64 encode the updated content
+      const encodedContent = btoa(updatedContent);
+      
+      // Send a PUT request to update the file with the new content
+      return fetch(`https://api.github.com/repos/RW-501/ReelCareer/contents/${filePath}`, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          message: `Update ${contentId}`,
+          content: encodedContent,
+          sha: sha,  // Include the sha of the file to update it
+        }),
+      });
+    })
+    .then(response => response.json())
+    .then(updatedData => {
+      console.log("File updated successfully", updatedData);
+    })
+    .catch(error => console.error("Error updating file:", error));
+};
+
+
+// Create a URL object
+const urlObj = new URL(pageUrl);
+
+// Get the pathname (file path)
+const filePath = urlObj.pathname;
+
+console.log(filePath);  // Output: "/path/to/file.html"const newHeadContent = combinedContent;  // Your new <head> content
+const token = "your_personal_access_token";  // Your GitHub Personal Access Token
+
+//updateHeadTagOnGitHub(filePath, newHeadContent, token);
+
+
+
     });
 });
 
