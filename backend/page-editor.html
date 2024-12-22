@@ -375,15 +375,13 @@
                 const doc = parser.parseFromString(htmlText, 'text/html');
 
 
-console.log("doc??????????   ",doc)
-
+                
                  html = doc.querySelector('html')?.outerHTML || 'No <html> found';
 
-                    console.log("html??????????   ",html)
-
+                
                     const body = doc.querySelector('body')?.outerHTML || 'No <body> found';
-                        console.log("body??????????   ",body)
 
+                        
                 // Extract desired elements
                  head = doc.querySelector('head')?.outerHTML || 'No <head> found';
                  main = doc.querySelector('main')?.outerHTML || 'No <main> found';
