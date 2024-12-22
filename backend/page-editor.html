@@ -774,8 +774,7 @@ let     sha ;
       const encodedContent = btoa(updatedContent);
 
       //const token = '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';
-      console.log("SHA Value:", sha);
-      console.log("token Value:", token);
+
       // Send a PUT request to update the file with the new content
       return fetch(url, {
         method: "PUT",
@@ -795,6 +794,10 @@ let     sha ;
     .then(response => response.json())
     
     .then(updatedData => {
+        console.log("response:", response);
+        console.log("updatedData:", updatedData);
+        console.log("SHA Value:", sha);
+        console.log("token Value:", token);
       console.log("File updated successfully");
     })
     .catch(error => console.error("Error updating file:", error));
