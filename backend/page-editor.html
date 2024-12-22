@@ -731,18 +731,22 @@ document.getElementById('searchBar').addEventListener('input', (event) => {
 
         const updateHeadTagOnGitHub = (filePath, newHeadContent, token) => {
   // Fetch the current HTML file from GitHub
-  fetch(`https://api.github.com/repos/RW-501/ReelCareer/contents${filePath}.html`, {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
-  })
-    .then(response => response.json())
-    .then(data => {
-      const sha = data.sha;  // Get the sha of the current file
-      const content = atob(data.content);  // Decode the file content (Base64 -> String)
-      
+  fetch(`https://api.github.com/repos/RW-501/ReelCareer/contents/${filePath}.html`, {
+  method: "GET",
+  headers: {
+    Authorization: `Bearer ${token}`,
+    "Content-Type": "application/json",
+  },
+})
+  .then(response => response.json())
+  .then(data => {
+    if (data.content) {
+      const cleanedContent = data.content.replace(/\n/g, ""); // Remove line breaks
+      const decodedContent = atob(cleanedContent); // Decode Base64 -> String
+      console.log("Decoded Content:", decodedContent);
+    } else {
+      console.error("Error: Content is empty or missing");
+    }
       // Create a regex to match the <head> section and replace it
       const updatedContent = content.replace(`/<${contentTYPE}[^>]*>([\s\S]*?)<\/${contentTYPE}>/`, `<${contentTYPE}>${newHeadContent}</${contentTYPE}>`);
       
