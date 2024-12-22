@@ -17,7 +17,12 @@
 </head>
 
 <body>
-    
+    <style>
+        * {
+    user-select: auto;
+    box-sizing: border-box;
+}
+    </style>
     <script defer src="https://reelcareer.co/backend/js/admin.js"></script>
 
    <!-- Navbar section -->
@@ -82,6 +87,56 @@
 </nav>    <div class="container mt-4">
         <h1>Page Editor</h1>
 
+
+
+        <div class="card mb-4">
+
+
+            <select id="page-url" onchange="window.location.href=this.value">
+                <option value="" disabled selected>Select a URL</option>
+                <option value="https://reelcareer.co/">Home</option>
+                <option value="https://reelcareer.co/job-listings">Job Listings</option>
+                <option value="https://reelcareer.co/job-listings/">Job Listings (Alternate)</option>
+                <option value="https://reelcareer.co/reels">Reels</option>
+                <option value="https://reelcareer.co/views/membership">Membership</option>
+                <option value="https://reelcareer.co/views/blogs">Blogs</option>
+                <option value="https://reelcareer.co/u/">User Dashboard</option>
+                <option value="https://reelcareer.co/u/create">Create User</option>
+                <option value="https://reelcareer.co/u/messaging">Messaging</option>
+                <option value="https://reelcareer.co/u/seeker/">Job Seeker</option>
+                <option value="https://reelcareer.co/u/recuiter/">Recruiter</option>
+                <option value="https://reelcareer.co/views/about">About</option>
+                <option value="https://reelcareer.co/views/contact">Contact</option>
+                <option value="https://reelcareer.co/views/privacy">Privacy Policy</option>
+                <option value="https://reelcareer.co/views/terms">Terms and Conditions</option>
+                <option value="https://reelcareer.co/views/news">News</option>
+                <option value="https://reelcareer.co/views/Personality-&-Trait-Tests">Personality & Trait Tests</option>
+                <option value="https://reelcareer.co/views/faq">FAQ</option>
+                <option value="https://reelcareer.co/bot">Bot</option>
+                <option value="https://reelcareer.co/support">Support</option>
+                <option value="https://reelcareer.co/views/referral">Referral</option>
+                <option value="https://reelcareer.co/jobs/city">Jobs by City</option>
+                <option value="https://reelcareer.co/jobs/state">Jobs by State</option>
+                <option value="https://reelcareer.co/jobs/locations">Jobs by Locations</option>
+                <option value="https://reelcareer.co/images/intro.MP4">Intro Video</option>
+                <option value="https://reelcareer.co/images/sq_logo_n_BG_tie_reelx.png">Logo</option>
+                <option value="https://reelcareer.co/views/auth">Auth Page</option>
+                <option value="https://reelcareer.co/views/auth#">Auth Page (Section)</option>
+                <option value="https://reelcareer.co/views/Forgot-Password">Forgot Password</option>
+                <option value="https://reelcareer.co/views/news#submission">News Submission</option>
+                <option value="https://reelcareer.co/views/news#news-feed">News Feed</option>
+                <option value="https://reelcareer.co/views/news#">News Section</option>
+                <option value="https://reelcareer.co/support/getting-started">Support: Getting Started</option>
+                <option value="https://reelcareer.co/support/troubleshooting">Support: Troubleshooting</option>
+                <option value="https://reelcareer.co/bot/#">Bot Section</option>
+              </select>
+              <div class="container">
+                <button id="fetch-content" style="margin-top: 10px; padding: 10px;">Fetch Content</button>
+              </div>
+
+
+
+</div>
         <!-- Create New Page Form -->
         <div class="card mb-4">
             <div class="card-body">
@@ -95,6 +150,13 @@
                 </form>
             </div>
         </div>
+
+<div class="container">
+    <textarea id="extracted-content" ></textarea>
+</div>
+
+
+
 
         <!-- Tabs for Pages -->
         <ul class="nav nav-tabs" id="pageTabs" role="tablist"></ul>
@@ -110,8 +172,59 @@
     <!-- Footer -->
     <footer id="dynamic-footer"></footer>
     
-    <!-- Firebase configuration/ Login& Out -->
-     
+
+    <script>
+        document.getElementById('fetch-content').addEventListener('click', async () => {
+            const pageUrl = document.getElementById('page-url').value;
+            const outputArea = document.getElementById('extracted-content');
+
+            if (!pageUrl) {
+                outputArea.value = "Please enter a valid URL.";
+                return;
+            }
+
+            try {
+                // Fetch the HTML content of the provided page URL
+                const response = await fetch(pageUrl);
+                const htmlText = await response.text();
+
+                // Create a DOM parser to extract elements
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(htmlText, 'text/html');
+
+                // Extract desired elements
+                const header = doc.querySelector('header')?.outerHTML || 'No <header> found';
+                const navTags = Array.from(doc.querySelectorAll('nav'));
+                const nav1 = navTags[0]?.outerHTML || 'No <nav> found';
+                const nav2 = navTags[1]?.outerHTML || 'No second <nav> found';
+                const main = doc.querySelector('main')?.outerHTML || 'No <main> found';
+                const footer = doc.querySelector('footer')?.outerHTML || 'No <footer> found';
+
+                // Combine and output the extracted content
+                const extractedContent = `
+Header:
+${header}
+
+First Nav:
+${nav1}
+
+Second Nav:
+${nav2}
+
+Main:
+${main}
+
+Footer:
+${footer}
+                `;
+                outputArea.value = extractedContent.trim();
+            } catch (error) {
+                console.error(error);
+                outputArea.value = "Failed to fetch or process the page. Please check the URL and try again.";
+            }
+        });
+    </script>
+</body>     
 
     <!-- Firebase JS SDK and Custom Scripts -->
 
