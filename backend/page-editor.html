@@ -773,7 +773,7 @@ let     sha ;
       // Base64 encode the updated content
       const encodedContent = btoa(updatedContent);
 
-      const token = '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';
+      //const token = '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';
       console.log("SHA Value:", sha);
       console.log("token Value:", token);
       // Send a PUT request to update the file with the new content
@@ -811,7 +811,7 @@ console.log("path: ",filePath);  // Output: "/path/to/file.html"
 
 const newHeadContent = combinedContent;  // Your new <head> content
     //const token = "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";
-const token = "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";  // Your GitHub Personal Access Token
+const token = "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";  // Your GitHub Personal Access Token
 updateHeadTagOnGitHub(filePath, newHeadContent, token);
 
 
