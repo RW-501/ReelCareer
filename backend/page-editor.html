@@ -733,7 +733,7 @@ document.getElementById('searchBar').addEventListener('input', (event) => {
         let decodedContent;
         const updateHeadTagOnGitHub = (filePath, newHeadContent, token) => {
   // Fetch the current HTML file from GitHub
-  fetch(`https://api.github.com/repos/RW-501/ReelCareer/contents/views/about.html`, {
+  fetch(`https://api.github.com/repos/RW-501/ReelCareer/contents/views/about.html?ref=main`, {
   method: "GET",
   headers: {
     Authorization: `Bearer ${token}`,
