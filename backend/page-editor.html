@@ -708,7 +708,7 @@ document.getElementById('searchBar').addEventListener('input', (event) => {
         document.querySelectorAll('.update-content').forEach(button => {
     button.addEventListener('click', () => {
         const contentId = button.dataset.content; // Get data-content value
-        const contentType = button.dataset.contentType;
+        const contentTYPE = button.dataset.contentType;
         const target = document.getElementById(contentId);
         const textareas = target.querySelectorAll(`textarea`); // Query all textareas
 
@@ -726,7 +726,7 @@ document.getElementById('searchBar').addEventListener('input', (event) => {
 
 
         // Log the combined content
-        console.log(`Content Type: ${contentType}. \n Content ${contentId} \n${combinedContent}`);
+        console.log(`Content Type: ${contentTYPE}. \n Content ${contentId} \n${combinedContent}`);
 
         const updateHeadTagOnGitHub = (filePath, newHeadContent, token) => {
   // Fetch the current HTML file from GitHub
@@ -743,7 +743,7 @@ document.getElementById('searchBar').addEventListener('input', (event) => {
       const content = atob(data.content);  // Decode the file content (Base64 -> String)
       
       // Create a regex to match the <head> section and replace it
-      const updatedContent = content.replace(`/<${contentType}[^>]*>([\s\S]*?)<\/${contentType}>/`, `<${contentType}>${newHeadContent}</${contentType}>`);
+      const updatedContent = content.replace(`/<${contentTYPE}[^>]*>([\s\S]*?)<\/${contentTYPE}>/`, `<${contentTYPE}>${newHeadContent}</${contentTYPE}>`);
       
       // Base64 encode the updated content
       const encodedContent = btoa(updatedContent);
@@ -797,8 +797,8 @@ document.querySelectorAll('.auto-update-content').forEach(button => {
     isStopped = false;
 
     // Get dataset.content-type and save to localStorage
-    const contentType = button.dataset.contentType;
-    localStorage.setItem('contentType', contentType);
+    const contentTYPE = button.dataset.contentType;
+    localStorage.setItem('contentType', contentTYPE);
 
     // Save textarea value to localStorage
     const updateContentValue = document.getElementById('updateContent').value;
@@ -820,7 +820,7 @@ document.querySelectorAll('.auto-update-content').forEach(button => {
         localStorage.setItem('pageUrl', pageUrlSelect.value);
 
         document.getElementById('progress-tracker').textContent = completedCount + 1;
-        document.getElementById('current-content-type').textContent = contentType;
+        document.getElementById('current-content-type').textContent = contentTYPE;
 
         // Simulate fetch-content button clicks
         document.getElementById('fetch-content').click();
