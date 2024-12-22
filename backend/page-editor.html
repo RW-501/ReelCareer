@@ -350,11 +350,11 @@
     <script>
 
         let html, head, main, footer;
+        const htmlOutputArea = document.getElementById('extracted-content-html');
 
         document.getElementById('fetch-content').addEventListener('click', async () => {
             const pageUrl = document.getElementById('page-url').value;
 
-            const htmlOutputArea = document.getElementById('extracted-content-html');
             const headOutputArea = document.getElementById('extracted-content-head');
             const mainOutputArea = document.getElementById('extracted-content-main');
             const footerOutputArea = document.getElementById('extracted-content-footer');
@@ -457,7 +457,9 @@
         let tagType = '';
 
         if (type === "head") {
-            const metas = Array.from(document.querySelectorAll('meta'));
+            console.log("????? Head  ????: ");
+
+            const metas = Array.from(htmlOutputArea.querySelectorAll('meta'));
             if (metas.length > 0) {
                 tagType = "Meta Content";
                 metas.forEach(meta => {
@@ -469,7 +471,7 @@
                 });
             }
 
-            const links = Array.from(document.querySelectorAll('link'));
+            const links = Array.from(htmlOutputArea.querySelectorAll('link'));
             if (links.length > 0) {
                 tagType = "Link Content";
                 links.forEach(link => {
@@ -481,7 +483,7 @@
                 });
             }
 
-            const scripts = Array.from(document.querySelectorAll('script'));
+            const scripts = Array.from(htmlOutputArea.querySelectorAll('script'));
             if (scripts.length > 0) {
                 tagType = "Script Content";
                 scripts.forEach(script => {
@@ -493,7 +495,7 @@
                 });
             }
 
-            const style = Array.from(document.querySelectorAll('style'));
+            const style = Array.from(htmlOutputArea.querySelectorAll('style'));
             if (style.length > 0) {
                 tagType = "Style Content";
                 style.forEach(styling => {
@@ -506,7 +508,7 @@
             }
 
         } else if (type === "nav") {
-            const navTags = Array.from(document.querySelectorAll('nav'));
+            const navTags = Array.from(htmlOutputArea.querySelectorAll('nav'));
             if (navTags.length > 0) {
                 tagType = "Nav1 Content";
                 extractedContent += `
@@ -527,7 +529,7 @@
             }
 
         } else if (type === "main") {
-            const mainTag = document.querySelector('main');
+            const mainTag = htmlOutputArea.querySelector('main');
             if (mainTag) {
                 tagType = "Main Content";
                 extractedContent += `
@@ -538,7 +540,7 @@
             }
 
         } else if (type === "footer") {
-            const footerTag = document.querySelector('footer');
+            const footerTag = htmlOutputArea.querySelector('footer');
             if (footerTag) {
                 tagType = "Footer Content";
                 extractedContent += `
