@@ -22,6 +22,11 @@
     user-select: auto;
     box-sizing: border-box;
 }
+
+#extracted-content {
+    width: 100%;
+    min-height: 200px;
+}
     </style>
     <script defer src="https://reelcareer.co/backend/js/admin.js"></script>
 
@@ -185,8 +190,17 @@
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(htmlText, 'text/html');
 
+
+
+
+                const html = doc.querySelector('html')?.outerHTML || 'No <header> found';
+
+
+
                 // Extract desired elements
                 const header = doc.querySelector('header')?.outerHTML || 'No <header> found';
+
+
                 const navTags = Array.from(doc.querySelectorAll('nav'));
                 const nav1 = navTags[0]?.outerHTML || 'No <nav> found';
                 const nav2 = navTags[1]?.outerHTML || 'No second <nav> found';
@@ -195,21 +209,9 @@
 
                 // Combine and output the extracted content
                 const extractedContent = `
-Header:
-${header}
-
-First Nav:
-${nav1}
-
-Second Nav:
-${nav2}
-
-Main:
-${main}
-
-Footer:
-${footer}
-                `;
+HTML:
+${html}
+ `;
                 outputArea.value = extractedContent.trim();
             } catch (error) {
                 console.error(error);
