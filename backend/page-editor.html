@@ -779,14 +779,14 @@ let     sha ;
       return fetch(url, {
         method: "PUT",
         headers: {
-          Authorization: `token ${token}`,
+          Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json;',
-          Accept: 'application/vnd.github+json',
+        //  Accept: 'application/vnd.github+json',
 
         },
         body: JSON.stringify({
           message: `Update ${contentId}`,
-          content: encodedContent,
+          content: 'll',
           sha: sha,  // Include the sha of the file to update it
         }),
       });
@@ -794,7 +794,6 @@ let     sha ;
     .then(response => response.json())
     
     .then(updatedData => {
-        console.log("response:", response);
         console.log("updatedData:", updatedData);
         console.log("SHA Value:", sha);
         console.log("token Value:", token);
