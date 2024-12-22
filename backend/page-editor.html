@@ -763,7 +763,8 @@ let     sha ;
       console.error("Error: Content is empty or missing");
     }
 
-    
+    console.log("Decoded Content:",decodedContent);
+
       // Create a regex to match the <head> section and replace it
         const updatedContent = decodedContent.replace(
   new RegExp(`<${contentTYPE}[^>]*>([\\s\\S]*?)<\\/${contentTYPE}>`),
@@ -782,8 +783,8 @@ let     sha ;
             Authorization: `Bearer ${token}`,
            // authorization: `Bearer ${token}`,
             'Content-Type': 'application/json'
-          //accept: 'application/vnd.github+json',
 
+            
         },
         body: JSON.stringify({
             message: `Update ${contentId}`,
