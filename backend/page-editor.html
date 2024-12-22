@@ -779,8 +779,8 @@ let     sha ;
       return fetch(url, {
         method: "PUT",
         headers: {
-            auth: `Bearer ${token}`,
-            "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json;charset=utf-8'
         },
         body: JSON.stringify({
           message: `Update ${contentId}`,
