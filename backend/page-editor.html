@@ -439,12 +439,14 @@
             tab.addEventListener('click', () => {
                 const activeTab = document.querySelector('.tab.active');
                 const activeCard = document.querySelector('.pageCard:not(.collapsed)');
-                
+               
+                console.log("?????????????????: ");
+
                 if (activeTab) activeTab.classList.remove('active');
                 if (activeCard) activeCard.classList.add('collapsed');
                   // Add 'active' class to the clicked tab and corresponding content
-        tab.classList.add('active');
-        const content = document.getElementById(tab.dataset.content);
+     //   tab.classList.add('active');
+        const content = document.getElementById(activeTab.dataset.content);
 
         console.log("content area: ",content);
         const type = tab.dataset.type; // Optional type differentiation
