@@ -22,8 +22,7 @@
     user-select: auto;
     box-sizing: border-box;
 }
-
-#extracted-content {
+.htmlOutput {
     width: 100%;
     min-height: 200px;
 }
@@ -89,14 +88,18 @@
             </div>
         </ul>
     </div>
-</nav>    <div class="container mt-4">
+</nav>    
+
+
+<div class="container mt-4">
         <h1>Page Editor</h1>
 
 
 
-        <div class="card mb-4">
-
-
+        <div class="card mb-4" id="editPageArea">
+            <div class="card-body">
+                <h4>Edit Page</h4>
+                <div class="flex">
             <select id="page-url" >
                 <option value="" disabled selected>Select a URL</option>
                 <option value="https://reelcareer.co/">Home</option>
@@ -132,11 +135,38 @@
                 <button id="fetch-content" style="margin-top: 10px; padding: 10px;">Fetch Content</button>
               </div>
 
+            </div>
 
+
+
+            <div id="page-HTML" class="card mb-4" >
+                <label for="extracted-content">Page HTML:</label>
+                <textarea id="extracted-content-html" class="htmlOutput" ></textarea>
+            </div>
+        
+            
+            <div id="page-mead" class="card mb-4" >
+                <label for="extracted-content">Page Head:</label>
+                <textarea id="extracted-content-head" class="htmlOutput" ></textarea>
+            </div>
+
+            <div id="page-main" class="card mb-4" >
+                <label for="extracted-content">Page Main:</label>
+                <textarea id="extracted-content-main" class="htmlOutput" ></textarea>
+            </div>
+
+            <div id="page-footer" class="card mb-4" >
+                <label for="extracted-content">Page Footer:</label>
+                <textarea id="extracted-content-footer" class="htmlOutput" ></textarea>
+            </div>
 
 </div>
+
+
+
+
         <!-- Create New Page Form -->
-        <div class="card mb-4">
+        <div class="card mb-4" id="newPageArea">
             <div class="card-body">
                 <h4>Create a New Page</h4>
                 <form id="newPageForm">
@@ -148,10 +178,6 @@
                 </form>
             </div>
         </div>
-
-<div class="container">
-    <textarea id="extracted-content" ></textarea>
-</div>
 
 
 
@@ -174,10 +200,14 @@
     <script>
         document.getElementById('fetch-content').addEventListener('click', async () => {
             const pageUrl = document.getElementById('page-url').value;
-            const outputArea = document.getElementById('extracted-content');
+
+            const htmlOutputArea = document.getElementById('extracted-content-html');
+            const headOutputArea = document.getElementById('extracted-content-head');
+            const mainOutputArea = document.getElementById('extracted-content-main');
+            const footerOutputArea = document.getElementById('extracted-content-footer');
 
             if (!pageUrl) {
-                outputArea.value = "Please enter a valid URL.";
+                htmlOutputArea.value = "Please enter a valid URL.";
                 return;
             }
 
@@ -193,29 +223,42 @@
 
 
 
-                const html = doc.querySelector('html')?.outerHTML || 'No <header> found';
+                const html = doc.querySelector('html')?.outerHTML || 'No <body> found';
 
 
 
                 // Extract desired elements
-                const header = doc.querySelector('header')?.outerHTML || 'No <header> found';
+                const head = doc.querySelector('head')?.outerHTML || 'No <head> found';
+                    const main = doc.querySelector('main')?.outerHTML || 'No <main> found';
+                        const footer = doc.querySelector('footer')?.outerHTML || 'No <footer> found';
 
+
+
+                    const meta = Array.from(doc.querySelectorAll('mata'));
 
                 const navTags = Array.from(doc.querySelectorAll('nav'));
                 const nav1 = navTags[0]?.outerHTML || 'No <nav> found';
                 const nav2 = navTags[1]?.outerHTML || 'No second <nav> found';
-                const main = doc.querySelector('main')?.outerHTML || 'No <main> found';
-                const footer = doc.querySelector('footer')?.outerHTML || 'No <footer> found';
+
 
                 // Combine and output the extracted content
-                const extractedContent = `
-HTML:
-${html}
- `;
-                outputArea.value = extractedContent.trim();
+                const extractedContent = `${html}`;
+                htmlOutputArea.value = extractedContent.trim();
+
+
+                const extractedHead = `${head}`;
+                headOutputArea.value = extractedHead.trim();
+
+                const extractedMain = `${main}`;
+                mainOutputArea.value = extractedMain.trim();
+
+                const extractedFooter = `${footer}`;
+                footerOutputArea.value = extractedFooter.trim();
+
+
             } catch (error) {
                 console.error(error);
-                outputArea.value = "Failed to fetch or process the page. Please check the URL and try again.";
+                htmlOutputArea.value = "Failed to fetch or process the page. Please check the URL and try again.";
             }
         });
     </script>
