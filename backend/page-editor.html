@@ -521,8 +521,15 @@ details[open] summary {
                 const activeTab = document.querySelector('.tab.active');
                 const activeCard = document.querySelector('.pageCard:not(.collapsed)');
                
+                const htmlText = document.getElementById("extracted-content-html").innerText;
 
                 
+                if(!htmlText){
+                    document.getElementById('fetch-content').click();
+
+                }
+
+
                 if (activeTab) activeTab.classList.remove('active');
                 if (activeCard) activeCard.classList.add('collapsed');
                   // Add 'active' class to the clicked tab and corresponding content
@@ -859,7 +866,6 @@ document.getElementById('current-content-type').textContent = contentTYPE;
 
 // Simulate fetch-content button clicks
 document.getElementById('fetch-content').click();
-document.getElementById('fetch-content').click();
 
   }
 //console.log("path: ",filePath);  // Output: "/path/to/file.html"
@@ -921,7 +927,6 @@ document.querySelectorAll('.auto-update-content').forEach(button => {
 
         // Simulate fetch-content button clicks
         document.getElementById('fetch-content').click();
-        document.getElementById('fetch-content').click();
 
         await new Promise(resolve => setTimeout(resolve, 2000));
 
@@ -931,7 +936,8 @@ document.querySelectorAll('.auto-update-content').forEach(button => {
         
         // Perform actions based on storedContentType
         const pageButton = document.getElementById(`page-${storedContentType}`);
-        if (pageButton) pageButton.click();
+        if (pageButton) pageButton.click(); 
+        pageButton.click();
 
         const contentArea = document.getElementById(`content-${storedContentType}`);
         if (contentArea) {
