@@ -997,7 +997,7 @@ function addCopyPasteButtons(type) {
 
       // Copy the selected content to the clipboard
       document.execCommand('copy');
-      showToast('Content copied to clipboard!');
+      showToast(`Copied ${type}-content to clipboard!`);
     }
   });
 
@@ -1010,7 +1010,7 @@ function addCopyPasteButtons(type) {
       if (htmlOutput) {
         // Set the content of .htmlOutput to the clipboard text
         htmlOutput.innerHTML = text;
-        showToast('Content pasted!');
+        showToast(`Pasted ${type}-content`);
       }
     }).catch(err => {
       console.error('Failed to read clipboard content:', err);
