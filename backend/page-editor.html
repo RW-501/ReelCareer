@@ -827,13 +827,13 @@ let     sha ;
     })
     .catch(error => console.error("Error updating file:", error));
 };
-
+filePath = '';
 if(pageUrl){
 // Create a URL object
 const urlObj = new URL(pageUrl);
 
 // Get the pathname (file path)
-const filePath = urlObj.pathname;
+ filePath = urlObj.pathname;
 
     }else{
         console.log("ERORR URL:", pageUrl);
