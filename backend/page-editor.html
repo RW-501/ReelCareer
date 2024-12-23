@@ -580,6 +580,8 @@ document.querySelectorAll('.tab').forEach(tab => {
 
         // Add event listeners to the new textareas
         document.querySelectorAll('.contentTag').forEach(textarea => {
+            textarea.classList.remove('selected');
+
             textarea.addEventListener('click', () => {
                 textarea.classList.add('selected');
 
