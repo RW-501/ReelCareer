@@ -844,6 +844,11 @@ const urlObj = new URL(pageUrl);
 
     }else{
         console.log("ERORR URL:", pageUrl);
+        document.getElementById('fetch-content').click();
+        const urlObj = new URL(pageUrl);
+
+// Get the pathname (file path)
+ filePath = urlObj.pathname;
 
     }
 
@@ -862,8 +867,11 @@ if (pageUrlSelect.selectedIndex < pageUrlSelect.options.length - 1) {
 
 
 
-// Simulate fetch-content button clicks
-document.getElementById('fetch-content').click();
+
+const urlObj = new URL(pageUrl);
+
+// Get the pathname (file path)
+ filePath = urlObj.pathname;
 
   }
 //console.log("path: ",filePath);  // Output: "/path/to/file.html"
