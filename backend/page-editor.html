@@ -238,7 +238,7 @@ details[open] summary {
 
         <div class="mb-4">
             <div class="card-body">
-                <h4>Edit Page</h4>
+                <h4>Edit Page v-0.50</h4>
                 <div class="flex">
             <select id="page-url" >
                 <option value="" disabled selected>Select a URL</option>
@@ -773,8 +773,9 @@ let     sha ;
     `<${contentTYPE}[^>]*>[\\s\\S]*?<\\/${contentTYPE}>`,
     'g'
   ),
-  `<${contentTYPE}>${newHeadContent}</${contentTYPE}>`
+  `<${contentTYPE}><${contentTYPE} id="dynamic-footer">${newHeadContent}</${contentTYPE}></${contentTYPE}>`
 );
+
 
       
       // Base64 encode the updated content
