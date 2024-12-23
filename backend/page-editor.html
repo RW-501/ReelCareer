@@ -955,8 +955,66 @@ document.getElementById('reset-storage').addEventListener('click', function () {
     localStorage.clear();
     document.getElementById('progress-tracker').textContent = '0';
     document.getElementById('current-content-type').textContent = 'None';
-    alert("Local storage has been reset.");
+    showToast("Local storage has been reset.");
 });
+
+
+
+function addCopyPasteButtons() {
+  // Find the controls container
+  const controlsContainer = document.querySelector('.controls');
+  
+  // Create the Copy button
+  const copyButton = document.createElement('button');
+  copyButton.textContent = 'Copy';
+  copyButton.classList.add('copy-button');  // Add class for styling (optional)
+
+  // Create the Paste button
+  const pasteButton = document.createElement('button');
+  pasteButton.textContent = 'Paste';
+  pasteButton.classList.add('paste-button');  // Add class for styling (optional)
+
+  // Append buttons to the controls container
+  controlsContainer.appendChild(copyButton);
+  controlsContainer.appendChild(pasteButton);
+
+  // Add event listener for the Copy button
+  copyButton.addEventListener('click', () => {
+    // Find the closest .htmlOutput element
+    const htmlOutput = document.querySelector('.htmlOutput');
+    if (htmlOutput) {
+      // Create a range and select the content
+      const range = document.createRange();
+      range.selectNodeContents(htmlOutput);
+      const selection = window.getSelection();
+      selection.removeAllRanges();
+      selection.addRange(range);
+
+      // Copy the selected content to the clipboard
+      document.execCommand('copy');
+      showToast('Content copied to clipboard!');
+    }
+  });
+
+  // Add event listener for the Paste button (this assumes the clipboard content is plain text)
+  pasteButton.addEventListener('click', () => {
+    // Check if the clipboard has content to paste
+    navigator.clipboard.readText().then(text => {
+      // Find the closest .htmlOutput element
+      const htmlOutput = document.querySelector('.htmlOutput');
+      if (htmlOutput) {
+        // Set the content of .htmlOutput to the clipboard text
+        htmlOutput.innerHTML = text;
+        showToast('Content pasted!');
+      }
+    }).catch(err => {
+      console.error('Failed to read clipboard content:', err);
+    });
+  });
+}
+
+// Call the function to append the buttons on page load
+document.addEventListener('DOMContentLoaded', addCopyPasteButtons);
 
     </script>
 </body>     
