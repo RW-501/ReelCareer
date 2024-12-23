@@ -498,20 +498,20 @@ details[open] summary {
 
 
         // Tab switching logic
-        document.querySelectorAll('.switch-tab').forEach(tab => {
+        document.querySelectorAll('.switch-tab').forEach(tab => { 
     tab.addEventListener('click', () => {
-        // Remove 'active' class from currently active tab and content
         const activeTab = document.querySelector('.switch-tab.active');
         const activeCard = document.querySelector('.pageContainer.active');
 
         if (activeTab) activeTab.classList.remove('active');
         if (activeCard) activeCard.classList.remove('active');
 
-        // Activate the target container
         const target = document.getElementById(tab.dataset.target);
         if (target) target.classList.add('active');
     });
 });
+let selectedContent;
+
 
 document.querySelectorAll('.tab').forEach(tab => {
     tab.addEventListener('click', () => {
@@ -529,8 +529,6 @@ document.querySelectorAll('.tab').forEach(tab => {
         const content = document.getElementById(activeTab.dataset.content);
         const type = tab.dataset.type;
         let extractedContent = '';
-        let tagsToExtract = [];
-        let tagType = '';
 
         if (type === "head") {
             const metas = Array.from(htmlOutputArea.querySelectorAll('meta'));
@@ -574,8 +572,20 @@ document.querySelectorAll('.tab').forEach(tab => {
         const target = document.getElementById(tab.dataset.tab);
         if (target) target.classList.remove('collapsed');
         addCopyPasteButtons(type);
+
+        // Add event listeners to the new textareas
+        document.querySelectorAll('.contentTag').forEach(textarea => {
+            textarea.addEventListener('click', () => {
+                 selectedContent = textarea.value;
+                console.log('Selected Textarea Content:', selectedContent);
+                // Write the content to an output div or handle it as needed
+                document.getElementById(`extracted-content-${index}`).innerText = selectedContent;
+            });
+        });
     });
 });
+
+
 
 
 
@@ -668,7 +678,7 @@ document.querySelectorAll('.update-content').forEach(button => {
         if (pageUrl) {
             const filePath = new URL(pageUrl).pathname;
             const token = document.getElementById('token').value;
-            updateHeadTagOnGitHub(filePath, combinedContent, token);
+            updateHeadTagOnGitHub(filePath, selectedContent, token);
         }
     });
 });
