@@ -98,9 +98,9 @@
     });
 
     updateFileButton.addEventListener('click', async () => {
-      const owner = document.getElementById('owner').value;
-      const repo = document.getElementById('repo').value;
-      const filePath = document.getElementById('filePath').value;
+      const owner = document.getElementById('owner').value || "RW-501";
+      const repo = document.getElementById('repo').value || "ReelCareer";
+      const filePath = document.getElementById('filePath').value || "backend/editpage.html";
       const branch = document.getElementById('branch').value || 'main';
       const token = document.getElementById('token').value;
 
@@ -112,7 +112,7 @@
         const response = await fetch(url, {
           method: 'PUT',
           headers: {
-            Authorization: `Bearer ${token}`,
+           // Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
             Accept: 'application/vnd.github+json',
           },
