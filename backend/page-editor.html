@@ -265,6 +265,7 @@ details[open] summary {
                 <option value="https://reelcareer.co/jobs/city/index.html">Jobs by City</option>
                 <option value="https://reelcareer.co/jobs/state/index.html">Jobs by State</option>
                 <option value="https://reelcareer.co/jobs/locations/index.html">Jobs by Locations</option>
+                <option value="https://reelcareer.co/jobs/job-details/index.html">Jobs Details</option>
                 <option value="https://reelcareer.co/views/auth.html">Auth Page</option>
                 <option value="https://reelcareer.co/views/Forgot-Password.html">Forgot Password</option>
                 <option value="https://reelcareer.co/support/getting-started.html">Support: Getting Started</option>
@@ -505,191 +506,77 @@ details[open] summary {
 
         if (activeTab) activeTab.classList.remove('active');
         if (activeCard) activeCard.classList.remove('active');
-        const target = document.getElementById(tab.dataset.target);
 
-      
         // Activate the target container
+        const target = document.getElementById(tab.dataset.target);
         if (target) target.classList.add('active');
     });
 });
 
+document.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+        const activeTab = document.querySelector('.tab.active');
+        const activeCard = document.querySelector('.pageCard:not(.collapsed)');
+        const htmlText = document.getElementById("extracted-content-html").innerText;
 
+        if (!htmlText) {
+            document.getElementById('fetch-content').click();
+        }
 
-              // Tab switching logic
-              document.querySelectorAll('.tab').forEach(tab => {
-            tab.addEventListener('click', () => {
-                const activeTab = document.querySelector('.tab.active');
-                const activeCard = document.querySelector('.pageCard:not(.collapsed)');
-               
-                const htmlText = document.getElementById("extracted-content-html").innerText;
+        if (activeTab) activeTab.classList.remove('active');
+        if (activeCard) activeCard.classList.add('collapsed');
 
-                
-                if(!htmlText){
-                    document.getElementById('fetch-content').click();
-
-                }
-
-
-                if (activeTab) activeTab.classList.remove('active');
-                if (activeCard) activeCard.classList.add('collapsed');
-                  // Add 'active' class to the clicked tab and corresponding content
-     //   tab.classList.add('active');
         const content = document.getElementById(activeTab.dataset.content);
-
-        const type = tab.dataset.type; // Optional type differentiation
+        const type = tab.dataset.type;
         let extractedContent = '';
-
-        // Determine tags to extract based on type
         let tagsToExtract = [];
         let tagType = '';
 
         if (type === "head") {
-
-           
             const metas = Array.from(htmlOutputArea.querySelectorAll('meta'));
-if (metas.length > 0) {
-    extractedContent += `
-
-        <details>
-            <summary>Meta Content (${metas.length} Tags)</summary>
-            ${metas.map((meta, index) => {
-                // Get the name, property, or content attribute for the label
+            metas.forEach((meta, index) => {
                 const metaName = meta.getAttribute('name') || meta.getAttribute('property') || 'Unnamed Meta';
                 const metaContent = meta.getAttribute('content') || 'No content';
-                return `
-                    <label for="meta-content-${index}">
-                        Meta Tag ${index + 1}: [${metaName}] - Content: "${metaContent}"
-                    </label>
-                    <textarea id="meta-content-${index}" class="contentTag">
-                        ${meta.outerHTML.trim()}
-                    </textarea>
-                `;
-            }).join('<hr>')}
-        </details>
-        <hr>
-    `;
-}
-
-// Links
-const links = Array.from(htmlOutputArea.querySelectorAll('link'));
-if (links.length > 0) {
-    extractedContent += `
-        <details>
-            <summary>Link Content (${links.length} Tags)</summary>
-            ${links.map((link, index) => {
-                const rel = link.getAttribute('rel') || 'No rel';
-                const href = link.getAttribute('href') || 'No href';
-                return `
-                    <label for="link-content-${index}">
-                        Link Tag ${index + 1}: [rel="${rel}"] - href="${href}"
-                    </label>
-                    <textarea id="link-content-${index}" class="contentTag">
-                        ${link.outerHTML.trim()}
-                    </textarea>
-                `;
-            }).join('<hr>')}
-        </details>
-        <hr>
-    `;
-}
-
-// Scripts
-const scripts = Array.from(htmlOutputArea.querySelectorAll('script'));
-if (scripts.length > 0) {
-    extractedContent += `
-        <details>
-            <summary>Script Content (${scripts.length} Tags)</summary>
-            ${scripts.map((script, index) => {
-                const src = script.getAttribute('src') || 'Inline Script';
-                return `
-                    <label for="script-content-${index}">
-                        Script Tag ${index + 1}: [src="${src}"]
-                    </label>
-                    <textarea id="script-content-${index}" class="contentTag">
-                        ${script.outerHTML.trim()}
-                    </textarea>
-                `;
-            }).join('<hr>')}
-        </details>
-        <hr>
-    `;
-}
-
-// Styles
-const styles = Array.from(htmlOutputArea.querySelectorAll('style'));
-if (styles.length > 0) {
-    extractedContent += `
-        <details>
-            <summary>Style Content (${styles.length} Tags)</summary>
-            ${styles.map((styling, index) => {
-                return `
-                    <label for="style-content-${index}">
-                        Style Tag ${index + 1}
-                    </label>
-                    <textarea id="style-content-${index}" class="contentTag">
-                        ${styling.outerHTML.trim()}
-                    </textarea>
-                `;
-            }).join('<hr>')}
-        </details>
-        <hr>
-    `;
-}
-
+                extractedContent += `
+                    <label for="meta-content-${index}">Meta Tag ${index + 1}: [${metaName}]</label>
+                    <textarea id="meta-content-${index}" class="contentTag">${meta.outerHTML.trim()}</textarea>
+                    <hr>`;
+            });
         } else if (type === "nav") {
             const navTags = Array.from(htmlOutputArea.querySelectorAll('nav'));
-            if (navTags.length > 0) {
-                tagType = "Nav1 Content";
+            navTags.forEach((nav, index) => {
                 extractedContent += `
-                    <label for="nav1-content">${tagType}: ${navTags.length} Tag:</label>
-                    <textarea id="nav1-content-${navTags.length}" class="contentTag">${navTags[0]?.outerHTML.trim()}</textarea>
-                    <hr>
-                `;
-            }
-            if (navTags.length > 1) {
-                tagType = "Nav2 Content";
-                extractedContent += `
-                    <label for="nav2-content">${tagType}: ${navTags.length} Tag:</label>
-                    <textarea id="nav2-content-${navTags.length}" class="contentTag">${navTags[1]?.outerHTML.trim()}</textarea>
-                    <hr>
-                `;
-            } else {
-                extractedContent += '<label>No second <nav> found</label><hr>';
-            }
-
+                    <label for="nav-content-${index}">Nav ${index + 1}:</label>
+                    <textarea id="nav-content-${index}" class="contentTag">${nav.outerHTML.trim()}</textarea>
+                    <hr>`;
+            });
         } else if (type === "main") {
             const mainTag = htmlOutputArea.querySelector('main');
             if (mainTag) {
-                tagType = "Main Content";
                 extractedContent += `
-                    <label for="main-content">${tagType}: Main Tag:</label>
+                    <label for="main-content">Main Content:</label>
                     <textarea id="main-content" class="contentTag">${mainTag.outerHTML.trim()}</textarea>
-                    <hr>
-                `;
+                    <hr>`;
             }
-
         } else if (type === "footer") {
             const footerTag = htmlOutputArea.querySelector('footer');
             if (footerTag) {
-                tagType = "Footer Content";
                 extractedContent += `
-                    <label for="footer-content">${tagType}: Footer Tag:</label>
+                    <label for="footer-content">Footer Content:</label>
                     <textarea id="footer-content" class="contentTag">${footerTag.outerHTML.trim()}</textarea>
-                    <hr>
-                `;
+                    <hr>`;
             }
         }
 
-
-        // Inject the extracted content into the target container
         if (content) content.innerHTML = extractedContent;
-                tab.classList.add('active');
-                const target = document.getElementById(tab.dataset.tab);
-                if (target) target.classList.remove('collapsed');
-                addCopyPasteButtons(type);
 
-            });
-        });
+        tab.classList.add('active');
+        const target = document.getElementById(tab.dataset.tab);
+        if (target) target.classList.remove('collapsed');
+        addCopyPasteButtons(type);
+    });
+});
+
 
 
 
@@ -716,193 +603,75 @@ document.getElementById('searchBar').addEventListener('input', (event) => {
 
         let isStopped = false;
         
-        document.querySelectorAll('.update-content').forEach(button => {
+ 
+document.querySelectorAll('.update-content').forEach(button => {
     button.addEventListener('click', () => {
-        const contentId = button.dataset.content; // Get data-content value
+        const contentId = button.dataset.content;
         const contentTYPE = button.dataset.contenttype;
         const target = document.getElementById(contentId);
-        const textareas = target.querySelectorAll(`textarea`); // Query all textareas
+        const textareas = target.querySelectorAll('textarea');
 
         let combinedContent = '';
-
-        // Get values from each textarea and combine them
         textareas.forEach(textarea => {
-            combinedContent += textarea.value + '\n'; // Add each value with a newline separator
+            combinedContent += textarea.value + '\n';
         });
 
         document.getElementById("updateContent-label").innerText = `Update ${contentId}:`;
         document.getElementById("updateContent").innerText = combinedContent;
 
-        
-
-
-        // Log the combined content
-      //  console.log(`Content Type: ${contentTYPE}. \n Content ${contentId} \n${combinedContent}`);
-
-let sha = '' ;
+        let sha = '';
         let decodedContent;
         const updateHeadTagOnGitHub = (filePath, newHeadContent, token) => {
-  // Fetch the current HTML file from GitHub
+            const url = `https://api.github.com/repos/RW-501/ReelCareer/contents${filePath}`;
 
+            fetch(url, {
+                method: "GET",
+                headers: { "Content-Type": "application/json" }
+            })
+                .then(response => {
+                    if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+                    return response.json();
+                })
+                .then(data => {
+                    sha = data.sha;
+                    if (data.content) {
+                        const cleanedContent = data.content.replace(/\n/g, "");
+                        decodedContent = atob(cleanedContent);
+                    }
 
+                    const updatedContent = decodedContent.replace(
+                        new RegExp(`<${contentTYPE}[^>]*>[\\s\\S]*?<\\/${contentTYPE}>`, 'g'),
+                        `${newHeadContent}`
+                    );
 
-  let url = `https://api.github.com/repos/RW-501/ReelCareer/contents${filePath}`;
+                    const encodedContent = btoa(updatedContent);
+                    return fetch(url, {
+                        method: "PUT",
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                            "Content-Type": "application/json",
+                            accept: "application/vnd.github+json"
+                        },
+                        body: JSON.stringify({
+                            message: `Update ${contentId}`,
+                            content: encodedContent,
+                            sha: sha,
+                            branch: "main"
+                        })
+                    });
+                })
+                .then(() => showToast("File updated successfully"))
+                .catch(error => console.error("Error updating file:", error));
+        };
 
-  fetch(url, {
-  method: "GET",
-  headers: {
-    "Content-Type": "application/json",
-  },
-})
-  .then(response => {
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }else{
-        isStopped = true;
-    }
-    return response.json();
-  })
-  .then(data => {
-   // console.log("Data fetched successfully:");
-     sha = data.sha; // Extract the sha
-
-    if (data.content) {
-      const cleanedContent = data.content.replace(/\n/g, ""); // Remove line breaks
-      decodedContent = decodeFromBase64(cleanedContent); // Decode Base64 -> String
-      //console.log("Decoded Content:");
-    } else {
-        isStopped = true;
-      console.error("Error: Content is empty or missing");
-    }
-
-  //  console.log("Decoded Content:",decodedContent);
-
-      // Create a regex to match the <head> section and replace it
-        const updatedContent = decodedContent.replace(
-  new RegExp(
-    `<${contentTYPE}[^>]*>[\\s\\S]*?<\\/${contentTYPE}>`,
-    'g'
-  ),
-  `${newHeadContent}`
-);
-
-
-      
-      // Base64 encode the updated content
-      const encodedContent = encodeToBase64(updatedContent);
-//  console.log("updatedContent Content:",updatedContent);
-   //   console.log("encodedContent Content:",encodedContent);
-
-      
-      // Send a PUT request to update the file with the new content
-      return fetch(url, {
-        method: "PUT",
-        headers: {
-  Authorization: `Bearer ${token}`,
-  "Content-Type": "application/json",
-  accept: "application/vnd.github+json",
-},
-        body: JSON.stringify({
-            message: `Update ${contentId}`,
-          content: encodedContent,
-          sha: sha,
-          branch: "main",
-
-        }),
-      });
-    })
-    .then(response => {
-    if (!response.ok) {
-      console.error(`Error: ${response.statusText} (Status: ${response.status})`);
-      isStopped = true;
-
-      return response.json().then(data => console.error("Error Details:", data));
-    }
-    return response.json();
-})
-    
-    .then(updatedData => {
-        /*
-        console.log("URL:", url);
-
-        console.log("updatedData:", updatedData);
-        console.log("SHA Value:", sha);
-        console.log("token Value:", token);
-
-        */
-      showToast("File updated successfully");
-    })
-    .catch(error => console.error("Error updating file:", error));
-};
-filePath = '';
-if(pageUrl){
-// Create a URL object
-const urlObj = new URL(pageUrl);
-
-// Get the pathname (file path)
- filePath = urlObj.pathname;
- const newHeadContent = combinedContent;  // Your new <head> content
-
-const token = document.getElementById('token').value;
-
-updateHeadTagOnGitHub(filePath, newHeadContent, token);
-
-
-    }else{
-   
-        setTimeout(() => {
- 
-    const pageUrlSelect = document.getElementById('page-url');
-    console.log(`Skip, File path Check: ${filePath}`); // Optional: Log the file path
-
-// Update progress
-if (pageUrlSelect.selectedIndex < pageUrlSelect.options.length - 1) {
-    pageUrlSelect.selectedIndex = pageUrlSelect.selectedIndex + 1;
-    localStorage.setItem('pageUrl', pageUrlSelect.value);
-    document.getElementById('fetch-content').click();
-        setTimeout(() => {
-            if(pageUrl){
-  const urlObj = new URL(pageUrl);
-
-  // Get the pathname (file path)
-  const filePath = urlObj.pathname;
-
-
-//console.log("path: ",filePath);  // Output: "/path/to/file.html"
-
-const newHeadContent = combinedContent;  // Your new <head> content
-
-const token = document.getElementById('token').value;
-
-updateHeadTagOnGitHub(filePath, newHeadContent, token);
-}
-
-}, 2000); // 2000ms = 2 seconds
-
-} else {
-    console.log("Reached the last option, cannot move to the next.");
-}
-
-
-
-
-
-
-
-}, 2000); // 2000ms = 2 seconds
-
-
-    }
-
-
-
-
-
-
+        const pageUrl = document.getElementById('page-url').value;
+        if (pageUrl) {
+            const filePath = new URL(pageUrl).pathname;
+            const token = document.getElementById('token').value;
+            updateHeadTagOnGitHub(filePath, combinedContent, token);
+        }
     });
 });
-
-
 
 // UTF-8 Encoding and Decoding Helpers
 function encodeToBase64(str) {
