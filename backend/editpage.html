@@ -75,7 +75,7 @@
       try {
         const response = await fetch(url, {
           headers: {
-            Authorization: `Bearer ${token}`,
+           // Authorization: `Bearer ${token}`,
             Accept: 'application/vnd.github+json',
           },
         });
@@ -112,7 +112,7 @@
         const response = await fetch(url, {
           method: 'PUT',
           headers: {
-           // Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
             Accept: 'application/vnd.github+json',
           },
