@@ -769,9 +769,13 @@ let     sha ;
 
       // Create a regex to match the <head> section and replace it
         const updatedContent = decodedContent.replace(
-  new RegExp(`<${contentTYPE}[^>]*>([\\s\\S]*?)<\\/${contentTYPE}>`),
+  new RegExp(
+    `<${contentTYPE}[^>]*>([\\s\\S]*?)<\\/${contentTYPE}>`, 
+    'g'
+  ),
   `<${contentTYPE}>${newHeadContent}</${contentTYPE}>`
 );
+
       
       // Base64 encode the updated content
       const encodedContent = btoa(updatedContent);
