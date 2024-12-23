@@ -4,6 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>GitHub File Editor</title>
+
+  <!-- Main Script Loader -->
+  <script src="https://reelcareer.co/scripts/js/loader.js"></script>
+
   <style>
 body {
     font-family: Arial, sans-serif;
@@ -29,6 +33,9 @@ body {
   </style>
 </head>
 <body>
+
+  
+  <script defer src="https://reelcareer.co/backend/js/admin.js"></script>
   <h1>GitHub File Editor</h1>
   <form id="githubForm">
     <label for="owner">Owner:</label>
@@ -90,7 +97,7 @@ body {
         const decodedContent = atob(data.content);
 
         document.getElementById('fileContent').value = decodedContent;
-        messageDiv.textContent = 'File fetched successfully!';
+       showToast('File fetched successfully!');
         errorDiv.textContent = '';
       } catch (error) {
         errorDiv.textContent = error.message;
