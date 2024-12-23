@@ -228,7 +228,9 @@ details[open] summary {
 
 
         <div id="tab-switch-container-area">
-
+            <label for="token">Personal Access Token:</label>
+            <input type="password" id="token" name="token" required><br><br>
+            
 <div class="pageContainer mt-4 active"  id="editPageArea">
         <h1>Page Editor</h1>
 
@@ -702,16 +704,17 @@ document.getElementById('searchBar').addEventListener('input', (event) => {
         });
 
 
+        const token = document.getElementById('token').value;
 
 
         let isStopped = false;
-        
-        document.querySelectorAll('.update-content').forEach(button => {
-    button.addEventListener('click', () => {
+
+document.querySelectorAll('.update-content').forEach(button => {
+    button.addEventListener('click', async () => {
         const contentId = button.dataset.content; // Get data-content value
         const contentTYPE = button.dataset.contenttype;
         const target = document.getElementById(contentId);
-        const textareas = target.querySelectorAll(`textarea`); // Query all textareas
+        const textareas = target.querySelectorAll('textarea'); // Query all textareas
 
         let combinedContent = '';
 
@@ -723,116 +726,91 @@ document.getElementById('searchBar').addEventListener('input', (event) => {
         document.getElementById("updateContent-label").innerText = `Update ${contentId}:`;
         document.getElementById("updateContent").innerText = combinedContent;
 
-        
+        console.log(`Content Type: ${contentTYPE}. \nContent ${contentId} \n${combinedContent}`);
 
+        const token = "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"; // Replace with your actual GitHub token
+        const filePath = `/path/to/file`; // Replace with your actual file path on GitHub
+        const branch = "main";
 
-        // Log the combined content
-        console.log(`Content Type: ${contentTYPE}. \n Content ${contentId} \n${combinedContent}`);
-
-let     sha ;
-        let decodedContent;
-        const updateHeadTagOnGitHub = (filePath, newHeadContent, token) => {
-  // Fetch the current HTML file from GitHub
-
-  let url = `https://api.github.com/repos/RW-501/ReelCareer/contents${filePath}.html`;
-
-  fetch(url, {
-  method: "GET",
-  headers: {
-    "Content-Type": "application/json",
-  },
-})
-  .then(response => {
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }else{
-        isStopped = true;
-    }
-    return response.json();
-  })
-  .then(data => {
-    console.log("Data fetched successfully:");
-     sha = data.sha; // Extract the sha
-
-    if (data.content) {
-      const cleanedContent = data.content.replace(/\n/g, ""); // Remove line breaks
-       decodedContent = atob(cleanedContent); // Decode Base64 -> String
-      console.log("Decoded Content:");
-    } else {
-        isStopped = true;
-      console.error("Error: Content is empty or missing");
-    }
-
-  //  console.log("Decoded Content:",decodedContent);
-
-      // Create a regex to match the <head> section and replace it
-        const updatedContent = decodedContent.replace(
-  new RegExp(`<${contentTYPE}[^>]*>([\\s\\S]*?)<\\/${contentTYPE}>`),
-  `<${contentTYPE}>${newHeadContent}</${contentTYPE}>`
-);
-      
-      // Base64 encode the updated content
-      const encodedContent = btoa(updatedContent);
-//  console.log("updatedContent Content:",updatedContent);
-   //   console.log("encodedContent Content:",encodedContent);
-
-      
-      // Send a PUT request to update the file with the new content
-      return fetch(url, {
-        method: "PUT",
-        headers: {
-  Authorization: `Bearer ${token}`,
-  "Content-Type": "application/json",
-  accept: "application/vnd.github+json",
-},
-        body: JSON.stringify({
-            message: `Update ${contentId}`,
-          content: encodedContent,
-          sha: sha,
-          branch: "main",
-
-        }),
-      });
-    })
-    .then(response => {
-    if (!response.ok) {
-      console.error(`Error: ${response.statusText} (Status: ${response.status})`);
-      return response.json().then(data => console.error("Error Details:", data));
-    }
-    return response.json();
-})
-    
-    .then(updatedData => {
-        console.log("URL:", url);
-
-        console.log("updatedData:", updatedData);
-        console.log("SHA Value:", sha);
-        console.log("token Value:", token);
-      console.log("File updated successfully");
-    })
-    .catch(error => console.error("Error updating file:", error));
-};
-
-
-// Create a URL object
-const urlObj = new URL(pageUrl);
-
-// Get the pathname (file path)
-const filePath = urlObj.pathname;
-
-console.log("path: ",filePath);  // Output: "/path/to/file.html"
-
-const newHeadContent = combinedContent;  // Your new <head> content
-   // const token = "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";
-const token = "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";  // Your GitHub Personal Access Token
-updateHeadTagOnGitHub(filePath, newHeadContent, token);
-
-
-
+        try {
+            const sha = await getFileSHA(filePath, token);
+            const updatedContent = await updateFileOnGitHub(filePath, contentTYPE, combinedContent, sha, token, branch);
+            console.log("File updated successfully:", updatedContent);
+        } catch (error) {
+            console.error("Error updating file:", error);
+        }
     });
 });
 
+async function getFileSHA(filePath, token) {
+    const url = `https://api.github.com/repos/RW-501/ReelCareer/contents${filePath}`;
 
+    const response = await fetch(url, {
+        method: "GET",
+        headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+        },
+    });
+
+    if (!response.ok) {
+        throw new Error(`Failed to fetch file: ${response.statusText} (Status: ${response.status})`);
+    }
+
+    const data = await response.json();
+    console.log("File data fetched:", data);
+
+    if (!data.sha) {
+        throw new Error("SHA is missing in the response data.");
+    }
+
+    return data.sha;
+}
+
+async function updateFileOnGitHub(filePath, contentTYPE, newContent, sha, token, branch) {
+    const url = `https://api.github.com/repos/RW-501/ReelCareer/contents${filePath}`;
+    const response = await fetch(url, {
+        method: "GET",
+        headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+        },
+    });
+
+    const data = await response.json();
+    const decodedContent = atob(data.content.replace(/\n/g, "")); // Decode Base64 -> String
+
+    // Create a regex to match the content and replace it
+    const updatedContent = decodedContent.replace(
+        new RegExp(`<${contentTYPE}[^>]*>([\\s\\S]*?)<\\/${contentTYPE}>`),
+        `<${contentTYPE}>${newContent}</${contentTYPE}>`
+    );
+
+    // Base64 encode the updated content
+    const encodedContent = btoa(updatedContent);
+
+    // Send a PUT request to update the file
+    const putResponse = await fetch(url, {
+        method: "PUT",
+        headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            message: `Updated ${filePath}`,
+            content: encodedContent,
+            sha: sha,
+            branch: branch,
+        }),
+    });
+
+    if (!putResponse.ok) {
+        const errorData = await putResponse.json();
+        throw new Error(`Failed to update file: ${errorData.message} (Status: ${putResponse.status})`);
+    }
+
+    return putResponse.json();
+}
 
 
 
@@ -1069,9 +1047,29 @@ document.getElementById('reset-storage').addEventListener('click', function () {
 
         // Load pages on page load
         window.onload = loadPages;
+*/
 
 
-        */
+        document.addEventListener('DOMContentLoaded', () => {
+            const tokenInput = document.getElementById('token');
+            const statusMessage = document.getElementById('status');
+            const LOCAL_STORAGE_KEY = 'userToken';
+
+            // Retrieve token from local storage when the page loads
+            const savedToken = localStorage.getItem(LOCAL_STORAGE_KEY);
+            if (savedToken) {
+                tokenInput.value = savedToken;
+            }
+
+            // Auto-save token to local storage on input
+            tokenInput.addEventListener('input', () => {
+                localStorage.setItem(LOCAL_STORAGE_KEY, tokenInput.value);
+                statusMessage.style.display = 'inline'; // Show success message
+                setTimeout(() => {
+                    statusMessage.style.display = 'none'; // Hide after 2 seconds
+                }, 2000);
+            });
+        });
     </script>
 </body>
 </html>
