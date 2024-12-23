@@ -676,10 +676,11 @@ if (styles.length > 0) {
 
         // Inject the extracted content into the target container
         if (content) content.innerHTML = extractedContent;
-
                 tab.classList.add('active');
                 const target = document.getElementById(tab.dataset.tab);
                 if (target) target.classList.remove('collapsed');
+                addCopyPasteButtons();
+
             });
         });
 
