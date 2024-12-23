@@ -91,23 +91,11 @@
   </nav>
 
 
-  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
-    <div class="container">
-      <a class="navbar-brand" href="https://reelcareer.co">ReelCareer</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item"><a class="nav-link" href="https://reelcareer.co">Home</a></li>
-          <li class="nav-item"><a class="nav-link" href="job-listings">Job Listings</a></li>
-          <li class="nav-item"><a class="nav-link" href="company-pages">Company Pages</a></li>
-          <li class="nav-item"><a class="nav-link" href="/u/seeker/">Job Seeker</a></li>
-          <li class="nav-item"><a class="nav-link" href="recruiter">Recruiter Dashboard</a></li>
-          <li class="nav-item"><a class="nav-link" href="news">News</a></li>
-        </ul>
-      </div>
-    </div>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li id="lastBreadcrumb_home" class="breadcrumb-item"><a href="https://reelcareer.co/">Home</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Job Listings</li>
+    </ol>
   </nav>
 
 
@@ -578,24 +566,11 @@ border-radius: 12px;
 
     <!-- Pagination -->
     <div class="container text-center mt-5">
-      <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
-    <div class="container">
-      <a class="navbar-brand" href="https://reelcareer.co">ReelCareer</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item"><a class="nav-link" href="https://reelcareer.co">Home</a></li>
-          <li class="nav-item"><a class="nav-link" href="job-listings">Job Listings</a></li>
-          <li class="nav-item"><a class="nav-link" href="company-pages">Company Pages</a></li>
-          <li class="nav-item"><a class="nav-link" href="/u/seeker/">Job Seeker</a></li>
-          <li class="nav-item"><a class="nav-link" href="recruiter">Recruiter Dashboard</a></li>
-          <li class="nav-item"><a class="nav-link" href="news">News</a></li>
+      <nav>
+        <ul class="pagination justify-content-center" id="pagination">
+          <!-- Pagination dynamically generated -->
         </ul>
-      </div>
-    </div>
-  </nav>
+      </nav>
     </div>
   
     <button id="quickPostJobButton" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#jobPostPopup">Quick Post Job</button>
@@ -1028,24 +1003,43 @@ hideModal("jobPostPopup");
   <footer id="dynamic-footer">
 <div class="footerMainContainer text-center">
 <p class="footerSocialMedia"></p>
-<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
-    <div class="container">
-      <a class="navbar-brand" href="https://reelcareer.co">ReelCareer</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item"><a class="nav-link" href="https://reelcareer.co">Home</a></li>
-          <li class="nav-item"><a class="nav-link" href="job-listings">Job Listings</a></li>
-          <li class="nav-item"><a class="nav-link" href="company-pages">Company Pages</a></li>
-          <li class="nav-item"><a class="nav-link" href="/u/seeker/">Job Seeker</a></li>
-          <li class="nav-item"><a class="nav-link" href="recruiter">Recruiter Dashboard</a></li>
-          <li class="nav-item"><a class="nav-link" href="news">News</a></li>
-        </ul>
-      </div>
-    </div>
-  </nav>
+<nav class="footerNavContainer">
+
+<div class="footerNavItems">
+<h5>General</h5>
+<a href="/" title="ReelCareer - #1 Job Board - Find a job today">ReelCareer</a><a href="/views/about" title="About ReelCareer - Who We Are and Our Mission">About ReelCareer</a><a href="/views/contact" title="Contact ReelCareer - Get in Touch for Support and Inquiries">Contact Us</a><a href="/job-listings" title="Job Listings - Search and Apply for Job Openings">Job Listings</a><a href="/membership" title="Membership - Unlock Premium Features and Job Opportunities">Membership</a>
+</div>
+
+<div class="footerNavItems">
+<h5>Legal</h5>
+<a href="/views/privacy" title="Privacy Policy - How We Protect Your Data">Privacy Policy</a><a href="/views/terms" title="Terms of Use - Website User Agreement and Guidelines">Terms of Use</a>
+</div>
+
+<div class="footerNavItems">
+<h5>Content</h5>
+<a href="/views/blogs" title="ReelCareer Blog - Career Advice, News, and Insights">Blogs</a><a href="/views/news" title="ReelCareer News - Latest Updates and Industry Trends">News</a><a href="/views/Personality-&-Trait-Tests" title="Personality & Trait Tests - Discover Your Strengths and Work Style">Personality & Trait Tests</a><a href="/reels" title="Video Reels - Showcase Your Resume with a Personal Touch">Video Reels</a>
+</div>
+
+<div class="footerNavItems">
+<h5>Support</h5>
+<a href="/views/faq" title="Frequently Asked Questions - Get Answers to Common Queries">FAQs</a><a href="/bot" title="Chat Bot - Get Instant Assistance with Your Job Search">Chat Bot</a><a href="/support" title="Support - Get Help with Your Job Search and Account">Support</a>
+</div>
+
+<div class="footerNavItems">
+<h5>Marketing</h5>
+<a href="/views/referral" title="Join the ReelCareer Affiliate Program and Earn Rewards">Affiliate Program</a>
+</div>
+
+<div class="footerNavItems">
+<h5>Admin</h5>
+<a href="/backend/dashboard" title="Admin Dashboard - Manage Users, Jobs, and Content">Admin</a>
+</div>
+
+<div class="footerNavItems">
+<h5>Features</h5>
+<a href="/jobs/city" title="City Jobs - Find Career Opportunities by Location">City Jobs</a><a href="/jobs/state" title="State Jobs - Explore Job Listings by State">State Jobs</a><a href="/jobs/locations" title="Job Locations - Browse Jobs in Your Area">Job Locations</a>
+</div>
+</nav>
 <p class="footerCopyWrite">© 2024 ReelCareer</p>
 
 </div>
