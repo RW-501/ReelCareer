@@ -31,13 +31,13 @@
   <h1>GitHub File Editor</h1>
   <form id="githubForm">
     <label for="owner">Owner:</label>
-    <input type="text" id="owner" name="owner" required><br><br>
+    <input type="text" id="owner"  value="RW-501" name="owner" required><br><br>
     
     <label for="repo">Repository:</label>
-    <input type="text" id="repo" name="repo" required><br><br>
+    <input type="text" id="repo"  value="ReelCareer" name="repo" required><br><br>
     
     <label for="filePath">File Path:</label>
-    <input type="text" id="filePath" name="filePath" required><br><br>
+    <input type="text" id="filePath" value="backend/editpage.html" name="filePath" required><br><br>
     
     <label for="branch">Branch (default: main):</label>
     <input type="text" id="branch" name="branch" value="main"><br><br>
@@ -64,9 +64,9 @@
     let sha; // To store the file's SHA for updates.
 
     fetchFileButton.addEventListener('click', async () => {
-      const owner = document.getElementById('owner').value;
-      const repo = document.getElementById('repo').value;
-      const filePath = document.getElementById('filePath').value;
+        const owner = document.getElementById('owner').value || "RW-501";
+      const repo = document.getElementById('repo').value || "ReelCareer";
+      const filePath = document.getElementById('filePath').value || "backend/editpage.html";
       const branch = document.getElementById('branch').value || 'main';
       const token = document.getElementById('token').value;
 
