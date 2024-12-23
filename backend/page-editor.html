@@ -729,7 +729,7 @@ document.getElementById('searchBar').addEventListener('input', (event) => {
 
 
         // Log the combined content
-        console.log(`Content Type: ${contentTYPE}. \n Content ${contentId} \n${combinedContent}`);
+      //  console.log(`Content Type: ${contentTYPE}. \n Content ${contentId} \n${combinedContent}`);
 
 let     sha ;
         let decodedContent;
@@ -753,13 +753,13 @@ let     sha ;
     return response.json();
   })
   .then(data => {
-    console.log("Data fetched successfully:");
+   // console.log("Data fetched successfully:");
      sha = data.sha; // Extract the sha
 
     if (data.content) {
       const cleanedContent = data.content.replace(/\n/g, ""); // Remove line breaks
        decodedContent = atob(cleanedContent); // Decode Base64 -> String
-      console.log("Decoded Content:");
+      //console.log("Decoded Content:");
     } else {
         isStopped = true;
       console.error("Error: Content is empty or missing");
@@ -799,6 +799,8 @@ let     sha ;
     .then(response => {
     if (!response.ok) {
       console.error(`Error: ${response.statusText} (Status: ${response.status})`);
+      isStopped = true;
+
       return response.json().then(data => console.error("Error Details:", data));
     }
     return response.json();
@@ -825,7 +827,7 @@ const urlObj = new URL(pageUrl);
 // Get the pathname (file path)
 const filePath = urlObj.pathname;
 
-console.log("path: ",filePath);  // Output: "/path/to/file.html"
+//console.log("path: ",filePath);  // Output: "/path/to/file.html"
 
 const newHeadContent = combinedContent;  // Your new <head> content
 
