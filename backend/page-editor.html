@@ -774,20 +774,17 @@ let     sha ;
       // Base64 encode the updated content
       const encodedContent = btoa(updatedContent);
 //  console.log("updatedContent Content:",updatedContent);
-      console.log("encodedContent Content:",encodedContent);
+   //   console.log("encodedContent Content:",encodedContent);
 
-      //const token = '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';
-
+      
       // Send a PUT request to update the file with the new content
       return fetch(url, {
         method: "PUT",
         headers: {
-            Authorization: `Bearer ${token}`,
-'Content-Type': 'application/json',
-            accept: "application/vnd.github+json",
-
-            
-        },
+  Authorization: `Bearer ${token}`,
+  "Content-Type": "application/json",
+  accept: "application/vnd.github+json",
+},
         body: JSON.stringify({
             message: `Update ${contentId}`,
           content: encodedContent,
@@ -826,8 +823,8 @@ const filePath = urlObj.pathname;
 console.log("path: ",filePath);  // Output: "/path/to/file.html"
 
 const newHeadContent = combinedContent;  // Your new <head> content
-    //const token = "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";
-const token = "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";  // Your GitHub Personal Access Token
+    const token = "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";
+//const token = "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";  // Your GitHub Personal Access Token
 updateHeadTagOnGitHub(filePath, newHeadContent, token);
 
 
