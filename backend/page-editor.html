@@ -736,6 +736,8 @@ let     sha ;
         const updateHeadTagOnGitHub = (filePath, newHeadContent, token) => {
   // Fetch the current HTML file from GitHub
 
+
+
   let url = `https://api.github.com/repos/RW-501/ReelCareer/contents${filePath}.html`;
 
   fetch(url, {
@@ -832,6 +834,25 @@ const urlObj = new URL(pageUrl);
 // Get the pathname (file path)
 const filePath = urlObj.pathname;
 
+
+
+
+
+if(!filePath){
+    const pageUrlSelect = document.getElementById('page-url');
+
+// Update progress
+pageUrlSelect.selectedIndex = i;
+localStorage.setItem('pageUrl', pageUrlSelect.value);
+
+document.getElementById('progress-tracker').textContent = completedCount + 1;
+document.getElementById('current-content-type').textContent = contentTYPE;
+
+// Simulate fetch-content button clicks
+document.getElementById('fetch-content').click();
+document.getElementById('fetch-content').click();
+
+  }
 //console.log("path: ",filePath);  // Output: "/path/to/file.html"
 
 const newHeadContent = combinedContent;  // Your new <head> content
