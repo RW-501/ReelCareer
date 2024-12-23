@@ -219,8 +219,8 @@ function updateFooter() {
   
         </footer>`;
         const footer = document.getElementById('dynamic-footer');
-  
-      footer.insertAdjacentHTML("beforeend", footerHTML);
+        footer.innerHTML = footerHTML;
+        ;
     }
     
     // Render company media
