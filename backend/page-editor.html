@@ -588,7 +588,7 @@ document.querySelectorAll('.tab').forEach(tab => {
                  selectedContent = textarea.value;
                 console.log('Selected Textarea Content:', selectedContent);
                 // Write the content to an output div or handle it as needed
-                document.getElementById(`extracted-content-${index}`).innerText = selectedContent;
+                document.getElementById(`extracted-content-${type}`).innerText = selectedContent;
             });
         });
     });
