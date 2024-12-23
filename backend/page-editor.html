@@ -679,7 +679,7 @@ if (styles.length > 0) {
                 tab.classList.add('active');
                 const target = document.getElementById(tab.dataset.tab);
                 if (target) target.classList.remove('collapsed');
-                addCopyPasteButtons();
+                addCopyPasteButtons(type);
 
             });
         });
@@ -960,11 +960,15 @@ document.getElementById('reset-storage').addEventListener('click', function () {
 });
 
 
-
-function addCopyPasteButtons() {
+function addCopyPasteButtons(type) {
   // Find the controls container
-  const controlsContainer = document.querySelector('.controls');
+  const controlsContainer = document.getElementById(`controls-page-${type}`);
   
+  // Check if the buttons already exist in the container
+  if (controlsContainer.querySelector('.copy-button') || controlsContainer.querySelector('.paste-button')) {
+    return; // Exit if buttons are already present
+  }
+
   // Create the Copy button
   const copyButton = document.createElement('button');
   copyButton.textContent = 'Copy';
@@ -982,7 +986,7 @@ function addCopyPasteButtons() {
   // Add event listener for the Copy button
   copyButton.addEventListener('click', () => {
     // Find the closest .htmlOutput element
-    const htmlOutput = document.querySelector('.htmlOutput');
+    const htmlOutput = document.getElementById(`${type}-content`);
     if (htmlOutput) {
       // Create a range and select the content
       const range = document.createRange();
@@ -997,12 +1001,12 @@ function addCopyPasteButtons() {
     }
   });
 
-  // Add event listener for the Paste button (this assumes the clipboard content is plain text)
+  // Add event listener for the Paste button
   pasteButton.addEventListener('click', () => {
     // Check if the clipboard has content to paste
     navigator.clipboard.readText().then(text => {
       // Find the closest .htmlOutput element
-      const htmlOutput = document.querySelector('.htmlOutput');
+      const htmlOutput = document.getElementById(`${type}-content`);
       if (htmlOutput) {
         // Set the content of .htmlOutput to the clipboard text
         htmlOutput.innerHTML = text;
@@ -1013,9 +1017,6 @@ function addCopyPasteButtons() {
     });
   });
 }
-
-// Call the function to append the buttons on page load
-document.addEventListener('DOMContentLoaded', addCopyPasteButtons);
 
     </script>
 </body>     
