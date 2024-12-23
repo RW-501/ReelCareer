@@ -959,7 +959,6 @@ document.getElementById('reset-storage').addEventListener('click', function () {
     showToast("Local storage has been reset.");
 });
 
-
 function addCopyPasteButtons(type) {
   // Find the controls container
   const controlsContainer = document.getElementById(`controls-page-${type}`);
@@ -985,18 +984,12 @@ function addCopyPasteButtons(type) {
 
   // Add event listener for the Copy button
   copyButton.addEventListener('click', () => {
-    // Find the closest .htmlOutput element
-    const htmlOutput = document.getElementById(`${type}-content`);
-    if (htmlOutput) {
-      // Create a range and select the content
-      const range = document.createRange();
-      range.selectNodeContents(htmlOutput);
-      const selection = window.getSelection();
-      selection.removeAllRanges();
-      selection.addRange(range);
-
-      // Copy the selected content to the clipboard
-      document.execCommand('copy');
+    // Find the closest textarea element
+    const textArea = document.getElementById(`${type}-content`);
+    if (textArea && textArea.tagName === 'TEXTAREA') {
+      // Select the content of the textarea
+      textArea.select();
+      document.execCommand('copy');  // Copy the selected content to the clipboard
       showToast(`Copied ${type}-content to clipboard!`);
     }
   });
@@ -1005,11 +998,11 @@ function addCopyPasteButtons(type) {
   pasteButton.addEventListener('click', () => {
     // Check if the clipboard has content to paste
     navigator.clipboard.readText().then(text => {
-      // Find the closest .htmlOutput element
-      const htmlOutput = document.getElementById(`${type}-content`);
-      if (htmlOutput) {
-        // Set the content of .htmlOutput to the clipboard text
-        htmlOutput.innerHTML = text;
+      // Find the closest textarea element
+      const textArea = document.getElementById(`${type}-content`);
+      if (textArea && textArea.tagName === 'TEXTAREA') {
+        // Paste the clipboard text into the textarea
+        textArea.value = text;
         showToast(`Pasted ${type}-content`);
       }
     }).catch(err => {
@@ -1017,7 +1010,6 @@ function addCopyPasteButtons(type) {
     });
   });
 }
-
     </script>
 </body>     
 
