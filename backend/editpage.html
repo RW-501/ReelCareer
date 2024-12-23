@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GitHub File Editor</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    textarea {
+      width: 100%;
+      height: 300px;
+      margin-bottom: 20px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+    }
+    .message {
+      margin-top: 20px;
+      color: green;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <h1>GitHub File Editor</h1>
+  <form id="githubForm">
+    <label for="owner">Owner:</label>
+    <input type="text" id="owner" name="owner" required><br><br>
+    
+    <label for="repo">Repository:</label>
+    <input type="text" id="repo" name="repo" required><br><br>
+    
+    <label for="filePath">File Path:</label>
+    <input type="text" id="filePath" name="filePath" required><br><br>
+    
+    <label for="branch">Branch (default: main):</label>
+    <input type="text" id="branch" name="branch" value="main"><br><br>
+    
+    <label for="token">Personal Access Token:</label>
+    <input type="password" id="token" name="token" required><br><br>
+    
+    <button type="button" id="fetchFile">Fetch File</button>
+  </form>
+
+  <h3>File Content</h3>
+  <textarea id="fileContent" placeholder="File content will appear here..."></textarea>
+  <button type="button" id="updateFile">Update File</button>
+
+  <div class="message" id="message"></div>
+  <div class="error" id="error"></div>
+
+  <script>
+    const fetchFileButton = document.getElementById('fetchFile');
+    const updateFileButton = document.getElementById('updateFile');
+    const messageDiv = document.getElementById('message');
+    const errorDiv = document.getElementById('error');
+
+    let sha; // To store the file's SHA for updates.
+
+    fetchFileButton.addEventListener('click', async () => {
+      const owner = document.getElementById('owner').value;
+      const repo = document.getElementById('repo').value;
+      const filePath = document.getElementById('filePath').value;
+      const branch = document.getElementById('branch').value || 'main';
+      const token = document.getElementById('token').value;
+
+      const url = `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}?ref=${branch}`;
+
+      try {
+        const response = await fetch(url, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            Accept: 'application/vnd.github+json',
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error(`Error: ${response.statusText} (Status: ${response.status})`);
+        }
+
+        const data = await response.json();
+        sha = data.sha; // Save the SHA for updating.
+        const decodedContent = atob(data.content);
+
+        document.getElementById('fileContent').value = decodedContent;
+        messageDiv.textContent = 'File fetched successfully!';
+        errorDiv.textContent = '';
+      } catch (error) {
+        errorDiv.textContent = error.message;
+        messageDiv.textContent = '';
+      }
+    });
+
+    updateFileButton.addEventListener('click', async () => {
+      const owner = document.getElementById('owner').value;
+      const repo = document.getElementById('repo').value;
+      const filePath = document.getElementById('filePath').value;
+      const branch = document.getElementById('branch').value || 'main';
+      const token = document.getElementById('token').value;
+
+      const url = `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}`;
+      const updatedContent = document.getElementById('fileContent').value;
+      const encodedContent = btoa(updatedContent);
+
+      try {
+        const response = await fetch(url, {
+          method: 'PUT',
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+            Accept: 'application/vnd.github+json',
+          },
+          body: JSON.stringify({
+            message: `Updated ${filePath}`,
+            content: encodedContent,
+            sha: sha,
+            branch: branch,
+          }),
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(`Error: ${errorData.message} (Status: ${response.status})`);
+        }
+
+        const data = await response.json();
+        messageDiv.textContent = 'File updated successfully!';
+        errorDiv.textContent = '';
+      } catch (error) {
+        errorDiv.textContent = error.message;
+        messageDiv.textContent = '';
+      }
+    });
+  </script>
+</body>
+</html>
