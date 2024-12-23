@@ -773,7 +773,7 @@ let     sha ;
     `<${contentTYPE}[^>]*>[\\s\\S]*?<\\/${contentTYPE}>`,
     'g'
   ),
-  `<${contentTYPE}><${contentTYPE} id="dynamic-footer">${newHeadContent}</${contentTYPE}></${contentTYPE}>`
+  `${newHeadContent}`
 );
 
 
