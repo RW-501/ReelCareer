@@ -151,6 +151,11 @@ details summary {
 details[open] summary {
     background-color: #e2e6ea;
 }
+
+.selected.active {
+
+    border: blue solid;
+}
     </style>
     </head>
 
@@ -576,6 +581,8 @@ document.querySelectorAll('.tab').forEach(tab => {
         // Add event listeners to the new textareas
         document.querySelectorAll('.contentTag').forEach(textarea => {
             textarea.addEventListener('click', () => {
+                textarea.classList.add('selected');
+
                  selectedContent = textarea.value;
                 console.log('Selected Textarea Content:', selectedContent);
                 // Write the content to an output div or handle it as needed
