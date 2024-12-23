@@ -783,7 +783,8 @@ let     sha ;
         method: "PUT",
         headers: {
             Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json',
+'Content-Type': 'application/json',
+            accept: "application/vnd.github+json",
 
             
         },
@@ -791,12 +792,22 @@ let     sha ;
             message: `Update ${contentId}`,
           content: encodedContent,
           sha: sha,
+          branch: "main",
+
         }),
       });
     })
-    .then(response => response.json())
+    .then(response => {
+    if (!response.ok) {
+      console.error(`Error: ${response.statusText} (Status: ${response.status})`);
+      return response.json().then(data => console.error("Error Details:", data));
+    }
+    return response.json();
+})
     
     .then(updatedData => {
+        console.log("URL:", url);
+
         console.log("updatedData:", updatedData);
         console.log("SHA Value:", sha);
         console.log("token Value:", token);
