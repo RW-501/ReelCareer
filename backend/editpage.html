@@ -138,6 +138,40 @@ body {
         messageDiv.textContent = '';
       }
     });
+
+
+
+
+
+
+
+
+    document.addEventListener('DOMContentLoaded', () => {
+            const tokenInput = document.getElementById('token');
+            const statusMessage = document.getElementById('status');
+            const LOCAL_STORAGE_KEY = 'userToken';
+
+            // Retrieve token from local storage when the page loads
+            const savedToken = localStorage.getItem(LOCAL_STORAGE_KEY);
+            if (savedToken) {
+                tokenInput.value = savedToken;
+            }
+
+            // Auto-save token to local storage on input
+            tokenInput.addEventListener('input', () => {
+                localStorage.setItem(LOCAL_STORAGE_KEY, tokenInput.value);
+                statusMessage.style.display = 'inline'; // Show success message
+                setTimeout(() => {
+                    statusMessage.style.display = 'none'; // Hide after 2 seconds
+                }, 2000);
+            });
+        });
+
+
+
+
+
+
   </script>
 </body>
 </html>
