@@ -828,14 +828,17 @@ let     sha ;
     .catch(error => console.error("Error updating file:", error));
 };
 
-
+if(pageUrl){
 // Create a URL object
 const urlObj = new URL(pageUrl);
 
 // Get the pathname (file path)
 const filePath = urlObj.pathname;
 
+    }else{
+        console.log("ERORR URL:", pageUrl);
 
+    }
 
 
 
