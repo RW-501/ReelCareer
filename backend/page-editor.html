@@ -846,8 +846,13 @@ if(!filePath){
     const pageUrlSelect = document.getElementById('page-url');
 
 // Update progress
-pageUrlSelect.selectedIndex = i;
-localStorage.setItem('pageUrl', pageUrlSelect.value);
+if (pageUrlSelect.selectedIndex < pageUrlSelect.options.length - 1) {
+    pageUrlSelect.selectedIndex = pageUrlSelect.selectedIndex + 1;
+    localStorage.setItem('pageUrl', pageUrlSelect.value);
+} else {
+    console.log("Reached the last option, cannot move to the next.");
+}
+
 
 document.getElementById('progress-tracker').textContent = completedCount + 1;
 document.getElementById('current-content-type').textContent = contentTYPE;
