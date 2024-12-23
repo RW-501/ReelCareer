@@ -841,26 +841,52 @@ const urlObj = new URL(pageUrl);
 
 // Get the pathname (file path)
  filePath = urlObj.pathname;
+ const newHeadContent = combinedContent;  // Your new <head> content
+
+const token = document.getElementById('token').value;
+
+updateHeadTagOnGitHub(filePath, newHeadContent, token);
+
 
     }else{
+        console.log(`File path Check 1: ${filePath}`); // Optional: Log the file path
+
         console.log("ERORR URL:", pageUrl);
         document.getElementById('fetch-content').click();
-        const urlObj = new URL(pageUrl);
+        setTimeout(() => {
+  const urlObj = new URL(pageUrl);
 
-// Get the pathname (file path)
- filePath = urlObj.pathname;
-
-    }
-
+  // Get the pathname (file path)
+  const filePath = urlObj.pathname;
 
 
-if(!filePath){
+  if(!filePath){
     const pageUrlSelect = document.getElementById('page-url');
+    console.log(`Skip, File path Check 2: ${filePath}`); // Optional: Log the file path
 
 // Update progress
 if (pageUrlSelect.selectedIndex < pageUrlSelect.options.length - 1) {
     pageUrlSelect.selectedIndex = pageUrlSelect.selectedIndex + 1;
     localStorage.setItem('pageUrl', pageUrlSelect.value);
+    document.getElementById('fetch-content').click();
+        setTimeout(() => {
+  const urlObj = new URL(pageUrl);
+
+  // Get the pathname (file path)
+  const filePath = urlObj.pathname;
+
+
+//console.log("path: ",filePath);  // Output: "/path/to/file.html"
+
+const newHeadContent = combinedContent;  // Your new <head> content
+
+const token = document.getElementById('token').value;
+
+updateHeadTagOnGitHub(filePath, newHeadContent, token);
+
+
+}, 2000); // 2000ms = 2 seconds
+
 } else {
     console.log("Reached the last option, cannot move to the next.");
 }
@@ -868,19 +894,17 @@ if (pageUrlSelect.selectedIndex < pageUrlSelect.options.length - 1) {
 
 
 
-const urlObj = new URL(pageUrl);
-
-// Get the pathname (file path)
- filePath = urlObj.pathname;
 
   }
-//console.log("path: ",filePath);  // Output: "/path/to/file.html"
 
-const newHeadContent = combinedContent;  // Your new <head> content
 
-    const token = document.getElementById('token').value;
+}, 2000); // 2000ms = 2 seconds
 
-updateHeadTagOnGitHub(filePath, newHeadContent, token);
+
+    }
+
+
+
 
 
 
