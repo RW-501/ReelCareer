@@ -758,7 +758,7 @@ let     sha ;
 
     if (data.content) {
       const cleanedContent = data.content.replace(/\n/g, ""); // Remove line breaks
-       decodedContent = atob(cleanedContent); // Decode Base64 -> String
+      decodedContent = decodeFromBase64(cleanedContent); // Decode Base64 -> String
       //console.log("Decoded Content:");
     } else {
         isStopped = true;
@@ -779,7 +779,7 @@ let     sha ;
 
       
       // Base64 encode the updated content
-      const encodedContent = btoa(updatedContent);
+      const encodedContent = encodeToBase64(updatedContent);
 //  console.log("updatedContent Content:",updatedContent);
    //   console.log("encodedContent Content:",encodedContent);
 
@@ -847,6 +847,14 @@ updateHeadTagOnGitHub(filePath, newHeadContent, token);
 
 
 
+// UTF-8 Encoding and Decoding Helpers
+function encodeToBase64(str) {
+  return btoa(unescape(encodeURIComponent(str)));
+}
+
+function decodeFromBase64(str) {
+  return decodeURIComponent(escape(atob(str)));
+}
 
 
 document.querySelectorAll('.auto-update-content').forEach(button => {
