@@ -108,14 +108,46 @@ h2 {
 }
 
 
-footer {
-    text-align: center;
-    padding: 10px;
-    background: linear-gradient(45deg, #858080, #8c8bb1c2);
-    color: white;
+.site-footer {
+    background: linear-gradient(45deg, #4a4e69, #9a8c98);
+    color: #fff;
+    padding: 20px;
     margin-top: 40px;
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+    box-shadow: 0 -3px 10px rgba(0, 0, 0, 0.1);
 }
 
+.site-footer .footer-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.site-footer p {
+    font-size: 1rem;
+    margin: 10px 0;
+    color: #f4f4f9;
+}
+
+.site-footer .footer-nav {
+    margin: 15px 0;
+}
+
+.site-footer .footer-nav a {
+    color: #f4f4f9;
+    text-decoration: none;
+    margin: 0 10px;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+}
+
+.site-footer .footer-nav a:hover {
+    color: #e0c3fc;
+}
+
+.site-footer span#currentYear {
+    font-weight: bold;
+}
 
 
 
