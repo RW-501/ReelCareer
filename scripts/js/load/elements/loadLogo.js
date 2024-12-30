@@ -133,7 +133,7 @@ function createLoader(message = "ReelCareer") {
           const loader = document.getElementById("loaderX");
           loader.classList.add("hidden");
           loader.remove();
-         console.log(" loader.remove();   ");
+         console.log("Loaded!");
         }
         }
     }
