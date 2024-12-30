@@ -17,6 +17,8 @@ const user = getUserId;
   
 
 async function logoutUser() {
+  console.log("logoutUser: ", auth);
+
     try {
       await signOut(auth);
   
@@ -36,7 +38,6 @@ async function logoutUser() {
   
   window.logoutUser = logoutUser;
   
-  // Logout button on any page
   // Event listener to handle login forms, popups, and more...
   document.getElementById("logoutButton")?.addEventListener("click", logoutUser);
     
