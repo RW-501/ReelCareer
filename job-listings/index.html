@@ -1068,9 +1068,6 @@ hideModal("jobPostPopup");
   
       let lastVisible = null; // To store the last document loaded 
 
-const userJobInterest = getUserJobInterest();
-const userlocationData = prepareLocationForFirebase();
-
 
 function resetForm() {
   // Get all input elements within the form
@@ -1250,8 +1247,13 @@ window.handleJobPostSubmission = handleJobPostSubmission;
 
 // Function to fetch job listings from Firestore
 async function fetchJobListings() {
+  
   // Create the base query for Jobs
   let jobsQuery = query(collection(db, 'Jobs'));
+
+  const userJobInterest = getUserJobInterest();
+  const userlocationData = prepareLocationForFirebase();
+
 
   let locationSource = ''; // Variable to track the location-based source
 
