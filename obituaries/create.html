@@ -88,6 +88,8 @@ label {
 }
 
 /* Styling Inputs and Textareas */
+select:hover,
+input[type="date"]:hover,
 input[type="text"],
 input[type="url"],
 textarea {
@@ -101,7 +103,8 @@ textarea {
     box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
     transition: all 0.3s ease-in-out;
 }
-
+select:hover,
+input[type="date"]:hover,
 input[type="text"]:focus,
 input[type="url"]:focus,
 textarea:focus {
@@ -133,6 +136,8 @@ textarea {
 }
 
 /* Modern Hover Effect */
+select:hover,
+input[type="date"]:hover,
 input[type="text"]:hover,
 input[type="url"]:hover,
 textarea:hover {
@@ -250,12 +255,12 @@ textarea::placeholder {
                 <label for="name">Full Name</label>
                 <input type="text" id="name" name="name" placeholder="Enter your full name" required>
 
-                <label for="sunrise">Sunrise (Date)</label>
-                <input type="text" id="sunrise" name="sunrise" placeholder="Enter sunrise date" required>
-
+                <label for="sunrise">Sunrise (Date)</label> 
+                <input type="date" id="sunrise" name="sunrise" required>
+                
                 <label for="sunset">Sunset (Date)</label>
-                <input type="text" id="sunset" name="sunset" placeholder="Enter sunset date" required>
-
+                <input type="date" id="sunset" name="sunset" required>
+                
                 <label for="about">About the Person</label>
                 <textarea id="about" name="about" placeholder="Write a short biography or summary about the person" required></textarea>
 
