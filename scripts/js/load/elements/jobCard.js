@@ -78,7 +78,8 @@ let cardCount = 0;
   // Function to create a job card and append it to the container
   function createJobCard(job, container) {
     // Create the job card
-
+    cardCount++;
+    console.log(" cardCount:", cardCount);
     //console.log("Job Data:", job);
 
     const jobCard = document.createElement("div");
