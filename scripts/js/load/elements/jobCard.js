@@ -55,6 +55,9 @@ let cardCount = 0;
 
       const style = document.createElement('style');
       style.innerHTML = `
+
+      #featuredJobListings {
+      
         /* Card Styling */
         .card {
           border-radius: 20px;
@@ -171,6 +174,9 @@ let cardCount = 0;
           color: #ffcc00;
           transform: scale(1.05);
         }
+
+    }
+
       `;
       
       // Append the style element to the head of the document
