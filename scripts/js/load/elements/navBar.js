@@ -141,14 +141,16 @@ function createNavbar() {
   
 
  
-      const userDataSaved = getUserData() || null;
+      const userDataSaved = getUserData() || [];
 
-      if(!userDataSaved){
-        showToast("Please login");
+      if (userDataSaved.length === 0) {
+          showToast("Loging in");
 
-        console.log("verifing user:", user.displayName);
-         saveUserLoginState(user, true); // Save user state
+              console.log("verifying user:", user.displayName);
+              saveUserLoginState(user, true); // Save user state
+     
       }
+      
   
       const dropdownMenuItems = [
         {
