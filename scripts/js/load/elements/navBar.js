@@ -139,7 +139,6 @@ function createNavbar() {
       const userDataSaved = getUserData() || [];
 
       if (userDataSaved.length === 0) { // Check if the array is empty
-          showToast("Logging in");
       
           console.log("verifying user:", user.displayName);
               
