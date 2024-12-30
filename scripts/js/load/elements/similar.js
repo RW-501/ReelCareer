@@ -43,7 +43,7 @@ async function checkImageURL(url) {
             userLocationData = JSON.parse(userLocationData); // Safely parse string
         } catch (e) {
             console.error("Invalid JSON in userLocationData:", e);
-            return ['', '', '', '']; // Return empty if parsing fails
+            return ['USA', 'US', 'United States', '']; // Return empty if parsing fails
         }
     }
   
