@@ -140,6 +140,13 @@ function updateFooter() {
             "title": "Membership - Unlock Premium Features and Job Opportunities",
             "category": "General",
             "order": 18
+          },
+          {
+            "url": "/obituaries",
+            "name": "Obituaries",
+            "title": "Create an obituary page - Let the world know your story.",
+            "category": "Content",
+            "order": 19
           }
         
         

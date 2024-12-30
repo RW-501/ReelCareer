@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:title" content="Obituaries Index">
+    <meta property="og:description" content="View obituaries, sorted by category and location. Learn how to create your own obituary.">
+    <title>Obituaries Index</title>
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js"></script>
+   
+   
+    <!-- Font Awesome for Icons -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+ 
+   
+   
+   <style>
+        /* General Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f4f4f9;
+            color: #333;
+        }
+
+        header {
+            background-color: #002d63;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        .breadcrumb {
+            padding: 10px;
+            background-color: #e3e3e3;
+            font-size: 1em;
+            text-align: center;
+        }
+
+        .breadcrumb a {
+            color: #002d63;
+            text-decoration: none;
+            padding: 5px;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        main {
+            padding: 30px;
+            background-color: white;
+        }
+
+        .section-header {
+            text-align: center;
+            font-size: 2em;
+            margin-bottom: 20px;
+            color: #002d63;
+        }
+
+        .cards-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .obituary-card {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            width: 280px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            text-align: center;
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .obituary-card:hover {
+            transform: scale(1.05);
+        }
+
+        .obituary-card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .obituary-card h3 {
+            font-size: 1.5em;
+            margin-top: 10px;
+            color: #333;
+        }
+
+        .obituary-card p {
+            color: #777;
+            font-size: 1em;
+        }
+
+        .obituary-card .button {
+            padding: 10px;
+            background-color: #ff8c00;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 10px;
+            display: inline-block;
+        }
+
+        .obituary-card .button:hover {
+            background-color: #ffa733;
+        }
+
+        .info-section {
+            background-color: #002d63;
+            color: white;
+            padding: 30px;
+            border-radius: 8px;
+            margin-top: 50px;
+        }
+
+        .info-section h2 {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        .info-section ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .info-section ul li {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 15px;
+            background-color: #002d63;
+            color: white;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header Section -->
+    <header>
+        <h1>Obituaries Index</h1>
+    </header>
+
+    <!-- Breadcrumb Section -->
+    <div class="breadcrumb">
+        <a href="/">Home</a> > <a href="/obituaries">Obituaries</a>
+    </div>
+
+    <!-- Main Content Section -->
+    <main>
+        <div class="section-header">
+            <h2>Obituaries</h2>
+            <p>Browse through obituaries categorized by location and memory.</p>
+        </div>
+
+        <div class="cards-container" id="obituaries-list">
+            <!-- Obituaries Cards will be injected here from JS -->
+        </div>
+    </main>
+
+    <!-- Info Section about Creating an Obituary -->
+    <div class="info-section">
+        <h2>Create Your Own Obituary</h2>
+        <p>Creating your obituary costs only $25 and allows you to memorialize your life story, accomplishments, and memories. Share your legacy with the world today.</p>
+        <ul>
+            <li><strong>Feature 1:</strong> Upload a photo and video</li>
+            <li><strong>Feature 2:</strong> Add your bio and legacy details</li>
+            <li><strong>Feature 3:</strong> Social media links and tribute messages</li>
+            <li><strong>Feature 4:</strong> Access your obituary anytime</li>
+        </ul>
+        <div style="text-align: center;">
+            <a href="https://reelcareer.co/obituary/create" class="button">Create Now</a>
+        </div>
+    </div>
+
+    <!-- Footer Section -->
+    <footer>
+        <p>Memorializing lives, sharing legacies. &copy; 2024 Obituary Services</p>
+    </footer>
+
+    <!-- JavaScript to Fetch and Display Obituaries -->
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyDiwC3Dmd88-t3N9iRV5cZ3snVkEXinclg",
+            authDomain: "reelcareer-cb4b0.firebaseapp.com",
+            projectId: "reelcareer-cb4b0",
+            storageBucket: "reelcareer-cb4b0.appspot.com",
+            messagingSenderId: "365163764840",
+            appId: "1:365163764840:web:21c44f8625c9b6831e6fdd",
+            measurementId: "G-LBTK319K2X"
+        };
+
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        // Mock data for obituaries (you'll fetch this from your backend)
+        const obituaries = [
+            {
+                id: 1,
+                name: "John Doe",
+                category: "Business",
+                location: "New York, USA",
+                photo: "https://via.placeholder.com/280x180",
+                about: "John was a visionary businessman who changed the landscape of modern industry.",
+                url: "/obituary/john-doe"
+            },
+            {
+                id: 2,
+                name: "Jane Smith",
+                category: "Arts",
+                location: "London, UK",
+                photo: "https://via.placeholder.com/280x180",
+                about: "Jane was an artist whose work inspired countless generations.",
+                url: "/obituary/jane-smith"
+            }
+        ];
+
+
+// Function to fetch obituaries from Firestore
+async function fetchObituaries() {
+    try {
+        // Fetch all documents from the A_Obituaries collection
+        const querySnapshot = await db.collection('A_Obituaries').get();
+        
+        // Create an array of obituary data
+        const obituaries = querySnapshot.docs.map(doc => doc.data());
+        
+        // Render the fetched obituaries
+        renderObituaries(obituaries);
+    } catch (error) {
+        console.error("Error fetching obituaries:", error);
+    }
+}
+
+// Function to render obituary cards
+function renderObituaries(obituaries) {
+    const container = document.getElementById("obituaries-list");
+    container.innerHTML = "";  // Clear previous list
+
+    // Loop through obituaries and create a card for each
+    obituaries.forEach(obituary => {
+        const card = document.createElement("div");
+        card.classList.add("obituary-card");
+
+        card.innerHTML = `
+            <img src="${obituary.mainPhoto}" alt="Obituary Image">
+            <h3>${obituary.name}</h3>
+            <p><strong>Category:</strong> ${obituary.category}</p>
+            <p><strong>Location:</strong> ${obituary.location}</p>
+            <p>${obituary.about}</p>
+            <a href="${obituary.url}" class="button">View Obituary</a>
+        `;
+
+
+        container.appendChild(card);
+    });
+}
+
+
+// Call the fetch function when the page loads
+fetchObituaries();
+
+
+    </script>
+
+</body>
+
+</html>

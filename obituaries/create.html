@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:title" content="Create Your Obituary">
+    <meta property="og:description" content="Fill in the details to create your obituary page. Leave a legacy that people will cherish.">
+    <title>Create Your Obituary</title>
+
+
+    
+    <!-- Font Awesome for Icons -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f4f4f9;
+            color: #333;
+        }
+
+        header {
+            background: #002d63;
+            padding: 20px;
+            text-align: center;
+            color: #fff;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 30px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 2em;
+            color: #002d63;
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin: 10px 0 5px;
+        }
+
+        input[type="text"],
+        input[type="url"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            margin-bottom: 20px;
+            font-size: 1em;
+        }
+
+        textarea {
+            height: 150px;
+            resize: vertical;
+        }
+
+        .input-file {
+            padding: 10px;
+            font-size: 1em;
+            margin-bottom: 20px;
+        }
+
+        .button-container {
+            text-align: center;
+        }
+
+        .button-container button {
+            padding: 15px 30px;
+            background-color: #ff8c00;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.2em;
+            cursor: pointer;
+        }
+
+        .button-container button:hover {
+            background-color: #ffa733;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px;
+            background: #002d63;
+            color: white;
+            margin-top: 40px;
+        }
+    </style>
+
+
+<!-- CSS for the modal -->
+<style>
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    .modal-content {
+        background-color: #fff;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+        max-width: 600px;
+    }
+
+    .close {
+        color: #aaa;
+        font-size: 28px;
+        font-weight: bold;
+        position: absolute;
+        top: 0;
+        right: 20px;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    #previewContent {
+        margin-bottom: 20px;
+    }
+
+    img {
+        display: block;
+        margin: 10px auto;
+        max-width: 100%;
+    }
+
+    #closePreviewButton {
+        padding: 10px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        cursor: pointer;
+    }
+
+    #closePreviewButton:hover {
+        background-color: #45a049;
+    }
+</style>
+</head>
+<body>
+    <main>
+    <header>
+        <h1>Create Your Obituary</h1>
+    </header>
+
+    <div class="container">
+        <h2>Leave Your Legacy</h2>
+        <p>This page allows you to create your obituary, share details about your life, and give your loved ones a lasting memory of you. Fill in the following details to create your obituary page.</p>
+
+        <form id="obituaryForm">
+            <div class="section">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+
+                <label for="sunrise">Sunrise (Date)</label>
+                <input type="text" id="sunrise" name="sunrise" placeholder="Enter sunrise date" required>
+
+                <label for="sunset">Sunset (Date)</label>
+                <input type="text" id="sunset" name="sunset" placeholder="Enter sunset date" required>
+
+                <label for="about">About the Person</label>
+                <textarea id="about" name="about" placeholder="Write a short biography or summary about the person" required></textarea>
+
+                <label for="location">Location</label>
+                <input type="text" id="location" name="location" placeholder="Enter the location of the person" required>
+                <label for="category">Category</label>
+                <select id="category" name="category" required>
+                    <option value="" disabled selected>Select a category</option>
+                    <option value="family">Family</option>
+                    <option value="friend">Friend</option>
+                    <option value="developer">Developer</option>
+                    <option value="designer">Designer</option>
+                    <option value="photographer">Photographer</option>
+                    <option value="musician">Musician</option>
+                    <option value="plumber">Plumber</option>
+                    <option value="electrician">Electrician</option>
+                    <option value="teacher">Teacher</option>
+                    <option value="engineer">Engineer</option>
+                    <option value="doctor">Doctor</option>
+                    <option value="nurse">Nurse</option>
+                    <option value="chef">Chef</option>
+                    <option value="artist">Artist</option>
+                    <option value="writer">Writer</option>
+                    <option value="other">Other (Specify)</option>
+                </select>
+                
+                <!-- Additional input field for "Other" category -->
+                <div id="otherCategoryContainer" style="display: none;">
+                    <label for="otherCategory">Specify Category</label>
+                    <input type="text" id="otherCategory" name="otherCategory" placeholder="Specify other category">
+                </div>
+
+                <label for="pageName">URL (Obituary Page URL)</label>
+                <input type="text" id="pageName" name="url" placeholder="Choose a URL (e.g., john-doe)" required>
+                <p>Format: /celebrating/[your-url]. The URL should only contain letters, numbers, hyphens, and underscores.</p>
+                
+                <div>
+                    <p>Preview URL:</p>
+                    <p id="urlPreview">/celebrating/</p>
+                    <p id="urlAvailabilityMessage" style="color: red; display: none;">This page name is already taken. Please choose another one.</p>
+                </div>
+
+
+             </div>
+
+            <div class="section">
+                <label for="mainPhoto">Main Photo</label>
+                <input type="file" id="mainPhoto" name="mainPhoto" class="input-file" accept="image/*" required>
+
+                <label for="video">Video (Optional)</label>
+                <input type="url" id="video" name="video" class="input-file" placeholder="Enter video URL (YouTube, Vimeo, etc.)">
+
+                <label for="socialLinks">Social Media Links (Optional)</label>
+                <input type="url" id="socialLinks" name="socialLinks" class="input-file" placeholder="Enter your social media links (Facebook, Twitter, etc.)">
+            </div>
+
+            <div class="button-container">
+
+                <button type="button" id="preview-button">Preview Obituary</button>
+
+                <button type="button" id="paypal-button">Create Now</button>
+            </div>
+        </form>
+    </div>
+
+</main>
+
+
+    <footer>
+        <p>Leave a lasting legacy. Share your story with the world.</p>
+    </footer>
+
+<!-- The Popup Modal -->
+<div id="previewModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Obituary Preview</h2>
+        <div id="previewContent"></div>
+        <button id="closePreviewButton">Close Preview</button>
+    </div>
+</div>
+
+
+    <!-- Include PayPal SDK -->
+    <script src="https://www.paypal.com/sdk/js?client-id=YOUR_PAYPAL_CLIENT_ID"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-storage.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js"></script> <!-- For fetching IP -->
+
+    <script>
+        // Initialize Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyDiwC3Dmd88-t3N9iRV5cZ3snVkEXinclg",
+            authDomain: "reelcareer-cb4b0.firebaseapp.com",
+            projectId: "reelcareer-cb4b0",
+            storageBucket: "reelcareer-cb4b0.appspot.com",
+            messagingSenderId: "365163764840",
+            appId: "1:365163764840:web:21c44f8625c9b6831e6fdd",
+            measurementId: "G-LBTK319K2X"
+        };
+
+        const app = firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        const storage = firebase.storage();
+
+        // Check if user is logged in, if not log them in anonymously
+        firebase.auth().onAuthStateChanged(user => {
+            if (!user) {
+                firebase.auth().signInAnonymously();
+            }
+        });
+
+
+
+
+
+    document.getElementById('category').addEventListener('change', function () {
+        const otherCategory = document.getElementById('otherCategoryContainer');
+        if (this.value === 'other') {
+            otherCategory.style.display = 'block';
+        } else {
+            otherCategory.style.display = 'none';
+        }
+    });
+
+
+
+
+
+    // Set up debounce function
+    let debounceTimeout;
+    
+    document.getElementById('pageName').addEventListener('input', function() {
+        // Get the value entered by the user
+        let inputValue = this.value;
+
+        // Sanitize the input to allow only letters, numbers, hyphens, and underscores
+        inputValue = inputValue.replace(/[^a-zA-Z0-9-_]/g, '');
+
+        // Update the preview URL dynamically
+        document.getElementById('urlPreview').textContent = `/celebrating/${inputValue}`;
+
+        // Clear previous timeout
+        clearTimeout(debounceTimeout);
+
+        // Set up a new debounce with a delay (e.g., 500ms)
+        debounceTimeout = setTimeout(async function() {
+            // Check if the URL is available (async operation)
+            const urlQuery = await db.collection('A_Obituaries').where("pageName", "==", inputValue).get();
+
+            if (!urlQuery.empty) {
+                // If URL is taken, show message and hide availability
+                document.getElementById('urlAvailabilityMessage').style.display = 'block';
+            } else {
+                // If URL is available, hide message
+                document.getElementById('urlAvailabilityMessage').style.display = 'none';
+            }
+        }, 500); // 500ms debounce delay
+    });
+
+
+
+
+        // Fetch user's IP address using an external service
+        async function getUserIP() {
+            try {
+                const response = await axios.get('https://api.ipify.org?format=json');
+                return response.data.ip;
+            } catch (error) {
+                console.error('Error fetching IP address:', error);
+                return 'Unknown IP';
+            }
+        }
+
+        // Handle form submission after payment
+        document.getElementById('paypal-button').addEventListener('click', async function () {
+            // Initialize PayPal button
+            paypal.Buttons({
+                createOrder: (data, actions) => {
+                    return actions.order.create({
+                        purchase_units: [{
+                            amount: {
+                                value: '25.00'
+                            }
+                        }]
+                    });
+                },
+                onApprove: async (data, actions) => {
+                    const details = await actions.order.capture();
+
+                    // After successful payment, collect form data
+                    let name = document.getElementById('name').value;
+                    let sunrise = document.getElementById('sunrise').value;
+                    let sunset = document.getElementById('sunset').value;
+                    let about = document.getElementById('about').value;
+                    let location = document.getElementById('location').value;
+                    let category = document.getElementById('category').value;
+                    let pageName = document.getElementById('pageName').value.trim().toLowerCase();
+                    let mainPhoto = document.getElementById('mainPhoto').files[0];
+                    let video = document.getElementById('video').value;
+                    let socialLinks = document.getElementById('socialLinks').value;
+
+                    // Sanitize inputs
+                    name = name.replace(/[^a-zA-Z0-9 ]/g, ''); // Remove special characters
+                    location = location.replace(/[^a-zA-Z0-9 ]/g, ''); // Remove special characters
+                    category = category.replace(/[^a-zA-Z0-9 ]/g, ''); // Remove special characters
+                    let url = pageName.replace(/[^a-zA-Z0-9-_]/g, ''); // Remove invalid URL characters
+
+
+                    // Get user's IP
+                    const userIP = await getUserIP();
+
+                    // Upload media files (Main Photo)
+                    let mainPhotoUrl = "";
+                    if (mainPhoto) {
+                        const photoRef = storage.ref().child('obituaries/' + mainPhoto.name);
+                        await photoRef.put(mainPhoto);
+                        mainPhotoUrl = await photoRef.getDownloadURL();
+                    }
+
+                    // Create obituary object
+                    const obituary = {
+                        name: name,
+                        sunrise: sunrise,
+                        sunset: sunset,
+                        about: about,
+                        location: location,
+                        category: category,
+                        url: url,
+                        pageName: pageName,
+                        video: video,
+                        socialLinks: socialLinks,
+                        mainPhoto: mainPhotoUrl,
+                        userIP: userIP, // Store user IP
+                        status: 'active',  // mark as active after payment
+                    };
+
+                    // Save obituary to Firestore
+                    const obituaryDoc = await db.collection('A_Obituaries').add(obituary);
+
+                    // Get the pageID (Document ID)
+                    const pageID = obituaryDoc.id;
+
+                    // Update obituary with the pageID
+                    await db.collection('A_Obituaries').doc(pageID).update({ pageID: pageID });
+
+                    // Social media sharing buttons
+                    const shareButtons = `
+                        <div>
+                            <p>Share this obituary:</p>
+                            <button onclick="shareOnFacebook('${pageName}')">Share on Facebook</button>
+                            <button onclick="shareOnTwitter('${pageName}')">Share on Twitter</button>
+                        </div>
+                    `;
+
+                    // Create HTML page for obituary
+                    const obituaryPageContent = `
+                        <html>
+                            <head>
+                                <title>${name} Obituary</title>
+                            </head>
+                            <body>
+                                <div id="messageDiv"></div>
+                                <h1>${name}</h1>
+                                <p>Sunrise: ${sunrise}</p>
+                                <p>Sunset: ${sunset}</p>
+                                <p>${about}</p>
+                                <p>Location: ${location}</p>
+                                <p>Category: ${category}</p>
+                                <img src="${mainPhotoUrl}" alt="Main Photo">
+                                ${video ? `<p>Video: <a href="${video}">${video}</a></p>` : ""}
+                                <p>Social Links: <a href="${socialLinks}">${socialLinks}</a></p>
+                                ${shareButtons}
+                            </body>
+                        </html>
+                    `;
+                    createPage(obituary, pageID);
+
+                    console.log(obituaryPageContent);
+
+                    alert('Obituary created successfully!');
+                    window.location.href = `/celebrating/${url}`; // Redirect to obituary page
+                },
+                onError: (err) => {
+                    console.error("Error processing payment:", err);
+                    alert("Payment failed. Please try again.");
+                }
+            }).render('#paypal-button');
+        });
+
+    
+        async function createPage(obituary, pageID) {
+
+            const script = `<script src="https://reelcareer.co/obituaries/setup/main.js"><\/script>`; // Escape forward slash in closing script tag
+
+let Content = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta property="og:title" content="Celebrating the Life of ${obituary.name}">
+  <meta property="og:description" content="Born on ${obituary.sunrise}, ${obituary.name}'s journey inspires growth and transformation. Join us in celebrating ${obituary.name}.">
+  <meta property="og:image" content="${obituary.mainPhoto}">
+  <meta property="og:url" content="https://reelcareer.co/celebrating-${obituary.pageName}">
+  <title>Celebrating the Life of ${obituary.name}</title>
+  ${script} <!-- The script is correctly inserted here -->
+</head>
+<body>
+  <main>
+    <header>
+      <h1>Celebrating ${obituary.name}'s Journey</h1>
+      <p>A life of transformation and growth</p>
+    </header>
+    <div class="container">
+      <div class="photo">
+        <img src="${obituary.mainPhoto}" alt="${obituary.name}">
+      </div>
+      <h1>Celebrating the Life of ${obituary.name}</h1>
+      <p>Born in ${obituary.sunrise}, ${obituary.name}'s journey inspires growth and transformation. Embrace this new beginning together.</p>
+      <div class="info-section">
+        <h2>Event Details</h2>
+        <p><strong>Date:</strong> ${obituary.sunset}</p>
+        <p><strong>Location:</strong> ${obituary.location}</p>
+        <p><strong>Message:</strong> Share your thoughts using <strong>#Celebrating${obituary.name}</strong>.</p>
+      </div>
+      <div id="dynamic-shareArea" class="container"></div>
+      <div id="dynamic-interaction-area"></div>
+      <div id="dynamic-footer"></div>
+    </div> <!-- Closing container div -->
+  </main> <!-- Closing main -->
+  <div id="pageID">${pageID}</div>
+</body>
+</html>`;
+
+    const part_1 = "aeghbbh";
+    const part_2 = "bvfbxbg";
+    const part_3 = "jdfbbk";
+    const token = part_1 + part_2 + part_3;
+
+    const owner = "RW-501";
+    const repo = "ReelCareer";
+    const filePath = `obituaries/celebrating-${obituary.pageName}.html`; // Adjust path as needed
+    const branch = 'main';
+    const messageDiv = document.getElementById('messageDiv');
+
+    // GitHub API URL for creating/updating a file
+    const url = `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}`;
+
+    const encodedContent = btoa(Content);
+
+    try {
+        // First, check if the file exists by attempting a GET request
+        const fileResponse = await fetch(url, {
+            method: 'GET',
+            headers: {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'application/json',
+                Accept: 'application/vnd.github+json',
+            },
+        });
+
+        let sha = ''; // Will store the sha if the file exists
+        if (fileResponse.ok) {
+            // If the file exists, fetch its sha for updating
+            const fileData = await fileResponse.json();
+            sha = fileData.sha;
+        }
+
+        const response = await fetch(url, {
+            method: 'PUT',
+            headers: {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'application/json',
+                Accept: 'application/vnd.github+json',
+            },
+            body: JSON.stringify({
+                message: sha ? `Update ${filePath}` : `Create ${filePath}`,
+                content: encodedContent,
+                sha: sha, // Include sha for updating the file
+                branch: branch,
+            }),
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(`Error: ${errorData.message} (Status: ${response.status})`);
+        }
+
+        const data = await response.json();
+        messageDiv.textContent = 'File created/updated successfully!';
+    } catch (error) {
+        messageDiv.textContent = error.message;
+    }
+}
+
+        // The Preview Button
+document.getElementById('preview-button').addEventListener('click', function () {
+    // Get the input values (use your variables accordingly)
+    const name = document.getElementById('name').value;
+    const sunrise = document.getElementById('sunrise').value;
+    const sunset = document.getElementById('sunset').value;
+    const about = document.getElementById('about').value;
+    const location = document.getElementById('location').value;
+    const category = document.getElementById('category').value;
+    const url = document.getElementById('url').value.trim().toLowerCase();
+    const pageName = document.getElementById('pageName').value.trim().toLowerCase();
+    const video = document.getElementById('video').value;
+    const socialLinks = document.getElementById('socialLinks').value;
+    const mainPhoto = document.getElementById('mainPhoto').files[0]; // File input for main photo
+    
+    // Sanitize the input
+    const sanitizedURL = url.replace(/[^a-zA-Z0-9-_]/g, '');
+    const sanitizedPageName = pageName.replace(/[^a-zA-Z0-9-_]/g, '');
+
+    // Prepare the preview content
+    let previewContent = `
+        <h3>${name}</h3>
+        <p><strong>Sunrise:</strong> ${sunrise}</p>
+        <p><strong>Sunset:</strong> ${sunset}</p>
+        <p><strong>About:</strong> ${about}</p>
+        <p><strong>Location:</strong> ${location}</p>
+        <p><strong>Category:</strong> ${category}</p>
+        <p><strong>URL:</strong> /celebrating/${sanitizedURL}</p>
+    `;
+
+    // Add the video if provided
+    if (video) {
+        previewContent += `<p><strong>Video:</strong> <a href="${video}" target="_blank">${video}</a></p>`;
+    }
+
+    // Add the social media links if provided
+    if (socialLinks) {
+        previewContent += `<p><strong>Social Links:</strong> <a href="${socialLinks}" target="_blank">${socialLinks}</a></p>`;
+    }
+
+    // Display the photo (if provided)
+    if (mainPhoto) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            previewContent += `<img src="${e.target.result}" alt="Main Photo" style="max-width: 300px; max-height: 300px; margin-top: 10px;">`;
+            document.getElementById('previewContent').innerHTML = previewContent;
+        };
+        reader.readAsDataURL(mainPhoto);
+    } else {
+        document.getElementById('previewContent').innerHTML = previewContent;
+    }
+
+    // Show the preview modal
+    document.getElementById('previewModal').style.display = "block";
+});
+
+// Close the modal when the close button is clicked
+document.getElementById('closePreviewButton').addEventListener('click', function () {
+    document.getElementById('previewModal').style.display = "none";
+});
+
+// Close the modal when the user clicks the close (X) icon
+document.querySelector('.close').addEventListener('click', function () {
+    document.getElementById('previewModal').style.display = "none";
+});
+
+// Close the modal if the user clicks outside the modal content
+window.onclick = function (event) {
+    if (event.target == document.getElementById('previewModal')) {
+        document.getElementById('previewModal').style.display = "none";
+    }
+};
+        // Social Media Sharing Functions
+        function shareOnFacebook(pageName) {
+            const shareUrl = `https://reelcareer.co/celebrating/${pageName}`;
+            window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`, '_blank');
+        }
+
+        function shareOnTwitter(pageName) {
+            const shareUrl = `https://reelcareer.co/celebrating/${pageName}`;
+            window.open(`https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}`, '_blank');
+        }
+    </script>
+</body>
+
+
+
+</html>

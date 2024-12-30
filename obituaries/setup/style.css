@@ -1,0 +1,274 @@
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(to bottom, #000428, #004e92);
+    color: #ffffff;
+}
+header {
+    background: #ff8c00;
+    padding: 15px;
+    text-align: center;
+}
+header h1 {
+    margin: 0;
+    font-size: 1.8em;
+    color: #ffffff;
+}
+header p {
+    margin: 5px 0 0;
+    font-size: 0.9em;
+}
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    text-align: center;
+}
+.photo {
+    margin: 20px auto;
+    border-radius: 50%;
+    overflow: hidden;
+    width: 180px;
+    height: 180px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+.photo img {
+    width: 100%;
+    height: auto;
+}
+h1 {
+    font-size: 2.5em;
+    margin: 20px 0;
+}
+p {
+    font-size: 1.2em;
+    line-height: 1.6;
+    margin: 20px 0;
+}
+.info-section, .message-form {
+    margin: 20px 0;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 15px;
+    border-radius: 10px;
+}
+.form-group {
+    margin-bottom: 15px;
+}
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+.form-group input, .form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+}
+.submit-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background: #ff8c00;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.submit-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.section {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.events-section h2, .flowers-section h2 {
+    font-size: 1.8em;
+    margin-bottom: 15px;
+}
+
+.events-list, .flowers-section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.event {
+    background: rgba(255, 255, 255, 0.15);
+    padding: 15px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.event p {
+    margin: 0;
+    font-size: 1.2em;
+}
+
+.flowers-section p {
+    font-size: 1.2em;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.button {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.button a {
+    padding: 15px 30px;
+    background-color: #ff8c00;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 1.2em;
+    transition: background-color 0.3s;
+}
+
+.button a:hover {
+    background-color: #ffa733;
+}
+
+footer {
+    background: #002d63;
+    padding: 20px;
+    text-align: center;
+    color: #ffffff;
+    margin-top: 30px;
+}
+footer p {
+    margin: 5px 0;
+    font-size: 0.9em;
+}
+.banner {
+    background: #ffffff;
+    color: #004e92;
+    text-align: center;
+    padding: 10px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+}
+.banner a {
+    color: #ff8c00;
+    font-weight: bold;
+    text-decoration: none;
+}
+.banner a:hover {
+    text-decoration: underline;
+}
+
+
+
+.share-section {
+    text-align: center;
+    margin: 20px auto;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+.share-section h2 {
+    font-size: 1.5em;
+    margin-bottom: 15px;
+}
+
+.share-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.share-buttons a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    text-decoration: none;
+    color: white;
+    font-size: 20px;
+    transition: transform 0.3s ease;
+}
+
+.share-buttons a:hover {
+    transform: scale(1.1);
+}
+
+.share-buttons .facebook {
+    background-color: #3b5998;
+}
+
+.share-buttons .twitter {
+    background-color: #1da1f2;
+}
+
+.share-buttons .linkedin {
+    background-color: #0077b5;
+}
+
+.share-buttons .whatsapp {
+    background-color: #25d366;
+}
+
+
+.info-section {
+    margin: 20px 0;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 15px;
+    border-radius: 10px;
+}
+
+.actions {
+    margin: 20px 0;
+    text-align: center;
+}
+
+.actions button {
+    margin: 5px;
+    padding: 10px 20px;
+    background: #ff8c00;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+}
+
+.actions button:hover {
+    background: #ffa733;
+}
+
+.guestbook {
+    margin: 20px 0;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.guestbook h2 {
+    text-align: center;
+}
+
+.guestbook-entries {
+    max-height: 300px;
+    overflow-y: auto;
+    margin-top: 15px;
+}
+
+.entry {
+    background: rgba(255, 255, 255, 0.15);
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
