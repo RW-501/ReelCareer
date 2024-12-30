@@ -36,12 +36,12 @@ html {
 * {
     box-sizing: border-box;
 }
-        header {
-            background-color: #3470b8;
-            color: white;
-            padding: 20px;
-            text-align: center;
-        }
+header {
+    background: linear-gradient(45deg, #8f9cb0, #838383);
+    padding: 20px;
+    text-align: center;
+    color: #fff;
+}
 
         header h1 {
             margin: 0;
@@ -110,11 +110,11 @@ h2 {
 
 footer {
     text-align: center;
-    padding: 15px;
-    background-color: #3470b8;
+    padding: 10px;
+    background: linear-gradient(45deg, #858080, #8c8bb1c2);
     color: white;
+    margin-top: 40px;
 }
-
 
 
 
@@ -123,9 +123,9 @@ footer {
     text-align: center;
 }
 
-.button-container button {
-    padding: 15px 30px;
-    background-color: #ff8c00;
+.main button {
+    padding: 10px 20px;
+    background: linear-gradient(120deg, #8a8484, #676bb5);
     color: white;
     border: none;
     border-radius: 5px;
@@ -133,6 +133,6 @@ footer {
     cursor: pointer;
 }
 
-.button-container button:hover {
-    background-color: #ffa733;
+.main button:hover {
+    background-color: #95979c;
 }
