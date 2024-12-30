@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:title" content="Celebrating the Life of Ron Wilson II">
+    <meta property="og:description" content="Born on February 5, 1988, in Sunrise Conway, Arkansas, and reborn with a new purpose on January 1, 2025. Join us in celebrating the transformation of Ron Wilson II.">
+    <meta property="og:image" content="path-to-photo.jpg">
+    <meta property="og:url" content="https://yourdomain.com/celebrating-ron">
+    <title>Celebrating the Life of Ron Wilson II</title>
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to bottom, #000428, #004e92);
+            color: #ffffff;
+        }
+        header {
+            background: #ff8c00;
+            padding: 15px;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 1.8em;
+            color: #ffffff;
+        }
+        header p {
+            margin: 5px 0 0;
+            font-size: 0.9em;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            text-align: center;
+        }
+        .photo {
+            margin: 20px auto;
+            border-radius: 50%;
+            overflow: hidden;
+            width: 180px;
+            height: 180px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+        .photo img {
+            width: 100%;
+            height: auto;
+        }
+        h1 {
+            font-size: 2.5em;
+            margin: 20px 0;
+        }
+        p {
+            font-size: 1.2em;
+            line-height: 1.6;
+            margin: 20px 0;
+        }
+        .info-section, .message-form {
+            margin: 20px 0;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+        }
+        .submit-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #ff8c00;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .submit-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+        footer {
+            background: #002d63;
+            padding: 20px;
+            text-align: center;
+            color: #ffffff;
+            margin-top: 30px;
+        }
+        footer p {
+            margin: 5px 0;
+            font-size: 0.9em;
+        }
+        .banner {
+            background: #ffffff;
+            color: #004e92;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+        }
+        .banner a {
+            color: #ff8c00;
+            font-weight: bold;
+            text-decoration: none;
+        }
+        .banner a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Celebrating Ron's Journey</h1>
+        <p>A life of transformation and growth</p>
+    </header>
+
+    <div class="container">
+        <div class="photo">
+            <img src="path-to-photo.jpg" alt="Ron Wilson II">
+        </div>
+        <h1>Celebrating the Life of Ron Wilson II</h1>
+        <p>Born in Sunrise Conway, Arkansas, on February 5, 1988, Ron Wilson II's journey inspires growth and transformation. Embrace this new beginning together.</p>
+        <div class="info-section">
+            <h2>Event Details</h2>
+            <p><strong>Date:</strong> January 1, 2025</p>
+            <p><strong>Time:</strong> 12:00 PM CST</p>
+            <p><strong>Location:</strong> Dallas, Texas (Virtual Event)</p>
+            <p><strong>Message:</strong> Share your thoughts using <strong>#CelebratingRon</strong>.</p>
+        </div>
+        <div class="message-form">
+            <h2>Leave a Message</h2>
+            <form id="messageForm">
+                <div class="form-group">
+                    <label for="name">Your Name</label>
+                    <input type="text" id="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Your Message</label>
+                    <textarea id="message" rows="5" required></textarea>
+                </div>
+                <button type="submit" class="submit-button">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <p>Designed with love and reflection. The future is limitless.</p>
+    </footer>
+
+    <div class="banner">
+        <p>Discover more opportunities at <a href="https://ReelCareer.co" target="_blank">ReelCareer.co</a></p>
+    </div>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyDiwC3Dmd88-t3N9iRV5cZ3snVkEXinclg",
+            authDomain: "reelcareer-cb4b0.firebaseapp.com",
+            projectId: "reelcareer-cb4b0",
+            storageBucket: "reelcareer-cb4b0.appspot.com",
+            messagingSenderId: "365163764840",
+            appId: "1:365163764840:web:21c44f8625c9b6831e6fdd",
+            measurementId: "G-LBTK319K2X"
+        };
+
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        document.getElementById('messageForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const name = document.getElementById('name').value.trim();
+            const message = document.getElementById('message').value.trim();
+
+            if (name && message) {
+                try {
+                    await db.collection('RonMessages').add({
+                        name,
+                        message,
+                        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                    alert('Your message has been added!');
+                    document.getElementById('messageForm').reset();
+                } catch (error) {
+                    console.error('Error adding message: ', error);
+                    alert('Failed to add your message. Please try again.');
+                }
+            }
+        });
+    </script>
+</body>
+</html>
