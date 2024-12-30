@@ -7,7 +7,7 @@ function getUserDisplayName() {
 
   if (storedUserData) {
     // Parse the stored data
-     USERDATA =  getUserData();
+     USERDATA =  getUserData() || null;
 
     // Return the displayName if it exists
     return USERDATA.displayName || "No name available"; // Fallback if displayName is not set

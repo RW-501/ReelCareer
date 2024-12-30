@@ -15,7 +15,7 @@ let userINFO;
 
 onAuthStateChanged(auth, (USER) => {
   userINFO = USER;
-console.log("userINFO: ", userINFO);
+//console.log("userINFO: ", userINFO);
 
 
 const path = window.location.pathname;
