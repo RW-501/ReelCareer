@@ -48,7 +48,7 @@ import {
     }
   
     // Destructure with defaults for undefined properties
-    const { city = '', state = '', zip = '', country = '' } = userLocationData || {};
+    const { city = '', state = '', zip = '', country = 'US' } = userLocationData || {};
     return [city, state, zip, country];
   }
   
