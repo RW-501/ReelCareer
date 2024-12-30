@@ -193,7 +193,7 @@ function loadPageScripts() {
             logExecutionTime('Interest Script', performance.now());
         });
 
-    loadScript('https://reelcareer.co/scripts/js/load/elements/similar.js', { defer: true, type: 'module'  }, () => {
+    loadScript('https://reelcareer.co/scripts/js/load/elements/similar.js', { async: true, type: 'module'  }, () => {
         logExecutionTime('similar Script', performance.now());
     });
 

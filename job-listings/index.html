@@ -1636,14 +1636,8 @@ window.onload = async function () {
     loadSavedFilers();
   } else {
     console.warn('loadSavedFilers function not defined.');
-  }
-};
-
-
-    
-   // Function to fetch similar jobs based on tags
-
-document.addEventListener("DOMContentLoaded", () => {
+  }  
+  
   setTimeout(() => {
     document.getElementById('main-search-btn').addEventListener('click', searchJobs);
     document.getElementById('jobPostPopupCloseBtn').addEventListener('click', closeJobPostModal);
@@ -1652,6 +1646,16 @@ document.addEventListener("DOMContentLoaded", () => {
 loadRelatedBlogs();
 
 }, 500);
+
+
+};
+
+
+    
+   // Function to fetch similar jobs based on tags
+
+document.addEventListener("DOMContentLoaded", () => {
+
 });
 
 
