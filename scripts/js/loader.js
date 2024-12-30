@@ -188,7 +188,10 @@ function loadPageScripts() {
 
 
 
-
+        // Load interest.js as a module
+        loadScript('https://reelcareer.co/scripts/js/load/helpers/interest.js', { async: true, type: 'module' }, () => {
+            logExecutionTime('Interest Script', performance.now());
+        });
 
     loadScript('https://reelcareer.co/scripts/js/load/elements/similar.js', { defer: true, type: 'module'  }, () => {
         logExecutionTime('similar Script', performance.now());
@@ -220,10 +223,7 @@ function loadPageScripts() {
                           currentPath.includes('jobs') || currentPath.includes('reels') || currentPath.includes('views');
     
     if (isTargetPage) {
-        // Load interest.js as a module
-        loadScript('https://reelcareer.co/scripts/js/load/helpers/interest.js', { async: true, type: 'module' }, () => {
-            logExecutionTime('Interest Script', performance.now());
-        });
+
 
         // Load trackers.js as a module
         loadScript('https://reelcareer.co/scripts/js/load/helpers/trackers.js', { defer: true, type: 'module' }, () => {
