@@ -4,17 +4,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta property="og:title" content="Obituaries Index">
-    <meta property="og:description" content="View obituaries, sorted by category and location. Learn how to create your own obituary.">
-    <title>Obituaries Index</title>
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Create Your Obituary">
+    <meta property="og:description" content="Fill in the details to create your obituary page. Leave a legacy that people will cherish.">
+    <meta property="og:image" content="https://reelcareer.co/images/8pic_rc.png"> <!-- Replace with actual image URL -->
+    <meta property="og:url" content="https://reelcareer.co/obituaries/">
+    <meta property="og:type" content="website">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Create Your Obituary">
+    <meta name="twitter:description" content="Fill in the details to create your obituary page. Leave a legacy that people will cherish.">
+    <meta name="twitter:image" content="https://reelcareer.co/images/8pic_rc.png"> <!-- Replace with actual image URL -->
+    <meta name="twitter:url" content="https://reelcareer.co/obituaries/">
+    
+    <!-- General Meta Tags -->
+    <meta name="description" content="Create your personalized obituary page. Add details, photos, and memories to leave a lasting legacy.">
+    <meta name="keywords" content="obituary, create obituary, legacy, remembrance, celebration of life">
+    <meta name="author" content="ReelCareer">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#ffffff">
+    
+    <!-- Schema.org Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "url": "https://reelcareer.co/obituaries/",
+      "name": "Create Your Obituary",
+      "description": "Create your personalized obituary page. Add details, photos, and memories to leave a lasting legacy.",
+      "author": {
+        "@type": "Organization",
+        "name": "ReelCareer",
+        "url": "https://reelcareer.co/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "ReelCareer",
+        "url": "https://reelcareer.co/",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://reelcareer.co/images/8pic_rc.png", 
+          "width": 200,
+          "height": 60
+        }
+      },
+      "image": {
+        "@type": "ImageObject",
+        "url": "https://reelcareer.co/images/8pic_rc.png", 
+        "width": 1200,
+        "height": 630
+      }
+    }
+    </script>
+    
+
+    <!-- CSS Stylesheets -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
+    <!-- JS Scripts -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
     <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js"></script>
    
-   
-    <!-- Font Awesome for Icons -->
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
- 
-   
+
    
    <style>
         /* General Styles */
@@ -213,27 +271,8 @@
         const app = firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
-        // Mock data for obituaries (you'll fetch this from your backend)
-        const obituaries = [
-            {
-                id: 1,
-                name: "John Doe",
-                category: "Business",
-                location: "New York, USA",
-                photo: "https://via.placeholder.com/280x180",
-                about: "John was a visionary businessman who changed the landscape of modern industry.",
-                url: "/obituary/john-doe"
-            },
-            {
-                id: 2,
-                name: "Jane Smith",
-                category: "Arts",
-                location: "London, UK",
-                photo: "https://via.placeholder.com/280x180",
-                about: "Jane was an artist whose work inspired countless generations.",
-                url: "/obituary/jane-smith"
-            }
-        ];
+      
+        
 
 
 // Function to fetch obituaries from Firestore
