@@ -1262,9 +1262,7 @@ async function fetchJobListings() {
   if (userlocationData.length > 0) {
     jobsQuery = query(jobsQuery, where('Location', 'array-contains-any', userlocationData));
     locationSource += ' Location, ';
-  }
-
-  if (userJobInterest.length > 0) {
+  }else  if (userJobInterest.length > 0) {
     jobsQuery = query(jobsQuery, where('searchableTitle', 'array-contains-any', userJobInterest));
     locationSource +=' Job Interest, ';
 
@@ -1286,8 +1284,7 @@ async function fetchJobListings() {
   if (userlocationData.length > 0) {
     sponsorsQuery = query(sponsorsQuery, where('Location', 'array-contains-any', userlocationData));
     sponsorLocationSource += ' Location, ';
-  }
-  if (userJobInterest.length > 0) {
+  }else  if (userJobInterest.length > 0) {
     sponsorsQuery = query(sponsorsQuery, where('searchableTitle', 'array-contains-any', userJobInterest));
     locationSource +=' Job Interest, ';
 
