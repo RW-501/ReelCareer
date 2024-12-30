@@ -1260,7 +1260,7 @@ async function fetchJobListings() {
   let locationSource = ''; // Variable to track the location-based source
 
   if (userlocationData.length > 0) {
-    jobsQuery = query(jobsQuery, where('Location', 'array-contains-any', userlocationData.city));
+    jobsQuery = query(jobsQuery, where('Location', 'array-contains-any', userlocationData));
     locationSource += ' Location, ';
   }
 
