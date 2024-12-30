@@ -144,7 +144,7 @@ function createNavbar() {
 
       const userDataSaved = getUserData() || [];
 
-      if (userDataSaved.length === 0) {
+      if (!userDataSaved) {
           showToast("Loging in");
 
               console.log("verifying user:", user.displayName);
