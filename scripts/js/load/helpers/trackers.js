@@ -463,8 +463,9 @@ document.addEventListener('click', function (event) {
     });
     
 
-    
-if (checkUrl("/backend/") || checkUrl("/backend")) {
+    const currentPath = window.location.pathname;
+
+if (currentPath === "/backend") {
     console.log("Admin View");
     initializeAutoLogout();
   } else {
