@@ -141,8 +141,11 @@ function createNavbar() {
   
 
  
-      const userDataSaved = getUserData() || [];
-  
+      const userDataSaved = getUserData() || null;
+
+      if(!userDataSaved){
+        showToast("Please login");
+      }
   
       const dropdownMenuItems = [
         {
@@ -177,9 +180,7 @@ function createNavbar() {
         },
       ];
       
-  if(!userDataSaved){
-    showToast("Please login");
-  }
+
       // If logged in, show profile info and logout button
       const userName = userDataSaved.displayName || user.displayName || "User";
       const userPhoto = userDataSaved.profilePicture
