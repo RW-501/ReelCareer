@@ -9,6 +9,8 @@ let cardCount = 0;
     cardCount++;
     console.log(" cardCount:", cardCount);
     //console.log("Job Data:", job);
+    console.log("container :", container);
+
 
     const jobCard = document.createElement("div");
     jobCard.id = `job_Card_${job.id}`;
@@ -57,7 +59,6 @@ let cardCount = 0;
       style.innerHTML = `
 
       #featuredJobListings {
-      
         /* Card Styling */
         .card {
           border-radius: 20px;
@@ -176,7 +177,7 @@ let cardCount = 0;
         }
 
     }
-
+        
       `;
       
       // Append the style element to the head of the document
