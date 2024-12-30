@@ -58,7 +58,7 @@ let cardCount = 0;
       const style = document.createElement('style');
       style.innerHTML = `
 
-      #featuredJobListings {
+      #${container} {
         /* Card Styling */
         .card {
           border-radius: 20px;
