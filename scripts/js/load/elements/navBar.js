@@ -136,7 +136,6 @@ function createNavbar() {
   // Helper function to handle authentication state changes
   function handleAuthStateChanged(user) {
     const authSection = document.getElementById("authSection");
-    console.log("handleAuthStateChanged   ");
     console.log("handleAuthStateChanged User ID: ", user);
     if (user) {
   
@@ -178,9 +177,11 @@ function createNavbar() {
         },
       ];
       
-  
+  if(!userDataSaved){
+    showToast("Please login");
+  }
       // If logged in, show profile info and logout button
-      const userName = userDataSaved.displayName || "User";
+      const userName = userDataSaved.displayName || user.displayName || "User";
       const userPhoto = userDataSaved.profilePicture
         ? `<img id="nav-bar-profilePic" src="${userDataSaved.profilePicture}" alt="Profile Picture" class="rounded-circle" style="width: 40px; height: 40px; margin-right: 10px;">`
         : `<img id="nav-bar-profilePic" src="https://reelcareer.co/images/sq_logo_n_BG_sm.png" alt="Profile Picture" class="rounded-circle" style="width: 40px; height: 40px; margin-right: 10px;">`;

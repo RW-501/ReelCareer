@@ -441,12 +441,7 @@ document.addEventListener('click', function (event) {
                 console.log(`Associated form: buttonText = ${buttonText}, target = ${target}`);
                 // Check if the button is inside a class job-tags
                 if (target.classList.contains('tags')) {
-              
-         
-    
                   handleTagInput(buttonText);
-                
-    
           }
     
     
