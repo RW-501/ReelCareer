@@ -144,13 +144,14 @@ function createNavbar() {
 
       const userDataSaved = getUserData() || [];
 
-      if (!userDataSaved) {
-          showToast("Loging in");
-
-              console.log("verifying user:", user.displayName);
+      if (userDataSaved.length === 0) { // Check if the array is empty
+          showToast("Logging in");
+      
+          console.log("verifying user:", user.displayName);
               saveUserLoginState(user, true); // Save user state
-     
+   
       }
+      
       
   
       const dropdownMenuItems = [
