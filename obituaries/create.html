@@ -563,23 +563,27 @@ let Content = `<!DOCTYPE html>
   ${script} <!-- The script is correctly inserted here -->
 </head>
 <body>
-  <main>
     <header>
       <h1>Celebrating ${obituary.name}'s Journey</h1>
       <p>A life of transformation and growth</p>
     </header>
+  <main>
     <div class="container">
       <div class="photo">
         <img src="${obituary.mainPhoto}" alt="${obituary.name}">
       </div>
       <h1>Celebrating the Life of ${obituary.name}</h1>
       <p>Born in ${obituary.sunrise}, ${obituary.name}'s journey inspires growth and transformation. Embrace this new beginning together.</p>
-      <div class="info-section">
+      <div id="info-section">
         <h2>Event Details</h2>
         <p><strong>Date:</strong> ${obituary.sunset}</p>
         <p><strong>Location:</strong> ${obituary.location}</p>
         <p><strong>Message:</strong> Share your thoughts using <strong>#Celebrating${obituary.name}</strong>.</p>
       </div>
+                  <div id="media-section"></div>
+            <div id="obituary-section">
+              <p>${obituary.about}</p>
+</div>
       <div id="dynamic-shareArea" class="container"></div>
       <div id="dynamic-interaction-area"></div>
       <div id="dynamic-footer"></div>
