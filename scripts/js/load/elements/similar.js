@@ -37,7 +37,9 @@ import {
   // Improved: Preparing location data for Firebase with validation and defaults
   function prepareLocationForFirebase() {
     let userLocationData = sessionStorage.getItem('userLocation');
-  
+    
+    console.log("userLocationData:", userLocationData);
+
     if (typeof userLocationData === 'string') {
         try {
             userLocationData = JSON.parse(userLocationData); // Safely parse string
