@@ -7,9 +7,9 @@ let cardCount = 0;
   function createJobCard(job, container) {
     // Create the job card
     cardCount++;
-    console.log(" cardCount:", cardCount);
+   // console.log(" cardCount:", cardCount);
     //console.log("Job Data:", job);
-    console.log("container :", container);
+   // console.log("container :", container);
 
 
     const jobCard = document.createElement("div");
