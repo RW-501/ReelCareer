@@ -75,17 +75,41 @@
 
    
    <style>
+
+html {
+    width: 100%;
+    overflow-y: scroll;
+    position: relative;
+}
         /* General Styles */
         body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
-            background: #f4f4f9;
-            color: #333;
-        }
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f4f4f9;
+    color: #333;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    opacity: 0; /* Start invisible */
+    animation: fade-in 2s ease-in-out forwards; /* Fade in animation */
+}
 
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+
+* {
+    box-sizing: border-box;
+}
         header {
-            background-color: #002d63;
+            background-color: #3470b8;
             color: white;
             padding: 20px;
             text-align: center;
@@ -97,13 +121,16 @@
 
         .breadcrumb {
             padding: 10px;
-            background-color: #e3e3e3;
+            background-color: #939393;
             font-size: 1em;
-            text-align: center;
+            width: 100%;
+            text-align: left;
+            text-indent: 1rem;
+
         }
 
         .breadcrumb a {
-            color: #002d63;
+            color: #3470b8;
             text-decoration: none;
             padding: 5px;
         }
@@ -113,15 +140,17 @@
         }
 
         main {
-            padding: 30px;
-            background-color: white;
-        }
-
+    padding: 3rem;
+    height: 100%;
+    display: block;
+    min-height: 100%;
+    position: relative;
+}
         .section-header {
             text-align: center;
             font-size: 2em;
             margin-bottom: 20px;
-            color: #002d63;
+            color: #3470b8;
         }
 
         .cards-container {
@@ -179,7 +208,8 @@
         }
 
         .info-section {
-            background-color: #002d63;
+            background-color: #3470b8;
+
             color: white;
             padding: 30px;
             border-radius: 8px;
@@ -204,9 +234,8 @@
         footer {
             text-align: center;
             padding: 15px;
-            background-color: #002d63;
+            background-color: #3470b8;
             color: white;
-            margin-top: 40px;
         }
     </style>
 </head>
