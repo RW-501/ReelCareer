@@ -155,7 +155,7 @@ h2 {
     text-align: center;
 }
 
-.main button {
+.main > button {
     padding: 10px 20px;
     background: linear-gradient(120deg, #8a8484, #676bb5);
     color: white;
@@ -165,6 +165,15 @@ h2 {
     cursor: pointer;
 }
 
-.main button:hover {
+.main > button:hover {
     background-color: #95979c;
+}
+#preview-button {
+    background: linear-gradient(120deg, #d0c8c8, #767786);
+
+}
+
+#paypal-button {
+    background: linear-gradient(120deg, #8a8484, #2c34c2);
+
 }
