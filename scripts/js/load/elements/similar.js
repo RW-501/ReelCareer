@@ -10,23 +10,23 @@ import {
   
   const user = getUserId;
     
-async function checkImageURL(url) {
+  async function checkImageURL(url) {
     try {
-        const response = await fetch(url, { method: 'HEAD' });
-        if (response.ok) {
-            return url; // Image is accessible
-        } else if (response.status === 403) {
-         //   console.error(`403 Forbidden: Cannot access the image at ${url}`);
-            return 'https://reelcareer.co/images/rc_text_sm.png'; // Correct the protocol here
-        } else {
-        //    console.warn(`Unexpected response: ${response.status}`);
-            return 'https://reelcareer.co/images/rc_text_sm.png'; // Correct the protocol here
-        }
+      const response = await fetch(url, { method: 'HEAD' });
+  
+      // Check if the response is OK (status 200)
+      if (response.ok) {
+        return url; // Image is accessible
+      } else {
+        // Handle 403 Forbidden or any other response status
+        return 'https://reelcareer.co/images/rc_text_sm.png'; // Fallback image
+      }
     } catch (error) {
-      //  console.error(`Error checking image URL: ${error.message}`);
-        return 'https://reelcareer.co/images/rc_text_sm.png'; // Correct the protocol here
+      // If an error occurs (e.g., network error, CORS issue), return the fallback image
+      return 'https://reelcareer.co/images/rc_text_sm.png'; // Fallback image
     }
   }
+  
   
   
   window.checkImageURL = checkImageURL;
