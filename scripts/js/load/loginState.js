@@ -33,8 +33,13 @@ const saveUserLoginState = async (user) => {
       let userJobInterest = JSON.parse(localStorage.getItem('userJobInterest')) || [];
       //console.log(" User userIP: ", userIP);
   
-      
-      const profilePic = document.getElementById('nav-bar-profilePic').src;
+      const profilePicArea = document.getElementById('nav-bar-profilePic');
+      let  profilePic = '';
+
+      if(profilePicArea){
+        profilePic = profilePicArea.src;
+      }
+       
   
    
   
