@@ -132,23 +132,18 @@ function createNavbar() {
   
 
   
-  let count = 0;
   // Helper function to handle authentication state changes
   function handleAuthStateChanged(user) {
     const authSection = document.getElementById("authSection");
-  //  console.log("handleAuthStateChanged User ID: ", user);
     if (user) {
-      count++;
-
-      console.log("count: ", count);
-
       const userDataSaved = getUserData() || [];
 
       if (userDataSaved.length === 0) { // Check if the array is empty
           showToast("Logging in");
       
           console.log("verifying user:", user.displayName);
-              saveUserLoginState(user, true); // Save user state
+              
+          saveUserLoginState(user, true); // Save user state
    
       }
       
