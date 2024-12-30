@@ -15,7 +15,7 @@ let userINFO;
 
 onAuthStateChanged(auth, (USER) => {
   userINFO = USER;
-//console.log("userINFO: ", userINFO);
+console.log("userINFO: ", userINFO);
 
 
 const path = window.location.pathname;
@@ -132,15 +132,16 @@ function createNavbar() {
   
 
   
-  
+  let count;
   // Helper function to handle authentication state changes
   function handleAuthStateChanged(user) {
     const authSection = document.getElementById("authSection");
   //  console.log("handleAuthStateChanged User ID: ", user);
     if (user) {
-  
+      count++;
 
- 
+      console.log("count: ", count);
+
       const userDataSaved = getUserData() || [];
 
       if (userDataSaved.length === 0) {
