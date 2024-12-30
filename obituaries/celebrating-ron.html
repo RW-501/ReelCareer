@@ -1,67 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta property="og:title" content="Celebrating the Life of Ron Wilson II">
-    <meta property="og:description" content="Born on February 5, 1988, in Sunrise Conway, Arkansas, and reborn with a new purpose on January 1, 2025. Join us in celebrating the transformation of Ron Wilson II.">
-    <meta property="og:image" content="path-to-photo.jpg">
-    <meta property="og:url" content="https://yourdomain.com/celebrating-ron">
-    <title>Celebrating the Life of Ron Wilson II</title>
- 
-   
-    <script src="https://reelcareer.co/obituaries/setup/main.js"></script>
+    <body>
 
+
+</body>
+</html>
+
+<script>
+function createPage() {
+
+    const obituary = {
+    name: "Johnathan Doe",
+    sunrise: "January 1, 1945",
+    sunset: "December 24, 2023",
+    about: "Johnathan Doe was a kind-hearted soul who touched the lives of everyone he met. A lover of music, nature, and family, his legacy continues to inspire.",
+    location: "Springfield, Illinois",
+    category: "Family & Friends",
+    url: "https://reelcareer.co/obituaries/johnathan-doe",
+    pageName: "johnathan-doe",
+    video: "https://reelcareer.co/videos/memorial/johnathan-doe.mp4",
+    socialLinks: [
+        {
+            platform: "Facebook",
+            url: "https://facebook.com/johnathan.doe"
+        },
+        {
+            platform: "Instagram",
+            url: "https://instagram.com/johnathan.doe"
+        }
+    ],
+    mainPhoto: "https://reelcareer.co/images/obituaries/johnathan-doe.jpg",
+    userIP: "192.168.1.1", // Example IP
+    status: "active" // Marked active after successful payment
+
+
+
+  };
+
+
+
+const script = `<script src="https://reelcareer.co/obituaries/setup/main.js"><\/script>`; // Escape forward slash in closing script tag
+
+let Content = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta property="og:title" content="Celebrating the Life of ${obituary.name}">
+<meta property="og:description" content="Born on ${obituary.sunrise}, ${obituary.name}'s journey inspires growth and transformation. Join us in celebrating ${obituary.name}.">
+<meta property="og:image" content="${obituary.mainPhoto}">
+<meta property="og:url" content="https://reelcareer.co/celebrating-${obituary.pageName}">
+<title>Celebrating the Life of ${obituary.name}</title>
+${script} <!-- The script is correctly inserted here -->
 </head>
 <body>
-    <main>
+<header>
+<h1>Celebrating ${obituary.name}'s Journey</h1>
+<p>A life of transformation and growth</p>
+</header>
+<main>
+<div class="container">
+<div class="photo">
+<img src="${obituary.mainPhoto}" alt="${obituary.name}">
+</div>
+<h1>Celebrating the Life of ${obituary.name}</h1>
+<p>Born in ${obituary.sunrise}, ${obituary.name}'s journey inspires growth and transformation. Embrace this new beginning together.</p>
+<div id="info-section">
+<h2>Event Details</h2>
+<p><strong>Date:</strong> ${obituary.sunset}</p>
+<p><strong>Location:</strong> ${obituary.location}</p>
+<p><strong>Message:</strong> Share your thoughts using <strong>#Celebrating${obituary.name}</strong>.</p>
+</div>
+      <div id="media-section"></div>
+<div id="obituary-section">
+  <p>${obituary.about}</p>
+</div>
+<div id="dynamic-shareArea" class="container"></div>
+<div id="dynamic-interaction-area"></div>
+<div id="dynamic-footer"></div>
+</div> <!-- Closing container div -->
+</main> <!-- Closing main -->
+<div id="pageID">${pageID}</div>
+</body>
+</html>`;
+document.body.innerHTML = Content;
 
-    <header>
-        <h1>Celebrating Ron's Journey</h1>
-        <p>A life of transformation and growth</p>
-    </header>
+}
 
-    <div class="container">
-        <div class="photo">
-            <img src="path-to-photo.jpg" alt="Ron Wilson II">
-        </div>
-        <h1>Celebrating the Life of Ron Wilson II</h1>
-        <p>Born in Sunrise Conway, Arkansas, on February 5, 1988, Ron Wilson II's journey inspires growth and transformation. Embrace this new beginning together.</p>
-        <div class="info-section">
-            <h2>Event Details</h2>
-            <p><strong>Date:</strong> January 1, 2025</p>
-            <p><strong>Time:</strong> 12:00 PM CST</p>
-            <p><strong>Location:</strong> Dallas, Texas (Virtual Event)</p>
-            <p><strong>Message:</strong> Share your thoughts using <strong>#CelebratingRon</strong>.</p>
-        </div>
+createPage();
 
-        <div id='dynamic-shareArea' class="container">
-
-        </div>
-
-
-
-
-
-        <div id="dynamic-interaction-area" class="guestbook">
-
-    </div>
-
-
-    <div id="dynamic-footer">
-        
-    </div>
-
-
-
-
-</main>
-
-
-
-
-<div id="pageID"></div>
-    
-   </body>
-
-</html>
+</script> 
