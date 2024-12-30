@@ -1251,17 +1251,22 @@ async function fetchJobListings() {
   // Create the base query for Jobs
   let jobsQuery = query(collection(db, 'Jobs'));
 
-  const userJobInterest = getUserJobInterest();
-  const userlocationData = prepareLocationForFirebase();
+  const normalizedUserJobInterest = getUserJobInterest();
+const normalizedUserlocationData  = prepareLocationForFirebase();
 
-  console.log("userJobInterest:", userJobInterest);
-  console.log("userlocationData:", userlocationData);
+// Lowercase all terms in the arrays
+const userJobInterest = normalizedUserJobInterest.map(term => term.toLowerCase());
+const userlocationData = normalizedUserlocationData .map(location => location.toLowerCase());
+
+console.log("userJobInterest:", userJobInterest);
+console.log("userlocationData:", userlocationData);
+
 
   let locationSource = ''; // Variable to track the location-based source
 
   if (userlocationData.length > 0) {
     // Apply location filter if userlocationData is available
-    jobsQuery = query(jobsQuery, where('Location', 'array-contains-any', userlocationData));
+    jobsQuery = query(jobsQuery, where('location', 'array-contains-any', userlocationData));
     locationSource += ' Location, ';
 } else if (userJobInterest.length > 0) {
     // Apply job interest filter if userJobInterest is available
@@ -1284,7 +1289,7 @@ async function fetchJobListings() {
   // Adding dynamic filters based on userINFO for sponsors
   if (userlocationData.length > 0) {
     // Apply Location filter if userlocationData is available
-    sponsorsQuery = query(sponsorsQuery, where('Location', 'array-contains-any', userlocationData));
+    sponsorsQuery = query(sponsorsQuery, where('location', 'array-contains-any', userlocationData));
     sponsorLocationSource += ' Location, ';
 } else if (userJobInterest.length > 0) {
     // Apply Job Interest filter if userJobInterest is available
