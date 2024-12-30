@@ -14,7 +14,7 @@ let cardCount = 0;
 
     const jobCard = document.createElement("div");
     jobCard.id = `job_Card_${job.id}`;
-    jobCard.className = "JOB_CARD  mb-4 noCopy";
+    jobCard.className = "JOB_CARD  mb-4";
     // Adding data attributes for search purposes
     jobCard.dataset.title = job.title ? job.title.toLowerCase() : '';
     jobCard.dataset.company = job.company ? job.company.toLowerCase() : '';
@@ -60,14 +60,8 @@ let cardCount = 0;
 
       #${container} {
         /* Card Styling */
-        .card {
-          border-radius: 20px;
-          overflow: hidden;
-          transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
-          box-shadow: 0px 10px 40px rgba(0, 0, 0, 0.25);
-          background: #1a1a1a;
-          color: #ffffff;
-        }
+
+        
       
         .shadow-futuristic {
           box-shadow: 0px 8px 50px rgba(0, 0, 0, 0.35);
