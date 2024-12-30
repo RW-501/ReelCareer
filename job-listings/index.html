@@ -1260,13 +1260,15 @@ async function fetchJobListings() {
   let locationSource = ''; // Variable to track the location-based source
 
   if (userlocationData.length > 0) {
+    // Apply location filter if userlocationData is available
     jobsQuery = query(jobsQuery, where('Location', 'array-contains-any', userlocationData));
     locationSource += ' Location, ';
-  }else  if (userJobInterest.length > 0) {
+} else if (userJobInterest.length > 0) {
+    // Apply job interest filter if userJobInterest is available
     jobsQuery = query(jobsQuery, where('searchableTitle', 'array-contains-any', userJobInterest));
-    locationSource +=' Job Interest, ';
+    locationSource += ' Job Interest, ';
+}
 
-  }
 
  
   // Common conditions
@@ -1280,15 +1282,16 @@ async function fetchJobListings() {
   let sponsorLocationSource = ''; // Variable to track the sponsor's location-based source
 
   // Adding dynamic filters based on userINFO for sponsors
-
   if (userlocationData.length > 0) {
+    // Apply Location filter if userlocationData is available
     sponsorsQuery = query(sponsorsQuery, where('Location', 'array-contains-any', userlocationData));
     sponsorLocationSource += ' Location, ';
-  }else  if (userJobInterest.length > 0) {
+} else if (userJobInterest.length > 0) {
+    // Apply Job Interest filter if userJobInterest is available
     sponsorsQuery = query(sponsorsQuery, where('searchableTitle', 'array-contains-any', userJobInterest));
-    locationSource +=' Job Interest, ';
+    sponsorLocationSource += ' Job Interest, ';
+}
 
-  }
 
   // Common conditions for sponsors
   sponsorsQuery = query(sponsorsQuery, where('status', '==', 'active'), where('boosted', 'in', ['Yes', 'Active']));
