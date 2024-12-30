@@ -123,7 +123,7 @@ let cardCount = 0;
     // Additional metadata
     jobCard.dataset.submittedBy = job.submittedBy ? job.submittedBy.toLowerCase() : '';
     
-    if (cardCount % 2 === 0) {
+    if (cardCount % 3 === 0) {
 
     jobCard.innerHTML = ` 
   <div class="card jobCard gridBody h-100 shadow-futuristic">
