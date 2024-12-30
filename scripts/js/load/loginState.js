@@ -21,7 +21,7 @@ import {
 const saveUserLoginState = async (user) => {
     try {
       //console.log(" User info: ", user);
-      handleAuthStateChanged(user);
+
    
   let jobArray = [], tagArray = [];
   
@@ -141,7 +141,7 @@ const saveUserLoginState = async (user) => {
   
       localStorage.setItem("userLoggedIn", "true");
   
-  
+      handleAuthStateChanged(user);
       showToast("Login state saved successfully!", "success");
   
     window.location.href = "/u/"; // Redirect to profile
