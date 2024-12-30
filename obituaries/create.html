@@ -695,6 +695,8 @@ let Content = `<!DOCTYPE html>
 
         const data = await response.json();
         messageDiv.textContent = 'File created/updated successfully!';
+
+        clearFormData();
     } catch (error) {
         messageDiv.textContent = error.message;
     }
@@ -782,6 +784,66 @@ window.onclick = function (event) {
             const shareUrl = `https://reelcareer.co/celebrating/${pageName}`;
             window.open(`https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}`, '_blank');
         }
+
+
+
+
+
+
+// Save form data to localStorage when an input changes
+document.getElementById("obituaryForm").addEventListener("input", function(e) {
+    const formData = {
+        name: document.getElementById("name").value,
+        sunrise: document.getElementById("sunrise").value,
+        sunset: document.getElementById("sunset").value,
+        about: document.getElementById("about").value,
+        location: document.getElementById("location").value,
+        category: document.getElementById("category").value,
+        otherCategory: document.getElementById("otherCategory").value,
+        pageName: document.getElementById("pageName").value,
+        mainPhoto: document.getElementById("mainPhoto").files[0] ? document.getElementById("mainPhoto").files[0].name : '',
+        video: document.getElementById("video").value,
+        socialLinks: document.getElementById("socialLinks").value
+    };
+
+    // Save to localStorage
+    localStorage.setItem("obituaryFormData", JSON.stringify(formData));
+});
+
+// Load form data from localStorage if available
+window.addEventListener("load", function() {
+    const savedData = JSON.parse(localStorage.getItem("obituaryFormData"));
+
+    if (savedData) {
+        document.getElementById("name").value = savedData.name || "";
+        document.getElementById("sunrise").value = savedData.sunrise || "";
+        document.getElementById("sunset").value = savedData.sunset || "";
+        document.getElementById("about").value = savedData.about || "";
+        document.getElementById("location").value = savedData.location || "";
+        document.getElementById("category").value = savedData.category || "";
+        document.getElementById("otherCategory").value = savedData.otherCategory || "";
+        document.getElementById("pageName").value = savedData.pageName || "";
+        document.getElementById("video").value = savedData.video || "";
+        document.getElementById("socialLinks").value = savedData.socialLinks || "";
+        
+        if (savedData.mainPhoto) {
+            // Show the file name if a photo was previously selected
+            document.getElementById("mainPhoto").nextElementSibling.innerText = savedData.mainPhoto;
+        }
+    }
+});
+
+// To clear the stored data (optional, for example after form submission)
+function clearFormData() {
+    localStorage.removeItem("obituaryFormData");
+}
+
+
+
+
+
+
+
     </script>
 
 <script>
