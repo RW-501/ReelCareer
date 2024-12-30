@@ -132,7 +132,7 @@ function createNavbar() {
   
 
   
-  let count;
+  let count = 0;
   // Helper function to handle authentication state changes
   function handleAuthStateChanged(user) {
     const authSection = document.getElementById("authSection");
