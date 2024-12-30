@@ -145,6 +145,9 @@ function createNavbar() {
 
       if(!userDataSaved){
         showToast("Please login");
+
+        console.log("verifing user:", user.displayName);
+         saveUserLoginState(user, true); // Save user state
       }
   
       const dropdownMenuItems = [
