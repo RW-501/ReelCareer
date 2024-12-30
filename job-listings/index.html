@@ -1254,6 +1254,8 @@ async function fetchJobListings() {
   const userJobInterest = getUserJobInterest();
   const userlocationData = prepareLocationForFirebase();
 
+  console.log("userJobInterest:", userJobInterest);
+  console.log("userlocationData:", userlocationData);
 
   let locationSource = ''; // Variable to track the location-based source
 
