@@ -1,77 +1,5 @@
-const style = document.createElement('style');
-style.innerHTML = `
-  .card {
-    border-radius: 15px;
-    overflow: hidden;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
 
-  .shadow-futuristic {
-    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
-  }
 
-  .futuristic-gradient {
-    background: linear-gradient(45deg, #007bff, #5e17eb);
-    color: white;
-    padding: 15px;
-  }
-
-  .futuristic-bg {
-    background-color: #f8f9fa;
-    padding: 15px;
-  }
-
-  .futuristic-icon {
-    color: #5e17eb;
-  }
-
-  .futuristic-link {
-    color: #ffffff;
-    text-decoration: none;
-    font-weight: bold;
-    transition: color 0.3s ease;
-  }
-
-  .futuristic-link:hover {
-    color: #ffcc00;
-  }
-
-  .futuristic-image {
-    border-radius: 10px;
-    object-fit: cover;
-  }
-
-  .futuristic-divider {
-    border-top: 2px solid rgba(0, 0, 0, 0.1);
-  }
-
-  .futuristic-button {
-    display: inline-block;
-    padding: 10px 20px;
-    color: #ffffff;
-    background-color: #5e17eb;
-    border: none;
-    border-radius: 50px;
-    text-align: center;
-    font-size: 14px;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-
-  .futuristic-button:hover {
-    background-color: #ffcc00;
-    color: #000;
-  }
-
-  .card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0px 8px 30px rgba(0, 0, 0, 0.3);
-  }
-`;
-
-// Append the style element to the head of the document
-document.head.appendChild(style);
 
 let cardCount = 0;
 
@@ -125,70 +53,194 @@ let cardCount = 0;
     
     if (cardCount % 3 === 0) {
 
-    jobCard.innerHTML = ` 
-  <div class="card jobCard gridBody h-100 shadow-futuristic">
-    <!-- Job Title and Company -->
-    <div class="card-top futuristic-gradient">
-      <a href="https://reelcareer.co/jobs/job-details?id=${job.id}" 
-         class="job-title-link futuristic-link">
-        ${job.title}
-      </a>
-      <p class="company-card-text-area">
-        <i class="fas fa-building futuristic-icon"></i>
-        <strong>${job.company}</strong>
-      </p>
-    </div>
-
-    <!-- Job Image with Lazy Load -->
-    ${
-      job.imageUrl
-        ? `
-      <div class="job-image-container mb-3">
-        <img src="${job.imageUrl}" alt="${job.title}" 
-             class="img-fluid futuristic-image" loading="lazy">
-      </div>`
-        : ""
-    }
-
-    <!-- Location, Type, and Salary -->
-    <div class="card-bottom futuristic-bg">
-      <p class="location-text-area c-text">
-        <i class="fas fa-map-marker-alt futuristic-icon"></i>
-        <h6>${formatLocation(job.location)}</h6>
-      </p>
-      <p class="industry-text-area c-text">
-        <strong>Industry:</strong>
-        <span>${job.industry}</span>
-      </p>
-      <p class="category-text-area c-text">
-        <strong>Category:</strong>
-        <span>${job.category}</span>
-      </p>
-      <hr class="futuristic-divider">
-      <p class="job-type-text-area c-text">
-        <strong>Type:</strong>
-        <span>${formatJobType(job.type)}</span>
-      </p>
-      <p class="salary-text-area c-text">
-        <strong>Salary:</strong>
-        <span>${formatCurrency(job.salary, { decimals: 0 })}</span>
-        <span class="salary-text">${job.salaryPayTime || ""}</span>
-      </p>
-      <p class="source-text-area c-text">
-        <small>Source:</small>
-        <small>${job.source}</small>
-      </p>
-    </div>
-
-    <!-- View Details Button -->
-    <a href="https://reelcareer.co/jobs/job-details?id=${job.id}" 
-       class="card-CTA-Btn futuristic-button" 
-       aria-label="View job details for ${job.title}">
-      View Details
-    </a>
-  </div>
-`;
-  }else{
+      const style = document.createElement('style');
+      style.innerHTML = `
+        /* Card Styling */
+        .card {
+          border-radius: 20px;
+          overflow: hidden;
+          transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+          box-shadow: 0px 10px 40px rgba(0, 0, 0, 0.25);
+          background: #1a1a1a;
+          color: #ffffff;
+        }
+      
+        .shadow-futuristic {
+          box-shadow: 0px 8px 50px rgba(0, 0, 0, 0.35);
+        }
+      
+        /* Gradient and Background Styling */
+        .futuristic-gradient {
+          background: linear-gradient(135deg, #5e17eb, #00bfff, #ff00a8);
+          color: white;
+          padding: 20px;
+          border-radius: 20px;
+          font-weight: bold;
+          text-transform: uppercase;
+          box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        }
+      
+        .futuristic-bg {
+          background-color: #111;
+          padding: 20px;
+          border-radius: 20px;
+          box-shadow: inset 0px 4px 12px rgba(0, 0, 0, 0.3);
+        }
+      
+        /* Icon Styling */
+        .futuristic-icon {
+          color: #ff00a8;
+          font-size: 22px;
+          transition: color 0.3s ease;
+        }
+      
+        /* Hover Effects for Links */
+        .futuristic-link {
+          color: #ffffff;
+          text-decoration: none;
+          font-weight: bold;
+          transition: color 0.3s ease, transform 0.3s ease;
+        }
+      
+        .futuristic-link:hover {
+          color: #ffcc00;
+          transform: scale(1.05);
+        }
+      
+        /* Image Styling */
+        .futuristic-image {
+          border-radius: 15px;
+          object-fit: cover;
+          box-shadow: 0px 6px 25px rgba(0, 0, 0, 0.2);
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+      
+        .futuristic-image:hover {
+          transform: scale(1.05);
+          box-shadow: 0px 8px 40px rgba(0, 0, 0, 0.3);
+        }
+      
+        /* Divider Styling */
+        .futuristic-divider {
+          border-top: 2px solid rgba(255, 255, 255, 0.1);
+          margin: 15px 0;
+        }
+      
+        /* Button Styling */
+        .futuristic-button {
+          display: inline-block;
+          padding: 14px 28px;
+          color: #ffffff;
+          background-color: #5e17eb;
+          border: none;
+          border-radius: 50px;
+          text-align: center;
+          font-size: 16px;
+          text-transform: uppercase;
+          cursor: pointer;
+          transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+          box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.15);
+        }
+      
+        .futuristic-button:hover {
+          background-color: #ffcc00;
+          color: #000;
+          transform: translateY(-4px);
+          box-shadow: 0px 8px 25px rgba(0, 0, 0, 0.3);
+        }
+      
+        /* Card Hover Effects */
+        .card:hover {
+          transform: translateY(-10px);
+          box-shadow: 0px 14px 70px rgba(0, 0, 0, 0.4);
+        }
+      
+        /* Additional Styling for text and layout */
+        .company-card-text-area {
+          margin-top: 5px;
+        }
+      
+        .job-title-link {
+          font-size: 18px;
+          color: #ffffff;
+          font-weight: bold;
+          transition: color 0.3s ease, transform 0.3s ease;
+        }
+      
+        .job-title-link:hover {
+          color: #ffcc00;
+          transform: scale(1.05);
+        }
+      `;
+      
+      // Append the style element to the head of the document
+      document.head.appendChild(style);
+      
+      // Job Card HTML Structure
+      jobCard.innerHTML = `  
+        <div class="card jobCard gridBody h-100 shadow-futuristic">
+          <!-- Job Title and Company -->
+          <div class="card-top futuristic-gradient">
+            <a href="https://reelcareer.co/jobs/job-details?id=${job.id}" 
+               class="job-title-link futuristic-link">
+              ${job.title}
+            </a>
+            <p class="company-card-text-area">
+              <i class="fas fa-building futuristic-icon"></i>
+              <strong>${job.company}</strong>
+            </p>
+          </div>
+      
+          <!-- Job Image with Lazy Load -->
+          ${
+            job.imageUrl
+              ? ` 
+            <div class="job-image-container mb-3">
+              <img src="${job.imageUrl}" alt="${job.title}" 
+                   class="img-fluid futuristic-image" loading="lazy">
+            </div>`
+              : ""
+          }
+      
+          <!-- Location, Type, and Salary -->
+          <div class="card-bottom futuristic-bg">
+            <p class="location-text-area c-text">
+              <i class="fas fa-map-marker-alt futuristic-icon"></i>
+              <h6>${formatLocation(job.location)}</h6>
+            </p>
+            <p class="industry-text-area c-text">
+              <strong>Industry:</strong>
+              <span>${job.industry}</span>
+            </p>
+            <p class="category-text-area c-text">
+              <strong>Category:</strong>
+              <span>${job.category}</span>
+            </p>
+            <hr class="futuristic-divider">
+            <p class="job-type-text-area c-text">
+              <strong>Type:</strong>
+              <span>${formatJobType(job.type)}</span>
+            </p>
+            <p class="salary-text-area c-text">
+              <strong>Salary:</strong>
+              <span>${formatCurrency(job.salary, { decimals: 0 })}</span>
+              <span class="salary-text">${job.salaryPayTime || ""}</span>
+            </p>
+            <p class="source-text-area c-text">
+              <small>Source:</small>
+              <small>${job.source}</small>
+            </p>
+          </div>
+      
+          <!-- View Details Button -->
+          <a href="https://reelcareer.co/jobs/job-details?id=${job.id}" 
+             class="card-CTA-Btn futuristic-button" 
+             aria-label="View job details for ${job.title}">
+            View Details
+          </a>
+        </div>
+      `;
+        }else{
 
     jobCard.innerHTML = `
     <div class="card jobCard gridBody h-100 shadow-sm " >
