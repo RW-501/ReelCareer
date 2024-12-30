@@ -137,7 +137,7 @@
   
   <main id="main-content">
 
-    
+
   <div class="container mt-5">
 
     <!-- Toggle Button for Collapse -->
@@ -1257,6 +1257,13 @@ async function fetchJobListings() {
 
   const normalizedUserJobInterest = getUserJobInterest();
 const normalizedUserlocationData  = prepareLocationForFirebase();
+
+
+
+console.log("normalizedUserJobInterest:", normalizedUserJobInterest);
+console.log("normalizedUserlocationData:", normalizedUserlocationData);
+
+
 
 // Lowercase all terms in the arrays
 const userJobInterest = normalizedUserJobInterest.map(term => term.toLowerCase());
