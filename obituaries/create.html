@@ -420,6 +420,7 @@ textarea::placeholder {
         <span class="close">&times;</span>
         <h2>Obituary Preview</h2>
         <div id="previewContent"></div>
+        <div id="mediaContent"></div>
         <button id="closePreviewButton">Close Preview</button>
     </div>
 </div>
@@ -1045,8 +1046,8 @@ document.getElementById('preview-button').addEventListener('click', function () 
 
     // Add the video if provided
     if (video) {
-        let previewContent = document.getElementById('previewContent');
-          displayVideoPreview(video, previewContent, true);
+        let mediaContent = document.getElementById('mediaContent');
+          displayVideoPreview(video, mediaContent, true);
         
    
     }
