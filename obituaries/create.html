@@ -489,6 +489,7 @@ import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/9
     // Handle file selection and display image preview
     fileInput.addEventListener('change', function(event) {
         const file = event.target.files[0];
+        const imagePreview = document.getElementById('imagePreview');
 
         if (file && file.type.startsWith('image/')) {
             // Create an image URL for the selected file
