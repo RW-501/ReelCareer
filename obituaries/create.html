@@ -544,16 +544,16 @@ import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/9
             const youtubeEmbed = videoUrl.includes("youtube.com") 
                 ? videoUrl.replace("watch?v=", "embed/") 
                 : videoUrl.replace("youtu.be/", "youtube.com/embed/");
-            videoPreviewContainer.innerHTML = `<iframe width="560" height="315" src="${youtubeEmbed}" frameborder="0" allowfullscreen></iframe>`;
+            videoPreviewContainer.innerHTML += `<iframe width="560" height="315" src="${youtubeEmbed}" frameborder="0" allowfullscreen></iframe>`;
         }
         // Vimeo Video Check
         else if (videoUrl.includes("vimeo.com")) {
             const vimeoId = videoUrl.split("/").pop();
-            videoPreviewContainer.innerHTML = `<iframe src="https://player.vimeo.com/video/${vimeoId}" width="560" height="315" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>`;
+            videoPreviewContainer.innerHTML += `<iframe src="https://player.vimeo.com/video/${vimeoId}" width="560" height="315" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>`;
         }
         // MP4 Video Check (and other formats like .webm, .ogg)
         else if (videoUrl.match(/\.(mp4|webm|ogg)$/i)) {
-            videoPreviewContainer.innerHTML = `<video width="560" height="315" controls>
+            videoPreviewContainer.innerHTML += `<video width="560" height="315" controls>
                                                 <source src="${videoUrl}" type="video/mp4">
                                                 Your browser does not support the video tag.
                                               </video>`;
