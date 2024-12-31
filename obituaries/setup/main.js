@@ -131,10 +131,3 @@ loadScript('https://reelcareer.co/obituaries/setup/footer.js', { defer: true }, 
     logExecutionTime('footer', performance.now());
 });
 
-loadScript('https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js', { async: true }, () => {
-    logExecutionTime('firebase-app', performance.now());
-});
-
-loadScript('https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js', { async: true }, () => {
-    logExecutionTime('firestore', performance.now());
-});
