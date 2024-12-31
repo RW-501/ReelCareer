@@ -973,13 +973,13 @@ let Content = `<!DOCTYPE html>
         });
 
         let sha = ''; // Will store the sha if the file exists
-        if (fileResponse.ok) {
-            // If the file exists, fetch its sha for updating
-            const fileData = await fileResponse.json();
-            sha = fileData.sha;
-        }
-        console.log( "    fileResponse:", fileResponse);
-
+    if (fileResponse.ok) {
+        // If the file exists, fetch its sha for updating
+        const fileData = await fileResponse.json();
+        sha = fileData.sha;
+    } else if (fileResponse.status === 404) {
+        console.log("File does not exist, proceeding to create it...");
+    }
         const response = await fetch(url, {
             method: 'PUT',
             headers: {
@@ -996,9 +996,9 @@ let Content = `<!DOCTYPE html>
         });
 
         if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(`Error: ${errorData.message} (Status: ${response.status})`);
-        }
+        const errorData = await response.json();
+        throw new Error(`Error: ${errorData.message} (Status: ${response.status})`);
+    }
         console.log( "    response:", response);
 
         const data = await response.json();
