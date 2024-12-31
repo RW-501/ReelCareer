@@ -42,17 +42,18 @@ onAuthStateChanged(auth, async (user) => {
 const pageID = document.getElementById('pageID').innerText;
 
 
+console.log('pageID:', pageID);
+
+
+
+
+
+
 
 
 
 
 renderShareArea(pageURL, pageName);
-
-
-
-
-
-
 
 
 

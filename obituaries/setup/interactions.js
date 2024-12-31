@@ -8,7 +8,7 @@ function renderInteractionsArea() {
                 </div>
             <div class="actions">
                 <button id="send-gift" ><i class="fa fa-gift"></i> Send Gift</button>
-                <button id="send-flowers" ><i class="fa fa-flower-daffodil"></i> Send Flowers</button>
+                <button id="send-flowers" ><i class="fas fa-spa"></i> Send Flowers</button>
             </div>
 <div  class="guestbook">
             <h2>Guestbook</h2>
