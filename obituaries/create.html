@@ -790,10 +790,11 @@ setTimeout(() => {
         // Upload main photo to Firebase Storage
         let mainPhotoUrl = "";
         if (mainPhoto) {
-            const photoRef = storage.ref().child('obituaries/' + mainPhoto.name);
-            await photoRef.put(mainPhoto);
-            mainPhotoUrl = await photoRef.getDownloadURL();
-        }
+    // Correct usage of ref in Firebase v9
+    const photoRef = ref(storage, 'obituaries/' + mainPhoto.name);
+    await uploadBytes(photoRef, mainPhoto);
+    mainPhotoUrl = await getDownloadURL(photoRef);
+}
 // Split the name and location into arrays (searchable arrays)
 const searchableName = name.split(/\s+/); // Split by spaces (or modify to fit your needs)
 const searchableLocation = location.split(/\s+/); // Split by spaces
