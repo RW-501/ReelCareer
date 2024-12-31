@@ -268,7 +268,7 @@
 <!-- Include Firebase SDK as a module -->
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
-    import { getFirestore, collection, addDoc, doc, updateDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, doc, updateDoc, query, where, getDoc, getDocs } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js";
     import { getStorage } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-storage.js";
 import { 
     getAuth, signInAnonymously, onAuthStateChanged 
@@ -396,7 +396,29 @@ async function loadUserObituaries(userID) {
         console.log("No obituary data found for the user.");
     }
 }
-
+// Function to fetch user IP and location details
+async function getUserDetails() {
+    try {
+      const response = await fetch("https://ipapi.co/json/");
+      const data = await response.json();
+  
+      // Extract necessary details
+      return {
+        ip: data.ip,
+        city: data.city,
+        state: data.region,
+        country: data.country_name, // Include country
+        location: {
+          latitude: data.latitude,
+          longitude: data.longitude,
+        },
+      };
+    } catch (error) {
+      console.error("Error fetching user details:", error);
+      return null;
+    }
+  }
+  
 // Functions to handle button actions
 function goToEditPage(pageID) {
     window.location.href = `/edit-obituary.html?pageID=${encodeURIComponent(pageID)}`;
