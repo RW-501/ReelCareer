@@ -165,6 +165,17 @@ footer p {
     text-decoration: underline;
 }
 
+#flowe-area i {
+    font-size: 3rem;
+    color: green;
+}
+
+
+
+#flowerCount {
+    font-size: 2rem;
+    color: rgb(24, 83, 24);
+}
 
 
 .share-section {
