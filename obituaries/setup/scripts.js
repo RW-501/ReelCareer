@@ -1,3 +1,8 @@
+  // Import Firebase SDKs
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
+  import { getFirestore, doc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
+
+
 const firebaseConfig = {
     apiKey: "AIzaSyDiwC3Dmd88-t3N9iRV5cZ3snVkEXinclg",
     authDomain: "reelcareer-cb4b0.firebaseapp.com",
@@ -15,7 +20,21 @@ const db = firebase.firestore();
 // Assuming pageID is set somewhere on the page (like an element with ID "pageID")
 const pageID = document.getElementById('pageID').innerText;
 
+incrementViews(pageID);
 
+
+  // Function to increment views
+  async function incrementViews(pageID) {
+    try {
+      const docRef = doc(db, "A_Obituaries", pageID);
+      await updateDoc(docRef, {
+        views: increment(1)
+      });
+      console.log("View count updated successfully!");
+    } catch (error) {
+      console.error("Error updating view count:", error);
+    }
+  }
 
 
 

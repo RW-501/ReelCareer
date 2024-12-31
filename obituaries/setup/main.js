@@ -115,12 +115,12 @@ loadStylesheet("https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap
 loadStylesheet("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css");
 
 
-loadScript('https://reelcareer.co/obituaries/setup/scripts.js', { async: true }, () => {
+loadScript('https://reelcareer.co/obituaries/setup/scripts.js', { async: true, type: 'module' }, () => {
     logExecutionTime('scripts', performance.now());
 });
 
 
-loadScript('https://reelcareer.co/obituaries/setup/interactions.js', { defer: true }, () => {
+loadScript('https://reelcareer.co/obituaries/setup/interactions.js', { defer: true, type: 'module' }, () => {
     logExecutionTime('interactions', performance.now());
 });
 loadScript('https://reelcareer.co/obituaries/setup/share.js', { defer: true }, () => {
