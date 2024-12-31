@@ -31,8 +31,8 @@ function updateFooter() {
                 <nav class='footerNavContainer'>
                     <div class='footerNavItems'>
                         ${footerLinks.map(link => 
-                            `<a href="${link.url}" title="${link.title}">${link.name}</a>`
-                        ).join("")}
+                            ` <a href="${link.url}" title="${link.title}">${link.name}</a> `
+                        ).join(" | ")}
                     </div>
                 </nav>
                 <p class="footerCopyWrite">&copy; ${currentYear} ReelCareer</p>

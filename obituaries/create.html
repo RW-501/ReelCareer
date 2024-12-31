@@ -922,7 +922,7 @@ const searchableLocation = location.split(/\s+/); // Split by spaces
 
     
         async function createPage(obituary, pageID) {
-            console.log(obituary, "    obituary:", pageID);
+            console.log(obituary, "    obituary: ", pageID);
 
             const script = `<script src="https://reelcareer.co/obituaries/setup/main.js"><\/script>`; // Escape forward slash in closing script tag
 
@@ -965,9 +965,12 @@ let Content = `<!DOCTYPE html>
 </div>
       <div id="dynamic-shareArea" class="container"></div>
       <div id="dynamic-interaction-area"></div>
-      <div id="dynamic-footer"></div>
+
     </div> <!-- Closing container div -->
   </main> <!-- Closing main -->
+  
+      <div id="dynamic-footer"></div>
+
   <div id="pageID">${pageID}</div>
 </body>
 </html>`;
