@@ -258,20 +258,18 @@ textarea::placeholder {
 
         <form id="obituaryForm">
             <div class="section">
-                <label for="name">Full Name</label>
+                <label for="name">Full Name</label> 
                 <input type="text" id="name" name="name" placeholder="Enter your full name" required>
-
+                
                 <label for="sunrise">Sunrise (Date)</label> 
                 <input type="date" id="sunrise" name="sunrise" required>
                 
                 <label for="sunset">Sunset (Date)</label>
                 <input type="date" id="sunset" name="sunset" required>
                 
-                <label for="about">About the Person</label>
-                <textarea id="about" name="about" placeholder="Write a short biography or summary about the person" required></textarea>
-
                 <label for="location">Location</label>
                 <input type="text" id="location" name="location" placeholder="Enter the location of the person" required>
+                
                 <label for="category">Category</label>
                 <select id="category" name="category" required>
                     <option value="" disabled selected>Select a category</option>
@@ -299,7 +297,18 @@ textarea::placeholder {
                     <label for="otherCategory">Specify Category</label>
                     <input type="text" id="otherCategory" name="otherCategory" placeholder="Specify other category">
                 </div>
-
+                
+                <label for="about">About the Person</label>
+                <textarea id="about" name="about" placeholder="Write a short biography or summary about the person" required></textarea>
+                
+                <!-- Suggestion box -->
+                <div id="suggestionBox" style="margin-top: 20px;">
+                    <label for="suggestions">Suggested "About" Text</label>
+                    <select id="suggestions">
+                        <option value="" disabled selected>Select a suggestion</option>
+                    </select>
+                </div>
+                
                 <label for="pageName">URL (Obituary Page URL)</label>
                 <input type="text" id="pageName" name="url" placeholder="Choose a URL (e.g., john-doe)" required>
                 <p>Format: /celebrating/[your-url]. The URL should only contain letters, numbers, hyphens, and underscores.</p>
@@ -445,6 +454,68 @@ textarea::placeholder {
         }
     }
 });
+// Display the "Other" category input if selected
+document.getElementById('category').addEventListener('change', function() {
+    if (this.value === 'other') {
+        document.getElementById('otherCategoryContainer').style.display = 'block';
+    } else {
+        document.getElementById('otherCategoryContainer').style.display = 'none';
+    }
+});
+
+// Function to generate "about" suggestions
+function generateAboutText() {
+    const name = document.getElementById("name").value;
+    const sunrise = document.getElementById("sunrise").value;
+    const sunset = document.getElementById("sunset").value;
+    const location = document.getElementById("location").value;
+    const category = document.getElementById("category").value;
+    const otherCategory = document.getElementById("otherCategory").value;
+
+    let categoryText = category;
+    if (category === 'other' && otherCategory) {
+        categoryText = otherCategory;
+    }
+
+    const aboutSuggestions = [
+    `In memory of ${name}, who was born on ${sunrise} and passed away on ${sunset}. A beloved ${categoryText} from ${location}.`,
+    `${name}, a cherished ${categoryText} who left us on ${sunset}, is remembered fondly for their time in ${location}.`,
+    `The life of ${name}, born on ${sunrise} and departed on ${sunset}, remains an inspiration to all in ${location}. A true ${categoryText}.`,
+    `Remembering ${name}, whose life began on ${sunrise} and ended on ${sunset}. A loving ${categoryText}, forever missed in ${location}.`,
+    `${name}, a brilliant ${categoryText} from ${location}, was born on ${sunrise} and left us on ${sunset}. Their memory will live on.`,
+    `In honor of ${name}, who lived a remarkable life from ${sunrise} to ${sunset}, and made an impact as a ${categoryText} in ${location}.`,
+    `${name}, who touched many hearts in ${location}, was born on ${sunrise} and passed away on ${sunset}. They will forever be remembered as a ${categoryText}.`,
+    `A life well-lived, ${name} was born on ${sunrise} and passed away on ${sunset}. A loving ${categoryText} whose legacy lives on in ${location}.`,
+    `With deep sorrow, we remember ${name}, a dedicated ${categoryText} who passed away on ${sunset}. Their contributions to ${location} will never be forgotten.`,
+    `The journey of ${name}, who was born on ${sunrise} and passed away on ${sunset}, left a lasting impact as a ${categoryText} in ${location}.`
+];
+
+
+    // Populate the suggestion dropdown with generated about text
+    const suggestionSelect = document.getElementById("suggestions");
+    suggestionSelect.innerHTML = '<option value="" disabled selected>Select a suggestion</option>'; // Clear previous suggestions
+
+    aboutSuggestions.forEach((suggestion, index) => {
+        const option = document.createElement("option");
+        option.value = suggestion;
+        option.textContent = `Suggestion ${index + 1}`;
+        suggestionSelect.appendChild(option);
+    });
+}
+
+// Populate the "About" textarea with selected suggestion
+document.getElementById('suggestions').addEventListener('change', function() {
+    const selectedAboutText = this.value;
+    document.getElementById("about").value = selectedAboutText;
+});
+
+// Listen for changes to trigger about text generation
+document.getElementById("name").addEventListener("input", generateAboutText);
+document.getElementById("sunrise").addEventListener("input", generateAboutText);
+document.getElementById("sunset").addEventListener("input", generateAboutText);
+document.getElementById("location").addEventListener("input", generateAboutText);
+document.getElementById("category").addEventListener("change", generateAboutText);
+document.getElementById("otherCategory").addEventListener("input", generateAboutText);
 
 
 
