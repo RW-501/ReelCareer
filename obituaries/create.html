@@ -869,6 +869,7 @@ const searchableLocation = location.split(/\s+/); // Split by spaces
             userIP: userIP,
             gifts: [],
             views: 0,
+            flowerCount: 0,
             status: 'active', // Mark as active after payment
             paymentDetails: details, // Payment details passed as an argument
         };
@@ -975,13 +976,15 @@ let Content = `<!DOCTYPE html>
       <div class="photo">
         <img src="${obituary.mainPhoto}" alt="${obituary.name}">
       </div>
-      <h1>Celebrating the Life of ${obituary.name}</h1>
+      <h2>Celebrating the Life of</h2> <h1>${obituary.name}</h1>
+      <hr>
       <p>Born in ${obituary.sunrise}, ${obituary.name}'s journey inspires growth and transformation. Embrace this new beginning together.</p>
       <div id="info-section">
         <h2>Event Details</h2>
         <p><strong>Date:</strong> ${obituary.sunset}</p>
         <p><strong>Services will be held:</strong> ${obituary.location}</p>
-        <p><strong>Message:</strong> Share your thoughts using <strong>#Celebrating${obituary.name}</strong>.</p>
+        <p>Share your thoughts using</p>
+            <strong>#Celebrating${obituary.name}</strong>
         <p>${obituary.socialLinkName}: <a href="${obituary.socialLinks}">${obituary.socialLinks}</a></p>
         </div>
                   <div id="media-section"></div>

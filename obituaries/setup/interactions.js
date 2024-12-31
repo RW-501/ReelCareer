@@ -3,9 +3,12 @@ function renderInteractionsArea() {
     
     // Create the HTML for the share buttons
     const interactionsHTML = `
+                <div id="flowe-area">
+            <div id="flowerCount">0</div>
+                </div>
             <div class="actions">
-                <button><i class="fa fa-gift"></i> Send Gift</button>
-                <button><i class="fa fa-flower-daffodil"></i> Send Flowers</button>
+                <button id="send-gift" ><i class="fa fa-gift"></i> Send Gift</button>
+                <button id="send-flowers" ><i class="fa fa-flower-daffodil"></i> Send Flowers</button>
             </div>
 <div  class="guestbook">
             <h2>Guestbook</h2>

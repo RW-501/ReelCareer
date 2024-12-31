@@ -21,21 +21,8 @@ const db = firebase.firestore();
 // Assuming pageID is set somewhere on the page (like an element with ID "pageID")
 const pageID = document.getElementById('pageID').innerText;
 
-incrementViews(pageID);
 
 
-  // Function to increment views
-  async function incrementViews(pageID) {
-    try {
-      const docRef = doc(db, "A_Obituaries", pageID);
-      await updateDoc(docRef, {
-        views: increment(1)
-      });
-      console.log("View count updated successfully!");
-    } catch (error) {
-      console.error("Error updating view count:", error);
-    }
-  }
 
 
 
@@ -106,3 +93,124 @@ async function loadEntries() {
 
 // Initial load of guestbook entries
 loadEntries();
+
+
+
+// Function to add 1 to the flower count, animate, and update in Firestore
+async function incrementFlowerCount() {
+    const flowerCountElement = document.getElementById("flowerCount");
+    let currentCount = parseInt(flowerCountElement.textContent, 10); // Get current count and convert to number
+    currentCount += 1; // Increment count by 1
+    flowerCountElement.textContent = currentCount; // Update the element with the new count
+  
+    // Add animation
+    flowerCountElement.style.transition = "transform 0.3s ease-out, color 0.3s ease-out";
+    flowerCountElement.style.transform = "scale(1.5)";
+    flowerCountElement.style.color = "green";
+  
+    // Reset animation after a delay
+    setTimeout(() => {
+      flowerCountElement.style.transform = "scale(1)";
+      flowerCountElement.style.color = "black";
+    }, 300); // Match the duration of the animation
+  
+    // Update flower count in Firestore
+    try {
+      const docRef = doc(db, "A_Obituaries", pageID); // Replace `pageID` with the actual page ID variable
+      await updateDoc(docRef, {
+        flowerCount: currentCount // Update the flowerCount field in Firestore
+      });
+      console.log("Flower count updated successfully!");
+    } catch (error) {
+      console.error("Error updating flower count:", error);
+    }
+  }
+  
+  // Add an event listener to the "Send Flowers" button
+  const sendFlowersButton = document.getElementById("send-flowers");
+  sendFlowersButton.addEventListener("click", incrementFlowerCount);
+  
+  // Function to increment views (for reference)
+  async function incrementViews(pageID) {
+    try {
+      const docRef = doc(db, "A_Obituaries", pageID);
+      await updateDoc(docRef, {
+        views: increment(1)
+      });
+      console.log("View count updated successfully!");
+    } catch (error) {
+      console.error("Error updating view count:", error);
+    }
+  }
+  
+  // Increment views when the page loads
+  incrementViews(pageID); // Replace `pageID` with the actual page ID variable
+
+  
+
+
+
+
+// Function to create and display the popup
+function showComingSoonPopup() {
+    // Create the popup container
+    const popup = document.createElement("div");
+    popup.style.position = "fixed";
+    popup.style.top = "50%";
+    popup.style.left = "50%";
+    popup.style.transform = "translate(-50%, -50%)";
+    popup.style.backgroundColor = "#fff";
+    popup.style.padding = "20px";
+    popup.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.2)";
+    popup.style.borderRadius = "10px";
+    popup.style.zIndex = "1000";
+    popup.style.textAlign = "center";
+  
+    // Create the message
+    const message = document.createElement("p");
+    message.textContent = "Coming Soon!";
+    message.style.marginBottom = "20px";
+    message.style.fontSize = "16px";
+    message.style.color = "#333";
+  
+    // Create the close button
+    const closeButton = document.createElement("button");
+    closeButton.textContent = "Close";
+    closeButton.style.padding = "10px 20px";
+    closeButton.style.border = "none";
+    closeButton.style.backgroundColor = "#007BFF";
+    closeButton.style.color = "#fff";
+    closeButton.style.borderRadius = "5px";
+    closeButton.style.cursor = "pointer";
+    closeButton.style.fontSize = "14px";
+  
+    // Add click event to close button
+    closeButton.addEventListener("click", () => {
+      document.body.removeChild(popup);
+      document.body.removeChild(overlay);
+    });
+  
+    // Add elements to the popup
+    popup.appendChild(message);
+    popup.appendChild(closeButton);
+  
+    // Create an overlay to dim the background
+    const overlay = document.createElement("div");
+    overlay.style.position = "fixed";
+    overlay.style.top = "0";
+    overlay.style.left = "0";
+    overlay.style.width = "100%";
+    overlay.style.height = "100%";
+    overlay.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
+    overlay.style.zIndex = "999";
+  
+    // Add popup and overlay to the body
+    document.body.appendChild(overlay);
+    document.body.appendChild(popup);
+  }
+  
+  // Add an event listener to the "Send Gift" button
+  const sendGiftButton = document.getElementById("send-gift");
+  sendGiftButton.addEventListener("click", showComingSoonPopup);
+  
+
