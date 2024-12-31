@@ -620,7 +620,7 @@ document.getElementById("otherCategory").addEventListener("input", generateAbout
         inputValue = inputValue.replace(/[^a-zA-Z0-9-_]/g, '');
 
         // Update the preview URL dynamically
-        document.getElementById('urlPreview').textContent = `/celebrating/${inputValue}`;
+        document.getElementById('urlPreview').textContent = `https://reelcareer.co/celebrating/${inputValue}`;
 
         // Clear previous timeout
         clearTimeout(debounceTimeout);
