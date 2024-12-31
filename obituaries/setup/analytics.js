@@ -63,14 +63,16 @@ if(page){
 
 
 
-
+let userIP = '';
 
 // Function to fetch user IP and location details
 async function getUserDetails() {
     try {
       const response = await fetch("https://ipapi.co/json/");
       const data = await response.json();
-  
+      
+      userIP = data.ip;
+
       // Extract necessary details
       return {
         ip: data.ip,
