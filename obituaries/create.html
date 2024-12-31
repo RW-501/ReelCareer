@@ -330,8 +330,12 @@ textarea::placeholder {
                 <input type="url" id="video" name="video" class="input-file" placeholder="Enter video URL (YouTube, Vimeo, MP4, etc.)">
                 <div id="videoPreview"></div> <!-- For displaying embedded video -->
                 
-                <label for="socialLinks">Social Media Links (Optional)</label>
-                <input type="url" id="socialLinks" name="socialLinks" class="input-file" placeholder="Enter your social media links (Facebook, Twitter, etc.)">
+                <label for="socialLinkName">Social Media Name (e.g., Facebook, CashApp, Instagram)</label>
+                <input type="text" id="socialLinkName" name="socialLinkName" class="input-file" placeholder="Enter social media name" required>
+                
+                <label for="socialLinks">Social Media Link (URL)</label>
+                <input type="url" id="socialLinks" name="socialLinks" class="input-file" placeholder="Enter your social media link (e.g., https://your.com/facebook)" required>
+
             </div>
 
             <div class="button-container">
@@ -591,7 +595,8 @@ document.getElementById("otherCategory").addEventListener("input", generateAbout
                     let mainPhoto = document.getElementById('mainPhoto').files[0];
                     let video = document.getElementById('video').value;
                     let socialLinks = document.getElementById('socialLinks').value;
-
+                    let socialLinkName = document.getElementById('socialLinkName').value;
+                    
                     // Sanitize inputs
                     name = name.replace(/[^a-zA-Z0-9 ]/g, ''); // Remove special characters
                     location = location.replace(/[^a-zA-Z0-9 ]/g, ''); // Remove special characters
@@ -621,6 +626,7 @@ document.getElementById("otherCategory").addEventListener("input", generateAbout
                         url: url,
                         pageName: pageName,
                         video: video,
+                        socialLinkName: socialLinkName,
                         socialLinks: socialLinks,
                         mainPhoto: mainPhotoUrl,
                         userIP: userIP, // Store user IP
@@ -661,7 +667,7 @@ document.getElementById("otherCategory").addEventListener("input", generateAbout
                                 <p>Category: ${category}</p>
                                 <img src="${mainPhotoUrl}" alt="Main Photo">
                                 ${video ? `<p>Video: <a href="${video}">${video}</a></p>` : ""}
-                                <p>Social Links: <a href="${socialLinks}">${socialLinks}</a></p>
+                                <p>${socialLinkName}: <a href="${socialLinks}">${socialLinks}</a></p>
                                 ${shareButtons}
                             </body>
                         </html>
@@ -716,7 +722,8 @@ let Content = `<!DOCTYPE html>
         <p><strong>Date:</strong> ${obituary.sunset}</p>
         <p><strong>Location:</strong> ${obituary.location}</p>
         <p><strong>Message:</strong> Share your thoughts using <strong>#Celebrating${obituary.name}</strong>.</p>
-      </div>
+        <p>${socialLinkName}: <a href="${socialLinks}">${socialLinks}</a></p>
+        </div>
                   <div id="media-section"></div>
             <div id="obituary-section">
               <p>${obituary.about}</p>
