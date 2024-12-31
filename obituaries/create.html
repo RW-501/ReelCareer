@@ -449,10 +449,11 @@ textarea::placeholder {
 <!-- Include Firebase SDK as a module -->
 <script type="module">
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.24.0/firebase-app.js";
-    import { getFirestore, collection, addDoc, doc, updateDoc } from "https://www.gstatic.com/firebasejs/9.24.0/firebase-firestore.js";
-    import { getStorage } from "https://www.gstatic.com/firebasejs/9.24.0/firebase-storage.js";
-    import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/9.24.0/firebase-auth.js";
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, doc, updateDoc } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js";
+    import { getStorage } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-storage.js";
+    import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js";
 
     // Firebase configuration
     const firebaseConfig = {
@@ -794,7 +795,7 @@ setTimeout(() => {
         };
 
         let pageID = '';
-        
+
         // Save obituary to Firestore
         async function saveObituary(obituary) {
         try {
