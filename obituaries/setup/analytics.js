@@ -1,11 +1,11 @@
-  // Import Firebase SDKs
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
-  import {  getFirestore, collection, doc, setDoc, updateDoc, getDoc, increment, arrayUnion, addDoc, getDocs, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
-  import { 
+// Import Firebase SDKs
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
+import { 
+    getFirestore, collection, doc, setDoc, updateDoc, getDoc, increment, arrayUnion, addDoc, getDocs, serverTimestamp 
+} from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
+import { 
     getAuth, signInAnonymously, onAuthStateChanged 
-} from "https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js";
-
-  
+} from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
 
 // Firebase configuration
 const firebaseConfig = {
@@ -16,11 +16,24 @@ const firebaseConfig = {
     messagingSenderId: "365163764840",
     appId: "1:365163764840:web:21c44f8625c9b6831e6fdd",
     measurementId: "G-LBTK319K2X"
-  };
+};
+
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+
+// Initialize Firestore and Auth
 const db = getFirestore(app);
 const auth = getAuth(app);
+
+// Example usage
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+        console.log("User is signed in:", user.uid);
+    } else {
+        console.log("No user signed in");
+    }
+});
+
 
 let userID = '';
 
