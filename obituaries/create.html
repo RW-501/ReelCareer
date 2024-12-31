@@ -500,6 +500,7 @@ import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/9
   
             // Set the image preview source to the selected file
             imagePreview.src = imageUrl;
+            imagePreview.style.display = 'block'; // Make sure the image preview is visible
 
             // Show the image preview container
             imagePreviewContainer.style.display = 'block';
