@@ -878,6 +878,7 @@ const searchableLocation = location.split(/\s+/); // Split by spaces
 
     
         async function createPage(obituary, pageID) {
+            console.log(obituary, "    obituary:", pageID);
 
             const script = `<script src="https://reelcareer.co/obituaries/setup/main.js"><\/script>`; // Escape forward slash in closing script tag
 
@@ -935,7 +936,7 @@ let Content = `<!DOCTYPE html>
 
     const owner = "RW-501";
     const repo = "ReelCareer";
-    const filePath = `https://reelcareer.co/obituaries/celebrating-${obituary.pageName}.html`; // Adjust path as needed
+    const filePath = `celebrating-${obituary.pageName}.html`; // Adjust path as needed
     const branch = 'main';
     const messageDiv = document.getElementById('messageDiv');
 
@@ -961,6 +962,7 @@ let Content = `<!DOCTYPE html>
             const fileData = await fileResponse.json();
             sha = fileData.sha;
         }
+        console.log( "    fileResponse:", fileResponse);
 
         const response = await fetch(url, {
             method: 'PUT',
@@ -981,6 +983,7 @@ let Content = `<!DOCTYPE html>
             const errorData = await response.json();
             throw new Error(`Error: ${errorData.message} (Status: ${response.status})`);
         }
+        console.log( "    response:", response);
 
         const data = await response.json();
         messageDiv.textContent = 'File created/updated successfully!';
