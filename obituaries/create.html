@@ -1129,7 +1129,7 @@ document.getElementById('preview-button').addEventListener('click', function () 
         const reader = new FileReader();
         reader.onload = function (e) {
             previewContent += `<img class="preview-pic" src="${e.target.result}" alt="Main Photo" style="max-width: 300px; max-height: 300px; margin-top: 10px;">`;
-//            document.getElementById('previewContent').innerHTML = previewContent;
+           document.getElementById('previewContent').innerHTML = previewContent;
         };
         reader.readAsDataURL(mainPhoto);
     } 
