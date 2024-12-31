@@ -1019,18 +1019,103 @@ const searchableLocation = location.split(/\s+/); // Split by spaces
 
             const script = `<script src="https://reelcareer.co/obituaries/setup/main.js"><\/script>`; // Escape forward slash in closing script tag
 
-let Content = `<!DOCTYPE html>
+let Content = `
+<!DOCTYPE html> 
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Primary Meta Tags -->
+  <title>Celebrating the Life of ${obituary.name} | ReelCareer</title>
+  <meta name="description" content="Join us in celebrating the life of ${obituary.name}, born on ${obituary.sunrise}. Explore their inspiring journey and the legacy they leave behind.">
+  <meta name="keywords" content="${obituary.name}, obituary, life celebration, tribute, memorial, ${obituary.category}, ${obituary.location}, legacy, remembrance">
+  <meta name="author" content="ReelCareer">
+  <meta name="robots" content="index, follow">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="article">
   <meta property="og:title" content="Celebrating the Life of ${obituary.name}">
-  <meta property="og:description" content="Born on ${obituary.sunrise}, ${obituary.name}'s journey inspires growth and transformation. Join us in celebrating ${obituary.name}.">
+  <meta property="og:description" content="Honoring the legacy of ${obituary.name}, born on ${obituary.sunrise}. Join us in remembering their extraordinary life and celebrating their legacy.">
   <meta property="og:image" content="${obituary.mainPhoto}">
-  <meta property="og:url" content="https://reelcareer.co/celebrating/${obituary.pageName}">
-  <link rel="canonical" href="https://reelcareer.co/celebrating/${obituary.pageName}"> <!-- Ensures search engines index the preferred URL -->
+  <meta property="og:url" content="https://reelcareer.co/obituaries/celebrating/${obituary.pageName}">
+  <meta property="og:site_name" content="ReelCareer">
+  <meta property="og:locale" content="en_US">
+  <meta property="article:author" content="https://reelcareer.co">
+
+  <!-- Twitter Cards -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Celebrating the Life of ${obituary.name}">
+  <meta name="twitter:description" content="Discover the inspiring journey of ${obituary.name}, born on ${obituary.sunrise}. Join us in paying tribute to their incredible life.">
+  <meta name="twitter:image" content="${obituary.mainPhoto}">
+  <meta name="twitter:site" content="@ReelCareer">
+  <meta name="twitter:creator" content="@ReelCareer">
+
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://reelcareer.co/obituaries/celebrating/${obituary.pageName}">
+
+  <!-- Favicon -->
   <link rel="icon" type="image/x-icon" href="https://reelcareer.co/images/favicons/favicon.ico">
-  <title>Celebrating the Life of ${obituary.name}</title>
+
+  <!-- Structured Data / Schema Markup for Person -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "${obituary.name}",
+    "birthDate": "${obituary.sunrise}",
+    "deathDate": "${obituary.sunset}",
+    "gender": "${obituary.gender || 'Not Specified'}",
+    "sameAs": [
+      "https://reelcareer.co/obituaries/celebrating/${obituary.pageName}"
+    ],
+    "url": "https://reelcareer.co/obituaries/celebrating/${obituary.pageName}",
+    "image": "${obituary.mainPhoto}",
+    "description": "Celebrating the remarkable life of ${obituary.name}, born on ${obituary.sunrise}. Join us in honoring their legacy and memory."
+  }
+  <\/script>
+
+  <!-- Schema for Article with Expanded Information -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Celebrating the Life of ${obituary.name}",
+    "image": "${obituary.mainPhoto}",
+    "datePublished": "${obituary.datePublished}",
+    "dateModified": "${obituary.dateModified}",
+    "author": {
+      "@type": "Organization",
+      "name": "ReelCareer",
+      "url": "https://reelcareer.co"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "ReelCareer",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://reelcareer.co/images/logos/logo.png"
+      }
+    },
+    "description": "Honoring the life and legacy of ${obituary.name}, born on ${obituary.sunrise}. Join us in remembering and celebrating their extraordinary journey.",
+    "articleBody": "This article provides a detailed tribute to ${obituary.name}, highlighting key moments and accomplishments that made their life truly inspiring. Their journey continues to inspire others, and this page serves as a celebration of their enduring impact."
+  }
+  <\/script>
+
+  <!-- Additional Structured Data for Better Rich Snippets -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Celebrating the Life of ${obituary.name}",
+    "description": "A detailed tribute page celebrating the life of ${obituary.name}, featuring stories, images, and reflections on their legacy.",
+    "url": "https://reelcareer.co/obituaries/celebrating/${obituary.pageName}",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://reelcareer.co/obituaries/celebrating/${obituary.pageName}"
+    }
+  }
+  <\/script>
   ${script} <!-- The script is correctly inserted here -->
 </head>
 <body>
