@@ -1,6 +1,7 @@
   // Import Firebase SDKs
   import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
   import { getFirestore, doc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
+  import { collection, addDoc, getDocs, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
 
 
 const firebaseConfig = {
@@ -46,41 +47,62 @@ renderShareArea(pageURL, pageName);
 
 
 
-// Get references to the form and the entries div
+
+
+// Reference the Firestore database
 const form = document.getElementById("guestbookForm");
 const entriesDiv = document.getElementById("guestbookEntries");
 
+// Utility function to sanitize user inputs
+function sanitizeInput(input) {
+  const div = document.createElement("div");
+  div.textContent = input;
+  return div.innerHTML;
+}
+
 // Add submit event listener to the form
 form.addEventListener("submit", async (e) => {
-e.preventDefault();
+  e.preventDefault();
 
-// Get form inputs
-const name = document.getElementById("guestName").value.trim();
-const message = document.getElementById("guestMessage").value.trim();
+  // Get and sanitize form inputs
+  const name = sanitizeInput(document.getElementById("guestName").value.trim());
+  const message = sanitizeInput(document.getElementById("guestMessage").value.trim());
 
-if (name && message) {
-// Add the new guestbook entry to the Firestore collection
-await db.collection(`A_Obituaries/${pageID}/Guestbook`).add({
-    name,
-    message,
-    timestamp: firebase.firestore.FieldValue.serverTimestamp(), // Optional timestamp
-});
-loadEntries(); // Reload the entries after submission
-}
+  if (name && message) {
+    try {
+      // Add the new guestbook entry to the Firestore collection
+      const guestbookRef = collection(db, `A_Obituaries/${pageID}/Guestbook`);
+      await addDoc(guestbookRef, {
+        name,
+        message,
+        timestamp: serverTimestamp(), // Optional timestamp
+      });
+      loadEntries(); // Reload the entries after submission
+    } catch (error) {
+      console.error("Error adding guestbook entry:", error);
+    }
+  }
 });
 
 // Function to load guestbook entries
 async function loadEntries() {
-const querySnapshot = await db.collection(`A_Obituaries/${pageID}/Guestbook`).get();
-entriesDiv.innerHTML = ""; // Clear the existing entries
+  try {
+    const guestbookRef = collection(db, `A_Obituaries/${pageID}/Guestbook`);
+    const querySnapshot = await getDocs(guestbookRef);
 
-// Loop through all entries and display them
-querySnapshot.forEach((doc) => {
-const entry = doc.data();
-entriesDiv.innerHTML += `<div class="entry"><strong>${entry.name}</strong>: ${entry.message}</div>`;
-});
+    entriesDiv.innerHTML = ""; // Clear the existing entries
+
+    // Loop through all entries and display them
+    querySnapshot.forEach((doc) => {
+      const entry = doc.data();
+      const sanitizedMessage = sanitizeInput(entry.message); // Sanitize messages before displaying
+      const sanitizedName = sanitizeInput(entry.name); // Sanitize names before displaying
+      entriesDiv.innerHTML += `<div class="entry"><strong>${sanitizedName}</strong>: ${sanitizedMessage}</div>`;
+    });
+  } catch (error) {
+    console.error("Error loading guestbook entries:", error);
+  }
 }
 
-// Load the guestbook entries when the page loads
+// Initial load of guestbook entries
 loadEntries();
-
