@@ -308,6 +308,10 @@ onAuthStateChanged(auth, async (user) => {
      userID = user.uid; // Use the user's unique ID
     console.log("User ID:", userID);
 
+// Call this function when the page loads
+loadUserObituaries(userID);
+
+
     // Check localStorage for obituaryMemberID
     const obituaryMemberID = localStorage.getItem("obituaryMemberID");
 
@@ -320,7 +324,24 @@ onAuthStateChanged(auth, async (user) => {
 
         const { ip: userIP, city, state, country } = userDetails; // Destructure user details
 
-        console.log("!!!!!!!!!!!!!!!!  User data logged to Firestore");
+        // Reference to Firestore collection
+        const userRef = doc(db, "Users", userID); // Use userID as document ID for unique identification
+
+        // Add user data with IP and member field
+        await setDoc(userRef, {
+          userId: userID, // Unique user ID
+          member: "Obituary Member", // Static member value
+          userIP, // User IP
+          city, // User's city
+          state, // User's state
+          country, // User's country
+          timestamp: new Date(), // Timestamp
+        });
+
+        // Store the userID in localStorage to prevent duplicate entries
+        localStorage.setItem("obituaryMemberID", userID);
+
+        console.log("User data logged to Firestore");
       } catch (error) {
         console.error("Error logging user data to Firestore:", error);
       }
@@ -331,6 +352,8 @@ onAuthStateChanged(auth, async (user) => {
     console.log("No user signed in");
   }
 });
+
+
   
 async function loadUserObituaries(userID) {
     const userRef = doc(db, "Users", userID);
@@ -386,10 +409,6 @@ function goToAnalyticsPage(pageID) {
 function goToViewPage(pageID) {
     window.location.href = `/view-obituary.html?pageID=${encodeURIComponent(pageID)}`;
 }
-
-// Call this function when the page loads
-loadUserObituaries(userID);
-
 
 
 
