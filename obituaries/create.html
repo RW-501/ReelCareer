@@ -490,13 +490,9 @@ textarea::placeholder {
         }
     });
 
-
-    document.getElementById("video").addEventListener("input", function() {
-    const videoUrl = this.value.trim();
-    const videoPreview = document.getElementById("videoPreview");
-
+    function displayVideoPreview(videoUrl, videoPreviewContainer) {
     // Clear the previous preview
-    videoPreview.innerHTML = "";
+    videoPreviewContainer.innerHTML = "";
 
     if (videoUrl) {
         // YouTube Video Check
@@ -504,25 +500,34 @@ textarea::placeholder {
             const youtubeEmbed = videoUrl.includes("youtube.com") 
                 ? videoUrl.replace("watch?v=", "embed/") 
                 : videoUrl.replace("youtu.be/", "youtube.com/embed/");
-            videoPreview.innerHTML = `<iframe width="560" height="315" src="${youtubeEmbed}" frameborder="0" allowfullscreen></iframe>`;
+            videoPreviewContainer.innerHTML = `<iframe width="560" height="315" src="${youtubeEmbed}" frameborder="0" allowfullscreen></iframe>`;
         }
         // Vimeo Video Check
         else if (videoUrl.includes("vimeo.com")) {
             const vimeoId = videoUrl.split("/").pop();
-            videoPreview.innerHTML = `<iframe src="https://player.vimeo.com/video/${vimeoId}" width="560" height="315" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>`;
+            videoPreviewContainer.innerHTML = `<iframe src="https://player.vimeo.com/video/${vimeoId}" width="560" height="315" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>`;
         }
         // MP4 Video Check (and other formats like .webm, .ogg)
         else if (videoUrl.match(/\.(mp4|webm|ogg)$/i)) {
-            videoPreview.innerHTML = `<video width="560" height="315" controls>
-                                        <source src="${videoUrl}" type="video/mp4">
-                                        Your browser does not support the video tag.
-                                      </video>`;
+            videoPreviewContainer.innerHTML = `<video width="560" height="315" controls>
+                                                <source src="${videoUrl}" type="video/mp4">
+                                                Your browser does not support the video tag.
+                                              </video>`;
         }
         // Add more platform checks here (like Dailymotion, etc.)
         else {
-            videoPreview.innerHTML = "<p>Unsupported video platform. Please enter a YouTube, Vimeo, or MP4 URL.</p>";
+            videoPreviewContainer.innerHTML = "<p>Unsupported video platform. Please enter a YouTube, Vimeo, or MP4 URL.</p>";
         }
+    } else {
+        videoPreviewContainer.innerHTML = "<p>Please enter a video URL.</p>";
     }
+}
+
+    document.getElementById("video").addEventListener("input", function() {
+    const videoUrl = this.value.trim();
+    const videoPreview = document.getElementById("videoPreview");
+
+    displayVideoPreview(videoUrl, videoPreview);
 });
 // Display the "Other" category input if selected
 document.getElementById('category').addEventListener('change', function() {
@@ -660,7 +665,7 @@ document.getElementById("otherCategory").addEventListener("input", generateAbout
                     let category = document.getElementById('category').value;
                     let pageName = document.getElementById('pageName').value.trim().toLowerCase();
                     let mainPhoto = document.getElementById('mainPhoto').files[0];
-                    let video = document.getElementById('video').value;
+                    let videoURL = document.getElementById('video').value;
                     let socialLinks = document.getElementById('socialLinks').value;
                     let socialLinkName = document.getElementById('socialLinkName').value;
                     
@@ -692,7 +697,7 @@ document.getElementById("otherCategory").addEventListener("input", generateAbout
                         category: category,
                         url: url,
                         pageName: pageName,
-                        video: video,
+                        videoURL: videoURL,
                         socialLinkName: socialLinkName,
                         socialLinks: socialLinks,
                         mainPhoto: mainPhotoUrl,
@@ -733,18 +738,24 @@ document.getElementById("otherCategory").addEventListener("input", generateAbout
                                 <p>Location: ${location}</p>
                                 <p>Category: ${category}</p>
                                 <img src="${mainPhotoUrl}" alt="Main Photo">
-                                ${video ? `<p>Video: <a href="${video}">${video}</a></p>` : ""}
+                                ${videoURL ? `<p>Video: <div id="videoPeview"></div>` : ""}
                                 <p>${socialLinkName}: <a href="${socialLinks}">${socialLinks}</a></p>
                                 ${shareButtons}
                             </body>
                         </html>
                     `;
                     createPage(obituary, pageID);
-
-                    console.log(obituaryPageContent);
-
+                    
                     alert('Obituary created successfully!');
-                    window.location.href = `/celebrating/${url}`; // Redirect to obituary page
+        document.getElementById('previewContent').innerHTML = obituaryPageContent;
+    
+
+    // Show the preview modal
+    document.getElementById('previewModal').style.display = "block";
+
+    let videoPeview = document.getElementById("videoPeview");
+                    displayVideoPreview(videoUrl, videoPeview);
+
                 },
                 onError: (err) => {
                     console.error("Error processing payment:", err);
@@ -876,14 +887,12 @@ document.getElementById('preview-button').addEventListener('click', function () 
     const about = document.getElementById('about').value;
     const location = document.getElementById('location').value;
     const category = document.getElementById('category').value;
-    const url = document.getElementById('url').value.trim().toLowerCase();
     const pageName = document.getElementById('pageName').value.trim().toLowerCase();
     const video = document.getElementById('video').value;
     const socialLinks = document.getElementById('socialLinks').value;
     const mainPhoto = document.getElementById('mainPhoto').files[0]; // File input for main photo
     
     // Sanitize the input
-    const sanitizedURL = url.replace(/[^a-zA-Z0-9-_]/g, '');
     const sanitizedPageName = pageName.replace(/[^a-zA-Z0-9-_]/g, '');
 
     // Prepare the preview content
@@ -894,7 +903,7 @@ document.getElementById('preview-button').addEventListener('click', function () 
         <p><strong>About:</strong> ${about}</p>
         <p><strong>Location:</strong> ${location}</p>
         <p><strong>Category:</strong> ${category}</p>
-        <p><strong>URL:</strong> /celebrating/${sanitizedURL}</p>
+        <p><strong>URL:</strong> https://reelcareer.co/celebrating/${sanitizedPageName}</p>
     `;
 
     // Add the video if provided
