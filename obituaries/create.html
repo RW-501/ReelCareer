@@ -789,6 +789,7 @@ setTimeout(() => {
             socialLinkName: socialLinkName,
             socialLinks: socialLinks,
             mainPhoto: mainPhotoUrl,
+            timeStamp: new Date().toISOString(), // Using Date() for the current timestamp
             userIP: userIP,
             status: 'active', // Mark as active after payment
             paymentDetails: details, // Payment details passed as an argument
