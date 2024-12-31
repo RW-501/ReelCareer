@@ -476,7 +476,16 @@ textarea::placeholder {
 
 <!-- Include Firebase SDK as a module -->
 <script type="module">
-
+        // Fetch user's IP address using an external service
+        async function getUserIP() {
+            try {
+                const response = await axios.get('https://api.ipify.org?format=json');
+                return response.data.ip;
+            } catch (error) {
+                console.error('Error fetching IP address:', error);
+                return 'Unknown IP';
+            }
+        }
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
 import { getFirestore, collection, addDoc, doc, updateDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js";
@@ -513,26 +522,41 @@ import {
 let userID = '';
 
 // Listen for authentication state changes to get the user ID
-onAuthStateChanged(auth, (user) => {
-    if (user) {
-        // The user is signed in
-         userID = user.uid;
-        console.log('User ID:', userID);
 
-        // Use the user ID as needed
-        // For example, you could log the user ID to Firestore:
-        const userRef = collection(db, 'Users');
-        addDoc(userRef, { userId, timestamp: new Date() })
-            .then(() => {
-                console.log('User ID logged to Firestore');
-            })
-            .catch((error) => {
-                console.error('Error logging User ID to Firestore:', error);
-            });
-    } else {
-        console.log('No user signed in');
+// Handle user authentication state change
+onAuthStateChanged(auth, async (user) => {
+  if (user) {
+    // The user is signed in
+    const userID = user.uid;  // Use the user's unique ID
+    console.log('User ID:', userID);
+
+    try {
+      // Get the user's IP address
+      const userIP = await getUserIP();
+
+      // Reference to Firestore collection
+      const userRef = collection(db, 'Users');
+      
+      // Add user data with IP and member field
+      await addDoc(userRef, {
+        userId: userID,  // Corrected userId usage
+        member: "Obituary Member",  // Static member value
+        userIP,  // User IP
+        timestamp: new Date(),  // Timestamp
+      });
+
+      console.log('User data logged to Firestore');
+    } catch (error) {
+      console.error('Error logging user data to Firestore:', error);
     }
+  } else {
+    console.log('No user signed in');
+  }
 });
+
+
+
+
    // Get the file input and preview image elements
    const fileInput = document.getElementById('mainPhoto');
     const imagePreviewContainer = document.getElementById('imagePreviewContainer');
@@ -733,16 +757,7 @@ document.getElementById("otherCategory").addEventListener("input", generateAbout
     });
 
 
-        // Fetch user's IP address using an external service
-        async function getUserIP() {
-            try {
-                const response = await axios.get('https://api.ipify.org?format=json');
-                return response.data.ip;
-            } catch (error) {
-                console.error('Error fetching IP address:', error);
-                return 'Unknown IP';
-            }
-        }
+
         function formatDate(dateString) {
     const date = new Date(dateString);
     
