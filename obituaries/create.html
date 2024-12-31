@@ -25,7 +25,12 @@
     <meta name="author" content="ReelCareer">
     <meta name="robots" content="index, follow">
     <meta name="theme-color" content="#ffffff">
-    
+          <!-- Canonical Tag for SEO -->
+  <link rel="canonical" href="https://reelcareer.co/obituaries/create"> <!-- Ensures search engines index the preferred URL -->
+
+  <!-- Standard Favicon -->
+  <link rel="icon" type="image/x-icon" href="https://www.ReelCareer.co/images/favicons/favicon.ico">
+
     <!-- Schema.org Structured Data -->
     <script type="application/ld+json">
     {
@@ -611,6 +616,8 @@ let Content = `<!DOCTYPE html>
   <meta property="og:description" content="Born on ${obituary.sunrise}, ${obituary.name}'s journey inspires growth and transformation. Join us in celebrating ${obituary.name}.">
   <meta property="og:image" content="${obituary.mainPhoto}">
   <meta property="og:url" content="https://reelcareer.co/celebrating-${obituary.pageName}">
+  <link rel="canonical" href="https://reelcareer.co/celebrating-${obituary.pageName}"> <!-- Ensures search engines index the preferred URL -->
+  <link rel="icon" type="image/x-icon" href="https://www.ReelCareer.co/images/favicons/favicon.ico">
   <title>Celebrating the Life of ${obituary.name}</title>
   ${script} <!-- The script is correctly inserted here -->
 </head>
