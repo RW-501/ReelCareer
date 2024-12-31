@@ -691,7 +691,8 @@ const showModal = () => {
     };
         // Handle form submission after payment
         document.getElementById('paypal-button').addEventListener('click', async function () {
-        showModal();
+            document.getElementById('paypalContent').innerHTML = '';
+            showModal();
 
         // Render PayPal button inside the modal content
         paypal.Buttons({
