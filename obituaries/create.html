@@ -279,14 +279,15 @@ textarea::placeholder {
                     <p id="sunriseHint" class="visually-hidden">Please select the date of birth (Sunrise).</p>
                     <input type="date" id="sunrise" name="sunrise" required aria-required="true" aria-describedby="sunriseHint">
        </div>
-    </div>
+
 
                     <div class="inputArea">
                     <label for="sunset" aria-label="Select the date of passing (Sunset)">Sunset (Date)</label>
                     <p id="sunsetHint" class="visually-hidden">Please select the date of passing (Sunset).</p>
                     <input type="date" id="sunset" name="sunset" required aria-required="true" aria-describedby="sunsetHint">
                 </div>
-                    
+            </div>
+
                 <div class="inputArea">
                     <label for="location" aria-label="Enter the event location (e.g., Virtual Event, Venue)">Event Location (e.g., Virtual Event, Directions, or Venue)</label>
                     <p id="locationHint" class="visually-hidden">Please enter the event location or additional details like Zoom link, address, etc.</p>
@@ -463,7 +464,8 @@ textarea::placeholder {
         if (file && file.type.startsWith('image/')) {
             // Create an image URL for the selected file
             const imageUrl = URL.createObjectURL(file);
-
+            console.log("image file: ",file);
+            console.log("image url: ",imageUrl);
             // Set the image preview source to the selected file
             imagePreview.src = imageUrl;
 
