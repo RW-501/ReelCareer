@@ -1,4 +1,4 @@
-const DEBUG = false;
+const DEBUG = true;
 
 let loadCount = 0;
 let totalFileSize = 0; // To accumulate the file size of scripts
@@ -106,7 +106,7 @@ function loadStylesheet(href) {
 
 
 // Load Main CSS
-loadStylesheet("https://reelcareer.co/obituaries/setup/styles.css");
+loadStylesheet("https://reelcareer.co/obituaries/setup/style.css");
 
 // Load Bootstrap CSS
 loadStylesheet("https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css");
