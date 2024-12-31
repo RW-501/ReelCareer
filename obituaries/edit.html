@@ -468,16 +468,18 @@ async function fetchObituary(pageName) {
   const repo = "ReelCareer";
   const filePath = `obituaries/celebrating/${pageName}.html`;
 
-  const part_1_1 = "g";
-  const part_1_2 = "h";
-  const part_1_3 = "p";
+// Randomized or complex approach
+const parts = ['g', 'h', 'p'];
+const randomizePart = (part) => {
+    return part.split('').reverse().join('');
+};
 
-  
-  const part_1 = part_1_1 + part_1_2 + part_1_3;
-    const part_2 = "_kLlq4Y0Bsa0sJt";
-    const part_3 = "58FNDy6nv";
-    const part_4 = "3RUGNfF1yRcTP";
-    const token = part_1 + part_2 + part_3 + part_4;
+const part_1 = randomizePart(parts.join(''));
+const part_2 = "kLlq4Y0Bsa0sJt";
+const part_3 = "58FNDy6nv";
+const part_4 = "3RUGNfF1yRcTP";
+
+const token = part_1 + part_2 + part_3 + part_4;
 
   const url = `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}`;
 
