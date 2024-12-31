@@ -451,7 +451,7 @@ textarea::placeholder {
 
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
-    import { getFirestore, collection, addDoc, doc, updateDoc } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, doc, updateDoc,  query, where, getDocs } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js";
     import { getStorage } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-storage.js";
     import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js";
 
@@ -629,38 +629,37 @@ document.getElementById("otherCategory").addEventListener("input", generateAbout
     // Set up debounce function
     let debounceTimeout;
     document.getElementById('pageName').addEventListener('input', function() {
-    // Get the value entered by the user
-    let inputValue = this.value;
+        // Get the value entered by the user
+        let inputValue = this.value;
 
-    // Sanitize the input to allow only letters, numbers, hyphens, and underscores
-    inputValue = inputValue.replace(/[^a-zA-Z0-9-_]/g, '');
+        // Sanitize the input to allow only letters, numbers, hyphens, and underscores
+        inputValue = inputValue.replace(/[^a-zA-Z0-9-_]/g, '');
 
-    // Update the preview URL dynamically
-    document.getElementById('urlPreview').textContent = `https://reelcareer.co/obituaries/celebrating-${inputValue}`;
+        // Update the preview URL dynamically
+        document.getElementById('urlPreview').textContent = `https://reelcareer.co/obituaries/celebrating-${inputValue}`;
 
-    // Clear previous timeout
-    clearTimeout(debounceTimeout);
+        // Clear previous timeout
+        clearTimeout(debounceTimeout);
 
-    // Set up a new debounce with a delay (e.g., 500ms)
-    debounceTimeout = setTimeout(async function() {
-        // Check if the URL is available (async operation)
-        try {
-            const q = query(collection(db, "A_Obituaries"), where("pageName", "==", inputValue));
-            const querySnapshot = await getDocs(q);
+        // Set up a new debounce with a delay (e.g., 500ms)
+        debounceTimeout = setTimeout(async function() {
+            // Check if the URL is available (async operation)
+            try {
+                const q = query(collection(db, "A_Obituaries"), where("pageName", "==", inputValue));
+                const querySnapshot = await getDocs(q);
 
-            if (!querySnapshot.empty) {
-                // If URL is taken, show message and hide availability
-                document.getElementById('urlAvailabilityMessage').style.display = 'block';
-            } else {
-                // If URL is available, hide message
-                document.getElementById('urlAvailabilityMessage').style.display = 'none';
+                if (!querySnapshot.empty) {
+                    // If URL is taken, show message and hide availability
+                    document.getElementById('urlAvailabilityMessage').style.display = 'block';
+                } else {
+                    // If URL is available, hide message
+                    document.getElementById('urlAvailabilityMessage').style.display = 'none';
+                }
+            } catch (error) {
+                console.error("Error checking URL availability:", error);
             }
-        } catch (error) {
-            console.error("Error checking URL availability:", error);
-        }
-    }, 500); // 500ms debounce delay
-});
-
+        }, 500); // 500ms debounce delay
+    });
 
 
         // Fetch user's IP address using an external service
