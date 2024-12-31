@@ -155,7 +155,7 @@ h2 {
     text-align: center;
 }
 
-main > button {
+main  button {
     padding: 10px 20px;
     background: linear-gradient(120deg, #8a8484, #676bb5);
     color: white;
@@ -165,7 +165,7 @@ main > button {
     cursor: pointer;
 }
 
-main > button:hover {
+main  button:hover {
     background-color: #95979c;
 }
 #preview-button {
