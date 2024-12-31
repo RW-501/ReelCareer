@@ -180,6 +180,10 @@ textarea::placeholder {
 
 <!-- CSS for the modal -->
 <style>
+
+#messageDiv {
+    text-align: center;
+}
     .modal {
         display: none;
         position: fixed;
@@ -193,13 +197,14 @@ textarea::placeholder {
     }
 
     .modal-content {
-        background-color: #fff;
-        margin: 15% auto;
-        padding: 20px;
-        border: 1px solid #888;
-        width: 80%;
-        max-width: 600px;
-    }
+    background-color: #fff;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 600px;
+    border-radius: 25px;
+}
 
     .close {
         color: #aaa;
@@ -258,6 +263,27 @@ textarea::placeholder {
     align-items: stretch;
     align-content: stretch;
     gap: .5rem;
+}
+
+.preview-about {
+    width: 100%;
+    display: grid;
+
+}
+.preview-info {
+    width: 100%;
+    display: grid;
+
+}
+.preview-dates {
+    width: 100%;
+    display: flex;
+
+}
+.preview-pic {
+    width: 100%;
+    display: grid;
+
 }
 </style>
 </head>
@@ -1036,13 +1062,9 @@ document.getElementById('preview-button').addEventListener('click', function () 
     // Prepare the preview content
     let previewContent = `
         <h3>${name}</h3>
-        <p><strong>Sunrise:</strong> ${formattedSunrise}</p>
-        <p><strong>Sunset:</strong> ${formattedSunset}</p>
-        <p><strong>About:</strong> ${about}</p>
-        <p><strong>Services will be held:</strong> ${location}</p>
-        <p><strong>Category:</strong> ${category}</p>
-        <p><strong>URL:</strong> https://reelcareer.co/celebrating/${sanitizedPageName}</p>
-    `;
+        <div class='preview-dates'><div><strong>Sunrise:</strong> ${formattedSunrise}</div>
+        <div><strong>Sunset:</strong> ${formattedSunset}</div></div>
+`;
 
     // Add the video if provided
     if (video) {
@@ -1052,22 +1074,34 @@ document.getElementById('preview-button').addEventListener('click', function () 
    
     }
 
-    // Add the social media links if provided
-    if (socialLinks) {
-        previewContent += `<p><strong>${socialLinkName}:</strong> <a href="${socialLinks}" target="_blank">${socialLinks}</a></p>`;
-    }
+
 
     // Display the photo (if provided)
     if (mainPhoto) {
         const reader = new FileReader();
         reader.onload = function (e) {
-            previewContent += `<img src="${e.target.result}" alt="Main Photo" style="max-width: 300px; max-height: 300px; margin-top: 10px;">`;
-            document.getElementById('previewContent').innerHTML = previewContent;
+            previewContent += `<img class="preview-pic" src="${e.target.result}" alt="Main Photo" style="max-width: 300px; max-height: 300px; margin-top: 10px;">`;
+//            document.getElementById('previewContent').innerHTML = previewContent;
         };
         reader.readAsDataURL(mainPhoto);
-    } else {
-        document.getElementById('previewContent').innerHTML = previewContent;
+    } 
+    
+    previewContent += `
+    <div class='preview-info'>
+        <p><strong>Services will be held:</strong> ${location}</p>
+        <p><strong>Category:</strong> ${category}</p>
+        <p><strong>URL:</strong> https://reelcareer.co/celebrating/${sanitizedPageName}</p>
+        </div>
+
+        <div class='preview-about'><strong>About:</strong> ${about}</div>
+    `;
+    // Add the social media links if provided
+    if (socialLinks) {
+        previewContent += `<p><strong>${socialLinkName}:</strong> <a href="${socialLinks}" target="_blank">${socialLinks}</a></p>`;
     }
+    
+        document.getElementById('previewContent').innerHTML = previewContent;
+    
 
     // Show the preview modal
     document.getElementById('previewModal').style.display = "block";
