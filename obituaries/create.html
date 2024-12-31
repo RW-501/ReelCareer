@@ -172,6 +172,23 @@ textarea::placeholder {
 }
 
 
+#imageControls {
+    margin-top: 10px;
+}
+
+#imageControls button {
+    margin-right: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    border: none;
+    background-color: #f0f0f0;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+#imageControls button:hover {
+    background-color: #ddd;
+}
 
 
         
@@ -421,10 +438,17 @@ textarea::placeholder {
                     
                     <!-- Image preview container -->
                     <div id="imagePreviewContainer" style="display: none; margin-top: 20px;">
-<!-- Image preview that will display the selected image -->
-<img id="imagePreview" src="" alt="Uploaded main photo preview" style="max-width: 200px; max-height: 200px; border: 1px solid #ccc; cursor: pointer;">
-                  </div>
-            </div>
+                        <!-- Image preview that will display the selected image -->
+                        <img id="imagePreview" src="" alt="Uploaded main photo preview" style="max-width: 200px; max-height: 200px; border: 1px solid #ccc; cursor: pointer;">
+                        <div id="imageControls">
+                            <button id="toggleBnw">Black & White</button>
+                            <button id="rotateImage">Rotate</button>
+                            <button id="zoomIn">Zoom In</button>
+                            <button id="zoomOut">Zoom Out</button>
+                            <button id="resetImage">Reset</button>
+                        </div>
+                    </div>
+                    
  
                 <div class="inputArea">                   
                      <label for="video" aria-label="Enter video URL">Video (Optional)</label>
@@ -592,34 +616,90 @@ onAuthStateChanged(auth, async (user) => {
 });
 
 
+const fileInput = document.getElementById('mainPhoto');
+const imagePreview = document.getElementById('imagePreview');
+const imagePreviewContainer = document.getElementById('imagePreviewContainer');
+const toggleBnwButton = document.getElementById('toggleBnw');
+const rotateButton = document.getElementById('rotateImage');
+const zoomInButton = document.getElementById('zoomIn');
+const zoomOutButton = document.getElementById('zoomOut');
+const resetButton = document.getElementById('resetImage');
 
-   // Get the file input and preview image elements
-   const fileInput = document.getElementById('mainPhoto');
-    const imagePreviewContainer = document.getElementById('imagePreviewContainer');
-    const imagePreview = document.getElementById('imagePreview');
+// Default image transformations
+let isBlackAndWhite = false;
+let rotationDegree = 0;
+let zoomLevel = 1;
 
-    // Handle file selection and display image preview
-    fileInput.addEventListener('change', function(event) {
-        const file = event.target.files[0];
-
-        if (file && file.type.startsWith('image/')) {
-
-
-
-
-            // Create an image URL for the selected file
-            const imageUrl = URL.createObjectURL(file);
-  
-            // Set the image preview source to the selected file
-            imagePreview.src = imageUrl;
-            imagePreview.style.display = 'block'; // Make sure the image preview is visible
-
-            // Show the image preview container
-            imagePreviewContainer.style.display = 'block';
-        }
-    });
-
+// Function to update image styles and return a modified canvas
+function updateImageStylesAndCreateCanvas() {
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
     
+    // Set canvas size to image size
+    canvas.width = imagePreview.naturalWidth;
+    canvas.height = imagePreview.naturalHeight;
+    
+    // Apply transformations: Black & White, Rotation, Zoom
+    ctx.filter = isBlackAndWhite ? 'grayscale(100%)' : 'none';
+    ctx.save();
+    ctx.translate(canvas.width / 2, canvas.height / 2);
+    ctx.rotate(rotationDegree * Math.PI / 180); // Convert degree to radians
+    ctx.scale(zoomLevel, zoomLevel);
+    ctx.drawImage(imagePreview, -canvas.width / 2, -canvas.height / 2);
+    ctx.restore();
+    
+    return canvas;
+}
+
+// Handle file selection and display image preview
+fileInput.addEventListener('change', function(event) {
+    const file = event.target.files[0];
+
+    if (file && file.type.startsWith('image/')) {
+        const imageUrl = URL.createObjectURL(file);
+        imagePreview.src = imageUrl;
+        imagePreview.style.display = 'block'; // Make sure the image preview is visible
+        imagePreviewContainer.style.display = 'block'; // Show the image preview container
+    }
+});
+
+
+
+// Event listeners for the transformation buttons
+toggleBnwButton.addEventListener('click', function() {
+    isBlackAndWhite = !isBlackAndWhite;
+    updateImageStyles();
+});
+
+rotateButton.addEventListener('click', function() {
+    rotationDegree += 90;
+    if (rotationDegree >= 360) rotationDegree = 0; // Reset to 0 when it exceeds 360
+    updateImageStyles();
+});
+
+zoomInButton.addEventListener('click', function() {
+    zoomLevel += 0.1;
+    updateImageStyles();
+});
+
+zoomOutButton.addEventListener('click', function() {
+    zoomLevel = Math.max(0.5, zoomLevel - 0.1); // Prevent zooming out too much
+    updateImageStyles();
+});
+
+resetButton.addEventListener('click', function() {
+    isBlackAndWhite = false;
+    rotationDegree = 0;
+    zoomLevel = 1;
+    updateImageStyles();
+});
+
+// Function to update image styles (for front-end preview)
+function updateImageStyles() {
+    const canvas = updateImageStylesAndCreateCanvas();
+    imagePreview.src = canvas.toDataURL(); // Preview the transformation in real-time
+}
+  
     // Allow the user to click the preview image to change it
     imagePreview.addEventListener('click', function() {
         fileInput.click(); // Trigger the file input to allow a new image selection
@@ -637,16 +717,16 @@ onAuthStateChanged(auth, async (user) => {
     });
 
     function displayVideoPreview(videoUrl, videoPreviewContainer) {
-
-        
-        console.log('videoPreviewContainer:', videoPreviewContainer);
+    console.log('videoPreviewContainer:', videoPreviewContainer);
 
     // Check if the videoPreviewContainer is null
-    if (videoPreviewContainer) {
-  // Clear the previous content in the container if 'clear' is not true
-  videoPreviewContainer.innerHTML = "";
-}
+    if (!videoPreviewContainer) {
+        console.error('Error: videoPreviewContainer is null or undefined.');
+        return;
+    }
 
+    // Clear previous content in the container
+    videoPreviewContainer.innerHTML = "";
 
     // Check if there is a videoUrl to display
     if (videoUrl) {
@@ -655,31 +735,77 @@ onAuthStateChanged(auth, async (user) => {
             const youtubeEmbed = videoUrl.includes("youtube.com") 
                 ? videoUrl.replace("watch?v=", "embed/") 
                 : videoUrl.replace("youtu.be/", "youtube.com/embed/");
-            videoPreviewContainer.innerHTML = `<iframe width="560" height="315" src="${youtubeEmbed}" frameborder="0" allowfullscreen></iframe>`;
+            videoPreviewContainer.innerHTML = `
+                <iframe width="560" height="315" src="${youtubeEmbed}" frameborder="0" allowfullscreen></iframe>`;
         }
         // Vimeo Video Check
         else if (videoUrl.includes("vimeo.com")) {
             const vimeoId = videoUrl.split("/").pop();
-            videoPreviewContainer.innerHTML = `<iframe src="https://player.vimeo.com/video/${vimeoId}" width="560" height="315" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>`;
+            videoPreviewContainer.innerHTML = `
+                <iframe src="https://player.vimeo.com/video/${vimeoId}" width="560" height="315" frameborder="0" 
+                        allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>`;
         }
         // MP4 Video Check (and other formats like .webm, .ogg)
         else if (videoUrl.match(/\.(mp4|webm|ogg)$/i)) {
-            videoPreviewContainer.innerHTML = `<video width="560" height="315" controls>
-                                                <source src="${videoUrl}" type="video/mp4">
-                                                Your browser does not support the video tag.
-                                              </video>`;
+            videoPreviewContainer.innerHTML = `
+                <video width="560" height="315" controls>
+                    <source src="${videoUrl}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>`;
         }
-        // Add more platform checks here (like Dailymotion, etc.)
+        // Dailymotion Video Check
+        else if (videoUrl.includes("dailymotion.com")) {
+            const dailymotionId = videoUrl.split("/").pop();
+            videoPreviewContainer.innerHTML = `
+                <iframe frameborder="0" width="560" height="315" src="https://www.dailymotion.com/embed/video/${dailymotionId}" 
+                        allowfullscreen></iframe>`;
+        }
+        // Twitch Video Check
+        else if (videoUrl.includes("twitch.tv")) {
+            const twitchId = videoUrl.split("/").pop();
+            videoPreviewContainer.innerHTML = `
+                <iframe src="https://player.twitch.tv/?video=${twitchId}" height="315" width="560" frameborder="0" 
+                        scrolling="no" allowfullscreen></iframe>`;
+        }
+        // Facebook Video Check
+        else if (videoUrl.includes("facebook.com")) {
+            const facebookId = videoUrl.split("/").pop();
+            videoPreviewContainer.innerHTML = `
+                <iframe src="https://www.facebook.com/plugins/video.php?href=https://www.facebook.com/video.php?v=${facebookId}" 
+                        width="560" height="315" frameborder="0" allowfullscreen></iframe>`;
+        }
+        // Instagram Video Check
+        else if (videoUrl.includes("instagram.com")) {
+            const instagramId = videoUrl.split("/p/").pop().split("/")[0];
+            videoPreviewContainer.innerHTML = `
+                <iframe src="https://www.instagram.com/p/${instagramId}/embed" width="560" height="315" frameborder="0" 
+                        scrolling="no" allowfullscreen></iframe>`;
+        }
+        // Twitter Video Check
+        else if (videoUrl.includes("twitter.com")) {
+            const twitterId = videoUrl.split("/status/").pop();
+            videoPreviewContainer.innerHTML = `
+                <iframe src="https://twitframe.com/show?url=${encodeURIComponent(videoUrl)}" width="560" height="315" 
+                        frameborder="0" allowfullscreen></iframe>`;
+        }
+        // TikTok Video Check
+        else if (videoUrl.includes("tiktok.com")) {
+            const tiktokId = videoUrl.split("/video/").pop();
+            videoPreviewContainer.innerHTML = `
+                <iframe src="https://www.tiktok.com/embed/${tiktokId}" width="560" height="315" frameborder="0" 
+                        allowfullscreen></iframe>`;
+        }
+        // Unsupported platform message
         else {
-            videoPreviewContainer.innerHTML = "<p>Unsupported video platform. Please enter a YouTube, Vimeo, or MP4 URL.</p>";
+            videoPreviewContainer.innerHTML = "<p>Unsupported video platform. Please enter a URL from a supported platform like YouTube, Vimeo, Dailymotion, Instagram, or MP4.</p>";
         }
-        
-    
+
     } else {
         // Handle case when there is no videoUrl provided
         videoPreviewContainer.innerHTML = "<p>Please enter a video URL.</p>";
     }
 }
+
 
 
     document.getElementById("video").addEventListener("input", function() {
@@ -905,10 +1031,21 @@ validHashTag = validHashTag.replace(/\s+/g, ''); // Remove spaces
         // Upload main photo to Firebase Storage
         let mainPhotoUrl = "";
         if (mainPhoto) {
-    // Correct usage of ref in Firebase v9
-    const photoRef = ref(storage, 'obituaries/' + mainPhoto.name);
-    await uploadBytes(photoRef, mainPhoto);
-    mainPhotoUrl = await getDownloadURL(photoRef);
+    // Handle save functionality with image transformations applied
+    const canvas = updateImageStylesAndCreateCanvas();
+
+    // Convert canvas to Blob
+    const canvasBlob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg'));
+
+    // Now upload the modified image to Firebase Storage
+    const photoRef = ref(storage, 'obituaries/' + Date.now() + '.jpg'); // Use a unique name (e.g., timestamp)
+    await uploadBytes(photoRef, canvasBlob);
+     mainPhotoUrl = await getDownloadURL(photoRef);
+
+    console.log('Uploaded image URL:', mainPhotoUrl);
+    // You can now store the photoUrl in your database if needed
+
+
 }
 // Split the name and location into arrays (searchable arrays)
 const searchableName = name.split(/\s+/); // Split by spaces (or modify to fit your needs)
@@ -954,11 +1091,24 @@ const searchableLocation = location.split(/\s+/); // Split by spaces
             await updateDoc(doc(db, "A_Obituaries", pageID), { pageID: pageID });
 
             console.log("Obituary saved with ID:", pageID);
+
+
+
+// Create obituary page and show preview
+createPage(obituary, pageID);
+document.getElementById('previewContent').innerHTML = obituaryPageContent;
+document.getElementById('previewModal').style.display = "block";
+
+// Display video preview
+const videoPreview = document.getElementById("videoPreview");
+displayVideoPreview(videoURL, videoPreview);
+
+
+
         } catch (error) {
             console.error("Error saving obituary:", error);
         }
     }
-    console.log( "pageID ??// :", pageID);
 
     console.log( "obituary:", obituary);
 
@@ -993,19 +1143,7 @@ const searchableLocation = location.split(/\s+/); // Split by spaces
                 </body>
             </html>
         `;
-        console.log( "pageID ? 1 :", pageID);
 
-        // Create obituary page and show preview
-        createPage(obituary, pageID);
-        document.getElementById('previewContent').innerHTML = obituaryPageContent;
-        document.getElementById('previewModal').style.display = "block";
-
-        // Display video preview
-        const videoPreview = document.getElementById("videoPreview");
-        displayVideoPreview(videoURL, videoPreview);
-        
-        
-        console.log('Obituary created successfully!');
 
     } catch (error) {
         console.error("Error creating obituary:", error);
