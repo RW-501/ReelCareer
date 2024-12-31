@@ -952,7 +952,7 @@ let Content = `<!DOCTYPE html>
 
     const owner = "RW-501";
     const repo = "ReelCareer";
-    const filePath = `celebrating-${obituary.pageName}.html`; // Adjust path as needed
+    const filePath = `obituaries/celebrating-${obituary.pageName}.html`; // Adjust path as needed
     const branch = 'main';
     const messageDiv = document.getElementById('messageDiv');
 
@@ -1002,11 +1002,12 @@ let Content = `<!DOCTYPE html>
         console.log( "    response:", response);
 
         const data = await response.json();
-        messageDiv.textContent = 'File created/updated successfully!';
+        console.log( "File created/updated successfully!");
 
         clearFormData();
     } catch (error) {
-        messageDiv.textContent = error.message;
+        console.log( "error:", error.message);
+
     }
 }
 
