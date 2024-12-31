@@ -387,6 +387,19 @@ textarea::placeholder {
                     </div>
                 </div>
                     
+
+                <div class="inputArea">
+                    <label for="hashTag" aria-label="Enter related hashtags for the event (e.g., #Memorial, #CelebrationOfLife)">Event Hashtags (e.g., #Memorial, #CelebrationOfLife)</label>
+                    <p id="hashTagHint" class="visually-hidden">Please enter hashtags related to the event, separated by spaces or commas.</p>
+                    <input 
+                      type="text" 
+                      id="hashTag" 
+                      name="hashTag" 
+                      placeholder="Enter hashtags related to the event (e.g., #Memorial, #CelebrationOfLife)" 
+                      aria-describedby="hashTagHint" 
+                    >
+                  </div>
+                  
                 <div class="inputArea">
                     <label for="pageName" aria-label="Enter obituary page URL">URL (Obituary Page URL)</label>
                     <p id="urlHint" class="visually-hidden">Format: /celebrating/[your-url]. The URL should only contain letters, numbers, hyphens, and underscores.</p>
@@ -687,32 +700,40 @@ document.getElementById('category').addEventListener('change', function() {
 // Function to generate "about" suggestions
 function generateAboutText() {
     const name = document.getElementById("name").value;
-    let sunrise = document.getElementById("sunrise").value;
-    let sunset = document.getElementById("sunset").value;
-    const location = document.getElementById("location").value;
-    const category = document.getElementById("category").value;
-    const otherCategory = document.getElementById("otherCategory").value;
+let sunrise = document.getElementById("sunrise").value;
+let sunset = document.getElementById("sunset").value;
+const hashTag = document.getElementById("hashTag").value.trim();
+const location = document.getElementById("location").value;
+const category = document.getElementById("category").value;
+const otherCategory = document.getElementById("otherCategory").value;
 
-    let categoryText = category;
-    if (category === 'other' && otherCategory) {
-        categoryText = otherCategory;
-    }
-     sunrise = formatDate(sunrise);
-                    
-     sunset = formatDate(sunset);
+let categoryText = category;
+if (category === 'other' && otherCategory) {
+    categoryText = otherCategory;
+}
+sunrise = formatDate(sunrise);
+sunset = formatDate(sunset);
 
-    const aboutSuggestions = [
-    `In loving memory of ${name}, who was born on ${sunrise} and peacefully passed away on ${sunset}. A beloved ${categoryText}, ${name} touched the hearts of all who knew them, leaving behind cherished memories in ${location}. Their legacy will continue to inspire all those who were fortunate enough to experience their warmth and kindness. Forever in our hearts.`,
-    `${name}, a cherished ${categoryText}, whose journey on earth began on ${sunrise} and came to an end on ${sunset}, is remembered fondly for the love and joy they brought to the lives of those around them in ${location}. Whether through their work, art, or friendship, ${name}'s impact was immeasurable, and their spirit will live on in the hearts of their loved ones forever.`,
-    `The life of ${name}, born on ${sunrise} and departed on ${sunset}, remains a beacon of inspiration to all in ${location}. A true ${categoryText}, ${name} lived with passion and purpose, enriching the lives of those they encountered. Their contributions, whether large or small, have left a lasting imprint that will never fade, and they will be remembered always with love and gratitude.`,
-    `Remembering the beautiful life of ${name}, whose journey began on ${sunrise} and concluded on ${sunset}. A loving and devoted ${categoryText}, ${name} was a source of strength, love, and positivity for everyone in ${location}. Though they are no longer with us, their influence will continue to guide and inspire future generations in the community and beyond.`,
-    `${name}, a brilliant and compassionate ${categoryText} from ${location}, was born on ${sunrise} and left us on ${sunset}. During their time here, ${name} was a force for good, bringing light and hope to those who needed it most. Their memory will forever remain alive in the hearts of all who had the privilege to know them, and their legacy of kindness will never be forgotten.`,
-    `In honor of ${name}, who lived a remarkable life from ${sunrise} to ${sunset}, and made an indelible impact as a ${categoryText} in ${location}. ${name}'s dedication, hard work, and unwavering passion set them apart as a true leader and an inspiration to all who crossed their path. They will forever be remembered for the mark they left on this world, and their influence will continue to be felt for years to come.`,
-    `${name}, whose presence in ${location} touched countless lives, was born on ${sunrise} and passed away on ${sunset}. As a devoted ${categoryText}, ${name} spent their life spreading joy, offering support, and making a meaningful difference. Their passing leaves a hole in the hearts of those who loved them, but their spirit and the impact of their work will live on in the community they served.`,
-    `A life well-lived, ${name} was born on ${sunrise} and passed away on ${sunset}. A loving and generous ${categoryText} whose legacy of compassion, understanding, and service to others lives on in ${location}. The work they did, the people they helped, and the love they gave will be remembered with deep affection and gratitude by all who knew them.`,
-    `With deep sorrow, we remember ${name}, a dedicated ${categoryText} who passed away on ${sunset}. Their contributions to ${location} were countless, and their influence in the field of ${categoryText} will never be forgotten. Though we mourn their passing, we also celebrate the incredible life they lived and the difference they made in the world. Their legacy will continue to inspire all of us who remain.`,
-    `The journey of ${name}, who was born on ${sunrise} and passed away on ${sunset}, left a lasting impact as a ${categoryText} in ${location}. Whether through their work, acts of kindness, or simply being a beacon of hope for those around them, ${name} made a significant difference. We will always remember the joy they brought to our lives and honor their memory in everything we do.`
+// Ensure hashtags are valid
+let validHashTag = hashTag.startsWith("#") ? hashTag : `#${hashTag}`;
+validHashTag = validHashTag.replace(/\s+/g, ''); // Remove spaces
+
+const aboutSuggestions = [
+    `In loving memory of ${name}, who was born on ${sunrise} and peacefully passed away on ${sunset}. A beloved ${categoryText}, ${name} touched the hearts of all who knew them, leaving behind cherished memories in ${location}. Their legacy will continue to inspire all those who were fortunate enough to experience their warmth and kindness. Forever in our hearts. ${validHashTag}`,
+    `${name}, a cherished ${categoryText}, whose journey on earth began on ${sunrise} and came to an end on ${sunset}, is remembered fondly for the love and joy they brought to the lives of those around them in ${location}. Whether through their work, art, or friendship, ${name}'s impact was immeasurable, and their spirit will live on in the hearts of their loved ones forever. ${validHashTag}`,
+    `The life of ${name}, born on ${sunrise} and departed on ${sunset}, remains a beacon of inspiration to all in ${location}. A true ${categoryText}, ${name} lived with passion and purpose, enriching the lives of those they encountered. Their contributions, whether large or small, have left a lasting imprint that will never fade, and they will be remembered always with love and gratitude. ${validHashTag}`,
+    `Remembering the beautiful life of ${name}, whose journey began on ${sunrise} and concluded on ${sunset}. A loving and devoted ${categoryText}, ${name} was a source of strength, love, and positivity for everyone in ${location}. Though they are no longer with us, their influence will continue to guide and inspire future generations in the community and beyond. ${validHashTag}`,
+    `${name}, a brilliant and compassionate ${categoryText} from ${location}, was born on ${sunrise} and left us on ${sunset}. During their time here, ${name} was a force for good, bringing light and hope to those who needed it most. Their memory will forever remain alive in the hearts of all who had the privilege to know them, and their legacy of kindness will never be forgotten. ${validHashTag}`,
+    `In honor of ${name}, who lived a remarkable life from ${sunrise} to ${sunset}, and made an indelible impact as a ${categoryText} in ${location}. ${name}'s dedication, hard work, and unwavering passion set them apart as a true leader and an inspiration to all who crossed their path. They will forever be remembered for the mark they left on this world, and their influence will continue to be felt for years to come. ${validHashTag}`,
+    `${name}, whose presence in ${location} touched countless lives, was born on ${sunrise} and passed away on ${sunset}. As a devoted ${categoryText}, ${name} spent their life spreading joy, offering support, and making a meaningful difference. Their passing leaves a hole in the hearts of those who loved them, but their spirit and the impact of their work will live on in the community they served. ${validHashTag}`,
+    `A life well-lived, ${name} was born on ${sunrise} and passed away on ${sunset}. A loving and generous ${categoryText} whose legacy of compassion, understanding, and service to others lives on in ${location}. The work they did, the people they helped, and the love they gave will be remembered with deep affection and gratitude by all who knew them. ${validHashTag}`,
+    `With deep sorrow, we remember ${name}, a dedicated ${categoryText} who passed away on ${sunset}. Their contributions to ${location} were countless, and their influence in the field of ${categoryText} will never be forgotten. Though we mourn their passing, we also celebrate the incredible life they lived and the difference they made in the world. Their legacy will continue to inspire all of us who remain. ${validHashTag}`,
+    `The journey of ${name}, who was born on ${sunrise} and passed away on ${sunset}, left a lasting impact as a ${categoryText} in ${location}. Whether through their work, acts of kindness, or simply being a beacon of hope for those around them, ${name} made a significant difference. We will always remember the joy they brought to our lives and honor their memory in everything we do. ${validHashTag}`
 ];
+
+// Log suggestions for verification
+console.log(aboutSuggestions);
+
 
     // Populate the suggestion dropdown with generated about text
    // Populate the suggestion dropdown with generated about text
@@ -738,6 +759,7 @@ document.getElementById('suggestions').addEventListener('change', function() {
 document.getElementById("name").addEventListener("input", generateAboutText);
 document.getElementById("sunrise").addEventListener("input", generateAboutText);
 document.getElementById("sunset").addEventListener("input", generateAboutText);
+document.getElementById("hashTag").addEventListener("input", generateAboutText);
 document.getElementById("location").addEventListener("input", generateAboutText);
 document.getElementById("category").addEventListener("change", generateAboutText);
 document.getElementById("otherCategory").addEventListener("input", generateAboutText);
@@ -861,7 +883,11 @@ setTimeout(() => {
         let videoURL = document.getElementById('video').value.trim();
         let socialLinks = document.getElementById('socialLinks').value.trim();
         let socialLinkName = document.getElementById('socialLinkName').value.trim();
+        let hashTag = document.getElementById('hashTag').value.trim();
+        let validHashTag = hashTag.startsWith("#") ? hashTag : `#${hashTag}`;
+validHashTag = validHashTag.replace(/\s+/g, ''); // Remove spaces
 
+        
         // Sanitize inputs
         name = name.replace(/[^a-zA-Z0-9 ]/g, '');
         location = location.replace(/[^a-zA-Z0-9 ]/g, '');
@@ -898,6 +924,7 @@ const searchableLocation = location.split(/\s+/); // Split by spaces
             location: location,
             searchableLocation: searchableLocation,
             category: category,
+            hashTag: validHashTag,
             url: `https://reelcareer.co/obituaries/celebrating/${pageName}`,
             pageName: pageName,
             videoURL: videoURL,
@@ -1024,7 +1051,7 @@ let Content = `<!DOCTYPE html>
         <p><strong>Date:</strong> ${obituary.sunset}</p>
         <p><strong>Services will be held:</strong> ${obituary.location}</p>
         <p>Share your thoughts using</p>
-            <strong>#Celebrating${obituary.name}</strong>
+            <div id="hashTag">${obituary.hashTag}</div>
         <p>${obituary.socialLinkName}: <a href="${obituary.socialLinks}">${obituary.socialLinks}</a></p>
         </div>
                   <div id="media-section"></div>
