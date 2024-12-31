@@ -611,35 +611,38 @@ document.getElementById("otherCategory").addEventListener("input", generateAbout
 
     // Set up debounce function
     let debounceTimeout;
-    
     document.getElementById('pageName').addEventListener('input', function() {
-        // Get the value entered by the user
-        let inputValue = this.value;
+    // Get the value entered by the user
+    let inputValue = this.value;
 
-        // Sanitize the input to allow only letters, numbers, hyphens, and underscores
-        inputValue = inputValue.replace(/[^a-zA-Z0-9-_]/g, '');
+    // Sanitize the input to allow only letters, numbers, hyphens, and underscores
+    inputValue = inputValue.replace(/[^a-zA-Z0-9-_]/g, '');
 
-        // Update the preview URL dynamically
-        document.getElementById('urlPreview').textContent = `https://reelcareer.co/celebrating/${inputValue}`;
+    // Update the preview URL dynamically
+    document.getElementById('urlPreview').textContent = `https://reelcareer.co/celebrating/${inputValue}`;
 
-        // Clear previous timeout
-        clearTimeout(debounceTimeout);
+    // Clear previous timeout
+    clearTimeout(debounceTimeout);
 
-        // Set up a new debounce with a delay (e.g., 500ms)
-        debounceTimeout = setTimeout(async function() {
-            // Check if the URL is available (async operation)
-            const urlQuery = await db.collection('A_Obituaries').where("pageName", "==", inputValue).get();
+    // Set up a new debounce with a delay (e.g., 500ms)
+    debounceTimeout = setTimeout(async function() {
+        // Check if the URL is available (async operation)
+        try {
+            const q = query(collection(db, "A_Obituaries"), where("pageName", "==", inputValue));
+            const querySnapshot = await getDocs(q);
 
-            if (!urlQuery.empty) {
+            if (!querySnapshot.empty) {
                 // If URL is taken, show message and hide availability
                 document.getElementById('urlAvailabilityMessage').style.display = 'block';
             } else {
                 // If URL is available, hide message
                 document.getElementById('urlAvailabilityMessage').style.display = 'none';
             }
-        }, 500); // 500ms debounce delay
-    });
-
+        } catch (error) {
+            console.error("Error checking URL availability:", error);
+        }
+    }, 500); // 500ms debounce delay
+});
 
 
 
