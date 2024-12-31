@@ -47,7 +47,7 @@ function updateFooter() {
             <h2>Do you ever feel like you have to die before people notice your work?</h2>
             <p>Let people give you your flowers now! Create an obituary page now and let the world know your story.</p>
             <div class="button">
-                <a href="https://ReelCareer.co/obituary/create">Create Your Obituary</a>
+                <a href="https://ReelCareer.co/obituaries/create">Create Your Obituary</a>
             </div>
         </div>
         `;
