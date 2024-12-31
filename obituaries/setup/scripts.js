@@ -1,4 +1,17 @@
-  // Import Firebase SDKs
+  
+  
+          async function getUserIP() {
+            try {
+                const response = await axios.get('https://api.ipify.org?format=json');
+                return response.data.ip;
+            } catch (error) {
+                console.error('Error fetching IP address:', error);
+                return 'Unknown IP';
+            }
+        }
+
+
+        // Import Firebase SDKs
   import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
   import {  getFirestore, collection, doc, setDoc, updateDoc, getDoc, increment, arrayUnion, addDoc, getDocs, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
   import { 
@@ -68,30 +81,34 @@ function sanitizeInput(input) {
   return div.innerHTML;
 }
 
-// Add submit event listener to the form
-form.addEventListener("submit", async (e) => {
-  e.preventDefault();
 
-  // Get and sanitize form inputs
-  const name = sanitizeInput(document.getElementById("guestName").value.trim());
-  const message = sanitizeInput(document.getElementById("guestMessage").value.trim());
-
-  if (name && message) {
-    try {
-      // Add the new guestbook entry to the Firestore collection
-      const guestbookRef = collection(db, `A_Obituaries/${pageID}/Guestbook`);
-      await addDoc(guestbookRef, {
-        name,
-        message,
-        timestamp: serverTimestamp(), // Optional timestamp
-      });
-      loadEntries(); // Reload the entries after submission
-    } catch (error) {
-      console.error("Error adding guestbook entry:", error);
+  
+  // Event listener for the form submission
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+  
+    // Get and sanitize form inputs
+    const name = sanitizeInput(document.getElementById("guestName").value.trim());
+    const message = sanitizeInput(document.getElementById("guestMessage").value.trim());
+    const userIP = await getUserIP(); // Fetch the user's IP
+  
+    if (name && message) {
+      try {
+        // Add the new guestbook entry to the Firestore collection
+        const guestbookRef = collection(db, `A_Obituaries/${pageID}/Guestbook`);
+        await addDoc(guestbookRef, {
+          name,
+          message,
+          userIP, // Include the user's IP
+          timestamp: serverTimestamp(), // Optional timestamp
+        });
+        loadEntries(); // Reload the entries after submission
+      } catch (error) {
+        console.error("Error adding guestbook entry:", error);
+      }
     }
-  }
-});
-
+  });
+  
 // Function to load guestbook entries
 async function loadEntries() {
   try {
@@ -121,27 +138,46 @@ loadEntries();
 async function incrementFlowerCount() {
     const flowerCountElement = document.getElementById("flowerCount");
     let currentCount = parseInt(flowerCountElement.textContent, 10); // Get current count and convert to number
-    currentCount += 1; // Increment count by 1
-    flowerCountElement.textContent = currentCount; // Update the element with the new count
+    const userIP = await getUserIP(); // Fetch the user's IP
   
-    // Add animation
-    flowerCountElement.style.transition = "transform 0.3s ease-out, color 0.3s ease-out";
-    flowerCountElement.style.transform = "scale(1.5)";
-    flowerCountElement.style.color = "green";
+    // Firestore references
+    const docRef = doc(db, "A_Obituaries", pageID); // Replace `pageID` with the actual page ID variable
+    const ipCollectionRef = collection(docRef, "FlowerIPs"); // Subcollection to track IPs
   
-    // Reset animation after a delay
-    setTimeout(() => {
-      flowerCountElement.style.transform = "scale(1)";
-      flowerCountElement.style.color = "black";
-    }, 300); // Match the duration of the animation
-  
-    // Update flower count in Firestore
     try {
-      const docRef = doc(db, "A_Obituaries", pageID); // Replace `pageID` with the actual page ID variable
+      // Check if the IP is already recorded
+      const ipDocRef = doc(ipCollectionRef, userIP); // Use IP address as the document ID
+      const ipDocSnapshot = await getDoc(ipDocRef);
+  
+      if (ipDocSnapshot.exists()) {
+        console.log("User has already added a flower.");
+        return; // Exit if the IP has already added a flower
+      }
+  
+      // Increment flower count
+      currentCount += 1; // Increment count by 1
+      flowerCountElement.textContent = currentCount; // Update the element with the new count
+  
+      // Add animation
+      flowerCountElement.style.transition = "transform 0.3s ease-out, color 0.3s ease-out";
+      flowerCountElement.style.transform = "scale(1.5)";
+      flowerCountElement.style.color = "green";
+  
+      // Reset animation after a delay
+      setTimeout(() => {
+        flowerCountElement.style.transform = "scale(1)";
+        flowerCountElement.style.color = "black";
+      }, 300); // Match the duration of the animation
+  
+      // Update Firestore
       await updateDoc(docRef, {
         flowerCount: currentCount // Update the flowerCount field in Firestore
       });
-      console.log("Flower count updated successfully!");
+  
+      // Record the IP in the subcollection
+      await setDoc(ipDocRef, { timestamp: serverTimestamp() });
+  
+      console.log("Flower count updated successfully and IP recorded!");
     } catch (error) {
       console.error("Error updating flower count:", error);
     }
@@ -154,19 +190,40 @@ async function incrementFlowerCount() {
   // Function to increment views (for reference)
   async function incrementViews(pageID) {
     try {
-      const docRef = doc(db, "A_Obituaries", pageID);
-      await updateDoc(docRef, {
-        views: increment(1)
-      });
-      console.log("View count updated successfully!");
+      const userIP = await getUserIP(); // Fetch the user's IP
+      const pageRef = doc(db, "A_Obituaries", pageID);
+      const ipCollectionRef = collection(pageRef, "PageViewIPs"); // Subcollection for tracking IPs
+      const ipDocRef = doc(ipCollectionRef, userIP); // Use IP address as the document ID
+  
+      // Check if the IP is already recorded
+      const ipDocSnapshot = await getDoc(ipDocRef);
+  
+      if (ipDocSnapshot.exists()) {
+        // Increment only the general views count
+        await updateDoc(pageRef, {
+          views: increment(1)
+        });
+        console.log("General view count updated successfully!");
+      } else {
+        // Increment both views and uniqueViews counts
+        await updateDoc(pageRef, {
+          views: increment(1),
+          uniqueViews: increment(1)
+        });
+  
+        // Record the IP in the subcollection
+        await setDoc(ipDocRef, { timestamp: serverTimestamp() });
+  
+        console.log("Unique view and general view counts updated successfully!");
+      }
     } catch (error) {
-      console.error("Error updating view count:", error);
+      console.error("Error updating view counts:", error);
     }
   }
   
   // Increment views when the page loads
   incrementViews(pageID); // Replace `pageID` with the actual page ID variable
-
+  
   
 
 
