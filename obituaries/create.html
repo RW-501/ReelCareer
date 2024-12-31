@@ -354,12 +354,12 @@ textarea::placeholder {
                     
                 <div class="inputArea">
                     <label for="pageName" aria-label="Enter obituary page URL">URL (Obituary Page URL)</label>
-                    <p id="urlHint" class="visually-hidden">Format: /celebrating-[your-url]. The URL should only contain letters, numbers, hyphens, and underscores.</p>
+                    <p id="urlHint" class="visually-hidden">Format: /celebrating/[your-url]. The URL should only contain letters, numbers, hyphens, and underscores.</p>
                     <input type="text" id="pageName" name="url" placeholder="Choose a URL (e.g., john-doe)" required aria-required="true" aria-describedby="urlHint">
                     
                     <div>
                         <p>Preview URL:</p>
-                        <p id="urlPreview">https://reelcareer.co/obituaries/celebrating-</p>
+                        <p id="urlPreview">https://reelcareer.co/obituaries/celebrating/</p>
                         <p id="urlAvailabilityMessage" style="color: red; display: none;" aria-live="polite">This page name is already taken. Please choose another one.</p>
                     </div>
                 </div>
@@ -656,7 +656,7 @@ document.getElementById("otherCategory").addEventListener("input", generateAbout
         inputValue = inputValue.replace(/[^a-zA-Z0-9-_]/g, '');
 
         // Update the preview URL dynamically
-        document.getElementById('urlPreview').textContent = `https://reelcareer.co/obituaries/celebrating-${inputValue}`;
+        document.getElementById('urlPreview').textContent = `https://reelcareer.co/obituaries/celebrating/${inputValue}`;
 
         // Clear previous timeout
         clearTimeout(debounceTimeout);
@@ -808,7 +808,7 @@ const searchableLocation = location.split(/\s+/); // Split by spaces
             location: location,
             searchableLocation: searchableLocation,
             category: category,
-            url: `https://reelcareer.co/obituaries/celebrating-${pageName}`,
+            url: `https://reelcareer.co/obituaries/celebrating/${pageName}`,
             pageName: pageName,
             videoURL: videoURL,
             socialLinkName: socialLinkName,
@@ -906,8 +906,8 @@ let Content = `<!DOCTYPE html>
   <meta property="og:title" content="Celebrating the Life of ${obituary.name}">
   <meta property="og:description" content="Born on ${obituary.sunrise}, ${obituary.name}'s journey inspires growth and transformation. Join us in celebrating ${obituary.name}.">
   <meta property="og:image" content="${obituary.mainPhoto}">
-  <meta property="og:url" content="https://reelcareer.co/celebrating-${obituary.pageName}">
-  <link rel="canonical" href="https://reelcareer.co/celebrating-${obituary.pageName}"> <!-- Ensures search engines index the preferred URL -->
+  <meta property="og:url" content="https://reelcareer.co/celebrating/${obituary.pageName}">
+  <link rel="canonical" href="https://reelcareer.co/celebrating/${obituary.pageName}"> <!-- Ensures search engines index the preferred URL -->
   <link rel="icon" type="image/x-icon" href="https://reelcareer.co/images/favicons/favicon.ico">
   <title>Celebrating the Life of ${obituary.name}</title>
   ${script} <!-- The script is correctly inserted here -->
@@ -952,7 +952,7 @@ let Content = `<!DOCTYPE html>
 
     const owner = "RW-501";
     const repo = "ReelCareer";
-    const filePath = `obituaries/celebrating-${obituary.pageName}.html`; // Adjust path as needed
+    const filePath = `obituaries/celebrating/${obituary.pageName}.html`; // Adjust path as needed
     const branch = 'main';
     const messageDiv = document.getElementById('messageDiv');
 
