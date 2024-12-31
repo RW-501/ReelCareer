@@ -325,7 +325,7 @@ function renderObituaries(obituaries) {
             <h3>${obituary.name}</h3>
             <p><strong>Category:</strong> ${obituary.category}</p>
             <p><strong>Services will be held:</strong> ${obituary.location}</p>
-            <p>${obituary.about}</p>
+<p>${obituary.about.length > 80 ? obituary.about.substring(0, 80) + '...' : obituary.about}</p>
             <a href="${obituary.url}" class="button">View Obituary</a>
         `;
 
