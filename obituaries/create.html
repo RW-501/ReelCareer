@@ -431,6 +431,7 @@ textarea::placeholder {
 </div>
 
 
+<!-- Correct container for the PayPal button -->
 <div id="paypal-button-container"></div>
 
 
@@ -795,7 +796,7 @@ document.getElementById("otherCategory").addEventListener("input", generateAbout
                     console.error("Error processing payment:", err);
                     alert("Payment failed. Please try again.");
                 }
-            }).render('#paypal-button');
+            }).render('#paypal-button-container'); // Render the button into the container
         });
 
     
