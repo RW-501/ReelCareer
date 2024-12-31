@@ -298,7 +298,8 @@ async function fetchObituaries() {
         
         // Create an array of obituary data
         const obituaries = querySnapshot.docs.map(doc => doc.data());
-        
+        console.log( "    obituaries:", obituaries);
+
         // Render the fetched obituaries
         renderObituaries(obituaries);
     } catch (error) {
