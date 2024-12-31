@@ -508,7 +508,29 @@ import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/9
         .catch((error) => {
             console.error('Error signing in anonymously:', error);
         });
+let userID = '';
 
+// Listen for authentication state changes to get the user ID
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+        // The user is signed in
+         userID = user.uid;
+        console.log('User ID:', userId);
+
+        // Use the user ID as needed
+        // For example, you could log the user ID to Firestore:
+        const userRef = collection(db, 'Users');
+        addDoc(userRef, { userId, timestamp: new Date() })
+            .then(() => {
+                console.log('User ID logged to Firestore');
+            })
+            .catch((error) => {
+                console.error('Error logging User ID to Firestore:', error);
+            });
+    } else {
+        console.log('No user signed in');
+    }
+});
    // Get the file input and preview image elements
    const fileInput = document.getElementById('mainPhoto');
     const imagePreviewContainer = document.getElementById('imagePreviewContainer');
@@ -843,6 +865,7 @@ const searchableLocation = location.split(/\s+/); // Split by spaces
             socialLinks: socialLinks,
             mainPhoto: mainPhotoUrl,
             timeStamp: new Date().toISOString(), // Using Date() for the current timestamp
+            userID: userID,
             userIP: userIP,
             gifts: [],
             views: 0,
@@ -867,6 +890,7 @@ const searchableLocation = location.split(/\s+/); // Split by spaces
             console.error("Error saving obituary:", error);
         }
     }
+    console.log( "pageID ??// :", pageID);
 
     console.log( "obituary:", obituary);
 
@@ -901,6 +925,7 @@ const searchableLocation = location.split(/\s+/); // Split by spaces
                 </body>
             </html>
         `;
+        console.log( "pageID ? 1 :", pageID);
 
         // Create obituary page and show preview
         createPage(obituary, pageID);
@@ -968,7 +993,7 @@ let Content = `<!DOCTYPE html>
 
     </div> <!-- Closing container div -->
   </main> <!-- Closing main -->
-  
+
       <div id="dynamic-footer"></div>
 
   <div id="pageID">${pageID}</div>
