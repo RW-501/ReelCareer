@@ -238,10 +238,12 @@ textarea::placeholder {
     #closePreviewButton:hover {
         background-color: #45a049;
     }
-
     .inputArea {
-        display: flex;
+        display: grid;
         width: 100%;
+    }
+    .flex {
+        display: flex;
     }
 </style>
 </head>
@@ -271,12 +273,15 @@ textarea::placeholder {
                     <input type="text" id="name" name="name" placeholder="Enter your full name" required aria-required="true" aria-describedby="nameHint">
                     </div>
 
+                    <div class="flex">
                     <div class="inputArea">
                     <label for="sunrise" aria-label="Select the date of birth (Sunrise)">Sunrise (Date)</label>
                     <p id="sunriseHint" class="visually-hidden">Please select the date of birth (Sunrise).</p>
                     <input type="date" id="sunrise" name="sunrise" required aria-required="true" aria-describedby="sunriseHint">
-       
-                    
+       </div>
+    </div>
+
+                    <div class="inputArea">
                     <label for="sunset" aria-label="Select the date of passing (Sunset)">Sunset (Date)</label>
                     <p id="sunsetHint" class="visually-hidden">Please select the date of passing (Sunset).</p>
                     <input type="date" id="sunset" name="sunset" required aria-required="true" aria-describedby="sunsetHint">
@@ -288,7 +293,8 @@ textarea::placeholder {
                     <input type="text" id="location" name="location" placeholder="Enter the event location or additional details (e.g., Zoom link, address)" required aria-required="true" aria-describedby="locationHint">
                 </div>
                     
-                <div class="inputArea">                    <label for="category" aria-label="Select a category">Category</label>
+                <div class="inputArea">  
+                     <label for="category" aria-label="Select a category">Category</label>
                     <p id="categoryHint" class="visually-hidden">Select the category that best describes the person.</p>
                     <select id="category" name="category" required aria-required="true" aria-describedby="categoryHint">
                         <option value="" disabled selected>Select a category</option>
