@@ -530,10 +530,11 @@ import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/9
         
 
     // Check if the videoPreviewContainer is null
-    if (!clear) {
-      // Clear the previous content in the container
-      videoPreviewContainer.innerHTML = "";
-    } 
+    if (clear !== true) {
+  // Clear the previous content in the container if 'clear' is not true
+  videoPreviewContainer.innerHTML = "";
+}
+
 
     // Check if there is a videoUrl to display
     if (videoUrl) {
