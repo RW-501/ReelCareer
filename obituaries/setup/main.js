@@ -131,3 +131,8 @@ loadScript('https://reelcareer.co/obituaries/setup/footer.js', { defer: true }, 
     logExecutionTime('footer', performance.now());
 });
 
+
+
+loadScript('https://reelcareer.co/obituaries/setup/analytics.js', { defer: true, type: 'module' }, () => {
+    logExecutionTime('analytics', performance.now());
+});

@@ -531,38 +531,52 @@ import {
 let userID = '';
 
 // Listen for authentication state changes to get the user ID
-
-// Handle user authentication state change
 onAuthStateChanged(auth, async (user) => {
   if (user) {
     // The user is signed in
-    const userID = user.uid;  // Use the user's unique ID
-    console.log('User ID:', userID);
+    const userID = user.uid; // Use the user's unique ID
+    console.log("User ID:", userID);
 
-    try {
-      // Get the user's IP address
-      const userIP = await getUserIP();
+    // Check localStorage for obituaryMemberID
+    const obituaryMemberID = localStorage.getItem("obituaryMemberID");
 
-      // Reference to Firestore collection
-      const userRef = collection(db, 'Users');
-      
-      // Add user data with IP and member field
-      await addDoc(userRef, {
-        userId: userID,  // Corrected userId usage
-        member: "Obituary Member",  // Static member value
-        userIP,  // User IP
-        timestamp: new Date(),  // Timestamp
-      });
+    if (!obituaryMemberID) {
+      // If obituaryMemberID is not set, proceed to add to Firestore
+      try {
+        // Get the user's IP address
+        const userDetails = await getUserDetails(); // Assuming getUserDetails fetches IP and location details
+        if (!userDetails) return;
 
-      console.log('User data logged to Firestore');
-    } catch (error) {
-      console.error('Error logging user data to Firestore:', error);
+        const { ip: userIP, city, state, country } = userDetails; // Destructure user details
+
+        // Reference to Firestore collection
+        const userRef = doc(db, "Users", userID); // Use userID as document ID for unique identification
+
+        // Add user data with IP and member field
+        await setDoc(userRef, {
+          userId: userID, // Unique user ID
+          member: "Obituary Member", // Static member value
+          userIP, // User IP
+          city, // User's city
+          state, // User's state
+          country, // User's country
+          timestamp: new Date(), // Timestamp
+        });
+
+        // Store the userID in localStorage to prevent duplicate entries
+        localStorage.setItem("obituaryMemberID", userID);
+
+        console.log("User data logged to Firestore");
+      } catch (error) {
+        console.error("Error logging user data to Firestore:", error);
+      }
+    } else {
+      console.log("User already recorded with obituaryMemberID:", obituaryMemberID);
     }
   } else {
-    console.log('No user signed in');
+    console.log("No user signed in");
   }
 });
-
 
 
 
@@ -1256,6 +1270,7 @@ function clearFormData() {
     // Dynamically set the current year
     document.getElementById("currentYear").textContent = new Date().getFullYear();
 </script>
+<script src="https://reelcareer.co/obituaries/setup/analytics.js" type="module"></script>
 
 </body>
 

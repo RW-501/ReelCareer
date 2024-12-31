@@ -1,7 +1,10 @@
   // Import Firebase SDKs
   import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
   import {  getFirestore, collection, doc, setDoc, updateDoc, getDoc, increment, arrayUnion, addDoc, getDocs, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
-  
+  import { 
+    getAuth, signInAnonymously, onAuthStateChanged 
+} from "https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js";
+
   
 
 // Firebase configuration
@@ -17,6 +20,22 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+const auth = getAuth(app);
+
+let userID = '';
+
+// Listen for authentication state changes to get the user ID
+
+// Handle user authentication state change
+onAuthStateChanged(auth, async (user) => {
+  if (user) {
+    // The user is signed in
+     userID = user.uid;  // Use the user's unique ID
+    console.log('User ID:', userID);
+
+  }
+});
+
 
 
 // Assuming pageID is set somewhere on the page (like an element with ID "pageID")
@@ -154,6 +173,8 @@ async function incrementFlowerCount() {
 
 // Function to create and display the popup
 function showComingSoonPopup() {
+
+    console.log("showComingSoonPopup");
     // Create the popup container
     const popup = document.createElement("div");
     popup.style.position = "fixed";
@@ -216,54 +237,4 @@ function showComingSoonPopup() {
   
 
 
-  
-  // Function to fetch user IP
-  async function getUserIP() {
-    try {
-      const response = await fetch("https://ipapi.co/json/");
-      const data = await response.json();
-      return data.ip;
-    } catch (error) {
-      console.error("Error fetching IP:", error);
-      return null;
-    }
-  }
-  
-  // Function to track analytics
-  async function trackAnalytics() {
-    const userIP = await getUserIP();
-    if (!userIP) return;
-  
-    const pageTitle = document.title; // Get page title
-    const lastReferrer = document.referrer || "Direct"; // Get referral website
-    const userDevice = navigator.userAgent; // Get user device info
-    const timestamp = new Date(); // Current timestamp
-  
-    const analyticsRef = doc(db, "A_Ob_Analytics", userIP); // Reference the user's document
-    const docSnap = await getDoc(analyticsRef);
-  
-    if (docSnap.exists()) {
-      // If IP exists, update data
-      await updateDoc(analyticsRef, {
-        totalPageViews: increment(1), // Increment page views
-        lastPageViewed: timestamp, // Update last viewed date
-        pageViewed: arrayUnion({ title: pageTitle, time: timestamp }), // Add new page to array
-        [`pageViewCount.${pageTitle}`]: increment(1), // Increment specific page count
-        lastReferral: lastReferrer, // Update referral website
-      });
-    } else {
-      // If IP does not exist, create a new document
-      await setDoc(analyticsRef, {
-        totalPageViews: 1,
-        lastPageViewed: timestamp,
-        pageViewed: [{ title: pageTitle, time: timestamp }],
-        pageViewCount: { [pageTitle]: 1 },
-        lastReferral: lastReferrer,
-        userDevice: userDevice,
-      });
-    }
-  }
-  
-  // Track analytics on page load
-  window.addEventListener("load", trackAnalytics);
   
