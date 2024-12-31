@@ -429,6 +429,9 @@ textarea::placeholder {
 </div>
 
 
+<div id="paypal-button-container"></div>
+
+
     <!-- Include PayPal SDK -->
     <script src="https://www.paypal.com/sdk/js?client-id=AcOZi3sszHkpUZJCLDRglEAusFk4W_siExTkNTWQhjMSFRxV7Prc81274wHQ8H-wYYfnWsm4p6Rw55Qp"></script>
 
@@ -478,8 +481,7 @@ textarea::placeholder {
         if (file && file.type.startsWith('image/')) {
             // Create an image URL for the selected file
             const imageUrl = URL.createObjectURL(file);
-            console.log("image file: ",file);
-            console.log("image url: ",imageUrl);
+  
             // Set the image preview source to the selected file
             imagePreview.src = imageUrl;
 
@@ -658,20 +660,21 @@ document.getElementById("otherCategory").addEventListener("input", generateAbout
         }
 
         // Handle form submission after payment
-        document.getElementById('paypal-button').addEventListener('click', async function () {
-            // Initialize PayPal button
-            paypal.Buttons({
-                createOrder: (data, actions) => {
-                    return actions.order.create({
-                        purchase_units: [{
-                            amount: {
-                                value: '25.00'
-                            }
-                        }]
-                    });
-                },
-                onApprove: async (data, actions) => {
-                    const details = await actions.order.capture();
+        document.getElementById('paypal-button').addEventListener('click', async function () { 
+    // Initialize PayPal button inside the correct container
+    paypal.Buttons({
+        createOrder: (data, actions) => {
+            return actions.order.create({
+                purchase_units: [{
+                    amount: {
+                        value: '25.00'
+                    }
+                }]
+            });
+        },
+        onApprove: async (data, actions) => {
+            const details = await actions.order.capture();
+            console.log('Payment approved:', details);
 
                     // After successful payment, collect form data
                     let name = document.getElementById('name').value;
@@ -720,6 +723,7 @@ document.getElementById("otherCategory").addEventListener("input", generateAbout
                         mainPhoto: mainPhotoUrl,
                         userIP: userIP, // Store user IP
                         status: 'active',  // mark as active after payment
+                        paymentDetails: details,
                     };
 
                     // Save obituary to Firestore
