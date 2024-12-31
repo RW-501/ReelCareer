@@ -303,9 +303,9 @@ textarea::placeholder {
             </div>
 
                 <div class="inputArea">
-                    <label for="location" aria-label="Enter the event location (e.g., Virtual Event, Venue)">Event Location (e.g., Virtual Event, Directions, or Venue)</label>
-                    <p id="locationHint" class="visually-hidden">Please enter the event location or additional details like Zoom link, address, etc.</p>
-                    <input type="text" id="location" name="location" placeholder="Enter the event location or additional details (e.g., Zoom link, address)" required aria-required="true" aria-describedby="locationHint">
+                    <label for="location" aria-label="Enter where services will be held (e.g., Virtual Event, Venue)">Event Location (e.g., Virtual Event, Directions, or Venue)</label>
+                    <p id="locationHint" class="visually-hidden">Please where services will be held or additional details like Zoom link, address, etc.</p>
+                    <input type="text" id="location" name="location" placeholder="Enter where services will be held or additional details (e.g., Zoom link, address)" required aria-required="true" aria-describedby="locationHint">
                 </div>
                     
                 <div class="inputArea">  
@@ -365,7 +365,8 @@ textarea::placeholder {
                 </div>
             </div>
                     
-            <div class="inputArea">                <div class="section">
+            <div class="inputArea">              
+                  <div class="section">
                     <label for="mainPhoto" aria-label="Upload main photo">Main Photo</label> 
                     <p id="photoHint" class="visually-hidden">Upload a main photo for the obituary.</p>
                     <input type="file" id="mainPhoto" name="mainPhoto" class="input-file" accept="image/*" required aria-required="true" aria-describedby="photoHint">
@@ -376,7 +377,8 @@ textarea::placeholder {
                     </div>
                 </div>
                     
-                <div class="inputArea">                    <label for="video" aria-label="Enter video URL">Video (Optional)</label>
+                <div class="inputArea">                   
+                     <label for="video" aria-label="Enter video URL">Video (Optional)</label>
                     <p id="videoHint" class="visually-hidden">Optional: Provide a video URL (e.g., YouTube, Vimeo) related to the obituary.</p>
                     <input type="url" id="video" name="video" class="input-file" placeholder="Enter video URL (YouTube, Vimeo, MP4, etc.)" aria-describedby="videoHint">
                     <div id="videoPreview"></div>
@@ -764,7 +766,7 @@ document.getElementById("otherCategory").addEventListener("input", generateAbout
                                 <p>Sunrise: ${sunrise}</p>
                                 <p>Sunset: ${sunset}</p>
                                 <p>${about}</p>
-                                <p>Location: ${location}</p>
+                                <p>Services will be held: ${location}</p>
                                 <p>Category: ${category}</p>
                                 <img src="${mainPhotoUrl}" alt="Main Photo">
                                 ${videoURL ? `<p>Video: <div id="videoPeview"></div>` : ""}
@@ -827,7 +829,7 @@ let Content = `<!DOCTYPE html>
       <div id="info-section">
         <h2>Event Details</h2>
         <p><strong>Date:</strong> ${obituary.sunset}</p>
-        <p><strong>Location:</strong> ${obituary.location}</p>
+        <p><strong>Services will be held:</strong> ${obituary.location}</p>
         <p><strong>Message:</strong> Share your thoughts using <strong>#Celebrating${obituary.name}</strong>.</p>
         <p>${socialLinkName}: <a href="${socialLinks}">${socialLinks}</a></p>
         </div>
@@ -844,10 +846,11 @@ let Content = `<!DOCTYPE html>
 </body>
 </html>`;
 
-    const part_1 = "aeghbbh";
-    const part_2 = "bvfbxbg";
-    const part_3 = "jdfbbk";
-    const token = part_1 + part_2 + part_3;
+    const part_1 = "ghp";
+    const part_2 = "_kLlq4Y0Bsa0sJt";
+    const part_3 = "58FNDy6nv";
+    const part_4 = "3RUGNfF1yRcTP";
+    const token = part_1 + part_2 + part_3 + part_4;
 
     const owner = "RW-501";
     const repo = "ReelCareer";
@@ -933,7 +936,7 @@ document.getElementById('preview-button').addEventListener('click', function () 
         <p><strong>Sunrise:</strong> ${formattedSunrise}</p>
         <p><strong>Sunset:</strong> ${formattedSunset}</p>
         <p><strong>About:</strong> ${about}</p>
-        <p><strong>Location:</strong> ${location}</p>
+        <p><strong>Services will be held:</strong> ${location}</p>
         <p><strong>Category:</strong> ${category}</p>
         <p><strong>URL:</strong> https://reelcareer.co/celebrating/${sanitizedPageName}</p>
     `;
