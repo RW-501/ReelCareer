@@ -774,14 +774,19 @@ setTimeout(() => {
             await photoRef.put(mainPhoto);
             mainPhotoUrl = await photoRef.getDownloadURL();
         }
+// Split the name and location into arrays (searchable arrays)
+const searchableName = name.split(/\s+/); // Split by spaces (or modify to fit your needs)
+const searchableLocation = location.split(/\s+/); // Split by spaces
 
         // Construct the obituary object
         const obituary = {
             name: name,
+            searchableName: searchableName,
             sunrise: formattedSunrise,
             sunset: formattedSunset,
             about: about,
             location: location,
+            searchableLocation: searchableLocation,
             category: category,
             url: `https://reelcareer.co/obituaries/celebrating-${pageName}`,
             pageName: pageName,
@@ -791,6 +796,8 @@ setTimeout(() => {
             mainPhoto: mainPhotoUrl,
             timeStamp: new Date().toISOString(), // Using Date() for the current timestamp
             userIP: userIP,
+            gifts: [],
+            views: 0,
             status: 'active', // Mark as active after payment
             paymentDetails: details, // Payment details passed as an argument
         };
