@@ -324,16 +324,22 @@ textarea::placeholder {
         
                 <div>
                     <p>Preview URL:</p>
-                    <p id="urlPreview">/celebrating/</p>
+                    <p id="urlPreview">https://reelcareer.co/celebrating/</p>
                     <p id="urlAvailabilityMessage" style="color: red; display: none;" aria-live="polite">This page name is already taken. Please choose another one.</p>
                 </div>
             </div>
         
             <div class="section">
-                <label for="mainPhoto" aria-label="Upload main photo">Main Photo</label>
+                <label for="mainPhoto" aria-label="Upload main photo">Main Photo</label> 
                 <input type="file" id="mainPhoto" name="mainPhoto" class="input-file" accept="image/*" required aria-required="true" aria-describedby="photoHint">
+                
                 <p id="photoHint" class="visually-hidden">Upload a main photo for the obituary.</p>
-        
+                
+                <!-- Image preview container -->
+                <div id="imagePreviewContainer" style="display: none; margin-top: 20px;">
+                    <img id="imagePreview" src="" alt="Uploaded main photo preview" style="max-width: 100%; height: auto; border: 1px solid #ccc; cursor: pointer;">
+                </div>
+                
                 <label for="video" aria-label="Enter video URL">Video (Optional)</label>
                 <input type="url" id="video" name="video" class="input-file" placeholder="Enter video URL (YouTube, Vimeo, MP4, etc.)" aria-describedby="videoHint">
                 <div id="videoPreview"></div> <!-- For displaying embedded video -->
@@ -419,7 +425,31 @@ textarea::placeholder {
   
 
 
+   // Get the file input and preview image elements
+   const fileInput = document.getElementById('mainPhoto');
+    const imagePreviewContainer = document.getElementById('imagePreviewContainer');
+    const imagePreview = document.getElementById('imagePreview');
 
+    // Handle file selection and display image preview
+    fileInput.addEventListener('change', function(event) {
+        const file = event.target.files[0];
+
+        if (file && file.type.startsWith('image/')) {
+            // Create an image URL for the selected file
+            const imageUrl = URL.createObjectURL(file);
+
+            // Set the image preview source to the selected file
+            imagePreview.src = imageUrl;
+
+            // Show the image preview container
+            imagePreviewContainer.style.display = 'block';
+        }
+    });
+
+    // Allow the user to click the preview image to change it
+    imagePreview.addEventListener('click', function() {
+        fileInput.click(); // Trigger the file input to allow a new image selection
+    });
 
 
 
