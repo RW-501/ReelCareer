@@ -559,8 +559,8 @@ document.getElementById('category').addEventListener('change', function() {
 // Function to generate "about" suggestions
 function generateAboutText() {
     const name = document.getElementById("name").value;
-    const sunrise = document.getElementById("sunrise").value;
-    const sunset = document.getElementById("sunset").value;
+    let sunrise = document.getElementById("sunrise").value;
+    let sunset = document.getElementById("sunset").value;
     const location = document.getElementById("location").value;
     const category = document.getElementById("category").value;
     const otherCategory = document.getElementById("otherCategory").value;
@@ -569,6 +569,9 @@ function generateAboutText() {
     if (category === 'other' && otherCategory) {
         categoryText = otherCategory;
     }
+     sunrise = formatDate(sunrise);
+                    
+     sunset = formatDate(sunset);
 
     const aboutSuggestions = [
     `In loving memory of ${name}, who was born on ${sunrise} and peacefully passed away on ${sunset}. A beloved ${categoryText}, ${name} touched the hearts of all who knew them, leaving behind cherished memories in ${location}. Their legacy will continue to inspire all those who were fortunate enough to experience their warmth and kindness. Forever in our hearts.`,
