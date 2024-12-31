@@ -167,6 +167,7 @@
             }
         }
 
+        
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
 import { getFirestore, collection, addDoc, doc, updateDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-storage.js";
@@ -208,7 +209,7 @@ onAuthStateChanged(auth, async (user) => {
      userID = user.uid; // Use the user's unique ID
     console.log("User ID:", userID);
 
-    
+
 // Call this function when the page loads
 loadUserObituaries(userID);
 
