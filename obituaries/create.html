@@ -636,7 +636,7 @@ document.getElementById("otherCategory").addEventListener("input", generateAbout
     inputValue = inputValue.replace(/[^a-zA-Z0-9-_]/g, '');
 
     // Update the preview URL dynamically
-    document.getElementById('urlPreview').textContent = `https://reelcareer.co/celebrating/${inputValue}`;
+    document.getElementById('urlPreview').textContent = `https://reelcareer.co/obituaries/celebrating-${inputValue}`;
 
     // Clear previous timeout
     clearTimeout(debounceTimeout);
@@ -758,7 +758,8 @@ setTimeout(() => {
         name = name.replace(/[^a-zA-Z0-9 ]/g, '');
         location = location.replace(/[^a-zA-Z0-9 ]/g, '');
         category = category.replace(/[^a-zA-Z0-9 ]/g, '');
-        let url = pageName.replace(/[^a-zA-Z0-9-_]/g, '');
+         pageName = pageName.replace(/[^a-zA-Z0-9-_]/g, '');
+         socialLinkName = socialLinkName.replace(/[^a-zA-Z0-9-_]/g, '');
 
         // Format date fields
         const formattedSunrise = formatDate(sunrise);
@@ -783,7 +784,7 @@ setTimeout(() => {
             about: about,
             location: location,
             category: category,
-            url: url,
+            url: `https://reelcareer.co/obituaries/celebrating-${pageName}`,
             pageName: pageName,
             videoURL: videoURL,
             socialLinkName: socialLinkName,
@@ -851,8 +852,10 @@ setTimeout(() => {
         // Display video preview
         const videoPreview = document.getElementById("videoPreview");
         displayVideoPreview(videoURL, videoPreview);
+        
+        
+        console.log('Obituary created successfully!');
 
-        alert('Obituary created successfully!');
     } catch (error) {
         console.error("Error creating obituary:", error);
         alert('There was an error creating the obituary. Please try again.');
