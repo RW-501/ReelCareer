@@ -74,9 +74,6 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 
-    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js"></script>
-   
 
     <link href="https://reelcareer.co/obituaries/style.css" rel="stylesheet">
 
@@ -268,23 +265,27 @@
         </div>
     </footer>
     
-
-    <!-- JavaScript to Fetch and Display Obituaries -->
-    <script>
-        const firebaseConfig = {
-            apiKey: "AIzaSyDiwC3Dmd88-t3N9iRV5cZ3snVkEXinclg",
-            authDomain: "reelcareer-cb4b0.firebaseapp.com",
-            projectId: "reelcareer-cb4b0",
-            storageBucket: "reelcareer-cb4b0.appspot.com",
-            messagingSenderId: "365163764840",
-            appId: "1:365163764840:web:21c44f8625c9b6831e6fdd",
-            measurementId: "G-LBTK319K2X"
-        };
-
-        // Initialize Firebase
-        const app = firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
-
+<!-- Include Firebase SDK as a module -->
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
+    import { getFirestore } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js";
+    import { getStorage } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-storage.js";
+  
+    // Firebase config
+    const firebaseConfig = {
+        apiKey: "AIzaSyDiwC3Dmd88-t3N9iRV5cZ3snVkEXinclg",
+        authDomain: "reelcareer-cb4b0.firebaseapp.com",
+        projectId: "reelcareer-cb4b0",
+        storageBucket: "reelcareer-cb4b0.appspot.com",
+        messagingSenderId: "365163764840",
+        appId: "1:365163764840:web:21c44f8625c9b6831e6fdd",
+        measurementId: "G-LBTK319K2X"
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const storage = getStorage(app);
       
         
 
