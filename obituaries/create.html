@@ -448,8 +448,9 @@ textarea::placeholder {
 
 <!-- Include Firebase SDK as a module -->
 <script type="module">
-       import { initializeApp } from "https://www.gstatic.com/firebasejs/9.24.0/firebase-app.js";
-    import { getFirestore, collection, doc, addDoc, updateDoc } from "https://www.gstatic.com/firebasejs/9.24.0/firebase-firestore.js";
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.24.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, doc, updateDoc } from "https://www.gstatic.com/firebasejs/9.24.0/firebase-firestore.js";
     import { getStorage } from "https://www.gstatic.com/firebasejs/9.24.0/firebase-storage.js";
     import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/9.24.0/firebase-auth.js";
 
@@ -792,13 +793,24 @@ setTimeout(() => {
             paymentDetails: details, // Payment details passed as an argument
         };
 
+        let pageID = '';
+        
         // Save obituary to Firestore
-        const obituaryDoc = await db.collection('A_Obituaries').add(obituary);
+        async function saveObituary(obituary) {
+        try {
+            // Save obituary to Firestore
+            const obituaryRef = await addDoc(collection(db, "A_Obituaries"), obituary);
 
-        // Get and update the page ID
-        const pageID = obituaryDoc.id;
-        await db.collection('A_Obituaries').doc(pageID).update({ pageID: pageID });
+            // Get and update the page ID
+             pageID = obituaryRef.id;
+            await updateDoc(doc(db, "A_Obituaries", pageID), { pageID: pageID });
 
+            console.log("Obituary saved with ID:", pageID);
+        } catch (error) {
+            console.error("Error saving obituary:", error);
+        }
+    }
+    saveObituary(obituary);
         // Social media sharing buttons
         const shareButtons = `
             <div>
