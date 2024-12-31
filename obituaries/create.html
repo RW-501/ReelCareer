@@ -525,10 +525,17 @@ import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/9
         }
     });
 
-    function displayVideoPreview(videoUrl, videoPreviewContainer) {
-    // Clear the previous preview
-    videoPreviewContainer.innerHTML = "";
+    function displayVideoPreview(videoUrl, videoPreviewContainer, clear) {
 
+        
+
+    // Check if the videoPreviewContainer is null
+    if (!clear) {
+      // Clear the previous content in the container
+      videoPreviewContainer.innerHTML = "";
+    } 
+
+    // Check if there is a videoUrl to display
     if (videoUrl) {
         // YouTube Video Check
         if (videoUrl.includes("youtube.com") || videoUrl.includes("youtu.be")) {
@@ -553,10 +560,14 @@ import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/9
         else {
             videoPreviewContainer.innerHTML = "<p>Unsupported video platform. Please enter a YouTube, Vimeo, or MP4 URL.</p>";
         }
+        
+    
     } else {
+        // Handle case when there is no videoUrl provided
         videoPreviewContainer.innerHTML = "<p>Please enter a video URL.</p>";
     }
 }
+
 
     document.getElementById("video").addEventListener("input", function() {
     const videoUrl = this.value.trim();
@@ -1030,7 +1041,10 @@ document.getElementById('preview-button').addEventListener('click', function () 
 
     // Add the video if provided
     if (video) {
-        previewContent += `<p><strong>Video:</strong> <a href="${video}" target="_blank">${video}</a></p>`;
+        let previewContent = document.getElementById('previewContent');
+          displayVideoPreview(video, previewContent, true);
+        
+   
     }
 
     // Add the social media links if provided
