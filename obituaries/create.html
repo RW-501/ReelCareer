@@ -658,6 +658,12 @@ document.getElementById("otherCategory").addEventListener("input", generateAbout
                 return 'Unknown IP';
             }
         }
+        function formatDate(dateString) {
+    const date = new Date(dateString);
+    
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    return date.toLocaleDateString('en-US', options);
+}
 
         // Handle form submission after payment
         document.getElementById('paypal-button').addEventListener('click', async function () { 
@@ -694,7 +700,9 @@ document.getElementById("otherCategory").addEventListener("input", generateAbout
                     location = location.replace(/[^a-zA-Z0-9 ]/g, ''); // Remove special characters
                     category = category.replace(/[^a-zA-Z0-9 ]/g, ''); // Remove special characters
                     let url = pageName.replace(/[^a-zA-Z0-9-_]/g, ''); // Remove invalid URL characters
-
+                  
+                    const formattedSunrise = formatDate(sunrise);
+                    const formattedSunset = formatDate(sunset);
 
                     // Get user's IP
                     const userIP = await getUserIP();
@@ -710,8 +718,8 @@ document.getElementById("otherCategory").addEventListener("input", generateAbout
                     // Create obituary object
                     const obituary = {
                         name: name,
-                        sunrise: sunrise,
-                        sunset: sunset,
+                        sunrise: formattedSunrise,
+                        sunset: formattedSunset,
                         about: about,
                         location: location,
                         category: category,
@@ -917,11 +925,13 @@ document.getElementById('preview-button').addEventListener('click', function () 
     // Sanitize the input
     const sanitizedPageName = pageName.replace(/[^a-zA-Z0-9-_]/g, '');
 
+    const formattedSunrise = formatDate(sunrise);
+    const formattedSunset = formatDate(sunset);
     // Prepare the preview content
     let previewContent = `
         <h3>${name}</h3>
-        <p><strong>Sunrise:</strong> ${sunrise}</p>
-        <p><strong>Sunset:</strong> ${sunset}</p>
+        <p><strong>Sunrise:</strong> ${formattedSunrise}</p>
+        <p><strong>Sunset:</strong> ${formattedSunset}</p>
         <p><strong>About:</strong> ${about}</p>
         <p><strong>Location:</strong> ${location}</p>
         <p><strong>Category:</strong> ${category}</p>
