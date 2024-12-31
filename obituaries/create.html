@@ -674,19 +674,20 @@ document.getElementById("otherCategory").addEventListener("input", generateAbout
         // Handle form submission after payment
         document.getElementById('paypal-button').addEventListener('click', async function () { 
     // Initialize PayPal button inside the correct container
-    paypal.Buttons({
-        createOrder: (data, actions) => {
-            return actions.order.create({
-                purchase_units: [{
-                    amount: {
-                        value: '25.00'
-                    }
-                }]
-            });
-        },
-        onApprove: async (data, actions) => {
-            const details = await actions.order.capture();
-            console.log('Payment approved:', details);
+    document.getElementById('paypal-button').addEventListener('click', async function () {
+        paypal.Buttons({
+            createOrder: (data, actions) => {
+                return actions.order.create({
+                    purchase_units: [{
+                        amount: {
+                            value: '25.00'
+                        }
+                    }]
+                });
+            },
+            onApprove: async (data, actions) => {
+                const details = await actions.order.capture();
+                console.log('Payment approved:', details);
 
                     // After successful payment, collect form data
                     let name = document.getElementById('name').value;
