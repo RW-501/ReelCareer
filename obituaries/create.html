@@ -482,29 +482,30 @@ function generateAboutText() {
     }
 
     const aboutSuggestions = [
-    `In memory of ${name}, who was born on ${sunrise} and passed away on ${sunset}. A beloved ${categoryText} from ${location}.`,
-    `${name}, a cherished ${categoryText} who left us on ${sunset}, is remembered fondly for their time in ${location}.`,
-    `The life of ${name}, born on ${sunrise} and departed on ${sunset}, remains an inspiration to all in ${location}. A true ${categoryText}.`,
-    `Remembering ${name}, whose life began on ${sunrise} and ended on ${sunset}. A loving ${categoryText}, forever missed in ${location}.`,
-    `${name}, a brilliant ${categoryText} from ${location}, was born on ${sunrise} and left us on ${sunset}. Their memory will live on.`,
-    `In honor of ${name}, who lived a remarkable life from ${sunrise} to ${sunset}, and made an impact as a ${categoryText} in ${location}.`,
-    `${name}, who touched many hearts in ${location}, was born on ${sunrise} and passed away on ${sunset}. They will forever be remembered as a ${categoryText}.`,
-    `A life well-lived, ${name} was born on ${sunrise} and passed away on ${sunset}. A loving ${categoryText} whose legacy lives on in ${location}.`,
-    `With deep sorrow, we remember ${name}, a dedicated ${categoryText} who passed away on ${sunset}. Their contributions to ${location} will never be forgotten.`,
-    `The journey of ${name}, who was born on ${sunrise} and passed away on ${sunset}, left a lasting impact as a ${categoryText} in ${location}.`
+    `In loving memory of ${name}, who was born on ${sunrise} and peacefully passed away on ${sunset}. A beloved ${categoryText}, ${name} touched the hearts of all who knew them, leaving behind cherished memories in ${location}. Their legacy will continue to inspire all those who were fortunate enough to experience their warmth and kindness. Forever in our hearts.`,
+    `${name}, a cherished ${categoryText}, whose journey on earth began on ${sunrise} and came to an end on ${sunset}, is remembered fondly for the love and joy they brought to the lives of those around them in ${location}. Whether through their work, art, or friendship, ${name}'s impact was immeasurable, and their spirit will live on in the hearts of their loved ones forever.`,
+    `The life of ${name}, born on ${sunrise} and departed on ${sunset}, remains a beacon of inspiration to all in ${location}. A true ${categoryText}, ${name} lived with passion and purpose, enriching the lives of those they encountered. Their contributions, whether large or small, have left a lasting imprint that will never fade, and they will be remembered always with love and gratitude.`,
+    `Remembering the beautiful life of ${name}, whose journey began on ${sunrise} and concluded on ${sunset}. A loving and devoted ${categoryText}, ${name} was a source of strength, love, and positivity for everyone in ${location}. Though they are no longer with us, their influence will continue to guide and inspire future generations in the community and beyond.`,
+    `${name}, a brilliant and compassionate ${categoryText} from ${location}, was born on ${sunrise} and left us on ${sunset}. During their time here, ${name} was a force for good, bringing light and hope to those who needed it most. Their memory will forever remain alive in the hearts of all who had the privilege to know them, and their legacy of kindness will never be forgotten.`,
+    `In honor of ${name}, who lived a remarkable life from ${sunrise} to ${sunset}, and made an indelible impact as a ${categoryText} in ${location}. ${name}'s dedication, hard work, and unwavering passion set them apart as a true leader and an inspiration to all who crossed their path. They will forever be remembered for the mark they left on this world, and their influence will continue to be felt for years to come.`,
+    `${name}, whose presence in ${location} touched countless lives, was born on ${sunrise} and passed away on ${sunset}. As a devoted ${categoryText}, ${name} spent their life spreading joy, offering support, and making a meaningful difference. Their passing leaves a hole in the hearts of those who loved them, but their spirit and the impact of their work will live on in the community they served.`,
+    `A life well-lived, ${name} was born on ${sunrise} and passed away on ${sunset}. A loving and generous ${categoryText} whose legacy of compassion, understanding, and service to others lives on in ${location}. The work they did, the people they helped, and the love they gave will be remembered with deep affection and gratitude by all who knew them.`,
+    `With deep sorrow, we remember ${name}, a dedicated ${categoryText} who passed away on ${sunset}. Their contributions to ${location} were countless, and their influence in the field of ${categoryText} will never be forgotten. Though we mourn their passing, we also celebrate the incredible life they lived and the difference they made in the world. Their legacy will continue to inspire all of us who remain.`,
+    `The journey of ${name}, who was born on ${sunrise} and passed away on ${sunset}, left a lasting impact as a ${categoryText} in ${location}. Whether through their work, acts of kindness, or simply being a beacon of hope for those around them, ${name} made a significant difference. We will always remember the joy they brought to our lives and honor their memory in everything we do.`
 ];
 
-
     // Populate the suggestion dropdown with generated about text
-    const suggestionSelect = document.getElementById("suggestions");
-    suggestionSelect.innerHTML = '<option value="" disabled selected>Select a suggestion</option>'; // Clear previous suggestions
+   // Populate the suggestion dropdown with generated about text
+const suggestionSelect = document.getElementById("suggestions");
+suggestionSelect.innerHTML = '<option value="" disabled selected>Select an About Suggestion</option>'; // Clear previous suggestions
 
-    aboutSuggestions.forEach((suggestion, index) => {
-        const option = document.createElement("option");
-        option.value = suggestion;
-        option.textContent = `Suggestion ${index + 1}`;
-        suggestionSelect.appendChild(option);
-    });
+aboutSuggestions.forEach((suggestion, index) => {
+    const option = document.createElement("option");
+    option.value = suggestion;
+    option.textContent = `Suggestion ${index + 1}: ${suggestion.substring(0, 80)}...`; // Show a preview in the dropdown
+    suggestionSelect.appendChild(option);
+});
+
 }
 
 // Populate the "About" textarea with selected suggestion
