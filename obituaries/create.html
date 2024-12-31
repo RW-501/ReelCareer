@@ -256,22 +256,28 @@ textarea::placeholder {
         <h2>Leave Your Legacy</h2>
         <p>This page allows you to create your obituary, share details about your life, and give your loved ones a lasting memory of you. Fill in the following details to create your obituary page.</p>
 
-        <form id="obituaryForm">
+        <form id="obituaryForm" aria-labelledby="obituaryFormTitle">
+            <h2 id="obituaryFormTitle">Create Obituary</h2> <!-- Adds title for screen readers -->
+        
             <div class="section">
-                <label for="name">Full Name</label> 
-                <input type="text" id="name" name="name" placeholder="Enter your full name" required>
-                
-                <label for="sunrise">Sunrise (Date)</label> 
-                <input type="date" id="sunrise" name="sunrise" required>
-                
-                <label for="sunset">Sunset (Date)</label>
-                <input type="date" id="sunset" name="sunset" required>
-                
-                <label for="location">Event Location (e.g., Virtual Event, Directions, or Venue)</label>
-                <input type="text" id="location" name="location" placeholder="Enter the event location or additional details (e.g., Zoom link, address)" required>
-                
-                <label for="category">Category</label>
-                <select id="category" name="category" required>
+                <label for="name" aria-label="Enter the full name of the person">Full Name</label>
+                <input type="text" id="name" name="name" placeholder="Enter your full name" required aria-required="true" aria-describedby="nameHint">
+                <p id="nameHint" class="visually-hidden">Please enter the person's full name.</p>
+        
+                <label for="sunrise" aria-label="Select the date of birth (Sunrise)">Sunrise (Date)</label>
+                <input type="date" id="sunrise" name="sunrise" required aria-required="true" aria-describedby="sunriseHint">
+                <p id="sunriseHint" class="visually-hidden">Please select the date of birth (Sunrise).</p>
+        
+                <label for="sunset" aria-label="Select the date of passing (Sunset)">Sunset (Date)</label>
+                <input type="date" id="sunset" name="sunset" required aria-required="true" aria-describedby="sunsetHint">
+                <p id="sunsetHint" class="visually-hidden">Please select the date of passing (Sunset).</p>
+        
+                <label for="location" aria-label="Enter the event location (e.g., Virtual Event, Venue)">Event Location (e.g., Virtual Event, Directions, or Venue)</label>
+                <input type="text" id="location" name="location" placeholder="Enter the event location or additional details (e.g., Zoom link, address)" required aria-required="true" aria-describedby="locationHint">
+                <p id="locationHint" class="visually-hidden">Please enter the event location or additional details like Zoom link, address, etc.</p>
+        
+                <label for="category" aria-label="Select a category">Category</label>
+                <select id="category" name="category" required aria-required="true" aria-describedby="categoryHint">
                     <option value="" disabled selected>Select a category</option>
                     <option value="family">Family</option>
                     <option value="friend">Friend</option>
@@ -291,62 +297,64 @@ textarea::placeholder {
                     <option value="writer">Writer</option>
                     <option value="other">Other (Specify)</option>
                 </select>
-                
+                <p id="categoryHint" class="visually-hidden">Select the category that best describes the person.</p>
+        
                 <!-- Additional input field for "Other" category -->
                 <div id="otherCategoryContainer" style="display: none;">
-                    <label for="otherCategory">Specify Category</label>
-                    <input type="text" id="otherCategory" name="otherCategory" placeholder="Specify other category">
+                    <label for="otherCategory" aria-label="Specify another category">Specify Category</label>
+                    <input type="text" id="otherCategory" name="otherCategory" placeholder="Specify other category" aria-describedby="otherCategoryHint">
+                    <p id="otherCategoryHint" class="visually-hidden">If the category is not listed, please specify it here.</p>
                 </div>
-                
-                <label for="about">About the Person</label>
-                <textarea id="about" name="about" placeholder="Write a short biography or summary about the person" required></textarea>
-                
+        
+                <label for="about" aria-label="Write a short biography or summary about the person">About the Person</label>
+                <textarea id="about" name="about" placeholder="Write a short biography or summary about the person" required aria-required="true" aria-describedby="aboutHint"></textarea>
+                <p id="aboutHint" class="visually-hidden">Please provide a brief biography or summary of the person's life.</p>
+        
                 <!-- Suggestion box -->
                 <div id="suggestionBox" style="margin-top: 20px;">
-                    <label for="suggestions">Suggested "About" Text</label>
+                    <label for="suggestions" aria-label="Select a suggested 'About' text">Suggested "About" Text</label>
                     <select id="suggestions">
                         <option value="" disabled selected>Select a suggestion</option>
                     </select>
                 </div>
-                
-                <label for="pageName">URL (Obituary Page URL)</label>
-                <input type="text" id="pageName" name="url" placeholder="Choose a URL (e.g., john-doe)" required>
-                <p>Format: /celebrating/[your-url]. The URL should only contain letters, numbers, hyphens, and underscores.</p>
-                
+        
+                <label for="pageName" aria-label="Enter obituary page URL">URL (Obituary Page URL)</label>
+                <input type="text" id="pageName" name="url" placeholder="Choose a URL (e.g., john-doe)" required aria-required="true" aria-describedby="urlHint">
+                <p id="urlHint" class="visually-hidden">Format: /celebrating/[your-url]. The URL should only contain letters, numbers, hyphens, and underscores.</p>
+        
                 <div>
                     <p>Preview URL:</p>
                     <p id="urlPreview">/celebrating/</p>
-                    <p id="urlAvailabilityMessage" style="color: red; display: none;">This page name is already taken. Please choose another one.</p>
+                    <p id="urlAvailabilityMessage" style="color: red; display: none;" aria-live="polite">This page name is already taken. Please choose another one.</p>
                 </div>
-
-
-             </div>
-
-            <div class="section">
-                <label for="mainPhoto">Main Photo</label>
-                <input type="file" id="mainPhoto" name="mainPhoto" class="input-file" accept="image/*" required>
-
-                <label for="video">Video (Optional)</label>
-                <input type="url" id="video" name="video" class="input-file" placeholder="Enter video URL (YouTube, Vimeo, MP4, etc.)">
-                <div id="videoPreview"></div> <!-- For displaying embedded video -->
-                
-                <label for="socialLinkName">Social Media Name (e.g., Facebook, CashApp, Instagram)</label>
-                <input type="text" id="socialLinkName" name="socialLinkName" class="input-file" placeholder="Enter social media name" required>
-                
-                <label for="socialLinks">Social Media Link (URL)</label>
-                <input type="url" id="socialLinks" name="socialLinks" class="input-file" placeholder="Enter your social media link (e.g., https://your.com/facebook)" required>
-
             </div>
-
+        
+            <div class="section">
+                <label for="mainPhoto" aria-label="Upload main photo">Main Photo</label>
+                <input type="file" id="mainPhoto" name="mainPhoto" class="input-file" accept="image/*" required aria-required="true" aria-describedby="photoHint">
+                <p id="photoHint" class="visually-hidden">Upload a main photo for the obituary.</p>
+        
+                <label for="video" aria-label="Enter video URL">Video (Optional)</label>
+                <input type="url" id="video" name="video" class="input-file" placeholder="Enter video URL (YouTube, Vimeo, MP4, etc.)" aria-describedby="videoHint">
+                <div id="videoPreview"></div> <!-- For displaying embedded video -->
+                <p id="videoHint" class="visually-hidden">Optional: Provide a video URL (e.g., YouTube, Vimeo) related to the obituary.</p>
+        
+                <label for="socialLinkName" aria-label="Enter social media name (e.g., Facebook, CashApp, Instagram)">Social Media Name (e.g., Facebook, CashApp, Instagram)</label>
+                <input type="text" id="socialLinkName" name="socialLinkName" class="input-file" placeholder="Enter social media name" required aria-required="true" aria-describedby="socialNameHint">
+                <p id="socialNameHint" class="visually-hidden">Enter the name of the social media platform (e.g., Facebook, CashApp, Instagram).</p>
+        
+                <label for="socialLinks" aria-label="Enter social media link (URL)">Social Media Link (URL)</label>
+                <input type="url" id="socialLinks" name="socialLinks" class="input-file" placeholder="Enter your social media link (e.g., https://your.com/facebook)" required aria-required="true" aria-describedby="socialLinkHint">
+                <p id="socialLinkHint" class="visually-hidden">Enter the full URL to the social media profile (e.g., https://your.com/facebook).</p>
+            </div>
+        
             <div class="button-container">
-
-                <button type="button" id="preview-button">Preview Obituary</button>
-
-                <button type="button" id="paypal-button">Create Now</button>
+                <button type="button" id="preview-button" aria-label="Preview the obituary">Preview Obituary</button>
+                <button type="button" id="paypal-button" aria-label="Create the obituary and proceed to payment">Create Now</button>
             </div>
         </form>
-    </div>
-
+</div>
+        
 </main>
 
 
