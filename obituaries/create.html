@@ -1091,7 +1091,6 @@ document.getElementById("obituaryForm").addEventListener("input", function(e) {
         category: document.getElementById("category").value,
         otherCategory: document.getElementById("otherCategory").value,
         pageName: document.getElementById("pageName").value,
-        mainPhoto: document.getElementById("mainPhoto").files[0] ? document.getElementById("mainPhoto").files[0].name : '',
         video: document.getElementById("video").value,
         socialLinks: document.getElementById("socialLinks").value,
         socialLinkName: document.getElementById('socialLinkName').value
@@ -1119,10 +1118,8 @@ window.addEventListener("load", function() {
         document.getElementById("socialLinks").value = savedData.socialLinks || "";
         document.getElementById("socialLinkName").value = savedData.socialLinkName || "";
         
-        if (savedData.mainPhoto) {
-            // Show the file name if a photo was previously selected
-            document.getElementById("mainPhoto").nextElementSibling.innerText = savedData.mainPhoto;
-        }
+
+        
     }
 });
 
