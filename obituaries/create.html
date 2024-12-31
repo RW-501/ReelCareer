@@ -571,7 +571,7 @@ let userID = '';
 onAuthStateChanged(auth, async (user) => {
   if (user) {
     // The user is signed in
-    const userID = user.uid; // Use the user's unique ID
+     userID = user.uid; // Use the user's unique ID
     console.log("User ID:", userID);
 
     // Check localStorage for obituaryMemberID
@@ -1087,12 +1087,36 @@ const searchableLocation = location.split(/\s+/); // Split by spaces
             const obituaryRef = await addDoc(collection(db, "A_Obituaries"), obituary);
 
             // Get and update the page ID
-             pageID = obituaryRef.id;
-            await updateDoc(doc(db, "A_Obituaries", pageID), { pageID: pageID });
+            pageID = obituaryRef.id;
+    await updateDoc(doc(db, "A_Obituaries", pageID), { pageID: pageID });
+    console.log("Obituary saved with ID:", pageID);
 
-            console.log("Obituary saved with ID:", pageID);
+    // Update user profile with the obituary page ID
+    const userRef = doc(db, "Users", userID);  // Reference to the user document
 
+// Get current user data (for appending to arrays)
+const userDoc = await getDoc(userRef);
+let obituaryPageIDs = [];
+let obituaryPageNames = [];
 
+// Check if obituaryPageID and obituaryPageName exist in the user document
+if (userDoc.exists()) {
+    const data = userDoc.data();
+    obituaryPageIDs = data.obituaryPageID || [];
+    obituaryPageNames = data.obituaryPageName || [];
+}
+
+// Append new obituary data
+obituaryPageIDs.push(pageID);  // Append the new obituary page ID
+obituaryPageNames.push(pageName);  // Append the new obituary page name
+
+// Update the user document with the new obituary data
+await updateDoc(userRef, {
+    obituaryPageID: obituaryPageIDs,
+    obituaryPageName: obituaryPageNames
+});
+
+console.log("User profile updated with new obituary data.");
 
 // Create obituary page and show preview
 createPage(obituary, pageID);
@@ -1160,7 +1184,7 @@ displayVideoPreview(videoURL, videoPreview);
 let Content = `
 <!DOCTYPE html> 
 <html lang="en">
-<head>
+<head  class="nonChangeable">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -1257,41 +1281,41 @@ let Content = `
   ${script} <!-- The script is correctly inserted here -->
 </head>
 <body>
-    <header>
-      <h1>Celebrating ${obituary.name}'s Journey</h1>
-      <p>A life of transformation and growth</p>
-    </header>
+  <header>
+    <div id="celebrating-header" class="changeable-text">Celebrating ${obituary.name}'s Journey</div>
+    <div id="life-transformation" class="changeable-text">A life of transformation and growth</div>
+  </header>
   <main>
     <div class="container">
-      <div class="photo">
-        <img src="${obituary.mainPhoto}" alt="${obituary.name}">
+      <div id="mainPhoto-area" class="changeable-area">
+        <img id="mainPhoto" src="${obituary.mainPhoto}" alt="${obituary.name}">
       </div>
-      <h2>Celebrating the Life of</h2> <h1>${obituary.name}</h1>
-      <hr>
-      <p>Born in ${obituary.sunrise}, ${obituary.name}'s journey inspires growth and transformation. Embrace this new beginning together.</p>
-      <div id="info-section">
-        <h2>Event Details</h2>
-        <p><strong>Date:</strong> ${obituary.sunset}</p>
-        <p><strong>Services will be held:</strong> ${obituary.location}</p>
-        <p>Share your thoughts using</p>
-            <div id="hashTag">${obituary.hashTag}</div>
-        <p>${obituary.socialLinkName}: <a href="${obituary.socialLinks}">${obituary.socialLinks}</a></p>
-        </div>
-                  <div id="media-section"></div>
-            <div id="obituary-section">
-              <p>${obituary.about}</p>
-</div>
-      <div id="dynamic-shareArea" class="container"></div>
-      <div id="dynamic-interaction-area"></div>
-
+      <div id="celebrating-life-header" class="changeable-area">Celebrating the Life of</div> 
+      <div id="name-header" class="changeable-area">${obituary.name}</div>
+      <div id="horizontal-rule" class="changeable-area"></div>
+      <div id="journey-description" class="changeable-area changeable-text">Born in ${obituary.sunrise}, ${obituary.name}'s journey inspires growth and transformation. Embrace this new beginning together.</div>
+      <div id="info-section" class="changeable-area">
+        <div id="event-details-header" class="changeable-text">Event Details</div>
+        <div id="event-date" class="changeable-text"><strong>Date:</strong> ${obituary.sunset}</div>
+        <div id="event-location" class="changeable-text"><strong>Services will be held:</strong> ${obituary.location}</div>
+        <div id="thoughts-share" class="changeable-text">Share your thoughts using</div>
+        <div id="hashTag" class="changeable-text">${obituary.hashTag}</div>
+        <div id="social-link" class="changeable-text">${obituary.socialLinkName}: <a href="${obituary.socialLinks}">${obituary.socialLinks}</a></div>
+      </div>
+      <div id="media-section" class="changeable-area"></div>
+      <div id="obituary-section">
+        <div id="about-obituary" class="changeable-text">${obituary.about}</div>
+      </div>
+      <div id="dynamic-shareArea"  class="changeable-area container"></div>
+      <div id="dynamic-interaction-area" class="changeable-area"></div>
     </div> <!-- Closing container div -->
   </main> <!-- Closing main -->
 
-      <div id="dynamic-footer"></div>
-
-  <div id="pageID">${pageID}</div>
+  <div id="dynamic-footer" class="nonChangeable"></div>
+  <div id="pageID" class="nonChangeable">${pageID}</div>
 </body>
-</html>`;
+</html>
+`;
 
     const part_1 = "ghp";
     const part_2 = "_kLlq4Y0Bsa0sJt";

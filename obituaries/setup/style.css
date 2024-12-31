@@ -468,3 +468,98 @@ footer p {
         .flowers-section .button a:hover {
             background: #0056b3;
         }
+
+
+
+        /* Styles for divs that were previously h1, h2, and hr tags */
+
+/* Header Styles */
+#celebrating-header {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #2c3e50;
+    text-align: center;
+  }
+  
+  #life-transformation {
+    font-size: 1.2rem;
+    font-style: italic;
+    color: #555;
+    text-align: center;
+  }
+  
+  /* Celebrating the Life of (formerly h2) */
+  #celebrating-life-header {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-top: 20px;
+  }
+  
+  /* Main Name Header (formerly h1) */
+  #name-header {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #1abc9c;
+    text-align: center;
+    margin-top: 10px;
+  }
+  
+  /* Horizontal Rule (formerly hr) */
+  #horizontal-rule {
+    border-top: 2px solid #ccc;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+  
+  /* Event Details Header (formerly h2) */
+  #event-details-header {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-top: 20px;
+  }
+  
+  /* Event Date and Location */
+  #event-date,
+  #event-location {
+    font-weight: bold;
+    margin: 10px 0;
+  }
+  
+  /* Thoughts Share */
+  #thoughts-share {
+    font-weight: bold;
+    margin: 10px 0;
+  }
+  
+  /* HashTag */
+  #hashTag {
+    font-size: 1.1rem;
+    color: #2a9d8f;
+  }
+  
+  /* Social Link */
+  #social-link {
+    margin-top: 10px;
+  }
+  
+  #social-link a {
+    color: #264653;
+    text-decoration: none;
+  }
+  
+  #social-link a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Obituary About Section */
+  #about-obituary {
+    font-size: 1.1rem;
+    color: #666;
+    line-height: 1.5;
+  }
+  
+  /* Media Section */
+  #media-section {
+    margin-top: 20px;
+  }
+  

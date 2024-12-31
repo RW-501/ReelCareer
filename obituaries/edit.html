@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Create Your Obituary">
+    <meta property="og:description" content="Fill in the details to create your obituary page. Leave a legacy that people will cherish.">
+    <meta property="og:image" content="https://reelcareer.co/images/8pic_rc.png">
+    <meta property="og:url" content="https://reelcareer.co/obituaries/create">
+    <meta property="og:type" content="website">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Create Your Obituary">
+    <meta name="twitter:description" content="Fill in the details to create your obituary page. Leave a legacy that people will cherish.">
+    <meta name="twitter:image" content="https://reelcareer.co/images/8pic_rc.png">
+    <meta name="twitter:url" content="https://reelcareer.co/obituaries/create">
+    
+    <!-- General Meta Tags -->
+    <meta name="description" content="Create your personalized obituary page. Add details, photos, and memories to leave a lasting legacy.">
+    <meta name="keywords" content="obituary, create obituary, legacy, remembrance, celebration of life">
+    <meta name="author" content="ReelCareer">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#ffffff">
+          <!-- Canonical Tag for SEO -->
+  <link rel="canonical" href="https://reelcareer.co/obituaries/create"> <!-- Ensures search engines index the preferred URL -->
+
+  <!-- Standard Favicon -->
+  <link rel="icon" type="image/x-icon" href="https://reelcareer.co/images/favicons/favicon.ico">
+
+    <!-- Schema.org Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "url": "https://reelcareer.co/obituaries/create",
+      "name": "Create Your Obituary",
+      "description": "Create your personalized obituary page. Add details, photos, and memories to leave a lasting legacy.",
+      "author": {
+        "@type": "Organization",
+        "name": "ReelCareer",
+        "url": "https://reelcareer.co/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "ReelCareer",
+        "url": "https://reelcareer.co/",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://reelcareer.co/images/8pic_rc.png",
+          "width": 200,
+          "height": 60
+        }
+      },
+      "image": {
+        "@type": "ImageObject",
+        "url": "https://reelcareer.co/images/8pic_rc.png",
+        "width": 1200,
+        "height": 630
+      }
+    }
+    </script>
+
+    <!-- CSS Stylesheets -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
+    <!-- JS Scripts -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <link href="https://reelcareer.co/obituaries/style.css" rel="stylesheet">
+
+    <title>Create Your Obituary</title>
+</head>
+
+<body>
+
+    
+    <style>
+/* Basic Styles */
+#viewObituary {
+  border: 1px solid #ccc;
+  padding: 20px;
+  min-height: 400px;
+}
+
+#viewObituary .changeable-area {
+  border: 2px dashed blue;
+}
+
+#viewObituary .changeable-text {
+  border: 2px solid green;
+}
+
+#viewObituary .editable {
+  outline: 2px solid green;
+}
+
+.changeable-area, .changeable-text {
+  cursor: pointer;
+}
+
+#messageDiv {
+  margin-top: 20px;
+  font-size: 14px;
+  color: red;
+}
+
+</style>
+
+    <header>
+      <div id="breadcrumb">
+        <span id="breadcrumbText">Currently in Layout Mode</span>
+      </div>
+    </header>
+    <main>
+        <div class="container">
+            <select id="obituarySelect" onchange="getSelectedObituary()">
+                <option value="">Select an Obituary</option>
+                <!-- Obituary options will be dynamically added here -->
+            </select>
+            
+        </div>
+      <div class="controls">
+        <button id="changeLayoutBtn">Change Layout</button>
+        <button id="changeTextBtn">Change Text</button>
+        <button id="previewBtn" style="display:none;">Preview</button>
+        <button id="saveBtn" style="display:none;">Save</button>
+      </div>
+  
+      <div id="viewObituary">
+        <!-- Content will be dynamically loaded here -->
+      </div>
+  
+      <div id="messageDiv"></div>
+    </main>
+
+
+    <footer class="site-footer">
+        <div class="footer-content">
+            <p>Leave a lasting legacy. Share your story with the world.</p>
+            <nav class="footer-nav">
+                <a href="https://reelcareer.co/obituaries/">Obituaries</a>
+                <a href="https://reelcareer.co/obituaries/create">Create an Obituary</a>
+                <a href="https://reelcareer.co/">Home</a>
+            </nav>
+            <p>&copy; <span id="currentYear"></span> ReelCareer.co. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js"></script> <!-- For fetching IP -->
+
+<!-- Include Firebase SDK as a module -->
+<script type="module">
+        // Fetch user's IP address using an external service
+        async function getUserIP() {
+            try {
+                const response = await axios.get('https://api.ipify.org?format=json');
+                return response.data.ip;
+            } catch (error) {
+                console.error('Error fetching IP address:', error);
+                return 'Unknown IP';
+            }
+        }
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
+import { getFirestore, collection, addDoc, doc, updateDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-storage.js";
+import { 
+    getAuth, signInAnonymously, onAuthStateChanged 
+} from "https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js";
+
+    // Firebase configuration
+    const firebaseConfig = {
+        apiKey: "AIzaSyDiwC3Dmd88-t3N9iRV5cZ3snVkEXinclg",
+        authDomain: "reelcareer-cb4b0.firebaseapp.com",
+        projectId: "reelcareer-cb4b0",
+        storageBucket: "reelcareer-cb4b0.appspot.com",
+        messagingSenderId: "365163764840",
+        appId: "1:365163764840:web:21c44f8625c9b6831e6fdd",
+        measurementId: "G-LBTK319K2X"
+    };
+
+    // Initialize Firebase services
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const storage = getStorage(app);
+    const auth = getAuth(app);
+
+    // Sign in anonymously
+    signInAnonymously(auth)
+        .then(() => {
+            console.log('Signed in anonymously');
+        })
+        .catch((error) => {
+            console.error('Error signing in anonymously:', error);
+        });
+let userID = '';
+
+// Listen for authentication state changes to get the user ID
+onAuthStateChanged(auth, async (user) => {
+  if (user) {
+    // The user is signed in
+     userID = user.uid; // Use the user's unique ID
+    console.log("User ID:", userID);
+
+    // Check localStorage for obituaryMemberID
+    const obituaryMemberID = localStorage.getItem("obituaryMemberID");
+
+    if (!obituaryMemberID) {
+      // If obituaryMemberID is not set, proceed to add to Firestore
+      try {
+        // Get the user's IP address
+        const userDetails = await getUserDetails(); // Assuming getUserDetails fetches IP and location details
+        if (!userDetails) return;
+
+        const { ip: userIP, city, state, country } = userDetails; // Destructure user details
+
+        console.log("!!!!!!!!!!!!!!!!  User data logged to Firestore");
+      } catch (error) {
+        console.error("Error logging user data to Firestore:", error);
+      }
+    } else {
+      console.log("User already recorded with obituaryMemberID:", obituaryMemberID);
+    }
+  } else {
+    console.log("No user signed in");
+  }
+});
+
+
+const fileInput = document.getElementById('mainPhoto');
+const imagePreview = document.getElementById('imagePreview');
+const imagePreviewContainer = document.getElementById('imagePreviewContainer');
+const toggleBnwButton = document.getElementById('toggleBnw');
+const rotateButton = document.getElementById('rotateImage');
+const zoomInButton = document.getElementById('zoomIn');
+const zoomOutButton = document.getElementById('zoomOut');
+const resetButton = document.getElementById('resetImage');
+
+// Default image transformations
+let isBlackAndWhite = false;
+let rotationDegree = 0;
+let zoomLevel = 1;
+
+// Function to update image styles and return a modified canvas
+function updateImageStylesAndCreateCanvas() {
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    
+    // Set canvas size to image size
+    canvas.width = imagePreview.naturalWidth;
+    canvas.height = imagePreview.naturalHeight;
+    
+    // Apply transformations: Black & White, Rotation, Zoom
+    ctx.filter = isBlackAndWhite ? 'grayscale(100%)' : 'none';
+    ctx.save();
+    ctx.translate(canvas.width / 2, canvas.height / 2);
+    ctx.rotate(rotationDegree * Math.PI / 180); // Convert degree to radians
+    ctx.scale(zoomLevel, zoomLevel);
+    ctx.drawImage(imagePreview, -canvas.width / 2, -canvas.height / 2);
+    ctx.restore();
+    
+    return canvas;
+}
+
+// Handle file selection and display image preview
+fileInput.addEventListener('change', function(event) {
+    const file = event.target.files[0];
+
+    if (file && file.type.startsWith('image/')) {
+        const imageUrl = URL.createObjectURL(file);
+        imagePreview.src = imageUrl;
+        imagePreview.style.display = 'block'; // Make sure the image preview is visible
+        imagePreviewContainer.style.display = 'block'; // Show the image preview container
+    }
+});
+
+
+
+// Event listeners for the transformation buttons
+toggleBnwButton.addEventListener('click', function() {
+    isBlackAndWhite = !isBlackAndWhite;
+    updateImageStyles();
+});
+
+rotateButton.addEventListener('click', function() {
+    rotationDegree += 90;
+    if (rotationDegree >= 360) rotationDegree = 0; // Reset to 0 when it exceeds 360
+    updateImageStyles();
+});
+
+zoomInButton.addEventListener('click', function() {
+    zoomLevel += 0.1;
+    updateImageStyles();
+});
+
+zoomOutButton.addEventListener('click', function() {
+    zoomLevel = Math.max(0.5, zoomLevel - 0.1); // Prevent zooming out too much
+    updateImageStyles();
+});
+
+resetButton.addEventListener('click', function() {
+    isBlackAndWhite = false;
+    rotationDegree = 0;
+    zoomLevel = 1;
+    updateImageStyles();
+});
+
+// Function to update image styles (for front-end preview)
+function updateImageStyles() {
+    const canvas = updateImageStylesAndCreateCanvas();
+    imagePreview.src = canvas.toDataURL(); // Preview the transformation in real-time
+}
+  
+    // Allow the user to click the preview image to change it
+    imagePreview.addEventListener('click', function() {
+        fileInput.click(); // Trigger the file input to allow a new image selection
+    });
+
+
+
+    document.getElementById('category').addEventListener('change', function () {
+        const otherCategory = document.getElementById('otherCategoryContainer');
+        if (this.value === 'other') {
+            otherCategory.style.display = 'block';
+        } else {
+            otherCategory.style.display = 'none';
+        }
+    });
+
+    function displayVideoPreview(videoUrl, videoPreviewContainer) {
+    console.log('videoPreviewContainer:', videoPreviewContainer);
+
+    // Check if the videoPreviewContainer is null
+    if (!videoPreviewContainer) {
+        console.error('Error: videoPreviewContainer is null or undefined.');
+        return;
+    }
+
+    // Clear previous content in the container
+    videoPreviewContainer.innerHTML = "";
+
+    // Check if there is a videoUrl to display
+    if (videoUrl) {
+        // YouTube Video Check
+        if (videoUrl.includes("youtube.com") || videoUrl.includes("youtu.be")) {
+            const youtubeEmbed = videoUrl.includes("youtube.com") 
+                ? videoUrl.replace("watch?v=", "embed/") 
+                : videoUrl.replace("youtu.be/", "youtube.com/embed/");
+            videoPreviewContainer.innerHTML = `
+                <iframe width="560" height="315" src="${youtubeEmbed}" frameborder="0" allowfullscreen></iframe>`;
+        }
+        // Vimeo Video Check
+        else if (videoUrl.includes("vimeo.com")) {
+            const vimeoId = videoUrl.split("/").pop();
+            videoPreviewContainer.innerHTML = `
+                <iframe src="https://player.vimeo.com/video/${vimeoId}" width="560" height="315" frameborder="0" 
+                        allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>`;
+        }
+        // MP4 Video Check (and other formats like .webm, .ogg)
+        else if (videoUrl.match(/\.(mp4|webm|ogg)$/i)) {
+            videoPreviewContainer.innerHTML = `
+                <video width="560" height="315" controls>
+                    <source src="${videoUrl}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>`;
+        }
+        // Dailymotion Video Check
+        else if (videoUrl.includes("dailymotion.com")) {
+            const dailymotionId = videoUrl.split("/").pop();
+            videoPreviewContainer.innerHTML = `
+                <iframe frameborder="0" width="560" height="315" src="https://www.dailymotion.com/embed/video/${dailymotionId}" 
+                        allowfullscreen></iframe>`;
+        }
+        // Twitch Video Check
+        else if (videoUrl.includes("twitch.tv")) {
+            const twitchId = videoUrl.split("/").pop();
+            videoPreviewContainer.innerHTML = `
+                <iframe src="https://player.twitch.tv/?video=${twitchId}" height="315" width="560" frameborder="0" 
+                        scrolling="no" allowfullscreen></iframe>`;
+        }
+        // Facebook Video Check
+        else if (videoUrl.includes("facebook.com")) {
+            const facebookId = videoUrl.split("/").pop();
+            videoPreviewContainer.innerHTML = `
+                <iframe src="https://www.facebook.com/plugins/video.php?href=https://www.facebook.com/video.php?v=${facebookId}" 
+                        width="560" height="315" frameborder="0" allowfullscreen></iframe>`;
+        }
+        // Instagram Video Check
+        else if (videoUrl.includes("instagram.com")) {
+            const instagramId = videoUrl.split("/p/").pop().split("/")[0];
+            videoPreviewContainer.innerHTML = `
+                <iframe src="https://www.instagram.com/p/${instagramId}/embed" width="560" height="315" frameborder="0" 
+                        scrolling="no" allowfullscreen></iframe>`;
+        }
+        // Twitter Video Check
+        else if (videoUrl.includes("twitter.com")) {
+            const twitterId = videoUrl.split("/status/").pop();
+            videoPreviewContainer.innerHTML = `
+                <iframe src="https://twitframe.com/show?url=${encodeURIComponent(videoUrl)}" width="560" height="315" 
+                        frameborder="0" allowfullscreen></iframe>`;
+        }
+        // TikTok Video Check
+        else if (videoUrl.includes("tiktok.com")) {
+            const tiktokId = videoUrl.split("/video/").pop();
+            videoPreviewContainer.innerHTML = `
+                <iframe src="https://www.tiktok.com/embed/${tiktokId}" width="560" height="315" frameborder="0" 
+                        allowfullscreen></iframe>`;
+        }
+        // Unsupported platform message
+        else {
+            videoPreviewContainer.innerHTML = "<p>Unsupported video platform. Please enter a URL from a supported platform like YouTube, Vimeo, Dailymotion, Instagram, or MP4.</p>";
+        }
+
+    } else {
+        // Handle case when there is no videoUrl provided
+        videoPreviewContainer.innerHTML = "<p>Please enter a video URL.</p>";
+    }
+}
+
+
+
+    document.getElementById("video").addEventListener("input", function() {
+    const videoUrl = this.value.trim();
+    const videoPreview = document.getElementById("videoPreview");
+
+    displayVideoPreview(videoUrl, videoPreview);
+});
+// Display the "Other" category input if selected
+document.getElementById('category').addEventListener('change', function() {
+    if (this.value === 'other') {
+        document.getElementById('otherCategoryContainer').style.display = 'block';
+    } else {
+        document.getElementById('otherCategoryContainer').style.display = 'none';
+    }
+});
+
+
+
+
+let originalHTML = '';  // Store the original HTML content
+let newHTML = '';  // Store the modified HTML content
+
+const viewObituary = document.getElementById('viewObituary');
+const changeLayoutBtn = document.getElementById('changeLayoutBtn');
+const changeTextBtn = document.getElementById('changeTextBtn');
+const previewBtn = document.getElementById('previewBtn');
+const saveBtn = document.getElementById('saveBtn');
+const breadcrumbText = document.getElementById('breadcrumbText');
+const messageDiv = document.getElementById('messageDiv');
+
+let currentMode = 'layout';  // Current mode (either 'layout' or 'text')
+
+// Function to fetch the obituary HTML from GitHub
+async function fetchObituary(pageName) {
+
+    if (!pageName) {
+        console.log("Please select an obituary.");
+        return;
+    }
+
+  const owner = "RW-501";
+  const repo = "ReelCareer";
+  const filePath = `obituaries/celebrating/${pageName}.html`;
+
+  
+  const part_1 = "ghp";
+    const part_2 = "_kLlq4Y0Bsa0sJt";
+    const part_3 = "58FNDy6nv";
+    const part_4 = "3RUGNfF1yRcTP";
+    const token = part_1 + part_2 + part_3 + part_4;
+
+  const url = `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}`;
+
+  try {
+    const fileResponse = await fetch(url, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+        Accept: 'application/vnd.github+json',
+      },
+    });
+
+    if (fileResponse.ok) {
+      const fileData = await fileResponse.json();
+      const content = atob(fileData.content);  // Decode base64 content
+      originalHTML = content;
+      viewObituary.innerHTML = content;
+      newHTML = content;  // Set the new HTML to be the same as the original at first
+    } else {
+      messageDiv.innerHTML = 'File not found.';
+    }
+  } catch (error) {
+    messageDiv.innerHTML = 'Error fetching the obituary HTML.';
+  }
+}
+
+
+
+async function loadUserObituaries(userID) {
+    const userRef = doc(db, "Users", userID);
+    const userDoc = await getDoc(userRef);
+
+    if (userDoc.exists()) {
+        const data = userDoc.data();
+        const obituaryPageIDs = data.obituaryPageID || [];
+        const obituaryPageNames = data.obituaryPageName || [];
+
+        // Get the select element
+        const selectElement = document.getElementById("obituarySelect");
+
+        // Clear previous options
+        selectElement.innerHTML = '<option value="">Select an Obituary</option>';
+
+        // Loop through obituaryPageNames and add them to the select dropdown
+        obituaryPageNames.forEach((pageName, index) => {
+            const option = document.createElement("option");
+            option.value = obituaryPageIDs[index]; // Use the page ID as the value
+            option.textContent = pageName; // Use the page name as the label
+            selectElement.appendChild(option);
+        });
+    } else {
+        console.log("No obituary data found for the user.");
+    }
+}
+
+// Call this function when the page loads
+loadUserObituaries(userID);
+
+
+// Function to get the selected value and call fetchObituary with it
+function getSelectedObituary() {
+    // Get the select element and its selected value
+    const selectElement = document.getElementById('obituarySelect');
+    const selectedValue = selectElement.value;
+
+    // Check if a value is selected
+    if (selectedValue) {
+        fetchObituary(selectedValue);  // Call the fetchObituary function with the selected value (obituaryPageID)
+    } else {
+        console.log('No obituary selected.');
+    }
+}
+
+// Change Layout Mode
+changeLayoutBtn.addEventListener('click', () => {
+  currentMode = 'layout';
+  breadcrumbText.textContent = 'Currently in Layout Mode';
+  enableLayoutEditing();
+});
+
+// Change Text Mode
+changeTextBtn.addEventListener('click', () => {
+  currentMode = 'text';
+  breadcrumbText.textContent = 'Currently in Text Editing Mode';
+  enableTextEditing();
+});
+
+// Preview Changes
+previewBtn.addEventListener('click', () => {
+  removeEditingHighlights();
+  viewObituary.innerHTML = newHTML;
+  previewBtn.style.display = 'none';
+  saveBtn.style.display = 'none';
+});
+
+// Save Changes
+saveBtn.addEventListener('click', async () => {
+  const nonChangeableDivs = viewObituary.querySelectorAll('.nonChangeable');
+  const modified = Array.from(nonChangeableDivs).some(div => div.innerHTML !== originalHTML);
+
+  if (modified) {
+    messageDiv.innerHTML = 'Changes cannot be saved as non-changeable content was altered.';
+  } else {
+    await saveHTMLToGitHub(newHTML);
+    messageDiv.innerHTML = 'Changes saved successfully!';
+    previewBtn.style.display = 'none';
+    saveBtn.style.display = 'none';
+  }
+});
+
+// Enable layout editing (drag and drop)
+function enableLayoutEditing() {
+  previewBtn.style.display = 'inline-block';
+  saveBtn.style.display = 'inline-block';
+
+  const changeableAreas = document.querySelectorAll('.changeable-area');
+  changeableAreas.forEach(area => {
+    area.setAttribute('draggable', 'true');
+    area.addEventListener('dragstart', handleDragStart);
+    area.addEventListener('dragover', handleDragOver);
+    area.addEventListener('drop', handleDrop);
+  });
+}
+
+// Handle drag events for layout change
+function handleDragStart(e) {
+  e.dataTransfer.setData('text/plain', e.target.id);
+}
+
+function handleDragOver(e) {
+  e.preventDefault();
+}
+
+function handleDrop(e) {
+  e.preventDefault();
+  const draggedId = e.dataTransfer.getData('text/plain');
+  const draggedElement = document.getElementById(draggedId);
+  const droppedElement = e.target;
+
+  if (draggedElement !== droppedElement) {
+    const draggedHTML = draggedElement.innerHTML;
+    draggedElement.innerHTML = droppedElement.innerHTML;
+    droppedElement.innerHTML = draggedHTML;
+
+    newHTML = viewObituary.innerHTML;  // Update new HTML with the modified content
+  }
+}
+
+// Enable text editing
+function enableTextEditing() {
+  previewBtn.style.display = 'inline-block';
+  saveBtn.style.display = 'inline-block';
+
+  const changeableTextDivs = document.querySelectorAll('.changeable-text');
+  changeableTextDivs.forEach(div => {
+    div.setAttribute('contenteditable', 'true');
+    div.classList.add('editable');
+  });
+}
+
+// Remove all highlights or outlines
+function removeEditingHighlights() {
+  const editableDivs = document.querySelectorAll('.editable');
+  editableDivs.forEach(div => {
+    div.removeAttribute('contenteditable');
+    div.classList.remove('editable');
+  });
+  const changeableAreas = document.querySelectorAll('.changeable-area');
+  changeableAreas.forEach(area => {
+    area.classList.remove('changeable-area');
+  });
+}
+
+// Save HTML to GitHub
+async function saveHTMLToGitHub(content) {
+  const owner = "RW-501";
+  const repo = "ReelCareer";
+  const filePath = `obituaries/celebrating/${pageName}.html`;
+  const token = "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";
+
+  const url = `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}`;
+  const encodedContent = btoa(content);  // Encode content in base64
+
+  try {
+    const fileResponse = await fetch(url, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+        Accept: 'application/vnd.github+json',
+      },
+    });
+
+    let sha = '';
+    if (fileResponse.ok) {
+      const fileData = await fileResponse.json();
+      sha = fileData.sha;
+    }
+
+    const response = await fetch(url, {
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+        Accept: 'application/vnd.github+json',
+      },
+      body: JSON.stringify({
+        message: sha ? `Update ${filePath}` : `Create ${filePath}`,
+        content: encodedContent,
+        sha: sha,
+        branch: 'main',
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error('Error saving the file.');
+    }
+
+    const data = await response.json();
+    console.log('File saved successfully!', data);
+  } catch (error) {
+    messageDiv.innerHTML = `Error: ${error.message}`;
+  }
+}
+
+</script>
+
+    <script>
+        // Dynamically set the current year
+        document.getElementById("currentYear").textContent = new Date().getFullYear();
+    </script>
+    <script src="https://reelcareer.co/obituaries/setup/analytics.js" type="module"></script>
+    
+    </body>
+    
+    
+    
+    </html>
+      
