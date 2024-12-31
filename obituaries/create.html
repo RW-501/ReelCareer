@@ -404,6 +404,15 @@ textarea::placeholder {
         </form>
 </div>
 
+<!-- Correct container for the PayPal button -->
+<div id="paypal-button-container" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <div id="paypalContent"></div>
+        <button id="closeModal">Close</button>
+    </div>
+</div>
+
 </main>
 
 
@@ -430,9 +439,6 @@ textarea::placeholder {
     </div>
 </div>
 
-
-<!-- Correct container for the PayPal button -->
-<div id="paypal-button-container"></div>
 
 
     <!-- Include PayPal SDK -->
@@ -671,10 +677,24 @@ document.getElementById("otherCategory").addEventListener("input", generateAbout
     return date.toLocaleDateString('en-US', options);
 }
 
+
+// Show modal function
+const showModal = () => {
+        const modal = document.getElementById('paypal-button-container');
+        modal.style.display = 'block';
+    };
+
+    // Hide modal function
+    const hideModal = () => {
+        const modal = document.getElementById('paypal-button-container');
+        modal.style.display = 'none';
+    };
         // Handle form submission after payment
-        document.getElementById('paypal-button').addEventListener('click', async function () { 
-    // Initialize PayPal button inside the correct container
-    document.getElementById('paypal-button').addEventListener('click', async function () {
+        document.getElementById('paypal-button').addEventListener('click', async function () {
+        const paypal = await loadPayPalSDK();
+        showModal();
+
+        // Render PayPal button inside the modal content
         paypal.Buttons({
             createOrder: (data, actions) => {
                 return actions.order.create({
@@ -686,119 +706,145 @@ document.getElementById("otherCategory").addEventListener("input", generateAbout
                 });
             },
             onApprove: async (data, actions) => {
-                const details = await actions.order.capture();
-                console.log('Payment approved:', details);
+                const details = await actions.order.capture(); 
+console.log('Payment approved:', details);
+handleApproved(details);
 
-                    // After successful payment, collect form data
-                    let name = document.getElementById('name').value;
-                    let sunrise = document.getElementById('sunrise').value;
-                    let sunset = document.getElementById('sunset').value;
-                    let about = document.getElementById('about').value;
-                    let location = document.getElementById('location').value;
-                    let category = document.getElementById('category').value;
-                    let pageName = document.getElementById('pageName').value.trim().toLowerCase();
-                    let mainPhoto = document.getElementById('mainPhoto').files[0];
-                    let videoURL = document.getElementById('video').value;
-                    let socialLinks = document.getElementById('socialLinks').value;
-                    let socialLinkName = document.getElementById('socialLinkName').value;
-                    
-                    // Sanitize inputs
-                    name = name.replace(/[^a-zA-Z0-9 ]/g, ''); // Remove special characters
-                    location = location.replace(/[^a-zA-Z0-9 ]/g, ''); // Remove special characters
-                    category = category.replace(/[^a-zA-Z0-9 ]/g, ''); // Remove special characters
-                    let url = pageName.replace(/[^a-zA-Z0-9-_]/g, ''); // Remove invalid URL characters
-                  
-                    const formattedSunrise = formatDate(sunrise);
-                    const formattedSunset = formatDate(sunset);
+alert('Payment successful!');
 
-                    // Get user's IP
-                    const userIP = await getUserIP();
+// Delay hiding the modal by 2 seconds
+setTimeout(() => {
+    hideModal();
+}, 2000);
 
-                    // Upload media files (Main Photo)
-                    let mainPhotoUrl = "";
-                    if (mainPhoto) {
-                        const photoRef = storage.ref().child('obituaries/' + mainPhoto.name);
-                        await photoRef.put(mainPhoto);
-                        mainPhotoUrl = await photoRef.getDownloadURL();
-                    }
+            },
+            onCancel: () => {
+                console.log('Payment cancelled.');
+                hideModal();
+            },
+            onError: (err) => {
+                console.error('Error:', err);
+                hideModal();
+            }
+        }).render('#paypalContent'); // Render into the inner modal content
+    });
 
-                    // Create obituary object
-                    const obituary = {
-                        name: name,
-                        sunrise: formattedSunrise,
-                        sunset: formattedSunset,
-                        about: about,
-                        location: location,
-                        category: category,
-                        url: url,
-                        pageName: pageName,
-                        videoURL: videoURL,
-                        socialLinkName: socialLinkName,
-                        socialLinks: socialLinks,
-                        mainPhoto: mainPhotoUrl,
-                        userIP: userIP, // Store user IP
-                        status: 'active',  // mark as active after payment
-                        paymentDetails: details,
-                    };
+    // Close modal when clicking the close button
+    document.getElementById('closeModal').addEventListener('click', hideModal);
 
-                    // Save obituary to Firestore
-                    const obituaryDoc = await db.collection('A_Obituaries').add(obituary);
+    // Close modal when clicking the "x" button
+    document.querySelector('.close').addEventListener('click', hideModal);
 
-                    // Get the pageID (Document ID)
-                    const pageID = obituaryDoc.id;
 
-                    // Update obituary with the pageID
-                    await db.collection('A_Obituaries').doc(pageID).update({ pageID: pageID });
 
-                    // Social media sharing buttons
-                    const shareButtons = `
-                        <div>
-                            <p>Share this obituary:</p>
-                            <button onclick="shareOnFacebook('${pageName}')">Share on Facebook</button>
-                            <button onclick="shareOnTwitter('${pageName}')">Share on Twitter</button>
-                        </div>
-                    `;
+    const handleApproved = async (details) => {
+    try {
+        // Collect form data
+        let name = document.getElementById('name').value.trim();
+        let sunrise = document.getElementById('sunrise').value.trim();
+        let sunset = document.getElementById('sunset').value.trim();
+        let about = document.getElementById('about').value.trim();
+        let location = document.getElementById('location').value.trim();
+        let category = document.getElementById('category').value.trim();
+        let pageName = document.getElementById('pageName').value.trim().toLowerCase();
+        let mainPhoto = document.getElementById('mainPhoto').files[0];
+        let videoURL = document.getElementById('video').value.trim();
+        let socialLinks = document.getElementById('socialLinks').value.trim();
+        let socialLinkName = document.getElementById('socialLinkName').value.trim();
 
-                    // Create HTML page for obituary
-                    const obituaryPageContent = `
-                        <html>
-                            <head>
-                                <title>${name} Obituary</title>
-                            </head>
-                            <body>
-                                <div id="messageDiv"></div>
-                                <h1>${name}</h1>
-                                <p>Sunrise: ${sunrise}</p>
-                                <p>Sunset: ${sunset}</p>
-                                <p>${about}</p>
-                                <p>Services will be held: ${location}</p>
-                                <p>Category: ${category}</p>
-                                <img src="${mainPhotoUrl}" alt="Main Photo">
-                                ${videoURL ? `<p>Video: <div id="videoPeview"></div>` : ""}
-                                <p>${socialLinkName}: <a href="${socialLinks}">${socialLinks}</a></p>
-                                ${shareButtons}
-                            </body>
-                        </html>
-                    `;
-                    createPage(obituary, pageID);
+        // Sanitize inputs
+        name = name.replace(/[^a-zA-Z0-9 ]/g, '');
+        location = location.replace(/[^a-zA-Z0-9 ]/g, '');
+        category = category.replace(/[^a-zA-Z0-9 ]/g, '');
+        let url = pageName.replace(/[^a-zA-Z0-9-_]/g, '');
 
-                    alert('Obituary created successfully!');
+        // Format date fields
+        const formattedSunrise = formatDate(sunrise);
+        const formattedSunset = formatDate(sunset);
+
+        // Get user's IP address
+        const userIP = await getUserIP();
+
+        // Upload main photo to Firebase Storage
+        let mainPhotoUrl = "";
+        if (mainPhoto) {
+            const photoRef = storage.ref().child('obituaries/' + mainPhoto.name);
+            await photoRef.put(mainPhoto);
+            mainPhotoUrl = await photoRef.getDownloadURL();
+        }
+
+        // Construct the obituary object
+        const obituary = {
+            name: name,
+            sunrise: formattedSunrise,
+            sunset: formattedSunset,
+            about: about,
+            location: location,
+            category: category,
+            url: url,
+            pageName: pageName,
+            videoURL: videoURL,
+            socialLinkName: socialLinkName,
+            socialLinks: socialLinks,
+            mainPhoto: mainPhotoUrl,
+            userIP: userIP,
+            status: 'active', // Mark as active after payment
+            paymentDetails: details, // Payment details passed as an argument
+        };
+
+        // Save obituary to Firestore
+        const obituaryDoc = await db.collection('A_Obituaries').add(obituary);
+
+        // Get and update the page ID
+        const pageID = obituaryDoc.id;
+        await db.collection('A_Obituaries').doc(pageID).update({ pageID: pageID });
+
+        // Social media sharing buttons
+        const shareButtons = `
+            <div>
+                <p>Share this obituary:</p>
+                <button onclick="shareOnFacebook('${pageName}')">Share on Facebook</button>
+                <button onclick="shareOnTwitter('${pageName}')">Share on Twitter</button>
+            </div>
+        `;
+
+        // Create HTML content for the obituary
+        const obituaryPageContent = `
+            <html>
+                <head>
+                    <title>${name} Obituary</title>
+                </head>
+                <body>
+                    <div id="messageDiv"></div>
+                    <h1>${name}</h1>
+                    <p>Sunrise: ${formattedSunrise}</p>
+                    <p>Sunset: ${formattedSunset}</p>
+                    <p>${about}</p>
+                    <p>Services will be held: ${location}</p>
+                    <p>Category: ${category}</p>
+                    <img src="${mainPhotoUrl}" alt="Main Photo">
+                    ${videoURL ? `<p>Video: <div id="videoPreview"></div>` : ""}
+                    <p>${socialLinkName}: <a href="${socialLinks}">${socialLinks}</a></p>
+                    ${shareButtons}
+                </body>
+            </html>
+        `;
+
+        // Create obituary page and show preview
+        createPage(obituary, pageID);
         document.getElementById('previewContent').innerHTML = obituaryPageContent;
-    
+        document.getElementById('previewModal').style.display = "block";
 
-    // Show the preview modal
-    document.getElementById('previewModal').style.display = "block";
+        // Display video preview
+        const videoPreview = document.getElementById("videoPreview");
+        displayVideoPreview(videoURL, videoPreview);
 
-    let videoPeview = document.getElementById("videoPeview");
-                    displayVideoPreview(videoUrl, videoPeview);
-
-                },
-                onError: (err) => {
-                    console.error("Error processing payment:", err);
-                    alert("Payment failed. Please try again.");
-                }
-            }).render('#paypal-button-container'); // Render the button into the container
-        });
+        alert('Obituary created successfully!');
+    } catch (error) {
+        console.error("Error creating obituary:", error);
+        alert('There was an error creating the obituary. Please try again.');
+    }
+};
 
     
         async function createPage(obituary, pageID) {
