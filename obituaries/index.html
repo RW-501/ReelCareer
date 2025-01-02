@@ -353,6 +353,23 @@ loadUserObituaries(userID);
   }
 });
 
+// script.js
+
+function showAdmin() {
+    const container = document.getElementById("info-section");
+    
+    // Create a new button
+    const newButton = document.createElement("button");
+    newButton.innerHTML = "Go to Admin Page";
+    
+    // Add an event listener to redirect when clicked
+    newButton.addEventListener("click", function() {
+        window.location.href = `https://reelcareer.co/obituaries/admin`;
+    });
+
+    // Append the new button to the container
+    container.appendChild(newButton);
+}
 
   
 async function loadUserObituaries(userID) {
@@ -363,6 +380,7 @@ async function loadUserObituaries(userID) {
         const data = userDoc.data();
         const obituaryPageIDs = data.obituaryPageID || [];
         const obituaryPageNames = data.obituaryPageName || [];
+        const memberType = data.memberType || [];
 
         const container = document.getElementById("info-section");
         container.innerHTML = ""; // Clear previous content
@@ -392,6 +410,11 @@ async function loadUserObituaries(userID) {
 
             container.appendChild(card);
         }
+
+        if(memberType == "admin"){
+            showAdmin();
+        }
+
     } else {
         console.log("No obituary data found for the user.");
     }
@@ -429,7 +452,7 @@ function goToAnalyticsPage(pageID, pageName) {
 }
 
 function goToViewPage(pageID, pageName) {
-    window.location.href = `/view.html?pageID=${encodeURIComponent(pageID)}&pageName=${encodeURIComponent(pageName)}`;
+    window.location.href = `https://reelcareer.co/obituaries/celebrating/${encodeURIComponent(pageName)}`;
 }
 
 
