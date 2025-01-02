@@ -25,14 +25,6 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
 
-// Example usage
-onAuthStateChanged(auth, (user) => {
-    if (user) {
-        console.log("User is signed in:", user.uid);
-    } else {
-        console.log("No user signed in");
-    }
-});
 
 
 let userID = '';
