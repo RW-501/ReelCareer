@@ -213,7 +213,14 @@ onAuthStateChanged(auth, async (user) => {
 // Call this function when the page loads
 loadUserObituaries(userID);
 
+        // Extract pageName from URL query parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const pageName = urlParams.get("pageName");
 
+        if (pageName) {
+            // Fetch obituary data if pageName exists
+            fetchObituary(pageName);
+        }
     // Check localStorage for obituaryMemberID
     const obituaryMemberID = localStorage.getItem("obituaryMemberID");
 

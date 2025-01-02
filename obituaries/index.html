@@ -386,9 +386,9 @@ async function loadUserObituaries(userID) {
             `;
 
             // Add event listeners for the buttons
-            card.querySelector(`#edit_${pageID}`).addEventListener("click", () => goToEditPage(pageID));
-            card.querySelector(`#analytics_${pageID}`).addEventListener("click", () => goToAnalyticsPage(pageID));
-            card.querySelector(`#view_${pageID}`).addEventListener("click", () => goToViewPage(pageID));
+            card.querySelector(`#edit_${pageID}`).addEventListener("click", () => goToEditPage(pageID,pageName));
+            card.querySelector(`#analytics_${pageID}`).addEventListener("click", () => goToAnalyticsPage(pageID,pageName));
+            card.querySelector(`#view_${pageID}`).addEventListener("click", () => goToViewPage(pageID,pageName));
 
             container.appendChild(card);
         }
@@ -420,16 +420,16 @@ async function getUserDetails() {
   }
   
 // Functions to handle button actions
-function goToEditPage(pageID) {
-    window.location.href = `/edit-obituary.html?pageID=${encodeURIComponent(pageID)}`;
+function goToEditPage(pageID, pageName) {
+    window.location.href = `/edit.html?pageID=${encodeURIComponent(pageID)}&pageName=${encodeURIComponent(pageName)}`;
 }
 
-function goToAnalyticsPage(pageID) {
-    window.location.href = `/analytics-obituary.html?pageID=${encodeURIComponent(pageID)}`;
+function goToAnalyticsPage(pageID, pageName) {
+    window.location.href = `/analytics.html?pageID=${encodeURIComponent(pageID)}&pageName=${encodeURIComponent(pageName)}`;
 }
 
-function goToViewPage(pageID) {
-    window.location.href = `/view-obituary.html?pageID=${encodeURIComponent(pageID)}`;
+function goToViewPage(pageID, pageName) {
+    window.location.href = `/view.html?pageID=${encodeURIComponent(pageID)}&pageName=${encodeURIComponent(pageName)}`;
 }
 
 
