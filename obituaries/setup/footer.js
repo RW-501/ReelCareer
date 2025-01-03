@@ -18,6 +18,11 @@ function updateFooter() {
             "url": "/obituaries",
             "name": "Obituaries",
             "title": "View more Obituaries.",
+        },
+        {
+            "url": "/about",
+            "name": "About Obituaries",
+            "title": "About Career Obituaries.",
         }
     ];
 

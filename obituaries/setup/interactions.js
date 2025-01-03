@@ -29,5 +29,6 @@ function renderInteractionsArea() {
     const interactionsArea = document.getElementById('dynamic-interaction-area');
     interactionsArea.innerHTML = interactionsHTML;
 }
+window.renderInteractionsArea = renderInteractionsArea;
 
 renderInteractionsArea();

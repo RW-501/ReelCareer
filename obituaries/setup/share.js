@@ -30,3 +30,4 @@ function renderShareArea(pageURL, pageName) {
     const shareArea = document.getElementById('dynamic-shareArea');
     shareArea.innerHTML = shareHTML;
 }
+window.renderShareArea = renderShareArea;
