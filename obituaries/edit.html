@@ -512,12 +512,12 @@ const changeTextBtn = document.getElementById('changeTextBtn');
 const previewBtn = document.getElementById('previewBtn');
 const saveBtn = document.getElementById('saveBtn');
 const breadcrumbText = document.getElementById('breadcrumbText');
-const messageDiv = document.getElementById('messageDiv');
 
 let currentMode = 'layout';  // Current mode (either 'layout' or 'text')
 
 // Function to fetch the obituary HTML from GitHub
 async function fetchObituary(pageName) {
+  const messageDiv = document.getElementById('messageDiv');
 
     if (!pageName) {
         console.log("Please select an obituary.");
