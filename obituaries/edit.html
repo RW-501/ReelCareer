@@ -564,8 +564,13 @@ const token = part_1 + part_2 + part_3 + part_4;
       messageDiv.innerHTML = 'File not found.';
     }
   } catch (error) {
+    console.log("error:", error);
+    console.log("fileResponse:", fileResponse);
+
     messageDiv.innerHTML = 'Error fetching the obituary HTML.';
   }
+
+
 }
 
 
