@@ -1,4 +1,8 @@
 function renderShareArea(pageURL, pageName) {
+
+    console.log("renderShareArea(pageURL, pageName)");
+
+
     // URL-encode the pageName to ensure it is correctly formatted for use in URLs
     let ecodePageName = encodeURIComponent(pageName);
 
