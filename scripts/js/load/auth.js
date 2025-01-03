@@ -291,7 +291,7 @@ function redirectToLogin() {
     }
   
     // Backend page handling
-    if (path.includes('/backend') || path.includes('/backend/index')) {
+    if (path.includes('/backend') || path.includes('/backend/index') || path.includes('/admin')) {
         if (user.email === "1988lrp@gmail.com") { 
             showToast(`Admin Logged In, Welcome ${user.displayName}`);
             showAdminContent();

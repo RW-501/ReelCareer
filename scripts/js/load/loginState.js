@@ -149,10 +149,24 @@ const saveUserLoginState = async (user) => {
   
       handleAuthStateChanged(user);
       showToast("Login state saved successfully!", "success");
-  
-    window.location.href = "/u/"; // Redirect to profile
-  
-      
+
+
+      /**
+ * Redirects the user based on the last visited page.
+ * If the last page contains "obituaries," redirects to "/obituaries."
+ * Otherwise, redirects to "/u/" (profile page).
+ */
+      const lastPage = document.referrer; // Get the URL of the last visited page
+
+      if (lastPage && lastPage.includes("obituaries")) {
+        // Redirect to the obituaries page
+        window.location.href = "/obituaries";
+    } else {
+        // Redirect to the profile page
+        window.location.href = "/u/";
+    }
+
+
     } catch (error) {
       console.error("Error saving user login state:", error);
     }

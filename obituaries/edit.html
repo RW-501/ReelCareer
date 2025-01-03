@@ -64,60 +64,99 @@
     }
     </script>
 
-    <!-- CSS Stylesheets -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-
-    <!-- JS Scripts -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-    <link href="https://reelcareer.co/obituaries/style.css" rel="stylesheet">
-
     <title>Create Your Obituary</title>
-</head>
 
+<!-- Main Script Loader -->
+<script src="https://reelcareer.co/scripts/js/loader.js"></script>
+
+<style>
+  /* Basic Styles */
+  #viewObituary {
+    border: 1px solid #ccc;
+    padding: 20px;
+    min-height: 400px;
+  }
+  
+  #viewObituary .changeable-area {
+    border: 2px dashed blue;
+  }
+  
+  #viewObituary .changeable-text {
+    border: 2px solid green;
+  }
+  
+  #viewObituary .editable {
+    outline: 2px solid green;
+  }
+  
+  .changeable-area, .changeable-text {
+    cursor: pointer;
+  }
+  
+  #messageDiv {
+    margin-top: 20px;
+    font-size: 14px;
+    color: red;
+  }
+  
+  </style>
+  
+</head>
 <body>
 
-    
-    <style>
-/* Basic Styles */
-#viewObituary {
-  border: 1px solid #ccc;
-  padding: 20px;
-  min-height: 400px;
-}
+  <!-- Navigation Bar -->
+  <nav id="Main-Nav_bar" class="navbar navbar-expand-lg main-navbar-light shadow-sm sticky-top" role="navigation">
+    <div class="container d-flex align-items-center justify-content-between">
+      <!-- Logo -->
+      <a class="navbar-brand embossed" id="MAIN-LOGO-Reel-Career" href="https://reelcareer.co/" aria-label="Go to home page">
+        ReelCareer
+      </a>
 
-#viewObituary .changeable-area {
-  border: 2px dashed blue;
-}
+      <!-- Always-visible Icons -->
+      <ul class="navbar-nav d-flex flex-row justify-content-center flex-grow-1" id="iconBar">
+        
+      <li class="nav-item mx-2">
+        <a class="nav-link" href="https://reelcareer.co/job-listings" aria-label="Go to job listings page">
+          <i class="fa fa-briefcase"></i>
+        </a>
+      </li>
+      <li class="nav-item mx-2">
+        <a class="nav-link" href="https://reelcareer.co/reels" aria-label="Go to reels page">
+          <i class="fa fa-video"></i>
+        </a>
+      </li>
+      <li class="nav-item mx-2">
+        <a class="nav-link" href="https://reelcareer.co/views/membership" aria-label="Go to membership page">
+          <i class="fa fa-user"></i>
+        </a>
+      </li>
+      <li class="nav-item mx-2">
+        <a class="nav-link" href="https://reelcareer.co/views/blogs" aria-label="Go to blogs page">
+          <i class="fa fa-pencil-alt"></i>
+        </a>
+      </li>
+      </ul>
 
-#viewObituary .changeable-text {
-  border: 2px solid green;
-}
+      <!-- Auth Section -->
+      <div id="authSection" class="d-flex align-items-center"><button class="btn btn-primary" id="loginButton">Login / Create Account</button></div>
+    </div>
+  </nav>
 
-#viewObituary .editable {
-  outline: 2px solid green;
-}
 
-.changeable-area, .changeable-text {
-  cursor: pointer;
-}
+<header>
+    <h1>Edit Obituaries</h1>
+</header>
 
-#messageDiv {
-  margin-top: 20px;
-  font-size: 14px;
-  color: red;
-}
+   <!-- Breadcrumb Section -->
+<div id="main-breadcrumb" class="breadcrumb">
+    <a href="https://reelcareer.co/">Home</a> | <a href="https://reelcareer.co/obituaries">Obituaries</a> 
+    | <a href="https://reelcareer.co/obituaries/create">Create</a>| <a href="https://reelcareer.co/obituaries/about">About</a>
+</div>
 
-</style>
 
-    <header>
-      <div id="breadcrumb">
-        <span id="breadcrumbText">Currently in Layout Mode</span>
-      </div>
-    </header>
-    <main>
+    <!-- Main Content Section -->
+<main id="main-content">
+
         <div class="container">
             <select id="obituarySelect" onchange="getSelectedObituary()">
                 <option value="">Select an Obituary</option>
@@ -146,11 +185,14 @@
             <nav class="footer-nav">
                 <a href="https://reelcareer.co/obituaries/">Obituaries</a>
                 <a href="https://reelcareer.co/obituaries/create">Create an Obituary</a>
+                <a href="https://reelcareer.co/obituaries/about">About Career Obituaries</a>
                 <a href="https://reelcareer.co/">Home</a>
             </nav>
             <p>&copy; <span id="currentYear"></span> ReelCareer.co. All rights reserved.</p>
         </div>
     </footer>
+    
+    
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js"></script> <!-- For fetching IP -->
 

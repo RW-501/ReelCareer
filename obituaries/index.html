@@ -65,164 +65,199 @@
     </script>
     
 
-    <!-- CSS Stylesheets -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 
-    <!-- JS Scripts -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<!-- Main Script Loader -->
+<script src="https://reelcareer.co/scripts/js/loader.js"></script>
 
 
 
-    <link href="https://reelcareer.co/obituaries/style.css" rel="stylesheet">
-
-   <style>
+<style>
 
 
-        .cards-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            justify-content: center;
-        }
+    .cards-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: center;
+    }
 
-        .obituary-card {
-            background-color: #fff;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            width: 280px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            padding: 15px;
-            text-align: center;
-            transition: transform 0.2s ease-in-out;
-        }
+    .obituary-card {
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        width: 280px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        padding: 15px;
+        text-align: center;
+        transition: transform 0.2s ease-in-out;
+    }
 
-        .obituary-card:hover {
-            transform: scale(1.05);
-        }
+    .obituary-card:hover {
+        transform: scale(1.05);
+    }
 
-        .obituary-card img {
-            width: 100%;
-            height: 180px;
-            object-fit: cover;
-            border-radius: 8px;
-        }
+    .obituary-card img {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+        border-radius: 8px;
+    }
 
-        .obituary-card h3 {
-            font-size: 1.5em;
-            margin-top: 10px;
-            color: #333;
-        }
+    .obituary-card h3 {
+        font-size: 1.5em;
+        margin-top: 10px;
+        color: #333;
+    }
 
-        .obituary-card p {
-            color: #777;
-            font-size: 1em;
-        }
+    .obituary-card p {
+        color: #777;
+        font-size: 1em;
+    }
 
-        .obituary-card .button {
-            padding: 10px;
-            background-color: #ff8c00;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            margin-top: 10px;
-            display: inline-block;
-        }
+    .obituary-card .button {
+        padding: 10px;
+        background-color: #ff8c00;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        margin-top: 10px;
+        display: inline-block;
+    }
 
-        .obituary-card .button:hover {
-            background-color: #ffa733;
-        }
+    .obituary-card .button:hover {
+        background-color: #ffa733;
+    }
 
-        .info-section {
-    background: #ffffff;
-    border: 1px solid #e0e0e0;
-    border-radius: 10px;
-    padding: 20px 25px;
-    margin: 20px 0;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-    font-family: 'Arial', sans-serif;
-    color: #333;
+    .info-section {
+background: #ffffff;
+border: 1px solid #e0e0e0;
+border-radius: 10px;
+padding: 20px 25px;
+margin: 20px 0;
+box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+font-family: 'Arial', sans-serif;
+color: #333;
 }
 
 .info-section h2 {
-    font-size: 1.8rem;
-    margin-bottom: 15px;
-    color: #007bff;
+font-size: 1.8rem;
+margin-bottom: 15px;
+color: #007bff;
 }
 
 .info-section p {
-    font-size: 1rem;
-    line-height: 1.6;
-    margin-bottom: 20px;
-    color: #555;
+font-size: 1rem;
+line-height: 1.6;
+margin-bottom: 20px;
+color: #555;
 }
 
 .info-section ul {
-    list-style: none;
-    padding: 0;
-    margin: 0 0 20px;
+list-style: none;
+padding: 0;
+margin: 0 0 20px;
 }
 
 .info-section ul li {
-    font-size: 1rem;
-    margin: 10px 0;
-    display: flex;
-    align-items: flex-start;
+font-size: 1rem;
+margin: 10px 0;
+display: flex;
+align-items: flex-start;
 }
 
 .info-section ul li strong {
-    color: #04305f;
-    margin-right: 8px;
+color: #04305f;
+margin-right: 8px;
 }
 
 .info-section ul li::before {
-    content: '✔';
-    font-size: 1.2rem;
-    color: #036e1c;
-    margin-right: 10px;
+content: '✔';
+font-size: 1.2rem;
+color: #036e1c;
+margin-right: 10px;
 }
 
 .cta-container {
-    text-align: center;
+text-align: center;
 }
 
 .cta-button {
-    display: inline-block;
-    padding: 12px 20px;
-    font-size: 1rem;
-    color: #ffffff;
-    background: #007bff;
-    border: none;
-    border-radius: 5px;
-    text-decoration: none;
-    transition: background 0.3s ease;
-    box-shadow: 0 3px 6px rgba(0, 123, 255, 0.3);
+display: inline-block;
+padding: 12px 20px;
+font-size: 1rem;
+color: #ffffff;
+background: #007bff;
+border: none;
+border-radius: 5px;
+text-decoration: none;
+transition: background 0.3s ease;
+box-shadow: 0 3px 6px rgba(0, 123, 255, 0.3);
 }
 
 .cta-button:hover {
-    background: #0056b3;
-    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.4);
+background: #0056b3;
+box-shadow: 0 4px 8px rgba(0, 123, 255, 0.4);
 }
 
 
-    </style>
-</head>
+</style>
 
+</head>
 <body>
 
-    <!-- Header Section -->
-    <header>
-        <h1>Obituaries</h1>
-    </header>
+  <!-- Navigation Bar -->
+  <nav id="Main-Nav_bar" class="navbar navbar-expand-lg main-navbar-light shadow-sm sticky-top" role="navigation">
+    <div class="container d-flex align-items-center justify-content-between">
+      <!-- Logo -->
+      <a class="navbar-brand embossed" id="MAIN-LOGO-Reel-Career" href="https://reelcareer.co/" aria-label="Go to home page">
+        ReelCareer
+      </a>
 
-    <!-- Breadcrumb Section -->
-    <div class="breadcrumb">
-        <a href="https://reelcareer.co/">Home</a> | <a href="https://reelcareer.co/obituaries">Obituaries</a> | <a href="https://reelcareer.co/obituaries/create">Create</a>
+      <!-- Always-visible Icons -->
+      <ul class="navbar-nav d-flex flex-row justify-content-center flex-grow-1" id="iconBar">
+        
+      <li class="nav-item mx-2">
+        <a class="nav-link" href="https://reelcareer.co/job-listings" aria-label="Go to job listings page">
+          <i class="fa fa-briefcase"></i>
+        </a>
+      </li>
+      <li class="nav-item mx-2">
+        <a class="nav-link" href="https://reelcareer.co/reels" aria-label="Go to reels page">
+          <i class="fa fa-video"></i>
+        </a>
+      </li>
+      <li class="nav-item mx-2">
+        <a class="nav-link" href="https://reelcareer.co/views/membership" aria-label="Go to membership page">
+          <i class="fa fa-user"></i>
+        </a>
+      </li>
+      <li class="nav-item mx-2">
+        <a class="nav-link" href="https://reelcareer.co/views/blogs" aria-label="Go to blogs page">
+          <i class="fa fa-pencil-alt"></i>
+        </a>
+      </li>
+      </ul>
+
+      <!-- Auth Section -->
+      <div id="authSection" class="d-flex align-items-center"><button class="btn btn-primary" id="loginButton">Login / Create Account</button></div>
     </div>
+  </nav>
+
+
+<header>
+    <h1>Career Obituaries</h1>
+</header>
+
+   <!-- Breadcrumb Section -->
+<div id="main-breadcrumb" class="breadcrumb">
+    <a href="https://reelcareer.co/">Home</a> | <a href="https://reelcareer.co/obituaries">Obituaries</a> 
+    | <a href="https://reelcareer.co/obituaries/create">Create</a>| <a href="https://reelcareer.co/obituaries/about">About</a>
+</div>
+
 
     <!-- Main Content Section -->
-    <main>
+<main id="main-content">
+
         <div class="section-header">
             <h2>Obituaries</h2>
             <p>Browse through obituaries categorized by location and memory.</p>
@@ -252,19 +287,21 @@
     
 </main>
 
-    <!-- Footer Section -->
-    <footer class="site-footer">
-        <div class="footer-content">
-            <p>Leave a lasting legacy. Share your story with the world.</p>
-            <nav class="footer-nav">
-                <a href="https://reelcareer.co/obituaries/">Obituaries</a>
-                <a href="https://reelcareer.co/obituaries/create">Create an Obituary</a>
-                <a href="https://reelcareer.co/">Home</a>
-            </nav>
-            <p>&copy; <span id="currentYear"></span> ReelCareer.co. All rights reserved.</p>
-        </div>
-    </footer>
-    
+
+<footer class="site-footer">
+    <div class="footer-content">
+        <p>Leave a lasting legacy. Share your story with the world.</p>
+        <nav class="footer-nav">
+            <a href="https://reelcareer.co/obituaries/">Obituaries</a>
+            <a href="https://reelcareer.co/obituaries/create">Create an Obituary</a>
+            <a href="https://reelcareer.co/obituaries/about">About Career Obituaries</a>
+            <a href="https://reelcareer.co/">Home</a>
+        </nav>
+        <p>&copy; <span id="currentYear"></span> ReelCareer.co. All rights reserved.</p>
+    </div>
+</footer>
+
+
 <!-- Include Firebase SDK as a module -->
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
