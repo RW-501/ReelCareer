@@ -305,6 +305,10 @@ main {
     .flex {
         display: flex;
     }
+
+    #actionButtons {
+        display: none;
+    }
      
 }    
     </style>
@@ -1187,6 +1191,7 @@ createPage(obituary, pageID);
 const videoPreview = document.getElementById("media-section");
 //const videoPreview = document.getElementById("videoPreview");
 let videoURL = document.getElementById('video').value.trim();
+document.getElementById('actionButtons').style.display = 'block';
 
 displayVideoPreview(videoURL, videoPreview);
 
