@@ -329,6 +329,7 @@ box-shadow: 0 4px 8px rgba(0, 123, 255, 0.4);
 
   
 // Sign in anonymously
+// Sign in anonymously
 signInAnonymously(auth)
   .then(() => {
     console.log('Signed in anonymously');
@@ -340,7 +341,7 @@ signInAnonymously(auth)
 // Listen for authentication state changes
 onAuthStateChanged(auth, async (user) => {
   if (user) {
-    userID = user.uid;
+    const userID = user.uid;
     console.log("User ID:", userID);
 
     // Call this function when the page loads
@@ -348,19 +349,32 @@ onAuthStateChanged(auth, async (user) => {
 
     // Check if user is signed in anonymously
     if (user.isAnonymous) {
-      // Check if the user has an existing email or Google account
+      // Check if the user has an existing email, Google account, or phone number
       const email = user.email;
       const provider = user.providerData ? user.providerData[0].providerId : null;
+      const phoneNumber = user.phoneNumber;
 
+      let credential;
+
+      // Handle linking with Google or Email account
       if (email || provider) {
-        const credential = provider === "google.com" 
-          ? GoogleAuthProvider.credential(user.email) 
-          : EmailAuthProvider.credential(user.email, "password"); // Replace with actual password if using email
+        if (provider === "google.com") {
+          credential = GoogleAuthProvider.credential(user.email);
+        } else if (email) {
+          credential = EmailAuthProvider.credential(user.email, "password"); // Replace with actual password if using email
+        }
+      }
 
-        // Link the anonymous account with the credential (email/password or Google)
+      // Handle phone sign-in case
+      if (phoneNumber) {
+        credential = PhoneAuthProvider.credential(user.phoneNumber, user.verificationId); // You'll need to track the verificationId
+      }
+
+      // If a valid credential is available, attempt to link the anonymous account
+      if (credential) {
         try {
           await linkWithCredential(user, credential);
-          console.log("Successfully linked anonymous user with email or Google account");
+          console.log("Successfully linked anonymous user with email, Google, or phone account");
 
           // Add or update user data in Firestore
           const obituaryMemberID = localStorage.getItem("obituaryMemberID");

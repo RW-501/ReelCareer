@@ -9,7 +9,7 @@ import {
   createUserWithEmailAndPassword, signInWithEmailAndPassword, deleteObject,
   where, getDocs, storage, getAuth, collection, auth, analytics,
   googleProvider,onSnapshot ,writeBatch ,batch,
-  facebookProvider,
+  facebookProvider, linkWithCredential,
   getUserId
 } from 'https://reelcareer.co/scripts/js/load/module.js';
 
@@ -63,54 +63,59 @@ async function logoutUser() {
   };
   
   
-  // Other event listeners (Google, Facebook, Apple login) go here...
-  // Sign Up Function
-  document
-    .getElementById("signup-form")
-    ?.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const email = document.getElementById("signup-email").value;
-      const password = document.getElementById("signup-password").value;
+  // Handle Signup Form Submission
+document.getElementById("signup-form")?.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const email = document.getElementById("signup-email").value;
+  const password = document.getElementById("signup-password").value;
   
-      showLoading();
-      try {
-        const userCredential = await createUserWithEmailAndPassword(
-          auth,
-          email,
-          password
-        );
-        const user = userCredential.user;
-        //console.log('Sign Up Successful:', user);
-        await saveUserLoginState(user, true); // Update database and local storage
-      } catch (error) {
-        console.error("Error during sign up:", error);
-        showToast(error.message, 'error');
-      } finally {
-        hideLoading();
-      }
-    });
+  showLoading();
+  try {
+    // Sign up with email/password
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
+    
+    // If user was signed in anonymously before, merge accounts
+    if (auth.currentUser && auth.currentUser.isAnonymous) {
+      // Get the anonymous user
+      const anonymousUser = auth.currentUser;
+
+      // Link the anonymous account with email/password account
+      const credential = EmailAuthProvider.credential(email, password);
+      await linkWithCredential(anonymousUser, credential);
+      console.log('Anonymous account merged with email/password account');
+
+      // After linking, the user ID will be updated to the email/password account ID
+    }
+
+    await saveUserLoginState(user, true); // Update database and local storage
+  } catch (error) {
+    console.error("Error during sign up:", error);
+    showToast(error.message, 'error');
+  } finally {
+    hideLoading();
+  }
+});
+
   
   
-  
-    // Improved login form submission
-  document.getElementById("login-form")?.addEventListener("submit", async (e) => {
-    e.preventDefault();
-  // Get values from the login form
+// Handle Login Form Submission
+document.getElementById("login-form")?.addEventListener("submit", async (e) => {
+  e.preventDefault();
   const email = sanitizeInput(document.getElementById("login-email").value);
   const password = sanitizeInput(document.getElementById("login-password").value);
-  
-    showLoading();
-    try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      await saveUserLoginState(userCredential.user);
-    } catch (error) {
-      showToast(error.message);
-    } finally {
-      hideLoading();
-    }
-  });
-  
-  
+
+  showLoading();
+  try {
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    await saveUserLoginState(userCredential.user); // Update database and local storage
+  } catch (error) {
+    showToast(error.message);
+  } finally {
+    hideLoading();
+  }
+});
+ 
   function formatPhoneNumber(phoneNumber) {
     // Remove all non-numeric characters except '+'
     let cleanedNumber = phoneNumber.replace(/[^+\d]/g, "");
@@ -134,94 +139,92 @@ async function logoutUser() {
   let confirmationResult; // Used to store the result of signInWithPhoneNumber
   
   // Phone Login Function
-  document.getElementById("phoneLogin")?.addEventListener("click", async () => {
-      const phoneNumberInput = document.getElementById("phoneNumber").value.trim();
-      const phoneNumberError = document.getElementById("phoneNumberError");
+ 
+// Phone Login (same logic applies)
+document.getElementById("phoneLogin")?.addEventListener("click", async () => {
+  const phoneNumberInput = document.getElementById("phoneNumber").value.trim();
   
+  if (!phoneNumberInput) return;
   
-      if(!phoneNumberInput){
-        return;
-      }
-      showLoading(); // Show loading spinner
-      try {
-          // Format and validate phone number
-          const phoneNumber = formatPhoneNumber(phoneNumberInput);
-          phoneNumberError.style.display = "none";
+  showLoading(); // Show loading spinner
+  try {
+    const phoneNumber = formatPhoneNumber(phoneNumberInput);
+    const appVerifier = new RecaptchaVerifier("recaptcha-container", { size: "invisible" }, auth);
+    await appVerifier.render();
+    
+    const confirmationResult = await signInWithPhoneNumber(auth, phoneNumber, appVerifier);
+    showToast("Code sent successfully.",confirmationResult);
+    
+    // Show verification code input
+    document.getElementById("verifyCodeButton").style.display = "block";
+    document.getElementById("verificationCodeGroup").style.display = "block";
+    document.getElementById("sendVerificationCode").style.display = "none";
+  } catch (error) {
+    showToast("Error sending code. Try again.", "error");
+  } finally {
+    hideLoading(); // Hide loading spinner
+  }
+});
+
+document.getElementById("verifyCode")?.addEventListener("click", async () => {
+  const verificationCode = document.getElementById("verificationCode").value.trim();
   
-          // Initialize reCAPTCHA
-          const appVerifier = new RecaptchaVerifier("recaptcha-container", { size: "invisible" }, auth);
-          await appVerifier.render();
-          
-          // Send SMS code
-          confirmationResult = await signInWithPhoneNumber(auth, phoneNumber, appVerifier);
-          showToast("Code sent successfully.");
-          
-          // Show verification code input
-          document.getElementById("verifyCodeButton").style.display = "block";
-          document.getElementById("verificationCodeGroup").style.display = "block";
-          document.getElementById("sendVerificationCode").style.display = "none";
+  if (!verificationCode) {
+    showToast("Please enter the verification code.", "error");
+    return;
+  }
   
-      } catch (error) {
-          phoneNumberError.textContent = error.message;
-          phoneNumberError.style.display = "block";
-          showToast("Error sending code. Try again.", "error");
-      } finally {
-          hideLoading(); // Hide loading spinner
-      }
-  });
-  
-  // Verify Code Function
-  document.getElementById("verifyCode")?.addEventListener("click", async () => {
-      const verificationCode = document.getElementById("verificationCode").value.trim();
-  
-      if (!verificationCode) {
-          showToast("Please enter the verification code.", "error");
-          return;
-      }
-  
-      showLoading(); // Show loading spinner
-      try {
-          // Confirm verification code
-          const result = await confirmationResult.confirm(verificationCode);
-          const user = result.user;
-  
-          console.log("User verified:", user);
-          await saveUserLoginState(user, true); // Save user state
-  
-          showToast("Login successful!", "success");
-          document.getElementById("success-message").innerText = "Login successful!";
-          document.getElementById("success-message").style.display = "block";
-  
-          // Redirect or show dashboard
-          showDashboard();
-  
-      } catch (error) {
-          handleError("Invalid verification code. Please try again.", error);
-          showToast("Invalid verification code. Try again.", "error");
-      } finally {
-          hideLoading(); // Hide loading spinner
-      }
-  });
-  
-  
-  
-  // Google Login Function
-  document.getElementById("google-login")?.addEventListener("click", async () => {
-    showLoading();
-    try {
-      const result = await signInWithPopup(auth, googleProvider);
-      const user = result.user;
-      console.log("Google Login Successful:", user);
-      await saveUserLoginState(user, true); // Update database and local storage
-  
-    } catch (error) {
-      console.error("Error during Google login:", error);
-      showToast(error.message);
-    } finally {
-      hideLoading();
+  showLoading(); // Show loading spinner
+  try {
+    const result = await confirmationResult.confirm(verificationCode);
+    const user = result.user;
+
+    // If user was signed in anonymously before, merge accounts
+    if (auth.currentUser && auth.currentUser.isAnonymous) {
+      const anonymousUser = auth.currentUser;
+      const credential = PhoneAuthProvider.credential(confirmationResult.verificationId, verificationCode);
+      
+      // Link the anonymous account with the phone account
+      await linkWithCredential(anonymousUser, credential);
+      console.log('Anonymous account merged with phone account');
     }
-  });
+
+    showToast("Login successful!", "success");
+    await saveUserLoginState(user, true); // Save user state
+  } catch (error) {
+    showToast("Invalid verification code. Try again.", "error");
+  } finally {
+    hideLoading(); // Hide loading spinner
+  }
+});
   
+  
+// Google Login
+document.getElementById("google-login")?.addEventListener("click", async () => {
+  showLoading();
+  try {
+    const result = await signInWithPopup(auth, googleProvider);
+    const user = result.user;
+    
+    // If user was signed in anonymously before, merge accounts
+    if (auth.currentUser && auth.currentUser.isAnonymous) {
+      const anonymousUser = auth.currentUser;
+      const credential = GoogleAuthProvider.credential(result.credential.idToken);
+      
+      // Link the anonymous account with the Google account
+      await linkWithCredential(anonymousUser, credential);
+      console.log('Anonymous account merged with Google account');
+    }
+
+    await saveUserLoginState(user, true); // Update database and local storage
+  } catch (error) {
+    console.error("Error during Google login:", error);
+    showToast(error.message);
+  } finally {
+    hideLoading();
+  }
+});
+
   // Facebook Login Function
   document
     .getElementById("facebook-login")

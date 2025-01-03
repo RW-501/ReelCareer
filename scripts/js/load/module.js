@@ -20,7 +20,7 @@ import {
   GoogleAuthProvider,
   FacebookAuthProvider,
   OAuthProvider, signInAnonymously,
-  signOut, RecaptchaVerifier,
+  signOut, RecaptchaVerifier,  linkWithCredential,
   onAuthStateChanged, signInWithPhoneNumber,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword
@@ -83,51 +83,55 @@ async function getUserId() {
 
 document.addEventListener('DOMContentLoaded', () => {
   initializeFirebase();
-
   onAuthStateChanged(auth, (user) => {
     if (user) {
       console.log("Module User ID: ", user.uid);
-
+  
       // Store user ID and email in local storage
       localStorage.setItem('userLoggedIn', 'true');
       localStorage.setItem('userID', user.uid);
       localStorage.setItem('userEmail', user.email);
-
+  
       userId = user.uid;
-
-        const userDataSaved =  getUserData() || [];
-
-        if (userDataSaved.darkMode === "true") {
-            document.body.classList.add("dark-mode");
-          }
-    
-    
-          // Redirect to the user page if on the auth page
-          if (window.location.pathname === "/views/auth") {
-            window.location.href = "/u/";
-          }
-
-          
-
-
+  
+      // Fetch user data, ensure darkMode is checked safely
+      const userDataSaved = getUserData() || {};
+  
+      if (userDataSaved.darkMode === "true") {
+        document.body.classList.add("dark-mode");
+      }
+  
+      // Redirect to the appropriate page based on the previous page
+      if (window.location.pathname === "/views/auth") {
+        const lastPage = document.referrer; // Get the URL of the last visited page
+  
+        if (lastPage && lastPage.includes("obituaries")) {
+          localStorage.setItem("obituaryMemberID", userId);
+  
+          // Redirect to the obituaries page
+          window.location.href = "/obituaries";
+        } else {
+          // Redirect to the profile page
+          window.location.href = "/u/";
+        }
+      }
+  
     } else {
       console.log("No user signed in");
-
+  
       // Clear local storage
       localStorage.removeItem('userLoggedIn');
       localStorage.removeItem('userID');
       localStorage.removeItem('userEmail');
-
-      userId = null;
-
+      localStorage.removeItem("obituaryMemberID");
   
-      localStorage.setItem('userLoggedIn', false);
-
- 
+      userId = null;
+  
+      // Set userLoggedIn to false in local storage
+      localStorage.setItem('userLoggedIn', 'false');
     }
-
-
   });
+  
 });
 
 // Initialize Google and Facebook Auth Providers
@@ -143,7 +147,7 @@ export {
   OAuthProvider, signOut, deleteDoc, getFirestore, serverTimestamp,
   createUserWithEmailAndPassword, signInWithEmailAndPassword, deleteObject,
   where, getDocs, storage, getAuth, collection, auth, analytics,
-  googleProvider,onSnapshot ,writeBatch ,batch,
+  googleProvider,onSnapshot ,writeBatch ,batch, linkWithCredential,
   facebookProvider,
   getUserId // Export the function
 };

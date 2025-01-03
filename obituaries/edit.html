@@ -249,7 +249,7 @@ signInAnonymously(auth)
 // Listen for authentication state changes
 onAuthStateChanged(auth, async (user) => {
   if (user) {
-    userID = user.uid;
+    const userID = user.uid; // Declare userID with const or let
     console.log("User ID:", userID);
 
     // Call this function when the page loads
@@ -270,12 +270,19 @@ onAuthStateChanged(auth, async (user) => {
       const email = user.email;
       const provider = user.providerData ? user.providerData[0].providerId : null;
 
-      if (email || provider) {
-        const credential = provider === "google.com"
-          ? GoogleAuthProvider.credential(user.email)
-          : EmailAuthProvider.credential(user.email, "password"); // Replace with actual password if using email
+      let credential = null;
 
-        // Link the anonymous account with the credential (email/password or Google)
+      if (email || provider) {
+        // Create appropriate credential based on provider (Google or email/password)
+        if (provider === "google.com") {
+          credential = GoogleAuthProvider.credential(user.email); // Using Google credential
+        } else if (email) {
+          credential = EmailAuthProvider.credential(user.email, "password"); // Replace with actual password if email
+        }
+      }
+
+      // Link the anonymous account with the credential (email/password or Google)
+      if (credential) {
         try {
           await linkWithCredential(user, credential);
           console.log("Successfully linked anonymous user with email or Google account");

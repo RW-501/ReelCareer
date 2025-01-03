@@ -613,51 +613,60 @@ let userID = '';
 // Listen for authentication state changes
 onAuthStateChanged(auth, async (user) => {
   if (user) {
-    userID = user.uid;
+    const userID = user.uid;
     console.log("User ID:", userID);
 
     // Check if user is signed in anonymously
     if (user.isAnonymous) {
-      // Check for existing email or Google account
+      // Check if the user is signing in with a phone number, Google, or Email account
       const email = user.email;
       const provider = user.providerData ? user.providerData[0].providerId : null;
 
-      if (email || provider) {
-        // Example: Merging with Google or Email account
-        const credential = provider === "google.com" 
-          ? GoogleAuthProvider.credential(user.email)
-          : EmailAuthProvider.credential(user.email, "password"); // Replace with password if using email
+      if (email || provider || user.phoneNumber) {
+        let credential;
 
-        // Link the anonymous account with the credential
+        // If it's Google or Email account, merge with Google or Email credentials
+        if (provider === "google.com") {
+          credential = GoogleAuthProvider.credential(user.email);
+        } else if (email) {
+          credential = EmailAuthProvider.credential(user.email, "password"); // Replace with password if using email
+        } else if (user.phoneNumber) {
+          // If user signed in with phone number, merge with phone number credential
+          credential = PhoneAuthProvider.credential(user.phoneNumber, user.verificationId);
+        }
+
+        // Link the anonymous account with the new credential
         try {
-          await linkWithCredential(user, credential);
-          console.log("Successfully linked anonymous user with email or Google account");
+          if (credential) {
+            await linkWithCredential(user, credential);
+            console.log("Successfully linked anonymous user with phone number, email, or Google account");
 
-          // Update user data in Firestore (if not already recorded)
-          const obituaryMemberID = localStorage.getItem("obituaryMemberID");
-          if (!obituaryMemberID) {
-            try {
-              const userDetails = await getUserDetails(); // Fetch IP & location
-              if (!userDetails) return;
+            // Update user data in Firestore (if not already recorded)
+            const obituaryMemberID = localStorage.getItem("obituaryMemberID");
+            if (!obituaryMemberID) {
+              try {
+                const userDetails = await getUserDetails(); // Fetch IP & location
+                if (!userDetails) return;
 
-              const { ip: userIP, city, state, country } = userDetails;
+                const { ip: userIP, city, state, country } = userDetails;
 
-              const userRef = doc(db, "Users", userID);
-              await setDoc(userRef, {
-                userId: userID,
-                member: "Obituary Member",
-                userIP,
-                city,
-                state,
-                country,
-                timestamp: new Date(),
-              });
+                const userRef = doc(db, "Users", userID);
+                await setDoc(userRef, {
+                  userId: userID,
+                  member: "Obituary Member",
+                  userIP,
+                  city,
+                  state,
+                  country,
+                  timestamp: new Date(),
+                });
 
-              localStorage.setItem("obituaryMemberID", userID);
-              console.log("User data logged to Firestore");
+                localStorage.setItem("obituaryMemberID", userID);
+                console.log("User data logged to Firestore");
 
-            } catch (error) {
-              console.error("Error logging user data to Firestore:", error);
+              } catch (error) {
+                console.error("Error logging user data to Firestore:", error);
+              }
             }
           }
         } catch (error) {
