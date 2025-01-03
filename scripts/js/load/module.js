@@ -19,7 +19,7 @@ import {
   signInWithPopup,
   GoogleAuthProvider,
   FacebookAuthProvider,
-  OAuthProvider, signInAnonymously,
+  OAuthProvider, signInAnonymously, EmailAuthProvider,
   signOut, RecaptchaVerifier,  linkWithCredential,
   onAuthStateChanged, signInWithPhoneNumber,
   createUserWithEmailAndPassword,
@@ -149,7 +149,7 @@ export {
   uploadBytesResumable, signInWithPopup, FacebookAuthProvider, GoogleAuthProvider, startAfter,
   OAuthProvider, signOut, deleteDoc, getFirestore, serverTimestamp,
   createUserWithEmailAndPassword, signInWithEmailAndPassword, deleteObject,
-  where, getDocs, storage, getAuth, collection, auth, analytics,
+  where, getDocs, storage, getAuth, collection, auth, analytics,EmailAuthProvider,
   googleProvider,onSnapshot ,writeBatch ,batch, linkWithCredential,
   facebookProvider,
   getUserId // Export the function
