@@ -345,7 +345,7 @@ onAuthStateChanged(auth, async (user) => {
     if (user.isAnonymous) {
       // Check if the user has an existing email, Google account, or phone number
       const email = user.email;
-      const provider = user.providerData ? user.providerData[0].providerId : null;
+      const provider = user.providerData && user.providerData.length > 0 ? user.providerData[0].providerId : null;
       const phoneNumber = user.phoneNumber;
 
       let credential;

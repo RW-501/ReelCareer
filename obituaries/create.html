@@ -609,9 +609,11 @@ onAuthStateChanged(auth, async (user) => {
 
     // Check if user is signed in anonymously
     if (user.isAnonymous) {
-      // Check if the user is signing in with a phone number, Google, or Email account
+      // Check if user has providerData and if it has at least one provider
       const email = user.email;
-      const provider = user.providerData ? user.providerData[0].providerId : null;
+      const provider = user.providerData && user.providerData.length > 0 
+        ? user.providerData[0].providerId 
+        : null;
 
       if (email || provider || user.phoneNumber) {
         let credential;
