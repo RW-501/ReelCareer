@@ -293,7 +293,7 @@ function showComingSoonPopup() {
   sendGiftButton.addEventListener("click", showComingSoonPopup);
   
 
-    renderShareArea(pageURL, pageName);
+    renderShareArea(pageName);
 
 
 

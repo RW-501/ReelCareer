@@ -1,8 +1,8 @@
-function renderShareArea(pageURL, pageName) {
+function renderShareArea(pageName) {
 
     console.log("renderShareArea(pageURL, pageName)");
 
-
+    let pageURL = `https://reelcareer.co/obituaries/celebrating/${pageName}.html`;
     // URL-encode the pageName to ensure it is correctly formatted for use in URLs
     let ecodePageName = encodeURIComponent(pageName);
 
