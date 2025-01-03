@@ -59,6 +59,57 @@ function initializeFirebase() {
     analytics = initializeAnalytics(app);
      batch = writeBatch(db); // db is the Firestore database reference
 
+
+
+     onAuthStateChanged(auth, (user) => {
+      if (user) {
+        console.log("Module User ID: ", user.uid);
+    
+        // Store user ID and email in local storage
+        localStorage.setItem('userLoggedIn', 'true');
+        localStorage.setItem('userID', user.uid);
+        localStorage.setItem('userEmail', user.email);
+    
+        userId = user.uid;
+    
+        // Fetch user data, ensure darkMode is checked safely
+        const userDataSaved = getUserData() || {};
+    
+        if (userDataSaved.darkMode === "true") {
+          document.body.classList.add("dark-mode");
+        }
+    
+        // Redirect to the appropriate page based on the previous page
+        if (window.location.pathname === "/views/auth") {
+          const lastPage = document.referrer; // Get the URL of the last visited page
+    
+          if (lastPage && lastPage.includes("obituaries")) {
+            localStorage.setItem("obituaryMemberID", userId);
+    
+            // Redirect to the obituaries page
+            window.location.href = "/obituaries";
+          } else {
+            // Redirect to the profile page
+            window.location.href = "/u/";
+          }
+        }
+    
+      } else {
+        console.log("No user signed in");
+    
+        // Clear local storage
+        localStorage.removeItem('userLoggedIn');
+        localStorage.removeItem('userID');
+        localStorage.removeItem('userEmail');
+        localStorage.removeItem("obituaryMemberID");
+    
+        userId = null;
+    
+        // Set userLoggedIn to false in local storage
+        localStorage.setItem('userLoggedIn', 'false');
+      }
+    });
+    
  //   console.log("Firebase initialized successfully");
   } catch (error) {
     console.error("Error, TRY RELOADING:", error);
@@ -83,55 +134,7 @@ async function getUserId() {
 
 document.addEventListener('DOMContentLoaded', () => {
   initializeFirebase();
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      console.log("Module User ID: ", user.uid);
-  
-      // Store user ID and email in local storage
-      localStorage.setItem('userLoggedIn', 'true');
-      localStorage.setItem('userID', user.uid);
-      localStorage.setItem('userEmail', user.email);
-  
-      userId = user.uid;
-  
-      // Fetch user data, ensure darkMode is checked safely
-      const userDataSaved = getUserData() || {};
-  
-      if (userDataSaved.darkMode === "true") {
-        document.body.classList.add("dark-mode");
-      }
-  
-      // Redirect to the appropriate page based on the previous page
-      if (window.location.pathname === "/views/auth") {
-        const lastPage = document.referrer; // Get the URL of the last visited page
-  
-        if (lastPage && lastPage.includes("obituaries")) {
-          localStorage.setItem("obituaryMemberID", userId);
-  
-          // Redirect to the obituaries page
-          window.location.href = "/obituaries";
-        } else {
-          // Redirect to the profile page
-          window.location.href = "/u/";
-        }
-      }
-  
-    } else {
-      console.log("No user signed in");
-  
-      // Clear local storage
-      localStorage.removeItem('userLoggedIn');
-      localStorage.removeItem('userID');
-      localStorage.removeItem('userEmail');
-      localStorage.removeItem("obituaryMemberID");
-  
-      userId = null;
-  
-      // Set userLoggedIn to false in local storage
-      localStorage.setItem('userLoggedIn', 'false');
-    }
-  });
-  
+ 
 });
 
 // Initialize Google and Facebook Auth Providers
