@@ -29,7 +29,7 @@ const auth = getAuth(app);
 
 let userID = '';
 
-// Listen for authentication state changes to get the user ID
+window.addEventListener("load", () => {
 
 // Handle user authentication state change
 onAuthStateChanged(auth, async (user) => {
@@ -39,6 +39,7 @@ onAuthStateChanged(auth, async (user) => {
     console.log('User ID:', userID);
 
   }
+});
 });
 
 
