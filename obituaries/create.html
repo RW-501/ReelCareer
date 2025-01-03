@@ -1023,7 +1023,7 @@ setTimeout(() => {
 // Listen for authentication state changes
 onAuthStateChanged(auth, async (user) => {
     if (user) {
-    const userID = user.uid;
+     userID = user.uid;
     console.log("User ID:", userID);
 
     // Check if user is signed in anonymously
