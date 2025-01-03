@@ -970,46 +970,45 @@ const showModal = () => {
         const modal = document.getElementById('paypal-button-container');
         modal.style.display = 'none';
     };
-        // Handle form submission after payment
+
+     // Handle form submission after payment
+     document.getElementById('paypal-button').addEventListener('click', async function () {
+            document.getElementById('paypalContent').innerHTML = '';
+            showModal();
+
+        // Render PayPal button inside the modal content
         paypal.Buttons({
-    createOrder: (data, actions) => {
-        return actions.order.create({
-            purchase_units: [{
-                amount: {
-                    value: '25.00'
-                }
-            }]
-        });
-    },
-    onApprove: async (data, actions) => {
-        try {
-            const details = await actions.order.capture();
-            console.log('Payment approved:', details);
-
-            // Ensure user is authenticated
-            const user = auth.currentUser || await signInAnonymously(auth);
-            if (!user) throw new Error("User not authenticated.");
-
-            // Process payment and create obituary
-            await handleApproved(details);
-        } catch (error) {
-            console.error("Error in payment approval process:", error);
-        } finally {
-            hideModal();
-        }
-    },
-    onCancel: () => {
-        console.log('Payment cancelled.');
-        hideModal();
-    },
-    onError: (err) => {
-        console.error('Error:', err);
-        hideModal();
-    }
-}).render('#paypalContent');
+            createOrder: (data, actions) => {
+                return actions.order.create({
+                    purchase_units: [{
+                        amount: {
+                            value: '25.00'
+                        }
+                    }]
+                });
+            },
+            onApprove: async (data, actions) => {
+                const details = await actions.order.capture(); 
+console.log('Payment approved:', details);
+handleApproved(details);
 
 
+// Delay hiding the modal by 2 seconds
+setTimeout(() => {
+    hideModal();
+}, 2000);
 
+            },
+            onCancel: () => {
+                console.log('Payment cancelled.');
+                hideModal();
+            },
+            onError: (err) => {
+                console.error('Error:', err);
+                hideModal();
+            }
+        }).render('#paypalContent'); // Render into the inner modal content
+    });
 
     // Close modal when clicking the close button
     document.getElementById('closeModal').addEventListener('click', hideModal);
