@@ -165,12 +165,14 @@ function preLoadPageScripts() {
 
         loadScript('https://reelcareer.co/scripts/js/load/auth.js', { async: false, type: 'module' }, () => {
             logExecutionTime('auth Script', performance.now());
-        });
 
-        // Load navBar.js as a module after <nav> is available
+              // Load navBar.js as a module after <nav> is available
         loadScript('https://reelcareer.co/scripts/js/load/elements/navBar.js', { async: false, defer: false, type: 'module' }, () => {
             logExecutionTime('Navigation Bar', performance.now());
         });
+        });
+
+      
     });
 
     loadScript('https://reelcareer.co/scripts/js/load/meta/meta.js', { async: false }, () => {
