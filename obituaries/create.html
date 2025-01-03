@@ -624,7 +624,6 @@ async function getUserDetails() {
 }
 
 
-
 const fileInput = document.getElementById('mainPhoto');
 const imagePreview = document.getElementById('imagePreview');
 const imagePreviewContainer = document.getElementById('imagePreviewContainer');
@@ -639,75 +638,83 @@ let isBlackAndWhite = false;
 let rotationDegree = 0;
 let zoomLevel = 1;
 
-// Function to update image styles and return a modified canvas
+// Function to update image styles using canvas
 function updateImageStylesAndCreateCanvas() {
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
-    
-    // Set canvas size to image size
-    canvas.width = imagePreview.naturalWidth;
-    canvas.height = imagePreview.naturalHeight;
-    
-    // Apply transformations: Black & White, Rotation, Zoom
-    ctx.filter = isBlackAndWhite ? 'grayscale(100%)' : 'none';
+
+    // Set canvas size based on the image's natural size
+    const { naturalWidth, naturalHeight } = imagePreview;
+    canvas.width = naturalWidth;
+    canvas.height = naturalHeight;
+
+    // Clear the canvas and set the origin point for transformations
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.save();
     ctx.translate(canvas.width / 2, canvas.height / 2);
-    ctx.rotate(rotationDegree * Math.PI / 180); // Convert degree to radians
+    ctx.rotate((rotationDegree * Math.PI) / 180); // Convert degrees to radians
     ctx.scale(zoomLevel, zoomLevel);
-    ctx.drawImage(imagePreview, -canvas.width / 2, -canvas.height / 2);
+
+    // Apply grayscale filter (if enabled)
+    ctx.filter = isBlackAndWhite ? 'grayscale(100%)' : 'none';
+
+    // Draw the transformed image
+    ctx.drawImage(imagePreview, -naturalWidth / 2, -naturalHeight / 2);
     ctx.restore();
-    
+
     return canvas;
 }
 
-// Handle file selection and display image preview
-fileInput.addEventListener('change', function(event) {
+// Update image preview in real-time
+function updateImageStyles() {
+    const canvas = updateImageStylesAndCreateCanvas();
+    imagePreview.src = canvas.toDataURL(); // Update the image with the transformed canvas
+}
+
+// Handle file selection and display the image
+fileInput.addEventListener('change', function (event) {
     const file = event.target.files[0];
 
     if (file && file.type.startsWith('image/')) {
         const imageUrl = URL.createObjectURL(file);
         imagePreview.src = imageUrl;
-        imagePreview.style.display = 'block'; // Make sure the image preview is visible
-        imagePreviewContainer.style.display = 'block'; // Show the image preview container
+        imagePreview.style.display = 'block';
+        imagePreviewContainer.style.display = 'block';
+
+        // Reset transformations on new image load
+        isBlackAndWhite = false;
+        rotationDegree = 0;
+        zoomLevel = 1;
     }
 });
 
-
-
-// Event listeners for the transformation buttons
-toggleBnwButton.addEventListener('click', function() {
+// Transformation button event listeners
+toggleBnwButton.addEventListener('click', function () {
     isBlackAndWhite = !isBlackAndWhite;
     updateImageStyles();
 });
 
-rotateButton.addEventListener('click', function() {
-    rotationDegree += 90;
-    if (rotationDegree >= 360) rotationDegree = 0; // Reset to 0 when it exceeds 360
+rotateButton.addEventListener('click', function () {
+    rotationDegree = (rotationDegree + 90) % 360; // Rotate in steps of 90 degrees
     updateImageStyles();
 });
 
-zoomInButton.addEventListener('click', function() {
-    zoomLevel += 0.1;
+zoomInButton.addEventListener('click', function () {
+    zoomLevel = Math.min(3, zoomLevel + 0.1); // Cap the maximum zoom level
     updateImageStyles();
 });
 
-zoomOutButton.addEventListener('click', function() {
-    zoomLevel = Math.max(0.5, zoomLevel - 0.1); // Prevent zooming out too much
+zoomOutButton.addEventListener('click', function () {
+    zoomLevel = Math.max(0.5, zoomLevel - 0.1); // Prevent zooming out too far
     updateImageStyles();
 });
 
-resetButton.addEventListener('click', function() {
+resetButton.addEventListener('click', function () {
     isBlackAndWhite = false;
     rotationDegree = 0;
     zoomLevel = 1;
     updateImageStyles();
 });
-
-// Function to update image styles (for front-end preview)
-function updateImageStyles() {
-    const canvas = updateImageStylesAndCreateCanvas();
-    imagePreview.src = canvas.toDataURL(); // Preview the transformation in real-time
-}
   
     // Allow the user to click the preview image to change it
     imagePreview.addEventListener('click', function() {
