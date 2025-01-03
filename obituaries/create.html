@@ -585,6 +585,10 @@
             }
         }
 
+        // Listen for authentication state changes to get the user ID
+let userID = '';
+        document.addEventListener('DOMContentLoaded', () => {
+
     // Sign in anonymously
     signInAnonymously(auth)
         .then(() => {
@@ -595,8 +599,7 @@
         });
 
         
-// Listen for authentication state changes to get the user ID
-let userID = '';
+
 
 // Listen for authentication state changes
 onAuthStateChanged(auth, async (user) => {
@@ -666,6 +669,10 @@ onAuthStateChanged(auth, async (user) => {
     console.log("No user signed in");
   }
 });
+
+
+});
+
 
 // Function to fetch user IP and location details
 async function getUserDetails() {

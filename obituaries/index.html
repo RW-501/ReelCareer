@@ -316,6 +316,11 @@ box-shadow: 0 4px 8px rgba(0, 123, 255, 0.4);
   getUserId // Export the function
     } from 'https://reelcareer.co/scripts/js/load/module.js';
 
+        
+        // Listen for authentication state changes to get the user ID
+let userID = '';
+        document.addEventListener('DOMContentLoaded', () => {
+
 // Sign in anonymously
 signInAnonymously(auth)
   .then(() => {
@@ -400,6 +405,9 @@ onAuthStateChanged(auth, async (user) => {
     console.log("No user signed in");
   }
 });
+
+});
+
 
 // script.js
 

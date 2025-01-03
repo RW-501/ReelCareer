@@ -213,8 +213,10 @@
   getUserId // Export the function
     } from 'https://reelcareer.co/scripts/js/load/module.js';
 
-
-let userID = '';
+    
+        // Listen for authentication state changes to get the user ID
+        let userID = '';
+        document.addEventListener('DOMContentLoaded', () => {
 
 // Sign in anonymously
 signInAnonymously(auth)
@@ -304,6 +306,8 @@ onAuthStateChanged(auth, async (user) => {
   }
 });
 
+});
+
         // Fetch user's IP address using an external service
         async function getUserIP() {
             try {
@@ -314,7 +318,7 @@ onAuthStateChanged(auth, async (user) => {
                 return 'Unknown IP';
             }
         }
-        
+
 // Function to fetch user IP and location details
 async function getUserDetails() {
   try {
