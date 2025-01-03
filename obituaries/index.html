@@ -412,7 +412,7 @@ async function loadUserObituaries(userID) {
                 `;
 
                 // Add event listeners for the buttons
-                card.querySelector(`#remove_${pageID}`).addEventListener("click", () => removePage(userID, pageID, pageName));
+                card.querySelector(`#remove_${pageID}`).addEventListener("click", () => removePage(userID, pageID, pageName, obituaryPageIDs));
                 card.querySelector(`#edit_${pageID}`).addEventListener("click", () => goToEditPage(pageID, pageName));
                 card.querySelector(`#analytics_${pageID}`).addEventListener("click", () => goToAnalyticsPage(pageID, pageName));
                 card.querySelector(`#view_${pageID}`).addEventListener("click", () => goToViewPage(pageID, pageName));
@@ -460,7 +460,7 @@ async function getUserDetails() {
       return null;
     }
   }
-  async function removePage(userID, pageID, pageName) {
+  async function removePage(userID, pageID, pageName, obituaryPageIDs) {
   try {
     // References to Firestore and Firebase Storage
     const userRef = doc(db, "Users", userID); // Reference to the user document
@@ -557,7 +557,22 @@ if (container) {
   // Wait for the transition to complete, then remove the element
   setTimeout(() => {
     container.remove();
-  }, 500); // Match the duration of the CSS transition
+
+
+
+    if (obituaryPageIDs.length === 1) {
+            // No obituaries found, add the "Create Obituary" button
+            const createButton = document.createElement("button");
+            createButton.textContent = "Create Obituary";
+            createButton.classList.add("create-obituary-button");
+            createButton.onclick = () => {
+                window.location.href = "https://reelcareer.co/obituaries/create";
+            };
+            container.appendChild(createButton);
+        } 
+
+
+  }, 200); // Match the duration of the CSS transition
 }
 
 
