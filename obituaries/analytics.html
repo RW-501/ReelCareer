@@ -163,69 +163,78 @@ main {
         }
 
         // Function to load analytics
-        async function loadAnalytics(pageID) {
-            const analyticsSection = document.getElementById("analytics-section");
+// Function to load analytics
+async function loadAnalytics(pageID) {
+    const analyticsSection = document.getElementById("analytics-section");
 
-            try {
-                const analyticsRef = collection(db, "A_Ob_Analytics"); // Reference to the collection
-    const q = query(analyticsRef, where("pageID", "==", pageID)); // Query where the pageID field matches the desired pageID
-    const docSnap = await getDocs(q); // Execute the query
+    try {
+        const analyticsRef = collection(db, "A_Ob_Analytics"); // Reference to the collection
+        const q = query(analyticsRef, where("pageID", "==", pageID)); // Query where the pageID field matches the desired pageID
+        const querySnapshot = await getDocs(q); // Execute the query
 
-                if (docSnap.exists()) {
-                    const data = docSnap.data();
+        if (!querySnapshot.empty) {
+            let analyticsData;
 
-                    analyticsSection.innerHTML = `
-                        <div class="analytics-card">
-                            <h2>Total Page Views</h2>
-                            <p>${data.totalPageViews || 0}</p>
-                        </div>
-                        <div class="analytics-card">
-                            <h2>Last Viewed</h2>
-                            <p>${new Date(data.lastPageViewed || "").toLocaleString() || "N/A"}</p>
-                        </div>
-                        <div class="analytics-card">
-                            <h2>Last Referral</h2>
-                            <p>${data.lastReferral || "Direct"}</p>
-                        </div>
-                        <div class="analytics-card">
-                            <h2>User Locations</h2>
-                            <p>City: ${data.lastCity || "Unknown"}</p>
-                            <p>State: ${data.lastState || "Unknown"}</p>
-                            <p>Country: ${data.lastCountry || "Unknown"}</p>
-                        </div>
-                        <div class="analytics-card">
-                            <h2>Page View Count by Title</h2>
-                            <ul>
-                                ${Object.entries(data.pageViewCount || {}).map(([title, count]) => `
-                                    <li>${title}: ${count}</li>
-                                `).join("")}
-                            </ul>
-                        </div>
-                    `;
-                } else {
-                    analyticsSection.innerHTML = `
-                        <h2>No analytics data found for this page.</h2>
-                    `;
-                }
-            } catch (error) {
-                console.error("Error loading analytics:", error);
-                analyticsSection.innerHTML = `
-                    <h2>Error loading analytics data. Please try again later.</h2>
-                `;
-            }
-        }
+            // Since the query is expected to return only one document (assuming pageID is unique), process the first document
+            querySnapshot.forEach((doc) => {
+                analyticsData = doc.data();
+            });
 
-        // Assuming `pageID` is passed as a query parameter
-        const urlParams = new URLSearchParams(window.location.search);
-        const pageID = urlParams.get("pageID");
-
-        if (pageID) {
-            loadAnalytics(pageID);
+            // Populate the analytics data into the HTML
+            analyticsSection.innerHTML = `
+                <div class="analytics-card">
+                    <h2>Total Page Views</h2>
+                    <p>${analyticsData.totalPageViews || 0}</p>
+                </div>
+                <div class="analytics-card">
+                    <h2>Last Viewed</h2>
+                    <p>${new Date(analyticsData.lastPageViewed || "").toLocaleString() || "N/A"}</p>
+                </div>
+                <div class="analytics-card">
+                    <h2>Last Referral</h2>
+                    <p>${analyticsData.lastReferral || "Direct"}</p>
+                </div>
+                <div class="analytics-card">
+                    <h2>User Locations</h2>
+                    <p>City: ${analyticsData.lastCity || "Unknown"}</p>
+                    <p>State: ${analyticsData.lastState || "Unknown"}</p>
+                    <p>Country: ${analyticsData.lastCountry || "Unknown"}</p>
+                </div>
+                <div class="analytics-card">
+                    <h2>Page View Count by Title</h2>
+                    <ul>
+                        ${Object.entries(analyticsData.pageViewCount || {}).map(([title, count]) => `
+                            <li>${title}: ${count}</li>
+                        `).join("")}
+                    </ul>
+                </div>
+            `;
         } else {
-            document.getElementById("analytics-section").innerHTML = `
-                <h2>Page ID is missing in the URL. Please provide a valid pageID.</h2>
+            // Handle case where no analytics data is found for the pageID
+            analyticsSection.innerHTML = `
+                <h2>No analytics data found for this page.</h2>
             `;
         }
+    } catch (error) {
+        console.error("Error loading analytics:", error);
+        analyticsSection.innerHTML = `
+            <h2>Error loading analytics data. Please try again later.</h2>
+        `;
+    }
+}
+
+// Assuming `pageID` is passed as a query parameter
+const urlParams = new URLSearchParams(window.location.search);
+const pageID = urlParams.get("pageID");
+
+if (pageID) {
+    loadAnalytics(pageID);
+} else {
+    document.getElementById("analytics-section").innerHTML = `
+        <h2>Page ID is missing in the URL. Please provide a valid pageID.</h2>
+    `;
+}
+
     </script>
 
 <script>
