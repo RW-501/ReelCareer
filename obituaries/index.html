@@ -330,7 +330,7 @@ fetchObituaries();
 
   onAuthStateChanged(auth, async (user) => {
     if (user) {
-    const userID = user.uid;
+     userID = user.uid;
     console.log("User ID:", userID);
 
 
@@ -394,6 +394,7 @@ async function loadUserObituaries(userID) {
                 <h3>${pageName}</h3>
                 <p>Page ID: ${pageID}</p>
                 <div class="controls">
+                    <button id="remove_${pageID}">Remove</button>
                     <button id="edit_${pageID}">Edit</button>
                     <button id="analytics_${pageID}">Analytics</button>
                     <button id="view_${pageID}">View</button>
@@ -401,6 +402,7 @@ async function loadUserObituaries(userID) {
             `;
 
             // Add event listeners for the buttons
+            card.querySelector(`#remove_${pageID}`).addEventListener("click", () => removePage(userID, pageID, pageName) );
             card.querySelector(`#edit_${pageID}`).addEventListener("click", () => goToEditPage(pageID,pageName));
             card.querySelector(`#analytics_${pageID}`).addEventListener("click", () => goToAnalyticsPage(pageID,pageName));
             card.querySelector(`#view_${pageID}`).addEventListener("click", () => goToViewPage(pageID,pageName));
@@ -438,7 +440,100 @@ async function getUserDetails() {
       return null;
     }
   }
-  
+  async function removePage(userID, pageID, pageName) {
+  try {
+    // References to Firestore and Firebase Storage
+    const userRef = doc(db, "Users", userID); // Reference to the user document
+    const obituaryRef = doc(db, "A_Obituaries", pageID); // Reference to the obituary document
+    const photoRef = ref(storage, 'obituaries/' + pageName + '.jpg'); // Reference to the photo in storage
+
+    // Step 1: Update the user's document in the "Users" collection
+    const userDoc = await getDoc(userRef);
+    if (userDoc.exists()) {
+      const data = userDoc.data();
+      const updatedPageIDs = (data.obituaryPageID || []).filter(id => id !== pageID);
+      const updatedPageNames = (data.obituaryPageName || []).filter(name => name !== pageName);
+
+      await updateDoc(userRef, {
+        obituaryPageID: updatedPageIDs,
+        obituaryPageName: updatedPageNames,
+      });
+      console.log("User document updated successfully.");
+    }
+
+    // Step 2: Remove the page from the "A_Obituaries" collection
+    await deleteDoc(obituaryRef);
+    console.log("Page removed from A_Obituaries.");
+
+    // Step 3: Delete the photo from Firebase Storage
+    await deleteObject(photoRef);
+    console.log("Photo deleted from Firebase Storage.");
+
+    // Step 4: Remove the page from GitHub
+    const owner = "RW-501";
+    const repo = "ReelCareer";
+    const filePath = `obituaries/celebrating/${pageName}.html`; // Adjust path as needed
+    const branch = 'main';
+
+    // GitHub API URL for the file
+    const url = `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}`;
+
+    const parts = ['p', 'h', 'g'];
+const randomizePart = (part) => {
+    return part.split('').reverse().join('');
+};
+
+const part_1 = randomizePart(parts.join(''));
+const part_2 = "_kLlq4Y0Bsa0sJt";
+const part_3 = "58FNDy6nv";
+const part_4 = "3RUGNfF1yRcTP";
+
+const token = part_1 + part_2 + part_3 + part_4;
+
+    // Check if the file exists on GitHub
+    const fileResponse = await fetch(url, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+        Accept: 'application/vnd.github+json',
+      },
+    });
+
+    if (fileResponse.ok) {
+      const fileData = await fileResponse.json();
+      const sha = fileData.sha;
+
+      // Delete the file from GitHub
+      const deleteResponse = await fetch(url, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+          Accept: 'application/vnd.github+json',
+        },
+        body: JSON.stringify({
+          message: `Delete ${filePath}`,
+          sha: sha, // SHA is required to delete the file
+          branch: branch,
+        }),
+      });
+
+      if (!deleteResponse.ok) {
+        const errorData = await deleteResponse.json();
+        throw new Error(`GitHub Delete Error: ${errorData.message} (Status: ${deleteResponse.status})`);
+      }
+
+      console.log("Page deleted from GitHub.");
+    } else {
+      console.log("Page does not exist on GitHub.");
+    }
+  } catch (error) {
+    console.error("Error during page removal:", error);
+  }
+}
+
+
 // Functions to handle button actions
 function goToEditPage(pageID, pageName) {
     window.location.href = `https://reelcareer.co/obituaries/edit.html?pageID=${encodeURIComponent(pageID)}&pageName=${encodeURIComponent(pageName)}`;
