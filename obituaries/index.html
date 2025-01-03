@@ -320,6 +320,8 @@ box-shadow: 0 4px 8px rgba(0, 123, 255, 0.4);
         // Listen for authentication state changes to get the user ID
 let userID = '';
         document.addEventListener('DOMContentLoaded', () => {
+// Call the fetch function when the page loads
+fetchObituaries();
 
 // Sign in anonymously
 signInAnonymously(auth)
@@ -558,8 +560,6 @@ function renderObituaries(obituaries) {
 }
 
 
-// Call the fetch function when the page loads
-fetchObituaries();
 
 
     </script>
