@@ -122,15 +122,6 @@ loadScript('https://reelcareer.co/obituaries/setup/interactions.js', { async: tr
     logExecutionTime('interactions', performance.now());
 });
 
-loadScript('https://reelcareer.co/obituaries/setup/footer.js', { defer: true }, () => {
-    logExecutionTime('footer', performance.now());
-});
-
-
-
-loadScript('https://reelcareer.co/obituaries/setup/analytics.js', { defer: true, type: 'module' }, () => {
-    logExecutionTime('analytics', performance.now());
-});
 
 loadScript('https://reelcareer.co/obituaries/setup/share.js', { defer: true }, () => {
     logExecutionTime('share', performance.now());
@@ -140,6 +131,18 @@ loadScript('https://reelcareer.co/obituaries/setup/scripts.js', { defer: true, t
     logExecutionTime('scripts', performance.now());
 });
 
+});
+
+
+
+loadScript('https://reelcareer.co/obituaries/setup/footer.js', { defer: true }, () => {
+    logExecutionTime('footer', performance.now());
+});
+
+
+
+loadScript('https://reelcareer.co/obituaries/setup/analytics.js', { defer: true, type: 'module' }, () => {
+    logExecutionTime('analytics', performance.now());
 });
 
 }
