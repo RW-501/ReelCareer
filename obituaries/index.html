@@ -368,56 +368,76 @@ function showAdmin() {
     container.appendChild(newButton);
 }
 
-  
 async function loadUserObituaries(userID) {
     const userRef = doc(db, "Users", userID);
     const userDoc = await getDoc(userRef);
+
+    const container = document.getElementById("info-section");
+    container.innerHTML = ""; // Clear previous content
 
     if (userDoc.exists()) {
         const data = userDoc.data();
         const obituaryPageIDs = data.obituaryPageID || [];
         const obituaryPageNames = data.obituaryPageName || [];
-        const memberType = data.memberType || [];
+        const memberType = data.memberType || "";
 
-        const container = document.getElementById("info-section");
-        container.innerHTML = ""; // Clear previous content
+        if (obituaryPageIDs.length === 0) {
+            // No obituaries found, add the "Create Obituary" button
+            const createButton = document.createElement("button");
+            createButton.textContent = "Create Obituary";
+            createButton.classList.add("create-obituary-button");
+            createButton.onclick = () => {
+                window.location.href = "https://reelcareer.co/obituaries/create";
+            };
+            container.appendChild(createButton);
+        } else {
+            // Loop through obituaries and create a card for each
+            for (let i = 0; i < obituaryPageIDs.length; i++) {
+                const pageID = obituaryPageIDs[i];
+                const pageName = obituaryPageNames[i];
 
-        // Loop through obituaries and create a card for each
-        for (let i = 0; i < obituaryPageIDs.length; i++) {
-            const pageID = obituaryPageIDs[i];
-            const pageName = obituaryPageNames[i];
+                const card = document.createElement("div");
+                card.classList.add("user-obituary-card");
+                card.id = `user-obituary-card-${pageID}`;
 
-            const card = document.createElement("div");
-            card.classList.add("user-obituary-card");
+                card.innerHTML = `
+                    <h3>${pageName}</h3>
+                    <p>Page ID: ${pageID}</p>
+                    <div class="controls">
+                        <button id="remove_${pageID}">Remove</button>
+                        <button id="edit_${pageID}">Edit</button>
+                        <button id="analytics_${pageID}">Analytics</button>
+                        <button id="view_${pageID}">View</button>
+                    </div>
+                `;
 
-            card.innerHTML = `
-                <h3>${pageName}</h3>
-                <p>Page ID: ${pageID}</p>
-                <div class="controls">
-                    <button id="remove_${pageID}">Remove</button>
-                    <button id="edit_${pageID}">Edit</button>
-                    <button id="analytics_${pageID}">Analytics</button>
-                    <button id="view_${pageID}">View</button>
-                </div>
-            `;
+                // Add event listeners for the buttons
+                card.querySelector(`#remove_${pageID}`).addEventListener("click", () => removePage(userID, pageID, pageName));
+                card.querySelector(`#edit_${pageID}`).addEventListener("click", () => goToEditPage(pageID, pageName));
+                card.querySelector(`#analytics_${pageID}`).addEventListener("click", () => goToAnalyticsPage(pageID, pageName));
+                card.querySelector(`#view_${pageID}`).addEventListener("click", () => goToViewPage(pageID, pageName));
 
-            // Add event listeners for the buttons
-            card.querySelector(`#remove_${pageID}`).addEventListener("click", () => removePage(userID, pageID, pageName) );
-            card.querySelector(`#edit_${pageID}`).addEventListener("click", () => goToEditPage(pageID,pageName));
-            card.querySelector(`#analytics_${pageID}`).addEventListener("click", () => goToAnalyticsPage(pageID,pageName));
-            card.querySelector(`#view_${pageID}`).addEventListener("click", () => goToViewPage(pageID,pageName));
-
-            container.appendChild(card);
+                container.appendChild(card);
+            }
         }
 
-        if(memberType == "admin"){
+        // Additional admin logic
+        if (memberType === "admin") {
             showAdmin();
         }
-
     } else {
-        console.log("No obituary data found for the user.");
+        console.log("No user document found.");
+        // If no user document exists, also show the "Create Obituary" button
+        const createButton = document.createElement("button");
+        createButton.textContent = "Create Obituary";
+        createButton.classList.add("create-obituary-button");
+        createButton.onclick = () => {
+            window.location.href = "https://reelcareer.co/obituaries/create";
+        };
+        container.appendChild(createButton);
     }
 }
+
 // Function to fetch user IP and location details
 async function getUserDetails() {
     try {
@@ -526,9 +546,25 @@ const token = part_1 + part_2 + part_3 + part_4;
       }
 
       console.log("Page deleted from GitHub.");
+      const cardID = `user-obituary-card-${pageID}`;
+const container = document.getElementById(cardID);
+
+if (container) {
+  // Add a fade-out class
+  container.style.transition = "opacity 0.5s ease";
+  container.style.opacity = "0";
+
+  // Wait for the transition to complete, then remove the element
+  setTimeout(() => {
+    container.remove();
+  }, 500); // Match the duration of the CSS transition
+}
+
+
     } else {
       console.log("Page does not exist on GitHub.");
     }
+
   } catch (error) {
     console.error("Error during page removal:", error);
   }
