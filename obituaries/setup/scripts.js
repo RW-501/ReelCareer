@@ -44,6 +44,7 @@ onAuthStateChanged(auth, async (user) => {
 
 // Assuming pageID is set somewhere on the page (like an element with ID "pageID")
 const pageID = document.getElementById('pageID').innerText;
+const pageName = document.getElementById('pageName').innerText;
 
 
 console.log('pageID:', pageID);
