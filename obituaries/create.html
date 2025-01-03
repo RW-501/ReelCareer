@@ -628,6 +628,9 @@ let originalImageUrl = ''; // To store the original image URL
 
 // Function to update image styles using canvas
 function updateImageStylesAndCreateCanvas() {
+    mainPhoto.style.display = 'none';
+
+    
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
 
