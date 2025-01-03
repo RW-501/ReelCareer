@@ -1599,14 +1599,9 @@ document.getElementById('preview-button').addEventListener('click', function () 
             imagePreview.onload = function() {
                 // Now we can apply transformations on the image once it's loaded
                 const canvas = updateImageStylesAndCreateCanvas(imagePreview);
-                console.log("canvas:", canvas);
-
-                // Add a small timeout to ensure transformations are applied before converting to data URL
-            //    setTimeout(() => {
                     const dataURL = canvas.toDataURL();
                     // Set the transformed image as the source of the correct <img> element (previewMainPhoto)
                     document.getElementById('previewMainPhoto').src = dataURL;
-              //  }, 700);  // Timeout for 700ms to ensure the canvas is rendered
             };
         };
         reader.readAsDataURL(mainPhoto);  // Load the image file
