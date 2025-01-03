@@ -40,9 +40,6 @@ onAuthStateChanged(auth, async (user) => {
 
   }
 });
-});
-
-
 
 // Assuming pageID is set somewhere on the page (like an element with ID "pageID")
 const page = document.getElementById('pageID');
@@ -51,6 +48,12 @@ if(page){
  pageID = page.innerText;
 
 }
+
+});
+
+
+
+
 // Utility variables
 let viewStartTime;
 let locationData;
@@ -201,11 +204,11 @@ async function trackAnalytics() {
   }
 }
 
+startViewTimer();  // Start view timer as soon as the page loads
+setInternalPageSource();  // Set the current page as the last internal page
 
 // Start tracking view time as soon as the page loads
-window.addEventListener("load", () => {
-  startViewTimer();  // Start view timer as soon as the page loads
-  setInternalPageSource();  // Set the current page as the last internal page
+document.addEventListener('DOMContentLoaded', () => {
 
   trackAnalytics();  // Start tracking analytics after the page has loaded
 });
