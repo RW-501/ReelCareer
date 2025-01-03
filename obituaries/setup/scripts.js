@@ -63,6 +63,7 @@ function sanitizeInput(input) {
   return div.innerHTML;
 }
 
+document.addEventListener('DOMContentLoaded', () => {
 
 // Reference the Firestore database
 const form = document.getElementById("guestbookForm");
@@ -97,7 +98,8 @@ const entriesDiv = document.getElementById("guestbookEntries");
   });
   
 
-
+});
+  
 
 // Function to load guestbook entries
 async function loadEntries() {
