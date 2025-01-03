@@ -28,7 +28,7 @@
 
 let userID = '';
 
-//document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {
 
 // Handle user authentication state change
 onAuthStateChanged(auth, async (user) => {
@@ -40,7 +40,7 @@ onAuthStateChanged(auth, async (user) => {
   }
 });
 
-// });
+ });
 
 // Assuming pageID is set somewhere on the page (like an element with ID "pageID")
 const pageID = document.getElementById('pageID').innerText;
