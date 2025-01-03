@@ -911,7 +911,7 @@ if (bestMatch && highestScore > 0) {
 let brainScriptLoaded = false;
 
 // Function to dynamically load an external JavaScript file as a module
-function loadScript(src, callback) {
+function loadBotScript(src, callback) {
   const script = document.createElement('script');
   script.src = src;
   script.type = 'module'; // Set as ES Module
@@ -951,14 +951,14 @@ function loadScript(src, callback) {
 
 // Function to load brain.js and execute functionality after it is loaded
 function loadBrainAndCallFunction() {
-  loadScript('https://reelcareer.co/bot/js/brain.js', function() {
+  loadBotScript('https://reelcareer.co/bot/js/brain.js', function() {
     console.log('Brain module loaded successfully.');
   });
 }
 
 
 async function loadJsonData(url) {
-  loadScript(url, function() {
+  loadBotScript(url, function() {
     console.log('JSON loaded successfully.');
   });
   
