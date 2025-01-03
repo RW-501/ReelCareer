@@ -503,8 +503,6 @@ document.getElementById('category').addEventListener('change', function() {
 
 
 
-let originalHTML = '';  // Store the original HTML content
-let newHTML = '';  // Store the modified HTML content
 
 const viewObituary = document.getElementById('viewObituary');
 const changeLayoutBtn = document.getElementById('changeLayoutBtn');
@@ -518,6 +516,10 @@ let currentMode = 'layout';  // Current mode (either 'layout' or 'text')
 // Function to fetch the obituary HTML from GitHub
 async function fetchObituary(pageName) {
   const messageDiv = document.getElementById('messageDiv');
+
+
+  let originalHTML = '';  // Store the original HTML content
+let newHTML = '';  // Store the modified HTML content
 
     if (!pageName) {
         console.log("Please select an obituary.");
