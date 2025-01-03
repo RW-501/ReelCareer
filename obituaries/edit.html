@@ -236,6 +236,7 @@
     // Extract pageName from URL query parameters
     const urlParams = new URLSearchParams(window.location.search);
     const pageName = urlParams.get("pageName");
+    console.log("pageName:", pageName);
 
     if (pageName) {
       // Fetch obituary data if pageName exists

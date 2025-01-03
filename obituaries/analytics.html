@@ -226,6 +226,7 @@ async function loadAnalytics(pageID) {
 // Assuming `pageID` is passed as a query parameter
 const urlParams = new URLSearchParams(window.location.search);
 const pageID = urlParams.get("pageID");
+console.log("pageID:", pageID);
 
 if (pageID) {
     loadAnalytics(pageID);
