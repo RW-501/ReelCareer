@@ -321,6 +321,9 @@ function updateImageStylesAndCreateCanvas() {
     return canvas;
 }
 
+
+if(fileInput){
+
 // Handle file selection and display image preview
 fileInput.addEventListener('change', function(event) {
     const file = event.target.files[0];
@@ -332,6 +335,8 @@ fileInput.addEventListener('change', function(event) {
         imagePreviewContainer.style.display = 'block'; // Show the image preview container
     }
 });
+
+}
 
 
 
