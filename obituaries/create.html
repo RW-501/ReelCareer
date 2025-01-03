@@ -1029,7 +1029,7 @@ setTimeout(() => {
 onAuthStateChanged(auth, async (user) => {
     if (user) {
      userID = user.uid;
-    console.log("User ID:", userID);
+    console.log("User ID onAuthStateChanged:", userID);
 
     // Check if user is signed in anonymously
     if (user.isAnonymous) {
