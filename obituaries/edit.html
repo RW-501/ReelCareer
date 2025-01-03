@@ -597,6 +597,7 @@ async function loadUserObituaries(userID) {
     }
 }
 
+document.addEventListener('DOMContentLoaded', () => {
 
 // Function to get the selected value and call fetchObituary with it
 function getSelectedObituary() {
@@ -613,6 +614,9 @@ function getSelectedObituary() {
 }
 
 window.getSelectedObituary = getSelectedObituary;
+
+});
+
 
 // Change Layout Mode
 changeLayoutBtn.addEventListener('click', () => {
