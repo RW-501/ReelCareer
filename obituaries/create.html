@@ -1529,7 +1529,6 @@ document.getElementById('preview-button').addEventListener('click', function () 
     const video = document.getElementById('video').value;
     const socialLinks = document.getElementById('socialLinks').value;
 
-    const canvas = updateImageStylesAndCreateCanvas();
 
  
 
@@ -1554,7 +1553,7 @@ validHashTag = validHashTag.replace(/\s+/g, ''); // Remove spaces
     <main>
         <div class="container">
             <div id="mainPhoto-area" class="changeable-area">
-                ${mainPhoto ? `<img id="mainPhoto" src="${mainPhoto}" alt="${name}" style="max-width: 300px; max-height: 300px; margin-top: 10px;">` : '<div>Missing Main Photo</div>'}
+                    ${mainPhoto ? `<img id="mainPhoto" src="" alt="${name}" style="max-width: 300px; max-height: 300px; margin-top: 10px;">` : '<div>Missing Main Photo</div>'}
             </div>
             <div id="celebrating-life-header" class="changeable-area">Celebrating the Life of</div> 
             <div id="name-header" class="changeable-area">${name}</div>
@@ -1587,9 +1586,14 @@ validHashTag = validHashTag.replace(/\s+/g, ''); // Remove spaces
     previewContainer.innerHTML = previewContent;
 
     // Set the main photo if available
+    // Set the main photo if available
     if (mainPhoto) {
-            document.getElementById('mainPhoto').src = canvas.toDataURL(); // Update the image with the transformed canvas
-            
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const canvas = updateImageStylesAndCreateCanvas();  // Apply transformations on the canvas
+            document.getElementById('mainPhoto').src = canvas.toDataURL();  // Update the image with the transformed canvas
+        };
+        reader.readAsDataURL(mainPhoto);
     }
 
     // Show the preview modal
