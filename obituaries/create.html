@@ -1169,14 +1169,31 @@ onAuthStateChanged(auth, async (user) => {
 
 // Create obituary page and show preview
 createPage(obituary, pageID);
-document.getElementById('previewContent').innerHTML = obituaryPageContent;
-document.getElementById('previewModal').style.display = "block";
+
+
+
 
 // Display video preview
-const videoPreview = document.getElementById("videoPreview");
+const videoPreview = document.getElementById("media-section");
+//const videoPreview = document.getElementById("videoPreview");
 displayVideoPreview(videoURL, videoPreview);
 
+ // Social media sharing buttons
+ const shareButtons = `
+            <div>
+                <p>Share this obituary:</p>
+                <button onclick="shareOnFacebook('${pageName}')">Share on Facebook</button>
+                <button onclick="shareOnTwitter('${pageName}')">Share on Twitter</button>
+            </div>
+        `;
 
+
+        const div = document.createElement('div');
+div.innerHTML = shareButtons;
+document.getElementById('previewContent').appendChild(div);
+
+// Simulate the preview button click
+document.getElementById('preview-button').click();
 
         } catch (error) {
             console.error("Error saving obituary:", error);
@@ -1199,7 +1216,7 @@ displayVideoPreview(videoURL, videoPreview);
         let socialLinkName = document.getElementById('socialLinkName').value.trim();
         let hashTag = document.getElementById('hashTag').value.trim();
         let validHashTag = hashTag.startsWith("#") ? hashTag : `#${hashTag}`;
-validHashTag = validHashTag.replace(/\s+/g, ''); // Remove spaces
+        validHashTag = validHashTag.replace(/\s+/g, ''); // Remove spaces
 
         
         // Sanitize inputs
@@ -1271,38 +1288,7 @@ const searchableLocation = location.split(/\s+/); // Split by spaces
     console.log( "obituary:", obituary);
 
     saveObituary(obituary);
-        // Social media sharing buttons
-        const shareButtons = `
-            <div>
-                <p>Share this obituary:</p>
-                <button onclick="shareOnFacebook('${pageName}')">Share on Facebook</button>
-                <button onclick="shareOnTwitter('${pageName}')">Share on Twitter</button>
-            </div>
-        `;
-
-        // Create HTML content for the obituary
-        const obituaryPageContent = `
-            <html>
-                <head>
-                    <title>${name} Obituary</title>
-                </head>
-                <body>
-                    <div id="messageDiv"></div>
-                    <h1>${name}</h1>
-                    <p>Sunrise: ${formattedSunrise}</p>
-                    <p>Sunset: ${formattedSunset}</p>
-                    <p>${about}</p>
-                    <p>Services will be held: ${location}</p>
-                    <p>Category: ${category}</p>
-                    <img src="${mainPhotoUrl}" alt="Main Photo">
-                    ${videoURL ? `<p>Video: <div id="videoPreview"></div>` : ""}
-                    <p>${socialLinkName}: <a href="${socialLinks}">${socialLinks}</a></p>
-                    ${shareButtons}
-                </body>
-            </html>
-        `;
-
-
+       
     } catch (error) {
         console.error("Error creating obituary:", error);
         alert('There was an error creating the obituary. Please try again.');
@@ -1527,9 +1513,8 @@ const token = part_1 + part_2 + part_3 + part_4;
     }
 }
 
-        // The Preview Button
 document.getElementById('preview-button').addEventListener('click', function () {
-    // Get the input values (use your variables accordingly)
+    // Get the input values
     const name = document.getElementById('name').value;
     const sunrise = document.getElementById('sunrise').value;
     const sunset = document.getElementById('sunset').value;
@@ -1541,59 +1526,69 @@ document.getElementById('preview-button').addEventListener('click', function () 
     const socialLinks = document.getElementById('socialLinks').value;
     const mainPhoto = document.getElementById('mainPhoto').files[0]; // File input for main photo
     const socialLinkName = document.getElementById('socialLinkName').value;
+    let validHashTag = hashTag.startsWith("#") ? hashTag : `#${hashTag}`;
+validHashTag = validHashTag.replace(/\s+/g, ''); // Remove spaces
 
     // Sanitize the input
     const sanitizedPageName = pageName.replace(/[^a-zA-Z0-9-_]/g, '');
 
     const formattedSunrise = formatDate(sunrise);
     const formattedSunset = formatDate(sunset);
-    // Prepare the preview content
+
+    // Start building the preview layout
     let previewContent = `
-        <h3>${name}</h3>
-        <div class='preview-dates'><div><strong>Sunrise:</strong> ${formattedSunrise}</div>
-        <div><strong>Sunset:</strong> ${formattedSunset}</div></div>
-`;
+    <header>
+        <div id="celebrating-header" class="changeable-text">Celebrating ${name}'s Journey</div>
+        <div id="life-transformation" class="changeable-text">A life of transformation and growth</div>
+    </header>
+    <main>
+        <div class="container">
+            <div id="mainPhoto-area" class="changeable-area">
+                ${mainPhoto ? `<img id="mainPhoto" src="" alt="${name}" style="max-width: 300px; max-height: 300px; margin-top: 10px;">` : '<div>Missing Main Photo</div>'}
+            </div>
+            <div id="celebrating-life-header" class="changeable-area">Celebrating the Life of</div> 
+            <div id="name-header" class="changeable-area">${name}</div>
+            <div id="horizontal-rule" class="changeable-area"><hr></div>
+            <div id="journey-description" class="changeable-area changeable-text">Born in ${formattedSunrise}, ${name}'s journey inspires growth and transformation. Embrace this new beginning together.</div>
+            <div id="info-section" class="changeable-area">
+                <div id="event-details-header" class="changeable-text">Event Details</div>
+                <div id="event-date" class="changeable-text"><strong>Date:</strong> ${formattedSunset}</div>
+                <div id="event-location" class="changeable-text"><strong>Services will be held:</strong> ${location}</div>
+                <div id="thoughts-share" class="changeable-text">Share your thoughts using</div>
+                <div id="hashTag" class="changeable-text">${validHashTag}</div>
+                <div id="social-link" class="changeable-text">${socialLinks ? `<a href="${socialLinks}" target="_blank">${socialLinks}</a>` : 'Missing Social Link'}</div>
+            </div>
+            <div id="media-section" class="changeable-area">
+                ${video ? `<video src="${video}" controls style="max-width: 300px; max-height: 300px;"></video>` : '<div>Missing Video</div>'}
+            </div>
+            <div id="obituary-section">
+                <div id="about-obituary" class="changeable-text">${about}</div>
+            </div>
+            <div id="dynamic-shareArea" class="changeable-area container"><div>Dynamic Share Area Placeholder</div></div>
+            <div id="dynamic-interaction-area" class="changeable-area"><div>Dynamic Interaction Area Placeholder</div></div>
+        </div>
+    </main>
+    <div id="dynamic-footer" class="nonChangeable">Dynamic Footer Placeholder</div>
+    <div id="pageID" class="nonChangeable">https://reelcareer.co/obituaries/celebrating/${sanitizedPageName}</div>
+    `;
 
-    // Add the video if provided
-    if (video) {
-        let mediaContent = document.getElementById('mediaContent');
-          displayVideoPreview(video, mediaContent);
-        
-   
-    }
+    // Show the preview content
+    const previewContainer = document.getElementById('previewContent');
+    previewContainer.innerHTML = previewContent;
 
-
-
-    // Display the photo (if provided)
+    // Set the main photo if available
     if (mainPhoto) {
         const reader = new FileReader();
         reader.onload = function (e) {
-            previewContent += `<img class="preview-pic" src="${e.target.result}" alt="Main Photo" style="max-width: 300px; max-height: 300px; margin-top: 10px;">`;
-           document.getElementById('previewContent').innerHTML = previewContent;
+            document.getElementById('mainPhoto').src = e.target.result;
         };
         reader.readAsDataURL(mainPhoto);
-    } 
-    
-    previewContent += `
-    <div class='preview-info'>
-        <p><strong>Services will be held:</strong> ${location}</p>
-        <p><strong>Category:</strong> ${category}</p>
-        <p><strong>URL:</strong> https://reelcareer.co/obituaries/celebrating/${sanitizedPageName}</p>
-        </div>
-
-        <div class='preview-about'><strong>About:</strong> ${about}</div>
-    `;
-    // Add the social media links if provided
-    if (socialLinks) {
-        previewContent += `<p><strong>${socialLinkName}:</strong> <a href="${socialLinks}" target="_blank">${socialLinks}</a></p>`;
     }
-    
-        document.getElementById('previewContent').innerHTML = previewContent;
-    
 
     // Show the preview modal
     document.getElementById('previewModal').style.display = "block";
 });
+
 
 // Close the modal when the close button is clicked
 document.getElementById('closePreviewButton').addEventListener('click', function () {
