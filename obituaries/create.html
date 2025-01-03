@@ -530,7 +530,7 @@ main {
         <span class="close">&times;</span>
         <h2>Obituary Preview</h2>
         <div id="previewContent"></div>
-        <div id="mediaContent"></div>
+        <div id="actionButtons"></div>
         <button id="closePreviewButton">Close Preview</button>
     </div>
 </div>
@@ -1200,7 +1200,7 @@ displayVideoPreview(videoURL, videoPreview);
 
         const div = document.createElement('div');
 div.innerHTML = shareButtons;
-document.getElementById('previewContent').appendChild(div);
+document.getElementById('actionButtons').appendChild(div);
 
 // Simulate the preview button click
 document.getElementById('preview-button').click();
