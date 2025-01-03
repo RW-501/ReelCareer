@@ -1585,8 +1585,6 @@ document.getElementById('preview-button').addEventListener('click', function () 
     const previewContainer = document.getElementById('previewContent');
     previewContainer.innerHTML = previewContent;
 
-    console.log("mainPhoto:", mainPhoto);
-
     if (mainPhoto) {
         const reader = new FileReader();
         reader.onload = function(e) {
