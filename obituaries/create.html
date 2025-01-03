@@ -392,7 +392,20 @@ main {
                     <input type="date" id="sunset" name="sunset" required aria-required="true" aria-describedby="sunsetHint">
                 </div>
             </div>
+                    
 
+            <div class="inputArea">
+                <label for="hashTag" aria-label="Enter related hashtags for the event (e.g., #Memorial, #CelebrationOfLife)">Event Hashtags (e.g., #Memorial, #CelebrationOfLife)</label>
+                <p id="hashTagHint" class="visually-hidden">Please enter hashtags related to the event, separated by spaces or commas.</p>
+                <input 
+                  type="text" 
+                  id="hashTag" 
+                  name="hashTag" 
+                  placeholder="Enter hashtags related to the event (e.g., #Memorial, #CelebrationOfLife)" 
+                  aria-describedby="hashTagHint" 
+                >
+              </div>
+              
                 <div class="inputArea">
                     <label for="location" aria-label="Enter where services will be held (e.g., Virtual Event, Venue)">Event Location (e.g., Virtual Event, Directions, or Venue)</label>
                     <p id="locationHint" class="visually-hidden">Please where services will be held or additional details like Zoom link, address, etc.</p>
@@ -429,7 +442,7 @@ main {
                         <input type="text" id="otherCategory" name="otherCategory" placeholder="Specify other category" aria-describedby="otherCategoryHint">
                     </div>
                 </div>
-                    
+                                      
                 <div class="inputArea">
                     <label for="about" aria-label="Write a short biography or summary about the person">About the Person</label>
                     <p id="aboutHint" class="visually-hidden">Please provide a brief biography or summary of the person's life.</p>
@@ -442,21 +455,20 @@ main {
                         </select>
                     </div>
                 </div>
-                    
-
-                <div class="inputArea">
-                    <label for="hashTag" aria-label="Enter related hashtags for the event (e.g., #Memorial, #CelebrationOfLife)">Event Hashtags (e.g., #Memorial, #CelebrationOfLife)</label>
-                    <p id="hashTagHint" class="visually-hidden">Please enter hashtags related to the event, separated by spaces or commas.</p>
-                    <input 
-                      type="text" 
-                      id="hashTag" 
-                      name="hashTag" 
-                      placeholder="Enter hashtags related to the event (e.g., #Memorial, #CelebrationOfLife)" 
-                      aria-describedby="hashTagHint" 
-                    >
-                  </div>
                   
                 <div class="inputArea">
+                    <label for="about" aria-label="Write a short biography or summary about the person">About the Person</label>
+                    <p id="aboutHint" class="visually-hidden">Please provide a brief biography or summary of the person's life.</p>
+                    <textarea id="about" name="about" placeholder="Write a short biography or summary about the person" required aria-required="true" aria-describedby="aboutHint"></textarea>
+                
+                    <div id="suggestionBox" style="margin-top: 20px;">
+                        <label for="suggestions" aria-label="Select a suggested 'About' text">Suggested "About" Text</label>
+                        <select id="suggestions">
+                            <option value="" disabled selected>Select a suggestion</option>
+                        </select>
+                    </div>
+                </div>
+
                     <label for="pageName" aria-label="Enter obituary page URL">URL (Obituary Page URL)</label>
                     <p id="urlHint" class="visually-hidden">Format: /celebrating/[your-url]. The URL should only contain letters, numbers, hyphens, and underscores.</p>
                     <input type="text" id="pageName" name="url" placeholder="Choose a URL (e.g., john-doe)" required aria-required="true" aria-describedby="urlHint">
