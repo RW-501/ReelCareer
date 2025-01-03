@@ -39,6 +39,9 @@ let storage;
 let analytics;
 let userId;
 let batch;
+document.addEventListener('DOMContentLoaded', () => {
+  initializeFirebase(); // Initialize Firebase only after the DOM is ready
+});
 
 function initializeFirebase() {
   const firebaseConfig = {
@@ -132,10 +135,7 @@ async function getUserId() {
     });
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  initializeFirebase();
- 
-});
+
 
 // Initialize Google and Facebook Auth Providers
 const googleProvider = new GoogleAuthProvider();
