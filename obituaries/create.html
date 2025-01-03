@@ -1107,9 +1107,9 @@ onAuthStateChanged(auth, async (user) => {
 });
 
 
-});
+}); 
 
-        
+   let pageID = '';  
 
 /**
  * Updates the user's profile with a new obituary page ID and name.
@@ -1252,7 +1252,7 @@ document.getElementById('preview-button').click();
     const canvasBlob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg'));
 
     // Now upload the modified image to Firebase Storage
-    const photoRef = ref(storage, 'obituaries/' + Date.now() + '.jpg'); // Use a unique name (e.g., timestamp)
+    const photoRef = ref(storage, 'obituaries/' + pageName + '.jpg'); // Use a unique name (e.g., timestamp)
     await uploadBytes(photoRef, canvasBlob);
      mainPhotoUrl = await getDownloadURL(photoRef);
 
@@ -1292,7 +1292,6 @@ const searchableLocation = location.split(/\s+/); // Split by spaces
             paymentDetails: details, // Payment details passed as an argument
         };
 
-        let pageID = '';
 
     console.log( "obituary:", obituary);
 
