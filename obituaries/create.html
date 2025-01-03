@@ -1594,20 +1594,23 @@ validHashTag = validHashTag.replace(/\s+/g, ''); // Remove spaces
     // Set the main photo if available
     console.log( "mainPhoto:", mainPhoto);
     if (mainPhoto) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            const canvas = updateImageStylesAndCreateCanvas();  // Apply transformations on the canvas
-            console.log( "canvas:", canvas);
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const imagePreview = new Image();
+        imagePreview.src = e.target.result;  // This sets the image source to the FileReader result (image data)
 
-               // Convert canvas to Blob
-   // const canvasBlob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg'));
+        imagePreview.onload = function() {
+            // Now we can apply transformations on the image once it's loaded
+            const canvas = updateImageStylesAndCreateCanvas(imagePreview);
+            console.log("canvas.toDataURL():", canvas.toDataURL());
 
-   console.log( "canvas.toDataURL():", canvas.toDataURL());
-
-            document.getElementById('mainPhoto').src = canvas.toDataURL();  // Update the image with the transformed canvas
+            // Convert the canvas to a data URL and set it as the image source
+            document.getElementById('mainPhoto').src = canvas.toDataURL();
         };
-        reader.readAsDataURL(mainPhoto);
-    }
+    };
+    reader.readAsDataURL(mainPhoto);  // Load the image file
+}
+
 
     // Show the preview modal
     document.getElementById('previewModal').style.display = "block";
