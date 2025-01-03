@@ -612,7 +612,7 @@ async function getUserDetails() {
   }
 }
 const fileInput = document.getElementById('mainPhoto');
-const imagePreview = document.getElementById('imagePreview');
+let imagePreview = document.getElementById('imagePreview');
 const imagePreviewContainer = document.getElementById('imagePreviewContainer');
 const toggleBnwButton = document.getElementById('toggleBnw');
 const rotateButton = document.getElementById('rotateImage');
@@ -629,7 +629,7 @@ let originalImageUrl = ''; // To store the original image URL
 // Function to update image styles using canvas
 function updateImageStylesAndCreateCanvas() {
 
-    
+    imagePreview = document.getElementById('imagePreview');
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
 
