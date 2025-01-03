@@ -68,7 +68,7 @@ function initializeFirebase() {
 // Function to get the current user ID
 
 async function getUserId() {
-    const auth = getAuth();
+     auth = getAuth();
     return new Promise((resolve, reject) => {
         const unsubscribe = auth.onAuthStateChanged(user => {
             unsubscribe(); // Cleanup listener
