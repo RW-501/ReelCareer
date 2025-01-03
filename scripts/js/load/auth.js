@@ -38,9 +38,12 @@ async function logoutUser() {
   
   window.logoutUser = logoutUser;
   
+  document.addEventListener('DOMContentLoaded', () => {
+
   // Event listener to handle login forms, popups, and more...
   document.getElementById("logoutButton")?.addEventListener("click", logoutUser);
     
+  });
   
   
   // Show loading spinner
