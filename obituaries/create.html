@@ -1632,6 +1632,7 @@ document.getElementById("obituaryForm").addEventListener("input", function(e) {
         sunrise: document.getElementById("sunrise").value,
         sunset: document.getElementById("sunset").value,
         about: document.getElementById("about").value,
+        hashTag: document.getElementById("hashTag").value,
         location: document.getElementById("location").value,
         category: document.getElementById("category").value,
         otherCategory: document.getElementById("otherCategory").value,
@@ -1656,6 +1657,7 @@ window.addEventListener("load", function() {
         document.getElementById("sunset").value = savedData.sunset || "";
         document.getElementById("about").value = savedData.about || "";
         document.getElementById("location").value = savedData.location || "";
+        document.getElementById("hashTag").value = savedData.hashTag || "";
         document.getElementById("category").value = savedData.category || "";
         document.getElementById("otherCategory").value = savedData.otherCategory || "";
         document.getElementById("pageName").value = savedData.pageName || "";
@@ -1663,7 +1665,7 @@ window.addEventListener("load", function() {
         document.getElementById("socialLinks").value = savedData.socialLinks || "";
         document.getElementById("socialLinkName").value = savedData.socialLinkName || "";
         
-
+        
         
     }
 });
