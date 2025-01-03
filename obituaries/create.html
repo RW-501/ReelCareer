@@ -302,7 +302,9 @@ main {
     
     }
 
-
+    .flex {
+        display: flex;
+    }
      
 }    
     </style>
@@ -1190,17 +1192,15 @@ displayVideoPreview(videoURL, videoPreview);
 
  // Social media sharing buttons
  const shareButtons = `
-            <div>
                 <p>Share this obituary:</p>
+            <div class="flex">
                 <button onclick="shareOnFacebook('${pageName}')">Share on Facebook</button>
                 <button onclick="shareOnTwitter('${pageName}')">Share on Twitter</button>
             </div>
         `;
 
 
-        const div = document.createElement('div');
-div.innerHTML = shareButtons;
-document.getElementById('actionButtons').appendChild(div);
+document.getElementById('actionButtons').innerHTML = shareButtons;
 
 // Simulate the preview button click
 document.getElementById('preview-button').click();
@@ -1605,6 +1605,18 @@ document.getElementById('preview-button').addEventListener('click', function () 
         };
         reader.readAsDataURL(mainPhoto);  // Load the image file
     }
+        // Social Media Sharing Functions
+        function shareOnFacebook(pageName) {
+            const shareUrl = `https://reelcareer.co/obituaries/celebrating/${pageName}`;
+            window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`, '_blank');
+        }
+
+        function shareOnTwitter(pageName) {
+            const shareUrl = `https://reelcareer.co/obituaries/celebrating/${pageName}`;
+            window.open(`https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}`, '_blank');
+        }
+
+
 
     // Show the preview modal
     document.getElementById('previewModal').style.display = "block";
@@ -1627,18 +1639,6 @@ window.onclick = function (event) {
         document.getElementById('previewModal').style.display = "none";
     }
 };
-        // Social Media Sharing Functions
-        function shareOnFacebook(pageName) {
-            const shareUrl = `https://reelcareer.co/obituaries/celebrating/${pageName}`;
-            window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`, '_blank');
-        }
-
-        function shareOnTwitter(pageName) {
-            const shareUrl = `https://reelcareer.co/obituaries/celebrating/${pageName}`;
-            window.open(`https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}`, '_blank');
-        }
-
-
 
 
 
