@@ -283,6 +283,10 @@ function showComingSoonPopup() {
 
 
   document.addEventListener('DOMContentLoaded', () => {
+
+    console.log("DOMContentLoaded sendFlowersButton:");
+
+
   // Add an event listener to the "Send Flowers" button
   const sendFlowersButton = document.getElementById("send-flowers");
   sendFlowersButton.addEventListener("click", incrementFlowerCount);
