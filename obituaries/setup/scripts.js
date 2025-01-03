@@ -55,12 +55,8 @@ console.log('pageID:', pageID);
 
 
 
+document.addEventListener('DOMContentLoaded', () => {
 
-
-
-// Reference the Firestore database
-const form = document.getElementById("guestbookForm");
-const entriesDiv = document.getElementById("guestbookEntries");
 
 // Utility function to sanitize user inputs
 function sanitizeInput(input) {
@@ -68,6 +64,11 @@ function sanitizeInput(input) {
   div.textContent = input;
   return div.innerHTML;
 }
+
+
+// Reference the Firestore database
+const form = document.getElementById("guestbookForm");
+const entriesDiv = document.getElementById("guestbookEntries");
 
 
   
@@ -97,6 +98,11 @@ function sanitizeInput(input) {
     }
   });
   
+
+});
+
+
+
 // Function to load guestbook entries
 async function loadEntries() {
   try {
@@ -170,10 +176,7 @@ async function incrementFlowerCount() {
     }
   }
   
-  // Add an event listener to the "Send Flowers" button
-  const sendFlowersButton = document.getElementById("send-flowers");
-  sendFlowersButton.addEventListener("click", incrementFlowerCount);
-  
+
   // Function to increment views (for reference)
   async function incrementViews(pageID) {
     try {
@@ -277,14 +280,17 @@ function showComingSoonPopup() {
   
   window.showComingSoonPopup = showComingSoonPopup;
 
+
+
+  document.addEventListener('DOMContentLoaded', () => {
+  // Add an event listener to the "Send Flowers" button
+  const sendFlowersButton = document.getElementById("send-flowers");
+  sendFlowersButton.addEventListener("click", incrementFlowerCount);
+  
   // Add an event listener to the "Send Gift" button
   const sendGiftButton = document.getElementById("send-gift");
   sendGiftButton.addEventListener("click", showComingSoonPopup);
   
-
-
-  document.addEventListener('DOMContentLoaded', () => {
-
 
     renderShareArea(pageURL, pageName);
 
