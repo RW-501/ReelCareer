@@ -1602,13 +1602,11 @@ document.getElementById('preview-button').addEventListener('click', function () 
                 console.log("canvas:", canvas);
 
                 // Add a small timeout to ensure transformations are applied before converting to data URL
-                setTimeout(() => {
+            //    setTimeout(() => {
                     const dataURL = canvas.toDataURL();
-                    console.log("canvas.toDataURL():", dataURL);
-
                     // Set the transformed image as the source of the correct <img> element (previewMainPhoto)
                     document.getElementById('previewMainPhoto').src = dataURL;
-                }, 700);  // Timeout for 700ms to ensure the canvas is rendered
+              //  }, 700);  // Timeout for 700ms to ensure the canvas is rendered
             };
         };
         reader.readAsDataURL(mainPhoto);  // Load the image file
