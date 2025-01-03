@@ -229,11 +229,14 @@ preLoadPageScripts();
  * initialization.
  */
 function loadPageScripts() {
+
+    if (!currentPath.includes('obituaries')) {
     // Load footer.js after <footer> is available
     loadScript('https://reelcareer.co/scripts/js/load/elements/footer.js', { defer: false }, () => {
         logExecutionTime('Footer', performance.now());
     });
-
+    }
+    
     // Load loginState.js as a module
     loadScript('https://reelcareer.co/scripts/js/load/loginState.js', { defer: true, type: 'module' }, () => {
         logExecutionTime('loginState Script', performance.now());

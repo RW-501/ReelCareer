@@ -307,9 +307,8 @@ box-shadow: 0 4px 8px rgba(0, 123, 255, 0.4);
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
     import { setDoc, getFirestore, collection, addDoc, doc, updateDoc, query, where, getDoc, getDocs } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js";
     import { getStorage } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-storage.js";
-import { 
-    getAuth, signInAnonymously, onAuthStateChanged 
-} from "https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js";
+    import { 
+  getAuth, signInAnonymously, onAuthStateChanged, linkWithCredential, GoogleAuthProvider, EmailAuthProvider} from "https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js";
 
     // Firebase configuration
     const firebaseConfig = {
@@ -328,62 +327,73 @@ import {
     const storage = getStorage(app);
     const auth = getAuth(app);
 
-    // Sign in anonymously
-    signInAnonymously(auth)
-        .then(() => {
-            console.log('Signed in anonymously');
-        })
-        .catch((error) => {
-            console.error('Error signing in anonymously:', error);
-        });
-let userID = '';
+  
+// Sign in anonymously
+signInAnonymously(auth)
+  .then(() => {
+    console.log('Signed in anonymously');
+  })
+  .catch((error) => {
+    console.error('Error signing in anonymously:', error);
+  });
 
-// Listen for authentication state changes to get the user ID
+// Listen for authentication state changes
 onAuthStateChanged(auth, async (user) => {
   if (user) {
-    // The user is signed in
-     userID = user.uid; // Use the user's unique ID
+    userID = user.uid;
     console.log("User ID:", userID);
 
-// Call this function when the page loads
-loadUserObituaries(userID);
+    // Call this function when the page loads
+    loadUserObituaries(userID);
 
+    // Check if user is signed in anonymously
+    if (user.isAnonymous) {
+      // Check if the user has an existing email or Google account
+      const email = user.email;
+      const provider = user.providerData ? user.providerData[0].providerId : null;
 
-    // Check localStorage for obituaryMemberID
-    const obituaryMemberID = localStorage.getItem("obituaryMemberID");
+      if (email || provider) {
+        const credential = provider === "google.com" 
+          ? GoogleAuthProvider.credential(user.email) 
+          : EmailAuthProvider.credential(user.email, "password"); // Replace with actual password if using email
 
-    if (!obituaryMemberID) {
-      // If obituaryMemberID is not set, proceed to add to Firestore
-      try {
-        // Get the user's IP address
-        const userDetails = await getUserDetails(); // Assuming getUserDetails fetches IP and location details
-        if (!userDetails) return;
+        // Link the anonymous account with the credential (email/password or Google)
+        try {
+          await linkWithCredential(user, credential);
+          console.log("Successfully linked anonymous user with email or Google account");
 
-        const { ip: userIP, city, state, country } = userDetails; // Destructure user details
+          // Add or update user data in Firestore
+          const obituaryMemberID = localStorage.getItem("obituaryMemberID");
 
-        // Reference to Firestore collection
-        const userRef = doc(db, "Users", userID); // Use userID as document ID for unique identification
+          if (!obituaryMemberID) {
+            try {
+              const userDetails = await getUserDetails(); // Fetch IP & location
+              if (!userDetails) return;
 
-        // Add user data with IP and member field
-        await setDoc(userRef, {
-          userId: userID, // Unique user ID
-          member: "Obituary Member", // Static member value
-          userIP, // User IP
-          city, // User's city
-          state, // User's state
-          country, // User's country
-          timestamp: new Date(), // Timestamp
-        });
+              const { ip: userIP, city, state, country } = userDetails;
 
-        // Store the userID in localStorage to prevent duplicate entries
-        localStorage.setItem("obituaryMemberID", userID);
+              const userRef = doc(db, "Users", userID);
+              await setDoc(userRef, {
+                userId: userID,
+                member: "Obituary Member",
+                userIP,
+                city,
+                state,
+                country,
+                timestamp: new Date(),
+              });
 
-        console.log("User data logged to Firestore");
-      } catch (error) {
-        console.error("Error logging user data to Firestore:", error);
+              localStorage.setItem("obituaryMemberID", userID);
+              console.log("User data logged to Firestore");
+
+            } catch (error) {
+              console.error("Error logging user data to Firestore:", error);
+            }
+          }
+        } catch (error) {
+          console.error("Error linking anonymous account:", error);
+        }
       }
-    } else {
-      console.log("User already recorded with obituaryMemberID:", obituaryMemberID);
     }
   } else {
     console.log("No user signed in");

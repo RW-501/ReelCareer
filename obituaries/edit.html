@@ -209,13 +209,12 @@
             }
         }
 
-        
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
 import { setDoc, getFirestore, collection, addDoc, doc, updateDoc, query, where, getDoc, getDocs } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-storage.js";
 import { 
-    getAuth, signInAnonymously, onAuthStateChanged 
-} from "https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js";
+  getAuth, signInAnonymously, onAuthStateChanged, linkWithCredential, GoogleAuthProvider, EmailAuthProvider} from "https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js";
 
     // Firebase configuration
     const firebaseConfig = {
@@ -234,70 +233,85 @@ import {
     const storage = getStorage(app);
     const auth = getAuth(app);
 
-    // Sign in anonymously
-    signInAnonymously(auth)
-        .then(() => {
-            console.log('Signed in anonymously');
-        })
-        .catch((error) => {
-            console.error('Error signing in anonymously:', error);
-        });
+
+
 let userID = '';
 
-// Listen for authentication state changes to get the user ID
+// Sign in anonymously
+signInAnonymously(auth)
+  .then(() => {
+    console.log('Signed in anonymously');
+  })
+  .catch((error) => {
+    console.error('Error signing in anonymously:', error);
+  });
+
+// Listen for authentication state changes
 onAuthStateChanged(auth, async (user) => {
   if (user) {
-    // The user is signed in
-     userID = user.uid; // Use the user's unique ID
+    userID = user.uid;
     console.log("User ID:", userID);
 
+    // Call this function when the page loads
+    loadUserObituaries(userID);
 
-// Call this function when the page loads
-loadUserObituaries(userID);
+    // Extract pageName from URL query parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const pageName = urlParams.get("pageName");
 
-        // Extract pageName from URL query parameters
-        const urlParams = new URLSearchParams(window.location.search);
-        const pageName = urlParams.get("pageName");
+    if (pageName) {
+      // Fetch obituary data if pageName exists
+      fetchObituary(pageName);
+    }
 
-        if (pageName) {
-            // Fetch obituary data if pageName exists
-            fetchObituary(pageName);
+    // Check if user is signed in anonymously
+    if (user.isAnonymous) {
+      // Check if the user has an existing email or Google account
+      const email = user.email;
+      const provider = user.providerData ? user.providerData[0].providerId : null;
+
+      if (email || provider) {
+        const credential = provider === "google.com"
+          ? GoogleAuthProvider.credential(user.email)
+          : EmailAuthProvider.credential(user.email, "password"); // Replace with actual password if using email
+
+        // Link the anonymous account with the credential (email/password or Google)
+        try {
+          await linkWithCredential(user, credential);
+          console.log("Successfully linked anonymous user with email or Google account");
+
+          // Add or update user data in Firestore
+          const obituaryMemberID = localStorage.getItem("obituaryMemberID");
+
+          if (!obituaryMemberID) {
+            try {
+              const userDetails = await getUserDetails(); // Fetch IP & location
+              if (!userDetails) return;
+
+              const { ip: userIP, city, state, country } = userDetails;
+
+              const userRef = doc(db, "Users", userID);
+              await setDoc(userRef, {
+                userId: userID,
+                member: "Obituary Member",
+                userIP,
+                city,
+                state,
+                country,
+                timestamp: new Date(),
+              });
+
+              localStorage.setItem("obituaryMemberID", userID);
+              console.log("User data logged to Firestore");
+
+            } catch (error) {
+              console.error("Error logging user data to Firestore:", error);
+            }
+          }
+        } catch (error) {
+          console.error("Error linking anonymous account:", error);
         }
-    // Check localStorage for obituaryMemberID
-    const obituaryMemberID = localStorage.getItem("obituaryMemberID");
-
-    if (!obituaryMemberID) {
-      // If obituaryMemberID is not set, proceed to add to Firestore
-      try {
-        // Get the user's IP address
-        const userDetails = await getUserDetails(); // Assuming getUserDetails fetches IP and location details
-        if (!userDetails) return;
-
-        const { ip: userIP, city, state, country } = userDetails; // Destructure user details
-
-        // Reference to Firestore collection
-        const userRef = doc(db, "Users", userID); // Use userID as document ID for unique identification
-
-        // Add user data with IP and member field
-        await setDoc(userRef, {
-          userId: userID, // Unique user ID
-          member: "Obituary Member", // Static member value
-          userIP, // User IP
-          city, // User's city
-          state, // User's state
-          country, // User's country
-          timestamp: new Date(), // Timestamp
-        });
-
-        // Store the userID in localStorage to prevent duplicate entries
-        localStorage.setItem("obituaryMemberID", userID);
-
-        console.log("User data logged to Firestore");
-      } catch (error) {
-        console.error("Error logging user data to Firestore:", error);
       }
-    } else {
-      console.log("User already recorded with obituaryMemberID:", obituaryMemberID);
     }
   } else {
     console.log("No user signed in");
@@ -306,27 +320,26 @@ loadUserObituaries(userID);
 
 // Function to fetch user IP and location details
 async function getUserDetails() {
-    try {
-      const response = await fetch("https://ipapi.co/json/");
-      const data = await response.json();
-  
-      // Extract necessary details
-      return {
-        ip: data.ip,
-        city: data.city,
-        state: data.region,
-        country: data.country_name, // Include country
-        location: {
-          latitude: data.latitude,
-          longitude: data.longitude,
-        },
-      };
-    } catch (error) {
-      console.error("Error fetching user details:", error);
-      return null;
-    }
+  try {
+    const response = await fetch("https://ipapi.co/json/");
+    const data = await response.json();
+
+    return {
+      ip: data.ip,
+      city: data.city,
+      state: data.region,
+      country: data.country_name,
+      location: {
+        latitude: data.latitude,
+        longitude: data.longitude,
+      },
+    };
+  } catch (error) {
+    console.error("Error fetching user details:", error);
+    return null;
   }
-  
+}
+
 const fileInput = document.getElementById('mainPhoto');
 const imagePreview = document.getElementById('imagePreview');
 const imagePreviewContainer = document.getElementById('imagePreviewContainer');
