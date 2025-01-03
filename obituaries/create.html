@@ -302,9 +302,10 @@ main {
     
     }
 
-    .flex {
-        display: flex;
-    }
+    .previewShareButton {
+    display: flex;
+    margin: 1rem;
+}
 
     #actionButtons {
         display: none;
@@ -448,7 +449,26 @@ main {
                         <input type="text" id="otherCategory" name="otherCategory" placeholder="Specify other category" aria-describedby="otherCategoryHint">
                     </div>
                 </div>
-                                      
+                        
+                <div class="inputArea">
+                    <label for="gender" aria-label="Select a gender">Gender</label>
+                    <p id="genderHint" class="visually-hidden">Select the gender or pronouns that best describe the person.</p>
+                    <select id="gender" name="gender" required aria-required="true" aria-describedby="genderHint">
+                        <option value="" disabled selected>Select a gender or pronouns</option>
+                        <option value="male">Male (he/him)</option>
+                        <option value="female">Female (she/her)</option>
+                        <option value="nonbinary">Non-binary (they/them)</option>
+                        <option value="transMale">Transgender Male (he/him)</option>
+                        <option value="transFemale">Transgender Female (she/her)</option>
+                        <option value="genderqueer">Genderqueer (they/them)</option>
+                        <option value="preferNotToSay">Prefer not to say</option>
+                        <option value="other">Other (Specify)</option>
+                    </select>
+                </div>
+                
+
+
+
                 <div class="inputArea">
                     <div id="suggestionBox" style="margin-top: 20px;">
                         <label for="suggestions" aria-label="Select a suggested 'About' text">Suggested "About" Text</label>
@@ -871,18 +891,36 @@ sunset = formatDate(sunset);
 let validHashTag = hashTag.startsWith("#") ? hashTag : `#${hashTag}`;
 validHashTag = validHashTag.replace(/\s+/g, ''); // Remove spaces
 
+
+const genderMap = {
+    male: { pronouns: { subject: "he", object: "him", possessive: "his" } },
+    female: { pronouns: { subject: "she", object: "her", possessive: "her" } },
+    nonbinary: { pronouns: { subject: "they", object: "them", possessive: "their" } },
+    transMale: { pronouns: { subject: "he", object: "him", possessive: "his" } },
+    transFemale: { pronouns: { subject: "she", object: "her", possessive: "her" } },
+    genderqueer: { pronouns: { subject: "they", object: "them", possessive: "their" } },
+    preferNotToSay: { pronouns: { subject: "they", object: "them", possessive: "their" } },
+    other: { pronouns: { subject: "they", object: "them", possessive: "their" } }
+};
+
+// Get the selected gender and corresponding pronouns
+const gender = document.getElementById("gender").value;
+const pronouns = genderMap[gender]?.pronouns || genderMap.other.pronouns;
+
 const aboutSuggestions = [
-    `In loving memory of ${name}, who was born on ${sunrise} and peacefully passed away on ${sunset}. A beloved ${categoryText}, ${name} touched the hearts of all who knew them, leaving behind cherished memories in ${location}. Their legacy will continue to inspire all those who were fortunate enough to experience their warmth and kindness. Forever in our hearts. ${validHashTag}`,
-    `${name}, a cherished ${categoryText}, whose journey on earth began on ${sunrise} and came to an end on ${sunset}, is remembered fondly for the love and joy they brought to the lives of those around them in ${location}. Whether through their work, art, or friendship, ${name}'s impact was immeasurable, and their spirit will live on in the hearts of their loved ones forever. ${validHashTag}`,
-    `The life of ${name}, born on ${sunrise} and departed on ${sunset}, remains a beacon of inspiration to all in ${location}. A true ${categoryText}, ${name} lived with passion and purpose, enriching the lives of those they encountered. Their contributions, whether large or small, have left a lasting imprint that will never fade, and they will be remembered always with love and gratitude. ${validHashTag}`,
-    `Remembering the beautiful life of ${name}, whose journey began on ${sunrise} and concluded on ${sunset}. A loving and devoted ${categoryText}, ${name} was a source of strength, love, and positivity for everyone in ${location}. Though they are no longer with us, their influence will continue to guide and inspire future generations in the community and beyond. ${validHashTag}`,
-    `${name}, a brilliant and compassionate ${categoryText} from ${location}, was born on ${sunrise} and left us on ${sunset}. During their time here, ${name} was a force for good, bringing light and hope to those who needed it most. Their memory will forever remain alive in the hearts of all who had the privilege to know them, and their legacy of kindness will never be forgotten. ${validHashTag}`,
-    `In honor of ${name}, who lived a remarkable life from ${sunrise} to ${sunset}, and made an indelible impact as a ${categoryText} in ${location}. ${name}'s dedication, hard work, and unwavering passion set them apart as a true leader and an inspiration to all who crossed their path. They will forever be remembered for the mark they left on this world, and their influence will continue to be felt for years to come. ${validHashTag}`,
-    `${name}, whose presence in ${location} touched countless lives, was born on ${sunrise} and passed away on ${sunset}. As a devoted ${categoryText}, ${name} spent their life spreading joy, offering support, and making a meaningful difference. Their passing leaves a hole in the hearts of those who loved them, but their spirit and the impact of their work will live on in the community they served. ${validHashTag}`,
-    `A life well-lived, ${name} was born on ${sunrise} and passed away on ${sunset}. A loving and generous ${categoryText} whose legacy of compassion, understanding, and service to others lives on in ${location}. The work they did, the people they helped, and the love they gave will be remembered with deep affection and gratitude by all who knew them. ${validHashTag}`,
-    `With deep sorrow, we remember ${name}, a dedicated ${categoryText} who passed away on ${sunset}. Their contributions to ${location} were countless, and their influence in the field of ${categoryText} will never be forgotten. Though we mourn their passing, we also celebrate the incredible life they lived and the difference they made in the world. Their legacy will continue to inspire all of us who remain. ${validHashTag}`,
-    `The journey of ${name}, who was born on ${sunrise} and passed away on ${sunset}, left a lasting impact as a ${categoryText} in ${location}. Whether through their work, acts of kindness, or simply being a beacon of hope for those around them, ${name} made a significant difference. We will always remember the joy they brought to our lives and honor their memory in everything we do. ${validHashTag}`
+    `In loving memory of ${name}, who was born on ${sunrise} and peacefully departed on ${sunset}. A beloved ${categoryText}, ${pronouns.subject} dedicated ${pronouns.possessive} life to making a difference in the lives of others. In ${location}, ${pronouns.subject} left a legacy of kindness, compassion, and integrity that will be treasured for generations. Friends, family, and colleagues all cherish the countless memories of laughter and joy shared with ${pronouns.object}. ${validHashTag}`,
+    `${name}, a remarkable and inspiring ${categoryText}, graced this world from ${sunrise} until ${sunset}. Known for ${pronouns.possessive} unmatched generosity and warm heart, ${pronouns.subject} touched the hearts of many in ${location} and beyond. ${pronouns.subject.charAt(0).toUpperCase() + pronouns.subject.slice(1)} believed in spreading kindness wherever ${pronouns.subject} went. Though ${pronouns.subject} is no longer with us, ${pronouns.possessive} spirit lives on through the lives ${pronouns.subject} influenced. ${validHashTag}`,
+    `From the sunrise of ${sunrise} to the sunset of ${sunset}, the life of ${name} was a tapestry woven with love, hope, and resilience. A cherished ${categoryText} in ${location}, ${pronouns.subject} embodied the spirit of compassion. ${pronouns.subject} was always there to lend a hand, offer a kind word, or inspire with ${pronouns.possessive} courage. ${pronouns.possessive.charAt(0).toUpperCase() + pronouns.possessive.slice(1)} story will forever be told in the hearts of those ${pronouns.subject} uplifted. ${validHashTag}`,
+    `Celebrating the extraordinary journey of ${name}, who lived from ${sunrise} to ${sunset}. As a devoted ${categoryText}, ${pronouns.subject} enriched ${pronouns.possessive} community in ${location} with selflessness and a commitment to excellence. Those privileged to know ${pronouns.object} witnessed unparalleled dedication and unshakable integrity. The legacy ${pronouns.subject} leaves behind is a guiding light for future generations. ${validHashTag}`,
+    `In heartfelt remembrance of ${name}, whose life began on ${sunrise} and concluded on ${sunset}. A dedicated ${categoryText} and beacon of strength in ${location}, ${pronouns.subject} inspired countless individuals with ${pronouns.possessive} perseverance and compassion. The countless memories of joy and triumph, laughter and wisdom, remain etched in the hearts of family, friends, and all who admired ${pronouns.object}. ${validHashTag}`,
+    `${name}, born on ${sunrise} and cherished until ${sunset}, was a devoted ${categoryText} in ${location}. Known for ${pronouns.possessive} unwavering dedication to ${pronouns.possessive} craft and the people ${pronouns.subject} served, ${pronouns.subject} built bridges of friendship and unity. ${pronouns.subject.charAt(0).toUpperCase() + pronouns.subject.slice(1)} will always be remembered for the endless joy and kindness ${pronouns.subject} shared. ${validHashTag}`,
+    `Reflecting on the beautiful life of ${name}, whose story began on ${sunrise} and concluded on ${sunset}. In ${location}, ${pronouns.subject} was a renowned ${categoryText} whose contributions reached far and wide. ${pronouns.subject.charAt(0).toUpperCase() + pronouns.subject.slice(1)} work, character, and unwavering integrity created ripples of change. ${pronouns.possessive.charAt(0).toUpperCase() + pronouns.possessive.slice(1)} memory will be a cherished beacon of inspiration. ${validHashTag}`,
+    `The life of ${name}, a pillar of strength and kindness, spanned from ${sunrise} to ${sunset}. A brilliant ${categoryText} and loving soul in ${location}, ${pronouns.subject} gave freely of ${pronouns.possessive} time and talents. ${pronouns.subject.charAt(0).toUpperCase() + pronouns.subject.slice(1)} had the rare gift of making everyone ${pronouns.subject} encountered feel valued. ${pronouns.possessive.charAt(0).toUpperCase() + pronouns.possessive.slice(1)} story will inspire future generations. ${validHashTag}`,
+    `${name}, whose life stretched from ${sunrise} to ${sunset}, left a legacy filled with kindness, courage, and a deep commitment to serving others. In ${location}, ${pronouns.subject} was known for ${pronouns.possessive} tireless work as a ${categoryText}. ${pronouns.subject.charAt(0).toUpperCase() + pronouns.subject.slice(1)} contributions were as profound as ${pronouns.possessive} compassion was boundless. Memories of ${pronouns.possessive} influence will be held close. ${validHashTag}`,
+    `With great reverence, we remember ${name}, a distinguished ${categoryText}, born on ${sunrise} and lovingly remembered beyond ${sunset}. In ${location}, ${pronouns.subject} was a stalwart of hope, whose actions resonated with kindness and wisdom. ${pronouns.subject.charAt(0).toUpperCase() + pronouns.subject.slice(1)} legacy will be preserved through the countless lives ${pronouns.subject} enriched. The indelible mark ${pronouns.subject} left remains a source of inspiration. ${validHashTag}`
 ];
+
+
 
 // Log suggestions for verification
 console.log(aboutSuggestions);
@@ -915,6 +953,7 @@ document.getElementById("sunset").addEventListener("input", generateAboutText);
 document.getElementById("hashTag").addEventListener("input", generateAboutText);
 document.getElementById("location").addEventListener("input", generateAboutText);
 document.getElementById("category").addEventListener("change", generateAboutText);
+document.getElementById("gender").addEventListener("change", generateAboutText);
 document.getElementById("otherCategory").addEventListener("input", generateAboutText);
 
 
@@ -1198,7 +1237,7 @@ displayVideoPreview(videoURL, videoPreview);
  // Social media sharing buttons
  const shareButtons = `
                 <p>Share this obituary:</p>
-            <div class="flex">
+            <div class="previewShareButton">
                 <button onclick="shareOnFacebook('${pageName}')">Share on Facebook</button>
                 <button onclick="shareOnTwitter('${pageName}')">Share on Twitter</button>
             </div>
@@ -1230,6 +1269,7 @@ document.getElementById('preview-button').click();
         let socialLinks = document.getElementById('socialLinks').value.trim();
         let socialLinkName = document.getElementById('socialLinkName').value.trim();
         let hashTag = document.getElementById('hashTag').value.trim();
+        let gender =  document.getElementById('gender').value.trim();
 
         let validHashTag = hashTag.startsWith("#") ? hashTag : `#${hashTag}`;
         validHashTag = validHashTag.replace(/\s+/g, ''); // Remove spaces
@@ -1289,6 +1329,9 @@ const searchableLocation = location.split(/\s+/); // Split by spaces
             socialLinkName: socialLinkName,
             socialLinks: socialLinks,
             mainPhoto: mainPhotoUrl,
+            gender: gender,
+            datePublished: new Date(obituary.datePublished).toISOString(),  // Properly formatted date
+            dateModified: new Date(obituary.dateModified).toISOString(),    // Properly formatted date
             timeStamp: new Date().toISOString(), // Using Date() for the current timestamp
             userID: userID,
             userIP: userIP,
