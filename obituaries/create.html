@@ -667,6 +667,12 @@ function updateImageStylesAndCreateCanvas() {
 
 // Update image preview in real-time
 function updateImageStyles() {
+    
+    const mainPhoto = document.getElementById('mainPhoto');
+        if (mainPhoto) {
+            mainPhoto.style.display = 'none';
+        } 
+        
     const canvas = updateImageStylesAndCreateCanvas();
     imagePreview.src = canvas.toDataURL(); // Update the image with the transformed canvas
 }
