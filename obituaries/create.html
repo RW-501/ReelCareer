@@ -1602,7 +1602,8 @@ validHashTag = validHashTag.replace(/\s+/g, ''); // Remove spaces
                // Convert canvas to Blob
    // const canvasBlob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg'));
 
-           
+   console.log( "canvas.toDataURL():", canvas.toDataURL());
+
             document.getElementById('mainPhoto').src = canvas.toDataURL();  // Update the image with the transformed canvas
         };
         reader.readAsDataURL(mainPhoto);
