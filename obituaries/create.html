@@ -545,7 +545,7 @@ main {
             <a href="https://reelcareer.co/obituaries/">Obituaries</a>
             <a href="https://reelcareer.co/obituaries/create">Create an Obituary</a>
             <a href="https://reelcareer.co/obituaries/about">About Career Obituaries</a>
-            <a href="https://reelcareer.co/">Home</a>
+            <a href="https://reelcareer.co/">ReelCareer</a>
         </nav>
         <p>&copy; <span id="currentYear"></span> ReelCareer.co. All rights reserved.</p>
     </div>
@@ -611,8 +611,6 @@ async function getUserDetails() {
     return null;
   }
 }
-
-
 const fileInput = document.getElementById('mainPhoto');
 const imagePreview = document.getElementById('imagePreview');
 const imagePreviewContainer = document.getElementById('imagePreviewContainer');
@@ -626,6 +624,7 @@ const resetButton = document.getElementById('resetImage');
 let isBlackAndWhite = false;
 let rotationDegree = 0;
 let zoomLevel = 1;
+let originalImageUrl = ''; // To store the original image URL
 
 // Function to update image styles using canvas
 function updateImageStylesAndCreateCanvas() {
@@ -656,12 +655,6 @@ function updateImageStylesAndCreateCanvas() {
 
 // Update image preview in real-time
 function updateImageStyles() {
-    
-    const mainPhoto = document.getElementById('mainPhoto');
-        if (mainPhoto) {
-            mainPhoto.style.display = 'none';
-        } 
-
     const canvas = updateImageStylesAndCreateCanvas();
     imagePreview.src = canvas.toDataURL(); // Update the image with the transformed canvas
 }
@@ -676,6 +669,8 @@ fileInput.addEventListener('change', function (event) {
         imagePreview.style.display = 'block';
         imagePreviewContainer.style.display = 'block';
 
+        originalImageUrl = imageUrl; // Save the original image URL
+
         // Reset transformations on new image load
         isBlackAndWhite = false;
         rotationDegree = 0;
@@ -684,33 +679,40 @@ fileInput.addEventListener('change', function (event) {
 });
 
 // Transformation button event listeners
-toggleBnwButton.addEventListener('click', function () {
+toggleBnwButton.addEventListener('click', function (event) {
+    event.preventDefault(); // Prevent default behavior
     isBlackAndWhite = !isBlackAndWhite;
     updateImageStyles();
 });
 
-rotateButton.addEventListener('click', function () {
+rotateButton.addEventListener('click', function (event) {
+    event.preventDefault(); // Prevent default behavior
     rotationDegree = (rotationDegree + 90) % 360; // Rotate in steps of 90 degrees
     updateImageStyles();
 });
 
-zoomInButton.addEventListener('click', function () {
+zoomInButton.addEventListener('click', function (event) {
+    event.preventDefault(); // Prevent default behavior
     zoomLevel = Math.min(3, zoomLevel + 0.1); // Cap the maximum zoom level
     updateImageStyles();
 });
 
-zoomOutButton.addEventListener('click', function () {
+zoomOutButton.addEventListener('click', function (event) {
+    event.preventDefault(); // Prevent default behavior
     zoomLevel = Math.max(0.5, zoomLevel - 0.1); // Prevent zooming out too far
     updateImageStyles();
 });
 
-resetButton.addEventListener('click', function () {
+resetButton.addEventListener('click', function (event) {
+    event.preventDefault(); // Prevent default behavior
     isBlackAndWhite = false;
     rotationDegree = 0;
     zoomLevel = 1;
-    updateImageStyles();
+
+    // Reset the image to the original URL
+    imagePreview.src = originalImageUrl;
+    imagePreview.style.filter = 'none'; // Remove grayscale filter for default view
 });
-  
     // Allow the user to click the preview image to change it
     imagePreview.addEventListener('click', function() {
         fileInput.click(); // Trigger the file input to allow a new image selection
