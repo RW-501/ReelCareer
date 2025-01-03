@@ -123,7 +123,7 @@ loadScript('https://reelcareer.co/obituaries/setup/interactions.js', { async: tr
 });
 
 
-loadScript('https://reelcareer.co/obituaries/setup/share.js', { defer: true }, () => {
+loadScript('https://reelcareer.co/obituaries/setup/share.js', { async: true }, () => {
     logExecutionTime('share', performance.now());
 
 
