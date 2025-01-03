@@ -26,6 +26,7 @@ const db = getFirestore(app);
 const auth = getAuth(app);
 
 
+let pageID = '';
 
 let userID = '';
 
@@ -43,7 +44,6 @@ onAuthStateChanged(auth, async (user) => {
 
 // Assuming pageID is set somewhere on the page (like an element with ID "pageID")
 const page = document.getElementById('pageID');
-let pageID = '';
 if(page){
  pageID = page.innerText;
 
