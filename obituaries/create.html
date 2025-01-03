@@ -1591,9 +1591,9 @@ validHashTag = validHashTag.replace(/\s+/g, ''); // Remove spaces
     const previewContainer = document.getElementById('previewContent');
     previewContainer.innerHTML = previewContent;
 
-    // Set the main photo if available
-    console.log( "mainPhoto:", mainPhoto);
-    if (mainPhoto) {
+    console.log("mainPhoto:", mainPhoto);
+
+if (mainPhoto) {
     const reader = new FileReader();
     reader.onload = function(e) {
         const imagePreview = new Image();
@@ -1602,14 +1602,21 @@ validHashTag = validHashTag.replace(/\s+/g, ''); // Remove spaces
         imagePreview.onload = function() {
             // Now we can apply transformations on the image once it's loaded
             const canvas = updateImageStylesAndCreateCanvas(imagePreview);
-            console.log("canvas.toDataURL():", canvas.toDataURL());
+            console.log("canvas:", canvas);
 
-            // Convert the canvas to a data URL and set it as the image source
-            document.getElementById('mainPhoto').src = canvas.toDataURL();
+            // Add a small timeout to ensure transformations are applied before converting to data URL
+            setTimeout(() => {
+                const dataURL = canvas.toDataURL();
+                console.log("canvas.toDataURL():", dataURL);
+
+                // Set the transformed image as the source
+                document.getElementById('mainPhoto').src = dataURL;
+            }, 500);  // Timeout for 500ms to ensure the canvas is rendered
         };
     };
     reader.readAsDataURL(mainPhoto);  // Load the image file
 }
+
 
 
     // Show the preview modal
