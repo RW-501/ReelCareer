@@ -628,8 +628,10 @@ let originalImageUrl = ''; // To store the original image URL
 
 // Function to update image styles using canvas
 function updateImageStylesAndCreateCanvas() {
-    if(mainPhoto){
-        mainPhoto.style.display = 'none';
+    // Ensure mainPhoto exists before attempting to hide it
+    const mainPhotoElement = document.getElementById('mainPhoto');
+    if (mainPhotoElement) {
+        mainPhotoElement.style.display = 'none'; // Hide the image if it exists
     }
 
     
