@@ -1116,8 +1116,7 @@ onAuthStateChanged(auth, async (user) => {
  * @param {string} userID - The unique ID of the user.
  * @param {string} pageID - The ID of the obituary page to add.
  * @param {string} pageName - The name of the obituary page to add.
- */
- async function updateUserObituaryData(userID, pageID, pageName) {
+ */async function updateUserObituaryData(userID, pageID, pageName) {
   try {
     const userRef = doc(db, "Users", userID); // Reference to the user document
 
@@ -1133,6 +1132,10 @@ onAuthStateChanged(auth, async (user) => {
       obituaryPageNames = data.obituaryPageName || [];
     }
 
+    // Ensure pageID and pageName are strings (extract from input elements if necessary)
+    pageID = pageID.value || pageID; // If pageID is an input element, extract its value
+    pageName = pageName.value || pageName; // If pageName is an input element, extract its value
+
     // Append new obituary data
     obituaryPageIDs.push(pageID);
     obituaryPageNames.push(pageName);
@@ -1142,7 +1145,6 @@ onAuthStateChanged(auth, async (user) => {
       obituaryPageID: obituaryPageIDs,
       obituaryPageName: obituaryPageNames,
       member: "Obituary Member",
-
     });
 
     console.log("User profile updated with new obituary data.");
@@ -1150,7 +1152,6 @@ onAuthStateChanged(auth, async (user) => {
     console.error("Error updating user obituary data:", error);
   }
 }
-
 
         // Save obituary to Firestore
         async function saveObituary(obituary) {
@@ -1183,6 +1184,8 @@ createPage(obituary, pageID);
 // Display video preview
 const videoPreview = document.getElementById("media-section");
 //const videoPreview = document.getElementById("videoPreview");
+let videoURL = document.getElementById('video').value.trim();
+
 displayVideoPreview(videoURL, videoPreview);
 
  // Social media sharing buttons
