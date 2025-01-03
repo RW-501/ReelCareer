@@ -587,98 +587,8 @@ main {
 
         // Listen for authentication state changes to get the user ID
 let userID = '';
-        document.addEventListener('DOMContentLoaded', () => {
+      
 
-    // Sign in anonymously
-    signInAnonymously(auth)
-        .then(() => {
-            console.log('Signed in anonymously');
-        })
-        .catch((error) => {
-            console.error('Error signing in anonymously:', error);
-        });
-
-        
-
-
-// Listen for authentication state changes
-onAuthStateChanged(auth, async (user) => {
-  if (user) {
-    const userID = user.uid;
-    console.log("User ID:", userID);
-
-    // Check if user is signed in anonymously
-    if (user.isAnonymous) {
-      // Check if user has providerData and if it has at least one provider
-      const email = user.email;
-      const provider = user.providerData && user.providerData.length > 0 
-        ? user.providerData[0].providerId 
-        : null;
-
-      if (email || provider || user.phoneNumber) {
-        let credential;
-
-        // If it's Google or Email account, merge with Google or Email credentials
-        if (provider === "google.com") {
-          credential = GoogleAuthProvider.credential(user.email);
-        } else if (email) {
-          credential = EmailAuthProvider.credential(user.email, "password"); // Replace with password if using email
-        } else if (user.phoneNumber) {
-          // If user signed in with phone number, merge with phone number credential
-          credential = PhoneAuthProvider.credential(user.phoneNumber, user.verificationId);
-        }
-
-        // Link the anonymous account with the new credential
-        try {
-          if (credential) {
-            await linkWithCredential(user, credential);
-            console.log("Successfully linked anonymous user with phone number, email, or Google account");
-
-            // Update user data in Firestore (if not already recorded)
-            const obituaryMemberID = localStorage.getItem("obituaryMemberID");
-            if (!obituaryMemberID) {
-              try {
-                const userDetails = await getUserDetails(); // Fetch IP & location
-                if (!userDetails) return;
-
-                const { ip: userIP, city, state, country } = userDetails;
-
-                const userData = getUserData();
-                if (!userData) {
-
-
-                const userRef = doc(db, "Users", userID);
-                await setDoc(userRef, {
-                  userId: userID,
-                  member: "Obituary Member",
-                  userIP,
-                  city,
-                  state,
-                  country,
-                  timestamp: new Date(),
-                });
-
-                localStorage.setItem("obituaryMemberID", userID);
-                console.log("User data logged to Firestore");
-            }
-
-              } catch (error) {
-                console.error("Error logging user data to Firestore:", error);
-              }
-            }
-          }
-        } catch (error) {
-          console.error("Error linking anonymous account:", error);
-        }
-      }
-    }
-  } else {
-    console.log("No user signed in");
-  }
-});
-
-
-});
 
 
 // Function to fetch user IP and location details
@@ -1038,43 +948,45 @@ const showModal = () => {
         modal.style.display = 'none';
     };
         // Handle form submission after payment
-        document.getElementById('paypal-button').addEventListener('click', async function () {
-            document.getElementById('paypalContent').innerHTML = '';
-            showModal();
-
-        // Render PayPal button inside the modal content
         paypal.Buttons({
-            createOrder: (data, actions) => {
-                return actions.order.create({
-                    purchase_units: [{
-                        amount: {
-                            value: '25.00'
-                        }
-                    }]
-                });
-            },
-            onApprove: async (data, actions) => {
-                const details = await actions.order.capture(); 
-console.log('Payment approved:', details);
-handleApproved(details);
+    createOrder: (data, actions) => {
+        return actions.order.create({
+            purchase_units: [{
+                amount: {
+                    value: '25.00'
+                }
+            }]
+        });
+    },
+    onApprove: async (data, actions) => {
+        try {
+            const details = await actions.order.capture();
+            console.log('Payment approved:', details);
+
+            // Ensure user is authenticated
+            const user = auth.currentUser || await signInAnonymously(auth);
+            if (!user) throw new Error("User not authenticated.");
+
+            // Process payment and create obituary
+            await handleApproved(details);
+        } catch (error) {
+            console.error("Error in payment approval process:", error);
+        } finally {
+            hideModal();
+        }
+    },
+    onCancel: () => {
+        console.log('Payment cancelled.');
+        hideModal();
+    },
+    onError: (err) => {
+        console.error('Error:', err);
+        hideModal();
+    }
+}).render('#paypalContent');
 
 
-// Delay hiding the modal by 2 seconds
-setTimeout(() => {
-    hideModal();
-}, 2000);
 
-            },
-            onCancel: () => {
-                console.log('Payment cancelled.');
-                hideModal();
-            },
-            onError: (err) => {
-                console.error('Error:', err);
-                hideModal();
-            }
-        }).render('#paypalContent'); // Render into the inner modal content
-    });
 
     // Close modal when clicking the close button
     document.getElementById('closeModal').addEventListener('click', hideModal);
@@ -1083,6 +995,179 @@ setTimeout(() => {
     document.querySelector('.close').addEventListener('click', hideModal);
 
 
+
+    document.addEventListener('DOMContentLoaded', () => {
+
+// Listen for authentication state changes
+onAuthStateChanged(auth, async (user) => {
+    if (user) {
+    const userID = user.uid;
+    console.log("User ID:", userID);
+
+    // Check if user is signed in anonymously
+    if (user.isAnonymous) {
+      // Check if user has providerData and if it has at least one provider
+      const email = user.email;
+      const provider = user.providerData && user.providerData.length > 0 
+        ? user.providerData[0].providerId 
+        : null;
+
+      if (email || provider || user.phoneNumber) {
+        let credential;
+
+        // If it's Google or Email account, merge with Google or Email credentials
+        if (provider === "google.com") {
+          credential = GoogleAuthProvider.credential(user.email);
+        } else if (email) {
+          credential = EmailAuthProvider.credential(user.email, "password"); // Replace with password if using email
+        } else if (user.phoneNumber) {
+          // If user signed in with phone number, merge with phone number credential
+          credential = PhoneAuthProvider.credential(user.phoneNumber, user.verificationId);
+        }
+
+        // Link the anonymous account with the new credential
+        try {
+          if (credential) {
+            await linkWithCredential(user, credential);
+            console.log("Successfully linked anonymous user with phone number, email, or Google account");
+
+            // Update user data in Firestore (if not already recorded)
+            const obituaryMemberID = localStorage.getItem("obituaryMemberID");
+            if (!obituaryMemberID) {
+              try {
+                const userDetails = await getUserDetails(); // Fetch IP & location
+                if (!userDetails) return;
+
+                const { ip: userIP, city, state, country } = userDetails;
+
+                const userData = getUserData();
+                if (!userData) {
+
+
+                const userRef = doc(db, "Users", userID);
+                await setDoc(userRef, {
+                  userId: userID,
+                  member: "Obituary Member",
+                  userIP,
+                  city,
+                  state,
+                  country,
+                  timestamp: new Date(),
+                });
+
+
+                localStorage.setItem("obituaryMemberID", userID);
+                console.log("User data logged to Firestore");
+            }
+
+              } catch (error) {
+                console.error("Error logging user data to Firestore:", error);
+              }
+            }
+          }
+        } catch (error) {
+          console.error("Error linking anonymous account:", error);
+        }
+      }
+    }
+  } else {
+    console.log("No user signed in. Signing in anonymously...");
+    
+    // Sign in anonymously if no user is logged in
+    signInAnonymously(auth)
+      .then(() => {
+        console.log("Signed in anonymously");
+      })
+      .catch((error) => {
+        console.error("Error signing in anonymously:", error);
+      });
+  }
+});
+
+
+});
+
+        
+
+/**
+ * Updates the user's profile with a new obituary page ID and name.
+ *
+ * @param {string} userID - The unique ID of the user.
+ * @param {string} pageID - The ID of the obituary page to add.
+ * @param {string} pageName - The name of the obituary page to add.
+ */
+ async function updateUserObituaryData(userID, pageID, pageName) {
+  try {
+    const userRef = doc(db, "Users", userID); // Reference to the user document
+
+    // Get the current user document
+    const userDoc = await getDoc(userRef);
+    let obituaryPageIDs = [];
+    let obituaryPageNames = [];
+
+    // Check if obituaryPageID and obituaryPageName exist in the user document
+    if (userDoc.exists()) {
+      const data = userDoc.data();
+      obituaryPageIDs = data.obituaryPageID || [];
+      obituaryPageNames = data.obituaryPageName || [];
+    }
+
+    // Append new obituary data
+    obituaryPageIDs.push(pageID);
+    obituaryPageNames.push(pageName);
+
+    // Update the user document with the new obituary data
+    await updateDoc(userRef, {
+      obituaryPageID: obituaryPageIDs,
+      obituaryPageName: obituaryPageNames,
+      member: "Obituary Member",
+
+    });
+
+    console.log("User profile updated with new obituary data.");
+  } catch (error) {
+    console.error("Error updating user obituary data:", error);
+  }
+}
+
+
+        // Save obituary to Firestore
+        async function saveObituary(obituary) {
+        try {
+            // Save obituary to Firestore
+            const obituaryRef = await addDoc(collection(db, "A_Obituaries"), obituary);
+
+            // Get and update the page ID
+            pageID = obituaryRef.id;
+    await updateDoc(doc(db, "A_Obituaries", pageID), { pageID: pageID });
+    console.log("Obituary saved with ID:", pageID);
+
+
+
+
+
+    updateUserObituaryData(userID, pageID, pageName);
+
+
+
+
+
+
+// Create obituary page and show preview
+createPage(obituary, pageID);
+document.getElementById('previewContent').innerHTML = obituaryPageContent;
+document.getElementById('previewModal').style.display = "block";
+
+// Display video preview
+const videoPreview = document.getElementById("videoPreview");
+displayVideoPreview(videoURL, videoPreview);
+
+
+
+        } catch (error) {
+            console.error("Error saving obituary:", error);
+        }
+    }
 
     const handleApproved = async (details) => {
     try {
@@ -1168,60 +1253,6 @@ const searchableLocation = location.split(/\s+/); // Split by spaces
         };
 
         let pageID = '';
-
-        // Save obituary to Firestore
-        async function saveObituary(obituary) {
-        try {
-            // Save obituary to Firestore
-            const obituaryRef = await addDoc(collection(db, "A_Obituaries"), obituary);
-
-            // Get and update the page ID
-            pageID = obituaryRef.id;
-    await updateDoc(doc(db, "A_Obituaries", pageID), { pageID: pageID });
-    console.log("Obituary saved with ID:", pageID);
-
-    // Update user profile with the obituary page ID
-    const userRef = doc(db, "Users", userID);  // Reference to the user document
-
-// Get current user data (for appending to arrays)
-const userDoc = await getDoc(userRef);
-let obituaryPageIDs = [];
-let obituaryPageNames = [];
-
-// Check if obituaryPageID and obituaryPageName exist in the user document
-if (userDoc.exists()) {
-    const data = userDoc.data();
-    obituaryPageIDs = data.obituaryPageID || [];
-    obituaryPageNames = data.obituaryPageName || [];
-}
-
-// Append new obituary data
-obituaryPageIDs.push(pageID);  // Append the new obituary page ID
-obituaryPageNames.push(pageName);  // Append the new obituary page name
-
-// Update the user document with the new obituary data
-await updateDoc(userRef, {
-    obituaryPageID: obituaryPageIDs,
-    obituaryPageName: obituaryPageNames
-});
-
-console.log("User profile updated with new obituary data.");
-
-// Create obituary page and show preview
-createPage(obituary, pageID);
-document.getElementById('previewContent').innerHTML = obituaryPageContent;
-document.getElementById('previewModal').style.display = "block";
-
-// Display video preview
-const videoPreview = document.getElementById("videoPreview");
-displayVideoPreview(videoURL, videoPreview);
-
-
-
-        } catch (error) {
-            console.error("Error saving obituary:", error);
-        }
-    }
 
     console.log( "obituary:", obituary);
 

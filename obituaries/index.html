@@ -327,94 +327,26 @@ let userID = '';
 // Call the fetch function when the page loads
 fetchObituaries();
 
-// Sign in anonymously
-signInAnonymously(auth)
-  .then(() => {
-    console.log('Signed in anonymously');
-  })
-  .catch((error) => {
-    console.error('Error signing in anonymously:', error);
-  });
 
-// Listen for authentication state changes
-onAuthStateChanged(auth, async (user) => {
-  if (user) {
+  onAuthStateChanged(auth, async (user) => {
+    if (user) {
     const userID = user.uid;
     console.log("User ID:", userID);
 
-    // Call this function when the page loads
-    loadUserObituaries(userID);
 
-    // Check if user is signed in anonymously
-    if (user.isAnonymous) {
-      // Check if the user has an existing email, Google account, or phone number
-      const email = user.email;
-      const provider = user.providerData && user.providerData.length > 0 ? user.providerData[0].providerId : null;
-      const phoneNumber = user.phoneNumber;
-
-      let credential;
-
-      // Handle linking with Google or Email account
-      if (email || provider) {
-        if (provider === "google.com") {
-          credential = GoogleAuthProvider.credential(user.email);
-        } else if (email) {
-          credential = EmailAuthProvider.credential(user.email, "password"); // Replace with actual password if using email
-        }
-      }
-
-      // Handle phone sign-in case
-      if (phoneNumber) {
-        credential = PhoneAuthProvider.credential(user.phoneNumber, user.verificationId); // You'll need to track the verificationId
-      }
-
-      // If a valid credential is available, attempt to link the anonymous account
-      if (credential) {
-        try {
-          await linkWithCredential(user, credential);
-          console.log("Successfully linked anonymous user with email, Google, or phone account");
-
-          // Add or update user data in Firestore
-          const obituaryMemberID = localStorage.getItem("obituaryMemberID");
-            if (!obituaryMemberID) {
-              try {
-                const userDetails = await getUserDetails(); // Fetch IP & location
-                if (!userDetails) return;
-
-                const { ip: userIP, city, state, country } = userDetails;
-
-                const userData = getUserData();
-                if (!userData) {
-
-
-                const userRef = doc(db, "Users", userID);
-                await setDoc(userRef, {
-                  userId: userID,
-                  member: "Obituary Member",
-                  userIP,
-                  city,
-                  state,
-                  country,
-                  timestamp: new Date(),
-                });
-
-                localStorage.setItem("obituaryMemberID", userID);
-                console.log("User data logged to Firestore");
-            }
-            } catch (error) {
-              console.error("Error logging user data to Firestore:", error);
-            }
-          }
-        } catch (error) {
-          console.error("Error linking anonymous account:", error);
-        }
-      }
+    if (userID) {
+  // Call this function when the page loads
+  loadUserObituaries(userID);
     }
   } else {
-    console.log("No user signed in");
+    console.log("No user signed in ..");
+    
   }
-});
 
+
+});
+  
+  
 });
 
 
