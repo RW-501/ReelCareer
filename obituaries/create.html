@@ -628,11 +628,6 @@ let originalImageUrl = ''; // To store the original image URL
 
 // Function to update image styles using canvas
 function updateImageStylesAndCreateCanvas() {
-    // Ensure mainPhoto exists before attempting to hide it
-    const mainPhotoElement = document.getElementById('mainPhoto');
-    if (mainPhotoElement) {
-        mainPhotoElement.style.display = 'none'; // Hide the image if it exists
-    }
 
     
     const canvas = document.createElement('canvas');
@@ -668,6 +663,13 @@ function updateImageStyles() {
 
 // Handle file selection and display the image
 fileInput.addEventListener('change', function (event) {
+    // Ensure mainPhoto exists before attempting to hide it
+    const mainPhotoElement = document.getElementById('mainPhoto');
+    if (mainPhotoElement) {
+        mainPhotoElement.style.display = 'none'; // Hide the image if it exists
+    }
+
+
     const file = event.target.files[0];
 
     if (file && file.type.startsWith('image/')) {
