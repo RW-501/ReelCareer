@@ -444,10 +444,6 @@ main {
                 </div>
                                       
                 <div class="inputArea">
-                    <label for="about" aria-label="Write a short biography or summary about the person">About the Person</label>
-                    <p id="aboutHint" class="visually-hidden">Please provide a brief biography or summary of the person's life.</p>
-                    <textarea id="about" name="about" placeholder="Write a short biography or summary about the person" required aria-required="true" aria-describedby="aboutHint"></textarea>
-                
                     <div id="suggestionBox" style="margin-top: 20px;">
                         <label for="suggestions" aria-label="Select a suggested 'About' text">Suggested "About" Text</label>
                         <select id="suggestions">
@@ -460,13 +456,6 @@ main {
                     <label for="about" aria-label="Write a short biography or summary about the person">About the Person</label>
                     <p id="aboutHint" class="visually-hidden">Please provide a brief biography or summary of the person's life.</p>
                     <textarea id="about" name="about" placeholder="Write a short biography or summary about the person" required aria-required="true" aria-describedby="aboutHint"></textarea>
-                
-                    <div id="suggestionBox" style="margin-top: 20px;">
-                        <label for="suggestions" aria-label="Select a suggested 'About' text">Suggested "About" Text</label>
-                        <select id="suggestions">
-                            <option value="" disabled selected>Select a suggestion</option>
-                        </select>
-                    </div>
                 </div>
 
                     <label for="pageName" aria-label="Enter obituary page URL">URL (Obituary Page URL)</label>
@@ -672,7 +661,7 @@ function updateImageStyles() {
         if (mainPhoto) {
             mainPhoto.style.display = 'none';
         } 
-        
+
     const canvas = updateImageStylesAndCreateCanvas();
     imagePreview.src = canvas.toDataURL(); // Update the image with the transformed canvas
 }
