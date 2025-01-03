@@ -1615,11 +1615,13 @@ document.getElementById('preview-button').addEventListener('click', function () 
             const shareUrl = `https://reelcareer.co/obituaries/celebrating/${pageName}`;
             window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`, '_blank');
         }
+        window.shareOnFacebook = shareOnFacebook;
 
         function shareOnTwitter(pageName) {
             const shareUrl = `https://reelcareer.co/obituaries/celebrating/${pageName}`;
             window.open(`https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}`, '_blank');
         }
+        window.shareOnTwitter = shareOnTwitter;
 
 
 
