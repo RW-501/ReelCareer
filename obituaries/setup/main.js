@@ -116,6 +116,8 @@ loadStylesheet("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/a
 
 
 
+function loadPageScripts() {
+
 loadScript('https://reelcareer.co/obituaries/setup/interactions.js', { async: true, type: 'module' }, () => {
     logExecutionTime('interactions', performance.now());
 });
@@ -137,3 +139,10 @@ loadScript('https://reelcareer.co/obituaries/setup/analytics.js', { defer: true,
 loadScript('https://reelcareer.co/obituaries/setup/scripts.js', { defer: true, type: 'module' }, () => {
     logExecutionTime('scripts', performance.now());
 });
+
+
+}
+
+// Initialize page scripts after DOMContentLoaded
+document.addEventListener('DOMContentLoaded', loadPageScripts);
+
