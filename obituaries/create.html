@@ -643,6 +643,10 @@ onAuthStateChanged(auth, async (user) => {
 
                 const { ip: userIP, city, state, country } = userDetails;
 
+                const userData = getUserData();
+                if (!userData) {
+
+
                 const userRef = doc(db, "Users", userID);
                 await setDoc(userRef, {
                   userId: userID,
@@ -656,6 +660,7 @@ onAuthStateChanged(auth, async (user) => {
 
                 localStorage.setItem("obituaryMemberID", userID);
                 console.log("User data logged to Firestore");
+            }
 
               } catch (error) {
                 console.error("Error logging user data to Firestore:", error);

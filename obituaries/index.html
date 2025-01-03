@@ -372,28 +372,31 @@ onAuthStateChanged(auth, async (user) => {
 
           // Add or update user data in Firestore
           const obituaryMemberID = localStorage.getItem("obituaryMemberID");
+            if (!obituaryMemberID) {
+              try {
+                const userDetails = await getUserDetails(); // Fetch IP & location
+                if (!userDetails) return;
 
-          if (!obituaryMemberID) {
-            try {
-              const userDetails = await getUserDetails(); // Fetch IP & location
-              if (!userDetails) return;
+                const { ip: userIP, city, state, country } = userDetails;
 
-              const { ip: userIP, city, state, country } = userDetails;
+                const userData = getUserData();
+                if (!userData) {
 
-              const userRef = doc(db, "Users", userID);
-              await setDoc(userRef, {
-                userId: userID,
-                member: "Obituary Member",
-                userIP,
-                city,
-                state,
-                country,
-                timestamp: new Date(),
-              });
 
-              localStorage.setItem("obituaryMemberID", userID);
-              console.log("User data logged to Firestore");
+                const userRef = doc(db, "Users", userID);
+                await setDoc(userRef, {
+                  userId: userID,
+                  member: "Obituary Member",
+                  userIP,
+                  city,
+                  state,
+                  country,
+                  timestamp: new Date(),
+                });
 
+                localStorage.setItem("obituaryMemberID", userID);
+                console.log("User data logged to Firestore");
+            }
             } catch (error) {
               console.error("Error logging user data to Firestore:", error);
             }
