@@ -1535,14 +1535,11 @@ document.getElementById('preview-button').addEventListener('click', function () 
     const video = document.getElementById('video').value;
     const socialLinks = document.getElementById('socialLinks').value;
 
-
- 
-
     const mainPhoto = document.getElementById('mainPhoto').files[0]; // File input for main photo
     const socialLinkName = document.getElementById('socialLinkName').value;
     const hashTag = document.getElementById("hashTag").value.trim();
     let validHashTag = hashTag.startsWith("#") ? hashTag : `#${hashTag}`;
-validHashTag = validHashTag.replace(/\s+/g, ''); // Remove spaces
+    validHashTag = validHashTag.replace(/\s+/g, ''); // Remove spaces
 
     // Sanitize the input
     const sanitizedPageName = pageName.replace(/[^a-zA-Z0-9-_]/g, '');
@@ -1559,7 +1556,7 @@ validHashTag = validHashTag.replace(/\s+/g, ''); // Remove spaces
     <main>
         <div class="container">
             <div id="mainPhoto-area" class="changeable-area">
-                    ${mainPhoto ? `<img id="mainPhoto" src="" alt="${name}" style="max-width: 300px; max-height: 300px; margin-top: 10px;">` : '<div>Missing Main Photo</div>'}
+                ${mainPhoto ? `<img id="previewMainPhoto" src="" alt="${name}" style="max-width: 300px; max-height: 300px; margin-top: 10px;">` : '<div>Missing Main Photo</div>'}
             </div>
             <div id="celebrating-life-header" class="changeable-area">Celebrating the Life of</div> 
             <div id="name-header" class="changeable-area">${name}</div>
@@ -1593,31 +1590,29 @@ validHashTag = validHashTag.replace(/\s+/g, ''); // Remove spaces
 
     console.log("mainPhoto:", mainPhoto);
 
-if (mainPhoto) {
-    const reader = new FileReader();
-    reader.onload = function(e) {
-        const imagePreview = new Image();
-        imagePreview.src = e.target.result;  // This sets the image source to the FileReader result (image data)
+    if (mainPhoto) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const imagePreview = new Image();
+            imagePreview.src = e.target.result;  // This sets the image source to the FileReader result (image data)
 
-        imagePreview.onload = function() {
-            // Now we can apply transformations on the image once it's loaded
-            const canvas = updateImageStylesAndCreateCanvas(imagePreview);
-            console.log("canvas:", canvas);
+            imagePreview.onload = function() {
+                // Now we can apply transformations on the image once it's loaded
+                const canvas = updateImageStylesAndCreateCanvas(imagePreview);
+                console.log("canvas:", canvas);
 
-            // Add a small timeout to ensure transformations are applied before converting to data URL
-            setTimeout(() => {
-                const dataURL = canvas.toDataURL();
-                console.log("canvas.toDataURL():", dataURL);
+                // Add a small timeout to ensure transformations are applied before converting to data URL
+                setTimeout(() => {
+                    const dataURL = canvas.toDataURL();
+                    console.log("canvas.toDataURL():", dataURL);
 
-                // Set the transformed image as the source
-                document.getElementById('mainPhoto').src = dataURL;
-            }, 700);  // Timeout for 500ms to ensure the canvas is rendered
+                    // Set the transformed image as the source of the correct <img> element (previewMainPhoto)
+                    document.getElementById('previewMainPhoto').src = dataURL;
+                }, 700);  // Timeout for 700ms to ensure the canvas is rendered
+            };
         };
-    };
-    reader.readAsDataURL(mainPhoto);  // Load the image file
-}
-
-
+        reader.readAsDataURL(mainPhoto);  // Load the image file
+    }
 
     // Show the preview modal
     document.getElementById('previewModal').style.display = "block";
