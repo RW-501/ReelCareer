@@ -28,7 +28,7 @@
 
 let userID = '';
 
-// Listen for authentication state changes to get the user ID
+document.addEventListener('DOMContentLoaded', () => {
 
 // Handle user authentication state change
 onAuthStateChanged(auth, async (user) => {
@@ -40,7 +40,7 @@ onAuthStateChanged(auth, async (user) => {
   }
 });
 
-
+});
 
 // Assuming pageID is set somewhere on the page (like an element with ID "pageID")
 const pageID = document.getElementById('pageID').innerText;
@@ -55,9 +55,6 @@ console.log('pageID:', pageID);
 
 
 
-
-
-renderShareArea(pageURL, pageName);
 
 
 
@@ -121,8 +118,6 @@ async function loadEntries() {
 }
 window.loadEntries = loadEntries;
 
-// Initial load of guestbook entries
-loadEntries();
 
 
 
@@ -214,8 +209,6 @@ async function incrementFlowerCount() {
   }
   window.incrementViews = incrementViews;
 
-  // Increment views when the page loads
-  incrementViews(pageID); // Replace `pageID` with the actual page ID variable
   
   
 
@@ -290,4 +283,17 @@ function showComingSoonPopup() {
   
 
 
+  document.addEventListener('DOMContentLoaded', () => {
+
+
+    renderShareArea(pageURL, pageName);
+
+
+
+// Initial load of guestbook entries
+loadEntries();
+
+// Increment views when the page loads
+incrementViews(pageID); // Replace `pageID` with the actual page ID variable
   
+  });
