@@ -1592,11 +1592,17 @@ validHashTag = validHashTag.replace(/\s+/g, ''); // Remove spaces
     previewContainer.innerHTML = previewContent;
 
     // Set the main photo if available
-    // Set the main photo if available
+    console.log( "mainPhoto:", mainPhoto);
     if (mainPhoto) {
         const reader = new FileReader();
         reader.onload = function(e) {
             const canvas = updateImageStylesAndCreateCanvas();  // Apply transformations on the canvas
+            console.log( "canvas:", canvas);
+
+               // Convert canvas to Blob
+   // const canvasBlob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg'));
+
+           
             document.getElementById('mainPhoto').src = canvas.toDataURL();  // Update the image with the transformed canvas
         };
         reader.readAsDataURL(mainPhoto);
