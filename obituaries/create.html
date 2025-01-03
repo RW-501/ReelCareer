@@ -1215,6 +1215,7 @@ document.getElementById('preview-button').click();
         let socialLinks = document.getElementById('socialLinks').value.trim();
         let socialLinkName = document.getElementById('socialLinkName').value.trim();
         let hashTag = document.getElementById('hashTag').value.trim();
+
         let validHashTag = hashTag.startsWith("#") ? hashTag : `#${hashTag}`;
         validHashTag = validHashTag.replace(/\s+/g, ''); // Remove spaces
 
@@ -1526,6 +1527,7 @@ document.getElementById('preview-button').addEventListener('click', function () 
     const socialLinks = document.getElementById('socialLinks').value;
     const mainPhoto = document.getElementById('mainPhoto').files[0]; // File input for main photo
     const socialLinkName = document.getElementById('socialLinkName').value;
+    const hashTag = document.getElementById("hashTag").value.trim();
     let validHashTag = hashTag.startsWith("#") ? hashTag : `#${hashTag}`;
 validHashTag = validHashTag.replace(/\s+/g, ''); // Remove spaces
 
