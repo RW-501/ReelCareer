@@ -121,7 +121,7 @@ function loadPageScripts() {
 loadScript('https://reelcareer.co/obituaries/setup/interactions.js', { async: true, type: 'module' }, () => {
     logExecutionTime('interactions', performance.now());
 });
-loadScript('https://reelcareer.co/obituaries/setup/share.js', { async: true }, () => {
+loadScript('https://reelcareer.co/obituaries/setup/share.js', { defer: true }, () => {
     logExecutionTime('share', performance.now());
 });
 
