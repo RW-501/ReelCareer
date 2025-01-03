@@ -1528,6 +1528,11 @@ document.getElementById('preview-button').addEventListener('click', function () 
     const pageName = document.getElementById('pageName').value.trim().toLowerCase();
     const video = document.getElementById('video').value;
     const socialLinks = document.getElementById('socialLinks').value;
+
+    const canvas = updateImageStylesAndCreateCanvas();
+
+ 
+
     const mainPhoto = document.getElementById('mainPhoto').files[0]; // File input for main photo
     const socialLinkName = document.getElementById('socialLinkName').value;
     const hashTag = document.getElementById("hashTag").value.trim();
@@ -1549,7 +1554,7 @@ validHashTag = validHashTag.replace(/\s+/g, ''); // Remove spaces
     <main>
         <div class="container">
             <div id="mainPhoto-area" class="changeable-area">
-                ${mainPhoto ? `<img id="mainPhoto" src="" alt="${name}" style="max-width: 300px; max-height: 300px; margin-top: 10px;">` : '<div>Missing Main Photo</div>'}
+                ${mainPhoto ? `<img id="mainPhoto" src="${mainPhoto}" alt="${name}" style="max-width: 300px; max-height: 300px; margin-top: 10px;">` : '<div>Missing Main Photo</div>'}
             </div>
             <div id="celebrating-life-header" class="changeable-area">Celebrating the Life of</div> 
             <div id="name-header" class="changeable-area">${name}</div>
@@ -1561,7 +1566,7 @@ validHashTag = validHashTag.replace(/\s+/g, ''); // Remove spaces
                 <div id="event-location" class="changeable-text"><strong>Services will be held:</strong> ${location}</div>
                 <div id="thoughts-share" class="changeable-text">Share your thoughts using</div>
                 <div id="hashTag" class="changeable-text">${validHashTag}</div>
-                <div id="social-link" class="changeable-text">${socialLinks ? `<a href="${socialLinks}" target="_blank">${socialLinks}</a>` : 'Missing Social Link'}</div>
+                <div id="social-link" class="changeable-text">${socialLinkName}: ${socialLinks ? `<a href="${socialLinks}" target="_blank">${socialLinks}</a>` : 'Missing Social Link'}</div>
             </div>
             <div id="media-section" class="changeable-area">
                 ${video ? `<video src="${video}" controls style="max-width: 300px; max-height: 300px;"></video>` : '<div>Missing Video</div>'}
@@ -1583,11 +1588,8 @@ validHashTag = validHashTag.replace(/\s+/g, ''); // Remove spaces
 
     // Set the main photo if available
     if (mainPhoto) {
-        const reader = new FileReader();
-        reader.onload = function (e) {
-            document.getElementById('mainPhoto').src = e.target.result;
-        };
-        reader.readAsDataURL(mainPhoto);
+            document.getElementById('mainPhoto').src = canvas.toDataURL(); // Update the image with the transformed canvas
+            
     }
 
     // Show the preview modal
