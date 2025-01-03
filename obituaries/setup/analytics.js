@@ -159,6 +159,11 @@ async function trackAnalytics() {
   const userDevice = navigator.userAgent; // Get user device info
   const timestamp = new Date(); // Current timestamp
 
+  // Check if pageTitle is valid (not empty)
+  if (!pageTitle || pageTitle.trim() === "") {
+    console.error("Page title is empty. Skipping analytics tracking.");
+    return;
+  }
 
   const analyticsRef = doc(db, "A_Ob_Analytics", ipAddress); // Reference the user's document
   const docSnap = await getDoc(analyticsRef);
@@ -183,7 +188,7 @@ async function trackAnalytics() {
       totalPageViews: 1,
       lastPageViewed: timestamp,
       pageViewed: [{ title: pageTitle, time: timestamp }],
-      pageViewCount: { [pageTitle]: 1 },
+      pageViewCount: { [pageTitle]: 1 }, // Ensure pageViewCount is set correctly
       lastReferral: lastReferrer,
       userDevice: userDevice,
       userID: userID,
@@ -195,6 +200,7 @@ async function trackAnalytics() {
     });
   }
 }
+
 
 // Start tracking view time as soon as the page loads
 window.addEventListener("load", () => {
