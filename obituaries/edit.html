@@ -161,6 +161,8 @@
     <!-- Main Content Section -->
 <main id="main-content">
 
+  <div id="messageDiv"></div>
+
         <div class="container">
             <select id="obituarySelect" onchange="getSelectedObituary()">
                 <option value="">Select an Obituary</option>
@@ -609,6 +611,8 @@ function getSelectedObituary() {
         console.log('No obituary selected.');
     }
 }
+
+window.getSelectedObituary = getSelectedObituary;
 
 // Change Layout Mode
 changeLayoutBtn.addEventListener('click', () => {
