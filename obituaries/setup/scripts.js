@@ -55,8 +55,6 @@ console.log('pageID:', pageID);
 
 
 
-document.addEventListener('DOMContentLoaded', () => {
-
 
 // Utility function to sanitize user inputs
 function sanitizeInput(input) {
@@ -98,8 +96,6 @@ const entriesDiv = document.getElementById("guestbookEntries");
     }
   });
   
-
-});
 
 
 
@@ -282,7 +278,6 @@ function showComingSoonPopup() {
 
 
 
-  document.addEventListener('DOMContentLoaded', () => {
 
     console.log("DOMContentLoaded sendFlowersButton:");
 
@@ -306,4 +301,3 @@ loadEntries();
 // Increment views when the page loads
 incrementViews(pageID); // Replace `pageID` with the actual page ID variable
   
-  });
