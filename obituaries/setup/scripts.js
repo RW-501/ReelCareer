@@ -190,13 +190,15 @@ async function incrementFlowerCount() {
 
     console.log("Flower count updated successfully and IP recorded!");
   } catch (error) {
-    console.error("Error updating flower count:", error);
+    if (error.message === "Operation timed out") {
+      console.error("The operation timed out. Please try again.");
+    } else {
+      console.error("Error updating flower count:", error);
+    }
   }
 }
 
 window.incrementFlowerCount = incrementFlowerCount;
-
-
 
 
 
@@ -218,7 +220,8 @@ async function incrementViews() {
       return; // Exit if the page document doesn't exist
     }
 
-    const ipCollectionRef = collection(pageRef, "PageViewIPs"); // Subcollection for tracking IPs
+    // Correctly reference the subcollection
+    const ipCollectionRef = collection(doc(db, "A_Obituaries", pageID), "PageViewIPs"); // Subcollection for tracking IPs
     const ipDocRef = doc(ipCollectionRef, userIP); // Use IP address as the document ID
     console.log('ipDocRef:', ipDocRef);
 
@@ -249,8 +252,6 @@ async function incrementViews() {
 }
 
 window.incrementViews = incrementViews;
-
-  
 
 
 
