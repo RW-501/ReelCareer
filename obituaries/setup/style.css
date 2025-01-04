@@ -232,7 +232,8 @@ footer p {
 }
 
 .share-buttons .device-share {
-    background-color: #25d0d3;
+    background-color: #5c6363;
+    border: none;
 }
 .info-section {
     margin: 20px 0;
