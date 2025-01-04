@@ -132,49 +132,38 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Function to add 1 to the flower count, animate, and update in Firestore
 // Function to wrap async calls with timeout
-const withTimeout = (promise, timeout) => {
-  return Promise.race([
-    promise,
-    new Promise((_, reject) =>
-      setTimeout(() => reject(new Error("Operation timed out")), timeout)
-    ),
-  ]);
-};
-
 async function incrementFlowerCount() {
   const flowerCountElement = document.getElementById("flowerCount");
   let currentCount = parseInt(flowerCountElement.textContent, 10); // Get current count and convert to number
   const pageID = document.getElementById('pageID').innerText;
+
   console.log('pageID:', pageID);
   console.log('currentCount:', currentCount);
 
-  // Firestore references
-  const userIP =  await getUserIP(); // Fetch the user's IP
+  const userIP = await getUserIP(); // Fetch the user's IP
   console.log('userIP:', userIP);
 
-    const docRef = doc(db, "A_Obituaries", pageID); // Reference to the specific obituary document
+  const docRef = doc(db, "A_Obituaries", pageID); // Reference to the specific obituary document
 
+  try {
     // Ensure the document exists before proceeding
     const docSnapshot = await withTimeout(getDoc(docRef), 5000); // Timeout after 5 seconds
     if (!docSnapshot.exists()) {
       console.error("Document does not exist. Cannot increment flower count.");
       return;
     }
-    try {
 
-    const ipCollectionRef = collection(docRef, "FlowerIPs"); // Reference to the "FlowerIPs" subcollection
+    const ipDocRef = doc(db, "A_Obituaries", pageID, "FlowerIPs", userIP); // Correct path to subcollection document
 
     // Check if the IP is already recorded
-    const ipDocRef = doc(ipCollectionRef, userIP); // Use IP address as the document ID
     const ipDocSnapshot = await withTimeout(getDoc(ipDocRef), 5000); // Timeout after 5 seconds
-
     if (ipDocSnapshot.exists()) {
       console.log("User has already added a flower.");
       return; // Exit if the IP has already added a flower
     }
 
     // Increment flower count
-    currentCount += 1; // Increment count by 1
+    currentCount += 1;
     flowerCountElement.textContent = currentCount; // Update the element with the new count
 
     // Add animation
@@ -186,27 +175,19 @@ async function incrementFlowerCount() {
     setTimeout(() => {
       flowerCountElement.style.transform = "scale(1)";
       flowerCountElement.style.color = "black";
-    }, 300); // Match the duration of the animation
+    }, 300);
 
     // Update Firestore
-    await withTimeout(updateDoc(docRef, {
-      flowerCount: currentCount // Update the flowerCount field in Firestore
-    }), 5000); // Timeout after 5 seconds
+    await withTimeout(updateDoc(docRef, { flowerCount: currentCount }), 5000); // Timeout after 5 seconds
 
     // Record the IP in the subcollection
     await withTimeout(setDoc(ipDocRef, { timestamp: serverTimestamp() }), 5000); // Timeout after 5 seconds
 
     console.log("Flower count updated successfully and IP recorded!");
   } catch (error) {
-    if (error.message === "Operation timed out") {
-      console.error("The operation timed out. Please try again.");
-    } else {
-      console.error("Error updating flower count:", error);
-    }
+    console.error("Error updating flower count:", error.message);
   }
 }
-
-window.incrementFlowerCount = incrementFlowerCount;
 
 
 
