@@ -741,6 +741,7 @@ function handleDrop(e) {
 
 // Enable text editing
 function enableTextEditing() {
+  removeEditingHighlights();
   previewBtn.style.display = 'inline-block';
   saveBtn.style.display = 'inline-block';
 
@@ -748,12 +749,14 @@ function enableTextEditing() {
   changeableTextDivs.forEach(div => {
     div.setAttribute('contenteditable', 'true');
     div.classList.add('editable');
+    div.classList.add('active');
     div.addEventListener('focus', () => div.classList.add('active'));  // Add active class on focus
     div.addEventListener('blur', () => div.classList.remove('active'));  // Remove active class on blur
   });
 }
 
 function enableLayoutEditing() {
+  removeEditingHighlights();
   previewBtn.style.display = 'inline-block';
   saveBtn.style.display = 'inline-block';
 
@@ -761,6 +764,7 @@ function enableLayoutEditing() {
   changeableAreas.forEach(area => {
     area.setAttribute('draggable', 'true');
     area.classList.add('editable');
+    area.classList.add('active');
     area.addEventListener('dragstart', handleDragStart);
     area.addEventListener('dragover', handleDragOver);
     area.addEventListener('drop', handleDrop);
