@@ -322,7 +322,7 @@ function updateImageStylesAndCreateCanvas() {
     
     return canvas;
 }
-
+/*
 
 if(fileInput){
 
@@ -510,6 +510,8 @@ const changeTextBtn = document.getElementById('changeTextBtn');
 const previewBtn = document.getElementById('previewBtn');
 const saveBtn = document.getElementById('saveBtn');
 const breadcrumbText = document.getElementById('breadcrumbText');
+*/
+
 
 let currentMode = 'layout';  // Current mode (either 'layout' or 'text')
 
@@ -565,9 +567,10 @@ const token = part_1 + part_2 + part_3 + part_4;
     } else {
       messageDiv.innerHTML = 'File not found.';
     }
+    console.log("fileResponse:", fileResponse);
+
   } catch (error) {
     console.log("error:", error);
-    console.log("fileResponse:", fileResponse);
 
     messageDiv.innerHTML = 'Error fetching the obituary HTML.';
   }
