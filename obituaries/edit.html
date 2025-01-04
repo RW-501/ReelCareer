@@ -721,6 +721,7 @@ previewBtn.addEventListener('click', () => {
 // Save Changes
 saveBtn.addEventListener('click', async () => {
   console.log('saveBtn.');
+  removeEditingHighlights();
 
   const nonChangeableDivs = viewObituary.querySelectorAll('.nonChangeable');
   const modified = Array.from(nonChangeableDivs).some(div => div.innerHTML !== originalHTML);
