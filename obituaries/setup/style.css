@@ -165,7 +165,7 @@ footer p {
     text-decoration: underline;
 }
 
-#flowe-area i {
+#flower-area i {
     font-size: 3rem;
     color: green;
 }
@@ -197,6 +197,7 @@ footer p {
     gap: 15px;
 }
 
+.share-buttons button,
 .share-buttons a {
     display: flex;
     align-items: center;
@@ -209,7 +210,7 @@ footer p {
     font-size: 20px;
     transition: transform 0.3s ease;
 }
-
+.share-buttons button:hover,
 .share-buttons a:hover {
     transform: scale(1.1);
 }
@@ -230,7 +231,9 @@ footer p {
     background-color: #25d366;
 }
 
-
+.share-buttons .device-share {
+    background-color: #25d0d3;
+}
 .info-section {
     margin: 20px 0;
     background: rgba(255, 255, 255, 0.1);

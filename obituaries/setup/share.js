@@ -22,7 +22,7 @@ function renderShareArea(pageName) {
                     <i class="fab fa-whatsapp"></i>
                 </a>
                 <button id="deviceShareButton" class="device-share" title="Share using your device">
-                    <i class="fas fa-share-alt"></i> Share with Device
+                    <i class="fas fa-share-alt"></i> 
                 </button>
             </div>
         </div>
