@@ -145,11 +145,11 @@ async function incrementFlowerCount() {
   console.log('currentCount:', currentCount);
 
   // Firestore references
-  const docRef = doc(db, "A_Obituaries", pageID); // Reference to the specific obituary document
   const userIP = getUserIP(); // Fetch the user's IP
   console.log('userIP:', userIP);
 
   try {
+    const docRef = doc(db, "A_Obituaries", pageID); // Reference to the specific obituary document
 
     // Ensure the document exists before proceeding
     const docSnapshot = await withTimeout(getDoc(docRef), 5000); // Timeout after 5 seconds
@@ -210,13 +210,13 @@ window.incrementFlowerCount = incrementFlowerCount;
 async function incrementViews() {
   const pageID = document.getElementById('pageID').innerText;
   console.log('incrementViews:');
-  const pageRef = doc(db, "A_Obituaries", pageID); // Document reference for the page
   console.log('pageID:', pageID);
 
   const userIP = getUserIP(); // Fetch the user's IP
   console.log('userIP:', userIP);
 
   try {
+    const pageRef = doc(db, "A_Obituaries", pageID); // Document reference for the page
 
     // Check if the page document exists
     const pageDocSnapshot = await withTimeout(getDoc(pageRef), 5000); // Timeout after 5 seconds
