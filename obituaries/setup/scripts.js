@@ -223,7 +223,14 @@ async function incrementFlowerCount() {
 
 window.incrementFlowerCount = incrementFlowerCount;
 
+let viewStartTime;
 
+// Function to start tracking the view time when the page loads
+function startViewTimer() {
+    viewStartTime = Date.now();
+}
+
+startViewTimer();
 
 async function incrementViews() {
   try {
