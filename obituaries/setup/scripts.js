@@ -123,10 +123,8 @@ document.addEventListener('DOMContentLoaded', () => {
 async function incrementFlowerCount() {
   const flowerCountElement = document.getElementById("flowerCount");
   let currentCount = parseInt(flowerCountElement.textContent, 10); // Get current count and convert to number
-  const userIP = await getUserIP(); // Fetch the user's IP
   const pageID = document.getElementById('pageID').innerText;
   console.log('pageID:', pageID);
-  console.log('userIP:', userIP);
   console.log('currentCount:', currentCount);
   
   // Firestore references
@@ -134,6 +132,10 @@ async function incrementFlowerCount() {
   
   // Ensure that the document exists before creating subcollections
   try {
+    const userIP = await getUserIP(); // Fetch the user's IP
+    console.log('userIP:', userIP);
+
+
     const docSnapshot = await getDoc(docRef);
     if (!docSnapshot.exists()) {
       console.error("Document does not exist. Cannot increment flower count.");
@@ -179,15 +181,23 @@ async function incrementFlowerCount() {
     console.error("Error updating flower count:", error);
   }
 }
+
+
+
+
   // Function to increment views (for reference)
   async function incrementViews() {
-    try {
       const pageID = document.getElementById('pageID').innerText;
-      const userIP = await getUserIP(); // Fetch the user's IP
+
+
       const pageRef = doc(db, "A_Obituaries", pageID); // Document reference for the page
       console.log('pageID:', pageID);
-      console.log('userIP:', userIP);
   
+      try {
+
+      const userIP = await getUserIP(); // Fetch the user's IP
+      console.log('userIP:', userIP);
+
       // Check if the page document exists
       const pageDocSnapshot = await getDoc(pageRef);
       if (!pageDocSnapshot.exists()) {
