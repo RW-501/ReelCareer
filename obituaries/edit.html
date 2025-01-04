@@ -709,19 +709,7 @@ saveBtn.addEventListener('click', async () => {
   }
 });
 
-// Enable layout editing (drag and drop)
-function enableLayoutEditing() {
-  previewBtn.style.display = 'inline-block';
-  saveBtn.style.display = 'inline-block';
 
-  const changeableAreas = document.querySelectorAll('.changeable-area');
-  changeableAreas.forEach(area => {
-    area.setAttribute('draggable', 'true');
-    area.addEventListener('dragstart', handleDragStart);
-    area.addEventListener('dragover', handleDragOver);
-    area.addEventListener('drop', handleDrop);
-  });
-}
 
 // Handle drag events for layout change
 function handleDragStart(e) {
