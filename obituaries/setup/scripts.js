@@ -172,7 +172,9 @@ async function incrementFlowerCount() {
       const pageID = document.getElementById('pageID').innerText;
       const userIP = await getUserIP(); // Fetch the user's IP
       const pageRef = doc(db, "A_Obituaries", pageID); // Document reference for the page
-  
+      console.log('pageID:', pageID);
+      console.log('userIP:', userIP);
+
       // Check if the pageRef is valid
       if (!pageRef) {
         console.error("Invalid page reference.");
@@ -298,5 +300,5 @@ function showComingSoonPopup() {
 
 
 // Increment views when the page loads
-incrementViews(pageID); // Replace `pageID` with the actual page ID variable
+incrementViews(); // Replace `pageID` with the actual page ID variable
   
