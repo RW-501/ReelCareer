@@ -71,9 +71,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById("guestbookForm");
   const entriesDiv = document.getElementById("guestbookEntries");
   const pageID = document.getElementById('pageID').innerText;
+  const submitbtn = document.getElementById("submit-btn");
 
   // Event listener for the form submission
-  form.addEventListener("submit", async (e) => {
+  submitbtn.addEventListener("click", async (e) => {
     e.preventDefault(); // Prevent page refresh
 
     const name = sanitizeInput(document.getElementById("guestName").value.trim());
