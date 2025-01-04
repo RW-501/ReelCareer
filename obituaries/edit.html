@@ -665,7 +665,7 @@ async function loadUserObituaries(userID) {
         // Loop through obituaryPageNames and add them to the select dropdown
         obituaryPageNames.forEach((pageName, index) => {
             const option = document.createElement("option");
-            option.value = pageName[index]; // Use the page ID as the value
+            option.value = obituaryPageNames[index]; // Use the page ID as the value
             option.textContent = pageName; // Use the page name as the label
             selectElement.appendChild(option);
         });
