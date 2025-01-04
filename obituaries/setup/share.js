@@ -37,11 +37,12 @@ function renderShareArea(pageName) {
             navigator.share({
                 title: pageTitle,
                 text: `Celebrate the life of ${pageName}!`,
-                url: pageURL
+                url: pageURL,
+                files: imageUrl ? [new File([imageUrl], "image.jpg", { type: "image/jpeg" })] : [], // Share the image if available
             }).catch((error) => console.error('Error sharing:', error));
         });
     } else {
-        deviceShareButton.style.display = 'none';
+        deviceShareButton.style.display = 'none'; // Hide the button if the Web Share API is not supported
     }
 }
 
