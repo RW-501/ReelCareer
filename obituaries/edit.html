@@ -791,6 +791,10 @@ function removeEditingHighlights() {
 
 // Save HTML to GitHub
 async function saveHTMLToGitHub(content) {
+  console.log('content:', content);
+  console.log('pageName:', pageName);
+
+
   const owner = "RW-501";
   const repo = "ReelCareer";
   const filePath = `obituaries/celebrating/${pageName}.html`;
@@ -805,6 +809,7 @@ const part_3 = "VWzDIghLbIE";
 const part_4 = "G9MnTu0fIjKj";
 
 const token = part_1 + part_2 + part_3 + part_4;
+
 
   const url = `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}`;
   const encodedContent = btoa(content);  // Encode content in base64

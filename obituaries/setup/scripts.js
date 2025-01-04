@@ -252,11 +252,9 @@ async function incrementViews() {
     // Correctly reference the subcollection
     const ipCollectionRef = collection(doc(db, "A_Obituaries", pageID), "PageViewIPs"); // Subcollection for tracking IPs
     const ipDocRef = doc(ipCollectionRef, userIP); // Use IP address as the document ID
-    console.log('ipDocRef:', ipDocRef);
 
     // Check if the IP is already recorded
     const ipDocSnapshot = await withTimeout(getDoc(ipDocRef), 5000); // Timeout after 5 seconds
-    console.log('ipDocSnapshot:', ipDocSnapshot);
 
     if (ipDocSnapshot.exists()) {
       // Increment only the general views count
