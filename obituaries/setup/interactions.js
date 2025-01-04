@@ -12,7 +12,7 @@ function renderInteractionsArea() {
             </div>
 <div  class="guestbook">
             <h2>Guestbook</h2>
-            <form id="guestbookForm">
+            <div id="guestbookForm">
                 <div>
                     <input type="text" id="guestName" placeholder="Your Name" required>
                 </div>
@@ -20,7 +20,7 @@ function renderInteractionsArea() {
                     <textarea id="guestMessage" rows="4" placeholder="Your Message" required></textarea>
                 </div>
                 <button type="submit">Submit</button>
-            </form>
+            </div>
             <div class="guestbook-entries" id="guestbookEntries"></div>
         </div>
     `;
