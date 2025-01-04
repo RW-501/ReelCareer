@@ -118,54 +118,53 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Function to add 1 to the flower count, animate, and update in Firestore
 async function incrementFlowerCount() {
-    const flowerCountElement = document.getElementById("flowerCount");
-    let currentCount = parseInt(flowerCountElement.textContent, 10); // Get current count and convert to number
-    const userIP = await getUserIP(); // Fetch the user's IP
-    const pageID = document.getElementById('pageID').innerText;
+  const flowerCountElement = document.getElementById("flowerCount");
+  let currentCount = parseInt(flowerCountElement.textContent, 10); // Get current count and convert to number
+  const userIP = await getUserIP(); // Fetch the user's IP
+  const pageID = document.getElementById('pageID').innerText;
 
-    // Firestore references
-    const docRef = doc(db, "A_Obituaries", pageID); // Replace `pageID` with the actual page ID variable
-    const ipCollectionRef = collection(docRef, "FlowerIPs"); // Subcollection to track IPs
-  
-    try {
+  // Firestore references
+  const docRef = doc(db, "A_Obituaries", pageID); // Reference to the specific obituary document
+  const ipCollectionRef = collection(docRef, "FlowerIPs"); // Reference to the "FlowerIPs" subcollection
+
+  try {
       // Check if the IP is already recorded
       const ipDocRef = doc(ipCollectionRef, userIP); // Use IP address as the document ID
       const ipDocSnapshot = await getDoc(ipDocRef);
-  
+
       if (ipDocSnapshot.exists()) {
-        console.log("User has already added a flower.");
-        return; // Exit if the IP has already added a flower
+          console.log("User has already added a flower.");
+          return; // Exit if the IP has already added a flower
       }
-  
+
       // Increment flower count
       currentCount += 1; // Increment count by 1
       flowerCountElement.textContent = currentCount; // Update the element with the new count
-  
+
       // Add animation
       flowerCountElement.style.transition = "transform 0.3s ease-out, color 0.3s ease-out";
       flowerCountElement.style.transform = "scale(1.5)";
       flowerCountElement.style.color = "green";
-  
+
       // Reset animation after a delay
       setTimeout(() => {
-        flowerCountElement.style.transform = "scale(1)";
-        flowerCountElement.style.color = "black";
+          flowerCountElement.style.transform = "scale(1)";
+          flowerCountElement.style.color = "black";
       }, 300); // Match the duration of the animation
-  
+
       // Update Firestore
       await updateDoc(docRef, {
-        flowerCount: currentCount // Update the flowerCount field in Firestore
+          flowerCount: currentCount // Update the flowerCount field in Firestore
       });
-  
+
       // Record the IP in the subcollection
       await setDoc(ipDocRef, { timestamp: serverTimestamp() });
-  
+
       console.log("Flower count updated successfully and IP recorded!");
-    } catch (error) {
+  } catch (error) {
       console.error("Error updating flower count:", error);
-    }
   }
-  
+}
 
   // Function to increment views (for reference)
   async function incrementViews() {
