@@ -54,6 +54,9 @@ console.log('pageID:', pageID);
 
 
 
+renderShareArea(pageName);
+
+
 
 
 
@@ -409,11 +412,10 @@ function showComingSoonPopup() {
 
 
 
-    renderShareArea(pageName);
 
-
-
+    document.addEventListener('DOMContentLoaded', () => {
 
 // Increment views when the page loads
 incrementViews(); // Replace `pageID` with the actual page ID variable
   
+    });
