@@ -198,7 +198,7 @@ async function incrementViews() {
     const userIP = await getUserIP(); // Fetch the user's IP
     console.log('User IP:', userIP);
 
-    const pageRef = doc(db, "A_Obituaries", pageID); // Reference to the obituary document
+    const pageRef = doc(db, "A_Obituaries", "i9kNtwIOBYqnF118FoHa"); // Reference to the obituary document
 
     // Fetch the page document to ensure it exists
     const pageDocSnapshot = await withTimeout(getDoc(pageRef), 5000);
@@ -208,7 +208,7 @@ async function incrementViews() {
     }
 
     // Reference for the unique view tracking document using the user's IP
-    const ipDocRef = doc(db, "A_Obituaries", pageID, "PageViewIPs", userIP);
+    const ipDocRef = doc(db, "A_Obituaries", "i9kNtwIOBYqnF118FoHa", "PageViewIPs", userIP);
 
     // Check if the IP document already exists
     const ipDocSnapshot = await withTimeout(getDoc(ipDocRef), 5000);
