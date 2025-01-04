@@ -149,7 +149,7 @@ async function incrementFlowerCount() {
   console.log('currentCount:', currentCount);
 
   // Firestore references
-  const userIP = getUserIP(); // Fetch the user's IP
+  const userIP =  await getUserIP(); // Fetch the user's IP
   console.log('userIP:', userIP);
 
   try {
@@ -216,7 +216,7 @@ async function incrementViews() {
   console.log('incrementViews:');
   console.log('pageID:', pageID);
 
-  const userIP = getUserIP(); // Fetch the user's IP
+  const userIP =  await getUserIP(); // Fetch the user's IP
   console.log('userIP:', userIP);
 
   try {
