@@ -122,7 +122,10 @@ async function incrementFlowerCount() {
   let currentCount = parseInt(flowerCountElement.textContent, 10); // Get current count and convert to number
   const userIP = await getUserIP(); // Fetch the user's IP
   const pageID = document.getElementById('pageID').innerText;
-
+  console.log('pageID:', pageID);
+  console.log('userIP:', userIP);
+  console.log('currentCount:', currentCount);
+  
   // Firestore references
   const docRef = doc(db, "A_Obituaries", pageID); // Reference to the specific obituary document
   const ipCollectionRef = collection(docRef, "FlowerIPs"); // Reference to the "FlowerIPs" subcollection
