@@ -171,17 +171,24 @@ async function incrementFlowerCount() {
     try {
       const pageID = document.getElementById('pageID').innerText;
       const userIP = await getUserIP(); // Fetch the user's IP
-      const pageRef = doc(db, "A_Obituaries", pageID);
+      const pageRef = doc(db, "A_Obituaries", pageID); // Document reference for the page
+  
+      // Check if the pageRef is valid
+      if (!pageRef) {
+        console.error("Invalid page reference.");
+        return;
+      }
+  
       const ipCollectionRef = collection(pageRef, "PageViewIPs"); // Subcollection for tracking IPs
       const ipDocRef = doc(ipCollectionRef, userIP); // Use IP address as the document ID
-
+  
       // Check if the IP is already recorded
       const ipDocSnapshot = await getDoc(ipDocRef);
   
       if (ipDocSnapshot.exists()) {
         // Increment only the general views count
         await updateDoc(pageRef, {
-          views: increment(1)
+          views: increment(1) // Increment general view count
         });
         console.log("General view count updated successfully!");
       } else {
@@ -201,7 +208,7 @@ async function incrementFlowerCount() {
     }
   }
   window.incrementViews = incrementViews;
-
+  
   
   
 
