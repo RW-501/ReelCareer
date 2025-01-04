@@ -427,9 +427,7 @@ function showComingSoonPopup() {
 
 
 
-    document.addEventListener('DOMContentLoaded', () => {
-
 // Increment views when the page loads
 incrementViews(); // Replace `pageID` with the actual page ID variable
   
-    });
+  
