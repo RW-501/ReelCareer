@@ -394,12 +394,12 @@ footer p {
             background-color: #0056b3;
         }
 
-        .guestbook form {
+        .guestbook .form {
             margin-top: 15px;
         }
 
-        .guestbook form input,
-        .guestbook form textarea {
+        .guestbook .form input,
+        .guestbook .form textarea {
             width: calc(100% - 20px);
             padding: 10px;
             margin-bottom: 10px;
@@ -407,7 +407,7 @@ footer p {
             border-radius: 5px;
         }
 
-        .guestbook form button {
+        .guestbook .form button {
             display: block;
             width: 100%;
             background-color: #28a745;
@@ -419,7 +419,7 @@ footer p {
             cursor: pointer;
         }
 
-        .guestbook form button:hover {
+        .guestbook .form button:hover {
             background-color: #218838;
         }
 

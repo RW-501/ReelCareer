@@ -13,7 +13,7 @@ function renderInteractionsArea() {
             </div>
 </div>
 
-<div class="guestbook changeable-area">
+<div class="guestbook form changeable-area">
             <h2  class="changeable-text">Guestbook</h2>
             <div id="guestbookForm">
                 <div>
