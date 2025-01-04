@@ -122,6 +122,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const pageID = document.getElementById('pageID').innerText;
     const entriesDiv = document.getElementById("guestbookEntries");
 
+
   // Function to load guestbook entries
   async function loadEntries() {
     try {
@@ -242,7 +243,12 @@ async function incrementViews() {
       console.error("Page document does not exist.");
       return; // Exit if the page document doesn't exist
     }
-
+    
+    // Extract the flowerCount from the document data
+    const pageData = pageDocSnapshot.data(); // Get document data as an object
+    const flowerCount = pageData.flowerCount; // Access the flowerCount property
+    document.getElementById("flowerCount").innerText = flowerCount; // Update the UI with the retrieved count
+    
     // Correctly reference the subcollection
     const ipCollectionRef = collection(doc(db, "A_Obituaries", pageID), "PageViewIPs"); // Subcollection for tracking IPs
     const ipDocRef = doc(ipCollectionRef, userIP); // Use IP address as the document ID
