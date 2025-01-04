@@ -611,7 +611,7 @@ const token = part_1 + part_2 + part_3 + part_4;
     } else {
       messageDiv.innerHTML = 'File not found.';
     }
-    console.log("fileResponse:", fileResponse);
+    console.log("fetchObituary fileResponse:", fileResponse);
 
   } catch (error) {
     console.log("error:", error);
@@ -658,6 +658,7 @@ function getSelectedObituary() {
     // Get the select element and its selected value
     const selectElement = document.getElementById('obituarySelect');
     const selectedValue = selectElement.value;
+    console.log('selectedValue: ',selectedValue);
 
     // Check if a value is selected
     if (selectedValue) {
@@ -696,8 +697,11 @@ previewBtn.addEventListener('click', () => {
 
 // Save Changes
 saveBtn.addEventListener('click', async () => {
+  console.log('saveBtn.');
+
   const nonChangeableDivs = viewObituary.querySelectorAll('.nonChangeable');
   const modified = Array.from(nonChangeableDivs).some(div => div.innerHTML !== originalHTML);
+  console.log('modified.',modified);
 
   if (modified) {
     messageDiv.innerHTML = 'Changes cannot be saved as non-changeable content was altered.';
@@ -843,7 +847,7 @@ const token = part_1 + part_2 + part_3 + part_4;
     messageDiv.innerHTML = `Error: ${error.message}`;
   }
 }
-
+window.saveHTMLToGitHub = saveHTMLToGitHub;
 </script>
 
     <script>
