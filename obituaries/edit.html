@@ -738,24 +738,6 @@ saveBtn.addEventListener('click', async () => {
 
 
 
-// Handle drag events for layout change
-// Enable drag events for layout
-// Enable drag events for layout
-function enableLayoutEditing() {
-  previewBtn.style.display = 'inline-block';
-  saveBtn.style.display = 'inline-block';
-
-  const changeableAreas = document.querySelectorAll('.changeable-area');
-  changeableAreas.forEach(area => {
-    area.setAttribute('draggable', 'true');
-    area.addEventListener('dragstart', handleDragStart);
-    area.addEventListener('dragover', handleDragOver);
-    area.addEventListener('drop', handleDrop);
-    area.addEventListener('dragenter', handleDragEnter);  // Highlight drop zone
-    area.addEventListener('dragleave', handleDragLeave);  // Remove highlight from drop zone
-  });
-}
-
 // Handle drag start (grab the entire div, not just the inner element)
 function handleDragStart(e) {
   // Store the entire HTML of the dragged element
