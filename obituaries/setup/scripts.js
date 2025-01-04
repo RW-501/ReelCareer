@@ -142,7 +142,7 @@ async function incrementFlowerCount() {
   const userIP = await getUserIP(); // Fetch the user's IP
   console.log('userIP:', userIP);
 
-  const docRef = doc(db, "A_Obituaries", pageID); // Reference to the specific obituary document
+  const docRef = doc(db, "A_Obituaries", "i9kNtwIOBYqnF118FoHa"); // Reference to the specific obituary document
 
   try {
     // Ensure the document exists before proceeding
@@ -152,7 +152,7 @@ async function incrementFlowerCount() {
       return;
     }
 
-    const ipDocRef = doc(db, "A_Obituaries", pageID, "FlowerIPs", userIP); // Correct path to subcollection document
+    const ipDocRef = doc(db, "A_Obituaries", "i9kNtwIOBYqnF118FoHa", "FlowerIPs", userIP); // Correct path to subcollection document
 
     // Check if the IP is already recorded
     const ipDocSnapshot = await withTimeout(getDoc(ipDocRef), 5000); // Timeout after 5 seconds
