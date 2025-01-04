@@ -72,23 +72,41 @@
 <style>
   main {
 
-  /* Basic Styles */
-  #viewObituary {
-    border: 1px solid #ccc;
-    padding: 20px;
+    #viewObituary {
+    border: 1px solid #f4f4f4;
+    padding: 4px;
     min-height: 400px;
-  }
+    overflow-y: auto;
+}
   
-  #viewObituary .changeable-area {
+  #viewObituary .changeable-area.active {
     border: 2px dashed blue;
-  }
-  
-  #viewObituary .changeable-text {
+    margin: .5rem 0;
+    padding: .5rem 0;
+    background-color: #f4f4f4;
+    border-radius: 5px;
+}
+  #viewObituary .changeable-text.active {
     border: 2px solid green;
   }
   
+  #viewObituary .changeable-area {
+    margin: .5rem 0;
+    padding: .5rem 0;
+    border: none;
+
+}
+  #viewObituary .changeable-text {
+    border: none;
+  }
+  
+
+
+
+
+
   #viewObituary .editable {
-    outline: 2px solid green;
+    outline: 2px solid rgb(217, 230, 29);
   }
   
   .changeable-area, .changeable-text {
@@ -738,19 +756,36 @@ function enableTextEditing() {
   changeableTextDivs.forEach(div => {
     div.setAttribute('contenteditable', 'true');
     div.classList.add('editable');
+    div.addEventListener('focus', () => div.classList.add('active'));  // Add active class on focus
+    div.addEventListener('blur', () => div.classList.remove('active'));  // Remove active class on blur
   });
 }
 
-// Remove all highlights or outlines
+function enableLayoutEditing() {
+  previewBtn.style.display = 'inline-block';
+  saveBtn.style.display = 'inline-block';
+
+  const changeableAreas = document.querySelectorAll('.changeable-area');
+  changeableAreas.forEach(area => {
+    area.setAttribute('draggable', 'true');
+    area.classList.add('editable');
+    area.addEventListener('dragstart', handleDragStart);
+    area.addEventListener('dragover', handleDragOver);
+    area.addEventListener('drop', handleDrop);
+    area.addEventListener('focus', () => area.classList.add('active'));  // Add active class on focus
+    area.addEventListener('blur', () => area.classList.remove('active'));  // Remove active class on blur
+  });
+}
+
 function removeEditingHighlights() {
   const editableDivs = document.querySelectorAll('.editable');
   editableDivs.forEach(div => {
     div.removeAttribute('contenteditable');
-    div.classList.remove('editable');
+    div.classList.remove('editable', 'active');
   });
   const changeableAreas = document.querySelectorAll('.changeable-area');
   changeableAreas.forEach(area => {
-    area.classList.remove('changeable-area');
+    area.classList.remove('changeable-area', 'active');
   });
 }
 
