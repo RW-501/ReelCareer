@@ -63,68 +63,58 @@ function sanitizeInput(input) {
   div.textContent = input;
   return div.innerHTML;
 }
-
 document.addEventListener('DOMContentLoaded', () => {
+  // Reference Firestore database and DOM elements
+  const form = document.getElementById("guestbookForm");
+  const entriesDiv = document.getElementById("guestbookEntries");
+  const pageID = document.getElementById('pageID').innerText;
 
-// Reference the Firestore database
-const form = document.getElementById("guestbookForm");
-const entriesDiv = document.getElementById("guestbookEntries");
-
-
-  
   // Event listener for the form submission
   form.addEventListener("submit", async (e) => {
-    e.preventDefault();
-  
-    // Get and sanitize form inputs
+    e.preventDefault(); // Prevent page refresh
+
     const name = sanitizeInput(document.getElementById("guestName").value.trim());
     const message = sanitizeInput(document.getElementById("guestMessage").value.trim());
-    const userIP = await getUserIP(); // Fetch the user's IP
-  
+    const userIP = await getUserIP(); // Fetch user IP address
+
     if (name && message) {
       try {
-        // Add the new guestbook entry to the Firestore collection
         const guestbookRef = collection(db, `A_Obituaries/${pageID}/Guestbook`);
         await addDoc(guestbookRef, {
           name,
           message,
-          userIP, // Include the user's IP
-          timestamp: serverTimestamp(), // Optional timestamp
+          userIP,
+          timestamp: serverTimestamp(),
         });
-        loadEntries(); // Reload the entries after submission
+        form.reset(); // Clear the form inputs
+        loadEntries(); // Refresh guestbook entries
       } catch (error) {
         console.error("Error adding guestbook entry:", error);
       }
     }
   });
-  
 
-});
-  
+  // Function to load guestbook entries
+  async function loadEntries() {
+    try {
+      const guestbookRef = collection(db, `A_Obituaries/${pageID}/Guestbook`);
+      const querySnapshot = await getDocs(guestbookRef); // Fetch all documents
 
-// Function to load guestbook entries
-async function loadEntries() {
-  try {
-    const guestbookRef = collection(db, `A_Obituaries/${pageID}/Guestbook`);
-    const querySnapshot = await getDocs(guestbookRef);
-
-    entriesDiv.innerHTML = ""; // Clear the existing entries
-
-    // Loop through all entries and display them
-    querySnapshot.forEach((doc) => {
-      const entry = doc.data();
-      const sanitizedMessage = sanitizeInput(entry.message); // Sanitize messages before displaying
-      const sanitizedName = sanitizeInput(entry.name); // Sanitize names before displaying
-      entriesDiv.innerHTML += `<div class="entry"><strong>${sanitizedName}</strong>: ${sanitizedMessage}</div>`;
-    });
-  } catch (error) {
-    console.error("Error loading guestbook entries:", error);
+      entriesDiv.innerHTML = ""; // Clear existing entries
+      querySnapshot.forEach((doc) => {
+        const entry = doc.data();
+        const sanitizedMessage = sanitizeInput(entry.message);
+        const sanitizedName = sanitizeInput(entry.name);
+        entriesDiv.innerHTML += `<div class="entry"><strong>${sanitizedName}</strong>: ${sanitizedMessage}</div>`;
+      });
+    } catch (error) {
+      console.error("Error loading guestbook entries:", error);
+    }
   }
-}
-window.loadEntries = loadEntries;
 
-
-
+  // Load entries initially on page load
+  loadEntries();
+});
 
 // Function to add 1 to the flower count, animate, and update in Firestore
 async function incrementFlowerCount() {
