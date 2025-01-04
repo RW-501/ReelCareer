@@ -296,7 +296,7 @@ const getViewSource = () => {
     }
 
     // Optional: Store analytics if more granular tracking is needed
-    await trackAnalytics();  
+   // await trackAnalytics();  
   } catch (error) {
     console.error("Error updating view counts:", error);
   }
