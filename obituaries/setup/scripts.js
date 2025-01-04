@@ -26,7 +26,6 @@ const db = getFirestore(app);
 const auth = getAuth(app);
 
   
-
       async function getUserIP() {
         try {
             const response = await axios.get('https://api.ipify.org?format=json');
@@ -84,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const submitbtn = document.getElementById("submit-btn");
 
   submitbtn.addEventListener("click", async (e) => {
-   // e.preventDefault(); // Prevent default form submission
+    e.preventDefault(); // Prevent default form submission
     console.log('Form submission triggered.');
 
 
@@ -142,6 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Function to add 1 to the flower count, animate, and update in Firestore
+// Function to wrap async calls with timeout
 async function incrementFlowerCount() {
   const flowerCountElement = document.getElementById("flowerCount");
   let currentCount = parseInt(flowerCountElement.textContent, 10); // Get current count and convert to number
@@ -153,7 +153,7 @@ async function incrementFlowerCount() {
   const userIP = await getUserIP(); // Fetch the user's IP
   console.log('userIP:', userIP);
 
-  const docRef = doc(db, "A_Obituaries", "i9kNtwIOBYqnF118FoHa"); // Reference to the specific obituary document
+  const docRef = doc(db, "A_Obituaries", pageID); // Reference to the specific obituary document
 
   try {
     // Ensure the document exists before proceeding
@@ -163,7 +163,7 @@ async function incrementFlowerCount() {
       return;
     }
 
-    const ipDocRef = doc(db, "A_Obituaries", "i9kNtwIOBYqnF118FoHa", "FlowerIPs", userIP); // Correct path to subcollection document
+    const ipDocRef = doc(db, "A_Obituaries", pageID, "FlowerIPs", userIP); // Correct path to subcollection document
 
     // Check if the IP is already recorded
     const ipDocSnapshot = await withTimeout(getDoc(ipDocRef), 5000); // Timeout after 5 seconds
@@ -209,14 +209,7 @@ async function incrementViews() {
     const userIP = await getUserIP(); // Fetch the user's IP
     console.log('User IP:', userIP);
 
-    const pageRef = doc(db, "A_Obituaries", "i9kNtwIOBYqnF118FoHa"); // Reference to the obituary document
-    
-    // Increment the total view count
-    await updateDoc(pageRef, { views: increment(1) });
-    console.log("General view count updated successfully.");
-
-    console.log('=============================:');
-
+    const pageRef = doc(db, "A_Obituaries", pageID); // Reference to the obituary document
 
     // Fetch the page document to ensure it exists
     const pageDocSnapshot = await withTimeout(getDoc(pageRef), 5000);
@@ -226,7 +219,7 @@ async function incrementViews() {
     }
 
     // Reference for the unique view tracking document using the user's IP
-    const ipDocRef = doc(db, "A_Obituaries", "i9kNtwIOBYqnF118FoHa", "PageViewIPs", userIP);
+    const ipDocRef = doc(db, "A_Obituaries", pageID, "PageViewIPs", userIP);
 
     // Check if the IP document already exists
     const ipDocSnapshot = await withTimeout(getDoc(ipDocRef), 5000);
