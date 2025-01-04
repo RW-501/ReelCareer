@@ -739,8 +739,25 @@ saveBtn.addEventListener('click', async () => {
 
 
 // Handle drag start (grab the entire div, not just the inner element)
+// Enable drag events for layout
+function enableLayoutEditing() {
+  previewBtn.style.display = 'inline-block';
+  saveBtn.style.display = 'inline-block';
+
+  const changeableAreas = document.querySelectorAll('.changeable-area');
+  changeableAreas.forEach(area => {
+    area.classList.add('active');
+    area.setAttribute('draggable', 'true');
+    area.addEventListener('dragstart', handleDragStart);
+    area.addEventListener('dragover', handleDragOver);
+    area.addEventListener('drop', handleDrop);
+    area.addEventListener('dragenter', handleDragEnter);  // Highlight drop zone
+    area.addEventListener('dragleave', handleDragLeave);  // Remove highlight from drop zone
+  });
+}
+
+// Handle drag start (add dragging class to show the element is being dragged)
 function handleDragStart(e) {
-  // Store the entire HTML of the dragged element
   e.dataTransfer.setData('text/html', e.target.outerHTML);
   e.target.classList.add('dragging');  // Add class to indicate the element is being dragged
 }
@@ -753,20 +770,26 @@ function handleDragOver(e) {
 // Handle drop (swap the dragged element with the dropped element)
 function handleDrop(e) {
   e.preventDefault();
-  const draggedHTML = e.dataTransfer.getData('text/html');  // Get the complete HTML of the dragged element
+  const draggedElement = document.querySelector('.dragging');
   const droppedElement = e.target;
 
+  // Check if the drop target is a valid 'changeable-area'
   if (droppedElement.classList.contains('changeable-area')) {
-    // Inject the dragged element's HTML into the dropped area
-    droppedElement.innerHTML = draggedHTML;
+    // Swap the elements: Remove from the DOM and insert the dragged one into the new location
+    const draggedHTML = draggedElement.outerHTML;
+    const droppedHTML = droppedElement.outerHTML;
 
-    // Optionally update the view
-    newHTML = viewObituary.innerHTML;  // Update new HTML with the modified content
+    // Swap HTML between dragged and dropped elements
+    draggedElement.outerHTML = droppedHTML;
+    droppedElement.outerHTML = draggedHTML;
+
+    // Optionally, reattach event listeners after swapping
+    enableLayoutEditing();
   }
 
-  droppedElement.classList.remove('highlight'); // Remove highlight from drop zone
-  const draggedElement = document.querySelector('.dragging');
-  if (draggedElement) draggedElement.classList.remove('dragging');  // Remove the dragging indication
+  // Remove the dragging class and highlight after the drop
+  droppedElement.classList.remove('highlight');
+  draggedElement.classList.remove('dragging');
 }
 
 // Highlight drop zone when dragging over it
@@ -779,7 +802,6 @@ function handleDragEnter(e) {
 function handleDragLeave(e) {
   e.target.classList.remove('highlight');  // Remove highlight when dragging leaves
 }
-
 
 // Enable text editing
 function enableTextEditing() {
@@ -797,29 +819,14 @@ function enableTextEditing() {
   });
 }
 
-
-function enableLayoutEditing() {
-  removeEditingHighlights();
-  previewBtn.style.display = 'inline-block';
-  saveBtn.style.display = 'inline-block';
-
-  const changeableAreas = document.querySelectorAll('.changeable-area');
-  changeableAreas.forEach(area => {
-    area.classList.add('active');
-    area.setAttribute('draggable', 'true');
-    area.addEventListener('dragstart', handleDragStart);
-    area.addEventListener('dragover', handleDragOver);
-    area.addEventListener('drop', handleDrop);
-    area.addEventListener('dragenter', handleDragEnter);  // Highlight drop zone
-    area.addEventListener('dragleave', handleDragLeave);  // Remove highlight from drop zone
-  });
-}
+// Remove all highlights or outlines
 function removeEditingHighlights() {
   const editableDivs = document.querySelectorAll('.changeable-text');
   editableDivs.forEach(div => {
     div.removeAttribute('contenteditable');
     div.classList.remove('active');
   });
+
   const changeableAreas = document.querySelectorAll('.changeable-area');
   changeableAreas.forEach(area => {
     area.classList.remove('active');
