@@ -15,7 +15,7 @@ function renderShareArea(pageName) {
             <h2>Share this Celebration</h2>
             <div class="share-buttons">
                 <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=${pageURL}" target="_blank" title="Share on Facebook">
-                    <i class="fa fa-facebook"></i>
+                    <i class="fas fa-spa"></i>
                 </a>
                 <a class="twitter" href="https://twitter.com/intent/tweet?text=${pageTitle}&url=${pageURL}" target="_blank" title="Share on Twitter">
                     <i class="fa fa-twitter"></i>
