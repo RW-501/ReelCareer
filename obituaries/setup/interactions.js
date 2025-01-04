@@ -10,6 +10,7 @@ function renderInteractionsArea() {
                 <button id="send-gift" ><i class="fa fa-gift"></i> Send Gift</button>
                 <button id="send-flowers" ><i class="fas fa-spa"></i> Send Flowers</button>
             </div>
+            
 <div  class="guestbook">
             <h2>Guestbook</h2>
             <div id="guestbookForm">
