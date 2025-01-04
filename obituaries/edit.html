@@ -805,6 +805,7 @@ function enableLayoutEditing() {
 
   const changeableAreas = document.querySelectorAll('.changeable-area');
   changeableAreas.forEach(area => {
+    area.classList.add('active');
     area.setAttribute('draggable', 'true');
     area.addEventListener('dragstart', handleDragStart);
     area.addEventListener('dragover', handleDragOver);
