@@ -199,14 +199,10 @@ async function incrementViews() {
     console.log('User IP:', userIP);
 
     const pageRef = doc(db, "A_Obituaries", "i9kNtwIOBYqnF118FoHa"); // Reference to the obituary document
-
-
-
-      // Increment only the total view count
-      await updateDoc(pageRef, { views: increment(1) });
-      console.log("General view count updated successfully.");
     
-
+    // Increment the total view count
+    await updateDoc(pageRef, { views: increment(1) });
+    console.log("General view count updated successfully.");
 
     console.log('=============================:');
 
