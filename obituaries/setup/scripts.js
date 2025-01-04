@@ -200,6 +200,17 @@ async function incrementViews() {
 
     const pageRef = doc(db, "A_Obituaries", "i9kNtwIOBYqnF118FoHa"); // Reference to the obituary document
 
+
+
+    if (pageRef) {
+      // Increment only the total view count
+      await withTimeout(updateDoc(pageRef, { views: increment(1) }), 5000);
+      console.log("General view count updated successfully.");
+    }
+
+
+
+
     // Fetch the page document to ensure it exists
     const pageDocSnapshot = await withTimeout(getDoc(pageRef), 5000);
     if (!pageDocSnapshot.exists()) {
