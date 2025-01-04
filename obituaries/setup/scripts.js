@@ -239,7 +239,14 @@ async function incrementViews() {
       console.error('Page ID is missing.');
       return;
     }
-
+// Determine the source of the visit
+const getViewSource = () => {
+  const externalSource = document.referrer && !document.referrer.includes(window.location.origin)
+    ? document.referrer
+    : null;
+  const internalSource = sessionStorage.getItem('lastInternalPage');
+  return externalSource || internalSource || 'Direct Visit';
+};
     console.log('incrementViews: PageID:', pageID);
 
     const { ipAddress, locationData } = await userLocationService.getUserIPAndLocation();
