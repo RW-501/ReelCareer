@@ -68,7 +68,6 @@ function sanitizeInput(input) {
 }
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById("guestbookForm");
-  const entriesDiv = document.getElementById("guestbookEntries");
   const pageID = document.getElementById('pageID').innerText;
 
   form.addEventListener("submit", async (e) => {
@@ -103,6 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.addEventListener('DOMContentLoaded', () => {
     const pageID = document.getElementById('pageID').innerText;
+    const entriesDiv = document.getElementById("guestbookEntries");
 
   // Function to load guestbook entries
   async function loadEntries() {
