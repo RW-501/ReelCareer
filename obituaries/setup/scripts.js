@@ -91,7 +91,8 @@ document.addEventListener('DOMContentLoaded', () => {
           userIP,
           timestamp: serverTimestamp(),
         });
-        form.reset(); // Clear the form inputs
+        name = ''; // Clear the form inputs
+        message = ''; // Clear the form inputs
         loadEntries(); // Refresh guestbook entries
       } catch (error) {
         console.error("Error adding guestbook entry:", error);
