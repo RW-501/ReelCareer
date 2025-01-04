@@ -180,22 +180,18 @@ const auth = getAuth(app);
 // Function to load analytics
 async function loadAnalytics(pageID) {
     const analyticsSection = document.getElementById("analytics-section");
+    analyticsSection.innerHTML = "<p>Loading analytics data...</p>"; // Initial loading message
     console.log('pageID:', pageID);
 
     try {
         const analyticsRef = collection(db, "A_Ob_Analytics"); // Reference to the collection
-        const q = query(analyticsRef, where("pageID", "==", pageID)); // Query where the pageID field matches the desired pageID
+        const q = query(analyticsRef, where("pageID", "==", pageID)); // Query to match the pageID
         const querySnapshot = await getDocs(q); // Execute the query
 
         if (!querySnapshot.empty) {
-            let analyticsData;
+            const analyticsData = querySnapshot.docs[0].data(); // Assume first result since pageID is unique
 
-            // Since the query is expected to return only one document (assuming pageID is unique), process the first document
-            querySnapshot.forEach((doc) => {
-                analyticsData = doc.data();
-            });
-
-            // Populate the analytics data into the HTML
+            // Display analytics data dynamically in the analytics section
             analyticsSection.innerHTML = `
                 <div class="analytics-card">
                     <h2>Total Page Views</h2>
@@ -203,7 +199,7 @@ async function loadAnalytics(pageID) {
                 </div>
                 <div class="analytics-card">
                     <h2>Last Viewed</h2>
-                    <p>${new Date(analyticsData.lastPageViewed || "").toLocaleString() || "N/A"}</p>
+                    <p>${analyticsData.lastPageViewed ? new Date(analyticsData.lastPageViewed.toDate()).toLocaleString() : "N/A"}</p>
                 </div>
                 <div class="analytics-card">
                     <h2>Last Referral</h2>
@@ -225,7 +221,7 @@ async function loadAnalytics(pageID) {
                 </div>
             `;
         } else {
-            // Handle case where no analytics data is found for the pageID
+            // Display message when no analytics data is found
             analyticsSection.innerHTML = `
                 <h2>No analytics data found for this page.</h2>
             `;
@@ -237,6 +233,7 @@ async function loadAnalytics(pageID) {
         `;
     }
 }
+
 
 // Assuming `pageID` is passed as a query parameter
 const urlParams = new URLSearchParams(window.location.search);

@@ -225,61 +225,70 @@ window.incrementFlowerCount = incrementFlowerCount;
 
 
 
-
 async function incrementViews() {
-  const pageID = document.getElementById('pageID').innerText;
-  console.log('incrementViews:');
-  console.log('pageID:', pageID);
-
-  const userIP = await getUserIP(); // Fetch the user's IP
-  console.log('userIP:', userIP);
-
   try {
-    const pageRef = doc(db, "A_Obituaries", pageID); // Document reference for the page
+    const pageID = document.getElementById('pageID').innerText.trim();
+    if (!pageID) {
+      console.error('Page ID is missing.');
+      return;
+    }
 
-    // Check if the page document exists
-    const pageDocSnapshot = await withTimeout(getDoc(pageRef), 5000); // Timeout after 5 seconds
+    console.log('incrementViews: PageID:', pageID);
+
+    const { ipAddress, locationData } = await userLocationService.getUserIPAndLocation();
+    if (!ipAddress) {
+      console.error('Failed to retrieve user IP.');
+      return;
+    }
+
+    const pageRef = doc(db, "A_Obituaries", pageID);  // Document reference for the page
+    const ipCollectionRef = collection(pageRef, "PageViewIPs");
+    const ipDocRef = doc(ipCollectionRef, ipAddress);  // Use IP as the document ID
+
+    const pageDocSnapshot = await withTimeout(getDoc(pageRef), 5000);
     if (!pageDocSnapshot.exists()) {
       console.error("Page document does not exist.");
-      return; // Exit if the page document doesn't exist
+      return;
     }
-    
-    // Extract the flowerCount from the document data
-    const pageData = pageDocSnapshot.data(); // Get document data as an object
-    const flowerCount = pageData.flowerCount; // Access the flowerCount property
-    document.getElementById("flowerCount").innerText = flowerCount; // Update the UI with the retrieved count
-    
-    // Correctly reference the subcollection
-    const ipCollectionRef = collection(doc(db, "A_Obituaries", pageID), "PageViewIPs"); // Subcollection for tracking IPs
-    const ipDocRef = doc(ipCollectionRef, userIP); // Use IP address as the document ID
 
-    // Check if the IP is already recorded
-    const ipDocSnapshot = await withTimeout(getDoc(ipDocRef), 5000); // Timeout after 5 seconds
+    const pageData = pageDocSnapshot.data();
+    document.getElementById("flowerCount").innerText = pageData.flowerCount || 0;
 
+    const viewStart = viewStartTime || Date.now();
+    const durationOfView = Math.floor((Date.now() - viewStart) / 1000); // View duration in seconds
+
+    const source = getViewSource();
+    const userAgent = navigator.userAgent;
+
+    const updateData = {
+      views: increment(1),
+      lastViewTime: serverTimestamp(),
+      lastViewSource: source,
+      lastViewDevice: userAgent,
+      durationOfLastView: durationOfView
+    };
+
+    const ipDocSnapshot = await withTimeout(getDoc(ipDocRef), 5000);
     if (ipDocSnapshot.exists()) {
-      // Increment only the general views count
-      await withTimeout(updateDoc(pageRef, {
-        views: increment(1) // Increment general view count
-      }), 5000); // Timeout after 5 seconds
-      console.log("General view count updated successfully!");
+      // Update general views only if IP is already recorded
+      await withTimeout(updateDoc(pageRef, updateData), 5000);
+      console.log("Updated general view count and details successfully.");
     } else {
-      // Increment both views and uniqueViews counts
-      await withTimeout(updateDoc(pageRef, {
-        views: increment(1),
-        uniqueViews: increment(1)
-      }), 5000); // Timeout after 5 seconds
-
-      // Record the IP in the subcollection
-      await withTimeout(setDoc(ipDocRef, { timestamp: serverTimestamp() }), 5000); // Timeout after 5 seconds
-      console.log("Unique view and general view counts updated successfully!");
+      // Increment both views and unique views, and record IP
+      updateData.uniqueViews = increment(1);
+      await withTimeout(updateDoc(pageRef, updateData), 5000);
+      await withTimeout(setDoc(ipDocRef, { timestamp: serverTimestamp() }), 5000);
+      console.log("Updated unique view and general view counts successfully.");
     }
+
+    // Optional: Store analytics if more granular tracking is needed
+    await trackAnalytics();  
   } catch (error) {
     console.error("Error updating view counts:", error);
   }
 }
 
 window.incrementViews = incrementViews;
-
 
 
 
