@@ -536,6 +536,8 @@ const changeTextBtn = document.getElementById('changeTextBtn');
 const previewBtn = document.getElementById('previewBtn');
 const saveBtn = document.getElementById('saveBtn');
 const breadcrumbText = document.getElementById('breadcrumbText');
+let originalHTML = '';  // Store the original HTML content
+let newHTML = '';  // Store the modified HTML content
 
 
 
@@ -546,8 +548,6 @@ async function fetchObituary(pageName) {
   const messageDiv = document.getElementById('messageDiv');
 
 
-  let originalHTML = '';  // Store the original HTML content
-let newHTML = '';  // Store the modified HTML content
 
     if (!pageName) {
         console.log("Please select an obituary.");
