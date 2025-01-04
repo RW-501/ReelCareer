@@ -75,7 +75,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Event listener for the form submission
   submitbtn.addEventListener("click", async (e) => {
-    e.preventDefault(); // Prevent page refresh
+
+    console.log('submitbtn.addEventListener:');
 
     const name = sanitizeInput(document.getElementById("guestName").value.trim());
     const message = sanitizeInput(document.getElementById("guestMessage").value.trim());
