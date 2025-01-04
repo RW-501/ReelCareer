@@ -139,6 +139,27 @@
 
 
 
+/* Style for the element being dragged */
+.changeable-area.dragging {
+  opacity: 0.5;
+  background-color: #f0f0f0; /* Light gray to indicate it's being dragged */
+}
+
+/* Highlight the drop zone */
+.changeable-area.highlight {
+  border: 2px dashed blue;
+  background-color: #f0f8ff; /* Light blue background when a drop is allowed */
+  transition: background-color 0.3s ease-in-out;
+}
+
+/* Style for active editing */
+.changeable-area.active {
+  border: 2px dashed blue;
+  margin: .5rem 0;
+  padding: .5rem 0;
+  background-color: #f4f4f4;
+  border-radius: 5px;
+}
 
 
 
@@ -716,28 +737,65 @@ saveBtn.addEventListener('click', async () => {
 
 
 // Handle drag events for layout change
+// Enable drag events for layout
+function enableLayoutEditing() {
+  previewBtn.style.display = 'inline-block';
+  saveBtn.style.display = 'inline-block';
+
+  const changeableAreas = document.querySelectorAll('.changeable-area');
+  changeableAreas.forEach(area => {
+    area.setAttribute('draggable', 'true');
+    area.addEventListener('dragstart', handleDragStart);
+    area.addEventListener('dragover', handleDragOver);
+    area.addEventListener('drop', handleDrop);
+    area.addEventListener('dragenter', handleDragEnter);  // Highlight drop zone
+    area.addEventListener('dragleave', handleDragLeave);  // Remove highlight from drop zone
+  });
+}
+
+// Handle drag start (grab the entire div, not just the inner element)
 function handleDragStart(e) {
   e.dataTransfer.setData('text/plain', e.target.id);
+  e.target.classList.add('dragging');  // Add class to indicate the element is being dragged
 }
 
+// Handle drag over (allow dropping)
 function handleDragOver(e) {
-  e.preventDefault();
+  e.preventDefault(); // Allow the drop
 }
 
+// Handle drop (swap the dragged element with the dropped element)
 function handleDrop(e) {
   e.preventDefault();
   const draggedId = e.dataTransfer.getData('text/plain');
   const draggedElement = document.getElementById(draggedId);
   const droppedElement = e.target;
 
-  if (draggedElement !== droppedElement) {
+  if (draggedElement !== droppedElement && droppedElement.classList.contains('changeable-area')) {
+    // Swap content
     const draggedHTML = draggedElement.innerHTML;
     draggedElement.innerHTML = droppedElement.innerHTML;
     droppedElement.innerHTML = draggedHTML;
 
+    // Optionally update the view
     newHTML = viewObituary.innerHTML;  // Update new HTML with the modified content
   }
+
+  droppedElement.classList.remove('highlight'); // Remove highlight from drop zone
+  draggedElement.classList.remove('dragging');  // Remove the dragging indication
 }
+
+// Highlight drop zone when dragging over it
+function handleDragEnter(e) {
+  e.preventDefault();
+  e.target.classList.add('highlight');  // Add class to highlight drop zone
+}
+
+// Remove highlight from drop zone when dragging leaves
+function handleDragLeave(e) {
+  e.target.classList.remove('highlight');  // Remove highlight when dragging leaves
+}
+
 
 // Enable text editing
 function enableTextEditing() {
