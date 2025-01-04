@@ -121,7 +121,8 @@ async function incrementFlowerCount() {
     const flowerCountElement = document.getElementById("flowerCount");
     let currentCount = parseInt(flowerCountElement.textContent, 10); // Get current count and convert to number
     const userIP = await getUserIP(); // Fetch the user's IP
-  
+    const pageID = document.getElementById('pageID').innerText;
+
     // Firestore references
     const docRef = doc(db, "A_Obituaries", pageID); // Replace `pageID` with the actual page ID variable
     const ipCollectionRef = collection(docRef, "FlowerIPs"); // Subcollection to track IPs
@@ -288,8 +289,6 @@ function showComingSoonPopup() {
 
 
 
-// Initial load of guestbook entries
-loadEntries();
 
 // Increment views when the page loads
 incrementViews(pageID); // Replace `pageID` with the actual page ID variable
