@@ -777,11 +777,11 @@ function removeEditingHighlights() {
   const editableDivs = document.querySelectorAll('.editable');
   editableDivs.forEach(div => {
     div.removeAttribute('contenteditable');
-    div.classList.remove('editable', 'active');
+    div.classList.remove('active');
   });
   const changeableAreas = document.querySelectorAll('.changeable-area');
   changeableAreas.forEach(area => {
-    area.classList.remove('changeable-area', 'active');
+    area.classList.remove('active');
   });
 }
 
