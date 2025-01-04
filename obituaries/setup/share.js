@@ -11,24 +11,25 @@ function renderShareArea(pageName) {
 
     // Create the HTML for the share buttons
     const shareHTML = `
-        <div class="share-section">
-            <h2>Share this Celebration</h2>
-            <div class="share-buttons">
-                <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=${pageURL}" target="_blank" title="Share on Facebook">
-                    <i class="fas fa-spa"></i>
-                </a>
-                <a class="twitter" href="https://twitter.com/intent/tweet?text=${pageTitle}&url=${pageURL}" target="_blank" title="Share on Twitter">
-                    <i class="fa fa-twitter"></i>
-                </a>
-                <a class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&url=${pageURL}" target="_blank" title="Share on LinkedIn">
-                    <i class="fa fa-linkedin"></i>
-                </a>
-                <a class="whatsapp" href="https://wa.me/?text=${pageTitle}%20${pageURL}" target="_blank" title="Share on WhatsApp">
-                    <i class="fa fa-whatsapp"></i>
-                </a>
-            </div>
+    <div class="share-section">
+        <h2>Share this Celebration</h2>
+        <div class="share-buttons">
+            <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=${pageURL}" target="_blank" title="Share on Facebook">
+                <i class="fab fa-facebook"></i>
+            </a>
+            <a class="twitter" href="https://twitter.com/intent/tweet?text=${pageTitle}&url=${pageURL}" target="_blank" title="Share on Twitter">
+                <i class="fab fa-twitter"></i>
+            </a>
+            <a class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&url=${pageURL}" target="_blank" title="Share on LinkedIn">
+                <i class="fab fa-linkedin"></i>
+            </a>
+            <a class="whatsapp" href="https://wa.me/?text=${pageTitle}%20${pageURL}" target="_blank" title="Share on WhatsApp">
+                <i class="fab fa-whatsapp"></i>
+            </a>
         </div>
-    `;
+    </div>
+`;
+
     
     // Find the share area on the page and insert the share buttons
     const shareArea = document.getElementById('dynamic-shareArea');
