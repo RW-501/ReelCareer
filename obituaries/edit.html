@@ -740,6 +740,7 @@ saveBtn.addEventListener('click', async () => {
 
 // Handle drag events for layout change
 // Enable drag events for layout
+// Enable drag events for layout
 function enableLayoutEditing() {
   previewBtn.style.display = 'inline-block';
   saveBtn.style.display = 'inline-block';
@@ -757,7 +758,8 @@ function enableLayoutEditing() {
 
 // Handle drag start (grab the entire div, not just the inner element)
 function handleDragStart(e) {
-  e.dataTransfer.setData('text/plain', e.target.id);
+  // Store the entire HTML of the dragged element
+  e.dataTransfer.setData('text/html', e.target.outerHTML);
   e.target.classList.add('dragging');  // Add class to indicate the element is being dragged
 }
 
@@ -769,14 +771,11 @@ function handleDragOver(e) {
 // Handle drop (swap the dragged element with the dropped element)
 function handleDrop(e) {
   e.preventDefault();
-  const draggedId = e.dataTransfer.getData('text/plain');
-  const draggedElement = document.getElementById(draggedId);
+  const draggedHTML = e.dataTransfer.getData('text/html');  // Get the complete HTML of the dragged element
   const droppedElement = e.target;
 
-  if (draggedElement !== droppedElement && droppedElement.classList.contains('changeable-area')) {
-    // Swap content
-    const draggedHTML = draggedElement.innerHTML;
-    draggedElement.innerHTML = droppedElement.innerHTML;
+  if (droppedElement.classList.contains('changeable-area')) {
+    // Inject the dragged element's HTML into the dropped area
     droppedElement.innerHTML = draggedHTML;
 
     // Optionally update the view
@@ -784,7 +783,8 @@ function handleDrop(e) {
   }
 
   droppedElement.classList.remove('highlight'); // Remove highlight from drop zone
-  draggedElement.classList.remove('dragging');  // Remove the dragging indication
+  const draggedElement = document.querySelector('.dragging');
+  if (draggedElement) draggedElement.classList.remove('dragging');  // Remove the dragging indication
 }
 
 // Highlight drop zone when dragging over it
