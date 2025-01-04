@@ -128,47 +128,54 @@ async function incrementFlowerCount() {
   
   // Firestore references
   const docRef = doc(db, "A_Obituaries", pageID); // Reference to the specific obituary document
-  const ipCollectionRef = collection(docRef, "FlowerIPs"); // Reference to the "FlowerIPs" subcollection
-
+  
+  // Ensure that the document exists before creating subcollections
   try {
-      // Check if the IP is already recorded
-      const ipDocRef = doc(ipCollectionRef, userIP); // Use IP address as the document ID
-      const ipDocSnapshot = await getDoc(ipDocRef);
+    const docSnapshot = await getDoc(docRef);
+    if (!docSnapshot.exists()) {
+      console.error("Document does not exist. Cannot increment flower count.");
+      return;
+    }
+  
+    const ipCollectionRef = collection(docRef, "FlowerIPs"); // Reference to the "FlowerIPs" subcollection
 
-      if (ipDocSnapshot.exists()) {
-          console.log("User has already added a flower.");
-          return; // Exit if the IP has already added a flower
-      }
+    // Check if the IP is already recorded
+    const ipDocRef = doc(ipCollectionRef, userIP); // Use IP address as the document ID
+    const ipDocSnapshot = await getDoc(ipDocRef);
 
-      // Increment flower count
-      currentCount += 1; // Increment count by 1
-      flowerCountElement.textContent = currentCount; // Update the element with the new count
+    if (ipDocSnapshot.exists()) {
+      console.log("User has already added a flower.");
+      return; // Exit if the IP has already added a flower
+    }
 
-      // Add animation
-      flowerCountElement.style.transition = "transform 0.3s ease-out, color 0.3s ease-out";
-      flowerCountElement.style.transform = "scale(1.5)";
-      flowerCountElement.style.color = "green";
+    // Increment flower count
+    currentCount += 1; // Increment count by 1
+    flowerCountElement.textContent = currentCount; // Update the element with the new count
 
-      // Reset animation after a delay
-      setTimeout(() => {
-          flowerCountElement.style.transform = "scale(1)";
-          flowerCountElement.style.color = "black";
-      }, 300); // Match the duration of the animation
+    // Add animation
+    flowerCountElement.style.transition = "transform 0.3s ease-out, color 0.3s ease-out";
+    flowerCountElement.style.transform = "scale(1.5)";
+    flowerCountElement.style.color = "green";
 
-      // Update Firestore
-      await updateDoc(docRef, {
-          flowerCount: currentCount // Update the flowerCount field in Firestore
-      });
+    // Reset animation after a delay
+    setTimeout(() => {
+      flowerCountElement.style.transform = "scale(1)";
+      flowerCountElement.style.color = "black";
+    }, 300); // Match the duration of the animation
 
-      // Record the IP in the subcollection
-      await setDoc(ipDocRef, { timestamp: serverTimestamp() });
+    // Update Firestore
+    await updateDoc(docRef, {
+      flowerCount: currentCount // Update the flowerCount field in Firestore
+    });
 
-      console.log("Flower count updated successfully and IP recorded!");
+    // Record the IP in the subcollection
+    await setDoc(ipDocRef, { timestamp: serverTimestamp() });
+
+    console.log("Flower count updated successfully and IP recorded!");
   } catch (error) {
-      console.error("Error updating flower count:", error);
+    console.error("Error updating flower count:", error);
   }
 }
-
   // Function to increment views (for reference)
   async function incrementViews() {
     try {
@@ -177,11 +184,12 @@ async function incrementFlowerCount() {
       const pageRef = doc(db, "A_Obituaries", pageID); // Document reference for the page
       console.log('pageID:', pageID);
       console.log('userIP:', userIP);
-
-      // Check if the pageRef is valid
-      if (!pageRef) {
-        console.error("Invalid page reference.");
-        return;
+  
+      // Check if the page document exists
+      const pageDocSnapshot = await getDoc(pageRef);
+      if (!pageDocSnapshot.exists()) {
+        console.error("Page document does not exist.");
+        return; // Exit if the page document doesn't exist
       }
   
       const ipCollectionRef = collection(pageRef, "PageViewIPs"); // Subcollection for tracking IPs
@@ -212,8 +220,9 @@ async function incrementFlowerCount() {
       console.error("Error updating view counts:", error);
     }
   }
-  window.incrementViews = incrementViews;
   
+  window.incrementViews = incrementViews;
+   
   
   
 
