@@ -30,6 +30,7 @@ function renderShareArea(pageName) {
 
     const shareArea = document.getElementById('dynamic-shareArea');
     shareArea.innerHTML = shareHTML;
+    const mainPhoto = document.getElementById('mainPhoto');
 
     const deviceShareButton = document.getElementById('deviceShareButton');
     if (navigator.share) {
@@ -38,7 +39,7 @@ function renderShareArea(pageName) {
                 title: pageTitle,
                 text: `Celebrate the life of ${pageName}!`,
                 url: pageURL,
-                files: imageUrl ? [new File([imageUrl], "image.jpg", { type: "image/jpeg" })] : [], // Share the image if available
+                files: mainPhoto.src, // Share the image if available
             }).catch((error) => console.error('Error sharing:', error));
         });
     } else {
