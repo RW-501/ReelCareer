@@ -66,17 +66,19 @@ function sanitizeInput(input) {
   div.textContent = input;
   return div.innerHTML;
 }
-  // Reference Firestore database and DOM elements
+document.addEventListener('DOMContentLoaded', () => {
+  const form = document.getElementById("guestbookForm");
   const entriesDiv = document.getElementById("guestbookEntries");
-  const submitbtn = document.getElementById("submit-btn");
+  const pageID = document.getElementById('pageID').innerText;
 
-  // Event listener for the form submission
-  submitbtn.addEventListener("click", async (e) => {
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault(); // Prevent default form submission
+    console.log('Form submission triggered.');
 
-    console.log('submitbtn.addEventListener:');
-
-    const name = sanitizeInput(document.getElementById("guestName").value.trim());
-    const message = sanitizeInput(document.getElementById("guestMessage").value.trim());
+    const nameInput = document.getElementById("guestName");
+    const messageInput = document.getElementById("guestMessage");
+    const name = sanitizeInput(nameInput.value.trim());
+    const message = sanitizeInput(messageInput.value.trim());
     const userIP = await getUserIP(); // Fetch user IP address
 
     if (name && message) {
@@ -88,14 +90,17 @@ function sanitizeInput(input) {
           userIP,
           timestamp: serverTimestamp(),
         });
-        name = ''; // Clear the form inputs
-        message = ''; // Clear the form inputs
-        loadEntries(); // Refresh guestbook entries
+        nameInput.value = ''; // Clear form inputs
+        messageInput.value = ''; // Clear form inputs
+        await loadEntries(); // Refresh guestbook entries
       } catch (error) {
         console.error("Error adding guestbook entry:", error);
       }
     }
   });
+});
+
+
   document.addEventListener('DOMContentLoaded', () => {
     const pageID = document.getElementById('pageID').innerText;
 
