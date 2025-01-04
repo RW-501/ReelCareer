@@ -1,4 +1,4 @@
-const DEBUG = true;
+const DEBUG = false;
 
 let loadCount = 0;
 let totalFileSize = 0; // To accumulate the file size of scripts
