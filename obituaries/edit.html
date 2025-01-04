@@ -814,7 +814,7 @@ function enableLayoutEditing() {
   });
 }
 function removeEditingHighlights() {
-  const editableDivs = document.querySelectorAll('.editable');
+  const editableDivs = document.querySelectorAll('.changeable-text');
   editableDivs.forEach(div => {
     div.removeAttribute('contenteditable');
     div.classList.remove('active');
