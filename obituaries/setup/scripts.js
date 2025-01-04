@@ -219,7 +219,6 @@ async function incrementViews() {
   const userIP =  await getUserIP(); // Fetch the user's IP
   console.log('userIP:', userIP);
 
-  try {
     const pageRef = doc(db, "A_Obituaries", pageID); // Document reference for the page
 
     // Check if the page document exists
@@ -228,6 +227,7 @@ async function incrementViews() {
       console.error("Page document does not exist.");
       return; // Exit if the page document doesn't exist
     }
+    try {
 
     // Correctly reference the subcollection
     const ipCollectionRef = collection(doc(db, "A_Obituaries", pageID), "PageViewIPs"); // Subcollection for tracking IPs
