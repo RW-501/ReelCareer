@@ -797,6 +797,7 @@ function enableTextEditing() {
   });
 }
 
+
 function enableLayoutEditing() {
   removeEditingHighlights();
   previewBtn.style.display = 'inline-block';
@@ -805,16 +806,13 @@ function enableLayoutEditing() {
   const changeableAreas = document.querySelectorAll('.changeable-area');
   changeableAreas.forEach(area => {
     area.setAttribute('draggable', 'true');
-    area.classList.add('editable');
-    area.classList.add('active');
     area.addEventListener('dragstart', handleDragStart);
     area.addEventListener('dragover', handleDragOver);
     area.addEventListener('drop', handleDrop);
-    area.addEventListener('focus', () => area.classList.add('active'));  // Add active class on focus
-    area.addEventListener('blur', () => area.classList.remove('active'));  // Remove active class on blur
+    area.addEventListener('dragenter', handleDragEnter);  // Highlight drop zone
+    area.addEventListener('dragleave', handleDragLeave);  // Remove highlight from drop zone
   });
 }
-
 function removeEditingHighlights() {
   const editableDivs = document.querySelectorAll('.editable');
   editableDivs.forEach(div => {
