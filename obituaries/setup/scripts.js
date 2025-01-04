@@ -190,6 +190,7 @@ async function incrementFlowerCount() {
   async function incrementViews() {
       const pageID = document.getElementById('pageID').innerText;
 
+      console.log('incrementViews:');
 
       const pageRef = doc(db, "A_Obituaries", pageID); // Document reference for the page
       console.log('pageID:', pageID);
