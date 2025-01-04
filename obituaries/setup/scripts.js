@@ -191,53 +191,47 @@ async function incrementFlowerCount() {
 
 
 
-
 async function incrementViews() {
-  const pageID = document.getElementById('pageID').innerText;
-  console.log('incrementViews:');
-  console.log('pageID:', pageID);
+  try {
+    const pageID = document.getElementById('pageID').innerText;
+    console.log('Incrementing views for pageID:', pageID);
 
-  const userIP =  await getUserIP(); // Fetch the user's IP
-  console.log('userIP:', userIP);
+    const userIP = await getUserIP(); // Fetch the user's IP
+    console.log('User IP:', userIP);
 
-    const pageRef = doc(db, "A_Obituaries", pageID); // Document reference for the page
+    const pageRef = doc(db, "A_Obituaries", pageID); // Reference to the obituary document
 
-    // Check if the page document exists
-    const pageDocSnapshot = await withTimeout(getDoc(pageRef), 5000); // Timeout after 5 seconds
+    // Fetch the page document to ensure it exists
+    const pageDocSnapshot = await withTimeout(getDoc(pageRef), 5000);
     if (!pageDocSnapshot.exists()) {
       console.error("Page document does not exist.");
-      return; // Exit if the page document doesn't exist
+      return;
     }
-    try {
 
-    // Correctly reference the subcollection
-    const ipCollectionRef = collection(doc(db, "A_Obituaries", pageID), "PageViewIPs"); // Subcollection for tracking IPs
-    const ipDocRef = doc(ipCollectionRef, userIP); // Use IP address as the document ID
-    console.log('ipDocRef:', ipDocRef);
+    // Reference for the unique view tracking document using the user's IP
+    const ipDocRef = doc(db, "A_Obituaries", pageID, "PageViewIPs", userIP);
 
-    // Check if the IP is already recorded
-    const ipDocSnapshot = await withTimeout(getDoc(ipDocRef), 5000); // Timeout after 5 seconds
-    console.log('ipDocSnapshot:', ipDocSnapshot);
+    // Check if the IP document already exists
+    const ipDocSnapshot = await withTimeout(getDoc(ipDocRef), 5000);
 
     if (ipDocSnapshot.exists()) {
-      // Increment only the general views count
-      await withTimeout(updateDoc(pageRef, {
-        views: increment(1) // Increment general view count
-      }), 5000); // Timeout after 5 seconds
-      console.log("General view count updated successfully!");
+      // Increment only the total view count
+      await withTimeout(updateDoc(pageRef, { views: increment(1) }), 5000);
+      console.log("General view count updated successfully.");
     } else {
-      // Increment both views and uniqueViews counts
-      await withTimeout(updateDoc(pageRef, {
-        views: increment(1),
-        uniqueViews: increment(1)
-      }), 5000); // Timeout after 5 seconds
+      // Increment both total and unique view counts
+      await withTimeout(updateDoc(pageRef, { views: increment(1), uniqueViews: increment(1) }), 5000);
 
-      // Record the IP in the subcollection
-      await withTimeout(setDoc(ipDocRef, { timestamp: serverTimestamp() }), 5000); // Timeout after 5 seconds
-      console.log("Unique view and general view counts updated successfully!");
+      // Record the IP with a timestamp in the subcollection
+      await withTimeout(setDoc(ipDocRef, { timestamp: serverTimestamp() }), 5000);
+      console.log("Unique view and general view counts updated successfully.");
     }
   } catch (error) {
-    console.error("Error updating view counts:", error);
+    if (error.message === "Operation timed out") {
+      console.error("Operation timed out. Please try again.");
+    } else {
+      console.error("Error updating view counts:", error);
+    }
   }
 }
 
