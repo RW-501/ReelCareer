@@ -1,14 +1,5 @@
   
   
-          async function getUserIP() {
-            try {
-                const response = await axios.get('https://api.ipify.org?format=json');
-                return response.data.ip;
-            } catch (error) {
-                console.error('Error fetching IP address:', error);
-                return 'Unknown IP';
-            }
-        }
 
 
         // Import Firebase SDKs
@@ -25,6 +16,15 @@
       } from 'https://reelcareer.co/scripts/js/load/module.js';
   
 
+      async function getUserIP() {
+        try {
+            const response = await axios.get('https://api.ipify.org?format=json');
+            return response.data.ip;
+        } catch (error) {
+            console.error('Error fetching IP address:', error);
+            return 'Unknown IP';
+        }
+    }
 
 let userID = '';
 
@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const submitbtn = document.getElementById("submit-btn");
 
   submitbtn.addEventListener("click", async (e) => {
-    e.preventDefault(); // Prevent default form submission
+   // e.preventDefault(); // Prevent default form submission
     console.log('Form submission triggered.');
 
 
@@ -131,7 +131,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Function to add 1 to the flower count, animate, and update in Firestore
-// Function to wrap async calls with timeout
 async function incrementFlowerCount() {
   const flowerCountElement = document.getElementById("flowerCount");
   let currentCount = parseInt(flowerCountElement.textContent, 10); // Get current count and convert to number
