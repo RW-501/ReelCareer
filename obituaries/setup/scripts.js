@@ -66,11 +66,8 @@ function sanitizeInput(input) {
   div.textContent = input;
   return div.innerHTML;
 }
-document.addEventListener('DOMContentLoaded', () => {
   // Reference Firestore database and DOM elements
-  const form = document.getElementById("guestbookForm");
   const entriesDiv = document.getElementById("guestbookEntries");
-  const pageID = document.getElementById('pageID').innerText;
   const submitbtn = document.getElementById("submit-btn");
 
   // Event listener for the form submission
@@ -99,6 +96,8 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
   });
+  document.addEventListener('DOMContentLoaded', () => {
+    const pageID = document.getElementById('pageID').innerText;
 
   // Function to load guestbook entries
   async function loadEntries() {
