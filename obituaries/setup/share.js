@@ -31,20 +31,34 @@ function renderShareArea(pageName) {
     const shareArea = document.getElementById('dynamic-shareArea');
     shareArea.innerHTML = shareHTML;
     const mainPhoto = document.getElementById('mainPhoto');
-
     const deviceShareButton = document.getElementById('deviceShareButton');
+    
     if (navigator.share) {
-        deviceShareButton.addEventListener('click', () => {
-            navigator.share({
-                title: pageTitle,
-                text: `Celebrate the life of ${pageName}!`,
-                url: pageURL,
-                files: mainPhoto.src, // Share the image if available
-            }).catch((error) => console.error('Error sharing:', error));
-        });
+      deviceShareButton.addEventListener('click', async () => {
+        try {
+          // Fetch the image as a Blob and create a File object
+          const imageUrl = mainPhoto.src;
+          const response = await fetch(imageUrl);
+          const blob = await response.blob();
+          const file = new File([blob], 'image.jpg', { type: 'image/jpeg' });
+    
+          // Use the File object in the share method
+          await navigator.share({
+            title: pageTitle,
+            text: `Celebrate the life of ${pageName}!`,
+            url: pageURL,
+            files: [file], // Share the image file
+          });
+    
+          console.log("Shared successfully!");
+        } catch (error) {
+          console.error('Error sharing:', error);
+        }
+      });
     } else {
-        deviceShareButton.style.display = 'none'; // Hide the button if the Web Share API is not supported
+      deviceShareButton.style.display = 'none'; // Hide the button if the Web Share API is not supported
     }
+    
 }
 
 window.renderShareArea = renderShareArea;
