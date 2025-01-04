@@ -235,6 +235,13 @@ footer p {
     background-color: #5c6363;
     border: none;
 }
+
+.share-buttons .device-share:focus,
+.share-buttons .device-share:active {
+    border: none;
+}
+
+
 .info-section {
     margin: 20px 0;
     background: rgba(255, 255, 255, 0.1);
