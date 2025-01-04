@@ -70,9 +70,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById("guestbookForm");
   const pageID = document.getElementById('pageID').innerText;
 
-  form.addEventListener("submit", async (e) => {
+  const submitbtn = document.getElementById("submit-btn");
+
+  submitbtn.addEventListener("click", async (e) => {
     e.preventDefault(); // Prevent default form submission
     console.log('Form submission triggered.');
+
+
 
     const nameInput = document.getElementById("guestName");
     const messageInput = document.getElementById("guestMessage");
