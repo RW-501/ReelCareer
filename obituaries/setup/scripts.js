@@ -169,11 +169,11 @@ async function incrementFlowerCount() {
   // Function to increment views (for reference)
   async function incrementViews() {
     try {
+      const pageID = document.getElementById('pageID').innerText;
       const userIP = await getUserIP(); // Fetch the user's IP
       const pageRef = doc(db, "A_Obituaries", pageID);
       const ipCollectionRef = collection(pageRef, "PageViewIPs"); // Subcollection for tracking IPs
       const ipDocRef = doc(ipCollectionRef, userIP); // Use IP address as the document ID
-      const pageID = document.getElementById('pageID').innerText;
 
       // Check if the IP is already recorded
       const ipDocSnapshot = await getDoc(ipDocRef);
