@@ -725,6 +725,8 @@ saveBtn.addEventListener('click', async () => {
 
   const nonChangeableDivs = viewObituary.querySelectorAll('.nonChangeable');
   const modified = Array.from(nonChangeableDivs).some(div => div.innerHTML !== originalHTML);
+  console.log('nonChangeableDivs.',nonChangeableDivs);
+  console.log('nonChangeableDivs.',nonChangeableDivs.innerHTML);
   console.log('modified.',modified);
 
   if (modified) {
