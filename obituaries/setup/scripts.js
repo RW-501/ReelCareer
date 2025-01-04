@@ -152,7 +152,6 @@ async function incrementFlowerCount() {
   const userIP =  await getUserIP(); // Fetch the user's IP
   console.log('userIP:', userIP);
 
-  try {
     const docRef = doc(db, "A_Obituaries", pageID); // Reference to the specific obituary document
 
     // Ensure the document exists before proceeding
@@ -161,6 +160,7 @@ async function incrementFlowerCount() {
       console.error("Document does not exist. Cannot increment flower count.");
       return;
     }
+    try {
 
     const ipCollectionRef = collection(docRef, "FlowerIPs"); // Reference to the "FlowerIPs" subcollection
 
