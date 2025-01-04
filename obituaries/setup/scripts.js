@@ -87,7 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const submitbtn = document.getElementById("submit-btn");
 
   submitbtn.addEventListener("click", async (e) => {
-    e.preventDefault(); // Prevent default form submission
+  //  e.preventDefault(); // Prevent default form submission
     console.log('Form submission triggered.');
 
 
