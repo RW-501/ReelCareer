@@ -209,10 +209,12 @@ async function incrementFlowerCount() {
   
       const ipCollectionRef = collection(pageRef, "PageViewIPs"); // Subcollection for tracking IPs
       const ipDocRef = doc(ipCollectionRef, userIP); // Use IP address as the document ID
-  
+      console.log('ipDocRef:', ipDocRef);
+
       // Check if the IP is already recorded
       const ipDocSnapshot = await getDoc(ipDocRef);
-  
+      console.log('ipDocSnapshot:', ipDocSnapshot);
+
       if (ipDocSnapshot.exists()) {
         // Increment only the general views count
         await updateDoc(pageRef, {
