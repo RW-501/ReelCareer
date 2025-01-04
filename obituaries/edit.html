@@ -587,6 +587,7 @@ let currentMode = 'layout';  // Current mode (either 'layout' or 'text')
 async function fetchObituary(pageName) {
   const messageDiv = document.getElementById('messageDiv');
 
+  viewObituary.innerHTML = '';
 
 
     if (!pageName) {
