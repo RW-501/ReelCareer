@@ -202,13 +202,13 @@ async function incrementViews() {
 
 
 
-    if (pageRef) {
       // Increment only the total view count
-      await withTimeout(updateDoc(pageRef, { views: increment(1) }), 5000);
+      await updateDoc(pageRef, { views: increment(1) });
       console.log("General view count updated successfully.");
-    }
+    
 
 
+    console.log('=============================:');
 
 
     // Fetch the page document to ensure it exists
