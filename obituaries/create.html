@@ -788,75 +788,59 @@ document.getElementById('category').addEventListener('change', function() {
         document.getElementById('otherCategoryContainer').style.display = 'none';
     }
 });
-
 // Function to generate "about" suggestions
 function generateAboutText() {
     const name = document.getElementById("name").value;
-let sunrise = document.getElementById("sunrise").value;
-let sunset = document.getElementById("sunset").value;
-const hashTag = document.getElementById("hashTag").value.trim();
-const location = document.getElementById("location").value;
-const category = document.getElementById("category").value;
-const otherCategory = document.getElementById("otherCategory").value;
+    let sunrise = document.getElementById("sunrise").value;
+    let sunset = document.getElementById("sunset").value;
+    const hashTag = document.getElementById("hashTag").value.trim();
+    const location = document.getElementById("location").value;
+    const category = document.getElementById("category").value;
+    const otherCategory = document.getElementById("otherCategory").value;
 
-let categoryText = category;
-if (category === 'other' && otherCategory) {
-    categoryText = otherCategory;
-}
-sunrise = formatDate(sunrise);
-sunset = formatDate(sunset);
+    let categoryText = category === 'other' && otherCategory ? otherCategory : category;
+    sunrise = formatDate(sunrise);
+    sunset = formatDate(sunset);
 
-// Ensure hashtags are valid
-let validHashTag = hashTag.startsWith("#") ? hashTag : `#${hashTag}`;
-validHashTag = validHashTag.replace(/\s+/g, ''); // Remove spaces
+    let validHashTag = hashTag.startsWith("#") ? hashTag : `#${hashTag}`;
+    validHashTag = validHashTag.replace(/\s+/g, '');
 
+    const genderMap = {
+        male: { pronouns: { subject: "he", object: "him", possessive: "his" } },
+        female: { pronouns: { subject: "she", object: "her", possessive: "her" } },
+        nonbinary: { pronouns: { subject: "they", object: "them", possessive: "their" } },
+        transMale: { pronouns: { subject: "he", object: "him", possessive: "his" } },
+        transFemale: { pronouns: { subject: "she", object: "her", possessive: "her" } },
+        genderqueer: { pronouns: { subject: "they", object: "them", possessive: "their" } },
+        preferNotToSay: { pronouns: { subject: "they", object: "them", possessive: "their" } },
+        other: { pronouns: { subject: "they", object: "them", possessive: "their" } }
+    };
 
-const genderMap = {
-    male: { pronouns: { subject: "he", object: "him", possessive: "his" } },
-    female: { pronouns: { subject: "she", object: "her", possessive: "her" } },
-    nonbinary: { pronouns: { subject: "they", object: "them", possessive: "their" } },
-    transMale: { pronouns: { subject: "he", object: "him", possessive: "his" } },
-    transFemale: { pronouns: { subject: "she", object: "her", possessive: "her" } },
-    genderqueer: { pronouns: { subject: "they", object: "them", possessive: "their" } },
-    preferNotToSay: { pronouns: { subject: "they", object: "them", possessive: "their" } },
-    other: { pronouns: { subject: "they", object: "them", possessive: "their" } }
-};
+    const gender = document.getElementById("gender").value;
+    const pronouns = genderMap[gender]?.pronouns || genderMap.other.pronouns;
 
-// Get the selected gender and corresponding pronouns
-const gender = document.getElementById("gender").value;
-const pronouns = genderMap[gender]?.pronouns || genderMap.other.pronouns;
+    const aboutSuggestions = [
+        `Let us celebrate the incredible journey of ${name}, a visionary ${categoryText} whose story began on ${sunrise}. With an unwavering passion for excellence in ${location}, ${pronouns.subject} set a standard for future generations. Even as ${pronouns.subject} thrives today, this page honors ${pronouns.possessive} unparalleled achievements. ${validHashTag}`,
+        `${name}, born on ${sunrise}, is a beacon of innovation and perseverance in ${location}. A renowned ${categoryText}, ${pronouns.subject} transformed dreams into reality. Celebrate this living legacy by giving flowers to ${pronouns.object}—acknowledging contributions that continue to shape lives. ${validHashTag}`,
+        `A tribute to the ongoing brilliance of ${name}, whose journey as a dedicated ${categoryText} inspires countless individuals. Originating from ${sunrise}, ${pronouns.possessive} passion in ${location} drives continuous innovation and heartfelt impact. This page empowers us to share gratitude and admiration while ${pronouns.subject} can still feel it. ${validHashTag}`,
+        `This moment belongs to ${name}, a trailblazing ${categoryText} from ${location} whose unmatched talents have flourished since ${sunrise}. ${pronouns.subject.charAt(0).toUpperCase() + pronouns.subject.slice(1)} inspires us with dedication, vision, and empathy. Share your flowers and stories of gratitude today—because impact should be cherished now. ${validHashTag}`,
+        `With humility and pride, we reflect on the illustrious career of ${name}, a luminary ${categoryText} rooted in ${location}. From the dawn of ${sunrise}, ${pronouns.subject} has illuminated the path for many, leaving an indelible mark on history. Share words of appreciation for achievements still unfolding. ${validHashTag}`,
+        `${name}, whose story began on ${sunrise}, has forged a legacy of strength and inspiration as a distinguished ${categoryText} in ${location}. Celebrate every milestone, every triumph that continues to define ${pronouns.possessive} journey. Recognition is most powerful when shared in the present. ${validHashTag}`,
+        `The remarkable journey of ${name} is one for the ages. Born on ${sunrise}, ${pronouns.subject} rose as a transformative force in ${location}, shaping lives and industries as a devoted ${categoryText}. Today, we honor the influence that resonates far and wide. ${validHashTag}`,
+        `In ${location}, the world knows ${name} as a dedicated ${categoryText} whose brilliance, beginning from ${sunrise}, has illuminated countless lives. Through this tribute, let us give flowers while ${pronouns.subject} continues to make a difference, creating lasting ripples of inspiration. ${validHashTag}`,
+        `A luminary in ${location}, ${name} exemplifies excellence as a ${categoryText}. Born on ${sunrise}, ${pronouns.subject} built bridges of hope and success. Share stories of admiration and encouragement today, ensuring that ${pronouns.subject.charAt(0).toUpperCase() + pronouns.subject.slice(1)} feels every heartfelt acknowledgment. ${validHashTag}`,
+        `${name}, whose impactful story began on ${sunrise}, continues to shape the world as a visionary ${categoryText} in ${location}. Celebrate now—your words of gratitude carry immeasurable power to inspire, affirm, and uplift the legacy in motion. ${validHashTag}`
+    ];
 
-const aboutSuggestions = [
-    `In loving memory of ${name}, who was born on ${sunrise} and peacefully departed on ${sunset}. A beloved ${categoryText}, ${pronouns.subject} dedicated ${pronouns.possessive} life to making a difference in the lives of others. In ${location}, ${pronouns.subject} left a legacy of kindness, compassion, and integrity that will be treasured for generations. Friends, family, and colleagues all cherish the countless memories of laughter and joy shared with ${pronouns.object}. ${validHashTag}`,
-    `${name}, a remarkable and inspiring ${categoryText}, graced this world from ${sunrise} until ${sunset}. Known for ${pronouns.possessive} unmatched generosity and warm heart, ${pronouns.subject} touched the hearts of many in ${location} and beyond. ${pronouns.subject.charAt(0).toUpperCase() + pronouns.subject.slice(1)} believed in spreading kindness wherever ${pronouns.subject} went. Though ${pronouns.subject} is no longer with us, ${pronouns.possessive} spirit lives on through the lives ${pronouns.subject} influenced. ${validHashTag}`,
-    `From the sunrise of ${sunrise} to the sunset of ${sunset}, the life of ${name} was a tapestry woven with love, hope, and resilience. A cherished ${categoryText} in ${location}, ${pronouns.subject} embodied the spirit of compassion. ${pronouns.subject} was always there to lend a hand, offer a kind word, or inspire with ${pronouns.possessive} courage. ${pronouns.possessive.charAt(0).toUpperCase() + pronouns.possessive.slice(1)} story will forever be told in the hearts of those ${pronouns.subject} uplifted. ${validHashTag}`,
-    `Celebrating the extraordinary journey of ${name}, who lived from ${sunrise} to ${sunset}. As a devoted ${categoryText}, ${pronouns.subject} enriched ${pronouns.possessive} community in ${location} with selflessness and a commitment to excellence. Those privileged to know ${pronouns.object} witnessed unparalleled dedication and unshakable integrity. The legacy ${pronouns.subject} leaves behind is a guiding light for future generations. ${validHashTag}`,
-    `In heartfelt remembrance of ${name}, whose life began on ${sunrise} and concluded on ${sunset}. A dedicated ${categoryText} and beacon of strength in ${location}, ${pronouns.subject} inspired countless individuals with ${pronouns.possessive} perseverance and compassion. The countless memories of joy and triumph, laughter and wisdom, remain etched in the hearts of family, friends, and all who admired ${pronouns.object}. ${validHashTag}`,
-    `${name}, born on ${sunrise} and cherished until ${sunset}, was a devoted ${categoryText} in ${location}. Known for ${pronouns.possessive} unwavering dedication to ${pronouns.possessive} craft and the people ${pronouns.subject} served, ${pronouns.subject} built bridges of friendship and unity. ${pronouns.subject.charAt(0).toUpperCase() + pronouns.subject.slice(1)} will always be remembered for the endless joy and kindness ${pronouns.subject} shared. ${validHashTag}`,
-    `Reflecting on the beautiful life of ${name}, whose story began on ${sunrise} and concluded on ${sunset}. In ${location}, ${pronouns.subject} was a renowned ${categoryText} whose contributions reached far and wide. ${pronouns.subject.charAt(0).toUpperCase() + pronouns.subject.slice(1)} work, character, and unwavering integrity created ripples of change. ${pronouns.possessive.charAt(0).toUpperCase() + pronouns.possessive.slice(1)} memory will be a cherished beacon of inspiration. ${validHashTag}`,
-    `The life of ${name}, a pillar of strength and kindness, spanned from ${sunrise} to ${sunset}. A brilliant ${categoryText} and loving soul in ${location}, ${pronouns.subject} gave freely of ${pronouns.possessive} time and talents. ${pronouns.subject.charAt(0).toUpperCase() + pronouns.subject.slice(1)} had the rare gift of making everyone ${pronouns.subject} encountered feel valued. ${pronouns.possessive.charAt(0).toUpperCase() + pronouns.possessive.slice(1)} story will inspire future generations. ${validHashTag}`,
-    `${name}, whose life stretched from ${sunrise} to ${sunset}, left a legacy filled with kindness, courage, and a deep commitment to serving others. In ${location}, ${pronouns.subject} was known for ${pronouns.possessive} tireless work as a ${categoryText}. ${pronouns.subject.charAt(0).toUpperCase() + pronouns.subject.slice(1)} contributions were as profound as ${pronouns.possessive} compassion was boundless. Memories of ${pronouns.possessive} influence will be held close. ${validHashTag}`,
-    `With great reverence, we remember ${name}, a distinguished ${categoryText}, born on ${sunrise} and lovingly remembered beyond ${sunset}. In ${location}, ${pronouns.subject} was a stalwart of hope, whose actions resonated with kindness and wisdom. ${pronouns.subject.charAt(0).toUpperCase() + pronouns.subject.slice(1)} legacy will be preserved through the countless lives ${pronouns.subject} enriched. The indelible mark ${pronouns.subject} left remains a source of inspiration. ${validHashTag}`
-];
+    const suggestionSelect = document.getElementById("suggestions");
+    suggestionSelect.innerHTML = '<option value="" disabled selected>Select an About Suggestion</option>';
 
-
-
-// Log suggestions for verification
-console.log(aboutSuggestions);
-
-
-    // Populate the suggestion dropdown with generated about text
-   // Populate the suggestion dropdown with generated about text
-const suggestionSelect = document.getElementById("suggestions");
-suggestionSelect.innerHTML = '<option value="" disabled selected>Select an About Suggestion</option>'; // Clear previous suggestions
-
-aboutSuggestions.forEach((suggestion, index) => {
-    const option = document.createElement("option");
-    option.value = suggestion;
-    option.textContent = `Suggestion ${index + 1}: ${suggestion.substring(0, 80)}...`; // Show a preview in the dropdown
-    suggestionSelect.appendChild(option);
-});
-
+    aboutSuggestions.forEach((suggestion, index) => {
+        const option = document.createElement("option");
+        option.value = suggestion;
+        option.textContent = `Suggestion ${index + 1}: ${suggestion.substring(0, 80)}...`;
+        suggestionSelect.appendChild(option);
+    });
 }
 
 // Populate the "About" textarea with selected suggestion
