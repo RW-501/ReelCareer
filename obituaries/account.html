@@ -252,7 +252,8 @@
      loadGuestbookPosts(pageID);
 
     if (pageName) {
-    
+        createToolbar(pageID, pageName);
+
     }
 
 // Get user data from localStorage or initialize as an empty array
@@ -580,11 +581,6 @@ function createToolbar(pageID, pageName) {
     toolbar.querySelector(`#userAccount_${pageID}`).addEventListener("click", () => loadUserAccount(pageID, pageName));
 }
 
-// Example usage on page load
-document.addEventListener('DOMContentLoaded', () => {
-
-    createToolbar(pageID, pageName);
-});
 
 // Functions to handle button actions
 function goToEditPage(pageID, pageName) {
