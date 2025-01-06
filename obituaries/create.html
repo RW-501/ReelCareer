@@ -374,175 +374,91 @@ main {
 <main id="main-content">
 
 
-    <div class="container">
-        <h2>Leave Your Legacy</h2>
-        <p>This page allows you to create your obituary, share details about your life, and give your loved ones a lasting memory of you. Fill in the following details to create your obituary page.</p>
-
+    <div class="container"> 
+        <h2>Leave Your Career Legacy</h2>
+        <p>This page allows you to create a personalized Career Obituary, highlighting your professional journey, achievements, and unique story. Share your career milestones, receive recognition, and inspire others with your story. Fill in the details below to create your Career Obituary page.</p>
+    
         <form id="obituaryForm" aria-labelledby="obituaryFormTitle">
-            <h2 id="obituaryFormTitle">Create Obituary</h2> <!-- Adds title for screen readers -->
-        
+            <h2 id="obituaryFormTitle">Create Career Obituary</h2>
+            
             <div class="section">
                 <div class="inputArea">
-                    <label for="name" aria-label="Enter the full name of the person">Full Name</label>
-                    <p id="nameHint" class="visually-hidden">Please enter the person's full name.</p>
+                    <label for="name" aria-label="Enter your full name">Full Name</label>
+                    <p id="nameHint" class="visually-hidden">Please enter your full name.</p>
                     <input type="text" id="name" name="name" placeholder="Enter your full name" required aria-required="true" aria-describedby="nameHint">
+                </div>
+    
+                <div class="flex">
+                    <div class="inputArea">
+                        <label for="sunrise" aria-label="Select your career start date (Sunrise)">Sunrise (Career Start Date)</label>
+                        <p id="sunriseHint" class="visually-hidden">Please select your career start date (Sunrise).</p>
+                        <input type="date" id="sunrise" name="sunrise" required aria-required="true" aria-describedby="sunriseHint">
                     </div>
-
-                    <div class="flex">
                     <div class="inputArea">
-                    <label for="sunrise" aria-label="Select the date of birth (Sunrise)">Sunrise (Date)</label>
-                    <p id="sunriseHint" class="visually-hidden">Please select the date of birth (Sunrise).</p>
-                    <input type="date" id="sunrise" name="sunrise" required aria-required="true" aria-describedby="sunriseHint">
-       </div>
-
-
-                    <div class="inputArea">
-                    <label for="sunset" aria-label="Select the date of passing (Sunset)">Sunset (Date)</label>
-                    <p id="sunsetHint" class="visually-hidden">Please select the date of passing (Sunset).</p>
-                    <input type="date" id="sunset" name="sunset" required aria-required="true" aria-describedby="sunsetHint">
+                        <label for="sunset" aria-label="Select your desired retirement date or current date (Sunset)">Sunset (Date)</label>
+                        <p id="sunsetHint" class="visually-hidden">Please select your desired retirement date or current date (Sunset).</p>
+                        <input type="date" id="sunset" name="sunset" required aria-required="true" aria-describedby="sunsetHint">
+                    </div>
                 </div>
-            </div>
-                    
-
-            <div class="inputArea">
-                <label for="hashTag" aria-label="Enter related hashtags for the event (e.g., #Memorial, #CelebrationOfLife)">Event Hashtags (e.g., #Memorial, #CelebrationOfLife)</label>
-                <p id="hashTagHint" class="visually-hidden">Please enter hashtags related to the event, separated by spaces or commas.</p>
-                <input 
-                  type="text" 
-                  id="hashTag" 
-                  name="hashTag" 
-                  placeholder="Enter hashtags related to the event (e.g., #Memorial, #CelebrationOfLife)" 
-                  aria-describedby="hashTagHint" 
-                >
-              </div>
-              
+                
                 <div class="inputArea">
-                    <label for="location" aria-label="Enter where services will be held (e.g., Virtual Event, Venue)">Event Location (e.g., Virtual Event, Directions, or Venue)</label>
-                    <p id="locationHint" class="visually-hidden">Please where services will be held or additional details like Zoom link, address, etc.</p>
-                    <input type="text" id="location" name="location" placeholder="Enter where services will be held or additional details (e.g., Zoom link, address)" required aria-required="true" aria-describedby="locationHint">
+                    <label for="hashTag" aria-label="Enter career-related hashtags (e.g., #Entrepreneur, #SoftwareEngineer)">Career Hashtags (e.g., #Entrepreneur, #SoftwareEngineer)</label>
+                    <p id="hashTagHint" class="visually-hidden">Please enter career-related hashtags separated by spaces or commas.</p>
+                    <input type="text" id="hashTag" name="hashTag" placeholder="Enter career-related hashtags (e.g., #Entrepreneur, #SoftwareEngineer)" aria-describedby="hashTagHint">
                 </div>
-                    
+                
+                <div class="inputArea">
+                    <label for="location" aria-label="Enter a key work location or business detail">Main Work Location or Business Detail</label>
+                    <p id="locationHint" class="visually-hidden">Enter a key location where significant professional work occurred.</p>
+                    <input type="text" id="location" name="location" placeholder="Enter key work location or project info" required aria-required="true" aria-describedby="locationHint">
+                </div>
+                
                 <div class="inputArea">  
-                     <label for="category" aria-label="Select a category">Category</label>
-                    <p id="categoryHint" class="visually-hidden">Select the category that best describes the person.</p>
+                    <label for="category" aria-label="Select your profession or field">Category</label>
+                    <p id="categoryHint" class="visually-hidden">Select the profession or field that best represents your career.</p>
                     <select id="category" name="category" required aria-required="true" aria-describedby="categoryHint">
-                        <option value="" disabled selected>Select a category</option>
-                        <option value="family">Family</option>
-                        <option value="friend">Friend</option>
-                        <option value="creator">Creator</option>
+                        <option value="" disabled selected>Select a profession or field</option>
                         <option value="developer">Developer</option>
                         <option value="designer">Designer</option>
                         <option value="photographer">Photographer</option>
                         <option value="musician">Musician</option>
-                        <option value="plumber">Plumber</option>
-                        <option value="electrician">Electrician</option>
                         <option value="teacher">Teacher</option>
                         <option value="engineer">Engineer</option>
                         <option value="doctor">Doctor</option>
-                        <option value="nurse">Nurse</option>
-                        <option value="chef">Chef</option>
                         <option value="artist">Artist</option>
-                        <option value="writer">Writer</option>
                         <option value="other">Other (Specify)</option>
                     </select>
-                
                     <div id="otherCategoryContainer" style="display: none;">
                         <label for="otherCategory" aria-label="Specify another category">Specify Category</label>
-                        <p id="otherCategoryHint" class="visually-hidden">If the category is not listed, please specify it here.</p>
-                        <input type="text" id="otherCategory" name="otherCategory" placeholder="Specify other category" aria-describedby="otherCategoryHint">
+                        <input type="text" id="otherCategory" name="otherCategory" placeholder="Specify other category">
                     </div>
-                </div>
-                        
-                <div class="inputArea">
-                    <label for="gender" aria-label="Select a gender">Gender</label>
-                    <p id="genderHint" class="visually-hidden">Select the gender or pronouns that best describe the person.</p>
-                    <select id="gender" name="gender" required aria-required="true" aria-describedby="genderHint">
-                        <option value="" disabled selected>Select a gender or pronouns</option>
-                        <option value="male">Male (he/him)</option>
-                        <option value="female">Female (she/her)</option>
-                        <option value="nonbinary">Non-binary (they/them)</option>
-                        <option value="transMale">Transgender Male (he/him)</option>
-                        <option value="transFemale">Transgender Female (she/her)</option>
-                        <option value="genderqueer">Genderqueer (they/them)</option>
-                        <option value="preferNotToSay">Prefer not to say</option>
-                        <option value="other">Other (Specify)</option>
-                    </select>
                 </div>
                 
-
-
-
                 <div class="inputArea">
-                    <div id="suggestionBox" style="margin-top: 20px;">
-                        <label for="suggestions" aria-label="Select a suggested 'About' text">Suggested "About" Text</label>
-                        <select id="suggestions">
-                            <option value="" disabled selected>Select a suggestion</option>
-                        </select>
-                    </div>
+                    <label for="about" aria-label="Describe your career journey and key accomplishments">Career Summary</label>
+                    <textarea id="about" name="about" placeholder="Describe your career journey, key milestones, and accomplishments" required aria-required="true"></textarea>
                 </div>
-
-                <div class="inputArea">
-                    <label for="about" aria-label="Write a short biography or summary about the person">About the Person</label>
-                    <p id="aboutHint" class="visually-hidden">Please provide a brief biography or summary of the person's life.</p>
-                    <textarea id="about" name="about" placeholder="Write a short biography or summary about the person" required aria-required="true" aria-describedby="aboutHint"></textarea>
-                </div>
-
-                    <label for="pageName" aria-label="Enter obituary page URL">URL (Obituary Page URL)</label>
-                    <p id="urlHint" class="visually-hidden">Format: /celebrating/[your-url]. The URL should only contain letters, numbers, hyphens, and underscores.</p>
-                    <input type="text" id="pageName" name="url" placeholder="Choose a URL (e.g., john-doe)" required aria-required="true" aria-describedby="urlHint">
-                    
-                    <div>
-                        <p>Preview URL:</p>
-                        <p id="urlPreview">https://reelcareer.co/obituaries/celebrating/</p>
-                        <p id="urlAvailabilityMessage" style="color: red; display: none;" aria-live="polite">This page name is already taken. Please choose another one.</p>
-                    </div>
-                </div>
-            </div>
-                    
-            <div class="inputArea">              
-                    <label for="mainPhoto" aria-label="Upload main photo">Main Photo</label> 
-                    <p id="photoHint" class="visually-hidden">Upload a main photo for the obituary.</p>
-                    <input type="file" id="mainPhoto" name="mainPhoto" class="input-file" accept="image/*" required aria-required="true" aria-describedby="photoHint">
-                    
-                    <!-- Image preview container -->
-                    <div id="imagePreviewContainer" style="display: none; margin-top: 20px;">
-                        <!-- Image preview that will display the selected image -->
-                        <img id="imagePreview" src="" alt="Uploaded main photo preview" style="max-width: 200px; max-height: 200px; border: 1px solid #ccc; cursor: pointer;">
-                        <div id="imageControls">
-                            <button id="toggleBnw">Black & White</button>
-                            <button id="rotateImage">Rotate</button>
-                            <button id="zoomIn">Zoom In</button>
-                            <button id="zoomOut">Zoom Out</button>
-                            <button id="resetImage">Reset</button>
-                        </div>
-                    </div>
-            </div>
-
- 
-                <div class="inputArea">                   
-                     <label for="video" aria-label="Enter video URL">Video (Optional)</label>
-                    <p id="videoHint" class="visually-hidden">Optional: Provide a video URL (e.g., YouTube, Vimeo) related to the obituary.</p>
-                    <input type="url" id="video" name="video" class="input-file" placeholder="Enter video URL (YouTube, Vimeo, MP4, etc.)" aria-describedby="videoHint">
-                    <div id="videoPreview"></div>
-                </div>
-                    
-                <div class="inputArea">
-                    <label for="socialLinkName" aria-label="Enter social media name (e.g., Facebook, CashApp, Instagram)">Social Media Name (e.g., Facebook, CashApp, Instagram)</label>
-                    <p id="socialNameHint" class="visually-hidden">Enter the name of the social media platform (e.g., Facebook, CashApp, Instagram).</p>
-                    <input type="text" id="socialLinkName" name="socialLinkName" class="input-file" placeholder="Enter social media name" required aria-required="true" aria-describedby="socialNameHint">
                 
-                    <label for="socialLinks" aria-label="Enter social media link (URL)">Social Media Link (URL)</label>
-                    <p id="socialLinkHint" class="visually-hidden">Enter the full URL to the social media profile (e.g., https://yourURL.com).</p>
-                    <input type="url" id="socialLinks" name="socialLinks" class="input-file" placeholder="Enter your social media link (e.g., https://yourURL.com)" required aria-required="true" aria-describedby="socialLinkHint">
+                <div class="inputArea">
+                    <label for="mainPhoto" aria-label="Upload your main profile picture">Main Photo</label>
+                    <input type="file" id="mainPhoto" name="mainPhoto" accept="image/*" required aria-required="true">
                 </div>
-
-
-        
+    
+                <div class="inputArea">
+                    <label for="socialLinkName" aria-label="Enter your professional social media platform">Professional Social Media (e.g., LinkedIn, Portfolio)</label>
+                    <input type="text" id="socialLinkName" name="socialLinkName" placeholder="Platform name (e.g., LinkedIn, Portfolio)">
+                    <label for="socialLinks" aria-label="Enter the URL to your professional profile">Profile Link (URL)</label>
+                    <input type="url" id="socialLinks" name="socialLinks" placeholder="Enter the URL to your professional profile">
+                </div>
+            </div>
+    
             <div class="button-container">
-                <button type="button" id="preview-button" aria-label="Preview the obituary">Preview Obituary</button>
-                <button type="button" id="paypal-button" aria-label="Create the obituary and proceed to payment">Create Now</button>
+                <button type="button" id="preview-button">Preview Career Obituary</button>
+                <button type="button" id="paypal-button">Create Now</button>
             </div>
         </form>
+    </div>
+    
 
 <!-- Correct container for the PayPal button -->
 <div id="paypal-button-container" class="modal">
