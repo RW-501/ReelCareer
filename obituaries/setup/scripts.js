@@ -344,6 +344,32 @@ const getViewSource = () => {
 window.incrementViews = incrementViews;
 
 
+function openGiftPopup() {
+  document.getElementById("giftPopup").style.display = "block";
+}
+
+function closeGiftPopup() {
+  document.getElementById("giftPopup").style.display = "none";
+}
+
+
+window.openGiftPopup = openGiftPopup;
+window.closeGiftPopup = closeGiftPopup;
+
+
+
+
+
+const nameHeader = document.getElementById("name-header");
+const giftPopup = document.getElementById("giftPopup");
+
+// Extract the first part of the name before any space
+const fullName = nameHeader.textContent;
+
+// Replace [$Name$] with the first name in the placeholder text
+giftPopup.innerHTML = giftPopup.innerHTML.replaceAll("[$NameFull$]", fullName);
+
+
 
 // Function to create and display the popup
 function showComingSoonPopup() {

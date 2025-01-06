@@ -579,3 +579,57 @@ footer p {
   #pageID, #pageName {
     display: none;
   }
+
+
+
+
+  .giftPopup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60%;
+    max-width: 600px;
+    background: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    z-index: 1000;
+  }
+  
+  .giftPopup-content {
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .gift-options {
+    display: flex;
+    justify-content: space-around;
+    margin: 20px 0;
+  }
+  
+  .gift-item {
+    text-align: center;
+    max-width: 30%;
+  }
+  
+  .gift-item img {
+    width: 100px;
+    height: 100px;
+    border-radius: 10px;
+  }
+  
+  .fees-info {
+    margin-top: 20px;
+    font-size: 14px;
+    color: #666;
+  }
+  
+  .close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    cursor: pointer;
+  }
+  
