@@ -88,6 +88,7 @@ function sanitizeInput(input) {
 // const formContainer = document.getElementById("form-container"); // Assume this is your form's container
 
 
+const submitbtn = document.getElementById("submit-btn");
 
 // Handle form submission
 submitbtn.addEventListener("click", async (e) => {
