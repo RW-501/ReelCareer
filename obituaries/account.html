@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Your Obituary Account">
+    <meta property="og:description" content="Fill in the details to create your obituary page. Leave a legacy that people will cherish.">
+    <meta property="og:image" content="https://reelcareer.co/images/8pic_rc.png">
+    <meta property="og:url" content="https://reelcareer.co/obituaries/account">
+    <meta property="og:type" content="website">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Create Your Obituary">
+    <meta name="twitter:description" content="Fill in the details to create your obituary page. Leave a legacy that people will cherish.">
+    <meta name="twitter:image" content="https://reelcareer.co/images/8pic_rc.png">
+    <meta name="twitter:url" content="https://reelcareer.co/obituaries/account">
+    
+    <!-- General Meta Tags -->
+    <meta name="description" content="Create your personalized obituary page. Add details, photos, and memories to leave a lasting legacy.">
+    <meta name="keywords" content="obituary, create obituary, legacy, remembrance, celebration of life">
+    <meta name="author" content="ReelCareer">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#ffffff">
+          <!-- Canonical Tag for SEO -->
+  <link rel="canonical" href="https://reelcareer.co/obituaries/account"> <!-- Ensures search engines index the preferred URL -->
+
+  <!-- Standard Favicon -->
+  <link rel="icon" type="image/x-icon" href="https://reelcareer.co/images/favicons/favicon.ico">
+
+    <!-- Schema.org Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "url": "https://reelcareer.co/obituaries/create",
+      "name": "Create Your Obituary",
+      "description": "Create your personalized obituary page. Add details, photos, and memories to leave a lasting legacy.",
+      "author": {
+        "@type": "Organization",
+        "name": "ReelCareer",
+        "url": "https://reelcareer.co/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "ReelCareer",
+        "url": "https://reelcareer.co/",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://reelcareer.co/images/8pic_rc.png",
+          "width": 200,
+          "height": 60
+        }
+      },
+      "image": {
+        "@type": "ImageObject",
+        "url": "https://reelcareer.co/images/8pic_rc.png",
+        "width": 1200,
+        "height": 630
+      }
+    }
+    </script>
+
+    <title>Your Obituary Account | ReelCareer</title>
+
+<!-- Main Script Loader -->
+<script src="https://reelcareer.co/scripts/js/loader.js"></script>
+
+<style>
+  main {
+
+
+    
+
+
+
+
+}    
+  </style>
+  
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav id="Main-Nav_bar" class="navbar navbar-expand-lg main-navbar-light shadow-sm sticky-top" role="navigation">
+    <div class="container d-flex align-items-center justify-content-between">
+      <!-- Logo -->
+      <a class="navbar-brand embossed" id="MAIN-LOGO-Reel-Career" href="https://reelcareer.co/" aria-label="Go to home page">
+        ReelCareer
+      </a>
+
+      <!-- Always-visible Icons -->
+      <ul class="navbar-nav d-flex flex-row justify-content-center flex-grow-1" id="iconBar">
+        
+      <li class="nav-item mx-2">
+        <a class="nav-link" href="https://reelcareer.co/job-listings" aria-label="Go to job listings page">
+          <i class="fa fa-briefcase"></i>
+        </a>
+      </li>
+      <li class="nav-item mx-2">
+        <a class="nav-link" href="https://reelcareer.co/reels" aria-label="Go to reels page">
+          <i class="fa fa-video"></i>
+        </a>
+      </li>
+      <li class="nav-item mx-2">
+        <a class="nav-link" href="https://reelcareer.co/views/membership" aria-label="Go to membership page">
+          <i class="fa fa-user"></i>
+        </a>
+      </li>
+      <li class="nav-item mx-2">
+        <a class="nav-link" href="https://reelcareer.co/views/blogs" aria-label="Go to blogs page">
+          <i class="fa fa-pencil-alt"></i>
+        </a>
+      </li>
+      </ul>
+
+      <!-- Auth Section -->
+      <div id="authSection" class="d-flex align-items-center"><button class="btn btn-primary" id="loginButton">Login / Create Account</button></div>
+    </div>
+  </nav>
+
+
+<header>
+    <h1 id="breadcrumbText">Edit Obituaries</h1>
+</header>
+
+   <!-- Breadcrumb Section -->
+<div id="main-breadcrumb" class="breadcrumb">
+    <a href="https://reelcareer.co/">Home</a> | <a href="https://reelcareer.co/obituaries">Obituaries</a> 
+    | <a href="https://reelcareer.co/obituaries/create">Create</a>| <a href="https://reelcareer.co/obituaries/about">About</a>
+</div>
+
+
+    <!-- Main Content Section -->
+    <main id="main-content">
+
+        <div id="messageDiv"></div>
+      
+        <!-- Guestbook Section -->
+        <div id="guestbook-section">
+            <h2>Guestbook Moderation</h2>
+            <div id="guestbook-list">
+                <!-- Guestbook Posts will be injected here -->
+            </div>
+      
+            <button id="payout-button" class="button" onclick="processPayout()">Process Payout</button>
+        </div>
+      
+        <!-- Payout Modal -->
+        <div id="payout-modal" class="modal">
+            <div class="modal-content">
+                <h3>Process Payout</h3>
+                <p id="total-payout"></p>
+                <label for="requested-amount">Requested Amount:</label>
+                <input type="number" id="requested-amount" />
+                <button onclick="confirmPayout()">Confirm Payout</button>
+                <button onclick="closeModal()">Close</button>
+            </div>
+        </div>
+      
+      </main>
+      
+
+
+    <footer class="site-footer">
+        <div class="footer-content">
+            <p>Leave a lasting legacy. Share your story with the world.</p>
+            <nav class="footer-nav">
+                <a href="https://reelcareer.co/obituaries/">Obituaries</a> | 
+                <a href="https://reelcareer.co/obituaries/create">Create an Obituary</a> | 
+                <a href="https://reelcareer.co/obituaries/about">About Career Obituaries</a> | 
+                <a href="https://reelcareer.co/">ReelCareer</a>
+            </nav>
+            <p>&copy; <span id="currentYear"></span> ReelCareer.co. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js"></script> <!-- For fetching IP -->
+
+
+    
+
+        <!-- Include Firebase SDK as a module -->
+<script type="module">
+    import {
+        db, getStorage, ref, uploadBytes, getDownloadURL, limit,
+  doc, arrayUnion, RecaptchaVerifier, increment, getDoc, arrayRemove, signInWithPhoneNumber,
+  query, updateDoc, setDoc, addDoc, signInAnonymously, orderBy, onAuthStateChanged,
+  uploadBytesResumable, signInWithPopup, FacebookAuthProvider, GoogleAuthProvider, startAfter,
+  OAuthProvider, signOut, deleteDoc, getFirestore, serverTimestamp,
+  createUserWithEmailAndPassword, signInWithEmailAndPassword, deleteObject,
+  where, getDocs, storage, getAuth, collection, auth, analytics,
+  googleProvider,onSnapshot , linkWithCredential, EmailAuthProvider ,
+  getUserId // Export the function
+    } from 'https://reelcareer.co/scripts/js/load/module.js';
+
+    
+        // Listen for authentication state changes to get the user ID
+        let userID = '';
+        let pageID = '';
+        let pageName = '';
+        document.addEventListener('DOMContentLoaded', () => {
+
+
+
+
+
+
+
+    onAuthStateChanged(auth, async (user) => {
+    if (user) {
+    const userID = user.uid;
+    console.log("User ID:", userID);
+    // Call this function when the page loads
+    loadGuestbookPosts(userID);
+    // Extract pageName from URL query parameters
+    const urlParams = new URLSearchParams(window.location.search);
+     pageName = urlParams.get("pageName");
+
+     pageID = urlParams.get("pageID");
+
+     console.log("pageName:", pageName);
+     console.log("pageID:", pageID);
+
+    if (pageName) {
+      // Fetch obituary data if pageName exists
+      fetchObituary(pageName);
+    }
+  } else {
+    console.log("No user signed in ...");
+    
+  }
+
+    
+});
+
+    
+});
+
+        // Fetch user's IP address using an external service
+        async function getUserIP() {
+            try {
+                const response = await axios.get('https://api.ipify.org?format=json');
+                return response.data.ip;
+            } catch (error) {
+                console.error('Error fetching IP address:', error);
+                return 'Unknown IP';
+            }
+        }
+
+// Function to fetch user IP and location details
+async function getUserDetails() {
+  try {
+    const response = await fetch("https://ipapi.co/json/");
+    const data = await response.json();
+
+    return {
+      ip: data.ip,
+      city: data.city,
+      state: data.region,
+      country: data.country_name,
+      location: {
+        latitude: data.latitude,
+        longitude: data.longitude,
+      },
+    };
+  } catch (error) {
+    console.error("Error fetching user details:", error);
+    return null;
+  }
+}
+
+
+
+
+
+
+// Function to load and display guestbook posts
+async function loadGuestbookPosts(userID) {
+    const guestbookRef = collection(db, "Guestbook");
+    const guestbookSnapshot = await getDocs(guestbookRef);
+    const guestbookList = document.getElementById("guestbook-list");
+    guestbookList.innerHTML = "";  // Clear previous list
+
+    guestbookSnapshot.forEach(doc => {
+        const postData = doc.data();
+        const postID = doc.id;
+
+        const postElement = document.createElement("div");
+        postElement.classList.add("guestbook-post");
+        postElement.innerHTML = `
+            <p><strong>${postData.author}:</strong> ${postData.message}</p>
+            <p><strong>Date:</strong> ${postData.date}</p>
+            <p><strong>Status:</strong> ${postData.status || "Pending"}</p>
+            <div class="controls">
+                <button onclick="approvePost('${postID}')">Approve</button>
+                <button onclick="rejectPost('${postID}')">Reject</button>
+                <button onclick="deletePost('${postID}')">Delete</button>
+            </div>
+            <div class="gifts">
+                <h4>Gifts</h4>
+                <ul id="gifts-${postID}">
+                    <!-- Gifts for this post will be injected here -->
+                </ul>
+            </div>
+        `;
+        guestbookList.appendChild(postElement);
+
+        // Load gifts associated with the post
+        loadGiftsForPost(postID);
+    });
+}
+
+// Function to load gifts for a guestbook post
+async function loadGiftsForPost(postID) {
+    const giftsRef = collection(db, "Guestbook", postID, "Gifts");
+    const giftsSnapshot = await getDocs(giftsRef);
+    const giftsList = document.getElementById(`gifts-${postID}`);
+    giftsList.innerHTML = "";  // Clear previous gifts
+
+    giftsSnapshot.forEach(doc => {
+        const giftData = doc.data();
+        const giftItem = document.createElement("li");
+        giftItem.textContent = `${giftData.name} - $${giftData.amount}`;
+        giftsList.appendChild(giftItem);
+    });
+}
+
+// Function to approve a guestbook post
+async function approvePost(postID) {
+    const postRef = doc(db, "Guestbook", postID);
+    await updateDoc(postRef, { status: "Approved" });
+    loadGuestbookPosts(userID);  // Reload posts
+}
+
+// Function to reject a guestbook post
+async function rejectPost(postID) {
+    const postRef = doc(db, "Guestbook", postID);
+    await updateDoc(postRef, { status: "Rejected" });
+    loadGuestbookPosts(userID);  // Reload posts
+}
+
+// Function to delete a guestbook post
+async function deletePost(postID) {
+    const postRef = doc(db, "Guestbook", postID);
+    await deleteDoc(postRef);
+    loadGuestbookPosts(userID);  // Reload posts
+}
+
+// Function to load transactions and calculate the total available payout
+async function calculateTotalPayout() {
+    const pageID = "PageID"; // Replace with actual page ID
+    const transactionsRef = collection(db, `A_Transactions`, `Gift_${pageID}`);
+    
+    // Fetch all transaction data
+    const transactionSnapshot = await getDocs(transactionsRef);
+    
+    let totalGifts = 0;
+    let pendingPayouts = 0;
+
+    // Loop through transactions and calculate total available amount
+    transactionSnapshot.forEach(doc => {
+        const transactionData = doc.data();
+        const amount = transactionData.amount;
+        const status = transactionData.status;  // Assume we have a status field for payout status
+        
+        if (status === "Completed") {
+            totalGifts += amount;  // Add completed transactions to total
+        } else if (status === "Pending") {
+            pendingPayouts += amount;  // Track pending payouts
+        }
+    });
+
+    const availablePayout = totalGifts - pendingPayouts; // Available funds after pending payouts
+    return availablePayout;
+}
+
+// Function to display the payout modal with total available payout
+async function processPayout() {
+    const availableAmount = await calculateTotalPayout();
+
+    // Show available payout
+    document.getElementById("total-payout").textContent = `Total available for payout: $${availableAmount}`;
+    document.getElementById("payout-modal").style.display = "block";
+}
+
+// Function to confirm payout and process the transaction
+async function confirmPayout() {
+    const requestedAmount = parseFloat(document.getElementById("requested-amount").value);
+    const availableAmount = await calculateTotalPayout();
+
+    if (requestedAmount > availableAmount) {
+        alert("Requested amount exceeds the available balance.");
+    } else {
+        // Create a new transaction for the payout
+        await createPayoutTransaction(requestedAmount);
+        alert("Payout request confirmed.");
+        closeModal();
+    }
+}
+
+// Function to create a new payout transaction
+async function createPayoutTransaction(amount) {
+    const pageID = "PageID"; // Replace with actual page ID
+    const transactionRef = collection(db, `A_Transactions`, `Gift_${pageID}`);
+
+    const transactionData = {
+        giftType: "Gift", // Example value, adjust as needed
+        pageID,
+        amount,
+        status: "Pending",  // Mark as pending until processed
+        timestamp: serverTimestamp(),
+    };
+
+    // Add the transaction to the database
+    await addDoc(transactionRef, transactionData);
+
+    console.log("Payout transaction created:", transactionData);
+}
+
+
+
+
+// Function to get user's email and phone number
+async function getUserContactDetails() {
+    const userRef = doc(db, "Users", userID);
+    const userDoc = await getDoc(userRef);
+    const userData = userDoc.data();
+
+    // Check for email and phone number
+    const userEmail = userData.email || "N/A";
+    const userPhone = userData.phone || "N/A";
+
+    const confirmationText = `Would you like to send the payout details to this contact information?\nEmail: ${userEmail}\nPhone: ${userPhone}`;
+
+    // Prompt user with the option to send payment info to this email/phone
+    const sendToContact = confirm(confirmationText);
+    if (sendToContact) {
+        sendPaymentInfo(userEmail, userPhone);
+    } else {
+        const alternativeContact = prompt("Please enter an alternative email or phone number:");
+        sendPaymentInfo(alternativeContact);
+    }
+}
+
+// Function to send payment info to a specific email/phone
+function sendPaymentInfo(contact) {
+    // Assuming you send email or SMS through an external API, make this request here.
+    console.log(`Sending payout details to ${contact}`);
+}
+
+// Function to confirm payout request
+function confirmPayout() {
+    const requestedAmount = parseFloat(document.getElementById("requested-amount").value);
+    const totalAmount = calculateTotalGifts();
+
+    if (requestedAmount > totalAmount) {
+        alert("Requested amount exceeds the available balance.");
+    } else {
+        // Process payout logic
+        processPayoutTransaction(requestedAmount);
+        alert("Payout request confirmed.");
+        closeModal();
+    }
+}
+window.confirmPayout = confirmPayout;
+
+
+// Function to process the payout transaction
+async function processPayoutTransaction(amount) {
+    const payoutRef = collection(db, "Payouts");
+    const payoutDoc = await addDoc(payoutRef, {
+        pageID,
+        url: `https://reelcareer.co/obituaries/celebrating/${pageName}`,
+        amount: amount,
+        pageName: pageName,
+        status: "Pending",
+        userID: userID,
+            userIP: userIP,
+            timestamp: serverTimestamp(),
+    });
+
+    console.log("Payout initiated:", payoutDoc.id);
+}
+
+// Function to close the payout modal
+function closeModal() {
+    document.getElementById("payout-modal").style.display = "none";
+}
+
+window.closeModal = closeModal;
+
+
+</script>
+
+    <script>
+        // Dynamically set the current year
+        document.getElementById("currentYear").textContent = new Date().getFullYear();
+    </script>
+    <script src="https://reelcareer.co/obituaries/setup/analytics.js" type="module"></script>
+    
+    </body>
+    
+    
+    
+    </html>
+      

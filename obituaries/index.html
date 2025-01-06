@@ -452,6 +452,7 @@ async function loadUserObituaries(userID) {
                         <button id="edit_${pageID}">Edit</button>
                         <button id="analytics_${pageID}">Analytics</button>
                         <button id="view_${pageID}">View</button>
+                        <button id="userAccount_${pageID}">Account</button>
                     </div>
                 `;
 
@@ -460,6 +461,7 @@ async function loadUserObituaries(userID) {
                 card.querySelector(`#edit_${pageID}`).addEventListener("click", () => goToEditPage(pageID, pageName));
                 card.querySelector(`#analytics_${pageID}`).addEventListener("click", () => goToAnalyticsPage(pageID, pageName));
                 card.querySelector(`#view_${pageID}`).addEventListener("click", () => goToViewPage(pageID, pageName));
+                card.querySelector(`#userAccount_${pageID}`).addEventListener("click", () => loadUserAccount(pageID, pageName));
 
                 container.appendChild(card);
             }
@@ -643,7 +645,9 @@ function goToViewPage(pageID, pageName) {
     window.location.href = `https://reelcareer.co/obituaries/celebrating/${encodeURIComponent(pageName)}`;
 }
 
-
+function loadUserAccount(pageID, pageName) {
+    window.location.href = `https://reelcareer.co/obituaries/account.html?pageID=${encodeURIComponent(pageID)}&pageName=${encodeURIComponent(pageName)}`;
+}
 
 // Function to fetch obituaries from Firestore
 

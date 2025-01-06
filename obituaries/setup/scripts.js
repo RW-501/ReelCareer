@@ -449,7 +449,7 @@ async function handlePaymentSuccess(giftType, amountToPay, paymentDetails) {
   await addDoc(transcationsRefs, {
     giftType: giftType,
     pageID,
-    url: `https://reelcareer.co/obituaries/celebrating/${pageID}`,
+    url: `https://reelcareer.co/obituaries/celebrating/${pageName}`,
     pageName: pageName,
     paymentDetails: paymentDetails,
     amount: amountToPay,
