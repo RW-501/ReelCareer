@@ -704,7 +704,7 @@ function renderObituaries(obituaries) {
 }
 
 // Filter function for search and filter by category/location
-function filterObituaries() {
+function filterObituaries() { 
     const searchTerm = document.getElementById("search-input").value.toLowerCase();
     const categoryFilter = document.getElementById("category-filter").value.toLowerCase();
     const locationFilter = document.getElementById("location-filter").value.toLowerCase();
@@ -713,27 +713,31 @@ function filterObituaries() {
 
     // Filter by search term (name or location)
     filteredObituaries = filteredObituaries.filter(obituary => {
-        return obituary.name.toLowerCase().includes(searchTerm) || 
-               obituary.location.toLowerCase().includes(searchTerm);
+        const name = obituary.name ? obituary.name.toLowerCase() : '';  // Safely handle missing name
+        const location = obituary.location ? obituary.location.toLowerCase() : '';  // Safely handle missing location
+        return name.includes(searchTerm) || location.includes(searchTerm);
     });
 
     // Filter by category
     if (categoryFilter) {
         filteredObituaries = filteredObituaries.filter(obituary => {
-            return obituary.category.toLowerCase() === categoryFilter;
+            const category = obituary.category ? obituary.category.toLowerCase() : '';  // Safely handle missing category
+            return category === categoryFilter;
         });
     }
 
     // Filter by location
     if (locationFilter) {
         filteredObituaries = filteredObituaries.filter(obituary => {
-            return obituary.location.toLowerCase() === locationFilter;
+            const location = obituary.location ? obituary.location.toLowerCase() : '';  // Safely handle missing location
+            return location === locationFilter;
         });
     }
 
     // Re-render the filtered obituaries
     renderObituaries(filteredObituaries);
 }
+
 window.filterObituaries = filterObituaries;
 
 // Sort function for sorting by date or views
