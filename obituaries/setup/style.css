@@ -30,9 +30,7 @@ header p {
     width: 100%;
     max-height: 500px;
     object-fit: scale-down;
-    border-radius: 5px;
-    overflow: hidden;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+
 }
 .photo img {
     width: 100%;
@@ -460,6 +458,9 @@ footer p {
             background: #f9f9f9;
             padding: 20px;
             margin: 20px;
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
         }
 
         .flowers-section p {
