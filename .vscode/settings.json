@@ -1,4 +1,5 @@
 {
-    "scm.alwaysShowRepositories": true,
-    "scm.alwaysShowActions": true
+    "accessibility.verbosity.walkthrough": true,
+    "scm.alwaysShowActions": true,
+    "scm.alwaysShowRepositories": true
 }

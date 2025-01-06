@@ -15,7 +15,7 @@ function renderInteractionsArea() {
 
 <div class="guestbook form changeable-area">
   <h2 class="changeable-text">Guestbook</h2>
-  <form id="guestbookForm">
+  <div id="guestbookForm">
     <div>
       <input type="text" id="guestName" placeholder="Your Name" required>
     </div>
@@ -23,7 +23,8 @@ function renderInteractionsArea() {
       <textarea id="guestMessage" rows="4" placeholder="Your Message" required></textarea>
     </div>
     <button id="submit-btn" class="changeable-text">Submit</button>
-  </form>
+  </div>
+
   <div class="guestbook-entries" id="guestbookEntries"></div>
 </div>
 
