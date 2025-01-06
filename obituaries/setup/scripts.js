@@ -386,7 +386,6 @@ async function selectGift(giftType) {
   // Handle PayPal integration or transaction logic here (set up the payment process)
 
   // Add the selected gift to the Firestore database
-  const pageID = "examplePageID"; // Define the correct page ID dynamically
   const giftsRefs = collection(db, `A_Obituaries/${pageID}/Gifts-Transactions`);
   
   // Add the transaction data to Firestore
