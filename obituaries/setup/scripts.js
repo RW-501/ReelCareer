@@ -80,41 +80,53 @@ function sanitizeInput(input) {
   div.textContent = input;
   return div.innerHTML;
 }
-  const form = document.getElementById("guestbookForm");
-
-  const submitbtn = document.getElementById("submit-btn");
-
-
-  submitbtn.addEventListener("click", async (e) => {
-    console.log('Form submission triggered.');
 
 
 
-    const nameInput = document.getElementById("guestName");
-    const messageInput = document.getElementById("guestMessage");
-    const name = sanitizeInput(nameInput.value.trim());
-    const message = sanitizeInput(messageInput.value.trim());
-    const userIP = await getUserIP(); // Fetch user IP address
 
+// Add the checkbox to the form
+const formContainer = document.getElementById("form-container"); // Assume this is your form's container
+const anonymousCheckbox = document.createElement("input");
+anonymousCheckbox.type = "checkbox";
+anonymousCheckbox.id = "anonymousCheckbox";
 
+const checkboxLabel = document.createElement("label");
+checkboxLabel.htmlFor = "anonymousCheckbox";
+checkboxLabel.textContent = "Submit as Anonymous";
 
-    if (name && message) {
-      try {
-        const guestbookRef = collection(db, `A_Obituaries/${pageID}/Guestbook`);
-        await addDoc(guestbookRef, {
-          name,
-          message,
-          userIP,
-          timestamp: serverTimestamp(),
-        });
-        nameInput.value = ''; // Clear form inputs
-        messageInput.value = ''; // Clear form inputs
-        await loadEntries(); // Refresh guestbook entries
-      } catch (error) {
-        console.error("Error adding guestbook entry:", error);
-      }
+// Append the checkbox and label to the form
+formContainer.appendChild(anonymousCheckbox);
+formContainer.appendChild(checkboxLabel);
+
+// Handle form submission
+submitbtn.addEventListener("click", async (e) => {
+  console.log('Form submission triggered.');
+
+  const nameInput = document.getElementById("guestName");
+  const messageInput = document.getElementById("guestMessage");
+  const name = sanitizeInput(anonymousCheckbox.checked ? "Anonymous" : nameInput.value.trim());
+  const message = sanitizeInput(messageInput.value.trim());
+  const userIP = await getUserIP(); // Fetch user IP address
+
+  if (name && message) {
+    try {
+      const guestbookRef = collection(db, `A_Obituaries/${pageID}/Guestbook`);
+      await addDoc(guestbookRef, {
+        name,
+        message,
+        userIP,
+        timestamp: serverTimestamp(),
+      });
+      nameInput.value = ''; // Clear form inputs
+      messageInput.value = ''; // Clear form inputs
+      anonymousCheckbox.checked = false; // Reset checkbox
+      await loadEntries(); // Refresh guestbook entries
+    } catch (error) {
+      console.error("Error adding guestbook entry:", error);
     }
-  });
+  }
+});
+
 
     const entriesDiv = document.getElementById("guestbookEntries");
 
