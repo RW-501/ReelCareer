@@ -20,7 +20,7 @@ function renderInteractionsArea() {
       <input type="text" id="guestName" placeholder="Your Name" required>
     </div>
     <div>
-      <textarea id="guestMessage" rows="4" placeholder="Your Message" required></textarea>
+      <textarea id="guestMessage" rows="4" placeholder="Share a memory of [name]... " required></textarea>
     </div>
     <button id="submit-btn" class="changeable-text">Submit</button>
   </div>

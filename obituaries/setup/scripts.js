@@ -84,7 +84,6 @@ function sanitizeInput(input) {
 
   const submitbtn = document.getElementById("submit-btn");
 
-  console.log('Loaded Guestbook:', pageID);
 
   submitbtn.addEventListener("click", async (e) => {
     console.log('Form submission triggered.');
@@ -97,8 +96,7 @@ function sanitizeInput(input) {
     const message = sanitizeInput(messageInput.value.trim());
     const userIP = await getUserIP(); // Fetch user IP address
 
-    console.log('name:', name);
-    console.log('message:', message);
+
 
     if (name && message) {
       try {
@@ -126,6 +124,16 @@ function sanitizeInput(input) {
     try {
       const guestbookRef = collection(db, `A_Obituaries/${pageID}/Guestbook`);
       const querySnapshot = await getDocs(guestbookRef); // Fetch all documents
+
+      const nameHeader = document.getElementById("name-header");
+      const guestMessage = document.getElementById("guestMessage");
+      
+      // Extract the first part of the name before any space
+      const firstName = nameHeader.textContent.split(" ")[0];
+      
+      // Replace [name] with the first name in the guest message
+      guestMessage.innerHTML = guestMessage.innerHTML.replaceAll("[name]", firstName);
+      
 
       entriesDiv.innerHTML = ""; // Clear existing entries
       querySnapshot.forEach((doc) => {
@@ -158,12 +166,10 @@ async function incrementFlowerCount() {
   const flowerCountElement = document.getElementById("flowerCount");
   let currentCount = parseInt(flowerCountElement.textContent, 10); // Get current count and convert to number
   const pageID = document.getElementById('pageID').innerText;
-  console.log('pageID:', pageID);
-  console.log('currentCount:', currentCount);
+
 
   // Firestore references
   const userIP = await getUserIP(); // Fetch the user's IP
-  console.log('userIP:', userIP);
 
   try {
     const docRef = doc(db, "A_Obituaries", pageID); // Reference to the specific obituary document
