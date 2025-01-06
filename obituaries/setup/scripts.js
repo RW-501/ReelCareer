@@ -99,6 +99,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const message = sanitizeInput(messageInput.value.trim());
     const userIP = await getUserIP(); // Fetch user IP address
 
+    console.log('name:', name);
+    console.log('message:', message);
+
     if (name && message) {
       try {
         const guestbookRef = collection(db, `A_Obituaries/${pageID}/Guestbook`);
