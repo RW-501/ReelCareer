@@ -80,9 +80,9 @@ function sanitizeInput(input) {
   div.textContent = input;
   return div.innerHTML;
 }
-document.addEventListener('DOMContentLoaded', () => {
+// document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById("guestbookForm");
-  const pageID = document.getElementById('pageID').innerText;
+ // const pageID = document.getElementById('pageID').innerText;
 
   const submitbtn = document.getElementById("submit-btn");
 
@@ -120,7 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
   });
-});
+//  });
 
 
   document.addEventListener('DOMContentLoaded', () => {
