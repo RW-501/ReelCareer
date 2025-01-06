@@ -371,73 +371,17 @@ const fullName = nameHeader.textContent;
 giftPopup.innerHTML = giftPopup.innerHTML.replaceAll("[$NameFull$]", fullName);
 
 
+function selectGift(giftType) {
+  alert(`You selected the ${giftType} gift!`);
+  // Add logic here to handle payment or gift delivery
+}
 
-// Function to create and display the popup
-function showComingSoonPopup() {
 
-    console.log("showComingSoonPopup");
-    // Create the popup container
-    const popup = document.createElement("div");
-    popup.style.position = "fixed";
-    popup.style.top = "50%";
-    popup.style.left = "50%";
-    popup.style.transform = "translate(-50%, -50%)";
-    popup.style.backgroundColor = "#fff";
-    popup.style.padding = "20px";
-    popup.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.2)";
-    popup.style.borderRadius = "10px";
-    popup.style.zIndex = "1000";
-    popup.style.textAlign = "center";
-  
-    // Create the message
-    const message = document.createElement("p");
-    message.textContent = "Coming Soon!";
-    message.style.marginBottom = "20px";
-    message.style.fontSize = "16px";
-    message.style.color = "#333";
-  
-    // Create the close button
-    const closeButton = document.createElement("button");
-    closeButton.textContent = "Close";
-    closeButton.style.padding = "10px 20px";
-    closeButton.style.border = "none";
-    closeButton.style.backgroundColor = "#007BFF";
-    closeButton.style.color = "#fff";
-    closeButton.style.borderRadius = "5px";
-    closeButton.style.cursor = "pointer";
-    closeButton.style.fontSize = "14px";
-  
-    // Add click event to close button
-    closeButton.addEventListener("click", () => {
-      document.body.removeChild(popup);
-      document.body.removeChild(overlay);
-    });
-  
-    // Add elements to the popup
-    popup.appendChild(message);
-    popup.appendChild(closeButton);
-  
-    // Create an overlay to dim the background
-    const overlay = document.createElement("div");
-    overlay.style.position = "fixed";
-    overlay.style.top = "0";
-    overlay.style.left = "0";
-    overlay.style.width = "100%";
-    overlay.style.height = "100%";
-    overlay.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
-    overlay.style.zIndex = "999";
-  
-    // Add popup and overlay to the body
-    document.body.appendChild(overlay);
-    document.body.appendChild(popup);
-  }
-  
-  window.showComingSoonPopup = showComingSoonPopup;
+window.selectGift = selectGift;
 
 
 
 
-    console.log("DOMContentLoaded sendFlowersButton:");
 
 
   // Add an event listener to the "Send Flowers" button
@@ -446,7 +390,7 @@ function showComingSoonPopup() {
   
   // Add an event listener to the "Send Gift" button
   const sendGiftButton = document.getElementById("send-gift");
-  sendGiftButton.addEventListener("click", showComingSoonPopup);
+  sendGiftButton.addEventListener("click", openGiftPopup);
   
 
 
