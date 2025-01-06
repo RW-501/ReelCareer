@@ -178,6 +178,12 @@
             <button onclick="closeModal()">Close</button>
           </div>
         </section>
+
+
+        <div id="user-toolbar" class="toolbar">
+            <!-- Toolbar buttons will be injected here -->
+        </div>
+        
       </main>
       
       
@@ -543,6 +549,53 @@ function showToast(message, type) {
 }
 
 
+
+function createToolbar(pageID, pageName) {
+    const toolbar = document.createElement('div');
+    toolbar.className = 'controls';
+    toolbar.innerHTML = `
+        <button id="edit_${pageID}">Edit</button>
+        <button id="analytics_${pageID}">Analytics</button>
+        <button id="view_${pageID}">View</button>
+        <button id="userAccount_${pageID}">Account</button>
+    `;
+
+    // Append the toolbar to the desired container
+    document.getElementById('user-toolbar').appendChild(toolbar);
+
+    // Add event listeners for the buttons
+    toolbar.querySelector(`#edit_${pageID}`).addEventListener("click", () => goToEditPage(pageID, pageName));
+    toolbar.querySelector(`#analytics_${pageID}`).addEventListener("click", () => goToAnalyticsPage(pageID, pageName));
+    toolbar.querySelector(`#view_${pageID}`).addEventListener("click", () => goToViewPage(pageID, pageName));
+    toolbar.querySelector(`#userAccount_${pageID}`).addEventListener("click", () => loadUserAccount(pageID, pageName));
+}
+
+// Example usage on page load
+document.addEventListener('DOMContentLoaded', () => {
+
+    createToolbar(pageID, pageName);
+});
+
+// Functions to handle button actions
+function goToEditPage(pageID, pageName) {
+    window.location.href = `https://reelcareer.co/obituaries/edit.html?pageID=${encodeURIComponent(pageID)}&pageName=${encodeURIComponent(pageName)}`;
+}
+window.goToEditPage = goToEditPage;
+
+function goToAnalyticsPage(pageID, pageName) {
+    window.location.href = `https://reelcareer.co/obituaries/analytics.html?pageID=${encodeURIComponent(pageID)}&pageName=${encodeURIComponent(pageName)}`;
+}
+window.goToAnalyticsPage = goToAnalyticsPage;
+
+function goToViewPage(pageID, pageName) {
+    window.location.href = `https://reelcareer.co/obituaries/celebrating/${encodeURIComponent(pageName)}`;
+}
+window.goToViewPage = goToViewPage;
+
+function loadUserAccount(pageID, pageName) {
+    window.location.href = `https://reelcareer.co/obituaries/account.html?pageID=${encodeURIComponent(pageID)}&pageName=${encodeURIComponent(pageName)}`;
+}
+window.loadUserAccount = loadUserAccount;
 
 
 </script>
