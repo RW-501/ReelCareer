@@ -19,13 +19,15 @@ function renderInteractionsArea() {
   <div>
     <input type="text" id="guestName" placeholder="Your Name" required>
   </div>
+      <input type="checkbox" id="anonymousCheckbox">
+    <label for="anonymousCheckbox">Submit as Anonymous</label>
+  </div>
+  
   <div>
     <textarea id="guestMessage" rows="4" placeholder="Share a memory of [$Name$]..." required></textarea>
   </div>
   <div>
-    <input type="checkbox" id="anonymousCheckbox">
-    <label for="anonymousCheckbox">Submit as Anonymous</label>
-  </div>
+
   <button id="submit-btn" class="changeable-text">Submit</button>
 </div>
 
