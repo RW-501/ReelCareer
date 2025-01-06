@@ -426,6 +426,8 @@ async function confirmPayout() {
     }
 }
 
+window.confirmPayout = confirmPayout;
+
 // Function to create a new payout transaction
 async function createPayoutTransaction(amount) {
     const pageID = "PageID"; // Replace with actual page ID
@@ -476,21 +478,6 @@ function sendPaymentInfo(contact) {
     console.log(`Sending payout details to ${contact}`);
 }
 
-// Function to confirm payout request
-function confirmPayout() {
-    const requestedAmount = parseFloat(document.getElementById("requested-amount").value);
-    const totalAmount = calculateTotalGifts();
-
-    if (requestedAmount > totalAmount) {
-        alert("Requested amount exceeds the available balance.");
-    } else {
-        // Process payout logic
-        processPayoutTransaction(requestedAmount);
-        alert("Payout request confirmed.");
-        closeModal();
-    }
-}
-window.confirmPayout = confirmPayout;
 
 
 // Function to process the payout transaction
