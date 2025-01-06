@@ -148,12 +148,42 @@ submitbtn.addEventListener("click", async (e) => {
       
 
       entriesDiv.innerHTML = ""; // Clear existing entries
-      querySnapshot.forEach((doc) => {
-        const entry = doc.data();
-        const sanitizedMessage = sanitizeInput(entry.message);
-        const sanitizedName = sanitizeInput(entry.name);
-        entriesDiv.innerHTML += `<div class="entry"><strong>${sanitizedName}</strong>: ${sanitizedMessage}</div>`;
-      });
+// Helper function to calculate time since post
+function timeSincePost(timestamp) {
+  const now = new Date();
+  const postTime = timestamp.toDate(); // Assuming Firebase Timestamp object
+  const seconds = Math.floor((now - postTime) / 1000);
+  const minutes = Math.floor(seconds / 60);
+  const hours = Math.floor(minutes / 60);
+  const days = Math.floor(hours / 24);
+  const years = Math.floor(days / 365);
+
+  if (seconds < 60) return `${seconds} seconds ago`;
+  if (minutes < 60) return `${minutes} minutes ago`;
+  if (hours < 24) return `${hours} hours ago`;
+  if (days < 365) return `${days} days ago`;
+  return `${years} years ago`;
+}
+
+querySnapshot.forEach((doc) => {
+  const entry = doc.data();
+  const sanitizedMessage = sanitizeInput(entry.message);
+  const sanitizedName = sanitizeInput(entry.name);
+  const timestamp = entry.timestamp;
+
+  const timeAgo = timestamp ? timeSincePost(timestamp) : "Unknown time";
+  
+  // Enhanced entry display
+  entriesDiv.innerHTML += `
+    <div class="entry" style="border: 1px solid #ddd; padding: 10px; margin-bottom: 10px; border-radius: 8px; background: #f9f9f9;">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <strong style="font-size: 1.1em; color: #333;">${sanitizedName}</strong>
+        <span style="font-size: 0.9em; color: #777;">${timeAgo}</span>
+      </div>
+      <p style="margin-top: 5px; font-size: 1em; color: #555;">${sanitizedMessage}</p>
+    </div>`;
+});
+
     } catch (error) {
       console.error("Error loading guestbook entries:", error);
     }
