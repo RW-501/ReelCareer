@@ -59,28 +59,38 @@ function renderGiftBoxArea(nameFull) {
         
         <!-- Gift Options -->
         <div class="gift-options">
-          <div id="gift-Candle-small" class="gift-item" onclick="selectGift('small-candle')">
+          <div id="gift-Candle-small" class="gift-item" onclick="selectGift('small-candle', 5)">
             <img src="https://reelcareer.co/obituaries/images/gifts/CandleSmall.png" alt="Small Candle">
             <h3>Small Candle $5.00</h3>
             <p>Light a candle to keep the memory alive.</p>
           </div>
-          <div id="gift-candle-big" class="gift-item" onclick="selectGift('big-candle')">
+          <div id="gift-candle-big" class="gift-item" onclick="selectGift('big-candle', 25)">
             <img src="https://reelcareer.co/obituaries/images/gifts/CandleBig.png" alt="Big Candle">
             <h3>Big Candle $25.00</h3>
             <p>Light another candle to keep memories aglow.</p>
           </div>
-          <div id="gift-charity" class="gift-item" onclick="selectGift('charity')">
+          <div id="gift-charity" class="gift-item" onclick="selectGift('charity', 20)">
             <img src="https://reelcareer.co/obituaries/images/gifts/Charity.png" alt="Charity Donation">
             <h3>Charity Donation</h3>
             <p>Extend generosity with another contribution.</p>
           </div>
         </div>
 
+<!-- Custom Amount Option -->
+<div class="custom-amount">
+  <label for="customAmount">Enter a custom gift amount:</label>
+  <input type="text" id="customAmount" name="customAmount" placeholder="Enter amount in dollars">
+</div>
+
+
         <!-- Fee Information -->
         <div class="fees-info">
           <p>Service Fee: 10% on all purchases.</p>
           <p>Transaction Fee: $1.50 per transaction.</p>
         </div>
+
+        <!-- PayPal Button -->
+        <div id="paypal-button-container"></div>
         
         <!-- Close Button -->
         <button onclick="closeGiftPopup()">Close</button>

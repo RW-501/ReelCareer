@@ -266,14 +266,54 @@ box-shadow: 0 4px 8px rgba(0, 123, 255, 0.4);
     <!-- Main Content Section -->
 <main id="main-content">
 
-        <div class="section-header">
-            <h2>Obituaries</h2>
-            <p>Browse through obituaries categorized by location and memory.</p>
-        </div>
+  <div class="section-header">
+    <h2>Obituaries</h2>
+    <p>Browse through obituaries categorized by location and memory.</p>
+</div>
 
-        <div class="cards-container" id="obituaries-list">
-            <!-- Obituaries Cards will be injected here from JS -->
-        </div>
+<!-- Search and Filters Section -->
+<div class="filters-container">
+    <input type="text" id="search-input" placeholder="Search by name or location..." class="search-input" onkeyup="filterObituaries()">
+    
+    <select id="category-filter" class="filter" onchange="filterObituaries()">
+      <option value="">Select Category</option>
+      <option value="Business">Business</option>
+      <option value="Entertainment">Entertainment</option>
+      <option value="Politics">Politics</option>
+      <option value="family">Family</option>
+      <option value="friend">Friend</option>
+      <option value="creator">Creator</option>
+      <option value="developer">Developer</option>
+      <option value="designer">Designer</option>
+      <option value="photographer">Photographer</option>
+      <option value="musician">Musician</option>
+      <option value="plumber">Plumber</option>
+      <option value="electrician">Electrician</option>
+      <option value="teacher">Teacher</option>
+      <option value="engineer">Engineer</option>
+      <option value="doctor">Doctor</option>
+      <option value="nurse">Nurse</option>
+      <option value="chef">Chef</option>
+      <option value="artist">Artist</option>
+      <option value="writer">Writer</option>
+  </select>
+
+    <select id="location-filter" class="filter" onchange="filterObituaries()">
+        <option value="">Select Location</option>
+        <!-- Dynamic locations will be populated here -->
+    </select>
+
+    <select id="sort-filter" class="filter" onchange="sortObituaries()">
+        <option value="datePublished">Sort by Date</option>
+        <option value="views">Sort by Views</option>
+    </select>
+</div>
+
+<!-- Obituaries Cards Container -->
+<div class="cards-container" id="obituaries-list">
+    <!-- Obituaries Cards will be injected here from JS -->
+</div>
+
 
     <!-- Info Section about Creating an Obituary -->
     <div id="info-section" class="info-section">
@@ -619,12 +659,15 @@ async function fetchObituaries() {
         const obituaries = querySnapshot.docs.map(doc => doc.data());
         console.log("    obituaries:", obituaries);
 
-        // Render the fetched obituaries
-        renderObituaries(obituaries);
+// Populate location filter and render initial obituaries
+populateLocationFilter();
+renderObituaries(obituaries);
+
     } catch (error) {
         console.error("Error fetching obituaries:", error);
     }
 }
+// Function to render obituary cards
 // Function to render obituary cards
 function renderObituaries(obituaries) {
     const container = document.getElementById("obituaries-list");
@@ -635,10 +678,10 @@ function renderObituaries(obituaries) {
         const card = document.createElement("div");
         card.classList.add("obituary-card");
 
-        if(!obituary.name){
+        if (!obituary.name) {
             return;
         }
-        // Check if obituary.about exists and is a string before using .length
+
         const aboutText = obituary.about && typeof obituary.about === 'string'
             ? obituary.about 
             : 'No details available';  // Default text if 'about' is undefined or null
@@ -653,6 +696,66 @@ function renderObituaries(obituaries) {
         `;
 
         container.appendChild(card);
+    });
+}
+
+// Filter function for search and filter by category/location
+function filterObituaries() {
+    const searchTerm = document.getElementById("search-input").value.toLowerCase();
+    const categoryFilter = document.getElementById("category-filter").value.toLowerCase();
+    const locationFilter = document.getElementById("location-filter").value.toLowerCase();
+
+    let filteredObituaries = obituaries; // Assuming 'obituaries' is the array of all obituaries
+
+    // Filter by search term (name or location)
+    filteredObituaries = filteredObituaries.filter(obituary => {
+        return obituary.name.toLowerCase().includes(searchTerm) || 
+               obituary.location.toLowerCase().includes(searchTerm);
+    });
+
+    // Filter by category
+    if (categoryFilter) {
+        filteredObituaries = filteredObituaries.filter(obituary => {
+            return obituary.category.toLowerCase() === categoryFilter;
+        });
+    }
+
+    // Filter by location
+    if (locationFilter) {
+        filteredObituaries = filteredObituaries.filter(obituary => {
+            return obituary.location.toLowerCase() === locationFilter;
+        });
+    }
+
+    // Re-render the filtered obituaries
+    renderObituaries(filteredObituaries);
+}
+
+// Sort function for sorting by date or views
+function sortObituaries() {
+    const sortOption = document.getElementById("sort-filter").value;
+    let sortedObituaries = [...obituaries]; // Copy the original array
+
+    if (sortOption === 'datePublished') {
+        sortedObituaries.sort((a, b) => new Date(b.datePublished) - new Date(a.datePublished)); // Sort by date (descending)
+    } else if (sortOption === 'views') {
+        sortedObituaries.sort((a, b) => b.views - a.views); // Sort by views (descending)
+    }
+
+    // Re-render the sorted obituaries
+    renderObituaries(sortedObituaries);
+}
+
+// Function to populate the location filter dynamically
+function populateLocationFilter() {
+    const locations = [...new Set(obituaries.map(obituary => obituary.location))]; // Get unique locations
+    const locationFilter = document.getElementById("location-filter");
+
+    locations.forEach(location => {
+        const option = document.createElement("option");
+        option.value = location;
+        option.textContent = location;
+        locationFilter.appendChild(option);
     });
 }
 

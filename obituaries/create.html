@@ -1342,9 +1342,21 @@ const searchableLocation = location.split(/\s+/); // Split by spaces
             views: 0,
             flowerCount: 0,
             status: 'active', // Mark as active after payment
-            paymentDetails: details, // Payment details passed as an argument
         };
 
+        // Add transaction details to Firestore
+        const transcationsRefs = collection(db, `A_Transactions`, `Create_${pageID}`);
+        await addDoc(transcationsRefs, {
+            pageID,
+            url: `https://reelcareer.co/obituaries/celebrating/${pageID}`,
+            pageName: pageName,
+            userID: userID,
+            userIP: userIP,
+            paymentDetails: details, // Use the payment details from PayPal response
+            amount: amountToPay,
+            timestamp: serverTimestamp(),
+            createdDate: new Date().toISOString(),  // Properly formatted date
+        });
 
     console.log( "obituary:", obituary);
 

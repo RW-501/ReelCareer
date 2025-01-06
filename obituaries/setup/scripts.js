@@ -379,36 +379,93 @@ giftPopup.innerHTML = giftPopup.innerHTML.replaceAll("[$NameFull$]", fullName);
 
 
 
-// Select a gift and handle PayPal transaction
-async function selectGift(giftType) {
-  alert(`You selected the ${giftType} gift!`);
-  
-  // Handle PayPal integration or transaction logic here (set up the payment process)
+async function selectGift(giftType, price) {
+  // Get the custom amount entered by the user
+  let customAmount = document.getElementById('customAmount').value.trim();
 
-  // Add the selected gift to the Firestore database
+  // Remove any non-numeric characters (e.g., '$', ',') and convert to a valid number
+  customAmount = customAmount.replace(/[^\d.-]/g, '');
+
+  // Convert to a number (will be NaN if invalid input is entered)
+  customAmount = parseFloat(customAmount);
+
+  // If the custom amount is invalid or empty, use the selected price
+  const amountToPay = isNaN(customAmount) || customAmount <= 0 ? price : customAmount;
+
+  alert(`You selected the ${giftType} gift with an amount of $${amountToPay}`);
+
+  // Initialize PayPal Button
+  paypal.Buttons({
+    createOrder: function(data, actions) {
+      return actions.order.create({
+        purchase_units: [{
+          amount: {
+            value: amountToPay.toFixed(2),
+          }
+        }]
+      });
+    },
+    onApprove: async function(data, actions) {
+      const details = await actions.order.capture();
+
+      // Handle successful payment (e.g., save to Firestore)
+      await handlePaymentSuccess(giftType, amountToPay, details);
+
+      // Optionally close the gift popup after payment is successful
+      closeGiftPopup();
+    },
+    onError: function(err) {
+      console.error('PayPal error:', err);
+      alert('There was an error with your payment. Please try again.');
+    }
+  }).render('#paypal-button-container'); // Render the PayPal button inside the container
+}
+
+// Handle payment success (save to Firestore)
+async function handlePaymentSuccess(giftType, amountToPay, paymentDetails) {
+  const pageID = "examplePageID"; // Set page ID dynamically
   const giftsRefs = collection(db, `A_Obituaries/${pageID}/Gifts-Transactions`);
-  
+
   // Add the transaction data to Firestore
   await addDoc(giftsRefs, {
     giftType: giftType,
-    status: "pending", // Set as pending until payment is complete
+    amount: amountToPay,
+    paymentDetails: paymentDetails,
+    status: "completed", // Set as completed after payment
     timestamp: serverTimestamp(),
   });
 
-  // Optionally close the gift popup after selection
-  closeGiftPopup();
-
-  // Post the gift to the guestbook (example logic, add more details as needed)
+  // Optionally post the gift to the guestbook
   const guestbookRef = collection(db, `A_Obituaries/${pageID}/Guestbook`);
   await addDoc(guestbookRef, {
     giftType: giftType,
-    message: `${giftType} gift sent!`,
+    message: `${giftType} gift of $${amountToPay} sent!`,
     status: "active",
     timestamp: serverTimestamp(),
   });
 
+  // Add the PayPal transaction to the transactions collection
+  const transcationsRefs = collection(db, `A_Transactions`, `Gift_${pageID}`);
+  await addDoc(transcationsRefs, {
+    giftType: giftType,
+    pageID,
+    url: `https://reelcareer.co/obituaries/celebrating/${pageID}`,
+    pageName: pageName,
+    paymentDetails: paymentDetails,
+    amount: amountToPay,
+    timestamp: serverTimestamp(),
+  });
+  
+
   // Load entries again after posting
   loadEntries();
+}
+
+function closeGiftPopup() {
+  const giftPopup = document.getElementById("giftPopup");
+  if (giftPopup) {
+    giftPopup.style.display = "none";
+  }
 }
 
 window.selectGift = selectGift;
