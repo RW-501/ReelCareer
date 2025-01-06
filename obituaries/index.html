@@ -734,6 +734,7 @@ function filterObituaries() {
     // Re-render the filtered obituaries
     renderObituaries(filteredObituaries);
 }
+window.filterObituaries = filterObituaries;
 
 // Sort function for sorting by date or views
 function sortObituaries() {
@@ -749,6 +750,7 @@ function sortObituaries() {
     // Re-render the sorted obituaries
     renderObituaries(sortedObituaries);
 }
+window.sortObituaries = sortObituaries;
 
 // Function to populate the location filter dynamically
 function populateLocationFilter() {
@@ -763,6 +765,7 @@ function populateLocationFilter() {
     });
 }
 
+window.populateLocationFilter = populateLocationFilter;
 
 
 
