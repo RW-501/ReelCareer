@@ -15,15 +15,20 @@ function renderInteractionsArea() {
 
 <div class="guestbook form changeable-area">
   <h2 class="changeable-text">Guestbook</h2>
-  <div id="guestbookForm">
-    <div>
-      <input type="text" id="guestName" placeholder="Your Name" required>
-    </div>
-    <div>
-      <textarea id="guestMessage" rows="4" placeholder="Share a memory of [name]... " required></textarea>
-    </div>
-    <button id="submit-btn" class="changeable-text">Submit</button>
+<div id="guestbookForm">
+  <div>
+    <input type="text" id="guestName" placeholder="Your Name" required>
   </div>
+  <div>
+    <textarea id="guestMessage" rows="4" placeholder="Share a memory of [name]..." required></textarea>
+  </div>
+  <div>
+    <input type="checkbox" id="anonymousCheckbox">
+    <label for="anonymousCheckbox">Submit as Anonymous</label>
+  </div>
+  <button id="submit-btn" class="changeable-text">Submit</button>
+</div>
+
 
   <div class="guestbook-entries" id="guestbookEntries"></div>
 </div>
