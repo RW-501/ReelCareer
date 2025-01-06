@@ -80,16 +80,13 @@ function sanitizeInput(input) {
   div.textContent = input;
   return div.innerHTML;
 }
-// document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById("guestbookForm");
- // const pageID = document.getElementById('pageID').innerText;
 
   const submitbtn = document.getElementById("submit-btn");
 
   console.log('Loaded Guestbook:', pageID);
 
   submitbtn.addEventListener("click", async (e) => {
-   // e.preventDefault(); // Prevent default form submission
     console.log('Form submission triggered.');
 
 
@@ -120,11 +117,7 @@ function sanitizeInput(input) {
       }
     }
   });
-//  });
 
-
-  document.addEventListener('DOMContentLoaded', () => {
-    const pageID = document.getElementById('pageID').innerText;
     const entriesDiv = document.getElementById("guestbookEntries");
 
 
@@ -148,7 +141,7 @@ function sanitizeInput(input) {
 
   // Load entries initially on page load
   loadEntries();
-});
+
 
 // Function to add 1 to the flower count, animate, and update in Firestore
 // Function to wrap async calls with timeout
