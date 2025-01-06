@@ -86,6 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const submitbtn = document.getElementById("submit-btn");
 
+  console.log('Loaded Guestbook:', pageID);
 
   submitbtn.addEventListener("click", async (e) => {
     e.preventDefault(); // Prevent default form submission
