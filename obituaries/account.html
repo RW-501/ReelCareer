@@ -155,12 +155,13 @@
     <!-- Main Content Section -->
     <main id="main-content">
         <section id="user-header">
-          <div class="profile-card">
-            <img src="user-image.jpg" alt="User Image" class="profile-img">
-            <h2>User Name</h2>
-            <p>Join Date: MM/DD/YYYY</p>
-          </div>
-        </section>
+            <div class="profile-card">
+              <img id="profile-image" src="user-image.jpg" alt="User Image" class="profile-img">
+              <h2 id="user-name">User Name</h2>
+              <p id="join-date">Join Date: MM/DD/YYYY</p>
+            </div>
+          </section>
+          
         
         <section id="guestbook-section" class="content-card">
           <h3>Guestbook Moderation</h3>
@@ -248,6 +249,35 @@
       // Fetch obituary data if pageName exists
       fetchObituary(pageName);
     }
+
+// Get user data from localStorage or initialize as an empty array
+const userDataSaved = getUserData() || [];  // Assume getUserData() fetches stored user data
+if (userDataSaved.length > 0) {
+  // Assuming userDataSaved[0] contains user object details
+  const user = userDataSaved[0];
+  
+  // Update user header section
+  const profileImageElement = document.getElementById('profile-image');
+  const userNameElement = document.getElementById('user-name');
+  const joinDateElement = document.getElementById('join-date');
+  
+  profileImageElement.src = user.profilePicture || 'default-user-image.jpg';  // Fallback image
+  profileImageElement.alt = `${user.name}'s Profile Image`;  // Set descriptive alt text
+  
+  userNameElement.textContent = user.displayName || 'User Name';  // Fallback name
+  joinDateElement.textContent = `Join Date: ${user.joinDate || 'MM/DD/YYYY'}`;  // Fallback date
+} else {
+  console.warn('No user data found in storage.');
+}
+
+// Mock getUserData function (replace with actual implementation)
+function getUserData() {
+  return JSON.parse(localStorage.getItem('userData')) || [];
+}
+
+
+
+
   } else {
     console.log("No user signed in ...");
     
