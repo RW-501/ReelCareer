@@ -57,40 +57,24 @@ function renderGiftBoxArea(nameFull) {
         
         <!-- Gift Options -->
         <div class="gift-options">
-          <div id="gift-flower" class="gift-item" onclick="selectGift('flower')">
-            <img src="https://example.com/flower1.jpg" alt="Flower Bouquet">
-            <h3>Flower Bouquet</h3>
-            <p>A beautiful bouquet to honor the memory.</p>
-          </div>
-          <div id="gift-candle" class="gift-item" onclick="selectGift('candle')">
-            <img src="https://example.com/candle1.jpg" alt="Memorial Candle">
-            <h3>Memorial Candle</h3>
+          <div id="gift-Candle-small" class="gift-item" onclick="selectGift('small-candle')">
+            <img src="https://reelcareer.co/obituaries/images/gifts/CandleSmall.png" alt="Small Candle">
+            <h3>Small Candle</h3>
             <p>Light a candle to keep the memory alive.</p>
           </div>
-          <div id="gift-charity" class="gift-item" onclick="selectGift('charity')">
-            <img src="https://example.com/charity1.jpg" alt="Charity Donation">
-            <h3>Charity Donation</h3>
-            <p>Donate in the name of the dearly departed.</p>
-          </div>
-        </div>
-
-        <div class="gift-options">
-          <div id="gift-flower2" class="gift-item" onclick="selectGift('flower')">
-            <img src="https://example.com/flower2.jpg" alt="Flower Bouquet">
-            <h3>Flower Bouquet</h3>
-            <p>Brighten the day with another bouquet.</p>
-          </div>
-          <div id="gift-candle2" class="gift-item" onclick="selectGift('candle')">
-            <img src="https://example.com/candle2.jpg" alt="Memorial Candle">
-            <h3>Memorial Candle</h3>
+          <div id="gift-candle-big" class="gift-item" onclick="selectGift('big-candle')">
+            <img src="https://reelcareer.co/obituaries/images/gifts/CandleBig.png" alt="Big Candle">
+            <h3>Big Candle</h3>
             <p>Light another candle to keep memories aglow.</p>
           </div>
-          <div id="gift-charity2" class="gift-item" onclick="selectGift('charity')">
-            <img src="https://example.com/charity2.jpg" alt="Charity Donation">
+          <div id="gift-charity" class="gift-item" onclick="selectGift('charity')">
+            <img src="https://reelcareer.co/obituaries/images/gifts/Charity.png" alt="Charity Donation">
             <h3>Charity Donation</h3>
             <p>Extend generosity with another contribution.</p>
           </div>
         </div>
+
+
         
         <!-- Fee Information -->
         <div class="fees-info">
@@ -112,4 +96,3 @@ function renderGiftBoxArea(nameFull) {
 
 window.renderGiftBoxArea = renderGiftBoxArea;
 
-renderGiftBoxArea();

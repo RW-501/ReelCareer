@@ -360,13 +360,11 @@ window.closeGiftPopup = closeGiftPopup;
 
 
 
-
-const nameHeader = document.getElementById("name-header");
 const giftPopup = document.getElementById("giftPopup");
+const nameHeader = document.getElementById("name-header");
 
 // Extract the first part of the name before any space
 const fullName = nameHeader.textContent;
-
 // Replace [$Name$] with the first name in the placeholder text
 giftPopup.innerHTML = giftPopup.innerHTML.replaceAll("[$NameFull$]", fullName);
 
@@ -382,6 +380,7 @@ window.selectGift = selectGift;
 
 
 
+renderGiftBoxArea(fullName);
 
 
   // Add an event listener to the "Send Flowers" button
