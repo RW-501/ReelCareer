@@ -85,22 +85,14 @@ function sanitizeInput(input) {
 
 
 // Add the checkbox to the form
-const formContainer = document.getElementById("form-container"); // Assume this is your form's container
-const anonymousCheckbox = document.createElement("input");
-anonymousCheckbox.type = "checkbox";
-anonymousCheckbox.id = "anonymousCheckbox";
+// const formContainer = document.getElementById("form-container"); // Assume this is your form's container
 
-const checkboxLabel = document.createElement("label");
-checkboxLabel.htmlFor = "anonymousCheckbox";
-checkboxLabel.textContent = "Submit as Anonymous";
 
-// Append the checkbox and label to the form
-formContainer.appendChild(anonymousCheckbox);
-formContainer.appendChild(checkboxLabel);
 
 // Handle form submission
 submitbtn.addEventListener("click", async (e) => {
   console.log('Form submission triggered.');
+  const anonymousCheckbox = document.getElementById("anonymousCheckbox");
 
   const nameInput = document.getElementById("guestName");
   const messageInput = document.getElementById("guestMessage");
