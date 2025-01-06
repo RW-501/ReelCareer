@@ -131,23 +131,6 @@ submitbtn.addEventListener("click", async (e) => {
     const entriesDiv = document.getElementById("guestbookEntries");
 
 
-  // Function to load guestbook entries
-  async function loadEntries() {
-    try {
-      const guestbookRef = collection(db, `A_Obituaries/${pageID}/Guestbook`);
-      const querySnapshot = await getDocs(guestbookRef); // Fetch all documents
-
-      const nameHeader = document.getElementById("name-header");
-      const guestMessage = document.getElementById("guestMessage");
-      
-      // Extract the first part of the name before any space
-      const firstName = nameHeader.textContent.split(" ")[0];
-      
-      // Replace [name] with the first name in the guest message
-      guestMessage.innerHTML = guestMessage.innerHTML.replaceAll("[name]", firstName);
-      
-
-      entriesDiv.innerHTML = ""; // Clear existing entries
 // Helper function to calculate time since post
 function timeSincePost(timestamp) {
   const now = new Date();
@@ -164,6 +147,24 @@ function timeSincePost(timestamp) {
   if (days < 365) return `${days} days ago`;
   return `${years} years ago`;
 }
+  // Function to load guestbook entries
+  async function loadEntries() {
+    try {
+      const guestbookRef = collection(db, `A_Obituaries/${pageID}/Guestbook`);
+      const querySnapshot = await getDocs(guestbookRef); // Fetch all documents
+
+      const nameHeader = document.getElementById("name-header");
+      const guestMessage = document.getElementById("guestMessage");
+
+      // Extract the first part of the name before any space
+      const firstName = nameHeader.textContent.split(" ")[0];
+      
+      // Replace [$Name$] with the first name in the placeholder text
+      guestMessage.placeholder = guestMessage.placeholder.replaceAll("[$Name$]", firstName);
+      
+      
+
+      entriesDiv.innerHTML = ""; // Clear existing entries
 
 querySnapshot.forEach((doc) => {
   const entry = doc.data();
