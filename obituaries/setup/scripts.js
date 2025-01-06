@@ -168,6 +168,8 @@ querySnapshot.forEach((doc) => {
 
   const timeAgo = timestamp ? timeSincePost(timestamp) : "Unknown time";
   
+  if(entry.status =='active'){
+
   // Enhanced entry display
   entriesDiv.innerHTML += `
     <div class="entry" style="border: 1px solid #ddd; padding: 10px; margin-bottom: 10px; border-radius: 8px; background: #f9f9f9;">
@@ -177,6 +179,8 @@ querySnapshot.forEach((doc) => {
       </div>
       <p style="margin-top: 5px; font-size: 1em; color: #555;">${sanitizedMessage}</p>
     </div>`;
+
+  }
 });
 
     } catch (error) {
@@ -423,7 +427,6 @@ async function selectGift(giftType, price) {
 
 // Handle payment success (save to Firestore)
 async function handlePaymentSuccess(giftType, amountToPay, paymentDetails) {
-  const pageID = "examplePageID"; // Set page ID dynamically
   const giftsRefs = collection(db, `A_Obituaries/${pageID}/Gifts-Transactions`);
 
   // Add the transaction data to Firestore
@@ -438,6 +441,7 @@ async function handlePaymentSuccess(giftType, amountToPay, paymentDetails) {
   // Optionally post the gift to the guestbook
   const guestbookRef = collection(db, `A_Obituaries/${pageID}/Guestbook`);
   await addDoc(guestbookRef, {
+   // name: name || "",
     giftType: giftType,
     message: `${giftType} gift of $${amountToPay} sent!`,
     status: "active",

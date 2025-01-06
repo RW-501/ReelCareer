@@ -74,7 +74,25 @@
 
 
     
-
+    .content-card {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+  }
+  .action-btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  .action-btn:hover {
+    background-color: #0056b3;
+  }
 
 
 
@@ -136,32 +154,31 @@
 
     <!-- Main Content Section -->
     <main id="main-content">
-
-        <div id="messageDiv"></div>
-      
-        <!-- Guestbook Section -->
-        <div id="guestbook-section">
-            <h2>Guestbook Moderation</h2>
-            <div id="guestbook-list">
-                <!-- Guestbook Posts will be injected here -->
-            </div>
-      
-            <button id="payout-button" class="button" onclick="processPayout()">Process Payout</button>
-        </div>
-      
-        <!-- Payout Modal -->
-        <div id="payout-modal" class="modal">
-            <div class="modal-content">
-                <h3>Process Payout</h3>
-                <p id="total-payout"></p>
-                <label for="requested-amount">Requested Amount:</label>
-                <input type="number" id="requested-amount" />
-                <button onclick="confirmPayout()">Confirm Payout</button>
-                <button onclick="closeModal()">Close</button>
-            </div>
-        </div>
-      
+        <section id="user-header">
+          <div class="profile-card">
+            <img src="user-image.jpg" alt="User Image" class="profile-img">
+            <h2>User Name</h2>
+            <p>Join Date: MM/DD/YYYY</p>
+          </div>
+        </section>
+        
+        <section id="guestbook-section" class="content-card">
+          <h3>Guestbook Moderation</h3>
+          <div id="guestbook-list"></div>
+          <button class="action-btn" onclick="processPayout()">Process Payout</button>
+        </section>
+        
+        <section id="payout-modal" class="modal">
+          <div class="modal-content">
+            <h3>Process Payout</h3>
+            <p>Total available for payout: $<span id="total-payout"></span></p>
+            <input type="number" id="requested-amount" placeholder="Enter amount">
+            <button onclick="confirmPayout()">Confirm</button>
+            <button onclick="closeModal()">Close</button>
+          </div>
+        </section>
       </main>
+      
       
 
 
@@ -217,7 +234,6 @@
     const userID = user.uid;
     console.log("User ID:", userID);
     // Call this function when the page loads
-    loadGuestbookPosts(userID);
     // Extract pageName from URL query parameters
     const urlParams = new URLSearchParams(window.location.search);
      pageName = urlParams.get("pageName");
@@ -226,6 +242,7 @@
 
      console.log("pageName:", pageName);
      console.log("pageID:", pageID);
+     loadGuestbookPosts(pageID);
 
     if (pageName) {
       // Fetch obituary data if pageName exists
@@ -281,8 +298,8 @@ async function getUserDetails() {
 
 
 // Function to load and display guestbook posts
-async function loadGuestbookPosts(userID) {
-    const guestbookRef = collection(db, "Guestbook");
+async function loadGuestbookPosts(pageID) {
+    const guestbookRef = collection(db, `A_Obituaries/${pageID}/Guestbook`);
     const guestbookSnapshot = await getDocs(guestbookRef);
     const guestbookList = document.getElementById("guestbook-list");
     guestbookList.innerHTML = "";  // Clear previous list
@@ -294,7 +311,7 @@ async function loadGuestbookPosts(userID) {
         const postElement = document.createElement("div");
         postElement.classList.add("guestbook-post");
         postElement.innerHTML = `
-            <p><strong>${postData.author}:</strong> ${postData.message}</p>
+            <p><strong>${postData.name}:</strong> ${postData.message}</p>
             <p><strong>Date:</strong> ${postData.date}</p>
             <p><strong>Status:</strong> ${postData.status || "Pending"}</p>
             <div class="controls">
@@ -318,7 +335,9 @@ async function loadGuestbookPosts(userID) {
 
 // Function to load gifts for a guestbook post
 async function loadGiftsForPost(postID) {
-    const giftsRef = collection(db, "Guestbook", postID, "Gifts");
+    const giftsRefs = collection(db, `A_Obituaries/${pageID}/Gifts-Transactions`);
+
+   // const giftsRef = collection(db, "Guestbook", postID, "Gifts");
     const giftsSnapshot = await getDocs(giftsRef);
     const giftsList = document.getElementById(`gifts-${postID}`);
     giftsList.innerHTML = "";  // Clear previous gifts
@@ -335,21 +354,22 @@ async function loadGiftsForPost(postID) {
 async function approvePost(postID) {
     const postRef = doc(db, "Guestbook", postID);
     await updateDoc(postRef, { status: "Approved" });
-    loadGuestbookPosts(userID);  // Reload posts
+    loadGuestbookPosts(pageID);
 }
 
 // Function to reject a guestbook post
 async function rejectPost(postID) {
     const postRef = doc(db, "Guestbook", postID);
     await updateDoc(postRef, { status: "Rejected" });
-    loadGuestbookPosts(userID);  // Reload posts
+    loadGuestbookPosts(pageID);
 }
 
 // Function to delete a guestbook post
 async function deletePost(postID) {
     const postRef = doc(db, "Guestbook", postID);
     await deleteDoc(postRef);
-    loadGuestbookPosts(userID);  // Reload posts
+    loadGuestbookPosts(pageID);
+
 }
 
 // Function to load transactions and calculate the total available payout
@@ -383,11 +403,13 @@ async function calculateTotalPayout() {
 // Function to display the payout modal with total available payout
 async function processPayout() {
     const availableAmount = await calculateTotalPayout();
+    document.getElementById("total-payout").textContent = availableAmount;
 
     // Show available payout
-    document.getElementById("total-payout").textContent = `Total available for payout: $${availableAmount}`;
-    document.getElementById("payout-modal").style.display = "block";
+    showToast(`Total available payout: $${availableAmount}`, 'success');
+    document.getElementById("payout-modal").classList.add('open');
 }
+
 
 // Function to confirm payout and process the transaction
 async function confirmPayout() {
@@ -494,6 +516,16 @@ function closeModal() {
 }
 
 window.closeModal = closeModal;
+
+function showToast(message, type) {
+  const toast = document.createElement('div');
+  toast.classList.add('toast', type);
+  toast.textContent = message;
+  document.body.appendChild(toast);
+  setTimeout(() => toast.remove(), 3000);
+}
+
+
 
 
 </script>
