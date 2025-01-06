@@ -371,7 +371,6 @@ let userID = '';
 // Call the fetch function when the page loads
 fetchObituaries();
 
-
   onAuthStateChanged(auth, async (user) => {
     if (user) {
      userID = user.uid;
@@ -650,6 +649,7 @@ function loadUserAccount(pageID, pageName) {
 }
 
 // Function to fetch obituaries from Firestore
+let obituaries;
 
 async function fetchObituaries() { 
     try {
@@ -660,7 +660,7 @@ async function fetchObituaries() {
         const querySnapshot = await getDocs(obituariesCollection);
         
         // Create an array of obituary data
-        const obituaries = querySnapshot.docs.map(doc => doc.data());
+         obituaries = querySnapshot.docs.map(doc => doc.data());
         console.log("    obituaries:", obituaries);
 
 // Populate location filter and render initial obituaries
