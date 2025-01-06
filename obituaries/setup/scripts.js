@@ -108,6 +108,7 @@ submitbtn.addEventListener("click", async (e) => {
         name,
         message,
         userIP,
+        status: "active",
         timestamp: serverTimestamp(),
       });
       nameInput.value = ''; // Clear form inputs
@@ -345,12 +346,20 @@ const getViewSource = () => {
 window.incrementViews = incrementViews;
 
 
+// Open the Gift Popup
 function openGiftPopup() {
-  document.getElementById("giftPopup").style.display = "block";
+  const giftPopup = document.getElementById("giftPopup");
+  if (giftPopup) {
+    giftPopup.style.display = "block";
+  }
 }
 
+// Close the Gift Popup
 function closeGiftPopup() {
-  document.getElementById("giftPopup").style.display = "none";
+  const giftPopup = document.getElementById("giftPopup");
+  if (giftPopup) {
+    giftPopup.style.display = "none";
+  }
 }
 
 
@@ -360,20 +369,48 @@ window.closeGiftPopup = closeGiftPopup;
 
 
 
+// Extract the full name and set it in the popup
 const giftPopup = document.getElementById("giftPopup");
 const nameHeader = document.getElementById("name-header");
 
 // Extract the first part of the name before any space
-const fullName = nameHeader.textContent;
-// Replace [$Name$] with the first name in the placeholder text
+const fullName = nameHeader.textContent.trim().split(' ')[0];  // Get first name
 giftPopup.innerHTML = giftPopup.innerHTML.replaceAll("[$NameFull$]", fullName);
 
 
-function selectGift(giftType) {
-  alert(`You selected the ${giftType} gift!`);
-  // Add logic here to handle payment or gift delivery
-}
 
+// Select a gift and handle PayPal transaction
+async function selectGift(giftType) {
+  alert(`You selected the ${giftType} gift!`);
+  
+  // Handle PayPal integration or transaction logic here (set up the payment process)
+
+  // Add the selected gift to the Firestore database
+  const pageID = "examplePageID"; // Define the correct page ID dynamically
+  const giftsRefs = collection(db, `A_Obituaries/${pageID}/Gifts-Transactions`);
+  
+  // Add the transaction data to Firestore
+  await addDoc(giftsRefs, {
+    giftType: giftType,
+    status: "pending", // Set as pending until payment is complete
+    timestamp: serverTimestamp(),
+  });
+
+  // Optionally close the gift popup after selection
+  closeGiftPopup();
+
+  // Post the gift to the guestbook (example logic, add more details as needed)
+  const guestbookRef = collection(db, `A_Obituaries/${pageID}/Guestbook`);
+  await addDoc(guestbookRef, {
+    giftType: giftType,
+    message: `${giftType} gift sent!`,
+    status: "active",
+    timestamp: serverTimestamp(),
+  });
+
+  // Load entries again after posting
+  loadEntries();
+}
 
 window.selectGift = selectGift;
 

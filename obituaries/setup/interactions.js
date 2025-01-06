@@ -47,6 +47,8 @@ renderInteractionsArea();
 
 
 
+
+// Function to render the Gift Box
 function renderGiftBoxArea(nameFull) {
   const giftBoxAreaHTML = `
     <!-- Pop-up Container -->
@@ -59,12 +61,12 @@ function renderGiftBoxArea(nameFull) {
         <div class="gift-options">
           <div id="gift-Candle-small" class="gift-item" onclick="selectGift('small-candle')">
             <img src="https://reelcareer.co/obituaries/images/gifts/CandleSmall.png" alt="Small Candle">
-            <h3>Small Candle</h3>
+            <h3>Small Candle $5.00</h3>
             <p>Light a candle to keep the memory alive.</p>
           </div>
           <div id="gift-candle-big" class="gift-item" onclick="selectGift('big-candle')">
             <img src="https://reelcareer.co/obituaries/images/gifts/CandleBig.png" alt="Big Candle">
-            <h3>Big Candle</h3>
+            <h3>Big Candle $25.00</h3>
             <p>Light another candle to keep memories aglow.</p>
           </div>
           <div id="gift-charity" class="gift-item" onclick="selectGift('charity')">
@@ -74,8 +76,6 @@ function renderGiftBoxArea(nameFull) {
           </div>
         </div>
 
-
-        
         <!-- Fee Information -->
         <div class="fees-info">
           <p>Service Fee: 10% on all purchases.</p>
@@ -87,7 +87,7 @@ function renderGiftBoxArea(nameFull) {
       </div>
     </div>
   `;
-  
+
   const giftBoxArea = document.getElementById('dynamic-interaction-area');
   giftBoxArea.innerHTML = giftBoxAreaHTML;
 }
