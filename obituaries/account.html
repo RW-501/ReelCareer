@@ -368,6 +368,10 @@ async function loadGuestbookPosts(pageID) {
         loadGiftsForPost(postID);
     });
 }
+window.loadGuestbookPosts = loadGuestbookPosts;
+
+
+
 
 // Function to load gifts for a guestbook post
 async function loadGiftsForPost(postID) {
@@ -385,6 +389,9 @@ async function loadGiftsForPost(postID) {
         giftsList.appendChild(giftItem);
     });
 }
+window.loadGiftsForPost = loadGiftsForPost;
+
+
 
 // Function to approve a guestbook post
 async function approvePost(postID) {
@@ -410,7 +417,6 @@ async function deletePost(postID) {
 
 // Function to load transactions and calculate the total available payout
 async function calculateTotalPayout() {
-    const pageID = "PageID"; // Replace with actual page ID
     const transactionsRef = collection(db, `A_Transactions`, `Gift_${pageID}`);
     
     // Fetch all transaction data
@@ -435,6 +441,10 @@ async function calculateTotalPayout() {
     const availablePayout = totalGifts - pendingPayouts; // Available funds after pending payouts
     return availablePayout;
 }
+window.calculateTotalPayout = calculateTotalPayout;
+
+
+
 
 // Function to display the payout modal with total available payout
 async function processPayout() {
@@ -446,6 +456,7 @@ async function processPayout() {
     document.getElementById("payout-modal").classList.add('open');
 }
 
+window.processPayout = processPayout;
 
 // Function to confirm payout and process the transaction
 async function confirmPayout() {
