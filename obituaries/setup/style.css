@@ -679,6 +679,9 @@ footer p {
     cursor: pointer;
   }
   
+  .close-button:hover {
+color: red;
+}
 
   
   .giftPopup  input {
@@ -710,12 +713,17 @@ footer p {
     margin-bottom: .5rem;
   }
 
-  .back-button {
+  #back-button {
     position: absolute;
     top: 10px;
     left: 10px;
-    font-size: 24px;
+    font-size: 1.5rem;
     cursor: pointer;
+    color: #333;
+
+}
+#back-button:hover {
+    background-color: #212f88;
 }
 
 
@@ -764,6 +772,7 @@ footer p {
   
   .toast .close-toast:hover {
     opacity: 0.7;
+    color: red;
   }
   
   /* Animation for toast fading in and out */

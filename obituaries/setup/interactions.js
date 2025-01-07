@@ -54,8 +54,13 @@ function renderGiftBoxArea(nameFull) {
     <!-- Pop-up Container -->
     <div id="giftPopup" class="giftPopup">
       <div class="giftPopup-content">
-        <span id='back-button' class="hidden" onclick="giftPopupBackBtn()">Back</span>
-        <span class="close-button" onclick="closeGiftPopup()">&times;</span>
+      
+<!-- Back button with an arrow-left icon -->
+<span id='back-button' class="hidden" onclick="giftPopupBackBtn()">
+  <i class="fas fa-arrow-left"></i> Back
+</span>
+
+<span class="close-button" onclick="closeGiftPopup()">&times;</span>
 
         <div id="gift_choices">
         <h2>Choose a Gift for ${nameFull}</h2>
