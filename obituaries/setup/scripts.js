@@ -343,7 +343,6 @@ const getViewSource = () => {
 
     const pageRef = doc(db, "A_Obituaries", pageID);  // Document reference for the page
     const ipCollectionRef = collection(pageRef, "PageViewIPs");
-    const ipDocRef = doc(ipCollectionRef, ipAddress);  // Use IP as the document ID
 
     const pageDocSnapshot = await withTimeout(getDoc(pageRef), 5000);
     if (!pageDocSnapshot.exists()) {
@@ -376,6 +375,7 @@ if(videoUrl){
       lastViewDevice: userAgent,
       durationOfLastView: durationOfView
     };
+    const ipDocRef = doc(ipCollectionRef, ipAddress);  // Use IP as the document ID
 
     const ipDocSnapshot = await withTimeout(getDoc(ipDocRef), 5000);
     if (ipDocSnapshot.exists()) {

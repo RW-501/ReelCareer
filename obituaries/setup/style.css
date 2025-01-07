@@ -581,7 +581,8 @@ footer p {
   }
 
   video {
-    width: 100%;
+    width: auto;
+    margin: auto;
 }
 
 
