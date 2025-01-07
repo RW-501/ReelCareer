@@ -461,10 +461,12 @@ function giftPopupBackBtn(){
     gift_choices.style.display = "none";
     custom_amount_area.style.display = "none";
     payment_area.style.display = "none";
+    gift_choices.style.display = "block";
+
 
   }else
   if(payment_area.style.display = "block"){
-    custom_amount_area.style.display = "block";
+    custom_amount_area.style.display = "none";
     payment_area.style.display = "none";
     gift_choices.style.display = "block";
 
@@ -500,6 +502,8 @@ async function selectGift(giftType, price) {
 
 if(giftType == "custom" && !customAmount > 0){
   custom_amount_area.style.display = "block";
+  gift_choices.style.display = "none";
+
   return;
 }
 
