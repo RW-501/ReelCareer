@@ -494,18 +494,6 @@ async function handlePaymentSuccess(giftType, amountToPay, paymentDetails) {
 
 
 
-// Extract the full name and set it in the popup
-const giftPopup = document.getElementById("giftPopup");
-const nameHeader = document.getElementById("name-header");
-
-// Extract the first part of the name before any space
-const fullName = nameHeader.textContent.trim().split(' ')[0];  // Get first name
-
-renderGiftBoxArea(fullName);
-
-
-//giftPopup.innerHTML = giftPopup.innerHTML.replaceAll("[$NameFull$]", fullName);
-
 
 
   // Add an event listener to the "Send Flowers" button
@@ -621,3 +609,16 @@ renderGiftBoxArea(fullName);
 incrementViews(); // Replace `pageID` with the actual page ID variable
   
 loadEntries();
+
+// Extract the full name and set it in the popup
+const giftPopup = document.getElementById("giftPopup");
+const nameHeader = document.getElementById("name-header");
+
+// Extract the first part of the name before any space
+const fullName = nameHeader.textContent.trim().split(' ')[0];  // Get first name
+
+renderGiftBoxArea(fullName);
+
+
+//giftPopup.innerHTML = giftPopup.innerHTML.replaceAll("[$NameFull$]", fullName);
+
