@@ -98,7 +98,7 @@ function renderGiftBoxArea(nameFull) {
 
         <!-- Fee Information -->
         <div class="fees-info">
-          <p>Service Fee: 10% on all purchases.</p>
+          <p>Upfront Service Fee: 10% on all gifts.</p>
         </div>
 
         <!-- PayPal Button -->
