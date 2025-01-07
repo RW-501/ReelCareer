@@ -726,6 +726,12 @@ color: red;
     color: #212f88;
 }
 
+.gift-options p { 
+    margin-top: 0;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+}
+
 
 #custom-amount-area {
     margin: 4rem;
