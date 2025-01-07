@@ -177,9 +177,13 @@ import {
   analyticsSection.innerHTML = "<p>Loading analytics data...</p>"; // Initial loading message
 
   const pageRef = doc(db, "A_Obituaries", pageID); // Reference to the specific page document
+  console.log("pageRef:", pageRef);
 
   try {
     const pageDocSnapshot = await withTimeout(getDoc(pageRef), 5000); // Fetch page data
+    
+    console.log("pageDocSnapshot:", pageDocSnapshot);
+
     if (pageDocSnapshot.exists()) {
       const analyticsData = pageDocSnapshot.data(); // Get data from the document
 
