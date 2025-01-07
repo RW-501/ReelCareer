@@ -347,19 +347,21 @@ async function loadGuestbookPosts(pageID) {
         const postElement = document.createElement("div");
         postElement.classList.add("guestbook-post");
         postElement.innerHTML = `
-            <p><strong>${postData.name}:</strong> ${postData.message}</p>
-            <p><strong>Date:</strong> ${postData.date}</p>
+            <p>Message:<strong>${postData.name}:</strong> ${postData.message}</p>
+            <p><strong>Date:</strong> ${postData.timestamp}</p>
             <p><strong>Status:</strong> ${postData.status || "Pending"}</p>
+            ${postData.giftType ? `
+            <div class='gifts'>
+                <h4>Gifts:</h4>
+                <ul id="gifts-${postID}">
+                    <!-- Gifts for this post will be injected here -->
+                </ul>
+            </div>
+            ` : ""}
             <div class="controls">
                 <button onclick="approvePost('${postID}')">Approve</button>
                 <button onclick="rejectPost('${postID}')">Reject</button>
                 <button onclick="deletePost('${postID}')">Delete</button>
-            </div>
-            <div class="gifts">
-                <h4>Gifts</h4>
-                <ul id="gifts-${postID}">
-                    <!-- Gifts for this post will be injected here -->
-                </ul>
             </div>
         `;
         guestbookList.appendChild(postElement);
@@ -368,6 +370,7 @@ async function loadGuestbookPosts(pageID) {
         loadGiftsForPost(postID);
     });
 }
+
 window.loadGuestbookPosts = loadGuestbookPosts;
 
 
@@ -378,7 +381,7 @@ async function loadGiftsForPost(postID) {
     const giftsRefs = collection(db, `A_Obituaries/${pageID}/Gifts-Transactions`);
 
    // const giftsRef = collection(db, "Guestbook", postID, "Gifts");
-    const giftsSnapshot = await getDocs(giftsRef);
+    const giftsSnapshot = await getDocs(giftsRefs);
     const giftsList = document.getElementById(`gifts-${postID}`);
     giftsList.innerHTML = "";  // Clear previous gifts
 

@@ -165,6 +165,7 @@ querySnapshot.forEach((doc) => {
   const sanitizedMessage = sanitizeInput(entry.message);
   const sanitizedName = sanitizeInput(entry.name);
   const timestamp = entry.timestamp;
+  const postID = doc.id;
 
   const timeAgo = timestamp ? timeSincePost(timestamp) : "Unknown time";
   
@@ -178,8 +179,16 @@ querySnapshot.forEach((doc) => {
         <span style="font-size: 0.9em; color: #777;">${timeAgo}</span>
       </div>
       <p style="margin-top: 5px; font-size: 1em; color: #555;">${sanitizedMessage}</p>
-    </div>`;
-
+    </div>
+                ${entry.giftType ? `
+            <div class='gifts'>
+                <ul id="gifts-${postID}">
+                    <!-- Gifts for this post will be injected here -->
+                </ul>
+            </div>
+            ` : ""}
+    `;
+    loadGiftsForPost(postID); 
   }
 });
 
@@ -190,6 +199,24 @@ querySnapshot.forEach((doc) => {
 
   // Load entries initially on page load
   loadEntries();
+
+// Function to load gifts for a guestbook post
+async function loadGiftsForPost(postID) {
+  const giftsRefs = collection(db, `A_Obituaries/${pageID}/Gifts-Transactions`);
+
+ // const giftsRef = collection(db, "Guestbook", postID, "Gifts");
+  const giftsSnapshot = await getDocs(giftsRefs);
+  const giftsList = document.getElementById(`gifts-${postID}`);
+  giftsList.innerHTML = "";  // Clear previous gifts
+
+  giftsSnapshot.forEach(doc => {
+      const giftData = doc.data();
+      const giftItem = document.createElement("li");
+      giftItem.textContent = `${giftData.name} - $${giftData.amount}`;
+      giftsList.appendChild(giftItem);
+  });
+}
+window.loadGiftsForPost = loadGiftsForPost;
 
 
 // Function to add 1 to the flower count, animate, and update in Firestore
