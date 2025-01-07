@@ -422,6 +422,25 @@ footer p {
             background-color: #218838;
         }
 
+        .guestbook-content {
+          
+                border: 1px solid #ddd;
+                padding: 10px;
+                margin-bottom: .5rem;
+                border-radius: 8px;
+                background: #f9f9f9;
+            }
+
+        .guestbook-message {
+                margin-top: 5px;
+                font-size: 1em;
+                color: #555;
+                background-color: aliceblue;
+                padding: .5rem;
+                border-radius: 5px;
+            
+        }
+
         footer {
             background: #333;
             color: #fff;
@@ -519,10 +538,10 @@ footer p {
   
   /* Horizontal Rule (formerly hr) */
   #horizontal-rule {
-    border-top: 2px solid #ccc;
+    border-top: 0.2rem solid #001643;
     margin-top: 20px;
     margin-bottom: 20px;
-  }
+}
   
   /* Event Details Header (formerly h2) */
   #event-details-header {

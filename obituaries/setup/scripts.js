@@ -182,11 +182,11 @@ querySnapshot.forEach((doc) => {
   // Enhanced entry display
   entriesDiv.innerHTML += `
     <div class="entry" style="border: 1px solid #ddd; padding: 10px; margin-bottom: 10px; border-radius: 8px; background: #f9f9f9;">
-      <div style="display: flex; justify-content: space-between; align-items: center;">
+      <div class="guestbook-content">
         <strong style="font-size: 1.1em; color: #333;">${sanitizedName}</strong>
         <span style="font-size: 0.9em; color: #777;">${timeAgo}</span>
       </div>
-      <p style="margin-top: 5px; font-size: 1em; color: #555;">${sanitizedMessage}</p>
+      <div class="guestbook-message">${sanitizedMessage}</div>
     </div>
                 ${entry.giftType ? `
             <div class='gifts'>
