@@ -172,7 +172,7 @@ import {
             }
         }
 
-        
+
 // Function to wrap async calls with timeout
 const withTimeout = (promise, timeout) => {
   return Promise.race([
@@ -185,15 +185,15 @@ const withTimeout = (promise, timeout) => {
 
         // Function to load analytics
         async function loadAnalytics(pageID) {
-            console.log("pageID:", pageID);
+            console.log("loadAnalytics pageID:", pageID);
 
   const analyticsSection = document.getElementById("analytics-section");
   analyticsSection.innerHTML = "<p>Loading analytics data...</p>"; // Initial loading message
+  try {
 
-  const pageRef = doc(db, "A_Obituaries", pageID); // Reference to the specific page document
+  const pageRef = doc(db, "A_Obituaries", "i9kNtwIOBYqnF118FoHa"); // Reference to the specific page document
   console.log("pageRef:", pageRef);
 
-  try {
     const pageDocSnapshot = await withTimeout(getDoc(pageRef), 5000); // Fetch page data
     
     console.log("pageDocSnapshot:", pageDocSnapshot);
