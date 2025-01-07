@@ -504,7 +504,7 @@ async function selectGift(giftType, price) {
   const payment_area = document.getElementById('payment-area');
   const payment_info = document.getElementById('payment-info');
 
-if(giftType == "custom" && !customAmount >= 0){
+if(giftType == "custom" && !customAmount > 0){
   custom_amount_area.style.display = "block";
   gift_choices.style.display = "none";
 
