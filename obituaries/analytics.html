@@ -337,6 +337,7 @@ function toggleTab(tabId) {
   document.getElementById(tabId).classList.remove('hidden');
 }
 
+window.toggleTab = toggleTab;
 
 // Assuming `pageID` is passed as a query parameter
 const urlParams = new URLSearchParams(window.location.search);
