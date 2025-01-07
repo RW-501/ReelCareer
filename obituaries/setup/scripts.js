@@ -458,7 +458,7 @@ function giftPopupBackBtn(){
   const back_button = document.getElementById('back-button');
 
   if(custom_amount_area.style.display = "block"){
-    gift_choices.style.display = "block";
+    gift_choices.style.display = "none";
     custom_amount_area.style.display = "none";
     payment_area.style.display = "none";
 
@@ -469,6 +469,7 @@ function giftPopupBackBtn(){
   }else{
     back_button.style.display = "none";
     payment_area.style.display = "none";
+    gift_choices.style.display = "block";
 
   }
 
