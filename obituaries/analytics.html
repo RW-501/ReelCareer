@@ -181,7 +181,8 @@ import {
   try {
     const pageDocSnapshot = await withTimeout(getDoc(pageRef), 5000); // Fetch page data
     if (pageDocSnapshot.exists()) {
-      const analyticsData = pageDocSnapshot.data(); // Get data from document
+      const analyticsData = pageDocSnapshot.data(); // Get data from the document
+
       analyticsSection.innerHTML = `
         <div class="analytics-card">
           <h2>Total Page Views</h2>
@@ -201,9 +202,9 @@ import {
         </div>
         <div class="analytics-card">
           <h2>User Location (Last Viewer)</h2>
-          <p>City: ${analyticsData.lastCity || "Unknown"}</p>
-          <p>State: ${analyticsData.lastState || "Unknown"}</p>
-          <p>Country: ${analyticsData.lastCountry || "Unknown"}</p>
+          <p>City: ${analyticsData.lastViewCity || "Unknown"}</p>
+          <p>State: ${analyticsData.lastViewState || "Unknown"}</p>
+          <p>Country: ${analyticsData.lastViewCountry || "Unknown"}</p>
         </div>
         <div class="analytics-card">
           <h2>Last Device</h2>
