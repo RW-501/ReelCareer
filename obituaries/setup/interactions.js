@@ -34,6 +34,7 @@ function renderInteractionsArea() {
 
   <div class="guestbook-entries" id="guestbookEntries"></div>
 </div>
+  <div class="giftBox" id="giftBoxArea"></div>
 
     `;
     
@@ -97,7 +98,7 @@ function renderGiftBoxArea(nameFull) {
     </div>
   `;
 
-  const giftBoxArea = document.getElementById('dynamic-interaction-area');
+  const giftBoxArea = document.getElementById('giftBoxArea');
   giftBoxArea.innerHTML = giftBoxAreaHTML;
 }
 
