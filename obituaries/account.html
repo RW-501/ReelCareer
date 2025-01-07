@@ -385,6 +385,8 @@ async function loadGuestbookPosts(pageID) {
         const postData = doc.data();
         const postID = doc.id;
 
+        console.log("postData ",postData);
+        
         const postElement = document.createElement("div");
         postElement.classList.add("guestbook-post");
         postElement.innerHTML = `
