@@ -640,7 +640,7 @@ footer p {
     bottom: 2rem;
     margin: auto;
     overflow-y: scroll;
-    height: fit-content;
+    height: auto;
 }
   
 .giftPopup-content {

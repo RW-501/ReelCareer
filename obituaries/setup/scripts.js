@@ -466,6 +466,8 @@ function giftPopupBackBtn(){
   if(payment_area.style.display = "block"){
     custom_amount_area.style.display = "block";
     payment_area.style.display = "none";
+    gift_choices.style.display = "block";
+
   }else{
     back_button.style.display = "none";
     payment_area.style.display = "none";
