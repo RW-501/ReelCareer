@@ -247,7 +247,8 @@ const withTimeout = (promise, timeout) => {
     
     const pageData = pageDocSnapshot.data();
     const viewerData = viewerDocSnapshot.data();
-    const { views, uniqueViews, pageViewed = [], lastViewTime, lastViewCity, lastViewState } = pageData;
+    const { views, uniqueViews } = pageData;
+    const { lastViewTime, lastViewCity, lastViewState } = viewerData;
 
     // Log retrieved data
     console.log("pageData: ", pageData);
