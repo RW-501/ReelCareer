@@ -44,8 +44,6 @@ function renderInteractionsArea() {
 }
 window.renderInteractionsArea = renderInteractionsArea;
 
-renderInteractionsArea();
-
 
 
 
@@ -106,4 +104,6 @@ function renderGiftBoxArea(nameFull) {
 
 
 window.renderGiftBoxArea = renderGiftBoxArea;
+
+renderInteractionsArea();
 

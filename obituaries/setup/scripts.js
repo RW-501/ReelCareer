@@ -196,13 +196,15 @@ querySnapshot.forEach((doc) => {
       loadGiftsForPost(postID); 
 
     }
+  }
 
+});
     // Extract the first part of the name before any space
 const fullName = nameHeader.textContent.trim().split(' ')[0];  // Get first name
 
 renderGiftBoxArea(fullName);
-  }
-});
+
+
 
     } catch (error) {
       console.error("Error loading guestbook entries:", error);
