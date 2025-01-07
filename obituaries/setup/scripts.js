@@ -158,6 +158,10 @@ function timeSincePost(timestamp) {
       
       
 
+
+//giftPopup.innerHTML = giftPopup.innerHTML.replaceAll("[$NameFull$]", fullName);
+
+
       entriesDiv.innerHTML = ""; // Clear existing entries
 
 querySnapshot.forEach((doc) => {
@@ -189,6 +193,11 @@ querySnapshot.forEach((doc) => {
             ` : ""}
     `;
     loadGiftsForPost(postID); 
+
+    // Extract the first part of the name before any space
+const fullName = nameHeader.textContent.trim().split(' ')[0];  // Get first name
+
+renderGiftBoxArea(fullName);
   }
 });
 
@@ -198,6 +207,9 @@ querySnapshot.forEach((doc) => {
   }
 
 window.loadEntries = loadEntries;
+
+
+
 
 // Function to load gifts for a guestbook post
 async function loadGiftsForPost(postID) {
@@ -609,16 +621,4 @@ async function handlePaymentSuccess(giftType, amountToPay, paymentDetails) {
 incrementViews(); // Replace `pageID` with the actual page ID variable
   
 loadEntries();
-
-// Extract the full name and set it in the popup
-const giftPopup = document.getElementById("giftPopup");
-const nameHeader = document.getElementById("name-header");
-
-// Extract the first part of the name before any space
-const fullName = nameHeader.textContent.trim().split(' ')[0];  // Get first name
-
-renderGiftBoxArea(fullName);
-
-
-//giftPopup.innerHTML = giftPopup.innerHTML.replaceAll("[$NameFull$]", fullName);
 
