@@ -75,7 +75,7 @@ function renderGiftBoxArea(nameFull) {
           </div>
           <div id="gift-charity" class="gift-item" onclick="selectGift('custom')">
             <img src="https://reelcareer.co/obituaries/images/gifts/Charity.PNG" alt="Charity Donation">
-            <h3>Charity Donation</h3>
+            <h3>Custom Donation</h3>
             <p>Extend generosity with another contribution.</p>
           </div>
         </div>
