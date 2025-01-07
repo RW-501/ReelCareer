@@ -463,6 +463,7 @@ function giftPopupBackBtn(){
     payment_area.style.display = "none";
     gift_choices.style.display = "block";
     document.getElementById('customAmount').value = '';
+    back_button.style.display = "none";
 
 
   }else
@@ -471,6 +472,7 @@ function giftPopupBackBtn(){
     payment_area.style.display = "none";
     gift_choices.style.display = "block";
     document.getElementById('customAmount').value = '';
+    back_button.style.display = "none";
 
   }else{
     back_button.style.display = "none";
