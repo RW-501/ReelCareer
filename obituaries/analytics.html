@@ -236,15 +236,22 @@ const withTimeout = (promise, timeout) => {
   try {
     const pageRef = doc(db, "A_Obituaries", pageID); // Reference to the specific page document
     const pageDocSnapshot = await withTimeout(getDoc(pageRef), 5000); // Fetch page data
+console.log("pageDocSnapshot: ",pageDocSnapshot);
+
 
     if (pageDocSnapshot.exists()) {
       const analyticsData = pageDocSnapshot.data(); // Get data from the document
+      console.log("pageDocSnapshot: ",pageDocSnapshot);
+
       const { views, uniqueViews, pageViewed = [], lastViewTime, lastViewCity, lastViewState } = analyticsData;
+      console.log("analyticsData: ",analyticsData);
 
       // Sort and count data for dailyViews, cityViews, and stateViews
       const dailyViews = countDailyViews(pageViewed);
       const cityViews = countLocationViews(pageViewed, 'city');
       const stateViews = countLocationViews(pageViewed, 'state');
+      console.log("dailyViews: ",dailyViews);
+      console.log("stateViews: ",stateViews);
 
       // Create collapsible tabs
       analyticsSection.innerHTML = `
