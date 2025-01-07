@@ -172,64 +172,51 @@ import {
         }
 
         // Function to load analytics
-// Function to load analytics
-async function loadAnalytics(pageID) {
-    const analyticsSection = document.getElementById("analytics-section");
-    analyticsSection.innerHTML = "<p>Loading analytics data...</p>"; // Initial loading message
+        async function loadAnalytics(pageID) {
+  const analyticsSection = document.getElementById("analytics-section");
+  analyticsSection.innerHTML = "<p>Loading analytics data...</p>"; // Initial loading message
 
-        const analyticsRef = collection(db, "A_Ob_Analytics"); // Reference to the collection
-        const q = query(analyticsRef, where("pageID", "==", pageID)); // Query to match the pageID
-        console.log('analyticsRef:', analyticsRef);
-        console.log('qqqqqqqq:', q);
-   
-        try {
+  const pageRef = doc(db, "A_Obituaries", pageID); // Reference to the specific page document
 
-        const querySnapshot = await getDocs(q); // Execute the query
-
-        if (!querySnapshot.empty) {
-            const analyticsData = querySnapshot.docs[0].data(); // Assume first result since pageID is unique
-
-            // Display analytics data dynamically in the analytics section
-            analyticsSection.innerHTML = `
-                <div class="analytics-card">
-                    <h2>Total Page Views</h2>
-                    <p>${analyticsData.totalPageViews || 0}</p>
-                </div>
-                <div class="analytics-card">
-                    <h2>Last Viewed</h2>
-                    <p>${analyticsData.lastPageViewed ? new Date(analyticsData.lastPageViewed.toDate()).toLocaleString() : "N/A"}</p>
-                </div>
-                <div class="analytics-card">
-                    <h2>Last Referral</h2>
-                    <p>${analyticsData.lastReferral || "Direct"}</p>
-                </div>
-                <div class="analytics-card">
-                    <h2>User Locations</h2>
-                    <p>City: ${analyticsData.lastCity || "Unknown"}</p>
-                    <p>State: ${analyticsData.lastState || "Unknown"}</p>
-                    <p>Country: ${analyticsData.lastCountry || "Unknown"}</p>
-                </div>
-                <div class="analytics-card">
-                    <h2>Page View Count by Title</h2>
-                    <ul>
-                        ${Object.entries(analyticsData.pageViewCount || {}).map(([title, count]) => `
-                            <li>${title}: ${count}</li>
-                        `).join("")}
-                    </ul>
-                </div>
-            `;
-        } else {
-            // Display message when no analytics data is found
-            analyticsSection.innerHTML = `
-                <h2>No analytics data found for this page.</h2>
-            `;
-        }
-    } catch (error) {
-        console.error("Error loading analytics:", error);
-        analyticsSection.innerHTML = `
-            <h2>Error loading analytics data. Please try again later.</h2>
-        `;
+  try {
+    const pageDocSnapshot = await withTimeout(getDoc(pageRef), 5000); // Fetch page data
+    if (pageDocSnapshot.exists()) {
+      const analyticsData = pageDocSnapshot.data(); // Get data from document
+      analyticsSection.innerHTML = `
+        <div class="analytics-card">
+          <h2>Total Page Views</h2>
+          <p>${analyticsData.views || 0}</p>
+        </div>
+        <div class="analytics-card">
+          <h2>Unique Views</h2>
+          <p>${analyticsData.uniqueViews || 0}</p>
+        </div>
+        <div class="analytics-card">
+          <h2>Last Viewed</h2>
+          <p>${analyticsData.lastViewTime ? new Date(analyticsData.lastViewTime.toDate()).toLocaleString() : "N/A"}</p>
+        </div>
+        <div class="analytics-card">
+          <h2>Last Referral</h2>
+          <p>${analyticsData.lastViewSource || "Direct"}</p>
+        </div>
+        <div class="analytics-card">
+          <h2>User Location (Last Viewer)</h2>
+          <p>City: ${analyticsData.lastCity || "Unknown"}</p>
+          <p>State: ${analyticsData.lastState || "Unknown"}</p>
+          <p>Country: ${analyticsData.lastCountry || "Unknown"}</p>
+        </div>
+        <div class="analytics-card">
+          <h2>Last Device</h2>
+          <p>${analyticsData.lastViewDevice || "Unknown"}</p>
+        </div>
+      `;
+    } else {
+      analyticsSection.innerHTML = `<h2>No analytics data found for this page.</h2>`;
     }
+  } catch (error) {
+    console.error("Error loading analytics:", error);
+    analyticsSection.innerHTML = `<h2>Error loading analytics data. Please try again later.</h2>`;
+  }
 }
 
 

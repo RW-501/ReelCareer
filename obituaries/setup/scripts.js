@@ -359,7 +359,6 @@ const getViewSource = () => {
 
 
 
-
 async function incrementViews() {
   try {
     const pageID = document.getElementById('pageID').innerText.trim();
@@ -368,15 +367,13 @@ async function incrementViews() {
       return;
     }
 
-   // console.log('incrementViews: PageID:', pageID);
-
     const { ipAddress, locationData } = await userLocationService.getUserIPAndLocation();
     if (!ipAddress) {
       console.error('Failed to retrieve user IP.');
       return;
     }
 
-    const pageRef = doc(db, "A_Obituaries", pageID);  // Document reference for the page
+    const pageRef = doc(db, "A_Obituaries", pageID);
     const ipCollectionRef = collection(pageRef, "PageViewIPs");
 
     const pageDocSnapshot = await withTimeout(getDoc(pageRef), 5000);
@@ -386,47 +383,46 @@ async function incrementViews() {
     }
 
     const pageData = pageDocSnapshot.data();
-
     const mediaSection = document.getElementById("media-section");
     const videoUrl = pageData.videoURL;
-
-if(videoUrl){
-  displayVideoPreview(videoUrl, mediaSection);
-
-}
+    if (videoUrl) {
+      displayVideoPreview(videoUrl, mediaSection);
+    }
 
     document.getElementById("flowerCount").innerText = pageData.flowerCount || 0;
-
     const viewStart = viewStartTime || Date.now();
     const durationOfView = Math.floor((Date.now() - viewStart) / 1000); // View duration in seconds
-
     const source = getViewSource();
     const userAgent = navigator.userAgent;
 
-    const updateData = {
+    const updatePageData = {
       views: increment(1),
+    };
+
+
+    const updateUserData = {
       lastViewTime: serverTimestamp(),
       lastViewSource: source,
       lastViewDevice: userAgent,
-      durationOfLastView: durationOfView
+      durationOfLastView: durationOfView,
+      lastCity: locationData?.city || 'Unknown',
+      lastState: locationData?.region || 'Unknown',
+      lastCountry: locationData?.country || 'Unknown'
     };
-    const ipDocRef = doc(ipCollectionRef, ipAddress);  // Use IP as the document ID
+    
 
+
+    const ipDocRef = doc(ipCollectionRef, ipAddress);  
     const ipDocSnapshot = await withTimeout(getDoc(ipDocRef), 5000);
     if (ipDocSnapshot.exists()) {
-      // Update general views only if IP is already recorded
-      await withTimeout(updateDoc(pageRef, updateData), 5000);
+      await withTimeout(updateDoc(pageRef, updatePageData), 5000);
       console.log("Updated general view count and details successfully.");
     } else {
-      // Increment both views and unique views, and record IP
-      updateData.uniqueViews = increment(1);
-      await withTimeout(updateDoc(pageRef, updateData), 5000);
-      await withTimeout(setDoc(ipDocRef, { timestamp: serverTimestamp() }), 5000);
+      updatePageData.uniqueViews = increment(1);
+      await withTimeout(updateDoc(pageRef, updatePageData), 5000);
+      await withTimeout(setDoc(ipDocRef, updateUserData), 5000);
       console.log("Updated unique view and general view counts successfully.");
     }
-
-    // Optional: Store analytics if more granular tracking is needed
-   // await trackAnalytics();  
   } catch (error) {
     console.error("Error updating view counts:", error);
   }
