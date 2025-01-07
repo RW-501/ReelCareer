@@ -514,6 +514,17 @@ async function handlePaymentSuccess(giftType, amountToPay, paymentDetails) {
 }
 
 
+const anonymousCheckbox = document.getElementById("anonymousCheckbox");
+const guestNameInput = document.getElementById("guestName");
+
+// Add event listener for checkbox change
+anonymousCheckbox.addEventListener("change", () => {
+  if (anonymousCheckbox.checked) {
+    guestNameInput.value = "Anonymous"; // Set the value to "Anonymous" when checked
+  } else {
+    guestNameInput.value = ""; // Clear the value when unchecked
+  }
+});
 
 
 
