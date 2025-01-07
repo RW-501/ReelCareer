@@ -589,24 +589,27 @@ footer p {
 }
 
 
-  .giftPopup {
+.giftPopup {
     display: none;
     position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 60%;
+    top: 2rem;
+    left: 0;
+    right: 0;
+    width: 80%;
     max-width: 600px;
     background: white;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     border-radius: 10px;
     z-index: 1000;
-  }
+    bottom: 2rem;
+    margin: auto;
+    overflow-y: scroll;
+}
   
-  .giftPopup-content {
-    padding: 20px;
+.giftPopup-content {
+    padding: 2rem;
     text-align: center;
-  }
+}
   
   .gift-options {
     display: flex;
@@ -639,3 +642,28 @@ footer p {
     cursor: pointer;
   }
   
+
+  
+  .giftPopup  input {
+      width: calc(100% - 20px);
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+  }
+
+  .giftPopup button {
+      display: block;
+      width: 100%;
+      background-color: #4128a7;
+      color: #fff;
+      padding: 10px;
+      font-size: 1em;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+  }
+
+  .giftPopup button:hover {
+      background-color: #212f88;
+  }
