@@ -239,19 +239,17 @@ const withTimeout = (promise, timeout) => {
 
     // Fetch page data
     const pageDocSnapshot = await withTimeout(getDoc(pageRef), 5000); 
-    const viewerDocSnapshot = await withTimeout(getDoc(ipCollectionRef), 5000); 
     if (!pageDocSnapshot.exists()) {
       analyticsSection.innerHTML = `<h2>No analytics data found for this page.</h2>`;
       return;
     }
     
     const pageData = pageDocSnapshot.data();
-    const viewerData = viewerDocSnapshot.data();
 
     let pageViewed = 0;
     // Log retrieved data
     console.log("pageData: ", pageData);
-    console.log("viewerData: ", viewerData);
+    console.log("ipCollectionRef: ", ipCollectionRef);
 
     
     const { views, uniqueViews } = pageData;
