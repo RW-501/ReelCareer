@@ -247,13 +247,15 @@ const withTimeout = (promise, timeout) => {
     
     const pageData = pageDocSnapshot.data();
     const viewerData = viewerDocSnapshot.data();
-    const { views, uniqueViews } = pageData;
-    const { lastViewTime, lastViewCity, lastViewState } = viewerData;
 
-    let pageViewed;
+    let pageViewed = 0;
     // Log retrieved data
     console.log("pageData: ", pageData);
     console.log("viewerData: ", viewerData);
+
+    
+    const { views, uniqueViews } = pageData;
+    const { lastViewTime, lastViewCity, lastViewState } = viewerData;
 
     // Sort and count data for dailyViews, cityViews, and stateViews
     const dailyViews = countDailyViews(pageViewed);
