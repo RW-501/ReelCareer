@@ -235,13 +235,16 @@ const withTimeout = (promise, timeout) => {
 
   try {
     const pageRef = doc(db, "A_Obituaries", pageID); // Reference to the specific page document
+    const ipCollectionRef = collection(pageRef, "PageViewIPs");
+
     const pageDocSnapshot = await withTimeout(getDoc(pageRef), 5000); // Fetch page data
-console.log("pageDocSnapshot: ",pageDocSnapshot);
+    console.log("ipCollectionRef.data(): ",ipCollectionRef.data());
+    console.log("ipCollectionRef: ",ipCollectionRef);
+    console.log("pageDocSnapshot: ",pageDocSnapshot);
 
 
     if (pageDocSnapshot.exists()) {
       const analyticsData = pageDocSnapshot.data(); // Get data from the document
-      console.log("pageDocSnapshot: ",pageDocSnapshot);
 
       const { views, uniqueViews, pageViewed = [], lastViewTime, lastViewCity, lastViewState } = analyticsData;
       console.log("analyticsData: ",analyticsData);
