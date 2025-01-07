@@ -81,18 +81,7 @@
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
   }
-  .action-btn {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  .action-btn:hover {
-    background-color: #0056b3;
-  }
+
 
   h3 {
     font-size: 1.75rem;
@@ -100,6 +89,31 @@
     text-shadow: -1px 1px 0px #9e9a9a;
     font-weight: 800;
 }
+
+#guestbook-list {
+    overflow-y: auto;
+    max-height: 500px;
+}
+
+#processPayoutArea {
+    padding: 20px;
+
+}
+
+
+.action-btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin: auto;
+  }
+  .action-btn:hover {
+    background-color: #0056b3;
+  }
 
 }    
   </style>
@@ -171,7 +185,11 @@
         <section id="guestbook-section" class="content-card">
           <h3>Guestbook Moderation</h3>
           <div id="guestbook-list"></div>
+
+          <div id="processPayoutArea">
+
           <button class="action-btn" onclick="processPayout()">Process Payout</button>
+        </div>
         </section>
         
         <section id="payout-modal" class="modal">
@@ -361,7 +379,7 @@ async function loadGuestbookPosts(pageID) {
     const guestbookRef = collection(db, `A_Obituaries/${pageID}/Guestbook`);
     const guestbookSnapshot = await getDocs(guestbookRef);
     const guestbookList = document.getElementById("guestbook-list");
-    guestbookList.innerHTML = "";  // Clear previous list
+   // guestbookList.innerHTML = "";  // Clear previous list
 
     guestbookSnapshot.forEach(doc => {
         const postData = doc.data();
