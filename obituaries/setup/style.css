@@ -581,8 +581,11 @@ footer p {
   }
 
   video {
-    width: auto;
+    width: 100%;
     margin: auto;
+    display: block;
+    object-fit: fill;
+    max-width: fit-content;
 }
 
 

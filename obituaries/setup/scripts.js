@@ -625,9 +625,9 @@ async function handlePaymentSuccess(giftType, amountToPay, paymentDetails) {
 
 
 
+loadEntries();
 
 // Increment views when the page loads
 incrementViews(); // Replace `pageID` with the actual page ID variable
   
-loadEntries();
 
