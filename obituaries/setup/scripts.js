@@ -522,7 +522,7 @@ const amountToPay = isNaN(customAmount) || customAmount <= 0 ? price : customAmo
 const serviceFee = amountToPay * 0.10;
 const amountToReceive = amountToPay - serviceFee;
 
-if (amountToPay < 5) {
+if (amountToPay < 5 || amountToPay == '') {
   payment_info.innerHTML = ` 
     <p><strong>Note:</strong> There is a minimum contribution of $5.00.</p>
     Please choose a gift amount of at least $5.00 to proceed. 
