@@ -362,7 +362,7 @@ const getViewSource = () => {
     const videoUrl = pageData.videoURL;
 
 if(videoUrl){
-  displayVideoPreview(videoUrl, mediaSection);
+ // displayVideoPreview(videoUrl, mediaSection);
 
 }
 
