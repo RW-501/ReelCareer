@@ -567,7 +567,7 @@ payment_area.style.display = "block";
     },
     onError: function(err) {
       console.error('PayPal error:', err);
-      alert('There was an error with your payment. Please try again.');
+      showToast('There was an error with your payment. Please try again.');
     }
   }).render('#paypal-button-container'); // Render the PayPal button inside the container
 }

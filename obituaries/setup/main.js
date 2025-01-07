@@ -143,7 +143,7 @@ loadScript('https://reelcareer.co/obituaries/setup/footer.js', { defer: true }, 
     logExecutionTime('footer', performance.now());
 });
 
-loadScript('https://www.paypal.com/sdk/js?client-id=AcOZi3sszHkpUZJCLDRglEAusFk4W_siExTkNTWQhjMSFRxV7Prc81274wHQ8H-wYYfnWsm4p6Rw55Qp', {  type: 'module'  }, () => {
+loadScript('https://www.paypal.com/sdk/js?client-id=AcOZi3sszHkpUZJCLDRglEAusFk4W_siExTkNTWQhjMSFRxV7Prc81274wHQ8H-wYYfnWsm4p6Rw55Qp&currency=USD&debug=true', {  type: 'module'  }, () => {
     logExecutionTime('paypal', performance.now());
 });
 
