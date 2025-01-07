@@ -54,7 +54,7 @@ function renderGiftBoxArea(nameFull) {
     <!-- Pop-up Container -->
     <div id="giftPopup" class="giftPopup">
       <div class="giftPopup-content">
-        <span class="back-button" onclick="giftPopupBackBtn()">Back</span>
+        <span id='back-button' class="hidden" onclick="giftPopupBackBtn()">Back</span>
         <span class="close-button" onclick="closeGiftPopup()">&times;</span>
 
         <div id="gift_choices">

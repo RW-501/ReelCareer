@@ -455,20 +455,27 @@ function giftPopupBackBtn(){
   const gift_choices = document.getElementById('gift_choices');
   const custom_amount_area = document.getElementById('custom-amount-area');
   const payment_area = document.getElementById('payment-area');
+  const back_button = document.getElementById('back-button');
 
   if(custom_amount_area.style.display = "block"){
     gift_choices.style.display = "block";
     custom_amount_area.style.display = "none";
-  }
+  }else
   if(payment_area.style.display = "block"){
     custom_amount_area.style.display = "block";
     payment_area.style.display = "none";
+  }else{
+    back_button.style.display = "none";
+
   }
 
 }
 window.giftPopupBackBtn = giftPopupBackBtn;
 
 async function selectGift(giftType, price) {
+  const back_button = document.getElementById('back-button');
+  back_button.style.display = "block";
+
   let paypalButtonContainer = document.getElementById('paypal-button-container');
   paypalButtonContainer.innerHTML = '';
   // Get the custom amount entered by the user
