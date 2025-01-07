@@ -667,11 +667,10 @@ footer p {
   }
   
   .fees-info {
-    margin-top: 20px;
+    margin: 1.5rem;
     font-size: 14px;
     color: #666;
-  }
-  
+}
   .close-button {
     position: absolute;
     top: 10px;
