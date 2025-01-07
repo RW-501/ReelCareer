@@ -227,8 +227,7 @@ const withTimeout = (promise, timeout) => {
 };
 
         // Function to load analytics
-
-async function loadAnalytics(pageID) {
+        async function loadAnalytics(pageID) { 
   console.log("loadAnalytics pageID:", pageID);
 
   const analyticsSection = document.getElementById("analytics-section");
@@ -240,7 +239,12 @@ async function loadAnalytics(pageID) {
 
     if (pageDocSnapshot.exists()) {
       const analyticsData = pageDocSnapshot.data(); // Get data from the document
-      const { views, uniqueViews, dailyViews = {}, cityViews = {}, stateViews = {} } = analyticsData;
+      const { views, uniqueViews, pageViewed = [], lastViewTime, lastViewCity, lastViewState } = analyticsData;
+
+      // Sort and count data for dailyViews, cityViews, and stateViews
+      const dailyViews = countDailyViews(pageViewed);
+      const cityViews = countLocationViews(pageViewed, 'city');
+      const stateViews = countLocationViews(pageViewed, 'state');
 
       // Create collapsible tabs
       analyticsSection.innerHTML = `
@@ -279,6 +283,26 @@ async function loadAnalytics(pageID) {
     console.error("Error loading analytics:", error);
     analyticsSection.innerHTML = `<h2>Error loading analytics data. Please try again later.</h2>`;
   }
+}
+
+function countDailyViews(pageViewed) {
+  const dailyViews = {};
+  pageViewed.forEach(({ time }) => {
+    const date = time.toDate().toLocaleDateString(); // Format date to day
+    dailyViews[date] = (dailyViews[date] || 0) + 1; // Increment count for that day
+  });
+  return dailyViews;
+}
+
+function countLocationViews(pageViewed, locationType) {
+  const locationViews = {};
+  pageViewed.forEach(({ title, time, city, state, country }) => {
+    const location = locationType === 'city' ? city : state;
+    if (location) {
+      locationViews[location] = (locationViews[location] || 0) + 1; // Increment count for city/state
+    }
+  });
+  return locationViews;
 }
 
 function renderCharts(dailyViews, cityViews, stateViews) {
@@ -331,6 +355,9 @@ function renderCharts(dailyViews, cityViews, stateViews) {
     }
   });
 }
+
+
+
 
 function toggleTab(tabId) {
   document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hidden'));
