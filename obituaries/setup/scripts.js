@@ -460,12 +460,15 @@ function giftPopupBackBtn(){
   if(custom_amount_area.style.display = "block"){
     gift_choices.style.display = "block";
     custom_amount_area.style.display = "none";
+    payment_area.style.display = "none";
+
   }else
   if(payment_area.style.display = "block"){
     custom_amount_area.style.display = "block";
     payment_area.style.display = "none";
   }else{
     back_button.style.display = "none";
+    payment_area.style.display = "none";
 
   }
 

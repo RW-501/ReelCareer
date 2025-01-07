@@ -54,10 +54,10 @@ function renderGiftBoxArea(nameFull) {
     <!-- Pop-up Container -->
     <div id="giftPopup" class="giftPopup">
       <div class="giftPopup-content">
-      
+
 <!-- Back button with an arrow-left icon -->
 <span id='back-button' class="hidden" onclick="giftPopupBackBtn()">
-  <i class="fas fa-arrow-left"></i> Back
+  <i class="fas fa-arrow-left"></i>
 </span>
 
 <span class="close-button" onclick="closeGiftPopup()">&times;</span>
