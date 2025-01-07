@@ -31,7 +31,7 @@ let pageID = '';
 let userID = '';
 
 window.addEventListener("load", () => {
-
+/*
 // Handle user authentication state change
 onAuthStateChanged(auth, async (user) => {
   if (user) {
@@ -41,7 +41,7 @@ onAuthStateChanged(auth, async (user) => {
 
   }
 });
-
+*/
 // Assuming pageID is set somewhere on the page (like an element with ID "pageID")
 const page = document.getElementById('pageID');
 if(page){
