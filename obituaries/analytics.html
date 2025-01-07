@@ -239,16 +239,19 @@ const withTimeout = (promise, timeout) => {
 
     // Fetch page data
     const pageDocSnapshot = await withTimeout(getDoc(pageRef), 5000); 
+    const viewerDocSnapshot = await withTimeout(getDoc(ipCollectionRef), 5000); 
     if (!pageDocSnapshot.exists()) {
       analyticsSection.innerHTML = `<h2>No analytics data found for this page.</h2>`;
       return;
     }
     
     const pageData = pageDocSnapshot.data();
+    const viewerData = viewerDocSnapshot.data();
     const { views, uniqueViews, pageViewed = [], lastViewTime, lastViewCity, lastViewState } = pageData;
 
     // Log retrieved data
-    console.log("analyticsData: ", pageData);
+    console.log("pageData: ", pageData);
+    console.log("viewerData: ", viewerData);
 
     // Sort and count data for dailyViews, cityViews, and stateViews
     const dailyViews = countDailyViews(pageViewed);
