@@ -614,6 +614,15 @@ footer p {
     object-fit: fill;
     max-width: fit-content;
 }
+
+
+
+
+
+
+#flower-area {
+    padding: .5rem;
+}
 .giftPopup {
     display: none;
     position: fixed;
