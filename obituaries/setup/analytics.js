@@ -176,7 +176,6 @@ async function trackAnalytics() {
     await updateDoc(analyticsRef, {
       totalPageViews: increment(1), // Increment page views
       lastPageViewed: timestamp, // Update last viewed date
-      pageID: pageID || "",
       pageViewed: arrayUnion({ title: pageTitle, time: timestamp }), // Add new page to array
       [`pageViewCount.${pageTitle}`]: increment(1), // Increment specific page count
       lastReferral: lastReferrer, // Update referral website

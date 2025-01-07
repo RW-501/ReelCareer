@@ -345,13 +345,9 @@ function startViewTimer() {
 
 startViewTimer();
 
-async function incrementViews() {
-  try {
-    const pageID = document.getElementById('pageID').innerText.trim();
-    if (!pageID) {
-      console.error('Page ID is missing.');
-      return;
-    }
+
+
+
 // Determine the source of the visit
 const getViewSource = () => {
   const externalSource = document.referrer && !document.referrer.includes(window.location.origin)
@@ -360,6 +356,18 @@ const getViewSource = () => {
   const internalSource = sessionStorage.getItem('lastInternalPage');
   return externalSource || internalSource || 'Direct Visit';
 };
+
+
+
+
+async function incrementViews() {
+  try {
+    const pageID = document.getElementById('pageID').innerText.trim();
+    if (!pageID) {
+      console.error('Page ID is missing.');
+      return;
+    }
+
    // console.log('incrementViews: PageID:', pageID);
 
     const { ipAddress, locationData } = await userLocationService.getUserIPAndLocation();
@@ -373,7 +381,7 @@ const getViewSource = () => {
 
     const pageDocSnapshot = await withTimeout(getDoc(pageRef), 5000);
     if (!pageDocSnapshot.exists()) {
-      console.error("Page document does not exist.");
+      console.error("PageViewIPs document does not exist.");
       return;
     }
 
@@ -408,13 +416,13 @@ if(videoUrl){
     if (ipDocSnapshot.exists()) {
       // Update general views only if IP is already recorded
       await withTimeout(updateDoc(pageRef, updateData), 5000);
-     // console.log("Updated general view count and details successfully.");
+      console.log("Updated general view count and details successfully.");
     } else {
       // Increment both views and unique views, and record IP
       updateData.uniqueViews = increment(1);
       await withTimeout(updateDoc(pageRef, updateData), 5000);
       await withTimeout(setDoc(ipDocRef, { timestamp: serverTimestamp() }), 5000);
-      //console.log("Updated unique view and general view counts successfully.");
+      console.log("Updated unique view and general view counts successfully.");
     }
 
     // Optional: Store analytics if more granular tracking is needed
