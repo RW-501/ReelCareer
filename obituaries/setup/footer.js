@@ -48,13 +48,14 @@ function updateFooter() {
             <p>Discover more opportunities at <a href="https://ReelCareer.co" target="_blank">ReelCareer.co</a></p>
         </div>
 
-        <div class="section flowers-section">
-            <h2>Do you ever feel like you have to die before people notice your work?</h2>
-            <p>Let people give you your flowers now! Create an obituary page now and let the world know your story.</p>
-            <div class="button">
-                <a href="https://ReelCareer.co/obituaries/create">Create Your Obituary</a>
-            </div>
-        </div>
+<div class="section flowers-section">
+    <h2>Why wait for the world to notice your impact?</h2>
+    <p>Celebrate your career and achievements today. Create your personalized obituary page and let people give you your flowers while you're still here!</p>
+    <div class="button">
+        <a href="https://ReelCareer.co/obituaries/create">Create Your Career Obituary</a>
+    </div>
+</div>
+
         `;
         
         const footer = document.getElementById('dynamic-footer');
