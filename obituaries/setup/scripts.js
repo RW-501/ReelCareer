@@ -49,7 +49,7 @@ onAuthStateChanged(auth, async (user) => {
   if (user) {
     // The user is signed in
      userID = user.uid;  // Use the user's unique ID
-    console.log('User ID:', userID);
+    console.log('onA User ID:', userID);
 
   }
 });
@@ -61,7 +61,6 @@ const pageID = document.getElementById('pageID').innerText;
 const pageName = document.getElementById('pageName').innerText;
 
 
-console.log('pageID:', pageID);
 
 
 
@@ -144,6 +143,10 @@ function timeSincePost(timestamp) {
   // Function to load guestbook entries
   async function loadEntries() {
     try {
+
+      console.log("loadEntries");
+      console.log('pageID:', pageID);
+
       const guestbookRef = collection(db, `A_Obituaries/${pageID}/Guestbook`);
       const querySnapshot = await getDocs(guestbookRef); // Fetch all documents
 
@@ -170,6 +173,7 @@ querySnapshot.forEach((doc) => {
   const sanitizedName = sanitizeInput(entry.name);
   const timestamp = entry.timestamp;
   const postID = doc.id;
+  console.log('entry:', entry);
 
   const timeAgo = timestamp ? timeSincePost(timestamp) : "Unknown time";
   
