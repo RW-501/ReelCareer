@@ -307,7 +307,10 @@
     // Extract pageName from URL query parameters
     const urlParams = new URLSearchParams(window.location.search);
     const pageName = urlParams.get("pageName");
+    const pageID = urlParams.get("pageID");
+
     console.log("pageName:", pageName);
+    createToolbar(pageID, pageName);
 
     if (pageName) {
       // Fetch obituary data if pageName exists
@@ -932,11 +935,6 @@ function createToolbar(pageID, pageName) {
     toolbar.querySelector(`#userAccount_${pageID}`).addEventListener("click", () => loadUserAccount(pageID, pageName));
 }
 
-// Example usage on page load
-document.addEventListener('DOMContentLoaded', () => {
-
-    createToolbar(pageID, pageName);
-});
 
 // Functions to handle button actions
 function goToEditPage(pageID, pageName) {
