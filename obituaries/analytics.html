@@ -176,11 +176,14 @@ import {
 async function loadAnalytics(pageID) {
     const analyticsSection = document.getElementById("analytics-section");
     analyticsSection.innerHTML = "<p>Loading analytics data...</p>"; // Initial loading message
-    console.log('pageID:', pageID);
 
-    try {
         const analyticsRef = collection(db, "A_Ob_Analytics"); // Reference to the collection
         const q = query(analyticsRef, where("pageID", "==", pageID)); // Query to match the pageID
+        console.log('analyticsRef:', analyticsRef);
+        console.log('qqqqqqqq:', q);
+   
+        try {
+
         const querySnapshot = await getDocs(q); // Execute the query
 
         if (!querySnapshot.empty) {
