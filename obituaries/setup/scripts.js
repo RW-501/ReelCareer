@@ -627,7 +627,7 @@ anonymousCheckbox.addEventListener("change", () => {
         else if (videoUrl.includes("twitter.com")) {
             const twitterId = videoUrl.split("/status/").pop();
             videoPreviewContainer.innerHTML = `
-                <iframe  class='media-video' src="https://twitframe.com/show?url=${encodeURIComponent(videoUrl)}" width="560" height="315" 
+                <iframe  class='media-video' src="https://twitframe.com/show?url=${encodeURIComponent(twitterId)}" width="560" height="315" 
                         frameborder="0" allowfullscreen></iframe>`;
         }
         // TikTok Video Check

@@ -608,7 +608,12 @@ footer p {
     max-width: fit-content;
 }
 
-
+.media-video {
+    margin: auto;
+    display: block;
+    object-fit: fill;
+    max-width: fit-content;
+}
 .giftPopup {
     display: none;
     position: fixed;
