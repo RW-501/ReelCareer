@@ -524,6 +524,9 @@ if (amountToPay < 5) {
     Please choose a gift amount of at least $5.00 to proceed. 
     <br>To continue, kindly adjust your contribution and try again.
   `;
+  gift_choices.style.display = "none";
+  payment_area.style.display = "block";
+
   return;
 }
 
