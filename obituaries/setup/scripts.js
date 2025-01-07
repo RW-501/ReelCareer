@@ -450,8 +450,10 @@ window.closeGiftPopup = closeGiftPopup;
 
 
 
-
 async function selectGift(giftType, price) {
+  let paypalButtonContainer = document.getElementById('paypal-button-container');
+  paypalButtonContainer.innerHTML = '';
+
   // Get the custom amount entered by the user
   let customAmount = document.getElementById('customAmount').value.trim();
 
