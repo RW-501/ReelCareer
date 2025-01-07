@@ -147,19 +147,18 @@ main {
 
 <!-- Include Firebase SDK as a module -->
 <script type="module">
-    import {
-        db, getStorage, ref, uploadBytes, getDownloadURL, limit,
-  doc, arrayUnion, RecaptchaVerifier, increment, getDoc, arrayRemove, signInWithPhoneNumber,
-  query, updateDoc, setDoc, addDoc, signInAnonymously, orderBy, onAuthStateChanged,
-  uploadBytesResumable, signInWithPopup, FacebookAuthProvider, GoogleAuthProvider, startAfter,
-  OAuthProvider, signOut, deleteDoc, getFirestore, serverTimestamp,
-  createUserWithEmailAndPassword, signInWithEmailAndPassword, deleteObject,
-  where, getDocs, storage, getAuth, collection, auth, analytics,
-  googleProvider,onSnapshot , linkWithCredential, EmailAuthProvider ,
-  getUserId // Export the function
+    import {db 
+        
     } from 'https://reelcareer.co/scripts/js/load/module.js';
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js";
+import { 
+    getFirestore, collection, doc, setDoc, updateDoc, getDoc, increment, arrayUnion, addDoc, getDocs, serverTimestamp 
+} from "https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js";
+import { 
+    getAuth, signInAnonymously, onAuthStateChanged 
+} from "https://www.gstatic.com/firebasejs/9.17.2/firebase-auth.js";
 
-   
+
 
 
             // Fetch user's IP address using an external service
@@ -173,8 +172,21 @@ main {
             }
         }
 
+        
+// Function to wrap async calls with timeout
+const withTimeout = (promise, timeout) => {
+  return Promise.race([
+    promise,
+    new Promise((_, reject) =>
+      setTimeout(() => reject(new Error("Operation timed out")), timeout)
+    ),
+  ]);
+};
+
         // Function to load analytics
         async function loadAnalytics(pageID) {
+            console.log("pageID:", pageID);
+
   const analyticsSection = document.getElementById("analytics-section");
   analyticsSection.innerHTML = "<p>Loading analytics data...</p>"; // Initial loading message
 
