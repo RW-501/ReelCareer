@@ -227,7 +227,7 @@ const withTimeout = (promise, timeout) => {
 };
 
         // Function to load analytics
-        async function loadAnalytics(pageID) { 
+        async function loadAnalytics(pageID) {
   console.log("loadAnalytics pageID:", pageID);
 
   const analyticsSection = document.getElementById("analytics-section");
@@ -237,58 +237,58 @@ const withTimeout = (promise, timeout) => {
     const pageRef = doc(db, "A_Obituaries", pageID); // Reference to the specific page document
     const ipCollectionRef = collection(pageRef, "PageViewIPs");
 
-    const pageDocSnapshot = await withTimeout(getDoc(pageRef), 5000); // Fetch page data
-    console.log("ipCollectionRef.data(): ",ipCollectionRef.data());
-    console.log("ipCollectionRef: ",ipCollectionRef);
-    console.log("pageDocSnapshot: ",pageDocSnapshot);
-
-
-    if (pageDocSnapshot.exists()) {
-      const analyticsData = pageDocSnapshot.data(); // Get data from the document
-
-      const { views, uniqueViews, pageViewed = [], lastViewTime, lastViewCity, lastViewState } = analyticsData;
-      console.log("analyticsData: ",analyticsData);
-
-      // Sort and count data for dailyViews, cityViews, and stateViews
-      const dailyViews = countDailyViews(pageViewed);
-      const cityViews = countLocationViews(pageViewed, 'city');
-      const stateViews = countLocationViews(pageViewed, 'state');
-      console.log("dailyViews: ",dailyViews);
-      console.log("stateViews: ",stateViews);
-
-      // Create collapsible tabs
-      analyticsSection.innerHTML = `
-        <div class="tab-container">
-          <button class="tab-btn" onclick="toggleTab('overview')">Overview</button>
-          <button class="tab-btn" onclick="toggleTab('view-chart')">Daily View Count</button>
-          <button class="tab-btn" onclick="toggleTab('location-chart')">Location Analytics</button>
-        </div>
-
-        <div id="overview" class="tab-content">
-          <div class="analytics-card">
-            <h2>Total Page Views</h2>
-            <p>${views || 0}</p>
-          </div>
-          <div class="analytics-card">
-            <h2>Unique Views</h2>
-            <p>${uniqueViews || 0}</p>
-          </div>
-        </div>
-
-        <div id="view-chart" class="tab-content hidden">
-          <canvas id="dailyViewChart"></canvas>
-        </div>
-
-        <div id="location-chart" class="tab-content hidden">
-          <canvas id="cityViewChart"></canvas>
-          <canvas id="stateViewChart"></canvas>
-        </div>
-      `;
-
-      renderCharts(dailyViews, cityViews, stateViews); // Render charts with data
-    } else {
+    // Fetch page data
+    const pageDocSnapshot = await withTimeout(getDoc(pageRef), 5000); 
+    if (!pageDocSnapshot.exists()) {
       analyticsSection.innerHTML = `<h2>No analytics data found for this page.</h2>`;
+      return;
     }
+    
+    const pageData = pageDocSnapshot.data();
+    const { views, uniqueViews, pageViewed = [], lastViewTime, lastViewCity, lastViewState } = pageData;
+
+    // Log retrieved data
+    console.log("analyticsData: ", pageData);
+
+    // Sort and count data for dailyViews, cityViews, and stateViews
+    const dailyViews = countDailyViews(pageViewed);
+    const cityViews = countLocationViews(pageViewed, 'city');
+    const stateViews = countLocationViews(pageViewed, 'state');
+    
+    console.log("dailyViews: ", dailyViews);
+    console.log("stateViews: ", stateViews);
+
+    // Create collapsible tabs and render analytics
+    analyticsSection.innerHTML = `
+      <div class="tab-container">
+        <button class="tab-btn" onclick="toggleTab('overview')">Overview</button>
+        <button class="tab-btn" onclick="toggleTab('view-chart')">Daily View Count</button>
+        <button class="tab-btn" onclick="toggleTab('location-chart')">Location Analytics</button>
+      </div>
+
+      <div id="overview" class="tab-content">
+        <div class="analytics-card">
+          <h2>Total Page Views</h2>
+          <p>${views || 0}</p>
+        </div>
+        <div class="analytics-card">
+          <h2>Unique Views</h2>
+          <p>${uniqueViews || 0}</p>
+        </div>
+      </div>
+
+      <div id="view-chart" class="tab-content hidden">
+        <canvas id="dailyViewChart"></canvas>
+      </div>
+
+      <div id="location-chart" class="tab-content hidden">
+        <canvas id="cityViewChart"></canvas>
+        <canvas id="stateViewChart"></canvas>
+      </div>
+    `;
+
+    renderCharts(dailyViews, cityViews, stateViews); // Render charts with data
+
   } catch (error) {
     console.error("Error loading analytics:", error);
     analyticsSection.innerHTML = `<h2>Error loading analytics data. Please try again later.</h2>`;
