@@ -166,7 +166,6 @@ function timeSincePost(timestamp) {
   async function loadEntries() {
     try {
 
-      console.log("loadEntries");
       console.log('pageID:', pageID);
 
       const guestbookRef = collection(db, `A_Obituaries/${pageID}/Guestbook`);
@@ -298,7 +297,7 @@ async function incrementFlowerCount() {
     const ipDocSnapshot = await withTimeout(getDoc(ipDocRef), 5000); // Timeout after 5 seconds
 
     if (ipDocSnapshot.exists()) {
-      console.log("User has already added a flower.");
+      showToast("User has already added a flower.");
       return; // Exit if the IP has already added a flower
     }
 
@@ -361,7 +360,7 @@ const getViewSource = () => {
   const internalSource = sessionStorage.getItem('lastInternalPage');
   return externalSource || internalSource || 'Direct Visit';
 };
-    console.log('incrementViews: PageID:', pageID);
+   // console.log('incrementViews: PageID:', pageID);
 
     const { ipAddress, locationData } = await userLocationService.getUserIPAndLocation();
     if (!ipAddress) {
@@ -409,13 +408,13 @@ if(videoUrl){
     if (ipDocSnapshot.exists()) {
       // Update general views only if IP is already recorded
       await withTimeout(updateDoc(pageRef, updateData), 5000);
-      console.log("Updated general view count and details successfully.");
+     // console.log("Updated general view count and details successfully.");
     } else {
       // Increment both views and unique views, and record IP
       updateData.uniqueViews = increment(1);
       await withTimeout(updateDoc(pageRef, updateData), 5000);
       await withTimeout(setDoc(ipDocRef, { timestamp: serverTimestamp() }), 5000);
-      console.log("Updated unique view and general view counts successfully.");
+      //console.log("Updated unique view and general view counts successfully.");
     }
 
     // Optional: Store analytics if more granular tracking is needed
@@ -465,7 +464,7 @@ async function selectGift(giftType, price) {
   // If the custom amount is invalid or empty, use the selected price
   const amountToPay = isNaN(customAmount) || customAmount <= 0 ? price : customAmount;
 
-  alert(`You selected the ${giftType} gift with an amount of $${amountToPay}`);
+  showToast(`You selected the ${giftType} gift with an amount of $${amountToPay}`);
 
   // Initialize PayPal Button
   paypal.Buttons({
@@ -579,19 +578,19 @@ anonymousCheckbox.addEventListener("change", () => {
                 ? videoUrl.replace("watch?v=", "embed/") 
                 : videoUrl.replace("youtu.be/", "youtube.com/embed/");
             videoPreviewContainer.innerHTML = `
-                <iframe width="560" height="315" src="${youtubeEmbed}" frameborder="0" allowfullscreen></iframe>`;
+                <iframe class='media-video' width="560" height="315" src="${youtubeEmbed}" frameborder="0" allowfullscreen></iframe>`;
         }
         // Vimeo Video Check
         else if (videoUrl.includes("vimeo.com")) {
             const vimeoId = videoUrl.split("/").pop();
             videoPreviewContainer.innerHTML = `
-                <iframe src="https://player.vimeo.com/video/${vimeoId}" width="560" height="315" frameborder="0" 
+                <iframe  class='media-video' src="https://player.vimeo.com/video/${vimeoId}" width="560" height="315" frameborder="0" 
                         allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>`;
         }
         // MP4 Video Check (and other formats like .webm, .ogg)
         else if (videoUrl.match(/\.(mp4|webm|ogg)$/i)) {
             videoPreviewContainer.innerHTML = `
-                <video width="560" height="315" controls>
+                <video  class='media-video' width="560" height="315" controls>
                     <source src="${videoUrl}" type="video/mp4">
                     Your browser does not support the video tag.
                 </video>`;
@@ -600,42 +599,42 @@ anonymousCheckbox.addEventListener("change", () => {
         else if (videoUrl.includes("dailymotion.com")) {
             const dailymotionId = videoUrl.split("/").pop();
             videoPreviewContainer.innerHTML = `
-                <iframe frameborder="0" width="560" height="315" src="https://www.dailymotion.com/embed/video/${dailymotionId}" 
+                <iframe  class='media-video' frameborder="0" width="560" height="315" src="https://www.dailymotion.com/embed/video/${dailymotionId}" 
                         allowfullscreen></iframe>`;
         }
         // Twitch Video Check
         else if (videoUrl.includes("twitch.tv")) {
             const twitchId = videoUrl.split("/").pop();
             videoPreviewContainer.innerHTML = `
-                <iframe src="https://player.twitch.tv/?video=${twitchId}" height="315" width="560" frameborder="0" 
+                <iframe  class='media-video' src="https://player.twitch.tv/?video=${twitchId}" height="315" width="560" frameborder="0" 
                         scrolling="no" allowfullscreen></iframe>`;
         }
         // Facebook Video Check
         else if (videoUrl.includes("facebook.com")) {
             const facebookId = videoUrl.split("/").pop();
             videoPreviewContainer.innerHTML = `
-                <iframe src="https://www.facebook.com/plugins/video.php?href=https://www.facebook.com/video.php?v=${facebookId}" 
+                <iframe  class='media-video' src="https://www.facebook.com/plugins/video.php?href=https://www.facebook.com/video.php?v=${facebookId}" 
                         width="560" height="315" frameborder="0" allowfullscreen></iframe>`;
         }
         // Instagram Video Check
         else if (videoUrl.includes("instagram.com")) {
             const instagramId = videoUrl.split("/p/").pop().split("/")[0];
             videoPreviewContainer.innerHTML = `
-                <iframe src="https://www.instagram.com/p/${instagramId}/embed" width="560" height="315" frameborder="0" 
+                <iframe  class='media-video' src="https://www.instagram.com/p/${instagramId}/embed" width="560" height="315" frameborder="0" 
                         scrolling="no" allowfullscreen></iframe>`;
         }
         // Twitter Video Check
         else if (videoUrl.includes("twitter.com")) {
             const twitterId = videoUrl.split("/status/").pop();
             videoPreviewContainer.innerHTML = `
-                <iframe src="https://twitframe.com/show?url=${encodeURIComponent(videoUrl)}" width="560" height="315" 
+                <iframe  class='media-video' src="https://twitframe.com/show?url=${encodeURIComponent(videoUrl)}" width="560" height="315" 
                         frameborder="0" allowfullscreen></iframe>`;
         }
         // TikTok Video Check
         else if (videoUrl.includes("tiktok.com")) {
             const tiktokId = videoUrl.split("/video/").pop();
             videoPreviewContainer.innerHTML = `
-                <iframe src="https://www.tiktok.com/embed/${tiktokId}" width="560" height="315" frameborder="0" 
+                <iframe  class='media-video' src="https://www.tiktok.com/embed/${tiktokId}" width="560" height="315" frameborder="0" 
                         allowfullscreen></iframe>`;
         }
         // Unsupported platform message
