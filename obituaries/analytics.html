@@ -168,6 +168,7 @@ main {
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js"></script> <!-- For fetching IP -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- For fetching chart -->
 
 <!-- Include Firebase SDK as a module -->
 <script type="module">
@@ -179,6 +180,9 @@ import {
 import { 
     getAuth, signInAnonymously, onAuthStateChanged 
 } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
+
+
+//import { Chart } from 'https://cdn.jsdelivr.net/npm/chart.js';
 
 // Firebase configuration
 const firebaseConfig = {
@@ -223,7 +227,6 @@ const withTimeout = (promise, timeout) => {
 };
 
         // Function to load analytics
-        import { Chart } from 'https://cdn.jsdelivr.net/npm/chart.js';
 
 async function loadAnalytics(pageID) {
   console.log("loadAnalytics pageID:", pageID);
