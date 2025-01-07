@@ -338,6 +338,15 @@ const getViewSource = () => {
     }
 
     const pageData = pageDocSnapshot.data();
+
+    const mediaSection = document.getElementById("media-section");
+    const videoUrl = pageData.videoURL;
+
+if(videoUrl){
+  displayVideoPreview(videoUrl, mediaSection);
+
+}
+
     document.getElementById("flowerCount").innerText = pageData.flowerCount || 0;
 
     const viewStart = viewStartTime || Date.now();
@@ -451,6 +460,7 @@ async function selectGift(giftType, price) {
     }
   }).render('#paypal-button-container'); // Render the PayPal button inside the container
 }
+window.selectGift = selectGift;
 
 // Handle payment success (save to Firestore)
 async function handlePaymentSuccess(giftType, amountToPay, paymentDetails) {
@@ -492,14 +502,6 @@ async function handlePaymentSuccess(giftType, amountToPay, paymentDetails) {
   loadEntries();
 }
 
-function closeGiftPopup() {
-  const giftPopup = document.getElementById("giftPopup");
-  if (giftPopup) {
-    giftPopup.style.display = "none";
-  }
-}
-
-window.selectGift = selectGift;
 
 
 
@@ -608,11 +610,7 @@ renderGiftBoxArea(fullName);
 
 
 
-    const mediaSection = document.getElementById("media-section");
-    const videoUrl = mediaSection.innerText;
-
-    displayVideoPreview(videoUrl, mediaSection);
-
+  
 
 
 
