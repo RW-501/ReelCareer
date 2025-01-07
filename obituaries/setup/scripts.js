@@ -505,6 +505,9 @@ if(giftType == "custom" && !customAmount > 0){
   gift_choices.style.display = "none";
 
   return;
+}else{
+  custom_amount_area.style.display = "none";
+
 }
 
 
