@@ -616,7 +616,9 @@ footer p {
 }
 
 
-
+.hidden {
+    display: none;
+}
 
 
 
@@ -707,6 +709,14 @@ footer p {
   .changeable-area {
     margin-bottom: .5rem;
   }
+
+  .back-button {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 24px;
+    cursor: pointer;
+}
 
 
   /* Basic Toast Styling */

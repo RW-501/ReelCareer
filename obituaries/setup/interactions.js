@@ -54,6 +54,7 @@ function renderGiftBoxArea(nameFull) {
     <!-- Pop-up Container -->
     <div id="giftPopup" class="giftPopup">
       <div class="giftPopup-content">
+        <span class="back-button" onclick="giftPopupBackBtn()">Back</span>
         <span class="close-button" onclick="closeGiftPopup()">&times;</span>
 
         <div id="gift_choices">
@@ -83,7 +84,7 @@ function renderGiftBoxArea(nameFull) {
 <div id="custom-amount-area" class="custom-amount hidden">
   <label for="customAmount">Enter a custom gift amount:</label>
   <input type="text" id="customAmount" name="customAmount" placeholder="Enter amount in dollars">
-          <div id="customAmount-button" class="button" onclick="selectGift('custom')">Ready</div>
+          <button id="customAmount-button" class="button" onclick="selectGift('custom')">Ready</button>
 
   </div>
 

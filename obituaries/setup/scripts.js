@@ -451,8 +451,22 @@ function closeGiftPopup() {
 window.openGiftPopup = openGiftPopup;
 window.closeGiftPopup = closeGiftPopup;
 
+function giftPopupBackBtn(){
+  const gift_choices = document.getElementById('gift_choices');
+  const custom_amount_area = document.getElementById('custom-amount-area');
+  const payment_area = document.getElementById('payment-area');
 
+  if(custom_amount_area.style.display = "block"){
+    gift_choices.style.display = "block";
+    custom_amount_area.style.display = "none";
+  }
+  if(payment_area.style.display = "block"){
+    custom_amount_area.style.display = "block";
+    payment_area.style.display = "none";
+  }
 
+}
+window.giftPopupBackBtn = giftPopupBackBtn;
 
 async function selectGift(giftType, price) {
   let paypalButtonContainer = document.getElementById('paypal-button-container');
