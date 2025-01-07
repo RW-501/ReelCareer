@@ -85,6 +85,10 @@ function renderGiftBoxArea(nameFull) {
           </div>
         </div>
 
+
+
+</div>
+
 <!-- Custom Amount Option -->
 <div id="custom-amount-area" class="custom-amount hidden">
   <label for="customAmount">Enter a custom gift amount:</label>
@@ -93,7 +97,7 @@ function renderGiftBoxArea(nameFull) {
 
   </div>
 
-</div>
+  
 <div id="payment-area" class="custom-amount hidden">
 
         <!-- Fee Information -->
