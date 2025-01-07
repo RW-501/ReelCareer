@@ -100,7 +100,25 @@ submitbtn.addEventListener("click", async (e) => {
   const message = sanitizeInput(messageInput.value.trim());
   const userIP = await getUserIP(); // Fetch user IP address
 
-  if (name && message) {
+  let valid = true;
+
+  // Check if name and message are filled
+  if (!name) {
+    nameInput.style.borderColor = 'red'; // Highlight input with red border
+    valid = false;
+  } else {
+    nameInput.style.borderColor = ''; // Reset border color
+  }
+
+  if (!message) {
+    messageInput.style.borderColor = 'red'; // Highlight input with red border
+    valid = false;
+  } else {
+    messageInput.style.borderColor = ''; // Reset border color
+  }
+
+  // If both fields are valid, proceed with submission
+  if (valid) {
     try {
       const guestbookRef = collection(db, `A_Obituaries/${pageID}/Guestbook`);
       await addDoc(guestbookRef, {
@@ -117,8 +135,12 @@ submitbtn.addEventListener("click", async (e) => {
     } catch (error) {
       console.error("Error adding guestbook entry:", error);
     }
+  } else {
+    // Optionally, you can add a message to the user here
+    showToast("Please fill in both the name and the message.");
   }
 });
+
 
 
     const entriesDiv = document.getElementById("guestbookEntries");
