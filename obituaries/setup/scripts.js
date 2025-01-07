@@ -651,9 +651,38 @@ anonymousCheckbox.addEventListener("change", () => {
 
 
   
+function showToast(message, type = "success") {
+  // Create a toast container (div)
+  const toast = document.createElement("div");
+  toast.classList.add("toast");
+  toast.classList.add(type); // Add type for different styles (e.g., success, error)
+
+  // Add message to the toast
+  toast.innerHTML = `
+    <span>${message}</span>
+    <button class="close-toast">×</button>
+  `;
+
+  // Append the toast to the body
+  document.body.appendChild(toast);
+
+  // Get the close button and add event listener
+  const closeButton = toast.querySelector(".close-toast");
+  closeButton.addEventListener("click", () => {
+    toast.remove();
+  });
+
+  // Apply the toast animation
+  toast.style.animation = "fadeInOut 5s forwards";
+
+  // Remove the toast after 5 seconds (or when clicked)
+  setTimeout(() => {
+    toast.remove();
+  }, 5000); // Toast disappears after 5 seconds
+}
 
 
-
+window.showToast = showToast;
 
 
 

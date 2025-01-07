@@ -698,3 +698,72 @@ footer p {
   .changeable-area {
     margin-bottom: .5rem;
   }
+
+
+  /* Basic Toast Styling */
+.toast {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #333;
+    color: white;
+    padding: 15px 25px;
+    border-radius: 10px;
+    font-size: 16px;
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    animation: fadeInOut 5s forwards;
+    z-index: 9999; /* Ensure it's on top of other elements */
+  }
+  
+  /* Success Toast (green background) */
+  .toast.success {
+    background-color: #28a745;
+  }
+  
+  /* Error Toast (red background) */
+  .toast.error {
+    background-color: #dc3545;
+  }
+  
+  /* Close Button */
+  .toast .close-toast {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 0 10px;
+    margin-left: 15px;
+    transition: opacity 0.3s;
+  }
+  
+  .toast .close-toast:hover {
+    opacity: 0.7;
+  }
+  
+  /* Animation for toast fading in and out */
+  @keyframes fadeInOut {
+    0% {
+      opacity: 0;
+      transform: translateX(-50%) translateY(20px);
+    }
+    10% {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+    90% {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+    100% {
+      opacity: 0;
+      transform: translateX(-50%) translateY(20px);
+    }
+  }
+  
