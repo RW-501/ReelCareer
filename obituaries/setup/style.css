@@ -645,6 +645,7 @@ footer p {
   .gift-item {
     text-align: center;
     max-width: 30%;
+    cursor: pointer;
   }
   
   .gift-item img {
