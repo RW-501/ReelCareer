@@ -147,18 +147,19 @@ main {
 
 <!-- Include Firebase SDK as a module -->
 <script type="module">
-    import {db 
-        
+    import {
+        db, getStorage, ref, uploadBytes, getDownloadURL, limit,
+  doc, arrayUnion, RecaptchaVerifier, increment, getDoc, arrayRemove, signInWithPhoneNumber,
+  query, updateDoc, setDoc, addDoc, signInAnonymously, orderBy, onAuthStateChanged,
+  uploadBytesResumable, signInWithPopup, FacebookAuthProvider, GoogleAuthProvider, startAfter,
+  OAuthProvider, signOut, deleteDoc, getFirestore, serverTimestamp,
+  createUserWithEmailAndPassword, signInWithEmailAndPassword, deleteObject,
+  where, getDocs, storage, getAuth, collection, auth, analytics,
+  googleProvider,onSnapshot , linkWithCredential, EmailAuthProvider ,
+  getUserId // Export the function
     } from 'https://reelcareer.co/scripts/js/load/module.js';
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js";
-import { 
-    getFirestore, collection, doc, setDoc, updateDoc, getDoc, increment, arrayUnion, addDoc, getDocs, serverTimestamp 
-} from "https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js";
-import { 
-    getAuth, signInAnonymously, onAuthStateChanged 
-} from "https://www.gstatic.com/firebasejs/9.17.2/firebase-auth.js";
 
-
+   
 
 
             // Fetch user's IP address using an external service
