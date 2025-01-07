@@ -55,8 +55,11 @@ function renderGiftBoxArea(nameFull) {
     <div id="giftPopup" class="giftPopup">
       <div class="giftPopup-content">
         <span class="close-button" onclick="closeGiftPopup()">&times;</span>
+
+        <div id="gift_choices">
         <h2>Choose a Gift for ${nameFull}</h2>
         
+
         <!-- Gift Options -->
         <div class="gift-options">
           <div id="gift-Candle-small" class="gift-item" onclick="selectGift('small-candle', 5)">
@@ -69,7 +72,7 @@ function renderGiftBoxArea(nameFull) {
             <h3>Big Candle $25.00</h3>
             <p>Light another candle to keep memories aglow.</p>
           </div>
-          <div id="gift-charity" class="gift-item" onclick="selectGift('charity', 20)">
+          <div id="gift-charity" class="gift-item" onclick="selectGift('custom')">
             <img src="https://reelcareer.co/obituaries/images/gifts/Charity.PNG" alt="Charity Donation">
             <h3>Charity Donation</h3>
             <p>Extend generosity with another contribution.</p>
@@ -77,21 +80,25 @@ function renderGiftBoxArea(nameFull) {
         </div>
 
 <!-- Custom Amount Option -->
-<div class="custom-amount">
+<div id="custom-amount-area" class="custom-amount hidden">
   <label for="customAmount">Enter a custom gift amount:</label>
   <input type="text" id="customAmount" name="customAmount" placeholder="Enter amount in dollars">
-</div>
+          <div id="customAmount-button" class="button" onclick="selectGift('custom')">Ready</div>
 
+  </div>
+
+</div>
+<div id="payment-area" class="custom-amount hidden">
 
         <!-- Fee Information -->
         <div class="fees-info">
           <p>Service Fee: 10% on all purchases.</p>
-          <p>Transaction Fee: $1.50 per transaction.</p>
         </div>
 
         <!-- PayPal Button -->
         <div id="paypal-button-container"></div>
-        
+</div>
+
         <!-- Close Button -->
         <button onclick="closeGiftPopup()">Close</button>
       </div>

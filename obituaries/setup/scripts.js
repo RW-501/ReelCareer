@@ -457,7 +457,6 @@ window.closeGiftPopup = closeGiftPopup;
 async function selectGift(giftType, price) {
   let paypalButtonContainer = document.getElementById('paypal-button-container');
   paypalButtonContainer.innerHTML = '';
-
   // Get the custom amount entered by the user
   let customAmount = document.getElementById('customAmount').value.trim();
 
@@ -466,6 +465,19 @@ async function selectGift(giftType, price) {
 
   // Convert to a number (will be NaN if invalid input is entered)
   customAmount = parseFloat(customAmount);
+
+  const gift_choices = document.getElementById('gift_choices');
+  const custom_amount_area = document.getElementById('custom-amount-area');
+  const payment_area = document.getElementById('payment-area');
+
+if(giftType == "custom" && !customAmount > 0){
+  custom_amount_area.style.display = "block";
+  return;
+}
+
+gift_choices.style.display = "none";
+payment_area.style.display = "block";
+
 
   // If the custom amount is invalid or empty, use the selected price
   const amountToPay = isNaN(customAmount) || customAmount <= 0 ? price : customAmount;
